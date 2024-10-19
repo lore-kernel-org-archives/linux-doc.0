@@ -1,23 +1,23 @@
-Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5D211DE88E;
-	Sat, 19 Oct 2024 08:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
+Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654AE1DFE2B;
+	Sat, 19 Oct 2024 08:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729328198; cv=none; b=lNqBdXG9BZuYmn/9sCvrdaJOydktMn5w/z9bLzE69SVBOfDxn8kX7FAr0ZmZh8tZDl/dfeNda41+AbjKGQ6oWObwws+XW74HIJ/Y0CKgEfmmnImjPZ+NvFhEp8CZ8tJ9I9jfS/qUqdZAUOXUOJR4O+xW2pTjBT+8UUPc4AZj6kE=
+	t=1729328206; cv=none; b=TBC8DczUWDuoEnYL84eEVmcsU87+cI/5ozbrmRW+zgM9yEz0BYOjTse6VKnHy+xfk3db02/tyjjFyJmUaVs9gXumGvfZ00bsmbhT0XjOZCR3vf8yRvDcbN43xXvjc+JWGF25LC8kiX18kgHiP0y6sjXIWNrlkf0m9jPoqe/E7rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729328198; c=relaxed/simple;
-	bh=1KTsm1FbxTkZygRnRaYqVZdq3K2ggDGiBp0zQ52nPsU=;
+	s=arc-20240116; t=1729328206; c=relaxed/simple;
+	bh=1Y1cWCUn7nIsxbdoWoWZyyb/j3TesM4bqjp3xidoCFM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qQI50/gmOqAudGhhjnFud7rqUKH8EyZ0y4iS0/UvceJr2mxSIn/HMG4zjmgW9/tJbCCN6GqdW1VPLgiYG/DmU0zvxqJTxi1Gf+s0AqytfvTEqXj9hVP8LZSONqK/9QiAltxZcbYjPYy5fczcgsSpm0X4338ZlS5J7yW6Ayo8Hsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.181.73
+	 MIME-Version:Content-Type; b=WXNnMBOCCptp4E7G/YLs+WAWYFSzjU40uNTx+j+8btUvaALCcon7dN2vGptxOWhuStZuPLRyN+ye0bea756hAu3W5MPzB3vT+SQ3cFI7wRI+wx0dir7bH9eDQw7cAZ03EFA65g/CUkct0mImSUfi77oiFdw8ImmqkWUO9+Ti2ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=129.150.39.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
 Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrADHzzsNdBNnDI4fCA--.49092S2;
-	Sat, 19 Oct 2024 16:55:41 +0800 (CST)
+	by app1 (Coremail) with SMTP id HgEQrACHjjordBNn5Y8fCA--.46444S2;
+	Sat, 19 Oct 2024 16:56:11 +0800 (CST)
 Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wAH8UIMdBNnstxuAA--.62062S2;
-	Sat, 19 Oct 2024 16:55:40 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____wAH8UIMdBNnstxuAA--.62062S7;
+	Sat, 19 Oct 2024 16:56:11 +0800 (CST)
 From: Dongliang Mu <dzm91@hust.edu.cn>
 To: si.yanteng@linux.dev,
 	alexs@kernel.org,
@@ -27,9 +27,9 @@ To: si.yanteng@linux.dev,
 Cc: hust-os-kernel-patches@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/6] docs/zh_CN: update the translation of mm/hmm.rst
-Date: Sat, 19 Oct 2024 16:54:51 +0800
-Message-ID: <82259a2656549c90591dc3873f3d2e8a4fb41233.1729327831.git.dzm91@hust.edu.cn>
+Subject: [PATCH 6/6] docs/zh_CN: update the translation of mm/page_owner.rst
+Date: Sat, 19 Oct 2024 16:54:56 +0800
+Message-ID: <38a9d8868e0f98dc5d2a08fb865313cc4db943a3.1729327831.git.dzm91@hust.edu.cn>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1729327831.git.dzm91@hust.edu.cn>
 References: <cover.1729327831.git.dzm91@hust.edu.cn>
@@ -41,64 +41,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrADHzzsNdBNnDI4fCA--.49092S2
+X-CM-TRANSID:HgEQrACHjjordBNn5Y8fCA--.46444S2
 Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7KF1ktrWDZFWkur43tr45trb_yoW8CFyfpF
-	97KrWxKa17t345Kr4xGF17Za18u3WIgayxJryxXan2qrn8ta97t398trWFgasxX3ykZFW5
-	ZanxKrWfZ34FywUanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQab7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFyUKw43Wr4fJrW8Aw1DJrb_yoW5KrWrpa
+	10kFy5C3W7A3WS9rWxGrs29FyrAan5Wa15GFn7J34kuwsxAanakrWqka4j9r47ZrWUJFWD
+	ua1DCrWkJw4qy3DanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQqb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
 	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
 	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
 	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
 	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
 	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
 	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+	bVWUJVW8JwCFI7km07C267AKxVWrXVW3AwC20s026c02F40E14v26r1j6r18MI8I3I0E74
 	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
-	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jfvtZUUUUU=
+	I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42
+	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY
+	1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Update to commit 406c4c5ee4ea ("docs:mm: fix spelling mistakes in
-heterogeneous memory management page")
+Update to commit f5c12105c15f ("mm,page_owner: fix refcount imbalance")
 
-scripts/checktransupdate.py reports:
-
-Documentation/translations/zh_CN/mm/hmm.rst
-commit 406c4c5ee4ea ("docs:mm: fix spelling mistakes in heterogeneous
-memory management page")
-commit 090a7f1009b8 ("docs/mm: remove references to hmm_mirror ops and
-clean typos")
-commit d56b699d76d1 ("Documentation: Fix typos")
-3 commits needs resolving in total
+Documentation/translations/zh_CN/mm/page_owner.rst
+commit f5c12105c15f ("mm,page_owner: fix refcount imbalance")
+commit ba6fe5377244 ("mm,page_owner: update Documentation regarding
+page_owner_stacks")
+2 commits needs resolving in total
 
 Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
- Documentation/translations/zh_CN/mm/hmm.rst | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ .../translations/zh_CN/mm/page_owner.rst      | 46 +++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/mm/hmm.rst b/Documentation/translations/zh_CN/mm/hmm.rst
-index babbbe756c0f..0669f947d0bc 100644
---- a/Documentation/translations/zh_CN/mm/hmm.rst
-+++ b/Documentation/translations/zh_CN/mm/hmm.rst
-@@ -129,13 +129,7 @@ struct page可以与现有的 mm 机制进行最简单、最干净的集成。
-   int hmm_range_fault(struct hmm_range *range);
+diff --git a/Documentation/translations/zh_CN/mm/page_owner.rst b/Documentation/translations/zh_CN/mm/page_owner.rst
+index b72a972271d9..c0d1ca4b9695 100644
+--- a/Documentation/translations/zh_CN/mm/page_owner.rst
++++ b/Documentation/translations/zh_CN/mm/page_owner.rst
+@@ -26,6 +26,9 @@ page owner是用来追踪谁分配的每一个页面。它可以用来调试内
+ 页面所有者也可以用于各种目的。例如，可以通过每个页面的gfp标志信息获得精确的碎片
+ 统计。如果启用了page owner，它就已经实现并激活了。我们非常欢迎其他用途。
  
- 如果请求写访问，它将在丢失或只读条目上触发缺页异常（见下文）。缺页异常使用通用的 mm 缺
--页异常代码路径，就像 CPU 缺页异常一样。
--
--这两个函数都将 CPU 页表条目复制到它们的 pfns 数组参数中。该数组中的每个条目对应于虚拟
--范围中的一个地址。HMM 提供了一组标志来帮助驱动程序识别特殊的 CPU 页表项。
--
--在 sync_cpu_device_pagetables() 回调中锁定是驱动程序必须尊重的最重要的方面，以保
--持事物正确同步。使用模式是::
-+页异常代码路径，就像 CPU 缺页异常一样。使用模式是::
++它也可以用来显示所有的栈以及它们当前分配的基础页面数，这让我们能够快速了解内存的
++使用情况，而无需浏览所有页面并匹配分配和释放操作。
++
+ page owner在默认情况下是禁用的。所以，如果你想使用它，你需要在你的启动cmdline
+ 中加入"page_owner=on"。如果内核是用page owner构建的，并且由于没有启用启动
+ 选项而在运行时禁用page owner，那么运行时的开销是很小的。如果在运行时禁用，它不
+@@ -60,6 +63,49 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
  
-  int driver_populate_range(...)
-  {
+ 4) 分析来自页面所有者的信息::
+ 
++	cat /sys/kernel/debug/page_owner_stacks/show_stacks > stacks.txt
++	cat stacks.txt
++	 post_alloc_hook+0x177/0x1a0
++	 get_page_from_freelist+0xd01/0xd80
++	 __alloc_pages+0x39e/0x7e0
++	 allocate_slab+0xbc/0x3f0
++	 ___slab_alloc+0x528/0x8a0
++	 kmem_cache_alloc+0x224/0x3b0
++	 sk_prot_alloc+0x58/0x1a0
++	 sk_alloc+0x32/0x4f0
++	 inet_create+0x427/0xb50
++	 __sock_create+0x2e4/0x650
++	 inet_ctl_sock_create+0x30/0x180
++	 igmp_net_init+0xc1/0x130
++	 ops_init+0x167/0x410
++	 setup_net+0x304/0xa60
++	 copy_net_ns+0x29b/0x4a0
++	 create_new_namespaces+0x4a1/0x820
++	nr_base_pages: 16
++	...
++	...
++	echo 7000 > /sys/kernel/debug/page_owner_stacks/count_threshold
++	cat /sys/kernel/debug/page_owner_stacks/show_stacks> stacks_7000.txt
++	cat stacks_7000.txt
++	 post_alloc_hook+0x177/0x1a0
++	 get_page_from_freelist+0xd01/0xd80
++	 __alloc_pages+0x39e/0x7e0
++	 alloc_pages_mpol+0x22e/0x490
++	 folio_alloc+0xd5/0x110
++	 filemap_alloc_folio+0x78/0x230
++	 page_cache_ra_order+0x287/0x6f0
++	 filemap_get_pages+0x517/0x1160
++	 filemap_read+0x304/0x9f0
++	 xfs_file_buffered_read+0xe6/0x1d0 [xfs]
++	 xfs_file_read_iter+0x1f0/0x380 [xfs]
++	 __kernel_read+0x3b9/0x730
++	 kernel_read_file+0x309/0x4d0
++	 __do_sys_finit_module+0x381/0x730
++	 do_syscall_64+0x8d/0x150
++	 entry_SYSCALL_64_after_hwframe+0x62/0x6a
++	nr_base_pages: 20824
++	...
++
+ 	cat /sys/kernel/debug/page_owner > page_owner_full.txt
+ 	./page_owner_sort page_owner_full.txt sorted_page_owner.txt
+ 
 -- 
 2.43.0
 
