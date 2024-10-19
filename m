@@ -1,144 +1,128 @@
-Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654AE1DFE2B;
-	Sat, 19 Oct 2024 08:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4145A15D5D9;
+	Sat, 19 Oct 2024 09:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729328206; cv=none; b=TBC8DczUWDuoEnYL84eEVmcsU87+cI/5ozbrmRW+zgM9yEz0BYOjTse6VKnHy+xfk3db02/tyjjFyJmUaVs9gXumGvfZ00bsmbhT0XjOZCR3vf8yRvDcbN43xXvjc+JWGF25LC8kiX18kgHiP0y6sjXIWNrlkf0m9jPoqe/E7rU=
+	t=1729329577; cv=none; b=I8IgplRgB6wsrpYLhVzYfFdEB8dTEbhhAB70ltpTzvBiB9RCbezUKm4Nf+fEg3ChcmvnEJ0EtxRNLUhWvOoQWsc6PN9kUuyJ3JGerZL9CYXp8mJyObqtmv3PDRniAIeT8/rlUOB9SR+4N0566sxG5Jc0+lVAP3Pn2m7WpQ3sXzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729328206; c=relaxed/simple;
-	bh=1Y1cWCUn7nIsxbdoWoWZyyb/j3TesM4bqjp3xidoCFM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WXNnMBOCCptp4E7G/YLs+WAWYFSzjU40uNTx+j+8btUvaALCcon7dN2vGptxOWhuStZuPLRyN+ye0bea756hAu3W5MPzB3vT+SQ3cFI7wRI+wx0dir7bH9eDQw7cAZ03EFA65g/CUkct0mImSUfi77oiFdw8ImmqkWUO9+Ti2ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=129.150.39.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrACHjjordBNn5Y8fCA--.46444S2;
-	Sat, 19 Oct 2024 16:56:11 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wAH8UIMdBNnstxuAA--.62062S7;
-	Sat, 19 Oct 2024 16:56:11 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: si.yanteng@linux.dev,
-	alexs@kernel.org,
-	corbet@lwn.net,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Dongliang Mu <dzm91@hust.edu.cn>
-Cc: hust-os-kernel-patches@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] docs/zh_CN: update the translation of mm/page_owner.rst
-Date: Sat, 19 Oct 2024 16:54:56 +0800
-Message-ID: <38a9d8868e0f98dc5d2a08fb865313cc4db943a3.1729327831.git.dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1729327831.git.dzm91@hust.edu.cn>
-References: <cover.1729327831.git.dzm91@hust.edu.cn>
+	s=arc-20240116; t=1729329577; c=relaxed/simple;
+	bh=ukAnmrzm5txy+zOC3tzTSzJ2SbJ7TgWf6o+/eiDiXUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U5vrFO76wx0VdyNJVRqKpUCbTbmONYp/8QamSlgihXyn/lktlK6r14OFRvtyYOo35hI6NzxvK4tIpvGPOLcUW3WQHhW/7cV9wYw8ahy1M9IgjSfk4W/LD3EByK4wQE+omjQCpeNpkxkDCxfpsj4KoTHQc97nkyaMGrugabNfoHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gAMAzUxE; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gAMAzUxE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD284C4CEC5;
+	Sat, 19 Oct 2024 09:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729329577;
+	bh=ukAnmrzm5txy+zOC3tzTSzJ2SbJ7TgWf6o+/eiDiXUU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gAMAzUxETaSXCQm3fSd84p2fqg1EqfjQ5ec0S7FngFMpyUNvhWf7nJMyVtJ2xRZPA
+	 RtBfXfO2U/uisgCIYeCWoJVCKDypfIRuIcVWcC+MN6TrhnTOq+LvvfPTsOFEylD+j6
+	 5Z+KoiKs23fZmA+Qpucu0S3pK4D6kH0eYWRGNwEVrW/TEi7+fU6U4Ikp7MguVImM/h
+	 Yez2X4+MnAzO3/QHexQGS6Di7jTO8Our/hr8/L14coKx9QC0XgtNulJwGudfX1WQaS
+	 lDJIPsVjnBLqlUfhkA5GrkvaGzrM+ZqQXfSDcT5WJrnegVI+GK9EuRbPaVSeLaQOO5
+	 feW2a+WdoC2rQ==
+Date: Sat, 19 Oct 2024 10:19:30 +0100
+From: Simon Horman <horms@kernel.org>
+To: Hangbin Liu <liuhangbin@gmail.com>
+Cc: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+	netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Andrii Nakryiko <andriin@fb.com>, Jussi Maki <joamaki@gmail.com>,
+	Jay Vosburgh <jv@jvosburgh.net>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	Nikolay Aleksandrov <razor@blackwall.org>
+Subject: Re: [PATCHv2 net-next 2/3] bonding: use correct return value
+Message-ID: <20241019091930.GS1697@kernel.org>
+References: <20241017020638.6905-1-liuhangbin@gmail.com>
+ <20241017020638.6905-3-liuhangbin@gmail.com>
+ <878qumzszs.fsf@toke.dk>
+ <ZxGv2s4bl5VQV4g-@fedora>
+ <20241018094139.GD1697@kernel.org>
+ <87o73hy7hh.fsf@toke.dk>
+ <20241018142104.GP1697@kernel.org>
+ <ZxMCdP1X-h9qyU0u@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrACHjjordBNn5Y8fCA--.46444S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxJFyUKw43Wr4fJrW8Aw1DJrb_yoW5KrWrpa
-	10kFy5C3W7A3WS9rWxGrs29FyrAan5Wa15GFn7J34kuwsxAanakrWqka4j9r47ZrWUJFWD
-	ua1DCrWkJw4qy3DanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQqb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
-	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVWrXVW3AwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY
-	1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+In-Reply-To: <ZxMCdP1X-h9qyU0u@fedora>
 
-Update to commit f5c12105c15f ("mm,page_owner: fix refcount imbalance")
+On Sat, Oct 19, 2024 at 12:51:00AM +0000, Hangbin Liu wrote:
+> On Fri, Oct 18, 2024 at 03:21:04PM +0100, Simon Horman wrote:
+> > On Fri, Oct 18, 2024 at 01:29:30PM +0200, Toke Høiland-Jørgensen wrote:
+> > > Simon Horman <horms@kernel.org> writes:
+> > > 
+> > > > On Fri, Oct 18, 2024 at 12:46:18AM +0000, Hangbin Liu wrote:
+> > > >> On Thu, Oct 17, 2024 at 04:47:19PM +0200, Toke Høiland-Jørgensen wrote:
+> > > >> > > diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
+> > > >> > > index f0f76b6ac8be..6887a867fe8b 100644
+> > > >> > > --- a/drivers/net/bonding/bond_main.c
+> > > >> > > +++ b/drivers/net/bonding/bond_main.c
+> > > >> > > @@ -5699,7 +5699,7 @@ static int bond_xdp_set(struct net_device *dev, struct bpf_prog *prog,
+> > > >> > >  		if (dev_xdp_prog_count(slave_dev) > 0) {
+> > > >> > >  			SLAVE_NL_ERR(dev, slave_dev, extack,
+> > > >> > >  				     "Slave has XDP program loaded, please unload before enslaving");
+> > > >> > > -			err = -EOPNOTSUPP;
+> > > >> > > +			err = -EEXIST;
+> > > >> > 
+> > > >> > Hmm, this has been UAPI since kernel 5.15, so can we really change it
+> > > >> > now? What's the purpose of changing it, anyway?
+> > > >> 
+> > > >> I just think it should return EXIST when the error is "Slave has XDP program
+> > > >> loaded". No special reason. If all others think we should not change it, I
+> > > >> can drop this patch.
+> > > >
+> > > > Hi Toke,
+> > > >
+> > > > Could you add some colour to what extent user's might rely on this error code?
+> > > >
+> > > > Basically I think that if they do then we shouldn't change this.
+> > > 
+> > > Well, that's the trouble with UAPI, we don't really know. In libxdp and
+> > > xdp-tools we look at the return code to provide a nicer error message,
+> > > like:
+> > > 
+> > > https://github.com/xdp-project/xdp-tools/blob/master/lib/libxdp/libxdp.c#L615
+> > > 
+> > > and as a signal to fall back to loading the programme without a dispatcher:
+> > > 
+> > > https://github.com/xdp-project/xdp-tools/blob/master/lib/libxdp/libxdp.c#L1824
+> > > 
+> > > Both of these cases would be unaffected (or even improved) by this
+> > > patch, so in that sense I don't have a concrete objection, just a
+> > > general "userspace may react to this". In other words, my concern is
+> > > more of a general "we don't know, so this seems risky". If any of you
+> > > have more information about how bonding XDP is generally used, that may
+> > > help get a better idea of this?
+> > 
+> > Yes, that is the trouble with the UAPI. I was hoping you might be able to
+> > provide the clarity you ask for above. But alas, things are as clear as
+> > mud.
+> > 
+> > In lieu of more information I suggest caution and dropping this change for
+> > now.
+> 
+> OK, I will drop this one.
 
-Documentation/translations/zh_CN/mm/page_owner.rst
-commit f5c12105c15f ("mm,page_owner: fix refcount imbalance")
-commit ba6fe5377244 ("mm,page_owner: update Documentation regarding
-page_owner_stacks")
-2 commits needs resolving in total
-
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- .../translations/zh_CN/mm/page_owner.rst      | 46 +++++++++++++++++++
- 1 file changed, 46 insertions(+)
-
-diff --git a/Documentation/translations/zh_CN/mm/page_owner.rst b/Documentation/translations/zh_CN/mm/page_owner.rst
-index b72a972271d9..c0d1ca4b9695 100644
---- a/Documentation/translations/zh_CN/mm/page_owner.rst
-+++ b/Documentation/translations/zh_CN/mm/page_owner.rst
-@@ -26,6 +26,9 @@ page owner是用来追踪谁分配的每一个页面。它可以用来调试内
- 页面所有者也可以用于各种目的。例如，可以通过每个页面的gfp标志信息获得精确的碎片
- 统计。如果启用了page owner，它就已经实现并激活了。我们非常欢迎其他用途。
- 
-+它也可以用来显示所有的栈以及它们当前分配的基础页面数，这让我们能够快速了解内存的
-+使用情况，而无需浏览所有页面并匹配分配和释放操作。
-+
- page owner在默认情况下是禁用的。所以，如果你想使用它，你需要在你的启动cmdline
- 中加入"page_owner=on"。如果内核是用page owner构建的，并且由于没有启用启动
- 选项而在运行时禁用page owner，那么运行时的开销是很小的。如果在运行时禁用，它不
-@@ -60,6 +63,49 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
- 
- 4) 分析来自页面所有者的信息::
- 
-+	cat /sys/kernel/debug/page_owner_stacks/show_stacks > stacks.txt
-+	cat stacks.txt
-+	 post_alloc_hook+0x177/0x1a0
-+	 get_page_from_freelist+0xd01/0xd80
-+	 __alloc_pages+0x39e/0x7e0
-+	 allocate_slab+0xbc/0x3f0
-+	 ___slab_alloc+0x528/0x8a0
-+	 kmem_cache_alloc+0x224/0x3b0
-+	 sk_prot_alloc+0x58/0x1a0
-+	 sk_alloc+0x32/0x4f0
-+	 inet_create+0x427/0xb50
-+	 __sock_create+0x2e4/0x650
-+	 inet_ctl_sock_create+0x30/0x180
-+	 igmp_net_init+0xc1/0x130
-+	 ops_init+0x167/0x410
-+	 setup_net+0x304/0xa60
-+	 copy_net_ns+0x29b/0x4a0
-+	 create_new_namespaces+0x4a1/0x820
-+	nr_base_pages: 16
-+	...
-+	...
-+	echo 7000 > /sys/kernel/debug/page_owner_stacks/count_threshold
-+	cat /sys/kernel/debug/page_owner_stacks/show_stacks> stacks_7000.txt
-+	cat stacks_7000.txt
-+	 post_alloc_hook+0x177/0x1a0
-+	 get_page_from_freelist+0xd01/0xd80
-+	 __alloc_pages+0x39e/0x7e0
-+	 alloc_pages_mpol+0x22e/0x490
-+	 folio_alloc+0xd5/0x110
-+	 filemap_alloc_folio+0x78/0x230
-+	 page_cache_ra_order+0x287/0x6f0
-+	 filemap_get_pages+0x517/0x1160
-+	 filemap_read+0x304/0x9f0
-+	 xfs_file_buffered_read+0xe6/0x1d0 [xfs]
-+	 xfs_file_read_iter+0x1f0/0x380 [xfs]
-+	 __kernel_read+0x3b9/0x730
-+	 kernel_read_file+0x309/0x4d0
-+	 __do_sys_finit_module+0x381/0x730
-+	 do_syscall_64+0x8d/0x150
-+	 entry_SYSCALL_64_after_hwframe+0x62/0x6a
-+	nr_base_pages: 20824
-+	...
-+
- 	cat /sys/kernel/debug/page_owner > page_owner_full.txt
- 	./page_owner_sort page_owner_full.txt sorted_page_owner.txt
- 
--- 
-2.43.0
-
+Thanks.
