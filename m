@@ -1,159 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05E029CF6;
-	Sat, 19 Oct 2024 00:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7280820E31C;
+	Sat, 19 Oct 2024 00:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729298243; cv=none; b=Qb11SaxX/l/QytKuqvrgiZpkmqVsnznAPua261ymEWily8dQjQQWoc1V+ZgU62QwALO6wn/c3DIc960OeukJCMYEygj41uwlvVF/JU1YcgA/mKdiF9BtEsPEpwbhgkBIR5qDfrnBptjyDYOjU8MwoILlAQN8NfGFh+v3fZQQpyQ=
+	t=1729299072; cv=none; b=C0AwNNsEXR7oH85yZlLaKuY2r8nM6azOKoX/3NDDENx74uJ4Ce/9I4Z0lE8YfecULTRxVIwlGVVXJxm8hV6zuC4VrrjAIekDUPaBA4u5O4PRTGwimxguKA0ZcTtFPMKeuJAiVGjRGwJVa1mkrJ8V5qjNMCFFi0HoLlx/UcSvP+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729298243; c=relaxed/simple;
-	bh=PfaYoaaPCu5DWdfaaTW12VQJY6h3MD3ntyNmux/6daA=;
+	s=arc-20240116; t=1729299072; c=relaxed/simple;
+	bh=MD5kkzyjVlGnny+gqQDDv1+RFxFDxvzSYdWohCFC5o4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ciharSbb853aMxwfR/JYpIm01UBK3efcveTcBALA54yNldnDIi1V/hp1vK3O03AJ1F++6mdlSQnekrdLlOMOwZBrXgZKt1EzJpLGB09xOiI/BK1BZRnzo3G9CLEbGr5xEvU3+sbXW+z0FeJHb2lohwfOZ49n000ZNjBGYI13aos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcv56uEv; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HnwPpz23hgFWe7QZRy0Ab/NxN9azNsya7h3F4w2IpDulb7RIo8U9hpB7vW5HAUZn9JGt/tS3IR5W0E9LG1oQ4cddgN62h1abYsJqr2cvGGerrMORkdhy3pfazHpgQ3ICh+OeZsJdeci2bsBIVuJIWc+VJqmkCfke/dSG11uWn6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mfUIGGy9; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcv56uEv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729298241; x=1760834241;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PfaYoaaPCu5DWdfaaTW12VQJY6h3MD3ntyNmux/6daA=;
-  b=gcv56uEva/ctlcfisaZHxrXvvu0APnuamyfhAUh3Jfzvx1YxkuMIcm14
-   GB/tP+4qx0qFnlb17rnW+WFVKAmCdG82AOXsayVk4I82LiAm3jH8zWyFC
-   lb5q+0R0NPVgKz868Jh/+b2cOxpQFXL+Ecf8iHYu/3s0gwt3BxvtE85ko
-   8L+J6bg8XVVGDobC4HAT0buGdXfWy5Lzb0wqaMOFH5ftzNtSvMkAbaEyT
-   PF13VZ+qrPi1Qk4oLEibUqoOuCamUfRbIpZ6Ao39MhB0jKZkJnK7JtI2w
-   18Y2v3gz6TnHjuvI6dZ0J4L6KdjMiCgvvvZ9xXvCN1GmFO28Sw7gcDKzp
-   g==;
-X-CSE-ConnectionGUID: P2Y5Ib0YQ0KooHhXYQO8/A==
-X-CSE-MsgGUID: x90PeKqvT3GUstjntTtZ6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="29054681"
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="29054681"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 17:37:18 -0700
-X-CSE-ConnectionGUID: 6YMgxZiVR9emesg1GpNAHA==
-X-CSE-MsgGUID: 7zFAV9PvT6+fQq/pN8dEoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="109771570"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Oct 2024 17:37:13 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t1xSw-000OTl-3C;
-	Sat, 19 Oct 2024 00:37:10 +0000
-Date: Sat, 19 Oct 2024 08:36:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guillaume Stols <gstols@baylibre.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	aardelean@baylibre.com, dlechner@baylibre.com,
-	jstephan@baylibre.com, nuno.sa@analog.com,
-	Guillaume Stols <gstols@baylibre.com>
-Subject: Re: [PATCH v5 7/8] iio: adc: ad7606: Add iio-backend support
-Message-ID: <202410190802.CLaySBOq-lkp@intel.com>
-References: <20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c@baylibre.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mfUIGGy9"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20c767a9c50so26156145ad.1;
+        Fri, 18 Oct 2024 17:51:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729299069; x=1729903869; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FL67X8g8ez0faSQl99ijSyvjCoKB8ojvzNqVtmVcfiE=;
+        b=mfUIGGy9bR9aKPRo55Evj5Y0+Syw/iJz2/yhdhO+b63hHvIHvYDxUA4Ui3G3+UmBHF
+         J1Iz8GUcEliAjAfmLwQqHL2mZKvgiWNxOcsfxrku6y4ZsOmRCTzsXz6nGHpxuZ1Vq1d6
+         XUyGqsxaFwmAjY017JagKBpd9uY7PRmIupDMo59mPAYkYPwIFcIGR5ERu6qb2ytDIkOn
+         Rvn6t8PFzt3PXkGZC405xgF0bzEfEyegSPqg+Zh3TrhApgKjaYqi1v4Rfd9KUMnVxAbh
+         l+PI2T9OQ2LH6XTlWvnIOXHa3/Blz+X/eH6rNMkoIt6k5ijcibNIUC8v8Uvks2N8/9Gn
+         Yh+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729299069; x=1729903869;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FL67X8g8ez0faSQl99ijSyvjCoKB8ojvzNqVtmVcfiE=;
+        b=FQOxsZXfjPWufy8q3dUAS65HKcItAmG2JFBh4cmyFXbFNZp5+lvVyIPwthbejeQFiw
+         cWFyktYcTc9+qT2DQlebuvo0xe/t3zG2HK+eYex6sH/3PfFargT6WCZnKCU3gKc8JWI/
+         AJDaq/PXNQfgHvGOcjfx9NTb1/eFBkrH4t3qIKwZPyINODVxBBc4tw4HsDot8lt3h5Pq
+         t82sBsLBeeyi6bofsVUM65cBxvBwzHI8agqeTVEGdqj9NmuiLxWL41gbHyGhdBfJskpF
+         ATQDx5tCSnlYLLcTQcWyYNR/xyeQOVNCcIW4+A0nGhUR2OJMO7rvzqL+IQ3SUQng/6Fs
+         TP5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV/LyoaH2bGNe0/sgXvMjjQUZXMFCVSpf5H1z2ffLdnBxrPtK6CuP/FgeC601IUWz6WnzsYzi89@vger.kernel.org, AJvYcCWQUCtrD+3m+iNCrq9EZKoG1qVniZX9lo2GwnAYHHLSqA+sNWKv0YC8Ziux0v6UHKh2pO8=@vger.kernel.org, AJvYcCWeyTMY2Y5TqnS3mTOXrQOFVZ9e/X1inVMrFjF5lHTK7pvmPjlJu+A89o4QO4ZNW+kDVR01MQowo4QV@vger.kernel.org, AJvYcCWmNlobGS9L1UAKuZWbmAEnYr9fVySSPLJJNXSE27qkT5VPQAngw/acEAS6EGcCx3WAjPBsI0xcFpYe9gCZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt8ZRLsAmfKnPa+OB5/ptLDGVes3EN0HmxK16SVbZXOaV+SqU7
+	8nvJ8+uen9u9+Qy/EWIGTZKOI3hWO7vIi1nwpajtH5i4e+AAGiwy
+X-Google-Smtp-Source: AGHT+IEiV0cgKjHKe/2kpiCIm2aoibAX3dlE1cBZR9js0twjZlqgxio5Kuo8jbhyx35sK6LlhoZUUA==
+X-Received: by 2002:a17:903:192:b0:20b:9c8c:e9f3 with SMTP id d9443c01a7336-20e5a7663c2mr41358935ad.14.1729299069456;
+        Fri, 18 Oct 2024 17:51:09 -0700 (PDT)
+Received: from fedora ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eacc28b869sm1967300a12.68.2024.10.18.17.51.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Oct 2024 17:51:09 -0700 (PDT)
+Date: Sat, 19 Oct 2024 00:51:00 +0000
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: Simon Horman <horms@kernel.org>
+Cc: Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
+	netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Andrii Nakryiko <andriin@fb.com>, Jussi Maki <joamaki@gmail.com>,
+	Jay Vosburgh <jv@jvosburgh.net>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	Nikolay Aleksandrov <razor@blackwall.org>
+Subject: Re: [PATCHv2 net-next 2/3] bonding: use correct return value
+Message-ID: <ZxMCdP1X-h9qyU0u@fedora>
+References: <20241017020638.6905-1-liuhangbin@gmail.com>
+ <20241017020638.6905-3-liuhangbin@gmail.com>
+ <878qumzszs.fsf@toke.dk>
+ <ZxGv2s4bl5VQV4g-@fedora>
+ <20241018094139.GD1697@kernel.org>
+ <87o73hy7hh.fsf@toke.dk>
+ <20241018142104.GP1697@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c@baylibre.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241018142104.GP1697@kernel.org>
 
-Hi Guillaume,
+On Fri, Oct 18, 2024 at 03:21:04PM +0100, Simon Horman wrote:
+> On Fri, Oct 18, 2024 at 01:29:30PM +0200, Toke Høiland-Jørgensen wrote:
+> > Simon Horman <horms@kernel.org> writes:
+> > 
+> > > On Fri, Oct 18, 2024 at 12:46:18AM +0000, Hangbin Liu wrote:
+> > >> On Thu, Oct 17, 2024 at 04:47:19PM +0200, Toke Høiland-Jørgensen wrote:
+> > >> > > diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
+> > >> > > index f0f76b6ac8be..6887a867fe8b 100644
+> > >> > > --- a/drivers/net/bonding/bond_main.c
+> > >> > > +++ b/drivers/net/bonding/bond_main.c
+> > >> > > @@ -5699,7 +5699,7 @@ static int bond_xdp_set(struct net_device *dev, struct bpf_prog *prog,
+> > >> > >  		if (dev_xdp_prog_count(slave_dev) > 0) {
+> > >> > >  			SLAVE_NL_ERR(dev, slave_dev, extack,
+> > >> > >  				     "Slave has XDP program loaded, please unload before enslaving");
+> > >> > > -			err = -EOPNOTSUPP;
+> > >> > > +			err = -EEXIST;
+> > >> > 
+> > >> > Hmm, this has been UAPI since kernel 5.15, so can we really change it
+> > >> > now? What's the purpose of changing it, anyway?
+> > >> 
+> > >> I just think it should return EXIST when the error is "Slave has XDP program
+> > >> loaded". No special reason. If all others think we should not change it, I
+> > >> can drop this patch.
+> > >
+> > > Hi Toke,
+> > >
+> > > Could you add some colour to what extent user's might rely on this error code?
+> > >
+> > > Basically I think that if they do then we shouldn't change this.
+> > 
+> > Well, that's the trouble with UAPI, we don't really know. In libxdp and
+> > xdp-tools we look at the return code to provide a nicer error message,
+> > like:
+> > 
+> > https://github.com/xdp-project/xdp-tools/blob/master/lib/libxdp/libxdp.c#L615
+> > 
+> > and as a signal to fall back to loading the programme without a dispatcher:
+> > 
+> > https://github.com/xdp-project/xdp-tools/blob/master/lib/libxdp/libxdp.c#L1824
+> > 
+> > Both of these cases would be unaffected (or even improved) by this
+> > patch, so in that sense I don't have a concrete objection, just a
+> > general "userspace may react to this". In other words, my concern is
+> > more of a general "we don't know, so this seems risky". If any of you
+> > have more information about how bonding XDP is generally used, that may
+> > help get a better idea of this?
+> 
+> Yes, that is the trouble with the UAPI. I was hoping you might be able to
+> provide the clarity you ask for above. But alas, things are as clear as
+> mud.
+> 
+> In lieu of more information I suggest caution and dropping this change for
+> now.
 
-kernel test robot noticed the following build warnings:
+OK, I will drop this one.
 
-[auto build test WARNING on 465644ac29536d10178b5ca4684d0b84765b9fa4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Stols/dt-bindings-iio-adc-ad7606-Remove-spi-cpha-from-required/20241015-215831
-base:   465644ac29536d10178b5ca4684d0b84765b9fa4
-patch link:    https://lore.kernel.org/r/20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c%40baylibre.com
-patch subject: [PATCH v5 7/8] iio: adc: ad7606: Add iio-backend support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410190802.CLaySBOq-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190802.CLaySBOq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410190802.CLaySBOq-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/iio/adc/ad7606_par.c:173:22: warning: unused variable 'back' [-Wunused-variable]
-     173 |         struct iio_backend *back;
-         |                             ^~~~
-   1 warning generated.
-
-
-vim +/back +173 drivers/iio/adc/ad7606_par.c
-
-   164	
-   165	static int ad7606_par_probe(struct platform_device *pdev)
-   166	{
-   167		const struct ad7606_chip_info *chip_info;
-   168		const struct platform_device_id *id;
-   169		struct resource *res;
-   170		void __iomem *addr;
-   171		resource_size_t remap_size;
-   172		int irq;
- > 173		struct iio_backend *back;
-   174	
-   175		/*
-   176		 * If a firmware node is available (ACPI or DT), platform_device_id is null
-   177		 * and we must use get_match_data.
-   178		 */
-   179		if (dev_fwnode(&pdev->dev)) {
-   180			chip_info = device_get_match_data(&pdev->dev);
-   181			if (device_property_present(&pdev->dev, "io-backends"))
-   182				/*
-   183				 * If a backend is available ,call the core probe with backend
-   184				 * bops, otherwise use the former bops.
-   185				 */
-   186				return ad7606_probe(&pdev->dev, 0, NULL,
-   187						    chip_info,
-   188						    &ad7606_bi_bops);
-   189		} else {
-   190			id = platform_get_device_id(pdev);
-   191			chip_info = (const struct ad7606_chip_info *)id->driver_data;
-   192		}
-   193	
-   194		irq = platform_get_irq(pdev, 0);
-   195		if (irq < 0)
-   196			return irq;
-   197	
-   198		addr = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-   199		if (IS_ERR(addr))
-   200			return PTR_ERR(addr);
-   201	
-   202		remap_size = resource_size(res);
-   203	
-   204		return ad7606_probe(&pdev->dev, irq, addr, chip_info,
-   205				    remap_size > 1 ? &ad7606_par16_bops :
-   206				    &ad7606_par8_bops);
-   207	}
-   208	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
+Hangbin
