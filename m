@@ -1,23 +1,23 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8D6D1DE88D;
+Received: from zg8tmtu5ljy1ljeznc42.icoremail.net (zg8tmtu5ljy1ljeznc42.icoremail.net [159.65.134.6])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DD841DE888;
 	Sat, 19 Oct 2024 08:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.65.134.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729328197; cv=none; b=IHT2Ja0Nr5+A8zGZ/nRLZ8QuxtBMIKzSvR2vZpwxeYVQ5H+KAQhEHrtTMOVlGpEKPgfwGEzCW1fMacjbZ0dpR3EMOkYNqD7vE5mGoJ1y2+88VgUxV1yDf6tZCSXFz2jC0GJ9Lazz1drVVmVcvrk07g5iJQko+St5e2GyHDwKU+M=
+	t=1729328197; cv=none; b=JZJklHK1FQhAbbRspdvC9OXGv9yLsEaqvggCJ2N7Jg5b6p1KnwU4jDkqPMERY9UYQFbMr95vlAdeOdDvKVO4gHPGbAfAtOdkRXG4s93Gj+xGXoidCVOont49BxjyinUqRCugUeqwSvm8wKaKalO8qi9FSO69KTPftPK4czS9xkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729328197; c=relaxed/simple;
-	bh=dnP/VKNFhb11EHXf4zlGj1blKoCjFEjjxiIExDwcPEA=;
+	bh=N/wSuX5vcPIyhrsFlGIFS+1AEuqMTVfVFTPVwZDTa1c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G2JxBB5JLmwu3tIRIUkwO2jO7Jp2mbPjEEQ/B1jwc7SHErPnT7Ns0UpjY1XVBRVULy3o/6wGa5IUMN159rN/7JSe9j718FflyxOIrYJLk0RbwwLRplQocBfUosht5UA/EFan6oozVdDj+MgOR+gFIYFhS+340va/5MUgbN0wKHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
+	 MIME-Version:Content-Type; b=U2xmhfHEqGj/QkujXaoDJfBmuc6V78fwc2sqUM7cKKM3vwcc69nCB4m0hVPWwPLbkqReyGTY8yRMQFCu2xK93oSxxBP5kfNbPxMPfG/Fxs6fkaVecdGsxKkxwZyjWBv0EM+6JT6s/zV6wYbYmJ0ZVmMv0/uEaLavZMpq62FYA3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=159.65.134.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
 Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrADXGqQidBNnOI8fCA--.43861S2;
-	Sat, 19 Oct 2024 16:56:02 +0800 (CST)
+	by app1 (Coremail) with SMTP id HgEQrADHzn4VdBNnW44fCA--.54170S2;
+	Sat, 19 Oct 2024 16:55:49 +0800 (CST)
 Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wAH8UIMdBNnstxuAA--.62062S5;
-	Sat, 19 Oct 2024 16:56:01 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____wAH8UIMdBNnstxuAA--.62062S3;
+	Sat, 19 Oct 2024 16:55:48 +0800 (CST)
 From: Dongliang Mu <dzm91@hust.edu.cn>
 To: si.yanteng@linux.dev,
 	alexs@kernel.org,
@@ -27,9 +27,9 @@ To: si.yanteng@linux.dev,
 Cc: hust-os-kernel-patches@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] docs/zh_CN: update the translation of mm/overcommit-accounting.rst
-Date: Sat, 19 Oct 2024 16:54:54 +0800
-Message-ID: <d426f3f3d9aac061c20c3b766c17369f4e60f398.1729327831.git.dzm91@hust.edu.cn>
+Subject: [PATCH 2/6] docs/zh_CN: update the translation of mm/active_mm.rst
+Date: Sat, 19 Oct 2024 16:54:52 +0800
+Message-ID: <985f62236dad7c9446272d94bffc20eb8f45ae4b.1729327831.git.dzm91@hust.edu.cn>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1729327831.git.dzm91@hust.edu.cn>
 References: <cover.1729327831.git.dzm91@hust.edu.cn>
@@ -41,12 +41,12 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrADXGqQidBNnOI8fCA--.43861S2
+X-CM-TRANSID:HgEQrADHzn4VdBNnW44fCA--.54170S2
 Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFyfZF4DJFy7AF45tFWkWFg_yoW8WF1Upa
-	4Ikwn7Wa1FyF1rGryUGw18Xay8AFsrCa9xGFW2qa4aqr4rJa1kKrZFkw1ag3W3XryxJF98
-	XFWIgayrZry0kr7anT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQab7Iv0xC_Ar1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWfCF47AFW7Gr18Xr17Awb_yoW8GFWUpF
+	1UKrWfK3WIyw13KrWIgw4DW3WrGFsxGa15Kr1UXw1FqF15Ca1vvayak3s8KF97X3yfZFWU
+	C3yfurW3GFy5Aw7anT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQab7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
 	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
 	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
@@ -55,42 +55,45 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7KFyfZF4DJFy7AF45tFWkWFg_yoW8WF1Upa
 	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
 	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
 	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVW8ZVWrXwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+	bVWUJVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14v26r1j6r18MI8I3I0E74
 	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
+	I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
 	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRuVbgUUUUU=
+	xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jfvtZUUUUU=
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Update to commit d17ff438a036 ("docs: mm: fix vm overcommit
-documentation for OVERCOMMIT_GUESS")
+Update to commit 88e3009b5283 ("lazy tlb: allow lazy tlb
+mm refcounting to be configurable")
 
 scripts/checktransupdate.py reports:
 
-Documentation/translations/zh_CN/mm/overcommit-accounting.rst
-commit d17ff438a036 ("docs: mm: fix vm overcommit documentation
-for OVERCOMMIT_GUESS")
-1 commits needs resolving in total
+Documentation/translations/zh_CN/mm/active_mm.rst
+commit 88e3009b5283 ("lazy tlb: allow lazy tlb mm refcounting
+to be configurable")
+commit ee86588960e2 ("docs/mm: remove useless markup")
+2 commits needs resolving in total
 
 Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
- Documentation/translations/zh_CN/mm/overcommit-accounting.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ Documentation/translations/zh_CN/mm/active_mm.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/mm/overcommit-accounting.rst b/Documentation/translations/zh_CN/mm/overcommit-accounting.rst
-index d8452d8b7fbb..f136a8b81859 100644
---- a/Documentation/translations/zh_CN/mm/overcommit-accounting.rst
-+++ b/Documentation/translations/zh_CN/mm/overcommit-accounting.rst
-@@ -16,8 +16,7 @@ Linux内核支持下列超量使用处理模式
+diff --git a/Documentation/translations/zh_CN/mm/active_mm.rst b/Documentation/translations/zh_CN/mm/active_mm.rst
+index c2816f523bd7..b3352668c4c8 100644
+--- a/Documentation/translations/zh_CN/mm/active_mm.rst
++++ b/Documentation/translations/zh_CN/mm/active_mm.rst
+@@ -13,6 +13,11 @@
+ Active MM
+ =========
  
- 0
- 	启发式超量使用处理。拒绝明显的地址空间超量使用。用于一个典型的系统。
--	它确保严重的疯狂分配失败，同时允许超量使用以减少swap的使用。在这种模式下，
--	允许root分配稍多的内存。这是默认的。
-+	它确保严重的疯狂分配失败，同时允许超量使用以减少swap的使用。这是默认的。
- 1
- 	总是超量使用。适用于一些科学应用。经典的例子是使用稀疏数组的代码，只是依赖
- 	几乎完全由零页组成的虚拟内存
++注意，在配置了 CONFIG_MMU_LAZY_TLB_REFCOUNT=n 的内核中，mm_count 引用计数
++可能不再包括“懒惰”用户（运行任务中 ->active_mm == mm && ->mm == NULL）。
++获取和释放这些懒惰引用必须使用 mmgrab_lazy_tlb() 和 mmdrop_lazy_tlb() 这
++两个辅助函数，它们抽象了这个配置选项。
++
+ 这是一封linux之父回复开发者的一封邮件，所以翻译时我尽量保持邮件格式的完整。
+ 
+ ::
 -- 
 2.43.0
 
