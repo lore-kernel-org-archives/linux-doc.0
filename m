@@ -1,159 +1,95 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944331E48A;
-	Sat, 19 Oct 2024 13:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D876C623;
+	Sat, 19 Oct 2024 14:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729346116; cv=none; b=fMJAdwJGsfsTl0SyKSTLLNjIkfTSVa5dxvV2PX8Dd5PzpZY/2VXqETqHa+z/kPPI1zdP08N1mQGlHcR93VYXMTgpFdflsW6IJyvzg21nY8RREL/OuPbFxhQ83Qr0RV37+SfWY5eoMmUtjMGhu5vZfODhPrNGzDmKIitPxqj6AB0=
+	t=1729349426; cv=none; b=S0SvG2suvFwC2ObE2R2CcpKwLOT2FiI868bXbdww9SEux1hjuPFlacbY9FuT5Gsaj4OyEKvAYL2EFqmYI229MnU0CmOn2JFIe0VFsMXMN24vFC8yZBBOARvCTYLqiWs9f2Rs/x57ll8wFjuMQYay71V97UtNfqhOjjogQAsMy58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729346116; c=relaxed/simple;
-	bh=IrgiAjib0KZYOu+o4DmsmotW6DwjJuvMhmIahAtPlKE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Np+3IQNAmoQP0hICELv0SD0nzSlBHd8bDKAjOMbqX9N/k/cJ6Wa/TCJuovNGt/E8pqLi/x2lGISbi81I0l/Xq6JqbX5gmH6unz1r5VjVkHg3EPNYMSIVEif+93nikmLGiZ4tMi9wU10tkBDUE4SlyRt975/R1zvgqm574xS2VVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mEmR7A/0; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729349426; c=relaxed/simple;
+	bh=GazNkts+JzgMhEAJWcSa5fM19KC1ZaNSZ/AO72xlmZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ayg9c3KGHSmKPC8wYV90E0QlqfKx+actQE4qJ1I7nyJ3F+RmX0PH4c+aIey7a46oHmgzvXaSyaPsfLBFcgQcKvQDTiwScrz7wf2DvH5A5r+YTbRo/3lADKq0LQ86mk1ifV9/IuGJF3vAjyCGTwtofDYazCReQ/OoaDS9JealuQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q6xRTEFU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mEmR7A/0"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c941623a5aso7005153a12.0;
-        Sat, 19 Oct 2024 06:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729346113; x=1729950913; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IrgiAjib0KZYOu+o4DmsmotW6DwjJuvMhmIahAtPlKE=;
-        b=mEmR7A/0E3PRHPrl4Ya4AmkN+vb6lNXrFHHGo0K6vHlveRawigDRduPOyXTM72EKQW
-         K1X32dDNSggxR43RzYOIIci2qZ/Ii3Rm7yd9CXQwvZtzln8j6QfFEnssAxa/cXxPL+95
-         ZLdFVmvYKbJcc4qw1rzBn9yrno0L6PQfakUwB9RiYDosy7ys0ZJZXyXYU1RyUB7z+FG6
-         lL1xDhQwnPTFNpl3493Z1JFgAmdeTiv4WAMGfVnOwFXwP5ErupgTJ1CquHRyFfNOoIlw
-         Swg6KEcVlsv5B4ciMcCoPff6qPNyfQv6rUXEeR0h2PuZC+VDjJkr2xQY15Ri8rg30FAX
-         WFXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729346113; x=1729950913;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IrgiAjib0KZYOu+o4DmsmotW6DwjJuvMhmIahAtPlKE=;
-        b=hsnFFREIhXgFufKLvz5ErWNN/55mJBK/G7REQo7L5RwpuelQdac6arR+p832xshZ3v
-         Lw33BmYq4O8PuawYBKnofsT3aaWdFp6lb5VtGeeSUhRPP0i6Rl9VnjSFzXUhK3D+phfp
-         Z+D8m1ZYya6dHV/i3xI9eT537hVjfK/cVJ85aKOeAoPH8XYCW/jmg26eqTB9cJJlEfWy
-         EusdiDPn4aJ7rtR42AnkWaF510C8GMKN9SKj5kY7BE749mwYJ2a/JClddvN3DBUqL9wa
-         Dbe4IgtEMtgaegVSsJDsERsMfwbuisHL87VjFYnp7u9cJ+dAbZJ/s33spPPakVO4/Gz2
-         n3UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+4eq3z+dB016P6vl9u4TrfqeGmdd4VQMYu0ESemr5yDFCf/B2+emgbIowxz+K0bYHq8MgUnH4Qpg=@vger.kernel.org, AJvYcCWxc1Rjn3ilbfmF1qeuGHJJp3ABGKs7RDv2KS7vMQv5wBT8AUqDWgUeaarATZv6S1tnVvx+FnFX@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHAMI80zjDrXb41hcdVBZhO+blqSu/OOaFwS+uFZHqrYMOWkFt
-	gSkbQ2EIqPyLYzQH46SSP78us+KnA1K3JVLd04OONdGw5I3aF0VMH8wFR0SrxAOnUM/SwAhHxQ5
-	ADkpTAszqYjUYD6ZhEqlL7SQLtP8=
-X-Google-Smtp-Source: AGHT+IGk5LXxDFSADfMP53rSfYNysnQY2zGTq15dY7QMdU7dpyMwa998PnEDbnAom3DOUfWh4ru8WcsxeBqvmG1FcKo=
-X-Received: by 2002:a05:6402:2748:b0:5c9:60a:5025 with SMTP id
- 4fb4d7f45d1cf-5ca0b0b7e8dmr6139274a12.9.1729346112520; Sat, 19 Oct 2024
- 06:55:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q6xRTEFU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B099C4CEC5;
+	Sat, 19 Oct 2024 14:49:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729349425;
+	bh=GazNkts+JzgMhEAJWcSa5fM19KC1ZaNSZ/AO72xlmZY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Q6xRTEFUEtdHVCWHVykDfiFSbOR+mFflVM/YaU8g7SoUhcsnCaZqq5JPB/NSSvYh4
+	 8+N6iSvNkXVR68wZcm8lTTCjZtGjzfTu8Ar9+G4Ay2nPGXUcP+whxYHShvjZaIBmV4
+	 tx3bV8QVhExYLdMhbigo5bsBHrMbxYL4cKI+6DRffGUC0AFWk6Kbsxtyl+H1uT3Yf0
+	 Ac2shQhEkOnph3rnYaFZGgAku2e6h7oIoMcIcYX4bY8IZw4EUwQLMe/RhNCLwCmY+5
+	 GI9DFXYGJgaQRSJmvS63Ei7vz2CNahlELhPTtM1BRvXnqBuMdhrDByig5tdCKUm0V+
+	 dHeINcRlXZayA==
+Date: Sat, 19 Oct 2024 15:49:20 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Guillaume Stols <gstols@baylibre.com>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ aardelean@baylibre.com, dlechner@baylibre.com, jstephan@baylibre.com,
+ nuno.sa@analog.com, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v5 4/8] iio: adc: ad7606: Add PWM support for conversion
+ trigger
+Message-ID: <20241019154920.64797b16@jic23-huawei>
+In-Reply-To: <20241015-ad7606_add_iio_backend_support-v5-4-654faf1ae08c@baylibre.com>
+References: <20241015-ad7606_add_iio_backend_support-v5-0-654faf1ae08c@baylibre.com>
+	<20241015-ad7606_add_iio_backend_support-v5-4-654faf1ae08c@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241008125023.7fbc1f64@kernel.org> <CAMArcTWVrQ7KWPt+c0u7X=jvBd2VZGVLwjWYCjMYhWZTymMRTg@mail.gmail.com>
- <20241009170102.1980ed1d@kernel.org> <CAHS8izMwd__+RkW-Nj3r3uG4gmocJa6QEqeHChzNXux1cbSS=w@mail.gmail.com>
- <20241010183440.29751370@kernel.org> <CAHS8izPuWkSmp4VCTYm93JB9fEJyUTztcT5u3UMX4b8ADWZGrA@mail.gmail.com>
- <20241011234227.GB1825128@ziepe.ca> <CAHS8izNzK4=6AMdACfn9LWqH9GifCL1vVxH1y2DmF9mFZbB72g@mail.gmail.com>
- <20241014171636.3b5b7383@kernel.org> <CAHS8izOVzOetQH5Dr6sJzRpO6Bihv=66Z2OttGS7vU7xjC=POw@mail.gmail.com>
- <20241015124455.GH1825128@ziepe.ca> <CAHS8izPLyTa=rUbFo0B29HWHdmLV4rF4q3qC6XkgksGMSFxjyA@mail.gmail.com>
-In-Reply-To: <CAHS8izPLyTa=rUbFo0B29HWHdmLV4rF4q3qC6XkgksGMSFxjyA@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Sat, 19 Oct 2024 22:55:00 +0900
-Message-ID: <CAMArcTWcc6KaBkV1ozxCMmBzHF4tNTv+Khr1=Tfi+JSgdN08PQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 7/7] bnxt_en: add support for device memory tcp
-To: Mina Almasry <almasrymina@google.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, davem@davemloft.net, pabeni@redhat.com, 
-	edumazet@google.com, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, 
-	kory.maincent@bootlin.com, andrew@lunn.ch, maxime.chevallier@bootlin.com, 
-	danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, 
-	przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com, 
-	paul.greenwalt@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	asml.silence@gmail.com, kaiyuanz@google.com, willemb@google.com, 
-	aleksander.lobakin@intel.com, dw@davidwei.uk, sridhar.samudrala@intel.com, 
-	bcreeley@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 18, 2024 at 5:25=E2=80=AFPM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> On Tue, Oct 15, 2024 at 3:44=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wr=
-ote:
-> >
-> > On Tue, Oct 15, 2024 at 04:10:44AM +0300, Mina Almasry wrote:
-> > > On Tue, Oct 15, 2024 at 3:16=E2=80=AFAM Jakub Kicinski <kuba@kernel.o=
-rg> wrote:
-> > > >
-> > > > On Tue, 15 Oct 2024 01:38:20 +0300 Mina Almasry wrote:
-> > > > > Thanks Jason. In that case I agree with Jakub we should take in h=
-is change here:
-> > > > >
-> > > > > https://lore.kernel.org/netdev/20241009170102.1980ed1d@kernel.org=
-/
-> > > > >
-> > > > > With this change the driver would delegate dma_sync_for_device to=
- the
-> > > > > page_pool, and the page_pool will skip it altogether for the dma-=
-buf
-> > > > > memory provider.
-> > > >
-> > > > And we need a wrapper for a sync for CPU which will skip if the pag=
-e
-> > > > comes from an unreadable pool?
-> > >
-> > > This is where it gets a bit tricky, no?
-> > >
-> > > Our production code does a dma_sync_for_cpu but no
-> > > dma_sync_for_device. That has been working reliably for us with GPU
-> >
-> > Those functions are all NOP on systems you are testing on.
-> >
->
-> OK, thanks. This is what I wanted to confirm. If you already know this
-> here then there is no need to wait for me to confirm.
->
-> > The question is what is correct to do on systems where it is not a
-> > NOP, and none of this is really right, as I explained..
-> >
-> > > But if you or Jason think that enforcing the 'no dma_buf_sync_for_cpu=
-'
-> > > now is critical, no problem. We can also provide this patch, and seek
-> > > to revert it or fix it up properly later in the event it turns out it
-> > > causes issues.
-> >
-> > What is important is you organize things going forward to be able to
-> > do this properly, which means the required sync type is dependent on
-> > the actual page being synced and you will eventually somehow learn
-> > which is required from the dmabuf.
-> >
-> > Most likely nobody will ever run this code on system where dma_sync is
-> > not a NOP, but we should still use the DMA API properly and things
-> > should make architectural sense.
-> >
->
-> Makes sense. OK, we can do what Jakub suggested in the thread earlier.
-> I.e. likely some wrapper which skips the dma_sync_for_cpu if the
-> netmem is unreadable.
->
+On Tue, 15 Oct 2024 13:56:17 +0000
+Guillaume Stols <gstols@baylibre.com> wrote:
 
-Thanks a lot for confirmation about it.
-I will pass the PP_FLAG_ALLOW_UNREADABLE_NETMEM flag
-regardless of enabling/disabling devmem TCP in a v4 patch.
-The page_pool core logic will handle flags properly.
+> Until now, the conversion were triggered by setting high the GPIO
+> connected to the convst pin. This commit gives the possibility to
+> connect the convst pin to a PWM.
+> Connecting a PWM allows to have a better control on the samplerate,
+> but it must be handled with care, as it is completely decorrelated of
+> the driver's busy pin handling.
+> Hence it is not recommended to be used "as is" but must be exploited
+> in conjunction with IIO backend, and for now only a mock functionality
+> is enabled, i.e PWM never swings, but is used as a GPIO, i.e duty_cycle
+> == period equals high state, duty_cycle == 0 equals low state.
+> 
+> This mock functionality will be disabled after the IIO backend usecase
+> is introduced.
+> 
+> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+Trivial fix needed so this builds.
 
-I think patches for changes of page_pool are worked on by Mina,
-so I will not include changes for page_pool in a v4 patch.
+>  static int ad7606_read_samples(struct ad7606_state *st)
+>  {
+>  	unsigned int num = st->chip_info->num_channels - 1;
+> @@ -324,7 +393,13 @@ static irqreturn_t ad7606_trigger_handler(int irq, void *p)
+>  error_ret:
+>  	iio_trigger_notify_done(indio_dev->trig);
+>  	/* The rising edge of the CONVST signal starts a new conversion. */
+> -	gpiod_set_value(st->gpio_convst, 1);
+> +	if (st->gpio_convst) {
+> +		gpiod_set_value(st->gpio_convst, 1);
+> +	} else {
+> +		ret = ad7606_pwm_set_high(st)
+Missing ;
 
-If you think I missed something, please let me know :)
-
-Thanks a lot!
-Taehee Yoo
+> +		if (ret < 0)
+> +			dev_err(st->dev, "Could not set PWM to high.");
+> +	}
