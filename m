@@ -1,197 +1,160 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0B9D26D;
-	Sun, 20 Oct 2024 12:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A516B674;
+	Sun, 20 Oct 2024 13:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729425721; cv=none; b=Yz4PFgpWCW7Iq+gGaHwjI10dXzc3V90xNI6ueQ0CYHnVpccFRYnzqeMC4ShSfkJn2yWn3mUEDjWgt441LCcelTeeVWewPvk5KpKNFaabCidf3laR23pMcbGgzRmtihvHwc8OyL0DIPfegcl7RjMtTLvgNmQ8KsS3p4PpY3Zt2tc=
+	t=1729430322; cv=none; b=QdtZjs9PQFGkKx1PVBYc+u9XaYv1VJ3ucjqP9oSMJB6Pid9MobTyV8Xktkn6EIU3HDy4MKuigcxa3ur8HhYU3p4AFZ/RZz+HFtFEe43fhM9KWBQrvaYP60vCAQUnwvHzC5wQIqGg9c/tImCjOp/Y+47MzqAgD3i1PtXFASGUUEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729425721; c=relaxed/simple;
-	bh=CJwg28XECu74Fs/hhDUm0RW/18pyg8k+3Dg7YRaFqLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aJ9wKGcPjkabTOlXYmDe79pjY4nodeRsGiFuisle24OGlbZju1xWJQvRwCr9IAlIeS8VnwXy3p0CRDYEM8BBXvW8XdmmgUFntqZbU7pWFTNNB+h1RaaP1smPRKAVRgWKzO363yB47MV67vxtOOEL/e6VODntcoxF8bA/4hkGx40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q6AqO5tl; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729430322; c=relaxed/simple;
+	bh=iL/Ek5v1qO0439rNg97jARZMtI4jHtmnyjuD8Uz295w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hfaH47+e3LiwxCAz6zKkO+0bdLTr+ZS0V549MpWOcXzmGnfJcKgkEbetqCVBEwxj2m6Nu3+hz6aXojprXdDN2szHm24uG1n/3Niof5SRJQm4OybCUIr+V/ED1J/uGHeh0FGQTa23b6IZZ57SPhOTB1A5xYik81+KH8vW8QuV39k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VhIrt7jQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q6AqO5tl"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20c6f492d2dso41271575ad.0;
-        Sun, 20 Oct 2024 05:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729425718; x=1730030518; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=94ZUlf2trmZvWGJ5nEmxqvLhmynpV8ZWyfpPSRyUfu0=;
-        b=Q6AqO5tl7Fe6rHidec7OYYhulmBn4Pp5sAXygit0HkXlxI78fYCycg4SuJp2J3TE5G
-         cmhL4fNuz7eQJTbMXKlGNLY4J8YetskJML20xr21JjCjY6aI2bDpGRfkY+n6MhrxJrx9
-         QGHIaXlINe3+tGNL80lKmS8XNLe2TxKzDgOrokrQmqzVOw1sifqaQqwt7SXAeyyhojPH
-         CIcfQzYRp2s8KfZzugiiyk29Bo4kLAvPsY9CnXsFRBhmPmN4X0vRRjW+stJ6NJqTfIjh
-         RVjFan6vbLBSLPgYI4XYRhL7laHpN7ALLHIs8m8hKKTtB2Dly1GhqrbIOM1t1FFvWHKs
-         nQ6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729425718; x=1730030518;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=94ZUlf2trmZvWGJ5nEmxqvLhmynpV8ZWyfpPSRyUfu0=;
-        b=inXJ1u8W0GfAT1z8dj7Unf6yabxi5bFXTA198LVIKSl8qyQwFj8NYy1SyBFFB2ImJs
-         /+Eagada6dT2RIsyqdUHKzP/aVQu9kTmOL4fLdDeO7mEQx4vK8UIFbotJ7ZMtOGNEdSk
-         ehy9EfGR3ac464EIL5IW/Cw4WKYoEH+hGxL2IwO3MmgBji6uL1Jgi8ptk1mDT7j+3eiU
-         qlYcoaSLO55CB3lTvABZt18qYmEvnAYappQ47jzjsmwI2NMMFMLYCUY31521aVTgQylB
-         kSmnan3Azt0kaJ0va0YicsYrZYdadQc5vt7Pd54YWIR+zZ2/vL0hg06Ds6e5A3QEpIsR
-         GrGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUTtTvc04qb5x/obUweHS79FMnCDhPcPq4pmq0QJC2Q/LprqqOgWMWwiDz6Gb/kNZHyZkgMNXinxqE=@vger.kernel.org, AJvYcCXGp99wpn3P7d6jpe9s1qdh7Sv+i+txez/vdaPv8dLwOuAx0gIIDA4cKHhE2RpceWMNS6UG2tSt1n8ukAoq@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfxlWLDRZnLvUvDLgMlBQECHEfd/viWTRgjJGovR69tKlMvyca
-	pYwcRpLn8EeHwZzg+/redcRv8cILB2/2EY93aBau4P+1JpijOTg/
-X-Google-Smtp-Source: AGHT+IFsCuFrvaDcglpGAIfS5mVRQFwXu2rR1PxUm6tN5nLA9B0skCajeWASa3BuN08c5M6r5myZrQ==
-X-Received: by 2002:a17:902:c40c:b0:20c:79bf:6793 with SMTP id d9443c01a7336-20e5a70d626mr82789635ad.3.1729425718190;
-        Sun, 20 Oct 2024 05:01:58 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0bd4bbsm9260645ad.155.2024.10.20.05.01.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Oct 2024 05:01:56 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 62BF1437667A; Sun, 20 Oct 2024 19:01:54 +0700 (WIB)
-Date: Sun, 20 Oct 2024 19:01:54 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: anish kumar <yesanishhere@gmail.com>, perex@perex.cz, tiwai@suse.com,
-	corbet@lwn.net
-Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Docs/sound: Update codec-to-codec documentation
-Message-ID: <ZxTxMuAhfpX3jecc@archie.me>
-References: <20241017073331.70069-1-yesanishhere@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VhIrt7jQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C28F6C4CEC6;
+	Sun, 20 Oct 2024 13:18:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729430321;
+	bh=iL/Ek5v1qO0439rNg97jARZMtI4jHtmnyjuD8Uz295w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VhIrt7jQoC1to0wb9L5aoNuq1862+O112l2HHgbQkHxkajC3j5E7v/U8OfOSbcGJ5
+	 4lPlX91jZc7DEHwL3cnBJ6nxca0om2iR/10ocmTcol0zqXa5gH23E+CbK9kNf6T8Zk
+	 5rQmo7IW9hrGi4Em4AE3I+8WLOqBzFgYg/tP43L63nP5TBXglPfH3OVysCufP96aHs
+	 qOv/HVlVnfnte+e1B/hgSDQcnI5gG7wmeNffNdVhH6F5jvXLEj+fLJ0TdvXZUfbgo1
+	 3iiFJ+wwj5wRbh97ay1A9ZtF7GNvGWfmPl9jGlBXV4S86NUdD1XYi+m8FHq9CqWCQk
+	 q6V8bbY2bmp0Q==
+Date: Sun, 20 Oct 2024 14:18:32 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 3/4] iio: adc: ad7380: add support for adaq4370-4
+ and adaq4380-4
+Message-ID: <20241020141832.2299459e@jic23-huawei>
+In-Reply-To: <20241015-ad7380-add-adaq4380-4-support-v1-3-d2e1a95fb248@baylibre.com>
+References: <20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com>
+	<20241015-ad7380-add-adaq4380-4-support-v1-3-d2e1a95fb248@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4Nrqge3N7uqCWrzy"
-Content-Disposition: inline
-In-Reply-To: <20241017073331.70069-1-yesanishhere@gmail.com>
-
-
---4Nrqge3N7uqCWrzy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 17, 2024 at 12:33:31AM -0700, anish kumar wrote:
-> Updated documentation to provide more details
-> for codec-to-codec connection.
+On Tue, 15 Oct 2024 11:09:08 +0200
+Julien Stephan <jstephan@baylibre.com> wrote:
 
-What are these?
+> adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS) are quad-channel precision data
+> acquisition signal chain =CE=BCModule solutions compatible with the ad738x
+> family, with the following differences:
+>=20
+> - configurable gain in front of each 4 adc
+> - internal reference is 3V derived from refin-supply (5V)
+> - additional supplies
+>=20
+> This implies that IIO_CHAN_INFO_SCALE can not be shared by type.
+>=20
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Not that much code, so I'll give it a quick review even though I know
+you posted it for that one specific dt binding question.
 
-> +Audio Data Flow Paths
-> +----------------------
+Main thing here is I'd drop the scale from dt bindings and make it writable
+via write_raw.  You'll also need to compute the appropriate _available
+stuff so userspace knows what scales it can use.
+
+Jonathan
+
+> @@ -876,8 +933,15 @@ static int ad7380_read_raw(struct iio_dev *indio_dev,
+>  		 *    * (2 =C3=97 VREF) / 2^N, for differential chips
+>  		 *    * VREF / 2^N, for pseudo-differential chips
+>  		 * where N is the ADC resolution (i.e realbits)
+> +		 *
+> +		 * The gain is stored as a fraction of 1000 and, as we need to
+> +		 * divide vref_mv by the gain, we invert the gain/1000 fraction.
+>  		 */
+> -		*val =3D st->vref_mv;
+> +		if (st->chip_info->has_hardware_gain)
+> +			*val =3D mult_frac(st->vref_mv, MILLI,
+> +					 st->gain_milli[chan->scan_index]);
+> +		else
+> +			*val =3D st->vref_mv;
+>  		*val2 =3D scan_type->realbits - chan->differential;
+> =20
+>  		return IIO_VAL_FRACTIONAL_LOG2;
+> @@ -1058,7 +1122,19 @@ static int ad7380_probe(struct spi_device *spi)
+>  				     "Failed to enable power supplies\n");
+>  	msleep(T_POWERUP_MS);
+> =20
+> -	if (st->chip_info->external_ref_only) {
+> +	if (st->chip_info->adaq_internal_ref_only) {
+> +		/*
+> +		 * ADAQ chips use fixed internal reference but still
+> +		 * require an external reference supply to power it.
+I'd just go with
+		 * require a specific external supply to power it.
+
+Reference kind of implies it is a quality supply. This is 4.5-5.5V=20
+so not so much ;)
+
+> +		 * "refin" is already enabled with other power supplies
+> +		 * in bulk_get_enable().
+> +		 */
 > +
-> +In a typical configuration, audio flow can be visualized as follows:
+> +		st->vref_mv =3D ADAQ4380_INTERNAL_REF_MV;
+> +
+> +		/* these chips don't have a register bit for this */
+> +		external_ref_en =3D false;
+> +	} else if (st->chip_info->external_ref_only) {
+>  		ret =3D devm_regulator_get_enable_read_voltage(&spi->dev,
+>  							     "refin");
+>  		if (ret < 0)
+> @@ -1104,6 +1180,34 @@ static int ad7380_probe(struct spi_device *spi)
+>  		st->vcm_mv[i] =3D ret / 1000;
+>  	}
 > =20
->     ---------          ---------
->    |         |  dai   |         |
-> @@ -12,104 +33,163 @@ will look as below:
->    |         |        |         |
->     ---------          ---------
-> =20
-> -In case your system looks as below:
-> -::
-> +In more intricate setups, the system may not involve the CPU but
-> +instead utilizes multiple codecs as shown below. For instance,
-> +Codec-2 acts as a cellular modem, while Codec-3 connects to a
-> +speaker. Audio data can be received by Codec-2 and transmitted to
-> +Codec-3 without CPU intervention, demonstrating the ideal conditions
-> +for establishing a codec-to-codec DAI connection.
-> =20
->                         ---------
->                        |         |
-> -                        codec-2
-> +                        codec-1 <---cellular modem
->                        |         |
->                        ---------
->                             |
-> -                         dai-2
-> -                           |
-> +                         dai-1
-> +                           =E2=86=93
->     ----------          ---------
-> -  |          |  dai-1 |         |
-> -      CPU     ------->  codec-1
-> +  |          |cpu_dai |         |
-> +   dummy CPU  ------->  codec-2
->    |          |        |         |
->     ----------          ---------
->                             |
->                           dai-3
-> -                           |
-> +                           =E2=86=93
->                         ---------
->                        |         |
-> -                        codec-3
-> +                        codec-3 ---->speaker
->                        |         |
->                         ---------
-> =20
+> +	for (i =3D 0; i < MAX_NUM_CHANNELS; i++)
+> +		st->gain_milli[i] =3D AD7380_DEFAULT_GAIN_MILLI;
+> +
+> +	if (st->chip_info->has_hardware_gain) {
 
-Sphinx reports htmldocs build errors:
+Why is this a DT thing rather than exposed to userspace?
+Mostly we only control ranges in DT for output devices (where there is a ch=
+ance
+of burning things if we let them be controlled from userspace.).
+For ADC amplifiers we tend to just expose them as controllable _SCALE.
 
-Documentation/sound/soc/codec-to-codec.rst:31: WARNING: Block quote ends wi=
-thout a blank line; unexpected unindent.
-Documentation/sound/soc/codec-to-codec.rst:43: CRITICAL: Unexpected section=
- title or transition.
 
----------
-
-reST markup error:
-Documentation/sound/soc/codec-to-codec.rst:43: (SEVERE/4) Unexpected sectio=
-n title or transition.
-
----------
-
-I have to wrap audio data flow diagrams as literal code blocks:
-
----- >8 ----
-diff --git a/Documentation/sound/soc/codec-to-codec.rst b/Documentation/sou=
-nd/soc/codec-to-codec.rst
-index d77de03cace6b8..23b7df0c89cf18 100644
---- a/Documentation/sound/soc/codec-to-codec.rst
-+++ b/Documentation/sound/soc/codec-to-codec.rst
-@@ -25,7 +25,7 @@ functionalities.
- Audio Data Flow Paths
- ----------------------
-=20
--In a typical configuration, audio flow can be visualized as follows:
-+In a typical configuration, audio flow can be visualized as follows::
-=20
-    ---------          ---------
-   |         |  dai   |         |
-@@ -38,7 +38,7 @@ instead utilizes multiple codecs as shown below. For inst=
-ance,
- Codec-2 acts as a cellular modem, while Codec-3 connects to a
- speaker. Audio data can be received by Codec-2 and transmitted to
- Codec-3 without CPU intervention, demonstrating the ideal conditions
--for establishing a codec-to-codec DAI connection.
-+for establishing a codec-to-codec DAI connection::
-=20
-                        ---------
-                       |         |
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---4Nrqge3N7uqCWrzy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZxTxLgAKCRD2uYlJVVFO
-owZwAQDOHxbGqENbW2IvJ41h1dNeB4q/BZzSGM9wEfpQmaeW2wD9H6Vgpdcb5lCR
-k5tpwJFUZWx6ceDRzEDi28fOhgjSMg4=
-=gT9P
------END PGP SIGNATURE-----
-
---4Nrqge3N7uqCWrzy--
+> +		device_for_each_child_node_scoped(&spi->dev, node) {
+> +			unsigned int channel, gain;
+> +
+> +			ret =3D fwnode_property_read_u32(node, "reg", &channel);
+> +			if (ret)
+> +				return dev_err_probe(&spi->dev, ret,
+> +						     "Failed to read reg property\n");
+> +
+> +			if (channel >=3D st->chip_info->num_channels - 1)
+> +				return dev_err_probe(&spi->dev, -EINVAL,
+> +						     "Invalid channel number %i\n",
+> +						     channel);
+> +
+> +			ret =3D fwnode_property_read_u32(node, "adi,gain-milli",
+> +						       &gain);
+> +			if (ret && ret !=3D -EINVAL)
+> +				return dev_err_probe(&spi->dev, ret,
+> +						     "Failed to read gain for channel %i\n",
+> +						     channel);
+> +			if (ret !=3D -EINVAL)
+> +				st->gain_milli[channel] =3D gain;
+> +		}
+> +	}
