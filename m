@@ -1,269 +1,274 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0753B674;
-	Sun, 20 Oct 2024 13:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE19D79F6;
+	Sun, 20 Oct 2024 15:46:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729430468; cv=none; b=euG7RLg7BmFXdIYPAMZTf2/omaOcS8BCbw4afWwP0ejmcHtmWfkB/2o5fdrJcDNhqYIs0jgLCdvnHVaqdKwgryJQVUO/IpmeP//equgVRpDWNbPW9rXndRCRQ4cgaQRxMRgi0zhrgKoBGDKDI1MYkI8Y+Rw/54epo7oAWlp9wug=
+	t=1729439180; cv=none; b=trKUMTswItE6W+k7JMGOxJoIKaPEwY6tKgdjsXIvTc/T6u8kh4BvSrC3r6lojRus7KtYlBntgX+Hf/OkM9rjFnp7pgk8jhf2ssYodRQSgboFfu55ZO/pEp20GpeYCkCJOy+7NUyQ8UXgyQFIJL1KTKtJy3cI0XBs1ShLsa5iJMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729430468; c=relaxed/simple;
-	bh=IdJlMiSjwS48tHlFe1t9JQQXS3+88XJBMbWVU3xBuYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Q+miXajWgwNYQMG6tdZczKu6LT4yvcB1rd/jirbT0XRRdCWcN6ARWvXqgBmJTMKY0QHibtGOQxHuXAm57n4WX87lIG8z3JSn0+GiwCAHqXH5Eqsx75xO1j1Vo1RAfUYmZLqM/vvK81okxTIQuhvXaX1S/EvDTqOuFPJZb7DlAXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QRsyVow8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729439180; c=relaxed/simple;
+	bh=dybJvTIwydrLBvn1LcH/lZMry79zGiff5879XyIL0zg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KBYHnYFZQ/Bl2Ap7H+NuHFvLNDwccswBBdmoTRdjKxJGopIpM7CYSr8sPT/l+UjE4Dry5zkJR68G/w05aVpTutvsOLotaWhHlMqPha45RtmfxM4yY6oEuXkXsNF+WZXze2zZ3M+Vyq7v+XVTukghjwILFLy5qUO7AjbNPl4kV8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6++6gGR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QRsyVow8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36E78C4CEC6;
-	Sun, 20 Oct 2024 13:21:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6++6gGR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FA70C4CEED;
+	Sun, 20 Oct 2024 15:46:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729430467;
-	bh=IdJlMiSjwS48tHlFe1t9JQQXS3+88XJBMbWVU3xBuYk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QRsyVow81M0pJLQ56K+gOqoqisZl13hrJY2WjPyXEXaKLg/6ysameV6d0EjcHr7Ir
-	 qOqWWIIIw80GyK+nXhGHjrlLWd77y3XP/INfzCJbGZMcciLU+WfmG9fNOpvuaD0qkO
-	 T+7RcXoQnUb3eSe43+L3pJ8nLsGonrKDW9diWSossguOjLT4S8+dS/ten1qWs/DjwM
-	 Gy0IKlA309ly6+99KKK116nUfuU4sefNPBdIVEbb3nLlWjj4IZ0VMWuDW6hHcgWJUp
-	 YBRK1ylcmbNEaAhfJmK64+C1hkrJcyagVT1JSYn4YRTc/hwImCR2WbYC2EnUa0k7ol
-	 OqPsM9kPv0Q3g==
-Date: Sun, 20 Oct 2024 14:20:58 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 1/4] dt-bindings: iio: adc: ad7380: add adaq4370-4
- and adaq4380-4 compatible parts
-Message-ID: <20241020142058.6ce576f8@jic23-huawei>
-In-Reply-To: <20241015-ad7380-add-adaq4380-4-support-v1-1-d2e1a95fb248@baylibre.com>
-References: <20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com>
-	<20241015-ad7380-add-adaq4380-4-support-v1-1-d2e1a95fb248@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	s=k20201202; t=1729439179;
+	bh=dybJvTIwydrLBvn1LcH/lZMry79zGiff5879XyIL0zg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=N6++6gGRhYbOmKLkI0kMy8uxf1eJcK4QpzjTYHkL31hos9eglTtkadQEkZ/MKD9dr
+	 ODlp6brmU1BX7rahC8gGEnmNg+jtDeRSCKCdP8dPebFk5KdKlGZwNjW1ZYaJeKawvv
+	 dF3os4hhX8qDXh7kWjUaSVAE1tb9Frd/A3tjy4/H/eeHmhimSXVYCkMjgpLTkoooOz
+	 ZA3oYHjAEQeeUNiW2Ebyo0Sd0U0V3dALSCYWKi3K4KRTt9S0MWh+NlfZP+S9IE2k+D
+	 +RSFLyDtX8+SHqh6ElD5KtbS/b3eSO0EFV7XavmYBCAQrUyfvItQn4Cca1G4JqbmFG
+	 qdwFQn4fVrI7g==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539e5c15fd3so3196283e87.3;
+        Sun, 20 Oct 2024 08:46:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUGqjOS0ZBono+H6G90YZ8lfFT0rfaOD4hKJS1dInh2Y3K/cfuMQ4pbktHkRaCQLWwrVvYC/4s7BMAL@vger.kernel.org, AJvYcCUfNeWToORR91pyjPvKlTBjxXuLZO9wC9YZLD4sbe3WQRfNJx5guZ2mkPnBR9j3JvX29W1P/rvUs77A@vger.kernel.org, AJvYcCWRIhObuqR5VCoDaAzXWXFbUbU+XI/1sGYqOy3w8NCxo72mxdYJNMtL9CuShM92HXBxrPwsgHcvlNxg@vger.kernel.org, AJvYcCXeXflE1soAtFmC4VSENPnCscf4Zfqdkh1JY9rkunotMvAKPtfPLxw76jQDROFzNYJ8omDoobUJ4moGwIgd@vger.kernel.org, AJvYcCXrsEES+YuvMDJnJqr+YdHB5suz9UvgBKHGL0X617M8QaJkJdIZ2L3kdzZe0/8kgqVyj2TMmEMwCFbLE8hc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yws/O1VzMEbCyzlFG4/VB1RO3z4+mBlGOnjtdKFGvGi+qpBTCmT
+	4Wv+LFDMiLpH+DPK6Av+W8rbvczASBnFUkRLFFGbh/EL3i2IVMgf5ISPSvh5fFfEyREhRRqFXWs
+	NZZm8WW0y7b6tzURCKnF529YZhdM=
+X-Google-Smtp-Source: AGHT+IHVNEBd41mpXJ65nn09YsbsLIWj9/J956BaHSIAk6ZWD5G3zkZ2X2eav8p4dtbyv45AK6HMs6lPUuxyTCIJaXo=
+X-Received: by 2002:a05:6512:104a:b0:539:e0fa:6ee8 with SMTP id
+ 2adb3069b0e04-53a1520b6a6mr4932543e87.6.1729439177507; Sun, 20 Oct 2024
+ 08:46:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20241014213342.1480681-1-xur@google.com> <20241020033116.GA3653827@thelio-3990X>
+In-Reply-To: <20241020033116.GA3653827@thelio-3990X>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 21 Oct 2024 00:45:40 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQD7_iLo9SnQW0_KYx2vBoNSpi98yrgmn_Z0Yh8500tsg@mail.gmail.com>
+Message-ID: <CAK7LNAQD7_iLo9SnQW0_KYx2vBoNSpi98yrgmn_Z0Yh8500tsg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] Add AutoFDO and Propeller support for Clang build
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Rong Xu <xur@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, 
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
+	workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 15 Oct 2024 11:09:06 +0200
-Julien Stephan <jstephan@baylibre.com> wrote:
+On Sun, Oct 20, 2024 at 12:31=E2=80=AFPM Nathan Chancellor <nathan@kernel.o=
+rg> wrote:
+>
+> Hi Masahiro and Andrew,
+>
+> Top posting only for visibility. Would it make more sense to have this
+> land via the Kbuild tree or -mm? The core of the series really touches
+> Kbuild and I think the x86 stuff can just land with Acks, unless the
+> -tip folks feel differently. I would like Rong to have a relatively
+> clear path forward to mainline once the requisite review and testing has
+> accomplished, which requires a shepherd :)
 
-> adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS) are quad-channel precision data
-> acquisition signal chain =CE=BCModule solutions compatible with the ad738x
-> family, with the following differences:
->=20
-> - configurable gain in front of each 4 adc
-As per quick review I gave for the driver code, I'm not seeing why
-a configurable gain is a DT thing on an ADC vs something that belongs
-in userspace control.  I may be missing something though.
 
-It exists for the ad4000 because the control isn't via registers
-but via pin straps so we can't control it sensibly from userspace.
+I think I can pick it up if 2/6 gains Ack from an objtool maintainer.
 
-Jonathan
 
-> - internal reference is 3V derived from refin-supply (5V)
-> - additional supplies
->=20
-> To configure the gain a new patternProperties is added to describe each
-> channel. It is restricted to adaq devices.
->=20
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  .../devicetree/bindings/iio/adc/adi,ad7380.yaml    | 117 +++++++++++++++=
-++++++
->  1 file changed, 117 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml b/=
-Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> index 74d82721637c..3007d8e39684 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> @@ -25,6 +25,8 @@ description: |
->    * https://www.analog.com/en/products/ad7386-4.html
->    * https://www.analog.com/en/products/ad7387-4.html
->    * https://www.analog.com/en/products/ad7388-4.html
-> +  * https://www.analog.com/en/products/adaq4370-4.html
-> +  * https://www.analog.com/en/products/adaq4380-4.html
-> =20
-> =20
->  $ref: /schemas/spi/spi-peripheral-props.yaml#
-> @@ -46,6 +48,8 @@ properties:
->        - adi,ad7386-4
->        - adi,ad7387-4
->        - adi,ad7388-4
-> +      - adi,adaq4370-4
-> +      - adi,adaq4380-4
-> =20
->    reg:
->      maxItems: 1
-> @@ -59,6 +63,9 @@ properties:
->    vlogic-supply: true
->    refio-supply: true
->    refin-supply: true
-> +  vs-p-supply: true
-> +  vs-n-supply: true
-> +  ldo-supply: true
-> =20
->    aina-supply:
->      description:
-> @@ -86,12 +93,43 @@ properties:
->        specify the ALERT interrupt.
->      maxItems: 1
-> =20
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
->  required:
->    - compatible
->    - reg
->    - vcc-supply
->    - vlogic-supply
-> =20
-> +patternProperties:
-> +  "^channel@([0-3])$":
-> +    $ref: adc.yaml
-> +    type: object
-> +
-> +    properties:
-> +      reg:
-> +        description:
-> +          The channel number. From 0 to 3 corresponding to channels A,B,=
-C,D
-> +        items:
-> +          minimum: 0
-> +          maximum: 3
-> +
-> +      adi,gain-milli:
-> +        description:
-> +          The hardware gain applied to the ADC input (in milli units).
-> +          If not present, default to 1000 (no actual gain applied).
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        default: 1000
-> +
-> +    required:
-> +      - reg
-> +
-> +    additionalProperties: false
-> +
->  unevaluatedProperties: false
-> =20
->  allOf:
-> @@ -128,7 +166,21 @@ allOf:
->          ainc-supply: false
->          aind-supply: false
-> =20
-> +  # Using channel to declare gain property only applies to adaq devices
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          not:
-> +            contains:
-> +              enum:
-> +                - adi,adaq4370-4
-> +                - adi,adaq4380-4
-> +    then:
-> +      patternProperties:
-> +        "^channel@([0-3])$": false
-> +
->    # ad7380-4 uses refin-supply as external reference.
-> +  # adaq devices use internal reference only, derived from refin-supply
->    # All other chips from ad738x family use refio as optional external re=
-ference.
->    # When refio-supply is omitted, internal reference is used.
->    - if:
-> @@ -136,6 +188,8 @@ allOf:
->          compatible:
->            enum:
->              - adi,ad7380-4
-> +            - adi,adaq4370-4
-> +            - adi,adaq4380-4
->      then:
->        properties:
->          refio-supply: false
-> @@ -145,6 +199,24 @@ allOf:
->        properties:
->          refin-supply: false
-> =20
-> +  # adaq devices need more supplies
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          enum:
-> +            - adi,adaq4370-4
-> +            - adi,adaq4380-4
-> +    then:
-> +      required:
-> +        - vs-p-supply
-> +        - vs-n-supply
-> +        - ldo-supply
-> +    else:
-> +      properties:
-> +        vs-p-supply: false
-> +        vs-n-supply: false
-> +        ldo-supply: false
-> +
->  examples:
->    - |
->      #include <dt-bindings/interrupt-controller/irq.h>
-> @@ -169,3 +241,48 @@ examples:
->              refio-supply =3D <&supply_2_5V>;
->          };
->      };
-> +
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    spi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        adc@0 {
-> +            compatible =3D "adi,adaq4380-4";
-> +            reg =3D <0>;
-> +
-> +            spi-cpol;
-> +            spi-cpha;
-> +            spi-max-frequency =3D <80000000>;
-> +
-> +            interrupts =3D <27 IRQ_TYPE_EDGE_FALLING>;
-> +            interrupt-parent =3D <&gpio0>;
-> +
-> +            vcc-supply =3D <&supply_3_3V>;
-> +            vlogic-supply =3D <&supply_3_3V>;
-> +            refin-supply =3D <&supply_5V>;
-> +            vs-p-supply =3D <&supply_5V>;
-> +            vs-n-supply =3D <&supply_0V>;
-> +            ldo-supply =3D <&supply_5V>;
-> +
-> +            #address-cells =3D <1>;
-> +            #size-cells =3D <0>;
-> +
-> +            channel@0 {
-> +                reg =3D <0>;
-> +                adi,gain-milli =3D <300>;
-> +            };
-> +
-> +            channel@2 {
-> +                reg =3D <2>;
-> +                adi,gain-milli =3D <600>;
-> +            };
-> +
-> +            channel@3 {
-> +                reg =3D <3>;
-> +                adi,gain-milli =3D <1000>;
-> +            };
-> +        };
-> +    };
->=20
 
+
+
+
+> Cheers,
+> Nathan
+>
+> On Mon, Oct 14, 2024 at 02:33:34PM -0700, Rong Xu wrote:
+> > Hi,
+> >
+> > This patch series is to integrate AutoFDO and Propeller support into
+> > the Linux kernel. AutoFDO is a profile-guided optimization technique
+> > that leverages hardware sampling to enhance binary performance.
+> > Unlike Instrumentation-based FDO (iFDO), AutoFDO offers a user-friendly
+> > and straightforward application process. While iFDO generally yields
+> > superior profile quality and performance, our findings reveal that
+> > AutoFDO achieves remarkable effectiveness, bringing performance close
+> > to iFDO for benchmark applications.
+> >
+> > Propeller is a profile-guided, post-link optimizer that improves
+> > the performance of large-scale applications compiled with LLVM. It
+> > operates by relinking the binary based on an additional round of runtim=
+e
+> > profiles, enabling precise optimizations that are not possible at
+> > compile time.  Similar to AutoFDO, Propeller too utilizes hardware
+> > sampling to collect profiles and apply post-link optimizations to impro=
+ve
+> > the benchmark=E2=80=99s performance over and above AutoFDO.
+> >
+> > Our empirical data demonstrates significant performance improvements
+> > with AutoFDO and Propeller, up to 10% on microbenchmarks and up to 5%
+> > on large warehouse-scale benchmarks. This makes a strong case for their
+> > inclusion as supported features in the upstream kernel.
+> >
+> > Background
+> >
+> > A significant fraction of fleet processing cycles (excluding idle time)
+> > from data center workloads are attributable to the kernel. Ware-house
+> > scale workloads maximize performance by optimizing the production kerne=
+l
+> > using iFDO (a.k.a instrumented PGO, Profile Guided Optimization).
+> >
+> > iFDO can significantly enhance application performance but its use
+> > within the kernel has raised concerns. AutoFDO is a variant of FDO that
+> > uses the hardware=E2=80=99s Performance Monitoring Unit (PMU) to collec=
+t
+> > profiling data. While AutoFDO typically yields smaller performance
+> > gains than iFDO, it presents unique benefits for optimizing kernels.
+> >
+> > AutoFDO eliminates the need for instrumented kernels, allowing a single
+> > optimized kernel to serve both execution and profile collection. It als=
+o
+> > minimizes slowdown during profile collection, potentially yielding
+> > higher-fidelity profiling, especially for time-sensitive code, compared
+> > to iFDO. Additionally, AutoFDO profiles can be obtained from production
+> > environments via the hardware=E2=80=99s PMU whereas iFDO profiles requi=
+re
+> > carefully curated load tests that are representative of real-world
+> > traffic.
+> >
+> > AutoFDO facilitates profile collection across diverse targets.
+> > Preliminary studies indicate significant variation in kernel hot spots
+> > within Google=E2=80=99s infrastructure, suggesting potential performanc=
+e gains
+> > through target-specific kernel customization.
+> >
+> > Furthermore, other advanced compiler optimization techniques, including
+> > ThinLTO and Propeller can be stacked on top of AutoFDO, similar to iFDO=
+.
+> > ThinLTO achieves better runtime performance through whole-program
+> > analysis and cross module optimizations. The main difference between
+> > traditional LTO and ThinLTO is that the latter is scalable in time and
+> > memory.
+> >
+> > This patch series adds AutoFDO and Propeller support to the kernel. The
+> > actual solution comes in six parts:
+> >
+> > [P 1] Add the build support for using AutoFDO in Clang
+> >
+> >       Add the basic support for AutoFDO build and provide the
+> >       instructions for using AutoFDO.
+> >
+> > [P 2] Fix objtool for bogus warnings when -ffunction-sections is enable=
+d
+> >
+> > [P 3] Change the subsection ordering when -ffunction-sections is enable=
+d
+> >
+> > [P 4] Enable =E2=80=93ffunction-sections for the AutoFDO build
+> >
+> > [P 5] Enable Machine Function Split (MFS) optimization for AutoFDO
+> >
+> > [P 6] Add Propeller configuration to the kernel build
+> >
+> > Patch 1 provides basic AutoFDO build support. Patches 2 to 5 further
+> > enhance the performance of AutoFDO builds and are functionally dependen=
+t
+> > on Patch 1. Patch 6 enables support for Propeller and is dependent on
+> > patch 2 and patch 3.
+> >
+> > Caveats
+> >
+> > AutoFDO is compatible with both GCC and Clang, but the patches in this
+> > series are exclusively applicable to LLVM 17 or newer for AutoFDO and
+> > LLVM 19 or newer for Propeller. For profile conversion, two different
+> > tools could be used, llvm_profgen or create_llvm_prof. llvm_profgen
+> > needs to be the LLVM 19 or newer, or just the LLVM trunk. Alternatively=
+,
+> > create_llvm_prof v0.30.1 or newer can be used instead of llvm-profgen.
+> >
+> > Additionally, the build is only supported on x86 platforms equipped
+> > with PMU capabilities, such as LBR on Intel machines. More
+> > specifically:
+> >  * Intel platforms: works on every platform that supports LBR;
+> >    we have tested on Skylake.
+> >  * AMD platforms: tested on AMD Zen3 with the BRS feature. The kernel
+> >    needs to be configured with =E2=80=9CCONFIG_PERF_EVENTS_AMD_BRS=3Dy"=
+, To
+> >    check, use
+> >    $ cat /proc/cpuinfo | grep =E2=80=9C brs=E2=80=9D
+> >    For the AMD Zen4, AMD LBRV2 is supported, but we suspect a bug with
+> >    AMD LBRv2 implementation in Genoa which blocks the usage.
+> >
+> > Experiments and Results
+> >
+> > Experiments were conducted to compare the performance of AutoFDO-optimi=
+zed
+> > kernel images (version 6.9.x) against default builds.. The evaluation
+> > encompassed both open source microbenchmarks and real-world production
+> > services from Google and Meta. The selected microbenchmarks included Ne=
+per,
+> > a network subsystem benchmark, and UnixBench which is a comprehensive s=
+uite
+> > for assessing various kernel operations.
+> >
+> > For Neper, AutoFDO optimization resulted in a 6.1% increase in throughp=
+ut
+> > and a 10.6% reduction in latency. Unixbench saw a 2.2% improvement in i=
+ts
+> > index score under low system load and a 2.6% improvement under high sys=
+tem
+> > load.
+> >
+> > For further details on the improvements observed in Google and Meta's
+> > production services, please refer to the LLVM discourse post:
+> > https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autofdo-i=
+ncluding-thinlto-and-propeller/79108
+> ...
+> > Rong Xu (6):
+> >   Add AutoFDO support for Clang build
+> >   objtool: Fix unreachable instruction warnings for weak funcitons
+> >   Change the symbols order when --ffuntion-sections is enabled
+> >   AutoFDO: Enable -ffunction-sections for the AutoFDO build
+> >   AutoFDO: Enable machine function split optimization for AutoFDO
+> >   Add Propeller configuration for kernel build.
+> >
+> >  Documentation/dev-tools/autofdo.rst   | 165 ++++++++++++++++++++++++++
+> >  Documentation/dev-tools/index.rst     |   2 +
+> >  Documentation/dev-tools/propeller.rst | 161 +++++++++++++++++++++++++
+> >  MAINTAINERS                           |  14 +++
+> >  Makefile                              |   2 +
+> >  arch/Kconfig                          |  42 +++++++
+> >  arch/x86/Kconfig                      |   2 +
+> >  arch/x86/kernel/vmlinux.lds.S         |   4 +
+> >  include/asm-generic/vmlinux.lds.h     |  54 +++++++--
+> >  scripts/Makefile.autofdo              |  25 ++++
+> >  scripts/Makefile.lib                  |  20 ++++
+> >  scripts/Makefile.propeller            |  28 +++++
+> >  tools/objtool/check.c                 |   2 +
+> >  tools/objtool/elf.c                   |  15 ++-
+> >  14 files changed, 524 insertions(+), 12 deletions(-)
+> >  create mode 100644 Documentation/dev-tools/autofdo.rst
+> >  create mode 100644 Documentation/dev-tools/propeller.rst
+> >  create mode 100644 scripts/Makefile.autofdo
+> >  create mode 100644 scripts/Makefile.propeller
+> >
+> >
+> > base-commit: eb952c47d154ba2aac794b99c66c3c45eb4cc4ec
+> > --
+> > 2.47.0.rc1.288.g06298d1525-goog
+> >
+
+
+
+--
+Best Regards
+Masahiro Yamada
