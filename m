@@ -1,716 +1,297 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4111191F9E;
-	Sat, 19 Oct 2024 19:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA7028F1
+	for <linux-doc@vger.kernel.org>; Sun, 20 Oct 2024 03:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729367745; cv=none; b=r7/RHAS+xUUaU+dM/R8Wj214O/Xw1ClWnim+TZ2XkQobzOOFL6JPFiQypv1Uhupvk9bqmPTCAE4rBuZqIkyMFNWDxnEqaDD9oI2glzJXKyVg6WkU8PpoAPtxxaLSr38Hk+S775le/lvLRSZJ5UXcE60vtYNMBMskG18TxxgUYXk=
+	t=1729394429; cv=none; b=hu9lypZ50Vo4IhDcJlGSbxhoHPyXfsUZOdbIUfgPLhlwGEVtGX94FBLNXgRXGT887RbYMsRKqnUf2pFdWAo+jQR264oSuC3tpkAH+dG6e7ZzL/+Nfuv6w5rnJdAVU2vy3m2JmyVTZxcVc3nzrbmeT8CUazbiW3lNly8QZJA0pY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729367745; c=relaxed/simple;
-	bh=uiBFAqjROUtjGh2xZEARkeaWmLJ4kSsDu3kHMCeHHLA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nk2+7zksENDemEBekdLDkCvqDCQBHSXQt06rLAJGuQ1u5NipwfUr9EpUAYd9tP/x7eHwz5d9oSBQR5emB27SRmzdPCvZx/NIfLGKOOI2kJDjudjLxQBTG7KnQVzE+ZredJG79I8tg5kA+RAWC7ymBOocDuygd5BxkHdc13rT758=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GaJ0xJKW; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729394429; c=relaxed/simple;
+	bh=meRoOtmEK+GHaT/Jn/4a7l3dMXe6RHFlKdwtGmZMUe4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aVtyXuFRpicuwpRxbS7j67h5HF545teLi9/+jlL7KIPGuDSFn90UMXpWYVRQcua2WBKfNDmue2X6FIGzCw0hX4phKi3qhCBo7ZWcfAQvEwqcuupnlZIWzKvgbDpyIEU+uZQmFQ+oSep5RHvo95PQHNNOx71rkfTMfOoYhImQItc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uKHEONGz; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GaJ0xJKW"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7ea7ad1e01fso2203016a12.0;
-        Sat, 19 Oct 2024 12:55:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729367742; x=1729972542; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+KZ+tDk9SPbp20AOjR9K0jN6I3eHxUfa91EcEMbegwA=;
-        b=GaJ0xJKWI7gaBU213UtRheA7OJJsasV0+SF8XPRGEIg1JSeWlYtK7tIZP4z04x1wc9
-         qAHW9Th4oXLY0BHH6w+p+EMeZomst739EvGjXAa0hUeCEpbTPWwAkCkPXb20nHUvITbO
-         b84FLSEUlo2tNP5rwbrYTfYE4caJPTnXPxxKSlKTPshdQDsc0V7u/Xf1oaf5dk+tuYJz
-         jej0R4KT2Nc9xZJnTo5/96uvHYYmiTSdXx5gy6KN8FDH9F0xttQOm7exRf81jiEueOM5
-         rbco0bc9zPjxoCKcri7+B8vs7KxGrLcsVRkw7Q9Qu6uDIad2SOW86ZOlVSmO1uhVxJLj
-         GUCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729367742; x=1729972542;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+KZ+tDk9SPbp20AOjR9K0jN6I3eHxUfa91EcEMbegwA=;
-        b=f+NVJXrTM8/b2WSHZL48q5AuLM5UnpIbgmDUbQzVF8nL4y6TNTalfhOgbgo1Ef9M2T
-         LvB3a+UybrDgX0OCLnsnAxn4HJlGlkc46JTpQvTWJLH1DKtIiXN/PDJs5fUMLxhsI7Y8
-         xzZmPMJ6TaUR0o7PGHNnNYzNIbqicEWntTy++YMfqoH8LS/7guj9wIZzdm0ffPTHmKct
-         FQ3lTymvk+0pTXG94Mrn7AViHPMvix4JwpaDoQP1GRXHQkAgQy0iUnva2GT/A1M7Q4B3
-         jbrBP/fKUJhVZkqckfS+k8DmRKk04Koh6YKJYjxHSF+mE2VvAAU+xnHqoBUo1bVeLA3+
-         cSOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCS4dxLoV3GBsdgnzB5pxHsNFzb/emzEXMEhGlrD5NO/e8XMz+rcLiOxaOJAMO6qDM4AK3zStgsoYhAss=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWrVK6//aj39hgbCmnL2MwIIOz7h+ChH+3Ql/iZ74hmEAG0ejk
-	MgpPna6zEIkL1FAROA+7gDuxcDdI2LDcitnSlruXYProaxL1ePhF
-X-Google-Smtp-Source: AGHT+IHzO19PRgK7KFSLdI/PuKpgk7a6Ouc+OzVBeXPU+J8tBTxOGvh2DMTnwgUPLqTJRUi+pbnjfQ==
-X-Received: by 2002:a05:6a21:6f01:b0:1d3:418a:e42 with SMTP id adf61e73a8af0-1d92ca2a79fmr8889491637.10.1729367741736;
-        Sat, 19 Oct 2024 12:55:41 -0700 (PDT)
-Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:183b:c6cf:8f19:74f6])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eaeab1dc5esm125133a12.25.2024.10.19.12.55.40
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 19 Oct 2024 12:55:41 -0700 (PDT)
-From: anish kumar <yesanishhere@gmail.com>
-To: jassisinghbrar@gmail.com,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: [PATCH 2/2] mailbox: Documentation: add the latest documentation
-Date: Sat, 19 Oct 2024 12:55:34 -0700
-Message-Id: <20241019195534.79603-2-yesanishhere@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20241019195534.79603-1-yesanishhere@gmail.com>
-References: <20241019195534.79603-1-yesanishhere@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uKHEONGz"
+Message-ID: <7c7b053e-28a1-490f-ba8c-a7eb60ca81d2@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729394423;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YPl2yq5UvwsWil+2Bp35g/sSg8f0++FeykoufY0O9Pw=;
+	b=uKHEONGzj6/vGyEFWzF36CBQ6VsmV6+Re01k5sygIpZDVh+EzrT4H8v5v9QfPECsBjX17z
+	JGQktFVvR5iuTDRhxB31mpenVShkaTNotuzTVOa7NpwMugxdQKoxkJ0FZEozFEVnqia8jJ
+	BPgReqjYOjj6p/D3H4cRWa8zf8+9jbA=
+Date: Sat, 19 Oct 2024 20:20:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+Subject: Re: [PATCH v4 0/6] Add AutoFDO and Propeller support for Clang build
+Content-Language: en-GB
+To: Rong Xu <xur@google.com>, Alice Ryhl <aliceryhl@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>,
+ Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>,
+ Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+ Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>,
+ Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)"
+ <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner
+ <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>,
+ workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Maksim Panchenko <max4bolt@gmail.com>, Yabin Cui <yabinc@google.com>
+Cc: x86@kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20241014213342.1480681-1-xur@google.com>
+ <CAF1bQ=SQ9rFdwRk_waQvn4PW7x6T1uJmJ8qNqj04oRKmujkCQw@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <CAF1bQ=SQ9rFdwRk_waQvn4PW7x6T1uJmJ8qNqj04oRKmujkCQw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-1. added client documentation
-2. added controller documentation.
-3. added framework documentation
 
-Signed-off-by: anish kumar <yesanishhere@gmail.com>
----
- Documentation/driver-api/mailbox/client.rst   | 192 ++++++++++++++++++
- Documentation/driver-api/mailbox/core.rst     | 182 +++++++++++++++++
- Documentation/driver-api/mailbox/index.rst    |  45 ++++
- .../writing_mailbox_controller_drivers.rst    | 179 ++++++++++++++++
- 4 files changed, 598 insertions(+)
- create mode 100644 Documentation/driver-api/mailbox/client.rst
- create mode 100644 Documentation/driver-api/mailbox/core.rst
- create mode 100644 Documentation/driver-api/mailbox/index.rst
- create mode 100644 Documentation/driver-api/mailbox/writing_mailbox_controller_drivers.rst
+On 10/18/24 11:20 PM, Rong Xu wrote:
+> Thanks to all for the feedback and suggestions! We are ready to make any further
+> changes needed. Is there anything else we can address for this patch?
+>
+> Also, we know it's not easy to test this patch, but if anyone has had a chance
+> to try building AutoFDO/Propeller kernels with it, we'd really appreciate your
+> input here. Any confirmation that it works as expected would be very helpful.
+>
+> -Rong
+>
+> On Mon, Oct 14, 2024 at 2:33 PM Rong Xu <xur@google.com> wrote:
+>> Hi,
+>>
+>> This patch series is to integrate AutoFDO and Propeller support into
+>> the Linux kernel. AutoFDO is a profile-guided optimization technique
+>> that leverages hardware sampling to enhance binary performance.
+>> Unlike Instrumentation-based FDO (iFDO), AutoFDO offers a user-friendly
+>> and straightforward application process. While iFDO generally yields
+>> superior profile quality and performance, our findings reveal that
+>> AutoFDO achieves remarkable effectiveness, bringing performance close
+>> to iFDO for benchmark applications.
+>>
+>> Propeller is a profile-guided, post-link optimizer that improves
+>> the performance of large-scale applications compiled with LLVM. It
+>> operates by relinking the binary based on an additional round of runtime
+>> profiles, enabling precise optimizations that are not possible at
+>> compile time.  Similar to AutoFDO, Propeller too utilizes hardware
+>> sampling to collect profiles and apply post-link optimizations to improve
+>> the benchmark’s performance over and above AutoFDO.
+>>
+>> Our empirical data demonstrates significant performance improvements
+>> with AutoFDO and Propeller, up to 10% on microbenchmarks and up to 5%
+>> on large warehouse-scale benchmarks. This makes a strong case for their
+>> inclusion as supported features in the upstream kernel.
+>>
+>> Background
+>>
+>> A significant fraction of fleet processing cycles (excluding idle time)
+>> from data center workloads are attributable to the kernel. Ware-house
+>> scale workloads maximize performance by optimizing the production kernel
+>> using iFDO (a.k.a instrumented PGO, Profile Guided Optimization).
+>>
+>> iFDO can significantly enhance application performance but its use
+>> within the kernel has raised concerns. AutoFDO is a variant of FDO that
+>> uses the hardware’s Performance Monitoring Unit (PMU) to collect
+>> profiling data. While AutoFDO typically yields smaller performance
+>> gains than iFDO, it presents unique benefits for optimizing kernels.
+>>
+>> AutoFDO eliminates the need for instrumented kernels, allowing a single
+>> optimized kernel to serve both execution and profile collection. It also
+>> minimizes slowdown during profile collection, potentially yielding
+>> higher-fidelity profiling, especially for time-sensitive code, compared
+>> to iFDO. Additionally, AutoFDO profiles can be obtained from production
+>> environments via the hardware’s PMU whereas iFDO profiles require
+>> carefully curated load tests that are representative of real-world
+>> traffic.
+>>
+>> AutoFDO facilitates profile collection across diverse targets.
+>> Preliminary studies indicate significant variation in kernel hot spots
+>> within Google’s infrastructure, suggesting potential performance gains
+>> through target-specific kernel customization.
+>>
+>> Furthermore, other advanced compiler optimization techniques, including
+>> ThinLTO and Propeller can be stacked on top of AutoFDO, similar to iFDO.
+>> ThinLTO achieves better runtime performance through whole-program
+>> analysis and cross module optimizations. The main difference between
+>> traditional LTO and ThinLTO is that the latter is scalable in time and
+>> memory.
+>>
+>> This patch series adds AutoFDO and Propeller support to the kernel. The
+>> actual solution comes in six parts:
+>>
+>> [P 1] Add the build support for using AutoFDO in Clang
+>>
+>>        Add the basic support for AutoFDO build and provide the
+>>        instructions for using AutoFDO.
+>>
+>> [P 2] Fix objtool for bogus warnings when -ffunction-sections is enabled
+>>
+>> [P 3] Change the subsection ordering when -ffunction-sections is enabled
+>>
+>> [P 4] Enable –ffunction-sections for the AutoFDO build
+>>
+>> [P 5] Enable Machine Function Split (MFS) optimization for AutoFDO
+>>
+>> [P 6] Add Propeller configuration to the kernel build
+>>
+>> Patch 1 provides basic AutoFDO build support. Patches 2 to 5 further
+>> enhance the performance of AutoFDO builds and are functionally dependent
+>> on Patch 1. Patch 6 enables support for Propeller and is dependent on
+>> patch 2 and patch 3.
+>>
+>> Caveats
+>>
+>> AutoFDO is compatible with both GCC and Clang, but the patches in this
+>> series are exclusively applicable to LLVM 17 or newer for AutoFDO and
+>> LLVM 19 or newer for Propeller. For profile conversion, two different
+>> tools could be used, llvm_profgen or create_llvm_prof. llvm_profgen
+>> needs to be the LLVM 19 or newer, or just the LLVM trunk. Alternatively,
+>> create_llvm_prof v0.30.1 or newer can be used instead of llvm-profgen.
+>>
+>> Additionally, the build is only supported on x86 platforms equipped
+>> with PMU capabilities, such as LBR on Intel machines. More
+>> specifically:
+>>   * Intel platforms: works on every platform that supports LBR;
+>>     we have tested on Skylake.
+>>   * AMD platforms: tested on AMD Zen3 with the BRS feature. The kernel
+>>     needs to be configured with “CONFIG_PERF_EVENTS_AMD_BRS=y", To
+>>     check, use
+>>     $ cat /proc/cpuinfo | grep “ brs”
+>>     For the AMD Zen4, AMD LBRV2 is supported, but we suspect a bug with
+>>     AMD LBRv2 implementation in Genoa which blocks the usage.
+>>
+>> Experiments and Results
+>>
+>> Experiments were conducted to compare the performance of AutoFDO-optimized
+>> kernel images (version 6.9.x) against default builds.. The evaluation
+>> encompassed both open source microbenchmarks and real-world production
+>> services from Google and Meta. The selected microbenchmarks included Neper,
+>> a network subsystem benchmark, and UnixBench which is a comprehensive suite
+>> for assessing various kernel operations.
+>>
+>> For Neper, AutoFDO optimization resulted in a 6.1% increase in throughput
+>> and a 10.6% reduction in latency. Unixbench saw a 2.2% improvement in its
+>> index score under low system load and a 2.6% improvement under high system
+>> load.
+>>
+>> For further details on the improvements observed in Google and Meta's
+>> production services, please refer to the LLVM discourse post:
+>> https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autofdo-including-thinlto-and-propeller/79108
+>>
+>> Thanks,
+>>
+>> Rong Xu and Han Shen
+>>
+>> Change-Logs in V2:
+>> Rebased the source to e32cde8d2bd7 (Merge tag 'sched_ext-for-6.12-rc1-fixes-1')
+>> 1. Cover-letter: moved the Propeller description to the top (Peter Zijlstra)
+>> 2. [P 1]: (1) Makefile: fixed file order (Masahiro Yamada)
+>>            (2) scripts/Makefile.lib: used is-kernel-object to exclude
+>>                files (Masahiro Yamada)
+>>            (3) scripts/Makefile.autofdo: improved the code (Masahiro Yamada)
+>>            (4) scripts/Makefile.autofdo: handled when DEBUG_INFO disabled (Nick Desaulniers)
+>> 3. [P 2]: tools/objtool/elf.c: updated the comments (Peter Zijlstra)
+>> 4. [P 3]: include/asm-generic/vmlinux.lds.h:
+>>            (1) explicit set cold text function aligned (Peter Zijlstra and Peter Anvin)
+>>            (2) set hot-text page aligned
+>> 5. [P 6]: (1) include/asm-generic/vmlinux.lds.h: made Propeller not depending
+>>                on AutoFDO
+>>            (2) Makefile: fixed file order (Masahiro Yamada)
+>>            (3) scripts/Makefile.lib: used is-kernel-object to exclude
+>>                files (Masahiro Yamada). This removed the change in
+>>                arch/x86/platform/efi/Makefile,
+>>                drivers/firmware/efi/libstub/Makefile, and
+>>                arch/x86/boot/compressed/Makefile.
+>>                And this also addressed the comment from Arnd Bergmann regarding
+>>                arch/x86/purgatory/Makefile.
+>>            (4) scripts/Makefile.propeller: improved the code (Masahiro Yamada)
+>>
+>> Change-Logs in V3:
+>> Rebased the source to eb952c47d154 (Merge tag 'for-6.12-rc2-tag').
+>> 1. [P 1]: autofdo.rst: removed code-block directives and used "::" (Mike Rapoport)
+>> 2. [P 6]: propeller.rst: removed code-block directives and use "::" (Mike Rapoport)
+>>
+>> Change-Logs in V4:
+>> 1. [P 1]: autofdo.rst: fixed a typo for create_llvm_prof commmand.
+>>
+>> Rong Xu (6):
+>>    Add AutoFDO support for Clang build
+>>    objtool: Fix unreachable instruction warnings for weak funcitons
+>>    Change the symbols order when --ffuntion-sections is enabled
+>>    AutoFDO: Enable -ffunction-sections for the AutoFDO build
+>>    AutoFDO: Enable machine function split optimization for AutoFDO
+>>    Add Propeller configuration for kernel build.
+>>
+>>   Documentation/dev-tools/autofdo.rst   | 165 ++++++++++++++++++++++++++
+>>   Documentation/dev-tools/index.rst     |   2 +
+>>   Documentation/dev-tools/propeller.rst | 161 +++++++++++++++++++++++++
+>>   MAINTAINERS                           |  14 +++
+>>   Makefile                              |   2 +
+>>   arch/Kconfig                          |  42 +++++++
+>>   arch/x86/Kconfig                      |   2 +
+>>   arch/x86/kernel/vmlinux.lds.S         |   4 +
+>>   include/asm-generic/vmlinux.lds.h     |  54 +++++++--
+>>   scripts/Makefile.autofdo              |  25 ++++
+>>   scripts/Makefile.lib                  |  20 ++++
+>>   scripts/Makefile.propeller            |  28 +++++
+>>   tools/objtool/check.c                 |   2 +
+>>   tools/objtool/elf.c                   |  15 ++-
+>>   14 files changed, 524 insertions(+), 12 deletions(-)
+>>   create mode 100644 Documentation/dev-tools/autofdo.rst
+>>   create mode 100644 Documentation/dev-tools/propeller.rst
+>>   create mode 100644 scripts/Makefile.autofdo
+>>   create mode 100644 scripts/Makefile.propeller
+>>
+>>
+>> base-commit: eb952c47d154ba2aac794b99c66c3c45eb4cc4ec
+>> --
+>> 2.47.0.rc1.288.g06298d1525-goog
+>>
+I tried this patch set on our production machine.
+I am using llvm19, built by myself from the llvm19 release branch. I tried
+with x86_64 intel processor only. The base config file is based on Meta internal
+config file (production version).
 
-diff --git a/Documentation/driver-api/mailbox/client.rst b/Documentation/driver-api/mailbox/client.rst
-new file mode 100644
-index 000000000000..9088f8373423
---- /dev/null
-+++ b/Documentation/driver-api/mailbox/client.rst
-@@ -0,0 +1,192 @@
-+Mailbox Client Documentation
-+============================
-+
-+Overview
-+--------
-+The mailbox client driver is responsible for sending and receiving messages
-+to and from a remote processor. It uses mailbox APIs provided by the
-+mailbox framework.
-+
-+Mailbox Structure
-+-----------------
-+The mailbox structure is defined as follows:
-+
-+.. code-block:: c
-+
-+   struct mbox_client {
-+       //device associated with the mailbox
-+       struct device *dev;
-+       // callback for transmission completion
-+       void (*tx_done)(struct mbox_client *client);
-+       // callback to prepare for sending a message
-+       void (*tx_prepare)(struct mbox_client *client);
-+       // callback for received messages
-+       void (*rx_callback)(struct mbox_client *client, void *data);
-+       // flag to indicate if transmission should block
-+       bool tx_block;
-+       // indicates if the client knows when transmission is done
-+       bool knows_txdone;
-+   };
-+
-+Key Functions
-+-------------
-+1. Requesting a Mailbox Channel
-+   - **Function**: `mbox_request_channel(struct mbox_client *client,
-+     unsigned int channel)`
-+   - **Description**: Requests a mailbox channel for sending messages.
-+   - **Parameters**:
-+     - `client`: Pointer to the mailbox client structure.
-+     - `channel`: The specific mailbox channel to request.
-+   - **Returns**: A pointer to the mailbox channel on success, or an error
-+     code on failure.
-+
-+2. Sending a Message
-+   - **Function**: `mbox_send_message(struct mbox_chan *chan, void *msg)`
-+   - **Description**: Sends a message through the mailbox channel.
-+   - **Parameters**:
-+     - `chan`: The mailbox channel used for communication.
-+     - `msg`: Pointer to the message to be sent (usually NULL for dummy
-+       messages).
-+   - **Returns**: 0 on success, or a negative error code on failure.
-+
-+3. Transmitting Completion
-+   - **Function**: `mbox_client_txdone(struct mbox_chan *chan, unsigned int
-+     msg_id)`
-+   - **Description**: Notifies the mailbox framework that message
-+     transmission is complete.
-+   - **Parameters**:
-+     - `chan`: The mailbox channel associated with the message.
-+     - `msg_id`: The identifier of the message that was transmitted.
-+
-+Usage Example
-+-------------
-+In a typical mailbox client driver, the following steps are typically
-+performed:
-+
-+1. Initialize the Mailbox Client:
-+
-+   .. code-block:: c
-+
-+      struct mbox_client my_mbox_client = {
-+          .dev = &my_device,
-+          .tx_done = my_tx_done_callback,
-+          .rx_callback = my_rx_callback,
-+          .tx_block = false,
-+          .knows_txdone = true,
-+      };
-+
-+2. Request a Mailbox Channel:
-+
-+   .. code-block:: c
-+
-+      mbox_chan = mbox_request_channel(&my_mbox_client, 0);
-+      if (IS_ERR(mbox_chan)) {
-+          // Handle error
-+      }
-+
-+3. Send a Message:
-+
-+   .. code-block:: c
-+
-+      int ret = mbox_send_message(mbox_chan, NULL); // Sending a dummy message
-+      if (ret < 0) {
-+          // Handle error
-+      }
-+
-+4. Complete Transmission:
-+
-+   .. code-block:: c
-+
-+      mbox_client_txdone(mbox_chan, 0);
-+
-+Interrupt Handling
-+------------------
-+The mailbox interface can trigger interrupts upon message receipt. Handlers
-+should be implemented in the `rx_callback` function defined in the mailbox
-+client structure to process incoming messages.
-+
-+Example Mailbox Client Driver
-+-----------------------------
-+.. code-block:: c
-+
-+   struct demo_client {
-+       struct mbox_client cl;
-+       struct mbox_chan *mbox;
-+       struct completion c;
-+       bool async;
-+       /* ... */
-+   };
-+
-+   /*
-+   * This is the handler for data received from remote. The behaviour is purely
-+   * dependent upon the protocol. This is just an example.
-+   */
-+   static void message_from_remote(struct mbox_client *cl, void *mssg)
-+   {
-+       struct demo_client *dc = container_of(cl, struct demo_client, cl);
-+       if (dc->async) {
-+           if (is_an_ack(mssg)) {
-+               /* An ACK to our last sample sent */
-+               return; /* Or do something else here */
-+           } else { /* A new message from remote */
-+               queue_req(mssg);
-+           }
-+       } else {
-+           /* Remote f/w sends only ACK packets on this channel */
-+           return;
-+       }
-+   }
-+
-+   static void sample_sent(struct mbox_client *cl, void *mssg, int r)
-+   {
-+       struct demo_client *dc = container_of(cl, struct demo_client, cl);
-+       complete(&dc->c);
-+   }
-+
-+   static void client_demo(struct platform_device *pdev)
-+   {
-+       struct demo_client *dc_sync, *dc_async;
-+       /* The controller already knows async_pkt and sync_pkt */
-+       struct async_pkt ap;
-+       struct sync_pkt sp;
-+
-+       dc_sync = kzalloc(sizeof(*dc_sync), GFP_KERNEL);
-+       dc_async = kzalloc(sizeof(*dc_async), GFP_KERNEL);
-+
-+       /* Populate non-blocking mode client */
-+       dc_async->cl.dev = &pdev->dev;
-+       dc_async->cl.rx_callback = message_from_remote;
-+       dc_async->cl.tx_done = sample_sent;
-+       dc_async->cl.tx_block = false;
-+       dc_async->cl.tx_tout = 0; /* doesn't matter here */
-+       dc_async->cl.knows_txdone = false; /* depending upon protocol */
-+       dc_async->async = true;
-+       init_completion(&dc_async->c);
-+
-+       /* Populate blocking mode client */
-+       dc_sync->cl.dev = &pdev->dev;
-+       dc_sync->cl.rx_callback = message_from_remote;
-+       dc_sync->cl.tx_done = NULL; /* operate in blocking mode */
-+       dc_sync->cl.tx_block = true;
-+       dc_sync->cl.tx_tout = 500; /* by half a second */
-+       dc_sync->cl.knows_txdone = false; /* depending upon protocol */
-+       dc_sync->async = false;
-+
-+       /* ASync mailbox is listed second in 'mboxes' property */
-+       dc_async->mbox = mbox_request_channel(&dc_async->cl, 1);
-+       /* Populate data packet */
-+       /* ap.xxx = 123; etc */
-+       /* Send async message to remote */
-+       mbox_send_message(dc_async->mbox, &ap);
-+
-+       /* Sync mailbox is listed first in 'mboxes' property */
-+       dc_sync->mbox = mbox_request_channel(&dc_sync->cl, 0);
-+       /* Populate data packet */
-+       /* sp.abc = 123; etc */
-+       /* Send message to remote in blocking mode */
-+       mbox_send_message(dc_sync->mbox, &sp);
-+       /* At this point 'sp' has been sent */
-+
-+       /* Now wait for async chan to be done */
-+       wait_for_completion(&dc_async->c);
-+   }
-diff --git a/Documentation/driver-api/mailbox/core.rst b/Documentation/driver-api/mailbox/core.rst
-new file mode 100644
-index 000000000000..d1220086da67
---- /dev/null
-+++ b/Documentation/driver-api/mailbox/core.rst
-@@ -0,0 +1,182 @@
-+=====================
-+mailbox documentation
-+=====================
-+
-+Hardware Introduction
-+=====================
-+
-+Mailbox hardware is a specialized component found in multi-core
-+processors and embedded systems that facilitates inter-processor
-+communication (IPC) or communication between different hardware
-+components. It provides a structured mechanism for sending and
-+receiving messages, allowing various processors or devices to
-+exchange data efficiently. Here's an overview of its key
-+characteristics and functions:
-+
-+Key Characteristics of Mailbox Hardware
-+Interrupt Handling: Many mailbox implementations support
-+interrupt-driven communication. This allows a receiving processor
-+to be alerted when a new message arrives, facilitating immediate
-+processing without polling the mailbox constantly.
-+
-+Hardware Registers: Mailbox hardware often includes registers for
-+configuration and status monitoring. These registers can be used
-+to control the mailbox's behavior, check for available messages,
-+or acknowledge message receipt.
-+
-+Support for Multiple Protocols: Mailboxes can support various
-+communication protocols, enabling interoperability between different
-+hardware components and simplifying the integration of diverse systems.
-+
-+Synchronous and Asynchronous Modes: Mailbox hardware can operate in
-+both synchronous and asynchronous modes. In synchronous mode, the
-+sender may wait for the receiver to acknowledge receipt before
-+proceeding, while in asynchronous mode, the sender can continue
-+executing other tasks immediately after sending the message.
-+
-+
-+Mailbox framework design
-+========================
-+
-+The mailbox facilitates interprocessor communication by allowing processors to
-+exchange messages or signals. The mailbox framework consists of:
-+
-+Mailbox Controller: This is platform-specific and is responsible for configuring
-+and managing interrupts from the remote processor. It offers a generic API for
-+the mailbox client.
-+
-+Mailbox Client: This component handles the sending and receiving of messages.
-+
-+
-+............................................................................
-+:  client driver      client_a            client_b                         :
-+............................................................................
-+                            ^-------------------^
-+                                    |
-+                                    |
-+............................................................................
-+:  controller framework          mailbox                                   :
-+....................................|.......................................
-+                                    |
-+                                    |
-+............................................................................
-+:  controller driver          device specific                              :
-+....................................|.......................................
-+                                    |
-+                                    |
-+kernel                              |
-+............................................................................
-+hardware                            |
-+                                    |
-+                                    |
-+............................................................................
-+:                             remote processor                             :
-+............................................................................
-+
-+
-+In the context of a mailbox framework, a channel refers to a dedicated
-+communication pathway between two or more processors or components. By using
-+channels, the framework abstracts the complexity of interprocessor communication.
-+
-+Data Structures
-+================
-+
-+- **struct mbox_client**
-+  This structure represents a client that communicates over a mailbox
-+  channel. It holds information such as:
-+  - A pointer to the device associated with the client (`dev`).
-+  - Callback functions for handling message transmission events, including:
-+    - `rx_callback`: Called when a message is received.
-+    - `tx_done`: Called when a message transmission is acknowledged.
-+  - Flags that specify the client’s configuration, such as whether it operates
-+    in blocking mode.
-+
-+- **struct mbox_chan**
-+  This structure represents an individual mailbox channel. It maintains the
-+  state required for message queuing and transmission. Key members include:
-+  - `msg_data`: Array of messages queued for transmission.
-+  - `msg_count`: Number of messages currently queued.
-+  - `msg_free`: Index of the next free slot in the message queue.
-+  - `active_req`: Pointer to the currently active message being transmitted.
-+  - Synchronization primitives to manage access from multiple contexts.
-+
-+- **struct mbox_controller**
-+  This structure represents a mailbox controller that manages multiple
-+  channels. It includes:
-+  - A pointer to the device managing the mailbox.
-+  - Operations for sending and receiving messages, as well as initializing
-+    and shutting down the mailbox.
-+  - A list of associated channels and the total number of channels available.
-+
-+controller framework APIs
-+=========================
-+
-+``struct `mbox_controller` Initialization
-+-----------------------------------------
-+
-+Just like any other kernel framework, the whole mailbox controller registration
-+relies on the driver filling a structure and registering against the
-+framework. In our case, that structure is mbox_controller.
-+
-+The first thing you need to do in your driver is to allocate this
-+structure. Any of the usual memory allocators will do, but you'll also
-+need to initialize a few fields in there:
-+
-+- ``dev``: should hold the pointer to the ``struct device`` associated
-+  to your current driver instance.
-+
-+- ``ops``: Operators that work on each communication channel.
-+
-+- ``chans``: Array of channels.
-+
-+- ``num_chans``: Number of channels in the `chans` array.
-+
-+- ``txdone_irq``: Indicates if the controller can report to the API
-+  when the last transmitted data was read by the
-+                          remote (e.g., if it has a TX ACK interrupt).
-+
-+All the below fields are not mandatory.
-+
-+- ``txdone_poll``: Indicates if the controller can read but not report
-+                          the TX done. For example, some register may show
-+                          the TX status, but no interrupt is raised. This
-+                          field is ignored if `txdone_irq` is set.
-+
-+- ``txpoll_period``: If `txdone_poll` is in effect, the API polls for
-+                          the last TX status after this many milliseconds.
-+
-+- ``of_xlate``: Controller driver-specific mapping of channel via
-+                          Device Tree (DT).
-+
-+
-+Key Functions
-+-------------
-+
-+- **int devm_mbox_controller_register(struct mbox_controller *mbox)**
-+  This function registers a mailbox controller with the kernel. It makes the
-+  channels associated with the controller available for client requests. The
-+  function performs sanity checks on the controller structure to ensure all
-+  necessary fields are populated.
-+
-+- **struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)**
-+  This function requests a mailbox channel for a specified client, identified
-+  by an index. It searches for the appropriate mailbox channel, and if found,
-+  it returns a pointer to the channel. If the request fails (e.g., if the
-+  index is invalid), it returns an error pointer.
-+
-+- **void mbox_free_channel(struct mbox_chan *chan)**
-+  This function releases a mailbox channel that was previously allocated for a
-+  client. It ensures that the channel can be reused by other clients. If any
-+  messages are still in the queue, they are aborted, and no callbacks are made.
-+
-+- **int mbox_send_message(struct mbox_chan *chan, void *mssg)**
-+  This function is used by clients to send a message through the specified
-+  mailbox channel. The function can operate in either blocking or non-blocking
-+  mode, depending on the client’s configuration. It will queue the message for
-+  transmission and notify the client once the message is acknowledged.
-+
-+- **void mbox_chan_received_data(struct mbox_chan *chan, void *mssg)**
-+  This function is called by the controller driver to notify the mailbox
-+  framework that a message has been received on the specified channel. The
-+  received message is then passed to the appropriate client's `rx_callback`
-+  function for processing.
-diff --git a/Documentation/driver-api/mailbox/index.rst b/Documentation/driver-api/mailbox/index.rst
-new file mode 100644
-index 000000000000..e254a8fdb66a
---- /dev/null
-+++ b/Documentation/driver-api/mailbox/index.rst
-@@ -0,0 +1,45 @@
-+=======================
-+Mailbox documentation
-+=======================
-+
-+Mailbox documentation provides documents for various aspects of mailbox
-+framework.
-+
-+Mailbox development documentation
-+---------------------------------
-+
-+This book helps with mailbox internal APIs and guide for mailbox device
-+driver writers.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   core
-+
-+mailbox controller driver documentation
-+------------------------------
-+
-+This book is a guide to device driver writers on how to register
-+mailbox controller to the mailbox framework.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   writing_mailbox_controller_drivers
-+
-+mailbox client driver documentation
-+------------------------------
-+
-+This book is a guide to mailbox client driver writers.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   client
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/driver-api/mailbox/writing_mailbox_controller_drivers.rst b/Documentation/driver-api/mailbox/writing_mailbox_controller_drivers.rst
-new file mode 100644
-index 000000000000..2a82645c1357
---- /dev/null
-+++ b/Documentation/driver-api/mailbox/writing_mailbox_controller_drivers.rst
-@@ -0,0 +1,179 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _writing_mailbox_controller_drivers:
-+
-+==================================
-+Writing Mailbox Controller Drivers
-+==================================
-+
-+Introduction
-+============
-+
-+This document serves as a basic guideline for driver programmers that need
-+to hack a new mailbox controller driver or understand the essentials of
-+the existing ones.
-+
-+Driver Boilerplate
-+==================
-+
-+As a bare minimum, a mailbox controller driver needs to call
-+``mbox_controller_register`` function to register with the framework.
-+
-+A basic driver skeleton could look like this for a mailbox hardware that
-+has the following characteristics:
-+a. It supports only a single channel, i.e., only the remote processor can
-+   send interrupts.
-+b. Data transfer is over the registers associated with mailbox hardware.
-+c. Mailbox hardware is configured to receive interrupts.
-+d. When the remote processor is ready to send data, it triggers a mailbox
-+   interrupt.
-+e. As part of interrupt handling by Linux, it copies data from the registers.
-+
-+.. code-block:: c
-+
-+   #include <linux/device.h>
-+   #include <linux/interrupt.h>
-+   #include <linux/io.h>
-+   #include <linux/kernel.h>
-+   #include <linux/mailbox_controller.h>
-+   #include <linux/module.h>
-+   #include <linux/of.h>
-+   #include <linux/platform_device.h>
-+   #define DRIVER_NAME "dummy_controller"
-+
-+   struct dummy_mbox {
-+       struct device *dev;
-+       struct mbox_controller controller;
-+       int irq;
-+   };
-+
-+   static void dummy_mbox_receive(struct mbox_chan *chan)
-+   {
-+       struct dummy_mbox *mbox = chan->con_priv;
-+       int val;
-+
-+       // Data copied from registers
-+       val = read_register();
-+       mbox_chan_received_data(chan, &val);
-+   }
-+
-+   static irqreturn_t dummy_mbox_irq_handler(int irq, void *data)
-+   {
-+       struct mbox_chan *chan = data;
-+       struct dummy_mbox *mbox = chan->con_priv;
-+       u32 reg;
-+
-+       // Read registers to see if data is received
-+       dummy_mbox_receive(chan);
-+       mbox_chan_txdone(chan, 0);
-+       return reg ? IRQ_HANDLED : IRQ_NONE;
-+   }
-+
-+   static int dummy_mbox_send_data(struct mbox_chan *chan, void *data)
-+   {
-+       // Write data in registers to send it to the remote processor
-+       return 0;
-+   }
-+
-+   static int dummy_mbox_startup(struct mbox_chan *chan)
-+   {
-+       struct dummy_mbox *mbox = chan->con_priv;
-+       u32 reg;
-+       int ret;
-+
-+       ret = devm_request_irq(mbox->dev, mbox->irq, dummy_mbox_irq_handler, 0,
-+               DRIVER_NAME, chan);
-+       if (ret < 0) {
-+           dev_err(mbox->dev, "Cannot request irq\n");
-+           return ret;
-+       }
-+
-+       /* Register write to enable IRQ generation */
-+
-+       return 0;
-+   }
-+
-+   static void dummy_mbox_shutdown(struct mbox_chan *chan)
-+   {
-+       struct dummy_mbox *mbox = chan->con_priv;
-+
-+       /* Disable interrupt generation */
-+       devm_free_irq(mbox->dev, mbox->irq, chan);
-+   }
-+
-+   static const struct mbox_chan_ops dummy_mbox_ops = {
-+       .send_data = dummy_mbox_send_data,
-+       .startup = dummy_mbox_startup,
-+       .shutdown = dummy_mbox_shutdown,
-+   };
-+
-+   static int dummy_mbox_probe(struct platform_device *pdev)
-+   {
-+       struct dummy_mbox *mbox;
-+       struct mbox_chan *chans;
-+       int ret;
-+
-+       mbox = devm_kzalloc(&pdev->dev, sizeof(*mbox), GFP_KERNEL);
-+       if (!mbox)
-+           return -ENOMEM;
-+
-+       /* Allocate one channel */
-+       chans = devm_kzalloc(&pdev->dev, sizeof(*chans), GFP_KERNEL);
-+       if (!chans)
-+           return -ENOMEM;
-+
-+       mbox->base = devm_platform_ioremap_resource(pdev, 0);
-+       if (IS_ERR(mbox->base))
-+           return PTR_ERR(mbox->base);
-+
-+       mbox->irq = platform_get_irq(pdev, 0);
-+       if (mbox->irq < 0)
-+           return mbox->irq;
-+
-+       mbox->dev = &pdev->dev;
-+
-+       /* Hardware supports only one channel. */
-+       mbox->controller.dev = mbox->dev;
-+       mbox->controller.num_chans = 1;
-+       mbox->controller.chans = chans;
-+       mbox->controller.ops = &dummy_mbox_ops;
-+       mbox->controller.txdone_irq = true;
-+
-+       ret = devm_mbox_controller_register(mbox->dev, &mbox->controller);
-+       if (ret) {
-+           dev_err(&pdev->dev, "Could not register mailbox controller\n");
-+           return ret;
-+       }
-+
-+       return ret;
-+   }
-+
-+   static const struct of_device_id dummy_mbox_match[] = {
-+       { .compatible = "dummy,dummy-mailbox" },
-+       { },
-+   };
-+
-+   MODULE_DEVICE_TABLE(of, dummy_mbox_match);
-+
-+   static struct platform_driver dummy_mbox_driver = {
-+       .probe = dummy_mbox_probe,
-+       .driver = {
-+           .name = DRIVER_NAME,
-+           .of_match_table = dummy_mbox_match,
-+       },
-+   };
-+
-+   module_platform_driver(dummy_mbox_driver);
-+   MODULE_LICENSE("GPL v2");
-+   MODULE_DESCRIPTION("Dummy mailbox controller driver");
-+
-+In the above code, a couple of things are done:
-+a. The controller is registered in the probe along with callbacks, which in
-+   this case are the bare minimum: ``startup``, ``shutdown``, and
-+   ``send_data``.
-+b. IRQ is registered to get notifications from the remote processor.
-+c. In the IRQ handler, registers are read to copy data, and
-+   ``mbox_chan_received_data`` is called to hand over the data to the client.
-+d. ``mbox_chan_txdone`` is called to let the framework know that this data
-+   is the last data and no more data is to be expected for the current transfer.
-+
--- 
-2.39.3 (Apple Git-146)
+Overall, I didn't find any issues. I checked IR file with both non-lto and lto
+version and in both cases, the expected sample PGO loader indeed added
+some profiles to IR. For non-lto versions during normal compilation. For lto
+version both optimization before lto and during lto.
+
+The propeller works fine too. I downloaded the binary from the autofdo git
+repo as directed in the commit message of patch 6. create_llvm_prof dumps
+a lot of information which shows quite some functions with profile data.
+I also checked some asm code and does see basic-block level section
+are encoded in .s file (it should be in .o file as well but .s file is easier
+to reason.)
+
+The training data is collected with some workloads in the machine, not heavy
+but for testing purposes it should be enough.
+I run bpf selftests on the eventual kernel (after autofdo and propeller).
+Everything works fine.
+
+Of course I didn't try all possible combination. But for the config I am using
+(heavily geared for bpf selftests), things work fine. So
+
+Tested-by: Yonghong Song <yonghong.song@linux.dev>
 
