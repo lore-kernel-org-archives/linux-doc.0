@@ -1,65 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34F31D04BB
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 09:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B511E376B;
+	Mon, 21 Oct 2024 09:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729502039; cv=none; b=n0abZp0S2pDAo7MVxeZVctccg7jVn2zD/AAWQQ/kXgqrVbOT1o331TAqkMesjnmql3WoGGxcQo07kpgusISPTUQYVuMUlT55zpATxtqjILv/BiFq+VHa2+f/JQFGNdG4uuBCfOyxyAyeLSsGf3D7HNx4oRNAG3ZOkTHVAwe1Vu4=
+	t=1729503166; cv=none; b=MJ8tSAJFf88srdNoEuErvHzv1GhbgN01CcFRSlL9kJ4xaCwhFmyE6yOUhH0fVheTfPw/BKpcnD6kjUBmEy9qkG0WG00hpqrqIcaBI+TXJNb5BS7h4tGlbvZIiagNggDUswOObLy1GECdoSKnAegY4eKJqAVq/8NrAhPSlXKB7TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729502039; c=relaxed/simple;
-	bh=Qpok900RIq0lalZ/bvNPZcgfy2eFsV4ECXKYjvsFsZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X3E4JrJG6jaPT3vl/VBeKAeTaMQqzWc7Zh6sf8Mt77vANnIV3zq5XVYFv6HhsV5aL6dNBgJk2p/hDX/B33RtKt6LFd35dd/yfeibl9u7PRnohG3cvpM+bWloROxSYruhU33Kyw8F71+Wc8Hod1NARtE95EfsKbUJY+JX8oCikmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=az3cDt+Z; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="az3cDt+Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729502036;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=laNZkwIbOwCUsbOEzRR8/YU1OhJt9JdhAA++t+a3gVA=;
-	b=az3cDt+ZxDHq8M+ejK5hdsiVoCJiE5RDy4wU2GjBBroij9ALfmMIJhMkPlRcFkf1FO5ziB
-	qXsCEWaTh0AEwk9ZjGYyWGM47D1MOpYOVlArMw1O11Pt2BSVe859pPWhcIzDuW2UuvLVGX
-	DqyTqr8icLqcJ7u5Fxwa2eHPBatW9Ug=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-34-CdTdIXcAOoGoUXaP3Lwivg-1; Mon, 21 Oct 2024 05:13:52 -0400
-X-MC-Unique: CdTdIXcAOoGoUXaP3Lwivg-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37d4854fa0eso2464125f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 02:13:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729502031; x=1730106831;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=laNZkwIbOwCUsbOEzRR8/YU1OhJt9JdhAA++t+a3gVA=;
-        b=g0BVOujfVwutbI5i2UFrCJCkSjdvG1OsZ7ZTX/n1c2Fqtn4sd+HvhyUtZ2Nrik6UgQ
-         d3kdvhDUfk1VjrE4YHuAxKiGMjkEJRpUd3Dj61uq/HopB2kR2sYCItNyS8ibGu8zkCqd
-         NpWECPPFTu80Vk4Yq8WrV0WzsoCy6Dv9eT3+PXHheDRmpwhIMpgHKsURcuhZhINkRoaU
-         rHejth6nvYpObnASDSmmDdkU2pNPLucSrnj9L3vmcs7g4FtseGdoLcXRzuTb2AtkrpC/
-         2ZFw0dt4m1Y1tDxxe8sizsVNQ3iEaXK0Xmp2w9sq7RBjwsevsAyK4cZiZ5MNsqC1mRO7
-         /n5g==
-X-Forwarded-Encrypted: i=1; AJvYcCW2vDNQeMPK6EMGyPoo903+NfCaU7p2VsTAbvc18viarkmLYg3BL+0226rprGkOKFsgva23C0Oix/8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRsH/9+kPIdIFaSzyK8rJ/uaE2YnoqKILphfSpW2A/edeXXB0E
-	o56sz5rfxHkFX6ghVmNIj18ST/kuM9awJRwR9oGr3hI6wc02IeMWHLzM2bBdKh0nVsjoaWu9D1c
-	DUeDDvTHQM+RhmsaWmnB0yqHj43dDW56o9sDi7oBGiH4TlriDKxm1kSuJxA==
-X-Received: by 2002:a5d:60cd:0:b0:37d:52d0:a59d with SMTP id ffacd0b85a97d-37eab72732cmr6823863f8f.10.1729502031066;
-        Mon, 21 Oct 2024 02:13:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGf2q3ct7vDUcpXfTgq4f/Ogs1pSXSIZFsokW+/dUVWCwOUrBI/1w/NWhFvrEEHU/F3TQLS9Q==
-X-Received: by 2002:a5d:60cd:0:b0:37d:52d0:a59d with SMTP id ffacd0b85a97d-37eab72732cmr6823825f8f.10.1729502030651;
-        Mon, 21 Oct 2024 02:13:50 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:36d3:2b96:a142:a05b? ([2a09:80c0:192:0:36d3:2b96:a142:a05b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b944fbsm3841034f8f.72.2024.10.21.02.13.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 02:13:50 -0700 (PDT)
-Message-ID: <62a7eb3f-fb27-43f4-8365-0fa0456c2f01@redhat.com>
-Date: Mon, 21 Oct 2024 11:13:48 +0200
+	s=arc-20240116; t=1729503166; c=relaxed/simple;
+	bh=eIUXnt/ABmUvP35d3vsYEMPzCW8J7Xh+nToDlaB4hK4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UxTpUholZvo/pdFwROE7m9YX0+r7wR2B0E3oNxt+D86sMqiSafraynwuBeXhplpnKhjvZ+4xtL8ctd3d/ODvZIugun3jjeK1Xv2EPcCa/2Xzgvuct7ELuZ9rM9CDw7M3S4P/5Ez1mHiPiWVrSVRpBPbTNQgleXo+kUN1aeWCYeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4XX96L50bSzyTNV;
+	Mon, 21 Oct 2024 17:31:06 +0800 (CST)
+Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
+	by mail.maildlp.com (Postfix) with ESMTPS id F327F1800DB;
+	Mon, 21 Oct 2024 17:32:35 +0800 (CST)
+Received: from [10.67.120.129] (10.67.120.129) by
+ dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 21 Oct 2024 17:32:35 +0800
+Message-ID: <6f9840b3-66c4-485e-b6bb-baeaa641e720@huawei.com>
+Date: Mon, 21 Oct 2024 17:32:35 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,99 +33,281 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] alloc_tag: config to store page allocation tag
- refs in page flags
-To: Michal Hocko <mhocko@suse.com>, Suren Baghdasaryan <surenb@google.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, Yosry Ahmed <yosryahmed@google.com>,
- akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net,
- arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org,
- thuth@redhat.com, tglx@linutronix.de, bp@alien8.de,
- xiongwei.song@windriver.com, ardb@kernel.org, vbabka@suse.cz,
- hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net,
- willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com,
- souravpanda@google.com, keescook@chromium.org, dennis@kernel.org,
- yuzhao@google.com, vvvvvv@google.com, rostedt@goodmis.org,
- iamjoonsoo.kim@lge.com, rientjes@google.com, minchan@google.com,
- kaleshsingh@google.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-modules@vger.kernel.org, kernel-team@android.com
-References: <cd848c5f-50cd-4834-a6dc-dff16c586e49@nvidia.com>
- <6a2a84f5-8474-432f-b97e-18552a9d993c@redhat.com>
- <CAJuCfpGkuaCh+PxKbzMbu-81oeEdzcfjFThoRk+-Cezf0oJWZg@mail.gmail.com>
- <9c81a8bb-18e5-4851-9925-769bf8535e46@redhat.com>
- <CAJuCfpH-YqwEi1aqUAF3rCZGByFpvKVSfDckATtCFm=J_4+QOw@mail.gmail.com>
- <ZxJcryjDUk_LzOuj@tiehlicka>
- <CAJuCfpGV3hwCRJj6D-SnSOc+VEe5=_045R1aGJEuYCL7WESsrg@mail.gmail.com>
- <ZxKWBfQ_Lps93fY1@tiehlicka>
- <CAJuCfpHa9qjugR+a3cs6Cud4PUcPWdvc+OgKTJ1qnryyJ9+WXA@mail.gmail.com>
- <CAJuCfpHFmmZhSrWo0iWST9+DGbwJZYdZx7zjHSHJLs_QY-7UbA@mail.gmail.com>
- <ZxYCK0jZVmKSksA4@tiehlicka>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH net-next v22 13/14] mm: page_frag: update documentation
+ for page_frag
+To: Bagas Sanjaya <bagasdotme@gmail.com>, <davem@davemloft.net>,
+	<kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Alexander Duyck
+	<alexander.duyck@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
+	<akpm@linux-foundation.org>, <linux-doc@vger.kernel.org>,
+	<linux-mm@kvack.org>
+References: <20241018105351.1960345-1-linyunsheng@huawei.com>
+ <20241018105351.1960345-14-linyunsheng@huawei.com>
+ <ZxTVRRecKRpna6Aj@archie.me>
 Content-Language: en-US
-In-Reply-To: <ZxYCK0jZVmKSksA4@tiehlicka>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Yunsheng Lin <linyunsheng@huawei.com>
+In-Reply-To: <ZxTVRRecKRpna6Aj@archie.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemf200006.china.huawei.com (7.185.36.61)
 
+On 2024/10/20 18:02, Bagas Sanjaya wrote:
 
+Thanks, will try my best to not miss any 'alloc' typo for doc patch
+next version:(
 
-Am 21.10.24 um 09:26 schrieb Michal Hocko:
-> On Fri 18-10-24 14:57:26, Suren Baghdasaryan wrote:
->> On Fri, Oct 18, 2024 at 10:45 AM Suren Baghdasaryan <surenb@google.com> wrote:
->>>
->>> On Fri, Oct 18, 2024 at 10:08 AM Michal Hocko <mhocko@suse.com> wrote:
->>>
->>> Automatic fallback is possible during boot, when we decide whether to
->>> enable page extensions or not. So, if during boot we decide to disable
->>> page extensions and use page flags, we can't go back and re-enable
->>> page extensions after boot is complete. Since there is a possibility
->>> that we run out of page flags at runtime when we load a new module,
->>> this leaves this case when we can't reference the module tags and we
->>> can't fall back to page extensions, so we have to disable memory
->>> profiling.
->>> I could keep page extensions always on just in case this happens but
->>> that's a lot of memory waste to handle a rare case...
->>
->> After thinking more about this, I suggest a couple of changes that
->> IMHO would make configuration simpler:
->> 1. Change the CONFIG_PGALLOC_TAG_USE_PAGEFLAGS to an early boot
->> parameter.
+> On Fri, Oct 18, 2024 at 06:53:50PM +0800, Yunsheng Lin wrote:
+>> diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
+>> index 503ca6cdb804..7fd9398aca4e 100644
+>> --- a/Documentation/mm/page_frags.rst
+>> +++ b/Documentation/mm/page_frags.rst
+>> @@ -1,3 +1,5 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>>  ==============
+>>  Page fragments
+>>  ==============
+>> @@ -40,4 +42,176 @@ page via a single call.  The advantage to doing this is that it allows for
+>>  cleaning up the multiple references that were added to a page in order to
+>>  avoid calling get_page per allocation.
+>>  
+>> -Alexander Duyck, Nov 29, 2016.
+>> +
+>> +Architecture overview
+>> +=====================
+>> +
+>> +.. code-block:: none
+>> +
+>> +                      +----------------------+
+>> +                      | page_frag API caller |
+>> +                      +----------------------+
+>> +                                  |
+>> +                                  |
+>> +                                  v
+>> +    +------------------------------------------------------------------+
+>> +    |                   request page fragment                          |
+>> +    +------------------------------------------------------------------+
+>> +             |                                 |                     |
+>> +             |                                 |                     |
+>> +             |                          Cache not enough             |
+>> +             |                                 |                     |
+>> +             |                         +-----------------+           |
+>> +             |                         | reuse old cache |--Usable-->|
+>> +             |                         +-----------------+           |
+>> +             |                                 |                     |
+>> +             |                             Not usable                |
+>> +             |                                 |                     |
+>> +             |                                 v                     |
+>> +        Cache empty                   +-----------------+            |
+>> +             |                        | drain old cache |            |
+>> +             |                        +-----------------+            |
+>> +             |                                 |                     |
+>> +             v_________________________________v                     |
+>> +                              |                                      |
+>> +                              |                                      |
+>> +             _________________v_______________                       |
+>> +            |                                 |              Cache is enough
+>> +            |                                 |                      |
+>> + PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE         |                      |
+>> +            |                                 |                      |
+>> +            |               PAGE_SIZE >= PAGE_FRAG_CACHE_MAX_SIZE    |
+>> +            v                                 |                      |
+>> +    +----------------------------------+      |                      |
+>> +    | refill cache with order > 0 page |      |                      |
+>> +    +----------------------------------+      |                      |
+>> +      |                    |                  |                      |
+>> +      |                    |                  |                      |
+>> +      |              Refill failed            |                      |
+>> +      |                    |                  |                      |
+>> +      |                    v                  v                      |
+>> +      |      +------------------------------------+                  |
+>> +      |      |   refill cache with order 0 page   |                  |
+>> +      |      +----------------------------------=-+                  |
+>> +      |                       |                                      |
+>> + Refill succeed               |                                      |
+>> +      |                 Refill succeed                               |
+>> +      |                       |                                      |
+>> +      v                       v                                      v
+>> +    +------------------------------------------------------------------+
+>> +    |             allocate fragment from cache                         |
+>> +    +------------------------------------------------------------------+
+>> +
+>> +API interface
+>> +=============
+>> +As the design and implementation of page_frag API implies, the allocation side
+>> +does not allow concurrent calling. Instead it is assumed that the caller must
+>> +ensure there is not concurrent alloc calling to the same page_frag_cache
+>> +instance by using its own lock or rely on some lockless guarantee like NAPI
+>> +softirq.
+>> +
+>> +Depending on different aligning requirement, the page_frag API caller may call
+>> +page_frag_*_align*() to ensure the returned virtual address or offset of the
+>> +page is aligned according to the 'align/alignment' parameter. Note the size of
+>> +the allocated fragment is not aligned, the caller needs to provide an aligned
+>> +fragsz if there is an alignment requirement for the size of the fragment.
+>> +
+>> +Depending on different use cases, callers expecting to deal with va, page or
+>> +both va and page for them may call page_frag_alloc, page_frag_refill, or
+>> +page_frag_alloc_refill API accordingly.
+>> +
+>> +There is also a use case that needs minimum memory in order for forward progress,
+>> +but more performant if more memory is available. Using page_frag_*_prepare() and
+>> +page_frag_commit*() related API, the caller requests the minimum memory it needs
+>> +and the prepare API will return the maximum size of the fragment returned. The
+>> +caller needs to either call the commit API to report how much memory it actually
+>> +uses, or not do so if deciding to not use any memory.
+>> +
+>> +.. kernel-doc:: include/linux/page_frag_cache.h
+>> +   :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
+>> +		  __page_frag_alloc_align page_frag_alloc_align page_frag_alloc
+>> +		 __page_frag_refill_align page_frag_refill_align
+>> +		 page_frag_refill __page_frag_refill_prepare_align
+>> +		 page_frag_refill_prepare_align page_frag_refill_prepare
+>> +		 __page_frag_alloc_refill_prepare_align
+>> +		 page_frag_alloc_refill_prepare_align
+>> +		 page_frag_alloc_refill_prepare page_frag_alloc_refill_probe
+>> +		 page_frag_refill_probe page_frag_commit
+>> +		 page_frag_commit_noref page_frag_alloc_abort
+>> +
+>> +.. kernel-doc:: mm/page_frag_cache.c
+>> +   :identifiers: page_frag_cache_drain page_frag_free
+>> +		 __page_frag_alloc_refill_probe_align
+>> +
+>> +Coding examples
+>> +===============
+>> +
+>> +Initialization and draining API
+>> +-------------------------------
+>> +
+>> +.. code-block:: c
+>> +
+>> +   page_frag_cache_init(nc);
+>> +   ...
+>> +   page_frag_cache_drain(nc);
+>> +
+>> +
+>> +Allocation & freeing API
+>> +------------------------
+>> +
+>> +.. code-block:: c
+>> +
+>> +    void *va;
+>> +
+>> +    va = page_frag_alloc_align(nc, size, gfp, align);
+>> +    if (!va)
+>> +        goto do_error;
+>> +
+>> +    err = do_something(va, size);
+>> +    if (err) {
+>> +        page_frag_abort(nc, size);
+>> +        goto do_error;
+>> +    }
+>> +
+>> +    ...
+>> +
+>> +    page_frag_free(va);
+>> +
+>> +
+>> +Preparation & committing API
+>> +----------------------------
+>> +
+>> +.. code-block:: c
+>> +
+>> +    struct page_frag page_frag, *pfrag;
+>> +    bool merge = true;
+>> +    void *va;
+>> +
+>> +    pfrag = &page_frag;
+>> +    va = page_frag_alloc_refill_prepare(nc, 32U, pfrag, GFP_KERNEL);
+>> +    if (!va)
+>> +        goto wait_for_space;
+>> +
+>> +    copy = min_t(unsigned int, copy, pfrag->size);
+>> +    if (!skb_can_coalesce(skb, i, pfrag->page, pfrag->offset)) {
+>> +        if (i >= max_skb_frags)
+>> +            goto new_segment;
+>> +
+>> +        merge = false;
+>> +    }
+>> +
+>> +    copy = mem_schedule(copy);
+>> +    if (!copy)
+>> +        goto wait_for_space;
+>> +
+>> +    err = copy_from_iter_full_nocache(va, copy, iter);
+>> +    if (err)
+>> +        goto do_error;
+>> +
+>> +    if (merge) {
+>> +        skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], copy);
+>> +        page_frag_commit_noref(nc, pfrag, copy);
+>> +    } else {
+>> +        skb_fill_page_desc(skb, i, pfrag->page, pfrag->offset, copy);
+>> +        page_frag_commit(nc, pfrag, copy);
+>> +    }
 > 
-> This makes much more sense!
+> Looks good.
 > 
->> Today we have a "mem_profiling" parameter to enable/disable
->> memory profiling. I suggest adding "mem_profiling_use_pgflags" to
->> switch the current behavior of using page extensions to use page
->> flags.
+>> +/**
+>> + * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
+>> + * @nc: page_frag cache from which to check
+>> + *
+>> + * Used to check if the current page in page_frag cache is allocated from the
+> "Check if ..."
+>> + * pfmemalloc reserves. It has the same calling context expectation as the
+>> + * allocation API.
+>> + *
+>> + * Return:
+>> + * true if the current page in page_frag cache is allocated from the pfmemalloc
+>> + * reserves, otherwise return false.
+>> + */
+>> <snipped>...
+>> +/**
+>> + * page_frag_alloc() - Allocate a page fragment.
+>> + * @nc: page_frag cache from which to allocate
+>> + * @fragsz: the requested fragment size
+>> + * @gfp_mask: the allocation gfp to use when cache need to be refilled
+>> + *
+>> + * Alloc a page fragment from page_frag cache.
+> "Allocate a page fragment ..."
+>> + *
+>> + * Return:
+>> + * virtual address of the page fragment, otherwise return NULL.
+>> + */
+>>  static inline void *page_frag_alloc(struct page_frag_cache *nc,
+>> <snipped>...
+>> +/**
+>> + * __page_frag_refill_prepare_align() - Prepare refilling a page_frag with
+>> + * aligning requirement.
+>> + * @nc: page_frag cache from which to refill
+>> + * @fragsz: the requested fragment size
+>> + * @pfrag: the page_frag to be refilled.
+>> + * @gfp_mask: the allocation gfp to use when cache need to be refilled
+>> + * @align_mask: the requested aligning requirement for the fragment
+>> + *
+>> + * Prepare refill a page_frag from page_frag cache with aligning requirement.
+> "Prepare refilling ..."
+>> + *
+>> + * Return:
+>> + * True if prepare refilling succeeds, otherwise return false.
+>> + */
+>> <snipped>...
+>> +/**
+>> + * __page_frag_alloc_refill_probe_align() - Probe allocing a fragment and
+>> + * refilling a page_frag with aligning requirement.
+>> + * @nc: page_frag cache from which to allocate and refill
+>> + * @fragsz: the requested fragment size
+>> + * @pfrag: the page_frag to be refilled.
+>> + * @align_mask: the requested aligning requirement for the fragment.
+>> + *
+>> + * Probe allocing a fragment and refilling a page_frag from page_frag cache with
+> "Probe allocating..."
+>> + * aligning requirement.
+>> + *
+>> + * Return:
+>> + * virtual address of the page fragment, otherwise return NULL.
+>> + */
 > 
-> I do not want to bikeshed about this but to me it would make more sense
-> to have an extension paramater to mem_profiling and call it something
-> like compress or similar so that page flags are not really carved into
-> naming. The docuemntation then can explain that the copression cannot be
-> always guaranteed and it might fail so this is more of a optimistic and
-> potentially failing optimization that might need to be dropped in some
-> usege scenarios.
-
-Maybe we can reuse the existing parameter (e.g., tristate). Only makes sense if 
-we don't expect too many other modes though :)
-
+> Thanks.
 > 
->> We keep the current behavior of using page extensions as
->> default (mem_profiling_use_pgflags=0) because it always works even
->> though it has higher overhead.
-> 
-> Yes this seems to be a safe default.
-
-Agreed.
-
-> 
->> 2. No auto-fallback. If mem_profiling_use_pgflags=1 and we don't have
->> enough page flags (at boot time or later when we load a module), we
->> simply disable memory profiling with a warning.
-
-Sounds reasonable to me.
-
--- 
-Cheers,
-
-David / dhildenb
-
