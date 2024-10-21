@@ -1,120 +1,95 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD66A1E7677;
-	Mon, 21 Oct 2024 12:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3F71EABB1;
+	Mon, 21 Oct 2024 12:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729512297; cv=none; b=Lexoks2kj7AR+iJz+gRVCXr6JRNibIhE7oZa9GQR0R+xW2GeDTDwEQF+tbyfIrVID9cL+FyNMvUW9ghOUqPbvsZC8I1oHTBiBmCV6lq4c1GfYCDc6/0yP+DLQyMsittF97iCY5dhY4R5crsBAqwr2+lnNc33OjmCNC61ZeeQhYI=
+	t=1729512484; cv=none; b=pDgGDd57fX+hh7VmqFtUGKrnG/35IrEEwtviV3flBw1qZq9pNaP5H/AYQmtsRNEbwxl3/xE8/Y8uDpNvTZm+/4mU+mvNuuP406HoYZvVPqaPQ2t+PHjcJmDUlAFf+ePHOHqoUU2NtfQtvmgqfIILjSgX8GWJJUoHoY+uFdMVcKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729512297; c=relaxed/simple;
-	bh=PW+3diJ4pRiPVR1qpZLntdXib++X/EHvjrDncNf4l00=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f9WAyyjncWRvZkUb8OG39sJki+OWlmWd+9g0noqaDv9lDhcNTDjvLgx1QMvwsh5RBski4l4KOTPp7yOy1tgROioEHxdsuYoZkg1xmb/nJYX7oXIcjwq0BJVKYmLuAuHe43Tdy2PwoM893z629OsMfRRqntKCUV/oeryryAM3d7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ENifHDuC; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729512484; c=relaxed/simple;
+	bh=IG9XDXEq+BLfchmvTYcHZHyseUpd2sq/XSmsM6ziurs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dG5pz1cZ9UMVl2UVyXjOhl93U0iL3a5FK7Ovv3ue6lRNLgkt9poke8geTEAbd8HcK7ZbI8V8JK+wNHkM+5+O/Guxa5DUZWH2j4PIAME+Ph7IL7PJf1pucra9KDURBmmsymvn+vrWf91mwnDmURuwXfJfJNPZArf4bcRW6ximm1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKCIKkCt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ENifHDuC"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6cbce9e4598so26436856d6.2;
-        Mon, 21 Oct 2024 05:04:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729512295; x=1730117095; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Trwc8ZxRfLUos5ROh0Aw8LjBkdhyf7Np4u6v5DWo6j4=;
-        b=ENifHDuCtKWP/eeAkZj5muCNJHktQL8wxI593nkFTY+kXjJ4wsSJkHVuShCiT49v6J
-         Z8rcD2Lo1LDlBB0bMnhxGL+j7XyhbGNiMW/+96bU2x04JFJ37g0dG9wZtP48lSy86xbY
-         +C5ngBhjBPfCZ9YfQvndM3VW8bcCyHrPNaGDRZemBmVxsNvs8aAp1L594rnqVbrFQXus
-         9KGQFIcfpdsrYMTqqIMsQu9pgV9e23w/rIKcpkGqz8TSnJkpOCkaLK/vg7y6I3HmY7lC
-         URNjrnsUL4B1q2tT3HXZOJ2ZYDNTGwbect6xWFBuv8e3iDVO0+Qg4gwUoTnjwS0evwQl
-         HAEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729512295; x=1730117095;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Trwc8ZxRfLUos5ROh0Aw8LjBkdhyf7Np4u6v5DWo6j4=;
-        b=EFMpcVMvrDlaZglNIuXZZgspZM48Ybhb6EjJL4Lkpf4hWyz9jy2QE1/SOOHlGf1JX7
-         owQUKkvJ1gDxKcs5hbmBTe+GVrv4ts60V8akKOZOEwJwI4aI+6NdFuzOYosYrl1wJh8m
-         2lnhxBwn+rojt357hG57b8v6Td98HhEsFqPlxx0K1Ok/slsowx39yhIZsekohQYi4rOb
-         yoyd3rMitDUFR+z5LQJW6CJwxMUSG/CJwP77Sx2X8F4m4veeZ1bYEy0rb0RgAIKEzmwr
-         6YCmCh3e3MCB+BzrzGTjivH6Uh6Wx7H993oYJLLVV4BQCEp5n7tdAMOe01FcO220Zqda
-         HaLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUETkc9tnDuk+9EMbomyAc1jk0nG+27VF2yEYBTMJwUR3W6u5jOdzzG5zE2O3yG8h+czvX+pnt2@vger.kernel.org, AJvYcCX+mBw/U4gHTcDl4pYg69rlQ/vboaVuuPNfhQnzflGv8Mu2YpHzokZGP0cLCJlyOKpnFSyeyOxDcB50akpx@vger.kernel.org, AJvYcCX4undm8NoKxhVp9zsL6MtnCH1BX06FFqbCdKyjJTIiV57/LYggpQpwKCCm2oGVhJ+N0NREgVhcWa+2@vger.kernel.org, AJvYcCXsUrdCiSXL4B2cMaH1kIGo6gd0SiyFH9Ya3BtvWE0Zt9uRyMaIVVuMpw3cvkI9PHKZkdQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDvRxhL7OA2ME9TFw/CzIo2184j3ZMfouzBwBNszqfuz7nHPxJ
-	q5aeMuzkCRHsWq7oeEDD4Me4YYQp6UEb79EtmV7eHixThDQXZhbTZzyvJDAjtqkumYMQet/th/9
-	uPx9qeeooIJskNCRBV9R//qctc1I=
-X-Google-Smtp-Source: AGHT+IE+2A+2GtLwpn5vTpkyyLklTLFCJaFPXBnb9GHSF70FZ1PogmV+ZpXiADUYMFP6yMXIDElgCBpPCnzunP/snnY=
-X-Received: by 2002:a05:6214:33c2:b0:6cd:3a48:5767 with SMTP id
- 6a1803df08f44-6cde151b8e9mr190999206d6.18.1729512294672; Mon, 21 Oct 2024
- 05:04:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKCIKkCt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A9B5C4CEC3;
+	Mon, 21 Oct 2024 12:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729512483;
+	bh=IG9XDXEq+BLfchmvTYcHZHyseUpd2sq/XSmsM6ziurs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HKCIKkCtOnttc8iy62OKInHm6/+gTzQulfFw1e7TZBQCZRTV2Ht5whxS44PYWdB82
+	 XiCOxHg1BKuVkuOv0jyW21Bre7UXm8qlfJh/o956sFapSNFgEK6kDGZ1VBuD8rF95b
+	 ek5VJWc+UbN4Py1IZ4pmdATgQegMAuVIUOQN/5hBr+sSjdkfbZdPbHAk97E1xzYVRT
+	 abaEbZe5JtH/rukigwEeUomqIlfewU+q7D42uTT5KefNMZ4xDCd3nUsTMN9jU/HOW1
+	 iIS7QHg2jxjjFf7haQgDugGAfHj2G8CW58PzrUMH+KwZOw5skZZUpXHoVVnMmUMZXj
+	 iwazIMxD7j9Ig==
+Date: Mon, 21 Oct 2024 13:07:58 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] dt-bindings: iio: adc: ad7380: fix ad7380-4
+ reference supply
+Message-ID: <20241021-opium-wannabe-28e314e7cd8d@spud>
+References: <20241021-ad7380-fix-supplies-v2-0-2ca551b3352a@baylibre.com>
+ <20241021-ad7380-fix-supplies-v2-1-2ca551b3352a@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241018091502.411513-1-tianmuyang@huawei.com>
- <ZxKPXdYjwPnpq95V@mini-arch> <67156d3447444_14e182944b@willemb.c.googlers.com.notmuch>
-In-Reply-To: <67156d3447444_14e182944b@willemb.c.googlers.com.notmuch>
-From: Magnus Karlsson <magnus.karlsson@gmail.com>
-Date: Mon, 21 Oct 2024 14:04:43 +0200
-Message-ID: <CAJ8uoz0FcDP_ox_sRbG7ZJ=F70uJsALF-fGzW6snTQPXez_PXw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 0/3] XDP metadata: Rx checksum/GSO hint; Tx
- GSO offload
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: Stanislav Fomichev <stfomichev@gmail.com>, Muyang Tian <tianmuyang@huawei.com>, bpf@vger.kernel.org, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
-	Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, yanan@huawei.com, 
-	xiesongyang@huawei.com, wuchangye@huawei.com, liuxin350@huawei.com, 
-	zhangmingyi5@huawei.com, liwei883@huawei.com, willemb@google.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3CQy50hiodQh6fxs"
+Content-Disposition: inline
+In-Reply-To: <20241021-ad7380-fix-supplies-v2-1-2ca551b3352a@baylibre.com>
 
-On Sun, 20 Oct 2024 at 22:51, Willem de Bruijn
-<willemdebruijn.kernel@gmail.com> wrote:
->
-> Stanislav Fomichev wrote:
-> > On 10/18, Muyang Tian wrote:
-> > > This series introduce XDP metadata functionality, including Rx checksum/GSO hint
-> > > and Tx GSO offload. This is aimed to transfer control fields when processing jumbo
-> > > frames between VMs.
-> >
-> > Ideally, the series should also have the implementation of these hints
-> > for a couple of devices and appropriate selftest updates to exercise
-> > them.
->
-> +1
 
-Larysa had one implementation for ice [0]. Ask her if she can update
-and contribute that one. Then add one yourself and there are two
-implementations which would hopefully make the case.
+--3CQy50hiodQh6fxs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[0] https://lore.kernel.org/bpf/20230811161509.19722-1-larysa.zaremba@intel.com/
+On Mon, Oct 21, 2024 at 12:00:09PM +0200, Julien Stephan wrote:
+> ad7380-4 is the only device from ad738x family that doesn't have an
+> internal reference. Moreover its external reference is called REFIN in
+> the datasheet while all other use REFIO as an optional external
+> reference. If refio-supply is omitted the internal reference is
+> used.
+>=20
+> Fix the binding by adding refin-supply and makes it required for
+> ad7380-4 only.
+>=20
+> Fixes: 1a291cc8ee17 ("dt-bindings: iio: adc: ad7380: add support for ad73=
+8x-4 4 channels variants")
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 
-> > For GSO, CC Willem going forward (I don't think I understand why
-> > we want to have gso_type in the TX hint; something like header_len
-> > seems like a better fit).
->
-> GSO on Tx makes sense. To be able to program hardware USO, say.
->
-> GSO on Rx is less obvious. Is this for HW-GRO? In general, some usage
-> context will be helpful.
->
-> Two implementation questions:
->
-> - why define an XDP specific type for checksum types, but reuse the
->   netdev type for gso_type?
-> - why u32 gso_type, when it is a u8 in skb_shared_info?
->
-> > Please also don't post v3 yet and allow at least a week for the initial
-> > reviewers to catch up..
->
->
->
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+--3CQy50hiodQh6fxs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZxZEHgAKCRB4tDGHoIJi
+0tIfAQCQZDqmd/HZBsyPscpNXfoYg9pdSBN8BomB/P3G6ypm7AEA1XvE1WBzyI/C
+PqfpRwu6kuPdCnST3NwocwOrBIQOEQ0=
+=Y5UJ
+-----END PGP SIGNATURE-----
+
+--3CQy50hiodQh6fxs--
