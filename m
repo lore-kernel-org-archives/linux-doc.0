@@ -1,147 +1,110 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DECA194C6C;
-	Mon, 21 Oct 2024 06:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E6F15575F;
+	Mon, 21 Oct 2024 06:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729492446; cv=none; b=t5+Q8phWfxZ5ezGudR2dG5bsB+M4/vOj3ahUkPnE9jr3xV9xzjAdk+ZJNPHJrgwHIJgIeY33Jr+YJ7MUlKAfulwE2tNOnP1RfzrUEMdU20zEgWNp/fJrXhXiubYiof+aBsmcwkJ93VJYq143nVKoX/IekpaAl4dwx8PxOrOnMlo=
+	t=1729493884; cv=none; b=lNZwx26ACldlekEWPwJ7MNdsQyy61u/rQy9oJ75v2ua4zOJ6GYbswQSMIM114eVYwXQvD+Xk7mypoqiwI2t77qP7t/hGlH7FkPcAPt8JtuF/iK0OufS5K31cqfsbHeI0ypFby9FY7Vkq9kyHgsPVypPWMlfVz/maCFbNY9ZhdM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729492446; c=relaxed/simple;
-	bh=d+Vn5Dqu0W7NzPHX/GrXXUEhW3wXOthQtBtO6LLwieE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AOl/krtWkGWX6nJC91l5W/C+9BTiXokGdaV/wGcODwiw0Kd4iiOYVDt+CdT6eY+e/jeAvUcBJdNSd0xhDXiJdW9wRLcDOyWX6gnp//Jbjz2rF5kchj8Hbd8Uc1iUX3p4G7zlZ9jJcVdfsyPN/XiZPoGWBXhmY0qEJj8Mo//nl/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ARnhkOK5; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1729493884; c=relaxed/simple;
+	bh=IiPcz/ByZa0vEMsnAb+L+ohy/99zqiBcnsh87LOh/Lk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TQzh7V1Fb//0PL+5FyvfuYonsmSyDmxhLnFXSk96SaYoLugPGvcaSglVItFRXVBjF/wJEwwIMzFF7+m/iTtvdDUAKWHR3g9LldUUfKeL/SEv+ybkrDK8PpvuuUDqde/evvoi28htAyeW+Un+D0WKs0KX/8WKQ0k4Oq75SRmcM2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z1o9ZO03; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ARnhkOK5"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49L2KHwX002179;
-	Mon, 21 Oct 2024 06:33:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=QKaq4B
-	5URAFGBy0bwe2UmpkraYPJ2j4a6Afx8H1P0X8=; b=ARnhkOK5gLJCohv7zvJln5
-	KtBlrpHd5u3tMrI0NxOHaHponCeVVkq+d2/uugPxNBEydz/TQr3zG9tDX2Uc2Ldm
-	Q3SLMBz2vLtKHpPzDUoZJk2vmkake10+YLeA440DsVzkph5gTILQBs1+QW66G5nh
-	61xO4c1/475UDzmjFOPtsMXO1+jhnceejSNmVOSmPW+hKQaHajFPtE70X8KuXsD+
-	ZkNHcK6Lfud1hzWf1ew+WhQomIZ1FRHRHwZBdHjXyDPh4KEx765d4/6/P9/iERA/
-	ExBU+gCvB0BeXPWtkCxtPssI6rLKitct5U36/KNdHRmt+8CIhiKmw87KnzTBzj1A
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42c5gcfeq5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 21 Oct 2024 06:33:53 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49L6Xqjk000729;
-	Mon, 21 Oct 2024 06:33:53 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42c5gcfeq1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 21 Oct 2024 06:33:52 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49L5O8fs029401;
-	Mon, 21 Oct 2024 06:33:51 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42crkjvmyr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 21 Oct 2024 06:33:51 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49L6XliM49938792
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 21 Oct 2024 06:33:47 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9B96F2004B;
-	Mon, 21 Oct 2024 06:33:47 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2FB6A20040;
-	Mon, 21 Oct 2024 06:33:46 +0000 (GMT)
-Received: from [9.179.24.137] (unknown [9.179.24.137])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 21 Oct 2024 06:33:46 +0000 (GMT)
-Message-ID: <fbee219a-cc88-414b-8f5f-2cb3b4c9f470@linux.ibm.com>
-Date: Mon, 21 Oct 2024 08:33:45 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z1o9ZO03"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729493882; x=1761029882;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IiPcz/ByZa0vEMsnAb+L+ohy/99zqiBcnsh87LOh/Lk=;
+  b=Z1o9ZO03WX44w77UQ5nMG4q+la058ychSbeE7XaYU6woCkUxsgQgziya
+   z2FnyQ4hL/lPncBAtEc6d+HR50bDBkqO1wbZmxOkKU8RwHPxeNtpx8GYR
+   Xa9m6SKhFkjIgVRrlhPwMyVoy5bvqQkfmwxEDBElgGoTaiyKIdgCSO8X+
+   ZJxxmWbMd1sN1mZuQgTo9ITBv+6cIwtkC0h4hmwxIVfzzqddJWQ8RH6CI
+   05VO66rKP/UpSxfQlqmd7gkMDv/kD7B8EYQMcJQQ7D1ttSUMHpPXsvVhU
+   jBukf+ObUcJQJOtA/3IfNlTVDNTRJ6WbxVeGcCR9dFb3BGdhl3Osqde2t
+   A==;
+X-CSE-ConnectionGUID: zr92viR1R5CMBqWtW+bSmg==
+X-CSE-MsgGUID: TXGEKVcaQPyPuJ6EQzt4ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="29081696"
+X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
+   d="scan'208";a="29081696"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 23:58:02 -0700
+X-CSE-ConnectionGUID: Dc6fbp8TShqAwhD/eE668w==
+X-CSE-MsgGUID: aCechL/iTkKb3hcV7J22Gw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
+   d="scan'208";a="84223930"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 23:57:57 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1t2mMT-00000005OxN-44c7;
+	Mon, 21 Oct 2024 09:57:53 +0300
+Date: Mon, 21 Oct 2024 09:57:53 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Ira Weiny <ira.weiny@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Fan Ni <fan.ni@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-cxl@vger.kernel.org
+Subject: Re: [PATCH 2/3] printf: Add print format (%pra) for struct range
+Message-ID: <ZxX7cfx2kOssqR2H@smile.fi.intel.com>
+References: <20241018-cxl-pra-v1-0-7f49ba58208b@intel.com>
+ <20241018-cxl-pra-v1-2-7f49ba58208b@intel.com>
+ <6712bf8240b8d_10a03294a6@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/7] virtio-mem: s390 support
-To: Heiko Carstens <hca@linux.ibm.com>, David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev
- <agordeev@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
-References: <20241014144622.876731-1-david@redhat.com>
- <20241014144622.876731-6-david@redhat.com>
- <20241014184824.10447-F-hca@linux.ibm.com>
- <ebce486f-71a0-4196-b52a-a61d0403e384@redhat.com>
- <20241015083750.7641-D-hca@linux.ibm.com>
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20241015083750.7641-D-hca@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: MZ1yrbyezdS4zll8wFGufHjjP4N0smer
-X-Proofpoint-ORIG-GUID: 37ZgR9RiC9b_Gof1v4vav0KFZsJWLwy9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=853 clxscore=1011 suspectscore=0 lowpriorityscore=0 mlxscore=0
- impostorscore=0 spamscore=0 phishscore=0 adultscore=0 priorityscore=1501
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410210043
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6712bf8240b8d_10a03294a6@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
+On Fri, Oct 18, 2024 at 01:05:22PM -0700, Dan Williams wrote:
+> Ira Weiny wrote:
 
+...
 
-Am 15.10.24 um 10:37 schrieb Heiko Carstens:
-> On Mon, Oct 14, 2024 at 09:16:45PM +0200, David Hildenbrand wrote:
->> On 14.10.24 20:48, Heiko Carstens wrote:
->>> On Mon, Oct 14, 2024 at 04:46:17PM +0200, David Hildenbrand wrote:
->>>> to dump. Based on this, support for dumping virtio-mem memory can be
->>> Hm.. who will add this support? This looks like a showstopper to me.
->>
->> The cover letter is clearer on that: "One remaining work item is kdump
->> support for virtio-mem memory. This will be sent out separately once initial
->> support landed."
->>
->> I had a prototype, but need to spend some time to clean it up -- or find
->> someone to hand it over to clean it up.
->>
->> I have to chose wisely what I work on nowadays, and cannot spend that time
->> if the basic support won't get ACKed.
->>
->>> Who is supposed to debug crash dumps where memory parts are missing?
->>
->> For many production use cases it certainly needs to exist.
->>
->> But note that virtio-mem can be used with ZONE_MOVABLE, in which case mostly
->> only user data (e.g., pagecache,anon) ends up on hotplugged memory, that
->> would get excluded from makedumpfile in the default configs either way.
->>
->> It's not uncommon to let kdump support be added later (e.g., AMD SNP
->> variants).
+> > +	%pra    [range 0x0000000060000000]
+> > +
+> > +For printing struct range.  struct range holds an arbitrary range of u64
+> > +values.  If start is equal to end only print the start value.
 > 
-> I'll leave it up to kvm folks to decide if we need kdump support from
-> the beginning or if we are good with the current implementation.
+> I was going to say "why this special case that does not exist for the
+> %pr case?", but then checked the code and found it *does* do this for %pr.
+> So if you're going to document this special case for %pra might as well
+> update the documentation for %pr too.
+> 
+> Alternatively, drop the new %pra documentation for this corner case as
+> accommodating the U64_MAX size range case is arguably a mistake in the
+> caller.
 
-If David confirms that he has a plan for this, I am fine with a staged approach
-for upstream.
+You probably meant "...(U64_MAX + 1) size..." as we end up with the same value.
+But yeah, I also noticed the same.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
