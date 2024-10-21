@@ -1,69 +1,69 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8E11FE11F
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 23:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFAE1FE110
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 23:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729553303; cv=none; b=UJaWxvC4ixBccMEF5vWDLfXlGcDwBcu6fCA9pOScxROUzjRA8PrEOutqGBna95TUF3oxm8ZGSFR7TAZCatvp5zcGmPJPZVWDQ4xGWg/v6eHm686dH10eLCj3L1Wr94+B9t0kgCiWUGcueQGBgNiC5M6Z52iizT6i2RgHHIx+S6o=
+	t=1729553536; cv=none; b=TlZbQMrz0ZHH9OdHJSYP2FfUHyCVpMiODxhtH2Z5DsnTDLiASBTSrnz19ClvBCM4P7rf1Z/7O8Dbbc70K5kxW7uxeEno5urdrJyD3jhBcaH9pALWWuNTIgfVGa0ZA+u0SV/67c9nsjIN3rlUJcV6vUjMp0Z/4Q31aJARP43wWv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729553303; c=relaxed/simple;
-	bh=Zff+RWbA2FT88lk3jSWQqGKGPHCgQFk2oW3h5uX7IeA=;
+	s=arc-20240116; t=1729553536; c=relaxed/simple;
+	bh=X916ky8vzME0jkYISKDdzwdl7efRQ8hg38UiB7TfrUQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZA+3JNwPBWTftFjBnaLDse+/YpsmG8q96G0GoxsS76Ob/RLZFgO7MlkqItgR6reymbyZnbZYGvrmySh99VaFy8+ZAOF/bVV74PjM79UEH55PPUFrd4EacgLEeYn/XInJCbNo0IzRopiijOVqiokAQ7hBzInJ8lML4ANjzK39ToI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HSu4SRoJ; arc=none smtp.client-ip=209.85.160.169
+	 To:Cc:Content-Type; b=bouhA1okBk5xFQ85K2O7yQ4JOVtJckp+UEZG0aP0y7pmOcu/g3d7PBmXAYJbTWhkKSLdXK186e+hmpw743DFXbKdfnpsgCOn7qLtX9W9gk27ZW7t2QFdp1GL/BbuhN61yCjcXaVajbuJPIIa9zP5swjWD5s1FmmvcwhGYOye5X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hHz0D/R9; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HSu4SRoJ"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4608dddaa35so150341cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 16:28:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hHz0D/R9"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-460969c49f2so134871cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 16:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729553301; x=1730158101; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1729553532; x=1730158332; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s7g9rImT4RZY0eWuCNKQmXqLXLyfWgLkLWLrUC8CYD4=;
-        b=HSu4SRoJsW8fiTfLNoPfWtmsST46EkuJlHkjES1+/95VKhqN6z816FGc4rm9uWnMb/
-         VJ3ppoKimFUlHoXvGXX2AfWR/jtFel0iuPDF1mhGnSCH11gSzLun0/FuCtIv7ignLa3G
-         bogy8wfBdAbTEWcEIMLlAf/KLo1InWk7wFyJODV+4xpxwqWUafSk1xFxcIILHB14UZWF
-         0s8NWDbERo26AlnUM0qrUDhB+Y8GIq/lp1VwmK3qHBgTHLJFTZNEP6zf1AiRYR7H3OqA
-         12tseM+/pynF9DXeZM81eyu4n9NZ54i2Sm8PaedyrR32Fh+1ohfR+LMVZlKBCjYTiIJG
-         8xFg==
+        bh=XBSWnMd6XTE6VfUT0N7YniZsrpOBHvMOUqQ82iETS4o=;
+        b=hHz0D/R9d/i5iIa0/fTOPVY4teWIgusx8+Zt8WFvaURuj0b6jBYb6S5xg+mEfKcvBw
+         ezyDmHKyQuI7sp82PEKqlMQJGmVJb4+iIjMD/7xnrhlEgDnyoB/3VxeuTAC2MzqfmIvv
+         XEsBNGB6KuAT3860MlzXyhDCRCoqWG23DvYLueON8OKtaXpZiBxOsYMCtjBg3W5m26hw
+         DhEVEknXrClMURnBTAc7eIgCB/SNDGDlwekYC7FINV/yo40ttnaIcaheOdofbAL8trr1
+         Xl5XKxzkZVO8Hb+8cqCvDVROUW/zRuwQ59WbN6SkgK7lsLugWADRB9/gY19XXJ7RC9Dw
+         V3WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729553301; x=1730158101;
+        d=1e100.net; s=20230601; t=1729553532; x=1730158332;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s7g9rImT4RZY0eWuCNKQmXqLXLyfWgLkLWLrUC8CYD4=;
-        b=Xqn0IZl01PGMpWmD0VlSqP33XO12sBFKvE4rdNv0j3KDqqzi9EfQDflq0Se2ouhzFE
-         pT2ub9sv1LtCYlqAb1xo2MYVzb/gF6CO2w+AlAhMwKIa/HEohmYyOu1vJCdv69um0k0p
-         8kpdMtxRsGIM+xznT5HIRomiSGCu4Wp6beawLtnD1B8JucWubvk8eIEuZ0Jg6728cPkt
-         hONA5HaW7zJakM5ImNtuoXXVOETLgEfTLlzuHAwKmFYjL7DDq1HxZNKsVC0lmmXeAKsn
-         WV4AnsejFGuUS3ApFXDht1uTnWMVYt3jAbK63Ql3wxnwbTfp3c2bWE68rY/3P/Jsw4IH
-         kz8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVEYokrBBsSWdsa84Wc45fTlqTkQ7n+h1jyKXF8uQw5w+rWW+ePGmapVxl3HPIXZ9qC+kM87+dygUI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiJZZmA3jCBX+4naIURZBq6fwfISO1wG/gvROeWAjrb/wgdmri
-	s5F4W4+oXaZ1NcNMz9ZLUwhKbwQAPSYGM6oXnbN/KQXIzI92SeyrpgTech6qr61oNN+NnCDMbNa
-	HlP3gCMZ5Ei6rNVz0AQBeYAAz9BHKqtL6QJEz
-X-Google-Smtp-Source: AGHT+IHlHILW/VtCMnIvRhHu4MUnVCebk8xwRyaArpHaBD/sb8cKitt+/rPJqdaQ95G0uL5u4b+WEZY+T68Iy0r6+2Q=
-X-Received: by 2002:a05:622a:303:b0:460:f093:f259 with SMTP id
- d75a77b69052e-46100b89943mr1430991cf.22.1729553300622; Mon, 21 Oct 2024
- 16:28:20 -0700 (PDT)
+        bh=XBSWnMd6XTE6VfUT0N7YniZsrpOBHvMOUqQ82iETS4o=;
+        b=RtS224rn8t9kU6SDEvV74j//evHHMjZKV+HSWfgPks5WvSnPmjqng3R2efCxlXdQtp
+         wcfd5Wqv6JNXtUTdniYVJSHucLbYfnp2Li5neR9nfbX943N9FjRAFiePT0isA4RWX1oK
+         nKTCyzq+xqbLqpntqfiAdKBl1LkwZ71lsp2N+Lpij1ZBSbj8n99j/RqZCVfn83LoFnZK
+         kk7SBrYQ1IsXe4TkgeBCoditx6Yhm45sGLZF9iaf80lbUbyUQ4ahgCIFkFMbBcM0lxn/
+         HTuac/mbAj/oSlIWGRJJkOLhEU9YkLHUn5rT79nLhQ0ZaFkuyuYlU01Zy3n5+1XpCQq7
+         ulDg==
+X-Forwarded-Encrypted: i=1; AJvYcCV/+4NJz84pWeexc1mz2XC9/0TlCnOppmHlPGO6it+I8T8L9bNMSh9J2I9sMbE5jjnj7tuZeTs8tOE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMTnapqbvVX7SySSlSVuSDoSBuZrF/Kkb/mLCPs9JMsNR7WHIN
+	mC+SqwirdSO4D2mn3dgo/6HdIMWAaNQ9TUyqxcWwRa+WiavaZeILa5Xio7tw7qcxT3YxH57cy5U
+	ViJLL+eMhosOWRlOLhIYGuTwOZ3yXoPDEOvEu
+X-Google-Smtp-Source: AGHT+IE5R7f/XKkSpNfZF7Clv3CBDSwXz9GBn9EUoEfkMZ71oeRPVNz7IXIERudPlcaZsIWm17D9Wt+QRWMaJ8nPkfg=
+X-Received: by 2002:ac8:5e07:0:b0:45e:fda3:e995 with SMTP id
+ d75a77b69052e-46100abdb08mr1708541cf.16.1729553532461; Mon, 21 Oct 2024
+ 16:32:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-6-xur@google.com>
- <CAK7LNAQ0RwJYkCXHj8QMH3sqXgY2LBTiYV8HnKD8oANB8Bb+Yg@mail.gmail.com>
-In-Reply-To: <CAK7LNAQ0RwJYkCXHj8QMH3sqXgY2LBTiYV8HnKD8oANB8Bb+Yg@mail.gmail.com>
+References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-5-xur@google.com>
+ <CAK7LNAQpFdHxAGk1SSRrJwyKA1XjfJLbyAeka7-YemJ1zEevnQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQpFdHxAGk1SSRrJwyKA1XjfJLbyAeka7-YemJ1zEevnQ@mail.gmail.com>
 From: Rong Xu <xur@google.com>
-Date: Mon, 21 Oct 2024 16:28:07 -0700
-Message-ID: <CAF1bQ=RuLmO9S1W6ofmgVQZR7pBqR3iN7gCuUO2TkwGQwM76Kw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] AutoFDO: Enable machine function split
- optimization for AutoFDO
+Date: Mon, 21 Oct 2024 16:32:00 -0700
+Message-ID: <CAF1bQ=Tp8Dc=jpNNq+B+qj90bowod8dQ1JYRsM4q5ARdf=Jd_Q@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] AutoFDO: Enable -ffunction-sections for the
+ AutoFDO build
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
@@ -81,80 +81,215 @@ Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>
 	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
 	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>
+	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 20, 2024 at 8:18=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+The answers are the same as the reply in [PATCH v4 5/6]
+
+On Sun, Oct 20, 2024 at 7:26=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
 > On Tue, Oct 15, 2024 at 6:33=E2=80=AFAM Rong Xu <xur@google.com> wrote:
 > >
-> > Enable the machine function split optimization for AutoFDO in Clang.
+> > Enable -ffunction-sections by default for the AutoFDO build.
 > >
-> > Machine function split (MFS) is a pass in the Clang compiler that
-> > splits a function into hot and cold parts. The linker groups all
-> > cold blocks across functions together. This decreases hot code
-> > fragmentation and improves iCache and iTLB utilization.
-> >
-> > MFS requires a profile so this is enabled only for the AutoFDO builds.
+> > With -ffunction-sections, the compiler places each function in its own
+> > section named .text.function_name instead of placing all functions in
+> > the .text section. In the AutoFDO build, this allows the linker to
+> > utilize profile information to reorganize functions for improved
+> > utilization of iCache and iTLB.
 > >
 > > Co-developed-by: Han Shen <shenhan@google.com>
 > > Signed-off-by: Han Shen <shenhan@google.com>
 > > Signed-off-by: Rong Xu <xur@google.com>
 > > Suggested-by: Sriraman Tallam <tmsriram@google.com>
-> > Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
 > > ---
-> >  include/asm-generic/vmlinux.lds.h | 6 ++++++
-> >  scripts/Makefile.autofdo          | 2 ++
-> >  2 files changed, 8 insertions(+)
+> >  include/asm-generic/vmlinux.lds.h | 37 ++++++++++++++++++++++++-------
+> >  scripts/Makefile.autofdo          |  2 +-
+> >  2 files changed, 30 insertions(+), 9 deletions(-)
 > >
 > > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vm=
 linux.lds.h
-> > index ace617d1af9b..20e46c0917db 100644
+> > index 5df589c60401..ace617d1af9b 100644
 > > --- a/include/asm-generic/vmlinux.lds.h
 > > +++ b/include/asm-generic/vmlinux.lds.h
-> > @@ -565,9 +565,14 @@ defined(CONFIG_AUTOFDO_CLANG)
-> >                 __unlikely_text_start =3D .;                           =
-   \
-> >                 *(.text.unlikely .text.unlikely.*)                     =
- \
-> >                 __unlikely_text_end =3D .;
-> > +#define TEXT_SPLIT                                                    =
- \
-> > +               __split_text_start =3D .;                              =
-   \
-> > +               *(.text.split .text.split.[0-9a-zA-Z_]*)               =
- \
-> > +               __split_text_end =3D .;
+> > @@ -95,18 +95,25 @@
+> >   * With LTO_CLANG, the linker also splits sections by default, so we n=
+eed
+> >   * these macros to combine the sections during the final link.
+> >   *
+> > + * With LTO_CLANG, the linker also splits sections by default, so we n=
+eed
+> > + * these macros to combine the sections during the final link.
+> > + *
+> >   * RODATA_MAIN is not used because existing code already defines .roda=
+ta.x
+> >   * sections to be brought in with rodata.
+> >   */
+> > -#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LT=
+O_CLANG)
+> > +#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LT=
+O_CLANG) || \
+> > +defined(CONFIG_AUTOFDO_CLANG)
+> >  #define TEXT_MAIN .text .text.[0-9a-zA-Z_]*
+> > +#else
+> > +#define TEXT_MAIN .text
+> > +#endif
+> > +#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LT=
+O_CLANG)
+> >  #define DATA_MAIN .data .data.[0-9a-zA-Z_]* .data..L* .data..compoundl=
+iteral* .data.$__unnamed_* .data.$L*
+> >  #define SDATA_MAIN .sdata .sdata.[0-9a-zA-Z_]*
+> >  #define RODATA_MAIN .rodata .rodata.[0-9a-zA-Z_]* .rodata..L*
+> >  #define BSS_MAIN .bss .bss.[0-9a-zA-Z_]* .bss..L* .bss..compoundlitera=
+l*
+> >  #define SBSS_MAIN .sbss .sbss.[0-9a-zA-Z_]*
 > >  #else
-> >  #define TEXT_HOT *(.text.hot .text.hot.*)
-> >  #define TEXT_UNLIKELY *(.text.unlikely .text.unlikely.*)
-> > +#define TEXT_SPLIT
-> >  #endif
+> > -#define TEXT_MAIN .text
+> >  #define DATA_MAIN .data
+> >  #define SDATA_MAIN .sdata
+> >  #define RODATA_MAIN .rodata
+> > @@ -549,6 +556,20 @@
+> >                 __cpuidle_text_end =3D .;                              =
+   \
+> >                 __noinstr_text_end =3D .;
+> >
+> > +#ifdef CONFIG_AUTOFDO_CLANG
+> > +#define TEXT_HOT                                                      =
+ \
+> > +               __hot_text_start =3D .;                                =
+   \
+> > +               *(.text.hot .text.hot.*)                               =
+ \
+> > +               __hot_text_end =3D .;
+> > +#define TEXT_UNLIKELY                                                 =
+ \
+> > +               __unlikely_text_start =3D .;                           =
+   \
+> > +               *(.text.unlikely .text.unlikely.*)                     =
+ \
+> > +               __unlikely_text_end =3D .;
+> > +#else
+> > +#define TEXT_HOT *(.text.hot .text.hot.*)
+> > +#define TEXT_UNLIKELY *(.text.unlikely .text.unlikely.*)
+> > +#endif
 >
 >
-> Why conditional?
+>
+> Again, why is this conditional?
 
 The condition is to ensure that we don't change the default kernel
-build by any means.
-The new code will introduce a few new symbols.
+build by any means. The new code will introduce a few new symbols.
 
 >
 >
-> Where are __unlikely_text_start and __unlikely_text_end used?
+> The only difference is *_start and *_end symbols are defined
+> when CONFIG_AUTOFDO_CLANG=3Dy.
+>
+> And, where are these symbols used?
 
 These new symbols are currently unreferenced within the kernel source tree.
 However, they provide a valuable means of identifying hot and cold
-sections of text,
-and how large they are. I think they are useful information.
+sections of text, and how large they are. I think they are useful informati=
+on.
 
 >
 >
 >
 >
 >
+>
+>
+>
+>
+>
+>
+> > +
+> >  /*
+> >   * .text section. Map to function alignment to avoid address changes
+> >   * during second ld run in second ld pass when generating System.map
+> > @@ -557,30 +578,30 @@
+> >   * code elimination or function-section is enabled. Match these symbol=
+s
+> >   * first when in these builds.
+> >   */
+> > -#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LT=
+O_CLANG)
+> > +#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LT=
+O_CLANG) || \
+> > +defined(CONFIG_AUTOFDO_CLANG)
+> >  #define TEXT_TEXT                                                     =
+ \
+> >                 ALIGN_FUNCTION();                                      =
+ \
+> >                 *(.text.asan.* .text.tsan.*)                           =
+ \
+> >                 *(.text.unknown .text.unknown.*)                       =
+ \
+> > -               *(.text.unlikely .text.unlikely.*)                     =
+ \
+> > +               TEXT_UNLIKELY                                          =
+ \
+> >                 . =3D ALIGN(PAGE_SIZE);                                =
+   \
+> > -               *(.text.hot .text.hot.*)                               =
+ \
+> > +               TEXT_HOT                                               =
+ \
+> >                 *(TEXT_MAIN .text.fixup)                               =
+ \
+> >                 NOINSTR_TEXT                                           =
+ \
+> >                 *(.ref.text)
+> >  #else
+> >  #define TEXT_TEXT                                                     =
+ \
+> >                 ALIGN_FUNCTION();                                      =
+ \
+> > -               *(.text.hot .text.hot.*)                               =
+ \
+> > +               TEXT_HOT                                               =
+ \
+> >                 *(TEXT_MAIN .text.fixup)                               =
+ \
+> > -               *(.text.unlikely .text.unlikely.*)                     =
+ \
+> > +               TEXT_UNLIKELY                                          =
+ \
+> >                 *(.text.unknown .text.unknown.*)                       =
+ \
+> >                 NOINSTR_TEXT                                           =
+ \
+> >                 *(.ref.text)                                           =
+ \
+> >                 *(.text.asan.* .text.tsan.*)
+> >  #endif
+> >
+> > -
+> >  /* sched.text is aling to function alignment to secure we have same
+> >   * address even at second ld pass when generating System.map */
+> >  #define SCHED_TEXT                                                    =
+ \
+> > diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
+> > index 1c9f224bc221..9c9a530ef090 100644
+> > --- a/scripts/Makefile.autofdo
+> > +++ b/scripts/Makefile.autofdo
+> > @@ -10,7 +10,7 @@ ifndef CONFIG_DEBUG_INFO
+> >  endif
+> >
+> >  ifdef CLANG_AUTOFDO_PROFILE
+> > -  CFLAGS_AUTOFDO_CLANG +=3D -fprofile-sample-use=3D$(CLANG_AUTOFDO_PRO=
+FILE)
+> > +  CFLAGS_AUTOFDO_CLANG +=3D -fprofile-sample-use=3D$(CLANG_AUTOFDO_PRO=
+FILE) -ffunction-sections
+> >  endif
+> >
+> >  ifdef CONFIG_LTO_CLANG_THIN
+> > --
+> > 2.47.0.rc1.288.g06298d1525-goog
+> >
+> >
 >
 >
 > --
