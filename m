@@ -1,112 +1,146 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA641A264A;
-	Mon, 21 Oct 2024 15:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F771CBEA3
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 15:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729525920; cv=none; b=EmVvYu3n9bGZ48MeHxJiAie/dkMlWQotBiCl0vD3EIWW3iuxfIbzyyKn3hvZEw5e8uaD+ewkhE7Uwgw1f6ksAWDUnMS3btNBZq0tCoi2TL/nB/bcAd/wfcPxwehxuqkhP7rBaTzu6mL4G9vD6+6TZ4sM8J8TC5Q+2rKrnik7Z+0=
+	t=1729526237; cv=none; b=nUI4R3jFb2rvdMItevcns3m1BGz+yWDOgACMQN4G9cjWQ7b5+r7TiTtOa+8hzVOJVp3A8EW8BZNrwZ6h7ePbA7iv7jvOjAN6Bcmb6Rjm4ZTT6Sclw74WqYwN0aaGbr2fLxjFAqw1vSxHBI18iuKUmj2/jb2dJ8IxVirP16JGZRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729525920; c=relaxed/simple;
-	bh=NtU/4AB1lTAZ+pQ9nINBRSms9NiVC6gYsoyQPRpM65M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nDAiefQycaOd8v9BiLIQGs479xv397eK0s1j4/VU2iq/mCmKGBWEJYn2iZn9w3lUmAofqcNNeTWS/EB757BEKiGZUtgiFMvlu4RqPsCfn+p31wHfBH0eoPXas5ObkDaUWP45vSLWx4SVPqafSrO61+dbUhHY/LdjaFaJjF6XRHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrADnR21yeBZnfEBPCA--.38942S2;
-	Mon, 21 Oct 2024 23:51:14 +0800 (CST)
-Received: from [192.168.1.6] (unknown [183.94.68.188])
-	by gateway (Coremail) with SMTP id _____wB3cA9weBZn1MqEAA--.29580S2;
-	Mon, 21 Oct 2024 23:51:14 +0800 (CST)
-Message-ID: <bae3c59c-39a5-4daa-b37e-bbf077d57643@hust.edu.cn>
-Date: Mon, 21 Oct 2024 23:51:11 +0800
+	s=arc-20240116; t=1729526237; c=relaxed/simple;
+	bh=rDqF9HRJ9NrejWv1i63XVUmfDKFrWmrBwIErnzkWKXI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=naERy8BPbx3tmwGDiCmMWWytHMK2bJX7rlIY3WUZnZvERyGHV2aBX/gi3A+S+w4kpMA8QpMyk/qo3bRAHv/hH2AqPo+qVg6yiBDBG28+o7Mt2JtVcDG487/0uQtEclNuCl2rsonejiwcItUw4lPslMx5jx5wb3zhYBS7JfkPL0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=R02flJPg; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="R02flJPg"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5cb615671acso1234835a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 08:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1729526233; x=1730131033; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dDw/eqUUNfsBtWyAEhbHkP16UO4fYbMtXP5eNWAHVM4=;
+        b=R02flJPgxKKoXJgbfqPm3Xvt/LhvLFXi1x2nmHJyx1ksn+V/SC53iFKbmG6wj4ood6
+         UqagCb5QdcTlqNLBwcssgli278rs3NEkoLehtBoTF2z6p+eDKOJskyG/ioazaOJKHdar
+         tfl85Qdb2YmxdlyzyLltoNmWOSkimuE8mBkxXjNW617+/vzKlxdeSzmyCPs14p0CVJoS
+         7ewQ9VsROm4PM5C1uIcumGkiLrzd3wQ+isV5shOpHYBmdfqr7eAxlnpLY7F4rVHaO4li
+         8eEZTylLSE1lARCk7GF8hKHSBLTKtZxeVZCyJrsYFJ17wfMBKbvqpXzNwtG2QbPx+W4P
+         fiDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729526233; x=1730131033;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dDw/eqUUNfsBtWyAEhbHkP16UO4fYbMtXP5eNWAHVM4=;
+        b=sXCO7TEc4I0tNsAyfubo2yYv4j4ehRDvJ1MSuBPQYfdYQdtCVVG4MFfTftDKwibVip
+         5RzbkMKwyj2N7iFIBn1Bky5c8ycH4/vsze4mK7t1QVjN532ygzlcouHQQjhsUGdKcZyS
+         hDKB9BgcripsSQGEnpt2SAqIotgHAW7pHgpZ+/EarLCKdziZlq7W6ilhJGKbdUackYjN
+         qOARLvGbNXhFFoP5DzYkDffbuYemCiTDJzrSgqPCMt0CEEEnW0nPZhnfQGz2fE6FAEG+
+         bIbCBHDj5y0fmFdKZD1cftm7xM7sFpcJsZf2iJ+f3tNR+uuibZJVYNm8eQ6iZhtr30zv
+         L94w==
+X-Forwarded-Encrypted: i=1; AJvYcCVEGRZx5W+duHOkYIApjBlQsnpwywzTzm2pI9+Pbry0flU2uDod4IMoP2I4SiY79NvKp76fXrLjYPA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjUJqsF++eiBEUVo5ZaKAn/sCq3lsYlVz5AY4VvOBgvRu9SOjV
+	589lrdcz2t5gknGwl5qj53tdB91IBAAP5O79Ohs3r7y7FLi2gBHNrpE5ZOMUiv8=
+X-Google-Smtp-Source: AGHT+IH8rj3/sUlYj4idAmDktH+SYwN0X+O5bSIWGTSplCx3Kpe3omxzwpgCZW0mKkaRkknG0Ii7EA==
+X-Received: by 2002:a05:6402:42d6:b0:5c9:137b:b81b with SMTP id 4fb4d7f45d1cf-5ca0ae81126mr14584037a12.25.1729526233247;
+        Mon, 21 Oct 2024 08:57:13 -0700 (PDT)
+Received: from localhost (109-81-89-238.rct.o2.cz. [109.81.89.238])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb66a654cfsm2065438a12.29.2024.10.21.08.57.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 08:57:12 -0700 (PDT)
+Date: Mon, 21 Oct 2024 17:57:12 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: David Hildenbrand <david@redhat.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Yosry Ahmed <yosryahmed@google.com>, akpm@linux-foundation.org,
+	kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de,
+	mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org,
+	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de,
+	xiongwei.song@windriver.com, ardb@kernel.org, vbabka@suse.cz,
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net,
+	willy@infradead.org, liam.howlett@oracle.com,
+	pasha.tatashin@soleen.com, souravpanda@google.com,
+	keescook@chromium.org, dennis@kernel.org, yuzhao@google.com,
+	vvvvvv@google.com, rostedt@goodmis.org, iamjoonsoo.kim@lge.com,
+	rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v3 5/5] alloc_tag: config to store page allocation tag
+ refs in page flags
+Message-ID: <ZxZ52Kcd8pskQ-Jd@tiehlicka>
+References: <ZxJcryjDUk_LzOuj@tiehlicka>
+ <CAJuCfpGV3hwCRJj6D-SnSOc+VEe5=_045R1aGJEuYCL7WESsrg@mail.gmail.com>
+ <ZxKWBfQ_Lps93fY1@tiehlicka>
+ <CAJuCfpHa9qjugR+a3cs6Cud4PUcPWdvc+OgKTJ1qnryyJ9+WXA@mail.gmail.com>
+ <CAJuCfpHFmmZhSrWo0iWST9+DGbwJZYdZx7zjHSHJLs_QY-7UbA@mail.gmail.com>
+ <ZxYCK0jZVmKSksA4@tiehlicka>
+ <62a7eb3f-fb27-43f4-8365-0fa0456c2f01@redhat.com>
+ <CAJuCfpE_aSyjokF=xuwXvq9-jpjDfC+OH0etspK=G6PS7SvMFg@mail.gmail.com>
+ <ZxZ0eh95AfFcQSFV@tiehlicka>
+ <CAJuCfpGHKHJ_6xN4Ur4pjLgwTQ2QLkbWuAOhQQPinXNQVONxEA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs/zh_CN: update the translation of
- process/programming-language.rst
-To: Jonathan Corbet <corbet@lwn.net>, si.yanteng@linux.dev,
- Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev
-References: <20241018015226.3786020-1-dzm91@hust.edu.cn>
- <87ed49tqia.fsf@trenco.lwn.net>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <87ed49tqia.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HgEQrADnR21yeBZnfEBPCA--.38942S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7WF18XF1rWryDZr1DAw47Jwb_yoW8AryDpF
-	yUtFy7Ga1rAFn8C3yUtrWrWr1rJFs7GayDtr12q3Z5tws0k3s7XrWfKFs3u34UZry8Aa1U
-	XayUKF9Ygr4YvaDanT9S1TB71UUUU1UqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jw
-	0_GFylnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r4a6rW5MxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVWrXVW3AwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
-	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07b1db8UUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpGHKHJ_6xN4Ur4pjLgwTQ2QLkbWuAOhQQPinXNQVONxEA@mail.gmail.com>
 
+On Mon 21-10-24 08:41:00, Suren Baghdasaryan wrote:
+> On Mon, Oct 21, 2024 at 8:34 AM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Mon 21-10-24 08:05:16, Suren Baghdasaryan wrote:
+> > [...]
+> > > Yeah, I thought about adding new values to "mem_profiling" but it's a
+> > > bit complicated. Today it's a tristate:
+> > >
+> > > mem_profiling=0|1|never
+> > >
+> > > 0/1 means we disable/enable memory profiling by default but the user
+> > > can enable it at runtime using a sysctl. This means that we enable
+> > > page_ext at boot even when it's set to 0.
+> > > "never" means we do not enable page_ext, memory profiling is disabled
+> > > and sysctl to enable it will not be exposed. Used when a distribution
+> > > has CONFIG_MEM_ALLOC_PROFILING=y but the user does not use it and does
+> > > not want to waste memory on enabling page_ext.
+> > >
+> > > I can add another option like "pgflags" but then it also needs to
+> > > specify whether we should enable or disable profiling by default
+> > > (similar to 0|1 for page_ext mode). IOW we will need to encode also
+> > > the default state we want. Something like this:
+> > >
+> > > mem_profiling=0|1|never|pgflags_on|pgflags_off
+> > >
+> > > Would this be acceptable?
+> >
+> > Isn't this overcomplicating it? Why cannot you simply go with
+> > mem_profiling={0|never|1}[,$YOUR_OPTIONS]
+> >
+> > While $YOUR_OPTIONS could be compress,fallback,ponies and it would apply
+> > or just be ignored if that is not applicable.
+> 
+> Oh, you mean having 2 parts in the parameter with supported options being:
+> 
+> mem_profiling=never
+> mem_profiling=0
+> mem_profiling=1
+> mem_profiling=0,pgflags
+> mem_profiling=1,pgflags
+> 
+> Did I understand correctly? If so then yes, this should work.
 
-On 2024/10/21 23:38, Jonathan Corbet wrote:
-> Dongliang Mu <dzm91@hust.edu.cn> writes:
->
->> Update to commit 0b02076f9953 ("docs: programming-language: add Rust
->> programming language section")
->>
->> scripts/checktransupdate.py reports:
->>
->> Documentation/translations/zh_CN/process/programming-language.rst
->> commit 0b02076f9953 ("docs: programming-language: add Rust programming
->> language section")
->> commit 38484a1d0c50 ("docs: programming-language: remove mention of the
->> Intel compiler")
->> 2 commits needs resolving in total
->>
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> ---
->> v1->v2: revise the script name
->>   .../zh_CN/process/programming-language.rst    | 78 +++++++------------
->>   1 file changed, 30 insertions(+), 48 deletions(-)
-> This one adds some new build warnings:
->
-> Documentation/translations/zh_CN/process/programming-language.rst:44: WARNING: duplicate citation gcc, other instance in /stuff/k/git/kernel/Documentation/process/programming-language.rst
-> Documentation/translations/zh_CN/process/programming-language.rst:51: WARNING: duplicate citation rustc, other instance in /stuff/k/git/kernel/Documentation/process/programming-language.rst
->
-> *Please* be sure to do a docs build before submitting your patches.
-
-I am sorry. I am not sure why I miss this warning. I should strictly 
-follow the rule - make htmldocs and checkpatch do no trigger any errors 
-or warns.
-
-A simple question: if you miss the warning in one `make htmldocs` 
-building``, you rerun `make htmldocs` and still trigger the warning or 
-just the warnnings do not appear until `make cleandocs` is done?
-
-Dongliang Mu
-
->
-> jon
-
+yes. I would just not call it pgflags because that just doesn't really
+tell what the option is to anybody but kernel developers. You could also
+have an option to override the default (disable profiling) failure strategy.
+-- 
+Michal Hocko
+SUSE Labs
