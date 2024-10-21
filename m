@@ -1,196 +1,393 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CC51E6DC7
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 12:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4529F1EF94A;
+	Mon, 21 Oct 2024 12:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729515072; cv=none; b=CnXwCsGShcxk/vSXmxszY/Z0tjgbj92z37dCOwBEbBFphbqbzdbGTBJysrakn9s9gbWHQpOrAkhOWUgJWJvEDki3fgCRxCorW5F/wgSGiURdDASmYbPH9sA77yNmnZTphLodZ9cU9bV7UKXoKOzQlREjbOXCD4fAlLSPoqOpTpw=
+	t=1729515562; cv=none; b=SfM+acOsehAc8GpdZJ7TGP/hOPKdJNd8rMccD+WwWqatISBrVHs+gnjVlyCZnf4GCsMOsdS9QSty4HUIVXZJ6/7Al5bmbIPMuBBxRzkp6D7jx4q0ZZMvtedsRKAIHliPhoNdxLn4VImx8kIE0T+uYi9a7Kn8uB/7OO5VTufgIEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729515072; c=relaxed/simple;
-	bh=V94Ij3ae1rZVmL+jxKjTKUB+2p4lVCFw5V42wkRlmNk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nEO+MRK+IPVv/yPyqT/oZn7Q0Q+ZcCbJk/C945Pyi2y3lnixwlC9WtyCecDGAjg7CEsWQ2+UpOPw4TxuGa3hMeb0AIQyHfby2fY3sT+3WxrO+x5bl8JdOS8IRtVpo/768CtURSqXJE/Mmq1VF+aiqmWViMu26qhL0uJnBcE+9Yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BxinkhbI; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1729515562; c=relaxed/simple;
+	bh=zudYUkWpcUzf+HKLpmF9sg0h4oBnCoa/e2+edFK90gM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kjU1ahDHqH75zl9dA9apizFSr8UmGp6wM/mNCkiovouyvkMMomAvOP7/qMITICzPR0nhriegls2nCSKbTTlZh9g6w8nYSODdWrvfNGsrmJmjy6PePsIEPlW1iXTrAAkK3bLu3MW83+Py8aoucQGv45e590sLh5/R91tkVsrU1C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eLxvVVtF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BxinkhbI"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53a097aa3daso4142106e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 05:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729515068; x=1730119868; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y4x0frPjt5/BOSJ9+yy/X3eM08JC+jz1BkqZ97LB2LU=;
-        b=BxinkhbIolaZt7V0mXqJwX1rjsQq5gLUkpj0/0egfWJIczRp+6fczOr0/MloDhqncM
-         oPL66Jwead4z/83KS3lQGCWG2r9xa2IM5mq3FNUDY+V0WwujlXUo8WK3jzyfIMOEMdeo
-         a5/I9l2xjPh9+MauM35OH2Yklj6Xz3+0+30wYDvNUO2wBffp3Z11tx6UczFj7xOcTtf/
-         lo5bt/v5jZpxxRVopqBV9k/Oag/Q5S1m3UcaOaMJc6ZI6tKz1KUcd2dhCBJXA+EaAihk
-         jripIz+9Fw+89KcmYLyeItz+3aZQ0cfU2NNJMe/h5jgI/DH+u5w+/6I/XAJAH5ZaVT8M
-         hPnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729515068; x=1730119868;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y4x0frPjt5/BOSJ9+yy/X3eM08JC+jz1BkqZ97LB2LU=;
-        b=k3qMW+o441KUPfdlCfPriptAQpZQF9mhY4w/CFfi6fnvb1KEM6N06eKcsEJdb1G9NC
-         6BnZ2S8pub4cKW7KfbaNHsLHP1Vfht1lxAKilyDwFWjnxWydFTVVIcVs4XRrB6+PfNW+
-         IOEwYYksMvw1ucsQhMAjp6Ia9uHIQUZjl3bmiRU2s5gfvf1Zc+Umct7Qe9N25EBl/6Md
-         5vT5pvAIPzLrWRFLBrVKb7OHnzvJquKnNiPRCXBKobLXmfQ46z7lZvNo30qllDqaIo/L
-         3UUELiCVoi+BZBN07yQ2o7SZySza5PP3EOzlKfaeEV2at3zuiMbQh0Q/ej8C0tKyF010
-         e3RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqZf67uXp/t7rqHXvsonbNzdT4h11zjfD9LYwoc/nslK9ltC12PvnqIv+RtSSw7A2WWqSwo5m3xFE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEDyLMAu/03kxKMXmcv0+4nIdD9akwH6Xg//HAGDTu/BfQGo2n
-	6UjWP06SjYft9xnpTmPPt3vbJ8d4odw9/O81fp3W9YwhHa63E+x6M7GzEoPVkIfvrpKwde/YPv9
-	y4dICPZHuKfjR4IIZScQ8s5KU2lTP2ISwlz/cbw==
-X-Google-Smtp-Source: AGHT+IE+MWgG9ymZWSMfk2GnXFlKQTXntyhXseGsCdBrJgITVmJEdzAzJOSda4D1TD0k+L/IINSDoacMOfpYM6ib3uo=
-X-Received: by 2002:a05:6512:1383:b0:539:d428:fbdd with SMTP id
- 2adb3069b0e04-53a1546d2f9mr5522728e87.53.1729515068095; Mon, 21 Oct 2024
- 05:51:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eLxvVVtF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AAD5C4CEC3;
+	Mon, 21 Oct 2024 12:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729515561;
+	bh=zudYUkWpcUzf+HKLpmF9sg0h4oBnCoa/e2+edFK90gM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eLxvVVtFr2uoa/6iwMosidgP4I861ir5hNNHjcTnkR2zIjZMbdZTk3DVxUujSuxnB
+	 fgEbNdHGdcthMltFlvR5BEZ1GRISt4xjZsAZ44sn8HMqRVC1lsWm1H7CnHzkSAftND
+	 XZaQwmSy4diqJuFPBogmwU6CA73gLNDreI7KwjlmjWxI/ffk5UQtKhW9Te+pZk/PUV
+	 LWWVUQvHb+3qOOFi190tmlf900vwVsic9PIVQ7xcjczNU6spL7Q4W5H9ZiYMqrvpps
+	 jVsT03HnMVtHGa3kHO5CUPjXacXsbV8P1RqS8H5j15i+Lzb35ZqTUFFw88vOKId/X9
+	 +aMzqBob5bH3Q==
+Date: Mon, 21 Oct 2024 14:59:16 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
+Cc: Gabriel Krisman Bertazi <krisman@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Hugh Dickins <hughd@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, smcv@collabora.com, 
+	kernel-dev@igalia.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 6/9] tmpfs: Add casefold lookup support
+Message-ID: <20241021-keller-tunnel-c8bebded630c@brauner>
+References: <20241017-tonyk-tmpfs-v7-0-a9c056f8391f@igalia.com>
+ <20241017-tonyk-tmpfs-v7-6-a9c056f8391f@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241021-ad7380-fix-supplies-v2-0-2ca551b3352a@baylibre.com>
- <20241021-ad7380-fix-supplies-v2-4-2ca551b3352a@baylibre.com> <037d7ebb4d037edb32f9d717e456ab545621ea94.camel@gmail.com>
-In-Reply-To: <037d7ebb4d037edb32f9d717e456ab545621ea94.camel@gmail.com>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Mon, 21 Oct 2024 14:50:55 +0200
-Message-ID: <CAEHHSvZxrt3cPmmLwNj9nts9KhBWg4CwnzWnoTXYJL30AbJBsA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] iio: adc: ad7380: fix supplies for ad7380-4
-To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241017-tonyk-tmpfs-v7-6-a9c056f8391f@igalia.com>
 
-Le lun. 21 oct. 2024 =C3=A0 13:18, Nuno S=C3=A1 <noname.nuno@gmail.com> a =
-=C3=A9crit :
->
-> On Mon, 2024-10-21 at 12:00 +0200, Julien Stephan wrote:
-> > ad7380-4 is the only device in the family that does not have an interna=
-l
-> > reference. It uses "refin" as a required external reference.
-> > All other devices in the family use "refio"" as an optional external
-> > reference.
-> >
-> > Fixes: 737413da8704 ("iio: adc: ad7380: add support for ad738x-4 4 chan=
-nels
-> > variants")
-> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > ---
->
-> Hi Julien,
->
-> Patch looks good. Sorry if this already came out in the previous version =
-or in
-> the other patchset you mention but shouldn't this fix come first in the s=
-eries?
->
+On Thu, Oct 17, 2024 at 06:14:16PM -0300, André Almeida wrote:
+> Enable casefold lookup in tmpfs, based on the encoding defined by
+> userspace. That means that instead of comparing byte per byte a file
+> name, it compares to a case-insensitive equivalent of the Unicode
+> string.
+> 
+> * Dcache handling
+> 
+> There's a special need when dealing with case-insensitive dentries.
+> First of all, we currently invalidated every negative casefold dentries.
+> That happens because currently VFS code has no proper support to deal
+> with that, giving that it could incorrectly reuse a previous filename
+> for a new file that has a casefold match. For instance, this could
+> happen:
+> 
+> $ mkdir DIR
+> $ rm -r DIR
+> $ mkdir dir
+> $ ls
+> DIR/
+> 
+> And would be perceived as inconsistency from userspace point of view,
+> because even that we match files in a case-insensitive manner, we still
+> honor whatever is the initial filename.
+> 
+> Along with that, tmpfs stores only the first equivalent name dentry used
+> in the dcache, preventing duplications of dentries in the dcache. The
+> d_compare() version for casefold files uses a normalized string, so the
+> filename under lookup will be compared to another normalized string for
+> the existing file, achieving a casefolded lookup.
+> 
+> * Enabling casefold via mount options
+> 
+> Most filesystems have their data stored in disk, so casefold option need
+> to be enabled when building a filesystem on a device (via mkfs).
+> However, as tmpfs is a RAM backed filesystem, there's no disk
+> information and thus no mkfs to store information about casefold.
+> 
+> For tmpfs, create casefold options for mounting. Userspace can then
+> enable casefold support for a mount point using:
+> 
+> $ mount -t tmpfs -o casefold=utf8-12.1.0 fs_name mount_dir/
+> 
+> Userspace must set what Unicode standard is aiming to. The available
+> options depends on what the kernel Unicode subsystem supports.
+> 
+> And for strict encoding:
+> 
+> $ mount -t tmpfs -o casefold=utf8-12.1.0,strict_encoding fs_name mount_dir/
+> 
+> Strict encoding means that tmpfs will refuse to create invalid UTF-8
+> sequences. When this option is not enabled, any invalid sequence will be
+> treated as an opaque byte sequence, ignoring the encoding thus not being
+> able to be looked up in a case-insensitive way.
+> 
+> * Check for casefold dirs on simple_lookup()
+> 
+> On simple_lookup(), do not create dentries for casefold directories.
+> Currently, VFS does not support case-insensitive negative dentries and
+> can create inconsistencies in the filesystem. Prevent such dentries to
+> being created in the first place.
+> 
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+> Changes from v7:
+> - Dropped patch "tmpfs: Always set simple_dentry_operations as dentry ops"
+> - Re-place generic_ci_validate_strict_name() before inode creation
+> 
+> Changes from v4:
+> - Squash commit Check for casefold dirs on simple_lookup() here
+> - Fails to mount if strict_encoding is used without encoding
+> - tmpfs doesn't support fscrypt, so I dropped d_revalidate line
+> 
+> Changes from v3:
+> - Simplified shmem_parse_opt_casefold()
+> - sb->s_d_op is set to shmem_ci_dentry_ops during mount time
+> - got rid of shmem_lookup(), modified simple_lookup()
+> 
+> Changes from v2:
+> - simple_lookup() now sets d_ops
+> - reworked shmem_parse_opt_casefold()
+> - if `mount -o casefold` has no param, load latest UTF-8 version
+> - using (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir) when possible
+> ---
+>  fs/libfs.c |   4 +++
+>  mm/shmem.c | 119 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+>  2 files changed, 119 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/libfs.c b/fs/libfs.c
+> index 7b290404c5f9901010ada2f921a214dbc94eb5fa..a168ece5cc61b74114f537f5b7b8a07f2d48b2aa 100644
+> --- a/fs/libfs.c
+> +++ b/fs/libfs.c
+> @@ -77,6 +77,10 @@ struct dentry *simple_lookup(struct inode *dir, struct dentry *dentry, unsigned
+>  		return ERR_PTR(-ENAMETOOLONG);
+>  	if (!dentry->d_sb->s_d_op)
+>  		d_set_d_op(dentry, &simple_dentry_operations);
+> +
+> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
+> +		return NULL;
+> +
+>  	d_add(dentry, NULL);
+>  	return NULL;
+>  }
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 4f11b55063631976af81e4221c7366b768db6690..ea4eff41eef35c9c253092f39402db142baa741b 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -40,6 +40,7 @@
+>  #include <linux/fs_parser.h>
+>  #include <linux/swapfile.h>
+>  #include <linux/iversion.h>
+> +#include <linux/unicode.h>
+>  #include "swap.h"
+>  
+>  static struct vfsmount *shm_mnt __ro_after_init;
+> @@ -123,6 +124,8 @@ struct shmem_options {
+>  	bool noswap;
+>  	unsigned short quota_types;
+>  	struct shmem_quota_limits qlimits;
+> +	struct unicode_map *encoding;
+> +	bool strict_encoding;
 
-Hi Nuno,
-That was my plan at first, but doing the
-devm_regulator_get_enable_read_voltage() first, simplifies the next
-changes ... and also eases the review :)
+I'm a bit confused here because there seem to be codepaths where access
+to these fields is guarded by IS_ENABLED(CONFIG_UNICODE) and then theres
+one where it's not.
 
-If needed I can do the rebase
+Can't you make this consistent so that all access and the definition of
+the members are guarded by CONFIG_UNICODE?
 
-Cheers
-Julien
-
-> Anyways, for the patch itself:
->
-> Reviewed-by: Nuno Sa <nuno.sa@analog.com>
->
-> >  drivers/iio/adc/ad7380.c | 36 ++++++++++++++++++++++++++----------
-> >  1 file changed, 26 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
-> > index
-> > e257f78d63edd7910fcb936ec5344922f8e70b99..65096717f0dd3ea6a4ff7020bc544=
-d62b84c
-> > b8fd 100644
-> > --- a/drivers/iio/adc/ad7380.c
-> > +++ b/drivers/iio/adc/ad7380.c
-> > @@ -89,6 +89,7 @@ struct ad7380_chip_info {
-> >       bool has_mux;
-> >       const char * const *supplies;
-> >       unsigned int num_supplies;
-> > +     bool external_ref_only;
-> >       const char * const *vcm_supplies;
-> >       unsigned int num_vcm_supplies;
-> >       const unsigned long *available_scan_masks;
-> > @@ -431,6 +432,7 @@ static const struct ad7380_chip_info ad7380_4_chip_=
-info =3D
-> > {
-> >       .num_simult_channels =3D 4,
-> >       .supplies =3D ad7380_supplies,
-> >       .num_supplies =3D ARRAY_SIZE(ad7380_supplies),
-> > +     .external_ref_only =3D true,
-> >       .available_scan_masks =3D ad7380_4_channel_scan_masks,
-> >       .timing_specs =3D &ad7380_4_timing,
-> >  };
-> > @@ -1047,17 +1049,31 @@ static int ad7380_probe(struct spi_device *spi)
-> >                                    "Failed to enable power supplies\n")=
-;
-> >       msleep(T_POWERUP_MS);
-> >
-> > -     /*
-> > -      * If there is no REFIO supply, then it means that we are using
-> > -      * the internal 2.5V reference, otherwise REFIO is reference volt=
-age.
-> > -      */
-> > -     ret =3D devm_regulator_get_enable_read_voltage(&spi->dev, "refio"=
-);
-> > -     if (ret < 0 && ret !=3D -ENODEV)
-> > -             return dev_err_probe(&spi->dev, ret,
-> > -                                  "Failed to get refio regulator\n");
-> > +     if (st->chip_info->external_ref_only) {
-> > +             ret =3D devm_regulator_get_enable_read_voltage(&spi->dev,
-> > +                                                          "refin");
-> > +             if (ret < 0)
-> > +                     return dev_err_probe(&spi->dev, ret,
-> > +                                          "Failed to get refin
-> > regulator\n");
-> > +
-> > +             st->vref_mv =3D ret / 1000;
-> >
-> > -     external_ref_en =3D ret !=3D -ENODEV;
-> > -     st->vref_mv =3D external_ref_en ? ret / 1000 : AD7380_INTERNAL_RE=
-F_MV;
-> > +             /* these chips don't have a register bit for this */
-> > +             external_ref_en =3D false;
-> > +     } else {
-> > +             /*
-> > +              * If there is no REFIO supply, then it means that we are
-> > using
-> > +              * the internal reference, otherwise REFIO is reference
-> > voltage.
-> > +              */
-> > +             ret =3D devm_regulator_get_enable_read_voltage(&spi->dev,
-> > +                                                          "refio");
-> > +             if (ret < 0 && ret !=3D -ENODEV)
-> > +                     return dev_err_probe(&spi->dev, ret,
-> > +                                          "Failed to get refio
-> > regulator\n");
-> > +
-> > +             external_ref_en =3D ret !=3D -ENODEV;
-> > +             st->vref_mv =3D external_ref_en ? ret / 1000 :
-> > AD7380_INTERNAL_REF_MV;
-> > +     }
-> >
-> >       if (st->chip_info->num_vcm_supplies > ARRAY_SIZE(st->vcm_mv))
-> >               return dev_err_probe(&spi->dev, -EINVAL,
-> >
->
+>  #define SHMEM_SEEN_BLOCKS 1
+>  #define SHMEM_SEEN_INODES 2
+>  #define SHMEM_SEEN_HUGE 4
+> @@ -3570,6 +3573,9 @@ shmem_mknod(struct mnt_idmap *idmap, struct inode *dir,
+>  	struct inode *inode;
+>  	int error;
+>  
+> +	if (!generic_ci_validate_strict_name(dir, &dentry->d_name))
+> +		return -EINVAL;
+> +
+>  	inode = shmem_get_inode(idmap, dir->i_sb, dir, mode, dev, VM_NORESERVE);
+>  	if (IS_ERR(inode))
+>  		return PTR_ERR(inode);
+> @@ -3589,7 +3595,12 @@ shmem_mknod(struct mnt_idmap *idmap, struct inode *dir,
+>  	dir->i_size += BOGO_DIRENT_SIZE;
+>  	inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
+>  	inode_inc_iversion(dir);
+> -	d_instantiate(dentry, inode);
+> +
+> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
+> +		d_add(dentry, inode);
+> +	else
+> +		d_instantiate(dentry, inode);
+> +
+>  	dget(dentry); /* Extra count - pin the dentry in core */
+>  	return error;
+>  
+> @@ -3680,7 +3691,10 @@ static int shmem_link(struct dentry *old_dentry, struct inode *dir,
+>  	inc_nlink(inode);
+>  	ihold(inode);	/* New dentry reference */
+>  	dget(dentry);	/* Extra pinning count for the created dentry */
+> -	d_instantiate(dentry, inode);
+> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
+> +		d_add(dentry, inode);
+> +	else
+> +		d_instantiate(dentry, inode);
+>  out:
+>  	return ret;
+>  }
+> @@ -3700,6 +3714,14 @@ static int shmem_unlink(struct inode *dir, struct dentry *dentry)
+>  	inode_inc_iversion(dir);
+>  	drop_nlink(inode);
+>  	dput(dentry);	/* Undo the count from "create" - does all the work */
+> +
+> +	/*
+> +	 * For now, VFS can't deal with case-insensitive negative dentries, so
+> +	 * we invalidate them
+> +	 */
+> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
+> +		d_invalidate(dentry);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -3844,7 +3866,10 @@ static int shmem_symlink(struct mnt_idmap *idmap, struct inode *dir,
+>  	dir->i_size += BOGO_DIRENT_SIZE;
+>  	inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
+>  	inode_inc_iversion(dir);
+> -	d_instantiate(dentry, inode);
+> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
+> +		d_add(dentry, inode);
+> +	else
+> +		d_instantiate(dentry, inode);
+>  	dget(dentry);
+>  	return 0;
+>  
+> @@ -4197,6 +4222,9 @@ enum shmem_param {
+>  	Opt_usrquota_inode_hardlimit,
+>  	Opt_grpquota_block_hardlimit,
+>  	Opt_grpquota_inode_hardlimit,
+> +	Opt_casefold_version,
+> +	Opt_casefold,
+> +	Opt_strict_encoding,
+>  };
+>  
+>  static const struct constant_table shmem_param_enums_huge[] = {
+> @@ -4228,9 +4256,54 @@ const struct fs_parameter_spec shmem_fs_parameters[] = {
+>  	fsparam_string("grpquota_block_hardlimit", Opt_grpquota_block_hardlimit),
+>  	fsparam_string("grpquota_inode_hardlimit", Opt_grpquota_inode_hardlimit),
+>  #endif
+> +	fsparam_string("casefold",	Opt_casefold_version),
+> +	fsparam_flag  ("casefold",	Opt_casefold),
+> +	fsparam_flag  ("strict_encoding", Opt_strict_encoding),
+>  	{}
+>  };
+>  
+> +#if IS_ENABLED(CONFIG_UNICODE)
+> +static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param,
+> +				    bool latest_version)
+> +{
+> +	struct shmem_options *ctx = fc->fs_private;
+> +	unsigned int version = UTF8_LATEST;
+> +	struct unicode_map *encoding;
+> +	char *version_str = param->string + 5;
+> +
+> +	if (!latest_version) {
+> +		if (strncmp(param->string, "utf8-", 5))
+> +			return invalfc(fc, "Only UTF-8 encodings are supported "
+> +				       "in the format: utf8-<version number>");
+> +
+> +		version = utf8_parse_version(version_str);
+> +		if (version < 0)
+> +			return invalfc(fc, "Invalid UTF-8 version: %s", version_str);
+> +	}
+> +
+> +	encoding = utf8_load(version);
+> +
+> +	if (IS_ERR(encoding)) {
+> +		return invalfc(fc, "Failed loading UTF-8 version: utf8-%u.%u.%u\n",
+> +			       unicode_major(version), unicode_minor(version),
+> +			       unicode_rev(version));
+> +	}
+> +
+> +	pr_info("tmpfs: Using encoding : utf8-%u.%u.%u\n",
+> +		unicode_major(version), unicode_minor(version), unicode_rev(version));
+> +
+> +	ctx->encoding = encoding;
+> +
+> +	return 0;
+> +}
+> +#else
+> +static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param,
+> +				    bool latest_version)
+> +{
+> +	return invalfc(fc, "tmpfs: Kernel not built with CONFIG_UNICODE\n");
+> +}
+> +#endif
+> +
+>  static int shmem_parse_one(struct fs_context *fc, struct fs_parameter *param)
+>  {
+>  	struct shmem_options *ctx = fc->fs_private;
+> @@ -4389,6 +4462,13 @@ static int shmem_parse_one(struct fs_context *fc, struct fs_parameter *param)
+>  				       "Group quota inode hardlimit too large.");
+>  		ctx->qlimits.grpquota_ihardlimit = size;
+>  		break;
+> +	case Opt_casefold_version:
+> +		return shmem_parse_opt_casefold(fc, param, false);
+> +	case Opt_casefold:
+> +		return shmem_parse_opt_casefold(fc, param, true);
+> +	case Opt_strict_encoding:
+> +		ctx->strict_encoding = true;
+> +		break;
+>  	}
+>  	return 0;
+>  
+> @@ -4618,6 +4698,11 @@ static void shmem_put_super(struct super_block *sb)
+>  {
+>  	struct shmem_sb_info *sbinfo = SHMEM_SB(sb);
+>  
+> +#if IS_ENABLED(CONFIG_UNICODE)
+> +	if (sb->s_encoding)
+> +		utf8_unload(sb->s_encoding);
+> +#endif
+> +
+>  #ifdef CONFIG_TMPFS_QUOTA
+>  	shmem_disable_quotas(sb);
+>  #endif
+> @@ -4628,6 +4713,14 @@ static void shmem_put_super(struct super_block *sb)
+>  	sb->s_fs_info = NULL;
+>  }
+>  
+> +#if IS_ENABLED(CONFIG_UNICODE) && defined(CONFIG_TMPFS)
+> +static const struct dentry_operations shmem_ci_dentry_ops = {
+> +	.d_hash = generic_ci_d_hash,
+> +	.d_compare = generic_ci_d_compare,
+> +	.d_delete = always_delete_dentry,
+> +};
+> +#endif
+> +
+>  static int shmem_fill_super(struct super_block *sb, struct fs_context *fc)
+>  {
+>  	struct shmem_options *ctx = fc->fs_private;
+> @@ -4662,9 +4755,25 @@ static int shmem_fill_super(struct super_block *sb, struct fs_context *fc)
+>  	}
+>  	sb->s_export_op = &shmem_export_ops;
+>  	sb->s_flags |= SB_NOSEC | SB_I_VERSION;
+> +
+> +	if (!ctx->encoding && ctx->strict_encoding) {
+> +		pr_err("tmpfs: strict_encoding option without encoding is forbidden\n");
+> +		error = -EINVAL;
+> +		goto failed;
+> +	}
+> +
+> +#if IS_ENABLED(CONFIG_UNICODE)
+> +	if (ctx->encoding) {
+> +		sb->s_encoding = ctx->encoding;
+> +		sb->s_d_op = &shmem_ci_dentry_ops;
+> +		if (ctx->strict_encoding)
+> +			sb->s_encoding_flags = SB_ENC_STRICT_MODE_FL;
+> +	}
+> +#endif
+> +
+>  #else
+>  	sb->s_flags |= SB_NOUSER;
+> -#endif
+> +#endif /* CONFIG_TMPFS */
+>  	sbinfo->max_blocks = ctx->blocks;
+>  	sbinfo->max_inodes = ctx->inodes;
+>  	sbinfo->free_ispace = sbinfo->max_inodes * BOGO_INODE_SIZE;
+> @@ -4938,6 +5047,8 @@ int shmem_init_fs_context(struct fs_context *fc)
+>  	ctx->uid = current_fsuid();
+>  	ctx->gid = current_fsgid();
+>  
+> +	ctx->encoding = NULL;
+> +
+>  	fc->fs_private = ctx;
+>  	fc->ops = &shmem_fs_context_ops;
+>  	return 0;
+> 
+> -- 
+> 2.47.0
+> 
