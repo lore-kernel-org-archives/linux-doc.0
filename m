@@ -1,241 +1,222 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9801414263;
-	Mon, 21 Oct 2024 02:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729477562; cv=none; b=T7wemuM9UZBYWJi8IakuG6DSKJMkJ6MvBbmeDoHPc5QpR4Vmg81ptfVPFxFvuj/mHO+gtYKdNMWvLkHrH7EfHo4qpscK3G/fQ9a/GEFHFl8ufJ+PZ8BNX6HOZTrciZHLBniytdxoGAhfi58KbnhA/Enh7EGFM7uMdfb+IiABnSk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729477562; c=relaxed/simple;
-	bh=MFT4zhrh4dk/9hhl8cF/ZTJqOH7EJNqbVWengUh4ThY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W+mGg/6hV9jgWE4fEfC7uSNe1DhNrqq44u9JxYFe4TETFWd6VWKx+2ndZAZgFl6NNgaa9VjvBurFkROWBLrjzoMA11L7ejIkSbaLRHyWgs9OSqMNBaLsg82l23Foqw05kdDgrhvtv0lwzyHY5kZld9kd+XMLzGFObh3VJdvIiPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H7xWJgps; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC85A92F;
+	Mon, 21 Oct 2024 02:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729479003; cv=fail; b=mEN/I4Ch1youUDk3k9FA9wII6QQcbTWauJqvXg5MyA6KZY5NREt+gWY6Pts5IunbyZKOBeUKzD63sNEuJx8SXJczvBkZr2RERja2ofnHFH1C/9vpHhFENSXiDJLSG+j+HyGSqhG/ZxEXQYQs/F4VxV8mjvFwzT9sbNzjlApzvrs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729479003; c=relaxed/simple;
+	bh=ZRUt4Es+WvaAikTK6g+qNyEZj+Cry4jR8vFJRKqgsFU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=IEirEy768o4JMo1oIY9WhxS2XoZysmLHu8kPkGbTHZEHNRI5ukYF61KrlWo4FLD6I3fKOWhR4EM+OnIb8ETaAHjnfXCkiJsiY6w+P5SYE/trwlkyZJ1J9ep+XI9E95ZBcqFVGh6P1TZunGlexk9sXDOoAiEW7eCtvzdHZ9Pz0cI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VwFuakZW; arc=fail smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H7xWJgps"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17FDCC4CEE9;
-	Mon, 21 Oct 2024 02:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729477562;
-	bh=MFT4zhrh4dk/9hhl8cF/ZTJqOH7EJNqbVWengUh4ThY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=H7xWJgpsasDUk70C4/IJ1JOodR4BXod5q7vXP/7zQNzi4ZcYrO3wYWvkeZpxk0PPK
-	 OYAgbrkJW3fdNK7I52V/++6BR3xoCm2XbmT80AvirGaIjEEkb5lP7DBE8WUo7QMe7L
-	 WlOJGXrVlDr1zQCRjxJDlSjvGNb+4J+YAfXRP2tbot14+Af9moZIYH6OY57s9XZg1W
-	 c8rW+uC7ywbw1c6tyvtrdW1WUnO9eAnh1JC286Yr4jaKB931t5M3c/TM6zhXPkLItj
-	 v/bLslAMJJLY9AMqOsh68JceUWi+NpktC5zuENhSeLck/TWcEZDVY/WXXJYmWqv6Ce
-	 46+IUOWKvvFWA==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539fe02c386so4943727e87.0;
-        Sun, 20 Oct 2024 19:26:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUexSen5qSerDp3nkpASDvltcaiRjymbBtOa+aP4TMX0qxFOcgI3XoHFpdQcuEumMFr7L8yE6yi11Fn@vger.kernel.org, AJvYcCVQsxbPVl+ZP9NNmLMlRPDt9+O8tNnUFzaGgeXwJSIKHisJX6a7usX+DubY/+y8mg6ORu9xrRc6XmV5sDUs@vger.kernel.org, AJvYcCVU863Dl9OCcQLQ760BIz95GF3EoxbhDwuOEoYuymsN3ICp4hqKQgRT1YLDndaB5MSJ5oIUAjZC1TyD@vger.kernel.org, AJvYcCWnfSIyjYgEvQAv2rYU4KRSgNtWHtFEzazei5w03lSmcf8yjHf0CTbV4FdVHq3LiLp1cQar7YB1fDks6elB@vger.kernel.org, AJvYcCXD4T5bIcElhk8uhlxAbuvWabbcDpf32Nr7t/V49EwMyFt2A6+cfr68+FQ6LF0/7tP6Jrblg+JHRwKx@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDEaIeUEQ9Qi2fjzkp2bfeR0xJrl3kaVChLM8EDxzygzXSsAPR
-	sx52fFvazSOSErurMZ6OmNS1nfUwaC9wRYMQhUhmx1FqZBkLf1NEklmvZes10JeSjYl21EffnIO
-	twmF6wu4RGhsKpOy/D3ARBXFUpak=
-X-Google-Smtp-Source: AGHT+IFBmY1ZoaSbuZ8jhtdZcMeZUakQQoaHbk51Bf1kKrMDFcSPu+LCqqfc976Jq/JE1IgxgWhpyiU1IfJ/3MKOh2U=
-X-Received: by 2002:a05:6512:2210:b0:52c:ad70:6feb with SMTP id
- 2adb3069b0e04-53a15b808bcmr2536918e87.20.1729477560598; Sun, 20 Oct 2024
- 19:26:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VwFuakZW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729479002; x=1761015002;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=ZRUt4Es+WvaAikTK6g+qNyEZj+Cry4jR8vFJRKqgsFU=;
+  b=VwFuakZWpmMcKYUt7lAyc5oxOiyTlKw6QU47AGyUF/A2mWQgk63w8LVI
+   8QYgqBb0UlYMjgf5uMvxx14br7AqmrmgLwutTeVMjS1WJ7o6o4dlvoC5l
+   e90c59u/4GMLmvsPFFd12lp+ONHnqnHbUApyzAzi+Cq7MiNXSSVBCApkL
+   z96OSnR3rQ+AJ3Bjgts9MopiYV2Iyr/NcO2d81Lm3AM5GXRIs+yg17pra
+   51AM0LMZCL9qiTuJ2DOlNi5+erUs18f3aFOFlIto/ICMNSS0DDUOMh/c/
+   nBqXktzijlVVsPjciN5Z3o3C4dMiBfbEghn8EgsJqIs702uyBTEn9VTyq
+   Q==;
+X-CSE-ConnectionGUID: wkkpMCF0SoWlHbkUk4Ivug==
+X-CSE-MsgGUID: 4bgNkm+BQJa+3bL+Q3VxDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="29042470"
+X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
+   d="scan'208";a="29042470"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 19:50:01 -0700
+X-CSE-ConnectionGUID: 4B+mSNVzRXi2UDaoZXpNzw==
+X-CSE-MsgGUID: GkMFjwlsQGK3oMO496fQ3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
+   d="scan'208";a="84446954"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Oct 2024 19:50:00 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sun, 20 Oct 2024 19:50:00 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sun, 20 Oct 2024 19:49:59 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Sun, 20 Oct 2024 19:49:59 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.41) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Sun, 20 Oct 2024 19:49:59 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NhNY1Twv0xuOFrLbHrCUyPPc3QJt8Ddygo/F+7PPMVWmqzkBU9FVDJ3x4jGE9eU9c/MrqfzVs4wOVO/U5ALBIOvl+gNFkTxI2dugAI+uBPFeoUG7/PaDrrT4nPGvI9ToQwrFasZhBf8jTPyhZzxY083siUG6PgvN7UMb/11DCd0jTneDJpnTCu0+92kySb4JQ+ou0S6Z+rY7gemKw08Eg+hi7ORoKRQzh+DE0iH4FfrKabrEi4L6dAwnJnX8ZutmDeLytkUeUt8fYp0uspawsQVHMr0QjSZrxrTuZvBHX7BdsNWHbn4RHp4M1k6E/O1FqSu4KgP66lNeY24Rs7W+Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N1HbS5viNU0WuRpm5mQQ9lGDHNe3M19emqQ0+PALU+Q=;
+ b=HhONo3eVf1VmShyDtDc5UBjCFKHW+JFS8cysaUmZwQWxsybFRXULKlXiy11RE5l2oQO7OUAHNTi6kqWs7VOpVGbZgUkmG1Zz1hhZ6SfQBpxKnSPDouTWJdU/S4JQV2U6+FDuFlAIh4xlGMZdxJcTlRXEPEHrWQte9w29vr7tstbE8mpsaoavBI8Zz/yjO0lnJexeMJwtZ9u1J20S0MuXwJnif15jRJuEKCc1XcTwyZcsEKwHSdehjRRK6XK39GEXLWqDQjh1Sz4ri+D40TN7xhAEZK7jrcE4URyJ1tXdvC6qE9JS1h+dQ8aHFvUhKPvu6yubeDz0eeOEgnk0+kqa2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by SA0PR11MB4622.namprd11.prod.outlook.com (2603:10b6:806:9c::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Mon, 21 Oct
+ 2024 02:49:57 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57%3]) with mapi id 15.20.8069.027; Mon, 21 Oct 2024
+ 02:49:56 +0000
+Date: Sun, 20 Oct 2024 21:49:50 -0500
+From: Ira Weiny <ira.weiny@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang
+	<dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, Vishal
+ Verma <vishal.l.verma@intel.com>
+CC: Fan Ni <fan.ni@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-cxl@vger.kernel.org>, Ira Weiny <ira.weiny@intel.com>
+Subject: Re: [PATCH 2/3] printf: Add print format (%pra) for struct range
+Message-ID: <6715c14e9bbf6_747d6294ed@iweiny-mobl.notmuch>
+References: <20241018-cxl-pra-v1-0-7f49ba58208b@intel.com>
+ <20241018-cxl-pra-v1-2-7f49ba58208b@intel.com>
+ <6712bf8240b8d_10a03294a6@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <6712bf8240b8d_10a03294a6@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+X-ClientProxiedBy: MW4PR04CA0293.namprd04.prod.outlook.com
+ (2603:10b6:303:89::28) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-5-xur@google.com>
-In-Reply-To: <20241014213342.1480681-5-xur@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 21 Oct 2024 11:25:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQpFdHxAGk1SSRrJwyKA1XjfJLbyAeka7-YemJ1zEevnQ@mail.gmail.com>
-Message-ID: <CAK7LNAQpFdHxAGk1SSRrJwyKA1XjfJLbyAeka7-YemJ1zEevnQ@mail.gmail.com>
-Subject: Re: [PATCH v4 4/6] AutoFDO: Enable -ffunction-sections for the
- AutoFDO build
-To: Rong Xu <xur@google.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SA0PR11MB4622:EE_
+X-MS-Office365-Filtering-Correlation-Id: 78f244ab-6325-4591-1686-08dcf17b0c17
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|921020;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HFbC2YQ0sgEFtTnrSFh79LI5G7AZsypGCW3SWOBf89lOq54ji3wdD7NcBpsS?=
+ =?us-ascii?Q?K0S/QgN9LFrXEEkb1e1ahZkVNVoJRp6fp8RN4BtfzgN/ED48zistR8NaMkC4?=
+ =?us-ascii?Q?92zy+SOGhkCywYVNbFtbCN5PDUJs0MYfFyQDfIffpPIr+vAYrGr9fOeEyXE5?=
+ =?us-ascii?Q?dZ1XiFHKuLSWIMLBCnRkBiHzRuOZkx8D9j4EK5A8WHvH+cK4jXZVnlSc6Aqt?=
+ =?us-ascii?Q?ZuX9WZHdBtBvrwq2cmpIBFTynbeAdPht1KC9ThyyhNZHQWHT6JtJNlma0kJH?=
+ =?us-ascii?Q?g1C8HJH985Y41ztU7jTY5L0z8rBjVqzAyiRyM55LKNom/yxHRqh0KowOuX4t?=
+ =?us-ascii?Q?rvyHExh5gxWE32slUOAkvz4mHeArlf3qdw5r1sTSZnpCI0XbZ86cpF0Pn0cZ?=
+ =?us-ascii?Q?RCf+aD2vRP9tS+SQqQqCILI+BHzGPIK14oZVj/qr936s5IqsXbwnkHB3Eh/S?=
+ =?us-ascii?Q?5ajybuy+UMRdwKdXrWmuJUUbpFrWmJCr6ilmQSsxDzq8ng7cgTxn+9HmOhjZ?=
+ =?us-ascii?Q?apa0Rx3SXNeXmh7J2NWFxK13TZvj7cM48dw0CX8+mHb/OwKKZpX5cTNDUGHe?=
+ =?us-ascii?Q?nm5qMz9eO4RclsfiEouaAeg8PZBKI93vysZoJ31V1gf1nK0IRBAtsCjIQvyu?=
+ =?us-ascii?Q?HlmIq9fNfgHJwc9aMT03wneKbdlkHCNa3vVx3+83IHhVesm681A0KY1ZX+qo?=
+ =?us-ascii?Q?EFrVmy2QyCPpLDUvGxIXbysAF4O9JYNTz5JRX9n2nXWIBwWStUXSNMutXw2k?=
+ =?us-ascii?Q?OEbxPJTkpKJCGbkjjwT9kxLWCOPE561Vyyfk8Zgo8sjMrOsHqp7Kd7w1aUr+?=
+ =?us-ascii?Q?3PTQ63Ic6aAi4zkn9zwPoaX8P5KL1O01RcNbc0JF4m/sVW2z0xLTMgZaiUXb?=
+ =?us-ascii?Q?41oIDSkCcaCLhrHiK6mXpXJ4F0zLrHaQD/Q2Y/8gM2uARtIW5OfWzMpQxbhI?=
+ =?us-ascii?Q?UvIGzotHI0FvtXOE5cTQbsVhS6gqQUSpPMNNfTCkZX1HAg3Zbt2AzkoOE3fB?=
+ =?us-ascii?Q?AgMiNOgY9yeo9+NpnFe2uMRafPa9oyl2tN2CfBgD9atfsEnLBGhdlBJaSmCy?=
+ =?us-ascii?Q?o5GFiS6zwwtfklXrQpKtL5fPD3BW9Dd6pgyGYG7ITdumPjokyOqmGOhUPpYX?=
+ =?us-ascii?Q?D3E1CHIO+Ej52kKESHyPeCS7WFyGlGciVBLLrdRcdHWHQhbLzzljn2oEc6v/?=
+ =?us-ascii?Q?Z38ouJkZ2Fm5y2ZKaIcS7oFP2QUAQ5g8GxNQs9zGlDnG/l2jSO+ZlzjVr/ou?=
+ =?us-ascii?Q?a3A7o4f2C0thJm1UxYGQ3QV+1hrmul7np0KxtB89mPb8SonJfW7kanZo4A52?=
+ =?us-ascii?Q?y0SktPPanYQ5tL7sn6wzA/ZSiy9dohyCfeq0KFdf9AX+NGy/axx5mVelInzW?=
+ =?us-ascii?Q?F0j+cJ8=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NiYTvlQcn9LA3Oz//pq1+ZtR8xn9AlqVNtAm7m0Kve144NRSRf9xdOaO0YFX?=
+ =?us-ascii?Q?tUSlqYK3USC2vFQpdr3yvPnWiJYlXyIVe/SvX3Z636Co64/TzwT6gsyghr/C?=
+ =?us-ascii?Q?dwwcSobwOCnGKxOsuVVijXM1pg1kbt9/XYbDPYYLWgkcRyiKXBKdnTNCv9Wn?=
+ =?us-ascii?Q?wo5ZNd+WvsA9Lcljofne6GDsF6H2w2CVXJvz8AE/j0xkWK6wMYGTfvPoHzPf?=
+ =?us-ascii?Q?vs5oaGZ1rFwBKkueV/R/sDRDJraR2b1eV4Q8al0Ef/JJa7ZMihnNVle+Ce1R?=
+ =?us-ascii?Q?g69lw++YgLhc/5RSMAC4ksKbIlax+Ig3puNcXBD7G4La06XPW2n1if2CAZkV?=
+ =?us-ascii?Q?myqkY5SJ4mMpgctdrbqSl9NCHr8NEvE59R+ZHPeCi9ARaW48ktKx1NeYM56T?=
+ =?us-ascii?Q?+HlE0m78eX1b7kyYLyfyfPZe/AHGlt0L6thq3xOGSxel/EsJ4ULfnPiHXfQn?=
+ =?us-ascii?Q?GX+9hn2q8VAcJ84CTCKDCtFoIOiue7mc7K95jGfESuzFsnqpXh3xt5+/TEZa?=
+ =?us-ascii?Q?2ehZKyiwBiSuk7WACz3hVJwtQWveriWbRNBwOh3hcUSaathuB01DaJ3cQ0zN?=
+ =?us-ascii?Q?+aFJwC/TiEieGAL9bMJE2gAuxotLm0CLDFBB/UBU7L1StmVb3ba/53SqkScZ?=
+ =?us-ascii?Q?rcTP6m/OPl1vYhs4A7EV0RVSPPacyuKKzk7xZJPy7qk5erkAYtxxLCofw25i?=
+ =?us-ascii?Q?iquilqfmuuwoo/L/WK2W/pwq2MVy/bqavi4WtZk6fimS3SYFFMO8/slsKiAn?=
+ =?us-ascii?Q?BolW+mWQURHS5O+1YMrAfzsNvIbGHD8eWTPhR74NhjF0fiVgszWVE0+uNud4?=
+ =?us-ascii?Q?0GdNYNE3E3BqF1PEZzUtEur70UmwMBPH2w9ObkyPaUQ57AGApF4YGHqSJ1Vq?=
+ =?us-ascii?Q?qXQnn2VI3P2rcOXQvJuztajgeq7QxtcGHPFL5geMiXj1lttkh0yb6HB0Bl0e?=
+ =?us-ascii?Q?kbfv4h+1y87/wCbFyggcoeT/tyZ20cpiQ95g1/609d/EkcXRVz3gkhfwDtUw?=
+ =?us-ascii?Q?2Ezt2QCZOTeM3/xSNnA2JuAWFQIf5AspWVraF1sOsnKzigz1a+6uzPvKwtH8?=
+ =?us-ascii?Q?peWbawcCdOYWtV57+zpff0vXGRTjZR7/NjmsoTml8GyQcHaH7tkiEHSat12H?=
+ =?us-ascii?Q?8S/3jIvGtLaM0Lj8FiBGPkAkBLUnKe3arZ2n8dtPrsljZMPlgcyABWKQWI1X?=
+ =?us-ascii?Q?k8NkfjJxiXAKYnRuPtkTzhh2vZbJTR9eU+r6kdl8NBNb7cVzaN7ZRfCtSl0B?=
+ =?us-ascii?Q?tEmN0CbriTPVOlW1c1mJZyPia2zk0vgrElaU6tgbblrNhp1iCK9lvppmPM7M?=
+ =?us-ascii?Q?vWJxiaVc/OwSaD78ixsKmAVl+OTFYiVsDo9XqV/iH/W5e7GL8rGleKETlNy+?=
+ =?us-ascii?Q?OJXileoalQElCwHoHSbcM/FRuYdjUBbNHyHWQiHQGun+XyC4jkCa2OPkkbGt?=
+ =?us-ascii?Q?6KpEGrpP/L+fGtKKre5vgqf3O2D0/6+H5w4ir1p4riP/68Y6xQDzR4Isy+Db?=
+ =?us-ascii?Q?A32GkheQtczGjP5WNyJJLYvSPEnVyyQPH1t+I/vMBAR/gVFmiJz6hrigJGzr?=
+ =?us-ascii?Q?arFsf8M0BC8NTwXveybLqH1buAiGATsbFj0H7vn4?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78f244ab-6325-4591-1686-08dcf17b0c17
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 02:49:56.7235
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N64fFFZKUapv53rfRWmYakTHTv3y/slM8VgLqfBsr3eemMU0Kk1fMsDgcoZCYafLAP81Jr5I2wkc2ingdgsnRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4622
+X-OriginatorOrg: intel.com
 
-On Tue, Oct 15, 2024 at 6:33=E2=80=AFAM Rong Xu <xur@google.com> wrote:
->
-> Enable -ffunction-sections by default for the AutoFDO build.
->
-> With -ffunction-sections, the compiler places each function in its own
-> section named .text.function_name instead of placing all functions in
-> the .text section. In the AutoFDO build, this allows the linker to
-> utilize profile information to reorganize functions for improved
-> utilization of iCache and iTLB.
->
-> Co-developed-by: Han Shen <shenhan@google.com>
-> Signed-off-by: Han Shen <shenhan@google.com>
-> Signed-off-by: Rong Xu <xur@google.com>
-> Suggested-by: Sriraman Tallam <tmsriram@google.com>
-> ---
->  include/asm-generic/vmlinux.lds.h | 37 ++++++++++++++++++++++++-------
->  scripts/Makefile.autofdo          |  2 +-
->  2 files changed, 30 insertions(+), 9 deletions(-)
->
-> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmli=
-nux.lds.h
-> index 5df589c60401..ace617d1af9b 100644
-> --- a/include/asm-generic/vmlinux.lds.h
-> +++ b/include/asm-generic/vmlinux.lds.h
-> @@ -95,18 +95,25 @@
->   * With LTO_CLANG, the linker also splits sections by default, so we nee=
-d
->   * these macros to combine the sections during the final link.
->   *
-> + * With LTO_CLANG, the linker also splits sections by default, so we nee=
-d
-> + * these macros to combine the sections during the final link.
-> + *
->   * RODATA_MAIN is not used because existing code already defines .rodata=
-.x
->   * sections to be brought in with rodata.
->   */
-> -#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_=
-CLANG)
-> +#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_=
-CLANG) || \
-> +defined(CONFIG_AUTOFDO_CLANG)
->  #define TEXT_MAIN .text .text.[0-9a-zA-Z_]*
-> +#else
-> +#define TEXT_MAIN .text
-> +#endif
-> +#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_=
-CLANG)
->  #define DATA_MAIN .data .data.[0-9a-zA-Z_]* .data..L* .data..compoundlit=
-eral* .data.$__unnamed_* .data.$L*
->  #define SDATA_MAIN .sdata .sdata.[0-9a-zA-Z_]*
->  #define RODATA_MAIN .rodata .rodata.[0-9a-zA-Z_]* .rodata..L*
->  #define BSS_MAIN .bss .bss.[0-9a-zA-Z_]* .bss..L* .bss..compoundliteral*
->  #define SBSS_MAIN .sbss .sbss.[0-9a-zA-Z_]*
->  #else
-> -#define TEXT_MAIN .text
->  #define DATA_MAIN .data
->  #define SDATA_MAIN .sdata
->  #define RODATA_MAIN .rodata
-> @@ -549,6 +556,20 @@
->                 __cpuidle_text_end =3D .;                                =
- \
->                 __noinstr_text_end =3D .;
->
-> +#ifdef CONFIG_AUTOFDO_CLANG
-> +#define TEXT_HOT                                                       \
-> +               __hot_text_start =3D .;                                  =
- \
-> +               *(.text.hot .text.hot.*)                                \
-> +               __hot_text_end =3D .;
-> +#define TEXT_UNLIKELY                                                  \
-> +               __unlikely_text_start =3D .;                             =
- \
-> +               *(.text.unlikely .text.unlikely.*)                      \
-> +               __unlikely_text_end =3D .;
-> +#else
-> +#define TEXT_HOT *(.text.hot .text.hot.*)
-> +#define TEXT_UNLIKELY *(.text.unlikely .text.unlikely.*)
-> +#endif
+Dan Williams wrote:
+> Ira Weiny wrote:
 
+[snip]
 
+> > diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> > index 14e093da3ccd..e1ebf0376154 100644
+> > --- a/Documentation/core-api/printk-formats.rst
+> > +++ b/Documentation/core-api/printk-formats.rst
+> > @@ -231,6 +231,19 @@ width of the CPU data path.
+> >  
+> >  Passed by reference.
+> >  
+> > +Struct Range
+> > +------------
+> > +
+> > +::
+> > +
+> > +	%pra    [range 0x0000000060000000-0x000000006fffffff]
+> > +	%pra    [range 0x0000000060000000]
+> > +
+> > +For printing struct range.  struct range holds an arbitrary range of u64
+> > +values.  If start is equal to end only print the start value.
+> 
+> I was going to say "why this special case that does not exist for the
+> %pr case?", but then checked the code and found it *does* do this for %pr.
+> So if you're going to document this special case for %pra might as well
+> update the documentation for %pr too.
+> 
+> Alternatively, drop the new %pra documentation for this corner case as
+> accommodating the U64_MAX size range case is arguably a mistake in the
+> caller.
+> 
+> Either way, just make it consistent.
 
-Again, why is this conditional?
-
-
-The only difference is *_start and *_end symbols are defined
-when CONFIG_AUTOFDO_CLANG=3Dy.
-
-And, where are these symbols used?
-
-
-
-
-
-
-
-
-
-
-
-> +
->  /*
->   * .text section. Map to function alignment to avoid address changes
->   * during second ld run in second ld pass when generating System.map
-> @@ -557,30 +578,30 @@
->   * code elimination or function-section is enabled. Match these symbols
->   * first when in these builds.
->   */
-> -#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_=
-CLANG)
-> +#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_=
-CLANG) || \
-> +defined(CONFIG_AUTOFDO_CLANG)
->  #define TEXT_TEXT                                                      \
->                 ALIGN_FUNCTION();                                       \
->                 *(.text.asan.* .text.tsan.*)                            \
->                 *(.text.unknown .text.unknown.*)                        \
-> -               *(.text.unlikely .text.unlikely.*)                      \
-> +               TEXT_UNLIKELY                                           \
->                 . =3D ALIGN(PAGE_SIZE);                                  =
- \
-> -               *(.text.hot .text.hot.*)                                \
-> +               TEXT_HOT                                                \
->                 *(TEXT_MAIN .text.fixup)                                \
->                 NOINSTR_TEXT                                            \
->                 *(.ref.text)
->  #else
->  #define TEXT_TEXT                                                      \
->                 ALIGN_FUNCTION();                                       \
-> -               *(.text.hot .text.hot.*)                                \
-> +               TEXT_HOT                                                \
->                 *(TEXT_MAIN .text.fixup)                                \
-> -               *(.text.unlikely .text.unlikely.*)                      \
-> +               TEXT_UNLIKELY                                           \
->                 *(.text.unknown .text.unknown.*)                        \
->                 NOINSTR_TEXT                                            \
->                 *(.ref.text)                                            \
->                 *(.text.asan.* .text.tsan.*)
->  #endif
->
-> -
->  /* sched.text is aling to function alignment to secure we have same
->   * address even at second ld pass when generating System.map */
->  #define SCHED_TEXT                                                     \
-> diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
-> index 1c9f224bc221..9c9a530ef090 100644
-> --- a/scripts/Makefile.autofdo
-> +++ b/scripts/Makefile.autofdo
-> @@ -10,7 +10,7 @@ ifndef CONFIG_DEBUG_INFO
->  endif
->
->  ifdef CLANG_AUTOFDO_PROFILE
-> -  CFLAGS_AUTOFDO_CLANG +=3D -fprofile-sample-use=3D$(CLANG_AUTOFDO_PROFI=
-LE)
-> +  CFLAGS_AUTOFDO_CLANG +=3D -fprofile-sample-use=3D$(CLANG_AUTOFDO_PROFI=
-LE) -ffunction-sections
->  endif
->
->  ifdef CONFIG_LTO_CLANG_THIN
-> --
-> 2.47.0.rc1.288.g06298d1525-goog
->
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+I've dropped the special case in the documentation.
+Ira
