@@ -1,119 +1,184 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C5D1E105F;
-	Mon, 21 Oct 2024 09:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982DA198837;
+	Mon, 21 Oct 2024 09:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729503224; cv=none; b=T6QayznAoQfzHiy5dH+0KjEOwBXQ0mGmYri0KEnxA43IV7Y7jUOgJRLKCywssUYuF9iQX9pfyPlgCO5NPGNOnLOyH5OoF93kjrHpjrL+WBknsUeX/eT4mDS0HrP2lRNULP79wryoadJ6vuWvHXCNKdxWQm0M1AdwfvEcisrK3rw=
+	t=1729503484; cv=none; b=ZgFIDGxtwW8NeRWEnfmXz3swZzjoiixPSGAVZKJv6QEAkdpyBeQW6TOmwYd9Vy5p7yD9iw0RhaV4IfIiV5E3oOgOrD+Dim+1TRdvxqpK6uFI/OeVdbVqx5Wg67cMFRPW1c0PgdmUFPyWIHXoi3RDni+9MNOnUVnzWWmmanT+h/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729503224; c=relaxed/simple;
-	bh=+hvwglD+xMIZQSpeY8TNOenvPPVT8cBwFOr0rdwiYac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cj7M5FgJq2+243EztZS27PL0xfzgWiFugBmFJwS4CMx15oxAufJ4pr13ISMpKN+uVBniAxmVVUFHC2mQqATKVXy04x6g1axm6vQ6H5WXyGYX/94B3WlugNzPP/b/onYF+sZmT7Q2MI5OhKWtbmb9vQdqCqju1IyPExCoVx4E9gM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TKqDrK4Z; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TKqDrK4Z"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3e6075cba82so802645b6e.0;
-        Mon, 21 Oct 2024 02:33:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729503222; x=1730108022; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+hvwglD+xMIZQSpeY8TNOenvPPVT8cBwFOr0rdwiYac=;
-        b=TKqDrK4ZHHexPu241KbOYrz7beOcgqJY2cdu6h/Ttf1Va/pXkux39IazndxGVfs7Qt
-         O9AcIX+cKv84C4QtYDcpK0+URkiUF0YaVpNIDcyn2bQYvuidmRL/kHYmmkSw+wpKGfHz
-         q/hxu+KActzJBXF8z/i0NfkJB2WCX4pK34pwLzXH2WCcFFWNLVENTMx/5IzRZMY+jBOO
-         MWw52sJMAxXlMjEjyejCDxgjKGKCNAigryXKklFMwsFXD9QtMaDw31NHb4jo1UHz9XSD
-         sKrDs67iLr5xmQLJAic95QC2+V5zaygc2raUO6B2HcqS5DedryDAHMvGJ2AmhBJl8MAN
-         /N9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729503222; x=1730108022;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+hvwglD+xMIZQSpeY8TNOenvPPVT8cBwFOr0rdwiYac=;
-        b=mUGcbI5t6WD4T40k++DEPwL3o80AtG+36fFFL7dInmJb9+CZF6bwRCPCeip3BWKcW3
-         p9evn8attXCWrA44kUPi98OzXeKtmQGJiX/crLGFFzgUf8H3JgULdkLq6DNqE8bvueFG
-         VGaS9diRAqwjrdcntdeUf0HpetFrhzDG3/7WTprDp80HjIj0bepB3TxWcFFNSNX88L1o
-         2J78bHB3mcMwcFU/xuPuI7NhMozwnXIcgSdJAzDZYIFxneZxqK6tE1tNSFfhaMYyp+ny
-         EAfYFF1V6TeRv21thedIU0cajQ8+cRqvgGI9w9DEZvtshlDBWf3sx6NldJUxy0tPMiG1
-         0XRg==
-X-Forwarded-Encrypted: i=1; AJvYcCUnYraZn/ebn0SgOX200PkN+Kw8/zrkb8I0nmZidmBoyfYxeGZEmxcioZ+NLcWAmL+68+KQcStVgftFNnro@vger.kernel.org, AJvYcCVQ6eAEbsidRpyzxOECMMMAh/kO0eWYHg9I2Rrrk/NUFUIXe/hlm5vvxbjsTq7+4e5yDGdaiqcPVP6q2HfKws8=@vger.kernel.org, AJvYcCWMZup/cxxBZSzBk0Fsri26mj4IYXd+8cPv2tWUaz5EqahP/fryT9V3YCjIJ4hTV6LxnfuiyOMyhWGpN6DTvmYX6A==@vger.kernel.org, AJvYcCXc+ZqwWc8usuKaDoKmaLjxf3BQfwTBt6tnjv3+cOXYGIP+cU4/wKDNxbeTk8OLJca+TUfaHDBrc1kD@vger.kernel.org, AJvYcCXselr8F6nm3S2Hg/1DJOKkgEZFC4atPplgOnitqQG9Ge1zGOXZQKWau/dYVY/dt0mR5K2fMESFFrqar1A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtyaA2Ow+eXVvwHB6xxvGokJuk+/JOksFUiee1ztKJU+yi+ozY
-	JfGTZcQ8Q4pPNAImRciqBvHbx/8y+MxZ0kWpEm4EAz9rpKWk2Xm0
-X-Google-Smtp-Source: AGHT+IHEqtcKiYTdbqqfRyoy/XfAUa5oXZdBUPYTVW5peAzxo1UMbv5yHBrUak4k0TnoMhvzjBSbUQ==
-X-Received: by 2002:a05:6808:13c4:b0:3e3:a99a:433f with SMTP id 5614622812f47-3e602c87dc9mr8847801b6e.13.1729503221785;
-        Mon, 21 Oct 2024 02:33:41 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eaeaafd36esm2637774a12.6.2024.10.21.02.33.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 02:33:40 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 87E574396293; Mon, 21 Oct 2024 16:33:37 +0700 (WIB)
-Date: Mon, 21 Oct 2024 16:33:37 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, colyli@suse.de,
-	kent.overstreet@linux.dev, msakai@redhat.com, corbet@lwn.net,
-	peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-	namhyung@kernel.org, akpm@linux-foundation.org
-Cc: mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
-	kan.liang@linux.intel.com, willy@infradead.org,
-	jserv@ccns.ncku.edu.tw, linux-kernel@vger.kernel.org,
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-bcachefs@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 00/10] Enhance min heap API with non-inline functions
- and optimizations
-Message-ID: <ZxYf8VvQIZv9_Y1j@archie.me>
-References: <20241020040200.939973-1-visitorckw@gmail.com>
+	s=arc-20240116; t=1729503484; c=relaxed/simple;
+	bh=PEW3DFyuQciELtV+7Gvo/3gVm39aoucp79oCe+Jyz9Q=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FMGI1WZPZlD3uyKwy4jHwJ65J4jPq1VMRPNvZ8gyepoJm7dwyfxduPwxdTBMUSCSS8J33NG4Gnc/SZqWISpLKStPGxY65I78eRxlAULfrOYhoA1mCHBs98noIg9Pfz5QduL0ml3zjK342zF0J1Z08uwFe040S4kNBQyJ4CTpYIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XX9Cz06ftz6GBTY;
+	Mon, 21 Oct 2024 17:35:59 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 507A31409EA;
+	Mon, 21 Oct 2024 17:37:55 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 21 Oct
+ 2024 11:37:54 +0200
+Date: Mon, 21 Oct 2024 10:37:52 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ira Weiny <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-btrfs@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 22/28] cxl/region/extent: Expose region extent
+ information in sysfs
+Message-ID: <20241021103752.00002741@Huawei.com>
+In-Reply-To: <6712a846dad09_2cee2945a@iweiny-mobl.notmuch>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+	<20241007-dcd-type2-upstream-v4-22-c261ee6eeded@intel.com>
+	<20241010160142.00005a5c@Huawei.com>
+	<6712a846dad09_2cee2945a@iweiny-mobl.notmuch>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="AZgPemEmi7boKc4w"
-Content-Disposition: inline
-In-Reply-To: <20241020040200.939973-1-visitorckw@gmail.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
+On Fri, 18 Oct 2024 13:26:14 -0500
+Ira Weiny <ira.weiny@intel.com> wrote:
 
---AZgPemEmi7boKc4w
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Jonathan Cameron wrote:
+> > On Mon, 07 Oct 2024 18:16:28 -0500
+> > ira.weiny@intel.com wrote:
+> >   
+> > > From: Navneet Singh <navneet.singh@intel.com>
+> > > 
+> > > Extent information can be helpful to the user to coordinate memory usage
+> > > with the external orchestrator and FM.
+> > > 
+> > > Expose the details of region extents by creating the following
+> > > sysfs entries.
+> > > 
+> > >         /sys/bus/cxl/devices/dax_regionX/extentX.Y
+> > >         /sys/bus/cxl/devices/dax_regionX/extentX.Y/offset
+> > >         /sys/bus/cxl/devices/dax_regionX/extentX.Y/length
+> > >         /sys/bus/cxl/devices/dax_regionX/extentX.Y/tag
+> > > 
+> > > Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> > > Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > >   
+> > Trivial comments inline.
+> > 
+> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>  
+> 
+> Thanks!
+> 
+> >   
+> > > ---
+> > > Changes:
+> > > [djiang: Split sysfs docs up]
+> > > [iweiny: Adjust sysfs docs dates]
+> > > ---
+> > >  Documentation/ABI/testing/sysfs-bus-cxl | 32 ++++++++++++++++++
+> > >  drivers/cxl/core/extent.c               | 58 +++++++++++++++++++++++++++++++++
+> > >  2 files changed, 90 insertions(+)
+> > > 
+> > > diff --git a/Documentation/ABI/testing/sysfs-bus-cxl b/Documentation/ABI/testing/sysfs-bus-cxl
+> > > index b63ab622515f..64918180a3c9 100644
+> > > --- a/Documentation/ABI/testing/sysfs-bus-cxl
+> > > +++ b/Documentation/ABI/testing/sysfs-bus-cxl
+> > > @@ -632,3 +632,35 @@ Description:
+> > >  		See Documentation/ABI/stable/sysfs-devices-node. access0 provides
+> > >  		the number to the closest initiator and access1 provides the
+> > >  		number to the closest CPU.
+> > > +
+> > > +What:		/sys/bus/cxl/devices/dax_regionX/extentX.Y/offset
+> > > +Date:		December, 2024
+> > > +KernelVersion:	v6.13
+> > > +Contact:	linux-cxl@vger.kernel.org
+> > > +Description:
+> > > +		(RO) [For Dynamic Capacity regions only] Users can use the
+> > > +		extent information to create DAX devices on specific extents.
+> > > +		This is done by creating and destroying DAX devices in specific
+> > > +		sequences and looking at the mappings created.   
+> > 
+> > Similar to earlier patch, maybe put this doc for the directory, then
+> > have much less duplication?
+> >   
+> 
+> But none of the other directories are done this way so I'm inclined to keep it.
 
-On Sun, Oct 20, 2024 at 12:01:50PM +0800, Kuan-Wei Chiu wrote:
-> Add non-inline versions of the min heap API functions in lib/min_heap.c
-> and updates all users outside of kernel/events/core.c to use these
-> non-inline versions. To mitigate the performance impact of indirect
-> function calls caused by the non-inline versions of the swap and
-> compare functions, a builtin swap has been introduced that swaps
-> elements based on their size. Additionally, it micro-optimizes the
-> efficiency of the min heap by pre-scaling the counter, following the
-> same approach as in lib/sort.c. Documentation for the min heap API has
-> also been added to the core-api section.
+Fair enough. Maybe a topic for a future cleanup to reduce duplication.
 
-What tree (and commit) this series is based on?
+> 
+> >   
+> > > Extent offset
+> > > +		within the region.
+> > > +
+> > > +What:		/sys/bus/cxl/devices/dax_regionX/extentX.Y/length
+> > > +Date:		December, 2024
+> > > +KernelVersion:	v6.13
+> > > +Contact:	linux-cxl@vger.kernel.org
+> > > +Description:
+> > > +		(RO) [For Dynamic Capacity regions only] Users can use the
+> > > +		extent information to create DAX devices on specific extents.
+> > > +		This is done by creating and destroying DAX devices in specific
+> > > +		sequences and looking at the mappings created.  Extent length
+> > > +		within the region.
+> > > +
+> > > +What:		/sys/bus/cxl/devices/dax_regionX/extentX.Y/tag
+> > > +Date:		December, 2024
+> > > +KernelVersion:	v6.13
+> > > +Contact:	linux-cxl@vger.kernel.org
+> > > +Description:
+> > > +		(RO) [For Dynamic Capacity regions only] Users can use the
+> > > +		extent information to create DAX devices on specific extents.
+> > > +		This is done by creating and destroying DAX devices in specific
+> > > +		sequences and looking at the mappings created.  Extent tag.  
+> > 
+> > Maybe say we are treating it as a UUID?  
+> 
+> ok...  How about?
+> 
+> <quote>
+> ...  looking at the mappings created.  UUID extent tag.
+That's fine.
 
-Confused...
+> </quote>
+> 
+> > > diff --git a/drivers/cxl/core/extent.c b/drivers/cxl/core/extent.c
+> > > index 69a7614ba6a9..a1eb6e8e4f1a 100644
+> > > --- a/drivers/cxl/core/extent.c
+> > > +++ b/drivers/cxl/core/extent.c
+> > > @@ -6,6 +6,63 @@  
+> >   
+> > > +static struct attribute *region_extent_attrs[] = {
+> > > +	&dev_attr_offset.attr,
+> > > +	&dev_attr_length.attr,
+> > > +	&dev_attr_tag.attr,
+> > > +	NULL,  
+> > No need for trailing comma (one of my 'favourite' review comments :)  
+> 
+> I'm noticing...  :-D
+Maybe I'll one day add to checkpatch.  If it weren't written in perl
+I'd do it now ;)
 
---=20
-An old man doll... just what I always wanted! - Clara
+Jonathan
 
---AZgPemEmi7boKc4w
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> Ira
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZxYf7AAKCRD2uYlJVVFO
-oxXdAP9wQqt51VFB/Z0o1sG9jAlrumF8GTPSGUKzrPnp/NQr1wD/SJT0xCbRALqQ
-/PjGaG28z15cfomZT4A3WrBSIvSSmgo=
-=BKhT
------END PGP SIGNATURE-----
-
---AZgPemEmi7boKc4w--
