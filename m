@@ -1,147 +1,187 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2123.outbound.protection.outlook.com [40.107.255.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428161E7C1C
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 12:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729513170; cv=none; b=bP+jG0/R8ZIdsUzzH9HTeN+Hzeq+PgFYvtAxVo0fzr5BZfb3s60ehobQXvk2uPMODKOrXcl7gN5L1CJEwtrqCRNPjbuMJSV79Hn88GLujf8oMWCWhbtN4LUUq/f+P9PSg9WfaMEYicwZUCbnOb21MiKj/CxD+YAQPrvoPR0wwwg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729513170; c=relaxed/simple;
-	bh=85dwOBqgxabEtu7DlXSK3j+X36k6w41TKJHAAtHgg2A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QHKSWjXz4YJ542EONvnf2EE2hmuhhR8M+7DVz/t1fp1XRfZGPJ5WqdIrizUgUeO0bHiNFr1SnwdK9i/AWoNPE/oWsu1J2Uo9fUZErF2w6gS6F+n0RQx6d3fzw40CMPpR7sYrFnNPl1Uj7xGDzLewUa4knnsLJjY/pmKoJCih9Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=itBqERyJ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482161F76C1;
+	Mon, 21 Oct 2024 12:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.123
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729513198; cv=fail; b=DJ2DPc3hSTbhNNLvCMoxM6S1xLuoG79KQWkSJqsjaL52JrTslIjrabNc48Xgp3lB9v88ZLPahRb7440/GLcBxrILKWvj7pcauTFrvMvLcTbW2YnWsJAFbTBViqS3wzUy28vQGVmECSaj+iPU2zxBqhhoJjegfzLEXXcBFbEuRj8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729513198; c=relaxed/simple;
+	bh=kJn+7gzy9ComQLF2+WpdP8yI8lkPqhHN4/AW9GVE6Z8=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=YRz8R4MKpEF/vrqcYDZRBsIAd2+WAzjBQnfT0bI+YBcN/cZDYO/okxzrX41D+DOPIY0DFWhpmVQp2I51w9JKaeTsZwPedJfuZeIq+yWOoM614IBhwlOGjQVCsz4WOcQ/x0eXdhNKM+KyWPfXIhm375a9l7kFdczErHve3sV4Tqo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=UA4XZgFk; arc=fail smtp.client-ip=40.107.255.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="itBqERyJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729513167;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3SSNANQOGj1r9ayrCBzVvFmFj/ChOB3ieC2hxuoZm3o=;
-	b=itBqERyJZx0C2HdogBZrG1iHhbTD+RVGYjGo8WQyOwltnzNBy58AqH6ro8TNzpLRkxKfWp
-	Ghvv3brzegyNpke9jO2nji55JSLzY5N46YCYOlXaLUHP98x3wvsr2abHHaXYNmm06pJFJe
-	jmt/atFFhosb9d41FV9VbifIoXhVQHI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-624-S-drzsVNOtSVQVC09DiBhw-1; Mon, 21 Oct 2024 08:19:26 -0400
-X-MC-Unique: S-drzsVNOtSVQVC09DiBhw-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4315b7b0c16so31542575e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 05:19:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729513165; x=1730117965;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3SSNANQOGj1r9ayrCBzVvFmFj/ChOB3ieC2hxuoZm3o=;
-        b=eIy3dT3jfeTd3cX3re7HOmUs7ICvtdXAds7y+2IgWmQz6f19BR2bIGfwKg2M8hTHSN
-         GDZQyQ0wcLDaEkQQbS20KkLmHkPDJ66D1Wpom5LpjuOspHokOOnSypt2Jr2h2p11yP8U
-         Dv9kULvWfHTZcU/kErmWq5TJV9umMW8kzSU8ptLjC/cbfDj0QvLlWsYT+dZQQzGVb6FM
-         TmIIlXbOhU4IkNpRK0N6fII95Mj1K14pOwFHKKLGrfV+7jD49JaZPVtzx2VOHwyC6FQf
-         T7hiMb2qdbRjiF3VCxf/4wicfC7PnCorK/cLhBoU07OaxPGP3bXAWP/yUpODTDa3x1wk
-         zbhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX6+qyQbdiLa9RCNbVVazwTAIkKT2BU6AnRfCb2uMbHQDLmGzQZMEK5lzLW5NdGtmlcAbcIPssO8dU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFYNjWEJ4SOrPxqRQQKZyoqXj4gClQsEykLe9/025WxPaIOoHq
-	bws9if9BnYcWiEsZxfqYGqLegX6c6dECtsBQK6f8Ztc4fHhUKRBiHE9bV3dHcRuGkBrunm7IKH1
-	8A1jJiDSdjnka2kdeANV+e6s0hQcXyYoGQy2iNXcsssauvePrx89j26jLRw==
-X-Received: by 2002:a05:600c:4e12:b0:431:1d97:2b0a with SMTP id 5b1f17b1804b1-43161641793mr95707935e9.15.1729513164986;
-        Mon, 21 Oct 2024 05:19:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHL+4zTIZRaHCwKu0OkK2nf7jN/ima55H0fGeAQpNI8aBlBlaAzYq2yIrtU/CEO+/V54e4DoQ==
-X-Received: by 2002:a05:600c:4e12:b0:431:1d97:2b0a with SMTP id 5b1f17b1804b1-43161641793mr95707665e9.15.1729513164570;
-        Mon, 21 Oct 2024 05:19:24 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:36d3:2b96:a142:a05b? ([2a09:80c0:192:0:36d3:2b96:a142:a05b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f57fa4fsm56089275e9.16.2024.10.21.05.19.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 05:19:24 -0700 (PDT)
-Message-ID: <213b6a6a-3594-4bc5-ae6d-930bbaf3616d@redhat.com>
-Date: Mon, 21 Oct 2024 14:19:20 +0200
+	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="UA4XZgFk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kyS9GH39wOhBky8vN3oraeu5g7ha7+zJqMnpwYlRNjElc8Wggs9kBGZak4TkggWdRWRtbfRpIW+zgzCbf5A+NxnQsFEFgsggA3ZAt7Hd/sKJ6B0h/HGZwiSG8WBiWypBujVlUjLvPAKMXR9mKmw560Uv+ca4s+tikIGQv5N5oxUEjIPBU0FNntV/rDmVUv3FWiIAZCxvmdmXB4NSQSV4NzoVCMdGoofjgI0QsvDjmaFjd6PhRpFyztz/XoOqvJrSgeP2pNG6h7KK4hdhEM7LFoYY9AS/W6Yc4cxtJglLjCXzX4rN43ocKUj0W9LueAnv6gL1rF8k48VS7jQ1DpV6Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IjfStAl4X5APuJGdHfqLtnXkKQl7kdSwd8Ar5E4YipQ=;
+ b=Id5BEsLo5q6/FL7cXMqMTgi88ocRUjJMHznsOdji5v/PVd8uPwCQugLyJ2TzM0BDx5udJtdy+L1jW9lXtsflPaDpd24IrhsTc70uGVpJ9c8jCTqJJQpP61JQugsQFYkczoDn/OI/tnM7xdCs4xo9pw0t69XzxGI0oh7XT69yooqZvaN4DJE+X22wytCGbjfErI84uGkhVN7SThhG1zYXKHkJKmMnnByG3ARybpWLKc/W6QZ7OW2hoJdzUrQ7sZANRmMPghD7YmF0p1+Mm9X0MJPifvCW+1nchoUjS41F6m9UiOVx/hcNxWgFbT6UaRaF9zUQlNiHjQ2TfbikjryR3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
+ dkim=pass header.d=fibocom.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IjfStAl4X5APuJGdHfqLtnXkKQl7kdSwd8Ar5E4YipQ=;
+ b=UA4XZgFk9v4yd9w7lOMtSnpUo8PS2TdzJQrYlVaW5iwErbpwIxvKrMf4TFz8UFP99Z5xlOnI+P7gL8j1VYbb0hbXHDYAFYfL+JOW4XniagpuyPX5czCynnaGLcAlXiyy2GDVDeYVdL2D7XYNy0e9NlJ9WwDK9MJu/dA+ySCPOsA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fibocom.com;
+Received: from TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
+ by JH0PR02MB7479.apcprd02.prod.outlook.com (2603:1096:990:62::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.23; Mon, 21 Oct
+ 2024 12:19:51 +0000
+Received: from TY0PR02MB5766.apcprd02.prod.outlook.com
+ ([fe80::f53d:47b:3b04:9a8b]) by TY0PR02MB5766.apcprd02.prod.outlook.com
+ ([fe80::f53d:47b:3b04:9a8b%4]) with mapi id 15.20.8069.027; Mon, 21 Oct 2024
+ 12:19:51 +0000
+From: Jinjian Song <jinjian.song@fibocom.com>
+To: chandrashekar.devegowda@intel.com,
+	chiranjeevi.rapolu@linux.intel.com,
+	haijun.liu@mediatek.com,
+	m.chetan.kumar@linux.intel.com,
+	ricardo.martinez@linux.intel.com,
+	loic.poulain@linaro.org,
+	ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	angelogioacchino.delregno@collabora.com,
+	linux-arm-kernel@lists.infradead.org,
+	matthias.bgg@gmail.com,
+	corbet@lwn.net,
+	linux-mediatek@lists.infradead.org,
+	helgaas@kernel.org,
+	danielwinkler@google.com,
+	korneld@google.com,
+	Jinjian Song <jinjian.song@fibocom.com>
+Subject: [net-next,RESEND v6 0/2] net: wwan: t7xx: Add t7xx debug port 
+Date: Mon, 21 Oct 2024 20:19:32 +0800
+Message-Id: <20241021121934.16317-1-jinjian.song@fibocom.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0139.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31b::7) To TY0PR02MB5766.apcprd02.prod.outlook.com
+ (2603:1096:400:1b5::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/7] virtio-mem: s390 support
-To: Christian Borntraeger <borntraeger@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
-References: <20241014144622.876731-1-david@redhat.com>
- <20241014144622.876731-6-david@redhat.com>
- <20241014184824.10447-F-hca@linux.ibm.com>
- <ebce486f-71a0-4196-b52a-a61d0403e384@redhat.com>
- <20241015083750.7641-D-hca@linux.ibm.com>
- <fbee219a-cc88-414b-8f5f-2cb3b4c9f470@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-In-Reply-To: <fbee219a-cc88-414b-8f5f-2cb3b4c9f470@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR02MB5766:EE_|JH0PR02MB7479:EE_
+X-MS-Office365-Filtering-Correlation-Id: e287564b-63f8-40d0-0a33-08dcf1caa950
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|7416014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?oO0ctwE2aWz5VWEdvqbUWnCcnzN7uQSNoq92fPjAKFTT0UkGPoOg4EJLtdNl?=
+ =?us-ascii?Q?fksWAblMmfzY1OD/yc7GcUcMa/HfyYtzo6qatifELW3zwqZw/GMtxcU8TLWs?=
+ =?us-ascii?Q?BBGpmTZFYm91jmp0iLcAuLceDPaLqbUQRwaXgrrNFWWegzTN9kGmixLqHTAB?=
+ =?us-ascii?Q?CQ2C8L6CmF7PEzCodS6gLiMkm+uC0RxyhiBaZvKIU7Ct8t+GzTRE3bO+2i8l?=
+ =?us-ascii?Q?9BjbziJxVRfuDizTaqlkYWw95jYCwjHymIrOxVcriFf6QTHUBovg+zwWdqkl?=
+ =?us-ascii?Q?BnnuL1z/sV8Q8w15pzeniT9OTDiJsSVWgIK7sJUjgBSc2n39fkQh662Hykyw?=
+ =?us-ascii?Q?RIlboUTzWi8sU0rrPTps9JdVZrL6buds2gRAG9c3Hhpc2YVrHZsNZMoWvtHr?=
+ =?us-ascii?Q?Q6Pq/fppN8OVSvync/kT8s/sSWwFTQkRfpEh4AKCEQVszOiOSgWzb0AAra/I?=
+ =?us-ascii?Q?f9S6GOJU+XMF90XeU4vrVF+qH9fgJXnX0C5jNkB7iVLYrExQawnUf7h8RG9R?=
+ =?us-ascii?Q?fbB+o9BzK/rS0FnTr2G4Cg/sN1UJsLjFPXoopoxuvgwckdFfg+orUx/RTnXn?=
+ =?us-ascii?Q?R20hYOC1wY6kR9p+M0hUpRJDNQoTs7HYwRRD1HKPgNqa+2sFVsr0SVank79p?=
+ =?us-ascii?Q?IbpWWLI/pe+37oMZhXCEAE7yLBk+0A6febJyEw1HTbrRtoXZ6Btlk/4VV4DI?=
+ =?us-ascii?Q?oWjBEWDhEt5EJPRP2X2kKaWCvBJ2a/i6wMlakyUAUWvBzoKyXr6cCkHVykGE?=
+ =?us-ascii?Q?dTrooa45p5oQEshYf9v7GQiUtZrIM7kdNBVNwkL6lEMsCdBEHxQf7i1PzgMz?=
+ =?us-ascii?Q?CQnrNvH6YpWs/WVy71XEoyfPnIAp0fvRmDVmOgFZPpZPrPrVzdJI/ujzUYbt?=
+ =?us-ascii?Q?Jo9VEh0S/ZWhBc5qmNCYI7D2qRFJUs3j6039cymn4kbdEXZDwZsGHM1ZvNE8?=
+ =?us-ascii?Q?eivTrWK/BfN4VMEhMOoX02QC6htTsTy/g2T6j6Kbpl+jixpiJst0jc8CM+S4?=
+ =?us-ascii?Q?OWeRuKocnQcjcUQwwFvjDwRdLQdyyc/abA/EXC2KVwm1IQGh8soC5SlGDYz8?=
+ =?us-ascii?Q?VUASIiUWj9I7cKmkJF+3sy1qvwf0KZvmX7NSBQskx0dFoI9WVR692o3wzvjv?=
+ =?us-ascii?Q?HVwh6bP2g/AJgGOJRFZpsFSIAGuKBUFVFqt+3Ldow3rHL7026RCps1WzPcYq?=
+ =?us-ascii?Q?JI5eqztY122xxYQqY/12ypdvHO4sgvFq2OeXg6qzERZQsJxkonBtLnaYmNHc?=
+ =?us-ascii?Q?Hfw05+sBK9DsG5IT7cyShFTm2HHZR4B0P8es9Eq/1JbZ2ajjTT/Cwgwfi0CT?=
+ =?us-ascii?Q?B+XS/fbUSPeirfq+6+OmshwE8esIQI7ZcsqXGX5SLdpqyT8MMTuZ4J9sPScV?=
+ =?us-ascii?Q?ZKcbL3VkSZez2LHPTFNtolfXhpNV?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR02MB5766.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(7416014)(38350700014)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?15H/q9Fwhs7/JqYoPdRyA92C8WPEidVzhUtUwlpi6Q/9TRfhveXIgORmuCWt?=
+ =?us-ascii?Q?g51O7JQgvrHA+QgnTpRLbFOmL4KfIdNfkhUkuCXERwEq42lGZow8rNRR1Hrq?=
+ =?us-ascii?Q?EgEtuK41zBvACU8XSuezikgjxSAOJjjKkEnE4QgijrwroR3gns36/JfWULZy?=
+ =?us-ascii?Q?k1kgc63HXIBuJm/JWfyzR17MS7DWjzzEJJuYqwCMJy70LnTvsjBM9LMLhUcw?=
+ =?us-ascii?Q?vrEZ9pJZkv+0zA85pwFfs+2+mUGLWwIDivRhT6RUmlqWfAj+WGmxuXkZldf9?=
+ =?us-ascii?Q?urkU5h4odpgyzuICmIt/m4CQeKDaG1+2vBoWRC+EM5grwWwwa+hlUIYpIpXR?=
+ =?us-ascii?Q?4zCmlR+/E9RWa1JRN73nRMOlGSHAkjh68ZmGJL+NbKWSk/wKB+52jjDugkmz?=
+ =?us-ascii?Q?4KxSfx6+xEAWNj5LK8acY29uCngytPBUQsfKE33b8P7YJQ/JUsyGWIBrAvEx?=
+ =?us-ascii?Q?U/ZK5TlMFdhU8c7g6ZVzR/IvfByUYcGOP44AjKxmMMi+Sfw4sH3jmdHPh2GM?=
+ =?us-ascii?Q?sTAU/xpBmDb6izBNkIMsi0P565SdBwlEIPrZ9X54Zojj2TGj9LATm+C0jU/1?=
+ =?us-ascii?Q?aTz644vtRaym579d34nrCx2x8Utpuxc7Wlf7hbzK5/jZmbN2Bk4V90bfwPt3?=
+ =?us-ascii?Q?CqBLrN607PGyifqFFVyvD3i39QRLmiqV6lYud9JQdGXB6K1+LohbkPBdbQo4?=
+ =?us-ascii?Q?mNknQX5TAKC89/GAplXcYvGXxRAqF8BYA5m83EWbcHwBNnBJTQCa/jcVc1Bj?=
+ =?us-ascii?Q?Fu5zoGOQp7FfXvkbwqxKh8Hzl8x0XSMak/5xcWrb6/Hqiox2huwcbUrqlyqn?=
+ =?us-ascii?Q?4j34711XNLk/Oq6D9EfkJOOu0mLymmcIFnorjAoHxwfPmmcMUAtOELPcVXoS?=
+ =?us-ascii?Q?z2x05TxUwAxXYNSPy71NxYgydj4JZbfvf1cNVCJh2jiwewZC/BbpI1M9URW8?=
+ =?us-ascii?Q?4jHc8cejGfPVwTk/iCPepd2pRg19bNXxuHqDMaNAdkDMo3DTbpUVCxPtuuau?=
+ =?us-ascii?Q?+uiO/hQqthVDdvYNGmVrZgNLEwRHvMop6MzNtz9GehBP4tCqoNTWHsONgpdE?=
+ =?us-ascii?Q?Pwl4SWSHMey60M77dHlEIP0aEFAnFAhwTzOx6M7T6GvVTgdaqGt3ZGWAmpbY?=
+ =?us-ascii?Q?F+quGqPaWEM6Clf3pJ73YwmSoPrvkd+XfwvbobUZm1L5xVsEmj9uXet0cCJJ?=
+ =?us-ascii?Q?407VK7J1i7xDkoQYEbUdI9C0KWdwCGi43qzrcmfBqM99vy/IhbCZZCNzLuZ7?=
+ =?us-ascii?Q?2VdtUSpj8yThMftx7r4nSVBlb7Ce30RG10bjYVg2nv85URugumw5s36P2PlD?=
+ =?us-ascii?Q?lJRbTsTUHLZNXXka3SVbELRXbxWro36z5EQLfb0bMOYD2iNzoi/xqFInlAFR?=
+ =?us-ascii?Q?i9DtFl4vYyglbC1wT8LCllLwcUoXsqP/PfnvT7MsAxpyEAYUy3qf1LqGVNtT?=
+ =?us-ascii?Q?j7/+pnNxYwxv7sMFuArm/RNxhMqBkEfcIMBLnP4/gMM8qLsktS9rzZW6glCV?=
+ =?us-ascii?Q?hiwXUlt+/tQbdn/p4IBhJzoZzzUNvFQaS7zWmiK9SCJHnHU0mJGs1KWXzSkw?=
+ =?us-ascii?Q?vOwpr/lQHkC14u4Nkwbgn/z86LekL+/i91NMJX/U4zUP7dnM6/cRULzx1f9x?=
+ =?us-ascii?Q?gQ=3D=3D?=
+X-OriginatorOrg: fibocom.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e287564b-63f8-40d0-0a33-08dcf1caa950
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR02MB5766.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 12:19:50.9817
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 49NhrGEHhpCErc8hXVW7m6AK5+J81WKzH2VpiqQIyEgb/T961Dt92OIxVIXXOJaHUxZd7OxjK+6XwHmKoCEFvVJ2V3qpDzZ4uojp/ShfG24=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR02MB7479
 
+Add support for t7xx WWAN device to debug by ADB (Android Debug Bridge)
+port and MTK MIPCi (Modem Information Process Center) port.
 
+Application can use ADB (Android Debg Bridge) port to implement
+functions (shell, pull, push ...) by ADB protocol commands.
 
-Am 21.10.24 um 08:33 schrieb Christian Borntraeger:
-> 
-> 
-> Am 15.10.24 um 10:37 schrieb Heiko Carstens:
->> On Mon, Oct 14, 2024 at 09:16:45PM +0200, David Hildenbrand wrote:
->>> On 14.10.24 20:48, Heiko Carstens wrote:
->>>
->>> The cover letter is clearer on that: "One remaining work item is kdump
->>> support for virtio-mem memory. This will be sent out separately once initial
->>> support landed."
->>>
->>> I had a prototype, but need to spend some time to clean it up -- or find
->>> someone to hand it over to clean it up.
->>>
->>> I have to chose wisely what I work on nowadays, and cannot spend that time
->>> if the basic support won't get ACKed.
->>>
->>>
->>> For many production use cases it certainly needs to exist.
->>>
->>> But note that virtio-mem can be used with ZONE_MOVABLE, in which case mostly
->>> only user data (e.g., pagecache,anon) ends up on hotplugged memory, that
->>> would get excluded from makedumpfile in the default configs either way.
->>>
->>> It's not uncommon to let kdump support be added later (e.g., AMD SNP
->>> variants).
->>
->> I'll leave it up to kvm folks to decide if we need kdump support from
->> the beginning or if we are good with the current implementation.
-> 
-> If David confirms that he has a plan for this, I am fine with a staged approach
-> for upstream.
+Application can use MIPC (Modem Information Process Center) port
+to debug antenna tunner or noise profiling through this MTK modem
+diagnostic interface.
 
-I do have a plan and a even a semi-working prototype that I am currently 
-improving. In summary, the virtio-mem driver in kdump mode can report ranges 
-with plugged memory to the core so we can include them in the elfcore hdr. That 
-is the easy part.
+Jinjian Song (2):
+  wwan: core: Add WWAN ADB and MIPC port type
+  net: wwan: t7xx: Add debug port
 
-The "challenge" is when the virtio-mem driver is built as a module and gets 
-loaded after building/allocating the elfcore hdr (which happens when creating 
-/proc/vmcore). We have to defer detecting+adding the ranges to the time 
-/proc/vmcore gets opened. Not super complicated, but needs some thought to get 
-it done in a clean way / with minimal churn.
+ .../networking/device_drivers/wwan/t7xx.rst   | 47 +++++++++++++
+ drivers/net/wwan/t7xx/t7xx_pci.c              | 67 +++++++++++++++++--
+ drivers/net/wwan/t7xx/t7xx_pci.h              |  7 ++
+ drivers/net/wwan/t7xx/t7xx_port.h             |  3 +
+ drivers/net/wwan/t7xx/t7xx_port_proxy.c       | 44 +++++++++++-
+ drivers/net/wwan/t7xx/t7xx_port_proxy.h       |  1 +
+ drivers/net/wwan/t7xx/t7xx_port_wwan.c        |  8 ++-
+ drivers/net/wwan/wwan_core.c                  |  8 +++
+ include/linux/wwan.h                          |  4 ++
+ 9 files changed, 179 insertions(+), 10 deletions(-)
 
 -- 
-Cheers,
-
-David / dhildenb
+2.34.1
 
