@@ -1,213 +1,241 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2069.outbound.protection.outlook.com [40.107.236.69])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2086.outbound.protection.outlook.com [40.107.220.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFF01FBF7F;
-	Mon, 21 Oct 2024 18:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B330E1991AE;
+	Mon, 21 Oct 2024 18:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.86
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729533814; cv=fail; b=A3sNBJJpRYrJzKwOmkraRHYYgnQvGptXs7PMh19MpPbqfZ6fUlakX0TKV4bYHPL9KGaPSxDLWpzt/lvky9FvgRjxuXMutSyDFOH2vp2tnZWYz7znhy7zjYNotXmkULlZUnYJX+eqDU0gDl5yKb83jnheLIS9v3cos39Gb1LlijA=
+	t=1729534377; cv=fail; b=aInriUwoc7r6foZSnX0LG1Xs64oKyw52LlIR7LNWxk65EC4MAdVGltWX8ecEeBKH3i2ggloMdqRy7oO2flWvU+OW6z0v9QJtkRzJg8sdQmm1Km/FqAJGf5yxQv+9UpZsJe3LtM7u2nACflLkpohKAJD3j3QHmdORCY2GtySLJ5c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729533814; c=relaxed/simple;
-	bh=v+nTus0gD6qj+auBQQHGfkWKR/9AiLE3GwDUj5LCzmY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AxBsZjCRxn5kqrqIBISDrExZzd1edWn6Kk2mIzVsfyaMeWKmpU8F6pp4SXSbDtBWISXF/CS9UPxneZU0irBbML8H6yugS/Brf9mbC4V0BlcwxUu6xDQUmB/Ge1wwGZ9nlfJecyPCkL1TsctZl0k63lRZ0auqHviiwfiMJaAqgQw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=v4f3mYpa; arc=fail smtp.client-ip=40.107.236.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1729534377; c=relaxed/simple;
+	bh=sBXTHVzf2a1OH0E1JPaXRiGKFSPuyIVrWTij6B0+vZE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=u8fLMeNQXGZOFxnok38ZcKOvV19XNLkzBYGpyaWHbRTwo8t9HQTdlmeoPhmU50wnIJ7ME+bL29qhx50aZ/ibrLiK+EFW1Mrct9B51sF/6HPFUARq61NPKemUPjv1wtZcgTssSMjzROC6agzJUpInO/kon/EaF/QHp0Xw00dINSM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=iwalgQxK; arc=fail smtp.client-ip=40.107.220.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="v4f3mYpa"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="iwalgQxK"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o34kzAfhDUPC/ae6/ZXGPaOEIYhwXC7appi1eylbhzSrHBOZqcv207jYrbmWHmOF0yoXIF4Q/0VkQevSESAPEwQ4HVCHbbn8SMiLg5FtXvNzJNTePmLSEySPVEittY684XuyFzdrMUXOt+Er+SJN6C7rCDi/m25JK+5j0Gzi6YAepglXCIQ82Cfj0oXfzDfkW3kbHQ9dSHm0F2SfjIazN9crIsbb43iNKjmQN2C/3fnRW53YkJYyVA53r5IsYxIB/uY5qAOMZy4qfplVQkbMITIbMbpVRfsKQpn3cBEhkcPKSZ5CT6lhM9RaBnN+NAJcRjMWltoUKZOR/WLZSZB4KQ==
+ b=sToiMXhWmdGU9CNbGTbiO9jEKXhyB9ys0wwc+KiQV0h4YMAc6UG5jLjbTA3HWIfBZXxYWrTBzd2PqO/S7uIGm6S0c0yY5hawXZUwFMzONFd6lAKY3jwj77Ri4Nm5tZXodmhl803z0Tf6kvT2DhoDu4QySp8kBS+tMC8zCbvJKVyApARIhuL/W85/MRvj6Jwj4xK4kdOZsknBDSVSggj+Pa0Tr5XZxBqEYJq+wxMz2L69V8/2zhmV3wnqfBlFF6VQf8Sai/XCmkfxOkdJ3FZvuZw7/K2yhTsdTiIZrHf4gXZpdaEW/7ct2IhpE420M9rTJesb64ObAGkMY8np5J3tiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qmr49eQLPrG0tFYXwCTU8c79T4nfEKV4Zezby/7jkJQ=;
- b=QhdD59u85KNTAA9TMmhOBg1IWOtPPm/bF5wXNwZxrAej/oAqAqYq3Zh8/z3JLCkHSY0jbuPajqK/9m/+J5Dj3STwbLeNrbRG886p2UVU4aVtTlT/DNBt7vQB/EG5Y5p6z9MukZpAjCzaek20f9Hf6P0rwkhvPWWtFjO8W6GS0orOxS9E0XRHU4cIV90GLvDlIhCqWykeeRl8uxrJ7qciTBrg3YZDQJ1RwCsrDICMPQcpEq1EotU/OTqiUGV7zai5od1S2ABpi9pVGhKYN99fp4nLEz9Ib3R8cTn1v9Jabjb/YRgeXE5lUzALey7LgjrjTftYAqk2aMZN8KJ0TdKWww==
+ bh=4lBcmYQ45pe5xV772KWwOhdZxCGYv5Mn6uzzeUbMyIk=;
+ b=RscFT/xkN+EPI+ZW7PSrNEG9SVUAYqKwpuNgg9lUGHrSaCfsmLxjBvR5HzD8vUa5Y1pf6BgUGXUM3PP3faKPwlTPIYOb2SCZLE4G9c/6UWzSnMPBDFRTHCD+VpI3lAYsQOqlQv+Mc6aWZSBVcgnzSsGzxxGb9IvuiqJ6A6jB17/2f2yNCgIPT0h9SGQ4mxSmFMjKHrsXkaoMjsouRqxMxnGAiSERctI7CfJhbmJmMrMcCIUSxuIRcTVKnhHTUKWnFKP/TUEj4cItpGgoIhxp6Q+/RNstHxDYqjSQqqObeDP34NEA5sW3W9xCUqFQtZSvl6BZjuF63X1XoI1YVdiJfQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qmr49eQLPrG0tFYXwCTU8c79T4nfEKV4Zezby/7jkJQ=;
- b=v4f3mYpa/4E3Pp7vZQokHic5IqKLFFLhh51BUrtIB+EEFN8f9VRAAZAL/TKzJWRmW3O44FHFl1NjDR/lm7cpSZ0T0e+JRszjF405J+R66eBeRjovM9CDaoJN/lqLvqlds8jx76LrnDf2vnxlYTuRNBMs3DqAxEoHal1E6QFQ7N4=
-Received: from BY3PR05CA0036.namprd05.prod.outlook.com (2603:10b6:a03:39b::11)
- by PH7PR12MB5655.namprd12.prod.outlook.com (2603:10b6:510:138::16) with
+ bh=4lBcmYQ45pe5xV772KWwOhdZxCGYv5Mn6uzzeUbMyIk=;
+ b=iwalgQxKrsBVvHDQW2yQkTm39TrQ9X6of0b9wsrVC+IXtq1aJWauq2u+aKNOOyE9QOUSD14aydYP9YpGqsNAdPJVXSdLgle5xDbQV3eobqVattNHlpniZs/49mv/VYVieTvgZNFMwzVJOjHhHiliVacHm+xE9/8BZfkFPaOjaFAQj5B6L81bBipbwWmK1WfWqbCbfiSmkgwpgtiLw0iuMYoy4QGWFSdXosmTmJ7FMXbF8J92TPvwadYMbR5ZUR5NTnw9xkgpfcE+B7aoJNQ/571+SqOjP/O5+0dY3T+1fXdwLOHarMYsHXKqy2AzedQVri3FDSjxPwzBbiRAg/UHgw==
+Received: from MW4P221CA0018.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::23)
+ by SN7PR12MB6743.namprd12.prod.outlook.com (2603:10b6:806:26d::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Mon, 21 Oct
- 2024 18:03:27 +0000
-Received: from SJ1PEPF000023D0.namprd02.prod.outlook.com
- (2603:10b6:a03:39b:cafe::71) by BY3PR05CA0036.outlook.office365.com
- (2603:10b6:a03:39b::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.15 via Frontend
- Transport; Mon, 21 Oct 2024 18:03:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF000023D0.mail.protection.outlook.com (10.167.244.4) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8093.14 via Frontend Transport; Mon, 21 Oct 2024 18:03:27 +0000
-Received: from AUS-P9-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 21 Oct
- 2024 13:03:23 -0500
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-CC: <x86@kernel.org>, "Gautham R . Shenoy" <gautham.shenoy@amd.com>, "Mario
- Limonciello" <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>, "Shyam
- Sundar S K" <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH v4 13/13] platform/x86/amd: hfi: Add debugfs support
-Date: Mon, 21 Oct 2024 13:02:52 -0500
-Message-ID: <20241021180252.3531-14-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241021180252.3531-1-mario.limonciello@amd.com>
-References: <20241021180252.3531-1-mario.limonciello@amd.com>
+ 2024 18:12:51 +0000
+Received: from CO1PEPF000044F4.namprd05.prod.outlook.com
+ (2603:10b6:303:8b:cafe::62) by MW4P221CA0018.outlook.office365.com
+ (2603:10b6:303:8b::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.29 via Frontend
+ Transport; Mon, 21 Oct 2024 18:12:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1PEPF000044F4.mail.protection.outlook.com (10.167.241.74) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8093.14 via Frontend Transport; Mon, 21 Oct 2024 18:12:51 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 21 Oct
+ 2024 11:12:34 -0700
+Received: from [10.110.48.28] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 21 Oct
+ 2024 11:12:33 -0700
+Message-ID: <47da3771-12d4-4621-a22f-3756d1b692aa@nvidia.com>
+Date: Mon, 21 Oct 2024 11:12:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/5] alloc_tag: config to store page allocation tag
+ refs in page flags
+To: Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
+CC: David Hildenbrand <david@redhat.com>, Yosry Ahmed <yosryahmed@google.com>,
+	<akpm@linux-foundation.org>, <kent.overstreet@linux.dev>, <corbet@lwn.net>,
+	<arnd@arndb.de>, <mcgrof@kernel.org>, <rppt@kernel.org>,
+	<paulmck@kernel.org>, <thuth@redhat.com>, <tglx@linutronix.de>,
+	<bp@alien8.de>, <xiongwei.song@windriver.com>, <ardb@kernel.org>,
+	<vbabka@suse.cz>, <hannes@cmpxchg.org>, <roman.gushchin@linux.dev>,
+	<dave@stgolabs.net>, <willy@infradead.org>, <liam.howlett@oracle.com>,
+	<pasha.tatashin@soleen.com>, <souravpanda@google.com>,
+	<keescook@chromium.org>, <dennis@kernel.org>, <yuzhao@google.com>,
+	<vvvvvv@google.com>, <rostedt@goodmis.org>, <iamjoonsoo.kim@lge.com>,
+	<rientjes@google.com>, <minchan@google.com>, <kaleshsingh@google.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-modules@vger.kernel.org>, <kernel-team@android.com>
+References: <ZxKWBfQ_Lps93fY1@tiehlicka>
+ <CAJuCfpHa9qjugR+a3cs6Cud4PUcPWdvc+OgKTJ1qnryyJ9+WXA@mail.gmail.com>
+ <CAJuCfpHFmmZhSrWo0iWST9+DGbwJZYdZx7zjHSHJLs_QY-7UbA@mail.gmail.com>
+ <ZxYCK0jZVmKSksA4@tiehlicka>
+ <62a7eb3f-fb27-43f4-8365-0fa0456c2f01@redhat.com>
+ <CAJuCfpE_aSyjokF=xuwXvq9-jpjDfC+OH0etspK=G6PS7SvMFg@mail.gmail.com>
+ <ZxZ0eh95AfFcQSFV@tiehlicka>
+ <CAJuCfpGHKHJ_6xN4Ur4pjLgwTQ2QLkbWuAOhQQPinXNQVONxEA@mail.gmail.com>
+ <ZxZ52Kcd8pskQ-Jd@tiehlicka>
+ <CAJuCfpFr2CAKvfyTCY2tkVHWG1kb4N2jhNe5=2nFWH0HhoU+yg@mail.gmail.com>
+ <ZxZ_99yLDhRMNr3p@tiehlicka>
+ <CAJuCfpFk+1R8JQc+w6r6NUDsmjFnh9K1_42AvG+qTZq4vimwKg@mail.gmail.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <CAJuCfpFk+1R8JQc+w6r6NUDsmjFnh9K1_42AvG+qTZq4vimwKg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D0:EE_|PH7PR12MB5655:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a1710d3-8f52-4a87-bd75-08dcf1faa9d2
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F4:EE_|SN7PR12MB6743:EE_
+X-MS-Office365-Filtering-Correlation-Id: e57a546d-b449-4354-022c-08dcf1fbfa11
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+	BCL:0;ARA:13230040|1800799024|82310400026|7416014|376014|36860700013;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?IffY0QXVPI/83oy5zr1MgO65zAjpy+5PS/bU7DBovmVi44zi68UWuoHx7aHZ?=
- =?us-ascii?Q?FnlAtX8xJDDLMGvljnBeSkBIVWLrBQa8qqV8UhUrldS5xMzRukBZF12d9jcn?=
- =?us-ascii?Q?qORvhR/YaR6wUxU6L5bDv1L29YGqzuBCjZojfxli47bAsn9xocfpTFPnmNeZ?=
- =?us-ascii?Q?33hMo1ilZ/9N+kXdzTMOr4T+JHjQWkoiqmPzKb48Q7faEi2CMpOncStvWmQ/?=
- =?us-ascii?Q?9OeP2BY9c4h560FipnTkUGyzLkFTpNA+TT5rc0NxT8gXOeGMMTDI+W5lXQEY?=
- =?us-ascii?Q?SQmnRe0OwMv1bX+ntZ4wjIc4pLqlX8/GfRoXXt3iqdF4WtcmUyGP5wyT+K/q?=
- =?us-ascii?Q?Wj5ZtpwV3dx7xEhUNMwR/DTvP1GbaPKbRNMnAWSwYdffBs/dmF9PAKAKUsoy?=
- =?us-ascii?Q?W1dlLMnJ7OMoD3dP1Uw85alRU26DST40R0i9MKhVzHNuhvue1berIxOTHsnm?=
- =?us-ascii?Q?9Iel3wzjzkhAbzES75zk62LJRl202Y/g601RZepIN9AT+ccGcg7rWPqWG8SE?=
- =?us-ascii?Q?ZfA/6iwa1aDfMgUH7o9CPr6sWb4v1s8pHA3eKOQGit9Ymo7e6bgXd+QHH0En?=
- =?us-ascii?Q?35vEXK/uewZj5dWUj/k3kiQlBQ+5KWtmQTFPaGCvcRY5t5Jt/YgLlY83TjYz?=
- =?us-ascii?Q?DnTxpNt+IYhvDrrkcVg4ZwEXzks5czp/9pPzc5r9aSDsYLyBir/Uk6n5n66g?=
- =?us-ascii?Q?iURj94TAIz6F4h/golWhLBngv/7EaXzdOXivWKZPI8srxLxVsZEekJZ+DENE?=
- =?us-ascii?Q?aeUgJD+q00Uq7uGp0QKY09ayRLJNtUYq2rgA0IN3kk40Va+TCaLnqjU87SZM?=
- =?us-ascii?Q?l89sVkIBozViARPDM0DDR6fcyqV/rIfljSSllY8ejl6ioZPOc8ZOsqQ4jxFV?=
- =?us-ascii?Q?juaWw/m/l+gS+Iy6stgla2fFf9yr50/qzrQpNOpm1cvZLf5QVEaP2DIBUmcC?=
- =?us-ascii?Q?u60Vczj+resvrHrCXpGF5es2STJWOX3YHdGdZETLKh/vAWEWvqTZMrS1IPoA?=
- =?us-ascii?Q?OMToIOG/fr+/Mkihnr/jSaXrPRRMsh3S9OIgQoBFeCh1bAnUxAdma0WtECim?=
- =?us-ascii?Q?wAJJQbs8F0/2GKXI6oDM8asOQXn5e6n2gW1r3bGxB5SVbUIowOJf5+/jxuDh?=
- =?us-ascii?Q?4FPsMg3cYM6Kjiqq+v5KKpTupQ/Mo00twrArpcUThgOHYxF9is5cjYBrSESy?=
- =?us-ascii?Q?ZRRi+uWBN3xWvi95qG9KIXonQgRZzZV69P5mlrVVaSplxt3HXbfHaJ481Ytf?=
- =?us-ascii?Q?Wru8HEz0gB53/W/7UZw/uojctk7RN8G/QB00Nn0LpBCJUq1bZ6KyL8I3Z4Qn?=
- =?us-ascii?Q?quet13M949RC9KgpHCz6QmxxGtuVJ1mNG4mzQ0auMVkJVNk0oPlPjhvICndH?=
- =?us-ascii?Q?/NoqvSZIQ8XA8NEJsRNI/CwciN06Cd5ejmsTkvn7ebwTDkUpOg=3D=3D?=
+	=?utf-8?B?UDBrcVBQWjRyTG1TTW1sRzk1MjBEbENkVnlobVpXVCtsUVFBeVhqYmxpdHRw?=
+ =?utf-8?B?NG1HOEtabFpaSS9HVGJMK3F3cWxzN0dzTjExb0R6ZDd5cW85YXg1UHNuUlBZ?=
+ =?utf-8?B?a040RU9IeHhCUjdqeVVrd1RQV1ZMK1N0UGhwa3cwQk5xbFNSOXY0T1FxeVJP?=
+ =?utf-8?B?SEdmVTV2REkzNVg4NDBYM2tGd1ZaaTJqUDFPckEwbHc5VmlhdTZ3ZDA4ejNa?=
+ =?utf-8?B?RFJWMTNoVXNTS010MGFDenoxNmJBcyt2RHBQaEdvWHZmTjdkU3F4aDlqOFU5?=
+ =?utf-8?B?WE9Ta1Z1US9CVVZ6MTR5cnBWcFd1VVY5V3M0UHRqSkNoalZaVXM2NHRFcFF0?=
+ =?utf-8?B?cGFocWIxMUgzaFZWcWJkOXZXVndhRG13Y0lTMlFaNmVMalJtclplWDJBMnNB?=
+ =?utf-8?B?VTdSeUM4UlhjSHVwNW5Gd2s5d0Q0eTNxUGVqR2xqMkVXdERTZ3dGLzFTdDFR?=
+ =?utf-8?B?VS81aEgwMFd1cS9ESVAzV2FoMWNWcGhxc0dId2dKSFU1elcveDdiT29tb1Nu?=
+ =?utf-8?B?Q1VmaTBKM1kxTFZtNElmc1RvWUhLU0FVYTl6WTg3cktWZmxiY2xVMUZDWjUz?=
+ =?utf-8?B?eWtyVjVINU5hbHBoa05vTDZIM0ZzT3hacWo1bXVPbHAxb2J2UytKUkdObG9x?=
+ =?utf-8?B?Y00zWThvZ2p0RVZRQlZxUzEvak9Hd09mdnRjTXkrd3dkTExHR0Jhei9acHpN?=
+ =?utf-8?B?bXRzODBIMFRFc0NRbHJGWk50eWg1MDcvMDE5S2x3d0lNZjl3cWVvYmczMkpU?=
+ =?utf-8?B?ck1Ma2JLTU1hOXhwY1kwS01jVWRoVXZRSWlKY2pFM0U3WlVvMkRGcGdveTJE?=
+ =?utf-8?B?T2FQaW9zTE1aQjJGTE4zdzNCZzdoeUhqMkc3Ym9XZXY0M1pFZlpJRGQ1TGFl?=
+ =?utf-8?B?a1VaRkRIYlliK3U2WVZqTHB6ak5EWjMrSGhkVmYya200eWlFc1Y5dEM5N2pU?=
+ =?utf-8?B?YWlETjVkci9obnM4VjJZWXZzNTIxdS81MnBIQzBTeUxZcW01RnZHNFNFZ2N2?=
+ =?utf-8?B?ZFdZRmJRU2FPazZIVG5kLzAzV3BjcmhBQWhoZURtUHNHVGpqRmZmcE03N0Rk?=
+ =?utf-8?B?a0dvM2dhUGNnekdZSFE3OElBdThMcEZBV2JWQ040ZGdJMmZjdGJSRmp0RFJt?=
+ =?utf-8?B?RnFQcGJoaXN6NlltR29sRk5aWVY4aE5PcCtFNzE3QlpEdk5hSGdRa1FJcm5R?=
+ =?utf-8?B?Ykp4U25pUjltbmQwY3ZUZFkxZmJEVnROdUdFbXJyRG1VS0p6WlI3Y1ZDZVdQ?=
+ =?utf-8?B?TUpIRlFmRFJMS3NBeEdWMWxjN3Ztb2orS25pN0tOOHorWndCcHVaWUtCaU9u?=
+ =?utf-8?B?WTZ3bEYvV2UrVlNDcEJ5aWpNM1BLUmVQVzI3N1VHUCtacWh3emY0c2VMZmJO?=
+ =?utf-8?B?WHZ3eDlubFlkWXFNSlNoei9IOHF0UDFKdUQ5KzNmZzlsd1ZFVXdyZElBaVBL?=
+ =?utf-8?B?WnFrZmFxY2l0R25tYUNxNmd0dkxwYmlVSys5RG9zd3M2RGNGQXJUelBqZDZn?=
+ =?utf-8?B?QVNCL0JTNENoV1BtWUVoRDFPL3p5dGVRdTBOZjVNbzgzekpVRVU5MjExK0Rj?=
+ =?utf-8?B?SUtTR0hMZEYvTnA2UUlKb3FzVTdtWmQyblNZeWI0eTNmR01BWmU2ZWlIUXow?=
+ =?utf-8?B?NSsyS3FSTDlZelNSL0d0QklSWnpxL29lYVA2VFR1eE9UdXNyTHJ6dzRtaVBk?=
+ =?utf-8?B?eUZsdVhXcFVHR0w1WEtxWHlJL3pMZ2xScHhJLzhQUzM5emg2WlVXaVkxMCtD?=
+ =?utf-8?B?QTUzbmRiYVRuVnBiVXlWeGlpV0h5VXVvM0dMdWJTUUw5ZHZmaXlhMSszRExY?=
+ =?utf-8?B?ZTlyOXlweTZ5YUYzUURCL1V1b2xBNmdmUzF2WFJPRVM2My9VemxydWIzVExt?=
+ =?utf-8?B?Y01Mdk1tNUYxRjJaMEIwRHNaTUIrRnhxNzZ1dFkxWCtIdUE9PQ==?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 18:03:27.1640
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(7416014)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 18:12:51.3490
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a1710d3-8f52-4a87-bd75-08dcf1faa9d2
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: e57a546d-b449-4354-022c-08dcf1fbfa11
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000023D0.namprd02.prod.outlook.com
+	CO1PEPF000044F4.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5655
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6743
 
-Add a dump of the class and capabilities table to debugfs to assist
-with debugging scheduler issues.
+On 10/21/24 9:32 AM, Suren Baghdasaryan wrote:
+> On Mon, Oct 21, 2024 at 9:23 AM Michal Hocko <mhocko@suse.com> wrote:
+>> On Mon 21-10-24 09:16:14, Suren Baghdasaryan wrote:
+>>> On Mon, Oct 21, 2024 at 8:57 AM Michal Hocko <mhocko@suse.com> wrote:
+>>>> On Mon 21-10-24 08:41:00, Suren Baghdasaryan wrote:
+>>>>> On Mon, Oct 21, 2024 at 8:34 AM Michal Hocko <mhocko@suse.com> wrote:
+>>>>>> On Mon 21-10-24 08:05:16, Suren Baghdasaryan wrote:
+>>>>>> [...]
+>>>>>>> Yeah, I thought about adding new values to "mem_profiling" but it's a
+>>>>>>> bit complicated. Today it's a tristate:
+>>>>>>>
+>>>>>>> mem_profiling=0|1|never
+>>>>>>>
+>>>>>>> 0/1 means we disable/enable memory profiling by default but the user
+>>>>>>> can enable it at runtime using a sysctl. This means that we enable
+>>>>>>> page_ext at boot even when it's set to 0.
+>>>>>>> "never" means we do not enable page_ext, memory profiling is disabled
+>>>>>>> and sysctl to enable it will not be exposed. Used when a distribution
+>>>>>>> has CONFIG_MEM_ALLOC_PROFILING=y but the user does not use it and does
+>>>>>>> not want to waste memory on enabling page_ext.
+>>>>>>>
+>>>>>>> I can add another option like "pgflags" but then it also needs to
+>>>>>>> specify whether we should enable or disable profiling by default
+>>>>>>> (similar to 0|1 for page_ext mode). IOW we will need to encode also
+>>>>>>> the default state we want. Something like this:
+>>>>>>>
+>>>>>>> mem_profiling=0|1|never|pgflags_on|pgflags_off
+>>>>>>>
+>>>>>>> Would this be acceptable?
+>>>>>>
+>>>>>> Isn't this overcomplicating it? Why cannot you simply go with
+>>>>>> mem_profiling={0|never|1}[,$YOUR_OPTIONS]
+>>>>>>
+>>>>>> While $YOUR_OPTIONS could be compress,fallback,ponies and it would apply
+>>>>>> or just be ignored if that is not applicable.
+>>>>>
+>>>>> Oh, you mean having 2 parts in the parameter with supported options being:
+>>>>>
+>>>>> mem_profiling=never
+>>>>> mem_profiling=0
+>>>>> mem_profiling=1
+>>>>> mem_profiling=0,pgflags
+>>>>> mem_profiling=1,pgflags
+>>>>>
+>>>>> Did I understand correctly? If so then yes, this should work.
+>>>>
+>>>> yes. I would just not call it pgflags because that just doesn't really
+>>>> tell what the option is to anybody but kernel developers. You could also
+>>>> have an option to override the default (disable profiling) failure strategy.
+>>>
+>>> Ok, how about "compressed" instead? Like this:
+>>>
+>>> mem_profiling=0,compressed
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v3->v4:
- * Drop conditional printing (Ilpo)
-v2->v3:
-  * New patch
----
- drivers/platform/x86/amd/hfi/hfi.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Yes. The configuration options all fit together nicely now, and the
+naming seems exactly right as well. And no more "you must rebuild your
+kernel" messages. Great!
 
-diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/amd/hfi/hfi.c
-index 50407ab805169..839007684b049 100644
---- a/drivers/platform/x86/amd/hfi/hfi.c
-+++ b/drivers/platform/x86/amd/hfi/hfi.c
-@@ -13,6 +13,7 @@
- #include <linux/acpi.h>
- #include <linux/cpu.h>
- #include <linux/cpumask.h>
-+#include <linux/debugfs.h>
- #include <linux/gfp.h>
- #include <linux/init.h>
- #include <linux/io.h>
-@@ -75,6 +76,8 @@ struct amd_hfi_data {
- 	void __iomem		*pcc_comm_addr;
- 	struct acpi_subtable_header	*pcct_entry;
- 	struct amd_shmem_info	*shmem;
-+
-+	struct dentry *dbgfs_dir;
- };
- 
- /**
-@@ -239,6 +242,8 @@ static void amd_hfi_remove(struct platform_device *pdev)
- {
- 	struct amd_hfi_data *dev = platform_get_drvdata(pdev);
- 
-+	debugfs_remove_recursive(dev->dbgfs_dir);
-+
- 	mutex_destroy(&dev->lock);
- }
- 
-@@ -396,6 +401,27 @@ static int amd_hfi_metadata_parser(struct platform_device *pdev,
- 	return ret;
- }
- 
-+static int class_capabilities_show(struct seq_file *s, void *unused)
-+{
-+	int cpu, idx;
-+
-+	seq_puts(s, "CPU #\tWLC\tPerf\tEff\n");
-+	for_each_present_cpu(cpu) {
-+		struct amd_hfi_cpuinfo *hfi_cpuinfo = per_cpu_ptr(&amd_hfi_cpuinfo, cpu);
-+
-+		seq_printf(s, "%d", cpu);
-+		for (idx = 0; idx < hfi_cpuinfo->nr_class; idx++) {
-+			seq_printf(s, "\t%d\t%d\t%d\n",
-+				   idx,
-+				   hfi_cpuinfo->amd_hfi_classes[idx].perf,
-+				   hfi_cpuinfo->amd_hfi_classes[idx].eff);
-+		}
-+	}
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(class_capabilities);
-+
- static int amd_hfi_pm_resume(struct device *dev)
- {
- 	int ret, cpu;
-@@ -469,6 +495,10 @@ static int amd_hfi_probe(struct platform_device *pdev)
- 
- 	schedule_work(&sched_amd_hfi_itmt_work);
- 
-+	amd_hfi_data->dbgfs_dir = debugfs_create_dir("amd_hfi", arch_debugfs_dir);
-+	debugfs_create_file("class_capabilities", 0644, amd_hfi_data->dbgfs_dir, pdev,
-+			    &class_capabilities_fops);
-+
- 	return 0;
- }
- 
+thanks,
 -- 
-2.43.0
+John Hubbard
+
+>>
+>> Sounds good to me. And just to repeat, I do not really care about
+>> specific name but let's just stay away from something as specific as
+>> page flags because that is really not helping to understand the purpose
+>> but rather the underlying mechanism which is not telling much to most
+>> users outside of kernel developers.
+> 
+> Understood. Ok, I'll start changing my patchset to incorporate this
+> feedback and will post the new version this week.
+> Thanks for the input everyone!
+> 
+>>
+>> --
+>> Michal Hocko
+>> SUSE Labs
+
 
