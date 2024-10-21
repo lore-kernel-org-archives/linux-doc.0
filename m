@@ -1,96 +1,79 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E6B4131182;
-	Mon, 21 Oct 2024 15:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117451C689F;
+	Mon, 21 Oct 2024 15:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729525319; cv=none; b=cuQ2sb1HFAKrFskxXFOAtP3IgZ3WuaXkda63ERZGAsZnMrgl0O34zoJWFojiz8ANW5reU5O6rdtJTmOPoJRhqqRb0ZiC1X4XiodvWWyzSJqcPiJDX7ljEAP6OiEGdZlTdIPreOZBMidYCzJP3vpyl45lwL4z6Eb/YryXVbv7zxM=
+	t=1729525707; cv=none; b=LkAI8mpfslCSDud5xTrIQ4oviKiyOzxWB5WeayawKEVU4oLzSHT09T866A1AT0+thzHYoRKUhyWFy7gGoST8k9t66VJa39d+9rdhopVexUaAWo857/+knaKY0O6vN+M/Eof288nuCinszstWKkvCSq1yFI5354boQwHlPmn4rkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729525319; c=relaxed/simple;
-	bh=mvpJ5q6wbG2OGv2ExzGIZ+pg2uE2gGkv1J9IXoMKJ4A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mx2lsDlPrb/KLlPm5FMQQk1BsN/7JL37CQyVzFLfySebU2lDw1q724/r9jiXbXgn/IfAmMFAYQ56yFCsM2f61G6qif687a0J8mpP58W6/jW5Hs0UPcqU+uDwlPPNyxVk9mgCPQ+Rd8BRyoQnHJH3iRyOHgJBc4S9M7tVHabCFoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrADHzX0LdhZnXh9PCA--.21720S2;
-	Mon, 21 Oct 2024 23:40:59 +0800 (CST)
-Received: from [192.168.1.6] (unknown [183.94.68.188])
-	by gateway (Coremail) with SMTP id _____wC3sPsJdhZnqLGEAA--.29413S2;
-	Mon, 21 Oct 2024 23:40:58 +0800 (CST)
-Message-ID: <7a11cfd9-523d-4650-951b-52a128af691d@hust.edu.cn>
-Date: Mon, 21 Oct 2024 23:40:56 +0800
+	s=arc-20240116; t=1729525707; c=relaxed/simple;
+	bh=iFBTx2tL9cgwlq2ZMEXOuCF9LrIb+11+pMkkMd1tZIo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fzb/zSN7Fpmhnxlb+CX0nvBynVdgi4ttMzTGwa3+f/nHwyQn8X6yO80yiywadEM6xDt4cIPKKFM0OfZZzigxRA+vMbwVchFFIWeuRRoW+hECxkziThQx7AfVWhBAY0T8lbuNkFA6/fUm6iA+gIg8OESmJr1foKGozTFoNnXiDfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XlCsq8no; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XlCsq8no"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 23EEE42B3D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1729525705; bh=kV/Ep5boGmFSxiUYUYBsRcjsc6S01qOrduEERitEcx4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=XlCsq8nogaJs2Xzr2CmkglUV+vQe1z/WqCljlb0D6TbTM6NBp3awFrJxYiaklPt8X
+	 XUIohrp0iklFJLZavy9pb6/GRykIijXh1aYclSAi5fF2LcBjTF2Nw0OEV7UWGxZG7e
+	 efAnj3w/DNSBmDzgDeQwsscMslLpk+hA+M3DCmhRgV8Cr+xFXmBFA7CYSFqX2vSSJO
+	 Eij4S5THp0F4KmbNSXZ1tNqlZ9l3Q8dB1GdcmdkHuRiCuW6Zfz+PHlUAmrBySfb0vU
+	 COZ7KyasFBKTZV5wydZvJAsJS4fzv0cQ9dwY/6QZ0Wk2+GWC7ht5HR5cvHlFqAA1zi
+	 lUFTkxLKb8kyg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 23EEE42B3D;
+	Mon, 21 Oct 2024 15:48:25 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Pengyu Zhang <zpenya1314@gmail.com>, alexs@kernel.org,
+ siyanteng@loongson.cn, seakeel@gmail.com, si.yanteng@linux.dev
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ yaxin_wang_uestc@163.com, zenghui.yu@linux.dev, Pengyu Zhang
+ <zpenya1314@gmail.com>
+Subject: Re: [PATCH v6 0/4] translate page_tables.rst and fix PFN calculation
+In-Reply-To: <20241016141801.25487-1-zpenya1314@gmail.com>
+References: <20241016141801.25487-1-zpenya1314@gmail.com>
+Date: Mon, 21 Oct 2024 09:48:24 -0600
+Message-ID: <871q09tq2f.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs/zh_CN: add the translations of
- kbuild/reproducible-builds.rst
-To: Jonathan Corbet <corbet@lwn.net>, si.yanteng@linux.dev,
- Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1729259177.git.dzm91@hust.edu.cn>
- <dcd09bf28f52ba0461b26f800fdbb145c879a313.1729259177.git.dzm91@hust.edu.cn>
- <87r089tqwi.fsf@trenco.lwn.net>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <87r089tqwi.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HgEQrADHzX0LdhZnXh9PCA--.21720S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoW7XFyrKrWkZr4kGrW8XFWkWFg_yoWDurgEyr
-	10v3yakw1UJFn3AaykJrn3Ary09anYgr1Ut3Z8tr97t3yDJr4UXF4qqrn2vFWUWF4akrWx
-	CwsYqrn3Wr17ujkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbPAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2
-	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUAV
-	WUtwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
-	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
-	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
-	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
-	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
-	6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
-	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
-	0xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
-	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
-	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain
 
+Pengyu Zhang <zpenya1314@gmail.com> writes:
 
-On 2024/10/21 23:30, Jonathan Corbet wrote:
-> Dongliang Mu <dzm91@hust.edu.cn> writes:
+> Translate page_tables.rst to Simplified Chinese.
 >
->> Finish the translation of kbuild/reproducible-builds.rst and move
->> reproducible-builds.rst from TODO to the main body.
->>
->> Update to commit 114ff6fe6cfb ("Documentation: kbuild: Add description
->> of git for reproducible builds")
->>
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> ---
->>   .../translations/zh_CN/kbuild/index.rst       |   2 +-
->>   .../zh_CN/kbuild/reproducible-builds.rst      | 114 ++++++++++++++++++
->>   2 files changed, 115 insertions(+), 1 deletion(-)
->>   create mode 100644 Documentation/translations/zh_CN/kbuild/reproducible-builds.rst
->>
-> I've applied this (patch #1 was already applied).
-
-Thanks Jon. I originally would like to push llvm.rst and 
-reproducible-builds.rst as a patchset.
-
-But I incidently cherry-pick the wrong commit and generate an incorrect 
-patchset. My apology :/
-
-Since this patch is applied, I will then send the translation of 
-llvm.rst as a separate patch.
-
-Dongliang Mu
-
+> Fix a mistake for pfn value in mm/page_tables.rst.
 >
-> jon
+> Add a entry in Chinese glossary
+>
+> Pengyu Zhang (4):
+>   Docs/zh_CN: Translate page_tables.rst to Simplified Chinese
+>   Docs/mm: Fix a mistake for pfn in page_tables.rst
+>   Docs/zh_CN: Fix the pfn calculation error in page_tables.rst
+>   docs/zh_CN: Add a entry in Chinese glossary
+>
+>  Documentation/mm/page_tables.rst              |   2 +-
+>  Documentation/translations/zh_CN/glossary.rst |   1 +
+>  Documentation/translations/zh_CN/mm/index.rst |   1 +
+>  .../translations/zh_CN/mm/page_tables.rst     | 221 ++++++++++++++++++
+>  4 files changed, 224 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/mm/page_tables.rst
 
+Series applied (minus #2, applied previously).
+
+Thanks,
+
+jon
