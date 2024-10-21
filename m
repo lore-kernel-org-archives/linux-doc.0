@@ -1,214 +1,317 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AE51E0DBF;
-	Mon, 21 Oct 2024 21:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729545427; cv=fail; b=Ifg5t856iVEyjyIOMUJu8NtrSpzPaE0gQs7eRsCs7BibeEYGV5X+pfcF/oafway8D1CAeu6Z8bK0q3x27xWd3Dj1bVmuhZoQ2AvH286COcnTjwaGgAIfIHU5J4HB0Nd7/SirmxiB+qrTEoZ/e8NOd1BloCXvbt2+Ihaw8chfSaI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729545427; c=relaxed/simple;
-	bh=UQqfuWbM8jIAO/a5sBK9nuFo6CtdJVzjnbjc6uu+uFU=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tNTE/z7lNGphGz2AE5+dD8CdxLut3RMJSQw310fKuI/z2dqU21H4cgEOhbu80f0ULQaaorUrWaaqaohfjVYA2E3cvShsOa4nKI1R1aapL0aj0wV0i2vsgZj8muXNblKkpjwD8Kj4YtjEUGiZ4aqvWrxWsSmLMCeWwnGBthj8Bmw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acJw7sNr; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9B51C68BC
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 21:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729546486; cv=none; b=pTrjYZoFn3qnVEZhCm062BWnWmQV7iF7c0Tk0HxQaoq9yhU2S3ms8X5ip+fOpx4nTeVqOeUIpJG6/u5irRX4x0yfUGn8ShSAXdkD+kpTmFPdkibwQL9baAm/CkphxgiYYEZLKE86QRKZK+WWeN9BFPrbJHl/2fW5CA5gpGH/VbA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729546486; c=relaxed/simple;
+	bh=FcKWsHq1hgljR0i0vDPl0t8o2fmTLXkVbRZd9nd26gA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tMlmhQgIQkYyOpMZzTDGDo1tTLmZ/mYzPUfF9cW8rGJybpHkkidQI9Z9TNQ7pkYWSAScjgaxBC/5wBZMzF8EFTwtTJNq+oOdyZcd05wcrobHZl2s2c/zI5/NSBvMoOZtaX6u7Q9T0DlXfWxfywojnBioO0ZpWw4+5iOPELE8PHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o72ftB6k; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acJw7sNr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729545425; x=1761081425;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=UQqfuWbM8jIAO/a5sBK9nuFo6CtdJVzjnbjc6uu+uFU=;
-  b=acJw7sNrsIZfvIU4wBZsNv4V5n1STthZj3JcnQlq7AlhREw1B/XvuwF5
-   FVz5PVpExt87ZF8OeGopEhGBM+HKd23uwVOsG+SJQZcQLiI94QrP/bkzs
-   stIILUvkBmYfaaZh4PnVfMbGQoTYp9oshKTNhDHyDyFg9Y0PpskhxElPa
-   RAGPCU6HwcGIF/4VngPEf8Kfdv3G2zTfb82duOvPnhL4VrzMBv3hAbddh
-   m9YTZddDQRY5kUgfKXo/WCzfsjNli+JqGz6AfekfANPev2XFAbb6N2BoL
-   nB7z3105SffJFnDiwfyDrTaSbTOYXKqwDgGB8PU9qkO0kOBQ8Nbe9Ae2U
-   A==;
-X-CSE-ConnectionGUID: 9/BDR0YeRb2woIXile1JBg==
-X-CSE-MsgGUID: Vmso2No6TfWcnot7kiP9ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="40417231"
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="40417231"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 14:17:04 -0700
-X-CSE-ConnectionGUID: vpW5hQYITomhcc8gwJhGZg==
-X-CSE-MsgGUID: 8E2NUKu8TLeAjIZVGkLlZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="79733999"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 21 Oct 2024 14:17:04 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 21 Oct 2024 14:17:03 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 21 Oct 2024 14:17:03 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.46) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 21 Oct 2024 14:17:03 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YM3S+iRnZgZg0g1fO/faRJaXSlfuGS7I4arE/fq3OGdhwE1twKtBauo6xZOG5cbUM8XKM9TOYk3IN/Ltg4YyOWwux5YXlFIR8N01Fsyk47Y8qtZGUkI6cUnnCPCGPdwnOpEgzFm9WX/DZnqwAb3Vf/XcSHuCNfOcZIoIWlYeP/F6QZvBIUxhXYnQvptOJtEFf6IgAh9EK3/hZog9d5LkABIORWQH4rAZDnTMVQbbyE8KCsOInWNeydpbl82VjhdckZ1tLnZAY/LK+9NaPamO17ZFGL66qgMdRRoCZHAMb9o1Nk2IXLZ58I4IYY21y/hEnDZB/Z0POUEZM31lTqRRhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NugaxJLC/zeAfULO5JmMEQ9a62LEbuL1Q9BqMWuPsC4=;
- b=jhFX8j7f1Se4+XMEb+FgdGHEAFpMCNsFHeCqXs1LgjjKf0h2knkc4AW4+sfoZSyFULniKCTDAYFtsWvt7BGk4SoU/iYziGMDEv56ilY0OEuVdLzrhT7/lCEZcvCSo6IYxZBkf2IIuc+WGiVtQJQWsASuMEKyoOQ2zam0a0fyhlE5u4DObOcT4EZX31/6RQO9EPH+2tpHFxvHLnaBgzOov5DYa+lymq5VUoHSmdxbwV29K+pGVkudGPG3acKAk/feNKnROOAcWAmTp2M2cif74fgoYlM5ZdBftrqrSxf+Gy+bzmmguHpZLOY107FztVc2s2Z/V6b8PgOQ2NPLTPzrjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by PH7PR11MB8010.namprd11.prod.outlook.com (2603:10b6:510:249::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.24; Mon, 21 Oct
- 2024 21:16:58 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57%3]) with mapi id 15.20.8069.027; Mon, 21 Oct 2024
- 21:16:58 +0000
-Date: Mon, 21 Oct 2024 16:16:51 -0500
-From: Ira Weiny <ira.weiny@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Ira Weiny
-	<ira.weiny@intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
- Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
- Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>, Alison Schofield
-	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
-	<linux-btrfs@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 23/28] dax/bus: Factor out dev dax resize logic
-Message-ID: <6716c4c333033_7253d29447@iweiny-mobl.notmuch>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
- <20241007-dcd-type2-upstream-v4-23-c261ee6eeded@intel.com>
- <20241010160649.00007941@Huawei.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241010160649.00007941@Huawei.com>
-X-ClientProxiedBy: MW4P223CA0030.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:303:80::35) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o72ftB6k"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a998a5ca499so628329266b.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 14:34:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729546481; x=1730151281; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tmm2xALcW2rsx29+DdrW+v337pzZtbQgSnw6+Xs/zn4=;
+        b=o72ftB6kxDyS5oRGs3IzyZfdPtVQObtGP7vXoeEAmKRRjxRrW486uJceCQBSqPwKnz
+         tjd+uujU856W+YFCaxm4/vIrTsJFJhtk23xLNp2t0r4x5ApyQlP5mrHO81zCT6uMviQn
+         NkIixHzJj608VNrG5TzBVOKsbB++uAdNt8zKgCDPllO6pGJdR0EprqVP0zK9PdttEFbr
+         JzYDR19uM0VEJjHkkG8b3f2pDcGqdU0/nwLeyGbImYLkCi8BdOGYjT9giKdGnKcAXOmW
+         vDcXaySkjAEbcEximgJfOcoFLUZkd9mu7mkyEcnTsmyTPyGv3lsjiWr32xczZGhxun0p
+         8HEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729546481; x=1730151281;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Tmm2xALcW2rsx29+DdrW+v337pzZtbQgSnw6+Xs/zn4=;
+        b=kK5ZJ1P3zOcVvZyPT8aXvG4z1KbHRfs5aCJ9lVfguYt7yMqs5mLlIWzYXXTLJStau+
+         9NDzltxdWkhb2GHEwoRHJqtgN9c2w5i1GIlIEa7M2KYiXmhEUh62XF4OCtUNnNztJCm6
+         7DFLyq5lN9OfTxB6zNdxdjspAVBywjcu5qWANUHe5L4w47herkdabI2S6FSxvF/PBWL6
+         7dPu+wM71qTtNxF2XSwOTqYmmd5wJJI1mF8ze07G4ZcM5gm0/4g75ldxSNvNlfCq10LC
+         OgnpQ7N4UKZy8/5+3oPKWikMzwVv8xicBhO/DcRu1RVBG6ZP/Evbd35AIGp9DBUJP8jY
+         MALg==
+X-Forwarded-Encrypted: i=1; AJvYcCVrItzxATzARGJButfuC6vakmGscU6on3YPMA/U7iAzG6JwGiBi9+g0o4zdjOs4vRC5RskmACHJGJ0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJJRjUrrP0pA9zLM8iOsY1xhn24JdTCYN/daWMat39rfln5xqk
+	w38GmUfHkAzmghEgmFuey4y/lee5nm5BS7UnOzLuJ63ZIAwrtpGX4oG1wlEZKyBYZM5hZ1KiFKJ
+	NIpqQVHG9OPLnhMhjdTiiQxb/Fc66K79gWq1N
+X-Google-Smtp-Source: AGHT+IF3y/LVIbieQtEJFBqOYK2yrALBMR4CT6p9zp8Pa+ZdpkLxqwNllyVWQxdDyJVeQO7f2UVhXNv2mF7LxG2ceA4=
+X-Received: by 2002:a17:906:4788:b0:a99:d797:c132 with SMTP id
+ a640c23a62f3a-a9a69a6605dmr1179941666b.16.1729546480976; Mon, 21 Oct 2024
+ 14:34:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|PH7PR11MB8010:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8409b88d-b772-432d-cbdc-08dcf215b284
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Rqyu+q3PqGIJvzpCsEvC6BAmlb3d5lZvdw881taTlWgbdLTrimyvR/wkGtej?=
- =?us-ascii?Q?D/WM5TDILX/H/24oDQGyjzQvuYRvZplv9tLQKZPEeatPSThyXCllYqP2yJvH?=
- =?us-ascii?Q?k3+uF63c/BHwEwLVohM/wxMw+mNWdsDYXp/DYXyc9LyFCGpSot3TjLkLCo1y?=
- =?us-ascii?Q?fLer2H14sdWzLtp5FQ/vnYCk2d/b4Wz0vx7U50N6faTZqyjl3+93s/i+8F6d?=
- =?us-ascii?Q?l3Zq8zdJZxWaHP6WhHpuudfDHUfL+YcbkbJ0Ffs0xWMF16TFUtSxtgzD7Lqa?=
- =?us-ascii?Q?PcKap9L0MTW+vWSNmlQo4OisSnGecnAJCCMaMUPmNf0HpyMe8qnjdM2NwGPn?=
- =?us-ascii?Q?cqh9MBThGZP0oI0sYkBNxtWSSABcICiK/e8w8y1PCvxAxPwITX0dDs3b/tvU?=
- =?us-ascii?Q?xpxiJD3Npb3h3PUbcvjHplgn6NY33IaHbor+lU/1VLFWVVzhdgCv0X5+YzaJ?=
- =?us-ascii?Q?6QpFYme2syAdKIlmsW54FIp7FAxVVDKssH5yaTnzc+OAc0Fcd88BNCuqk9d+?=
- =?us-ascii?Q?cKqFVC+eNZSkQQBYf426T4ODRwiiZtdyaamfxcpBk/4LG8nJevePXB1v46S1?=
- =?us-ascii?Q?jQB+fFD/fgEIHMqUxq02xitER9WdmSWoq8Rpxr+CaxGt3ShY8UbvA8RcoKC8?=
- =?us-ascii?Q?5PC50XZ53zzXBh4rQJy+ewODkOC1Ve+PcXN5oXDptg+EoV5SWuKLdUqmse9e?=
- =?us-ascii?Q?fsad9Y4EcOAsY/jfPkywvuu726wjSW1rAJPHSQJBWP1/379Nc8NV+ri3ssoH?=
- =?us-ascii?Q?sgPX7aaQBTH5KmwqkWrU1cu5beiFtgILMbhX6HbM/4Ffgf45mOJLRP7LlL3g?=
- =?us-ascii?Q?joSvdrtQms/iAZyeWIMXxDlcFaer4VdFibX+dVB5eV5IZqZNGILfmkdTlM7a?=
- =?us-ascii?Q?lDZ1hp9m2pg7Zs4OAFADkTC6Jc0PjeBL9/tZfz1LxK2xOJFOxJcMjWj2FV1L?=
- =?us-ascii?Q?F6cDeFN/rOgoSuRTyePKhnuiVP68J5LrfXekC6+GL1ASpnk8dGW9F1h89e7q?=
- =?us-ascii?Q?7ZzTVRK6jvcxzlSMyPAC32cmih/oc0++DbWV7OA2CfHRfyMhWcD2udLGI5zH?=
- =?us-ascii?Q?lRyh5cs5KV9DnQt/dEoN4bkQR14AiJsUQe7qt6O/0Yhm7wqGyyMTwKq7KGuB?=
- =?us-ascii?Q?kqcbLd9Q+BREIUq9AbztmF9K5nHkuM9ovXfz+FuKAi9SPotB9LzAEbx6ItwN?=
- =?us-ascii?Q?iyxwuwz53l19fyllCOeYV69ZpcU8X4wc/sDQjQ2d0yc4DWi9Q05BWR8borAy?=
- =?us-ascii?Q?gbwQmpG4yoFMLjIFTyoqVl9R9C7CqhyhSVGcMOnh69yyht9iAvSDqfRyFMrv?=
- =?us-ascii?Q?6AE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BUqzMpJmnH/K9eSzWAcIWsI9Rci0+N8UMq4D1J+FbPdR9eWu2gbNspMevnfI?=
- =?us-ascii?Q?2I54wdx9WhoD+ncc/zZXtdmAA2fC83yXMCj3cRuOJ7aLYYsE4IxIA/uVQ4A4?=
- =?us-ascii?Q?9/bmCWOrKTXCKbr9jNvnvfVIOOd2u0+O2fyzQSPzGwINSGjN4ezxtoL7/waQ?=
- =?us-ascii?Q?xZIMXGZlZkuR4jkMQ6yw7+hezFTqfx+rPAOglPj0BV7kULRg2CCq9xT1oZ3q?=
- =?us-ascii?Q?8Eoli1QRp6ZZug2eQAcI2DFEgXtK4OnkpbK6M8M7SVHLQaZRbk27aXWxMoBY?=
- =?us-ascii?Q?Hjxe0fcrX+30M0re0OW2CVQqQ0MpVPAXUQrU7A/z+fnRG5Xt/UUC0TiHHt2/?=
- =?us-ascii?Q?FPPpTPPcJ9KmA0WL5xt6Hll/voGPK9npCFUSxhaTT13D39SefPVkgVKlUH8H?=
- =?us-ascii?Q?Dbf0iKnrz36zRIs2wdWXAH71+4yBKhB1crpzGuR1FYwA5fibHSmXIo0+VoAr?=
- =?us-ascii?Q?+FTjL7wYNel8jOiZzOmqPOthZNnAdo1i7lif401UYaPjWeng7pAQ9Sd4haht?=
- =?us-ascii?Q?7YD/cuWLik6E9/EJWkemyCO/23h7absscbFdJs7kmJEd43kbVO9SOoMIraAD?=
- =?us-ascii?Q?OdVQn+RDlidz1l65UC/WbmdjTl+pXnSIgOXYaVIv/krbTgXE7cvJEkDTXK1J?=
- =?us-ascii?Q?99XbqxKCDIheIrgm9nGPQM3mvTI7Nws+rPN/EXUDuJ5QnAR8c1ytc6MNXdbm?=
- =?us-ascii?Q?NbNmEu0eN4gqAq8acwn2kEHS7kG4m0YKy+gLEEX55OFdjyD3uP5ER/s0m7Yl?=
- =?us-ascii?Q?O2rt5fndJTiXnkxGbg3/HAjD1A6g7/KxFqapkaMhhlzzacQqmLv6Vy6mezUG?=
- =?us-ascii?Q?bGne0mhrLjJrbnVQg+Q1GoTRuUzMagPdZh/dS+YFnPOrpTejGHnmIvNQ/9xw?=
- =?us-ascii?Q?Tq9SJr4YShtUxJ4tsvE8+PSmFystdg3tccml7OvjMCtDS05Oa3VYCaxfp94T?=
- =?us-ascii?Q?mRi1KHb0txCMWgNULXDBtBgUgy26fPmcD4k9nEgjLWeEaWg1Z4phbXvDhyaz?=
- =?us-ascii?Q?9aVsEgSgWWbK4i0GYTgwzecCbcFIgKUM8JK+FO3DQeS3Hk6JKdwHuiajLIYL?=
- =?us-ascii?Q?n3lFGp0GTO2sM+LsGhyqXgjIVj+/mgMw/MBjEPo5ElzD8w6pIHGWBqrYU4UR?=
- =?us-ascii?Q?gGS5+m9/58ZyxP10P+eLo8RujuB8jG0/j39q47PQrclFJ0vLMhgh1i4TSjcp?=
- =?us-ascii?Q?9x1n43oRkOtE3E3UhU0/YEHCuWi0xOmDpqpbqGpel5M8iAURXJJYpVft8JaY?=
- =?us-ascii?Q?C9z5EAEy48adVVWPWiVISk78Gj9U6X8fG126efSMIT51GaOayYRiWDasPAnx?=
- =?us-ascii?Q?/iLO9bKvW39nzPrKgbCN5MIGYtF01Zxb1fNSp9OZ07iVSLEumEGyB1eSoXyI?=
- =?us-ascii?Q?96fDCv1VvNRBfvU6LTOX+lFcgZdexTxKn1eJrvhAyzM+FNIsuXRBJM+ROfCg?=
- =?us-ascii?Q?mc9yg5WF/gGY6PHRp7qmjb0rPo9jLqSggbgIPtDK6qJssu7JF/U2Zpv6MNh+?=
- =?us-ascii?Q?LnSGxw13HWmVTRGwQXw8rGCS52LymMq6uHViGQRas0sRhI3tC2IuAG8A5GlT?=
- =?us-ascii?Q?Sr2fTDmrZyoeClj3RGZLfjxdSUEZqc1k/6pzALBo?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8409b88d-b772-432d-cbdc-08dcf215b284
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 21:16:58.5427
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: axZQNdwzKjjRfvS145egWc3Wbajo3yx4Ch7AR1Q9RHXVbe0OiXxZ3m++S3riVPKuWZDAOnSsvk5tDfUZGBOdcg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8010
-X-OriginatorOrg: intel.com
+References: <20241018105026.2521366-1-usamaarif642@gmail.com>
+ <20241018105026.2521366-4-usamaarif642@gmail.com> <CAGsJ_4xyDMUDxVhi0bzZJ4jAd_Hw8Hn25+4epO9u9=iu0QMdoA@mail.gmail.com>
+ <ca158172-a100-4af6-98de-083d77cd9ed8@gmail.com> <CAGsJ_4x9YKi9BKmzOuOfaLrjr=kpQsiog=rAP3jJY=YQJ3Fupg@mail.gmail.com>
+ <ac2d47fc-9bdc-441f-8b96-fb47862cd2c6@gmail.com> <CAGsJ_4xbciws3AnRFk0U8YeS5MPD=deXw6PCB6i71vgrLir8ew@mail.gmail.com>
+ <6d036c4d-ec2e-4562-98a1-6668948086b5@gmail.com>
+In-Reply-To: <6d036c4d-ec2e-4562-98a1-6668948086b5@gmail.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Mon, 21 Oct 2024 14:34:03 -0700
+Message-ID: <CAJD7tkYyYcDAAuD_vq-2zEkRrd9F_u7UXDD-edooc3qnhEXAFQ@mail.gmail.com>
+Subject: Re: [RFC 3/4] mm/zswap: add support for large folio zswapin
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org, linux-mm@kvack.org, 
+	hannes@cmpxchg.org, david@redhat.com, willy@infradead.org, 
+	kanchana.p.sridhar@intel.com, nphamcs@gmail.com, chengming.zhou@linux.dev, 
+	ryan.roberts@arm.com, ying.huang@intel.com, riel@surriel.com, 
+	shakeel.butt@linux.dev, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jonathan Cameron wrote:
-> On Mon, 07 Oct 2024 18:16:29 -0500
-> Ira Weiny <ira.weiny@intel.com> wrote:
-
-[snip]
-
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> > ---
-> > Changes:
-> > [Jonathan: Fix handling of alloc]
-> 
-> Trivial comments inline.
-> Not an area I know much about, so treat this one as a 'smells ok'
-> type of tag.
-
-NP
-
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+On Mon, Oct 21, 2024 at 1:57=E2=80=AFPM Usama Arif <usamaarif642@gmail.com>=
+ wrote:
 >
+>
+>
+> On 21/10/2024 21:28, Barry Song wrote:
+> > On Tue, Oct 22, 2024 at 1:21=E2=80=AFAM Usama Arif <usamaarif642@gmail.=
+com> wrote:
+> >>
+> >>
+> >>
+> >> On 21/10/2024 11:55, Barry Song wrote:
+> >>> On Mon, Oct 21, 2024 at 11:44=E2=80=AFPM Usama Arif <usamaarif642@gma=
+il.com> wrote:
+> >>>>
+> >>>>
+> >>>>
+> >>>> On 21/10/2024 06:49, Barry Song wrote:
+> >>>>> On Fri, Oct 18, 2024 at 11:50=E2=80=AFPM Usama Arif <usamaarif642@g=
+mail.com> wrote:
+> >>>>>>
+> >>>>>> At time of folio allocation, alloc_swap_folio checks if the entire
+> >>>>>> folio is in zswap to determine folio order.
+> >>>>>> During swap_read_folio, zswap_load will check if the entire folio
+> >>>>>> is in zswap, and if it is, it will iterate through the pages in
+> >>>>>> folio and decompress them.
+> >>>>>> This will mean the benefits of large folios (fewer page faults, ba=
+tched
+> >>>>>> PTE and rmap manipulation, reduced lru list, TLB coalescing (for a=
+rm64
+> >>>>>> and amd) are not lost at swap out when using zswap.
+> >>>>>> This patch does not add support for hybrid backends (i.e. folios
+> >>>>>> partly present swap and zswap).
+> >>>>>>
+> >>>>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> >>>>>> ---
+> >>>>>>  mm/memory.c | 13 +++-------
+> >>>>>>  mm/zswap.c  | 68 ++++++++++++++++++++++++------------------------=
+-----
+> >>>>>>  2 files changed, 34 insertions(+), 47 deletions(-)
+> >>>>>>
+> >>>>>> diff --git a/mm/memory.c b/mm/memory.c
+> >>>>>> index 49d243131169..75f7b9f5fb32 100644
+> >>>>>> --- a/mm/memory.c
+> >>>>>> +++ b/mm/memory.c
+> >>>>>> @@ -4077,13 +4077,14 @@ static bool can_swapin_thp(struct vm_fault=
+ *vmf, pte_t *ptep, int nr_pages)
+> >>>>>>
+> >>>>>>         /*
+> >>>>>>          * swap_read_folio() can't handle the case a large folio i=
+s hybridly
+> >>>>>> -        * from different backends. And they are likely corner cas=
+es. Similar
+> >>>>>> -        * things might be added once zswap support large folios.
+> >>>>>> +        * from different backends. And they are likely corner cas=
+es.
+> >>>>>>          */
+> >>>>>>         if (unlikely(swap_zeromap_batch(entry, nr_pages, NULL) !=
+=3D nr_pages))
+> >>>>>>                 return false;
+> >>>>>>         if (unlikely(non_swapcache_batch(entry, nr_pages) !=3D nr_=
+pages))
+> >>>>>>                 return false;
+> >>>>>> +       if (unlikely(!zswap_present_test(entry, nr_pages)))
+> >>>>>> +               return false;
 
-Thanks
+Hmm if the entire folio is not in zswap, this will prevent the large
+folio swapin, right?
 
-> 
-> > +
-> > +static ssize_t dev_dax_resize(struct dax_region *dax_region,
-> > +		struct dev_dax *dev_dax, resource_size_t size)
-> > +{
-> > +	resource_size_t avail = dax_region_avail_size(dax_region), to_alloc;
-> 	resource_size_t to_alloc;
-> 
-> on it's own line.  That was hard to spot all the way over there.
-> Obviously this was in original code, but maybe slip a tidy up in whilst
-> you are moving it?
+Also, I think this is racy, see the comments below and in patch 1.
 
-Yea fixed up.
-Ira
+> >>>>>>
+> >>>>>>         return true;
+> >>>>>>  }
+> >>>>>> @@ -4130,14 +4131,6 @@ static struct folio *alloc_swap_folio(struc=
+t vm_fault *vmf)
+> >>>>>>         if (unlikely(userfaultfd_armed(vma)))
+> >>>>>>                 goto fallback;
+> >>>>>>
+> >>>>>> -       /*
+> >>>>>> -        * A large swapped out folio could be partially or fully i=
+n zswap. We
+> >>>>>> -        * lack handling for such cases, so fallback to swapping i=
+n order-0
+> >>>>>> -        * folio.
+> >>>>>> -        */
+> >>>>>> -       if (!zswap_never_enabled())
+> >>>>>> -               goto fallback;
+> >>>>>> -
+> >>>>>>         entry =3D pte_to_swp_entry(vmf->orig_pte);
+> >>>>>>         /*
+> >>>>>>          * Get a list of all the (large) orders below PMD_ORDER th=
+at are enabled
+> >>>>>> diff --git a/mm/zswap.c b/mm/zswap.c
+> >>>>>> index 9cc91ae31116..a5aa86c24060 100644
+> >>>>>> --- a/mm/zswap.c
+> >>>>>> +++ b/mm/zswap.c
+> >>>>>> @@ -1624,59 +1624,53 @@ bool zswap_present_test(swp_entry_t swp, i=
+nt nr_pages)
+> >>>>>>
+> >>>>>>  bool zswap_load(struct folio *folio)
+> >>>>>>  {
+> >>>>>> +       int nr_pages =3D folio_nr_pages(folio);
+> >>>>>>         swp_entry_t swp =3D folio->swap;
+> >>>>>> +       unsigned int type =3D swp_type(swp);
+> >>>>>>         pgoff_t offset =3D swp_offset(swp);
+> >>>>>>         bool swapcache =3D folio_test_swapcache(folio);
+> >>>>>> -       struct xarray *tree =3D swap_zswap_tree(swp);
+> >>>>>> +       struct xarray *tree;
+> >>>>>>         struct zswap_entry *entry;
+> >>>>>> +       int i;
+> >>>>>>
+> >>>>>>         VM_WARN_ON_ONCE(!folio_test_locked(folio));
+> >>>>>>
+> >>>>>>         if (zswap_never_enabled())
+> >>>>>>                 return false;
+> >>>>>>
+> >>>>>> -       /*
+> >>>>>> -        * Large folios should not be swapped in while zswap is be=
+ing used, as
+> >>>>>> -        * they are not properly handled. Zswap does not properly =
+load large
+> >>>>>> -        * folios, and a large folio may only be partially in zswa=
+p.
+> >>>>>> -        *
+> >>>>>> -        * Return true without marking the folio uptodate so that =
+an IO error is
+> >>>>>> -        * emitted (e.g. do_swap_page() will sigbus).
+> >>>>>> -        */
+> >>>>>> -       if (WARN_ON_ONCE(folio_test_large(folio)))
+> >>>>>> -               return true;
+> >>>>>> -
+> >>>>>> -       /*
+> >>>>>> -        * When reading into the swapcache, invalidate our entry. =
+The
+> >>>>>> -        * swapcache can be the authoritative owner of the page an=
+d
+> >>>>>> -        * its mappings, and the pressure that results from having=
+ two
+> >>>>>> -        * in-memory copies outweighs any benefits of caching the
+> >>>>>> -        * compression work.
+> >>>>>> -        *
+> >>>>>> -        * (Most swapins go through the swapcache. The notable
+> >>>>>> -        * exception is the singleton fault on SWP_SYNCHRONOUS_IO
+> >>>>>> -        * files, which reads into a private page and may free it =
+if
+> >>>>>> -        * the fault fails. We remain the primary owner of the ent=
+ry.)
+> >>>>>> -        */
+> >>>>>> -       if (swapcache)
+> >>>>>> -               entry =3D xa_erase(tree, offset);
+> >>>>>> -       else
+> >>>>>> -               entry =3D xa_load(tree, offset);
+> >>>>>> -
+> >>>>>> -       if (!entry)
+> >>>>>> +       if (!zswap_present_test(folio->swap, nr_pages))
+> >>>>>>                 return false;
+> >>>>>
+> >>>>> Hi Usama,
+> >>>>>
+> >>>>> Is there any chance that zswap_present_test() returns true
+> >>>>> in do_swap_page() but false in zswap_load()? If that=E2=80=99s
+> >>>>> possible, could we be missing something? For example,
+> >>>>> could it be that zswap has been partially released (with
+> >>>>> part of it still present) during an mTHP swap-in?
+
+As I mentioned in patch 1, we need to document when the result of
+zswap_present_test() is stable, and we can't race with other stores,
+exclusive loads, writeback, or invalidation.
+
+> >>>>>
+> >>>>> If this happens with an mTHP, my understanding is that
+> >>>>> we shouldn't proceed with reading corrupted data from the
+> >>>>> disk backend.
+> >>>>>
+> >>>>
+> >>>> If its not swapcache, the zswap entry is not deleted so I think
+> >>>> it should be ok?
+
+Can we race with things like writeback and other exclusive loads
+because swapcache_prepare() is not called yet?
+
+> >>>>
+> >>>> We can check over here if the entire folio is in zswap,
+> >>>> and if not, return true without marking the folio uptodate
+> >>>> to give an error.
+> >>>
+> >>> We have swapcache_prepare() called in do_swap_page(), which should
+> >>> have protected these entries from being partially freed by other proc=
+esses
+> >>> (for example, if someone falls back to small folios for the same addr=
+ess).
+> >>> Therefore, I believe that zswap_present_test() cannot be false for mT=
+HP in
+> >>> the current case where only synchronous I/O is supported.
+> >>>
+> >>> the below might help detect the bug?
+> >>>
+> >>> if (!zswap_present_test(folio->swap, nr_pages)) {
+> >>>      if (WARN_ON_ONCE(nr_pages > 1))
+> >>>                 return true;
+> >>>      return false;
+> >>> }
+> >>>
+> >>
+> >> I think this isn't correct. If nr_pages > 1 and the entire folio is no=
+t in zswap,
+> >> it should still return false. So would need to check the whole folio i=
+f we want to
+> >> warn. But I think if we are sure the code is ok, it is an unnecessary =
+check.
+> >
+> > my point is that zswap_present_test() can't differentiate
+> > 1. the *whole* folio is not in zswap
+> > 2. the folio is *partially* not in zswap
+> >
+> > in case 2, returning false is wrong.
+> >
+>
+> Agreed!
+>
+> > And when nr_pages > 1, we have already confirmed earlier in
+> > do_swap_page() that zswap_present_test() is true. At this point,
+> > it must always be true; if it's false, it indicates a bug.
+> >
+>
+> Yes agreed! I was thinking from just zswap_load perspective irrespective
+> of who calls it.
+> If someone adds large folio support to swapin_readahead, then I think the
+> above warn might be an issue.
+>
+> But just with this patch series, doing what you suggested is correct. I
+> will add it in next revision. We can deal with it once swap count > 1,
+> starts supporting large folios.
+
+I think I don't follow this part of the conversation properly, but it
+seems like we want to catch the case where we end up in zswap_load()
+and only part of the folio is in zswap. Can we use something like the
+approach we used for swap_zeromap_batch()?
