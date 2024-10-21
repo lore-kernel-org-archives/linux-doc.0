@@ -1,61 +1,61 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689471E47BA
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 10:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93261E5728
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 10:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729504821; cv=none; b=ITCPYSo33/OEB/ftBkYSfAcN8ZgpJHWhTI2awoAfowXpPe18N4p9mSnnyZEcZaFcKQFKsWhmO/vIpIS/H4DPadRKzmDXFOp5UCXlu/Tb50QnG93p8CVr/ncm78LsKIhDwqtc9DZ7cZ+LX7mkmmbO0+opLitxaDVzJ1hlVUYrjM0=
+	t=1729504823; cv=none; b=VLUSE1bQxeb7jnYgvOVhzYQPWG+5J12SD2cdyoLBR7HiF4LHwxD9+I+4KTYtPpmpB5i4MuQBSAof8IAwyKcmTLP9FmxFWeWIX5npO4GdXU9uNs1o9r0FxjyKDqN4ya/uoyjC1vL5tk58G2rqPqFJ4CQIdA0aBIpFaCSmahRNYzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729504821; c=relaxed/simple;
-	bh=CLWgS17xU2QNj818aWqPE/gqen+525xGgHzoq/mwX6s=;
+	s=arc-20240116; t=1729504823; c=relaxed/simple;
+	bh=JVqTtX2R5tgI5AgbA4RUFWdiRHGbpSlYbypt0KFdYVI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Qcg+gwuMIgTlwb43Mz5EwBfyteoKsuNN4hLAlWORIpleyfG4CmGWFAVvJUnLdOJ5h2BsbriD561mtgk95ugdxRkBlTMq4+IWz7MK5IO7WWCSHti5TNMTpHxmppjc0Lx0QUxCFugdhYuOF2V1Tw6SSs21HpE/f+Y4fQmfITQPprQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=kATdHh58; arc=none smtp.client-ip=209.85.128.51
+	 In-Reply-To:To:Cc; b=Kuh/V/RG1mrDEAdMl6HGrDB5oB3ztatCfSJFq5S39Sqz6ZmXNXgr678LlRX6Y6mzCW1YNU+dES/j4v9MlUuHAGk6cknw9ZDp7pdazfaFrqqe/U0RuPjXj5sCKeT3ydtEf4wEfmQI3KNLbI6xzNDjaJxG30ctzs91wJAduI+UfZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=eYp4iOoV; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kATdHh58"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43167ff0f91so22237765e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 03:00:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="eYp4iOoV"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d4b0943c7so3146661f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 03:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729504815; x=1730109615; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729504818; x=1730109618; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OSAuKhPnRKrQtznNZ2b2Xb8z5UtqTMbdPxuKnBZE3RU=;
-        b=kATdHh58n/tHc0+DDk056Fc4+TbSwnN/u2Of7MTyd/acjEIa04vXzU+9bwrTCPaYWS
-         0eyzmdmk+fjb5WUo6OFhU13vR8b18PTF+2P4hvj5iMMPg16Pe/5TCz7xaohy2MMuSQ52
-         Mk4Hc6NTU+MqyzLBGZpDoifV2izGcgdIBozFRoPXIunFPheblL38EysDN8/niGzNo9bP
-         2ZUCCWqkrvFEvGhU7ZEiayuFLmmrk2j696JGJW6WzCxfDcB6IE/8gfpp8amr7JM4EPkY
-         Z4qA37XkVb8X2AZkKB+xb/wT2ckkLfrnspiPmbC/LMzcbenfsOmki1gLZ3jO+MyLNFut
-         qoNg==
+        bh=y2t5+GdX8LkCEmUcnfMgk3trAyT7R5nzR/wNUS1TNBk=;
+        b=eYp4iOoVIUlQdZubB9EHihRjM89bOqrYWf3HP2erVXi02iFeDUFkiF7NWHGXXkB7mk
+         gRi94g0Y1ZKHUL62if5mkalzcZ8UpTc9qeKXhOiLcpZVEEFArV3FZN/Q6LJLAQNHB6mp
+         eGub/aYantxYDSxn1ou9RrP42nVFSDd50EwzYGzWhdGWQl4af1O9pIBJESLAQbrxmew4
+         GjjJARhJDrCMe5N3s7M2NJ7t+BNatG2eBT4ZnHKyxsUK5ukV4HKUXQ6gRkn1M/9J8tl9
+         P6kVVixjP4RvYv0RX5/OIDSeya+Ch/NE4rEUzIpZnF6mY/123u1oNzSX+aFhirLA6PTD
+         Z3rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729504815; x=1730109615;
+        d=1e100.net; s=20230601; t=1729504818; x=1730109618;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OSAuKhPnRKrQtznNZ2b2Xb8z5UtqTMbdPxuKnBZE3RU=;
-        b=MaYHAhUlAy5JI3zNQrVoMdREHr+1hhCDPqC7Xx0WhXIqUFxkswX3fwOmXSx0lqDhG3
-         QHpb9BdkzfrUoYEjXk1oT5KESRI4BwDEmBOjObdgjfqCWJNi6dz9ENh1w4EBSYQzwFK1
-         FmSfP/e1Y2Z5VenH1EMejd54nET7ZSzS/1VXUW86ixrDZJPPVMRKhCNF4BQrNrm2oiJA
-         Zp9wx/nqprmoQY19zUtRm5eqBde6TsaudjXdxoBgCB5+hNrX5010U7aLEVblI09TKKJq
-         Pr+YWgRWN40+c7iCF26qUX4ZIYZs/Yx39UMi9aOppBO0jLRW/1yhQTqYoEDXd2OvxfBb
-         tUmA==
-X-Forwarded-Encrypted: i=1; AJvYcCWEQxTPbp1Lvzmo2b0u7/N8mdgw265Iy2IwwySoL7EXS7399x3vWppUfq1OfNoLXiXDkZ8leTzmL0g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFZdxUKqMoB0rn+hYMO3wuWoDkSiwaPREnl6XjSxpqeJatGRSw
-	WrWfHpXvy55mzfYZYFtDovbGdmI08QwhKrbo+vILotz4HGc5Ew3sWtXb7WB+Dj2aWp9M62k+5zT
-	Iqjk=
-X-Google-Smtp-Source: AGHT+IHfwxl2M2jZBLMcvDu4oqoDJ3/yF2Audoq/iqQ+uv2BSUteZWTzxhvukc+D1YDNPQlWSQfcwQ==
-X-Received: by 2002:a05:600c:6747:b0:42c:acb0:dda5 with SMTP id 5b1f17b1804b1-4316161f2fcmr91828815e9.1.1729504815144;
-        Mon, 21 Oct 2024 03:00:15 -0700 (PDT)
+        bh=y2t5+GdX8LkCEmUcnfMgk3trAyT7R5nzR/wNUS1TNBk=;
+        b=eYGMHuW527T0cbcpc8U0rh5U8axF2847q1itOfQWJYUrqYZLYXnJVU29FoN5g6B/cL
+         y3bedOCNFNSWJZlkdd5vpMuvaxcyuGgXm96WeRXemDOSK0Y/fsboBizIy1IENzHV6xXF
+         ypTLPFeTs01PcjzMaP0jGn1pdYiJ0bcqtB7ydwkka8xU2B1HMssIBUE5/090/f2S8m2A
+         SOt5s5wpIRaaeg86pZficVB4heSGjnk/WNrM80iemZNmMMSm1+qXrnbj9mRqA0FFxCzg
+         hQHhlNrtjo0JTsi3HiMXXQoT2hswyXyuVlP3GlFD34Au/kPzdeJ3zrg5rpV9Jqztr5fB
+         +4cw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8PDpyKUnFMkgDIeFqjUHW4HqlwoWehIKH69tKL6JdSYzAZYbWxqZ+yv7H7xhRrzF2cPlxdq3kwVA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5eaWR32fs0nd7CnusiIjpzREDtTrwA5ZG947RQIZSGJh1eLCX
+	dwX5PBVA0o0+4oSArvF3Wq8MhvPux1x5e3wVsXGsJdtD5VXlDfB5tBs6jKEsClU+1kDNMP1T5Jq
+	2wEM=
+X-Google-Smtp-Source: AGHT+IHvplc2wMXT1OorBIg0HcGCuXTDErHL+CnzciKozIpFOxqNccmTzrhFCLXXNzwzzh3RuSgWHA==
+X-Received: by 2002:adf:ed11:0:b0:37d:45c3:3459 with SMTP id ffacd0b85a97d-37eab75b5cbmr7425151f8f.21.1729504817015;
+        Mon, 21 Oct 2024 03:00:17 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f58bbaasm52375995e9.23.2024.10.21.03.00.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f58bbaasm52375995e9.23.2024.10.21.03.00.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 03:00:14 -0700 (PDT)
+        Mon, 21 Oct 2024 03:00:16 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Mon, 21 Oct 2024 12:00:11 +0200
-Subject: [PATCH v2 3/5] iio: adc: ad7380: add missing supplies
+Date: Mon, 21 Oct 2024 12:00:13 +0200
+Subject: [PATCH v2 5/5] docs: iio: ad7380: fix supply for ad7380-4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241021-ad7380-fix-supplies-v2-3-2ca551b3352a@baylibre.com>
+Message-Id: <20241021-ad7380-fix-supplies-v2-5-2ca551b3352a@baylibre.com>
 References: <20241021-ad7380-fix-supplies-v2-0-2ca551b3352a@baylibre.com>
 In-Reply-To: <20241021-ad7380-fix-supplies-v2-0-2ca551b3352a@baylibre.com>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
@@ -80,190 +80,46 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.2
 
-vcc and vlogic are required but are not retrieved and enabled in the
-probe. Add them.
+ad7380-4 is the only device from ad738x family that doesn't have an
+internal reference. Moreover it's external reference is called REFIN in
+the datasheet while all other use REFIO as an optional external
+reference. Update documentation to highlight this.
 
-In order to prepare support for additional parts requiring different
-supplies, add vcc and vlogic to the platform specific structures
-
+Fixes: 3e82dfc82f38 ("docs: iio: new docs for ad7380 driver")
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- drivers/iio/adc/ad7380.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ Documentation/iio/ad7380.rst | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
-index e033c734191143a25a490b09c730dbf95f796737..e257f78d63edd7910fcb936ec5344922f8e70b99 100644
---- a/drivers/iio/adc/ad7380.c
-+++ b/drivers/iio/adc/ad7380.c
-@@ -75,6 +75,7 @@
- #define T_CONVERT_NS 190		/* conversion time */
- #define T_CONVERT_0_NS 10		/* 1st conversion start time (oversampling) */
- #define T_CONVERT_X_NS 500		/* xth conversion start time (oversampling) */
-+#define T_POWERUP_MS 5			/* Power up */
+diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
+index 9c784c1e652e9afc116fd206a6cdb70fa6e2adf0..6f70b49b9ef27c1ac32acaefecd1146e5c8bd6cc 100644
+--- a/Documentation/iio/ad7380.rst
++++ b/Documentation/iio/ad7380.rst
+@@ -41,13 +41,22 @@ supports only 1 SDO line.
+ Reference voltage
+ -----------------
  
- struct ad7380_timing_specs {
- 	const unsigned int t_csh_ns;	/* CS minimum high time */
-@@ -86,6 +87,8 @@ struct ad7380_chip_info {
- 	unsigned int num_channels;
- 	unsigned int num_simult_channels;
- 	bool has_mux;
-+	const char * const *supplies;
-+	unsigned int num_supplies;
- 	const char * const *vcm_supplies;
- 	unsigned int num_vcm_supplies;
- 	const unsigned long *available_scan_masks;
-@@ -243,6 +246,10 @@ DEFINE_AD7380_8_CHANNEL(ad7386_4_channels, 16, 0, u);
- DEFINE_AD7380_8_CHANNEL(ad7387_4_channels, 14, 0, u);
- DEFINE_AD7380_8_CHANNEL(ad7388_4_channels, 12, 0, u);
+-2 possible reference voltage sources are supported:
++ad7380-4
++~~~~~~~~
++
++ad7380-4 supports only an external reference voltage (2.5V to 3.3V). It must be
++declared in the device tree as ``refin-supply``.
++
++All other devices from ad738x family
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++All other devices from ad738x support 2 possible reference voltage sources:
  
-+static const char * const ad7380_supplies[] = {
-+	"vcc", "vlogic",
-+};
-+
- static const char * const ad7380_2_channel_vcm_supplies[] = {
- 	"aina", "ainb",
- };
-@@ -338,6 +345,8 @@ static const struct ad7380_chip_info ad7380_chip_info = {
- 	.channels = ad7380_channels,
- 	.num_channels = ARRAY_SIZE(ad7380_channels),
- 	.num_simult_channels = 2,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.available_scan_masks = ad7380_2_channel_scan_masks,
- 	.timing_specs = &ad7380_timing,
- };
-@@ -347,6 +356,8 @@ static const struct ad7380_chip_info ad7381_chip_info = {
- 	.channels = ad7381_channels,
- 	.num_channels = ARRAY_SIZE(ad7381_channels),
- 	.num_simult_channels = 2,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.available_scan_masks = ad7380_2_channel_scan_masks,
- 	.timing_specs = &ad7380_timing,
- };
-@@ -356,6 +367,8 @@ static const struct ad7380_chip_info ad7383_chip_info = {
- 	.channels = ad7383_channels,
- 	.num_channels = ARRAY_SIZE(ad7383_channels),
- 	.num_simult_channels = 2,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.vcm_supplies = ad7380_2_channel_vcm_supplies,
- 	.num_vcm_supplies = ARRAY_SIZE(ad7380_2_channel_vcm_supplies),
- 	.available_scan_masks = ad7380_2_channel_scan_masks,
-@@ -367,6 +380,8 @@ static const struct ad7380_chip_info ad7384_chip_info = {
- 	.channels = ad7384_channels,
- 	.num_channels = ARRAY_SIZE(ad7384_channels),
- 	.num_simult_channels = 2,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.vcm_supplies = ad7380_2_channel_vcm_supplies,
- 	.num_vcm_supplies = ARRAY_SIZE(ad7380_2_channel_vcm_supplies),
- 	.available_scan_masks = ad7380_2_channel_scan_masks,
-@@ -378,6 +393,8 @@ static const struct ad7380_chip_info ad7386_chip_info = {
- 	.channels = ad7386_channels,
- 	.num_channels = ARRAY_SIZE(ad7386_channels),
- 	.num_simult_channels = 2,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.has_mux = true,
- 	.available_scan_masks = ad7380_2x2_channel_scan_masks,
- 	.timing_specs = &ad7380_timing,
-@@ -388,6 +405,8 @@ static const struct ad7380_chip_info ad7387_chip_info = {
- 	.channels = ad7387_channels,
- 	.num_channels = ARRAY_SIZE(ad7387_channels),
- 	.num_simult_channels = 2,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.has_mux = true,
- 	.available_scan_masks = ad7380_2x2_channel_scan_masks,
- 	.timing_specs = &ad7380_timing,
-@@ -398,6 +417,8 @@ static const struct ad7380_chip_info ad7388_chip_info = {
- 	.channels = ad7388_channels,
- 	.num_channels = ARRAY_SIZE(ad7388_channels),
- 	.num_simult_channels = 2,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.has_mux = true,
- 	.available_scan_masks = ad7380_2x2_channel_scan_masks,
- 	.timing_specs = &ad7380_timing,
-@@ -408,6 +429,8 @@ static const struct ad7380_chip_info ad7380_4_chip_info = {
- 	.channels = ad7380_4_channels,
- 	.num_channels = ARRAY_SIZE(ad7380_4_channels),
- 	.num_simult_channels = 4,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.available_scan_masks = ad7380_4_channel_scan_masks,
- 	.timing_specs = &ad7380_4_timing,
- };
-@@ -417,6 +440,8 @@ static const struct ad7380_chip_info ad7381_4_chip_info = {
- 	.channels = ad7381_4_channels,
- 	.num_channels = ARRAY_SIZE(ad7381_4_channels),
- 	.num_simult_channels = 4,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.available_scan_masks = ad7380_4_channel_scan_masks,
- 	.timing_specs = &ad7380_4_timing,
- };
-@@ -426,6 +451,8 @@ static const struct ad7380_chip_info ad7383_4_chip_info = {
- 	.channels = ad7383_4_channels,
- 	.num_channels = ARRAY_SIZE(ad7383_4_channels),
- 	.num_simult_channels = 4,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.vcm_supplies = ad7380_4_channel_vcm_supplies,
- 	.num_vcm_supplies = ARRAY_SIZE(ad7380_4_channel_vcm_supplies),
- 	.available_scan_masks = ad7380_4_channel_scan_masks,
-@@ -437,6 +464,8 @@ static const struct ad7380_chip_info ad7384_4_chip_info = {
- 	.channels = ad7384_4_channels,
- 	.num_channels = ARRAY_SIZE(ad7384_4_channels),
- 	.num_simult_channels = 4,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.vcm_supplies = ad7380_4_channel_vcm_supplies,
- 	.num_vcm_supplies = ARRAY_SIZE(ad7380_4_channel_vcm_supplies),
- 	.available_scan_masks = ad7380_4_channel_scan_masks,
-@@ -448,6 +477,8 @@ static const struct ad7380_chip_info ad7386_4_chip_info = {
- 	.channels = ad7386_4_channels,
- 	.num_channels = ARRAY_SIZE(ad7386_4_channels),
- 	.num_simult_channels = 4,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.has_mux = true,
- 	.available_scan_masks = ad7380_2x4_channel_scan_masks,
- 	.timing_specs = &ad7380_4_timing,
-@@ -458,6 +489,8 @@ static const struct ad7380_chip_info ad7387_4_chip_info = {
- 	.channels = ad7387_4_channels,
- 	.num_channels = ARRAY_SIZE(ad7387_4_channels),
- 	.num_simult_channels = 4,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.has_mux = true,
- 	.available_scan_masks = ad7380_2x4_channel_scan_masks,
- 	.timing_specs = &ad7380_4_timing,
-@@ -468,6 +501,8 @@ static const struct ad7380_chip_info ad7388_4_chip_info = {
- 	.channels = ad7388_4_channels,
- 	.num_channels = ARRAY_SIZE(ad7388_4_channels),
- 	.num_simult_channels = 4,
-+	.supplies = ad7380_supplies,
-+	.num_supplies = ARRAY_SIZE(ad7380_supplies),
- 	.has_mux = true,
- 	.available_scan_masks = ad7380_2x4_channel_scan_masks,
- 	.timing_specs = &ad7380_4_timing,
-@@ -1004,6 +1039,14 @@ static int ad7380_probe(struct spi_device *spi)
- 	if (!st->chip_info)
- 		return dev_err_probe(&spi->dev, -EINVAL, "missing match data\n");
+ - Internal reference (2.5V)
+ - External reference (2.5V to 3.3V)
  
-+	ret = devm_regulator_bulk_get_enable(&spi->dev, st->chip_info->num_supplies,
-+					     st->chip_info->supplies);
-+
-+	if (ret)
-+		return dev_err_probe(&spi->dev, ret,
-+				     "Failed to enable power supplies\n");
-+	msleep(T_POWERUP_MS);
-+
- 	/*
- 	 * If there is no REFIO supply, then it means that we are using
- 	 * the internal 2.5V reference, otherwise REFIO is reference voltage.
+ The source is determined by the device tree. If ``refio-supply`` is present,
+-then the external reference is used, else the internal reference is used.
++then it is used as external reference, else the internal reference is used.
+ 
+ Oversampling and resolution boost
+ ---------------------------------
 
 -- 
 2.47.0
