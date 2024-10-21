@@ -1,92 +1,344 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33F11F470E
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 19:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BC31FE0E1;
+	Mon, 21 Oct 2024 20:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729538644; cv=none; b=daHSYItbsuTZe7MbJulGNbS6R/ArnBREW1qn12Z5rnST5xtuaA5CyJQEKtzSb3L/z0J8iIjguY3SOw4Ppl/2U8Uf3ZZN5tpHO7j79yAJHrSMIbzcscFfmA73Xjt9K0rrz9wso06LC/27xPJniOy3EG/b1XV9wBlbUBSKmNjMw5Q=
+	t=1729542532; cv=none; b=bpngqciHgu1Lr82k5Qqq0Uo8U6RZFCiI8/Z7IvfNuP6RlIa3feV/s7vM+wXv1HhJ38DLVM9izBOglaZA6unneaeHa0ZHARiPqjZ9rCMf1tQGMEv0Yv+P5PVpgTWDTOItRVzebikMV8TRpaE4P2sLk9CZx+7swDAFNXMN0/juVPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729538644; c=relaxed/simple;
-	bh=f3FOaSwIPruhb+SlwowJzP27StIei3zqpQRh82uyKs4=;
+	s=arc-20240116; t=1729542532; c=relaxed/simple;
+	bh=tgFerbJ7LJhOtAGVSIgLE4Pu306OsGxSbTc8wT3CP6c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rubNc031syTg8GSu2r7iGSbijE/ytsVRrNVfJShakZEtbSy18dOgMg2MMYZ1Nv6vPaF0rWW8OjJuRMZBH/aIMkOKF0AQ0hPCvS4cMOV4ow39yxjHrhXIuzf+lPD4/X3IA8B2rMZchwOjg5DjmHWzRaHm7LpP9iiDYmtmbT31jxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=K3Mc4KPa; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=hcPqTzDM+Q7uZddca/e0/o/kPfTSs40ExRHvT2hVjddG2HfQdwAMhhDsLm4OoMo+m3MOphCCNUBddb+auvOZYsRlWvi8nVtHO9Fn+FcpMEZxkbYnolQ2xu8e22CE2NedsoxK/yVMrSzDmnEo5CA+DXgzoSCQ1tQYZFLrIfoMywE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c6kGEtSV; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="K3Mc4KPa"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539e63c8678so5869563e87.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 12:24:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c6kGEtSV"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-50d55d86f95so1479381e0c.1;
+        Mon, 21 Oct 2024 13:28:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729538641; x=1730143441; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729542529; x=1730147329; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f3FOaSwIPruhb+SlwowJzP27StIei3zqpQRh82uyKs4=;
-        b=K3Mc4KPagRVjySxT9sxPigJ4cQydp03rp+p1GomJCN89urbXQ8Nz4/gjw7VD1Ll2Oy
-         L9arl5+yolZPcOGEUFecxgYawVGYHg2dRBLyCcP/dY6VPEu1Vsx8B6/o8CNUI4JQTG+i
-         wZI3WhLF6+3YP674IcT1cuv00wbrAwf42sdJ15hoHBCiIidoUqekTngel01atxac1Inq
-         6rYvyNkvHcC4p6+s3UZplnyWkYblPN3UbkYvofLeiYAdjPnmJqw4jT2aProx0C5fWjCJ
-         WHIVO8MEMLcON+4I+SSGJIASaV8Y8+0Js93gseiLYlB0i8inp9yl8x0H/PUYtruISyA1
-         lKEQ==
+        bh=A1MjJjA6OBVhIpO2BaWMfxqMF/W6s2PQO/G0uTKSwnQ=;
+        b=c6kGEtSVUXUFUpwMqhHYiH+kGdt1RmtdiZGDByP8+5M/Yft3RxaJVq9KHI0JHE/jth
+         pHnim5PKE4TfsBOmLaHTVTWAJHyGy3UmIuJvr9tRMtuN5TY6VjiFD5yEqE14mLnWRpQ6
+         pPPRFGPk8uDZIDWXLwNcfvkRWowoi8L1ai0Ty8B/rQVfYHbigqlPdKJWHcxBZ/dr8wks
+         M8pK78AmnQqrVnHNjqS7HWce/ChkFkmIN46oT2fRvBw/vte61iQYUkMis0i50tt9BWld
+         wKyTHDY6OQ9yQNvCfioBUQCZrEYhwXAh5LAfKqL+IGJh2rK657kX01QmtGGFWRVU3Nla
+         3rGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729538641; x=1730143441;
+        d=1e100.net; s=20230601; t=1729542529; x=1730147329;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f3FOaSwIPruhb+SlwowJzP27StIei3zqpQRh82uyKs4=;
-        b=Yjh8a/YLzdPiydFsHj1i+iLpgkfkmRX9Sd9xw91hhLnPcxRh6LTJEneNS2PH27V2tv
-         jcfosUUdJEBaKMcYuSZkc0ToHysstY/bZiNJRBrASQBQgJhYi6HOh6USX8v1b2iaMm6l
-         U+86Qgzisj6nkT2HZTkbsZw6XBEqyPZe/F8nxNKdWC3G5xYZcTY1qGs4wcAgEC77cpZB
-         9yyhN3ydUNzAfR0cFOl73vzcNPued5hD2ocIuicHb0ze9T1udeyo8o3cq+uM8rdQGAaE
-         hXTVySDGnqTbpMZ29Yi03Zab+f95Ay0WQSWYwoKE035BydR6RlIc7RfhiKzViq6NqHum
-         YrAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXN6HXHl+5QqmW1Z8C0S1A6/uJXVmnJPEILX5oqmEmgDx7kfc6foe5GjMvMmmu7I7vZb13Pbmtc38U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxD+fnC20ejab5sGg3KkqGHwKPQlEAqRjvEHd9JYniLJgGhbsrL
-	MY/BpBfSxjceC8nFebEh2lNTvM/iKRP0F6x1Aka6WZI4cxkibhc8/4CE9CGNoKFejXeiI7dhFRK
-	A/mYEe1Peb4b8LNJpYZm+sp3sVTb5MFTg6S4G
-X-Google-Smtp-Source: AGHT+IFRh1XbNg+j/0ewusaGewVZkzNsIsMX6w9/LexlTO/szwAeGbvnPYVeCPp13s4+dp9CMTE3gxCPLcyFJ7YCXQY=
-X-Received: by 2002:a05:6512:2803:b0:536:54fd:275b with SMTP id
- 2adb3069b0e04-53a155088cfmr5843319e87.54.1729538640575; Mon, 21 Oct 2024
- 12:24:00 -0700 (PDT)
+        bh=A1MjJjA6OBVhIpO2BaWMfxqMF/W6s2PQO/G0uTKSwnQ=;
+        b=CzZvNbwShLwhoyDgPgIm4iiuRnf1t1ucGFZJEoWNgE9LfvmRVRCkeAFKvVznGnsc44
+         DUgfjRhKnOWQG/HLWgsBwfXkedsATIL+dqRew0FwoCy/S3C9Q0vqWxh1axFNV1DjZDdc
+         kN/KnaYmhCWnBPLJ0HSwCSvWbhl0tf1h/ZtUviAcNteGwgyDZS9k2spIweGRd/uPFXFQ
+         p/9bVGvjIizdH3xKYq86ZRhqnK+36FIQZxpCIM1UNY7eqX3GXbKwynGqa3TTze3AY9cV
+         VFK2HuLwt5LEUJTg5jy2NOs6jhnqc2d2/B+9oDXnH1mZV0h1yv/v96ED3L9h2LDhQCy/
+         DL8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV6DLW3YCxW+4QA41hdGECviTEdKvNlF65Unj5AaFNVkUs3QR4k8DnguNRYBhDkHGZpRXPscUb+a+/vrYWN@vger.kernel.org, AJvYcCXeppCWC4LQFaJvmp4jlDh7tfPAg9CyQJJkXDgrB+Zy6ELwn1GApSqSVDBztokMMNioOzzYQTF9oGQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEw+Wcx1Kiswu0k+BiIr8knIiNf8Ibs46DJO7sZSPDm8Y3XLCh
+	hyel+ECVAHOnozlf/PDHQkMZFx53FZyBfvCobjEU4JJDqGAnO1gMNdxPx/C7yNWcGIijyNYJNmk
+	UkwQe2IDs/Le3F2Q097nDKOUcjCw=
+X-Google-Smtp-Source: AGHT+IHnAbkv9Z4ArBncAFrT/R18g+j7I3yE9ZwONgynN1gPNT9i0kkDPOLxkGvOVJZeCqPOu0TojT4L7bIrjPWhXJc=
+X-Received: by 2002:a05:6122:a20:b0:50d:bfb2:4f2f with SMTP id
+ 71dfb90a1353d-50dda165e77mr8422244e0c.2.1729542529468; Mon, 21 Oct 2024
+ 13:28:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241021182821.1259487-1-dualli@chromium.org> <20241021182821.1259487-2-dualli@chromium.org>
- <CA+xfxX5ygyuaSwP7y-jEWqMLAYR6vP_Wg0CBJb+TcL1nsDJQ-Q@mail.gmail.com> <2024102102-much-doormat-cba1@gregkh>
-In-Reply-To: <2024102102-much-doormat-cba1@gregkh>
-From: Li Li <dualli@google.com>
-Date: Mon, 21 Oct 2024 12:23:48 -0700
-Message-ID: <CA+xfxX5UiQuTLnNqXuJvz8geB-K31_6QfSffn5LeXmSiQeM4gw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] binder: report txn errors via generic netlink
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, donald.hunter@gmail.com, arve@android.com, 
-	tkjos@android.com, maco@android.com, joel@joelfernandes.org, 
-	brauner@kernel.org, cmllamas@google.com, surenb@google.com, arnd@arndb.de, 
-	masahiroy@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, hridya@google.com, smoreland@google.com
+References: <20241018105026.2521366-1-usamaarif642@gmail.com>
+ <20241018105026.2521366-4-usamaarif642@gmail.com> <CAGsJ_4xyDMUDxVhi0bzZJ4jAd_Hw8Hn25+4epO9u9=iu0QMdoA@mail.gmail.com>
+ <ca158172-a100-4af6-98de-083d77cd9ed8@gmail.com> <CAGsJ_4x9YKi9BKmzOuOfaLrjr=kpQsiog=rAP3jJY=YQJ3Fupg@mail.gmail.com>
+ <ac2d47fc-9bdc-441f-8b96-fb47862cd2c6@gmail.com>
+In-Reply-To: <ac2d47fc-9bdc-441f-8b96-fb47862cd2c6@gmail.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Tue, 22 Oct 2024 09:28:38 +1300
+Message-ID: <CAGsJ_4xbciws3AnRFk0U8YeS5MPD=deXw6PCB6i71vgrLir8ew@mail.gmail.com>
+Subject: Re: [RFC 3/4] mm/zswap: add support for large folio zswapin
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org, 
+	david@redhat.com, willy@infradead.org, kanchana.p.sridhar@intel.com, 
+	yosryahmed@google.com, nphamcs@gmail.com, chengming.zhou@linux.dev, 
+	ryan.roberts@arm.com, ying.huang@intel.com, riel@surriel.com, 
+	shakeel.butt@linux.dev, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 21, 2024 at 11:56=E2=80=AFAM Greg KH <gregkh@linuxfoundation.or=
-g> wrote:
+On Tue, Oct 22, 2024 at 1:21=E2=80=AFAM Usama Arif <usamaarif642@gmail.com>=
+ wrote:
 >
-> On Mon, Oct 21, 2024 at 11:35:57AM -0700, Li Li wrote:
-> > Sorry, please ignore this outdated and duplicated patch [1/1]. The
-> > correct one is
+>
+>
+> On 21/10/2024 11:55, Barry Song wrote:
+> > On Mon, Oct 21, 2024 at 11:44=E2=80=AFPM Usama Arif <usamaarif642@gmail=
+.com> wrote:
+> >>
+> >>
+> >>
+> >> On 21/10/2024 06:49, Barry Song wrote:
+> >>> On Fri, Oct 18, 2024 at 11:50=E2=80=AFPM Usama Arif <usamaarif642@gma=
+il.com> wrote:
+> >>>>
+> >>>> At time of folio allocation, alloc_swap_folio checks if the entire
+> >>>> folio is in zswap to determine folio order.
+> >>>> During swap_read_folio, zswap_load will check if the entire folio
+> >>>> is in zswap, and if it is, it will iterate through the pages in
+> >>>> folio and decompress them.
+> >>>> This will mean the benefits of large folios (fewer page faults, batc=
+hed
+> >>>> PTE and rmap manipulation, reduced lru list, TLB coalescing (for arm=
+64
+> >>>> and amd) are not lost at swap out when using zswap.
+> >>>> This patch does not add support for hybrid backends (i.e. folios
+> >>>> partly present swap and zswap).
+> >>>>
+> >>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> >>>> ---
+> >>>>  mm/memory.c | 13 +++-------
+> >>>>  mm/zswap.c  | 68 ++++++++++++++++++++++++--------------------------=
+---
+> >>>>  2 files changed, 34 insertions(+), 47 deletions(-)
+> >>>>
+> >>>> diff --git a/mm/memory.c b/mm/memory.c
+> >>>> index 49d243131169..75f7b9f5fb32 100644
+> >>>> --- a/mm/memory.c
+> >>>> +++ b/mm/memory.c
+> >>>> @@ -4077,13 +4077,14 @@ static bool can_swapin_thp(struct vm_fault *=
+vmf, pte_t *ptep, int nr_pages)
+> >>>>
+> >>>>         /*
+> >>>>          * swap_read_folio() can't handle the case a large folio is =
+hybridly
+> >>>> -        * from different backends. And they are likely corner cases=
+. Similar
+> >>>> -        * things might be added once zswap support large folios.
+> >>>> +        * from different backends. And they are likely corner cases=
+.
+> >>>>          */
+> >>>>         if (unlikely(swap_zeromap_batch(entry, nr_pages, NULL) !=3D =
+nr_pages))
+> >>>>                 return false;
+> >>>>         if (unlikely(non_swapcache_batch(entry, nr_pages) !=3D nr_pa=
+ges))
+> >>>>                 return false;
+> >>>> +       if (unlikely(!zswap_present_test(entry, nr_pages)))
+> >>>> +               return false;
+> >>>>
+> >>>>         return true;
+> >>>>  }
+> >>>> @@ -4130,14 +4131,6 @@ static struct folio *alloc_swap_folio(struct =
+vm_fault *vmf)
+> >>>>         if (unlikely(userfaultfd_armed(vma)))
+> >>>>                 goto fallback;
+> >>>>
+> >>>> -       /*
+> >>>> -        * A large swapped out folio could be partially or fully in =
+zswap. We
+> >>>> -        * lack handling for such cases, so fallback to swapping in =
+order-0
+> >>>> -        * folio.
+> >>>> -        */
+> >>>> -       if (!zswap_never_enabled())
+> >>>> -               goto fallback;
+> >>>> -
+> >>>>         entry =3D pte_to_swp_entry(vmf->orig_pte);
+> >>>>         /*
+> >>>>          * Get a list of all the (large) orders below PMD_ORDER that=
+ are enabled
+> >>>> diff --git a/mm/zswap.c b/mm/zswap.c
+> >>>> index 9cc91ae31116..a5aa86c24060 100644
+> >>>> --- a/mm/zswap.c
+> >>>> +++ b/mm/zswap.c
+> >>>> @@ -1624,59 +1624,53 @@ bool zswap_present_test(swp_entry_t swp, int=
+ nr_pages)
+> >>>>
+> >>>>  bool zswap_load(struct folio *folio)
+> >>>>  {
+> >>>> +       int nr_pages =3D folio_nr_pages(folio);
+> >>>>         swp_entry_t swp =3D folio->swap;
+> >>>> +       unsigned int type =3D swp_type(swp);
+> >>>>         pgoff_t offset =3D swp_offset(swp);
+> >>>>         bool swapcache =3D folio_test_swapcache(folio);
+> >>>> -       struct xarray *tree =3D swap_zswap_tree(swp);
+> >>>> +       struct xarray *tree;
+> >>>>         struct zswap_entry *entry;
+> >>>> +       int i;
+> >>>>
+> >>>>         VM_WARN_ON_ONCE(!folio_test_locked(folio));
+> >>>>
+> >>>>         if (zswap_never_enabled())
+> >>>>                 return false;
+> >>>>
+> >>>> -       /*
+> >>>> -        * Large folios should not be swapped in while zswap is bein=
+g used, as
+> >>>> -        * they are not properly handled. Zswap does not properly lo=
+ad large
+> >>>> -        * folios, and a large folio may only be partially in zswap.
+> >>>> -        *
+> >>>> -        * Return true without marking the folio uptodate so that an=
+ IO error is
+> >>>> -        * emitted (e.g. do_swap_page() will sigbus).
+> >>>> -        */
+> >>>> -       if (WARN_ON_ONCE(folio_test_large(folio)))
+> >>>> -               return true;
+> >>>> -
+> >>>> -       /*
+> >>>> -        * When reading into the swapcache, invalidate our entry. Th=
+e
+> >>>> -        * swapcache can be the authoritative owner of the page and
+> >>>> -        * its mappings, and the pressure that results from having t=
+wo
+> >>>> -        * in-memory copies outweighs any benefits of caching the
+> >>>> -        * compression work.
+> >>>> -        *
+> >>>> -        * (Most swapins go through the swapcache. The notable
+> >>>> -        * exception is the singleton fault on SWP_SYNCHRONOUS_IO
+> >>>> -        * files, which reads into a private page and may free it if
+> >>>> -        * the fault fails. We remain the primary owner of the entry=
+.)
+> >>>> -        */
+> >>>> -       if (swapcache)
+> >>>> -               entry =3D xa_erase(tree, offset);
+> >>>> -       else
+> >>>> -               entry =3D xa_load(tree, offset);
+> >>>> -
+> >>>> -       if (!entry)
+> >>>> +       if (!zswap_present_test(folio->swap, nr_pages))
+> >>>>                 return false;
+> >>>
+> >>> Hi Usama,
+> >>>
+> >>> Is there any chance that zswap_present_test() returns true
+> >>> in do_swap_page() but false in zswap_load()? If that=E2=80=99s
+> >>> possible, could we be missing something? For example,
+> >>> could it be that zswap has been partially released (with
+> >>> part of it still present) during an mTHP swap-in?
+> >>>
+> >>> If this happens with an mTHP, my understanding is that
+> >>> we shouldn't proceed with reading corrupted data from the
+> >>> disk backend.
+> >>>
+> >>
+> >> If its not swapcache, the zswap entry is not deleted so I think
+> >> it should be ok?
+> >>
+> >> We can check over here if the entire folio is in zswap,
+> >> and if not, return true without marking the folio uptodate
+> >> to give an error.
 > >
-> > https://lore.kernel.org/lkml/20241021182821.1259487-1-dualli@chromium.o=
-rg/T/#m5f8d7ed4333ab4dc7f08932c01bb413e540e007a
+> > We have swapcache_prepare() called in do_swap_page(), which should
+> > have protected these entries from being partially freed by other proces=
+ses
+> > (for example, if someone falls back to small folios for the same addres=
+s).
+> > Therefore, I believe that zswap_present_test() cannot be false for mTHP=
+ in
+> > the current case where only synchronous I/O is supported.
+> >
+> > the below might help detect the bug?
+> >
+> > if (!zswap_present_test(folio->swap, nr_pages)) {
+> >      if (WARN_ON_ONCE(nr_pages > 1))
+> >                 return true;
+> >      return false;
+> > }
+> >
 >
-> Please send a v4 in a day or so when it's fixed up, as our tools can't
-> figure this out (and neither can I manually...)
+> I think this isn't correct. If nr_pages > 1 and the entire folio is not i=
+n zswap,
+> it should still return false. So would need to check the whole folio if w=
+e want to
+> warn. But I think if we are sure the code is ok, it is an unnecessary che=
+ck.
+
+my point is that zswap_present_test() can't differentiate
+1. the *whole* folio is not in zswap
+2. the folio is *partially* not in zswap
+
+in case 2, returning false is wrong.
+
+And when nr_pages > 1, we have already confirmed earlier in
+do_swap_page() that zswap_present_test() is true. At this point,
+it must always be true; if it's false, it indicates a bug.
+
 >
-
-Fixed and sent v4 (link below). Thank you very much!
-
-https://lore.kernel.org/lkml/20241021191233.1334897-1-dualli@chromium.org/
+> > the code seems quite ugly :-) do we have some way to unify the code
+> > for large and small folios?
+> >
+> > not quite sure about shmem though....
+> >
+>
+> If its shmem, and the swap_count goes to 1, I think its still ok? because
+> then the folio will be gotten from swap_cache_get_folio if it has already
+> been in swapcache.
+>
+> >>
+> >>
+> >>>>
+> >>>> -       zswap_decompress(entry, &folio->page);
+> >>>> +       for (i =3D 0; i < nr_pages; ++i) {
+> >>>> +               tree =3D swap_zswap_tree(swp_entry(type, offset + i)=
+);
+> >>>> +               /*
+> >>>> +                * When reading into the swapcache, invalidate our e=
+ntry. The
+> >>>> +                * swapcache can be the authoritative owner of the p=
+age and
+> >>>> +                * its mappings, and the pressure that results from =
+having two
+> >>>> +                * in-memory copies outweighs any benefits of cachin=
+g the
+> >>>> +                * compression work.
+> >>>> +                *
+> >>>> +                * (Swapins with swap count > 1 go through the swapc=
+ache.
+> >>>> +                * For swap count =3D=3D 1, the swapcache is skipped=
+ and we
+> >>>> +                * remain the primary owner of the entry.)
+> >>>> +                */
+> >>>> +               if (swapcache)
+> >>>> +                       entry =3D xa_erase(tree, offset + i);
+> >>>> +               else
+> >>>> +                       entry =3D xa_load(tree, offset + i);
+> >>>>
+> >>>> -       count_vm_event(ZSWPIN);
+> >>>> -       if (entry->objcg)
+> >>>> -               count_objcg_events(entry->objcg, ZSWPIN, 1);
+> >>>> +               zswap_decompress(entry, folio_page(folio, i));
+> >>>>
+> >>>> -       if (swapcache) {
+> >>>> -               zswap_entry_free(entry);
+> >>>> -               folio_mark_dirty(folio);
+> >>>> +               if (entry->objcg)
+> >>>> +                       count_objcg_events(entry->objcg, ZSWPIN, 1);
+> >>>> +               if (swapcache)
+> >>>> +                       zswap_entry_free(entry);
+> >>>>         }
+> >>>>
+> >>>> +       count_vm_events(ZSWPIN, nr_pages);
+> >>>> +       if (swapcache)
+> >>>> +               folio_mark_dirty(folio);
+> >>>> +
+> >>>>         folio_mark_uptodate(folio);
+> >>>>         return true;
+> >>>>  }
+> >>>> --
+> >>>> 2.43.5
+> >>>>
+> >>>
+> >
+> > Thanks
+> > barry
+>
