@@ -1,317 +1,257 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9B51C68BC
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 21:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6671FBC81
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 22:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729546486; cv=none; b=pTrjYZoFn3qnVEZhCm062BWnWmQV7iF7c0Tk0HxQaoq9yhU2S3ms8X5ip+fOpx4nTeVqOeUIpJG6/u5irRX4x0yfUGn8ShSAXdkD+kpTmFPdkibwQL9baAm/CkphxgiYYEZLKE86QRKZK+WWeN9BFPrbJHl/2fW5CA5gpGH/VbA=
+	t=1729550618; cv=none; b=QFnLCdkrU4ox5icV8io+gj+m7TE1yrw7AvCA/cwN2vgHVZqqo3sV9wRe7NcP2UExtKrG+bZALb5Kq+QWb4Pe0vTTjrYnReRjAblbZGXPg3WuWp85d4ky9zzey5Y6D/TJcuYq42ZZtbyj+0fWqkofPBu0Tq6YXUtogmYRG/L3HIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729546486; c=relaxed/simple;
-	bh=FcKWsHq1hgljR0i0vDPl0t8o2fmTLXkVbRZd9nd26gA=;
+	s=arc-20240116; t=1729550618; c=relaxed/simple;
+	bh=18SuxrItI+6f+tfrvR4g2u78bJrgXnBh0EqpwvVjrEg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tMlmhQgIQkYyOpMZzTDGDo1tTLmZ/mYzPUfF9cW8rGJybpHkkidQI9Z9TNQ7pkYWSAScjgaxBC/5wBZMzF8EFTwtTJNq+oOdyZcd05wcrobHZl2s2c/zI5/NSBvMoOZtaX6u7Q9T0DlXfWxfywojnBioO0ZpWw4+5iOPELE8PHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o72ftB6k; arc=none smtp.client-ip=209.85.218.54
+	 To:Cc:Content-Type; b=P90cXZ3/XsxxpAGIVztAnsnW9kE5LpwhovxHaHk4bbopJM2IkdBY20TG8hFbLYHCC9eXKdhoGBTPq5QkaQmw+jHVua4x2Jop8cNmEtteEzBgALhGBSgK3FkgMHfj0/qPcSNJuuNNZglRCaHCNyIXv6quaPbfp9miAVY8FXQhYmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UWncrZaY; arc=none smtp.client-ip=209.85.166.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o72ftB6k"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a998a5ca499so628329266b.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 14:34:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UWncrZaY"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3a3b3f4b599so93115ab.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 15:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729546481; x=1730151281; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1729550615; x=1730155415; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Tmm2xALcW2rsx29+DdrW+v337pzZtbQgSnw6+Xs/zn4=;
-        b=o72ftB6kxDyS5oRGs3IzyZfdPtVQObtGP7vXoeEAmKRRjxRrW486uJceCQBSqPwKnz
-         tjd+uujU856W+YFCaxm4/vIrTsJFJhtk23xLNp2t0r4x5ApyQlP5mrHO81zCT6uMviQn
-         NkIixHzJj608VNrG5TzBVOKsbB++uAdNt8zKgCDPllO6pGJdR0EprqVP0zK9PdttEFbr
-         JzYDR19uM0VEJjHkkG8b3f2pDcGqdU0/nwLeyGbImYLkCi8BdOGYjT9giKdGnKcAXOmW
-         vDcXaySkjAEbcEximgJfOcoFLUZkd9mu7mkyEcnTsmyTPyGv3lsjiWr32xczZGhxun0p
-         8HEg==
+        bh=yovHp8/4KQS/SjRw8rzJ2RWtyZhJZCAGgSQbJZaDAus=;
+        b=UWncrZaY9hUbvqNviMND55QvslQ7k3erHzT24fSS4U6U+PyeCjgO+fLTHuZR6Kb0JI
+         pxBLjBuNKYeg+an90FewLvDzGSf4AlgE2kh5DmPp+VBYtyBUBDBnh2ZTkzn2gH84/MCG
+         VELzUbJOBjcJiZwzj7Fa6CI+cJxccUcc9AlsEOFaLaSf4PFIV5mw4N9EkoiQzvpQlwj9
+         0OpRdCKJzH2RdPecKe5A0Z2xqTDaBGNLJlxQwqh/60xO40+40RXy75l+oxDoGEhcAtL3
+         +G1jzQlIEWUMOlj+hlJj31Qp5E7LGzzzF+GSO/sklNnTB+BFrC6zGKcBxdTdfIMjRIc6
+         I0UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729546481; x=1730151281;
+        d=1e100.net; s=20230601; t=1729550615; x=1730155415;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Tmm2xALcW2rsx29+DdrW+v337pzZtbQgSnw6+Xs/zn4=;
-        b=kK5ZJ1P3zOcVvZyPT8aXvG4z1KbHRfs5aCJ9lVfguYt7yMqs5mLlIWzYXXTLJStau+
-         9NDzltxdWkhb2GHEwoRHJqtgN9c2w5i1GIlIEa7M2KYiXmhEUh62XF4OCtUNnNztJCm6
-         7DFLyq5lN9OfTxB6zNdxdjspAVBywjcu5qWANUHe5L4w47herkdabI2S6FSxvF/PBWL6
-         7dPu+wM71qTtNxF2XSwOTqYmmd5wJJI1mF8ze07G4ZcM5gm0/4g75ldxSNvNlfCq10LC
-         OgnpQ7N4UKZy8/5+3oPKWikMzwVv8xicBhO/DcRu1RVBG6ZP/Evbd35AIGp9DBUJP8jY
-         MALg==
-X-Forwarded-Encrypted: i=1; AJvYcCVrItzxATzARGJButfuC6vakmGscU6on3YPMA/U7iAzG6JwGiBi9+g0o4zdjOs4vRC5RskmACHJGJ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJJRjUrrP0pA9zLM8iOsY1xhn24JdTCYN/daWMat39rfln5xqk
-	w38GmUfHkAzmghEgmFuey4y/lee5nm5BS7UnOzLuJ63ZIAwrtpGX4oG1wlEZKyBYZM5hZ1KiFKJ
-	NIpqQVHG9OPLnhMhjdTiiQxb/Fc66K79gWq1N
-X-Google-Smtp-Source: AGHT+IF3y/LVIbieQtEJFBqOYK2yrALBMR4CT6p9zp8Pa+ZdpkLxqwNllyVWQxdDyJVeQO7f2UVhXNv2mF7LxG2ceA4=
-X-Received: by 2002:a17:906:4788:b0:a99:d797:c132 with SMTP id
- a640c23a62f3a-a9a69a6605dmr1179941666b.16.1729546480976; Mon, 21 Oct 2024
- 14:34:40 -0700 (PDT)
+        bh=yovHp8/4KQS/SjRw8rzJ2RWtyZhJZCAGgSQbJZaDAus=;
+        b=HQFqN4EUWHMuCl6pu47OC/1rKIQzJ9lVzZb5TDzz/+feE5HGgQi3UYyJH9hBoZT59q
+         tP3QC33gdwSpUiSNKEvvetWZoEm/nMf2uxLpoZc9h78nVOKXySz1U0nkQhKw2HifL+8e
+         gK3LzU9NWoUZjHB3Uu9cwYBFcKJ3x7WDRd0Q43YX9fkZNmFjodP8SFMROl0GGNtpqaoU
+         amuyiU5EeJRbEcASphgHIBmQCcEgQYgfPXhQYXvPr2CEsI9tQjJNMazQ5kYrQUCxkcG2
+         vQUw4zTuSbCe33AiJE4iJ87KRdXYL9//Q416JbH5IA1YETKQoJonN4/iDJslioYvB5MM
+         KqIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUT8J1L2SniBen7yq9nK65/jOj+lQ6OkjG3KwOzhkh2b4cC4XLzfdA3++Ej+BuXaDNl+iaE1v8Ciy8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuLjB9/xsgP+Mll6+a0GL6cwTRCEqLbjKSfswEJSxRn/hg+wZQ
+	MXkUf5W9yhNCZdhZvao8FKIg+EZjXQuzF0VZ+vAhqgw5pi7XEkNEEijjc/MscpmAOpw1KUyU2rw
+	8sFVprENeTE20uRC08qogRv4RiUdUXUywnmOK
+X-Google-Smtp-Source: AGHT+IH0HVg3fvyt1+QDr1YQLUpP3z4mO+u5A4ersGEMt75VHmDTieIO3qGEubKhoWD+zxsaZ/P7FpluFK6JQL6j+ro=
+X-Received: by 2002:a05:6e02:148d:b0:3a2:6d54:33f1 with SMTP id
+ e9e14a558f8ab-3a4cc972f72mr1555125ab.16.1729550614610; Mon, 21 Oct 2024
+ 15:43:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241018105026.2521366-1-usamaarif642@gmail.com>
- <20241018105026.2521366-4-usamaarif642@gmail.com> <CAGsJ_4xyDMUDxVhi0bzZJ4jAd_Hw8Hn25+4epO9u9=iu0QMdoA@mail.gmail.com>
- <ca158172-a100-4af6-98de-083d77cd9ed8@gmail.com> <CAGsJ_4x9YKi9BKmzOuOfaLrjr=kpQsiog=rAP3jJY=YQJ3Fupg@mail.gmail.com>
- <ac2d47fc-9bdc-441f-8b96-fb47862cd2c6@gmail.com> <CAGsJ_4xbciws3AnRFk0U8YeS5MPD=deXw6PCB6i71vgrLir8ew@mail.gmail.com>
- <6d036c4d-ec2e-4562-98a1-6668948086b5@gmail.com>
-In-Reply-To: <6d036c4d-ec2e-4562-98a1-6668948086b5@gmail.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Mon, 21 Oct 2024 14:34:03 -0700
-Message-ID: <CAJD7tkYyYcDAAuD_vq-2zEkRrd9F_u7UXDD-edooc3qnhEXAFQ@mail.gmail.com>
-Subject: Re: [RFC 3/4] mm/zswap: add support for large folio zswapin
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	hannes@cmpxchg.org, david@redhat.com, willy@infradead.org, 
-	kanchana.p.sridhar@intel.com, nphamcs@gmail.com, chengming.zhou@linux.dev, 
-	ryan.roberts@arm.com, ying.huang@intel.com, riel@surriel.com, 
-	shakeel.butt@linux.dev, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
+References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-2-xur@google.com>
+ <CAK7LNAQ5yNKvZDtJuvo9Lt4rZwLSv0UN4=Ff=WcCDy1CCEpQ7Q@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ5yNKvZDtJuvo9Lt4rZwLSv0UN4=Ff=WcCDy1CCEpQ7Q@mail.gmail.com>
+From: Rong Xu <xur@google.com>
+Date: Mon, 21 Oct 2024 15:43:22 -0700
+Message-ID: <CAF1bQ=Syxi46xnGbpZWhYfqKhQZqrBPPh5FGaqzmJTg6MMDJSA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] Add AutoFDO support for Clang build
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Stephane Eranian <eranian@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 21, 2024 at 1:57=E2=80=AFPM Usama Arif <usamaarif642@gmail.com>=
- wrote:
+Thanks for the detailed suggestions! My comments are inlined below.
+
+Best regards,
+
+-Rong
+
+On Sun, Oct 20, 2024 at 9:33=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Tue, Oct 15, 2024 at 6:33=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+>
+>
+> > +Customization
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +You can enable or disable AutoFDO build for individual file and direct=
+ories by
+> > +adding a line similar to the following to the respective kernel Makefi=
+le:
+>
+>
+> Perhaps, it might be worth mentioning that kernel space objects are
+> covered by default.
+>
+> Then, people would understand ':=3D y' will be less common than ':=3D n'.
+>
+
+Good point! How about I change to the following:
+"
+The default CONFIG_AUTOFDO_CLANG setting covers kernel space objects for
+AutoFDO builds. One can, however, enable or disable AutoFDO build for
+individual file and directories by adding a line similar to the following
+to the respective kernel Makefile ...
+
 >
 >
 >
-> On 21/10/2024 21:28, Barry Song wrote:
-> > On Tue, Oct 22, 2024 at 1:21=E2=80=AFAM Usama Arif <usamaarif642@gmail.=
-com> wrote:
-> >>
-> >>
-> >>
-> >> On 21/10/2024 11:55, Barry Song wrote:
-> >>> On Mon, Oct 21, 2024 at 11:44=E2=80=AFPM Usama Arif <usamaarif642@gma=
-il.com> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 21/10/2024 06:49, Barry Song wrote:
-> >>>>> On Fri, Oct 18, 2024 at 11:50=E2=80=AFPM Usama Arif <usamaarif642@g=
-mail.com> wrote:
-> >>>>>>
-> >>>>>> At time of folio allocation, alloc_swap_folio checks if the entire
-> >>>>>> folio is in zswap to determine folio order.
-> >>>>>> During swap_read_folio, zswap_load will check if the entire folio
-> >>>>>> is in zswap, and if it is, it will iterate through the pages in
-> >>>>>> folio and decompress them.
-> >>>>>> This will mean the benefits of large folios (fewer page faults, ba=
-tched
-> >>>>>> PTE and rmap manipulation, reduced lru list, TLB coalescing (for a=
-rm64
-> >>>>>> and amd) are not lost at swap out when using zswap.
-> >>>>>> This patch does not add support for hybrid backends (i.e. folios
-> >>>>>> partly present swap and zswap).
-> >>>>>>
-> >>>>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> >>>>>> ---
-> >>>>>>  mm/memory.c | 13 +++-------
-> >>>>>>  mm/zswap.c  | 68 ++++++++++++++++++++++++------------------------=
------
-> >>>>>>  2 files changed, 34 insertions(+), 47 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/mm/memory.c b/mm/memory.c
-> >>>>>> index 49d243131169..75f7b9f5fb32 100644
-> >>>>>> --- a/mm/memory.c
-> >>>>>> +++ b/mm/memory.c
-> >>>>>> @@ -4077,13 +4077,14 @@ static bool can_swapin_thp(struct vm_fault=
- *vmf, pte_t *ptep, int nr_pages)
-> >>>>>>
-> >>>>>>         /*
-> >>>>>>          * swap_read_folio() can't handle the case a large folio i=
-s hybridly
-> >>>>>> -        * from different backends. And they are likely corner cas=
-es. Similar
-> >>>>>> -        * things might be added once zswap support large folios.
-> >>>>>> +        * from different backends. And they are likely corner cas=
-es.
-> >>>>>>          */
-> >>>>>>         if (unlikely(swap_zeromap_batch(entry, nr_pages, NULL) !=
-=3D nr_pages))
-> >>>>>>                 return false;
-> >>>>>>         if (unlikely(non_swapcache_batch(entry, nr_pages) !=3D nr_=
-pages))
-> >>>>>>                 return false;
-> >>>>>> +       if (unlikely(!zswap_present_test(entry, nr_pages)))
-> >>>>>> +               return false;
+> > +
+> > +- For enabling a single file (e.g. foo.o) ::
+> > +
+> > +   AUTOFDO_PROFILE_foo.o :=3D y
+> > +
+> > +- For enabling all files in one directory ::
+> > +
+> > +   AUTOFDO_PROFILE :=3D y
+> > +
+> > +- For disabling one file ::
+> > +
+> > +   AUTOFDO_PROFILE_foo.o :=3D n
+> > +
+> > +- For disabling all files in one directory ::
+> > +
+> > +   AUTOFDO_PROFILE :=3D n
+> > +
+>
+>
+>
+>
+> > +3) Run the load tests. The '-c' option in perf specifies the sample
+> > +   event period. We suggest using a suitable prime number, like 500009=
+,
+> > +   for this purpose.
+> > +
+> > +   - For Intel platforms::
+> > +
+> > +      $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count=
+> -o <perf_file> -- <loadtest>
+> > +
+> > +   - For AMD platforms: For Intel platforms:
+>
+>
+> I guess this is a copy-paste mistake.
+>
+>
+> For AMD platforms: For Intel platforms:
+>
+>    ->
+>
+> For AMD platforms:
 
-Hmm if the entire folio is not in zswap, this will prevent the large
-folio swapin, right?
+Thanks for catching this! Will fix this.
 
-Also, I think this is racy, see the comments below and in patch 1.
+>
+>
+>
+>
+>
+>
+> > +   (https://github.com/google/autofdo),  version v0.30.1 or later.
+>
+>
+> Please one space instead of two after the comma.
+>
 
-> >>>>>>
-> >>>>>>         return true;
-> >>>>>>  }
-> >>>>>> @@ -4130,14 +4131,6 @@ static struct folio *alloc_swap_folio(struc=
-t vm_fault *vmf)
-> >>>>>>         if (unlikely(userfaultfd_armed(vma)))
-> >>>>>>                 goto fallback;
-> >>>>>>
-> >>>>>> -       /*
-> >>>>>> -        * A large swapped out folio could be partially or fully i=
-n zswap. We
-> >>>>>> -        * lack handling for such cases, so fallback to swapping i=
-n order-0
-> >>>>>> -        * folio.
-> >>>>>> -        */
-> >>>>>> -       if (!zswap_never_enabled())
-> >>>>>> -               goto fallback;
-> >>>>>> -
-> >>>>>>         entry =3D pte_to_swp_entry(vmf->orig_pte);
-> >>>>>>         /*
-> >>>>>>          * Get a list of all the (large) orders below PMD_ORDER th=
-at are enabled
-> >>>>>> diff --git a/mm/zswap.c b/mm/zswap.c
-> >>>>>> index 9cc91ae31116..a5aa86c24060 100644
-> >>>>>> --- a/mm/zswap.c
-> >>>>>> +++ b/mm/zswap.c
-> >>>>>> @@ -1624,59 +1624,53 @@ bool zswap_present_test(swp_entry_t swp, i=
-nt nr_pages)
-> >>>>>>
-> >>>>>>  bool zswap_load(struct folio *folio)
-> >>>>>>  {
-> >>>>>> +       int nr_pages =3D folio_nr_pages(folio);
-> >>>>>>         swp_entry_t swp =3D folio->swap;
-> >>>>>> +       unsigned int type =3D swp_type(swp);
-> >>>>>>         pgoff_t offset =3D swp_offset(swp);
-> >>>>>>         bool swapcache =3D folio_test_swapcache(folio);
-> >>>>>> -       struct xarray *tree =3D swap_zswap_tree(swp);
-> >>>>>> +       struct xarray *tree;
-> >>>>>>         struct zswap_entry *entry;
-> >>>>>> +       int i;
-> >>>>>>
-> >>>>>>         VM_WARN_ON_ONCE(!folio_test_locked(folio));
-> >>>>>>
-> >>>>>>         if (zswap_never_enabled())
-> >>>>>>                 return false;
-> >>>>>>
-> >>>>>> -       /*
-> >>>>>> -        * Large folios should not be swapped in while zswap is be=
-ing used, as
-> >>>>>> -        * they are not properly handled. Zswap does not properly =
-load large
-> >>>>>> -        * folios, and a large folio may only be partially in zswa=
-p.
-> >>>>>> -        *
-> >>>>>> -        * Return true without marking the folio uptodate so that =
-an IO error is
-> >>>>>> -        * emitted (e.g. do_swap_page() will sigbus).
-> >>>>>> -        */
-> >>>>>> -       if (WARN_ON_ONCE(folio_test_large(folio)))
-> >>>>>> -               return true;
-> >>>>>> -
-> >>>>>> -       /*
-> >>>>>> -        * When reading into the swapcache, invalidate our entry. =
-The
-> >>>>>> -        * swapcache can be the authoritative owner of the page an=
-d
-> >>>>>> -        * its mappings, and the pressure that results from having=
- two
-> >>>>>> -        * in-memory copies outweighs any benefits of caching the
-> >>>>>> -        * compression work.
-> >>>>>> -        *
-> >>>>>> -        * (Most swapins go through the swapcache. The notable
-> >>>>>> -        * exception is the singleton fault on SWP_SYNCHRONOUS_IO
-> >>>>>> -        * files, which reads into a private page and may free it =
-if
-> >>>>>> -        * the fault fails. We remain the primary owner of the ent=
-ry.)
-> >>>>>> -        */
-> >>>>>> -       if (swapcache)
-> >>>>>> -               entry =3D xa_erase(tree, offset);
-> >>>>>> -       else
-> >>>>>> -               entry =3D xa_load(tree, offset);
-> >>>>>> -
-> >>>>>> -       if (!entry)
-> >>>>>> +       if (!zswap_present_test(folio->swap, nr_pages))
-> >>>>>>                 return false;
-> >>>>>
-> >>>>> Hi Usama,
-> >>>>>
-> >>>>> Is there any chance that zswap_present_test() returns true
-> >>>>> in do_swap_page() but false in zswap_load()? If that=E2=80=99s
-> >>>>> possible, could we be missing something? For example,
-> >>>>> could it be that zswap has been partially released (with
-> >>>>> part of it still present) during an mTHP swap-in?
+Will fix it.
 
-As I mentioned in patch 1, we need to document when the result of
-zswap_present_test() is stable, and we can't race with other stores,
-exclusive loads, writeback, or invalidation.
+>
+>
+>
+>
+>
+>
+> > diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
+> > new file mode 100644
+> > index 000000000000..1c9f224bc221
+> > --- /dev/null
+> > +++ b/scripts/Makefile.autofdo
+> > @@ -0,0 +1,23 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +# Enable available and selected Clang AutoFDO features.
+> > +
+> > +CFLAGS_AUTOFDO_CLANG :=3D -fdebug-info-for-profiling -mllvm -enable-fs=
+-discriminator=3Dtrue -mllvm -improved-fs-discriminator=3Dtrue
+> > +
+> > +# If CONFIG_DEBUG_INFO is not enabled, set -gmlt option.
+>
+>
+> Meaningless comment. It explains too obvious code.
 
-> >>>>>
-> >>>>> If this happens with an mTHP, my understanding is that
-> >>>>> we shouldn't proceed with reading corrupted data from the
-> >>>>> disk backend.
-> >>>>>
-> >>>>
-> >>>> If its not swapcache, the zswap entry is not deleted so I think
-> >>>> it should be ok?
+Will remove this line of comment.
 
-Can we race with things like writeback and other exclusive loads
-because swapcache_prepare() is not called yet?
-
-> >>>>
-> >>>> We can check over here if the entire folio is in zswap,
-> >>>> and if not, return true without marking the folio uptodate
-> >>>> to give an error.
-> >>>
-> >>> We have swapcache_prepare() called in do_swap_page(), which should
-> >>> have protected these entries from being partially freed by other proc=
-esses
-> >>> (for example, if someone falls back to small folios for the same addr=
-ess).
-> >>> Therefore, I believe that zswap_present_test() cannot be false for mT=
-HP in
-> >>> the current case where only synchronous I/O is supported.
-> >>>
-> >>> the below might help detect the bug?
-> >>>
-> >>> if (!zswap_present_test(folio->swap, nr_pages)) {
-> >>>      if (WARN_ON_ONCE(nr_pages > 1))
-> >>>                 return true;
-> >>>      return false;
-> >>> }
-> >>>
-> >>
-> >> I think this isn't correct. If nr_pages > 1 and the entire folio is no=
-t in zswap,
-> >> it should still return false. So would need to check the whole folio i=
-f we want to
-> >> warn. But I think if we are sure the code is ok, it is an unnecessary =
-check.
+>
+>
+> > +ifndef CONFIG_DEBUG_INFO
+> > +  CFLAGS_AUTOFDO_CLANG +=3D -gmlt
+> > +endif
+>
+>
+>
+>
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index 01a9f567d5af..e85d6ac31bd9 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -191,6 +191,16 @@ _c_flags +=3D $(if $(patsubst n%,, \
+> >         -D__KCSAN_INSTRUMENT_BARRIERS__)
+> >  endif
 > >
-> > my point is that zswap_present_test() can't differentiate
-> > 1. the *whole* folio is not in zswap
-> > 2. the folio is *partially* not in zswap
-> >
-> > in case 2, returning false is wrong.
-> >
+> > +#
+> > +# Enable Clang's AutoFDO build flags for a file or directory depending=
+ on
+> > +# variables AUTOFDO_PROFILE_obj.o and AUTOFDO_PROFILE.
+> > +#
 >
-> Agreed!
 >
-> > And when nr_pages > 1, we have already confirmed earlier in
-> > do_swap_page() that zswap_present_test() is true. At this point,
-> > it must always be true; if it's false, it indicates a bug.
-> >
+> This comment would give the wrong understanding that this flag is opt-in.
 >
-> Yes agreed! I was thinking from just zswap_load perspective irrespective
-> of who calls it.
-> If someone adds large folio support to swapin_readahead, then I think the
-> above warn might be an issue.
 >
-> But just with this patch series, doing what you suggested is correct. I
-> will add it in next revision. We can deal with it once swap count > 1,
-> starts supporting large folios.
+> The comment for KASAN correctly describes that it is enabled by default,
+> and can be opted out using KASAN_SANITIZE_*.
+>
 
-I think I don't follow this part of the conversation properly, but it
-seems like we want to catch the case where we end up in zswap_load()
-and only part of the folio is in zswap. Can we use something like the
-approach we used for swap_zeromap_batch()?
+I can change to use KASAN's expression:
+"
+# Enable Clang's AutoFDO build flags for kernel except some files or direct=
+ories
+# we don't want to enable (depends on variables AUTOFDO_PROFILE_obj.o
+and AUTOFDO_PROFILE)
+"
+
+>
+>
+>
+>
+> --
+> Best Regards
+>
+>
+> Masahiro Yamada
