@@ -1,319 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0E01991D7;
-	Mon, 21 Oct 2024 18:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00ED61FA26F
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 18:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729534663; cv=none; b=QR4PYnhsuMNHXZ4UFnX2Hq6cgz9IPRzdaGwOdGK3nGqGGSpjeVKgVFAlffGaU6pHGhOMSwul6KVNd+GVOwJTTNr4CfyNcf1RdOcfZVh7XmNMbpDmT+K7k1UzW1j+DX+vVHcOowmFrkGB+U2KEKIa5coZCaiGT7gJhBBFZAOuosU=
+	t=1729535313; cv=none; b=msHWp3Jn/y7dPsZU/MBed1vZInURuOcBVyX3Oyqmjp+v56uT2Qray9ioDoamks5eeYK/3AklXpe+hr23twcr3nj/x0aH/bux7BtqVUUytvNJ1Hc4n6PMrcCGVElLWyV538ThqvhmJYWHVhxK1Paj9k7FTEoHstzbRec3XfevAUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729534663; c=relaxed/simple;
-	bh=d2SeStnmhq8JEyrMJZ5WkqXAeS7OgZrjtjXl7ImqqM0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PrYXuB1MhsyJqtSn81lK8vHT/8g7CYo95JkoM/Fh/cGrGbFv0/YQUhSrxFIh/hB9r1rYbzm1fqd56mRsCG1i42UoVgcq0ufwkwhc9pLSPxfn+he8MOzpomkSVZjigNlBToj15Kn89NHXuw+pvRfK3hEJuloVUM79bXZeKECxSZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWy+/52V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729535313; c=relaxed/simple;
+	bh=gKOx2VMsu3fJ2+F1EAaz+XRWKA5QretlVbcZj3ufrrI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eSRoEcbFUAQF8qRNAxhQUJ+fnmsDLk1S35uAzKWm17libH7zEIZDdQiqbNTk/o05NCHwNIBWQWXJ7ATyU5cmo2OQSXL9R6KbXjFOmjsNNCgZbnyz0yqjsiwzD3Y6ZAMX9KdxpaB4BOnJNLKzrtifcUjnYAVQz9/f3rNJbfxE13E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZyklImah; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWy+/52V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 175E5C4CEC3;
-	Mon, 21 Oct 2024 18:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729534663;
-	bh=d2SeStnmhq8JEyrMJZ5WkqXAeS7OgZrjtjXl7ImqqM0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=iWy+/52VE8UGx+zVeUlWkWGyTVJj0e7oBdybTVDHNOc4hvrffxrtussawXxvs/aO5
-	 5WNX5wtX9x3lg49FL3LDT2WaYXMjLC/gE7kaQ+RnVUJDSZR0PIbhVzzN+syUE8HV18
-	 +aqLf0/atKlztaU/HV62ERN1ySwbw5baVzyi6uUrroyoOsHjoanra9u979JWA8Yo4k
-	 YT4f1/zfHKIEKKMue6VOFWraRK4PFUEfQsMR09caANiXK3x2r6mJWEFNBPPwqDxubQ
-	 RfnzuLfeYwsxzvatpCTW5kpB8YLLo0dwzvhLPzx5/GNv6NoSog6g6wVQTsGyDPlHgP
-	 grA0E6twIxD4Q==
-Date: Mon, 21 Oct 2024 19:17:34 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 1/4] dt-bindings: iio: adc: ad7380: add adaq4370-4
- and adaq4380-4 compatible parts
-Message-ID: <20241021191734.16f33178@jic23-huawei>
-In-Reply-To: <CAEHHSvaHo102=133Jpzj0N=qh4_x7e9ZZG47S7Vgr6z3W9qisA@mail.gmail.com>
-References: <20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com>
-	<20241015-ad7380-add-adaq4380-4-support-v1-1-d2e1a95fb248@baylibre.com>
-	<20241020142058.6ce576f8@jic23-huawei>
-	<CAEHHSvaHo102=133Jpzj0N=qh4_x7e9ZZG47S7Vgr6z3W9qisA@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZyklImah"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20cf3e36a76so46918335ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 11:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1729535310; x=1730140110; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Is747y5KxQdJPA/4jySZSBRe+U5SRmn2DdM14znVgc8=;
+        b=ZyklImahysShCiRFTH9hTB/bGW/2/HAUNtVKgSypEWcPZkYPzsmOCK/dX3cBd19Oxa
+         +drhXMaNxViskYRmj0Iqnmdz09M9bw97lJejN40w4nK66+2mWpPQUou5DFCa2Ae6hMNR
+         tni+GdZhcTMeWMgTZFpwVYYLO7UwfZZ5rFTGQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729535310; x=1730140110;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Is747y5KxQdJPA/4jySZSBRe+U5SRmn2DdM14znVgc8=;
+        b=EI4NNhBV2P5Jlq+XYKCcrgpstx3PVEJurkk5ETiEZMGK2aSsTHigzgJ95rAV49oRfL
+         yeBww+5F2Es6Wq0o0eQ/smovgNnCWDwPbZUjDztYCPpDiEkXZ2a0zP1c8UVi+eo7zJiY
+         YOtCLpDZuuCkqFwA2at6raI5+4W8SX4U+KjHLUXwwS+9Un0F8gq7KpaUCBthsemchdw9
+         cxPuaYbX4Ic+FwUdP/oZIAdoZg68Go99nRbln0PzzJOa62oYTmWztoJcFFQrcJ8ub+Tl
+         Q4QPSap9sTRBlt+/f2G4BpXkBwW6PfInAihlhYrxMVImZD0FvmGkkZVZaWEsIT9BkhBy
+         pWqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVoQCbiq0ZWO/MZiPUnIrigsmHuFFKemb13QRn4zPK7cfPXG2qatHUUqFDmcBm7alrCXKbQHHJJKU8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytI8iWlBVRgYHuaLlBoXpDrBM+Zs7/9wOfIqwSFMvedfjDlv/u
+	UK7mNPEcmmNVKv9OO+o0VQWFl4kvRrWMyyNP6BwYddTGPOmIJuYWZCBONnZBFQ==
+X-Google-Smtp-Source: AGHT+IEKeeCCY30WC79pUxzbCYGAYxKVneqTzAHMpEIuJv9ofIb9oNQlNHzt8utrdrVuG/f9Z+IJhA==
+X-Received: by 2002:a17:903:2284:b0:20c:7eaf:8945 with SMTP id d9443c01a7336-20e984aab21mr1105705ad.28.1729535310208;
+        Mon, 21 Oct 2024 11:28:30 -0700 (PDT)
+Received: from li-cloudtop.c.googlers.com.com (43.222.125.34.bc.googleusercontent.com. [34.125.222.43])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0f3c95sm28914195ad.253.2024.10.21.11.28.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 11:28:29 -0700 (PDT)
+From: Li Li <dualli@chromium.org>
+To: dualli@google.com,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org,
+	arve@android.com,
+	tkjos@android.com,
+	maco@android.com,
+	joel@joelfernandes.org,
+	brauner@kernel.org,
+	cmllamas@google.com,
+	surenb@google.com,
+	arnd@arndb.de,
+	masahiroy@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	hridya@google.com,
+	smoreland@google.com
+Cc: kernel-team@android.com
+Subject: [PATCH v3 0/1] binder: report txn errors via generic netlink (genl)
+Date: Mon, 21 Oct 2024 11:28:19 -0700
+Message-ID: <20241021182821.1259487-1-dualli@chromium.org>
+X-Mailer: git-send-email 2.47.0.105.g07ac214952-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 21 Oct 2024 15:25:23 +0200
-Julien Stephan <jstephan@baylibre.com> wrote:
+From: Li Li <dualli@google.com>
 
-> Le dim. 20 oct. 2024 =C3=A0 15:21, Jonathan Cameron <jic23@kernel.org> a =
-=C3=A9crit :
-> >
-> > On Tue, 15 Oct 2024 11:09:06 +0200
-> > Julien Stephan <jstephan@baylibre.com> wrote:
-> > =20
-> > > adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS) are quad-channel precision =
-data
-> > > acquisition signal chain =CE=BCModule solutions compatible with the a=
-d738x
-> > > family, with the following differences:
-> > >
-> > > - configurable gain in front of each 4 adc =20
-> > As per quick review I gave for the driver code, I'm not seeing why
-> > a configurable gain is a DT thing on an ADC vs something that belongs
-> > in userspace control.  I may be missing something though.
-> >
-> > It exists for the ad4000 because the control isn't via registers
-> > but via pin straps so we can't control it sensibly from userspace. =20
->=20
->=20
-> Hi Jonathan,
-> I indeed based my work on ad4000. I think my commit description is
-> erroneous and confusing.
-> On the first page of the datasheet
-> (https://www.analog.com/media/en/technical-documentation/data-sheets/adaq=
-4380-4.pdf)
-> it's written : Pin selectable Gain/attenuation. So I guess adaq4380-4
-> and adaq4370-4 are working the same way as the adaq4000 series.
-> I'll rewrite my commit message. Also, I didn't want to restrict users
-> to the gain values in the datasheet, because I thought they are just
-> examples and users can always use additional resistance to change the
-> gain. Am I correct? Or should I use the datasheet values (as adaq4000
-> series does) ?
-Ah. Now seeing how this works.
+It's a known issue that neither the frozen processes nor the system
+administration process of the OS can correctly deal with failed binder
+transactions. The reason is that there's no reliable way for the user
+space administration process to fetch the binder errors from the kernel
+binder driver.
 
-Hmm. For completely external circuitry we have the various analog front
-end drivers that act as a consumer of an ADC.  For this case it is messier
-as there are internal resistors.  However I don't immediately see examples
-of using external registers to some of the pins and not others.
-So I'd be inclined to just allow the pin strap values as show in figure
-50 to 55.=20
+Android is such an OS suffering from this issue. Since cgroup freezer
+was used to freeze user applications to save battery, innocent frozen
+apps have to be killed when they receive sync binder transactions or
+when their async binder buffer is running out.
 
-So I'd just add docs to give the pin wiring as well as the gain.
-Afterall DT writer probably has a circuit diagram, not a statement
-of the gain of that circuit.
+This patch introduces the Linux generic netlink messages into the binder
+driver so that the Linux/Android system administration process can
+listen to important events and take corresponding actions, like stopping
+a broken app from attacking the OS by sending huge amount of spamming
+binder transactiions.
 
-Jonathan
+The first version uses a global generic netlink for all binder contexts,
+raising potential security concerns. There were a few other feedbacks
+like request to kernel docs and test code. The thread can be found at
+https://lore.kernel.org/lkml/20240812211844.4107494-1-dualli@chromium.org/
 
+The second version fixes those issues and has been tested on the latest
+version of AOSP. See https://r.android.com/3305462 for how userspace is
+going to use this feature and the test code. It can be found at
+https://lore.kernel.org/lkml/20241011064427.1565287-1-dualli@chromium.org/
 
->=20
-> Cheers
-> Julien
->=20
-> >
-> > Jonathan
-> > =20
-> > > - internal reference is 3V derived from refin-supply (5V)
-> > > - additional supplies
-> > >
-> > > To configure the gain a new patternProperties is added to describe ea=
-ch
-> > > channel. It is restricted to adaq devices.
-> > >
-> > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > > ---
-> > >  .../devicetree/bindings/iio/adc/adi,ad7380.yaml    | 117 +++++++++++=
-++++++++++
-> > >  1 file changed, 117 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yam=
-l b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> > > index 74d82721637c..3007d8e39684 100644
-> > > --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> > > +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-> > > @@ -25,6 +25,8 @@ description: |
-> > >    * https://www.analog.com/en/products/ad7386-4.html
-> > >    * https://www.analog.com/en/products/ad7387-4.html
-> > >    * https://www.analog.com/en/products/ad7388-4.html
-> > > +  * https://www.analog.com/en/products/adaq4370-4.html
-> > > +  * https://www.analog.com/en/products/adaq4380-4.html
-> > >
-> > >
-> > >  $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > > @@ -46,6 +48,8 @@ properties:
-> > >        - adi,ad7386-4
-> > >        - adi,ad7387-4
-> > >        - adi,ad7388-4
-> > > +      - adi,adaq4370-4
-> > > +      - adi,adaq4380-4
-> > >
-> > >    reg:
-> > >      maxItems: 1
-> > > @@ -59,6 +63,9 @@ properties:
-> > >    vlogic-supply: true
-> > >    refio-supply: true
-> > >    refin-supply: true
-> > > +  vs-p-supply: true
-> > > +  vs-n-supply: true
-> > > +  ldo-supply: true
-> > >
-> > >    aina-supply:
-> > >      description:
-> > > @@ -86,12 +93,43 @@ properties:
-> > >        specify the ALERT interrupt.
-> > >      maxItems: 1
-> > >
-> > > +  '#address-cells':
-> > > +    const: 1
-> > > +
-> > > +  '#size-cells':
-> > > +    const: 0
-> > > +
-> > >  required:
-> > >    - compatible
-> > >    - reg
-> > >    - vcc-supply
-> > >    - vlogic-supply
-> > >
-> > > +patternProperties:
-> > > +  "^channel@([0-3])$":
-> > > +    $ref: adc.yaml
-> > > +    type: object
-> > > +
-> > > +    properties:
-> > > +      reg:
-> > > +        description:
-> > > +          The channel number. From 0 to 3 corresponding to channels =
-A,B,C,D
-> > > +        items:
-> > > +          minimum: 0
-> > > +          maximum: 3
-> > > +
-> > > +      adi,gain-milli:
-> > > +        description:
-> > > +          The hardware gain applied to the ADC input (in milli units=
-).
-> > > +          If not present, default to 1000 (no actual gain applied).
-> > > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > > +        default: 1000
-> > > +
-> > > +    required:
-> > > +      - reg
-> > > +
-> > > +    additionalProperties: false
-> > > +
-> > >  unevaluatedProperties: false
-> > >
-> > >  allOf:
-> > > @@ -128,7 +166,21 @@ allOf:
-> > >          ainc-supply: false
-> > >          aind-supply: false
-> > >
-> > > +  # Using channel to declare gain property only applies to adaq devi=
-ces
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          not:
-> > > +            contains:
-> > > +              enum:
-> > > +                - adi,adaq4370-4
-> > > +                - adi,adaq4380-4
-> > > +    then:
-> > > +      patternProperties:
-> > > +        "^channel@([0-3])$": false
-> > > +
-> > >    # ad7380-4 uses refin-supply as external reference.
-> > > +  # adaq devices use internal reference only, derived from refin-sup=
-ply
-> > >    # All other chips from ad738x family use refio as optional externa=
-l reference.
-> > >    # When refio-supply is omitted, internal reference is used.
-> > >    - if:
-> > > @@ -136,6 +188,8 @@ allOf:
-> > >          compatible:
-> > >            enum:
-> > >              - adi,ad7380-4
-> > > +            - adi,adaq4370-4
-> > > +            - adi,adaq4380-4
-> > >      then:
-> > >        properties:
-> > >          refio-supply: false
-> > > @@ -145,6 +199,24 @@ allOf:
-> > >        properties:
-> > >          refin-supply: false
-> > >
-> > > +  # adaq devices need more supplies
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          enum:
-> > > +            - adi,adaq4370-4
-> > > +            - adi,adaq4380-4
-> > > +    then:
-> > > +      required:
-> > > +        - vs-p-supply
-> > > +        - vs-n-supply
-> > > +        - ldo-supply
-> > > +    else:
-> > > +      properties:
-> > > +        vs-p-supply: false
-> > > +        vs-n-supply: false
-> > > +        ldo-supply: false
-> > > +
-> > >  examples:
-> > >    - |
-> > >      #include <dt-bindings/interrupt-controller/irq.h>
-> > > @@ -169,3 +241,48 @@ examples:
-> > >              refio-supply =3D <&supply_2_5V>;
-> > >          };
-> > >      };
-> > > +
-> > > +  - |
-> > > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > > +
-> > > +    spi {
-> > > +        #address-cells =3D <1>;
-> > > +        #size-cells =3D <0>;
-> > > +
-> > > +        adc@0 {
-> > > +            compatible =3D "adi,adaq4380-4";
-> > > +            reg =3D <0>;
-> > > +
-> > > +            spi-cpol;
-> > > +            spi-cpha;
-> > > +            spi-max-frequency =3D <80000000>;
-> > > +
-> > > +            interrupts =3D <27 IRQ_TYPE_EDGE_FALLING>;
-> > > +            interrupt-parent =3D <&gpio0>;
-> > > +
-> > > +            vcc-supply =3D <&supply_3_3V>;
-> > > +            vlogic-supply =3D <&supply_3_3V>;
-> > > +            refin-supply =3D <&supply_5V>;
-> > > +            vs-p-supply =3D <&supply_5V>;
-> > > +            vs-n-supply =3D <&supply_0V>;
-> > > +            ldo-supply =3D <&supply_5V>;
-> > > +
-> > > +            #address-cells =3D <1>;
-> > > +            #size-cells =3D <0>;
-> > > +
-> > > +            channel@0 {
-> > > +                reg =3D <0>;
-> > > +                adi,gain-milli =3D <300>;
-> > > +            };
-> > > +
-> > > +            channel@2 {
-> > > +                reg =3D <2>;
-> > > +                adi,gain-milli =3D <600>;
-> > > +            };
-> > > +
-> > > +            channel@3 {
-> > > +                reg =3D <3>;
-> > > +                adi,gain-milli =3D <1000>;
-> > > +            };
-> > > +        };
-> > > +    };
-> > > =20
-> > =20
+This version replaces the handcrafted netlink source code with the
+netlink protocal specs in YAML. It also fixes the documentation issues.
+
+v1: add a global binder genl socket for all contexts
+v2: change to per-context binder genl for security reason
+    replace the new ioctl with a netlink command
+    add corresponding doc Documentation/admin-guide/binder_genl.rst
+    add user space test code in AOSP
+v3: use YNL spec (./tools/net/ynl/ynl-regen.sh)
+    fix documentation index
+
+Li Li (1):
+  report binder txn errors via generic netlink
+
+ Documentation/admin-guide/binder_genl.rst    |  92 ++++++
+ Documentation/admin-guide/index.rst          |   1 +
+ Documentation/netlink/specs/binder_genl.yaml |  59 ++++
+ drivers/android/Kconfig                      |   1 +
+ drivers/android/Makefile                     |   2 +-
+ drivers/android/binder.c                     | 287 ++++++++++++++++++-
+ drivers/android/binder_genl.c                |  38 +++
+ drivers/android/binder_genl.h                |  18 ++
+ drivers/android/binder_internal.h            |  22 ++
+ drivers/android/binder_trace.h               |  37 +++
+ drivers/android/binderfs.c                   |   4 +
+ include/uapi/linux/android/binder.h          |  31 ++
+ include/uapi/linux/android/binder_genl.h     |  37 +++
+ 13 files changed, 625 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/admin-guide/binder_genl.rst
+ create mode 100644 Documentation/netlink/specs/binder_genl.yaml
+ create mode 100644 drivers/android/binder_genl.c
+ create mode 100644 drivers/android/binder_genl.h
+ create mode 100644 include/uapi/linux/android/binder_genl.h
+
+-- 
+2.47.0.105.g07ac214952-goog
 
