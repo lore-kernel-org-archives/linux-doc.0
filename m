@@ -1,266 +1,492 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477A286AE3
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 01:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4841E4A4
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 02:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729475648; cv=none; b=qlUH4h5knp4s9uOTaOMisoc+eZmqnVOtHNxPbMitRhq/A6wnVuKSptFQD16SdD1OUmxgz6ie26OkLhhwjGfKsp0KLk4OOVYxx+6Ey0X6E3lDCcJ1pFuOb/6dYmlVqxUCsqckGFov3poxcNGUBBHhZKh3yhP9KSX26ImA6qs+QqE=
+	t=1729476763; cv=none; b=PjdbT01JPcxWORuT9ow+/MddzLJ2mtzkt6uZmBEsE5l3VpNxJ6DNSik12j/uw8lbBXk/Czw8PBLDeRDhuBP4cqP83hxZ1V5uHTOwNtF8J5Cr6NaGpGUB039gFb0zXHNOgcfw218LqaZ+yLRqEBqqFgFetMZKHEqszz198CyLRV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729475648; c=relaxed/simple;
-	bh=UKcbLgaIhruPiHQVux7frT2vyssaPMGMH3qyAhwocGw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YxktTbOm37r5Pn/xELfrMWUCkcrvQkxkOGF30BxcfK3ShUTS82CjQ/BHVlna+Kam9sNMp4/bhSYTa/ycoCFkXbT/9XAsatB1u7qWmMP8lTxkEWRzDEf3geAzdl7+qiL7lZ++lZQHBkt647Gf2ZFv7EPtfkUGqXKLPDYiFcHHVrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=dQV3fgXV; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1729476763; c=relaxed/simple;
+	bh=4I+0q0pKm6bhuuWItGk2zWCrvZJSxlpXwQhakAS0XiU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S5Wl0m9LqqWPEjazbwPJ4iKve9/RJLXX1nuOIgdmnj82dUoDAa/PqXMtFEZCp3PuUBPYLEE6i+67aLItI0Cnc8/Td+yA4VkA9M6+bQvn79p4kfSDiYcI9SzgCgXEyoOmis+pnQ1AyqWoZY7r+PJGJOB1Iz7m2hu/57uNUDNbeR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Mops5RDj; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="dQV3fgXV"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20ce5e3b116so29605445ad.1
-        for <linux-doc@vger.kernel.org>; Sun, 20 Oct 2024 18:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1729475644; x=1730080444; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ov+a74yyWVssGZ0VVpLag6M6zuR8CKA5GgGeFDgsMcI=;
-        b=dQV3fgXVYxTZflvEtCMJCkH9wPk6AyRT1vExTi+WroPVPIehXv/5vhvLdRIfoRe4iM
-         MxPrXj/K3sHSPtluNRlbHGTP3uDS+1mmLw95ncELP8qAqog2nP+4snjohk3ucVQw+7ff
-         2ydJrPXGimyuYMfPOyPrZzjScL7DvU0vn9X3A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729475644; x=1730080444;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ov+a74yyWVssGZ0VVpLag6M6zuR8CKA5GgGeFDgsMcI=;
-        b=ZB7yTPullWlfOKz8eOtRLmkoQMMUe6ul+RUHlbik6jCb7nxKZ4xojkR0o0QkL9+qwG
-         JfHM/OUGXn2PUpZRMAg6FV/7Q7UzaCUQd5xJpblRPlGo59L/jpv7WOKeY0OtxrgAY32F
-         ZlDRvnB4YSWKxmvkVCsg37EpXdofvBg0wesKc8LjJC+Uu1ehpMuGT9kVNcLraRpLP5Q2
-         J+oXOuMb2XxZTi23ZAeW7mEDJyeEYdv1b4nMXFlLo0EVo9dzWZ8VsNejQbP+Rlr8qaP7
-         54CZfV8g8uoKGC3pn9TeMO9/8FdyojCecc7rvVeeQS8uBhpQqajX19gi4qLFA/lyILSP
-         w8YA==
-X-Forwarded-Encrypted: i=1; AJvYcCWn0VTDX8UOV815+SuLsgbMAF0A3uDpReQhO79lLn5mAKQb4MyYP2mDw43HTcRnTcuXHG+0PVQtRm8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxudymShrWaIQN40/iDS5DpYzqrN59e2EeW/cERHhRyVlwalTqO
-	S6hZPOEbgTegwQjEo2m4aKMRmc7b5XK2y9P2MJNHyvkkxnP3fAv0fcv5rAvblFg=
-X-Google-Smtp-Source: AGHT+IFRh1M+as63n98NkQTDVZCHlHy/fZhBOPIE+Ea8KXRBufysFtL+AR7pOkA5nc0vjrv7IGmlBg==
-X-Received: by 2002:a17:903:22c2:b0:20c:f9ec:cd8a with SMTP id d9443c01a7336-20e5a79f596mr152490435ad.7.1729475644492;
-        Sun, 20 Oct 2024 18:54:04 -0700 (PDT)
-Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7eee650bsm15859985ad.34.2024.10.20.18.54.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Oct 2024 18:54:03 -0700 (PDT)
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: namangulati@google.com,
-	edumazet@google.com,
-	amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com,
-	sdf@fomichev.me,
-	peter@typeblog.net,
-	m2shafiei@uwaterloo.ca,
-	bjorn@rivosinc.com,
-	hch@infradead.org,
-	willy@infradead.org,
-	willemdebruijn.kernel@gmail.com,
-	skhawaja@google.com,
-	kuba@kernel.org,
-	Joe Damato <jdamato@fastly.com>,
-	Martin Karsten <mkarsten@uwaterloo.ca>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	bpf@vger.kernel.org (open list:BPF [MISC]:Keyword:(?:\b|_)bpf(?:\b|_))
-Subject: [PATCH net-next v2 6/6] docs: networking: Describe irq suspension
-Date: Mon, 21 Oct 2024 01:53:01 +0000
-Message-Id: <20241021015311.95468-7-jdamato@fastly.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241021015311.95468-1-jdamato@fastly.com>
-References: <20241021015311.95468-1-jdamato@fastly.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Mops5RDj"
+Message-ID: <f6d4e2df-571c-4970-a204-ab14f1ff560d@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729476753;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MNKr1TAFaO4Xos/o3F0iIdoaYqi9JMp3CeoLF7nMiBk=;
+	b=Mops5RDj77XDBrqC0jRyjUNHlFPKSD+WIMMo+sQlfotaaEJxRWuJPN3Fn1f8A1F+3qYJ5W
+	8hp6/maifS+L2ZsAeF+ycqE5TZR6Bf10uM+WH/mYTmEW4Nn7szbd2kvucXSzqCx+km8MgE
+	3WISbtZ5PxyADLiO5giAXcoAzv0m+p8=
+Date: Mon, 21 Oct 2024 10:11:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH v2] docs/zh_CN: add translation of dev-tools/kmsan.rst
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20241019142243.88712-1-tttturtleruss@hust.edu.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20241019142243.88712-1-tttturtleruss@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Describe irq suspension, the epoll ioctls, and the tradeoffs of using
-different gro_flush_timeout values.
 
-Signed-off-by: Joe Damato <jdamato@fastly.com>
-Co-developed-by: Martin Karsten <mkarsten@uwaterloo.ca>
-Signed-off-by: Martin Karsten <mkarsten@uwaterloo.ca>
----
- v1 -> v2:
-   - Updated documentation to describe the per-NAPI configuration
-     parameters.
 
- Documentation/networking/napi.rst | 132 +++++++++++++++++++++++++++++-
- 1 file changed, 130 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/networking/napi.rst b/Documentation/networking/napi.rst
-index dfa5d549be9c..3b43477a52ce 100644
---- a/Documentation/networking/napi.rst
-+++ b/Documentation/networking/napi.rst
-@@ -192,6 +192,28 @@ is reused to control the delay of the timer, while
- ``napi_defer_hard_irqs`` controls the number of consecutive empty polls
- before NAPI gives up and goes back to using hardware IRQs.
- 
-+The above parameters can also be set on a per-NAPI basis using netlink via
-+netdev-genl. This can be done programmatically in a user application or by
-+using a script included in the kernel source tree: ``tools/net/ynl/cli.py``.
-+
-+For example, using the script:
-+
-+.. code-block:: bash
-+
-+  $ kernel-source/tools/net/ynl/cli.py \
-+            --spec Documentation/netlink/specs/netdev.yaml \
-+            --do napi-set \
-+            --json='{"id": 345,
-+                     "defer-hard-irqs": 111,
-+                     "gro-flush-timeout": 11111}'
-+
-+Similarly, the parameter ``irq-suspend-timeout`` can be set using netlink
-+via netdev-genl. There is no global sysfs parameter for this value.
-+
-+``irq_suspend_timeout`` is used to determine how long an application can
-+completely suspend IRQs. It is used in combination with SO_PREFER_BUSY_POLL,
-+which can be set on a per-epoll context basis with ``EPIOCSPARAMS`` ioctl.
-+
- .. _poll:
- 
- Busy polling
-@@ -207,6 +229,46 @@ selected sockets or using the global ``net.core.busy_poll`` and
- ``net.core.busy_read`` sysctls. An io_uring API for NAPI busy polling
- also exists.
- 
-+epoll-based busy polling
-+------------------------
-+
-+It is possible to trigger packet processing directly from calls to
-+``epoll_wait``. In order to use this feature, a user application must ensure
-+all file descriptors which are added to an epoll context have the same NAPI ID.
-+
-+If the application uses a dedicated acceptor thread, the application can obtain
-+the NAPI ID of the incoming connection using SO_INCOMING_NAPI_ID and then
-+distribute that file descriptor to a worker thread. The worker thread would add
-+the file descriptor to its epoll context. This would ensure each worker thread
-+has an epoll context with FDs that have the same NAPI ID.
-+
-+Alternatively, if the application uses SO_REUSEPORT, a bpf or ebpf program be
-+inserted to distribute incoming connections to threads such that each thread is
-+only given incoming connections with the same NAPI ID. Care must be taken to
-+carefully handle cases where a system may have multiple NICs.
-+
-+In order to enable busy polling, there are two choices:
-+
-+1. ``/proc/sys/net/core/busy_poll`` can be set with a time in useconds to busy
-+   loop waiting for events. This is a system-wide setting and will cause all
-+   epoll-based applications to busy poll when they call epoll_wait. This may
-+   not be desirable as many applications may not have the need to busy poll.
-+
-+2. Applications using recent kernels can issue an ioctl on the epoll context
-+   file descriptor to set (``EPIOCSPARAMS``) or get (``EPIOCGPARAMS``) ``struct
-+   epoll_params``:, which user programs can define as follows:
-+
-+.. code-block:: c
-+
-+  struct epoll_params {
-+      uint32_t busy_poll_usecs;
-+      uint16_t busy_poll_budget;
-+      uint8_t prefer_busy_poll;
-+
-+      /* pad the struct to a multiple of 64bits */
-+      uint8_t __pad;
-+  };
-+
- IRQ mitigation
- ---------------
- 
-@@ -222,12 +284,78 @@ Such applications can pledge to the kernel that they will perform a busy
- polling operation periodically, and the driver should keep the device IRQs
- permanently masked. This mode is enabled by using the ``SO_PREFER_BUSY_POLL``
- socket option. To avoid system misbehavior the pledge is revoked
--if ``gro_flush_timeout`` passes without any busy poll call.
-+if ``gro_flush_timeout`` passes without any busy poll call. For epoll-based
-+busy polling applications, the ``prefer_busy_poll`` field of ``struct
-+epoll_params`` can be set to 1 and the ``EPIOCSPARAMS`` ioctl can be issued to
-+enable this mode. See the above section for more details.
- 
- The NAPI budget for busy polling is lower than the default (which makes
- sense given the low latency intention of normal busy polling). This is
- not the case with IRQ mitigation, however, so the budget can be adjusted
--with the ``SO_BUSY_POLL_BUDGET`` socket option.
-+with the ``SO_BUSY_POLL_BUDGET`` socket option. For epoll-based busy polling
-+applications, the ``busy_poll_budget`` field can be adjusted to the desired value
-+in ``struct epoll_params`` and set on a specific epoll context using the ``EPIOCSPARAMS``
-+ioctl. See the above section for more details.
-+
-+It is important to note that choosing a large value for ``gro_flush_timeout``
-+will defer IRQs to allow for better batch processing, but will induce latency
-+when the system is not fully loaded. Choosing a small value for
-+``gro_flush_timeout`` can cause interference of the user application which is
-+attempting to busy poll by device IRQs and softirq processing. This value
-+should be chosen carefully with these tradeoffs in mind. epoll-based busy
-+polling applications may be able to mitigate how much user processing happens
-+by choosing an appropriate value for ``maxevents``.
-+
-+Users may want to consider an alternate approach, IRQ suspension, to help deal
-+with these tradeoffs.
-+
-+IRQ suspension
-+--------------
-+
-+IRQ suspension is a mechanism wherein device IRQs are masked while epoll
-+triggers NAPI packet processing.
-+
-+While application calls to epoll_wait successfully retrieve events, the kernel will
-+defer the IRQ suspension timer. If the kernel does not retrieve any events
-+while busy polling (for example, because network traffic levels subsided), IRQ
-+suspension is disabled and the IRQ mitigation strategies described above are
-+engaged.
-+
-+This allows users to balance CPU consumption with network processing
-+efficiency.
-+
-+To use this mechanism:
-+
-+  1. The per-NAPI config parameter ``irq_suspend_timeout`` should be set to the
-+     maximum time (in nanoseconds) the application can have its IRQs
-+     suspended. This is done using netlink, as described above. This timeout
-+     serves as a safety mechanism to restart IRQ driver interrupt processing if
-+     the application has stalled. This value should be chosen so that it covers
-+     the amount of time the user application needs to process data from its
-+     call to epoll_wait, noting that applications can control how much data
-+     they retrieve by setting ``max_events`` when calling epoll_wait.
-+
-+  2. The sysfs parameter or per-NAPI config parameters ``gro_flush_timeout``
-+     and ``napi_defer_hard_irqs`` can be set to low values. They will be used
-+     to defer IRQs after busy poll has found no data.
-+
-+  3. The ``prefer_busy_poll`` flag must be set to true. This can be done using
-+     the ``EPIOCSPARAMS`` ioctl as described above.
-+
-+  4. The application uses epoll as described above to trigger NAPI packet
-+     processing.
-+
-+As mentioned above, as long as subsequent calls to epoll_wait return events to
-+userland, the ``irq_suspend_timeout`` is deferred and IRQs are disabled. This
-+allows the application to process data without interference.
-+
-+Once a call to epoll_wait results in no events being found, IRQ suspension is
-+automatically disabled and the ``gro_flush_timeout`` and
-+``napi_defer_hard_irqs`` mitigation mechanisms take over.
-+
-+It is expected that ``irq_suspend_timeout`` will be set to a value much larger
-+than ``gro_flush_timeout`` as ``irq_suspend_timeout`` should suspend IRQs for
-+the duration of one userland processing cycle.
- 
- .. _threaded:
- 
--- 
-2.25.1
+在 2024/10/19 22:22, Haoyang Liu 写道:
+> Add translation of kmsan.rst and remove it from TODO list.
+> update to commit 3f53d1b4a4d2 ("docs/dev-tools: fix a typo")
+>
+> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+
+Thanks,
+Yanteng
+> ---
+> v1 -> v2: fix incorrect translations
+>
+>   .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+>   .../translations/zh_CN/dev-tools/kmsan.rst    | 392 ++++++++++++++++++
+>   2 files changed, 393 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/dev-tools/kmsan.rst
+>
+> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+> index 6a8c637c0be1..7b37194217b0 100644
+> --- a/Documentation/translations/zh_CN/dev-tools/index.rst
+> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+> @@ -22,6 +22,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>      sparse
+>      kcov
+>      kcsan
+> +   kmsan
+>      gcov
+>      kasan
+>      ubsan
+> @@ -32,7 +33,6 @@ Todolist:
+>   
+>    - checkpatch
+>    - coccinelle
+> - - kmsan
+>    - kfence
+>    - kgdb
+>    - kselftest
+> diff --git a/Documentation/translations/zh_CN/dev-tools/kmsan.rst b/Documentation/translations/zh_CN/dev-tools/kmsan.rst
+> new file mode 100644
+> index 000000000000..80da60cb340e
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/dev-tools/kmsan.rst
+> @@ -0,0 +1,392 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/dev-tools/kmsan.rst
+> +:Translator: 刘浩阳 Haoyang Liu <tttturtleruss@hust.edu.cn>
+> +
+> +=======================
+> +内核内存消毒剂（KMSAN）
+> +=======================
+> +
+> +KMSAN 是一个动态错误检测器，旨在查找未初始化值的使用。它基于编译器插桩，类似于用
+> +户空间的 `MemorySanitizer tool`_。
+> +
+> +需要注意的是 KMSAN 并不适合生产环境，因为它会大幅增加内核内存占用并降低系统运行速度。
+> +
+> +使用方法
+> +========
+> +
+> +构建内核
+> +--------
+> +
+> +要构建带有 KMSAN 的内核，你需要一个较新的 Clang (14.0.6+)。
+> +请参阅 `LLVM documentation`_ 了解如何构建 Clang。
+> +
+> +现在配置并构建一个启用 CONFIG_KMSAN 的内核。
+> +
+> +示例报告
+> +--------
+> +
+> +以下是一个 KMSAN 报告的示例::
+> +
+> +  =====================================================
+> +  BUG: KMSAN: uninit-value in test_uninit_kmsan_check_memory+0x1be/0x380 [kmsan_test]
+> +   test_uninit_kmsan_check_memory+0x1be/0x380 mm/kmsan/kmsan_test.c:273
+> +   kunit_run_case_internal lib/kunit/test.c:333
+> +   kunit_try_run_case+0x206/0x420 lib/kunit/test.c:374
+> +   kunit_generic_run_threadfn_adapter+0x6d/0xc0 lib/kunit/try-catch.c:28
+> +   kthread+0x721/0x850 kernel/kthread.c:327
+> +   ret_from_fork+0x1f/0x30 ??:?
+> +
+> +  Uninit was stored to memory at:
+> +   do_uninit_local_array+0xfa/0x110 mm/kmsan/kmsan_test.c:260
+> +   test_uninit_kmsan_check_memory+0x1a2/0x380 mm/kmsan/kmsan_test.c:271
+> +   kunit_run_case_internal lib/kunit/test.c:333
+> +   kunit_try_run_case+0x206/0x420 lib/kunit/test.c:374
+> +   kunit_generic_run_threadfn_adapter+0x6d/0xc0 lib/kunit/try-catch.c:28
+> +   kthread+0x721/0x850 kernel/kthread.c:327
+> +   ret_from_fork+0x1f/0x30 ??:?
+> +
+> +  Local variable uninit created at:
+> +   do_uninit_local_array+0x4a/0x110 mm/kmsan/kmsan_test.c:256
+> +   test_uninit_kmsan_check_memory+0x1a2/0x380 mm/kmsan/kmsan_test.c:271
+> +
+> +  Bytes 4-7 of 8 are uninitialized
+> +  Memory access of size 8 starts at ffff888083fe3da0
+> +
+> +  CPU: 0 PID: 6731 Comm: kunit_try_catch Tainted: G    B       E     5.16.0-rc3+ #104
+> +  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
+> +  =====================================================
+> +
+> +报告指出本地变量 ``uninit`` 在 ``do_uninit_local_array()`` 中未初始化。
+> +第三个堆栈跟踪对应于该变量创建的位置。
+> +
+> +第一个堆栈跟踪显示了未初始化值的使用位置（在
+> +``test_uninit_kmsan_check_memory()``）。
+> +工具显示了局部变量中未初始化的字节及其被复制到其他内存位置前的堆栈。
+> +
+> +KMSAN 会在以下情况下报告未初始化的值 ``v``:
+> +
+> + - 在条件判断中，例如 ``if (v) { ... }``；
+> + - 在索引或指针解引用中，例如 ``array[v]`` 或 ``*v``；
+> + - 当它被复制到用户空间或硬件时，例如 ``copy_to_user(..., &v, ...)``；
+> + - 当它作为函数参数传递，并且启用 ``CONFIG_KMSAN_CHECK_PARAM_RETVAL`` 时（见下文）。
+> +
+> +这些情况（除了复制数据到用户空间或硬件外，这是一个安全问题）被视为 C11 标准下的未定义行为。
+> +
+> +禁用插桩
+> +--------
+> +
+> +可以用 ``__no_kmsan_checks`` 标记函数。这样，KMSAN 会忽略该函数中的未初始化值，
+> +并将其输出标记为已初始化。如此，用户不会收到与该函数相关的 KMSAN 报告。
+> +
+> +KMSAN 还支持 ``__no_sanitize_memory`` 函数属性。KMSAN 不会对拥有该属性的函数进行
+> +插桩，这在我们不希望编译器干扰某些底层代码（例如标记为 ``noinstr`` 的代码，该
+> +代码隐式添加了 ``__no_sanitize_memory``）时可能很有用。
+> +
+> +然而，这会有代价：此类函数的栈分配将具有不正确的影子/初始值，可能导致误报。来
+> +自非插桩代码的函数也可能接收到不正确的元数据。
+> +
+> +
+> +作为经验之谈，避免显式使用 ``__no_sanitize_memory``。
+> +
+> +也可以通过 Makefile 禁用 KMSAN 对某个文件（例如 main.o）的作用::
+> +
+> +  KMSAN_SANITIZE_main.o := n
+> +
+> +或者对整个目录::
+> +
+> +  KMSAN_SANITIZE := n
+> +
+> +将其应用到文件或目录中的每个函数。大多数用户不会需要 KMSAN_SANITIZE，
+> +除非他们的代码被 KMSAN 破坏（例如在早期启动时运行的代码）。
+> +
+> +还可以通过调用 ``kmsan_disable_current()`` 和 ``kmsan_enable_current()``
+> +暂时对当前任务禁用 KMSAN 检查。每个 ``kmsan_enable_current()`` 必须在
+> +``kmsan_disable_current()`` 之后调用；这些调用对可以嵌套。在调用时需要注意保持
+> +嵌套区域简短，并且尽可能使用其他方法禁用插桩。
+> +
+> +支持
+> +====
+> +
+> +为了使用 KMSAN，内核必须使用 Clang 构建，到目前为止，Clang 是唯一支持 KMSAN
+> +的编译器。内核插桩过程基于用户空间的 `MemorySanitizer tool`_。
+> +
+> +目前运行时库仅支持 x86_64 架构。
+> +
+> +KMSAN 的工作原理
+> +================
+> +
+> +KMSAN 阴影内存
+> +--------------
+> +
+> +KMSAN 将一个元数据字节（也称为阴影字节）与每个内核内存字节关联。仅当内核内存字节
+> +的相应位未初始化时，阴影字节中的一个比特位才会被设置。将内存标记为未初始化（即
+> +将其阴影字节设置为 ``0xff``）称为中毒，将其标记为已初始化（将阴影字节设置为
+> +``0x00``）称为解毒。
+> +
+> +当在栈上分配新变量时，默认情况下它会中毒，这由编译器插入的插桩代码完成（除非它
+> +是立即初始化的栈变量）。任何未使用 ``__GFP_ZERO`` 的堆分配也会中毒。
+> +
+> +编译器插桩还跟踪阴影值在代码中的使用。当需要时，插桩代码会调用 ``mm/kmsan/`` 中
+> +的运行时库以持久化阴影值。
+> +
+> +基本或复合类型的阴影值是长度相同的字节数组。当常量值写入内存时，该内存会被解毒
+> +。当从内存读取值时，其阴影内存也会被获取，并传递到所有使用该值的操作中。对于每
+> +个需要一个或多个值的指令，编译器会生成代码根据这些值及其阴影来计算结果的阴影。
+> +
+> +
+> +示例::
+> +
+> +  int a = 0xff;  // i.e. 0x000000ff
+> +  int b;
+> +  int c = a | b;
+> +
+> +在这种情况下， ``a`` 的阴影为 ``0``， ``b`` 的阴影为 ``0xffffffff``，
+> +``c`` 的阴影为 ``0xffffff00``。这意味着 ``c`` 的高三个字节未初始化，而低字节已
+> +初始化。
+> +
+> +起源跟踪
+> +--------
+> +
+> +每四字节的内核内存都有一个所谓的源点与之映射。这个源点描述了在程序执行中，未初
+> +始化值的创建点。每个源点都与完整的分配栈（对于堆分配的内存）或包含未初始化变
+> +量的函数（对于局部变量）相关联。
+> +
+> +当一个未初始化的变量在栈或堆上分配时，会创建一个新的源点值，并将该变量的初始值
+> +填充为这个值。当从内存中读取一个值时，其初始值也会被读取并与阴影一起保留。对于
+> +每个接受一个或多个值的指令，结果的源点是与任何未初始化输入相对应的源点之一。如
+> +果一个污染值被写入内存，其起源也会被写入相应的存储中。
+> +
+> +示例 1::
+> +
+> +  int a = 42;
+> +  int b;
+> +  int c = a + b;
+> +
+> +在这种情况下， ``b`` 的源点是在函数入口时生成的，并在加法结果写入内存之前存储到
+> +``c`` 的源点中。
+> +
+> +如果几个变量共享相同的源点地址，则它们被存储在同一个四字节块中。在这种情况下，
+> +对任何变量的每次写入都会更新所有变量的源点。在这种情况下我们必须牺牲精度，因
+> +为为单独的位（甚至字节）存储源点成本过高。
+> +
+> +示例 2::
+> +
+> +  int combine(short a, short b) {
+> +    union ret_t {
+> +      int i;
+> +      short s[2];
+> +    } ret;
+> +    ret.s[0] = a;
+> +    ret.s[1] = b;
+> +    return ret.i;
+> +  }
+> +
+> +如果 ``a`` 已初始化而 ``b`` 未初始化，则结果的阴影为 0xffff0000，结果的源点为
+> +``b`` 的源点。 ``ret.s[0]`` 会有相同的起源，但它不会被使用，因为该变量已初始化。
+> +
+> +如果两个函数参数都未初始化，则只保留第二个参数的源点。
+> +
+> +源点链
+> +~~~~~~
+> +
+> +为了便于调试，KMSAN 在每次将未初始化值存储到内存时都会创建一个新的源点。新的源点
+> +引用了其创建栈以及值的前一个起源。这可能导致内存消耗增加，因此我们在运行时限制
+> +了源点链的长度。
+> +
+> +Clang 插桩 API
+> +--------------
+> +
+> +Clang 插桩通过在内核代码中插入定义在 ``mm/kmsan/instrumentation.c`` 中的函数调用
+> +来实现。
+> +
+> +
+> +阴影操作
+> +~~~~~~~~
+> +
+> +对于每次内存访问，编译器都会发出一个函数调用，该函数返回一对指针，指向给定内存
+> +的阴影和原始地址::
+> +
+> +  typedef struct {
+> +    void *shadow, *origin;
+> +  } shadow_origin_ptr_t
+> +
+> +  shadow_origin_ptr_t __msan_metadata_ptr_for_load_{1,2,4,8}(void *addr)
+> +  shadow_origin_ptr_t __msan_metadata_ptr_for_store_{1,2,4,8}(void *addr)
+> +  shadow_origin_ptr_t __msan_metadata_ptr_for_load_n(void *addr, uintptr_t size)
+> +  shadow_origin_ptr_t __msan_metadata_ptr_for_store_n(void *addr, uintptr_t size)
+> +
+> +函数名依赖于内存访问的大小。
+> +
+> +编译器确保对于每个加载的值，其阴影和原始值都从内存中读取。当一个值存储到内存时
+> +，其阴影和原始值也会通过元数据指针进行存储。
+> +
+> +处理局部变量
+> +~~~~~~~~~~~~
+> +
+> +一个特殊的函数用于为局部变量创建一个新的原始值，并将该变量的原始值设置为该值::
+> +
+> +  void __msan_poison_alloca(void *addr, uintptr_t size, char *descr)
+> +
+> +访问每个任务数据
+> +~~~~~~~~~~~~~~~~
+> +
+> +在每个插桩函数的开始处，KMSAN 插入一个对 ``__msan_get_context_state()`` 的调用
+> +::
+> +
+> +  kmsan_context_state *__msan_get_context_state(void)
+> +
+> +``kmsan_context_state`` 在 ``include/linux/kmsan.h`` 中声明::
+> +
+> +  struct kmsan_context_state {
+> +    char param_tls[KMSAN_PARAM_SIZE];
+> +    char retval_tls[KMSAN_RETVAL_SIZE];
+> +    char va_arg_tls[KMSAN_PARAM_SIZE];
+> +    char va_arg_origin_tls[KMSAN_PARAM_SIZE];
+> +    u64 va_arg_overflow_size_tls;
+> +    char param_origin_tls[KMSAN_PARAM_SIZE];
+> +    depot_stack_handle_t retval_origin_tls;
+> +  };
+> +
+> +KMSAN 使用此结构体在插桩函数之间传递参数阴影和原始值（除非立刻通过
+> + ``CONFIG_KMSAN_CHECK_PARAM_RETVAL`` 检查参数）。
+> +
+> +将未初始化的值传递给函数
+> +~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Clang 的 MemorySanitizer 插桩有一个选项 ``-fsanitize-memory-param-retval``，该
+> +选项使编译器检查按值传递的函数参数，以及函数返回值。
+> +
+> +该选项由 ``CONFIG_KMSAN_CHECK_PARAM_RETVAL`` 控制，默认启用以便 KMSAN 更早报告
+> +未初始化的值。有关更多细节，请参考 `LKML discussion`_。
+> +
+> +由于 LLVM 中的实现检查的方式（它们仅应用于标记为 ``noundef`` 的参数），并不是所
+> +有参数都能保证被检查，因此我们不能放弃 ``kmsan_context_state`` 中的元数据存储
+> +。
+> +
+> +字符串函数
+> +~~~~~~~~~~~
+> +
+> +编译器将对 ``memcpy()``/``memmove()``/``memset()`` 的调用替换为以下函数。这些函
+> +数在数据结构初始化或复制时也会被调用，确保阴影和原始值与数据一起复制::
+> +
+> +  void *__msan_memcpy(void *dst, void *src, uintptr_t n)
+> +  void *__msan_memmove(void *dst, void *src, uintptr_t n)
+> +  void *__msan_memset(void *dst, int c, uintptr_t n)
+> +
+> +错误报告
+> +~~~~~~~~
+> +
+> +对于每个值的使用，编译器发出一个阴影检查，在值中毒的情况下调用
+> +``__msan_warning()``::
+> +
+> +  void __msan_warning(u32 origin)
+> +
+> +``__msan_warning()`` 使 KMSAN 运行时打印错误报告。
+> +
+> +内联汇编插桩
+> +~~~~~~~~~~~~
+> +
+> +KMSAN 对每个内联汇编输出进行插桩，调用::
+> +
+> +  void __msan_instrument_asm_store(void *addr, uintptr_t size)
+> +
+> +，该函数解除内存区域的污染。
+> +
+> +这种方法可能会掩盖某些错误，但也有助于避免许多位操作、原子操作等中的假阳性。
+> +
+> +有时传递给内联汇编的指针不指向有效内存。在这种情况下，它们在运行时被忽略。
+> +
+> +
+> +运行时库
+> +--------
+> +
+> +代码位于 ``mm/kmsan/``。
+> +
+> +每个任务 KMSAN 状态
+> +~~~~~~~~~~~~~~~~~~~
+> +
+> +每个 task_struct 都有一个关联的 KMSAN 任务状态，它保存 KMSAN
+> +上下文（见上文）和一个每个任务计数器以禁止 KMSAN 报告::
+> +
+> +  struct kmsan_context {
+> +    ...
+> +    unsigned int depth;
+> +    struct kmsan_context_state cstate;
+> +    ...
+> +  }
+> +
+> +  struct task_struct {
+> +    ...
+> +    struct kmsan_context kmsan;
+> +    ...
+> +  }
+> +
+> +KMSAN 上下文
+> +~~~~~~~~~~~~
+> +
+> +在内核任务上下文中运行时，KMSAN 使用 ``current->kmsan.cstate`` 来
+> +保存函数参数和返回值的元数据。
+> +
+> +但在内核运行于中断、softirq 或 NMI 上下文中， ``current`` 不可用时，
+> +KMSAN 切换到每 CPU 中断状态::
+> +
+> +  DEFINE_PER_CPU(struct kmsan_ctx, kmsan_percpu_ctx);
+> +
+> +元数据分配
+> +~~~~~~~~~~
+> +
+> +内核中有多个地方存储元数据。
+> +
+> +1. 每个 ``struct page`` 实例包含两个指向其影子和内存页面的指针
+> +::
+> +
+> +  struct page {
+> +    ...
+> +    struct page *shadow, *origin;
+> +    ...
+> +  };
+> +
+> +在启动时，内核为每个可用的内核页面分配影子和源页面。这是在内核地址空间已经碎片
+> +化时后完成的，完成的相当晚，因此普通数据页面可能与元数据页面任意交错。
+> +
+> +这意味着通常两个相邻的内存页面，它们的影子/源页面可能不是连续的。因此，如果内存
+> +访问跨越内存块的边界，访问影子/源内存可能会破坏其他页面或从中读取错误的值。
+> +
+> +实际上，由相同 ``alloc_pages()`` 调用返回的连续内存页面将具有连续的元数据，而
+> +如果这些页面属于两个不同的分配，它们的元数据页面可能会被碎片化。
+> +
+> +对于内核数据（ ``.data``、 ``.bss`` 等）和每 CPU 内存区域，也没有对元数据连续
+> +性的保证。
+> +
+> +在 ``__msan_metadata_ptr_for_XXX_YYY()`` 遇到两个页面之间的
+> +非连续元数据边界时，它返回指向假影子/源区域的指针::
+> +
+> +  char dummy_load_page[PAGE_SIZE] __attribute__((aligned(PAGE_SIZE)));
+> +  char dummy_store_page[PAGE_SIZE] __attribute__((aligned(PAGE_SIZE)));
+> +
+> +``dummy_load_page`` 被初始化为零，因此读取它始终返回零。对 ``dummy_store_page`` 的
+> +所有写入都被忽略。
+> +
+> +2. 对于 vmalloc 内存和模块，内存范围、影子和源之间有一个直接映射。KMSAN 将
+> +vmalloc 区域缩小了 3/4，仅使前四分之一可用于 ``vmalloc()``。vmalloc
+> +区域的第二个四分之一包含第一个四分之一的影子内存，第三个四分之一保存源。第四个
+> +四分之一的小部分包含内核模块的影子和源。有关更多详细信息，请参阅
+> +``arch/x86/include/asm/pgtable_64_types.h``。
+> +
+> +当一系列页面映射到一个连续的虚拟内存空间时，它们的影子和源页面也以连续区域的方
+> +式映射。
+> +
+> +参考文献
+> +========
+> +
+> +E. Stepanov, K. Serebryany. `MemorySanitizer: fast detector of uninitialized
+> +memory use in C++
+> +<https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43308.pdf>`_.
+> +In Proceedings of CGO 2015.
+> +
+> +.. _MemorySanitizer tool: https://clang.llvm.org/docs/MemorySanitizer.html
+> +.. _LLVM documentation: https://llvm.org/docs/GettingStarted.html
+> +.. _LKML discussion: https://lore.kernel.org/all/20220614144853.3693273-1-glider@google.com/
 
