@@ -1,249 +1,214 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8E420309;
-	Mon, 21 Oct 2024 05:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C9A156C63
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 05:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729487360; cv=none; b=TXbo+KngYAOE54XkDrRKITDiA8J6Bd3ylyehIpeFywNxg+cxXKwGswY+BXK/8shqfgW9R8BC5PFBxv9y78PMR90gmsyS/2DuC3QAefo7XBaSoJ4C3SAk84xrbU7cRwQjlrEWjTyS3r1xU55jb26G8E4+8oVTmUMpawgMifMaCAg=
+	t=1729488073; cv=none; b=hlPADLWflUd26DyDgbTkpFjubAL62/EOkVRDMBFYk87r55GGCFcSffbbpqkGsra1/YeGZqL1lzv8K0eznMxNZtDUZ0RklHLvk2wdCxBXNUUsQjGCGvnVc4wpFSlKHkIwn7GdHKZmE5CywXeeqOZPc7JNQV0AS2L5nwPASa1DAS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729487360; c=relaxed/simple;
-	bh=VdBZa22JXUz+U22C7XAzqsphA7Nq7h40Ydaiw43ERrs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HW7JXLmiIPDTI0uwQgfUaQqJvaO5IJQELBa7MvK75Z4UrbXeMo/zll9PRa76oggQ06GiPGW1/pG1c20UF8I2pXpYmC3eH/JmvWw0KKBPu5+KLkHPW+RqG96bSCbEQ3n1UjeYJntjtPMlr+/OSsSlbKwdfGr3f56NmUNrPILQOEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l1M7yn0N; arc=none smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729488073; c=relaxed/simple;
+	bh=VlKGcILGFP9kQ9qt0LflsuRpR3WhN3j25EmrcZfJZy4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fewTccbfRAcKmXj19xFu8TMbBUHAPir4ncVnHoFl6ra/Cu0qVLwBZjhZaVXx9/2BMv4qvTJs5UGFzJh95A4ZLVSLX/hZDJ0DFBMdY3ruQxcmguj7V3TuCp13xjbkB9Xz5/Y+Lw8apbzRmMIVURdO/3/utHLbKbWvFmVrFV14hZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=psNrO38m; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l1M7yn0N"
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-84fcb49691fso1289954241.3;
-        Sun, 20 Oct 2024 22:09:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729487357; x=1730092157; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5ZfuLO1PsYZ/2x/t2VqSxTRS6GMZs9BTeqlNjwBX8hg=;
-        b=l1M7yn0NowpkFbAXfeHtADZ3po7InEMMwBBMld5F+hnhH/66XDuHlsktbVuORk0MFI
-         AVSgamI/+/3JoZkqkXDuORwA7sOOCNoIdOGeoWdxl2KC/HvReDjbJm3kj+jBejCLim5z
-         vgH6KeZLUOc9eU1t+WBAfITbWWApNorbqjDtJIAfOnCY8qH/rYa6JHpJ1DTYNNAcE+l0
-         qkm8TLH2t3JT7fBvYb6uOLlgZcAw0gy82eAgT9SQs3c/c1SNF3yVkGf6SWVH9wTrs3T7
-         3IGgQDvBFPqJ1vYvRZQPycmD3zROtcPbU2lzMtbKk+i1avu0jktL8h+BNlMst/y6d7RN
-         R+Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729487357; x=1730092157;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5ZfuLO1PsYZ/2x/t2VqSxTRS6GMZs9BTeqlNjwBX8hg=;
-        b=QL29VqItpXl1uEBNQV1E2Fz72xRgV4cC1HX71D75NkxOwfZQ0b50GtEbbRDE5kbogs
-         bitGFZeWjB9gLHL2PzmIITXkuGFWw655++KD6ebgESPeADXNaa/D8D2sOakmJkJLcs09
-         1PMB5k+Cobe2mgJtn8gVqHQl5rAvYuEuua9y0aTB0EsDJ4bKeHXtmlEHQ13V/sKDVfDO
-         AnHaeILhIkIF26VFE32lnQVMmCzj0gt4yzcLUa6ixV/Cwwd438ImR6APVbyqWJD+tm8R
-         1QtZvAP4UzjrL4CoxbsuhGPl5GA3U21uaq6qwj9UjCJSrgM6GXfYaMSvZ9GrmnD7apFD
-         saTA==
-X-Forwarded-Encrypted: i=1; AJvYcCW0iIcO1CIhnhYT8nj2ZVg9J4e6liUlfEDL1Vza1P6+c0St1jlDyOBeiapTz4t0aKotJhziqPfrm58=@vger.kernel.org, AJvYcCXE0UDKLlgwLnpXbYtfbGqXzM3nnd8APCWhPTcjvonLluSxvbZB7Saym7qMnpPfxhv+W+b0o5KSHCOmPL8Q@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4TkxZd76dlB8PuFrcG1ifwfhDATnP121CVwa1IpzqDpl/y61Y
-	rJ3qGhW9oWugaagBZ5sI1wLv65rb9Q8xAKs5cDW0TTqar1+3xMkwP5pH7D3r8B4JXdqyVyMhtc4
-	imlOfdQ9HjvERs9TvPc+nqmfOEPQ=
-X-Google-Smtp-Source: AGHT+IH3xl7ThsfvKchUSKP+3qWnkHnpxJwcuvCeybMDE6GJeUa8ZBQy9SW1x/IgozmKqdbiCG+gNSwH41GKQQl1OHg=
-X-Received: by 2002:a05:6102:c4e:b0:4a4:80a0:98fb with SMTP id
- ada2fe7eead31-4a5d6a74742mr7957823137.5.1729487357560; Sun, 20 Oct 2024
- 22:09:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="psNrO38m"
+Message-ID: <39af7887-9fc0-4a17-b4ff-3b57e038e9e2@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729488067;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YkXaaUUzJHMClQQeI/1CSrA2DJ33mmpNCuGv+myF8g4=;
+	b=psNrO38mOkzZuebJ9NmNB5VXHzWHVoNxn9YHkCu8w031VA45oxhdRHFgBDwdpRMxBYQ+ko
+	Dvp3h0htlgni94ifi4Vl+/6ft7YyZUgGDKZtEfS69xQ1gMRQnVTGrvLnT648e185Uoq5B9
+	Nl8yAxBfBr1XwulM2ybPDcB8BiGUkSQ=
+Date: Mon, 21 Oct 2024 13:20:57 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241018105026.2521366-1-usamaarif642@gmail.com>
-In-Reply-To: <20241018105026.2521366-1-usamaarif642@gmail.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Mon, 21 Oct 2024 18:09:06 +1300
-Message-ID: <CAGsJ_4xweuSwMUBuLSr2eUy69mtQumeDpMZ1g2jFPGq6nFn9fg@mail.gmail.com>
-Subject: Re: [RFC 0/4] mm: zswap: add support for zswapin of large folios
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org, 
-	david@redhat.com, willy@infradead.org, kanchana.p.sridhar@intel.com, 
-	yosryahmed@google.com, nphamcs@gmail.com, chengming.zhou@linux.dev, 
-	ryan.roberts@arm.com, ying.huang@intel.com, riel@surriel.com, 
-	shakeel.butt@linux.dev, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/2] docs/zh_CN: add the translations of
+ kbuild/reproducible-builds.rst
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1729259177.git.dzm91@hust.edu.cn>
+ <dcd09bf28f52ba0461b26f800fdbb145c879a313.1729259177.git.dzm91@hust.edu.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <dcd09bf28f52ba0461b26f800fdbb145c879a313.1729259177.git.dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Oct 18, 2024 at 11:50=E2=80=AFPM Usama Arif <usamaarif642@gmail.com=
-> wrote:
->
-> After large folio zswapout support added in [1], this patch adds
-> support for zswapin of large folios to bring it on par with zram.
-> This series makes sure that the benefits of large folios (fewer
-> page faults, batched PTE and rmap manipulation, reduced lru list,
-> TLB coalescing (for arm64 and amd)) are not lost at swap out when
-> using zswap.
->
-> It builds on top of [2] which added large folio swapin support for
-> zram and provides the same level of large folio swapin support as
-> zram, i.e. only supporting swap count =3D=3D 1.
->
-> Patch 1 skips swapcache for swapping in zswap pages, this should improve
-> no readahead swapin performance [3], and also allows us to build on large
-> folio swapin support added in [2], hence is a prerequisite for patch 3.
->
-> Patch 3 adds support for large folio zswapin. This patch does not add
-> support for hybrid backends (i.e. folios partly present swap and zswap).
->
-> The main performance benefit comes from maintaining large folios *after*
-> swapin, large folio performance improvements have been mentioned in previ=
-ous
-> series posted on it [2],[4], so have not added those. Below is a simple
-> microbenchmark to measure the time needed *for* zswpin of 1G memory (alon=
-g
-> with memory integrity check).
->
->                                 |  no mTHP (ms) | 1M mTHP enabled (ms)
-> Base kernel                     |   1165        |    1163
-> Kernel with mTHP zswpin series  |   1203        |     738
 
-Hi Usama,
-Do you know where this minor regression for non-mTHP comes from?
-As you even have skipped swapcache for small folios in zswap in patch1,
-that part should have some gain? is it because of zswap_present_test()?
 
->
-> The time measured was pretty consistent between runs (~1-2% variation).
-> There is 36% improvement in zswapin time with 1M folios. The percentage
-> improvement is likely to be more if the memcmp is removed.
->
-> diff --git a/tools/testing/selftests/cgroup/test_zswap.c b/tools/testing/=
-selftests/cgroup/test_zswap.c
-> index 40de679248b8..77068c577c86 100644
-> --- a/tools/testing/selftests/cgroup/test_zswap.c
-> +++ b/tools/testing/selftests/cgroup/test_zswap.c
-> @@ -9,6 +9,8 @@
->  #include <string.h>
->  #include <sys/wait.h>
->  #include <sys/mman.h>
-> +#include <sys/time.h>
-> +#include <malloc.h>
->
->  #include "../kselftest.h"
->  #include "cgroup_util.h"
-> @@ -407,6 +409,74 @@ static int test_zswap_writeback_disabled(const char =
-*root)
->         return test_zswap_writeback(root, false);
->  }
->
-> +static int zswapin_perf(const char *cgroup, void *arg)
-> +{
-> +       long pagesize =3D sysconf(_SC_PAGESIZE);
-> +       size_t memsize =3D MB(1*1024);
-> +       char buf[pagesize];
-> +       int ret =3D -1;
-> +       char *mem;
-> +       struct timeval start, end;
-> +
-> +       mem =3D (char *)memalign(2*1024*1024, memsize);
-> +       if (!mem)
-> +               return ret;
-> +
-> +       /*
-> +        * Fill half of each page with increasing data, and keep other
-> +        * half empty, this will result in data that is still compressibl=
-e
-> +        * and ends up in zswap, with material zswap usage.
-> +        */
-> +       for (int i =3D 0; i < pagesize; i++)
-> +               buf[i] =3D i < pagesize/2 ? (char) i : 0;
-> +
-> +       for (int i =3D 0; i < memsize; i +=3D pagesize)
-> +               memcpy(&mem[i], buf, pagesize);
-> +
-> +       /* Try and reclaim allocated memory */
-> +       if (cg_write_numeric(cgroup, "memory.reclaim", memsize)) {
-> +               ksft_print_msg("Failed to reclaim all of the requested me=
-mory\n");
-> +               goto out;
-> +       }
-> +
-> +       gettimeofday(&start, NULL);
-> +       /* zswpin */
-> +       for (int i =3D 0; i < memsize; i +=3D pagesize) {
-> +               if (memcmp(&mem[i], buf, pagesize)) {
-> +                       ksft_print_msg("invalid memory\n");
-> +                       goto out;
-> +               }
-> +       }
-> +       gettimeofday(&end, NULL);
-> +       printf ("zswapin took %fms to run.\n", (end.tv_sec - start.tv_sec=
-)*1000 + (double)(end.tv_usec - start.tv_usec) / 1000);
-> +       ret =3D 0;
-> +out:
-> +       free(mem);
-> +       return ret;
-> +}
-> +
-> +static int test_zswapin_perf(const char *root)
-> +{
-> +       int ret =3D KSFT_FAIL;
-> +       char *test_group;
-> +
-> +       test_group =3D cg_name(root, "zswapin_perf_test");
-> +       if (!test_group)
-> +               goto out;
-> +       if (cg_create(test_group))
-> +               goto out;
-> +
-> +       if (cg_run(test_group, zswapin_perf, NULL))
-> +               goto out;
-> +
-> +       ret =3D KSFT_PASS;
-> +out:
-> +       cg_destroy(test_group);
-> +       free(test_group);
-> +       return ret;
-> +}
-> +
->  /*
->   * When trying to store a memcg page in zswap, if the memcg hits its mem=
-ory
->   * limit in zswap, writeback should affect only the zswapped pages of th=
-at
-> @@ -584,6 +654,7 @@ struct zswap_test {
->         T(test_zswapin),
->         T(test_zswap_writeback_enabled),
->         T(test_zswap_writeback_disabled),
-> +       T(test_zswapin_perf),
->         T(test_no_kmem_bypass),
->         T(test_no_invasive_cgroup_shrink),
->  };
->
-> [1] https://lore.kernel.org/all/20241001053222.6944-1-kanchana.p.sridhar@=
-intel.com/
-> [2] https://lore.kernel.org/all/20240821074541.516249-1-hanchuanhua@oppo.=
-com/
-> [3] https://lore.kernel.org/all/1505886205-9671-5-git-send-email-minchan@=
-kernel.org/T/#u
-> [4] https://lwn.net/Articles/955575/
->
-> Usama Arif (4):
->   mm/zswap: skip swapcache for swapping in zswap pages
->   mm/zswap: modify zswap_decompress to accept page instead of folio
->   mm/zswap: add support for large folio zswapin
->   mm/zswap: count successful large folio zswap loads
->
->  Documentation/admin-guide/mm/transhuge.rst |   3 +
->  include/linux/huge_mm.h                    |   1 +
->  include/linux/zswap.h                      |   6 ++
->  mm/huge_memory.c                           |   3 +
->  mm/memory.c                                |  16 +--
->  mm/page_io.c                               |   2 +-
->  mm/zswap.c                                 | 120 ++++++++++++++-------
->  7 files changed, 99 insertions(+), 52 deletions(-)
->
-> --
-> 2.43.5
->
 
-Thanks
-barry
+在 2024/10/18 21:47, Dongliang Mu 写道:
+> Finish the translation of kbuild/reproducible-builds.rst and move
+> reproducible-builds.rst from TODO to the main body.
+>
+> Update to commit 114ff6fe6cfb ("Documentation: kbuild: Add description
+> of git for reproducible builds")
+>
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+
+Thanks,
+Yanteng
+> ---
+>   .../translations/zh_CN/kbuild/index.rst       |   2 +-
+>   .../zh_CN/kbuild/reproducible-builds.rst      | 114 ++++++++++++++++++
+>   2 files changed, 115 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/kbuild/reproducible-builds.rst
+>
+> diff --git a/Documentation/translations/zh_CN/kbuild/index.rst b/Documentation/translations/zh_CN/kbuild/index.rst
+> index c06268cf44be..0ba96aecb13a 100644
+> --- a/Documentation/translations/zh_CN/kbuild/index.rst
+> +++ b/Documentation/translations/zh_CN/kbuild/index.rst
+> @@ -16,6 +16,7 @@
+>       headers_install
+>       gcc-plugins
+>       kbuild
+> +    reproducible-builds
+>   
+>   TODO:
+>   
+> @@ -24,7 +25,6 @@ TODO:
+>   - makefiles
+>   - modules
+>   - issues
+> -- reproducible-builds
+>   - llvm
+>   
+>   .. only::  subproject and html
+> diff --git a/Documentation/translations/zh_CN/kbuild/reproducible-builds.rst b/Documentation/translations/zh_CN/kbuild/reproducible-builds.rst
+> new file mode 100644
+> index 000000000000..5f27ebf2fbfc
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/kbuild/reproducible-builds.rst
+> @@ -0,0 +1,114 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/kbuild/reproducible-builds.rst
+> +
+> +:Translator: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
+> +
+> +============
+> +可重现的构建
+> +============
+> +
+> +通常希望使用相同工具集构建相同源代码是可重现的，即，输出始终完全相同。这使得能够验证
+> +二进制分发或嵌入式系统的构建基础设施未被篡改。这样也更容易验证源代码或工具的更改不会
+> +影响最终生成的二进制文件。
+> +
+> +`可重现构建项目`_ 提供了有关该主题的更多信息。本文档涵盖了构建内核可能不可重现的
+> +各种原因，以及如何避免这些问题。
+> +
+> +时间戳
+> +------
+> +
+> +内核在三个地方嵌入时间戳：
+> +
+> +* 通过 ``uname()`` 显示与包含在 ``/proc/version`` 中的版本字符串
+> +
+> +* initramfs 中的文件时间戳
+> +
+> +* 如果启动 ``CONFIG_IKHEADERS``，内核或相应模块中嵌入的内核头文件的时间戳，
+> +  通过 ``/sys/kernel/kheaders.tar.xz`` 显示
+> +
+> +默认情况下，时间戳为当前时间或内核头文件的修改时间。这个内容必须使用
+> +`KBUILD_BUILD_TIMESTAMP`_ 变量进行覆盖。如果你从某个 git 提交进行构建，
+> +可以使用其提交日期。
+> +
+> +内核 *不* 使用 ``__DATE__`` 和 ``__TIME__`` 宏，并在使用这些宏时启用警告。
+> +如果你合并的外部代码使用这些宏，则必须通过设置 `SOURCE_DATE_EPOCH`_ 环境
+> +变量来覆盖它们对应的时间戳。
+> +
+> +用户，主机
+> +----------
+> +
+> +内核在 ``/proc/version`` 中嵌入构建用户和主机名。必须使用
+> +`KBUILD_BUILD_USER 和 KBUILD_BUILD_HOST`_ 变量来覆盖这些设置。如果
+> +您从某个 git 提交进行构建，可以使用其提交者地址。
+> +
+> +绝对文件名
+> +----------
+> +
+> +当内核在树外构建时，调试信息可能包括源文件的绝对文件名。这些信息必须通过在
+> +`KCFLAGS`_ 变量中包含 ``-fdebug-prefix-map`` 选项来覆盖。
+> +
+> +根据使用的编译器，``__FILE__`` 宏在树外构建中也可能扩展为绝对文件名。Kbuild
+> +自动使用 ``-fmacro-prefix-map`` 选项来防止这种情况，前提是它被支持。
+> +
+> +可重现构建网站提供了有关这些 `prefix-map 选项`_ 的更多信息。
+> +
+> +在源包中的生成文件
+> +------------------
+> +
+> +在 ``tools/`` 子目录下，一些程序的构建过程并不完全支持树外构建。这可能导致后续
+> +使用如 ``make rpm-pkg`` 构建的源码包包含生成的文件。在构建源码包之前，您应该通过
+> +运行 ``make mrproper`` 或 ``git clean -d -f -x`` 来确保源码树是干净的。
+> +
+> +模块签名
+> +--------
+> +
+> +如果你启用 ``CONFIG_MODULE_SIG_ALL``，默认行为是为每次构建生成不同的临时密钥，
+> +从而导致模块不可重现。然而，将签名密钥包含在源代码中显然会违背签名模块的目的。
+> +
+> +一种方法是将构建过程分为几个部分，以便不可重现的部分可以作为源处理：
+> +
+> +1. 生成一个持久的签名密钥。将该密钥的证书添加到内核源代码中。
+> +
+> +2. 将 ``CONFIG_SYSTEM_TRUSTED_KEYS`` 符号设置为包括签名密钥的证书，将
+> +``CONFIG_MODULE_SIG_KEY`` 设置为空字符串，并禁用 ``CONFIG_MODULE_SIG_ALL``。
+> +最后，构建内核和模块。
+> +
+> +3. 为模块创建分离的签名，并将它们作为源发布。
+> +
+> +4. 附加模块签名并进行第二次构建。这可以重建模块，或使用步骤 2 的输出。
+> +
+> +结构随机化
+> +----------
+> +
+> +如果你启用 ``CONFIG_RANDSTRUCT``，则需要在 ``scripts/basic/randstruct.seed``
+> +中预生成随机种子，以便每次构建都使用相同的值。有关详细信息，请参见
+> +``scripts/gen-randstruct-seed.sh``。
+> +
+> +调试信息冲突
+> +------------
+> +
+> +这并非是个不可重现性的问题，而是生成的文件 *过于* 可重现的问题。
+> +
+> +一旦你设置了所有必要的变量来开展可重现构建，vDSO 的调试信息可能即使对于不同的内核版
+> +本也是相同的。这会导致不同内核版本的调试信息软件包之间发生文件冲突。
+> +
+> +为了避免这种情况，你可以通过在 vDSO 中包含一个任意的 salt 字符串，使其对于不同的
+> +内核版本是不同的。这种机制由 Kconfig 符号 ``CONFIG_BUILD_SALT`` 指定。
+> +
+> +Git
+> +---
+> +
+> +未提交的更改或 Git 中的不同提交 ID 也可能导致不同的编译结果。例如，在执行
+> +``git reset HEAD^`` 后，即使代码相同，编译期间生成的
+> +``include/config/kernel.release`` 也会不同，导致最终生成的二进制文件也不尽相同。
+> +有关详细信息，请参见 ``scripts/setlocalversion``。
+> +
+> +.. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
+> +.. _KBUILD_BUILD_USER 和 KBUILD_BUILD_HOST: kbuild.html#kbuild-build-user-kbuild-build-host
+> +.. _KCFLAGS: kbuild.html#kcflags
+> +.. _prefix-map 选项: https://reproducible-builds.org/docs/build-path/
+> +.. _可重现构建项目: https://reproducible-builds.org/
+> +.. _SOURCE_DATE_EPOCH: https://reproducible-builds.org/docs/source-date-epoch/
+
