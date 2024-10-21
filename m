@@ -1,393 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4529F1EF94A;
-	Mon, 21 Oct 2024 12:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FAF1E9095
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 13:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729515562; cv=none; b=SfM+acOsehAc8GpdZJ7TGP/hOPKdJNd8rMccD+WwWqatISBrVHs+gnjVlyCZnf4GCsMOsdS9QSty4HUIVXZJ6/7Al5bmbIPMuBBxRzkp6D7jx4q0ZZMvtedsRKAIHliPhoNdxLn4VImx8kIE0T+uYi9a7Kn8uB/7OO5VTufgIEs=
+	t=1729516255; cv=none; b=VGsK1+lrFFoNn39HTeuZfONyGCflyWPxNUGHh102Dpdp8xBjaFBI04Mc8q/mFzRz2b2OJwaPGelWLzpy8QJ7p+A0YwcFYdY6V/e8AhW/xHCLEe4MQM6bR+gPZr8s6O8bx5I9DgAN2VZ9PD0JvwCzKqRi0JKfMdjyDbidLSQq6kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729515562; c=relaxed/simple;
-	bh=zudYUkWpcUzf+HKLpmF9sg0h4oBnCoa/e2+edFK90gM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kjU1ahDHqH75zl9dA9apizFSr8UmGp6wM/mNCkiovouyvkMMomAvOP7/qMITICzPR0nhriegls2nCSKbTTlZh9g6w8nYSODdWrvfNGsrmJmjy6PePsIEPlW1iXTrAAkK3bLu3MW83+Py8aoucQGv45e590sLh5/R91tkVsrU1C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eLxvVVtF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729516255; c=relaxed/simple;
+	bh=r+aOMV3MADphoeGOSyYy73k5f0WucUEtLuhrb3GEHIk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nfByR4zzo9Up3YEV3LXFfwn4cTJUX8+6pWjkWK9ho+7iND2kmz3N1lzlARJb9l04hlJAzESeV36P2YLEsdMrvsL5k9EX1ALIM4o8iv0IiPuSemyLsxaUY3hlH8TSBkiQG5bBU3Xseodpp2fUgiXTD1H0Rj2ZMeWjKYjWdgInTLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=dYyqFYI5; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eLxvVVtF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AAD5C4CEC3;
-	Mon, 21 Oct 2024 12:59:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729515561;
-	bh=zudYUkWpcUzf+HKLpmF9sg0h4oBnCoa/e2+edFK90gM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eLxvVVtFr2uoa/6iwMosidgP4I861ir5hNNHjcTnkR2zIjZMbdZTk3DVxUujSuxnB
-	 fgEbNdHGdcthMltFlvR5BEZ1GRISt4xjZsAZ44sn8HMqRVC1lsWm1H7CnHzkSAftND
-	 XZaQwmSy4diqJuFPBogmwU6CA73gLNDreI7KwjlmjWxI/ffk5UQtKhW9Te+pZk/PUV
-	 LWWVUQvHb+3qOOFi190tmlf900vwVsic9PIVQ7xcjczNU6spL7Q4W5H9ZiYMqrvpps
-	 jVsT03HnMVtHGa3kHO5CUPjXacXsbV8P1RqS8H5j15i+Lzb35ZqTUFFw88vOKId/X9
-	 +aMzqBob5bH3Q==
-Date: Mon, 21 Oct 2024 14:59:16 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Cc: Gabriel Krisman Bertazi <krisman@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Theodore Ts'o <tytso@mit.edu>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Hugh Dickins <hughd@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, smcv@collabora.com, 
-	kernel-dev@igalia.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 6/9] tmpfs: Add casefold lookup support
-Message-ID: <20241021-keller-tunnel-c8bebded630c@brauner>
-References: <20241017-tonyk-tmpfs-v7-0-a9c056f8391f@igalia.com>
- <20241017-tonyk-tmpfs-v7-6-a9c056f8391f@igalia.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="dYyqFYI5"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37d51055097so3189813f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 06:10:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729516251; x=1730121051; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Hb5z7oqU7DLw6NgZCfx42d0B4py7r2L+/9jylzSGUKY=;
+        b=dYyqFYI50jrvT3Qy4rxzqHiGt3x0UWM+6G3+nohCNWN4tdf5vTzCMqgLIdBQcFY62y
+         4fyzevIUm+krRIRJ81cs50E/6GP0UZRaHfO33kfY5881DGIWkpFWNtSHkdY4RPa+tmAU
+         twM5G0AZeYB6D5lBNZ1Q9OdbPSZaOQRyjRWnWdwTMx64Z7d63Qwbf3CSf64p2rkr40Kq
+         C8M4VFHOhbuwryGzVpJNCWvln00kAfI3gCGy3GGd8oVWKTv8o93Zi1HGasYs1R/vrGQK
+         2JQdhEFu9UnJpQsRBgDng31MYhFbPTbgXC1qmCyAYYjcmkOauqb6SKPp3KH6+h5hHYVw
+         Mp9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729516251; x=1730121051;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hb5z7oqU7DLw6NgZCfx42d0B4py7r2L+/9jylzSGUKY=;
+        b=ieTsSPViSUDtDuaypFk16oASrF+dW5SeZ1d4iiM8xUY7JF1zziaHdimyDZiRpHa9i0
+         JCl+cSkKfHxhs6DO16icPmPp1Q3pta4HT5LVGQOT4sSF3MpJQoyrNGR4BUKDPTmsSyXH
+         yjf8sMdWFvQa2nL4byoD1fpAWS2yGreBwN1dS5if82tEJ+jF8UVTQ6E4MLhVKLwGHDHp
+         u7wQ/ZVpH4y8IflHgqFb1D4A65KfxgL/kegdW1JfZo8tGRzJC1z/XZ1bh5eAxP8o5njD
+         3ZUlIokmQcj0AswF3k8vz6JsoeOqQl1R45Y9lOaWRPZD2FHKkssR12cS97lzQ23UL1CQ
+         uANQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVliGPwuwgfwv9hgrTCRlHEGX4mW+w6DuYQAtpEqxrkXdmYbK0O0QX9yhpk3Cx9g6/jkPiVs1HU5tI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJiIFONOHrlEEqI+LGwS2XAbKo47K8hzBDVuxmUuIAjKOfLOU1
+	X2umvvaO+1TkE1Cvo2NhaUuxk4QsNWtOgSXszCPL9AgwrE5GrASlS0BKMfL/+YmX00mFZUO7es+
+	0
+X-Google-Smtp-Source: AGHT+IGDnIWfxiOcEveLs2MQlDhwR4gmi9FH0MSQHpKsf+BMqQSLSH8WpoqUGsyHzwGiIA8WXTqaaQ==
+X-Received: by 2002:a5d:674c:0:b0:37d:4c8f:2e1 with SMTP id ffacd0b85a97d-37ea2181ea7mr6445009f8f.22.1729516250368;
+        Mon, 21 Oct 2024 06:10:50 -0700 (PDT)
+Received: from ?IPV6:2a02:8428:e55b:1101:8419:4feb:c28:3b3f? (2a02-8428-e55b-1101-8419-4feb-0c28-3b3f.rev.sfr.net. [2a02:8428:e55b:1101:8419:4feb:c28:3b3f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f5cc5adsm57103685e9.42.2024.10.21.06.10.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Oct 2024 06:10:49 -0700 (PDT)
+Message-ID: <c6aeaec1-35b7-47a1-8ae2-3386e5241ad5@baylibre.com>
+Date: Mon, 21 Oct 2024 15:10:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241017-tonyk-tmpfs-v7-6-a9c056f8391f@igalia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/8] Add iio backend compatibility for ad7606
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ aardelean@baylibre.com, dlechner@baylibre.com, jstephan@baylibre.com,
+ nuno.sa@analog.com, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+References: <20241015-ad7606_add_iio_backend_support-v5-0-654faf1ae08c@baylibre.com>
+ <20241019155329.500ae439@jic23-huawei>
+Content-Language: en-US
+From: Guillaume Stols <gstols@baylibre.com>
+In-Reply-To: <20241019155329.500ae439@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 17, 2024 at 06:14:16PM -0300, André Almeida wrote:
-> Enable casefold lookup in tmpfs, based on the encoding defined by
-> userspace. That means that instead of comparing byte per byte a file
-> name, it compares to a case-insensitive equivalent of the Unicode
-> string.
-> 
-> * Dcache handling
-> 
-> There's a special need when dealing with case-insensitive dentries.
-> First of all, we currently invalidated every negative casefold dentries.
-> That happens because currently VFS code has no proper support to deal
-> with that, giving that it could incorrectly reuse a previous filename
-> for a new file that has a casefold match. For instance, this could
-> happen:
-> 
-> $ mkdir DIR
-> $ rm -r DIR
-> $ mkdir dir
-> $ ls
-> DIR/
-> 
-> And would be perceived as inconsistency from userspace point of view,
-> because even that we match files in a case-insensitive manner, we still
-> honor whatever is the initial filename.
-> 
-> Along with that, tmpfs stores only the first equivalent name dentry used
-> in the dcache, preventing duplications of dentries in the dcache. The
-> d_compare() version for casefold files uses a normalized string, so the
-> filename under lookup will be compared to another normalized string for
-> the existing file, achieving a casefolded lookup.
-> 
-> * Enabling casefold via mount options
-> 
-> Most filesystems have their data stored in disk, so casefold option need
-> to be enabled when building a filesystem on a device (via mkfs).
-> However, as tmpfs is a RAM backed filesystem, there's no disk
-> information and thus no mkfs to store information about casefold.
-> 
-> For tmpfs, create casefold options for mounting. Userspace can then
-> enable casefold support for a mount point using:
-> 
-> $ mount -t tmpfs -o casefold=utf8-12.1.0 fs_name mount_dir/
-> 
-> Userspace must set what Unicode standard is aiming to. The available
-> options depends on what the kernel Unicode subsystem supports.
-> 
-> And for strict encoding:
-> 
-> $ mount -t tmpfs -o casefold=utf8-12.1.0,strict_encoding fs_name mount_dir/
-> 
-> Strict encoding means that tmpfs will refuse to create invalid UTF-8
-> sequences. When this option is not enabled, any invalid sequence will be
-> treated as an opaque byte sequence, ignoring the encoding thus not being
-> able to be looked up in a case-insensitive way.
-> 
-> * Check for casefold dirs on simple_lookup()
-> 
-> On simple_lookup(), do not create dentries for casefold directories.
-> Currently, VFS does not support case-insensitive negative dentries and
-> can create inconsistencies in the filesystem. Prevent such dentries to
-> being created in the first place.
-> 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> ---
-> Changes from v7:
-> - Dropped patch "tmpfs: Always set simple_dentry_operations as dentry ops"
-> - Re-place generic_ci_validate_strict_name() before inode creation
-> 
-> Changes from v4:
-> - Squash commit Check for casefold dirs on simple_lookup() here
-> - Fails to mount if strict_encoding is used without encoding
-> - tmpfs doesn't support fscrypt, so I dropped d_revalidate line
-> 
-> Changes from v3:
-> - Simplified shmem_parse_opt_casefold()
-> - sb->s_d_op is set to shmem_ci_dentry_ops during mount time
-> - got rid of shmem_lookup(), modified simple_lookup()
-> 
-> Changes from v2:
-> - simple_lookup() now sets d_ops
-> - reworked shmem_parse_opt_casefold()
-> - if `mount -o casefold` has no param, load latest UTF-8 version
-> - using (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir) when possible
-> ---
->  fs/libfs.c |   4 +++
->  mm/shmem.c | 119 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
->  2 files changed, 119 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/libfs.c b/fs/libfs.c
-> index 7b290404c5f9901010ada2f921a214dbc94eb5fa..a168ece5cc61b74114f537f5b7b8a07f2d48b2aa 100644
-> --- a/fs/libfs.c
-> +++ b/fs/libfs.c
-> @@ -77,6 +77,10 @@ struct dentry *simple_lookup(struct inode *dir, struct dentry *dentry, unsigned
->  		return ERR_PTR(-ENAMETOOLONG);
->  	if (!dentry->d_sb->s_d_op)
->  		d_set_d_op(dentry, &simple_dentry_operations);
-> +
-> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
-> +		return NULL;
-> +
->  	d_add(dentry, NULL);
->  	return NULL;
->  }
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 4f11b55063631976af81e4221c7366b768db6690..ea4eff41eef35c9c253092f39402db142baa741b 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -40,6 +40,7 @@
->  #include <linux/fs_parser.h>
->  #include <linux/swapfile.h>
->  #include <linux/iversion.h>
-> +#include <linux/unicode.h>
->  #include "swap.h"
->  
->  static struct vfsmount *shm_mnt __ro_after_init;
-> @@ -123,6 +124,8 @@ struct shmem_options {
->  	bool noswap;
->  	unsigned short quota_types;
->  	struct shmem_quota_limits qlimits;
-> +	struct unicode_map *encoding;
-> +	bool strict_encoding;
 
-I'm a bit confused here because there seem to be codepaths where access
-to these fields is guarded by IS_ENABLED(CONFIG_UNICODE) and then theres
-one where it's not.
+On 10/19/24 16:53, Jonathan Cameron wrote:
+> On Tue, 15 Oct 2024 13:56:13 +0000
+> Guillaume Stols <gstols@baylibre.com> wrote:
+>
+>> This series aims to add iio backend support for AD7606X ADCs.
+>>
+>> In a nutshell, iio backend is a paradigm to shift the logic establishing
+>> the connexion between iio buffers and backend buffers into the backend's
+>> driver.  This provides a more stable programming interface to the driver
+>> developers, and give more flexibility in the way the hardware communicates.
+>>
+>> The support will be first added on AD7606B, and on next patches AD7606C16
+>> and AD7606C18 will be added.  The series have been tested on a Zedboard,
+>> using the latest HDL available, i.e
+>> https://github.com/analogdevicesinc/hdl/commit/7d0a4cee1b5fa403f175af513d7eb804c3bd75d0
+>> and an AD7606B FMCZ EKV.  This HDL handles both the conversion trigger
+>> (through a PWM), and the end of conversion interruption, and is compatible
+>> with axi-adc, which is "iio-backendable".
+>>
+>> More information about this HDL design can be found at:
+>> https://wiki.analog.com/resources/eval/user-guides/ad7606x-fmc/hdl
+>>
+> Applied and pushed out as testing. Please check I didn't mess up the few
+> minor tweaks needed.
 
-Can't you make this consistent so that all access and the definition of
-the members are guarded by CONFIG_UNICODE?
+Hi Jonathan, thank you for the fixes and the merge. Just tested it, 
+didnt notice any bug.
 
->  #define SHMEM_SEEN_BLOCKS 1
->  #define SHMEM_SEEN_INODES 2
->  #define SHMEM_SEEN_HUGE 4
-> @@ -3570,6 +3573,9 @@ shmem_mknod(struct mnt_idmap *idmap, struct inode *dir,
->  	struct inode *inode;
->  	int error;
->  
-> +	if (!generic_ci_validate_strict_name(dir, &dentry->d_name))
-> +		return -EINVAL;
-> +
->  	inode = shmem_get_inode(idmap, dir->i_sb, dir, mode, dev, VM_NORESERVE);
->  	if (IS_ERR(inode))
->  		return PTR_ERR(inode);
-> @@ -3589,7 +3595,12 @@ shmem_mknod(struct mnt_idmap *idmap, struct inode *dir,
->  	dir->i_size += BOGO_DIRENT_SIZE;
->  	inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
->  	inode_inc_iversion(dir);
-> -	d_instantiate(dentry, inode);
-> +
-> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
-> +		d_add(dentry, inode);
-> +	else
-> +		d_instantiate(dentry, inode);
-> +
->  	dget(dentry); /* Extra count - pin the dentry in core */
->  	return error;
->  
-> @@ -3680,7 +3691,10 @@ static int shmem_link(struct dentry *old_dentry, struct inode *dir,
->  	inc_nlink(inode);
->  	ihold(inode);	/* New dentry reference */
->  	dget(dentry);	/* Extra pinning count for the created dentry */
-> -	d_instantiate(dentry, inode);
-> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
-> +		d_add(dentry, inode);
-> +	else
-> +		d_instantiate(dentry, inode);
->  out:
->  	return ret;
->  }
-> @@ -3700,6 +3714,14 @@ static int shmem_unlink(struct inode *dir, struct dentry *dentry)
->  	inode_inc_iversion(dir);
->  	drop_nlink(inode);
->  	dput(dentry);	/* Undo the count from "create" - does all the work */
-> +
-> +	/*
-> +	 * For now, VFS can't deal with case-insensitive negative dentries, so
-> +	 * we invalidate them
-> +	 */
-> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
-> +		d_invalidate(dentry);
-> +
->  	return 0;
->  }
->  
-> @@ -3844,7 +3866,10 @@ static int shmem_symlink(struct mnt_idmap *idmap, struct inode *dir,
->  	dir->i_size += BOGO_DIRENT_SIZE;
->  	inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
->  	inode_inc_iversion(dir);
-> -	d_instantiate(dentry, inode);
-> +	if (IS_ENABLED(CONFIG_UNICODE) && IS_CASEFOLDED(dir))
-> +		d_add(dentry, inode);
-> +	else
-> +		d_instantiate(dentry, inode);
->  	dget(dentry);
->  	return 0;
->  
-> @@ -4197,6 +4222,9 @@ enum shmem_param {
->  	Opt_usrquota_inode_hardlimit,
->  	Opt_grpquota_block_hardlimit,
->  	Opt_grpquota_inode_hardlimit,
-> +	Opt_casefold_version,
-> +	Opt_casefold,
-> +	Opt_strict_encoding,
->  };
->  
->  static const struct constant_table shmem_param_enums_huge[] = {
-> @@ -4228,9 +4256,54 @@ const struct fs_parameter_spec shmem_fs_parameters[] = {
->  	fsparam_string("grpquota_block_hardlimit", Opt_grpquota_block_hardlimit),
->  	fsparam_string("grpquota_inode_hardlimit", Opt_grpquota_inode_hardlimit),
->  #endif
-> +	fsparam_string("casefold",	Opt_casefold_version),
-> +	fsparam_flag  ("casefold",	Opt_casefold),
-> +	fsparam_flag  ("strict_encoding", Opt_strict_encoding),
->  	{}
->  };
->  
-> +#if IS_ENABLED(CONFIG_UNICODE)
-> +static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param,
-> +				    bool latest_version)
-> +{
-> +	struct shmem_options *ctx = fc->fs_private;
-> +	unsigned int version = UTF8_LATEST;
-> +	struct unicode_map *encoding;
-> +	char *version_str = param->string + 5;
-> +
-> +	if (!latest_version) {
-> +		if (strncmp(param->string, "utf8-", 5))
-> +			return invalfc(fc, "Only UTF-8 encodings are supported "
-> +				       "in the format: utf8-<version number>");
-> +
-> +		version = utf8_parse_version(version_str);
-> +		if (version < 0)
-> +			return invalfc(fc, "Invalid UTF-8 version: %s", version_str);
-> +	}
-> +
-> +	encoding = utf8_load(version);
-> +
-> +	if (IS_ERR(encoding)) {
-> +		return invalfc(fc, "Failed loading UTF-8 version: utf8-%u.%u.%u\n",
-> +			       unicode_major(version), unicode_minor(version),
-> +			       unicode_rev(version));
-> +	}
-> +
-> +	pr_info("tmpfs: Using encoding : utf8-%u.%u.%u\n",
-> +		unicode_major(version), unicode_minor(version), unicode_rev(version));
-> +
-> +	ctx->encoding = encoding;
-> +
-> +	return 0;
-> +}
-> +#else
-> +static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param,
-> +				    bool latest_version)
-> +{
-> +	return invalfc(fc, "tmpfs: Kernel not built with CONFIG_UNICODE\n");
-> +}
-> +#endif
-> +
->  static int shmem_parse_one(struct fs_context *fc, struct fs_parameter *param)
->  {
->  	struct shmem_options *ctx = fc->fs_private;
-> @@ -4389,6 +4462,13 @@ static int shmem_parse_one(struct fs_context *fc, struct fs_parameter *param)
->  				       "Group quota inode hardlimit too large.");
->  		ctx->qlimits.grpquota_ihardlimit = size;
->  		break;
-> +	case Opt_casefold_version:
-> +		return shmem_parse_opt_casefold(fc, param, false);
-> +	case Opt_casefold:
-> +		return shmem_parse_opt_casefold(fc, param, true);
-> +	case Opt_strict_encoding:
-> +		ctx->strict_encoding = true;
-> +		break;
->  	}
->  	return 0;
->  
-> @@ -4618,6 +4698,11 @@ static void shmem_put_super(struct super_block *sb)
->  {
->  	struct shmem_sb_info *sbinfo = SHMEM_SB(sb);
->  
-> +#if IS_ENABLED(CONFIG_UNICODE)
-> +	if (sb->s_encoding)
-> +		utf8_unload(sb->s_encoding);
-> +#endif
-> +
->  #ifdef CONFIG_TMPFS_QUOTA
->  	shmem_disable_quotas(sb);
->  #endif
-> @@ -4628,6 +4713,14 @@ static void shmem_put_super(struct super_block *sb)
->  	sb->s_fs_info = NULL;
->  }
->  
-> +#if IS_ENABLED(CONFIG_UNICODE) && defined(CONFIG_TMPFS)
-> +static const struct dentry_operations shmem_ci_dentry_ops = {
-> +	.d_hash = generic_ci_d_hash,
-> +	.d_compare = generic_ci_d_compare,
-> +	.d_delete = always_delete_dentry,
-> +};
-> +#endif
-> +
->  static int shmem_fill_super(struct super_block *sb, struct fs_context *fc)
->  {
->  	struct shmem_options *ctx = fc->fs_private;
-> @@ -4662,9 +4755,25 @@ static int shmem_fill_super(struct super_block *sb, struct fs_context *fc)
->  	}
->  	sb->s_export_op = &shmem_export_ops;
->  	sb->s_flags |= SB_NOSEC | SB_I_VERSION;
-> +
-> +	if (!ctx->encoding && ctx->strict_encoding) {
-> +		pr_err("tmpfs: strict_encoding option without encoding is forbidden\n");
-> +		error = -EINVAL;
-> +		goto failed;
-> +	}
-> +
-> +#if IS_ENABLED(CONFIG_UNICODE)
-> +	if (ctx->encoding) {
-> +		sb->s_encoding = ctx->encoding;
-> +		sb->s_d_op = &shmem_ci_dentry_ops;
-> +		if (ctx->strict_encoding)
-> +			sb->s_encoding_flags = SB_ENC_STRICT_MODE_FL;
-> +	}
-> +#endif
-> +
->  #else
->  	sb->s_flags |= SB_NOUSER;
-> -#endif
-> +#endif /* CONFIG_TMPFS */
->  	sbinfo->max_blocks = ctx->blocks;
->  	sbinfo->max_inodes = ctx->inodes;
->  	sbinfo->free_ispace = sbinfo->max_inodes * BOGO_INODE_SIZE;
-> @@ -4938,6 +5047,8 @@ int shmem_init_fs_context(struct fs_context *fc)
->  	ctx->uid = current_fsuid();
->  	ctx->gid = current_fsgid();
->  
-> +	ctx->encoding = NULL;
-> +
->  	fc->fs_private = ctx;
->  	fc->ops = &shmem_fs_context_ops;
->  	return 0;
-> 
-> -- 
-> 2.47.0
-> 
+FYI Next step is software mode enablement for IIO backend enabled devices.
+
+Best regards,
+
+Guillaume
+
