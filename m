@@ -1,175 +1,280 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445121C7B81
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 16:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D908A1EB9F4
+	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 16:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729528385; cv=none; b=oNew4UnVnydSwW0zikXWCVr4mSo0EBRu3jnrj3nF7DPAMQLvJQZ70rjSi1d1JcihYi4Pux5yQqZX8vHa8EN9/ueDBFRApaITF6EQXNDFScwJuSUOLeS6b0u4Rf+K+x7UZIKZGVImhvqTLXPk+3e2VMSOC7rOv+iqazUBYRtAFfw=
+	t=1729528409; cv=none; b=hvDFeWJsorXE/nrhDVcROhUtux1OXwD+LQ5QVRF41/gFC8KK2FiQk0RkLGMbWohPjeL2eCwxsA5xS0Yq1aih89HW9dogY6tr65lvL4BoYVGaA/kDv5P2sdR4XwPTfdpJqWqWHr02wjterLwopoKdq3yF9mmS6YtJOlNSiDWdlVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729528385; c=relaxed/simple;
-	bh=KhDaWTmJM6nlwXBFOjmpIqQOnLI9apyaahvjApCJ+z0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hfcVwZ3ZGOVsH5ZhWp4ug9RA9g7xAF921eF2NUREQg9YzM46nPRURUfYj4Y2QvG9svVlr2RMCSK4GVGx4bOmrAkS6XE1ibA5aw5b0WG7uskDqyZrK3gPxkWDtQmdwZ31qQzFdH2SGhsU1rSIZPF/up37w31DfFdV6dS8r3lfW6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=n6M9c7RV; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1729528409; c=relaxed/simple;
+	bh=VGX2BOoN5yaA0r3uurxYxFu+qq2+Od+7xX5jaP7gJF0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kHnHV/yQxhA27JTvidgC8ku99vWgRYFhXRGPgBXOWLM5LrQLf1bOGUFBry4OSmmoegIcThFFQYl0TOU9xPn4iDJMHlIn1DiGrYuszpw6LxC0iTrLZAwUXJqqG3Iw29aQMJO86hNBA1dbKrJXi81R7k58erVd9dOM2Q7ZanEAMYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=fyog8uog; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="n6M9c7RV"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4608dddaa35so2801cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 09:33:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="fyog8uog"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7ea12e0dc7aso2922333a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 09:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729528382; x=1730133182; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KhDaWTmJM6nlwXBFOjmpIqQOnLI9apyaahvjApCJ+z0=;
-        b=n6M9c7RVzEEViJ1XxuCI3im2jeVzeN2MjKcPzEfFxyqpGPrro80d7rvy+M/tukB3n9
-         gZujALNvyTjaZ9pgECRNj/9GE/TQCmdh4xyT6/hMwdqmWdWa4ZVWyLIvHEtElb8G3crq
-         yZcj9w2axBanglhNnDcd0bNB14fB31cbB4LYFcC0BJ/lhTjxaSOAq5BJAEV1zKuPljTG
-         7UvtTvLZO43ZSWZkRwvf+EDLjeH0C9zEgx2XoqWFdVfpzkjV8yiuKyELFaf9lKgb+Oj2
-         tYH4SovYwr9BQdcY4yM+JhD2DpAZfOYAHLohuCEMHPpsZLPLPsxorSNDjS6z9Gcjzqq+
-         vYEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729528382; x=1730133182;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=fastly.com; s=google; t=1729528405; x=1730133205; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KhDaWTmJM6nlwXBFOjmpIqQOnLI9apyaahvjApCJ+z0=;
-        b=ZCN3BMgrji4fDjvsBUPAcIQeP+JhTfr9ZLPiwGshV8geRri4vfwiE1U0mdZczcWL4T
-         FxnVaRa4YxVfZ/Y17AMWjTemYEWZUlHlzB92CrwVkTwdwVHOJ66VTNPKGgx17hebLBMb
-         1ojUyTOcOrjl3PGy/pehnRHbvKYAhuhq3t5LdjpBqiQKEcS70zQsprZ9BVh2DGuXv7dP
-         K5PI4O9nuBs7Yk65/0wEiaipNDtk7+DGN+AdACuf3dZApkrUJDpwLCJKIrwlZdIwKuqc
-         +KN0su6x6pQRS5dLg581gQGa3ayrI1e5ESj8XGAVQENz+LJSqySlO8qWqAF1WFBRhySw
-         Kcuw==
-X-Forwarded-Encrypted: i=1; AJvYcCUaJDO3ESdAi3OjlRdfLkZr/0VQAyJOW6kQD2B82hm/2c0N16TtgbiK63XBTFRroBQt0raExFZjimc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+EpzyXAfSD6suurpFqghzzySRfLO3h+T4b1BzZ0jkyNDbS/Su
-	UiBE1ilzsnH2ymU88Fq7FEQ7FENqSo254ezNsva80unUTepHSyD5ej5p4ed+ewhY/6QPxesH0zB
-	e5eiwDl+DZx0Dhyj3nxEAukhbbz9nOFXuL3rl
-X-Google-Smtp-Source: AGHT+IEQJ7/dyf+59nB7w/ddzz12Ku666cGjBPoxf5tsDd/h9NHtih3CUtvHgU9dx314ldpzIPEbnG3QzndRB2BJVaA=
-X-Received: by 2002:a05:622a:1a18:b0:460:77ac:8773 with SMTP id
- d75a77b69052e-460bc5cf9c1mr4982821cf.26.1729528381808; Mon, 21 Oct 2024
- 09:33:01 -0700 (PDT)
+        bh=rj7uTRFGZXMqC2YS9qWKHqBkcNhGSePp25EEQea4IH4=;
+        b=fyog8uogkCoEEnfW34pGuFzVjVWeMVqRkLXKbTW4dFv8Db7AKw3nwI1WFhNV7xaFD9
+         GYsqHE05l0QMuy6x6AiIGYmcv4tM4Cx3fvBv0fkIsMo+ZrMyz9cRL7SrPvkLSPJyqBW0
+         SeCCxyizZo7gFiRMK3lHbBrLEnbcVnDNJCTPM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729528405; x=1730133205;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rj7uTRFGZXMqC2YS9qWKHqBkcNhGSePp25EEQea4IH4=;
+        b=eFgBTlSdPYCiGipoSvQkCCBEjDV0yAGwg0udQsLSWUqY47vMiBpQtMk9wRCr1xh8oG
+         18FAIji6PQIPSDM5+oq5axbMkskf+Tb1pUbuhHBJdU8/WPFwCfyrUEKPI1wDeMf7IaAg
+         9ZuKqP0qVn3FW1qE/klVyo5pwjQH6ZyksKFXoV5wD3T33PXzSUNr1UWGl2o/JxSScg9T
+         E9qiMZHZRt44NvR/BjIob/IrvnqirJCgDWvzdDaSRYH4tWywyTyb7ZBeIQ6qHTXHIJpc
+         8LsAhWUUzWbDl02hsPl7fhV3NqcUmjzUYnKH6gtHQgDllwirReKPLwKr+eXxKbsXNe6p
+         Uabg==
+X-Forwarded-Encrypted: i=1; AJvYcCWs9ovf8dT94fLAWuuSguFS3FR/foyrlmGpWELeCgsq2wfU0XFqcC4wdZoIHn6HbAmmYGvkEq8BCjQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxV19wHGRlCLlwr3OeZTLARBxQJFalyKefpl2NfP+G7kFiOF5IC
+	UjyBFCDUjnuXpGV+ioAOiKokbquJFfIhQ93yZkxUxvIEfaNo2OnS7Ge8naDMbfc=
+X-Google-Smtp-Source: AGHT+IE4BcYs0yAgU6r4RPKaASzilu3a+p3CUWGFBO9lYOqdLzl+wYFC2w3HC6qR2+jo3JZEXQ8WNg==
+X-Received: by 2002:a05:6a21:1707:b0:1d9:2bed:c7d8 with SMTP id adf61e73a8af0-1d92c57e3c0mr16742734637.43.1729528404939;
+        Mon, 21 Oct 2024 09:33:24 -0700 (PDT)
+Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec13d74d9sm3081883b3a.133.2024.10.21.09.33.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 09:33:24 -0700 (PDT)
+Date: Mon, 21 Oct 2024 09:33:21 -0700
+From: Joe Damato <jdamato@fastly.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Networking <netdev@vger.kernel.org>, namangulati@google.com,
+	edumazet@google.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com, sdf@fomichev.me, peter@typeblog.net,
+	m2shafiei@uwaterloo.ca, bjorn@rivosinc.com, hch@infradead.org,
+	willy@infradead.org, willemdebruijn.kernel@gmail.com,
+	skhawaja@google.com, kuba@kernel.org,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux BPF <bpf@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 6/6] docs: networking: Describe irq suspension
+Message-ID: <ZxaCUZ5rNd86gDHG@LQ3V64L9R2>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Linux Networking <netdev@vger.kernel.org>, namangulati@google.com,
+	edumazet@google.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com, sdf@fomichev.me, peter@typeblog.net,
+	m2shafiei@uwaterloo.ca, bjorn@rivosinc.com, hch@infradead.org,
+	willy@infradead.org, willemdebruijn.kernel@gmail.com,
+	skhawaja@google.com, kuba@kernel.org,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux BPF <bpf@vger.kernel.org>
+References: <20241021015311.95468-1-jdamato@fastly.com>
+ <20241021015311.95468-7-jdamato@fastly.com>
+ <ZxYxqhj7cesDO8-j@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZxKWBfQ_Lps93fY1@tiehlicka> <CAJuCfpHa9qjugR+a3cs6Cud4PUcPWdvc+OgKTJ1qnryyJ9+WXA@mail.gmail.com>
- <CAJuCfpHFmmZhSrWo0iWST9+DGbwJZYdZx7zjHSHJLs_QY-7UbA@mail.gmail.com>
- <ZxYCK0jZVmKSksA4@tiehlicka> <62a7eb3f-fb27-43f4-8365-0fa0456c2f01@redhat.com>
- <CAJuCfpE_aSyjokF=xuwXvq9-jpjDfC+OH0etspK=G6PS7SvMFg@mail.gmail.com>
- <ZxZ0eh95AfFcQSFV@tiehlicka> <CAJuCfpGHKHJ_6xN4Ur4pjLgwTQ2QLkbWuAOhQQPinXNQVONxEA@mail.gmail.com>
- <ZxZ52Kcd8pskQ-Jd@tiehlicka> <CAJuCfpFr2CAKvfyTCY2tkVHWG1kb4N2jhNe5=2nFWH0HhoU+yg@mail.gmail.com>
- <ZxZ_99yLDhRMNr3p@tiehlicka>
-In-Reply-To: <ZxZ_99yLDhRMNr3p@tiehlicka>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 21 Oct 2024 09:32:50 -0700
-Message-ID: <CAJuCfpFk+1R8JQc+w6r6NUDsmjFnh9K1_42AvG+qTZq4vimwKg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] alloc_tag: config to store page allocation tag
- refs in page flags
-To: Michal Hocko <mhocko@suse.com>
-Cc: David Hildenbrand <david@redhat.com>, John Hubbard <jhubbard@nvidia.com>, 
-	Yosry Ahmed <yosryahmed@google.com>, akpm@linux-foundation.org, 
-	kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, mcgrof@kernel.org, 
-	rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, tglx@linutronix.de, 
-	bp@alien8.de, xiongwei.song@windriver.com, ardb@kernel.org, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
-	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
-	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
-	yuzhao@google.com, vvvvvv@google.com, rostedt@goodmis.org, 
-	iamjoonsoo.kim@lge.com, rientjes@google.com, minchan@google.com, 
-	kaleshsingh@google.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZxYxqhj7cesDO8-j@archie.me>
 
-On Mon, Oct 21, 2024 at 9:23=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrot=
-e:
->
-> On Mon 21-10-24 09:16:14, Suren Baghdasaryan wrote:
-> > On Mon, Oct 21, 2024 at 8:57=E2=80=AFAM Michal Hocko <mhocko@suse.com> =
-wrote:
-> > >
-> > > On Mon 21-10-24 08:41:00, Suren Baghdasaryan wrote:
-> > > > On Mon, Oct 21, 2024 at 8:34=E2=80=AFAM Michal Hocko <mhocko@suse.c=
-om> wrote:
-> > > > >
-> > > > > On Mon 21-10-24 08:05:16, Suren Baghdasaryan wrote:
-> > > > > [...]
-> > > > > > Yeah, I thought about adding new values to "mem_profiling" but =
-it's a
-> > > > > > bit complicated. Today it's a tristate:
-> > > > > >
-> > > > > > mem_profiling=3D0|1|never
-> > > > > >
-> > > > > > 0/1 means we disable/enable memory profiling by default but the=
- user
-> > > > > > can enable it at runtime using a sysctl. This means that we ena=
-ble
-> > > > > > page_ext at boot even when it's set to 0.
-> > > > > > "never" means we do not enable page_ext, memory profiling is di=
-sabled
-> > > > > > and sysctl to enable it will not be exposed. Used when a distri=
-bution
-> > > > > > has CONFIG_MEM_ALLOC_PROFILING=3Dy but the user does not use it=
- and does
-> > > > > > not want to waste memory on enabling page_ext.
-> > > > > >
-> > > > > > I can add another option like "pgflags" but then it also needs =
-to
-> > > > > > specify whether we should enable or disable profiling by defaul=
-t
-> > > > > > (similar to 0|1 for page_ext mode). IOW we will need to encode =
-also
-> > > > > > the default state we want. Something like this:
-> > > > > >
-> > > > > > mem_profiling=3D0|1|never|pgflags_on|pgflags_off
-> > > > > >
-> > > > > > Would this be acceptable?
-> > > > >
-> > > > > Isn't this overcomplicating it? Why cannot you simply go with
-> > > > > mem_profiling=3D{0|never|1}[,$YOUR_OPTIONS]
-> > > > >
-> > > > > While $YOUR_OPTIONS could be compress,fallback,ponies and it woul=
-d apply
-> > > > > or just be ignored if that is not applicable.
-> > > >
-> > > > Oh, you mean having 2 parts in the parameter with supported options=
- being:
-> > > >
-> > > > mem_profiling=3Dnever
-> > > > mem_profiling=3D0
-> > > > mem_profiling=3D1
-> > > > mem_profiling=3D0,pgflags
-> > > > mem_profiling=3D1,pgflags
-> > > >
-> > > > Did I understand correctly? If so then yes, this should work.
-> > >
-> > > yes. I would just not call it pgflags because that just doesn't reall=
-y
-> > > tell what the option is to anybody but kernel developers. You could a=
-lso
-> > > have an option to override the default (disable profiling) failure st=
-rategy.
-> >
-> > Ok, how about "compressed" instead? Like this:
-> >
-> > mem_profiling=3D0,compressed
->
-> Sounds good to me. And just to repeat, I do not really care about
-> specific name but let's just stay away from something as specific as
-> page flags because that is really not helping to understand the purpose
-> but rather the underlying mechanism which is not telling much to most
-> users outside of kernel developers.
+On Mon, Oct 21, 2024 at 05:49:14PM +0700, Bagas Sanjaya wrote:
+> On Mon, Oct 21, 2024 at 01:53:01AM +0000, Joe Damato wrote:
+> > diff --git a/Documentation/networking/napi.rst b/Documentation/networking/napi.rst
+> > index dfa5d549be9c..3b43477a52ce 100644
+> > --- a/Documentation/networking/napi.rst
+> > +++ b/Documentation/networking/napi.rst
+> > @@ -192,6 +192,28 @@ is reused to control the delay of the timer, while
+> >  ``napi_defer_hard_irqs`` controls the number of consecutive empty polls
+> >  before NAPI gives up and goes back to using hardware IRQs.
+> >  
+> > +The above parameters can also be set on a per-NAPI basis using netlink via
+> > +netdev-genl. This can be done programmatically in a user application or by
+> > +using a script included in the kernel source tree: ``tools/net/ynl/cli.py``.
+> > +
+> > +For example, using the script:
+> > +
+> > +.. code-block:: bash
+> > +
+> > +  $ kernel-source/tools/net/ynl/cli.py \
+> > +            --spec Documentation/netlink/specs/netdev.yaml \
+> > +            --do napi-set \
+> > +            --json='{"id": 345,
+> > +                     "defer-hard-irqs": 111,
+> > +                     "gro-flush-timeout": 11111}'
+> > +
+> > +Similarly, the parameter ``irq-suspend-timeout`` can be set using netlink
+> > +via netdev-genl. There is no global sysfs parameter for this value.
+> 
+> In JSON, both gro-flush-timeout and irq-suspend-timeout parameter
+> names are written in hyphens; but the rest of the docs uses underscores
+> (that is, gro_flush_timeout and irq_suspend_timeout), right?
 
-Understood. Ok, I'll start changing my patchset to incorporate this
-feedback and will post the new version this week.
-Thanks for the input everyone!
+That's right. The YAML specification uses hyphens throughout, so we
+follow that convention there.
 
->
-> --
-> Michal Hocko
-> SUSE Labs
+In the rest of the docs we use the name of the field which appears
+in the code itself, which uses underscores.
+
+> > +
+> > +``irq_suspend_timeout`` is used to determine how long an application can
+> > +completely suspend IRQs. It is used in combination with SO_PREFER_BUSY_POLL,
+> > +which can be set on a per-epoll context basis with ``EPIOCSPARAMS`` ioctl.
+> > +
+> >  .. _poll:
+> >  
+> >  Busy polling
+> > @@ -207,6 +229,46 @@ selected sockets or using the global ``net.core.busy_poll`` and
+> >  ``net.core.busy_read`` sysctls. An io_uring API for NAPI busy polling
+> >  also exists.
+> >  
+> > +epoll-based busy polling
+> > +------------------------
+> > +
+> > +It is possible to trigger packet processing directly from calls to
+> > +``epoll_wait``. In order to use this feature, a user application must ensure
+> > +all file descriptors which are added to an epoll context have the same NAPI ID.
+> > +
+> > +If the application uses a dedicated acceptor thread, the application can obtain
+> > +the NAPI ID of the incoming connection using SO_INCOMING_NAPI_ID and then
+> > +distribute that file descriptor to a worker thread. The worker thread would add
+> > +the file descriptor to its epoll context. This would ensure each worker thread
+> > +has an epoll context with FDs that have the same NAPI ID.
+> > +
+> > +Alternatively, if the application uses SO_REUSEPORT, a bpf or ebpf program be
+> > +inserted to distribute incoming connections to threads such that each thread is
+> > +only given incoming connections with the same NAPI ID. Care must be taken to
+> > +carefully handle cases where a system may have multiple NICs.
+> > +
+> > +In order to enable busy polling, there are two choices:
+> > +
+> > +1. ``/proc/sys/net/core/busy_poll`` can be set with a time in useconds to busy
+> > +   loop waiting for events. This is a system-wide setting and will cause all
+> > +   epoll-based applications to busy poll when they call epoll_wait. This may
+> > +   not be desirable as many applications may not have the need to busy poll.
+> > +
+> > +2. Applications using recent kernels can issue an ioctl on the epoll context
+> > +   file descriptor to set (``EPIOCSPARAMS``) or get (``EPIOCGPARAMS``) ``struct
+> > +   epoll_params``:, which user programs can define as follows:
+> > +
+> > +.. code-block:: c
+> > +
+> > +  struct epoll_params {
+> > +      uint32_t busy_poll_usecs;
+> > +      uint16_t busy_poll_budget;
+> > +      uint8_t prefer_busy_poll;
+> > +
+> > +      /* pad the struct to a multiple of 64bits */
+> > +      uint8_t __pad;
+> > +  };
+> > +
+> >  IRQ mitigation
+> >  ---------------
+> >  
+> > @@ -222,12 +284,78 @@ Such applications can pledge to the kernel that they will perform a busy
+> >  polling operation periodically, and the driver should keep the device IRQs
+> >  permanently masked. This mode is enabled by using the ``SO_PREFER_BUSY_POLL``
+> >  socket option. To avoid system misbehavior the pledge is revoked
+> > -if ``gro_flush_timeout`` passes without any busy poll call.
+> > +if ``gro_flush_timeout`` passes without any busy poll call. For epoll-based
+> > +busy polling applications, the ``prefer_busy_poll`` field of ``struct
+> > +epoll_params`` can be set to 1 and the ``EPIOCSPARAMS`` ioctl can be issued to
+> > +enable this mode. See the above section for more details.
+> >  
+> >  The NAPI budget for busy polling is lower than the default (which makes
+> >  sense given the low latency intention of normal busy polling). This is
+> >  not the case with IRQ mitigation, however, so the budget can be adjusted
+> > -with the ``SO_BUSY_POLL_BUDGET`` socket option.
+> > +with the ``SO_BUSY_POLL_BUDGET`` socket option. For epoll-based busy polling
+> > +applications, the ``busy_poll_budget`` field can be adjusted to the desired value
+> > +in ``struct epoll_params`` and set on a specific epoll context using the ``EPIOCSPARAMS``
+> > +ioctl. See the above section for more details.
+> > +
+> > +It is important to note that choosing a large value for ``gro_flush_timeout``
+> > +will defer IRQs to allow for better batch processing, but will induce latency
+> > +when the system is not fully loaded. Choosing a small value for
+> > +``gro_flush_timeout`` can cause interference of the user application which is
+> > +attempting to busy poll by device IRQs and softirq processing. This value
+> > +should be chosen carefully with these tradeoffs in mind. epoll-based busy
+> > +polling applications may be able to mitigate how much user processing happens
+> > +by choosing an appropriate value for ``maxevents``.
+> > +
+> > +Users may want to consider an alternate approach, IRQ suspension, to help deal
+> > +with these tradeoffs.
+> > +
+> > +IRQ suspension
+> > +--------------
+> > +
+> > +IRQ suspension is a mechanism wherein device IRQs are masked while epoll
+> > +triggers NAPI packet processing.
+> > +
+> > +While application calls to epoll_wait successfully retrieve events, the kernel will
+> > +defer the IRQ suspension timer. If the kernel does not retrieve any events
+> > +while busy polling (for example, because network traffic levels subsided), IRQ
+> > +suspension is disabled and the IRQ mitigation strategies described above are
+> > +engaged.
+> > +
+> > +This allows users to balance CPU consumption with network processing
+> > +efficiency.
+> > +
+> > +To use this mechanism:
+> > +
+> > +  1. The per-NAPI config parameter ``irq_suspend_timeout`` should be set to the
+> > +     maximum time (in nanoseconds) the application can have its IRQs
+> > +     suspended. This is done using netlink, as described above. This timeout
+> > +     serves as a safety mechanism to restart IRQ driver interrupt processing if
+> > +     the application has stalled. This value should be chosen so that it covers
+> > +     the amount of time the user application needs to process data from its
+> > +     call to epoll_wait, noting that applications can control how much data
+> > +     they retrieve by setting ``max_events`` when calling epoll_wait.
+> > +
+> > +  2. The sysfs parameter or per-NAPI config parameters ``gro_flush_timeout``
+> > +     and ``napi_defer_hard_irqs`` can be set to low values. They will be used
+> > +     to defer IRQs after busy poll has found no data.
+> > +
+> > +  3. The ``prefer_busy_poll`` flag must be set to true. This can be done using
+> > +     the ``EPIOCSPARAMS`` ioctl as described above.
+> > +
+> > +  4. The application uses epoll as described above to trigger NAPI packet
+> > +     processing.
+> > +
+> > +As mentioned above, as long as subsequent calls to epoll_wait return events to
+> > +userland, the ``irq_suspend_timeout`` is deferred and IRQs are disabled. This
+> > +allows the application to process data without interference.
+> > +
+> > +Once a call to epoll_wait results in no events being found, IRQ suspension is
+> > +automatically disabled and the ``gro_flush_timeout`` and
+> > +``napi_defer_hard_irqs`` mitigation mechanisms take over.
+> > +
+> > +It is expected that ``irq_suspend_timeout`` will be set to a value much larger
+> > +than ``gro_flush_timeout`` as ``irq_suspend_timeout`` should suspend IRQs for
+> > +the duration of one userland processing cycle.
+> >  
+> >  .. _threaded:
+> >  
+> 
+> The rest LGTM, thanks!
+
+Thanks for the review.
+
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
+
+
