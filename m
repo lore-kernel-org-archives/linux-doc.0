@@ -1,181 +1,120 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61EC1D221A;
-	Mon, 21 Oct 2024 11:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD66A1E7677;
+	Mon, 21 Oct 2024 12:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729509487; cv=none; b=KOyWCfY6q5p5D+yFj3YU9S0Up09USOJFL+OCX8twzIwxnhlrGwmo/Kb32ZG6lRihOmzB3M5FVBNOBuN6IO4bdvX3VUzMRg8YlvJmU2eVQpzCYzlVdfV0jL1WmhyYOAkrR9pngY99AklCGlivHD8stt1kF9/6jSXE/96Qw6QHD4k=
+	t=1729512297; cv=none; b=Lexoks2kj7AR+iJz+gRVCXr6JRNibIhE7oZa9GQR0R+xW2GeDTDwEQF+tbyfIrVID9cL+FyNMvUW9ghOUqPbvsZC8I1oHTBiBmCV6lq4c1GfYCDc6/0yP+DLQyMsittF97iCY5dhY4R5crsBAqwr2+lnNc33OjmCNC61ZeeQhYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729509487; c=relaxed/simple;
-	bh=YLAvMjhW1HB7PsV5gBYZNiIntTf5JhMxPwr43QqPZCs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ccNT7Toy7txGtn1k2T6pj5V7CDFgNvhbI24ntgCZAK4XaJqxCXCF3pt37PSfRsno7xKYSsPbYN/Q21T/I7mE+j48k+LeUKV2eV7+zJ9z1lwTCbr/M8lF5LzMbJ0BC94Q89E6y9QST0AQIyiWSKOHOhvojVkZpnch/DLKacMCm0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLaH7Jer; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1729512297; c=relaxed/simple;
+	bh=PW+3diJ4pRiPVR1qpZLntdXib++X/EHvjrDncNf4l00=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f9WAyyjncWRvZkUb8OG39sJki+OWlmWd+9g0noqaDv9lDhcNTDjvLgx1QMvwsh5RBski4l4KOTPp7yOy1tgROioEHxdsuYoZkg1xmb/nJYX7oXIcjwq0BJVKYmLuAuHe43Tdy2PwoM893z629OsMfRRqntKCUV/oeryryAM3d7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ENifHDuC; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLaH7Jer"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539983beb19so4688718e87.3;
-        Mon, 21 Oct 2024 04:18:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ENifHDuC"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6cbce9e4598so26436856d6.2;
+        Mon, 21 Oct 2024 05:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729509484; x=1730114284; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Xfj/EnKxXdQvjQtOfFijWCS2fwYORZ845i4D/RptAbo=;
-        b=eLaH7Jer9y4J7SA7s2/0Akv5L6JPIaE/cjblGeitJRcGf4CCoidlMkG0qv+SU/BYxu
-         jPRUhVEVoZaBNHSNIS3brnexGt1DSYrAzrQxFR/zFu5xrmV9hWpUqck/2JjtKBCpAH82
-         92rrS0CgIsn3kMU81zcE7YCnQ9mFFY4FwxbOPGg6aILnqqlW2DE7LxmqWMkAmYSjNaHk
-         jTPw9Kmn0aTsLgMGfBtDGvv1jt6ytelVtnBftiPJsh23ZKuozC2Lg+iX5SRvjKQFV977
-         pCu5AqNzWRmQqN/jx383HGBUJtUk/9zmrI35gPKEoGHZogUss/4IqEey8Nj9VpCFWbo4
-         H3pw==
+        d=gmail.com; s=20230601; t=1729512295; x=1730117095; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Trwc8ZxRfLUos5ROh0Aw8LjBkdhyf7Np4u6v5DWo6j4=;
+        b=ENifHDuCtKWP/eeAkZj5muCNJHktQL8wxI593nkFTY+kXjJ4wsSJkHVuShCiT49v6J
+         Z8rcD2Lo1LDlBB0bMnhxGL+j7XyhbGNiMW/+96bU2x04JFJ37g0dG9wZtP48lSy86xbY
+         +C5ngBhjBPfCZ9YfQvndM3VW8bcCyHrPNaGDRZemBmVxsNvs8aAp1L594rnqVbrFQXus
+         9KGQFIcfpdsrYMTqqIMsQu9pgV9e23w/rIKcpkGqz8TSnJkpOCkaLK/vg7y6I3HmY7lC
+         URNjrnsUL4B1q2tT3HXZOJ2ZYDNTGwbect6xWFBuv8e3iDVO0+Qg4gwUoTnjwS0evwQl
+         HAEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729509484; x=1730114284;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Xfj/EnKxXdQvjQtOfFijWCS2fwYORZ845i4D/RptAbo=;
-        b=ZEEhVPGLCS/lsgJhFdFWdlCz6h3P38X6vUfz+xMMs+O2VLWD+gq+xGrnoOkN0gfgPu
-         xbTuFPyKgICx4/QoW1hsBlSV6r0KuiQWscdvTHknSDsgsHSFqITMQpLCTLGm20UXT/cK
-         I847btyKeEQah9CdCzenzg2k+ODjzIrvSFN73YlqFFsAOlvPFA3/uEAshEguNhLPJqHZ
-         Ky26TIFC/PDAsIPSCaeydZmOGpss/jzhQoJ/Ztpw2Izs2pwMYJNrQJALqNlagGRUvcH9
-         xH0ROuNoqNRDdgKgyylbzd40BRijZxpkkaryFIh4UJM1I0o1T4CrxBMT+WWyg5xPY1/Q
-         VjCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVc9nTZArqop4FUPLfuzY6VK5cjYy+nmV/Jw2Wnu9PuHPM19X+aC/XAwAOy8z7kYzKkC8XnSxAbN70Gn5Qu@vger.kernel.org, AJvYcCVvzHVfswcg/IeqOeN/MJXMUr1D490Ael85KeSfItmCXhYnKA9KCZsVLUIqbkyo4hlZJO/jJfieLipM@vger.kernel.org, AJvYcCWHJxLWWbor5KvXg+QZudFJ4YE6mqVr0IwHXX/xarYGCUmby5pXJkmHe8YWBMz7oX6T7E+ILs4nO/oD@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyu8+s7y5pPRxRf80TiXKDgN0sINjx3m3NxftUD5J9v028iJZsW
-	pxoFJ3PXFS+8pCLPVIP3zCTbHMCuRchB17SMytpxTUo/wuHZLJaddOp0yK3L0NG9zi1C
-X-Google-Smtp-Source: AGHT+IHDeK0DwiMkPDbC0HMtjNt1Y+661gRF6ZAnCpztH0AGj/ZblZ//B49e4j2AvMw4oSApJIsfNA==
-X-Received: by 2002:a05:6512:23a0:b0:53a:40e:d55f with SMTP id 2adb3069b0e04-53a1545382cmr5067882e87.15.1729509483281;
-        Mon, 21 Oct 2024 04:18:03 -0700 (PDT)
-Received: from ?IPv6:2003:f6:ef15:2100:888:d3c6:a442:4910? (p200300f6ef1521000888d3c6a4424910.dip0.t-ipconnect.de. [2003:f6:ef15:2100:888:d3c6:a442:4910])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a91571e3asm191957666b.147.2024.10.21.04.18.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 04:18:02 -0700 (PDT)
-Message-ID: <037d7ebb4d037edb32f9d717e456ab545621ea94.camel@gmail.com>
-Subject: Re: [PATCH v2 4/5] iio: adc: ad7380: fix supplies for ad7380-4
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Julien Stephan <jstephan@baylibre.com>, Lars-Peter Clausen
- <lars@metafoo.de>,  Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
- =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, David Lechner	
- <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, Rob Herring	
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
- <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown	
- <broonie@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org
-Date: Mon, 21 Oct 2024 13:22:19 +0200
-In-Reply-To: <20241021-ad7380-fix-supplies-v2-4-2ca551b3352a@baylibre.com>
-References: <20241021-ad7380-fix-supplies-v2-0-2ca551b3352a@baylibre.com>
-	 <20241021-ad7380-fix-supplies-v2-4-2ca551b3352a@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0 
+        d=1e100.net; s=20230601; t=1729512295; x=1730117095;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Trwc8ZxRfLUos5ROh0Aw8LjBkdhyf7Np4u6v5DWo6j4=;
+        b=EFMpcVMvrDlaZglNIuXZZgspZM48Ybhb6EjJL4Lkpf4hWyz9jy2QE1/SOOHlGf1JX7
+         owQUKkvJ1gDxKcs5hbmBTe+GVrv4ts60V8akKOZOEwJwI4aI+6NdFuzOYosYrl1wJh8m
+         2lnhxBwn+rojt357hG57b8v6Td98HhEsFqPlxx0K1Ok/slsowx39yhIZsekohQYi4rOb
+         yoyd3rMitDUFR+z5LQJW6CJwxMUSG/CJwP77Sx2X8F4m4veeZ1bYEy0rb0RgAIKEzmwr
+         6YCmCh3e3MCB+BzrzGTjivH6Uh6Wx7H993oYJLLVV4BQCEp5n7tdAMOe01FcO220Zqda
+         HaLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUETkc9tnDuk+9EMbomyAc1jk0nG+27VF2yEYBTMJwUR3W6u5jOdzzG5zE2O3yG8h+czvX+pnt2@vger.kernel.org, AJvYcCX+mBw/U4gHTcDl4pYg69rlQ/vboaVuuPNfhQnzflGv8Mu2YpHzokZGP0cLCJlyOKpnFSyeyOxDcB50akpx@vger.kernel.org, AJvYcCX4undm8NoKxhVp9zsL6MtnCH1BX06FFqbCdKyjJTIiV57/LYggpQpwKCCm2oGVhJ+N0NREgVhcWa+2@vger.kernel.org, AJvYcCXsUrdCiSXL4B2cMaH1kIGo6gd0SiyFH9Ya3BtvWE0Zt9uRyMaIVVuMpw3cvkI9PHKZkdQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDvRxhL7OA2ME9TFw/CzIo2184j3ZMfouzBwBNszqfuz7nHPxJ
+	q5aeMuzkCRHsWq7oeEDD4Me4YYQp6UEb79EtmV7eHixThDQXZhbTZzyvJDAjtqkumYMQet/th/9
+	uPx9qeeooIJskNCRBV9R//qctc1I=
+X-Google-Smtp-Source: AGHT+IE+2A+2GtLwpn5vTpkyyLklTLFCJaFPXBnb9GHSF70FZ1PogmV+ZpXiADUYMFP6yMXIDElgCBpPCnzunP/snnY=
+X-Received: by 2002:a05:6214:33c2:b0:6cd:3a48:5767 with SMTP id
+ 6a1803df08f44-6cde151b8e9mr190999206d6.18.1729512294672; Mon, 21 Oct 2024
+ 05:04:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20241018091502.411513-1-tianmuyang@huawei.com>
+ <ZxKPXdYjwPnpq95V@mini-arch> <67156d3447444_14e182944b@willemb.c.googlers.com.notmuch>
+In-Reply-To: <67156d3447444_14e182944b@willemb.c.googlers.com.notmuch>
+From: Magnus Karlsson <magnus.karlsson@gmail.com>
+Date: Mon, 21 Oct 2024 14:04:43 +0200
+Message-ID: <CAJ8uoz0FcDP_ox_sRbG7ZJ=F70uJsALF-fGzW6snTQPXez_PXw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 0/3] XDP metadata: Rx checksum/GSO hint; Tx
+ GSO offload
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: Stanislav Fomichev <stfomichev@gmail.com>, Muyang Tian <tianmuyang@huawei.com>, bpf@vger.kernel.org, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+	Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, yanan@huawei.com, 
+	xiesongyang@huawei.com, wuchangye@huawei.com, liuxin350@huawei.com, 
+	zhangmingyi5@huawei.com, liwei883@huawei.com, willemb@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 2024-10-21 at 12:00 +0200, Julien Stephan wrote:
-> ad7380-4 is the only device in the family that does not have an internal
-> reference. It uses "refin" as a required external reference.
-> All other devices in the family use "refio"" as an optional external
-> reference.
->=20
-> Fixes: 737413da8704 ("iio: adc: ad7380: add support for ad738x-4 4 channe=
-ls
-> variants")
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
+On Sun, 20 Oct 2024 at 22:51, Willem de Bruijn
+<willemdebruijn.kernel@gmail.com> wrote:
+>
+> Stanislav Fomichev wrote:
+> > On 10/18, Muyang Tian wrote:
+> > > This series introduce XDP metadata functionality, including Rx checksum/GSO hint
+> > > and Tx GSO offload. This is aimed to transfer control fields when processing jumbo
+> > > frames between VMs.
+> >
+> > Ideally, the series should also have the implementation of these hints
+> > for a couple of devices and appropriate selftest updates to exercise
+> > them.
+>
+> +1
 
-Hi Julien,
+Larysa had one implementation for ice [0]. Ask her if she can update
+and contribute that one. Then add one yourself and there are two
+implementations which would hopefully make the case.
 
-Patch looks good. Sorry if this already came out in the previous version or=
- in
-the other patchset you mention but shouldn't this fix come first in the ser=
-ies?
+[0] https://lore.kernel.org/bpf/20230811161509.19722-1-larysa.zaremba@intel.com/
 
-Anyways, for the patch itself:
-
-Reviewed-by: Nuno Sa <nuno.sa@analog.com>
-
-> =C2=A0drivers/iio/adc/ad7380.c | 36 ++++++++++++++++++++++++++----------
-> =C2=A01 file changed, 26 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
-> index
-> e257f78d63edd7910fcb936ec5344922f8e70b99..65096717f0dd3ea6a4ff7020bc544d6=
-2b84c
-> b8fd 100644
-> --- a/drivers/iio/adc/ad7380.c
-> +++ b/drivers/iio/adc/ad7380.c
-> @@ -89,6 +89,7 @@ struct ad7380_chip_info {
-> =C2=A0	bool has_mux;
-> =C2=A0	const char * const *supplies;
-> =C2=A0	unsigned int num_supplies;
-> +	bool external_ref_only;
-> =C2=A0	const char * const *vcm_supplies;
-> =C2=A0	unsigned int num_vcm_supplies;
-> =C2=A0	const unsigned long *available_scan_masks;
-> @@ -431,6 +432,7 @@ static const struct ad7380_chip_info ad7380_4_chip_in=
-fo =3D
-> {
-> =C2=A0	.num_simult_channels =3D 4,
-> =C2=A0	.supplies =3D ad7380_supplies,
-> =C2=A0	.num_supplies =3D ARRAY_SIZE(ad7380_supplies),
-> +	.external_ref_only =3D true,
-> =C2=A0	.available_scan_masks =3D ad7380_4_channel_scan_masks,
-> =C2=A0	.timing_specs =3D &ad7380_4_timing,
-> =C2=A0};
-> @@ -1047,17 +1049,31 @@ static int ad7380_probe(struct spi_device *spi)
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to enable power supplies\n");
-> =C2=A0	msleep(T_POWERUP_MS);
-> =C2=A0
-> -	/*
-> -	 * If there is no REFIO supply, then it means that we are using
-> -	 * the internal 2.5V reference, otherwise REFIO is reference voltage.
-> -	 */
-> -	ret =3D devm_regulator_get_enable_read_voltage(&spi->dev, "refio");
-> -	if (ret < 0 && ret !=3D -ENODEV)
-> -		return dev_err_probe(&spi->dev, ret,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get refio regulator\n");
-> +	if (st->chip_info->external_ref_only) {
-> +		ret =3D devm_regulator_get_enable_read_voltage(&spi->dev,
-> +							=C2=A0=C2=A0=C2=A0=C2=A0 "refin");
-> +		if (ret < 0)
-> +			return dev_err_probe(&spi->dev, ret,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get refin
-> regulator\n");
-> +
-> +		st->vref_mv =3D ret / 1000;
-> =C2=A0
-> -	external_ref_en =3D ret !=3D -ENODEV;
-> -	st->vref_mv =3D external_ref_en ? ret / 1000 : AD7380_INTERNAL_REF_MV;
-> +		/* these chips don't have a register bit for this */
-> +		external_ref_en =3D false;
-> +	} else {
-> +		/*
-> +		 * If there is no REFIO supply, then it means that we are
-> using
-> +		 * the internal reference, otherwise REFIO is reference
-> voltage.
-> +		 */
-> +		ret =3D devm_regulator_get_enable_read_voltage(&spi->dev,
-> +							=C2=A0=C2=A0=C2=A0=C2=A0 "refio");
-> +		if (ret < 0 && ret !=3D -ENODEV)
-> +			return dev_err_probe(&spi->dev, ret,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get refio
-> regulator\n");
-> +
-> +		external_ref_en =3D ret !=3D -ENODEV;
-> +		st->vref_mv =3D external_ref_en ? ret / 1000 :
-> AD7380_INTERNAL_REF_MV;
-> +	}
-> =C2=A0
-> =C2=A0	if (st->chip_info->num_vcm_supplies > ARRAY_SIZE(st->vcm_mv))
-> =C2=A0		return dev_err_probe(&spi->dev, -EINVAL,
->=20
-
+> > For GSO, CC Willem going forward (I don't think I understand why
+> > we want to have gso_type in the TX hint; something like header_len
+> > seems like a better fit).
+>
+> GSO on Tx makes sense. To be able to program hardware USO, say.
+>
+> GSO on Rx is less obvious. Is this for HW-GRO? In general, some usage
+> context will be helpful.
+>
+> Two implementation questions:
+>
+> - why define an XDP specific type for checksum types, but reuse the
+>   netdev type for gso_type?
+> - why u32 gso_type, when it is a u8 in skb_shared_info?
+>
+> > Please also don't post v3 yet and allow at least a week for the initial
+> > reviewers to catch up..
+>
+>
+>
