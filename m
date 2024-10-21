@@ -1,126 +1,272 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93261E5728
-	for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 10:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466D21E0087;
+	Mon, 21 Oct 2024 10:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729504823; cv=none; b=VLUSE1bQxeb7jnYgvOVhzYQPWG+5J12SD2cdyoLBR7HiF4LHwxD9+I+4KTYtPpmpB5i4MuQBSAof8IAwyKcmTLP9FmxFWeWIX5npO4GdXU9uNs1o9r0FxjyKDqN4ya/uoyjC1vL5tk58G2rqPqFJ4CQIdA0aBIpFaCSmahRNYzs=
+	t=1729507220; cv=none; b=B30NV8/64XrwESnIzGiY4NpIlR3/VpOq8ZH5R4tqYyQHOXgssQ7YyGagSiJ6kOmLQcAxX8CBCndkQ2yhIJqpOIRYI6cNp0Outw9JNi1H+vXzoDLoCdHA64gkbG5GXLiJSbRAeCKZhkOVoOjmGk1nWQmgKwFgfCA1m4gtzYZQ1qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729504823; c=relaxed/simple;
-	bh=JVqTtX2R5tgI5AgbA4RUFWdiRHGbpSlYbypt0KFdYVI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Kuh/V/RG1mrDEAdMl6HGrDB5oB3ztatCfSJFq5S39Sqz6ZmXNXgr678LlRX6Y6mzCW1YNU+dES/j4v9MlUuHAGk6cknw9ZDp7pdazfaFrqqe/U0RuPjXj5sCKeT3ydtEf4wEfmQI3KNLbI6xzNDjaJxG30ctzs91wJAduI+UfZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=eYp4iOoV; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1729507220; c=relaxed/simple;
+	bh=mVFrJy347WsPGqvhqcH0UEh6N6HS0zGY/NhHSGFn9mg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cc+p86GvYxYfqYabiYmnwmcXb7DbTNWuPBl0RpyB4hBPaqfb8jEB2yGMQpiAMjI32aSdtenu5xqqvNNBL5o0VsLkHKHvy6GeFMi6dQTdcNnXgHnMHadwfD5XsjrGaQVJRJsg91cSjLqR0P/KCZr/9sokYAVeC1xbP6xjsbWTF94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N/oM4QOE; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="eYp4iOoV"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d4b0943c7so3146661f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Oct 2024 03:00:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/oM4QOE"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43159c9f617so40454075e9.2;
+        Mon, 21 Oct 2024 03:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729504818; x=1730109618; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y2t5+GdX8LkCEmUcnfMgk3trAyT7R5nzR/wNUS1TNBk=;
-        b=eYp4iOoVIUlQdZubB9EHihRjM89bOqrYWf3HP2erVXi02iFeDUFkiF7NWHGXXkB7mk
-         gRi94g0Y1ZKHUL62if5mkalzcZ8UpTc9qeKXhOiLcpZVEEFArV3FZN/Q6LJLAQNHB6mp
-         eGub/aYantxYDSxn1ou9RrP42nVFSDd50EwzYGzWhdGWQl4af1O9pIBJESLAQbrxmew4
-         GjjJARhJDrCMe5N3s7M2NJ7t+BNatG2eBT4ZnHKyxsUK5ukV4HKUXQ6gRkn1M/9J8tl9
-         P6kVVixjP4RvYv0RX5/OIDSeya+Ch/NE4rEUzIpZnF6mY/123u1oNzSX+aFhirLA6PTD
-         Z3rA==
+        d=gmail.com; s=20230601; t=1729507215; x=1730112015; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DnbQLQNXgDDzHRa5q+9hDUp0GY0SqbeRkHPHQH6iHt4=;
+        b=N/oM4QOEZZGkn8jjNpP/32iXbq52fYniHb7LVzCqiKzcsa+vRC2smCF3OoLE1aTV+S
+         7bCKskmSeyHpVvZDTQjGX1CgeZkZLiVDPoXPkodQF6kMtMcf6bEMjEbKTb4LdFzkeZeG
+         T9plXom2pXxOQBUNroYZ7LTmnF5H0pxiPJUyvryB15v23v4OYYpOSo3aTQxTD+OBMv38
+         GCtnrU8BnILSmmbWOTD9X4L07fm7et6AyByeziFYoVutYBWTKxKwl5RHfQ4HffiRPqZK
+         px98972lXWAZzOAnz0Rxjx0mUuKdCWpaq2Hhd6awc7rbF2GI13KW7bghnSRlwL2lUjWv
+         AL8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729504818; x=1730109618;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y2t5+GdX8LkCEmUcnfMgk3trAyT7R5nzR/wNUS1TNBk=;
-        b=eYGMHuW527T0cbcpc8U0rh5U8axF2847q1itOfQWJYUrqYZLYXnJVU29FoN5g6B/cL
-         y3bedOCNFNSWJZlkdd5vpMuvaxcyuGgXm96WeRXemDOSK0Y/fsboBizIy1IENzHV6xXF
-         ypTLPFeTs01PcjzMaP0jGn1pdYiJ0bcqtB7ydwkka8xU2B1HMssIBUE5/090/f2S8m2A
-         SOt5s5wpIRaaeg86pZficVB4heSGjnk/WNrM80iemZNmMMSm1+qXrnbj9mRqA0FFxCzg
-         hQHhlNrtjo0JTsi3HiMXXQoT2hswyXyuVlP3GlFD34Au/kPzdeJ3zrg5rpV9Jqztr5fB
-         +4cw==
-X-Forwarded-Encrypted: i=1; AJvYcCV8PDpyKUnFMkgDIeFqjUHW4HqlwoWehIKH69tKL6JdSYzAZYbWxqZ+yv7H7xhRrzF2cPlxdq3kwVA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5eaWR32fs0nd7CnusiIjpzREDtTrwA5ZG947RQIZSGJh1eLCX
-	dwX5PBVA0o0+4oSArvF3Wq8MhvPux1x5e3wVsXGsJdtD5VXlDfB5tBs6jKEsClU+1kDNMP1T5Jq
-	2wEM=
-X-Google-Smtp-Source: AGHT+IHvplc2wMXT1OorBIg0HcGCuXTDErHL+CnzciKozIpFOxqNccmTzrhFCLXXNzwzzh3RuSgWHA==
-X-Received: by 2002:adf:ed11:0:b0:37d:45c3:3459 with SMTP id ffacd0b85a97d-37eab75b5cbmr7425151f8f.21.1729504817015;
-        Mon, 21 Oct 2024 03:00:17 -0700 (PDT)
-Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f58bbaasm52375995e9.23.2024.10.21.03.00.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 03:00:16 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Mon, 21 Oct 2024 12:00:13 +0200
-Subject: [PATCH v2 5/5] docs: iio: ad7380: fix supply for ad7380-4
+        d=1e100.net; s=20230601; t=1729507215; x=1730112015;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DnbQLQNXgDDzHRa5q+9hDUp0GY0SqbeRkHPHQH6iHt4=;
+        b=DjmDYxARuGoZedTpAFgEKuVPelEevMGnujPtxNpOuQYaz9CEhVTGTWCc5Dcii76yPk
+         z0NpITC5xcMGBB0yl+M7KPa78G/URQxne+MJIZxTbCbW2PR84JscG4YHgGp1tcA0sDbH
+         6uys7KT9buI4E//Sb+xlbULKh8KrpmGDvSO0IdLie1cG3ZEdsAINQBWKNvamAFFCvg7I
+         f6CDWV8YDrYnJBFNc1/zDoQw8EMjePKImTO8uq96V8D3DHePK710g3x05EnIL6HrBftm
+         FRPlEKY4qetKFjaouaD9W2H6g4kPceR/TVrdzGE2Xq9P1cAzQcTOluZ7uUZObERFq9/y
+         tSVA==
+X-Forwarded-Encrypted: i=1; AJvYcCW55fAmM1cj8WV13KT+iA8q60tZgX3pzVAbBp1+c0s4gI7J6bLop4lHyd1d79D7/xIXjU1/puOIMlsPMfaU@vger.kernel.org, AJvYcCXzA71BmZ0SDF/0hkTO99kw5dxsVbxG6JQMpoGBU58Yzq4lEudzHPuNWUfI8DVgMsF+rvxJAfpfgU4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGC7w5MNd4LIvYXJ+2ezJzK5hUbHnZqiYJQq8iwesEBunfhNvA
+	jsYGVRhbGjbHBUW6u6alKOoY3nkM7RETSNdewnxOqR07xuBHZ0Z2
+X-Google-Smtp-Source: AGHT+IG4hfO9+W1ZHBvjTnfeKOm+a7Sf0EqUAMbzYF/KpdnVWfIbsWJ/48aJWvSGvczeZspKs8IjxA==
+X-Received: by 2002:a05:600c:4e12:b0:431:50fa:89c4 with SMTP id 5b1f17b1804b1-43161622aa4mr84207715e9.3.1729507215200;
+        Mon, 21 Oct 2024 03:40:15 -0700 (PDT)
+Received: from ?IPV6:2a02:6b67:d751:7400:c2b:f323:d172:e42a? ([2a02:6b67:d751:7400:c2b:f323:d172:e42a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a58cc2sm3992400f8f.54.2024.10.21.03.40.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Oct 2024 03:40:14 -0700 (PDT)
+Message-ID: <5313c721-9cf1-4ecd-ac23-1eeddabd691f@gmail.com>
+Date: Mon, 21 Oct 2024 11:40:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241021-ad7380-fix-supplies-v2-5-2ca551b3352a@baylibre.com>
-References: <20241021-ad7380-fix-supplies-v2-0-2ca551b3352a@baylibre.com>
-In-Reply-To: <20241021-ad7380-fix-supplies-v2-0-2ca551b3352a@baylibre.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org, 
- Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.14.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/4] mm: zswap: add support for zswapin of large folios
+To: Barry Song <21cnbao@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
+ david@redhat.com, willy@infradead.org, kanchana.p.sridhar@intel.com,
+ yosryahmed@google.com, nphamcs@gmail.com, chengming.zhou@linux.dev,
+ ryan.roberts@arm.com, ying.huang@intel.com, riel@surriel.com,
+ shakeel.butt@linux.dev, kernel-team@meta.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20241018105026.2521366-1-usamaarif642@gmail.com>
+ <CAGsJ_4xweuSwMUBuLSr2eUy69mtQumeDpMZ1g2jFPGq6nFn9fg@mail.gmail.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <CAGsJ_4xweuSwMUBuLSr2eUy69mtQumeDpMZ1g2jFPGq6nFn9fg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-ad7380-4 is the only device from ad738x family that doesn't have an
-internal reference. Moreover it's external reference is called REFIN in
-the datasheet while all other use REFIO as an optional external
-reference. Update documentation to highlight this.
 
-Fixes: 3e82dfc82f38 ("docs: iio: new docs for ad7380 driver")
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- Documentation/iio/ad7380.rst | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
-index 9c784c1e652e9afc116fd206a6cdb70fa6e2adf0..6f70b49b9ef27c1ac32acaefecd1146e5c8bd6cc 100644
---- a/Documentation/iio/ad7380.rst
-+++ b/Documentation/iio/ad7380.rst
-@@ -41,13 +41,22 @@ supports only 1 SDO line.
- Reference voltage
- -----------------
- 
--2 possible reference voltage sources are supported:
-+ad7380-4
-+~~~~~~~~
-+
-+ad7380-4 supports only an external reference voltage (2.5V to 3.3V). It must be
-+declared in the device tree as ``refin-supply``.
-+
-+All other devices from ad738x family
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+All other devices from ad738x support 2 possible reference voltage sources:
- 
- - Internal reference (2.5V)
- - External reference (2.5V to 3.3V)
- 
- The source is determined by the device tree. If ``refio-supply`` is present,
--then the external reference is used, else the internal reference is used.
-+then it is used as external reference, else the internal reference is used.
- 
- Oversampling and resolution boost
- ---------------------------------
+On 21/10/2024 06:09, Barry Song wrote:
+> On Fri, Oct 18, 2024 at 11:50 PM Usama Arif <usamaarif642@gmail.com> wrote:
+>>
+>> After large folio zswapout support added in [1], this patch adds
+>> support for zswapin of large folios to bring it on par with zram.
+>> This series makes sure that the benefits of large folios (fewer
+>> page faults, batched PTE and rmap manipulation, reduced lru list,
+>> TLB coalescing (for arm64 and amd)) are not lost at swap out when
+>> using zswap.
+>>
+>> It builds on top of [2] which added large folio swapin support for
+>> zram and provides the same level of large folio swapin support as
+>> zram, i.e. only supporting swap count == 1.
+>>
+>> Patch 1 skips swapcache for swapping in zswap pages, this should improve
+>> no readahead swapin performance [3], and also allows us to build on large
+>> folio swapin support added in [2], hence is a prerequisite for patch 3.
+>>
+>> Patch 3 adds support for large folio zswapin. This patch does not add
+>> support for hybrid backends (i.e. folios partly present swap and zswap).
+>>
+>> The main performance benefit comes from maintaining large folios *after*
+>> swapin, large folio performance improvements have been mentioned in previous
+>> series posted on it [2],[4], so have not added those. Below is a simple
+>> microbenchmark to measure the time needed *for* zswpin of 1G memory (along
+>> with memory integrity check).
+>>
+>>                                 |  no mTHP (ms) | 1M mTHP enabled (ms)
+>> Base kernel                     |   1165        |    1163
+>> Kernel with mTHP zswpin series  |   1203        |     738
+> 
+> Hi Usama,
+> Do you know where this minor regression for non-mTHP comes from?
+> As you even have skipped swapcache for small folios in zswap in patch1,
+> that part should have some gain? is it because of zswap_present_test()?
+> 
 
--- 
-2.47.0
+Hi Barry,
+
+The microbenchmark does a sequential read of 1G of memory, so it probably
+isnt very representative of real world usecases. This also means that
+swap_vma_readahead is able to readahead accurately all pages in its window.
+With this patch series, if doing 4K swapin, you get 1G/4K calls of fast
+do_swap_page. Without this patch, you get 1G/(4K*readahead window) of slow
+do_swap_page calls. I had added some prints and I was seeing 8 pages being
+readahead in 1 do_swap_page. The larger number of calls causes the slight
+regression (eventhough they are quite fast). I think in a realistic scenario,
+where readahead window wont be as large, there wont be a regression.
+The cost of zswap_present_test in the whole call stack of swapping page is
+very low and I think can be ignored.
+
+I think the more interesting thing is what Kanchana pointed out in
+https://lore.kernel.org/all/f2f2053f-ec5f-46a4-800d-50a3d2e61bff@gmail.com/
+I am curious, did you see this when testing large folio swapin and compression
+at 4K granuality? Its looks like swap thrashing so I think it would be common
+between zswap and zram. I dont have larger granuality zswap compression done,
+which is why I think there is a regression in time taken. (It could be because
+its tested on intel as well).
+
+Thanks,
+Usama
+
+
+>>
+>> The time measured was pretty consistent between runs (~1-2% variation).
+>> There is 36% improvement in zswapin time with 1M folios. The percentage
+>> improvement is likely to be more if the memcmp is removed.
+>>
+>> diff --git a/tools/testing/selftests/cgroup/test_zswap.c b/tools/testing/selftests/cgroup/test_zswap.c
+>> index 40de679248b8..77068c577c86 100644
+>> --- a/tools/testing/selftests/cgroup/test_zswap.c
+>> +++ b/tools/testing/selftests/cgroup/test_zswap.c
+>> @@ -9,6 +9,8 @@
+>>  #include <string.h>
+>>  #include <sys/wait.h>
+>>  #include <sys/mman.h>
+>> +#include <sys/time.h>
+>> +#include <malloc.h>
+>>
+>>  #include "../kselftest.h"
+>>  #include "cgroup_util.h"
+>> @@ -407,6 +409,74 @@ static int test_zswap_writeback_disabled(const char *root)
+>>         return test_zswap_writeback(root, false);
+>>  }
+>>
+>> +static int zswapin_perf(const char *cgroup, void *arg)
+>> +{
+>> +       long pagesize = sysconf(_SC_PAGESIZE);
+>> +       size_t memsize = MB(1*1024);
+>> +       char buf[pagesize];
+>> +       int ret = -1;
+>> +       char *mem;
+>> +       struct timeval start, end;
+>> +
+>> +       mem = (char *)memalign(2*1024*1024, memsize);
+>> +       if (!mem)
+>> +               return ret;
+>> +
+>> +       /*
+>> +        * Fill half of each page with increasing data, and keep other
+>> +        * half empty, this will result in data that is still compressible
+>> +        * and ends up in zswap, with material zswap usage.
+>> +        */
+>> +       for (int i = 0; i < pagesize; i++)
+>> +               buf[i] = i < pagesize/2 ? (char) i : 0;
+>> +
+>> +       for (int i = 0; i < memsize; i += pagesize)
+>> +               memcpy(&mem[i], buf, pagesize);
+>> +
+>> +       /* Try and reclaim allocated memory */
+>> +       if (cg_write_numeric(cgroup, "memory.reclaim", memsize)) {
+>> +               ksft_print_msg("Failed to reclaim all of the requested memory\n");
+>> +               goto out;
+>> +       }
+>> +
+>> +       gettimeofday(&start, NULL);
+>> +       /* zswpin */
+>> +       for (int i = 0; i < memsize; i += pagesize) {
+>> +               if (memcmp(&mem[i], buf, pagesize)) {
+>> +                       ksft_print_msg("invalid memory\n");
+>> +                       goto out;
+>> +               }
+>> +       }
+>> +       gettimeofday(&end, NULL);
+>> +       printf ("zswapin took %fms to run.\n", (end.tv_sec - start.tv_sec)*1000 + (double)(end.tv_usec - start.tv_usec) / 1000);
+>> +       ret = 0;
+>> +out:
+>> +       free(mem);
+>> +       return ret;
+>> +}
+>> +
+>> +static int test_zswapin_perf(const char *root)
+>> +{
+>> +       int ret = KSFT_FAIL;
+>> +       char *test_group;
+>> +
+>> +       test_group = cg_name(root, "zswapin_perf_test");
+>> +       if (!test_group)
+>> +               goto out;
+>> +       if (cg_create(test_group))
+>> +               goto out;
+>> +
+>> +       if (cg_run(test_group, zswapin_perf, NULL))
+>> +               goto out;
+>> +
+>> +       ret = KSFT_PASS;
+>> +out:
+>> +       cg_destroy(test_group);
+>> +       free(test_group);
+>> +       return ret;
+>> +}
+>> +
+>>  /*
+>>   * When trying to store a memcg page in zswap, if the memcg hits its memory
+>>   * limit in zswap, writeback should affect only the zswapped pages of that
+>> @@ -584,6 +654,7 @@ struct zswap_test {
+>>         T(test_zswapin),
+>>         T(test_zswap_writeback_enabled),
+>>         T(test_zswap_writeback_disabled),
+>> +       T(test_zswapin_perf),
+>>         T(test_no_kmem_bypass),
+>>         T(test_no_invasive_cgroup_shrink),
+>>  };
+>>
+>> [1] https://lore.kernel.org/all/20241001053222.6944-1-kanchana.p.sridhar@intel.com/
+>> [2] https://lore.kernel.org/all/20240821074541.516249-1-hanchuanhua@oppo.com/
+>> [3] https://lore.kernel.org/all/1505886205-9671-5-git-send-email-minchan@kernel.org/T/#u
+>> [4] https://lwn.net/Articles/955575/
+>>
+>> Usama Arif (4):
+>>   mm/zswap: skip swapcache for swapping in zswap pages
+>>   mm/zswap: modify zswap_decompress to accept page instead of folio
+>>   mm/zswap: add support for large folio zswapin
+>>   mm/zswap: count successful large folio zswap loads
+>>
+>>  Documentation/admin-guide/mm/transhuge.rst |   3 +
+>>  include/linux/huge_mm.h                    |   1 +
+>>  include/linux/zswap.h                      |   6 ++
+>>  mm/huge_memory.c                           |   3 +
+>>  mm/memory.c                                |  16 +--
+>>  mm/page_io.c                               |   2 +-
+>>  mm/zswap.c                                 | 120 ++++++++++++++-------
+>>  7 files changed, 99 insertions(+), 52 deletions(-)
+>>
+>> --
+>> 2.43.5
+>>
+> 
+> Thanks
+> barry
 
