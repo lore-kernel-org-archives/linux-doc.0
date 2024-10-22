@@ -1,387 +1,109 @@
-Received: from trager.us (trager.us [52.5.81.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFB284D29;
-	Tue, 22 Oct 2024 01:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.5.81.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EAB139579;
+	Tue, 22 Oct 2024 01:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729561461; cv=none; b=c3ehO7sPzDvKFDk3BOLL50DYnu4upwWGrQznB6cypMbRZw1MBBBJ2KEUmzjY3jwvX2C1q2AKkDNrheyaRE/nEiH4h4UsO67rZZHsvK9ff7+ZeiVuEml59yZWCtYYrWXzljSBQECNcxAOF6X7IgJtHLo+QiDWT+hH9YYFHnQlg5g=
+	t=1729561476; cv=none; b=sPxBRgmn2VZbojLn16uJ//fWirG47qXLXjVNPhrNWYfquZd+FS3VsMGbKHTl9gs3BiBguSaN5LXEFMQp8UEd7zkSBJTofq5Os6D2OpVtX6pd/N5MxORARa9Lm4BA35JwVNBZVFzvdnId64O47wSWi0TDZ1bg/6NMlY19HQI2T8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729561461; c=relaxed/simple;
-	bh=6Z+AxkKR9zlrGHBwt2JjK+ih49DyBUV8ksoi07TJ5Tc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r0OR8zkeqtOUqJF8PSn1+40qzBSSXnmfXVkWgDt585jl+2ASKmroQTdum1NRovBLs65z5VyXFKzkDsO9Lc5FW2M1l+zT1j5KTzfAHMQ4GZTx8iSSj6/Tq5YmHM9zql/zIijlL6eWdsy9cYEtuEmmgGxtLjH66O7kHT8pcC7GCQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us; spf=pass smtp.mailfrom=trager.us; arc=none smtp.client-ip=52.5.81.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trager.us
-Received: from [163.114.132.6] (helo=localhost)
-	by trager.us with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92.3)
-	(envelope-from <lee@trager.us>)
-	id 1t33wQ-0003yc-CK; Tue, 22 Oct 2024 01:44:10 +0000
-From: Lee Trager <lee@trager.us>
-To: Alexander Duyck <alexanderduyck@fb.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	kernel-team@meta.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Lee Trager <lee@trager.us>,
-	Sanman Pradhan <sanmanpradhan@meta.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Simon Horman <horms@kernel.org>,
-	Mohsin Bashir <mohsin.bashr@gmail.com>
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 2/2] eth: fbnic: Add devlink dev flash support
-Date: Mon, 21 Oct 2024 18:42:24 -0700
-Message-ID: <20241022014319.3791797-1-lee@trager.us>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20241012023646.3124717-1-lee@trager.us>
-References: <20241012023646.3124717-1-lee@trager.us>
+	s=arc-20240116; t=1729561476; c=relaxed/simple;
+	bh=07zBLYch7GL0n69PEYwO0V8mfmfGo+b8cMiif0D6eYE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FLFLEBrDXMUAA735YdGPoIpF4K/axn1gumF8IVX3TtUgmm5GRMQVKaufaZnWHqSL2Ft/iosANeZJfyj530XxPkTdRxgFapXUzggN3T2xnUuo/hVCrHY21ARlTTgv4PcpG98iFukkkdaPGW7U/vr2wKbJ8r/eeq5dY3u44Bgh16Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qhg8R15G; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qhg8R15G"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e38fa1f82fso48120937b3.1;
+        Mon, 21 Oct 2024 18:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729561474; x=1730166274; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pSMVGCI9riN35yGE749q/buxktIJIHH58ViXU0EzOI4=;
+        b=Qhg8R15GtEu8DExenyD3DKOkh3IvN2YV9cjZKrqo1nl1XZTK7gIPenrn4PlZLmOJOc
+         hZu69qncjZ1/cpG/2oPCbhNQrQabnZuZ1wyb1G6tk8MWnTcysdNfdhZXyIvI1h9qKRrv
+         Yk1UBuaC7kD16eaKD5e7jqcLSa4aQpiDQQvkONZQH9FZP/D7Wv5bkL/fxB+707Raz/Dr
+         Z7M/nWheBv9ga5JAIEdUfssmFRBMHrnyJnJh9Xa8vSvISuLIdD8+KkQbAtDPTXI3NlzU
+         arbspsmzh0ZGMplUEQF0lXBqW/qImMJZshA+ibJr5Fpff5i/pr/coKs/qdg8heqCGmvK
+         Wx4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729561474; x=1730166274;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pSMVGCI9riN35yGE749q/buxktIJIHH58ViXU0EzOI4=;
+        b=wwvooFttTq05saIRvwaAVxweSvKUkwL7rvh3vrAuV76+hYk4uB8DNwVnazWmzvx33X
+         N/D51zkOaHpSnvnNwrSsd8YV4wBLjr6hbib9+q3ieiLEKv0SZ5jr/2ww08n/JNu7NPU8
+         CNvB6qvmcdaYMZoOKYaOCMBMSo70I/lnz8SXif/68+xHvJSzX9Z+nx34aXoQSYhrKEr6
+         kaJBW8Alrd2kAWCnTRv+QrF3e9bvbNTF72D9DXo3ft3g5QCfFbJFxSeewM9MTpjVM22Z
+         35U6k5K61+tNGP/b2GS/XYVZazlnDlsom5MjKdS90+KWbHbbmarwH4yiMl8igD8UzYMJ
+         5bPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDm6hZkIo4yx5bfzal2oezztv39fRPWnZWzO3lv61Xq75kZ9kUxfD/zssED+L5uOQr0qJnrAapkLM=@vger.kernel.org, AJvYcCVHzIJXvsdxEk4J79W1U0/77I31oFcmik+A8UuVxb4J2jTjYglXQ/yBxiDnp78uFrHQfkmvT8Jlwum8v9oI@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz08aA4VMZPXiCZOtLGxiKazvqc09D1k2ZR6tv6SMQkH2jFhpFl
+	7WgzHWAy4ssjYK7FsBT5mj/tGeqdKES56qF8VdsMrcCH4fcm2URg
+X-Google-Smtp-Source: AGHT+IGlpW8A7cjCdn12jW7LguHSoE1Bk/dF4s9NRCn535XgYqtfEHiunONeihkqd2hMKB/sqKk+6Q==
+X-Received: by 2002:a05:690c:6787:b0:6e3:b8f:59d1 with SMTP id 00721157ae682-6e5bfd51045mr127755067b3.31.1729561473978;
+        Mon, 21 Oct 2024 18:44:33 -0700 (PDT)
+Received: from [192.168.2.226] ([107.175.133.150])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f5d2d311sm9100247b3.132.2024.10.21.18.44.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Oct 2024 18:44:32 -0700 (PDT)
+Message-ID: <638d6ade-1fff-4fe3-8963-41b9ccea23a6@gmail.com>
+Date: Tue, 22 Oct 2024 09:44:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/6] docs/zh_CN: update the translation of
+ mm/overcommit-accounting.rst
+To: Dongliang Mu <dzm91@hust.edu.cn>, si.yanteng@linux.dev, alexs@kernel.org,
+ corbet@lwn.net, Yanteng Si <siyanteng@loongson.cn>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1729327831.git.dzm91@hust.edu.cn>
+ <d426f3f3d9aac061c20c3b766c17369f4e60f398.1729327831.git.dzm91@hust.edu.cn>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <d426f3f3d9aac061c20c3b766c17369f4e60f398.1729327831.git.dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-fbnic supports updating firmware using a PLDM image signed and distributed
-by Meta. PLDM images are written into stored flashed. Flashing does not
-interrupt operation.
+Reviewed-by: Alex Shi <alexs@kernel.org>
 
-On host reboot the newly flashed UEFI driver will be used. To run new
-control or cmrt firmware the NIC must be power cycled.
-
-Signed-off-by: Lee Trager <lee@trager.us>
----
- .../device_drivers/ethernet/meta/fbnic.rst    |  11 +
- drivers/net/ethernet/meta/Kconfig             |   1 +
- .../net/ethernet/meta/fbnic/fbnic_devlink.c   | 269 +++++++++++++++++-
- 3 files changed, 280 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-index 32ff114f5c26..d6726c254818 100644
---- a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-+++ b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-@@ -27,3 +27,14 @@ driver takes over.
- devlink dev info provides version information for all three components. In
- addition to the version the hg commit hash of the build is included as a
- separate entry.
-+
-+Upgrading Firmware
-+------------------
-+
-+fbnic supports upgrading firmware using devlink dev flash. Firmware images
-+are signed and distributed by Meta. All firmware is bundled into a single
-+PLDM image which is written into stored flash. Flashing firmware does not
-+interrupt operation.
-+
-+On host reboot the newly flashed UEFI driver will be used. To run new control
-+or cmrt firmware the NIC must be power cycled.
-diff --git a/drivers/net/ethernet/meta/Kconfig b/drivers/net/ethernet/meta/Kconfig
-index 831921b9d4d5..3ba527514f1e 100644
---- a/drivers/net/ethernet/meta/Kconfig
-+++ b/drivers/net/ethernet/meta/Kconfig
-@@ -27,6 +27,7 @@ config FBNIC
- 	select NET_DEVLINK
- 	select PAGE_POOL
- 	select PHYLINK
-+	select PLDMFW
- 	help
- 	  This driver supports Meta Platforms Host Network Interface.
-
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-index 0072d612215e..bd718b3e314b 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-@@ -3,6 +3,7 @@
-
- #include <linux/unaligned.h>
- #include <linux/pci.h>
-+#include <linux/pldmfw.h>
- #include <linux/types.h>
- #include <net/devlink.h>
-
-@@ -109,8 +110,274 @@ static int fbnic_devlink_info_get(struct devlink *devlink,
- 	return 0;
- }
-
-+/**
-+ * fbnic_send_package_data - Send record package data to firmware
-+ * @context: PLDM FW update structure
-+ * @data: pointer to the package data
-+ * @length: length of the package data
-+ *
-+ * Send a copy of the package data associated with the PLDM record matching
-+ * this device to the firmware.
-+ *
-+ * Return: zero on success
-+ *	    negative error code on failure
-+ */
-+static int fbnic_send_package_data(struct pldmfw *context, const u8 *data,
-+				   u16 length)
-+{
-+	struct device *dev = context->dev;
-+
-+	/* Temp placeholder required by devlink */
-+	dev_info(dev,
-+		 "Sending %u bytes of PLDM record package data to firmware\n",
-+		 length);
-+
-+	return 0;
-+}
-+
-+/**
-+ * fbnic_send_component_table - Send PLDM component table to the firmware
-+ * @context: PLDM FW update structure
-+ * @component: The component to send
-+ * @transfer_flag: Flag indication location in component tables
-+ *
-+ * Read relevant data from component table and forward it to the firmware.
-+ * Check response to verify if the firmware indicates that it wishes to
-+ * proceed with the update.
-+ *
-+ * Return: zero on success
-+ *	    negative error code on failure
-+ */
-+static int fbnic_send_component_table(struct pldmfw *context,
-+				      struct pldmfw_component *component,
-+				      u8 transfer_flag)
-+{
-+	struct device *dev = context->dev;
-+	u16 id = component->identifier;
-+	u8 test_string[80];
-+
-+	switch (id) {
-+	case QSPI_SECTION_CMRT:
-+	case QSPI_SECTION_CONTROL_FW:
-+	case QSPI_SECTION_OPTION_ROM:
-+		break;
-+	default:
-+		dev_err(dev, "Unknown component ID %u\n", id);
-+		return -EINVAL;
-+	}
-+
-+	dev_dbg(dev, "Sending PLDM component table to firmware\n");
-+
-+	/* Temp placeholder */
-+	strscpy(test_string, component->version_string,
-+		min_t(u8, component->version_len, 79));
-+	dev_info(dev, "PLDMFW: Component ID: %u version %s\n",
-+		 id, test_string);
-+
-+	return 0;
-+}
-+
-+/**
-+ * fbnic_flash_component - Flash a component of the QSPI
-+ * @context: PLDM FW update structure
-+ * @component: The component table to send to FW
-+ *
-+ * Map contents of component and make it available for FW to download
-+ * so that it can update the contents of the QSPI Flash.
-+ *
-+ * Return: zero on success
-+ *	    negative error code on failure
-+ */
-+static int fbnic_flash_component(struct pldmfw *context,
-+				 struct pldmfw_component *component)
-+{
-+	const u8 *data = component->component_data;
-+	u32 size = component->component_size;
-+	struct fbnic_fw_completion *fw_cmpl;
-+	struct device *dev = context->dev;
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	u16 id = component->identifier;
-+	const char *component_name;
-+	int retries = 2;
-+	int err;
-+
-+	struct devlink *devlink;
-+	struct fbnic_dev *fbd;
-+
-+	switch (id) {
-+	case QSPI_SECTION_CMRT:
-+		component_name = "boot1";
-+		break;
-+	case QSPI_SECTION_CONTROL_FW:
-+		component_name = "boot2";
-+		break;
-+	case QSPI_SECTION_OPTION_ROM:
-+		component_name = "option-rom";
-+		break;
-+	default:
-+		dev_err(dev, "Unknown component ID %u\n", id);
-+		return -EINVAL;
-+	}
-+
-+	fw_cmpl = kzalloc(sizeof(*fw_cmpl), GFP_KERNEL);
-+	if (!fw_cmpl)
-+		return -ENOMEM;
-+
-+	pdev = to_pci_dev(dev);
-+	fbd = pci_get_drvdata(pdev);
-+	devlink = priv_to_devlink(fbd);
-+
-+	/* Initialize completion and queue it for FW to process */
-+	fw_cmpl->msg_type = FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ;
-+	init_completion(&fw_cmpl->done);
-+
-+	fw_cmpl->fw_update.last_offset = 0;
-+	fw_cmpl->fw_update.data = data;
-+	fw_cmpl->fw_update.size = size;
-+
-+	err = fbnic_fw_xmit_fw_start_upgrade(fbd, fw_cmpl, id, size);
-+	if (err)
-+		goto cmpl_free;
-+
-+	/* Monitor completions and report status of update */
-+	while (fw_cmpl->fw_update.data) {
-+		u32 offset = fw_cmpl->fw_update.last_offset;
-+
-+		devlink_flash_update_status_notify(devlink, "Flashing",
-+						   component_name, offset,
-+						   size);
-+
-+		/* Allow 5 seconds for reply, resend and try up to 2 times */
-+		if (wait_for_completion_timeout(&fw_cmpl->done, 5 * HZ)) {
-+			reinit_completion(&fw_cmpl->done);
-+			/* If we receive a reply, reinit our retry counter */
-+			retries = 2;
-+		} else if (--retries == 0) {
-+			dev_err(fbd->dev, "Timed out waiting on update\n");
-+			err = -ETIMEDOUT;
-+			goto cmpl_cleanup;
-+		}
-+	}
-+
-+	err = fw_cmpl->result;
-+	if (err)
-+		goto cmpl_cleanup;
-+
-+	devlink_flash_update_status_notify(devlink, "Flashing",
-+					   component_name, size, size);
-+
-+cmpl_cleanup:
-+	fbd->cmpl_data = NULL;
-+cmpl_free:
-+	kfree(fw_cmpl);
-+
-+	return err;
-+}
-+
-+/**
-+ * fbnic_finalize_update - Perform last steps to complete device update
-+ * @context: PLDM FW update structure
-+ *
-+ * Notify FW that update is complete and that it can take any actions
-+ * needed to finalize the FW update.
-+ *
-+ * Return: zero on success
-+ *	    negative error code on failure
-+ */
-+static int fbnic_finalize_update(struct pldmfw *context)
-+{
-+	struct device *dev = context->dev;
-+
-+	/* Temp placeholder required by devlink */
-+	dev_info(dev, "PLDMFW: Finalize update\n");
-+
-+	return 0;
-+}
-+
-+static const struct pldmfw_ops fbnic_pldmfw_ops = {
-+	.match_record = pldmfw_op_pci_match_record,
-+	.send_package_data = fbnic_send_package_data,
-+	.send_component_table = fbnic_send_component_table,
-+	.flash_component = fbnic_flash_component,
-+	.finalize_update = fbnic_finalize_update,
-+};
-+
-+static void fbnic_devlink_flash_update_report_err(struct fbnic_dev *fbd,
-+						  struct devlink *devlink,
-+						  const char *err_msg,
-+						  int err)
-+{
-+	char err_str[128];
-+
-+	snprintf(err_str, sizeof(err_str),
-+		 "Failed to flash PLDM Image: %s (error: %d)",
-+		 err_msg, err);
-+	devlink_flash_update_status_notify(devlink, err_str, NULL, 0, 0);
-+	dev_err(fbd->dev, "%s\n", err_str);
-+}
-+
-+static int
-+fbnic_devlink_flash_update(struct devlink *devlink,
-+			   struct devlink_flash_update_params *params,
-+			   struct netlink_ext_ack *extack)
-+{
-+	struct fbnic_dev *fbd = devlink_priv(devlink);
-+	const struct firmware *fw = params->fw;
-+	struct device *dev = fbd->dev;
-+	struct pldmfw context;
-+	char *err_msg;
-+	int err;
-+
-+	if (!fw || !fw->data || !fw->size)
-+		return -EINVAL;
-+
-+	devlink_flash_update_status_notify(devlink, "Preparing to flash",
-+					   NULL, 0, 0);
-+
-+	context.ops = &fbnic_pldmfw_ops;
-+	context.dev = dev;
-+
-+	err = pldmfw_flash_image(&context, fw);
-+	if (err) {
-+		switch (err) {
-+		case -EINVAL:
-+			err_msg = "Invalid image";
-+			break;
-+		case -EOPNOTSUPP:
-+			err_msg = "Unsupported image";
-+			break;
-+		case -ENOMEM:
-+			err_msg = "Out of memory";
-+			break;
-+		case -EFAULT:
-+			err_msg = "Invalid header";
-+			break;
-+		case -ENOENT:
-+			err_msg = "No matching record";
-+			break;
-+		case -ENODEV:
-+			err_msg = "No matching device";
-+			break;
-+		case -ETIMEDOUT:
-+			err_msg = "Timed out waiting for reply";
-+			break;
-+		default:
-+			err_msg = "Unknown error";
-+			break;
-+		}
-+		fbnic_devlink_flash_update_report_err(fbd, devlink,
-+						      err_msg, err);
-+	} else {
-+		devlink_flash_update_status_notify(devlink, "Flashing done",
-+						   NULL, 0, 0);
-+	}
-+
-+	return err;
-+}
-+
- static const struct devlink_ops fbnic_devlink_ops = {
--	.info_get = fbnic_devlink_info_get,
-+	.info_get	= fbnic_devlink_info_get,
-+	.flash_update	= fbnic_devlink_flash_update,
- };
-
- void fbnic_devlink_free(struct fbnic_dev *fbd)
---
-2.43.5
+On 10/19/24 16:54, Dongliang Mu wrote:
+> Update to commit d17ff438a036 ("docs: mm: fix vm overcommit
+> documentation for OVERCOMMIT_GUESS")
+> 
+> scripts/checktransupdate.py reports:
+> 
+> Documentation/translations/zh_CN/mm/overcommit-accounting.rst
+> commit d17ff438a036 ("docs: mm: fix vm overcommit documentation
+> for OVERCOMMIT_GUESS")
+> 1 commits needs resolving in total
+> 
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+>  Documentation/translations/zh_CN/mm/overcommit-accounting.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/mm/overcommit-accounting.rst b/Documentation/translations/zh_CN/mm/overcommit-accounting.rst
+> index d8452d8b7fbb..f136a8b81859 100644
+> --- a/Documentation/translations/zh_CN/mm/overcommit-accounting.rst
+> +++ b/Documentation/translations/zh_CN/mm/overcommit-accounting.rst
+> @@ -16,8 +16,7 @@ Linux内核支持下列超量使用处理模式
+>  
+>  0
+>  	启发式超量使用处理。拒绝明显的地址空间超量使用。用于一个典型的系统。
+> -	它确保严重的疯狂分配失败，同时允许超量使用以减少swap的使用。在这种模式下，
+> -	允许root分配稍多的内存。这是默认的。
+> +	它确保严重的疯狂分配失败，同时允许超量使用以减少swap的使用。这是默认的。
+>  1
+>  	总是超量使用。适用于一些科学应用。经典的例子是使用稀疏数组的代码，只是依赖
+>  	几乎完全由零页组成的虚拟内存
