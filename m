@@ -1,102 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4981BC077;
-	Tue, 22 Oct 2024 15:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1FA51BE857;
+	Tue, 22 Oct 2024 16:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729612792; cv=none; b=ZwpJBMcAgSZHEwFmIGXzIZIZpRw06X7wv7Sv4mm7pdkQ5400A+N7GVl633lpg13TcSK4REmdJMl8hvgJryFuZKpKplnABHErUVHeUWuHnjM1C/uki68fgEuvO0tXPvf2U0xb90Wgvao3DggtMZ788p88pvEm7PZYqfJvfnSv+es=
+	t=1729613443; cv=none; b=BJgwTk6ZwvJWVVmWc8aSKYLRZrVn9lXMTGDU2n9Pt3ni4dgdKM1abrMiHPnQ5tKMaePY99h5FPKV2hbfc8xQDklW+qfrcBu4/M6XDMJK926Betb4GTcKJYat4XmfzYwYnSMrc769Ks/uaXSlSYlt3srvAQqQSfIejF9nu+vCSP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729612792; c=relaxed/simple;
-	bh=b82FuBLPKP3F01X5HLQYV4L/cPxtWxQfdRBNQm1O/+0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=W70dA1kTjosfOmLyQZYNPLmg5/SG6DVp+tWpuIg8+O88tL7Y6rSPIsE1un65ZAZ+pBeCDGo0XkVo3v7erpTu3Z05dmjbVzY4IV4jI9+M5b5PHGk4OAA42jm8Ewzn3wDO8bF7sNpqjOB9ShsA30Wqrsjd7B90y61utt5V1wckbTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kqlf9Fe/; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kqlf9Fe/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8DBC4CEC7;
-	Tue, 22 Oct 2024 15:59:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729612792;
-	bh=b82FuBLPKP3F01X5HLQYV4L/cPxtWxQfdRBNQm1O/+0=;
-	h=From:Date:Subject:To:Cc:From;
-	b=kqlf9Fe/9Ma+6jqXO3MzRI9Pcl5eI09XfwgcYUygNYtEfihHCH49Ieu6S8unqY+ft
-	 lBpcVyuPXQ5k4VI6c0AC7g3Ox7wR8vtOd5llcvgCRcjcPnKXcWjpYSUcDqLN7MvL54
-	 u3laCiL3LpiUlm3mNWQPYhK2WBN1UA2swSNFlg3D+E4PqcSunz6HLwZy5YaUWDHlUW
-	 1k5bJsE8+tsgboZHca176mm90X3GGQpMPenEw7UawR4Suz9LuYZ0pbxlP803aXnEjv
-	 bDX/b8U7eQZraK/qy41P3IZBnUxc4I2Ex1ZtMWtwpiGR3BMeNp7pTaF3BKVOTlrod+
-	 MHMN0clORn4+Q==
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 22 Oct 2024 16:59:41 +0100
-Subject: [PATCH] docs: bug-bisect: Add a note about bisecting -next
+	s=arc-20240116; t=1729613443; c=relaxed/simple;
+	bh=sJlwNI5V9oYYAabgfoaSfOAgFY0ULQEOwfiJkm4D2tw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V9eoLqSQ3fc1U3f9bpPY+otL2wWxGZyPHVzJB5GNCrphqEcLG945vCM6dnKUXd1iUou3UykiaCLxqJV/WpgO5IhTTsQRdlC2TUA0OlP9kpbwc6l30tyDBVq6Ub6PcebOOczznYLMnWB0jM3LYd3ycavazK7yHJa32q26914tq7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 07E99497;
+	Tue, 22 Oct 2024 09:11:10 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCF923F73B;
+	Tue, 22 Oct 2024 09:10:37 -0700 (PDT)
+Date: Tue, 22 Oct 2024 17:10:34 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Brown <broonie@kernel.org>,
+	kvmarm@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/3] arm64/boot: Enable EL2 requirements for
+ FEAT_Debugv8p9
+Message-ID: <ZxfOeqyb3RvsdYbU@J2N7QTR9R3>
+References: <20241001043602.1116991-1-anshuman.khandual@arm.com>
+ <20241001043602.1116991-3-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241022-doc-bisect-next-v1-1-196c0a60d554@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAOzLF2cC/x3MTQqAIBBA4avIrBtIsd+rRAsbp5qNhUYE4d2Tl
- t/ivRcSR+EEo3oh8i1JjlCgKwW0u7Axii8GUxura2PQH4SLJKYLAz8XettR64h7NzRQqjPyKs9
- /nOacP+OQR1FhAAAA
-X-Change-ID: 20241022-doc-bisect-next-d47c6ace8a95
-To: Thorsten Leemhuis <linux@leemhuis.info>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-9b746
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1571; i=broonie@kernel.org;
- h=from:subject:message-id; bh=b82FuBLPKP3F01X5HLQYV4L/cPxtWxQfdRBNQm1O/+0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnF8v2hrtl0MvUB2SWMg8hJALTDZRpJsxn8eV+VQoF
- GL/ZWqKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZxfL9gAKCRAk1otyXVSH0GffB/
- 4wZKnxPSOH5xzPYQO4WpZy7gaN70nlIYPfOL8LTWJiPt6CJMrNiUPOlJ2j5aFyzGH/H6HX4EySiJtR
- Kccr8fOGZicySAMoMFhc0v/LfQpqo2TEI3RXs944vDZ1xonfZUqgQjH4FoLNqv3d10TYkZANA9NvWL
- 9Hd0KYsrzLMDQfKsr6NQBFy1WN15zn7HhtWB4RdHQvSyse4VbwkyzdPX4c7GBaKsRp9QPNN129fJQx
- Sp3cQCOH9zk35Fu28IM5keiuuSBPzn3TQh3XdUYoeNGM4aUhyLnClgLs7SuwssLzw9UnL1TqpZy5Dy
- fB1NQXinOMrDLLV0GUBN+16/zJyyF5
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241001043602.1116991-3-anshuman.khandual@arm.com>
 
-We don't explicitly mention anywhere in the kernel tree that bisects
-between -next versions won't work well and it's better to bisect between
-mainline and -next. Let's add a note about that to try to help people avoid
-this particular gotcha.
+On Tue, Oct 01, 2024 at 10:06:01AM +0530, Anshuman Khandual wrote:
+> Fine grained trap control for MDSELR_EL1 register needs to be configured in
+> HDFGRTR2_EL2, and HDFGWTR2_EL2 registers when kernel enters at EL1, but EL2
+> is also present. This adds a new helper __init_el2_fgt2() initializing this
+> new FEAT_FGT2 based fine grained registers.
+> 
+> MDCR_EL2.EBWE needs to be enabled for additional (beyond 16) breakpoint and
+> watchpoint exceptions when kernel enters at EL1, but EL2 is also present.
+> This updates __init_el2_debug() as required for FEAT_Debugv8p9.
+> 
+> While here, also update booting.rst with MDCR_EL3 and SCR_EL3 requirements.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- Documentation/admin-guide/bug-bisect.rst | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+[...]
 
-diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/admin-guide/bug-bisect.rst
-index 585630d14581c7e0bdf9dd3b66d427793d41925b..eef6921a9542ef276c097e5861ca4efe5812ea0d 100644
---- a/Documentation/admin-guide/bug-bisect.rst
-+++ b/Documentation/admin-guide/bug-bisect.rst
-@@ -109,6 +109,18 @@ With that the process is complete. Now report the regression as described by
- Documentation/admin-guide/reporting-issues.rst.
- 
- 
-+Bisecting linux-next
-+--------------------
-+
-+Since linux-next is a series of merges rebuilt every day starting from
-+Linus' tree there is no commmon history between multiple versions of
-+-next. This means that the history of a given -next release won't
-+include prior -next releases which confuses bisect if you try to
-+bisect between them. Bisects will run much better if performed between
-+-next and the commit in Linus' tree which that version of -next is
-+based on instead.
-+
-+
- Additional reading material
- ---------------------------
- 
+> +  For CPUs with FEAT_Debugv8p9 extension present:
+> +
+> +  - If the kernel is entered at EL1 and EL2 is present:
+> +
+> +    - HDFGRTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
+> +    - HDFGWTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
+> +    - MDCR_EL2.EBWE (bit 43) must be initialized to 0b1
+> +
+> +  - If EL3 is present:
+> +
+> +    - MDCR_EL3.TDA (bit 9) must be initialized to 0b0
 
----
-base-commit: 8e929cb546ee42c9a61d24fae60605e9e3192354
-change-id: 20241022-doc-bisect-next-d47c6ace8a95
+AFAICT we need TDA==0 this regardless of FEAT_Debugv8p9 (and e.g. we need
+MDCR_EL3.TPM==0 where FEAT_PMUv3 is implemented), so we should probably
+check if there's anything else we haven't yet documented in MDCR_EL3.
 
-Best regards,
--- 
-Mark Brown <broonie@kernel.org>
+[...]
 
+>  .Lskip_trace_\@:
+> +	mrs	x1, id_aa64dfr0_el1
+> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
+> +	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
+> +	b.lt	.Lskip_dbg_v8p9_\@
+> +
+> +	mov	x0, #MDCR_EL2_EBWE
+> +	orr	x2, x2, x0
+
+That can be:
+
+	orr	x2, x2, #MDCR_EL2_EBWE
+
+Mark.
