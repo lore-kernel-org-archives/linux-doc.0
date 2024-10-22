@@ -1,661 +1,273 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2083.outbound.protection.outlook.com [40.107.223.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4F913B780;
-	Tue, 22 Oct 2024 05:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729574974; cv=none; b=U+zq8SGuvr5I43ZT8at442y4x1y9jkt+BTZKa5iX96KxB4lzTlzseXpR5eL+E6ndhBK1FxG1Fl+Hn6ay7EWJF01VZj1JBsEzLtH/Fz/ZTVp5ixBTpJ9/5fR4Tamx+Bdn2xpp7yNq2sZnYsaZi+gvAqMeDg0o4CYhHjU/MhDCUM0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729574974; c=relaxed/simple;
-	bh=V6y/OPYAMbtYQEypAYOFXL9JyUDdcshIuxLLabqg6NM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pyAbDh/LS+MaboMl8PXxboKOiEyxd2gmP1oQhPx7eBOSOl69ykmpCKXD8na/Qt/8VK87rDNTJqo8+JqapG+2VrePLom0NPYjxrHRA4zqK/lcnY4qICeFZTe6gDhyidn3HPJSB14qcOgCuw1KNF+i8yZ6ptViLLKti24ALdoy38Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PO85s3sC; arc=none smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D0A135A79;
+	Tue, 22 Oct 2024 05:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.83
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729576770; cv=fail; b=GGfXeq/ngXJYb04aGULeZRl65T1ZyWOTXNxHD1ZgocdB9hh5CdILDpx7yYlLmRpI4gZ0uMcJt5fVI2n0IYDKM+q258UqnS+mhQw9pmVgXYvgTYdk2+lgn0h7UKf+S2CvxCtosvDC92xpcwu+hl4Z51IEP7z8iNJsUp/VOXeiB40=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729576770; c=relaxed/simple;
+	bh=6Z3Ow94PThh4JWBT9Yj66+wl5Y83g2EJFXDhHsiYJ+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Ux0guNIjnA6DAlxABTzLNf2GOCfPMBeagKK7CQoUa9zQRWbVZHDy+C8WIzGnUXKlT71X0KbkVQGZbM23qAniQXORzkxL58gILopjHla9iSeNNmPPfIyf9UU3nJkzlKHFUChVtvOj1hzBLpGM73pzQMuu4X6xvCY7cy5IFhbiEl4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EVlCzZLR; arc=fail smtp.client-ip=40.107.223.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PO85s3sC"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5ebc0e13d25so741287eaf.1;
-        Mon, 21 Oct 2024 22:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729574972; x=1730179772; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=00HKRaDoE+KM2OuvT4dW1znoPMBG0COXUi37/7dRIsE=;
-        b=PO85s3sCqIxHERXca+JYfPxC5drl7xN3oyMFevCVHpGOQFNXeVb2t0OheG4wLLzGiw
-         hTX9hGgOA5V0YMluW9E41PAr5Ybu+lBgVlpegGY6CewN4jGCekQ86/2FtC7VORF4ng8i
-         TAFtmIIcfaeaBllaLYHiZulU/SdWXtfpdCXzt/ZgL78cSeSJGjPBQou1qVjBrQCK0muP
-         hiBd4B+TOr/NrbVjt7wAaIf1J27jeFC9vsYFRnt1MjmOAQc5PPE3dfDoJ+O+F31/jkqZ
-         H+5niHytHpzL0FURN+Iu1abgdUYCLsODb/TOz8Sn+1AaIknbi4tO/9jZOQMbWLp/wkiS
-         JI4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729574972; x=1730179772;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=00HKRaDoE+KM2OuvT4dW1znoPMBG0COXUi37/7dRIsE=;
-        b=Z9NUsKhmqY4KN+1gIRVJt5WYZGStyzFmFgWRFeP86/wSobcUt86krbbTcJEz8smYFG
-         UkeDzzJ0YNZtwctPKQO5FKxVRyHLj/oVtyLaPI5Ufj/HC/MXixzmi/gw8EPjkksmuhGu
-         JkTU4uW+e4NceHRlXSNM26D/UstMh2fwUfiUdIqJWY6r2w0CdpaMdYA4tbvgFGtGgt9s
-         lFiJ3UcZ2shfzqsvWRDzDAXoAzHfQ0sm+wlPvPUwRHDUaS6FlaYYB5YXAfu3v212PVa1
-         kIx9CRvhtSgS34XqOf1KOFZgj0bX+OkM/wcvgFK1/Qjww4kKiuZhL6zBIRvr52p7G3B2
-         phRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUY4H0EOv4FKMGqGIT6Zegp8rjULVVLaTunLNN8ZNFqdfrmuozVwUoBSRzj4Gw37Mi+GchdxDtzgl+h@vger.kernel.org, AJvYcCVGWsB0v04MaKZcaTSi4snsqVI8LYPQfYY//jGNsCDhGUm2yByiAVqKIuB9AeKs+MD5dpoCkoXo8v43@vger.kernel.org, AJvYcCWMpEdqa8oHak15mHJemR2YTYBmD8G4chYLO4Hs1sOUJmCG2leqyxmAFv66Ap6sIMnXV74Pu9pWUPdGzhdg@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywsc+tA5NQ0w96R5OzzzViBEPwGK6RfrIbVOcYsRhTNt7bpGvJH
-	p9ceh9wPPGG84g+gP/ZjBhhBc+xyIjgsL9iC2nXD991Fz6G3MmfJ
-X-Google-Smtp-Source: AGHT+IGsMISYdcO6MxsEhI0Umj3a3T4y6E39bVNkE6hGaekZp1b5rPASGyt5WZfp/00c/la21qeFqQ==
-X-Received: by 2002:a05:6870:7012:b0:277:e1bc:7da7 with SMTP id 586e51a60fabf-28caff8e345mr1412502fac.22.1729574971707;
-        Mon, 21 Oct 2024 22:29:31 -0700 (PDT)
-Received: from hcdev-d520mt2.. (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec141505bsm3845846b3a.219.2024.10.21.22.29.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 22:29:31 -0700 (PDT)
-From: baneric926@gmail.com
-X-Google-Original-From: kcfeng0@nuvoton.com
-To: jdelvare@suse.com,
-	linux@roeck-us.net,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net
-Cc: linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	openbmc@lists.ozlabs.org,
-	kwliu@nuvoton.com,
-	kcfeng0@nuvoton.com,
-	DELPHINE_CHIU@wiwynn.com,
-	Bonnie_Lo@wiwynn.com
-Subject: [PATCH v6 2/2] hwmon: Add driver for I2C chip Nuvoton NCT7363Y
-Date: Tue, 22 Oct 2024 13:29:05 +0800
-Message-Id: <20241022052905.4062682-3-kcfeng0@nuvoton.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241022052905.4062682-1-kcfeng0@nuvoton.com>
-References: <20241022052905.4062682-1-kcfeng0@nuvoton.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EVlCzZLR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YVVV2BGqk8cJaic1PukHFH/2dkGSr0MJfBVcc4+b6D6VVMrfzULwluHWxZG092l7bVGDGhBAN/WLfJgO4y85pQYw384gZyEYa3vJcVaue6ygzQKjHL66MCa2yyodvnkl/1U68jlg1FiGBlkYUsFynlZrPYMqcCPImmjcKephtG0KTU3KXBhyV/vdUW52NpaqwU6q750NGjWSnB8fAsvNqF45dRSKaEmuLYDESjMf26pADHcSVbaFDf6GTuxaxz9/w9BMh2EaS+YrihYx9si09hTrRR4/Y5YB4d3YOJN+kMgwURysb4906mn6G86iDF3nZKBjbSwG/o8RKHFH8Y4OUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a5XMRnKMJnvF5o8V4p0HMkERNM6E+FLeRnA03h3IgiY=;
+ b=EQJmm8htw2bHUbhKioAbAAaXHBEMzIB2J1kvux//6/n1fPTIn8aUJimo4w0vZJ6EFuAkQaQZbjl7P6LQhP7ct4ipwryCS7YnLBSicY8wXFg56K402PqRAzgMEkF5uK1TFTEg62BvciD329syULNIOAE9fVByZB+lAiunqMrv7d/AH14g8wUueDbQIjc7Afj6Tnlrze2EyH9+E5tqG4a6/Y7FByCRquMvqs0NT7DKYeFsC/yI6NgmI7V9UEM1hQ2lV5BlkzFErMQyWKBMKYXYN9kgb4ehHMs76NN66tJCADH4NOMeIRUqEtrC3vlSnKWwLjoNb0uLnaBRp2mYAPE4JQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a5XMRnKMJnvF5o8V4p0HMkERNM6E+FLeRnA03h3IgiY=;
+ b=EVlCzZLRnW61Q+aoJwYZXymn3OTD7izC/8bOot0mWdo+HKvOrcDZaNVqmQFMv36xUH4RYh8se/A9lVBj1/sgwlIAdLQyPPcg5ohu7BO18JTox1Ss3W71K0ItIcbcguh8seIKqHeO4OvaKZKDMf2MiHbVnCCF1LXBxaT6wYZIixQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB8252.namprd12.prod.outlook.com (2603:10b6:8:ee::7) by
+ PH8PR12MB6988.namprd12.prod.outlook.com (2603:10b6:510:1bf::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Tue, 22 Oct
+ 2024 05:59:25 +0000
+Received: from DS7PR12MB8252.namprd12.prod.outlook.com
+ ([fe80::2d0c:4206:cb3c:96b7]) by DS7PR12MB8252.namprd12.prod.outlook.com
+ ([fe80::2d0c:4206:cb3c:96b7%6]) with mapi id 15.20.8069.027; Tue, 22 Oct 2024
+ 05:59:25 +0000
+Date: Tue, 22 Oct 2024 11:29:12 +0530
+From: "Gautham R. Shenoy" <gautham.shenoy@amd.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	x86@kernel.org, Perry Yuan <perry.yuan@amd.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH v4 08/13] platform/x86: hfi: add online and offline
+ callback support
+Message-ID: <Zxc/MHYdFR/kTlbp@BLRRASHENOY1.amd.com>
+References: <20241021180252.3531-1-mario.limonciello@amd.com>
+ <20241021180252.3531-9-mario.limonciello@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241021180252.3531-9-mario.limonciello@amd.com>
+X-ClientProxiedBy: PN2PR01CA0171.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:26::26) To DS7PR12MB8252.namprd12.prod.outlook.com
+ (2603:10b6:8:ee::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB8252:EE_|PH8PR12MB6988:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9eebe01-a10b-4831-c642-08dcf25eaeb5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?uCUgqc7QzyLgPXMUdXIaEIXn0UniLAeUDUYYQFcef/WrRKPgRkNpmAA3oFXd?=
+ =?us-ascii?Q?UlWMyxfES9GvEpxNg5HLrMIQTfRyoy/pXC91pewwIDJw2DopDHqMO2uxnPPe?=
+ =?us-ascii?Q?jB6BYxIx4yNvN+dJaYT3el/I+c/PpuEgneGiWLrdMoc4SrkPU8rDrJdViv6h?=
+ =?us-ascii?Q?6wCfgxn3BTeyvCcNH+2dZ62Kr2r0xGsGDllYy1AWhCbQ75sDe8NHO/LWjDxp?=
+ =?us-ascii?Q?X4NLdlnRRov57HmWKIUAtXRhpZsJWg+j+SX82+A814hrL2ceCK1KNjTTDcIb?=
+ =?us-ascii?Q?tn7z4QUwYl321cVmJEcY6KGHS0yuqjlZii45k8QbLeXh1M0S/wpAMsrHADTW?=
+ =?us-ascii?Q?VRz1cnb7c0wL28w/+P2/JgOkzD+RZszqEVWNERw0ORCT+94AeiMrqynYTjoE?=
+ =?us-ascii?Q?Ozd01v40LWpP/KgLUv5kSLgBrt0pH8mSNeJSxG3OxpVBf/DlP+7XWaThXUSI?=
+ =?us-ascii?Q?Vq4qB1atZNCQs7XTc2Tseq/NJE2jnBMGKMinBRUY1NDE6z+jwRhdzk+QCjHR?=
+ =?us-ascii?Q?LagmnibptlhOAK80oppjum647yf5zn61GwvrqYPrunIgsBvkzMpCsMuLzBcb?=
+ =?us-ascii?Q?Im2h/EAWWoduKm5DFShEusGHqV8L421V7/k+SZh328CzyjTjeX24yJ2MFQij?=
+ =?us-ascii?Q?0wxDvgyLr1+NpXCqvd6EKJ7a7mUjAfaCIJCyMFd5zAA4e2NZuA+BBl1PIRlX?=
+ =?us-ascii?Q?JG5YFUZPfh79svePbrB0BjSMip4ZAbqIxhELEYH0ADA5O/KQhYc1+fTj4pbz?=
+ =?us-ascii?Q?kEXIL3C2KLKPn4nzRHcmT5svnH8cxrDwrLFJbs1nJFN9OaHulQFbQANZbqLG?=
+ =?us-ascii?Q?jdY4cHzp7ybdzjJgDpPFpc8ZYyqGfghdg5JN8k6NKL3Z5/ESM2ve5fJzXQ9s?=
+ =?us-ascii?Q?9TZdywat/Y4TZasJRqOl/ABcndx6KkATP5tAUogm7KYuLyu/lGb6OTzd6p1f?=
+ =?us-ascii?Q?WV7wNOGdKGxgqAHDQmvg/7tKJrFNwMN2KRUwDnQU7of6Gr01OCoxu+Aq4rNV?=
+ =?us-ascii?Q?04FeGMm/yk7XF1/NcO0U4rHtH5b020LHKC5UTasn/Q2/rUMvL/4m3mk4WzRN?=
+ =?us-ascii?Q?iUbIRByUqRHbj52X7mzBCaIf3XjQsovtQSRsNeTvPitPitC9z99E+wcGGX6U?=
+ =?us-ascii?Q?EHecPVJeYTC9iw+vxkjVI2Udi28cNtSBpEqRzhfSQ1ciAoCxCRCWvOrAGAIY?=
+ =?us-ascii?Q?Gao+P8IkgRfqku+teLwjgwSupUtD2S5BAVcNkTxAbN8OGfdAYxyI9oP4pqCj?=
+ =?us-ascii?Q?VX+3ufldSPitnS83yQWmCrJrqy3qbdAR5E6eNlqb7lBdcN6+85D8O+Fk3jff?=
+ =?us-ascii?Q?elu8C7sdYrtysWVmIDoWqmCr?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB8252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?QnheZaOuLk9sEeqFyk74qkB9A6rQwrgp1uXgy+8Nb7wuyxe6uytx0TsmWQre?=
+ =?us-ascii?Q?Zcgql27Bv+X7z2JFsj35R75w9SZQfjd0PJgJ7QXFvGz+89Si7PnN9glXIEGW?=
+ =?us-ascii?Q?xnaVL4ega+f2VfH8BGsubFQKKOyxWz7F0uvqOxcHmBBOI99khbu6em2kEljp?=
+ =?us-ascii?Q?0G59vf+pnwppNTRsCxtEJYKtZQS+Y8KSAgMKx7Inv4YW41lnx1nTU/cZz15D?=
+ =?us-ascii?Q?O9Ze1Iok1EAAiluMtjDyYQscsmJln8oS43c3al9dNaay1sanA7GSGjrCLtlH?=
+ =?us-ascii?Q?yk+jvjuFKOx751gMrYLmDSZKpR1N91fX2pzj52nLG1JpgVhvXuHTFtQHq3lu?=
+ =?us-ascii?Q?m4fWOKpuoGl3Fuv1nCkBy1ki1I2s7bLPOYWBOLkg/ceNSPfa/BZgcNY7PvxI?=
+ =?us-ascii?Q?oq5RC2qq0xX2RygApKEuw9sUKikki+6ITddkcr1zwW/0nusHg74TucpzQDnl?=
+ =?us-ascii?Q?PfxtzLfxBp7ixXJBKador2rtdkFUczmLWDos9Li1LsHVH2FwmChnnEO0LC5q?=
+ =?us-ascii?Q?1ayoDSNWXin8wqk1mf+s6lGL0/5PJjlnDFVB+5YEuh10yqvWuWTFbMafEO61?=
+ =?us-ascii?Q?eUQI02jbDSw82vg8eJ6d0+6e4LM3VTm2wyTMnbsIf9WH7uCS0cnbBRS3e2l5?=
+ =?us-ascii?Q?QrRJt3Oi3Ab+wbs9hvoUuFap25HBGadNyFS2+UbvKLQfmd4O/subfn+RPZz2?=
+ =?us-ascii?Q?UKMS9zieukVTjktliq8M2jVkmtm0OxYC0E1Ec4RrP0MvgON4CTQfduXWB53v?=
+ =?us-ascii?Q?UDS+27a10EpYB6crxieE7FXH1b23weDJnEQtlG8iuUAG78nceQHo2nFshhxU?=
+ =?us-ascii?Q?o+yisbXt11hLwwMECQlNkykRUsPQs/sqGdHX2KkHf5a7uZrn0fI3NriaPdjV?=
+ =?us-ascii?Q?lgbQZblEW5vgxFNwP+dfPMv/Vj1X0RKtuBeQ2xH2cyht9so1t663dCG+/HkZ?=
+ =?us-ascii?Q?bNuFApr1NEJk57shU0Hxb6xPkk9tzPV0+PAsE1MQZ290yH2VSHzIuwtSZODP?=
+ =?us-ascii?Q?NMndwiIa+NwlgaXUgG+Mfxd6yBmFQZgwjU1xMqipvKbBN2IVI611der+8qJj?=
+ =?us-ascii?Q?aunUirfAabKH45vc4PSkPB2eaE8ID9SlI3NcEPEQ6SXkaK9WcG8AxL+5eD1A?=
+ =?us-ascii?Q?8T5iuQGXKxCjpxZgLQx32q83gTB57tRsaBm6oRE5OCpdK8QA5dtGZ05XjbPc?=
+ =?us-ascii?Q?R/grDUCtlTM3TR6IzeOSsKK4KlJAie2zXVOlrPy/pJfFeGJTLvaAQS1Wvigx?=
+ =?us-ascii?Q?2dUu83bIHmpQOKhpJhMs/SpEnIy/mbtLCsKOK0xpdD5MN5Go+7S0g3Qvn27o?=
+ =?us-ascii?Q?JkBcoXDhPJBZSKIxNL9lPb84oYd7HOcSh0pqaOGduMCL8fVhDWC6LvZ3TOap?=
+ =?us-ascii?Q?YxBggN5IY5dwlevfHhIdSWr3YvasnEyoa3POJYug0dEDopa1GGylOC2lX/eP?=
+ =?us-ascii?Q?7TaaOiTRHs8zbPnGV3iHdJEFVI74EDGUBydE9IT1fsoPAyGq0083pay3PSwG?=
+ =?us-ascii?Q?87vdtLGJReUGyJCprPmVYFp9R9AlPw0fzzB1zWJb80iN0A2IH3NOSzKr0XeZ?=
+ =?us-ascii?Q?KTVucDD9Tb9NvaYm5MNXwGXQpX09wUg1QiuEnZfq?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9eebe01-a10b-4831-c642-08dcf25eaeb5
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB8252.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 05:59:25.5562
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4b2WLQKcafhMLFHt3m18DX9tbhWBnUjmZ/l44wnbCwQN8fBK7bSe+AdAZ5eHLx5mfUzsnQyNLdIrHM96Swm0RA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6988
 
-From: Ban Feng <kcfeng0@nuvoton.com>
+On Mon, Oct 21, 2024 at 01:02:47PM -0500, Mario Limonciello wrote:
+> From: Perry Yuan <Perry.Yuan@amd.com>
+> 
+> There are some firmware parameters that need to be configured
+> when a CPU core is brought online or offline.
+> 
+> when CPU is online, it will initialize the workload classification
+> parameters to CPU firmware which will trigger the workload class ID
+> updating function.
+> 
+> Once the CPU is going to offline, it will need to disable the workload
+> classification function and clear the history.
+> 
+> Signed-off-by: Perry Yuan <Perry.Yuan@amd.com>
+> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+> v3->v4:
+>  * cpu -> CPU (Ilpo)
+> v2->v3:
+>  * Use guard() (Ilpo)
+>  * Whitespace changes (Ilpo)
+>  * Remove labels for unwind (Ilpo)
+> ---
+>  drivers/platform/x86/amd/hfi/hfi.c | 79 ++++++++++++++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/amd/hfi/hfi.c
+> index 986ea056fa022..70ddde37f283f 100644
+> --- a/drivers/platform/x86/amd/hfi/hfi.c
+> +++ b/drivers/platform/x86/amd/hfi/hfi.c
+> @@ -245,6 +245,80 @@ static int amd_set_hfi_ipcc_score(struct amd_hfi_cpuinfo *hfi_cpuinfo, int cpu)
+>  	return 0;
+>  }
+>  
+> +static int amd_hfi_set_state(unsigned int cpu, bool state)
+> +{
+> +	int ret;
+> +
+> +	ret = wrmsrl_on_cpu(cpu, AMD_WORKLOAD_CLASS_CONFIG, state);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return wrmsrl_on_cpu(cpu, AMD_WORKLOAD_HRST, 0x1);
+> +}
+> +
+> +/**
+> + * amd_hfi_online() - Enable workload classification on @cpu
+> + * @cpu: CPU in which the workload classification will be enabled
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int amd_hfi_online(unsigned int cpu)
+> +{
+> +	struct amd_hfi_cpuinfo *hfi_info = per_cpu_ptr(&amd_hfi_cpuinfo, cpu);
+> +	struct amd_hfi_classes *hfi_classes;
+> +	int ret;
+> +
+> +	if (WARN_ON_ONCE(!hfi_info))
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Check if @cpu as an associated, initialized and ranking data must be filled
+> +	 */
+> +	hfi_classes = hfi_info->amd_hfi_classes;
+> +	if (!hfi_classes)
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&hfi_cpuinfo_lock);
+> +
+> +	if (!zalloc_cpumask_var(&hfi_info->cpus, GFP_KERNEL))
+> +		return -ENOMEM;
+> +
+> +	cpumask_set_cpu(cpu, hfi_info->cpus);
+> +
+> +	ret = amd_hfi_set_state(cpu, true);
+> +	if (ret)
+> +		pr_err("WCT enable failed for CPU %d\n", cpu);
+> +
+> +	return ret;
+> +}
+> +
+> +/**
+> + * amd_hfi_offline() - Disable workload classification on @cpu
+> + * @cpu: CPU in which the workload classification will be disabled
+> + *
+> + * Remove @cpu from those covered by its HFI instance.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int amd_hfi_offline(unsigned int cpu)
+> +{
+> +	struct amd_hfi_cpuinfo *hfi_info = &per_cpu(amd_hfi_cpuinfo, cpu);
+> +	int ret;
+> +
+> +	if (WARN_ON_ONCE(!hfi_info))
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&hfi_cpuinfo_lock);
+> +
+> +	ret = amd_hfi_set_state(cpu, false);
+> +	if (ret)
+> +		pr_err("WCT disable failed for CPU %d\n", cpu);
+> +
+> +	free_cpumask_var(hfi_info->cpus);
+> +
+> +	return ret;
+> +}
+> +
+>  static int update_hfi_ipcc_scores(void)
+>  {
+>  	int cpu;
+> @@ -348,6 +422,11 @@ static int amd_hfi_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "x86/amd_hfi:online",
+> +				amd_hfi_online, amd_hfi_offline);
+> +	if (ret < 0)
+> +		return ret;
+> +
+>  	return 0;
 
-The NCT7363Y is a fan controller which provides up to 16
-independent FAN input monitors. It can report each FAN input count
-values. The NCT7363Y also provides up to 16 independent PWM
-outputs. Each PWM can output specific PWM signal by manual mode to
-control the FAN duty outside.
+Looks good to me.
 
-Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
----
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/nct7363.rst |  35 +++
- MAINTAINERS                     |   2 +
- drivers/hwmon/Kconfig           |  11 +
- drivers/hwmon/Makefile          |   1 +
- drivers/hwmon/nct7363.c         | 447 ++++++++++++++++++++++++++++++++
- 6 files changed, 497 insertions(+)
- create mode 100644 Documentation/hwmon/nct7363.rst
- create mode 100644 drivers/hwmon/nct7363.c
+Reviewed-by: Gautham R. Shenoy <gautham.shenoy@amd.com>
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index ea3b5be8fe4f..4331a6a64e9e 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -174,6 +174,7 @@ Hardware Monitoring Kernel Drivers
-    mpq8785
-    nct6683
-    nct6775
-+   nct7363
-    nct7802
-    nct7904
-    npcm750-pwm-fan
-diff --git a/Documentation/hwmon/nct7363.rst b/Documentation/hwmon/nct7363.rst
-new file mode 100644
-index 000000000000..623cb4f0c8ce
---- /dev/null
-+++ b/Documentation/hwmon/nct7363.rst
-@@ -0,0 +1,35 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver nct7363
-+=====================
-+
-+Supported chip:
-+
-+  * Nuvoton NCT7363Y
-+
-+    Prefix: nct7363
-+
-+    Addresses: I2C 0x20, 0x21, 0x22, 0x23
-+
-+Author: Ban Feng <kcfeng0@nuvoton.com>
-+
-+
-+Description
-+-----------
-+
-+The NCT7363Y is a fan controller which provides up to 16 independent
-+FAN input monitors, and up to 16 independent PWM outputs with SMBus interface.
-+
-+
-+Sysfs entries
-+-------------
-+
-+Currently, the driver supports the following features:
-+
-+==========  ==========================================
-+fanX_input  provide current fan rotation value in RPM
-+fanX_alarm  report fan low speed real status
-+fanX_min    get or set fan count threshold
-+
-+pwmX        get or set PWM fan control value.
-+==========  ==========================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 86a65a7d9721..9d40ab32679c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15887,6 +15887,8 @@ M:	Ban Feng <kcfeng0@nuvoton.com>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
-+F:	Documentation/hwmon/nct7363.rst
-+F:	drivers/hwmon/nct7363.c
- 
- NETCONSOLE
- M:	Breno Leitao <leitao@debian.org>
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 08a3c863f80a..ae56a45dc7bc 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1670,6 +1670,17 @@ config SENSORS_NCT6775_I2C
- 	  This driver can also be built as a module. If so, the module
- 	  will be called nct6775-i2c.
- 
-+config SENSORS_NCT7363
-+	tristate "Nuvoton NCT7363Y"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  If you say yes here you get support for the Nuvoton NCT7363Y
-+	  hardware monitoring chip.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called nct7363.
-+
- config SENSORS_NCT7802
- 	tristate "Nuvoton NCT7802Y"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 9554d2fdcf7b..dc55eace3dba 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -171,6 +171,7 @@ obj-$(CONFIG_SENSORS_NCT6775_CORE) += nct6775-core.o
- nct6775-objs			:= nct6775-platform.o
- obj-$(CONFIG_SENSORS_NCT6775)	+= nct6775.o
- obj-$(CONFIG_SENSORS_NCT6775_I2C) += nct6775-i2c.o
-+obj-$(CONFIG_SENSORS_NCT7363)	+= nct7363.o
- obj-$(CONFIG_SENSORS_NCT7802)	+= nct7802.o
- obj-$(CONFIG_SENSORS_NCT7904)	+= nct7904.o
- obj-$(CONFIG_SENSORS_NPCM7XX)	+= npcm750-pwm-fan.o
-diff --git a/drivers/hwmon/nct7363.c b/drivers/hwmon/nct7363.c
-new file mode 100644
-index 000000000000..11b50b362aff
---- /dev/null
-+++ b/drivers/hwmon/nct7363.c
-@@ -0,0 +1,447 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (c) 2023 Nuvoton Technology corporation.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/err.h>
-+#include <linux/hwmon.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+
-+#define NCT7363_REG_FUNC_CFG_BASE(x)	(0x20 + (x))
-+#define NCT7363_REG_LSRS(x)		(0x34 + ((x) / 8))
-+#define NCT7363_REG_PWMEN_BASE(x)	(0x38 + (x))
-+#define NCT7363_REG_FANINEN_BASE(x)	(0x41 + (x))
-+#define NCT7363_REG_FANINX_HVAL(x)	(0x48 + ((x) * 2))
-+#define NCT7363_REG_FANINX_LVAL(x)	(0x49 + ((x) * 2))
-+#define NCT7363_REG_FANINX_HL(x)	(0x6C + ((x) * 2))
-+#define NCT7363_REG_FANINX_LL(x)	(0x6D + ((x) * 2))
-+#define NCT7363_REG_FSCPXDUTY(x)	(0x90 + ((x) * 2))
-+#define NCT7363_REG_FSCPXDIV(x)		(0x91 + ((x) * 2))
-+
-+#define PWM_SEL(x)			(BIT(0) << ((x) * 2))
-+#define FANIN_SEL(_x)			({typeof(_x) (x) = (_x); \
-+					 BIT(1) << (((x) < 8) ? \
-+					 (((x) + 8) * 2) : \
-+					 (((x) % 8) * 2)); })
-+#define ALARM_SEL(x, y)			((x) & (BIT((y) % 8)))
-+#define VALUE_TO_REG(x, y)		(((x) >> ((y) * 8)) & 0xFF)
-+
-+#define NCT7363_FANINX_LVAL_MASK	GENMASK(4, 0)
-+#define NCT7363_FANIN_MASK		GENMASK(12, 0)
-+
-+#define NCT7363_PWM_COUNT		16
-+
-+static inline unsigned int fan_from_reg(u16 val)
-+{
-+	if (val == NCT7363_FANIN_MASK || val == 0)
-+		return 0;
-+
-+	return (1350000UL / val);
-+}
-+
-+static const struct of_device_id nct7363_of_match[] = {
-+	{ .compatible = "nuvoton,nct7363", },
-+	{ .compatible = "nuvoton,nct7362", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, nct7363_of_match);
-+
-+struct nct7363_data {
-+	struct regmap		*regmap;
-+
-+	u16			fanin_mask;
-+	u16			pwm_mask;
-+};
-+
-+static int nct7363_read_fan(struct device *dev, u32 attr, int channel,
-+			    long *val)
-+{
-+	struct nct7363_data *data = dev_get_drvdata(dev);
-+	unsigned int reg;
-+	u8 regval[2];
-+	int ret = 0;
-+	u16 cnt;
-+
-+	switch (attr) {
-+	case hwmon_fan_input:
-+		/*
-+		 * High-byte register should be read first to latch
-+		 * synchronous low-byte value
-+		 */
-+		ret = regmap_bulk_read(data->regmap,
-+				       NCT7363_REG_FANINX_HVAL(channel),
-+				       &regval, 2);
-+		if (ret)
-+			return ret;
-+
-+		cnt = (regval[0] << 5) | (regval[1] & NCT7363_FANINX_LVAL_MASK);
-+		*val = fan_from_reg(cnt);
-+		return 0;
-+	case hwmon_fan_min:
-+		ret = regmap_bulk_read(data->regmap,
-+				       NCT7363_REG_FANINX_HL(channel),
-+				       &regval, 2);
-+		if (ret)
-+			return ret;
-+
-+		cnt = (regval[0] << 5) | (regval[1] & NCT7363_FANINX_LVAL_MASK);
-+		*val = fan_from_reg(cnt);
-+		return 0;
-+	case hwmon_fan_alarm:
-+		ret = regmap_read(data->regmap,
-+				  NCT7363_REG_LSRS(channel), &reg);
-+		if (ret)
-+			return ret;
-+
-+		*val = (long)ALARM_SEL(reg, channel) > 0 ? 1 : 0;
-+		return 0;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int nct7363_write_fan(struct device *dev, u32 attr, int channel,
-+			     long val)
-+{
-+	struct nct7363_data *data = dev_get_drvdata(dev);
-+	u8 regval[2];
-+	int ret;
-+
-+	if (val <= 0)
-+		return -EINVAL;
-+
-+	switch (attr) {
-+	case hwmon_fan_min:
-+		val = clamp_val(DIV_ROUND_CLOSEST(1350000, val),
-+				1, NCT7363_FANIN_MASK);
-+		regval[0] = val >> 5;
-+		regval[1] = val & NCT7363_FANINX_LVAL_MASK;
-+
-+		ret = regmap_bulk_write(data->regmap,
-+					NCT7363_REG_FANINX_HL(channel),
-+					regval, 2);
-+		return ret;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static umode_t nct7363_fan_is_visible(const void *_data, u32 attr, int channel)
-+{
-+	const struct nct7363_data *data = _data;
-+
-+	switch (attr) {
-+	case hwmon_fan_input:
-+	case hwmon_fan_alarm:
-+		if (data->fanin_mask & BIT(channel))
-+			return 0444;
-+		break;
-+	case hwmon_fan_min:
-+		if (data->fanin_mask & BIT(channel))
-+			return 0644;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int nct7363_read_pwm(struct device *dev, u32 attr, int channel,
-+			    long *val)
-+{
-+	struct nct7363_data *data = dev_get_drvdata(dev);
-+	unsigned int regval;
-+	int ret;
-+
-+	switch (attr) {
-+	case hwmon_pwm_input:
-+		ret = regmap_read(data->regmap,
-+				  NCT7363_REG_FSCPXDUTY(channel), &regval);
-+		if (ret)
-+			return ret;
-+
-+		*val = (long)regval;
-+		return 0;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int nct7363_write_pwm(struct device *dev, u32 attr, int channel,
-+			     long val)
-+{
-+	struct nct7363_data *data = dev_get_drvdata(dev);
-+	int ret;
-+
-+	switch (attr) {
-+	case hwmon_pwm_input:
-+		if (val < 0 || val > 255)
-+			return -EINVAL;
-+
-+		ret = regmap_write(data->regmap,
-+				   NCT7363_REG_FSCPXDUTY(channel), val);
-+
-+		return ret;
-+
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static umode_t nct7363_pwm_is_visible(const void *_data, u32 attr, int channel)
-+{
-+	const struct nct7363_data *data = _data;
-+
-+	switch (attr) {
-+	case hwmon_pwm_input:
-+		if (data->pwm_mask & BIT(channel))
-+			return 0644;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int nct7363_read(struct device *dev, enum hwmon_sensor_types type,
-+			u32 attr, int channel, long *val)
-+{
-+	switch (type) {
-+	case hwmon_fan:
-+		return nct7363_read_fan(dev, attr, channel, val);
-+	case hwmon_pwm:
-+		return nct7363_read_pwm(dev, attr, channel, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int nct7363_write(struct device *dev, enum hwmon_sensor_types type,
-+			 u32 attr, int channel, long val)
-+{
-+	switch (type) {
-+	case hwmon_fan:
-+		return nct7363_write_fan(dev, attr, channel, val);
-+	case hwmon_pwm:
-+		return nct7363_write_pwm(dev, attr, channel, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static umode_t nct7363_is_visible(const void *data,
-+				  enum hwmon_sensor_types type,
-+				  u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_fan:
-+		return nct7363_fan_is_visible(data, attr, channel);
-+	case hwmon_pwm:
-+		return nct7363_pwm_is_visible(data, attr, channel);
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static const struct hwmon_channel_info *nct7363_info[] = {
-+	HWMON_CHANNEL_INFO(fan,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_ALARM),
-+	HWMON_CHANNEL_INFO(pwm,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_ops nct7363_hwmon_ops = {
-+	.is_visible = nct7363_is_visible,
-+	.read = nct7363_read,
-+	.write = nct7363_write,
-+};
-+
-+static const struct hwmon_chip_info nct7363_chip_info = {
-+	.ops = &nct7363_hwmon_ops,
-+	.info = nct7363_info,
-+};
-+
-+static int nct7363_init_chip(struct nct7363_data *data)
-+{
-+	u32 func_config = 0;
-+	int i, ret;
-+
-+	/* Pin Function Configuration */
-+	for (i = 0; i < NCT7363_PWM_COUNT; i++) {
-+		if (data->pwm_mask & BIT(i))
-+			func_config |= PWM_SEL(i);
-+		if (data->fanin_mask & BIT(i))
-+			func_config |= FANIN_SEL(i);
-+	}
-+
-+	for (i = 0; i < 4; i++) {
-+		ret = regmap_write(data->regmap, NCT7363_REG_FUNC_CFG_BASE(i),
-+				   VALUE_TO_REG(func_config, i));
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	/* PWM and FANIN Monitoring Enable */
-+	for (i = 0; i < 2; i++) {
-+		ret = regmap_write(data->regmap, NCT7363_REG_PWMEN_BASE(i),
-+				   VALUE_TO_REG(data->pwm_mask, i));
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = regmap_write(data->regmap, NCT7363_REG_FANINEN_BASE(i),
-+				   VALUE_TO_REG(data->fanin_mask, i));
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int nct7363_present_pwm_fanin(struct device *dev,
-+				     struct device_node *child,
-+				     struct nct7363_data *data)
-+{
-+	u8 fanin_ch[NCT7363_PWM_COUNT];
-+	struct of_phandle_args args;
-+	int ret, fanin_cnt;
-+	u8 ch, index;
-+
-+	ret = of_parse_phandle_with_args(child, "pwms", "#pwm-cells",
-+					 0, &args);
-+	if (ret)
-+		return ret;
-+
-+	if (args.args[0] >= NCT7363_PWM_COUNT)
-+		return -EINVAL;
-+	data->pwm_mask |= BIT(args.args[0]);
-+
-+	fanin_cnt = of_property_count_u8_elems(child, "tach-ch");
-+	if (fanin_cnt < 1 || fanin_cnt > NCT7363_PWM_COUNT)
-+		return -EINVAL;
-+
-+	ret = of_property_read_u8_array(child, "tach-ch", fanin_ch, fanin_cnt);
-+	if (ret)
-+		return ret;
-+
-+	for (ch = 0; ch < fanin_cnt; ch++) {
-+		index = fanin_ch[ch];
-+		if (index >= NCT7363_PWM_COUNT)
-+			return -EINVAL;
-+		data->fanin_mask |= BIT(index);
-+	}
-+
-+	return 0;
-+}
-+
-+static bool nct7363_regmap_is_volatile(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case NCT7363_REG_LSRS(0) ... NCT7363_REG_LSRS(15):
-+	case NCT7363_REG_FANINX_HVAL(0) ... NCT7363_REG_FANINX_LVAL(15):
-+	case NCT7363_REG_FANINX_HL(0) ... NCT7363_REG_FANINX_LL(15):
-+	case NCT7363_REG_FSCPXDUTY(0) ... NCT7363_REG_FSCPXDIV(15):
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct regmap_config nct7363_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.use_single_read = true,
-+	.use_single_write = true,
-+	.cache_type = REGCACHE_RBTREE,
-+	.volatile_reg = nct7363_regmap_is_volatile,
-+};
-+
-+static int nct7363_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct device_node *child;
-+	struct nct7363_data *data;
-+	struct device *hwmon_dev;
-+	int ret;
-+
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->regmap = devm_regmap_init_i2c(client, &nct7363_regmap_config);
-+	if (IS_ERR(data->regmap))
-+		return PTR_ERR(data->regmap);
-+
-+	for_each_child_of_node(dev->of_node, child) {
-+		ret = nct7363_present_pwm_fanin(dev, child, data);
-+		if (ret) {
-+			of_node_put(child);
-+			return ret;
-+		}
-+	}
-+
-+	/* Initialize the chip */
-+	ret = nct7363_init_chip(data);
-+	if (ret)
-+		return ret;
-+
-+	hwmon_dev =
-+		devm_hwmon_device_register_with_info(dev, client->name, data,
-+						     &nct7363_chip_info, NULL);
-+	return PTR_ERR_OR_ZERO(hwmon_dev);
-+}
-+
-+static struct i2c_driver nct7363_driver = {
-+	.class = I2C_CLASS_HWMON,
-+	.driver = {
-+		.name = "nct7363",
-+		.of_match_table = nct7363_of_match,
-+	},
-+	.probe = nct7363_probe,
-+};
-+
-+module_i2c_driver(nct7363_driver);
-+
-+MODULE_AUTHOR("CW Ho <cwho@nuvoton.com>");
-+MODULE_AUTHOR("Ban Feng <kcfeng0@nuvoton.com>");
-+MODULE_DESCRIPTION("NCT7363 Hardware Monitoring Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.34.1
 
+--
+Thanks and Regards
+gautham.
