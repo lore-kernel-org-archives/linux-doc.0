@@ -1,36 +1,48 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from trager.us (trager.us [52.5.81.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161CD2AE7C;
-	Tue, 22 Oct 2024 01:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAC325760;
+	Tue, 22 Oct 2024 01:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.5.81.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729561137; cv=none; b=RMofTQUzLZJiNGWAEewCsTRJI6fboQTY2SGSN9BUhIme5t6bQU3IHe8jhOErAGjJoKagCxL8YNL+fopv9IbIJWN3vS2gMKWziqpMdrZMmnmm0DBVbr/NuoGLVQoHINDC3GU17I0AnbcFW1LbHddkMcxzHRgUhSzJvO1U9lXiGOM=
+	t=1729561240; cv=none; b=Md1DWJnh+ZgnKzLl+RTMzQmwwKm1zVyMNdbZW26dR6VkC3B7+j2LFqWD5++syJhFmMVDQHP1fj09k+xpBaperVIcfCr9Prfum1p8n9EV2eajZvsL4mALQedAzcQlDuaexzX1UDWZQD8CEah2Hpld7vFJ6TQATpZgu/IJoksW7NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729561137; c=relaxed/simple;
-	bh=EAE6dlldhalsC3j55bduOLp/lHd3aELx7JoM3R38/Qc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IUF2sbDq/T+tCWCOXgu2DJwXkZMQEkE3bKaEdm9HZ7vJP5CcHlw2+KsdQ+gbOIjl+vEbVFGlzmtdZBB1trcAQs1TfghGqVGHe57pn18X8RhyFuK/4UxXT1GUr/15gGea/Me4HcgWTAbEqWWd9Zk+R/EznURnx+qFgwOglpT1QVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XXZXl0r7RzpX9R;
-	Tue, 22 Oct 2024 09:36:55 +0800 (CST)
-Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id 506611800DB;
-	Tue, 22 Oct 2024 09:38:52 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpeml500022.china.huawei.com
- (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 22 Oct
- 2024 09:38:52 +0800
-From: Hongbo Li <lihongbo22@huawei.com>
-To: <dhowells@redhat.com>, <jlayton@kernel.org>, <corbet@lwn.net>
-CC: <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<lihongbo22@huawei.com>
-Subject: [PATCH] doc: correcting the debug path for cachefiles
-Date: Tue, 22 Oct 2024 09:38:12 +0800
-Message-ID: <20241022013812.2880883-1-lihongbo22@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1729561240; c=relaxed/simple;
+	bh=+bhStFYIUdfzusPYQvCHt45ldFDcMjOh0KIk1ivnG38=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pWeooabV/sOZVe4bXTOs+yqE8O6wa3Wuc1p5g+K1o5IyK9L8retsTIqc3f7tYErNg6aQsPuEv58FBZZobeP6AOujmYmNiLhoONqxAGr5aWesrscRoOQt3K9biP+GljZ5i/B0oBsgefngSWAcgwrWDOOFdToNVx5zp8qEJ+J+MR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us; spf=pass smtp.mailfrom=trager.us; arc=none smtp.client-ip=52.5.81.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trager.us
+Received: from [163.114.132.6] (helo=localhost)
+	by trager.us with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92.3)
+	(envelope-from <lee@trager.us>)
+	id 1t33sj-0003xr-3v; Tue, 22 Oct 2024 01:40:21 +0000
+From: Lee Trager <lee@trager.us>
+To: Alexander Duyck <alexanderduyck@fb.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	kernel-team@meta.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Lee Trager <lee@trager.us>,
+	Sanman Pradhan <sanmanpradhan@meta.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Mohsin Bashir <mohsin.bashr@gmail.com>,
+	Simon Horman <horms@kernel.org>
+Cc: Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v2 0/2] eth: fbnic: Add devlink dev flash support
+Date: Mon, 21 Oct 2024 18:37:45 -0700
+Message-ID: <20241022013941.3764567-1-lee@trager.us>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20241012023646.3124717-1-lee@trager.us>
+References: <20241012023646.3124717-1-lee@trager.us>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,32 +50,32 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500022.china.huawei.com (7.185.36.66)
 
-The original debug path is under "/sys/modules", that's
-wrong. The real path in kernel is "/sys/module". So we
-can correct it.
+fbnic supports updating firmware using a PLDM image signed and distributed
+by Meta. PLDM images are written into stored flash. Flashing does not
+interrupt operation.
 
-Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
----
- Documentation/filesystems/caching/cachefiles.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Mailbox support additional adds support to utilize the kernel completion
+API with firmware. This allows the driver to block on firmware response.
+Initial support is only for firmware updates, future patches will add
+support for additional features.
 
-diff --git a/Documentation/filesystems/caching/cachefiles.rst b/Documentation/filesystems/caching/cachefiles.rst
-index e04a27bdbe19..b3ccc782cb3b 100644
---- a/Documentation/filesystems/caching/cachefiles.rst
-+++ b/Documentation/filesystems/caching/cachefiles.rst
-@@ -115,7 +115,7 @@ set up cache ready for use.  The following script commands are available:
- 
- 	This mask can also be set through sysfs, eg::
- 
--		echo 5 >/sys/modules/cachefiles/parameters/debug
-+		echo 5 > /sys/module/cachefiles/parameters/debug
- 
- 
- Starting the Cache
--- 
-2.34.1
+Changes:
 
+V2:
+* Fixed reversed Xmas tree variable declarations
+* Replaced memcpy with strscpy
+
+Lee Trager (2):
+  eth: fbnic: Add mailbox support for PLDM updates
+  eth: fbnic: Add devlink dev flash support
+
+ .../device_drivers/ethernet/meta/fbnic.rst    |  11 +
+ drivers/net/ethernet/meta/Kconfig             |   1 +
+ .../net/ethernet/meta/fbnic/fbnic_devlink.c   | 269 +++++++++++++++++-
+ drivers/net/ethernet/meta/fbnic/fbnic_fw.c    | 263 +++++++++++++++++
+ drivers/net/ethernet/meta/fbnic/fbnic_fw.h    |  64 ++++-
+ 5 files changed, 603 insertions(+), 5 deletions(-)
+
+--
+2.43.5
