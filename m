@@ -1,387 +1,223 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6B91BBBC3;
-	Tue, 22 Oct 2024 17:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB281B654C;
+	Tue, 22 Oct 2024 17:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729616733; cv=none; b=o+gGiXsxBqrLO6S0CxrQBBW3jsPh22/9qQKXeKt8Vu1oFGGU+kYtFnQ6F/AUFyBE9pqQA7TosbQbV5A6se783TRLs3SIl2sVPbCs0+J07caZzsxRY3EdxXCs+nWXnYC55C9+sJROzJnBRKGyxlratWQxHB8Dq7a9I2ubUSLev/0=
+	t=1729616792; cv=none; b=ZsQV318Eip/VUo7G42j2cVHnWpAGnPgpoXfy0E+ewCd4e8gCwqEUtGnSrpbAPxSudnsr4euLwdHaOLkQSUEEl9q63TRJDiFwLtLxNjV5JXkrBDarTYDb7VVQhG7HOyy5O3DUj2Zv+6LcOkxZ3A+w52vnQTgBBqNXD9T7wtgJjtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729616733; c=relaxed/simple;
-	bh=VFdBb/E8tBgmq6gj/L3YEUHUyh5FTnb2lUt5TBKYCQc=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=akOUBBvud6jGEE1yvOVg2bnN43/pgv5MkMUAW584kI3WhM96kQylQQtTQGEJc4gTIdre+NcuQq6TFZ5JRP7c4xPamkQ7MY6XY3xpdMiRGmaCDGU26jAlK6vrpAzgWsLgV4SRdu+fRjkfJNHaJ6d30ix6gUsUnosCZWs+NyHZMJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XXz750qtBz6K7kc;
-	Wed, 23 Oct 2024 01:04:33 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id C13E2140B2A;
-	Wed, 23 Oct 2024 01:05:28 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 22 Oct
- 2024 19:05:27 +0200
-Date: Tue, 22 Oct 2024 18:05:25 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Fan Ni <nifan.cxl@gmail.com>
-CC: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-	Navneet Singh <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>, Dan Williams
-	<dan.j.williams@intel.com>, Davidlohr Bueso <dave@stgolabs.net>, "Alison
- Schofield" <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, <linux-btrfs@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Petr Mladek
-	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, David Sterba
-	<dsterba@suse.com>, Johannes Thumshirn <johannes.thumshirn@wdc.com>, "Li,
- Ming" <ming4.li@intel.com>, Robert Moore <robert.moore@intel.com>, "Rafael J.
- Wysocki" <rafael.j.wysocki@intel.com>, Len Brown <lenb@kernel.org>,
-	<linux-acpi@vger.kernel.org>, <acpica-devel@lists.linux.dev>
-Subject: Re: [PATCH v4 00/28] DCD: Add support for Dynamic Capacity Devices
- (DCD)
-Message-ID: <20241022180525.00007c43@Huawei.com>
-In-Reply-To: <ZxaFtTPjzXBGjEu9@fan>
-References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
-	<ZxaFtTPjzXBGjEu9@fan>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1729616792; c=relaxed/simple;
+	bh=uioEgb0DsXDhOsVLFcsAYKNJt4BaLDhV451d6aRsg9I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J/e4WxmtW/yObZ1wLc3M63vWQhxiRolLoSk07sbTm6xPOW8AKO+AGiL52e07hdw1dNlV4XdNmtaegQP/Ksedc8BaBudLWDoBD6KT1cLNhiZeE95JQDQZbZ3MUGDL4mkUeHoxt21DegGSiu5a8nxccv4KaRiSD/GEvMsaMf1llhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JGROF7yt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JGROF7yt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48188C4CEC3;
+	Tue, 22 Oct 2024 17:06:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729616791;
+	bh=uioEgb0DsXDhOsVLFcsAYKNJt4BaLDhV451d6aRsg9I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JGROF7ytdD/nJ6XyS72Chnx6UF3ZaXqFdxx/xRgR0jjbFeaPml1PwXQS0kRIz3WII
+	 2xjWNto/wRi8mXI1g+QjZX8t8Ta0K+lFOK/0pfq6IgJNlnQoL0cNjQlI3xrndiXgKH
+	 eG4SsjqKoRQ9sXu9eLzxJY00sHe7HgSP4ertVJkpYOeQGGfOvSro4HNq5mpDOc8+l6
+	 DqF+DAR023TwRQmS0/05DhK2CChnS6+C3CRRZVfTH9wU6Gr2x2b+fajk8HDLGcX7GM
+	 6vs7CTgs0LLsedCh7SYVZzgolg+y1ErevX8Bggvzc1KXQG3lRvMpimqtApoXIkU6Ej
+	 2Cy6UJNEzwvKw==
+Date: Tue, 22 Oct 2024 18:06:25 +0100
+From: Simon Horman <horms@kernel.org>
+To: Li Li <dualli@chromium.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	donald.hunter@gmail.com, gregkh@linuxfoundation.org,
+	arve@android.com, tkjos@android.com, maco@android.com,
+	joel@joelfernandes.org, brauner@kernel.org, cmllamas@google.com,
+	surenb@google.com, arnd@arndb.de, masahiroy@kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org, hridya@google.com, smoreland@google.com,
+	kernel-team@android.com
+Subject: Re: [PATCH v4 1/1] binder: report txn errors via generic netlink
+ (genl)
+Message-ID: <20241022170625.GJ402847@kernel.org>
+References: <20241021191233.1334897-1-dualli@chromium.org>
+ <20241021191233.1334897-2-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241021191233.1334897-2-dualli@chromium.org>
 
-On Mon, 21 Oct 2024 09:47:49 -0700
-Fan Ni <nifan.cxl@gmail.com> wrote:
+On Mon, Oct 21, 2024 at 12:12:33PM -0700, Li Li wrote:
+> From: Li Li <dualli@google.com>
+> 
+> Frozen tasks can't process binder transactions, so sync binder
+> transactions will fail with BR_FROZEN_REPLY and async binder
+> transactions will be queued in the kernel async binder buffer.
+> As these queued async transactions accumulates over time, the async
+> buffer will eventually be running out, denying all new transactions
+> after that with BR_FAILED_REPLY.
+> 
+> In addition to the above cases, different kinds of binder error codes
+> might be returned to the sender. However, the core Linux, or Android,
+> system administration process never knows what's actually happening.
+> 
+> This patch introduces the Linux generic netlink messages into the binder
+> driver so that the Linux/Android system administration process can
+> listen to important events and take corresponding actions, like stopping
+> a broken app from attacking the OS by sending huge amount of spamming
+> binder transactions.
+> 
+> The new binder genl sources and headers are automatically generated from
+> the corresponding binder_genl YAML spec. Don't modify them directly.
+> 
+> Signed-off-by: Li Li <dualli@google.com>
 
-> On Mon, Oct 07, 2024 at 06:16:06PM -0500, Ira Weiny wrote:
-> > A git tree of this series can be found here:
-> > 
-> > 	https://github.com/weiny2/linux-kernel/tree/dcd-v4-2024-10-04
-> > 
-> > Series info
-> > ===========
-> >   
-> 
-> Hi Ira,
-> I have a question here for DCD.
-> 
-> For CXL spec 3.0 and later, the output payload of the command "Identify
-> memory device" has been expanded to include one extra field (dynamic
-> capacity event log size) in Table 8-94. However, in current kernel code,
-> we follow cxl spec 2.0 and do not have the field.
-> If DCD is supported, it means we have a least a 3.0 device as DCD is a
-> 3.0 feature.
-> I think we should at lease expand the payload to align with 3.0 even we
-> do not use it yet.
-> 
-> What do you think?
-> 
-> Btw, we have that already in QEMU, I do not know why it does not trigger
-> a out-of-bound access issue in the test.
+...
 
-Ignoring new fields should be fine without needing to care about the
-payload size. This stuff is supposed to be backwards compatible so
-if it isn't fine we have a problem.  Newer device should always
-'work' with older kernel. In this case QEMU is a newer device
-(for this command anyway).
+> diff --git a/drivers/android/binder.c b/drivers/android/binder.c
 
-Jonathan
+...
+
+> @@ -2984,6 +2985,130 @@ static void binder_set_txn_from_error(struct binder_transaction *t, int id,
+>  	binder_thread_dec_tmpref(from);
+>  }
+>  
+> +/**
+> + * binder_find_proc() - set binder report flags
+> + * @pid:	the target process
+> + */
+> +static struct binder_proc *binder_find_proc(int pid)
+> +{
+> +	struct binder_proc *proc;
+> +
+> +	mutex_lock(&binder_procs_lock);
+> +	hlist_for_each_entry(proc, &binder_procs, proc_node) {
+> +		if (proc->pid == pid) {
+> +			mutex_unlock(&binder_procs_lock);
+> +			return proc;
+> +		}
+> +	}
+> +	mutex_unlock(&binder_procs_lock);
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * binder_genl_set_report() - set binder report flags
+> + * @proc:	the binder_proc calling the ioctl
+
+nit: binder_genl_set_report does not have a proc parameter,
+     but it does have a context parameter.
+
+> + * @pid:	the target process
+> + * @flags:	the flags to set
+> + *
+> + * If pid is 0, the flags are applied to the whole binder context.
+> + * Otherwise, the flags are applied to the specific process only.
+> + */
+> +static int binder_genl_set_report(struct binder_context *context, u32 pid, u32 flags)
+
+...
+
+>  static int __init init_binder_device(const char *name)
+>  {
+>  	int ret;
+> @@ -6920,6 +7196,11 @@ static int __init init_binder_device(const char *name)
+
+The code above this hunk looks like this:
 
 
-> 
-> Fan
-> 
-> > This series has 5 parts:
-> > 
-> > Patch 1-3: Add %pra printk format for struct range
-> > Patch 4: Add core range_overlaps() function
-> > Patch 5-6: CXL clean up/prelim patches
-> > Patch 7-26: Core DCD support
-> > Patch 27-28: cxl_test support
-> > 
-> > Background
-> > ==========
-> > 
-> > A Dynamic Capacity Device (DCD) (CXL 3.1 sec 9.13.3) is a CXL memory
-> > device that allows memory capacity within a region to change
-> > dynamically without the need for resetting the device, reconfiguring
-> > HDM decoders, or reconfiguring software DAX regions.
-> > 
-> > One of the biggest use cases for Dynamic Capacity is to allow hosts to
-> > share memory dynamically within a data center without increasing the
-> > per-host attached memory.
-> > 
-> > The general flow for the addition or removal of memory is to have an
-> > orchestrator coordinate the use of the memory.  Generally there are 5
-> > actors in such a system, the Orchestrator, Fabric Manager, the Logical
-> > device, the Host Kernel, and a Host User.
-> > 
-> > Typical work flows are shown below.
-> > 
-> > Orchestrator      FM         Device       Host Kernel    Host User
-> > 
-> >     |             |           |            |              |
-> >     |-------------- Create region ----------------------->|
-> >     |             |           |            |              |
-> >     |             |           |            |<-- Create ---|
-> >     |             |           |            |    Region    |
-> >     |<------------- Signal done --------------------------|
-> >     |             |           |            |              |
-> >     |-- Add ----->|-- Add --->|--- Add --->|              |
-> >     |  Capacity   |  Extent   |   Extent   |              |
-> >     |             |           |            |              |
-> >     |             |<- Accept -|<- Accept  -|              |
-> >     |             |   Extent  |   Extent   |              |
-> >     |             |           |            |<- Create --->|
-> >     |             |           |            |   DAX dev    |-- Use memory
-> >     |             |           |            |              |   |
-> >     |             |           |            |              |   |
-> >     |             |           |            |<- Release ---| <-+
-> >     |             |           |            |   DAX dev    |
-> >     |             |           |            |              |
-> >     |<------------- Signal done --------------------------|
-> >     |             |           |            |              |
-> >     |-- Remove -->|- Release->|- Release ->|              |
-> >     |  Capacity   |  Extent   |   Extent   |              |
-> >     |             |           |            |              |
-> >     |             |<- Release-|<- Release -|              |
-> >     |             |   Extent  |   Extent   |              |
-> >     |             |           |            |              |
-> >     |-- Add ----->|-- Add --->|--- Add --->|              |
-> >     |  Capacity   |  Extent   |   Extent   |              |
-> >     |             |           |            |              |
-> >     |             |<- Accept -|<- Accept  -|              |
-> >     |             |   Extent  |   Extent   |              |
-> >     |             |           |            |<- Create ----|
-> >     |             |           |            |   DAX dev    |-- Use memory
-> >     |             |           |            |              |   |
-> >     |             |           |            |<- Release ---| <-+
-> >     |             |           |            |   DAX dev    |
-> >     |<------------- Signal done --------------------------|
-> >     |             |           |            |              |
-> >     |-- Remove -->|- Release->|- Release ->|              |
-> >     |  Capacity   |  Extent   |   Extent   |              |
-> >     |             |           |            |              |
-> >     |             |<- Release-|<- Release -|              |
-> >     |             |   Extent  |   Extent   |              |
-> >     |             |           |            |              |
-> >     |-- Add ----->|-- Add --->|--- Add --->|              |
-> >     |  Capacity   |  Extent   |   Extent   |              |
-> >     |             |           |            |<- Create ----|
-> >     |             |           |            |   DAX dev    |-- Use memory
-> >     |             |           |            |              |   |
-> >     |-- Remove -->|- Release->|- Release ->|              |   |
-> >     |  Capacity   |  Extent   |   Extent   |              |   |
-> >     |             |           |            |              |   |
-> >     |             |           |     (Release Ignored)     |   |
-> >     |             |           |            |              |   |
-> >     |             |           |            |<- Release ---| <-+
-> >     |             |           |            |   DAX dev    |
-> >     |<------------- Signal done --------------------------|
-> >     |             |           |            |              |
-> >     |             |- Release->|- Release ->|              |
-> >     |             |  Extent   |   Extent   |              |
-> >     |             |           |            |              |
-> >     |             |<- Release-|<- Release -|              |
-> >     |             |   Extent  |   Extent   |              |
-> >     |             |           |            |<- Destroy ---|
-> >     |             |           |            |   Region     |
-> >     |             |           |            |              |
-> > 
-> > Implementation
-> > ==============
-> > 
-> > The series still requires the creation of regions and DAX devices to be
-> > closely synchronized with the Orchestrator and Fabric Manager.  The host
-> > kernel will reject extents if a region is not yet created.  It also
-> > ignores extent release if memory is in use (DAX device created).  These
-> > synchronizations are not anticipated to be an issue with real
-> > applications.
-> > 
-> > In order to allow for capacity to be added and removed a new concept of
-> > a sparse DAX region is introduced.  A sparse DAX region may have 0 or
-> > more bytes of available space.  The total space depends on the number
-> > and size of the extents which have been added.
-> > 
-> > Initially it is anticipated that users of the memory will carefully
-> > coordinate the surfacing of additional capacity with the creation of DAX
-> > devices which use that capacity.  Therefore, the allocation of the
-> > memory to DAX devices does not allow for specific associations between
-> > DAX device and extent.  This keeps allocations very similar to existing
-> > DAX region behavior.
-> > 
-> > To keep the DAX memory allocation aligned with the existing DAX devices
-> > which do not have tags extents are not allowed to have tags.  Future
-> > support for tags is planned.
-> > 
-> > Great care was taken to keep the extent tracking simple.  Some xarray's
-> > needed to be added but extra software objects were kept to a minimum.
-> > 
-> > Region extents continue to be tracked as sub-devices of the DAX region.
-> > This ensures that region destruction cleans up all extent allocations
-> > properly.
-> > 
-> > Some review tags were kept if a patch did not change.
-> > 
-> > The major functionality of this series includes:
-> > 
-> > - Getting the dynamic capacity (DC) configuration information from cxl
-> >   devices
-> > 
-> > - Configuring the DC partitions reported by hardware
-> > 
-> > - Enhancing the CXL and DAX regions for dynamic capacity support
-> > 	a. Maintain a logical separation between hardware extents and
-> > 	   software managed region extents.  This provides an
-> > 	   abstraction between the layers and should allow for
-> > 	   interleaving in the future
-> > 
-> > - Get hardware extent lists for endpoint decoders upon
-> >   region creation.
-> > 
-> > - Adjust extent/region memory available on the following events.
-> >         a. Add capacity Events
-> > 	b. Release capacity events
-> > 
-> > - Host response for add capacity
-> > 	a. do not accept the extent if:
-> > 		If the region does not exist
-> > 		or an error occurs realizing the extent
-> > 	b. If the region does exist
-> > 		realize a DAX region extent with 1:1 mapping (no
-> > 		interleave yet)
-> > 	c. Support the event more bit by processing a list of extents
-> > 	   marked with the more bit together before setting up a
-> > 	   response.
-> > 
-> > - Host response for remove capacity
-> > 	a. If no DAX device references the extent; release the extent
-> > 	b. If a reference does exist, ignore the request.
-> > 	   (Require FM to issue release again.)
-> > 
-> > - Modify DAX device creation/resize to account for extents within a
-> >   sparse DAX region
-> > 
-> > - Trace Dynamic Capacity events for debugging
-> > 
-> > - Add cxl-test infrastructure to allow for faster unit testing
-> >   (See new ndctl branch for cxl-dcd.sh test[1])
-> > 
-> > - Only support 0 value extent tags
-> > 
-> > Fan Ni's upstream of Qemu DCD was used for testing.
-> > 
-> > Remaining work:
-> > 
-> > 	1) Allow mapping to specific extents (perhaps based on
-> > 	   label/tag)
-> > 	   1a) devise region size reporting based on tags
-> > 	2) Interleave support
-> > 
-> > Possible additional work depending on requirements:
-> > 
-> > 	1) Accept a new extent which extends (but overlaps) an existing
-> > 	   extent(s)
-> > 	2) Release extents when DAX devices are released if a release
-> > 	   was previously seen from the device
-> > 	3) Rework DAX device interfaces, memfd has been explored a bit
-> > 
-> > [1] https://github.com/weiny2/ndctl/tree/dcd-region2-2024-10-01
-> > 
-> > ---
-> > Major changes in v4:
-> > - iweiny: rebase to 6.12-rc
-> > - iweiny: Add qos data to regions
-> > - Jonathan: Fix up shared region detection
-> > - Jonathan/jgroves/djbw/iweiny: Ignore 0 value tags
-> > - iweiny: Change DCD partition sysfs entries to allow for qos class and
-> >   additional parameters per partition
-> > - Petr/Andy: s/%par/%pra/
-> > - Andy: Share logic between printing struct resource and struct range
-> > - Link to v3: https://patch.msgid.link/20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com
-> > 
-> > ---
-> > Ira Weiny (14):
-> >       test printk: Add very basic struct resource tests
-> >       printk: Add print format (%pra) for struct range
-> >       cxl/cdat: Use %pra for dpa range outputs
-> >       range: Add range_overlaps()
-> >       dax: Document dax dev range tuple
-> >       cxl/pci: Delay event buffer allocation
-> >       cxl/cdat: Gather DSMAS data for DCD regions
-> >       cxl/region: Refactor common create region code
-> >       cxl/events: Split event msgnum configuration from irq setup
-> >       cxl/pci: Factor out interrupt policy check
-> >       cxl/core: Return endpoint decoder information from region search
-> >       dax/bus: Factor out dev dax resize logic
-> >       tools/testing/cxl: Make event logs dynamic
-> >       tools/testing/cxl: Add DC Regions to mock mem data
-> > 
-> > Navneet Singh (14):
-> >       cxl/mbox: Flag support for Dynamic Capacity Devices (DCD)
-> >       cxl/mem: Read dynamic capacity configuration from the device
-> >       cxl/core: Separate region mode from decoder mode
-> >       cxl/region: Add dynamic capacity decoder and region modes
-> >       cxl/hdm: Add dynamic capacity size support to endpoint decoders
-> >       cxl/mem: Expose DCD partition capabilities in sysfs
-> >       cxl/port: Add endpoint decoder DC mode support to sysfs
-> >       cxl/region: Add sparse DAX region support
-> >       cxl/mem: Configure dynamic capacity interrupts
-> >       cxl/extent: Process DCD events and realize region extents
-> >       cxl/region/extent: Expose region extent information in sysfs
-> >       dax/region: Create resources on sparse DAX regions
-> >       cxl/region: Read existing extents on region creation
-> >       cxl/mem: Trace Dynamic capacity Event Record
-> > 
-> >  Documentation/ABI/testing/sysfs-bus-cxl   | 120 +++-
-> >  Documentation/core-api/printk-formats.rst |  13 +
-> >  drivers/cxl/core/Makefile                 |   2 +-
-> >  drivers/cxl/core/cdat.c                   |  52 +-
-> >  drivers/cxl/core/core.h                   |  33 +-
-> >  drivers/cxl/core/extent.c                 | 486 +++++++++++++++
-> >  drivers/cxl/core/hdm.c                    | 213 ++++++-
-> >  drivers/cxl/core/mbox.c                   | 605 ++++++++++++++++++-
-> >  drivers/cxl/core/memdev.c                 | 130 +++-
-> >  drivers/cxl/core/port.c                   |  13 +-
-> >  drivers/cxl/core/region.c                 | 170 ++++--
-> >  drivers/cxl/core/trace.h                  |  65 ++
-> >  drivers/cxl/cxl.h                         | 122 +++-
-> >  drivers/cxl/cxlmem.h                      | 131 +++-
-> >  drivers/cxl/pci.c                         | 123 +++-
-> >  drivers/dax/bus.c                         | 352 +++++++++--
-> >  drivers/dax/bus.h                         |   4 +-
-> >  drivers/dax/cxl.c                         |  72 ++-
-> >  drivers/dax/dax-private.h                 |  47 +-
-> >  drivers/dax/hmem/hmem.c                   |   2 +-
-> >  drivers/dax/pmem.c                        |   2 +-
-> >  fs/btrfs/ordered-data.c                   |  10 +-
-> >  include/acpi/actbl1.h                     |   2 +
-> >  include/cxl/event.h                       |  32 +
-> >  include/linux/range.h                     |   7 +
-> >  lib/test_printf.c                         |  70 +++
-> >  lib/vsprintf.c                            |  55 +-
-> >  tools/testing/cxl/Kbuild                  |   3 +-
-> >  tools/testing/cxl/test/mem.c              | 960 ++++++++++++++++++++++++++----
-> >  29 files changed, 3576 insertions(+), 320 deletions(-)
-> > ---
-> > base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
-> > change-id: 20230604-dcd-type2-upstream-0cd15f6216fd
-> > 
-> > Best regards,
-> > -- 
-> > Ira Weiny <ira.weiny@intel.com>
-> >   
-> 
+	ret = misc_register(&binder_device->miscdev);
+	if (ret < 0) {
+		kfree(binder_device);
+		return ret;
+	}
 
+>  
+>  	hlist_add_head(&binder_device->hlist, &binder_devices);
+>  
+> +	binder_device->context.report_seq = (atomic_t)ATOMIC_INIT(0);
+> +	ret = binder_genl_init(&binder_device->context.genl_family, name);
+> +	if (ret < 0)
+> +		kfree(binder_device);
+
+So I think that binder_device->miscdev needs to be misc_deregister'ed
+if we hit this error condition.
+
+> +
+>  	return ret;
+
+Probably adding an unwind ladder like this makes sense (completely untested!):
+
+	ret = misc_register(&binder_device->miscdev);
+	if (ret < 0)
+		goto err_misc_deregister;
+
+	hlist_add_head(&binder_device->hlist, &binder_devices);
+
+	binder_device->context.report_seq = (atomic_t)ATOMIC_INIT(0);
+	ret = binder_genl_init(&binder_device->context.genl_family, name);
+	if (ret < 0);
+		goto err_misc_deregister;
+
+	return 0;
+
+err_misc_deregister:
+	misc_deregister(&binder_device->miscdev);
+err_free_dev:
+	kfree(binder_device);
+	return ret;
+
+...
+
+> diff --git a/drivers/android/binder_genl.h b/drivers/android/binder_genl.h
+
+Perhaps it is because of a different version of net-next,
+but with this patch applied on top of the current head commit
+13feb6074a9f ("binder: report txn errors via generic netlink (genl)")
+I see:
+
+$ ./tools/net/ynl/ynl-regen.sh -f
+$ git diff
+
+diff --git a/include/uapi/linux/android/binder_genl.h b/include/uapi/linux/android/binder_genl.h
+index ef5289133be5..93e58b370420 100644
+--- a/include/uapi/linux/android/binder_genl.h
++++ b/include/uapi/linux/android/binder_genl.h
+@@ -3,12 +3,17 @@
+ /*	Documentation/netlink/specs/binder_genl.yaml */
+ /* YNL-GEN uapi header */
+ 
+-#ifndef _UAPI_LINUX_BINDER_GENL_H
+-#define _UAPI_LINUX_BINDER_GENL_H
++#ifndef _UAPI_LINUX_ANDROID/BINDER_GENL_H
++#define _UAPI_LINUX_ANDROID/BINDER_GENL_H
+ 
+ #define BINDER_GENL_FAMILY_NAME		"binder_genl"
+ #define BINDER_GENL_FAMILY_VERSION	1
+ 
++/**
++ * enum binder_genl_flag - Used with "set" and "reply" command below, defining
++ *   what kind \ of binder transactions should be reported to the user space \
++ *   administration process.
++ */
+ enum binder_genl_flag {
+ 	BINDER_GENL_FLAG_FAILED = 1,
+ 	BINDER_GENL_FLAG_DELAYED = 2,
+@@ -34,4 +39,4 @@ enum {
+ 	BINDER_GENL_CMD_MAX = (__BINDER_GENL_CMD_MAX - 1)
+ };
+ 
+-#endif /* _UAPI_LINUX_BINDER_GENL_H */
++#endif /* _UAPI_LINUX_ANDROID/BINDER_GENL_H */
+
+...
+
+-- 
+pw-bot: changes-requested
