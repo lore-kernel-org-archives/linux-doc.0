@@ -1,61 +1,62 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F2219ABD5
-	for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 13:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1CD19E97B
+	for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 13:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729603365; cv=none; b=g+NquFtq9Q2IPio2eXlV0KnT76RPnY7SPz/F4acuKI0xOZp4CKf1k55Rk5na5MW4plF6Q8WXz+qOOcvGtz4HBWACVtkInYs8O2HDwQIRl+2oWZ1tbSX/N+dvvvCSvlJZz6neQz+EKJTNOBUI+7y9wTaXudjVXgqnJF3VTjzPk6U=
+	t=1729603366; cv=none; b=gVn9ZSadns764255Fqz26wMbjoDjKmj4Vwf9vYdwN2hcOX/MCtjVQThPcuBdZa9QJRRRNXBkW0ZTDOIYlB8k4OU7773xrFFxrKz7vV4GuTk2jlOB7jVy0Bk/1U60hH+kxdKKghat5kVczWiVtahxl4TqxxaVlc2VGPb8xImgDPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729603365; c=relaxed/simple;
-	bh=rGPuVL1dDyibnQkLtOOHf4WjoginLpwd6c8MAzIFkdg=;
+	s=arc-20240116; t=1729603366; c=relaxed/simple;
+	bh=/q7bY3LdozfZxpkgjWCBfzgBSVHbQ62bY4N3y+cj/fw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=O5mN/dwefcxGnGVTVeZaIGZKjs3zirxAxX1Tjg14G0GfJk9QoLDINKNQE34rd8GYAng6qX3zZcZuYyY9m6TSefULlCLqc6L3E9aOSq+59CfqXAPhg3jYCLfwkZoTtGreiOLr7TbgHpya+yHx/3vCi79QEdrpSUqGVrXFkZW/qEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=IWqR6byb; arc=none smtp.client-ip=209.85.208.174
+	 In-Reply-To:To:Cc; b=ObYD+tJXl9NXInCi91N781qC4vJGvRiIZ1AEVhBxqGhoudk/HxUI0AhSf6lfCv4Lz6G20Fqybuwlsl0oZ8hraJ5q6df5IYguQzkWUTq4Ilh0zPJdxZ8Ap4GZywZIPaJm5rG3pJBgLWeJ2e9GpuLKntHG7xUHYarpapLQ7RXEtmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=WhY83h7F; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="IWqR6byb"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb5a9c7420so56543091fa.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 06:22:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WhY83h7F"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539fbe22ac0so6287244e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 06:22:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729603362; x=1730208162; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729603363; x=1730208163; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/x2yDA6UeXqOoRgaHDspYi1d8D2nCNMHkarUJjoV9w0=;
-        b=IWqR6byby15f+B7F3Hwhe+IDQ49wiRjIDPZn8kphC3MZfVyNucdyMfY7wwPHGlDdSt
-         LsOmmuGSZ/qGxS67Jk+VzS4FwZ0aWbh15nDF7VB20cQD3QbeGeTLLNtrGTQZ+gPfaTE5
-         ygXjvkLlp5YWl4d2N0shSaagM9rZ6wCDSD2SMNQODyMMMzMYeJEgvgbHsuSTv9dlLTnn
-         qNXX28Xwb4HAMbvoFoe/5IhdSseu8BLmve35uDnDT8unOFoCZE3HVeVZGRldyQ+ZUXQW
-         ng078xMuJQS2hc4P32BPejsLef4ad/s9BgAmYjXiL/+kAhm92rS/gPkTGgMRebs2139S
-         /tFw==
+        bh=JbmAaG8fixSpFKc9j1duqIsE3U5n248SVuREqUqWo5U=;
+        b=WhY83h7Fv3CXdbM8PeB7gnUCvWwl2oo3SBKXoeoO6gXLZDNtuHwdENzWzYM5gF+w0M
+         tivn1IQsaReXog33+lzZcmId86i1fYpPuFUXmGJT+GlUSbNwMzImUwhpa7HLNVOSBuPO
+         FHCiJwqsthHJDCNvVA5uNi3x2QfLYx3JZnVqgH0I+6SLcQOqgeFKPazdo/xyi4dNhakV
+         AUEGfTU8+bpUgNZJeAh8Yn0L36JJdGLxYb8fofkpk0fqP40K0kMOdhkpFE/dL7FKE+UO
+         exPP45UFHIlyX2/ZZDwuCq74WAtdAUtF65Dlnq4rKxAEeLQK1ydraeVcL0u6ih7fts98
+         PpxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729603362; x=1730208162;
+        d=1e100.net; s=20230601; t=1729603363; x=1730208163;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/x2yDA6UeXqOoRgaHDspYi1d8D2nCNMHkarUJjoV9w0=;
-        b=euEXTeS+/sS7Q1q2Uih4QcBvoMdEKudbyq5i3Z6Md+fhooMXjeCiVi+4QoI0jqWz8a
-         60VntfPcQIOZpW1WIc0qN3NTsGPu+c1GGJmHhuniDGNeG3u6DSHcXpeIZbthnz3TfVXx
-         Axr8GC6/i7zUjPazSE81++1OdFQrHKasVOeith0ujFG39LQyHZ4IyuWUm4R3sxOGapu6
-         h15LBEkh7opoIVcBqSiLsgIFATerkuCAKzHlwsBvEfPz4D4l1+jRe2uXXJ+1FezgOVxw
-         3XMUA90bIf81NKmKShTwYNEEVaMWiDDGgrFicxIBKVDnoUeyGMRCli5QVrgGB+wmoVCu
-         tRTw==
-X-Forwarded-Encrypted: i=1; AJvYcCXJwGGN8RXs1l3BOsL+GOF5xaG/V3DeVQ14rPA5u+VGHF5PaK7yASNy0KLX+dz1dZ03QJEUS61tIWc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrRCyf+fL1PDb6Jss+jUm8zo0NDPzleJwGDzKgL4Sj0d+gocyX
-	+iBco0DhiJ7HnEL3aqK77BKqyB9yAUvD2rO03TOOk76O7eCjTmzlRSkNPCyPDQM=
-X-Google-Smtp-Source: AGHT+IFdQdckJjzJibgyD+ES83HSrz6i1/GlbpEXNJBjyNii3V9oS7oHE8wOZ5i6EBJYl2jSQEGqTg==
-X-Received: by 2002:a2e:9295:0:b0:2fb:5da7:47a7 with SMTP id 38308e7fff4ca-2fb82fb74edmr66614001fa.25.1729603361426;
-        Tue, 22 Oct 2024 06:22:41 -0700 (PDT)
+        bh=JbmAaG8fixSpFKc9j1duqIsE3U5n248SVuREqUqWo5U=;
+        b=X09Q3JdIswAOunHvkUri2CLcTJfxaCqgJJhH4nxu3jcgcuadAvaaCdtK3EexQ+W0JR
+         YZQf+a4KswAqWd22Y90xslrMpFzHPlow+0ZgGuPv0JajkN8/WIgNte0wZ3qxv3AB6rM4
+         ra1cKtm1kEbIfVu0zs9IoxhbLT93u3CXAmDkNGhVcCxOQPiMWrx3wjl2WFn9/gU2c3pw
+         DraKej5j5DJx/vO1fVyTemxUoi4y7T7tfuxYa20ySlnpjXgmCvjCCOdmohFu45oPT5hX
+         jNGjQTMryOk/SCVb3pYmxdO/KEA/dAX/jb2KXu+62G4BVf0AunUnS+g52Tp8O1D8HU22
+         l8Zg==
+X-Forwarded-Encrypted: i=1; AJvYcCWow0xhUHLVSAkQVbDnNlcWfvOX/xabpFtHhrGs5RQkMmOPl5l80iJGtVc/U78IWjoCaocSzF+lrw8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH5PEy794vzhzutEn5aLdcpOwN9rczMY87o5AvM1tnAQNpZoIa
+	aG1/hqYfEgr4ZKnkpDMV329yxXHzHBicieIOF6DsoZbai80VJOYo5uB2jYZTgTs4XblSCA/yvHH
+	vDMI=
+X-Google-Smtp-Source: AGHT+IGgkuhfpmA9z1fSQbEsxGS/o3vgnR3trA4uG/lWbdbD/vyEj4Nr9FTqBvvAcdSzM9K1NeC7hQ==
+X-Received: by 2002:a05:6512:3d20:b0:539:e761:c21a with SMTP id 2adb3069b0e04-53a1544629amr8444414e87.48.1729603362902;
+        Tue, 22 Oct 2024 06:22:42 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb66c737c4sm3109496a12.96.2024.10.22.06.22.40
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb66c737c4sm3109496a12.96.2024.10.22.06.22.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 06:22:41 -0700 (PDT)
+        Tue, 22 Oct 2024 06:22:42 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Tue, 22 Oct 2024 15:22:36 +0200
-Subject: [PATCH v3 1/5] dt-bindings: iio: adc: ad7380: fix ad7380-4
- reference supply
+Date: Tue, 22 Oct 2024 15:22:37 +0200
+Subject: [PATCH v3 2/5] iio: adc: ad7380: use
+ devm_regulator_get_enable_read_voltage()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,7 +65,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241022-ad7380-fix-supplies-v3-1-f0cefe1b7fa6@baylibre.com>
+Message-Id: <20241022-ad7380-fix-supplies-v3-2-f0cefe1b7fa6@baylibre.com>
 References: <20241022-ad7380-fix-supplies-v3-0-f0cefe1b7fa6@baylibre.com>
 In-Reply-To: <20241022-ad7380-fix-supplies-v3-0-f0cefe1b7fa6@baylibre.com>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
@@ -80,62 +81,153 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.2
 
-ad7380-4 is the only device from ad738x family that doesn't have an
-internal reference. Moreover its external reference is called REFIN in
-the datasheet while all other use REFIO as an optional external
-reference. If refio-supply is omitted the internal reference is
-used.
+Use devm_regulator_get_enable_read_voltage() to simplify the code.
 
-Fix the binding by adding refin-supply and makes it required for
-ad7380-4 only.
-
-Fixes: 1a291cc8ee17 ("dt-bindings: iio: adc: ad7380: add support for ad738x-4 4 channels variants")
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Nuno Sa <nuno.sa@analog.com>
 Reviewed-by: David Lechner <dlechner@baylibre.com>
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- .../devicetree/bindings/iio/adc/adi,ad7380.yaml     | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/iio/adc/ad7380.c | 81 +++++++++++++-----------------------------------
+ 1 file changed, 21 insertions(+), 60 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-index bd19abb867d98d46bdd1c9e0c197e10f06979204..0065d650882489e21b952bb9fb25f1e3a070ee68 100644
---- a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-@@ -67,6 +67,10 @@ properties:
-       A 2.5V to 3.3V supply for the external reference voltage. When omitted,
-       the internal 2.5V reference is used.
+diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
+index e8bddfb0d07dbcf3e2a43344a4e0516f4d617548..e033c734191143a25a490b09c730dbf95f796737 100644
+--- a/drivers/iio/adc/ad7380.c
++++ b/drivers/iio/adc/ad7380.c
+@@ -956,7 +956,7 @@ static const struct iio_info ad7380_info = {
+ 	.debugfs_reg_access = &ad7380_debugfs_reg_access,
+ };
  
-+  refin-supply:
-+    description:
-+      A 2.5V to 3.3V supply for external reference voltage, for ad7380-4 only.
-+
-   aina-supply:
-     description:
-       The common mode voltage supply for the AINA- pin on pseudo-differential
-@@ -135,6 +139,23 @@ allOf:
-         ainc-supply: false
-         aind-supply: false
+-static int ad7380_init(struct ad7380_state *st, struct regulator *vref)
++static int ad7380_init(struct ad7380_state *st, bool external_ref_en)
+ {
+ 	int ret;
  
-+  # ad7380-4 uses refin-supply as external reference.
-+  # All other chips from ad738x family use refio as optional external reference.
-+  # When refio-supply is omitted, internal reference is used.
-+  - if:
-+      properties:
-+        compatible:
-+          enum:
-+            - adi,ad7380-4
-+    then:
-+      properties:
-+        refio-supply: false
-+      required:
-+        - refin-supply
-+    else:
-+      properties:
-+        refin-supply: false
-+
- examples:
-   - |
-     #include <dt-bindings/interrupt-controller/irq.h>
+@@ -968,13 +968,13 @@ static int ad7380_init(struct ad7380_state *st, struct regulator *vref)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	/* select internal or external reference voltage */
+-	ret = regmap_update_bits(st->regmap, AD7380_REG_ADDR_CONFIG1,
+-				 AD7380_CONFIG1_REFSEL,
+-				 FIELD_PREP(AD7380_CONFIG1_REFSEL,
+-					    vref ? 1 : 0));
+-	if (ret < 0)
+-		return ret;
++	if (external_ref_en) {
++		/* select external reference voltage */
++		ret = regmap_set_bits(st->regmap, AD7380_REG_ADDR_CONFIG1,
++				      AD7380_CONFIG1_REFSEL);
++		if (ret < 0)
++			return ret;
++	}
+ 
+ 	/* This is the default value after reset. */
+ 	st->oversampling_ratio = 1;
+@@ -987,16 +987,11 @@ static int ad7380_init(struct ad7380_state *st, struct regulator *vref)
+ 				  FIELD_PREP(AD7380_CONFIG2_SDO, 1));
+ }
+ 
+-static void ad7380_regulator_disable(void *p)
+-{
+-	regulator_disable(p);
+-}
+-
+ static int ad7380_probe(struct spi_device *spi)
+ {
+ 	struct iio_dev *indio_dev;
+ 	struct ad7380_state *st;
+-	struct regulator *vref;
++	bool external_ref_en;
+ 	int ret, i;
+ 
+ 	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
+@@ -1009,37 +1004,17 @@ static int ad7380_probe(struct spi_device *spi)
+ 	if (!st->chip_info)
+ 		return dev_err_probe(&spi->dev, -EINVAL, "missing match data\n");
+ 
+-	vref = devm_regulator_get_optional(&spi->dev, "refio");
+-	if (IS_ERR(vref)) {
+-		if (PTR_ERR(vref) != -ENODEV)
+-			return dev_err_probe(&spi->dev, PTR_ERR(vref),
+-					     "Failed to get refio regulator\n");
+-
+-		vref = NULL;
+-	}
+-
+ 	/*
+ 	 * If there is no REFIO supply, then it means that we are using
+ 	 * the internal 2.5V reference, otherwise REFIO is reference voltage.
+ 	 */
+-	if (vref) {
+-		ret = regulator_enable(vref);
+-		if (ret)
+-			return ret;
++	ret = devm_regulator_get_enable_read_voltage(&spi->dev, "refio");
++	if (ret < 0 && ret != -ENODEV)
++		return dev_err_probe(&spi->dev, ret,
++				     "Failed to get refio regulator\n");
+ 
+-		ret = devm_add_action_or_reset(&spi->dev,
+-					       ad7380_regulator_disable, vref);
+-		if (ret)
+-			return ret;
+-
+-		ret = regulator_get_voltage(vref);
+-		if (ret < 0)
+-			return ret;
+-
+-		st->vref_mv = ret / 1000;
+-	} else {
+-		st->vref_mv = AD7380_INTERNAL_REF_MV;
+-	}
++	external_ref_en = ret != -ENODEV;
++	st->vref_mv = external_ref_en ? ret / 1000 : AD7380_INTERNAL_REF_MV;
+ 
+ 	if (st->chip_info->num_vcm_supplies > ARRAY_SIZE(st->vcm_mv))
+ 		return dev_err_probe(&spi->dev, -EINVAL,
+@@ -1050,27 +1025,13 @@ static int ad7380_probe(struct spi_device *spi)
+ 	 * input pin.
+ 	 */
+ 	for (i = 0; i < st->chip_info->num_vcm_supplies; i++) {
+-		struct regulator *vcm;
+-
+-		vcm = devm_regulator_get(&spi->dev,
+-					 st->chip_info->vcm_supplies[i]);
+-		if (IS_ERR(vcm))
+-			return dev_err_probe(&spi->dev, PTR_ERR(vcm),
+-					     "Failed to get %s regulator\n",
+-					     st->chip_info->vcm_supplies[i]);
++		const char *vcm = st->chip_info->vcm_supplies[i];
+ 
+-		ret = regulator_enable(vcm);
+-		if (ret)
+-			return ret;
+-
+-		ret = devm_add_action_or_reset(&spi->dev,
+-					       ad7380_regulator_disable, vcm);
+-		if (ret)
+-			return ret;
+-
+-		ret = regulator_get_voltage(vcm);
++		ret = devm_regulator_get_enable_read_voltage(&spi->dev, vcm);
+ 		if (ret < 0)
+-			return ret;
++			return dev_err_probe(&spi->dev, ret,
++					     "Failed to get %s regulator\n",
++					     vcm);
+ 
+ 		st->vcm_mv[i] = ret / 1000;
+ 	}
+@@ -1135,7 +1096,7 @@ static int ad7380_probe(struct spi_device *spi)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = ad7380_init(st, vref);
++	ret = ad7380_init(st, external_ref_en);
+ 	if (ret)
+ 		return ret;
+ 
 
 -- 
 2.47.0
