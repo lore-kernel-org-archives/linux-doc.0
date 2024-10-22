@@ -1,52 +1,52 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB941BD51B
-	for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 18:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EC81C6F6A
+	for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 18:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729620368; cv=none; b=dvHsARjXek6UYSpxCMw5P5YEKrw9Kbjn9RRHmtslWcLXZ3sIDDRmxVyW3JjTzqI9ij1EaO0hapUw99e5SIypkO6oLgGmgut9r4ny2oaxOgqKciKsgbNbS7k4WP8IYFGBM1B5BVENWqH4hJu/+1UH3fmIbi+U4Hg83Vx9x2KdWpc=
+	t=1729620690; cv=none; b=n2CbO4nGVdQxcwX/Afe15fW87rrIyQW7WsDxtCYe5PDfRKBopBN/ErNfpk5cbgeTgE3Ivkwj8o+2OlwEMDIaMG1ylX95Eng5O1ZUeB/PkD4cp2GYsKqzo0gw1ALqZNEyBJlfmJ43wAVGPUUJ0OeMsf3ElYImizmvcPkNEZuQq/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729620368; c=relaxed/simple;
-	bh=YF9SAvtg72qz5VeDGp1dSDVf83WUSfxDx46MjbAP9vg=;
+	s=arc-20240116; t=1729620690; c=relaxed/simple;
+	bh=4fUh/Y5Wu/2hZYMxBvSfyM0BJWo+IgP4cjxDEkuvIoU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ha395k3RarQTDhWROWVoBOPzHVIXoXWi6ouPJ13SAZnPrzsPgij1quRrEn1/VhtABzlHrFlH8h5WRBpF/5oyKHjnDRIBmCDLWjPIMxHh+rhZfVlce2M4XsaqST1Fm3Ab8M3AOaSbWfCxERGnskJ0a3e3+H5x6JcDO8ttDlEhmVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XWUDTHoD; arc=none smtp.client-ip=209.85.208.176
+	 To:Cc:Content-Type; b=JHGW8fI2yk9eA0U9bFrrNBuf3aFQ77+KTxACrVZ7zNoLgaitat1MKZGfh9skHBZGBgFPEbb7OByvK1i6Z6ECgsZ/QkI++pXESpeO/uG2VYTk2e5Soi1aMhQRwzh0ZSvvWrtS3W9+hxXJ5yS7voXkivEsUXdbm4sMsg0odWniYFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dHkIGz66; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XWUDTHoD"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb599aac99so59386001fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 11:06:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dHkIGz66"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f75c56f16aso57992271fa.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 11:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729620365; x=1730225165; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1729620685; x=1730225485; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YF9SAvtg72qz5VeDGp1dSDVf83WUSfxDx46MjbAP9vg=;
-        b=XWUDTHoDFdoyUKU5i418X40Moc+15WIlsctof0GW2un5JuCbQNh8HG4ULMaHajsOWK
-         ca2m0tckqGnP6ZXK/5qtQCEZyUdl/HG4rGYjWVPO9id6hpSg9ew9oaB1WuvUAvTJU9kv
-         nlhFv4TM/9HVf/mQTegW2LRmaWMNC47/Eoxpg=
+        bh=IxX9XE7Bu14uzEO7ETrCqQQOfswrKYUdi+DacsDonWk=;
+        b=dHkIGz66Sk5RVXqU9GtKEEbIkDoPNIcM1t4xOqc87L7BK9MrAgeNq5AhuRsQJYUrDq
+         /cjoROwOTrL1Wbx7rIEW9lUXLrdktqmDkcLLD2USfv3oJSKF5cGtHwK0yQOCjUJL7siR
+         NKs9XrWy6rw3x/CwIvo2UsOcrP10nexVX2vak=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729620365; x=1730225165;
+        d=1e100.net; s=20230601; t=1729620685; x=1730225485;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YF9SAvtg72qz5VeDGp1dSDVf83WUSfxDx46MjbAP9vg=;
-        b=aZWd4YNFLbgB3mtwcsn3DqFU90+echIOsa/hRc+Ncfnnu+4oQuclaNQV52C+GVnWXC
-         2776Vt8uUpD3ZcJarxlWEgp/qGPy80Yao/MR2VxpmpX0jbdmMNMxYKXt/Gv6xVP2sbHf
-         0kA/vfCwstuXA9aeNJcV5LhLD+Rm02F4bOb4gnV05cJel+vPvxDW7dC6Hg2gfUqhuUcH
-         qCfaflhstqzB7lBnZukoeS/KC18qT9J24aLPZsFMd52jZcUwDXrQnUa8mfa7S1cKxdij
-         t6O+6f45UBMvFEz7qAB57iOHiXPb6F0Jlx3nqOLHRj6BRo2Y96tkE5iBp+X5HCCW/qpH
-         xvog==
-X-Forwarded-Encrypted: i=1; AJvYcCWbDKGfYN3QrYXlkVfdWoVSv+UBpXKzs6Asjf2jJS5mXkik446i+qnbzZoQHTu5xqRA2SQ8nXkE/Ak=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKzDIemJ3vQeP3BlFey3NbA8pQT9t+O+RzMMaDFwbnZVAPoDtY
-	Q/uWjQQ7Rnb9QzgtwqH323leowSd7PJLOGnmfkfBh941EXE0BjC6XE7MIGi1Jbcm3sSuPrBow1L
-	fJAGjTCD8CKPTXIFyQbMfNMX6EnkKK4iBLRVy
-X-Google-Smtp-Source: AGHT+IGD767gQQeV0tE11uRaEsrIc2mwmO00WhEo/Zz1UezZblPCSEvXaOlL6Ubx/nHPqBiL9e86v5ATJdjlx5EznPw=
-X-Received: by 2002:a05:651c:2211:b0:2fa:d534:3ee7 with SMTP id
- 38308e7fff4ca-2fc9bc35e2fmr2513681fa.35.1729620364754; Tue, 22 Oct 2024
- 11:06:04 -0700 (PDT)
+        bh=IxX9XE7Bu14uzEO7ETrCqQQOfswrKYUdi+DacsDonWk=;
+        b=M51sDlVUn90Kq0S1idtj7m7NM5P1/sAlkRKXnThF7AK1QJxmDMOw15zZxyIW3JJcz/
+         IMdHbzCDkXaNZpjjwOl1Ox+4UfcCqdgNdPA1vvyQ5/8ozgNkrVXcJiO8HG3GMp2Dd3bR
+         2ix5GKU4zJzLV0wbM9LVug9WJdPMRBrpzMJKWv//0NyXcqV4dn7WCzRaRZBeWjaMGEsD
+         H5J5cB9DHU3h5wBgwzi/WniHfa0rteC7hBCd7/ZDTS4RBDd55gGgTtWl2DfuTbfcX53z
+         Wgxakuhvt7NFDGJbx6P2KJeeoxWwKmTO1UV0bWwjCkPz8UKJe5782qGcGoWuSWFG7qh3
+         mS5g==
+X-Forwarded-Encrypted: i=1; AJvYcCX5HLiaA5XcrUbRFtxRCOmEPREF1bdViaBwC8gAMazLLeSr8QAFQ4WkmNni9+MRAB7nBccpj7+GmZ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztmDgObUBVwTRap+DDCX+1AX2pvWB7fJCd9Qqa0bYmGWumtuSR
+	Ag0TkvRa+m+eVBWKWuE+hLrCNVcJBEnYXppvrgFVm/bX+VWJJPRUsxoSRkOjKI0WFsdjw3rEJo3
+	bbQG1kwzxWXw+USKZOmzXx5As5AjsrGIbFk3q
+X-Google-Smtp-Source: AGHT+IF1lvYbetIHrryAdh+jmeC5rJO5rAiidyzmaALJvxxCwL4J2paIXfTnO/FOGo6ANr8RE57YXdoA+RN0fF/TxZw=
+X-Received: by 2002:a05:651c:2112:b0:2fb:6169:c42a with SMTP id
+ 38308e7fff4ca-2fc93341785mr21602731fa.30.1729620684671; Tue, 22 Oct 2024
+ 11:11:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,13 +54,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241021191233.1334897-1-dualli@chromium.org> <20241021191233.1334897-2-dualli@chromium.org>
- <ZxcFxFfQM8gc5EEz@archie.me>
-In-Reply-To: <ZxcFxFfQM8gc5EEz@archie.me>
+ <20241022170625.GJ402847@kernel.org>
+In-Reply-To: <20241022170625.GJ402847@kernel.org>
 From: Li Li <dualli@chromium.org>
-Date: Tue, 22 Oct 2024 11:05:53 -0700
-Message-ID: <CANBPYPgz4z-0gteo9YmQ+5g6tE3m3d3qc_siCvQqFo-ty5KvZQ@mail.gmail.com>
+Date: Tue, 22 Oct 2024 11:11:13 -0700
+Message-ID: <CANBPYPh97difTKrD=a6A-0sOVwZS28K=BvH37-62Z5FUO+kNUg@mail.gmail.com>
 Subject: Re: [PATCH v4 1/1] binder: report txn errors via generic netlink (genl)
-To: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Simon Horman <horms@kernel.org>
 Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net, 
 	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
 	donald.hunter@gmail.com, gregkh@linuxfoundation.org, arve@android.com, 
@@ -72,16 +72,123 @@ Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 21, 2024 at 6:54=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
+On Tue, Oct 22, 2024 at 10:06=E2=80=AFAM Simon Horman <horms@kernel.org> wr=
+ote:
 >
 > On Mon, Oct 21, 2024 at 12:12:33PM -0700, Li Li wrote:
+> > + * @pid:     the target process
+> > + * @flags:   the flags to set
+> > + *
+> > + * If pid is 0, the flags are applied to the whole binder context.
+> > + * Otherwise, the flags are applied to the specific process only.
+> > + */
+> > +static int binder_genl_set_report(struct binder_context *context, u32 =
+pid, u32 flags)
+>
+> ...
+>
+> >  static int __init init_binder_device(const char *name)
+> >  {
+> >       int ret;
+> > @@ -6920,6 +7196,11 @@ static int __init init_binder_device(const char =
+*name)
+>
+> The code above this hunk looks like this:
+>
+>
+>         ret =3D misc_register(&binder_device->miscdev);
+>         if (ret < 0) {
+>                 kfree(binder_device);
+>                 return ret;
+>         }
+>
+> >
+> >       hlist_add_head(&binder_device->hlist, &binder_devices);
+> >
+> > +     binder_device->context.report_seq =3D (atomic_t)ATOMIC_INIT(0);
+> > +     ret =3D binder_genl_init(&binder_device->context.genl_family, nam=
+e);
+> > +     if (ret < 0)
+> > +             kfree(binder_device);
+>
+> So I think that binder_device->miscdev needs to be misc_deregister'ed
+> if we hit this error condition.
+>
+> > +
+> >       return ret;
+>
+> Probably adding an unwind ladder like this makes sense (completely untest=
+ed!):
+>
+>         ret =3D misc_register(&binder_device->miscdev);
+>         if (ret < 0)
+>                 goto err_misc_deregister;
+>
+>         hlist_add_head(&binder_device->hlist, &binder_devices);
+>
+>         binder_device->context.report_seq =3D (atomic_t)ATOMIC_INIT(0);
+>         ret =3D binder_genl_init(&binder_device->context.genl_family, nam=
+e);
+>         if (ret < 0);
+>                 goto err_misc_deregister;
+>
+>         return 0;
+>
+> err_misc_deregister:
+>         misc_deregister(&binder_device->miscdev);
+> err_free_dev:
+>         kfree(binder_device);
+>         return ret;
+>
 
-> > +NOTE: if the user applications that talks to the Binder Genl driver ex=
-its,
-> "Note that if ..." or .. note:: block? I lean towards the latter, though.
-> > +the kernel driver will automatically reset the configuration to the de=
-fault
-> > +and stop sending more reports to prevent leaking memory.
+Good catch! Will fix it in the next revision.
 
-Thank you for reviewing it! I'll incorporate your fix in the next revision.
+> ...
+>
+> > diff --git a/drivers/android/binder_genl.h b/drivers/android/binder_gen=
+l.h
+>
+> Perhaps it is because of a different version of net-next,
+> but with this patch applied on top of the current head commit
+> 13feb6074a9f ("binder: report txn errors via generic netlink (genl)")
+> I see:
+>
+> $ ./tools/net/ynl/ynl-regen.sh -f
+> $ git diff
+>
+> diff --git a/include/uapi/linux/android/binder_genl.h b/include/uapi/linu=
+x/android/binder_genl.h
+> index ef5289133be5..93e58b370420 100644
+> --- a/include/uapi/linux/android/binder_genl.h
+> +++ b/include/uapi/linux/android/binder_genl.h
+> @@ -3,12 +3,17 @@
+>  /*     Documentation/netlink/specs/binder_genl.yaml */
+>  /* YNL-GEN uapi header */
+>
+> -#ifndef _UAPI_LINUX_BINDER_GENL_H
+> -#define _UAPI_LINUX_BINDER_GENL_H
+> +#ifndef _UAPI_LINUX_ANDROID/BINDER_GENL_H
+> +#define _UAPI_LINUX_ANDROID/BINDER_GENL_H
+>
+>  #define BINDER_GENL_FAMILY_NAME                "binder_genl"
+>  #define BINDER_GENL_FAMILY_VERSION     1
+>
+> +/**
+> + * enum binder_genl_flag - Used with "set" and "reply" command below, de=
+fining
+> + *   what kind \ of binder transactions should be reported to the user s=
+pace \
+> + *   administration process.
+> + */
+>  enum binder_genl_flag {
+>         BINDER_GENL_FLAG_FAILED =3D 1,
+>         BINDER_GENL_FLAG_DELAYED =3D 2,
+> @@ -34,4 +39,4 @@ enum {
+>         BINDER_GENL_CMD_MAX =3D (__BINDER_GENL_CMD_MAX - 1)
+>  };
+>
+> -#endif /* _UAPI_LINUX_BINDER_GENL_H */
+> +#endif /* _UAPI_LINUX_ANDROID/BINDER_GENL_H */
+
+The patch was based on the top of Linus's tree instead of net-next.
+I'll investigate this difference.
