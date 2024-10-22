@@ -1,139 +1,335 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C8F1A76D1;
-	Tue, 22 Oct 2024 16:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B851A0BF3;
+	Tue, 22 Oct 2024 16:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729614118; cv=none; b=ijvpm8viKruyYfW0yZ9+NiFY6OBMhKdnNnNpPCrD2sQAlsS8+poFqfxKgY26jYUstSAnRay3CFtaeR92gazIEIQGReLLtCGqHzmxf+w+kD/K0JZDGpQZ1znD18tfVjW1p346PSMsUpsh+cXNbb6FVZUkrJLkbvboOocyXQxvxss=
+	t=1729614258; cv=none; b=jXIQ5FgdPLhyoHmnosjylrUL61cdFWaevLBuzKBXkYE3JQQ5v6w1NYx/PFF3ksEzxTdJnLE5q3IkR5KmoAY+LpueYGdjSBMZJcyUbRE9VajeHbIHq3Q0pN11spI1aeEd2xVaRddUCXdbZUWlhXyHn6JC3sM2KGcBVK1JMJ0aF/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729614118; c=relaxed/simple;
-	bh=g0X8esJl5OXSo6yVG0u/hl1XuyhY3af4PbbgX2UZJcQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WrPneXoGXbUe/ENdr25QP/E9f/stiFk48NLN+kdubZkhNAoS4994kMGIltt+s0P4bukE8zrVvZcu8zOC3Sj5FUI/9E1L1LkEsaWEWO4UGwwA5jfgKjlPKELvyB67Elq7UwsYMTkPJ4wcfR0cp4rm/wvng1nHH/Q3S/Lq9w85VJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=DxdcD2ag; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1729614258; c=relaxed/simple;
+	bh=501b3LVbL2FXMhL78aQmvarPQsQnuHqZmJ76xqT+2fs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P4cbLKkYG7OBo3rh/oVLQX0zKGQntEBDYZrDMfMI6xnS9QTttzo0af+DPQlQIg4aU63ccA2xE975S+PUTWNvqXp4ZkiGC8V1f/cEYpx/PCZbs3mt2NEXHrEPYTdkmZjQssoTZjJrwgoJzZp3QsNysozXc8tIOn7zfzklR9guWb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ye1O32DP; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="DxdcD2ag"
-Received: from [192.168.7.205] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49MGLTuM811311
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Tue, 22 Oct 2024 09:21:30 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49MGLTuM811311
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024101701; t=1729614091;
-	bh=mMa/nEHi+IJsuIgB+ctUr20GZTFdfugp1CDxj/jJrYg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DxdcD2agaLTNr8riwzxdG21klgd9KXakweVzSJ08kiapCzxErhZksXuvILgoUMX+8
-	 y6QIrTQcxV/1I/A2kG9ZZltAhW2IBe5f1PnQ5EAACWsCq4O4E6pgMS8z+a5ZwlDvz9
-	 sfw6LPIc/3xPjcckhYC7VzdbIRzP7ZTOM+SiQ5cRzzWaHWoBTBrwyk5UP+3UGCHc2b
-	 aCDju3JNJidMA9/XPFcCv+xZDHr1VCS67tNUy9Wi8PO+qFNo8K/TS5EfXtZio7QIgl
-	 pzkXFJz5k1Zhw5oqGm0RFlk4EDqMw1IivQuL+sci54lz/Oo6Fuhw4tn1WhsfacTAY7
-	 s27WZSr7BEFig==
-Message-ID: <332870de-888a-4ebc-9ca5-d4980f79b8be@zytor.com>
-Date: Tue, 22 Oct 2024 09:21:28 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ye1O32DP"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20cd76c513cso49085525ad.3;
+        Tue, 22 Oct 2024 09:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729614256; x=1730219056; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=65YVVgdSIGqvCqgaz3dUKTc4mf0+vNRHTbD04BfZv80=;
+        b=Ye1O32DP+xq7QV7BRjhRrXgXui/NhyCUJ9TMaKj7RXtlCU4aKOZo90c+lG8XNh8S/n
+         YedjwICgWECJX4J1cG412HjOOG9fVLn4WJMJiScYtTtZMNt9MLIiA89m+RGoJ/gq2a4K
+         cqPjlCv50xVzTxYIzGfH26nRw43nyZc6PwFM7k+ifBekzZ6ra5w3BaN5kdKeKzvNJLyZ
+         UIhi+hr1z+KHg19z1ULGk8oWK26VfzKbhTyvIYnivFF+ch5Ys6kAowkUmaMGXn9WJPIP
+         JSHc8iMr9ySr9g2GYyHkWgR1iIm4PyPJ5ptC0d6Jgi4lH2CyizurIjC25vDc7HqCW5tc
+         SYbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729614256; x=1730219056;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=65YVVgdSIGqvCqgaz3dUKTc4mf0+vNRHTbD04BfZv80=;
+        b=usF97NUJAzo2WFj/BXUO+S0BgqMtz5zZy94HBKczhbvG4TRVWfvqLTSS86vxWx/Qk/
+         TVN7jCgfJzCEZHScR0lagEKRQkgbW4NvGbr59jw4fa14a1YZzBmz53pui/xPnaFO2NNJ
+         uW3ckKAU9+fvoDNu/q9ZFR7C2xdhv4UsSa7JyHjZI8vtj4oszJl+TSMySXgmLheYPGVI
+         b++FH2cekoDLBDjQf+agpZH8TW29g4XklCICi6Dns1DBhhlkA+HVzXDouNCegJ9TSt4o
+         VKCcQ/hvueygv7PqpIqyas0tHVp8yzixeXxdcRPyn+HSH/PdF1JM1dPa4gOr0gUMyaey
+         osag==
+X-Forwarded-Encrypted: i=1; AJvYcCW98CtPDB7ndghifsvIho8AxqKtUlQgjZpHYw9a1RfwuSa8GalAfgdkP7VpWYWVgwJ+YORE+THy3o8=@vger.kernel.org, AJvYcCWdaq+xrWoosOMoBrU8i2y1Gr8zZNJHjI3meWzCMymMRg8kbXFAbpiUMzvEMBpRI81mFsGSZtTQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YymWFqQU95tPnzFDqYylNM1ZpntvUk6NKNF5z7YIsiFETqDorGy
+	De/zExbn6+LKbwedbbfLL0S8C0hEXsKLyWrV4wr+OQCzcc5bmQDG
+X-Google-Smtp-Source: AGHT+IFNav1yg5gDru0tPYNH8Mt9fV3h/GWKQTcXmqaLZC8LL+qm96LqMEWMOqqstfMC0SCLWrxv9g==
+X-Received: by 2002:a17:903:184:b0:20e:94ba:4e27 with SMTP id d9443c01a7336-20e94ba4e70mr39340795ad.27.1729614255848;
+        Tue, 22 Oct 2024 09:24:15 -0700 (PDT)
+Received: from ap.. ([182.213.254.91])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7eee6602sm44755205ad.1.2024.10.22.09.24.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2024 09:24:14 -0700 (PDT)
+From: Taehee Yoo <ap420073@gmail.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	almasrymina@google.com,
+	donald.hunter@gmail.com,
+	corbet@lwn.net,
+	michael.chan@broadcom.com,
+	andrew+netdev@lunn.ch,
+	hawk@kernel.org,
+	ilias.apalodimas@linaro.org,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	john.fastabend@gmail.com,
+	dw@davidwei.uk,
+	sdf@fomichev.me,
+	asml.silence@gmail.com,
+	brett.creeley@amd.com,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: kory.maincent@bootlin.com,
+	maxime.chevallier@bootlin.com,
+	danieller@nvidia.com,
+	hengqi@linux.alibaba.com,
+	ecree.xilinx@gmail.com,
+	przemyslaw.kitszel@intel.com,
+	hkallweit1@gmail.com,
+	ahmed.zaki@intel.com,
+	rrameshbabu@nvidia.com,
+	idosch@nvidia.com,
+	jiri@resnulli.us,
+	bigeasy@linutronix.de,
+	lorenzo@kernel.org,
+	jdamato@fastly.com,
+	aleksander.lobakin@intel.com,
+	kaiyuanz@google.com,
+	willemb@google.com,
+	daniel.zahka@gmail.com,
+	ap420073@gmail.com
+Subject: [PATCH net-next v4 0/7] bnxt_en: implement device memory TCP for bnxt
+Date: Tue, 22 Oct 2024 16:23:51 +0000
+Message-Id: <20241022162359.2713094-1-ap420073@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/27] KVM: VMX: Disable FRED if FRED consistency
- checks fail
-To: Chao Gao <chao.gao@intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, seanjc@google.com, pbonzini@redhat.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
-References: <20241001050110.3643764-1-xin@zytor.com>
- <20241001050110.3643764-6-xin@zytor.com> <ZxdmxC92KmMQVYNU@intel.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <ZxdmxC92KmMQVYNU@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/22/2024 1:48 AM, Chao Gao wrote:
-> On Mon, Sep 30, 2024 at 10:00:48PM -0700, Xin Li (Intel) wrote:
->> From: Xin Li <xin3.li@intel.com>
->>
->> Do not virtualize FRED if FRED consistency checks fail.
->>
->> Either on broken hardware, or when run KVM on top of another hypervisor
->> before the underlying hypervisor implements nested FRED correctly.
->>
->> Suggested-by: Chao Gao <chao.gao@intel.com>
->> Signed-off-by: Xin Li <xin3.li@intel.com>
->> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
->> Tested-by: Shan Kang <shan.kang@intel.com>
-> 
-> Reviewed-by: Chao Gao <chao.gao@intel.com>
-> 
-> one nit below,
-> 
->> ---
->> arch/x86/kvm/vmx/capabilities.h | 7 +++++++
->> arch/x86/kvm/vmx/vmx.c          | 3 +++
->> 2 files changed, 10 insertions(+)
->>
->> diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
->> index e8f3ad0f79ee..2962a3bb9747 100644
->> --- a/arch/x86/kvm/vmx/capabilities.h
->> +++ b/arch/x86/kvm/vmx/capabilities.h
->> @@ -400,6 +400,13 @@ static inline bool vmx_pebs_supported(void)
->> 	return boot_cpu_has(X86_FEATURE_PEBS) && kvm_pmu_cap.pebs_ept;
->> }
->>
->> +static inline bool cpu_has_vmx_fred(void)
->> +{
->> +	/* No need to check FRED VM exit controls. */
-> 
-> how about:
-> 
-> 	/*
-> 	 * setup_vmcs_config() guarantees FRED VM-entry/exit controls are
-> 	 * either all set or none. So, no need to check FRED VM-exit controls.
-> 	 */
-> 
-> It is better to call out the reason.
-> 
+This series implements device memory TCP for bnxt_en driver and
+necessary ethtool command implementations.
 
-make sense!
+NICs that use the bnxt_en driver support tcp-data-split feature named
+HDS(header-data-split).
+But there is no implementation for the HDS to enable/disable by ethtool.
+Only getting the current HDS status is implemented and the HDS is just
+automatically enabled only when either LRO, HW-GRO, or JUMBO is enabled.
+The hds_threshold follows the rx-copybreak value but it wasn't
+changeable.
+
+Currently, bnxt_en driver enables tcp-data-split by default but not
+always work.
+There is hds_threshold value, which indicates that a packet size is
+larger than this value, a packet will be split into header and data.
+hds_threshold value has been 256, which is a default value of
+rx-copybreak value too.
+The rx-copybreak value hasn't been allowed to change so the
+hds_threshold too.
+
+This patchset decouples hds_threshold and rx-copybreak first.
+and make tcp-data-split, rx-copybreak, and
+header-data-split-thresh configurable independently.
+
+But the default configuration is the same.
+The default value of rx-copybreak is 256 and default
+header-data-split-thresh is also 256.
+
+There are several related options.
+TPA(HW-GRO, LRO), JUMBO, jumbo_thresh(firmware command), and Aggregation
+Ring.
+
+The aggregation ring is fundamental to these all features.
+When gro/lro/jumbo packets are received, NIC receives the first packet
+from the normal ring.
+follow packets come from the aggregation ring.
+
+These features are working regardless of HDS.
+When TPA is enabled and HDS is disabled, the first packet contains
+header and payload too.
+and the following packets contain payload only.
+If HDS is enabled, the first packet contains the header only, and the
+following packets contain only payload.
+So, HW-GRO/LRO is working regardless of HDS.
+
+There is another threshold value, which is jumbo_thresh.
+This is very similar to hds_thresh, but jumbo thresh doesn't split
+header and data.
+It just split the first and following data based on length.
+When NIC receives 1500 sized packet, and jumbo_thresh is 256(default, but
+follows rx-copybreak),
+the first data is 256 and the following packet size is 1500-256.
+
+Before this patch, at least if one of GRO, LRO, and JUMBO flags is
+enabled, the Aggregation ring will be enabled.
+If the Aggregation ring is enabled, both hds_threshold and
+jumbo_thresh are set to the default value of rx-copybreak.
+
+So, GRO, LRO, JUMBO frames, they larger than 256 bytes, they will
+be split into header and data if the protocol is TCP or UDP.
+for the other protocol, jumbo_thresh works instead of hds_thresh.
+
+This means that tcp-data-split relies on the GRO, LRO, and JUMBO flags.
+But by this patch, tcp-data-split no longer relies on these flags.
+If the tcp-data-split is enabled, the Aggregation ring will be
+enabled.
+Also, hds_threshold no longer follows rx-copybreak value, it will
+be set to the header-data-split-thresh value by user-space, but the
+default value is still 256.
+
+If the protocol is TCP or UDP and the HDS is disabled and Aggregation
+ring is enabled, a packet will be split into several pieces due to
+jumbo_thresh.
+
+When single buffer XDP is attached, tcp-data-split is automatically
+disabled.
+
+LRO, GRO, and JUMBO are tested with BCM57414, BCM57504 and the firmware
+version is 230.0.157.0.
+I couldn't find any specification about minimum and maximum value
+of hds_threshold, but from my test result, it was about 0 ~ 1023.
+It means, over 1023 sized packets will be split into header and data if
+tcp-data-split is enabled regardless of hds_treshold value.
+When hds_threshold is 1500 and received packet size is 1400, HDS should
+not be activated, but it is activated.
+The maximum value of header-data-split-thresh value is 256 because it
+has been working. It was decided very conservatively.
+
+I checked out the tcp-data-split(HDS) works independently of GRO, LRO,
+JUMBO. Tested GRO/LRO, JUMBO with enabled HDS and disabled HDS.
+Also, I checked out tcp-data-split should be disabled automatically
+when XDP is attached and disallowed to enable it again while XDP is
+attached. I tested ranged values from min to max for
+header-data-split-thresh and rx-copybreak, and it works.
+header-data-split-thresh from 0 to 256, and rx-copybreak 65 to 256.
+When testing this patchset, I checked skb->data, skb->data_len, and
+nr_frags values.
+
+By this patchset, bnxt_en driver supports a force enable tcp-data-split,
+but it doesn't support for disable tcp-data-split.
+When tcp-data-split is explicitly enabled, HDS works always.
+When tcp-data-split is unknown, it depends on the current
+configuration of LRO/GRO/JUMBO.
+
+The first patch implements .{set, get}_tunable() in the bnxt_en.
+The bnxt_en driver has been supporting the rx-copybreak feature but is
+not configurable, Only the default rx-copybreak value has been working.
+So, it changes the bnxt_en driver to be able to configure
+the rx-copybreak value.
+
+The second patch adds an implementation of tcp-data-split ethtool
+command.
+The HDS relies on the Aggregation ring, which is automatically enabled
+when either LRO, GRO, or large mtu is configured.
+So, if the Aggregation ring is enabled, HDS is automatically enabled by
+it.
+
+The third patch adds header-data-split-thresh command in the ethtool.
+This threshold value indicates if a received packet size is larger
+than this threshold, the packet's header and payload will be split.
+Example:
+   # ethtool -G <interface name> header-data-split-thresh <value>
+This option can not be used when tcp-data-split is disabled or not
+supported.
+   # ethtool -G enp14s0f0np0 tcp-data-split on header-data-split-thresh 256
+   # ethtool -g enp14s0f0np0
+   Ring parameters for enp14s0f0np0:
+   Pre-set maximums:
+   ...
+   Current hardware settings:
+   ...
+   TCP data split:         on
+   Header data split thresh:  256
+
+The fourth patch adds the implementation of header-data-split-thresh logic
+in the bnxt_en driver.
+The default value is 256, which used to be the default rx-copybreak
+value.
+
+The fifth and sixth add condition checks for devmem and ethtool.
+If tcp-data-split is disabled or threshold value is not zero, setup of
+devmem will be failed.
+Also, tcp-data-split and header-data-split-thresh will not be changed
+while devmem is running.
+
+The sixth patch adds netmem_is_pfmemalloc() helper function.
+
+The last patch implements device memory TCP for bnxt_en driver.
+It usually converts generic page_pool api to netmem page_pool api.
+
+No dependencies exist between device memory TCP and GRO/LRO/MTU.
+Only tcp-data-split and header-data-split-thresh should be enabled when the
+device memory TCP.
+While devmem TCP is set, tcp-data-split and header-data-split-thresh can't
+be updated because core API disallows change.
+
+I tested the interface up/down while devmem TCP running. It works well.
+Also, channel count change, and rx/tx ringsize change tests work well too.
+
+The devmem TCP test NIC is BCM57504
+
+All necessary configuration validations exist at the core API level.
+
+Current page_pool fails if drivers pass PP_FLAG_ALLOW_UNREADABLE_NETMEM |
+PP_FLAG_DMA_SYNC_DEV.
+This is going to be fixed by Mina.
+
+v4:
+ - Remove min rx-copybreak value.
+ - Do not support a disable of tcp-data-split by bnxt_en driver.
+ - Rename from tcp-data-split-thresh to header-data-split-thresh.
+ - Add ETHTOOL_RING_USE_HDS_THRS flag.
+ - Add dev_xdp_sb_prog_count() helper.
+ - Reduce hole in struct bnxt.
+ - Use ETHTOOL_RING_USE_HDS_THRS in bnxt_en driver.
+ - Improve condition check.
+ - Add netdev_devmem_enabled() helper.
+ - Add netmem_is_pfmemalloc() helper.
+ - Do not select NET_DEVMEM in Kconfig for bnxt_en driver.
+ - Pass PP_FLAG_ALLOW_UNREADABLE_NETMEM flag unconditionally.
+ - Use gfp flag in __bnxt_alloc_rx_netmem() in the last patch.
+ - Do not add *offset in the __bnxt_alloc_rx_netmem() in the last patch.
+ - Do not pass queue_idx to bnxt_alloc_rx_page_pool() in the last patch.
+ - Add Test tag from Stanislav.
+ - Add Review tag from Brett.
+ - Add page_pool_recycle_direct_netmem() helper
+
+v3:
+ - Change headline
+ - Add condition checks for ethtool and devmem
+ - Fix documentation
+ - Move validation of tcp-data-split and thresh from dirver to core API
+ - Add implementation of device memory TCP for bnxt_en driver
+
+v2:
+ - Add tcp-data-split-thresh ethtool command
+ - Implement tcp-data-split-threh in the bnxt_en driver
+ - Define min/max rx-copybreak value
+ - Update commit message
+
+Taehee Yoo (8):
+  bnxt_en: add support for rx-copybreak ethtool command
+  bnxt_en: add support for tcp-data-split ethtool command
+  net: ethtool: add support for configuring header-data-split-thresh
+  bnxt_en: add support for header-data-split-thresh ethtool command
+  net: devmem: add ring parameter filtering
+  net: ethtool: add ring parameter filtering
+  net: netmem: add netmem_is_pfmemalloc() helper function
+  bnxt_en: add support for device memory tcp
+
+ Documentation/netlink/specs/ethtool.yaml      |   8 +
+ Documentation/networking/ethtool-netlink.rst  |  79 ++++---
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     | 212 +++++++++++++-----
+ drivers/net/ethernet/broadcom/bnxt/bnxt.h     |  14 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c |  66 +++++-
+ include/linux/ethtool.h                       |   6 +
+ include/linux/netdevice.h                     |   1 +
+ include/net/netdev_rx_queue.h                 |  14 ++
+ include/net/netmem.h                          |   8 +
+ include/net/page_pool/helpers.h               |   6 +
+ include/uapi/linux/ethtool_netlink.h          |   2 +
+ net/core/dev.c                                |  13 ++
+ net/core/devmem.c                             |  18 ++
+ net/ethtool/common.h                          |   1 +
+ net/ethtool/netlink.h                         |   2 +-
+ net/ethtool/rings.c                           |  50 ++++-
+ 16 files changed, 402 insertions(+), 98 deletions(-)
+
+-- 
+2.34.1
+
