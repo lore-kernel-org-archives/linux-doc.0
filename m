@@ -1,301 +1,141 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B335193409;
-	Tue, 22 Oct 2024 15:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907BE1A0BFE;
+	Tue, 22 Oct 2024 15:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729609523; cv=none; b=PWj5Xcpu1cFjGG86jo5kBGcxQ08U1IM4O/vuZfZeOH2Hp0ItKF8hGsGPuI8NwqDCsv409hnedjaAvJQVn4NdO24jVb7lz8SgnwVjGYyAkN2AbXG7m8eKMJmhNuyY9e6j3Rhp8kQVqD3bXb+F3E6RDAhxQVabhwAyLTlrGD3oWuA=
+	t=1729610061; cv=none; b=J/aYU4u2YuR1B27wDJYPppd4+qOHQQHX/gNROr0gugNR056BjVpo8VuhGywVhungWsMz53TQSeE7I6ki2vdR1NCO24kRvvPmaeEBaWgN1HIbNp0YTRZiU4WVMvTuHLtWc382d5et6fRfuKdLgxqeWEHDcoMRDuZ+u7mcWZmLSk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729609523; c=relaxed/simple;
-	bh=wOTE3urdVxTnZWocPLmVxLdQC7deXNGghsbV7zLNqB8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EiykysIeqEq/QCoKEk3p8DOx/YHVGYM5iI5XBw+CWjpeQDE5ByH6l28LTVyRrrb5C0Y+rvBI6jxHHS4JW9YC3XRao+kFeNSUbt8JqzWJ/sPW2lAt0attABpHwChW9G7RiZ5kGTiPrkcoM35919zJSREx7zuxqVY8m/Jay89+YJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M6sQDUuU; arc=none smtp.client-ip=209.85.166.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1729610061; c=relaxed/simple;
+	bh=GO9vmWxSWOv2/g83ik6OUO02XbMUtx8PCovxiIgB4kw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hsCG1o5GawSkaD7+FkkR2HeSqWQG4+M9VxC0oLXBCzhvb+cihiMpZxZKBg7VY4rM/m/n1NZkEuawWUxSXtupClF6+DHVU3e0gBnp3tD+iRR3y/ok1j4QE6irNHNFvyw2Q6KBHChM1klIgG5bsfqGIwo06HDgnlrAcrxVIhhXZUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mPdHjBtl; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M6sQDUuU"
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-83abdaf8a26so158239739f.1;
-        Tue, 22 Oct 2024 08:05:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mPdHjBtl"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7ae3d7222d4so4299303a12.3;
+        Tue, 22 Oct 2024 08:14:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729609521; x=1730214321; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9erIofbQNgNITuTZkFVr7yuKagNQmdA7Ka/iRqM44Jo=;
-        b=M6sQDUuUn69i/b5+jtjfoto09W6h+oCg1gvxfV12o+Io0Cvy5yBn27PjCr9Krt7SS9
-         bsgIEOkKXRS9ggnKw+MiBCNcv0YsJ7BIUoBOwDaYTl7vybGl5Pvutg2U8nBIGK0neBvs
-         OZqnsIRx8hjFVHOxcubfGr8dpDsiSm09QM6NNZ6HoSprQc8GtWa4IESCwnw+zix8Au+f
-         wjhCCLbZc8dS43GEsHx0fLw0krOjXMglNrrfu+2W4Il+KrBKE6+YV+iCv2GMtbHiP1D8
-         k2RAnoiMGm3aANfhDbEA96rgkKIA8Obk7GmeJxEFU4uNaZjrmHn1vDmpN+ZuoBzOg7CX
-         eBGw==
+        d=gmail.com; s=20230601; t=1729610059; x=1730214859; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=NW/rEIqVYk20Bagh13hOd3nJbOnRwuYybRFg+LGZWqs=;
+        b=mPdHjBtlO8cDDToQNjFq7klQfYaP4xq3aqTRxpspIvIi9JpBrAUGn3NnhK9IooMmuq
+         0xi6C+jYHLrmahG+l95a7fYOWHBNvq3sWtaEUD2tug41nr+pOU5ievU2CRmmazTi7n2Y
+         3UrXPKBhD5sfEJs5AbRxTVHjNuV7mbAnGlN+U952nxXW8/H/94qNezs2jLdfqL5I1RIi
+         8+tXTC5c8hDfFGeJNd/MDMRRkXOcQ2I88rQZu2I5yFDpCGzKdyT8Ik3UAwzoSgrXb1MQ
+         CmfkASuRPHMZmyvalleCyRlhtjpOvnUIIaVNr1D8goXQC44BWjC7qu55MhAMsiyDiD2e
+         iPBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729609521; x=1730214321;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9erIofbQNgNITuTZkFVr7yuKagNQmdA7Ka/iRqM44Jo=;
-        b=POHf7cbW7MBxVaQTpyIs9mzQ9ozC2Xg549XFKecm6+HdDpRsqj/Jz2gT20DIQAfse3
-         mXukWc/QEsRZ4eFsa2vtlYto/xIW3tEpmo3Y1lBDyVQasjNr8vMwD2/58hp5i4mvmjna
-         M+xkSzM/QSdTfV5f4WT4feSc2DrKREAgkpooH33ypb2/FIOs9QU7PT0A09OqVg7K/izG
-         RW13w97cXQ0lK2gk7uYXwFnVHasnY8E6ZMI5exd5zbpt/t5EMq5ajK6373Vd+zL4u75E
-         ICyX8lEncRwcXPKDNWXEGl/RnSuWWoQtVwNYMkjzobtOjIZAVb//MwogCUyMWrwEN5tB
-         w3pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUeg7BamhutMSL1k+m1XMhLamU+I+oSZWOKFN32KVL4QfYKCCHczQDoaEAZr+NpMQEqKmYt+6Uhz6WHY+lz@vger.kernel.org, AJvYcCUiWzRq7SZ8EG+enskkIFXwUfQr9OnFJBpWDEsSx6mdg+sKRxWz5clXOCBWCkSgtO+jvKdS1gX2XEH+@vger.kernel.org, AJvYcCWq2eGlSBBp2Wubc+4ZFwmRy+EKbi8FupmokB769ZmuphmVQ83XSvYj4s8DmzI76J4C36JfHEsIdYdYI9jW@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3FKjrc2AASeUd/CZZeEUhVvPTW57akMP5S5tJfP2sie7Myc23
-	zOelLJy/FfnSiU8faD2kaCr6dMq4q7jiuuD2a/NXdyYsUk0RFIOhc2AmI6UyEDwjalNYFFYVlk/
-	MSEVpGcl2zD9PmA8Y9r/l+7WzvjQ=
-X-Google-Smtp-Source: AGHT+IGKSB7rVfZSFbJ3dDLdHLcYQrsyPVJsR5Bhyctlccvw8j8JrxhJQLaYz/vyUN2No/QB9QwmgQO6QQ7kT0wrc7E=
-X-Received: by 2002:a05:6e02:1a2a:b0:3a3:b1c4:8198 with SMTP id
- e9e14a558f8ab-3a3f40ab520mr145431315ab.20.1729609520506; Tue, 22 Oct 2024
- 08:05:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729610059; x=1730214859;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NW/rEIqVYk20Bagh13hOd3nJbOnRwuYybRFg+LGZWqs=;
+        b=kW5M0T7+j8XA+oIAy7SfvCSrKehcOuFnNfJ/ekop0/D8NBpalz7K6Z7iEVl7gtsDFt
+         jtRP2KKJAOfkFC9tnGyDNq6fiNme2rQMLEpp/9dQ86ZXPNiC/4j/G2GOOKR50wvOx162
+         Y9KvmcTZtf261gM3Gpz9SUuLARU4pPA2qGtUb9fkEEAZ5F56osBbY56t0M03WHyp/fkx
+         LB7iWgvHGnePdE2I1fzpJFNFcTHo/swOCB+w/ubKiFWcgKKjR0ZOo7VeFXlX1kaiE/17
+         MipT/XR5fTKM8ZNzI+GT7YZGSm94faBrkk7oqdfTr4CiNhfkqim3YCV9uu4mwAYdVxIu
+         hKwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVhLySQyaTmYe1hcS/TQxxLaayQX0ofirzXbZu0y+GV4NpssOcHj0RR9gIxtoVe23fM8sZg9nPq+5KD+2yL@vger.kernel.org, AJvYcCXIFsiq1VKrMLMJP/h7dcRKnnv6wow2+TodNlO69Bca1cixcMIrg9DiFyxTs8acSdLjhxCgoUZlIejZ@vger.kernel.org, AJvYcCXqT0miyiyAfmU3CgxKbqs3y8afsZ1HmHWcrqubVwPt/g+ORFiWjhdZRXbByF6Nm5VeHYwviRZToSHW@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDZg9b8NE0aqnv/U9OgLHtYgC/SXj4/GbeO/dHCwlBxghcekRp
+	7LpqOab042INdrdc8p4XIk9v6UIvDYoxJMocM8QAAXkTmpFrf93GYmu3fg==
+X-Google-Smtp-Source: AGHT+IEyly+eku+lEevkwvNw0Dq8/4qrGbtFxG7XfkvLcDDrgen1PINyCP0GLvsiXBtPJMqUnrWhSw==
+X-Received: by 2002:a17:90b:4c12:b0:2e2:ffb0:89f6 with SMTP id 98e67ed59e1d1-2e5ddb7018amr3032961a91.15.1729610058716;
+        Tue, 22 Oct 2024 08:14:18 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e5ad25cb0asm6329691a91.10.2024.10.22.08.14.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Oct 2024 08:14:18 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <f6846ac5-55ee-405c-939b-1199ea362fb5@roeck-us.net>
+Date: Tue, 22 Oct 2024 08:14:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240917-preemption-a750-t-v4-0-95d48012e0ac@gmail.com>
- <c70392bb-bda1-48c7-824e-23d6f92f54ef@linaro.org> <CAF6AEGso-AZhmOb+V_bc6w5Bw4Yz1fhoPOXbC0uoLXQ7QGnLqQ@mail.gmail.com>
- <20240920161425.y5ae2y4h64tsfjjx@hu-akhilpo-hyd.qualcomm.com>
-In-Reply-To: <20240920161425.y5ae2y4h64tsfjjx@hu-akhilpo-hyd.qualcomm.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 22 Oct 2024 08:05:07 -0700
-Message-ID: <CAF6AEGvmfKu2cD5r27KL6KRh8E9PJ1AprR4J8OrrSX+-W0OxNQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/11] Preemption support for A7XX
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: g@hu-akhilpo-hyd.qualcomm.com, neil.armstrong@linaro.org, 
-	Antonino Maniscalco <antomani103@gmail.com>, Sean Paul <sean@poorly.run>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-arm-msm@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Sharat Masetty <smasetty@codeaurora.org>, Konrad Dybcio <konradybcio@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] hwmon: Add driver for I2C chip Nuvoton NCT7363Y
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, baneric926@gmail.com,
+ jdelvare@suse.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com,
+ DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
+References: <20241022052905.4062682-1-kcfeng0@nuvoton.com>
+ <20241022052905.4062682-3-kcfeng0@nuvoton.com>
+ <2339841b-034b-440f-83ac-139d95059727@wanadoo.fr>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <2339841b-034b-440f-83ac-139d95059727@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 20, 2024 at 9:15=E2=80=AFAM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
->
-> On Wed, Sep 18, 2024 at 08:39:30AM -0700, Rob Clark wrote:
-> > On Wed, Sep 18, 2024 at 12:46=E2=80=AFAM Neil Armstrong
-> > <neil.armstrong@linaro.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On 17/09/2024 13:14, Antonino Maniscalco wrote:
-> > > > This series implements preemption for A7XX targets, which allows th=
-e GPU to
-> > > > switch to an higher priority ring when work is pushed to it, reduci=
-ng latency
-> > > > for high priority submissions.
-> > > >
-> > > > This series enables L1 preemption with skip_save_restore which requ=
-ires
-> > > > the following userspace patches to function:
-> > > >
-> > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30544
-> > > >
-> > > > A flag is added to `msm_submitqueue_create` to only allow submissio=
-ns
-> > > > from compatible userspace to be preempted, therefore maintaining
-> > > > compatibility.
-> > > >
-> > > > Preemption is currently only enabled by default on A750, it can be
-> > > > enabled on other targets through the `enable_preemption` module
-> > > > parameter. This is because more testing is required on other target=
-s.
-> > > >
-> > > > For testing on other HW it is sufficient to set that parameter to a
-> > > > value of 1, then using the branch of mesa linked above, `TU_DEBUG=
-=3Dhiprio`
-> > > > allows to run any application as high priority therefore preempting
-> > > > submissions from other applications.
-> > > >
-> > > > The `msm_gpu_preemption_trigger` and `msm_gpu_preemption_irq` trace=
-s
-> > > > added in this series can be used to observe preemption's behavior a=
-s
-> > > > well as measuring preemption latency.
-> > > >
-> > > > Some commits from this series are based on a previous series to ena=
-ble
-> > > > preemption on A6XX targets:
-> > > >
-> > > > https://lkml.kernel.org/1520489185-21828-1-git-send-email-smasetty@=
-codeaurora.org
-> > > >
-> > > > Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> > > > ---
-> > > > Changes in v4:
-> > > > - Added missing register in pwrup list
-> > > > - Removed and rearrange barriers
-> > > > - Renamed `skip_inline_wptr` to `restore_wptr`
-> > > > - Track ctx seqno per ring
-> > > > - Removed secure preempt context
-> > > > - NOP out postamble to disable it instantly
-> > > > - Only emit pwrup reglist once
-> > > > - Document bv_rptr_addr
-> > > > - Removed unused A6XX_PREEMPT_USER_RECORD_SIZE
-> > > > - Set name on preempt record buffer
-> > > > - Link to v3: https://lore.kernel.org/r/20240905-preemption-a750-t-=
-v3-0-fd947699f7bc@gmail.com
-> > > >
-> > > > Changes in v3:
-> > > > - Added documentation about preemption
-> > > > - Use quirks to determine which target supports preemption
-> > > > - Add a module parameter to force disabling or enabling preemption
-> > > > - Clear postamble when profiling
-> > > > - Define A6XX_CP_CONTEXT_SWITCH_CNTL_LEVEL fields in a6xx.xml
-> > > > - Make preemption records MAP_PRIV
-> > > > - Removed user ctx record (NON_PRIV) and patch 2/9 as it's not need=
-ed
-> > > >    anymore
-> > > > - Link to v2: https://lore.kernel.org/r/20240830-preemption-a750-t-=
-v2-0-86aeead2cd80@gmail.com
-> > > >
-> > > > Changes in v2:
-> > > > - Added preept_record_size for X185 in PATCH 3/7
-> > > > - Added patches to reset perf counters
-> > > > - Dropped unused defines
-> > > > - Dropped unused variable (fixes warning)
-> > > > - Only enable preemption on a750
-> > > > - Reject MSM_SUBMITQUEUE_ALLOW_PREEMPT for unsupported targets
-> > > > - Added Akhil's Reviewed-By tags to patches 1/9,2/9,3/9
-> > > > - Added Neil's Tested-By tags
-> > > > - Added explanation for UAPI changes in commit message
-> > > > - Link to v1: https://lore.kernel.org/r/20240815-preemption-a750-t-=
-v1-0-7bda26c34037@gmail.com
-> > > >
-> > > > ---
-> > > > Antonino Maniscalco (11):
-> > > >        drm/msm: Fix bv_fence being used as bv_rptr
-> > > >        drm/msm/A6XX: Track current_ctx_seqno per ring
-> > > >        drm/msm: Add a `preempt_record_size` field
-> > > >        drm/msm: Add CONTEXT_SWITCH_CNTL bitfields
-> > > >        drm/msm/A6xx: Implement preemption for A7XX targets
-> > > >        drm/msm/A6xx: Sync relevant adreno_pm4.xml changes
-> > > >        drm/msm/A6xx: Use posamble to reset counters on preemption
-> > > >        drm/msm/A6xx: Add traces for preemption
-> > > >        drm/msm/A6XX: Add a flag to allow preemption to submitqueue_=
-create
-> > > >        drm/msm/A6xx: Enable preemption for A750
-> > > >        Documentation: document adreno preemption
-> > > >
-> > > >   Documentation/gpu/msm-preemption.rst               |  98 +++++
-> > > >   drivers/gpu/drm/msm/Makefile                       |   1 +
-> > > >   drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   2 +-
-> > > >   drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   2 +-
-> > > >   drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   2 +-
-> > > >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
-> > > >   drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |   7 +-
-> > > >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 325 ++++++++=
-++++++-
-> > > >   drivers/gpu/drm/msm/adreno/a6xx_gpu.h              | 174 ++++++++
-> > > >   drivers/gpu/drm/msm/adreno/a6xx_preempt.c          | 440 ++++++++=
-+++++++++++++
-> > > >   drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   9 +-
-> > > >   drivers/gpu/drm/msm/msm_drv.c                      |   4 +
-> > > >   drivers/gpu/drm/msm/msm_gpu.c                      |   2 +-
-> > > >   drivers/gpu/drm/msm/msm_gpu.h                      |  11 -
-> > > >   drivers/gpu/drm/msm/msm_gpu_trace.h                |  28 ++
-> > > >   drivers/gpu/drm/msm/msm_ringbuffer.h               |  18 +
-> > > >   drivers/gpu/drm/msm/msm_submitqueue.c              |   3 +
-> > > >   drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   7 +-
-> > > >   .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  39 +-
-> > > >   include/uapi/drm/msm_drm.h                         |   5 +-
-> > > >   20 files changed, 1117 insertions(+), 66 deletions(-)
-> > > > ---
-> > > > base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
-> > > > change-id: 20240815-preemption-a750-t-fcee9a844b39
-> > > >
-> > > > Best regards,
-> > >
-> > > I've been running vulkan-cts (1.3.7.3-0-gd71a36db16d98313c431829432a1=
-36dbda692a08 from Yocto)
-> > > on SM8650-QRD, SM8550-QRD & SM8450-HDK boards with enable_preemption =
-in default value
-> > > and forced to 1, and I've seen no regression so far
-> > >
-> > > On SM8550, I've seen a few:
-> > > platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERRO=
-R* Message HFI_H2F_MSG_GX_BW_PERF_VOTE id 2743 timed out waiting for respon=
-se
-> > > platform 3d6a000.gmu: [drm:a6xx_hfi_send_msg.constprop.0 [msm]] *ERRO=
-R* Unexpected message id 2743 on the response queue
-> > > but it's unrelated to preempt
-> > >
-> > > and on SM8450:
-> > > platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob [msm]] *ERROR* Timeout wa=
-iting for GMU OOB set GPU_SET: 0x0
-> > > msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ER=
-ROR* 7.3.0.1: hangcheck detected gpu lockup rb 0!
-> > > msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ER=
-ROR* 7.3.0.1:     completed fence: 331235
-> > > msm_dpu ae01000.display-controller: [drm:hangcheck_handler [msm]] *ER=
-ROR* 7.3.0.1:     submitted fence: 331236
-> > > adreno 3d00000.gpu: [drm:a6xx_irq [msm]] *ERROR* gpu fault ring 0 fen=
-ce 50de4 status 00800005 rb 0000/0699 ib1 0000000000000000/0000 ib2 0000000=
-000000000/0000
-> > > msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR=
-* 7.3.0.1: hangcheck recover!
-> > > msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR=
-* 7.3.0.1: offending task: deqp-vk (/usr/lib/vulkan-cts/deqp-vk)
-> > > msm_dpu ae01000.display-controller: [drm:recover_worker [msm]] *ERROR=
-* 7.3.0.1: hangcheck recover!
-> > > leading to a VK_ERROR_DEVICE_LOST, but again unrelated to preempt sup=
-port.
-> >
-> > I suspect on newer devices we have trouble resetting the GMU, leading
-> > to (what I assume is happening here) the CPU thinking the GMU is in a
-> > different state than it is.
-> >
-> > Which has led to some stability issues on a660 in mesa CI, if anything
-> > crashes the gpu in the CI run it tends to kill the rest of the run
-> > until the board is power cycled.
-> >
-> > https://gitlab.freedesktop.org/drm/msm/-/issues/37
-> >
-> > I think we have some work to do on making recovery more robust on
-> > things newer than early a6xx things.
->
-> Is this seen only with a particular scenario or is recovery always
-> broken? I fixed recovery on 7c3 (a660 based) a couple of year ago,
-> not sure what exactly regressed. At least I didn't see any issue on
-> x185.
+On 10/22/24 00:20, Christophe JAILLET wrote:
+[ ... ]
+>> +    hwmon_dev =
+>> +        devm_hwmon_device_register_with_info(dev, client->name, data,
+>> +                             &nct7363_chip_info, NULL);
+> 
+> return devm_hwmon_device_register_with_info()?
+> 
 
-More recently my x1e (x1-85) and sc8280xp (a690) have been pretty
-reliable about recovery.  And mesa CI seems to have gotten more
-reliable at recovery when they uprev'd from v6.6x to v6.11.x, so I
-guess something in that range improved things?  But maybe not 100%,
-kernel-ci (msm/msm_recovery@gpu-fault) can sometimes reproduce this,
-apparently:
+No, because the function needs to return an integer, not a pointer.
+And
+	return PTR_ERR_OR_ZERO(devm_hwmon_device_register_with_info(...));
+would look a bit awkward.
 
-https://gitlab.freedesktop.org/drm/msm/-/issues/65
+Guenter
 
-This test does 16 submits, with the 10th one having an invalid opc,
-and then checks that all the ones before and after successfully
-execute a CP_MEM_WRITE:
-
-https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tests/msm/ms=
-m_recovery.c?ref_type=3Dheads#L145
-
-BR,
--R
-
-> -Akhil.
->
-> >
-> > BR,
-> > -R
-> >
-> > > So you can also add:
-> > > Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-> > > Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8450-HDK
-> > >
-> > > Thanks,
-> > > Neil
