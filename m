@@ -1,126 +1,199 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987DB19F41D
-	for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 13:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF5319F133;
+	Tue, 22 Oct 2024 13:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729603369; cv=none; b=OeGVFy1an8BGtYWZM3ubT/w6z1qm70qlzqffHxMSBoIot0RYNdf/HptSQudF2UI588DttKlOJMDQLI3iVKw9AlmHXQiXnWognDM8jpSBKkB18hrFNiIS9feRxZlM9hmLWcPjn69gJ033caJQOMeDSsOr/u5WAGfddxYKkcSoaEE=
+	t=1729605364; cv=none; b=scyLnSoFSHExt8s0rSwuQmJvgPV3me57zSMNMtrstHkwtUhqg/GEn2DI4RxhUcGHAfkKhIO3Rv1/7BbceIkgTkD94k0FI7xZ51pooRTB2oaFll/R+fT5V1jYd3Z4HbScZdWiHn5VfJWcsOMJ1dSb2FI4o7OcJ06iKpJTFrlsjsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729603369; c=relaxed/simple;
-	bh=93yqkWUeqoTZrMS3Qv/LyjXxpxza8AT1Xx3sBk7mQ6w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h5sUdScM/3AilS3n9csxA1Q3y5hwI135ra0VyRjdrM8sJkXdA6W/Fog3QDbJFmmTOxIewOIeJdC+1H8C2QpFlVpS2FK2BeWEY3CKoTRRwYdH779TE8njF+RKE+9G9RlPwiXsR13uEKy1O31UGisCDkjAFvqvRIrsNs1u5c/hKAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=CanjXkgf; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1729605364; c=relaxed/simple;
+	bh=Y7HT68PXYjz7d0Br/DnftiWOw45gz2zuwSv4S657zF4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eGe7TvekAaJJoPFjpVTUraJCVi25y3BU24Atn4v25UgbAMS2UHSBbaLn/Q7d6k7qstmNl8RIjTzGHjsDCRtZrj+iAyilironWuYpi8SWEoGAFT0yo+ulKOb8UOXaGKhixXiiCXT2zcYD8ELJRvKsLQuS+7bZMr8NcPcYBXzeIHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zYP90jaF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vIs0nCwm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=B5TBZtQQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ERVik9h3; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="CanjXkgf"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb498a92f6so61526921fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 06:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729603366; x=1730208166; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LmBCGGu8V19sKPuLEdWIgSMphHuygDUH58C0a6iUhuU=;
-        b=CanjXkgf7YNyEvsiWHVtMNTHkXqyakl7A06+bT1X+zYy2JFdwN/lrsxb3ppfNK/ttp
-         YXJpOfH/QaCWhO6ghwRX+xy2Fx5aYOl74tUCmrCgbEPS+sKjZj+TNhps2glqZaxJbtxA
-         BFSKg1/XTrWN/CuePXX4OuI3yJhxwgK8UWDvfCm09C5PYIeGn2Z0A5yvEqYx5Tx1Oib4
-         a3RFpEjjfsRgU3Nfrh+5KFwxhjiplzYcvArhOU3HFfmEreX5sJO6Qf0RfPxYEcYgJRUf
-         Vz1wEC8xeW15dxcrjm4KyLRNIfKorjxezdsSsO5Lnkp7ZwU/Hz1fqBkOBkBerbIoX92W
-         s+cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729603366; x=1730208166;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LmBCGGu8V19sKPuLEdWIgSMphHuygDUH58C0a6iUhuU=;
-        b=AmYutQwJk3dZ8I+Pjxwc6W24Aj4ao6QbFoOmPv6Uyp/zwN3cK7tsq1ZtwC+UsFu9az
-         GUWAc5NlmwYtxC3X5MyRIvzFfJkdCHwJu265mqvvIMaiIERRMWoSfO143r+4Q7nGQ3Mm
-         7pFjVdcPlaVZHCnk60bgJqfeBf67gLDGue0TgZPhxxNCogONNj/oB2GRwJoS1yArZTgz
-         sS0DNhmQl+LLXFTj6UtJEVsgXNVowLjBI+3UF0hcyo0LQdqwB1q1nLN0vPg9L/T5ymWu
-         zl+nL7VaWzytwNz4wuwwIXOQZMc833PwUH6XMMlOcltNtKpJ+g3uYdu+7vgEHv9phySV
-         HDQg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/44Z80hZggU0Gt6XKDp2ex3HJ3kkMiZTY8jUBnG9F69wrlnH5AN7aZblObhZsfDeMhmSTvh8WARc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx12xgcevQ79H8SNfBlQzc6zX//wDFvhTG4jTB4peYXFDDV0G86
-	LnjtVlrbpriUyREuvpK2rlyuT7yeymNKZxzub0fM/7rYI0WOmteVXElkE95cxsk=
-X-Google-Smtp-Source: AGHT+IFYoWGYAGAyysYJxsmXb35dqHXmkJ5cp0TemXNdKUtqwdnENvnGULLlRAUTFNIbNka7IFJWrA==
-X-Received: by 2002:a05:651c:2109:b0:2fa:e658:27a1 with SMTP id 38308e7fff4ca-2fb82e92b5bmr85705451fa.5.1729603365699;
-        Tue, 22 Oct 2024 06:22:45 -0700 (PDT)
-Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb66c737c4sm3109496a12.96.2024.10.22.06.22.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 06:22:45 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Tue, 22 Oct 2024 15:22:40 +0200
-Subject: [PATCH v3 5/5] docs: iio: ad7380: fix supply for ad7380-4
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zYP90jaF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vIs0nCwm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B5TBZtQQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ERVik9h3"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D6F6D1FD13;
+	Tue, 22 Oct 2024 13:55:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729605359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=zYP90jaFV5Pb19n9JW5vzlWwFSGAe0FYGkbu+Cfa+verVBwzWQkpkwgHO33ZFE1a1dvdZK
+	0tuttYC1/ND40gdt/oVuioznRPistLudIU9xk6Zdof6abOgPA7P/swYId5Xclt2KqFkUPn
+	faS1AQNksTyS2I8MJkUgpI7CfoJCs9Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729605359;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=vIs0nCwm9UqtOTXXFO9pD/BP3RbeOj6NRCQ/HfioJ6yWSWynK/EOKscWg2EUYRGgcMo+x4
+	vQLfd+I0xAxQduAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=B5TBZtQQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ERVik9h3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729605358; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=B5TBZtQQGPrR/TbPsDqk7IKz5X7Tmi0z8yWulsHmNXfN58NXJ7pLzmeTOndtyhgQYMDGux
+	Jhn5TKi5cbmYtWR3p10EYoWsI7n5dizutXWa+Q0ru1VZjUVhTK/eHUtBqUewhTzBQ8rmi6
+	WUSrnL82ebJ0sAg8lV98eb4e0td5tnc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729605358;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=ERVik9h3/yqOOJhof89a2VZZjwOFO1icKKHLZh4yt4bADxjSZ5iuEx8HZ24zLD+hyEGHWK
+	EX0IGujbRuv0oXAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 98B1B13AC9;
+	Tue, 22 Oct 2024 13:55:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id M/jDJO6uF2epZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 22 Oct 2024 13:55:58 +0000
+Date: Tue, 22 Oct 2024 15:56:44 +0200
+Message-ID: <87wmi02qcj.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com,
+	perex@perex.cz,
+	conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com,
+	corbet@lwn.net,
+	lgirdwood@gmail.com,
+	tiwai@suse.com,
+	krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	Thinh.Nguyen@synopsys.com,
+	broonie@kernel.org,
+	bgoswami@quicinc.com,
+	robh@kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD for secondary interrupters
+In-Reply-To: <2024101824-hammock-elastic-8d38@gregkh>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+	<20241015212915.1206789-2-quic_wcheng@quicinc.com>
+	<2024101747-defog-squiggly-ef54@gregkh>
+	<5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
+	<2024101824-hammock-elastic-8d38@gregkh>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241022-ad7380-fix-supplies-v3-5-f0cefe1b7fa6@baylibre.com>
-References: <20241022-ad7380-fix-supplies-v3-0-f0cefe1b7fa6@baylibre.com>
-In-Reply-To: <20241022-ad7380-fix-supplies-v3-0-f0cefe1b7fa6@baylibre.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org, 
- Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.14.2
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: D6F6D1FD13
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TAGGED_RCPT(0.00)[dt];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,linaro.org,intel.com,perex.cz,kernel.org,gmail.com,lwn.net,suse.com,linux.intel.com,synopsys.com,quicinc.com,vger.kernel.org,alsa-project.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
 
-ad7380-4 is the only device from ad738x family that doesn't have an
-internal reference. Moreover it's external reference is called REFIN in
-the datasheet while all other use REFIO as an optional external
-reference. Update documentation to highlight this.
+On Fri, 18 Oct 2024 07:52:35 +0200,
+Greg KH wrote:
+> 
+> On Thu, Oct 17, 2024 at 05:07:12PM -0700, Wesley Cheng wrote:
+> > Hi Greg,
+> > 
+> > On 10/16/2024 11:40 PM, Greg KH wrote:
+> > > On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
+> > >> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+> > >>
+> > >> Allow creators of xHCI secondary interrupters to specify the interrupt
+> > >> moderation interval value in nanoseconds when creating the interrupter.
+> > >>
+> > >> If not sure what value to use then use the xhci driver default
+> > >> xhci->imod_interval
+> > >>
+> > >> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> > >> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> > >> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
+> > >> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > >> ---
+> > >>  drivers/usb/host/xhci-mem.c | 8 +++++++-
+> > >>  drivers/usb/host/xhci.c     | 4 ++--
+> > >>  drivers/usb/host/xhci.h     | 5 ++++-
+> > >>  3 files changed, 13 insertions(+), 4 deletions(-)
+> > > This is already in 6.12-rc1, which makes me confused as to what tree you
+> > > made this series against.
+> > 
+> > Sorry, I didn't fetch the latest changes from usb-next.
+> 
+> It wasn't even usb-next, it was 6.12-rc1, so I don't know what tree you
+> based this on :(
+> 
+> > In this case, should I rebase and resbumit?
+> 
+> As the series can't be applied as-is, probably.  But I think you might
+> want to collect some acks from the sound people and xhci developers, as
+> I can't do anything with this until they look at the changes.
 
-Fixes: 3e82dfc82f38 ("docs: iio: new docs for ad7380 driver")
-Reviewed-by: David Lechner <dlechner@baylibre.com>
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- Documentation/iio/ad7380.rst | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+Honestly speaking, I couldn't follow fully the discussions about the
+fundamental design -- IIRC, Pierre and others had concerns to the way
+to manage the offload device via kcontrols.  Did we get consensus?
 
-diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
-index 9c784c1e652e9afc116fd206a6cdb70fa6e2adf0..6f70b49b9ef27c1ac32acaefecd1146e5c8bd6cc 100644
---- a/Documentation/iio/ad7380.rst
-+++ b/Documentation/iio/ad7380.rst
-@@ -41,13 +41,22 @@ supports only 1 SDO line.
- Reference voltage
- -----------------
- 
--2 possible reference voltage sources are supported:
-+ad7380-4
-+~~~~~~~~
-+
-+ad7380-4 supports only an external reference voltage (2.5V to 3.3V). It must be
-+declared in the device tree as ``refin-supply``.
-+
-+All other devices from ad738x family
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+All other devices from ad738x support 2 possible reference voltage sources:
- 
- - Internal reference (2.5V)
- - External reference (2.5V to 3.3V)
- 
- The source is determined by the device tree. If ``refio-supply`` is present,
--then the external reference is used, else the internal reference is used.
-+then it is used as external reference, else the internal reference is used.
- 
- Oversampling and resolution boost
- ---------------------------------
+I believe that's the biggest obstacle in the audio side, i.e. what's
+visible to users.  The kernel internals can be corrected at any time
+later.
 
--- 
-2.47.0
 
+thanks,
+
+Takashi
