@@ -1,116 +1,156 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0582513A86A;
-	Tue, 22 Oct 2024 03:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F51126BE0;
+	Tue, 22 Oct 2024 05:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729567745; cv=none; b=R+2eRtZnrn4lGZd6QYweHNSu2GsswGBgjlf0j30EoTUPCEZPsilbvlj66B2FtAf4by7/QwQkc2aEMQWin5JtsOwwPysDAquN44EoikIfKk20Xa/RUaEBaFt66z+w2C3lbBiD+Ojokk0dxZzuJrszeXsvBrN483y73s4k7CoYaYk=
+	t=1729574968; cv=none; b=LgLO24lYZHxDd0rtxM4zdiUDaGhgsWq4CmdyjyW9LER7hYfREzB+17uvWu4E14ydPeDaY3097wSxlK7JBSufDDd9rA/BffUbrLx478mXlpmgjl1O/YUE0ay4PdQ82iy0fWK0RKDzQAKXQpth4IAJq7uo5yKEKCTp39ptXKVeRbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729567745; c=relaxed/simple;
-	bh=+EgaXF/VyRaCocT7c4QBaSaXuDPO+CiNlt6NTkbIoxQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R2Y8yn7PGthLbrcNPmbs8oxrkX95xh4cAyiXLkffJj5X+L3bbbQgSEywjdKJqjK0RJa7i6rjWLeXYJMR/d8xvLtCS5kS2kGZ4VTgTK1nyeREBwie6OLg3hRcnXk5DdYcLJ0+ilmNqsP+CR0yspLnGsW5IecjiZmNcFD04Ydup7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l5Njv7Ii; arc=none smtp.client-ip=209.85.219.172
+	s=arc-20240116; t=1729574968; c=relaxed/simple;
+	bh=pfMrLe8Z7IbNyCkN5SSc8GkIyDpuWyefc53mmKrm1Ak=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bBQkAsWEC3s+Np5TsmXG/Znlz1GV0akRZfaK61YwyHpXRION3AjwAamZWRBtedVnqUM3NA9LLYWg91qNX4p0peHl4azlCdXWeClyE4p3iQvInRAHTATprdEPdTJaNXxIV00m86IcbypAgwRFqtW7Vu5wKPGIiZFCLAKhd/xLt0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L8GXJS0R; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l5Njv7Ii"
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e29267b4dc4so4717049276.0;
-        Mon, 21 Oct 2024 20:29:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L8GXJS0R"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-71e467c3996so3343664b3a.2;
+        Mon, 21 Oct 2024 22:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729567743; x=1730172543; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8+of3sn6my3fTdyQClh+kg+3L6lJjqrKeiMmZ8o2XgE=;
-        b=l5Njv7IigfizQOTihrcWw6dI25N5frWONbUdQZJcboxN0TjqUnAG9x9ldZJWbzemoM
-         zK7eQl5xmyrbK+n6750rKWfpBuwKFqG2lUDjPUBtQKjsajThZ3gNCehujusl/FIG9mLF
-         DNHCmJ0066ejQyHdL/5nbEo4d8CxK1s8nC4vNAFhryfMcyuDnmy0oU63+2mK8fNvD9o4
-         U8NnpbLjQmhZEp3FgQ3wDDp5GhFF7XtzzTLr2bxysqFSiXPkoq2qVDF/QobuCKVDIutH
-         qQCn73sBZQPbCMrZj5U4Y+0Qfk4p3UX6Fcw+w05caso91/d8tb2Bz7MY7GFdDSO9M056
-         4XMA==
+        d=gmail.com; s=20230601; t=1729574966; x=1730179766; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CfWo8rEibeJNRR9ub5UZ9B73NL531yxGF3rC7/Vsvq4=;
+        b=L8GXJS0RvRZ/u6HXInjgPtMNcrfylaDVJVf7UYeqS6Zk98KGr/2wnvY5J5tQmHvPvb
+         MXe/yR/g56AQSc/xgbpRS8kmzrezrvXs4g4oRGytWCpRSNhNt7516sGHW6/11yg4G8x9
+         INtxgFKyiFybD8M226JL5UPY8Ax2xqX08mq7+ZQf7cIwJbpE3JTh4+BObJyvXpySEJEH
+         p+bIpsVuBElxSRwLfViVHPH47yVTbW50XAUd/8Xx8r+jEOCptd/Q1JOghZGGppqz4uB8
+         yUTYE+gIuttXPkND0zEcw028gVFpySMg/1tFkjEsHUzCWY2vMpOO+P5CNEBpGpuEKjJF
+         ek/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729567743; x=1730172543;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8+of3sn6my3fTdyQClh+kg+3L6lJjqrKeiMmZ8o2XgE=;
-        b=TRzcQugTVeKuxknTqzLiF6Cjm1DTQVhEkix/Xv00ds1RuRLp9LpSRB9okInvHpLdRC
-         dC9J/IW8HY/R/SALbUR7IxQleMTaKDHI74p8QS2hWRhTzzpkC8JojpA1iOc+kfvuDtz0
-         UniSgVHmLo2k6Ladnm9AWOWFrYukE7N/VUBx9Ogcj5cNT3Jv5uymUfb3yg7TQvkmHFMH
-         KEIMdb6TauuyYf6T019pgS7DOgebLWT2bg1f6XCJqNjJOw+XtgGJaxpEouFMb0wYXLTd
-         Z3hWU5ffjGloe0gX/12Ebi1L2S3NuYg9aSDzfoS7MrkYlQoxMGLCy3iiRvrNoIQGGB3f
-         YAag==
-X-Forwarded-Encrypted: i=1; AJvYcCVqZv7A0i41mTxoLGMdGx1hk2m+li0Wo8C6SJUJ3J7sB/n+a8wkMNAyO42oR4NW2xHxClA9T6RNhqU=@vger.kernel.org, AJvYcCXQtXyEg12i5o4G8UfvxC4qHHLZy/VBWQA5Kh4EXnLd6/TAR1ellnScvdUkBm2J+VDDiEuFUq3rsTAKGefP@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEHeEgwPHgKmvS95wbLU1Y5ANBidlpdeF3A/MQ5nuuiIELXFEY
-	10NNMvc6MwpPueISqxfPpcRF6UhTYdcbCYpugraXS1vkfJDrZSun
-X-Google-Smtp-Source: AGHT+IEkFnW0xFEimjKvu3s+rbX3lF8V3Fc79mdDgyh2EDBVu5WJhRepTDGzvIugNEFmOl+gxhtBBw==
-X-Received: by 2002:a05:690c:a:b0:6e2:313a:a01e with SMTP id 00721157ae682-6e5bfc3f30dmr126243927b3.32.1729567742959;
-        Mon, 21 Oct 2024 20:29:02 -0700 (PDT)
-Received: from [192.168.2.226] ([107.175.133.150])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f5d6f904sm9372707b3.135.2024.10.21.20.28.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 20:29:01 -0700 (PDT)
-Message-ID: <4cf5f422-d287-4f53-9af2-82bd7fe3b264@gmail.com>
-Date: Tue, 22 Oct 2024 11:28:55 +0800
+        d=1e100.net; s=20230601; t=1729574966; x=1730179766;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CfWo8rEibeJNRR9ub5UZ9B73NL531yxGF3rC7/Vsvq4=;
+        b=V21r5PjX+XY7PEAr02IaX4SvGI9gV6WYeI0qD8a4K+i502LJq0i1uT3uOeNBOAlP49
+         EpgClvYwLmvvZhKDucoe2F3nkfdnOp1On2sEyNzaKKC/xVKvjkx+39q5AZuePxWl8G/t
+         07+wXR2Qi/1qD+Yw3C32NZitM92mUthsaK8U9bcBIFyiO259FTpUK0yEhXr0p/GpqqLC
+         7n2RLBT/kLpmbeiYcnriK7HqOEZHLFe78+6ZGsn2EWqg8PkvTSWnCmlDUpgV69Hk/u6+
+         9OJW4FQbb8HSbxpH0BIbOF3kkKPMMXixOY2QdkoYV96RGPPptb/IBEEexU5Kxjtfa0Ho
+         Vxjw==
+X-Forwarded-Encrypted: i=1; AJvYcCUTOzRxQyW1duX+T1e1fPcILzgRdJKEUNAfdKc08LT6vHkJUQIDHI72BqBQTyYWixhw3EqVa20334QfGRg+@vger.kernel.org, AJvYcCW1UxFUecNU6cuvX729r1CI8TTZaXcbotgaj3ngh349RZyO1aPCiO6DaaDiy5fk/IHw9AHLbD4bqC12@vger.kernel.org, AJvYcCWYxLDZQaB+G9U8yIS3OpVQNC1YYN3m2pSyFBSVmx/olZcJiUQnPwuklWiuQQ0eZRzgOlhkJD7fvFZS@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOHH+4QqTJ+UAR53984I3X95RRRtl5zZluOjMr2XsPCiDQ/jGA
+	mGDgCbJ4ov6Pm6YkVMJ/kilMTmvuEypIS/HRFw26mdTkEcvfgzAA
+X-Google-Smtp-Source: AGHT+IHlSAindglmOEfkhHefJWdKX6tckM7xeJFtoM8elMYSuAHZvTh7qrg+eUu3QgKsCOo0nkDWpw==
+X-Received: by 2002:a05:6a00:1acd:b0:71e:74bf:6b1a with SMTP id d2e1a72fcca58-71ea32d4226mr20125338b3a.16.1729574965692;
+        Mon, 21 Oct 2024 22:29:25 -0700 (PDT)
+Received: from hcdev-d520mt2.. (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec141505bsm3845846b3a.219.2024.10.21.22.29.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 22:29:25 -0700 (PDT)
+From: baneric926@gmail.com
+X-Google-Original-From: kcfeng0@nuvoton.com
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	openbmc@lists.ozlabs.org,
+	kwliu@nuvoton.com,
+	kcfeng0@nuvoton.com,
+	DELPHINE_CHIU@wiwynn.com,
+	Bonnie_Lo@wiwynn.com
+Subject: [PATCH v6 0/2] hwmon: Driver for Nuvoton NCT7363Y
+Date: Tue, 22 Oct 2024 13:29:03 +0800
+Message-Id: <20241022052905.4062682-1-kcfeng0@nuvoton.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] docs/zh_CN: update the translation of mm/hmm.rst
-To: Dongliang Mu <dzm91@hust.edu.cn>, si.yanteng@linux.dev, alexs@kernel.org,
- corbet@lwn.net, Yanteng Si <siyanteng@loongson.cn>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1729327831.git.dzm91@hust.edu.cn>
- <82259a2656549c90591dc3873f3d2e8a4fb41233.1729327831.git.dzm91@hust.edu.cn>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <82259a2656549c90591dc3873f3d2e8a4fb41233.1729327831.git.dzm91@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
+From: Ban Feng <kcfeng0@nuvoton.com>
 
-On 10/19/24 16:54, Dongliang Mu wrote:
-> Update to commit 406c4c5ee4ea ("docs:mm: fix spelling mistakes in
-> heterogeneous memory management page")
-> 
-> scripts/checktransupdate.py reports:
-> 
-> Documentation/translations/zh_CN/mm/hmm.rst
-> commit 406c4c5ee4ea ("docs:mm: fix spelling mistakes in heterogeneous
-> memory management page")
-> commit 090a7f1009b8 ("docs/mm: remove references to hmm_mirror ops and
-> clean typos")
-> commit d56b699d76d1 ("Documentation: Fix typos")
-> 3 commits needs resolving in total
-> 
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
->  Documentation/translations/zh_CN/mm/hmm.rst | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/mm/hmm.rst b/Documentation/translations/zh_CN/mm/hmm.rst
-> index babbbe756c0f..0669f947d0bc 100644
-> --- a/Documentation/translations/zh_CN/mm/hmm.rst
-> +++ b/Documentation/translations/zh_CN/mm/hmm.rst
-> @@ -129,13 +129,7 @@ struct page可以与现有的 mm 机制进行最简单、最干净的集成。
->    int hmm_range_fault(struct hmm_range *range);
->  
->  如果请求写访问，它将在丢失或只读条目上触发缺页异常（见下文）。缺页异常使用通用的 mm 缺
-> -页异常代码路径，就像 CPU 缺页异常一样。
-> -
-> -这两个函数都将 CPU 页表条目复制到它们的 pfns 数组参数中。该数组中的每个条目对应于虚拟
-> -范围中的一个地址。HMM 提供了一组标志来帮助驱动程序识别特殊的 CPU 页表项。
-> -
-> -在 sync_cpu_device_pagetables() 回调中锁定是驱动程序必须尊重的最重要的方面，以保
-> -持事物正确同步。使用模式是::
-> +页异常代码路径，就像 CPU 缺页异常一样。使用模式是::
->  
->   int driver_populate_range(...)
->   {
+NCT7363Y is an I2C based hardware monitoring chip from Nuvoton.
+
+Changes since version 5:
+- use lower case for inline function
+- remove enum chips and refine code
+- use regmap_read_bulk() to avoid the locks
+- add fan speed low limit (register 0x6c, 0x6d) and alarm attributes
+  (register 0x34, 0x35)
+- add regmap caching capabilities
+- fix "checkpatch --strict" report in FANIN_SEL
+  - Macro argument reuse 'x' - possible side-effects
+
+Changes since version 4:
+- add Datasheet information and refine words in yaml and rst files
+- remove fan-common.yaml since it is already in hwmon-next
+- refine the commit messages
+- modify the type of returned value in some functions
+- refine lock/unlock in nct7363_write_pwm and accessing
+  HVAL/LVAL registers
+- refine nct7363_init_chip
+- add range check in nct7363_present_pwm_fanin
+- add i2c_device_id table
+- add nct7362 to of_device_id and i2c_device_id table
+
+Changes since version 3:
+- Cherry-pick the fan-common.yaml in [1]
+- Fix "checkpatch --strict" report
+- Replace BIT_CHECK() with BIT()
+- Fix CamelCase defines or variables
+- Drop enum chips
+- Drop all local caching and just read values through regmap
+- Drop chip auto-detection since it increases boot time
+
+[1]: https://patchwork.kernel.org/project/linux-hwmon/patch/
+     20240221104025.1306227-2-billy_tsai@aspeedtech.com/
+
+Changes since version 2:
+- Cherry-pick the fan-common.yaml in [1]
+- Fix nct736x typo and add unevaluatedProperties
+
+[1]: https://patchwork.kernel.org/project/linux-hwmon/patch/
+     20231107105025.1480561-2-billy_tsai@aspeedtech.com/
+
+Changes since version 1:
+- Modify NCT736X(nct736x) to NCT7363Y(nct7363)
+- Convert to devm_hwmon_device_register_with_info API
+- All ID tables are next to each other and should be consistent
+  between i2c_device_id and of_device_id
+- Ref. fan-common.yaml and modify properties (nuvoton,pwm-mask/
+  nuvoton,fanin-mask) to (pwms/tach-ch)
+- Convert to devm_regmap_init_i2c API
+- Remove unused function (watchdog timer)
+- Fix uninitialized symbol which is reported by kernel test robot
+
+Ban Feng (2):
+  dt-bindings: hwmon: Add NCT7363Y documentation
+  hwmon: Add driver for I2C chip Nuvoton NCT7363Y
+
+ .../bindings/hwmon/nuvoton,nct7363.yaml       |  66 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/nct7363.rst               |  33 ++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/nct7363.c                       | 446 ++++++++++++++++++
+ 7 files changed, 566 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
+ create mode 100644 Documentation/hwmon/nct7363.rst
+ create mode 100644 drivers/hwmon/nct7363.c
+
+-- 
+2.34.1
+
