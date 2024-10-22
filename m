@@ -1,454 +1,116 @@
-Received: from trager.us (trager.us [52.5.81.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A98C32C8B;
-	Tue, 22 Oct 2024 01:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.5.81.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925471E51D;
+	Tue, 22 Oct 2024 01:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729561276; cv=none; b=b156OwDxSTmr5mSwBVQRqJiDbuNeXdG3qJ0u9rHwPrBPhfbuj0xhKv6dXfYZMad241N7aEWRz08pKMJ9oujhlm8wId7aIIcXveZZe+n0En7ByeFiefZBn7FAYU+9RY+FU22uuzmcZEkkuB9Ey2pVMlwnmyirB3MFbWHHkR5nU04=
+	t=1729561403; cv=none; b=cx1FnGTajs5RJ4U8NIQPi9emhWYf719UKthpThGTxDL1eZheu7vyzVgvOCterC9IFRl+j4c56+9VRlbbFshPB9oTdO06mGPBShHM1+vBZew5WGgHCZRl805Vnqkany1VfFF8ofdTQbtkULTP7blbVhnVZT2M+TIhFCuUSiHpP8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729561276; c=relaxed/simple;
-	bh=+bEwcUGfC3Kt5K5pJyllFNbCpdJvsEcyVMhOF7XqMTE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m9S+7eCkflN9cEWscpkymVGfb3ESlaZnOZ42srnSTgNtDIjUaBzBqMaEXQFNCjM1ahhlK+BylejcxlU5bzXKOwg1k8Eb6MZxdoQ2MuvD92N+RYWKog4grEno7fg5cf/wIc3357zNh3DmiMBbTQXgDL1fCGypfUUhk7UkosgA0uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us; spf=pass smtp.mailfrom=trager.us; arc=none smtp.client-ip=52.5.81.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trager.us
-Received: from [163.114.132.6] (helo=localhost)
-	by trager.us with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92.3)
-	(envelope-from <lee@trager.us>)
-	id 1t33tS-0003yD-Ts; Tue, 22 Oct 2024 01:41:07 +0000
-From: Lee Trager <lee@trager.us>
-To: Alexander Duyck <alexanderduyck@fb.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	kernel-team@meta.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Lee Trager <lee@trager.us>,
-	Sanman Pradhan <sanmanpradhan@meta.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Mohsin Bashir <mohsin.bashr@gmail.com>,
-	Simon Horman <horms@kernel.org>
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 1/2] eth: fbnic: Add mailbox support for PLDM updates
-Date: Mon, 21 Oct 2024 18:37:46 -0700
-Message-ID: <20241022013941.3764567-2-lee@trager.us>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20241012023646.3124717-1-lee@trager.us>
-References: <20241012023646.3124717-1-lee@trager.us>
+	s=arc-20240116; t=1729561403; c=relaxed/simple;
+	bh=+EgaXF/VyRaCocT7c4QBaSaXuDPO+CiNlt6NTkbIoxQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CkWVLnI0i/mWmsUEuk8LKfi1AmdicWYkLjOAtBHvGmAtiar2bQfA3YBy8iP82HWfZC/F1VT/OLDyOjZdYfDe9Tz/LAYW3GlA89Ck/XBWN46qqtuZr5Dojc3qVa4PAvZuUXeD20MnrdtHgDasVl5W7dWFb8vNiqlQENyUV1YxJW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QszEiAPk; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QszEiAPk"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6e61a779148so9375747b3.3;
+        Mon, 21 Oct 2024 18:43:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729561400; x=1730166200; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8+of3sn6my3fTdyQClh+kg+3L6lJjqrKeiMmZ8o2XgE=;
+        b=QszEiAPkS8fRuAxFqFYeBgXACDHz2BypklfVX2w4uhvOk4pqJBwqNX/9dE7/VhOWUs
+         cS2YfR+LMQQ9TdtBiN9AyB4iNKftxR7gwVDMOnoNH1TqXSx0KiUOye6Y+/ka0kRGWJhq
+         Sw8aPO2aRkdgfeeNU3+/5kg89BZM/Fba2IS4PxX3FWbmWLCrnDMh9bY86Q/pij2MeXFh
+         XxEWha1BWNEA3Rg2C4gmxjtVzAx6gXr8CPu9Q3rcXQ02S7sfGS8JqpXzz+K8EHdbovTq
+         LSxigIXAB2W1KIUG2Q0OSef/2/rGcd7mpRrzeuHflldPW//N9B3NfxzdV7aOtxGQKxpj
+         T3tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729561400; x=1730166200;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8+of3sn6my3fTdyQClh+kg+3L6lJjqrKeiMmZ8o2XgE=;
+        b=DuKDCD8Yvejnjn8fvDZSfmWjfHpfsOjCSEczOH5KG9ua8qzzxWs3VtkHuJV4Ppyc9G
+         pTxP65P59Jjot9qJKsXarwqYYA4/WYU625pEfh8Mz77ZT3SKCK9r2DuvJlL9R0MTL6Wl
+         rCE1nNtxeUeLsTILtF1ZFuGYfd6uWjhPiX8xttk3j5okJ8pt3AdYS5Qu+I3KrK/UWft0
+         9wJqp0DPO60GXRzqSmaPY0mOniaHsTxaTjJtuRHaAFOUSH71Xcb4mbM1j6TYP6lVo5iY
+         k2bxoQ1Z61UwUEdMwNnphx9yZt/zZX+h4LjY9phrY3fM/LcVpeOQAgQ6N/T7rsJSXqcS
+         Wp7A==
+X-Forwarded-Encrypted: i=1; AJvYcCV9QaSS60NiPfMEJXsEY0bzye3lvko3r2c530TwDYiV5THvRAhphY50LJ095+dyfE9sV/4GFpF9gKWUDc2R@vger.kernel.org, AJvYcCXVo9/CN14HgJwVa3KprmktDvW6fCnJO7SBqMcZ7j+ozeNKP/xGDVOyg4pPbHNR+50N/n1TVRhNERs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyraXjfrCXeuLBaol4S/+LyZA7knQV6I8/OMGrueQBvoe0A9Bbj
+	HVjnrj9opa2HxTgTKhlg9aVB4bSAvbKXEm0mW7gYFraM+5d9XEGp
+X-Google-Smtp-Source: AGHT+IGmi9GxWrSh8gqT8EyqhsrowpFhcEE5nadMXCV0dFI/UXCHqclwi1pwgxSEsTJGDj0ycO9cdw==
+X-Received: by 2002:a05:690c:f8f:b0:699:7d04:c7b4 with SMTP id 00721157ae682-6e5bfc39b06mr127229597b3.31.1729561400461;
+        Mon, 21 Oct 2024 18:43:20 -0700 (PDT)
+Received: from [192.168.2.226] ([107.175.133.150])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f5d2a451sm9030917b3.116.2024.10.21.18.43.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Oct 2024 18:43:19 -0700 (PDT)
+Message-ID: <b1a1f485-5d59-41af-a864-86e5e361808a@gmail.com>
+Date: Tue, 22 Oct 2024 09:43:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] docs/zh_CN: update the translation of mm/hmm.rst
+To: Dongliang Mu <dzm91@hust.edu.cn>, si.yanteng@linux.dev, alexs@kernel.org,
+ corbet@lwn.net, Yanteng Si <siyanteng@loongson.cn>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1729327831.git.dzm91@hust.edu.cn>
+ <82259a2656549c90591dc3873f3d2e8a4fb41233.1729327831.git.dzm91@hust.edu.cn>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <82259a2656549c90591dc3873f3d2e8a4fb41233.1729327831.git.dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This adds driver support to utilize the kernel completion API. This allows
-the driver to block on a response from firmware. Initially
-fbnic_fw_completion only has support for updates, future patches will add
-additional features.
+Reviewed-by: Alex Shi <alexs@kernel.org>
 
-Signed-off-by: Lee Trager <lee@trager.us>
----
- drivers/net/ethernet/meta/fbnic/fbnic_fw.c | 263 +++++++++++++++++++++
- drivers/net/ethernet/meta/fbnic/fbnic_fw.h |  64 ++++-
- 2 files changed, 323 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_fw.c b/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
-index 8f7a2a19ddf8..d46afc38b4a5 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
-@@ -207,6 +207,38 @@ static int fbnic_mbx_map_tlv_msg(struct fbnic_dev *fbd,
- 	return err;
- }
-
-+static int fbnic_mbx_map_req_w_cmpl(struct fbnic_dev *fbd,
-+				    struct fbnic_tlv_msg *msg,
-+				    struct fbnic_fw_completion *cmpl_data)
-+{
-+	unsigned long flags;
-+	int err;
-+
-+	spin_lock_irqsave(&fbd->fw_tx_lock, flags);
-+
-+	/* If we are already waiting on a completion then abort */
-+	if (cmpl_data && fbd->cmpl_data) {
-+		err = -EBUSY;
-+		goto unlock_mbx;
-+	}
-+
-+	/* Record completion location and submit request */
-+	if (cmpl_data)
-+		fbd->cmpl_data = cmpl_data;
-+
-+	err = fbnic_mbx_map_msg(fbd, FBNIC_IPC_MBX_TX_IDX, msg,
-+				le16_to_cpu(msg->hdr.len) * sizeof(u32), 1);
-+
-+	/* If msg failed then clear completion data for next caller */
-+	if (err && cmpl_data)
-+		fbd->cmpl_data = NULL;
-+
-+unlock_mbx:
-+	spin_unlock_irqrestore(&fbd->fw_tx_lock, flags);
-+
-+	return err;
-+}
-+
- static void fbnic_mbx_process_tx_msgs(struct fbnic_dev *fbd)
- {
- 	struct fbnic_fw_mbx *tx_mbx = &fbd->mbx[FBNIC_IPC_MBX_TX_IDX];
-@@ -651,6 +683,225 @@ void fbnic_fw_check_heartbeat(struct fbnic_dev *fbd)
- 		dev_warn(fbd->dev, "Failed to send heartbeat message\n");
- }
-
-+/**
-+ * fbnic_fw_xmit_fw_start_upgrade - Create and transmit a start update message
-+ * @fbd: FBNIC device structure
-+ * @cmpl_data: Completion data for upgrade process
-+ * @id: Component ID
-+ * @len: Length of FW update package data
-+ *
-+ * Return: zero on success, negative value on failure
-+ *
-+ * Asks the FW to prepare for starting a firmware upgrade
-+ */
-+int fbnic_fw_xmit_fw_start_upgrade(struct fbnic_dev *fbd,
-+				   struct fbnic_fw_completion *cmpl_data,
-+				   unsigned int id, unsigned int len)
-+{
-+	struct fbnic_tlv_msg *msg;
-+	int err;
-+
-+	if (!len)
-+		return -EINVAL;
-+
-+	msg = fbnic_tlv_msg_alloc(FBNIC_TLV_MSG_ID_FW_START_UPGRADE_REQ);
-+	if (!msg)
-+		return -ENOMEM;
-+
-+	err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_START_UPGRADE_SECTION, id);
-+	if (err)
-+		goto free_message;
-+
-+	err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_START_UPGRADE_IMAGE_LENGTH,
-+				     len);
-+	if (err)
-+		goto free_message;
-+
-+	err = fbnic_mbx_map_req_w_cmpl(fbd, msg, cmpl_data);
-+	if (err)
-+		goto free_message;
-+
-+	return 0;
-+
-+free_message:
-+	free_page((unsigned long)msg);
-+	return err;
-+}
-+
-+static const struct fbnic_tlv_index fbnic_fw_start_upgrade_resp_index[] = {
-+	FBNIC_TLV_ATTR_S32(FBNIC_FW_START_UPGRADE_ERROR),
-+	FBNIC_TLV_ATTR_LAST
-+};
-+
-+static int fbnic_fw_parse_fw_start_upgrade_resp(void *opaque,
-+						struct fbnic_tlv_msg **results)
-+{
-+	struct fbnic_fw_completion *cmpl_data;
-+	struct fbnic_dev *fbd = opaque;
-+	int err = 0;
-+
-+	/* Verify we have a completion pointer */
-+	cmpl_data = READ_ONCE(fbd->cmpl_data);
-+	if (!cmpl_data ||
-+	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ)
-+		return -ENOSPC;
-+
-+	/* Check for errors */
-+	get_signed_result(FBNIC_FW_START_UPGRADE_ERROR, err);
-+
-+	cmpl_data->result = err;
-+	complete(&cmpl_data->done);
-+
-+	return 0;
-+}
-+
-+static const struct fbnic_tlv_index fbnic_fw_write_chunk_req_index[] = {
-+	FBNIC_TLV_ATTR_U32(FBNIC_FW_WRITE_CHUNK_OFFSET),
-+	FBNIC_TLV_ATTR_U32(FBNIC_FW_WRITE_CHUNK_LENGTH),
-+	FBNIC_TLV_ATTR_LAST
-+};
-+
-+static int fbnic_fw_parse_fw_write_chunk_req(void *opaque,
-+					     struct fbnic_tlv_msg **results)
-+{
-+	struct fbnic_fw_completion *cmpl_data;
-+	struct fbnic_dev *fbd = opaque;
-+	u32 length = 0, offset = 0;
-+	struct fbnic_tlv_msg *msg;
-+	int err;
-+
-+	/* Start by attempting to allocate a response to the message */
-+	msg = fbnic_tlv_msg_alloc(FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_RESP);
-+	if (!msg)
-+		return -ENOMEM;
-+
-+	/* Verify we have a completion pointer */
-+	cmpl_data = READ_ONCE(fbd->cmpl_data);
-+	if (!cmpl_data ||
-+	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ) {
-+		err = -ENOSPC;
-+		goto msg_err;
-+	}
-+
-+	/* Notify FW if the data link has been severed */
-+	if (!cmpl_data->fw_update.data) {
-+		err = -ECANCELED;
-+		goto msg_err;
-+	}
-+
-+	/* Pull length/offset pair and mark it as complete */
-+	get_unsigned_result(FBNIC_FW_WRITE_CHUNK_OFFSET, offset);
-+	get_unsigned_result(FBNIC_FW_WRITE_CHUNK_LENGTH, length);
-+
-+	/* Record offset and length for the response */
-+	if (offset) {
-+		err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_WRITE_CHUNK_OFFSET,
-+					     offset);
-+		if (err)
-+			goto msg_err;
-+	}
-+
-+	err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_WRITE_CHUNK_LENGTH,
-+				     length);
-+	if (err)
-+		goto msg_err;
-+
-+	/* Verify length */
-+	if (!length || length > TLV_MAX_DATA) {
-+		err = -EINVAL;
-+		goto msg_err;
-+	}
-+
-+	/* Verify offset and length are within bounds */
-+	if (offset >= cmpl_data->fw_update.size ||
-+	    offset + length > cmpl_data->fw_update.size) {
-+		err = -EFAULT;
-+		goto msg_err;
-+	}
-+
-+	/* Add outbound data to message */
-+	err = fbnic_tlv_attr_put_value(msg, FBNIC_FW_WRITE_CHUNK_DATA,
-+				       cmpl_data->fw_update.data + offset,
-+				       length);
-+
-+	/* Notify the waiting thread that we processed a message */
-+	if (!err)
-+		cmpl_data->fw_update.last_offset = offset;
-+
-+	cmpl_data->result = err;
-+	complete(&cmpl_data->done);
-+
-+msg_err:
-+	/* Report error to FW if one occurred */
-+	if (err)
-+		fbnic_tlv_attr_put_int(msg, FBNIC_FW_WRITE_CHUNK_ERROR, err);
-+
-+	/* Map and send the response */
-+	err = fbnic_mbx_map_tlv_msg(fbd, msg);
-+	if (err)
-+		free_page((unsigned long)msg);
-+
-+	return err;
-+}
-+
-+static const struct fbnic_tlv_index fbnic_fw_verify_image_resp_index[] = {
-+	FBNIC_TLV_ATTR_S32(FBNIC_FW_VERIFY_IMAGE_ERROR),
-+	FBNIC_TLV_ATTR_LAST
-+};
-+
-+static int fbnic_fw_parse_fw_verify_image_resp(void *opaque,
-+					       struct fbnic_tlv_msg **results)
-+{
-+	struct fbnic_fw_completion *cmpl_data;
-+	struct fbnic_dev *fbd = opaque;
-+	int err = 0;
-+
-+	/* Verify we have a completion pointer */
-+	cmpl_data = READ_ONCE(fbd->cmpl_data);
-+	if (!cmpl_data ||
-+	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_VERIFY_IMAGE_RESP)
-+		return -ENOSPC;
-+
-+	/* Check for errors */
-+	get_signed_result(FBNIC_FW_VERIFY_IMAGE_ERROR, err);
-+
-+	cmpl_data->result = err;
-+	complete(&cmpl_data->done);
-+
-+	return err;
-+}
-+
-+static const struct fbnic_tlv_index fbnic_fw_finish_upgrade_req_index[] = {
-+	FBNIC_TLV_ATTR_S32(FBNIC_FW_FINISH_UPGRADE_ERROR),
-+	FBNIC_TLV_ATTR_LAST
-+};
-+
-+static int fbnic_fw_parse_fw_finish_upgrade_req(void *opaque,
-+						struct fbnic_tlv_msg **results)
-+{
-+	struct fbnic_fw_completion *cmpl_data;
-+	struct fbnic_dev *fbd = opaque;
-+	int err = 0;
-+
-+	/* Verify we have a completion pointer */
-+	cmpl_data = READ_ONCE(fbd->cmpl_data);
-+	if (!cmpl_data ||
-+	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ)
-+		return -ENOSPC;
-+
-+	/* Check for errors */
-+	get_signed_result(FBNIC_FW_FINISH_UPGRADE_ERROR, err);
-+
-+	/* Close out update by clearing data pointer */
-+	cmpl_data->fw_update.last_offset = cmpl_data->fw_update.size;
-+	cmpl_data->fw_update.data = NULL;
-+
-+	cmpl_data->result = err;
-+	complete(&cmpl_data->done);
-+
-+	return 0;
-+}
-+
- static const struct fbnic_tlv_parser fbnic_fw_tlv_parser[] = {
- 	FBNIC_TLV_PARSER(FW_CAP_RESP, fbnic_fw_cap_resp_index,
- 			 fbnic_fw_parse_cap_resp),
-@@ -658,6 +909,18 @@ static const struct fbnic_tlv_parser fbnic_fw_tlv_parser[] = {
- 			 fbnic_fw_parse_ownership_resp),
- 	FBNIC_TLV_PARSER(HEARTBEAT_RESP, fbnic_heartbeat_resp_index,
- 			 fbnic_fw_parse_heartbeat_resp),
-+	FBNIC_TLV_PARSER(FW_START_UPGRADE_RESP,
-+			 fbnic_fw_start_upgrade_resp_index,
-+			 fbnic_fw_parse_fw_start_upgrade_resp),
-+	FBNIC_TLV_PARSER(FW_WRITE_CHUNK_REQ,
-+			 fbnic_fw_write_chunk_req_index,
-+			 fbnic_fw_parse_fw_write_chunk_req),
-+	FBNIC_TLV_PARSER(FW_VERIFY_IMAGE_RESP,
-+			 fbnic_fw_verify_image_resp_index,
-+			 fbnic_fw_parse_fw_verify_image_resp),
-+	FBNIC_TLV_PARSER(FW_FINISH_UPGRADE_REQ,
-+			 fbnic_fw_finish_upgrade_req_index,
-+			 fbnic_fw_parse_fw_finish_upgrade_req),
- 	FBNIC_TLV_MSG_ERROR
- };
-
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_fw.h b/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
-index 7cd8841920e4..347e60fee551 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
-@@ -45,10 +45,20 @@ struct fbnic_fw_cap {
- };
-
- struct fbnic_fw_completion {
--	struct {
--		s32 millivolts;
--		s32 millidegrees;
--	} tsene;
-+	u32 msg_type;
-+	struct completion done;
-+	int result;
-+	union {
-+		struct {
-+			u32 size;
-+			u32 last_offset;
-+			const u8 *data;
-+		} fw_update;
-+		struct {
-+			s32 millivolts;
-+			s32 millidegrees;
-+		} tsene;
-+	};
- };
-
- void fbnic_mbx_init(struct fbnic_dev *fbd);
-@@ -59,6 +69,9 @@ void fbnic_mbx_flush_tx(struct fbnic_dev *fbd);
- int fbnic_fw_xmit_ownership_msg(struct fbnic_dev *fbd, bool take_ownership);
- int fbnic_fw_init_heartbeat(struct fbnic_dev *fbd, bool poll);
- void fbnic_fw_check_heartbeat(struct fbnic_dev *fbd);
-+int fbnic_fw_xmit_fw_start_upgrade(struct fbnic_dev *fbd,
-+				   struct fbnic_fw_completion *cmpl_data,
-+				   unsigned int id, unsigned int len);
-
- #define fbnic_mk_full_fw_ver_str(_rev_id, _delim, _commit, _str, _str_sz) \
- do {									\
-@@ -74,6 +87,15 @@ do {									\
- #define fbnic_mk_fw_ver_str(_rev_id, _str) \
- 	fbnic_mk_full_fw_ver_str(_rev_id, "", "", _str, sizeof(_str))
-
-+enum {
-+	QSPI_SECTION_CMRT			= 0,
-+	QSPI_SECTION_CONTROL_FW			= 1,
-+	QSPI_SECTION_UCODE			= 2,
-+	QSPI_SECTION_OPTION_ROM			= 3,
-+	QSPI_SECTION_USER			= 4,
-+	QSPI_SECTION_INVALID,
-+};
-+
- #define FW_HEARTBEAT_PERIOD		(10 * HZ)
-
- enum {
-@@ -83,6 +105,14 @@ enum {
- 	FBNIC_TLV_MSG_ID_OWNERSHIP_RESP			= 0x13,
- 	FBNIC_TLV_MSG_ID_HEARTBEAT_REQ			= 0x14,
- 	FBNIC_TLV_MSG_ID_HEARTBEAT_RESP			= 0x15,
-+	FBNIC_TLV_MSG_ID_FW_START_UPGRADE_REQ		= 0x22,
-+	FBNIC_TLV_MSG_ID_FW_START_UPGRADE_RESP		= 0x23,
-+	FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ		= 0x24,
-+	FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_RESP		= 0x25,
-+	FBNIC_TLV_MSG_ID_FW_VERIFY_IMAGE_REQ		= 0x26,
-+	FBNIC_TLV_MSG_ID_FW_VERIFY_IMAGE_RESP		= 0x27,
-+	FBNIC_TLV_MSG_ID_FW_FINISH_UPGRADE_REQ		= 0x28,
-+	FBNIC_TLV_MSG_ID_FW_FINISH_UPGRADE_RESP		= 0x29,
- };
-
- #define FBNIC_FW_CAP_RESP_VERSION_MAJOR		CSR_GENMASK(31, 24)
-@@ -128,4 +158,30 @@ enum {
- 	FBNIC_FW_OWNERSHIP_FLAG			= 0x0,
- 	FBNIC_FW_OWNERSHIP_MSG_MAX
- };
-+
-+enum {
-+	FBNIC_FW_START_UPGRADE_ERROR		= 0x0,
-+	FBNIC_FW_START_UPGRADE_SECTION		= 0x1,
-+	FBNIC_FW_START_UPGRADE_IMAGE_LENGTH	= 0x2,
-+	FBNIC_FW_START_UPGRADE_MSG_MAX
-+};
-+
-+enum {
-+	FBNIC_FW_WRITE_CHUNK_OFFSET		= 0x0,
-+	FBNIC_FW_WRITE_CHUNK_LENGTH		= 0x1,
-+	FBNIC_FW_WRITE_CHUNK_DATA		= 0x2,
-+	FBNIC_FW_WRITE_CHUNK_ERROR		= 0x3,
-+	FBNIC_FW_WRITE_CHUNK_MSG_MAX
-+};
-+
-+enum {
-+	FBNIC_FW_VERIFY_IMAGE_ERROR		= 0x0,
-+	FBNIC_FW_VERIFY_IMAGE_MSG_MAX
-+};
-+
-+enum {
-+	FBNIC_FW_FINISH_UPGRADE_ERROR		= 0x0,
-+	FBNIC_FW_FINISH_UPGRADE_MSG_MAX
-+};
-+
- #endif /* _FBNIC_FW_H_ */
---
-2.43.5
+On 10/19/24 16:54, Dongliang Mu wrote:
+> Update to commit 406c4c5ee4ea ("docs:mm: fix spelling mistakes in
+> heterogeneous memory management page")
+> 
+> scripts/checktransupdate.py reports:
+> 
+> Documentation/translations/zh_CN/mm/hmm.rst
+> commit 406c4c5ee4ea ("docs:mm: fix spelling mistakes in heterogeneous
+> memory management page")
+> commit 090a7f1009b8 ("docs/mm: remove references to hmm_mirror ops and
+> clean typos")
+> commit d56b699d76d1 ("Documentation: Fix typos")
+> 3 commits needs resolving in total
+> 
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+>  Documentation/translations/zh_CN/mm/hmm.rst | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/mm/hmm.rst b/Documentation/translations/zh_CN/mm/hmm.rst
+> index babbbe756c0f..0669f947d0bc 100644
+> --- a/Documentation/translations/zh_CN/mm/hmm.rst
+> +++ b/Documentation/translations/zh_CN/mm/hmm.rst
+> @@ -129,13 +129,7 @@ struct page可以与现有的 mm 机制进行最简单、最干净的集成。
+>    int hmm_range_fault(struct hmm_range *range);
+>  
+>  如果请求写访问，它将在丢失或只读条目上触发缺页异常（见下文）。缺页异常使用通用的 mm 缺
+> -页异常代码路径，就像 CPU 缺页异常一样。
+> -
+> -这两个函数都将 CPU 页表条目复制到它们的 pfns 数组参数中。该数组中的每个条目对应于虚拟
+> -范围中的一个地址。HMM 提供了一组标志来帮助驱动程序识别特殊的 CPU 页表项。
+> -
+> -在 sync_cpu_device_pagetables() 回调中锁定是驱动程序必须尊重的最重要的方面，以保
+> -持事物正确同步。使用模式是::
+> +页异常代码路径，就像 CPU 缺页异常一样。使用模式是::
+>  
+>   int driver_populate_range(...)
+>   {
