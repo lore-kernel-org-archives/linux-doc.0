@@ -1,673 +1,180 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2058.outbound.protection.outlook.com [40.107.93.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874981D0DE9
-	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 17:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729703299; cv=none; b=dsOiDWdAJI7s0rt7dswM8056Sy68HyY3oz4YzgESv1xmKLkEhqh0B2rUSo8m6RRuI4gxT1KVh5xi/6HsBMOOKnBVkbDS0S67eYCEf1E6pRRZfr7EF13e0fE++A91c/BHrfM+ehGA1zUKGU4EXyKUE/ybM6pd+Up76e4nZPIRXAE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729703299; c=relaxed/simple;
-	bh=GrkyMactMUumDxMQ8TJnIaREPJ1yXV+q+168Cd4Deg0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=M3BJmxBOFwSoxzk6ih16nTAYkfhvIGzTZ1KSvYIdW+eI094YOHZeSqLcEYn0zyKXM+kCTiXqt0Ve1/UNNdz0IrnT3lFOA6gqUzMXuOewG8XruknDsUZwxXnhor7F3GEuGNnOWH+DOqgDFuI4fbc50o9+ygWR8k+FPGFu95l0Dp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OpeM1YZi; arc=none smtp.client-ip=209.85.128.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674AF1CBE8C;
+	Wed, 23 Oct 2024 17:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729703581; cv=fail; b=PXdevjLFWbZGctwAUzoEt4mharKSe372XuDTCtvxZOKNj6HRhhwkzhPkWQUck1de3H83G8lsfgJ+s3ScWizSXEjWzD6jA0ZL+/bZngnFyxqmQ1yNJEL1so1QeFHXuD0FjY6whXyLbAgt5GnAiQ4kQE1DbOkH1PZ9zp13zvUQk00=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729703581; c=relaxed/simple;
+	bh=b5wLiDMB8DV+BqYy8+lVONVMDJi/TmDqNZlxfryY4WM=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=XVBU4VsaP0GHwYQjxvwZ0wQr3OUu21uMkRYRe34WWMDnp+rEz/ksH2NvYNrwLAF40xcvHhr4qkZ0UiBh24dYp7mPeTah8QyJu6G/oQvHpNAjNIZWbX+RqMeKzLrL6rH8l9PAEotmsBZlwUj6alOmiM6weNEx6vyiQLxPPvGVEOo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=RQeu1mOv; arc=fail smtp.client-ip=40.107.93.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OpeM1YZi"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6e321d26b38so112577537b3.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 10:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729703294; x=1730308094; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUAPSrGkP1fndYxBbEXwkdRLC1ZGIzlRm3shVAxWj1o=;
-        b=OpeM1YZiF3LkgDlCnLPckp1CQyhG9bDgBg11XJXv8h+4gEKDxmKRWMKY0WqI2ui0G6
-         tSf0DepCCFwGTTCnojfyX4W0HNllUu5h9XthBOdlQXj5LyQZ8t7XTfbVyJ5TAuYDRflk
-         JqYjYOBE3e1IWHNJS4WvWoaANFg5FM7pXWfFLJPXEyEZS+NsSkOWjARSFGgInPxucgRv
-         0ODxrgGe099fY23Ogo+Dh1eaR9zHAf2UwSabhqSQN65wf+UQ4WK8wS5eD6B1Y9+Y7rNo
-         OR5dTCHngWivqOF/xQ/mSha339V6dKu3FaILwAAYI2c5M6MGQWmp2XWsB48DGSFFyelz
-         hIZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729703294; x=1730308094;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUAPSrGkP1fndYxBbEXwkdRLC1ZGIzlRm3shVAxWj1o=;
-        b=rnGyeSVP+IXSDLaDcLtiw6MSxDVdlgPrxVBdf/5EGMUCILpoluCbthclBIdmr3fTUg
-         s48+ChhM9O4/dlrJY1NQx7Oi1RBd9fPZc6xEYx1Mt4j8ELcWwosNqYnC9b62PZrdtMjJ
-         kV3pnEIRu32PPPHIgFlY2VsdZa9Y4vHbpGRVM5dy9aKykvccJPbWjdC2pmWq7Mp28ygp
-         CQQld4vZULzuTj8AM8RGubh+5CN+cnJXZ82iPKGrMXRMngCospd5foAYFa1sqJ/Ec8YH
-         KHys55xeA3mjMgOOwoKAydL20IjJXpVKUIOy3f/jG3NJjJpd0/UrnQ3lsnkzhTP5YeIU
-         cavQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU7vKP1nEjq3WFf/TbeUNi6gTzD0b4mCcF9vnt3p2Xs/oDYOkJP5ZYa8lct8vUC4NdkCk7R8rRAhfs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIT9PBJBPdoFJDfentjR5CJi43kriN2GgTbMK02vLxi+H12Dis
-	HTxfNxgTNiF1bVMac8k5SbetoQSsjBogUAMNuohEkjS3SGIBIQXHUnAlZJ1no2S+TRJ9ERDPFG7
-	Nlg==
-X-Google-Smtp-Source: AGHT+IGRE52J3Q/FMmtRptFBkvIdYNYKY+K4lu8CvvfN06S+6RGcE++e1CnN4bokrfVHywZPohucB5wHvBc=
-X-Received: from surenb-desktop.mtv.corp.google.com ([2a00:79e0:2e3f:8:a087:59b9:198a:c44c])
- (user=surenb job=sendgmr) by 2002:a25:9787:0:b0:e29:7cfa:9fbc with SMTP id
- 3f1490d57ef6-e2e3a6dc4d5mr1689276.11.1729703294360; Wed, 23 Oct 2024 10:08:14
- -0700 (PDT)
-Date: Wed, 23 Oct 2024 10:07:59 -0700
-In-Reply-To: <20241023170759.999909-1-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RQeu1mOv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DUyUjT3QRuqkbcRpkqia+pIEUmaCZVICMPMamqF1+8672lB0iUiI3FBJ2BoWAWC8Hh8hoSUrRxl9F+47AvTdawwdh9OLh/WVMUUe+B9JAqgtqmC932oX0v6+7GiN8LuswSPwVkMIK15Oph4QCMS4BQ7RQ2o5XQe1DCSpYQMlGZPqXkdokR9rARHQTCeT7iBDm49r/SQkK1DPToN/axg6oJV3B3Hx+os+XdwLc54pScMcQSsF6gE87bsQwcdwWsW1VCYFZGZW6SgwwTTlKZm6xNIojQYxqX/8FIfA+Ow81mBIK62wGajSx1dkQMCZ201QAIJcdDyn+hw7M9TKx0RAHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zzcAyqu/MVxyI5pW9uS4cxtAvGQBBEfvUnoTPh/5le8=;
+ b=kskR23HULm1JtGAchubjFjIi266GZ9evIw8kICox6ScNon6wD3nPQ9OZdyIviVrBmykX5AIW2psOd0KMXDDgXEC3gVtTvrPK9VHuAQjUgUrw6urBXduseo/cnc2DKnYbTnM29QzD7au8A3o1AHihQGg3veSSrQFVeUtyxrh31Q4bNg9inbsmelBNgEk6RgaeySAldNHSQ/uANgcm2taDst2BR2W2ZUX/SXgGhGo/PhSr537xS9Ksey3QYlxUwKaQ2jTEk5NsJkB1E7G8syQ2Xbpg0tDEM2vGWK5vWi58I1EhW4Ziu9zRuIEgvwYGZSBYcwc4wnF+fFx+PG6p9DG2Ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zzcAyqu/MVxyI5pW9uS4cxtAvGQBBEfvUnoTPh/5le8=;
+ b=RQeu1mOvx94NdlWU/lPD3Xs/9lFypOQE9pgrDoZmmHYBG+10CKHq8KoqQO/V+IkGk/CoVWTPNpcipj855tx6PEDvBOFWjc8ya01YHag9mLyR6sv311nmXVAB9phdx9qGrZA7kmy1FSDvuJDr5mZTAyB6AoJLRjF2tAxghmoDylE0hYiFlH1QloR8HHwuWsoAIEqIlxczYMxPsJUCp279fNVamuBL+aat5Sx3pwIRQGIU6R7xGZOYJfokkMoeV/57lYlYRu/CaYkumeyPXFgNPUJH6yu23s18ZCeaiFmo5U6d9SjRS66VzcUeNingRYs5zMoi4pRrvVzzCAGPLAGjRw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ CY8PR12MB7171.namprd12.prod.outlook.com (2603:10b6:930:5c::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8069.29; Wed, 23 Oct 2024 17:12:56 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a%7]) with mapi id 15.20.8093.018; Wed, 23 Oct 2024
+ 17:12:56 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: linux-mm@kvack.org,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: usamaarif642@gmail.com,
+	baohua@kernel.org,
+	cerasuolodomenico@gmail.com,
+	corbet@lwn.net,
+	david@redhat.com,
+	hannes@cmpxchg.org,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	npache@redhat.com,
+	riel@surriel.com,
+	roman.gushchin@linux.dev,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	ryncsn@gmail.com,
+	shakeel.butt@linux.dev,
+	willy@infradead.org,
+	yuzhao@google.com,
+	Zi Yan <ziy@nvidia.com>
+Subject: [PATCH] mm: avoid VM_BUG_ON when try to map an anon large folio to zero page.
+Date: Wed, 23 Oct 2024 13:12:36 -0400
+Message-ID: <20241023171236.1122535-1-ziy@nvidia.com>
+X-Mailer: git-send-email 2.45.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR15CA0025.namprd15.prod.outlook.com
+ (2603:10b6:208:1b4::38) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241023170759.999909-1-surenb@google.com>
-X-Mailer: git-send-email 2.47.0.105.g07ac214952-goog
-Message-ID: <20241023170759.999909-7-surenb@google.com>
-Subject: [PATCH v4 6/6] alloc_tag: support for page allocation tag compression
-From: Suren Baghdasaryan <surenb@google.com>
-To: akpm@linux-foundation.org
-Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, 
-	mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, 
-	tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com, 
-	ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
-	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
-	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
-	jhubbard@nvidia.com, urezki@gmail.com, hch@infradead.org, petr.pavlu@suse.com, 
-	samitolvanen@google.com, da.gomez@samsung.com, yuzhao@google.com, 
-	vvvvvv@google.com, rostedt@goodmis.org, iamjoonsoo.kim@lge.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-mm@kvack.org, 
-	maple-tree@lists.infradead.org, linux-modules@vger.kernel.org, 
-	kernel-team@android.com, surenb@google.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|CY8PR12MB7171:EE_
+X-MS-Office365-Filtering-Correlation-Id: 09557070-1230-40db-0c31-08dcf385f04a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?wG9m4RyiH4FS+YoApwSCuUPk4G3D5fvn2u6ow1gULrqYYf4roy7XYLNgS7hA?=
+ =?us-ascii?Q?vLBULVbzN31KYnjOQU0QaIu0OHPf6PXXYDkkvjvuNx7cgEKrn8SjaQ2inVu3?=
+ =?us-ascii?Q?y3uJ7hH9AURaLYJRf5kzYPCBetS8gOmiM1M6BBDpF3QqD1MFsK2JJjcE19BA?=
+ =?us-ascii?Q?YLp5kZ3wxJj+1j7jQf3WDooxb10OKynpyWJFFLXNm0kwbb8YnBSMK+ZYWFR0?=
+ =?us-ascii?Q?VxwwWuDu/KMx4dde3Q4dEoIzM6nkUCzVuhtoStsHlcUoJQMVwaoF24QPqyYi?=
+ =?us-ascii?Q?J81q/Epe5F2YyuCTFjeicqTwtvE0rB2PpRn1GLerBO1VtK9jOcGGkXqnJkJc?=
+ =?us-ascii?Q?JRwU/G1lQ1gBto46ocQn3eBF4Mu6t3r1i1oZulJhUO18sI73C3lavcr1kkhX?=
+ =?us-ascii?Q?/JntYPPpMp6xM/x5r2C0ADqoCFR0QPALLMTA8sSGK/5duktDMW8chG+g1Pnq?=
+ =?us-ascii?Q?KLAWh8dxF3H8Gmii3hiv8HQ5iBPhI774jDRHW5dBEJScnLuTa4VahzOGxXyE?=
+ =?us-ascii?Q?BOjH88Znsl/jkua87T3wRTTrrdjptOnDb8adFWdB1pYfxvBrxltINJNJmnWy?=
+ =?us-ascii?Q?cMyrm0MJvsvq2O0H71IjXFrX8Nyp+rRMSov+tiACbFQ39W2/f/PCASKGB35N?=
+ =?us-ascii?Q?cFEKx2JSHo+Zu/kJiW+SBLeUe7JNTvqTeG+6uiY0g3CwwHHJMWfiNzJFuaPO?=
+ =?us-ascii?Q?2REvNzvuH/MPWZVHsqmSyHJlWyqYQLD+5ySv8BmhlLMEzjKP5IbM8rbpuzyx?=
+ =?us-ascii?Q?d1jIsaxFsy9ARwo9iNbH5DfJZaar+RD1v3SZjXNSj2oJxtrsHNpha+89TS6R?=
+ =?us-ascii?Q?aN0tcZkf/j4NXbqSdrX5WuNje/pMlJzCSiNqDxyH9fmI/ik1yvLos4b076DT?=
+ =?us-ascii?Q?HE+8OIMOLkd+4SPkoIj1cwkagHygZD0ZEJbvCVXy5XoRR63nVbz6y659xa/t?=
+ =?us-ascii?Q?G3tPe7j7ce/jiE9xl6DsyaO4reXWPouAdoTKGWA5d8wYw5IuWA9m6zqJC7TZ?=
+ =?us-ascii?Q?A+afKTPrR9q4bcU3HX8owYoTTDV2JOuXBo4098/wK44wOG2rphZiNnbg07pX?=
+ =?us-ascii?Q?oyLJKS+Ox8ovaiNLNJf93o8Gkq5wWQ+/0oAxuCFiIkpkARlSObLyiSZGip7b?=
+ =?us-ascii?Q?82UpXJfYBHpQKBAUEmcpUV3KAJzi2LjcwYgqNXweb5eRYcgK6Ldr9HC5+kEy?=
+ =?us-ascii?Q?K2RPoDxXm2mxwVRqFCl7Yj3yXXqKOyFP4rmieDspr8v6kevY1tmcPlfHiaGP?=
+ =?us-ascii?Q?UT4hgWmZyzKL9akdMfnlkQSIWExd8RaElFtMgPrRMbH8zYETF9s5YVL8ZNPn?=
+ =?us-ascii?Q?gnfyH+xYkjJf6rbHfJfQ54e/?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Yxuk/8TjGbelmvLPrYG2F2N5eFduVx9a5CMwkmZftB1QbipxE+OTPYST0Rks?=
+ =?us-ascii?Q?BXNG1Qz1Vrg+iAE9sHw8i+4XyzEoHCYT62YH81j72lw8r/UmXKJK74V1kOVn?=
+ =?us-ascii?Q?DXiAId5egKcj74oYSl52DPq4cpE/0sImjMiK+c+QU2pqqDcXuQ5+Gf+OPaxw?=
+ =?us-ascii?Q?eFa3cImGFYbPiSjK73Gakjda2cgpdERDzP51kWV412KzjWDgyH7el9DZuw47?=
+ =?us-ascii?Q?1+wperPE/LFK8CzXzNh1oFqs4v3bsZFF7gD0TH50S8VwiEtfRsimTLajQaoH?=
+ =?us-ascii?Q?oUyj8yBC0KAPRnysv2iDE2BXiSQIKfiSi5xWc0eT8FfMuGdgGzqVoTg3gxMs?=
+ =?us-ascii?Q?fHoYyKUVcw6RaxetlqaLOCxYwUPAtO0BHe2Qun30U+8NdFDjElpPT6DXRBS5?=
+ =?us-ascii?Q?/pBhHvPs2XtTGe8KqwmSqgohOyWjY7oB58uQQOkEdm209q8sNUTPMfq+MeC6?=
+ =?us-ascii?Q?fTirJ7pxbFOZ3RV2WY6OvzqZlMrf3tvG33KDJY6Z6yhBQaVwOii/LhLXaG33?=
+ =?us-ascii?Q?bS1vPzCsh4RGjuOEUnfPfVT5NU6l7qp9dsat8u/Id2LC5YhAzEOPMoRjIycP?=
+ =?us-ascii?Q?ixVo4CuGgyUZfwPe/f3ieFKLHhn6UIluW4xbh8ypJZWmRUAGv1CWB2iJ65z+?=
+ =?us-ascii?Q?t8owhF9I5vmpTWZZlPOCIbtFfimDckCBtG51MUpWCHqzdiow5vrA8+q45baQ?=
+ =?us-ascii?Q?klN6nEndJbALko0xDlDuPVLT5P7u2y1MwlowhRWoGLxM4fswNJlYoYp9oA4o?=
+ =?us-ascii?Q?nLteZa89QBnL6/cXG65L5eyxyp2pUd/sJ20eSNGpqG05AXc68EKZxTn6OnI6?=
+ =?us-ascii?Q?6KiqPcnjc/mvwkpOHKmcYdtYNqM+K5V9r0peW77Cwu6JuRDxqNsTI4KE/hjF?=
+ =?us-ascii?Q?7aR5pEsQl7RhCq47Nngh0mj2081tqW43Ij2M0isoAei+jEDxnd1o1GJEQ7OU?=
+ =?us-ascii?Q?DusS9B0x/gTBYZvxYgfEWYySeg9zgmN9HwxKXPSmiioB06XdFjoRelArM9jk?=
+ =?us-ascii?Q?9vz0JuMFuO1FsAI+vMnJRp+IjJlgpFyRTdD8hNGbwcIn1YWZ70SFp2d9Qrhx?=
+ =?us-ascii?Q?/FoyHZ9+4SdTRdssiI77NJFUZlvItrx1621ssMEGQDctJnQfzwGnsBXT9Epv?=
+ =?us-ascii?Q?/i2OcCQCWlou2cjSOeB04iueXGMUsv1BwxrICzZh019TfVw8Jv5ikP3tW0vr?=
+ =?us-ascii?Q?1asDGsjA6m6iY90KZgedPawTjNKxswh00m2xDuKaWlM4Nm+AwMGofBujcfR2?=
+ =?us-ascii?Q?aA7Kj0jr5kLHsMUoelIo76nMaHIcXOW8lVqJJtYD27x/HAzM5aiBJYH5jVCk?=
+ =?us-ascii?Q?M8/M5cLXS/LED7VKqyE6NTYD/8iPuK2+a5+D29XtMRcWe8WncnCKSpGU3gM7?=
+ =?us-ascii?Q?y8f+HxAYLTBqzsIAvZEvWzoqSkCxe2n7gI6TNL3EECVJ4Uk4Lkwp9WYuG2Jb?=
+ =?us-ascii?Q?6NPE4kAO90tMpOrFTmhF2uMiHYwi4gMTcmsTMzNMMau2/ScU24h9lhm4tUjG?=
+ =?us-ascii?Q?0ToSJ0uZ8v16p/+q1pCtdAd1+9qnE+tJc85G0sogHTBiWs/EXvPTE9Nkaqpr?=
+ =?us-ascii?Q?LOb9OtuV7a+viyR+AoJvOnd/wrAFenXkbw3MJ86k?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09557070-1230-40db-0c31-08dcf385f04a
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2024 17:12:56.8566
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VKVrlc/pZ+eqKH48fxfTAZO2zINNEAp7SjIhXDK2b5ft0maJ/GSjyZLmarR0IfLt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7171
 
-Implement support for storing page allocation tag references directly
-in the page flags instead of page extensions. sysctl.vm.mem_profiling
-boot parameter it extended to provide a way for a user to request this
-mode. Enabling compression eliminates memory overhead caused by page_ext
-and results in better performance for page allocations. However this
-mode will not work if the number of available page flag bits is
-insufficient to address all kernel allocations. Such condition can
-happen during boot or when loading a module. If this condition is
-detected, memory allocation profiling gets disabled with an appropriate
-warning. By default compression mode is disabled.
+An anonymous large folio can be split into non order-0 folios,
+try_to_map_unused_to_zeropage() should not VM_BUG_ON compound pages but
+just return false. This fixes the crash when splitting anonymous large
+folios to non order-0 folios.
 
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Fixes: b1f202060afe ("mm: remap unused subpages to shared zeropage when splitting isolated thp")
+Signed-off-by: Zi Yan <ziy@nvidia.com>
 ---
- Documentation/mm/allocation-profiling.rst |   7 +-
- include/linux/alloc_tag.h                 |  10 +-
- include/linux/codetag.h                   |   3 +
- include/linux/page-flags-layout.h         |   7 ++
- include/linux/pgalloc_tag.h               | 145 +++++++++++++++++++---
- lib/alloc_tag.c                           | 142 +++++++++++++++++++--
- lib/codetag.c                             |   4 +-
- mm/mm_init.c                              |   5 +-
- 8 files changed, 290 insertions(+), 33 deletions(-)
+ mm/migrate.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/mm/allocation-profiling.rst b/Documentation/mm/allocation-profiling.rst
-index ffd6655b7be2..316311240e6a 100644
---- a/Documentation/mm/allocation-profiling.rst
-+++ b/Documentation/mm/allocation-profiling.rst
-@@ -18,12 +18,17 @@ kconfig options:
-   missing annotation
+diff --git a/mm/migrate.c b/mm/migrate.c
+index e950fd62607f..7ffdbe078aa7 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -206,7 +206,8 @@ static bool try_to_map_unused_to_zeropage(struct page_vma_mapped_walk *pvmw,
+ 	pte_t newpte;
+ 	void *addr;
  
- Boot parameter:
--  sysctl.vm.mem_profiling=0|1|never
-+  sysctl.vm.mem_profiling={0|1|never}[,compressed]
- 
-   When set to "never", memory allocation profiling overhead is minimized and it
-   cannot be enabled at runtime (sysctl becomes read-only).
-   When CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=y, default value is "1".
-   When CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=n, default value is "never".
-+  "compressed" optional parameter will try to store page tag references in a
-+  compact format, avoiding page extensions. This results in improved performance
-+  and memory consumption, however it might fail depending on system configuration.
-+  If compression fails, a warning is issued and memory allocation profiling gets
-+  disabled.
- 
- sysctl:
-   /proc/sys/vm/mem_profiling
-diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-index 7431757999c5..4f811ec0ffe0 100644
---- a/include/linux/alloc_tag.h
-+++ b/include/linux/alloc_tag.h
-@@ -30,8 +30,16 @@ struct alloc_tag {
- 	struct alloc_tag_counters __percpu	*counters;
- } __aligned(8);
- 
-+struct alloc_tag_kernel_section {
-+	struct alloc_tag *first_tag;
-+	unsigned long count;
-+};
-+
- struct alloc_tag_module_section {
--	unsigned long start_addr;
-+	union {
-+		unsigned long start_addr;
-+		struct alloc_tag *first_tag;
-+	};
- 	unsigned long end_addr;
- 	/* used size */
- 	unsigned long size;
-diff --git a/include/linux/codetag.h b/include/linux/codetag.h
-index d10bd9810d32..d14dbd26b370 100644
---- a/include/linux/codetag.h
-+++ b/include/linux/codetag.h
-@@ -13,6 +13,9 @@ struct codetag_module;
- struct seq_buf;
- struct module;
- 
-+#define CODETAG_SECTION_START_PREFIX	"__start_"
-+#define CODETAG_SECTION_STOP_PREFIX	"__stop_"
-+
- /*
-  * An instance of this structure is created in a special ELF section at every
-  * code location being tagged.  At runtime, the special section is treated as
-diff --git a/include/linux/page-flags-layout.h b/include/linux/page-flags-layout.h
-index 7d79818dc065..4f5c9e979bb9 100644
---- a/include/linux/page-flags-layout.h
-+++ b/include/linux/page-flags-layout.h
-@@ -111,5 +111,12 @@
- 			    ZONES_WIDTH - LRU_GEN_WIDTH - SECTIONS_WIDTH - \
- 			    NODES_WIDTH - KASAN_TAG_WIDTH - LAST_CPUPID_WIDTH)
- 
-+#define NR_NON_PAGEFLAG_BITS	(SECTIONS_WIDTH + NODES_WIDTH + ZONES_WIDTH + \
-+				LAST_CPUPID_SHIFT + KASAN_TAG_WIDTH + \
-+				LRU_GEN_WIDTH + LRU_REFS_WIDTH)
-+
-+#define NR_UNUSED_PAGEFLAG_BITS	(BITS_PER_LONG - \
-+				(NR_NON_PAGEFLAG_BITS + NR_PAGEFLAGS))
-+
- #endif
- #endif /* _LINUX_PAGE_FLAGS_LAYOUT */
-diff --git a/include/linux/pgalloc_tag.h b/include/linux/pgalloc_tag.h
-index b13cd3313a88..1fe63b52e5e5 100644
---- a/include/linux/pgalloc_tag.h
-+++ b/include/linux/pgalloc_tag.h
-@@ -11,29 +11,118 @@
- 
- #include <linux/page_ext.h>
- 
-+extern struct page_ext_operations page_alloc_tagging_ops;
-+extern unsigned long alloc_tag_ref_mask;
-+extern int alloc_tag_ref_offs;
-+extern struct alloc_tag_kernel_section kernel_tags;
-+
-+DECLARE_STATIC_KEY_FALSE(mem_profiling_compressed);
-+
-+typedef u16	pgalloc_tag_idx;
-+
- union pgtag_ref_handle {
- 	union codetag_ref *ref;	/* reference in page extension */
-+	struct page *page;	/* reference in page flags */
- };
- 
--extern struct page_ext_operations page_alloc_tagging_ops;
-+/* Reserved indexes */
-+#define CODETAG_ID_NULL		0
-+#define CODETAG_ID_EMPTY	1
-+#define CODETAG_ID_FIRST	2
-+
-+#ifdef CONFIG_MODULES
-+
-+extern struct alloc_tag_module_section module_tags;
-+
-+static inline struct alloc_tag *module_idx_to_tag(pgalloc_tag_idx idx)
-+{
-+	return &module_tags.first_tag[idx - kernel_tags.count];
-+}
-+
-+static inline pgalloc_tag_idx module_tag_to_idx(struct alloc_tag *tag)
-+{
-+	return CODETAG_ID_FIRST + kernel_tags.count + (tag - module_tags.first_tag);
-+}
-+
-+#else /* CONFIG_MODULES */
-+
-+static inline struct alloc_tag *module_idx_to_tag(pgalloc_tag_idx idx)
-+{
-+	pr_warn("invalid page tag reference %lu\n", (unsigned long)idx);
-+	return NULL;
-+}
-+
-+static inline pgalloc_tag_idx module_tag_to_idx(struct alloc_tag *tag)
-+{
-+	pr_warn("invalid page tag 0x%lx\n", (unsigned long)tag);
-+	return CODETAG_ID_NULL;
-+}
-+
-+#endif /* CONFIG_MODULES */
-+
-+static inline void idx_to_ref(pgalloc_tag_idx idx, union codetag_ref *ref)
-+{
-+	switch (idx) {
-+	case (CODETAG_ID_NULL):
-+		ref->ct = NULL;
-+		break;
-+	case (CODETAG_ID_EMPTY):
-+		set_codetag_empty(ref);
-+		break;
-+	default:
-+		idx -= CODETAG_ID_FIRST;
-+		ref->ct = idx < kernel_tags.count ?
-+			&kernel_tags.first_tag[idx].ct :
-+			&module_idx_to_tag(idx)->ct;
-+		break;
-+	}
-+}
-+
-+static inline pgalloc_tag_idx ref_to_idx(union codetag_ref *ref)
-+{
-+	struct alloc_tag *tag;
-+
-+	if (!ref->ct)
-+		return CODETAG_ID_NULL;
-+
-+	if (is_codetag_empty(ref))
-+		return CODETAG_ID_EMPTY;
-+
-+	tag = ct_to_alloc_tag(ref->ct);
-+	if (tag >= kernel_tags.first_tag && tag < kernel_tags.first_tag + kernel_tags.count)
-+		return CODETAG_ID_FIRST + (tag - kernel_tags.first_tag);
-+
-+	return module_tag_to_idx(tag);
-+}
-+
-+
- 
- /* Should be called only if mem_alloc_profiling_enabled() */
- static inline bool get_page_tag_ref(struct page *page, union codetag_ref *ref,
- 				    union pgtag_ref_handle *handle)
- {
--	struct page_ext *page_ext;
--	union codetag_ref *tmp;
--
- 	if (!page)
- 		return false;
- 
--	page_ext = page_ext_get(page);
--	if (!page_ext)
--		return false;
-+	if (static_key_enabled(&mem_profiling_compressed)) {
-+		pgalloc_tag_idx idx;
-+
-+		idx = (page->flags >> alloc_tag_ref_offs) & alloc_tag_ref_mask;
-+		idx_to_ref(idx, ref);
-+		handle->page = page;
-+	} else {
-+		struct page_ext *page_ext;
-+		union codetag_ref *tmp;
-+
-+		page_ext = page_ext_get(page);
-+		if (!page_ext)
-+			return false;
-+
-+		tmp = (union codetag_ref *)page_ext_data(page_ext, &page_alloc_tagging_ops);
-+		ref->ct = tmp->ct;
-+		handle->ref = tmp;
-+	}
- 
--	tmp = (union codetag_ref *)page_ext_data(page_ext, &page_alloc_tagging_ops);
--	ref->ct = tmp->ct;
--	handle->ref = tmp;
- 	return true;
- }
- 
-@@ -42,16 +131,35 @@ static inline void put_page_tag_ref(union pgtag_ref_handle handle)
- 	if (WARN_ON(!handle.ref))
- 		return;
- 
--	page_ext_put((void *)handle.ref - page_alloc_tagging_ops.offset);
-+	if (!static_key_enabled(&mem_profiling_compressed))
-+		page_ext_put((void *)handle.ref - page_alloc_tagging_ops.offset);
- }
- 
--static inline void update_page_tag_ref(union pgtag_ref_handle handle,
--				       union codetag_ref *ref)
-+static inline void update_page_tag_ref(union pgtag_ref_handle handle, union codetag_ref *ref)
- {
--	if (WARN_ON(!handle.ref || !ref))
--		return;
--
--	handle.ref->ct = ref->ct;
-+	if (static_key_enabled(&mem_profiling_compressed)) {
-+		struct page *page = handle.page;
-+		unsigned long old_flags;
-+		unsigned long flags;
-+		unsigned long idx;
-+
-+		if (WARN_ON(!page || !ref))
-+			return;
-+
-+		idx = (unsigned long)ref_to_idx(ref);
-+		idx = (idx & alloc_tag_ref_mask) << alloc_tag_ref_offs;
-+		do {
-+			old_flags = READ_ONCE(page->flags);
-+			flags = old_flags;
-+			flags &= ~(alloc_tag_ref_mask << alloc_tag_ref_offs);
-+			flags |= idx;
-+		} while (unlikely(!try_cmpxchg(&page->flags, &old_flags, flags)));
-+	} else {
-+		if (WARN_ON(!handle.ref || !ref))
-+			return;
-+
-+		handle.ref->ct = ref->ct;
-+	}
- }
- 
- static inline void clear_page_tag_ref(struct page *page)
-@@ -122,6 +230,8 @@ static inline void pgalloc_tag_sub_pages(struct alloc_tag *tag, unsigned int nr)
- 		this_cpu_sub(tag->counters->bytes, PAGE_SIZE * nr);
- }
- 
-+void __init alloc_tag_sec_init(void);
-+
- #else /* CONFIG_MEM_ALLOC_PROFILING */
- 
- static inline void clear_page_tag_ref(struct page *page) {}
-@@ -130,6 +240,7 @@ static inline void pgalloc_tag_add(struct page *page, struct task_struct *task,
- static inline void pgalloc_tag_sub(struct page *page, unsigned int nr) {}
- static inline struct alloc_tag *pgalloc_tag_get(struct page *page) { return NULL; }
- static inline void pgalloc_tag_sub_pages(struct alloc_tag *tag, unsigned int nr) {}
-+static inline void alloc_tag_sec_init(void) {}
- 
- #endif /* CONFIG_MEM_ALLOC_PROFILING */
- 
-diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-index 061e43196247..a6f6f014461e 100644
---- a/lib/alloc_tag.c
-+++ b/lib/alloc_tag.c
-@@ -3,6 +3,7 @@
- #include <linux/execmem.h>
- #include <linux/fs.h>
- #include <linux/gfp.h>
-+#include <linux/kallsyms.h>
- #include <linux/module.h>
- #include <linux/page_ext.h>
- #include <linux/proc_fs.h>
-@@ -12,6 +13,8 @@
- 
- #define ALLOCINFO_FILE_NAME		"allocinfo"
- #define MODULE_ALLOC_TAG_VMAP_SIZE	(100000UL * sizeof(struct alloc_tag))
-+#define SECTION_START(NAME)		(CODETAG_SECTION_START_PREFIX NAME)
-+#define SECTION_STOP(NAME)		(CODETAG_SECTION_STOP_PREFIX NAME)
- 
- #ifdef CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
- static bool mem_profiling_support = true;
-@@ -26,6 +29,11 @@ EXPORT_SYMBOL(_shared_alloc_tag);
- 
- DEFINE_STATIC_KEY_MAYBE(CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT,
- 			mem_alloc_profiling_key);
-+DEFINE_STATIC_KEY_FALSE(mem_profiling_compressed);
-+
-+struct alloc_tag_kernel_section kernel_tags = { NULL, 0 };
-+unsigned long alloc_tag_ref_mask;
-+int alloc_tag_ref_offs;
- 
- struct allocinfo_private {
- 	struct codetag_iterator iter;
-@@ -155,7 +163,7 @@ size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sl
- 	return nr;
- }
- 
--static void shutdown_mem_profiling(void)
-+static void shutdown_mem_profiling(bool remove_file)
- {
- 	if (mem_alloc_profiling_enabled())
- 		static_branch_disable(&mem_alloc_profiling_key);
-@@ -163,6 +171,8 @@ static void shutdown_mem_profiling(void)
- 	if (!mem_profiling_support)
- 		return;
- 
-+	if (remove_file)
-+		remove_proc_entry(ALLOCINFO_FILE_NAME, NULL);
- 	mem_profiling_support = false;
- }
- 
-@@ -173,10 +183,40 @@ static void __init procfs_init(void)
- 
- 	if (!proc_create_seq(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_seq_op)) {
- 		pr_err("Failed to create %s file\n", ALLOCINFO_FILE_NAME);
--		shutdown_mem_profiling();
-+		shutdown_mem_profiling(false);
- 	}
- }
- 
-+void __init alloc_tag_sec_init(void)
-+{
-+	struct alloc_tag *last_codetag;
-+
-+	if (!mem_profiling_support)
-+		return;
-+
-+	if (!static_key_enabled(&mem_profiling_compressed))
-+		return;
-+
-+	kernel_tags.first_tag = (struct alloc_tag *)kallsyms_lookup_name(
-+					SECTION_START(ALLOC_TAG_SECTION_NAME));
-+	last_codetag = (struct alloc_tag *)kallsyms_lookup_name(
-+					SECTION_STOP(ALLOC_TAG_SECTION_NAME));
-+	kernel_tags.count = last_codetag - kernel_tags.first_tag;
-+
-+	/* Check if kernel tags fit into page flags */
-+	if (kernel_tags.count > (1UL << NR_UNUSED_PAGEFLAG_BITS)) {
-+		shutdown_mem_profiling(false); /* allocinfo file does not exist yet */
-+		pr_err("%lu allocation tags cannot be references using %d available page flag bits. Memory allocation profiling is disabled!\n",
-+			kernel_tags.count, NR_UNUSED_PAGEFLAG_BITS);
-+		return;
-+	}
-+
-+	alloc_tag_ref_offs = (LRU_REFS_PGOFF - NR_UNUSED_PAGEFLAG_BITS);
-+	alloc_tag_ref_mask = ((1UL << NR_UNUSED_PAGEFLAG_BITS) - 1);
-+	pr_debug("Memory allocation profiling compression is using %d page flag bits!\n",
-+		 NR_UNUSED_PAGEFLAG_BITS);
-+}
-+
- #ifdef CONFIG_MODULES
- 
- static struct maple_tree mod_area_mt = MTREE_INIT(mod_area_mt, MT_FLAGS_ALLOC_RANGE);
-@@ -186,10 +226,59 @@ static struct module unloaded_mod;
- /* A dummy object used to indicate a module prepended area */
- static struct module prepend_mod;
- 
--static struct alloc_tag_module_section module_tags;
-+struct alloc_tag_module_section module_tags;
-+
-+static inline unsigned long alloc_tag_align(unsigned long val)
-+{
-+	if (!static_key_enabled(&mem_profiling_compressed)) {
-+		/* No alignment requirements when we are not indexing the tags */
-+		return val;
-+	}
-+
-+	if (val % sizeof(struct alloc_tag) == 0)
-+		return val;
-+	return ((val / sizeof(struct alloc_tag)) + 1) * sizeof(struct alloc_tag);
-+}
-+
-+static bool ensure_alignment(unsigned long align, unsigned int *prepend)
-+{
-+	if (!static_key_enabled(&mem_profiling_compressed)) {
-+		/* No alignment requirements when we are not indexing the tags */
-+		return true;
-+	}
-+
-+	/*
-+	 * If alloc_tag size is not a multiple of required alignment, tag
-+	 * indexing does not work.
-+	 */
-+	if (!IS_ALIGNED(sizeof(struct alloc_tag), align))
+-	VM_BUG_ON_PAGE(PageCompound(page), page);
++	if (PageCompound(page))
 +		return false;
-+
-+	/* Ensure prepend consumes multiple of alloc_tag-sized blocks */
-+	if (*prepend)
-+		*prepend = alloc_tag_align(*prepend);
-+
-+	return true;
-+}
-+
-+static inline bool tags_addressable(void)
-+{
-+	unsigned long tag_idx_count;
-+
-+	if (!static_key_enabled(&mem_profiling_compressed))
-+		return true; /* with page_ext tags are always addressable */
-+
-+	tag_idx_count = CODETAG_ID_FIRST + kernel_tags.count +
-+			module_tags.size / sizeof(struct alloc_tag);
-+
-+	return tag_idx_count < (1UL << NR_UNUSED_PAGEFLAG_BITS);
-+}
- 
- static bool needs_section_mem(struct module *mod, unsigned long size)
- {
-+	if (!mem_profiling_support)
-+		return false;
-+
- 	return size >= sizeof(struct alloc_tag);
- }
- 
-@@ -300,6 +389,13 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
- 	if (!align)
- 		align = 1;
- 
-+	if (!ensure_alignment(align, &prepend)) {
-+		shutdown_mem_profiling(true);
-+		pr_err("%s: alignment %lu is incompatible with allocation tag indexing. Memory allocation profiling is disabled!\n",
-+			mod->name, align);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
- 	mas_lock(&mas);
- 	if (!find_aligned_area(&mas, section_size, size, prepend, align)) {
- 		ret = ERR_PTR(-ENOMEM);
-@@ -343,9 +439,15 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
- 		int grow_res;
- 
- 		module_tags.size = offset + size;
-+		if (mem_alloc_profiling_enabled() && !tags_addressable()) {
-+			shutdown_mem_profiling(true);
-+			pr_warn("With module %s there are too many tags to fit in %d page flag bits. Memory allocation profiling is disabled!\n",
-+				mod->name, NR_UNUSED_PAGEFLAG_BITS);
-+		}
-+
- 		grow_res = vm_module_tags_populate();
- 		if (grow_res) {
--			shutdown_mem_profiling();
-+			shutdown_mem_profiling(true);
- 			pr_err("Failed to allocate memory for allocation tags in the module %s. Memory allocation profiling is disabled!\n",
- 			       mod->name);
- 			return ERR_PTR(grow_res);
-@@ -429,6 +531,8 @@ static int __init alloc_mod_tags_mem(void)
- 
- 	module_tags.start_addr = (unsigned long)vm_module_tags->addr;
- 	module_tags.end_addr = module_tags.start_addr + MODULE_ALLOC_TAG_VMAP_SIZE;
-+	/* Ensure the base is alloc_tag aligned when required for indexing */
-+	module_tags.start_addr = alloc_tag_align(module_tags.start_addr);
- 
- 	return 0;
- }
-@@ -451,8 +555,10 @@ static inline void free_mod_tags_mem(void) {}
- 
- #endif /* CONFIG_MODULES */
- 
-+/* See: Documentation/mm/allocation-profiling.rst */
- static int __init setup_early_mem_profiling(char *str)
- {
-+	bool compressed = false;
- 	bool enable;
- 
- 	if (!str || !str[0])
-@@ -461,22 +567,37 @@ static int __init setup_early_mem_profiling(char *str)
- 	if (!strncmp(str, "never", 5)) {
- 		enable = false;
- 		mem_profiling_support = false;
-+		pr_info("Memory allocation profiling is disabled!\n");
- 	} else {
--		int res;
-+		char *token = strsep(&str, ",");
-+
-+		if (kstrtobool(token, &enable))
-+			return -EINVAL;
- 
--		res = kstrtobool(str, &enable);
--		if (res)
--			return res;
-+		if (str) {
- 
-+			if (strcmp(str, "compressed"))
-+				return -EINVAL;
-+
-+			compressed = true;
-+		}
- 		mem_profiling_support = true;
-+		pr_info("Memory allocation profiling is enabled %s compression and is turned %s!\n",
-+			compressed ? "with" : "without", enable ? "on" : "off");
- 	}
- 
--	if (enable != static_key_enabled(&mem_alloc_profiling_key)) {
-+	if (enable != mem_alloc_profiling_enabled()) {
- 		if (enable)
- 			static_branch_enable(&mem_alloc_profiling_key);
- 		else
- 			static_branch_disable(&mem_alloc_profiling_key);
- 	}
-+	if (compressed != static_key_enabled(&mem_profiling_compressed)) {
-+		if (compressed)
-+			static_branch_enable(&mem_profiling_compressed);
-+		else
-+			static_branch_disable(&mem_profiling_compressed);
-+	}
- 
- 	return 0;
- }
-@@ -484,6 +605,9 @@ early_param("sysctl.vm.mem_profiling", setup_early_mem_profiling);
- 
- static __init bool need_page_alloc_tagging(void)
- {
-+	if (static_key_enabled(&mem_profiling_compressed))
-+		return false;
-+
- 	return mem_profiling_support;
- }
- 
-diff --git a/lib/codetag.c b/lib/codetag.c
-index 654496952f86..4949511b4933 100644
---- a/lib/codetag.c
-+++ b/lib/codetag.c
-@@ -149,8 +149,8 @@ static struct codetag_range get_section_range(struct module *mod,
- 					      const char *section)
- {
- 	return (struct codetag_range) {
--		get_symbol(mod, "__start_", section),
--		get_symbol(mod, "__stop_", section),
-+		get_symbol(mod, CODETAG_SECTION_START_PREFIX, section),
-+		get_symbol(mod, CODETAG_SECTION_STOP_PREFIX, section),
- 	};
- }
- 
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 4ba5607aaf19..1c205b0a86ed 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -83,8 +83,7 @@ void __init mminit_verify_pageflags_layout(void)
- 	unsigned long or_mask, add_mask;
- 
- 	shift = BITS_PER_LONG;
--	width = shift - SECTIONS_WIDTH - NODES_WIDTH - ZONES_WIDTH
--		- LAST_CPUPID_SHIFT - KASAN_TAG_WIDTH - LRU_GEN_WIDTH - LRU_REFS_WIDTH;
-+	width = shift - NR_NON_PAGEFLAG_BITS;
- 	mminit_dprintk(MMINIT_TRACE, "pageflags_layout_widths",
- 		"Section %d Node %d Zone %d Lastcpupid %d Kasantag %d Gen %d Tier %d Flags %d\n",
- 		SECTIONS_WIDTH,
-@@ -2639,7 +2638,7 @@ void __init mm_core_init(void)
- 	BUILD_BUG_ON(MAX_ZONELISTS > 2);
- 	build_all_zonelists(NULL);
- 	page_alloc_init_cpuhp();
--
-+	alloc_tag_sec_init();
- 	/*
- 	 * page_ext requires contiguous pages,
- 	 * bigger than MAX_PAGE_ORDER unless SPARSEMEM.
+ 	VM_BUG_ON_PAGE(!PageAnon(page), page);
+ 	VM_BUG_ON_PAGE(!PageLocked(page), page);
+ 	VM_BUG_ON_PAGE(pte_present(*pvmw->pte), page);
 -- 
-2.47.0.105.g07ac214952-goog
+2.45.2
 
