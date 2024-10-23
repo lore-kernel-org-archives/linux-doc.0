@@ -1,125 +1,87 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E111AAE00
-	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 14:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A80615B99D;
+	Wed, 23 Oct 2024 14:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729693697; cv=none; b=mnqcG5UH+2rk74wEjHkxLfY3p8qFUBBsHDXOktKTTTZZmesMISBN4Qe+q48UnBJiG8lZRt98ddzf0Bw4usg/+Ktn1PFw8OW3zl1JM12mI1MJtiMz/lGhwNFgLY1ug6h9jaMC5Gj7StOw1cf+b8Z7qvg8oMwHlYbycFvtaxG72oE=
+	t=1729694620; cv=none; b=Du3KM5xg0iFDH4yEFaf24+X2/3XgXoPPBFk0uiS5U1YTNhf9gg2h0eRw9kSE/Z3eRx/zRymInrey1N+IJnZGlfQP8MxUes84MhneTr2ZPMZ0XTox2m8YV/CCDlNekLLCDADImCwDiD8mMbJHNxWyS+BAS1TfRcgXTqIhfLqTQC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729693697; c=relaxed/simple;
-	bh=4kavOI3l2wbWuQOCUR79egQTVS3ezCBmAhuZZZRbu6M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AqhBo7oeTRwvTZrE8jsXF+EfuMXCJ0sZrSVnx4Buvvx++bYg9mlaiT2NXFdIHdUgPKjBsmwyF1jmb3TKGBdB/XYUrF/3No3ZDno012pV8yeATWIRktJx7XTIwgwFFkG/dJbpkwdPyw5YaF7jMMoqP3xFjuKrBsZMVRHDgzHwWC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QwNr24Vo; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1729694620; c=relaxed/simple;
+	bh=0q46oXK/enJ9KmaNkFKxLNRox8QQXImjEsKnUrmOidY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BxROem3OhnhcOnvLrgekHVFxIk2HxuXkYXCUD0OQQbkcfXLcwb0RbbQolbG6JLwv/66e2iz7gSuu/ThX46sWGje+smOZlSYPmcyrwslI/AnIClLKO7j3t0+XvUtCN+DmC+jCXgzzt80A2DOTUp8lYyJfSO8n4FxI9HQCNCUYiAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=s9fWgiA3; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QwNr24Vo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=ru7BjzE7IiS99xFkw728Expjx5YO8mDL356ujE/Icm8=; b=QwNr24VoiAnX/lqH2xkPS8R1Xg
-	PRefjwXQt2YoqbiIX7WCSjoBws4zPPwx8kTWY83joeZhyIlse2yx1cDTKE0U/sxao2yPcmriWkawV
-	ERq1hliZuACn97SkOlCs1Z/0EpyOc5P3DED8aX5jbgCmNB/xFDvHlGRuRTkcqj63ZRiL3QlyNjFyc
-	cJ/4HOG7CSR6pCQ/Xs0EpJcSoVttIFCY0ZrfzVEqjTuGfFftHFUNDlGiGmFL+SQKePtC+/p2KcYAG
-	qGDTajPoh0DNnjUDulPnyhaR1XQW6WW8r7F+Db1gVaU7mrDOELjrrKtMBPkfQ6iJ/19CL5MBa8nHZ
-	npey6aXw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3cLG-00000008Q6Z-15XO;
-	Wed, 23 Oct 2024 14:28:06 +0000
-Message-ID: <f5253a00-854c-407c-a2bb-1c1a0e1a3aea@infradead.org>
-Date: Wed, 23 Oct 2024 07:28:03 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="s9fWgiA3"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4162742B33
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1729694618; bh=Si+mqdwQIHOA4eAyEaQvW2ZCeDiwuSydYETZ9zTnOeA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=s9fWgiA3a2q0iEnqcf+Mm5YOhamaKFfmTu5AKq/GvhZU/eRNpFBVIdZmhnb34csJI
+	 snoAo+pt1ZC1tbwRoyesOY6X4UogmD5QylNTBkgXMF1jQsqDy5XKu+UsnT2Q3ZCkpY
+	 lxSuKQN37cocKg5oJk41etd9kd4aJqBBmBNUGF7Zs0qhQN02LQCKoHgeYIH20gvoV3
+	 NxXKXxvVIpk7qtrmEBwY6W74avbIGIIjcN9BnaLkZcafynpmxiYH07U/rr1O3d86/j
+	 5THRrW1Dp5XDxJD8acaN7AQS0uzsKGXAw0DjC0N9auXJ7wgX/C/FQKgrnsbSRCgczg
+	 qb08nztLct/QQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4162742B33;
+	Wed, 23 Oct 2024 14:43:38 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: anish kumar <yesanishhere@gmail.com>, ohad@wizery.com,
+ bjorn.andersson@linaro.org, mathieu.poirier@linaro.org
+Cc: linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 0/1] remoteproc documentation changes
+In-Reply-To: <87a5evncxf.fsf@trenco.lwn.net>
+References: <20241023053357.5261-1-yesanishhere@gmail.com>
+ <87a5evncxf.fsf@trenco.lwn.net>
+Date: Wed, 23 Oct 2024 08:43:37 -0600
+Message-ID: <875xpiop5y.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Translation order of documents
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: Alex Shi <alexs@kernel.org>, YanTeng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- HUST OS Kernel Contribution <hust-os-kernel-patches@googlegroups.com>,
- Nick Desaulniers <ndesaulniers@google.com>
-References: <CAD-N9QUgp+W3Us2QFNF9Emde1Yb98_Mco3a-gbrfuMssVVbJLQ@mail.gmail.com>
- <b5f4583a-eaea-4117-b759-ab68d1ce351b@infradead.org>
- <CAD-N9QXy7XpsZgwq+f93eVHh5jqm9HLEBoXk4OehYmXQgrTamA@mail.gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAD-N9QXy7XpsZgwq+f93eVHh5jqm9HLEBoXk4OehYmXQgrTamA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+Jonathan Corbet <corbet@lwn.net> writes:
 
-
-On 10/22/24 10:32 PM, Dongliang Mu wrote:
-> On Wed, Oct 23, 2024 at 1:17 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> anish kumar <yesanishhere@gmail.com> writes:
+>
+>> This patch series transitions the documentation
+>> for remoteproc from the staging directory to the
+>> mainline kernel. It introduces both kernel and
+>> user-space APIs, enhancing the overall documentation
+>> quality.
 >>
->> [adding Nick D. as author]
+>> V4:
+>> Fixed compilation errors and moved documentation to
+>> driver-api directory.
 >>
->> On 10/17/24 10:32 PM, Dongliang Mu wrote:
->>> Hi guys,
->>>
->>> when I translate kbuild/llvm.rst, I find this document seems depends
->>> on the reproducible-build.html. The depenency means, A will refer to
+>> V3:
+>> Seperated out the patches further to make the intention
+>> clear for each patch.
 >>
->>                       builds
->>
->>> B, like the following contents.
->>>
->>> ``ccache`` 可以与 ``clang`` 一起使用，以改善后续构建（尽管在不同构建之间
->>> KBUILD_BUILD_TIMESTAMP_ 应设置为同一确定值，以避免 100% 的缓存未命中，
->>> 详见 Reproducible_builds_ 获取更多信息）::
->>>
->>> KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
->>>
->>> .. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
->>> .. _Reproducible_builds: reproducible-builds.html#timestamps
->>>
->>> I have several questions in mind:
->>>
->>> 1. Should we show this dependency graph for translators? This may help
->>> improve translation. Otherwise, it may occur that A has been
->>> translated, but it depends on B. And B needs translated so that the
->>> translation of A can be merged.
->>>
->>
->> Yes. (IMHO)
-> 
-> If no one write code to collect this graph, our hust openatom club
-> could help contribute this script.
-> 
+>> V2:
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Closes: https://lore.kernel.org/oe-kbuild-all/202410161444.jOKMsoGS-lkp@intel.com/
+>
+> So I think you could make better use of kerneldoc comments for a number
+> of your APIs and structures - a project for the future.  I can't judge
+> the remoteproc aspects of this, but from a documentation mechanics point
+> of view, this looks about ready to me.  In the absence of objections
+> I'll apply it in the near future.
 
-I (maybe too simply) thought that this could be a Makefile rule. <<<
-There are a few Makefiles in the Documentation tree.
+One other question, actually - what kernel version did you make these
+patches against?  It looks like something rather old...?
 
->>
->>> 2. Would there exist the loop? A depends on B and B depends on A
->>> directly or indirectly.
->>>
->>> If we only need to keep the documents in the mainline ready for
->>> reading, it seems not a problem.
->>>
->>> P.S., it seems current docs building cannot detect invalid URL in the
->>> documentation tree.
->>
->> Hm, I thought that there was a script in scripts/ for that but I don't see it...
-> 
-> I asked this question because I did not find this tool or script in
-> the mainline tree.
-> 
-> This script seems useful. It could help prune old/invalid link and
-> prevent invalid links into documentation tree.
+Thanks,
 
-Looks like this has been rewritten. See Documentation/Makefile, target
-'linkcheckdocs'.
-
-
--- 
-~Randy
-
+jon
