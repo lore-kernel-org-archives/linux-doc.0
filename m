@@ -1,114 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4D0153BF8;
-	Wed, 23 Oct 2024 07:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CDC155742
+	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 07:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729668561; cv=none; b=sS6K3ew5zsrH55i+JnDZ7asOpqyna12Yg4hquq2R4urQKxJqLKF7PYflHSYJBmtgWErnjjic7/R0bWvOz2cig6Y0BeySV7YP6yDD7ijmFOh0ZA15roEC4gKv+77tn/YCdjDh+fSny15R8t/JLOzPCcW+C6VGAB8SvF8tHyS6jPg=
+	t=1729668730; cv=none; b=cDXdTR7FL7wzjLT/2KwFE3ddg+Cw2YWeIhYWA5ImHgETiDe8Ss7pxWYFYFbzmJPRuX3NwmsreSsYWdeWnzawk3Zw/EuD6Oy4L69ZyCPc8RFuop8Ti2fSD0+oKVO3LwCFxA1YGIV8AMiZCVu2MCuYlNzsj7bNysjK70BztEjEcxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729668561; c=relaxed/simple;
-	bh=0cjxPN3gVvAN5DsaYQ7B4tJsV1CxyxDi0m1/lvLw0r8=;
+	s=arc-20240116; t=1729668730; c=relaxed/simple;
+	bh=dTDdz6StFkQ7UdOGaYxF3BlZM5FwqqVkhyMDlmNMuoI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LcI4qAPcFiXpu85MAr/LkFnErQd9mjQURdKgmfCZ+9QMGFK43zyPxeQThn/kNlrVeBr1lGz8tkweJslilShI8DSLoK1czPPD4+0F6HYWtsBf7tEKY0zSXeMixdvHtVcit1nyRK41LeT7Mg+5gYgHWTbA+2vAmsTMpoJMhjxhDQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gxw3CcUJ; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=j99LUV+nmypQgmrd7FtqzgihpEQlF6z3zCAqMlF0IUtxVSEeB/vd3dNdlb6px8gMXFpidFxd7YcnCOkLL8MqDFHL1HyApVI0gfSQQoiAUwh2IL0AuF07SdgWPvODv7JYCr3obb6BZT/pwnfvRabgPinGV/dOMX8Vz2PIGPnCQxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=UAN6oKaf; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gxw3CcUJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D72B3C4CEC6;
-	Wed, 23 Oct 2024 07:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729668560;
-	bh=0cjxPN3gVvAN5DsaYQ7B4tJsV1CxyxDi0m1/lvLw0r8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Gxw3CcUJg5oP58z7MrQd8UIGeHCddRvn1YusmHPBAl+ImMbVUrsCml6oz8px54bek
-	 qXGvhlPnJjSdvGWYhKjxNComu9zaBxtL4XgiCQC5pnWk6hKSde6qbqtQRdaAA699tW
-	 Dlh/9FAkbWLGdEenSMra/dnJliOIUEhT+6ligXbWNvunr1iT9uSN+KVDyN74aD5uzD
-	 v0fXJQNPkDM7ri7gaID5ooPyDJ0uVFQrCkAoM7m+SUao7lNISM7fwNwoHTsCZPQJiB
-	 mgvH8WV0fYapQ5uloEQ0CieMa4T+pQT9OrXjP9MOWeZJGv/bJEYhs/Lub0xS6nlmms
-	 H8Yb6hZwNfeqw==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539fb49c64aso9094431e87.0;
-        Wed, 23 Oct 2024 00:29:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU5r/AY1MRJRC5cus2kh/PI4MWCNUvQKgasU43ZmFaZm8rzkCpKQ40cYYDZxtsvkJ5cesdSIN9VbNBQ@vger.kernel.org, AJvYcCVGNEw+xJvREhdxfuzil2flMu8/OBXRpUyPNWtO2YF8MiRED+4f74MpTghfKgDBlbKr0ROLpU3EMdgT@vger.kernel.org, AJvYcCVVpEOOMmnUNhr2woyX9EDxfLfzmzn+C9TLkBYkom6FcSI5qChUaVRQ/M1383aS9ifzboIUFE6fFJ4y@vger.kernel.org, AJvYcCW2uy1pB7pNgdypkl3ggfrAGBpq3Nc6GCpO3uXCflz6YIn6u9e0znOYZTACCHv1n6FbUtTj4ZmS9hlgfqcU@vger.kernel.org, AJvYcCXz206Ib5QHifrRjxL7XjC6xrvln/LpaHrsv9DhaYJIdRgTI/daRoxxKuwwzlxliMft6tmvlUg+phu/A8Ok@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpTM929TmGSpfKkr94ZsWsmvnqDvIqOy53HSVb/Xd/NLVe7OrN
-	eeWGYCLVqgg6VBFT3HWN8yLFU3bZSMsH4c9nLgFDtysjOhWiwmwwVXkw5S8jxvK/QmPUYazfgLP
-	D/RX2dhIujKrEJ/nJaPMMy1roSyQ=
-X-Google-Smtp-Source: AGHT+IFRea2Ijszif9VG8m68iTuteEaOPa/SvXFPAj+mSpGZe25TCijKQGifGZl6tE77eNXwEgasc4gRFeTgNxcsDso=
-X-Received: by 2002:a05:6512:3d09:b0:536:7377:7d23 with SMTP id
- 2adb3069b0e04-53b1a39b073mr1285874e87.40.1729668559599; Wed, 23 Oct 2024
- 00:29:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="UAN6oKaf"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c903f5bd0eso3746333a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 00:32:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729668725; x=1730273525; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ld+3WPOQF7W9x7JI6fzkyd3V36oBi0SwcjkGdighsL4=;
+        b=UAN6oKaf4ef/I0JzdYXntW/u1JELU3eF4tG4EwLfCt8Ws9hTY9Ry8SlxXhGudhk9Ys
+         55jsm/zokV/kXDEyKoSfci8rysfnPuxheO891auEldiFNvK1z0Bmf31j7YA+TlYOyVDR
+         b07je4+Ncoz5gNEBart9a5qAY/uee84lrBdeipNdO1ulslV3TFKzcs3LjPrQOwJSCqDZ
+         8B+UzoFiO+tN1t/bTAMXqw05sZZwme47UXIjdvJc2dm7lhXC0znddgRuHqxHmGGtXBwb
+         +SWXtoAT85MH/Cf9T1LUQtlIE7ncBn5QwVri7kwJMCQsyazaGivWm350buutSzjClKOl
+         6lvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729668725; x=1730273525;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ld+3WPOQF7W9x7JI6fzkyd3V36oBi0SwcjkGdighsL4=;
+        b=sBvdHiBKQSluVRxS5V5Mumu2HT18gNMGKpM2J2EmBQZ90ZS8jCN9djk7+vzx/AhNXy
+         qxxLAiO4mXkbmuBhdJABw5tZC5uG6AaacODUFuSo0IdQf3lTpjmUlVDhy5sgNa9PpCB1
+         hMJWG906dW8MiAfT12CEmIqMcFnwFEAHUPQp+ruwqrGyQqH9TVRNSICu1RSd3AfSJhlx
+         5glMJvMs9q87FNaaNYOB7MUeU2skP6gzVuMcOlMK/87S8vbUo2eUU8eNCKXS/RiKiJao
+         JCWou+uDnOR8ySIFl85xY2866pPiUBNEpoK/Vw2GuTddk94PMy+kmvdqeZRlRK5eNB70
+         I16Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUpftlaAJIdb8nYPmRV6TPOgcQ8cFZzr+tbzUmPZmyuGGDopLnb1bn/CdTVTleZwHFgzuJDUn9pHEQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwY5INEDunEBIcM1cKQqhku1VDyUPhwhDJxK6261F6yq3iyn5uf
+	z3CqnctIK46Lf10rT2mljgwJ3UeIlDecjCqWWGWGnXUF2f08G9vbjvj08mr5gMzjsT2/PQHkyTn
+	S6o3cb0FaZBYbLpFx0YVyEvzCko+4D9quOOFWjA==
+X-Google-Smtp-Source: AGHT+IEJBETWRzafCHMiJacmhO3+2BGfuEPqovyY1jdP6hMCT71V63RIrqcr+Gk7ya87qxf9ULOTWDHVQyBI2z8liWE=
+X-Received: by 2002:a17:906:d54e:b0:a9a:38e6:2fdf with SMTP id
+ a640c23a62f3a-a9abf96d1ffmr137056066b.64.1729668724464; Wed, 23 Oct 2024
+ 00:32:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-7-xur@google.com>
- <CAK7LNARfm7HBx-wLCak1w0sfH7LML1ErWO=2sLj4ovR38RsnTA@mail.gmail.com>
- <CAF1bQ=Qi9hyKbc5H3N36W=MukT3321rZMCas0ndpRf0YszAfOA@mail.gmail.com>
- <CAK7LNAQr_EusZyy-dPcV=5o9UckStaUfXLSCQh7APbYh15NC3w@mail.gmail.com> <a38a883e-d887-4d79-bb52-f28f5efc99a8@app.fastmail.com>
-In-Reply-To: <a38a883e-d887-4d79-bb52-f28f5efc99a8@app.fastmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 23 Oct 2024 16:28:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATfdxBvFxhAQhAuWhVfqfFptCXvjRS2xcWmFFqYo8Qp-w@mail.gmail.com>
-Message-ID: <CAK7LNATfdxBvFxhAQhAuWhVfqfFptCXvjRS2xcWmFFqYo8Qp-w@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] Add Propeller configuration for kernel build.
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Rong Xu <xur@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Bill Wendling <morbo@google.com>, 
-	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
-	Linux-Arch <linux-arch@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Stephane Eranian <eranian@google.com>
+References: <20241022-ad7380-fix-supplies-v3-0-f0cefe1b7fa6@baylibre.com> <20241022210239.6a61b32f@jic23-huawei>
+In-Reply-To: <20241022210239.6a61b32f@jic23-huawei>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Wed, 23 Oct 2024 09:31:49 +0200
+Message-ID: <CAEHHSvYCx1zWmAf8iSdVTaxfewFLoeJo6RXQj7-3hwX40yCjOQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] iio: adc: ad7380: fix several supplies issues
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 23, 2024 at 4:25=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
+Le mar. 22 oct. 2024 =C3=A0 22:02, Jonathan Cameron <jic23@kernel.org> a =
+=C3=A9crit :
 >
-> On Wed, Oct 23, 2024, at 07:06, Masahiro Yamada wrote:
-> > On Tue, Oct 22, 2024 at 9:00=E2=80=AFAM Rong Xu <xur@google.com> wrote:
-> >
-> >> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> > > +
-> >> > > +Configure the kernel with::
-> >> > > +
-> >> > > +   CONFIG_AUTOFDO_CLANG=3Dy
-> >> >
-> >> >
-> >> > This is automatically met due to "depends on AUTOFDO_CLANG".
-> >>
-> >> Agreed. But we will remove the dependency from PROPELlER_CLANG to AUTO=
-FDO_CLANG.
-> >> So we will keep the part.
-> >
-> >
-> > You can replace "depends on AUTOFDO_CLANG" with
-> > "imply AUTOFDO_CLANG" if it is sensible.
-> >
-> > Up to you.
+> On Tue, 22 Oct 2024 15:22:35 +0200
+> Julien Stephan <jstephan@baylibre.com> wrote:
 >
-> I don't think we should ever encourage the use of 'imply'
-> because it is almost always used incorrectly.
+> > Hello,
+> >
+> > This series tries to fix several issues found on the ad7380 driver abou=
+t
+> > supplies:
+> >
+> > - vcc and vlogic are required, but are not retrieved and enabled in the
+> > probe function
+> > - ad7380-4 is the only device from the family that does not have intern=
+al
+> > reference and uses REFIN instead of REFIO for external reference.
+> >
+> > driver, bindings, and doc are fixed accordingly
+>
+> I considered a few responses to this series.
+>
+> 1) Asking you to pull the fixes to the front even though it would be pain=
+ful.
+> 2) Asking if the missing supplies patch should really be tagged as a fix.
+>
+> In the end I opted for the variant that may just confuse the stable folk
+> the most and just took it as is + added stable to the 3 fixes.  Hopefully
+> it will be obvious they should just pick up all 5 (or maybe not the docs)=
+.
+>
+> You are correct that the refactors make it easier to review the fixes
+> and this is a fairly new driver so I'm not that worried by pushing back t=
+he fix
+> as it's only to 6.11.
+>
+> Applied to the fixes-togreg branch of iio.git.
+>
+> Note the side effect of this is timing is tight for having this available
+> in the char-misc-next branch, so it may push back additional device
+> support until next cycle.
+>
+> Thanks,
+>
 
-If we are able to delete the 'imply' keyword, Kconfig would be a bit cleane=
-r.
+Thank you!
 
-In most cases, it can be replaced with 'default'.
+Cheers
+Julien
 
-
-
---=20
-Best Regards
-Masahiro Yamada
+> Jonathan
+>
+> >
+> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > ---
+> > Changes in v3:
+> > - Use fsleep instead of msleep
+> > - Add all trailers from review
+> > - Link to v2: https://lore.kernel.org/r/20241021-ad7380-fix-supplies-v2=
+-0-2ca551b3352a@baylibre.com
+> >
+> > Changes in v2:
+> > - Fix kernel test robot warning about variable uninitialized when used =
+[1]
+> > - drop commit removing supply description in bindings
+> > - after discussion on [2] we decided to add refin supply here, as it
+> >   will be needed in the futur
+> >
+> > - Link to v1: https://lore.kernel.org/r/20241007-ad7380-fix-supplies-v1=
+-0-badcf813c9b9@baylibre.com
+> >
+> > [1] https://lore.kernel.org/oe-kbuild-all/202410081608.ZxEPPZ0u-lkp@int=
+el.com/
+> > [2] https://lore.kernel.org/all/20241015-ad7380-add-adaq4380-4-support-=
+v1-0-d2e1a95fb248@baylibre.com/:warning
+> >
+> > ---
+> > Julien Stephan (5):
+> >       dt-bindings: iio: adc: ad7380: fix ad7380-4 reference supply
+> >       iio: adc: ad7380: use devm_regulator_get_enable_read_voltage()
+> >       iio: adc: ad7380: add missing supplies
+> >       iio: adc: ad7380: fix supplies for ad7380-4
+> >       docs: iio: ad7380: fix supply for ad7380-4
+> >
+> >  .../devicetree/bindings/iio/adc/adi,ad7380.yaml    |  21 ++++
+> >  Documentation/iio/ad7380.rst                       |  13 +-
+> >  drivers/iio/adc/ad7380.c                           | 136 ++++++++++++-=
+--------
+> >  3 files changed, 110 insertions(+), 60 deletions(-)
+> > ---
+> > base-commit: 1a8b58362f6a6fef975032f7fceb7c4b80d20d60
+> > change-id: 20241004-ad7380-fix-supplies-3677365cf8aa
+> >
+> > Best regards,
+>
