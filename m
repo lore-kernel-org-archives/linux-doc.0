@@ -1,126 +1,100 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933FB22318;
-	Wed, 23 Oct 2024 06:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F70156257;
+	Wed, 23 Oct 2024 07:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729666635; cv=none; b=IVcueVnDzAAQi2HOm0P8v73DXh0iAeNYgwoVUPOUXFeMRFXLHfMLkRcNn/GUBZMu05R/fEOkTUMUIVW5rF9k9qGdCLVdJhoNFAB9SMdItPs6Nz5KxGg1GwkLLiPjjHLqW+lZLrIeB0VIDV/HLZEnFsypY2lJl/S5yAr1pC5+5eI=
+	t=1729667200; cv=none; b=O3ywPD6RBjq7+pdNtMOH0KG5j4EqcE5PJ2bp3bgg1qGjKkc1TtBTqRiwQok3ymsmV67TEKhMtNvXTdrnAbgzlWkEvePsKGQMJopBVx+olicbW6pQri8WIu0pTm8wvk3r+N88ZoqN8tpGjgJ/hj2ANhlXvKi/KhGCIqGxH52DCsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729666635; c=relaxed/simple;
-	bh=VmCtvk6V8OmkJ5K/HWEg0c66PD8WlfznLpqAXnbKgG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gx5E5oQxmC/UcKP8Zmjx0XFC3BS4OQU0bzLl723LDFU19U9vqQ7ZoeIwjbOlwXDMjAC5KKSL6lls0M7o4g9zycK4SLDmOzZACTMDgNBkkogb3IsaBekBL9uNxFoVMS2OzjN6FV7WffdBiLlBjDKli4z7KS9mjVROZUvT/wA1Tc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lsy/4TzI; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729667200; c=relaxed/simple;
+	bh=cUjvW1wTsKGH7I8VyS4QMqzWOtCeG2GqAEWy+jvkqjY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BgLSSjrIbdPrjcxIiWKA3FjLR9cQ+YBY0MEkvToHO88kC0njDg9EdvA+FD0FKK/3wIkLuNb+b4RAOIN7kcU9gp9NU9LYBhyYrGz7fqtCNsexK2/SS+iHXPVIl/ZsZXOS4TPf4/ritVcGoWSRzjSGJIe03IUQE11+wr3TloYtLyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6mu6TY+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lsy/4TzI"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71e93d551a3so4595678b3a.1;
-        Tue, 22 Oct 2024 23:57:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729666634; x=1730271434; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OTIVgmSCTxAjeufxAhXv87pU0k2+WfMQxkIbDxZyExg=;
-        b=lsy/4TzIqO0IUO/PEKWBsOcfKKEwQn+sZpiCh8NsOKfCalkMLsHbRVXT2zZ2IL2kEG
-         9B7kwquTuado61+lJHdb4JqG30njsLVx8EdJbCkeno1JhVZ2m5hzIHfZ39jYDCLmclZj
-         vMpNTzKhbxHalEq/ALfyQrkFPkO8bHlNgqYH+nJosfTsnopo33kOnRmF5YnYfSVWkcWL
-         KiGorZtuY2UpnuCvJBFTOQfNcRnaOwjMp2ZFpqKXE+VxJ82ctrzw05tXwW3tV8qAeedB
-         rP64sVFoCCbSXCFw25UYrFSObu4ZkUbW3oMaTBXFDRQdsILQoUZTk9i48nYrhpuQo1Dy
-         ZAVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729666634; x=1730271434;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OTIVgmSCTxAjeufxAhXv87pU0k2+WfMQxkIbDxZyExg=;
-        b=V/GP2MQirUajNjQVQm0O3TnoH6Po0DRzrjioj1D9TmIPrYXSEDb312mj9eCk+swKZT
-         MbL2O/uaGAtM3t7uPNnkPLjF43WaLEhPUU7J/M9DhzH0KtZwh+w8kwodd9PJzz3rioPj
-         KoOkyi/uZwyGC+PGLtAObmPD11UoIgLJBD29jhOSvKSrhxldQvnGvHIoKfgPmrj29FIF
-         1zJ+aPX3Tshfl45r0CX4DYlW3p71y/2uc0ab8Ofu1T+aCNMYw4GXXlTyXYJN1VajG8qf
-         OATSl6cvidOqCNuSWmAJJzEZqyUu77XA+sxwVwnH4kfkBGJ4Lf3120tmtB5XfbprtOgX
-         K+7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW0aTZagB/w/AFktKjn2536sQBMG/Q+jUOFMtfrNRdrb5pIqdycEI/nOzBbSk/z8Chj2/CKBt1FlAsrUxk=@vger.kernel.org, AJvYcCWa+lZVwLB2UdQL//O+syUjLkd6J44IEL8hQurXAXdCS6ImjRDCPQV417RkDKVdHa9oFzMr5rIub90WCOU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxEDMkfalsum0IW5fF4eN4KAYzqm4IkO6NmBmhObcR2Qqmv5tQ
-	Fym7a4i0MNTk3iKeF2x7Z6HBbTZqF/Y8Ef1Rp0GXL+pSRrZ1AWjY
-X-Google-Smtp-Source: AGHT+IFIDWh7p+QxP4vOovIpqinmoWSh3kYTxqjFxl6iJptJMHcOZpQbK6c8z/jqu8AvDF6b6nI6/g==
-X-Received: by 2002:a05:6a21:10a:b0:1d9:13ba:3eef with SMTP id adf61e73a8af0-1d978b3dd0fmr2004330637.26.1729666633734;
-        Tue, 22 Oct 2024 23:57:13 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec13ea279sm5683088b3a.168.2024.10.22.23.57.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 23:57:12 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id E58F64396281; Wed, 23 Oct 2024 13:57:08 +0700 (WIB)
-Date: Wed, 23 Oct 2024 13:57:08 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	hverkuil-cisco@xs4all.nl, mauro.chehab@linux.intel.com,
-	kernel@collabora.com, bob.beckett@collabora.com,
-	nicolas.dufresne@collabora.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH RFC v2 0/3] Documentation: Debugging guide
-Message-ID: <ZxieRCN8rFfgZGS8@archie.me>
-References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
- <20241022152316.yr6jpjtcwidxytpe@basti-XPS-13-9310>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6mu6TY+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD336C4CEEA;
+	Wed, 23 Oct 2024 07:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729667199;
+	bh=cUjvW1wTsKGH7I8VyS4QMqzWOtCeG2GqAEWy+jvkqjY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=r6mu6TY+k/tA38zp47MTMaUVE6oCizdBoZvZEiKtO65vJF+Fe58GmMna6LMXMvWnZ
+	 JLLJel5kp+qxM+/inz3VBb7X4HfItgg3xN3Bfn2APhI1FxzhybFEjZ036jABotn2BS
+	 xnGg3Nvy8b3zRWM2/JqYkHamghNxbldg3EtxGBgiYv4AbY+G6Ln7/wJTZ3B8Po9z6g
+	 Z1i9hYsuxpzFqTOos1rsP/Edvmxbz0Z6/as5e8MmLjUx68R/EP0+oKbmI6z8gCWx16
+	 dnK7YYBy8+KfEihEvLVt4OxOVkD8zblrncWw/SugBJStTVkU0z1FdWjMi8ceSFD5fL
+	 bSrSAoezAATtg==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539f53973fdso493658e87.1;
+        Wed, 23 Oct 2024 00:06:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVFpGrrPoWU2xL3ixUed5/c9+M3VixjEIEuL4KIMEaD9yUVRxTqOOSGMFOjbDG0FQJRUuo2uIUf6i4WZKqg@vger.kernel.org, AJvYcCVOCw9rdZRVqk0wXXGExtG5wBWsEm2yEePkg6CGEm4ubIhBLKYq8ymCNwgZzJ5oO6uXiOJcA/2IXHj+@vger.kernel.org, AJvYcCVtpdiZmmM2SGAld1nEsu7+12Q76Gm7gnDU3RJCbbDXJWFZmp/t8G+ux7iNYKHZxOZYJceFC0jsD3O2Dgyl@vger.kernel.org, AJvYcCWZOtmj+AGY5oKroHp0msiRM9h1scBOGqgoxh2ntEerM5LLor0Hg2E+XwgUzD1JGBDMT96HQB+g8j7I@vger.kernel.org, AJvYcCXYwjgqSC2PnnH23vOsB5ItDhU2XSouRuLjOIcTYbP5zIBS7tfOvHjgQlfs1XCohPqKKl/rKiBxts40@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMYoL0WLi+87SW8rJdIoaFm3evY6MXXyydcMR+OIau8v1I+ODT
+	M0o9uqzRkJWGc1MILSkXEUaBt445cMyrgcOJdH/h2CC5Rv4bWTqCS3LCwLTAiXDPMTG0Xq+Ve8b
+	91yK2sJfdytM+uJkpipsIoPiWq2g=
+X-Google-Smtp-Source: AGHT+IHZZgwVgaRO2Hdyj/zbCtAei+RMhbCGrZN9DeetcAzH9eNLU1+5ofJFfDj8eJ/Gl5I1LCwT7/RZ/5W1ROK9gGg=
+X-Received: by 2002:a05:6512:2812:b0:539:f6b1:2d05 with SMTP id
+ 2adb3069b0e04-53b1317f334mr2048779e87.9.1729667198330; Wed, 23 Oct 2024
+ 00:06:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="M6STrdpKMW46XULc"
-Content-Disposition: inline
-In-Reply-To: <20241022152316.yr6jpjtcwidxytpe@basti-XPS-13-9310>
-
-
---M6STrdpKMW46XULc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-7-xur@google.com>
+ <CAK7LNARfm7HBx-wLCak1w0sfH7LML1ErWO=2sLj4ovR38RsnTA@mail.gmail.com> <CAF1bQ=Qi9hyKbc5H3N36W=MukT3321rZMCas0ndpRf0YszAfOA@mail.gmail.com>
+In-Reply-To: <CAF1bQ=Qi9hyKbc5H3N36W=MukT3321rZMCas0ndpRf0YszAfOA@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 23 Oct 2024 16:06:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQr_EusZyy-dPcV=5o9UckStaUfXLSCQh7APbYh15NC3w@mail.gmail.com>
+Message-ID: <CAK7LNAQr_EusZyy-dPcV=5o9UckStaUfXLSCQh7APbYh15NC3w@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] Add Propeller configuration for kernel build.
+To: Rong Xu <xur@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Stephane Eranian <eranian@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 22, 2024 at 05:23:16PM +0200, Sebastian Fricke wrote:
-> On 24.09.2024 10:45, Sebastian Fricke wrote:
-> > The RFC contains:
-> > - a general debugging guide split into debugging for driver developers =
-and
-> >  debugging from userspace
-> > - a new summary page for all media related documentation. This is inspi=
-red by
-> >  other subsystems, which first of all allows a user to find the subsyst=
-em
-> >  under the subsystems page and secondly eases general navigation throug=
-h the
-> >  documentation that is sprinkled onto multiple places.
-> > - a guide on how to debug code in the media subsystem, which points to =
-the
-> >  parts of the general documentation and adds own routines.
->=20
-> I wanted to give this a little push, so far I have received a lot of
-> good feedback but none from the core and documentation folks. What do
-> you think about this?
+On Tue, Oct 22, 2024 at 9:00=E2=80=AFAM Rong Xu <xur@google.com> wrote:
 
-Address all reviews then reroll (maybe as non-RFC series).
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +
+> > > +Configure the kernel with::
+> > > +
+> > > +   CONFIG_AUTOFDO_CLANG=3Dy
+> >
+> >
+> > This is automatically met due to "depends on AUTOFDO_CLANG".
+>
+> Agreed. But we will remove the dependency from PROPELlER_CLANG to AUTOFDO=
+_CLANG.
+> So we will keep the part.
 
-Thanks.
 
---=20
-An old man doll... just what I always wanted! - Clara
+You can replace "depends on AUTOFDO_CLANG" with
+"imply AUTOFDO_CLANG" if it is sensible.
 
---M6STrdpKMW46XULc
-Content-Type: application/pgp-signature; name="signature.asc"
+Up to you.
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZxiePQAKCRD2uYlJVVFO
-o3JqAQDJhBM5el/ZJxxkzFRi3Wb1thDGSpEp9V1vfmhkehIdbAD+K3avvP1asWGs
-zGg0qt5pEq8BYK0c0l3mpm2F3E3lkAA=
-=W4Be
------END PGP SIGNATURE-----
 
---M6STrdpKMW46XULc--
+--
+Best Regards
+Masahiro Yamada
