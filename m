@@ -1,69 +1,67 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0711CACF8;
-	Wed, 23 Oct 2024 16:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B163C1AB6F8;
+	Wed, 23 Oct 2024 16:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729701640; cv=none; b=IHqLZw2h3dQHKyH2KXiycpz2Mm6WpEBCNbQhYNICVyjrQ+wzgI/tmvibOK0hNCqdVXiop6Po+mlVi3u+2T+7T1YI1Bb+48fOjGjxR6KrSV78CUGTJRGxKPicQJ3eZ+GxjG/Gw8ws74a7hn6M06pygkaMubA2yRQhv8C/XPEAgq4=
+	t=1729702077; cv=none; b=PooeEEkFhJDoq4ZnSedZ7AqnbNDL79uw3rVgPlMIVTr9CtYpoYMODiKm3GICb3txaC6TrYk4/IWuN7ZdNBmQM7TzI30KVhMPXNGT1rGbQi+8moY4jVhRBPU0TjLhIk68JVqG3BgnmzqToH0UiVZx5bZmsqw/R11eOwIk6b+IF1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729701640; c=relaxed/simple;
-	bh=54QGwWlNRFN6JRrsvG5D9gz67puEZndbnNc4eG83ao0=;
+	s=arc-20240116; t=1729702077; c=relaxed/simple;
+	bh=mmiQZ3L89WBQ/VbA5HZ+3oDu2nJREkMgINMncEfWUwI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a6/TEYmqS26oRlrxcK4lhqwYwEB6Ah6fDd59hjhHs2mYghLqENkoOI+C3qQDa9EFXhrOFinMdfEAp/N9RwXbtHncjTXp16sX+c3ojhMkFXlHHyd+O5DlDHQVwHhEivPvHfFzEiGwF4ETj0osn+d6Ql6ZdpfXhBwaAoLUhZk2aoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a6ZgyLOH; arc=none smtp.client-ip=209.85.161.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bo6qPn+vhPX5poMdzkb5xsvnrKDDTlz3KGY+UENABnJriDazxpEpvVqGhmSZy+yYK9FDa1mqfs2ltoClZwX9dhQ304rppaOJXqDCEHj/GOKFCsnA349W8z4U6sX5i5Ybf7QmZsqLAsIbpBZLoZ6SCEcvz3Gz6f0Ehbw+RrJtlPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d7vl8CU2; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a6ZgyLOH"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5daa93677e1so3506336eaf.3;
-        Wed, 23 Oct 2024 09:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729701638; x=1730306438; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cFWgZPf+2ad6ln7/uArQuwrcvBNTfdTOyW57F7DPrSk=;
-        b=a6ZgyLOHHX5E8qj3IZ6Di0ppujx2Xhw4WtlsOwj+yHrU4RzDb9Zwz60buQlJWebK+R
-         sJi/4C4fLjaXOkjrbM5OE46tou/lQXTjECKnkO3AP0xa+lJ3eVMd+1VO17T8c6IZx2v0
-         oPHNw8dVfBv89ovlii4u0fifUtx5Px2YgYNMoMmTxkmpai+Hhxmt+HmbhyFXmCnXj35X
-         xPPrwqoBj3IUzHvb3b2noTnnx9c9BdtfOn8VvMwei7b8nXJpQIljSMH0cRvX30mrsoLw
-         hodygXCQMoqccTsgxrDW65rt7fGr0/tYOU6Xhpj3FxdDctzS6h/uuB6ZQseV2HF7NFbe
-         T3oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729701638; x=1730306438;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cFWgZPf+2ad6ln7/uArQuwrcvBNTfdTOyW57F7DPrSk=;
-        b=kxHCmWkoQUqgFE+A5S5YRNxNIY4LRXS+thNyN7CYAYMLVF2xSfQnrD/RMBtU91KUGQ
-         qNbiy20UU7IbS24izRhRlalngwNdwUeU5Ra6IspaREIIvYb0FVWELUw9ThVEfafnXkIO
-         laDuQktv14AmuqWjYoyPgDNHyg/d9EQkYb8f0KJvR7oOAiKuEZYxPeXoE5Edr5hX8q/E
-         FVstphjc9ZvlvPd1BT4pSBOgX5geq+XDUgAyBGTjUxLiDDeXaHlhldEg4eJmsthj8VpL
-         E0pY64wpSv14Y7E/vX0kihfGUwWHfbEIm0talwceEayzt2XFFQ93nLgA5KkLCPFbTABP
-         tZsw==
-X-Forwarded-Encrypted: i=1; AJvYcCVZUtbdz1uKEf1GK4xvs1A7bgi+8JVNPPeWJO5nLPTH0vhgKE3tQ4LsOSe9qTJtcvsH6SgrKta3zy5w@vger.kernel.org, AJvYcCVvJMzMra3CVqXkxLAiKUFAjqIMKkkdHOj1YC7nVeblPZiFZomK7bji4fRYYueh2mJ75EJWvfoXLxdd2IM=@vger.kernel.org, AJvYcCXp8cB1y6JV2trgCYgejXT1FeqndLYvS+6keVWTEyXNoXCrbdoWhVFtB1DJR1uFm+AbF9PtzWr51Km8@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFZZ4LaVAexruS4eUwlc8RYO4WBOHP05djoPpZrgYosy0HmAF8
-	Hz7ymwYr18TMuUJrcl3ZFQrw4YRorNt4ZLjeh25pXyYSUDZ8a2CN
-X-Google-Smtp-Source: AGHT+IG7F11Xn0lqOv4KGu/7iZ6iiyJgxaw95gini7m/8EETTNEt0NpX+bnA4fYd659ZxsoUWPTf8g==
-X-Received: by 2002:a05:6820:220e:b0:5eb:7e7c:5303 with SMTP id 006d021491bc7-5ebee4e83d5mr2716203eaf.2.1729701637583;
-        Wed, 23 Oct 2024 09:40:37 -0700 (PDT)
-Received: from raspberrypi ([2600:1700:90:4c80::f])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ebb7afc991sm1848679eaf.43.2024.10.23.09.40.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 09:40:36 -0700 (PDT)
-Date: Wed, 23 Oct 2024 11:40:33 -0500
-From: Grant Peltier <grantpeltier93@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: robh@kernel.org, linux@roeck-us.net, magnus.damm@gmail.com,
-	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] hwmon: (pmbus/isl68137) add support for voltage
- divider on Vout
-Message-ID: <ZxknAYim1Dojp13h@raspberrypi>
-References: <cover.1729646466.git.grantpeltier93@gmail.com>
- <422a40e992e047e250a3b1295503e3b81b5515ae.1729646466.git.grantpeltier93@gmail.com>
- <CAMuHMdWeqGvUZmTpo18oaOzYz1TEg97OuXyUSy9YJxmrWQWMBw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d7vl8CU2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729702076; x=1761238076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mmiQZ3L89WBQ/VbA5HZ+3oDu2nJREkMgINMncEfWUwI=;
+  b=d7vl8CU2lxyNcszfW2A5Kv/KumPpwxZ9W2Nkxu2dqHKcR2E2mc5Ilyi/
+   ugnoD5oUmcjivW3HUNCHknyBv/pNOGnrXpU58/9f6rbYY4LJRDmoKZfes
+   MQZ6lydews5dhSPqBhx6ZXnRofk4aiQZheXk2TnY2wapRz60m/Jhsp15Z
+   vCohZDIgUuHF2WcWUSEIaahCHiYblFv5dWr+USYdvn8Hv6K3mxvJOsZVq
+   fRKWgzYx2kaGJ1JooX6f+mX5kpQT+ewmpoyUR7sERnoXQFeZdWO4p7GDs
+   UBve65DcFH/RWDAIjmX39sp3qBRLT//02GSNKqMDt/v9pKclM1iUZGC7I
+   Q==;
+X-CSE-ConnectionGUID: 0G9vVKDTRKSOUoFeeH/srQ==
+X-CSE-MsgGUID: x9oU5cPPRi2WHCmZuC667A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="29410284"
+X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
+   d="scan'208";a="29410284"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 09:47:55 -0700
+X-CSE-ConnectionGUID: Swm1w9nFSIG9FP4egznOew==
+X-CSE-MsgGUID: M+UL1oY2S8GCFS+3nYGsIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
+   d="scan'208";a="84270827"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 23 Oct 2024 09:47:49 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t3eWR-000VB2-26;
+	Wed, 23 Oct 2024 16:47:47 +0000
+Date: Thu, 24 Oct 2024 00:47:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Li Li <dualli@chromium.org>, dualli@google.com, corbet@lwn.net,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
+	maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
+	cmllamas@google.com, surenb@google.com, arnd@arndb.de,
+	masahiroy@kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	hridya@google.com, smoreland@google.com
+Cc: oe-kbuild-all@lists.linux.dev, kernel-team@android.com
+Subject: Re: [PATCH v3 1/1] binder: report txn errors via generic netlink
+Message-ID: <202410240012.MJJTBFCx-lkp@intel.com>
+References: <20241021182821.1259487-2-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,66 +70,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdWeqGvUZmTpo18oaOzYz1TEg97OuXyUSy9YJxmrWQWMBw@mail.gmail.com>
+In-Reply-To: <20241021182821.1259487-2-dualli@chromium.org>
 
-Hi Geert,
+Hi Li,
 
-On Wed, Oct 23, 2024 at 09:34:36AM +0200, Geert Uytterhoeven wrote:
-> > [...]
-> > +       case PMBUS_READ_VOUT:
-> > +               ret = pmbus_read_word_data(client, page, phase, reg);
-> > +               if (ret > 0 && data->channel[page].vout_voltage_divider[0]
-> > +                       && data->channel[page].vout_voltage_divider[1]) {
-> > +                       u64 temp = DIV_ROUND_CLOSEST_ULL((u64)ret *
-> > +                               (data->channel[page].vout_voltage_divider[0]
-> > +                               + data->channel[page].vout_voltage_divider[1]),
-> > +                               data->channel[page].vout_voltage_divider[1]);
-> 
-> You are casting "ret" to u64 to force a 64-bit multiplication, as the
-> product may not fit in 32 bits. However, DIV_ROUND_CLOSEST_ULL()
-> does a 32-bit division on 32-bit platforms.  So this should use
-> DIV_U64_ROUND_CLOSEST() instead.
-> The sum of vout_voltage_divider[0] + vout_voltage_divider[1] might
-> not fit in 32 bits, so that should be changed to a 64-bit addition.
-> Unfortunately there is no rounding version of mul_u64_u32_div() yet,
-> so you have to open-code it.
-> 
-> > +                       ret = clamp_val(temp, 0, 0xffff);
-> > +               }
-> > +               break;
-> >         default:
-> >                 ret = -ENODATA;
-> > [...]
-> > +                       u64 temp = DIV_ROUND_CLOSEST_ULL((u64)word *
-> > +                               data->channel[page].vout_voltage_divider[1],
-> > +                               (data->channel[page].vout_voltage_divider[0] +
-> > +                                data->channel[page].vout_voltage_divider[1]));
-> 
-> Similar comments, but here the sum is the divisor, so you have to use
-> a full 64-by-64 division, using DIV64_U64_ROUND_CLOSEST().
-> 
-> > +                       ret = clamp_val(temp, 0, 0xffff);
-> > +               } else {
-> > +                       ret = -ENODATA;
-> > +               }
-> > +               break;
-> > +       default:
-> > +               ret = -ENODATA;
-> > +               break;
-> > +       }
-> > +       return ret;
-> > +}
-> > [...]
-> > +
-> > +       of_property_read_u32_array(child, "renesas,vout-voltage-divider",
-> > +                               data->channel[channel].vout_voltage_divider,
-> > +                               ARRAY_SIZE(data->channel[channel].vout_voltage_divider));
-> 
-> Shouldn't the return value be checked for errors different from -EINVAL?
-> 
+kernel test robot noticed the following build warnings:
 
-Thank you for your review! I will make the requested changes and submit a
-new version.
+[auto build test WARNING on staging/staging-testing]
+[also build test WARNING on staging/staging-next staging/staging-linus linus/master v6.12-rc4 next-20241023]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Best regards,
-Grant
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Li/binder-report-txn-errors-via-generic-netlink/20241022-022923
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20241021182821.1259487-2-dualli%40chromium.org
+patch subject: [PATCH v3 1/1] binder: report txn errors via generic netlink
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20241024/202410240012.MJJTBFCx-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410240012.MJJTBFCx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410240012.MJJTBFCx-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/android/binder_genl.c:160: warning: Function parameter or struct member 'context' not described in 'binder_genl_set_report'
+>> drivers/android/binder_genl.c:160: warning: Excess function parameter 'proc' description in 'binder_genl_set_report'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +160 drivers/android/binder_genl.c
+
+   149	
+   150	/**
+   151	 * binder_genl_set_report() - set binder report flags
+   152	 * @proc:	the binder_proc calling the ioctl
+   153	 * @pid:	the target process
+   154	 * @flags:	the flags to set
+   155	 *
+   156	 * If pid is 0, the flags are applied to the whole binder context.
+   157	 * Otherwise, the flags are applied to the specific process only.
+   158	 */
+   159	int binder_genl_set_report(struct binder_context *context, u32 pid, u32 flags)
+ > 160	{
+   161		struct binder_proc *proc;
+   162	
+   163		if (flags != (flags & (BINDER_REPORT_ALL | BINDER_REPORT_OVERRIDE))) {
+   164			pr_err("Invalid binder report flags: %u\n", flags);
+   165			return -EINVAL;
+   166		}
+   167	
+   168		if (!pid) {
+   169			/* Set the global flags for the whole binder context */
+   170			context->report_flags = flags;
+   171		} else {
+   172			/* Set the per-process flags */
+   173			proc = binder_find_proc(pid);
+   174			if (!proc) {
+   175				pr_err("Invalid binder report pid %u\n", pid);
+   176				return -EINVAL;
+   177			}
+   178	
+   179			proc->report_flags = flags;
+   180		}
+   181	
+   182		return 0;
+   183	}
+   184	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
