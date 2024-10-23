@@ -1,183 +1,178 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05olkn2079.outbound.protection.outlook.com [40.92.90.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBAF14B97E;
-	Tue, 22 Oct 2024 23:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.90.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729638763; cv=fail; b=CU3J0e0ripqsGwD+VT+/E7bi0+df7plaqnPXS6CMWYPxVItRjtk9SWB/nB0c7zTmFA9YNYsYmduSRFZ6rj9gHogKv8eRTJIGu0aA6jwdg6j2IJ9huASSsOq2bxF1xK1zCJrAXoFNWb4YxmqJlfKzszYXsH1Y8E7NGmGEIigVYRU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729638763; c=relaxed/simple;
-	bh=ZApoo+pGKZ1LviksPd+pJ5mRfAVmH/ld94+kG1e+VyQ=;
-	h=Message-ID:Date:To:From:Subject:Content-Type:MIME-Version; b=RkacTqY5DsP+H38RRDXw/YigYdk+lRYN6gDNp752SCLDokaO0dZzYfko4jEFMfq76Tuw3rvFgUTarXtzcfvYwgDcZZnTpnXbgiSFQl4Gs3y3LRdbTkjmoH3uJadrBMT2uMN+v0pb87qKJgTB7iFOswJ0rv1OpMrXz6ACF/wlRN4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=r9mirOaQ; arc=fail smtp.client-ip=40.92.90.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC461AAC4
+	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 00:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729644380; cv=none; b=HZrqbzsD8EWepm+V7X9m/z+t7JpJg0QvfXmUOSOyXI8FM72vskhBN2FAnJZQ8lL8AG44hGNyr1fTNs9gUO5LaZoFNTlwM0ADsPSkqSOJ630kStQ6rgBOItZo4G1UVK43FNuLBI3bVuCYmGfhwoZ1qNtGDRGZazOhHem49dASx+o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729644380; c=relaxed/simple;
+	bh=AwFPasjpqb3XFrQ+EU3pKzTQisB3kEoJsciOeoRSIrA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bNXx2ryCbnKBzK8X3v6RMXXkBOZkQswdQLhFDXtoiFN7mtawrbWfwGaJmHRmmALmatZt5AufOFPxe4GsplKKMUtZb2mRcAW5eRPEzCeSWe4NZQ3jXvqRTEd0ycw2R76yimBa0aVpHsWKm82DMPHCKbFQPhZbbVPkUPpYH2BUIA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pm7fWzL6; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="r9mirOaQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mOEo44HRllPfZhBQeuD1DmDJ8kqQ0DTh7UpkhP4zuSu4loP/bNlfkZyBJmhgMNhpJBNOiYfbTQt9hCNslPvJH+0k31mI9cSYXMea3q1bMnIVGUQH9udA6Odcoq5IPwOAqyIYloACzKNLSVEGoXmQROQ1vb7amzcF4KdiRKT0wDwKXMHroLGazWwrEEQYl+dlIKiWvYCO6qeiYheRKgyWELwVn5/mlbXfCzf78xNVi5IqiJbAO3ssCPCNfwDBkKrar0F6MLbycPRHnpAp2n63fefYXXgVgMywYifLhFW7H1XXyaaoYgMYG8vjREl8nVx1j0XW+yBR49K4Q+p0CBF4xA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+ExJBn0MmayV+FLczOqZGc4SeBAgwaJF8ipPMcKU4FU=;
- b=p4cyKbQi2IRGeYbdGrasaWFd+q+nMWsnrI0HC2DuaY4vC6BGsUDGthbInGe/lvf3J/HSlBWcjO5RRL5pvvN3Wd9pa59lTy0XU23Bl/hzTsqkCx2J9ujHjDrqEBMM95ObmQO8Rx5wK5Cy+OC7NbMnaN4sJzUeKOXQLdNkG+NIphmX72yduDNPIaXyrIT+TieJjqqR4kFge/BdFnlUaz8wtQSj50tYLbfn9t/bcYqu0ayLRv604PHAQObtAickl80hffJZtii15NBpkvBkCedoS9BBDF36mDPqXS08OQF/WWnH/5V4VzoDzWP9hjVSFRbECqo1bJZjUMei/6W8QLvL2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+ExJBn0MmayV+FLczOqZGc4SeBAgwaJF8ipPMcKU4FU=;
- b=r9mirOaQSxC6aoX+G0Gba9IXUPWUCFNSI1JC8UWOkeoeAw3jXJsv+jtYg3BZtUqXBzcmtkB7Na9jlnmI+kCY09uMPf8Zlv+0zbf1HQ+tWogq9YC/xXJq/HLqwYdfKFUvPnVdfVCDRSq87r5qeeaPFQnk+zTrt6jNbW2KLlOiIUj8uFi2ACCamQIyk1sqvPlExotKhyGUNDF4kIoFNnj3m1f0DQtm4QWqvMTHuIYPwmadRIYUFW3149WQrjGvkMGrkQnns00K0Syq096gkGGVIVvbfXt3WUxs6B0C7XIslqXG8he/7maDtyf1Z3Xbt7kqs5GlQtShYIvNY+Qwcp0lnQ==
-Received: from AM8P194MB1185.EURP194.PROD.OUTLOOK.COM (2603:10a6:20b:245::9)
- by VI1P194MB2146.EURP194.PROD.OUTLOOK.COM (2603:10a6:800:1c0::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Tue, 22 Oct
- 2024 23:12:37 +0000
-Received: from AM8P194MB1185.EURP194.PROD.OUTLOOK.COM
- ([fe80::c0f4:23da:8b07:c5ed]) by AM8P194MB1185.EURP194.PROD.OUTLOOK.COM
- ([fe80::c0f4:23da:8b07:c5ed%4]) with mapi id 15.20.8093.014; Tue, 22 Oct 2024
- 23:12:37 +0000
-Message-ID:
- <AM8P194MB1185EC77BD9AC01F139F9B67DC4C2@AM8P194MB1185.EURP194.PROD.OUTLOOK.COM>
-Date: Wed, 23 Oct 2024 01:12:35 +0200
-User-Agent: Mozilla Thunderbird
-Content-Language: pl
-To: johannes@sipsolutions.net, corbet@lwn.net,
- linux-wireless@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-doc@vger.kernel.org
-From: =?UTF-8?Q?=C5=81ukasz_Kimber?= <lukaszkimber@outlook.com>
-Subject: [PATCH] Fixed broken link to iw documentation page
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: WA2P291CA0038.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::8) To AM8P194MB1185.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:20b:245::9)
-X-Microsoft-Original-Message-ID:
- <e560dcbd-ea27-40e8-b7a8-6b80467744c6@outlook.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pm7fWzL6"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a9a26a5d6bfso890251666b.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Oct 2024 17:46:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729644377; x=1730249177; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DA7hqLuD0SjigMcr5CX7c/N2Gt0IuASV0oXAPrAxSYE=;
+        b=pm7fWzL6vO1NI4DfvTYAjk8E3RrvEcP0fDskncZBHMod6T7IB8aeJlpWyOi/dfl9y+
+         lPCwiiqPsH29vhQKZuxTlXHNNyihF93P+5BmefVqomypCa4Y+blUd0MGEKrvgThgyuWd
+         00PmnuzDwsT8qYIzlcb0kP4Ox5TrZ0u9s4xGQbct5tz7UJADrEkW5H/OKFZGNcsx86R/
+         vlsiiGSldZ1jCVRU71Yf5Qw5V8z+PvxELRmRNsFhzF6Fb6xPzC3AhQrPYKH0D0grgEi1
+         vtA22XkQqFuEdPiZzMyyvaNpu6zeBfXF2VWbqsL2xemSgl5onrwunI1kGeAhn/bDT1T3
+         KHMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729644377; x=1730249177;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DA7hqLuD0SjigMcr5CX7c/N2Gt0IuASV0oXAPrAxSYE=;
+        b=YQaE78GVAge79zjjTm9TzHhbFSlK6NCagD6rqIiND/E43OEa3wkTUT6XiQ4lK/3yEQ
+         4M9xT58rIUo/pmB3J7LQUpFJNe4XI9z0gHq9W2w3Sh8EdGdDWMalbxJeHftVB1VzpxHX
+         a/zz1/a03pvsi3r6G4qG/FpL7/3NyB1dJ9qcW2n/eoIoHmqikQa0eBCSU4WOtAVLa8SG
+         P7TphI3r0qJW519je+KqWyEcIlVnm3isAHLXhnVlL9yLZ33Nv5HrNd+1HMWDbFx4xHm+
+         9VlSS/N7JWJ7uaCMZBaRSaiBi4p7p1uj6swajVZ9ne6i3qPLUisbMPvQ2HGNTAgzGrNo
+         ya2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWo6vck/FQJaHtFd1aO9rY4PrKysf4hpplTJqd57djXH1zOTrf/KJ4vmfra27E/JwyQakocujaXuBU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1EBBHu/sTHmK4M14vzXqDRrLRZsESGKJ2avbfwGV31zkOVj+W
+	LmfevExn80gbzZ0JlVaSqzJ4h+I8cN93yaoeAabMBH7YYeVDL+35ofCbS8lPHRawawXyo9XTkuT
+	Oo/STUtHyrTI0YpYKqTfJPdilcdRpSsEKNyYm
+X-Google-Smtp-Source: AGHT+IGoIXJSAkpe8fqP9IrcYJDa0aJQe1g/26o/fr+1FgSNM3uCwl32CQGzeahCvVbb7An+pP6mrWo8wwZaJmOUvUU=
+X-Received: by 2002:a17:907:3fa6:b0:a99:c0be:a8ac with SMTP id
+ a640c23a62f3a-a9abf8b233amr58602066b.37.1729644377238; Tue, 22 Oct 2024
+ 17:46:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM8P194MB1185:EE_|VI1P194MB2146:EE_
-X-MS-Office365-Filtering-Correlation-Id: 591f1e35-b625-4efd-e2ed-08dcf2ef04d6
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799006|461199028|7092599003|6090799003|5072599009|19110799003|5062599005|8060799006|1602099012|10035399004|3412199025|440099028|4302099013;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UWlDemZTMklQYjhZZEw1aEdwNTRtK0ljRko1cWk1cHlWWWV0ZXZybDBjaVRJ?=
- =?utf-8?B?bW9tYzNEWXJPejFORmEzcUN4ZTVrT09Fc2lYaFlwWC90NlRNYUo0R2JaTVB0?=
- =?utf-8?B?N2ZlY3FVTjJERE8xNldzQi9VNVNaUjJZZXZNMUNqMzV2NHpIZEd1YTEwcFph?=
- =?utf-8?B?eWhWemNzdnVKRHBtSE91TjREWGFoazduWWw5L2JuWTdKZUJRTkYvL3BOMmxF?=
- =?utf-8?B?SjhYRC9temNLVGV4NEVMNHdFejFmdjFPZzZ5RDR4d2pMaWRvUnQ4US9XN255?=
- =?utf-8?B?RWt3T2ZoSTVJZ0grN2x3YmFZc21YMURGUGMyRUh4RTFXOFg1Sy83RlI2c1Ey?=
- =?utf-8?B?dmczQ1ViT2x3WldsZXp4TTRMNk1nV1N4cm9QMjI5Ym5NR3laTnA1SS85WkxS?=
- =?utf-8?B?eFF6UHloMEorcXNnTG5oY2VjU0IvZ29HVkJybUtobGhRSzRROGR3ZG13UWZk?=
- =?utf-8?B?Y0JNNThuQnQwamlkZG1wdmZzd1dtL3NxbENoSXJLTVdyR3ZoYXorcSsvYUt1?=
- =?utf-8?B?V3RHanRyRTF0TmpyMUkrS29Vemlrc2lKcFNjeEExbWJhai9hNy9xLzFUaUpO?=
- =?utf-8?B?TU0vYmVCOVB1U3dDNkZPeHpFdWdZZnE0RlFVTDRJaEZjeUdaUExuOFFLQ1ZG?=
- =?utf-8?B?eCsvM3dBT3hKYTcyYWV4aXRMU0p0Tk1SUjBTZGlhNUtBMFVOWjM1cTF3WFdG?=
- =?utf-8?B?dmN6dHczdGNqN1A1dE1oVXBvV013djExU3YxNW5oMUwwOWlMTjV3NnBoOExu?=
- =?utf-8?B?cHZTL21YVWFRRDg3Mit4bGFKWkpWaG9jVEhVZjRoZWpueC82V0FsSTU0eVRp?=
- =?utf-8?B?c0lVd1l0Q0krQTJDVWNFQ0lEUEdKRnJ4TWJuOHJvUTBsd2VTZytIb3hPbkh3?=
- =?utf-8?B?dG5UOVkrZ2RmMFhzdkM1anZrMFpDS2JWSjVQL1QvOStSZkNFaXFrRk1Pbisz?=
- =?utf-8?B?RXNzY1pPbi9mTWd0OXBsRmhTVCtyVkcrbHdSZFMxb0JMMUNiN3g1cFFqbjVw?=
- =?utf-8?B?ZmlTUCtwMTlrZzgrZmdoLzRRSXEwR1pPWHMrZVJYaFJYVG9VVHlyWVZmR3V5?=
- =?utf-8?B?NWFkb0ROYTNXNFFDd1FyVmxqTktsK1RLTmRGMWs3dVlaQzlsWGVLbjNzbFFQ?=
- =?utf-8?B?elR3dmMzMkR0cFNmWXdyK3RoUUZJcVk5bys4VEx6c0NYTGxuaHF0Y0xiOWFh?=
- =?utf-8?B?c2gvdzV6WnNkUDE5Q2I4M2h4SFRNU1ZZcGs4QTNKeHM5eDE0NHRveDI5Tlpx?=
- =?utf-8?B?WFc3NkFGdWRzZDFESFppMWVCcmlIYVVrMGhYN0R5RkZ4VDZpTHFhUzFuc1p5?=
- =?utf-8?Q?N6kZ2EYD+i51s=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YllVaDhoTjlSVVBqVzZyNmhqYmt0Sk1FSnM3WEJQYVhwZWFibnp0QzJEa0tL?=
- =?utf-8?B?ZGc4MU1NVnR4NVVqOUd5Wng2WnpaSGtxRThKalBKcmhMZTRES2kxdUM0c1Ay?=
- =?utf-8?B?SDM5V2JlbDVKQ0xZKzF3YTVNeW5zSzJON3ZIaGNIZnQ2YmJJWXE5dUk1Y2pJ?=
- =?utf-8?B?UzYzY2NqRW93N2c3Mk4zMEN3VVRMcDJsZWowTDhkcElDNU1pU1dyVXlqMWVu?=
- =?utf-8?B?YlJKeFFxSXhkRm13b3N6ZUk4dm9Sd1FwZGtCM3VBb2hCcXdrcTU2c0RxMVZZ?=
- =?utf-8?B?VTdSMXA5TWhBejk1RXRxU1JrdkNyeGYxNURINGZwVUpHaEtIUVlBRy9wNlZZ?=
- =?utf-8?B?TFVlemdTM214Yk5XaWxBalFYT1VFdm9kakpXWEVFblFLaWEyeHFjTXJCRlI1?=
- =?utf-8?B?cGh2b0ErWnNHTXVQR3JPaExtZTR3VUI5TDZCN1NMUEl6MDhQNFUzclNneDBj?=
- =?utf-8?B?MEtKZU5HL3BPQ3hVTSs4R0FIdnY0R3JBbVdsMkFRRlBIYUoyOGVFaFlpSEkv?=
- =?utf-8?B?Qy9kcHl0aEtWMzRib1RIZnFkdDB0aFhYK1NFZjd0bWRLZ3Y1cDRvZ0gwQlE4?=
- =?utf-8?B?QzBmMHgvM0JrZjN0Q2loV3ZzUDZRUzdwb3Y3MXdiMEF1ZHdUWWdlMlFtYnFI?=
- =?utf-8?B?SDZXdWptbFhwZmkreDRJajN4K3k4Q1BTOG1qemMydzZjUnBJWDVxZkgyaExv?=
- =?utf-8?B?ZTB6VDQwNGVRTWhISEx3UHluRHBRQWJnOUw2NFdYTUFaMmlkVGRwMHhhcVhS?=
- =?utf-8?B?bzFmeVhCUGxxck5DU00yc01pbXFPZVJzZXlDQU5sd2REZXFXUkFTdHhBU2Ri?=
- =?utf-8?B?R1VmNytJRXlnYmQ4cmN1bnBJL0pPTFdvWDhUeFRRdEpEa3ZJWlkvdUF1Qlor?=
- =?utf-8?B?UEtUa3BnYk1TSHpTV1QvK3MyVWtodVoxSW5Sc2hRaTlzMFZrak1FV0NpWGtW?=
- =?utf-8?B?MG9RNkJzTG5Va1FXZEtLU0xTYTdzN3VXOUg4TnhndG5nZ1dDWWExcml2M09F?=
- =?utf-8?B?aDVlaTcxbEV1dTB3UERhYzlaRlZtd01IN2RUUGkvaEhwcnhwQmxDQUJvSHNU?=
- =?utf-8?B?SjhHMW9KZU4rVGxqZ2FsWG5rMFIyRDhZMkhZczhtZlE4V202ejdzNGZTTmNM?=
- =?utf-8?B?S2puM1lWQlUrT3ZDWEt1M0Y1Sk55ZjUwV29LcFlHY3ZjNW54QXY4SzJjRk1K?=
- =?utf-8?B?KzFEQ2pUb2FKaCtCc29NZUZtZjVnZkVJbmNZenJkRFhGcmtGM0hVOWttL3Ju?=
- =?utf-8?B?NXJBS0YrQnJHd0k1L1V3dHl4RHFUV1NjS2RmWEpKRDIwcm4xWFBjZmhYZ3BJ?=
- =?utf-8?B?V1JZS0M5RXZZL2drM1NySzFpdUxEVkwvQnIzUFBENmxxcWwyR29VYTZQU2h3?=
- =?utf-8?B?b3ljRHdDMXU5OG1ocGVPY3NHUkxObmhXUGgyc1RmNUgvZnNjLzAwb1VSNXV5?=
- =?utf-8?B?OGE1ZEtMcnhJMVo3bzRRV29vRE5DVnVpb1lRQVBabWppYUVwTXg4YW90M2k3?=
- =?utf-8?B?c0IvbmdzMThySzBmRndzRm5iakZESFFzSnpQamozd0VXekdIdVVXd0l6dDdq?=
- =?utf-8?B?VXNHT1FLZnRXRmUzVjkxbUF2UUVuQktLVEdCVDB1QzBVNkZacHhOc2hQK2xP?=
- =?utf-8?B?NjBlUnZuZndEdGpCZFFQUTZZUWpuMHdVT1ZBVFVkU0kwVURicHlYR3NoTUEv?=
- =?utf-8?B?RjhVVmYraGNsMjFkN1pSREdLUnM4aXY5ckh3OVVhaWE4WVB5aWRuektKZ2p4?=
- =?utf-8?Q?/vzI+cQkIRk0xMZyZ4dqs6zdWKzj23VfiGwTvvM?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 591f1e35-b625-4efd-e2ed-08dcf2ef04d6
-X-MS-Exchange-CrossTenant-AuthSource: AM8P194MB1185.EURP194.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 23:12:37.4427
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P194MB2146
+References: <20241018105026.2521366-1-usamaarif642@gmail.com>
+ <20241018105026.2521366-2-usamaarif642@gmail.com> <CAJD7tkYEe10Xw-8azM-80pHv6YjvosZDHTdZfYttAuD5u1+s8A@mail.gmail.com>
+ <07e6018b-bc6f-4e1e-9bc3-07a4b5a384fc@gmail.com>
+In-Reply-To: <07e6018b-bc6f-4e1e-9bc3-07a4b5a384fc@gmail.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Tue, 22 Oct 2024 17:45:41 -0700
+Message-ID: <CAJD7tkaD0m7ciiy6Nj7CZb2_26Dv4T=2cRW7h728vLxczOVkYg@mail.gmail.com>
+Subject: Re: [RFC 1/4] mm/zswap: skip swapcache for swapping in zswap pages
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org, 
+	david@redhat.com, willy@infradead.org, kanchana.p.sridhar@intel.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, ryan.roberts@arm.com, 
+	ying.huang@intel.com, 21cnbao@gmail.com, riel@surriel.com, 
+	shakeel.butt@linux.dev, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Kairui Song <kasong@tencent.com>, 
+	Kairui Song <ryncsn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Fixed broken links that I found while browsing Linux wireless regulatory 
-documentation.
+[..]
+> >> @@ -1576,6 +1576,52 @@ bool zswap_store(struct folio *folio)
+> >>         return ret;
+> >>  }
+> >>
+> >> +static bool swp_offset_in_zswap(unsigned int type, pgoff_t offset)
+> >> +{
+> >> +       return (offset >> SWAP_ADDRESS_SPACE_SHIFT) <  nr_zswap_trees[type];
+> >
+> > I am not sure I understand what we are looking for here. When does
+> > this return false? Aren't the zswap trees always allocated during
+> > swapon?
+> >
+>
+> Hi Yosry,
+>
+> Thanks for the review!
+>
+> It becomes useful in patch 3 when trying to determine if a large folio can be allocated.
+>
+> For e.g. if the swap entry is the last entry of the last tree, and 1M folios are enabled
+> (nr_pages = 256), then the while loop in zswap_present_test will try to access a tree
+> that doesn't exist from the 2nd 4K page onwards if we dont have this check in
+> zswap_present_test.
 
-Signed-off-by: Lukasz Kimber <lukaszkimber@outlook.com>
+Doesn't swap_pte_batch() make sure that the range of swap entries
+passed here all corresponds to existing swap entries, and those
+entries should always have a corresponding zswap tree? How can the
+passed in range contain an entry that is not in any zswap tree?
 
----
-  Documentation/networking/regulatory.rst | 6 +++---
-  1 file changed, 3 insertions(+), 3 deletions(-)
+I feel like I am missing something.
 
-diff --git a/Documentation/networking/regulatory.rst 
-b/Documentation/networking/regulatory.rst
-index 3163650c242f..78d8e5001020 100644
---- a/Documentation/networking/regulatory.rst
-+++ b/Documentation/networking/regulatory.rst
-@@ -9,7 +9,7 @@ regulatory infrastructure works.
+>
+> >> +}
+> >> +
+> >> +/* Returns true if the entire folio is in zswap */
+> >
+> > There isn't really a folio at this point, maybe "Returns true if the
+> > entire range is in zswap"?
+>
+> Will change, Thanks!
+>
+> >
+> > Also, this is racy because an exclusive load, invalidation, or
+> > writeback can cause an entry to be removed from zswap. Under what
+> > conditions is this safe? The caller can probably guarantee we don't
+> > race against invalidation, but can we guarantee that concurrent
+> > exclusive loads or writebacks don't happen?
+> >
+> > If the answer is yes, this needs to be properly documented.
+>
+> swapcache_prepare should stop things from becoming racy.
+>
+> lets say trying to swapin a mTHP of size 32 pages:
+> - T1 is doing do_swap_page, T2 is doing zswap_writeback.
+> - T1 - Check if the entire 32 pages is in zswap, swapcache_prepare(entry, nr_pages) in do_swap_page is not yet called.
+> - T2 - zswap_writeback_entry starts and lets say writes page 2 to swap. it calls __read_swap_cache_async -> swapcache_prepare increments swap_map count, writes page to swap.
 
-  More up to date information can be obtained at the project's web page:
+Can the folio be dropped from the swapcache at this point (e.g. by
+reclaim)? If yes, it seems like swapcache_prepare() can succeed and
+try to read it from zswap.
 
--https://wireless.wiki.kernel.org/en/developers/Regulatory
-+https://wireless.wiki.kernel.org/en/developers/regulatory.html
+> - T1 - swapcache_prepare is then called and fails and then there will be a pagefault again for it.
+>
+> I will try and document this better.
 
-  Keeping regulatory domains in userspace
-  ---------------------------------------
-@@ -37,7 +37,7 @@ expected regulatory domains will be respected by the 
-kernel.
-  A currently available userspace agent which can accomplish this
-  is CRDA - central regulatory domain agent. Its documented here:
+We need to establish the rules for zswap_present_test() to not be
+racy, document them at the definition, establish the safety of racy
+callers (i.e. can_swapin_thp()), and document them at the call sites.
 
--https://wireless.wiki.kernel.org/en/developers/Regulatory/CRDA
-+https://wireless.wiki.kernel.org/en/developers/regulatory/crda.html
+>
+> >
+> >> +bool zswap_present_test(swp_entry_t swp, int nr_pages)
+> >> +{
+> >> +       pgoff_t offset = swp_offset(swp), tree_max_idx;
+> >> +       int max_idx = 0, i = 0, tree_offset = 0;
+> >> +       unsigned int type = swp_type(swp);
+> >> +       struct zswap_entry *entry = NULL;
+> >> +       struct xarray *tree;
+> >> +
+> >> +       while (i < nr_pages) {
+> >> +               tree_offset = offset + i;
+> >> +               /* Check if the tree exists. */
+> >> +               if (!swp_offset_in_zswap(type, tree_offset))
+> >> +                       return false;
+> >> +
+> >> +               tree = swap_zswap_tree(swp_entry(type, tree_offset));
+> >> +               XA_STATE(xas, tree, tree_offset);
+> >
+> > Please do not mix declarations with code.
+> >
+> >> +
+> >> +               tree_max_idx = tree_offset % SWAP_ADDRESS_SPACE_PAGES ?
+> >> +                       ALIGN(tree_offset, SWAP_ADDRESS_SPACE_PAGES) :
+> >> +                       ALIGN(tree_offset + 1, SWAP_ADDRESS_SPACE_PAGES);
+> >
+> > Does this work if we always use ALIGN(tree_offset + 1,
+> > SWAP_ADDRESS_SPACE_PAGES)?
+>
+> Yes, I think max_idx = min(offset + nr_pages, ALIGN(tree_offset + 1, SWAP_ADDRESS_SPACE_PAGES)) - 1;
+> will work. I will test it out, Thanks!
 
-  Essentially the kernel will send a udev event when it knows
-  it needs a new regulatory domain. A udev rule can be put in place
-@@ -58,7 +58,7 @@ Who asks for regulatory domains?
-
-  Users can use iw:
-
--https://wireless.wiki.kernel.org/en/users/documentation/iw
-+https://wireless.wiki.kernel.org/en/users/documentation/iw.html
-
-  An example::
-
--- 
-2.44.0
-
-
+Might need to split it over two lines.
