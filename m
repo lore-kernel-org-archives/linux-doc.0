@@ -1,187 +1,137 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19DFB1CB536
-	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 16:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0711CACF8;
+	Wed, 23 Oct 2024 16:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729700670; cv=none; b=Ln5DKS77VZouvJgSCWeSqi1qaDp1l/yoMjekPs6hdoLSfmC9/l3aZARtWhn02IfcWPJHqmUeC+ZRuhcAJBDoq6uOFL9L1tmasi3OUisUrmZYg3wy8hG+Xn/1s/oojQJ11kwkiCUePsE75LJnw9rO6MsbVqEYiT6z7ul4hKLz6Xw=
+	t=1729701640; cv=none; b=IHqLZw2h3dQHKyH2KXiycpz2Mm6WpEBCNbQhYNICVyjrQ+wzgI/tmvibOK0hNCqdVXiop6Po+mlVi3u+2T+7T1YI1Bb+48fOjGjxR6KrSV78CUGTJRGxKPicQJ3eZ+GxjG/Gw8ws74a7hn6M06pygkaMubA2yRQhv8C/XPEAgq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729700670; c=relaxed/simple;
-	bh=pVwawjEv+bQna+TOyVmWLFrZU2pYiQZj6lUOy1p+DLA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mZNpRHaFSRRoE+WS/Zvkl2kv2qvJqSU2xemTuXEF8XDgOWl/nwAQdxrT/1NIoq3sMqaVEn/v0sVfI5eKuKjihyAir4qxzM2NqLsFrcImyu169Z+92V1UOjD0fHGCRCqj00s7XUjwmGfKjGii5d7ZTLfSIPANB9jq1pnZwgUJJkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kQPEtFQl; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1729701640; c=relaxed/simple;
+	bh=54QGwWlNRFN6JRrsvG5D9gz67puEZndbnNc4eG83ao0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a6/TEYmqS26oRlrxcK4lhqwYwEB6Ah6fDd59hjhHs2mYghLqENkoOI+C3qQDa9EFXhrOFinMdfEAp/N9RwXbtHncjTXp16sX+c3ojhMkFXlHHyd+O5DlDHQVwHhEivPvHfFzEiGwF4ETj0osn+d6Ql6ZdpfXhBwaAoLUhZk2aoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a6ZgyLOH; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kQPEtFQl"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-460969c49f2so379331cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 09:24:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a6ZgyLOH"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5daa93677e1so3506336eaf.3;
+        Wed, 23 Oct 2024 09:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729700668; x=1730305468; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3K3v255rwxrb6Xkn/WhIR8L6tyWLq3uTtuFWFOaL4e4=;
-        b=kQPEtFQl8SVSZOUnfG5nuxQ4FRWblcF9Li/GR4dlNwmIggc4Spvn2H5hUJ8Qlp2tPE
-         a/vYjA6ItZZknrkxTivK6qnM5ehJSw5OmKLkWiNM6KYW151lVRDDjFZ/2woJLJv+x7p2
-         idAcUHirNNCEMW8wC5YutkquXsN02K5BPx5SKiI1ukolxSp8yPkOUstmeT4bqckG+5dx
-         TKYPFhAeLalIvPJVqEetPLXovB6+hYR/1oxDVd+4A7COaogF2l3uwQ/udLV0y564pSmi
-         g2Q/wY8TUuXs5hvJ2ZPFLjIa38T646MDsnmMWPQ0lZWgMQ4uJO767Ms2mtw1mEQh5rPD
-         QzvA==
+        d=gmail.com; s=20230601; t=1729701638; x=1730306438; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cFWgZPf+2ad6ln7/uArQuwrcvBNTfdTOyW57F7DPrSk=;
+        b=a6ZgyLOHHX5E8qj3IZ6Di0ppujx2Xhw4WtlsOwj+yHrU4RzDb9Zwz60buQlJWebK+R
+         sJi/4C4fLjaXOkjrbM5OE46tou/lQXTjECKnkO3AP0xa+lJ3eVMd+1VO17T8c6IZx2v0
+         oPHNw8dVfBv89ovlii4u0fifUtx5Px2YgYNMoMmTxkmpai+Hhxmt+HmbhyFXmCnXj35X
+         xPPrwqoBj3IUzHvb3b2noTnnx9c9BdtfOn8VvMwei7b8nXJpQIljSMH0cRvX30mrsoLw
+         hodygXCQMoqccTsgxrDW65rt7fGr0/tYOU6Xhpj3FxdDctzS6h/uuB6ZQseV2HF7NFbe
+         T3oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729700668; x=1730305468;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3K3v255rwxrb6Xkn/WhIR8L6tyWLq3uTtuFWFOaL4e4=;
-        b=RLQjC0IswuScArceqbYipjJfVVe8HidHKi679mAXVjz6gR8avVh9boDKC/gu8c4owZ
-         yGtYG0K/l74h6nwjSs/47XPpMZ4Utjf38MWDgu3RE95io7bArkAKJiBkXhqjKKMOpdrG
-         6yz4wZi9cYKyBJtV6Q8ul+qjxfSGAoqjjOIEh7CBIUgp87L5Gi+kJEY+/r73/BINCrgO
-         Wfm1rCQPK6v6htsNOOrfHAbxfifQuUPsdMYLUHiMQya0+vSfVA02nF7MmpKUfHlIwNYA
-         H/QjuboNpP0vmOkI8ja8+HvYZHugk2Q6RbVpTtXY77v1hwm2EXG4UkWOTOhD3rl+1LXe
-         8e6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUba8uUk3oMp/vrq5O9B7EU1O7JiK0gd8wFXNkLFtIhdEulMLsMEu2w3o3XhWeQ4i++Gs+9IcMHnjA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMthCQ5d2R7yDRm9a2KuMsuocBlhaWHhM4Zy3QxokC0SYjGeZ+
-	lMbz6Cch6Crzw8Jg0E4+HByvsNYVJoEPgM0djcGptPcdaXCeFQkwHKw3mth/5YyyFAdap4DPi3H
-	317cFhkCovv1peUrAvNRo1XZs5FpDLSsDDuaD
-X-Google-Smtp-Source: AGHT+IH2imFVE/wFvhmVSrl3gRKWK7JMCBWJZCpQm7LLKLkfCbOmNxarfGKGqSg3+1hZSos8edhUHSKaLAIboEsXkAs=
-X-Received: by 2002:a05:622a:56:b0:460:49fd:6db0 with SMTP id
- d75a77b69052e-4612220c175mr534981cf.29.1729700667272; Wed, 23 Oct 2024
- 09:24:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729701638; x=1730306438;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cFWgZPf+2ad6ln7/uArQuwrcvBNTfdTOyW57F7DPrSk=;
+        b=kxHCmWkoQUqgFE+A5S5YRNxNIY4LRXS+thNyN7CYAYMLVF2xSfQnrD/RMBtU91KUGQ
+         qNbiy20UU7IbS24izRhRlalngwNdwUeU5Ra6IspaREIIvYb0FVWELUw9ThVEfafnXkIO
+         laDuQktv14AmuqWjYoyPgDNHyg/d9EQkYb8f0KJvR7oOAiKuEZYxPeXoE5Edr5hX8q/E
+         FVstphjc9ZvlvPd1BT4pSBOgX5geq+XDUgAyBGTjUxLiDDeXaHlhldEg4eJmsthj8VpL
+         E0pY64wpSv14Y7E/vX0kihfGUwWHfbEIm0talwceEayzt2XFFQ93nLgA5KkLCPFbTABP
+         tZsw==
+X-Forwarded-Encrypted: i=1; AJvYcCVZUtbdz1uKEf1GK4xvs1A7bgi+8JVNPPeWJO5nLPTH0vhgKE3tQ4LsOSe9qTJtcvsH6SgrKta3zy5w@vger.kernel.org, AJvYcCVvJMzMra3CVqXkxLAiKUFAjqIMKkkdHOj1YC7nVeblPZiFZomK7bji4fRYYueh2mJ75EJWvfoXLxdd2IM=@vger.kernel.org, AJvYcCXp8cB1y6JV2trgCYgejXT1FeqndLYvS+6keVWTEyXNoXCrbdoWhVFtB1DJR1uFm+AbF9PtzWr51Km8@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFZZ4LaVAexruS4eUwlc8RYO4WBOHP05djoPpZrgYosy0HmAF8
+	Hz7ymwYr18TMuUJrcl3ZFQrw4YRorNt4ZLjeh25pXyYSUDZ8a2CN
+X-Google-Smtp-Source: AGHT+IG7F11Xn0lqOv4KGu/7iZ6iiyJgxaw95gini7m/8EETTNEt0NpX+bnA4fYd659ZxsoUWPTf8g==
+X-Received: by 2002:a05:6820:220e:b0:5eb:7e7c:5303 with SMTP id 006d021491bc7-5ebee4e83d5mr2716203eaf.2.1729701637583;
+        Wed, 23 Oct 2024 09:40:37 -0700 (PDT)
+Received: from raspberrypi ([2600:1700:90:4c80::f])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ebb7afc991sm1848679eaf.43.2024.10.23.09.40.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 09:40:36 -0700 (PDT)
+Date: Wed, 23 Oct 2024 11:40:33 -0500
+From: Grant Peltier <grantpeltier93@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: robh@kernel.org, linux@roeck-us.net, magnus.damm@gmail.com,
+	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] hwmon: (pmbus/isl68137) add support for voltage
+ divider on Vout
+Message-ID: <ZxknAYim1Dojp13h@raspberrypi>
+References: <cover.1729646466.git.grantpeltier93@gmail.com>
+ <422a40e992e047e250a3b1295503e3b81b5515ae.1729646466.git.grantpeltier93@gmail.com>
+ <CAMuHMdWeqGvUZmTpo18oaOzYz1TEg97OuXyUSy9YJxmrWQWMBw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-6-xur@google.com>
- <CAK7LNAQ0RwJYkCXHj8QMH3sqXgY2LBTiYV8HnKD8oANB8Bb+Yg@mail.gmail.com>
- <CAF1bQ=RuLmO9S1W6ofmgVQZR7pBqR3iN7gCuUO2TkwGQwM76Kw@mail.gmail.com> <CAK7LNASB8WZACuQyQQWvjfODTHTrPrbWBNrP0nsMQkQhDr+Pug@mail.gmail.com>
-In-Reply-To: <CAK7LNASB8WZACuQyQQWvjfODTHTrPrbWBNrP0nsMQkQhDr+Pug@mail.gmail.com>
-From: Rong Xu <xur@google.com>
-Date: Wed, 23 Oct 2024 09:24:15 -0700
-Message-ID: <CAF1bQ=Q78Xr-ByjOYVVinCHtqSaMyVfHjHWgvPqN7+j3XTyGuA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] AutoFDO: Enable machine function split
- optimization for AutoFDO
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWeqGvUZmTpo18oaOzYz1TEg97OuXyUSy9YJxmrWQWMBw@mail.gmail.com>
 
-On Tue, Oct 22, 2024 at 11:50=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
->
-> On Tue, Oct 22, 2024 at 8:28=E2=80=AFAM Rong Xu <xur@google.com> wrote:
-> >
-> > On Sun, Oct 20, 2024 at 8:18=E2=80=AFPM Masahiro Yamada <masahiroy@kern=
-el.org> wrote:
-> > >
-> > > On Tue, Oct 15, 2024 at 6:33=E2=80=AFAM Rong Xu <xur@google.com> wrot=
-e:
-> > > >
-> > > > Enable the machine function split optimization for AutoFDO in Clang=
-.
-> > > >
-> > > > Machine function split (MFS) is a pass in the Clang compiler that
-> > > > splits a function into hot and cold parts. The linker groups all
-> > > > cold blocks across functions together. This decreases hot code
-> > > > fragmentation and improves iCache and iTLB utilization.
-> > > >
-> > > > MFS requires a profile so this is enabled only for the AutoFDO buil=
-ds.
-> > > >
-> > > > Co-developed-by: Han Shen <shenhan@google.com>
-> > > > Signed-off-by: Han Shen <shenhan@google.com>
-> > > > Signed-off-by: Rong Xu <xur@google.com>
-> > > > Suggested-by: Sriraman Tallam <tmsriram@google.com>
-> > > > Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
-> > > > ---
-> > > >  include/asm-generic/vmlinux.lds.h | 6 ++++++
-> > > >  scripts/Makefile.autofdo          | 2 ++
-> > > >  2 files changed, 8 insertions(+)
-> > > >
-> > > > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generi=
-c/vmlinux.lds.h
-> > > > index ace617d1af9b..20e46c0917db 100644
-> > > > --- a/include/asm-generic/vmlinux.lds.h
-> > > > +++ b/include/asm-generic/vmlinux.lds.h
-> > > > @@ -565,9 +565,14 @@ defined(CONFIG_AUTOFDO_CLANG)
-> > > >                 __unlikely_text_start =3D .;                       =
-       \
-> > > >                 *(.text.unlikely .text.unlikely.*)                 =
-     \
-> > > >                 __unlikely_text_end =3D .;
-> > > > +#define TEXT_SPLIT                                                =
-     \
-> > > > +               __split_text_start =3D .;                          =
-       \
-> > > > +               *(.text.split .text.split.[0-9a-zA-Z_]*)           =
-     \
-> > > > +               __split_text_end =3D .;
-> > > >  #else
-> > > >  #define TEXT_HOT *(.text.hot .text.hot.*)
-> > > >  #define TEXT_UNLIKELY *(.text.unlikely .text.unlikely.*)
-> > > > +#define TEXT_SPLIT
-> > > >  #endif
-> > >
-> > >
-> > > Why conditional?
-> >
-> > The condition is to ensure that we don't change the default kernel
-> > build by any means.
-> > The new code will introduce a few new symbols.
->
->
-> Same.
->
-> Adding two __split_text_start and __split_text_end markers
-> do not affect anything. It just increases the kallsyms table slightly.
->
-> You can do it unconditionally.
+Hi Geert,
 
-Got it.
+On Wed, Oct 23, 2024 at 09:34:36AM +0200, Geert Uytterhoeven wrote:
+> > [...]
+> > +       case PMBUS_READ_VOUT:
+> > +               ret = pmbus_read_word_data(client, page, phase, reg);
+> > +               if (ret > 0 && data->channel[page].vout_voltage_divider[0]
+> > +                       && data->channel[page].vout_voltage_divider[1]) {
+> > +                       u64 temp = DIV_ROUND_CLOSEST_ULL((u64)ret *
+> > +                               (data->channel[page].vout_voltage_divider[0]
+> > +                               + data->channel[page].vout_voltage_divider[1]),
+> > +                               data->channel[page].vout_voltage_divider[1]);
+> 
+> You are casting "ret" to u64 to force a 64-bit multiplication, as the
+> product may not fit in 32 bits. However, DIV_ROUND_CLOSEST_ULL()
+> does a 32-bit division on 32-bit platforms.  So this should use
+> DIV_U64_ROUND_CLOSEST() instead.
+> The sum of vout_voltage_divider[0] + vout_voltage_divider[1] might
+> not fit in 32 bits, so that should be changed to a 64-bit addition.
+> Unfortunately there is no rounding version of mul_u64_u32_div() yet,
+> so you have to open-code it.
+> 
+> > +                       ret = clamp_val(temp, 0, 0xffff);
+> > +               }
+> > +               break;
+> >         default:
+> >                 ret = -ENODATA;
+> > [...]
+> > +                       u64 temp = DIV_ROUND_CLOSEST_ULL((u64)word *
+> > +                               data->channel[page].vout_voltage_divider[1],
+> > +                               (data->channel[page].vout_voltage_divider[0] +
+> > +                                data->channel[page].vout_voltage_divider[1]));
+> 
+> Similar comments, but here the sum is the divisor, so you have to use
+> a full 64-by-64 division, using DIV64_U64_ROUND_CLOSEST().
+> 
+> > +                       ret = clamp_val(temp, 0, 0xffff);
+> > +               } else {
+> > +                       ret = -ENODATA;
+> > +               }
+> > +               break;
+> > +       default:
+> > +               ret = -ENODATA;
+> > +               break;
+> > +       }
+> > +       return ret;
+> > +}
+> > [...]
+> > +
+> > +       of_property_read_u32_array(child, "renesas,vout-voltage-divider",
+> > +                               data->channel[channel].vout_voltage_divider,
+> > +                               ARRAY_SIZE(data->channel[channel].vout_voltage_divider));
+> 
+> Shouldn't the return value be checked for errors different from -EINVAL?
+> 
 
->
->
->
-> >
-> > >
-> > >
-> > > Where are __unlikely_text_start and __unlikely_text_end used?
-> >
-> > These new symbols are currently unreferenced within the kernel source t=
-ree.
-> > However, they provide a valuable means of identifying hot and cold
-> > sections of text,
-> > and how large they are. I think they are useful information.
->
->
-> Should be explained in the commit description.
+Thank you for your review! I will make the requested changes and submit a
+new version.
 
-Will explain the commit message.
-
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+Best regards,
+Grant
