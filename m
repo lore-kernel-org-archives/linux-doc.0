@@ -1,101 +1,111 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7DC145FEB;
-	Wed, 23 Oct 2024 05:34:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0435E1474C5;
+	Wed, 23 Oct 2024 06:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729661657; cv=none; b=K35RyRdFh1eahei2Cg/RmspSDoYWuUdwKOmjJGrGyxSyDlt7Ni4ce2nFNLfdmj7bVau6QJf81C56LvsNzHSsxA8Y0t7SD9NmUz5gPwQAcX1gN9XO9pHbnY8PnRfUGWYQ83DuW4ih95cNxdyEzzDdJFmXtc+O9xGi2yziQD2QOCs=
+	t=1729663964; cv=none; b=E5TfmXuGWewA/eyONLxSx1r58zTEuTzf3HVamkR0r9GrgfOu86JbE1fwR2rTkUILyZavmKf5ySO7TVqogZ1ho7JWc0QLbByxglWA5HZe8A0OM5k3ZrOcec0mmA5zCxmovvif9x8M7tw2SRuOqMKFEkIpSRsNCdI2xxRq4ZmRMOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729661657; c=relaxed/simple;
-	bh=khqAKUaBlTUcj257l5qQoN0wPr87NJmbqzaFVDfK9sQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cfzkUq7CXvcfEKUfGtalRUz+RTFdTn1ECdiZHp7DlgF3UctlYkBynepgHW14Bqzzwo1ohBJq6UHj0irXJYDAPf0co3UpCC1d7/RtRO1RFCUWBCwY+HhDHuRK00l9LCRZFvSA8EDlQ8tatON2bFdYgbS4fQiEiLlv2l6i1YqgP/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F1u4qahk; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F1u4qahk"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2e2fb304e7dso5227666a91.1;
-        Tue, 22 Oct 2024 22:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729661656; x=1730266456; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a5VMbFcY6CEGa8mSQ8SIl+CmW5nmrRXjE9y4EUBsQZI=;
-        b=F1u4qahkl2HjRqj+i6cnU2UXOAR/dSVSEC2b1eAljia3e52JIq5nMqL89o9Mhkuj5o
-         HgSb7r9nXOmEESNzzPg2XqAwmiq5Taz2sDgKURPEvWqv3c3He6b8CcWQPUuj9KwzaAMM
-         VO/vQIlTCyKYTlaUHJV/xK8VpKhS6lTFl2gXnYCIkMIlCV1G4WVrWOC5E8StzTMEDiXv
-         FEcwvFGY5EFu38030o6VdQA4CGFqgwhrOatZf2rc8ppVgpA/+RwjmsiT3o6h6SLwomQD
-         C59ghFI1FFOWVWDSh7esh7F59tBDHQZyqQY7BSsZLgz6DNJoeUm79f+Y3KCUQvOlE3qs
-         YC/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729661656; x=1730266456;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a5VMbFcY6CEGa8mSQ8SIl+CmW5nmrRXjE9y4EUBsQZI=;
-        b=EEWi56oix+pPE9BUpxr5P2LVG7Sk1lK+H0oNCA7Y5yIiR05Erjs2OdvfenHs1wq189
-         ymJdw+nzvMnVNI949HO+mgRvnw3CTevxr/lE/9OHSMPZ8dcdQQijLF58y038nm70ytVs
-         kCoFHvFn18jpx1QrabUtF2EwJ9v23JEztNjq2DabLsR52nQvPNYUqJ2Uj++Y8exNR22E
-         JbdglpmwUcJq6s/y62ELvuQ4wY2FxtaclosZamAivwbgnIvxG0MUr0BBU2ee8nmSWH1w
-         orNj8Kw/Ne7zllDC/1seMjz6ZnM7ashT8CTybkPRQ4oYPse/8Izl4oP3Ty+lDObzIqFX
-         pxLg==
-X-Forwarded-Encrypted: i=1; AJvYcCU59tGjnJScD4wcEhQGGSgqLcPZM7eUMEjdUTyVzOspBREhyDYu8YSYEz1FjtiNcRhIQdEoGqQL/AuGIWpU@vger.kernel.org, AJvYcCX+o8QbAvEpFcSL6GpTjUo+x+4H5pJ9Y6GY1qRAOXiTBIRWLDBHeKkbRlF+FjcRI84pH9chhC00YsY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTa25GnbMXO6YD9Dzn5yAY0/ASxdfQOMGA+9oGOoUEmfS9LAuP
-	8Tz698fsKqs32xW1JTXIf9F1GmoBT0jqbEaVN++eABzPlyxah04X
-X-Google-Smtp-Source: AGHT+IFmpnftxB6HTXGUZIROek0Di1jrRQY9H0e03R+mkaok0KKf6SbvrWveY4qFXep/gNwiwsZuHA==
-X-Received: by 2002:a17:90a:fa0b:b0:2e0:d693:7884 with SMTP id 98e67ed59e1d1-2e76b5b5900mr1660262a91.5.1729661655717;
-        Tue, 22 Oct 2024 22:34:15 -0700 (PDT)
-Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:1c93:3e9d:2c84:d5f9])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e76e0877a6sm428695a91.54.2024.10.22.22.34.14
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 22 Oct 2024 22:34:15 -0700 (PDT)
-From: anish kumar <yesanishhere@gmail.com>
-To: ohad@wizery.com,
-	bjorn.andersson@linaro.org,
-	mathieu.poirier@linaro.org,
-	corbet@lwn.net
-Cc: linux-remoteproc@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: [PATCH V4 7/7] rpmsg: Documentation: update the path
-Date: Tue, 22 Oct 2024 22:33:57 -0700
-Message-Id: <20241023053357.5261-8-yesanishhere@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20241023053357.5261-1-yesanishhere@gmail.com>
-References: <20241023053357.5261-1-yesanishhere@gmail.com>
+	s=arc-20240116; t=1729663964; c=relaxed/simple;
+	bh=twiQzg1Oa5LTaB3x2sQsswtsvf3SR+HF2iDL0w8tdxc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iBC+wO5k3a8fQ+83jA1Tl2+i59MIF+8mlg5n8IoSkc+zxVZJybOMVl99BT4flnoh+jcWMyA4xyAdWhn2ybSGDVzDiDVaKsbUFT6qX9ISLzHQuz8B2J4utz17YqLtPuLUrCsyFf2ZWSoeorPB7ioXFXnx/ObnyuGUfIfqLolKe0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11B83339;
+	Tue, 22 Oct 2024 23:13:12 -0700 (PDT)
+Received: from [10.163.41.228] (unknown [10.163.41.228])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8ADE93F73B;
+	Tue, 22 Oct 2024 23:12:38 -0700 (PDT)
+Message-ID: <72700154-cbf4-4a0a-b6e2-6f0709dec0ce@arm.com>
+Date: Wed, 23 Oct 2024 11:42:37 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] arm64/boot: Enable EL2 requirements for
+ FEAT_Debugv8p9
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Brown <broonie@kernel.org>, kvmarm@lists.linux.dev,
+ linux-doc@vger.kernel.org
+References: <20241001043602.1116991-1-anshuman.khandual@arm.com>
+ <20241001043602.1116991-3-anshuman.khandual@arm.com>
+ <ZxfOeqyb3RvsdYbU@J2N7QTR9R3>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <ZxfOeqyb3RvsdYbU@J2N7QTR9R3>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Remoteproc documentation is moved from
-text file to reStructuredText file.
 
-Signed-off-by: anish kumar <yesanishhere@gmail.com>
----
- Documentation/staging/rpmsg.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
-index 1ce353cb232a..937cd2574584 100644
---- a/Documentation/staging/rpmsg.rst
-+++ b/Documentation/staging/rpmsg.rst
-@@ -5,7 +5,7 @@ Remote Processor Messaging (rpmsg) Framework
- .. note::
- 
-   This document describes the rpmsg bus and how to write rpmsg drivers.
--  To learn how to add rpmsg support for new platforms, check out remoteproc.txt
-+  To learn how to add rpmsg support for new platforms, check out remoteproc
-   (also a resident of Documentation/).
- 
- Introduction
--- 
-2.39.3 (Apple Git-146)
+On 10/22/24 21:40, Mark Rutland wrote:
+> On Tue, Oct 01, 2024 at 10:06:01AM +0530, Anshuman Khandual wrote:
+>> Fine grained trap control for MDSELR_EL1 register needs to be configured in
+>> HDFGRTR2_EL2, and HDFGWTR2_EL2 registers when kernel enters at EL1, but EL2
+>> is also present. This adds a new helper __init_el2_fgt2() initializing this
+>> new FEAT_FGT2 based fine grained registers.
+>>
+>> MDCR_EL2.EBWE needs to be enabled for additional (beyond 16) breakpoint and
+>> watchpoint exceptions when kernel enters at EL1, but EL2 is also present.
+>> This updates __init_el2_debug() as required for FEAT_Debugv8p9.
+>>
+>> While here, also update booting.rst with MDCR_EL3 and SCR_EL3 requirements.
+> 
+> [...]
+> 
+>> +  For CPUs with FEAT_Debugv8p9 extension present:
+>> +
+>> +  - If the kernel is entered at EL1 and EL2 is present:
+>> +
+>> +    - HDFGRTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
+>> +    - HDFGWTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
+>> +    - MDCR_EL2.EBWE (bit 43) must be initialized to 0b1
+>> +
+>> +  - If EL3 is present:
+>> +
+>> +    - MDCR_EL3.TDA (bit 9) must be initialized to 0b0
+> 
+> AFAICT we need TDA==0 this regardless of FEAT_Debugv8p9 (and e.g. we need
 
+That's because MDCR_EL3.TDA=0, enables access to many other debug registers
+beside FEAT_Debugv8p9, which are currently used and hence this MDCR_EL3.TDA
+=0 requirement is a not a new one but rather a missing one instead ?
+
+> MDCR_EL3.TPM==0 where FEAT_PMUv3 is implemented), so we should probably
+> check if there's anything else we haven't yet documented in MDCR_EL3.
+
+Will scan through MDCR_EL3 register and match it with existing documentation
+i.e Documentation/arch/arm64/booting.rst. If there are some missing MDCR_EL3
+fields which should be mentioned, will add them via a separate pre-requisite
+patch ?
+
+> 
+> [...]
+> 
+>>  .Lskip_trace_\@:
+>> +	mrs	x1, id_aa64dfr0_el1
+>> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
+>> +	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
+>> +	b.lt	.Lskip_dbg_v8p9_\@
+>> +
+>> +	mov	x0, #MDCR_EL2_EBWE
+>> +	orr	x2, x2, x0
+> 
+> That can be:
+> 
+> 	orr	x2, x2, #MDCR_EL2_EBWE
+
+Right, will change.
+
+> 
+> Mark.
