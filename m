@@ -1,188 +1,379 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2059.outbound.protection.outlook.com [40.107.223.59])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1291E4A4;
-	Wed, 23 Oct 2024 23:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729726129; cv=fail; b=G6vCXYodCBiI5bxhdzsgJxY2XUCr4hm2g0tB6f7wZwxZ+i5V8wES08AWNi1wTSRa9OQ6uwnmLWcF63xFD+NDElU+8KlLEk6plx0b+u8w02nOcMcD7OXJ4+bbNKqK5U7ZhLjrcnHetorXSENctbI7myH6ShkPRzZPLWZTAWzSoTM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729726129; c=relaxed/simple;
-	bh=p6OomAUV9HGXoju92/zq+03mL5y+hWqPP5erT7ufx1A=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 Content-Type:MIME-Version; b=Hqh/UNDboRrUDN0PAVWeskA8xjdm+2aEUByO+vWuGQuyBuW8SJIVTK6pbi5NkKFOa5MOjJRpZ1vyTxRoSHyHWrntTqrAQDMHU8ICTqhvLF2c6E9zDk+w6w0LCHuMskCRKWoLwAfO20QdA2cUAuiuZavJDSW9glsJYp0FAUnaW+8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Em9A4sjS; arc=fail smtp.client-ip=40.107.223.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7128A19AA46;
+	Wed, 23 Oct 2024 23:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729726565; cv=none; b=rmzJPl22yvKlqJicSpLpmeVOI3SujCXHyZu3wdOtf3eYDcDzdjJVUBtkqhYmR1mplqbaC9S8WBTfx3FV03vcEKmlfSDG+unLV+Buzl+Abd3YhgaybQF1eHfqVerJZP44BId+nv4mbO9TE5j3MQ4FNPYzPl/pGLroYsR4ZfMNxLQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729726565; c=relaxed/simple;
+	bh=9hrNOPgct4qBf+g9KbY+2dbnxgDlOeGhYewcrlWWH28=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LzztWwF6zD9nnLNEGcML9pVbv2XJZKnTzh0lffiNbXrHfmJNAoRRkUGsI02n7ep+m69Qf5nvb2Frcl8KNuoazhsLz+X844zp0FpBC+lg59hGzJVxpQvjtSMcKQC4kzuXgAa6O0dEpGA+YY5HnmSyvjJh/JDXWHQWg84uHyqYF+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K5kUs34/; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Em9A4sjS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pqUUtI9lX9WPyb9wfUts1vOVXMd+7W5vMv+JrRs5n2WlrKcSuScAk/f8U8SEGGDZQ6oJ6iIo6TCn4Pgm75EgpEw+9tg5+d3WGoXsM3wdVJ+c2uDOI8uo+mHLSaQztxtJ192Nv/ZE4o2fhRpx2TX7F6aA+FEwkWlL62BekaiCcItwmX08Z8YCsy0vdQsPC+45ql058heoOhrNX8XxbtWBxJf/Lu+Vhbrh8rFkyoHu/6HbmAse8x2DCQ5+uZm7qItw3W5l+xCf2q2NO7azJ42P1TW6exYkhaRftaTGli1+TXSwbOvEHEwqgKIj3suqbnY5o/u+wa8lBtGwayiz/GF1rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nohy9Hcljm57kXW2f2p0yj2WE3cNlsRCqRsNj3T7JbE=;
- b=jV3ZhU34PhcN2F8YNRkc3QxEbn3aZP8vCdmFaFxUbYVlZ1QW5S6cbr8fKtUAgI3Getc0eYgdUMpmsnGFJTeqAL+t8t3zhj49yjFOvEHnJPTtU09iIOQkcPDN9RhluAEu2eFM/WGwde4g1E+Pf+SkKgnudW2ZBud1giW+Z+oDdH3wVK1Lk6aQ5NZTQi2n7TFOxWeOlYwYIeDuKzGQQ7pYA4a44xYtN1zugXOJBiRL9cjRU7AC5+2MgVCYJMFoXlsGV/1CsOizuGV+qQCuumpuJYoc1fvkwO25dO8EAOuuB3IcDKsQhKGJKkC3q5z72iBRdai2+aITHr6IWn60gVcYqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nohy9Hcljm57kXW2f2p0yj2WE3cNlsRCqRsNj3T7JbE=;
- b=Em9A4sjSPeDffxJHoVwQaLV4TB8TLQKfa9bkPERmcZaj1JAxCshGhdS1ob+kvBFb6zGuLi2byjt7Sesc5QYuSGQ3boSmNAZHjzuupDa2AUID/pJl3i/iJd4NN2zvNEibMGyRJuDmAfiXZ4T1jyXdb0h8wG6HVaflFIrxiuMdJzRt2GR86X2MJS4wtAQ0twO4oQrjvUyVP/zLqaDmdf/FkxRR5DQEyv2bqjoZGuW033Y6Ouhwim5UvUs7AjIiGg7UNAXIGbOrxODqYf/ycAhdsscUG3YiJPcVFEvJgyXVtHoiy83TOzXI3qy4578kQdaDrzGTz+uaxakX/TyVSg7Vag==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- IA0PR12MB7505.namprd12.prod.outlook.com (2603:10b6:208:443::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.19; Wed, 23 Oct
- 2024 23:28:43 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%3]) with mapi id 15.20.8069.027; Wed, 23 Oct 2024
- 23:28:43 +0000
-References: <cover.9f0e45d52f5cff58807831b6b867084d0b14b61c.1725941415.git-series.apopple@nvidia.com>
- <b63e8b07ceed8cf7b9cd07332132d6713853c777.1725941415.git-series.apopple@nvidia.com>
- <66f61ce4da80_964f2294fb@dwillia2-xfh.jf.intel.com.notmuch>
- <87bjznnp6v.fsf@nvdebian.thelocal>
-User-agent: mu4e 1.10.8; emacs 29.4
-From: Alistair Popple <apopple@nvidia.com>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: Dan Williams <dan.j.williams@intel.com>, linux-mm@kvack.org,
- vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
- bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
- will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
- dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
- djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, david@redhat.com,
- peterx@redhat.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
- linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
- jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com
-Subject: Re: [PATCH 07/12] huge_memory: Allow mappings of PMD sized pages
-Date: Thu, 24 Oct 2024 10:14:18 +1100
-In-reply-to: <87bjznnp6v.fsf@nvdebian.thelocal>
-Message-ID: <875xpicsbd.fsf@nvdebian.thelocal>
-Content-Type: text/plain
-X-ClientProxiedBy: SY5P282CA0064.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:203::14) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K5kUs34/"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7163489149eso210925a12.1;
+        Wed, 23 Oct 2024 16:36:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729726562; x=1730331362; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=auq6NrV3v+InNziabZyjFj0YOrFI/wETtxHg8D9gjLk=;
+        b=K5kUs34/R2K2qUSvbgEURxm6yT5dR+AraGnC0HwGgOYNQb0jTBTHGzjgeaPqa0vi8Y
+         sNWe3EZKK3yzlCv77yjGsQY1kKTrkZiVQHPEZI75R2Wld2C6nJ4Sz0L3JVlzuU9rlWvh
+         jeFKveDfBp0nSlPVWEDbb5o2HlY7oeEoiqCgkaUGf0ghSWAtMQqWxE4rWu56lTbIq+jC
+         JDdL79fMEXcZcUXRF1TQmEIepcBjUgs304wxa53RIBLmstbAtQINNYX8ylAu6PXdZgWK
+         j/wCstG7KBrcxF5FMyIR7XaTgVG+08pm6Zaz86yKF1bxnSH4QSeei3p4Vc3Vu8aMRu1H
+         hndw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729726562; x=1730331362;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=auq6NrV3v+InNziabZyjFj0YOrFI/wETtxHg8D9gjLk=;
+        b=EDJxfap4bfpMzXMO7ff+tXgzO1fTMnnhrVAmrTB0GkYDRdDb4ovNnUD23dN1Tr9tt0
+         9cWoYZPc6m1Uz9gvRyah6xt6EcFdZSNiJ2AcPm6RMK1py0+0fJSreXcHh8Hf5JRNF8nJ
+         El3i51duDwEOkW+MM/oHarFBeurR6N3APaE7auMw5Pvy2uAm7XRKZZY2oDioixNJHO8I
+         lkDjaCQLNLPX4dHkV9i0rzeFZtAO1u3hBAThuu5MJ494H6WVCExVne2IguCkmIYQANVx
+         DJhfPWMOJ2ZEwx2aj9BsgVlgv8WDHKp8xqzL90idKb5RkGKwaPYsPWfYcvpPKyvfopaa
+         RMmA==
+X-Forwarded-Encrypted: i=1; AJvYcCWhzN5sfMNuOczGn/d7w/HKM25LgMwqe7hQux1oAXhbZljWE3vUYeDG5PBzaCmyBT1Crm/wVoTtQIs=@vger.kernel.org, AJvYcCWpFYIdFq7ThDMuEvz/DMvitQN3x4zQNOSK8EIrATU84gVo0XkZ5ErAF6x4xTVkPQUGfW/pF7aH5Ge74TsT@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx02mTPjkMxA7+pGYFUdX8Xb4zp+aIpxlYZ27b+OsCnrNbMrd66
+	fa/vk0la1DEBTn/3+nXkClTT3HWP4IGCbTJsJYUZYEZ3gpymo7B10AQ0ghsA
+X-Google-Smtp-Source: AGHT+IG2NysavPnCtCNUZPmECOIxySmlIQ34K4HjPj0hJ7205hPvwp7XWPyS0Rg8QcNB/V8/KZgvDA==
+X-Received: by 2002:a05:6a20:d50a:b0:1d9:4837:ad84 with SMTP id adf61e73a8af0-1d978b33ecamr5521145637.25.1729726561490;
+        Wed, 23 Oct 2024 16:36:01 -0700 (PDT)
+Received: from Barrys-MBP.hub ([2407:7000:8942:5500:3020:9cde:9371:3772])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eaeab1e5cdsm7415559a12.21.2024.10.23.16.35.53
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 23 Oct 2024 16:36:00 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: usamaarif642@gmail.com
+Cc: 21cnbao@gmail.com,
+	akpm@linux-foundation.org,
+	chengming.zhou@linux.dev,
+	david@redhat.com,
+	hanchuanhua@oppo.com,
+	hannes@cmpxchg.org,
+	kanchana.p.sridhar@intel.com,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	minchan@kernel.org,
+	nphamcs@gmail.com,
+	riel@surriel.com,
+	ryan.roberts@arm.com,
+	senozhatsky@chromium.org,
+	shakeel.butt@linux.dev,
+	v-songbaohua@oppo.com,
+	willy@infradead.org,
+	ying.huang@intel.com,
+	yosryahmed@google.com
+Subject: Re: [RFC 0/4] mm: zswap: add support for zswapin of large folios
+Date: Thu, 24 Oct 2024 12:35:48 +1300
+Message-Id: <20241023233548.23348-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <cb3f67c3-e8d3-4398-98c9-d5aee134fd4c@gmail.com>
+References: <cb3f67c3-e8d3-4398-98c9-d5aee134fd4c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|IA0PR12MB7505:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a9e3bcb-56ce-46b3-4e8a-08dcf3ba6ec6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?cM+8r+Sz5S2zwdbr1hMRQ57nsn52BCEPegtEaMPoMwmJ+lI+cClHLNVtRzKE?=
- =?us-ascii?Q?USZLUe4ovT34V+KZMRRWE6WyTyUji0sOqpz7yawotkqGuZ3u0CxIZVANb0RX?=
- =?us-ascii?Q?T0FVHNrWbMZ867Lem1LibgeiKZf8ii5ZMZU4PBFPq01SSQbFmEY3ggUs68lF?=
- =?us-ascii?Q?JfqyNBHkr8L1ElK2w6XHhURJDOrQnoDFU64OkWOOeAT9XB6XsJKCKH1+Rk4L?=
- =?us-ascii?Q?xyQYRYsxTx3MHkiIgY7dj701JT0kyoytBqBh1yUVOcWdT6AjdzUClKJyCHQ7?=
- =?us-ascii?Q?q5n/T2i7XuYPNR7riUxn7ZAzvpsBQDP9gSgZZ7tvsLINa38fmDj3N+L1zFEt?=
- =?us-ascii?Q?MGRxnc33jkHhQRH2WkhWv6ReCPcSnk7AfwV0AAvNpF+c4Og6LV6KYibimryT?=
- =?us-ascii?Q?CVKXxhZaBoIw7DlzMsVDkp9JnOB/AUbIIPrqgSxzyggGQw7KqzhqCGwaqCvV?=
- =?us-ascii?Q?AWF+HMzm4rM/DYWl5k+rhfoGmqo64R4ZrGO5VrCwjVDxuXcud0/xLgALvb0S?=
- =?us-ascii?Q?kgLPVEwBahXHvzlDQPXphCNSvVwaTg6idE5GWidDxewt8eYTIcpdW8j8KwxO?=
- =?us-ascii?Q?ebf9bs6Lc2360DWSZACTNPFP1NRa648V/0r0WIKTBZheTFB98mbCY+pjVuqK?=
- =?us-ascii?Q?7vkkp5j5cnobSV7ZiDGXigYaIVLJizNaQ4fb7vp5oU8qyVGjetrIkbzzTLTw?=
- =?us-ascii?Q?cLoEW2r8q6BVKDiaEJMxZWEce7AE+R2R1MfANiX5BKUhkq59+mJkibw7UUPV?=
- =?us-ascii?Q?OHHigFQX6N19zG7HsJLeYHiEpUrzLmFcxylqN8HIlJZ+1293UB/2JvXXfYeK?=
- =?us-ascii?Q?cGxxI1ZKBBk1Ny7uK6F1ju0BNEzgbLjItl7H+UoXvoCaFxvUxGxFEn85zEg8?=
- =?us-ascii?Q?LRoreCfaHZLtlnHEWidcV/qafKjHgeWtvH++FZi0rViBcdDN27k4VX59jtMQ?=
- =?us-ascii?Q?yvijHcXpREeJOYfJc+XaqtLT6JGyvfT8nicyD3lf0iGqJgLK6cIu8l2J8P2z?=
- =?us-ascii?Q?te4pr1uy2Gp9/g2PoP2RPKEJBJQKBoM87lK9iazPofepLUe1JoAR0zv1V/ev?=
- =?us-ascii?Q?lLEMCt7CdJrOlaMM07nWC9gydd4FQs+ejnNkqGOzE+FwZqPetyKTc3h3v2ZK?=
- =?us-ascii?Q?ni0zTKDoqfav7Ap21Cqz+8IggdUJs8YYC1/z4TYwqMfkKM3s8v1yP2B1UYm/?=
- =?us-ascii?Q?iWkUx/r1ICucEPSrKMc97h2Gs6Bxrm3Osgu8MOy1ss3WiX5sYuIRTj6oWNN8?=
- =?us-ascii?Q?vA60ZdTPjwj2c4F9ABz1WP6AZca4ngqpbGpxpctDYNb5d+PHg6yFHulwffqJ?=
- =?us-ascii?Q?b5c=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?tZt5BTVLB+aLTqwK+Kd9eNXIW4zUWJ/2IlCRMWMBczL+wKz6yHwc+iHsstcA?=
- =?us-ascii?Q?aNIdf7vLTYgiFMG19MBuoibzgg46KI84l2G+zHZNdaTzE1Ba0riE181O65TZ?=
- =?us-ascii?Q?lnSswGDjfjQI/Sz/7vosPNyttAvPBuzZ+eC9+LLImHG3XjJOT8O4gxmsOQAz?=
- =?us-ascii?Q?Cj/VzmDJiG/DNjf3+vNpnHz55d5ZeLjAY6KUT1qR2suZCFfAnIx5bAdvqdae?=
- =?us-ascii?Q?insMOo3bi96lOlwEklicXxWODY0bDPQnw3NyaBsTi8za+M8gwL+dhqYF2UuL?=
- =?us-ascii?Q?ziqKDlGeaJFqh8QDSqEdJjhhcDMfsCrax0Ha9QO+vXyYOdJZ9TGD6Z+4uP/N?=
- =?us-ascii?Q?RbmPZ2oWGrBG/2iFrzYp4NZle2nzkNivtCi6P06RdxmDmm+5guLgQeatb006?=
- =?us-ascii?Q?wLNvjLDczyUim66ytgI/uWcKFmzWAhIUGtNNv2Fh/WfhwuE3FuW4shlIKgqq?=
- =?us-ascii?Q?SQyEhX1uBHhWut4Ik9+UF9VXivumBrHKzlGy1wuRv6VkTj1R2HV19tGLfPbR?=
- =?us-ascii?Q?O6fZgnkvWp6v7feG1EsyrobzZGXPzaJhJRmogrVCnKtfLrbW7Xp6h7M2gznO?=
- =?us-ascii?Q?hrPhhEnapgd6oCnoGcXzZKTeUiUXHfD/GTBIbvVYfukbHhCCuJGQZWTJrVCe?=
- =?us-ascii?Q?ZW/MAFsT7MK8VooC0RqzB4myjzPDZFQnAtRz6mny27/BFLYRNmRzu1btQXJH?=
- =?us-ascii?Q?tKMYF8vtgGlxXYSTnzNTL9fykKpoDmTU/NXu7EetBbl1YBeBuOTvtd9G9pg5?=
- =?us-ascii?Q?JXNQPpfd54A19JuEjq50evXLixpZ/BKWy6we0rx6voD3a1ITpmasu5CFywaX?=
- =?us-ascii?Q?5Z6oGxFMwlKA89Gi6ZRW37qzSc9iy75QbdleBNG1iM9b5JtGdi1Qryu5cQ6N?=
- =?us-ascii?Q?uApAJ+eheldf1ncaB2VmQEYzIvXzwAkdrDAsYZEMB1ESzrI3tSClaeMkDun3?=
- =?us-ascii?Q?ojhZnjEe1GmxU0nHwJfychPNjQGOkpwE2zxbji0SsJu60anKGO0EBivk0gJb?=
- =?us-ascii?Q?AN+9C2JmtIb6+H26yEfMPVQjnlc2RbCc5gCT8V3mRJX5h+u0EIqc3Je2mD6a?=
- =?us-ascii?Q?E4eGsTBI7VSuzhGJArJHzLTmPUh/VGUmK5nwaca+5D0czJgeVfUs4sky13up?=
- =?us-ascii?Q?VSbEBant2vhHYH27LM9IolHUAcQ2JYXClougxQYQEXcxq9N9agrfrmNptM+b?=
- =?us-ascii?Q?5+Y9i/RbgQM4a0pf5IT4dVpf+b4TjmvC864Sq3qoCK2PMrzQhaBrc7kr1bnp?=
- =?us-ascii?Q?6eO9R/dMSO3uKx7KmbIi7f3zSLOpzQEBSVg22Mgj0a4JrbH6fpWeGKbhRAdn?=
- =?us-ascii?Q?GC7AIOwMeaIC2EnFFou47q4vC43CovByM0gsD6nqriXAeaGpsgHx4szcYaQj?=
- =?us-ascii?Q?IbPWflSV1Ve5KI8LEm9o6Iwltnozk9JBna9hc8Fy35dAJte0c+vmE0qnMVIL?=
- =?us-ascii?Q?yosKLs3eoHXRq24XgR/0XFHqzQgVu4U80IeOw/M1/LS3LMUyV0TrEQHJI0G5?=
- =?us-ascii?Q?LxIdkPa47aLQtz2wVnGD/E00rBsIgpf6Q6J8rU9quhl+g7q0Iv/LgDA3AyFZ?=
- =?us-ascii?Q?pAh6/z3ad91WcXA7nv6fubKeft9POHJhqZa41cIy?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a9e3bcb-56ce-46b3-4e8a-08dcf3ba6ec6
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2024 23:28:43.0141
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vgMgMWbsG/XU/IVYPLmKKKYBP8l8vXjkp2AdO2bZgdz7XkZXkQC3xtDN5DBGm5UrbaBoxOYqSfuXHjtz7usTwA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7505
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-
-Alistair Popple <apopple@nvidia.com> writes:
-
-> Alistair Popple wrote:
->> Dan Williams <dan.j.williams@intel.com> writes:
-
-[...]
-
->>> +
->>> +	return VM_FAULT_NOPAGE;
->>> +}
->>> +EXPORT_SYMBOL_GPL(dax_insert_pfn_pmd);
->>
->> Like I mentioned before, lets make the exported function
->> vmf_insert_folio() and move the pte, pmd, pud internal private / static
->> details of the implementation. The "dax_" specific aspect of this was
->> removed at the conversion of a dax_pfn to a folio.
+On Thu, Oct 24, 2024 at 9:36 AM Barry Song <21cnbao@gmail.com> wrote:
 >
-> Ok, let me try that. Note that vmf_insert_pfn{_pmd|_pud} will have to
-> stick around though.
+> On Thu, Oct 24, 2024 at 8:47 AM Usama Arif <usamaarif642@gmail.com> wrote:
+> >
+> >
+> >
+> > On 23/10/2024 19:52, Barry Song wrote:
+> > > On Thu, Oct 24, 2024 at 7:31 AM Usama Arif <usamaarif642@gmail.com> wrote:
+> > >>
+> > >>
+> > >>
+> > >> On 23/10/2024 19:02, Yosry Ahmed wrote:
+> > >>> [..]
+> > >>>>>> I suspect the regression occurs because you're running an edge case
+> > >>>>>> where the memory cgroup stays nearly full most of the time (this isn't
+> > >>>>>> an inherent issue with large folio swap-in). As a result, swapping in
+> > >>>>>> mTHP quickly triggers a memcg overflow, causing a swap-out. The
+> > >>>>>> next swap-in then recreates the overflow, leading to a repeating
+> > >>>>>> cycle.
+> > >>>>>>
+> > >>>>>
+> > >>>>> Yes, agreed! Looking at the swap counters, I think this is what is going
+> > >>>>> on as well.
+> > >>>>>
+> > >>>>>> We need a way to stop the cup from repeatedly filling to the brim and
+> > >>>>>> overflowing. While not a definitive fix, the following change might help
+> > >>>>>> improve the situation:
+> > >>>>>>
+> > >>>>>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > >>>>>>
+> > >>>>>> index 17af08367c68..f2fa0eeb2d9a 100644
+> > >>>>>> --- a/mm/memcontrol.c
+> > >>>>>> +++ b/mm/memcontrol.c
+> > >>>>>>
+> > >>>>>> @@ -4559,7 +4559,10 @@ int mem_cgroup_swapin_charge_folio(struct folio
+> > >>>>>> *folio, struct mm_struct *mm,
+> > >>>>>>                 memcg = get_mem_cgroup_from_mm(mm);
+> > >>>>>>         rcu_read_unlock();
+> > >>>>>>
+> > >>>>>> -       ret = charge_memcg(folio, memcg, gfp);
+> > >>>>>> +       if (folio_test_large(folio) && mem_cgroup_margin(memcg) <
+> > >>>>>> MEMCG_CHARGE_BATCH)
+> > >>>>>> +               ret = -ENOMEM;
+> > >>>>>> +       else
+> > >>>>>> +               ret = charge_memcg(folio, memcg, gfp);
+> > >>>>>>
+> > >>>>>>         css_put(&memcg->css);
+> > >>>>>>         return ret;
+> > >>>>>> }
+> > >>>>>>
+> > >>>>>
+> > >>>>> The diff makes sense to me. Let me test later today and get back to you.
+> > >>>>>
+> > >>>>> Thanks!
+> > >>>>>
+> > >>>>>> Please confirm if it makes the kernel build with memcg limitation
+> > >>>>>> faster. If so, let's
+> > >>>>>> work together to figure out an official patch :-) The above code hasn't consider
+> > >>>>>> the parent memcg's overflow, so not an ideal fix.
+> > >>>>>>
+> > >>>>
+> > >>>> Thanks Barry, I think this fixes the regression, and even gives an improvement!
+> > >>>> I think the below might be better to do:
+> > >>>>
+> > >>>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > >>>> index c098fd7f5c5e..0a1ec55cc079 100644
+> > >>>> --- a/mm/memcontrol.c
+> > >>>> +++ b/mm/memcontrol.c
+> > >>>> @@ -4550,7 +4550,11 @@ int mem_cgroup_swapin_charge_folio(struct folio *folio, struct mm_struct *mm,
+> > >>>>                 memcg = get_mem_cgroup_from_mm(mm);
+> > >>>>         rcu_read_unlock();
+> > >>>>
+> > >>>> -       ret = charge_memcg(folio, memcg, gfp);
+> > >>>> +       if (folio_test_large(folio) &&
+> > >>>> +           mem_cgroup_margin(memcg) < max(MEMCG_CHARGE_BATCH, folio_nr_pages(folio)))
+> > >>>> +               ret = -ENOMEM;
+> > >>>> +       else
+> > >>>> +               ret = charge_memcg(folio, memcg, gfp);
+> > >>>>
+> > >>>>         css_put(&memcg->css);
+> > >>>>         return ret;
+> > >>>>
+> > >>>>
+> > >>>> AMD 16K+32K THP=always
+> > >>>> metric         mm-unstable      mm-unstable + large folio zswapin series    mm-unstable + large folio zswapin + no swap thrashing fix
+> > >>>> real           1m23.038s        1m23.050s                                   1m22.704s
+> > >>>> user           53m57.210s       53m53.437s                                  53m52.577s
+> > >>>> sys            7m24.592s        7m48.843s                                   7m22.519s
+> > >>>> zswpin         612070           999244                                      815934
+> > >>>> zswpout        2226403          2347979                                     2054980
+> > >>>> pgfault        20667366         20481728                                    20478690
+> > >>>> pgmajfault     385887           269117                                      309702
+> > >>>>
+> > >>>> AMD 16K+32K+64K THP=always
+> > >>>> metric         mm-unstable      mm-unstable + large folio zswapin series   mm-unstable + large folio zswapin + no swap thrashing fix
+> > >>>> real           1m22.975s        1m23.266s                                  1m22.549s
+> > >>>> user           53m51.302s       53m51.069s                                 53m46.471s
+> > >>>> sys            7m40.168s        7m57.104s                                  7m25.012s
+> > >>>> zswpin         676492           1258573                                    1225703
+> > >>>> zswpout        2449839          2714767                                    2899178
+> > >>>> pgfault        17540746         17296555                                   17234663
+> > >>>> pgmajfault     429629           307495                                     287859
+> > >>>>
+> > >>>
+> > >>> Thanks Usama and Barry for looking into this. It seems like this would
+> > >>> fix a regression with large folio swapin regardless of zswap. Can the
+> > >>> same result be reproduced on zram without this series?
+> > >>
+> > >>
+> > >> Yes, its a regression in large folio swapin support regardless of zswap/zram.
+> > >>
+> > >> Need to do 3 tests, one with probably the below diff to remove large folio support,
+> > >> one with current upstream and one with upstream + swap thrashing fix.
+> > >>
+> > >> We only use zswap and dont have a zram setup (and I am a bit lazy to create one :)).
+> > >> Any zram volunteers to try this?
+> > >
+> > > Hi Usama,
+> > >
+> > > I tried a quick experiment:
+> > >
+> > > echo 1 > /sys/module/zswap/parameters/enabled
+> > > echo 0 > /sys/module/zswap/parameters/enabled
+> > >
+> > > This was to test the zRAM scenario. Enabling zswap even
+> > > once disables mTHP swap-in. :)
+> > >
+> > > I noticed a similar regression with zRAM alone, but the change resolved
+> > > the issue and even sped up the kernel build compared to the setup without
+> > > mTHP swap-in.
+> >
+> > Thanks for trying, this is amazing!
+> > >
+> > > However, I’m still working on a proper patch to address this. The current
+> > > approach:
+> > >
+> > > mem_cgroup_margin(memcg) < max(MEMCG_CHARGE_BATCH, folio_nr_pages(folio))
+> > >
+> > > isn’t sufficient, as it doesn’t cover cases where group A contains group B, and
+> > > we’re operating within group B. The problem occurs not at the boundary of
+> > > group B but at the boundary of group A.
+> >
+> > I am not sure I completely followed this. As MEMCG_CHARGE_BATCH=64, if we are
+> > trying to swapin a 16kB page, we basically check if atleast 64/4 = 16 folios can be
+> > charged to cgroup, which is reasonable. If we try to swapin a 1M folio, we just
+> > check if we can charge atleast 1 folio. Are you saying that checking just 1 folio
+> > is not enough in this case and can still cause thrashing, i.e we should check more?
+>
+> My understanding is that cgroups are hierarchical. Even if we don’t
+> hit the memory
+>  limit of the folio’s direct memcg, we could still reach the limit of
+> one of its parent
+> memcgs. Imagine a structure like:
+>
+> /sys/fs/cgroup/a/b/c/d
+>
+> If we’re compiling the kernel in d, there’s a chance that while d
+> isn’t at its limit, its
+> parents (c, b, or a) could be. Currently, the check only applies to d.
 
-Creating a single vmf_insert_folio() seems somewhat difficult because it
-needs to be called from multiple fault paths (either PTE, PMD or PUD
-fault) and do something different for each.
+To clarify, I mean something like this:
 
-Specifically the issue I ran into is that DAX does not downgrade PMD
-entries to PTE entries if they are backed by storage. So the PTE fault
-handler will get a PMD-sized DAX entry and therefore a PMD size folio.
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 17af08367c68..cc6d21848ee8 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -4530,6 +4530,29 @@ int mem_cgroup_hugetlb_try_charge(struct mem_cgroup *memcg, gfp_t gfp,
+ 	return 0;
+ }
 
-The way I tried implementing vmf_insert_folio() was to look at
-folio_order() to determine which internal implementation to call. But
-that doesn't work for a PTE fault, because there's no way to determine
-if we should PTE map a subpage or PMD map the entire folio.
++/*
++ * When the memory cgroup is nearly full, swapping in large folios can
++ * easily lead to swap thrashing, as the memcg operates on the edge of
++ * being full. We maintain a margin to allow for quick fallback to
++ * smaller folios during the swap-in process.
++ */
++static inline bool mem_cgroup_swapin_margin_protected(struct mem_cgroup *memcg,
++		struct folio *folio)
++{
++	unsigned int nr;
++
++	if (!folio_test_large(folio))
++		return false;
++
++	nr = max_t(unsigned int, folio_nr_pages(folio), MEMCG_CHARGE_BATCH);
++	for (; !mem_cgroup_is_root(memcg); memcg = parent_mem_cgroup(memcg)) {
++		if (mem_cgroup_margin(memcg) < nr)
++			return true;
++	}
++
++	return false;
++}
++
+ /**
+  * mem_cgroup_swapin_charge_folio - Charge a newly allocated folio for swapin.
+  * @folio: folio to charge.
+@@ -4547,7 +4570,8 @@ int mem_cgroup_swapin_charge_folio(struct folio *folio, struct mm_struct *mm,
+ {
+ 	struct mem_cgroup *memcg;
+ 	unsigned short id;
+-	int ret;
++	int ret = -ENOMEM;
++	bool margin_prot;
 
-We could pass down some context as to what type of fault we're handling,
-or add it to the vmf struct, but that seems excessive given callers
-already know this and could just call a specific
-vmf_insert_page_{pte|pmd|pud}.
+ 	if (mem_cgroup_disabled())
+ 		return 0;
+@@ -4557,9 +4581,11 @@ int mem_cgroup_swapin_charge_folio(struct folio *folio, struct mm_struct *mm,
+ 	memcg = mem_cgroup_from_id(id);
+ 	if (!memcg || !css_tryget_online(&memcg->css))
+ 		memcg = get_mem_cgroup_from_mm(mm);
++	margin_prot = mem_cgroup_swapin_margin_protected(memcg, folio);
+ 	rcu_read_unlock();
+
+-	ret = charge_memcg(folio, memcg, gfp);
++	if (!margin_prot)
++		ret = charge_memcg(folio, memcg, gfp);
+
+ 	css_put(&memcg->css);
+ 	return ret;
+
+>
+> >
+> > If we want to maintain consitency for all folios another option is
+> > mem_cgroup_margin(memcg) < MEMCG_CHARGE_BATCH * folio_nr_pages(folio)
+> > but I think this is too extreme, we would be checking if 64M can be charged to
+> > cgroup just to swapin 1M.
+> >
+> > >
+> > > I believe there’s still room for improvement. For example, if a 64KB charge
+> > > attempt fails, there’s no need to waste time trying 32KB or 16KB. We can
+> > > directly fall back to 4KB, as 32KB and 16KB will also fail based on our
+> > > margin detection logic.
+> > >
+> >
+> > Yes that makes sense. Would something like below work to fix that:
+> >
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index c098fd7f5c5e..0a1ec55cc079 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -4550,7 +4550,11 @@ int mem_cgroup_swapin_charge_folio(struct folio *folio, struct mm_struct *mm,
+> >                 memcg = get_mem_cgroup_from_mm(mm);
+> >         rcu_read_unlock();
+> >
+> > -       ret = charge_memcg(folio, memcg, gfp);
+> > +       if (folio_test_large(folio) &&
+> > +           mem_cgroup_margin(memcg) < max(MEMCG_CHARGE_BATCH, folio_nr_pages(folio)))
+> > +               ret = -ENOMEM;
+> > +       else
+> > +               ret = charge_memcg(folio, memcg, gfp);
+> >
+> >         css_put(&memcg->css);
+> >         return ret;
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index fecdd044bc0b..b6ce6605dc63 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
+> > @@ -4123,6 +4123,7 @@ static struct folio *alloc_swap_folio(struct vm_fault *vmf)
+> >         pte_t *pte;
+> >         gfp_t gfp;
+> >         int order;
+> > +       int ret;
+> >
+> >         /*
+> >          * If uffd is active for the vma we need per-page fault fidelity to
+> > @@ -4170,9 +4171,13 @@ static struct folio *alloc_swap_folio(struct vm_fault *vmf)
+> >                 addr = ALIGN_DOWN(vmf->address, PAGE_SIZE << order);
+> >                 folio = vma_alloc_folio(gfp, order, vma, addr, true);
+> >                 if (folio) {
+> > -                       if (!mem_cgroup_swapin_charge_folio(folio, vma->vm_mm,
+> > -                                                           gfp, entry))
+> > +                       ret = mem_cgroup_swapin_charge_folio(folio, vma->vm_mm, gfp, entry);
+> > +                       if (!ret) {
+> >                                 return folio;
+> > +                       } else if (ret == -ENOMEM) {
+> > +                               folio_put(folio);
+> > +                               goto fallback;
+> > +                       }
+> >                         folio_put(folio);
+> >                 }
+> >                 order = next_order(&orders, order);
+> >
+>
+> Yes, does it make your kernel build even faster?
+
+Thanks
+Barry
