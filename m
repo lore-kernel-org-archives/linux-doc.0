@@ -1,171 +1,244 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CDC155742
-	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 07:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2CA73451;
+	Wed, 23 Oct 2024 07:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729668730; cv=none; b=cDXdTR7FL7wzjLT/2KwFE3ddg+Cw2YWeIhYWA5ImHgETiDe8Ss7pxWYFYFbzmJPRuX3NwmsreSsYWdeWnzawk3Zw/EuD6Oy4L69ZyCPc8RFuop8Ti2fSD0+oKVO3LwCFxA1YGIV8AMiZCVu2MCuYlNzsj7bNysjK70BztEjEcxk=
+	t=1729668893; cv=none; b=bJL3BmmAu22vaM5fc4zbOc2qrbG37m3JXULO1YDUd386k0yGK2UTrOKr6h06ov4AJdRT/C+8ylmNX11d8ikuYqkZHFqu0pC6SZfrXjAgXFmS1FUdwkgQk032ckqSM5H6qyCRzsX2ebMXDNYra6d5M+8FWszMfU2uZA/oTF60IBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729668730; c=relaxed/simple;
-	bh=dTDdz6StFkQ7UdOGaYxF3BlZM5FwqqVkhyMDlmNMuoI=;
+	s=arc-20240116; t=1729668893; c=relaxed/simple;
+	bh=gYA7V2+luJ68VKlU8tWJhrphluX80vBq3147GQw76UY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j99LUV+nmypQgmrd7FtqzgihpEQlF6z3zCAqMlF0IUtxVSEeB/vd3dNdlb6px8gMXFpidFxd7YcnCOkLL8MqDFHL1HyApVI0gfSQQoiAUwh2IL0AuF07SdgWPvODv7JYCr3obb6BZT/pwnfvRabgPinGV/dOMX8Vz2PIGPnCQxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=UAN6oKaf; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="UAN6oKaf"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c903f5bd0eso3746333a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 00:32:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729668725; x=1730273525; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ld+3WPOQF7W9x7JI6fzkyd3V36oBi0SwcjkGdighsL4=;
-        b=UAN6oKaf4ef/I0JzdYXntW/u1JELU3eF4tG4EwLfCt8Ws9hTY9Ry8SlxXhGudhk9Ys
-         55jsm/zokV/kXDEyKoSfci8rysfnPuxheO891auEldiFNvK1z0Bmf31j7YA+TlYOyVDR
-         b07je4+Ncoz5gNEBart9a5qAY/uee84lrBdeipNdO1ulslV3TFKzcs3LjPrQOwJSCqDZ
-         8B+UzoFiO+tN1t/bTAMXqw05sZZwme47UXIjdvJc2dm7lhXC0znddgRuHqxHmGGtXBwb
-         +SWXtoAT85MH/Cf9T1LUQtlIE7ncBn5QwVri7kwJMCQsyazaGivWm350buutSzjClKOl
-         6lvQ==
+	 To:Cc:Content-Type; b=J9+Ze51yw50ZEeljULNDwC61zeBoGMWZsLK9MXOrXa3WXyRWHH+A3Z94lLQFc8nrCX07tddlEgmQNBLtCifXVq8GS4AhZvT8y6AomU+a6OMmqoJ6ussE/co017Z41ZPbjkPIVRM1QYwjoewFZb/EUJ9TE9YwZlS4NJEhMGZgFBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e291cbbf05bso6629544276.2;
+        Wed, 23 Oct 2024 00:34:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729668725; x=1730273525;
+        d=1e100.net; s=20230601; t=1729668889; x=1730273689;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ld+3WPOQF7W9x7JI6fzkyd3V36oBi0SwcjkGdighsL4=;
-        b=sBvdHiBKQSluVRxS5V5Mumu2HT18gNMGKpM2J2EmBQZ90ZS8jCN9djk7+vzx/AhNXy
-         qxxLAiO4mXkbmuBhdJABw5tZC5uG6AaacODUFuSo0IdQf3lTpjmUlVDhy5sgNa9PpCB1
-         hMJWG906dW8MiAfT12CEmIqMcFnwFEAHUPQp+ruwqrGyQqH9TVRNSICu1RSd3AfSJhlx
-         5glMJvMs9q87FNaaNYOB7MUeU2skP6gzVuMcOlMK/87S8vbUo2eUU8eNCKXS/RiKiJao
-         JCWou+uDnOR8ySIFl85xY2866pPiUBNEpoK/Vw2GuTddk94PMy+kmvdqeZRlRK5eNB70
-         I16Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUpftlaAJIdb8nYPmRV6TPOgcQ8cFZzr+tbzUmPZmyuGGDopLnb1bn/CdTVTleZwHFgzuJDUn9pHEQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwY5INEDunEBIcM1cKQqhku1VDyUPhwhDJxK6261F6yq3iyn5uf
-	z3CqnctIK46Lf10rT2mljgwJ3UeIlDecjCqWWGWGnXUF2f08G9vbjvj08mr5gMzjsT2/PQHkyTn
-	S6o3cb0FaZBYbLpFx0YVyEvzCko+4D9quOOFWjA==
-X-Google-Smtp-Source: AGHT+IEJBETWRzafCHMiJacmhO3+2BGfuEPqovyY1jdP6hMCT71V63RIrqcr+Gk7ya87qxf9ULOTWDHVQyBI2z8liWE=
-X-Received: by 2002:a17:906:d54e:b0:a9a:38e6:2fdf with SMTP id
- a640c23a62f3a-a9abf96d1ffmr137056066b.64.1729668724464; Wed, 23 Oct 2024
- 00:32:04 -0700 (PDT)
+        bh=Z+lpt1WfOqRv7Qh2HfusVj5G6gjAIEYeAicEYOrMhQQ=;
+        b=ODpGK3N4Tb7lVAipv+ADPbRbez9TFomTTnOszORr20JzZ8zvueatTGGi+CBY8bBj73
+         lmVIM0hziNP8Ztq1lpp8rtsUgeofpElx0qg/XLkk/SpZsyNsEp6lTtrgO0jEflDXrHuD
+         d9hTQDoob83Pb3cePRpXp+st9ge/bvcnKVIqtPr0MCsNlP22T0IH73it4mNPR7f5V4gr
+         Vo4P91H5fBcEvJsU49MjJ1ls8+NtPlaM36kfmMLSsIKF2wMMGS1nVVMbzUvBb0EjXpUS
+         pvzLwPcd8zYIQ3vcQGkreVk8hFXY87Oc/od4knUTIYmJHfj0tmjZmRzjDMa2+8vJ+xHJ
+         sSsw==
+X-Forwarded-Encrypted: i=1; AJvYcCV5NInGMRl+Qn8Y1roafXLB8VE+w3oHjtQxUJeuyrqyvCzMdyClIIhEVaHE1WSaO01DFr7ikUc+zCJ+@vger.kernel.org, AJvYcCWM4LehkQHR7Mmui2ntGrIQjDUKi2ZESzw+i77HfsX3NiaE8uVWiytYh7P4yJSoe23gJkWcHAgwndcY@vger.kernel.org, AJvYcCWgPv2X8B6fj0IYKY5xvPL7g2rQaZAo4q003r2Ie+Fe/kgzyznoLxPQTvQQIo5Mr4Ihu8xKzoPVBuQpZx0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywo/68aRh7VTSpw1f+PPnbLtC9kx5ffCozU4gvDh8yuytWzluGj
+	XUg3XkS8sbyt+ZnSJC/5DCWNeYiAh9+M4VLL5GY3nYO0VJVwq6ReaLfPrRQA
+X-Google-Smtp-Source: AGHT+IGwPKw0ZTzqr4OgkjLrlhFHtEu644ezGQSn2clvcZhdfN2zbZ3ugleGuhACKDzdMyhwAmh+3A==
+X-Received: by 2002:a05:690c:660c:b0:6dd:cdd7:ce5a with SMTP id 00721157ae682-6e7f0e14dc2mr16288047b3.18.1729668889384;
+        Wed, 23 Oct 2024 00:34:49 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e5f5d13172sm14037487b3.125.2024.10.23.00.34.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Oct 2024 00:34:48 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6e390d9ad1dso59445267b3.3;
+        Wed, 23 Oct 2024 00:34:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV+qAI71U8tiIRJvoMD8XDsM6V8hR2m7C9MTpbIMJNzj5/fCZj1f7wBmTnOX+8Az6AH0KdIsedgQO6I@vger.kernel.org, AJvYcCVx8c2inyl5cpHOgD2w0Po80tUfwQj4aAj/zvbqy9aNjC8gebYKWY2hLjhaYffzb54MF6WmEg0K1FxY@vger.kernel.org, AJvYcCW3pZ9GY1/4+bkTo3lJh13brlTr0L1PE76SMfG4PxvreKdC/cvg5FyEYWUwSNUYvASYkXv8rqHITCFya/M=@vger.kernel.org
+X-Received: by 2002:a05:690c:7090:b0:6e2:b263:104a with SMTP id
+ 00721157ae682-6e7f0e30c6amr19119317b3.23.1729668888670; Wed, 23 Oct 2024
+ 00:34:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241022-ad7380-fix-supplies-v3-0-f0cefe1b7fa6@baylibre.com> <20241022210239.6a61b32f@jic23-huawei>
-In-Reply-To: <20241022210239.6a61b32f@jic23-huawei>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 23 Oct 2024 09:31:49 +0200
-Message-ID: <CAEHHSvYCx1zWmAf8iSdVTaxfewFLoeJo6RXQj7-3hwX40yCjOQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] iio: adc: ad7380: fix several supplies issues
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org
+References: <cover.1729646466.git.grantpeltier93@gmail.com> <422a40e992e047e250a3b1295503e3b81b5515ae.1729646466.git.grantpeltier93@gmail.com>
+In-Reply-To: <422a40e992e047e250a3b1295503e3b81b5515ae.1729646466.git.grantpeltier93@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 23 Oct 2024 09:34:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWeqGvUZmTpo18oaOzYz1TEg97OuXyUSy9YJxmrWQWMBw@mail.gmail.com>
+Message-ID: <CAMuHMdWeqGvUZmTpo18oaOzYz1TEg97OuXyUSy9YJxmrWQWMBw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] hwmon: (pmbus/isl68137) add support for voltage
+ divider on Vout
+To: Grant Peltier <grantpeltier93@gmail.com>
+Cc: robh@kernel.org, linux@roeck-us.net, magnus.damm@gmail.com, 
+	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le mar. 22 oct. 2024 =C3=A0 22:02, Jonathan Cameron <jic23@kernel.org> a =
-=C3=A9crit :
+Hi Grant,
+
+On Wed, Oct 23, 2024 at 3:58=E2=80=AFAM Grant Peltier <grantpeltier93@gmail=
+.com> wrote:
+> Some applications require Vout to be higher than the detectable voltage
+> range of the Vsense pin for a given rail. In such applications, a voltage
+> divider may be placed between Vout and the Vsense pin, but this results
+> in erroneous telemetry being read back from the part. This change adds
+> support for a voltage divider to be defined in the devicetree for a (or
+> multiple) specific rail(s) for a supported digital multiphase device and
+> for the applicable Vout telemetry to be scaled based on the voltage
+> divider configuration.
 >
-> On Tue, 22 Oct 2024 15:22:35 +0200
-> Julien Stephan <jstephan@baylibre.com> wrote:
->
-> > Hello,
-> >
-> > This series tries to fix several issues found on the ad7380 driver abou=
-t
-> > supplies:
-> >
-> > - vcc and vlogic are required, but are not retrieved and enabled in the
-> > probe function
-> > - ad7380-4 is the only device from the family that does not have intern=
-al
-> > reference and uses REFIN instead of REFIO for external reference.
-> >
-> > driver, bindings, and doc are fixed accordingly
->
-> I considered a few responses to this series.
->
-> 1) Asking you to pull the fixes to the front even though it would be pain=
-ful.
-> 2) Asking if the missing supplies patch should really be tagged as a fix.
->
-> In the end I opted for the variant that may just confuse the stable folk
-> the most and just took it as is + added stable to the 3 fixes.  Hopefully
-> it will be obvious they should just pick up all 5 (or maybe not the docs)=
+> Signed-off-by: Grant Peltier <grantpeltier93@gmail.com>
+
+Thanks for your patch!
+
+> --- a/drivers/hwmon/pmbus/isl68137.c
+> +++ b/drivers/hwmon/pmbus/isl68137.c
+
+> @@ -170,6 +185,25 @@ static int raa_dmpvr2_read_word_data(struct i2c_clie=
+nt *client, int page,
+>                 ret =3D pmbus_read_word_data(client, page, phase,
+>                                            RAA_DMPVR2_READ_VMON);
+>                 break;
+> +       case PMBUS_READ_POUT:
+> +               /*
+> +                * In cases where a voltage divider is attached to the ta=
+rget
+> +                * rail between Vout and the Vsense pin, both Vout and Po=
+ut
+> +                * should be scaled by the voltage divider scaling factor=
 .
->
-> You are correct that the refactors make it easier to review the fixes
-> and this is a fairly new driver so I'm not that worried by pushing back t=
-he fix
-> as it's only to 6.11.
->
-> Applied to the fixes-togreg branch of iio.git.
->
-> Note the side effect of this is timing is tight for having this available
-> in the char-misc-next branch, so it may push back additional device
-> support until next cycle.
->
-> Thanks,
->
+> +                * I.e. Vout =3D Vsense * (R1 + R2) / R2
+> +                */
+> +               fallthrough;
+> +       case PMBUS_READ_VOUT:
+> +               ret =3D pmbus_read_word_data(client, page, phase, reg);
+> +               if (ret > 0 && data->channel[page].vout_voltage_divider[0=
+]
+> +                       && data->channel[page].vout_voltage_divider[1]) {
+> +                       u64 temp =3D DIV_ROUND_CLOSEST_ULL((u64)ret *
+> +                               (data->channel[page].vout_voltage_divider=
+[0]
+> +                               + data->channel[page].vout_voltage_divide=
+r[1]),
+> +                               data->channel[page].vout_voltage_divider[=
+1]);
 
-Thank you!
+You are casting "ret" to u64 to force a 64-bit multiplication, as the
+product may not fit in 32 bits. However, DIV_ROUND_CLOSEST_ULL()
+does a 32-bit division on 32-bit platforms.  So this should use
+DIV_U64_ROUND_CLOSEST() instead.
+The sum of vout_voltage_divider[0] + vout_voltage_divider[1] might
+not fit in 32 bits, so that should be changed to a 64-bit addition.
+Unfortunately there is no rounding version of mul_u64_u32_div() yet,
+so you have to open-code it.
 
-Cheers
-Julien
+> +                       ret =3D clamp_val(temp, 0, 0xffff);
+> +               }
+> +               break;
+>         default:
+>                 ret =3D -ENODATA;
+>                 break;
+> @@ -178,6 +212,50 @@ static int raa_dmpvr2_read_word_data(struct i2c_clie=
+nt *client, int page,
+>         return ret;
+>  }
+>
+> +static int raa_dmpvr2_write_word_data(struct i2c_client *client, int pag=
+e,
+> +                                     int reg, u16 word)
+> +{
+> +       const struct pmbus_driver_info *info =3D pmbus_get_driver_info(cl=
+ient);
+> +       const struct isl68137_data *data =3D to_isl68137_data(info);
+> +       int ret;
+> +
+> +       switch (reg) {
+> +       case PMBUS_VOUT_MAX:
+> +               /*
+> +                * In cases where a voltage divider is attached to the ta=
+rget
+> +                * rail between Vout and the Vsense pin, Vout related PMB=
+us
+> +                * commands should be scaled based on the expected voltag=
+e
+> +                * at the Vsense pin.
+> +                * I.e. Vsense =3D Vout * R2 / (R1 + R2)
+> +                */
+> +               fallthrough;
+> +       case PMBUS_VOUT_MARGIN_HIGH:
+> +               fallthrough;
+> +       case PMBUS_VOUT_MARGIN_LOW:
+> +               fallthrough;
+> +       case PMBUS_VOUT_OV_FAULT_LIMIT:
+> +               fallthrough;
+> +       case PMBUS_VOUT_UV_FAULT_LIMIT:
+> +               fallthrough;
+> +       case PMBUS_VOUT_COMMAND:
+> +               if (data->channel[page].vout_voltage_divider[0]
+> +                       && data->channel[page].vout_voltage_divider[1]) {
+> +                       u64 temp =3D DIV_ROUND_CLOSEST_ULL((u64)word *
+> +                               data->channel[page].vout_voltage_divider[=
+1],
+> +                               (data->channel[page].vout_voltage_divider=
+[0] +
+> +                                data->channel[page].vout_voltage_divider=
+[1]));
 
-> Jonathan
+Similar comments, but here the sum is the divisor, so you have to use
+a full 64-by-64 division, using DIV64_U64_ROUND_CLOSEST().
+
+> +                       ret =3D clamp_val(temp, 0, 0xffff);
+> +               } else {
+> +                       ret =3D -ENODATA;
+> +               }
+> +               break;
+> +       default:
+> +               ret =3D -ENODATA;
+> +               break;
+> +       }
+> +       return ret;
+> +}
+> +
+>  static struct pmbus_driver_info raa_dmpvr_info =3D {
+>         .pages =3D 3,
+>         .format[PSC_VOLTAGE_IN] =3D direct,
+> @@ -220,14 +298,67 @@ static struct pmbus_driver_info raa_dmpvr_info =3D =
+{
+>             | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_POUT,
+>  };
 >
-> >
-> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > ---
-> > Changes in v3:
-> > - Use fsleep instead of msleep
-> > - Add all trailers from review
-> > - Link to v2: https://lore.kernel.org/r/20241021-ad7380-fix-supplies-v2=
--0-2ca551b3352a@baylibre.com
-> >
-> > Changes in v2:
-> > - Fix kernel test robot warning about variable uninitialized when used =
-[1]
-> > - drop commit removing supply description in bindings
-> > - after discussion on [2] we decided to add refin supply here, as it
-> >   will be needed in the futur
-> >
-> > - Link to v1: https://lore.kernel.org/r/20241007-ad7380-fix-supplies-v1=
--0-badcf813c9b9@baylibre.com
-> >
-> > [1] https://lore.kernel.org/oe-kbuild-all/202410081608.ZxEPPZ0u-lkp@int=
-el.com/
-> > [2] https://lore.kernel.org/all/20241015-ad7380-add-adaq4380-4-support-=
-v1-0-d2e1a95fb248@baylibre.com/:warning
-> >
-> > ---
-> > Julien Stephan (5):
-> >       dt-bindings: iio: adc: ad7380: fix ad7380-4 reference supply
-> >       iio: adc: ad7380: use devm_regulator_get_enable_read_voltage()
-> >       iio: adc: ad7380: add missing supplies
-> >       iio: adc: ad7380: fix supplies for ad7380-4
-> >       docs: iio: ad7380: fix supply for ad7380-4
-> >
-> >  .../devicetree/bindings/iio/adc/adi,ad7380.yaml    |  21 ++++
-> >  Documentation/iio/ad7380.rst                       |  13 +-
-> >  drivers/iio/adc/ad7380.c                           | 136 ++++++++++++-=
---------
-> >  3 files changed, 110 insertions(+), 60 deletions(-)
-> > ---
-> > base-commit: 1a8b58362f6a6fef975032f7fceb7c4b80d20d60
-> > change-id: 20241004-ad7380-fix-supplies-3677365cf8aa
-> >
-> > Best regards,
->
+> +static int isl68137_probe_child_from_dt(struct device *dev,
+> +                                       struct device_node *child,
+> +                                       struct isl68137_data *data)
+> +{
+> +       u32 channel;
+> +       int err;
+> +
+> +       err =3D of_property_read_u32(child, "reg", &channel);
+> +       if (err) {
+> +               dev_err(dev, "missing reg property of %pOFn\n", child);
+> +               return err;
+> +       }
+> +       if (channel >=3D MAX_CHANNELS) {
+> +               dev_err(dev, "invalid reg %d of %pOFn\n", channel, child)=
+;
+> +               return -EINVAL;
+> +       }
+> +
+> +       of_property_read_u32_array(child, "renesas,vout-voltage-divider",
+> +                               data->channel[channel].vout_voltage_divid=
+er,
+> +                               ARRAY_SIZE(data->channel[channel].vout_vo=
+ltage_divider));
+
+Shouldn't the return value be checked for errors different from -EINVAL?
+
+> +
+> +       return 0;
+> +}
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
