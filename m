@@ -1,59 +1,61 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A72198A1B
-	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 09:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267F919B5A5
+	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 09:19:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729675188; cv=none; b=rxWkLg+FjZX1HHeIauQNSDj4UnELS6YRs1Vk6/W8oLTweRk1sy+wmlQ/be9Ecdi5/KZvyknqudm/7l5gfqpFRDnhe7bfl/79YSyxCFLx72CeQHDAoumE0yfw3riepHobDPYs1VqOi9/AJJ68DbtWcu8GSS38YOx0KeY8OvTvHGs=
+	t=1729675189; cv=none; b=XK0AQNx8KyO2aRcnYVhn4ApdkmHQlODpC+4dsMZsdPDvsDKx1GK7xcS52w5pq9DEhzhJ4d+2HL1890R6f0Krxs9JdCC0OK0MPOyOpwbc0ZfE4obVy6Onfd77xtoyB5H6kpTrZwoINjNNJg0A2fC9TnUPTXRBy8yoh7Pm0JSxhgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729675188; c=relaxed/simple;
-	bh=BdfWbCaw9dl2XW0U+tiiv8QYh2zros/EPRH9N3CaDNU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dq0fyah7z53XcwAeL8zk7Ro8THBN9mpim++OIZiu1ySqzC1i4y5ssyQUSnRyPEKfjLlioqTa24+t7lPnqOyATEijX4F7lNx6cS/9K9g4wC5b7PaSbdMHB/OthcDxxc52hj03bpBmeLiGevTYGIj45SGE3KJ1/fC0e5ZFsZ6oXBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=tHG9gSsz; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1729675189; c=relaxed/simple;
+	bh=QhSgXw9+FxAVu3KIGAcZuLYrsqUjXs1NwiZ5dTJtzkM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=L3yrThQMG0civKLhuDmGaKjcUP/GqMeYyrzy4zRtLwhARxQUfIfDB+37kFe5AaEWsU0K+jrKVK0e3ldDlzhCIzO6GMdikrFkTnPrDNZ4IXvBqIl/uHY/wvPlBYd9+w+Ss4I5veLYov9vFkh+lhhJObPsTt8Th++bL0ngJtpUJSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=bF3ydEjC; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tHG9gSsz"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d462c91a9so4732427f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 02:19:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bF3ydEjC"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4315e62afe0so65386895e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 02:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729675182; x=1730279982; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=whOZh3OaEYNB1ifC1fGYleloMAZdgj5A+SfyxxABc6M=;
-        b=tHG9gSszJROK/PCDrtHvCKAK9kUremr3bxxaI1moT4aYJtdcIn3cE5hVwte7mbKsbw
-         0eYtgkPAjbKu/n0cbBL3s+IkE7xpVz4FDJjj42fxrHKLKGeTApLOehbRkbQxCZTgIy0K
-         m2yBt8css0Q7JfVAZSMEXCyS+Au9GTb+kRtLp61FwOB3WDlp+avmVFNm8VawbEM93Fav
-         wo+2oY4orBskVQIzhfIpNLBDoEChbv5iMAc8KRXl8IW2B4Sk6pd/J40nA9pvrsJsiQDh
-         YAfKwHpJSh9hTPKWVi9OytR9wOEBxBmwPSOHz65IOE5m2lVToCDXjvae8ydBOkhYuvSz
-         bS9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729675182; x=1730279982;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729675185; x=1730279985; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=whOZh3OaEYNB1ifC1fGYleloMAZdgj5A+SfyxxABc6M=;
-        b=B77snM6OpsWO8/lCrfbBW9Mpyv9IuBBXW3sm5xMn2fG2kcnpUc6BbBr82a0j4B0oGb
-         hwB9dEGmuFNzk/qdeFHtplttutI/jZA4/arXQuXnXqqwrjAjU22EUS2iInCa4gkLLrkH
-         fQE27YzUGZVqGAeqLBide4h9rFeJwZOr9fHDBSHU2kGr7b57xAymyFcoizmiv4cKdaFZ
-         eY5B/z0961XFY7t+boqIwTxeU8eyo5TBMQvjasGC8qFNlA0GjsaRYdpmTNq8Dfb1zbIv
-         6B9UhGvNGHUNm1+IMNLHnIZQ8CbuVkm0E6F/PVun7KUFzZNYaB8GgyzdxRvgYKCmJymH
-         kGCg==
-X-Forwarded-Encrypted: i=1; AJvYcCXnZ1Iw/zmR2ZGjV0NA6OXTz1NN23AxGLfzRLANfomZnwxhbc/aYqWXKZX2HDFmrp2LzQgI8DWDf2I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTIS/vNHhFjT7EgcUPplRP02wcmkq7oq5bINuG8SJPr4leZ9qm
-	rrZW7BANoQqrcStn/hlv1vFCI5jNPwGd5nPKqVtWbu1MsOvP9MXxSeaw35fndjY=
-X-Google-Smtp-Source: AGHT+IHccO5uMEXbEwf90dp28rRacXB6W5xVZIJgnOL2Zbamy56vq3VWhyAeKkQjdkPvxbcgsaQ+tQ==
-X-Received: by 2002:adf:e40b:0:b0:37c:d23a:1e4 with SMTP id ffacd0b85a97d-37efcf1adb7mr1132526f8f.30.1729675182026;
-        Wed, 23 Oct 2024 02:19:42 -0700 (PDT)
+        bh=r9ZTZkJcchnwItyNdW/fmdcznA8MqL8OTNkbgt7Dhqk=;
+        b=bF3ydEjC5ICKIVirnYrP2jDr8Oq2ioo0jLfeI1g6Nm/t3IoRtJGNUO/MEHIXukrYlZ
+         4/n0OxUOZ9Y8spJ84Br5R6N1NRASZ7or7h6XpAGsJUhlu/h7V52cqvSH234dpJPvONOa
+         xBRieCafhrUdmqbTYdtoYOYV2d4CcawOSf85FrkiBqlrdC9n2yQi6yIYqkDxN5vvTgOB
+         GUjxjqwFJrjm/7tEQrQf6aZuXX2GkEPZQyeZF7Z9SYFnwbfMbJ+o1tS+ATn2WeEhiZRn
+         b4fyeyAKxkgk/ipABq1Z/nkOAxYShvu79Zovlv7JHHvi5KIDX4JFxXzwQ4WpttQRSNOi
+         uqiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729675185; x=1730279985;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r9ZTZkJcchnwItyNdW/fmdcznA8MqL8OTNkbgt7Dhqk=;
+        b=K6nupBv+ENS4ETyO66kvJaQSo+6H3+hc4FDurVFCicK1ZYGqJAJlnazUK+tzey/4IA
+         L5rtI9k0JME6ny9kmiOIgJS0AKKoDALybicyVhkltqwHv2OLiljdiHPWZGn5Bb3Si4bJ
+         gd9bF6KTxiX8IUR0yfsp00ZoPTodqVR6hAmA8rw0oFG0Ii62+dEdrBt4UCUhN/06H6Ui
+         5/t90ZRqsBCk2hyD2ejhTupLS8rn6QLGEKvTGj2HVGziv5KGj6MJm0Itsc1QH3m0g8O4
+         Z9LmrFcIKrC66Wy0P40LCgPJlleQ7KFCpTww95f8Nf0hDKNztfvMickmZZ71R4SmIYou
+         OEIg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0bHA72/8fVQ91vSMXoC0LvmtZT4VwOOXoHKjRCD5pdrF4DwLsqJmf+BWcFF+XGaljlXfMgbyIbEw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyu9wjcAeXZxllyTvUdJGz00jZL7usAu1/X8h14VLFHlrG7ji/l
+	OTdtUmMuWRgPwCA2SN10nPyL36NEffljjAbra37QZDgDgveKcLxoslkT9n8fZFE=
+X-Google-Smtp-Source: AGHT+IGI5JkLtZOklAyF9qDgpeZR5hHRe4UkAIO8ixgJX7CRl1M32U3FnDPmO2N0+O/WzKvw7SKSxg==
+X-Received: by 2002:a05:600c:1c9c:b0:431:1a98:cb40 with SMTP id 5b1f17b1804b1-4318415b234mr15067035e9.18.1729675185188;
+        Wed, 23 Oct 2024 02:19:45 -0700 (PDT)
 Received: from [192.168.1.62] (2a02-842a-d52e-6101-6f8f-5617-c4b6-8627.rev.sfr.net. [2a02:842a:d52e:6101:6f8f:5617:c4b6:8627])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b94363sm8515796f8f.73.2024.10.23.02.19.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b94363sm8515796f8f.73.2024.10.23.02.19.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 02:19:41 -0700 (PDT)
+        Wed, 23 Oct 2024 02:19:44 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v2 0/4] ad7380: add adaq4370-4 and adaq4380-4 support
-Date: Wed, 23 Oct 2024 11:19:32 +0200
-Message-Id: <20241023-ad7380-add-adaq4380-4-support-v2-0-d55faea3bedf@baylibre.com>
+Date: Wed, 23 Oct 2024 11:19:35 +0200
+Subject: [PATCH v2 3/4] iio: adc: ad7380: add support for adaq4370-4 and
+ adaq4380-4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,12 +64,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAKS/GGcC/42Pu27DMAxFf8XQXBV6Roqn/keRgZKoRkASO5JjN
- Aj872UUFOjYgSAOh8tzH6xhLdjYODxYxbW0Ml0I1NvA4hEuX8hLImZKKCOFtByS017QSjRwNU8
- wvN3meaoLlyZF6TAKofaMMuaKuXz3/M/Diyteb/RmeR1ZgIY8TudzWcbBBwTtnQdppQwRIUWVQ
- 1beBCFCjBYUEiX2V49su5wwv3L0shudqBnXO+f0zsbsAcZVs6fGsbRlqvfeepXd458FV8kFTwo
- l7G0OyviPAPdTCRXfqQQ7bNv2A/ItZLhUAQAA
-X-Change-ID: 20241015-ad7380-add-adaq4380-4-support-14dc17ec0029
+Message-Id: <20241023-ad7380-add-adaq4380-4-support-v2-3-d55faea3bedf@baylibre.com>
+References: <20241023-ad7380-add-adaq4380-4-support-v2-0-d55faea3bedf@baylibre.com>
+In-Reply-To: <20241023-ad7380-add-adaq4380-4-support-v2-0-d55faea3bedf@baylibre.com>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
@@ -79,56 +78,295 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.2
 
-Hello,
-
-This series add support for adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS)
-which are quad-channel precision data acquisition signal chain μModule
-solutions compatible with the ad738x family, with the following differences:
+adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS) are quad-channel precision data
+acquisition signal chain μModule solutions compatible with the ad738x
+family, with the following differences:
 
 - pin selectable gain in front of each 4 adc
 - internal reference is 3V derived from refin-supply (5V)
 - additional supplies
 
-This series depends on [1] which fix several supplies issues
-
-[1]: https://lore.kernel.org/all/20241007-ad7380-fix-supplies-v1-0-badcf813c9b9@baylibre.com/
+This implies that IIO_CHAN_INFO_SCALE can not be shared by type.
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
-Changes in v2:
-- fix commit messages and documentation about the gain: pin selectable
-  gain instead of configurable gain
-- add the enum of available gains inthe binding and array of available
-  gains in the driver as ad4000 series
-- in the bindings, remove item from channel reg property
-- in the bindings, merge additional supplies and channel properties inside
-  the same if branch for adaq devices
-- fix comment as suggested by Jonathan in the driver
+ drivers/iio/adc/ad7380.c | 130 +++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 126 insertions(+), 4 deletions(-)
 
-- Link to v1: https://lore.kernel.org/r/20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com
+diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
+index d57e17f38925da5fb7c8a0a2320a21474ba04b37..f36dc27b8f9da7ebc7551193b5d847f7e8bef396 100644
+--- a/drivers/iio/adc/ad7380.c
++++ b/drivers/iio/adc/ad7380.c
+@@ -13,6 +13,8 @@
+  * ad7381-4 : https://www.analog.com/media/en/technical-documentation/data-sheets/ad7381-4.pdf
+  * ad7383/4-4 : https://www.analog.com/media/en/technical-documentation/data-sheets/ad7383-4-ad7384-4.pdf
+  * ad7386/7/8-4 : https://www.analog.com/media/en/technical-documentation/data-sheets/ad7386-4-7387-4-7388-4.pdf
++ * adaq4370-4 : https://www.analog.com/media/en/technical-documentation/data-sheets/adaq4370-4.pdf
++ * adaq4380-4 : https://www.analog.com/media/en/technical-documentation/data-sheets/adaq4380-4.pdf
+  */
+ 
+ #include <linux/align.h>
+@@ -22,11 +24,14 @@
+ #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/kernel.h>
++#include <linux/math.h>
+ #include <linux/module.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ #include <linux/spi/spi.h>
++#include <linux/units.h>
++#include <linux/util_macros.h>
+ 
+ #include <linux/iio/buffer.h>
+ #include <linux/iio/iio.h>
+@@ -36,6 +41,8 @@
+ #define MAX_NUM_CHANNELS		8
+ /* 2.5V internal reference voltage */
+ #define AD7380_INTERNAL_REF_MV		2500
++/* 3.3V internal reference voltage for ADAQ */
++#define ADAQ4380_INTERNAL_REF_MV	3300
+ 
+ /* reading and writing registers is more reliable at lower than max speed */
+ #define AD7380_REG_WR_SPEED_HZ		10000000
+@@ -82,6 +89,7 @@
+  * supports only 1 SDO line (standard SPI transaction)
+  */
+ #define AD7380_NUM_SDO_LINES		1
++#define AD7380_DEFAULT_GAIN_MILLI	1000
+ 
+ struct ad7380_timing_specs {
+ 	const unsigned int t_csh_ns;	/* CS minimum high time */
+@@ -92,10 +100,12 @@ struct ad7380_chip_info {
+ 	const struct iio_chan_spec *channels;
+ 	unsigned int num_channels;
+ 	unsigned int num_simult_channels;
++	bool has_hardware_gain;
+ 	bool has_mux;
+ 	const char * const *supplies;
+ 	unsigned int num_supplies;
+ 	bool external_ref_only;
++	bool adaq_internal_ref_only;
+ 	const char * const *vcm_supplies;
+ 	unsigned int num_vcm_supplies;
+ 	const unsigned long *available_scan_masks;
+@@ -187,11 +197,12 @@ static const struct iio_scan_type ad7380_scan_type_16_u[] = {
+ 	},
+ };
+ 
+-#define AD7380_CHANNEL(index, bits, diff, sign) {				\
++#define _AD7380_CHANNEL(index, bits, diff, sign, gain) {			\
+ 	.type = IIO_VOLTAGE,							\
+ 	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |				\
++		((gain) ? BIT(IIO_CHAN_INFO_SCALE) : 0) |			\
+ 		((diff) ? 0 : BIT(IIO_CHAN_INFO_OFFSET)),			\
+-	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE) |			\
++	.info_mask_shared_by_type = ((gain) ? 0 : BIT(IIO_CHAN_INFO_SCALE)) |	\
+ 		BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),				\
+ 	.info_mask_shared_by_type_available =					\
+ 		BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),				\
+@@ -205,6 +216,12 @@ static const struct iio_scan_type ad7380_scan_type_16_u[] = {
+ 	.num_ext_scan_type = ARRAY_SIZE(ad7380_scan_type_##bits##_##sign),	\
+ }
+ 
++#define AD7380_CHANNEL(index, bits, diff, sign)		\
++	_AD7380_CHANNEL(index, bits, diff, sign, false)
++
++#define ADAQ4380_CHANNEL(index, bits, diff, sign)	\
++	_AD7380_CHANNEL(index, bits, diff, sign, true)
++
+ #define DEFINE_AD7380_2_CHANNEL(name, bits, diff, sign)	\
+ static const struct iio_chan_spec name[] = {		\
+ 	AD7380_CHANNEL(0, bits, diff, sign),		\
+@@ -221,6 +238,15 @@ static const struct iio_chan_spec name[] = {		\
+ 	IIO_CHAN_SOFT_TIMESTAMP(4),			\
+ }
+ 
++#define DEFINE_ADAQ4380_4_CHANNEL(name, bits, diff, sign)	\
++static const struct iio_chan_spec name[] = {			\
++	ADAQ4380_CHANNEL(0, bits, diff, sign),			\
++	ADAQ4380_CHANNEL(1, bits, diff, sign),			\
++	ADAQ4380_CHANNEL(2, bits, diff, sign),			\
++	ADAQ4380_CHANNEL(3, bits, diff, sign),			\
++	IIO_CHAN_SOFT_TIMESTAMP(4),				\
++}
++
+ #define DEFINE_AD7380_8_CHANNEL(name, bits, diff, sign)	\
+ static const struct iio_chan_spec name[] = {		\
+ 	AD7380_CHANNEL(0, bits, diff, sign),		\
+@@ -239,6 +265,7 @@ DEFINE_AD7380_2_CHANNEL(ad7380_channels, 16, 1, s);
+ DEFINE_AD7380_2_CHANNEL(ad7381_channels, 14, 1, s);
+ DEFINE_AD7380_4_CHANNEL(ad7380_4_channels, 16, 1, s);
+ DEFINE_AD7380_4_CHANNEL(ad7381_4_channels, 14, 1, s);
++DEFINE_ADAQ4380_4_CHANNEL(adaq4380_4_channels, 16, 1, s);
+ /* pseudo differential */
+ DEFINE_AD7380_2_CHANNEL(ad7383_channels, 16, 0, s);
+ DEFINE_AD7380_2_CHANNEL(ad7384_channels, 14, 0, s);
+@@ -257,6 +284,10 @@ static const char * const ad7380_supplies[] = {
+ 	"vcc", "vlogic",
+ };
+ 
++static const char * const adaq4380_supplies[] = {
++	"ldo", "vcc", "vlogic", "vs-p", "vs-n", "refin",
++};
++
+ static const char * const ad7380_2_channel_vcm_supplies[] = {
+ 	"aina", "ainb",
+ };
+@@ -347,6 +378,11 @@ static const int ad7380_oversampling_ratios[] = {
+ 	1, 2, 4, 8, 16, 32,
+ };
+ 
++/* Gains stored as fractions of 1000 so they can be expressed by integers. */
++static const int ad7380_gains[] = {
++	300, 600, 1000, 1600,
++};
++
+ static const struct ad7380_chip_info ad7380_chip_info = {
+ 	.name = "ad7380",
+ 	.channels = ad7380_channels,
+@@ -516,6 +552,32 @@ static const struct ad7380_chip_info ad7388_4_chip_info = {
+ 	.timing_specs = &ad7380_4_timing,
+ };
+ 
++static const struct ad7380_chip_info adaq4370_4_chip_info = {
++	.name = "adaq4370-4",
++	.channels = adaq4380_4_channels,
++	.num_channels = ARRAY_SIZE(adaq4380_4_channels),
++	.num_simult_channels = 4,
++	.supplies = adaq4380_supplies,
++	.num_supplies = ARRAY_SIZE(adaq4380_supplies),
++	.adaq_internal_ref_only = true,
++	.has_hardware_gain = true,
++	.available_scan_masks = ad7380_4_channel_scan_masks,
++	.timing_specs = &ad7380_4_timing,
++};
++
++static const struct ad7380_chip_info adaq4380_4_chip_info = {
++	.name = "adaq4380-4",
++	.channels = adaq4380_4_channels,
++	.num_channels = ARRAY_SIZE(adaq4380_4_channels),
++	.num_simult_channels = 4,
++	.supplies = adaq4380_supplies,
++	.num_supplies = ARRAY_SIZE(adaq4380_supplies),
++	.adaq_internal_ref_only = true,
++	.has_hardware_gain = true,
++	.available_scan_masks = ad7380_4_channel_scan_masks,
++	.timing_specs = &ad7380_4_timing,
++};
++
+ struct ad7380_state {
+ 	const struct ad7380_chip_info *chip_info;
+ 	struct spi_device *spi;
+@@ -526,6 +588,7 @@ struct ad7380_state {
+ 	bool seq;
+ 	unsigned int vref_mv;
+ 	unsigned int vcm_mv[MAX_NUM_CHANNELS];
++	unsigned int gain_milli[MAX_NUM_CHANNELS];
+ 	/* xfers, message an buffer for reading sample data */
+ 	struct spi_transfer normal_xfer[2];
+ 	struct spi_message normal_msg;
+@@ -876,8 +939,15 @@ static int ad7380_read_raw(struct iio_dev *indio_dev,
+ 		 *    * (2 × VREF) / 2^N, for differential chips
+ 		 *    * VREF / 2^N, for pseudo-differential chips
+ 		 * where N is the ADC resolution (i.e realbits)
++		 *
++		 * The gain is stored as a fraction of 1000 and, as we need to
++		 * divide vref_mv by the gain, we invert the gain/1000 fraction.
+ 		 */
+-		*val = st->vref_mv;
++		if (st->chip_info->has_hardware_gain)
++			*val = mult_frac(st->vref_mv, MILLI,
++					 st->gain_milli[chan->scan_index]);
++		else
++			*val = st->vref_mv;
+ 		*val2 = scan_type->realbits - chan->differential;
+ 
+ 		return IIO_VAL_FRACTIONAL_LOG2;
+@@ -1058,7 +1128,19 @@ static int ad7380_probe(struct spi_device *spi)
+ 				     "Failed to enable power supplies\n");
+ 	fsleep(T_POWERUP_US);
+ 
+-	if (st->chip_info->external_ref_only) {
++	if (st->chip_info->adaq_internal_ref_only) {
++		/*
++		 * ADAQ chips use fixed internal reference but still
++		 * require a specific reference supply to power it.
++		 * "refin" is already enabled with other power supplies
++		 * in bulk_get_enable().
++		 */
++
++		st->vref_mv = ADAQ4380_INTERNAL_REF_MV;
++
++		/* these chips don't have a register bit for this */
++		external_ref_en = false;
++	} else if (st->chip_info->external_ref_only) {
+ 		ret = devm_regulator_get_enable_read_voltage(&spi->dev,
+ 							     "refin");
+ 		if (ret < 0)
+@@ -1104,6 +1186,42 @@ static int ad7380_probe(struct spi_device *spi)
+ 		st->vcm_mv[i] = ret / 1000;
+ 	}
+ 
++	for (i = 0; i < MAX_NUM_CHANNELS; i++)
++		st->gain_milli[i] = AD7380_DEFAULT_GAIN_MILLI;
++
++	if (st->chip_info->has_hardware_gain) {
++		device_for_each_child_node_scoped(&spi->dev, node) {
++			unsigned int channel, gain;
++			int gain_idx;
++
++			ret = fwnode_property_read_u32(node, "reg", &channel);
++			if (ret)
++				return dev_err_probe(&spi->dev, ret,
++						     "Failed to read reg property\n");
++
++			if (channel >= st->chip_info->num_channels - 1)
++				return dev_err_probe(&spi->dev, -EINVAL,
++						     "Invalid channel number %i\n",
++						     channel);
++
++			ret = fwnode_property_read_u32(node, "adi,gain-milli",
++						       &gain);
++			if (ret && ret != -EINVAL)
++				return dev_err_probe(&spi->dev, ret,
++						     "Failed to read gain for channel %i\n",
++						     channel);
++			if (ret != -EINVAL) {
++				/*
++				 * Match gain value from dt to one of supported
++				 * gains
++				 */
++				gain_idx = find_closest(gain, ad7380_gains,
++							ARRAY_SIZE(ad7380_gains));
++				st->gain_milli[channel] = ad7380_gains[gain_idx];
++			}
++		}
++	}
++
+ 	st->regmap = devm_regmap_init(&spi->dev, NULL, st, &ad7380_regmap_config);
+ 	if (IS_ERR(st->regmap))
+ 		return dev_err_probe(&spi->dev, PTR_ERR(st->regmap),
+@@ -1186,6 +1304,8 @@ static const struct of_device_id ad7380_of_match_table[] = {
+ 	{ .compatible = "adi,ad7386-4", .data = &ad7386_4_chip_info },
+ 	{ .compatible = "adi,ad7387-4", .data = &ad7387_4_chip_info },
+ 	{ .compatible = "adi,ad7388-4", .data = &ad7388_4_chip_info },
++	{ .compatible = "adi,adaq4370-4", .data = &adaq4370_4_chip_info },
++	{ .compatible = "adi,adaq4380-4", .data = &adaq4380_4_chip_info },
+ 	{ }
+ };
+ 
+@@ -1204,6 +1324,8 @@ static const struct spi_device_id ad7380_id_table[] = {
+ 	{ "ad7386-4", (kernel_ulong_t)&ad7386_4_chip_info },
+ 	{ "ad7387-4", (kernel_ulong_t)&ad7387_4_chip_info },
+ 	{ "ad7388-4", (kernel_ulong_t)&ad7388_4_chip_info },
++	{ "adaq4370-4", (kernel_ulong_t)&adaq4370_4_chip_info },
++	{ "adaq4380-4", (kernel_ulong_t)&adaq4380_4_chip_info },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(spi, ad7380_id_table);
 
----
-Julien Stephan (4):
-      dt-bindings: iio: adc: ad7380: add adaq4370-4 and adaq4380-4 compatible parts
-      iio: adc: ad7380: fix oversampling formula
-      iio: adc: ad7380: add support for adaq4370-4 and adaq4380-4
-      docs: iio: ad7380: add adaq4370-4 and adaq4380-4
-
- .../devicetree/bindings/iio/adc/adi,ad7380.yaml    | 121 +++++++++++++++++
- Documentation/iio/ad7380.rst                       |  18 +++
- drivers/iio/adc/ad7380.c                           | 149 +++++++++++++++++++--
- 3 files changed, 279 insertions(+), 9 deletions(-)
----
-base-commit: 8bea3878a1511bceadc2fbf284b00bcc5a2ef28d
-change-id: 20241015-ad7380-add-adaq4380-4-support-14dc17ec0029
-prerequisite-change-id: 20241004-ad7380-fix-supplies-3677365cf8aa:v3
-prerequisite-patch-id: 6127a52d3b14e82d1a6081c7e504d0e4eb323089
-prerequisite-patch-id: 7dee57142d0d12682b0be3b62f1c16851aeac069
-prerequisite-patch-id: f737e56a372cd91e5fac651a2063b06827f9aa21
-prerequisite-patch-id: 7c8d5fbde82810057630b95e12bb2f6576da6980
-prerequisite-patch-id: 972bdbf06bafa7c56f604dbe8eb7d236aadaad99
-
-Best regards,
 -- 
-Julien Stephan <jstephan@baylibre.com>
+2.47.0
 
