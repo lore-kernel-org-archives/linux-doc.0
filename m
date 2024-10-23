@@ -1,225 +1,168 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56C71CEEB4
-	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 16:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0269B1C3039
+	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 17:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729702653; cv=none; b=G+6JRMed8OKy7NCKQ6Kj7ee6DCAtDL4rklKnEHjaBJuatHAZ572aCgUYeLoW6tXQ4ZkelF4xmKubrtxYdpZsdfyHtQ4q27KqZzkShAfvvDiZutIY9XUufHCPi40rrhGKesNGSl8atgq3Sge7KkNUNbNxMKaFzR5FsiF9EUt951c=
+	t=1729703285; cv=none; b=deTjCV4U8xZe+dWlEnkqIyzOL2wxrus4E9NYQqnQNpbxH4D+5gegJEr99BRfcXigv9HD4bxd3+6LcOtNASdoTBB7TKlT71JGm7AKYR5D7wemnAf5lqdu5T324uobSCVZYBr5K73kDMPiNqXRSXtDqwYgsGN6lsE8MmQutdDK8lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729702653; c=relaxed/simple;
-	bh=PN3PI30mlWJZbmmYTwqKM1tqjl4S+h/wwTjNa0FVzeY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nSd1ZmAjiKUsuuzmNqVdxRqkBDEjJbKgdlv46qcf9ARiU9gLIbRX2lUQgBynvSiF0Oy7rezjzl8+K3muaOUFtq7elSUuwoSMMF+l0YWYi4yVt91zXz9FYSt0VlobfN68tfx34CI2c/4Oimp+qpma3ZBklVoBhebmH/ew3G4oGQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MGyhsVb1; arc=none smtp.client-ip=209.85.217.42
+	s=arc-20240116; t=1729703285; c=relaxed/simple;
+	bh=bwji3KM0kI7ZVL1Hq5Xm6xTu/GMixHRkt08MlaQijgk=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=JU2eH3LJ7J8d8QAJJesi7tBiePIErb1LxzXrsLWl97rDz6FsZDxnVvINFiSO6KPRhaJnt9F7ly7atijd1SYTzfgTrgUXH/TSxzlSfZD3sbB9o0Qx977tKWLdDjOb/MfM88rBtWKsiEUeJ+CXhRAKTALuKXMKxe4wrt94EnXuZWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aBk6JgKB; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MGyhsVb1"
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4a47cdaf158so2211422137.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 09:57:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aBk6JgKB"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e2605ce4276so28797276.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 10:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729702640; x=1730307440; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f/rVx4xhU3buqF3s0gjUuJjCcbEqwnGQ1z7b5w2uvVo=;
-        b=MGyhsVb1wb8I8SyZmZzjI+eKd3eL0J04qtSAN4rGcQZtkxkum92IDThx8i7JneXusQ
-         wyTrlsJOUeux2bZSZ0lsbYyI0FjxVBH3oa77KIhki4xSEGhflWXD3ihWqrQh/HF0BYZ5
-         BSQtybQbAuUvF2yFmLJxksuk98pczC2QfqfoRJYeagr4ORWmaMiZ6wGvwQSgbKMOdJVg
-         40VFN4J1x/8OTcSiP1ZrDVyc2B+t5HaMZJpQ3GjtGBtw04oxfwnfB45D5qq2QlxvWhc8
-         5JMwPgcyjCCA6npZ4nzLdxLk9fKNRQihQr9ZUTanYe5lViRfSjYjUb9Zw1JobaqkSZXU
-         EG3Q==
+        d=google.com; s=20230601; t=1729703282; x=1730308082; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=p/SgywtZx7rb7/mEn3XyHfH3Cb2SyryihrWMC3ba6F8=;
+        b=aBk6JgKBLRIbloH5t8udpkgM8XsADpg/M/lM//rLpP7vydui9YMr2ThLHOsxkhKSPu
+         FKUDRjmACnDVOhDb4tThKoCW31YIlLJUNSNHdYKwWSfBMd+rtj2QBP+DIQdwLgN2ULZC
+         etZcvBR0DjIDi5GAj/E5WOPTkz2F/z2b/RWoqzOo+gY2RdwT8/vEUoh5SAYcoh91TNse
+         BzBPhFQvn7BMkIeLRBRslz6pXrnsVxM+m/r2g9SrrIgjN8yvgcMgk4ArtuTn1332L2FR
+         tXgOOfksdAI9QuUmEOSCGZT4phb7bKx6MOLDOjyB65kqboAx1QMPnVp+t/9O+AO6H188
+         zXHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729702640; x=1730307440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f/rVx4xhU3buqF3s0gjUuJjCcbEqwnGQ1z7b5w2uvVo=;
-        b=D7VRtHUwbJVCuN5fNPsuOGVJ43dnBvls31Y8inRrNDF1vs3h1B/r4FV0aMjUMt69Sj
-         4O29NF9F+IeRB3M+2FMTGihuvZ9DTcAOYAIPUmktHgjbXG/uxIvYmqSJckOT/fwLV8e4
-         RcbSXZI/9bmz4LGEwqvwm4nSE8Fwf16DzLwL1BLUw8Y5Lm0m+EoMz6nWDM+R1hycsQoH
-         iSLWVdcVShFJ+7foAevBD8Xxxntm+OztQzi6Fy3/y9yErLSOC+NyVqUacM964YM7zdR4
-         +BRvhOz/tdzYJyXT7Tz4kw/WxXME4apu4zD6Pyy9nLna2nYQksVr4aVCYb1iZvLEJWXI
-         97FQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUSqGI452inR6ePD07Y3Uph4FsgzF5w9u+xK/UOmLYYGaL9zJ2VxVADxGXkppkCCE2ktfZ8ht/0x9k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPV/hYTwfKJNoSOuYQ5YVBCYf9ZuAzeeWuuVyEvQKH/LMUPRtL
-	dj0xcdjTZLjz68yl3yyB8KtRaIKHCi1SW/TDAZz/8p5HUHboxWa+VX3ARaXvcvoNOOh/vabfp8z
-	hEsF+IrpV9+UjNsd5Go+gpeQLyiW3+rcZGFFB
-X-Google-Smtp-Source: AGHT+IGSJeWtcRaA8iYuESb6rplWy4Of3qzkk0PG4kshEpuHBGh03Nt3K4ZeA5mV5+18EYLdAnexB7Ty55xQ1ZXT/Bc=
-X-Received: by 2002:a05:6102:3709:b0:492:a93d:7cab with SMTP id
- ada2fe7eead31-4a751a7ee61mr3970593137.1.1729702640436; Wed, 23 Oct 2024
- 09:57:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729703282; x=1730308082;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=p/SgywtZx7rb7/mEn3XyHfH3Cb2SyryihrWMC3ba6F8=;
+        b=TIhI5iBePR+sGMkOW9/1kkIyMgZj1Nam6tSM8v4cAg0nzuDnkjsuPx9WXwXRPtVpmp
+         +DshhHdNNjyE+vy+iQtMOW75KV0I+KPkAufJ+e4BB1fpk1uaKDT1+SRmN6QbbIABwdqi
+         xCr7Ovi6u76DUXfqsVLQwLbY9EAMsOOWc+bYohz+Kaqowti5ey2qHVFy7CmfswtHSm7h
+         WqBlg52zoCck0sbL3sUdQgx9f5kA5dw7ji9RXD87JLa//58jmzo31DWSsfaIJ2jmsGv3
+         JXI/45+F5CMrcGqROO29WnH+EVs2cbLypAkbnmmGhJwNrx19OGpQ3zJAWucUQOGnN9/G
+         XoHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhuXdVR4g0RB2c2yoIdtmhwIJOCKpsNzmIFPtadlssb7NQWzc3AWmrtobBFvPiaMkR+hFlfra7mHc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVmLau7Nhr20JxHAh7IRNCbCCSSVXDYsKfeOS+3CMlTRlgc3Pr
+	zHGrFzNepRgX7eJuXoaLe21PDcv2YTUpsbncUvetfri9hKP3o6voId+aeumXRflUdDH3xj7eQBu
+	hEg==
+X-Google-Smtp-Source: AGHT+IEsK5kZcuCRBJ2lcZigYshTAvQXhOVGbGNjlRgIh/suKcwgOyvPk5eRcakI/OtXpbirCYYTcQ44vPI=
+X-Received: from surenb-desktop.mtv.corp.google.com ([2a00:79e0:2e3f:8:a087:59b9:198a:c44c])
+ (user=surenb job=sendgmr) by 2002:a05:6902:50d:b0:e2e:44ae:111a with SMTP id
+ 3f1490d57ef6-e2e44ae12f1mr899276.8.1729703281826; Wed, 23 Oct 2024 10:08:01
+ -0700 (PDT)
+Date: Wed, 23 Oct 2024 10:07:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240830100438.3623486-1-usamaarif642@gmail.com>
- <20240830100438.3623486-3-usamaarif642@gmail.com> <4B7449C4-D2B8-4285-973C-97178C09CE7E@nvidia.com>
- <27d04537-ebda-4462-b008-878390d4b211@gmail.com>
-In-Reply-To: <27d04537-ebda-4462-b008-878390d4b211@gmail.com>
-From: Yu Zhao <yuzhao@google.com>
-Date: Wed, 23 Oct 2024 10:56:43 -0600
-Message-ID: <CAOUHufZeWWs8f4-BokLBgy_oSbT-pfjFpJFNZ+tW0qW9RifX0A@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] mm: remap unused subpages to shared zeropage when
- splitting isolated thp
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: Zi Yan <ziy@nvidia.com>, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev, 
-	roman.gushchin@linux.dev, david@redhat.com, npache@redhat.com, 
-	baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org, 
-	cerasuolodomenico@gmail.com, ryncsn@gmail.com, corbet@lwn.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com, 
-	Shuang Zhai <zhais@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.105.g07ac214952-goog
+Message-ID: <20241023170759.999909-1-surenb@google.com>
+Subject: [PATCH v4 0/6] page allocation tag compression
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, 
+	mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, 
+	tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com, 
+	ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
+	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
+	jhubbard@nvidia.com, urezki@gmail.com, hch@infradead.org, petr.pavlu@suse.com, 
+	samitolvanen@google.com, da.gomez@samsung.com, yuzhao@google.com, 
+	vvvvvv@google.com, rostedt@goodmis.org, iamjoonsoo.kim@lge.com, 
+	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	maple-tree@lists.infradead.org, linux-modules@vger.kernel.org, 
+	kernel-team@android.com, surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 23, 2024 at 10:51=E2=80=AFAM Usama Arif <usamaarif642@gmail.com=
-> wrote:
->
-> On 23/10/2024 17:21, Zi Yan wrote:
-> > On 30 Aug 2024, at 6:03, Usama Arif wrote:
-> >
-> >> From: Yu Zhao <yuzhao@google.com>
-> >>
-> >> Here being unused means containing only zeros and inaccessible to
-> >> userspace. When splitting an isolated thp under reclaim or migration,
-> >> the unused subpages can be mapped to the shared zeropage, hence saving
-> >> memory. This is particularly helpful when the internal
-> >> fragmentation of a thp is high, i.e. it has many untouched subpages.
-> >>
-> >> This is also a prerequisite for THP low utilization shrinker which wil=
-l
-> >> be introduced in later patches, where underutilized THPs are split, an=
-d
-> >> the zero-filled pages are freed saving memory.
-> >>
-> >> Signed-off-by: Yu Zhao <yuzhao@google.com>
-> >> Tested-by: Shuang Zhai <zhais@google.com>
-> >> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> >> ---
-> >>  include/linux/rmap.h |  7 ++++-
-> >>  mm/huge_memory.c     |  8 ++---
-> >>  mm/migrate.c         | 72 ++++++++++++++++++++++++++++++++++++++-----=
--
-> >>  mm/migrate_device.c  |  4 +--
-> >>  4 files changed, 75 insertions(+), 16 deletions(-)
-> >>
-> >> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-> >> index 91b5935e8485..d5e93e44322e 100644
-> >> --- a/include/linux/rmap.h
-> >> +++ b/include/linux/rmap.h
-> >> @@ -745,7 +745,12 @@ int folio_mkclean(struct folio *);
-> >>  int pfn_mkclean_range(unsigned long pfn, unsigned long nr_pages, pgof=
-f_t pgoff,
-> >>                    struct vm_area_struct *vma);
-> >>
-> >> -void remove_migration_ptes(struct folio *src, struct folio *dst, bool=
- locked);
-> >> +enum rmp_flags {
-> >> +    RMP_LOCKED              =3D 1 << 0,
-> >> +    RMP_USE_SHARED_ZEROPAGE =3D 1 << 1,
-> >> +};
-> >> +
-> >> +void remove_migration_ptes(struct folio *src, struct folio *dst, int =
-flags);
-> >>
-> >>  /*
-> >>   * rmap_walk_control: To control rmap traversing for specific needs
-> >> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> >> index 0c48806ccb9a..af60684e7c70 100644
-> >> --- a/mm/huge_memory.c
-> >> +++ b/mm/huge_memory.c
-> >> @@ -3020,7 +3020,7 @@ bool unmap_huge_pmd_locked(struct vm_area_struct=
- *vma, unsigned long addr,
-> >>      return false;
-> >>  }
-> >>
-> >> -static void remap_page(struct folio *folio, unsigned long nr)
-> >> +static void remap_page(struct folio *folio, unsigned long nr, int fla=
-gs)
-> >>  {
-> >>      int i =3D 0;
-> >>
-> >> @@ -3028,7 +3028,7 @@ static void remap_page(struct folio *folio, unsi=
-gned long nr)
-> >>      if (!folio_test_anon(folio))
-> >>              return;
-> >>      for (;;) {
-> >> -            remove_migration_ptes(folio, folio, true);
-> >> +            remove_migration_ptes(folio, folio, RMP_LOCKED | flags);
-> >>              i +=3D folio_nr_pages(folio);
-> >>              if (i >=3D nr)
-> >>                      break;
-> >> @@ -3240,7 +3240,7 @@ static void __split_huge_page(struct page *page,=
- struct list_head *list,
-> >>
-> >>      if (nr_dropped)
-> >>              shmem_uncharge(folio->mapping->host, nr_dropped);
-> >> -    remap_page(folio, nr);
-> >> +    remap_page(folio, nr, PageAnon(head) ? RMP_USE_SHARED_ZEROPAGE : =
-0);
-> >>
-> >>      /*
-> >>       * set page to its compound_head when split to non order-0 pages,=
- so
-> >> @@ -3542,7 +3542,7 @@ int split_huge_page_to_list_to_order(struct page=
- *page, struct list_head *list,
-> >>              if (mapping)
-> >>                      xas_unlock(&xas);
-> >>              local_irq_enable();
-> >> -            remap_page(folio, folio_nr_pages(folio));
-> >> +            remap_page(folio, folio_nr_pages(folio), 0);
-> >>              ret =3D -EAGAIN;
-> >>      }
-> >>
-> >> diff --git a/mm/migrate.c b/mm/migrate.c
-> >> index 6f9c62c746be..d039863e014b 100644
-> >> --- a/mm/migrate.c
-> >> +++ b/mm/migrate.c
-> >> @@ -204,13 +204,57 @@ bool isolate_folio_to_list(struct folio *folio, =
-struct list_head *list)
-> >>      return true;
-> >>  }
-> >>
-> >> +static bool try_to_map_unused_to_zeropage(struct page_vma_mapped_walk=
- *pvmw,
-> >> +                                      struct folio *folio,
-> >> +                                      unsigned long idx)
-> >> +{
-> >> +    struct page *page =3D folio_page(folio, idx);
-> >> +    bool contains_data;
-> >> +    pte_t newpte;
-> >> +    void *addr;
-> >> +
-> >> +    VM_BUG_ON_PAGE(PageCompound(page), page);
-> >
-> > This should be:
-> >
-> > diff --git a/mm/migrate.c b/mm/migrate.c
-> > index e950fd62607f..7ffdbe078aa7 100644
-> > --- a/mm/migrate.c
-> > +++ b/mm/migrate.c
-> > @@ -206,7 +206,8 @@ static bool try_to_map_unused_to_zeropage(struct pa=
-ge_vma_mapped_walk *pvmw,
-> >         pte_t newpte;
-> >         void *addr;
-> >
-> > -       VM_BUG_ON_PAGE(PageCompound(page), page);
-> > +       if (PageCompound(page))
-> > +               return false;
-> >         VM_BUG_ON_PAGE(!PageAnon(page), page);
-> >         VM_BUG_ON_PAGE(!PageLocked(page), page);
-> >         VM_BUG_ON_PAGE(pte_present(*pvmw->pte), page);
-> >
-> > Otherwise, splitting anonymous large folios to non order-0 ones just
-> > triggers this BUG_ON.
-> >
->
-> That makes sense, would you like to send the fix?
->
-> Adding Yu Zhao to "To" incase he has any objections.
+This patchset implements several improvements:
+1. Gracefully handles module unloading while there are used allocations
+allocated from that module;
+2. Provides an option to store page allocation tag references in the
+page flags, removing dependency on page extensions and eliminating the
+memory overhead from storing page allocation references (~0.2% of total
+system memory). This also improves page allocation performance when
+CONFIG_MEM_ALLOC_PROFILING is enabled by eliminating page extension
+lookup. Page allocation performance overhead is reduced from 41% to 5.5%.
 
-LGTM. Thanks!
+Patch #1 introduces mas_for_each_rev() helper function.
+
+Patch #2 introduces shutdown_mem_profiling() helper function to be used
+when disabling memory allocation profiling.
+
+Patch #3 copies module tags into virtually contiguous memory which
+serves two purposes:
+- Lets us deal with the situation when module is unloaded while there
+are still live allocations from that module. Since we are using a copy
+version of the tags we can safely unload the module. Space and gaps in
+this contiguous memory are managed using a maple tree.
+- Enables simple indexing of the tags in the later patches.
+
+Patch #4 changes the way we allocate virtually contiguous memory for
+module tags to reserve only vitrual area and populate physical pages
+only as needed at module load time.
+
+Patch #5 abstracts page allocation tag reference to simplify later
+changes.
+
+Patch #6 adds compression option to the sysctl.vm.mem_profiling boot
+parameter for storing page allocation tag references inside page flags
+if they fit. If the number of available page flag bits is insufficient
+to address all kernel allocations, memory allocation profiling gets
+disabled with an appropriate warning.
+
+Patchset applies to mm-unstable.
+
+Changes since v3 [1]:
+- rebased over Mike's patchset in mm-unstable
+- added Reviewed-by, per Liam Howlett
+- limited execmem_vmap to work with EXECMEM_MODULE_DATA only,
+per Mike Rapoport
+- moved __get_vm_area_node() declaration into mm/internal.h,
+per Mike Rapoport
+- split parts of reserve_module_tags() into helper functions to make it
+more readable, per Mike Rapoport
+- introduced shutdown_mem_profiling() to be used when disabling memory
+allocation profiling
+- replaced CONFIG_PGALLOC_TAG_USE_PAGEFLAGS with a new boot parameter
+option, per Michal Hocko
+- minor code cleanups and refactoring to make the code more readable
+- added VMALLOC and MODULE SUPPORT reviewers I missed before
+
+[1] https://lore.kernel.org/all/20241014203646.1952505-1-surenb@google.com/
+
+Suren Baghdasaryan (6):
+  maple_tree: add mas_for_each_rev() helper
+  alloc_tag: introduce shutdown_mem_profiling helper function
+  alloc_tag: load module tags into separate contiguous memory
+  alloc_tag: populate memory for module tags as needed
+  alloc_tag: introduce pgtag_ref_handle to abstract page tag references
+  alloc_tag: support for page allocation tag compression
+
+ Documentation/mm/allocation-profiling.rst |   7 +-
+ include/asm-generic/codetag.lds.h         |  19 +
+ include/linux/alloc_tag.h                 |  21 +-
+ include/linux/codetag.h                   |  40 +-
+ include/linux/execmem.h                   |  10 +
+ include/linux/maple_tree.h                |  14 +
+ include/linux/mm.h                        |  25 +-
+ include/linux/page-flags-layout.h         |   7 +
+ include/linux/pgalloc_tag.h               | 197 +++++++--
+ include/linux/vmalloc.h                   |   3 +
+ kernel/module/main.c                      |  80 ++--
+ lib/alloc_tag.c                           | 467 ++++++++++++++++++++--
+ lib/codetag.c                             | 104 ++++-
+ mm/execmem.c                              |  16 +
+ mm/internal.h                             |   6 +
+ mm/mm_init.c                              |   5 +-
+ mm/vmalloc.c                              |   4 +-
+ scripts/module.lds.S                      |   5 +-
+ 18 files changed, 903 insertions(+), 127 deletions(-)
+
+
+base-commit: b5d43fad926a3f542cd06f3c9d286f6f489f7129
+-- 
+2.47.0.105.g07ac214952-goog
+
