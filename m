@@ -1,81 +1,87 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A621C75E4;
-	Wed, 23 Oct 2024 13:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B571DDAB;
+	Wed, 23 Oct 2024 14:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729691603; cv=none; b=hu3cY7u6BnckpUi0dTB0HJ8a6P2qmJcws5a4ph+gtF58cT6zPIHENqwDsAVpczHr8aYM6D2dDnUMxwNg12/blZhGfDuW9qwj9g4J4saDlF6n6/yGWxL4ulAo7qS9TxmHVNOucJPT6B5X87n8DLYDJLD0cv5SHpIApDZDDkvVkQw=
+	t=1729692975; cv=none; b=eQwATFzcpEdBjKc86CwoKfbLcUoTSeRGvchN3MoZotk9ZrM09ioyO05ANYc3HqUjckI8LCPFKFaQ6yL7ZdO7vWT6GTr12DmGi62Fbrc2yp4LYnT+7LPL/tseQwaguyrvYcqoRbcFAImdEUa7nN3OU3ZEcXw2vUrIxr2DTcCswHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729691603; c=relaxed/simple;
-	bh=f0gGzmnuIaZms4baJfOT16Kn8TdIyl4HOd9QzbCFNoU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NxHmQmddZrLnqMo4xO93jQdPVkO9IxZVtaKRVAlxHwCOlQcKGhFDLgVWZgHzTZy9S9mhCOIV1HfMUl4U/tlbIKLkmkxE5d9YW5ZAHSFHnHiz4u45ANozLr6GKo3MmXsMH/ks77vB9UFg+bgpjbZ/wC3bx2ZWqCmqYOPniB45XuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CPGla9du; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1729692975; c=relaxed/simple;
+	bh=PYn0/G4zbkeddnkUt9zimJ5fgr19m6ni9SlxG7d9aoI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XZ9fNtQVGNeOfPZzmrHzQXl4T0SDgxowkDSvOTlFfD2ZtRplvWcZAuVkJealeFWuJ09PHAMGf2I41P8ATM4gzlfLxdpuzVZvCTd0qMT0DVDIyFDbHQlq3ksWypiOmOHZSXjmvha30Z6J1PqPaAKWlbnK4MUFWvUNLnE7X1qkaNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IDRNyp98; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CPGla9du"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A2BC742B33
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1729691597; bh=hLYowu+Yu+XQFT9UuFcNrt/sUr3gogTUccwJDmEre2A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CPGla9duVBmm9b6ehofp5ZvCEmYRi6BheC2jspDhPDuP2o8WowPf+2CbN6zxFbRC6
-	 z1h7XYLquGMZK6UPY+MyHANeL1tGocvVRIFZzN9fMYCUp84kcPe+waB7ae/PFmW1ac
-	 av0jnudHlyisDmFva1yg/iL45VG0fZl+KEbKsdSDyWqX2HuR2H0UFww2wCzv44XFLC
-	 +ckOjMBLr13dMx+MXtLo9pNaJpG1FyGgonEukEbpqbP8R/u5vxVuKFiL3kdtKbvoxo
-	 BhddjAb8U/yuB7Pk2ZEo+37NYvMEFyH1AUEfz/WYH7OF83O6l6Lrqwt7GDy5+dZNfn
-	 Dew3PHxhlp1eg==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A2BC742B33;
-	Wed, 23 Oct 2024 13:53:17 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: anish kumar <yesanishhere@gmail.com>, ohad@wizery.com,
- bjorn.andersson@linaro.org, mathieu.poirier@linaro.org
-Cc: linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 0/1] remoteproc documentation changes
-In-Reply-To: <20241023053357.5261-1-yesanishhere@gmail.com>
-References: <20241023053357.5261-1-yesanishhere@gmail.com>
-Date: Wed, 23 Oct 2024 07:53:16 -0600
-Message-ID: <87a5evncxf.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IDRNyp98"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2A9E31BF204;
+	Wed, 23 Oct 2024 14:16:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1729692965;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=82jccvIIGFuz0O4xWiEnBCoVG+FlKjZjshEnZFYt54E=;
+	b=IDRNyp98d7l1TShz2R8J5Zk2IvD7P87/mk2H0VTExHO79H3QotsVDiOz/SuCUdqyKP1dVx
+	7e3qPQHv1GkwF9zMGHluhCLxbdUtrPlJxlCoBon3t8OxzuroXPEf9tHQw5a2TNpP+0koXe
+	B7eCWcDl6PDwx6fCDRLPUpt48dWtXfw8cqRFDzVKiQgkbeiIcVXvtatL+/+meyx7Jx9jS1
+	C9ftgqESQQ0xOtiHNvI3tbWekuNWNvaf7pHn65GenOpu3Gf6rABZGx80meczGHsOitCLPD
+	Zw5H95YvHt42y8zEzqenHwUcFngjT/yv2f9YAb4Z3ypkVvVT5KuEMIDrxso6Eg==
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	thomas.petazzoni@bootlin.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH net-next] Documentation: networking: Add missing PHY_GET command in the message list
+Date: Wed, 23 Oct 2024 16:15:58 +0200
+Message-Id: <20241023141559.100973-1-kory.maincent@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: kory.maincent@bootlin.com
 
-anish kumar <yesanishhere@gmail.com> writes:
+ETHTOOL_MSG_PHY_GET/GET_REPLY/NTF is missing in the ethtool message list.
+Add it to the ethool netlink documentation.
 
-> This patch series transitions the documentation
-> for remoteproc from the staging directory to the
-> mainline kernel. It introduces both kernel and
-> user-space APIs, enhancing the overall documentation
-> quality.
->
-> V4:
-> Fixed compilation errors and moved documentation to
-> driver-api directory.
->
-> V3:
-> Seperated out the patches further to make the intention
-> clear for each patch.
->
-> V2:
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202410161444.jOKMsoGS-lkp@intel.com/
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ Documentation/networking/ethtool-netlink.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-So I think you could make better use of kerneldoc comments for a number
-of your APIs and structures - a project for the future.  I can't judge
-the remoteproc aspects of this, but from a documentation mechanics point
-of view, this looks about ready to me.  In the absence of objections
-I'll apply it in the near future.
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index 295563e91082..70ecc3821007 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -236,6 +236,7 @@ Userspace to kernel:
+   ``ETHTOOL_MSG_MM_GET``                get MAC merge layer state
+   ``ETHTOOL_MSG_MM_SET``                set MAC merge layer parameters
+   ``ETHTOOL_MSG_MODULE_FW_FLASH_ACT``   flash transceiver module firmware
++  ``ETHTOOL_MSG_PHY_GET``               get Ethernet PHY information
+   ===================================== =================================
+ 
+ Kernel to userspace:
+@@ -283,6 +284,8 @@ Kernel to userspace:
+   ``ETHTOOL_MSG_PLCA_NTF``                 PLCA RS parameters
+   ``ETHTOOL_MSG_MM_GET_REPLY``             MAC merge layer status
+   ``ETHTOOL_MSG_MODULE_FW_FLASH_NTF``      transceiver module flash updates
++  ``ETHTOOL_MSG_PHY_GET_REPLY``            Ethernet PHY information
++  ``ETHTOOL_MSG_PHY_NTF``                  Ethernet PHY information
+   ======================================== =================================
+ 
+ ``GET`` requests are sent by userspace applications to retrieve device
+-- 
+2.34.1
 
-Thanks,
-
-jon
