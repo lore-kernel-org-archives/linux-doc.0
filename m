@@ -1,227 +1,97 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A48413AA2B;
-	Wed, 23 Oct 2024 20:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721341E5731;
+	Wed, 23 Oct 2024 21:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729716836; cv=none; b=pE3na8z3ME2BJOpjI0KC8wmZbaROvv8uzT9tbktG4L27gDQgN5+8Za8EqDamibMHBLbxtYzxInUE1stEYVZ1mpzFESORwCsDrk6QW4x8LXXgBri0HbYS/oqMYLxFyIigyzYV/L8a62v3JidMNapuMZsG9fHiQ7P6XPq9Osn8J5o=
+	t=1729717224; cv=none; b=qPyPD1O32FQq9GdNjUzxirylitH/6GSuteLsqikpJwp9Cy+e2vowHfoUOrgjWSFs78GH7t8qhdmccLhtT+NgE/pbaprGgCDpKrddsXiauDtKK8mEWWjhF7nu1Yci6NhkJl7Fy4FFdwVOiPpKGEqw7T1fie5+I+12v+sw3cprh7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729716836; c=relaxed/simple;
-	bh=FYj61WXwisPzXtbemi6EdvR6xgwUd1lYYm1eBThKgXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EPDSfpSsMPSKA+jX7Nc44yKFCPXHfE9aAgkgewEdV4gCF5XTZuABOx2hR49tFQW1A+8IU5t2aR6w2+m4Th+YVkx8QLOTTK6p17ZoN8CezmH860LRmAE0DDXADvh4UfQ5sk0nqEsGqCLJH8c59+vRenAHCBGNLRYTjfq5uY4gQFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H8Szicll; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729717224; c=relaxed/simple;
+	bh=4eSmCo6i0if5D6CdJVmAQN9GUXvTbEx1TW8GzU+3oWo=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=STnBEeV4IPIZlNeCGW5JcP/z4QRmzr1g+VELgvxpT6YxKd0qlJHi+Qpja3Zyyvn5m1iR8EOEAAeBLvnXnONhHPB8BZ/Cu8DUZxoDcbgu2G90NTVwUdBSECeummAnkiESZSQFWohB9u/Eun6Ukz03TEp265y1MruPQAJtu7q6T9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=r2uxN5Qd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H8Szicll"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7180ab89c58so163253a34.1;
-        Wed, 23 Oct 2024 13:53:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729716834; x=1730321634; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=unwvQEJpU2auNKArz08woZdbyl7ZgOvJVRSR8P4z/fI=;
-        b=H8Szicll7TPPeYmdtWwQi7etMhcFtyFgYKLgDdQ1czgJPfJxKLm6JG7jMQPzAC4P7n
-         O1+qkF8Xih1+pkohrpeH8Z1IHRPGvR57s/vNkjRMnNquCog7NQokkWbzxttsrD0Ns49f
-         kWoJdNa6YG3GEuV2L2GmVr7PpPnNS17JUuVpPSHKYM6UQ+hb2K4jK40V/g0IQbGkxtBt
-         BFVlPaoVTPUIEpkFCqwa0zyDE0zPdWu7xA/NnNIRHRIKrKQfOCDa7C0JPomGOvigmx4I
-         /5aJxbleGJ91WBFTe6ygsl6Nws1xBRXFglkNCtpA09UjAcKSaWyjiKUPnlaEdX74+BED
-         Uzuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729716834; x=1730321634;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=unwvQEJpU2auNKArz08woZdbyl7ZgOvJVRSR8P4z/fI=;
-        b=mWqm6BQ50BlxTvjCG0mHeLfBLwP/I0vkXd+H+Hnbfs/a9LcxfaR8HdHn6RNvkUsurj
-         YAmeorPDLDWSnmni15pjOAOpoBnPaBbuMIt1ecEpTafqPuXzvkWJNkSmVoWhVSZVUnmJ
-         u77io+cceSukF6FDOleDPnvf3xBNmRO4CW6ZCIpewDsC17SDI/lLfEydObcmk4wQSaDQ
-         uQkiIfZO4RVozudJ/eHNLJsKSUvFGVJ2JtWtGaPi2bSzZlD0GZp7/jYQQff2lENe6lMF
-         egARhVpKg+C4IogjrKzqCKT35zHtmSMU0gdNKxgqNa3JvOUqdMiz/Yeu3/v1aEVDbNBU
-         rZ3g==
-X-Forwarded-Encrypted: i=1; AJvYcCVRWzmzWZ6uS0uSRQJ0D6TQTRGpzwEOCxZhuDVwPGd6mxlOK/R9ckiVpdMbZQ9d9gpTzO2PLWY4hQsolOY=@vger.kernel.org, AJvYcCWG/FubVGf1eGOXoZpsUV1yXmv3AzSVNUUZqEICWor+bFXQxuf4k8dkxzfH90WN5f4xTY7AD6wYWl+h@vger.kernel.org, AJvYcCWS8MI2dELZbQSvMehup1TAKJaD6pMZeo/kLIKa57b8Le6CdveCi9p9FMZvbdJ3usJgABIJnpqklRXP@vger.kernel.org
-X-Gm-Message-State: AOJu0Yya2UCa91IvUljK1f44V8ZZovTA1s07sLe4x93o7MthV8GO9Mf9
-	Xdx6pQ8h8SLVbJbhmCDJwzlldYoC4jyrkM0L/eTythxUr/7XcN73
-X-Google-Smtp-Source: AGHT+IHqxONL9icorPiBAyJ7fxCvW4JQT6tYn2d0Un3n+fGTAwxo9dB/jB6wLNVqqxOb2iT11oahVA==
-X-Received: by 2002:a05:6830:6f01:b0:718:10ce:c6a7 with SMTP id 46e09a7af769-7184b348e49mr3519502a34.30.1729716834152;
-        Wed, 23 Oct 2024 13:53:54 -0700 (PDT)
-Received: from raspberrypi ([2600:1700:90:4c80::f])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ec02aee5c6sm57787eaf.8.2024.10.23.13.53.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 13:53:52 -0700 (PDT)
-Date: Wed, 23 Oct 2024 15:53:51 -0500
-From: Grant Peltier <grantpeltier93@gmail.com>
-To: robh@kernel.org, linux@roeck-us.net, geert+renesas@glider.be,
-	magnus.damm@gmail.com
-Cc: grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3 2/2] dt-bindings: hwmon: isl68137: add bindings to support
- voltage dividers
-Message-ID: <2cc99616ff3dd9bcecb1309cd4d103d70aea862b.1729715599.git.grantpeltier93@gmail.com>
-References: <cover.1729715599.git.grantpeltier93@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="r2uxN5Qd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 665E7C4CEC6;
+	Wed, 23 Oct 2024 21:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1729717224;
+	bh=4eSmCo6i0if5D6CdJVmAQN9GUXvTbEx1TW8GzU+3oWo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=r2uxN5Qd5gm76NxG+Qlhr9lMttgqy65AazTAi8k5+n4TtXJdd1yL5LhAGuhhgk0xi
+	 Un7unedgoFxkTyTeFCt4VXqOoSSgnu5sM3TwS7VxhOc4WG2sVBqY7a9QsA1wzJ1je2
+	 kb9ElqWHIX9krkoGE3oF1hiLvbjrQkZwifaqy1mg=
+Date: Wed, 23 Oct 2024 14:00:17 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de,
+ mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com,
+ tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com,
+ ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com,
+ hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net,
+ willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com,
+ souravpanda@google.com, keescook@chromium.org, dennis@kernel.org,
+ jhubbard@nvidia.com, urezki@gmail.com, hch@infradead.org,
+ petr.pavlu@suse.com, samitolvanen@google.com, da.gomez@samsung.com,
+ yuzhao@google.com, vvvvvv@google.com, rostedt@goodmis.org,
+ iamjoonsoo.kim@lge.com, rientjes@google.com, minchan@google.com,
+ kaleshsingh@google.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, maple-tree@lists.infradead.org,
+ linux-modules@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v4 5/6] alloc_tag: introduce pgtag_ref_handle to
+ abstract page tag references
+Message-Id: <20241023140017.e165544bf20bcb0c79bfee57@linux-foundation.org>
+In-Reply-To: <20241023170759.999909-6-surenb@google.com>
+References: <20241023170759.999909-1-surenb@google.com>
+	<20241023170759.999909-6-surenb@google.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1729715599.git.grantpeltier93@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add devicetree bindings to support declaring optional voltage dividers to
-the rail outputs of supported digital multiphase regulators. Some
-applications require Vout to exceed the voltage range that the Vsense pin
-can detect. This binding definition allows users to define the
-characteristics of a voltage divider placed between Vout and the Vsense
-pin for any rail powered by the device.
+On Wed, 23 Oct 2024 10:07:58 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
 
-Signed-off-by: Grant Peltier <grantpeltier93@gmail.com>
----
- .../hwmon/pmbus/renesas,isl68137.yaml         | 131 ++++++++++++++++++
- 1 file changed, 131 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.yaml
+> To simplify later changes to page tag references, introduce new
+> pgtag_ref_handle type. This allows easy replacement of page_ext
+> as a storage of page allocation tags.
+> 
+> ...
+>
+>  static inline void pgalloc_tag_copy(struct folio *new, struct folio *old)
+>  {
+> +	union pgtag_ref_handle handle;
+> +	union codetag_ref ref;
+>  	struct alloc_tag *tag;
+> -	union codetag_ref *ref;
+>  
+>  	tag = pgalloc_tag_get(&old->page);
+>  	if (!tag)
+>  		return;
+>  
+> -	ref = get_page_tag_ref(&new->page);
+> -	if (!ref)
+> +	if (!get_page_tag_ref(&new->page, &ref, &handle))
+>  		return;
+>  
+>  	/* Clear the old ref to the original allocation tag. */
+>  	clear_page_tag_ref(&old->page);
+>  	/* Decrement the counters of the tag on get_new_folio. */
+> -	alloc_tag_sub(ref, folio_nr_pages(new));
+> -
+> -	__alloc_tag_ref_set(ref, tag);
+> -
+> -	put_page_tag_ref(ref);
+> +	alloc_tag_sub(&ref, folio_nr_pages(new));
 
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.yaml
-new file mode 100644
-index 000000000000..af10c55d547f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.yaml
-@@ -0,0 +1,131 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+
-+$id: http://devicetree.org/schemas/hwmon/pmbus/renesas,isl68137.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas Digital Multiphase Voltage Regulators with PMBus
-+
-+maintainers:
-+  - Grant Peltier <grant.peltier.jg@renesas.com>
-+
-+description: |
-+  Renesas digital multiphase voltage regulators with PMBus.
-+  https://www.renesas.com/en/products/power-management/multiphase-power/multiphase-dcdc-switching-controllers
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,isl68220
-+      - renesas,isl68221
-+      - renesas,isl68222
-+      - renesas,isl68223
-+      - renesas,isl68224
-+      - renesas,isl68225
-+      - renesas,isl68226
-+      - renesas,isl68227
-+      - renesas,isl68229
-+      - renesas,isl68233
-+      - renesas,isl68239
-+      - renesas,isl69222
-+      - renesas,isl69223
-+      - renesas,isl69224
-+      - renesas,isl69225
-+      - renesas,isl69227
-+      - renesas,isl69228
-+      - renesas,isl69234
-+      - renesas,isl69236
-+      - renesas,isl69239
-+      - renesas,isl69242
-+      - renesas,isl69243
-+      - renesas,isl69247
-+      - renesas,isl69248
-+      - renesas,isl69254
-+      - renesas,isl69255
-+      - renesas,isl69256
-+      - renesas,isl69259
-+      - renesas,isl69260
-+      - renesas,isl69268
-+      - renesas,isl69269
-+      - renesas,isl69298
-+      - renesas,raa228000
-+      - renesas,raa228004
-+      - renesas,raa228006
-+      - renesas,raa228228
-+      - renesas,raa229001
-+      - renesas,raa229004
-+
-+  reg:
-+    maxItems: 1
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+patternProperties:
-+  "^channel@([0-3])$":
-+    type: object
-+    description:
-+      Container for properties specific to a particular channel (rail).
-+
-+    properties:
-+      reg:
-+        description: The channel (rail) index.
-+        items:
-+          minimum: 0
-+          maximum: 3
-+
-+      renesas,vout-voltage-divider:
-+        description:
-+          Resistances of a voltage divider placed between Vout and the voltage
-+          sense pin for the given channel (rail). It has two numbers
-+          representing the resistances of the voltage divider provided as
-+          <R1 R2> which yields an adjusted Vout as
-+          Vout_adj = Vout * (R1 + R2) / R2 given the original Vout as reported
-+          by the Vsense pin.
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        minItems: 2
-+        maxItems: 2
-+
-+    required:
-+      - reg
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      isl68239@60 {
-+        compatible = "renesas,isl68239";
-+        reg = <0x60>;
-+      };
-+    };
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      isl68239@60 {
-+        compatible = "renesas,isl68239";
-+        reg = <0x60>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        channel@0 {
-+          reg = <0>;
-+          renesas,vout-voltage-divider = <1000 1000>;  // Reported Vout/Pout would be scaled by 2
-+        };
-+      };
-+    };
--- 
-2.39.5
+mm-stable has folio_size(new) here, fixed up.
 
+I think we aleady discussed this, but there's a crazy amount of
+inlining here.  pgalloc_tag_split() is huge, and has four callsites.
