@@ -1,55 +1,55 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4871CEEBD
-	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 17:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A341D017D
+	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 17:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729703288; cv=none; b=BxoPgWW4pnxNGg3foZqHO/I3N22k5/jDTMNTwxBNdLlw8gbrSvQqsboZwpGIgpiJW4J0dmI+UGOKINxS0EbvSAeTbFgwFS3+1N9/vaxYAzWXdzMCjVP/oeUbZo7BK+svEdphq1CPXhGwBoSH1IOJs2vAL7ho8D+Occeh/lbmY9U=
+	t=1729703292; cv=none; b=EWw0fgiqq3/OO3frFtzmmEtXrImXxsHimdhGFNhfZUy5VTsQQaxoPyQcNfFIJce4XfXR2dxc0dBiTafHsPV7DQM9YF/m9X8EJGyb89SRg6rTOsysfl3BKonbq8rbgR46qUMGt07fWneeNgsne+lNQrGuwMKDp9kDMRwHIdxE6kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729703288; c=relaxed/simple;
-	bh=ZiQDRmQrDQydODmBhplTHGUqS5BFAUWK779ZQGEAgqA=;
+	s=arc-20240116; t=1729703292; c=relaxed/simple;
+	bh=rSPNRF2fLgd2fBpGTA6Y9m3Pra5kFODk3NqDZER5+jw=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rT3rlM/oC6OjJhodH2U2Y5PhZmCBvlXINLfNr463d1d4Ndo4JYiHdfaNaQDuvxnaREK8kVE/XF0/86zgySDxQV5eRE7QDWmoJ1Y8EMBgs7996TOUl2tPXVJTf15ZaQPwkQZ4JLLldYpIdxi1PIyf/2i/AaLLE5F2gzBuQXj9OLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H9VJE0Ix; arc=none smtp.client-ip=209.85.219.201
+	 To:Cc:Content-Type; b=k7oVnToyCt+D7aT9pHUawQv95A4RCFsFA71TZnXz6eWHOKD+o9KBb2tScxRNhRXpTCoaftsPRyFyrBaAaTIQm7dke4A/HtxI9w5BDEpfe9hY/R7I2MxB+l9PMIw0cDe+IjJ+pgo4Fb7R+rWeCvPkupltio9b+hkTS97uKIAzhoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Iq53X5Zt; arc=none smtp.client-ip=209.85.128.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H9VJE0Ix"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e28edea9af6so20939276.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 10:08:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Iq53X5Zt"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-690404fd230so137827337b3.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 10:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729703286; x=1730308086; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1729703290; x=1730308090; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qzUZQuDC5qa2V/vpTubJjhmN2aD40kQ8oHuQLi+u1Z4=;
-        b=H9VJE0IxnL+nTpuDEfsO0joE5Y4h/z1jDdQWH90pxx78iQW0+5bC8VfzuKV24bUIYs
-         JsgRVJHzYRaU4yx6NTIfs/fAgAnNj7fSlc/35MqQINhe8/EqMqbbaEH62DQmNMmE6gnL
-         DaB95933+EXSIGWDW+BGhswMHRZvrC+TTIq6nrsH8ZbcjWCcNKR5lmKJM+IE4k3c6PW/
-         aEv4xTCJOGgygaMJmnwWlmD0NYZVx9Vh19W3WDDgy/NpHuctojMwISl4M/GdPUjTxgSw
-         vHXGz8+HaWxNq0oFjvVSSStkHGbOT3S2lwkPCsjCOQPWkTzZ8ZXH3TMK6atlhFefzaSZ
-         9ZNg==
+        bh=H2ux1AvVUg/u2T/gNvjmDC0vmkvp+tl4Ubd3hF2zga4=;
+        b=Iq53X5ZtpUJMTtXIkO10di2uXOkdtqAqzUyER7tElcfV0RXgZJTp261b3h59k42JAa
+         VSnCOr5T01ko8qcFIBUbq+Qn/pgU9PYGKIuFuo4t9Yl/jMWba7OM0xspPVAvEN/BqL3a
+         kUkugYZYHIBsFWha6owlmPZ24SmYFe1buLhNw2KGzKTMF+hH9ZiUlhv5ugTIneUgFvxz
+         rHGrHDuHHGgiE4z0l7ixQ9BaaRD/EPKlbz+U/YO6DT3XqnENGuxG0S/DI79JfJq9O3Ig
+         piepwR9Ffk1CDAl5ZzxR4pWI58CSnyWNMLsSGNKJZUNlX8kZUGcSmYXXQAPgd43Swgrw
+         umzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729703286; x=1730308086;
+        d=1e100.net; s=20230601; t=1729703290; x=1730308090;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qzUZQuDC5qa2V/vpTubJjhmN2aD40kQ8oHuQLi+u1Z4=;
-        b=rR53sZBezmXhyt1IWqSFnwsKEvLS4Tu2jBuAEmox79s4HA+/58eo1ZpaIccee1+AA2
-         /MzLAtY75wHdk3Q27MU6flm+dP1TcwMaF3Ssm4+Z4RUbHjiybw1CF7xYgAn7rFzlxWaq
-         oTRFw6y3cGJxovZDf1FpbUzpRGOkj+tW6IRAv26yAW839AzxvGvKKLB7iySgF1+V76JX
-         rwsu9a5GgCwEnGLthNwBnFFamY7zBJVMLR19Fp7T9sg4OUyVIsewUjL2AMUvgyLJPK8z
-         J3qrrVcRS6rE59QxdzsoOXZdA7e6a4NCORP1v22DWGQZvkzAtfMTXFu2wk5kKlX5m2zt
-         PElw==
-X-Forwarded-Encrypted: i=1; AJvYcCUD5O/UJ11bPIV4UfDEPUwTsJo8bIAwrVwcJibIX96SVWQO2zCZSRs4EctPPdZJS7sXxpKk74yzwhs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6X4nrKZ6E71YlAu8B8LOiBQ/M+wFy8GUKH82J5pJC0lGuvWLb
-	fZ7zstip1SGSq5clWtrr77lxN4MTl69NVDkoMwTyAqVvmuewt2aYfm3o23ENY6zqPYYXtW21YvX
-	0Jg==
-X-Google-Smtp-Source: AGHT+IEf9XVjhAQxbJksRoGGus3EwGVaSTpLfWlLEYi7zdwXtn6qn+dayeJKMPCmDwrDuVs0NH6hwtuuxI8=
+        bh=H2ux1AvVUg/u2T/gNvjmDC0vmkvp+tl4Ubd3hF2zga4=;
+        b=NcwHYOFd2ViZipx1HBddnBALt9BTH96CvvXeYclcscmbcVTlSN95Pi4OCzxoEVQIO+
+         Nol4n3QIt9DJrh+k2+zk8Wv2B7w55swJOWgxC39yVpk0vflWLUkc9QbRdeo941m+WiVY
+         O0Je9jc1ashYUoM2GNs0UBeosXN31cK8xBvA6JSc1yWHZMl0F4kTZU/N1Kc/ErNhR2hX
+         D+Cr87gBqCgS7dGCh80RpJIR7DVvPFatkT0D7UBeXDk2aQ+VPmXVZQgSusxBOHz8nB95
+         X2PVVyRVg4x2F7v6Lm1+BY7Jlg+X0n2LtxpXiWfjfVBBRK+m2GIxyTkHuPmdF3Qoswvj
+         DjNw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxNAorv4HwJYartUfK9hrGez62Bi6w0ZKIMvOE9zp7GRVX7ulqrl6QO2BQ3Ep6m5Jx7mZS9kk1Sok=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCFy0mVXdMwGCnEYUnuEfjPQsGqaDj3XFyv5bnRBTB7tdRvLXF
+	zYzatc1xcssOFwsYZAtBdLET+NAl6y/YGWBB+niuWYWRCYVUH91JOOas0Dv0xnTQPYSVo3qAkFU
+	zdQ==
+X-Google-Smtp-Source: AGHT+IGGx5cwUMRbaaaRLBx9ozQm5nYkieFYXts2XJ8fpTDFGg4nxvLC1BvVBA4+mhBqSvprWgkBELkrSzs=
 X-Received: from surenb-desktop.mtv.corp.google.com ([2a00:79e0:2e3f:8:a087:59b9:198a:c44c])
- (user=surenb job=sendgmr) by 2002:a25:8289:0:b0:e2e:3401:ea0f with SMTP id
- 3f1490d57ef6-e2e3a6bbdffmr7278276.7.1729703286023; Wed, 23 Oct 2024 10:08:06
- -0700 (PDT)
-Date: Wed, 23 Oct 2024 10:07:55 -0700
+ (user=surenb job=sendgmr) by 2002:a05:690c:4b03:b0:6b0:d571:3540 with SMTP id
+ 00721157ae682-6e7f0f97164mr929077b3.6.1729703289927; Wed, 23 Oct 2024
+ 10:08:09 -0700 (PDT)
+Date: Wed, 23 Oct 2024 10:07:57 -0700
 In-Reply-To: <20241023170759.999909-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241023170759.999909-1-surenb@google.com>
 X-Mailer: git-send-email 2.47.0.105.g07ac214952-goog
-Message-ID: <20241023170759.999909-3-surenb@google.com>
-Subject: [PATCH v4 2/6] alloc_tag: introduce shutdown_mem_profiling helper function
+Message-ID: <20241023170759.999909-5-surenb@google.com>
+Subject: [PATCH v4 4/6] alloc_tag: populate memory for module tags as needed
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, 
@@ -80,76 +80,258 @@ Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de,
 	kernel-team@android.com, surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-Implement a helper function to disable memory allocation profiling and
-use it when creation of /proc/allocinfo fails.
-Ensure /proc/allocinfo does not get created when memory allocation
-profiling is disabled.
+The memory reserved for module tags does not need to be backed by
+physical pages until there are tags to store there. Change the way
+we reserve this memory to allocate only virtual area for the tags
+and populate it with physical pages as needed when we load a module.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- lib/alloc_tag.c | 33 ++++++++++++++++++++++++++-------
- 1 file changed, 26 insertions(+), 7 deletions(-)
+ include/linux/execmem.h | 10 ++++++
+ include/linux/vmalloc.h |  3 ++
+ lib/alloc_tag.c         | 73 ++++++++++++++++++++++++++++++++++++-----
+ mm/execmem.c            | 16 +++++++++
+ mm/internal.h           |  6 ++++
+ mm/vmalloc.c            |  4 +--
+ 6 files changed, 101 insertions(+), 11 deletions(-)
 
+diff --git a/include/linux/execmem.h b/include/linux/execmem.h
+index 1517fa196bf7..5a5e2917f870 100644
+--- a/include/linux/execmem.h
++++ b/include/linux/execmem.h
+@@ -139,6 +139,16 @@ void *execmem_alloc(enum execmem_type type, size_t size);
+  */
+ void execmem_free(void *ptr);
+ 
++/**
++ * execmem_vmap - create virtual mapping for EXECMEM_MODULE_DATA memory
++ * @size: size of the virtual mapping in bytes
++ *
++ * Maps virtually contiguous area in the range suitable for EXECMEM_MODULE_DATA.
++ *
++ * Return: the area descriptor on success or %NULL on failure.
++ */
++struct vm_struct *execmem_vmap(size_t size);
++
+ /**
+  * execmem_update_copy - copy an update to executable memory
+  * @dst:  destination address to update
+diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+index 27408f21e501..31e9ffd936e3 100644
+--- a/include/linux/vmalloc.h
++++ b/include/linux/vmalloc.h
+@@ -202,6 +202,9 @@ extern int remap_vmalloc_range_partial(struct vm_area_struct *vma,
+ extern int remap_vmalloc_range(struct vm_area_struct *vma, void *addr,
+ 							unsigned long pgoff);
+ 
++int vmap_pages_range(unsigned long addr, unsigned long end, pgprot_t prot,
++		     struct page **pages, unsigned int page_shift);
++
+ /*
+  * Architectures can set this mask to a combination of PGTBL_P?D_MODIFIED values
+  * and let generic vmalloc and ioremap code know when arch_sync_kernel_mappings()
 diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-index 81e5f9a70f22..435aa837e550 100644
+index d9f51169ffeb..061e43196247 100644
 --- a/lib/alloc_tag.c
 +++ b/lib/alloc_tag.c
-@@ -8,6 +8,14 @@
+@@ -8,14 +8,15 @@
+ #include <linux/proc_fs.h>
  #include <linux/seq_buf.h>
  #include <linux/seq_file.h>
++#include <linux/vmalloc.h>
  
-+#define ALLOCINFO_FILE_NAME		"allocinfo"
-+
-+#ifdef CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-+static bool mem_profiling_support __meminitdata = true;
-+#else
-+static bool mem_profiling_support __meminitdata;
-+#endif
-+
+ #define ALLOCINFO_FILE_NAME		"allocinfo"
+ #define MODULE_ALLOC_TAG_VMAP_SIZE	(100000UL * sizeof(struct alloc_tag))
+ 
+ #ifdef CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
+-static bool mem_profiling_support __meminitdata = true;
++static bool mem_profiling_support = true;
+ #else
+-static bool mem_profiling_support __meminitdata;
++static bool mem_profiling_support;
+ #endif
+ 
  static struct codetag_type *alloc_tag_cttype;
- 
- DEFINE_PER_CPU(struct alloc_tag_counters, _shared_alloc_tag);
-@@ -144,9 +152,26 @@ size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sl
+@@ -154,7 +155,7 @@ size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sl
  	return nr;
  }
  
-+static void __init shutdown_mem_profiling(void)
+-static void __init shutdown_mem_profiling(void)
++static void shutdown_mem_profiling(void)
+ {
+ 	if (mem_alloc_profiling_enabled())
+ 		static_branch_disable(&mem_alloc_profiling_key);
+@@ -179,6 +180,7 @@ static void __init procfs_init(void)
+ #ifdef CONFIG_MODULES
+ 
+ static struct maple_tree mod_area_mt = MTREE_INIT(mod_area_mt, MT_FLAGS_ALLOC_RANGE);
++static struct vm_struct *vm_module_tags;
+ /* A dummy object used to indicate an unloaded module */
+ static struct module unloaded_mod;
+ /* A dummy object used to indicate a module prepended area */
+@@ -252,6 +254,33 @@ static bool find_aligned_area(struct ma_state *mas, unsigned long section_size,
+ 	return false;
+ }
+ 
++static int vm_module_tags_populate(void)
 +{
-+	if (mem_alloc_profiling_enabled())
-+		static_branch_disable(&mem_alloc_profiling_key);
++	unsigned long phys_size = vm_module_tags->nr_pages << PAGE_SHIFT;
 +
-+	if (!mem_profiling_support)
-+		return;
++	if (phys_size < module_tags.size) {
++		struct page **next_page = vm_module_tags->pages + vm_module_tags->nr_pages;
++		unsigned long addr = module_tags.start_addr + phys_size;
++		unsigned long more_pages;
++		unsigned long nr;
 +
-+	mem_profiling_support = false;
++		more_pages = ALIGN(module_tags.size - phys_size, PAGE_SIZE) >> PAGE_SHIFT;
++		nr = alloc_pages_bulk_array_node(GFP_KERNEL | __GFP_NOWARN,
++						 NUMA_NO_NODE, more_pages, next_page);
++		if (nr < more_pages ||
++		    vmap_pages_range(addr, addr + (nr << PAGE_SHIFT), PAGE_KERNEL,
++				     next_page, PAGE_SHIFT) < 0) {
++			/* Clean up and error out */
++			for (int i = 0; i < nr; i++)
++				__free_page(next_page[i]);
++			return -ENOMEM;
++		}
++		vm_module_tags->nr_pages += nr;
++	}
++
++	return 0;
 +}
 +
- static void __init procfs_init(void)
+ static void *reserve_module_tags(struct module *mod, unsigned long size,
+ 				 unsigned int prepend, unsigned long align)
  {
--	proc_create_seq("allocinfo", 0400, NULL, &allocinfo_seq_op);
-+	if (!mem_profiling_support)
-+		return;
+@@ -310,8 +339,18 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
+ 	if (IS_ERR(ret))
+ 		return ret;
+ 
+-	if (module_tags.size < offset + size)
++	if (module_tags.size < offset + size) {
++		int grow_res;
 +
-+	if (!proc_create_seq(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_seq_op)) {
-+		pr_err("Failed to create %s file\n", ALLOCINFO_FILE_NAME);
-+		shutdown_mem_profiling();
+ 		module_tags.size = offset + size;
++		grow_res = vm_module_tags_populate();
++		if (grow_res) {
++			shutdown_mem_profiling();
++			pr_err("Failed to allocate memory for allocation tags in the module %s. Memory allocation profiling is disabled!\n",
++			       mod->name);
++			return ERR_PTR(grow_res);
++		}
 +	}
- }
  
- static bool alloc_tag_module_unload(struct codetag_type *cttype,
-@@ -174,12 +199,6 @@ static bool alloc_tag_module_unload(struct codetag_type *cttype,
- 	return module_unused;
+ 	return (struct alloc_tag *)(module_tags.start_addr + offset);
  }
+@@ -372,12 +411,23 @@ static void replace_module(struct module *mod, struct module *new_mod)
  
--#ifdef CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
--static bool mem_profiling_support __meminitdata = true;
--#else
--static bool mem_profiling_support __meminitdata;
--#endif
--
- static int __init setup_early_mem_profiling(char *str)
+ static int __init alloc_mod_tags_mem(void)
  {
- 	bool enable;
+-	/* Allocate space to copy allocation tags */
+-	module_tags.start_addr = (unsigned long)execmem_alloc(EXECMEM_MODULE_DATA,
+-							      MODULE_ALLOC_TAG_VMAP_SIZE);
+-	if (!module_tags.start_addr)
++	/* Map space to copy allocation tags */
++	vm_module_tags = execmem_vmap(MODULE_ALLOC_TAG_VMAP_SIZE);
++	if (!vm_module_tags) {
++		pr_err("Failed to map %lu bytes for module allocation tags\n",
++			MODULE_ALLOC_TAG_VMAP_SIZE);
++		module_tags.start_addr = 0;
+ 		return -ENOMEM;
++	}
+ 
++	vm_module_tags->pages = kmalloc_array(get_vm_area_size(vm_module_tags) >> PAGE_SHIFT,
++					sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
++	if (!vm_module_tags->pages) {
++		free_vm_area(vm_module_tags);
++		return -ENOMEM;
++	}
++
++	module_tags.start_addr = (unsigned long)vm_module_tags->addr;
+ 	module_tags.end_addr = module_tags.start_addr + MODULE_ALLOC_TAG_VMAP_SIZE;
+ 
+ 	return 0;
+@@ -385,8 +435,13 @@ static int __init alloc_mod_tags_mem(void)
+ 
+ static void __init free_mod_tags_mem(void)
+ {
+-	execmem_free((void *)module_tags.start_addr);
++	int i;
++
+ 	module_tags.start_addr = 0;
++	for (i = 0; i < vm_module_tags->nr_pages; i++)
++		__free_page(vm_module_tags->pages[i]);
++	kfree(vm_module_tags->pages);
++	free_vm_area(vm_module_tags);
+ }
+ 
+ #else /* CONFIG_MODULES */
+diff --git a/mm/execmem.c b/mm/execmem.c
+index 576a57e2161f..5c0f9f2d6f83 100644
+--- a/mm/execmem.c
++++ b/mm/execmem.c
+@@ -368,6 +368,22 @@ void execmem_free(void *ptr)
+ 		vfree(ptr);
+ }
+ 
++struct vm_struct *execmem_vmap(size_t size)
++{
++	struct execmem_range *range = &execmem_info->ranges[EXECMEM_MODULE_DATA];
++	struct vm_struct *area;
++
++	area = __get_vm_area_node(size, range->alignment, PAGE_SHIFT, VM_ALLOC,
++				  range->start, range->end, NUMA_NO_NODE,
++				  GFP_KERNEL, __builtin_return_address(0));
++	if (!area && range->fallback_start)
++		area = __get_vm_area_node(size, range->alignment, PAGE_SHIFT, VM_ALLOC,
++					  range->fallback_start, range->fallback_end,
++					  NUMA_NO_NODE, GFP_KERNEL, __builtin_return_address(0));
++
++	return area;
++}
++
+ void *execmem_update_copy(void *dst, const void *src, size_t size)
+ {
+ 	return text_poke_copy(dst, src, size);
+diff --git a/mm/internal.h b/mm/internal.h
+index 508f7802dd2b..f1ce0e10bed8 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1219,6 +1219,12 @@ int numa_migrate_check(struct folio *folio, struct vm_fault *vmf,
+ void free_zone_device_folio(struct folio *folio);
+ int migrate_device_coherent_folio(struct folio *folio);
+ 
++struct vm_struct *__get_vm_area_node(unsigned long size,
++				     unsigned long align, unsigned long shift,
++				     unsigned long flags, unsigned long start,
++				     unsigned long end, int node, gfp_t gfp_mask,
++				     const void *caller);
++
+ /*
+  * mm/gup.c
+  */
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 74c0a5eae210..7ed39d104201 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -653,7 +653,7 @@ int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+  * RETURNS:
+  * 0 on success, -errno on failure.
+  */
+-static int vmap_pages_range(unsigned long addr, unsigned long end,
++int vmap_pages_range(unsigned long addr, unsigned long end,
+ 		pgprot_t prot, struct page **pages, unsigned int page_shift)
+ {
+ 	int err;
+@@ -3106,7 +3106,7 @@ static void clear_vm_uninitialized_flag(struct vm_struct *vm)
+ 	vm->flags &= ~VM_UNINITIALIZED;
+ }
+ 
+-static struct vm_struct *__get_vm_area_node(unsigned long size,
++struct vm_struct *__get_vm_area_node(unsigned long size,
+ 		unsigned long align, unsigned long shift, unsigned long flags,
+ 		unsigned long start, unsigned long end, int node,
+ 		gfp_t gfp_mask, const void *caller)
 -- 
 2.47.0.105.g07ac214952-goog
 
