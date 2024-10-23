@@ -1,162 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31BF14659D;
-	Wed, 23 Oct 2024 06:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933FB22318;
+	Wed, 23 Oct 2024 06:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729666221; cv=none; b=ftC4KxJLUCayACThCPynFSDBLrpUm2wuxi6hrffmXUhHJ5bDBLZPSNq3pYkHdGiVCwaCbejdltKu5uZ8Mtt8TTVTqHqHPpF1mYJEoken5ya430/Etqprnp7kA2KN+qx+TotlcdrD6OiXSQo+RwqvMjQMD+qiNAK3L0ieTU2J18w=
+	t=1729666635; cv=none; b=IVcueVnDzAAQi2HOm0P8v73DXh0iAeNYgwoVUPOUXFeMRFXLHfMLkRcNn/GUBZMu05R/fEOkTUMUIVW5rF9k9qGdCLVdJhoNFAB9SMdItPs6Nz5KxGg1GwkLLiPjjHLqW+lZLrIeB0VIDV/HLZEnFsypY2lJl/S5yAr1pC5+5eI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729666221; c=relaxed/simple;
-	bh=HH7WcbLIrvr+Vr1jGnk3XAi1eUso/woDxRvL2rs3tjk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C9+skY62cuZg+Kyt0CPN6kwX5uTeNbU4fxNSOJetQeNYOMEMU89hQbMcXLpnI5nwBbLrMEcZEYPGs3hyvnZiKCogfo4XBYvW0fscZB+wrAxzyiKsad8BiCdqMczHxzoQ6196Al05ZEMb2CQNJZs+yKkgJC/tktRbGntufxWrB2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jW0YakhI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729666635; c=relaxed/simple;
+	bh=VmCtvk6V8OmkJ5K/HWEg0c66PD8WlfznLpqAXnbKgG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gx5E5oQxmC/UcKP8Zmjx0XFC3BS4OQU0bzLl723LDFU19U9vqQ7ZoeIwjbOlwXDMjAC5KKSL6lls0M7o4g9zycK4SLDmOzZACTMDgNBkkogb3IsaBekBL9uNxFoVMS2OzjN6FV7WffdBiLlBjDKli4z7KS9mjVROZUvT/wA1Tc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lsy/4TzI; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jW0YakhI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B288C4AF0C;
-	Wed, 23 Oct 2024 06:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729666221;
-	bh=HH7WcbLIrvr+Vr1jGnk3XAi1eUso/woDxRvL2rs3tjk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jW0YakhI6Qd4i1J0ygnv/xJf/auliPnU3yvHXVXsNCJT9dNAYAhN3xD5qHIHj9A/2
-	 0yyB/yVDTtf/jsLwmQK8/NlbVtD8csiAHE8HnyhDCS+aZGkG/zGWZqR4EMV4gYUBeL
-	 iQFgrCDBnSDtzaJJZ7Wj5Dj+DoaGhF+9nZqV2ZbrMn5oxnp0BKWXXqkfHkPEg52lI4
-	 jtgOfamusl2KY+Qt2a7hyXrkUe8itFLrb0VKaNSEzzk/znSEtAOZqjcbTP0clbp89+
-	 rj04Rmnx9m3nA2HLUPcQZ59KJG607ml1yg0nlbYryQF341qaLzKLIc/9DrdhNJF5Na
-	 eyxrVvJs5LEYw==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2fb3da341c9so63395161fa.2;
-        Tue, 22 Oct 2024 23:50:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVDiVxaizLz8zDcpUlQWu+68n9mbNdH5Kx43ZL5txHDrnwmiR0Ak8rl18iJ0p2SILq244j1iU87Mjcg@vger.kernel.org, AJvYcCWaW/uCyI39b+mjkFAAtbCLeKbHlZfCml68LX9x0YY6iyab3knk65YCbunAHfw0YhWwM50+WCHVU+FP@vger.kernel.org, AJvYcCXZDGBAFGhNg1qvH86o/qkzqlfDD4itVc5Fd+zmm7ATm6CvnFKciYIsrqEpcZhPW0dEmVor5PbAGkybTr7M@vger.kernel.org, AJvYcCXkYfMvcMmpZBnOFKSgwnuJ8PkO2Ya1LAKVNG5R7mWshiOVa8IasCapNFpeC+ZSLYsG6QiFaYchLQ/5BDW4@vger.kernel.org, AJvYcCXp1eb0PE7pe2+isK455jTe2fPyvE0XbdDNL1IUYcZcNtcp0x7mMnSlXf8QufjMv5l/wKu8SWuyPb6M@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKHftVk8A3Fr4m2RL6LjMxmZBmxWCTgcVrMzAkYni5LN9ymXwH
-	dKewCJ83GdnEVjbnaz64XP/XO7RcLfpGEnGXlmew+w9tjogpXYy5cALLA6q+fH6cizlUgYufhyd
-	jUnXZf6jLycyI5K1LAJshTzJc1Ao=
-X-Google-Smtp-Source: AGHT+IEhDTHOZcIy12Yxl/gZ0ozyocySmT4Gjk6UW3/+LEWXlTX6KY7iZ8xKJLxyZMnImR+iPFMLPSdhm4B4eaeSdzk=
-X-Received: by 2002:a05:6512:3989:b0:536:54fd:275b with SMTP id
- 2adb3069b0e04-53b1a37554emr625833e87.54.1729666220304; Tue, 22 Oct 2024
- 23:50:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lsy/4TzI"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71e93d551a3so4595678b3a.1;
+        Tue, 22 Oct 2024 23:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729666634; x=1730271434; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OTIVgmSCTxAjeufxAhXv87pU0k2+WfMQxkIbDxZyExg=;
+        b=lsy/4TzIqO0IUO/PEKWBsOcfKKEwQn+sZpiCh8NsOKfCalkMLsHbRVXT2zZ2IL2kEG
+         9B7kwquTuado61+lJHdb4JqG30njsLVx8EdJbCkeno1JhVZ2m5hzIHfZ39jYDCLmclZj
+         vMpNTzKhbxHalEq/ALfyQrkFPkO8bHlNgqYH+nJosfTsnopo33kOnRmF5YnYfSVWkcWL
+         KiGorZtuY2UpnuCvJBFTOQfNcRnaOwjMp2ZFpqKXE+VxJ82ctrzw05tXwW3tV8qAeedB
+         rP64sVFoCCbSXCFw25UYrFSObu4ZkUbW3oMaTBXFDRQdsILQoUZTk9i48nYrhpuQo1Dy
+         ZAVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729666634; x=1730271434;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OTIVgmSCTxAjeufxAhXv87pU0k2+WfMQxkIbDxZyExg=;
+        b=V/GP2MQirUajNjQVQm0O3TnoH6Po0DRzrjioj1D9TmIPrYXSEDb312mj9eCk+swKZT
+         MbL2O/uaGAtM3t7uPNnkPLjF43WaLEhPUU7J/M9DhzH0KtZwh+w8kwodd9PJzz3rioPj
+         KoOkyi/uZwyGC+PGLtAObmPD11UoIgLJBD29jhOSvKSrhxldQvnGvHIoKfgPmrj29FIF
+         1zJ+aPX3Tshfl45r0CX4DYlW3p71y/2uc0ab8Ofu1T+aCNMYw4GXXlTyXYJN1VajG8qf
+         OATSl6cvidOqCNuSWmAJJzEZqyUu77XA+sxwVwnH4kfkBGJ4Lf3120tmtB5XfbprtOgX
+         K+7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW0aTZagB/w/AFktKjn2536sQBMG/Q+jUOFMtfrNRdrb5pIqdycEI/nOzBbSk/z8Chj2/CKBt1FlAsrUxk=@vger.kernel.org, AJvYcCWa+lZVwLB2UdQL//O+syUjLkd6J44IEL8hQurXAXdCS6ImjRDCPQV417RkDKVdHa9oFzMr5rIub90WCOU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxEDMkfalsum0IW5fF4eN4KAYzqm4IkO6NmBmhObcR2Qqmv5tQ
+	Fym7a4i0MNTk3iKeF2x7Z6HBbTZqF/Y8Ef1Rp0GXL+pSRrZ1AWjY
+X-Google-Smtp-Source: AGHT+IFIDWh7p+QxP4vOovIpqinmoWSh3kYTxqjFxl6iJptJMHcOZpQbK6c8z/jqu8AvDF6b6nI6/g==
+X-Received: by 2002:a05:6a21:10a:b0:1d9:13ba:3eef with SMTP id adf61e73a8af0-1d978b3dd0fmr2004330637.26.1729666633734;
+        Tue, 22 Oct 2024 23:57:13 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec13ea279sm5683088b3a.168.2024.10.22.23.57.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2024 23:57:12 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id E58F64396281; Wed, 23 Oct 2024 13:57:08 +0700 (WIB)
+Date: Wed, 23 Oct 2024 13:57:08 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	hverkuil-cisco@xs4all.nl, mauro.chehab@linux.intel.com,
+	kernel@collabora.com, bob.beckett@collabora.com,
+	nicolas.dufresne@collabora.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH RFC v2 0/3] Documentation: Debugging guide
+Message-ID: <ZxieRCN8rFfgZGS8@archie.me>
+References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
+ <20241022152316.yr6jpjtcwidxytpe@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-6-xur@google.com>
- <CAK7LNAQ0RwJYkCXHj8QMH3sqXgY2LBTiYV8HnKD8oANB8Bb+Yg@mail.gmail.com> <CAF1bQ=RuLmO9S1W6ofmgVQZR7pBqR3iN7gCuUO2TkwGQwM76Kw@mail.gmail.com>
-In-Reply-To: <CAF1bQ=RuLmO9S1W6ofmgVQZR7pBqR3iN7gCuUO2TkwGQwM76Kw@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 23 Oct 2024 15:49:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASB8WZACuQyQQWvjfODTHTrPrbWBNrP0nsMQkQhDr+Pug@mail.gmail.com>
-Message-ID: <CAK7LNASB8WZACuQyQQWvjfODTHTrPrbWBNrP0nsMQkQhDr+Pug@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] AutoFDO: Enable machine function split
- optimization for AutoFDO
-To: Rong Xu <xur@google.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="M6STrdpKMW46XULc"
+Content-Disposition: inline
+In-Reply-To: <20241022152316.yr6jpjtcwidxytpe@basti-XPS-13-9310>
+
+
+--M6STrdpKMW46XULc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 22, 2024 at 8:28=E2=80=AFAM Rong Xu <xur@google.com> wrote:
->
-> On Sun, Oct 20, 2024 at 8:18=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > On Tue, Oct 15, 2024 at 6:33=E2=80=AFAM Rong Xu <xur@google.com> wrote:
-> > >
-> > > Enable the machine function split optimization for AutoFDO in Clang.
-> > >
-> > > Machine function split (MFS) is a pass in the Clang compiler that
-> > > splits a function into hot and cold parts. The linker groups all
-> > > cold blocks across functions together. This decreases hot code
-> > > fragmentation and improves iCache and iTLB utilization.
-> > >
-> > > MFS requires a profile so this is enabled only for the AutoFDO builds=
-.
-> > >
-> > > Co-developed-by: Han Shen <shenhan@google.com>
-> > > Signed-off-by: Han Shen <shenhan@google.com>
-> > > Signed-off-by: Rong Xu <xur@google.com>
-> > > Suggested-by: Sriraman Tallam <tmsriram@google.com>
-> > > Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
-> > > ---
-> > >  include/asm-generic/vmlinux.lds.h | 6 ++++++
-> > >  scripts/Makefile.autofdo          | 2 ++
-> > >  2 files changed, 8 insertions(+)
-> > >
-> > > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/=
-vmlinux.lds.h
-> > > index ace617d1af9b..20e46c0917db 100644
-> > > --- a/include/asm-generic/vmlinux.lds.h
-> > > +++ b/include/asm-generic/vmlinux.lds.h
-> > > @@ -565,9 +565,14 @@ defined(CONFIG_AUTOFDO_CLANG)
-> > >                 __unlikely_text_start =3D .;                         =
-     \
-> > >                 *(.text.unlikely .text.unlikely.*)                   =
-   \
-> > >                 __unlikely_text_end =3D .;
-> > > +#define TEXT_SPLIT                                                  =
-   \
-> > > +               __split_text_start =3D .;                            =
-     \
-> > > +               *(.text.split .text.split.[0-9a-zA-Z_]*)             =
-   \
-> > > +               __split_text_end =3D .;
-> > >  #else
-> > >  #define TEXT_HOT *(.text.hot .text.hot.*)
-> > >  #define TEXT_UNLIKELY *(.text.unlikely .text.unlikely.*)
-> > > +#define TEXT_SPLIT
-> > >  #endif
-> >
-> >
-> > Why conditional?
->
-> The condition is to ensure that we don't change the default kernel
-> build by any means.
-> The new code will introduce a few new symbols.
+On Tue, Oct 22, 2024 at 05:23:16PM +0200, Sebastian Fricke wrote:
+> On 24.09.2024 10:45, Sebastian Fricke wrote:
+> > The RFC contains:
+> > - a general debugging guide split into debugging for driver developers =
+and
+> >  debugging from userspace
+> > - a new summary page for all media related documentation. This is inspi=
+red by
+> >  other subsystems, which first of all allows a user to find the subsyst=
+em
+> >  under the subsystems page and secondly eases general navigation throug=
+h the
+> >  documentation that is sprinkled onto multiple places.
+> > - a guide on how to debug code in the media subsystem, which points to =
+the
+> >  parts of the general documentation and adds own routines.
+>=20
+> I wanted to give this a little push, so far I have received a lot of
+> good feedback but none from the core and documentation folks. What do
+> you think about this?
 
+Address all reviews then reroll (maybe as non-RFC series).
 
-Same.
+Thanks.
 
-Adding two __split_text_start and __split_text_end markers
-do not affect anything. It just increases the kallsyms table slightly.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-You can do it unconditionally.
+--M6STrdpKMW46XULc
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZxiePQAKCRD2uYlJVVFO
+o3JqAQDJhBM5el/ZJxxkzFRi3Wb1thDGSpEp9V1vfmhkehIdbAD+K3avvP1asWGs
+zGg0qt5pEq8BYK0c0l3mpm2F3E3lkAA=
+=W4Be
+-----END PGP SIGNATURE-----
 
->
-> >
-> >
-> > Where are __unlikely_text_start and __unlikely_text_end used?
->
-> These new symbols are currently unreferenced within the kernel source tre=
-e.
-> However, they provide a valuable means of identifying hot and cold
-> sections of text,
-> and how large they are. I think they are useful information.
-
-
-Should be explained in the commit description.
-
-
-
---
-Best Regards
-Masahiro Yamada
+--M6STrdpKMW46XULc--
