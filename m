@@ -1,168 +1,275 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E80A15EFA0
-	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 18:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251521BD039;
+	Wed, 23 Oct 2024 18:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729709430; cv=none; b=RnnphEHvPPSf03vmFsptuYfeIqRNeK56EXRbmq5t2mXM/cv1UGUNxXlNszM14I4WNZLNZNOhN0KJUMgw3xiKR8ro7iuC9IZSx3wCaZoZyKYX5S9ECfAe6QdNoW1MaBXzGbVrWfrGXzEhWqSlRsKQsGB+wbDLbBuQKA9vOG4ZbqU=
+	t=1729709536; cv=none; b=eHkzrN81PC4aoFsoK2RT6Tj2xFdZj+5fXLNOfkSPcbjgBiJvGBw2DV5LuCGliaJjcs2CQfbIuv/asencvsyjaKihNwKopOvfBp+bb/kkhtXAsIo6zMrFduLwzPrrvvSmVhTQFIPgG0oLsFDUZG5eJDmBO1swokCaFGzJ11m3zpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729709430; c=relaxed/simple;
-	bh=0MSK6pPABqBtmce3T9II/Ylr88oxS22UsdZ+9/3Yzds=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qOb113wHQgBziSqPCzJEr5mkHH9LFLUvaSV0mwpFLOQSTECcRxKzZ2cep1HggnJ6j0mcm1cI+hIh/VSOLbI4lmhKjJLT2b7+rcGm4UL2CbPy+mglVwR0D5a16xz+rtOvdVhWDvVTOvWex5gUNAmtkJm7vXTRG3lm1dJUFFBpt4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bXq43cm3; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1729709536; c=relaxed/simple;
+	bh=njtUKgrV5OXayg0+Kn+J7g3LEYAnXZ8nLn3vjCWxcZI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iOZKhLzXPULMc/p2BLHHLnAJbh3S22yXuzQrM8tVZ2tlfHVRSHBpEC0IVGR2q3SKU5oQz0ipJaurTsUEoFxRk7/Qw1SwirW9olfY8i3eN7ZKpQh2lBfMKemPGia59m0+SmgeDB3RTojtMcr5BAvM3RYR5VQbKpa+c9W04zMb2Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHTxd9Gu; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bXq43cm3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729709427;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=qmPSKp0YLHjUOyqd82hGayDLVrh/DCNFeJf+SQ6VSaA=;
-	b=bXq43cm3SwGa6aLEwP/BQ44rQWmDFgyYAbCarLDYF6iwukfcB3/gkncDqEu6ozp5YQDPxR
-	e/5fbmvscwceAYgDP47wxmNxJO0RZZsqnmBRztGikND9HwmwZkvv3PNjqNaPtxsxjIgzpw
-	MVG2qI0Qvd8VOd9gXbBqR8V/47ob0SA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-447-merplZd7Nn66djmnDcXbGQ-1; Wed, 23 Oct 2024 14:50:25 -0400
-X-MC-Unique: merplZd7Nn66djmnDcXbGQ-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-37d5a3afa84so14726f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 11:50:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHTxd9Gu"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-84fe06fbdc6so28262241.0;
+        Wed, 23 Oct 2024 11:52:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729709534; x=1730314334; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BOKo15FalVfcgavpWt9liGgilAyV8FkT17tVYolJJFo=;
+        b=RHTxd9GuWjgcYFSopQlrvj0JaItcy5E4gM+wEkH//li4VsNHE6Kq7eZSax43o15Ms2
+         hvAe93LNbVEsufYAv0OBEwuyuGMEuK5Y5prmOMLFWaRhcxK8lwR/+bHCL70EgmC7I2zg
+         WPJNVNPILkfKke6mZWvr6yEKcYFQxvjDQFuDtr9+ogQ3d0HM0EGBmrtGy3tBVuNk7ibo
+         x+X2gTD4ADy29Ve3NEwUYRSKiq4sSio3ybFhH5FkQkywnObQGXMmj3eRd5WZdwR7goms
+         mXuyPVZ2TnDA+C0jTznU741xnEenjvgBrf9fziVFAUQpUON0VnoLu9RADyUE3dF2blYM
+         Wx5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729709424; x=1730314224;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qmPSKp0YLHjUOyqd82hGayDLVrh/DCNFeJf+SQ6VSaA=;
-        b=SAcnoZfmEV48c9NZ2mRD5mOcGJAeTb3yfZIlqYDE+gYVMDBgQ0vjQW/MVR+fsnSJun
-         b7FIb+CLcSlHGNIAOmxzwahZ2mYN6B5vhFQAFIQJ2luTvhQ+dnBj5xqSM5W1eltliFgC
-         MCiJFbZ7fdRLTaH1o1Kejj+l5E3tIGwvV04RZIHOggYBcyeFPW7leHTLjfpncdF2vCqa
-         jKqoxE3NUVQOnn5UUtIG9EwJhMSRx8DQ+xzXCMzm7n2Ne36Ozh/YjVZ8uF91Rr4uXjrj
-         L2mqLZstt1mWG5rPzIwdCSBxtVo6l3D2zx/jToufI/7XUbGNpK+zg20X25Ce+gaXRcR3
-         bV4A==
-X-Forwarded-Encrypted: i=1; AJvYcCW3CLjyEnQ29pSERpfV7JM13YU7dDY487y+fQLURo1ynhLoOXcnTmZ11ZT9KYBGzxUb2SIGh5IBR3g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnmAB+ohYcSgqo3yAaDBoqweMtOPLN0KbTE6BcmIByIjPcOYGS
-	WYuJixt7qeXdUxdCtx4zAXNO0qkiH3DOXfCDp70n+ON9Wj59I8fL7ccZXQ0IhqH1Cd3jqY2sjDD
-	sZK2IrPli2MyTRgyckrLFKDjEC42arbg3m8IzoB/hr/FztV0RGG0pCyfswA==
-X-Received: by 2002:a05:6000:dd1:b0:37d:4cd5:ffec with SMTP id ffacd0b85a97d-37efcef5609mr2226604f8f.2.1729709424647;
-        Wed, 23 Oct 2024 11:50:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGCB1tgfWSe/u39zeAbh2oZnmODTCV3s3IHynsl+a1e6iFCYYt/Y62YkQ4Pzzw0Zk2XHgEb7w==
-X-Received: by 2002:a05:6000:dd1:b0:37d:4cd5:ffec with SMTP id ffacd0b85a97d-37efcef5609mr2226587f8f.2.1729709424224;
-        Wed, 23 Oct 2024 11:50:24 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70c:cd00:c139:924e:3595:3b5? (p200300cbc70ccd00c139924e359503b5.dip0.t-ipconnect.de. [2003:cb:c70c:cd00:c139:924e:3595:3b5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43186bfcfd0sm23625305e9.26.2024.10.23.11.50.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2024 11:50:23 -0700 (PDT)
-Message-ID: <99d0e61b-9408-490c-8634-f44cb2487d96@redhat.com>
-Date: Wed, 23 Oct 2024 20:50:21 +0200
+        d=1e100.net; s=20230601; t=1729709534; x=1730314334;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BOKo15FalVfcgavpWt9liGgilAyV8FkT17tVYolJJFo=;
+        b=MR3FthG/eL6SBGRNZihDgrKu8lp9fLilNzHilI05u7TXY0P0E2Zc+YI2L57y+aNeVc
+         I2UAv5HuqIAf/HjX5SWqat2f2uk/+vplAzL4WInEdRaaBk2/0/UrctJlwFY+PBtvLR8/
+         UdNrTlRbWCM26iBzdBRpjueGmnjxoBQ5UZDcppgsN2n5OQkYln8I/PjQBlzJ9KM3PKme
+         y1bKEi5QlOPQe/FfV7967RNYB88bgqlwdluI9bPECxoQxgUtVR5ISoL6ixz3+ZKU67rj
+         2fWKZ8vXUKuKHO5UQA+e70qVlUEoNf/cF+3fkEOeZFd9GfgYTMdz8qav8849G/krBEN7
+         l3oQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVX1UcyGA5KyP6uHd05atQT9lcx1joQz3Kdl73/icASyfkWyVkfhUDoPklhof+zCtvF9959aj15C7c5aODr@vger.kernel.org, AJvYcCXmLGnJzmEuxrhlaJJAGGapskJ3FmJ+0I27X1Mirkz1Qa5jdgyPsp6DFz9VHlKOz9m7MnQBPrm3+as=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzX+mBYFdGu8YZPz1ULqyo8X+HfbjMqxV4YiQYMp2XjgzIVutN0
+	GLiJwrs2rL+PmbMQT04LFzWkd54lNO/C1InXJpnvelsoCvvEWh7hmleBCQpLoxIXa2akcSSuI6t
+	dZC66AMSLSd/J86cxT8xh5oj3G2M=
+X-Google-Smtp-Source: AGHT+IGmSoi7EQKoemOA7oupQxpcLLvNt3dGw7kpWMGbnah/qXFQC7NPkc10lQWyw4eDcWzFcExh37M4jpAPSYNm2pY=
+X-Received: by 2002:a05:6102:dcf:b0:4a5:c297:7d5a with SMTP id
+ ada2fe7eead31-4a751c017f9mr4862582137.16.1729709533848; Wed, 23 Oct 2024
+ 11:52:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm: avoid VM_BUG_ON when try to map an anon large folio
- to zero page.
-To: Zi Yan <ziy@nvidia.com>, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: usamaarif642@gmail.com, baohua@kernel.org, cerasuolodomenico@gmail.com,
- corbet@lwn.net, hannes@cmpxchg.org, kernel-team@meta.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, npache@redhat.com,
- riel@surriel.com, roman.gushchin@linux.dev, rppt@kernel.org,
- ryan.roberts@arm.com, ryncsn@gmail.com, shakeel.butt@linux.dev,
- willy@infradead.org, yuzhao@google.com
-References: <20241023171236.1122535-1-ziy@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20241023171236.1122535-1-ziy@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241018105026.2521366-1-usamaarif642@gmail.com>
+ <CAGsJ_4xweuSwMUBuLSr2eUy69mtQumeDpMZ1g2jFPGq6nFn9fg@mail.gmail.com>
+ <5313c721-9cf1-4ecd-ac23-1eeddabd691f@gmail.com> <b1c17b5e-acd9-4bef-820e-699768f1426d@gmail.com>
+ <CAGsJ_4wykOyJupLhcqkSPe27rdANd=bOJhqxL74vcdZ+T9f==g@mail.gmail.com>
+ <eab11780-e671-4d09-86a6-af4cf3589392@gmail.com> <CAGsJ_4wWf7QnibY_uU8B=efuEACrvFaJJ=bJTD+9KrxFtfoMmQ@mail.gmail.com>
+ <CAGsJ_4w5XLMok4F6Xw7aTAdV6rY9OvCVPM3U+hzFnKyTXBUpOA@mail.gmail.com>
+ <4c30cc30-0f7c-4ca7-a933-c8edfadaee5c@gmail.com> <7a14c332-3001-4b9a-ada3-f4d6799be555@gmail.com>
+ <CAJD7tkbrjV3Px8h1p950VZFi9FnzxZPn2Kg+vZD69eEcsQvtxg@mail.gmail.com> <3dca2498-363c-4ba5-a7e6-80c5e5532db5@gmail.com>
+In-Reply-To: <3dca2498-363c-4ba5-a7e6-80c5e5532db5@gmail.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Thu, 24 Oct 2024 07:52:01 +1300
+Message-ID: <CAGsJ_4zp=E7izB5oAAiWu14UCqNCSvWhveGoHCP6Wr030SHH1A@mail.gmail.com>
+Subject: Re: [RFC 0/4] mm: zswap: add support for zswapin of large folios
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: Yosry Ahmed <yosryahmed@google.com>, senozhatsky@chromium.org, minchan@kernel.org, 
+	hanchuanhua@oppo.com, v-songbaohua@oppo.com, akpm@linux-foundation.org, 
+	linux-mm@kvack.org, hannes@cmpxchg.org, david@redhat.com, willy@infradead.org, 
+	kanchana.p.sridhar@intel.com, nphamcs@gmail.com, chengming.zhou@linux.dev, 
+	ryan.roberts@arm.com, ying.huang@intel.com, riel@surriel.com, 
+	shakeel.butt@linux.dev, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 23.10.24 19:12, Zi Yan wrote:
-> An anonymous large folio can be split into non order-0 folios,
-> try_to_map_unused_to_zeropage() should not VM_BUG_ON compound pages but
-> just return false. This fixes the crash when splitting anonymous large
-> folios to non order-0 folios.
-> 
-> Fixes: b1f202060afe ("mm: remap unused subpages to shared zeropage when splitting isolated thp")
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> ---
->   mm/migrate.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index e950fd62607f..7ffdbe078aa7 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -206,7 +206,8 @@ static bool try_to_map_unused_to_zeropage(struct page_vma_mapped_walk *pvmw,
->   	pte_t newpte;
->   	void *addr;
->   
-> -	VM_BUG_ON_PAGE(PageCompound(page), page);
-> +	if (PageCompound(page))
-> +		return false;
->   	VM_BUG_ON_PAGE(!PageAnon(page), page);
->   	VM_BUG_ON_PAGE(!PageLocked(page), page);
->   	VM_BUG_ON_PAGE(pte_present(*pvmw->pte), page);
+On Thu, Oct 24, 2024 at 7:31=E2=80=AFAM Usama Arif <usamaarif642@gmail.com>=
+ wrote:
+>
+>
+>
+> On 23/10/2024 19:02, Yosry Ahmed wrote:
+> > [..]
+> >>>> I suspect the regression occurs because you're running an edge case
+> >>>> where the memory cgroup stays nearly full most of the time (this isn=
+'t
+> >>>> an inherent issue with large folio swap-in). As a result, swapping i=
+n
+> >>>> mTHP quickly triggers a memcg overflow, causing a swap-out. The
+> >>>> next swap-in then recreates the overflow, leading to a repeating
+> >>>> cycle.
+> >>>>
+> >>>
+> >>> Yes, agreed! Looking at the swap counters, I think this is what is go=
+ing
+> >>> on as well.
+> >>>
+> >>>> We need a way to stop the cup from repeatedly filling to the brim an=
+d
+> >>>> overflowing. While not a definitive fix, the following change might =
+help
+> >>>> improve the situation:
+> >>>>
+> >>>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> >>>>
+> >>>> index 17af08367c68..f2fa0eeb2d9a 100644
+> >>>> --- a/mm/memcontrol.c
+> >>>> +++ b/mm/memcontrol.c
+> >>>>
+> >>>> @@ -4559,7 +4559,10 @@ int mem_cgroup_swapin_charge_folio(struct fol=
+io
+> >>>> *folio, struct mm_struct *mm,
+> >>>>                 memcg =3D get_mem_cgroup_from_mm(mm);
+> >>>>         rcu_read_unlock();
+> >>>>
+> >>>> -       ret =3D charge_memcg(folio, memcg, gfp);
+> >>>> +       if (folio_test_large(folio) && mem_cgroup_margin(memcg) <
+> >>>> MEMCG_CHARGE_BATCH)
+> >>>> +               ret =3D -ENOMEM;
+> >>>> +       else
+> >>>> +               ret =3D charge_memcg(folio, memcg, gfp);
+> >>>>
+> >>>>         css_put(&memcg->css);
+> >>>>         return ret;
+> >>>> }
+> >>>>
+> >>>
+> >>> The diff makes sense to me. Let me test later today and get back to y=
+ou.
+> >>>
+> >>> Thanks!
+> >>>
+> >>>> Please confirm if it makes the kernel build with memcg limitation
+> >>>> faster. If so, let's
+> >>>> work together to figure out an official patch :-) The above code has=
+n't consider
+> >>>> the parent memcg's overflow, so not an ideal fix.
+> >>>>
+> >>
+> >> Thanks Barry, I think this fixes the regression, and even gives an imp=
+rovement!
+> >> I think the below might be better to do:
+> >>
+> >> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> >> index c098fd7f5c5e..0a1ec55cc079 100644
+> >> --- a/mm/memcontrol.c
+> >> +++ b/mm/memcontrol.c
+> >> @@ -4550,7 +4550,11 @@ int mem_cgroup_swapin_charge_folio(struct folio=
+ *folio, struct mm_struct *mm,
+> >>                 memcg =3D get_mem_cgroup_from_mm(mm);
+> >>         rcu_read_unlock();
+> >>
+> >> -       ret =3D charge_memcg(folio, memcg, gfp);
+> >> +       if (folio_test_large(folio) &&
+> >> +           mem_cgroup_margin(memcg) < max(MEMCG_CHARGE_BATCH, folio_n=
+r_pages(folio)))
+> >> +               ret =3D -ENOMEM;
+> >> +       else
+> >> +               ret =3D charge_memcg(folio, memcg, gfp);
+> >>
+> >>         css_put(&memcg->css);
+> >>         return ret;
+> >>
+> >>
+> >> AMD 16K+32K THP=3Dalways
+> >> metric         mm-unstable      mm-unstable + large folio zswapin seri=
+es    mm-unstable + large folio zswapin + no swap thrashing fix
+> >> real           1m23.038s        1m23.050s                             =
+      1m22.704s
+> >> user           53m57.210s       53m53.437s                            =
+      53m52.577s
+> >> sys            7m24.592s        7m48.843s                             =
+      7m22.519s
+> >> zswpin         612070           999244                                =
+      815934
+> >> zswpout        2226403          2347979                               =
+      2054980
+> >> pgfault        20667366         20481728                              =
+      20478690
+> >> pgmajfault     385887           269117                                =
+      309702
+> >>
+> >> AMD 16K+32K+64K THP=3Dalways
+> >> metric         mm-unstable      mm-unstable + large folio zswapin seri=
+es   mm-unstable + large folio zswapin + no swap thrashing fix
+> >> real           1m22.975s        1m23.266s                             =
+     1m22.549s
+> >> user           53m51.302s       53m51.069s                            =
+     53m46.471s
+> >> sys            7m40.168s        7m57.104s                             =
+     7m25.012s
+> >> zswpin         676492           1258573                               =
+     1225703
+> >> zswpout        2449839          2714767                               =
+     2899178
+> >> pgfault        17540746         17296555                              =
+     17234663
+> >> pgmajfault     429629           307495                                =
+     287859
+> >>
+> >
+> > Thanks Usama and Barry for looking into this. It seems like this would
+> > fix a regression with large folio swapin regardless of zswap. Can the
+> > same result be reproduced on zram without this series?
+>
+>
+> Yes, its a regression in large folio swapin support regardless of zswap/z=
+ram.
+>
+> Need to do 3 tests, one with probably the below diff to remove large foli=
+o support,
+> one with current upstream and one with upstream + swap thrashing fix.
+>
+> We only use zswap and dont have a zram setup (and I am a bit lazy to crea=
+te one :)).
+> Any zram volunteers to try this?
 
-Would read nicer in 2024 when working on folios ;)
+Hi Usama,
 
-Acked-by: David Hildenbrand <david@redhat.com>
+I tried a quick experiment:
 
--- 
-Cheers,
+echo 1 > /sys/module/zswap/parameters/enabled
+echo 0 > /sys/module/zswap/parameters/enabled
 
-David / dhildenb
+This was to test the zRAM scenario. Enabling zswap even
+once disables mTHP swap-in. :)
 
+I noticed a similar regression with zRAM alone, but the change resolved
+the issue and even sped up the kernel build compared to the setup without
+mTHP swap-in.
+
+However, I=E2=80=99m still working on a proper patch to address this. The c=
+urrent
+approach:
+
+mem_cgroup_margin(memcg) < max(MEMCG_CHARGE_BATCH, folio_nr_pages(folio))
+
+isn=E2=80=99t sufficient, as it doesn=E2=80=99t cover cases where group A c=
+ontains group B, and
+we=E2=80=99re operating within group B. The problem occurs not at the bound=
+ary of
+group B but at the boundary of group A.
+
+I believe there=E2=80=99s still room for improvement. For example, if a 64K=
+B charge
+attempt fails, there=E2=80=99s no need to waste time trying 32KB or 16KB. W=
+e can
+directly fall back to 4KB, as 32KB and 16KB will also fail based on our
+margin detection logic.
+
+>
+> diff --git a/mm/memory.c b/mm/memory.c
+> index fecdd044bc0b..62f6b087beb3 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4124,6 +4124,8 @@ static struct folio *alloc_swap_folio(struct vm_fau=
+lt *vmf)
+>         gfp_t gfp;
+>         int order;
+>
+> +       goto fallback;
+> +
+>         /*
+>          * If uffd is active for the vma we need per-page fault fidelity =
+to
+>          * maintain the uffd semantics.
+
+Thanks
+Barry
