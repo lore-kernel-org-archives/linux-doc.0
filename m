@@ -1,354 +1,591 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8906A1AE017
-	for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 13:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41E9156C72;
+	Wed, 23 Oct 2024 13:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729688664; cv=none; b=e6mg58BMd8ZT/88BEvFey1ZJb26PXFlnwo7Zux6EgLXZps7O6rNpbOi9UnScBUSBopJ9VxNcx/VQ+qydVvwr/9TU4oEa90VQKkzgR2XSe0hWulLkKFkSIgUb/hY/QT4JzJ4WiTKUBST/YSLLdIhTanmX3QGg8Igv3TAXysX+uiA=
+	t=1729688905; cv=none; b=W/+X6unRU0jKl1DTUEOerrfltNHIaYWMOX2/DgmbbbQAqN7My+aAfyjsk3xZWneIIfK2uDYMTH5Onm3TnLbJrgjDnNbqyE69ZaWWQ9D5/JGAxlbiny+f0rit71JBfE/S5sO+6kYwsrT9Gf6FshZF+Hz19vuQfYNyRMcbJYHYUgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729688664; c=relaxed/simple;
-	bh=MpK6RS+I7PQTp8TXGaMDLzmzgPn58DRmkV1SN7iHK1A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tE8gaqCt9ztBKU7NwM/EeYd3ClKX6S7xhxaBIDw9WPBjrmJ7ESamtWJvc6C6a6cGQcGWn698kY/tlYTsXVrxScesxQ+BnKb2h/9TToPQ9W0njaT/D0hRNKY4I11W/cawNKtMYlS6mAtMN2qon+UpL5ovFsX95RS7mQnqTpcKyuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=aVrAov/C; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+	s=arc-20240116; t=1729688905; c=relaxed/simple;
+	bh=n/EBS1cwBQphsvbvOxbtuvBZFCMQgGmDglbL/aimjik=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=b+7X5+OGzb4oSODPYTtaHOJk6fk+xpPZ+gQq8zjwUouiT7RG6bNrtj5DPHT6tjpaXrlZGh51YeSV+vkrU5yRUPLV425OQGXWsJQ1Vm70BiW2/zKF4jsXdm2QvDU3TOyOPpZYsy14dWPffGaJbk5P3Gkz5UMosVTUImMVr5OLKWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NBciK6s4; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="aVrAov/C"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6e5e5c43497so32588477b3.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 06:04:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NBciK6s4"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a9a0ef5179dso983529466b.1;
+        Wed, 23 Oct 2024 06:08:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1729688661; x=1730293461; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3/AnBf3/nTkXL2NkhoqZDBIHbWYp0ABCS6QvosRFtZI=;
-        b=aVrAov/C/iYOPrL43Nsh5aaN73DSPW6cN6bXrA1IFmQ0k9f+MIF29PU88z2hAm33kS
-         /rlSQCQACJJEhMd2nTl5QbLj6rGkFIWGmzloRz5dGdVCF67tGA6YWNH3klfhnNqZPX0C
-         lknKdWVBmx3ISe1kNbebOcmmiXDPIiirVr9EPt7zB5cPksMTWmIoiMtQ0lIBJF3RCZxA
-         f7ebTA/K6PyzX/RIWVBGT8CrmxDHNu2P/wtGxTTsNQBnakyl68G+wBEdCLaXQYJ069CS
-         ZCdD4B3pBpDjNvoCAcPhAS4Kn5DlXrBqOn7B/4+YZxDT2owanel25TEnzE4OYssXPp72
-         TXvQ==
+        d=gmail.com; s=20230601; t=1729688901; x=1730293701; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6g/kN3aYrPUUweeIdLICpwUC9hysX6yVasIgSzv6wYA=;
+        b=NBciK6s4FquY0OTCSOrGtUkoqlPNe14b2ucoY8YSfGus2GGXDyAQo3GhMVB/lvhLGY
+         teF9VdZEG/J/trqGrle+qeF90ewv6Rmpn0sH5RWmBe3lmooc4tL8cfmzwrJ4hwpyOl7h
+         A3DOdOzOZvEGGX17aAUSaPZe3j13hDwe03oA5RUVQKTqVuKp0bwKr67ggbBDy0sd9pMo
+         x4x/9t5Adksb9r4Cb+NgEfg/fzCIZz+5O/mmm4hJ46WYKL7fVXVDalHPq+Jkar3c/4Wq
+         PiKmFUk6ugBQZOFtFwsZMqNyp6Ou4n1DQUCzwVxV6/ElyHRhVwyrFEa+tT083ZyYKNZK
+         xNVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729688661; x=1730293461;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3/AnBf3/nTkXL2NkhoqZDBIHbWYp0ABCS6QvosRFtZI=;
-        b=De6FYRQHLyKcjeYpXpHV8Q6R6Kk7g5DwK/L2RBDeZkx4vz3wWDIn/CkNPdiVU2fGLn
-         J0XcHJlr3JSJhFrGg3xYOeVyggJnXx5YhSyWFdqjOIkfQmG2/AvADCU/G1RH7dzznLw2
-         LHx8o6n3oTL0Uvtg51KhOls4AfTLWdF/2OUfU1sh/YEe/99a3ARQEaHvlIrWJubECszw
-         C2ibQa3vumN+NiBXCC5YpNA5YtV9Oxti9VjMrwcutiHQ+MKmKOLttV8CExlhPyZ0G/H/
-         qA/g9GH5odr7XDwllWEekoXN9buIo3UFsw/jfN/ZfJUoKgNnAdqzvuQ8UImHB81q8VVx
-         Mv1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUsc4CzpJn2mm6tEinSR9N9zrh9K9k5hXosJxtusmW78uFJup33fCw3om36nPKVthbiBHL7mSD/fTA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWsd7COemglPO6TaQbmkzKRjNMNtEO1Py8YvRBSHflEYo/Q5m/
-	Gk1S8bqw/2a4ERkyhf5B9Hjsk8Ao3p36mgplfls9qzK16qbRXFH0Y16p/DA7U11h7liZHrJzn2H
-	Lb797WP4jrZ65OjWrNKFbhULqB6UZ6kkAMiNprQ==
-X-Google-Smtp-Source: AGHT+IEfsq7CIMNMAgo1KkUtr4zs+MUmx+SFnPyr4Z9bcxLyjD5TZewsVjQKBtNJ2ISFjKtU0hXXmoGeiQAguCMbTlw=
-X-Received: by 2002:a05:690c:4346:b0:647:7782:421a with SMTP id
- 00721157ae682-6e7f100497bmr14596277b3.45.1729688661388; Wed, 23 Oct 2024
- 06:04:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729688901; x=1730293701;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6g/kN3aYrPUUweeIdLICpwUC9hysX6yVasIgSzv6wYA=;
+        b=Ks1mlCXwQrsArlKGAaxiGjBP5DX4Q48VNc21Wi4EW3t7JacanFkrTXHOlF9GoTbUp0
+         AsfUKpJoCOOHn2pSdwGLgLA2RlBD7C4UeA3ST+Ipx3KvKxhvdGEm6HZuNw45ZeJk1K4J
+         KtKxiSx8jDu5RjLzFLUkeEbv8Tfc4INLTn3mJgnAB7iALbpcj+l+LjFKUxzXICr3veoG
+         CPomMMbWdLW0YYxMW/tX/C14F6le/hZpC5ahXtbSm08NsOwrJO3eBTQ0o/wr7MhtND//
+         gx/JA0jeysZ+FOnlKk3vNHTcxZGVyQvqpPLteAo3pvOx0P1YA1z+iQgiBE+UwIDrucuX
+         WwsA==
+X-Forwarded-Encrypted: i=1; AJvYcCXLmHHCcJhaXbrxwGarZLuub0r3kJ8/VX85t9nveLq9Qgslvqd7Hucr/ocbBxo0h1sdyPVs1pnrKrU=@vger.kernel.org, AJvYcCXqrc4pzDmyUPiNCamaR7VVuFBZHlyNIPTF4KO2iEepbz3Us0SMZ1EaHpHbUa9kPnbobYTt87mo164/6GBY@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/502t9VE3ZthLEuU5KoySI7jIAmnCi+yo0WjbeiKk4o9mS2L1
+	84TGRD16fdHpTWtw4XLoNUYbkQFpUTVeHC+w2+TbdqCfgJ+G7O1Z
+X-Google-Smtp-Source: AGHT+IFb41T8ZR9P2tMkI3jtoD2dTOZAmZnkF6HO/XCXQyGLtbTQ7TAqICB5zCVsGDKDUw1V8nl62Q==
+X-Received: by 2002:a17:907:a08:b0:a9a:17f5:79a8 with SMTP id a640c23a62f3a-a9abf84a887mr229560466b.13.1729688900691;
+        Wed, 23 Oct 2024 06:08:20 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::7:ca73])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a912d63bcsm483257566b.12.2024.10.23.06.08.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Oct 2024 06:08:20 -0700 (PDT)
+Message-ID: <7a14c332-3001-4b9a-ada3-f4d6799be555@gmail.com>
+Date: Wed, 23 Oct 2024 14:08:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
- <20240529-b4-media_docs_improve-v2-3-66318b2da726@collabora.com>
- <c809983f-9559-434b-b1c6-a54e3fcb88f1@xs4all.nl> <20241023122900.GA17733@pendragon.ideasonboard.com>
- <ea9b3744-9792-41b2-9f9b-842cfa24a5ac@xs4all.nl>
-In-Reply-To: <ea9b3744-9792-41b2-9f9b-842cfa24a5ac@xs4all.nl>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 23 Oct 2024 14:04:03 +0100
-Message-ID: <CAPY8ntCEz-qpnDd3=mJ7L+0KcDjim3oTAWZ6Kpa2Lq=afdN7uw@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 3/3] docs: media: Debugging guide for the media subsystem
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mauro.chehab@linux.intel.com, 
-	kernel@collabora.com, bob.beckett@collabora.com, 
-	nicolas.dufresne@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/4] mm: zswap: add support for zswapin of large folios
+From: Usama Arif <usamaarif642@gmail.com>
+To: Barry Song <21cnbao@gmail.com>
+Cc: senozhatsky@chromium.org, minchan@kernel.org, hanchuanhua@oppo.com,
+ v-songbaohua@oppo.com, akpm@linux-foundation.org, linux-mm@kvack.org,
+ hannes@cmpxchg.org, david@redhat.com, willy@infradead.org,
+ kanchana.p.sridhar@intel.com, yosryahmed@google.com, nphamcs@gmail.com,
+ chengming.zhou@linux.dev, ryan.roberts@arm.com, ying.huang@intel.com,
+ riel@surriel.com, shakeel.butt@linux.dev, kernel-team@meta.com,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20241018105026.2521366-1-usamaarif642@gmail.com>
+ <CAGsJ_4xweuSwMUBuLSr2eUy69mtQumeDpMZ1g2jFPGq6nFn9fg@mail.gmail.com>
+ <5313c721-9cf1-4ecd-ac23-1eeddabd691f@gmail.com>
+ <b1c17b5e-acd9-4bef-820e-699768f1426d@gmail.com>
+ <CAGsJ_4wykOyJupLhcqkSPe27rdANd=bOJhqxL74vcdZ+T9f==g@mail.gmail.com>
+ <eab11780-e671-4d09-86a6-af4cf3589392@gmail.com>
+ <CAGsJ_4wWf7QnibY_uU8B=efuEACrvFaJJ=bJTD+9KrxFtfoMmQ@mail.gmail.com>
+ <CAGsJ_4w5XLMok4F6Xw7aTAdV6rY9OvCVPM3U+hzFnKyTXBUpOA@mail.gmail.com>
+ <4c30cc30-0f7c-4ca7-a933-c8edfadaee5c@gmail.com>
+Content-Language: en-US
+In-Reply-To: <4c30cc30-0f7c-4ca7-a933-c8edfadaee5c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 23 Oct 2024 at 13:37, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 23/10/2024 14:29, Laurent Pinchart wrote:
-> > On Wed, Oct 23, 2024 at 01:43:34PM +0200, Hans Verkuil wrote:
-> >> On 24/09/2024 10:45, Sebastian Fricke wrote:
-> >>> Create a guides section for all documentation material, that isn't
-> >>> strictly related to a specific piece of code.
-> >>>
-> >>> Provide a guide for developers on how to debug code with a focus on the
-> >>> media subsystem. This document aims to provide a rough overview over the
-> >>> possibilities and a rational to help choosing the right tool for the
-> >>> given circumstances.
-> >>>
-> >>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> >>> ---
-> >>>  Documentation/media/guides/debugging_issues.rst | 174 ++++++++++++++++++++++++
-> >>>  Documentation/media/guides/index.rst            |  11 ++
-> >>>  Documentation/media/index.rst                   |   1 +
-> >>>  3 files changed, 186 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/media/guides/debugging_issues.rst b/Documentation/media/guides/debugging_issues.rst
-> >>> new file mode 100644
-> >>> index 000000000000..5f37801dd4ba
-> >>> --- /dev/null
-> >>> +++ b/Documentation/media/guides/debugging_issues.rst
-> >>> @@ -0,0 +1,174 @@
-> >>> +.. SPDX-License-Identifier: GPL-2.0
-> >>> +.. include:: <isonum.txt>
-> >>> +
-> >>> +============================================
-> >>> +Debugging and tracing in the media subsystem
-> >>> +============================================
-> >>> +
-> >>> +This document serves as a starting point and lookup for debugging device
-> >>> +drivers in the media subsystem.
-> >>> +
-> >>> +.. contents::
-> >>> +    :depth: 3
-> >>> +
-> >>> +General debugging advice
-> >>> +========================
-> >>> +
-> >>> +For general advice see the `general-debugging-guide <../../debugging/index.html>`__.
-> >>> +
-> >>> +Available tools
-> >>> +===============
-> >>> +
-> >>> +dev_debug module parameter
-> >>> +--------------------------
-> >>> +
-> >>> +For a general overview please see the `driver-development-debugging-guide <../../debugging/driver_development_debugging_guide.html>`__.
-> >>> +
-> >>> +Every video device provides a `dev_debug` parameter, which allows to get further insights into the IOCTLs in the background.
-> >>> +::
-> >>> +
-> >>> +  # cat /sys/class/video4linux/video3/name
-> >>> +  rkvdec
-> >>> +  # echo 0xff > /sys/class/video4linux/video3/dev_debug
-> >>> +  # dmesg -wH
-> >>> +  [...] videodev: v4l2_open: video3: open (0)
-> >>> +  [  +0.000036] video3: VIDIOC_QUERYCAP: driver=rkvdec, card=rkvdec, bus=platform:rkvdec, version=0x00060900, capabilities=0x84204000, device_caps=0x04204000
-> >>> +
-> >>> +`Full documentation <../../driver-api/media/v4l2-dev.html#video-device-debugging>`__
-> >>> +
-> >>> +dev_dbg / v4l2_dbg
-> >>> +------------------
-> >>> +
-> >>> +- Difference between both?
-> >>> +
-> >>> +  - v4l2_dbg utilizes v4l2_printk under the hood, which further uses printk directly, thus it cannot be targeted by dynamic debug
-> >>> +  - dev_dbg can be targeted by dynamic debug
-> >>> +  - v4l2_dbg has a more specific prefix format for the media subsystem, while dev_dbg only highlights the driver name and the location of the log
-> >>> +
-> >>> +Dynamic debug
-> >>> +-------------
-> >>> +
-> >>> +For general advice see the `userspace-debugging-guide <../../debugging/userspace_debugging_guide.html>`__.
-> >>> +
-> >>> +Here is one example, that enables all available `pr_debug()`'s within the file:
-> >>> +::
-> >>> +
-> >>> +  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
-> >>> +  $ ddcmd '-p; file v4l2-h264.c +p'
-> >>> +  $ grep =p /proc/dynamic_debug/control
-> >>> +   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =p "ref_pic_list_b%u (cur_poc %u%c) %s"
-> >>> +   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =p "ref_pic_list_p (cur_poc %u%c) %s\n"
-> >>> +
-> >>> +Ftrace
-> >>> +------
-> >>> +
-> >>> +For general advice see the `userspace-debugging-guide <../../debugging/userspace_debugging_guide.html>`__.
-> >>> +
-> >>> +Trace whenever the `rkvdec_try_ctrl` function is called
-> >>> +::
-> >>> +
-> >>> +  $ cd /sys/kernel/tracing
-> >>> +  $ echo function > /sys/kernel/tracing/current_tracer
-> >>> +  $ echo rkvdec_try_ctrl > set_ftrace_filter
-> >>> +  $ echo 1 > tracing_on
-> >>> +  $ cat trace
-> >>> +   h264parse0:sink-6359    [001] ...1. 172714.547523: rkvdec_try_ctrl <-try_or_set_cluster
-> >>> +   h264parse0:sink-6359    [005] ...1. 172714.567386: rkvdec_try_ctrl <-try_or_set_cluster
-> >>> +
-> >>> +Find out from where the calls originate
-> >>> +::
-> >>> +
-> >>> +  $ echo 1 > options/func_stack_trace
-> >>> +   h264parse0:sink-6715    [002] ..... 172837.967762: rkvdec_try_ctrl <-try_or_set_cluster
-> >>> +   h264parse0:sink-6715    [002] ..... 172837.967773: <stack trace>
-> >>> +   => rkvdec_try_ctrl
-> >>> +   => try_or_set_cluster
-> >>> +   => try_set_ext_ctrls_common
-> >>> +   => try_set_ext_ctrls
-> >>> +   => v4l2_s_ext_ctrls
-> >>> +   => v4l_s_ext_ctrls
-> >>> +   ...
-> >>> +   h264parse0:sink-6715    [004] ..... 172837.985747: rkvdec_try_ctrl <-try_or_set_cluster
-> >>> +   h264parse0:sink-6715    [004] ..... 172837.985750: <stack trace>
-> >>> +   => rkvdec_try_ctrl
-> >>> +   => try_or_set_cluster
-> >>> +   => v4l2_ctrl_request_setup
-> >>> +   => rkvdec_run_preamble
-> >>> +   => rkvdec_h264_run
-> >>> +   => rkvdec_device_run
-> >>> +   ...
-> >>> +
-> >>> +Trace the children of a function call and show the return values (requires config `FUNCTION_GRAPH_RETVAL`)
-> >>> +::
-> >>> +
-> >>> +  echo function_graph > current_tracer
-> >>> +  echo rkvdec_h264_run > set_graph_function
-> >>> +  echo 4 > max_graph_depth
-> >>> +  echo do_interrupt_handler mutex_* > set_graph_notrace
-> >>> +  echo 1 > options/funcgraph-retval
-> >>> +   ...
-> >>> +   4)               |  rkvdec_h264_run [rockchip_vdec]() {
-> >>> +   4)               |    v4l2_ctrl_find [videodev]() {
-> >>> +   ...
-> >>> +   4)               |    rkvdec_run_preamble [rockchip_vdec]() {
-> >>> +   4)   4.666 us    |      v4l2_m2m_next_buf [v4l2_mem2mem](); /* = 0xffff000005782000 */
-> >>> +   ...
-> >>> +   4)               |      v4l2_ctrl_request_setup [videodev]() {
-> >>> +   4)   4.667 us    |        media_request_object_find [mc](); /* = 0xffff000005e3aa98 */
-> >>> +   4)   1.750 us    |        find_ref [videodev](); /* = 0xffff00000833b2a0 */
-> >>> +   ...
-> >>> +   4)   1.750 us    |      v4l2_m2m_buf_copy_metadata [v4l2_mem2mem](); /* = 0x0 */
-> >>> +   4) ! 114.333 us  |    } /* rkvdec_run_preamble [rockchip_vdec] = 0x0 */
-> >>> +   4)   2.334 us    |    v4l2_h264_init_reflist_builder [v4l2_h264](); /* = 0x3e */
-> >>> +   ...
-> >>> +   4)               |    v4l2_h264_build_b_ref_lists [v4l2_h264]() {
-> >>> +   ...
-> >>> +   4)               |    rkvdec_run_postamble [rockchip_vdec]() {
-> >>> +   ...
-> >>> +   4) ! 444.208 us  |  } /* rkvdec_h264_run [rockchip_vdec] = 0x0 */
-> >>> +
-> >>> +DebugFS
-> >>> +-------
-> >>> +
-> >>> +For general advice see the `driver-development-debugging-guide <../../debugging/driver_development_debugging_guide.html>`__.
-> >>> +
-> >>> +Perf & alternatives
-> >>> +-------------------
-> >>> +
-> >>> +For general advice see the `userspace-debugging-guide <../../debugging/userspace_debugging_guide.html>`__.
-> >>> +
-> >>> +Example for media devices:
-> >>> +
-> >>> +Gather statistics data for a decoding job: (This example is on a RK3399 SoC with the rkvdec codec driver using the `fluster test suite <https://github.com/fluendo/fluster>`__)
-> >>> +::
-> >>> +
-> >>> +  perf stat -d python3 fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1 -tv AUD_MW_E -j1
-> >>> +  ...
-> >>> +  Performance counter stats for 'python3 fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1 -tv AUD_MW_E -j1 -v':
-> >>> +
-> >>> +           7794.23 msec task-clock:u                     #    0.697 CPUs utilized
-> >>> +                 0      context-switches:u               #    0.000 /sec
-> >>> +                 0      cpu-migrations:u                 #    0.000 /sec
-> >>> +             11901      page-faults:u                    #    1.527 K/sec
-> >>> +         882671556      cycles:u                         #    0.113 GHz                         (95.79%)
-> >>> +         711708695      instructions:u                   #    0.81  insn per cycle              (95.79%)
-> >>> +          10581935      branches:u                       #    1.358 M/sec                       (15.13%)
-> >>> +           6871144      branch-misses:u                  #   64.93% of all branches             (95.79%)
-> >>> +         281716547      L1-dcache-loads:u                #   36.144 M/sec                       (95.79%)
-> >>> +           9019581      L1-dcache-load-misses:u          #    3.20% of all L1-dcache accesses   (95.79%)
-> >>> +   <not supported>      LLC-loads:u
-> >>> +   <not supported>      LLC-load-misses:u
-> >>> +
-> >>> +      11.180830431 seconds time elapsed
-> >>> +
-> >>> +       1.502318000 seconds user
-> >>> +       6.377221000 seconds sys
-> >>> +
-> >>> +The availability of events and metrics depends on the system you are running.
-> >>> +
-> >>> +Error checking & panic analysis
-> >>> +-------------------------------
-> >>> +
-> >>> +For general advice see the `driver-development-debugging-guide <../../debugging/driver_development_debugging_guide.html>`__.
-> >>> +
-> >>> +**Copyright** |copy| 2024 : Collabora
-> >>
-> >> I would add a few more:
-> >>
-> >> - Implementing vidioc_log_status in the driver: this can log the current status to the kernel log.
-> >>   It's called by v4l2-ctl --log-status. Very useful for debugging problems with receiving video
-> >>   (TV/S-Video/HDMI/etc) since the video signal is external (so unpredictable). Less useful with
-> >>   camera sensor inputs since you have control over what the camera sensor does.
-> >
-> > To avoid unnecessary complexity in drivers, should we encourage
-> > implementing log_status for receivers but discourage it for camera
-> > sensors ? I haven't seen many people attempting to do so, but I have
-> > pushed back against the debug read/write register ops in sensor drivers.
->
-> I'm fine with that.
->
-> Logging the current status is particularly useful if you have no control over
-> what you receive, so anything can happen. But for camera sensors it is typically
-> not needed.
->
-> The register debug ops I haven't used in a very long time, and I wonder if it
-> shouldn't be deprecated.
 
-For most things I'll agree that you can use "i2ctransfer -f" to send
-I2C commands independent of the driver, so implementing it has limited
-gain.
 
-However with adv7180 (and potentially others) the driver caches a page
-register for accessing different pages of registers.
-From userspace you can't easily know which page is currently being
-used, so can't change it without potentially messing up the driver's
-next access. That rather limits debug options through other routes, so
-for that particular device I would be sad to see the ops go. I have a
-patch that I need to send which adds support for the register debug
-ops to adv7180.
+On 23/10/2024 11:48, Usama Arif wrote:
+> 
+> 
+> On 23/10/2024 11:26, Barry Song wrote:
+>> On Wed, Oct 23, 2024 at 11:07 AM Barry Song <21cnbao@gmail.com> wrote:
+>>>
+>>> On Wed, Oct 23, 2024 at 10:17 AM Usama Arif <usamaarif642@gmail.com> wrote:
+>>>>
+>>>>
+>>>>
+>>>> On 22/10/2024 21:46, Barry Song wrote:
+>>>>> On Wed, Oct 23, 2024 at 4:26 AM Usama Arif <usamaarif642@gmail.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On 21/10/2024 11:40, Usama Arif wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On 21/10/2024 06:09, Barry Song wrote:
+>>>>>>>> On Fri, Oct 18, 2024 at 11:50 PM Usama Arif <usamaarif642@gmail.com> wrote:
+>>>>>>>>>
+>>>>>>>>> After large folio zswapout support added in [1], this patch adds
+>>>>>>>>> support for zswapin of large folios to bring it on par with zram.
+>>>>>>>>> This series makes sure that the benefits of large folios (fewer
+>>>>>>>>> page faults, batched PTE and rmap manipulation, reduced lru list,
+>>>>>>>>> TLB coalescing (for arm64 and amd)) are not lost at swap out when
+>>>>>>>>> using zswap.
+>>>>>>>>>
+>>>>>>>>> It builds on top of [2] which added large folio swapin support for
+>>>>>>>>> zram and provides the same level of large folio swapin support as
+>>>>>>>>> zram, i.e. only supporting swap count == 1.
+>>>>>>>>>
+>>>>>>>>> Patch 1 skips swapcache for swapping in zswap pages, this should improve
+>>>>>>>>> no readahead swapin performance [3], and also allows us to build on large
+>>>>>>>>> folio swapin support added in [2], hence is a prerequisite for patch 3.
+>>>>>>>>>
+>>>>>>>>> Patch 3 adds support for large folio zswapin. This patch does not add
+>>>>>>>>> support for hybrid backends (i.e. folios partly present swap and zswap).
+>>>>>>>>>
+>>>>>>>>> The main performance benefit comes from maintaining large folios *after*
+>>>>>>>>> swapin, large folio performance improvements have been mentioned in previous
+>>>>>>>>> series posted on it [2],[4], so have not added those. Below is a simple
+>>>>>>>>> microbenchmark to measure the time needed *for* zswpin of 1G memory (along
+>>>>>>>>> with memory integrity check).
+>>>>>>>>>
+>>>>>>>>>                                 |  no mTHP (ms) | 1M mTHP enabled (ms)
+>>>>>>>>> Base kernel                     |   1165        |    1163
+>>>>>>>>> Kernel with mTHP zswpin series  |   1203        |     738
+>>>>>>>>
+>>>>>>>> Hi Usama,
+>>>>>>>> Do you know where this minor regression for non-mTHP comes from?
+>>>>>>>> As you even have skipped swapcache for small folios in zswap in patch1,
+>>>>>>>> that part should have some gain? is it because of zswap_present_test()?
+>>>>>>>>
+>>>>>>>
+>>>>>>> Hi Barry,
+>>>>>>>
+>>>>>>> The microbenchmark does a sequential read of 1G of memory, so it probably
+>>>>>>> isnt very representative of real world usecases. This also means that
+>>>>>>> swap_vma_readahead is able to readahead accurately all pages in its window.
+>>>>>>> With this patch series, if doing 4K swapin, you get 1G/4K calls of fast
+>>>>>>> do_swap_page. Without this patch, you get 1G/(4K*readahead window) of slow
+>>>>>>> do_swap_page calls. I had added some prints and I was seeing 8 pages being
+>>>>>>> readahead in 1 do_swap_page. The larger number of calls causes the slight
+>>>>>>> regression (eventhough they are quite fast). I think in a realistic scenario,
+>>>>>>> where readahead window wont be as large, there wont be a regression.
+>>>>>>> The cost of zswap_present_test in the whole call stack of swapping page is
+>>>>>>> very low and I think can be ignored.
+>>>>>>>
+>>>>>>> I think the more interesting thing is what Kanchana pointed out in
+>>>>>>> https://lore.kernel.org/all/f2f2053f-ec5f-46a4-800d-50a3d2e61bff@gmail.com/
+>>>>>>> I am curious, did you see this when testing large folio swapin and compression
+>>>>>>> at 4K granuality? Its looks like swap thrashing so I think it would be common
+>>>>>>> between zswap and zram. I dont have larger granuality zswap compression done,
+>>>>>>> which is why I think there is a regression in time taken. (It could be because
+>>>>>>> its tested on intel as well).
+>>>>>>>
+>>>>>>> Thanks,
+>>>>>>> Usama
+>>>>>>>
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> So I have been doing some benchmarking after Kanchana pointed out a performance
+>>>>>> regression in [1] of swapping in large folio. I would love to get thoughts from
+>>>>>> zram folks on this, as thats where large folio swapin was first added [2].
+>>>>>> As far as I can see, the current support in zram is doing large folio swapin
+>>>>>> at 4K granuality. The large granuality compression in [3] which was posted
+>>>>>> in March is not merged, so I am currently comparing upstream zram with this series.
+>>>>>>
+>>>>>> With the microbenchmark below of timing 1G swapin, there was a very large improvement
+>>>>>> in performance by using this series. I think similar numbers would be seen in zram.
+>>>>>
+>>>>> Imagine running several apps on a phone and switching
+>>>>> between them: A → B → C → D → E … → A → B … The app
+>>>>> currently on the screen retains its memory, while the ones
+>>>>> sent to the background are swapped out. When we bring
+>>>>> those apps back to the foreground, their memory is restored.
+>>>>> This behavior is quite similar to what you're seeing with
+>>>>> your microbenchmark.
+>>>>>
+>>>>
+>>>> Hi Barry,
+>>>>
+>>>> Thanks for explaining this! Do you know if there is some open source benchmark
+>>>> we could use to show an improvement in app switching with large folios?
+>>>>
+>>>
+>>> I’m fairly certain the Android team has this benchmark, but it’s not
+>>> open source.
+>>>
+>>> A straightforward way to simulate this is to use a script that
+>>> cyclically launches multiple applications, such as Chrome, Firefox,
+>>> Office, PDF, and others.
+>>>
+>>> for example:
+>>>
+>>> launch chrome;
+>>> launch firefox;
+>>> launch youtube;
+>>> ....
+>>> launch chrome;
+>>> launch firefox;
+>>> ....
+>>>
+>>> On Android, we have "Android activity manager 'am' command" to do that.
+>>> https://gist.github.com/tsohr/5711945
+>>>
+>>> Not quite sure if other windows managers have similar tools.
+>>>
+>>>> Also I guess swap thrashing can happen when apps are brought back to foreground?
+>>>>
+>>>
+>>> Typically, the foreground app doesn't experience much swapping,
+>>> as it is the most recently or frequently used. However, this may
+>>> not hold for very low-end phones, where memory is significantly
+>>> less than the app's working set. For instance, we can't expect a
+>>> good user experience when playing a large game that requires 8GB
+>>> of memory on a 4GB phone! :-)
+>>> And for low-end phones, we never even enable mTHP.
+>>>
+>>>>>>
+>>>>>> But when doing kernel build test, Kanchana saw a regression in [1]. I believe
+>>>>>> its because of swap thrashing (causing large zswap activity), due to larger page swapin.
+>>>>>> The part of the code that decides large folio swapin is the same between zswap and zram,
+>>>>>> so I believe this would be observed in zram as well.
+>>>>>
+>>>>> Is this an extreme case where the workload's working set far
+>>>>> exceeds the available memory by memcg limitation? I doubt mTHP
+>>>>> would provide any real benefit from the start if the workload is bound to
+>>>>> experience swap thrashing. What if we disable mTHP entirely?
+>>>>>
+>>>>
+>>>> I would agree, this is an extreme case. I wanted (z)swap activity to happen so limited
+>>>> memory.max to 4G.
+>>>>
+>>>> mTHP is beneficial in kernel test benchmarking going from no mTHP to 16K:
+>>>>
+>>>> ARM make defconfig; time make -j$(nproc) Image, cgroup memory.max=4G
+>>>> metric         no mTHP         16K mTHP=always
+>>>> real           1m0.613s         0m52.008s
+>>>> user           25m23.028s       25m19.488s
+>>>> sys            25m45.466s       18m11.640s
+>>>> zswpin         1911194          3108438
+>>>> zswpout        6880815          9374628
+>>>> pgfault        120430166        48976658
+>>>> pgmajfault     1580674          2327086
+>>>>
+>>>>
+>>>
+>>> Interesting! We never use a phone to build the Linux kernel, but
+>>> let me see if I can find some other machines to reproduce your data.
+>>
+>> Hi Usama,
+>>
+>> I suspect the regression occurs because you're running an edge case
+>> where the memory cgroup stays nearly full most of the time (this isn't
+>> an inherent issue with large folio swap-in). As a result, swapping in
+>> mTHP quickly triggers a memcg overflow, causing a swap-out. The
+>> next swap-in then recreates the overflow, leading to a repeating
+>> cycle.
+>>
+> 
+> Yes, agreed! Looking at the swap counters, I think this is what is going
+> on as well.
+> 
+>> We need a way to stop the cup from repeatedly filling to the brim and
+>> overflowing. While not a definitive fix, the following change might help
+>> improve the situation:
+>>
+>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+>>
+>> index 17af08367c68..f2fa0eeb2d9a 100644
+>> --- a/mm/memcontrol.c
+>> +++ b/mm/memcontrol.c
+>>
+>> @@ -4559,7 +4559,10 @@ int mem_cgroup_swapin_charge_folio(struct folio
+>> *folio, struct mm_struct *mm,
+>>                 memcg = get_mem_cgroup_from_mm(mm);
+>>         rcu_read_unlock();
+>>
+>> -       ret = charge_memcg(folio, memcg, gfp);
+>> +       if (folio_test_large(folio) && mem_cgroup_margin(memcg) <
+>> MEMCG_CHARGE_BATCH)
+>> +               ret = -ENOMEM;
+>> +       else
+>> +               ret = charge_memcg(folio, memcg, gfp);
+>>
+>>         css_put(&memcg->css);
+>>         return ret;
+>> }
+>>
+> 
+> The diff makes sense to me. Let me test later today and get back to you.
+> 
+> Thanks!
+> 
+>> Please confirm if it makes the kernel build with memcg limitation
+>> faster. If so, let's
+>> work together to figure out an official patch :-) The above code hasn't consider
+>> the parent memcg's overflow, so not an ideal fix.
+>>
 
-  Dave
+Thanks Barry, I think this fixes the regression, and even gives an improvement!
+I think the below might be better to do:
 
-> Regards,
->
->         Hans
->
-> >
-> >> - Run v4l2-compliance to verify the driver. To see the detailed media topology (and check it) use:
-> >>   v4l2-compliance -M /dev/mediaX --verbose
-> >>   You can also run a full compliance check for all devices referenced in the media topology by
-> >>   running v4l2-compliance -m /dev/mediaX
-> >>
-> >>> diff --git a/Documentation/media/guides/index.rst b/Documentation/media/guides/index.rst
-> >>> new file mode 100644
-> >>> index 000000000000..0008966c0862
-> >>> --- /dev/null
-> >>> +++ b/Documentation/media/guides/index.rst
-> >>> @@ -0,0 +1,11 @@
-> >>> +.. SPDX-License-Identifier: GPL-2.0
-> >>> +
-> >>> +============
-> >>> +Media Guides
-> >>> +============
-> >>> +
-> >>> +.. toctree::
-> >>> +    :caption: Table of Contents
-> >>> +    :maxdepth: 1
-> >>> +
-> >>> +    debugging_issues
-> >>> diff --git a/Documentation/media/index.rst b/Documentation/media/index.rst
-> >>> index d056a9e99dca..5461876fc401 100644
-> >>> --- a/Documentation/media/index.rst
-> >>> +++ b/Documentation/media/index.rst
-> >>> @@ -7,6 +7,7 @@ Media Subsystem Documentation
-> >>>  .. toctree::
-> >>>     :maxdepth: 2
-> >>>
-> >>> +   guides/index
-> >>>     ../userspace-api/media/index
-> >>>     ../driver-api/media/index.rst
-> >>>     ../admin-guide/media/index
-> >
->
->
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index c098fd7f5c5e..0a1ec55cc079 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -4550,7 +4550,11 @@ int mem_cgroup_swapin_charge_folio(struct folio *folio, struct mm_struct *mm,
+                memcg = get_mem_cgroup_from_mm(mm);
+        rcu_read_unlock();
+ 
+-       ret = charge_memcg(folio, memcg, gfp);
++       if (folio_test_large(folio) &&
++           mem_cgroup_margin(memcg) < max(MEMCG_CHARGE_BATCH, folio_nr_pages(folio)))
++               ret = -ENOMEM;
++       else
++               ret = charge_memcg(folio, memcg, gfp);
+ 
+        css_put(&memcg->css);
+        return ret;
+
+
+AMD 16K+32K THP=always
+metric         mm-unstable      mm-unstable + large folio zswapin series    mm-unstable + large folio zswapin + no swap thrashing fix
+real           1m23.038s        1m23.050s                                   1m22.704s
+user           53m57.210s       53m53.437s                                  53m52.577s
+sys            7m24.592s        7m48.843s                                   7m22.519s
+zswpin         612070           999244                                      815934
+zswpout        2226403          2347979                                     2054980
+pgfault        20667366         20481728                                    20478690
+pgmajfault     385887           269117                                      309702
+
+AMD 16K+32K+64K THP=always
+metric         mm-unstable      mm-unstable + large folio zswapin series   mm-unstable + large folio zswapin + no swap thrashing fix
+real           1m22.975s        1m23.266s                                  1m22.549s
+user           53m51.302s       53m51.069s                                 53m46.471s
+sys            7m40.168s        7m57.104s                                  7m25.012s
+zswpin         676492           1258573                                    1225703
+zswpout        2449839          2714767                                    2899178
+pgfault        17540746         17296555                                   17234663
+pgmajfault     429629           307495                                     287859
+
+>>>
+>>>>
+>>>>
+>>>>>>
+>>>>>> My initial thought was this might be because its intel, where you dont have the advantage
+>>>>>> of TLB coalescing, so tested on AMD and ARM, but the regression is there on AMD
+>>>>>> and ARM as well, though a bit less (have added the numbers below).
+>>>>>>
+>>>>>> The numbers show that the zswap activity increases and page faults decrease.
+>>>>>> Overall this does result in sys time increasing and real time slightly increases,
+>>>>>> likely because the cost of increased zswap activity is more than the benefit of
+>>>>>> lower page faults.
+>>>>>> I can see in [3] that pagefaults reduced in zram as well.
+>>>>>>
+>>>>>> Large folio swapin shows good numbers in microbenchmarks that just target reduce page
+>>>>>> faults and sequential swapin only, but not in kernel build test. Is a similar regression
+>>>>>> observed with zram when enabling large folio swapin on kernel build test? Maybe large
+>>>>>> folio swapin makes more sense on workloads where mappings are kept for a longer time?
+>>>>>>
+>>>>>
+>>>>> I suspect this is because mTHP doesn't always benefit workloads
+>>>>> when available memory is quite limited compared to the working set.
+>>>>> In that case, mTHP swap-in might introduce more features that
+>>>>> exacerbate the problem. We used to have an extra control "swapin_enabled"
+>>>>> for swap-in, but it never gained much traction:
+>>>>> https://lore.kernel.org/linux-mm/20240726094618.401593-5-21cnbao@gmail.com/
+>>>>> We can reconsider whether to include the knob, but if it's better
+>>>>> to disable mTHP entirely for these cases, we can still adhere to
+>>>>> the policy of "enabled".
+>>>>>
+>>>> Yes I think this makes sense to have. The only thing is, its too many knobs!
+>>>> I personally think its already difficult to decide upto which mTHP size we
+>>>> should enable (and I think this changes per workload). But if we add swapin_enabled
+>>>> on top of that it can make things more difficult.
+>>>>
+>>>>> Using large block compression and decompression in zRAM will
+>>>>> significantly reduce CPU usage, likely making the issue unnoticeable.
+>>>>> However, the default minimum size for large block support is currently
+>>>>> set to 64KB(ZSMALLOC_MULTI_PAGES_ORDER = 4).
+>>>>>
+>>>>
+>>>> I saw that the patch was sent in March, and there werent any updates after?
+>>>> Maybe I can try and cherry-pick that and see if we can develop large
+>>>> granularity compression for zswap.
+>>>
+>>> will provide an updated version next week.
+>>>
+>>>>
+>>>>>>
+>>>>>> Kernel build numbers in cgroup with memory.max=4G to trigger zswap
+>>>>>> Command for AMD: make defconfig; time make -j$(nproc) bzImage
+>>>>>> Command for ARM: make defconfig; time make -j$(nproc) Image
+>>>>>>
+>>>>>>
+>>>>>> AMD 16K+32K THP=always
+>>>>>> metric         mm-unstable      mm-unstable + large folio zswapin series
+>>>>>> real           1m23.038s        1m23.050s
+>>>>>> user           53m57.210s       53m53.437s
+>>>>>> sys            7m24.592s        7m48.843s
+>>>>>> zswpin         612070           999244
+>>>>>> zswpout        2226403          2347979
+>>>>>> pgfault        20667366         20481728
+>>>>>> pgmajfault     385887           269117
+>>>>>>
+>>>>>> AMD 16K+32K+64K THP=always
+>>>>>> metric         mm-unstable      mm-unstable + large folio zswapin series
+>>>>>> real           1m22.975s        1m23.266s
+>>>>>> user           53m51.302s       53m51.069s
+>>>>>> sys            7m40.168s        7m57.104s
+>>>>>> zswpin         676492           1258573
+>>>>>> zswpout        2449839          2714767
+>>>>>> pgfault        17540746         17296555
+>>>>>> pgmajfault     429629           307495
+>>>>>> --------------------------
+>>>>>> ARM 16K+32K THP=always
+>>>>>> metric         mm-unstable      mm-unstable + large folio zswapin series
+>>>>>> real           0m51.168s        0m52.086s
+>>>>>> user           25m14.715s       25m15.765s
+>>>>>> sys            17m18.856s       18m8.031s
+>>>>>> zswpin         3904129          7339245
+>>>>>> zswpout        11171295         13473461
+>>>>>> pgfault        37313345         36011338
+>>>>>> pgmajfault     2726253          1932642
+>>>>>>
+>>>>>>
+>>>>>> ARM 16K+32K+64K THP=always
+>>>>>> metric         mm-unstable      mm-unstable + large folio zswapin series
+>>>>>> real           0m52.017s        0m53.828s
+>>>>>> user           25m2.742s        25m0.046s
+>>>>>> sys            18m24.525s       20m26.207s
+>>>>>> zswpin         4853571          8908664
+>>>>>> zswpout        12297199         15768764
+>>>>>> pgfault        32158152         30425519
+>>>>>> pgmajfault     3320717          2237015
+>>>>>>
+>>>>>>
+>>>>>> Thanks!
+>>>>>> Usama
+>>>>>>
+>>>>>>
+>>>>>> [1] https://lore.kernel.org/all/f2f2053f-ec5f-46a4-800d-50a3d2e61bff@gmail.com/
+>>>>>> [2] https://lore.kernel.org/all/20240821074541.516249-3-hanchuanhua@oppo.com/
+>>>>>> [3] https://lore.kernel.org/all/20240327214816.31191-1-21cnbao@gmail.com/
+>>>>>>
+>>>>>>>
+>>>>>>>>>
+>>>>>>>>> The time measured was pretty consistent between runs (~1-2% variation).
+>>>>>>>>> There is 36% improvement in zswapin time with 1M folios. The percentage
+>>>>>>>>> improvement is likely to be more if the memcmp is removed.
+>>>>>>>>>
+>>>>>>>>> diff --git a/tools/testing/selftests/cgroup/test_zswap.c b/tools/testing/selftests/cgroup/test_zswap.c
+>>>>>>>>> index 40de679248b8..77068c577c86 100644
+>>>>>>>>> --- a/tools/testing/selftests/cgroup/test_zswap.c
+>>>>>>>>> +++ b/tools/testing/selftests/cgroup/test_zswap.c
+>>>>>>>>> @@ -9,6 +9,8 @@
+>>>>>>>>>  #include <string.h>
+>>>>>>>>>  #include <sys/wait.h>
+>>>>>>>>>  #include <sys/mman.h>
+>>>>>>>>> +#include <sys/time.h>
+>>>>>>>>> +#include <malloc.h>
+>>>>>>>>>
+>>>>>>>>>  #include "../kselftest.h"
+>>>>>>>>>  #include "cgroup_util.h"
+>>>>>>>>> @@ -407,6 +409,74 @@ static int test_zswap_writeback_disabled(const char *root)
+>>>>>>>>>         return test_zswap_writeback(root, false);
+>>>>>>>>>  }
+>>>>>>>>>
+>>>>>>>>> +static int zswapin_perf(const char *cgroup, void *arg)
+>>>>>>>>> +{
+>>>>>>>>> +       long pagesize = sysconf(_SC_PAGESIZE);
+>>>>>>>>> +       size_t memsize = MB(1*1024);
+>>>>>>>>> +       char buf[pagesize];
+>>>>>>>>> +       int ret = -1;
+>>>>>>>>> +       char *mem;
+>>>>>>>>> +       struct timeval start, end;
+>>>>>>>>> +
+>>>>>>>>> +       mem = (char *)memalign(2*1024*1024, memsize);
+>>>>>>>>> +       if (!mem)
+>>>>>>>>> +               return ret;
+>>>>>>>>> +
+>>>>>>>>> +       /*
+>>>>>>>>> +        * Fill half of each page with increasing data, and keep other
+>>>>>>>>> +        * half empty, this will result in data that is still compressible
+>>>>>>>>> +        * and ends up in zswap, with material zswap usage.
+>>>>>>>>> +        */
+>>>>>>>>> +       for (int i = 0; i < pagesize; i++)
+>>>>>>>>> +               buf[i] = i < pagesize/2 ? (char) i : 0;
+>>>>>>>>> +
+>>>>>>>>> +       for (int i = 0; i < memsize; i += pagesize)
+>>>>>>>>> +               memcpy(&mem[i], buf, pagesize);
+>>>>>>>>> +
+>>>>>>>>> +       /* Try and reclaim allocated memory */
+>>>>>>>>> +       if (cg_write_numeric(cgroup, "memory.reclaim", memsize)) {
+>>>>>>>>> +               ksft_print_msg("Failed to reclaim all of the requested memory\n");
+>>>>>>>>> +               goto out;
+>>>>>>>>> +       }
+>>>>>>>>> +
+>>>>>>>>> +       gettimeofday(&start, NULL);
+>>>>>>>>> +       /* zswpin */
+>>>>>>>>> +       for (int i = 0; i < memsize; i += pagesize) {
+>>>>>>>>> +               if (memcmp(&mem[i], buf, pagesize)) {
+>>>>>>>>> +                       ksft_print_msg("invalid memory\n");
+>>>>>>>>> +                       goto out;
+>>>>>>>>> +               }
+>>>>>>>>> +       }
+>>>>>>>>> +       gettimeofday(&end, NULL);
+>>>>>>>>> +       printf ("zswapin took %fms to run.\n", (end.tv_sec - start.tv_sec)*1000 + (double)(end.tv_usec - start.tv_usec) / 1000);
+>>>>>>>>> +       ret = 0;
+>>>>>>>>> +out:
+>>>>>>>>> +       free(mem);
+>>>>>>>>> +       return ret;
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>> +static int test_zswapin_perf(const char *root)
+>>>>>>>>> +{
+>>>>>>>>> +       int ret = KSFT_FAIL;
+>>>>>>>>> +       char *test_group;
+>>>>>>>>> +
+>>>>>>>>> +       test_group = cg_name(root, "zswapin_perf_test");
+>>>>>>>>> +       if (!test_group)
+>>>>>>>>> +               goto out;
+>>>>>>>>> +       if (cg_create(test_group))
+>>>>>>>>> +               goto out;
+>>>>>>>>> +
+>>>>>>>>> +       if (cg_run(test_group, zswapin_perf, NULL))
+>>>>>>>>> +               goto out;
+>>>>>>>>> +
+>>>>>>>>> +       ret = KSFT_PASS;
+>>>>>>>>> +out:
+>>>>>>>>> +       cg_destroy(test_group);
+>>>>>>>>> +       free(test_group);
+>>>>>>>>> +       return ret;
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>>  /*
+>>>>>>>>>   * When trying to store a memcg page in zswap, if the memcg hits its memory
+>>>>>>>>>   * limit in zswap, writeback should affect only the zswapped pages of that
+>>>>>>>>> @@ -584,6 +654,7 @@ struct zswap_test {
+>>>>>>>>>         T(test_zswapin),
+>>>>>>>>>         T(test_zswap_writeback_enabled),
+>>>>>>>>>         T(test_zswap_writeback_disabled),
+>>>>>>>>> +       T(test_zswapin_perf),
+>>>>>>>>>         T(test_no_kmem_bypass),
+>>>>>>>>>         T(test_no_invasive_cgroup_shrink),
+>>>>>>>>>  };
+>>>>>>>>>
+>>>>>>>>> [1] https://lore.kernel.org/all/20241001053222.6944-1-kanchana.p.sridhar@intel.com/
+>>>>>>>>> [2] https://lore.kernel.org/all/20240821074541.516249-1-hanchuanhua@oppo.com/
+>>>>>>>>> [3] https://lore.kernel.org/all/1505886205-9671-5-git-send-email-minchan@kernel.org/T/#u
+>>>>>>>>> [4] https://lwn.net/Articles/955575/
+>>>>>>>>>
+>>>>>>>>> Usama Arif (4):
+>>>>>>>>>   mm/zswap: skip swapcache for swapping in zswap pages
+>>>>>>>>>   mm/zswap: modify zswap_decompress to accept page instead of folio
+>>>>>>>>>   mm/zswap: add support for large folio zswapin
+>>>>>>>>>   mm/zswap: count successful large folio zswap loads
+>>>>>>>>>
+>>>>>>>>>  Documentation/admin-guide/mm/transhuge.rst |   3 +
+>>>>>>>>>  include/linux/huge_mm.h                    |   1 +
+>>>>>>>>>  include/linux/zswap.h                      |   6 ++
+>>>>>>>>>  mm/huge_memory.c                           |   3 +
+>>>>>>>>>  mm/memory.c                                |  16 +--
+>>>>>>>>>  mm/page_io.c                               |   2 +-
+>>>>>>>>>  mm/zswap.c                                 | 120 ++++++++++++++-------
+>>>>>>>>>  7 files changed, 99 insertions(+), 52 deletions(-)
+>>>>>>>>>
+>>>>>>>>> --
+>>>>>>>>> 2.43.5
+>>>>>>>>>
+>>>>>>>>
+>>>>>
+>>>
+>>
+>> Thanks
+>> Barry
+> 
+
