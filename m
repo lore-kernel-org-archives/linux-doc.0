@@ -1,202 +1,121 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4E1E143C40;
-	Wed, 23 Oct 2024 06:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1E11531C5;
+	Wed, 23 Oct 2024 06:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729664957; cv=none; b=YlmHjtgn1LhE62zdwXLwN7wVI91N+V2ZTDXVaGTweYn+evKVN1sMrscE+mLY6HVcVvE7rfnZcVwFkykVrXRPG+AEGuCRM4mJXZVfi/nxyDrSFFqY/u3hlKXFXByDN6UQSG2f38HQjtnT1GCWf4WV0OyNQJT++GWsoQjtvriZiDQ=
+	t=1729665915; cv=none; b=opbT6rziSREOjDL71BNMibQ8Al3XVgOPa7D7r2HmWNLmVBX6G0hwvEZCIsOpZZkONvOY2ZBkvgbI/5G0TvbnAPozQrOdfVi1S6lXNvLwujgtSFEfG/01xjXuZTngtILtz3DXOmbign1YOfHkxgP49juC1Pz7JnuTo/w0Zpb4oVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729664957; c=relaxed/simple;
-	bh=dFSfjS4h9tPuzdzt1M5XnfRjvYg3CJK+vpEt2AYf+iE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B49QUqQ+zYXlGCfo+UxUkPbWXvcb8diHBY41ZbvGOJ9w+JVkWij/L672ZjR+Pq286yPinOttoTFmn4LRLZBRpjnXoSUf6pdhBP9chuFM7clntwy0jyce9a4JNjyeFVvWomqFkVMBZSQ9RfP0EA0r5QNOIDpoR5DWh0aiVAWqZMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrADXNmxzlxhnAiR0CA--.20999S2;
-	Wed, 23 Oct 2024 14:28:03 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wDnEUBrlxhnRB6WAA--.64686S2;
-	Wed, 23 Oct 2024 14:27:57 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: si.yanteng@linux.dev,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Dongliang Mu <dzm91@hust.edu.cn>
-Cc: hust-os-kernel-patches@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v3] docs/zh_CN: update the translation of process/programming-language.rst
-Date: Wed, 23 Oct 2024 14:27:43 +0800
-Message-ID: <20241023062750.849951-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1729665915; c=relaxed/simple;
+	bh=I7HURHb0jCDc0kIUBqb3ZlkZEa1kppE4AOFUaP/oNIQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c0NBCKugI27/eoKJ9NSa6afn/qUVNQf0cYEqTOARbkO82RfOV2E4CmMZPbEwY54hkPI3EGzavf+Rv5ZRDMQ9sAWFz/F2D4SphrMFR08bK+TqS/2kzfwUhYMnthEUlzHXyRBjQ2NyZeFWg3r1420ArY0B+XJLe9go26abyqwfPC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jR7m1RFy; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jR7m1RFy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6960EC4CEF1;
+	Wed, 23 Oct 2024 06:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729665915;
+	bh=I7HURHb0jCDc0kIUBqb3ZlkZEa1kppE4AOFUaP/oNIQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jR7m1RFy3k/JtGEh47vE7LPzi2GeHCR5lkbbcDxiOZMX1zCz+OxgenXccdQZsZ5tc
+	 r/uS+tdYOx2bLeQMw+iM5xZTs/inq7CiOX7bL/1EZLnFvYg/ocJeaw5aNYCdLTxApN
+	 nPJ+PuGyUr2/+JwB4zdz9pLBHdMj+dTu8BnntI293Vp5Fxc8jWVNL5OZFci/9fxNDg
+	 SrO0ZIyi1iaN4sItRju6ZixkcrkPmQ+Q6DFTav76cSLg1LwrqmOou8FSl+0f3jg+ea
+	 q2uHDW1z/3WW3u0y1Yqf4dw0Tbu6AorpfCq8PqUxReGxMnOfrqdiKebZcfSQMfggis
+	 55KbZ2K9f60fw==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539e63c8678so7787899e87.0;
+        Tue, 22 Oct 2024 23:45:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1+BEX4dxVqg1SbppqJVnEDvLo9G2HYKxILn9rHdrDQGFEXDHt6qEcD7qAJaEJ1O3yt6RZWZveoDhD@vger.kernel.org, AJvYcCUNsitBlr9diKEzCJNUvtL+o9IMj7tvj5mvtrm7UpjQnQTf0rWg4yN0qlIa/dfIbHY6i/cqcFEABKIHUm2r@vger.kernel.org, AJvYcCUXa6g9Hx/0Ljpj4M5wHLNI2PI0cJnFODetbhfSGxnEjUrPi2kQkibXMv9elTpra9+ZjwB0vQrvO+9U@vger.kernel.org, AJvYcCUfOezWtKDyLczDLR8hOSJhpsrnhddgVq7yOhkS+ApUV4baY03WaJjVZi6JtuakswpCD8niMufkuieVcWu5@vger.kernel.org, AJvYcCWfLuhVnopOsEelp2j7bMa2DZTMO+IoOCQ5VpMJFAFhb0Nis/AP0an7kOKeutNuZeYdLg1rp3jQUhl6@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXrTw8Af2cdfZEiAz6neSIi7fc0b5oHrKz+obsStyetLsJDgq1
+	EWuE11iWFm+PN88MJXGW3cOic/1EQqkGzyXSt4iejO1ezGxmSitUuSsj1G6dFFXFLEoDR4VONOW
+	CJbZb4ijLU5TyfYwjQpzGns5yB64=
+X-Google-Smtp-Source: AGHT+IHEvYi+Z/VPXkv+py9OIcduE18rSIWRaBjdPYTUVd4Nwadxm+HeVibO9YguSrlAUzfHANBhouSoAElTMeiubJs=
+X-Received: by 2002:a05:6512:31d1:b0:539:8d2c:c01c with SMTP id
+ 2adb3069b0e04-53b1a36b785mr647872e87.41.1729665913964; Tue, 22 Oct 2024
+ 23:45:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrADXNmxzlxhnAiR0CA--.20999S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW3WrW3Gw18WF1rCF4fZr43ZFb_yoW7tw13pF
-	W7Kr9rKa18J3WxCrZ7Kr12vr1FkFs5Ka48trWUt3WYyF40ya9IqFyxKr43J342vryxuFWD
-	Zw1fuFW0q3y3Aa7anT9S1TB71UUUU1UqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUHmb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	1q6r43M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVW8ZVWrXw
-	CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Y
-	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYY7kG6IIYr7AKxVW8JVW5
-	JwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU5
-	2eHPUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-2-xur@google.com>
+ <CAK7LNAQ5yNKvZDtJuvo9Lt4rZwLSv0UN4=Ff=WcCDy1CCEpQ7Q@mail.gmail.com> <CAF1bQ=Syxi46xnGbpZWhYfqKhQZqrBPPh5FGaqzmJTg6MMDJSA@mail.gmail.com>
+In-Reply-To: <CAF1bQ=Syxi46xnGbpZWhYfqKhQZqrBPPh5FGaqzmJTg6MMDJSA@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 23 Oct 2024 15:44:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARD2HKhgLCxiY77usLhRsgTQ2L1aTSbNmXFbZz0-AxeYw@mail.gmail.com>
+Message-ID: <CAK7LNARD2HKhgLCxiY77usLhRsgTQ2L1aTSbNmXFbZz0-AxeYw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] Add AutoFDO support for Clang build
+To: Rong Xu <xur@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Stephane Eranian <eranian@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update to commit 0b02076f9953 ("docs: programming-language: add Rust
-programming language section")
+On Tue, Oct 22, 2024 at 7:43=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+>
+> Thanks for the detailed suggestions! My comments are inlined below.
+>
+> Best regards,
+>
+> -Rong
+>
+> On Sun, Oct 20, 2024 at 9:33=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Tue, Oct 15, 2024 at 6:33=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+> >
+> >
+> > > +Customization
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +
+> > > +You can enable or disable AutoFDO build for individual file and dire=
+ctories by
+> > > +adding a line similar to the following to the respective kernel Make=
+file:
+> >
+> >
+> > Perhaps, it might be worth mentioning that kernel space objects are
+> > covered by default.
+> >
+> > Then, people would understand ':=3D y' will be less common than ':=3D n=
+'.
+> >
+>
+> Good point! How about I change to the following:
+> "
+> The default CONFIG_AUTOFDO_CLANG setting covers kernel space objects for
+> AutoFDO builds. One can, however, enable or disable AutoFDO build for
+> individual file and directories by adding a line similar to the following
+> to the respective kernel Makefile ...
 
-scripts/checktransupdate.py reports:
 
-Documentation/translations/zh_CN/process/programming-language.rst
-commit 0b02076f9953 ("docs: programming-language: add Rust programming
-language section")
-commit 38484a1d0c50 ("docs: programming-language: remove mention of the
-Intel compiler")
-2 commits needs resolving in total
+Sounds ok to me.
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
-v2->v3: fix warnings in the make htmldocs
-v1->v2: revise the script name
- .../zh_CN/process/programming-language.rst    | 78 +++++++------------
- 1 file changed, 30 insertions(+), 48 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/programming-language.rst b/Documentation/translations/zh_CN/process/programming-language.rst
-index fabdc338dbfb..95aa4829d78f 100644
---- a/Documentation/translations/zh_CN/process/programming-language.rst
-+++ b/Documentation/translations/zh_CN/process/programming-language.rst
-@@ -3,25 +3,22 @@
- :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
- :Translator: Alex Shi <alex.shi@linux.alibaba.com>
- 
--.. _cn_programming_language:
--
- 程序设计语言
- ============
- 
--内核是用C语言 :ref:`c-language <cn_c-language>` 编写的。更准确地说，内核通常是用 :ref:`gcc <cn_gcc>`
--在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下编译的：ISO C11的 GNU 方言
--
--这种方言包含对语言 :ref:`gnu-extensions <cn_gnu-extensions>` 的许多扩展，当然，它们许多都在内核中使用。
-+内核是用 C 编程语言编写的 [zh_cn_c-language]_。更准确地说，内核通常使用 ``gcc`` [zh_cn_gcc]_ 编译，
-+并且使用 ``-std=gnu11`` [zh_cn_gcc-c-dialect-options]_：这是 ISO C11 的 GNU 方言。
-+``clang`` [zh_cn_clang]_ 也得到了支持，详见文档：
-+:ref:`使用 Clang/LLVM 构建 Linux <kbuild_llvm>`。
- 
--对于一些体系结构，有一些使用 :ref:`clang <cn_clang>` 和 :ref:`icc <cn_icc>` 编译内核
--的支持，尽管在编写此文档时还没有完成，仍需要第三方补丁。
-+这种方言包含对 C 语言的许多扩展 [zh_cn_gnu-extensions]_，当然，它们许多都在内核中使用。
- 
- 属性
- ----
- 
--在整个内核中使用的一个常见扩展是属性（attributes） :ref:`gcc-attribute-syntax <cn_gcc-attribute-syntax>`
-+在整个内核中使用的一个常见扩展是属性（attributes） [zh_cn_gcc-attribute-syntax]_。
- 属性允许将实现定义的语义引入语言实体（如变量、函数或类型），而无需对语言进行
--重大的语法更改（例如添加新关键字） :ref:`n2049 <cn_n2049>`
-+重大的语法更改（例如添加新关键字） [zh_cn_n2049]_。
- 
- 在某些情况下，属性是可选的（即不支持这些属性的编译器仍然应该生成正确的代码，
- 即使其速度较慢或执行的编译时检查/诊断次数不够）
-@@ -30,42 +27,27 @@
- ``__attribute__((__pure__))`` ），以检测可以使用哪些关键字和/或缩短代码, 具体
- 请参阅 ``include/linux/compiler_attributes.h``
- 
--.. _cn_c-language:
--
--c-language
--   http://www.open-std.org/jtc1/sc22/wg14/www/standards
--
--.. _cn_gcc:
--
--gcc
--   https://gcc.gnu.org
--
--.. _cn_clang:
--
--clang
--   https://clang.llvm.org
--
--.. _cn_icc:
--
--icc
--   https://software.intel.com/en-us/c-compilers
--
--.. _cn_gcc-c-dialect-options:
--
--c-dialect-options
--   https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
--
--.. _cn_gnu-extensions:
--
--gnu-extensions
--   https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
--
--.. _cn_gcc-attribute-syntax:
--
--gcc-attribute-syntax
--   https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
--
--.. _cn_n2049:
-+Rust
-+----
- 
--n2049
--   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-+内核对 Rust 编程语言 [zh_cn_rust-language]_ 的支持是实验性的，并且可以通过配置选项
-+``CONFIG_RUST`` 来启用。Rust 代码使用 ``rustc`` [zh_cn_rustc]_ 编译器在
-+``--edition=2021`` [zh_cn_rust-editions]_ 选项下进行编译。版本（Editions）是一种
-+在语言中引入非后向兼容的小型变更的方式。
-+
-+除此之外，内核中还使用了一些不稳定的特性 [zh_cn_rust-unstable-features]_。这些不稳定
-+的特性将来可能会发生变化，因此，一个重要的目标是达到仅使用稳定特性的程度。
-+
-+具体请参阅 Documentation/rust/index.rst
-+
-+.. [zh_cn_c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-+.. [zh_cn_gcc] https://gcc.gnu.org
-+.. [zh_cn_clang] https://clang.llvm.org
-+.. [zh_cn_gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
-+.. [zh_cn_gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
-+.. [zh_cn_gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
-+.. [zh_cn_n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-+.. [zh_cn_rust-language] https://www.rust-lang.org
-+.. [zh_cn_rustc] https://doc.rust-lang.org/rustc/
-+.. [zh_cn_rust-editions] https://doc.rust-lang.org/edition-guide/editions/
-+.. [zh_cn_rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
--- 
-2.43.0
 
+
+
+--
+Best Regards
+Masahiro Yamada
