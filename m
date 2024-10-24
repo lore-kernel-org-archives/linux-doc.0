@@ -1,174 +1,189 @@
-Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2064.outbound.protection.outlook.com [40.107.103.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818241E571C;
-	Thu, 24 Oct 2024 14:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729778680; cv=fail; b=ACLwg1UW+2Fxd7JkmRjuH+YIhPhag6IvJdsyUVBldFjsLOBU5eNeAgHQLF7MnRe0T2dgUcIrJGMz4nU0v/Gnw9slkONQZia0sgTlPWhFgAqc2SXw7qqo20FhgEXwuRtxvOZhFrl2YlUNMoiYCr7T2DoeaZy1IWcdxIhM20vCTHQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729778680; c=relaxed/simple;
-	bh=77n/zJWGVPZn7ibpmmApFm6h1QbQMqRORIryCM3gKU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=F/0fu00ZvpujnKDdCcJCAdM52yFBDSdzaaFDd03idXOFRITSIVz6ZpizLtVcQjdJVi2qh4Oi2RZcTdMy0Mq4lrTKqD10Nyl6zn6e3ZXAxcr09JKTb6FxQR4xjcrQWpsNCT+6LjFtilu4wtsGw/ras4GNfSJe+f4sP00My9lgz+k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=H238C39B; arc=fail smtp.client-ip=40.107.103.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6781E2009;
+	Thu, 24 Oct 2024 14:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729778766; cv=none; b=SXqr4fZ6R+MJlEAxqKijZxgd84yX+sV5JboDewYmIsKRXydGf05VkCh79obtHPYeY3C+78hsEpPHif6evTg4qfNHGdpWE62LYHN+3HpQJUVGCHpPsRqHDPFJR3KAvfxR2P/6d6O/SHiGX1i1j3nPbJpOBrTyyS8I5BbyLI5EF8Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729778766; c=relaxed/simple;
+	bh=UqM6Z34E+/K+S+SxZRTtlXPQ0ZdBLSakhVgd6bJmUqM=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ck6TVfYBu5sGPZ6ZaGhtpoAR1ZxFtb0hZvYNkieHN/NbgAlmXUsOLZ+zsVxneqMckh0APA+HJZrYO3JouavpMdyKPfWOl9AFJUwu0mIqJNfMLvxeSA7Qa+A1OBj83iopqUyTuARZ+jmxSvKfh97/TGy0yavHHAnzGS4qydkZ//w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AWSVnsYK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="H238C39B"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ln8qXrxknJ5fvnhrdBkTFMZIRQhEgHNDjL/raoM112F3hF2HKHT1IE0s9amoGU/hTgAZmOp1NjdLdo4H71/JzGgC9lf1lmVLww4UgN8coAVkvkvt9yKZtx2eWweaK7OuqZb6Uo80ff+xrV2ZuZxFHVTnvzI6VBXPp+2NjhiYWUzesZCorFopgXBSxQWPqWieX2fcJa0R/tk3+REnnuwzwp+yV1NGvxHA+Wsz9ibFnyGSmNZa+0SUAQhvELG0AhSjS7TpaybAQE2gDDXuLOO/ieem3RVEXkwCzzhVFpRvndv0TcX3m6pz7qgBGsgZPYsDHyprUF5JhZclBiCVqzsTCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=77n/zJWGVPZn7ibpmmApFm6h1QbQMqRORIryCM3gKU0=;
- b=L5Frfx8Km7LytDgx3bARbmy2RYrGPV0uouGkdDcTqRBrlgal/V7d59gsyEWuuraSCSyLODm+tCZtZfl6VXMk/k7NrQCWZ7cXTMGhon9V1iIQN7rFH08znMy4Z+sxk3NgOYc6pM0PxXxhKpbtsh1Es+uN3VeTpQR3/RxVsynEZZT1HynzRD3ohpXSmw6qWxSscC+qO7/UP9YP/cd0oBPCBXwl4zirWMWz7RBfnhIOIgmFF+DShCv9aX3IFnsJWS8Of+NFrhxsOMwY1m1MjMdyBRtCx4wCYYYirDQO0FamnnxfgHg6D/7s/LJLyKWzK/evZPxtVEh1R1dzdeFkhiJBzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=77n/zJWGVPZn7ibpmmApFm6h1QbQMqRORIryCM3gKU0=;
- b=H238C39BzBkxT+hJF3c+4NzNvJNzjXMAktvNbj9+sic1Ee+I2p4aeI4g9UR0diCx1XCUHGB3KRzMHw4GRl2SqXoFllNyhT8OZRrnYxMr2KteM/EIAZ4Wp5g14ZB3c39djM9n/S5IK8VyymRcqUFT1FGwLmtR+jb6MBqL9CflwOiijf/K1hE6nrONn8v5QjOTXjOKU0Po2bsMHOt7tBwXMZbI92qvTETvXzOp3SPYpSBeLehyV3XbhENGIt2Ahg/LT56NHW3TfPTCfwwzkGvJwVfJbclJ3fd8YeMbtgp1mIWx+Mpv7CuDTor12ZKx+WehTWYrEWT5gIGC9NjcMpeKMw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM8PR04MB7779.eurprd04.prod.outlook.com (2603:10a6:20b:24b::14)
- by GV1PR04MB10560.eurprd04.prod.outlook.com (2603:10a6:150:203::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.18; Thu, 24 Oct
- 2024 14:04:26 +0000
-Received: from AM8PR04MB7779.eurprd04.prod.outlook.com
- ([fe80::7417:d17f:8d97:44d2]) by AM8PR04MB7779.eurprd04.prod.outlook.com
- ([fe80::7417:d17f:8d97:44d2%3]) with mapi id 15.20.8093.014; Thu, 24 Oct 2024
- 14:04:26 +0000
-Date: Thu, 24 Oct 2024 17:04:22 +0300
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
-	donald.hunter@gmail.com, danieller@nvidia.com,
-	ecree.xilinx@gmail.com, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Shannon Nelson <shannon.nelson@amd.com>,
-	Alexandra Winter <wintera@linux.ibm.com>,
-	Jacob Keller <jacob.e.keller@intel.com>
-Subject: Re: [PATCH net-next v18 00/10] net: Make timestamping selectable
-Message-ID: <20241024140422.3okn5lfqu72ncbxa@skbuf>
-References: <20241023-feature_ptp_netnext-v18-0-ed948f3b6887@bootlin.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241023-feature_ptp_netnext-v18-0-ed948f3b6887@bootlin.com>
-X-ClientProxiedBy: BE1P281CA0125.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:7a::9) To AM8PR04MB7779.eurprd04.prod.outlook.com
- (2603:10a6:20b:24b::14)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AWSVnsYK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4A58C4CECC;
+	Thu, 24 Oct 2024 14:06:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729778766;
+	bh=UqM6Z34E+/K+S+SxZRTtlXPQ0ZdBLSakhVgd6bJmUqM=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=AWSVnsYKK9O/yPvErdiTcdH3hjVq5fpl40AxNXggq3RH8elow7SkzmyvIoF7t1bLN
+	 MKJIfJGa0o4pPjs4/mosmK5QSMyI+jcWowubSHxrBGrcD3Nat2tm6tSGEBLCT06mCT
+	 fmcmk1L+becoisluJQWDYSHNseFS1PZWGO6Y8BD3YnH2cQW2QXqiTmZh5RJPd5vtyP
+	 K55c4s7ezXWGC4b+l0jLOUFyi9LF9euF89lPYxjlxjtkEbJhZN/ySHNT1jJOq54qYP
+	 vJdBTFHjqAiJPLcwcLCf8J7qEGI2nno0lrH6v6ewqnB5MCvi/C2SgQMTqoyYvccLZ2
+	 mBvVhrDdGcaKA==
+Date: Thu, 24 Oct 2024 16:06:03 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+	Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>, 
+	Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org, 
+	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
+	Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com, 
+	miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com, 
+	nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
+ conversions
+Message-ID: <20241024-illustrious-puma-of-superiority-d24a4d@houat>
+References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
+ <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
+ <20241008-ingenious-calm-silkworm-3e99ba@houat>
+ <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
+ <20241011-shiny-skua-of-authority-998ad3@houat>
+ <Zwk2RSgfV75LVLpR@louis-chauvet-laptop>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM8PR04MB7779:EE_|GV1PR04MB10560:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0a28736-d1d3-4136-6bee-08dcf434c502
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?FaB+dYp7+d6BvG5Di6P9XB+JEja9gWnhMFr3HXoKNzTpuV5Jd4yMaMx0ygLp?=
- =?us-ascii?Q?DFQGVOYrm0ufHTErLNwdLE4mbmZUzQX7SkKoDnyYK0rX2zQOIpbklas7Vlbg?=
- =?us-ascii?Q?hgaEkHV2iMge0dzeCKBYLaE2V44o3CvJpnpYmItUDYXKXqgCBRlyNDAKeYDi?=
- =?us-ascii?Q?PoJqqC/TRIHKB8zN4zH9OK81cLw9GXia5G+K93l9seNTIFCjKYTGcRXZpW5Y?=
- =?us-ascii?Q?av7d8Q9YDRH/cG8uHg9f5D5OZkHOnF23GsI8LUkAwsRvhYk44qYG1Zac6s4T?=
- =?us-ascii?Q?0oJX4fPeOAzAd8gAk210H+3oyc6yb65Uo5vPFIlt7SnBvZcOPN6xkvqYO45c?=
- =?us-ascii?Q?p1E7euV7oyAb0RxOP19FzjDRhbfFdC2OdKwqIZikyqfLy5wZ3Mv1Ochk1ZtE?=
- =?us-ascii?Q?CszwzxF0lXVDINDReKv5PEnB8IsL9ARjIy/ZPuo8uPnpgjfsLFILWOj2nK9N?=
- =?us-ascii?Q?UOewfHnnJVCwcDgV4ci3Yb2MvfFFKhtgXrdNKr2m51LSl7qUt0CnvtqourDM?=
- =?us-ascii?Q?XVfCUVVnYiG8w4gcUYO+vqBxmyeLVWFr7gJDRBeKduiPuTRCRSyFVIFfXH6L?=
- =?us-ascii?Q?v066EK3j7cMR4xhPVov937IbFLo4JUr2T+/XzImlmWqNeyjnA3XBg+DirFD2?=
- =?us-ascii?Q?XOqokZ61rcmMBT5cmaWuq25tar22/4axUi3WJxiL6PRvZt+ZtENvnOrip//p?=
- =?us-ascii?Q?kqu+3OtLg+ti1I8DTm3Wv+EHcNdEqobOriC+U1ln3mYwYCr6GTQFdRfpfVRc?=
- =?us-ascii?Q?wNrQV/Bch+4+2nnUrAJu4VWMYXPzXZxIDopR7BkXrOiMilSrsB3BUp3wWiWF?=
- =?us-ascii?Q?VOeXLY7HAFKO1efGxqQYm1BT86Ih/p4KvFndvc2mWs28rxkXIdSKpflz0ugh?=
- =?us-ascii?Q?RzRITHthHVf7j0JXwzIfp806RwkbUr9Bg7BMavAbsFNTz1UFjARbrocKClkb?=
- =?us-ascii?Q?aoS2zK2qGqUncI0NXXt7h5FGSzHi/Ni5jiHzf42UuDIViCMOS6xnu38vCK0U?=
- =?us-ascii?Q?pnY3UzqBTKAQ10wiv94EENRZCO7aMb5DG5ZT9x857YrDni66MpuyuIlk7bM9?=
- =?us-ascii?Q?/swxs5y5LyfEnMaEKaXliY9MWrH3KVBOCZ45DFOQADpL0dH/MwoRmdyaN/op?=
- =?us-ascii?Q?a23EGoyk7ujESTBf8KgqaLzITYHAzLyBAuiiM5Ck+h5a8H8wRENYEPJrSQ+l?=
- =?us-ascii?Q?/vkyk4RWZB69GZ4ZGJ6cbbP8/A9xMQbgEmKWD6t0m/VrJKUAVyw+m2t/liEq?=
- =?us-ascii?Q?p+1u8hdiGtm2o1i7lY/bmaMLw8ckMJPQwhKRLwmc5GlEBNHXdq4HIhy9VYuw?=
- =?us-ascii?Q?cHewkKJ2TsiaTr+bbLjpaEvk?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7779.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Vgbf7CJc9iOIuVnufdJ9eU2Hk3sRL1uXVsmGPV+RZdhrC2g38gmXRFRt4rKA?=
- =?us-ascii?Q?NHZslrjnogxxyHIGxyWT7/h8vkUeAxbN30rHLfS1WyOjlRNxjcQsj0XuFjM4?=
- =?us-ascii?Q?bE44364gWkgM1qcLVl2hCl6cWJbi1P00tp9nrXZQJwwmUHbI7XdV8d0YkjBS?=
- =?us-ascii?Q?zzluLGZEnxhrFrOs84E5BcEUgH8fhRyfcXDNXfdx3WOOHo9eetRUvlfSBr2N?=
- =?us-ascii?Q?EjmcD0DzFBgxGHETb0oiTZX0Hr62eNJkokXb7i0P9PNYdtqY4OVDiNHlPz50?=
- =?us-ascii?Q?7DZkaP4/jXspaJIgAW1fuUw7vsDABUVxpZqGB0+HyFVeywuNtX45kTS6NFKl?=
- =?us-ascii?Q?P8fzcNxBk692isf6p9lMeyVOd5Y/p+ezjh4UbY5AmN4FJlbo7ev2YljR0VyS?=
- =?us-ascii?Q?4mmklC8v43Uo8A7xJELN52SUI+ceajr3NnjRqj5YLvSc8APuyWeySG2qSKGR?=
- =?us-ascii?Q?klhLXueTiaOMr6lJGXPCZtQv4bfpFYZ0jijOcQ5yU/i1Pfy9RLUTmyY+a5cG?=
- =?us-ascii?Q?acja/QQvkfF2VEHAgD+HLjJX3oEbbOt85mlLQgk8lpXiaEZE2GhiXSvXJdEk?=
- =?us-ascii?Q?lmesODrr23YHpW0N9pPBrbdUXirXXgLRoTOJsaYY8h1izKNK95mfiBRo6Ld2?=
- =?us-ascii?Q?52SOF/RvHOcQxEnDu+o8UJx04gPxdMdHq8aRFIUdrXGZ7T8nIYMqg/G9oB6/?=
- =?us-ascii?Q?juuqETop6Eu9B4CD+04FRIeijp4Ce+TnvLDWUh62MQL4cH4n799o3Os9jRFc?=
- =?us-ascii?Q?z6aUVx4dSfSDJIn/3PTWE/JTtb6iWQ2GhlF0m8MJaR73V3+6LzVLepouDd7d?=
- =?us-ascii?Q?1B+LeL9CfB1z2ZtHXz05br0hskBezFvPmGi4cystR4hkj4YqRNfFg7S18zkV?=
- =?us-ascii?Q?/QM5/9VJpHmifF8qqKk1jrlLUDOOJroi5m1L0JqA9bheZERwicpgA7yCUEFs?=
- =?us-ascii?Q?87LZqSi5sE54MHdeIe6URZSbt7YAWGnARo+nVQGCIAZuks4Avae1trtRyRsO?=
- =?us-ascii?Q?82QHraBMsbTkvGN6tFGa6XJJAKP/kfti4Exf7i+mXflvkf01VdFrXVf6gp0E?=
- =?us-ascii?Q?WRJhxWiFivG4whw0tphLdEpVJAj+fWHqRJ5M+IuxRg7vL3olkqRtU+TTePgT?=
- =?us-ascii?Q?+fzA75pYpRnYYR+JFoitkppsx7XTHIOtMl4iNrKJW6P5TZdxQSpdGUYM09FC?=
- =?us-ascii?Q?6mcSW49rlYdIkfxDlS1KLgEgaGe/V33z37PrUPff/LKcxdgqEulAkagLecKZ?=
- =?us-ascii?Q?9aaMmgGJNXPCCp6chGcDfkDyT2fFhIv9Wej2Jm/FXnnnuTq5OjGdjtgGsvA3?=
- =?us-ascii?Q?Iy42V9A9sZFabo25FQfpajnDikhAWVvRDsemEjKrifAvi097aphDKmnOeBwU?=
- =?us-ascii?Q?kopSyPPh7i5tDt0beMRavhxEvL3EFkBPc2NvcJH8uJlArNYViQGk8401FTDX?=
- =?us-ascii?Q?jTv1k9t8ODUHAf8oDF8HEkK+sbKIn/V9xqOicqN2MUk4kZ7UC1CNZOjBTgmB?=
- =?us-ascii?Q?vbVoz91Z34QhzKi/2cbtofm8y7NXv7yo5DOLrnlmNhmjRk+0x85Q2m90CKBM?=
- =?us-ascii?Q?3sz2MvDEGfodvNG4yqZDJEbP9tDyBxJCC9kSCf48xg2FQ9wMoK3gDvU3kO1Y?=
- =?us-ascii?Q?tQ=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0a28736-d1d3-4136-6bee-08dcf434c502
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7779.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2024 14:04:26.1958
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NEQPywxRcH07m41QJ5nbkhnWVQfH3gh4lzIayCA/2XRoZnFjWBJpThagLEBq7D3SG/T38dj6dD8x7iBA7QZExg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10560
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="q6c53od3b6prp5tw"
+Content-Disposition: inline
+In-Reply-To: <Zwk2RSgfV75LVLpR@louis-chauvet-laptop>
 
-On Wed, Oct 23, 2024 at 05:49:10PM +0200, Kory Maincent wrote:
-> The series is based on the following netlink spec and documentation patches:
-> https://lore.kernel.org/netdev/20241022151418.875424-1-kory.maincent@bootlin.com/
-> https://lore.kernel.org/netdev/20241023141559.100973-1-kory.maincent@bootlin.com/
 
-No point in posting a non-RFC patch revision if it conflicts with unmerged
-dependencies. Since it doesn't apply cleanly, the NIPA CI won't run on it
-and it won't be a candidate for merging due to that. But, if you post as
-RFC PATCH v18 instead, you make it crystal clear for the reviewers involved
-that you only request feedback.
+--q6c53od3b6prp5tw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
+ conversions
+MIME-Version: 1.0
+
+On Fri, Oct 11, 2024 at 04:29:25PM +0200, Louis Chauvet wrote:
+> On 11/10/24 - 12:49, Maxime Ripard wrote:
+> > On Tue, Oct 08, 2024 at 11:23:22AM GMT, Louis Chauvet wrote:
+> > >=20
+> > > Hi,=20
+> > >=20
+> > > > > + * The YUV color representation were acquired via the colour pyt=
+hon framework.
+> > > > > + * Below are the function calls used for generating each case.
+> > > > > + *
+> > > > > + * For more information got to the docs:
+> > > > > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_=
+to_YCbCr.html
+> > > > > + */
+> > > > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[]=
+ =3D {
+> > > > > +	/*
+> > > > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > > > > +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > > > > +	 *                     in_bits =3D 16,
+> > > > > +	 *                     in_legal =3D False,
+> > > > > +	 *                     in_int =3D True,
+> > > > > +	 *                     out_bits =3D 8,
+> > > > > +	 *                     out_legal =3D False,
+> > > > > +	 *                     out_int =3D True)
+> > > > > +	 */
+> > > >=20
+> > > > We should really detail what the intent and expected outcome is sup=
+posed
+> > > > to be here. Relying on a third-party python library call for
+> > > > documentation isn't great.
+> > >
+> > > This was requested by Pekka in the [v2] of this series.
+> >=20
+> > Ok.
+> >=20
+> > > I can add something like this before each tests, but I think having t=
+he=20
+> > > exact python code used may help people to understand what should be t=
+he=20
+> > > behavior, and refering to the python code to understand the conversio=
+n.
+> >=20
+> > Help, sure. Be the *only* documentation, absolutely not.
+> >=20
+> > Let's turn this around. You run kunit, one of these tests fail:
+> >=20
+> >  - It adds cognitive load to try to identify and make sense of an
+> >    unknown lib.
+> >=20
+> >  - How can we check that the arguments you provided there are the one
+> >    you actually wanted to provide, and you didn't make a typo?
+> >=20
+> > > I can add something like this before each tests to clarify the tested=
+=20
+> > > case:
+> > >=20
+> > > 	Test cases for conversion between YUV BT601 limited range and=20
+> > > 	RGB using the ITU-R BT.601 weights.
+> > >=20
+> > > Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
+> > >=20
+> > > 	@encoding: Encoding used to convert RGB to YUV
+> > > 	@range: Range used to convert RGB to YUV
+> > > 	@n_colors: Count of test colors in this case
+> > > 	@format_pair.name: Name used for this color conversion, used to=20
+> > > 			   clarify the test results
+> > > 	@format_pair.rgb: RGB color tested
+> > > 	@format_pair.yuv: Same color as @format_pair.rgb, but converted to=
+=20
+> > > 			  YUV using @encoding and @range.
+> > >=20
+> > > What do you think?
+> >=20
+> > That it's welcome, but it still doesn't allow to figure out what your
+> > intent was with this test 2 years from now.
+>=20
+> I don't really understand what you want to add. Can you explain what you=
+=20
+> expect here? Did you mean you want a description like this above the test=
+=20
+> function?
+
+I want, for each test case, to have a documentation of what case it's
+testing and what the test should expect.
+
+So, for the first one, something like:
+
+/*
+ * Test the conversion of full range, BT601-encoded, YUVXXX pixel to
+ * ARGBXXXX, for various colors. This has been generated using:
+ *
+ * colour.RGB_to_YCbCR(...)
+ */
+
+And there's other things you need to document. Like, it seems that you
+sometimes pass different values for in_legal and out_legal, and that's
+not clear to me.
+
+It also that you uses a matrix for NV12 but are converting a different
+format. This needs to be documented.
+
+Finally, You should be documented why you are checking that the colors
+difference is less than 257, and not exactly equal.
+
+Maxime
+
+--q6c53od3b6prp5tw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxpURwAKCRAnX84Zoj2+
+dpnIAYCtzV3UTGshXlT1ay9Ij6pdu3hWrR1lndrGKgCB1XEnKmy4881AJuppJ99z
+FdyPjl8Bf1/NExIEJ9JOwZpOUbCdkop0YSn90LSIqkHC97ab1CPRsC0EIJOtrseB
+NAvTbA189Q==
+=mQrx
+-----END PGP SIGNATURE-----
+
+--q6c53od3b6prp5tw--
