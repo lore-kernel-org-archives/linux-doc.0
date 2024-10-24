@@ -1,92 +1,57 @@
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E3F1D1729;
-	Thu, 24 Oct 2024 12:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD96176AAD;
+	Thu, 24 Oct 2024 12:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729771553; cv=none; b=o9c7a5JG7SoYjObOytPe9YhpGl4HbCKt+zmeMNfxEIwVGeB3k7t84bz1GOlr2FmIVysuMktHKx4RU+j+O8FxFJ8X8JtNUhB3YkTlm22WdC4KcIzK/a98ZqAGrk8dLaycWr1tj/z+GZsvC/yT5CbUcS/X/6XBj9mliPPiRq84/GI=
+	t=1729772470; cv=none; b=V3o7FOSuVlcVHIZUjUJjtJ2kcFKq+moJ/cvnGzYt7WS9isq+s9nXB0ypQgDbRnfWG8QZ/N79OAODDB68NfMVXJITP2kG0S5BVEM4hhhpifHojl5G6gIY6kxns0wz8+l9byox2nQmmsaIbXuTkP54KzP0uOr+nLerDkwqlMwAkaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729771553; c=relaxed/simple;
-	bh=OVZGWlryFFcfxKdnhUmLDS5/atu4GdzNMq13xRAxjok=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rHL8I5sD0tpgOBkXidOaNdGkBlRV6uEGinKfhn/dA3t4Rt51vIl3uSWSmQRjHdTUncxJXRoSi8dRG7W7Vg4pBUfwaJoMaS2OCM8FajY7K23GaSGeXjymLyLU+LNJuwb6JVv/bgHmm9TEbvg0wqLFnWhnGtZwDqZVMhRZBEYPDJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-IronPort-AV: E=Sophos;i="6.11,229,1725289200"; 
-   d="scan'208";a="222891426"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Oct 2024 21:05:41 +0900
-Received: from localhost.localdomain (unknown [10.166.13.99])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 98BFD400855B;
-	Thu, 24 Oct 2024 21:05:30 +0900 (JST)
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: bhelgaas@google.com,
-	jingoohan1@gmail.com
-Cc: linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v3] PCI: rcar-gen4: Add a document about the firmware
-Date: Thu, 24 Oct 2024 21:05:25 +0900
-Message-Id: <20241024120525.291885-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1729772470; c=relaxed/simple;
+	bh=UWyzY5P0S5jjYqVQZa3VmDuwo5IkVNJhZVEtPJoUV0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iYJcJVR/H4PFcEvIh40awgbabjZGbO1AxxCkkwGdhlM5E27xgYE2mMsX8SIM5gYxpa57a/DcGR/8wR5CjYW39ZGyyOvaVWcmH4ovYLcPoUcn1u6uLW5ic2EzAPQXZhqiMQWorzUc5iY+HS2V+XXGp+gwQJBeIHQTzZfscviKBnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L7PIyuzO; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L7PIyuzO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B4C6C4CEC7;
+	Thu, 24 Oct 2024 12:21:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729772470;
+	bh=UWyzY5P0S5jjYqVQZa3VmDuwo5IkVNJhZVEtPJoUV0I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L7PIyuzOY/XGqQmQQ9VgrS+D/Vg0CwwSHjI3TtuM2I+bjz+FA+i5jREhJavw5KTWF
+	 fIPuIvFPHcxftFLD8QADuPXChvz3n1eDX+LDBdEoRYtiZ9JTwJtFLESzscLiN9JZ6X
+	 LoBm7QKWNIGWsAJihghjJNImZSZHOeyF2vM+qcgfGznt46oXlPv///JdR2xo/SHkx1
+	 B22QPX1XgFlnkN/RCIwGfNXEupZQFLvAMKFE8yVdVhfnSerCUprxdT47QO4dDqQYE7
+	 5Iw3QzNPTjlpxZVsv1mcByIYmElkNSFbOlxAbKA7j0UCQeIBEVO/liAvXvgmFBa+tw
+	 6pUuNHlsCyHDw==
+Date: Thu, 24 Oct 2024 13:21:04 +0100
+From: Simon Horman <horms@kernel.org>
+To: Leo Stone <leocstone@gmail.com>
+Cc: alex.aring@gmail.com, stefan@datenfreihafen.org,
+	miquel.raynal@bootlin.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+	linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, anupnewmail@gmail.com
+Subject: Re: [PATCH net] Documentation: ieee802154: fix grammar
+Message-ID: <20241024122104.GK1202098@kernel.org>
+References: <20241023041203.35313-1-leocstone@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241023041203.35313-1-leocstone@gmail.com>
 
-Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires
-specific firmware downloading. So, add a document about the firmware
-how to get.
+On Tue, Oct 22, 2024 at 09:12:01PM -0700, Leo Stone wrote:
+> Fix grammar where it improves readability.
+> 
+> Signed-off-by: Leo Stone <leocstone@gmail.com>
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
-Changes from v2:
-https://lore.kernel.org/linux-pci/20240703102937.1403905-1-yoshihiro.shimoda.uh@renesas.com/
- - Rebase on v6.12-rc1.
- - Move the document file on Documentation/PCI/.
- - Add SPDX-License-Identifier.
-
-Changes from v1:
-https://lore.kernel.org/linux-pci/20240703101243.1403231-1-yoshihiro.shimoda.uh@renesas.com/
- - Fix typos in both the commit description and the document.
-
- 
- Documentation/PCI/rcar-pcie-firmware.rst | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
- create mode 100644 Documentation/PCI/rcar-pcie-firmware.rst
-
-diff --git a/Documentation/PCI/rcar-pcie-firmware.rst b/Documentation/PCI/rcar-pcie-firmware.rst
-new file mode 100644
-index 000000000000..0d8a87ce9aa9
---- /dev/null
-+++ b/Documentation/PCI/rcar-pcie-firmware.rst
-@@ -0,0 +1,23 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================================================
-+Firmware of PCIe controller for Renesas R-Car V4H
-+=================================================
-+
-+Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires specific
-+firmware downloading. The firmware file "104_PCIe_fw_addr_data_ver1.05.txt"
-+is available in the datasheet as a text file. But, Renesas is not able to
-+distribute the firmware freely. So, we require converting the text file to
-+a binary before the driver runs by using the following script:
-+
-+.. code-block:: sh
-+
-+   $ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ \
-+   { print substr($2,5,2) substr($2,3,2) }' \
-+   104_PCIe_fw_addr_data_ver1.05.txt | xxd -p -r > \
-+   rcar_gen4_pcie.bin
-+
-+   $ sha1sum rcar_gen4_pcie.bin
-+
-+   # Example output of the sha1sum:
-+   1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
--- 
-2.25.1
+Reviewed-by: Simon Horman <horms@kernel.org>
 
