@@ -1,189 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6781E2009;
-	Thu, 24 Oct 2024 14:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225E01F8EFA;
+	Thu, 24 Oct 2024 14:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729778766; cv=none; b=SXqr4fZ6R+MJlEAxqKijZxgd84yX+sV5JboDewYmIsKRXydGf05VkCh79obtHPYeY3C+78hsEpPHif6evTg4qfNHGdpWE62LYHN+3HpQJUVGCHpPsRqHDPFJR3KAvfxR2P/6d6O/SHiGX1i1j3nPbJpOBrTyyS8I5BbyLI5EF8Q=
+	t=1729779762; cv=none; b=pEZ9oinEytak6d3vMuCPkFZgMtJcc93CdDaSV8ZL81WSRlrsMehq7FVUFNO6cTajVbW0rTUECqBcS8NtrOUBdSNX5bscly8EK7dhnoGSwW2XtMQyfz0MladgcS85Ws1ZvlDhbM4ZXbSQvkyP3Ibz07D2jPDhzVOwpFviYmQHw4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729778766; c=relaxed/simple;
-	bh=UqM6Z34E+/K+S+SxZRTtlXPQ0ZdBLSakhVgd6bJmUqM=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ck6TVfYBu5sGPZ6ZaGhtpoAR1ZxFtb0hZvYNkieHN/NbgAlmXUsOLZ+zsVxneqMckh0APA+HJZrYO3JouavpMdyKPfWOl9AFJUwu0mIqJNfMLvxeSA7Qa+A1OBj83iopqUyTuARZ+jmxSvKfh97/TGy0yavHHAnzGS4qydkZ//w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AWSVnsYK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729779762; c=relaxed/simple;
+	bh=lPV1yWvlooeisusKmZKwVckn9G3uzeBODmUCjqE3y/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NycfzTvfzAIJEc3U+BlmUNVibsxdpAxPYkHNUgDi9bf71zydEqvU/vSl898hFSzKjb9/e7mV3g3pPIHA7yTTvFGH6IyLzXb7Fp8f8SsBvpdNoHZQIFNAsvNtiRwTxSlVHapZN/EzrBGKcDzyqylW6sPNzLFlu4fNcf6ic5ZizlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FWAJDsxh; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AWSVnsYK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4A58C4CECC;
-	Thu, 24 Oct 2024 14:06:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729778766;
-	bh=UqM6Z34E+/K+S+SxZRTtlXPQ0ZdBLSakhVgd6bJmUqM=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=AWSVnsYKK9O/yPvErdiTcdH3hjVq5fpl40AxNXggq3RH8elow7SkzmyvIoF7t1bLN
-	 MKJIfJGa0o4pPjs4/mosmK5QSMyI+jcWowubSHxrBGrcD3Nat2tm6tSGEBLCT06mCT
-	 fmcmk1L+becoisluJQWDYSHNseFS1PZWGO6Y8BD3YnH2cQW2QXqiTmZh5RJPd5vtyP
-	 K55c4s7ezXWGC4b+l0jLOUFyi9LF9euF89lPYxjlxjtkEbJhZN/ySHNT1jJOq54qYP
-	 vJdBTFHjqAiJPLcwcLCf8J7qEGI2nno0lrH6v6ewqnB5MCvi/C2SgQMTqoyYvccLZ2
-	 mBvVhrDdGcaKA==
-Date: Thu, 24 Oct 2024 16:06:03 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
-	Melissa Wen <melissa.srw@gmail.com>, Maaara Canal <mairacanal@riseup.net>, 
-	Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org, 
-	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
-	Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com, 
-	miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com, 
-	nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
- conversions
-Message-ID: <20241024-illustrious-puma-of-superiority-d24a4d@houat>
-References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
- <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
- <20241008-ingenious-calm-silkworm-3e99ba@houat>
- <ZwT6CnyYRKS9QxIS@louis-chauvet-laptop>
- <20241011-shiny-skua-of-authority-998ad3@houat>
- <Zwk2RSgfV75LVLpR@louis-chauvet-laptop>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FWAJDsxh"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BBB486000F;
+	Thu, 24 Oct 2024 14:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1729779756;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lPV1yWvlooeisusKmZKwVckn9G3uzeBODmUCjqE3y/c=;
+	b=FWAJDsxh66/UfoSazI4jZ2q2PFuwZtTV6l595EnpO+Bz+h90+T+7iHwFcTVnkMwqBcPtaI
+	sJ0BL0TysiJTOIvkMTe+Oj1dnACdlz/JMCCN++3ZTOhYGcDWZiOLoj48lmJ1wzwNPXfCv0
+	aeB49U7aVx6b76Novs+sDq0jmQEHvXffhyXidluPMf2jrdJ3UhB7hmLsmUezVmGNoGO5qv
+	CixrWRvKV6GbxNrhGU7YL4qtnFk1ohNocH7oQ94CNx2CTLInNbfS/sa2yQY2DqhRZuNiZe
+	nn3Ww57lZiHFD8xhn9zHuJJiuuFTe1uq9z1CofVBpWDKutDLU3YNxrTvHUUKHQ==
+Date: Thu, 24 Oct 2024 16:22:32 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu
+ Pirea <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh
+ <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
+ donald.hunter@gmail.com, danieller@nvidia.com, ecree.xilinx@gmail.com,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Willem de Bruijn <willemb@google.com>, Shannon Nelson
+ <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>, Jacob
+ Keller <jacob.e.keller@intel.com>
+Subject: Re: [PATCH net-next v18 00/10] net: Make timestamping selectable
+Message-ID: <20241024162232.038be0ac@kmaincent-XPS-13-7390>
+In-Reply-To: <20241024140422.3okn5lfqu72ncbxa@skbuf>
+References: <20241023-feature_ptp_netnext-v18-0-ed948f3b6887@bootlin.com>
+	<20241024140422.3okn5lfqu72ncbxa@skbuf>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="q6c53od3b6prp5tw"
-Content-Disposition: inline
-In-Reply-To: <Zwk2RSgfV75LVLpR@louis-chauvet-laptop>
-
-
---q6c53od3b6prp5tw
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
- conversions
-MIME-Version: 1.0
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Fri, Oct 11, 2024 at 04:29:25PM +0200, Louis Chauvet wrote:
-> On 11/10/24 - 12:49, Maxime Ripard wrote:
-> > On Tue, Oct 08, 2024 at 11:23:22AM GMT, Louis Chauvet wrote:
-> > >=20
-> > > Hi,=20
-> > >=20
-> > > > > + * The YUV color representation were acquired via the colour pyt=
-hon framework.
-> > > > > + * Below are the function calls used for generating each case.
-> > > > > + *
-> > > > > + * For more information got to the docs:
-> > > > > + * https://colour.readthedocs.io/en/master/generated/colour.RGB_=
-to_YCbCr.html
-> > > > > + */
-> > > > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[]=
- =3D {
-> > > > > +	/*
-> > > > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> > > > > +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> > > > > +	 *                     in_bits =3D 16,
-> > > > > +	 *                     in_legal =3D False,
-> > > > > +	 *                     in_int =3D True,
-> > > > > +	 *                     out_bits =3D 8,
-> > > > > +	 *                     out_legal =3D False,
-> > > > > +	 *                     out_int =3D True)
-> > > > > +	 */
-> > > >=20
-> > > > We should really detail what the intent and expected outcome is sup=
-posed
-> > > > to be here. Relying on a third-party python library call for
-> > > > documentation isn't great.
-> > >
-> > > This was requested by Pekka in the [v2] of this series.
-> >=20
-> > Ok.
-> >=20
-> > > I can add something like this before each tests, but I think having t=
-he=20
-> > > exact python code used may help people to understand what should be t=
-he=20
-> > > behavior, and refering to the python code to understand the conversio=
-n.
-> >=20
-> > Help, sure. Be the *only* documentation, absolutely not.
-> >=20
-> > Let's turn this around. You run kunit, one of these tests fail:
-> >=20
-> >  - It adds cognitive load to try to identify and make sense of an
-> >    unknown lib.
-> >=20
-> >  - How can we check that the arguments you provided there are the one
-> >    you actually wanted to provide, and you didn't make a typo?
-> >=20
-> > > I can add something like this before each tests to clarify the tested=
-=20
-> > > case:
-> > >=20
-> > > 	Test cases for conversion between YUV BT601 limited range and=20
-> > > 	RGB using the ITU-R BT.601 weights.
-> > >=20
-> > > Or maybe just documenting the structure yuv_u8_to_argb_u16_case:
-> > >=20
-> > > 	@encoding: Encoding used to convert RGB to YUV
-> > > 	@range: Range used to convert RGB to YUV
-> > > 	@n_colors: Count of test colors in this case
-> > > 	@format_pair.name: Name used for this color conversion, used to=20
-> > > 			   clarify the test results
-> > > 	@format_pair.rgb: RGB color tested
-> > > 	@format_pair.yuv: Same color as @format_pair.rgb, but converted to=
-=20
-> > > 			  YUV using @encoding and @range.
-> > >=20
-> > > What do you think?
-> >=20
-> > That it's welcome, but it still doesn't allow to figure out what your
-> > intent was with this test 2 years from now.
+On Thu, 24 Oct 2024 17:04:22 +0300
+Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
+
+> On Wed, Oct 23, 2024 at 05:49:10PM +0200, Kory Maincent wrote:
+> > The series is based on the following netlink spec and documentation pat=
+ches:
+> > https://lore.kernel.org/netdev/20241022151418.875424-1-kory.maincent@bo=
+otlin.com/
+> > https://lore.kernel.org/netdev/20241023141559.100973-1-kory.maincent@bo=
+otlin.com/
+> > =20
 >=20
-> I don't really understand what you want to add. Can you explain what you=
-=20
-> expect here? Did you mean you want a description like this above the test=
-=20
-> function?
+> No point in posting a non-RFC patch revision if it conflicts with unmerged
+> dependencies. Since it doesn't apply cleanly, the NIPA CI won't run on it
+> and it won't be a candidate for merging due to that. But, if you post as
+> RFC PATCH v18 instead, you make it crystal clear for the reviewers involv=
+ed
+> that you only request feedback.
 
-I want, for each test case, to have a documentation of what case it's
-testing and what the test should expect.
+I naively thought net maintainers could rerun the CI after these patch get
+merged. I will need to repost a v19 later then.
+Sorry for the noise.
 
-So, for the first one, something like:
-
-/*
- * Test the conversion of full range, BT601-encoded, YUVXXX pixel to
- * ARGBXXXX, for various colors. This has been generated using:
- *
- * colour.RGB_to_YCbCR(...)
- */
-
-And there's other things you need to document. Like, it seems that you
-sometimes pass different values for in_legal and out_legal, and that's
-not clear to me.
-
-It also that you uses a matrix for NV12 but are converting a different
-format. This needs to be documented.
-
-Finally, You should be documented why you are checking that the colors
-difference is less than 257, and not exactly equal.
-
-Maxime
-
---q6c53od3b6prp5tw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZxpURwAKCRAnX84Zoj2+
-dpnIAYCtzV3UTGshXlT1ay9Ij6pdu3hWrR1lndrGKgCB1XEnKmy4881AJuppJ99z
-FdyPjl8Bf1/NExIEJ9JOwZpOUbCdkop0YSn90LSIqkHC97ab1CPRsC0EIJOtrseB
-NAvTbA189Q==
-=mQrx
------END PGP SIGNATURE-----
-
---q6c53od3b6prp5tw--
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
