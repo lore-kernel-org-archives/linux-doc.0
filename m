@@ -1,48 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2591B0F13;
-	Thu, 24 Oct 2024 09:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4081B21A9
+	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 09:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729761038; cv=none; b=hhzIKDcyH8DGCbAwYM7lvijd+uKnnIMe9eWMFI4qRi4IfLdcN5OsZfNoW2yHFPoNxeL8N5v039f0PxAV01S3j7A8GzCc9pqmR/B83z+7OiL6O9pybJe3C79w5aeppfDdHMqOIS8Iv8mVH9N9HmA5glaOVariP8Bj+J7hcG73IVE=
+	t=1729761246; cv=none; b=gfYd4EQ97eZ2dWzSgMlihZ/Q7Xav6PeMdU9chiTtrnDFkgju5qRMwHDImifZgRp3KSneBMpIwrgWr4BHUpR1YhyZXAmHFnek2Gsc2jyw1C5//01m3k4rpVsqy7jZrk88VcR+I8f8lsOx9lWIdFPn4D9VV5um5FjMrfWVhQNvz6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729761038; c=relaxed/simple;
-	bh=+tAuPuS4qDYyylOvplCLRUauYVB2Q0dEDLIfuASAXaw=;
+	s=arc-20240116; t=1729761246; c=relaxed/simple;
+	bh=avpK6tUcSJyxEr2R0gQ1mEBxd/wWm8tXZZZXLNlYYuA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qPu8uTVyuctG7e0z1ogHKqBulWCQQlcXGmSSecqV1bCwJ++PvazO0R/M01C1sEN1yaJHYZjoaiyRCry4+8Si3xdIupi1XVu90A6wMEaDApMjOOzDsP8q6hER1PGyuDMGSN9POqHKHsQ0AHz5ysiol+KrOFN4ERz0WS98EOFHDPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GZeSZPda; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=h1IJneARk/P4en//Rm0KA95WKWMKScLwLkbDUKMd/3rML7nr8ph4WIGDfmenAWgQ9I6qjV9s8x0tteTajwZC/hh+/n1nzVjGWNMU+6NeuYHQ3EJ3gU7rZMVq0ucFFTKbNttBn0QCC1EJDC615ODDCNVqX+oW1wsYU+N1uvqeLmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=aGwT6WrJ; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GZeSZPda"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869FCC4CEC7;
-	Thu, 24 Oct 2024 09:10:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729761037;
-	bh=+tAuPuS4qDYyylOvplCLRUauYVB2Q0dEDLIfuASAXaw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GZeSZPdaL4yerk2j30+PVcGBLiQZAgkoyuopojm123vfC5hY2FYEbRF/tUj6RY1eP
-	 ZbsQXGt+uGQCvbd43GfNRLlzEenM6+5fCEYAV+P0bjB9FviTIy0SgzEfgVMNrT7Z2P
-	 d37OyOOY++81k6XYVijhanHE5t0IUe0XRZ4xb8s1FMJwGzlRLhci+thp8fWW40Apa7
-	 bv4/CCnj7iDLCRvWwNKTpiCwmN0zyAeB2g+H8IxfMdLNcVi7xtGUFK3qtomRUTpltu
-	 g4UA5dxeQ3SwoppiWBdnbmdnzplMhsDH9s8DCIP2TSPmS5Bx1+4BB3Nf51JuP75PGI
-	 Eq9+Sov8jKj/w==
-Date: Thu, 24 Oct 2024 10:10:32 +0100
-From: Simon Horman <horms@kernel.org>
-To: Lee Trager <lee@trager.us>
-Cc: Alexander Duyck <alexanderduyck@fb.com>,
-	Jakub Kicinski <kuba@kernel.org>, kernel-team@meta.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Sanman Pradhan <sanmanpradhan@meta.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Mohsin Bashir <mohsin.bashr@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 2/2] eth: fbnic: Add devlink dev flash support
-Message-ID: <20241024091032.GI402847@kernel.org>
-References: <20241012023646.3124717-1-lee@trager.us>
- <20241022014319.3791797-1-lee@trager.us>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="aGwT6WrJ"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37d41894a32so472262f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 02:14:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1729761242; x=1730366042; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C1TB/Q2XIMnswl+oxbdIOcW6rv6E1hiXPecGzghRmFA=;
+        b=aGwT6WrJO3xM8T7cSU9jWv/B0IW9djxGZ0rJIMbb89VgOZgT+fziGcsKMu/tTFNOR7
+         jorQMDWo2/62WjufMn813RiMt0/YJYuTZm2W627UkN8Kf9ANtZhEx61dWJO9psKTbNgJ
+         4Mhu+/mCD4qWXF4I0jeBhsm2hMquIz/a3Kj+8pIUmPnwBka5pfFYESeNk5hwD4ipEiko
+         2O8wtx3bk3cbpI9ptI8Lj1tRlkzZRQJd4jhC8MQo8efzq/H0diY5n7hF/W+B4a4u1chs
+         pKfAokPaWkXeRQPCbXbHLtVJjAsO+bXbBNzfwPNvgKZUpe+XHEwJ6iwrl4sQdIzlI/Ne
+         E/9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729761242; x=1730366042;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C1TB/Q2XIMnswl+oxbdIOcW6rv6E1hiXPecGzghRmFA=;
+        b=wETnvL7598WLqe2HXgvaNN5w4FmXAl2Sq/xBDyc7AdA9cZTI75ukDs4kjQdZeI+Z8p
+         i6v14230muQuWbkNepD2EdpzjvZaWettVaM4dkVfB/Uq7GaAXezZZwSPwcnQg8YzlAzR
+         r8zi8sqQWL1yLEp1VXP260PQFKVty95hGhx8Czl/nir59/anYlpHK+PfhRs/fDScExup
+         Oa7H7hzKsevXA9CUS4ikOl87A/1PH89zqM+/hzC458p5/NltdDvub0+Ff4OYrJIO8JEs
+         eZ+CS0IoMUyCkQpP1uaGvPUjSCfnLDV1P6aBLejUofJYXWjrgJxIBaczzP8LDfVN42x0
+         0Phw==
+X-Forwarded-Encrypted: i=1; AJvYcCXj36xgPzkgRJ+ZpruY7T/16JFNmTWgh8u92E2UMUYED+EyiV16tKGre+RnGQS5N4O/M9AZHxZItck=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOBN8EPX0bT49440b1NdZ4wsircs8TKKw0tdzEK+QB2ALHasTS
+	EgT3XGNEywVIC8XT9hvIEY07bXGI+MyOkuFJq0WU6KR9D92jxg2K0wFulLlbwlw=
+X-Google-Smtp-Source: AGHT+IH0FAdozsb/aFk6DgRgsawnhV0d3I7f2qAuMC29RAOVCnDBw1CjfFrUTETiG6wfB7DtjCmyuw==
+X-Received: by 2002:adf:f10d:0:b0:37d:39ff:a9cf with SMTP id ffacd0b85a97d-3803abc5251mr845102f8f.5.1729761242477;
+        Thu, 24 Oct 2024 02:14:02 -0700 (PDT)
+Received: from localhost (109-81-81-105.rct.o2.cz. [109.81.81.105])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43186bd6923sm40205915e9.9.2024.10.24.02.14.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 02:14:02 -0700 (PDT)
+Date: Thu, 24 Oct 2024 11:14:01 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Hugh Dickins <hughd@google.com>, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Meta kernel team <kernel-team@meta.com>
+Subject: Re: [RFC PATCH 1/3] memcg-v1: fully deprecate
+ move_charge_at_immigrate
+Message-ID: <ZxoP2TLCGnSm9c8p@tiehlicka>
+References: <20241024065712.1274481-1-shakeel.butt@linux.dev>
+ <20241024065712.1274481-2-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,98 +75,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241022014319.3791797-1-lee@trager.us>
+In-Reply-To: <20241024065712.1274481-2-shakeel.butt@linux.dev>
 
-On Mon, Oct 21, 2024 at 06:42:24PM -0700, Lee Trager wrote:
-> fbnic supports updating firmware using a PLDM image signed and distributed
-> by Meta. PLDM images are written into stored flashed. Flashing does not
-> interrupt operation.
+On Wed 23-10-24 23:57:10, Shakeel Butt wrote:
+> Proceed with the complete deprecation of memcg v1's charge moving
+> feature. The deprecation warning has been in the kernel for almost two
+> years and has been ported to all stable kernel since. Now is the time to
+> fully deprecate this feature.
 > 
-> On host reboot the newly flashed UEFI driver will be used. To run new
-> control or cmrt firmware the NIC must be power cycled.
-> 
-> Signed-off-by: Lee Trager <lee@trager.us>
+> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 
-...
+I fine with this move, just one detail we might need to consider
+[...]
+> @@ -606,17 +606,7 @@ static int mem_cgroup_move_charge_write(struct cgroup_subsys_state *css,
+>  		     "Please report your usecase to linux-mm@kvack.org if you "
+>  		     "depend on this functionality.\n");
+>  
+> -	if (val & ~MOVE_MASK)
+> -		return -EINVAL;
+> -
+> -	/*
+> -	 * No kind of locking is needed in here, because ->can_attach() will
+> -	 * check this value once in the beginning of the process, and then carry
+> -	 * on with stale data. This means that changes to this value will only
+> -	 * affect task migrations starting after the change.
+> -	 */
+> -	memcg->move_charge_at_immigrate = val;
+> -	return 0;
+> +	return -EINVAL;
 
-> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
+Would it make more sense to -EINVAL only if val != 0? The reason being
+that some userspace might be just writing 0 here for whatever reason and
+see the failure unexpected.
 
-...
-
-> @@ -109,8 +110,274 @@ static int fbnic_devlink_info_get(struct devlink *devlink,
->  	return 0;
 >  }
-> 
-> +/**
-> + * fbnic_send_package_data - Send record package data to firmware
-> + * @context: PLDM FW update structure
-> + * @data: pointer to the package data
-> + * @length: length of the package data
-> + *
-> + * Send a copy of the package data associated with the PLDM record matching
-> + * this device to the firmware.
-> + *
-> + * Return: zero on success
-> + *	    negative error code on failure
-> + */
-> +static int fbnic_send_package_data(struct pldmfw *context, const u8 *data,
-> +				   u16 length)
-> +{
-> +	struct device *dev = context->dev;
-> +
-> +	/* Temp placeholder required by devlink */
-> +	dev_info(dev,
-> +		 "Sending %u bytes of PLDM record package data to firmware\n",
-> +		 length);
+>  #else
+>  static int mem_cgroup_move_charge_write(struct cgroup_subsys_state *css,
+> -- 
+> 2.43.5
 
-Could you clarify what is meant by "Temp placeholder" here and in
-fbnic_send_component_table(). And what plans there might be for
-a non-temporary solution.
-
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * fbnic_send_component_table - Send PLDM component table to the firmware
-> + * @context: PLDM FW update structure
-> + * @component: The component to send
-> + * @transfer_flag: Flag indication location in component tables
-> + *
-> + * Read relevant data from component table and forward it to the firmware.
-> + * Check response to verify if the firmware indicates that it wishes to
-> + * proceed with the update.
-> + *
-> + * Return: zero on success
-> + *	    negative error code on failure
-> + */
-> +static int fbnic_send_component_table(struct pldmfw *context,
-> +				      struct pldmfw_component *component,
-> +				      u8 transfer_flag)
-> +{
-> +	struct device *dev = context->dev;
-> +	u16 id = component->identifier;
-> +	u8 test_string[80];
-> +
-> +	switch (id) {
-> +	case QSPI_SECTION_CMRT:
-> +	case QSPI_SECTION_CONTROL_FW:
-> +	case QSPI_SECTION_OPTION_ROM:
-> +		break;
-> +	default:
-> +		dev_err(dev, "Unknown component ID %u\n", id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	dev_dbg(dev, "Sending PLDM component table to firmware\n");
-> +
-> +	/* Temp placeholder */
-> +	strscpy(test_string, component->version_string,
-> +		min_t(u8, component->version_len, 79));
-> +	dev_info(dev, "PLDMFW: Component ID: %u version %s\n",
-> +		 id, test_string);
-> +
-> +	return 0;
-> +}
-
-...
+-- 
+Michal Hocko
+SUSE Labs
