@@ -1,67 +1,61 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com [91.218.175.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4421EF087
-	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 15:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E320C1EF08D
+	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 15:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729784539; cv=none; b=bMSiNPJYmsUoF5EVWRHFuBzPqP95ZIqYPbTaxkMe2lk1H0HCS/Zkz/ZvaO/wTKVxnVF0lvr0RyNmG0596qCGASXUZri1c78GHvJwFJGQJrEaGOpckCmyY9gPUaPfrHd4oK/qc8okJTabcgQdb52h8vN9SjdGqygK1bNFBoDhhH4=
+	t=1729784706; cv=none; b=qaWIg692HM8efcZZiQKc1kRTwXYa7xA+W4/UNqstHHGAy4OtT2BT7XVmVngVMOLVoLkWsAl6ojj2notG33XwANgKsh5vzfflLr8IACbVEs1hmJJaVibK33315eQvt5r0rvoFSFQUaABq8seTEydtxifImYEbg+L04MXPk4eeAQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729784539; c=relaxed/simple;
-	bh=JA2+P8tJNRooSWGy8dttNYXnIOGobkf1Mu8CVP6xBNk=;
+	s=arc-20240116; t=1729784706; c=relaxed/simple;
+	bh=6I8qbzz7ximcghGIEO2unZUAhIwsriatLvIqpMrCiVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ebryQ17YYo8/xqbYLU8BfWooD/LuTkLM4GViTgwOZ0Y10TIVd/qC6bpoCPr9ZeiuHYBGjSQpKHfDSnAFrLSiHZl8i4r50ZlvIRSDSNB/ZwnC8zpEN7hqmCHPZOYOLZKha8wLQGZ/Nk8XXEzMKC6QZFcllh5VxofWKIm3GC6Cblg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QX3aUza7; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=BwQKVaeJ4/GvSoJMifvkyCG8tVLNVo5rR6PNHcd5DkkkDYMhRaErWXwOs4VZ/1ylWiPC20ZcnLBXDeyFbbnwDd4lEdXxq9A0LxVGl4x7zgIm6T2bx3eqCMCKNvK7Osb7nv76RbwBqLbhhP1VEp3U/h4lMOBr3O7o603VkLMJBaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=s50vYbHV; arc=none smtp.client-ip=91.218.175.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QX3aUza7"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2e2e6a1042dso797645a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 08:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729784537; x=1730389337; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=B8DyuvHzb5XjyqaoJeydh5dQ8YB6zbnvlTgF+dM7WRk=;
-        b=QX3aUza778sGgaBvXlYHMNU2/eCriMFlaKP8H9NT356wKk4AgpVK7E9msrXuvWzYqX
-         L852GevA6j7ExqD4faj/ELspE4LY2RriwZIacUq7Qx+6+uTbg08kfJBcZcNXM32q0Gc8
-         5BRgiyTecTWo3ueVYmURQkxKs7C33mVPZglctvVzUdMtxND88Daggylt4mwCaRYX2+NP
-         MlKA8VnNFvG8ogccTSSKrYjKl7KSgNhBlpMC2TGfQdKbpczr0mMWoItjHeqcqG20mE1W
-         7GpjhUuKwxoOE/JQAvWKj1uTP5mol0tvEofRQKo4/wz2kPLAupp/PN2nb5JLMjDMGAyy
-         rYTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729784537; x=1730389337;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B8DyuvHzb5XjyqaoJeydh5dQ8YB6zbnvlTgF+dM7WRk=;
-        b=bUj+9PcuX/WSlJZVVr3OGqtInIJcZ5mCYORgvDjoB32X+2y5JdRWnkitgr7Nw8Ymsf
-         hWTJCcskrn7dn86Xso9yNdIhLFbPemf6KOm88AV7lkHJ8GM/VAt/PCpjMihg7BmTN8p7
-         JOhCNRozLjsYYRc2ghQvCVej8IJa/j324vIT/8hpdDbsG6x83KgnRqm3eEHijpgnnD72
-         Sqm0ajIv9Rc80P4uCUmmtgOZ2ryP1oz+4sT1gevnrwLqMDvVWPDDfdF2buMT6pKZYZ2+
-         VQWTb4OGed79NEJp+9FXxHx2t+6BHEiJ8Ao1rRnnme4vWN/5Y70sTWkMEp9hlBwtvpBh
-         jwOw==
-X-Forwarded-Encrypted: i=1; AJvYcCV0Tt1OqIbRGAxcrMfCB0D30S+Vi8vhluYOwZNeNUdckfOofZZY/ni8rJ1gJV0Wrg0VHVFbay1PXBY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykmXEOYwWGzalWkwuDU98cp41Z1ZiM8lF6c3IKSFITQCGldxXT
-	sAiNXYw/h9y/+mfbMrVkoa0MQRWLRPVTLiLp2i78OOJTeqLIPGyHJRQPOS3MsihaZoxhzLUO/a3
-	I
-X-Google-Smtp-Source: AGHT+IHJA6h9/dphvA6EaRPdgKXiQXjJSKFpmG3omjCNL1LDYLu7ZLPUnH48dmdvoBjDXaoFRYpMOQ==
-X-Received: by 2002:a17:90a:604c:b0:2e2:e6bf:cd64 with SMTP id 98e67ed59e1d1-2e76b5b6be5mr6956529a91.5.1729784536954;
-        Thu, 24 Oct 2024 08:42:16 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:7c96:e131:bee8:c8a4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e77e5bc59bsm1638536a91.56.2024.10.24.08.42.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 08:42:16 -0700 (PDT)
-Date: Thu, 24 Oct 2024 09:42:13 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: anish kumar <yesanishhere@gmail.com>
-Cc: ohad@wizery.com, bjorn.andersson@linaro.org, corbet@lwn.net,
-	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 1/7] Remoteproc: Documentation: add the main index
-Message-ID: <Zxpq1RGltdWiE5sA@p14s>
-References: <20241023053357.5261-1-yesanishhere@gmail.com>
- <20241023053357.5261-2-yesanishhere@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="s50vYbHV"
+Date: Thu, 24 Oct 2024 08:44:49 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729784699;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xk+d7Z4LZ/1qTUjGCbC24ANWAiUATci3sfG2VV3bTQI=;
+	b=s50vYbHVxKPriUbyijJqut9CFyImL7JtJpvwDxKnlDeEWu3JMYeEzlCBWWd7ZMruwnOqpB
+	VvDIZ8L5egp9CDD+dEudN1zYCjKmiTOapnHBxzklWRdAQEN0aLLfETohBS6o3AAwYopM35
+	7GdUuWw1gJcZCYJU/S3qn5AlPO0oBdg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Miguel Luis <miguel.luis@oracle.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+	Shuah Khan <shuah@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	Francesco Lavra <francescolavra.fl@gmail.com>
+Subject: Re: [PATCH v6 6/6] arm64: Use SYSTEM_OFF2 PSCI call to power off for
+ hibernate
+Message-ID: <ZxprcWDe2AXuLhD_@linux.dev>
+References: <20241019172459.2241939-1-dwmw2@infradead.org>
+ <20241019172459.2241939-7-dwmw2@infradead.org>
+ <23C91005-7304-4312-A5E0-F5E6C05B3209@oracle.com>
+ <ECD0CA58-2C3B-48F3-AF12-95E37CB0FC48@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,65 +64,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023053357.5261-2-yesanishhere@gmail.com>
+In-Reply-To: <ECD0CA58-2C3B-48F3-AF12-95E37CB0FC48@infradead.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Oct 22, 2024 at 10:33:51PM -0700, anish kumar wrote:
-> In prepration of moving the remoteproc documentation
-> from staging to mainline and also for enhancing
-> the documentation.
+Hi,
+
+On Thu, Oct 24, 2024 at 03:48:26PM +0200, David Woodhouse wrote:
+> On 24 October 2024 14:54:41 CEST, Miguel Luis <miguel.luis@oracle.com> wrote:
+> >Perhaps spec. F.b. could be accommodated by first invoking SYSTEM_OFF2 with
+> >PSCI_1_3_OFF_TYPE_HIBERNATE_OFF and checking its return value in case of a
+> >fallback to an invocation with 0x0 ?
+
+This already complies with F.b.
+
+The PSCI implementation is required to accept either 0 or 1 for
+HIBERNATE_OFF. Using 0 seems like a good choice for compatibility since ...
+
+> I wasn't aware there was any point. Are there any hypervisors which actually implemented it that way? Amazon Linux and Ubuntu guests already just use zero.
 > 
-> Signed-off-by: anish kumar <yesanishhere@gmail.com>
-> ---
->  Documentation/driver-api/index.rst            |  1 +
->  Documentation/driver-api/remoteproc/index.rst | 20 +++++++++++++++++++
->  2 files changed, 21 insertions(+)
->  create mode 100644 Documentation/driver-api/remoteproc/index.rst
-> 
-> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-> index c57c609ad2eb..ec9d669b92e5 100644
-> --- a/Documentation/driver-api/index.rst
-> +++ b/Documentation/driver-api/index.rst
-> @@ -30,6 +30,7 @@ available subsections can be seen below.
->     frame-buffer
->     regulator
->     reset
-> +   remoteproc/index
+> We could add it later if such a hypervisor (now in violation of F.b) turns up, I suppose?
 
-This patch doesn't apply to rproc-next and I'm pretty sure it is the same for
-Jonathan's tree. 
+IIUC, you're really wanting to 0x0 because there are hypervisors out
+there that violate the final spec and *only* accept this value.
 
->     iio/index
->     input
->     usb/index
-> diff --git a/Documentation/driver-api/remoteproc/index.rst b/Documentation/driver-api/remoteproc/index.rst
-> new file mode 100644
-> index 000000000000..8b8c8f512e2b
-> --- /dev/null
-> +++ b/Documentation/driver-api/remoteproc/index.rst
-> @@ -0,0 +1,20 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +========================================================================
-> +remoteproc - remote processor subsystem in Linux(TM) kernel
-> +========================================================================
-> +
-> +Authors:
-> +	- anish kumar  <yesanishhere@gmail.com>
-> +
-> +   remote processor subsystem is a way to manage the lifecycle of
-> +   a subsytem that is external to the Linux. The remoteproc framework
+That's perfectly fine, but it'd help avoid confusion if the supporting
+comment was a bit more direct:
 
-... external to the Linux kernel.
+	/*
+	 * If no hibernate type is specified SYSTEM_OFF2 defaults to
+	 * selecting HIBERNATE_OFF.
+	 *
+	 * There are hypervisors in the wild that violate the spec and
+	 * reject calls that explicitly provide a hibernate type. For
+	 * compatibility with these nonstandard implementations, pass 0
+	 * as the type.
+	 */
+	 if (system_entering_hibernation())
+		invoke_psci_fn(PSCI_FN_NATIVE(1_3, SYSTEM_OFF2), 0 , 0, 0);
 
-> +   allows different platforms/architectures to control (power on,
-> +   load firmware, power off) those remote processors while abstracting
-> +   the hardware differences, so the entire driver doesn't need to be
-> +   duplicated.
-> +
-> +Mailing List
-> +------------
-> +To post a message, send an email to
-> +linux-remoteproc@vger.kernel.org
-> -- 
-> 2.39.3 (Apple Git-146)
-> 
+Thoughts?
+
+-- 
+Thanks,
+Oliver
