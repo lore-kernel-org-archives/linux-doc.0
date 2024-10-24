@@ -1,106 +1,89 @@
-Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com [95.215.58.184])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1B322B67F
-	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 19:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3409217333D;
+	Thu, 24 Oct 2024 20:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729799873; cv=none; b=qkUo5Yj6GbvIxMX+o3y+MpSGSC6zQYTFu08BoiXgtER3MeWIb+AGmEy6oTuBVehB/NUVEbtVPbGJ3pIEGAYwJEePILroWfe0aC4hkMB4Rr0gXaqpO0+pGN8PVq5QyKqpJccvvUCF88HAQAESrNMzS9HVRy7bE5yV7I+xKdJkbUQ=
+	t=1729800088; cv=none; b=C7j744aWQ6TXHW0yirZsrumx28dONx2abVz5bgjYW4Cd+ljUaCc+8npXNTKaTzJH4jA0YUCu3qi8r/rlilYuMnMt7YRVYve9BLxQ+BrOiPzDT0Ah9QPmaGGvkcxz3szs3P1khLlRUXyqHKpYuYJYt0A2RWGQpGr4gyhXxrWWuVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729799873; c=relaxed/simple;
-	bh=bTSZ+AIYW4PtKktAhtWQiw/nwwUpqv9LctwwUYhZcYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o+yvqSwixk5bwMAcLJD5bjbrWx7TBWIffbG1BeaUqSfobvTsCGmKP02HU7L6ncM/XGKaD6RpDYJT4srt61obhgq/RbHPZa8d2D+WyD2h3o64NWxVTbQPoOcNPCxQvdtiCBh5vzoWomSp19syoFcsygbNUcawWvzxUzD8nIrLwsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tPILtAAX; arc=none smtp.client-ip=95.215.58.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1729800088; c=relaxed/simple;
+	bh=cP3EFX1XKkwzDlHRU/Tinf5F+8Lo1JlpsJ4fkUOrdM8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Tks/917bW0qxwUemLSlF7P04NvqToKCpcA12tiQHD/mOHge4shvhAq+03nFWKmGU92FMh5mRhc8qdCuz3UA2G/VeTd/XoeevYU92PUyLQ2XT3lV48bCpLm8sBm3A4kRPiTUWxuPXGMLAvS4yvyFzJA6SbaEgAw/wgHth9VEnyeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Q8DiXAff; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tPILtAAX"
-Date: Thu, 24 Oct 2024 12:57:38 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1729799868;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8BK0ZcosXDoOXzSbDL6svDcVkcl94/C1ybPNkAKv7is=;
-	b=tPILtAAXE+IgUeUPC4X+luEap2SlsyS17q2HLFknCMik+U8I3s2RvzCZUnSAzQqNJDKt9e
-	M/MTZyMVUnCKCJYUBNzj0u5ZsYLzm6ShCLECXJkxN//oG4dDtOWhz5P9RCDzSDwfta6E2h
-	1b0NgK8VyuKZarNkmkLJPSv4ZjfS/hI=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Miguel Luis <miguel.luis@oracle.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-	Shuah Khan <shuah@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	Francesco Lavra <francescolavra.fl@gmail.com>
-Subject: Re: [PATCH v6 6/6] arm64: Use SYSTEM_OFF2 PSCI call to power off for
- hibernate
-Message-ID: <ZxqmsiXV6ZYTANKY@linux.dev>
-References: <20241019172459.2241939-1-dwmw2@infradead.org>
- <20241019172459.2241939-7-dwmw2@infradead.org>
- <23C91005-7304-4312-A5E0-F5E6C05B3209@oracle.com>
- <ECD0CA58-2C3B-48F3-AF12-95E37CB0FC48@infradead.org>
- <ZxprcWDe2AXuLhD_@linux.dev>
- <691447A1-8F3F-4890-B00F-8068A14CA126@infradead.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Q8DiXAff"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 104914188F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1729800085; bh=cP3EFX1XKkwzDlHRU/Tinf5F+8Lo1JlpsJ4fkUOrdM8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Q8DiXAff7Y08od7QiqRocFJMqUxYVgSF9RwWy1JVVulDnoK3uCDfJt3nQ+fn2Qhx3
+	 tX8O3ZDgoxaLYwqdhAGWKEy+8u/mfliimFQId7VptucjpR9AQpCKZsdyALc5qhhpHu
+	 Olo9jkcjXXzXHzcdGX3sOWqdAJCBvpxj1nJ82bceUZ4G76r2W0h6EtW1HWt9PCHFa5
+	 jQy5lHvBVZD7ikfTfZypuSSSjlOSNOzXSAwQZ5miodFWAtE7w5zDWDbntHOmahoUWF
+	 0Ox5NzLPMEJWmsOXeNE6ir0wkax0abn/sl1LNhxJAZxemnQA9PRKEOPo6G/4GUxTHr
+	 f5htw0tpBWyUQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 104914188F;
+	Thu, 24 Oct 2024 20:01:25 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Dongliang Mu <dzm91@hust.edu.cn>, si.yanteng@linux.dev, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, Miguel Ojeda
+ <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?=
+ Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Dongliang Mu
+ <dzm91@hust.edu.cn>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH v3] docs/zh_CN: update the translation of
+ process/programming-language.rst
+In-Reply-To: <20241023062750.849951-1-dzm91@hust.edu.cn>
+References: <20241023062750.849951-1-dzm91@hust.edu.cn>
+Date: Thu, 24 Oct 2024 14:01:23 -0600
+Message-ID: <874j5146ek.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <691447A1-8F3F-4890-B00F-8068A14CA126@infradead.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-On Thu, Oct 24, 2024 at 05:56:09PM +0200, David Woodhouse wrote:
-> On 24 October 2024 17:44:49 CEST, Oliver Upton <oliver.upton@linux.dev> wrote:
-> >IIUC, you're really wanting to 0x0 because there are hypervisors out
-> >there that violate the final spec and *only* accept this value.
-> >
-> >That's perfectly fine, but it'd help avoid confusion if the supporting
-> >comment was a bit more direct:
-> >
-> >	/*
-> >	 * If no hibernate type is specified SYSTEM_OFF2 defaults to
-> >	 * selecting HIBERNATE_OFF.
-> >	 *
-> >	 * There are hypervisors in the wild that violate the spec and
-> >	 * reject calls that explicitly provide a hibernate type. For
-> >	 * compatibility with these nonstandard implementations, pass 0
-> >	 * as the type.
-> >	 */
-> >	 if (system_entering_hibernation())
-> >		invoke_psci_fn(PSCI_FN_NATIVE(1_3, SYSTEM_OFF2), 0 , 0, 0);
-> 
-> By the time this makes it into released versions of the guest Linux kernel, that comment won't be true any more.
+Dongliang Mu <dzm91@hust.edu.cn> writes:
 
-Then does it even matter? What is the problem you're trying to solve
-with using a particular value for the hibernate type?
+> Update to commit 0b02076f9953 ("docs: programming-language: add Rust
+> programming language section")
+>
+> scripts/checktransupdate.py reports:
+>
+> Documentation/translations/zh_CN/process/programming-language.rst
+> commit 0b02076f9953 ("docs: programming-language: add Rust programming
+> language section")
+> commit 38484a1d0c50 ("docs: programming-language: remove mention of the
+> Intel compiler")
+> 2 commits needs resolving in total
+>
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+> v2->v3: fix warnings in the make htmldocs
 
-Either the goal of this is to make the PSCI client code compatible with
-your hypervisor today (and any other implementation based on 'F ALP1') or
-we don't care and go with whatever value we want.
+This still generates warnings:
 
-Even if the comment eventually becomes stale, there is a ton of value in
-documenting the exact implementation decision being made.
+Documentation/translations/zh_CN/mm/physical_memory.rst:131: WARNING: duplicate label nodes, other instance in /home/corbet/kernel/Documentation/mm/physical_memory.rst
+Documentation/translations/zh_CN/mm/physical_memory.rst:325: WARNING: duplicate label zones, other instance in /home/corbet/kernel/Documentation/mm/physical_memory.rst
+Documentation/translations/zh_CN/mm/physical_memory.rst:334: WARNING: duplicate label pages, other instance in /home/corbet/kernel/Documentation/mm/physical_memory.rst
+Documentation/translations/zh_CN/mm/physical_memory.rst:350: WARNING: duplicate label initialization, other instance in /home/corbet/kernel/Documentation/mm/physical_memory.rst
 
--- 
-Thanks,
-Oliver
+jon
