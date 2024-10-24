@@ -1,59 +1,60 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF891B0F35
-	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 08:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC9A1C07DC
+	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 08:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729757850; cv=none; b=pQSHjdLIACdCXfHFMsE8pg9EnJRRA9lMAf59F4s8sxKFaoPKY8oAstJrMHK7/kU0GuHorzRzN6mannQUZ/OXIKYJq2UlxoTw7dIbHn2yzLMvSe8nlSXEhqztPp8Vna/svT1509eWT7J+xaUTNj0c+gmHxjzI/LdF6gB/WpQU0RY=
+	t=1729757851; cv=none; b=MKUVlWUfRvgJppbh7KCEe6lzYlGgXwA4+TAcUTclwRK1S2n1XQgNpXxF6aFeNegV6zASXV/2afM/IJVVZ6Fdg5t6x1QAggraMB2gYg6kIqxi79z3n+QX22mcfMxJUKMYfdc6zYtq82KphewAJvbgkOSWBqGkdPxvSY3Ugs29qZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729757850; c=relaxed/simple;
-	bh=5+PPddUOggBcLzUgVM4JAjl8yf57Cfb1Vspg+FOHcvE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KSwf8rzCeN6ZPyBCDGUXA+JguxfUzluOX+xB2sQpXSxOv4EmBeSa63ebL7XXnXBEU9o5HRCVTyNRVdOg7/1z5Cj5GLdn1/o64SA5OeNG/vcPaI4YMIzkeZSPlm5DcIa0sup84/boFvqtAuWRr5peGCUGjvpsCPqWKs/p9uW+ojs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=jp2WD3Rz; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1729757851; c=relaxed/simple;
+	bh=ur2xrohuXdp+XK2W9kNkEGxeD+PeEi9hqLfcXSWTqkM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jfAYUmTgelT/cTpbhyc6QR4/cFqo7y09jpO6EUDUlKYvLir25TlEJany67p6KxOrlcfiwgKQcMUCU9+WF0hHCHlQ/9OunQIPVcgKwagTZlhT8nS5UQGfxjyqGCa8S2kHlFlkGM2WCLqgmw/PREfD4DZpGSyN+j8+tgPz8lRm81k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=JkfL4EYl; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jp2WD3Rz"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43167ff0f91so6280245e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 01:17:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="JkfL4EYl"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4315abed18aso6227115e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 01:17:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729757842; x=1730362642; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4dTM6QAgU0iBX1/55GNjACOUfUPsURXI/ZYFo7NvddM=;
-        b=jp2WD3RzYsD/rrhoPjzwKAVbbI96vp2o/tRu0Shs0cKzwzcabClhxJClIP4D4N6kDY
-         ztHVvD5/1zFbdY+1u1oCG9SqcF5Yt6SoINRVZnytD0Ja/lUk+N1ii1cVjXYjUqq1bsUf
-         BbQrkWDiBt/U3GmXVXXX4ADGiIE3jewLW4Famp9N/b+GNPQF7P19Ybscqb7Uzeu3YEA2
-         C0Kmprc9/HFsJgrMvdqUIW610j67EFYgXq/phh3g2ACxbWA13veZh5PMalGpK3J2M3+G
-         Oww9eu0GAggky/0Kx6GOY5PMH1dE6zrgsS9xoa41WY3AUfu0+Z6I5aVor7+58TtF4Mfp
-         yDaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729757842; x=1730362642;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729757847; x=1730362647; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4dTM6QAgU0iBX1/55GNjACOUfUPsURXI/ZYFo7NvddM=;
-        b=C/l3ksaR2sHqg03xO3dF64CEqS/4KtMCXrw+qa8TC6yg8NXT8UwmbiZmFvBNFQj13I
-         1+bzGxDiMbKxo0ETgotuqbFHhPXho3sTga5n5I/akQK89eFgs6mAYUI5rZO0Leno4tGI
-         g+0Pth5ID/NH21mVwRBF2PxkY2X8Fxr3krKPKZIpEza+T013MMq9MJQejtLKLAxwIlaS
-         a6B3PtcK65thAJR8vOqOSEJ9oTViB2z50WIWYualAuB2EhubB1fK+ADeKeoseqMY/kUl
-         HDc4+lt0xk1GgQLTvs0y/xWiT4OGWx6u5gYVmMtPo2+HhD+Zud/yNKI4yU5wRMAoTCHI
-         3oIA==
-X-Forwarded-Encrypted: i=1; AJvYcCUSaycqPobk4kTlsyeqQ0PJsIo7k8oqRvEA0kXv9UesVT+yn828AMdHriRab3i0v6PeM/yKbzSHWR0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcoPMJmZrhQV2b4Yw7+7qvwIu4GZV3GdfgqZbPxqdiE5iky+ev
-	jYkYkBqN2vB/yMi0U+5vyFgglFOzponcAMdazpUZ0acKsYZYCsOFIpIMFUChVOM=
-X-Google-Smtp-Source: AGHT+IGRnp0CPyE9Lu8MiPJUC8cE2tOabAKZQUMJoKtx0sHKMX+8ebn9dBSN/PK5Xm3LKaO9EFz3xQ==
-X-Received: by 2002:a05:600c:3595:b0:42c:a8cb:6a75 with SMTP id 5b1f17b1804b1-4318415f707mr48674225e9.17.1729757842561;
-        Thu, 24 Oct 2024 01:17:22 -0700 (PDT)
+        bh=jrgH1600uHhvBk1qPJnNVTmvv8RgMwdXL0zxz051j4c=;
+        b=JkfL4EYlRRrUGUmLnXv/rW261P7hoNXLMIEzWUhHOapRCtDyGEsdTehDSksU2CL0fY
+         B/gkBtl7JzAtgUwEN2NDxr9iBiUgeotJwuLgZkvaWDqdEbkl8F3kpwR/qxU6EXo0tk+v
+         lOjWsywZ9eCHclADFT9LyQGORTYjPZEfflLZUIR/B3el3FvVw6eBWd5L21tBB/bZ+N0c
+         EtgXGjZj+Vv+tyaXJg1SXnZ73Wag3HY+ZeUDJme8TJMfv/Vh5iKZpWtxVbWPoRg4Jo9E
+         y38ainG89s8yHsMpEl6i8DwvWI5LcOPIZWYpDj+jpSwx5T/wi6fxscnnmQfHQ/9xxCxn
+         3NZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729757847; x=1730362647;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jrgH1600uHhvBk1qPJnNVTmvv8RgMwdXL0zxz051j4c=;
+        b=S8JM0KyGd/6SgFoM9cv/Ksk6Fypwc8GJCRjacWDinU6y9fvjUE3e023gIUoMN/ylkY
+         1JPcHHh4Sk2Y1dBldTbwQQyvshIssinfq0iJYGvRZ/v4GH/MASJ1aOJtJDUVg+egCr5f
+         5dqkrm7HGUggBXgenuUwBzwMZRgJFQjiwJlRS7x0mAfd1ObBjSSlzaWbQ5uIMeHSdg8q
+         eJsrt7yicrnWIaP/n79dojSbDxMw5FsAlqlyT7p67/B/GnQZkMnKZNqM1F0APMfojJ8B
+         PVDyU91WQmPln+JEPd1nyG2h7OsrwV+FgS6aG0To1qxdZBRuWezVXHh6xmSM9eCA7AYp
+         GdOw==
+X-Forwarded-Encrypted: i=1; AJvYcCXt8xjAALxv9+AvzLtFYUIdRDJhuj1IZZ3bLywmDmEo4I20fLlBtaHDpgwlSEXhaUpZsN+EGnrNg1U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfUETMMtrc8Pm+elQAgTnu5WuGXUPDAZx22ph4fYLyQiCRtOCV
+	WQNGVYzmyj3NjAP2zX4x2B0J4H3ZYJIR9XTKqmPuIzbiT3kOuJizDJj+T1jWTVo=
+X-Google-Smtp-Source: AGHT+IEzhsRwOJgh3fbdbOlKC8iU7HLBw8UwXvWJmchuXs8faxJKCHdJuHR/Twx0nsTKecCdTDVCeQ==
+X-Received: by 2002:adf:f8d2:0:b0:37d:4ebe:1646 with SMTP id ffacd0b85a97d-37efcf8e433mr3207284f8f.48.1729757846760;
+        Thu, 24 Oct 2024 01:17:26 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b93d53sm10828922f8f.70.2024.10.24.01.17.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b93d53sm10828922f8f.70.2024.10.24.01.17.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 01:17:22 -0700 (PDT)
+        Thu, 24 Oct 2024 01:17:26 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v3 0/4] ad7380: add adaq4370-4 and adaq4380-4 support
-Date: Thu, 24 Oct 2024 10:16:55 +0200
-Message-Id: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
+Date: Thu, 24 Oct 2024 10:16:59 +0200
+Subject: [PATCH v3 4/4] docs: iio: ad7380: add adaq4370-4 and adaq4380-4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,13 +62,10 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAHcCGmcC/42Py2rDMBBFf8VoXQU9Y8Wr/kfpYiSNGkESO5JjG
- oL/PWObQuimXQzDncWZcx+sYslYWdc8WMEp19xfKOi3hoUjXL6Q50iZKaGMFNJyiK12glakgat
- ZguH1Ngx9Gbk0McgWgxDqwIgxFEz5e+V/fG654PVGb8btyDxU5KE/n/PYNc4jaNc6kFZKHxBiU
- Mkn5YwXwodgQSGlyF71umaTE+ZHjl6uRidqxvW+bfXehuQAukmzReOY69iX+9p6kqvHPwtOkgs
- eFUo42OSVce8e7qfsC+6oxAqf1AtQ6b+AagFam4Cqe4zpF3Ce5ydvb9P9pQEAAA==
-X-Change-ID: 20241015-ad7380-add-adaq4380-4-support-14dc17ec0029
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241024-ad7380-add-adaq4380-4-support-v3-4-6a29bd0f79da@baylibre.com>
+References: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
+In-Reply-To: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
@@ -79,65 +77,59 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.2
 
-Hello,
-
-This series add support for adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS)
-which are quad-channel precision data acquisition signal chain μModule
-solutions compatible with the ad738x family, with the following differences:
-
-- pin selectable gain in front of each 4 adc
-- internal reference is 3V derived from refin-supply (5V)
-- additional supplies
-
-This series depends on [1] which fix several supplies issues
-
-[1]: https://lore.kernel.org/all/20241007-ad7380-fix-supplies-v1-0-badcf813c9b9@baylibre.com/
+Adding documentation for adaq4370-4 and adaq4380-4 supported devices. In
+particular, document the reference voltage mechanism and the gain
+parameter that are specific to adaq devices.
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
-Changes in v3:
-bindings:
-  - remove item from channel reg property (should be part of V2, but get
-    lost during rebase)
-  - remove unnecessary () for channel property
-  - keep consistent quotes
+ Documentation/iio/ad7380.rst | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-- Link to v2: https://lore.kernel.org/r/20241023-ad7380-add-adaq4380-4-support-v2-0-d55faea3bedf@baylibre.com
+diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
+index 6f70b49b9ef27c1ac32acaefecd1146e5c8bd6cc..ae408ff2fa9c97427a9fef57020fb54203d2d33e 100644
+--- a/Documentation/iio/ad7380.rst
++++ b/Documentation/iio/ad7380.rst
+@@ -27,6 +27,8 @@ The following chips are supported by this driver:
+ * `AD7386-4 <https://www.analog.com/en/products/ad7386-4.html>`_
+ * `AD7387-4 <https://www.analog.com/en/products/ad7387-4.html>`_
+ * `AD7388-4 <https://www.analog.com/en/products/ad7388-4.html>`_
++* `ADAQ4370-4 <https://www.analog.com/en/products/adaq4370-4.html>`_
++* `ADAQ4380-4 <https://www.analog.com/en/products/adaq4380-4.html>`_
+ 
+ 
+ Supported features
+@@ -47,6 +49,12 @@ ad7380-4
+ ad7380-4 supports only an external reference voltage (2.5V to 3.3V). It must be
+ declared in the device tree as ``refin-supply``.
+ 
++adaq devices
++~~~~~~~~~~~~
++
++adaq4370-4 and adaq4380-4 don't have an external reference, but use a 3V
++internal reference derived from one of its supplies (``refin-supply``)
++
+ All other devices from ad738x family
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+@@ -121,6 +129,16 @@ Example for AD7386/7/8 (2 channels parts):
+ 
+ When enabling sequencer mode, the effective sampling rate is divided by two.
+ 
++
++Gain (adaq devices only)
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++adaq devices have a pin selectable gain in front of each adc. The appropriate
++gain is selectable from device tree using the ``adi,gain-milli`` property.
++Refer to the typical connection diagrams section of the datasheet for pin
++wiring.
++
++
+ Unimplemented features
+ ----------------------
+ 
 
-Changes in v2:
-- fix commit messages and documentation about the gain: pin selectable
-  gain instead of configurable gain
-- add the enum of available gains inthe binding and array of available
-  gains in the driver as ad4000 series
-- in the bindings, remove item from channel reg property
-- in the bindings, merge additional supplies and channel properties inside
-  the same if branch for adaq devices
-- fix comment as suggested by Jonathan in the driver
-
-- Link to v1: https://lore.kernel.org/r/20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com
-
----
-Julien Stephan (4):
-      dt-bindings: iio: adc: ad7380: add adaq4370-4 and adaq4380-4 compatible parts
-      iio: adc: ad7380: fix oversampling formula
-      iio: adc: ad7380: add support for adaq4370-4 and adaq4380-4
-      docs: iio: ad7380: add adaq4370-4 and adaq4380-4
-
- .../devicetree/bindings/iio/adc/adi,ad7380.yaml    | 120 +++++++++++++++++
- Documentation/iio/ad7380.rst                       |  18 +++
- drivers/iio/adc/ad7380.c                           | 149 +++++++++++++++++++--
- 3 files changed, 278 insertions(+), 9 deletions(-)
----
-base-commit: 8bea3878a1511bceadc2fbf284b00bcc5a2ef28d
-change-id: 20241015-ad7380-add-adaq4380-4-support-14dc17ec0029
-prerequisite-change-id: 20241004-ad7380-fix-supplies-3677365cf8aa:v3
-prerequisite-patch-id: 6127a52d3b14e82d1a6081c7e504d0e4eb323089
-prerequisite-patch-id: 7dee57142d0d12682b0be3b62f1c16851aeac069
-prerequisite-patch-id: f737e56a372cd91e5fac651a2063b06827f9aa21
-prerequisite-patch-id: 7c8d5fbde82810057630b95e12bb2f6576da6980
-prerequisite-patch-id: 972bdbf06bafa7c56f604dbe8eb7d236aadaad99
-
-Best regards,
 -- 
-Julien Stephan <jstephan@baylibre.com>
+2.47.0
 
