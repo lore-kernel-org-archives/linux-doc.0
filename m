@@ -1,86 +1,106 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com [95.215.58.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E5C147C91;
-	Thu, 24 Oct 2024 19:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1B322B67F
+	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 19:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729799614; cv=none; b=Fia/wgjopVVDHxhY310UFBvwt8fKisRviiTb9s64eoovjTjtFHNOBqVayK7/rCQNeniuhwaYy3v5nFkro0oMlk+uECA1sYt56e3/Xz58tNumE9+lwArDkBzz3KRGjPVJ7tVPPfbAdOl4c/8LO9wgbZaIduKST1PI21As15Jf7pQ=
+	t=1729799873; cv=none; b=qkUo5Yj6GbvIxMX+o3y+MpSGSC6zQYTFu08BoiXgtER3MeWIb+AGmEy6oTuBVehB/NUVEbtVPbGJ3pIEGAYwJEePILroWfe0aC4hkMB4Rr0gXaqpO0+pGN8PVq5QyKqpJccvvUCF88HAQAESrNMzS9HVRy7bE5yV7I+xKdJkbUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729799614; c=relaxed/simple;
-	bh=fdMUNfcSZ7BdARmONDQxeYG2UP8bXDM0r1GmXUMxhz0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Po+bDQS3FVUSj+n6aZUXqG7J3FvAXMC98LqP5SRxX4cmOTmC4qelJp36vDq9iiQEYbkvQ0xorNiIVGp2Y9YJpnGkFssBUzKpX5EcLMOhR59E33ygBglyGZ1AvjZRQnbTd0njUGRAfQ7/iNe8JMCCVPqgRHccGmJAwohYDxgQQy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RnPiJ6Z9; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729799873; c=relaxed/simple;
+	bh=bTSZ+AIYW4PtKktAhtWQiw/nwwUpqv9LctwwUYhZcYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+yvqSwixk5bwMAcLJD5bjbrWx7TBWIffbG1BeaUqSfobvTsCGmKP02HU7L6ncM/XGKaD6RpDYJT4srt61obhgq/RbHPZa8d2D+WyD2h3o64NWxVTbQPoOcNPCxQvdtiCBh5vzoWomSp19syoFcsygbNUcawWvzxUzD8nIrLwsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tPILtAAX; arc=none smtp.client-ip=95.215.58.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RnPiJ6Z9"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2fb51f39394so14486921fa.2;
-        Thu, 24 Oct 2024 12:53:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729799610; x=1730404410; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fdMUNfcSZ7BdARmONDQxeYG2UP8bXDM0r1GmXUMxhz0=;
-        b=RnPiJ6Z9cln8XJ1wZRbYV4VJbV3BeHI5BYc+T2rq7lwyl86VH/QXAkR73WbrCB58Xv
-         P0vxOkA4dJHwB1ipw1EV/hS7JrZvOXDXhtDWMt2Q+rHZZjnRCxxd4QJI06BOCD7ZQJBW
-         UCrbJ27jWJqJtit2N4juejTTeIu5BsC78MBgWlIIEYn1AhASZrX/k62Hq2VjxsBYBoMq
-         +lxnve3lxB6FIeqJrlA1zxSGQrWm9J4aNobnEPLGEp8A2XmLm0DRMwqmzd9LpY6/w+ko
-         MLgeVeDGvvKnIEldplDpQVyDDvVir/d9ljE9aj5nXLVpLslzb00WEtbCLIiGEhVshSnN
-         0B2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729799610; x=1730404410;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fdMUNfcSZ7BdARmONDQxeYG2UP8bXDM0r1GmXUMxhz0=;
-        b=CnKKTd+0Xxh4Um+74ytde4Vr/3/8JSup1eKKiV8Y7aKzlecX7JulOW26nZTzWi7PlV
-         FyK3dU1SqS9AuKTB7Gwf/w8Rb79pV9ZzOsL7rWQESth3B4Hw9FhOs6V32IrvBdfBdvGJ
-         T3K9LI7lYxbEs6yFHw6pUtyBAgYnze7gyrmVANsPNDR6lC8qxP1jjgmU9TTv5+yl2kBv
-         l6vONYC1oWLROOOt21rIBTi5vVIuzxkPBDv679iLn397nDaEV7yKWFp6MOzQeLeZz3XI
-         2Ndat3hJmr4MBZdZRhSVKGRNqIuIk6Nq722usLvlqkH8L8Ta/irPWCVEClcNZNUqUs5r
-         +6ow==
-X-Forwarded-Encrypted: i=1; AJvYcCUKHyjxB/Ahnxlcxzikm53DbpOfexLq9mDdPThzc0bwYfeeGxd0r1QTlI6w+afyWMYQ6BS1vWLOTGA=@vger.kernel.org, AJvYcCWI8QZUg/ovfc2jp33LJFcyIYozSm6VAENoyh3cylmdWi/vFUXEmg594IDvKG8/JPHUwB+sIWArMMoK1p5QfQ==@vger.kernel.org, AJvYcCXB1JxlceABaNtblrET9aJm/gv7Qg1FSaZujGQ0lyp/WkWSiWqB0xCLoci0qRFqGwqj0+i9uLClmW0P4Grc@vger.kernel.org
-X-Gm-Message-State: AOJu0YynbSl3Xv/YnNp5rFSnfWRXVLi34/WFZeRPR5Q555M6SsxpV4or
-	ZTNPu19+ZKxggCdzhvSTE/dZtfW3vKm4zN8zNmgO3sjLZiMhPp21G9ogWZnoQ+aU4E4kjGOaN3+
-	8Yi2Qxp/urYihO9XM8TG4NN4nJp7tOg==
-X-Google-Smtp-Source: AGHT+IEfJR4TsyFU+v14aVkd26FFpNVhnDKNLXkmteAoazAgwE2S/biPF3eHN6VbFyWZwY+HqYXRS92CnpI2nl3pwOs=
-X-Received: by 2002:a2e:be24:0:b0:2ef:17f7:6e1d with SMTP id
- 38308e7fff4ca-2fca81c2448mr23740601fa.4.1729799610107; Thu, 24 Oct 2024
- 12:53:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tPILtAAX"
+Date: Thu, 24 Oct 2024 12:57:38 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729799868;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8BK0ZcosXDoOXzSbDL6svDcVkcl94/C1ybPNkAKv7is=;
+	b=tPILtAAXE+IgUeUPC4X+luEap2SlsyS17q2HLFknCMik+U8I3s2RvzCZUnSAzQqNJDKt9e
+	M/MTZyMVUnCKCJYUBNzj0u5ZsYLzm6ShCLECXJkxN//oG4dDtOWhz5P9RCDzSDwfta6E2h
+	1b0NgK8VyuKZarNkmkLJPSv4ZjfS/hI=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Miguel Luis <miguel.luis@oracle.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+	Shuah Khan <shuah@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	Francesco Lavra <francescolavra.fl@gmail.com>
+Subject: Re: [PATCH v6 6/6] arm64: Use SYSTEM_OFF2 PSCI call to power off for
+ hibernate
+Message-ID: <ZxqmsiXV6ZYTANKY@linux.dev>
+References: <20241019172459.2241939-1-dwmw2@infradead.org>
+ <20241019172459.2241939-7-dwmw2@infradead.org>
+ <23C91005-7304-4312-A5E0-F5E6C05B3209@oracle.com>
+ <ECD0CA58-2C3B-48F3-AF12-95E37CB0FC48@infradead.org>
+ <ZxprcWDe2AXuLhD_@linux.dev>
+ <691447A1-8F3F-4890-B00F-8068A14CA126@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJ-ks9mz5deGSA_GNXyqVfW5BtK0+C5d+LT9y33U2OLj7+XSOw@mail.gmail.com>
- <20241010214150.52895-2-tamird@gmail.com> <1f10bfa9-5a49-4f9b-bbbd-05c7c791684b@infradead.org>
- <ZwhYDsBczHnS7_4r@casper.infradead.org> <CAJ-ks9mpZc703=Y1_H6FeaUrAmhKC9bKP886M5KNjw85Mwi14w@mail.gmail.com>
-In-Reply-To: <CAJ-ks9mpZc703=Y1_H6FeaUrAmhKC9bKP886M5KNjw85Mwi14w@mail.gmail.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Thu, 24 Oct 2024 15:52:53 -0400
-Message-ID: <CAJ-ks9mn_aOjaxwiwddKPKMUshiSa1EHjC_2X5DDas7JLtcnSg@mail.gmail.com>
-Subject: Re: [PATCH v4] XArray: minor documentation improvements
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <691447A1-8F3F-4890-B00F-8068A14CA126@infradead.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Oct 16, 2024 at 8:51=E2=80=AFAM Tamir Duberstein <tamird@gmail.com>=
- wrote:
->
-> On Thu, Oct 10, 2024 at 6:41=E2=80=AFPM Matthew Wilcox <willy@infradead.o=
-rg> wrote:
+On Thu, Oct 24, 2024 at 05:56:09PM +0200, David Woodhouse wrote:
+> On 24 October 2024 17:44:49 CEST, Oliver Upton <oliver.upton@linux.dev> wrote:
+> >IIUC, you're really wanting to 0x0 because there are hypervisors out
+> >there that violate the final spec and *only* accept this value.
 > >
-> > On Thu, Oct 10, 2024 at 02:50:24PM -0700, Randy Dunlap wrote:
-> > > I'm satisfied with this change although obviously it's up to Matthew.
+> >That's perfectly fine, but it'd help avoid confusion if the supporting
+> >comment was a bit more direct:
 > >
-> > Matthew's on holiday and will be back on Tuesday, thanks.
->
-> Hi Matthew, could you give this a look please? Thank you.
+> >	/*
+> >	 * If no hibernate type is specified SYSTEM_OFF2 defaults to
+> >	 * selecting HIBERNATE_OFF.
+> >	 *
+> >	 * There are hypervisors in the wild that violate the spec and
+> >	 * reject calls that explicitly provide a hibernate type. For
+> >	 * compatibility with these nonstandard implementations, pass 0
+> >	 * as the type.
+> >	 */
+> >	 if (system_entering_hibernation())
+> >		invoke_psci_fn(PSCI_FN_NATIVE(1_3, SYSTEM_OFF2), 0 , 0, 0);
+> 
+> By the time this makes it into released versions of the guest Linux kernel, that comment won't be true any more.
 
-Hi Matthew, could you please have a look at this?
+Then does it even matter? What is the problem you're trying to solve
+with using a particular value for the hibernate type?
+
+Either the goal of this is to make the PSCI client code compatible with
+your hypervisor today (and any other implementation based on 'F ALP1') or
+we don't care and go with whatever value we want.
+
+Even if the comment eventually becomes stale, there is a ton of value in
+documenting the exact implementation decision being made.
+
+-- 
+Thanks,
+Oliver
