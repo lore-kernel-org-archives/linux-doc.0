@@ -1,463 +1,389 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA2C1F76A4;
-	Thu, 24 Oct 2024 17:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001DB1EF958;
+	Thu, 24 Oct 2024 17:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729792103; cv=none; b=DWgy4AzcjJNTj4SUK/gZ1xhXgKvJxgcptszF7bXYrk/IuaMZMK902tF1cMnGta3yLUe/9gmVu+q34BRFb9RCmGCP6fun01v2a+JQyN1aeuM2yalSWMB/IH7ubKjU0plqLz4H6xB7Owo3SNSlfEsrAASY/Xd863uz69v61f3ZhyA=
+	t=1729792127; cv=none; b=lFUxs9GTu7P3gXQTsdaAcCpXZQqM1fJFci7EMNAuBE+OL4qajqcGq0GqpLNDyKl1DBowiq5hOG4n4g4wQsatinznm19160/Y9u7VXnM0HDf0OSy84GI65jzs8jXf3nPK6Qs68LIHGfLOlCdE1Tb5GncZVgCZ3Ysw/oDBu3OLVSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729792103; c=relaxed/simple;
-	bh=ujWOwFhevPGtAdKmvCpae64ZnMyD1CiFuRqa6/pqfGU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lFqU3JetB4w9HxchxoLK04eZ/xV8fOeWm9Blu/xw3jJbXve3E25gCwFMfMOXL97znyFMdXVBQKpHt9NCypTa3e+nZQmIgHy2vIY/n6GgNIskycM8UVDgOkSuTO+5U/Tj9IUN2EduhHyzhHFaltqMo6gC/P7LihOdgoJ/9P+hLqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kpcXc9Ec; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1729792127; c=relaxed/simple;
+	bh=DYuX86PP06V43+6J0dDID5S4JWzMob+QAdvqzV8uJCs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rG2OWQSzJyfqIKPPwhsErMpQxG7rOLNE/k7vmthKI9El4cra4A8X1QBSzSIE2h8cWwfnZm4WRd2FAmpTVywXU6W1H6DFQL6Xefu8W+4RWq4fh8LAloX3RVA4O4lZXMhiCwil9p/zO0qVtOPj8BMuEtdCyucwGkvMfAkak0o/9ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T7s1IAvt; arc=none smtp.client-ip=209.85.221.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kpcXc9Ec"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7e6ed072cdaso833129a12.0;
-        Thu, 24 Oct 2024 10:48:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T7s1IAvt"
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-50fc0345155so657938e0c.1;
+        Thu, 24 Oct 2024 10:48:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729792099; x=1730396899; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=W1P2Xthi+y8MhLx+1fMRF5RwjBOFpxd6+imzhla2X0U=;
-        b=kpcXc9Ecs0NhRM1N71m7J7UU2wWMBoewaYeJfHsX/uOZOee3xXU2MIie5/Gkn67SLv
-         /srr0cqyIXtWSYk98AHJHsgibVQpQO7BCelUf1EkKG2Fh/KMDt/b+EZrqyhWw8XlWryJ
-         muSsJCqbt9PEyFHUY1/+QveQOFT+CTRNd478r6ZHuF0T6oDW8YVzPTOnrHriGerobhvN
-         MLkSLA0FVM3i271SXGlQ17FyNDL975EM1o3q9JStY7Xgl7Cl0lOrABTHkpK/VnrE9tDm
-         x1c7Dqc9ZX4VkeS+zQbXRgwJ2LLWZQ9EnGVmHkuxrV0A665ztltlQQg2u+3l7/AhiTTm
-         J4jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729792099; x=1730396899;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1729792124; x=1730396924; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W1P2Xthi+y8MhLx+1fMRF5RwjBOFpxd6+imzhla2X0U=;
-        b=sOIEa5zAyeKXmy1LZxcYuxJInKKdmO0EX4ZIfQ6sDmOSAcGvOJVyNvM7/099YJhIHe
-         TAHNAbwcf6rph6J/NTrEy1XXKww4nJziHrLD4X9iuRCkOHpB/XbHXIUOZ6bl2uYFFk8r
-         DT2Fhv+gJIkFJy22yo0zKfMmJNWQnCTTfafV1gNXYGvVmRGYv7jDV4Zmb0AoiuLm/4ao
-         mXjglFhydiQeTIWhq/+0M8aWHayw/citIhQPKlMNcpzLUjwJ9GFNuYBiC/s0l8BCb5Lg
-         bMsxG1mDWbDIn78SSJ7Ae4AQ3pVkFbKZ2xbVNjMPs9sSdN3LHFCY56Zu5soYLeFgibML
-         57Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQ7Y5Y96ffaj6IbZsGF4x5w8eRg7XaR+dh9pZgS5+q6M5/bDWFoTuMtaN5CvaQJeBKcFQNMn1BNDnU@vger.kernel.org, AJvYcCVYrXE85XSwBy0vZGaQLLXAaod9gn/0SiSAz4fdlWYmdk6Y4+66uu4zHHntN7K1qsPJ9amTvfsGu9xi@vger.kernel.org, AJvYcCW58ZoTJoRIRMM6isAoXfCjMLMmPG7h/OcdsGl0A8GdCMDUvi2moVNY1qe0ch664xlCkcBSfS/Fl46n9jc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7dJbPPKvFwmxzcw5XwN5/zznJWOSZKqRCCz+ye8bNqg999QVU
-	zOj57ODB5OtMdQNfqBFUKZy2iJ+ZJMVqTboviPxwkfFRfDHliCPz
-X-Google-Smtp-Source: AGHT+IG/1+A9UgoYfgvQYBnhy3lGLHzm6QLx2wGsOQl7KrWzHMPy/zYYM49Ng9av8tAZ0Oiv7vwH/A==
-X-Received: by 2002:a05:6a21:2d8c:b0:1d9:1907:aa2b with SMTP id adf61e73a8af0-1d978aeada5mr8525165637.1.1729792099421;
-        Thu, 24 Oct 2024 10:48:19 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec13ea114sm8195644b3a.158.2024.10.24.10.48.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2024 10:48:18 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <7d705ac9-a109-4b49-9ac6-78bd2e9ca091@roeck-us.net>
-Date: Thu, 24 Oct 2024 10:48:16 -0700
+        bh=y26VSrA0gvzcuHws0bkRVD6tE0qvL6sGoOvCQVrQ+2Q=;
+        b=T7s1IAvta1cn9+plaPaOz0hxjtqji6Fgn/vzktKzmOMPUNs9+AjKpkmHzqMw+TVzMy
+         IH7/b7Ko358OeCmhSMDOOiwMSlFeiw3plPbHiu+D//T8s3uxgebN0JPHGByVZ9s6R1Yx
+         EyFtGdNDpCOIG5i0lsebN30N3ISMuVV2Zsl7rQ/Slqd01zkcK6qfmZv4P+oEm+S0BUFk
+         eBi4e9axqunXjChygxOYO9hrzI8mlb4ayRat3j+DaPh0aXQAymGOrC8mTgm55EtuojsY
+         rtKdX1gkTsjB5UrlSIK/9X6miyTnONJhU6fzuUxSr7m904iO9s0IVv10S3IMudny+sSB
+         4XOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729792124; x=1730396924;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y26VSrA0gvzcuHws0bkRVD6tE0qvL6sGoOvCQVrQ+2Q=;
+        b=qZMbJ1FxOjvOvDjKDoDMP4llqjIR4TqiPup8FjAO8ZIwkDRk2xrNGFnfknzUd4GIYz
+         9ZJ0VevxBOylaEg/jcZT0GclOj3je7ol121wmpPK2++Odmll+W/sooBRYh1/Ot99q1xn
+         NZ8EMLLUwqNnXlX+Fd2EJzeBJ/acUiUzWYyzAiMEA5UvvWh0W6SMV4o87CXjEun/7FRo
+         kTkrYv+SYbuT7ZeIbSAwWvJDOsXusv6TogJmeB2BS7v3oIluBn5DpRuUKBIy3IY5d7ET
+         ZpTYwjglnBPhLbpmxqJ8nyr3WhCd8rbBXyB6sJXQtxvsSOlRlVAKDX3dfi9jrPbWPhak
+         a2MA==
+X-Forwarded-Encrypted: i=1; AJvYcCUV5Q6siRnFQ+0YCcjuNvWCOyIsLk7XwzXAx1uKiTSbCYlZUHbGxc0BZ1OsdXrjkdhGp48/fOl4P3o=@vger.kernel.org, AJvYcCWZNodUk6DZsVv/o0z9dCYvofyrtClbMNAtOvXf9MnPrTKvwS6GqnLogZs6QwaWa7PZA61Dx4E/YyRbq9CM@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7k6L9OO5C1hs8Kja7SOPEg9PQPUZ4MdQy3r3Tk+CCtPMS9NuB
+	nLJ5uMehK4qKq2Y1gqsGyiZT8vTj4yio2TXQebFcmPpCzc099COqcQ9F9noGe+JCvUlKDyWp0Te
+	F0G2DThoFWEVV2NZSBYA/l9x/5S4=
+X-Google-Smtp-Source: AGHT+IGV9GbAkt4FHb/2gl8kB1oIGDVhCYRqdYecm3LmyYRUDSRbQl6WYaH0GJ1fpFtDy3v+/YIkAE/90WZif31sxMU=
+X-Received: by 2002:a05:6122:922:b0:50a:cbdb:b929 with SMTP id
+ 71dfb90a1353d-50feb3002ffmr2884647e0c.2.1729792123560; Thu, 24 Oct 2024
+ 10:48:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] hwmon: (pmbus/isl68137) add support for voltage
- divider on Vout
-To: Grant Peltier <grantpeltier93@gmail.com>, robh@kernel.org,
- geert+renesas@glider.be, magnus.damm@gmail.com
-Cc: grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <cover.1729646466.git.grantpeltier93@gmail.com>
- <422a40e992e047e250a3b1295503e3b81b5515ae.1729646466.git.grantpeltier93@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <422a40e992e047e250a3b1295503e3b81b5515ae.1729646466.git.grantpeltier93@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cb3f67c3-e8d3-4398-98c9-d5aee134fd4c@gmail.com>
+ <20241023233548.23348-1-21cnbao@gmail.com> <20241024142942.GA279597@cmpxchg.org>
+In-Reply-To: <20241024142942.GA279597@cmpxchg.org>
+From: Barry Song <21cnbao@gmail.com>
+Date: Fri, 25 Oct 2024 06:48:31 +1300
+Message-ID: <CAGsJ_4zf=mnEv1LSrvXXtTJjMPKB7SnWB2Jni=6EXEbqxHiL=Q@mail.gmail.com>
+Subject: Re: [RFC 0/4] mm: zswap: add support for zswapin of large folios
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: usamaarif642@gmail.com, akpm@linux-foundation.org, 
+	chengming.zhou@linux.dev, david@redhat.com, hanchuanhua@oppo.com, 
+	kanchana.p.sridhar@intel.com, kernel-team@meta.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, minchan@kernel.org, 
+	nphamcs@gmail.com, riel@surriel.com, ryan.roberts@arm.com, 
+	senozhatsky@chromium.org, shakeel.butt@linux.dev, v-songbaohua@oppo.com, 
+	willy@infradead.org, ying.huang@intel.com, yosryahmed@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/22/24 18:58, Grant Peltier wrote:
-> Some applications require Vout to be higher than the detectable voltage
-> range of the Vsense pin for a given rail. In such applications, a voltage
-> divider may be placed between Vout and the Vsense pin, but this results
-> in erroneous telemetry being read back from the part. This change adds
-> support for a voltage divider to be defined in the devicetree for a (or
-> multiple) specific rail(s) for a supported digital multiphase device and
-> for the applicable Vout telemetry to be scaled based on the voltage
-> divider configuration.
-> 
-> Signed-off-by: Grant Peltier <grantpeltier93@gmail.com>
-> ---
->   drivers/hwmon/pmbus/isl68137.c | 199 ++++++++++++++++++++++++++++++++-
->   1 file changed, 194 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/hwmon/pmbus/isl68137.c b/drivers/hwmon/pmbus/isl68137.c
-> index 7e53fb1d5ea3..b4f581e1d560 100644
-> --- a/drivers/hwmon/pmbus/isl68137.c
-> +++ b/drivers/hwmon/pmbus/isl68137.c
-> @@ -13,6 +13,7 @@
->   #include <linux/init.h>
->   #include <linux/kernel.h>
->   #include <linux/module.h>
-> +#include <linux/of.h>
->   #include <linux/string.h>
->   #include <linux/sysfs.h>
->   
-> @@ -20,6 +21,7 @@
->   
->   #define ISL68137_VOUT_AVS	0x30
->   #define RAA_DMPVR2_READ_VMON	0xc8
-> +#define MAX_CHANNELS            4
->   
->   enum chips {
->   	isl68137,
-> @@ -72,6 +74,17 @@ enum variants {
->   	raa_dmpvr2_hv,
->   };
->   
-> +struct isl68137_channel {
-> +	u32 vout_voltage_divider[2];
-> +};
-> +
-> +struct isl68137_data {
-> +	struct pmbus_driver_info info;
-> +	struct isl68137_channel channel[MAX_CHANNELS];
-> +};
-> +
-> +#define to_isl68137_data(x)	container_of(x, struct isl68137_data, info)
-> +
->   static const struct i2c_device_id raa_dmpvr_id[];
->   
->   static ssize_t isl68137_avs_enable_show_page(struct i2c_client *client,
-> @@ -163,6 +176,8 @@ static const struct attribute_group *isl68137_attribute_groups[] = {
->   static int raa_dmpvr2_read_word_data(struct i2c_client *client, int page,
->   				     int phase, int reg)
->   {
-> +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-> +	const struct isl68137_data *data = to_isl68137_data(info);
->   	int ret;
->   
->   	switch (reg) {
-> @@ -170,6 +185,25 @@ static int raa_dmpvr2_read_word_data(struct i2c_client *client, int page,
->   		ret = pmbus_read_word_data(client, page, phase,
->   					   RAA_DMPVR2_READ_VMON);
->   		break;
-> +	case PMBUS_READ_POUT:
-> +		/*
-> +		 * In cases where a voltage divider is attached to the target
-> +		 * rail between Vout and the Vsense pin, both Vout and Pout
-> +		 * should be scaled by the voltage divider scaling factor.
-> +		 * I.e. Vout = Vsense * (R1 + R2) / R2
-> +		 */
-> +		fallthrough;
-> +	case PMBUS_READ_VOUT:
-> +		ret = pmbus_read_word_data(client, page, phase, reg);
-> +		if (ret > 0 && data->channel[page].vout_voltage_divider[0]
-> +			&& data->channel[page].vout_voltage_divider[1]) {
-> +			u64 temp = DIV_ROUND_CLOSEST_ULL((u64)ret *
-> +				(data->channel[page].vout_voltage_divider[0]
-> +				+ data->channel[page].vout_voltage_divider[1]),
-> +				data->channel[page].vout_voltage_divider[1]);
-> +			ret = clamp_val(temp, 0, 0xffff);
-> +		}
-> +		break;
->   	default:
->   		ret = -ENODATA;
->   		break;
-> @@ -178,6 +212,50 @@ static int raa_dmpvr2_read_word_data(struct i2c_client *client, int page,
->   	return ret;
->   }
->   
-> +static int raa_dmpvr2_write_word_data(struct i2c_client *client, int page,
-> +				      int reg, u16 word)
-> +{
-> +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-> +	const struct isl68137_data *data = to_isl68137_data(info);
-> +	int ret;
-> +
-> +	switch (reg) {
-> +	case PMBUS_VOUT_MAX:
-> +		/*
-> +		 * In cases where a voltage divider is attached to the target
-> +		 * rail between Vout and the Vsense pin, Vout related PMBus
-> +		 * commands should be scaled based on the expected voltage
-> +		 * at the Vsense pin.
-> +		 * I.e. Vsense = Vout * R2 / (R1 + R2)
-> +		 */
-> +		fallthrough;
-> +	case PMBUS_VOUT_MARGIN_HIGH:
-> +		fallthrough;
-> +	case PMBUS_VOUT_MARGIN_LOW:
-> +		fallthrough;
-> +	case PMBUS_VOUT_OV_FAULT_LIMIT:
-> +		fallthrough;
-> +	case PMBUS_VOUT_UV_FAULT_LIMIT:
-> +		fallthrough;
+On Fri, Oct 25, 2024 at 3:29=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
+> wrote:
+>
+> On Thu, Oct 24, 2024 at 12:35:48PM +1300, Barry Song wrote:
+> > On Thu, Oct 24, 2024 at 9:36=E2=80=AFAM Barry Song <21cnbao@gmail.com> =
+wrote:
+> > >
+> > > On Thu, Oct 24, 2024 at 8:47=E2=80=AFAM Usama Arif <usamaarif642@gmai=
+l.com> wrote:
+> > > >
+> > > >
+> > > >
+> > > > On 23/10/2024 19:52, Barry Song wrote:
+> > > > > On Thu, Oct 24, 2024 at 7:31=E2=80=AFAM Usama Arif <usamaarif642@=
+gmail.com> wrote:
+> > > > >>
+> > > > >>
+> > > > >>
+> > > > >> On 23/10/2024 19:02, Yosry Ahmed wrote:
+> > > > >>> [..]
+> > > > >>>>>> I suspect the regression occurs because you're running an ed=
+ge case
+> > > > >>>>>> where the memory cgroup stays nearly full most of the time (=
+this isn't
+> > > > >>>>>> an inherent issue with large folio swap-in). As a result, sw=
+apping in
+> > > > >>>>>> mTHP quickly triggers a memcg overflow, causing a swap-out. =
+The
+> > > > >>>>>> next swap-in then recreates the overflow, leading to a repea=
+ting
+> > > > >>>>>> cycle.
+> > > > >>>>>>
+> > > > >>>>>
+> > > > >>>>> Yes, agreed! Looking at the swap counters, I think this is wh=
+at is going
+> > > > >>>>> on as well.
+> > > > >>>>>
+> > > > >>>>>> We need a way to stop the cup from repeatedly filling to the=
+ brim and
+> > > > >>>>>> overflowing. While not a definitive fix, the following chang=
+e might help
+> > > > >>>>>> improve the situation:
+> > > > >>>>>>
+> > > > >>>>>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > > > >>>>>>
+> > > > >>>>>> index 17af08367c68..f2fa0eeb2d9a 100644
+> > > > >>>>>> --- a/mm/memcontrol.c
+> > > > >>>>>> +++ b/mm/memcontrol.c
+> > > > >>>>>>
+> > > > >>>>>> @@ -4559,7 +4559,10 @@ int mem_cgroup_swapin_charge_folio(st=
+ruct folio
+> > > > >>>>>> *folio, struct mm_struct *mm,
+> > > > >>>>>>                 memcg =3D get_mem_cgroup_from_mm(mm);
+> > > > >>>>>>         rcu_read_unlock();
+> > > > >>>>>>
+> > > > >>>>>> -       ret =3D charge_memcg(folio, memcg, gfp);
+> > > > >>>>>> +       if (folio_test_large(folio) && mem_cgroup_margin(mem=
+cg) <
+> > > > >>>>>> MEMCG_CHARGE_BATCH)
+> > > > >>>>>> +               ret =3D -ENOMEM;
+> > > > >>>>>> +       else
+> > > > >>>>>> +               ret =3D charge_memcg(folio, memcg, gfp);
+> > > > >>>>>>
+> > > > >>>>>>         css_put(&memcg->css);
+> > > > >>>>>>         return ret;
+> > > > >>>>>> }
+> > > > >>>>>>
+> > > > >>>>>
+> > > > >>>>> The diff makes sense to me. Let me test later today and get b=
+ack to you.
+> > > > >>>>>
+> > > > >>>>> Thanks!
+> > > > >>>>>
+> > > > >>>>>> Please confirm if it makes the kernel build with memcg limit=
+ation
+> > > > >>>>>> faster. If so, let's
+> > > > >>>>>> work together to figure out an official patch :-) The above =
+code hasn't consider
+> > > > >>>>>> the parent memcg's overflow, so not an ideal fix.
+> > > > >>>>>>
+> > > > >>>>
+> > > > >>>> Thanks Barry, I think this fixes the regression, and even give=
+s an improvement!
+> > > > >>>> I think the below might be better to do:
+> > > > >>>>
+> > > > >>>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > > > >>>> index c098fd7f5c5e..0a1ec55cc079 100644
+> > > > >>>> --- a/mm/memcontrol.c
+> > > > >>>> +++ b/mm/memcontrol.c
+> > > > >>>> @@ -4550,7 +4550,11 @@ int mem_cgroup_swapin_charge_folio(stru=
+ct folio *folio, struct mm_struct *mm,
+> > > > >>>>                 memcg =3D get_mem_cgroup_from_mm(mm);
+> > > > >>>>         rcu_read_unlock();
+> > > > >>>>
+> > > > >>>> -       ret =3D charge_memcg(folio, memcg, gfp);
+> > > > >>>> +       if (folio_test_large(folio) &&
+> > > > >>>> +           mem_cgroup_margin(memcg) < max(MEMCG_CHARGE_BATCH,=
+ folio_nr_pages(folio)))
+> > > > >>>> +               ret =3D -ENOMEM;
+> > > > >>>> +       else
+> > > > >>>> +               ret =3D charge_memcg(folio, memcg, gfp);
+> > > > >>>>
+> > > > >>>>         css_put(&memcg->css);
+> > > > >>>>         return ret;
+> > > > >>>>
+> > > > >>>>
+> > > > >>>> AMD 16K+32K THP=3Dalways
+> > > > >>>> metric         mm-unstable      mm-unstable + large folio zswa=
+pin series    mm-unstable + large folio zswapin + no swap thrashing fix
+> > > > >>>> real           1m23.038s        1m23.050s                     =
+              1m22.704s
+> > > > >>>> user           53m57.210s       53m53.437s                    =
+              53m52.577s
+> > > > >>>> sys            7m24.592s        7m48.843s                     =
+              7m22.519s
+> > > > >>>> zswpin         612070           999244                        =
+              815934
+> > > > >>>> zswpout        2226403          2347979                       =
+              2054980
+> > > > >>>> pgfault        20667366         20481728                      =
+              20478690
+> > > > >>>> pgmajfault     385887           269117                        =
+              309702
+> > > > >>>>
+> > > > >>>> AMD 16K+32K+64K THP=3Dalways
+> > > > >>>> metric         mm-unstable      mm-unstable + large folio zswa=
+pin series   mm-unstable + large folio zswapin + no swap thrashing fix
+> > > > >>>> real           1m22.975s        1m23.266s                     =
+             1m22.549s
+> > > > >>>> user           53m51.302s       53m51.069s                    =
+             53m46.471s
+> > > > >>>> sys            7m40.168s        7m57.104s                     =
+             7m25.012s
+> > > > >>>> zswpin         676492           1258573                       =
+             1225703
+> > > > >>>> zswpout        2449839          2714767                       =
+             2899178
+> > > > >>>> pgfault        17540746         17296555                      =
+             17234663
+> > > > >>>> pgmajfault     429629           307495                        =
+             287859
+> > > > >>>>
+> > > > >>>
+> > > > >>> Thanks Usama and Barry for looking into this. It seems like thi=
+s would
+> > > > >>> fix a regression with large folio swapin regardless of zswap. C=
+an the
+> > > > >>> same result be reproduced on zram without this series?
+> > > > >>
+> > > > >>
+> > > > >> Yes, its a regression in large folio swapin support regardless o=
+f zswap/zram.
+> > > > >>
+> > > > >> Need to do 3 tests, one with probably the below diff to remove l=
+arge folio support,
+> > > > >> one with current upstream and one with upstream + swap thrashing=
+ fix.
+> > > > >>
+> > > > >> We only use zswap and dont have a zram setup (and I am a bit laz=
+y to create one :)).
+> > > > >> Any zram volunteers to try this?
+> > > > >
+> > > > > Hi Usama,
+> > > > >
+> > > > > I tried a quick experiment:
+> > > > >
+> > > > > echo 1 > /sys/module/zswap/parameters/enabled
+> > > > > echo 0 > /sys/module/zswap/parameters/enabled
+> > > > >
+> > > > > This was to test the zRAM scenario. Enabling zswap even
+> > > > > once disables mTHP swap-in. :)
+> > > > >
+> > > > > I noticed a similar regression with zRAM alone, but the change re=
+solved
+> > > > > the issue and even sped up the kernel build compared to the setup=
+ without
+> > > > > mTHP swap-in.
+> > > >
+> > > > Thanks for trying, this is amazing!
+> > > > >
+> > > > > However, I=E2=80=99m still working on a proper patch to address t=
+his. The current
+> > > > > approach:
+> > > > >
+> > > > > mem_cgroup_margin(memcg) < max(MEMCG_CHARGE_BATCH, folio_nr_pages=
+(folio))
+> > > > >
+> > > > > isn=E2=80=99t sufficient, as it doesn=E2=80=99t cover cases where=
+ group A contains group B, and
+> > > > > we=E2=80=99re operating within group B. The problem occurs not at=
+ the boundary of
+> > > > > group B but at the boundary of group A.
+> > > >
+> > > > I am not sure I completely followed this. As MEMCG_CHARGE_BATCH=3D6=
+4, if we are
+> > > > trying to swapin a 16kB page, we basically check if atleast 64/4 =
+=3D 16 folios can be
+> > > > charged to cgroup, which is reasonable. If we try to swapin a 1M fo=
+lio, we just
+> > > > check if we can charge atleast 1 folio. Are you saying that checkin=
+g just 1 folio
+> > > > is not enough in this case and can still cause thrashing, i.e we sh=
+ould check more?
+> > >
+> > > My understanding is that cgroups are hierarchical. Even if we don=E2=
+=80=99t
+> > > hit the memory
+> > >  limit of the folio=E2=80=99s direct memcg, we could still reach the =
+limit of
+> > > one of its parent
+> > > memcgs. Imagine a structure like:
+> > >
+> > > /sys/fs/cgroup/a/b/c/d
+> > >
+> > > If we=E2=80=99re compiling the kernel in d, there=E2=80=99s a chance =
+that while d
+> > > isn=E2=80=99t at its limit, its
+> > > parents (c, b, or a) could be. Currently, the check only applies to d=
+.
+> >
+> > To clarify, I mean something like this:
+> >
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 17af08367c68..cc6d21848ee8 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -4530,6 +4530,29 @@ int mem_cgroup_hugetlb_try_charge(struct mem_cgr=
+oup *memcg, gfp_t gfp,
+> >       return 0;
+> >  }
+> >
+> > +/*
+> > + * When the memory cgroup is nearly full, swapping in large folios can
+> > + * easily lead to swap thrashing, as the memcg operates on the edge of
+> > + * being full. We maintain a margin to allow for quick fallback to
+> > + * smaller folios during the swap-in process.
+> > + */
+> > +static inline bool mem_cgroup_swapin_margin_protected(struct mem_cgrou=
+p *memcg,
+> > +             struct folio *folio)
+> > +{
+> > +     unsigned int nr;
+> > +
+> > +     if (!folio_test_large(folio))
+> > +             return false;
+> > +
+> > +     nr =3D max_t(unsigned int, folio_nr_pages(folio), MEMCG_CHARGE_BA=
+TCH);
+> > +     for (; !mem_cgroup_is_root(memcg); memcg =3D parent_mem_cgroup(me=
+mcg)) {
+> > +             if (mem_cgroup_margin(memcg) < nr)
+> > +                     return true;
+> > +     }
+> > +
+> > +     return false;
+> > +}
+> > +
+> >  /**
+> >   * mem_cgroup_swapin_charge_folio - Charge a newly allocated folio for=
+ swapin.
+> >   * @folio: folio to charge.
+> > @@ -4547,7 +4570,8 @@ int mem_cgroup_swapin_charge_folio(struct folio *=
+folio, struct mm_struct *mm,
+> >  {
+> >       struct mem_cgroup *memcg;
+> >       unsigned short id;
+> > -     int ret;
+> > +     int ret =3D -ENOMEM;
+> > +     bool margin_prot;
+> >
+> >       if (mem_cgroup_disabled())
+> >               return 0;
+> > @@ -4557,9 +4581,11 @@ int mem_cgroup_swapin_charge_folio(struct folio =
+*folio, struct mm_struct *mm,
+> >       memcg =3D mem_cgroup_from_id(id);
+> >       if (!memcg || !css_tryget_online(&memcg->css))
+> >               memcg =3D get_mem_cgroup_from_mm(mm);
+> > +     margin_prot =3D mem_cgroup_swapin_margin_protected(memcg, folio);
+> >       rcu_read_unlock();
+> >
+> > -     ret =3D charge_memcg(folio, memcg, gfp);
+> > +     if (!margin_prot)
+> > +             ret =3D charge_memcg(folio, memcg, gfp);
+> >
+> >       css_put(&memcg->css);
+> >       return ret;
+>
+> I'm not quite following.
+>
+> The charging code DOES the margin check. If you just want to avoid
+> reclaim, pass gfp without __GFP_DIRECT_RECLAIM, and it will return
+> -ENOMEM if there is no margin.
+>
+> alloc_swap_folio() passes the THP mask, which should not include the
+> reclaim flag per default (GFP_TRANSHUGE_LIGHT). Unless you run with
+> defrag=3Dalways. Is that what's going on?
 
-Just add the comment after the last case and drop all the fallthrough;
-Same above.
+No, quite sure "defrag=3Dnever" can just achieve the same result. Imagine w=
+e only
+have small folios=E2=80=94each time reclamation occurs, we have at least a
+SWAP_CLUSTER_MAX buffer before the next reclamation is triggered.
 
-> +	case PMBUS_VOUT_COMMAND:
-> +		if (data->channel[page].vout_voltage_divider[0]
-> +			&& data->channel[page].vout_voltage_divider[1]) {
+ .nr_to_reclaim =3D max(nr_pages, SWAP_CLUSTER_MAX),
 
-It would be better to set defaults instead of having to check this
-for every executed command (for example by setting R1:=0 and R2:=1).
+However, with large folios, we can quickly exhaust the SWAP_CLUSTER_MAX
+buffer and reach the next reclamation point.
+Once we consume SWAP_CLUSTER_MAX - 1, the mem_cgroup_swapin_charge_folio()
+call for the final small folio with GFP_KERNEL will trigger reclamation.
+        if (mem_cgroup_swapin_charge_folio(folio, vma->vm_mm,
+                                           GFP_KERNEL, entry)) {
 
-> +			u64 temp = DIV_ROUND_CLOSEST_ULL((u64)word *
-> +				data->channel[page].vout_voltage_divider[1],
-> +				(data->channel[page].vout_voltage_divider[0] +
-> +				 data->channel[page].vout_voltage_divider[1]));
-> +			ret = clamp_val(temp, 0, 0xffff);
-> +		} else {
-> +			ret = -ENODATA;
-> +		}
-> +		break;
-> +	default:
-> +		ret = -ENODATA;
-> +		break;
-> +	}
-> +	return ret;
-> +}
-> +
->   static struct pmbus_driver_info raa_dmpvr_info = {
->   	.pages = 3,
->   	.format[PSC_VOLTAGE_IN] = direct,
-> @@ -220,14 +298,67 @@ static struct pmbus_driver_info raa_dmpvr_info = {
->   	    | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_POUT,
->   };
->   
-> +static int isl68137_probe_child_from_dt(struct device *dev,
-> +					struct device_node *child,
-> +					struct isl68137_data *data)
-> +{
-> +	u32 channel;
-> +	int err;
-> +
-> +	err = of_property_read_u32(child, "reg", &channel);
-> +	if (err) {
-> +		dev_err(dev, "missing reg property of %pOFn\n", child);
-> +		return err;
-> +	}
-> +	if (channel >= MAX_CHANNELS) {
-
-The actual number of channels (pages) supported by the chip is known here
-and should be checked, either by passing the number of channels or a pointer
-to the entire info structure to this function.
-
-> +		dev_err(dev, "invalid reg %d of %pOFn\n", channel, child);
-> +		return -EINVAL;
-> +	}
-> +
-> +	of_property_read_u32_array(child, "renesas,vout-voltage-divider",
-
-Ultimately this potentially applies to _all_ hardware monitoring chips,
-so I would very much prefer a generic voltage divider property definition.
-
-> +				data->channel[channel].vout_voltage_divider,
-> +				ARRAY_SIZE(data->channel[channel].vout_voltage_divider));
-
-The returned data should be be validated here.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int isl68137_probe_from_dt(struct device *dev,
-> +				  struct isl68137_data *data)
-> +{
-> +	const struct device_node *np = dev->of_node;
-> +	struct device_node *child;
-> +	int err;
-> +
-> +	for_each_child_of_node(np, child) {
-> +		if (strcmp(child->name, "channel"))
-> +			continue;
-> +
-> +		err = isl68137_probe_child_from_dt(dev, child, data);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   static int isl68137_probe(struct i2c_client *client)
->   {
-> +	struct device *dev = &client->dev;
->   	struct pmbus_driver_info *info;
-> +	struct isl68137_data *data;
-> +	int i, err;
->   
-> -	info = devm_kzalloc(&client->dev, sizeof(*info), GFP_KERNEL);
-> -	if (!info)
-> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
->   		return -ENOMEM;
-> -	memcpy(info, &raa_dmpvr_info, sizeof(*info));
-> +
-> +	for (i = 0; i < MAX_CHANNELS; i++)
-> +		memset(data->channel[i].vout_voltage_divider,
-> +			0,
-> +			sizeof(data->channel[i].vout_voltage_divider));
-
-Under what circumstance would this not already be 0 after devm_kzalloc() ?
-
-> +
-> +	memcpy(&data->info, &raa_dmpvr_info, sizeof(data->info));
-> +	info = &data->info;
->   
->   	switch (i2c_match_id(raa_dmpvr_id, client)->driver_data) {
->   	case raa_dmpvr1_2rail:
-> @@ -242,6 +373,7 @@ static int isl68137_probe(struct i2c_client *client)
->   	case raa_dmpvr2_1rail:
->   		info->pages = 1;
->   		info->read_word_data = raa_dmpvr2_read_word_data;
-> +		info->write_word_data = raa_dmpvr2_write_word_data;
->   		break;
->   	case raa_dmpvr2_2rail_nontc:
->   		info->func[0] &= ~PMBUS_HAVE_TEMP3;
-> @@ -250,9 +382,11 @@ static int isl68137_probe(struct i2c_client *client)
->   	case raa_dmpvr2_2rail:
->   		info->pages = 2;
->   		info->read_word_data = raa_dmpvr2_read_word_data;
-> +		info->write_word_data = raa_dmpvr2_write_word_data;
->   		break;
->   	case raa_dmpvr2_3rail:
->   		info->read_word_data = raa_dmpvr2_read_word_data;
-> +		info->write_word_data = raa_dmpvr2_write_word_data;
->   		break;
->   	case raa_dmpvr2_hv:
->   		info->pages = 1;
-> @@ -263,11 +397,18 @@ static int isl68137_probe(struct i2c_client *client)
->   		info->m[PSC_POWER] = 2;
->   		info->R[PSC_POWER] = -1;
->   		info->read_word_data = raa_dmpvr2_read_word_data;
-> +		info->write_word_data = raa_dmpvr2_write_word_data;
->   		break;
->   	default:
->   		return -ENODEV;
->   	}
->   
-> +	if (dev->of_node) {
-
-This conditional should not be necessary because for_each_child_of_node()
-ultimately calls __of_get_next_child() which checks if the node pointer
-is NULL.
-
-> +		err = isl68137_probe_from_dt(dev, data);
-> +		if (err)
-> +			return err;
-> +	}
-> +
->   	return pmbus_do_probe(client, info);
->   }
->   
-> @@ -318,11 +459,59 @@ static const struct i2c_device_id raa_dmpvr_id[] = {
->   
->   MODULE_DEVICE_TABLE(i2c, raa_dmpvr_id);
->   
-> +static const struct of_device_id isl68137_of_match[] = {
-> +	{ .compatible = "renesas,isl68137", .data = (void *)raa_dmpvr1_2rail },
-> +	{ .compatible = "renesas,isl68220", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl68221", .data = (void *)raa_dmpvr2_3rail },
-> +	{ .compatible = "renesas,isl68222", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl68223", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl68224", .data = (void *)raa_dmpvr2_3rail },
-> +	{ .compatible = "renesas,isl68225", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl68226", .data = (void *)raa_dmpvr2_3rail },
-> +	{ .compatible = "renesas,isl68227", .data = (void *)raa_dmpvr2_1rail },
-> +	{ .compatible = "renesas,isl68229", .data = (void *)raa_dmpvr2_3rail },
-> +	{ .compatible = "renesas,isl68233", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl68239", .data = (void *)raa_dmpvr2_3rail },
-> +
-> +	{ .compatible = "renesas,isl69222", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69223", .data = (void *)raa_dmpvr2_3rail },
-> +	{ .compatible = "renesas,isl69224", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69225", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69227", .data = (void *)raa_dmpvr2_3rail },
-> +	{ .compatible = "renesas,isl69228", .data = (void *)raa_dmpvr2_3rail },
-> +	{ .compatible = "renesas,isl69234", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69236", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69239", .data = (void *)raa_dmpvr2_3rail },
-> +	{ .compatible = "renesas,isl69242", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69243", .data = (void *)raa_dmpvr2_1rail },
-> +	{ .compatible = "renesas,isl69247", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69248", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69254", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69255", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69256", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69259", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69260", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69268", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,isl69269", .data = (void *)raa_dmpvr2_3rail },
-> +	{ .compatible = "renesas,isl69298", .data = (void *)raa_dmpvr2_2rail },
-> +
-> +	{ .compatible = "renesas,raa228000", .data = (void *)raa_dmpvr2_hv },
-> +	{ .compatible = "renesas,raa228004", .data = (void *)raa_dmpvr2_hv },
-> +	{ .compatible = "renesas,raa228006", .data = (void *)raa_dmpvr2_hv },
-> +	{ .compatible = "renesas,raa228228", .data = (void *)raa_dmpvr2_2rail_nontc },
-> +	{ .compatible = "renesas,raa229001", .data = (void *)raa_dmpvr2_2rail },
-> +	{ .compatible = "renesas,raa229004", .data = (void *)raa_dmpvr2_2rail },
-> +	{ },
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, isl68137_of_match);
-> +
->   /* This is the driver that will be inserted */
->   static struct i2c_driver isl68137_driver = {
->   	.driver = {
-> -		   .name = "isl68137",
-> -		   },
-> +		.name = "isl68137",
-> +		.of_match_table = isl68137_of_match,
-> +	},
->   	.probe = isl68137_probe,
->   	.id_table = raa_dmpvr_id,
->   };
-
+Thanks
+Barry
