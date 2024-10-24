@@ -1,536 +1,474 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276F51DD0F9;
-	Thu, 24 Oct 2024 23:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729811118; cv=none; b=foDnKZ/oiJ91ZbrBqcolLLVvOZ9mzHvQVMQJUbpo5lkTTpEvQBbyBYmYJMqYqVIST2BwtShyQGD5Vr8W/Obf9VhVD1qhPRQ92+/lRImScsA7Lp46Q9FCvoL14ju7weDQmHBg50PRWMSbo2l+xdjBQC7lUka7bshXC/dPDnD6ev0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729811118; c=relaxed/simple;
-	bh=VyfRWYd2e2jgTm9QQ6M6k0d/F+3kRHo9t5APDna3JzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hn7HgwptaJWXAn4rh1e30468Fw9fWO8U7p4R6iBOkZNIbd08NdgoIskDquUa/niGtGtyAnXAWciFkxTnV+57QtMCcHwk4NbO01QwubRpD7PeRjqJu49VHTnVBO3zBNbPI0EWZ9ITa6ljVkPUc4TmqJkR8mMZcTLibaNHmsg7T2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Au9vBQhy; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705A2176227;
+	Thu, 24 Oct 2024 23:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729813984; cv=fail; b=pN4AL+rbIKtr1LqkR2Oa8kNxcnS6g7nQDEuNFmzvXpsV/0ue3SOK09eJb9+jODF0/asz8f+3DD7ZSo0RUyRe+czFn2LfxWO0YEyABCqMwzAw6r/OK1V3yoFzYHoU82wZhosVuJ2rEH1jQmrduUTj6jUwIRmazN2DINzPJ5GjrJE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729813984; c=relaxed/simple;
+	bh=OWRUX2Yq/sgNbJqJizDqJdTxgIHSzfS4PWoR58XmnKg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=GeT7fTUzlQEdPUnl5M8yQLmZqVcG0wnLnfyy7THARVhmqtQb1AkEWYkdHwf/ACF9lsgnl0T1hCv1qqzP14jCgI8f10uXOzOaZxaXag0Kvp2BqaINt9Y6MfVABMScibYd2MAoVpBZTL72q3Q6AfUs26kUe6Macs7gfgQYA7Wn888=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjAAN6K5; arc=fail smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Au9vBQhy"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2e34a089cd3so1139015a91.3;
-        Thu, 24 Oct 2024 16:05:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729811114; x=1730415914; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=N/Texcxj86rRHQguWpxPsnyD81z194air9SPEp6A9pM=;
-        b=Au9vBQhyub24Urxcpp/ZLkDgakTmBnAlBgO9J7GLOsVH5l1pgCLpwsDoeTsfBQaUK1
-         5romRGf0XBH0m+bUYfgyojiAwM64NRK65oL4aGzWVMilB1hD9kVPOdHNN+kVyEjbamWq
-         7+vvW8xggTPwoN9hV4vUWEAQcCY+Gtv8uk6o4r07fDpUdzRLQXowXzaYGewv/cCTOLK6
-         qD44oIkFX3TP6PFQLZpj0GcasVEoJfu7lm5j7qFE8ith2LEBFtaXBk8Apy7VeNBAQ1tX
-         9BcQe/u/LdWtbj+E/zJrQy8jmR7tCWqpVtk6Fm+3GfQo/3mhhZ4oLHuAqsMAaNObh50b
-         flNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729811114; x=1730415914;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N/Texcxj86rRHQguWpxPsnyD81z194air9SPEp6A9pM=;
-        b=HEFKTnWudZdYeqUdK1yHqU9zegmt36/XlAykkdPRtHRPwxTxuXAxxUodw8EsXAslVn
-         SropR+Dq0GKlmy4EX9WFS0frsvLh97cn9y8LqNBrbTgFc5G+MyxU4CVHlWu/2oUUemOy
-         wF9wNx+bLyIu+e2OeJl2EhZ02tzNBOuw52cQSYMoYDJRa+DgAGrFc47jhcBgCKaGlUFR
-         bMkG+tQyKVs9r8umZAr1DoQ0A4cF19zaoMGKeWWtEGr6OWYqb7xM1nUtv47bucI2QVzj
-         JTLCEfUjFl2NuZ0C9EVtRhQj4bXP2pND0Pm8mK5iH8HmDdD/BHSPtqHU6vR0hmryKkbB
-         QEaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCVrMdnzRdYl0788p/6HdW4EB22iVCYf8O0IkqZ5dYfzTLWH+/MraYjHgL9eIl9dVreR4=@vger.kernel.org, AJvYcCVJpTxtLfsj3FVfjeZRaAqxLeQq/iXKPpAa03JUMo54ApbrceR7zc/Ifrw8ulll4bSfJtepvSAsTqmk@vger.kernel.org, AJvYcCVZLaCXmEHuB2Ru8r0kkO93v3nwsoGBOP3hzX5hxsY5uaT+PtNzzfZD5Zn9O1cdGN3iBP1kVvRSI+nSIr0P@vger.kernel.org, AJvYcCVpAvOdZzA6wcc4vcRLlFzQ5IMduBdusBKENC/vRZm2lomtZ7D/Fmt6OGTdX/uDcFy5igrPF+B8jZQg/JqNSg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx52jDDJvpHQCCNJiBm+t6ThrMe3Rd4Trinhj5FLgfbt/+MreeS
-	YuFCzOaY3aRjUKBSuHHoUdVlAP5Wr8WVo9WnDeP+j17a4/fwBNI=
-X-Google-Smtp-Source: AGHT+IFoPCPwfD8lDCYVCMA8qH8Xqno4JZ25HPqHgxUWjNPCIH7RrhxcssDlP5SEPqTBgonNKQzAxg==
-X-Received: by 2002:a17:90b:3e85:b0:2e2:a6ef:d7a6 with SMTP id 98e67ed59e1d1-2e77f6fd4c3mr4392060a91.36.1729811114002;
-        Thu, 24 Oct 2024 16:05:14 -0700 (PDT)
-Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e77e48ba94sm2103919a91.6.2024.10.24.16.05.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 16:05:13 -0700 (PDT)
-Date: Thu, 24 Oct 2024 16:05:12 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Joe Damato <jdamato@fastly.com>
-Cc: netdev@vger.kernel.org, namangulati@google.com, edumazet@google.com,
-	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
-	sdf@fomichev.me, peter@typeblog.net, m2shafiei@uwaterloo.ca,
-	bjorn@rivosinc.com, hch@infradead.org, willy@infradead.org,
-	willemdebruijn.kernel@gmail.com, skhawaja@google.com,
-	kuba@kernel.org, Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	"open list:BPF [MISC]:Keyword:(?:b|_)bpf(?:b|_)" <bpf@vger.kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Donald Hunter <donald.hunter@gmail.com>, Jan Kara <jack@suse.cz>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Martin Karsten <mkarsten@uwaterloo.ca>,
-	Mina Almasry <almasrymina@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH net-next v2 0/6] Suspend IRQs during application busy
- periods
-Message-ID: <ZxrSqF2eFXEFtU_Y@mini-arch>
-References: <20241021015311.95468-1-jdamato@fastly.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjAAN6K5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729813980; x=1761349980;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=OWRUX2Yq/sgNbJqJizDqJdTxgIHSzfS4PWoR58XmnKg=;
+  b=LjAAN6K5NpsGst4CUxoPRFj+Fz/xn4Aqj0BJycD2va9zrsstFbtvTcQO
+   7Ifh9eBfJTAnsU5rAbi3QjU6VHya9RhUnjBWitAWNygv6o96gR24iHjv9
+   AD7buvkjsXMjkZ6Jm3CPATeC5/1fpYdTqbLSXnSBMe17cZURh7F3YHevb
+   snqgK+LY0Mp02grTMM1yheCergxIaoXsHjNmuI+5ejhNTgquxXyr6YWwO
+   gg0UMiS1hKJC6TUD8eOCiI+lAMGLIYtpTkF+I+C3sunFDXok/2TgGHfNL
+   7eJVtRUoTXhWvaTd/QFdd2rDOoORHKdqsGMKZ8U1AOvcJT/ySlH6B0/67
+   w==;
+X-CSE-ConnectionGUID: +d4WV+1eR3O+WRbh3q0riw==
+X-CSE-MsgGUID: 0W7xAEByQ42NPRojabFUmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40867014"
+X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
+   d="scan'208";a="40867014"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 16:52:59 -0700
+X-CSE-ConnectionGUID: BPlmoy0VQWa5lwSU2BbZdw==
+X-CSE-MsgGUID: dXcj5KKYQwGvUptCFr6S6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
+   d="scan'208";a="85545453"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 24 Oct 2024 16:52:59 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 24 Oct 2024 16:52:58 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 24 Oct 2024 16:52:58 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 24 Oct 2024 16:52:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xKo5UGZSgYwBl1Ol3CBEFHFc7O0jNlLk/Y+sN3c0Tzp62LWCLN9x/5Xlesrdyw2ohC46l/RUV6LprUiX5Akk2A4upVIpw8vw/bImBbClieYqDy4tTx5YJa1fZAVg5ZokSUDgFIVoT2pgaqhaU6eehXUoz72DsimcIoFg0Ead05LsUyi9LW3O0BjsRfPXKZqtHDXRF60YdiAIY1TuNlPkGX6Z4OylrBHa1c46yHNcg0rICQQJSSzijbjCt82YnXEwyzGMqw4kI966faN0kccUFNHo1ePpbfR5Js3vLasCWGkEG6RkLYPHLFOA6Osw9z6FK2cbodlsEykE4JfAw9nrPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OlkxyIkA+wMRBLzJNLU6Kd/gPuxuZesyfoHYM/PU1CY=;
+ b=vl4iaCkX+Qm7xC/LfbXggmVoHtT6Zp3OWyr3zXd+4wBVDKUN7kFBMKnqVLwVNBIvTNaF9Kmr9BzKQKWtM/92R9QAaa27exhYxxiEO/orAd68bBPHGNy2Z16eISabnT7f3UManEsSYQj3UfcwpFnxTF7doSNcARkafcItPKssRUjujrVHDKXUhBlfgaZk/Tc1OEvwmpQmR2eCa+nLTHgZzfG15ZXMY41gJpa/PaQ/dn/JEES3DpnLhYGHG+NN4ty5JdmRQu9F+f8dxIhkM7ekzqcnjGWDC7Nzb442AtLuiu9ESkTgA4UGWVB2LBlVQ4fFS+APvvGiIJ1Cd3+uOpllVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA3PR11MB8118.namprd11.prod.outlook.com (2603:10b6:806:2f1::13)
+ by PH7PR11MB7147.namprd11.prod.outlook.com (2603:10b6:510:1ee::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.16; Thu, 24 Oct
+ 2024 23:52:55 +0000
+Received: from SA3PR11MB8118.namprd11.prod.outlook.com
+ ([fe80::c4e2:f07:bdaa:21ec]) by SA3PR11MB8118.namprd11.prod.outlook.com
+ ([fe80::c4e2:f07:bdaa:21ec%6]) with mapi id 15.20.8093.014; Thu, 24 Oct 2024
+ 23:52:55 +0000
+Date: Thu, 24 Oct 2024 16:52:50 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+To: Alistair Popple <apopple@nvidia.com>, Dan Williams
+	<dan.j.williams@intel.com>
+CC: <linux-mm@kvack.org>, <vishal.l.verma@intel.com>, <dave.jiang@intel.com>,
+	<logang@deltatee.com>, <bhelgaas@google.com>, <jack@suse.cz>, <jgg@ziepe.ca>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <mpe@ellerman.id.au>,
+	<npiggin@gmail.com>, <dave.hansen@linux.intel.com>, <ira.weiny@intel.com>,
+	<willy@infradead.org>, <djwong@kernel.org>, <tytso@mit.edu>,
+	<linmiaohe@huawei.com>, <david@redhat.com>, <peterx@redhat.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
+	<linux-xfs@vger.kernel.org>, <jhubbard@nvidia.com>, <hch@lst.de>,
+	<david@fromorbit.com>
+Subject: Re: [PATCH 10/12] fs/dax: Properly refcount fs dax pages
+Message-ID: <671addd27198f_10e5929472@dwillia2-xfh.jf.intel.com.notmuch>
+References: <cover.9f0e45d52f5cff58807831b6b867084d0b14b61c.1725941415.git-series.apopple@nvidia.com>
+ <9f4ef8eaba4c80230904da893018ce615b5c24b2.1725941415.git-series.apopple@nvidia.com>
+ <66f665d084aab_964f22948c@dwillia2-xfh.jf.intel.com.notmuch>
+ <871q06c4z7.fsf@nvdebian.thelocal>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <871q06c4z7.fsf@nvdebian.thelocal>
+X-ClientProxiedBy: MW4PR03CA0110.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::25) To SA3PR11MB8118.namprd11.prod.outlook.com
+ (2603:10b6:806:2f1::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241021015311.95468-1-jdamato@fastly.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA3PR11MB8118:EE_|PH7PR11MB7147:EE_
+X-MS-Office365-Filtering-Correlation-Id: 740826d6-2291-424c-6d33-08dcf486fa92
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?WZTbXED83HRJm0ik+lh3NA6t9oz2IQPGcBHZ9Gq+iT1CRImpBSt4U+CY7ZYQ?=
+ =?us-ascii?Q?vnrGiyMuVEM3i6D3h0rkAwi1AMhaM4kU9bzzOvB35gIGLYieMLzvK2ki3uiP?=
+ =?us-ascii?Q?qWfbFy78CoTOViQk55tTmESZgazHJZTd4IzHqQH9/HI0GgFQQrkNPC0/kuUt?=
+ =?us-ascii?Q?5xk2QjkyGCHKeYjU3JDb+pb3zIbv0YJDwN4kpCb25VP+ARtWdpxUB+9fAINw?=
+ =?us-ascii?Q?6OS+Muf1BROz2rdv8sCzQ4iSxJWSlY3tPKo2RtpysOQmIq06n80KIYSh7umn?=
+ =?us-ascii?Q?HDv33rSSInE4fvm6wuaHw6T+vzKXHL3xC7/UuUOtYNmxyGJ8ZSj6g2UFGM4L?=
+ =?us-ascii?Q?nssqeYwl6tvpvYFh7La92WnmOoLmZ3r/Nv+iDi5wHI/SUPTU59iOb8yNiCt2?=
+ =?us-ascii?Q?TMooGAMJMuvKg4cGcHws34QcfCG7v0YBUKV/GEr58XGjznnOe1FUw/EMMDOb?=
+ =?us-ascii?Q?/QtBq3vx3wn5XMXCy7cMnKmj0A15l2/IUrGvzpY59j3wJ+ZxjxlBbsNzIoqP?=
+ =?us-ascii?Q?fdQTtKjyIxTLzfsDe69e2txCzfgsHAw+7do+NCvEtVwrfGSo91bRW4Pw7e9D?=
+ =?us-ascii?Q?mXeIxA879yy+ikSOEIJHj+HGe1kXneN2xoyJprFSWXteUKD1k8WCaZRDWVng?=
+ =?us-ascii?Q?G9D0VHaOzPqPzaEOeu1ZkFQ4ZfmOSbrdabV9Y11fw7/T1RoXjHTrXCud4Uj7?=
+ =?us-ascii?Q?7BsLJ3MJO90/HBc0LOdkJQNvkiY6gX/SfCW/TaTk9iMulqzGBgyIDxCk4a7o?=
+ =?us-ascii?Q?TYE9uieGu9Nd46u16clKw1ykztxi6xJQf2pmmBZLXbie3Yo91+1jwnmbVcgw?=
+ =?us-ascii?Q?Ex6Kee5DaacYef/Cg+iOGaNBdFp4hZfo5dvJkNlujlT32Z3X1mOJLE7lnSe3?=
+ =?us-ascii?Q?R3oOEm5+ioqf7/TBfYb0Ot5POgDqFPXqwE5xZPIJybIzviNWgFxdDPqAjBy4?=
+ =?us-ascii?Q?bRfOteVtZ+NsIEMGtgX6oTzMTUvBhxlSPpNtt8tm21J+vnBjWKdjVfl/YYZu?=
+ =?us-ascii?Q?ar5C6xsTgRuyv913dfmiRKTUyRix/kc5yGumFAXBHDzkRkf0arf8WIvAbYOo?=
+ =?us-ascii?Q?dKuZ+oMuTd/A+LXkh9fAQyHzLDCMI2vHRQkexarYpXRcYpfaNWJHmZOzGcih?=
+ =?us-ascii?Q?zQuHnFSqUQS9QeJWsyKn+uvkLPx6rMRY/mPNfJ9q4FBmomDj3BrnjvTrPqYZ?=
+ =?us-ascii?Q?vMkWCyX1xdWV1XUUVxigQKK6qCUppce7MlOEhE7jNGY0dgU3ORRDWCIjp/EB?=
+ =?us-ascii?Q?Cc8QbhWvRDimjQLfD5uGaARj5U/2hQwu/SAdHUwNIauyni+3JgA/2s5+I/0W?=
+ =?us-ascii?Q?QTgWbccMtEMd7zkRzC2x3RfR?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR11MB8118.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WJkHGgePMQaof5yoVSB6JLrOeNR21jyDxwhIbBAnR0FFP7WsgHkdm428aT0l?=
+ =?us-ascii?Q?8taYukS6EZjd00w98IxN8jZphBb0MXfkYQPKh/my+wcWwjlL9qwvyJatbfM9?=
+ =?us-ascii?Q?Uyh3gj2gd3UJrBOE6rq05kky+0fk1EM14n9tPv/2At6FXiOr2uCDvMct82k4?=
+ =?us-ascii?Q?poSW95x3OBjYJnO7xtqDoq6D34s5aT28HxB1lAFF7cBbB+hISl/p2cRYF/Gv?=
+ =?us-ascii?Q?LVMtuShPXz8OoNn5dvLV+R2kLKpW0K2jKbnBy8t6o9rl3xGcfd60kwER6KW/?=
+ =?us-ascii?Q?G6GFLzAUzbgUd3uyxU2iH6cIxWHvagjChaYwFh6mLIvjOkPoPDuY3tiyLg7+?=
+ =?us-ascii?Q?4ykBPxKF37isHMoz16gX3kiJ8HOtb2J8nFRCM8LbqfMNU/CmaYfwddnxocoj?=
+ =?us-ascii?Q?JArDNdMwQeCMTaEJB35MXeLRfz5BZr5mmLCYVCR4oFugK28dWFSKANK8DSis?=
+ =?us-ascii?Q?jeiuqv2jlMP0C9GccNDLL/K4hCqh7JMhx8OH8zmn8G6+WFjzIe96LDQXZpST?=
+ =?us-ascii?Q?t78JOTEV3eUXgEXq8xGdd327G2iv0Fplr4pHBiHVDKmpMfh9TjeDLcMAY3Fk?=
+ =?us-ascii?Q?6VRdgnVbCW+IZOG6fSMkMKT6zbTGqjRlZ+ZQYkXySUtc/i2nj/yWGQkDUTTp?=
+ =?us-ascii?Q?IMC0mHi360vNhaTLN5Vh7UWdXtPiUVlUwBb3WU9KgJIuSaK2gWFSgixNBFco?=
+ =?us-ascii?Q?O6vFNQiP/MSBOGRWJf+0RvlDMU9nsu9+T9olJQMwq7yPyKutszCgOzXOkXAm?=
+ =?us-ascii?Q?WHEtizVdJGpoGw7UWjbX8p4udZOuV+kHEzyeTqMJKtamLREaWvm1+8AR7+oV?=
+ =?us-ascii?Q?0INymI8ao8/8GahoFMDCdZEMLvGLYvH/PTbbSUU0JiM+nO1GPeYKByDss0PM?=
+ =?us-ascii?Q?N+RJogiHedMBa3AEQv4pzHj/7WHuKpr2tXKaRugl+0e2Tid69jeMjdZJF5Vo?=
+ =?us-ascii?Q?p5Bk8JN0zG9XVM/VjQboqQTuS4SQnvXEqe1h8MsTfG1abvkgODyR4i5Jqu3j?=
+ =?us-ascii?Q?9atduw92N45n1o8HeSE6iNQsWP1fo91GZXeC5RBiOOoAcsGilLkrakCvWDL/?=
+ =?us-ascii?Q?b5u5W2DEC4VpQaWdlbfGXyZGv6XgWMjxYd9ETnjJKbO1AWegi6jMzoLEVkbA?=
+ =?us-ascii?Q?jWbfqeWiqizmak5jYzcVc2dIVfYM6udoYUQ7tl4lAlQJQtRG2Wnl6mFxIPhS?=
+ =?us-ascii?Q?FaTHzSx3F4KbAi6xBWR1cfLOPARcmNnzKHjiNZpvL7m+Ktiw8Py7QNG3TmIf?=
+ =?us-ascii?Q?eScPbizv/GDNlVtbWUD/4OTtAZFoOKVoAUwI/RRxBx893JP9y/TWucy2T+LW?=
+ =?us-ascii?Q?+JJTzKYfx8VlFWWLbhmQmy5/B76Gq654eSHN0bVp8RxtL2GCHoeqlCecdkAa?=
+ =?us-ascii?Q?LAHrMfASCW3Aay5Is6ErmCmMxFGrAknb63AO5bOpfnfXqeFk9atuII+FXptb?=
+ =?us-ascii?Q?z9vEAiY1l4rm5mn1uT1wwTdrvMk9N94gIvh/vQpHDm/mb1rvy32jhqst7014?=
+ =?us-ascii?Q?HUZzZPPfLZXsszu+YByTSLbygOVABV5gy9zGEiewYkCdcZ8NiPZUja3qBWcr?=
+ =?us-ascii?Q?QaJV3poPrksZ17Y2uL9mvCrZSH5KbAMnCB3dJqTAMr0V2gVH3A8MxOB/Adq2?=
+ =?us-ascii?Q?GQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 740826d6-2291-424c-6d33-08dcf486fa92
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR11MB8118.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2024 23:52:55.1413
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DGcRrIgVRXEMOAnmbv2oxmsUUEkelpjFHLCmXQizgXuIdKv5GN5wwBZ7IS4FOgTJrDhVE4pLuGaf2wlMNfooPWu0tTonobqDE+nW+OaZJO8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7147
+X-OriginatorOrg: intel.com
 
-On 10/21, Joe Damato wrote:
-> Greetings:
-> 
-> Welcome to v2, see changelog below.
-> 
-> This series introduces a new mechanism, IRQ suspension, which allows
-> network applications using epoll to mask IRQs during periods of high
-> traffic while also reducing tail latency (compared to existing
-> mechanisms, see below) during periods of low traffic. In doing so, this
-> balances CPU consumption with network processing efficiency.
-> 
-> Martin Karsten (CC'd) and I have been collaborating on this series for
-> several months and have appreciated the feedback from the community on
-> our RFC [1]. We've updated the cover letter and kernel documentation in
-> an attempt to more clearly explain how this mechanism works, how
-> applications can use it, and how it compares to existing mechanisms in
-> the kernel. We've added an additional test case, 'fullbusy', achieved by
-> modifying libevent for comparison. See below for a detailed description,
-> link to the patch, and test results.
-> 
-> I briefly mentioned this idea at netdev conf 2024 (for those who were
-> there) and Martin described this idea in an earlier paper presented at
-> Sigmetrics 2024 [2].
-> 
-> ~ The short explanation (TL;DR)
-> 
-> We propose adding a new napi config parameter: irq_suspend_timeout to
-> help balance CPU usage and network processing efficiency when using IRQ
-> deferral and napi busy poll.
-> 
-> If this parameter is set to a non-zero value *and* a user application
-> has enabled preferred busy poll on a busy poll context (via the
-> EPIOCSPARAMS ioctl introduced in commit 18e2bf0edf4d ("eventpoll: Add
-> epoll ioctl for epoll_params")), then application calls to epoll_wait
-> for that context will cause device IRQs and softirq processing to be
-> suspended as long as epoll_wait successfully retrieves data from the
-> NAPI. Each time data is retrieved, the irq_suspend_timeout is deferred.
-> 
-> If/when network traffic subsides and epoll_wait returns no data, IRQ
-> suspension is immediately reverted back to the existing
-> napi_defer_hard_irqs and gro_flush_timeout mechanism which was
-> introduced in commit 6f8b12d661d0 ("net: napi: add hard irqs deferral
-> feature")).
-> 
-> The irq_suspend_timeout serves as a safety mechanism. If userland takes
-> a long time processing data, irq_suspend_timeout will fire and restart
-> normal NAPI processing.
-> 
-> For a more in depth explanation, please continue reading.
-> 
-> ~ Comparison with existing mechanisms
-> 
-> Interrupt mitigation can be accomplished in napi software, by setting
-> napi_defer_hard_irqs and gro_flush_timeout, or via interrupt coalescing
-> in the NIC. This can be quite efficient, but in both cases, a fixed
-> timeout (or packet count) needs to be configured. However, a fixed
-> timeout cannot effectively support both low- and high-load situations:
-> 
-> At low load, an application typically processes a few requests and then
-> waits to receive more input data. In this scenario, a large timeout will
-> cause unnecessary latency.
-> 
-> At high load, an application typically processes many requests before
-> being ready to receive more input data. In this case, a small timeout
-> will likely fire prematurely and trigger irq/softirq processing, which
-> interferes with the application's execution. This causes overhead, most
-> likely due to cache contention.
-> 
-> While NICs attempt to provide adaptive interrupt coalescing schemes,
-> these cannot properly take into account application-level processing.
-> 
-> An alternative packet delivery mechanism is busy-polling, which results
-> in perfect alignment of application processing and network polling. It
-> delivers optimal performance (throughput and latency), but results in
-> 100% cpu utilization and is thus inefficient for below-capacity
-> workloads.
-> 
-> We propose to add a new packet delivery mode that properly alternates
-> between busy polling and interrupt-based delivery depending on busy and
-> idle periods of the application. During a busy period, the system
-> operates in busy-polling mode, which avoids interference. During an idle
-> period, the system falls back to interrupt deferral, but with a small
-> timeout to avoid excessive latencies. This delivery mode can also be
-> viewed as an extension of basic interrupt deferral, but alternating
-> between a small and a very large timeout.
-> 
-> This delivery mode is efficient, because it avoids softirq execution
-> interfering with application processing during busy periods. It can be
-> used with blocking epoll_wait to conserve cpu cycles during idle
-> periods. The effect of alternating between busy and idle periods is that
-> performance (throughput and latency) is very close to full busy polling,
-> while cpu utilization is lower and very close to interrupt mitigation.
-> 
-> ~ Usage details
-> 
-> IRQ suspension is introduced via a per-NAPI configuration parameter that
-> controls the maximum time that IRQs can be suspended.
-> 
-> Here's how it is intended to work:
->   - The user application (or system administrator) uses the netdev-genl
->     netlink interface to set the pre-existing napi_defer_hard_irqs and
->     gro_flush_timeout NAPI config parameters to enable IRQ deferral.
-> 
->   - The user application (or system administrator) sets the proposed
->     irq_suspend_timeout parameter via the netdev-genl netlink interface
->     to a larger value than gro_flush_timeout to enable IRQ suspension.
-> 
->   - The user application issues the existing epoll ioctl to set the
->     prefer_busy_poll flag on the epoll context.
-> 
->   - The user application then calls epoll_wait to busy poll for network
->     events, as it normally would.
-> 
->   - If epoll_wait returns events to userland, IRQs are suspended for the
->     duration of irq_suspend_timeout.
-> 
->   - If epoll_wait finds no events and the thread is about to go to
->     sleep, IRQ handling using napi_defer_hard_irqs and gro_flush_timeout
->     is resumed.
-> 
-> As long as epoll_wait is retrieving events, IRQs (and softirq
-> processing) for the NAPI being polled remain disabled. When network
-> traffic reduces, eventually a busy poll loop in the kernel will retrieve
-> no data. When this occurs, regular IRQ deferral using gro_flush_timeout
-> for the polled NAPI is re-enabled.
-> 
-> Unless IRQ suspension is continued by subsequent calls to epoll_wait, it
-> automatically times out after the irq_suspend_timeout timer expires.
-> Regular deferral is also immediately re-enabled when the epoll context
-> is destroyed.
-> 
-> ~ Usage scenario
-> 
-> The target scenario for IRQ suspension as packet delivery mode is a
-> system that runs a dominant application with substantial network I/O.
-> The target application can be configured to receive input data up to a
-> certain batch size (via epoll_wait maxevents parameter) and this batch
-> size determines the worst-case latency that application requests might
-> experience. Because packet delivery is suspended during the target
-> application's processing, the batch size also determines the worst-case
-> latency of concurrent applications using the same RX queue(s).
-> 
-> gro_flush_timeout should be set as small as possible, but large enough to
-> make sure that a single request is likely not being interfered with.
-> 
-> irq_suspend_timeout is largely a safety mechanism against misbehaving
-> applications. It should be set large enough to cover the processing of an
-> entire application batch, i.e., the factor between gro_flush_timeout and
-> irq_suspend_timeout should roughly correspond to the maximum batch size
-> that the target application would process in one go.
-> 
-> ~ Design rationale
-> 
-> The implementation of the IRQ suspension mechanism very nicely dovetails
-> with the existing mechanism for IRQ deferral when preferred busy poll is
-> enabled (introduced in commit 7fd3253a7de6 ("net: Introduce preferred
-> busy-polling"), see that commit message for more details).
-> 
-> While it would be possible to inject the suspend timeout via
-> the existing epoll ioctl, it is more natural to avoid this path for one
-> main reason:
-> 
->   An epoll context is linked to NAPI IDs as file descriptors are added;
->   this means any epoll context might suddenly be associated with a
->   different net_device if the application were to replace all existing
->   fds with fds from a different device. In this case, the scope of the
->   suspend timeout becomes unclear and many edge cases for both the user
->   application and the kernel are introduced
-> 
-> Only a single iteration through napi busy polling is needed for this
-> mechanism to work effectively. Since an important objective for this
-> mechanism is preserving cpu cycles, exactly one iteration of the napi
-> busy loop is invoked when busy_poll_usecs is set to 0.
-> 
-> ~ Important call outs in the implementation
-> 
->   - Enabling per epoll-context preferred busy poll will now effectively
->     lead to a nonblocking iteration through napi_busy_loop, even when
->     busy_poll_usecs is 0. See patch 4.
-> 
->   - Patches apply cleanly on commit 160a810b2a85 ("net: vxlan: update
->     the document for vxlan_snoop()").
-> 
-> ~ Benchmark configs & descriptions
-> 
-> The changes were benchmarked with memcached [3] using the benchmarking
-> tool mutilate [4].
-> 
-> To facilitate benchmarking, a small patch [5] was applied to memcached
-> 1.6.29 to allow setting per-epoll context preferred busy poll and other
-> settings via environment variables. Another small patch [6] was applied
-> to libevent to enable full busy-polling.
-> 
-> Multiple scenarios were benchmarked as described below and the scripts
-> used for producing these results can be found on github [7] (note: all
-> scenarios use NAPI-based traffic splitting via SO_INCOMING_ID by passing
-> -N to memcached):
-> 
->   - base:
->     - no other options enabled
->   - deferX:
->     - set defer_hard_irqs to 100
->     - set gro_flush_timeout to X,000
->   - napibusy:
->     - set defer_hard_irqs to 100
->     - set gro_flush_timeout to 200,000
->     - enable busy poll via the existing ioctl (busy_poll_usecs = 64,
->       busy_poll_budget = 64, prefer_busy_poll = true)
->   - fullbusy:
->     - set defer_hard_irqs to 100
->     - set gro_flush_timeout to 5,000,000
->     - enable busy poll via the existing ioctl (busy_poll_usecs = 1000,
->       busy_poll_budget = 64, prefer_busy_poll = true)
->     - change memcached's nonblocking epoll_wait invocation (via
->       libevent) to using a 1 ms timeout
->   - suspendX:
->     - set defer_hard_irqs to 100
->     - set gro_flush_timeout to X,000
->     - set irq_suspend_timeout to 20,000,000
->     - enable busy poll via the existing ioctl (busy_poll_usecs = 0,
->       busy_poll_budget = 64, prefer_busy_poll = true)
-> 
-> ~ Benchmark results
-> 
-> Tested on:
-> 
-> Single socket AMD EPYC 7662 64-Core Processor
-> Hyperthreading disabled
-> 4 NUMA Zones (NPS=4)
-> 16 CPUs per NUMA zone (64 cores total)
-> 2 x Dual port 100gbps Mellanox Technologies ConnectX-5 Ex EN NIC
-> 
-> The test machine is configured such that a single interface has 8 RX
-> queues. The queues' IRQs and memcached are pinned to CPUs that are
-> NUMA-local to the interface which is under test. The NIC's interrupt
-> coalescing configuration is left at boot-time defaults.
-> 
-> Results:
-> 
-> Results are shown below. The mechanism added by this series is
-> represented by the 'suspend' cases. Data presented shows a summary over
-> at least 10 runs of each test case [8] using the scripts on github [7].
-> For latency, the median is shown. For throughput and CPU utilization,
-> the average is shown.
-> 
-> The results also include cycles-per-query (cpq) and
-> instruction-per-query (ipq) metrics, following the methodology proposed
-> in [2], to augment the CPU utilization numbers, which could be skewed
-> due to frequency scaling. We find that this does not appear to be the
-> case as CPU utilization and low-level metrics show similar trends.
-> 
-> These results were captured using the scripts on github [7] to
-> illustrate how this approach compares with other pre-existing
-> mechanisms. This data is not to be interpreted as scientific data
-> captured in a fully isolated lab setting, but instead as best effort,
-> illustrative information comparing and contrasting tradeoffs.
-> 
-> The absolute QPS results are higher than our previous submission, but
-> the relative differences between variants are equivalent. Because the
-> patches have been rebased on 6.12, several factors have likely
-> influenced the overall performance. Most importantly, we had to switch
-> to a new set of basic kernel options, which has likely altered the
-> baseline performance. Because the overall comparison of variants still
-> holds, we have not attempted to recreate the exact set of kernel options
-> from the previous submission.
-> 
-> Compare:
-> - Throughput (MAX) and latencies of base vs suspend.
-> - CPU usage of napibusy and fullbusy during lower load (200K, 400K for
->   example) vs suspend.
-> - Latency of the defer variants vs suspend as timeout and load
->   increases.
-> 
-> The overall takeaway is that the suspend variants provide a superior
-> combination of high throughput, low latency, and low cpu utilization
-> compared to all other variants. Each of the suspend variants works very
-> well, but some fine-tuning between latency and cpu utilization is still
-> possible by tuning the small timeout (gro_flush_timeout).
-> 
-> Note: we've reorganized the results to make comparison among testcases
-> with the same load easier.
-> 
->   testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
->       base  200K  200024     127     254     458      25   12748   11289
->    defer10  200K  199991      64     128     166      27   18763   16574
->    defer20  200K  199986      72     135     178      25   15405   14173
->    defer50  200K  200025      91     149     198      23   12275   12203
->   defer200  200K  199996     182     266     326      18    8595    9183
->   fullbusy  200K  200040      58     123     167     100   43641   23145
->   napibusy  200K  200009     115     244     299      56   24797   24693
->  suspend10  200K  200005      63     128     167      32   19559   17240
->  suspend20  200K  199952      69     132     170      29   16324   14838
->  suspend50  200K  200019      84     144     189      26   13106   12516
-> suspend200  200K  199978     168     264     326      20    9331    9643
-> 
->   testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
->       base  400K  400017     157     292     762      39    9287    9325
->    defer10  400K  400033      71     141     204      53   13950   12943
->    defer20  400K  399935      79     150     212      47   12027   11673
->    defer50  400K  399888     101     171     231      39    9556    9921
->   defer200  400K  399993     200     287     358      32    7428    8576
->   fullbusy  400K  400018      63     132     203     100   21827   16062
->   napibusy  400K  399970      89     230     292      83   18156   16508
->  suspend10  400K  400061      69     139     202      54   13576   13057
->  suspend20  400K  399988      73     144     206      49   11930   11773
->  suspend50  400K  399975      88     161     218      42    9996   10270
-> suspend200  400K  399954     172     276     353      34    7847    8713
-> 
->   testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
->       base  600K  600031     166     289     631      61    9188    8787
->    defer10  600K  599967      85     167     262      75   11833   10947
->    defer20  600K  599888      89     165     243      66   10513   10362
->    defer50  600K  600072     109     185     253      55    8664    9190
->   defer200  600K  599951     222     315     393      45    6892    8213
->   fullbusy  600K  600041      69     145     227     100   14549   13936
->   napibusy  600K  599980      79     188     280      96   13927   14155
->  suspend10  600K  600028      78     159     267      69   10877   11032
->  suspend20  600K  600026      81     159     254      64    9922   10320
->  suspend50  600K  600007      96     178     258      57    8681    9331
-> suspend200  600K  599964     177     295     369      47    7115    8366
-> 
->   testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
->       base  800K  800034     198     329     698      84    9366    8338
->    defer10  800K  799718     243     642    1457      95   10532    9007
->    defer20  800K  800009     132     245     399      89    9956    8979
->    defer50  800K  800024     136     228     378      80    9002    8598
->   defer200  800K  799965     255     362     473      66    7481    8147
->   fullbusy  800K  799927      78     157     253     100   10915   12533
->   napibusy  800K  799870      81     173     273      99   10826   12532
->  suspend10  800K  799991      84     167     269      83    9380    9802
->  suspend20  800K  799979      90     172     290      78    8765    9404
->  suspend50  800K  800031     106     191     307      71    7945    8805
-> suspend200  800K  799905     182     307     411      62    6985    8242
-> 
->   testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
->       base 1000K  919543    3805    6390   14229      98    9324    7978
->    defer10 1000K  850751    4574    7382   15370      99   10218    8470
->    defer20 1000K  890296    4736    6862   14858      99    9708    8277
->    defer50 1000K  932694    3463    6180   13251      97    9148    8053
->   defer200 1000K  951311    3524    6052   13599      96    8875    7845
->   fullbusy 1000K 1000011      90     181     278     100    8731   10686
->   napibusy 1000K 1000050      93     184     280     100    8721   10547
->  suspend10 1000K  999962     101     193     306      92    8138    8980
->  suspend20 1000K 1000030     103     191     324      88    7844    8763
->  suspend50 1000K 1000001     114     202     320      83    7396    8431
-> suspend200 1000K  999965     185     314     428      76    6733    8072
-> 
->   testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
->       base   MAX 1005592    4651    6594   14979     100    8679    7918
->    defer10   MAX  928204    5106    7286   15199     100    9398    8380
->    defer20   MAX  984663    4774    6518   14920     100    8861    8063
->    defer50   MAX 1044099    4431    6368   14652     100    8350    7948
->   defer200   MAX 1040451    4423    6610   14674     100    8380    7931
->   fullbusy   MAX 1236608    3715    3987   12805     100    7051    7936
->   napibusy   MAX 1077516    4345   10155   15957     100    8080    7842
->  suspend10   MAX 1218344    3760    3990   12585     100    7150    7935
->  suspend20   MAX 1220056    3752    4053   12602     100    7150    7961
->  suspend50   MAX 1213666    3791    4103   12919     100    7183    7959
-> suspend200   MAX 1217411    3768    3988   12863     100    7161    7954
-> 
-> ~ FAQ
-> 
->   - Can the new timeout value be threaded through the new epoll ioctl ?
-> 
->     Only with difficulty. The epoll ioctl sets options on an epoll
->     context and the NAPI ID associated with an epoll context can change
->     based on what file descriptors a user app adds to the epoll context.
->     This would introduce complexity in the API from the user perspective
->     and also complexity in the kernel.
-> 
->   - Can irq suspend be built by combining NIC coalescing and
->     gro_flush_timeout ?
-> 
->     No. The problem is that the long timeout must engage if and only if
->     prefer-busy is active.
-> 
->     When using NIC coalescing for the short timeout (without
->     napi_defer_hard_irqs/gro_flush_timeout), an interrupt after an idle
->     period will trigger softirq, which will run napi polling. At this
->     point, prefer-busy is not active, so NIC interrupts would be
->     re-enabled. Then it is not possible for the longer timeout to
->     interject to switch control back to polling. In other words, only by
->     using the software timer for the short timeout, it is possible to
->     extend the timeout without having to reprogram the NIC timer or
->     reach down directly and disable interrupts.
-> 
->     Using gro_flush_timeout for the long timeout also has problems, for
->     the same underlying reason. In the current napi implementation,
->     gro_flush_timeout is not tied to prefer-busy. We'd either have to
->     change that and in the process modify the existing deferral
->     mechanism, or introduce a state variable to determine whether
->     gro_flush_timeout is used as long timeout for irq suspend or whether
->     it is used for its default purpose. In an earlier version, we did
->     try something similar to the latter and made it work, but it ends up
->     being a lot more convoluted than our current proposal.
-> 
->   - Isn't it already possible to combine busy looping with irq deferral?
-> 
->     Yes, in fact enabling irq deferral via napi_defer_hard_irqs and
->     gro_flush_timeout is a precondition for prefer_busy_poll to have an
->     effect. If the application also uses a tight busy loop with
->     essentially nonblocking epoll_wait (accomplished with a very short
->     timeout parameter), this is the fullbusy case shown in the results.
->     An application using blocking epoll_wait is shown as the napibusy
->     case in the result. It's a hybrid approach that provides limited
->     latency benefits compared to the base case and plain irq deferral,
->     but not as good as fullbusy or suspend.
-> 
-> ~ Special thanks
-> 
-> Several people were involved in earlier stages of the development of this
-> mechanism whom we'd like to thank:
-> 
->   - Peter Cai (CC'd), for the initial kernel patch and his contributions
->     to the paper.
->     
->   - Mohammadamin Shafie (CC'd), for testing various versions of the kernel
->     patch and providing helpful feedback.
-> 
-> Thanks,
-> Martin and Joe
-> 
-> [1]: https://lore.kernel.org/netdev/20240812125717.413108-1-jdamato@fastly.com/
-> [2]: https://doi.org/10.1145/3626780
-> [3]: https://github.com/memcached/memcached/blob/master/doc/napi_ids.txt
-> [4]: https://github.com/leverich/mutilate
-> [5]: https://raw.githubusercontent.com/martinkarsten/irqsuspend/main/patches/memcached.patch
-> [6]: https://raw.githubusercontent.com/martinkarsten/irqsuspend/main/patches/libevent.patch
-> [7]: https://github.com/martinkarsten/irqsuspend
-> [8]: https://github.com/martinkarsten/irqsuspend/tree/main/results
-> 
-> v2:
->   - Cover letter updated, including a re-run of test data.
->   - Patch 1 rewritten to use netdev-genl instead of sysfs.
->   - Patch 3 updated with a comment added to napi_resume_irqs.
->   - Patch 4 rebased to apply now that commit b9ca079dd6b0 ("eventpoll:
->     Annotate data-race of busy_poll_usecs") has been picked up from VFS.
->   - Patch 6 updated the kernel documentation.
+Alistair Popple wrote:
+[..]
+> >
+> > Was there a discussion I missed about why the conversion to typical
+> > folios allows the page->share accounting to be dropped.
+> 
+> The problem with keeping it is we now treat DAX pages as "normal"
+> pages according to vm_normal_page(). As such we use the normal paths
+> for unmapping pages.
+> 
+> Specifically page->share accounting relies on PAGE_MAPPING_DAX_SHARED
+> aka PAGE_MAPPING_ANON which causes folio_test_anon(), PageAnon(),
+> etc. to return true leading to all sorts of issues in at least the
+> unmap paths.
 
-The series looks good, thank you both for pushing this!
+Oh, I missed that PAGE_MAPPING_DAX_SHARED aliases with
+PAGE_MAPPING_ANON.
 
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+> There hasn't been a previous discussion on this, but given this is
+> only used to print warnings it seemed easier to get rid of it. I
+> probably should have called that out more clearly in the commit
+> message though.
+> 
+> > I assume this is because the page->mapping validation was dropped, which
+> > I think might be useful to keep at least for one development cycle to
+> > make sure this conversion is not triggering any of the old warnings.
+> >
+> > Otherwise, the ->share field of 'struct page' can also be cleaned up.
+> 
+> Yes, we should also clean up the ->share field, unless you have an
+> alternate suggestion to solve the above issue.
+
+kmalloc mininimum alignment is 8, so there is room to do this?
+
+---
+diff --git a/fs/dax.c b/fs/dax.c
+index c62acd2812f8..a70f081c32cb 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -322,7 +322,7 @@ static unsigned long dax_end_pfn(void *entry)
+ 
+ static inline bool dax_page_is_shared(struct page *page)
+ {
+-	return page->mapping == PAGE_MAPPING_DAX_SHARED;
++	return folio_test_dax_shared(page_folio(page));
+ }
+ 
+ /*
+@@ -331,14 +331,14 @@ static inline bool dax_page_is_shared(struct page *page)
+  */
+ static inline void dax_page_share_get(struct page *page)
+ {
+-	if (page->mapping != PAGE_MAPPING_DAX_SHARED) {
++	if (!dax_page_is_shared(page)) {
+ 		/*
+ 		 * Reset the index if the page was already mapped
+ 		 * regularly before.
+ 		 */
+ 		if (page->mapping)
+ 			page->share = 1;
+-		page->mapping = PAGE_MAPPING_DAX_SHARED;
++		page->mapping = (void *)PAGE_MAPPING_DAX_SHARED;
+ 	}
+ 	page->share++;
+ }
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 1b3a76710487..21b355999ce0 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -666,13 +666,14 @@ PAGEFLAG_FALSE(VmemmapSelfHosted, vmemmap_self_hosted)
+ #define PAGE_MAPPING_ANON	0x1
+ #define PAGE_MAPPING_MOVABLE	0x2
+ #define PAGE_MAPPING_KSM	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE)
+-#define PAGE_MAPPING_FLAGS	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE)
++/* to be removed once typical page refcounting for dax proves stable */
++#define PAGE_MAPPING_DAX_SHARED	0x4
++#define PAGE_MAPPING_FLAGS	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE | PAGE_MAPPING_DAX_SHARED)
+ 
+ /*
+  * Different with flags above, this flag is used only for fsdax mode.  It
+  * indicates that this page->mapping is now under reflink case.
+  */
+-#define PAGE_MAPPING_DAX_SHARED	((void *)0x1)
+ 
+ static __always_inline bool folio_mapping_flags(const struct folio *folio)
+ {
+@@ -689,6 +690,11 @@ static __always_inline bool folio_test_anon(const struct folio *folio)
+ 	return ((unsigned long)folio->mapping & PAGE_MAPPING_ANON) != 0;
+ }
+ 
++static __always_inline bool folio_test_dax_shared(const struct folio *folio)
++{
++	return ((unsigned long)folio->mapping & PAGE_MAPPING_DAX_SHARED) != 0;
++}
++
+ static __always_inline bool PageAnon(const struct page *page)
+ {
+ 	return folio_test_anon(page_folio(page));
+---
+
+...and keep the validation around at least for one post conversion
+development cycle?
+
+> > It does have implications for the dax dma-idle tracking thought, see
+> > below.
+> >
+> >>  {
+> >> -	unsigned long pfn;
+> >> +	unsigned long order = dax_entry_order(entry);
+> >> +	struct folio *folio = dax_to_folio(entry);
+> >>  
+> >> -	if (IS_ENABLED(CONFIG_FS_DAX_LIMITED))
+> >> +	if (!dax_entry_size(entry))
+> >>  		return;
+> >>  
+> >> -	for_each_mapped_pfn(entry, pfn) {
+> >> -		struct page *page = pfn_to_page(pfn);
+> >> -
+> >> -		WARN_ON_ONCE(trunc && page_ref_count(page) > 1);
+> >> -		if (dax_page_is_shared(page)) {
+> >> -			/* keep the shared flag if this page is still shared */
+> >> -			if (dax_page_share_put(page) > 0)
+> >> -				continue;
+> >> -		} else
+> >> -			WARN_ON_ONCE(page->mapping && page->mapping != mapping);
+> >> -		page->mapping = NULL;
+> >> -		page->index = 0;
+> >> -	}
+> >> +	/*
+> >> +	 * We don't hold a reference for the DAX pagecache entry for the
+> >> +	 * page. But we need to initialise the folio so we can hand it
+> >> +	 * out. Nothing else should have a reference either.
+> >> +	 */
+> >> +	WARN_ON_ONCE(folio_ref_count(folio));
+> >
+> > Per above I would feel more comfortable if we kept the paranoia around
+> > to ensure that all the pages in this folio have dropped all references
+> > and cleared ->mapping and ->index.
+> >
+> > That paranoia can be placed behind a CONFIG_DEBUB_VM check, and we can
+> > delete in a follow-on development cycle, but in the meantime it helps to
+> > prove the correctness of the conversion.
+> 
+> I'm ok with paranoia, but as noted above the issue is that at a minimum
+> page->mapping (and probably index) now needs to be valid for any code
+> that might walk the page tables.
+
+A quick look seems to say the confusion is limited to aliasing
+PAGE_MAPPING_ANON.
+
+> > [..]
+> >> @@ -1189,11 +1165,14 @@ static vm_fault_t dax_load_hole(struct xa_state *xas, struct vm_fault *vmf,
+> >>  	struct inode *inode = iter->inode;
+> >>  	unsigned long vaddr = vmf->address;
+> >>  	pfn_t pfn = pfn_to_pfn_t(my_zero_pfn(vaddr));
+> >> +	struct page *page = pfn_t_to_page(pfn);
+> >>  	vm_fault_t ret;
+> >>  
+> >>  	*entry = dax_insert_entry(xas, vmf, iter, *entry, pfn, DAX_ZERO_PAGE);
+> >>  
+> >> -	ret = vmf_insert_mixed(vmf->vma, vaddr, pfn);
+> >> +	page_ref_inc(page);
+> >> +	ret = dax_insert_pfn(vmf, pfn, false);
+> >> +	put_page(page);
+> >
+> > Per above I think it is problematic to have pages live in the system
+> > without a refcount.
+> 
+> I'm a bit confused by this - the pages have a reference taken on them
+> when they are mapped. They only live in the system without a refcount
+> when the mm considers them free (except for the bit between getting
+> created in dax_associate_entry() and actually getting mapped but as
+> noted I will fix that).
+> 
+> > One scenario where this might be needed is invalidate_inode_pages() vs
+> > DMA. The invaldation should pause and wait for DMA pins to be dropped
+> > before the mapping xarray is cleaned up and the dax folio is marked
+> > free.
+> 
+> I'm not really following this scenario, or at least how it relates to
+> the comment above. If the page is pinned for DMA it will have taken a
+> refcount on it and so the page won't be considered free/idle per
+> dax_wait_page_idle() or any of the other mm code.
+
+[ tl;dr: I think we're ok, analysis below, but I did talk myself into
+the proposed dax_busy_page() changes indeed being broken and needing to
+remain checking for refcount > 1, not > 0 ]
+
+It's not the mm code I am worried about. It's the filesystem block
+allocator staying in-sync with the allocation state of the page.
+
+fs/dax.c is charged with converting idle storage blocks to pfns to
+mapped folios. Once they are mapped, DMA can pin the folio, but nothing
+in fs/dax.c pins the mapping. In the pagecache case the page reference
+is sufficient to keep the DMA-busy page from being reused. In the dax
+case something needs to arrange for DMA to be idle before
+dax_delete_mapping_entry().
+
+However, looking at XFS it indeed makes that guarantee. First it does
+xfs_break_dax_layouts() then it does truncate_inode_pages() =>
+dax_delete_mapping_entry().
+
+It follows that that the DMA-idle condition still needs to look for the
+case where the refcount is > 1 rather than 0 since refcount == 1 is the
+page-mapped-but-DMA-idle condition.
+
+[..]
+> >> @@ -1649,9 +1627,10 @@ static vm_fault_t dax_fault_iter(struct vm_fault *vmf,
+> >>  	loff_t pos = (loff_t)xas->xa_index << PAGE_SHIFT;
+> >>  	bool write = iter->flags & IOMAP_WRITE;
+> >>  	unsigned long entry_flags = pmd ? DAX_PMD : 0;
+> >> -	int err = 0;
+> >> +	int ret, err = 0;
+> >>  	pfn_t pfn;
+> >>  	void *kaddr;
+> >> +	struct page *page;
+> >>  
+> >>  	if (!pmd && vmf->cow_page)
+> >>  		return dax_fault_cow_page(vmf, iter);
+> >> @@ -1684,14 +1663,21 @@ static vm_fault_t dax_fault_iter(struct vm_fault *vmf,
+> >>  	if (dax_fault_is_synchronous(iter, vmf->vma))
+> >>  		return dax_fault_synchronous_pfnp(pfnp, pfn);
+> >>  
+> >> -	/* insert PMD pfn */
+> >> +	page = pfn_t_to_page(pfn);
+> >
+> > I think this is clearer if dax_insert_entry() returns folios with an
+> > elevated refrence count that is dropped when the folio is invalidated
+> > out of the mapping.
+> 
+> I presume this comment is for the next line:
+> 
+> +	page_ref_inc(page);
+>  
+> I can move that into dax_insert_entry(), but we would still need to
+> drop it after calling vmf_insert_*() to ensure we get the 1 -> 0
+> transition when the page is unmapped and therefore
+> freed. Alternatively we can make it so vmf_insert_*() don't take
+> references on the page, and instead ownership of the reference is
+> transfered to the mapping. Personally I prefered having those
+> functions take their own reference but let me know what you think.
+
+Oh, the model I was thinking was that until vmf_insert_XXX() succeeds
+then the page was never allocated because it was never mapped. What
+happens with the code as proposed is that put_page() triggers page-free
+semantics on vmf_insert_XXX() failures, right?
+
+There is no need to invoke the page-free / final-put path on
+vmf_insert_XXX() error because the storage-block / pfn never actually
+transitioned into a page / folio.
+
+> > [..]
+> >> @@ -519,21 +529,3 @@ void zone_device_page_init(struct page *page)
+> >>  	lock_page(page);
+> >>  }
+> >>  EXPORT_SYMBOL_GPL(zone_device_page_init);
+> >> -
+> >> -#ifdef CONFIG_FS_DAX
+> >> -bool __put_devmap_managed_folio_refs(struct folio *folio, int refs)
+> >> -{
+> >> -	if (folio->pgmap->type != MEMORY_DEVICE_FS_DAX)
+> >> -		return false;
+> >> -
+> >> -	/*
+> >> -	 * fsdax page refcounts are 1-based, rather than 0-based: if
+> >> -	 * refcount is 1, then the page is free and the refcount is
+> >> -	 * stable because nobody holds a reference on the page.
+> >> -	 */
+> >> -	if (folio_ref_sub_return(folio, refs) == 1)
+> >> -		wake_up_var(&folio->_refcount);
+> >> -	return true;
+> >
+> > It follow from the refcount disvussion above that I think there is an
+> > argument to still keep this wakeup based on the 2->1 transitition.
+> > pagecache pages are refcount==1 when they are dma-idle but still
+> > allocated. To keep the same semantics for dax a dax_folio would have an
+> > elevated refcount whenever it is referenced by mapping entry.
+> 
+> I'm not sold on keeping it as it doesn't seem to offer any benefit
+> IMHO. I know both Jason and Christoph were keen to see it go so it be
+> good to get their feedback too. Also one of the primary goals of this
+> series was to refcount the page normally so we could remove the whole
+> "page is free with a refcount of 1" semantics.
+
+The page is still free at refcount 0, no argument there. But, by
+introducing a new "page refcount is elevated while mapped" (as it
+should), it follows that "page is DMA idle at refcount == 1", right?
+Otherwise, the current assumption that fileystems can have
+dax_layout_busy_page_range() poll on the state of the pfn in the mapping
+is broken because page refcount == 0 also means no page to mapping
+association.
