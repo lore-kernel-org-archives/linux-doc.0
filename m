@@ -1,148 +1,212 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A0C1BE86E
-	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 08:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01102137930
+	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 08:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729757853; cv=none; b=Myo/IdRPjzPabf8yDyat6feButyY/i3qv0Ac8OvaSGSLidLFJ+rX+v3ITVgEqCedZRGjqH5tpmhPepGoRNY1dxVW6ulAMhZE0XlEXnPtTroEzLT1T7rDeHW7gsnPPRV8i447Yo1V1SueTshyCfz1ASWaaCsFfpfp6++dIf042d8=
+	t=1729757991; cv=none; b=rBkINu4t6uDv0HGvmyQxqAwqV2cSHi3Ggnrs0MHFt3yyIXIvD957XSVkEDntLmFQEs3FgaGnZ1FFiSAVuZ6BfSsOOqfb8YFpSUesC8LHX8nPhfzyoiik09CVYL8obHKVsbKqR8X6QIgHwaQUYhW9f75zy8+BBtFOfmODhzlqYks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729757853; c=relaxed/simple;
-	bh=5SRDC9p9MKxswYnd7y6LZi2xIt2zZS6yBwCYc+hydFo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A+habDywOdvplkGM6sauM7GvhwS0CsqBiyD5J9fZT98fBVElUG1h4cR1jgXxC0xe50KWTDPPqd0GO+thGdsTycHW9PdQ/O4Q7O3f+SzBIFedISWrV4O44BFjsVqIP/+t7dCJ4KENirO7jj7QmX9eb5XN88SserzgWycD3wGWauw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=tcl5hjIH; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1729757991; c=relaxed/simple;
+	bh=jJpoDcZzcf17R/3zdN17SftmPrsJXoXPfK84W/H5pz4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bzjGMwGeGnOeoKlkOtepDC3DDPnKWtbhslDHY1r2mwX0dFJCgUsl87mdb0z9NHso/+cZ9TpvtbDxmvJOgQX7s0VIqh4FKnAGnDwKgB8YZD3TyPgpHfZ3xodtjlW06UXYaNCBP7s9ULGMytPQJspmtFrHph5ezEQLRkMSeJ79NC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=dJLlWfvX; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tcl5hjIH"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42f6bec84b5so6649105e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 01:17:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="dJLlWfvX"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5c9c28c1e63so722347a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 01:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729757845; x=1730362645; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cUAWPNA4323qWrX/2WYrVLftIYuIj6SGZHxAGWq4jNw=;
-        b=tcl5hjIHsaAUigNqo51CTVG459HFTc1bbnc+SQqYr9YHlVSwUlVZsLTkh5/Fqdcfcw
-         PV67ZKenBzeV2jO6YplsuxGUq1hY0hlI0SyCU7lRMb1sN//J9j9wKan10EuL4BY40GzV
-         J3d1rngh+llp5a2n5lrEZ+RMTHNuiI1JM8QNgmrHaGGZgVQt6JB167Da5uhAVGb0n1CR
-         mahBE732IF3LzApPVFhZGiPKNXsT337Qkv99mDWz0qxt7UMpQMXuNpdGVY89oZe+knc1
-         53kZqTTzMHs3nI6YfNJrQHWrpwYA6+D27RivllvHsJB6H+yk65PBMwIrdLh1dkcjJ8Kg
-         h0ZQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729757987; x=1730362787; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qs/aKFg3NFl0djqnSQfP+JloM/IzfO1teCS8RmqnkF8=;
+        b=dJLlWfvXuhEKV0cSSRuOIDOdoPHHuGdzxu9B+6jm46B80TYgrX0h+hQXfhixIuYYJJ
+         qgRVvlJe9svZ9oVRdWbRIU+Aa8Vuzbc6pyuaHb1jZMRsU6OJuFzR71W2WLh+ldFLceR4
+         t3MNYG1W2MeyAPsWN+MygfzO35/uqVg35n88qQj0XiFSpkhodFEdEW+wS1aoJ4e9PKT5
+         P1KwDcuv9JY8by1A9yhl81vR41rtf7tIwcGFwruUU0wK4x71dstoOlbflynVKi5wUSyh
+         QGInFRNWIr6UD77kjZCGo491No9yzObgGnx3Skl/+ep2sXxrExWdfGgeEBbO/54KIoZv
+         yuvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729757845; x=1730362645;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1729757987; x=1730362787;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cUAWPNA4323qWrX/2WYrVLftIYuIj6SGZHxAGWq4jNw=;
-        b=IVakwh9fvQJ2fdrmsDzp+PPICc3Ky0vZzyZX19yJEHm0XON+dApTnwNBH09Yue4U53
-         JHZopkLXhfKMKYHtHk5Su5TlhiL6xMrThlZw5f/wmVBTkEjhSitp+YxeATu+j4F8XkWC
-         EBndXQLw2pN+oNJcR70FwqP8dfjOT8PFmodSUkGdFemb4BOcmYJdaIeHlLLScPEwDKCj
-         dHPAKnKUlZnmm+tHpdKpR/NUky5sq9qLWj8Nw+I2R7ch19ShK0EkdUCrOY5YQXIrwEEn
-         UJpSPhvUguXB9Nf00+WobZL4Gumf3Un1zQ/PTFAMvhNez3fLJHhShjMdLaZ5QZNdBS9h
-         M1XA==
-X-Forwarded-Encrypted: i=1; AJvYcCXDYkVs7FPWosw4Qr7Lx/bRtOFC7YK/riKOrAzx+yfHbRSRUj2eyKjgj0sh9WpHjwWj+Q3mJUoYzoU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMtI9DQoOEdN/mt+sgqEYgYTncAZkr3MzmM6x5p7Df+zUpGJF0
-	MwiuzMJczpqgiiWgO2TsYC9m6mN5G0wnARw/Lnr9vBUzuz4BYOoeBQfq6Jbf0GA=
-X-Google-Smtp-Source: AGHT+IHlbkjw8a7bvilTCBFaOO4QOtqabhsHfCRItFwBH0Lw5ptxMTSReldhXJVwYLzLi/jmMdBLXQ==
-X-Received: by 2002:a05:600c:4e41:b0:430:54a4:5ad7 with SMTP id 5b1f17b1804b1-4318c6e895bmr9695095e9.1.1729757844786;
-        Thu, 24 Oct 2024 01:17:24 -0700 (PDT)
-Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b93d53sm10828922f8f.70.2024.10.24.01.17.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 01:17:23 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Thu, 24 Oct 2024 10:16:57 +0200
-Subject: [PATCH v3 2/4] iio: adc: ad7380: fix oversampling formula
+        bh=Qs/aKFg3NFl0djqnSQfP+JloM/IzfO1teCS8RmqnkF8=;
+        b=F0cs0JXX7MckaF76GYkg/g3gkNemBwntshZ3CUTwGmcmjcIYNmKv2NM2uQL4QgnD68
+         aRpFgHYQ9LFT4fU/VI2Q2qoRJZ3zi5QRmb8z++EfoWNCheoOCUgTHqQggYFlCe45XFHD
+         tI+WEs+zGOOabkfNBbKJHMTXgQnZ5JoEkEAQMyefCf+BqJu8t3765OokX4LsTVzeNxF6
+         7yxYIIdPMIno5zF5sFMnmebkZ4TZGDmd/uBDfdFccnDTteQKQwqRvmhB0CuyUii9YwcC
+         K/x7vBAGGgkRJf8BecpRrxbjw28lcfPZ7R1rQ2CR3FAwElY2HEpGtw5v1wcf39cCu1gZ
+         MiFA==
+X-Forwarded-Encrypted: i=1; AJvYcCUt0DPShblSLoEXSTXxX5fdBMIKN/jmM77szRt5RzG9JPf0DhI0h0eT1+g2bq+ewab/EVPb4DVaUAo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywk8sgP3ysXIekX8vwsKS6I5IeL8WyecVG2OktqRU5YOd7txohn
+	lVXRjTMQkRiMVcbq52Sp7yR0D84Zk4FPDVhC8WOdt9WUVeNYEc1VAcAo3W6sx+Q1E7qmZZhgqUk
+	9h1CYyHC/3/00rWXFgE6i9Fuwiy53e1f9yGo+AQ==
+X-Google-Smtp-Source: AGHT+IEUz97/zglX4GUT3Pds+XQ9vhw/84CeXDgQkpGMRP1blc6osQow8h9eQWkAj9ZNoShkMCwOCiaT+o5nm4LK8oY=
+X-Received: by 2002:a17:907:3206:b0:a99:fb56:39cc with SMTP id
+ a640c23a62f3a-a9abf8d2614mr562372866b.38.1729757987320; Thu, 24 Oct 2024
+ 01:19:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241024-ad7380-add-adaq4380-4-support-v3-2-6a29bd0f79da@baylibre.com>
-References: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
-In-Reply-To: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.14.2
+References: <20241023-ad7380-add-adaq4380-4-support-v2-0-d55faea3bedf@baylibre.com>
+ <20241023-ad7380-add-adaq4380-4-support-v2-1-d55faea3bedf@baylibre.com> <7uih5kvpy6i4ggq5o7eudzczbicopbdnmbtkyprfperkkqgsmt@42q6bncox3ml>
+In-Reply-To: <7uih5kvpy6i4ggq5o7eudzczbicopbdnmbtkyprfperkkqgsmt@42q6bncox3ml>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Thu, 24 Oct 2024 10:19:32 +0200
+Message-ID: <CAEHHSvY3QWkjDo6LdyFg-X+UnyY-cJ6kAFUYP-ZWBqgHoKxmkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: iio: adc: ad7380: add adaq4370-4 and
+ adaq4380-4 compatible parts
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The formula in the datasheet for oversampling time conversion seems to
-be valid when device is at full speed using the maximum number of SDO
-lines. The driver currently support only 1 SDO line. The formula will
-produce larger delays than what is currently set, but some devices
-actually require it.
+Le jeu. 24 oct. 2024 =C3=A0 09:29, Krzysztof Kozlowski <krzk@kernel.org> a =
+=C3=A9crit :
+>
+> On Wed, Oct 23, 2024 at 11:19:33AM +0200, Julien Stephan wrote:
+> > +  vs-p-supply:
+> > +    description:
+> > +      Amplifiers positive supply.
+> > +
+> > +  vs-n-supply:
+> > +    description:
+> > +      Amplifiers negative supply.
+> > +
+> > +  ldo-supply:
+> > +    description:
+> > +      LDO supply. Connect to vs-p-supply or a 3.6 to 5.5 V supply.
+> >
+> >    aina-supply:
+> >      description:
+> > @@ -97,12 +115,46 @@ properties:
+> >        specify the ALERT interrupt.
+> >      maxItems: 1
+> >
+> > +  '#address-cells':
+>
+> If there is going to be new version/resend, then keep consistent quotes:
+> " or '.
+>
+> > +    const: 1
+> > +
+> > +  '#size-cells':
+> > +    const: 0
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
+> >    - vcc-supply
+> >    - vlogic-supply
+> >
+> > +patternProperties:
+> > +  "^channel@([0-3])$":
+>
+> () are not necessary
+>
+> > +    $ref: adc.yaml
+> > +    type: object
+> > +
+> > +    properties:
+> > +      reg:
+> > +        description:
+> > +          The channel number. From 0 to 3 corresponding to channels A,=
+B,C,D
+> > +        items:
+> > +          minimum: 0
+> > +          maximum: 3
+>
+> No improvements, no response to comment.
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- drivers/iio/adc/ad7380.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+Hi Krzysztof,
 
-diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
-index fb728570debe6432d5f991595cb35e9e7af8b740..d57e17f38925da5fb7c8a0a2320a21474ba04b37 100644
---- a/drivers/iio/adc/ad7380.c
-+++ b/drivers/iio/adc/ad7380.c
-@@ -77,6 +77,12 @@
- #define T_CONVERT_X_NS 500		/* xth conversion start time (oversampling) */
- #define T_POWERUP_US 5000		/* Power up */
- 
-+/*
-+ * AD738x support several SDO lines to increase throughput, but driver currently
-+ * supports only 1 SDO line (standard SPI transaction)
-+ */
-+#define AD7380_NUM_SDO_LINES		1
-+
- struct ad7380_timing_specs {
- 	const unsigned int t_csh_ns;	/* CS minimum high time */
- };
-@@ -649,7 +655,8 @@ static int ad7380_set_ch(struct ad7380_state *st, unsigned int ch)
- 
- 	if (st->oversampling_ratio > 1)
- 		xfer.delay.value = T_CONVERT_0_NS +
--			T_CONVERT_X_NS * (st->oversampling_ratio - 1);
-+			T_CONVERT_X_NS * (st->oversampling_ratio - 1) *
-+			st->chip_info->num_simult_channels / AD7380_NUM_SDO_LINES;
- 
- 	return spi_sync_transfer(st->spi, &xfer, 1);
- }
-@@ -667,12 +674,13 @@ static void ad7380_update_xfers(struct ad7380_state *st,
- 
- 	/*
- 	 * In the case of oversampling, conversion time is higher than in normal
--	 * mode. Technically T_CONVERT_X_NS is lower for some chips, but we use
--	 * the maximum value for simplicity for now.
-+	 * mode: t_convert = T_CONVERT_0_NS + T_CONVERT_X_NS*(x - 1)*num_channel/number_of_sdo_lines
-+	 * where x is the oversampling ratio
- 	 */
- 	if (st->oversampling_ratio > 1)
- 		t_convert = T_CONVERT_0_NS + T_CONVERT_X_NS *
--			(st->oversampling_ratio - 1);
-+			(st->oversampling_ratio - 1) *
-+			st->chip_info->num_simult_channels / AD7380_NUM_SDO_LINES;
- 
- 	if (st->seq) {
- 		xfer[0].delay.value = xfer[1].delay.value = t_convert;
-@@ -1021,7 +1029,8 @@ static int ad7380_init(struct ad7380_state *st, bool external_ref_en)
- 	/* SPI 1-wire mode */
- 	return regmap_update_bits(st->regmap, AD7380_REG_ADDR_CONFIG2,
- 				  AD7380_CONFIG2_SDO,
--				  FIELD_PREP(AD7380_CONFIG2_SDO, 1));
-+				  FIELD_PREP(AD7380_CONFIG2_SDO,
-+					     AD7380_NUM_SDO_LINES));
- }
- 
- static int ad7380_probe(struct spi_device *spi)
+I am sorry, it got lost during my rebase. It was planned to be on the
+v2 (even added it to the changelog in the cover letter).
+Thank you for noticing it.  I sent a v3 with all the changes.
 
--- 
-2.47.0
-
+Cheers
+Julien
+>
+> > +
+> > +      adi,gain-milli:
+> > +        description:
+> > +          The hardware gain applied to the ADC input (in milli units).
+> > +          If not present, default to 1000 (no actual gain applied).
+> > +          Refer to the typical connection diagrams section of the data=
+sheet for
+> > +          pin wiring.
+> > +        $ref: /schemas/types.yaml#/definitions/uint16
+> > +        enum: [300, 600, 1000, 1600]
+> > +        default: 1000
+> > +
+> > +    required:
+> > +      - reg
+> > +
+> > +    additionalProperties: false
+> > +
+> >  unevaluatedProperties: false
+> >
+> >  allOf:
+> > @@ -140,6 +192,7 @@ allOf:
+> >          aind-supply: false
+> >
+> >    # ad7380-4 uses refin-supply as external reference.
+> > +  # adaq devices use internal reference only, derived from refin-suppl=
+y
+> >    # All other chips from ad738x family use refio as optional external =
+reference.
+> >    # When refio-supply is omitted, internal reference is used.
+> >    - if:
+> > @@ -147,6 +200,8 @@ allOf:
+> >          compatible:
+> >            enum:
+> >              - adi,ad7380-4
+> > +            - adi,adaq4370-4
+> > +            - adi,adaq4380-4
+> >      then:
+> >        properties:
+> >          refio-supply: false
+> > @@ -156,6 +211,27 @@ allOf:
+> >        properties:
+> >          refin-supply: false
+> >
+> > +  # adaq devices need more supplies and using channel to declare gain =
+property
+> > +  # only applies to adaq devices
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          enum:
+> > +            - adi,adaq4370-4
+> > +            - adi,adaq4380-4
+> > +    then:
+> > +      required:
+> > +        - vs-p-supply
+> > +        - vs-n-supply
+> > +        - ldo-supply
+> > +    else:
+> > +      properties:
+> > +        vs-p-supply: false
+> > +        vs-n-supply: false
+> > +        ldo-supply: false
+> > +      patternProperties:
+> > +        "^channel@([0-3])$": false
+>
+> () are not necessary
+>
+> Best regards,
+> Krzysztof
+>
