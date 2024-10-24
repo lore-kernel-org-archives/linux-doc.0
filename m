@@ -1,145 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9539B1D041D;
-	Thu, 24 Oct 2024 11:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E401A0BC4;
+	Thu, 24 Oct 2024 11:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729770390; cv=none; b=OIF9gpwF3EwWfDl3lyqfx1ajqFde9K4YbQom9KjjbaYV3UjSJpkm6KstrGBU9VxDfJqK867gNeDWlUPP4m0pQ7hCV9liTSN6cxjANcKmnTgyjlpy4HRYDqFeH0Fzz27iWVNo02fF1wVoiWQQMa8er7leXDVptDuP2k9a0ZBFO0U=
+	t=1729770523; cv=none; b=PEeYKYIFXxeMLAAcnn4D5AaGZJkPCMnJQd3BApVBdkDZsSRH0q6ewArP5UcsvRRkgZnNnLtuEQEvS23xYybn6wW/1hGDvU+A1KKjsHQrEHqbHAvfyP8JF9mxKSYvDVE3jaOS5UA7rwu8iNzl6M6sVcZi2cQng2Q2DS4f2lyTkv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729770390; c=relaxed/simple;
-	bh=rR8OViBzcMSTBynf6dkGB9uTCV4/IpUGVpmpDDEIQOU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HPYVuUge0vkpx5fbCozqq9JK6oXmcpJXCJ0R2vEmadOTHcpY1Wt1aKTXrxoXQ/CmDLWqsf1YZbxAPZIPHUv9GDJEpBv7ubPc2ksvsqyYybTtwOy88N5YsxL8LsbJ3GKJxd3PhX9W8QVVwAuwsUOKPgF+5rIhHyy9EcEFJcT/1q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UzBf+GM1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729770523; c=relaxed/simple;
+	bh=d+qe/+ODoW5q7XT1R1VfgK5+hBdUWlBAmc0IyODhTEU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CskCdefWEBekP4KZanOuT8kxWmoujjFFfiqzNf1QyFlF4Y7LckclSsRz+L71nf2yub/ypZXeM3bwQlFYkQqs9fS0jxcPvR/zuAA0MiB7k0TxztMp2cXt7hAe9unTRrStR/c5ojFclYWtQQ7+9LyNkv6zkl7mzoKwVgNuEy8cmKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jv9NaMRk; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UzBf+GM1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C6F4C4CEC7;
-	Thu, 24 Oct 2024 11:46:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729770390;
-	bh=rR8OViBzcMSTBynf6dkGB9uTCV4/IpUGVpmpDDEIQOU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UzBf+GM16VUYQ8JK3v6lMqMBikV1DCIS06piSdRWDctK/ICNtdlwmQ44EwdkkruyC
-	 flze11PEEo8MYr0KN+7VJ54GQ/R9VcrnvQGjL3Tu7Cm7lC8vijdY6n8EjKlSzuQbQd
-	 4l3Ir3NtWj4j0wrsKNkd+qINle3AiddDAiV7SpBPf+nhCczAaswSk80WJFOpFp9TjJ
-	 q8M6N45fHp/7q6hc1GTIhnzPLLJ6DCKzkHlRmu+pj0mqXE9F7lt/xOTqayeAGRPzcY
-	 9S4XR3TUSn3sLNlmUktVLG0yNfYwR5Hrp5nRN+HWE4ApI9fTxzyKV61F9/JAUx1fz5
-	 FPDe6azWp9IZw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1t3wIO-006Qps-77;
-	Thu, 24 Oct 2024 12:46:28 +0100
-Date: Thu, 24 Oct 2024 12:46:27 +0100
-Message-ID: <86ttd13er0.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	corbet@lwn.net,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] Documentation: Update the behaviour of "kvm-arm.mode"
-In-Reply-To: <ZxowSYHQeOq7W_JT@google.com>
-References: <20241023171244.4031151-1-smostafa@google.com>
-	<86v7xh3km6.wl-maz@kernel.org>
-	<ZxowSYHQeOq7W_JT@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jv9NaMRk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729770521; x=1761306521;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=d+qe/+ODoW5q7XT1R1VfgK5+hBdUWlBAmc0IyODhTEU=;
+  b=jv9NaMRkIVM+KcS9sb7u8LIIvIDxYkXI3Gy/94ZY6Sia71Sm/tf0k4ec
+   Vj5pbISK3MXNgF1wkTvmY4kX9RKCZNMRCg6WlHzAGkCc1Ts/9NCwi0822
+   CpRj9Q7j+6BJE3zvo4hI392fi68Mv/zK0aIIFWRTqhoFgZzmMCG3aJRzI
+   xvpuDfIODQUjLbxrqy06wAkpH2CboieUHnZXLxU7gm/ckOiDkWHGUo/pz
+   EO8AOYGJVsdxH+50BLWEPEC5cFwHcijEmyLBF9EbS7txmj5kHxJr9mcyK
+   stM2hdnml2/ajY0b82bRTQcIGcCWq4L7uAP0HQ6MB6q0NUM9aosUHsyw+
+   w==;
+X-CSE-ConnectionGUID: leMACKUsREK04hfvB33ECA==
+X-CSE-MsgGUID: lAzpuLPSTwi9HBvMR1zhRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="46884354"
+X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
+   d="scan'208";a="46884354"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 04:48:40 -0700
+X-CSE-ConnectionGUID: KZjPdK6kSvSUdStGO1YFkw==
+X-CSE-MsgGUID: 9RK3dTjhQg26wkfpdI3qGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
+   d="scan'208";a="111385152"
+Received: from ubik.fi.intel.com (HELO localhost) ([10.237.72.184])
+  by fmviesa001.fm.intel.com with ESMTP; 24 Oct 2024 04:48:29 -0700
+From: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+To: Philipp Stanner <pstanner@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>,
+ Boris Brezillon <bbrezillon@kernel.org>, Arnaud Ebalard
+ <arno@natisbad.org>, Srujana Challa <schalla@marvell.com>, Miri Korenblit
+ <miriam.rachel.korenblit@intel.com>, Kalle Valo <kvalo@kernel.org>, Serge
+ Semin <fancer.lancer@gmail.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Kevin Cernekee <cernekee@gmail.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
+ <jirislaby@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Mark Brown <broonie@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, Philipp Stanner <pstanner@redhat.com>, Uwe
+ =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Jie Wang
+ <jie.wang@intel.com>, Tero Kristo <tero.kristo@linux.intel.com>, Adam
+ Guerin <adam.guerin@intel.com>, Shashank Gupta <shashank.gupta@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>, Bharat Bhushan
+ <bbhushan2@marvell.com>, Nithin Dabilpuram <ndabilpuram@marvell.com>,
+ Johannes Berg <johannes.berg@intel.com>, Emmanuel Grumbach
+ <emmanuel.grumbach@intel.com>, Gregory Greenman
+ <gregory.greenman@intel.com>, Benjamin Berg <benjamin.berg@intel.com>,
+ Yedidya Benshimol <yedidya.ben.shimol@intel.com>, Breno Leitao
+ <leitao@debian.org>, Florian Fainelli <florian.fainelli@broadcom.com>,
+ Ilpo =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-ide@vger.kernel.org, qat-linux@intel.com,
+ linux-crypto@vger.kernel.org, linux-wireless@vger.kernel.org,
+ ntb@lists.linux.dev, linux-pci@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-sound@vger.kernel.org,
+ alexander.shishkin@linux.intel.com
+Subject: Re: [PATCH v4 05/10] intel_th: pci: Replace deprecated PCI functions
+In-Reply-To: <20241016124136.41540-6-pstanner@redhat.com>
+References: <20241016124136.41540-1-pstanner@redhat.com>
+ <20241016124136.41540-6-pstanner@redhat.com>
+Date: Thu, 24 Oct 2024 14:48:27 +0300
+Message-ID: <878qudvi0k.fsf@ubik.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: smostafa@google.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, corbet@lwn.net, will@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Thu, 24 Oct 2024 12:32:25 +0100,
-Mostafa Saleh <smostafa@google.com> wrote:
-> 
-> Hi Marc,
-> 
-> On Thu, Oct 24, 2024 at 10:39:45AM +0100, Marc Zyngier wrote:
-> > Hi Mostafa,
-> > 
-> > On Wed, 23 Oct 2024 18:12:43 +0100,
-> > Mostafa Saleh <smostafa@google.com> wrote:
-> > > 
-> > > Commit 5053c3f0519c ("KVM: arm64: Use hVHE in pKVM by default on CPUs with
-> > > VHE support") modified the behaviour of "kvm-arm.mode=protected" without
-> > > the updating the kernel parameters doc.
-> > > 
-> > > Update it to match the current implementation.
-> > > 
-> > > Cc: Will Deacon <will@kernel.org>
-> > > Cc: Marc Zyngier <maz@kernel.org>
-> > > 
-> > > Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> > > ---
-> > >  Documentation/admin-guide/kernel-parameters.txt | 6 +++++-
-> > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index bb48ae24ae69..59a0dd7e2de6 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -2723,8 +2723,12 @@
-> > >  			nvhe: Standard nVHE-based mode, without support for
-> > >  			      protected guests.
-> > >  
-> > > -			protected: nVHE-based mode with support for guests whose
-> > > +			protected: hVHE-based mode with support for guests whose
-> > >  				   state is kept private from the host.
-> > > +				   In case hVHE is not supported in hardware, it will
-> > 
-> > nit: it is VHE that is supported or not, hVHE is only a SW concept.
-> > 
-> > > +				   boot with protected nVHE.
-> > > +				   nVHE protected mode can still be forced on VHE systems
-> > > +				   using "kvm_arm.mode=protected arm64_sw.hvhe=0 id_aa64mmfr1.vh=0"
-> > 
-> > This opens another question: none of the arm_sw.*, nor any of the
-> > id_aa64* parameters are described (basically, anything that's in
-> > arch/arm64/kernel/pi/id_override.c). What should we do about these?
-> 
-> Yes, I mainly added this, to make it easier if someone wants to boot to
-> protected nVHE so they don't have to go through the code, but I can
-> remove it if it's confusing.
+Philipp Stanner <pstanner@redhat.com> writes:
 
-No, I think it is good to capture that sort of information somewhere,
-specially given that it is non-trivial to convince the kernel to do
-what you want.
+> pcim_iomap_table() and pcim_iomap_regions_request_all() have been
+> deprecated by the PCI subsystem in commit e354bb84a4c1 ("PCI: Deprecate
+> pcim_iomap_table(), pcim_iomap_regions_request_all()").
+>
+> Replace these functions with their successors, pcim_iomap() and
+> pcim_request_all_regions().
+>
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 
-But maybe at some point we should document the rest of the options, as
-they keep growing, and people are starting to rely on them for one
-thing or the other. Not now though.
+Acked-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 
-> 
-> > 
-> > 
-> > 
-> > >
-> > >  			nested: VHE-based mode with support for nested
-> > >  				virtualization. Requires at least ARMv8.3
-> > 
-> > Huh, another nit to fix. We only support nested with ARMv8.4 (with
-> > FEAT_NV2), as the ARMv8.3 version (the original FEAT_NV) is too ugly
-> > for words.
-> > 
-> > Mind addressing this?
-> 
-> Sure, I will update it in v2.
-
-Thank you!
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Regards,
+--
+Alex
