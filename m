@@ -1,51 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E833E2178EF;
-	Thu, 24 Oct 2024 21:09:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D42B21731D;
+	Thu, 24 Oct 2024 21:45:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729804159; cv=none; b=pxEdn7QOH/qkxvDRbrXTmrwB0BGSYDpj0wd7+3EYeoWS84+VsNgMcKzky8vAJy8S+tVMfYD+5L0kMKh+4pXRUaSb8LZm08pS/XxLqWm0iOjji56LW0cQZHNXTe5kbCby7HIuNy2FZqR6+JCDIP5tff3Js9H72yJHm+unE6+STS8=
+	t=1729806308; cv=none; b=mlDS7JZYcocHvapR7wX1vvTF5ik9oUuuDlybpC/eIFlVyzCKNvBFkeaEn+SUu9adLzoa69o1DqjLRn4e/CXHIfQ6wIOTQ/9OYa5Xmw8vZ0aXIBXXYhA0arsv+eIF+ChHsgYzH74Z2wDZT5sCeQ/Cw9IPmFuLNizggJM6nxwjLYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729804159; c=relaxed/simple;
-	bh=E1k+OYFRxEGzTKutfTAaZoS1gBw8S7mKx8X/6YriDGU=;
+	s=arc-20240116; t=1729806308; c=relaxed/simple;
+	bh=g5RVBrlvEqwpWKnIlUV9wO/rHpJmpn2uEP7XT895l7s=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sh0aziDgrBgGVYpX7HC8QJJShW+Wxgf4vol5uv5cQ6LJXK9pFVBt9uoOBlboprwp6MbNJFvp0lwzuN/g9hkJlKxlruoEOErWE0AHYFDTjZC/yhIknDktzaQKU8KUjIz/JfaQcHYH5tTZ4gxmgMQ6PFPhpcXATTd8LpdCF14teqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bIpaRoNW; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ZTB25j20Zvwmu/+KWpnl4p28YqcQSogMx7EPIjm8622mpAQfCqCBjzVaF4KZfZdzcVFOg0r0mKzW+vE1lPVYtLM38owGJjUr6oy2+REuK5o+UpFjqLfwlTkpmMG5x952HlTuW9fZIKyI6qEtNydeGDxqzkMzMFINMKyBveJMI38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LxWaFvm7; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bIpaRoNW"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 197EF42C0D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LxWaFvm7"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9A5F142C0D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1729804157; bh=N2hLec15zsgFvOqirzafzwOABFgkFT3/q5DEGpdFCMI=;
+	t=1729806305; bh=2icjHji/8rRsBWpMTTcOpJM8Mc4k+8M31SpjTYrBL+M=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bIpaRoNWGyg7uUJrdxCzNKnCUbmf1eRpGxZOUP85zp5l1Mc59i0FJxzWOBbtNeTgI
-	 2rXnjKjVW8sCZY439qzgNvsgRqW6/AR/KLNIeknRDvhVPIhsX8TcqLiL3gbkE5QBdW
-	 1GcmlsDewU/NBuTBYX0auHF0EtAWyjyc727bjs8O/E+QAw4lz+NXiDfsEjdrdaPwUy
-	 wXPTqIKnwZXuFjsYE+Enka1OoOZZ19ysrNS5l9Y5TUqwUR2ifPmcYlag1j8dKBt4lm
-	 OwxQ0FmfYech3ZFnehjglyA7SYamH2eu/O4IxhlzhYMlnJtsuITxPnaSt92A8nGhh2
-	 CMlP589Bxh0QA==
+	b=LxWaFvm7xlawyi3hP1huUoWgNx1rVOh7RyMb9TY+VUs1+m6mqyeEVm0X3epNc9zQe
+	 CFDmcVxD2GCJwneXUGONkOUqPjxov1cPdrFDKHw5P84zDNbHTO8A434gJM/UM6UjwH
+	 gV1wEXba+04TBZf7MDkdxE6MgDqmUqDyq+hGSj04Vakb0KEg6cAiLnpkoRRJkIHuXV
+	 4jQcKiwp5rDjgvB0f1d9qmSqoKwmEE8JBRzd8ePCAT4N050PI69yRncuXSslF/cMco
+	 FfEvcYXVnuIYMZ38uhj4wUPup7m97eEyogF2q4vUv2V58utSB/TswIfGbnRRHDMfkH
+	 I6aeSH+XfutrQ==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 197EF42C0D;
-	Thu, 24 Oct 2024 21:09:17 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9A5F142C0D;
+	Thu, 24 Oct 2024 21:45:05 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: xu.xin16@zte.com.cn, alexs@kernel.org, si.yanteng@linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mudongliangabcd@gmail.com, seakeel@gmail.com
-Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, xu.xin16@zte.com.cn,
- he.peilin@zte.com.cn, tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn,
- zhang.yunkai@zte.com.cn
-Subject: Re: [PATCH llinux-next v7] Docs/zh_CN: Translate
- physical_memory.rst to Simplified Chinese
-In-Reply-To: <871q05465w.fsf@trenco.lwn.net>
-References: <20241022095925304e1j2evmIRbZsiE0RDUFrA@zte.com.cn>
- <871q05465w.fsf@trenco.lwn.net>
-Date: Thu, 24 Oct 2024 15:09:15 -0600
-Message-ID: <87sesl2op0.fsf@trenco.lwn.net>
+To: Dongliang Mu <dzm91@hust.edu.cn>, si.yanteng@linux.dev, alexs@kernel.org
+Cc: hust-os-kernel-patches@googlegroups.com, Dongliang Mu
+ <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/6] update the translation of partial files in mm
+In-Reply-To: <cover.1729327831.git.dzm91@hust.edu.cn>
+References: <cover.1729327831.git.dzm91@hust.edu.cn>
+Date: Thu, 24 Oct 2024 15:45:04 -0600
+Message-ID: <87ldyd2n1b.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,51 +50,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Jonathan Corbet <corbet@lwn.net> writes:
+Dongliang Mu <dzm91@hust.edu.cn> writes:
 
-> <xu.xin16@zte.com.cn> writes:
+> Dongliang Mu (6):
+>   docs/zh_CN: update the translation of mm/hmm.rst
+>   docs/zh_CN: update the translation of mm/active_mm.rst
+>   docs/zh_CN: update the translation of mm/admon/faq.rst
+>   docs/zh_CN: update the translation of mm/overcommit-accounting.rst
+>   docs/zh_CN: update the translation of mm/page_table_check.rst
+>   docs/zh_CN: update the translation of mm/page_owner.rst
 >
->> From: Yaxin Wang <wang.yaxin@zte.com.cn>
->>
->> This patch translates the "physical_memory.rst" document into
->> Simplified Chinese to improve accessibility for Chinese-speaking
->> developers and users.
->>
->> The translation was done with attention to technical accuracy
->> and readability, ensuring that the document remains informative
->> and useful in its translated form.
->>
->> Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
->>
->> Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
->> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
->> Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
->> ---
->> v6->v7:
->> Thanks,  Some fixes according to:
->> https://lore.kernel.org/all/c95075bc-187b-4d38-b9bc-2f19f29a2231@gmail.com/
->> 1.retry 'git format-patch' to ensure the patches can be successfully applied by 'git am'
->>
->>  Documentation/translations/zh_CN/mm/index.rst |   1 +
->>  .../translations/zh_CN/mm/physical_memory.rst | 354 ++++++++++++++++++
->>  2 files changed, 355 insertions(+)
->>  create mode 100644 Documentation/translations/zh_CN/mm/physical_memory.rst
+>  .../translations/zh_CN/mm/active_mm.rst       |  5 ++
+>  .../translations/zh_CN/mm/damon/faq.rst       | 17 -------
+>  Documentation/translations/zh_CN/mm/hmm.rst   |  8 +---
+>  .../zh_CN/mm/overcommit-accounting.rst        |  3 +-
+>  .../translations/zh_CN/mm/page_owner.rst      | 46 +++++++++++++++++++
+>  .../zh_CN/mm/page_table_check.rst             | 13 ++++++
+>  6 files changed, 66 insertions(+), 26 deletions(-)
 >
-> Applied (after a bit of work since it didn't apply directly to
-> docs-next), thanks,
+> -- 
+> 2.43.0
 
-I ended up taking this one out again, due to the following warnings?
-
-Documentation/translations/zh_CN/mm/physical_memory.rst:131: WARNING: duplicate label nodes, other
-instance in /home/corbet/kernel/Documentation/mm/physical_memory.rst
-Documentation/translations/zh_CN/mm/physical_memory.rst:325: WARNING: duplicate label zones, other
-instance in /home/corbet/kernel/Documentation/mm/physical_memory.rst
-Documentation/translations/zh_CN/mm/physical_memory.rst:334: WARNING: duplicate label pages, other
-instance in /home/corbet/kernel/Documentation/mm/physical_memory.rst
-Documentation/translations/zh_CN/mm/physical_memory.rst:350: WARNING: duplicate label
-initialization, other instance in /home/corbet/kernel/Documentation/mm/physical_memory.rst
-
-Please ensure that your changes do not introduce build warnings before
-posting them.
+Series applied, thanks.
 
 jon
