@@ -1,91 +1,162 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605E51F4724;
-	Thu, 24 Oct 2024 16:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7461C728E;
+	Thu, 24 Oct 2024 16:43:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729788105; cv=none; b=FZRrH/sMrkzDYsfcyFmiEEHUt4z3htYpAT3Hn1bMOI9qixHTvfuPtV0aNBjvwJ9wSdBN6Hn6qtESijO2ayuR6LvgT5Gtz/YGDQXRrrcmEaTO8a6oonjYfz6of/3PVGgehqGIt3oNdxiDFb/KYIM9dGS+CyWG+j3xX8LCIRCxAws=
+	t=1729788232; cv=none; b=awfl2eK1pxIlTe0rYPoLH2qYeTQNAWT8FJU7i0dasdgSNV3onCQklFg7EmEkNZsF5MsFtvUp+coZS1k8xBFAPZoovwcPaT7QWsmYA7UV6V80pusrWV2+nGDZ6Hkm9RwnTRqLCnJFTsrsVBdOlR7USUNVA+5PU2P3w7l5Wv3n7LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729788105; c=relaxed/simple;
-	bh=+RxJdL+Uc9rc3Lz3hS3n8/ydIcGoanJIfQXZ4yrsXoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGfPbkxEMS4IR/o6YcxDZFert0KibxSuMxWo8Q2T0a3M5bJaO/5nzvqfbgp3mUg3Bxqvxm9YQm/YTqMo19NSALQ8+w/UhUADRgwWtDdYm2JRt1NQXzGkB8clH7lsR+m1r7v5xviqxWyi1YmRGxO6HE+oJOyXJsEV4nQWoCVlgIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwBW0tNv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729788232; c=relaxed/simple;
+	bh=377I+7D8IjfExa36QBMKaFHOg3N+KTIoHiUVOFHMH5g=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LYzh/XGTZCCQVPNqsYh4048kB+MP5+Nh3EbeCo0hRYtEzydQ2p2925NxxIgBvxVdbcW8yrsRKcE6Z2lOE/8I9so1OCN81bLLcV4B819/7ImBywmwyphHMKtcX4mDYU0DFaLJCKG0hRGLRw/L+CHV0CLXx2sAp/1qxpFltxtcUwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJBjYl30; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwBW0tNv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2043FC4CEE3;
-	Thu, 24 Oct 2024 16:41:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJBjYl30"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0652C4CEC7;
+	Thu, 24 Oct 2024 16:43:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729788104;
-	bh=+RxJdL+Uc9rc3Lz3hS3n8/ydIcGoanJIfQXZ4yrsXoA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AwBW0tNvmU8/8dQHGnWIz1Dzho2YXTHQVDOaLols73cCic39JNjuLHCc453I9hGe6
-	 UyIj/ajyjtp03wZQU4YAyJoJWvj9uV330MVwVCHFV4YcVggSsFm89pzDd3CtNa+mQU
-	 ZnsKSxqNelEn5LqErbFIdIwHyRngMJjG/USSWL5BLhwd7K0GzUl6IoNuz03XEZu7vC
-	 5B1XVjQKU8uyeRVnHy1Kw1ulbtRYhij1XWjl3uWJaHBAY0ODCHRnA/Bn/NMV9t8bSG
-	 9pb9PUqOdGHcc/15gT0eI0rS2jBDWD5NKuLjjyIN64237zHUL+9WSKIyk/80aF0Y5R
-	 NuRXkwAjsqW2A==
-Date: Thu, 24 Oct 2024 17:41:40 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: iio: adc: ad7380: add adaq4370-4 and
- adaq4380-4 compatible parts
-Message-ID: <20241024-reaffirm-sizable-bb426dc1e27f@spud>
-References: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
- <20241024-ad7380-add-adaq4380-4-support-v3-1-6a29bd0f79da@baylibre.com>
+	s=k20201202; t=1729788231;
+	bh=377I+7D8IjfExa36QBMKaFHOg3N+KTIoHiUVOFHMH5g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DJBjYl30R3t7fBTQSOitfIFiLJJvl6ueAJbL00FIACZ/xTf8eSlRm9qimkg8dBEVE
+	 ZAPuVZZCNmuEsiPYfH0UzDbpb6Tc/csouPYD1aApS7kNvHjYIfn+JtesaK7LBgsbGH
+	 qKgdQGk/LKlXYfsxMOfYSCX9AlB6GPQAu9u2KEbqjEbJbkEmnfbgpxBjxxmcxsNPSi
+	 nEMQfvm/zkbjWDLNfc/6YY1jKhNZVsa1yEaF9EmsHmzj5B0Ifbg80q6zqL5bXhNTSl
+	 19OLQeeWpBiu4SILm0/pFmdUgcO+1ri4ypkB9HY2Wt9Lu+8RcwAwYPiYGwezg1gbZZ
+	 N9tC4vpsD8Z1A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1t40w9-006WaQ-QL;
+	Thu, 24 Oct 2024 17:43:49 +0100
+Date: Thu, 24 Oct 2024 17:43:49 +0100
+Message-ID: <86o73930ze.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	corbet@lwn.net,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2] Documentation: Update the behaviour of "kvm-arm.mode"
+In-Reply-To: <20241024160614.1894599-1-smostafa@google.com>
+References: <20241024160614.1894599-1-smostafa@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="tTGPlZ0/zm6LA1V8"
-Content-Disposition: inline
-In-Reply-To: <20241024-ad7380-add-adaq4380-4-support-v3-1-6a29bd0f79da@baylibre.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: smostafa@google.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, corbet@lwn.net, will@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+
+Hi Mostafa,
+
+On Thu, 24 Oct 2024 17:06:14 +0100,
+Mostafa Saleh <smostafa@google.com> wrote:
+> 
+> Commit 5053c3f0519c ("KVM: arm64: Use hVHE in pKVM by default on CPUs with
+> VHE support") modified the behaviour of "kvm-arm.mode=protected" without
+> the updating the kernel parameters doc.
+> 
+> Update it to match the current implementation.
+> 
+> Also, update required architecture version for nested virtualization as
+> suggested by Marc.
+> 
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Marc Zyngier <maz@kernel.org>
+> 
+> Signed-off-by: Mostafa Saleh <smostafa@google.com>
+> 
+> ---
+> v2: Update nested value also
+
+Thanks for that. However...
+
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 1518343bbe22..d5b771e5cb5b 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2740,12 +2740,16 @@
+>  			nvhe: Standard nVHE-based mode, without support for
+>  			      protected guests.
+>  
+> -			protected: nVHE-based mode with support for guests whose
+> +			protected: hVHE-based mode with support for guests whose
+>  				   state is kept private from the host.
+> +				   In case hVHE is not supported in hardware, it will
+> +				   boot with protected nVHE.
+> +				   nVHE protected mode can still be forced on VHE systems
+> +				   using "kvm_arm.mode=protected arm64_sw.hvhe=0 id_aa64mmfr1.vh=0"
 
 
---tTGPlZ0/zm6LA1V8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I probably didn't explain myself very well. I would like to avoid
+mentioning hVHE at all, because this is pretty confusing (and really
+an implementation detail). Instead, we can talk about VHE/nVHE, which
+are real architectural features.
 
-On Thu, Oct 24, 2024 at 10:16:56AM +0200, Julien Stephan wrote:
-> adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS) are quad-channel precision data
-> acquisition signal chain =CE=BCModule solutions compatible with the ad738x
-> family, with the following differences:
->=20
-> - pin selectable gain in front of each 4 adc
-> - internal reference is 3V derived from refin-supply (5V)
-> - additional supplies
->=20
-> To select the gain a new patternProperties is added to describe each
-> channel. It is restricted to adaq devices.
->=20
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Also, I just realised that we can use your command-line magic for
+downgrading from VHE to nVHE in all cases, so I'd be suggesting
+something like this:
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 1518343bbe223..2bb19f1331fed 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2740,8 +2740,9 @@
+ 			nvhe: Standard nVHE-based mode, without support for
+ 			      protected guests.
+ 
+-			protected: nVHE-based mode with support for guests whose
+-				   state is kept private from the host.
++			protected: Mode with support for guests whose state is
++				   kept private from the host, using VHE or
++				   nVHE depending on HW support.
+ 
+ 			nested: VHE-based mode with support for nested
+ 				virtualization. Requires at least ARMv8.3
+@@ -2749,8 +2750,11 @@
+ 
+ 			Defaults to VHE/nVHE based on hardware support. Setting
+ 			mode to "protected" will disable kexec and hibernation
+-			for the host. "nested" is experimental and should be
+-			used with extreme caution.
++			for the host. To force nVHE on VHE hardware, add
++			"arm64_sw.hvhe=0 id_aa64mmfr1.vh=0" to the
++			command-line.
++			"nested" is experimental and should be used with
++			extreme caution.
+ 
+ 	kvm-arm.vgic_v3_group0_trap=
+ 			[KVM,ARM,EARLY] Trap guest accesses to GICv3 group-0
 
---tTGPlZ0/zm6LA1V8
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+>
+>  			nested: VHE-based mode with support for nested
+> -				virtualization. Requires at least ARMv8.3
+> -				hardware.
+> +				virtualization. Requires at least ARMv8.4
+> +				hardware (with FEAT_NV2).
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZxp4wwAKCRB4tDGHoIJi
-0hqyAP9qoxBMtJ3wbKnGt0HewRy1sUgGzE19AN6j1of66R7T3QD+MwK6jZ/1P4O4
-vAS/uI0mNcKjigMR3EITs9ya5GG83Ac=
-=RTMc
------END PGP SIGNATURE-----
+That part looks good!
 
---tTGPlZ0/zm6LA1V8--
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
