@@ -1,114 +1,120 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F031F4724
-	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 16:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E983139578;
+	Thu, 24 Oct 2024 16:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729785990; cv=none; b=WXxrrZ5rCI7GDFnK+LigasYyMmNGvXGM5A101TmJ3ot8f+PHTE41h0LjrItjIB2TZa8x9yExgStrjO20QTMx5hXHi+Nga/rRgaSYHq+uIHosvOHSCCYuvjDJZ2EXfQZGCuj1WssbLa8gTXSq8HAgOUTX9dhD8g0MjGuFJkLwnHY=
+	t=1729786331; cv=none; b=mPBgkq9Bim+M+UgA34LLs4bV3qRadpqs9QSwXkLvBZEvtVY1nbtx0VuSVIg5tzSlWRIgwNaXpzXWBGtFubGvDu9dFbaloHOZe803NgezqIZQexl/CARteAHOW1fwXu/ebL3DHTlnaxfVnMvUEymQ1Jr6ECp3N51hd0hcsef2MDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729785990; c=relaxed/simple;
-	bh=WAvb8deVOd/vKnE5XvJDA/BfDiTCU+46fRIbfkvknyY=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=iCPQpTLJwSz76cix4B9pxkzN/6HxU9wNOql3u8AlPvXIVF5O588ewJjUXMdP1qsJ8AjnTViwtHFD0+aDI5lCSucYv7ct3tDGijN78kU59xwkPbdCE7y2oHRojD4BBX9XCDtVRUv/Ll+xccfDz3oVxt5ofVE4uYnSkkEIOGe9ZuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QtPEr96e; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
+	s=arc-20240116; t=1729786331; c=relaxed/simple;
+	bh=gdlisyXK2+659MhL+7tq7TctbDgTxLnZv+WJgTIBhyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lLMIUCXYFhCnKd2SXvqi/TMTBgWWy2yIcoBAqRwuhGlavxga6sZdLLZEJJWY2rLAexae16en9DUD83wmeTRq2Do7t9IS4cFzcVNsrJhAxM3Jb0Zm77JBsarN+5EwmP47UFxmO8JNTOCqXAFGdSXM4DbsKkvyQF/Mp6u+z4vL490=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=glQO7erl; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QtPEr96e"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e28fc60660dso1850126276.0
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 09:06:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729785987; x=1730390787; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=8Vlh+OWPEJjqhnR1Dpqe4iO+ZlrNapO4KnJxZYyLlWk=;
-        b=QtPEr96eESVyIfCMbLKVlQvlRXGJ8Cqsik6dxeNVdi0Mt2xJCh/sFjIvI9O4md6uRm
-         +NqB6F136EbU7VhYQz/rajJelyxyfe1qPWQgRAe+uU4NLP+KjPDajsT92acWryTxOUUh
-         t4+U5jvBoTTiaZRYHxI9ylrqYJJmS1Ub9MF3bIFgGt8B/hBakiVK17S5MKzHlkMiF49C
-         0Mg5Uveui0TO7kChpKcrUanvU/Kgh3v2UZTabA5JMfLIYBLdOV7as5To/HT7ToXZBb7/
-         WBRVRwP9Y7hTY3K2CMwyH7R/kWaJzsqhnc58ngZpX1cduQQI9RxAbi+CXqfjWQwRqk5J
-         7JSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729785987; x=1730390787;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8Vlh+OWPEJjqhnR1Dpqe4iO+ZlrNapO4KnJxZYyLlWk=;
-        b=ZtCKGelOSvPPLKaOZyCYn+x4RavWUHIaRbFP6gI1LMpRIKIe+oftKFbwl536hh6PNz
-         UywOtbgAz6VlD7MHsoph/AOwZ1DfMBtvt7ixiY9eI0b1+PhxEln/KnAKb9WJjXkm8SfA
-         EgqXpCmMr6+2mAHCm4bdE/7fuAgz10wefP1QldWTVsNXypdPrdCedXjdmLgdbj5R62uY
-         Tzu816d0Gj/Y1VVvC9icR6zH6EIsS7IVnLMYOUPC+wdgBKx/r9CBVbgceQrjruQeVYgf
-         pHnwU5MnP3YAdaOpAec5NIG+x/0VfWX8hhyVR/14BZP3r3kme4sWVDbT5mJVmmiiWSnm
-         91Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCWc4gr5DGwQzcZqesacM3FeFahrVO2o6eeD67TNAvr1eKiMG2rLs/PU286denRK2CWivzItiHUbX2I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzr/Iwpc5nKYspszT8YR8AzN7CPbpUB6LltiL5XFxT/ILxyGp+O
-	SHkYLboTVTiinOnSzNuMGX1MceeQXzWz7kilKe5Q/ZA71cPPksgnNjFE/kXRFN6Xbh3oDpRxD2K
-	2OeVFCdgwwQ==
-X-Google-Smtp-Source: AGHT+IGaTNB2cxvpZfiLTZ3lOLyBwhFAf/NyceFQfu/ZPNy7VLbkaYQkYEfTc8o/kTdRiS7SjTcDccubMooCLA==
-X-Received: from mostafa.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:333c])
- (user=smostafa job=sendgmr) by 2002:a25:b113:0:b0:e2b:ce2f:787a with SMTP id
- 3f1490d57ef6-e2f2302ed44mr7753276.3.1729785987546; Thu, 24 Oct 2024 09:06:27
- -0700 (PDT)
-Date: Thu, 24 Oct 2024 16:06:14 +0000
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="glQO7erl"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C888620004;
+	Thu, 24 Oct 2024 16:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1729786320;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XB3VRwVYgwtYy/jngMFSX+SYdmqp53Fh8T0vpxq9TpA=;
+	b=glQO7erlFzg/9GexBOmJtAzZDGVHViXGzDNZwLSCOMixc5uIP2ML1vdj7uuHno7ZVZEQwA
+	bXe+/mGxzBJOtod0ExZkhLemJ3xAlaWuKFGIQDgzdT4hUL7yn65x2yU04hxHQCN5abMs9o
+	P57J5FRwo6KzVXVGbc0LHzuaoz7n8dYiyiQmolsmd7XokC6/h6PFj9VEP/k3ED+tDbH2g1
+	Xu4nzx8u4i2q/1Zpa9Nh+QPhkM4miCM0eXb8B3TMMQZNVucqn7jRFIJ1pIzHsIBPyx6F2l
+	RqlHQRgaLHwdqZWGYP1bytHMi/RwG3T54yw3rFNz+JsXbQyLjMPZVzCtUYhb2w==
+Date: Thu, 24 Oct 2024 18:11:57 +0200
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Simon Horman <horms@kernel.org>
+Cc: Kory Maincent <kory.maincent@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH net-next] Documentation: networking: Add missing PHY_GET
+ command in the message list
+Message-ID: <20241024181157.261e3194@device-21.home>
+In-Reply-To: <20241024152816.GA1202098@kernel.org>
+References: <20241023141559.100973-1-kory.maincent@bootlin.com>
+	<20241024145223.GR1202098@kernel.org>
+	<20241024171802.4e0f0110@kmaincent-XPS-13-7390>
+	<20241024152816.GA1202098@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.47.0.105.g07ac214952-goog
-Message-ID: <20241024160614.1894599-1-smostafa@google.com>
-Subject: [PATCH v2] Documentation: Update the behaviour of "kvm-arm.mode"
-From: Mostafa Saleh <smostafa@google.com>
-To: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Cc: corbet@lwn.net, Mostafa Saleh <smostafa@google.com>, Will Deacon <will@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: maxime.chevallier@bootlin.com
 
-Commit 5053c3f0519c ("KVM: arm64: Use hVHE in pKVM by default on CPUs with
-VHE support") modified the behaviour of "kvm-arm.mode=protected" without
-the updating the kernel parameters doc.
+Hi Simon,
 
-Update it to match the current implementation.
+On Thu, 24 Oct 2024 16:28:16 +0100
+Simon Horman <horms@kernel.org> wrote:
 
-Also, update required architecture version for nested virtualization as
-suggested by Marc.
+> On Thu, Oct 24, 2024 at 05:18:02PM +0200, Kory Maincent wrote:
+> > On Thu, 24 Oct 2024 15:52:23 +0100
+> > Simon Horman <horms@kernel.org> wrote:
+> >   
+> > > On Wed, Oct 23, 2024 at 04:15:58PM +0200, Kory Maincent wrote:  
+> > > > ETHTOOL_MSG_PHY_GET/GET_REPLY/NTF is missing in the ethtool message list.
+> > > > Add it to the ethool netlink documentation.
+> > > > 
+> > > > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> > > > ---
+> > > >  Documentation/networking/ethtool-netlink.rst | 3 +++
+> > > >  1 file changed, 3 insertions(+)
+> > > > 
+> > > > diff --git a/Documentation/networking/ethtool-netlink.rst
+> > > > b/Documentation/networking/ethtool-netlink.rst index
+> > > > 295563e91082..70ecc3821007 100644 ---
+> > > > a/Documentation/networking/ethtool-netlink.rst +++
+> > > > b/Documentation/networking/ethtool-netlink.rst @@ -236,6 +236,7 @@
+> > > > Userspace to kernel: ``ETHTOOL_MSG_MM_GET``                get MAC merge
+> > > > layer state ``ETHTOOL_MSG_MM_SET``                set MAC merge layer
+> > > > parameters ``ETHTOOL_MSG_MODULE_FW_FLASH_ACT``   flash transceiver module
+> > > > firmware
+> > > > +  ``ETHTOOL_MSG_PHY_GET``               get Ethernet PHY information
+> > > >    ===================================== =================================
+> > > >  
+> > > >  Kernel to userspace:
+> > > > @@ -283,6 +284,8 @@ Kernel to userspace:
+> > > >    ``ETHTOOL_MSG_PLCA_NTF``                 PLCA RS parameters
+> > > >    ``ETHTOOL_MSG_MM_GET_REPLY``             MAC merge layer status
+> > > >    ``ETHTOOL_MSG_MODULE_FW_FLASH_NTF``      transceiver module flash updates
+> > > > +  ``ETHTOOL_MSG_PHY_GET_REPLY``            Ethernet PHY information
+> > > > +  ``ETHTOOL_MSG_PHY_NTF``                  Ethernet PHY information    
+> > > 
+> > > I wonder if ETHTOOL_MSG_PHY_NTF should be removed.
+> > > It doesn't seem to be used anywhere.  
+> > 
+> > We can't, as it is in the ethtool UAPI. Also I believe Maxime will use it on
+> > later patch series. Maxime, you confirm?  
+> 
+> Ok, if it's in the UAPI then I suppose it needs to stay.
+> 
+> But could we differentiate in the documentation between
+> ETHTOOL_MSG_PHY_GET_REPLY and ETHTOOL_MSG_PHY_NTF?
 
-Cc: Will Deacon <will@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>
+Yeah it was a leftover from when I implemented that, however I do plan
+on adding this notification though, so if it's OK for it to stay that's
+perfect as it'll get used.
 
-Signed-off-by: Mostafa Saleh <smostafa@google.com>
+Then for the documentation, we can specify "Ethernet PHY information
+change notification". This would trigger when the PHYs are appearing on
+the topology.
 
----
-v2: Update nested value also
----
- Documentation/admin-guide/kernel-parameters.txt | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1518343bbe22..d5b771e5cb5b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2740,12 +2740,16 @@
- 			nvhe: Standard nVHE-based mode, without support for
- 			      protected guests.
- 
--			protected: nVHE-based mode with support for guests whose
-+			protected: hVHE-based mode with support for guests whose
- 				   state is kept private from the host.
-+				   In case hVHE is not supported in hardware, it will
-+				   boot with protected nVHE.
-+				   nVHE protected mode can still be forced on VHE systems
-+				   using "kvm_arm.mode=protected arm64_sw.hvhe=0 id_aa64mmfr1.vh=0"
- 
- 			nested: VHE-based mode with support for nested
--				virtualization. Requires at least ARMv8.3
--				hardware.
-+				virtualization. Requires at least ARMv8.4
-+				hardware (with FEAT_NV2).
- 
- 			Defaults to VHE/nVHE based on hardware support. Setting
- 			mode to "protected" will disable kexec and hibernation
--- 
-2.47.0.105.g07ac214952-goog
-
+Maxime
