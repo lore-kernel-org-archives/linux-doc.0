@@ -1,249 +1,463 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15B31F941A;
-	Thu, 24 Oct 2024 17:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729791464; cv=fail; b=gcTR1HuV8EIRqIB0mpxEScfgLQE5V9ro5nSFY6q04+sZb795BfgU3RBtwj1Pq2GZ57MfgF2DAWPS4WHSMc7QnLAD7tgiWUFOza9u19tXvHvcCaecK28l6pRhmLHmvZhTNTUA3TX8DFpspXQ5+512J/l6UpW79SbZYHszYUjUZfE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729791464; c=relaxed/simple;
-	bh=F2EQomFY2bl1pSR6YoFq6sngQHz3xtpYBOMkeDh83o8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=fIkSfP25ufkSJhlRKGCeDEzv/K8zrm2JD2fNy4XrjuwZxOIESe5L0WaTgRsKwIqWiqSs8bX68gNW9aGqxMVty7ey4mlAHgJBPjs6+yrSRnrXA5S/JBUWf7MI+qsjuLdjYpnzQfXIbCI6hO1ABMBSUJJZY60rLAKjN7o5iEFmbzU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5Pz/GMx; arc=fail smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA2C1F76A4;
+	Thu, 24 Oct 2024 17:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729792103; cv=none; b=DWgy4AzcjJNTj4SUK/gZ1xhXgKvJxgcptszF7bXYrk/IuaMZMK902tF1cMnGta3yLUe/9gmVu+q34BRFb9RCmGCP6fun01v2a+JQyN1aeuM2yalSWMB/IH7ubKjU0plqLz4H6xB7Owo3SNSlfEsrAASY/Xd863uz69v61f3ZhyA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729792103; c=relaxed/simple;
+	bh=ujWOwFhevPGtAdKmvCpae64ZnMyD1CiFuRqa6/pqfGU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lFqU3JetB4w9HxchxoLK04eZ/xV8fOeWm9Blu/xw3jJbXve3E25gCwFMfMOXL97znyFMdXVBQKpHt9NCypTa3e+nZQmIgHy2vIY/n6GgNIskycM8UVDgOkSuTO+5U/Tj9IUN2EduhHyzhHFaltqMo6gC/P7LihOdgoJ/9P+hLqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kpcXc9Ec; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5Pz/GMx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729791462; x=1761327462;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=F2EQomFY2bl1pSR6YoFq6sngQHz3xtpYBOMkeDh83o8=;
-  b=D5Pz/GMxLr34OPZQUKokwhzsUYR7ljKyaIb36SuNlYNT00BjvrnP3l57
-   PJq0tbMXLd8bb/KBUQu/vQLGtHZGRkRvlLo0XMxbNnwK5aRl7gVq5sJbI
-   6ceo4o+xancwCM0ozbEqGDgu8eNcGdfNrKJju8ZmRJHtgBq/Sp11/ej3s
-   GGbBTfm+OIW7BZz0rE6RKrzcdAW7tdfHoR4mnM4FHqkgzolg8Z3eTShNw
-   SneyHkiUfqGfvusB5c3nW7gpAE3HH5J3ndKYYbIyH2jGNXIDAfX4zR4P7
-   /FiClzk6WMNheMc1+ve9sz37ZdDnu1/PyTtTB0B8r8zJ5ZluY75QVOf4U
-   A==;
-X-CSE-ConnectionGUID: 19B6voZrT/CltpQnPtnpVg==
-X-CSE-MsgGUID: cLCtWsweSaOFyxXd7fyx+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="17068606"
-X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="17068606"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 10:37:42 -0700
-X-CSE-ConnectionGUID: NWkfmm9wSrK53Q7/UDlrtQ==
-X-CSE-MsgGUID: PmcEsbOhTseyhDwfneHrMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="84631449"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 24 Oct 2024 10:37:41 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 24 Oct 2024 10:37:40 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 24 Oct 2024 10:37:40 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.44) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 24 Oct 2024 10:37:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QzJTpn0nrC9w8A0OHjyz8sRj83K5dsjC1axgwmQm3uD2D3zF4sZ4HK/bysFgKHXMoBOEX7rWvUefrCFdckg8dmV3T7F6H71kyUm2XRxrqZ1JAc9C5JymQ0cuhg3qZh19gFDFfvYNdnHVwfsMIxim8txE2q7zyaCWkHjp9v/yWdfacJrZOCLg7AcQFL+VyUz3fZvLO4UogeoiUBdeKZmkyolnxhfILT6jhhxjbs3DUW+Zzh+iB1mU8ZT4GWzp+40ZuBrwnX2jeV1bqQQCh3HF+riVF9X3SZUffxvPFjjJj+zIBKczPhtP/hUVvdc8Sy7vhn/QSw0LhfNtnk6CgvCOuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F2EQomFY2bl1pSR6YoFq6sngQHz3xtpYBOMkeDh83o8=;
- b=yZ7pu5OEhc6r+55ynFyOsjRU2drxZWpvsmASmhVU1DmLJXHZg9rkR7vAt35i+SIegdwq5fGjogdCMnJM5y8rvFiK7eDm7yXNxH4QW9n+lygsVSou2B2pQTTqNGb3NzVWBseJOPtOOWmKJXev1dCQVAZIYslGhCvWIl9UWt7feUKTZdrQnHu5bdd2SK5DtgUsTxZDWxntxXX0w6ppTRCXZmcbGJ6KYc/RO0F9wryZiwymuMCK7My5dialqRYBgoCXVY9RHEHRb4kzoWIAABCwCxPNP2UTt9Nn/23d4K4wdMgl7OQoK1s3OUCJmzMN5Bm0Q7w947SUNFs6fFc6Co1qRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by DM4PR11MB6429.namprd11.prod.outlook.com (2603:10b6:8:b5::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.17; Thu, 24 Oct
- 2024 17:37:37 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361%4]) with mapi id 15.20.8093.018; Thu, 24 Oct 2024
- 17:37:37 +0000
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "babu.moger@amd.com" <babu.moger@amd.com>, "Chatre, Reinette"
-	<reinette.chatre@intel.com>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "Yu, Fenghua" <fenghua.yu@intel.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
-	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "paulmck@kernel.org"
-	<paulmck@kernel.org>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
-	"tj@kernel.org" <tj@kernel.org>, "peterz@infradead.org"
-	<peterz@infradead.org>, "yanjiewtw@gmail.com" <yanjiewtw@gmail.com>,
-	"kim.phillips@amd.com" <kim.phillips@amd.com>, "lukas.bulwahn@gmail.com"
-	<lukas.bulwahn@gmail.com>, "seanjc@google.com" <seanjc@google.com>,
-	"jmattson@google.com" <jmattson@google.com>, "leitao@debian.org"
-	<leitao@debian.org>, "jpoimboe@kernel.org" <jpoimboe@kernel.org>, "Edgecombe,
- Rick P" <rick.p.edgecombe@intel.com>, "kirill.shutemov@linux.intel.com"
-	<kirill.shutemov@linux.intel.com>, "Joseph, Jithu" <jithu.joseph@intel.com>,
-	"Huang, Kai" <kai.huang@intel.com>, "kan.liang@linux.intel.com"
-	<kan.liang@linux.intel.com>, "daniel.sneddon@linux.intel.com"
-	<daniel.sneddon@linux.intel.com>, "pbonzini@redhat.com"
-	<pbonzini@redhat.com>, "sandipan.das@amd.com" <sandipan.das@amd.com>,
-	"ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
-	"peternewman@google.com" <peternewman@google.com>, "Wieczor-Retman, Maciej"
-	<maciej.wieczor-retman@intel.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "Eranian, Stephane" <eranian@google.com>,
-	"james.morse@arm.com" <james.morse@arm.com>
-Subject: RE: [PATCH v8 08/25] x86/resctrl: Introduce interface to display
- number of monitoring counters
-Thread-Topic: [PATCH v8 08/25] x86/resctrl: Introduce interface to display
- number of monitoring counters
-Thread-Index: AQHbGybdEonESjxpIEK+MSvEee6fXLKAG/3ggAAYpoCAAACqQIAAGxsAgAADIiCAAB0cAIABl1/agARyzuGAAAmagIAABNZQgAAc2oCAAASSoIAAB/gAgA+Lh4CAAAFzsA==
-Date: Thu, 24 Oct 2024 17:37:37 +0000
-Message-ID: <SJ1PR11MB6083DC9EA6D323356E957A87FC4E2@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <ZwcIkf_oy2oKByNu@agluck-desk3.sc.intel.com>
- <8ceeb50a-70d7-4467-b7c1-4f62b1a1eec8@amd.com>
- <SJ1PR11MB608381B9DA3AE26749070BE8FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <0fedcbd4-487c-4d55-8151-69dc34f41f1d@amd.com>
- <SJ1PR11MB6083FFA19F9387F21C058A09FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <d1986f3f-9db7-4ac9-9fea-56878548ad61@amd.com>
- <SJ1PR11MB608382EB9F40FBDC19DF71C4FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <1baa07f6-0ccc-4365-b7b8-09fe985963cd@amd.com>
- <Zwlj5TQxZphcuDSR@agluck-desk3.sc.intel.com>
- <8af0ce3a-1327-3ffc-ac5c-e495f9cdf5d0@amd.com>
- <ZwmadFbK--Qb8qWP@agluck-desk3.sc.intel.com>
- <ee7771e4-3768-456c-9990-fcd59b4f74af@intel.com>
- <0ee2e67d-c1dd-489e-beef-1f255c5629d6@amd.com>
- <SJ1PR11MB60833A1571413763DE36B538FC442@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <23b5a3d2-91ac-4467-9db0-3de483cfacf9@amd.com>
- <SJ1PR11MB6083583A24FA3B3B7C2DCD64FC442@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <799f514f-b06e-46d9-bfe7-dfd986aef166@intel.com>
- <3b7ca34a-764d-458e-b28c-113dc5419a4e@amd.com>
-In-Reply-To: <3b7ca34a-764d-458e-b28c-113dc5419a4e@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|DM4PR11MB6429:EE_
-x-ms-office365-filtering-correlation-id: d3069b3a-5415-4b27-c039-08dcf4528d73
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7416014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?MGREelRMRWlkVlVDTU04WnNyUTliL3lRVHRZRVkxYWJIVEM2NFlDMUdkREtl?=
- =?utf-8?B?ekpJVDdENlF4Tmk3ZkxVWVlXMVZCM29nWFBiN2ZsRzZ4emJVN0g2K1prRGRk?=
- =?utf-8?B?VFYvMUJGTmhIek1TYndiamhGVUtmTHRseVQwRmlCYjBRL1pTMFk1Z2xUY3ZV?=
- =?utf-8?B?NWgvbzhtclpZd2hKWlRhR29xcUZmUXRQaUx3NWtEajExNkRrMGQ2cnVUSHdM?=
- =?utf-8?B?U1FpUkxHUVJ0S1NFSWhTN3gxaEtJV3NGOFBUbGhRSTAyQ0hxeEUzQ05EdC8r?=
- =?utf-8?B?ZFlaaHJwc2pITFRJQlR0VW5TUzArVVAxRldmVUNDTC9RMW9RblR4SXFjc29h?=
- =?utf-8?B?aFN2dWdEeWtPSDBtYVFEUlQwR2FVY1hGS0pLUnVJVVNmRmhWVFBkUVFhczIz?=
- =?utf-8?B?dlhpOGhDam1OVTBvbUh6L0tRTjhLRE53RGMzNW5FQmhYeU9FSWdtSEJCVXlO?=
- =?utf-8?B?cHFSUmhxNTdjVW8rT3FFM2lRVjJwZ21lUHFsWnYxekVFUGpyTUFlR1NQbG1C?=
- =?utf-8?B?YzBGelNQK21UbnkyOXJaQXNGclo2bnJTKzNVdEpYYlN4N0YwTW1vS0Y2eWd1?=
- =?utf-8?B?d2VHekFVRTFrVVhwY2p0aHNXNWF1bDg4K0M2UlgydUZUOVFaa2U2SllzN0Vz?=
- =?utf-8?B?NDFWN0JVYUY1bHU5SXk2QzNKK2p5MVk5blZ0VEZQTlltSllqemdDRmc1MXhy?=
- =?utf-8?B?OGQveTdpb2hYM0RuNlQxM1pRem5nRHpDSXpTcFFYOWhtRFFYUkxPemRJQ2xE?=
- =?utf-8?B?cW9BWUJhcll1TStEY0NONHhWNXBOd3RUTFVLZ2Eyem5ueU9OZG9lTjB1eFMv?=
- =?utf-8?B?QmpCNWxxZkROYjRQRm1UQldraW1nRm5peS92WUtlMUpZNU5oOWFpekdMSWdS?=
- =?utf-8?B?djRZYk9UcHU3M2liaW1CT2U5M3g0QjJQRVFTazJ1V0xHbUxNSUxubXFkb21m?=
- =?utf-8?B?OExieW05M3FDdlFVakpWVmFscmtscDNwZjZvY0VmSHc0NG4wYjdNMkM5WnNM?=
- =?utf-8?B?ajBWWW9oNjNQT09EaVM0MjhaVnVmVkYyQVFQZlh4T25NYStOcUFVSzhHaVJB?=
- =?utf-8?B?NXh4NExXQlI2K0ZUbnY1akNEcTZTbktrN3QxUVo5bU1NWVQ4K21oOGJQVVM3?=
- =?utf-8?B?RkQ2WHVPZ3NHSzlQMWFUa2hJY2ZVZDdyRytzZks2ZVB2ZHRKNkxLSGFDT3NR?=
- =?utf-8?B?bjdQTzh1WHRKa05mdFptUmFLcXFUcTFTQytyRjRUMWtUaG55U2FlNThtcjNF?=
- =?utf-8?B?SHNXS1pxSjNJMk1ra28xYlhSd1dDbnk1cSsrU09jYWxOcGhDQkx6MU1KVlNV?=
- =?utf-8?B?dnJOSEsyLzRSRDhuUUFEdkpZN1lna3lwNGhnSzRpMjVrRnJ1UDJHVEttckIx?=
- =?utf-8?B?MFhjRnRYQnhoYm41TVZmd05hVnkxeTAwWTJFa0hxZGlJNTR3ZW53M1g2NG8v?=
- =?utf-8?B?dU5LU2M3TU1yUzVSUEJNd25Rd1Y3bmlrMjczRWxTNis2aGdhdTVTU3R1Smsy?=
- =?utf-8?B?TFZjL1VBRVZnT096dzhYZGlJc2tLY0J4Ty8wMzRXRi9nalQyQUp1aGEzUDFP?=
- =?utf-8?B?VVJsYUZnYnNuQ0sxRWxLYVRyT09tU21KTmVKdk5OT1N3ZG9lY01kUGhMQW9J?=
- =?utf-8?B?YWZNcmxiWm1MbUZYcE92bFZ3emRGcWNPWkxVSVRNQkdJRnV1R2w3Rm1jbVlN?=
- =?utf-8?B?cGFpdW5tU0x6SXp6SWNsT3laeG1IbTJNT2NyMUprNzBpbWZWbjlkOVhVajVO?=
- =?utf-8?B?b1IzQnFCelN3YUpFWVNmSWhDM2UwTkJyYWpyZmNtdk9LYzNpUjFmdGI0bUhq?=
- =?utf-8?Q?SGF6XsGHJI0veVi0M2RYUYtlIaottseKeFxUs=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bGN0enFjSzNNWUU2NW56eVZVODBMVzRPL3pZVkY4YnNLdENuTGNJSEtyaVQr?=
- =?utf-8?B?TEx1emxhaE1MOE1ieGF6Q2I0RjdhY2w5aVA2WnEzc3AvOEtlOXBwSE01UWll?=
- =?utf-8?B?b3d5ZTlkOTV6TVBVK2YxUE1Zb1lrdHZlamJHSUxuNjNUelFIRGliQys0dEdu?=
- =?utf-8?B?K2pFZm9EYkhpbGlIMll3UC9UOUFaeCs2Tks0YXhRVDZjYklabEhSMDdsVzZP?=
- =?utf-8?B?RHdPa1AzbUY1U2NROUQxRUY0V1Uzc0RXUFEyK3daYUZpNmZTZUtVenR0MnJX?=
- =?utf-8?B?bkl2eDZ4YTB3eFJpdTUrS0g0WUExOVIvUWtmYXVUcy9LZ0syK2NBU0V6VnUx?=
- =?utf-8?B?dG5vc3dCTkQzcmdIVWFFSmg2TzJuN21YbDNmdDMyRzlDVTBUMnNrdlJ0YXhm?=
- =?utf-8?B?YTlTbURZTkxOTUg2Vk1uZHV3SXJxRkxJWTZYKzVTcGJ5T0xoQnJLVS9kTlJw?=
- =?utf-8?B?RjZ4ckZzdW5Hd2ZLQ25mK0RQZThrenpnRHlMaWVGL1NRcFZzMGdKQnM4M1E0?=
- =?utf-8?B?Y2RmZ2duNXFaZTRTelZBL05sMDRQZlVmNU9VTkhtZ1JlSWI5WS9IRmtSTXdG?=
- =?utf-8?B?NUMweVNndXNrWnJBWDhJYzBxTkxNazlSMjRwZjdrRUN2dUVxNk9tVVpSYXI4?=
- =?utf-8?B?R1I3cUMxaFBKMlNJY3JNWTM3STRqUnYyY1dvMStpeCt4ZXBHcVl6Qm1MQ0FJ?=
- =?utf-8?B?WHVCU09SMUZYMlY0T293M1lUc2RvUDZDYXpNdHZldll0T3RZcldLOTR1RVVU?=
- =?utf-8?B?aG56dkEzUVYrMXZ6dlpVRTFhL1ZrZGRxM2RFcW12L2lUL01veDJaZGdKYzhk?=
- =?utf-8?B?MWRSTTBtd0ordUFaNDNhNkZkcnBBNlM4TW1VK2JueHhqYXAzb1lWNzExbjhW?=
- =?utf-8?B?TnF3Um9vQWpzeTJROEY0bGwyNktHZXFHMERPQVYxZHkva3FLQ2x0cGoyOUo1?=
- =?utf-8?B?WWgwWXJTaUlzT3dic3ppL0xPTlNtSVFMZ1pPY2VqcTF5MFdNWVhReFlCK3J0?=
- =?utf-8?B?bGRhVEhyZEpUQ1BjSW1wOWJjRy9BcFlxRjVZSldGRlFLMnVTQ2JJdmFSWHBq?=
- =?utf-8?B?V0djcFNQRUxqejBtQzZtcS96cW5BTWFnd0tBMi8rTUxkNVExTGVRbDVSVThU?=
- =?utf-8?B?dk9UNHpwYjVaY0VOSS9xeVBNUmFEanB5SzFRS2ZERTlNMmQ3M2Y1UENrRnQz?=
- =?utf-8?B?ZzBNQlRaUXpUM3VJVk0xYUxtd1k1d0xEQ053aDJoWTBXaHBLSXo4bE5yZzh0?=
- =?utf-8?B?dVVCbnVUaEpMcnhRMHFKQUdKcWdCZ2lSUm0wVmIrM2I4WWJGREpjZ3NuU2tt?=
- =?utf-8?B?SUJIQ0ZsNEdNdUdWVG1BWnVMWjB0UTZhUG5hQjl4WHBEZVQwdzlVeVVxc2Y2?=
- =?utf-8?B?OFFjbWg5aURld3VHOHNyWlVoYUJUb0NJOFl0b3VzdFRvQ0R5Vm1NVFQ5a0FN?=
- =?utf-8?B?eFdWOStSTmZ5SFZtZG9hN1dLL0xqamhMR092bjZhODA4R0p3aVBrUGxEemt1?=
- =?utf-8?B?SGNZVWU1NnlEd2dkNmI0T1Btb0dtbnZLK0NWOHhXSytTN2g1SXdIc0JQc0NG?=
- =?utf-8?B?bHl2MzYyQlRaQkVDRi9FamdqWlJxd1h1bHZUa044d21xUUI3L1hONUF6MjVl?=
- =?utf-8?B?ZDJNa1l0RnorK1V2MW5XMVdCK2RCSmJ2WXlWQTBPd0U1MTZ0L1VSVTR4aHpG?=
- =?utf-8?B?VERQSnFKOVZsa25tb3NQMEcvYjQ5ZXpNY2dKTlN6UGVzUk1sWVo3YjBaSjcv?=
- =?utf-8?B?ZEE3eVlrdWlPL1Zuem1QdGFiZkprbnArTkxtUUttMG5tcTF6RUEva1pDSlkx?=
- =?utf-8?B?Y0RRK2F2MUh6SjVQR0RDa3NaSk1OaWtIN204cVQzNXNNYzlFMmdvWTAzQ3Z1?=
- =?utf-8?B?bkovZWRiZURLRVdMOWlaUUl6L2xKUEZhdUJnZXM3eFFuUXpMNWRRWGxwV3ls?=
- =?utf-8?B?ZVoxTHZ2d1Zha0xEZXFBU1hDL1p6am44UDdDMVY3QWgwbnA0VUlvQUs2VTR5?=
- =?utf-8?B?VkFqWDQ2cWFlcWxtYUNPZVIxN29RcUxJa2lCckcwL242NFBGK2FnK3ZVOXFk?=
- =?utf-8?B?RUFPNzBIeXVhSkRjUjdlRVNMckcvOUUrTGlsVmVQQ1dYc2IxYzBHMytoSFhO?=
- =?utf-8?Q?gPTaNh0ws+4i5MSsM0euFfQRp?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kpcXc9Ec"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7e6ed072cdaso833129a12.0;
+        Thu, 24 Oct 2024 10:48:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729792099; x=1730396899; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=W1P2Xthi+y8MhLx+1fMRF5RwjBOFpxd6+imzhla2X0U=;
+        b=kpcXc9Ecs0NhRM1N71m7J7UU2wWMBoewaYeJfHsX/uOZOee3xXU2MIie5/Gkn67SLv
+         /srr0cqyIXtWSYk98AHJHsgibVQpQO7BCelUf1EkKG2Fh/KMDt/b+EZrqyhWw8XlWryJ
+         muSsJCqbt9PEyFHUY1/+QveQOFT+CTRNd478r6ZHuF0T6oDW8YVzPTOnrHriGerobhvN
+         MLkSLA0FVM3i271SXGlQ17FyNDL975EM1o3q9JStY7Xgl7Cl0lOrABTHkpK/VnrE9tDm
+         x1c7Dqc9ZX4VkeS+zQbXRgwJ2LLWZQ9EnGVmHkuxrV0A665ztltlQQg2u+3l7/AhiTTm
+         J4jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729792099; x=1730396899;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W1P2Xthi+y8MhLx+1fMRF5RwjBOFpxd6+imzhla2X0U=;
+        b=sOIEa5zAyeKXmy1LZxcYuxJInKKdmO0EX4ZIfQ6sDmOSAcGvOJVyNvM7/099YJhIHe
+         TAHNAbwcf6rph6J/NTrEy1XXKww4nJziHrLD4X9iuRCkOHpB/XbHXIUOZ6bl2uYFFk8r
+         DT2Fhv+gJIkFJy22yo0zKfMmJNWQnCTTfafV1gNXYGvVmRGYv7jDV4Zmb0AoiuLm/4ao
+         mXjglFhydiQeTIWhq/+0M8aWHayw/citIhQPKlMNcpzLUjwJ9GFNuYBiC/s0l8BCb5Lg
+         bMsxG1mDWbDIn78SSJ7Ae4AQ3pVkFbKZ2xbVNjMPs9sSdN3LHFCY56Zu5soYLeFgibML
+         57Qg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ7Y5Y96ffaj6IbZsGF4x5w8eRg7XaR+dh9pZgS5+q6M5/bDWFoTuMtaN5CvaQJeBKcFQNMn1BNDnU@vger.kernel.org, AJvYcCVYrXE85XSwBy0vZGaQLLXAaod9gn/0SiSAz4fdlWYmdk6Y4+66uu4zHHntN7K1qsPJ9amTvfsGu9xi@vger.kernel.org, AJvYcCW58ZoTJoRIRMM6isAoXfCjMLMmPG7h/OcdsGl0A8GdCMDUvi2moVNY1qe0ch664xlCkcBSfS/Fl46n9jc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7dJbPPKvFwmxzcw5XwN5/zznJWOSZKqRCCz+ye8bNqg999QVU
+	zOj57ODB5OtMdQNfqBFUKZy2iJ+ZJMVqTboviPxwkfFRfDHliCPz
+X-Google-Smtp-Source: AGHT+IG/1+A9UgoYfgvQYBnhy3lGLHzm6QLx2wGsOQl7KrWzHMPy/zYYM49Ng9av8tAZ0Oiv7vwH/A==
+X-Received: by 2002:a05:6a21:2d8c:b0:1d9:1907:aa2b with SMTP id adf61e73a8af0-1d978aeada5mr8525165637.1.1729792099421;
+        Thu, 24 Oct 2024 10:48:19 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec13ea114sm8195644b3a.158.2024.10.24.10.48.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Oct 2024 10:48:18 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <7d705ac9-a109-4b49-9ac6-78bd2e9ca091@roeck-us.net>
+Date: Thu, 24 Oct 2024 10:48:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3069b3a-5415-4b27-c039-08dcf4528d73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2024 17:37:37.7369
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xzZ+fFqpGnNo4WAy7tlEsYI5bOTib9ogF7FkYJPfIJ7pX+0FWmJg+T8KEna4c9fiiuSFvELtzx6zY/dONdEjfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6429
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] hwmon: (pmbus/isl68137) add support for voltage
+ divider on Vout
+To: Grant Peltier <grantpeltier93@gmail.com>, robh@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com
+Cc: grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <cover.1729646466.git.grantpeltier93@gmail.com>
+ <422a40e992e047e250a3b1295503e3b81b5515ae.1729646466.git.grantpeltier93@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <422a40e992e047e250a3b1295503e3b81b5515ae.1729646466.git.grantpeltier93@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-PiA+PiBTaW5jZSB5b3Ugc2VlbSB0byB3YW50IHRvIGtlZXAgdGhlIGZsZXhpYmlsaXR5IGZvciBh
-IHBvc3NpYmxlIGZ1dHVyZQ0KPiA+PiB3aGVyZSBwZXItZG9tYWluIGlzIG5lZWRlZC4gVGhlICJh
-dmFpbGFibGVfbWJtX2NudHJzIiBmaWxlDQo+ID4+IHN1Z2dlc3RlZCBpbiBhbm90aGVyIHRocmVh
-ZCB3b3VsZCBuZWVkIHRvIGxpc3QgYXZhaWxhYmxlIGNvdW50ZXJzDQo+ID4+IG9uIGVhY2ggZG9t
-YWluIHRvIGF2b2lkIEFCSSBwcm9ibGVtcyBzaG91bGQgdGhhdCBmdXR1cmUgYXJyaXZlLg0KPiA+
-Pg0KPiA+PiAkIGNhdCBudW1fbWJtX2NvdW50ZXJzDQo+ID4+IDMyDQo+ID4+DQo+ID4+ICQgY2F0
-IGF2YWlsYWJsZV9tYm1fY250cnMNCj4gPj4gMD0xMjsxPTkNCj4gPg0KPiA+IEdvb2QgcG9pbnQu
-DQo+ID4NCj4NCj4gV29ya2luZyBvbiB0aGlzIG5vdy4gV2FudGVkIHRvIGNvbmZpcm0gaWYgd2Ug
-cmVhbGx5IG5lZWQgZG9tYWluIHNwZWNpZmljDQo+IGluZm9ybWF0aW9uPw0KPg0KPiBUbyBtZSwg
-aXQgZG9lcyBub3Qgc2VlbSBuZWNlc3NhcnkgZm9yIHRoZSB1c2VyLiBVc2VyIGNhbm5vdCBtYWtl
-IGFueQ0KPiBkZWNpc2lvbnMgYmFzZWQgb24gdGhpcyBpbmZvcm1hdGlvbi4NCj4NCj4gQWxsIHVz
-ZXIgd2FudHMgdG8ga25vdyBpcyBpZiB0aGVyZSBhcmUgZ2xvYmFsIGNvdW50ZXJzIGF2YWlsYWJs
-ZS4NCj4NCj4gJCBjYXQgbnVtX21ibV9jb3VudGVycw0KPiAzMg0KPg0KPiAkIGNhdCBhdmFpbGFi
-bGVfbWJtX2NudHJzDQo+IDE1DQoNClRoaXMgYXBwcm9hY2ggcGFpbnRzIHJlc2N0cmwgaW50byBh
-biBBQkkgY29ybmVyIHdoZXJlIGl0IGNhbid0IGxhdGVyDQp1cGRhdGUgcmVzY3RybCB0byB0cmFj
-ayBjb3VudGVycyBwZXItZG9tYWluLiBNYXliZSB5b3UnbGwgbmV2ZXIgd2FudCB0byBkbyB0aGF0
-LA0KYnV0IHNvbWUgb3RoZXIgYXJjaGl0ZWN0dXJlIG1pZ2h0IHdhbnQgdG8gaGF2ZSB0aGF0IGZs
-ZXhpYmlsaXR5Lg0KDQotVG9ueQ0K
+On 10/22/24 18:58, Grant Peltier wrote:
+> Some applications require Vout to be higher than the detectable voltage
+> range of the Vsense pin for a given rail. In such applications, a voltage
+> divider may be placed between Vout and the Vsense pin, but this results
+> in erroneous telemetry being read back from the part. This change adds
+> support for a voltage divider to be defined in the devicetree for a (or
+> multiple) specific rail(s) for a supported digital multiphase device and
+> for the applicable Vout telemetry to be scaled based on the voltage
+> divider configuration.
+> 
+> Signed-off-by: Grant Peltier <grantpeltier93@gmail.com>
+> ---
+>   drivers/hwmon/pmbus/isl68137.c | 199 ++++++++++++++++++++++++++++++++-
+>   1 file changed, 194 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/hwmon/pmbus/isl68137.c b/drivers/hwmon/pmbus/isl68137.c
+> index 7e53fb1d5ea3..b4f581e1d560 100644
+> --- a/drivers/hwmon/pmbus/isl68137.c
+> +++ b/drivers/hwmon/pmbus/isl68137.c
+> @@ -13,6 +13,7 @@
+>   #include <linux/init.h>
+>   #include <linux/kernel.h>
+>   #include <linux/module.h>
+> +#include <linux/of.h>
+>   #include <linux/string.h>
+>   #include <linux/sysfs.h>
+>   
+> @@ -20,6 +21,7 @@
+>   
+>   #define ISL68137_VOUT_AVS	0x30
+>   #define RAA_DMPVR2_READ_VMON	0xc8
+> +#define MAX_CHANNELS            4
+>   
+>   enum chips {
+>   	isl68137,
+> @@ -72,6 +74,17 @@ enum variants {
+>   	raa_dmpvr2_hv,
+>   };
+>   
+> +struct isl68137_channel {
+> +	u32 vout_voltage_divider[2];
+> +};
+> +
+> +struct isl68137_data {
+> +	struct pmbus_driver_info info;
+> +	struct isl68137_channel channel[MAX_CHANNELS];
+> +};
+> +
+> +#define to_isl68137_data(x)	container_of(x, struct isl68137_data, info)
+> +
+>   static const struct i2c_device_id raa_dmpvr_id[];
+>   
+>   static ssize_t isl68137_avs_enable_show_page(struct i2c_client *client,
+> @@ -163,6 +176,8 @@ static const struct attribute_group *isl68137_attribute_groups[] = {
+>   static int raa_dmpvr2_read_word_data(struct i2c_client *client, int page,
+>   				     int phase, int reg)
+>   {
+> +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
+> +	const struct isl68137_data *data = to_isl68137_data(info);
+>   	int ret;
+>   
+>   	switch (reg) {
+> @@ -170,6 +185,25 @@ static int raa_dmpvr2_read_word_data(struct i2c_client *client, int page,
+>   		ret = pmbus_read_word_data(client, page, phase,
+>   					   RAA_DMPVR2_READ_VMON);
+>   		break;
+> +	case PMBUS_READ_POUT:
+> +		/*
+> +		 * In cases where a voltage divider is attached to the target
+> +		 * rail between Vout and the Vsense pin, both Vout and Pout
+> +		 * should be scaled by the voltage divider scaling factor.
+> +		 * I.e. Vout = Vsense * (R1 + R2) / R2
+> +		 */
+> +		fallthrough;
+> +	case PMBUS_READ_VOUT:
+> +		ret = pmbus_read_word_data(client, page, phase, reg);
+> +		if (ret > 0 && data->channel[page].vout_voltage_divider[0]
+> +			&& data->channel[page].vout_voltage_divider[1]) {
+> +			u64 temp = DIV_ROUND_CLOSEST_ULL((u64)ret *
+> +				(data->channel[page].vout_voltage_divider[0]
+> +				+ data->channel[page].vout_voltage_divider[1]),
+> +				data->channel[page].vout_voltage_divider[1]);
+> +			ret = clamp_val(temp, 0, 0xffff);
+> +		}
+> +		break;
+>   	default:
+>   		ret = -ENODATA;
+>   		break;
+> @@ -178,6 +212,50 @@ static int raa_dmpvr2_read_word_data(struct i2c_client *client, int page,
+>   	return ret;
+>   }
+>   
+> +static int raa_dmpvr2_write_word_data(struct i2c_client *client, int page,
+> +				      int reg, u16 word)
+> +{
+> +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
+> +	const struct isl68137_data *data = to_isl68137_data(info);
+> +	int ret;
+> +
+> +	switch (reg) {
+> +	case PMBUS_VOUT_MAX:
+> +		/*
+> +		 * In cases where a voltage divider is attached to the target
+> +		 * rail between Vout and the Vsense pin, Vout related PMBus
+> +		 * commands should be scaled based on the expected voltage
+> +		 * at the Vsense pin.
+> +		 * I.e. Vsense = Vout * R2 / (R1 + R2)
+> +		 */
+> +		fallthrough;
+> +	case PMBUS_VOUT_MARGIN_HIGH:
+> +		fallthrough;
+> +	case PMBUS_VOUT_MARGIN_LOW:
+> +		fallthrough;
+> +	case PMBUS_VOUT_OV_FAULT_LIMIT:
+> +		fallthrough;
+> +	case PMBUS_VOUT_UV_FAULT_LIMIT:
+> +		fallthrough;
+
+Just add the comment after the last case and drop all the fallthrough;
+Same above.
+
+> +	case PMBUS_VOUT_COMMAND:
+> +		if (data->channel[page].vout_voltage_divider[0]
+> +			&& data->channel[page].vout_voltage_divider[1]) {
+
+It would be better to set defaults instead of having to check this
+for every executed command (for example by setting R1:=0 and R2:=1).
+
+> +			u64 temp = DIV_ROUND_CLOSEST_ULL((u64)word *
+> +				data->channel[page].vout_voltage_divider[1],
+> +				(data->channel[page].vout_voltage_divider[0] +
+> +				 data->channel[page].vout_voltage_divider[1]));
+> +			ret = clamp_val(temp, 0, 0xffff);
+> +		} else {
+> +			ret = -ENODATA;
+> +		}
+> +		break;
+> +	default:
+> +		ret = -ENODATA;
+> +		break;
+> +	}
+> +	return ret;
+> +}
+> +
+>   static struct pmbus_driver_info raa_dmpvr_info = {
+>   	.pages = 3,
+>   	.format[PSC_VOLTAGE_IN] = direct,
+> @@ -220,14 +298,67 @@ static struct pmbus_driver_info raa_dmpvr_info = {
+>   	    | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_POUT,
+>   };
+>   
+> +static int isl68137_probe_child_from_dt(struct device *dev,
+> +					struct device_node *child,
+> +					struct isl68137_data *data)
+> +{
+> +	u32 channel;
+> +	int err;
+> +
+> +	err = of_property_read_u32(child, "reg", &channel);
+> +	if (err) {
+> +		dev_err(dev, "missing reg property of %pOFn\n", child);
+> +		return err;
+> +	}
+> +	if (channel >= MAX_CHANNELS) {
+
+The actual number of channels (pages) supported by the chip is known here
+and should be checked, either by passing the number of channels or a pointer
+to the entire info structure to this function.
+
+> +		dev_err(dev, "invalid reg %d of %pOFn\n", channel, child);
+> +		return -EINVAL;
+> +	}
+> +
+> +	of_property_read_u32_array(child, "renesas,vout-voltage-divider",
+
+Ultimately this potentially applies to _all_ hardware monitoring chips,
+so I would very much prefer a generic voltage divider property definition.
+
+> +				data->channel[channel].vout_voltage_divider,
+> +				ARRAY_SIZE(data->channel[channel].vout_voltage_divider));
+
+The returned data should be be validated here.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int isl68137_probe_from_dt(struct device *dev,
+> +				  struct isl68137_data *data)
+> +{
+> +	const struct device_node *np = dev->of_node;
+> +	struct device_node *child;
+> +	int err;
+> +
+> +	for_each_child_of_node(np, child) {
+> +		if (strcmp(child->name, "channel"))
+> +			continue;
+> +
+> +		err = isl68137_probe_child_from_dt(dev, child, data);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static int isl68137_probe(struct i2c_client *client)
+>   {
+> +	struct device *dev = &client->dev;
+>   	struct pmbus_driver_info *info;
+> +	struct isl68137_data *data;
+> +	int i, err;
+>   
+> -	info = devm_kzalloc(&client->dev, sizeof(*info), GFP_KERNEL);
+> -	if (!info)
+> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+>   		return -ENOMEM;
+> -	memcpy(info, &raa_dmpvr_info, sizeof(*info));
+> +
+> +	for (i = 0; i < MAX_CHANNELS; i++)
+> +		memset(data->channel[i].vout_voltage_divider,
+> +			0,
+> +			sizeof(data->channel[i].vout_voltage_divider));
+
+Under what circumstance would this not already be 0 after devm_kzalloc() ?
+
+> +
+> +	memcpy(&data->info, &raa_dmpvr_info, sizeof(data->info));
+> +	info = &data->info;
+>   
+>   	switch (i2c_match_id(raa_dmpvr_id, client)->driver_data) {
+>   	case raa_dmpvr1_2rail:
+> @@ -242,6 +373,7 @@ static int isl68137_probe(struct i2c_client *client)
+>   	case raa_dmpvr2_1rail:
+>   		info->pages = 1;
+>   		info->read_word_data = raa_dmpvr2_read_word_data;
+> +		info->write_word_data = raa_dmpvr2_write_word_data;
+>   		break;
+>   	case raa_dmpvr2_2rail_nontc:
+>   		info->func[0] &= ~PMBUS_HAVE_TEMP3;
+> @@ -250,9 +382,11 @@ static int isl68137_probe(struct i2c_client *client)
+>   	case raa_dmpvr2_2rail:
+>   		info->pages = 2;
+>   		info->read_word_data = raa_dmpvr2_read_word_data;
+> +		info->write_word_data = raa_dmpvr2_write_word_data;
+>   		break;
+>   	case raa_dmpvr2_3rail:
+>   		info->read_word_data = raa_dmpvr2_read_word_data;
+> +		info->write_word_data = raa_dmpvr2_write_word_data;
+>   		break;
+>   	case raa_dmpvr2_hv:
+>   		info->pages = 1;
+> @@ -263,11 +397,18 @@ static int isl68137_probe(struct i2c_client *client)
+>   		info->m[PSC_POWER] = 2;
+>   		info->R[PSC_POWER] = -1;
+>   		info->read_word_data = raa_dmpvr2_read_word_data;
+> +		info->write_word_data = raa_dmpvr2_write_word_data;
+>   		break;
+>   	default:
+>   		return -ENODEV;
+>   	}
+>   
+> +	if (dev->of_node) {
+
+This conditional should not be necessary because for_each_child_of_node()
+ultimately calls __of_get_next_child() which checks if the node pointer
+is NULL.
+
+> +		err = isl68137_probe_from_dt(dev, data);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+>   	return pmbus_do_probe(client, info);
+>   }
+>   
+> @@ -318,11 +459,59 @@ static const struct i2c_device_id raa_dmpvr_id[] = {
+>   
+>   MODULE_DEVICE_TABLE(i2c, raa_dmpvr_id);
+>   
+> +static const struct of_device_id isl68137_of_match[] = {
+> +	{ .compatible = "renesas,isl68137", .data = (void *)raa_dmpvr1_2rail },
+> +	{ .compatible = "renesas,isl68220", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl68221", .data = (void *)raa_dmpvr2_3rail },
+> +	{ .compatible = "renesas,isl68222", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl68223", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl68224", .data = (void *)raa_dmpvr2_3rail },
+> +	{ .compatible = "renesas,isl68225", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl68226", .data = (void *)raa_dmpvr2_3rail },
+> +	{ .compatible = "renesas,isl68227", .data = (void *)raa_dmpvr2_1rail },
+> +	{ .compatible = "renesas,isl68229", .data = (void *)raa_dmpvr2_3rail },
+> +	{ .compatible = "renesas,isl68233", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl68239", .data = (void *)raa_dmpvr2_3rail },
+> +
+> +	{ .compatible = "renesas,isl69222", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69223", .data = (void *)raa_dmpvr2_3rail },
+> +	{ .compatible = "renesas,isl69224", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69225", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69227", .data = (void *)raa_dmpvr2_3rail },
+> +	{ .compatible = "renesas,isl69228", .data = (void *)raa_dmpvr2_3rail },
+> +	{ .compatible = "renesas,isl69234", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69236", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69239", .data = (void *)raa_dmpvr2_3rail },
+> +	{ .compatible = "renesas,isl69242", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69243", .data = (void *)raa_dmpvr2_1rail },
+> +	{ .compatible = "renesas,isl69247", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69248", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69254", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69255", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69256", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69259", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69260", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69268", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,isl69269", .data = (void *)raa_dmpvr2_3rail },
+> +	{ .compatible = "renesas,isl69298", .data = (void *)raa_dmpvr2_2rail },
+> +
+> +	{ .compatible = "renesas,raa228000", .data = (void *)raa_dmpvr2_hv },
+> +	{ .compatible = "renesas,raa228004", .data = (void *)raa_dmpvr2_hv },
+> +	{ .compatible = "renesas,raa228006", .data = (void *)raa_dmpvr2_hv },
+> +	{ .compatible = "renesas,raa228228", .data = (void *)raa_dmpvr2_2rail_nontc },
+> +	{ .compatible = "renesas,raa229001", .data = (void *)raa_dmpvr2_2rail },
+> +	{ .compatible = "renesas,raa229004", .data = (void *)raa_dmpvr2_2rail },
+> +	{ },
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, isl68137_of_match);
+> +
+>   /* This is the driver that will be inserted */
+>   static struct i2c_driver isl68137_driver = {
+>   	.driver = {
+> -		   .name = "isl68137",
+> -		   },
+> +		.name = "isl68137",
+> +		.of_match_table = isl68137_of_match,
+> +	},
+>   	.probe = isl68137_probe,
+>   	.id_table = raa_dmpvr_id,
+>   };
+
