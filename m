@@ -1,87 +1,100 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FAE22B660;
-	Thu, 24 Oct 2024 19:34:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3D6208968
+	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 19:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729798459; cv=none; b=t+iNVbXs0ou4WZOBZX6gtD99cRg7HzUzowzV9/N9CNKDtMyH7ZkTpYxFiVId4ZTpFFxsb/MvGd512I3fBse1mcLqqn6Yx5Zygb4eWyl8NvZff+W52H3WxrhBP2BoG14k7do2EspRNHl2hkFUry9hHvzdEJgTUjEVcCvyAfUkhYo=
+	t=1729798715; cv=none; b=cmSVVVWsr2bK1mHxVExSaAYEy/D7hccW671ey9rVQ8g1aHUyuThg3lOHE/sYpN+u6RqsKuqZsMud2pRPf6eJ2nDtxyjb0WYTV47/rRKPAyICKImAAKR+Me4x9dZ3150nphFxGA5Cw2LWILTHfx+9D+g3n7GReRK1HxHWcj+R+kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729798459; c=relaxed/simple;
-	bh=1kUvSduy0LGVPYVn3P+TUIfbacZS4kAR9QgTrEeaFf0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=f7DCFkoUedoOxSwZE93p7vkGqvSRrFgbdTv4xECo8IM1TulrORMBxZu80mckc/2Q7GTwjPXx7dTKvPku6hZJ4tq4AeyWngZE/DbomXJU6lJfAuLJhggPMh11UCWQH8159p5mX+DI5zywFnerPF8GR+LNindz6nLbUMrr7LZ0Epk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=QmeNS15W; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1729798715; c=relaxed/simple;
+	bh=nD6EnB7uSGjuXYIk9bDc+dViW5uOP+52Zp4nG1vJySI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JZkoBO6LrARQWu8ls8R2zVobbao8wJf/xlt7MpoV+/7/OBhaKeDa79+Smmc26mIGKnKhe8PH97rIRoAhjyjRfA/aZXlXTozmT8cvshy8woijQxwLCukFVIaqscEEu6F074a2852834gLJxkVKzis0G0enYn29I+Ftd8nXaeB3N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uuJVht6W; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="QmeNS15W"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DE5FF4188F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1729798456; bh=Rz6K0v/9UGNXjj4AotqN+xg7ZIBooQuowAI+q0MerFA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QmeNS15W8SbkOKnFYIPeI03euuHTH2bj8aJpauNbwmegAPDpoyBnVr8JrtJ/EpF+y
-	 +VYUZAarDc+mujqMEP2lZ/ZunV0UB7H4sIxgfDU9dsagh9nCDDh+96ivqkMfAgvAty
-	 Sutsl9YalYSZZ+O+n5c042XGyKsbN8hGyVPMA3xMXY7qaLUDY85GpE8M7WD9hJYkCr
-	 4utBrRomBAk6pDAvs1CVN65u40YIXvWlGxuwrLwRyhBqUxetJlf8FVYueU9P3gLe9u
-	 AIF0/89HaceSQpyGLXcYHBShbv/gAdevafN5a8T7QmM1IsuBtjlp+7UVD7e+SQUE+I
-	 WicLK6vfbSkyA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DE5FF4188F;
-	Thu, 24 Oct 2024 19:34:15 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dongliang Mu <dzm91@hust.edu.cn>, si.yanteng@linux.dev, Alex Shi
- <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, Miguel Ojeda
- <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?=
- Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas
- Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Dongliang Mu
- <dzm91@hust.edu.cn>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: Re: [PATCH v3] docs/zh_CN: update the translation of
- process/programming-language.rst
-In-Reply-To: <20241023062750.849951-1-dzm91@hust.edu.cn>
-References: <20241023062750.849951-1-dzm91@hust.edu.cn>
-Date: Thu, 24 Oct 2024 13:34:14 -0600
-Message-ID: <87bjz947nt.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uuJVht6W"
+Date: Thu, 24 Oct 2024 12:38:19 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1729798706;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ygh5XAsyE1TzKPxIn/H04CcE11DeEBKZl9YsXiKRJ8c=;
+	b=uuJVht6WUnsXQSm+f/Nq3lHvBqHu1NB1BTppL0W1zeEZF2IeV/n0Ab+H2v0O+uOEDKPY8B
+	x3A9QmFME8FT0KbeyTXpXmlIY7+b/q/Q+geenVCVIJ/gt1+A0Ja5Mtf1zkxBDE/rK3LDZi
+	LrFOQHFm5FoEM19Jti9PVhi7s0Z+/Zk=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Michal Hocko <mhocko@suse.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Muchun Song <muchun.song@linux.dev>, Hugh Dickins <hughd@google.com>, linux-mm@kvack.org, 
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Meta kernel team <kernel-team@meta.com>
+Subject: Re: [RFC PATCH 3/3] memcg-v1: remove memcg move locking code
+Message-ID: <ocwpveyzmog7kaetvfmihzyrxlw5drz647jcsjcziv2gmejyyj@vksg3ntjea2g>
+References: <20241024065712.1274481-1-shakeel.butt@linux.dev>
+ <20241024065712.1274481-4-shakeel.butt@linux.dev>
+ <ZxoQhEPXmSkM7sH_@tiehlicka>
+ <kr6fjny7aqni4habduj2uqfznusozkku3xeq62bjscb5ovwxog@ccgl3kxufmma>
+ <ZxqXyQb1nT6DWPN_@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZxqXyQb1nT6DWPN_@google.com>
+X-Migadu-Flow: FLOW_OUT
 
-Dongliang Mu <dzm91@hust.edu.cn> writes:
+On Thu, Oct 24, 2024 at 06:54:01PM GMT, Roman Gushchin wrote:
+> On Thu, Oct 24, 2024 at 10:23:49AM -0700, Shakeel Butt wrote:
+> > On Thu, Oct 24, 2024 at 11:16:52AM GMT, Michal Hocko wrote:
+> > > On Wed 23-10-24 23:57:12, Shakeel Butt wrote:
+> > > > The memcg v1's charge move feature has been deprecated. There is no need
+> > > > to have any locking or protection against the moving charge. Let's
+> > > > proceed to remove all the locking code related to charge moving.
+> > > > 
+> > > > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+> > > > ---
+> > > > -/**
+> > > > - * folio_memcg_lock - Bind a folio to its memcg.
+> > > > - * @folio: The folio.
+> > > > - *
+> > > > - * This function prevents unlocked LRU folios from being moved to
+> > > > - * another cgroup.
+> > > > - *
+> > > > - * It ensures lifetime of the bound memcg.  The caller is responsible
+> > > > - * for the lifetime of the folio.
+> > > > - */
+> > > > -void folio_memcg_lock(struct folio *folio)
+> > > > -{
+> > > > -	struct mem_cgroup *memcg;
+> > > > -	unsigned long flags;
+> > > > -
+> > > > -	/*
+> > > > -	 * The RCU lock is held throughout the transaction.  The fast
+> > > > -	 * path can get away without acquiring the memcg->move_lock
+> > > > -	 * because page moving starts with an RCU grace period.
+> > > > -         */
+> > > > -	rcu_read_lock();
+> > > 
+> > > Is it safe to remove the implicit RCU?
+> > 
+> > Good question. I think it will be safe to keep the RCU in this patch and
+> > in the followup examine each place and decide to remove RCU or not.
+> 
+> I took a really quick look and based on it I believe it is safe.
+> Shakeel, can you, please, check too and preferably keep your code intact.
+> I think it's better to remove it all together, rather than do it in two steps.
+> If we really need rcu somewhere, we can replace folio_memcg_lock()/unlock()
+> with an explicit rcu_read_lock()/rcu_read_unlock().
+> 
 
-> Update to commit 0b02076f9953 ("docs: programming-language: add Rust
-> programming language section")
->
-> scripts/checktransupdate.py reports:
->
-> Documentation/translations/zh_CN/process/programming-language.rst
-> commit 0b02076f9953 ("docs: programming-language: add Rust programming
-> language section")
-> commit 38484a1d0c50 ("docs: programming-language: remove mention of the
-> Intel compiler")
-> 2 commits needs resolving in total
->
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
-> v2->v3: fix warnings in the make htmldocs
-> v1->v2: revise the script name
->  .../zh_CN/process/programming-language.rst    | 78 +++++++------------
->  1 file changed, 30 insertions(+), 48 deletions(-)
-
-Applied, thanks.
-
-jon
+Yup going through that and till now it seems safe. Hopefully I will have
+the update by the evening.
