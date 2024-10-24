@@ -1,93 +1,78 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC2B22B667;
-	Thu, 24 Oct 2024 22:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC522178E9;
+	Thu, 24 Oct 2024 22:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729807286; cv=none; b=P9oguglbQ3eG1o9uZBAhjpz1ztSu/84NLFvliaYRirt9w3wPw2Cm9ASqjkunbE2iyXV+YtlwFeM7voYWXmq+dGciypVt8Ro0Nf8Efh5qaKFOW/80wmQeLlC3veWAgil5fyMA3SKqCMt3oQP5CnSaeE/RcytvRw0D0S2pAvkqI5M=
+	t=1729808009; cv=none; b=TiFKkO4lRj1rz6S8iwyMF6czGGgXDgYkEDe+ogFvJKJANTtxiU58blY2Fgvf20Sp6D+z0J8yFEMQNXhxZqXy05hjVfCTJc7pltt+7lU6O3wk2SIcJgGRRRVL1yPnvs79Bw4OCp6oGUl7F+KVyKKQ4zp/JwKNqPozglak3hJTbqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729807286; c=relaxed/simple;
-	bh=TpHokdDbswJcDEGd+z0nywK4mmghuNOgsf96KkefTw4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PYRP+zlLu5jDuINbL3XofohIlZvBHnsTzDIccQi6vQoWiDgm3nnLkS38gFN+VHe+GSaC2do0sYAEEKUl6uh3lAg7XJFL5Fkb+qFbKwbf6w9dUDWrKKHxDCbZihLq7R9S8vIfMkAI4qpK297xKIoU9YuYhQOEyHad+BAO9SpzgUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Sb9Vcgox; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1729808009; c=relaxed/simple;
+	bh=vJszu9ua02PLYuzMDv+S3jmI83NjZ5d/sxmDSx08Icc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TFcysNV+ZK4yaoZRLQ7565M8gHUDk+WNkLLsztQCVE8Cw5TputrQAR4NNggEIpP+SkKdmEZ5mFW6rg/HYnQwUTEPUKu3HfOViWlbhYvKzqAKRm+THRl0UHrz06c/130Z3DFaSSoSfluP6JUOvqCq49SzBIYoTSST1QdQVB19bNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uuJ/F8MC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Sb9Vcgox"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C20EF42C06
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1729807283; bh=5kvdP0fgHRwttD0xtIaXBwGPeuzuLlMMH2uldl8sirA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Sb9VcgoxllcG9dhiULHw/ZrPvpOX7mlUoaFMtV6oCyc1aE/bBvhX0yeeuNc2AO9FA
-	 vSm5aA5HpcOLb6RXR9Lp5pQitBxMHlzKExsJuteaylIILD88l0jN4THNfws6Wpy0oD
-	 grkotpNOzFOSnj7aMWN+pcEGzNYVg/xTtedi8EHkFcnqGsh0rPlpEtJYr5dn1M0rOY
-	 YQCgMn97l9YNcZnOboyJ253Rnb73aEmQ8LV7miyv4PjNWE/4LA+c2SA6yM+dejpv/W
-	 JhKepbOOMYwFb0jA7CzrO0y+EBVwSFpf38ljPp3rytZptY1AeVW3UWGH1ccPAQ2NfE
-	 Z45hFqTDpr1jg==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C20EF42C06;
-	Thu, 24 Oct 2024 22:01:23 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- hverkuil-cisco@xs4all.nl, mauro.chehab@linux.intel.com,
- kernel@collabora.com, bob.beckett@collabora.com,
- nicolas.dufresne@collabora.com, Sebastian Fricke
- <sebastian.fricke@collabora.com>
-Subject: Re: [PATCH RFC v2 0/3] Documentation: Debugging guide
-In-Reply-To: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
-References: <20240529-b4-media_docs_improve-v2-0-66318b2da726@collabora.com>
-Date: Thu, 24 Oct 2024 16:01:22 -0600
-Message-ID: <87frol2ma5.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uuJ/F8MC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4277C4CEC7;
+	Thu, 24 Oct 2024 22:13:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729808008;
+	bh=vJszu9ua02PLYuzMDv+S3jmI83NjZ5d/sxmDSx08Icc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uuJ/F8MCamQnHFXV/ywG1r+CaG4gZFHb819aktXhvVqVb7no1vK8vKCgySGSBlJpC
+	 iTqZLzcVYzD2A1VwMqKADi2WnqFJ2I310Tyll86nnJ4vKK63yMrVMmQvKUKCj1jfwm
+	 tH2wDoTB4IAsm3bFJOTwsa8d0jV0La/yPLG1pKhpVDFrgfIxEtfSCfHhzt7x7ppZen
+	 nIY9s4hpM7+BSjDj0zottMsGUuRlWLykG/NN3mwWbp5Ql5RonXtbInTA7dz8U2leGM
+	 E+OIaeAI1FWVAvT1gz11f/lw7EZQ9Av9LCG2UlgGBcjjsYbDljijYQa5BdNp5mot/2
+	 qbZCJB8MivE4A==
+Message-ID: <8ee41bc4-ca8e-416f-8219-12d4a83e5f8b@kernel.org>
+Date: Thu, 24 Oct 2024 15:13:27 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] ipe: add 'anonymous_memory' property for policy
+ decisions
+To: corbet@lwn.net, jmorris@namei.org, paul@paul-moore.com, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <1728582157-13884-1-git-send-email-wufan@linux.microsoft.com>
+Content-Language: en-US
+From: Fan Wu <wufan@kernel.org>
+In-Reply-To: <1728582157-13884-1-git-send-email-wufan@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Sebastian Fricke <sebastian.fricke@collabora.com> writes:
+Since this patch is quite straightforward, I have merged it into the ipe#next branch for testing and will send it to Linus during the next merge window.
 
-> The RFC contains:
-> - a general debugging guide split into debugging for driver developers and
->   debugging from userspace
-> - a new summary page for all media related documentation. This is inspired by
->   other subsystems, which first of all allows a user to find the subsystem
->   under the subsystems page and secondly eases general navigation through the
->   documentation that is sprinkled onto multiple places.
-> - a guide on how to debug code in the media subsystem, which points to the
->   parts of the general documentation and adds own routines.
 
-I've just begun to take a look at this, apologies for taking so long.
+-Fan
 
-Overall:
-
-- I have been trying to reduce the number of top-level directories under
-  Documentation/, and this adds two more.  Can we avoid that?  Let's
-  start in that direction by putting your debugging guide inside
-  Documentation/process, please.
-
-- If we *must* create a separate "media" directory, please make it
-  devices/media.  My plan is to move most of the device-specific
-  documentation under Documentation/devices, making it match the source
-  layout; I just haven't summoned up the energy to start the slog of
-  actually doing it.
-
-  But it would be nice to avoid that altogether here.  If we create
-  Documentation/process/debugging/, it should be able to hold both your
-  general and media-specific guides, and perhaps other
-  subsystem-specific guides could eventually land there as well.
-
-- Please adhere to the 80-column limit for written text.  It really does
-  make a difference for people reading it.
-
-Thanks,
-
-jon
+On 2024/10/10 10:42, Fan Wu wrote:
+> Currently, all existing IPE properties evaluate to FALSE for
+> operations triggered by anonymous memory regions. As a result,
+> IPE falls back to the policy's default action for such operations.
+>
+> In policies where the default action is DENY, this behavior blocks
+> all anonymous memory operations, rendering binaries that rely on
+> anonymous memory unusable.
+>
+> This commit introduces a new IPE property, 'anonymous_memory',
+> which evaluates to TRUE when an operation is triggered by an
+> anonymous memory region. This allows administrators to explicitly
+> allow or deny operations involving anonymous memory.
+>
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> ---
+>  Documentation/admin-guide/LSM/ipe.rst | 11 +++++++++++
+>  Documentation/security/ipe.rst        |  9 +++++----
+>  security/ipe/Kconfig                  | 10 ++++++++++
+>  security/ipe/audit.c                  |  2 ++
+>  security/ipe/eval.c                   | 26 ++++++++++++++++++++++++++
+>  security/ipe/policy.h                 |  2 ++
+>  security/ipe/policy_parser.c          |  4 ++++
+>  7 files changed, 60 insertions(+), 4 deletions(-)
