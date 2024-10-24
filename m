@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730A21C174E;
-	Thu, 24 Oct 2024 08:11:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232B9137930;
+	Thu, 24 Oct 2024 08:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729757496; cv=none; b=lvfodD63Fuk5AwhWeYGD9PxPyycu/LwkWosugUjx1Xh3hXBvZBjjJsVUULWVyoAtSTjz59vNdrkB68leGAdmJ9XlYrb/RmRPSL2diQH7hd79neThSftjRr0lh9gT/jQJjpnGpfhyXeAo1OzzoYFbzZyIRI3sRVJWd3Jz+CYdRtQ=
+	t=1729757500; cv=none; b=paFeI8GAUcBodp2utDcRDzYW9PdyjpgR0+OjL/EGG+weHPJOnBZy60QrF0iXeKPCSA/d5cp4BUmBxg6Rx0FHBQjvcweqwonQYmE80XNYskaC2Q/0zJBsK2gvpwHvd3t2ndnaVgPnIj4hKsEDo8L54CkUpOFLhBA8L+dYO7/XVt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729757496; c=relaxed/simple;
-	bh=QtcNd8GZyrPWCp7MzaQgpTLRQeUnjuUWfswbM5iZlL4=;
+	s=arc-20240116; t=1729757500; c=relaxed/simple;
+	bh=1xDyONWrEosBcaWVUt6p+44/6e9Dq2BvSWve1d6fXAE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MfGhfBfq3hNcr7HyqyBZcomwUuldZxBylDWMzLrjxkZ8OCPKT9It8eYZ3M+rislBf1+PJe7C3jALucUgUumV2bGpkxuFgRKR4DYkraKqHYK9D9jf1wXXaYUL5+jCzTwDTgK3/lknp3I2qxHELPbjRXUxR0w1TvSmBnlHOEY8USU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGPWQqLY; arc=none smtp.client-ip=198.175.65.16
+	 MIME-Version; b=jD9JQ5y+RXGtl6RPhdGtvfAicOFpmWSg3W0mkjTPHBMFY7+unBGZLOJr28q/vgJcOeC2I4GK3ztYTYH/cPsNsKJlOtkCkvbjQTxU9sr/U09N2miUVdHeAp1XcrEdTh9P+ROKPgrcTLaL0e8DUbbW/TQVPtuhFSw2wEbReLcV4Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzCqIsSu; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGPWQqLY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzCqIsSu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729757491; x=1761293491;
+  t=1729757498; x=1761293498;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QtcNd8GZyrPWCp7MzaQgpTLRQeUnjuUWfswbM5iZlL4=;
-  b=nGPWQqLYlOnpXVXM345k5RgVVJ674zRGAMachJbnXmokmGXVY/ZuSNxb
-   GNpIPCtxDwhl79IWiiuue0nVAzTNdRy9jNUu9dycpqH7vLWWujkK0uo8M
-   JwheOjZrCi6BdyxTWGUutYAanJRLU/wAGwd6YkGneeLYvKG/q0RCrxRJg
-   zTUMmVMChKSrHLm9yxN7pnSQd7BMqL+2X9b9G3B+L3j8oYyY0BjcwKqQb
-   wvkut+80A40BbF0z56LKZy5pyS3R16ow7orm45ujyVADkDonG9PovAJly
-   5kAjNr9RYVCT+ve64YSZcaVfAy3HSgYBSmohkY391VxrySOCoWXLW9uLO
+  bh=1xDyONWrEosBcaWVUt6p+44/6e9Dq2BvSWve1d6fXAE=;
+  b=hzCqIsSu2bOzqoL/O48pxNQUPIphQmSxrlEs+o4B3Q6V3YN+0s1lpSCA
+   HrtG3hHegyIAjK0ePthKNrOjHWv0lFEo8gOAr7y300YsLwOSFE441Q1NI
+   8EGguqDxCrZIj+JuM+O++cbwtRUT/n1qC7vas1aNNE+u3ky1i5LQ5qrrQ
+   iDis8jKk4yMV2mDcgwjwZxfVFA9jJJmWiZcT2e/iZjHhiApy8Ct1+rT+1
+   Bn1QP8XP+imZmlyF7uoF/TREWWVq7hqTOxubHYwEVNy4nTjrq/dxlkkVM
+   hQI9O7iq3iZzVEzrgzHwd20hXvWy/26oqO61LVjG3ulRwS6BlVeZQUuC9
    A==;
-X-CSE-ConnectionGUID: ZaeesoEHRt24fbAmwFEgGA==
-X-CSE-MsgGUID: A/I/xEqYS5KYoI0Lqh1UNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29501073"
+X-CSE-ConnectionGUID: wacx7p4LR2mLg1vRyY+ivQ==
+X-CSE-MsgGUID: GeT7VkWITc6yMOd2XQEhbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29501089"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29501073"
+   d="scan'208";a="29501089"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 01:11:31 -0700
-X-CSE-ConnectionGUID: v7pdc0DKQo+znJQkEDgnHQ==
-X-CSE-MsgGUID: bG98fmYkSKiVTelP5IjJgQ==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 01:11:38 -0700
+X-CSE-ConnectionGUID: olCY5gbnQnCX7lAnvqa1Ww==
+X-CSE-MsgGUID: BqGIZjchSiW95HvZwwVK4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,228,1725346800"; 
-   d="scan'208";a="80690842"
+   d="scan'208";a="80690870"
 Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
-  by orviesa006.jf.intel.com with ESMTP; 24 Oct 2024 01:11:28 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Oct 2024 01:11:34 -0700
 From: Even Xu <even.xu@intel.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org,
@@ -50,13 +50,13 @@ To: jikos@kernel.org,
 Cc: linux-input@vger.kernel.or,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	Even Xu <even.xu@intel.com>,
 	Xinpeng Sun <xinpeng.sun@intel.com>,
+	Even Xu <even.xu@intel.com>,
 	Rui Zhang <rui1.zhang@intel.com>,
 	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v1 13/22] HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI ACPI interfaces
-Date: Thu, 24 Oct 2024 16:10:14 +0800
-Message-Id: <20241024081023.1468951-14-even.xu@intel.com>
+Subject: [PATCH v1 15/22] HID: intel-thc-hid: intel-quickspi: Complete THC QuickSPI driver
+Date: Thu, 24 Oct 2024 16:10:16 +0800
+Message-Id: <20241024081023.1468951-16-even.xu@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20241024081023.1468951-1-even.xu@intel.com>
 References: <20241024081023.1468951-1-even.xu@intel.com>
@@ -68,336 +68,360 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add functions to query QuickSPI ACPI DSD parameters and provide APIs for
-DSM method accessing.
+From: Xinpeng Sun <xinpeng.sun@intel.com>
 
-Co-developed-by: Xinpeng Sun <xinpeng.sun@intel.com>
-Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
+Fully implement QuickSPI driver probe/remove callbacks, interrupt
+handler, integrate HIDSPI protocol, enumerate HID device and register
+HID device.
+
+Co-developed-by: Even Xu <even.xu@intel.com>
 Signed-off-by: Even Xu <even.xu@intel.com>
+Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
 Tested-by: Rui Zhang <rui1.zhang@intel.com>
 Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 ---
- .../intel-quickspi/pci-quickspi.c             | 189 ++++++++++++++++++
- .../intel-quickspi/quickspi-dev.h             |  54 +++++
- 2 files changed, 243 insertions(+)
+ .../intel-quickspi/pci-quickspi.c             | 254 ++++++++++++++++++
+ 1 file changed, 254 insertions(+)
 
 diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-index e218c9d6b1bc..16789bdb1235 100644
+index 16789bdb1235..0dae1a07b728 100644
 --- a/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
 +++ b/drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
-@@ -1,6 +1,8 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /* Copyright (c) 2024 Intel Corporation */
- 
-+#include <linux/acpi.h>
-+#include <linux/bitfield.h>
- #include <linux/device.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
-@@ -9,6 +11,7 @@
- #include <linux/pci.h>
- 
- #include "intel-thc-dev.h"
-+#include "intel-thc-hw.h"
+@@ -14,6 +14,8 @@
+ #include "intel-thc-hw.h"
  
  #include "quickspi-dev.h"
++#include "quickspi-hid.h"
++#include "quickspi-protocol.h"
  
-@@ -20,6 +23,186 @@ struct quickspi_driver_data lnl = {
- 	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_LNL,
- };
+ struct quickspi_driver_data mtl = {
+ 	.max_packet_size_value = MAX_PACKET_SIZE_VALUE_MTL,
+@@ -224,6 +226,37 @@ static irqreturn_t quickspi_irq_quick_handler(int irq, void *dev_id)
+ 	return IRQ_WAKE_THREAD;
+ }
  
-+/* THC QuickSPI ACPI method to get device properties */
-+/* HIDSPI Method: {6e2ac436-0fcf-41af-a265-b32a220dcfab} */
-+static guid_t hidspi_guid =
-+	GUID_INIT(0x6e2ac436, 0x0fcf, 0x41af, 0xa2, 0x65, 0xb3, 0x2a,
-+		  0x22, 0x0d, 0xcf, 0xab);
-+
-+/* QuickSpi Method: {300D35b7-ac20-413e-8e9c-92e4dafd0afe} */
-+static guid_t thc_quickspi_guid =
-+	GUID_INIT(0x300d35b7, 0xac20, 0x413e, 0x8e, 0x9c, 0x92, 0xe4,
-+		  0xda, 0xfd, 0x0a, 0xfe);
-+
-+/* Platform Method: {84005682-5b71-41a4-0x8d668130f787a138} */
-+static guid_t thc_platform_guid =
-+	GUID_INIT(0x84005682, 0x5b71, 0x41a4, 0x8d, 0x66, 0x81, 0x30,
-+		  0xf7, 0x87, 0xa1, 0x38);
-+
 +/**
-+ * thc_acpi_get_property - Query device ACPI parameter
++ * try_recover - Try to recovery THC and Device
++ * @qsdev: pointer to quickspi device
 + *
-+ * @adev: point to ACPI device
-+ * @guid: ACPI method's guid
-+ * @rev: ACPI method's revision
-+ * @func: ACPI method's function number
-+ * @type: ACPI parameter's data type
-+ * @prop_buf: point to return buffer
-+ *
-+ * This is a helper function for device to query its ACPI parameters.
-+ *
-+ * Return: 0 if successful or ENODEV on failed.
-+ */
-+static int thc_acpi_get_property(struct acpi_device *adev, const guid_t *guid,
-+				 u64 rev, u64 func, acpi_object_type type, void *prop_buf)
-+{
-+	acpi_handle handle = acpi_device_handle(adev);
-+	union acpi_object *obj;
-+
-+	obj = acpi_evaluate_dsm_typed(handle, guid, rev, func, NULL, type);
-+	if (!obj) {
-+		acpi_handle_err(handle,
-+				"Error _DSM call failed, rev: %llu, func: %llu, type: %u\n",
-+				rev, func, type);
-+		return -ENODEV;
-+	}
-+
-+	if (type == ACPI_TYPE_INTEGER)
-+		*(u32 *)prop_buf = (u32)obj->integer.value;
-+	else if (type == ACPI_TYPE_BUFFER)
-+		memcpy(prop_buf, obj->buffer.pointer, obj->buffer.length);
-+
-+	ACPI_FREE(obj);
-+
-+	return 0;
-+}
-+
-+/**
-+ * quickspi_get_acpi_resources - Query all quickspi devices' ACPI parameters
-+ *
-+ * @qsdev: point to quickspi device
-+ *
-+ * This function gets all quickspi devices' ACPI resource.
++ * This function is a error handler, called when fatal error happens.
++ * It try to reset Touch Device and re-configure THC to recovery
++ * transferring between Device and THC.
 + *
 + * Return: 0 if successful or error code on failed.
 + */
-+static int quickspi_get_acpi_resources(struct quickspi_device *qsdev)
++static int try_recover(struct quickspi_device *qsdev)
 +{
-+	struct acpi_device *adev = ACPI_COMPANION(qsdev->dev);
-+	int ret = -EINVAL;
++	int ret;
 +
-+	if (!adev) {
-+		dev_err(qsdev->dev, "no valid ACPI companion\n");
++	ret = reset_tic(qsdev);
++	if (ret) {
++		dev_err(qsdev->dev, "Reset touch device failed, ret = %d\n", ret);
 +		return ret;
 +	}
 +
-+	qsdev->acpi_dev = adev;
++	thc_dma_unconfigure(qsdev->thc_hw);
 +
-+	ret = thc_acpi_get_property(adev, &hidspi_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_INPUT_REP_HDR_ADDR,
-+				    ACPI_TYPE_INTEGER,
-+				    &qsdev->input_report_hdr_addr);
-+	if (ret)
++	ret = thc_dma_configure(qsdev->thc_hw);
++	if (ret) {
++		dev_err(qsdev->dev, "Re-configure THC DMA failed, ret = %d\n", ret);
 +		return ret;
-+
-+	ret = thc_acpi_get_property(adev, &hidspi_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_INPUT_REP_BDY_ADDR,
-+				    ACPI_TYPE_INTEGER,
-+				    &qsdev->input_report_bdy_addr);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_acpi_get_property(adev, &hidspi_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_OUTPUT_REP_ADDR,
-+				    ACPI_TYPE_INTEGER,
-+				    &qsdev->output_report_addr);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_acpi_get_property(adev, &hidspi_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_READ_OPCODE,
-+				    ACPI_TYPE_BUFFER,
-+				    &qsdev->spi_read_opcode);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_acpi_get_property(adev, &hidspi_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_WRITE_OPCODE,
-+				    ACPI_TYPE_BUFFER,
-+				    &qsdev->spi_write_opcode);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_acpi_get_property(adev, &hidspi_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_IO_MODE,
-+				    ACPI_TYPE_INTEGER,
-+				    &qsdev->spi_read_io_mode);
-+	if (ret)
-+		return ret;
-+
-+	if (qsdev->spi_read_io_mode & SPI_WRITE_IO_MODE)
-+		qsdev->spi_write_io_mode = FIELD_GET(SPI_IO_MODE_OPCODE, qsdev->spi_read_io_mode);
-+	else
-+		qsdev->spi_write_io_mode = THC_SINGLE_IO;
-+
-+	qsdev->spi_read_io_mode = FIELD_GET(SPI_IO_MODE_OPCODE, qsdev->spi_read_io_mode);
-+
-+	ret = thc_acpi_get_property(adev, &thc_quickspi_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_CONNECTION_SPEED,
-+				    ACPI_TYPE_INTEGER,
-+				    &qsdev->spi_freq_val);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_acpi_get_property(adev, &thc_quickspi_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_LIMIT_PACKET_SIZE,
-+				    ACPI_TYPE_INTEGER,
-+				    &qsdev->limit_packet_size);
-+	if (ret)
-+		return ret;
-+
-+	if (qsdev->limit_packet_size || !qsdev->driver_data)
-+		qsdev->spi_packet_size = DEFAULT_MIN_PACKET_SIZE_VALUE;
-+	else
-+		qsdev->spi_packet_size = qsdev->driver_data->max_packet_size_value;
-+
-+	ret = thc_acpi_get_property(adev, &thc_quickspi_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_PERFORMANCE_LIMIT,
-+				    ACPI_TYPE_INTEGER,
-+				    &qsdev->performance_limit);
-+	if (ret)
-+		return ret;
-+
-+	qsdev->performance_limit = FIELD_GET(PERFORMANCE_LIMITATION, qsdev->performance_limit);
-+
-+	ret = thc_acpi_get_property(adev, &thc_platform_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_ACTIVE_LTR,
-+				    ACPI_TYPE_INTEGER,
-+				    &qsdev->active_ltr_val);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_acpi_get_property(adev, &thc_platform_guid,
-+				    ACPI_QUICKSPI_REVISION_NUM,
-+				    ACPI_QUICKSPI_FUNC_NUM_LP_LTR,
-+				    ACPI_TYPE_INTEGER,
-+				    &qsdev->low_power_ltr_val);
-+	if (ret)
-+		return ret;
++	}
 +
 +	return 0;
 +}
 +
  /**
-  * quickspi_irq_quick_handler - The ISR of the quickspi driver
+  * quickspi_irq_thread_handler - IRQ thread handler of quickspi driver
   *
-@@ -109,6 +292,12 @@ static struct quickspi_device *quickspi_dev_init(struct pci_dev *pdev, void __io
+@@ -235,15 +268,52 @@ static irqreturn_t quickspi_irq_quick_handler(int irq, void *dev_id)
+ static irqreturn_t quickspi_irq_thread_handler(int irq, void *dev_id)
+ {
+ 	struct quickspi_device *qsdev = dev_id;
++	size_t input_len;
++	int read_finished = 0;
++	int err_recover = 0;
+ 	int int_mask;
++	int ret;
+ 
+ 	if (qsdev->state == QUICKSPI_DISABLED)
+ 		return IRQ_HANDLED;
+ 
+ 	int_mask = thc_interrupt_handler(qsdev->thc_hw);
+ 
++	if (int_mask & BIT(THC_FATAL_ERR_INT) || int_mask & BIT(THC_TXN_ERR_INT)) {
++		err_recover = 1;
++		goto end;
++	}
++
++	if (int_mask & BIT(THC_NONDMA_INT)) {
++		if (qsdev->state == QUICKSPI_RESETING) {
++			qsdev->reset_ack = true;
++			wake_up_interruptible(&qsdev->reset_ack_wq);
++		} else {
++			qsdev->nondma_int_received = true;
++			wake_up_interruptible(&qsdev->nondma_int_received_wq);
++		}
++	}
++
++	if (int_mask & BIT(THC_RXDMA2_INT)) {
++		while (!read_finished) {
++			ret = thc_rxdma_read(qsdev->thc_hw, THC_RXDMA2, qsdev->input_buf,
++					     &input_len, &read_finished);
++			if (ret) {
++				err_recover = 1;
++				goto end;
++			}
++
++			quickspi_handle_input_data(qsdev, input_len);
++		}
++	}
++
++end:
+ 	thc_interrupt_enable(qsdev->thc_hw, true);
+ 
++	if (err_recover)
++		if (try_recover(qsdev))
++			qsdev->state = QUICKSPI_DISABLED;
++
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -278,6 +348,12 @@ static struct quickspi_device *quickspi_dev_init(struct pci_dev *pdev, void __io
+ 	qsdev->mem_addr = mem_addr;
+ 	qsdev->driver_data = (struct quickspi_driver_data *)id->driver_data;
+ 
++	init_waitqueue_head(&qsdev->reset_ack_wq);
++	init_waitqueue_head(&qsdev->nondma_int_received_wq);
++	init_waitqueue_head(&qsdev->report_desc_got_wq);
++	init_waitqueue_head(&qsdev->get_report_cmpl_wq);
++	init_waitqueue_head(&qsdev->set_report_cmpl_wq);
++
+ 	/* thc hw init */
+ 	qsdev->thc_hw = thc_dev_init(qsdev->dev, qsdev->mem_addr);
+ 	if (IS_ERR(qsdev->thc_hw)) {
+@@ -298,6 +374,37 @@ static struct quickspi_device *quickspi_dev_init(struct pci_dev *pdev, void __io
  		return ERR_PTR(ret);
  	}
  
-+	ret = quickspi_get_acpi_resources(qsdev);
++	/* THC config for input/output address */
++	thc_spi_input_output_address_config(qsdev->thc_hw,
++					    qsdev->input_report_hdr_addr,
++					    qsdev->input_report_bdy_addr,
++					    qsdev->output_report_addr);
++
++	/* THC config for spi read operation */
++	ret = thc_spi_read_config(qsdev->thc_hw, qsdev->spi_freq_val,
++				  qsdev->spi_read_io_mode,
++				  qsdev->spi_read_opcode,
++				  qsdev->spi_packet_size);
 +	if (ret) {
-+		dev_err(dev, "Get ACPI resources failed, ret = %d\n", ret);
++		dev_err(dev, "thc_spi_read_config failed, ret = %d\n", ret);
 +		return ERR_PTR(ret);
 +	}
++
++	/* THC config for spi write operation */
++	ret = thc_spi_write_config(qsdev->thc_hw, qsdev->spi_freq_val,
++				   qsdev->spi_write_io_mode,
++				   qsdev->spi_write_opcode,
++				   qsdev->spi_packet_size,
++				   qsdev->performance_limit);
++	if (ret) {
++		dev_err(dev, "thc_spi_write_config failed, ret = %d\n", ret);
++		return ERR_PTR(ret);
++	}
++
++	thc_ltr_config(qsdev->thc_hw,
++		       qsdev->active_ltr_val,
++		       qsdev->low_power_ltr_val);
 +
  	thc_interrupt_config(qsdev->thc_hw);
  
  	thc_interrupt_enable(qsdev->thc_hw, true);
-diff --git a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-index 4699922c1c9b..4fc8be5f22e9 100644
---- a/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-+++ b/drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
-@@ -11,6 +11,28 @@
- #define PCI_DEVICE_ID_INTEL_THC_LNL_DEVICE_ID_SPI_PORT1	0xA849
- #define PCI_DEVICE_ID_INTEL_THC_LNL_DEVICE_ID_SPI_PORT2	0xA84B
+@@ -315,6 +422,101 @@ static struct quickspi_device *quickspi_dev_init(struct pci_dev *pdev, void __io
+ static void quickspi_dev_deinit(struct quickspi_device *qsdev)
+ {
+ 	thc_interrupt_enable(qsdev->thc_hw, false);
++	thc_ltr_unconfig(qsdev->thc_hw);
++}
++
++/**
++ * quickspi_dma_init - Configure THC DMA for quickspi device
++ * @qsdev: pointer to the quickspi device structure
++ *
++ * This function uses TIC's parameters(such as max input length, max output
++ * length) to allocate THC DMA buffers and configure THC DMA engines.
++ *
++ * Return: 0 if successful or error code on failed.
++ */
++static int quickspi_dma_init(struct quickspi_device *qsdev)
++{
++	int ret;
++
++	ret = thc_dma_set_max_packet_sizes(qsdev->thc_hw, 0,
++					   le16_to_cpu(qsdev->dev_desc.max_input_len),
++					   le16_to_cpu(qsdev->dev_desc.max_output_len),
++					   0);
++	if (ret)
++		return ret;
++
++	ret = thc_dma_allocate(qsdev->thc_hw);
++	if (ret) {
++		dev_err(qsdev->dev, "Allocate THC DMA buffer failed, ret = %d\n", ret);
++		return ret;
++	}
++
++	/* Enable RxDMA */
++	ret = thc_dma_configure(qsdev->thc_hw);
++	if (ret) {
++		dev_err(qsdev->dev, "Configure THC DMA failed, ret = %d\n", ret);
++		thc_dma_unconfigure(qsdev->thc_hw);
++		thc_dma_release(qsdev->thc_hw);
++		return ret;
++	}
++
++	return ret;
++}
++
++/**
++ * quickspi_dma_deinit - Release THC DMA for quickspi device
++ * @qsdev: pointer to the quickspi device structure
++ *
++ * Stop THC DMA engines and release all DMA buffers.
++ *
++ */
++static void quickspi_dma_deinit(struct quickspi_device *qsdev)
++{
++	thc_dma_unconfigure(qsdev->thc_hw);
++	thc_dma_release(qsdev->thc_hw);
++}
++
++/**
++ * quickspi_alloc_report_buf - Alloc report buffers
++ * @qsdev: pointer to the quickspi device structure
++ *
++ * Allocate report descritpor buffer, it will be used for restore TIC HID
++ * report descritpor.
++ *
++ * Allocate input report buffer, it will be used for receive HID input report
++ * data from TIC.
++ *
++ * Allocate output report buffer, it will be used for store HID output report,
++ * such as set feature.
++ *
++ * Return: 0 if successful or error code on failed.
++ */
++static int quickspi_alloc_report_buf(struct quickspi_device *qsdev)
++{
++	size_t max_report_len;
++	size_t max_input_len;
++
++	qsdev->report_descriptor = devm_kzalloc(qsdev->dev,
++						le16_to_cpu(qsdev->dev_desc.rep_desc_len),
++						GFP_KERNEL);
++	if (!qsdev->report_descriptor)
++		return -ENOMEM;
++
++	max_input_len = max(le16_to_cpu(qsdev->dev_desc.rep_desc_len),
++			    le16_to_cpu(qsdev->dev_desc.max_input_len));
++
++	qsdev->input_buf = devm_kzalloc(qsdev->dev, max_input_len, GFP_KERNEL);
++	if (!qsdev->input_buf)
++		return -ENOMEM;
++
++	max_report_len = max(le16_to_cpu(qsdev->dev_desc.max_output_len),
++			     le16_to_cpu(qsdev->dev_desc.max_input_len));
++
++	qsdev->report_buf = devm_kzalloc(qsdev->dev, max_report_len, GFP_KERNEL);
++	if (!qsdev->report_buf)
++		return -ENOMEM;
++
++	return 0;
+ }
  
-+/* HIDSPI special ACPI parameters DSM methods */
-+#define ACPI_QUICKSPI_REVISION_NUM			2
-+#define ACPI_QUICKSPI_FUNC_NUM_INPUT_REP_HDR_ADDR	1
-+#define ACPI_QUICKSPI_FUNC_NUM_INPUT_REP_BDY_ADDR	2
-+#define ACPI_QUICKSPI_FUNC_NUM_OUTPUT_REP_ADDR		3
-+#define ACPI_QUICKSPI_FUNC_NUM_READ_OPCODE		4
-+#define ACPI_QUICKSPI_FUNC_NUM_WRITE_OPCODE		5
-+#define ACPI_QUICKSPI_FUNC_NUM_IO_MODE			6
-+
-+/* QickSPI device special ACPI parameters DSM methods */
-+#define ACPI_QUICKSPI_FUNC_NUM_CONNECTION_SPEED		1
-+#define ACPI_QUICKSPI_FUNC_NUM_LIMIT_PACKET_SIZE	2
-+#define ACPI_QUICKSPI_FUNC_NUM_PERFORMANCE_LIMIT	3
-+
-+/* Platform special ACPI parameters DSM methods */
-+#define ACPI_QUICKSPI_FUNC_NUM_ACTIVE_LTR		1
-+#define ACPI_QUICKSPI_FUNC_NUM_LP_LTR			2
-+
-+#define SPI_WRITE_IO_MODE				BIT(13)
-+#define SPI_IO_MODE_OPCODE				GENMASK(15, 14)
-+#define PERFORMANCE_LIMITATION				GENMASK(15, 0)
-+
- /* Packet size value, the unit is 16 bytes */
- #define DEFAULT_MIN_PACKET_SIZE_VALUE			4
- #define MAX_PACKET_SIZE_VALUE_MTL			128
-@@ -37,6 +59,7 @@ struct device;
- struct pci_dev;
- struct thc_device;
- struct hid_device;
-+struct acpi_device;
- 
- /**
-  * struct quickspi_device -  THC QuickSpi device struct
-@@ -44,10 +67,26 @@ struct hid_device;
-  * @pdev: point to PCI device
-  * @thc_hw: point to THC device
-  * @hid_dev: point to hid device
-+ * @acpi_dev: point to ACPI device
-  * @driver_data: point to quickspi specific driver data
-  * @state: THC SPI device state
-  * @mem_addr: MMIO memory address
-  * @dev_desc: device descriptor for HIDSPI protocol
-+ * @input_report_hdr_addr: device input report header address
-+ * @input_report_bdy_addr: device input report body address
-+ * @output_report_bdy_addr: device output report address
-+ * @spi_freq_val: device supported max SPI frequnecy, in Hz
-+ * @spi_read_io_mode: device supported SPI read io mode
-+ * @spi_write_io_mode: device supported SPI write io mode
-+ * @spi_read_opcode: device read opcode
-+ * @spi_write_opcode: device write opcode
-+ * @limit_packet_size: 1 - limit read/write packet to 64Bytes
-+ *                     0 - device no packet size limiation for read/write
-+ * @performance_limit: delay time, in ms.
-+ *                     if device has performance limitation, must give a delay
-+ *                     before write operation after a read operation.
-+ * @active_ltr_val: THC active LTR value
-+ * @low_power_ltr_val: THC low power LTR value
-  * @report_descriptor: store a copy of device report descriptor
+ /*
+@@ -323,6 +525,18 @@ static void quickspi_dev_deinit(struct quickspi_device *qsdev)
+  * @pdev: point to pci device
+  * @id: point to pci_device_id structure
+  *
++ * This function initializes THC and HIDSPI device, the flow is:
++ * - do THC pci device initialization
++ * - query HIDSPI ACPI parameters
++ * - configure THC to HIDSPI mode
++ * - go through HIDSPI enumeration flow
++ *   |- reset HIDSPI device
++ *   |- read device descriptor
++ * - enable THC interrupt and DMA
++ * - read report descriptor
++ * - register HID device
++ * - enable runtime power management
++ *
+  * Return 0 if success or error code on failure.
   */
- struct quickspi_device {
-@@ -55,12 +94,27 @@ struct quickspi_device {
- 	struct pci_dev *pdev;
- 	struct thc_device *thc_hw;
- 	struct hid_device *hid_dev;
-+	struct acpi_device *acpi_dev;
- 	struct quickspi_driver_data *driver_data;
- 	enum quickspi_dev_state state;
+ static int quickspi_probe(struct pci_dev *pdev,
+@@ -386,8 +600,42 @@ static int quickspi_probe(struct pci_dev *pdev,
+ 		goto dev_deinit;
+ 	}
  
- 	void __iomem *mem_addr;
- 
- 	struct hidspi_dev_descriptor dev_desc;
-+	u32 input_report_hdr_addr;
-+	u32 input_report_bdy_addr;
-+	u32 output_report_addr;
-+	u32 spi_freq_val;
-+	u32 spi_read_io_mode;
-+	u32 spi_write_io_mode;
-+	u32 spi_read_opcode;
-+	u32 spi_write_opcode;
-+	u32 limit_packet_size;
-+	u32 spi_packet_size;
-+	u32 performance_limit;
++	ret = reset_tic(qsdev);
++	if (ret) {
++		dev_err(&pdev->dev, "Reset Touch Device failed, ret = %d\n", ret);
++		goto dev_deinit;
++	}
 +
-+	u32 active_ltr_val;
-+	u32 low_power_ltr_val;
++	ret = quickspi_alloc_report_buf(qsdev);
++	if (ret) {
++		dev_err(&pdev->dev, "Alloc report buffers failed, ret= %d\n", ret);
++		goto dev_deinit;
++	}
++
++	ret = quickspi_dma_init(qsdev);
++	if (ret) {
++		dev_err(&pdev->dev, "Setup THC DMA failed, ret= %d\n", ret);
++		goto dev_deinit;
++	}
++
++	ret = quickspi_get_report_descriptor(qsdev);
++	if (ret) {
++		dev_err(&pdev->dev, "Get report descriptor failed, ret = %d\n", ret);
++		goto dma_deinit;
++	}
++
++	ret = quickspi_hid_probe(qsdev);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to register HID device, ret = %d\n", ret);
++		goto dma_deinit;
++	}
++
++	dev_dbg(&pdev->dev, "QuickSPI probe success\n");
++
+ 	return 0;
  
- 	u8 *report_descriptor;
- };
++dma_deinit:
++	quickspi_dma_deinit(qsdev);
+ dev_deinit:
+ 	quickspi_dev_deinit(qsdev);
+ unmap_io_region:
+@@ -415,6 +663,9 @@ static void quickspi_remove(struct pci_dev *pdev)
+ 	if (!qsdev)
+ 		return;
+ 
++	quickspi_hid_remove(qsdev);
++	quickspi_dma_deinit(qsdev);
++
+ 	quickspi_dev_deinit(qsdev);
+ 
+ 	pcim_iounmap_regions(pdev, BIT(0));
+@@ -439,6 +690,9 @@ static void quickspi_shutdown(struct pci_dev *pdev)
+ 	if (!qsdev)
+ 		return;
+ 
++	/* Must stop DMA before reboot to avoid DMA entering into unknown state */
++	quickspi_dma_deinit(qsdev);
++
+ 	quickspi_dev_deinit(qsdev);
+ }
+ 
 -- 
 2.40.1
 
