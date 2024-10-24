@@ -1,61 +1,59 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AF01B21BA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF891B0F35
 	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 08:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729757849; cv=none; b=NYnM/119ynaOTkqULhoT5eHe5sfyviApsjkf+iQ4N6K6HVaKSgG14e1e2s2WFGbX1WMUaDuKv2lXkUhGO+osj6+jRINTLvDmXeahu0Gixne56mPYDtMgPd/i/1YH31V0OeXMDPoXTdgHBHOfRjQT0kXu5QAVNtL7EBAh/ksNl2c=
+	t=1729757850; cv=none; b=pQSHjdLIACdCXfHFMsE8pg9EnJRRA9lMAf59F4s8sxKFaoPKY8oAstJrMHK7/kU0GuHorzRzN6mannQUZ/OXIKYJq2UlxoTw7dIbHn2yzLMvSe8nlSXEhqztPp8Vna/svT1509eWT7J+xaUTNj0c+gmHxjzI/LdF6gB/WpQU0RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729757849; c=relaxed/simple;
-	bh=bINQAp/pWnnhzvey6FhSwDnpzo8hwDOZOiwS6aG0E+0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qtj7y9WkPcDBzaLaxpA2rzLmHOyqter2aNObvofIcFbvSpL5T12EXkWytVu5vM/eYHapCfYKUBFa1QDPMCzB20IUdQC9mweNuvsHqNIBl/tgM+HId34P4PzXPjNuGX+a146lnYXmpNilqis2rbrfM9VzMaQUN+lqOaFJIWVhOIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Qzeu2W3v; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1729757850; c=relaxed/simple;
+	bh=5+PPddUOggBcLzUgVM4JAjl8yf57Cfb1Vspg+FOHcvE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KSwf8rzCeN6ZPyBCDGUXA+JguxfUzluOX+xB2sQpXSxOv4EmBeSa63ebL7XXnXBEU9o5HRCVTyNRVdOg7/1z5Cj5GLdn1/o64SA5OeNG/vcPaI4YMIzkeZSPlm5DcIa0sup84/boFvqtAuWRr5peGCUGjvpsCPqWKs/p9uW+ojs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=jp2WD3Rz; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Qzeu2W3v"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4314f38d274so8345145e9.1
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jp2WD3Rz"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43167ff0f91so6280245e9.1
         for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 01:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729757843; x=1730362643; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UjhehN3UQLkob1z9yCMxhZDnJwwD3zgQTo0JJJu1bkk=;
-        b=Qzeu2W3vVNNgkyTE7xXipXI+r1AsI7+qWkw0VorU5cwtcVFoSOFU4Qoi7M5Ub80t27
-         yxZnNcLJw1yaYqLsgL1Ye/bS2hZE6idS1LQD6qyrR5dMYUYIOXXu+dOUH95ytMeDuOwg
-         DfRoXaGCNhKUxKgNDc7aLD/vsR8TNf5WZA0Cc6Prf7txHGBpg/V0PsTVQgFZtDLLqnv/
-         ecZEqJj1cPPCdvydCi6d4WjAYn4QVnu0RAM1gNdnywLY/+jCtxVAzM0cxEzGm/vqgiNc
-         OraFQ7IhPba01mFV7NhUtlR8M16G4TYz0buQpmB8bJ0d1xBW09G8l4D4T5ArYuyfEiuc
-         edMw==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729757842; x=1730362642; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4dTM6QAgU0iBX1/55GNjACOUfUPsURXI/ZYFo7NvddM=;
+        b=jp2WD3RzYsD/rrhoPjzwKAVbbI96vp2o/tRu0Shs0cKzwzcabClhxJClIP4D4N6kDY
+         ztHVvD5/1zFbdY+1u1oCG9SqcF5Yt6SoINRVZnytD0Ja/lUk+N1ii1cVjXYjUqq1bsUf
+         BbQrkWDiBt/U3GmXVXXX4ADGiIE3jewLW4Famp9N/b+GNPQF7P19Ybscqb7Uzeu3YEA2
+         C0Kmprc9/HFsJgrMvdqUIW610j67EFYgXq/phh3g2ACxbWA13veZh5PMalGpK3J2M3+G
+         Oww9eu0GAggky/0Kx6GOY5PMH1dE6zrgsS9xoa41WY3AUfu0+Z6I5aVor7+58TtF4Mfp
+         yDaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729757843; x=1730362643;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UjhehN3UQLkob1z9yCMxhZDnJwwD3zgQTo0JJJu1bkk=;
-        b=BFcbasB4OxoOCwzJUDSY30C4TY7lQzXfktCDh9gUcy2JHPRdHMPb4sbxNz4tuFkzZp
-         YCssbMaQHiP43vKADcHDetzb/uWU4wgoSCY4zvfgcdPH4DA5UlyRvo88A02pVOGMDDJA
-         F2pIb7auvrLHivYMSbehWm8tjez1wrcN6NUTrhsrKjZgMR0Ljb7vkK2MWqEK9JKozspU
-         yzxwHssYiQeRMjdjuiqf20/R1Tw25JLFjGm76F7gySS+Ds7OyBLuNkMIwoSCd05OJhVc
-         0NnKiZrcYtpfFb+pV9M888Zji3/7I4TEjJCy1MOT3IN6KvvErmKCkURazIOf/5kzKPWR
-         u8Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCUcEU68J5oH74q2O+YvR3+PTjWR4rUtM+mGKgIuaDDDHDgrBotWEXWZKzbfdZE3CmBU9LdBgC3EiMs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUYsuPbz3k3VN0kFnv3J0PBcTBkFmF668BzFjv7wJn2Rm3wqdS
-	2mUQ/cEh7tB1NfOalEoivMih6lvkzS4/c70QkMShw6nHKlPDW+79PNUHgoGmu+g=
-X-Google-Smtp-Source: AGHT+IHOzIZEUzmhjrr4HMvpk4oY/GOpqLv+1DW2TTM0nvMAVotcWmixkQkm9oQvVVtAQ6sGblsOgw==
-X-Received: by 2002:a05:600c:4f86:b0:431:52a3:d9d5 with SMTP id 5b1f17b1804b1-43184157850mr55720895e9.0.1729757843454;
-        Thu, 24 Oct 2024 01:17:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729757842; x=1730362642;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4dTM6QAgU0iBX1/55GNjACOUfUPsURXI/ZYFo7NvddM=;
+        b=C/l3ksaR2sHqg03xO3dF64CEqS/4KtMCXrw+qa8TC6yg8NXT8UwmbiZmFvBNFQj13I
+         1+bzGxDiMbKxo0ETgotuqbFHhPXho3sTga5n5I/akQK89eFgs6mAYUI5rZO0Leno4tGI
+         g+0Pth5ID/NH21mVwRBF2PxkY2X8Fxr3krKPKZIpEza+T013MMq9MJQejtLKLAxwIlaS
+         a6B3PtcK65thAJR8vOqOSEJ9oTViB2z50WIWYualAuB2EhubB1fK+ADeKeoseqMY/kUl
+         HDc4+lt0xk1GgQLTvs0y/xWiT4OGWx6u5gYVmMtPo2+HhD+Zud/yNKI4yU5wRMAoTCHI
+         3oIA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSaycqPobk4kTlsyeqQ0PJsIo7k8oqRvEA0kXv9UesVT+yn828AMdHriRab3i0v6PeM/yKbzSHWR0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcoPMJmZrhQV2b4Yw7+7qvwIu4GZV3GdfgqZbPxqdiE5iky+ev
+	jYkYkBqN2vB/yMi0U+5vyFgglFOzponcAMdazpUZ0acKsYZYCsOFIpIMFUChVOM=
+X-Google-Smtp-Source: AGHT+IGRnp0CPyE9Lu8MiPJUC8cE2tOabAKZQUMJoKtx0sHKMX+8ebn9dBSN/PK5Xm3LKaO9EFz3xQ==
+X-Received: by 2002:a05:600c:3595:b0:42c:a8cb:6a75 with SMTP id 5b1f17b1804b1-4318415f707mr48674225e9.17.1729757842561;
+        Thu, 24 Oct 2024 01:17:22 -0700 (PDT)
 Received: from [192.168.1.64] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b93d53sm10828922f8f.70.2024.10.24.01.17.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b93d53sm10828922f8f.70.2024.10.24.01.17.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 24 Oct 2024 01:17:22 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Thu, 24 Oct 2024 10:16:56 +0200
-Subject: [PATCH v3 1/4] dt-bindings: iio: adc: ad7380: add adaq4370-4 and
- adaq4380-4 compatible parts
+Subject: [PATCH v3 0/4] ad7380: add adaq4370-4 and adaq4380-4 support
+Date: Thu, 24 Oct 2024 10:16:55 +0200
+Message-Id: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,9 +62,12 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241024-ad7380-add-adaq4380-4-support-v3-1-6a29bd0f79da@baylibre.com>
-References: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
-In-Reply-To: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
+X-B4-Tracking: v=1; b=H4sIAHcCGmcC/42Py2rDMBBFf8VoXQU9Y8Wr/kfpYiSNGkESO5JjG
+ oL/PWObQuimXQzDncWZcx+sYslYWdc8WMEp19xfKOi3hoUjXL6Q50iZKaGMFNJyiK12glakgat
+ ZguH1Ngx9Gbk0McgWgxDqwIgxFEz5e+V/fG654PVGb8btyDxU5KE/n/PYNc4jaNc6kFZKHxBiU
+ Mkn5YwXwodgQSGlyF71umaTE+ZHjl6uRidqxvW+bfXehuQAukmzReOY69iX+9p6kqvHPwtOkgs
+ eFUo42OSVce8e7qfsC+6oxAqf1AtQ6b+AagFam4Cqe4zpF3Ce5ydvb9P9pQEAAA==
+X-Change-ID: 20241015-ad7380-add-adaq4380-4-support-14dc17ec0029
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
@@ -78,206 +79,65 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.2
 
-adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS) are quad-channel precision data
-acquisition signal chain μModule solutions compatible with the ad738x
-family, with the following differences:
+Hello,
+
+This series add support for adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS)
+which are quad-channel precision data acquisition signal chain μModule
+solutions compatible with the ad738x family, with the following differences:
 
 - pin selectable gain in front of each 4 adc
 - internal reference is 3V derived from refin-supply (5V)
 - additional supplies
 
-To select the gain a new patternProperties is added to describe each
-channel. It is restricted to adaq devices.
+This series depends on [1] which fix several supplies issues
+
+[1]: https://lore.kernel.org/all/20241007-ad7380-fix-supplies-v1-0-badcf813c9b9@baylibre.com/
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- .../devicetree/bindings/iio/adc/adi,ad7380.yaml    | 120 +++++++++++++++++++++
- 1 file changed, 120 insertions(+)
+Changes in v3:
+bindings:
+  - remove item from channel reg property (should be part of V2, but get
+    lost during rebase)
+  - remove unnecessary () for channel property
+  - keep consistent quotes
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-index 0065d650882489e21b952bb9fb25f1e3a070ee68..ada08005b3cd1ce7ba13f96484a33fdee0e83a1c 100644
---- a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
-@@ -25,6 +25,8 @@ description: |
-   * https://www.analog.com/en/products/ad7386-4.html
-   * https://www.analog.com/en/products/ad7387-4.html
-   * https://www.analog.com/en/products/ad7388-4.html
-+  * https://www.analog.com/en/products/adaq4370-4.html
-+  * https://www.analog.com/en/products/adaq4380-4.html
- 
- 
- $ref: /schemas/spi/spi-peripheral-props.yaml#
-@@ -46,6 +48,8 @@ properties:
-       - adi,ad7386-4
-       - adi,ad7387-4
-       - adi,ad7388-4
-+      - adi,adaq4370-4
-+      - adi,adaq4380-4
- 
-   reg:
-     maxItems: 1
-@@ -70,6 +74,20 @@ properties:
-   refin-supply:
-     description:
-       A 2.5V to 3.3V supply for external reference voltage, for ad7380-4 only.
-+      For adaq devices, a 5V supply voltage. A 3.3V internal reference is
-+      derived from it. Connect to vs-p-supply for normal operation.
-+
-+  vs-p-supply:
-+    description:
-+      Amplifiers positive supply.
-+
-+  vs-n-supply:
-+    description:
-+      Amplifiers negative supply.
-+
-+  ldo-supply:
-+    description:
-+      LDO supply. Connect to vs-p-supply or a 3.6 to 5.5 V supply.
- 
-   aina-supply:
-     description:
-@@ -97,12 +115,45 @@ properties:
-       specify the ALERT interrupt.
-     maxItems: 1
- 
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
- required:
-   - compatible
-   - reg
-   - vcc-supply
-   - vlogic-supply
- 
-+patternProperties:
-+  "^channel@[0-3]$":
-+    $ref: adc.yaml
-+    type: object
-+
-+    properties:
-+      reg:
-+        description:
-+          The channel number. From 0 to 3 corresponding to channels A,B,C,D
-+        minimum: 0
-+        maximum: 3
-+
-+      adi,gain-milli:
-+        description:
-+          The hardware gain applied to the ADC input (in milli units).
-+          If not present, default to 1000 (no actual gain applied).
-+          Refer to the typical connection diagrams section of the datasheet for
-+          pin wiring.
-+        $ref: /schemas/types.yaml#/definitions/uint16
-+        enum: [300, 600, 1000, 1600]
-+        default: 1000
-+
-+    required:
-+      - reg
-+
-+    additionalProperties: false
-+
- unevaluatedProperties: false
- 
- allOf:
-@@ -140,6 +191,7 @@ allOf:
-         aind-supply: false
- 
-   # ad7380-4 uses refin-supply as external reference.
-+  # adaq devices use internal reference only, derived from refin-supply
-   # All other chips from ad738x family use refio as optional external reference.
-   # When refio-supply is omitted, internal reference is used.
-   - if:
-@@ -147,6 +199,8 @@ allOf:
-         compatible:
-           enum:
-             - adi,ad7380-4
-+            - adi,adaq4370-4
-+            - adi,adaq4380-4
-     then:
-       properties:
-         refio-supply: false
-@@ -156,6 +210,27 @@ allOf:
-       properties:
-         refin-supply: false
- 
-+  # adaq devices need more supplies and using channel to declare gain property
-+  # only applies to adaq devices
-+  - if:
-+      properties:
-+        compatible:
-+          enum:
-+            - adi,adaq4370-4
-+            - adi,adaq4380-4
-+    then:
-+      required:
-+        - vs-p-supply
-+        - vs-n-supply
-+        - ldo-supply
-+    else:
-+      properties:
-+        vs-p-supply: false
-+        vs-n-supply: false
-+        ldo-supply: false
-+      patternProperties:
-+        "^channel@[0-3]$": false
-+
- examples:
-   - |
-     #include <dt-bindings/interrupt-controller/irq.h>
-@@ -180,3 +255,48 @@ examples:
-             refio-supply = <&supply_2_5V>;
-         };
-     };
-+
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        adc@0 {
-+            compatible = "adi,adaq4380-4";
-+            reg = <0>;
-+
-+            spi-cpol;
-+            spi-cpha;
-+            spi-max-frequency = <80000000>;
-+
-+            interrupts = <27 IRQ_TYPE_EDGE_FALLING>;
-+            interrupt-parent = <&gpio0>;
-+
-+            vcc-supply = <&supply_3_3V>;
-+            vlogic-supply = <&supply_3_3V>;
-+            refin-supply = <&supply_5V>;
-+            vs-p-supply = <&supply_5V>;
-+            vs-n-supply = <&supply_0V>;
-+            ldo-supply = <&supply_5V>;
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            channel@0 {
-+                reg = <0>;
-+                adi,gain-milli = /bits/ 16 <300>;
-+            };
-+
-+            channel@2 {
-+                reg = <2>;
-+                adi,gain-milli = /bits/ 16 <600>;
-+            };
-+
-+            channel@3 {
-+                reg = <3>;
-+                adi,gain-milli = /bits/ 16 <1000>;
-+            };
-+        };
-+    };
+- Link to v2: https://lore.kernel.org/r/20241023-ad7380-add-adaq4380-4-support-v2-0-d55faea3bedf@baylibre.com
 
+Changes in v2:
+- fix commit messages and documentation about the gain: pin selectable
+  gain instead of configurable gain
+- add the enum of available gains inthe binding and array of available
+  gains in the driver as ad4000 series
+- in the bindings, remove item from channel reg property
+- in the bindings, merge additional supplies and channel properties inside
+  the same if branch for adaq devices
+- fix comment as suggested by Jonathan in the driver
+
+- Link to v1: https://lore.kernel.org/r/20241015-ad7380-add-adaq4380-4-support-v1-0-d2e1a95fb248@baylibre.com
+
+---
+Julien Stephan (4):
+      dt-bindings: iio: adc: ad7380: add adaq4370-4 and adaq4380-4 compatible parts
+      iio: adc: ad7380: fix oversampling formula
+      iio: adc: ad7380: add support for adaq4370-4 and adaq4380-4
+      docs: iio: ad7380: add adaq4370-4 and adaq4380-4
+
+ .../devicetree/bindings/iio/adc/adi,ad7380.yaml    | 120 +++++++++++++++++
+ Documentation/iio/ad7380.rst                       |  18 +++
+ drivers/iio/adc/ad7380.c                           | 149 +++++++++++++++++++--
+ 3 files changed, 278 insertions(+), 9 deletions(-)
+---
+base-commit: 8bea3878a1511bceadc2fbf284b00bcc5a2ef28d
+change-id: 20241015-ad7380-add-adaq4380-4-support-14dc17ec0029
+prerequisite-change-id: 20241004-ad7380-fix-supplies-3677365cf8aa:v3
+prerequisite-patch-id: 6127a52d3b14e82d1a6081c7e504d0e4eb323089
+prerequisite-patch-id: 7dee57142d0d12682b0be3b62f1c16851aeac069
+prerequisite-patch-id: f737e56a372cd91e5fac651a2063b06827f9aa21
+prerequisite-patch-id: 7c8d5fbde82810057630b95e12bb2f6576da6980
+prerequisite-patch-id: 972bdbf06bafa7c56f604dbe8eb7d236aadaad99
+
+Best regards,
 -- 
-2.47.0
+Julien Stephan <jstephan@baylibre.com>
 
