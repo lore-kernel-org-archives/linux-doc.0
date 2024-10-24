@@ -1,145 +1,189 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024AF1F81BC
-	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 16:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5174F1F8188;
+	Thu, 24 Oct 2024 16:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729787142; cv=none; b=c/WOvghymn+bVteoPwhVBWKKwa3KOUKSSJFgBGepVFPPOxJU/R9/GOVclPk3PrYU0H+fEMHtrBK0z7lYioHrTFUYSvIxDra+RviVA4HGJGxgSIMG15pPSXTpDW3x0Wv1LwkT0BCZr060fyfo66uTS45Egt4bJZleuXRLrkBgw/A=
+	t=1729787911; cv=none; b=aIfVs5TtvbYFrn3bocWXpyNli1WVEwxHAPgXjfH975FR9TKz/Imydp3AVwpXZ4OiU8uG5V4Cl9+diMwpCNxMWChPh3DAtZ6HWAsd1L0rK3dQjnycirpCMi3RKIkLVp8Hoe+++G5OzpYZBAszg8dR7ElOLRDN8eJGNeLrjd50dUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729787142; c=relaxed/simple;
-	bh=1JvgRGt6u8l7WaG5wCwCD/6HMQh2wO5p+FLLwIZukeo=;
+	s=arc-20240116; t=1729787911; c=relaxed/simple;
+	bh=tkSNE6x8L3EpPPEaen1uj79Yl7nRKcfUt0+3bu2yz+o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=brVAELKVqvmCFB/jgSVfrsVqzJNC8Z30Y9Mh+P6DFAVUkDoKs3Qgi0T0tAPWZFTX8e6OZMUcNR1Lm0dkLXm/tzsSjrKwjEmRWfv4lCUNKFbnuU0iyRYLYrXh6Uq307r/uIxqpdG68Wzx4FgAa0fFqa00rDgJ7K/lbgC0sTWe5+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CdcXpgXe; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=X0mx69RSRRafK16MYZClPktC9HEj4FOagWlXpT3Fg2g5ROOx3GiwMGPkFiwaQmugbwgcvtNl6f+8FlSHkMGuKnUxnuHDe8Dqe89k4PdXlyy6B0Shcc/9C0C9cjPwblwHTzuDKHVHeMkb3G43suU1tOLXkAi5Yje2zpJdagAMLro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OR1MWIFA; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CdcXpgXe"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4315ee633dcso194705e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 09:25:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OR1MWIFA"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c9362c26d8so4005386a12.1;
+        Thu, 24 Oct 2024 09:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729787138; x=1730391938; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729787907; x=1730392707; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PsKck1YTKCCMRyW5+ku5wUHxij3yPa9weScPb3/oZQY=;
-        b=CdcXpgXeZoRj3O733DKfkDZFj4JvXK7RHeKnEFthVC6ViyIcWq9Qm8e5TmuBarCYSc
-         ItzjWWx+vs2RpeI/LGeaHtlV6ZrKqzSqUP7FYYwKLa+ivglDmVpIOoqDZ/EBfVk8GSoL
-         ohe3UbxboTzZDbS1zXFxU5ox2yZnqE8IBb3Op0eUuGeIKL2qrJMvpfVwraXzOfHjhc0F
-         qsgg/EIdjiLYM7DbYBR1FFYdvxNYVzSqimdDTx4Sav0JWFoIfKemwd001DlhxpA95pDT
-         Tnz1Sda0Wtusr2yMgpzBWPY+waFpmnV+CA/Kf2V9AulCiaH8o3K4c3OPckI5ksyfGGuH
-         sKNg==
+        bh=E6OrnFlL53k5PbeOSCXvYwOxfZaO+J0U5NvlTNJMMDU=;
+        b=OR1MWIFA0qFw6LgGSiUekYev6WHb+WK8etNhJD5Vxladt6rT0Z0fG2I2GTQTKoVKqq
+         lXANP/T9YonWHhJZyVkO2hwCc34NG669a8Yd0eNX9ALMgR261mzsyx8sBMw5fupyfLCw
+         s8YdSzFRV7II/oNoAjvX7zsjzkK6BCs9H4kGtwbQ+jv9Dlip9qiC33CZdClmOp+wFJJ5
+         +9UGETtopif6ZvGblF0xr2YYHCl1Ihak6h9inMie1c7NkErBS0G71cBHKeBDIaf4Y3cp
+         j2cQEpSXOX4a8P6r7jYbq1L/Ot/nVovf7V10x/MjWwf6jLH+qi/iUvIpPJ1nNvgDIqGc
+         Xvyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729787138; x=1730391938;
+        d=1e100.net; s=20230601; t=1729787907; x=1730392707;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PsKck1YTKCCMRyW5+ku5wUHxij3yPa9weScPb3/oZQY=;
-        b=FUoptFE5UMbuNYmjBaJ5pFEn2rPUp3CPMRpNoCWRzRWTRRVC8kC2vxy64AQB2KYnfy
-         JYOJA6OsdnZdH8mtRT48XlbXu6yp+I4z0rtYNYFoR3Recbd4SAu3Zn4muC9CC01BWHaf
-         picnubZdwCol64lorMi1vGOHAZVgBHC0xefh78WyFC5C+9cw951gAgjFEtSu9ftRXcrC
-         G5UWTqaVgOXYauU/7ggAx5uSuxG7qkjF9w5DaLejKU5+ehlKRAMhCuTw3/Q/r+Z04BGh
-         Hpxce4L+QkxkMpNtRJ+HMv57rODayAT4kEzz2Dm1zhs7nBnNz/hNAn9PfbmbZz0VrA58
-         MlDg==
-X-Forwarded-Encrypted: i=1; AJvYcCWen6ZJbUN3phaLjFnINd4zIHikEj+wt0HBpXr74MKrArOYDDgqJNyivuHof0pYrfg7j0jE9JKh4dA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAxgXmbQbVsbHhwvbmLntnYpEDuEyxYB1kL3+v5KR7whyu3EUB
-	9tmHrlk6P4TLi3YfZwoTBTCQJSZuxDoovEQBSqgSS2OXpB2IUdedCa3kXCzzp5ASPhVZVBnOOr0
-	2JX+2aK9aC+ki7jAxZvYhCD1Y6v4u3QqUoTx0
-X-Google-Smtp-Source: AGHT+IGLBq2yNokN7929g0eN3iBE3/2qdA2DRQWdC4E2LpDfi93QPPEgbNRjYQqJ+XQ+mG7d0keQ7uvVD5LffkbY/lk=
-X-Received: by 2002:a05:600c:5023:b0:42c:b0b0:513a with SMTP id
- 5b1f17b1804b1-4318a50525emr5577505e9.2.1729787137882; Thu, 24 Oct 2024
- 09:25:37 -0700 (PDT)
+        bh=E6OrnFlL53k5PbeOSCXvYwOxfZaO+J0U5NvlTNJMMDU=;
+        b=DFZYHGzBGUvbs9qoNINRMDKSfTod6UqmUi+isDh85gHzx6YviRLmxBu2SDb5C3uT9I
+         7iuoAoisBigNZ8w6vs179UmSK4ojwiPEbh5n/ll1xb9HnfYrhc9hOxdnWuEj6TiBwQt1
+         GRVZuAHJw8+dh36PYy8k3O3hp5DlnLaXfgF5eOYSLBaAh0Y/aq1fZIzh4JynrAAcgGlP
+         vNLrpYKk42ML1h2jE3DyIE6GTwmFqVs1+We7UAi21JN48tRsYsAP6uiniB/8REaO4oZc
+         pgBUCadvZEJoGt1K22cvhMb1ex2nSNGb0/tJ48h0HmLEhN3MOxkH80PTssKT+J1OTBMV
+         TlcA==
+X-Forwarded-Encrypted: i=1; AJvYcCVV960dRgZyylr7RQpkhlmOzQB9Urpr+Ixf5oFUoy/l43oQVZf5seT5NOTfUYAac4AhLgk3MJgyD90=@vger.kernel.org, AJvYcCWSz8LUf7awRNs0QcbF334xFG3zYEilmDVzzmsAiqiFR7CS4pZp5OLW5zydyA2PE+S/GA2mMzs0@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnhvdjjgFYJ+ROlNyRVsLyO1KwGsFWyZxTX4S6wnOtbFUu4gHC
+	ZyFMEdv9Pf66E9qRGJNmKHAIYRPLsehZktOlpP/kIls+Zbia+Dj6+ZreOTqDeuBFDfzDPTV1i50
+	ryGC0k9exiNJrKo/rIpi3oe2wCpo=
+X-Google-Smtp-Source: AGHT+IEzhPtdiCdhY65VTMNrpBco+30HzckOjVn5NCTaiNhCZTvT9mWvdNjc32SVqYLsqE1nRyhxG2OVMKSGZtV5OLk=
+X-Received: by 2002:a05:6402:358c:b0:5c9:3070:701e with SMTP id
+ 4fb4d7f45d1cf-5cba2037cc9mr3252493a12.9.1729787907328; Thu, 24 Oct 2024
+ 09:38:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241023170759.999909-1-surenb@google.com> <20241023170759.999909-6-surenb@google.com>
- <20241023140017.e165544bf20bcb0c79bfee57@linux-foundation.org> <CAJuCfpH9yc2kYGZqYjYPWbApy05yqiONqziBQ+qF+R3nZRL56w@mail.gmail.com>
-In-Reply-To: <CAJuCfpH9yc2kYGZqYjYPWbApy05yqiONqziBQ+qF+R3nZRL56w@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 24 Oct 2024 09:25:22 -0700
-Message-ID: <CAJuCfpFEYm-YT7AS6TzOMdLNtuS1E7KJuWJ8YeL9ro2L+3Wb9g@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] alloc_tag: introduce pgtag_ref_handle to abstract
- page tag references
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kent.overstreet@linux.dev, corbet@lwn.net, arnd@arndb.de, 
-	mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, thuth@redhat.com, 
-	tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com, 
-	ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, 
-	willy@infradead.org, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
-	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
-	jhubbard@nvidia.com, urezki@gmail.com, hch@infradead.org, petr.pavlu@suse.com, 
-	samitolvanen@google.com, da.gomez@samsung.com, yuzhao@google.com, 
-	vvvvvv@google.com, rostedt@goodmis.org, iamjoonsoo.kim@lge.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-mm@kvack.org, 
-	maple-tree@lists.infradead.org, linux-modules@vger.kernel.org, 
-	kernel-team@android.com
+References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-2-ap420073@gmail.com>
+ <CACKFLikH-8fdqpvFouoNaFGq011+XvR0+C-8ryq-SutAs=RdsQ@mail.gmail.com>
+In-Reply-To: <CACKFLikH-8fdqpvFouoNaFGq011+XvR0+C-8ryq-SutAs=RdsQ@mail.gmail.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Fri, 25 Oct 2024 01:38:15 +0900
+Message-ID: <CAMArcTV3U62Rz+FPCJWVOqqNJOZBLnBvb+yRcjJ+drspm5nxbw@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 1/8] bnxt_en: add support for rx-copybreak
+ ethtool command
+To: Michael Chan <michael.chan@broadcom.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com, almasrymina@google.com, donald.hunter@gmail.com, 
+	corbet@lwn.net, andrew+netdev@lunn.ch, hawk@kernel.org, 
+	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
+	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
+	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
+	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
+	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
+	willemb@google.com, daniel.zahka@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 23, 2024 at 2:09=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
->
-> On Wed, Oct 23, 2024 at 2:00=E2=80=AFPM Andrew Morton <akpm@linux-foundat=
-ion.org> wrote:
-> >
-> > On Wed, 23 Oct 2024 10:07:58 -0700 Suren Baghdasaryan <surenb@google.co=
-m> wrote:
-> >
-> > > To simplify later changes to page tag references, introduce new
-> > > pgtag_ref_handle type. This allows easy replacement of page_ext
-> > > as a storage of page allocation tags.
-> > >
-> > > ...
-> > >
-> > >  static inline void pgalloc_tag_copy(struct folio *new, struct folio =
-*old)
-> > >  {
-> > > +     union pgtag_ref_handle handle;
-> > > +     union codetag_ref ref;
-> > >       struct alloc_tag *tag;
-> > > -     union codetag_ref *ref;
-> > >
-> > >       tag =3D pgalloc_tag_get(&old->page);
-> > >       if (!tag)
-> > >               return;
-> > >
-> > > -     ref =3D get_page_tag_ref(&new->page);
-> > > -     if (!ref)
-> > > +     if (!get_page_tag_ref(&new->page, &ref, &handle))
-> > >               return;
-> > >
-> > >       /* Clear the old ref to the original allocation tag. */
-> > >       clear_page_tag_ref(&old->page);
-> > >       /* Decrement the counters of the tag on get_new_folio. */
-> > > -     alloc_tag_sub(ref, folio_nr_pages(new));
-> > > -
-> > > -     __alloc_tag_ref_set(ref, tag);
-> > > -
-> > > -     put_page_tag_ref(ref);
-> > > +     alloc_tag_sub(&ref, folio_nr_pages(new));
-> >
-> > mm-stable has folio_size(new) here, fixed up.
->
-> Oh, right. You merged that patch tonight and I formatted my patchset
-> yesterday :)
-> Thanks for the fixup.
->
-> >
-> > I think we aleady discussed this, but there's a crazy amount of
-> > inlining here.  pgalloc_tag_split() is huge, and has four callsites.
->
-> I must have missed that discussion but I am happy to unline this
-> function. I think splitting is heavy enough operation that this
-> uninlining would not have be noticeable.
+On Thu, Oct 24, 2024 at 3:41=E2=80=AFPM Michael Chan
 
-Posted requested uninlining at
-https://lore.kernel.org/all/20241024162318.1640781-1-surenb@google.com/
+Hi Michael,
+Thank you so much for the review!
 
-> Thanks!
+<michael.chan@broadcom.com> wrote:
+>
+> On Tue, Oct 22, 2024 at 9:24=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
+rote:
+> >
+> > The bnxt_en driver supports rx-copybreak, but it couldn't be set by
+> > userspace. Only the default value(256) has worked.
+> > This patch makes the bnxt_en driver support following command.
+> > `ethtool --set-tunable <devname> rx-copybreak <value> ` and
+> > `ethtool --get-tunable <devname> rx-copybreak`.
+> >
+> > Reviewed-by: Brett Creeley <brett.creeley@amd.com>
+> > Tested-by: Stanislav Fomichev <sdf@fomichev.me>
+> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+> > ---
+> >
+> > v4:
+> >  - Remove min rx-copybreak value.
+> >  - Add Review tag from Brett.
+> >  - Add Test tag from Stanislav.
+> >
+> > v3:
+> >  - Update copybreak value after closing nic and before opening nic when
+> >    the device is running.
+> >
+> > v2:
+> >  - Define max/vim rx_copybreak value.
+> >
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c     | 23 +++++----
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.h     |  5 +-
+> >  .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 48 ++++++++++++++++++-
+> >  3 files changed, 65 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/et=
+hernet/broadcom/bnxt/bnxt.c
+> > index bda3742d4e32..0f5fe9ba691d 100644
+> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+>
+> > @@ -4510,7 +4513,8 @@ void bnxt_set_ring_params(struct bnxt *bp)
+> >                                   ALIGN(max(NET_SKB_PAD, XDP_PACKET_HEA=
+DROOM), 8) -
+> >                                   SKB_DATA_ALIGN(sizeof(struct skb_shar=
+ed_info));
+> >                 } else {
+> > -                       rx_size =3D SKB_DATA_ALIGN(BNXT_RX_COPY_THRESH =
++ NET_IP_ALIGN);
+> > +                       rx_size =3D SKB_DATA_ALIGN(bp->rx_copybreak +
+> > +                                                NET_IP_ALIGN);
+>
+> When rx_copybreak is 0 or very small, rx_size will be very small and
+> will be a problem.  We need rx_size to be big enough to contain the
+> packet header, so rx_size cannot be below some minimum (256?).
+>
+> >                         rx_space =3D rx_size + NET_SKB_PAD +
+> >                                 SKB_DATA_ALIGN(sizeof(struct skb_shared=
+_info));
+> >                 }
+> > @@ -6424,8 +6428,8 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *bp=
+, struct bnxt_vnic_info *vnic)
+> >                                           VNIC_PLCMODES_CFG_REQ_FLAGS_H=
+DS_IPV6);
+> >                 req->enables |=3D
+> >                         cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_T=
+HRESHOLD_VALID);
+> > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copy_thresh);
+> > -               req->hds_threshold =3D cpu_to_le16(bp->rx_copy_thresh);
+> > +               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copybreak);
+> > +               req->hds_threshold =3D cpu_to_le16(bp->rx_copybreak);
+>
+> Similarly, these thresholds should not go to 0 when rx_copybreak becomes =
+small.
+>
+> >         }
+> >         req->vnic_id =3D cpu_to_le32(vnic->fw_vnic_id);
+> >         return hwrm_req_send(bp, req);
+>
+> > @@ -4769,7 +4813,7 @@ static int bnxt_run_loopback(struct bnxt *bp)
+> >         cpr =3D &rxr->bnapi->cp_ring;
+> >         if (bp->flags & BNXT_FLAG_CHIP_P5_PLUS)
+> >                 cpr =3D rxr->rx_cpr;
+> > -       pkt_size =3D min(bp->dev->mtu + ETH_HLEN, bp->rx_copy_thresh);
+> > +       pkt_size =3D min(bp->dev->mtu + ETH_HLEN, bp->rx_copybreak);
+>
+> The loopback test will also not work if rx_copybreak is very small.  I
+> think we should always use 256 bytes for the loopback test packet
+> size.  Thanks.
+>
+> >         skb =3D netdev_alloc_skb(bp->dev, pkt_size);
+> >         if (!skb)
+> >                 return -ENOMEM;
+
+I tested `ethtool -t eth0` and I checked it fails if rx-copybreak is too
+small. Sorry for missing that.
+I think we can use max(BNXT_DEFAULT_RX_COPYBREAK,
+bp->rx_copybreak) for both cases.
+I tested it, it works well.
+So I will use that if you are okay!
+
+Thank you so much,
+Tahee Yoo
