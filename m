@@ -1,246 +1,250 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1371E86E
-	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 00:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729729603; cv=none; b=OgAD7dBROFBH3vgBVTaye5uWQM06whxyms8y9eWPOFH9Lx+ncQLx6KDaf6miLM1rQV0wSskkP6qc/2I96dmJ+1uq2xF+4hlHpZKln+D432xzjD7SVWs24HY1+1cwrp2C+3Vpll7nJbzUO4bJPLv8oVGder+Xh0Kf9bfAJzbOGWw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729729603; c=relaxed/simple;
-	bh=XO7VovVzj1BPrVw+Wf5x+qyjs8ZTD7IQiAtZNmvKHUU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=meDW1C0ksVM7MTpM26uVpM6cfDghLJGVe2e0B/zymT7pI185/2aU81eDf2oTckD+tdF2GOO3JNbLvyzXLu1W7chJ1JIsL9fwIaKibx1AJ/SvadWE8qYdnvpavSuIGWnFgNBhH0WYF+sXsKnblzDsNcyuDpeNZjLUwAIPAYANDWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Moqlb6yV; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62304C9F;
+	Thu, 24 Oct 2024 01:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729734080; cv=fail; b=shjgw7hpz8TLJGJSSNRCrIcfX0CiExd8/xy111BwMdf1NBGdRE7W3otRLLH38JuDDKrcsqB7AZHHEhFUzWuwhB7AJHQcykQr9S/s+uPvAr1kQIrIjlVIORQnYrbmvgRB2D5qrWy77stEPSw5W0l4jPLdvRr88BiEK0AmEpD+aps=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729734080; c=relaxed/simple;
+	bh=gmMFi0iTvGTITCwSRI1gom2pyWxLZ3zizdQWMPeRfzQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=DD2L6obMBxX9tqcnzjAjWIRlEXoH67Sv5ogyUY4Ap0IWF2FF7yF9hOGGOm4g2+kQWkmr1iKjr1CVoJoMHpNru+8jb3un+iJWzu23jOqU2eVcQuVYUJFqId6rIpr+1xF/ua4dYf9u5NJTzZ7No8uVjfZOEtyoULyja1sELxuaJE8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mI2tJu9a; arc=fail smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Moqlb6yV"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4608dddaa35so76101cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Oct 2024 17:26:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729729599; x=1730334399; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0t1/W3VOoKzRco/3jb/6PzML2qkeqAFFQKJfPMJh0zQ=;
-        b=Moqlb6yVvmMcBuChBORo348Z6sevz3mnHO+i/vy+IyKlb4HJ5vuDOh/Azjw0a5q+TZ
-         Kosn8M+ImQ6BXdcSkIXvYkD8xrGAXLsP0k+mCnrpHVvHoNXGk8VF4I3emLecpLMWBsZ/
-         wZaYqGmTE675DomYNxzyjtgPpoa8cQuQ3VKq28DSyGRjWCA6Jb6Jk5/UDcWumvJ36A5i
-         MsOviwB7m0/Ihj8JyUhCCurhKW9USByv1Oh3JbRX1nfA4vdXxUUXwnUMzDNpTptoEt4H
-         439QcFkAbt+Cj3cbx0AMVHnhnMn6UsLPNb+F+AZA11L81Gz70HaaE9ALP76COWI0u5NY
-         50eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729729599; x=1730334399;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0t1/W3VOoKzRco/3jb/6PzML2qkeqAFFQKJfPMJh0zQ=;
-        b=Uz6YfCy1rWm9+W6PovnpmN9fYtOQGKpH6bK+BR8wIU4TuEVPx0ilbXYNoTaA1JRZbY
-         wuYwO+7mV8efX2cwiPjU+ys7TSC/5MEyl4QkSxynHJ698Bj83iT0kyBeG3IhDOzwIVUE
-         81+B8ah/6tvy3NrL+ZgzFxq4FI9BAcj2VeKZC8iZ9kCCdyBXDLQpDnegqMccKTO6zsFT
-         01F6EB+nC1BxQ1burIg/yPQ+uPVoZ81LSoBgF3yCJiagViDusF1iGRh6kv780+Wm13p0
-         24p3mmA6NZTygY1GsioMaWu2f26ZZzvYYz+THtYh8PhWBftmBt0ztE5oXfUrizwQrWTw
-         ccTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhW7nJN18EK4E/Va2kTnt5DvBiscLoNXShFJmdQJSCt/mDloj8PPy1lc2uODhLMrgiolZ+RZic35M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpeyQxsER5XpCcnNsL0MqZme5cY9BCaH4b08dJG+/PTeKuPZ+W
-	4URxukM5lh/OxVN5KngG00KEX94QybVTxEDHUforhyY5uUCQNflKl5AN3TS3A4TnY2m1Xst2nFT
-	A3A4oKLpEHFSdsLr8DWiU1v+H4P8X6CfPNISN
-X-Google-Smtp-Source: AGHT+IEQrVkBml7UI0Uw4ZtwGBqVXrIo5cxee2Oexbu2tWb028MtGoy/IcXDifMTYHr92UFgH6qTtnfUiTeu1uraXWU=
-X-Received: by 2002:a05:622a:256:b0:45c:9eab:cce0 with SMTP id
- d75a77b69052e-46124382133mr802111cf.15.1729729599106; Wed, 23 Oct 2024
- 17:26:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mI2tJu9a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729734078; x=1761270078;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=gmMFi0iTvGTITCwSRI1gom2pyWxLZ3zizdQWMPeRfzQ=;
+  b=mI2tJu9aFD0rFWLlm6Ay+O4jq+5fP41uAMzPHT+4oy0F4RZQUjRGxng9
+   eGl6R09ni5LqA+7tjP13wiH20os+55TyqlWGhpBUxi41qaBgc9OH0PQzS
+   mpjkuMHPDyu4XGnSa7D2GvD3QfuVcKd3R5wyhdc9Oz6qBQ4S8Wld4eNB9
+   BW2olQwH85Sh92v5axICsBYwaagOjevfb5NziJHL0lObUz2r9/3JhiyrO
+   BSuAkFBUSQZwBDJNlU09wLXTsAsYXxY0vDR5sBI2jUTs+26WOWD+DCDZh
+   Nd4d8FwVAwcRvMRAaqmLFcuM5iH4xsPOfgv6frBG0CULZ5XTXPfXMbT32
+   g==;
+X-CSE-ConnectionGUID: WJJc9kZWTWKeSFJxvq+7Ow==
+X-CSE-MsgGUID: XXrBtpnxS161dKaw5kxvqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="28790357"
+X-IronPort-AV: E=Sophos;i="6.11,227,1725346800"; 
+   d="scan'208";a="28790357"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 18:41:17 -0700
+X-CSE-ConnectionGUID: tTeXP+WHRkKgW++1qrO7VA==
+X-CSE-MsgGUID: ccIKtq6sS5SKEaY8Hg/HNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,227,1725346800"; 
+   d="scan'208";a="80105020"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Oct 2024 18:41:17 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 23 Oct 2024 18:41:16 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 23 Oct 2024 18:41:16 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.48) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 23 Oct 2024 18:41:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L59aEhsRRENxyaPsw7uZnsNaGcOQV9SUWA80mPknxXZOrelUgbopl8A1rFGi2RBf66ieSL4GZlCzID2v/kF+al29v48wuHa5mpEnX+VXTgYjmC3JN9/PxLwyWcyV3PW82rxYQzDaiR3p5YTIJfAaNsjnCfq4cQDOSAd9dehx3BKDMm5KS5exWFQS9GQkz+EK8vTrzCVfz1yVUIiw+6S9peo5bYgOVwHtYgQgte1Aj0VyD4HkV91VG8WlTfNp3l3Jp4N5QCSFwYejO2GrfdaZOTHGSSgeBR7Q9l4WyEBEkTn1Y8p1UpneTP4PYxQAusHBSF2HkVCRFoDQS3wZdOgOWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T9boclwTPeTWmHnOnrCu3dHO/SkIvH/QQObWja8A2lM=;
+ b=sVXp99vV7gTPV/cDhrX6R29W9fJLG4mt7Z8cU+U/kZZmmgRpyeIv2LvWY0hzs5sbwAlI2ARhzeN2Rfvlzqifo0ECPcMQFQQVQTKvpJA/jYob0nDQH2Z5K48BgQGVy41YQCWk/TNcsqKPn9riC2ihJQ1aVNwyIqbmkvcJWgwUSH9Jhs2r2lynfihGc20B7trT+3ESdOjxPi6lozbQQwQNiPBn6AOfNfAsyDb6tqV48I7Ua5qHtYgP39gh8CKz/yThTSXVZAgbz/hfGDy8yONMBVoj2QCJwrAEEeTeE2iz6ygU8szAj6nUSS9NH2epgQKNFCZ0ukRws1Ec44rWhl25Bg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by MW4PR11MB6840.namprd11.prod.outlook.com (2603:10b6:303:222::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.16; Thu, 24 Oct
+ 2024 01:41:13 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57%3]) with mapi id 15.20.8069.027; Thu, 24 Oct 2024
+ 01:41:13 +0000
+Date: Wed, 23 Oct 2024 20:41:07 -0500
+From: Ira Weiny <ira.weiny@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, Alison Schofield
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-btrfs@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 25/28] cxl/region: Read existing extents on region
+ creation
+Message-ID: <6719a5b3d3d02_da1f929497@iweiny-mobl.notmuch>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+ <20241007-dcd-type2-upstream-v4-25-c261ee6eeded@intel.com>
+ <20241010163359.000001f7@Huawei.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241010163359.000001f7@Huawei.com>
+X-ClientProxiedBy: MW4PR02CA0019.namprd02.prod.outlook.com
+ (2603:10b6:303:16d::23) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240930144057.453751-1-mripard@kernel.org> <CABdmKX3=h57Jcphiq2Ekseg=j_ay8frmFgyHKWb04b4J5f2T5w@mail.gmail.com>
- <20241021-defiant-unicorn-of-authority-b23277@houat>
-In-Reply-To: <20241021-defiant-unicorn-of-authority-b23277@houat>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 23 Oct 2024 17:26:26 -0700
-Message-ID: <CABdmKX2LFz7t_k9EB25HpC7EacA343Eh6D46in2fLeUHcBFvLQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: dma-buf: heaps: Add heap name definitions
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-media@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|MW4PR11MB6840:EE_
+X-MS-Office365-Filtering-Correlation-Id: a206ad72-baea-4834-d1d2-08dcf3ccf185
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?KrrnlLVwUW/QNiRznTsEe2jl0iXSzoPm2ZjnRdr4HUt1w6Mvq2XQqiWFyuSm?=
+ =?us-ascii?Q?ObopV8+AKsuA9OmfQdv72/nG3dYE0Gdtv2ceCoU8GWsHQydyGWmx8IITYIfO?=
+ =?us-ascii?Q?G5wcV9iSPJh+fNxFDuFlJV3hBSzKZaQP8V9eycKZpOgBmOhq0ljhJ39RzxIc?=
+ =?us-ascii?Q?Y1hQOXNWQ+ojAr0iFaJVGzpKc5epTiMQL5R3tc/QultMIV2eggEaBHDy38Kt?=
+ =?us-ascii?Q?vkPLXu68f1LU84HDm50y7YmhMM2hFLZO6fMeVNw/w0ptqAvNqc/vKMZOrHBZ?=
+ =?us-ascii?Q?NJ/XKNOqkvq0XT4P64DCB1DrL0ZBJN+RbJZyYxmtWpyPJvVdeBdnX/QFr8nY?=
+ =?us-ascii?Q?0omEEWEtaJWsSKJ0WS5K7IhTimGTXLXl5NP1tV1/+AOQrHSIDxLz6uT0ZUTN?=
+ =?us-ascii?Q?7QA5II2viNAQmUZXa5Y1Mc19uu1qXy8YCteRmqdua7vWHEKr8nmycZuhLVQ3?=
+ =?us-ascii?Q?joCawkMunELMZgdYUNqGcfjtNj7Q2/T1tlvZPdxxnBKrIl4VCylq4Jad8TUQ?=
+ =?us-ascii?Q?3m9OJUw3oFpn69D0PekrnOzadrZlDjYq1U9vjhKhG19yUDnsIENdPsQbIait?=
+ =?us-ascii?Q?/G9jY+4pCP1N0ZoZlHvoj86rOzHpldxTkynVr0twlXdyBcvSCwcnk5ZQTKrL?=
+ =?us-ascii?Q?2k5MOh32p/fh50kJEwAuUTsL/83yjKgQz7ULqU80y6bFWJFkPGUVxRjrug9k?=
+ =?us-ascii?Q?niXoKjP/vmQORfVpePhWFhsF+MEoV4lo65kqTEiN0Ex+vY+z2x4QUEK4fwAw?=
+ =?us-ascii?Q?iOKQ7urKbQzFWUFOTGfhDC3U96Mgv7hvdifmY7W7Sjrvu/p0KDmwAEd+Z11i?=
+ =?us-ascii?Q?u+mTzx5J56CShGfE31VX4LLgMZNCWZIaZDJizB6io9ff9Icf1MiD7e9LFNaG?=
+ =?us-ascii?Q?47wsMaBI81ySHo/MNk6AMG/QZFaHP8+CmYNIYu0DMs5kRL6ocnmAyWvMzl+m?=
+ =?us-ascii?Q?uHYurDwX8tmTR2YuApVF5Kcealjpzt3Xyxh+bOfAKh70km50lTD1R92eXx1G?=
+ =?us-ascii?Q?drzzXmkc6kAoV0ljy7rKrxsMUhd/SqaSMO7/NgJ9BHB+UbX8kb/AKjHvuxZq?=
+ =?us-ascii?Q?uP+vpdr9VQ4uwFBLQprwS1FV0CKYr247pbPQi7XfyuJxhtasUBHRCEtQ0EJ7?=
+ =?us-ascii?Q?SsQviYMBkmrOYMmO27mYuf5EsUFPL6b9A+KZyIAwo8uAw1bKSct89BR2WcK/?=
+ =?us-ascii?Q?khyVnw2X28n3hmrfYLpG0/5Z8U94N0tb6HfBSWY3ZBlxp8i9aa6BTokUXECk?=
+ =?us-ascii?Q?HO4CCPUSaawwbQ1iFqonYQsc84ESEniro84x54Cl6vzQy4mtEfKlC+KRYUMw?=
+ =?us-ascii?Q?ntEz+7N0Dz8pK71yPf+ANGmt?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NK4tJd6bCOGfxaw1Eg17hNCFO1Y65mj6pRUpp0WiJbdR/USudSbeD/6s6Dye?=
+ =?us-ascii?Q?VTLHKE00V/4Nby7v15VRial8txZLFQepjfcAgYTKMlQd0wg8la+Skpm0yddT?=
+ =?us-ascii?Q?0oAkYnQ4i6KMNotYPSMJyAXxUcbRKyYS9HGxW2hnDK3Z39f72c027qpNaWRZ?=
+ =?us-ascii?Q?Ork8n31CT+M+MLA7Ptw/lFzt3lbKxq4nhgpAnSWv91UjLOV43a9Na12DiL4U?=
+ =?us-ascii?Q?nTYsUIsYDsGPFMUA2Aet+mBbm6ePfIIqj1Muemm1Pn+L9nStZKujYENAXYXH?=
+ =?us-ascii?Q?JEzAbTeWCUJz5BoyYOP/1seSF0dWh+1C0b/GqE1hVnJE9neXOSY4tTMtAy+L?=
+ =?us-ascii?Q?PfM5SJb81JcidYfqXD2rFINqEv42Ns4bqnHMR7XjpMAoM0Cdpxpj3eQDsncA?=
+ =?us-ascii?Q?wFuuWcUlgKetxXZ6YY5VUiM0upM3YTBVxCEBS27vCYzT1lJ8cwiP3OnaIhal?=
+ =?us-ascii?Q?lpHu4gOOxFCRFdXMpqp1KjS+iu6u6yJJSyPrH+hc98EME7lhQXT/jTB8842i?=
+ =?us-ascii?Q?CYCNlT9FLyaYxhDHzbw0YmOnifQwcCKYMLppyRkUWj2uaePClXQYv/D4IAly?=
+ =?us-ascii?Q?Qr2Onuzr5o+kr18DGZtCXw3FmYTB3BByUjcU5Sah3Lphs0fguayAkaq77R3d?=
+ =?us-ascii?Q?7IKxPiKQ0jXJ8pZvBKizvKU3SlFNGhynshNKHkAyRN/TcP05Dd0Tre9cNzf6?=
+ =?us-ascii?Q?bxJjsm9fFznpzaC0wemklBP66ZXVtDMnmLlt3dx0iNbMK7Ds4Xy25n/CNdBq?=
+ =?us-ascii?Q?cjIKISVa85mApo78jQjQBMNx5M6MX5xSnE+ZYGqY+Q9QT/WCk0HOPvfyUzYM?=
+ =?us-ascii?Q?JaLz8OopgIdCp5klCyoBrxriPAxFf58F79I326NSDpCx62N9DFgp+erdYHhr?=
+ =?us-ascii?Q?I/OmyFSe3HEgpDnpnI4XEDcZwKlRu0hZsCqdKpyJF7DS4gd1LVn/hIIm3Bkz?=
+ =?us-ascii?Q?rEYk/VmsNFf/lJp9FSSQB0ZvHOiDjNG4818fTQqH1NE6TDhvp/mu0CcO/AbO?=
+ =?us-ascii?Q?yYWivLE5qzjTRuAiWX/CalN7y9GYKUGRjgUIqLIGql1i0grFvpTZgrjol2Pl?=
+ =?us-ascii?Q?JQirVhJ/i5JWycw/6IGAW4uP5IgLnIyzrw3cqDrMNkMzQiePityOHLIrcB3s?=
+ =?us-ascii?Q?3gP3KZpxgxRsq+f/sI0/QktDcW8VYbX5/nU/bXmHoM0b9oH5Yke2+ODMBFP6?=
+ =?us-ascii?Q?iqLkcDIK9I2dejm93a4NeMx0Z3BeJSNL4DijE+CGpbVqoRkxhGN+hnFSVZXi?=
+ =?us-ascii?Q?AejueTB2yI3pxrw57jZpKX9LpI48PGDLt7mafi+Mxt12DZm1yUgj9Mawf3Xm?=
+ =?us-ascii?Q?+PG7qQBxYwvP99goPPPTRZzzW6uDK67Y4BsPRg+PRsxXS4qL8j5xbOy2R1U/?=
+ =?us-ascii?Q?DPEfVsEaCiVDBot+z36F8CvoSP/vqY7ewnux3Y3L331G/JEiL8VFgs4LJNJ7?=
+ =?us-ascii?Q?VjI5JKyLCGz0Ji+QDL+znK8jDOTO0mp2FM+SMQbC2dPrAZJ1kk5lAHNdqgPF?=
+ =?us-ascii?Q?njJkspjVuVfFdYuExijoxXQ+skamL4iQNVA/K3tEHt4KjeAOetf35mSr015x?=
+ =?us-ascii?Q?ar1ViTFPZgBV7cICoQAmfusnnBOydHgTUABdtwK4?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a206ad72-baea-4834-d1d2-08dcf3ccf185
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2024 01:41:13.2743
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1DP3WBYESxl1L/35Asujn78pRVMIjZACLnFlBUv0eUi64ZYjhJEaBeCovU1BAqlAlN1yn04nYT5gbB/DH75uFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6840
+X-OriginatorOrg: intel.com
 
-On Mon, Oct 21, 2024 at 9:30=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
->
-> Hi TJ,
->
-> Thanks for your review
->
-> On Tue, Oct 01, 2024 at 11:03:41PM +0200, T.J. Mercier wrote:
-> > On Mon, Sep 30, 2024 at 4:41=E2=80=AFPM Maxime Ripard <mripard@kernel.o=
-rg> wrote:
-> > >
-> > > Following a recent discussion at last Plumbers, John Stultz, Sumit
-> > > Sewal, TJ Mercier and I came to an agreement that we should document
-> > > what the dma-buf heaps names are expected to be, and what the buffers
-> > > attributes you'll get should be documented.
-> > >
-> > > Let's create that doc to make sure those attributes and names are
-> > > guaranteed going forward.
-> >
-> > Hey, thanks for sending this!
-> >
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > >
-> > > ---
-> > >
-> > > To: Jonathan Corbet <corbet@lwn.net>
-> > > To: Sumit Semwal <sumit.semwal@linaro.org>
-> > > Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > Cc: Brian Starkey <Brian.Starkey@arm.com>
-> > > Cc: John Stultz <jstultz@google.com>
-> > > Cc: "T.J. Mercier" <tjmercier@google.com>
-> > > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > Cc: linaro-mm-sig@lists.linaro.org
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: linux-doc@vger.kernel.org
-> > > ---
-> > >  Documentation/userspace-api/dma-buf-heaps.rst | 71 +++++++++++++++++=
-++
-> > >  Documentation/userspace-api/index.rst         |  1 +
-> > >  2 files changed, 72 insertions(+)
-> > >  create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
-> > >
-> > > diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Document=
-ation/userspace-api/dma-buf-heaps.rst
-> > > new file mode 100644
-> > > index 000000000000..00436227b542
-> > > --- /dev/null
-> > > +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> > > @@ -0,0 +1,71 @@
-> > > +.. SPDX-License-Identifier: GPL-2.0
-> > > +
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +Allocating dma-buf using heaps
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +
-> > > +Dma-buf Heaps are a way for userspace to allocate dma-buf objects. T=
-hey are
-> > > +typically used to allocate buffers from a specific allocation pool, =
-or to share
-> > > +buffers across frameworks.
-> > > +
-> > > +Heaps
-> > > +=3D=3D=3D=3D=3D
-> > > +
-> > > +A heap represent a specific allocator. The Linux kernel currently su=
-pports the
-> >
-> > "represents"
-> >
-> > > +following heaps:
-> > > +
-> > > + - The ``system`` heap allocates virtually contiguous, cacheable, bu=
-ffers
-> >
-> > Virtually contiguous sounds a little weird to me here. Sure, that's
-> > what userspace will get when it maps the buffer (and I guess this *is*
-> > UAPI documentation after all), but I'm not sure it's correct to say
-> > that's a property of the buffer itself? What if we invert this and
-> > instead say that there is NO guarantee that the memory for the buffer:
-> >  - is physically contiguous
-> >  - has any particular alignment (greater than page aligned)
-> >  - has any particular page size (large order allocations are attempted
-> > first, but not guaranteed or even likely on some systems)
-> >  - has bounds on physical addresses
-> >
-> > Maybe that is too much detail here...
->
-> Yeah, I don't know.
->
-> It's getting philosophical, but I guess there's an infinite number of
-> guarantees we wouldn't provide. It seems easier for me to maintain a
-> list of the things a buffer is/has rather than the opposite.
->
-> But maybe we can rephrase virtually contiguous if it's weird to you?
+Jonathan Cameron wrote:
+> On Mon, 07 Oct 2024 18:16:31 -0500
+> ira.weiny@intel.com wrote:
+> 
+> > From: Navneet Singh <navneet.singh@intel.com>
+> > 
 
-You're right, I'm being too picky here. Virtually contiguous is as
-reasonable as anything else I can come up with.
+[snip]
 
-> > > +
-> > > + - The ``reserved`` heap allocates physically contiguous, cacheable,=
- buffers.
-> > > +   Depending on the platform, it might be called differently:
-> > > +
-> > > +    - Acer Iconia Tab A500: ``linux,cma``
-> > > +    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-> > > +    - Amlogic A1: ``linux,cma``
-> > > +    - Amlogic G12A/G12B/SM1: ``linux,cma``
-> > > +    - Amlogic GXBB/GXL: ``linux,cma``
-> > > +    - ASUS EeePad Transformer TF101: ``linux,cma``
-> > > +    - ASUS Google Nexus 7 (Project Bach / ME370TG) E1565: ``linux,cm=
-a``
-> > > +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) E1565: ``linux,c=
-ma``
-> > > +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) PM269: ``linux,c=
-ma``
-> > > +    - Asus Transformer Infinity TF700T: ``linux,cma``
-> > > +    - Asus Transformer Pad 3G TF300TG: ``linux,cma``
-> > > +    - Asus Transformer Pad TF300T: ``linux,cma``
-> > > +    - Asus Transformer Pad TF701T: ``linux,cma``
-> > > +    - Asus Transformer Prime TF201: ``linux,cma``
-> > > +    - ASUS Vivobook S 15: ``linux,cma``
-> > > +    - Cadence KC705: ``linux,cma``
-> > > +    - Digi International ConnectCore 6UL: ``linux,cma``
-> > > +    - Freescale i.MX8DXL EVK: ``linux,cma``
-> > > +    - Freescale TQMa8Xx: ``linux,cma``
-> > > +    - Hisilicon Hikey: ``linux,cma``
-> > > +    - Lenovo ThinkPad T14s Gen 6: ``linux,cma``
-> > > +    - Lenovo ThinkPad X13s: ``linux,cma``
-> > > +    - Lenovo Yoga Slim 7x: ``linux,cma``
-> > > +    - LG Optimus 4X HD P880: ``linux,cma``
-> > > +    - LG Optimus Vu P895: ``linux,cma``
-> > > +    - Loongson 2k0500, 2k1000 and 2k2000: ``linux,cma``
-> > > +    - Microsoft Romulus: ``linux,cma``
-> > > +    - NXP i.MX8ULP EVK: ``linux,cma``
-> > > +    - NXP i.MX93 9x9 QSB: ``linux,cma``
-> > > +    - NXP i.MX93 11X11 EVK: ``linux,cma``
-> > > +    - NXP i.MX93 14X14 EVK: ``linux,cma``
-> > > +    - NXP i.MX95 19X19 EVK: ``linux,cma``
-> > > +    - Ouya Game Console: ``linux,cma``
-> > > +    - Pegatron Chagall: ``linux,cma``
-> > > +    - PHYTEC phyCORE-AM62A SOM: ``linux,cma``
-> > > +    - PHYTEC phyCORE-i.MX93 SOM: ``linux,cma``
-> > > +    - Qualcomm SC8280XP CRD: ``linux,cma``
-> > > +    - Qualcomm X1E80100 CRD: ``linux,cma``
-> > > +    - Qualcomm X1E80100 QCP: ``linux,cma``
-> > > +    - RaspberryPi: ``linux,cma``
-> > > +    - Texas Instruments AM62x SK board family: ``linux,cma``
-> > > +    - Texas Instruments AM62A7 SK: ``linux,cma``
-> > > +    - Toradex Apalis iMX8: ``linux,cma``
-> > > +    - TQ-Systems i.MX8MM TQMa8MxML: ``linux,cma``
-> > > +    - TQ-Systems i.MX8MN TQMa8MxNL: ``linux,cma``
-> > > +    - TQ-Systems i.MX8MPlus TQMa8MPxL: ``linux,cma``
-> > > +    - TQ-Systems i.MX8MQ TQMa8MQ: ``linux,cma``
-> > > +    - TQ-Systems i.MX93 TQMa93xxLA/TQMa93xxCA SOM: ``linux,cma``
-> > > +    - TQ-Systems MBA6ULx Baseboard: ``linux,cma``
-> > > +
-> >
-> > This part LGTM. Might be worth it to document that a CMA region must
-> > be specified on the kernel command line. Otherwise this heap won't
-> > show up at runtime by only enabling the kernel configs necessary to
-> > build it.
->
-> Really? My understanding was that you need a default CMA region, which
-> happens either if you have cma=3D on the kernel command line, a default
-> CMA pool in the DT, or if CMA_SIZE_MBYTES isn't set to 0?
+> > 
+> One buglet, and a request for an error message.
+> With those.
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Ok yes, these too. :)
->
-> Maxime
+Thanks.
+
+> 
+> > diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
+> > index d66beec687a0..6b25d15403a3 100644
+> > --- a/drivers/cxl/core/mbox.c
+> > +++ b/drivers/cxl/core/mbox.c
+> > @@ -1697,6 +1697,111 @@ int cxl_dev_dynamic_capacity_identify(struct cxl_memdev_state *mds)
+> >  }
+> >  EXPORT_SYMBOL_NS_GPL(cxl_dev_dynamic_capacity_identify, CXL);
+> >  
+> > +/* Return -EAGAIN if the extent list changes while reading */
+> > +static int __cxl_process_extent_list(struct cxl_endpoint_decoder *cxled)
+> > +{
+> > +	u32 current_index, total_read, total_expected, initial_gen_num;
+> > +	struct cxl_memdev_state *mds = cxled_to_mds(cxled);
+> > +	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
+> > +	struct device *dev = mds->cxlds.dev;
+> > +	struct cxl_mbox_cmd mbox_cmd;
+> > +	u32 max_extent_count;
+> > +	bool first = true;
+> > +
+> > +	struct cxl_mbox_get_extent_out *extents __free(kfree) =
+> 
+> __free(kvfree)
+
+Yep fixed
+
+> 
+> > +				kvmalloc(cxl_mbox->payload_size, GFP_KERNEL);
+> > +	if (!extents)
+> > +		return -ENOMEM;
+> 
+> ...
+> 
+> 
+> > +}
+> 
+> >  static void cxlr_dax_unregister(void *_cxlr_dax)
+> >  {
+> >  	struct cxl_dax_region *cxlr_dax = _cxlr_dax;
+> > @@ -3224,6 +3233,9 @@ static int devm_cxl_add_dax_region(struct cxl_region *cxlr)
+> >  	dev_dbg(&cxlr->dev, "%s: register %s\n", dev_name(dev->parent),
+> >  		dev_name(dev));
+> >  
+> > +	if (cxlr->mode == CXL_REGION_DC)
+> > +		cxlr_add_existing_extents(cxlr);
+> 
+> Whilst there isn't a whole lot we can do if this fails, I'd like an error
+> print to indicate something odd is going on.  Probably pass any error
+> up to here then print a message before carrying on.
+
+Bubbled up an error and added some dev_err() calls.  I don't think they
+need to be rate limited since regions are not created very often.
+
+Ira
+
+[snip]
