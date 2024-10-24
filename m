@@ -1,112 +1,121 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4F416DC36
-	for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 09:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D13C1B85DF;
+	Thu, 24 Oct 2024 09:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729761418; cv=none; b=GZAtA39XLuz81zDHVCc8+nHofxEUN8GOTOaEn6WuiH73T6+V4WmOwz3M/yEkPuU3DB2RP4ZArAGo24hbYAdvcv/vwv1CJhLFQ97kjoYFSjQamj8fx7rku+yJ/s8VTe4KRylXxxOmFj6sTvlLXRsdcPnoIWOdSfOjQWOO861dhJQ=
+	t=1729762788; cv=none; b=LewCy8mHVDsp4Ec50gAtwxJLdK0m0ie3KuIKu3GofvcTRrH7lGZMwkkNI17th1ArFdI4azN+/fAxdlFQqAH4EUji9E0HD+cvUjwPajMELVcSpunT2KVDCcTvHc8hQp9DMEb0T6S0POnv/Ie0B8+rBYZPV70ny9EKa3Db03TkUI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729761418; c=relaxed/simple;
-	bh=Urr4Bup3gtJFSu/HDlD6IZqiGmKuABzJUZ4Qipx6pkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kFL8Qu/3ZzuEAaxO3q6v2MpvXlDCGeIwPmsI7Ndb5dsXm36YOLlQqFSIlY0aTvmzJWyyfbNuaaZvXVMLc+ul3m949NR/ONCwq1ciyPvMgNkc0NfcOjr5/rViG68GJOtNScB8cMzXDNOTXJqtMrNr4CJ1XV7o2IAch7oz+/U5OwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UMK/yKWT; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1729762788; c=relaxed/simple;
+	bh=FW20GfbGsGiLyvJNvG1nJse9qdrvhRn6b52CFWefg4Q=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IT+vav0GhaR2MsEM4aA2wITnRbyBxNynZEFLhp7+IKQEFxcFX4oqlwKN0vpBxtcLGDKEtV0RltvKKa8cYuEO73ETjQg2hrMbwrWPjHtv3keYUAJTowiT2YC6y9dyLu2kA25kJYPNRUYdSHO/jyQ2m22om9sihGi0Fdz9NWnjvg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kC8PGQTk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UMK/yKWT"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539f1292a9bso792520e87.2
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 02:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1729761414; x=1730366214; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AeE8KFauVONfdqIJuroUx8aqRES8F0A4JpZa9szE0Qo=;
-        b=UMK/yKWTnjFqykT28hCiVCSil6eY9XEkl2JoUirhooJtcT246fe3n+vmHo73QD6l40
-         hI2TnFzIfi9lCOeInxZeMEslOZOhFf38aRKAfoSPgYyC3o+WwRdnv+62/Gb8IdlalyWr
-         6AoMFmKAv+oPJS0/Sn/gAPFJkW0T2ShJpjOdx3xqkqA7QidMAWR0eFr441pUFcxmr0KJ
-         GiNhM/znsB3h/GB79/x0FE0r8JngoBHX7ALJctnE0VpsIq0vDKJ5kX7y8Y9vqb+JYNZ4
-         drTHPQ02ONjzJcaItn6cVhhw5aTJc7qCwFawQdQbYQPBdQ0uFq5QOTZqwyBpIxb8ViOE
-         Ae8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729761414; x=1730366214;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AeE8KFauVONfdqIJuroUx8aqRES8F0A4JpZa9szE0Qo=;
-        b=B0Z0vlBu7r8f/HpVD2jdk5KnQ2NiufQzmGGoqEdWSXaW0YBMAsXUNYvfjZ1s1i1nZZ
-         TlG3gonNAMRaVggRf293qDq+Rmwjf2pKBU0mWx+lgh05/ImKjBbtvGVXHQvSiIKhTdyl
-         CZqPTg+bg8lZMPPh0h5Tr9TLqkAMU1yIwZOnq70lj6E3i4IEIhtLbN/Duxr97rI/R2Sq
-         uoL5gkKZFs7g0/gDRNQJRBGBWduA76vHnjVhtF9K3/HrOhoJPwa3OxH89epAlP8C5yov
-         QKdRyIPGsLvtGNhooZ1mJQLo8l5M06xCWA2L6IbgPf0L7R6gU1tfKMnvPVJBnAL1/yiU
-         KiYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHZ5bbaoQE0+zflZO4Z7VaWaGafoZr4HHhAW/fZQKdBnKmmLVgq7XipI3bQBK0EhB30je9fSGFCQQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJAqiKlJudXJoiSE0aRYEc+X18v1FShhb1plPbI7vECQynoYIg
-	fZveeLNCS3t1OtXddux5rTUMOAGYB/iuUCWtxwiVw0ZuybwkLB2OdnBeB0Fet/Q=
-X-Google-Smtp-Source: AGHT+IGiRIKpzx6HiVv9FVaGAJq4id/5NbMKWWIl1xUL7eRNooF4qx/CFIyStwDItG8GRMhvMNBfsg==
-X-Received: by 2002:a05:6512:3b9c:b0:539:f1ad:b7a6 with SMTP id 2adb3069b0e04-53b23e67ceemr637951e87.37.1729761414027;
-        Thu, 24 Oct 2024 02:16:54 -0700 (PDT)
-Received: from localhost (109-81-81-105.rct.o2.cz. [109.81.81.105])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b55f50csm11444305e9.17.2024.10.24.02.16.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 02:16:53 -0700 (PDT)
-Date: Thu, 24 Oct 2024 11:16:52 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Hugh Dickins <hughd@google.com>, linux-mm@kvack.org,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Meta kernel team <kernel-team@meta.com>
-Subject: Re: [RFC PATCH 3/3] memcg-v1: remove memcg move locking code
-Message-ID: <ZxoQhEPXmSkM7sH_@tiehlicka>
-References: <20241024065712.1274481-1-shakeel.butt@linux.dev>
- <20241024065712.1274481-4-shakeel.butt@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kC8PGQTk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9009C4CEC7;
+	Thu, 24 Oct 2024 09:39:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729762787;
+	bh=FW20GfbGsGiLyvJNvG1nJse9qdrvhRn6b52CFWefg4Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kC8PGQTkt5IOuz/Pu3XYtPeXa+PM7kkAL/22B5yDSVWVauNm9rXgn7qA50FIErOmc
+	 lqDrGI2vR/0hP+y5gHeP3ikcaLho8fae9pyP/+Ehf02JVNCnJolD9wv8K8ojWPe0Jc
+	 ITtsOS4YQpNygjD4uH8HdRG5b5rESWBJajMARIAAhSk2U20tGZHRWFw/nLUdguxan2
+	 UENGLYBvQRYxF0c6iCf7QDEWHWVXXPjy2mfJ7IrQ36goA+u6G/80OIFpeJ8LQplTcw
+	 XXLdgWEn7Yk6Voj4VvLtNsSX1HMY/o2LBJ6z0jg9TghP/f1PQwSE6JqC4cahMzQRyR
+	 0tdocDku5BadA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1t3uJl-006OWJ-Kg;
+	Thu, 24 Oct 2024 10:39:45 +0100
+Date: Thu, 24 Oct 2024 10:39:45 +0100
+Message-ID: <86v7xh3km6.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	corbet@lwn.net,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH] Documentation: Update the behaviour of "kvm-arm.mode"
+In-Reply-To: <20241023171244.4031151-1-smostafa@google.com>
+References: <20241023171244.4031151-1-smostafa@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241024065712.1274481-4-shakeel.butt@linux.dev>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: smostafa@google.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, corbet@lwn.net, will@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Wed 23-10-24 23:57:12, Shakeel Butt wrote:
-> The memcg v1's charge move feature has been deprecated. There is no need
-> to have any locking or protection against the moving charge. Let's
-> proceed to remove all the locking code related to charge moving.
+Hi Mostafa,
+
+On Wed, 23 Oct 2024 18:12:43 +0100,
+Mostafa Saleh <smostafa@google.com> wrote:
 > 
-> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+> Commit 5053c3f0519c ("KVM: arm64: Use hVHE in pKVM by default on CPUs with
+> VHE support") modified the behaviour of "kvm-arm.mode=protected" without
+> the updating the kernel parameters doc.
+> 
+> Update it to match the current implementation.
+> 
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Marc Zyngier <maz@kernel.org>
+> 
+> Signed-off-by: Mostafa Saleh <smostafa@google.com>
 > ---
-> -/**
-> - * folio_memcg_lock - Bind a folio to its memcg.
-> - * @folio: The folio.
-> - *
-> - * This function prevents unlocked LRU folios from being moved to
-> - * another cgroup.
-> - *
-> - * It ensures lifetime of the bound memcg.  The caller is responsible
-> - * for the lifetime of the folio.
-> - */
-> -void folio_memcg_lock(struct folio *folio)
-> -{
-> -	struct mem_cgroup *memcg;
-> -	unsigned long flags;
-> -
-> -	/*
-> -	 * The RCU lock is held throughout the transaction.  The fast
-> -	 * path can get away without acquiring the memcg->move_lock
-> -	 * because page moving starts with an RCU grace period.
-> -         */
-> -	rcu_read_lock();
+>  Documentation/admin-guide/kernel-parameters.txt | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index bb48ae24ae69..59a0dd7e2de6 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2723,8 +2723,12 @@
+>  			nvhe: Standard nVHE-based mode, without support for
+>  			      protected guests.
+>  
+> -			protected: nVHE-based mode with support for guests whose
+> +			protected: hVHE-based mode with support for guests whose
+>  				   state is kept private from the host.
+> +				   In case hVHE is not supported in hardware, it will
 
-Is it safe to remove the implicit RCU?
+nit: it is VHE that is supported or not, hVHE is only a SW concept.
+
+> +				   boot with protected nVHE.
+> +				   nVHE protected mode can still be forced on VHE systems
+> +				   using "kvm_arm.mode=protected arm64_sw.hvhe=0 id_aa64mmfr1.vh=0"
+
+This opens another question: none of the arm_sw.*, nor any of the
+id_aa64* parameters are described (basically, anything that's in
+arch/arm64/kernel/pi/id_override.c). What should we do about these?
+
+
+
+>
+>  			nested: VHE-based mode with support for nested
+>  				virtualization. Requires at least ARMv8.3
+
+Huh, another nit to fix. We only support nested with ARMv8.4 (with
+FEAT_NV2), as the ARMv8.3 version (the original FEAT_NV) is too ugly
+for words.
+
+Mind addressing this?
+
+Thanks!
+
+	M.
 
 -- 
-Michal Hocko
-SUSE Labs
+Without deviation from the norm, progress is not possible.
