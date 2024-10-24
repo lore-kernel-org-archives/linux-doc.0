@@ -1,121 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D13C1B85DF;
-	Thu, 24 Oct 2024 09:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742223D97A;
+	Thu, 24 Oct 2024 09:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729762788; cv=none; b=LewCy8mHVDsp4Ec50gAtwxJLdK0m0ie3KuIKu3GofvcTRrH7lGZMwkkNI17th1ArFdI4azN+/fAxdlFQqAH4EUji9E0HD+cvUjwPajMELVcSpunT2KVDCcTvHc8hQp9DMEb0T6S0POnv/Ie0B8+rBYZPV70ny9EKa3Db03TkUI8=
+	t=1729763677; cv=none; b=iBcPv0S+5M+ETukuxxeWjrNHn3kKhJ4wjv1K2JFY7XR5KdxK6EK0F+z/WI46IFHL6CNrMDHJxRfM+M79vhbAv/lk8MALyKNJ/6FeXFGtHXGP5t4Da63eCQRpVOOtL3fHl7f1UGGWk9cOa97sBIKjfaTa947AKjirENlcgCP4OuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729762788; c=relaxed/simple;
-	bh=FW20GfbGsGiLyvJNvG1nJse9qdrvhRn6b52CFWefg4Q=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IT+vav0GhaR2MsEM4aA2wITnRbyBxNynZEFLhp7+IKQEFxcFX4oqlwKN0vpBxtcLGDKEtV0RltvKKa8cYuEO73ETjQg2hrMbwrWPjHtv3keYUAJTowiT2YC6y9dyLu2kA25kJYPNRUYdSHO/jyQ2m22om9sihGi0Fdz9NWnjvg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kC8PGQTk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729763677; c=relaxed/simple;
+	bh=x2UavDE92BDv5s+BCjcYORa//OWbbb8+5xxnuc/JyAg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SaUKB6NYJ/N7KFbWRVKaBl1ZPH1UjF/16thuJ6WmtDSSRvCtiL0ac8c8TNTPv4Z0Vq/5YmoASLU8NyB8Dbx6aPbmr+Vr096eavzF+75na2kLXe8g50MBYOlTafbqHKKXM8GJUkcluf7od64ZoVXAZF3MTnd1emD3gqY91eT8kyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=sSGMn5AY; arc=none smtp.client-ip=99.78.197.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kC8PGQTk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9009C4CEC7;
-	Thu, 24 Oct 2024 09:39:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729762787;
-	bh=FW20GfbGsGiLyvJNvG1nJse9qdrvhRn6b52CFWefg4Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kC8PGQTkt5IOuz/Pu3XYtPeXa+PM7kkAL/22B5yDSVWVauNm9rXgn7qA50FIErOmc
-	 lqDrGI2vR/0hP+y5gHeP3ikcaLho8fae9pyP/+Ehf02JVNCnJolD9wv8K8ojWPe0Jc
-	 ITtsOS4YQpNygjD4uH8HdRG5b5rESWBJajMARIAAhSk2U20tGZHRWFw/nLUdguxan2
-	 UENGLYBvQRYxF0c6iCf7QDEWHWVXXPjy2mfJ7IrQ36goA+u6G/80OIFpeJ8LQplTcw
-	 XXLdgWEn7Yk6Voj4VvLtNsSX1HMY/o2LBJ6z0jg9TghP/f1PQwSE6JqC4cahMzQRyR
-	 0tdocDku5BadA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1t3uJl-006OWJ-Kg;
-	Thu, 24 Oct 2024 10:39:45 +0100
-Date: Thu, 24 Oct 2024 10:39:45 +0100
-Message-ID: <86v7xh3km6.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	corbet@lwn.net,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] Documentation: Update the behaviour of "kvm-arm.mode"
-In-Reply-To: <20241023171244.4031151-1-smostafa@google.com>
-References: <20241023171244.4031151-1-smostafa@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="sSGMn5AY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1729763676; x=1761299676;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uSRSILRaUqOQk+d0fn6fIQaBj6XiKKtO7Jq3IIN/vcw=;
+  b=sSGMn5AYHdKl++45dw7YZEWbehh5av5OP+2a3KYpuUPl/MsYzaZwQyuQ
+   Jpl5P0GpXCHO93LSm3cwhy0KGcNgnXU/WZqf6ProzYaZVQ0KhIA+BSlya
+   2vNy3QDbJ9abZW5RtfVdFyoaCB/IBXjPqNr0mVPF9Zuh/aTqy8D1t4NBl
+   0=;
+X-IronPort-AV: E=Sophos;i="6.11,228,1725321600"; 
+   d="scan'208";a="346285138"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 09:54:33 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [10.0.38.20:62460]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.43.134:2525] with esmtp (Farcaster)
+ id 701ab77b-f7dc-4389-9913-914fa0c58c0b; Thu, 24 Oct 2024 09:54:32 +0000 (UTC)
+X-Farcaster-Flow-ID: 701ab77b-f7dc-4389-9913-914fa0c58c0b
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Thu, 24 Oct 2024 09:54:32 +0000
+Received: from EX19MTAUWB001.ant.amazon.com (10.250.64.248) by
+ EX19D020UWC004.ant.amazon.com (10.13.138.149) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Thu, 24 Oct 2024 09:54:32 +0000
+Received: from email-imr-corp-prod-pdx-all-2c-d1311ce8.us-west-2.amazon.com
+ (10.25.36.214) by mail-relay.amazon.com (10.250.64.254) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1258.34 via Frontend Transport; Thu, 24 Oct 2024 09:54:32 +0000
+Received: from dev-dsk-kalyazin-1a-a12e27e2.eu-west-1.amazon.com (dev-dsk-kalyazin-1a-a12e27e2.eu-west-1.amazon.com [172.19.103.116])
+	by email-imr-corp-prod-pdx-all-2c-d1311ce8.us-west-2.amazon.com (Postfix) with ESMTPS id 3591C40637;
+	Thu, 24 Oct 2024 09:54:30 +0000 (UTC)
+From: Nikita Kalyazin <kalyazin@amazon.com>
+To: <pbonzini@redhat.com>, <corbet@lwn.net>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <jthoughton@google.com>, <brijesh.singh@amd.com>, <michael.roth@amd.com>,
+	<graf@amazon.de>, <jgowans@amazon.com>, <roypat@amazon.co.uk>,
+	<derekmn@amazon.com>, <nsaenz@amazon.es>, <xmarcalx@amazon.com>,
+	<kalyazin@amazon.com>
+Subject: [RFC PATCH 0/4] KVM: ioctl for populating guest_memfd
+Date: Thu, 24 Oct 2024 09:54:25 +0000
+Message-ID: <20241024095429.54052-1-kalyazin@amazon.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: smostafa@google.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, corbet@lwn.net, will@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi Mostafa,
+Firecracker currently allows to populate guest memory from a separate
+process via UserfaultFD [1].  This helps keep the VMM codebase and
+functionality concise and generic, while offloading the logic of
+obtaining guest memory to another process.  UserfaultFD is currently not
+supported for guest_memfd, because it binds to a VMA, while guest_memfd
+does not need to (or cannot) be necessarily mapped to userspace,
+especially for private memory.  [2] proposes an alternative to
+UserfaultFD for intercepting stage-2 faults, while this series
+conceptually compliments it with the ability to populate guest memory
+backed by guest_memfd for `KVM_X86_SW_PROTECTED_VM` VMs.
 
-On Wed, 23 Oct 2024 18:12:43 +0100,
-Mostafa Saleh <smostafa@google.com> wrote:
-> 
-> Commit 5053c3f0519c ("KVM: arm64: Use hVHE in pKVM by default on CPUs with
-> VHE support") modified the behaviour of "kvm-arm.mode=protected" without
-> the updating the kernel parameters doc.
-> 
-> Update it to match the current implementation.
-> 
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Marc Zyngier <maz@kernel.org>
-> 
-> Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index bb48ae24ae69..59a0dd7e2de6 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2723,8 +2723,12 @@
->  			nvhe: Standard nVHE-based mode, without support for
->  			      protected guests.
->  
-> -			protected: nVHE-based mode with support for guests whose
-> +			protected: hVHE-based mode with support for guests whose
->  				   state is kept private from the host.
-> +				   In case hVHE is not supported in hardware, it will
+Patches 1-3 add a new ioctl, `KVM_GUEST_MEMFD_POPULATE`, that uses a
+vendor-agnostic implementation of `post_populate` callback.
 
-nit: it is VHE that is supported or not, hVHE is only a SW concept.
+Patch 4 allows to call the ioctl from a separate (non-VMM) process.  It
+has been prohibited by [3], but I have not been able to locate the exact
+justification for the requirement.
 
-> +				   boot with protected nVHE.
-> +				   nVHE protected mode can still be forced on VHE systems
-> +				   using "kvm_arm.mode=protected arm64_sw.hvhe=0 id_aa64mmfr1.vh=0"
+Questions:
+ - Does exposing a generic population interface via ioctl look
+   sensible in this form?
+ - Is there a path where "only VMM can call KVM API" requirement is
+   relaxed? If not, what is the recommended efficient alternative for
+   populating guest memory from outside the VMM?
 
-This opens another question: none of the arm_sw.*, nor any of the
-id_aa64* parameters are described (basically, anything that's in
-arch/arm64/kernel/pi/id_override.c). What should we do about these?
+[1]: https://github.com/firecracker-microvm/firecracker/blob/main/docs/snapshotting/handling-page-faults-on-snapshot-resume.md
+[2]: https://lore.kernel.org/kvm/CADrL8HUHRMwUPhr7jLLBgD9YLFAnVHc=N-C=8er-x6GUtV97pQ@mail.gmail.com/T/
+[3]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6d4e4c4fca5be806b888d606894d914847e82d78
 
+Nikita
+
+Nikita Kalyazin (4):
+  KVM: guest_memfd: add generic post_populate callback
+  KVM: add KVM_GUEST_MEMFD_POPULATE ioctl for guest_memfd
+  KVM: allow KVM_GUEST_MEMFD_POPULATE in another mm
+  KVM: document KVM_GUEST_MEMFD_POPULATE ioctl
+
+ Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
+ include/linux/kvm_host.h       |  3 +++
+ include/uapi/linux/kvm.h       |  9 +++++++++
+ virt/kvm/guest_memfd.c         | 28 ++++++++++++++++++++++++++++
+ virt/kvm/kvm_main.c            | 19 ++++++++++++++++++-
+ 5 files changed, 81 insertions(+), 1 deletion(-)
 
 
->
->  			nested: VHE-based mode with support for nested
->  				virtualization. Requires at least ARMv8.3
-
-Huh, another nit to fix. We only support nested with ARMv8.4 (with
-FEAT_NV2), as the ARMv8.3 version (the original FEAT_NV) is too ugly
-for words.
-
-Mind addressing this?
-
-Thanks!
-
-	M.
-
+base-commit: c8d430db8eec7d4fd13a6bea27b7086a54eda6da
 -- 
-Without deviation from the norm, progress is not possible.
+2.40.1
+
