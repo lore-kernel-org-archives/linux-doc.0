@@ -1,64 +1,63 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F2F18C356
-	for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 04:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B091722B641
+	for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 05:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729832106; cv=none; b=R1G7Jvnx5nbouR5WI9LTaulHXYNfWxZqKKEvHHtBB9BeTqdxwD1LJwxdPbvf2jvb67OQrJrVXPKCF+qGr4wcQ8HwXVzzxpxg30trvA1tfPzPPVCshdMc6AY3o5OFwna0K5Oxt/sYi7ZSHQDr2p9nlwKHonR9SN0R1GUfIPgBQbA=
+	t=1729832565; cv=none; b=JPo4beDnU8NXcOSle1t4lnEyT6BJMWHuaIpgcV1oJK/C6BdWExXmWAw7Rn6TTTiCLtJv6RlS65yFIeUO0XC7so2lA1Nc9586y+BR7Fd4anAOlHwhmy7EMU77DZ36z81P4tBkVDd9uvwPHI5PwhRfU6J+3o2MaWQSGwUf/XL55bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729832106; c=relaxed/simple;
-	bh=ySXi2y8cX15dKn0xeB7XkBbd54a/dmv7Tk7n4XDJ1b8=;
+	s=arc-20240116; t=1729832565; c=relaxed/simple;
+	bh=QYTDCQJuDmWoIPjsS25sTUoyfBj4Y7gWSGt9/C7vSBU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t9qx6LTAer/G9F8XqvxuRPTn/lZdLlNie9kFuFsNFliY75PtQGRpl6EUjt0h1Jq7d9pEavUzSYYKodkNpjm5vxI8AE1ZfeUk6+aR9CSmCMd38PhxYOGc7NPs58tAUU8j5XLhvXYWwc/D2CrZ6aD8+N2o8qEW+hyMUqj8rKqQEiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=gIOTiRyE; arc=none smtp.client-ip=209.85.208.51
+	 To:Cc:Content-Type; b=mkeAwSI/YSTZYoaw7fJDN3QEMJdQlmwGMe2N+1bSvXlfqDt2tqNCsPZ5zLWRJHbaJrrkroKKcBq4URB4poBleIfbigrb9aLAxFbl/haK//Gmx08cAXCBcA/cJvdrlF3cSxELOrJQPxkVbpNxWjDjkt1gfpojiV7mr9yiBZkubHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=C5memmoO; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="gIOTiRyE"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c40aea5c40so3247034a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 21:55:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="C5memmoO"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9a977d6cc7so107361766b.3
+        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 22:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1729832102; x=1730436902; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1729832562; x=1730437362; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zlfC6YLUyz/zPIZUUlDg5btBPlJZR/lnE0scuLZVhsc=;
-        b=gIOTiRyEx0E16ja+gZgU0Oft+ZFvQZzOmZ54BV+k0HTps6gNSbf/uOmbUoTfVnFzCc
-         uWPpfiAhB8lPBptKYUpIWBq2yVvsqon8UwwtXE21t9gUVTaxmHKcrmRVAaGHxXG+BgnE
-         JAuQGvsWuklAU8LEwCfhXpm2nMPnTfHJ3GgLg=
+        bh=DmouhOD5VO52vb6fR1NK+wK9IuSHQjBU3Ck+eO9g54w=;
+        b=C5memmoOeSZSgz/dAY7rUowyYgH+XZN4+nS5OXIankk8Sit5QTqJ0y9ygJu/ww7eEa
+         CMpS6AOo1tM77jyjXKZ4HrnMgEapAp6E9unZOr4ZBbmYk2g76QYLSc+ib4KDfsPmE4Bd
+         NawRkA13HKNIfcfFFtaZNn96i63FYRyXipra0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729832102; x=1730436902;
+        d=1e100.net; s=20230601; t=1729832562; x=1730437362;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zlfC6YLUyz/zPIZUUlDg5btBPlJZR/lnE0scuLZVhsc=;
-        b=Xh2JgGqcFpyFTjzbrvOvWPP2PZ3+c8zWXH5xtsCV3raj3UQVacW9nSlf8VvFo32Lci
-         odLzQLbSmAeYd0mbbXW5KYVNKHtdRCDIGAhmBDBeqdjT/wfjaUHwO4CYL1XMAtSIgsUk
-         tbVeUchWYsH0Y+Bibg3V/+vbWooi2uMhlGvMZst+jfBm8uBuxEV2n3Vg97bL2jU1txrN
-         QCAJNLS1DFCuBBGNwLYHs/AeYOHTyg6mqwfbl+Hvwv4FdcGw20Vctmuf9XeiEI1sb8dR
-         zMRdnhG5OgZdzveu4Xye4ckh0EL/kvNiB8/YEjxVn0deEuoegOAAN4aXCRiatksfcrzU
-         jaYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkAU3FDlDodR46EUWbLDGKMvQZsAmKIEQpWNudb6drvk5eiZRFa5M73fIljQG0kexH0NIlKZ/ie7k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxt7CcyL0/1UQdRTIqXZ2NJwIgEfNMW2PkRBFdAyUeNj/XLBUxo
-	VtBLulD38Y9KrzTUkQpdCsU5K26+Q8K/3cGR2xWsCigT247HEdVioh8zvrYn05MX9mFKIEm2PZ2
-	YlH2cAduSc10lns/IK9YVF6xRoqdveqNlrRCX
-X-Google-Smtp-Source: AGHT+IEd/oSNqH8cz5NFBfs5KmtKXnJdiFAFJr49LptGa208q++5/iywtCpT1y10rXIXSRCF42yfxP2hpnWyaDgI8vo=
-X-Received: by 2002:a05:6402:1e92:b0:5cb:77d1:fd7f with SMTP id
- 4fb4d7f45d1cf-5cba20217d2mr4571793a12.7.1729832102019; Thu, 24 Oct 2024
- 21:55:02 -0700 (PDT)
+        bh=DmouhOD5VO52vb6fR1NK+wK9IuSHQjBU3Ck+eO9g54w=;
+        b=HMoXwjlb1mcBQWEwlf/wtar0pVrKtHbNsThIKk4mW5ib4u45vTaqctzjkKCmAmzd3n
+         lURXlYk6vydOc7LDEHhebR2LAJxysyYNSAoWE4b4QM/8YzLEfQ6tqRhUq7YPTt/FR572
+         xOePL7xjaWx3+m5EJcoAfJVeWfHfvFib6F4JCvePFb0bzrqQ5LqDmX281jPAgFJe/303
+         0/OajGRyH+fKmIsg6CEIbsVDqBc2maPEKWzqwLbvm8Icm8KfCBX3JO62u5/yZxhmy3H1
+         /L+1KuJDq9opqdvjNu9oRbwSD/IbQ96jGAoYdWnQQYOi8L+xzYFmEe1f58sA8zuOvKFG
+         8UWw==
+X-Forwarded-Encrypted: i=1; AJvYcCVDdzUmN4EM35Kxelo9tkRqM7fnneph7UHgeyeX7ii6k7q1lC530i2/z6fkNMCyvj0fStceGdifX7s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDFdCaE+Hi4pCTrXPBLj6N9cXEv9HvfR6LH/myamCiXAONZMXp
+	uz5p+voDElCoAZOXs2kHn3z+abArECV0wgh5PTmPpaRj37glvEwtaWXAUkwgkx6orEXYHWgnIv9
+	Sz26VuG1fVqQzMyh7u+sREQABv/khIh2wH+6B
+X-Google-Smtp-Source: AGHT+IG/dZQ4jywnbZFTj5NDhEIaZGr4F167NgRxo8Xk7BVzIxbsd7OTlP9fZ5N9t+G8AYmV19MbKCLlMl7xajYFziM=
+X-Received: by 2002:a05:6402:1d4a:b0:5ca:8b9:6e06 with SMTP id
+ 4fb4d7f45d1cf-5cb8b1907acmr9323170a12.12.1729832561906; Thu, 24 Oct 2024
+ 22:02:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-2-ap420073@gmail.com>
- <CACKFLikH-8fdqpvFouoNaFGq011+XvR0+C-8ryq-SutAs=RdsQ@mail.gmail.com> <CAMArcTV3U62Rz+FPCJWVOqqNJOZBLnBvb+yRcjJ+drspm5nxbw@mail.gmail.com>
-In-Reply-To: <CAMArcTV3U62Rz+FPCJWVOqqNJOZBLnBvb+yRcjJ+drspm5nxbw@mail.gmail.com>
+References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-3-ap420073@gmail.com>
+In-Reply-To: <20241022162359.2713094-3-ap420073@gmail.com>
 From: Michael Chan <michael.chan@broadcom.com>
-Date: Thu, 24 Oct 2024 21:54:50 -0700
-Message-ID: <CACKFLikK0p1e41sbkBt1MCL=gxoWbKNHvqzEfcaV=rBfvQjB4w@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 1/8] bnxt_en: add support for rx-copybreak
+Date: Thu, 24 Oct 2024 22:02:30 -0700
+Message-ID: <CACKFLikBKi2jBNG6_O1uFUmMwfBC30ef5AG4ACjVv_K=vv38PA@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 2/8] bnxt_en: add support for tcp-data-split
  ethtool command
 To: Taehee Yoo <ap420073@gmail.com>
 Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
@@ -73,93 +72,93 @@ Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
 	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
 	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
 	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
+	willemb@google.com, daniel.zahka@gmail.com, 
+	Andrew Gospodarek <andrew.gospodarek@broadcom.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000fd605e062545ebe6"
+	boundary="00000000000067e566062546073a"
 
---000000000000fd605e062545ebe6
+--00000000000067e566062546073a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2024 at 9:38=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wro=
+On Tue, Oct 22, 2024 at 9:24=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wro=
 te:
 >
-> On Thu, Oct 24, 2024 at 3:41=E2=80=AFPM Michael Chan
-
-> > > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/=
-ethernet/broadcom/bnxt/bnxt.c
-> > > index bda3742d4e32..0f5fe9ba691d 100644
-> > > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> >
-> > > @@ -4510,7 +4513,8 @@ void bnxt_set_ring_params(struct bnxt *bp)
-> > >                                   ALIGN(max(NET_SKB_PAD, XDP_PACKET_H=
-EADROOM), 8) -
-> > >                                   SKB_DATA_ALIGN(sizeof(struct skb_sh=
-ared_info));
-> > >                 } else {
-> > > -                       rx_size =3D SKB_DATA_ALIGN(BNXT_RX_COPY_THRES=
-H + NET_IP_ALIGN);
-> > > +                       rx_size =3D SKB_DATA_ALIGN(bp->rx_copybreak +
-> > > +                                                NET_IP_ALIGN);
-> >
-> > When rx_copybreak is 0 or very small, rx_size will be very small and
-> > will be a problem.  We need rx_size to be big enough to contain the
-> > packet header, so rx_size cannot be below some minimum (256?).
-> >
-> > >                         rx_space =3D rx_size + NET_SKB_PAD +
-> > >                                 SKB_DATA_ALIGN(sizeof(struct skb_shar=
-ed_info));
-> > >                 }
-> > > @@ -6424,8 +6428,8 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *=
-bp, struct bnxt_vnic_info *vnic)
-> > >                                           VNIC_PLCMODES_CFG_REQ_FLAGS=
-_HDS_IPV6);
-> > >                 req->enables |=3D
-> > >                         cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS=
-_THRESHOLD_VALID);
-> > > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copy_thresh)=
-;
-> > > -               req->hds_threshold =3D cpu_to_le16(bp->rx_copy_thresh=
-);
-> > > +               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copybreak);
-> > > +               req->hds_threshold =3D cpu_to_le16(bp->rx_copybreak);
-> >
-> > Similarly, these thresholds should not go to 0 when rx_copybreak become=
-s small.
-> >
-> > >         }
-> > >         req->vnic_id =3D cpu_to_le32(vnic->fw_vnic_id);
-> > >         return hwrm_req_send(bp, req);
-> >
-> > > @@ -4769,7 +4813,7 @@ static int bnxt_run_loopback(struct bnxt *bp)
-> > >         cpr =3D &rxr->bnapi->cp_ring;
-> > >         if (bp->flags & BNXT_FLAG_CHIP_P5_PLUS)
-> > >                 cpr =3D rxr->rx_cpr;
-> > > -       pkt_size =3D min(bp->dev->mtu + ETH_HLEN, bp->rx_copy_thresh)=
-;
-> > > +       pkt_size =3D min(bp->dev->mtu + ETH_HLEN, bp->rx_copybreak);
-> >
-> > The loopback test will also not work if rx_copybreak is very small.  I
-> > think we should always use 256 bytes for the loopback test packet
-> > size.  Thanks.
-> >
-> > >         skb =3D netdev_alloc_skb(bp->dev, pkt_size);
-> > >         if (!skb)
-> > >                 return -ENOMEM;
+> NICs that uses bnxt_en driver supports tcp-data-split feature by the
+> name of HDS(header-data-split).
+> But there is no implementation for the HDS to enable or disable by
+> ethtool.
+> Only getting the current HDS status is implemented and The HDS is just
+> automatically enabled only when either LRO, HW-GRO, or JUMBO is enabled.
+> The hds_threshold follows rx-copybreak value. and it was unchangeable.
 >
-> I tested `ethtool -t eth0` and I checked it fails if rx-copybreak is too
-> small. Sorry for missing that.
-> I think we can use max(BNXT_DEFAULT_RX_COPYBREAK,
-> bp->rx_copybreak) for both cases.
-> I tested it, it works well.
-> So I will use that if you are okay!
+> This implements `ethtool -G <interface name> tcp-data-split <value>`
+> command option.
+> The value can be <on>, <off>, and <auto> but the <auto> will be
+> automatically changed to <on>.
 >
+> HDS feature relies on the aggregation ring.
+> So, if HDS is enabled, the bnxt_en driver initializes the aggregation
+> ring.
+> This is the reason why BNXT_FLAG_AGG_RINGS contains HDS condition.
+>
+> Tested-by: Stanislav Fomichev <sdf@fomichev.me>
+> Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+> ---
+>
+> v4:
+>  - Do not support disable tcp-data-split.
+>  - Add Test tag from Stanislav.
+>
+> v3:
+>  - No changes.
+>
+> v2:
+>  - Do not set hds_threshold to 0.
+>
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.c         |  8 +++-----
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.h         |  5 +++--
+>  drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 13 +++++++++++++
+>  3 files changed, 19 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethe=
+rnet/broadcom/bnxt/bnxt.c
+> index 0f5fe9ba691d..91ea42ff9b17 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
 
-Yes, please go ahead.  I think all 3 places I commented above should
-use max(BNXT_DEFAULT_RX_COPYBREAK, bp->rx_copybreak).  Thanks.
+> @@ -6420,15 +6420,13 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *bp=
+, struct bnxt_vnic_info *vnic)
+>
+>         req->flags =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_JUMBO_PLAC=
+EMENT);
+>         req->enables =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_JUMBO_=
+THRESH_VALID);
+> +       req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_size);
+>
+> -       if (BNXT_RX_PAGE_MODE(bp)) {
+> -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_size);
 
---000000000000fd605e062545ebe6
+Please explain why this "if" condition is removed.
+BNXT_RX_PAGE_MODE() means that we are in XDP mode and we currently
+don't support HDS in XDP mode.  Added Andy Gospo to CC so he can also
+comment.
+
+> -       } else {
+> +       if (bp->flags & BNXT_FLAG_AGG_RINGS) {
+>                 req->flags |=3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_H=
+DS_IPV4 |
+>                                           VNIC_PLCMODES_CFG_REQ_FLAGS_HDS=
+_IPV6);
+>                 req->enables |=3D
+>                         cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_THR=
+ESHOLD_VALID);
+> -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copybreak);
+>                 req->hds_threshold =3D cpu_to_le16(bp->rx_copybreak);
+>         }
+>         req->vnic_id =3D cpu_to_le32(vnic->fw_vnic_id);
+
+--00000000000067e566062546073a
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -230,13 +229,13 @@ hd5wiQXo9B2ncm5P3jFLYLBmPltIn/uzdiYpFj+E9kS9XYDd+boBZhN1Vh0296zLQZobLfKFzClo
 E6IFyTTANonrXvCRgodKS+QJEH8Syu2jSKe023aVemkuZjzvPK7o9iU7BKkPG2pzLPgxggJtMIIC
 aQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQD
 EyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgxeQGjDntHGb2iaQkIw
-DQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIFuvp5LVW80Oj0uJOq+suOnyVZ5GbN2f
-5hYsyrLGMUgkMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTAy
-NTA0NTUwMlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCG
+DQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIKaMKIwuuv9asRr7vRGvL1OuJhrClFcx
+dh45HKEXCiBmMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTAy
+NTA1MDI0MlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCG
 SAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQC
-ATANBgkqhkiG9w0BAQEFAASCAQAaCySeAKmQzz42HZM62rM/mce/WYGpTUNRs94n4q2a4V141g8t
-eZewWTXdJJlk9sV2p19Rj7x+WwOTD9q55egoH98pP0+751elpsnobc1K+mncWbGlWx03XFjIGK5i
-DxqoKaGmNjSxrOXpxy4A6YrEvNCNjwTfRrMI5LIJyG+qM9BN7crAXoDHVc+qZTkbKeZbHD6t8lMx
-M5Uz35gQeLMfQZhJe+MuasAQcvY1s+xzZ4ppk5+d3O2+LAiEx4UhN8nN0Jzf88b1q3LzKsJuq8L+
-CnA3pJCNYwPRGA6sygunA03m3hel/VnZIUOTpD41aIeYYEP5QpexCEoQsnu9tPUA
---000000000000fd605e062545ebe6--
+ATANBgkqhkiG9w0BAQEFAASCAQB79N6kup2gJ/GMAcGHjrOAJ5JMTOdIffTSRSE7qE9KXfPwUYkR
+YoCnHVnhN5ZeoeWHXnOMgGbWO/YipA5SNGA7ZwpcyBJhWY3ZZCT/vZaT9muwD9wkUcEunZOl5vTR
+8ZSdu+Qdo0BxiK0evIBun6HtkO8f7x5+RqL5s+EZjFsbkj2NvXkIQdXrjxb/PO69sTTaluhc/tZV
+UJ8HUw3Zm2Qk1ISUwPBHnrDkJvNtGhfjz7F7e/5lP/g16nImtMre2KRiDS/YxjjiYJOSmuCo7dke
+cs5V8oy76JXMRCJkWbZy149Zp62MU5oMAp3kEu06y+muXxmMmLmuPMxMAoV5mNBA
+--00000000000067e566062546073a--
