@@ -1,189 +1,241 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2074.outbound.protection.outlook.com [40.107.92.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE4D20EA5C
-	for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 19:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729884278; cv=none; b=AJ9fTP82fMd/FQrb4blZhTpsKcps9AZWAhX6XrXv/IhCWlqb46GHZuwkFlz9HcRctE9QRB5XBotXvrRv5r5V6JjxR4zqWr25bulUjV7PQd/aoRVjyBlPNFC3460piqU5iwQFd8/qOlXt9kvLWAl7uf8JXAkq9gtAc0FdRRVGzlI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729884278; c=relaxed/simple;
-	bh=bebSZsoN40PwcYn49PXuYyxLVWUXlVwMcDX1wxDufWI=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZHH5nckBbhqJl8zTeWE73LLu8Kv5hdkjwr+pwLCnV3j3m+o2rhm6IVcav9SZ15oC34602ZNZcgJLXXajJser3XbqsLK/8FHpYpVnaKcLSI2hMyTdvgDyalLLURNUSzb1b4BgtUmZRHVddwh3qRES6K13lfZD3CmAorALPm/1EiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=epMUddw4; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0A320C334;
+	Fri, 25 Oct 2024 20:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729888303; cv=fail; b=r9lYtczIkCdEZvWRk/WLMqZfXsG5FbO3olesGzDskXq/STOe28fEPX9GWZSpbMf6j27w5kJAunuh7ZTbf/6C2z3qWqp0miQ9ugL5Zg+K4Ta9SPwEF1rmAaPHrP9x7e9f+uF6sjJs3nnSQY19TUoGdr9zl049Y4OVA8SVpet9kM0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729888303; c=relaxed/simple;
+	bh=DPCb+hGwv9Z0dBe/HNHrqyIKFn4KbQAn9Gm7V2rUUqQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=e8fGP3+vvUu55bmC2vfPuNrcQatVXQrrU2mt4s7PCx6bX5nQG7ZHvlcDw8wcHQePVmXkd6wS8np7S752k0XYSAILp35555DM10DFKAVXhDiWXUO/f0nOnIgIVao+CbZ1fnGoXIySmVAnevqX30GwJ7CUgfWDEPbEagUrOsQJtFY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0KwEFCD3; arc=fail smtp.client-ip=40.107.92.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="epMUddw4"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20e576dbc42so23711975ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 12:24:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1729884275; x=1730489075; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Cz47o9yzNW0KvGOU6xsQutyz7avw4CsPNbkPxVqTrbU=;
-        b=epMUddw4jB4RHdz1r0hDB40zAHeMh4dP8UqZdOP6aBXiDDrlZB0mEqNUhaNZVDeLbv
-         Vw5fzK/Is8VbgpVAnIcPjN+h4vPW5ULBYisrkpIVqSuVLznNaEUSacsMo6v7WxyBvnGn
-         JYP6NXOYrTAar+ZR8dbLNAnYnma6wKTx2pVV4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729884275; x=1730489075;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cz47o9yzNW0KvGOU6xsQutyz7avw4CsPNbkPxVqTrbU=;
-        b=rvX1Qz7ptba7AjwfAOGsbIWyyy7g4UE5LMf/RYa3nu4ipx49VgGfLZjVwt79n9Sj6A
-         crunzf3zz6dwYDCMLE1GBgzawaeDq8vZChlLz3XT0D7hOc4sjGHTyHiVvPtpPRAxKXgX
-         cDR/rewtVuAwUaKp8bwF0dkftzOZiQVebuwCmijjPSoEzyAj2WT6v3kI1gqjCb1f+Tj/
-         e9QdEIbaSaYsyuQGhpMSAbrfnCNP6HtGn7We99K6Ym9hbOJAc8v+OHAdc5L9Dh3sRPz/
-         k+e06TwYJsiWXU0DIHFzV/zFoEZTqXjZEchiCRwjNEDoiWp1eSr0TTftJyl3+jVIwY9z
-         sBzA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/+Fh3jGSpYcqU9Cr42rnuw4jaWG+RpFou04J1iPL5STnLRcWGqnheGXIzbBB5rEIQUkfbCtJTles=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxTjh3gtf+kmzhqKUpnNwlMYyQdC6bbjwSkel874Fil4NOWdhP
-	N7a5Fgxp8Axst11tdFv+YCLnkPrirCvFVKFw8WG6YcYTMrW37l3pedNakL5Kaw==
-X-Google-Smtp-Source: AGHT+IF/pmHhfEwM1uFHYfAiRvfzD/X8MP05OgiVn+yw7RgVB/ZPqi/aoEMZjtwkKW/IJ57B7SH7Yg==
-X-Received: by 2002:a17:903:2b06:b0:20c:5ba1:e8e5 with SMTP id d9443c01a7336-210c6c16f09mr2760435ad.19.1729884275414;
-        Fri, 25 Oct 2024 12:24:35 -0700 (PDT)
-Received: from JRM7P7Q02P.dhcp.broadcom.net ([192.19.144.250])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bbf6df8csm12785615ad.99.2024.10.25.12.24.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 12:24:34 -0700 (PDT)
-From: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-X-Google-Original-From: Andy Gospodarek <gospo@broadcom.com>
-Date: Fri, 25 Oct 2024 15:24:22 -0400
-To: Michael Chan <michael.chan@broadcom.com>
-Cc: Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com, almasrymina@google.com,
-	donald.hunter@gmail.com, corbet@lwn.net, andrew+netdev@lunn.ch,
-	hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org,
-	daniel@iogearbox.net, john.fastabend@gmail.com, dw@davidwei.uk,
-	sdf@fomichev.me, asml.silence@gmail.com, brett.creeley@amd.com,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	kory.maincent@bootlin.com, maxime.chevallier@bootlin.com,
-	danieller@nvidia.com, hengqi@linux.alibaba.com,
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com,
-	hkallweit1@gmail.com, ahmed.zaki@intel.com, rrameshbabu@nvidia.com,
-	idosch@nvidia.com, jiri@resnulli.us, bigeasy@linutronix.de,
-	lorenzo@kernel.org, jdamato@fastly.com,
-	aleksander.lobakin@intel.com, kaiyuanz@google.com,
-	willemb@google.com, daniel.zahka@gmail.com,
-	Andrew Gospodarek <andrew.gospodarek@broadcom.com>
-Subject: Re: [PATCH net-next v4 2/8] bnxt_en: add support for tcp-data-split
- ethtool command
-Message-ID: <ZxvwZmJsdFOStYcV@JRM7P7Q02P.dhcp.broadcom.net>
-References: <20241022162359.2713094-1-ap420073@gmail.com>
- <20241022162359.2713094-3-ap420073@gmail.com>
- <CACKFLikBKi2jBNG6_O1uFUmMwfBC30ef5AG4ACjVv_K=vv38PA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0KwEFCD3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E8XThTKzeOPHgSYSmfd+hu9vZ4LJmk43uqp1Li2lNefOLLDy59m6CZtgJ7iIJIa2vc42mYET2tb6cBCdKKIksUJ7e7NMK9cg/p1tMcT1OUZjmhJxH+KRLYKsD5tb/3Q0FzUlaQRcw3asTJDfnE1tXeb+3GZbkMPor6N/hpq4iAUzf95h9FkUR48GBh7YmGWT8EC4g5IUsqf4SbP5OMMWXcqFeIvCdX89rg3eBDQW7c7TSP4nAzE5ZVAi0n1toU/OQrkG35LYNM0tTOeFc/Rrq2CwwW0RQkwj9C9o5831jvTCACQsDigbaSR/HBEu5+zKVBQsZ80X716pERLOVWn9Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LRpOW7C6QVgrHV+NE8BEHqUEAi7QPT/aR1cNTM7VuOM=;
+ b=Ytr9w83xGALk9AIoWwSecWEIWSW6lju+uUbNWdQQVkk+S3YgxNNyupCU/2mTkDnzFy1qR5V8/9llD5lj3FPbZiUExxUUwOBbXpdU2rtgno2zuVRen39vj6zEBu2LFwMpz68aYNy+BT3hxpA3Orkk9Em5oZYn3QOValduGDyLSXLd7x+t/i749T8fI/Z+jSt32uS08iweXmaptOqdtm41y/v4entu0/mG6x8EwsvctSptciBc9+odGM3NC5E/yRpDeFY90+ftRrKQTHjNcPiVHsMrabWtceQlt/OxZhpb/u1e/MyGCp7xkrzto+HiSSeuJXy9JjjybasWvFRHF3/uJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LRpOW7C6QVgrHV+NE8BEHqUEAi7QPT/aR1cNTM7VuOM=;
+ b=0KwEFCD3xDBEvr1fYNRzZGVGsba0IhT899/fRNbHmv7Ksp6X1YuDJmp7PX+DhsVN+rscEdroq3OMipWpBH8xeZXwypa/5UPbOs6DUizqOPCB9by3Rfr0Fsy92O1MLKqjjMWLtm42+Vf9jf9fIDguVp9BOdDRnCaNZcI5RsyQvzs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by PH0PR12MB7814.namprd12.prod.outlook.com (2603:10b6:510:288::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.21; Fri, 25 Oct
+ 2024 20:31:36 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8093.021; Fri, 25 Oct 2024
+ 20:31:36 +0000
+Message-ID: <c3c3953b-d069-40d3-e7e0-db8c0e7eef40@amd.com>
+Date: Fri, 25 Oct 2024 15:31:30 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: RE: [PATCH v8 08/25] x86/resctrl: Introduce interface to display
+ number of monitoring counters
+Content-Language: en-US
+To: "Luck, Tony" <tony.luck@intel.com>,
+ "babu.moger@amd.com" <babu.moger@amd.com>,
+ "Chatre, Reinette" <reinette.chatre@intel.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>, "Yu, Fenghua" <fenghua.yu@intel.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "paulmck@kernel.org" <paulmck@kernel.org>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "tj@kernel.org" <tj@kernel.org>, "peterz@infradead.org"
+ <peterz@infradead.org>, "yanjiewtw@gmail.com" <yanjiewtw@gmail.com>,
+ "kim.phillips@amd.com" <kim.phillips@amd.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ "seanjc@google.com" <seanjc@google.com>,
+ "jmattson@google.com" <jmattson@google.com>,
+ "leitao@debian.org" <leitao@debian.org>,
+ "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+ "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+ "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+ "Joseph, Jithu" <jithu.joseph@intel.com>, "Huang, Kai"
+ <kai.huang@intel.com>, "kan.liang@linux.intel.com"
+ <kan.liang@linux.intel.com>,
+ "daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "sandipan.das@amd.com" <sandipan.das@amd.com>,
+ "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
+ "peternewman@google.com" <peternewman@google.com>,
+ "Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Eranian, Stephane" <eranian@google.com>,
+ "james.morse@arm.com" <james.morse@arm.com>
+References: <ZwcIkf_oy2oKByNu@agluck-desk3.sc.intel.com>
+ <0fedcbd4-487c-4d55-8151-69dc34f41f1d@amd.com>
+ <SJ1PR11MB6083FFA19F9387F21C058A09FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <d1986f3f-9db7-4ac9-9fea-56878548ad61@amd.com>
+ <SJ1PR11MB608382EB9F40FBDC19DF71C4FC782@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <1baa07f6-0ccc-4365-b7b8-09fe985963cd@amd.com>
+ <Zwlj5TQxZphcuDSR@agluck-desk3.sc.intel.com>
+ <8af0ce3a-1327-3ffc-ac5c-e495f9cdf5d0@amd.com>
+ <ZwmadFbK--Qb8qWP@agluck-desk3.sc.intel.com>
+ <ee7771e4-3768-456c-9990-fcd59b4f74af@intel.com>
+ <0ee2e67d-c1dd-489e-beef-1f255c5629d6@amd.com>
+ <SJ1PR11MB60833A1571413763DE36B538FC442@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <23b5a3d2-91ac-4467-9db0-3de483cfacf9@amd.com>
+ <SJ1PR11MB6083583A24FA3B3B7C2DCD64FC442@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <799f514f-b06e-46d9-bfe7-dfd986aef166@intel.com>
+ <3b7ca34a-764d-458e-b28c-113dc5419a4e@amd.com>
+ <SJ1PR11MB6083DC9EA6D323356E957A87FC4E2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <SJ1PR11MB6083DC9EA6D323356E957A87FC4E2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR01CA0029.prod.exchangelabs.com (2603:10b6:805:b6::42)
+ To MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACKFLikBKi2jBNG6_O1uFUmMwfBC30ef5AG4ACjVv_K=vv38PA@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH0PR12MB7814:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ccec737-4aa0-4464-1572-08dcf5340599
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Y24rUThRT2lYdTFObFJjUTVHRlRXd0xabkZEajQ1TGFIRUJzMkFJVll4Tmxi?=
+ =?utf-8?B?NGR2S1A1SkR0K1FrSDNxejRCTHBqMUNkRGdZSzFvRTZTbUxCc1IzT1hNRlNB?=
+ =?utf-8?B?NmZvRjQ2Z3Nnc2NDNjhXcEVmUWVabk01QXFabDB1S1dHR2Qyam1VUDllM0Ra?=
+ =?utf-8?B?cmdPSjFmd1F1R3YwZWNKclBGTnZobGI3TllpRmczRkRsNll3ZVZZK0NtQStR?=
+ =?utf-8?B?ZkdhakthUnpJc3R5T1JwR090Rjhqb1JxeTI1MGZlSkRWZlJOc081STEyd1k3?=
+ =?utf-8?B?aTljeXU1UmJMcjFyL2MzQ25wZE5pek0yQWN4QjI2bzA4RnlZdUZ0R2loRnFS?=
+ =?utf-8?B?Tm9yRHJCMUxsM3Z2alpWOGx6dXlwREZNRjRwU3RHbnc2d0JxQXlYU1hPSXBt?=
+ =?utf-8?B?dHZsMHpDTTdob0hIa1Q1U1gwZGVXaFFtN1g1ZVdlNHJaaEdleWh5ek9nQWty?=
+ =?utf-8?B?bjByRy9ha0RvVHJZQXgwcXk2RHJCN2RpQnpNSUN4Rm84OVk4aUxia3VkN1kr?=
+ =?utf-8?B?T0FmbXY2b3d4U2tyTnB5VUFJdGhCZzBycnFXWEQ1K2RmcmU4bkR0dlU0amd5?=
+ =?utf-8?B?RkQ5bkNmemNWSmpWSi8vZkVhaEppSEdFYzBoZzRDYzFOVmdleHMxZzhUQ3E5?=
+ =?utf-8?B?b2JkWWZULzBROUVuSmR1ckhzV0RsNFhXWnhpeEswK2w2ZXhhY0JHUnB3SUtu?=
+ =?utf-8?B?RVhjUml1eEovalhZZ0QxU3NBeVdYOS9JWFBYdzB5RFFTRjNHV0FzWXlaVUty?=
+ =?utf-8?B?RlBsSUdIaUxscUl2bHpITkpZTkFtb2lGSEZtclQrUkdUYS9TT3FrSmRpbWY1?=
+ =?utf-8?B?Y2h0aWQ0WW9xT1RuZklkY3h4dG5MS1BkTXBwOE5ZYWJtKzhzbGQ1YUgvaVlD?=
+ =?utf-8?B?QllmTnNpdGlnQ2dwZThqVkNnTDZ2UlRYamVORlZYU3hhNVl3Nm1iYzFrMWEx?=
+ =?utf-8?B?NUZzTm00dDFCTWpLV0JWdEFXWk9YVUFaT2FoMUFjLzlzemdYWGpwUUVUcjZT?=
+ =?utf-8?B?dHFOblRPYlhmM2o5UENkWlNEbi85eG1BRldaWUFCSWduZHp0b0NGdXREaURv?=
+ =?utf-8?B?eE5GQnFOWkFSMVdQZjR0dnArblhLbXU4K3pwMEI2MTNKS1FzWWFOU1pzN004?=
+ =?utf-8?B?UFlpNVpOdWVLdkN1cEpCSzhFcEo3OGI1MkJkVDhrUmo1TmxFYU9rWlM1algr?=
+ =?utf-8?B?S2gxRmJIMEkydG9TQnpnTVFHZHRpSkF5NlozRFN6SWFOUHZVVXE1TnRXckxN?=
+ =?utf-8?B?WWU1bUJ5MTR3ZngzNnJoeFJ1OUw1ay9TZ0ZPMUZjZGsyd1lWRktOODJON1dl?=
+ =?utf-8?B?Vk9oeWY4c01pZ1RsVjdVZEtEYlliNXFWaElrZmZuTXNCNWQ1LzJEbnh1dTV4?=
+ =?utf-8?B?bWxEV0NoL0lmQk02N2JBUytaVDh0ZCtzRDUyanhFSHlBUmFjczNOUVhaNXlX?=
+ =?utf-8?B?MExSUTAyRU5GdnFRb00vQ1E4OXdNMWdNbnFTTW5ycnMrQ0dzWEkwODk4UzYv?=
+ =?utf-8?B?QWVtZGVtOFA0MU9ORGV2NmNjOE5LNzVOd3p2QXVRcG9zUXIxcWVKWEhIT3dW?=
+ =?utf-8?B?QisrQ05lWVZxc2dFalQxaGRkNzd6RENlNisvcE8zMXJKU01vd1V0ajJPSU9R?=
+ =?utf-8?B?ZWt5aDRXbklhN1ZFVGRRVVU0SFkvOHJ5YVZrbjB2V3I2enF0T2lqTGxXeGVk?=
+ =?utf-8?B?aFV1UVNObmpuaHlIZ2c1T2YwSVpSQTVUeWNRVHZ2TmZVdndwNFQzL0xselFN?=
+ =?utf-8?Q?p3iby+7/W8jpiAkCpFO1ibJQlpxrJ07Xwk9NKBM?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TkUvV2YyTXliRWtpSElVbWo4R0ZKOHErVkpFTTFvUDdnYk56Zk1ISUVML1NN?=
+ =?utf-8?B?RmhxZjg0SlZNYkxZd1lLMGJOaVArTEdHTVFBTVA1anRwcHo4dTA0YmEwZWw4?=
+ =?utf-8?B?Y0JYeTJFMVFXUURMNWhNRWVrQ1ZnWHkyakpxQ1QrVks3dEhPbGpoTVhQVnRO?=
+ =?utf-8?B?N0huWXZldG9KajRYdmJQRTQyTG9OM04vMTBKWEtPdlJJTDhvMnRZQVFsZ05Z?=
+ =?utf-8?B?dEtBdEVWUzdBSkJDUXIrRFpyVTkwT1FrZnlPSlBtQzVmWEtzd3o4aGorWFRX?=
+ =?utf-8?B?N1FpN25oS3dackdaZVRXNDNiOVhVaEliNTBza1ROUTEvc0xuSUdSQUVHdGlT?=
+ =?utf-8?B?OWFldmlMVndKMU4yaFV1bTB3Y2lHbi9NcVVScXRDS01BQWNsTVVyc3Bkd1hy?=
+ =?utf-8?B?UFUrZXRZTVI5ZkpQQkFZS0RQMUhTN2t3SlU5bHZJbWFERWxNQVVNUEk0WFd4?=
+ =?utf-8?B?TDNDT21pM2c3alJvWC83ZllxWGl6NXcvK3NxaEs0OWJldkJqWklvTWdKNksr?=
+ =?utf-8?B?NlZaRkJTU1gzQnJjUGtGKzlpNSt3dUZUVGdsOVV0ZC9YdzFRWjFGQTRXVzFl?=
+ =?utf-8?B?TFZDOFBVc2RqTmRKRUVIZ01qampDMjdySG9MRGNiMGFkMFE5WmQxRFhGWXI3?=
+ =?utf-8?B?UXVTOFcxbVJTYmxkYm5INUZsT21ic2lVZHdMY1NWa3JvbUdmTitMbE9hSFhV?=
+ =?utf-8?B?U09ZMlFPc1BFa1hCRG5oVlpnQ3k3R0lsUmQwVFBGd0gzdHlTSlFqaER0anl3?=
+ =?utf-8?B?R3ljdENuWGJFTGFNTlBpeUxLZW9VcElGNXpmQUFwMnpjNFhOOWxtREpOT1hE?=
+ =?utf-8?B?ZmJZcGZZb1k3WEpvYjA1Ni96eWZFZXdJUFh0ZFJzeGVNaG1FUmI1QjRYWnZ5?=
+ =?utf-8?B?Mzh0SGJPQis3Q2lXYmhDUmtMM3dSZHV2UVJFUUNVODc3Q3c1UWgwVW00MDcw?=
+ =?utf-8?B?dmJGUUptbzduL2llbnZUcG1GSW1ZckRYOTQ2VE1qV1JaRjRVeUliNFcwN1p5?=
+ =?utf-8?B?K1BZV0swaDlacTZ2UWdJKzJPY1VWR0hTYXN4aHR5QWZ1cGdxQXNTVXVWMDZE?=
+ =?utf-8?B?UVhGbG9RK3Z2YStaaHZEVG0wRG02ZnlvMU5NZmFuUlhzeld2ZEtocnV5L25S?=
+ =?utf-8?B?ZEJxZ3loandvOExLaUo4MnlCQ2hPMHZ5T0FOdGtFQlkwLzJDcGZaTFlLTlA3?=
+ =?utf-8?B?bFNMQWJDQUtHdUh5ekZNcWRRZjlFNHpOZUQ5UGtrNkg3UFlKeGVDRU9NUlRI?=
+ =?utf-8?B?THRMRk9mOHlRbGsrM2RxOGFkY3kxS1o0R0JkNkQzRm93WnhzdHo5YnlYdUJy?=
+ =?utf-8?B?aTZNYk9KUlBMdno2NXFPaEpqZHZNVkdqcGJLWDlOaGpaZ3ZteVNMMGVDVFZI?=
+ =?utf-8?B?dG5GZ1dZdTdEWUhWV3ZZaHRlL3Exb2M2UDRBdmpVVWxCN2tMaGhiSm5hUVlP?=
+ =?utf-8?B?ZHhUM3JZM29yejFhYUNVUThxajcva0t3Vm1KMUx1c2lXdlh2L2cxVy92UlpI?=
+ =?utf-8?B?ZFFYUEJYeGtXRE9uU2lGR0I5bDFoOENkdGM0TTd4RVlaSEhYL2FKNTJSa0Ux?=
+ =?utf-8?B?VG5tRmlOMVo4SWxQMVVUYmNSRnVPZ09RYXRmWUdzYmliNFF1dDczZitEbjg0?=
+ =?utf-8?B?NGdWM2tkRHpVOXBveFArTFVoV2RZL3RJdW9JY3RlSlZSMlBUdnk2blJJSXla?=
+ =?utf-8?B?QTNyQ2NYRzdRVFY2V1ZVTWZyZ0NUV0lYeXpFbWt1UFBpa0ZWRGNRNGRTZ1Vr?=
+ =?utf-8?B?MVBrbS9XQmxBZW1vUUU0Wmt2dWJReGErMng4VFQ3cmhCSjNzUUhybW9kSFF4?=
+ =?utf-8?B?WFNEN0NLSmZadnB0SGpkVVpvTVlUaUg0MUNWaFc3VHBnbXYzNEdOMWpaYUJU?=
+ =?utf-8?B?T2VFdDkyZFdyN3VsbkJPbXBVYkhnK0Z3S0gyQ3pKQTJTVzlIK2VydmhHQjN1?=
+ =?utf-8?B?VE9vZXFWUlEyTWFMK2dyY09tcW0rbDBSTi9pdXp6TGZNbnRtUU5STlJaMnJo?=
+ =?utf-8?B?UGpwa3lmWXdaR1BBWHJNUjREWFVRRUhISHlyMnZKRWZHMTQyT1FGOXBlc2hs?=
+ =?utf-8?B?TkNKdDk3cmplbnVQNytOV0ZFVXcyaEM4UDlHemx2VHdmcnF0MGZsUW1Ibmdm?=
+ =?utf-8?Q?9m9I=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ccec737-4aa0-4464-1572-08dcf5340599
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2024 20:31:36.3052
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zwhtqF3kUpbpwptnN3kP5WbJlzTv7imePDdCp7luKPheLlObeUW7HSs0DvrZ/hAa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7814
 
-On Thu, Oct 24, 2024 at 10:02:30PM -0700, Michael Chan wrote:
-> On Tue, Oct 22, 2024 at 9:24 AM Taehee Yoo <ap420073@gmail.com> wrote:
-> >
-> > NICs that uses bnxt_en driver supports tcp-data-split feature by the
-> > name of HDS(header-data-split).
-> > But there is no implementation for the HDS to enable or disable by
-> > ethtool.
-> > Only getting the current HDS status is implemented and The HDS is just
-> > automatically enabled only when either LRO, HW-GRO, or JUMBO is enabled.
-> > The hds_threshold follows rx-copybreak value. and it was unchangeable.
-> >
-> > This implements `ethtool -G <interface name> tcp-data-split <value>`
-> > command option.
-> > The value can be <on>, <off>, and <auto> but the <auto> will be
-> > automatically changed to <on>.
-> >
-> > HDS feature relies on the aggregation ring.
-> > So, if HDS is enabled, the bnxt_en driver initializes the aggregation
-> > ring.
-> > This is the reason why BNXT_FLAG_AGG_RINGS contains HDS condition.
-> >
-> > Tested-by: Stanislav Fomichev <sdf@fomichev.me>
-> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
-> > ---
-> >
-> > v4:
-> >  - Do not support disable tcp-data-split.
-> >  - Add Test tag from Stanislav.
-> >
-> > v3:
-> >  - No changes.
-> >
-> > v2:
-> >  - Do not set hds_threshold to 0.
-> >
-> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c         |  8 +++-----
-> >  drivers/net/ethernet/broadcom/bnxt/bnxt.h         |  5 +++--
-> >  drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 13 +++++++++++++
-> >  3 files changed, 19 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > index 0f5fe9ba691d..91ea42ff9b17 100644
-> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+Hi Tony,
+
+On 10/24/2024 12:37 PM, Luck, Tony wrote:
+>>>> Since you seem to want to keep the flexibility for a possible future
+>>>> where per-domain is needed. The "available_mbm_cntrs" file
+>>>> suggested in another thread would need to list available counters
+>>>> on each domain to avoid ABI problems should that future arrive.
+>>>>
+>>>> $ cat num_mbm_counters
+>>>> 32
+>>>>
+>>>> $ cat available_mbm_cntrs
+>>>> 0=12;1=9
+>>>
+>>> Good point.
+>>>
+>>
+>> Working on this now. Wanted to confirm if we really need domain specific
+>> information?
+>>
+>> To me, it does not seem necessary for the user. User cannot make any
+>> decisions based on this information.
+>>
+>> All user wants to know is if there are global counters available.
+>>
+>> $ cat num_mbm_counters
+>> 32
+>>
+>> $ cat available_mbm_cntrs
+>> 15
 > 
-> > @@ -6420,15 +6420,13 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *bp, struct bnxt_vnic_info *vnic)
-> >
-> >         req->flags = cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_JUMBO_PLACEMENT);
-> >         req->enables = cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_JUMBO_THRESH_VALID);
-> > +       req->jumbo_thresh = cpu_to_le16(bp->rx_buf_use_size);
-> >
-> > -       if (BNXT_RX_PAGE_MODE(bp)) {
-> > -               req->jumbo_thresh = cpu_to_le16(bp->rx_buf_use_size);
-> 
-> Please explain why this "if" condition is removed.
-> BNXT_RX_PAGE_MODE() means that we are in XDP mode and we currently
-> don't support HDS in XDP mode.  Added Andy Gospo to CC so he can also
-> comment.
-> 
+> This approach paints resctrl into an ABI corner where it can't later
+> update resctrl to track counters per-domain. Maybe you'll never want to do that,
+> but some other architecture might want to have that flexibility.
 
-In bnxt_set_rx_skb_mode we set BNXT_FLAG_RX_PAGE_MODE and clear
-BNXT_FLAG_AGG_RINGS, so this should work.  The only issue is that we
-have spots in the driver where we check BNXT_RX_PAGE_MODE(bp) to
-indicate that XDP single-buffer mode is enabled on the device.
+Ok. Fine. Lets keep the per-domain counters.
 
-If you need to respin this series I would prefer that the change is like
-below to key off the page mode being disabled and BNXT_FLAG_AGG_RINGS
-being enabled to setup HDS.  This will serve as a reminder that this is
-for XDP.
-
-@@ -6418,15 +6418,13 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *bp, struct bnxt_vnic_info *vnic)
- 
-        req->flags = cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_JUMBO_PLACEMENT);
-        req->enables = cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_JUMBO_THRESH_VALID);
-+       req->jumbo_thresh = cpu_to_le16(bp->rx_buf_use_size);
- 
--       if (BNXT_RX_PAGE_MODE(bp)) {
--               req->jumbo_thresh = cpu_to_le16(bp->rx_buf_use_size);
--       } else {
-+       if (!BNXT_RX_PAGE_MODE(bp) && (bp->flags & BNXT_FLAG_AGG_RINGS)) {
-                req->flags |= cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_HDS_IPV4 |
-                                          VNIC_PLCMODES_CFG_REQ_FLAGS_HDS_IPV6);
-                req->enables |=
-                        cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_THRESHOLD_VALID);
--               req->jumbo_thresh = cpu_to_le16(bp->rx_copy_thresh);
-                req->hds_threshold = cpu_to_le16(bp->rx_copy_thresh);
-        }
-        req->vnic_id = cpu_to_le32(vnic->fw_vnic_id);
-
-> > -       } else {
-> > +       if (bp->flags & BNXT_FLAG_AGG_RINGS) {
-> >                 req->flags |= cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_HDS_IPV4 |
-> >                                           VNIC_PLCMODES_CFG_REQ_FLAGS_HDS_IPV6);
-> >                 req->enables |=
-> >                         cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_THRESHOLD_VALID);
-> > -               req->jumbo_thresh = cpu_to_le16(bp->rx_copybreak);
-> >                 req->hds_threshold = cpu_to_le16(bp->rx_copybreak);
-> >         }
-> >         req->vnic_id = cpu_to_le32(vnic->fw_vnic_id);
-
-
+-- 
+- Babu Moger
