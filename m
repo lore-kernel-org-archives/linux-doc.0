@@ -1,182 +1,260 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47DA1D14FA;
-	Fri, 25 Oct 2024 08:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C9F1D2B2A;
+	Fri, 25 Oct 2024 08:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729843672; cv=none; b=WNDf8NFEHbZFqTtmEuw5w7qC8jJGu0WHf/ex3UhFCU63ePMig7n7WrctE2MKxoViIxkRyB6y10pdG7Yut4X7xcXQ+ffM3OooQLPhT63cMSjGBu5lneZEKwtj6LoWTGjZielwRKlkB1oOlN0IdrBiP3MLPAX/RH8uzJ8MZ8JGuYk=
+	t=1729846700; cv=none; b=l4e/r5MfummAwNYfFpvYZyxvUihZlAakBiURTSvJNC/fIcC0ou0oP0eOfCLyb6h3TenVnUEzmCHS8b491YceX9PaDgHeUug26Ijv5PFyZhFIMhW2TsM+S2NIr6+yxB3vou4BMidNL1sZwQHg1nG1BiXU3viDHSbnOtZgO6wr3Jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729843672; c=relaxed/simple;
-	bh=o1gOBfIHtVLTrFgB2fq6Uowi2pWKiTyJjWht2uaM92A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bp4ZgbA548g0XE78jsl7rlBpN181Xx38ZdEfCbYpvLTa/+73ay4wty/t7KpoGb1rUHgXnwePFCQ54rVYN9TdDzajdthKv+HqmRTeTZap4B/u6Bzip80OHYk0pJz9uGS467WErqw8C+d2M/QBPJkWKPeK8eRPmC9FxSr2E7j2y70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3Je+0zP; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729846700; c=relaxed/simple;
+	bh=v/W+YknXo/T42S2dWJN85T5BzMNhpxIRXwhTm5D/liU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ehIRzVgsdKuIkzC/k44rKFslJWVYyDMRx+J5AzcaAkOC9y/y2sdDDkZvlYDO8jibvCA3a5XQFmDcixUbtrNWz4IiFussKQQkfzykF/wzFs6gJ+thXjcyKYo26nP9Vgoi207Itli6Te5GBMzYzcoPmUT9RRpbMyZljXP9RgCP9/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=hqsrgJcM; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3Je+0zP"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5cb74434bc5so2342524a12.0;
-        Fri, 25 Oct 2024 01:07:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729843668; x=1730448468; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nCQ4m1wvtW2TgoNI4uf9Tu1TL7BPMbTivwjBwFu9sno=;
-        b=I3Je+0zPdIxUfxbyLIem41nbptZaRT8XXj7bUIBl2eTtv1J7LEa3np5DIU5wl5VOt2
-         4vTEECQFjeGNNuW+t7+dfedTdOHrTOJzoRca8pYBIozwsOlN0wdTM2ggPdbq/Ua6ZO2t
-         ikfUtz6srptedKZXyFJRJ7Rizj8RaJkSM/ecZfnf7KwzaerA9oN0pKCnnkIeeNpFG/M0
-         wNnJHJ7o06nb7mD0lnhejaisxfVnvxCoY3kV7NoF2jT8ih4KMJB7Gw+sQXbffOsftsOG
-         tb+Msb4ECx14ZX/eDG3HLuNt23GEsjjUExny1u+lfCYz6lUdeQfJh+jXsdu9iMoPpOUE
-         lP2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729843668; x=1730448468;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nCQ4m1wvtW2TgoNI4uf9Tu1TL7BPMbTivwjBwFu9sno=;
-        b=lLiglS2HpHjizJ6UrWr4qBzmcjwnRj++YA8Q6eUmftFwg28MTgEHy57B9DnoyKnmqF
-         DwFRprW5bH9q5F17kx8yg09PbsiXu4FT94drkDgHtETw6WP7dI+SMk6DzTyr/hUpRRaO
-         jtdsUjtHmkZ9LgSyGGhC1KrDMcftcuw5NNbDSANnSBjsI4PE+313iA6+5DLRIJiClAi/
-         7FQsuQhxyZcimDMi0bVY8E7hkHxDK9l/33dEKI1XCGEz53JSfNxm/wG1xeD/IBIyL83S
-         Se9Lzk62FyHdZwoOqY2dDbjBy3qG3kscLdjG7nRNROjylxPiIEsk7kX350H61j0JT8np
-         mPuA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUKcYtV4PrfIsuaXC2VvsVcB6q3DRRrq/EWtw9ZQbx2Jt5Yjz5N686REgA3t/hpx3Muaf1gkyU@vger.kernel.org, AJvYcCXqBi72UrILJT3j3aR/9/H9tOtKNLkAtiQBjYBiWQBUQ6AnDYu3Kv3ZqwSlYfe/O5DCThxMRHPi44k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3k1a6PfAmM1Gi+sU5E4Cvfpdr52tcqFVVI1IU6ffuk92FC/YO
-	f9+u43iFu2Y1GYjZFyxaEj0kzjcYfIoAk3TSBIcaVCII2LJwuk6VqcWgx3wekyHMl+wLLhnfeIC
-	lWHqw5rRhIHaAYu5DNf5AykzN5KQ=
-X-Google-Smtp-Source: AGHT+IHyN/fkHr9kBOO3SbDEvBTTZO90qRq8TLpf2ILw3cu3aYcYwh5foVjD/so3SmEY0GxBOe8cLYVZgjzLCQn0NoA=
-X-Received: by 2002:a05:6402:1d4d:b0:5cb:7294:fc71 with SMTP id
- 4fb4d7f45d1cf-5cb8b190801mr6636356a12.13.1729843667864; Fri, 25 Oct 2024
- 01:07:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="hqsrgJcM"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49P2dkrb030685;
+	Fri, 25 Oct 2024 03:58:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=6grNDwF5Gp/yr9tznEQV4KlcT6PdAw9hA5hTHyKyfcc=; b=
+	hqsrgJcMzv30LVXJrVYqEHUAB5wmHEgk+I3sO9R5ryByxIQLA/MM/YY1TcbOwTSf
+	r+HAhvMUiXbBaONoEgOA5xAMwnzfFV/TYcnZsA4VX4uEp+FcRA1pRyuKq7lR9iVa
+	7dddKux/zbEPdTGZc0uUZgYp3ssenE7b4YkZ5gFZ+7a7zbpSxQPWqjjZCS64n5Ml
+	BdcF/l3QaBm3kEJBZu+c6gYgHJ0kelEwxPryuds8tL1gVifuJocsR4rjGjQVg/+T
+	N7nXcC0yFQetb/14jxaTOyY0VTdhQcHf3KlbmLSGh+F3RKTq6j4VfS6F6RT9yhAg
+	FBAjAv/40ZhQHIUKRafWjg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 42c96jfpbb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Oct 2024 03:58:06 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Oct
+ 2024 09:58:05 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Fri, 25 Oct 2024 09:58:05 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id E1249820241;
+	Fri, 25 Oct 2024 08:58:04 +0000 (UTC)
+Date: Fri, 25 Oct 2024 09:58:03 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: anish kumar <yesanishhere@gmail.com>
+CC: <perex@perex.cz>, <tiwai@suse.com>, <corbet@lwn.net>,
+        <linux-sound@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] Docs/sound: Update codec-to-codec documentation
+Message-ID: <Zxtdm9moPrV4Whp9@opensource.cirrus.com>
+References: <20241020163706.87123-1-yesanishhere@gmail.com>
+ <ZxkgCL2/JtDDJ9N1@opensource.cirrus.com>
+ <CABCoZhDQCYwReG2q9pGNPaLaOxd2OjjQ8j14QgujTFDNmG1Seg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-2-ap420073@gmail.com>
- <CACKFLikH-8fdqpvFouoNaFGq011+XvR0+C-8ryq-SutAs=RdsQ@mail.gmail.com>
- <CAMArcTV3U62Rz+FPCJWVOqqNJOZBLnBvb+yRcjJ+drspm5nxbw@mail.gmail.com> <CACKFLikK0p1e41sbkBt1MCL=gxoWbKNHvqzEfcaV=rBfvQjB4w@mail.gmail.com>
-In-Reply-To: <CACKFLikK0p1e41sbkBt1MCL=gxoWbKNHvqzEfcaV=rBfvQjB4w@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Fri, 25 Oct 2024 17:07:36 +0900
-Message-ID: <CAMArcTWzxhHcX=iowgNy=W89gqhRfrqmsoa1j7d2UzMpyd9wbw@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 1/8] bnxt_en: add support for rx-copybreak
- ethtool command
-To: Michael Chan <michael.chan@broadcom.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
-	edumazet@google.com, almasrymina@google.com, donald.hunter@gmail.com, 
-	corbet@lwn.net, andrew+netdev@lunn.ch, hawk@kernel.org, 
-	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
-	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
-	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABCoZhDQCYwReG2q9pGNPaLaOxd2OjjQ8j14QgujTFDNmG1Seg@mail.gmail.com>
+X-Proofpoint-GUID: DTHwN0AMcJ-a8hrowwlGPFtMNwP3MXLZ
+X-Proofpoint-ORIG-GUID: DTHwN0AMcJ-a8hrowwlGPFtMNwP3MXLZ
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, Oct 25, 2024 at 1:55=E2=80=AFPM Michael Chan <michael.chan@broadcom=
-.com> wrote:
->
-> On Thu, Oct 24, 2024 at 9:38=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
-rote:
+On Thu, Oct 24, 2024 at 01:27:51PM -0700, anish kumar wrote:
+> On Wed, Oct 23, 2024 at 9:10 AM Charles Keepax
+> <ckeepax@opensource.cirrus.com> wrote:
+> > Bringing the "dummy" into this is quite misleading, that really
+> > relates to DPCM setups. DPCM lets one select any number of back
+> > ends to service a given front end PCM, and often are abused to
+> > achieve things that should really be implemented as C2C links.
+> 
+> Aha, understood. For C2C we need a thin dummy codec driver
+> which acts as a cpu driver in the ASoC code right?
+> 
+
+No there is no need for any dummies or thins anywhere, a codec to
+codec link is simply a mechanism for hooking two codec drivers
+together.
+
+> Based on the code from bells.c, below is the C2C and we do provide
+> a CPU driver, even though in actual it is a codec driver.
+> 
+> SND_SOC_DAILINK_DEFS(wm2200_dsp_codec,
+> DAILINK_COMP_ARRAY(COMP_CPU("wm0010-sdi2")),
+> DAILINK_COMP_ARRAY(COMP_CODEC("wm2200.1-003a", "wm2200")));
+> 
+
+Yes you are providing a CPU side to the link, but as you say that
+is actually a CODEC driver. Although I guess really this is really
+more historical accident since links were originally defined between
+CPUs and CODECs.
+
+> Perhaps, I can just remove the "dummy" from the diagram above.
+> 
+
+Yeah it has no place in this document.
+
+> > > +single ``cpu_dai`` with both ``codec_dais``. Boot-up logs will
+> > > +display messages similar to:
 > >
-> > On Thu, Oct 24, 2024 at 3:41=E2=80=AFPM Michael Chan
->
-> > > > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/ne=
-t/ethernet/broadcom/bnxt/bnxt.c
-> > > > index bda3742d4e32..0f5fe9ba691d 100644
-> > > > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > > > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > >
-> > > > @@ -4510,7 +4513,8 @@ void bnxt_set_ring_params(struct bnxt *bp)
-> > > >                                   ALIGN(max(NET_SKB_PAD, XDP_PACKET=
-_HEADROOM), 8) -
-> > > >                                   SKB_DATA_ALIGN(sizeof(struct skb_=
-shared_info));
-> > > >                 } else {
-> > > > -                       rx_size =3D SKB_DATA_ALIGN(BNXT_RX_COPY_THR=
-ESH + NET_IP_ALIGN);
-> > > > +                       rx_size =3D SKB_DATA_ALIGN(bp->rx_copybreak=
- +
-> > > > +                                                NET_IP_ALIGN);
-> > >
-> > > When rx_copybreak is 0 or very small, rx_size will be very small and
-> > > will be a problem.  We need rx_size to be big enough to contain the
-> > > packet header, so rx_size cannot be below some minimum (256?).
-> > >
-> > > >                         rx_space =3D rx_size + NET_SKB_PAD +
-> > > >                                 SKB_DATA_ALIGN(sizeof(struct skb_sh=
-ared_info));
-> > > >                 }
-> > > > @@ -6424,8 +6428,8 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt=
- *bp, struct bnxt_vnic_info *vnic)
-> > > >                                           VNIC_PLCMODES_CFG_REQ_FLA=
-GS_HDS_IPV6);
-> > > >                 req->enables |=3D
-> > > >                         cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_H=
-DS_THRESHOLD_VALID);
-> > > > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copy_thres=
-h);
-> > > > -               req->hds_threshold =3D cpu_to_le16(bp->rx_copy_thre=
-sh);
-> > > > +               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copybreak)=
-;
-> > > > +               req->hds_threshold =3D cpu_to_le16(bp->rx_copybreak=
-);
-> > >
-> > > Similarly, these thresholds should not go to 0 when rx_copybreak beco=
-mes small.
-> > >
-> > > >         }
-> > > >         req->vnic_id =3D cpu_to_le32(vnic->fw_vnic_id);
-> > > >         return hwrm_req_send(bp, req);
-> > >
-> > > > @@ -4769,7 +4813,7 @@ static int bnxt_run_loopback(struct bnxt *bp)
-> > > >         cpr =3D &rxr->bnapi->cp_ring;
-> > > >         if (bp->flags & BNXT_FLAG_CHIP_P5_PLUS)
-> > > >                 cpr =3D rxr->rx_cpr;
-> > > > -       pkt_size =3D min(bp->dev->mtu + ETH_HLEN, bp->rx_copy_thres=
-h);
-> > > > +       pkt_size =3D min(bp->dev->mtu + ETH_HLEN, bp->rx_copybreak)=
-;
-> > >
-> > > The loopback test will also not work if rx_copybreak is very small.  =
-I
-> > > think we should always use 256 bytes for the loopback test packet
-> > > size.  Thanks.
-> > >
-> > > >         skb =3D netdev_alloc_skb(bp->dev, pkt_size);
-> > > >         if (!skb)
-> > > >                 return -ENOMEM;
+> > That is definitely not what should be happening with a C2C link.
+> > In the system you showed the diagram for above there should be a
+> > connection between the CPU and codec-2, then two separate links
+> > between codec-2 and codecs 1 and 3. No links should be present
+> > between the CPU and codecs 1 or 3.
+> 
+> Got it, I will try to convey the same in the diagram but ascii art is hard :)
+> 
+
+Apart from the dummy bit the diagram is fine here, it is the
+description in the text that is wrong.
+
+> Can you help clarify my understanding (based on the dapm code walkthrough),
+> when the mixer control is triggered, the CPU widgets gets triggered
+> thereby triggering codec2 widgets and as there is a static connection
+> between codec1 and codec2 it gets also triggered and the same thing
+> happens to codec3 as it is also linked to codec2?
+> 
+> Also, as the widgets are linked to dai ops, all the ops gets triggered as well.
+> 
+
+DAPM will power up anything that is between an active source and
+an active sync. I would imagine from the diagram shown above
+there would likely be two obvious use-cases:
+
+Host music playback:
+CPU -> CODEC2 -> CODEC3 -> Speaker
+
+When something on the host plays some audio this will inform DAPM
+that the main CPU DAI is now an active source. This will propogate
+through the graph until it finds the speaker sink. The act of
+playing music will power up the CPU -> CODEC2 dailink. Then DAPM
+will power the C2C link between CODEC2 and 3 since it is on the
+audio path.
+
+Cellular call:
+CODEC1 -> CODEC2 -> CODEC3 -> Speaker
+
+In this case the host is not involved at all. The modem is audio
+source and DAPM powers up everything between it and the sink ie.
+the speaker. That would involve the two C2C links between CODEC1
+and 2, and between CODEC2 and 3.
+
 > >
-> > I tested `ethtool -t eth0` and I checked it fails if rx-copybreak is to=
-o
-> > small. Sorry for missing that.
-> > I think we can use max(BNXT_DEFAULT_RX_COPYBREAK,
-> > bp->rx_copybreak) for both cases.
-> > I tested it, it works well.
-> > So I will use that if you are okay!
+> > > +
+> > > +.. code-block:: bash
+> > > +
+> > > +   ASoC: registered pcm #0 codec2codec(Playback Codec)
+> > > +   multicodec <-> cpu_dai mapping ok
+> > > +   connected DAI link Dummy-CPU:cpu_dai -> codec-1:dai_1
+> > > +   connected DAI link Dummy-CPU:cpu_dai -> codec-2:dai_2
+> > > +
 > >
->
-> Yes, please go ahead.  I think all 3 places I commented above should
-> use max(BNXT_DEFAULT_RX_COPYBREAK, bp->rx_copybreak).  Thanks.
+> > Yeah this is definitely mixing in a fair amount of DPCM stuff and
+> > does not match the rest of the description.
+> 
+> I guess what you meant is that C2C doesn't care about the above
+> connection as it uses DAPM widget connection to trigger the path
+> right? So, even if this connection doesn't exist C2C will still work.
+> 
+> Reason why I am asking is that I saw the above logs when I
+> added a C2C connection.
+> 
 
-Thanks a lot for your confirmation :)
+That I can't really be sure it depends on how your system was put
+together.  There are two things that are reasonably likely:
 
-I asked about jumbo_thresh in another thread, I would like to do it
-based on that thread for jumbo_thresh.
-And hds_thresh value will be configured by
-`ethtool -G eth0 header-data-split-thresh 0", so that we need to
-allow 0 ~ 256 value.
-I think you indicated jumbo_thresh only, right?
+As I said it is quite likely your system is using Dynamic PCM (DPCM)
+this is a mechanism to attach multiple "Backend End" devices to a
+single "Front End" DAI link. It is often used by systems that have
+a DSP built into the host, which might select different places to
+send the audio to. In many ways this accomplishes the same thing as
+C2C links, such a system could equal well be represented with the
+DSP being a codec driver and each of the "backends" being C2C links.
 
-Thank you so much!
-Taehee Yoo
+Alternatively, in the deep dark of history some people did implement
+a "dummy link" from the host to the cellular for the purposes
+of configuring the params on the modem, even though the audio
+technically when through some other route. But this was always a
+hack and we should probably not be detailing it in the documentation.
+
+> >
+> > > +To trigger this DAI link, a control interface is established by the
+> > > +DAPM core during internal DAI creation. This interface links to
+> > > +the ``snd_soc_dai_link_event`` function, which is invoked when a
+> > > +path connects in the DAPM core. A mixer must be created to trigger
+> > > +the connection, prompting the DAPM core to evaluate path
+> > > +connections and call the ``snd_soc_dai_link_event`` callback with
+> > > +relevant events.
+> > > +
+> > > +It is important to note that not all operations defined in
+> > > +``snd_soc_dai_ops`` are invoked as codec-to-codec connections offer
+> > > +limited control over DAI configuration. For greater control, a
+> > > +hostless configuration is recommended. The operations typically
+> >
+> > It is not clear to me what a "hostless configuration" is here.
+> 
+> What I meant to convey is, if the user wants all pcm ops to get called in
+> order then he can use "Hostless FE" and connect to backend use as a normal PCM.
+> 
+
+All the talk of front ends and back ends has nothing to do with
+codec to codec links and should not be relevant for this
+document.
+
+> > > +In a codec-to-codec scenario involving multiple codecs (above
+> > > +bootup logs are for multicodec scenario), it is not feasible to
+> > > +control individual codecs using dummy kcontrols or DAPM widgets.
+> >
+> > I really am not sure what this means. What are we controlling
+> > using dummy kcontrols? Why are we not using the real kcontrols
+> > from the codec to control the codec?
+> 
+> Our system includes a DSP that can generate audio(not audio to be
+> honest but can be considered as a audio channel) independently,
+> without CPU involvement. This audio needs to be sent to speakers
+> via codecs, even when playback isn't occurring.
+> 
+> We modeled all codecs as a C2C having one single snd_soc_dai_link
+> with multiple codecs. So, now we can control all codecs using mixer
+> control which we created as a part of C2C path completion.
+> 
+
+Have you by any chance tried to combine the usual DPCM
+implementation for host side DSPs with a bunch of C2C links? It's
+not necessarily wrong but it seems like an odd choice. Either
+represent the DSP using DPCM or C2C links.
+
+> However, we got a new usecase where we shouldn't turn on all the
+> codecs when mixer control is used for C2C, instead user should be able
+> to specify which codec should get turned on.
+> 
+> So, I attempted to add one more dummy mixer as part of C2C mixer
+> path, follishly thinking that if the dummy mixer is not enabled, C2C
+> won't allow the corresponding codec to get turned on. After reading
+> the code, I saw that in C2C implementation it doesn't check for
+> widget power status when turning on the path and nor check if the
+> path is complete or not before calling the pcm ops.
+> 
+
+This doesn't seem accurate either, DAPM will only turn on things
+between an active source and an active sink. So it should not be
+enabling links that are not on a complete path. Although that
+said the complete path might be one you didn't intent to exist
+it will take any available route between a source and sink.
+
+The more typical way to handle this would be to define a
+PIN_SWITCH for the sink on each CODEC then you can enable/disable
+those sinks and the CODECs in question should not get powered up
+if they have no valid sinks.
+
+Thanks,
+Charles
