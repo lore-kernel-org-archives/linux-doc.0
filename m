@@ -1,101 +1,86 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70DE51D0E28
-	for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 22:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7771D213152;
+	Fri, 25 Oct 2024 22:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729894380; cv=none; b=VN+1q2Tq/D4JBGNQpMWln0ITt05PXLC15wh9lIXVDuwzvwYRjmzAqQuYH9vl8iuJ2p/2v1wIQgVoTOSwnnM+c5/Vec6kw2qwTg6dl6hfLyOeVCQt4BZex7na8BhfH9rP2Hnw6oRo6J85+//RJ4HRrK/8UnPF+sfgYBbAHKhpkQM=
+	t=1729895568; cv=none; b=K+omCXV7NSPFHDSLYn/KezTcxSc9eZB0DZvWb1XuBEwH/wr3FhCzszVLg+25g7ZAt0R4n/iwKmHiePSNNPVH5bLu9gufICW/czfMzvzvFldl9tHWdGbYruzOOQEuaseFkzWm8KnCUw+EgK+AGCilVX/xMyjVyypEvk/zF1xibtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729894380; c=relaxed/simple;
-	bh=wLE7gbHS/zil2nem3fEemkkOYe/GUpOOrZThEvr7q0s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wm8qh/hTCCXGyBpTL6QdkVuiVHJ6NOmDQiKKNC6AqnlwbEOsUjzanehvs5HIRTZKNIWHy27SOWWbahtHeuOBD3amPnK+Cvg6bq9PUnMWOj/7kEVNdTZRs2JIUzi25aQtUsx9pJ2xETlj6/lOxCcfh6fK7xUULSr/A+9U5vtlQkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GsqKIeiV; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1729895568; c=relaxed/simple;
+	bh=CCfFTgHSCy6CiuV3dKRDOU8QgqiDy43dW7Yikcn3X7s=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=g19OX16JMt8ztCltXS9HcKda9wQgwQeAtCgtQOcdg4t/Ml68DSJc2t/ipbhOuEtXnzAUQIq7eVx62CuLB/NcLFRocHLB/vt7t4V1kWBIlCjb4rkCrmkeYpuJ+L6Y8A9tY/ZXh11qzDnedhUknw+I6hCfLvsXLIx6deEsD7+Lr0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s1hh76En; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GsqKIeiV"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1729894375;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zT1JrWE0wCzIdFq3Ykrqf07oSRTFil0hjG6CI7HG/ls=;
-	b=GsqKIeiVrOjDeIqr8pui3jQ5t9ZLl0riwXzeEm3iMypLtUcBfhsFMieprt7Jp5OCC0vXYD
-	VeR8QxXxWX+5gPplyWcBcmvxVFiiLWnU3/GseaivcagIBJbS3cu7H4+xzUuK/o30WeNPCG
-	EK6wMoMIt90L9dhTT5SxTL+0e1zn780=
-From: Oliver Upton <oliver.upton@linux.dev>
-To: Zenghui Yu <yuzenghui@huawei.com>,
-	James Morse <james.morse@arm.com>,
-	linux-doc@vger.kernel.org,
-	David Woodhouse <dwmw2@infradead.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	kvmarm@lists.linux.dev,
-	Len Brown <len.brown@intel.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	linux-kernel@vger.kernel.org,
-	Pavel Machek <pavel@ucw.cz>,
-	Shuah Khan <shuah@kernel.org>,
-	kvm@vger.kernel.org,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Miguel Luis <miguel.luis@oracle.com>,
-	Will Deacon <will@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	linux-kselftest@vger.kernel.org,
-	Francesco Lavra <francescolavra.fl@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: Oliver Upton <oliver.upton@linux.dev>
-Subject: Re: (subset) [PATCH v6 0/6] Add PSCI v1.3 SYSTEM_OFF2 support for hibernation
-Date: Fri, 25 Oct 2024 22:12:41 +0000
-Message-ID: <172989416837.3684225.4795897590830335669.b4-ty@linux.dev>
-In-Reply-To: <20241019172459.2241939-1-dwmw2@infradead.org>
-References: <20241019172459.2241939-1-dwmw2@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s1hh76En"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C853FC4CECD;
+	Fri, 25 Oct 2024 22:32:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729895567;
+	bh=CCfFTgHSCy6CiuV3dKRDOU8QgqiDy43dW7Yikcn3X7s=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=s1hh76EnL3o3T65U3z1v95AHjTQfswQNfZI8qjFbVUf9u8zBRUg9oZAtmug10gVZA
+	 cQjK6XEI0whz+5zPXijXMoJjmu5B4W5IL+Df3JHZZutyw/NR5pkNaBsTRhXeWl3HpN
+	 DjrPr8VHPCEFwmBMwde+Ua2bK843/5MBD7WEGjgu2q48LiK+Ci6DrvSqTlRXtMz6ne
+	 I2vqM+ZzVpgjUjNd3vGK5lG9AxAnoJ22aidXX9yHKrF7iItp1M/RtS9dXSMrwnMlTc
+	 nPx7N7PNY2KajPJCma0eBy5OxAkxMs5oGVwJ57cbsrRpp27mhnTZgQVM0KmnD5NiWG
+	 faUCWDryFVRXw==
+Message-ID: <66922c42-c3a2-4634-a8f0-4c8c2b4c051a@kernel.org>
+Date: Fri, 25 Oct 2024 15:32:46 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] ipe: add 'anonymous_memory' property for policy
+ decisions
+From: Fan Wu <wufan@kernel.org>
+To: corbet@lwn.net, jmorris@namei.org, paul@paul-moore.com, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <1728582157-13884-1-git-send-email-wufan@linux.microsoft.com>
+ <8ee41bc4-ca8e-416f-8219-12d4a83e5f8b@kernel.org>
+Content-Language: en-US
+In-Reply-To: <8ee41bc4-ca8e-416f-8219-12d4a83e5f8b@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 19 Oct 2024 18:15:41 +0100, David Woodhouse wrote:
-> The PSCI v1.3 spec (https://developer.arm.com/documentation/den0022)
-> adds support for a SYSTEM_OFF2 function enabling a HIBERNATE_OFF state
-> which is analogous to ACPI S4. This will allow hosting environments to
-> determine that a guest is hibernated rather than just powered off, and
-> ensure that they preserve the virtual environment appropriately to
-> allow the guest to resume safely (or bump the hardware_signature in the
-> FACS to trigger a clean reboot instead).
-> 
-> [...]
+After further testing I found the current approach, i.e. checking the existence of a struct file, does not work with memfd, which does use anonymous memory but also has a file struct in the kernel. There might be other cases that I also need to cover.
+I will redesign the implementation and send another version in the future.
 
-I grabbed the KVM portions of this series, as they look ready to go. Happy
-to take the last one through kvmarm tree w/ acks, and can toss it on top.
 
-Applied to kvmarm/next, thanks!
+-Fan
 
-[1/6] firmware/psci: Add definitions for PSCI v1.3 specification
-      https://git.kernel.org/kvmarm/kvmarm/c/2f2d46959808
-[2/6] KVM: arm64: Add PSCI v1.3 SYSTEM_OFF2 function for hibernation
-      https://git.kernel.org/kvmarm/kvmarm/c/97413cea1c48
-[3/6] KVM: arm64: Add support for PSCI v1.2 and v1.3
-      https://git.kernel.org/kvmarm/kvmarm/c/8be82d536a9f
-[4/6] KVM: selftests: Add test for PSCI SYSTEM_OFF2
-      https://git.kernel.org/kvmarm/kvmarm/c/72be5aa6be4a
-[5/6] KVM: arm64: nvhe: Pass through PSCI v1.3 SYSTEM_OFF2 call
-      https://git.kernel.org/kvmarm/kvmarm/c/94f985c39a1e
-
---
-Best,
-Oliver
+On 2024/10/24 15:13, Fan Wu wrote:
+> Since this patch is quite straightforward, I have merged it into the ipe#next branch for testing and will send it to Linus during the next merge window.
+>
+>
+> -Fan
+>
+> On 2024/10/10 10:42, Fan Wu wrote:
+>> Currently, all existing IPE properties evaluate to FALSE for
+>> operations triggered by anonymous memory regions. As a result,
+>> IPE falls back to the policy's default action for such operations.
+>>
+>> In policies where the default action is DENY, this behavior blocks
+>> all anonymous memory operations, rendering binaries that rely on
+>> anonymous memory unusable.
+>>
+>> This commit introduces a new IPE property, 'anonymous_memory',
+>> which evaluates to TRUE when an operation is triggered by an
+>> anonymous memory region. This allows administrators to explicitly
+>> allow or deny operations involving anonymous memory.
+>>
+>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+>> ---
+>>  Documentation/admin-guide/LSM/ipe.rst | 11 +++++++++++
+>>  Documentation/security/ipe.rst        |  9 +++++----
+>>  security/ipe/Kconfig                  | 10 ++++++++++
+>>  security/ipe/audit.c                  |  2 ++
+>>  security/ipe/eval.c                   | 26 ++++++++++++++++++++++++++
+>>  security/ipe/policy.h                 |  2 ++
+>>  security/ipe/policy_parser.c          |  4 ++++
+>>  7 files changed, 60 insertions(+), 4 deletions(-)
