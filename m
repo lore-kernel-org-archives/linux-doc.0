@@ -1,508 +1,1143 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20A733FE;
-	Fri, 25 Oct 2024 02:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729824661; cv=fail; b=CsgCZnoH6FsTqxwdjUkDvlf1qkJF3eRQJUiA3lBX4nGG4aUETsFpGd7R7sUOGKmIKv/hRXBYAidYw11bvKVgZJkwciu9PTWn9ROIJVOIDckBxBKojAkvsi/hq0ceL7rhe9feGWAF1PrZLFQKpGS51RAt4XMVyXdLiBuI388wdDk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729824661; c=relaxed/simple;
-	bh=XRMzeegvo1dbqyEIWrHODOBNW4vJ+kJOwxP7fkK7TaM=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 Content-Type:MIME-Version; b=OMCS+wRFbMG4SxRZpb+bHieHzvyxinbe84r045gMRK00pclUsQAPSllJGbxbPMTUaCXQR7zkd1k4Q+XNPHWNs1jWAyu9N5vkbMTP4JVaQZMHOeC7KInJmJlEWTRaHbkd4FZwEfGfFy24YuqLdOh5jo66Rjy+LqltOwvsK1lJSOc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=JYzKzjKj; arc=fail smtp.client-ip=40.107.244.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E175588B;
+	Fri, 25 Oct 2024 03:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729827527; cv=none; b=rTfv28puX/KTLONXlWO5gIR4EhU/mET2K6E6RoP8mEhju2n9fA3xLAfG8jNuvudCk9FjGBXR5gsIoTpmdGQu7vXKI/SlZMGrWbMtSwomuTNZx5yVNlyeCR1IenbomzMMzx75ObUhFjdwZlfpj6So8dkdWSfPj58HfW0BY9ADPpA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729827527; c=relaxed/simple;
+	bh=U62h+aQPSzgCmelnrxjUJOHqVTGP2r15FXtOrjWA2aA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OFLUf8sf3OWdsyKrYt7gNpLvYLRS29lxzGZLjVXHGl1RWybF0/KGHmafUh/ajINuCutDxPZ3IxKL1SzQ3apcvaclp9CM3Hj0BlC0mprxBFu/suu6SOVGknOSFSL0GFNM/rf4z7hKko63Us90iRZlhiiR8ypSF7DzgqmdTiQPk2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EliMAYPt; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="JYzKzjKj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tUCKl88CkkGpf6nm+f9j87XPL+aYXwEf7lqYJXoGJB7eXWDfQQdJnVB9CdGf6+4wBEA2WMN5ETWZ7Y0qaCpPbFYPJIvad++scSrf0Xb7UeZppwabaeFI0UfVGlg9qD2vQjRELqwwc/dfV2PgTiCafor7FPqupvGbTTr8YzatOchiYb0hiu2B4m9k4uFsG9/EIOT76JIbAF5hhuLk9K8BPMV2ZxESN8l00cKnOfy0DHIhD5biliTr8RlXfp/a+H/TgnXSyeWfk6iBevIdlPGO3ZJ4AQiy/udPBp0xjhd3YwfP+sBeEuw61t0QaboozXq29LuFoi7+uy3UyweaOERJ2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lkG+uVth1OoTxfyLLPuX5muDMO7tVMEALUwB4D2e6dI=;
- b=NxHu3iMyrFekKfMkgObBLj4fucAzMM7987O5jaKpCKDUWqxY8zRLIoTb/J26WQOreC48NnumxZNIh39zTXrgqzaAAr76kCX8h5S8M/3J4d0P+2IilqRzOHiwOkxaqAlPYg/R1Mo8flet/vnz4Hpv3LcvyDgVmK84gyyRmppHB7+xT4mCamvIIelXGGoGMDmiFq46qUx2fFDjD4lGt4JBhTWmybseUneYDzw65cnaTmtmJuovBL3GKTEGAje3w3qhpZxrJ+p/R3dbyH2xUNVc1YmTRfmF73PWiHXWKoguJBWsfygdn6ipozdDQnuvLSWZ0ABz26rABlzH/OUiXCySIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lkG+uVth1OoTxfyLLPuX5muDMO7tVMEALUwB4D2e6dI=;
- b=JYzKzjKjv6uUET4XvGl9+nqgTBNe8Uy5xXWU93Fl8UsjogIhPmaPx8i/5HOG9UTamHGqbsLw4eaVYwx62RX0Jyvp+MYWLBHMEs/cFJsYFmC3ovxIj0FWL19K7ookTIp5rd1FnIjGav+2Oi4Ycs5esTuHgowaEEBB7NATYBDsbre5mmZ72eXAlSj01RbVAqLdbCbLaqZnu26XJUs8aVnCKPdsH6JGXGKdouc2Gcf7evJaziNaognuSPbXxZwPNJkrcSQok/gCxgTCR04uCm5XjslW8a+tOtJARdrir49ZT2A1c0guNVkwaLop6UyeknQD1iYAmd/j9wtnKpy5sgoGzQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- MW4PR12MB5666.namprd12.prod.outlook.com (2603:10b6:303:188::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.18; Fri, 25 Oct
- 2024 02:50:54 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%3]) with mapi id 15.20.8069.027; Fri, 25 Oct 2024
- 02:50:54 +0000
-References: <cover.9f0e45d52f5cff58807831b6b867084d0b14b61c.1725941415.git-series.apopple@nvidia.com>
- <9f4ef8eaba4c80230904da893018ce615b5c24b2.1725941415.git-series.apopple@nvidia.com>
- <66f665d084aab_964f22948c@dwillia2-xfh.jf.intel.com.notmuch>
- <871q06c4z7.fsf@nvdebian.thelocal>
- <671addd27198f_10e5929472@dwillia2-xfh.jf.intel.com.notmuch>
-User-agent: mu4e 1.10.8; emacs 29.4
-From: Alistair Popple <apopple@nvidia.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: linux-mm@kvack.org, vishal.l.verma@intel.com, dave.jiang@intel.com,
- logang@deltatee.com, bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
- catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
- npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
- willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
- linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
- david@fromorbit.com
-Subject: Re: [PATCH 10/12] fs/dax: Properly refcount fs dax pages
-Date: Fri, 25 Oct 2024 13:46:30 +1100
-In-reply-to: <671addd27198f_10e5929472@dwillia2-xfh.jf.intel.com.notmuch>
-Message-ID: <87seskvqt2.fsf@nvdebian.thelocal>
-Content-Type: text/plain
-X-ClientProxiedBy: SY6PR01CA0032.ausprd01.prod.outlook.com
- (2603:10c6:10:eb::19) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EliMAYPt"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7ea68af2f62so1150083a12.3;
+        Thu, 24 Oct 2024 20:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729827522; x=1730432322; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hmegcaCftsw7vXEu6Y2ynJafhxu26PY8JQ4z9zD9M6A=;
+        b=EliMAYPtDpjJdgZiUPQYxnyZgqwYX+pmjqxD5blE2rCEzRdtkmQc+PntwJ4LZUNGeR
+         phJRZyj5MgSORQa4x9FlvWGijFVsSxyhqMGZchor6I6ZKpEQOzqp3aeTLo//KWzew9V7
+         HgyEC48BZLNN8BRiKRzRO5fshQRK0dybg39XLY/9ypJsKEosiTOtMVLMBPtd0CaGkYZt
+         ayKd8HC+x6WsnfKwABCvnilL3bqzx0hyh+b3QaY+GxnQpi+e8H1um4Q8ROWTYwoVUX1c
+         Sjg9yZRxft3ZqXIDaqLkPupd/g0Y68EI+bLUjOu1RvcqaPXmT1a5OZa0sWvXzt98Zwtq
+         4fUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729827522; x=1730432322;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hmegcaCftsw7vXEu6Y2ynJafhxu26PY8JQ4z9zD9M6A=;
+        b=Jk2z8rKd/zrzVt6XdfFVWL5DQOpPyYBU+BuPkS/VoNuhxOWTu7Qt0i0gVbWuU8lpYO
+         xf9zeAsDIrBS9zrbi3l89nFP3XvKlcQ7KdrQeyKzinfH3lFOqgL6ObXtticaNLpFxiZf
+         gAkdFSNA2Bai/ABhmKXeFwcVMynA4OQ85lojc2KuFhDvFzNCNijW0eGwRoLrOB4oZx2l
+         zpgw51IQWoG2wuUhBXdLNviiTyju3aJU3jLsptiWEzYzhHGprI3LjiBsJ3k11bIXeEQ1
+         ZCmmiPV+UbDUV9dLhVosmSKpD2zeFKAABhK0a+cpwZj3yB1Xk2UfAy9UbjlWe3vVVYLv
+         NqpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW9wzPOgPjsXEiMu7mCDb1Kj/9xPfxDlGQCB/zYy9rMruq8gOpsh0hXYMCvQ/mu+4GXnGsx1GSNf78xUI4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwX+nPVMCTIGraojEO5viBFPXJ7eW4+x5C07Kn+wFs2UOiK4jX7
+	I0uqsmgJ48SDYyPBhlwfCWOS9OBRODyPVMLYftZHX2MuJ6r0LpiLkMqCcQ==
+X-Google-Smtp-Source: AGHT+IHXzzu2fKQmXKw7VjVRNY01GMHi3CRHp4MUan4TMZUEkzu45SIwKuFXJ1cdMkF8wBvlsP3I8Q==
+X-Received: by 2002:a05:6a21:6711:b0:1d9:275b:4eed with SMTP id adf61e73a8af0-1d978bc31ddmr10870374637.42.1729827521978;
+        Thu, 24 Oct 2024 20:38:41 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a24199sm178768b3a.178.2024.10.24.20.38.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 20:38:40 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id CD3D44433471; Fri, 25 Oct 2024 10:38:37 +0700 (WIB)
+Date: Fri, 25 Oct 2024 10:38:37 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: anish kumar <yesanishhere@gmail.com>, jassisinghbrar@gmail.com,
+	corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] mailbox: Documentation: add the latest documentation
+Message-ID: <ZxsSvbXXiwNAHCWX@archie.me>
+References: <20241019195534.79603-1-yesanishhere@gmail.com>
+ <20241019195534.79603-2-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|MW4PR12MB5666:EE_
-X-MS-Office365-Filtering-Correlation-Id: 89c4c59a-1eb4-4fec-c6e5-08dcf49fd804
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?wFiyYVcfpQXhCopRMqbzrF/8BDui77QmaZWzFYssmfAZ1TUiBHcyW+2xskqP?=
- =?us-ascii?Q?pdbGJ5le4If642wIdmGRM7vzNbS0qmvTQfvryMIsUydHtjJ72nnvf0kW2e8Q?=
- =?us-ascii?Q?5YRKKMUXW74JV99tof0XLYzCEmLxjfO3D9Q1IClJoofabxbmFw6LQ1AHCMsc?=
- =?us-ascii?Q?0rKaoMVh7mojs77sJFqkTKLf1wua0U8G9tCtVBrdyxlM3F7BPowF5hBfIqSX?=
- =?us-ascii?Q?TO/leKF8DSTWaCBnid36D6sMmcSyKrXOOfJH2l7M0X0ONvvMeiPkleF9wIOs?=
- =?us-ascii?Q?RzJl8TayCFq1ExQMZtrWludndCsr4STzU2GROiJtVVlYcjNbORxBonGxWK4Z?=
- =?us-ascii?Q?oXu5e2KWz45WJBJyQoHwknPn9v8XI+87LLrTSm8zyGYiMVxUa1QQ1um4U72+?=
- =?us-ascii?Q?qMBAngumFwz1Z9fvL1T6K29QWplRVi/Eq5Z23ledNg+v8DQAHg2cu4aZczRy?=
- =?us-ascii?Q?glb8ufxa8g70C+1CgzopnMNYCLNnp30JHMwfTRmzjUA1s4lQ0aNABueAmdgn?=
- =?us-ascii?Q?0K/wn7YZ4/e3wjeExoOdXpbv2jT+GGSwYjJxTNcf1vy2U1BGkpdKlADwA1yZ?=
- =?us-ascii?Q?ZnApfAlyLoMWGrQXKiN+RIqBLpP9MDy7jheYD9m883Q9liV/6OFP9mbJcJEb?=
- =?us-ascii?Q?6lrY86cFrwfMupJroLu8DOTTPcZS1PxFMzs1ADBXMNfb1nJN7/NXNSa3L10G?=
- =?us-ascii?Q?1LM93P2DaQddmMxoHSCFmtkZ3MRYCRlY5WR3aH7o4Cb9I/fRm07O4Kl6dCbG?=
- =?us-ascii?Q?MYsExgVbHfSyNpoh3g6GY+EW1tQsda0qXpGSXzlFKVxhMUIUd7EABEMJwgrH?=
- =?us-ascii?Q?2OXm9O34xh8KvEDGZaWA6hknEIDJf37VvMqtS1dl2X16KwLry7L7gcSI64l5?=
- =?us-ascii?Q?8ubFZ0GnwsDEJDLrcwBALbh7y2o5zC6uZtHqe4N4TaIWZi5aXhgxbQ6jGtRH?=
- =?us-ascii?Q?NW3yJFE/lGq2MV66TFF+BgWEvW2NM7pyVrtGR23H8iB0w6ew3K3C+lV2yHk8?=
- =?us-ascii?Q?cK85OZLWulyzkgqYuUKd0FNA05XKsZKxRWUsQRcMeONkQ9yp+/3de6IpsRC2?=
- =?us-ascii?Q?79/r28mveMK6CrT+WfhzLguLc6MjqrqQwnPcXZkHmO9p7rDOCvj3vWIbpzhg?=
- =?us-ascii?Q?49qANHJ8BoAbUVV62wJIc0TMAlKjkt9Lkn5GnID4TAK1yZQmoXborKMTywRe?=
- =?us-ascii?Q?QP6Qo2Mzp+DqtSOcBtwdhZ672Fbos1F+NXb04knYXfv/tyEodew+8hyu0bLk?=
- =?us-ascii?Q?EnIc5zYeBRa/N6+NhOR4rOZSV4hluCJTwdhsDIH223NZcVuIXTONQUsCoTtG?=
- =?us-ascii?Q?+cpuv2tESx5tsSZcn0po7a4p?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?muvGc1lHuFXH11dUwhS5/Lddz9uYwWAhyJPOwnrXCH3Ox5NV3VnLKgpyBquA?=
- =?us-ascii?Q?9I+p+/yR95vnWGUwW9zL1O9ODi86HJZMokP6zjAa87rPvfOOCL+wCqWDRtmt?=
- =?us-ascii?Q?dDzRMAYEvjA/4ImRZT9UmgQVyGQTo1Ir8jPtLj2YQCr6Z9k27LC0XGttdr1C?=
- =?us-ascii?Q?kcfnFYkHbq3HAncOaaPkuy0QZ9uCgSt7X+7avvQQO9WMAaj7FzEVxwe8IcM1?=
- =?us-ascii?Q?3K5LGY5U9nS9BReAA2Av25Mi7dQ8tYVyEEXd7kPalQwVh4aYP0XgeM6WaRHz?=
- =?us-ascii?Q?PjOr0pc1rTQaed9ovmAHYn4qrjFGQrOF0vWm/XrHav9R1eBUtH78rVWG4eLD?=
- =?us-ascii?Q?LM6UQ6jY8T1RJ9LziZMPG4XqcpyuethMKREiN6nxbAhSDgZk9dGG/j46+fbG?=
- =?us-ascii?Q?w7ajDoTiDCA+3+nvMGGxMzAzTsR9bUY56E97snIDsn5EqlgMwn2Rv5glE8V+?=
- =?us-ascii?Q?uyN+TrJfIz9JfFuRlRQ5Y6lyngt6IRe/Mj+6h9mDZFLPH8YBoIG/vW7BAWvj?=
- =?us-ascii?Q?/H7jadWhZLOtZjS6xvE+4iJoTlSZyZ/w9H+BBBuMjZkQJD+9sCY46+s0959L?=
- =?us-ascii?Q?7B3SoYicEXQGIESBEa2JZbmhS90BqXMD/nQS8nCFPvWajZBaelkY0suBQ4Vc?=
- =?us-ascii?Q?YoPNqxXktWH5M4mX0j2W+XunGC7aMwmocmflXUHeHEaIqsUeE+k2b+TE0yQn?=
- =?us-ascii?Q?LGgl0uquCsokeXcI5PfXCDY++T59jEMdGb5TvlhdInvLI/fKa1Zwd9J2p2PL?=
- =?us-ascii?Q?8plBwTQvnbzN/NFrmq6TaxeHdNEVMWA5ERSlNmNtpdCjp+fkHHpIFo2fsfbS?=
- =?us-ascii?Q?K7GIUL1QuaXqR1iBiAjbLE+f8VNpCs86xtotYgqBtRWx0RVY6ncFDWob5P6m?=
- =?us-ascii?Q?Hg0BGcyRdm7PJ4xz/kgNvR0rQUUQA/sKXIf9T81XN2+qynrlLv5p/p4iNlLW?=
- =?us-ascii?Q?UGS95Wq6XeaWaydOfmXF8nlS2kNPrCjgRPzeLvhSlldhK/CUuUcg4xHZsUh2?=
- =?us-ascii?Q?yVBY+uZ7CL6ezUu9Zle+efoase97kRRYjsXA7bkAM89ERxnFPPSmekquegqU?=
- =?us-ascii?Q?3IBAmL5D8kk8k/ez3ujONUd+FnCoHxo03LN4X9cu4BoAgLfS6wEyVG/Bx/mB?=
- =?us-ascii?Q?0PDFaui8byTlozIRIHPi5gzxAoq01vwGXkQL/vqBnmty5HJuBfGhIbOmuhnW?=
- =?us-ascii?Q?Ja42LpxLmPgHdqGUxY28ncr062cU30pPgqwx5fXgS0fBA0nAiQjRCNjSM9FF?=
- =?us-ascii?Q?JA40FO3gP/OH2y2qyG4W/kjYBbaOw4O1NwWVVSzhp/rJs/dqzkCMzOQ41g9h?=
- =?us-ascii?Q?PlaDKVu2lyi9IiBslOFcPxNBIMKPmwTfWsc0JJ+Urv46eydsy9yJrtKUe6rw?=
- =?us-ascii?Q?DYD/RpI1WABIUYgea5oHw5PVr1RruH6w1RFzC+sfQ1hA3VEGUr0wgJ+nlxSa?=
- =?us-ascii?Q?wnsDTMI+zczdaEC04sJznXfSURbhVQuhsgQ/yumYHFQGc6my1uwRBjWducQQ?=
- =?us-ascii?Q?bjazoEV8jTuGRFXX512yGwpg5hXTtiJIuzGrjK6Nps4d6L/XzDoOasKtTyOF?=
- =?us-ascii?Q?IukLV10CTcPWXyGW43WghkfD9Fq5MCfRn9GJOELc?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89c4c59a-1eb4-4fec-c6e5-08dcf49fd804
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2024 02:50:54.2943
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MVcbTI1QCpFpmxUyFycy/QZyd6tJdMTBuwZDrBG3S0DtWuJepMAyIwX3wzO33ek12haK6fcOsMVvMP0JMWk7cg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5666
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9ovl80ZU3TO/MtmI"
+Content-Disposition: inline
+In-Reply-To: <20241019195534.79603-2-yesanishhere@gmail.com>
 
 
-Dan Williams <dan.j.williams@intel.com> writes:
+--9ovl80ZU3TO/MtmI
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Alistair Popple wrote:
-> [..]
->> >
->> > Was there a discussion I missed about why the conversion to typical
->> > folios allows the page->share accounting to be dropped.
->> 
->> The problem with keeping it is we now treat DAX pages as "normal"
->> pages according to vm_normal_page(). As such we use the normal paths
->> for unmapping pages.
->> 
->> Specifically page->share accounting relies on PAGE_MAPPING_DAX_SHARED
->> aka PAGE_MAPPING_ANON which causes folio_test_anon(), PageAnon(),
->> etc. to return true leading to all sorts of issues in at least the
->> unmap paths.
->
-> Oh, I missed that PAGE_MAPPING_DAX_SHARED aliases with
-> PAGE_MAPPING_ANON.
->
->> There hasn't been a previous discussion on this, but given this is
->> only used to print warnings it seemed easier to get rid of it. I
->> probably should have called that out more clearly in the commit
->> message though.
->> 
->> > I assume this is because the page->mapping validation was dropped, which
->> > I think might be useful to keep at least for one development cycle to
->> > make sure this conversion is not triggering any of the old warnings.
->> >
->> > Otherwise, the ->share field of 'struct page' can also be cleaned up.
->> 
->> Yes, we should also clean up the ->share field, unless you have an
->> alternate suggestion to solve the above issue.
->
-> kmalloc mininimum alignment is 8, so there is room to do this?
+On Sat, Oct 19, 2024 at 12:55:34PM -0700, anish kumar wrote:
+> 1. added client documentation
+> 2. added controller documentation.
+> 3. added framework documentation
 
-Oh right, given the aliasing I had assumed there wasn't room.
+One doc topic on each patch, please.
 
+>=20
+> Signed-off-by: anish kumar <yesanishhere@gmail.com>
 > ---
-> diff --git a/fs/dax.c b/fs/dax.c
-> index c62acd2812f8..a70f081c32cb 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -322,7 +322,7 @@ static unsigned long dax_end_pfn(void *entry)
->  
->  static inline bool dax_page_is_shared(struct page *page)
->  {
-> -	return page->mapping == PAGE_MAPPING_DAX_SHARED;
-> +	return folio_test_dax_shared(page_folio(page));
->  }
->  
->  /*
-> @@ -331,14 +331,14 @@ static inline bool dax_page_is_shared(struct page *page)
->   */
->  static inline void dax_page_share_get(struct page *page)
->  {
-> -	if (page->mapping != PAGE_MAPPING_DAX_SHARED) {
-> +	if (!dax_page_is_shared(page)) {
->  		/*
->  		 * Reset the index if the page was already mapped
->  		 * regularly before.
->  		 */
->  		if (page->mapping)
->  			page->share = 1;
-> -		page->mapping = PAGE_MAPPING_DAX_SHARED;
-> +		page->mapping = (void *)PAGE_MAPPING_DAX_SHARED;
->  	}
->  	page->share++;
->  }
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index 1b3a76710487..21b355999ce0 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -666,13 +666,14 @@ PAGEFLAG_FALSE(VmemmapSelfHosted, vmemmap_self_hosted)
->  #define PAGE_MAPPING_ANON	0x1
->  #define PAGE_MAPPING_MOVABLE	0x2
->  #define PAGE_MAPPING_KSM	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE)
-> -#define PAGE_MAPPING_FLAGS	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE)
-> +/* to be removed once typical page refcounting for dax proves stable */
-> +#define PAGE_MAPPING_DAX_SHARED	0x4
-> +#define PAGE_MAPPING_FLAGS	(PAGE_MAPPING_ANON | PAGE_MAPPING_MOVABLE | PAGE_MAPPING_DAX_SHARED)
->  
->  /*
->   * Different with flags above, this flag is used only for fsdax mode.  It
->   * indicates that this page->mapping is now under reflink case.
->   */
-> -#define PAGE_MAPPING_DAX_SHARED	((void *)0x1)
->  
->  static __always_inline bool folio_mapping_flags(const struct folio *folio)
->  {
-> @@ -689,6 +690,11 @@ static __always_inline bool folio_test_anon(const struct folio *folio)
->  	return ((unsigned long)folio->mapping & PAGE_MAPPING_ANON) != 0;
->  }
->  
-> +static __always_inline bool folio_test_dax_shared(const struct folio *folio)
-> +{
-> +	return ((unsigned long)folio->mapping & PAGE_MAPPING_DAX_SHARED) != 0;
-> +}
+>  Documentation/driver-api/mailbox/client.rst   | 192 ++++++++++++++++++
+>  Documentation/driver-api/mailbox/core.rst     | 182 +++++++++++++++++
+>  Documentation/driver-api/mailbox/index.rst    |  45 ++++
+>  .../writing_mailbox_controller_drivers.rst    | 179 ++++++++++++++++
+>  4 files changed, 598 insertions(+)
+>  create mode 100644 Documentation/driver-api/mailbox/client.rst
+>  create mode 100644 Documentation/driver-api/mailbox/core.rst
+>  create mode 100644 Documentation/driver-api/mailbox/index.rst
+>  create mode 100644 Documentation/driver-api/mailbox/writing_mailbox_cont=
+roller_drivers.rst
+>=20
+> diff --git a/Documentation/driver-api/mailbox/client.rst b/Documentation/=
+driver-api/mailbox/client.rst
+> new file mode 100644
+> index 000000000000..9088f8373423
+> --- /dev/null
+> +++ b/Documentation/driver-api/mailbox/client.rst
+> @@ -0,0 +1,192 @@
+> +Mailbox Client Documentation
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
 > +
->  static __always_inline bool PageAnon(const struct page *page)
->  {
->  	return folio_test_anon(page_folio(page));
-> ---
->
-> ...and keep the validation around at least for one post conversion
-> development cycle?
+> +Overview
+> +--------
+> +The mailbox client driver is responsible for sending and receiving messa=
+ges
+> +to and from a remote processor. It uses mailbox APIs provided by the
+> +mailbox framework.
+> +
+> +Mailbox Structure
+> +-----------------
+> +The mailbox structure is defined as follows:
+> +
+> +.. code-block:: c
+> +
+> +   struct mbox_client {
+> +       //device associated with the mailbox
+> +       struct device *dev;
+> +       // callback for transmission completion
+> +       void (*tx_done)(struct mbox_client *client);
+> +       // callback to prepare for sending a message
+> +       void (*tx_prepare)(struct mbox_client *client);
+> +       // callback for received messages
+> +       void (*rx_callback)(struct mbox_client *client, void *data);
+> +       // flag to indicate if transmission should block
+> +       bool tx_block;
+> +       // indicates if the client knows when transmission is done
+> +       bool knows_txdone;
+> +   };
+> +
+> +Key Functions
+> +-------------
+> +1. Requesting a Mailbox Channel
+> +   - **Function**: `mbox_request_channel(struct mbox_client *client,
+> +     unsigned int channel)`
+> +   - **Description**: Requests a mailbox channel for sending messages.
+> +   - **Parameters**:
+> +     - `client`: Pointer to the mailbox client structure.
+> +     - `channel`: The specific mailbox channel to request.
+> +   - **Returns**: A pointer to the mailbox channel on success, or an err=
+or
+> +     code on failure.
+> +
+> +2. Sending a Message
+> +   - **Function**: `mbox_send_message(struct mbox_chan *chan, void *msg)`
+> +   - **Description**: Sends a message through the mailbox channel.
+> +   - **Parameters**:
+> +     - `chan`: The mailbox channel used for communication.
+> +     - `msg`: Pointer to the message to be sent (usually NULL for dummy
+> +       messages).
+> +   - **Returns**: 0 on success, or a negative error code on failure.
+> +
+> +3. Transmitting Completion
+> +   - **Function**: `mbox_client_txdone(struct mbox_chan *chan, unsigned =
+int
+> +     msg_id)`
+> +   - **Description**: Notifies the mailbox framework that message
+> +     transmission is complete.
+> +   - **Parameters**:
+> +     - `chan`: The mailbox channel associated with the message.
+> +     - `msg_id`: The identifier of the message that was transmitted.
 
-Looks reasonable, will add that back for at least a development
-cycle. In reality it will probably stay forever and I will add a comment
-to the PAGE_MAPPING_DAX_SHARED definition saying it can be easily
-removed if more flags are needed.
+These functions should've been documented as kernel-doc comments, though.
 
->> > It does have implications for the dax dma-idle tracking thought, see
->> > below.
->> >
->> >>  {
->> >> -	unsigned long pfn;
->> >> +	unsigned long order = dax_entry_order(entry);
->> >> +	struct folio *folio = dax_to_folio(entry);
->> >>  
->> >> -	if (IS_ENABLED(CONFIG_FS_DAX_LIMITED))
->> >> +	if (!dax_entry_size(entry))
->> >>  		return;
->> >>  
->> >> -	for_each_mapped_pfn(entry, pfn) {
->> >> -		struct page *page = pfn_to_page(pfn);
->> >> -
->> >> -		WARN_ON_ONCE(trunc && page_ref_count(page) > 1);
->> >> -		if (dax_page_is_shared(page)) {
->> >> -			/* keep the shared flag if this page is still shared */
->> >> -			if (dax_page_share_put(page) > 0)
->> >> -				continue;
->> >> -		} else
->> >> -			WARN_ON_ONCE(page->mapping && page->mapping != mapping);
->> >> -		page->mapping = NULL;
->> >> -		page->index = 0;
->> >> -	}
->> >> +	/*
->> >> +	 * We don't hold a reference for the DAX pagecache entry for the
->> >> +	 * page. But we need to initialise the folio so we can hand it
->> >> +	 * out. Nothing else should have a reference either.
->> >> +	 */
->> >> +	WARN_ON_ONCE(folio_ref_count(folio));
->> >
->> > Per above I would feel more comfortable if we kept the paranoia around
->> > to ensure that all the pages in this folio have dropped all references
->> > and cleared ->mapping and ->index.
->> >
->> > That paranoia can be placed behind a CONFIG_DEBUB_VM check, and we can
->> > delete in a follow-on development cycle, but in the meantime it helps to
->> > prove the correctness of the conversion.
->> 
->> I'm ok with paranoia, but as noted above the issue is that at a minimum
->> page->mapping (and probably index) now needs to be valid for any code
->> that might walk the page tables.
->
-> A quick look seems to say the confusion is limited to aliasing
-> PAGE_MAPPING_ANON.
+> +
+> +Usage Example
+> +-------------
+> +In a typical mailbox client driver, the following steps are typically
+> +performed:
+> +
+> +1. Initialize the Mailbox Client:
+> +
+> +   .. code-block:: c
+> +
+> +      struct mbox_client my_mbox_client =3D {
+> +          .dev =3D &my_device,
+> +          .tx_done =3D my_tx_done_callback,
+> +          .rx_callback =3D my_rx_callback,
+> +          .tx_block =3D false,
+> +          .knows_txdone =3D true,
+> +      };
+> +
+> +2. Request a Mailbox Channel:
+> +
+> +   .. code-block:: c
+> +
+> +      mbox_chan =3D mbox_request_channel(&my_mbox_client, 0);
+> +      if (IS_ERR(mbox_chan)) {
+> +          // Handle error
+> +      }
+> +
+> +3. Send a Message:
+> +
+> +   .. code-block:: c
+> +
+> +      int ret =3D mbox_send_message(mbox_chan, NULL); // Sending a dummy=
+ message
+> +      if (ret < 0) {
+> +          // Handle error
+> +      }
+> +
+> +4. Complete Transmission:
+> +
+> +   .. code-block:: c
+> +
+> +      mbox_client_txdone(mbox_chan, 0);
+> +
+> +Interrupt Handling
+> +------------------
+> +The mailbox interface can trigger interrupts upon message receipt. Handl=
+ers
+> +should be implemented in the `rx_callback` function defined in the mailb=
+ox
+> +client structure to process incoming messages.
+> +
+> +Example Mailbox Client Driver
+> +-----------------------------
+> +.. code-block:: c
+> +
+> +   struct demo_client {
+> +       struct mbox_client cl;
+> +       struct mbox_chan *mbox;
+> +       struct completion c;
+> +       bool async;
+> +       /* ... */
+> +   };
+> +
+> +   /*
+> +   * This is the handler for data received from remote. The behaviour is=
+ purely
+> +   * dependent upon the protocol. This is just an example.
+> +   */
+> +   static void message_from_remote(struct mbox_client *cl, void *mssg)
+> +   {
+> +       struct demo_client *dc =3D container_of(cl, struct demo_client, c=
+l);
+> +       if (dc->async) {
+> +           if (is_an_ack(mssg)) {
+> +               /* An ACK to our last sample sent */
+> +               return; /* Or do something else here */
+> +           } else { /* A new message from remote */
+> +               queue_req(mssg);
+> +           }
+> +       } else {
+> +           /* Remote f/w sends only ACK packets on this channel */
+> +           return;
+> +       }
+> +   }
+> +
+> +   static void sample_sent(struct mbox_client *cl, void *mssg, int r)
+> +   {
+> +       struct demo_client *dc =3D container_of(cl, struct demo_client, c=
+l);
+> +       complete(&dc->c);
+> +   }
+> +
+> +   static void client_demo(struct platform_device *pdev)
+> +   {
+> +       struct demo_client *dc_sync, *dc_async;
+> +       /* The controller already knows async_pkt and sync_pkt */
+> +       struct async_pkt ap;
+> +       struct sync_pkt sp;
+> +
+> +       dc_sync =3D kzalloc(sizeof(*dc_sync), GFP_KERNEL);
+> +       dc_async =3D kzalloc(sizeof(*dc_async), GFP_KERNEL);
+> +
+> +       /* Populate non-blocking mode client */
+> +       dc_async->cl.dev =3D &pdev->dev;
+> +       dc_async->cl.rx_callback =3D message_from_remote;
+> +       dc_async->cl.tx_done =3D sample_sent;
+> +       dc_async->cl.tx_block =3D false;
+> +       dc_async->cl.tx_tout =3D 0; /* doesn't matter here */
+> +       dc_async->cl.knows_txdone =3D false; /* depending upon protocol */
+> +       dc_async->async =3D true;
+> +       init_completion(&dc_async->c);
+> +
+> +       /* Populate blocking mode client */
+> +       dc_sync->cl.dev =3D &pdev->dev;
+> +       dc_sync->cl.rx_callback =3D message_from_remote;
+> +       dc_sync->cl.tx_done =3D NULL; /* operate in blocking mode */
+> +       dc_sync->cl.tx_block =3D true;
+> +       dc_sync->cl.tx_tout =3D 500; /* by half a second */
+> +       dc_sync->cl.knows_txdone =3D false; /* depending upon protocol */
+> +       dc_sync->async =3D false;
+> +
+> +       /* ASync mailbox is listed second in 'mboxes' property */
+> +       dc_async->mbox =3D mbox_request_channel(&dc_async->cl, 1);
+> +       /* Populate data packet */
+> +       /* ap.xxx =3D 123; etc */
+> +       /* Send async message to remote */
+> +       mbox_send_message(dc_async->mbox, &ap);
+> +
+> +       /* Sync mailbox is listed first in 'mboxes' property */
+> +       dc_sync->mbox =3D mbox_request_channel(&dc_sync->cl, 0);
+> +       /* Populate data packet */
+> +       /* sp.abc =3D 123; etc */
+> +       /* Send message to remote in blocking mode */
+> +       mbox_send_message(dc_sync->mbox, &sp);
+> +       /* At this point 'sp' has been sent */
+> +
+> +       /* Now wait for async chan to be done */
+> +       wait_for_completion(&dc_async->c);
+> +   }
+> diff --git a/Documentation/driver-api/mailbox/core.rst b/Documentation/dr=
+iver-api/mailbox/core.rst
+> new file mode 100644
+> index 000000000000..d1220086da67
+> --- /dev/null
+> +++ b/Documentation/driver-api/mailbox/core.rst
+> @@ -0,0 +1,182 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +mailbox documentation
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Hardware Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Mailbox hardware is a specialized component found in multi-core
+> +processors and embedded systems that facilitates inter-processor
+> +communication (IPC) or communication between different hardware
+> +components. It provides a structured mechanism for sending and
+> +receiving messages, allowing various processors or devices to
+> +exchange data efficiently. Here's an overview of its key
+> +characteristics and functions:
+> +
+> +Key Characteristics of Mailbox Hardware
+> +Interrupt Handling: Many mailbox implementations support
+> +interrupt-driven communication. This allows a receiving processor
+> +to be alerted when a new message arrives, facilitating immediate
+> +processing without polling the mailbox constantly.
+> +
+> +Hardware Registers: Mailbox hardware often includes registers for
+> +configuration and status monitoring. These registers can be used
+> +to control the mailbox's behavior, check for available messages,
+> +or acknowledge message receipt.
+> +
+> +Support for Multiple Protocols: Mailboxes can support various
+> +communication protocols, enabling interoperability between different
+> +hardware components and simplifying the integration of diverse systems.
+> +
+> +Synchronous and Asynchronous Modes: Mailbox hardware can operate in
+> +both synchronous and asynchronous modes. In synchronous mode, the
+> +sender may wait for the receiver to acknowledge receipt before
+> +proceeding, while in asynchronous mode, the sender can continue
+> +executing other tasks immediately after sending the message.
+> +
+> +
+> +Mailbox framework design
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The mailbox facilitates interprocessor communication by allowing process=
+ors to
+> +exchange messages or signals. The mailbox framework consists of:
+> +
+> +Mailbox Controller: This is platform-specific and is responsible for con=
+figuring
+> +and managing interrupts from the remote processor. It offers a generic A=
+PI for
+> +the mailbox client.
+> +
+> +Mailbox Client: This component handles the sending and receiving of mess=
+ages.
+> +
+> +
+> +........................................................................=
+=2E...
+> +:  client driver      client_a            client_b                      =
+   :
+> +........................................................................=
+=2E...
+> +                            ^-------------------^
+> +                                    |
+> +                                    |
+> +........................................................................=
+=2E...
+> +:  controller framework          mailbox                                =
+   :
+> +....................................|...................................=
+=2E...
+> +                                    |
+> +                                    |
+> +........................................................................=
+=2E...
+> +:  controller driver          device specific                           =
+   :
+> +....................................|...................................=
+=2E...
+> +                                    |
+> +                                    |
+> +kernel                              |
+> +........................................................................=
+=2E...
+> +hardware                            |
+> +                                    |
+> +                                    |
+> +........................................................................=
+=2E...
+> +:                             remote processor                          =
+   :
+> +........................................................................=
+=2E...
 
-Correct. Looks like we can solve that though.
+htmldocs build errors out:
 
->> > [..]
->> >> @@ -1189,11 +1165,14 @@ static vm_fault_t dax_load_hole(struct xa_state *xas, struct vm_fault *vmf,
->> >>  	struct inode *inode = iter->inode;
->> >>  	unsigned long vaddr = vmf->address;
->> >>  	pfn_t pfn = pfn_to_pfn_t(my_zero_pfn(vaddr));
->> >> +	struct page *page = pfn_t_to_page(pfn);
->> >>  	vm_fault_t ret;
->> >>  
->> >>  	*entry = dax_insert_entry(xas, vmf, iter, *entry, pfn, DAX_ZERO_PAGE);
->> >>  
->> >> -	ret = vmf_insert_mixed(vmf->vma, vaddr, pfn);
->> >> +	page_ref_inc(page);
->> >> +	ret = dax_insert_pfn(vmf, pfn, false);
->> >> +	put_page(page);
->> >
->> > Per above I think it is problematic to have pages live in the system
->> > without a refcount.
->> 
->> I'm a bit confused by this - the pages have a reference taken on them
->> when they are mapped. They only live in the system without a refcount
->> when the mm considers them free (except for the bit between getting
->> created in dax_associate_entry() and actually getting mapped but as
->> noted I will fix that).
->> 
->> > One scenario where this might be needed is invalidate_inode_pages() vs
->> > DMA. The invaldation should pause and wait for DMA pins to be dropped
->> > before the mapping xarray is cleaned up and the dax folio is marked
->> > free.
->> 
->> I'm not really following this scenario, or at least how it relates to
->> the comment above. If the page is pinned for DMA it will have taken a
->> refcount on it and so the page won't be considered free/idle per
->> dax_wait_page_idle() or any of the other mm code.
->
-> [ tl;dr: I think we're ok, analysis below, but I did talk myself into
-> the proposed dax_busy_page() changes indeed being broken and needing to
-> remain checking for refcount > 1, not > 0 ]
->
-> It's not the mm code I am worried about. It's the filesystem block
-> allocator staying in-sync with the allocation state of the page.
->
-> fs/dax.c is charged with converting idle storage blocks to pfns to
-> mapped folios. Once they are mapped, DMA can pin the folio, but nothing
-> in fs/dax.c pins the mapping. In the pagecache case the page reference
-> is sufficient to keep the DMA-busy page from being reused. In the dax
-> case something needs to arrange for DMA to be idle before
-> dax_delete_mapping_entry().
+Documentation/driver-api/mailbox/core.rst:57: WARNING: Block quote ends wit=
+hout a blank line; unexpected unindent.
+Documentation/driver-api/mailbox/core.rst:57: CRITICAL: Missing matching un=
+derline for section title overline.
 
-Ok. How does that work today? My current mental model is that something
-has to call dax_layout_busy_page() whilst holding the correct locks to
-prevent a new mapping being established prior to calling
-dax_delete_mapping_entry(). Is that correct?
+=2E........................................................................=
+=2E..
+:  controller framework          mailbox                                   :
+=2E...................................|....................................=
+=2E..
 
-> However, looking at XFS it indeed makes that guarantee. First it does
-> xfs_break_dax_layouts() then it does truncate_inode_pages() =>
-> dax_delete_mapping_entry().
->
-> It follows that that the DMA-idle condition still needs to look for the
-> case where the refcount is > 1 rather than 0 since refcount == 1 is the
-> page-mapped-but-DMA-idle condition.
+reST markup error:
+Documentation/driver-api/mailbox/core.rst:57: (SEVERE/4) Missing matching u=
+nderline for section title overline.
 
-Sorry, but I'm still not following this line of reasoning. If the
-refcount == 1 the page is either mapped xor DMA-busy. So a refcount >= 1
-is enough to conclude that the page cannot be reused because it is
-either being accessed from userspace via a CPU mapping or from some
-device DMA or some other in kernel user.
+=2E........................................................................=
+=2E..
+:  controller framework          mailbox                                   :
+=2E...................................|....................................=
+=2E..
 
-The current proposal is that dax_busy_page() returns true if refcount >=
-1, and dax_wait_page_idle() will wait until the refcount ==
-0. dax_busy_page() will try and force the refcount == 0 by unmapping it,
-but obviously can't force other pinners to release their reference hence
-the need to wait. Callers should already be holding locks to ensure new
-mappings can't be established and hence can't become DMA-busy after the
-unmap.
+I have to fix up the design diagram and wrap it:
 
-> [..]
->> >> @@ -1649,9 +1627,10 @@ static vm_fault_t dax_fault_iter(struct vm_fault *vmf,
->> >>  	loff_t pos = (loff_t)xas->xa_index << PAGE_SHIFT;
->> >>  	bool write = iter->flags & IOMAP_WRITE;
->> >>  	unsigned long entry_flags = pmd ? DAX_PMD : 0;
->> >> -	int err = 0;
->> >> +	int ret, err = 0;
->> >>  	pfn_t pfn;
->> >>  	void *kaddr;
->> >> +	struct page *page;
->> >>  
->> >>  	if (!pmd && vmf->cow_page)
->> >>  		return dax_fault_cow_page(vmf, iter);
->> >> @@ -1684,14 +1663,21 @@ static vm_fault_t dax_fault_iter(struct vm_fault *vmf,
->> >>  	if (dax_fault_is_synchronous(iter, vmf->vma))
->> >>  		return dax_fault_synchronous_pfnp(pfnp, pfn);
->> >>  
->> >> -	/* insert PMD pfn */
->> >> +	page = pfn_t_to_page(pfn);
->> >
->> > I think this is clearer if dax_insert_entry() returns folios with an
->> > elevated refrence count that is dropped when the folio is invalidated
->> > out of the mapping.
->> 
->> I presume this comment is for the next line:
->> 
->> +	page_ref_inc(page);
->>  
->> I can move that into dax_insert_entry(), but we would still need to
->> drop it after calling vmf_insert_*() to ensure we get the 1 -> 0
->> transition when the page is unmapped and therefore
->> freed. Alternatively we can make it so vmf_insert_*() don't take
->> references on the page, and instead ownership of the reference is
->> transfered to the mapping. Personally I prefered having those
->> functions take their own reference but let me know what you think.
->
-> Oh, the model I was thinking was that until vmf_insert_XXX() succeeds
-> then the page was never allocated because it was never mapped. What
-> happens with the code as proposed is that put_page() triggers page-free
-> semantics on vmf_insert_XXX() failures, right?
+---- >8 ----
+diff --git a/Documentation/driver-api/mailbox/core.rst b/Documentation/driv=
+er-api/mailbox/core.rst
+index d1220086da679f..8d56d81007c11c 100644
+--- a/Documentation/driver-api/mailbox/core.rst
++++ b/Documentation/driver-api/mailbox/core.rst
+@@ -47,31 +47,32 @@ the mailbox client.
+=20
+ Mailbox Client: This component handles the sending and receiving of messag=
+es.
+=20
++::
+=20
+-..........................................................................=
+=2E.
+-:  client driver      client_a            client_b                        =
+ :
+-..........................................................................=
+=2E.
+-                            ^-------------------^
+-                                    |
+-                                    |
+-..........................................................................=
+=2E.
+-:  controller framework          mailbox                                  =
+ :
+-....................................|.....................................=
+=2E.
+-                                    |
+-                                    |
+-..........................................................................=
+=2E.
+-:  controller driver          device specific                             =
+ :
+-....................................|.....................................=
+=2E.
+-                                    |
+-                                    |
+-kernel                              |
+-..........................................................................=
+=2E.
+-hardware                            |
+-                                    |
+-                                    |
+-..........................................................................=
+=2E.
+-:                             remote processor                            =
+ :
+-..........................................................................=
+=2E.
++  +-----------------------------------------------------------------------=
+----+
++  |  client driver      client_a            client_b                      =
+    |
++  +-----------------------------------------------------------------------=
+----+
++                              ^-------------------^
++                                      |
++                                      |
++  +-----------------------------------------------------------------------=
+---+
++  |  controller framework          mailbox                                =
+   |
++  +-----------------------------------|-----------------------------------=
+---+
++                                      |
++                                      |
++  +-----------------------------------------------------------------------=
+---+
++  |  controller driver          device specific                           =
+   |
++  +-----------------------------------|-----------------------------------=
+---+
++                                      |
++                                      |
++  kernel                              |
++  ------------------------------------------------------------------------=
+----
++  hardware                            |
++                                      |
++                                      |
++  +-----------------------------------------------------------------------=
+---+
++  |                             remote processor                          =
+   |
++  +-----------------------------------------------------------------------=
+---+
+=20
+=20
+ In the context of a mailbox framework, a channel refers to a dedicated
 
-Right. And actually that means I can't move the page_ref_inc(page) into
-what will be called dax_create_folio(), because an entry may have been
-created previously that had a failed vmf_insert_XXX() which will
-therefore have a zero refcount folio associated with it.
+> +
+> +
+> +In the context of a mailbox framework, a channel refers to a dedicated
+> +communication pathway between two or more processors or components. By u=
+sing
+> +channels, the framework abstracts the complexity of interprocessor commu=
+nication.
+> +
+> +Data Structures
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +- **struct mbox_client**
+> +  This structure represents a client that communicates over a mailbox
+> +  channel. It holds information such as:
+> +  - A pointer to the device associated with the client (`dev`).
+> +  - Callback functions for handling message transmission events, includi=
+ng:
+> +    - `rx_callback`: Called when a message is received.
+> +    - `tx_done`: Called when a message transmission is acknowledged.
+> +  - Flags that specify the client=E2=80=99s configuration, such as wheth=
+er it operates
+> +    in blocking mode.
+> +
+> +- **struct mbox_chan**
+> +  This structure represents an individual mailbox channel. It maintains =
+the
+> +  state required for message queuing and transmission. Key members inclu=
+de:
+> +  - `msg_data`: Array of messages queued for transmission.
+> +  - `msg_count`: Number of messages currently queued.
+> +  - `msg_free`: Index of the next free slot in the message queue.
+> +  - `active_req`: Pointer to the currently active message being transmit=
+ted.
+> +  - Synchronization primitives to manage access from multiple contexts.
+> +
+> +- **struct mbox_controller**
+> +  This structure represents a mailbox controller that manages multiple
+> +  channels. It includes:
+> +  - A pointer to the device managing the mailbox.
+> +  - Operations for sending and receiving messages, as well as initializi=
+ng
+> +    and shutting down the mailbox.
+> +  - A list of associated channels and the total number of channels avail=
+able.
 
-But I think that model is wrong. I think the model needs to be the page
-gets allocated when the entry is first created (ie. when
-dax_create_folio() is called). A subsequent free (ether due to
-vmf_insert_XXX() failing or the page being unmapped or becoming
-DMA-idle) should then delete the entry.
+Shouldn't these structs be documented as kernel-doc comments? tl;dr:
+see Documentation/doc-guide/kernel-doc.html
 
-I think that makes the semantics around dax_busy_page() nicer as well -
-no need for the truncate to have a special path to call
-dax_delete_mapping_entry().
+> +
+> +controller framework APIs
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> +
+> +``struct `mbox_controller` Initialization
+> +-----------------------------------------
 
-> There is no need to invoke the page-free / final-put path on
-> vmf_insert_XXX() error because the storage-block / pfn never actually
-> transitioned into a page / folio.
+Properly double-backquote the struct name to format it as inline code:
 
-It's not mapping a page/folio that transitions a pfn into a page/folio
-it is the allocation of the folio that happens in dax_create_folio()
-(aka. dax_associate_new_entry()). So we need to delete the entry (as
-noted above I don't do that currently) if the insertion fails.
+---- >8 ----
+diff --git a/Documentation/driver-api/mailbox/core.rst b/Documentation/driv=
+er-api/mailbox/core.rst
+index 239538f497e41a..d83456164464aa 100644
+--- a/Documentation/driver-api/mailbox/core.rst
++++ b/Documentation/driver-api/mailbox/core.rst
+@@ -117,7 +117,7 @@ Data Structures
+ controller framework APIs
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-``struct `mbox_controller` Initialization
++``struct mbox_controller`` Initialization
+ -----------------------------------------
+=20
+ Just like any other kernel framework, the whole mailbox controller registr=
+ation
 
->> > [..]
->> >> @@ -519,21 +529,3 @@ void zone_device_page_init(struct page *page)
->> >>  	lock_page(page);
->> >>  }
->> >>  EXPORT_SYMBOL_GPL(zone_device_page_init);
->> >> -
->> >> -#ifdef CONFIG_FS_DAX
->> >> -bool __put_devmap_managed_folio_refs(struct folio *folio, int refs)
->> >> -{
->> >> -	if (folio->pgmap->type != MEMORY_DEVICE_FS_DAX)
->> >> -		return false;
->> >> -
->> >> -	/*
->> >> -	 * fsdax page refcounts are 1-based, rather than 0-based: if
->> >> -	 * refcount is 1, then the page is free and the refcount is
->> >> -	 * stable because nobody holds a reference on the page.
->> >> -	 */
->> >> -	if (folio_ref_sub_return(folio, refs) == 1)
->> >> -		wake_up_var(&folio->_refcount);
->> >> -	return true;
->> >
->> > It follow from the refcount disvussion above that I think there is an
->> > argument to still keep this wakeup based on the 2->1 transitition.
->> > pagecache pages are refcount==1 when they are dma-idle but still
->> > allocated. To keep the same semantics for dax a dax_folio would have an
->> > elevated refcount whenever it is referenced by mapping entry.
->> 
->> I'm not sold on keeping it as it doesn't seem to offer any benefit
->> IMHO. I know both Jason and Christoph were keen to see it go so it be
->> good to get their feedback too. Also one of the primary goals of this
->> series was to refcount the page normally so we could remove the whole
->> "page is free with a refcount of 1" semantics.
->
-> The page is still free at refcount 0, no argument there. But, by
-> introducing a new "page refcount is elevated while mapped" (as it
-> should), it follows that "page is DMA idle at refcount == 1", right?
+> +
+> +Just like any other kernel framework, the whole mailbox controller regis=
+tration
+> +relies on the driver filling a structure and registering against the
+> +framework. In our case, that structure is mbox_controller.
+> +
+> +The first thing you need to do in your driver is to allocate this
+> +structure. Any of the usual memory allocators will do, but you'll also
+> +need to initialize a few fields in there:
+> +
+> +- ``dev``: should hold the pointer to the ``struct device`` associated
+> +  to your current driver instance.
+> +
+> +- ``ops``: Operators that work on each communication channel.
+> +
+> +- ``chans``: Array of channels.
+> +
+> +- ``num_chans``: Number of channels in the `chans` array.
+> +
+> +- ``txdone_irq``: Indicates if the controller can report to the API
+> +  when the last transmitted data was read by the
+> +                          remote (e.g., if it has a TX ACK interrupt).
+> +
+> +All the below fields are not mandatory.
+> +
+> +- ``txdone_poll``: Indicates if the controller can read but not report
+> +                          the TX done. For example, some register may sh=
+ow
+> +                          the TX status, but no interrupt is raised. This
+> +                          field is ignored if `txdone_irq` is set.
+> +
+> +- ``txpoll_period``: If `txdone_poll` is in effect, the API polls for
+> +                          the last TX status after this many millisecond=
+s.
+> +
+> +- ``of_xlate``: Controller driver-specific mapping of channel via
+> +                          Device Tree (DT).
+> +
+> +
+> +Key Functions
+> +-------------
+> +
+> +- **int devm_mbox_controller_register(struct mbox_controller *mbox)**
+> +  This function registers a mailbox controller with the kernel. It makes=
+ the
+> +  channels associated with the controller available for client requests.=
+ The
+> +  function performs sanity checks on the controller structure to ensure =
+all
+> +  necessary fields are populated.
+> +
+> +- **struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int i=
+ndex)**
+> +  This function requests a mailbox channel for a specified client, ident=
+ified
+> +  by an index. It searches for the appropriate mailbox channel, and if f=
+ound,
+> +  it returns a pointer to the channel. If the request fails (e.g., if the
+> +  index is invalid), it returns an error pointer.
+> +
+> +- **void mbox_free_channel(struct mbox_chan *chan)**
+> +  This function releases a mailbox channel that was previously allocated=
+ for a
+> +  client. It ensures that the channel can be reused by other clients. If=
+ any
+> +  messages are still in the queue, they are aborted, and no callbacks ar=
+e made.
+> +
+> +- **int mbox_send_message(struct mbox_chan *chan, void *mssg)**
+> +  This function is used by clients to send a message through the specifi=
+ed
+> +  mailbox channel. The function can operate in either blocking or non-bl=
+ocking
+> +  mode, depending on the client=E2=80=99s configuration. It will queue t=
+he message for
+> +  transmission and notify the client once the message is acknowledged.
+> +
+> +- **void mbox_chan_received_data(struct mbox_chan *chan, void *mssg)**
+> +  This function is called by the controller driver to notify the mailbox
+> +  framework that a message has been received on the specified channel. T=
+he
+> +  received message is then passed to the appropriate client's `rx_callba=
+ck`
+> +  function for processing.
 
-No. The page is either mapped xor DMA-busy - ie. not free. If we want
-(need?) to tell the difference we can use folio_maybe_dma_pinned(),
-assuming the driver doing DMA has called pin_user_pages() as it should.
+Shouldn't these functions also be documented as kernel-doc comments?
 
-That said I'm not sure why we care about the distinction between
-DMA-idle and mapped? If the page is not free from the mm perspective the
-block can't be reallocated by the filesystem.
+> diff --git a/Documentation/driver-api/mailbox/index.rst b/Documentation/d=
+river-api/mailbox/index.rst
+> new file mode 100644
+> index 000000000000..e254a8fdb66a
+> --- /dev/null
+> +++ b/Documentation/driver-api/mailbox/index.rst
+> @@ -0,0 +1,45 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Mailbox documentation
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Mailbox documentation provides documents for various aspects of mailbox
+> +framework.
+> +
+> +Mailbox development documentation
+> +---------------------------------
+> +
+> +This book helps with mailbox internal APIs and guide for mailbox device
+> +driver writers.
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   core
+> +
+> +mailbox controller driver documentation
+> +------------------------------
+> +
+> +This book is a guide to device driver writers on how to register
+> +mailbox controller to the mailbox framework.
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   writing_mailbox_controller_drivers
+> +
+> +mailbox client driver documentation
+> +------------------------------
 
-> Otherwise, the current assumption that fileystems can have
-> dax_layout_busy_page_range() poll on the state of the pfn in the mapping
-> is broken because page refcount == 0 also means no page to mapping
-> association.
+Match up section underline length by its title:
 
-And also means nothing from the mm (userspace mapping, DMA-busy, etc.)
-is using the page so the page isn't busy and is free to be reallocated
-right?
+---- >8 ----
+diff --git a/Documentation/driver-api/mailbox/index.rst b/Documentation/dri=
+ver-api/mailbox/index.rst
+index e254a8fdb66ac7..02d7d5e8660999 100644
+--- a/Documentation/driver-api/mailbox/index.rst
++++ b/Documentation/driver-api/mailbox/index.rst
+@@ -1,6 +1,6 @@
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ Mailbox documentation
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ Mailbox documentation provides documents for various aspects of mailbox
+ framework.
+@@ -17,7 +17,7 @@ driver writers.
+    core
+=20
+ mailbox controller driver documentation
+-------------------------------
++---------------------------------------
+=20
+ This book is a guide to device driver writers on how to register
+ mailbox controller to the mailbox framework.
+@@ -28,7 +28,7 @@ mailbox controller to the mailbox framework.
+    writing_mailbox_controller_drivers
+=20
+ mailbox client driver documentation
+-------------------------------
++-----------------------------------
+=20
+ This book is a guide to mailbox client driver writers.
+=20
 
- - Alistair
+> +
+> +This book is a guide to mailbox client driver writers.
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   client
+> +
+> +.. only::  subproject and html
+> +
+> +   Indices
+> +   =3D=3D=3D=3D=3D=3D=3D
+> +
+> +   * :ref:`genindex`
+
+Fix up also the reference link on parent toctree:
+
+---- >8 ----
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/=
+index.rst
+index 7f83e05769b4a4..b4d78b92fd921a 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -102,7 +102,7 @@ Subsystem-specific APIs
+    ipmb
+    ipmi
+    libata
+-   mailbox
++   mailbox/index
+    md/index
+    media/index
+    mei/index
+
+> diff --git a/Documentation/driver-api/mailbox/writing_mailbox_controller_=
+drivers.rst b/Documentation/driver-api/mailbox/writing_mailbox_controller_d=
+rivers.rst
+> new file mode 100644
+> index 000000000000..2a82645c1357
+> --- /dev/null
+> +++ b/Documentation/driver-api/mailbox/writing_mailbox_controller_drivers=
+=2Erst
+> @@ -0,0 +1,179 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _writing_mailbox_controller_drivers:
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Writing Mailbox Controller Drivers
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +This document serves as a basic guideline for driver programmers that ne=
+ed
+> +to hack a new mailbox controller driver or understand the essentials of
+> +the existing ones.
+> +
+> +Driver Boilerplate
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +As a bare minimum, a mailbox controller driver needs to call
+> +``mbox_controller_register`` function to register with the framework.
+> +
+> +A basic driver skeleton could look like this for a mailbox hardware that
+> +has the following characteristics:
+> +a. It supports only a single channel, i.e., only the remote processor can
+> +   send interrupts.
+> +b. Data transfer is over the registers associated with mailbox hardware.
+> +c. Mailbox hardware is configured to receive interrupts.
+> +d. When the remote processor is ready to send data, it triggers a mailbox
+> +   interrupt.
+> +e. As part of interrupt handling by Linux, it copies data from the regis=
+ters.
+> +
+> +.. code-block:: c
+> +
+> +   #include <linux/device.h>
+> +   #include <linux/interrupt.h>
+> +   #include <linux/io.h>
+> +   #include <linux/kernel.h>
+> +   #include <linux/mailbox_controller.h>
+> +   #include <linux/module.h>
+> +   #include <linux/of.h>
+> +   #include <linux/platform_device.h>
+> +   #define DRIVER_NAME "dummy_controller"
+> +
+> +   struct dummy_mbox {
+> +       struct device *dev;
+> +       struct mbox_controller controller;
+> +       int irq;
+> +   };
+> +
+> +   static void dummy_mbox_receive(struct mbox_chan *chan)
+> +   {
+> +       struct dummy_mbox *mbox =3D chan->con_priv;
+> +       int val;
+> +
+> +       // Data copied from registers
+> +       val =3D read_register();
+> +       mbox_chan_received_data(chan, &val);
+> +   }
+> +
+> +   static irqreturn_t dummy_mbox_irq_handler(int irq, void *data)
+> +   {
+> +       struct mbox_chan *chan =3D data;
+> +       struct dummy_mbox *mbox =3D chan->con_priv;
+> +       u32 reg;
+> +
+> +       // Read registers to see if data is received
+> +       dummy_mbox_receive(chan);
+> +       mbox_chan_txdone(chan, 0);
+> +       return reg ? IRQ_HANDLED : IRQ_NONE;
+> +   }
+> +
+> +   static int dummy_mbox_send_data(struct mbox_chan *chan, void *data)
+> +   {
+> +       // Write data in registers to send it to the remote processor
+> +       return 0;
+> +   }
+> +
+> +   static int dummy_mbox_startup(struct mbox_chan *chan)
+> +   {
+> +       struct dummy_mbox *mbox =3D chan->con_priv;
+> +       u32 reg;
+> +       int ret;
+> +
+> +       ret =3D devm_request_irq(mbox->dev, mbox->irq, dummy_mbox_irq_han=
+dler, 0,
+> +               DRIVER_NAME, chan);
+> +       if (ret < 0) {
+> +           dev_err(mbox->dev, "Cannot request irq\n");
+> +           return ret;
+> +       }
+> +
+> +       /* Register write to enable IRQ generation */
+> +
+> +       return 0;
+> +   }
+> +
+> +   static void dummy_mbox_shutdown(struct mbox_chan *chan)
+> +   {
+> +       struct dummy_mbox *mbox =3D chan->con_priv;
+> +
+> +       /* Disable interrupt generation */
+> +       devm_free_irq(mbox->dev, mbox->irq, chan);
+> +   }
+> +
+> +   static const struct mbox_chan_ops dummy_mbox_ops =3D {
+> +       .send_data =3D dummy_mbox_send_data,
+> +       .startup =3D dummy_mbox_startup,
+> +       .shutdown =3D dummy_mbox_shutdown,
+> +   };
+> +
+> +   static int dummy_mbox_probe(struct platform_device *pdev)
+> +   {
+> +       struct dummy_mbox *mbox;
+> +       struct mbox_chan *chans;
+> +       int ret;
+> +
+> +       mbox =3D devm_kzalloc(&pdev->dev, sizeof(*mbox), GFP_KERNEL);
+> +       if (!mbox)
+> +           return -ENOMEM;
+> +
+> +       /* Allocate one channel */
+> +       chans =3D devm_kzalloc(&pdev->dev, sizeof(*chans), GFP_KERNEL);
+> +       if (!chans)
+> +           return -ENOMEM;
+> +
+> +       mbox->base =3D devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(mbox->base))
+> +           return PTR_ERR(mbox->base);
+> +
+> +       mbox->irq =3D platform_get_irq(pdev, 0);
+> +       if (mbox->irq < 0)
+> +           return mbox->irq;
+> +
+> +       mbox->dev =3D &pdev->dev;
+> +
+> +       /* Hardware supports only one channel. */
+> +       mbox->controller.dev =3D mbox->dev;
+> +       mbox->controller.num_chans =3D 1;
+> +       mbox->controller.chans =3D chans;
+> +       mbox->controller.ops =3D &dummy_mbox_ops;
+> +       mbox->controller.txdone_irq =3D true;
+> +
+> +       ret =3D devm_mbox_controller_register(mbox->dev, &mbox->controlle=
+r);
+> +       if (ret) {
+> +           dev_err(&pdev->dev, "Could not register mailbox controller\n"=
+);
+> +           return ret;
+> +       }
+> +
+> +       return ret;
+> +   }
+> +
+> +   static const struct of_device_id dummy_mbox_match[] =3D {
+> +       { .compatible =3D "dummy,dummy-mailbox" },
+> +       { },
+> +   };
+> +
+> +   MODULE_DEVICE_TABLE(of, dummy_mbox_match);
+> +
+> +   static struct platform_driver dummy_mbox_driver =3D {
+> +       .probe =3D dummy_mbox_probe,
+> +       .driver =3D {
+> +           .name =3D DRIVER_NAME,
+> +           .of_match_table =3D dummy_mbox_match,
+> +       },
+> +   };
+> +
+> +   module_platform_driver(dummy_mbox_driver);
+> +   MODULE_LICENSE("GPL v2");
+> +   MODULE_DESCRIPTION("Dummy mailbox controller driver");
+> +
+> +In the above code, a couple of things are done:
+> +a. The controller is registered in the probe along with callbacks, which=
+ in
+> +   this case are the bare minimum: ``startup``, ``shutdown``, and
+> +   ``send_data``.
+> +b. IRQ is registered to get notifications from the remote processor.
+> +c. In the IRQ handler, registers are read to copy data, and
+> +   ``mbox_chan_received_data`` is called to hand over the data to the cl=
+ient.
+> +d. ``mbox_chan_txdone`` is called to let the framework know that this da=
+ta
+> +   is the last data and no more data is to be expected for the current t=
+ransfer.
+> +
+
+Sphinx warns out numerous indentation warnings on the lists, so I have to
+fix them up:
+
+---- >8 ----
+diff --git a/Documentation/driver-api/mailbox/client.rst b/Documentation/dr=
+iver-api/mailbox/client.rst
+index 9088f83734230d..17dafaca056777 100644
+--- a/Documentation/driver-api/mailbox/client.rst
++++ b/Documentation/driver-api/mailbox/client.rst
+@@ -31,6 +31,7 @@ The mailbox structure is defined as follows:
+ Key Functions
+ -------------
+ 1. Requesting a Mailbox Channel
++
+    - **Function**: `mbox_request_channel(struct mbox_client *client,
+      unsigned int channel)`
+    - **Description**: Requests a mailbox channel for sending messages.
+@@ -41,15 +42,19 @@ Key Functions
+      code on failure.
+=20
+ 2. Sending a Message
++
+    - **Function**: `mbox_send_message(struct mbox_chan *chan, void *msg)`
+    - **Description**: Sends a message through the mailbox channel.
+    - **Parameters**:
++
+      - `chan`: The mailbox channel used for communication.
+      - `msg`: Pointer to the message to be sent (usually NULL for dummy
+        messages).
++
+    - **Returns**: 0 on success, or a negative error code on failure.
+=20
+ 3. Transmitting Completion
++
+    - **Function**: `mbox_client_txdone(struct mbox_chan *chan, unsigned int
+      msg_id)`
+    - **Description**: Notifies the mailbox framework that message
+diff --git a/Documentation/driver-api/mailbox/core.rst b/Documentation/driv=
+er-api/mailbox/core.rst
+index 8d56d81007c11c..239538f497e41a 100644
+--- a/Documentation/driver-api/mailbox/core.rst
++++ b/Documentation/driver-api/mailbox/core.rst
+@@ -85,16 +85,20 @@ Data Structures
+ - **struct mbox_client**
+   This structure represents a client that communicates over a mailbox
+   channel. It holds information such as:
++
+   - A pointer to the device associated with the client (`dev`).
+   - Callback functions for handling message transmission events, including:
++
+     - `rx_callback`: Called when a message is received.
+     - `tx_done`: Called when a message transmission is acknowledged.
++
+   - Flags that specify the client=E2=80=99s configuration, such as whether=
+ it operates
+     in blocking mode.
+=20
+ - **struct mbox_chan**
+   This structure represents an individual mailbox channel. It maintains the
+   state required for message queuing and transmission. Key members include:
++
+   - `msg_data`: Array of messages queued for transmission.
+   - `msg_count`: Number of messages currently queued.
+   - `msg_free`: Index of the next free slot in the message queue.
+@@ -104,6 +108,7 @@ Data Structures
+ - **struct mbox_controller**
+   This structure represents a mailbox controller that manages multiple
+   channels. It includes:
++
+   - A pointer to the device managing the mailbox.
+   - Operations for sending and receiving messages, as well as initializing
+     and shutting down the mailbox.
+@@ -133,21 +138,20 @@ need to initialize a few fields in there:
+ - ``num_chans``: Number of channels in the `chans` array.
+=20
+ - ``txdone_irq``: Indicates if the controller can report to the API
+-  when the last transmitted data was read by the
+-                          remote (e.g., if it has a TX ACK interrupt).
++  when the last transmitted data was read by the remote (e.g., if it has a
++  TX ACK interrupt).
+=20
+ All the below fields are not mandatory.
+=20
+ - ``txdone_poll``: Indicates if the controller can read but not report
+-                          the TX done. For example, some register may show
+-                          the TX status, but no interrupt is raised. This
+-                          field is ignored if `txdone_irq` is set.
++  the TX done. For example, some register may show the TX status, but no
++  interrupt is raised. This field is ignored if `txdone_irq` is set.
+=20
+ - ``txpoll_period``: If `txdone_poll` is in effect, the API polls for
+-                          the last TX status after this many milliseconds.
++  the last TX status after this many milliseconds.
+=20
+ - ``of_xlate``: Controller driver-specific mapping of channel via
+-                          Device Tree (DT).
++  Device Tree (DT).
+=20
+=20
+ Key Functions
+diff --git a/Documentation/driver-api/mailbox/writing_mailbox_controller_dr=
+ivers.rst b/Documentation/driver-api/mailbox/writing_mailbox_controller_dri=
+vers.rst
+index 2a82645c13573e..853adf6918173d 100644
+--- a/Documentation/driver-api/mailbox/writing_mailbox_controller_drivers.r=
+st
++++ b/Documentation/driver-api/mailbox/writing_mailbox_controller_drivers.r=
+st
+@@ -21,6 +21,7 @@ As a bare minimum, a mailbox controller driver needs to c=
+all
+=20
+ A basic driver skeleton could look like this for a mailbox hardware that
+ has the following characteristics:
++
+ a. It supports only a single channel, i.e., only the remote processor can
+    send interrupts.
+ b. Data transfer is over the registers associated with mailbox hardware.
+@@ -168,6 +169,7 @@ e. As part of interrupt handling by Linux, it copies da=
+ta from the registers.
+    MODULE_DESCRIPTION("Dummy mailbox controller driver");
+=20
+ In the above code, a couple of things are done:
++
+ a. The controller is registered in the probe along with callbacks, which in
+    this case are the bare minimum: ``startup``, ``shutdown``, and
+    ``send_data``.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--9ovl80ZU3TO/MtmI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZxsSuQAKCRD2uYlJVVFO
+owksAQD1IsSSbnj/rK+9kLJs97jITGWsQX+Ly0vTOq6MUz2MgQEArxf/6sy86UIz
+ajdt6l+y3pYwhK+mk+HMjotgSm5/zQY=
+=W0ld
+-----END PGP SIGNATURE-----
+
+--9ovl80ZU3TO/MtmI--
