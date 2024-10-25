@@ -1,337 +1,301 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE49D1C878B
-	for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 23:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729897399; cv=none; b=ciHGJKhAOnOHXKdII0Sf+QTg5qwlp9J10PbY7dwkodeNWQaqfxT7y+vT+9PkiTcU4HKM03hg8h/JSOpHswgYaQUhifRN4SKvWCVfdBRa2RSECVFJzdt3uMUOTlXmZfSFn1yiu+/sEO35NgLelqTEtc5eDFQyLK8sq3M4QpOqQrk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729897399; c=relaxed/simple;
-	bh=1n92e5qucTrClmMA4lkb2KQhhRH6eXmFRl+YucexndY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t5VjQypx3PhersFKH6sio0D0vnT2yDpxQFUlCgvS8CVlMfFKP/phhMC2mr+iadwKUJG7L5S+c7B3+D0r+K7sPculGcSGV5VXAtRFXlSOdbcD5OWJqNZtIuQyYsTstTWkjmNep3RmPTm8otiP92lJKhHXAvU+JY1ss3U00VUGw14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bwrNrbjY; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A69C217F3D;
+	Fri, 25 Oct 2024 23:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.156.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729898614; cv=fail; b=OK+5jPuoGuhyjjt4Cil/UuZ+006PPbxk5QSHaDa1FioXqCNJ8N7FLRyKW9KsJDwOwQuT/xoFTa+3IR4gazsUbe9EIMHDWaoPfeIN3Edm0OPFhXSAbgEl0igHGhf5YStLOlcI282mLmGE+6uT1nZNu2NgXMknwoeb0rqWlRYdIXg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729898614; c=relaxed/simple;
+	bh=ZQ94RNxZ61Y1Oky/vfkE0q+BcF8kPbPvLrd21qOpKMk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ePW8mnNhAGnvq9fbHLEUxLqEdQaNmx2t6VJU6f4KPagTA1FOOaXlUYvi//I8X5rKuCjjvnHe0yabpdPmbS4r7uvGPXnItEPQHBQCwgUk6ja0dGiqsCtKiTTtQCVmyj7pLgt7amto9syRIa+bag9gCQvvWIkGNgcZLlhNeWju1cA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=GZawQgve; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=GuBeHrMn; dkim=fail (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=wQiMUF99 reason="signature verification failed"; arc=fail smtp.client-ip=148.163.156.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bwrNrbjY"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-460ad98b031so15186531cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 16:03:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729897396; x=1730502196; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2zskAXP+rp1Cj4qEAP8PdH9bkMBjIc5SfV8f9TuJPRs=;
-        b=bwrNrbjY4L9E64Figi2CpR0XF2rV0JsCtHCHVzIl5L3yOm49OEi7zIXTSQKv5ZsvS0
-         MItqV0Egib80rl89j/CoH7VylAJ6PIXJmJpDJWrBrSrBXHHf7Dc9dpxS2RmID6liBPAQ
-         s6stIsR8s9CNSUkJq+FZQ3bB72neoa4UjW4jKjwpszgPTfUAkMBzSWk0viFdZqoyymMX
-         L3GXXFd1F/oiIbGgxX+LTTRxN7mUq9nTJaknf0h9UaZPn9H8E3NvDaIR50h4qCGYUR1D
-         ZFdCWFZPwqQNm66X+0BBxmobdMxwcBP2rcQjXEJLto5hh5xUsUiTJZho0A2KDKZFCUfo
-         /vWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729897396; x=1730502196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2zskAXP+rp1Cj4qEAP8PdH9bkMBjIc5SfV8f9TuJPRs=;
-        b=uznwwaDQFAA7tcifRGYuuP4tpPCJ792TxU5uMPHvPQzX39GjWprVXAeg9udCvMZiF8
-         NiiVPWYzrGxVZ44LbtWQWBH6pjNilFLg3tyfoTP8dr730GhDG1RKtExRcloFoUdntbch
-         u4zuMnNVOrumo2GTh+Ci7ijvDCZSWtARz3IjdJQV/MxzgIOYa5nVLpJQSlyfkgXJqwYy
-         4kGeeK8EIuvT4ZmuHnoG9KTiLGrrMbIZi/mdpN4t1cDQjwjvPlRGfoJVu4gO89s0x3j1
-         pfBVdwHVkDFGedekdQ3ArgTzFhr+AIX05ej8f9hgQgRakq+zpDTm5a21ilIR9oZqAE6g
-         zw5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVNGd6d9VrGfUfzN8gf/tFIMcttX9q6CHNP8k/K62qwWMUjx31UJRDtWPtnlVPKyMJxvOAyebN3FI0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFiDjp/zCSc+qmV7K2Kp0n93AZMkRW6rpZbDLf1rSLzuopUUGG
-	mZfbNhtC6L1HDajz0W1W+jU1D553kD4wqy9ne34v7kKI+T1UeaZISzSAqnqy3stTsFV/ra+4lVM
-	15y5wHhkNdQbnX5vMR21T6+JIVavgxQPKsfU=
-X-Google-Smtp-Source: AGHT+IEdqj5wqJWCi878QGQ8x4qQhYer9BQYeBhP4y8WuSf6tsZDdJkVoVA79Xp0ob7Vt1crpkjOyfm5rBPUgBL/2QY=
-X-Received: by 2002:a05:622a:607:b0:460:ac8f:3bcd with SMTP id
- d75a77b69052e-4613c197bd7mr11490801cf.45.1729897395442; Fri, 25 Oct 2024
- 16:03:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="GZawQgve";
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="GuBeHrMn";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="wQiMUF99"
+Received: from pps.filterd (m0297266.ppops.net [127.0.0.1])
+	by mx0a-00230701.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49PIBgOg006540;
+	Fri, 25 Oct 2024 16:23:08 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
+	cc:content-id:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	pfptdkimsnps; bh=ZQ94RNxZ61Y1Oky/vfkE0q+BcF8kPbPvLrd21qOpKMk=; b=
+	GZawQgven7wHfjdQpKhM04TuXobRCGq3N68ZC+jbVJRxt0uEz27b8P/aDCCZ4+rX
+	XiVAQ0M3da16GD5EqIK06dxgO1B+NtUsxJo1kdZYAcRox9A1iLlFJmPNcv/hjvcx
+	K67kw2nj/lhePEc0NBQUEmDgZpr9eOfHPMZTdsS/n3hmnn/8Mk23DwHW1WKJfnAB
+	vmIxvvl/Mnqgz6PdxWWxrynGjdHduxj6UFQ6wMfvQHT9dNdVz8gu3yFguOSqBPEk
+	it7zxaAuE/rg+AonLpuef8rwgB2tVzYPt53D3FwGKV9pmdVcmmmew9SV9BWGb5jR
+	+zv3RYGpONzUkcA686d4gQ==
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 42f7gd6g7w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Oct 2024 16:23:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1729898587; bh=ZQ94RNxZ61Y1Oky/vfkE0q+BcF8kPbPvLrd21qOpKMk=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=GuBeHrMnmqT4OqxDGWx4UwYvO7DjUsUy1a9xPCTfJelXRaEprOBWTeNAoSYInMY3k
+	 TG6YW6Js7MIpPDymI+zzH8pYY/qMLSQQGM9XBQuWsCd4tEkemuBhOZtKO6sEBETncN
+	 XGNbWhPOSOnsOkoQyUi2lcJAjbc9mO3oGMcFheZwkng/scZS/BgvETZkqL3azZhaw7
+	 IClkLJGm3kYkSWgbqhR+mved18Hic+3yKMEKaD9Cyuwp6LGcZUvyzrzcxA+ctOyQyh
+	 BGypVcHV4F5RIVMVv3gWSt+pLhuJ3d3+2RncMp7N+MF9ne+ecb9N8Ajr6JVXVcK5zr
+	 oIUjC4/PHUeoQ==
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id B25534011D;
+	Fri, 25 Oct 2024 23:23:05 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (not verified))
+	by mailhost.synopsys.com (Postfix) with ESMTPS id F4174A00B0;
+	Fri, 25 Oct 2024 23:23:01 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=wQiMUF99;
+	dkim-atps=neutral
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2044.outbound.protection.outlook.com [104.47.70.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id E5F0640361;
+	Fri, 25 Oct 2024 23:22:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aa04YOz4x0MQKeX7R7Pzv8zez9Ncav0qt+OQwA7CJb8/AU1VgWkYDUmwhCNo0UiTRatNIW+qNj5A3AFZodAh+QOkUSgfFmeDYjlXuca9jtR2yyGzbRPpqyX8eviS1uMa7fRHpSdakoXF07FXNJbEDSHcEtdd4gzPdo0ASKjAitulo0UqwOjSNejFNLEBUvrD/O8AzsYmDDuRakL5ZbnmQaFmstwgMKQQ2lyHmzg70iFJy5JUt4nGjLBk8QIt/U0CPVWszxgXhJzaBw6Mw4o5QrE9JGXMcCsivZ2pKVAIHbZetsa3kuuFvmVFM2GimBsYqybLeBLz84nFcfHWW4umCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZQ94RNxZ61Y1Oky/vfkE0q+BcF8kPbPvLrd21qOpKMk=;
+ b=CMX/0WcL6WNfA6w7m5CFmTxYwLP/si+Eyv4r22yiJGrqnHpriOdmNGwOqaJVMfczZVJoJPS8tPOu7QNxhIod1pymg0K1L5b7YzFAt9Cpewyw/2/0Fh6TGJ9+6zddVTCfLvXsKzjgykSn8RpXqKqtFEgHtxxrUTttL66UENkxUqzrpbeLOed3Kz1EB5UT1vOkfOZB92+JFMjb/tlsxer5eTIxRIGCNFbBWVCbSp9bepPb6uPTSZFYJfojQrvXZ1dGoWAKP9xsF3FjedWMamihl4R6SvUJUO1piRvNyl87ZBCz6pBNq+f6KtGAD3Q8EoqOLDXlKsYRudm9I39XVtfmNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZQ94RNxZ61Y1Oky/vfkE0q+BcF8kPbPvLrd21qOpKMk=;
+ b=wQiMUF99PA2n6gvOkQnFlRDtzpcPMtgUj1A97dJpqSdMyNFe1M3SVBzA/gSCo2tIjuF4NeBBtynfpxiJER4aH1vp1f3wYUMUQ+k1s+LCd4n3X+Dglb3j0IOgup+JXW4PaaDyVvvZ/H/em2UL3wWi27wdPcdAhotqSCWBhB2IiAU=
+Received: from LV2PR12MB5990.namprd12.prod.outlook.com (2603:10b6:408:170::16)
+ by MW6PR12MB8661.namprd12.prod.outlook.com (2603:10b6:303:23f::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.16; Fri, 25 Oct
+ 2024 23:22:54 +0000
+Received: from LV2PR12MB5990.namprd12.prod.outlook.com
+ ([fe80::3d09:f15f:d888:33a8]) by LV2PR12MB5990.namprd12.prod.outlook.com
+ ([fe80::3d09:f15f:d888:33a8%4]) with mapi id 15.20.8093.018; Fri, 25 Oct 2024
+ 23:22:54 +0000
+X-SNPS-Relay: synopsys.com
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+CC: "srinivas.kandagatla@linaro.org" <srinivas.kandagatla@linaro.org>,
+        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
+        "perex@perex.cz" <perex@perex.cz>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "tiwai@suse.com" <tiwai@suse.com>,
+        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+        "pierre-louis.bossart@linux.intel.com" <pierre-louis.bossart@linux.intel.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "bgoswami@quicinc.com" <bgoswami@quicinc.com>,
+        "robh@kernel.org" <robh@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v29 04/33] xhci: sideband: add initial api to register a
+ sideband entity
+Thread-Topic: [PATCH v29 04/33] xhci: sideband: add initial api to register a
+ sideband entity
+Thread-Index: AQHbH0lrpTSeH/vJGU2NOadsl7aParKYKw0A
+Date: Fri, 25 Oct 2024 23:22:54 +0000
+Message-ID: <20241025232252.wsk4lviqzyzqjzuh@synopsys.com>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+ <20241015212915.1206789-5-quic_wcheng@quicinc.com>
+In-Reply-To: <20241015212915.1206789-5-quic_wcheng@quicinc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV2PR12MB5990:EE_|MW6PR12MB8661:EE_
+x-ms-office365-filtering-correlation-id: fb4719d3-9aaa-483d-a0c1-08dcf54bf3ec
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|7416014|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?dDlxR2tNWHkwK3RmdTBRV0FIUlFwSzN2VXdvSS9nd09wSklNNzVvWWRWM3Rl?=
+ =?utf-8?B?MW1lOXNvQ3FQdTV2L0hFNkxWUWg5ZUd3TXlENWlQSmVsdW4yYUhFWlhYcWVF?=
+ =?utf-8?B?ZTlDak5ZQ0h5TVNjYzNMRnNPMEZlRTltdXNKL1BUQThFeDRNSyt3Y2xrdjc1?=
+ =?utf-8?B?cDVmN0tsZGxYMGNJU2prWGxUUzlVdi9uS0dkZGFQc0llYUtzS2dwODFqQkpT?=
+ =?utf-8?B?TncvUTdIaHpYQmdXUEsrTS9wUTZvWnJuN3BPUVdDTTZpSmpNN1NrTkJhcHBZ?=
+ =?utf-8?B?OVhiL1lFZTNiOE1GMVpVekRUVkxPMWpZbmxQRDdXSkF4UUVPMnowaFJ0djky?=
+ =?utf-8?B?ZzU3UENRRUJTNzFmc2RFOUhNNWRzVzg0ZXhGcExDYW92Q1dKRGdneHlhRS9W?=
+ =?utf-8?B?RUlIT3VIM25FMFkrTGpxZERTeFR2NjNkd2htd20wWWZnY0FBaTZSaUNpazNs?=
+ =?utf-8?B?ak4rTldncDhXUEY5V1RhQjlQOXdScC8xV2ZMYi9iZzM5K29pcWdWdDQ0TktX?=
+ =?utf-8?B?RXdxY1VReUd3L3d0RFBQWXJZMmpFR1FNZFViRjdhNFc3MEIwSk1LTFBJMTds?=
+ =?utf-8?B?ZklhaXI4c0xFRWloaTZhcFU3Y0tVdzd5cEZqNU1SR2FEZHFHYjFObVZoWGRw?=
+ =?utf-8?B?aHcyOUg4K0JLNnFBRnZMWWhqWTZxSU1NbmlMSUR4WWRPTEJzYjB6bW40Ti9h?=
+ =?utf-8?B?YTZlWnZFeElzMWZCWjB3cDBOYWlBNG5OSlpueHA1Qnljc2F2MmFac1JMWUla?=
+ =?utf-8?B?bVpvMHpORlllRksxTkxDenNKMlg4alFyaXVFUVRLak9ZTG1SNTFXTEVIMzVx?=
+ =?utf-8?B?WFV6TzVaLysxNEZOdjcyY3ZMUi9INmtYTjRtNzVmb053UFdmend3WUdUd1B0?=
+ =?utf-8?B?TmVnMXEzQTlnbjl2ckxuc0hna0U3MFdRTmY0eFFiNStJc0VrdnZlUnI1elM4?=
+ =?utf-8?B?c3ZuMFAwYnFka3VqaVdjWXNOMkZFOHJEbUVuS1oxUHVhT3RLYlN0cjRHeEda?=
+ =?utf-8?B?eHhWdEh6aWcxQWVXeW5aQjVuRWhHLzJJSFI3c2FaVEMzYmNhMVNTOG11elY4?=
+ =?utf-8?B?QlU1VlF4ZC8rTENrampDY2ZTMjFQNFhKZUVpek5wVE9Ia0lIUDdRTS9TWXIw?=
+ =?utf-8?B?Z0tpZHZQeDNQOUM1Y28yZHkxZzVxTHdoVkdDUDVaZkpoMk96cHR1ZmNlWjVR?=
+ =?utf-8?B?U2xWdURaZHFtZEd6OUc5M2p4SWs3TnY3ZzRaRnIwcUs5R3MzSTJURzJrQmIv?=
+ =?utf-8?B?UXRObFVOR3NVQS9lTEdVMjArQXBUZ2VVMC8wM3ZObXB6SExJbkkxOU90RWgv?=
+ =?utf-8?B?WmtnL1VtbVJ6WHNXVUpIVWNZK0JyZTdZbzV4WklyWTZhTUIrUDdZU2VqRXd4?=
+ =?utf-8?B?TFRWZzQ4aEd6cW56QzdNWU5qQUdiU2RHdThDV211MWJyNmp5MG5PYUYxbVdn?=
+ =?utf-8?B?WkVydG92WTZFRDBIY2pjcTh5Nkk3OEU5UTRPdlJONTd5enFWSFJsUm12OXRm?=
+ =?utf-8?B?V3dDeDA5WkpjUzgxU2ovZGJ5c2l3bTdSbHcvaDBoMjZLaXdhdE9lTjZNaWhq?=
+ =?utf-8?B?SjFlRG5mYzVId1gzSnpmTHdXaWZsYzBYVGplM1dCRnJqMnhPR3VIYWNiUkNO?=
+ =?utf-8?B?TkN1aG4zdHJSTEZ1bDlWSllxbXR3UUxjbk44djFReWJiUTljMS9FSml0dzlC?=
+ =?utf-8?B?bUZhOGVINk1mdXNBVCt4TVZIVEsxZnVDTnR6UHM5bjdDdTFZYU4zWmdSK0tP?=
+ =?utf-8?B?OTBPN0hvYXFQazI0cnVXWFRVRFpwcm1VVndINVdYR3lGVHl0K1ZQb0xFaWMv?=
+ =?utf-8?Q?tWTnaWdnFAWKXaFvUTRrfkjXEwhNsySMSA8KY=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Q0hDRy9YTXh4d2RSa2pQbTBBb1E3TVllNUU2d0crTWdKUDJWSGppOXJqQlRR?=
+ =?utf-8?B?TDd6eDlHSjVQL2pqb2phQmk0cklqRGtLclJYTkdWS1BEVldIMU1sNS9Od3FU?=
+ =?utf-8?B?SkQ5SWxNeVBCTGZQSWNWeFlsRlVCYVJpY0dXdWs2dUNGeTczd0FOa0dJVjhz?=
+ =?utf-8?B?U1l5bWx1L09lQzNCd2JpMHk5dGt1MWNZcVFzM2NYWHZTcGtWc1NsaFZDSlFz?=
+ =?utf-8?B?Ymw2R3B3K1pXcUdBSDlLOE0wREwxaVRSTUlqaythWVZZQ0dVdmJuVldhbCtj?=
+ =?utf-8?B?TnBnQjBzdmhpSzlnc0xIT01MRkc4NitCUmM5N3hFeEtpRFd0RGhzTFhwaFNv?=
+ =?utf-8?B?QzNZR0NSVEZ5N0hQbXoxRE1hWDd0NXAvai9ra1N5VlpiczlkSDNTSGkvNC9t?=
+ =?utf-8?B?ZFBQR2YwaTVTclN6M2tQZmZuRUE5RDhsblZtOVp5YnBLaEhGWDFEbXpsQmo2?=
+ =?utf-8?B?UlZOZjdzTzkrbjRGQjZWSlFzR2JzS2FUSjdMdmF1eisvbDBDN3FlSVJQTlpI?=
+ =?utf-8?B?YmFaOVBkb2NGUGZnTTlFbk5zK011RmJDOHgzVXN1cUVDVUVIL2pKL01Bcmxz?=
+ =?utf-8?B?UlhVL1NHUCs0MHdTaUZrY2hBWFhpM3FQZWwrZmkrZS9KR2lIRUE4MktaakhY?=
+ =?utf-8?B?YlYwcmRaU0VjNjV4czNKaE8rN2R3NGp6WmFoYVduQmc1RDU0WnBybWhiYjFO?=
+ =?utf-8?B?TTl5SkljOXlvbFhZaXpjOC9aWGtUVVN0V1I2U1lyNnBUQ2sydUtTcFNSUGRz?=
+ =?utf-8?B?RVBuZzl2VW02MDNsRWxLekVSSWdJdHlOVUdOdDc5M3gyZlZRSWdRbGNXazVq?=
+ =?utf-8?B?WUVoTXduMXJCZ2J5QXdHUWJ3WEpJMk1MNG00NXpySWZ4dERHODgrOFg2RVdj?=
+ =?utf-8?B?allXdGF4YWVpcFd6cmZyTzRGL04vMWg5T1pNLy9XSXFUY1h4eHJtZlBrZHFs?=
+ =?utf-8?B?cytxelZKODk4Nk1QbXZuRGloV2FMaG1TNEE1eWhXUXFwL0dtM3hKQmJNSHdH?=
+ =?utf-8?B?RE1Gem82TGgwd0dWU0tYNGxERk96eHlGZlNGdkdpb1ZCdU5ZTG1NYWlBY2w1?=
+ =?utf-8?B?OUpUMSsyci82RW5Sa095NjlGNXgrTXRsZEp1MWcwOExoVk9mR0plTVBRYVRS?=
+ =?utf-8?B?V3A0ZnVWQkNuLzQzNkszdGhLRFQ0Y1kwM21WOG9tMldPT21wOWVDQSt0MFM3?=
+ =?utf-8?B?UE43VjY0WEo3Ky9pMjQ0cFZKNmFaTmNDSXBNWnJSQ2ZWa3JubXEwWnpZNERQ?=
+ =?utf-8?B?SmljWUZKaG1NRGZBak5pcnIzV3VMMUpUMFNlV2pKSDQ4Q3BaNEozNTdxOGN0?=
+ =?utf-8?B?dFRScWR5aDkwZDZaclBEaHcyTkpNKzBrVVM2Uy9xZUVpUWl3NUgwbzk3SVlv?=
+ =?utf-8?B?bkxxS1Z4OS9lczZyZG0yZVBQU1NVVjdnVlRLeDdxL0k4TTgrRTNXMUpvR0xk?=
+ =?utf-8?B?NTYvZytpU1UzWXl4RVVRUUZmbkxZckxMQWFBOGJhNDB1amdObHBBeXlWeW1z?=
+ =?utf-8?B?OWp4TG5EZ3AveTJ3b0U0YkZjMUdmL0Z0b3pFRkpRVEo5eE0zZ3crU1dkckFW?=
+ =?utf-8?B?QXE1Zm5mdWtldFJMQ2VVbisrTnJ6OXo2KzN0ZVhlcUNtR0lEWUhkbzZzS0xr?=
+ =?utf-8?B?MXhhYUxCazJtVjRLNGd4cXRPYnY4SmVEd1h6M2FxcFBCb213Q0NBNVdmenlJ?=
+ =?utf-8?B?Tmx0TUlrRnhJd3NBN0R0SEpvMFJRVjFiVkdveXpvbUxDZXdtSjJ2VTBtaDdz?=
+ =?utf-8?B?YklEK1VkeXpjTlB4cks1NVJzci9PS2p5TTRLUVlCSjc4OFNHQzRSY05iQzRq?=
+ =?utf-8?B?aHlaVldNSDRFcTRMNEd4L3NreUxWZVZtdWRPOG9rSVRwVGx6SjdRa1VMaGpH?=
+ =?utf-8?B?RlExUFprTUNlUkpOQmtseUMxMkxZenFpUW5WWmdrNVE4d1U2NHV0VjVNcTRt?=
+ =?utf-8?B?WmxoQy9lU1RZU3pmenMyNnR5VG12TkxSbnB6M1ROUmZNTWhEa0l6MG4vRkZj?=
+ =?utf-8?B?MGdGRUw3SWdzU1pCT0JxZ2lQcjB0c3BwdHpmeFVhdFlqTHNYbDY1OEMzTENL?=
+ =?utf-8?B?NzgwZkF3TDZvU3J2K1BadWI3WGxIYWVCcFFtcWpJN3V1NzQ3UXBtZ1NEQVU1?=
+ =?utf-8?Q?luxAven9REGYnZKd0AhGu3etg?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <067575CA1055E44E9A82F91D59063C65@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241023224409.201771-1-xur@google.com>
-In-Reply-To: <20241023224409.201771-1-xur@google.com>
-From: Yabin Cui <yabinc@google.com>
-Date: Fri, 25 Oct 2024 16:03:02 -0700
-Message-ID: <CALJ9ZPPtdFbQntb46LHnRCOn7DC5MdPXgTgVTzXWfCW68dSdsA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] Add AutoFDO and Propeller support for Clang build
-To: Rong Xu <xur@google.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
-	workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	Maksim Panchenko <max4bolt@gmail.com>, Yonghong Song <yonghong.song@linux.dev>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	0zxWphVP0/eJKON1M4Q50hRraoQ0plWXqNiZDFMu5A2bZ5ZXjks5ibePqaY+LdbfFmSIxru/4IM+zzbuc+WUBgxiQZn+9g1BCEBM8RinDhEaJAlC8HDPEQMDTkx3GiZ1M5xlV2NGZd9VoF+JShP2U16J5JWBgyOZCiz6MnPu4oRfIewySLMOgJHHV+m6VG8O5JspXcc2T1das1DKNix93B6gGbEzANQWcztrQB2uy4BsBxif01Mx1PnKNK9ucbomHhVHDfTK48pFvYL7ed1t4n2DqBDlNckt1SVy8+9/BHZXMjsxVR0qACakto9PCQmuVxiVizmm9gpuVJaICozjpE+mQoXspFF7xyrk/+twST0sNvTnUDSB2ZUKJgChaAkyj+YxsT9yFOQwHqdajDxL9XsL0lId1vQITYG7ggjCxhnbOCnZo7OHnROA3TDUK6MVgUty13m454HbA7Q1Lnq/0ytJqwsBbTPKM3Ee7gxMDjWm8mlnbr/GBm6Zu0q4ejKD6b6ypsuIF9To2ouCLfrj/+uTwdEbkWbRSIvrCtknTRvbUl3mZpbPrz3+SyQcJe8dpx55wo8DwokgrP0OqrQlT29/sLnBhcBCrbWN2+3X8i61nm2WL4+UlNkDEsxnlf2o7PDpHtBCOfShc8Ua7nJPwg==
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb4719d3-9aaa-483d-a0c1-08dcf54bf3ec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2024 23:22:54.2979
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: So6GzWwiUSLL5g2QMf94AAvdKWpyFA+0u+FIBrrXd7iks3HmmKFWK64KsGfdSyYf9VqfDCwHhof94Vj4ZNyZFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8661
+X-Proofpoint-GUID: OmLBWiJx0FZkGUfnpjls4sEUiS7EO_Lk
+X-Authority-Analysis: v=2.4 cv=Q7SA4J2a c=1 sm=1 tr=0 ts=671c285b cx=c_pps a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=nEwiWwFL_bsA:10
+ a=qPHU084jO2kA:10 a=QyXUC8HyAAAA:8 a=COk6AnOGAAAA:8 a=q6aP7AxYoyHK9P-uW1QA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: OmLBWiJx0FZkGUfnpjls4sEUiS7EO_Lk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam policy=outbound_active_cloned score=0
+ malwarescore=0 mlxscore=0 phishscore=0 mlxlogscore=855 priorityscore=1501
+ bulkscore=0 spamscore=0 impostorscore=0 clxscore=1011 adultscore=0
+ suspectscore=0 lowpriorityscore=0 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2410250181
 
-Hi Rong,
-
-I tested this patchset on the android-mainline kernel branch (closely track=
-ing
-the Linux mainline branch) using the latest Clang compiler with an AutoFDO
-profile. It passed all presubmit tests, including boot and local tests, and
-the AutoFDO profile yielded performance improvements across various benchma=
-rks.
-
-Tested-by: Yabin Cui <yabinc@google.com>
-
-Thanks,
-Yabin
-
-
-On Wed, Oct 23, 2024 at 3:44=E2=80=AFPM Rong Xu <xur@google.com> wrote:
->
-> Hi,
->
-> This patch series is to integrate AutoFDO and Propeller support into
-> the Linux kernel. AutoFDO is a profile-guided optimization technique
-> that leverages hardware sampling to enhance binary performance.
-> Unlike Instrumentation-based FDO (iFDO), AutoFDO offers a user-friendly
-> and straightforward application process. While iFDO generally yields
-> superior profile quality and performance, our findings reveal that
-> AutoFDO achieves remarkable effectiveness, bringing performance close
-> to iFDO for benchmark applications.
->
-> Propeller is a profile-guided, post-link optimizer that improves
-> the performance of large-scale applications compiled with LLVM. It
-> operates by relinking the binary based on an additional round of runtime
-> profiles, enabling precise optimizations that are not possible at
-> compile time.  Similar to AutoFDO, Propeller too utilizes hardware
-> sampling to collect profiles and apply post-link optimizations to improve
-> the benchmark=E2=80=99s performance over and above AutoFDO.
->
-> Our empirical data demonstrates significant performance improvements
-> with AutoFDO and Propeller, up to 10% on microbenchmarks and up to 5%
-> on large warehouse-scale benchmarks. This makes a strong case for their
-> inclusion as supported features in the upstream kernel.
->
-> Background
->
-> A significant fraction of fleet processing cycles (excluding idle time)
-> from data center workloads are attributable to the kernel. Ware-house
-> scale workloads maximize performance by optimizing the production kernel
-> using iFDO (a.k.a instrumented PGO, Profile Guided Optimization).
->
-> iFDO can significantly enhance application performance but its use
-> within the kernel has raised concerns. AutoFDO is a variant of FDO that
-> uses the hardware=E2=80=99s Performance Monitoring Unit (PMU) to collect
-> profiling data. While AutoFDO typically yields smaller performance
-> gains than iFDO, it presents unique benefits for optimizing kernels.
->
-> AutoFDO eliminates the need for instrumented kernels, allowing a single
-> optimized kernel to serve both execution and profile collection. It also
-> minimizes slowdown during profile collection, potentially yielding
-> higher-fidelity profiling, especially for time-sensitive code, compared
-> to iFDO. Additionally, AutoFDO profiles can be obtained from production
-> environments via the hardware=E2=80=99s PMU whereas iFDO profiles require
-> carefully curated load tests that are representative of real-world
-> traffic.
->
-> AutoFDO facilitates profile collection across diverse targets.
-> Preliminary studies indicate significant variation in kernel hot spots
-> within Google=E2=80=99s infrastructure, suggesting potential performance =
-gains
-> through target-specific kernel customization.
->
-> Furthermore, other advanced compiler optimization techniques, including
-> ThinLTO and Propeller can be stacked on top of AutoFDO, similar to iFDO.
-> ThinLTO achieves better runtime performance through whole-program
-> analysis and cross module optimizations. The main difference between
-> traditional LTO and ThinLTO is that the latter is scalable in time and
-> memory.
->
-> This patch series adds AutoFDO and Propeller support to the kernel. The
-> actual solution comes in six parts:
->
-> [P 1] Add the build support for using AutoFDO in Clang
->
->       Add the basic support for AutoFDO build and provide the
->       instructions for using AutoFDO.
->
-> [P 2] Fix objtool for bogus warnings when -ffunction-sections is enabled
->
-> [P 3] Change the subsection ordering when -ffunction-sections is enabled
->
-> [P 4] Add markers for text_unlikely and text_hot sections
->
-> [P 5] Enable =E2=80=93ffunction-sections for the AutoFDO build
->
-> [P 6] Enable Machine Function Split (MFS) optimization for AutoFDO
->
-> [P 7] Add Propeller configuration to the kernel build
->
-> Patch 1 provides basic AutoFDO build support. Patches 2 to 6 further
-> enhance the performance of AutoFDO builds and are functionally dependent
-> on Patch 1. Patch 7 enables support for Propeller and is dependent on
-> patch 2 to patch 4.
->
-> Caveats
->
-> AutoFDO is compatible with both GCC and Clang, but the patches in this
-> series are exclusively applicable to LLVM 17 or newer for AutoFDO and
-> LLVM 19 or newer for Propeller. For profile conversion, two different
-> tools could be used, llvm_profgen or create_llvm_prof. llvm_profgen
-> needs to be the LLVM 19 or newer, or just the LLVM trunk. Alternatively,
-> create_llvm_prof v0.30.1 or newer can be used instead of llvm-profgen.
->
-> Additionally, the build is only supported on x86 platforms equipped
-> with PMU capabilities, such as LBR on Intel machines. More
-> specifically:
->  * Intel platforms: works on every platform that supports LBR;
->    we have tested on Skylake.
->  * AMD platforms: tested on AMD Zen3 with the BRS feature. The kernel
->    needs to be configured with =E2=80=9CCONFIG_PERF_EVENTS_AMD_BRS=3Dy", =
-To
->    check, use
->    $ cat /proc/cpuinfo | grep =E2=80=9C brs=E2=80=9D
->    For the AMD Zen4, AMD LBRV2 is supported, but we suspect a bug with
->    AMD LBRv2 implementation in Genoa which blocks the usage.
->
-> For ARM, we plan to send patches for SPE-based Propeller when
-> AutoFDO for Arm is ready.
->
-> Experiments and Results
->
-> Experiments were conducted to compare the performance of AutoFDO-optimize=
-d
-> kernel images (version 6.9.x) against default builds.. The evaluation
-> encompassed both open source microbenchmarks and real-world production
-> services from Google and Meta. The selected microbenchmarks included Nepe=
-r,
-> a network subsystem benchmark, and UnixBench which is a comprehensive sui=
-te
-> for assessing various kernel operations.
->
-> For Neper, AutoFDO optimization resulted in a 6.1% increase in throughput
-> and a 10.6% reduction in latency. UnixBench saw a 2.2% improvement in its
-> index score under low system load and a 2.6% improvement under high syste=
-m
-> load.
->
-> For further details on the improvements observed in Google and Meta's
-> production services, please refer to the LLVM discourse post:
-> https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autofdo-inc=
-luding-thinlto-and-propeller/79108
->
-> Thanks,
->
-> Rong Xu and Han Shen
->
-> Change-Logs in V2:
-> Rebased to commit e32cde8d2bd7 ("Merge tag 'sched_ext-for-6.12-rc1-fixes-=
-1'
-> of git://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext")
->
-> 1. [P 0]: moved the Propeller description to the top (Peter Zijlstra)
-> 2. [P 1]: (1) Makefile: fixed file order (Masahiro Yamada)
->           (2) scripts/Makefile.lib: used is-kernel-object to exclude
->               files (Masahiro Yamada)
->           (3) scripts/Makefile.autofdo: improved the code (Masahiro Yamad=
-a)
->           (4) scripts/Makefile.autofdo: handled when DEBUG_INFO disabled
->               (Nick Desaulniers)
-> 3. [P 2]: tools/objtool/elf.c: updated the comments (Peter Zijlstra)
-> 4. [P 3]: include/asm-generic/vmlinux.lds.h:
->           (1) explicit set cold text function aligned (Peter Zijlstra and
->               Peter Anvin)
->           (2) set hot-text page aligned
-> 5. [P 6]: (1) include/asm-generic/vmlinux.lds.h: made Propeller not
->               depending on AutoFDO
->           (2) Makefile: fixed file order (Masahiro Yamada)
->           (3) scripts/Makefile.lib: used is-kernel-object to exclude
->               files (Masahiro Yamada). This removed the change in
->               arch/x86/platform/efi/Makefile,
->               drivers/firmware/efi/libstub/Makefile, and
->               arch/x86/boot/compressed/Makefile.
->               And this also addressed the comment from Arnd Bergmann
->               regarding arch/x86/purgatory/Makefile
->           (4) scripts/Makefile.propeller: improved the code
->               (Masahiro Yamada)
->
-> Change-Logs in V3:
-> Rebased to commit eb952c47d154 ("Merge tag 'for-6.12-rc2-tag' of
-> git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux")
->
-> Integrated the following changes suggested by Mike Rapoport.
-> 1. [P 1]: autofdo.rst: removed code-block directives and used "::"
-> 2. [P 6]: propeller.rst: removed code-block directives and use "::"
->
-> Change-Logs in V4:
-> 1. [P 1]: autofdo.rst: fixed a typo for create_llvm_prof command.
->
-> Change-Logs in V5:
-> Added "Tested-by: Yonghong Song <yonghong.song@linux.dev>" to all patches=
-.
->
-> Integrated the following changes suggested by Masahiro Yamada.
-> 1. [P 0]: (1) moved ARM related remark from patch 6 to here
-> 2. [P 1]: (1) autofdo.rst: improved the documentation
->           (2) scripts/Makefile.autofdo: improved comments and used ifdef
->               instead of ifeq
-> 3. [P 3]: Make the layout change unconditionally
-> 4. [P 4]: Split the patch into two: this patch only added the markers, an=
-d
->           the AutoFDO change went to the new [P 5]
-> 5. [P 7]: (1) propeller.rst: improved the documentation
->           (2) scripts/Makefile.propeller: improved comments and used ifde=
-f
->               instead of ifeq
->           (3) arch/Kconfig: made Propeller build independent of AutoFDO
->               build
->           (4) moved ARM related remarks to the cover letter
->
-> Rong Xu (7):
->   Add AutoFDO support for Clang build
->   objtool: Fix unreachable instruction warnings for weak functions
->   Change the symbols order when --ffunction-sections is enabled
->   Add markers for text_unlikely and text_hot sections
->   AutoFDO: Enable -ffunction-sections for the AutoFDO build
->   AutoFDO: Enable machine function split optimization for AutoFDO
->   Add Propeller configuration for kernel build
->
->  Documentation/dev-tools/autofdo.rst   | 167 ++++++++++++++++++++++++++
->  Documentation/dev-tools/index.rst     |   2 +
->  Documentation/dev-tools/propeller.rst | 162 +++++++++++++++++++++++++
->  MAINTAINERS                           |  14 +++
->  Makefile                              |   2 +
->  arch/Kconfig                          |  39 ++++++
->  arch/x86/Kconfig                      |   2 +
->  arch/x86/kernel/vmlinux.lds.S         |   4 +
->  include/asm-generic/vmlinux.lds.h     |  49 ++++++--
->  scripts/Makefile.autofdo              |  24 ++++
->  scripts/Makefile.lib                  |  20 +++
->  scripts/Makefile.propeller            |  28 +++++
->  tools/objtool/check.c                 |   2 +
->  tools/objtool/elf.c                   |  15 ++-
->  14 files changed, 514 insertions(+), 16 deletions(-)
->  create mode 100644 Documentation/dev-tools/autofdo.rst
->  create mode 100644 Documentation/dev-tools/propeller.rst
->  create mode 100644 scripts/Makefile.autofdo
->  create mode 100644 scripts/Makefile.propeller
->
->
-> base-commit: eb952c47d154ba2aac794b99c66c3c45eb4cc4ec
-> --
-> 2.47.0.105.g07ac214952-goog
->
+SGksDQoNCk9uIFR1ZSwgT2N0IDE1LCAyMDI0LCBXZXNsZXkgQ2hlbmcgd3JvdGU6DQo+IEZyb206
+IE1hdGhpYXMgTnltYW4gPG1hdGhpYXMubnltYW5AbGludXguaW50ZWwuY29tPg0KPiANCj4gSW50
+cm9kdWNlIFhIQ0kgc2lkZWJhbmQsIHdoaWNoIG1hbmFnZXMgdGhlIFVTQiBlbmRwb2ludHMgYmVp
+bmcgcmVxdWVzdGVkIGJ5DQo+IGEgY2xpZW50IGRyaXZlci4gIFRoaXMgaXMgdXNlZCBmb3Igd2hl
+biBjbGllbnQgZHJpdmVycyBhcmUgYXR0ZW1wdGluZyB0bw0KPiBvZmZsb2FkIFVTQiBlbmRwb2lu
+dHMgdG8gYW5vdGhlciBlbnRpdHkgZm9yIGhhbmRsaW5nIFVTQiB0cmFuc2ZlcnMuICBYSENJDQo+
+IHNpZGViYW5kIHdpbGwgYWxsb3cgZm9yIGRyaXZlcnMgdG8gZmV0Y2ggdGhlIHJlcXVpcmVkIGlu
+Zm9ybWF0aW9uIGFib3V0IHRoZQ0KPiB0cmFuc2ZlciByaW5nLCBzbyB0aGUgdXNlciBjYW4gc3Vi
+bWl0IHRyYW5zZmVycyBpbmRlcGVuZGVudGx5LiAgRXhwb3NlIHRoZQ0KPiByZXF1aXJlZCBBUElz
+IGZvciBkcml2ZXJzIHRvIHJlZ2lzdGVyIGFuZCByZXF1ZXN0IGZvciBhIFVTQiBlbmRwb2ludCBh
+bmQgdG8NCj4gbWFuYWdlIFhIQ0kgc2Vjb25kYXJ5IGludGVycnVwdGVycy4NCj4gDQo+IE11bHRp
+cGxlIHJpbmcgc2VnbWVudCBwYWdlIGxpbmtpbmcsIHByb3BlciBlbmRwb2ludCBjbGVhbiB1cCwg
+YW5kIGFsbG93aW5nDQo+IG1vZHVsZSBjb21waWxhdGlvbiBhZGRlZCBieSBXZXNsZXkgQ2hlbmcg
+dG8gY29tcGxldGUgb3JpZ2luYWwgY29uY2VwdCBjb2RlDQo+IGJ5IE1hdGhpYXMgTnltYW4uDQo+
+IA0KPiBTaWduZWQtb2ZmLWJ5OiBNYXRoaWFzIE55bWFuIDxtYXRoaWFzLm55bWFuQGxpbnV4Lmlu
+dGVsLmNvbT4NCj4gQ28tZGV2ZWxvcGVkLWJ5OiBXZXNsZXkgQ2hlbmcgPHF1aWNfd2NoZW5nQHF1
+aWNpbmMuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBXZXNsZXkgQ2hlbmcgPHF1aWNfd2NoZW5nQHF1
+aWNpbmMuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvdXNiL2hvc3QvS2NvbmZpZyAgICAgICAgICB8
+ICAgOSArDQo+ICBkcml2ZXJzL3VzYi9ob3N0L01ha2VmaWxlICAgICAgICAgfCAgIDIgKw0KPiAg
+ZHJpdmVycy91c2IvaG9zdC94aGNpLXNpZGViYW5kLmMgIHwgNDI0ICsrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKw0KPiAgZHJpdmVycy91c2IvaG9zdC94aGNpLmggICAgICAgICAgIHwgICA0
+ICsNCj4gIGluY2x1ZGUvbGludXgvdXNiL3hoY2ktc2lkZWJhbmQuaCB8ICA3MCArKysrKw0KPiAg
+NSBmaWxlcyBjaGFuZ2VkLCA1MDkgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvdXNiL2hvc3QveGhjaS1zaWRlYmFuZC5jDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQg
+aW5jbHVkZS9saW51eC91c2IveGhjaS1zaWRlYmFuZC5oDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy91c2IvaG9zdC9LY29uZmlnIGIvZHJpdmVycy91c2IvaG9zdC9LY29uZmlnDQo+IGluZGV4
+IDQ0NDhkMGFiMDZmMC4uOTY2NTllZmE0YmU1IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3VzYi9o
+b3N0L0tjb25maWcNCj4gKysrIGIvZHJpdmVycy91c2IvaG9zdC9LY29uZmlnDQo+IEBAIC0xMDQs
+NiArMTA0LDE1IEBAIGNvbmZpZyBVU0JfWEhDSV9SWlYyTQ0KPiAgCSAgU2F5ICdZJyB0byBlbmFi
+bGUgdGhlIHN1cHBvcnQgZm9yIHRoZSB4SENJIGhvc3QgY29udHJvbGxlcg0KPiAgCSAgZm91bmQg
+aW4gUmVuZXNhcyBSWi9WMk0gU29DLg0KPiAgDQo+ICtjb25maWcgVVNCX1hIQ0lfU0lERUJBTkQN
+Cj4gKwl0cmlzdGF0ZSAieEhDSSBzdXBwb3J0IGZvciBzaWRlYmFuZCINCj4gKwloZWxwDQo+ICsJ
+ICBTYXkgJ1knIHRvIGVuYWJsZSB0aGUgc3VwcG9ydCBmb3IgdGhlIHhIQ0kgc2lkZWJhbmQgY2Fw
+YWJpbGl0eS4NCj4gKwkgIFByb3ZpZGUgYSBtZWNoYW5pc20gZm9yIGEgc2lkZWJhbmQgZGF0YXBh
+dGggZm9yIHBheWxvYWQgYXNzb2NpYXRlZA0KDQpQbGVhc2UgY29ycmVjdCBtZSBpZiBJJ20gd3Jv
+bmcsIGJ1dCB0aGlzIGRvZXNuJ3QgbG9vayBsaWtlIHRoZSBhY3R1YWwNCnhIQ0kgQXVkaW8gU2lk
+ZWJhbmQgY2FwYWJpbGl0eSBkZXNjcmliZWQgaW4gdGhlIHhIQ0kgc3BlYyBzZWN0aW9uIDcuOQ0K
+YnV0IHJhdGhlciBhIHNwZWNpZmljIGltcGxlbWVudGF0aW9uIGZvciBRY29tIHJpZ2h0PyBGb3Ig
+dGhlIHhIQ0kgQXVkaW8NClNpZGViYW5kIHhIQ0kgY2FwYWJpbGl0eSwgdGhlIGRyaXZlciBzaG91
+bGQgZGV0ZWN0IHRoaXMgY2FwYWJpbGl0eQ0KdGhyb3VnaCB0aGUgeEhDSSBnZXQgZXh0ZW5kZWQg
+Y2FwYWJpbGl0eS4gSWYgdGhpcyBpcyBub3QgeEhDSSBBdWRpbw0KU2lkZWJhbmQgY2FwYWJpbGl0
+eSwgd2Ugc2hvdWxkIHByb3Blcmx5IGNsYXJpZnkgdGhpcyBpbiB0aGUNCmRvY3VtZW50YXRpb24g
+YW5kIHRoZSBuYW1pbmcgb2YgdGhpbmdzIHRvIGF2b2lkIGFueSBjb25mdXNpb24uDQoNCkkgYmVs
+aWV2ZSB5b3VyIGltcGxlbWVudGF0aW9uIHN0aWxsIG5lZWRzIHRvIHByb3ZpZGUgdGhlIGRhdGEg
+dG8gdGhlDQpob3N0IGNvbnRyb2xsZXIgdGhyb3VnaCB0aGUgc3lzdGVtIG1lbW9yeSByaWdodD8g
+VGhlIHhIQ0kgQXVkaW8gU2lkZWJhbmQNCmNhcGFiaWxpdHkgbWF5IHBhc3MgdGhlIGRhdGEgdG8g
+dGhlIHhIQyBvdGhlciB0aGFuIHRoZSBtYWluIG1lbW9yeS4NCg0KQlIsDQpUaGluaA0KDQo+ICsJ
+ICB3aXRoIGF1ZGlvIGNsYXNzIGVuZHBvaW50cy4gVGhpcyBhbGxvd3MgZm9yIGFuIGF1ZGlvIERT
+UCB0byB1c2UNCj4gKwkgIHhIQ0kgVVNCIGVuZHBvaW50cyBkaXJlY3RseSwgYWxsb3dpbmcgQ1BV
+IHRvIHNsZWVwIHdoaWxlIHBsYXlpbmcNCj4gKwkgIGF1ZGlvLg0KPiArDQo+ICBjb25maWcgVVNC
+X1hIQ0lfVEVHUkENCj4gIAl0cmlzdGF0ZSAieEhDSSBzdXBwb3J0IGZvciBOVklESUEgVGVncmEg
+U29DcyINCj4gIAlkZXBlbmRzIG9uIFBIWV9URUdSQV9YVVNC
