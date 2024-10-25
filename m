@@ -1,80 +1,72 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from lichtman.org (lichtman.org [149.28.33.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A0B1632FB;
-	Fri, 25 Oct 2024 13:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAD0139D04;
+	Fri, 25 Oct 2024 13:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.33.109
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729861959; cv=none; b=UpVKz9dfR/EWZoDqI9YbtGO4NsWbL07TcGnmf0j+FUgo4l4slpN1SFd1PASPwo0EENivviPnfUcHncke2vxUlnSObJp4r3nO2ehvJk5pk4QerHVQ4J//nZxusvM5LohI0i0RMSC8fihQ92L3jqHZDyYbPmIwwpl6LADL6YWHFvg=
+	t=1729864294; cv=none; b=DnVvOMrjz2dch9jKZ85JKL14G5chOx+yCsv/UDAaUc4y236dxuWQ5aoHAQDDfI7DF+5cWQo3dix9w7XdSmLK5nyQZWoYBKWi3ij6xFTiS0ZOVRrxeejd7BcX8UcyTzDdWr1MLwLr89ziFTSK9mZT245ffXoRq0IfLu3XWo9foQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729861959; c=relaxed/simple;
-	bh=wPrPDjvbuQeiP58khSTGY/QVQn6BJGp/uT7g+qbLK7I=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r4vxun2J47+byJyJnuYszRX0uC/tSU8qpxed0uL4jtbZUq74IwF38K3Y0WFzfQP/vYTYZnVs0I3JWRRpldekP2VghOHJDn7Ws0lTsFE0zrwJoxZZbrxFajnRuhxfk4y0lQCqN4Y3RleaBh72+PwiJYbLIkUjwzL1VkxW7vHB6qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ebJMppbs; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1729864294; c=relaxed/simple;
+	bh=obg4rXob060iGRzUDraUr9IY55MEeO6N5oya//idfX0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gOCoP2mgt7sVtkFY9f43vvKbJevk+T0Hy9Bvcx8/P3/CH9gTBHyvTNcYPz39o9I5IQbiZW74Z4pp/1ucGX+pDo6zFzXZX/Ku1SJhDSmBKOxqyPuFhts5KZslgMTQ42och5IERMMjpCOchXppL5bGzy+GfouO8gLMKgVyAV1Jz1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org; spf=pass smtp.mailfrom=lichtman.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=hEu00asD; arc=none smtp.client-ip=149.28.33.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lichtman.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ebJMppbs"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A296B42B33
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1729861948; bh=BrHRkZL2jwggyue0IzkvCSWmi2sXcluKyZactR+0LE8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ebJMppbsW6ZgH4vAHtkwWdAILVSIHNfBY5Js/CLvA0fFihlvRYzkIvrEd+RzzXwU/
-	 pH4HhKCjny5z4mn7l4ekPKKOvQWXFeyC76jGVBR6r69Tq3kSzP69pDct2PSjbA6iLu
-	 gG9WQEzPglyq4ogCH94sszx0ZA579Hlz0tN2/cE5kIGshzcOd9c86YabZVrT9nQTJt
-	 JS/Fy4tRUypp82kfNI2fQs97Ki8Eh3kToex/EK8N/2vzj6I0JDErE1Mj6FWsH2LDbx
-	 vnEuRsn4MTpRbqqEJA4d7JrREGGUrE5kQjmv8FKVW+HGKD+mGBmNbhI5TWSHEmnDrH
-	 DrIDFEtGaQUzQ==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A296B42B33;
-	Fri, 25 Oct 2024 13:12:28 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: xu.xin16@zte.com.cn, alexs@kernel.org, si.yanteng@linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mudongliangabcd@gmail.com, seakeel@gmail.com
-Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, xu.xin16@zte.com.cn,
- he.peilin@zte.com.cn, tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn,
- zhang.yunkai@zte.com.cn
-Subject: Re: [PATCH linux-next v8] Docs/zh_CN: Translate physical_memory.rst
- to Simplified Chinese
-In-Reply-To: <20241025150959063tInm4F6ZTyqASNRxU2GIJ@zte.com.cn>
-References: <20241025150959063tInm4F6ZTyqASNRxU2GIJ@zte.com.cn>
-Date: Fri, 25 Oct 2024 07:12:27 -0600
-Message-ID: <87ldyc1g3o.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="hEu00asD"
+Received: by lichtman.org (Postfix, from userid 1000)
+	id B2A82177100; Fri, 25 Oct 2024 13:51:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
+	t=1729864288; bh=obg4rXob060iGRzUDraUr9IY55MEeO6N5oya//idfX0=;
+	h=Date:From:To:Subject:From;
+	b=hEu00asDZhEDyZcc+HnpHwqQjYYtAfU8zMmX3tos6PzHgcbFqVY2Xu0nOFMpOTwip
+	 cauq7Nfu3RUKtaCByevjFbLjT2RHO3M4AHWiC/QnIsyjl2eFQKasMvsPuS/t9aryCq
+	 cu+zelVlsqtCCTP0Vvdg+bo7HJuyFhxSBcd6qibUb59t5tDCo27UICYbbYYvWY3z4J
+	 TVYtrYRud8NvT+1aj++ltwC7Yd96Jy0X1SsdrUhVTpjbTxG4sHc999UQevQQvcOe/G
+	 FG31bOYwUvL0dsj2H8VJ+TU8N8iay/4djvToeMmQpcZa3JdobNZEmCcJgluCVBI7ze
+	 G7922XRXd36Sw==
+Date: Fri, 25 Oct 2024 13:51:28 +0000
+From: Nir Lichtman <nir@lichtman.org>
+To: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: Fix incorrect paths/magic in magic numbers rst
+Message-ID: <20241025135128.GA879576@lichtman.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-<xu.xin16@zte.com.cn> writes:
+Fix some no longer true header/c file paths and correct the BAYCOM_MAGIC
+value to be decimal as in the source instead of incorrectly hexadecimal
 
-> From: Yaxin Wang <wang.yaxin@zte.com.cn>
->
-> This patch translates the "physical_memory.rst" document into
-> Simplified Chinese to improve accessibility for Chinese-speaking
-> developers and users.
->
-> The translation was done with attention to technical accuracy
-> and readability, ensuring that the document remains informative
-> and useful in its translated form.
->
-> Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
->
-> Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
-> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-> Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+Signed-off-by: Nir Lichtman <nir@lichtman.org>
+---
+ Documentation/staging/magic-number.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-One does not normally put a Reviewed-by tag on one's own patches, so now
-I am confused.  What is the role of you and Jiang Kung in the
-presentation of this patch?
-
-Thanks,
-
-jon
+diff --git a/Documentation/staging/magic-number.rst b/Documentation/staging/magic-number.rst
+index 7029c3c084ee..79afddf0e692 100644
+--- a/Documentation/staging/magic-number.rst
++++ b/Documentation/staging/magic-number.rst
+@@ -68,11 +68,11 @@ Changelog::
+ ===================== ================ ======================== ==========================================
+ Magic Name            Number           Structure                File
+ ===================== ================ ======================== ==========================================
+-PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/linux/pg.h``
++PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/uapi/linux/pg.h``
+ APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86/kernel/apm_32.c``
+ FASYNC_MAGIC          0x4601           fasync_struct            ``include/linux/fs.h``
+-SLIP_MAGIC            0x5302           slip                     ``drivers/net/slip.h``
+-BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/net/baycom_epp.c``
++SLIP_MAGIC            0x5302           slip                     ``drivers/net/slip/slip.h``
++BAYCOM_MAGIC          19730510         baycom_state             ``drivers/net/hamradio/baycom_epp.c``
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/linux/hdlcdrv.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mips/include/asm/sn/klkernvars.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/coda_fs_i.h``
+-- 
+2.39.2
