@@ -1,75 +1,83 @@
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC461F81AF;
-	Fri, 25 Oct 2024 12:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD751F7549;
+	Fri, 25 Oct 2024 12:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729858318; cv=none; b=ugrgt4CLz9IztDXodmY4p0Yp2RrYeijDdJuCnbKsxyFQida8edMZGVpT8/FJhLc2DVr/8k2moDFv06ZEQRwk6Lso6Zd0vMhsmOU+P8dZNrrq6XK3HL3535MikVORNrFOSml/9u0uhOK19jM02VLUD7l5P9SuZ8kkD8ij3FU2ITk=
+	t=1729860177; cv=none; b=NcnbGqZHxoYeYyWpqzRcbmr+eJGBTkoPBrKNzcyC88ifFv+9GyiCn/pdQIxyNj0lJYY3dw1gOYexTjQiozlMIQAm8EeKrdLiYeWkKOKHSp5zyKNhlpKJFuIac0+Hxhv68YsAboC4DAn+WOgA5A3ifYe78ersiSrQ3lrNkHKw3s4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729858318; c=relaxed/simple;
-	bh=zKNMavy3+nxsr+4jmkAd64WKP9FdkRqp71IYsn6Fgtc=;
+	s=arc-20240116; t=1729860177; c=relaxed/simple;
+	bh=+tqTq/G1/ysY58iREiKY56dAmZ2o9or0upQiNmVDoqY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e87Rj1L4VJx23KquHhto+pt8YrHk5aBQLAtnVmvALn+eO+Kd8h4lSQUggg+3bS7L4lwn/eKGS7ZVg3zeDtP+v1AYvVdPNXBNSeFnInSCm9QsFQCtUG+pzGoQeslf2TWmkow88lUVnZ0I8Tnzv2Gb8zvk7Bo3aMUKMb5cvd3Ye0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJYEkvA/; arc=none smtp.client-ip=209.85.166.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=CGCx7KzUqdaNAciqTJ6tx+rTTBTPIhysAlmsnVwnQn/98JU0H4d3wnv88xjoRFXmdLvzQJ2eNJo5ktb3oaMdPyOgxyRDMKUQn97KXARw9rkiHQ6s/i1mj075aLZ8P/smUmeO1mL2f3tTI1P2pmFfK1Jz09iishyUILW+xEXlgWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kE0o9vTC; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJYEkvA/"
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-83ac05206c9so79024539f.3;
-        Fri, 25 Oct 2024 05:11:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kE0o9vTC"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20cbca51687so17408545ad.1;
+        Fri, 25 Oct 2024 05:42:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729858316; x=1730463116; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729860175; x=1730464975; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mZ+x+WkuoiPHnvrducif+nbzvvRjkzMkNuZ5uGzY07Q=;
-        b=nJYEkvA/gBl/biqwwFHIFCe7YlOXjj4tRPqes9M6AkF6Aowb7ypd3rX5xZPaHH0Mni
-         dOHmUPenPzd4gO/xc8jpxBvPsn3G8DQs1ahYukaB6tKgmYMiZiTrk4sGA8ZjQgqx+JDY
-         OznUu47BXKNVf+bnphmV5UbSKzwp1IEVz2aKi0FD9u0sPnl2ES2CNM0mQLQthNVsGasI
-         b1jOZq8GmSdPqb+Oldi6T4FJjO8Pr49oK5/m8y+cXME5RQxqS4axIDGmp8xlSPf69sw3
-         z1q1W9oxyiADRbBa8Sm5fIyZuJlAPZoNLLZc0e7pNShXzL1M3TBFKzv3OvkLvAaV2Zzl
-         05LQ==
+        bh=PXTiO9n5CgwqjEtYBHWc1ytJOpeHUyS3SdTPf/Kt7Nc=;
+        b=kE0o9vTCTGAb0wRlyORF0jgmkrbJkmoWtriIDBEdSdlzzLtJCeXdH4sdbX7RcPKOSU
+         YrJb6OUo5BdJXjnLycPOqBeI7M8iJHjvN77hn02q+T12vULa2Ign9aqY3uEDd+jpHShw
+         squDagl9hoVDnzL5dg5QnK/4aBpH+z0uCh+vefQscDkc9VBMeQGBy/RXG20iL31ugeu9
+         B8dsHyS78Y4WJW9AMVfqvJ81k5hmrCZcVKqiTDm3M+IpwCylci5Q7AN6t88esD7Z6flL
+         cx7qDYwiY3oRUk9mbiliQqp07cTAD6rIYLt+tPlRgYxq0JdQJlGDfxR+FbNTdmzMGdHL
+         bJeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729858316; x=1730463116;
+        d=1e100.net; s=20230601; t=1729860175; x=1730464975;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mZ+x+WkuoiPHnvrducif+nbzvvRjkzMkNuZ5uGzY07Q=;
-        b=BxeAzyxBzBdLfAerpwmh479FJpIqdZBS8emuxvPPYDIZPhAAHXDhj0RuSFwb3bOk6K
-         tEJjqrXCf6bG1NaCf7lPoOt1efiJNMfd7yFDUi0jnq5Gw+otkdytc81+Xo44ilE1DuCB
-         T/2GgHfDmHRBOuByrDO4H0dpHe0/6Oa8tauBKLv3HksZ4r5ppTUdvmMkmCtP6h/Oz+DW
-         dif+m0iizIzf9CLC7qLye+/g5HHW9mz08ltM9948iREcLNOkk14xz+o39QHus270yGjM
-         F3AN93Z1WWUlJB5AGPkJU848hLcGwmWaPgh1j1lZr46Y9DJLMvrK33kYSPj82eEiNoC1
-         kYaw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6azzGu5pM+Pz5Gmnvp4vOFzTrwKyRCJV0W3vNKjyUNZ+/ayZpU4D1hfyRjLNv1/mB52rGXUta2hM=@vger.kernel.org, AJvYcCWvtehnebi3SfbaUrgBfI5Tial+vFrKmO+ox4oNy7JEzivoo/29XKgSVMb7s+LPjk8uGfIrl3i0@vger.kernel.org, AJvYcCXq9Z8BiihCbTrUroiCyYePd4JXwT5JOdU6JybluT0fMtcuHgtF5Ddse//zExN1jy3yrc5/8AZyC9sOwNow@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxtJXLVPFl/hHZdww6Vl5bV8wmCknpZAL+6qkDT43fbQGP8e/6
-	4L6nR74Q4i4f34KOUzd4q62PCep+GNcKG1iAPC1CxrSQ4QsAk8qpoZewXw==
-X-Google-Smtp-Source: AGHT+IEztjLz2el3NkoMYeDqTRp3d78oMh21r2bUTNIEqq9+j3Idharwiz7JWFrGEQoqiou2DPkkTA==
-X-Received: by 2002:a05:6602:15c6:b0:83a:a305:d9f3 with SMTP id ca18e2360f4ac-83af61f1857mr1205233739f.12.1729858315469;
-        Fri, 25 Oct 2024 05:11:55 -0700 (PDT)
+        bh=PXTiO9n5CgwqjEtYBHWc1ytJOpeHUyS3SdTPf/Kt7Nc=;
+        b=qikLw9Uc0QYVAmtb51bO9d/+buOxFDPTcme2KCkliax7i0OVzgvRL3nu6Hq2dPuf3E
+         /rh/64jt3ruJh+Xl3Jp4soNEOHJ992V1Wd9fejhAEEaQ3jDzDHLHK95b0bsunzCS4dzH
+         ABAmfKxIV09C6J9mv7+h3hQ0SYjcOonSCxJmUKqPGrerzyJonm3dWClFlTfxLjSsl1zL
+         eBthn7imxmel+i4v3idjSvrABe9uIEJG8gMH2dl9O54+tFBA61Nc9fCP49pgRWZBCSG2
+         CWRCoDLuvKJ3+b2CIGEvq93TpDZAQXOCaA41I8iFdR8ARjeGn+Ld4bGU0s+8ysM49EFu
+         Z2Kw==
+X-Forwarded-Encrypted: i=1; AJvYcCVinuQ8mLB5EuszjSIwLD9eRImTGxX5JwtembggMpN4SURa06qlsLdyM5f2zBGmCyTIq6Em6uxW48Ni@vger.kernel.org, AJvYcCVrMJh5A278Watq1fv+yX3laGtESHZfEJBeQ4cv5Ibeb038jkUhc0dQOTlDj0Y+7aQr0tCbj0VUVsu3mg==@vger.kernel.org, AJvYcCVrlWaIuGvSB0HCsGPSoSMBPGI7HZV/vXEgeTHv4C+Zt2/rDDX7OZHWOP0FpP52tX/aDqtB9P/XxCcg@vger.kernel.org, AJvYcCWQ1pKQ11OfbQt5M1nqY1D13wC4f6LICeb9inHuCxYsU7d3xW38Y0WMhXsiWX/7SjbYZJpWpZZg6vDm7oK3@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPlHrfMw/CFaJ62HUQzzSWzPawVm/pNS/5vY9wDbbcHRijfnJZ
+	DFsG6W1jJ/K2LU00hmgq+SwBLExT8MGq9bSH5wpvpzHhoM06/rl4
+X-Google-Smtp-Source: AGHT+IFugZWGDU61tJUvNQ7vNEQVOF43NuD6yJ1b66g5NnSDW8T63LnxQXz5w07qCPMB6kK0Aauktg==
+X-Received: by 2002:a17:902:f54c:b0:20c:8dff:b4ed with SMTP id d9443c01a7336-20fa9e09978mr128430245ad.16.1729860174882;
+        Fri, 25 Oct 2024 05:42:54 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7edc8660f9csm967463a12.5.2024.10.25.05.11.53
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bc044f00sm8753685ad.260.2024.10.25.05.42.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 05:11:53 -0700 (PDT)
+        Fri, 25 Oct 2024 05:42:53 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 5ACBC442B53B; Fri, 25 Oct 2024 19:11:50 +0700 (WIB)
-Date: Fri, 25 Oct 2024 19:11:50 +0700
+	id B1BDB442B53F; Fri, 25 Oct 2024 19:42:51 +0700 (WIB)
+Date: Fri, 25 Oct 2024 19:42:51 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Li Li <dualli@chromium.org>, dualli@google.com, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, donald.hunter@gmail.com,
-	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
-	maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
-	cmllamas@google.com, surenb@google.com, arnd@arndb.de,
-	masahiroy@kernel.org, horms@kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, hridya@google.com, smoreland@google.com
-Cc: kernel-team@android.com
-Subject: Re: [PATCH net-next v5 1/1] binder: report txn errors via generic
- netlink
-Message-ID: <ZxuLBlABwMQf0lpA@archie.me>
-References: <20241025075102.1785960-1-dualli@chromium.org>
- <20241025075102.1785960-2-dualli@chromium.org>
+To: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	Fan Ni <fan.ni@samsung.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v4 02/28] printk: Add print format (%pra) for struct range
+Message-ID: <ZxuSS2L6RsaQ4bFJ@archie.me>
+References: <20241007-dcd-type2-upstream-v4-0-c261ee6eeded@intel.com>
+ <20241007-dcd-type2-upstream-v4-2-c261ee6eeded@intel.com>
+ <ZwiIy-pIo_BPLtua@archie.me>
+ <67117a4de6083_37703294fb@iweiny-mobl.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,174 +85,65 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9aDi7F2PhdcIKpry"
+	protocol="application/pgp-signature"; boundary="9Cc/Ioko7b9fu/7q"
 Content-Disposition: inline
-In-Reply-To: <20241025075102.1785960-2-dualli@chromium.org>
+In-Reply-To: <67117a4de6083_37703294fb@iweiny-mobl.notmuch>
 
 
---9aDi7F2PhdcIKpry
+--9Cc/Ioko7b9fu/7q
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 25, 2024 at 12:51:02AM -0700, Li Li wrote:
-> From: Li Li <dualli@google.com>
+On Thu, Oct 17, 2024 at 03:57:50PM -0500, Ira Weiny wrote:
+> Bagas Sanjaya wrote:
+> > On Mon, Oct 07, 2024 at 06:16:08PM -0500, Ira Weiny wrote:
+> > > +Struct Range
+> > > +------------
+> > > +
+> > > +::
+> > > +
+> > > +	%pra    [range 0x0000000060000000-0x000000006fffffff]
+> > > +	%pra    [range 0x0000000060000000]
+> > > +
+> > > +For printing struct range.  struct range holds an arbitrary range of=
+ u64
+> > > +values.  If start is equal to end only 1 value is printed.
+> >=20
+> > Do you mean printing only start value in start=3Dequal case?
 >=20
-> Frozen tasks can't process binder transactions, so sync binder
-> transactions will fail with BR_FROZEN_REPLY and async binder
-> transactions will be queued in the kernel async binder buffer.
-> As these queued async transactions accumulates over time, the async
-> buffer will eventually be running out, denying all new transactions
-> after that with BR_FAILED_REPLY.
+> Yes I'll change the verbiage.
 >=20
-> In addition to the above cases, different kinds of binder error codes
-> might be returned to the sender. However, the core Linux, or Android,
-> system administration process never knows what's actually happening.
+> Ira
 >=20
-> This patch introduces the Linux generic netlink messages into the binder
-"Introduce generic netlink messages ..."
-> driver so that the Linux/Android system administration process can
-> listen to important events and take corresponding actions, like stopping
-> a broken app from attacking the OS by sending huge amount of spamming
-> binder transactions.
-> <snipped>...
-> diff --git a/Documentation/admin-guide/binder_genl.rst b/Documentation/ad=
-min-guide/binder_genl.rst
-> new file mode 100644
-> index 000000000000..ecbf62f662a6
-> --- /dev/null
-> +++ b/Documentation/admin-guide/binder_genl.rst
-> @@ -0,0 +1,93 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Generic Netlink for the Android Binder Driver (Binder Genl)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The Generic Netlink subsystem in the Linux kernel provides a generic way=
- for
-> +the Linux kernel to communicate to the user space applications via binder
-> +driver. It is used to report various kinds of binder transactions to user
-> +space administration process. The driver allows multiple binder devices =
-and
-> +their corresponding binder contexts. Each context has an independent Gen=
-eric
-> +Netlink for security reason. To prevent untrusted user applications from
-> +accessing the netlink data, the kernel driver uses unicast mode instead =
-of
-> +multicast.
-> +
-> +Basically, the user space code uses the "set" command to request what ki=
-nds
-                                                            "what kind of .=
-=2E."
-> +of binder transactions reported by the kernel binder driver. The driver =
-then
-> +uses "reply" command to acknowledge the request. The "set" command also
-> +registers the current user space process to receive the reports. When the
-> +user space process exits, the previous request will be reset to prevent =
-any
-> +potential leaks.
-> +
-> +Currently the driver can report binder trasnactiosn that "failed" to rea=
-ch
-                                         "transactions"
-> +the target process, or that are "delayed" due to the target process being
-> +frozen by cgroup freezer, or that are considered "spam" according to exi=
-sting
-> +logic in binder_alloc.c.
-> +
-> +When the specified binder transactions happen, the driver uses the "repo=
-rt"
-> +command to send a generic netlink message to the registered process,
-> +containing the payload struct binder_report.
-> +
-> +More details about the flags, attributes and operations can be found at =
-the
-> +the doc sections in Documentations/netlink/specs/binder_genl.yaml and the
-> +kernel-doc comments of the new source code in binder.{h|c}.
-> +
-> +Using Binder Genl
-> +-----------------
-> +
-> +The Binder Genl can be used in the same way as any other generic netlink
-> +drivers. Userspace application uses a raw netlink socket to send commands
-> +to and receive packets from the kernel driver.
-> +
-> +.. note::
-> +    If the user application that talks to the Binder Genl driver exits, =
-the
-      "If the userspace application that talks to the driver ..."
-> +    kernel driver will automatically reset the configuration to the defa=
-ult
-> +    and stop sending more reports to prevent leaking memory.
-> +
-> +Usage example (user space pseudo code):
-> +
-> +::
-> +
-> +    // open netlink socket
-> +    int fd =3D socket(AF_NETLINK, SOCK_RAW, NETLINK_GENERIC);
-> +
-> +    // bind netlink socket
-> +    bind(fd, struct socketaddr);
-> +
-> +    // get the family id of the binder genl
-> +    send(fd, CTRL_CMD_GETFAMILY, CTRL_ATTR_FAMILY_NAME, "binder");
-> +    void *data =3D recv(CTRL_CMD_NEWFAMILY);
-> +    __u16 id =3D nla(data)[CTRL_ATTR_FAMILY_ID];
-> +
-> +    // enable per-context binder report
-> +    send(fd, id, BINDER_GENL_CMD_SET, 0, BINDER_GENL_FLAG_FAILED |
-> +            BINDER_GENL_FLAG_DELAYED);
-> +
-> +    // confirm the per-context configuration
-> +    void *data =3D recv(fd, BINDER_GENL_CMD_REPLY);
-> +    __u32 pid =3D  nla(data)[BINDER_GENL_ATTR_PID];
-> +    __u32 flags =3D nla(data)[BINDER_GENL_ATTR_FLAGS];
-> +
-> +    // set optional per-process report, overriding the per-context one
-> +    send(fd, id, BINDER_GENL_CMD_SET, getpid(),
-> +            BINDER_GENL_FLAG_SPAM | BINDER_REPORT_OVERRIDE);
-> +
-> +    // confirm the optional per-process configuration
-> +    void *data =3D recv(fd, BINDER_GENL_CMD_REPLY);
-> +    __u32 pid =3D  nla(data)[BINDER_GENL_A_ATTR_PID];
-> +    __u32 flags =3D nla(data)[BINDER_GENL_A_ATTR_FLAGS];
-> +
-> +    // wait and read all binder reports
-> +    while (running) {
-> +            void *data =3D recv(fd, BINDER_GENL_CMD_REPORT);
-> +            struct binder_report report =3D nla(data)[BINDER_GENL_A_ATTR=
-_REPORT];
-> +
-> +            // process struct binder_report
-> +            do_something(&report);
-> +    }
-> +
-> +    // clean up
-> +    send(fd, id, BINDER_GENL_CMD_SET, 0, 0);
-> +    send(fd, id, BINDER_GENL_CMD_SET, getpid(), 0);
-> +    close(fd);
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/co=
+re-api/printk-formats.rst
+> index 03b102fc60bb..e1ebf0376154 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -240,7 +240,7 @@ Struct Range
+>         %pra    [range 0x0000000060000000]
+>=20
+>  For printing struct range.  struct range holds an arbitrary range of u64
+> -values.  If start is equal to end only 1 value is printed.
+> +values.  If start is equal to end only print the start value.
+>=20
+>  Passed by reference.
 
-Thanks.
+That's nice, thanks!
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---9aDi7F2PhdcIKpry
+--9Cc/Ioko7b9fu/7q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZxuLAQAKCRD2uYlJVVFO
-o9XtAQCoxfOyTg5vKYG2oFhYRuQyDAdLSk6/fR4YqjSKcNu0bwD/WFPqSSPLsar2
-W9pWvdAO2LlpwY/YC/idAl14atCN2wU=
-=46xL
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZxuSRQAKCRD2uYlJVVFO
+o5iXAP9xrOjWpF4wyXjCWIt8cPZkXj4PRmYPrb4rdo1tJKdsaQD/YSgjVnNC9gAL
+Uwspgtau9BhYzixhiBXjAblLFPAHiQ8=
+=+JhN
 -----END PGP SIGNATURE-----
 
---9aDi7F2PhdcIKpry--
+--9Cc/Ioko7b9fu/7q--
