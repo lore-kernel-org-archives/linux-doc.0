@@ -1,33 +1,26 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from trager.us (trager.us [52.5.81.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7771D213152;
-	Fri, 25 Oct 2024 22:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C4421312D;
+	Fri, 25 Oct 2024 22:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.5.81.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729895568; cv=none; b=K+omCXV7NSPFHDSLYn/KezTcxSc9eZB0DZvWb1XuBEwH/wr3FhCzszVLg+25g7ZAt0R4n/iwKmHiePSNNPVH5bLu9gufICW/czfMzvzvFldl9tHWdGbYruzOOQEuaseFkzWm8KnCUw+EgK+AGCilVX/xMyjVyypEvk/zF1xibtk=
+	t=1729895568; cv=none; b=T9kVWajy+6LZkxrMzOKeW7//ZIF/BwXjIeYlHhwIrxTtrQfF4sOdX+V8DfYsZ5qtaoPPiYeYONen2/vAwFhQUBX/JfD2lpLpYlgN7oX6mRplCgin4zz4xkNrEJZp7AajWveNuRbTsCWyvN9S9+lRgFBFDRn7bVn0ooInn19rKPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729895568; c=relaxed/simple;
-	bh=CCfFTgHSCy6CiuV3dKRDOU8QgqiDy43dW7Yikcn3X7s=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=g19OX16JMt8ztCltXS9HcKda9wQgwQeAtCgtQOcdg4t/Ml68DSJc2t/ipbhOuEtXnzAUQIq7eVx62CuLB/NcLFRocHLB/vt7t4V1kWBIlCjb4rkCrmkeYpuJ+L6Y8A9tY/ZXh11qzDnedhUknw+I6hCfLvsXLIx6deEsD7+Lr0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s1hh76En; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s1hh76En"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C853FC4CECD;
-	Fri, 25 Oct 2024 22:32:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729895567;
-	bh=CCfFTgHSCy6CiuV3dKRDOU8QgqiDy43dW7Yikcn3X7s=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=s1hh76EnL3o3T65U3z1v95AHjTQfswQNfZI8qjFbVUf9u8zBRUg9oZAtmug10gVZA
-	 cQjK6XEI0whz+5zPXijXMoJjmu5B4W5IL+Df3JHZZutyw/NR5pkNaBsTRhXeWl3HpN
-	 DjrPr8VHPCEFwmBMwde+Ua2bK843/5MBD7WEGjgu2q48LiK+Ci6DrvSqTlRXtMz6ne
-	 I2vqM+ZzVpgjUjNd3vGK5lG9AxAnoJ22aidXX9yHKrF7iItp1M/RtS9dXSMrwnMlTc
-	 nPx7N7PNY2KajPJCma0eBy5OxAkxMs5oGVwJ57cbsrRpp27mhnTZgQVM0KmnD5NiWG
-	 faUCWDryFVRXw==
-Message-ID: <66922c42-c3a2-4634-a8f0-4c8c2b4c051a@kernel.org>
-Date: Fri, 25 Oct 2024 15:32:46 -0700
+	bh=KwnQJqiRsCWMxc9Z25pBZlicEvkalDLV1dR5FfpXCtg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J+aQKylV15OSbO83s3MRF0e3JWXGhODV9fbV4PZdSv5jaWR95sNv7eqp607fswzXYllB+CGnrAl5mZeaWuD1MkstlG93d860dJOTYZQp0yAB4PYO0KScdvLGWYUJu12S39CSHzkjabI+K0x0i6fbsh7wgKwghbhAVUMUzJwnjBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us; spf=pass smtp.mailfrom=trager.us; arc=none smtp.client-ip=52.5.81.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trager.us
+Received: from c-76-104-255-50.hsd1.wa.comcast.net ([76.104.255.50] helo=[192.168.1.226])
+	by trager.us with esmtpsa (TLSv1.3:TLS_AES_128_GCM_SHA256:128)
+	(Exim 4.92.3)
+	(envelope-from <lee@trager.us>)
+	id 1t4SrI-0002DC-C4; Fri, 25 Oct 2024 22:32:40 +0000
+Message-ID: <13229808-dde5-4805-b908-ce65c8b342b4@trager.us>
+Date: Fri, 25 Oct 2024 15:32:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,52 +28,123 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] ipe: add 'anonymous_memory' property for policy
- decisions
-From: Fan Wu <wufan@kernel.org>
-To: corbet@lwn.net, jmorris@namei.org, paul@paul-moore.com, serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <1728582157-13884-1-git-send-email-wufan@linux.microsoft.com>
- <8ee41bc4-ca8e-416f-8219-12d4a83e5f8b@kernel.org>
+Subject: Re: [PATCH net-next v2 2/2] eth: fbnic: Add devlink dev flash support
+To: Simon Horman <horms@kernel.org>
+Cc: Alexander Duyck <alexanderduyck@fb.com>, Jakub Kicinski
+ <kuba@kernel.org>, kernel-team@meta.com,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Sanman Pradhan
+ <sanmanpradhan@meta.com>, Al Viro <viro@zeniv.linux.org.uk>,
+ Mohsin Bashir <mohsin.bashr@gmail.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241012023646.3124717-1-lee@trager.us>
+ <20241022014319.3791797-1-lee@trager.us> <20241024091032.GI402847@kernel.org>
 Content-Language: en-US
-In-Reply-To: <8ee41bc4-ca8e-416f-8219-12d4a83e5f8b@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: Lee Trager <lee@trager.us>
+In-Reply-To: <20241024091032.GI402847@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-After further testing I found the current approach, i.e. checking the existence of a struct file, does not work with memfd, which does use anonymous memory but also has a file struct in the kernel. There might be other cases that I also need to cover.
-I will redesign the implementation and send another version in the future.
 
+On 10/24/24 2:10 AM, Simon Horman wrote:
+> On Mon, Oct 21, 2024 at 06:42:24PM -0700, Lee Trager wrote:
+>> fbnic supports updating firmware using a PLDM image signed and distributed
+>> by Meta. PLDM images are written into stored flashed. Flashing does not
+>> interrupt operation.
+>>
+>> On host reboot the newly flashed UEFI driver will be used. To run new
+>> control or cmrt firmware the NIC must be power cycled.
+>>
+>> Signed-off-by: Lee Trager <lee@trager.us>
+> ...
+>
+>> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
+> ...
+>
+>> @@ -109,8 +110,274 @@ static int fbnic_devlink_info_get(struct devlink *devlink,
+>>   	return 0;
+>>   }
+>>
+>> +/**
+>> + * fbnic_send_package_data - Send record package data to firmware
+>> + * @context: PLDM FW update structure
+>> + * @data: pointer to the package data
+>> + * @length: length of the package data
+>> + *
+>> + * Send a copy of the package data associated with the PLDM record matching
+>> + * this device to the firmware.
+>> + *
+>> + * Return: zero on success
+>> + *	    negative error code on failure
+>> + */
+>> +static int fbnic_send_package_data(struct pldmfw *context, const u8 *data,
+>> +				   u16 length)
+>> +{
+>> +	struct device *dev = context->dev;
+>> +
+>> +	/* Temp placeholder required by devlink */
+>> +	dev_info(dev,
+>> +		 "Sending %u bytes of PLDM record package data to firmware\n",
+>> +		 length);
+> Could you clarify what is meant by "Temp placeholder" here and in
+> fbnic_send_component_table(). And what plans there might be for
+> a non-temporary solution.
 
--Fan
+Temp placeholder may not have been the best wording here. pldmfw 
+requires all ops to be defined as they are always called[1] when 
+updating. fbnic has an info message here so its doing something but we 
+have no current plans to expand on fbnic_send_package_data nor 
+fbnic_finalize_update.
 
-On 2024/10/24 15:13, Fan Wu wrote:
-> Since this patch is quite straightforward, I have merged it into the ipe#next branch for testing and will send it to Linus during the next merge window.
+[1] 
+https://elixir.bootlin.com/linux/v6.12-rc4/source/lib/pldmfw/pldmfw.c#L723
+
 >
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +/**
+>> + * fbnic_send_component_table - Send PLDM component table to the firmware
+>> + * @context: PLDM FW update structure
+>> + * @component: The component to send
+>> + * @transfer_flag: Flag indication location in component tables
+>> + *
+>> + * Read relevant data from component table and forward it to the firmware.
+>> + * Check response to verify if the firmware indicates that it wishes to
+>> + * proceed with the update.
+>> + *
+>> + * Return: zero on success
+>> + *	    negative error code on failure
+>> + */
+>> +static int fbnic_send_component_table(struct pldmfw *context,
+>> +				      struct pldmfw_component *component,
+>> +				      u8 transfer_flag)
+>> +{
+>> +	struct device *dev = context->dev;
+>> +	u16 id = component->identifier;
+>> +	u8 test_string[80];
+>> +
+>> +	switch (id) {
+>> +	case QSPI_SECTION_CMRT:
+>> +	case QSPI_SECTION_CONTROL_FW:
+>> +	case QSPI_SECTION_OPTION_ROM:
+>> +		break;
+>> +	default:
+>> +		dev_err(dev, "Unknown component ID %u\n", id);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	dev_dbg(dev, "Sending PLDM component table to firmware\n");
+>> +
+>> +	/* Temp placeholder */
+>> +	strscpy(test_string, component->version_string,
+>> +		min_t(u8, component->version_len, 79));
+>> +	dev_info(dev, "PLDMFW: Component ID: %u version %s\n",
+>> +		 id, test_string);
+>> +
+>> +	return 0;
+>> +}
+> ...
 >
-> -Fan
->
-> On 2024/10/10 10:42, Fan Wu wrote:
->> Currently, all existing IPE properties evaluate to FALSE for
->> operations triggered by anonymous memory regions. As a result,
->> IPE falls back to the policy's default action for such operations.
->>
->> In policies where the default action is DENY, this behavior blocks
->> all anonymous memory operations, rendering binaries that rely on
->> anonymous memory unusable.
->>
->> This commit introduces a new IPE property, 'anonymous_memory',
->> which evaluates to TRUE when an operation is triggered by an
->> anonymous memory region. This allows administrators to explicitly
->> allow or deny operations involving anonymous memory.
->>
->> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
->> ---
->>  Documentation/admin-guide/LSM/ipe.rst | 11 +++++++++++
->>  Documentation/security/ipe.rst        |  9 +++++----
->>  security/ipe/Kconfig                  | 10 ++++++++++
->>  security/ipe/audit.c                  |  2 ++
->>  security/ipe/eval.c                   | 26 ++++++++++++++++++++++++++
->>  security/ipe/policy.h                 |  2 ++
->>  security/ipe/policy_parser.c          |  4 ++++
->>  7 files changed, 60 insertions(+), 4 deletions(-)
