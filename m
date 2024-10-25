@@ -1,108 +1,167 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D37E19B59F;
-	Fri, 25 Oct 2024 07:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36F718BC34
+	for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 07:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729841697; cv=none; b=jUYVKSPupBRi7/MyGyaLj4tSY3a3U0FVFKzEqKdaIhLMXai2VOl5nAyBXHKzbYFJF0TfkqxsD5M1TX+vE6jPXYAN85MtprgNw28xS+J6l2vWgrS4xeiv0JlhmaJsqrxegHabh74t6d9vH8iZ7LrucR1KNwFFY+UdIu9jKcfNCeg=
+	t=1729842672; cv=none; b=CXNlvuwdE6+0Sq9mFhgQI9LXInT+klf4kCJ+u63093grYJHjaAHaB1S7z3YfFrjgIrfBvcyAwOwmGSj2aLHDMWBah/RFV4llmNY2H/ZfW26djHNvEpXig0OFXHp3YtnI2OMBjdCKhcKW3OW6zCbREwfg0UVjMXFH1HrUIiYEiBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729841697; c=relaxed/simple;
-	bh=HPJBTKt2s2JeWexm0xhl7kakBBDv3mVKl4YY8KXecAw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dpSsnqyq0mlfdnnIewcnJxymZWPDHobgef3Yau3MwfJcLzwVdjEU7BmL4I4Zk2/VvXSNjWcFUrqDPN0Ky6u4jp+b/VmWcmNwhHqTyi2H63jBpbFXPdQ8DwodjZcbxCxtf1vRBayasDdxEjFLU8EwT/pnN6VgUv9S/gS4saU5kMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=CGOdiDUZ; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1729842672; c=relaxed/simple;
+	bh=mYxcLajmIErCGZ9qZSY4anQ4rvpJr1sSddJsnYJ54Z4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aUw6WCwsj6ogc61JNEKD3jBQDsHqTYYGbVS39XHHHm1Uzr4UbOIuXaVezQqyjGzsM0owcY8gGvoc7vksZTE8QgrtW2NwzQxedzJH52qrTDAFDz4dZ0P1t078+pY7AJTseshuFuiTn6NiVsNPI47LjCke0oxPhsIwBQxTK3f7mpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nXUTwLR4; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="CGOdiDUZ"
-Received: from [192.168.7.205] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49P7YPHm2108861
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 25 Oct 2024 00:34:25 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49P7YPHm2108861
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024101701; t=1729841666;
-	bh=cjcIWk0vTCLF88p/9j8npmpd+ZQ/ryZZQSzE1BRQ/xk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CGOdiDUZtrAVWGZ+UD7uvQ7SblFNDAyNg+X3t9KyodNOCLn7fdUXDBZMzgsiCPKKp
-	 FYI5PQk30f99GbBFJalGmSRVv3Ou+04ocpQhefz1dOg5gkJwBxkk46mrHM3c5Kws/e
-	 IKiwBPNwwGNlg6lSojeivOTYaiqBcdBkGw6YrIAcVjB0ws2+ur+5SAlIctJ7J4YTdX
-	 4Z8TMlL2MjvIod5PFMBe3jClwzIA7zcHuru9G1SiE8B4b1f6RAZS0hOxIeAJ0Wu3xP
-	 Yu/JUggtaLKceXlwNxEJkvRiaahj4BYGgglQ6sm/ylNjHTd78ZNpFepWf5gHFTlSrn
-	 m7iPXSMzEok5Q==
-Message-ID: <edcdad12-bbb7-46b9-8914-9bbb36b44597@zytor.com>
-Date: Fri, 25 Oct 2024 00:34:24 -0700
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nXUTwLR4"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20c767a9c50so14395475ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 00:51:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1729842670; x=1730447470; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uF1v/s68/41/rvjjEMQ1dTWdFvcwAdIfUzNDLdC1Pa0=;
+        b=nXUTwLR4+LBDE3phadw3aUshLZohgokTX6MdL89Xtm56ZoRJq+RzjpUPA2egc+/cr3
+         e5g7PDIJVjzRnha7UmO8oJiuZmvyk6ZhWMK4AvXnbyjyPUei+ByDPnUNQrz4tGAREExo
+         GjyetrNrmjmfWgnF8ipopO7/43oSJ9xv+zbGY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729842670; x=1730447470;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uF1v/s68/41/rvjjEMQ1dTWdFvcwAdIfUzNDLdC1Pa0=;
+        b=DsWra60cE2WRiBkkHz/Jrwj1pfXV92AGk2u8rbmCgMuoDIzrRv+BjJQ9TZpk1pLDXh
+         5d6pitAwYJOLi9vrOQTA1pBkrwnZW1OfwOF/A/JEPy7GSd6FjhElzRTqHv229FPy8TJe
+         3rLaIF5tnnJ/w9ofUPYV4THkbN5VFOW8locuTK2WyCN/BitcxzAinfm/r9Qbvxmd8DRx
+         pjW63rZLnHTNwAyp/NjVRybilj3ghOyfrzP0qVhRIPTxWfozLgFgytys+A158k433dvl
+         eEi43I5uIhvctekeppg35VZlQNyRWpvko3H5efTORBhjhlNOzVTRyfSzpkPqBe9+s14m
+         uReg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxtVLaOb0HseDfwsUKOCo+gTFBipKaA8/dIPfNvd/+Z8S3HZY7CZ698ML95JOM/rbuFdP/j4slxck=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpY5sXMp7P+Uo/DdZwe0uFQLcg0WJl61Bgd6Vvl7Sj8XbR81tw
+	AbyZnm6vkuT5l/i3z2H/pGcviFyHzUboWFR20gDWDH9JzV1Re0m1JSmw5z959Q==
+X-Google-Smtp-Source: AGHT+IHFw7FXs8Lb1i8yU36Q+6sfxkhIwRqJC7iizk5PAlH9pWgs/YMoQksBdeh0U2ErwU88jUj6Lg==
+X-Received: by 2002:a17:903:3114:b0:20c:6bff:fcae with SMTP id d9443c01a7336-20fa9e46f35mr81303105ad.5.1729842670112;
+        Fri, 25 Oct 2024 00:51:10 -0700 (PDT)
+Received: from li-cloudtop.c.googlers.com.com (201.204.125.34.bc.googleusercontent.com. [34.125.204.201])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bbf6dd23sm4895285ad.92.2024.10.25.00.51.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 00:51:09 -0700 (PDT)
+From: Li Li <dualli@chromium.org>
+To: dualli@google.com,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org,
+	arve@android.com,
+	tkjos@android.com,
+	maco@android.com,
+	joel@joelfernandes.org,
+	brauner@kernel.org,
+	cmllamas@google.com,
+	surenb@google.com,
+	arnd@arndb.de,
+	masahiroy@kernel.org,
+	bagasdotme@gmail.com,
+	horms@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	hridya@google.com,
+	smoreland@google.com
+Cc: kernel-team@android.com
+Subject: [PATCH net-next v5 0/1] binder: report txn errors via generic netlink (genl)
+Date: Fri, 25 Oct 2024 00:51:01 -0700
+Message-ID: <20241025075102.1785960-1-dualli@chromium.org>
+X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 21/27] KVM: VMX: Invoke vmx_set_cpu_caps() before
- nested setup
-To: Chao Gao <chao.gao@intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, seanjc@google.com, pbonzini@redhat.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
-References: <20241001050110.3643764-1-xin@zytor.com>
- <20241001050110.3643764-22-xin@zytor.com> <Zxn8BX6vxQKY+YNF@intel.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <Zxn8BX6vxQKY+YNF@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/24/2024 12:49 AM, Chao Gao wrote:
-> On Mon, Sep 30, 2024 at 10:01:04PM -0700, Xin Li (Intel) wrote:
->> From: Xin Li <xin3.li@intel.com>
->>
->> Set VMX CPU capabilities before initializing nested instead of after,
->> as it needs to check VMX CPU capabilities to setup the VMX basic MSR
->> for nested.
-> 
-> Which VMX CPU capabilities are needed? after reading patch 25, I still
-> don't get that.
+From: Li Li <dualli@google.com>
 
-Sigh, in v2 I had 'if (kvm_cpu_cap_has(X86_FEATURE_FRED))' in
-nested_vmx_setup_basic(), which is changed to 'if (cpu_has_vmx_fred())'
-in v3.  So the reason for the change is gone.  But I think logically
-the change is still needed; nested setup should be after VMX setup.
+It's a known issue that neither the frozen processes nor the system
+administration process of the OS can correctly deal with failed binder
+transactions. The reason is that there's no reliable way for the user
+space administration process to fetch the binder errors from the kernel
+binder driver.
+
+Android is such an OS suffering from this issue. Since cgroup freezer
+was used to freeze user applications to save battery, innocent frozen
+apps have to be killed when they receive sync binder transactions or
+when their async binder buffer is running out.
+
+This patch introduces the Linux generic netlink messages into the binder
+driver so that the Linux/Android system administration process can
+listen to important events and take corresponding actions, like stopping
+a broken app from attacking the OS by sending huge amount of spamming
+binder transactiions.
+
+The 1st version uses a global generic netlink for all binder contexts,
+raising potential security concerns. There were a few other feedbacks
+like request to kernel docs and test code. The thread can be found at
+https://lore.kernel.org/lkml/20240812211844.4107494-1-dualli@chromium.org/
+
+The 2nd version fixes those issues and has been tested on the latest
+version of AOSP. See https://r.android.com/3305462 for how userspace is
+going to use this feature and the test code. It can be found at
+https://lore.kernel.org/lkml/20241011064427.1565287-1-dualli@chromium.org/
+
+The 3rd version replaces the handcrafted netlink source code with the
+netlink protocal specs in YAML. It also fixes the documentation issues.
+https://lore.kernel.org/lkml/20241021182821.1259487-1-dualli@chromium.org/
+
+The 4th version just containsi trivial fixes, making the subject of the
+patch aligned with the subject of the cover letter.
+https://lore.kernel.org/lkml/20241021191233.1334897-1-dualli@chromium.org/
+
+The 5th version incorporates the suggested fixes to the kernel doc and
+the init function. It also removes the unsupported uapi-header in YAML
+that contains "/" for subdirectory.
+
+v1: add a global binder genl socket for all contexts
+v2: change to per-context binder genl for security reason
+    replace the new ioctl with a netlink command
+    add corresponding doc Documentation/admin-guide/binder_genl.rst
+    add user space test code in AOSP
+v3: use YNL spec (./tools/net/ynl/ynl-regen.sh)
+    fix documentation index
+v4: change the subject of the patch and remove unsed #if 0
+v5: improve the kernel doc and the init function
+    remove unsupported uapi-header in YAML
+
+Li Li (1):
+  binder: report txn errors via generic netlink
+
+ Documentation/admin-guide/binder_genl.rst    |  93 ++++++
+ Documentation/admin-guide/index.rst          |   1 +
+ Documentation/netlink/specs/binder_genl.yaml |  59 ++++
+ drivers/android/Kconfig                      |   1 +
+ drivers/android/Makefile                     |   2 +-
+ drivers/android/binder.c                     | 302 ++++++++++++++++++-
+ drivers/android/binder_genl.c                |  38 +++
+ drivers/android/binder_genl.h                |  18 ++
+ drivers/android/binder_internal.h            |  22 ++
+ drivers/android/binder_trace.h               |  37 +++
+ drivers/android/binderfs.c                   |   4 +
+ include/uapi/linux/android/binder.h          |  31 ++
+ include/uapi/linux/binder_genl.h             |  42 +++
+ 13 files changed, 642 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/admin-guide/binder_genl.rst
+ create mode 100644 Documentation/netlink/specs/binder_genl.yaml
+ create mode 100644 drivers/android/binder_genl.c
+ create mode 100644 drivers/android/binder_genl.h
+ create mode 100644 include/uapi/linux/binder_genl.h
+
+
+base-commit: 81bc949f640f78b507c7523de7c750bcc87c1bb8
+-- 
+2.47.0.163.g1226f6d8fa-goog
+
