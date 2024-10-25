@@ -1,189 +1,182 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CE2155308;
-	Fri, 25 Oct 2024 08:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47DA1D14FA;
+	Fri, 25 Oct 2024 08:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729843546; cv=none; b=Vi9dO43ekOnWXZsAiOGpbwCUYNTplVaNbhnx7apVlz/0b/8+y4fsguElFWSq/68PIUth4REZwdS56h179KyrSLlf8uwySLqPWpWGtC+/VCii2RXLW1BjEBNS/q+atFdEUyMoSKjA0wNmzBob1hUCVu6MILeAxVhkvB5rVf5cv0A=
+	t=1729843672; cv=none; b=WNDf8NFEHbZFqTtmEuw5w7qC8jJGu0WHf/ex3UhFCU63ePMig7n7WrctE2MKxoViIxkRyB6y10pdG7Yut4X7xcXQ+ffM3OooQLPhT63cMSjGBu5lneZEKwtj6LoWTGjZielwRKlkB1oOlN0IdrBiP3MLPAX/RH8uzJ8MZ8JGuYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729843546; c=relaxed/simple;
-	bh=ceH4aILP/lHtZaI+C7Y8VtOTtSWcPki1LCmXtifv+/0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tw9pEGD5VTKyYs0g1+5C2VxrTREVEm8LuQFHXpZbpoXOmQQQ7vnFDB1OuPDL1JwUX2OnnPuspIMc+8Qsi0mraM+M8Kgjvpq5ZdrBu2a+CunTDva2/L4PWBMqpsU8JL9RMekY0X11gCff1HZFa3slE3p9WxOFQHlyTclkABDql10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=T1OP+GAJ; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1729843672; c=relaxed/simple;
+	bh=o1gOBfIHtVLTrFgB2fq6Uowi2pWKiTyJjWht2uaM92A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Bp4ZgbA548g0XE78jsl7rlBpN181Xx38ZdEfCbYpvLTa/+73ay4wty/t7KpoGb1rUHgXnwePFCQ54rVYN9TdDzajdthKv+HqmRTeTZap4B/u6Bzip80OHYk0pJz9uGS467WErqw8C+d2M/QBPJkWKPeK8eRPmC9FxSr2E7j2y70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3Je+0zP; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="T1OP+GAJ"
-Received: from [192.168.7.205] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49P84HE92121122
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 25 Oct 2024 01:04:18 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49P84HE92121122
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024101701; t=1729843514;
-	bh=4zHdutFlOl0JkvjKECtk2NMjVvsxd0XSbHb4/Oxo5ns=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=T1OP+GAJvhLMjzOh/5TIEdqdp9NsnlXhvwuvg2gKsckc0/pkc8oKjxyhMdT6Xao0Q
-	 picKvgtfPLFGRss5J40j6thW5IDrO7LywYungopY0Kj0993ISgJp0WKwFhvfw8NTCn
-	 cMpUyStMlCondNxEFuaDoZZ/A81TV7rHtYq9afjZuUT+Yv06gtsDWTY1nYdoCKpEtP
-	 gGnLbgzcRuPEXqdCUkrk/MJ3jIt2AypPkGrwmwh6yyO67NJN9tPlMHAFPy8X8+g6C9
-	 C5KWYJXgx97TChOaVIftR5ZO6Bv6GoJF4SeXRskSDOUvXDqrcHhzMCKqChAYDbVxn4
-	 k8Pecq0DRX9NQ==
-Message-ID: <5ded5ea5-6a31-47ef-ae12-f32615ada248@zytor.com>
-Date: Fri, 25 Oct 2024 01:04:16 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3Je+0zP"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5cb74434bc5so2342524a12.0;
+        Fri, 25 Oct 2024 01:07:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729843668; x=1730448468; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nCQ4m1wvtW2TgoNI4uf9Tu1TL7BPMbTivwjBwFu9sno=;
+        b=I3Je+0zPdIxUfxbyLIem41nbptZaRT8XXj7bUIBl2eTtv1J7LEa3np5DIU5wl5VOt2
+         4vTEECQFjeGNNuW+t7+dfedTdOHrTOJzoRca8pYBIozwsOlN0wdTM2ggPdbq/Ua6ZO2t
+         ikfUtz6srptedKZXyFJRJ7Rizj8RaJkSM/ecZfnf7KwzaerA9oN0pKCnnkIeeNpFG/M0
+         wNnJHJ7o06nb7mD0lnhejaisxfVnvxCoY3kV7NoF2jT8ih4KMJB7Gw+sQXbffOsftsOG
+         tb+Msb4ECx14ZX/eDG3HLuNt23GEsjjUExny1u+lfCYz6lUdeQfJh+jXsdu9iMoPpOUE
+         lP2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729843668; x=1730448468;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nCQ4m1wvtW2TgoNI4uf9Tu1TL7BPMbTivwjBwFu9sno=;
+        b=lLiglS2HpHjizJ6UrWr4qBzmcjwnRj++YA8Q6eUmftFwg28MTgEHy57B9DnoyKnmqF
+         DwFRprW5bH9q5F17kx8yg09PbsiXu4FT94drkDgHtETw6WP7dI+SMk6DzTyr/hUpRRaO
+         jtdsUjtHmkZ9LgSyGGhC1KrDMcftcuw5NNbDSANnSBjsI4PE+313iA6+5DLRIJiClAi/
+         7FQsuQhxyZcimDMi0bVY8E7hkHxDK9l/33dEKI1XCGEz53JSfNxm/wG1xeD/IBIyL83S
+         Se9Lzk62FyHdZwoOqY2dDbjBy3qG3kscLdjG7nRNROjylxPiIEsk7kX350H61j0JT8np
+         mPuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUKcYtV4PrfIsuaXC2VvsVcB6q3DRRrq/EWtw9ZQbx2Jt5Yjz5N686REgA3t/hpx3Muaf1gkyU@vger.kernel.org, AJvYcCXqBi72UrILJT3j3aR/9/H9tOtKNLkAtiQBjYBiWQBUQ6AnDYu3Kv3ZqwSlYfe/O5DCThxMRHPi44k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3k1a6PfAmM1Gi+sU5E4Cvfpdr52tcqFVVI1IU6ffuk92FC/YO
+	f9+u43iFu2Y1GYjZFyxaEj0kzjcYfIoAk3TSBIcaVCII2LJwuk6VqcWgx3wekyHMl+wLLhnfeIC
+	lWHqw5rRhIHaAYu5DNf5AykzN5KQ=
+X-Google-Smtp-Source: AGHT+IHyN/fkHr9kBOO3SbDEvBTTZO90qRq8TLpf2ILw3cu3aYcYwh5foVjD/so3SmEY0GxBOe8cLYVZgjzLCQn0NoA=
+X-Received: by 2002:a05:6402:1d4d:b0:5cb:7294:fc71 with SMTP id
+ 4fb4d7f45d1cf-5cb8b190801mr6636356a12.13.1729843667864; Fri, 25 Oct 2024
+ 01:07:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 16/27] KVM: VMX: Virtualize FRED nested exception
- tracking
-To: Chao Gao <chao.gao@intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, seanjc@google.com, pbonzini@redhat.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
-References: <20241001050110.3643764-1-xin@zytor.com>
- <20241001050110.3643764-17-xin@zytor.com> <ZxnoE6ltLawgPHdZ@intel.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <ZxnoE6ltLawgPHdZ@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-2-ap420073@gmail.com>
+ <CACKFLikH-8fdqpvFouoNaFGq011+XvR0+C-8ryq-SutAs=RdsQ@mail.gmail.com>
+ <CAMArcTV3U62Rz+FPCJWVOqqNJOZBLnBvb+yRcjJ+drspm5nxbw@mail.gmail.com> <CACKFLikK0p1e41sbkBt1MCL=gxoWbKNHvqzEfcaV=rBfvQjB4w@mail.gmail.com>
+In-Reply-To: <CACKFLikK0p1e41sbkBt1MCL=gxoWbKNHvqzEfcaV=rBfvQjB4w@mail.gmail.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Fri, 25 Oct 2024 17:07:36 +0900
+Message-ID: <CAMArcTWzxhHcX=iowgNy=W89gqhRfrqmsoa1j7d2UzMpyd9wbw@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 1/8] bnxt_en: add support for rx-copybreak
+ ethtool command
+To: Michael Chan <michael.chan@broadcom.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com, almasrymina@google.com, donald.hunter@gmail.com, 
+	corbet@lwn.net, andrew+netdev@lunn.ch, hawk@kernel.org, 
+	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
+	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
+	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
+	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
+	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
+	willemb@google.com, daniel.zahka@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/23/2024 11:24 PM, Chao Gao wrote:
->> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
->> index b9b82aaea9a3..3830084b569b 100644
->> --- a/arch/x86/include/asm/kvm_host.h
->> +++ b/arch/x86/include/asm/kvm_host.h
->> @@ -736,6 +736,7 @@ struct kvm_queued_exception {
->> 	u32 error_code;
->> 	unsigned long payload;
->> 	bool has_payload;
->> +	bool nested;
->> 	u64 event_data;
-> 
-> how "nested" is migrated in live migration?
+On Fri, Oct 25, 2024 at 1:55=E2=80=AFPM Michael Chan <michael.chan@broadcom=
+.com> wrote:
+>
+> On Thu, Oct 24, 2024 at 9:38=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
+rote:
+> >
+> > On Thu, Oct 24, 2024 at 3:41=E2=80=AFPM Michael Chan
+>
+> > > > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/ne=
+t/ethernet/broadcom/bnxt/bnxt.c
+> > > > index bda3742d4e32..0f5fe9ba691d 100644
+> > > > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > > > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > >
+> > > > @@ -4510,7 +4513,8 @@ void bnxt_set_ring_params(struct bnxt *bp)
+> > > >                                   ALIGN(max(NET_SKB_PAD, XDP_PACKET=
+_HEADROOM), 8) -
+> > > >                                   SKB_DATA_ALIGN(sizeof(struct skb_=
+shared_info));
+> > > >                 } else {
+> > > > -                       rx_size =3D SKB_DATA_ALIGN(BNXT_RX_COPY_THR=
+ESH + NET_IP_ALIGN);
+> > > > +                       rx_size =3D SKB_DATA_ALIGN(bp->rx_copybreak=
+ +
+> > > > +                                                NET_IP_ALIGN);
+> > >
+> > > When rx_copybreak is 0 or very small, rx_size will be very small and
+> > > will be a problem.  We need rx_size to be big enough to contain the
+> > > packet header, so rx_size cannot be below some minimum (256?).
+> > >
+> > > >                         rx_space =3D rx_size + NET_SKB_PAD +
+> > > >                                 SKB_DATA_ALIGN(sizeof(struct skb_sh=
+ared_info));
+> > > >                 }
+> > > > @@ -6424,8 +6428,8 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt=
+ *bp, struct bnxt_vnic_info *vnic)
+> > > >                                           VNIC_PLCMODES_CFG_REQ_FLA=
+GS_HDS_IPV6);
+> > > >                 req->enables |=3D
+> > > >                         cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_H=
+DS_THRESHOLD_VALID);
+> > > > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copy_thres=
+h);
+> > > > -               req->hds_threshold =3D cpu_to_le16(bp->rx_copy_thre=
+sh);
+> > > > +               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copybreak)=
+;
+> > > > +               req->hds_threshold =3D cpu_to_le16(bp->rx_copybreak=
+);
+> > >
+> > > Similarly, these thresholds should not go to 0 when rx_copybreak beco=
+mes small.
+> > >
+> > > >         }
+> > > >         req->vnic_id =3D cpu_to_le32(vnic->fw_vnic_id);
+> > > >         return hwrm_req_send(bp, req);
+> > >
+> > > > @@ -4769,7 +4813,7 @@ static int bnxt_run_loopback(struct bnxt *bp)
+> > > >         cpr =3D &rxr->bnapi->cp_ring;
+> > > >         if (bp->flags & BNXT_FLAG_CHIP_P5_PLUS)
+> > > >                 cpr =3D rxr->rx_cpr;
+> > > > -       pkt_size =3D min(bp->dev->mtu + ETH_HLEN, bp->rx_copy_thres=
+h);
+> > > > +       pkt_size =3D min(bp->dev->mtu + ETH_HLEN, bp->rx_copybreak)=
+;
+> > >
+> > > The loopback test will also not work if rx_copybreak is very small.  =
+I
+> > > think we should always use 256 bytes for the loopback test packet
+> > > size.  Thanks.
+> > >
+> > > >         skb =3D netdev_alloc_skb(bp->dev, pkt_size);
+> > > >         if (!skb)
+> > > >                 return -ENOMEM;
+> >
+> > I tested `ethtool -t eth0` and I checked it fails if rx-copybreak is to=
+o
+> > small. Sorry for missing that.
+> > I think we can use max(BNXT_DEFAULT_RX_COPYBREAK,
+> > bp->rx_copybreak) for both cases.
+> > I tested it, it works well.
+> > So I will use that if you are okay!
+> >
+>
+> Yes, please go ahead.  I think all 3 places I commented above should
+> use max(BNXT_DEFAULT_RX_COPYBREAK, bp->rx_copybreak).  Thanks.
 
-Damn, I forgot it!
+Thanks a lot for your confirmation :)
 
-Looks we need to add it to kvm_vcpu_ioctl_x86_{get,set}_vcpu_events(),
-but the real question is how to add it to struct kvm_vcpu_events.
+I asked about jumbo_thresh in another thread, I would like to do it
+based on that thread for jumbo_thresh.
+And hds_thresh value will be configured by
+`ethtool -G eth0 header-data-split-thresh 0", so that we need to
+allow 0 ~ 256 value.
+I think you indicated jumbo_thresh only, right?
 
-> 
->> };
-> 
-> [..]
-> 
->>
->> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
->> index d81144bd648f..03f42b218554 100644
->> --- a/arch/x86/kvm/vmx/vmx.c
->> +++ b/arch/x86/kvm/vmx/vmx.c
->> @@ -1910,8 +1910,11 @@ void vmx_inject_exception(struct kvm_vcpu *vcpu)
->> 		vmcs_write32(VM_ENTRY_INSTRUCTION_LEN,
->> 			     vmx->vcpu.arch.event_exit_inst_len);
->> 		intr_info |= INTR_TYPE_SOFT_EXCEPTION;
->> -	} else
->> +	} else {
->> 		intr_info |= INTR_TYPE_HARD_EXCEPTION;
->> +		if (ex->nested)
->> +			intr_info |= INTR_INFO_NESTED_EXCEPTION_MASK;
-> 
-> how about moving the is_fred_enable() check from kvm_multiple_exception() to here? i.e.,
-> 
-> 		if (ex->nested && is_fred_enabled(vcpu))
-> 			intr_info |= INTR_INFO_NESTED_EXCEPTION_MASK;
-> 
-> It is slightly clearer because FRED details don't bleed into kvm_multiple_exception().
-
-But FRED is all about events, including exception/interrupt/trap/...
-
-logically VMX nested exception only works when FRED is enabled, see how 
-it is set at 2 places in kvm_multiple_exception().
-
-> 
->> +	}
->>
->> 	vmcs_write32(VM_ENTRY_INTR_INFO_FIELD, intr_info);
->>
->> @@ -7290,6 +7293,7 @@ static void __vmx_complete_interrupts(struct kvm_vcpu *vcpu,
->> 		kvm_requeue_exception(vcpu, vector,
->> 				      idt_vectoring_info & VECTORING_INFO_DELIVER_CODE_MASK,
->> 				      error_code,
->> +				      idt_vectoring_info & VECTORING_INFO_NESTED_EXCEPTION_MASK,
->> 				      event_data);
->> 		break;
->> 	}
->> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
->> index 7a55c1eb5297..8546629166e9 100644
->> --- a/arch/x86/kvm/x86.c
->> +++ b/arch/x86/kvm/x86.c
->> @@ -874,6 +874,11 @@ static void kvm_multiple_exception(struct kvm_vcpu *vcpu, unsigned int nr,
->> 		vcpu->arch.exception.pending = true;
->> 		vcpu->arch.exception.injected = false;
->>
->> +		vcpu->arch.exception.nested = vcpu->arch.exception.nested ||
->> +					      (is_fred_enabled(vcpu) &&
->> +					       (vcpu->arch.nmi_injected ||
->> +					        vcpu->arch.interrupt.injected));
->> +
->> 		vcpu->arch.exception.has_error_code = has_error;
->> 		vcpu->arch.exception.vector = nr;
->> 		vcpu->arch.exception.error_code = error_code;
->> @@ -903,8 +908,13 @@ static void kvm_multiple_exception(struct kvm_vcpu *vcpu, unsigned int nr,
->> 		vcpu->arch.exception.injected = false;
->> 		vcpu->arch.exception.pending = false;
->>
->> +		/* #DF is NOT a nested event, per its definition. */
->> +		vcpu->arch.exception.nested = false;
->> +
->> 		kvm_queue_exception_e(vcpu, DF_VECTOR, 0);
->> 	} else {
->> +		vcpu->arch.exception.nested = is_fred_enabled(vcpu);
->> +
->> 		/* replace previous exception with a new one in a hope
->> 		   that instruction re-execution will regenerate lost
->> 		   exception */
-> 
-
+Thank you so much!
+Taehee Yoo
