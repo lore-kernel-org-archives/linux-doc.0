@@ -1,371 +1,455 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C07E1B2197
-	for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 06:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC75967A0D;
+	Fri, 25 Oct 2024 07:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729839596; cv=none; b=Ba8/hFCHC9aN4MtsaQf+p4Y9UTQDGj8IOODotUcVu129diDAfC8os2A0DJd9NZ5tXD6Rmsajkrp2v6/D1XbLUyPx4BcxmeaPVDD4qpGhxa7z/ZbJKmVuxd3EiHzZzb8Dcp8gHzD1Q/rmeuxswtsNfMLtUDP5f6dDMuI3VMeOfDU=
+	t=1729840227; cv=none; b=NPt8Q5Kp1RQHzzjj+Wy738PkEPNCdZ5T1IBFv8hlNbgvMy227ygitTbL9DWsvikXtOqaYhVuvbZGII5jZN2h+bNAUgCXfuBpkSXUzNMP7ZaQkkFz4tN0QXV1mDzVQxsMWRE8sNtnZk4mYENpJp9fqB37uFbxNbRln5HUvA1/IKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729839596; c=relaxed/simple;
-	bh=s+QgsBk4XPagi2ax1zsfB1zGpI78D2Ce8ZdU2tw09qk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lnFK7ZLuStJdoZzwQ27/Vhn76dujusHKFdup1zpWVThWP+r56Pd2CDGaK3EIlG6zaScWYDamw0d6qSUvl5tI7K/gaybR+bCbBls281P0B/w2FuvvhShvEmgYUY+beyj0LxTmsWsV0RYlhOdpBZlKHrWuk4/jl5HolLXzSFGDUF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gEzTynn8; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gEzTynn8"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d808ae924so1195767f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 24 Oct 2024 23:59:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1729839591; x=1730444391; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HNlDlbGnZjEseQwHJzCTTzalLqX7nd5y80oKxZwRmOg=;
-        b=gEzTynn8w4c3RBlbDZBVb5bPg9mXwzzYpGbuvIK/P2YSPZxSMFj0unumtFiLBt/cAQ
-         N9DqY/U9YnQi9/XBFThoFq6AoxdwFq7GfaTZEMi3O23m5mXPEcOKSHsbrjJDsgrQNf3E
-         dASVnXt1Mag1mvrHQbooQcrkgeppsxlBEPSv791k+QYDcul4eEohh7INyOr2iu0VZpqm
-         /PWxPMj4xdaNlP7fhC2W42C4+gNlGM5iJW5Lihrb3nOb8EgizxeSiVJ1mKdT8OFo2XxA
-         El+JZq57ZEYvYk/NQjF5kLFno1XbrSdMx4F+d7XUFnjoRslnggL+FCsZ0m29YHt3umo+
-         sZnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729839591; x=1730444391;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HNlDlbGnZjEseQwHJzCTTzalLqX7nd5y80oKxZwRmOg=;
-        b=SEocwHbJ719ZiyBDRClW38QT7Mk36j8e4TCSl32Cv8pWvCrFCbft2IiZnXlr5jTALC
-         o8v09PeT9P8YmassRPna4fy0WwazbQ2Ejo7HLN2QnaVjuVjVsgCbMXX7V+fe0GBWaX2U
-         hmTwJzF264ZODDztmnsBhwHg1DXLddabQD+ba1XDJFb/k2CTa4623DxprHOui8Fau7cP
-         khMrJD4WNwoIeOvoEr2DkiMT6RwonZUy2gR5rZNRNxHa47l0XVtoQpIgkbrm87Hg1MBg
-         Rwr257Z2LFfLcVjwd/zctY+W8yqJHevB9Iew2J0M/FcyzR7B37gb6+yqAMnuHlusTrY/
-         1NZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVqAMkKylsSiMLC+iXJYtPJiABUXnqfhxX64Bt6Yb/TY/5hshaOhLeK0tnhl8V1R4693bWLav9V9I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6RgPSOz20EBe46wbZrx3h4BBV9SPm7gp8t6hvdyw8CKuVlqhy
-	RWe9wdPh+IJ6bHUBXBgFSObPx8WiJUdXGPxj7DPDMivASkf0ld2zl2nmqJhvL/s=
-X-Google-Smtp-Source: AGHT+IEz5go4s70yRgnb7sCkqqL1NoAbqlFuG3nuWrwbpPPRkMbsbBXXdAzPHGvjE01RqknnfC54XQ==
-X-Received: by 2002:adf:f98b:0:b0:37d:5130:b384 with SMTP id ffacd0b85a97d-380458967dbmr3018377f8f.35.1729839591527;
-        Thu, 24 Oct 2024 23:59:51 -0700 (PDT)
-Received: from localhost (109-81-81-105.rct.o2.cz. [109.81.81.105])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b3bde6sm765004f8f.40.2024.10.24.23.59.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 23:59:51 -0700 (PDT)
-Date: Fri, 25 Oct 2024 08:59:50 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Hugh Dickins <hughd@google.com>,
-	Yosry Ahmed <yosryahmed@google.com>, linux-mm@kvack.org,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Meta kernel team <kernel-team@meta.com>
-Subject: Re: [PATCH v1 6/6] memcg-v1: remove memcg move locking code
-Message-ID: <ZxtB5hosqhv2UkP5@tiehlicka>
-References: <20241025012304.2473312-1-shakeel.butt@linux.dev>
- <20241025012304.2473312-7-shakeel.butt@linux.dev>
+	s=arc-20240116; t=1729840227; c=relaxed/simple;
+	bh=YhZ/twzpt382UzbuSD2YmdgBDISklm8md0BzoKMWLoE=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=RlVwLeIZ6g0qLpkhy9r4wiPF6fOu3bhrRLES1YS9urlgeA9EI9VH/gs1ZrF/OkucdnLdGEhjDMjsu66NHtfcGl3IZ2Z1dk/asqdjK6Q5on2UyLKQ//Hj1IQyoTeaafI960Gz/e8TZDZRLvo1WC39s85vs46BIqCpINK75RnCpFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4XZYnx0N5cz8R042;
+	Fri, 25 Oct 2024 15:10:13 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl2.zte.com.cn with SMTP id 49P79v3L088489;
+	Fri, 25 Oct 2024 15:09:57 +0800 (+08)
+	(envelope-from xu.xin16@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Fri, 25 Oct 2024 15:09:59 +0800 (CST)
+Date: Fri, 25 Oct 2024 15:09:59 +0800 (CST)
+X-Zmail-TransId: 2af9671b44476f4-4d84b
+X-Mailer: Zmail v1.0
+Message-ID: <20241025150959063tInm4F6ZTyqASNRxU2GIJ@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241025012304.2473312-7-shakeel.butt@linux.dev>
+Mime-Version: 1.0
+From: <xu.xin16@zte.com.cn>
+To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mudongliangabcd@gmail.com>, <seakeel@gmail.com>
+Cc: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
+        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHQgdjhdIERvY3MvemhfQ046IFRyYW5zbGF0ZSBwaHlzaWNhbF9tZW1vcnkucnN0IHRvIFNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 49P79v3L088489
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 671B4454.001/4XZYnx0N5cz8R042
 
-On Thu 24-10-24 18:23:03, Shakeel Butt wrote:
-> The memcg v1's charge move feature has been deprecated. All the places
-> using the memcg move lock, have stopped using it as they don't need the
-> protection any more. Let's proceed to remove all the locking code
-> related to charge moving.
-> 
-> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+From: Yaxin Wang <wang.yaxin@zte.com.cn>
 
-Thank you for restructuring this. Having all callers gone by now
-certainly makes this much safer and easier to review.
+This patch translates the "physical_memory.rst" document into
+Simplified Chinese to improve accessibility for Chinese-speaking
+developers and users.
 
-Acked-by: Michal Hocko <mhocko@suse.com>
+The translation was done with attention to technical accuracy
+and readability, ensuring that the document remains informative
+and useful in its translated form.
 
-> ---
-> 
-> Changes since RFC:
-> - Remove the memcg move locking in separate patches.
-> 
->  include/linux/memcontrol.h | 54 -------------------------
->  mm/filemap.c               |  1 -
->  mm/memcontrol-v1.c         | 82 --------------------------------------
->  mm/memcontrol.c            |  5 ---
->  mm/rmap.c                  |  1 -
->  5 files changed, 143 deletions(-)
-> 
-> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> index 798db70b0a30..932534291ca2 100644
-> --- a/include/linux/memcontrol.h
-> +++ b/include/linux/memcontrol.h
-> @@ -299,20 +299,10 @@ struct mem_cgroup {
->  	/* For oom notifier event fd */
->  	struct list_head oom_notify;
->  
-> -	/* taken only while moving_account > 0 */
-> -	spinlock_t move_lock;
-> -	unsigned long move_lock_flags;
-> -
->  	/* Legacy tcp memory accounting */
->  	bool tcpmem_active;
->  	int tcpmem_pressure;
->  
-> -	/*
-> -	 * set > 0 if pages under this cgroup are moving to other cgroup.
-> -	 */
-> -	atomic_t moving_account;
-> -	struct task_struct *move_lock_task;
-> -
->  	/* List of events which userspace want to receive */
->  	struct list_head event_list;
->  	spinlock_t event_list_lock;
-> @@ -428,9 +418,7 @@ static inline struct obj_cgroup *__folio_objcg(struct folio *folio)
->   *
->   * - the folio lock
->   * - LRU isolation
-> - * - folio_memcg_lock()
->   * - exclusive reference
-> - * - mem_cgroup_trylock_pages()
->   *
->   * For a kmem folio a caller should hold an rcu read lock to protect memcg
->   * associated with a kmem folio from being released.
-> @@ -499,9 +487,7 @@ static inline struct mem_cgroup *folio_memcg_rcu(struct folio *folio)
->   *
->   * - the folio lock
->   * - LRU isolation
-> - * - lock_folio_memcg()
->   * - exclusive reference
-> - * - mem_cgroup_trylock_pages()
->   *
->   * For a kmem folio a caller should hold an rcu read lock to protect memcg
->   * associated with a kmem folio from being released.
-> @@ -1873,26 +1859,6 @@ static inline bool task_in_memcg_oom(struct task_struct *p)
->  	return p->memcg_in_oom;
->  }
->  
-> -void folio_memcg_lock(struct folio *folio);
-> -void folio_memcg_unlock(struct folio *folio);
-> -
-> -/* try to stablize folio_memcg() for all the pages in a memcg */
-> -static inline bool mem_cgroup_trylock_pages(struct mem_cgroup *memcg)
-> -{
-> -	rcu_read_lock();
-> -
-> -	if (mem_cgroup_disabled() || !atomic_read(&memcg->moving_account))
-> -		return true;
-> -
-> -	rcu_read_unlock();
-> -	return false;
-> -}
-> -
-> -static inline void mem_cgroup_unlock_pages(void)
-> -{
-> -	rcu_read_unlock();
-> -}
-> -
->  static inline void mem_cgroup_enter_user_fault(void)
->  {
->  	WARN_ON(current->in_user_fault);
-> @@ -1914,26 +1880,6 @@ unsigned long memcg1_soft_limit_reclaim(pg_data_t *pgdat, int order,
->  	return 0;
->  }
->  
-> -static inline void folio_memcg_lock(struct folio *folio)
-> -{
-> -}
-> -
-> -static inline void folio_memcg_unlock(struct folio *folio)
-> -{
-> -}
-> -
-> -static inline bool mem_cgroup_trylock_pages(struct mem_cgroup *memcg)
-> -{
-> -	/* to match folio_memcg_rcu() */
-> -	rcu_read_lock();
-> -	return true;
-> -}
-> -
-> -static inline void mem_cgroup_unlock_pages(void)
-> -{
-> -	rcu_read_unlock();
-> -}
-> -
->  static inline bool task_in_memcg_oom(struct task_struct *p)
->  {
->  	return false;
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 630a1c431ea1..e582a1545d2a 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -119,7 +119,6 @@
->   *    ->i_pages lock		(folio_remove_rmap_pte->set_page_dirty)
->   *    bdi.wb->list_lock		(folio_remove_rmap_pte->set_page_dirty)
->   *    ->inode->i_lock		(folio_remove_rmap_pte->set_page_dirty)
-> - *    ->memcg->move_lock	(folio_remove_rmap_pte->folio_memcg_lock)
->   *    bdi.wb->list_lock		(zap_pte_range->set_page_dirty)
->   *    ->inode->i_lock		(zap_pte_range->set_page_dirty)
->   *    ->private_lock		(zap_pte_range->block_dirty_folio)
-> diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
-> index 9c0fba8c8a83..539ceefa9d2d 100644
-> --- a/mm/memcontrol-v1.c
-> +++ b/mm/memcontrol-v1.c
-> @@ -401,87 +401,6 @@ unsigned long memcg1_soft_limit_reclaim(pg_data_t *pgdat, int order,
->  	return nr_reclaimed;
->  }
->  
-> -/**
-> - * folio_memcg_lock - Bind a folio to its memcg.
-> - * @folio: The folio.
-> - *
-> - * This function prevents unlocked LRU folios from being moved to
-> - * another cgroup.
-> - *
-> - * It ensures lifetime of the bound memcg.  The caller is responsible
-> - * for the lifetime of the folio.
-> - */
-> -void folio_memcg_lock(struct folio *folio)
-> -{
-> -	struct mem_cgroup *memcg;
-> -	unsigned long flags;
-> -
-> -	/*
-> -	 * The RCU lock is held throughout the transaction.  The fast
-> -	 * path can get away without acquiring the memcg->move_lock
-> -	 * because page moving starts with an RCU grace period.
-> -         */
-> -	rcu_read_lock();
-> -
-> -	if (mem_cgroup_disabled())
-> -		return;
-> -again:
-> -	memcg = folio_memcg(folio);
-> -	if (unlikely(!memcg))
-> -		return;
-> -
-> -#ifdef CONFIG_PROVE_LOCKING
-> -	local_irq_save(flags);
-> -	might_lock(&memcg->move_lock);
-> -	local_irq_restore(flags);
-> -#endif
-> -
-> -	if (atomic_read(&memcg->moving_account) <= 0)
-> -		return;
-> -
-> -	spin_lock_irqsave(&memcg->move_lock, flags);
-> -	if (memcg != folio_memcg(folio)) {
-> -		spin_unlock_irqrestore(&memcg->move_lock, flags);
-> -		goto again;
-> -	}
-> -
-> -	/*
-> -	 * When charge migration first begins, we can have multiple
-> -	 * critical sections holding the fast-path RCU lock and one
-> -	 * holding the slowpath move_lock. Track the task who has the
-> -	 * move_lock for folio_memcg_unlock().
-> -	 */
-> -	memcg->move_lock_task = current;
-> -	memcg->move_lock_flags = flags;
-> -}
-> -
-> -static void __folio_memcg_unlock(struct mem_cgroup *memcg)
-> -{
-> -	if (memcg && memcg->move_lock_task == current) {
-> -		unsigned long flags = memcg->move_lock_flags;
-> -
-> -		memcg->move_lock_task = NULL;
-> -		memcg->move_lock_flags = 0;
-> -
-> -		spin_unlock_irqrestore(&memcg->move_lock, flags);
-> -	}
-> -
-> -	rcu_read_unlock();
-> -}
-> -
-> -/**
-> - * folio_memcg_unlock - Release the binding between a folio and its memcg.
-> - * @folio: The folio.
-> - *
-> - * This releases the binding created by folio_memcg_lock().  This does
-> - * not change the accounting of this folio to its memcg, but it does
-> - * permit others to change it.
-> - */
-> -void folio_memcg_unlock(struct folio *folio)
-> -{
-> -	__folio_memcg_unlock(folio_memcg(folio));
-> -}
-> -
->  static u64 mem_cgroup_move_charge_read(struct cgroup_subsys_state *css,
->  				struct cftype *cft)
->  {
-> @@ -1189,7 +1108,6 @@ void memcg1_memcg_init(struct mem_cgroup *memcg)
->  {
->  	INIT_LIST_HEAD(&memcg->oom_notify);
->  	mutex_init(&memcg->thresholds_lock);
-> -	spin_lock_init(&memcg->move_lock);
->  	INIT_LIST_HEAD(&memcg->event_list);
->  	spin_lock_init(&memcg->event_list_lock);
->  }
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 94279b9c766a..3c223aaeb6af 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -1189,7 +1189,6 @@ void lruvec_memcg_debug(struct lruvec *lruvec, struct folio *folio)
->   * These functions are safe to use under any of the following conditions:
->   * - folio locked
->   * - folio_test_lru false
-> - * - folio_memcg_lock()
->   * - folio frozen (refcount of 0)
->   *
->   * Return: The lruvec this folio is on with its lock held.
-> @@ -1211,7 +1210,6 @@ struct lruvec *folio_lruvec_lock(struct folio *folio)
->   * These functions are safe to use under any of the following conditions:
->   * - folio locked
->   * - folio_test_lru false
-> - * - folio_memcg_lock()
->   * - folio frozen (refcount of 0)
->   *
->   * Return: The lruvec this folio is on with its lock held and interrupts
-> @@ -1235,7 +1233,6 @@ struct lruvec *folio_lruvec_lock_irq(struct folio *folio)
->   * These functions are safe to use under any of the following conditions:
->   * - folio locked
->   * - folio_test_lru false
-> - * - folio_memcg_lock()
->   * - folio frozen (refcount of 0)
->   *
->   * Return: The lruvec this folio is on with its lock held and interrupts
-> @@ -2375,9 +2372,7 @@ static void commit_charge(struct folio *folio, struct mem_cgroup *memcg)
->  	 *
->  	 * - the page lock
->  	 * - LRU isolation
-> -	 * - folio_memcg_lock()
->  	 * - exclusive reference
-> -	 * - mem_cgroup_trylock_pages()
->  	 */
->  	folio->memcg_data = (unsigned long)memcg;
->  }
-> diff --git a/mm/rmap.c b/mm/rmap.c
-> index 4785a693857a..c6c4d4ea29a7 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -32,7 +32,6 @@
->   *                   swap_lock (in swap_duplicate, swap_info_get)
->   *                     mmlist_lock (in mmput, drain_mmlist and others)
->   *                     mapping->private_lock (in block_dirty_folio)
-> - *                       folio_lock_memcg move_lock (in block_dirty_folio)
->   *                         i_pages lock (widely used)
->   *                           lruvec->lru_lock (in folio_lruvec_lock_irq)
->   *                     inode->i_lock (in set_page_dirty's __mark_inode_dirty)
-> -- 
-> 2.43.5
+Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
 
+Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
+Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+---
+v7->v8:
+Thanks, Some fixes according to:
+https://lore.kernel.org/all/87sesl2op0.fsf@trenco.lwn.net/
+Changes:
+1.add some suffixes "_zh_CN" to some duplicated labels
+
+ Documentation/translations/zh_CN/mm/index.rst |   1 +
+ .../translations/zh_CN/mm/physical_memory.rst | 356 ++++++++++++++++++
+ 2 files changed, 357 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/mm/physical_memory.rst
+
+diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
+index 960b6d2f3d18..c8726bce8f74 100644
+--- a/Documentation/translations/zh_CN/mm/index.rst
++++ b/Documentation/translations/zh_CN/mm/index.rst
+@@ -54,6 +54,7 @@ Linux内存管理文档
+    page_owner
+    page_table_check
+    page_tables
++   physical_memory
+    remap_file_pages
+    split_page_table_lock
+    vmalloced-kernel-stacks
+diff --git a/Documentation/translations/zh_CN/mm/physical_memory.rst b/Documentation/translations/zh_CN/mm/physical_memory.rst
+new file mode 100644
+index 000000000000..4594d15cefec
+--- /dev/null
++++ b/Documentation/translations/zh_CN/mm/physical_memory.rst
+@@ -0,0 +1,356 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/mm/physical_memory.rst
++
++:翻译:
++
++   王亚鑫 Yaxin Wang <wang.yaxin@zte.com.cn>
++
++========
++物理内存
++========
++
++Linux可用于多种架构，因此需要一个与架构无关的抽象来表示物理内存。本章描述
++了管理运行系统中物理内存的结构。
++
++第一个与内存管理相关的主要概念是 `非一致性内存访问(NUMA)
++<https://en.wikipedia.org/wiki/Non-uniform_memory_access>`
++
++在多核和多插槽机器中，内存可能被组织成不同的存储区，这些存储区根据与处理器
++的距离“不同”而有不同的访问开销。例如，可能为每个CPU分配内存存储区，或者为
++外围设备在附近分配一个非常适合DMA的内存存储区。
++
++每个存储区被称为一个节点，节点在Linux中表示为 ``struct pglist_data``，
++即使是在UMA架构中也是这样表示。该结构总是通过 ``pg_data_t`` 来引用。特
++定节点的 ``pg_data_t`` 结构体可以通过NODE_DATA(nid)引用，其中nid被称
++为该节点的ID。
++
++对于非一致性内存访问（NUMA）架构，节点数据结构在引导时由特定于架构的代码早
++期分配。通常，这些结构在其所在的内存区上本地分配。对于一致性内存访问（UMA）
++架构，只使用一个静态的 ``pg_data_t`` 结构体，称为 ``contig_page_data``。
++节点将会在 :ref:`节点 <nodes>` 章节中进一步讨论。
++
++整个物理内存被划分为一个或多个被称为区域的块，这些区域表示内存的范围。这
++些范围通常由访问内存的架构限制来决定。在节点内，与特定区域对应的内存范围
++由 ``struct zone`` 结构体描述，该结构被定义为 ``zone_t``，每种区域都
++属于以下描述类型的一种。
++
++* ``ZONE_DMA`` 和 ``ZONE_DMA32`` 在历史上代表适用于DMA的内存，这些
++  内存由那些不能访问所有可寻址内存的外设访问。多年来，已经有了更好、更稳
++  固的接口来获取满足特定DMA需求的内存（这些接口由
++  Documentation/core-api/dma-api.rst 文档描述），但是 ``ZONE_DMA``
++  和 ``ZONE_DMA32`` 仍然表示访问受限的内存范围。
++
++取决于架构的不同，这两种区域可以在构建时通过关闭 ``CONFIG_ZONE_DMA`` 和
++``CONFIG_ZONE_DMA32`` 配置选项来禁用。一些64位的平台可能需要这两种区域，
++因为他们支持具有不同DMA寻址限制的外设。
++
++* ``ZONE_NORMAL`` 是普通内存的区域，这种内存可以被内核随时访问。如果DMA
++  设备支持将数据传输到所有可寻址的内存区域，那么可在该区域的页面上执行DMA
++  操作。``ZONE_NORMAL`` 总是开启的。
++
++* ``ZONE_HIGHMEM`` 是指那些没有在内核页表中永久映射的物理内存部分。该区
++  域的内存只能通过临时映射被内核访问。该区域只在某些32位架构上可用，并且是
++  通过 ``CONFIG_HIGHMEM`` 选项开启。
++
++* ``ZONE_MOVABLE`` 是指可访问的普通内存区域，就像 ``ZONE_NORMAL``
++  一样。不同之处在于 ``ZONE_MOVABLE`` 中的大多数页面内容是可移动的。
++  这意味着这些页面的虚拟地址不会改变，但它们的内容可能会在不同的物理页面
++  之间移动。通常，在内存热插拔期间填充 ``ZONE_MOVABLE``，在启动时也可
++  以使用 ``kernelcore``、``movablecore`` 和 ``movable_node``
++  这些内核命令行参数来填充。更多详细信息，请参阅内核文档
++  Documentation/mm/page_migration.rst 和
++  Documentation/admin-guide/mm/memory-hotplug.rst。
++
++* ``ZONE_DEVICE`` 表示位于持久性内存（PMEM）和图形处理单元（GPU）
++  等设备上的内存。它与RAM区域类型有不同的特性，并且它的存在是为了提供
++  :ref:`struct page<Pages>` 结构和内存映射服务，以便设备驱动程序能
++  识别物理地址范围。``ZONE_DEVICE`` 通过 ``CONFIG_ZONE_DEVICE``
++  选项开启。
++
++需要注意的是，许多内核操作只能使用 ``ZONE_NORMAL`` 来执行，因此它是
++性能最关键区域。区域在 :ref:`区域 <zones>` 章节中有更详细的讨论。
++
++节点和区域范围之间的关系由固件报告的物理内存映射决定，另外也由内存寻址
++的架构约束以及内核命令行中的某些参数决定。
++
++例如，在具有2GB RAM的x86统一内存架构（UMA）机器上运行32位内核时，整
++个内存将位于节点0，并且将有三个区域： ``ZONE_DMA``、 ``ZONE_NORMAL``
++和 ``ZONE_HIGHMEM``::
++
++  0                                                            2G
++  +-------------------------------------------------------------+
++  |                            node 0                           |
++  +-------------------------------------------------------------+
++
++  0         16M                    896M                        2G
++  +----------+-----------------------+--------------------------+
++  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
++  +----------+-----------------------+--------------------------+
++
++
++在内核构建时关闭 ``ZONE_DMA`` 开启 ``ZONE_DMA32``，并且具有16GB
++RAM平均分配在两个节点上的arm64机器上，使用 ``movablecore=80%`` 参数
++启动时，``ZONE_DMA32``、``ZONE_NORMAL`` 和 ``ZONE_MOVABLE``
++位于节点0，而 ``ZONE_NORMAL`` 和 ``ZONE_MOVABLE`` 位于节点1::
++
++
++ 1G                                9G                         17G
++  +--------------------------------+ +--------------------------+
++  |              node 0            | |          node 1          |
++  +--------------------------------+ +--------------------------+
++
++  1G       4G        4200M          9G          9320M          17G
++  +---------+----------+-----------+ +------------+-------------+
++  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
++  +---------+----------+-----------+ +------------+-------------+
++
++
++内存存储区可能位于交错的节点。在下面的例子中，一台x86机器有16GB的RAM分
++布在4个内存存储区上，偶数编号的内存存储区属于节点0，奇数编号的内存条属于
++节点1::
++
++  0              4G              8G             12G            16G
++  +-------------+ +-------------+ +-------------+ +-------------+
++  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
++  +-------------+ +-------------+ +-------------+ +-------------+
++
++  0   16M      4G
++  +-----+-------+ +-------------+ +-------------+ +-------------+
++  | DMA | DMA32 | |    NORMAL   | |    NORMAL   | |    NORMAL   |
++  +-----+-------+ +-------------+ +-------------+ +-------------+
++
++在这种情况下，节点0将覆盖从0到12GB的内存范围，而节点1将覆盖从4GB到16GB
++的内存范围。
++
++.. _nodes_zh_CN:
++
++节点
++====
++
++正如我们所提到的，内存中的每个节点由 ``pg_data_t`` 描述，通过
++``struct pglist_data`` 结构体的类型定义。在分配页面时，默认情况下，Linux
++使用节点本地分配策略，从离当前运行CPU的最近节点分配内存。由于进程倾向于在同
++一个CPU上运行，很可能会使用当前节点的内存。分配策略可以由用户控制，如内核文
++档 Documentation/admin-guide/mm/numa_memory_policy.rst 中所述。
++
++大多数NUMA（非统一内存访问）架构维护了一个指向节点结构的指针数组。这些实际
++的结构在启动过程中的早期被分配，这时特定于架构的代码解析了固件报告的物理内
++存映射。节点初始化的大部分工作是在由free_area_init()实现的启动过程之后
++完成，该函数在后面的小节 :ref:`初始化 <initialization>` 中有详细描述。
++
++除了节点结构，内核还维护了一个名为 ``node_states`` 的 ``nodemask_t``
++位掩码数组。这个数组中的每个位掩码代表一组特定属性的节点，这些属性由
++``enum node_states`` 定义，定义如下：
++
++``N_POSSIBLE``
++节点可能在某个时刻上线。
++
++``N_ONLINE``
++节点已经上线。
++
++``N_NORMAL_MEMORY``
++节点拥有普通内存。
++
++``N_HIGH_MEMORY``
++节点拥有普通或高端内存。当关闭 ``CONFIG_HIGHMEM`` 配置时，
++也可以称为 ``N_NORMAL_MEMORY``。
++
++``N_MEMORY``
++节点拥有（普通、高端、可移动）内存。
++
++``N_CPU``
++节点拥有一个或多个CPU。
++
++对于具有上述属性的每个节点，``node_states[<property>]``
++掩码中对应于节点ID的位会被置位。
++
++例如，对于具有常规内存和CPU的节点2，第二个bit将被设置::
++
++  node_states[N_POSSIBLE]
++  node_states[N_ONLINE]
++  node_states[N_NORMAL_MEMORY]
++  node_states[N_HIGH_MEMORY]
++  node_states[N_MEMORY]
++  node_states[N_CPU]
++
++有关使用节点掩码（nodemasks）可能进行的各种操作，请参考
++``include/linux/nodemask.h``。
++
++除此之外，节点掩码（nodemasks）提供用于遍历节点的宏，即
++``for_each_node()`` 和 ``for_each_online_node()``。
++
++例如，要为每个在线节点调用函数 foo()，可以这样操作::
++
++  for_each_online_node(nid) {
++		pg_data_t *pgdat = NODE_DATA(nid);
++
++		foo(pgdat);
++	}
++
++节点数据结构
++------------
++
++节点结构 ``struct pglist_data`` 在 ``include/linux/mmzone.h``
++中声明。这里我们将简要描述这个结构体的字段：
++
++通用字段
++~~~~~~~~
++
++``node_zones``
++表示该节点的区域列表。并非所有区域都可能被填充，但这是
++完整的列表。它被该节点的node_zonelists以及其它节点的
++node_zonelists引用。
++
++``node_zonelists``
++表示所有节点中所有区域的列表。此列表定义了分配内存时首选的区域
++顺序。``node_zonelists`` 在核心内存管理结构初始化期间，
++由 ``mm/page_alloc.c`` 中的 ``build_zonelists()``
++函数设置。
++
++``nr_zones``
++表示此节点中已填充区域的数量。
++
++``node_mem_map``
++对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_mem_map``
++表示每个物理帧的struct pages数组。
++
++``node_page_ext``
++对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_page_ext``
++是struct pages的扩展数组。只有在构建时开启了 ``CONFIG_PAGE_EXTENSION``
++选项的内核中才可用。
++
++``node_start_pfn``
++表示此节点中起始页面帧的页面帧号。
++
++``node_present_pages``
++表示此节点中存在的物理页面的总数。
++
++``node_spanned_pages``
++表示包括空洞在内的物理页面范围的总大小。
++
++``node_size_lock``
++一个保护定义节点范围字段的锁。仅在开启了 ``CONFIG_MEMORY_HOTPLUG`` 或
++``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 配置选项中的某一个时才定义。提
++供了 ``pgdat_resize_lock()`` 和 ``pgdat_resize_unlock()`` 用来操作
++``node_size_lock``，而无需检查 ``CONFIG_MEMORY_HOTPLUG`` 或
++``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项。
++
++``node_id``
++节点的节点ID（NID），从0开始。
++
++``totalreserve_pages``
++这是每个节点保留的页面，这些页面不可用于用户空间分配。
++
++``first_deferred_pfn``
++如果大型机器上的内存初始化被推迟，那么第一个PFN（页帧号）是需要初始化的。
++在开启了 ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项时定义。
++
++``deferred_split_queue``
++每个节点的大页队列，这些大页的拆分被推迟了。仅在开启了 ``CONFIG_TRANSPARENT_HUGEPAGE``
++配置选项时定义。
++
++``__lruvec``
++每个节点的lruvec持有LRU（最近最少使用）列表和相关参数。仅在禁用了内存
++控制组（cgroups）时使用。它不应该直接访问，而应该使用 ``mem_cgroup_lruvec()``
++来查找lruvecs。
++
++回收控制
++~~~~~~~~
++
++另见内核文档 Documentation/mm/page_reclaim.rst 文件。
++
++``kswapd``
++每个节点的kswapd内核线程实例。
++
++``kswapd_wait``, ``pfmemalloc_wait``, ``reclaim_wait``
++同步内存回收任务的工作队列。
++
++``nr_writeback_throttled``
++等待写回脏页时，被限制的任务数量。
++
++``kswapd_order``
++控制kswapd尝试回收的order。
++
++``kswapd_highest_zoneidx``
++kswapd线程可以回收的最高区域索引。
++
++``kswapd_failures``
++kswapd无法回收任何页面的运行次数。
++
++``min_unmapped_pages``
++无法回收的未映射文件支持的最小页面数量。由 ``vm.min_unmapped_ratio``
++系统控制台（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 配置时定义。
++
++``min_slab_pages``
++无法回收的SLAB页面的最少数量。由 ``vm.min_slab_ratio`` 系统控制台
++（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 时定义。
++
++``flags``
++控制回收行为的标志位。
++
++内存压缩控制
++~~~~~~~~~~~~
++
++``kcompactd_max_order``
++kcompactd应尝试实现的页面order。
++
++``kcompactd_highest_zoneidx``
++kcompactd可以压缩的最高区域索引。
++
++``kcompactd_wait``
++同步内存压缩任务的工作队列。
++
++``kcompactd``
++每个节点的kcompactd内核线程实例。
++
++``proactive_compact_trigger``
++决定是否使用主动压缩。由 ``vm.compaction_proactiveness`` 系统控
++制台（sysctl）参数控制。
++
++统计信息
++~~~~~~~~
++
++``per_cpu_nodestats``
++表示节点的Per-CPU虚拟内存统计信息。
++
++``vm_stat``
++表示节点的虚拟内存统计数据。
++
++.. _zones_zh_CN:
++
++区域
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _pages_zh_CN:
++
++页
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _folios_zh_CN:
++
++页码
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _initialization_zh_CN:
++
++初始化
++======
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
 -- 
-Michal Hocko
-SUSE Labs
+2.27.0
