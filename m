@@ -1,112 +1,238 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD2C14A0A7;
-	Fri, 25 Oct 2024 16:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E094170854
+	for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 16:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729873257; cv=none; b=sogqefSqqhhtBOdnlQ52o770MTV+faVDCZ9/xzbGFMI73TDQXv/KhujnxSYLLQZTEYrapCJk0yefSYIjzZtPr8/RACH3aK1wGaTrAdM0721N8Ay1RmPUk2vXu6s68hpiJJbMiTBVDxBBOdopG963Sr9SCR62Id/BWSWzda3d3tw=
+	t=1729873350; cv=none; b=mQbLhdrMeC60WQA8ze2BBTkiy5PTJsB5neMm19Pajc0zlsal9Z2LNUmNmRoi3G2Dqq0KI+VTrVigP4L1GurdipnGuKQpnodN24uRjNpyN4vY6dKhsEDXcBb7W1NJWdd/cy7tTPWclUk8DblQTsHSxK7B5PvqTYtB7dDQgAX1KuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729873257; c=relaxed/simple;
-	bh=Nnec9soSG37dMDOLuUy+sWKmAvQakFDh2jmGS5IqsBk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VABkDEm4LP+DucirTaLvfMtgLWHXY6tEjuUbjAsrzwgymj+oGXaaJrNx1VF7Y0sgBG+ux0z1JqHwXiiNdG8Lg1ePFaK9Bu1Oshx4EGPJq6tmCZ1O7Ds2G8vqcGzRd3kTAKMeHdlZO4hsWDLH11dJhmgUA6wW7ThbHKLBu3t+pyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=YbG4Yt1f; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1729873350; c=relaxed/simple;
+	bh=Nvc3OxwdDJqF6/bh7R12YvLLqr9zIdGMinGLFcdg2v4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ESeMpJgdFMmS59kVnx8IdDGpdnO9RYt63PG0fP+0LHj932BOPey8y54fsEiIV8kJwtRt7yf6cuPWIT2jYTtVALepnpu7hpujk3cDOVfBgYc6t74WV+Wdm/jXjHlGbyFQ9X9A7GUTlneqtjOMtHYZnSdHCjeMoiK3AEGxPuuzrpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N4HWfhGT; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="YbG4Yt1f"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=EHLpWcwrtqUoy9yZdOs2vFLOu6EebO+piZZlDeFdZ2U=; b=YbG4Yt1fz5SrBiorVVGTzoxFeJ
-	BhofV7UIxCiw/O7cutk+kz6WvBmC3k7ykYF4pUi6Z41Y6UYNkseVt0/GgfigbyWDEAiyY4Seab18d
-	qoAmreG73WYGcrQoiJnm5C1E5e0fnuHLmy8r/TujFw69CXkl9j8jpFNsDKCRo5EjjK/B9F3WeMKof
-	feMj6hD08D7rHFaMNeGwde8yIbz3T+m0QRWT8e5R/yy3vJTbOjp/mDajPO7WEJJMKc9TPUtvtOBTp
-	6Ni5Z62vjOyA5HYEFgC4gDu79/x6kDOtLC2DwdWldwyENU8OkTUe+Td1/VEXNbvhdFgi1bqn+J4FG
-	K11pt7BQ==;
-Received: from [189.79.117.125] (helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1t4N3P-00F5mK-VM; Fri, 25 Oct 2024 18:20:48 +0200
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-To: kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Cc: bhe@redhat.com,
-	vgoyal@redhat.com,
-	dyoung@redhat.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	stephen.s.brennan@oracle.com,
-	horms@kernel.org,
-	kernel@gpiccoli.net,
-	kernel-dev@igalia.com,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Subject: [PATCH V3] Documentation: Improve crash_kexec_post_notifiers description
-Date: Fri, 25 Oct 2024 13:18:20 -0300
-Message-ID: <20241025162042.905104-1-gpiccoli@igalia.com>
-X-Mailer: git-send-email 2.46.2
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N4HWfhGT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729873346;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=emwlGOdAV5GPCbDbXU8/cJnDkVRFeD9ng138eIoq4+4=;
+	b=N4HWfhGTp2SoEk1Kp7e15WmSp+4hLdM7rWLPbbWTsHKt9Ay55g4CpMEDrz7ozWgXYcDoia
+	PYO6v4I5WqSyuYwu7CwIB9zTs8I22wEiAVvC3CFtzKzG3B/hsy/gTTLDA1OPFsr10EJtlG
+	YKSKbwirGMJVDS3W3OM5/supobrvRNs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-373-cFxZNMo5NMi0ewZBsW7s8Q-1; Fri, 25 Oct 2024 12:22:25 -0400
+X-MC-Unique: cFxZNMo5NMi0ewZBsW7s8Q-1
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5c947d9afc9so1677739a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 09:22:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729873344; x=1730478144;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=emwlGOdAV5GPCbDbXU8/cJnDkVRFeD9ng138eIoq4+4=;
+        b=AzUTgF94RQ3tgvSrEOc9sfL0b2VA5grFLnwauz+euh2my5998X1eExsyguzXMDcFRH
+         dq4MeoEg2PEcmHbULq5zgI3CzfZh5/9z7HJws08rj+lv3HGyTjsACsJO6R78NyKWH3Mh
+         //QSFhzf91YDDCJ9700P0H64dp2nvIWw27JB2vutctkfdvbAQ2/92hAc/bxpT316QxAb
+         2rdQznnudvGZ40TO6lccSHQ+0I2K8zfw2NUZtp0YQAstTK3tLUb0s2eqbt7T/EmwpFhe
+         lVds+FBweKRh2s/jIlG5Iojdsj/ZKtpYwog5DiPME3TuGuCtqcsIx8VNTRpwBM7rXz/c
+         nj8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUQVKwCrwIA5dXJYD+vjHNdw/NKGArlwcidem1Z1wYtcpu0XL1Hgtbn2XusgZ9wZRHxXpVgut4E1UU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDRIgOnj3D3cWq2qARZwqiJw5XNX+2PRpSqD8cMyzN97LR6jxu
+	amXHq/aRqTAKCLTl5AvyikJlVH28PFZkO30hBqW/RA7FuUPokEdHoBdwtuS1xBf5eN8z21knpVs
+	9C7kq2MvfpXHxip3ZQSQkHSHDTBytLX2Br00f6VuQMkerouinoIZiWx2rdw==
+X-Received: by 2002:a17:907:7f15:b0:a9a:7f84:940b with SMTP id a640c23a62f3a-a9abf8458f3mr1007587566b.10.1729873343976;
+        Fri, 25 Oct 2024 09:22:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFRdntJoyvupUZ8WixSPs76hFhlXeUzwWu1qndPMO81kxJOWMh5JeS9vrEJtBZYGSJGz+4mZg==
+X-Received: by 2002:a17:907:7f15:b0:a9a:7f84:940b with SMTP id a640c23a62f3a-a9abf8458f3mr1007579766b.10.1729873343429;
+        Fri, 25 Oct 2024 09:22:23 -0700 (PDT)
+Received: from eisenberg.fritz.box (200116b82de5ba00738ac8dadaac7543.dip.versatel-1u1.de. [2001:16b8:2de5:ba00:738a:c8da:daac:7543])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b1f298ef6sm86580966b.136.2024.10.25.09.22.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 09:22:23 -0700 (PDT)
+Message-ID: <19f734499f24df1f1835248eba19b136d41cc1d4.camel@redhat.com>
+Subject: Re: [PATCH 02/10] ata: ahci: Replace deprecated PCI functions
+From: Philipp Stanner <pstanner@redhat.com>
+To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>, Giovanni Cabiddu
+ <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>,  Boris Brezillon
+ <bbrezillon@kernel.org>, Arnaud Ebalard <arno@natisbad.org>, Srujana Challa
+ <schalla@marvell.com>,  Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Miri Korenblit
+ <miriam.rachel.korenblit@intel.com>, Kalle Valo <kvalo@kernel.org>, Serge
+ Semin <fancer.lancer@gmail.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Kevin Cernekee <cernekee@gmail.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
+ <jirislaby@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>,  Mark Brown <broonie@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>, Jie Wang <jie.wang@intel.com>, Tero
+ Kristo <tero.kristo@linux.intel.com>, Adam Guerin <adam.guerin@intel.com>,
+ Shashank Gupta <shashank.gupta@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Bharat Bhushan <bbhushan2@marvell.com>,
+ Nithin Dabilpuram <ndabilpuram@marvell.com>, Johannes Berg
+ <johannes.berg@intel.com>, Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+  Gregory Greenman <gregory.greenman@intel.com>, Benjamin Berg
+ <benjamin.berg@intel.com>, Yedidya Benshimol
+ <yedidya.ben.shimol@intel.com>, Breno Leitao <leitao@debian.org>, Florian
+ Fainelli <florian.fainelli@broadcom.com>, linux-doc@vger.kernel.org, LKML
+ <linux-kernel@vger.kernel.org>, linux-ide@vger.kernel.org,
+ qat-linux@intel.com,  linux-crypto@vger.kernel.org,
+ linux-wireless@vger.kernel.org,  ntb@lists.linux.dev,
+ linux-pci@vger.kernel.org, linux-serial <linux-serial@vger.kernel.org>,
+ linux-sound@vger.kernel.org
+Date: Fri, 25 Oct 2024 18:22:21 +0200
+In-Reply-To: <282ba5d4-cdad-a6f4-8ee0-1936c532dbc5@linux.intel.com>
+References: <20241025145959.185373-1-pstanner@redhat.com>
+	 <20241025145959.185373-3-pstanner@redhat.com>
+	 <282ba5d4-cdad-a6f4-8ee0-1936c532dbc5@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The crash_kexec_post_notifiers description could be improved a bit,
-by clarifying its upsides (yes, there are some!) and be more descriptive
-about the downsides, specially mentioning code that enables the option
-unconditionally, like Hyper-V[0], PowerPC (fadump)[1] and more
-recently, AMD SEV[2].
+On Fri, 2024-10-25 at 18:55 +0300, Ilpo J=C3=A4rvinen wrote:
+> On Fri, 25 Oct 2024, Philipp Stanner wrote:
+>=20
+> > pcim_iomap_regions_request_all() and pcim_iomap_table() have been
+> > deprecated by the PCI subsystem in commit e354bb84a4c1 ("PCI:
+> > Deprecate
+> > pcim_iomap_table(), pcim_iomap_regions_request_all()").
+> >=20
+> > Replace these functions with their successors, pcim_iomap() and
+> > pcim_request_all_regions().
+> >=20
+> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > Acked-by: Damien Le Moal <dlemoal@kernel.org>
+> > ---
+> > =C2=A0drivers/ata/acard-ahci.c | 6 ++++--
+> > =C2=A0drivers/ata/ahci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 ++++--
+> > =C2=A02 files changed, 8 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/drivers/ata/acard-ahci.c b/drivers/ata/acard-ahci.c
+> > index 547f56341705..3999305b5356 100644
+> > --- a/drivers/ata/acard-ahci.c
+> > +++ b/drivers/ata/acard-ahci.c
+> > @@ -370,7 +370,7 @@ static int acard_ahci_init_one(struct pci_dev
+> > *pdev, const struct pci_device_id
+> > =C2=A0	/* AHCI controllers often implement SFF compatible
+> > interface.
+> > =C2=A0	 * Grab all PCI BARs just in case.
+> > =C2=A0	 */
+> > -	rc =3D pcim_iomap_regions_request_all(pdev, 1 <<
+> > AHCI_PCI_BAR, DRV_NAME);
+> > +	rc =3D pcim_request_all_regions(pdev, DRV_NAME);
+> > =C2=A0	if (rc =3D=3D -EBUSY)
+> > =C2=A0		pcim_pin_device(pdev);
+> > =C2=A0	if (rc)
+> > @@ -386,7 +386,9 @@ static int acard_ahci_init_one(struct pci_dev
+> > *pdev, const struct pci_device_id
+> > =C2=A0	if (!(hpriv->flags & AHCI_HFLAG_NO_MSI))
+> > =C2=A0		pci_enable_msi(pdev);
+> > =C2=A0
+> > -	hpriv->mmio =3D pcim_iomap_table(pdev)[AHCI_PCI_BAR];
+> > +	hpriv->mmio =3D pcim_iomap(pdev, AHCI_PCI_BAR, 0);
+> > +	if (!hpriv->mmio)
+> > +		return -ENOMEM;
+> > =C2=A0
+> > =C2=A0	/* save initial config */
+> > =C2=A0	ahci_save_initial_config(&pdev->dev, hpriv);
+> > diff --git a/drivers/ata/ahci.c b/drivers/ata/ahci.c
+> > index 45f63b09828a..2043dfb52ae8 100644
+> > --- a/drivers/ata/ahci.c
+> > +++ b/drivers/ata/ahci.c
+> > @@ -1869,7 +1869,7 @@ static int ahci_init_one(struct pci_dev
+> > *pdev, const struct pci_device_id *ent)
+> > =C2=A0	/* AHCI controllers often implement SFF compatible
+> > interface.
+> > =C2=A0	 * Grab all PCI BARs just in case.
+> > =C2=A0	 */
+> > -	rc =3D pcim_iomap_regions_request_all(pdev, 1 <<
+> > ahci_pci_bar, DRV_NAME);
+> > +	rc =3D pcim_request_all_regions(pdev, DRV_NAME);
+> > =C2=A0	if (rc =3D=3D -EBUSY)
+> > =C2=A0		pcim_pin_device(pdev);
+> > =C2=A0	if (rc)
+> > @@ -1893,7 +1893,9 @@ static int ahci_init_one(struct pci_dev
+> > *pdev, const struct pci_device_id *ent)
+> > =C2=A0	if (ahci_sb600_enable_64bit(pdev))
+> > =C2=A0		hpriv->flags &=3D ~AHCI_HFLAG_32BIT_ONLY;
+> > =C2=A0
+> > -	hpriv->mmio =3D pcim_iomap_table(pdev)[ahci_pci_bar];
+> > +	hpriv->mmio =3D pcim_iomap(pdev, ahci_pci_bar, 0);
+> > +	if (!hpriv->mmio)
+> > +		return -ENOMEM;
+>=20
+> Hi,
+>=20
+> I've probably lost the big picture somewhere and the coverletter
+> wasn't=20
+> helpful focusing only the most immediate goal of getting rid of the=20
+> deprecated function.
+>=20
+> These seem to only pcim_iomap() a single BAR. So my question is, what
+> is=20
+> the reason for using pcim_request_all_regions() and not=20
+> pcim_request_region() as mentioned in the commit message of the
+> commit=20
+> e354bb84a4c1 ("PCI: Deprecate pcim_iomap_table(),=20
+> pcim_iomap_regions_request_all()")?
 
-[0] Commit a11589563e96 ("x86/Hyper-V: Report crash register data or kmsg before running crash kernel").
-[1] Commit 06e629c25daa ("powerpc/fadump: Fix inaccurate CPU state info in vmcore generated with panic").
-[2] Commit 8ef979584ea8 ("crypto: ccp: Add panic notifier for SEV/SNP firmware shutdown on kdump").
+That commit message isn't that precise and / or was written when
+pcim_request_all_regions() was still an internal helper function.
 
-Reviewed-by: Stephen Brennan <stephen.s.brennan@oracle.com>
-Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
----
+>=20
+> I understand it's strictly not wrong to use
+> pcim_request_all_regions()
+> but I'm just trying to understand the logic behind the selection.
+> I'm sorry if this is a stupid question, it's just what I couldn't
+> figure=20
+> out on my own while trying to review these patches.
+>=20
 
-V3: Improved wording and commit description, detailing more about the addition
-of code that enables crash_kexec_post_notifiers unconditionally.
+The reason pcim_request_all_regions() is used in the entire series is
+to keep behavior of the drivers 100% identical.
+pcim_iomap_regions_request_all() performs a region request on *all* PCI
+BARs and then ioremap()s *specific* ones; namely those set by the
+barmask.
 
-Thanks Baoquan and Simon for the suggestions!
+It seems to me that those drivers were only using
+pcim_iomap_regions_request_all() precisely because of that feature:
+they want to reserve all BARs through a region request. You could do
+that manually with
+
+for (int i =3D 0; i < PCI_STD_NUM_BARS; i++) pcim_request_region();
+mem =3D pcim_iomap(...);
+
+When you look at Patch #10 you'll see the implementation of
+pcim_iomap_regions_request_all() and will discover that it itself uses
+pcim_request_all_regions().
+
+So you could consider this series a partial code-move that handily also
+gets rid of a complicated function that prevents us from removing,
+ultimately, the problematic function pcim_iomap_table().
 
 
- Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+Hope this helps,
+P.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3978fb704c53..2a7a523bb90b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -918,12 +918,16 @@
- 			the parameter has no effect.
- 
- 	crash_kexec_post_notifiers
--			Run kdump after running panic-notifiers and dumping
--			kmsg. This only for the users who doubt kdump always
--			succeeds in any situation.
--			Note that this also increases risks of kdump failure,
--			because some panic notifiers can make the crashed
--			kernel more unstable.
-+			Only jump to kdump kernel after running the panic
-+			notifiers and dumping kmsg. This option increases
-+			the risks of a kdump failure, since some panic
-+			notifiers can make the crashed kernel more unstable.
-+			In configurations where kdump may not be reliable,
-+			running the panic notifiers could allow collecting
-+			more data on dmesg, like stack traces from other CPUS
-+			or extra data dumped by panic_print. Note that some
-+			configurations enable this option unconditionally,
-+			like Hyper-V, PowerPC (fadump) and AMD SEV.
- 
- 	crashkernel=size[KMG][@offset[KMG]]
- 			[KNL,EARLY] Using kexec, Linux can switch to a 'crash kernel'
--- 
-2.46.2
+> (I admit not reading all the related discussions in the earlier
+> versions.)
+>=20
 
