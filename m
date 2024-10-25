@@ -1,31 +1,31 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B77820C312;
-	Fri, 25 Oct 2024 17:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C737C20C334
+	for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 17:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729878013; cv=none; b=VMyd1jPBF5KCaWHTScmDkBFSFiQ9dAX1W17mkF6QpqGCo4kbsshUe+1q3+kpl4UTzJPGmx0zrmuU00h1nvzyO5+O30Lw9EYuf78iiBmpIO5sJLrNtMxkxc6Ng1FGXNzkKWvJnXy4f7jsO4VL0KWZ49OAU2oJEEE7yDd8rcuPSkY=
+	t=1729878063; cv=none; b=fm0orKPZpRSjK0D7lGKI2YM9bFSmNMcSZ+65tpyY4R5ERDrhiQn3FOuPQh3fOfoH3DeQT5Roxy09oil8raoDa01g+d0I06Na0UQOPjZ5e81/rQ6u8l+xwFLctvNSjOhQaA1obQwsshrlWjPVf0kZWWYJaxe5dLdaYvqieGwthEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729878013; c=relaxed/simple;
-	bh=WxABe0ODP9+tc7RWru00ngU4k6HAkpEIiqJSF16oZ4I=;
+	s=arc-20240116; t=1729878063; c=relaxed/simple;
+	bh=24CjPZINRTGk7V+Gz5saXuLBscalIJDDVpgZyPi6DQ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lkHSfcBMNjEJcQ7Tehyi3Mu5/CllKkB0+J2aafy2BajLWzS2pvFPSYTplXg4fbbNxsGryVHDDmhCyj7A+I/17Tco+c5/L9EQzoh62dcpjcifTU+n76xU8HoKEKLvB1T+pE0BCiNf8YPvldEjjpnYNCgDkjk/7uG5Ms9d3JyiB5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BSG50F8n; arc=none smtp.client-ip=95.215.58.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=VUdm5xWuQKm1vL5U8v46Tj7eLixlyGkV1wiCT23CIpHwjELbXeYDXlQJnWoNX0I2eLCadJUmmjO3zULoLtRgMUABe2TZiUA1HgACvldB4rMkh+7kC/Rb5+JiR7ZHrWcVXodCaqKlqcqnnb81P30kqxBYqwxth04syUTlNJzvQP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=t9x9nvfx; arc=none smtp.client-ip=95.215.58.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BSG50F8n"
-Date: Fri, 25 Oct 2024 17:40:01 +0000
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="t9x9nvfx"
+Date: Fri, 25 Oct 2024 17:40:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1729878007;
+	t=1729878058;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dcekPzptXu2Fit7kcwKSnrnPY3JMJ5n+1FOAhs4EjkY=;
-	b=BSG50F8nNJFwIP2DRr5E9g3QeSfO79EOlCwbOsKQiM4/XfCZW08d52HYnmckw4xI0lrsiT
-	y/hJc6ukinpgujfZLtpMWlwdC0kZ/U+SEeszSY8Qxq8tNrA0deSfpuDaNQMm5Ezysugq9k
-	K2PFjzmPw6xvhkctROblz/KSSNWUu0Y=
+	bh=/ZZi0QQzXVADJVHeSO90RuV4/Uz17msU1AAdrvd9myA=;
+	b=t9x9nvfxObepocqu22ZGalnaw5WyowMFOnhdtW95javKxOw2rn1LId+pNkikqCUPI6owI6
+	AOCgkE3E2sK+bgLi8IQ9dCAYNERchWN723IaCv4CscWeyZIssFz5ILV+0PT19Qq/SWhK+m
+	6NEJ30lUtccs+x1Lar6YtgdwuvLNksk=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Roman Gushchin <roman.gushchin@linux.dev>
 To: Shakeel Butt <shakeel.butt@linux.dev>
@@ -38,11 +38,11 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
 	Meta kernel team <kernel-team@meta.com>
-Subject: Re: [PATCH v1 3/6] memcg-v1: no need for memcg locking for dirty
+Subject: Re: [PATCH v1 4/6] memcg-v1: no need for memcg locking for writeback
  tracking
-Message-ID: <ZxvX8beTxGhRj8G3@google.com>
+Message-ID: <ZxvYIxE3wB7FyFCW@google.com>
 References: <20241025012304.2473312-1-shakeel.butt@linux.dev>
- <20241025012304.2473312-4-shakeel.butt@linux.dev>
+ <20241025012304.2473312-5-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,15 +51,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025012304.2473312-4-shakeel.butt@linux.dev>
+In-Reply-To: <20241025012304.2473312-5-shakeel.butt@linux.dev>
 X-Migadu-Flow: FLOW_OUT
 
-On Thu, Oct 24, 2024 at 06:23:00PM -0700, Shakeel Butt wrote:
+On Thu, Oct 24, 2024 at 06:23:01PM -0700, Shakeel Butt wrote:
 > During the era of memcg charge migration, the kernel has to be make sure
-> that the dirty stat updates do not race with the charge migration.
-> Otherwise it might update the dirty stats of the wrong memcg. Now with
-> the memcg charge migration deprecated, there is no more race for dirty
-> stat updates and the previous locking can be removed.
+> that the writeback stat updates do not race with the charge migration.
+> Otherwise it might update the writeback stats of the wrong memcg. Now
+> with the memcg charge migration deprecated, there is no more race for
+> writeback stat updates and the previous locking can be removed.
 > 
 > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 
