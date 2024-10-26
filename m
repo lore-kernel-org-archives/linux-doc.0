@@ -1,238 +1,317 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BE414EC47;
-	Sat, 26 Oct 2024 05:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BCF6A332
+	for <linux-doc@vger.kernel.org>; Sat, 26 Oct 2024 05:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729919491; cv=none; b=Q+0ZWccjFNk0Xn/YKhF6RCVu1AdFuvycvj9vQ378kSTnjvc42LzBDU+ca9r9BU9mrW+buSnxq18hpxGVlxpj1YPCMMi4BBc3jwvuXaIfI5v4UNxdr0ZelkzhDEgpY83pEa8j/y00VvhL9APQuZ3E0iRBngv9pALTw6R4aLbPFag=
+	t=1729919658; cv=none; b=aybtwKN2TDzkxJGQYyN4VcROTUMAfW4Lg6Wsrtv+qkneXouJQyykDXphWBu4P7DTmwmv9VswdEDgYYvXCyDwKzIlie3TZLS5Fbn/2lLg/HTE7Wbzg4ALUdvNW6Y+jUdzqtKOGNPHawjwWIa56qUtEGMA7IqqN4ro4G1ZeHeHTkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729919491; c=relaxed/simple;
-	bh=McFv6i9UQcN/k/nhaQP/YsTf1hwbsUeQnG0tS0NSIzE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H4aiuekyILLQbO37wRWq7AUZnYFZBN46/57+cJWNrJgeXqV53VVmSoxBQe6cpunc56jLgjsQ3wGSnnN7zr04yP138SOoMniwiqIkHp0c02ccmVFJ5Tq6s07+2PCDh9ZvnBsEnP1AuhsphAFky/6AUqX/hSxqREl9gCRbWRA9/Cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UZWl4Z9/; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729919658; c=relaxed/simple;
+	bh=8jxnCa9bBnh0cUSNjwmOBKG3u5h44z/1CLU6uFISDKI=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=h/vkxjhYinNtRviJ4R1UblZv1EWsYjEe1SRwek6XM8bskSRKiyBDechiDY0gwSP3PWQhEXLzO/kfXxMuD/wKV6Yvl0lpkZjM/Toib/JruUNhtUfPQ+76wOZQJk/Y1p7pU2LRqYeyCmxUACJs+6d03GR0W+852Iq8YEhsjWZt0hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xur.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LcGhaOYu; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--xur.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UZWl4Z9/"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a99ea294480so183710466b.2;
-        Fri, 25 Oct 2024 22:11:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LcGhaOYu"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e2971589916so5017103276.3
+        for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 22:14:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729919487; x=1730524287; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hxqf2Vbhgw6HqjwNVbbcfem37l/wnYntm54FveWHRgM=;
-        b=UZWl4Z9/YVh7Oys/gsXgGueV8ZOcY6g2q4b0CbPZlMsNfcCKc85RlEhRCKA6ST2CSR
-         8PDlxRypRmwJvZIXmuH+cxUtkTHTKqnTG/Oiqj1YI1STEO0hQ3UR56Z0gP7x2YeXMKud
-         zm3+kV6uU73ztWWUoSdxknb8HpepACTqk3TrAcCGpEXgHnzLfFkNXDvPEXGM7DLUftD+
-         ahxl0EzK5UhrvImzXbW5IgG086tJUIlrrRGV5L6ZL3t1RLcwSga/fs0SW6a9bojj76YZ
-         LsMXvDNF0yXpeRKVAxZnMVofAyASmt41zUmDVa2ZBxmVEVlsklhs10+PCgq6yUrhqo2o
-         9lBA==
+        d=google.com; s=20230601; t=1729919654; x=1730524454; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NpafRz12RMHb9cAnjjDqyyWVZC6gQUy/5u3D+YZnlos=;
+        b=LcGhaOYutHazbzn2g8l0B8WxqB4a6k8zWtBZ3+B0ghZZkwsXKSEh4a7rIlIF5LxPnQ
+         FCozytv6gOyA12jlU2wtbm43MWvsR0UuekU6aOVb3vl9tPh2t5HS8PkAhEZpUJYymqNl
+         YsQdjfW5t+gr4NfkXiaLVJeKYMe67bx8dQZo2kPnZDy0iM7mHunG4jgJNZ7X1KXkD/Ap
+         IwHg2mWjtRWzzbg7N5arkVK0NCBDGRbuNPmpFFAjd4nyCyot7b1R4fwZWJmYD4U1hfIC
+         WX84UHEuDsjEtj08i9GzQgi5cTLSVmSClo4FxATfhw8GUsfTc1+kDL92ZrCfk0kjfQtr
+         1T2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729919487; x=1730524287;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hxqf2Vbhgw6HqjwNVbbcfem37l/wnYntm54FveWHRgM=;
-        b=cN8ZKE31xM8oQiVaShRQvBOd5mUFU3XAZ+dl+ziDbetw3UCLd18QrPFMSUx3e1H3tO
-         Q6jxEuiIhT0n85Y+GttV8DjiVQj3YspuXP4UDX43GfMc7SEolgVoX+ZtXrHhEJAEYQcJ
-         mGz4fb3QF2vU8Se8e6nHyQcdSxjGDJdXBU75cTleQ6/Asu9XRndjlm6bA+S9Oy2WCAT3
-         uQBLzD9wbna4YSfbPyHxtYIkRj7GCZ9soEPUqrdwJ4k4e76UfHRBXegTh/b4EWPOCBuC
-         ZBcrynPP8q8IDnXWVRPhFURKtsVT8ddz2x+r+bGK5gowgcvP23YJuvQ9hsDk6r721e6Q
-         8ypQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVi70xC1biUsQbM5L+rBvobegB+LUbtFuRgNWX5alucUMuHFpadZeDpT88f3/pAfx9Jsd6k6HO@vger.kernel.org, AJvYcCXkuz8hHgaR2tn5z+ZfjbrzQvJigep+D1NlmTnRQMOOgsmpLn9djPGH6AbaKAFJZw3uITica6H1LrM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwA9fMI0VCKaXb24lhTTW4RqNY/xHIsxrjRyaSV9DpaHb4b538H
-	X7UZiFPOSoWV/ohiLW3eR9y8JsPlPJXWVV2NeHUupZZLINDiOfNSH1lKAc+g0t85tZDfCZhjDnu
-	Sj/j/PQ3YHfUhiiiVpnIpLvzF6QU=
-X-Google-Smtp-Source: AGHT+IFQYE/UT9oHGzFoJnp/9TIsc6W3ik2NF0iTGv/VM1ntvMxNHiwy/m2+cv0S/llQ+YY71LqUhCGKBH+t/IwLqXE=
-X-Received: by 2002:a05:6402:1f4b:b0:5c8:9529:1b59 with SMTP id
- 4fb4d7f45d1cf-5cbbf8dec0bmr1387729a12.20.1729919486838; Fri, 25 Oct 2024
- 22:11:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729919654; x=1730524454;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NpafRz12RMHb9cAnjjDqyyWVZC6gQUy/5u3D+YZnlos=;
+        b=S6+SZ+KnivbKg1qoSOnDtmI4WhC5uAAQ6xcy+DjK+mntB5oZ8goWw1i9umvylAE+SR
+         Uj+/VATifRmeip01Ln4vJHS8aFCqUqGu4deFFadu2BFY4GmCjxqm+hE+vnK//Ni8Elox
+         KioJUIPuOdifYeSlFym1M9FVwuzbkWT/9hGk3p26tXx9d8+9/sZnlsfVoLGFXbRigCV5
+         m5FbelxSh/Un2VgKcuGjlczPY5x/bQ19SR3Uj7LZi4TyTJWoKMEfyKeZi96YJTEI04g+
+         MWgGT8s7iu3OOBcgMt4OWEewFrb20w5RKT9eFjHFGTIkPuE15CPk5Gd1oL5MqNjACUTE
+         1BIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVNzDni95BksfKQzan2PE8GAGp8dK9JjULH28WMmjsb4oOqlBirQPZyB6qxJ71izizqtH6eR3Pz0T4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhLJWqJN+sfAEtKrEHbtQl/+jX6xhi98pPhA+o53kGN3KtR7tW
+	lkIF0by55XZwIOXXOi4JrKBleiYbl42ZYzV4Lkix1zdNNkWRHb3Am8W9h+ERza9C+w==
+X-Google-Smtp-Source: AGHT+IE7zs+5qn/XFmHpVTmO1EAjlj2/nUDZFw7Oohoteh4ZYKnOfvOJ45rgLepgiswFcMZ5wNEfWs4=
+X-Received: from xur.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:2330])
+ (user=xur job=sendgmr) by 2002:a25:2d0b:0:b0:e28:f302:3582 with SMTP id
+ 3f1490d57ef6-e3087a406damr1104276.2.1729919653984; Fri, 25 Oct 2024 22:14:13
+ -0700 (PDT)
+Date: Fri, 25 Oct 2024 22:14:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-3-ap420073@gmail.com>
- <CACKFLikBKi2jBNG6_O1uFUmMwfBC30ef5AG4ACjVv_K=vv38PA@mail.gmail.com>
- <ZxvwZmJsdFOStYcV@JRM7P7Q02P.dhcp.broadcom.net> <CACKFLinbsMQE1jb0G-7iMKAo4ZMKp42xiSCZ0XznBV9pDAs3-g@mail.gmail.com>
-In-Reply-To: <CACKFLinbsMQE1jb0G-7iMKAo4ZMKp42xiSCZ0XznBV9pDAs3-g@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Sat, 26 Oct 2024 14:11:15 +0900
-Message-ID: <CAMArcTWrA0ib9XHnSGGH-sNqQ9TG0BaRq+5nsGC3iQv6Zd40rQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 2/8] bnxt_en: add support for tcp-data-split
- ethtool command
-To: Michael Chan <michael.chan@broadcom.com>
-Cc: Andy Gospodarek <andrew.gospodarek@broadcom.com>, davem@davemloft.net, kuba@kernel.org, 
-	pabeni@redhat.com, edumazet@google.com, almasrymina@google.com, 
-	donald.hunter@gmail.com, corbet@lwn.net, andrew+netdev@lunn.ch, 
-	hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org, 
-	daniel@iogearbox.net, john.fastabend@gmail.com, dw@davidwei.uk, 
-	sdf@fomichev.me, asml.silence@gmail.com, brett.creeley@amd.com, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
+Message-ID: <20241026051410.2819338-1-xur@google.com>
+Subject: [PATCH v6 0/7] Add AutoFDO and Propeller support for Clang build
+From: Rong Xu <xur@google.com>
+To: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Rong Xu <xur@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
+	Stephane Eranian <eranian@google.com>
+Cc: x86@kernel.org, linux-arch@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 26, 2024 at 7:00=E2=80=AFAM Michael Chan <michael.chan@broadcom=
-.com> wrote:
->
-> On Fri, Oct 25, 2024 at 12:24=E2=80=AFPM Andy Gospodarek
-> <andrew.gospodarek@broadcom.com> wrote:
+Hi,
 
-Hi Andy,
-Thank you so much for your review!
+This patch series is to integrate AutoFDO and Propeller support into
+the Linux kernel. AutoFDO is a profile-guided optimization technique
+that leverages hardware sampling to enhance binary performance.
+Unlike Instrumentation-based FDO (iFDO), AutoFDO offers a user-friendly
+and straightforward application process. While iFDO generally yields
+superior profile quality and performance, our findings reveal that
+AutoFDO achieves remarkable effectiveness, bringing performance close
+to iFDO for benchmark applications.
 
-> >
-> > On Thu, Oct 24, 2024 at 10:02:30PM -0700, Michael Chan wrote:
-> > > On Tue, Oct 22, 2024 at 9:24=E2=80=AFAM Taehee Yoo <ap420073@gmail.co=
-m> wrote:
-> > > >
-> > > > NICs that uses bnxt_en driver supports tcp-data-split feature by th=
-e
-> > > > name of HDS(header-data-split).
-> > > > But there is no implementation for the HDS to enable or disable by
-> > > > ethtool.
-> > > > Only getting the current HDS status is implemented and The HDS is j=
-ust
-> > > > automatically enabled only when either LRO, HW-GRO, or JUMBO is ena=
-bled.
-> > > > The hds_threshold follows rx-copybreak value. and it was unchangeab=
-le.
-> > > >
-> > > > This implements `ethtool -G <interface name> tcp-data-split <value>=
-`
-> > > > command option.
-> > > > The value can be <on>, <off>, and <auto> but the <auto> will be
-> > > > automatically changed to <on>.
-> > > >
-> > > > HDS feature relies on the aggregation ring.
-> > > > So, if HDS is enabled, the bnxt_en driver initializes the aggregati=
-on
-> > > > ring.
-> > > > This is the reason why BNXT_FLAG_AGG_RINGS contains HDS condition.
-> > > >
-> > > > Tested-by: Stanislav Fomichev <sdf@fomichev.me>
-> > > > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
-> > > > ---
-> > > >
-> > > > v4:
-> > > >  - Do not support disable tcp-data-split.
-> > > >  - Add Test tag from Stanislav.
-> > > >
-> > > > v3:
-> > > >  - No changes.
-> > > >
-> > > > v2:
-> > > >  - Do not set hds_threshold to 0.
-> > > >
-> > > >  drivers/net/ethernet/broadcom/bnxt/bnxt.c         |  8 +++-----
-> > > >  drivers/net/ethernet/broadcom/bnxt/bnxt.h         |  5 +++--
-> > > >  drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 13 +++++++++++=
-++
-> > > >  3 files changed, 19 insertions(+), 7 deletions(-)
-> > > >
-> > > > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/ne=
-t/ethernet/broadcom/bnxt/bnxt.c
-> > > > index 0f5fe9ba691d..91ea42ff9b17 100644
-> > > > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > > > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > >
-> > > > @@ -6420,15 +6420,13 @@ static int bnxt_hwrm_vnic_set_hds(struct bn=
-xt *bp, struct bnxt_vnic_info *vnic)
-> > > >
-> > > >         req->flags =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_JUMB=
-O_PLACEMENT);
-> > > >         req->enables =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_=
-JUMBO_THRESH_VALID);
-> > > > +       req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_size);
-> > > >
-> > > > -       if (BNXT_RX_PAGE_MODE(bp)) {
-> > > > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_si=
-ze);
-> > >
-> > > Please explain why this "if" condition is removed.
-> > > BNXT_RX_PAGE_MODE() means that we are in XDP mode and we currently
-> > > don't support HDS in XDP mode.  Added Andy Gospo to CC so he can also
-> > > comment.
-> > >
-> >
-> > In bnxt_set_rx_skb_mode we set BNXT_FLAG_RX_PAGE_MODE and clear
-> > BNXT_FLAG_AGG_RINGS
->
-> The BNXT_FLAG_AGG_RINGS flag is true if the JUMBO, GRO, or LRO flag is
-> set.  So even though it is initially cleared in
-> bnxt_set_rx_skb_mode(), we'll set the JUMBO flag if we are in
-> multi-buffer XDP mode.  Again, we don't enable HDS in any XDP mode so
-> I think we need to keep the original logic here to skip setting the
-> HDS threshold if BNXT_FLAG_RX_PAGE_MODE is set.
+Propeller is a profile-guided, post-link optimizer that improves
+the performance of large-scale applications compiled with LLVM. It
+operates by relinking the binary based on an additional round of runtime
+profiles, enabling precise optimizations that are not possible at
+compile time.  Similar to AutoFDO, Propeller too utilizes hardware
+sampling to collect profiles and apply post-link optimizations to improve
+the benchmark=E2=80=99s performance over and above AutoFDO.
 
-I thought the HDS is disallowed only when single-buffer XDP is set.
-By this series, Core API disallows tcp-data-split only when
-single-buffer XDP is set, but it allows tcp-data-split to set when
-multi-buffer XDP is set.
+Our empirical data demonstrates significant performance improvements
+with AutoFDO and Propeller, up to 10% on microbenchmarks and up to 5%
+on large warehouse-scale benchmarks. This makes a strong case for their
+inclusion as supported features in the upstream kernel.
 
-+       if (kernel_ringparam.tcp_data_split =3D=3D ETHTOOL_TCP_DATA_SPLIT_E=
-NABLED &&
-+           dev_xdp_sb_prog_count(dev)) {
-+               NL_SET_ERR_MSG(info->extack,
-+                              "tcp-data-split can not be enabled with
-single buffer XDP");
-+               return -EINVAL;
-+       }
+Background
 
-I think other drivers would allow tcp-data-split on multi buffer XDP,
-so I wouldn't like to remove this condition check code.
+A significant fraction of fleet processing cycles (excluding idle time)
+from data center workloads are attributable to the kernel. Ware-house
+scale workloads maximize performance by optimizing the production kernel
+using iFDO (a.k.a instrumented PGO, Profile Guided Optimization).
 
-I will not set HDS if XDP is set in the bnxt_hwrm_vnic_set_hds()
-In addition, I think we need to add a condition to check XDP is set in
-bnxt_set_ringparam().
+iFDO can significantly enhance application performance but its use
+within the kernel has raised concerns. AutoFDO is a variant of FDO that
+uses the hardware=E2=80=99s Performance Monitoring Unit (PMU) to collect
+profiling data. While AutoFDO typically yields smaller performance
+gains than iFDO, it presents unique benefits for optimizing kernels.
 
->
-> > , so this should work.  The only issue is that we
-> > have spots in the driver where we check BNXT_RX_PAGE_MODE(bp) to
-> > indicate that XDP single-buffer mode is enabled on the device.
-> >
-> > If you need to respin this series I would prefer that the change is lik=
-e
-> > below to key off the page mode being disabled and BNXT_FLAG_AGG_RINGS
-> > being enabled to setup HDS.  This will serve as a reminder that this is
-> > for XDP.
-> >
-> > @@ -6418,15 +6418,13 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *=
-bp, struct bnxt_vnic_info *vnic)
-> >
-> >         req->flags =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_JUMBO_PL=
-ACEMENT);
-> >         req->enables =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_JUMB=
-O_THRESH_VALID);
-> > +       req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_size);
-> >
-> > -       if (BNXT_RX_PAGE_MODE(bp)) {
-> > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_size);
-> > -       } else {
-> > +       if (!BNXT_RX_PAGE_MODE(bp) && (bp->flags & BNXT_FLAG_AGG_RINGS)=
-) {
-> >                 req->flags |=3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS=
-_HDS_IPV4 |
-> >                                           VNIC_PLCMODES_CFG_REQ_FLAGS_H=
-DS_IPV6);
-> >                 req->enables |=3D
-> >                         cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_T=
-HRESHOLD_VALID);
-> > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copy_thresh);
-> >                 req->hds_threshold =3D cpu_to_le16(bp->rx_copy_thresh);
-> >         }
-> >         req->vnic_id =3D cpu_to_le32(vnic->fw_vnic_id);
-> >
+AutoFDO eliminates the need for instrumented kernels, allowing a single
+optimized kernel to serve both execution and profile collection. It also
+minimizes slowdown during profile collection, potentially yielding
+higher-fidelity profiling, especially for time-sensitive code, compared
+to iFDO. Additionally, AutoFDO profiles can be obtained from production
+environments via the hardware=E2=80=99s PMU whereas iFDO profiles require
+carefully curated load tests that are representative of real-world
+traffic.
 
-Thanks a lot!
-Taehee Yoo
+AutoFDO facilitates profile collection across diverse targets.
+Preliminary studies indicate significant variation in kernel hot spots
+within Google=E2=80=99s infrastructure, suggesting potential performance ga=
+ins
+through target-specific kernel customization.
+
+Furthermore, other advanced compiler optimization techniques, including
+ThinLTO and Propeller can be stacked on top of AutoFDO, similar to iFDO.
+ThinLTO achieves better runtime performance through whole-program
+analysis and cross module optimizations. The main difference between
+traditional LTO and ThinLTO is that the latter is scalable in time and
+memory.
+
+This patch series adds AutoFDO and Propeller support to the kernel. The
+actual solution comes in six parts:
+
+[P 1] Add the build support for using AutoFDO in Clang
+
+      Add the basic support for AutoFDO build and provide the
+      instructions for using AutoFDO.
+
+[P 2] Fix objtool for bogus warnings when -ffunction-sections is enabled
+
+[P 3] Adjust symbol ordering in text output sections
+
+[P 4] Add markers for text_unlikely and text_hot sections
+
+[P 5] Enable =E2=80=93ffunction-sections for the AutoFDO build
+
+[P 6] Enable Machine Function Split (MFS) optimization for AutoFDO
+
+[P 7] Add Propeller configuration to the kernel build
+
+Patch 1 provides basic AutoFDO build support. Patches 2 to 6 further
+enhance the performance of AutoFDO builds and are functionally dependent
+on Patch 1. Patch 7 enables support for Propeller and is dependent on
+patch 2 to patch 4.
+
+Caveats
+
+AutoFDO is compatible with both GCC and Clang, but the patches in this
+series are exclusively applicable to LLVM 17 or newer for AutoFDO and
+LLVM 19 or newer for Propeller. For profile conversion, two different
+tools could be used, llvm_profgen or create_llvm_prof. llvm_profgen
+needs to be the LLVM 19 or newer, or just the LLVM trunk. Alternatively,
+create_llvm_prof v0.30.1 or newer can be used instead of llvm-profgen.
+
+Additionally, the build is only supported on x86 platforms equipped
+with PMU capabilities, such as LBR on Intel machines. More
+specifically:
+ * Intel platforms: works on every platform that supports LBR;
+   we have tested on Skylake.
+ * AMD platforms: tested on AMD Zen3 with the BRS feature. The kernel
+   needs to be configured with =E2=80=9CCONFIG_PERF_EVENTS_AMD_BRS=3Dy", To
+   check, use
+   $ cat /proc/cpuinfo | grep =E2=80=9C brs=E2=80=9D
+   For the AMD Zen4, AMD LBRV2 is supported, but we suspect a bug with
+   AMD LBRv2 implementation in Genoa which blocks the usage.
+
+For ARM, we plan to send patches for SPE-based Propeller when
+AutoFDO for Arm is ready.
+
+Experiments and Results
+
+Experiments were conducted to compare the performance of AutoFDO-optimized
+kernel images (version 6.9.x) against default builds.. The evaluation
+encompassed both open source microbenchmarks and real-world production
+services from Google and Meta. The selected microbenchmarks included Neper,
+a network subsystem benchmark, and UnixBench which is a comprehensive suite
+for assessing various kernel operations.
+
+For Neper, AutoFDO optimization resulted in a 6.1% increase in throughput
+and a 10.6% reduction in latency. UnixBench saw a 2.2% improvement in its
+index score under low system load and a 2.6% improvement under high system
+load.
+
+For further details on the improvements observed in Google and Meta's
+production services, please refer to the LLVM discourse post:
+https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autofdo-inclu=
+ding-thinlto-and-propeller/79108
+
+Thanks,
+
+Rong Xu and Han Shen
+
+Change-Logs in V2:
+Rebased to commit e32cde8d2bd7 ("Merge tag 'sched_ext-for-6.12-rc1-fixes-1'
+of git://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext")
+
+1. [P 0]: moved the Propeller description to the top (Peter Zijlstra)
+2. [P 1]: (1) Makefile: fixed file order (Masahiro Yamada)
+          (2) scripts/Makefile.lib: used is-kernel-object to exclude
+              files (Masahiro Yamada)
+          (3) scripts/Makefile.autofdo: improved the code (Masahiro Yamada)
+          (4) scripts/Makefile.autofdo: handled when DEBUG_INFO disabled
+	      (Nick Desaulniers)
+3. [P 2]: tools/objtool/elf.c: updated the comments (Peter Zijlstra)
+4. [P 3]: include/asm-generic/vmlinux.lds.h:
+          (1) explicit set cold text function aligned (Peter Zijlstra and
+	      Peter Anvin)
+          (2) set hot-text page aligned
+5. [P 6]: (1) include/asm-generic/vmlinux.lds.h: made Propeller not
+              depending on AutoFDO
+          (2) Makefile: fixed file order (Masahiro Yamada)
+          (3) scripts/Makefile.lib: used is-kernel-object to exclude
+              files (Masahiro Yamada). This removed the change in
+              arch/x86/platform/efi/Makefile,
+              drivers/firmware/efi/libstub/Makefile, and
+              arch/x86/boot/compressed/Makefile.
+              And this also addressed the comment from Arnd Bergmann
+	      regarding arch/x86/purgatory/Makefile
+          (4) scripts/Makefile.propeller: improved the code
+	      (Masahiro Yamada)
+
+Change-Logs in V3:
+Rebased to commit eb952c47d154 ("Merge tag 'for-6.12-rc2-tag' of
+git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux")
+
+Integrated the following changes suggested by Mike Rapoport.
+1. [P 1]: autofdo.rst: removed code-block directives and used "::"
+2. [P 6]: propeller.rst: removed code-block directives and use "::"
+
+Change-Logs in V4:
+1. [P 1]: autofdo.rst: fixed a typo for create_llvm_prof command.
+
+Change-Logs in V5:
+Added "Tested-by: Yonghong Song <yonghong.song@linux.dev>" to all patches.
+
+Integrated the following changes suggested by Masahiro Yamada.
+1. [P 0]: (1) moved ARM related remark from patch 6 to here
+2. [P 1]: (1) autofdo.rst: improved the documentation
+          (2) scripts/Makefile.autofdo: improved comments and used ifdef
+	      instead of ifeq
+3. [P 3]: Make the layout change unconditionally
+4. [P 4]: Split the patch into two: this patch only added the markers, and
+          the AutoFDO change went to new P_5
+5. [P 7]: (1) propeller.rst: improved the documentation
+          (2) scripts/Makefile.propeller: improved comments and used ifdef
+	      instead of ifeq
+	  (3) arch/Kconfig: made Propeller build independent of AutoFDO
+	      build
+	  (4) moved ARM related remarks to the cover letter
+
+Change-Logs in V6:
+Added "Tested-by: Yabin Cui <yabinc@google.com>" to AutoFDO patches.
+
+1.  [P 3]: (1) changed patch title
+           (2) fixed the build error in sparc64 reported by kernel test
+	       robot <lkp@intel.com>
+
+Rong Xu (7):
+  Add AutoFDO support for Clang build
+  objtool: Fix unreachable instruction warnings for weak functions
+  Adjust symbol ordering in text output section
+  Add markers for text_unlikely and text_hot sections
+  AutoFDO: Enable -ffunction-sections for the AutoFDO build
+  AutoFDO: Enable machine function split optimization for AutoFDO
+  Add Propeller configuration for kernel build
+
+ Documentation/dev-tools/autofdo.rst   | 167 ++++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst     |   2 +
+ Documentation/dev-tools/propeller.rst | 162 +++++++++++++++++++++++++
+ MAINTAINERS                           |  14 +++
+ Makefile                              |   2 +
+ arch/Kconfig                          |  39 ++++++
+ arch/sparc/kernel/vmlinux.lds.S       |   5 +
+ arch/x86/Kconfig                      |   2 +
+ arch/x86/kernel/vmlinux.lds.S         |   4 +
+ include/asm-generic/vmlinux.lds.h     |  49 ++++++--
+ scripts/Makefile.autofdo              |  24 ++++
+ scripts/Makefile.lib                  |  20 +++
+ scripts/Makefile.propeller            |  28 +++++
+ tools/objtool/check.c                 |   2 +
+ tools/objtool/elf.c                   |  15 ++-
+ 15 files changed, 519 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/dev-tools/autofdo.rst
+ create mode 100644 Documentation/dev-tools/propeller.rst
+ create mode 100644 scripts/Makefile.autofdo
+ create mode 100644 scripts/Makefile.propeller
+
+
+base-commit: 850925a8133c73c4a2453c360b2c3beb3bab67c9
+--=20
+2.47.0.163.g1226f6d8fa-goog
+
