@@ -1,385 +1,238 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B707413C9A3
-	for <linux-doc@vger.kernel.org>; Sat, 26 Oct 2024 03:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BE414EC47;
+	Sat, 26 Oct 2024 05:11:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729915167; cv=none; b=kB13VhM6Jv8VMPm3xGssSMsJ90+L7y63GIPC8NDqtPB/RjUc+xs45rfFBwQ+BIQcDNBDyKjEHds3XqmHmCzTc3aoJiDWEUzfQNKxd7qjEwPS54jGuYEDMzetwKR1y+FTFl6QXjsXhwyTzEAfAmrS7z3sRc03fAJ5K+x59XNGIbA=
+	t=1729919491; cv=none; b=Q+0ZWccjFNk0Xn/YKhF6RCVu1AdFuvycvj9vQ378kSTnjvc42LzBDU+ca9r9BU9mrW+buSnxq18hpxGVlxpj1YPCMMi4BBc3jwvuXaIfI5v4UNxdr0ZelkzhDEgpY83pEa8j/y00VvhL9APQuZ3E0iRBngv9pALTw6R4aLbPFag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729915167; c=relaxed/simple;
-	bh=pspOPZrWDcFcuQrVcV1mOQqaC17rfkv8K8cBaeNGar4=;
+	s=arc-20240116; t=1729919491; c=relaxed/simple;
+	bh=McFv6i9UQcN/k/nhaQP/YsTf1hwbsUeQnG0tS0NSIzE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lUUFlZMzxLgP/eiUb6dmulSt90lZBLVncFOKsBXJdlW7clX3BU5tVjVm+4HmQPNHNm4AagsiUHtAu4d7SizHOASZ0et6KdczXaetoG3Tx4QHNu+tK7ytC1mF46Wzp/A3u3m/21/OBt9NsUzigb2jWYijdj3L0gcNoYssjEY6wlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=INVc7CQQ; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=H4aiuekyILLQbO37wRWq7AUZnYFZBN46/57+cJWNrJgeXqV53VVmSoxBQe6cpunc56jLgjsQ3wGSnnN7zr04yP138SOoMniwiqIkHp0c02ccmVFJ5Tq6s07+2PCDh9ZvnBsEnP1AuhsphAFky/6AUqX/hSxqREl9gCRbWRA9/Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UZWl4Z9/; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="INVc7CQQ"
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4a742ea907fso760265137.0
-        for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 20:59:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UZWl4Z9/"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a99ea294480so183710466b.2;
+        Fri, 25 Oct 2024 22:11:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729915162; x=1730519962; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729919487; x=1730524287; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3KB/LcqBhsdnYUzdTisxph+TSCmdRKdSymSSUMenIBw=;
-        b=INVc7CQQOGtMnxOKNGrs1OaO4lDV1Dt1T6zcOdU2yShpEKJ2gHjMjFzh6UdRkSgTCl
-         VUmSaXiOfbP+pKXIuf2xiqxzFlUPF1Fgs59pwIKkoagp4CIg3nq9SV2q0hSn8p/4Wsbp
-         yBUscL5QfiPD0hFdP5ZMjZPOo7Q4u+ejnKPr0LJjHR9g/73CjE2z9KMt9SjHzCt4aNpS
-         mWwI11BoSgrEvg7JiBBw5rucUl+oMyP0sP2Y+WNCc3AWthdo8vz9s8wlktN0lZf2Makz
-         g7Suv86wXZCM9gyDZFbSI0Th34wE0qszkcyq46aFq7UL2GFR7lic/XKBDWzN/gK5iLCk
-         G6jQ==
+        bh=hxqf2Vbhgw6HqjwNVbbcfem37l/wnYntm54FveWHRgM=;
+        b=UZWl4Z9/YVh7Oys/gsXgGueV8ZOcY6g2q4b0CbPZlMsNfcCKc85RlEhRCKA6ST2CSR
+         8PDlxRypRmwJvZIXmuH+cxUtkTHTKqnTG/Oiqj1YI1STEO0hQ3UR56Z0gP7x2YeXMKud
+         zm3+kV6uU73ztWWUoSdxknb8HpepACTqk3TrAcCGpEXgHnzLfFkNXDvPEXGM7DLUftD+
+         ahxl0EzK5UhrvImzXbW5IgG086tJUIlrrRGV5L6ZL3t1RLcwSga/fs0SW6a9bojj76YZ
+         LsMXvDNF0yXpeRKVAxZnMVofAyASmt41zUmDVa2ZBxmVEVlsklhs10+PCgq6yUrhqo2o
+         9lBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729915162; x=1730519962;
+        d=1e100.net; s=20230601; t=1729919487; x=1730524287;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3KB/LcqBhsdnYUzdTisxph+TSCmdRKdSymSSUMenIBw=;
-        b=cK4zCnuhseyZYcntq1zyDhdeX5/l3Uk639yelyJYH9vBAc/l+vN2TdCGZPG3BvPrss
-         ivuSAS7pJyQmoOFoZoXC7dUC3M6z84KYCCfrIQkVTuxr23j8fs2o5Ao6i2JLgl7NyjA5
-         M+a4tuO3whWfGl9sDUX5nFjRJbBAjZAW6gVnlmnBnTW7YirtsY8584VhHmxjO5X7F9xa
-         lPN1YvlPQuzw30Yd6ONeN9g74cZsg1IupgpznOkNgtGVaFELgzOGaLtOWSIbB19AISX3
-         CQfliOII6UsyWKq2HSjm/3ApizKwRXlBFnHQD7JqzMAyrCmUZYCJ32YBmxoxIY7eHQ0D
-         RgsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXjyDdh2OQPEcsslhKOIvz3dxT+mA3/4+uwnUuYGzCrFoNgXTAP9PtPUeD/IKfz3CqpGFmuMzyVVrM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx41jExkGyIaKueA1obPObLir2i18P+5mwzc51yCasd2xGbUybs
-	uqA52padJD9QQ2vNFB0DC5AjcdlGWtBz48T0fx7v8vc/T/pMS3OcOZCz7YiUb1kiN58whXGju0j
-	dGfKRB8+/dVIO6ms9BaUbz0EK71HP3iaydod9
-X-Google-Smtp-Source: AGHT+IGAOdbwDufxdTWY1PatysXL3lH/4WN/WWRD5cb5neztcqlyDvKK0fc7DMPGOOKjO4i7Nn22hw0cAdo0dtH19WM=
-X-Received: by 2002:a05:6102:160a:b0:4a4:8756:d899 with SMTP id
- ada2fe7eead31-4a8cfd723demr1233728137.29.1729915162377; Fri, 25 Oct 2024
- 20:59:22 -0700 (PDT)
+        bh=hxqf2Vbhgw6HqjwNVbbcfem37l/wnYntm54FveWHRgM=;
+        b=cN8ZKE31xM8oQiVaShRQvBOd5mUFU3XAZ+dl+ziDbetw3UCLd18QrPFMSUx3e1H3tO
+         Q6jxEuiIhT0n85Y+GttV8DjiVQj3YspuXP4UDX43GfMc7SEolgVoX+ZtXrHhEJAEYQcJ
+         mGz4fb3QF2vU8Se8e6nHyQcdSxjGDJdXBU75cTleQ6/Asu9XRndjlm6bA+S9Oy2WCAT3
+         uQBLzD9wbna4YSfbPyHxtYIkRj7GCZ9soEPUqrdwJ4k4e76UfHRBXegTh/b4EWPOCBuC
+         ZBcrynPP8q8IDnXWVRPhFURKtsVT8ddz2x+r+bGK5gowgcvP23YJuvQ9hsDk6r721e6Q
+         8ypQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVi70xC1biUsQbM5L+rBvobegB+LUbtFuRgNWX5alucUMuHFpadZeDpT88f3/pAfx9Jsd6k6HO@vger.kernel.org, AJvYcCXkuz8hHgaR2tn5z+ZfjbrzQvJigep+D1NlmTnRQMOOgsmpLn9djPGH6AbaKAFJZw3uITica6H1LrM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwA9fMI0VCKaXb24lhTTW4RqNY/xHIsxrjRyaSV9DpaHb4b538H
+	X7UZiFPOSoWV/ohiLW3eR9y8JsPlPJXWVV2NeHUupZZLINDiOfNSH1lKAc+g0t85tZDfCZhjDnu
+	Sj/j/PQ3YHfUhiiiVpnIpLvzF6QU=
+X-Google-Smtp-Source: AGHT+IFQYE/UT9oHGzFoJnp/9TIsc6W3ik2NF0iTGv/VM1ntvMxNHiwy/m2+cv0S/llQ+YY71LqUhCGKBH+t/IwLqXE=
+X-Received: by 2002:a05:6402:1f4b:b0:5c8:9529:1b59 with SMTP id
+ 4fb4d7f45d1cf-5cbbf8dec0bmr1387729a12.20.1729919486838; Fri, 25 Oct 2024
+ 22:11:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241025012304.2473312-1-shakeel.butt@linux.dev> <20241025012304.2473312-7-shakeel.butt@linux.dev>
-In-Reply-To: <20241025012304.2473312-7-shakeel.butt@linux.dev>
-From: Yu Zhao <yuzhao@google.com>
-Date: Fri, 25 Oct 2024 21:58:45 -0600
-Message-ID: <CAOUHufYgvcAvbGv_3rDhj_NX-ND-TMX_nyF7ZHQRW8ZxniObOQ@mail.gmail.com>
-Subject: Re: [PATCH v1 6/6] memcg-v1: remove memcg move locking code
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Hugh Dickins <hughd@google.com>, 
-	Yosry Ahmed <yosryahmed@google.com>, linux-mm@kvack.org, cgroups@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Meta kernel team <kernel-team@meta.com>
+References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-3-ap420073@gmail.com>
+ <CACKFLikBKi2jBNG6_O1uFUmMwfBC30ef5AG4ACjVv_K=vv38PA@mail.gmail.com>
+ <ZxvwZmJsdFOStYcV@JRM7P7Q02P.dhcp.broadcom.net> <CACKFLinbsMQE1jb0G-7iMKAo4ZMKp42xiSCZ0XznBV9pDAs3-g@mail.gmail.com>
+In-Reply-To: <CACKFLinbsMQE1jb0G-7iMKAo4ZMKp42xiSCZ0XznBV9pDAs3-g@mail.gmail.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Sat, 26 Oct 2024 14:11:15 +0900
+Message-ID: <CAMArcTWrA0ib9XHnSGGH-sNqQ9TG0BaRq+5nsGC3iQv6Zd40rQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 2/8] bnxt_en: add support for tcp-data-split
+ ethtool command
+To: Michael Chan <michael.chan@broadcom.com>
+Cc: Andy Gospodarek <andrew.gospodarek@broadcom.com>, davem@davemloft.net, kuba@kernel.org, 
+	pabeni@redhat.com, edumazet@google.com, almasrymina@google.com, 
+	donald.hunter@gmail.com, corbet@lwn.net, andrew+netdev@lunn.ch, 
+	hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org, 
+	daniel@iogearbox.net, john.fastabend@gmail.com, dw@davidwei.uk, 
+	sdf@fomichev.me, asml.silence@gmail.com, brett.creeley@amd.com, 
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org, kory.maincent@bootlin.com, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
+	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
+	willemb@google.com, daniel.zahka@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2024 at 7:23=E2=80=AFPM Shakeel Butt <shakeel.butt@linux.de=
-v> wrote:
+On Sat, Oct 26, 2024 at 7:00=E2=80=AFAM Michael Chan <michael.chan@broadcom=
+.com> wrote:
 >
-> The memcg v1's charge move feature has been deprecated. All the places
-> using the memcg move lock, have stopped using it as they don't need the
-> protection any more. Let's proceed to remove all the locking code
-> related to charge moving.
->
-> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
-> ---
->
-> Changes since RFC:
-> - Remove the memcg move locking in separate patches.
->
->  include/linux/memcontrol.h | 54 -------------------------
->  mm/filemap.c               |  1 -
->  mm/memcontrol-v1.c         | 82 --------------------------------------
->  mm/memcontrol.c            |  5 ---
->  mm/rmap.c                  |  1 -
->  5 files changed, 143 deletions(-)
->
-> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> index 798db70b0a30..932534291ca2 100644
-> --- a/include/linux/memcontrol.h
-> +++ b/include/linux/memcontrol.h
-> @@ -299,20 +299,10 @@ struct mem_cgroup {
->         /* For oom notifier event fd */
->         struct list_head oom_notify;
->
-> -       /* taken only while moving_account > 0 */
-> -       spinlock_t move_lock;
-> -       unsigned long move_lock_flags;
-> -
->         /* Legacy tcp memory accounting */
->         bool tcpmem_active;
->         int tcpmem_pressure;
->
-> -       /*
-> -        * set > 0 if pages under this cgroup are moving to other cgroup.
-> -        */
-> -       atomic_t moving_account;
-> -       struct task_struct *move_lock_task;
-> -
->         /* List of events which userspace want to receive */
->         struct list_head event_list;
->         spinlock_t event_list_lock;
-> @@ -428,9 +418,7 @@ static inline struct obj_cgroup *__folio_objcg(struct=
- folio *folio)
->   *
->   * - the folio lock
->   * - LRU isolation
-> - * - folio_memcg_lock()
->   * - exclusive reference
-> - * - mem_cgroup_trylock_pages()
->   *
->   * For a kmem folio a caller should hold an rcu read lock to protect mem=
-cg
->   * associated with a kmem folio from being released.
-> @@ -499,9 +487,7 @@ static inline struct mem_cgroup *folio_memcg_rcu(stru=
-ct folio *folio)
+> On Fri, Oct 25, 2024 at 12:24=E2=80=AFPM Andy Gospodarek
+> <andrew.gospodarek@broadcom.com> wrote:
 
-I think you missed folio_memcg_rcu().
+Hi Andy,
+Thank you so much for your review!
 
-(I don't think workingset_activation() needs it, since its only caller
-must hold a refcnt on the folio.)
+> >
+> > On Thu, Oct 24, 2024 at 10:02:30PM -0700, Michael Chan wrote:
+> > > On Tue, Oct 22, 2024 at 9:24=E2=80=AFAM Taehee Yoo <ap420073@gmail.co=
+m> wrote:
+> > > >
+> > > > NICs that uses bnxt_en driver supports tcp-data-split feature by th=
+e
+> > > > name of HDS(header-data-split).
+> > > > But there is no implementation for the HDS to enable or disable by
+> > > > ethtool.
+> > > > Only getting the current HDS status is implemented and The HDS is j=
+ust
+> > > > automatically enabled only when either LRO, HW-GRO, or JUMBO is ena=
+bled.
+> > > > The hds_threshold follows rx-copybreak value. and it was unchangeab=
+le.
+> > > >
+> > > > This implements `ethtool -G <interface name> tcp-data-split <value>=
+`
+> > > > command option.
+> > > > The value can be <on>, <off>, and <auto> but the <auto> will be
+> > > > automatically changed to <on>.
+> > > >
+> > > > HDS feature relies on the aggregation ring.
+> > > > So, if HDS is enabled, the bnxt_en driver initializes the aggregati=
+on
+> > > > ring.
+> > > > This is the reason why BNXT_FLAG_AGG_RINGS contains HDS condition.
+> > > >
+> > > > Tested-by: Stanislav Fomichev <sdf@fomichev.me>
+> > > > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+> > > > ---
+> > > >
+> > > > v4:
+> > > >  - Do not support disable tcp-data-split.
+> > > >  - Add Test tag from Stanislav.
+> > > >
+> > > > v3:
+> > > >  - No changes.
+> > > >
+> > > > v2:
+> > > >  - Do not set hds_threshold to 0.
+> > > >
+> > > >  drivers/net/ethernet/broadcom/bnxt/bnxt.c         |  8 +++-----
+> > > >  drivers/net/ethernet/broadcom/bnxt/bnxt.h         |  5 +++--
+> > > >  drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 13 +++++++++++=
+++
+> > > >  3 files changed, 19 insertions(+), 7 deletions(-)
+> > > >
+> > > > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/ne=
+t/ethernet/broadcom/bnxt/bnxt.c
+> > > > index 0f5fe9ba691d..91ea42ff9b17 100644
+> > > > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > > > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > >
+> > > > @@ -6420,15 +6420,13 @@ static int bnxt_hwrm_vnic_set_hds(struct bn=
+xt *bp, struct bnxt_vnic_info *vnic)
+> > > >
+> > > >         req->flags =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_JUMB=
+O_PLACEMENT);
+> > > >         req->enables =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_=
+JUMBO_THRESH_VALID);
+> > > > +       req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_size);
+> > > >
+> > > > -       if (BNXT_RX_PAGE_MODE(bp)) {
+> > > > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_si=
+ze);
+> > >
+> > > Please explain why this "if" condition is removed.
+> > > BNXT_RX_PAGE_MODE() means that we are in XDP mode and we currently
+> > > don't support HDS in XDP mode.  Added Andy Gospo to CC so he can also
+> > > comment.
+> > >
+> >
+> > In bnxt_set_rx_skb_mode we set BNXT_FLAG_RX_PAGE_MODE and clear
+> > BNXT_FLAG_AGG_RINGS
+>
+> The BNXT_FLAG_AGG_RINGS flag is true if the JUMBO, GRO, or LRO flag is
+> set.  So even though it is initially cleared in
+> bnxt_set_rx_skb_mode(), we'll set the JUMBO flag if we are in
+> multi-buffer XDP mode.  Again, we don't enable HDS in any XDP mode so
+> I think we need to keep the original logic here to skip setting the
+> HDS threshold if BNXT_FLAG_RX_PAGE_MODE is set.
 
->   *
->   * - the folio lock
->   * - LRU isolation
-> - * - lock_folio_memcg()
->   * - exclusive reference
-> - * - mem_cgroup_trylock_pages()
->   *
->   * For a kmem folio a caller should hold an rcu read lock to protect mem=
-cg
->   * associated with a kmem folio from being released.
-> @@ -1873,26 +1859,6 @@ static inline bool task_in_memcg_oom(struct task_s=
-truct *p)
->         return p->memcg_in_oom;
->  }
+I thought the HDS is disallowed only when single-buffer XDP is set.
+By this series, Core API disallows tcp-data-split only when
+single-buffer XDP is set, but it allows tcp-data-split to set when
+multi-buffer XDP is set.
+
++       if (kernel_ringparam.tcp_data_split =3D=3D ETHTOOL_TCP_DATA_SPLIT_E=
+NABLED &&
++           dev_xdp_sb_prog_count(dev)) {
++               NL_SET_ERR_MSG(info->extack,
++                              "tcp-data-split can not be enabled with
+single buffer XDP");
++               return -EINVAL;
++       }
+
+I think other drivers would allow tcp-data-split on multi buffer XDP,
+so I wouldn't like to remove this condition check code.
+
+I will not set HDS if XDP is set in the bnxt_hwrm_vnic_set_hds()
+In addition, I think we need to add a condition to check XDP is set in
+bnxt_set_ringparam().
+
 >
-> -void folio_memcg_lock(struct folio *folio);
-> -void folio_memcg_unlock(struct folio *folio);
-> -
-> -/* try to stablize folio_memcg() for all the pages in a memcg */
-> -static inline bool mem_cgroup_trylock_pages(struct mem_cgroup *memcg)
-> -{
-> -       rcu_read_lock();
-> -
-> -       if (mem_cgroup_disabled() || !atomic_read(&memcg->moving_account)=
-)
-> -               return true;
-> -
-> -       rcu_read_unlock();
-> -       return false;
-> -}
-> -
-> -static inline void mem_cgroup_unlock_pages(void)
-> -{
-> -       rcu_read_unlock();
-> -}
-> -
->  static inline void mem_cgroup_enter_user_fault(void)
->  {
->         WARN_ON(current->in_user_fault);
-> @@ -1914,26 +1880,6 @@ unsigned long memcg1_soft_limit_reclaim(pg_data_t =
-*pgdat, int order,
->         return 0;
->  }
->
-> -static inline void folio_memcg_lock(struct folio *folio)
-> -{
-> -}
-> -
-> -static inline void folio_memcg_unlock(struct folio *folio)
-> -{
-> -}
-> -
-> -static inline bool mem_cgroup_trylock_pages(struct mem_cgroup *memcg)
-> -{
-> -       /* to match folio_memcg_rcu() */
-> -       rcu_read_lock();
-> -       return true;
-> -}
-> -
-> -static inline void mem_cgroup_unlock_pages(void)
-> -{
-> -       rcu_read_unlock();
-> -}
-> -
->  static inline bool task_in_memcg_oom(struct task_struct *p)
->  {
->         return false;
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 630a1c431ea1..e582a1545d2a 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -119,7 +119,6 @@
->   *    ->i_pages lock           (folio_remove_rmap_pte->set_page_dirty)
->   *    bdi.wb->list_lock                (folio_remove_rmap_pte->set_page_=
-dirty)
->   *    ->inode->i_lock          (folio_remove_rmap_pte->set_page_dirty)
-> - *    ->memcg->move_lock       (folio_remove_rmap_pte->folio_memcg_lock)
->   *    bdi.wb->list_lock                (zap_pte_range->set_page_dirty)
->   *    ->inode->i_lock          (zap_pte_range->set_page_dirty)
->   *    ->private_lock           (zap_pte_range->block_dirty_folio)
-> diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
-> index 9c0fba8c8a83..539ceefa9d2d 100644
-> --- a/mm/memcontrol-v1.c
-> +++ b/mm/memcontrol-v1.c
-> @@ -401,87 +401,6 @@ unsigned long memcg1_soft_limit_reclaim(pg_data_t *p=
-gdat, int order,
->         return nr_reclaimed;
->  }
->
-> -/**
-> - * folio_memcg_lock - Bind a folio to its memcg.
-> - * @folio: The folio.
-> - *
-> - * This function prevents unlocked LRU folios from being moved to
-> - * another cgroup.
-> - *
-> - * It ensures lifetime of the bound memcg.  The caller is responsible
-> - * for the lifetime of the folio.
-> - */
-> -void folio_memcg_lock(struct folio *folio)
-> -{
-> -       struct mem_cgroup *memcg;
-> -       unsigned long flags;
-> -
-> -       /*
-> -        * The RCU lock is held throughout the transaction.  The fast
-> -        * path can get away without acquiring the memcg->move_lock
-> -        * because page moving starts with an RCU grace period.
-> -         */
-> -       rcu_read_lock();
-> -
-> -       if (mem_cgroup_disabled())
-> -               return;
-> -again:
-> -       memcg =3D folio_memcg(folio);
-> -       if (unlikely(!memcg))
-> -               return;
-> -
-> -#ifdef CONFIG_PROVE_LOCKING
-> -       local_irq_save(flags);
-> -       might_lock(&memcg->move_lock);
-> -       local_irq_restore(flags);
-> -#endif
-> -
-> -       if (atomic_read(&memcg->moving_account) <=3D 0)
-> -               return;
-> -
-> -       spin_lock_irqsave(&memcg->move_lock, flags);
-> -       if (memcg !=3D folio_memcg(folio)) {
-> -               spin_unlock_irqrestore(&memcg->move_lock, flags);
-> -               goto again;
-> -       }
-> -
-> -       /*
-> -        * When charge migration first begins, we can have multiple
-> -        * critical sections holding the fast-path RCU lock and one
-> -        * holding the slowpath move_lock. Track the task who has the
-> -        * move_lock for folio_memcg_unlock().
-> -        */
-> -       memcg->move_lock_task =3D current;
-> -       memcg->move_lock_flags =3D flags;
-> -}
-> -
-> -static void __folio_memcg_unlock(struct mem_cgroup *memcg)
-> -{
-> -       if (memcg && memcg->move_lock_task =3D=3D current) {
-> -               unsigned long flags =3D memcg->move_lock_flags;
-> -
-> -               memcg->move_lock_task =3D NULL;
-> -               memcg->move_lock_flags =3D 0;
-> -
-> -               spin_unlock_irqrestore(&memcg->move_lock, flags);
-> -       }
-> -
-> -       rcu_read_unlock();
-> -}
-> -
-> -/**
-> - * folio_memcg_unlock - Release the binding between a folio and its memc=
-g.
-> - * @folio: The folio.
-> - *
-> - * This releases the binding created by folio_memcg_lock().  This does
-> - * not change the accounting of this folio to its memcg, but it does
-> - * permit others to change it.
-> - */
-> -void folio_memcg_unlock(struct folio *folio)
-> -{
-> -       __folio_memcg_unlock(folio_memcg(folio));
-> -}
-> -
->  static u64 mem_cgroup_move_charge_read(struct cgroup_subsys_state *css,
->                                 struct cftype *cft)
->  {
-> @@ -1189,7 +1108,6 @@ void memcg1_memcg_init(struct mem_cgroup *memcg)
->  {
->         INIT_LIST_HEAD(&memcg->oom_notify);
->         mutex_init(&memcg->thresholds_lock);
-> -       spin_lock_init(&memcg->move_lock);
->         INIT_LIST_HEAD(&memcg->event_list);
->         spin_lock_init(&memcg->event_list_lock);
->  }
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 94279b9c766a..3c223aaeb6af 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -1189,7 +1189,6 @@ void lruvec_memcg_debug(struct lruvec *lruvec, stru=
-ct folio *folio)
->   * These functions are safe to use under any of the following conditions=
-:
->   * - folio locked
->   * - folio_test_lru false
-> - * - folio_memcg_lock()
->   * - folio frozen (refcount of 0)
->   *
->   * Return: The lruvec this folio is on with its lock held.
-> @@ -1211,7 +1210,6 @@ struct lruvec *folio_lruvec_lock(struct folio *foli=
-o)
->   * These functions are safe to use under any of the following conditions=
-:
->   * - folio locked
->   * - folio_test_lru false
-> - * - folio_memcg_lock()
->   * - folio frozen (refcount of 0)
->   *
->   * Return: The lruvec this folio is on with its lock held and interrupts
-> @@ -1235,7 +1233,6 @@ struct lruvec *folio_lruvec_lock_irq(struct folio *=
-folio)
->   * These functions are safe to use under any of the following conditions=
-:
->   * - folio locked
->   * - folio_test_lru false
-> - * - folio_memcg_lock()
->   * - folio frozen (refcount of 0)
->   *
->   * Return: The lruvec this folio is on with its lock held and interrupts
-> @@ -2375,9 +2372,7 @@ static void commit_charge(struct folio *folio, stru=
-ct mem_cgroup *memcg)
->          *
->          * - the page lock
->          * - LRU isolation
-> -        * - folio_memcg_lock()
->          * - exclusive reference
-> -        * - mem_cgroup_trylock_pages()
->          */
->         folio->memcg_data =3D (unsigned long)memcg;
->  }
-> diff --git a/mm/rmap.c b/mm/rmap.c
-> index 4785a693857a..c6c4d4ea29a7 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -32,7 +32,6 @@
->   *                   swap_lock (in swap_duplicate, swap_info_get)
->   *                     mmlist_lock (in mmput, drain_mmlist and others)
->   *                     mapping->private_lock (in block_dirty_folio)
-> - *                       folio_lock_memcg move_lock (in block_dirty_foli=
-o)
->   *                         i_pages lock (widely used)
->   *                           lruvec->lru_lock (in folio_lruvec_lock_irq)
->   *                     inode->i_lock (in set_page_dirty's __mark_inode_d=
-irty)
-> --
-> 2.43.5
->
->
+> > , so this should work.  The only issue is that we
+> > have spots in the driver where we check BNXT_RX_PAGE_MODE(bp) to
+> > indicate that XDP single-buffer mode is enabled on the device.
+> >
+> > If you need to respin this series I would prefer that the change is lik=
+e
+> > below to key off the page mode being disabled and BNXT_FLAG_AGG_RINGS
+> > being enabled to setup HDS.  This will serve as a reminder that this is
+> > for XDP.
+> >
+> > @@ -6418,15 +6418,13 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *=
+bp, struct bnxt_vnic_info *vnic)
+> >
+> >         req->flags =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS_JUMBO_PL=
+ACEMENT);
+> >         req->enables =3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_JUMB=
+O_THRESH_VALID);
+> > +       req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_size);
+> >
+> > -       if (BNXT_RX_PAGE_MODE(bp)) {
+> > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_buf_use_size);
+> > -       } else {
+> > +       if (!BNXT_RX_PAGE_MODE(bp) && (bp->flags & BNXT_FLAG_AGG_RINGS)=
+) {
+> >                 req->flags |=3D cpu_to_le32(VNIC_PLCMODES_CFG_REQ_FLAGS=
+_HDS_IPV4 |
+> >                                           VNIC_PLCMODES_CFG_REQ_FLAGS_H=
+DS_IPV6);
+> >                 req->enables |=3D
+> >                         cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_T=
+HRESHOLD_VALID);
+> > -               req->jumbo_thresh =3D cpu_to_le16(bp->rx_copy_thresh);
+> >                 req->hds_threshold =3D cpu_to_le16(bp->rx_copy_thresh);
+> >         }
+> >         req->vnic_id =3D cpu_to_le32(vnic->fw_vnic_id);
+> >
+
+Thanks a lot!
+Taehee Yoo
