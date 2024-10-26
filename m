@@ -1,50 +1,50 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206CF224FA
-	for <linux-doc@vger.kernel.org>; Sat, 26 Oct 2024 14:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5AD171D2;
+	Sat, 26 Oct 2024 15:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729954637; cv=none; b=i+z6uOiCo3Z1ppIQkBwlgfONJCo6XtV2zHtkT7p0BhnLOkiOtL20Q0Fbc/vXs83PRDSSVe2oucJYzjfNouB3frMdEtF2sJKkU+vEwWrppqjsPeo6kpUV3VPbBjCcDm1nX7HEFFQY/OpQ6GuJ7cWihufYGEc7a9vwkpV77PoG2Ew=
+	t=1729955557; cv=none; b=L7RtKVX/XxI74ZYyMScj637VGord8cDqHaZuIOODrqw7s3zMl8p6P5ru58miLNwzQbSdReWBcPAJYegLGSL6fzEBjAzciuaqG+PdkypkPHnaWxMRJm/25XXp5q4LRHNm5KKQ+IyLQsk/CWSiDH34iyuC/cq20nFzQFob+L9+l/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729954637; c=relaxed/simple;
-	bh=CJs0VpoZhONc6COX1imNdpelZZQnQ6WOrBIepRXm34w=;
+	s=arc-20240116; t=1729955557; c=relaxed/simple;
+	bh=h1t/ImbmIC+Mm2/yutzWZ8n1ugWCvOYNxjLpHTrPdMk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l4YUnLGQCZdvi72IAcYtkVz/lzNL4OvuET/cCtqVQcr/F9JoIcaWl/wfFV3Y8t206IZBO+IJgHdbEWlamZ3nbzUEuqSTuRsSMymUkZdtPkDQIeB+vLiB1iVrbOy5dIje0u8aXW0obiEjMD00qORv9mU+JgO+rrJx78+EvxTG2qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Tzw8Gs48; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=IpqPMaxR6VrMTU8Ol9NmBIUmj+AjEb1tpf8cg5Z3upxc0P0MmpkWkXD3p1yZTkhh7mAgSe6Cxdzq6e8GgZRKK+jCRiQYXZDM41uT5uKSWEOTACFFxm685nz+u0J+j4xqHJC/f4CnA1lJGj355QKlXMfe4HQ3+/3fpvMOff+UO/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LNsNsQYu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Tzw8Gs48"
-Received: from cwcc.thunk.org (pool-173-48-123-201.bstnma.fios.verizon.net [173.48.123.201])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 49QEueZW028447
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 26 Oct 2024 10:56:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1729954603; bh=aULT5OMJ6smsVuK2cgh/H3JIovBDA9Azz9OyMHRcqaA=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=Tzw8Gs48LAwF45tatmSNWobz6VgBPrihP9EwNG7bIEEGCVvsky/lBI9xua7qdo9Pm
-	 N81QQdX40IHBtixe7waVbfo8zUTXPme/XEdo8UoQxU8+p5DQQbgGLc9jrbFALqdC2I
-	 odx3/RXBgLGum4PQgJZawxMyVtVi2W6YofKFKbrXf5ROvvpEWgvyt+F2v1Op+cY+3V
-	 W0kkcVK39CosbMH+9FxMRHK00q4mNKfcdI4D3yuiQqUhbun0cZrbt6C6XoJunc1ejX
-	 mgDcjv7kG6j2lqCzjzzMb9QMtntP+jMaGoci5t4WeQ1q6M6frglWCE1gnNPz4pQW/c
-	 FIXSWhYTo1nwA==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-	id 3C68815C032A; Sat, 26 Oct 2024 10:56:40 -0400 (EDT)
-Date: Sat, 26 Oct 2024 10:56:40 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: linux-kernel@vger.kernel.org, conduct@kernel.org, security@kernel.org,
-        cve@kernel.org, linux-doc@vger.kernel.org,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, shuah@kernel.org,
-        lee@kernel.org, sashal@kernel.org, corbet@lwn.net
-Subject: Re: Concerns over transparency of informal kernel groups
-Message-ID: <20241026145640.GA4029861@mit.edu>
-References: <73b8017b-fce9-4cb1-be48-fc8085f1c276@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LNsNsQYu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D507C4CEC6;
+	Sat, 26 Oct 2024 15:12:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729955554;
+	bh=h1t/ImbmIC+Mm2/yutzWZ8n1ugWCvOYNxjLpHTrPdMk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LNsNsQYue2vlBt/vf3DIQQy0mN7RxRGx+zSliHV5RSvG4Eq40m5Yd1+54HFxZnEml
+	 1O1EXRfk5W80Y5w6t3/EDZ6oiNkR7Ll3EBgJ0wA5teikZuSUPuL4yx9BzMlDBTsdKj
+	 wC85QQqdfqc2lrAT27eCUEeYbVUqj6plnAJfRDTbQrUwbqxQmhioN6F48wYxcHz4MK
+	 TJBJwp+iC8Bf+p7gZTCg221CSF3FAPp4mZnK/hIxc/tsoDoiLruy1dIfHP3DDSSkhr
+	 TJi/EzT1XuCxd1y7IXvRt/kWw5Tb+p5J/zpsrwD5fbD+Q1N5Mswk4qfXEgv6rrYx5Z
+	 dnpbT9uV8U6Ew==
+Date: Sat, 26 Oct 2024 16:12:29 +0100
+From: Simon Horman <horms@kernel.org>
+To: Lee Trager <lee@trager.us>
+Cc: Alexander Duyck <alexanderduyck@fb.com>,
+	Jakub Kicinski <kuba@kernel.org>, kernel-team@meta.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Sanman Pradhan <sanmanpradhan@meta.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Mohsin Bashir <mohsin.bashr@gmail.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 2/2] eth: fbnic: Add devlink dev flash support
+Message-ID: <20241026151229.GG1507976@kernel.org>
+References: <20241012023646.3124717-1-lee@trager.us>
+ <20241022014319.3791797-1-lee@trager.us>
+ <20241024091032.GI402847@kernel.org>
+ <13229808-dde5-4805-b908-ce65c8b342b4@trager.us>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,108 +53,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <73b8017b-fce9-4cb1-be48-fc8085f1c276@app.fastmail.com>
+In-Reply-To: <13229808-dde5-4805-b908-ce65c8b342b4@trager.us>
 
-On Fri, Oct 25, 2024 at 04:15:42PM +0100, Jiaxun Yang wrote:
+On Fri, Oct 25, 2024 at 03:32:32PM -0700, Lee Trager wrote:
 > 
-> Over recent events, I've taken a closer look at how our community's governance
-> operates, only to find that there's remarkably little public information available
-> about those informal groups. 
+> On 10/24/24 2:10 AM, Simon Horman wrote:
+> > On Mon, Oct 21, 2024 at 06:42:24PM -0700, Lee Trager wrote:
+> > > fbnic supports updating firmware using a PLDM image signed and distributed
+> > > by Meta. PLDM images are written into stored flashed. Flashing does not
+> > > interrupt operation.
+> > > 
+> > > On host reboot the newly flashed UEFI driver will be used. To run new
+> > > control or cmrt firmware the NIC must be power cycled.
+> > > 
+> > > Signed-off-by: Lee Trager <lee@trager.us>
+> > ...
+> > 
+> > > diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
+> > ...
+> > 
+> > > @@ -109,8 +110,274 @@ static int fbnic_devlink_info_get(struct devlink *devlink,
+> > >   	return 0;
+> > >   }
+> > > 
+> > > +/**
+> > > + * fbnic_send_package_data - Send record package data to firmware
+> > > + * @context: PLDM FW update structure
+> > > + * @data: pointer to the package data
+> > > + * @length: length of the package data
+> > > + *
+> > > + * Send a copy of the package data associated with the PLDM record matching
+> > > + * this device to the firmware.
+> > > + *
+> > > + * Return: zero on success
+> > > + *	    negative error code on failure
+> > > + */
+> > > +static int fbnic_send_package_data(struct pldmfw *context, const u8 *data,
+> > > +				   u16 length)
+> > > +{
+> > > +	struct device *dev = context->dev;
+> > > +
+> > > +	/* Temp placeholder required by devlink */
+> > > +	dev_info(dev,
+> > > +		 "Sending %u bytes of PLDM record package data to firmware\n",
+> > > +		 length);
+> > Could you clarify what is meant by "Temp placeholder" here and in
+> > fbnic_send_component_table(). And what plans there might be for
+> > a non-temporary solution.
+> 
+> Temp placeholder may not have been the best wording here. pldmfw requires
+> all ops to be defined as they are always called[1] when updating. fbnic has
+> an info message here so its doing something but we have no current plans to
+> expand on fbnic_send_package_data nor fbnic_finalize_update.
+> 
+> [1]
+> https://elixir.bootlin.com/linux/v6.12-rc4/source/lib/pldmfw/pldmfw.c#L723
 
-There's quite a bit of information available in the Linux Kernel
-documentation.  For example:
+Thanks for the clarification. Perhaps the wording could be improved,
+but I don't think that needs to block progress.
 
-* https://www.kernel.org/doc/html/latest/process/security-bugs.html
-* https://www.kernel.org/doc/html/latest/process/code-of-conduct.html
-* https://www.kernel.org/code-of-conduct.html
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Ultimately, though, governance model that we've used since the
-founding of the Benevolent Dictator model.  For a description of this,
-see:
-
-* https://wiki.p2pfoundation.net/Benevolent_Dictator
-
-The reason why this model works for Open Source projects is that
-ultimately, the license allows the code to be forked, and someone
-could decide to take the Linux Kernel sources, and declare some new
-version, say: "Tedix".  However, if I was delusional enough to do
-this, it's very likely no one would pay attention to me, and consider
-me a random madman (of which there are many on the Internet).  
-
-Ultmately, though, the reason why Linus continues to serve as the
-leader of the Linux is that there is a very large number of people
-that respect his judgement and technical acumen.  And unlike in
-physical space where a dictator could (hypothetically) order tanks to
-fire on college-aged students, ultimately no one can force developers
-or companies to continue use or develop Linux.
-
-Everything else follows from this.  So for example, a maintainer or
-maintainer team can refuse to accept patches from a particular source.
-If someone disagrees with a decision, whether it is not accepting a
-patch, or request a patch that it be reverted, they can appeal to
-Linus.  Linus ask the Maintainer for their reasons, or can decide to
-override the decision by accepting the patch into his tree, or
-reverting a patch.  Ultimately, Linus can decide to relieve a
-maintainer of their duties by simply refusing to accept pull request
-from that maintainer, or by remoing the subsytem entirely from his
-sources.
-
-As another example, the Code of Conduct committee has no inherent
-power to sanction developers, other than to make recommendations to
-people who actually do the work --- namely, Linus Torvalds, other
-maintainers, the people who run the mailing lists, etc.  Like with
-Maintainers, their "power" comes from the respect that individuals on
-that body have with Linus and the other maintainers.
-
-Yet another body which you didn't mention is the Linux Foundation
-Technical Advisory board.  That body is elected, but the TAB has
-always made it clear that the primary power comes from the reputation
-and moral authority of the people who are elected to the TAB.  Sure,
-The TAB chair has an at-large seat on the Linux Foundation board, but
-any influence that the TAB through the TAB chair might have is more
-because of their work and the force of their arguments.
-
-
-More broadly, the model that I like to use is "servant leadership",
-and that's why I tell people who want to pursue taking up leadership
-roles in Linux.  Most of the senior leadership spend a huge amount of
-their personal time, and have often made career choices that have
-prioritized working on Linux and other Open Source projects over
-monetary renumeration.  Speaking for myself, I could have progressed
-farther in terms of position and salary.  I made choices that traded
-the freedom and ability to work on Linux because that was more
-important to me, and there is an awful lot of what I do as a leader is
-to serve those people in the ext4 development community.
-
-This is not true just in Linux; previously, I've served on the
-Security Area Advisory Group for the IETF, the standards body for the
-internet, and as working group chair for the ipsec working group when
-the IPSec protocols were first being standardied.  Sure, I was part of
-the "governance" of the IETF, but one of the things you learn very
-quickly is that as a volunteer leader, your primary power is to stop
-things from happening.  Hopefully, you're only stopping bad things
-from happening, and you can try to encourage and cajole volunteers
-spend time on what's necessary to make forward progress.  And of
-course, you can spend your own personal time smoothing the way to
-enable the members of the community to make forward progress.  And
-that takes us back to "servant leadership".
-
-Cheers,
-
-					- Ted
-
-P.S.  Note that when I say "volunteer', I'm using this in a fairly
-broad/informal fashion.  Yes, some members of the community have
-companies that pay our salaries to work on Linux.  But as the ext4
-maintainer, I don't have magement authority over the ext4 developer.
-I can refuse to take a patch; I can spend time creating testing
-infrastruture to make it easier for ext4 contributors to test their
-work; I can point out ways that some particular design might be good
-for ext4, and good for their company's business objectives, to the
-extent that I know their companies goals or they are willing to share
-those goals with me.  But I can't *force* someone at SuSE or Oracle or
-IBM or Huawei to work on some particular ext4 feature or bug.
-Ultimately, either individuals (who might be hobbists) or companies,
-voluntarily choose to contribute to ext4, or the IPSec standard.  And
-so that's why I call Linux and the IETF have much in common with a
-pure 100% volunteer organization, such as Doctors without Borders.
