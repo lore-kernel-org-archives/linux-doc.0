@@ -1,121 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D645A1805E;
-	Sat, 26 Oct 2024 00:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD061DFD8
+	for <linux-doc@vger.kernel.org>; Sat, 26 Oct 2024 03:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729903630; cv=none; b=HzM8SWtN+wueJAFFR/wgQO0yKfsdEPO0ZCmkGLZ6w/3ljxkLN4OtalfMX1Z1JDfrM932Ci78CkCIQ5VaTHyMLLTeWDOBGvHDwBQspsxu/KAilqEBfdnzk0z0uw1zgcliSXeA/yYIfmimZrXNlJ3gB97VUxO5wPSuLEBGqlT1Orc=
+	t=1729914978; cv=none; b=TUD2+s5x2TzRZco+raM7mKdVLaaFjXuXj7vRGOpEnzpooeRFs7hcnBoDvd1+r3rmYQnnZtvTdt4gYNYrQpfJBnde+MY2g6eU8bptDWuDF/PdtOb3hKpeyHEhXb1QtX1FqO/sf3dXUYw9GESohbby1DzIRCW8yOzjh7QJihJw7WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729903630; c=relaxed/simple;
-	bh=yxBEWdpHaV6bcSUejItXoVU+ob4Ni/SGYV+LJ2p6dCE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FFJFo/H1dKVToEVmHT2ZtC52HhGDzjsQtlq5h9QuXBYxULP/0oaE5M5uhmkFNTYAu0FcX02aYLYLdhXVYL7CiEsp3qcPue4swhyerZxxERf8O18wIBN5tw8kZka5FABB/L4GT/VVCoR4J/q+cw21oncsQqxyfbZR7sJgd/jFdzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zcfq3NoE; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729914978; c=relaxed/simple;
+	bh=3oM9WEdtQNIO693hFjB/zmcwWdvOBl5ifNMyfJw9/PE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Tx/rYI+wRYndC3XodecU40j46rWJ04OIr50JdkllQWjvpq2P6ZPebTtf/EfD0OVBpNRM/9o26I9p0d7g2AAf50VH6qZKZvn8I4bSIRXNHjFZCI4lOgAoB0+4zBjTCKBCsOKC25MooataPQWe2lkIobLBosini9GJUhqLKjJRLtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aj7zOPKk; arc=none smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zcfq3NoE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729903629; x=1761439629;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=yxBEWdpHaV6bcSUejItXoVU+ob4Ni/SGYV+LJ2p6dCE=;
-  b=Zcfq3NoE0J+zLJnqlrm8OV7Xm+eDiNfNZeEZD01vaT54dMGV4beqjPIE
-   ll6dnE7y6NLTF/SLhIo87nMdaj9+vSPvc0g6egz9s1sghK1o5Y/Ux9+fE
-   2p53mgjuJHtkEH55KIV4w5AP3x8Fb9pFNztjzxW8AXglN+lcLhZClVt3S
-   jDv5gIlRLRjrj94pdKSMsX9JEC/BHP1s2DwhkiZjdiYeaPbyP+KXiN1Gn
-   AVyi3vDlSqMeEYl4m25zGeLINzhVHrj3ZYJv9watY4za9k2/8NP5UekDm
-   Z4cDTgZpneGE2kcwIQEyIvpNsRkxef86iKibokGcToRx/C2hqiL+87Mw8
-   g==;
-X-CSE-ConnectionGUID: lxKWPCLQSUeTx43MeKs2bg==
-X-CSE-MsgGUID: o8zGigyJTICqQzlfvw+gfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="40974473"
-X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
-   d="scan'208";a="40974473"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 17:47:08 -0700
-X-CSE-ConnectionGUID: 5uLdAEvPT6au9dmIRrD+jA==
-X-CSE-MsgGUID: AR5ymz5LROiBOT7S3qAlTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
-   d="scan'208";a="85851658"
-Received: from kinlongk-mobl1.amr.corp.intel.com (HELO localhost) ([10.125.111.138])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 17:47:06 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-Date: Fri, 25 Oct 2024 19:46:56 -0500
-Subject: [PATCH v2 4/4] cxl/cdat: Use %pra for dpa range outputs
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aj7zOPKk"
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4a5ad5c1c06so1005843137.3
+        for <linux-doc@vger.kernel.org>; Fri, 25 Oct 2024 20:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729914975; x=1730519775; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0WKjNsNyT0ruYn6UVMVJ1RKIZyXTRYpCy6zMhmlf4JA=;
+        b=aj7zOPKkgQn0mO3ApOxP99muVIOVBXhDjDjRPpbaF/I0axfRacn+npZNNkRs4SEdG4
+         3+tqU3XspleGZtVhpuzHrFxyMTmzeR++WFu0tD666dB0cHGhU5SaXG0k37dUTfdp0gjQ
+         whDoKCJHisoplt6JN5HiMIEKPkEJ4si8B/NlzkyTCUN7f7EQ1rDe+5tdw8LZjQ7vMlV5
+         /ukv9yf1odGDGJup++SpOs1A8rG87PYFqZVYXVOj6mh10Fju1dkgObA79JKAfzwsGDrr
+         fjL8VecpGCbfg4Mcur9ihlnr/qKLLrVkGxtgcqzIlkH7niINDZSGBRZFkNLn8c6KpNXh
+         QJ5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729914975; x=1730519775;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0WKjNsNyT0ruYn6UVMVJ1RKIZyXTRYpCy6zMhmlf4JA=;
+        b=PUi7Pb/zAQiyYRj/l+0pk5MTvx1PGDOtqss8ERPYha5h1eCvT+Kctq/U97F/U7C1/W
+         UG872PZMPWToB7h0/im9ynr24ZpuhyAOkjzXwg+FBGnIEdYn+WEwnRMZOmu2DCTPh80r
+         LiLYnJPsn6DDpWUxS9HF1kxQhBwNHW1nuYIORrfSL8tMobLBRMsVl11VO7obmAbVcm7F
+         MSX7rKY0waDZfi6fKIe4ZuMydxBRA9NY1udcr7AEjwOvJ6KOPgc9hEOTzjnGTQA3IdCi
+         5rQ354JxT49bsEqkD/MypGKAKD6GOJKifwUV+RfYpbE3JXSeBnswOhpSC8OjFxZQMLs7
+         Xa6A==
+X-Forwarded-Encrypted: i=1; AJvYcCWOYpQJpTBKNtCT/giDGg+nzEPX2WQ+Zj2vwimTBZzulK3hbwUniQZnmTTPx2QScQaYJVPFypT+Xz0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqbTEoP3YeEgnThPhvLNPJ/iBVdcoeB7mbE5+j/b75McmO6N/v
+	9BFKy+XMf0J7VoLn8XtyVn9xiX6SJihJ11nUuod8tEIT69ETw73X2w/y2Ba/cwiaJGYCjv+7G7h
+	g7T8h3BqP4BCbJLKIOWw8yVSovy+qJS2GIxer
+X-Google-Smtp-Source: AGHT+IGHNioCV05B550z2HqdgbUh0S/Q4eiZK4coivQy8ntPYu+GO8YLiwCo3H1KXVMRJGwT6JD11juuGsuy611LTeQ=
+X-Received: by 2002:a05:6102:32d2:b0:4a4:7980:b9c7 with SMTP id
+ ada2fe7eead31-4a8cfb83109mr1334887137.14.1729914975276; Fri, 25 Oct 2024
+ 20:56:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241025-cxl-pra-v2-4-123a825daba2@intel.com>
-References: <20241025-cxl-pra-v2-0-123a825daba2@intel.com>
-In-Reply-To: <20241025-cxl-pra-v2-0-123a825daba2@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Jonathan Corbet <corbet@lwn.net>, Davidlohr Bueso <dave@stgolabs.net>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>, 
- Dave Jiang <dave.jiang@intel.com>, 
- Alison Schofield <alison.schofield@intel.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, 
- Dan Williams <dan.j.williams@intel.com>
-Cc: Fan Ni <fan.ni@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-cxl@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
-X-Mailer: b4 0.15-dev-37811
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1729903614; l=1497;
- i=ira.weiny@intel.com; s=20221211; h=from:subject:message-id;
- bh=yxBEWdpHaV6bcSUejItXoVU+ob4Ni/SGYV+LJ2p6dCE=;
- b=AdvYAt7HP7Phb77jMxIC63bIRrVcMNTgBmLTw6viyhQkS5JB8emh4NT8CovuO2TcKoEgYN7Ie
- 4bEEH+YcjRODfngW74iQXLPZKDNpwKlCZgQp3BhNZlDYzt6z1bDlUoB
-X-Developer-Key: i=ira.weiny@intel.com; a=ed25519;
- pk=noldbkG+Wp1qXRrrkfY1QJpDf7QsOEthbOT7vm0PqsE=
+References: <20241025012304.2473312-1-shakeel.butt@linux.dev> <20241025012304.2473312-6-shakeel.butt@linux.dev>
+In-Reply-To: <20241025012304.2473312-6-shakeel.butt@linux.dev>
+From: Yu Zhao <yuzhao@google.com>
+Date: Fri, 25 Oct 2024 21:55:38 -0600
+Message-ID: <CAOUHufYCPkUH0ysujoXZaw3PSrPvaw356-Pb97=LPGVRu_7FNQ@mail.gmail.com>
+Subject: Re: [PATCH v1 5/6] memcg-v1: no need for memcg locking for MGLRU
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Hugh Dickins <hughd@google.com>, 
+	Yosry Ahmed <yosryahmed@google.com>, linux-mm@kvack.org, cgroups@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Meta kernel team <kernel-team@meta.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now that there is a printf specifier for struct range use it to enhance
-the debug output of CDAT data.
+On Thu, Oct 24, 2024 at 7:23=E2=80=AFPM Shakeel Butt <shakeel.butt@linux.de=
+v> wrote:
+>
+> While updating the generation of the folios, MGLRU requires that the
+> folio's memcg association remains stable. With the charge migration
+> deprecated, there is no need for MGLRU to acquire locks to keep the
+> folio and memcg association stable.
+>
+> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+> ---
+>  mm/vmscan.c | 11 -----------
+>  1 file changed, 11 deletions(-)
+>
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 29c098790b01..fd7171658b63 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -3662,10 +3662,6 @@ static void walk_mm(struct mm_struct *mm, struct l=
+ru_gen_mm_walk *walk)
+>                 if (walk->seq !=3D max_seq)
+>                         break;
 
-Reviewed-by: Alison Schofield <alison.schofield@intel.com>
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
----
- drivers/cxl/core/cdat.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Please remove the lingering `struct mem_cgroup *memcg` as well as
+folio_memcg_rcu(). Otherwise it causes both build and lockdep
+warnings.
 
-diff --git a/drivers/cxl/core/cdat.c b/drivers/cxl/core/cdat.c
-index ef1621d40f05..438869df241a 100644
---- a/drivers/cxl/core/cdat.c
-+++ b/drivers/cxl/core/cdat.c
-@@ -247,8 +247,8 @@ static void update_perf_entry(struct device *dev, struct dsmas_entry *dent,
- 	dpa_perf->dpa_range = dent->dpa_range;
- 	dpa_perf->qos_class = dent->qos_class;
- 	dev_dbg(dev,
--		"DSMAS: dpa: %#llx qos: %d read_bw: %d write_bw %d read_lat: %d write_lat: %d\n",
--		dent->dpa_range.start, dpa_perf->qos_class,
-+		"DSMAS: dpa: %pra qos: %d read_bw: %d write_bw %d read_lat: %d write_lat: %d\n",
-+		&dent->dpa_range, dpa_perf->qos_class,
- 		dent->coord[ACCESS_COORDINATE_CPU].read_bandwidth,
- 		dent->coord[ACCESS_COORDINATE_CPU].write_bandwidth,
- 		dent->coord[ACCESS_COORDINATE_CPU].read_latency,
-@@ -279,8 +279,8 @@ static void cxl_memdev_set_qos_class(struct cxl_dev_state *cxlds,
- 			 range_contains(&pmem_range, &dent->dpa_range))
- 			update_perf_entry(dev, dent, &mds->pmem_perf);
- 		else
--			dev_dbg(dev, "no partition for dsmas dpa: %#llx\n",
--				dent->dpa_range.start);
-+			dev_dbg(dev, "no partition for dsmas dpa: %pra\n",
-+				&dent->dpa_range);
- 	}
- }
- 
-
--- 
-2.47.0
-
+> -               /* folio_update_gen() requires stable folio_memcg() */
+> -               if (!mem_cgroup_trylock_pages(memcg))
+> -                       break;
+> -
+>                 /* the caller might be holding the lock for write */
+>                 if (mmap_read_trylock(mm)) {
+>                         err =3D walk_page_range(mm, walk->next_addr, ULON=
+G_MAX, &mm_walk_ops, walk);
+> @@ -3673,8 +3669,6 @@ static void walk_mm(struct mm_struct *mm, struct lr=
+u_gen_mm_walk *walk)
+>                         mmap_read_unlock(mm);
+>                 }
+>
+> -               mem_cgroup_unlock_pages();
+> -
+>                 if (walk->batched) {
+>                         spin_lock_irq(&lruvec->lru_lock);
+>                         reset_batch_size(walk);
+> @@ -4096,10 +4090,6 @@ bool lru_gen_look_around(struct page_vma_mapped_wa=
+lk *pvmw)
+>                 }
+>         }
+>
+> -       /* folio_update_gen() requires stable folio_memcg() */
+> -       if (!mem_cgroup_trylock_pages(memcg))
+> -               return true;
+> -
+>         arch_enter_lazy_mmu_mode();
+>
+>         pte -=3D (addr - start) / PAGE_SIZE;
+> @@ -4144,7 +4134,6 @@ bool lru_gen_look_around(struct page_vma_mapped_wal=
+k *pvmw)
+>         }
+>
+>         arch_leave_lazy_mmu_mode();
+> -       mem_cgroup_unlock_pages();
+>
+>         /* feedback from rmap walkers to page table walkers */
+>         if (mm_state && suitable_to_scan(i, young))
+> --
+> 2.43.5
+>
+>
