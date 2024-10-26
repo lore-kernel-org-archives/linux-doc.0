@@ -1,174 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552DD1D1F5B;
-	Sat, 26 Oct 2024 11:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49975217F3B;
+	Sat, 26 Oct 2024 12:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729940764; cv=none; b=h6fKLEv78IIElBwZnJpUZbdmyLol4FXg+7rYqKJUPxmVYKK742EcSgsKN/Dd/uXNhqMy3Gq6sXlGCTxQ4MU0TMWYbo+nvtG1Z65pxKeBv1i838xmg1sPAyJ+TtOnavQAs7srDq7walCTwMpGPkrLb2AeWQkErFkyqnneZxppomM=
+	t=1729944680; cv=none; b=gPO4ypmRdiPOYsdaDJpYlOc7sgVhqOL7pzDBTgJeY8Vb1d3AUr2VMfxO8GiAh/BjpdfBlhQWW+xsQJY+mwa3TTfycNzmeD0znX15tOFnSMBfpVmXJCh7Wmc9sAgUmuhM6POfQXOGB1fKqJ2kTAqFC1D2m20TjqugS+en8AILoq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729940764; c=relaxed/simple;
-	bh=Zh3zuybgEofOZaCAcGFonRQz+iSFD09SNvGu7O6LYq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ani34HCurYYX1mynHgv1ZY1cniLqioRxg+eSY87CSyD5Dnbig4+wl50ceYMYNZdULR/7ZziiQOAurdz09IrS1pyVvubLMZG3sAg0ZfbPBXk1IJlNGfCL72MJlv7LDeCua2TFDo/Qqvnu00gqqJtpTDzGhzgM7gdc0DK8kmXxgO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bRhPHdMV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729944680; c=relaxed/simple;
+	bh=AQ3/+Vqj28trLqi817dZc3+Hj8cF9me0bw3ppsI5GUI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Za8veJV2huVHPw0oQspD3SKZEH5Z4A7iCf/r5bBvFcF4T91cMzcZIEcLALsrkTtithLoYHBlGHRstR4Ve3YtzFdDJ/6cHT4wChLX+xOEHAg8avmLn11HmEVq3nW5wmPmt2W08GqoF3FZ+TGWG1+5urSOdeVxlnOcBx+H9lXpJrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=hq7wgWu+; arc=none smtp.client-ip=198.252.153.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bRhPHdMV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72370C4CEC6;
-	Sat, 26 Oct 2024 11:05:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729940764;
-	bh=Zh3zuybgEofOZaCAcGFonRQz+iSFD09SNvGu7O6LYq8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bRhPHdMVnsnYmmf8azqlFC62K1Qi2aD1m3wm7FIkkhFZqaUpvwv4owY71WpPN1Tab
-	 UevitB2BtcNGrAunNKRkvn+zIM+H9BHjWNGVxj5/7QliKglRc1CO2ZSm+8U2vkHyeq
-	 L5GCr6CB6Mtc0ghY6NjDV5WWbrlN8DhUnp1RNlGdzxfVfhnvQoWcauenF8BK8MG+z6
-	 FOuV3MNwNSt0iV+G8M76pD8PLbWl9R5qJwxEJy0+QWVPsE5B+Cv4VxDK/4yHszjPUB
-	 GyhaqjAdiNzuFejGYskojc0piA5Xf8aWgJmA0Yyzs0A9zq9VGisbUhvmKHG5DdFPfN
-	 Kr6i+wbGdlFbw==
-Message-ID: <fae122f1-5a8e-4f92-b468-aba3fcb8ac90@kernel.org>
-Date: Sat, 26 Oct 2024 13:05:56 +0200
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="hq7wgWu+"
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4XbJQj153jzDrNy;
+	Sat, 26 Oct 2024 12:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1729944669; bh=AQ3/+Vqj28trLqi817dZc3+Hj8cF9me0bw3ppsI5GUI=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=hq7wgWu+2qofBRiHTL5ltlClTVxhevCV7k6HdBvld3J/IHAA4xk/j8C9T2ICpYHkt
+	 HU65Qsd2YBD27JXG95bxNztTxtrzowLdfhO9Z0JBSa7HsTg3RtCblFIpcwtG8RcqHm
+	 Y2iTL8e7pYqyssEu8QfbD3Tn544hILkh1h/7b1rQ=
+X-Riseup-User-ID: F93AA77ED5E886C2F4EB654852C2ACF3900CB5B9FF30773A7B45C08DCC7C3760
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XbJQY0lZszFtZ6;
+	Sat, 26 Oct 2024 12:11:00 +0000 (UTC)
+Message-ID: <d3e8bb5a-6053-4a2b-a445-0cf4e610f112@riseup.net>
+Date: Sat, 26 Oct 2024 09:10:57 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Concerns over transparency of informal kernel groups
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org,
- conduct@kernel.org, security@kernel.org, cve@kernel.org,
- linux-doc@vger.kernel.org, "stable@vger.kernel.org" <stable@vger.kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, shuah@kernel.org,
- lee@kernel.org, sashal@kernel.org, corbet@lwn.net
-References: <73b8017b-fce9-4cb1-be48-fc8085f1c276@app.fastmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com
+References: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <73b8017b-fce9-4cb1-be48-fc8085f1c276@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 25/10/2024 17:15, Jiaxun Yang wrote:
-> Dear Linux Community Members,
+Hi Louis,
+
+On 14/10/24 05:39, Louis Chauvet wrote:
+> On 11/10/24 - 10:53, Maira Canal wrote:
+>> Hi Louis,
+>>
+>> On 10/11/24 06:36, Louis Chauvet wrote:
+>>>
+>>> Hi all,
+>>>
+>>> Until this point, this series has not received any major comments since
+>>> v9. I will commit patches 1-9 next week if there are no further comments.
+>>>
+>>
+>> Although we are maintainers of VKMS, it isn't recommended that we push
+>> our own changes without even the Ack of another person. Please, read the
+>> "drm-misc Committer Guidelines" [1].
 > 
-> Over the years, various informal groups have formed within our community,
-> serving purposes such as maintaining connections with companies and external
-> bodies, handling sensitive information, making challenging decisions, and,
-> at times, representing the community as a whole. These groups contribute significantly
-> to our community's development and deserve our recognition and appreciation.
+> Hi Maíra, Maxime,
 > 
-> I'll name a few below that I identified from  `Documentation/`:
-> - Code of Conduct Committee <conduct@kernel.org>
-> - Linux kernel security team <security@kernel.org>
-> - Linux kernel hardware security team <hardware-security@kernel.org>
-> - Kernel CVE assignment team <cve@kernel.org>
-> - Stable Team for unpublished vulnerabilities <stable@kernel.org>
->   (I suspect it's just an alias to regular stable team, but I found no evidence).
+> I apologize for this rushed commit request. I sent the initial email with
+> a delay before the commit action because I was not sure about the
+> procedure and wanted to give others a chance to raise any concerns.
+> Unfortunately, I overlooked the need to collect an Ack/Review for each
+> patch, even when there hadn't been any responses for several months. I'm
+> sorry for this oversight.
 > 
-> Over recent events, I've taken a closer look at how our community's governance
-> operates, only to find that there's remarkably little public information available
-
-Oh, spread more FUD under the cloak of helping the community. Reminds me
-something, wait, how was it? zx?
-
-> about those informal groups. With the exception of the Linux kernel hardware security
-> team, it seems none of these groups maintain a public list of members that I can
-> easily find.
+>> I can ack patches 05/15, 07/15, and 09/15, but it would be more
+>> beneficial for the community if you ask for an ack (from me or from the
+>> DRM maintainers, which are always around), instead of saying that you
+>> are going to commit the patches without any review.
 > 
-> Upon digging into the details, I’d like to raise a few concerns and offer some thoughts
-> for further discussion:
-> 
-> - Absence of a Membership Register
-> Our community is built on mutual trust. Without knowing who comprises these groups,
-> it's understandably difficult for people to have full confidence in their work.
+> I will be happy to ask for acknowledgments if needed, but as you mentioned
+> multiple times: nobody is paid to maintain VKMS. Since you did not comment
+> these series since July, when you told me you would review my patches, I
+> assumed it was either okay or you no longer had the time to maintain
+> (which I completely understand).
 
-No, you might have difficulty, not "all people" which you imply. Please
-stop creating sentences like you are speaking for others. You do not
-speak for others.
+Yeah, I'm a volunteer and no longer have time to maintain VKMS. A couple
+of weeks ago I sent a patch removing myself as VKMS maintainer. This
+doesn't imply that patches can be pushed without review.
 
-> A publicly available membership list would not only foster trust but also allow us to
-> address our recognition and appreciation.
+We are a community with several active developers. Although I don't have
+time to properly review your patches, you can try to gather other
+developers to review your patches. You can try to use #dri-devel to get
+reviewers.
 
-Nope. For some of the groups it is very intentional to hide the
-membership. It was explained already why and should be pretty obvious.
+That said, you can add my ACK to patches 05/15, 07/15, and 09/15 and
+push the patches. I won't ack the YUV patches as I don't feel
+comfortable reviewing/acking those.
 
-> 
-> - Lack of Guidelines for Actions
-> Many of these groups appear to operate without documented guidelines. While I trust each
-> respectful individual's integrity, documented guidelines would enable the wider community
-> to better understand and appreciate the roles and responsibilities involved.
+Acked-by: Maíra Canal <mairacanal@riseup.net>
 
-Guidelines are well documented, although I understand something might be
-missing. Feel free to extend the existing documentation, as usual,
-patches are welcomed.
+BTW if the patches are fixing IGT tests, please update the list of fails
+and skips on DRM CI.
 
-> 
-> - Insufficient Transparency in Decision-Making
-> I fully respect the need for confidentiality in handling security matters, yet some
-> degree of openness around decision-making processes is essential in my opinion.
-> Releasing communications post-embargo, for instance, could promote understanding and
-> prevent potential abuse of confidential procedures.
-
-Again, unspecified FUD.
+Best Regards,
+- Maíra
 
 > 
-> - No Conflict of Interest Policy
-> Particularly in the case of the Code of Conduct Committee, there may arise situations
-> where individuals face challenging decisions involving personal connections. A conflict
-> of interest policy would provide valuable guidance in such circumstances.
-
-Feel free to propose patches instead of claiming there is problem for
-others. If you identify issue, propose a patch.
-
-Several other your replies earlier were in similar tone. I am not going
-to engage in such discussions and probably neither other people, but
-some think that silence is approval or agreement. Thus this reply. for
-me this is just FUD.
-
-Best regards,
-Krzysztof
-
+> So, I hereby formally request reviews/ACKs for the following series:
+> 
+> [this series]:https://lore.kernel.org/all/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com/
+> [2]:https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
+> [3]:https://lore.kernel.org/all/20240516-writeback_line_by_line-v1-0-7b2e3bf9f1c9@bootlin.com/
+> 
+> (I have to send a v2 for [3] because of rebase conflict, but nothing else
+> changed)
+> 
+> Thanks a lot,
+> Louis Chauvet
+>   
+>> [1] https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html
+>>
+>> Best Regards,
+>> - Maíra
+>>
+>>> For patches 10-15, I am currently waiting for feedback from Maxime to
+>>> send the next iteration with a fix for kunit tests.
+>>>
+>>> Thanks,
+>>> Louis Chauvet
+>>>
+>>> On 07/10/24 - 18:10, Louis Chauvet wrote:
+>>>> As all the rotation are now supported by VKMS, this simplification does
+>>>> not make sense anymore, so remove it.
+>>>>
+>>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>>> ---
+>>>>    drivers/gpu/drm/vkms/vkms_plane.c | 7 +------
+>>>>    1 file changed, 1 insertion(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>>>> index 8875bed76410..5a028ee96c91 100644
+>>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>>>> @@ -115,12 +115,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>>>>    	frame_info->fb = fb;
+>>>>    	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+>>>>    	drm_framebuffer_get(frame_info->fb);
+>>>> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
+>>>> -									  DRM_MODE_ROTATE_90 |
+>>>> -									  DRM_MODE_ROTATE_270 |
+>>>> -									  DRM_MODE_REFLECT_X |
+>>>> -									  DRM_MODE_REFLECT_Y);
+>>>> -
+>>>> +	frame_info->rotation = new_state->rotation;
+>>>>    	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
+>>>>    }
+>>>>
+>>>> -- 
+>>>> 2.46.2
+>>>>
