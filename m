@@ -1,115 +1,116 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D7F3BBD8;
-	Sat, 26 Oct 2024 17:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D576FB9;
+	Sat, 26 Oct 2024 17:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729963070; cv=none; b=rmgK5R/I++3ePb6yAe+n5EHV2DdBolTdWNWwYs4nNXI0SnqWeG9u3I/rj48x7iisHsvEJcFvbi5VieYbtmWngz8Vx714EnZ2jUJdMlcVXK9Qys3D9d707IPBHjqKrP169o5/yHyMbIijgrC+9hNvhGBgciGcbXU6ED8mgDZTgqU=
+	t=1729964355; cv=none; b=Df+5DzE9n8kanmJhFMQWSMG+llcofkojrGP475zS9KZJz93hnf1Mzp8zs4iQcnNUccFq19iPifR/qsRYpaFjHh1IXp5sH4SFPVWJ0SSEXXi8JtVsmYoKW/Th4LIIkKE6PNKDf+2ZC1YlxHvzsUC0eC/YAmWZICpF3UZEwx6B48w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729963070; c=relaxed/simple;
-	bh=UmBE9vHOfIOTS7rcqqGq9NZVUSg9LyFR7vFT1/hVmR0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=UMbekdLhBRLPfaZR9Ru3Y0YybRSDOWa+zGIJoXZ8nN87a9v6vzhF7xg9A2KhW4rpIL7FmU5jH4uA27h09F03JlKX9XQIBgxnRbhNZlfXiC4YGm254BozxENOGF0eLCf9M+Tx8zPo/a3NMJRhM2kuDf4lEBqYnabKz6uDWz/RLVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Kjl0Krxz; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1729964355; c=relaxed/simple;
+	bh=D3RmwI4bu3/8BxSAVeLi4RAOLqlxj/oLNWo2qcTdduo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:Subject:
+	 Content-Type; b=NLFxu67elgqx1JW2C0IZSYYdoIqZBc4pjC12Gzu1Z7OSqw179DXd9DHUb9AeNdttdnafP5j2YmP65HNjRhhseYkxT3S058eRPPKUMobiiUBIuQaoeo4u3VF8DtfmKqwAfPkTRhDWsRcfsOIWr05ftZTUxbGrXahuqp/RYA2vzwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=revi.email; spf=pass smtp.mailfrom=revi.email; dkim=pass (2048-bit key) header.d=revi.email header.i=@revi.email header.b=UQhV9nj7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aqm1Zm5/; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=revi.email
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=revi.email
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Kjl0Krxz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
-	Reply-To:Cc:Content-ID:Content-Description;
-	bh=xRRxzHXcG6ByeGhUqK+NNCEcYuk1Uf6B9ch89Ph+eL0=; b=Kjl0KrxzE3EP9jgIEIUrAgV3MF
-	k9Ffno18+ejTyi8laHQ/KWFx/TREke0bS7atgVumJ3CGgvGkHomk/kFb993lhu2ASWEIjYUgx/UQF
-	aAwIE3hWTSUxoG3p9rT/fjUDx+DVOJ16aiwyRjllPXvIDou4GqkyX2UDGrMODRB77WHmYdq/2w711
-	9LPa3xH8+K8rVd2IXl4huBef9r3dHxOICc14qAt3ddoV38EImRUb0j5ZfUb664Auaf4B39onmx92Z
-	SPvJ+J6hEeukg10LTMbdkZ39mnoqzM5E3K+6/SOfDhdt0u1zM3dzDJTu2tghPnu/CBF5YRRlC8iSD
-	uomNRjJA==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t4kQ1-00000009Grr-0CSL;
-	Sat, 26 Oct 2024 17:17:41 +0000
-Message-ID: <0ae13ad4-342a-48ca-bd7a-8f15f6d99504@infradead.org>
-Date: Sat, 26 Oct 2024 10:17:35 -0700
+	dkim=pass (2048-bit key) header.d=revi.email header.i=@revi.email header.b="UQhV9nj7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aqm1Zm5/"
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 261621380223;
+	Sat, 26 Oct 2024 13:39:11 -0400 (EDT)
+Received: from phl-imap-09 ([10.202.2.99])
+  by phl-compute-01.internal (MEProxy); Sat, 26 Oct 2024 13:39:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=revi.email; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to; s=fm1; t=1729964351; x=
+	1730050751; bh=o3IeO3jQIb1Qjuj3w22aq9LgOdGupsxgBB3CjNvb0n8=; b=U
+	QhV9nj7SiWR90hvVN+St8X3/V3Ewu53YNYFmj1fZebZqSiay89B7NWeV0lZ5bwRF
+	/9Hp4iQJR69nCLnX+qoXAlTI0Bskg4dKKg471kNJToxp5g7Hv4yMHJK3ViacvnBO
+	YMjRHcC2S9a/R+dC/RstCe+CxyjIu9yI2BcFzBN1nMtjapOweQZj997fUpBYSOzz
+	IUxDuDKRRe0kN4LpPx/WCLEVPu5jJaw1egVSK3TNbe7LBxCAHDZShvmVlr3PfRUM
+	b2Ug+0jMGRX8JzqatPIbSQEWB3gLn8g2KG4qC6z0KHXdTwbEoNlJBoZ51BWt92zQ
+	bGhHPi27nozcbViuTlujA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729964351; x=
+	1730050751; bh=o3IeO3jQIb1Qjuj3w22aq9LgOdGupsxgBB3CjNvb0n8=; b=a
+	qm1Zm5/KxNSuq2Zgrkch09OvXwGuyPrtf/gmMx8UVNUryVB/xF7f7Ng6Fnduhkoy
+	n8nxjgKBMhc8Y5JRi+6L/trievSDkyjCCrm7nN2HBay4KmhC5JkEAwxxrr9t6QI2
+	2iUTZ29VVHdPpSBwXJlxavPLE34/cjHPUCChYJgAlkpe0dUcibn6Oij30fS75vqd
+	egwD9RGYITFAKRAhVV37snjWmcIG2fP/E6VZruT8aRxSONnXVUh+0Cq3c6WwFn/Q
+	OQN+3G0rry7Zu13SmdPjbwNaSxXKuQRN4PjfiagS9rKOGTrpnQMBGWQFmaVEEWlp
+	qQDSSOjsLbUn0NeKYWWpw==
+X-ME-Sender: <xms:PikdZ_GOgoKqi4didu-Nr54oT8dRdr_YTrdJklM-bflPUKPPYw5mxw>
+    <xme:PikdZ8V-JeqA4mBh49Aey1Qp16K-KOECikEqfTbZe6zAXvo1rEKmQjsdA5ZshHqMU
+    yMaqgKCV_NzlcEhzOc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdejgedguddugecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecufghrlhcuvffnffculd
+    dujedmnecujfgurhepofggfffhvfevkfgjufgtgfesthhqredtredtjeenucfhrhhomhep
+    jghonhhgmhhinhcuoeihvgifohhnsehrvghvihdrvghmrghilheqnecuggftrfgrthhtvg
+    hrnhepffetjeejleevfeelgfelteevheelgfekheevuefgleetlefhtdetveetfeegkeeh
+    necuffhomhgrihhnpeifihhkthhiohhnrghrhidrohhrghdprhgvvhhirdighiiipdifih
+    hkihhpvgguihgrrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
+    rghilhhfrhhomhephigvfihonhesrhgvvhhirdgvmhgrihhlpdhnsggprhgtphhtthhope
+    dufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhirgiguhhnrdihrghnghes
+    fhhlhihgohgrthdrtghomhdprhgtphhtthhopegtohhnughutghtsehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopegtvhgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggv
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrghshhgrlheskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepshgvtghurhhithihsehkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehshhhurghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhrvhgrlhgusheslh
+    hinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehl
+    ihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
+X-ME-Proxy: <xmx:PikdZxJQ2AwbB4WTvMzRyJkzHoDhlQFqdOyXE9vTJ-Ki-q0A5ikoig>
+    <xmx:PikdZ9GvhYESnUnKlTmZMQjZvAMQGnQWo5ef64YIChqPvL2G5SBroQ>
+    <xmx:PikdZ1Vm0dAKN2lGlcmUu7uRoFOU6FYt5-g7xe0qr3yTQSaSdMUjJg>
+    <xmx:PikdZ4OMW5gal6-FPlfBllDEnJLG-1zDG_p4cYPMteEsJBNXWVhCww>
+    <xmx:PykdZ-uE3iRqM96VVUE4ptaulJnazS5PFyV6NQiRdM283OjcL0_3Go0X>
+Feedback-ID: ie2a949ef:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 170D6780068; Sat, 26 Oct 2024 13:39:10 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] Documentation:leds: Add leds-st1202.rst
-To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
- pavel@ucw.cz, lee@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <Zx0BKtXo55D_pCGk@admins-Air>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <Zx0BKtXo55D_pCGk@admins-Air>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Sun, 27 Oct 2024 02:38:49 +0900
+From: Yongmin <yewon@revi.email>
+To: jiaxun.yang@flygoat.com
+Cc: conduct@kernel.org, corbet@lwn.net, cve@kernel.org,
+ gregkh@linuxfoundation.org, lee@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sashal@kernel.org, security@kernel.org,
+ shuah@kernel.org, stable@vger.kernel.org, torvalds@linux-foundation.org
+Message-Id: <166cb904-efb6-4dad-b30c-0dcbc600db5e@app.fastmail.com>
+In-Reply-To: <73b8017b-fce9-4cb1-be48-fc8085f1c276@app.fastmail.com>
+Subject: Re: Concerns over transparency of informal kernel groups
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hello from random bystander watching all this,
 
-On 10/26/24 7:48 AM, Vicentiu Galanopulo wrote:
-> Add usage for sysfs hw_pattern entry for leds-st1202 
-> 
-> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-> ---
->  Documentation/leds/leds-st1202.rst | 36 ++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->  create mode 100644 Documentation/leds/leds-st1202.rst
-> 
-> diff --git a/Documentation/leds/leds-st1202.rst b/Documentation/leds/leds-st1202.rst
-> new file mode 100644
-> index 000000000000..72286a512c69
-> --- /dev/null
-> +++ b/Documentation/leds/leds-st1202.rst
-> @@ -0,0 +1,36 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +============================================
-> +Kernel driver for STMicroelectronics LED1202
-> +============================================
-> +
-> +/sys/class/leds/<led>/hw_pattern
-> +--------------------------------
-> +
-> +Specify a hardware pattern for the ST1202 LED. The LED
-> +controller, implements 12 low-side current generators
+You probably should have used the term 'in camera' [1] instead of inform=
+al groups.
 
-no comma     ^
+[1]: https://en.wiktionary.org/wiki/in_camera : "1. In secret or in priv=
+ate (in an enclosed room, behind closed doors)."
 
-> +with independent dimming control. Internal volatile memory
-> +allows the user to store up to 8 different patterns.
-> +Each pattern is a particular output configuration in terms
-> +of PWM duty-cycle and duration (ms).
-> +
-> +To be compatible with the hardware pattern
-> +format, maximum 8 tuples of brightness (PWM) and duration must
-> +be written to hw_pattern.
-> +
-> +- Min pattern duration: 22 ms
-> +- Max pattern duration: 5660 ms
-> +
-> +The format of the hardware pattern values should be:
-> +"brightness duration brightness duration ..."
-> +
-> +/sys/class/leds/<led>/repeat
-> +----------------------------
-> +
-> +Specify a pattern repeat number, which is common for all channels.
-> +Default is 1, other negative numbers and number 0 are invalid.
+Bye,
 
-   Default is 1; negative numbers and 0 are invalid.
-
-> +
-> +This file will always return the originally written repeat number.
-> +
-> +When the 255 value is written to it, all patterns will repeat
-> +indefinitely.
-
--- 
-~Randy
-
+----
+revi | =EB=A0=88=EB=B9=84 (IPA: l=C9=9Bbi)
+- https://revi.xyz
+- he/him <https://revi.xyz/pronoun-is/>
+- What time is it in my timezone? <https://issuetracker.revi.xyz/u/time>
+- In this Korean name <https://en.wikipedia.org/wiki/Korean_name>, the f=
+amily name is Hong <https://en.wikipedia.org/wiki/Hong_(Korean_surname)>=
+, which makes my name HONG Yongmin.
+- I reply when my time permits. Don't feel pressured to reply ASAP;
+   take your time and respond at your schedule.
