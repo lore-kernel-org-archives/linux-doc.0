@@ -1,52 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CDCB641;
-	Sat, 26 Oct 2024 13:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BB31D363A
+	for <linux-doc@vger.kernel.org>; Sat, 26 Oct 2024 13:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729947819; cv=none; b=p5NrxNRBgQ1AUVsdEPVQiRajYvdsXZ5xNYvu8H9mAeBryyN/2adykiK8kXRzQifAUsIUloZA37z5aYAcdXkhOhPnlBm8kiTo+/ItS4s0hy8/wEeb7wOR0MQg/JF4QYLiI0gn5rvdaI261wEygFC7mYauOq09ZkzK6qqSuu0AXfA=
+	t=1729948027; cv=none; b=maTCfv5P5mJIuGZDU5eR+tNNIQ7Rhn81vXsF2890t9B/S+IrOkevn7FyUSTX64o5NNDFtMg48nKCTvjdxAqxkOi1nuVjkq1/7cxHsNqLDBOX+cs5XZz7IGmmplX/NrAUWhfitwYu8kOUNG0eZO5CTqzpQy8XdxNjF3sI4TQ4duc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729947819; c=relaxed/simple;
-	bh=XPuYmo0zgd43DSQ6TT9jekdqtTwIJ6eJ4YPPUSxLX6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nnVHKhIIaXD4meeYhzUMULIgG0XTbRLlfASFMXv8oM3Ty1gq7emytYVFWLM+h46+7kHBEK4+SkQLrgn0+myMNryWUWSigTfeqdeA6UNHWTAig1Vfzsj/qaFm5UvfXgSUL417cRCWikI3a1QTDZSPlPssCecm3tES0Y6Fo9sBIYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HE4/y/9x; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729948027; c=relaxed/simple;
+	bh=fwyCIOtOltcNcxqU74U2sep7MLo9f7+uWU1c/QHi7jg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=i5JBRvmeWcrVC7IeGkHAbRQs0nE+uSQ5sp4SoWM3k0vmMdFt7ipj6w2Jmqx8H0cyuUQTqtE8QnMRjgTcQDfgnyPq9N9Ho9GphbOTRE3WH5PwCmJM9PbueRCKgvkld6DC9B9QUy0F4hyZiMulBCF+3sw+wsySOJcyVC0eHBxD0Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n4q4AIOA; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HE4/y/9x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13768C4CEC6;
-	Sat, 26 Oct 2024 13:03:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729947817;
-	bh=XPuYmo0zgd43DSQ6TT9jekdqtTwIJ6eJ4YPPUSxLX6A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HE4/y/9xJo3SY0e3w9bf+orKhAGA+RAP3UZKJNacRfemypcPRwie0VXLQ+F5xDu0k
-	 FTfXM09UDdfDRpmHfVGiHU+iX1ccEAZ1mpHYC6AFYq349wQ0uVP0/5MPtDet3n+nut
-	 t+Wwbreh80ijzupPC3KP0CU9bPg7AJUvUQ2Tcs8SVIcuodSIgRuRAiNKbow85sN9QJ
-	 6G/H+2oTcROwsvPK9Pl+x6gfjuaYGnVVcN2+7tT6JJzINO9uXM2D04QJZWK9WN51wq
-	 4Bw6DQFX2xohwDZ+eR18gNbZIebM+b/YIORJait7Ja8H7pwrv8IiWAZCwI/U2QUEtt
-	 4CAHKdsjA0cWA==
-Date: Sat, 26 Oct 2024 14:03:31 +0100
-From: Simon Horman <horms@kernel.org>
-To: Gerd Bayer <gbayer@linux.ibm.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Coco Li <lixiaoyan@google.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, Donald Hunter <donald.hunter@gmail.com>
-Subject: Re: [PATCH net] Documentation: networking: net_cachelines: Fix
- formatting
-Message-ID: <20241026130331.GE1507976@kernel.org>
-References: <20241025-fix_netdev_doc-v1-1-e76e3bc227fc@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n4q4AIOA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729948026; x=1761484026;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fwyCIOtOltcNcxqU74U2sep7MLo9f7+uWU1c/QHi7jg=;
+  b=n4q4AIOAXksbStacMVvRhCZx7MZO495H1g02tVgoYfp8/qkl8LkwlUyG
+   irLCKFU4KVFCUzEOerhw2hSVRMRyjWD/q0U7wI0j0SGwx1v++h8Z9rhif
+   zOkJf4lgIDmTtAJIErmuckznw3tkRtHnIaTaJ2KbAKkBOKHXRy3RsugPw
+   yQQAbCIenvhrrL29349iH/e5URa32Jvm2eZ0IpCHr1dXTp0HrtrmYNIJe
+   fZbSubW3qAqKKDZ2QOTPqzDR+/JUDg/w2zVQKI+SuXXD/6iF532mNBGfb
+   UimRmXrNlwCvcksA0gOFezqGbOFjYa3u7s6MHQivbRJcgtSuxU4f3ts2C
+   w==;
+X-CSE-ConnectionGUID: I5AGRUevSuOPOSj2MU5zFQ==
+X-CSE-MsgGUID: hXffd/bnRkO8t0juJzboBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40149988"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40149988"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 06:07:05 -0700
+X-CSE-ConnectionGUID: c/QhpwqCTuiP9WYnzukBmg==
+X-CSE-MsgGUID: bfleiZssT6er8JX0tDH5aA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
+   d="scan'208";a="81094392"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 26 Oct 2024 06:07:03 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t4gVR-000Zg6-11;
+	Sat, 26 Oct 2024 13:07:01 +0000
+Date: Sat, 26 Oct 2024 21:06:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
+Subject: [srini-nvmem:for-6.13 5/5] htmldocs: Warning:
+ Documentation/devicetree/bindings/nvmem/zii,rave-sp-eeprom.yaml references a
+ file that doesn't exist:
+ Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
+Message-ID: <202410262136.eJzeQwM2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,29 +65,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025-fix_netdev_doc-v1-1-e76e3bc227fc@linux.ibm.com>
 
-+ Donald
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git for-6.13
+head:   17d6f058403d4e3458ec9c7dae607c065cabe089
+commit: 17d6f058403d4e3458ec9c7dae607c065cabe089 [5/5] dt-bindings: nvmem: convert zii,rave-sp-eeprom.txt to yaml format
+reproduce: (https://download.01.org/0day-ci/archive/20241026/202410262136.eJzeQwM2-lkp@intel.com/reproduce)
 
-On Fri, Oct 25, 2024 at 05:38:35PM +0200, Gerd Bayer wrote:
-> I stumbled over [0] being completely garbled.
-> 
-> Fix formatting by adding the required rst annotation for a Simple Table
-> and remove unnecessary trailing whitespace. While at it, do the same for
-> all the documents in the net_cachelines directory.
-> 
-> I have not checked the contents for correctness or completeness.
-> 
-> Links: [0] https://www.kernel.org/doc/html/latest/networking/net_cachelines/net_device.html
-> Fixes: 14006f1d8fa2 ("Documentations: Analyze heavily used Networking related structs")
-> Signed-off-by: Gerd Bayer <gbayer@linux.ibm.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410262136.eJzeQwM2-lkp@intel.com/
 
-Thanks Gerd,
+All warnings (new ones prefixed by >>):
 
-I believe that there is already a patch in net-next that addresses this.
-
-- 54b771e6c675 ("doc: net: Fix .rst rendering of net_cachelines pages")
-  https://git.kernel.org/netdev/net-next/c/54b771e6c675
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+>> Warning: Documentation/devicetree/bindings/nvmem/zii,rave-sp-eeprom.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/zii,rave-sp.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
 
 -- 
-pw-bot: not-applicable
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
