@@ -1,72 +1,52 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BFB1D2F67;
-	Sat, 26 Oct 2024 12:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CDCB641;
+	Sat, 26 Oct 2024 13:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729946678; cv=none; b=cNRN+fIZMQ5pTjYdvvicz6fCJToKWMGRKvMeMd+PXDo17zpf9C3pCgnL7E26UjQ6afnqCl1j+1j8qtvJPPTwevHChb3lcch8B5XGVIkMUcKhTeLYhcuAUc2W1USWCwp++y2VdKCrfoyYG7jhfjvX8t8f56AkKH/GZpPKZhB9br8=
+	t=1729947819; cv=none; b=p5NrxNRBgQ1AUVsdEPVQiRajYvdsXZ5xNYvu8H9mAeBryyN/2adykiK8kXRzQifAUsIUloZA37z5aYAcdXkhOhPnlBm8kiTo+/ItS4s0hy8/wEeb7wOR0MQg/JF4QYLiI0gn5rvdaI261wEygFC7mYauOq09ZkzK6qqSuu0AXfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729946678; c=relaxed/simple;
-	bh=hlYMxGuvPb703Lut6KKMmkeksJOnNiX3d4CG1prtUWA=;
+	s=arc-20240116; t=1729947819; c=relaxed/simple;
+	bh=XPuYmo0zgd43DSQ6TT9jekdqtTwIJ6eJ4YPPUSxLX6A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lsGeenDXmwzcdCTgBncf9Y61mLoNrdsZc5kUdfSUXjyQcv6rVRZ5moOnp1MqJY5i20ZNf2y3a/VAlSztUHuedSZuME7qulAowGiGLadMVp3LZCeEzmj+hJb4ozd7wnTGKc58k3mTExCfII87SxWNkFnlgRB6/8mkP9Yjaf7UDZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h9U2TMv9; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=nnVHKhIIaXD4meeYhzUMULIgG0XTbRLlfASFMXv8oM3Ty1gq7emytYVFWLM+h46+7kHBEK4+SkQLrgn0+myMNryWUWSigTfeqdeA6UNHWTAig1Vfzsj/qaFm5UvfXgSUL417cRCWikI3a1QTDZSPlPssCecm3tES0Y6Fo9sBIYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HE4/y/9x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h9U2TMv9"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2e2bd0e2c4fso2292414a91.3;
-        Sat, 26 Oct 2024 05:44:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729946674; x=1730551474; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hlYMxGuvPb703Lut6KKMmkeksJOnNiX3d4CG1prtUWA=;
-        b=h9U2TMv9QVHvOUOwiCtzmMA1nB3eS6vE3exOH6Boer6qZx5D+TT0XxZ9Wr0h1Hpkru
-         49hoRzxstQsvlrJ4oTRPc8ajLactezSNuL3wkHLRvWn41eV37DE1ZN/u+W+Sji6esKqM
-         JLEk86pNrqX5JVNEz6kQ9v8aNyPJR4c3WVmDy4jxDMLNTCY16sT/u5Bq/mnIFGT+wtek
-         cUgulqHXVQpXgRsNGpOKLT3SOB86JyW+9ArNCRRdM0H1ml2vw0ymLwDmC+3c7TkmONEJ
-         DnMMavFOmHs7gcUMvjUGbLU9I7vANa2hnj1ksrT+P0kdjY1VAr2R+29XWO12+pvjX8ka
-         zeZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729946674; x=1730551474;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hlYMxGuvPb703Lut6KKMmkeksJOnNiX3d4CG1prtUWA=;
-        b=ggK012TCOeAMYwRTiAGN2ptEB4fprWcHiRl3YztMK3gf4Yur2MWN6LjJcqfjk6MIWq
-         J5S3XVdFXxnbKxUyRnbtVAr+9u/yAz5Zs0JuUi/Xx+1RUhtbMchXndeZxMYmAdArBG5z
-         +xkOG6444I7rywAd31We5sJ5iUvMMrpPRlqi8RmSR4DlzT8X9RL0Jt8DsydBNQeZajB+
-         /yxH8qD9gPENxapmbiuLMUq6JxNSfSlFtAdfrj/Ofgi74Y/t8xWXz/VsZfuCrMxcGs8K
-         VDVag1UfsVITO0LB/ZX7SDalmE8YxwL/Vv62GSyr76Hl7bx4+tH/tVylKX+mQOSJXoJ1
-         QoyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYzfkNf7+yy3HyvTyySRiyRChN/UhMKzKKM1EkPPiLLvkMac7d9mqDTDtlx2NnDMSjEAXrk6ZrbgPKa5k5@vger.kernel.org, AJvYcCWgoGGBJd/z+8vXxvWH5F9W+7afq7yG/ZBXuBm0yfJrWJAHEVrHihmZRCtrGO/1bzSShFsgCF9+MyLo@vger.kernel.org, AJvYcCX/VovJ/WTTJnjsHVG5nuhs2lu8dRQgGjv0x8QKe5Co9HVc01V8Hu+RZLMDh3Z4Ga9HfrLO5g6A1tGs1PPitYzcEw==@vger.kernel.org, AJvYcCXA78WdN4yi9i8FplitnsC1YPqBNgbx2q1/xqcsiiXey7X+n8CDS7Dpfp4KtPcbbU3HVdSxLyDCRPFM68Ny2QI=@vger.kernel.org, AJvYcCXWjiZaWbDbtMBFT/v8WoQKwYLI0509NmUcVBJJ2eTSSqUstAyoCPF9HR+n/LzOIsDnqVPmAKqz7xAGkmo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytYc7wORegP32vxcr41pTF2JNeZ/KjuMQYEYKkg6iyQAxkJraL
-	Sdt/kfdcEbzsEXtH7trHwe05yG7vLI/Xhiz73vTVOAjDIp+w8kmY
-X-Google-Smtp-Source: AGHT+IG5ZhDGETx6o3Y/ScrrP5AVxts1TmCd+x6OU8AF59dnaIuGpNAB6tw4k+6hqYITHYo+ZCSzTA==
-X-Received: by 2002:a17:90b:1c07:b0:2e7:89df:858c with SMTP id 98e67ed59e1d1-2e8f0f52f70mr2797590a91.6.1729946674353;
-        Sat, 26 Oct 2024 05:44:34 -0700 (PDT)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e77e5a4ec4sm5396093a91.54.2024.10.26.05.44.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Oct 2024 05:44:33 -0700 (PDT)
-Date: Sat, 26 Oct 2024 20:44:28 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: kent.overstreet@linux.dev
-Cc: mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
-	kan.liang@linux.intel.com, willy@infradead.org,
-	jserv@ccns.ncku.edu.tw, linux-kernel@vger.kernel.org,
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-bcachefs@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-doc@vger.kernel.org, colyli@suse.de, msakai@redhat.com,
-	corbet@lwn.net, peterz@infradead.org, mingo@redhat.com,
-	acme@kernel.org, namhyung@kernel.org, akpm@linux-foundation.org
-Subject: Re: [PATCH v2 00/10] Enhance min heap API with non-inline functions
- and optimizations
-Message-ID: <ZxzkLJmhn3a/1ALQ@visitorckw-System-Product-Name>
-References: <20241020040200.939973-1-visitorckw@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HE4/y/9x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13768C4CEC6;
+	Sat, 26 Oct 2024 13:03:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729947817;
+	bh=XPuYmo0zgd43DSQ6TT9jekdqtTwIJ6eJ4YPPUSxLX6A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HE4/y/9xJo3SY0e3w9bf+orKhAGA+RAP3UZKJNacRfemypcPRwie0VXLQ+F5xDu0k
+	 FTfXM09UDdfDRpmHfVGiHU+iX1ccEAZ1mpHYC6AFYq349wQ0uVP0/5MPtDet3n+nut
+	 t+Wwbreh80ijzupPC3KP0CU9bPg7AJUvUQ2Tcs8SVIcuodSIgRuRAiNKbow85sN9QJ
+	 6G/H+2oTcROwsvPK9Pl+x6gfjuaYGnVVcN2+7tT6JJzINO9uXM2D04QJZWK9WN51wq
+	 4Bw6DQFX2xohwDZ+eR18gNbZIebM+b/YIORJait7Ja8H7pwrv8IiWAZCwI/U2QUEtt
+	 4CAHKdsjA0cWA==
+Date: Sat, 26 Oct 2024 14:03:31 +0100
+From: Simon Horman <horms@kernel.org>
+To: Gerd Bayer <gbayer@linux.ibm.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Coco Li <lixiaoyan@google.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, Donald Hunter <donald.hunter@gmail.com>
+Subject: Re: [PATCH net] Documentation: networking: net_cachelines: Fix
+ formatting
+Message-ID: <20241026130331.GE1507976@kernel.org>
+References: <20241025-fix_netdev_doc-v1-1-e76e3bc227fc@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,23 +55,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241020040200.939973-1-visitorckw@gmail.com>
+In-Reply-To: <20241025-fix_netdev_doc-v1-1-e76e3bc227fc@linux.ibm.com>
 
-On Sun, Oct 20, 2024 at 12:01:50PM +0800, Kuan-Wei Chiu wrote:
-> Add non-inline versions of the min heap API functions in lib/min_heap.c
-> and updates all users outside of kernel/events/core.c to use these
-> non-inline versions. To mitigate the performance impact of indirect
-> function calls caused by the non-inline versions of the swap and
-> compare functions, a builtin swap has been introduced that swaps
-> elements based on their size. Additionally, it micro-optimizes the
-> efficiency of the min heap by pre-scaling the counter, following the
-> same approach as in lib/sort.c. Documentation for the min heap API has
-> also been added to the core-api section.
->
-Hi Kent,
++ Donald
 
-FWIW, here are the bcachefs CI test results for this patch series:
-https://evilpiepirate.org/~testdashboard/ci?user=visitorckw&branch=min-heap-update
+On Fri, Oct 25, 2024 at 05:38:35PM +0200, Gerd Bayer wrote:
+> I stumbled over [0] being completely garbled.
+> 
+> Fix formatting by adding the required rst annotation for a Simple Table
+> and remove unnecessary trailing whitespace. While at it, do the same for
+> all the documents in the net_cachelines directory.
+> 
+> I have not checked the contents for correctness or completeness.
+> 
+> Links: [0] https://www.kernel.org/doc/html/latest/networking/net_cachelines/net_device.html
+> Fixes: 14006f1d8fa2 ("Documentations: Analyze heavily used Networking related structs")
+> Signed-off-by: Gerd Bayer <gbayer@linux.ibm.com>
 
-Regards,
-Kuan-Wei
+Thanks Gerd,
+
+I believe that there is already a patch in net-next that addresses this.
+
+- 54b771e6c675 ("doc: net: Fix .rst rendering of net_cachelines pages")
+  https://git.kernel.org/netdev/net-next/c/54b771e6c675
+
+-- 
+pw-bot: not-applicable
