@@ -1,176 +1,97 @@
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49975217F3B;
-	Sat, 26 Oct 2024 12:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BFB1D2F67;
+	Sat, 26 Oct 2024 12:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729944680; cv=none; b=gPO4ypmRdiPOYsdaDJpYlOc7sgVhqOL7pzDBTgJeY8Vb1d3AUr2VMfxO8GiAh/BjpdfBlhQWW+xsQJY+mwa3TTfycNzmeD0znX15tOFnSMBfpVmXJCh7Wmc9sAgUmuhM6POfQXOGB1fKqJ2kTAqFC1D2m20TjqugS+en8AILoq8=
+	t=1729946678; cv=none; b=cNRN+fIZMQ5pTjYdvvicz6fCJToKWMGRKvMeMd+PXDo17zpf9C3pCgnL7E26UjQ6afnqCl1j+1j8qtvJPPTwevHChb3lcch8B5XGVIkMUcKhTeLYhcuAUc2W1USWCwp++y2VdKCrfoyYG7jhfjvX8t8f56AkKH/GZpPKZhB9br8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729944680; c=relaxed/simple;
-	bh=AQ3/+Vqj28trLqi817dZc3+Hj8cF9me0bw3ppsI5GUI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Za8veJV2huVHPw0oQspD3SKZEH5Z4A7iCf/r5bBvFcF4T91cMzcZIEcLALsrkTtithLoYHBlGHRstR4Ve3YtzFdDJ/6cHT4wChLX+xOEHAg8avmLn11HmEVq3nW5wmPmt2W08GqoF3FZ+TGWG1+5urSOdeVxlnOcBx+H9lXpJrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=hq7wgWu+; arc=none smtp.client-ip=198.252.153.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	s=arc-20240116; t=1729946678; c=relaxed/simple;
+	bh=hlYMxGuvPb703Lut6KKMmkeksJOnNiX3d4CG1prtUWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lsGeenDXmwzcdCTgBncf9Y61mLoNrdsZc5kUdfSUXjyQcv6rVRZ5moOnp1MqJY5i20ZNf2y3a/VAlSztUHuedSZuME7qulAowGiGLadMVp3LZCeEzmj+hJb4ozd7wnTGKc58k3mTExCfII87SxWNkFnlgRB6/8mkP9Yjaf7UDZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h9U2TMv9; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="hq7wgWu+"
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx1.riseup.net (Postfix) with ESMTPS id 4XbJQj153jzDrNy;
-	Sat, 26 Oct 2024 12:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1729944669; bh=AQ3/+Vqj28trLqi817dZc3+Hj8cF9me0bw3ppsI5GUI=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=hq7wgWu+2qofBRiHTL5ltlClTVxhevCV7k6HdBvld3J/IHAA4xk/j8C9T2ICpYHkt
-	 HU65Qsd2YBD27JXG95bxNztTxtrzowLdfhO9Z0JBSa7HsTg3RtCblFIpcwtG8RcqHm
-	 Y2iTL8e7pYqyssEu8QfbD3Tn544hILkh1h/7b1rQ=
-X-Riseup-User-ID: F93AA77ED5E886C2F4EB654852C2ACF3900CB5B9FF30773A7B45C08DCC7C3760
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XbJQY0lZszFtZ6;
-	Sat, 26 Oct 2024 12:11:00 +0000 (UTC)
-Message-ID: <d3e8bb5a-6053-4a2b-a445-0cf4e610f112@riseup.net>
-Date: Sat, 26 Oct 2024 09:10:57 -0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h9U2TMv9"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2e2bd0e2c4fso2292414a91.3;
+        Sat, 26 Oct 2024 05:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729946674; x=1730551474; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hlYMxGuvPb703Lut6KKMmkeksJOnNiX3d4CG1prtUWA=;
+        b=h9U2TMv9QVHvOUOwiCtzmMA1nB3eS6vE3exOH6Boer6qZx5D+TT0XxZ9Wr0h1Hpkru
+         49hoRzxstQsvlrJ4oTRPc8ajLactezSNuL3wkHLRvWn41eV37DE1ZN/u+W+Sji6esKqM
+         JLEk86pNrqX5JVNEz6kQ9v8aNyPJR4c3WVmDy4jxDMLNTCY16sT/u5Bq/mnIFGT+wtek
+         cUgulqHXVQpXgRsNGpOKLT3SOB86JyW+9ArNCRRdM0H1ml2vw0ymLwDmC+3c7TkmONEJ
+         DnMMavFOmHs7gcUMvjUGbLU9I7vANa2hnj1ksrT+P0kdjY1VAr2R+29XWO12+pvjX8ka
+         zeZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729946674; x=1730551474;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hlYMxGuvPb703Lut6KKMmkeksJOnNiX3d4CG1prtUWA=;
+        b=ggK012TCOeAMYwRTiAGN2ptEB4fprWcHiRl3YztMK3gf4Yur2MWN6LjJcqfjk6MIWq
+         J5S3XVdFXxnbKxUyRnbtVAr+9u/yAz5Zs0JuUi/Xx+1RUhtbMchXndeZxMYmAdArBG5z
+         +xkOG6444I7rywAd31We5sJ5iUvMMrpPRlqi8RmSR4DlzT8X9RL0Jt8DsydBNQeZajB+
+         /yxH8qD9gPENxapmbiuLMUq6JxNSfSlFtAdfrj/Ofgi74Y/t8xWXz/VsZfuCrMxcGs8K
+         VDVag1UfsVITO0LB/ZX7SDalmE8YxwL/Vv62GSyr76Hl7bx4+tH/tVylKX+mQOSJXoJ1
+         QoyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYzfkNf7+yy3HyvTyySRiyRChN/UhMKzKKM1EkPPiLLvkMac7d9mqDTDtlx2NnDMSjEAXrk6ZrbgPKa5k5@vger.kernel.org, AJvYcCWgoGGBJd/z+8vXxvWH5F9W+7afq7yG/ZBXuBm0yfJrWJAHEVrHihmZRCtrGO/1bzSShFsgCF9+MyLo@vger.kernel.org, AJvYcCX/VovJ/WTTJnjsHVG5nuhs2lu8dRQgGjv0x8QKe5Co9HVc01V8Hu+RZLMDh3Z4Ga9HfrLO5g6A1tGs1PPitYzcEw==@vger.kernel.org, AJvYcCXA78WdN4yi9i8FplitnsC1YPqBNgbx2q1/xqcsiiXey7X+n8CDS7Dpfp4KtPcbbU3HVdSxLyDCRPFM68Ny2QI=@vger.kernel.org, AJvYcCXWjiZaWbDbtMBFT/v8WoQKwYLI0509NmUcVBJJ2eTSSqUstAyoCPF9HR+n/LzOIsDnqVPmAKqz7xAGkmo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytYc7wORegP32vxcr41pTF2JNeZ/KjuMQYEYKkg6iyQAxkJraL
+	Sdt/kfdcEbzsEXtH7trHwe05yG7vLI/Xhiz73vTVOAjDIp+w8kmY
+X-Google-Smtp-Source: AGHT+IG5ZhDGETx6o3Y/ScrrP5AVxts1TmCd+x6OU8AF59dnaIuGpNAB6tw4k+6hqYITHYo+ZCSzTA==
+X-Received: by 2002:a17:90b:1c07:b0:2e7:89df:858c with SMTP id 98e67ed59e1d1-2e8f0f52f70mr2797590a91.6.1729946674353;
+        Sat, 26 Oct 2024 05:44:34 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e77e5a4ec4sm5396093a91.54.2024.10.26.05.44.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Oct 2024 05:44:33 -0700 (PDT)
+Date: Sat, 26 Oct 2024 20:44:28 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: kent.overstreet@linux.dev
+Cc: mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+	kan.liang@linux.intel.com, willy@infradead.org,
+	jserv@ccns.ncku.edu.tw, linux-kernel@vger.kernel.org,
+	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-bcachefs@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org, colyli@suse.de, msakai@redhat.com,
+	corbet@lwn.net, peterz@infradead.org, mingo@redhat.com,
+	acme@kernel.org, namhyung@kernel.org, akpm@linux-foundation.org
+Subject: Re: [PATCH v2 00/10] Enhance min heap API with non-inline functions
+ and optimizations
+Message-ID: <ZxzkLJmhn3a/1ALQ@visitorckw-System-Product-Name>
+References: <20241020040200.939973-1-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com
-References: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241020040200.939973-1-visitorckw@gmail.com>
 
-Hi Louis,
+On Sun, Oct 20, 2024 at 12:01:50PM +0800, Kuan-Wei Chiu wrote:
+> Add non-inline versions of the min heap API functions in lib/min_heap.c
+> and updates all users outside of kernel/events/core.c to use these
+> non-inline versions. To mitigate the performance impact of indirect
+> function calls caused by the non-inline versions of the swap and
+> compare functions, a builtin swap has been introduced that swaps
+> elements based on their size. Additionally, it micro-optimizes the
+> efficiency of the min heap by pre-scaling the counter, following the
+> same approach as in lib/sort.c. Documentation for the min heap API has
+> also been added to the core-api section.
+>
+Hi Kent,
 
-On 14/10/24 05:39, Louis Chauvet wrote:
-> On 11/10/24 - 10:53, Maira Canal wrote:
->> Hi Louis,
->>
->> On 10/11/24 06:36, Louis Chauvet wrote:
->>>
->>> Hi all,
->>>
->>> Until this point, this series has not received any major comments since
->>> v9. I will commit patches 1-9 next week if there are no further comments.
->>>
->>
->> Although we are maintainers of VKMS, it isn't recommended that we push
->> our own changes without even the Ack of another person. Please, read the
->> "drm-misc Committer Guidelines" [1].
-> 
-> Hi Maíra, Maxime,
-> 
-> I apologize for this rushed commit request. I sent the initial email with
-> a delay before the commit action because I was not sure about the
-> procedure and wanted to give others a chance to raise any concerns.
-> Unfortunately, I overlooked the need to collect an Ack/Review for each
-> patch, even when there hadn't been any responses for several months. I'm
-> sorry for this oversight.
-> 
->> I can ack patches 05/15, 07/15, and 09/15, but it would be more
->> beneficial for the community if you ask for an ack (from me or from the
->> DRM maintainers, which are always around), instead of saying that you
->> are going to commit the patches without any review.
-> 
-> I will be happy to ask for acknowledgments if needed, but as you mentioned
-> multiple times: nobody is paid to maintain VKMS. Since you did not comment
-> these series since July, when you told me you would review my patches, I
-> assumed it was either okay or you no longer had the time to maintain
-> (which I completely understand).
+FWIW, here are the bcachefs CI test results for this patch series:
+https://evilpiepirate.org/~testdashboard/ci?user=visitorckw&branch=min-heap-update
 
-Yeah, I'm a volunteer and no longer have time to maintain VKMS. A couple
-of weeks ago I sent a patch removing myself as VKMS maintainer. This
-doesn't imply that patches can be pushed without review.
-
-We are a community with several active developers. Although I don't have
-time to properly review your patches, you can try to gather other
-developers to review your patches. You can try to use #dri-devel to get
-reviewers.
-
-That said, you can add my ACK to patches 05/15, 07/15, and 09/15 and
-push the patches. I won't ack the YUV patches as I don't feel
-comfortable reviewing/acking those.
-
-Acked-by: Maíra Canal <mairacanal@riseup.net>
-
-BTW if the patches are fixing IGT tests, please update the list of fails
-and skips on DRM CI.
-
-Best Regards,
-- Maíra
-
-> 
-> So, I hereby formally request reviews/ACKs for the following series:
-> 
-> [this series]:https://lore.kernel.org/all/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com/
-> [2]:https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
-> [3]:https://lore.kernel.org/all/20240516-writeback_line_by_line-v1-0-7b2e3bf9f1c9@bootlin.com/
-> 
-> (I have to send a v2 for [3] because of rebase conflict, but nothing else
-> changed)
-> 
-> Thanks a lot,
-> Louis Chauvet
->   
->> [1] https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html
->>
->> Best Regards,
->> - Maíra
->>
->>> For patches 10-15, I am currently waiting for feedback from Maxime to
->>> send the next iteration with a fix for kunit tests.
->>>
->>> Thanks,
->>> Louis Chauvet
->>>
->>> On 07/10/24 - 18:10, Louis Chauvet wrote:
->>>> As all the rotation are now supported by VKMS, this simplification does
->>>> not make sense anymore, so remove it.
->>>>
->>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>> ---
->>>>    drivers/gpu/drm/vkms/vkms_plane.c | 7 +------
->>>>    1 file changed, 1 insertion(+), 6 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
->>>> index 8875bed76410..5a028ee96c91 100644
->>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
->>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
->>>> @@ -115,12 +115,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->>>>    	frame_info->fb = fb;
->>>>    	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
->>>>    	drm_framebuffer_get(frame_info->fb);
->>>> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
->>>> -									  DRM_MODE_ROTATE_90 |
->>>> -									  DRM_MODE_ROTATE_270 |
->>>> -									  DRM_MODE_REFLECT_X |
->>>> -									  DRM_MODE_REFLECT_Y);
->>>> -
->>>> +	frame_info->rotation = new_state->rotation;
->>>>    	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
->>>>    }
->>>>
->>>> -- 
->>>> 2.46.2
->>>>
+Regards,
+Kuan-Wei
