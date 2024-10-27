@@ -1,121 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EB43FB0E;
-	Sun, 27 Oct 2024 09:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54C313B59B;
+	Sun, 27 Oct 2024 12:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730021646; cv=none; b=Be13/EMa7i+xS0RJmCpl4j8PnvSDum5iVb785CwxmOf4NH27FSzO08lAIpT0YiDbdt5UrW5CWYs0/XliYuTgfg8aBkRbaC4fQkg5qV3lUUrwM6h9kp7mGglrnP9zQYPem3y/aigAE2laytVVLpRYiIVDW0VfzsNuDxYRbQ1vFc4=
+	t=1730033841; cv=none; b=MUWJ/Xcs36nkGt/M/XO8TvGUcUF9P6BT9UShFZ2bY0Hanb2lMCeNlq5/tAc/FQkOtAn40X1UDzqz+PLxg/u12aEcDtDPJYwqWa4kgnfSbku2QDkt1uHVfh8eUmVAzoAsglbA31LocmIa3WEshRUy5TqtzY/Tu6SHLeiWWQZQlHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730021646; c=relaxed/simple;
-	bh=4qDQ7jsENsMqFEtZZDIVOwVaAbLyCb99GgPWAula/hI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m/KlfuTkKhl2kh6hfZYLqnYePPbtg7bwX4+0/elkTKAphVQwUfvG+hzSdRKPH0B57TTwth62klBdb/aXCbzj68VCAccqXzme+J8VtoISKjrg0Fm+rIg7ZCHytg5n4WxC25MzJznYLmYb5wIk3lWGaj8pzkxaWcSGsLY4w2qciS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gmRunZVL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730033841; c=relaxed/simple;
+	bh=GDV/ewhoJQw4FLl+cDGr5/4YsMIEpPNuBtvtftfsYAU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ofyUlpixiF+inp6W81XbeWqSH5SUNo1yNnKidDlqG/dLR1xllhPPSMvjpvqlkSdwigBNyT79bq3SbJheKF7T1KMl9GUetGZmEFEW5+zQhJEYPMp07rkGSSp9ZcANi3YvaAQ9VmChvTndMaSwq9gFu/eGnOM9lUQFNGktZ1ODawI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWlwHyou; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gmRunZVL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37264C4CEC3;
-	Sun, 27 Oct 2024 09:34:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730021646;
-	bh=4qDQ7jsENsMqFEtZZDIVOwVaAbLyCb99GgPWAula/hI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gmRunZVL/Ouz/wqKELL48Zmk3jPYI75ckfrMzTV6DCbuayoEx/TIkfOBKmq0l8u6n
-	 rYrsW1RAjCxYwQpvPow6ktAZl6PahYewGASUeZO5M4OFJIs+YBruk/+A8/HIsLCgjH
-	 jXHtFDuqr9muB2N4vlcziJl7UH3Q8WDqJVXZVH5jU7Th8594yL3oH9JhkD+DmnXdgp
-	 /XN7Dob1uyRyAr2R3IQ8lFTA8jdgbn1Jo0ElhR7eDqjyq7I9w1+3WPjgbx0m6w3afQ
-	 J9vDmAeR4wXfQo8plbgMWTHZig9ndMVYIS9sCjrJhI3NPmDPcA/mk3gjGJWZ1gAigY
-	 /xNoeKrR8ZM7g==
-Date: Sun, 27 Oct 2024 09:33:55 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] docs: iio: ad7380: add adaq4370-4 and adaq4380-4
-Message-ID: <20241027093355.190689d0@jic23-huawei>
-In-Reply-To: <20241024-ad7380-add-adaq4380-4-support-v3-4-6a29bd0f79da@baylibre.com>
-References: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
-	<20241024-ad7380-add-adaq4380-4-support-v3-4-6a29bd0f79da@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWlwHyou"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-431695fa98bso34174625e9.3;
+        Sun, 27 Oct 2024 05:57:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730033838; x=1730638638; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WUM2YCgP1YU3td6vo9h1GwekL9d/r6rhNYDcoHoWQGs=;
+        b=ZWlwHyouTVcnEmdkHZ+dx8tgXltoWhiAjDMiM+g7+9mScuOfo9eJzIWd0rHFZSOeXf
+         Od3EF1/KfwU/2jYA++2F1zRbZUKECgYIr08NbENgRSh/VGZov63tdoMxvnMCFHYV8uR+
+         KILQIMhH4R5iaMOW+d2TZfVgik4iqIanQhsmZVvy5D9DWeTrdq4yUGKsLMbVg/KnRBXO
+         jbxyDygTKLM9RTE/LCcqPlFgPWp1BwS7Uhh3/yy3WhDBjn6TKeekJoVxCo3rpRQzgGmA
+         P6mpIgU1QEja0vjR5jEwVSIqM3O3gcJcBBYyvhbycMPoKfiCGVAbNvDVtQMuWmLrFWu/
+         GxEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730033838; x=1730638638;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WUM2YCgP1YU3td6vo9h1GwekL9d/r6rhNYDcoHoWQGs=;
+        b=phinH22+mG86IEmNRWDs4Ib8jIbCQ3L2g4stRKbo6M4SsDGMOorXj5RtoKRgBQM7YX
+         DM/Vocxy1TH3lAEYHhssHpKFCFWS2nZ5VGLnhzMgEy3kHTUPUB3XPO0YntNHu+B6W/Py
+         5ELKUmj/YV8A3hxMYjtUMsZ9lwN1gQwmk9ybDOCOQsorPrFk0BYNc/YGJpCD9rVsQLPT
+         +LeNnkx/Q68uyAUaM9RD2tBB3HKW0ZN8b7seD/uCn3Z96IICzbASA8Hg6iGiOFgUplQ5
+         7Vp0612yI7f2D6Uyf7X/GmHC8e9yNWjlms2ZDSMFC7oxoYhS7IV9LGlY3UdzTbLAtWTP
+         4CsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUv+w3QJU72RRUCLEpn5pb5RIeDePCKHQp3Fl1HXqkNk67WoqX9rXaDUCH+dCtJvYpDUXyp8lO9Xv/5@vger.kernel.org, AJvYcCXC0yHc9iduJpfysGT/m/j7LhTBhN7r+owUeWB+AYLjZ7KUe0DTRPa1EmM0Kia4CMZ0lT6hgkkC7i/ajHX4@vger.kernel.org, AJvYcCXDModYd8zKN8tfJyvIlTU3j0qm1U539Hev47jgFhazkKn5lKKiDINUxFh2w764JXdtDkeduXr92zHjXoxM/WU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4dCiEYGDJsDm3voFkJ1IT7+7hBqE9pkYt0GEBoJ9pj8VWY/qY
+	GnSzQLHbiVdKs9wt/Ejd8EBV8+XAx5lR5vEhgTlAI9b97mD4uCy4
+X-Google-Smtp-Source: AGHT+IEExN056KF8Gd9onPpE6xpB4VKZwKvMLBeI7lz16UJtaUBi3JofI0FjUwVnIQrj3dM51yOqpg==
+X-Received: by 2002:a7b:c5cc:0:b0:428:1310:b6b5 with SMTP id 5b1f17b1804b1-431aa802774mr423585e9.34.1730033837569;
+        Sun, 27 Oct 2024 05:57:17 -0700 (PDT)
+Received: from void.void ([141.226.10.223])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431935f875esm74349005e9.37.2024.10.27.05.57.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2024 05:57:17 -0700 (PDT)
+From: Andrew Kreimer <algonell@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Andrew Kreimer <algonell@gmail.com>
+Subject: [PATCH] Documentation/maintainer-tip: Fix typos
+Date: Sun, 27 Oct 2024 14:57:01 +0200
+Message-ID: <20241027125712.19141-1-algonell@gmail.com>
+X-Mailer: git-send-email 2.47.0.149.g3e3ac46130
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 24 Oct 2024 10:16:59 +0200
-Julien Stephan <jstephan@baylibre.com> wrote:
+Fix typos in documentation: a -> an.
 
-> Adding documentation for adaq4370-4 and adaq4380-4 supported devices. In
-> particular, document the reference voltage mechanism and the gain
-> parameter that are specific to adaq devices.
-> 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-Totally trivial comment inline.
+Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+---
+ Documentation/process/maintainer-tip.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Given the stalled nature behind the fixes, if you could spin a v4 with
-this minor stuff addressed that would be great. FWIW under normal circumstances
-I'd probably just have tweaked most of them whilst applying.
-
-Jonathan
-> ---
->  Documentation/iio/ad7380.rst | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
-> index 6f70b49b9ef27c1ac32acaefecd1146e5c8bd6cc..ae408ff2fa9c97427a9fef57020fb54203d2d33e 100644
-> --- a/Documentation/iio/ad7380.rst
-> +++ b/Documentation/iio/ad7380.rst
-> @@ -27,6 +27,8 @@ The following chips are supported by this driver:
->  * `AD7386-4 <https://www.analog.com/en/products/ad7386-4.html>`_
->  * `AD7387-4 <https://www.analog.com/en/products/ad7387-4.html>`_
->  * `AD7388-4 <https://www.analog.com/en/products/ad7388-4.html>`_
-> +* `ADAQ4370-4 <https://www.analog.com/en/products/adaq4370-4.html>`_
-> +* `ADAQ4380-4 <https://www.analog.com/en/products/adaq4380-4.html>`_
->  
->  
->  Supported features
-> @@ -47,6 +49,12 @@ ad7380-4
->  ad7380-4 supports only an external reference voltage (2.5V to 3.3V). It must be
->  declared in the device tree as ``refin-supply``.
->  
-> +adaq devices
-> +~~~~~~~~~~~~
-> +
-> +adaq4370-4 and adaq4380-4 don't have an external reference, but use a 3V
-> +internal reference derived from one of its supplies (``refin-supply``)
-> +
->  All other devices from ad738x family
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
-> @@ -121,6 +129,16 @@ Example for AD7386/7/8 (2 channels parts):
->  
->  When enabling sequencer mode, the effective sampling rate is divided by two.
->  
-> +
-The double line break doesn't seem locally consistent.  A double break seems
-to be reserved for before sections with === level titles only.
-
-> +Gain (adaq devices only)
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +adaq devices have a pin selectable gain in front of each adc. The appropriate
-> +gain is selectable from device tree using the ``adi,gain-milli`` property.
-> +Refer to the typical connection diagrams section of the datasheet for pin
-> +wiring.
-> +
-Nor this one.
-> +
->  Unimplemented features
->  ----------------------
->  
-> 
+diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
+index 349a27a53343..e374b67b3277 100644
+--- a/Documentation/process/maintainer-tip.rst
++++ b/Documentation/process/maintainer-tip.rst
+@@ -7,7 +7,7 @@ What is the tip tree?
+ ---------------------
+ 
+ The tip tree is a collection of several subsystems and areas of
+-development. The tip tree is both a direct development tree and a
++development. The tip tree is both a direct development tree and an
+ aggregation tree for several sub-maintainer trees. The tip tree gitweb URL
+ is: https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+ 
+@@ -121,7 +121,7 @@ The tip tree preferred format for patch subject prefixes is
+ prefix. 'git log path/to/file' should give you a reasonable hint in most
+ cases.
+ 
+-The condensed patch description in the subject line should start with a
++The condensed patch description in the subject line should start with an
+ uppercase letter and should be written in imperative tone.
+ 
+ 
+-- 
+2.47.0.149.g3e3ac46130
 
