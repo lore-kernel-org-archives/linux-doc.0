@@ -1,73 +1,101 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2059E1CD2C;
-	Sun, 27 Oct 2024 17:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0A213E04B;
+	Sun, 27 Oct 2024 17:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730048880; cv=none; b=KMuh0HeD0i5hT0MjMNQ1kmGAn2QoVInALmLZdQg0AlXKevWyhxD6dFapTgmx8Fm4h9Jk+ktEwnVQNoE700BwbmpGiPfcjygF1VvNiK+9D3gvljbvKfgWVbYPAz4l9jRslu+gW/HK2u5xZVNrAy0qFLCT9WgahMoWMs6lH+6Vy6Q=
+	t=1730051934; cv=none; b=IJkHQkFOtJYI2vP+ULUNsefVnAE3GDZQ2i0LBlo2NiYnaUdQ8I4gxkue4gGT5G7q5Wz4yu9qKxJLIyC5w5s9Q5lQjcj78i1813lqLdWnf5KazzHL0DyPwMndQ54LfbZOjSj8mtbSOSe/xTceYwK1zanWhMJFpr2ZY5A0S5V3uEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730048880; c=relaxed/simple;
-	bh=e8axfX2mpFWjV8vbK0WZRMJNOcFQ5bvgWv4zQwxfIRE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m0D2kc0RZsppRHv1dztWxJr74GX0VEAynlZNAE4bMKmEE3IAy7cSzLMt+6ANlBQDAYTu5cbVA9+y4JNNkBVTR4CYU4aLvzzG2izhGqpbjaEMTisl4xOtFXIW6b/sUsvX/nGUKw+OdhEuJ4pMQXaFltOsV+liASAjFVwKcSt8hJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PTrhxT/V; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1730051934; c=relaxed/simple;
+	bh=ZjTQBjIK+/Z1d5oluhWNj+jzL3Z4Ffog4uiVmcdc/jo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VwvxOcw0/OgDq47Zgnb9K5j1xgqzsGV6uxkGz/j4Z4KxqIA8zT2VebdzCU1H4zoqEmj9AjouRNpxt5+tdCTrWS0+jXXMR0/9Qd7Adhn0BtudDfUtk5eVtnDW+i8pCDM1iswSAv/wKPXHKJuoj01AD3fKW8agMZcTqIhMr26IBgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=MDBz/DCN; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PTrhxT/V"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=MOV7G635ZHeO21+UFSbHL9SdIS44+C3yBqOBuyrwsQY=; b=PTrhxT/Vc2+t4y/tf671Ex1O0W
-	XuIy6aUbbL3Zp2X4NO5TlRJb24fRH3ycqCJP+hxfCtbBwEAhOGdDNVzs0zGwvvQtwwR5XKitT9Axp
-	axtn0UCUdyUgsDmgqNUha+bX+RMkLCqeRmDU6icjJvNpUtECRPHAR8FqnbaqBjGszv6C7L2cZd0Ap
-	vLpxZ6OCGEajo4KaObBjg8whHyA3VYAtQEWYy48wQoJHBW2hPPHsJdHFqhcICc7k8XCk7lN/DSutE
-	uN92M298UnuqriO0Vt10IX0/huJ1hhNvaAK0hTzlnx6y9WqLaObpum9fBVdNZj4Juq0tYhOhlonFw
-	O+eIZ1xw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t56k3-00000007PgR-2Qq1;
-	Sun, 27 Oct 2024 17:07:52 +0000
-Message-ID: <933b175b-6b0e-43ba-bfcf-2148b76916f1@infradead.org>
-Date: Sun, 27 Oct 2024 10:07:46 -0700
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="MDBz/DCN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=+EYxh3PAF2StjbS6XQUuDIepM4pqjcsAUbbLfrUfkKo=; b=MDBz/DCNOUZvjCqX1ePpLaGvlS
+	aE4Q0gy6ii59jGv7tPRgl4QRR5ZrucmSM6lqdxPNXUEOrWYzqZ3FR2MD/t5CX4oxKWyD+s45KU57c
+	uLRygNdqehYhmO+H5RFCwGs1d4nbKcaT8fe7mqTcqfYU76Car+hrszGUCHAdy1PbzmeNGrHfJdFMA
+	YIW5dU870nlb+iXKIVS8dGfRfIUUpBqDRoZW46aLrx4Dr920YkVPgDcJXWSN7uBaq5iZGvwKADtOT
+	pd5Av7XNj6lyHVpYgekoPvxTasM2mIHEfcVm7/IWBa30e3zxrCEmOKLnaoq57GEzpWi29U8khPHeY
+	4HoveHyw==;
+Received: from [187.36.213.55] (helo=morissey..)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1t57Wu-00Fn6f-Fb; Sun, 27 Oct 2024 18:58:21 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	Barry Song <baohua@kernel.org>,
+	David Hildenbrand <david@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Lance Yang <ioworker0@gmail.com>
+Cc: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH 0/3] mm: add more kernel parameters to control mTHP
+Date: Sun, 27 Oct 2024 14:36:36 -0300
+Message-ID: <20241027175743.1056710-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/maintainer-tip: Fix typos
-To: Andrew Kreimer <algonell@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20241027125712.19141-1-algonell@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241027125712.19141-1-algonell@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-LGTM. Thanks.
+This series introduces three patches related to the kernel parameters
+controlling mTHP. The first patch is a straightforward documentation update,
+correcting the format of the kernel parameter ``thp_anon=``.
 
-I would  have copied the tip maintainers also, but they don't seem
-to identify themselves.
+The second and third patches focus on controlling THP support for shmem
+via the kernel command line. The second patch introduces a parameter to
+control the global default huge page allocation policy for the internal
+shmem mount. The third patch implements a parameter similar to ``thp_anon=``,
+but for shmem.
 
+The goal of these changes is to simplify the configuration of systems that
+rely on mTHP support for shmem. For instance, a platform with a GPU that
+benefits from huge pages may want to enable huge pages for shmem. Having
+these kernel parameters streamlines the configuration process and ensures
+consistency across setups.
 
-On 10/27/24 5:57 AM, Andrew Kreimer wrote:
-> Fix typos in documentation: a -> an.
-> 
-> Signed-off-by: Andrew Kreimer <algonell@gmail.com>
-> ---
->  Documentation/process/maintainer-tip.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+Regarding the third patch, I’m open to suggestions on how to reduce code
+duplication between ``thp_anon=`` and ``thp_shmem=``. While I duplicated
+the ``get_order_from_str()`` function, I realize this isn’t ideal and
+would appreciate advice on where best to place the function.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Let me know your thoughts.
 
+[1] https://lore.kernel.org/linux-mm/20240820105244.62703-1-21cnbao@gmail.com/
+
+Best Regards,
+- Maíra
+
+Maíra Canal (3):
+  mm: fix the format of the kernel parameter ``thp_anon=``
+  mm: shmem: control THP support through the kernel command line
+  mm: shmem: override mTHP shmem default with a kernel parameter
+
+ .../admin-guide/kernel-parameters.txt         |  19 ++-
+ Documentation/admin-guide/mm/transhuge.rst    |  25 ++-
+ mm/shmem.c                                    | 147 +++++++++++++++++-
+ 3 files changed, 186 insertions(+), 5 deletions(-)
 
 -- 
-~Randy
+2.46.2
 
