@@ -1,126 +1,140 @@
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7A817A924;
-	Sun, 27 Oct 2024 19:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7912817C9A3
+	for <linux-doc@vger.kernel.org>; Sun, 27 Oct 2024 20:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730058750; cv=none; b=AVs7FALfgHWDn6Jm8TRzp/EPrmkBNMkB5qxEXdXqqJiixjPr409YmybR8Hlg6mC1742jufFPxdMuiQqDe24Z6U5DOD24DWgRVka/qeXyWmTf61QevkZbu7UFjNoEApYar4kOnuuREiYHwTcXJAgmtB8FcCRLk6N5YDTV8y9fHyI=
+	t=1730059238; cv=none; b=cDumUln6sPznnHkCH7R8PXCmKARBNK2Oi8CknRXh6fdJiojkv4XdrmEjiOwoizIOj0XmK1Fl8SPW3DfmTB0FwOkz2vl8zRpsoHXTlGXNMC4NmLFfX51FyJeZMZ0YWQ68IWLTPFweUMISe3vkYbHBHg7B1RBtmrpH6QGR8oBAJus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730058750; c=relaxed/simple;
-	bh=Slx0hadI2DF4XTksLkkSS4jxKbe3wNck6qvxZTHGNcA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pA7kkqZaEeC1CIqO++nXltomFXTVnq7ocjnU896QcsIIDF4lK6s+QuSkAFXpIZdoiH9W6cgHJp5Zuvv0flDDaUV/xYfyPKYk8gVxwK3bb3FucWtybP/EU0QKgzvvvZXhzq8gLNVDvoKfwK7gGNown+b/dwBAlN3c71162f4F4vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5101c527611so303896e0c.3;
-        Sun, 27 Oct 2024 12:52:28 -0700 (PDT)
+	s=arc-20240116; t=1730059238; c=relaxed/simple;
+	bh=VHhZB28IIwVBWZ2xsaRrLZwKAcbAvIs7KSme+L/DT+4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WAjv0rlC5hR6qtn704D/kZFTMYrPUzke3zlht8puREY3h7tR53Hep1NY84YrFViNOiqxIfo9481E7i+RIzJJ5J7Fwhq8C7rSDaf6sIE7a0iSWfPMRwz7TLxeXJR5mQ4X6XbqXZKfY5AcZLV5KrCOTpyz2oC8g4RNe2e5INubClQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kutsevol.com; spf=none smtp.mailfrom=kutsevol.com; dkim=pass (2048-bit key) header.d=kutsevol-com.20230601.gappssmtp.com header.i=@kutsevol-com.20230601.gappssmtp.com header.b=ChCfa5hl; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kutsevol.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kutsevol.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kutsevol-com.20230601.gappssmtp.com header.i=@kutsevol-com.20230601.gappssmtp.com header.b="ChCfa5hl"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2e2ed2230d8so2701858a91.0
+        for <linux-doc@vger.kernel.org>; Sun, 27 Oct 2024 13:00:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kutsevol-com.20230601.gappssmtp.com; s=20230601; t=1730059236; x=1730664036; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YENpUKbduqxVuEV/yivX0PhHhOYASce4Ahgx8awj2TE=;
+        b=ChCfa5hlncWHU7rRPGYuScBtCxsjDFFGX/o9A+JgbULz70BhIedR0EN3FBKl94Gl1V
+         Ixt4ItEIiE93p+njTE1GC1ANiR807WnbF1pCe9+CgXPtEvLM3lNDCBVI+94YSZHP34ad
+         D4k+OA7k3HyvL2LHuPN+CGFsRBEEq9+NgFL4mDhb8DLnXsWDT0SqCCAvrVzSeSERQkMo
+         DGTV/pVI1ML7w2ngYT6Io1JntxpETdTKRilSdgq8y3wPMF4znoETXvUA76YU/tJgLFn/
+         i0mE3Q2pSUhDbL063KYPdk/2DBjau2GdoG3ULAsXu47AA6P8GM8j6cK/auHZAjbMBdz3
+         mYXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730058748; x=1730663548;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1730059236; x=1730664036;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LeNyK1dS8fdGfFYCHz8SEYzY/h/VTeC8f7pSxMKfbEE=;
-        b=ioGYoFdMSqnhG+kxvjs0nV5OTDFC3QCzvX3pSEgl36lliWhocqw1FBpWSA5NO8MRe9
-         CAWC571KYfw7meGXNNbJXXE8qpH0O2XRkrnBM71MUAs2CKvwfeaFWjVF6FbjI9yCuV5y
-         yMtps5Z46gAGJyZdEnHLub3YHXZvcs/2xxTxbZRRoJYZazOthC2pe/kIj1D3y0q7SjL2
-         uX0U4Ei3MfsQAui80xGAbzcCkOzLJ/6z8w08/8pQnRYFDCR0WRiwf1w7r3cCBSFRjkqJ
-         /Gsk4kRPDd90NVqB16iDKahyoMkn3f9J3m53e7umnjGf+mZGwAK+aC8Ta31PgqGHqXuY
-         5u+g==
-X-Forwarded-Encrypted: i=1; AJvYcCUhezpeWZqk7v5wHBrUj6m3WJ6Erl7FtAT89p35at6NIRdQdGbKo6XWw++Z1H4syu78OuKGDNMtgvmMzi7d@vger.kernel.org, AJvYcCX0k95KzHqc+aUt02vfdbwnOyrqm56p9BO6sRZbZwtu1WUKnQrp1yqXwUnR/HNCaHC608TrYvDPqfo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTo99SKXqyTYPZSmeh253FMA379JQ+nI2b+UqEI1FiYlSKk6Nh
-	IKpIESXsQyEoETMVuOV6XVxtIIifB5nncb4lMCpfvpV+jHoY48weNkR1id32a8qB9+AxZUn8uHL
-	86nukwqB2emmPbFc4oV2sHtp+YxHaGuua
-X-Google-Smtp-Source: AGHT+IGZIhcR1qbYPRbikr3C426yAUQjADRfHf67ahq+w0TwSO4haB8Ydbmr5zPqqCM+K04KlxvHmSH5NQbFcMW8G3A=
-X-Received: by 2002:a05:6122:1ad5:b0:50a:36ab:c788 with SMTP id
- 71dfb90a1353d-51014ff5f55mr3170942e0c.3.1730058747749; Sun, 27 Oct 2024
- 12:52:27 -0700 (PDT)
+        bh=YENpUKbduqxVuEV/yivX0PhHhOYASce4Ahgx8awj2TE=;
+        b=cTR5bVVM+5+k+wJSlXfbkVPradH9D74Nxkw4+qcWtwbfvUDMiuL0JTOeEWgXZtB6o8
+         98KAlouOyD9NhWKyaVdU3Sz2kIPncOjuKQnsEUAFKCL75gLSRGW4MED2u0vd+oZwDNMp
+         sU0qbq0cjTkd8tWKm4xChO1hV1E2C76i1OgsPH9594yLDzGps023MV9Q1eYVOg/OhKmp
+         8DyVItCU6+wUB8mAf1LjSdEsC9smKiTBENyRADP3CSY0ynwokCXtK9+GY8KS+ELSrVOb
+         mqjWVyustJSNvk+x4O1ns0S9NEcKLbTXrvXlSX49ZBWe+AOctGAYJBfJhZwJkq2Qe3+Q
+         3cfA==
+X-Forwarded-Encrypted: i=1; AJvYcCVGU3X1dI4keCyfspbPvQnwy7AQQpYt0creaFdanKuHtxlDWjV05nZmWDnQ5xOA/IOmLYXzjC9qLF4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymLbCWVcmxxiQRuWBL4tp9bpeZ6ZBSJqjLoQ0sZSolsuTAbL6n
+	cK7pr0ZY9On2t+wKMUSahmX68PoP5PKWwYewyNoI7X+QvT5/DLjTPooZ0JaIZbA=
+X-Google-Smtp-Source: AGHT+IHw4G2h5OhXN7y8gFSZCCL9yGR1i5dt7024b8+0E+2hUOMyvQtNo1/pO5VkO1GIACQasQpNTw==
+X-Received: by 2002:a17:90a:c089:b0:2e2:b69c:2a9 with SMTP id 98e67ed59e1d1-2e8f11ac969mr7039524a91.26.1730059235675;
+        Sun, 27 Oct 2024 13:00:35 -0700 (PDT)
+Received: from localhost.localdomain (fwdproxy-ash-017.fbsv.net. [2a03:2880:20ff:11::face:b00c])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-461321431a1sm27946241cf.25.2024.10.27.13.00.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2024 13:00:35 -0700 (PDT)
+From: Maksym Kutsevol <max@kutsevol.com>
+Date: Sun, 27 Oct 2024 12:59:41 -0700
+Subject: [PATCH net-next v4 1/2] netpoll: Make netpoll_send_udp return
+ status instead of void
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241027175743.1056710-1-mcanal@igalia.com> <20241027175743.1056710-2-mcanal@igalia.com>
-In-Reply-To: <20241027175743.1056710-2-mcanal@igalia.com>
-From: Barry Song <baohua@kernel.org>
-Date: Mon, 28 Oct 2024 03:52:16 +0800
-Message-ID: <CAGsJ_4xPr3X_EXh73c4gN-cUSxaXZ-XR=_VNE750zNH61nyR-Q@mail.gmail.com>
-Subject: Re: [PATCH 1/3] mm: fix the format of the kernel parameter ``thp_anon=``
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241027-netcons-add-udp-send-fail-statistics-to-netconsole-v4-1-a8065a43c897@kutsevol.com>
+References: <20241027-netcons-add-udp-send-fail-statistics-to-netconsole-v4-0-a8065a43c897@kutsevol.com>
+In-Reply-To: <20241027-netcons-add-udp-send-fail-statistics-to-netconsole-v4-0-a8065a43c897@kutsevol.com>
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Breno Leitao <leitao@debian.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Maksym Kutsevol <max@kutsevol.com>
+X-Mailer: b4 0.13.0
 
-On Mon, Oct 28, 2024 at 1:58=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igalia.com=
-> wrote:
->
-> If we add ``thp_anon=3D32,64KB:always`` to the kernel command line, we
-> will see the following error:
->
-> [    0.000000] huge_memory: thp_anon=3D32,64K:always: error parsing strin=
-g, ignoring setting
->
-> This happens because the correct format isn't ``thp_anon=3D<size>,<size>[=
-KMG]:<state>```,
-> as [KMG] must follow each number to especify its unit. So, the correct
-> format is ``thp_anon=3D<size>[KMG],<size>[KMG]:<state>```.
+netpoll_send_udp can return if send was successful.
+It will allow client code to be aware of the send status.
 
-what if 32768,64K: always?
+Possible return values are the result of __netpoll_send_skb (cast to int)
+and -ENOMEM. This doesn't cover the case when TX was not successful
+instantaneously and was scheduled for later, __netpoll__send_skb returns
+success in that case.
 
->
-> Therefore, adjust the documentation to reflect the correct format of the
-> parameter ``thp_anon=3D``.
->
-> Fixes: dd4d30d1cdbe ("mm: override mTHP "enabled" defaults at kernel cmdl=
-ine")
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 2 +-
->  Documentation/admin-guide/mm/transhuge.rst      | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index 1518343bbe22..1666576acc0e 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6688,7 +6688,7 @@
->                         0: no polling (default)
->
->         thp_anon=3D       [KNL]
-> -                       Format: <size>,<size>[KMG]:<state>;<size>-<size>[=
-KMG]:<state>
-> +                       Format: <size>[KMG],<size>[KMG]:<state>;<size>[KM=
-G]-<size>[KMG]:<state>
->                         state is one of "always", "madvise", "never" or "=
-inherit".
->                         Control the default behavior of the system with r=
-espect
->                         to anonymous transparent hugepages.
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/a=
-dmin-guide/mm/transhuge.rst
-> index 203ba7aaf5fc..745055c3dc09 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -303,7 +303,7 @@ control by passing the parameter ``transparent_hugepa=
-ge=3Dalways`` or
->  kernel command line.
->
->  Alternatively, each supported anonymous THP size can be controlled by
-> -passing ``thp_anon=3D<size>,<size>[KMG]:<state>;<size>-<size>[KMG]:<stat=
-e>``,
-> +passing ``thp_anon=3D<size>[KMG],<size>[KMG]:<state>;<size>[KMG]-<size>[=
-KMG]:<state>``,
->  where ``<size>`` is the THP size (must be a power of 2 of PAGE_SIZE and
->  supported anonymous THP)  and ``<state>`` is one of ``always``, ``madvis=
-e``,
->  ``never`` or ``inherit``.
-> --
-> 2.46.2
->
+Signed-off-by: Maksym Kutsevol <max@kutsevol.com>
+---
+ include/linux/netpoll.h | 2 +-
+ net/core/netpoll.c      | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
+index cd4e28db0cbd..b1ba8d6331a5 100644
+--- a/include/linux/netpoll.h
++++ b/include/linux/netpoll.h
+@@ -56,7 +56,7 @@ static inline void netpoll_poll_disable(struct net_device *dev) { return; }
+ static inline void netpoll_poll_enable(struct net_device *dev) { return; }
+ #endif
+ 
+-void netpoll_send_udp(struct netpoll *np, const char *msg, int len);
++int netpoll_send_udp(struct netpoll *np, const char *msg, int len);
+ void netpoll_print_options(struct netpoll *np);
+ int netpoll_parse_options(struct netpoll *np, char *opt);
+ int __netpoll_setup(struct netpoll *np, struct net_device *ndev);
+diff --git a/net/core/netpoll.c b/net/core/netpoll.c
+index 94b7f07a952f..1f36f351b5f9 100644
+--- a/net/core/netpoll.c
++++ b/net/core/netpoll.c
+@@ -390,7 +390,7 @@ netdev_tx_t netpoll_send_skb(struct netpoll *np, struct sk_buff *skb)
+ }
+ EXPORT_SYMBOL(netpoll_send_skb);
+ 
+-void netpoll_send_udp(struct netpoll *np, const char *msg, int len)
++int netpoll_send_udp(struct netpoll *np, const char *msg, int len)
+ {
+ 	int total_len, ip_len, udp_len;
+ 	struct sk_buff *skb;
+@@ -414,7 +414,7 @@ void netpoll_send_udp(struct netpoll *np, const char *msg, int len)
+ 	skb = find_skb(np, total_len + np->dev->needed_tailroom,
+ 		       total_len - len);
+ 	if (!skb)
+-		return;
++		return -ENOMEM;
+ 
+ 	skb_copy_to_linear_data(skb, msg, len);
+ 	skb_put(skb, len);
+@@ -490,7 +490,7 @@ void netpoll_send_udp(struct netpoll *np, const char *msg, int len)
+ 
+ 	skb->dev = np->dev;
+ 
+-	netpoll_send_skb(np, skb);
++	return (int)netpoll_send_skb(np, skb);
+ }
+ EXPORT_SYMBOL(netpoll_send_udp);
+ 
+
+-- 
+2.43.5
+
