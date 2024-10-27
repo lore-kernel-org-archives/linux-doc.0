@@ -1,205 +1,140 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02olkn2078.outbound.protection.outlook.com [40.92.43.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328271CABA;
-	Sun, 27 Oct 2024 18:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.43.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730052980; cv=fail; b=Ze+JXz+982SBLGeZG2xUuzDicPGrB6aPNYCVgWKDmQj04X/ojTx1Y4/DhtgCeheBU0M+A5wy903ix3jsGuRNvvNBTO9jbcZjwiBhmXqNJMQR5iqO9zwlnGlp8IcoqrNxTLVI8Spy6fUv0lzTFAKc32rj1wqWkYxbi7KYN2/LEiQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730052980; c=relaxed/simple;
-	bh=cACanpIN+OckKsCauX24L2azFqvQIrL2sp356WXoZd4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=inKUpxJLPAEr33IE4ZX16QdToTegYqnlFu/0FWwSOGpA6ApXThI4ZwZXvkTvmFv3qLOt/JJcLJTyBZMwE8lCcJdct2XPkFno8FW2QJXTXi8xeNTl4VHFp/VANVhe661R2xcrrvd2snUaZCgmuG81RFQb+ddJJYwA4RraOBsxea4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=soYkb2Hd; arc=fail smtp.client-ip=40.92.43.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88259176FCE
+	for <linux-doc@vger.kernel.org>; Sun, 27 Oct 2024 19:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730058090; cv=none; b=OnbAinm6cmn4bK3AMmRJVnDVDaB4xdPv9vo0vCzeKQ8peiHqITZDWOZq7dW1Tpdj2+QaoNWcngAafmi9wgyip0/dVpqTTE+1DB3J0z8iIsXOr2iBhVVK+NyM1883Qr5L8uPdtZvz3wXLslRcwDTus0aTcPC2LI3x7tB6Lo7ULzE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730058090; c=relaxed/simple;
+	bh=v+vz7OIIFECPzMyfYUR86ehGfecvzTQY7cT6KQHCzi4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pXxCu+Lw4TyPBgUiVotv9qGiVzazHbkPviiBMpN5rKTa+tg0a5ixRpz1Q22NAiAKGm1oD8iTTFfwtB42MoogdYkC4goMN/0p+Oq9sljLfNWpVioEBUQLS4q0nyPZG1t2aiFV/Civ2AWk81LUptQ5iR7rWT5JXFxpt1K/5hBgGCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=eoW56xCr; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="soYkb2Hd"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dYEuwebuBKKtdHG3G/zKr6Y0qv7xsBg5eg1pA8Bbf35SUBJ2/mB6fs6K4+WZW6QgTqytFJ4RRQp3DPfFGVZJEZtsgpdCAMRonwROyemECHNiADPS+JUA8RzEGTNElf+qVtAG98tDjvGZ81k56DR2V95Kzmp3SZR+thUc5qs3G1hWL2ILWmS/KUxBSHJKMI8Ee6cWGzPr6osO9TmMzhTO9vqCUPLLuIHsnxmSkAuMX2KLgQ5XsTjUCutlNjYuqgvaD3kz9RUKZXaIYDqlHEkyQL6o0cKxPp/dqytJyp902Aso5+Isi2BaIbcF+JmzuAZzSRmeiSvwKDcaQyxjKXo34Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UF1tZ3DDudgXDMkMtuZrdtfh9spaAuUXzeHLhpNY0rs=;
- b=paC1Sq+N78vdhvme2uGsgDqd7Z4r0NtNotAS0puTVdyIUWNqZlxb35fAVTOkOfTxX+sts0jm504SNLk8G0reh/LgVSAnC0d0y4D0VHsh9TAM3sh6XYqFiivnvtjPqtRqr3yCzwf8qG94bcfjSCgV530IRgYEWjaiQTaTjKyY/jC5pkI40omK3FrZw5VkMn7vZGyKP4+C4P/ryTH0C9W2rOT5BwNkxMtYu6WCM6BJiIIKqJU9VaymVvEJUAXzlr6sOI/w9NqHVoqT+ixS0nWYF57vQhUVy79mtzrv1TSBfjGDOeJQY+7cqiuTUfe5PdN9ckDQKAt0zwsylya10x2eaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UF1tZ3DDudgXDMkMtuZrdtfh9spaAuUXzeHLhpNY0rs=;
- b=soYkb2Hd3tXaQ+7RfGCCp66k4idBx4io3JUABiZ4/0wAEbIr1SujbMDw/M+wkKlpDllJ52Xfop8BexKz463TYJsvjfKWyKsEXDTRNC7678EPxo1NfLsiO9ab16m/KIe2elWvH6PO4+364V+apJhIZBC1xqQdVmGvoo3U2QFxTtSskOT2dInnvY4Q+Ug4LADFgqD8PjDJehZEWMXKkM05iA5jFPptxCDsCo0FJ31/vnkCUaOLITC3TvCCux+CRVmMBkkC+dghDj6Tn/H2+7fhev2Pf+58O85r6mYp/ME0Dp6wwTn33RY7exQHNh/Nv+INHWPWo0oWyJ5y2G3bGXSobQ==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by PH0PR02MB8715.namprd02.prod.outlook.com (2603:10b6:510:da::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Sun, 27 Oct
- 2024 18:16:15 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df%3]) with mapi id 15.20.8093.024; Sun, 27 Oct 2024
- 18:16:15 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, "kexec@lists.infradead.org"
-	<kexec@lists.infradead.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-CC: "bhe@redhat.com" <bhe@redhat.com>, "vgoyal@redhat.com"
-	<vgoyal@redhat.com>, "dyoung@redhat.com" <dyoung@redhat.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-debuggers@vger.kernel.org"
-	<linux-debuggers@vger.kernel.org>, "stephen.s.brennan@oracle.com"
-	<stephen.s.brennan@oracle.com>, "horms@kernel.org" <horms@kernel.org>,
-	"kernel@gpiccoli.net" <kernel@gpiccoli.net>, "kernel-dev@igalia.com"
-	<kernel-dev@igalia.com>
-Subject: RE: [PATCH V3] Documentation: Improve crash_kexec_post_notifiers
- description
-Thread-Topic: [PATCH V3] Documentation: Improve crash_kexec_post_notifiers
- description
-Thread-Index: AQHbJvnmbOpHVMum9U6tJODk/l66f7Ka59EA
-Date: Sun, 27 Oct 2024 18:16:15 +0000
-Message-ID:
- <SN6PR02MB41577D176FD038A3D630296DD4492@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20241025162042.905104-1-gpiccoli@igalia.com>
-In-Reply-To: <20241025162042.905104-1-gpiccoli@igalia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|PH0PR02MB8715:EE_
-x-ms-office365-filtering-correlation-id: b7a42753-cc69-48a7-d20a-08dcf6b3722f
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8060799006|8062599003|19110799003|7072599006|461199028|8022599003|15080799006|3412199025|440099028|102099032;
-x-microsoft-antispam-message-info:
- G1PYCkGfOb/m5n8vfqyfqbtNvTBEZ/+hyoceaEPuYdnxnY8kojpLO5agMoZbh/LIZjlebQBwbVdgh6vDk4v98+D4dqm6f4OkD7kNFK9D9ySRyocIGasrTDyiF9aCehJDAQiBjOZ6cEGuOGK19itj6XRijYCy3AtJJ3N+7rTwA6Qh1/cCvamLA6zAlRL4Y3S6E9FucywERywFbawDkWxehhtlU14ioo8da++Ttbp2/sBDZ3cZu1FGcOdVnFNRHF/SkQciCV1YUpbA8BWeGV7A149FYw6wGNVZ9Bty506SvA2VoDCEurXjUExHXOOWGHJv0TOtuCyO7zJVDVARhoOyEa+6PyegPBlB8QcbrWKbD7IMZWnA3StU4gbGn36RiisMAsHMC6pHEEopzKd/y2092uWEiNQtPbOU+aOS772shwEt101/nOcODlD6GXtnvyaecM0Jt1GWNh3QZL+7FW9Wh5gDjyZQRxVAIDChfs+A6peWSs1KWaYIYl38VZtLnYZy5oOBaCih5u0e4QS6Son2Tfum+W0RVQd2FXdl2uOpvkd667JIorl7BlECzTUzk4JS3w0P7TsHCtgwURAwfc18YEk+ArSSHtZUTop0RxuxU1rYWdi2rLSAXW4xQ98i8yQG6OBiA9TpfeiAZ+Rs0vpE/EE3VCg3isB97wE+yQP52xapwhTFs7x6EnVZnOujtiLf4LUIYMNv6LbyKRguH94gmDb02ESqfGzQ9ts3mEOTDFH02ZXHg5mimBkwnaRxQuBwpK8fqwnNFPpKH5BBHD9+Dg==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?/tU0FWjmima2RbYYVkqwaKN8CBQrp0NOeC9HSQ3SrcAVqN5o+93wk0vrpY9n?=
- =?us-ascii?Q?7H8qfUb1gkFO2Yqw0H9LrH12qmV2bBwSB6L6thzB3P4cqdH9qWoR+HQ/WRXv?=
- =?us-ascii?Q?3Vr3CIoaj9v4uL0zWp4fMt58LKKWz2ZinPx80pXd/bObgMfJNJHW8y5lINnQ?=
- =?us-ascii?Q?F5900APL2NDJxFrJIW2Mw25ZJE3x+xghdwbjkwjCW6Ow7U6Na22NdNdTsT13?=
- =?us-ascii?Q?Eg+pl9ZF8Te9YcVcdyhSm5zmjrqhBh/hqwQL2uvP6W1iYcmEZA6VMFsg/DRJ?=
- =?us-ascii?Q?HNN/TOetgg3xGaZloxSPVG/soVNbbfevOKar/AP3kNg/za0FwhFmVGHmKoDq?=
- =?us-ascii?Q?5nucpzNsSuKd+QoG/YvuO6lDMWSXbtYT7dZBPTA5sCfNwwLxXUlOk0auq9f9?=
- =?us-ascii?Q?qofLCNi4BneejcfIscqwo/kttGVNUQZA121luSHMufeDeJqtjxphc/X4rIUY?=
- =?us-ascii?Q?7xcaP1gFA+YOnp0PcMElL1SFT+MLcLzxegi7md/NIqLD2nx3Rbl0YF8wy+8P?=
- =?us-ascii?Q?+AZmXnwnqJ+zMRsE/OnLjjRQVyH8B6V3ekYgB/GeqL/86PKkMTMd4+udDOk7?=
- =?us-ascii?Q?zzcMIPKHpeH7OMCOQ6ZF1R47wPrvzCzdxnUn9HyJ/B4nqaW+KylsoHdGCX8c?=
- =?us-ascii?Q?n4V+OUSwCdkWWRxCRX2U0/5BzcxJAV0CzHRN/kP3lovfmwo08ZtPV5G5txUH?=
- =?us-ascii?Q?3MIXmRlaXTRFrHz3l6k5ypnNGajN0knC0h05tMjA243RUyu2+Hl/38uVxc3f?=
- =?us-ascii?Q?/OdQkaRrK5XN2FalgEwcKfe2dx+hTWMipuGgLveabgZLWAiSWx4bG+9Ll+jv?=
- =?us-ascii?Q?HfEs0pPzJrHWhKd623voinJmSaa7z/A+tSzwX8rS8zEpu+mIU0CI7pGz4Nr1?=
- =?us-ascii?Q?kldFTYY4jVPDW97QnDJjckkkajnRs7G52wrLApStjHpVk9842oAoqy46IsKf?=
- =?us-ascii?Q?FFzZaMk/qEZha5W5T8d130cPmeRZ+ItdZm/wFqv4cNDKEUp3o0e1+npMWRbr?=
- =?us-ascii?Q?J4VK+4dajQOCYcGqwnvw6OAkSYg9ENBudEpJx3TFjh+p+3XNtBCju+sV8ykj?=
- =?us-ascii?Q?9k/lpu0mkPazu+Gd+nlEk/gLgRTGo8r6tk/Hu0Ek5IvHtoPY2pBLyky5TA58?=
- =?us-ascii?Q?0mXC+hK+Riws6Pu/veM8woVURdJaTRbkvIzq8VtqL4y/LUOIhNNHEPdTi1KL?=
- =?us-ascii?Q?9qNipNSAzu6hobf0/H0pJ2LcbULAtmPb8S5d0P2E92Xnrim79Pd5qACFr68?=
- =?us-ascii?Q?=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="eoW56xCr"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5ebc04d495aso2084716eaf.2
+        for <linux-doc@vger.kernel.org>; Sun, 27 Oct 2024 12:41:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730058085; x=1730662885; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DS49mL6mh3qfyGHT1zyM0qeylEka6PaSbeWVh4VtAn4=;
+        b=eoW56xCrKC0eCdUB+TOfPm+jOxMWzEvMD7IvLIrwfd6VgdYerfpY4lrubbzfk+XVH1
+         NSjTetAcsP3kiHGH90h3tAvtyDzdVgRHiriQJzKiCBwFQJRvywvvSJvA5qDcCXj965Zd
+         eEs9VVLLAKvb9GqAkL8wxvIhcTJAlIUvEwWWp70RZJudPDZJ41rFtj5hHdLXi+cbLSKX
+         k+8tVWDCVtntFv/bGzSvL/4r9WFWsgDaFj1c0aBPMrmzz2nxKNdBHIvYAMeg8ZJ95vAV
+         5J0OGAQZTjsyFg15m/dKpCp0yTkuFskuEyCrkpwpW3sSObXhm+AHEnAsndo9gbrkwbLz
+         gM6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730058085; x=1730662885;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DS49mL6mh3qfyGHT1zyM0qeylEka6PaSbeWVh4VtAn4=;
+        b=dh2wfs6VmpKa+HZUAyVek/vXrd/4upLBIjgim0rVhhs2FfNW8KJy125uUogUnIvep6
+         b6ToAymRetP33BW610VtWjenvYv95B2tigBJyhV5kEmba1e3Wd55kb7IT2Y6Ajqp28dZ
+         qWo4Ol01HmGTDLMiie2NtYd26obkmjV9ty1JB+Wag8+8Iq51zZGn1AJbttcaoS8BC0qa
+         S/C0ec55fTM6s2gkBMvJWDZOH5wh2EWE8B1MS+guSIHTCmlqOtNf0vT2UFp5vxobkFfh
+         GTXb+nKlObuVyY+ZdCBS0U803UtVEB8nl+mnHsv5Aj6XCQsVK8O4wGvwgFzBbH6aElKo
+         kkiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXq+82EtAfiuqsxivD9KPitbkpVFuiQQdMeOUoT2B6uKKoErNMpTfb4YgnigQGQpCCS0wLXd71aCmU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvXYX26KlwBFWMLvKfbNMzfsewtHZcNWRYoTgm/Ytrtx3mGpQ3
+	HO03DVd1+MoNM5DHIrVc3IaMfRaB6S9SZNh/J+sBKn0xCTkBddA/E6PvCidXUq0=
+X-Google-Smtp-Source: AGHT+IEN4f17W5Pxyu0a3Sg3sLpksasKzlX7/jnfpEUhNEtj1KFkavvwEUUQrUhY89AcYkgtdZMp9A==
+X-Received: by 2002:a05:6870:170f:b0:288:18a0:e169 with SMTP id 586e51a60fabf-29051b4d49dmr4184676fac.19.1730058085605;
+        Sun, 27 Oct 2024 12:41:25 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29035da4b9bsm1589189fac.15.2024.10.27.12.41.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Oct 2024 12:41:24 -0700 (PDT)
+Message-ID: <776b38c3-1bca-4416-a855-d45b759ec2c2@baylibre.com>
+Date: Sun, 27 Oct 2024 14:41:22 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7a42753-cc69-48a7-d20a-08dcf6b3722f
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2024 18:16:15.4950
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB8715
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] docs: iio: ad7380: add adaq4370-4 and adaq4380-4
+To: Julien Stephan <jstephan@baylibre.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
+ <20241024-ad7380-add-adaq4380-4-support-v3-4-6a29bd0f79da@baylibre.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20241024-ad7380-add-adaq4380-4-support-v3-4-6a29bd0f79da@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Guilherme G. Piccoli <gpiccoli@igalia.com> Sent: Friday, October 25, =
-2024 9:18 AM
->=20
-> The crash_kexec_post_notifiers description could be improved a bit,
-> by clarifying its upsides (yes, there are some!) and be more descriptive
-> about the downsides, specially mentioning code that enables the option
-> unconditionally, like Hyper-V[0], PowerPC (fadump)[1] and more
-> recently, AMD SEV[2].
->=20
-> [0] Commit a11589563e96 ("x86/Hyper-V: Report crash register data or kmsg=
- before
-> running crash kernel").
-> [1] Commit 06e629c25daa ("powerpc/fadump: Fix inaccurate CPU state info i=
-n vmcore
-> generated with panic").
-> [2] Commit 8ef979584ea8 ("crypto: ccp: Add panic notifier for SEV/SNP fir=
-mware
-> shutdown on kdump").
->=20
-> Reviewed-by: Stephen Brennan <stephen.s.brennan@oracle.com>
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+On 10/24/24 3:16 AM, Julien Stephan wrote:
+> Adding documentation for adaq4370-4 and adaq4380-4 supported devices. In
+> particular, document the reference voltage mechanism and the gain
+> parameter that are specific to adaq devices.
+> 
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 > ---
->=20
-> V3: Improved wording and commit description, detailing more about the add=
-ition
-> of code that enables crash_kexec_post_notifiers unconditionally.
->=20
-> Thanks Baoquan and Simon for the suggestions!
->=20
->=20
->  Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
->=20
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt
-> b/Documentation/admin-guide/kernel-parameters.txt
-> index 3978fb704c53..2a7a523bb90b 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -918,12 +918,16 @@
->  			the parameter has no effect.
->=20
->  	crash_kexec_post_notifiers
-> -			Run kdump after running panic-notifiers and dumping
-> -			kmsg. This only for the users who doubt kdump always
-> -			succeeds in any situation.
-> -			Note that this also increases risks of kdump failure,
-> -			because some panic notifiers can make the crashed
-> -			kernel more unstable.
-> +			Only jump to kdump kernel after running the panic
-> +			notifiers and dumping kmsg. This option increases
-> +			the risks of a kdump failure, since some panic
-> +			notifiers can make the crashed kernel more unstable.
-> +			In configurations where kdump may not be reliable,
-> +			running the panic notifiers could allow collecting
-> +			more data on dmesg, like stack traces from other CPUS
-> +			or extra data dumped by panic_print. Note that some
-> +			configurations enable this option unconditionally,
-> +			like Hyper-V, PowerPC (fadump) and AMD SEV.
+>  Documentation/iio/ad7380.rst | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
+> index 6f70b49b9ef27c1ac32acaefecd1146e5c8bd6cc..ae408ff2fa9c97427a9fef57020fb54203d2d33e 100644
+> --- a/Documentation/iio/ad7380.rst
+> +++ b/Documentation/iio/ad7380.rst
+> @@ -27,6 +27,8 @@ The following chips are supported by this driver:
+>  * `AD7386-4 <https://www.analog.com/en/products/ad7386-4.html>`_
+>  * `AD7387-4 <https://www.analog.com/en/products/ad7387-4.html>`_
+>  * `AD7388-4 <https://www.analog.com/en/products/ad7388-4.html>`_
+> +* `ADAQ4370-4 <https://www.analog.com/en/products/adaq4370-4.html>`_
+> +* `ADAQ4380-4 <https://www.analog.com/en/products/adaq4380-4.html>`_
+>  
+>  
+>  Supported features
+> @@ -47,6 +49,12 @@ ad7380-4
+>  ad7380-4 supports only an external reference voltage (2.5V to 3.3V). It must be
+>  declared in the device tree as ``refin-supply``.
+>  
+> +adaq devices
+> +~~~~~~~~~~~~
+> +
+> +adaq4370-4 and adaq4380-4 don't have an external reference, but use a 3V
+> +internal reference derived from one of its supplies (``refin-supply``)
+> +
+>  All other devices from ad738x family
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+> @@ -121,6 +129,16 @@ Example for AD7386/7/8 (2 channels parts):
+>  
+>  When enabling sequencer mode, the effective sampling rate is divided by two.
+>  
+> +
+> +Gain (adaq devices only)
+> +~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +adaq devices have a pin selectable gain in front of each adc. The appropriate
 
-This last line should be more specific and use "AMD SEV-SNP" instead of
-just "AMD SEV". Commit 8ef979584ea8 that you mentioned above is
-specific to SEV-SNP.
+If we are doing a v4 anyway, it would be nice to use caps for acronyms
+like ADAQ and ADC here and elsewhere.
 
-There have been three versions of SEV functionality in AMD processors:
-* SEV:  the original guest VM encryption
-* SEV-ES:  SEV enhanced to cover register state as well
-* SEV-SNP:  SEV-ES plus Secure Nested Paging, which provides
-functionality to address the Confidential Computing VM threat model
-described in the Linux CoCo VM documentation. SEV-SNP processors are
-AMD's product that is widely deployed for CoCo VMs in large public clouds.
-
-Just using "SEV" is somewhat ambiguous because it's not clear whether
-it refers to the family of three SEV levels, or just the original guest VM
-encryption. Since this case is clearly SEV-SNP only, being specific removes
-the ambiguity.
-
-Michael
-
-
-
->=20
->  	crashkernel=3Dsize[KMG][@offset[KMG]]
->  			[KNL,EARLY] Using kexec, Linux can switch to a 'crash kernel'
-> --
-> 2.46.2
->=20
+> +gain is selectable from device tree using the ``adi,gain-milli`` property.
+> +Refer to the typical connection diagrams section of the datasheet for pin
+> +wiring.
+> +
+> +
+>  Unimplemented features
+>  ----------------------
+>  
+> 
 
