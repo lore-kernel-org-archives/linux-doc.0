@@ -1,66 +1,79 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54C313B59B;
-	Sun, 27 Oct 2024 12:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CB2370;
+	Sun, 27 Oct 2024 13:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730033841; cv=none; b=MUWJ/Xcs36nkGt/M/XO8TvGUcUF9P6BT9UShFZ2bY0Hanb2lMCeNlq5/tAc/FQkOtAn40X1UDzqz+PLxg/u12aEcDtDPJYwqWa4kgnfSbku2QDkt1uHVfh8eUmVAzoAsglbA31LocmIa3WEshRUy5TqtzY/Tu6SHLeiWWQZQlHw=
+	t=1730036126; cv=none; b=NBr/Ax7BZk/CX30dJsOxXcEZKytuSxQ/3mejMmj65E8SeIBfySA/wh7gRoBZWxzkcyupvp2XOMvqBNm/AKLSPS+WQxHP06tNy1EsFPkceGz5KPxaCG0nE7kSWYBgkEYbuZs2/eKgZZeT9GPC2UkZ/pzjU199EUA0qtkGq18PGmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730033841; c=relaxed/simple;
-	bh=GDV/ewhoJQw4FLl+cDGr5/4YsMIEpPNuBtvtftfsYAU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ofyUlpixiF+inp6W81XbeWqSH5SUNo1yNnKidDlqG/dLR1xllhPPSMvjpvqlkSdwigBNyT79bq3SbJheKF7T1KMl9GUetGZmEFEW5+zQhJEYPMp07rkGSSp9ZcANi3YvaAQ9VmChvTndMaSwq9gFu/eGnOM9lUQFNGktZ1ODawI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWlwHyou; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1730036126; c=relaxed/simple;
+	bh=MXei8uQu9y1r4BBC57091KVEYwwDjCMgPkpBWBvRrrQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=TJNzkEwiH4uEELic58iEz2yy07OZ91M9oIVfkxjNoNp6u4OGVvc99kS7VBX1w66Sbb3Dy38HDTv8hJ8dPZbEG6CIkGMOkqzQpMdZVXqwKzi774zC6cyJig6breLrZS153Qp631wui0OK+w0QH8+4t9BKID/wMnTtoQGGfAjFwxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M1gQFzsS; arc=none smtp.client-ip=209.85.210.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWlwHyou"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-431695fa98bso34174625e9.3;
-        Sun, 27 Oct 2024 05:57:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M1gQFzsS"
+Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-7203c431f93so2746166b3a.1;
+        Sun, 27 Oct 2024 06:35:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730033838; x=1730638638; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WUM2YCgP1YU3td6vo9h1GwekL9d/r6rhNYDcoHoWQGs=;
-        b=ZWlwHyouTVcnEmdkHZ+dx8tgXltoWhiAjDMiM+g7+9mScuOfo9eJzIWd0rHFZSOeXf
-         Od3EF1/KfwU/2jYA++2F1zRbZUKECgYIr08NbENgRSh/VGZov63tdoMxvnMCFHYV8uR+
-         KILQIMhH4R5iaMOW+d2TZfVgik4iqIanQhsmZVvy5D9DWeTrdq4yUGKsLMbVg/KnRBXO
-         jbxyDygTKLM9RTE/LCcqPlFgPWp1BwS7Uhh3/yy3WhDBjn6TKeekJoVxCo3rpRQzgGmA
-         P6mpIgU1QEja0vjR5jEwVSIqM3O3gcJcBBYyvhbycMPoKfiCGVAbNvDVtQMuWmLrFWu/
-         GxEQ==
+        d=gmail.com; s=20230601; t=1730036124; x=1730640924; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kQ4B0yCTz1C52h9t9eSs+TfpkTdeGxsoHYRjw7nbq3A=;
+        b=M1gQFzsSRaqirGzuAmIKr5yHqVSrEqttp9QIxZeO2XFjruqLOYy6EEisYD+GI1IGzV
+         ojkVC0gMwX0PCv759tjZAgDrPjF1U+lzW+8+JobNjgPbZgOgmMz7kr8x1uMiLzdxslFC
+         yt5tNjBlYoZfrJaIqYraa9eopc1PCFg4qXGCstp3YfRfcD0MdUnGhCNWELO9vlr2mDEq
+         jqK7GOcxCsLzVfm7IbvU2cOom4q800DdOihttpOQTlCani9cTkrg/BJ4BEnaHTSDB4kY
+         RE5+eKgN29kt+NNv/9cluWDYV+IQ0EH7OzT8bVeVglYNMsN7a1fLV51qeBJXRNby9B+w
+         aTSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730033838; x=1730638638;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WUM2YCgP1YU3td6vo9h1GwekL9d/r6rhNYDcoHoWQGs=;
-        b=phinH22+mG86IEmNRWDs4Ib8jIbCQ3L2g4stRKbo6M4SsDGMOorXj5RtoKRgBQM7YX
-         DM/Vocxy1TH3lAEYHhssHpKFCFWS2nZ5VGLnhzMgEy3kHTUPUB3XPO0YntNHu+B6W/Py
-         5ELKUmj/YV8A3hxMYjtUMsZ9lwN1gQwmk9ybDOCOQsorPrFk0BYNc/YGJpCD9rVsQLPT
-         +LeNnkx/Q68uyAUaM9RD2tBB3HKW0ZN8b7seD/uCn3Z96IICzbASA8Hg6iGiOFgUplQ5
-         7Vp0612yI7f2D6Uyf7X/GmHC8e9yNWjlms2ZDSMFC7oxoYhS7IV9LGlY3UdzTbLAtWTP
-         4CsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUv+w3QJU72RRUCLEpn5pb5RIeDePCKHQp3Fl1HXqkNk67WoqX9rXaDUCH+dCtJvYpDUXyp8lO9Xv/5@vger.kernel.org, AJvYcCXC0yHc9iduJpfysGT/m/j7LhTBhN7r+owUeWB+AYLjZ7KUe0DTRPa1EmM0Kia4CMZ0lT6hgkkC7i/ajHX4@vger.kernel.org, AJvYcCXDModYd8zKN8tfJyvIlTU3j0qm1U539Hev47jgFhazkKn5lKKiDINUxFh2w764JXdtDkeduXr92zHjXoxM/WU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4dCiEYGDJsDm3voFkJ1IT7+7hBqE9pkYt0GEBoJ9pj8VWY/qY
-	GnSzQLHbiVdKs9wt/Ejd8EBV8+XAx5lR5vEhgTlAI9b97mD4uCy4
-X-Google-Smtp-Source: AGHT+IEExN056KF8Gd9onPpE6xpB4VKZwKvMLBeI7lz16UJtaUBi3JofI0FjUwVnIQrj3dM51yOqpg==
-X-Received: by 2002:a7b:c5cc:0:b0:428:1310:b6b5 with SMTP id 5b1f17b1804b1-431aa802774mr423585e9.34.1730033837569;
-        Sun, 27 Oct 2024 05:57:17 -0700 (PDT)
-Received: from void.void ([141.226.10.223])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431935f875esm74349005e9.37.2024.10.27.05.57.16
+        d=1e100.net; s=20230601; t=1730036124; x=1730640924;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kQ4B0yCTz1C52h9t9eSs+TfpkTdeGxsoHYRjw7nbq3A=;
+        b=knU5tUhcsXWiRKTUyKepUqtckXWkwZaiE3WOvDNHYVnXpg/Sr+fwF7TnUvXYjYwB2v
+         vek/TWwcj1oXsc3gkR1BrJeE1Q2mWeF5Oe8ykKXrguhpSghiOfI4MwAk6+T0X91eCgvi
+         KGZxj47JslG3ZPuxw/v0+cyN8XO3c4ca1SJp8VS+zEwWdXkUj5EXvv0TrYG2HPLrN5sW
+         xSjrkm+U/42/5kMhYsbJALH5DRR1kxxP+TPE6klmESpwUpcdZfQV2rhrLcjzQ1vkRqpD
+         Mh4nJZlerSCyvQvx76p0P37KjPsJ4a7n9UmIzfacE8BSVTqGyBssZUQznUYuLSRRPjcv
+         2e9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU0pmKsM+gai5zmS/+xgneWStt/QDch4JJ6c+78bR1GeLGgzAqTKAVnlBzFQoILdszbeArSMFhJFKg=@vger.kernel.org, AJvYcCXiretBhgIV1TgvtQhUCeb3dQnGh+UFXjV5jSbDkvqftESoWjf1EO4BsPqKoVie8X2ukFL+lLIl4p2enMSO@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJnv10cADbZOW9L4mYpVtstNZf7ZS7oUqNJJRNFcabc7g2Beqp
+	AV8hQ0RKZGZGR5BztLen6l+0wuumPFoOUXEyNXj1K9+M2IQDwKu/Z0QS2tgq
+X-Google-Smtp-Source: AGHT+IHm7D0bMRKb+u/k3Hli8PIXaPXScDJUFxksYsUKV4RdCnH9ZxFjkYeh6FgUo26Cot30VXbOxg==
+X-Received: by 2002:a05:6a21:e93:b0:1d9:6e43:58c0 with SMTP id adf61e73a8af0-1d9a81d5da4mr6578775637.0.1730036123634;
+        Sun, 27 Oct 2024 06:35:23 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7edc866adc2sm4116740a12.18.2024.10.27.06.35.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Oct 2024 05:57:17 -0700 (PDT)
-From: Andrew Kreimer <algonell@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org,
+        Sun, 27 Oct 2024 06:35:23 -0700 (PDT)
+From: xu xin <xu.xin.sc@gmail.com>
+X-Google-Original-From: xu xin <xu.xin16@zte.com.cn>
+To: corbet@lwn.net
+Cc: alexs@kernel.org,
+	fan.yu9@zte.com.cn,
+	he.peilin@zte.com.cn,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Andrew Kreimer <algonell@gmail.com>
-Subject: [PATCH] Documentation/maintainer-tip: Fix typos
-Date: Sun, 27 Oct 2024 14:57:01 +0200
-Message-ID: <20241027125712.19141-1-algonell@gmail.com>
-X-Mailer: git-send-email 2.47.0.149.g3e3ac46130
+	mudongliangabcd@gmail.com,
+	qiu.yutan@zte.com.cn,
+	seakeel@gmail.com,
+	si.yanteng@linux.dev,
+	tu.qiang35@zte.com.cn,
+	wang.yaxin@zte.com.cn,
+	xu.xin16@zte.com.cn,
+	zhang.yunkai@zte.com.cn
+Subject: Re: [PATCH linux-next v8] Docs/zh_CN: Translate physical_memory.rst to Simplified Chinese
+Date: Sun, 27 Oct 2024 13:35:18 +0000
+Message-Id: <20241027133518.2972180-1-xu.xin16@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <87ldyc1g3o.fsf@trenco.lwn.net>
+References: <87ldyc1g3o.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,35 +82,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix typos in documentation: a -> an.
+> > From: Yaxin Wang <wang.yaxin@zte.com.cn>
+> >
+> > This patch translates the "physical_memory.rst" document into
+> > Simplified Chinese to improve accessibility for Chinese-speaking
+> > developers and users.
+> >
+> > The translation was done with attention to technical accuracy
+> > and readability, ensuring that the document remains informative
+> > and useful in its translated form.
+> >
+> > Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
+> >
+> > Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
+> > Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+> > Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+> 
+> One does not normally put a Reviewed-by tag on one's own patches, so now
+> I am confused.  What is the role of you and Jiang Kung in the
+> presentation of this patch?
+> 
 
-Signed-off-by: Andrew Kreimer <algonell@gmail.com>
----
- Documentation/process/maintainer-tip.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Let me explain that, it's because of our company email permission policy,
+ The author of this patch, Yaxin, has no permission to send out the patch
+ temporarily. So I'm just helping to send it on their behalf. and at the same time,
+ I'm a just reviewer, not the owner of this patch.
 
-diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
-index 349a27a53343..e374b67b3277 100644
---- a/Documentation/process/maintainer-tip.rst
-+++ b/Documentation/process/maintainer-tip.rst
-@@ -7,7 +7,7 @@ What is the tip tree?
- ---------------------
- 
- The tip tree is a collection of several subsystems and areas of
--development. The tip tree is both a direct development tree and a
-+development. The tip tree is both a direct development tree and an
- aggregation tree for several sub-maintainer trees. The tip tree gitweb URL
- is: https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
- 
-@@ -121,7 +121,7 @@ The tip tree preferred format for patch subject prefixes is
- prefix. 'git log path/to/file' should give you a reasonable hint in most
- cases.
- 
--The condensed patch description in the subject line should start with a
-+The condensed patch description in the subject line should start with an
- uppercase letter and should be written in imperative tone.
- 
- 
--- 
-2.47.0.149.g3e3ac46130
+ Thanks.
 
+> Thanks,
