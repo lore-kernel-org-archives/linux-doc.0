@@ -1,117 +1,136 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C062905;
-	Sun, 27 Oct 2024 08:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F7441A8E;
+	Sun, 27 Oct 2024 09:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730018439; cv=none; b=YnKoCe1QXykB+fueNXdhU/wyJnYR/LgGzhT9iyBQsu64Ucg7CopLA2BS7kdlfuq6LdyTXuqp/88eSeBlOG/xAyQSYh0QUIYr0ua5VL8Ng06yWjFxRasNFkWMoHc3L4L/dbbVkXGGAZXXMAViBm4mQa4raCnS02LuagO0rJBrpf0=
+	t=1730020948; cv=none; b=q/h2EgLPtqLRZcq4vd0xSptl5o7p3O9wcokq6g2XCfu+pbLqfaqEUeiE4REJTT34f89rcUeb4HyaiT4eMtXvHxLtgnqdcUGurcAp7gefccaBpYhitQOzgMMsLj0hyx51eTZ0snaZqaitn5BitBNWDZ/97zD6PXfiEu02wgVxHos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730018439; c=relaxed/simple;
-	bh=EQmy0XTUHn2JD9wDXK7Hv2K9IJnG8aDWMvA/QFheUvo=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=bQZ8lkwQvT6z1hFdvEQz++Zi9o21oAgFMRYEg5UsWiad7luILsSjdyJ7wtXHzcNgn1bmsk3K9i4Z6U2EvahJo3NNUStpWNdA6u1EiioJi73nfo/a413lnadMHKrkA3m0Gp2ukpMvj3NiEX/elC9lKwqqHBGItuiwzpZaD4c8u6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=iC3cRi+e; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IpiFXEya; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
+	s=arc-20240116; t=1730020948; c=relaxed/simple;
+	bh=ExHRIF6gwXnJTITxLEI5oYooxR5LpmWyUgh+6/92KOE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RrNlMKkG8bGXB4meg/wWAlO2xUxhhvsXHBTHuGcSYm+FEcE5p+5oaHGJW622p6PqvhD4E9Hf7bz+/rz1GCAknLqwMsVlbaqPOBFcV3OMCGfEbazkx6LGdizF44Bw0XhECyThch5P7Euo+XkkQqkZ9QCNOd134P9xDJ7ycFajQ2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ttyMvxhm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="iC3cRi+e";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IpiFXEya"
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id 2991A13801BB;
-	Sun, 27 Oct 2024 04:40:36 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-09.internal (MEProxy); Sun, 27 Oct 2024 04:40:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1730018436;
-	 x=1730104836; bh=EQmy0XTUHn2JD9wDXK7Hv2K9IJnG8aDWMvA/QFheUvo=; b=
-	iC3cRi+eK3+TlzfrpkQ5BH00Gx+0CGvT033Za4JBqwa2avI2W0k9TqLfvEJGbCbJ
-	MZyaJpQskj6xDFm10yzrHs2/6ezxgZ6efg/hRb3U4JsShnNW3kNoQaw9GW56demm
-	hNpO2vr0EsmFbYpoS6v9eBJL6cFPvizY1ubuTI8pXx0pAor27idazZMR3AwurCjf
-	8bmhwyGxDXcmAliPDjQceiQqDAI6erc3Vi9UCu78Zouz726clcB3ZhxKd5Pivc22
-	D07+qg4LzIhk7OU8aKioZVAFJoDzEYsbJNV09KZb0R8vG80T/16ZVI8WM0dZ3R1i
-	ee+5aTRpAO6RlOyGQjHSjA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730018436; x=
-	1730104836; bh=EQmy0XTUHn2JD9wDXK7Hv2K9IJnG8aDWMvA/QFheUvo=; b=I
-	piFXEyaA8hvIAHAPi0PJBk+NZw+hyynkqdGvC2A0LZY9/bk+M/ppI83sDNiRAxhG
-	NHvlRTUtUKP4uEydO/lJ42TBDiMQOmUj3R/DSaHLeqsCrIPDk9OLf8SM/FO1g44h
-	lv0Q0xlnU9uOtKSRobygVQEY7J1Hy3dUY8RdxItAaWMU3HDg6EUoD/psxcEW/yEG
-	7dsvZeuyN5JAQNKdzBbnMcbnF/NejLVh09xRv22B9M6yidkB7GquwqsWS4hahmj/
-	HMQXdTc0ZkvPu9xuMZ+QCAtZPFEzWr9khEL1e3C2Br++tUFSIVDLIIF6HgE/NbEM
-	RousnL85VMVKNc8rXRN4w==
-X-ME-Sender: <xms:g_wdZ5JM_0Ugu29HieQ0aSnswQm-2bXEaqRO2dFfNgNOnM2iC18mCg>
-    <xme:g_wdZ1LiDKdzOqhIkWS5oSbqufOkEpHACrs3xGLGiQSkK_luNtWGNgFd6O_5gWemM
-    _fChnbNyPpSPTTt02M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdejhedgudefgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
-    jeenucfhrhhomhepfdflihgrgihunhcujggrnhhgfdcuoehjihgrgihunhdrhigrnhhgse
-    hflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeejheefuddvtdfggfdvffek
-    teehhfelgfdvvedvkeeuffefkeehheegvefhveetjeenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghho
-    rghtrdgtohhmpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtg
-    hpthhtohepfiesudifthdrvghupdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepshgrshhhrghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehshh
-    hurghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhrvhgrlhgusheslhhinhhu
-    gidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuh
-    igfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhn
-    vghtpdhrtghpthhtohepthihthhsohesmhhithdrvgguuhdprhgtphhtthhopehlihhnuh
-    igqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:g_wdZxthymqs3iwR1qjRaTdVjamooQ8O0JQgnKeHJMXE2sTWCazldA>
-    <xmx:g_wdZ6YGMX9jgEimZMezO3I60CF_l_j25tHXhmgYZcwqvDXSfQwFVg>
-    <xmx:g_wdZwa9JIVVZcSUB51FteVs5Fu0nZDZnYd3L-0iJWO_Gt9lRWH9LA>
-    <xmx:g_wdZ-B75qij7SPplLN0M3LMJFeCv2saYYTyH2i21Cq5hFeDkjKHpw>
-    <xmx:hPwdZ9Sc7I7sIgRoIqQqcSlxSxS5BshGbnXfDthAY9bZmL9c8p_PpAB0>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 1229E1C20066; Sun, 27 Oct 2024 04:40:35 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ttyMvxhm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B034BC4CEC3;
+	Sun, 27 Oct 2024 09:22:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730020947;
+	bh=ExHRIF6gwXnJTITxLEI5oYooxR5LpmWyUgh+6/92KOE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ttyMvxhmP6d1kX6QqMLrHyKTF+uk023nsgUmTFzYkcgDqgCKCCtAaHWzivflmNR0q
+	 XcdVgaAv+lDKsAUx3lqw0iKWYHVBq7rStelxvq4wZGUMiZCwoM9qMLbu6LGs/D6pmG
+	 JHtyymgCU1hCHNjMetCiEz4q2HXp7sgpLkAKgiGPMaqSamKs+B49ELnSiy7CNdIS3K
+	 00Mx2IWs8E0pHm+6b0cc3bZwJ4yC/xi3gk1Rsz/92Oozobp9uvCE9dapMA6icaBO0y
+	 jdi/S558gLBjU0CyfxVqDO9AYXsrpLHRnTNVnfD9GPaLhuECNn5lnHVlK9YWxCz0Jz
+	 Pnyur/z1ha99A==
+Date: Sun, 27 Oct 2024 09:22:17 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] iio: adc: ad7380: fix oversampling formula
+Message-ID: <20241027092217.2d4fbcb9@jic23-huawei>
+In-Reply-To: <20241024-ad7380-add-adaq4380-4-support-v3-2-6a29bd0f79da@baylibre.com>
+References: <20241024-ad7380-add-adaq4380-4-support-v3-0-6a29bd0f79da@baylibre.com>
+	<20241024-ad7380-add-adaq4380-4-support-v3-2-6a29bd0f79da@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sun, 27 Oct 2024 08:40:14 +0000
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Willy Tarreau" <w@1wt.eu>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-doc@vger.kernel.org,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, shuah@kernel.org,
- lee@kernel.org, sashal@kernel.org, "Jonathan Corbet" <corbet@lwn.net>,
- linux-kernel@vger.kernel.org
-Message-Id: <a4aab1f1-89ed-493c-bd9d-bd2576c1d732@app.fastmail.com>
-In-Reply-To: <20241026175446.GA9630@1wt.eu>
-References: <73b8017b-fce9-4cb1-be48-fc8085f1c276@app.fastmail.com>
- <20241026145640.GA4029861@mit.edu>
- <522bd817-339a-45b0-84c2-2b1a4a87980a@app.fastmail.com>
- <20241026175446.GA9630@1wt.eu>
-Subject: Re: Concerns over transparency of informal kernel groups
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Thu, 24 Oct 2024 10:16:57 +0200
+Julien Stephan <jstephan@baylibre.com> wrote:
 
+> The formula in the datasheet for oversampling time conversion seems to
+> be valid when device is at full speed using the maximum number of SDO
+> lines. The driver currently support only 1 SDO line. The formula will
 
-=E5=9C=A82024=E5=B9=B410=E6=9C=8826=E6=97=A5=E5=8D=81=E6=9C=88 =E4=B8=8B=
-=E5=8D=886:54=EF=BC=8CWilly Tarreau=E5=86=99=E9=81=93=EF=BC=9A
-[...]
->
-> I hope this clarifies its role a bit!
+The 'new or corrected' formula I assume not the one in the datasheet?
 
-Thanks Willy, very informative reply!
+> produce larger delays than what is currently set, but some devices
+> actually require it.
 
-I'll try to incorporate some of that information into the documentation.
+This series is I think backed up behind the fixes chasing through Greg's
+trees so I'm being a little fussier than I might otherwise be (when I'd
+maybe just change stuff whilst applying and ask you to check the result!)
 
-> Willy
+Code here looks fine, just a comment on the comment dropped.
+> 
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  drivers/iio/adc/ad7380.c | 19 ++++++++++++++-----
+>  1 file changed, 14 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
+> index fb728570debe6432d5f991595cb35e9e7af8b740..d57e17f38925da5fb7c8a0a2320a21474ba04b37 100644
+> --- a/drivers/iio/adc/ad7380.c
+> +++ b/drivers/iio/adc/ad7380.c
+> @@ -77,6 +77,12 @@
+>  #define T_CONVERT_X_NS 500		/* xth conversion start time (oversampling) */
+>  #define T_POWERUP_US 5000		/* Power up */
+>  
+> +/*
+> + * AD738x support several SDO lines to increase throughput, but driver currently
+> + * supports only 1 SDO line (standard SPI transaction)
+> + */
+> +#define AD7380_NUM_SDO_LINES		1
+> +
+>  struct ad7380_timing_specs {
+>  	const unsigned int t_csh_ns;	/* CS minimum high time */
+>  };
+> @@ -649,7 +655,8 @@ static int ad7380_set_ch(struct ad7380_state *st, unsigned int ch)
+>  
+>  	if (st->oversampling_ratio > 1)
+>  		xfer.delay.value = T_CONVERT_0_NS +
+> -			T_CONVERT_X_NS * (st->oversampling_ratio - 1);
+> +			T_CONVERT_X_NS * (st->oversampling_ratio - 1) *
+> +			st->chip_info->num_simult_channels / AD7380_NUM_SDO_LINES;
+>  
+>  	return spi_sync_transfer(st->spi, &xfer, 1);
+>  }
+> @@ -667,12 +674,13 @@ static void ad7380_update_xfers(struct ad7380_state *st,
+>  
+>  	/*
+>  	 * In the case of oversampling, conversion time is higher than in normal
+> -	 * mode. Technically T_CONVERT_X_NS is lower for some chips, but we use
+> -	 * the maximum value for simplicity for now.
+> +	 * mode: t_convert = T_CONVERT_0_NS + T_CONVERT_X_NS*(x - 1)*num_channel/number_of_sdo_lines
+> +	 * where x is the oversampling ratio
 
---=20
-- Jiaxun
+Could drop the comment as the code is pretty clear.  Is the statement about T_CONVERT_X_NS
+being the max value of supported chips worth keeping?
+
+>  	 */
+>  	if (st->oversampling_ratio > 1)
+>  		t_convert = T_CONVERT_0_NS + T_CONVERT_X_NS *
+> -			(st->oversampling_ratio - 1);
+> +			(st->oversampling_ratio - 1) *
+> +			st->chip_info->num_simult_channels / AD7380_NUM_SDO_LINES;
+>  
+>  	if (st->seq) {
+>  		xfer[0].delay.value = xfer[1].delay.value = t_convert;
+> @@ -1021,7 +1029,8 @@ static int ad7380_init(struct ad7380_state *st, bool external_ref_en)
+>  	/* SPI 1-wire mode */
+>  	return regmap_update_bits(st->regmap, AD7380_REG_ADDR_CONFIG2,
+>  				  AD7380_CONFIG2_SDO,
+> -				  FIELD_PREP(AD7380_CONFIG2_SDO, 1));
+> +				  FIELD_PREP(AD7380_CONFIG2_SDO,
+> +					     AD7380_NUM_SDO_LINES));
+>  }
+>  
+>  static int ad7380_probe(struct spi_device *spi)
+> 
+
