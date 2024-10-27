@@ -1,90 +1,102 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B3B538A;
-	Sun, 27 Oct 2024 21:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E19188A15;
+	Sun, 27 Oct 2024 22:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730066260; cv=none; b=aIlu8WKCRpiaXRj5a/FCvWyrpcr8EZDiqL/YLBCq9SqiNzEQGqgKuwRj1Dn/ZA3qBQ+s2EJ64ALT9iwp4ZbvcSmXksuKyWt9kVplS5sQzroISs0sq79iemm7TEqSoj4CclJnt6eEucGEoxAUd7MB4w8e5RIFCxjv/C6193YVTvY=
+	t=1730067427; cv=none; b=LdSDgvfP9DDFF8N22A3PHlJGGtyncHeSJYfXD8L2VHQI3N4a/s15BwLtMu8FMBbYOxYfudl0MWlnb6NVTmg48osQxQDlAbAWxO3JJi7OvtNFf8Fg4H85Atdnqglw8b1bB5+mOS9nRoexaoDd261uDb6BADrMwM9iD7tjVmAyj8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730066260; c=relaxed/simple;
-	bh=zhpA/pUJ6k/6prCSe7Jj2nIyo1Q0CSS/ioHWtzTETXg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lP9nYCce6J+AV3ht7is1BmQa6M5wTc44KvF9pdcDzIiHOYhwp8/35D2lckN5T6RFTl1yzloU6gz0pvLzMnhy/xmFyk32ri914JJJ5itMinwrI8nv+MpJ15e2fakTVqerJkYj3cBtf++ucUC2D+oIqfr5u+t4q348SkZsbzJ6ZXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WFfXYvMY; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1730067427; c=relaxed/simple;
+	bh=An0q1B1Vy5t3+lo7yESq7Pk4FRbEi09xmS9o/s3wurI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VPt0UPGVZhzCsNUTSM/JIgHV268whJbJGQzrtEAnWpdV4YxAVVGsdiEQZL88s8LeICbGCejv26oq+YuzUcQmqwbMF0h9FbFt/TELd3+RJ6L7AtJ1yVpmGR5dO46rC1fYj1oJp4Kj6uwdUb5pzzS9757fFSOX5X0Hwjuk6/iRzMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eyjPVR9h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WFfXYvMY"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0CA5942B33
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1730066252; bh=ifWpwQOiXGSyOuEBW/cbbUk+XXsVKdYLGRNKIE0JELs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WFfXYvMYaqGAdjI5juyW2qvxrrcdWA8+Xj4WIAS7BjVtJs9axGKZMPdS/Sud0633e
-	 Heh5RMduZ7dXYdwf9ET/K9EbYGEu7z52L1uJQJr2Ym+vpV9tMyLRPF+PuhxIyxtbg9
-	 YkOMELF0+TB0MorhiX+cL1sAxkIcH/wSC7JpV3vvsvWmRmV4Mj+sxwBJOexZiErmT0
-	 PM726lZ2hYCf1ZSIyZLykWgSeCbj2Zi7hNZAo3panvCj+u4L2kZ61LmowG7dXTd/zp
-	 8PteW6x2e9eX27I88qJnl/qsZ+xlx0cOmPh1AaRfkfHgMAcqIHVX3TlQkwI8laTztH
-	 VqjRxoFLV7RJQ==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0CA5942B33;
-	Sun, 27 Oct 2024 21:57:31 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: xu xin <xu.xin.sc@gmail.com>
-Cc: alexs@kernel.org, fan.yu9@zte.com.cn, he.peilin@zte.com.cn,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mudongliangabcd@gmail.com, qiu.yutan@zte.com.cn, seakeel@gmail.com,
- si.yanteng@linux.dev, tu.qiang35@zte.com.cn, wang.yaxin@zte.com.cn,
- xu.xin16@zte.com.cn, zhang.yunkai@zte.com.cn
-Subject: Re: [PATCH linux-next v8] Docs/zh_CN: Translate physical_memory.rst
- to Simplified Chinese
-In-Reply-To: <20241027133518.2972180-1-xu.xin16@zte.com.cn>
-References: <87ldyc1g3o.fsf@trenco.lwn.net>
- <20241027133518.2972180-1-xu.xin16@zte.com.cn>
-Date: Sun, 27 Oct 2024 15:57:28 -0600
-Message-ID: <87h68xw6nr.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eyjPVR9h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AE3CC4CEC3;
+	Sun, 27 Oct 2024 22:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730067426;
+	bh=An0q1B1Vy5t3+lo7yESq7Pk4FRbEi09xmS9o/s3wurI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eyjPVR9hc8nObYdbxO+giY8LhlLmm6nS5/JBgfEyBXJeMrmd3+KWtt7qfaBKjwJDK
+	 8xQiNB+6BkkGNszcAE8j2FGtOjh9U2zUtZGpmsrKG7gzl4WqNGihjYMBTUHctf7oAA
+	 NL9fg2+fHaGRsFTOHvtChlFzqLSDjJ22GfcLq1hzoeif9lEjpMpdaBx5qdl0fK/6e9
+	 3JZJMU8xH2cTIo0siIc1qGm6CuT673DC9ooimzgNk2O3nyjaDCypmC4i8zfWJ9/CXU
+	 yk636+8ykOsPj4NFOL12SkfxOu8r1yPUEKFnGTqiPbbz3V+KZjq5TbwbLX8NkOr8kj
+	 ObFeWm4T+TNRg==
+Date: Sun, 27 Oct 2024 15:17:02 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Rong Xu <xur@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Li <davidxl@google.com>, Han Shen <shenhan@google.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Maksim Panchenko <max4bolt@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Yabin Cui <yabinc@google.com>,
+	Krzysztof Pszeniczny <kpszeniczny@google.com>,
+	Sriraman Tallam <tmsriram@google.com>,
+	Stephane Eranian <eranian@google.com>, x86@kernel.org,
+	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v6 0/7] Add AutoFDO and Propeller support for Clang build
+Message-ID: <20241027221702.GD2755311@thelio-3990X>
+References: <20241026051410.2819338-1-xur@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241026051410.2819338-1-xur@google.com>
 
-xu xin <xu.xin.sc@gmail.com> writes:
+Hi Rong,
 
->> > From: Yaxin Wang <wang.yaxin@zte.com.cn>
->> >
->> > This patch translates the "physical_memory.rst" document into
->> > Simplified Chinese to improve accessibility for Chinese-speaking
->> > developers and users.
->> >
->> > The translation was done with attention to technical accuracy
->> > and readability, ensuring that the document remains informative
->> > and useful in its translated form.
->> >
->> > Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
->> >
->> > Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
->> > Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
->> > Reviewed-by: xu xin <xu.xin16@zte.com.cn>
->> 
->> One does not normally put a Reviewed-by tag on one's own patches, so now
->> I am confused.  What is the role of you and Jiang Kung in the
->> presentation of this patch?
->> 
->
->  Let me explain that, it's because of our company email permission policy,
->  The author of this patch, Yaxin, has no permission to send out the patch
->  temporarily. So I'm just helping to send it on their behalf. and at the same time,
->  I'm a just reviewer, not the owner of this patch.
+I tested this series by following the documentation added in the series
+using Clang 19 and my standard distribution configuration on an Intel
+platform with the combinations of
 
-If you handle the patch and send it onward, you need to add your own
-Signed-off-by tag stating your right to do so.
+  * AutoFDO
+  * AutoFDO + ThinLTO
+  * AutoFDO + Propeller
+  * AutoFDO + ThinLTO + Propeller
 
-Thanks,
+and I noticed no issues (it would be great to see create_llvm_prof
+somewhere in LLVM upstream for ease of access but that's a small
+complaint).
 
-jon
+I did not do any real benchmarking to see if those combinations were
+actually quicker but I think it is pretty clear from the cover letter
+that any sort of gains are going to depend on the profiling and test
+case so for time's sake, I did not bother.
+
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+
+Cheers,
+Nathan
