@@ -1,88 +1,135 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB281DD556
-	for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 14:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02341DD0DB;
+	Mon, 28 Oct 2024 15:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730124138; cv=none; b=kZt0icpgqlM+MWz+xDmqi0PI6lNdko/fTnd0BHKVKu0s2NVsc03ICtjW/X7pUvPsqMwhxYeBKtY8TfR8Hy1h84zh5S8z/GvguJpyV9vOWy+6ew7e+qyU2vFtJJvZs/SjCH1qm1KyxM2tBaQ0HdSZ8J24XJbiM2L1iFDZM0lI6yg=
+	t=1730127800; cv=none; b=KI3MA6I8fv5TGaQlw4BokiAhGtJL9NdkFYRz3UrumVNKnaw+GU1Hf+2Yw9JoskoG6ItnNFvM36/S+4ukkYrHibCW6wR0QPHvtg94DS0SS12tn+BInA3pGiMnvGAEQPEdV680oX2mhZ4WF802f0PYA/OBeU2dia7vhZIFm52sSns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730124138; c=relaxed/simple;
-	bh=6NtzaLHH2RkqvPGHKKHItqVlr0xA+NQ34K5IMBIj8SI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kQ98PTHUBmExm/3wfm3Y2M4w3ABAbNy1xErZNpQfbPQUSP9jds6p9pmSQQy3Cjq2WVz9ZSX3Ie2FTS12HEI7/JGFqaXQ4jdvUvnNWRVjir4TuiRA8Wz5CZ3wMnS2eZW+CzciGKA9X6vYj4lw3T+y9b/qITF8LMe+nPrLe8ZNSjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=Dxvc1QSJ; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1730127800; c=relaxed/simple;
+	bh=FyfUCwFzYkQHmB9U8vscKzqdTeoR6hFWQB3RDlBiCO8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bbRLep7tkqrK7OAf92b54nONrTnRoFIxF82O9l6jOchUWVOg5JIKfEKstFbqRC9jarvRuSmCwD/UgFiea+qtdbBMg148ZspOU+H2NmvPxn3Ew9lEFC5T2kYGhlEctiflC+BP5AbI9ZX2EI613UWxCLjW7xpGz24OgyZu2f7YmbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xScg+AQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UebAxn6F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xScg+AQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UebAxn6F; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="Dxvc1QSJ"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7b1601e853eso343786485a.2
-        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 07:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1730124135; x=1730728935; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y+pTNTU0CbesNOJj7SQS3n1+ZsJxzXX/EguUPHGGqgw=;
-        b=Dxvc1QSJ0ZlfUeHEFak9pl1ybz0uBBuW7WGZmCb5YIP+IS+cooc8Rin4T4OuTYfdwJ
-         /am/YWkFjNhe+tPkgqB4g4VVB+mKmVt/AQn1auM9GyQh1jC0PeWwnIOhTn9cxJR1DIyK
-         beN4cyetdPxClTvWpmVuWFTx8wrc5+KCXUEU8UHtEp51mogN0CyLArg72N5+RQbTny38
-         wxTSo3ZglAk6hO7zXnoinVN8cWFK8xHBZzMX8zs5ez17jQUt2/UkskZj1XC7sfHJMW9J
-         Q5Rt1wripWKQ26vNIIHfsqL10iNSqJG0n0dWXyBY+vSWTt7C/sKSpidoWY1HuOSaarqm
-         3mfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730124135; x=1730728935;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y+pTNTU0CbesNOJj7SQS3n1+ZsJxzXX/EguUPHGGqgw=;
-        b=cciXnRlWt7XEgxBP8blHb7ThgnqEwo6caQCHwIcUuRgRUhn/FfxIXjujOYNidbM7cC
-         bCJhUOaalLXqonctT6YQgq4HiQlIMBFkkMQ50eoYPYqWNhjsl1n6WMbQxCIf/UKc2TXt
-         klaWXvr+MnvsRQ2+YelWogzgYqqVrlWTJxzCC4G9TPZvgHY406mNWInC1y06v+u7cVQP
-         Me5W8tnJk5LLGC9GLoJT7UkURGBkhd0lLwSaVwHdhHnt/SQJXfi4KF6pojY7CrrEsKQc
-         0dZPPBoUrDO7uz/blsTsJmDoTVmAW3MOCqREF1Fz1kwMkpTK9UT4+QKPInbdkZshrzQ6
-         9Pwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVcNTub9N9Gz2+5Su+7TEEl1FcpeR1H8qR8glGmJLiWxte7rffTcdzszBuulUUGLFbMwxRAIDoBYV8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXTM3RbbaLM82TaEuGhM5CpEHMof9kDOdXnmoONMv0cuCsfEe8
-	o6gZ7TaGZk2CsQXbfVhrQ22l6fDXjywr2m67hMnLjeUNSPvpbBO5pvFdGpEuxTk=
-X-Google-Smtp-Source: AGHT+IER2ntkwj9uxtuQo4z+LCNsLMLN2s/pMek6zbEe6YjeeDquThbGY2qzmQ0x4cZ1k/agoHHi6A==
-X-Received: by 2002:a05:620a:4504:b0:7b1:49a4:d1df with SMTP id af79cd13be357-7b193f5d447mr1346573585a.53.1730124135325;
-        Mon, 28 Oct 2024 07:02:15 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b18d27a47asm321848585a.25.2024.10.28.07.02.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 07:02:13 -0700 (PDT)
-Date: Mon, 28 Oct 2024 10:02:12 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Hugh Dickins <hughd@google.com>,
-	Yosry Ahmed <yosryahmed@google.com>, linux-mm@kvack.org,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Meta kernel team <kernel-team@meta.com>
-Subject: Re: [PATCH v1 6/6] memcg-v1: remove memcg move locking code
-Message-ID: <20241028140212.GE10985@cmpxchg.org>
-References: <20241025012304.2473312-1-shakeel.butt@linux.dev>
- <20241025012304.2473312-7-shakeel.butt@linux.dev>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xScg+AQ+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UebAxn6F";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xScg+AQ+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UebAxn6F"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DEF851FD9B;
+	Mon, 28 Oct 2024 15:03:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730127795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
+	b=xScg+AQ+r9773h88ATgYoqvE9LTLzAVyt21/NiWiZuRS117NTvaFO6NT/4ilr8aDWMr9s7
+	HpPV2GxA9FD469HvT+3LOIaSezXURipz3MaYsubYoG8H0Sp2BQgP6SpxvAB61l6jumiqva
+	/FDxgEPZ+torkH6w+Uzt43Wk85i+jkU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730127795;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
+	b=UebAxn6FkLO0fi1wKRnqj3UZmwh6Al90gyqtSrXvt+QEzjrs/1pHjUweKTqLydeFpew2wO
+	ATg8vBiD9J0zIlAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730127795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
+	b=xScg+AQ+r9773h88ATgYoqvE9LTLzAVyt21/NiWiZuRS117NTvaFO6NT/4ilr8aDWMr9s7
+	HpPV2GxA9FD469HvT+3LOIaSezXURipz3MaYsubYoG8H0Sp2BQgP6SpxvAB61l6jumiqva
+	/FDxgEPZ+torkH6w+Uzt43Wk85i+jkU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730127795;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
+	b=UebAxn6FkLO0fi1wKRnqj3UZmwh6Al90gyqtSrXvt+QEzjrs/1pHjUweKTqLydeFpew2wO
+	ATg8vBiD9J0zIlAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 972E9136DC;
+	Mon, 28 Oct 2024 15:03:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id R7rUIrOnH2chDAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 28 Oct 2024 15:03:15 +0000
+Date: Mon, 28 Oct 2024 16:04:18 +0100
+Message-ID: <878qu8qnf1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,	Linux Next
+ Mailing List <linux-next@vger.kernel.org>,	Linux Documentation
+ <linux-doc@vger.kernel.org>,	Linux Sound System
+ <linux-sound@vger.kernel.org>,	Jaroslav Kysela <perex@perex.cz>,	Takashi
+ Iwai <tiwai@suse.com>,	Jonathan Corbet <corbet@lwn.net>,	Amadeusz
+ =?ISO-8859-2?Q?S=B3awi=F1ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: [PATCH 0/2] Documentation fixes for ALSA Co-processor Acceleration API
+In-Reply-To: <20241028111647.17378-1-bagasdotme@gmail.com>
+References: <20241028111647.17378-1-bagasdotme@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241025012304.2473312-7-shakeel.butt@linux.dev>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Thu, Oct 24, 2024 at 06:23:03PM -0700, Shakeel Butt wrote:
-> The memcg v1's charge move feature has been deprecated. All the places
-> using the memcg move lock, have stopped using it as they don't need the
-> protection any more. Let's proceed to remove all the locking code
-> related to charge moving.
+On Mon, 28 Oct 2024 12:16:45 +0100,
+Bagas Sanjaya wrote:
 > 
-> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+> A small (two-patches) series fixing htmldocs warnings on sound tree that
+> first being noticed in linux-next integration [1].
+> 
+> [1]: https://lore.kernel.org/linux-next/20241028193242.11597640@canb.auug.org.au/
+> 
+> Bagas Sanjaya (2):
+>   ALSA: docs: compress-accel: Format state machine flowchart as code
+>     block
+>   ALSA: docs: Add toctree index entry for co-processor acceleration API
 
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Applied both patches now.  Thanks.
+
+
+Takashi
