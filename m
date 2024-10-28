@@ -1,92 +1,108 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68812AE8C;
-	Mon, 28 Oct 2024 13:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0C6C1DCB2D;
+	Mon, 28 Oct 2024 13:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730121839; cv=none; b=Xv1/jYdHBuwDnC7XXBoRuMGkm6cGnwlm0QHrk+QKk/XlezWXsnbEu3OidAQPYoqh3Dsx+fOSo3alAimVHWmX374WZ7EdX/lBeJk55H32ku3DM2Cq9MoBzyB0zexh676ti7B5X7C8cSvqJRWzR7saRKpjH99tJfF+1d6cwP18DJo=
+	t=1730123024; cv=none; b=KyrjQlIXphI+pYYlv21K6RTO1G8Va345VMg5VSntDudjpQLwntEmxvaT+Wwm58UtDLrTkPzAbOB0F+zxBXVOHHI98yEELHtOsb9pYBfoxrnbzyEIta0W7qZGjsBiqxeWLAqZAunS0s0ClRBiPqmZPobu5/c0O7pSzaR8WjiKpLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730121839; c=relaxed/simple;
-	bh=gEMbi5qxENymLNxKYAFczZWzBdAX+/dVNMjqLtq+TDs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KDOdlDgfLBlZA4AmSbu0anRx0Saxf/H8nURxNi86uv0dHf2U/Nv2tfBZq7lPv4Hr7+cy1XD/d5P9Ma5JFnmD+DY5EEkE8uxubFBQ3S1xQkDOBxzT7aJFDDtYrFWevBOZJ9SjnKnWq4OPgsub2m1J1Mf6gEd8umeUL2rbrWG2NOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=njnJGrsW; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="njnJGrsW"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9ADEF240029;
-	Mon, 28 Oct 2024 13:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730121834;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=APaln243WoT7nii0on9C4x7guubAGe/M53+of8eJv5s=;
-	b=njnJGrsWVK9asMCMPGMctmF57Kox69zCrCfsz+LOIqCN4moXKSfkEO3SYkl9CsF/SPUrgi
-	0/4NmfIhsL9hEFP4VdVjkp7IUK+57okxYbKVA0QtmylfKdVn2iboGERuCvL5kDgxTNVhKs
-	41LVaa8rv/S7CMaITreDvHqf+p688YhDrjOzZlOCN8FGRChLQoxQFaAczDfw2yKTHG7AbS
-	kfYqZM17n5yO7ICwMC8Pcxv49CJbyqm0ycBmSLT/ikYg4ayQgLjFiUSwmK0bRxwX/iIrg0
-	qHYA/sZr+fgzC+aVwMcQ0I21hb4lpAxG+Xl8pZCFyzujAmbUBa1n2ivThXkCpw==
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Simon Horman <horms@kernel.org>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	thomas.petazzoni@bootlin.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH net-next v2] Documentation: networking: Add missing PHY_GET command in the message list
-Date: Mon, 28 Oct 2024 14:23:51 +0100
-Message-Id: <20241028132351.75922-1-kory.maincent@bootlin.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1730123024; c=relaxed/simple;
+	bh=uMi/PJfX0ne0yB7ZpkaQrwY7lz0yJr3IHebiWoYUnbM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XHPqLllFfiBZxOb5HjKCdOKy9qTCD1cVcmGwwoRQvQ1IK3XRN2nRvZ6p7+YhImFvsH9QWdY3Sd0pa8VQ+T053nHbgsA2XVDw9yogzqBOcddiq/9MY+o6IQqB4ADv0WeS7OXv8RAghpXWwbrEy1IjGMVdsnlQdukp9AP5tmPXUgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02037497;
+	Mon, 28 Oct 2024 06:44:11 -0700 (PDT)
+Received: from [10.163.42.200] (unknown [10.163.42.200])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C4103F66E;
+	Mon, 28 Oct 2024 06:43:36 -0700 (PDT)
+Message-ID: <92124be9-ffa5-4cf9-bec4-e7d3afb91a96@arm.com>
+Date: Mon, 28 Oct 2024 19:13:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: kory.maincent@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] arm64/boot: Enable EL2 requirements for
+ FEAT_Debugv8p9
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Brown <broonie@kernel.org>, kvmarm@lists.linux.dev,
+ linux-doc@vger.kernel.org
+References: <20241001043602.1116991-1-anshuman.khandual@arm.com>
+ <20241001043602.1116991-3-anshuman.khandual@arm.com>
+ <ZxfOeqyb3RvsdYbU@J2N7QTR9R3> <72700154-cbf4-4a0a-b6e2-6f0709dec0ce@arm.com>
+ <Zx-E_8SFV74s6xN8@J2N7QTR9R3>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <Zx-E_8SFV74s6xN8@J2N7QTR9R3>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-ETHTOOL_MSG_PHY_GET/GET_REPLY/NTF is missing in the ethtool message list.
-Add it to the ethool netlink documentation.
 
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
----
 
-Change in v2:
-- Change PHY_NTF documentation
----
- Documentation/networking/ethtool-netlink.rst | 3 +++
- 1 file changed, 3 insertions(+)
+On 10/28/24 18:05, Mark Rutland wrote:
+> On Wed, Oct 23, 2024 at 11:42:37AM +0530, Anshuman Khandual wrote:
+>>
+>>
+>> On 10/22/24 21:40, Mark Rutland wrote:
+>>> On Tue, Oct 01, 2024 at 10:06:01AM +0530, Anshuman Khandual wrote:
+>>>> Fine grained trap control for MDSELR_EL1 register needs to be configured in
+>>>> HDFGRTR2_EL2, and HDFGWTR2_EL2 registers when kernel enters at EL1, but EL2
+>>>> is also present. This adds a new helper __init_el2_fgt2() initializing this
+>>>> new FEAT_FGT2 based fine grained registers.
+>>>>
+>>>> MDCR_EL2.EBWE needs to be enabled for additional (beyond 16) breakpoint and
+>>>> watchpoint exceptions when kernel enters at EL1, but EL2 is also present.
+>>>> This updates __init_el2_debug() as required for FEAT_Debugv8p9.
+>>>>
+>>>> While here, also update booting.rst with MDCR_EL3 and SCR_EL3 requirements.
+>>>
+>>> [...]
+>>>
+>>>> +  For CPUs with FEAT_Debugv8p9 extension present:
+>>>> +
+>>>> +  - If the kernel is entered at EL1 and EL2 is present:
+>>>> +
+>>>> +    - HDFGRTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
+>>>> +    - HDFGWTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
+>>>> +    - MDCR_EL2.EBWE (bit 43) must be initialized to 0b1
+>>>> +
+>>>> +  - If EL3 is present:
+>>>> +
+>>>> +    - MDCR_EL3.TDA (bit 9) must be initialized to 0b0
+>>>
+>>> AFAICT we need TDA==0 this regardless of FEAT_Debugv8p9 (and e.g. we need
+>>
+>> That's because MDCR_EL3.TDA=0, enables access to many other debug registers
+>> beside FEAT_Debugv8p9, which are currently used and hence this MDCR_EL3.TDA
+>> =0 requirement is a not a new one but rather a missing one instead ?
+> 
+> Yes, that's why I said we need it regardless; it's an existing
+> requirement that wasn't documented.
 
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index 295563e91082..b25926071ece 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -236,6 +236,7 @@ Userspace to kernel:
-   ``ETHTOOL_MSG_MM_GET``                get MAC merge layer state
-   ``ETHTOOL_MSG_MM_SET``                set MAC merge layer parameters
-   ``ETHTOOL_MSG_MODULE_FW_FLASH_ACT``   flash transceiver module firmware
-+  ``ETHTOOL_MSG_PHY_GET``               get Ethernet PHY information
-   ===================================== =================================
- 
- Kernel to userspace:
-@@ -283,6 +284,8 @@ Kernel to userspace:
-   ``ETHTOOL_MSG_PLCA_NTF``                 PLCA RS parameters
-   ``ETHTOOL_MSG_MM_GET_REPLY``             MAC merge layer status
-   ``ETHTOOL_MSG_MODULE_FW_FLASH_NTF``      transceiver module flash updates
-+  ``ETHTOOL_MSG_PHY_GET_REPLY``            Ethernet PHY information
-+  ``ETHTOOL_MSG_PHY_NTF``                  Ethernet PHY information change
-   ======================================== =================================
- 
- ``GET`` requests are sent by userspace applications to retrieve device
--- 
-2.34.1
+Alright, got it.
 
+> 
+>>
+>>> MDCR_EL3.TPM==0 where FEAT_PMUv3 is implemented), so we should probably
+>>> check if there's anything else we haven't yet documented in MDCR_EL3.
+>>
+>> Will scan through MDCR_EL3 register and match it with existing documentation
+>> i.e Documentation/arch/arm64/booting.rst. If there are some missing MDCR_EL3
+>> fields which should be mentioned, will add them via a separate pre-requisite
+>> patch ?
+> 
+> Yes please.
+> 
+> Mark.
+
+Sure, will separate those changes in a pre-requisite patch as suggested.
