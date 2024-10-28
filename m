@@ -1,83 +1,80 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798611917DE;
-	Mon, 28 Oct 2024 07:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031DB190497;
+	Mon, 28 Oct 2024 07:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730099901; cv=none; b=M2FRqQ0P4CY0/ji6R0A4hv+ujk/98Nx2v2AJkCh2oN8WcnhgT2QJ4+WhSNqTqn7S4fk0e+BEUF7sBKb8Ak6zrA4cZMWpRdOqvfWITD+C0Tkka3A3O/re1pl0IIIoufRChKRmHe8IHUhuTV0iLdhVoQesM5cIq3XOyDIDwSn3pcg=
+	t=1730101098; cv=none; b=bwNxKFjLG1MXeJMLEDt9eEIMRwDj2Um483VSOwilR3q3BNpHnwCTzLwUdxE2uIr7kh6d9QHc4iS1MkDgBYH/DbDWB2CaEgNZ2a5CXO21J883jXXQa0bgx3LRUzQYSQsE0e7gJyOaVtOqg4uhWLUgs4SNBQs6WbQCAVK1abntTE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730099901; c=relaxed/simple;
-	bh=oOXwulWu7DHoLTysca4CnqlqJ0RQXfR+t0fEwS1LUus=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R8xky5EkjzdSFLZtBFXeQIepotIUEITu3dSZtBM9RAKgFdr5TGHb1ORmTHTXYnktfnSxWlawy9+a+i/FAZq/ncTI//v2SQ1kl7o4Sq2k7kyB1gn1hLDV5xUeycZp9h1iTTcLUhXRTOsP52zwojfAQ8cw90RNpEiweJLRDvOstfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lXSyhIrN; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1730101098; c=relaxed/simple;
+	bh=mHL5eTsDx81dznD2XHpI6gh/TNkyu/7U/1ufhRQdCY0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ISPI+xLPFT2pbQFD+kvHTL85kV/1punrwfZ5gNwNDKj1t3ZhyLmSMf8X1JCyQBUia5FVahiDbtj53Aickh0yXdCuFjQOQnOj7NNw5YXPLFub8hUEhgbcYXyPG5IYRWp35DgoFYOCIcQh7BxF4p0ahlrLG3i7LKPTnKkVfiZZTp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LehP+hVh; arc=none smtp.client-ip=209.85.214.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lXSyhIrN"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20c803787abso30437935ad.0;
-        Mon, 28 Oct 2024 00:18:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LehP+hVh"
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-20c9978a221so41484065ad.1;
+        Mon, 28 Oct 2024 00:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730099899; x=1730704699; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1730101096; x=1730705896; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BAmlP3w7cbuw4vs2LRWu6ikJXLe5vZx2U9ot0QY3nzg=;
-        b=lXSyhIrNrcrw6YfO6Vme38JKjklDbrdu5C9DSWiWH0zEVSDUiG7JxdPRvwevgvpFHL
-         oez/mfen8RfSv9aQM6Jbb/mncuKBh5xPsQvBS/Qk/hpDJgT2tWgPO78BF3yfPOcg/Zjt
-         ro4xL+6nfVhHgyNDcceDxtCoH1Q4+JfA5Fl/2E0DVmqsGp3MLXGIcI26mHJMlK+3+y4w
-         r2QVF728Vts60x6spbA/apWzJsENpq0NvM5Tt578tDDANVYMKiLjmsN7K1j1htRvGmc5
-         /R342EqCrfvVwKMpxGokuF92shpdKf2BtOxQ9wlmm1L0dhoaKdxKiLvLVaEHvHfInQvR
-         b41w==
+        bh=S9Jn9b1SoHwPkzr1uX2+IeCKA6+vPqFBEeVSpXW1yoU=;
+        b=LehP+hVhJOdiPhkrRrsw3i81B0f9NRfZnzM6PWAECPZWbbxdqpUmKIcvuW7pGisVMs
+         tYJ6whtc4YQwsr4NBlm+DZCMktRtcE4GRQBz+QlhIBakKME61jVSxmx7HQvBFU56pcfH
+         KigrM0q416oV7yd3pyjL1yAO9AL6xurb0cg+UqFAG0ikS+uzgTPAkUzzoHWdCzEEvWHA
+         pmeZjEbac9FsjQ8xTUrRRB2QWtjBrurPFvyBFkqmiNCe/z7ffhmH34IhPTtsah0WT6HR
+         c/xM9+2AM3OVu+OJc5Zfl+6HgfhIsADZyHI3swegVDWpMNzIZ9xGVM/v93ziTYkgeoKm
+         wU0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730099899; x=1730704699;
+        d=1e100.net; s=20230601; t=1730101096; x=1730705896;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BAmlP3w7cbuw4vs2LRWu6ikJXLe5vZx2U9ot0QY3nzg=;
-        b=suKBzDAS646hIBCdVANpEoQli8bGF9K4liO+FhE0ksdsKirR4r85KnG+FkmwtvwdBV
-         B99ym8JF6nIABqPCPjJiet6bF8ihRHIjKlOGogoVzIy3cS5xDYXCuh/EvNY1G0MxRmgn
-         qFPqi4B3s4bh+hu7d7zsHQHTYqn1JO0aQ9tjXAnxQ7xaPlfnkxQZCshfEQ3b4icdRwX1
-         ASFHq5YjABU6sg6dEW3d83AARv6erxCoNCoC6wcsSYJ8ttgEcyLQmz6OBYEsYWS30DYu
-         vEruC5ZbAqO+iQ0rpGKHmyTcnYNAALxmZ6g01VTus1Hc+spOdzE+ylmrFrEVGNPxzsTF
-         pnUw==
-X-Forwarded-Encrypted: i=1; AJvYcCUezZfZf/CBfB0fdEJZuIYqiQPqNfrw0zaM7yFKPisruwk+4URzsX6jYNwJfePm0MH7G8ZlIA+W5awo@vger.kernel.org, AJvYcCXT1ZZN9W1ZbhaoY9dhFGUtX05hIgZWK3qcV0Gx44kSE9esWDmT/t2q7T/BcsdaakcV/OGv0KzFM+AxdsGu@vger.kernel.org
-X-Gm-Message-State: AOJu0YycMKiskiUdLmTJKt9ufkInYhcp4ZaZ4CgRNIMMsMNLTJjC43oH
-	RRMvwTB77hMpZyakrEXPY2LsCCW6kEaJKpSRhw66Wprc4xK2IOwb
-X-Google-Smtp-Source: AGHT+IEUoa5ZbRgyUDvT5sSSexEjNU5hWJ5BN3DtO5DSUyaxLGN5Xl3CDpjSkdhit0QPMLIFVQ49lQ==
-X-Received: by 2002:a17:902:ced2:b0:20b:5aeb:9b8 with SMTP id d9443c01a7336-210c5a7154bmr120474645ad.24.1730099898614;
-        Mon, 28 Oct 2024 00:18:18 -0700 (PDT)
-Received: from localhost ([2001:da8:7001:11::cb])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bbf44550sm45265605ad.14.2024.10.28.00.18.18
+        bh=S9Jn9b1SoHwPkzr1uX2+IeCKA6+vPqFBEeVSpXW1yoU=;
+        b=MHejow0njTq+FRqAqrcSpQsGKsotvt9g6yrNiE1tEpD9ch0mz3sNxsJ0SkPRg45CQl
+         dQ1fGcBYR4m0BMj3SnFygSfkgtfXOcpJnxAl1ZzEXVard4CMhlDXHkI/YOHdYj2AvvuX
+         Nl7Fun9jOW9HTswwuzV1MJBeWAq4lMccKvvDel7Qkisj0ZUbVcKfDhh4kvZOkxPQ3nix
+         BNWC9yWROmPILBahS7u1kEhhwQ8/Rgp81Zv60eve7Emz/dmw/FdbpfPqz57Wjgt+xQt+
+         VP8Jn/3RLqgAa/c0B2StgrrZPE9NypwZghEhNlwwRQKgnZ7/pIs7fsMB4YiTniPSkpLq
+         8NQA==
+X-Forwarded-Encrypted: i=1; AJvYcCUdvmzvbVbcxvvvJ5gKys5QkrpSRB/UqVNDN/Q6wDb61Z0H0tzY9VBFbMCFQ2K1rwU6r1nflTiegIk=@vger.kernel.org, AJvYcCXNejH/E6yrwIFbgCzw2F4mD2+uKgKO2euu74b8f2kSqk8h4HlPEpPleX0Pom1hpGehqH5vp/JQWbqNFVJX@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCiZKsN5m3qBlzkBsEMa7ANiC+fjRE0q6HHHh/HgT+JY4VKnTy
+	JEOfpptNOxw43PxAN/jpUSjDkjIh99IWVOKGQ5Dr3u/fS2cohVM1
+X-Google-Smtp-Source: AGHT+IGxSKQGIz43se9nrgtLUp6fdhXdXWR2R/qH8wtV35tb/u1Z+NxtbSi/ZhTn+RHZlGAYgj2KAw==
+X-Received: by 2002:a17:903:2442:b0:20c:5cdd:a9e with SMTP id d9443c01a7336-210c6c02482mr75533615ad.28.1730101096090;
+        Mon, 28 Oct 2024 00:38:16 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bbf6bc6fsm44951945ad.63.2024.10.28.00.38.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 00:18:18 -0700 (PDT)
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Andy Chiu <andybnac@gmail.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Samuel Holland <samuel.holland@sifive.com>
-Cc: linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
+        Mon, 28 Oct 2024 00:38:15 -0700 (PDT)
+From: xu xin <xu.xin.sc@gmail.com>
+X-Google-Original-From: xu xin <xu.xin16@zte.com.cn>
+To: corbet@lwn.net
+Cc: alexs@kernel.org,
+	fan.yu9@zte.com.cn,
+	he.peilin@zte.com.cn,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH 3/3] riscv: hwprobe: export bfloat16 ISA extension
-Date: Mon, 28 Oct 2024 15:17:43 +0800
-Message-ID: <20241028071746.869740-4-inochiama@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241028071746.869740-1-inochiama@gmail.com>
-References: <20241028071746.869740-1-inochiama@gmail.com>
+	mudongliangabcd@gmail.com,
+	qiu.yutan@zte.com.cn,
+	seakeel@gmail.com,
+	si.yanteng@linux.dev,
+	tu.qiang35@zte.com.cn,
+	wang.yaxin@zte.com.cn,
+	xu.xin.sc@gmail.com,
+	xu.xin16@zte.com.cn,
+	zhang.yunkai@zte.com.cn
+Subject: Re: [PATCH linux-next v8] Docs/zh_CN: Translate physical_memory.rst to Simplified Chinese
+Date: Mon, 28 Oct 2024 07:38:11 +0000
+Message-Id: <20241028073811.2980032-1-xu.xin16@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <87h68xw6nr.fsf@trenco.lwn.net>
+References: <87h68xw6nr.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,51 +83,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Export Zfbmin, Zvfbfmin, Zvfbfwma ISA extension through hwprobe.
+> >> > From: Yaxin Wang <wang.yaxin@zte.com.cn>
+> >> >
+> >> > This patch translates the "physical_memory.rst" document into
+> >> > Simplified Chinese to improve accessibility for Chinese-speaking
+> >> > developers and users.
+> >> >
+> >> > The translation was done with attention to technical accuracy
+> >> > and readability, ensuring that the document remains informative
+> >> > and useful in its translated form.
+> >> >
+> >> > Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
+> >> >
+> >> > Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
+> >> > Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+> >> > Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+> >> 
+> >> One does not normally put a Reviewed-by tag on one's own patches, so now
+> >> I am confused.  What is the role of you and Jiang Kung in the
+> >> presentation of this patch?
+> >> 
+> >
+> >  Let me explain that, it's because of our company email permission policy,
+> >  The author of this patch, Yaxin, has no permission to send out the patch
+> >  temporarily. So I'm just helping to send it on their behalf. and at the same time,
+> >  I'm a just reviewer, not the owner of this patch.
+> 
+> If you handle the patch and send it onward, you need to add your own
+> Signed-off-by tag stating your right to do so.
+>
+ Ok, I have resent once with adding Signed-off-by.
+ https://lore.kernel.org/all/20241028135321916ZWK032bHhlbncjvmzDkZs@zte.com.cn/
 
-Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
----
- Documentation/arch/riscv/hwprobe.rst  | 12 ++++++++++++
- arch/riscv/include/uapi/asm/hwprobe.h |  3 +++
- 2 files changed, 15 insertions(+)
+ Thanks.
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 85b709257918..8c30dd06f3c0 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -239,6 +239,18 @@ The following keys are defined:
-        ratified in commit 98918c844281 ("Merge pull request #1217 from
-        riscv/zawrs") of riscv-isa-manual.
- 
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZFBFMIN`: The Zfbfmin extension is supported as
-+       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-+       ("Added Chapter title to BF16").
-+
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFMIN`: The Zvfbfmin extension is supported as
-+       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-+       ("Added Chapter title to BF16").
-+
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFWMA`: The Zvfbfwma extension is supported as
-+       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-+       ("Added Chapter title to BF16").
-+
- * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
-      :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
-      mistakenly classified as a bitmask rather than a value.
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 1e153cda57db..95d00a065b4e 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -72,6 +72,9 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_EXT_ZCF		(1ULL << 46)
- #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
- #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
-+#define		RISCV_HWPROBE_EXT_ZFBFMIN	(1ULL << 49)
-+#define		RISCV_HWPROBE_EXT_ZVFBFMIN	(1ULL << 50)
-+#define		RISCV_HWPROBE_EXT_ZVFBFWMA	(1ULL << 51)
- #define RISCV_HWPROBE_KEY_CPUPERF_0	5
- #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
- #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
--- 
-2.47.0
-
+> Thanks,
+> 
+> jon
