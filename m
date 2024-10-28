@@ -1,257 +1,213 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEEF18FC75;
-	Mon, 28 Oct 2024 21:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730149509; cv=none; b=uMWtCwT6/ThqSUtRmaEY71+M9eMxWpz8VHFPir/zjSMjG68afCyMt7IANQSqC0u0JO76Y4LcDZ9ueiGy93swtUvDSQvH10rIP89RYn0Sjr9NxJDTN8PTGl7CGrYXWxA5t9ynYjOhcXISG9icsKRZmyXlH3AitgoHDjiAJhUvoaw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730149509; c=relaxed/simple;
-	bh=/eqOJMR5/kRv1PZUjhCMyPYy8GBp0CAd6+vdfLRQbdI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gkz1kV8NsMaJvfL14ryPE/WajsY/caB1/WnagiiT1D7tb6sFt0i0iTNnivSu3gc4FBkGxfpSGsGbGrWVYQyOIC0x2Ob6MFq2m5129THHADSzKcG+UoIabHi0136XMhKk4GKHZ5BSIXFE4pC4Cd9BATdXmfrpwzceX6hdKj9DL6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=auQDsa9M; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3403F1D2796;
+	Mon, 28 Oct 2024 21:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730150991; cv=fail; b=qP52P/ljGTb2aGaPa9qyX+Nfzwdc76V9L/b8bDpeNxlMH/0XuUVfubqpmvkEly5bjxs3EZ/x3rPhqfykkJKfXkjo8RzumgKQCgAvqlE1VUmOV23W5+Dfxxk3iYGWcoSdPSXdpnh73gEjZeVqECB/EkgespBx9HGpLV357GRn6dA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730150991; c=relaxed/simple;
+	bh=ichky8FsL2d2dD2oxS5OUmpLsgdok5NIvx2KXuX9FVU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=kic65PXiHqCrg+Y+z0fXhHjZ9rfIbE4HCA1oJn60pY4GzmvyBCk0DwYnNW78pVQeRlrm1w5jDk6EGdVjfaNqH2sE9tHKygP5ltd133O126ptm3wOaes2n4lk/19wLGgLbAXZ89Ga4MtlxiqxcjcVAkAM/Tnus/B/3B2Xl2UqlCM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aa+93kXg; arc=fail smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="auQDsa9M"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6ea051d04caso12213177b3.0;
-        Mon, 28 Oct 2024 14:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730149506; x=1730754306; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aLEBUO3zgTSFGN59d665N/08QPwfc0hewb2QT9/bCXo=;
-        b=auQDsa9MSurdqhXqznEynN05nQULs+sEUrDUJtpCKqMJcAyDCYdAghDJI36+VRjffh
-         iRhvJfuaUjpeELxtMxY+S1o0gIp9ya5zxCGvMiCmdb+9fKDg3hYRcLo+Xn5FS4dM599P
-         M6YIG+sMnIgDwiDm4C3ci/r18EoaPs/pN664w3OcKrWrOhLWS1hpeTsWJAy2Vw8Rjczz
-         X7ycBRcs9akzzS6CgpobV54lCblm+xy9C8CWBWNTJa+gwD/1DeUFTqpP6YCMXCQBwK5j
-         ugzmOSaUT2IwHeLDAdeBWzKUs0UlvezccU+CZyisHywOWB44PqlZWWBBJn/04UEks5yz
-         wooQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730149506; x=1730754306;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aLEBUO3zgTSFGN59d665N/08QPwfc0hewb2QT9/bCXo=;
-        b=uBVRJmsnYw+wl6S3rCR9Z0LBxqPIOoRi3lJhfL9BNGrY82oW4bNfNdmNslyxLS7n29
-         JkF+QRWaRlVqIkegij8KOmRmrGvKwXjriT7lvCAbBYtRYeAL1rnJwWCJ2yrKDuGuHJDW
-         T61yoIQ3vYegh4OiRXTTH+9YzFQWqSWsG4ZQI99haaZ1WzMBWchLHtBNstQe005Akq5C
-         P5I2RcUUw3wkeeEotizbC3AFRK+rg7jou0i4A2Hx8bDbVmrEQCnR2VqrDG9A9fPvxwo1
-         rKkTZ1HK2Il5HeZ0utjTz4Eg0/2IlgUGff+D3xGZppoc9u7nwzEXnIA6VzD0nBLYp5S0
-         sjFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUTwQjDCeUc5+/q0jqqqGHrS5T5U+UBAcnkLWyYD62h25ex4NpwTEWvjocXFnI7mdZWqKBEyXQNKt6CFi0n@vger.kernel.org, AJvYcCV33y/D5GMiilnqJ7IFB8o100Pe03BEj9wO1s7+diM42+d988SpxdKnYa4FarZMX3J/5gyrrIQmchnQ@vger.kernel.org, AJvYcCWlOYOKC3CnCQXn7qpyFZehC/SNtZrBsKnLKM0jjrFBZPfCdeYKgdEY8hjIqoOWNBsdYX7NLpew@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy52Bw98U5zEF9e18SujQolLmO+/tbaZzoCfT6C54INHge2kfk8
-	yiNBPcixAcshGGhLmRA8oBgNnzEwP9Qw3uSdKfIXwiDiy7Oa4N0N
-X-Google-Smtp-Source: AGHT+IG+IPKm2Fw3hNr6RVtM0QZGyoPz7y6L5l00CFINrofIoAx5v5ae8AlvQ2HENfUdx2ayHL2eZA==
-X-Received: by 2002:a05:690c:6085:b0:6d5:7b2f:60a0 with SMTP id 00721157ae682-6e9d8afb26dmr97249987b3.34.1730149506371;
-        Mon, 28 Oct 2024 14:05:06 -0700 (PDT)
-Received: from localhost (fwdproxy-frc-034.fbsv.net. [2a03:2880:21ff:22::face:b00c])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e9c6c76a07sm16223747b3.81.2024.10.28.14.05.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 14:05:06 -0700 (PDT)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: hannes@cmpxchg.org
-Cc: nphamcs@gmail.com,
-	shakeel.butt@linux.dev,
-	mhocko@kernel.org,
-	roman.gushchin@linux.dev,
-	muchun.song@linux.dev,
-	tj@kernel.org,
-	lizefan.x@bytedance.com,
-	mkoutny@suse.com,
-	corbet@lwn.net,
-	lnyng@meta.com,
-	akpm@linux-foundation.org,
-	cgroups@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
-Date: Mon, 28 Oct 2024 14:05:05 -0700
-Message-ID: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.43.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aa+93kXg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730150989; x=1761686989;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=ichky8FsL2d2dD2oxS5OUmpLsgdok5NIvx2KXuX9FVU=;
+  b=aa+93kXgevYO5QLrxHX9CHI7kDGlorn9JCKRtvA2hgYX6YjQhIRKzCyc
+   qIsZNZD7QcaLUFQxEGFDOyHGgC19DWXmyV/IS+gwsQGgz30k6r6iKPw+f
+   CedUggBAVzfiNKSdw4cw25JNigJMaJxYZ8j9aikEQAORE1DCGLfE4Llo+
+   8e0OQqiwcIl4vgJy25x9ijjm8vHViE9hVR6VeBUR84b9UZJmUW91pC5Mr
+   HLqslL4jjFfcf2J48gRqS30qBlGxX5xgzHWaNHZVW0mANCKYBUtuS4HtL
+   MnVWo+qnHQKgIo/PBaNHnzBhN8lTxiGrWu2qjp+7fNMy7muDnIqJago+6
+   A==;
+X-CSE-ConnectionGUID: LcmWUNCbQoOjb96k0VsDxA==
+X-CSE-MsgGUID: OqxFmKnnQCKyFiLPow3lcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29540861"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29540861"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 14:29:48 -0700
+X-CSE-ConnectionGUID: DHKMk1MKQMSVHr3vEfNExQ==
+X-CSE-MsgGUID: nmNHMAGBTCOpv4EcAhp9lg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
+   d="scan'208";a="81901551"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Oct 2024 14:29:49 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 28 Oct 2024 14:29:48 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 28 Oct 2024 14:29:48 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.43) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 28 Oct 2024 14:29:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LKPgXqZ6bb2d0bj+fWanefwxlA6BRk9V8QXZ+MhXEYL9U291F6kHVjeuPRxve33MkFSXdTxHZVYVJBYJ/jkATFqxzJtbHc8Iw2NO09WiZNJQXuqOPZDLLkFQ3nS0a1a36jQXmUNbCmW50tkLAH2hWCsNqbjUMI5Rg5eDRRo+CVyAs/MjImq8Bp4bmvVINlqyyGdgWgNJgkSRqx0C3y2Q79R53902hYSXj/WWA5EQ3SYS11gr/KOSdVI3T4ly/1Nvi7RyztrILhW7GjxA70jmnhSke+P3fg2HD7zVcHVDU/TXX+dDKZNoX6jFq4gwot3xUo7+HCft9ggaBt6iWWcquw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LV8QOwRmmg3h+z1kpOgh7/wjf1ezJCp3ck6NReeLYpM=;
+ b=ISX2HQ0TtSXxVnt4EqUNAD7D5me11G8WSuy5afe9jyYFmvolSn4e8GaPgbUYBu1tau50S00tGOSfGeuVQb0X1bailcJN8iMwd/6fH1KrjSX1y8IlcFD8mXFmorZWUVlOAdqaSEX0LAG5tjgNYQ2pqZ8vUrk7CGfNpvn1ldSojLGXP1cN2oyg5KX0pm8/Ozm2liovqDwV5fEX1GIB3ia+Vk8vWyJSKACcU4gRJ+6aBSs2qtqPU+MWpajGmFRxGxxbMOWogD3gaHASRP4CpiabB4aMXyD9+QA8gfinFLyRvWbDoJOeF80brSbPOKtUZcB8MboKt4GAlQm7sfY8jJIyEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by SA1PR11MB5801.namprd11.prod.outlook.com (2603:10b6:806:23d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.27; Mon, 28 Oct
+ 2024 21:29:41 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57%3]) with mapi id 15.20.8093.018; Mon, 28 Oct 2024
+ 21:29:41 +0000
+Date: Mon, 28 Oct 2024 16:29:36 -0500
+From: Ira Weiny <ira.weiny@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Ira Weiny
+	<ira.weiny@intel.com>
+CC: Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang
+	<dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
+	"Vishal Verma" <vishal.l.verma@intel.com>, Dan Williams
+	<dan.j.williams@intel.com>, Fan Ni <fan.ni@samsung.com>, Bagas Sanjaya
+	<bagasdotme@gmail.com>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-cxl@vger.kernel.org>
+Subject: Re: [PATCH v2 1/4] test printf: Add very basic struct resource tests
+Message-ID: <6720024064336_865e2949a@iweiny-mobl.notmuch>
+References: <20241025-cxl-pra-v2-0-123a825daba2@intel.com>
+ <20241025-cxl-pra-v2-1-123a825daba2@intel.com>
+ <Zx9UNA5Ht-RrWFIh@smile.fi.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Zx9UNA5Ht-RrWFIh@smile.fi.intel.com>
+X-ClientProxiedBy: MW4PR03CA0109.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::24) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SA1PR11MB5801:EE_
+X-MS-Office365-Filtering-Correlation-Id: 14c06f96-5d5c-43fd-7c26-08dcf797a234
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1ZcEEWjK8hNYjfJMiGVB3KBSjfjHwYNHJ2KMW6gEVX8WA1BrH3aEkTGEuB04?=
+ =?us-ascii?Q?RaLmu+0oso2W18N8BPlvR8Rbbmi38HnizALaoiURe9s0wM+VdQLYu/hQuUlF?=
+ =?us-ascii?Q?SeaHs0Z2tWY6FZt7vP6B4y49Ci3GUhzAmMFE5mLbep/8El0t1BKTPc2vXtF9?=
+ =?us-ascii?Q?TKYlgsUed6dC14QN6dhIpXbtQWc2VEe0lpLdhESf9YcyJ8L2dSIu7nEfDvbw?=
+ =?us-ascii?Q?F9gaK2MJanlYsK3WFny9C6YjR2pbjrgJ8HcY5byGU2Ds2+L5eRyYdplFEiKP?=
+ =?us-ascii?Q?1LF289AhH7AHTTbJkc/OIioMkyCYAJ77kQZCPHADlfhDulYBcuy1INCblaQM?=
+ =?us-ascii?Q?6cjY41uWy8FdI2ALIpBqKPhmFk45cWWwb//J9E2ZyZffLF3wnKPrbI/rshVy?=
+ =?us-ascii?Q?jEbywnlYDO6A7BubWxinTXc97OLHAKH0YeDI8g7XiAM/envAGOP998M3cjWh?=
+ =?us-ascii?Q?mEE9pVdMLjQh6EwBErYV/nOcf3Qzpvbv0zsewBar0vVpsENo5YQEt58R1wFD?=
+ =?us-ascii?Q?dTU4xAFNBMv2vFc6Q1WOpSp9p8hoOvgox7OqVPeaY1DHAby0gK1YhChdj6T+?=
+ =?us-ascii?Q?FYe16Ti/OAWQRSqIevlcbNeVHJ7bHsm8+NynDbvRFC2wxI8iXWlcuyACtL3F?=
+ =?us-ascii?Q?DSjpakB6VnvPhR48W2FIqo2LUGvM5TI70YaZZy6CZoq1mA8xp+kKejfjiRw6?=
+ =?us-ascii?Q?XR0j+NThGWTQwEubUi63GwcQtmHJDuvkx8vp+wf1QUh2wt63h2vMc4UDhcoG?=
+ =?us-ascii?Q?JP6U9e+i5xWNGHc5qk47U7uVd3TT+N9rVXBHJUesIvaqqk8Kxb7HI+iwkIAn?=
+ =?us-ascii?Q?KqsZD7wWsn5mGSB8OKUH/SzDfN3bmF5VPx5vc9kXJerAYsxqmO/0h0aQ+hYo?=
+ =?us-ascii?Q?BlpUa3XPvGkSmC3NovNExB9poTEBOzhKdncSBoxud2kv8iRCkmNY3+4GzZqU?=
+ =?us-ascii?Q?cv43IVdtOn2823jvj4tip7SViDdC8ZV8cD1Svi98W8Szdd/gAS5P3ZaXafqg?=
+ =?us-ascii?Q?QIHgsXalce/NVz3qJT9opVdX/1qam1RpmOTTrfwSke2NyJs1pGOb9uALpE4d?=
+ =?us-ascii?Q?GA6OOX4l8/mBmaRnr92hWaQSE40DLK7g17ALDE/JwiL85hsGkFxAp0etSRRz?=
+ =?us-ascii?Q?7MenjSehSGFCddBzHkM/lZ2DM7E+MLa+MiJfEUHfxzXuQ92nWW3fyJOFXoMZ?=
+ =?us-ascii?Q?0Q3JQ91P8pmPhj/JtXkLPpCdBv65HwApUnv452YY7nwgnpjDCMvUezLFy6Ot?=
+ =?us-ascii?Q?DptoJXTXzQoGNlEigKRb6qs1JmTGtyeaeDNQQZvqrpeuiFxWDscx4UIVY7kt?=
+ =?us-ascii?Q?gZI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mK9qZXBsnAqoAsQIr6rHCxZNnaSq0c6QjMWFL5b0kTwAnmvr6kZsUmaZqmyg?=
+ =?us-ascii?Q?IMS14KQPQU/2XIqpL28Pei1aqcClI5I1mLRP5GTLHPscx0U/RdYUv2dOCBCj?=
+ =?us-ascii?Q?6gYnt3Gus41H7dN42Tm3kqxYKTysejJfKq3L0HYgwCVO58B3lliSr75zyeIC?=
+ =?us-ascii?Q?f/OG7IAJvFDqqpwy/q2ILjou1ph0sQgrbNBA6Mt9s9iHcuGrC7X6RJMlolV+?=
+ =?us-ascii?Q?WNx72kh1/TNXT/CaT2csRJesc63/7AjWm8crLVRvubH3fzTCYKTVNZlTRlhv?=
+ =?us-ascii?Q?rgwqyfSlGHqtx5/UwaGHziq5NEq5oZ2MV0Rlqb+Axm/YCqesWganPVKM8MDc?=
+ =?us-ascii?Q?5ksWgJvcAo4i+FK6C/YpVDOZywgeqVDd2T6xFmin4pDvfnjcXAkMRpn2RhbY?=
+ =?us-ascii?Q?IFy9ayCPu+3Jq501gXbaIBOOaIDW0hWqCqqbEzHg0wlMLYjNsZdRmt/yiw8x?=
+ =?us-ascii?Q?ZXd3dsR98m77wZ9/0UwVsjQFPR6WYIQ6uiN+4ZQvfEtaySrEc4JdOKph7rKm?=
+ =?us-ascii?Q?KqJGSm9shF2qdXjediFR52v3f/mdVnyamiTbz8lBSX+krwni8kEx2kRw0b+6?=
+ =?us-ascii?Q?6cSRzIg68O7KxUD33eYLRKVapzpDh5RC2WMYDzOH+q5spbDzZgPmyDUxzEJq?=
+ =?us-ascii?Q?X826Tht1J8BWFVqP+z7hdwoibnr/URfugSzWiCAbbdcZ5RUvfE8GnVHPq3XV?=
+ =?us-ascii?Q?NunN9X/amkH65nqhulExWitAkC5BwpR3HjMLozsPwi8v1CcRPp7MT7XqUUeQ?=
+ =?us-ascii?Q?cieJSWMFeiicwfbvZe2slk704pEL6RuFjZDfg//vv/STKnDotGd5kMEvic5P?=
+ =?us-ascii?Q?iuv/grP4h7zWuNoWyM+3jB3NNZfksjSQUqLPnjhpRWI4ftZ35gbztVq/xBBh?=
+ =?us-ascii?Q?GXa9Kuh1diQzFbYLHJmjLUm05vubVrQhC0lstqauAPdXNQQe+aOeVeyNWpA8?=
+ =?us-ascii?Q?sVP8lW7lyoRtD9zDD/d12dy16INT3n5B6bvA63elFBLOaBAVTNNgu2Ktv7Z6?=
+ =?us-ascii?Q?xn6riyiH2B6aB/jgFqfx5Vz2MVrwU4MArZA1FBLup/XJ8PAXyYnD6koGVjzr?=
+ =?us-ascii?Q?LmgPHR7JP33/Qdu2sbDhWU36m39YI7Q7v13TpZ5XE+xJVeYJ1VGaH86rOd4K?=
+ =?us-ascii?Q?F5u6alxrahqFGTZ393UNbaQgQJqvxe18FRsVMq3zpB5ZkdW+gtrruVHL2VXo?=
+ =?us-ascii?Q?kKcYJX6SCf3JhieQOcFt+L2hJ1/WGFkFPdyZoVDXSfG+CclyRR3FyzrMmv3n?=
+ =?us-ascii?Q?38aLBeRyFpMRGlWt/oVlSNJzbQB3/JSewwDISBSMXkcW/6+Aia1YXJvju2/A?=
+ =?us-ascii?Q?qCAe1fBfFtehfIzcU+VUIetsnTEt5xO8B1oLpRKA3LrekCu/bWuDOBOk1M44?=
+ =?us-ascii?Q?by2c84Mm9xiIYdKaonzQatYySu8qUjjFnfPqtUUmGznZVBo4W/UUPOuPQQcK?=
+ =?us-ascii?Q?XHl9C9UldQV2/fZLYvyUYdbQlgmkNhD3qJ3RMNU8x0U9+/STnIz0bw91U+S5?=
+ =?us-ascii?Q?WXFJQwrUURrPn9y//jJMO+fMPsg6auW8uyWfKc7vwP7jnw2TOZyHXskXQ9TX?=
+ =?us-ascii?Q?/EUFtrs2kByKtZg8tI552pNgW5nN1aCDDRBAN7fj?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14c06f96-5d5c-43fd-7c26-08dcf797a234
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 21:29:41.5089
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F6/O8YSm92/idERlclx2ILhZkvBul5EEGVmzZGBH1+ClsrxIWpfuJ3lrHUUZwub3mOGg5bykMCt8bNx3bdpk3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5801
+X-OriginatorOrg: intel.com
 
-This patch introduces a new counter to memory.stat that tracks hugeTLB
-usage, only if hugeTLB accounting is done to memory.current. This
-feature is enabled the same way hugeTLB accounting is enabled, via
-the memory_hugetlb_accounting mount flag for cgroupsv2.
+Andy Shevchenko wrote:
+> On Fri, Oct 25, 2024 at 07:46:53PM -0500, Ira Weiny wrote:
+> > The printf tests for struct resource were stubbed out.  struct range
+> > printing will leverage the struct resource implementation.
+> > 
+> > To prevent regression add some basic sanity tests for struct resource.
+> 
+> ...
 
-1. Why is this patch necessary?
-Currently, memcg hugeTLB accounting is an opt-in feature [1] that adds
-hugeTLB usage to memory.current. However, the metric is not reported in
-memory.stat. Given that users often interpret memory.stat as a breakdown
-of the value reported in memory.current, the disparity between the two
-reports can be confusing. This patch solves this problem by including
-the metric in memory.stat as well, but only if it is also reported in
-memory.current (it would also be confusing if the value was reported in
-memory.stat, but not in memory.current)
+[snip]
 
-Aside from the consistency between the two files, we also see benefits
-in observability. Userspace might be interested in the hugeTLB footprint
-of cgroups for many reasons. For instance, system admins might want to
-verify that hugeTLB usage is distributed as expected across tasks: i.e.
-memory-intensive tasks are using more hugeTLB pages than tasks that
-don't consume a lot of memory, or are seen to fault frequently. Note that
-this is separate from wanting to inspect the distribution for limiting
-purposes (in which case, hugeTLB controller makes more sense).
+> > +
+> > +	test("[mem 0xba5eba11-0xba5eca11 flags 0x200]",
+> > +	     "%pr", &test_resource);
+> > +
+> > +	test_resource = (struct resource) {
+> > +		.start = 0xba11,
+> > +		.end = 0xca10,
+> > +		.flags = IORESOURCE_IO |
+> > +			 IORESOURCE_DISABLED |
+> > +			 IORESOURCE_UNSET,
+> > +	};
+> 
+> I know that I have given my tag, but I just realized that you may use
+> DEFINE_RES_*() macros here.
 
-2. We already have a hugeTLB controller. Why not use that?
-It is true that hugeTLB tracks the exact value that we want. In fact, by
-enabling the hugeTLB controller, we get all of the observability
-benefits that I mentioned above, and users can check the total hugeTLB
-usage, verify if it is distributed as expected, etc.
+I tried that but it does not really make things easier IMO.  So I kept it
+this way.
 
-With this said, there are 2 problems:
-(a) They are still not reported in memory.stat, which means the
-    disparity between the memcg reports are still there.
-(b) We cannot reasonably expect users to enable the hugeTLB controller
-    just for the sake of hugeTLB usage reporting, especially since
-    they don't have any use for hugeTLB usage enforcing [2].
+I'd like Dave to pick up this series for 6.13.  If he can then I can use
+it for the DCD work.  Otherwise DCD can go ahead of this.
 
-[1] https://lore.kernel.org/all/20231006184629.155543-1-nphamcs@gmail.com/
-[2] Of course, we can't make a new patch for every feature that can be
-    duplicated. However, since the existing solution of enabling the
-    hugeTLB controller is an imperfect solution that still leaves a
-    discrepancy between memory.stat and memory.curent, I think that it
-    is reasonable to isolate the feature in this case.
- 
-Suggested-by: Nhat Pham <nphamcs@gmail.com>
-Suggested-by: Shakeel Butt <shakeel.butt@linux.dev>
-Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
-
----
-Changelog
-v3:
-  * Removed check for whether CGRP_ROOT_HUGETLB_ACCOUNTING is on, since
-    this check is already handled by lruvec_stat_mod (and doing the
-    check in hugetlb.c actually breaks the build if MEMCG is not
-    enabled.
-  * Because there is now only one check for the flags, I've opted to
-    do all of the cleanup in a separate patch series.
-  * Added hugetlb information in cgroup-v2.rst
-  * Added Suggested-by: Shakeel Butt
-v2:
-  * Enables the feature only if memcg accounts for hugeTLB usage
-  * Moves the counter from memcg_stat_item to node_stat_item
-  * Expands on motivation & justification in commitlog
-  * Added Suggested-by: Nhat Pham
-
- Documentation/admin-guide/cgroup-v2.rst |  5 +++++
- include/linux/mmzone.h                  |  3 +++
- mm/hugetlb.c                            |  2 ++
- mm/memcontrol.c                         | 11 +++++++++++
- mm/vmstat.c                             |  3 +++
- 5 files changed, 24 insertions(+)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 69af2173555f..bd7e81c2aa2b 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1646,6 +1646,11 @@ The following nested keys are defined.
- 	  pgdemote_khugepaged
- 		Number of pages demoted by khugepaged.
- 
-+	  hugetlb
-+		Amount of memory used by hugetlb pages. This metric only shows
-+		up if hugetlb usage is accounted for in memory.current (i.e.
-+		cgroup is mounted with the memory_hugetlb_accounting option).
-+
-   memory.numa_stat
- 	A read-only nested-keyed file which exists on non-root cgroups.
- 
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 17506e4a2835..972795ae5946 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -220,6 +220,9 @@ enum node_stat_item {
- 	PGDEMOTE_KSWAPD,
- 	PGDEMOTE_DIRECT,
- 	PGDEMOTE_KHUGEPAGED,
-+#ifdef CONFIG_HUGETLB_PAGE
-+	NR_HUGETLB,
-+#endif
- 	NR_VM_NODE_STAT_ITEMS
- };
- 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 190fa05635f4..fbb10e52d7ea 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1925,6 +1925,7 @@ void free_huge_folio(struct folio *folio)
- 				     pages_per_huge_page(h), folio);
- 	hugetlb_cgroup_uncharge_folio_rsvd(hstate_index(h),
- 					  pages_per_huge_page(h), folio);
-+	lruvec_stat_mod_folio(folio, NR_HUGETLB, -pages_per_huge_page(h));
- 	mem_cgroup_uncharge(folio);
- 	if (restore_reserve)
- 		h->resv_huge_pages++;
-@@ -3093,6 +3094,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
- 
- 	if (!memcg_charge_ret)
- 		mem_cgroup_commit_charge(folio, memcg);
-+	lruvec_stat_mod_folio(folio, NR_HUGETLB, pages_per_huge_page(h));
- 	mem_cgroup_put(memcg);
- 
- 	return folio;
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 7845c64a2c57..5444d0e7bb64 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -310,6 +310,9 @@ static const unsigned int memcg_node_stat_items[] = {
- 	PGDEMOTE_KSWAPD,
- 	PGDEMOTE_DIRECT,
- 	PGDEMOTE_KHUGEPAGED,
-+#ifdef CONFIG_HUGETLB_PAGE
-+	NR_HUGETLB,
-+#endif
- };
- 
- static const unsigned int memcg_stat_items[] = {
-@@ -1346,6 +1349,9 @@ static const struct memory_stat memory_stats[] = {
- 	{ "unevictable",		NR_UNEVICTABLE			},
- 	{ "slab_reclaimable",		NR_SLAB_RECLAIMABLE_B		},
- 	{ "slab_unreclaimable",		NR_SLAB_UNRECLAIMABLE_B		},
-+#ifdef CONFIG_HUGETLB_PAGE
-+	{ "hugetlb",			NR_HUGETLB			},
-+#endif
- 
- 	/* The memory events */
- 	{ "workingset_refault_anon",	WORKINGSET_REFAULT_ANON		},
-@@ -1441,6 +1447,11 @@ static void memcg_stat_format(struct mem_cgroup *memcg, struct seq_buf *s)
- 	for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
- 		u64 size;
- 
-+#ifdef CONFIG_HUGETLB_PAGE
-+		if (unlikely(memory_stats[i].idx == NR_HUGETLB) &&
-+		    !(cgrp_dfl_root.flags & CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING))
-+			continue;
-+#endif
- 		size = memcg_page_state_output(memcg, memory_stats[i].idx);
- 		seq_buf_printf(s, "%s %llu\n", memory_stats[i].name, size);
- 
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index b5a4cea423e1..871566b04b79 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1273,6 +1273,9 @@ const char * const vmstat_text[] = {
- 	"pgdemote_kswapd",
- 	"pgdemote_direct",
- 	"pgdemote_khugepaged",
-+#ifdef CONFIG_HUGETLB_PAGE
-+	"nr_hugetlb",
-+#endif
- 	/* system-wide enum vm_stat_item counters */
- 	"nr_dirty_threshold",
- 	"nr_dirty_background_threshold",
--- 
-2.43.5
-
+Ira
