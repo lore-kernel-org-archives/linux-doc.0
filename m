@@ -1,454 +1,117 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C4018CBE1;
-	Mon, 28 Oct 2024 05:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C6018CC12;
+	Mon, 28 Oct 2024 06:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730094816; cv=none; b=SM5UfOq0OvVqDi5A+VaYdNPhF37iVq1zPqX7lrAXNNzS78I5gSHdQ/JcB8B5+XP7UxMxQPgbb0G+74HzQMQsh1oPEBQst0TU5HuUsWE9MUNlZoKQEQef0jndAtIz8huDQP6dFE3AmlOruxM+Ms5487V58FXa1HMQt7O/Dz6Ve9s=
+	t=1730095830; cv=none; b=CBGt9AvTJEOqDZJ+30ouLhXh0/nB5VjVwQTcduyjmdQVVPGuEcCU67VJY6USB3b36jvwfzjYjoCJYzGzoCq1n6FDFYIQSUdDp4N6IaPjzebdkWAqYGxkMbrhgrOM4gqtD/il4n1yuuOzCL7azvL+V8nzRPX2rLXjEDZwSuhALSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730094816; c=relaxed/simple;
-	bh=xDwxuH/D2TDdThNS84QnRziL+54XMW+R3KNFgxCgDVI=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=mt1s8PBewG1RMcIX4gf4QY8xpht4guROq8mff028mFKjbC0/9eJ+pRz1QhyGZRrzYP4hj6kHYTPbWc5KjkNB5unvVodevSMPNAf2tW04tecsVw13YQuKLNgClaDuVxofz8IWFYsCtfRdZ4yUDu0GQrylwY5e748HXzsp/D2EUso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4XcMxt3jQkz8R03x;
-	Mon, 28 Oct 2024 13:53:22 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl1.zte.com.cn with SMTP id 49S5rJ0O066582;
-	Mon, 28 Oct 2024 13:53:19 +0800 (+08)
-	(envelope-from xu.xin16@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Mon, 28 Oct 2024 13:53:21 +0800 (CST)
-Date: Mon, 28 Oct 2024 13:53:21 +0800 (CST)
-X-Zmail-TransId: 2afa671f26d1ffffffffcfa-262de
-X-Mailer: Zmail v1.0
-Message-ID: <20241028135321916ZWK032bHhlbncjvmzDkZs@zte.com.cn>
+	s=arc-20240116; t=1730095830; c=relaxed/simple;
+	bh=KZQQWIa0NmTXTrvgtfvfI9/FAmsddMyzm4sTOgHcISU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XpgTxoNqrnw0OJLFVePpGEZBX8Jum08lwmgQUHSRlfXguH5DwQT4HfBW2DSGyiX2EpouhKEhJ08Mpgf4jolE13BiwvhLLfyojmMyAOlbkttMoQKJvRitJSAIK+1NudAPFGUsfKzsLCaY3XGbuTNQp+4+owITU+/ONF7W6VAD/6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gIAErrbr; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gIAErrbr"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e91403950dso158656a91.3;
+        Sun, 27 Oct 2024 23:10:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730095828; x=1730700628; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KZQQWIa0NmTXTrvgtfvfI9/FAmsddMyzm4sTOgHcISU=;
+        b=gIAErrbrq/rfW6kpv6cAW1j8ST3mx6kmfQsRWQfhM52jAogG6Tz/b+yZ+yPC8B3cTr
+         RQ3SpzZ8wi8JFa+XZMzVUvqkLstrHh3q1776kmIxNxxZPcQvJ8SbKYcyZcbhAvBeyB2g
+         XWFWl0gcjSGKfXzyxLJXFyd0ex2jUTliasReIqpOU0NtS4hBxu3Eod8GyiP+8Q2l1Wuc
+         YZlaGlCQFqkGO+MqNt+D6NWInQXHvBThgfjZiyOyVyMBiMkkHcOiU6SIFKygGx/Ddrzu
+         HEJYgTRDzUfZCAxO+pW93r3h0+qSBTLjS/5QK+RLC2d3wFrANoE6gc2KsYOiZJ782E0u
+         YENA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730095828; x=1730700628;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KZQQWIa0NmTXTrvgtfvfI9/FAmsddMyzm4sTOgHcISU=;
+        b=AXwrvU4VRjZXJtBO5C/G1fhCMogg9ijeJq2SsvALC0Iizu3TTCO9a/LmEI04terTBr
+         mtDxasaEfGSFSsykhdy2mi5wH5fgaBBnwJxAow0LYB7Ty5uercOK+hnvBBkEYFIx7Ezs
+         8T3y8UBqxdGkhm92O31JtCaF0rUNJE9WI92RUTwU6IMmcYKc7hweLK2z29OjI6TonTnS
+         kzNnmoeSYJTWcFTlmRxMkCaMgkfDN51Nq9SDWRRNCbbtMOfHMzqjlyvRzbMmSAibbn39
+         o43G2TSXdqYVsVlSeDpj/RGaDuVhIiEgdzZ5CFvRxBOtjWNtx+cg7TjnvKEN1+J3ATEL
+         2AKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfAzg2BckHw1+p4tiPuS/gYEBdtUKu2EIMlY47jD249aVSqU171kD+YmRwxapWPRLj7azi/huOdrbqFMxd@vger.kernel.org, AJvYcCVNzZGu6tnx8lVjRY2kJlS41oA6ZX09hm27tHcohU33ZdO6C1/MWPmLUhV1NvxSSpZsP5cKWlCpX5MeDK8=@vger.kernel.org, AJvYcCVumhveR07IHfEiO+X1tnwh4mVgLrqHOlc/jchYJV1PpPY+ikgC7zNiPPILG+PzURVlQ5bekUDWSxaKzM89Teh8tg==@vger.kernel.org, AJvYcCWeqYxmMZ8WY2ZvoFtnAjPNpRn8vxtYNWtdryCGeBAD+OrVcJclADLE8uIMZvrZ6wy0stW2WY9jkzSe@vger.kernel.org, AJvYcCWiAlvBOc4VhiGG9N32r7WZO4SxvcykHKGbUcusRNRciqmOnIuXMMogB/8Oj6V4qpWHjcm1BmJYBvbOzD36Klo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxx+aMrw/W5uvIbg1mkdtS5jF/dv1NvnsCuR9wue06bjUKdLHQH
+	3ps+MvgVlTRPri/+sCjcLDgtD1fedhBWYp7sJxBP9xtCfFXoal48
+X-Google-Smtp-Source: AGHT+IGY/C3RpGygdeotrpMgURVeqHdXpqhUm2OR3yBXK+vE2HSGrXjWe+261uWQUYpiIK17xtVVKw==
+X-Received: by 2002:a17:90a:9a8c:b0:2c9:9658:d704 with SMTP id 98e67ed59e1d1-2e8f11dcf62mr7128993a91.40.1730095828058;
+        Sun, 27 Oct 2024 23:10:28 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e8e3572d4esm6331419a91.15.2024.10.27.23.10.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2024 23:10:26 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 50A114229D6A; Mon, 28 Oct 2024 13:10:24 +0700 (WIB)
+Date: Mon, 28 Oct 2024 13:10:24 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, colyli@suse.de,
+	kent.overstreet@linux.dev, msakai@redhat.com, corbet@lwn.net,
+	peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+	namhyung@kernel.org, akpm@linux-foundation.org
+Cc: mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+	kan.liang@linux.intel.com, willy@infradead.org,
+	jserv@ccns.ncku.edu.tw, linux-kernel@vger.kernel.org,
+	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-bcachefs@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 10/10] Documentation/core-api: Add min heap API
+ introduction
+Message-ID: <Zx8q0C6NhVPwqLgG@archie.me>
+References: <20241020040200.939973-1-visitorckw@gmail.com>
+ <20241020040200.939973-11-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <xu.xin16@zte.com.cn>
-To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mudongliangabcd@gmail.com>, <seakeel@gmail.com>
-Cc: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
-        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHQgdjggUkVTRU5EXSBEb2NzL3poX0NOOiBUcmFuc2xhdGUgcGh5c2ljYWxfbWVtb3J5LnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2U=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 49S5rJ0O066582
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 671F26D2.000/4XcMxt3jQkz8R03x
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9FVjYyjZ5YvF0M+J"
+Content-Disposition: inline
+In-Reply-To: <20241020040200.939973-11-visitorckw@gmail.com>
 
-From: Yaxin Wang <wang.yaxin@zte.com.cn>
 
-This patch translates the "physical_memory.rst" document into
-Simplified Chinese to improve accessibility for Chinese-speaking
-developers and users.
+--9FVjYyjZ5YvF0M+J
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The translation was done with attention to technical accuracy
-and readability, ensuring that the document remains informative
-and useful in its translated form.
+On Sun, Oct 20, 2024 at 12:02:00PM +0800, Kuan-Wei Chiu wrote:
+> Introduce an overview of the min heap API, detailing its usage and
+> functionality. The documentation aims to provide developers with a
+> clear understanding of how to implement and utilize min heaps within
+> the Linux kernel, enhancing the overall accessibility of this data
+> structure.
+>=20
 
-Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
+The doc LGTM, thanks!
 
-Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
-Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
-Signed-off-by: xu xin <xu.xin16@zte.com.cn>
----
-v7->v8:
-Some fixes according to:
-https://lore.kernel.org/all/87sesl2op0.fsf@trenco.lwn.net/
-1.add some suffixes "_zh_CN" to some duplicated labels
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
- Documentation/translations/zh_CN/mm/index.rst |   1 +
- .../translations/zh_CN/mm/physical_memory.rst | 356 ++++++++++++++++++
- 2 files changed, 357 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/mm/physical_memory.rst
+--=20
+An old man doll... just what I always wanted! - Clara
 
-diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
-index 960b6d2f3d18..c8726bce8f74 100644
---- a/Documentation/translations/zh_CN/mm/index.rst
-+++ b/Documentation/translations/zh_CN/mm/index.rst
-@@ -54,6 +54,7 @@ Linux内存管理文档
-    page_owner
-    page_table_check
-    page_tables
-+   physical_memory
-    remap_file_pages
-    split_page_table_lock
-    vmalloced-kernel-stacks
-diff --git a/Documentation/translations/zh_CN/mm/physical_memory.rst b/Documentation/translations/zh_CN/mm/physical_memory.rst
-new file mode 100644
-index 000000000000..4594d15cefec
---- /dev/null
-+++ b/Documentation/translations/zh_CN/mm/physical_memory.rst
-@@ -0,0 +1,356 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/mm/physical_memory.rst
-+
-+:翻译:
-+
-+   王亚鑫 Yaxin Wang <wang.yaxin@zte.com.cn>
-+
-+========
-+物理内存
-+========
-+
-+Linux可用于多种架构，因此需要一个与架构无关的抽象来表示物理内存。本章描述
-+了管理运行系统中物理内存的结构。
-+
-+第一个与内存管理相关的主要概念是 `非一致性内存访问(NUMA)
-+<https://en.wikipedia.org/wiki/Non-uniform_memory_access>`
-+
-+在多核和多插槽机器中，内存可能被组织成不同的存储区，这些存储区根据与处理器
-+的距离“不同”而有不同的访问开销。例如，可能为每个CPU分配内存存储区，或者为
-+外围设备在附近分配一个非常适合DMA的内存存储区。
-+
-+每个存储区被称为一个节点，节点在Linux中表示为 ``struct pglist_data``，
-+即使是在UMA架构中也是这样表示。该结构总是通过 ``pg_data_t`` 来引用。特
-+定节点的 ``pg_data_t`` 结构体可以通过NODE_DATA(nid)引用，其中nid被称
-+为该节点的ID。
-+
-+对于非一致性内存访问（NUMA）架构，节点数据结构在引导时由特定于架构的代码早
-+期分配。通常，这些结构在其所在的内存区上本地分配。对于一致性内存访问（UMA）
-+架构，只使用一个静态的 ``pg_data_t`` 结构体，称为 ``contig_page_data``。
-+节点将会在 :ref:`节点 <nodes>` 章节中进一步讨论。
-+
-+整个物理内存被划分为一个或多个被称为区域的块，这些区域表示内存的范围。这
-+些范围通常由访问内存的架构限制来决定。在节点内，与特定区域对应的内存范围
-+由 ``struct zone`` 结构体描述，该结构被定义为 ``zone_t``，每种区域都
-+属于以下描述类型的一种。
-+
-+* ``ZONE_DMA`` 和 ``ZONE_DMA32`` 在历史上代表适用于DMA的内存，这些
-+  内存由那些不能访问所有可寻址内存的外设访问。多年来，已经有了更好、更稳
-+  固的接口来获取满足特定DMA需求的内存（这些接口由
-+  Documentation/core-api/dma-api.rst 文档描述），但是 ``ZONE_DMA``
-+  和 ``ZONE_DMA32`` 仍然表示访问受限的内存范围。
-+
-+取决于架构的不同，这两种区域可以在构建时通过关闭 ``CONFIG_ZONE_DMA`` 和
-+``CONFIG_ZONE_DMA32`` 配置选项来禁用。一些64位的平台可能需要这两种区域，
-+因为他们支持具有不同DMA寻址限制的外设。
-+
-+* ``ZONE_NORMAL`` 是普通内存的区域，这种内存可以被内核随时访问。如果DMA
-+  设备支持将数据传输到所有可寻址的内存区域，那么可在该区域的页面上执行DMA
-+  操作。``ZONE_NORMAL`` 总是开启的。
-+
-+* ``ZONE_HIGHMEM`` 是指那些没有在内核页表中永久映射的物理内存部分。该区
-+  域的内存只能通过临时映射被内核访问。该区域只在某些32位架构上可用，并且是
-+  通过 ``CONFIG_HIGHMEM`` 选项开启。
-+
-+* ``ZONE_MOVABLE`` 是指可访问的普通内存区域，就像 ``ZONE_NORMAL``
-+  一样。不同之处在于 ``ZONE_MOVABLE`` 中的大多数页面内容是可移动的。
-+  这意味着这些页面的虚拟地址不会改变，但它们的内容可能会在不同的物理页面
-+  之间移动。通常，在内存热插拔期间填充 ``ZONE_MOVABLE``，在启动时也可
-+  以使用 ``kernelcore``、``movablecore`` 和 ``movable_node``
-+  这些内核命令行参数来填充。更多详细信息，请参阅内核文档
-+  Documentation/mm/page_migration.rst 和
-+  Documentation/admin-guide/mm/memory-hotplug.rst。
-+
-+* ``ZONE_DEVICE`` 表示位于持久性内存（PMEM）和图形处理单元（GPU）
-+  等设备上的内存。它与RAM区域类型有不同的特性，并且它的存在是为了提供
-+  :ref:`struct page<Pages>` 结构和内存映射服务，以便设备驱动程序能
-+  识别物理地址范围。``ZONE_DEVICE`` 通过 ``CONFIG_ZONE_DEVICE``
-+  选项开启。
-+
-+需要注意的是，许多内核操作只能使用 ``ZONE_NORMAL`` 来执行，因此它是
-+性能最关键区域。区域在 :ref:`区域 <zones>` 章节中有更详细的讨论。
-+
-+节点和区域范围之间的关系由固件报告的物理内存映射决定，另外也由内存寻址
-+的架构约束以及内核命令行中的某些参数决定。
-+
-+例如，在具有2GB RAM的x86统一内存架构（UMA）机器上运行32位内核时，整
-+个内存将位于节点0，并且将有三个区域： ``ZONE_DMA``、 ``ZONE_NORMAL``
-+和 ``ZONE_HIGHMEM``::
-+
-+  0                                                            2G
-+  +-------------------------------------------------------------+
-+  |                            node 0                           |
-+  +-------------------------------------------------------------+
-+
-+  0         16M                    896M                        2G
-+  +----------+-----------------------+--------------------------+
-+  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
-+  +----------+-----------------------+--------------------------+
-+
-+
-+在内核构建时关闭 ``ZONE_DMA`` 开启 ``ZONE_DMA32``，并且具有16GB
-+RAM平均分配在两个节点上的arm64机器上，使用 ``movablecore=80%`` 参数
-+启动时，``ZONE_DMA32``、``ZONE_NORMAL`` 和 ``ZONE_MOVABLE``
-+位于节点0，而 ``ZONE_NORMAL`` 和 ``ZONE_MOVABLE`` 位于节点1::
-+
-+
-+ 1G                                9G                         17G
-+  +--------------------------------+ +--------------------------+
-+  |              node 0            | |          node 1          |
-+  +--------------------------------+ +--------------------------+
-+
-+  1G       4G        4200M          9G          9320M          17G
-+  +---------+----------+-----------+ +------------+-------------+
-+  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
-+  +---------+----------+-----------+ +------------+-------------+
-+
-+
-+内存存储区可能位于交错的节点。在下面的例子中，一台x86机器有16GB的RAM分
-+布在4个内存存储区上，偶数编号的内存存储区属于节点0，奇数编号的内存条属于
-+节点1::
-+
-+  0              4G              8G             12G            16G
-+  +-------------+ +-------------+ +-------------+ +-------------+
-+  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
-+  +-------------+ +-------------+ +-------------+ +-------------+
-+
-+  0   16M      4G
-+  +-----+-------+ +-------------+ +-------------+ +-------------+
-+  | DMA | DMA32 | |    NORMAL   | |    NORMAL   | |    NORMAL   |
-+  +-----+-------+ +-------------+ +-------------+ +-------------+
-+
-+在这种情况下，节点0将覆盖从0到12GB的内存范围，而节点1将覆盖从4GB到16GB
-+的内存范围。
-+
-+.. _nodes_zh_CN:
-+
-+节点
-+====
-+
-+正如我们所提到的，内存中的每个节点由 ``pg_data_t`` 描述，通过
-+``struct pglist_data`` 结构体的类型定义。在分配页面时，默认情况下，Linux
-+使用节点本地分配策略，从离当前运行CPU的最近节点分配内存。由于进程倾向于在同
-+一个CPU上运行，很可能会使用当前节点的内存。分配策略可以由用户控制，如内核文
-+档 Documentation/admin-guide/mm/numa_memory_policy.rst 中所述。
-+
-+大多数NUMA（非统一内存访问）架构维护了一个指向节点结构的指针数组。这些实际
-+的结构在启动过程中的早期被分配，这时特定于架构的代码解析了固件报告的物理内
-+存映射。节点初始化的大部分工作是在由free_area_init()实现的启动过程之后
-+完成，该函数在后面的小节 :ref:`初始化 <initialization>` 中有详细描述。
-+
-+除了节点结构，内核还维护了一个名为 ``node_states`` 的 ``nodemask_t``
-+位掩码数组。这个数组中的每个位掩码代表一组特定属性的节点，这些属性由
-+``enum node_states`` 定义，定义如下：
-+
-+``N_POSSIBLE``
-+节点可能在某个时刻上线。
-+
-+``N_ONLINE``
-+节点已经上线。
-+
-+``N_NORMAL_MEMORY``
-+节点拥有普通内存。
-+
-+``N_HIGH_MEMORY``
-+节点拥有普通或高端内存。当关闭 ``CONFIG_HIGHMEM`` 配置时，
-+也可以称为 ``N_NORMAL_MEMORY``。
-+
-+``N_MEMORY``
-+节点拥有（普通、高端、可移动）内存。
-+
-+``N_CPU``
-+节点拥有一个或多个CPU。
-+
-+对于具有上述属性的每个节点，``node_states[<property>]``
-+掩码中对应于节点ID的位会被置位。
-+
-+例如，对于具有常规内存和CPU的节点2，第二个bit将被设置::
-+
-+  node_states[N_POSSIBLE]
-+  node_states[N_ONLINE]
-+  node_states[N_NORMAL_MEMORY]
-+  node_states[N_HIGH_MEMORY]
-+  node_states[N_MEMORY]
-+  node_states[N_CPU]
-+
-+有关使用节点掩码（nodemasks）可能进行的各种操作，请参考
-+``include/linux/nodemask.h``。
-+
-+除此之外，节点掩码（nodemasks）提供用于遍历节点的宏，即
-+``for_each_node()`` 和 ``for_each_online_node()``。
-+
-+例如，要为每个在线节点调用函数 foo()，可以这样操作::
-+
-+  for_each_online_node(nid) {
-+		pg_data_t *pgdat = NODE_DATA(nid);
-+
-+		foo(pgdat);
-+	}
-+
-+节点数据结构
-+------------
-+
-+节点结构 ``struct pglist_data`` 在 ``include/linux/mmzone.h``
-+中声明。这里我们将简要描述这个结构体的字段：
-+
-+通用字段
-+~~~~~~~~
-+
-+``node_zones``
-+表示该节点的区域列表。并非所有区域都可能被填充，但这是
-+完整的列表。它被该节点的node_zonelists以及其它节点的
-+node_zonelists引用。
-+
-+``node_zonelists``
-+表示所有节点中所有区域的列表。此列表定义了分配内存时首选的区域
-+顺序。``node_zonelists`` 在核心内存管理结构初始化期间，
-+由 ``mm/page_alloc.c`` 中的 ``build_zonelists()``
-+函数设置。
-+
-+``nr_zones``
-+表示此节点中已填充区域的数量。
-+
-+``node_mem_map``
-+对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_mem_map``
-+表示每个物理帧的struct pages数组。
-+
-+``node_page_ext``
-+对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_page_ext``
-+是struct pages的扩展数组。只有在构建时开启了 ``CONFIG_PAGE_EXTENSION``
-+选项的内核中才可用。
-+
-+``node_start_pfn``
-+表示此节点中起始页面帧的页面帧号。
-+
-+``node_present_pages``
-+表示此节点中存在的物理页面的总数。
-+
-+``node_spanned_pages``
-+表示包括空洞在内的物理页面范围的总大小。
-+
-+``node_size_lock``
-+一个保护定义节点范围字段的锁。仅在开启了 ``CONFIG_MEMORY_HOTPLUG`` 或
-+``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 配置选项中的某一个时才定义。提
-+供了 ``pgdat_resize_lock()`` 和 ``pgdat_resize_unlock()`` 用来操作
-+``node_size_lock``，而无需检查 ``CONFIG_MEMORY_HOTPLUG`` 或
-+``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项。
-+
-+``node_id``
-+节点的节点ID（NID），从0开始。
-+
-+``totalreserve_pages``
-+这是每个节点保留的页面，这些页面不可用于用户空间分配。
-+
-+``first_deferred_pfn``
-+如果大型机器上的内存初始化被推迟，那么第一个PFN（页帧号）是需要初始化的。
-+在开启了 ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项时定义。
-+
-+``deferred_split_queue``
-+每个节点的大页队列，这些大页的拆分被推迟了。仅在开启了 ``CONFIG_TRANSPARENT_HUGEPAGE``
-+配置选项时定义。
-+
-+``__lruvec``
-+每个节点的lruvec持有LRU（最近最少使用）列表和相关参数。仅在禁用了内存
-+控制组（cgroups）时使用。它不应该直接访问，而应该使用 ``mem_cgroup_lruvec()``
-+来查找lruvecs。
-+
-+回收控制
-+~~~~~~~~
-+
-+另见内核文档 Documentation/mm/page_reclaim.rst 文件。
-+
-+``kswapd``
-+每个节点的kswapd内核线程实例。
-+
-+``kswapd_wait``, ``pfmemalloc_wait``, ``reclaim_wait``
-+同步内存回收任务的工作队列。
-+
-+``nr_writeback_throttled``
-+等待写回脏页时，被限制的任务数量。
-+
-+``kswapd_order``
-+控制kswapd尝试回收的order。
-+
-+``kswapd_highest_zoneidx``
-+kswapd线程可以回收的最高区域索引。
-+
-+``kswapd_failures``
-+kswapd无法回收任何页面的运行次数。
-+
-+``min_unmapped_pages``
-+无法回收的未映射文件支持的最小页面数量。由 ``vm.min_unmapped_ratio``
-+系统控制台（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 配置时定义。
-+
-+``min_slab_pages``
-+无法回收的SLAB页面的最少数量。由 ``vm.min_slab_ratio`` 系统控制台
-+（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 时定义。
-+
-+``flags``
-+控制回收行为的标志位。
-+
-+内存压缩控制
-+~~~~~~~~~~~~
-+
-+``kcompactd_max_order``
-+kcompactd应尝试实现的页面order。
-+
-+``kcompactd_highest_zoneidx``
-+kcompactd可以压缩的最高区域索引。
-+
-+``kcompactd_wait``
-+同步内存压缩任务的工作队列。
-+
-+``kcompactd``
-+每个节点的kcompactd内核线程实例。
-+
-+``proactive_compact_trigger``
-+决定是否使用主动压缩。由 ``vm.compaction_proactiveness`` 系统控
-+制台（sysctl）参数控制。
-+
-+统计信息
-+~~~~~~~~
-+
-+``per_cpu_nodestats``
-+表示节点的Per-CPU虚拟内存统计信息。
-+
-+``vm_stat``
-+表示节点的虚拟内存统计数据。
-+
-+.. _zones_zh_CN:
-+
-+区域
-+====
-+
-+.. admonition:: Stub
-+
-+  本节内容不完整。请列出并描述相应的字段。
-+
-+.. _pages_zh_CN:
-+
-+页
-+====
-+
-+.. admonition:: Stub
-+
-+  本节内容不完整。请列出并描述相应的字段。
-+
-+.. _folios_zh_CN:
-+
-+页码
-+====
-+
-+.. admonition:: Stub
-+
-+  本节内容不完整。请列出并描述相应的字段。
-+
-+.. _initialization_zh_CN:
-+
-+初始化
-+======
-+
-+.. admonition:: Stub
-+
-+  本节内容不完整。请列出并描述相应的字段。
--- 
-2.27.0
+--9FVjYyjZ5YvF0M+J
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZx8qywAKCRD2uYlJVVFO
+oxK8AQCkweSLHKQum/kN2ZlFuOSI7PY2IFPhUHf7EgVFWMUZ1QD/fIPIofBxwULy
+ZiQmQ7b0Lko4m4TJTzn6NFKQGFQ8tAY=
+=8Dk+
+-----END PGP SIGNATURE-----
+
+--9FVjYyjZ5YvF0M+J--
