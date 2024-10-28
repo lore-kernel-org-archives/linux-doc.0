@@ -1,317 +1,238 @@
-Received: from msa.smtpout.orange.fr (msa-209.smtpout.orange.fr [193.252.23.209])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEAC54769;
-	Mon, 28 Oct 2024 15:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D3A1DE2DC;
+	Mon, 28 Oct 2024 16:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730128375; cv=none; b=ko0BfpIZvCi5Ryj+Zp1oDhblwh2B6rm/0IoSMF5uKteumz75Zr61vr6cHbYpmFQ1OwI/K1NVr69+sZJlEHF8cb7PuRsot2nL6pwCggyj31ORVHwRmmy24wtaYaRKnsnqrC6JwSlCu8M9mUWHzSWikjlTekBns6jazS2XoSu6xdk=
+	t=1730131782; cv=none; b=CnumfPN9WFPBaT5vPUtzS+BPg+84jdu+j67Xu/bIh1E5TbXu0xnfc1NBZ6WWvTakMTBt4V7B9dRh6eEjLkAv79bXuUvEwVUoHU9Xu9wyE2vyZQdSuCl2B8a6StOvv0e/A8Rn0Yksw479NCrcD3YLsno2LQ1yR/5TUO3ecAkK438=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730128375; c=relaxed/simple;
-	bh=7MqD3icugQngzAQ2Q7MgjC4Ss1IizgUGID5EmAQwFbI=;
-	h=Message-ID:Date:MIME-Version:Subject:Cc:References:From:To:
-	 In-Reply-To:Content-Type; b=fGa18Gr66rdev7s98azyw1pd0Bg9M0GD3BqkOT2t8dhuZFGcqb+Ky0p75JGjGH9FLE7ddxjL3efzkGy3rpey+hXB42B9hludQw95RMtB2K5ZSYRuJkmHgfYCD0ykWzAYwh/CqJrhK1rvW1BNc1EjDaTybk2cgxRmMlqyJrP1gWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Jo61nPDb; arc=none smtp.client-ip=193.252.23.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1730131782; c=relaxed/simple;
+	bh=dcFLL4QwTmrZ0uKBYIZhLnWwXzO1Tq8hrHdknTOCQOI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=n3V77HeNPWUV/tXhNjeGeacyzcYsulR0NYj9bkCIW7KPJ525pDOyjogYeQM6oop7K8Olw4PEPEV7Kh4CQWkXUL+s1yRAuam/w8uZC0D5TmGimcsWymenPR8LOG6+MtdDIYPACELekoD4BuMh2l5iajzhoJTjI4VP7hdB+0+eXEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gjTWId5+; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Jo61nPDb"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id 5RP2tiD1igeRP5RP2t8WlI; Mon, 28 Oct 2024 16:11:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1730128294;
-	bh=fjqDdQt+XNPED4eC5c7Ufv/q0r2FByiZMWuGovsyH5A=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To;
-	b=Jo61nPDboyWDeo5o+6HGmwAAbry/cUoEn6xA9BF5TW3FJkos/TC6Zn9sjO4+qDAv9
-	 P5bK6oUhDotl5Jy5NCOivlcjRBTcyItDIqxUVbpny0lVz2os+KbUTUT5WRPDZp7cC1
-	 TaTExCIo64NtDn68wNltIDU5Papf1a8vdC5KHgJWLRAUlVRRvuIs+o1t2FM9yZ3SjX
-	 qkuGQdD1FczP1LJTOABY1Yv0Wn4MBxRBHhyvf1hU8tBw1pThK61ZxGp2hJGJ0uyIag
-	 lXRCe/PvlX59mCakfGOR6pmoHQQsO4XRrR5dylgnWynv3pYYorM2J+0A2iR/S7DeMV
-	 g62guAX8L6Jhw==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Mon, 28 Oct 2024 16:11:34 +0100
-X-ME-IP: 90.11.132.44
-Message-ID: <f5454f83-4af2-419b-b0ca-7309fa96f264@wanadoo.fr>
-Date: Mon, 28 Oct 2024 16:11:28 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gjTWId5+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730131781; x=1761667781;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dcFLL4QwTmrZ0uKBYIZhLnWwXzO1Tq8hrHdknTOCQOI=;
+  b=gjTWId5+zU7JmAebe7vaQxg5kjmbvLffitM75wXZGydb0KOB4Ti7mzwX
+   czuDbv58EjkOh+FvEja35uSwJff632otvEJF7+Al2ah1fPtAeUBIuk3ge
+   dj7UzDRScCicaQJ014VNZupsWgy3+HEgT3zk5fRmdsjNWe0S3DERePbPE
+   1Fa3G2e1H8j3p5a6vykOyc2AFfvoHBF/wy8K0mHubLB0bgKaQYgIKmCn3
+   aHJ7zgTRkXimewpFMzfyKsjHt2TlJJLgezR3boev57zu/KhV9Kb8faBkS
+   Rf8/g/o7Ho1L7hJGOGiD04dOljuhBz2TUe+S0cjbghU3Vz786x5GvsUPD
+   g==;
+X-CSE-ConnectionGUID: 56fpARMYRLKtQ9HZo+OAbg==
+X-CSE-MsgGUID: rKB6lK4QSzaVm8a/OUwrJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="32593608"
+X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
+   d="scan'208";a="32593608"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 09:09:39 -0700
+X-CSE-ConnectionGUID: oV3M4JvfQa+X6TutDCjcTg==
+X-CSE-MsgGUID: 6IKjQ0cmSN6l5KLyecZFeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
+   d="scan'208";a="112477587"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by orviesa002.jf.intel.com with ESMTP; 28 Oct 2024 09:09:28 -0700
+From: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+To: Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Xiongwei Song <xiongwei.song@windriver.com>,
+	Xin Li <xin3.li@intel.com>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Tony Luck <tony.luck@intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Alexey Kardashevskiy <aik@amd.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Sohil Mehta <sohil.mehta@intel.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	Kai Huang <kai.huang@intel.com>,
+	Sandipan Das <sandipan.das@amd.com>,
+	Breno Leitao <leitao@debian.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Hou Tao <houtao1@huawei.com>,
+	Juergen Gross <jgross@suse.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Kees Cook <kees@kernel.org>,
+	Eric Biggers <ebiggers@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Yuntao Wang <ytcoode@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Tejun Heo <tj@kernel.org>,
+	Changbin Du <changbin.du@huawei.com>,
+	Huang Shijie <shijie@os.amperecomputing.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org
+Subject: [PATCH v5 00/16] Enable Linear Address Space Separation support
+Date: Mon, 28 Oct 2024 18:07:48 +0200
+Message-ID: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] iio: imu: adis16550: add adis16550 support
-Cc: Nuno Sa <nuno.sa@analog.com>,
- Ramona Gradinariu <ramona.gradinariu@analog.com>,
- Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Robert Budai <robert.budai@analog.com>,
- Jagath Jog J <jagathjog1996@gmail.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, robi_budai@yahoo.com
-References: <20241028123550.9128-1-robert.budai@analog.com>
- <20241028123550.9128-3-robert.budai@analog.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Robert Budai <robert.budai@analog.com>
-In-Reply-To: <20241028123550.9128-3-robert.budai@analog.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Le 28/10/2024 à 13:35, Robert Budai a écrit :
-> From: Nuno Sá <nuno.sa-OyLXuOCK7orQT0dZR+AlfA@public.gmane.org>
-> 
-> The ADIS16550 is a complete inertial system that includes a triaxis
-> gyroscope and a triaxis accelerometer. Each inertial sensor in
-> the ADIS16550 combines industry leading MEMS only technology
-> with signal conditioning that optimizes dynamic performance. The
-> factory calibration characterizes each sensor for sensitivity, bias,
-> and alignment. As a result, each sensor has its own dynamic com-
-> pensation formulas that provide accurate sensor measurements
+Changes from v4[8]:
+- Added PeterZ's Originally-by and SoB to 2/16
+- Added lass_clac()/lass_stac() to differentiate from SMAP necessitated
+  clac()/stac() and to be NOPs on CPUs that don't support LASS
+- Moved LASS enabling patch to the end to avoid rendering machines
+  unbootable between until the patch that disables LASS around EFI
+  initialization
+- Reverted Pawan's LAM disabling commit
 
-Hi,
+Changes from v3[6]:
+- Made LAM dependent on LASS
+- Moved EFI runtime initialization to x86 side of things
+- Suspended LASS validation around EFI set_virtual_address_map call
+- Added a message for the case of kernel side LASS violation
+- Moved inline memset/memcpy versions to the common string.h
 
-...
+Changes from v2[5]:
+- Added myself to the SoB chain
 
-> +static ssize_t adis16550_show_firmware_date(struct file *file,
-> +					    char __user *userbuf,
-> +					    size_t count, loff_t *ppos)
-> +{
-> +	struct adis16550 *st = file->private_data;
-> +	u32 date;
-> +	char buf[12];
-> +	size_t len;
-> +	int ret;
-> +
-> +	ret = adis_read_reg_32(&st->adis, ADIS16550_REG_FW_DATE, &date);
-> +	if (ret)
-> +		return ret;
-> +
-> +	len = snprintf(buf, sizeof(buf), "%.2x-%.2x-%.4x\n", date & 0xff,
-> +		       (date >> 8) & 0xff, date >> 16);
+Changes from v1[1]:
+- Emulate vsyscall violations in execute mode in the #GP fault handler
+- Use inline memcpy and memset while patching alternatives
+- Remove CONFIG_X86_LASS
+- Make LASS depend on SMAP
+- Dropped the minimal KVM enabling patch
 
-scnprintf() ?
+Linear Address Space Separation (LASS) is a security feature that intends to
+prevent malicious virtual address space accesses across user/kernel mode.
 
-> +
-> +	return simple_read_from_buffer(userbuf, count, ppos, buf, len);
-> +}
+Such mode based access protection already exists today with paging and features
+such as SMEP and SMAP. However, to enforce these protections, the processor
+must traverse the paging structures in memory.  Malicious software can use
+timing information resulting from this traversal to determine details about the
+paging structures, and these details may also be used to determine the layout
+of the kernel memory.
 
-...
+The LASS mechanism provides the same mode-based protections as paging but
+without traversing the paging structures. Because the protections enforced by
+LASS are applied before paging, software will not be able to derive
+paging-based timing information from the various caching structures such as the
+TLBs, mid-level caches, page walker, data caches, etc. LASS can avoid probing
+using double page faults, TLB flush and reload, and SW prefetch instructions.
+See [2], [3] and [4] for some research on the related attack vectors.
 
-> +static void adis16550_debugfs_init(struct iio_dev *indio_dev)
-> +{
-> +	struct adis16550 *st = iio_priv(indio_dev);
-> +	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
-> +
-> +	if (!IS_ENABLED(CONFIG_DEBUG_FS))
-> +		return;
+In addition, LASS prevents an attack vector described in a Spectre LAM (SLAM)
+whitepaper [7].
 
-I don't think that this is needed.
-Functions below should ahndle it already.
+LASS enforcement relies on the typical kernel implemetation to divide the
+64-bit virtual address space into two halves:
+  Addr[63]=0 -> User address space
+  Addr[63]=1 -> Kernel address space
+Any data access or code execution across address spaces typically results in a
+#GP fault.
 
-> +
-> +	debugfs_create_file_unsafe("serial_number", 0400,
-> +				   d, st, &adis16550_serial_number_fops);
-> +	debugfs_create_file_unsafe("product_id", 0400,
-> +				   d, st, &adis16550_product_id_fops);
-> +	debugfs_create_file("firmware_revision", 0400,
-> +			    d, st, &adis16550_firmware_revision_fops);
-> +	debugfs_create_file("firmware_date", 0400, d,
-> +			    st, &adis16550_firmware_date_fops);
-> +	debugfs_create_file_unsafe("flash_count", 0400,
-> +				   d, st, &adis16550_flash_count_fops);
-> +}
+Kernel accesses usually only happen to the kernel address space. However, there
+are valid reasons for kernel to access memory in the user half. For these cases
+(such as text poking and EFI runtime accesses), the kernel can temporarily
+suspend the enforcement of LASS by toggling SMAP (Supervisor Mode Access
+Prevention) using the stac()/clac() instructions and in one instance a downright
+disabling LASS for an EFI runtime call.
 
-...
+User space cannot access any kernel address while LASS is enabled.
+Unfortunately, legacy vsyscall functions are located in the address range
+0xffffffffff600000 - 0xffffffffff601000 and emulated in kernel.  To avoid
+breaking user applications when LASS is enabled, extend the vsyscall emulation
+in execute (XONLY) mode to the #GP fault handler.
 
-> +static int adis16550_set_freq(struct adis16550 *st, u32 freq)
-> +{
-> +	u16 dec;
-> +	int ret;
-> +	u32 sample_rate = st->clk_freq;
-> +	/*
-> +	 * The optimal sample rate for the supported IMUs is between
-> +	 * int_clk - 1000 and int_clk + 500.
-> +	 */
-> +	u32 max_sample_rate =  st->info->int_clk * 1000 + 500000;
-> +	u32 min_sample_rate =  st->info->int_clk * 1000 - 1000000;
+In contrast, the vsyscall EMULATE mode is deprecated and not expected to be
+used by anyone.  Supporting EMULATE mode with LASS would need complex
+intruction decoding in the #GP fault handler and is probably not worth the
+hassle. Disable LASS in this rare case when someone absolutely needs and
+enables vsyscall=emulate via the command line.
 
-Nitpick: 2 spaces after =
+[1] https://lore.kernel.org/lkml/20230110055204.3227669-1-yian.chen@intel.com/
+[2] “Practical Timing Side Channel Attacks against Kernel Space ASLR”,
+https://www.ieee-security.org/TC/SP2013/papers/4977a191.pdf
+[3] “Prefetch Side-Channel Attacks: Bypassing SMAP and Kernel ASLR”, http://doi.acm.org/10.1145/2976749.2978356
+[4] “Harmful prefetch on Intel”, https://ioactive.com/harmful-prefetch-on-intel/ (H/T Anders)
+[5] https://lore.kernel.org/all/20230530114247.21821-1-alexander.shishkin@linux.intel.com/
+[6] https://lore.kernel.org/all/20230609183632.48706-1-alexander.shishkin@linux.intel.com/
+[7] https://download.vusec.net/papers/slam_sp24.pdf
+[8] https://lore.kernel.org/all/20240710160655.3402786-1-alexander.shishkin@linux.intel.com/
 
-> +
-> +	if (!freq)
-> +		return -EINVAL;
-> +
-> +	adis_dev_lock(&st->adis);
-> +
-> +	if (st->sync_mode == ADIS16550_SYNC_MODE_SCALED) {
-> +		unsigned long scaled_rate = lcm(st->clk_freq, freq);
-> +		int sync_scale;
-> +
-> +		if (scaled_rate > max_sample_rate)
-> +			scaled_rate = max_sample_rate / st->clk_freq * st->clk_freq;
-> +		else
-> +			scaled_rate = max_sample_rate / scaled_rate * scaled_rate;
-> +
-> +		if (scaled_rate < min_sample_rate)
-> +			scaled_rate = roundup(min_sample_rate, st->clk_freq);
-> +
-> +		sync_scale = scaled_rate / st->clk_freq;
-> +		ret = __adis_write_reg_16(&st->adis, ADIS16550_REG_SYNC_SCALE,
-> +					  sync_scale);
-> +		if (ret)
-> +			goto error;
-> +
-> +		sample_rate = scaled_rate;
-> +	}
-> +
-> +	dec = DIV_ROUND_CLOSEST(sample_rate, freq);
-> +
-> +	if (dec)
-> +		dec--;
-> +
-> +	if (dec > st->info->max_dec)
-> +		dec = st->info->max_dec;
-> +
-> +	ret = __adis_write_reg_16(&st->adis, ADIS16550_REG_DEC_RATE, dec);
-> +	if (ret)
-> +		goto error;
-> +
-> +	adis_dev_unlock(&st->adis);
-> +
-> +	return 0;
-> +
-> +error:
-> +	adis_dev_unlock(&st->adis);
-> +	return ret;
-> +}
+Alexander Shishkin (7):
+  init/main.c: Move EFI runtime service initialization to x86/cpu
+  x86/cpu: Defer CR pinning setup until after EFI initialization
+  efi: Disable LASS around set_virtual_address_map call
+  x86/vsyscall: Document the fact that vsyscall=emulate disables LASS
+  x86/traps: Communicate a LASS violation in #GP message
+  x86/cpu: Make LAM depend on LASS
+  Revert "x86/lam: Disable ADDRESS_MASKING in most cases"
 
-...
+Peter Zijlstra (1):
+  x86/asm: Introduce inline memcpy and memset
 
-> +static const struct adis16550_chip_info adis16550_chip_info[] = {
-> +	[ADIS16550] =
-> +		ADIS16550_CHIP_INFO(adis16550),
+Sohil Mehta (7):
+  x86/cpu: Enumerate the LASS feature bits
+  x86/alternatives: Disable LASS when patching kernel alternatives
+  x86/vsyscall: Reorganize the #PF emulation code
+  x86/traps: Consolidate user fixups in exc_general_protection()
+  x86/vsyscall: Add vsyscall emulation for #GP
+  x86/vsyscall: Disable LASS if vsyscall mode is set to EMULATE
+  x86/cpu: Enable LASS during CPU initialization
 
-This fits on the previous line.
+Yian Chen (1):
+  x86/cpu: Set LASS CR4 bit as pinning sensitive
 
-> +	[ADIS16550W] =
-> +		ADIS16550_CHIP_INFO(adis16550w),
-> +};
-> +
-> +static u32 adis16550_validate_crc(const u32 *buf, const u8 n_elem,
-> +				  const u32 crc)
-> +{
-> +	u32 crc_calc;
-> +	u32 crc_buf[ADIS16550_BURST_N_ELEM - 2];
-> +	int j;
+ .../admin-guide/kernel-parameters.txt         |  4 +-
+ arch/x86/Kconfig                              |  1 -
+ arch/x86/entry/vsyscall/vsyscall_64.c         | 61 +++++++++++++------
+ arch/x86/include/asm/cpufeatures.h            |  1 +
+ arch/x86/include/asm/disabled-features.h      |  4 +-
+ arch/x86/include/asm/smap.h                   | 18 ++++++
+ arch/x86/include/asm/string.h                 | 26 ++++++++
+ arch/x86/include/asm/vsyscall.h               | 14 +++--
+ arch/x86/include/uapi/asm/processor-flags.h   |  2 +
+ arch/x86/kernel/alternative.c                 | 12 +++-
+ arch/x86/kernel/cpu/common.c                  | 25 +++++++-
+ arch/x86/kernel/cpu/cpuid-deps.c              |  2 +
+ arch/x86/kernel/traps.c                       | 26 +++++---
+ arch/x86/mm/fault.c                           |  2 +-
+ arch/x86/platform/efi/efi.c                   | 13 ++++
+ init/main.c                                   |  5 --
+ tools/arch/x86/include/asm/cpufeatures.h      |  1 +
+ 17 files changed, 171 insertions(+), 46 deletions(-)
 
-Nitpick: i is more usual than j.
-There also should be a newline here.
+-- 
+2.45.2
 
-> +	/*
-> +	 * The crc calculation of the data is done in little endian. Hence, we
-> +	 * always swap the 32bit elements making sure that the data LSB is
-> +	 * always on address 0...
-> +	 */
-> +	for (j = 0; j < n_elem; j++)
-> +		crc_buf[j] = swab32(buf[j]);
-> +
-> +	crc_calc = crc32(~0, crc_buf, n_elem * 4);
-> +	crc_calc ^= ~0;
-> +
-> +	return (crc_calc == crc);
-> +}
-
-...
-
-> +static int adis16550_probe(struct spi_device *spi)
-> +{
-> +	struct iio_dev *indio_dev;
-> +	struct adis16550 *st;
-> +	int ret;
-> +
-> +	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
-> +	if (!indio_dev)
-> +		return -ENOMEM;
-> +
-> +	st = iio_priv(indio_dev);
-> +
-> +	st->info =  device_get_match_data(&spi->dev);
-
-Nitpick: 2 spaces after =
-
-> +	if (!st->info)
-> +		return -EINVAL;
-> +
-> +	indio_dev->name = st->info->name;
-> +	indio_dev->channels = st->info->channels;
-> +	indio_dev->num_channels = st->info->num_channels;
-> +	indio_dev->available_scan_masks = adis16550_channel_masks;
-> +	indio_dev->info = &adis16550_info;
-> +	indio_dev->modes = INDIO_DIRECT_MODE;
-> +
-> +	st->adis.ops = &adis16550_ops;
-> +
-> +	ret = devm_regulator_get_enable(&spi->dev, "vdd");
-> +	if (ret)
-> +		return dev_err_probe(&spi->dev, ret,
-> +				     "Failed to get vdd regulator\n");
-> +
-> +	ret = adis_init(&st->adis, indio_dev, spi, &adis16550_data);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = __adis_initial_startup(&st->adis);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = adis16550_config_sync(st);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_adis_setup_buffer_and_trigger(&st->adis, indio_dev,
-> +						 adis16550_trigger_handler);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_iio_device_register(&spi->dev, indio_dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	adis16550_debugfs_init(indio_dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct spi_device_id adis16550_id[] = {
-> +	{ "adis16550", (kernel_ulong_t)&adis16550_chip_info[ADIS16550]  },
-
-Nitpick: extra space before ending }
-
-> +	{ "adis16550w",  (kernel_ulong_t)&adis16550_chip_info[ADIS16550W] },
-
-Nitpick: 2 spaces after first ,
-
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(spi, adis16550_id);
-> +
-> +static const struct of_device_id adis16550_of_match[] = {
-> +	{ .compatible = "adi,adis16550", .data = &adis16550_chip_info[ADIS16550]},
-
-Nitpick: missing space before ending }
-
-> +	{ .compatible = "adi,adis16550w", .data = &adis16550_chip_info[ADIS16550W] },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, adis16550_of_match);
-
-...
-
-CJ
