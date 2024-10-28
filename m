@@ -1,303 +1,387 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0570A1CCEE6;
-	Mon, 28 Oct 2024 10:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E401CCEE6;
+	Mon, 28 Oct 2024 10:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730110233; cv=none; b=CJRYJ0+0CzSMV8k+dLQwZG2nuG00dCQfv6Eb1JoX3C9sSA10QCbS6IBwK5CQKYtBPMxQ0Eq3xmkBvhsbNtldr3dMvgSpJsqql/t3REalpzzzLUqORQsh4RF5iT/LTBWLOj4Rm2X1wd/6N4dUuypv3opcrtIocghjHFyHOoelHjM=
+	t=1730110444; cv=none; b=T+iuVH3DeccWjbet6hGbRf2vvDmPyWatSoKv+NMcpaQ4CNLQIx+YHXxYBwZGBMua5qSNMeairQ6R+EBjVvP8EwNJkEhGZpsfdi8ogjyWqmVSlcuJsDuR/I++Zoad1YWsTESondDFDKmhn13ozVXduCwsq4NXpQjtQu+lBEribrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730110233; c=relaxed/simple;
-	bh=gV/oZsrqDn2akko1b9Mj7FzqtILcpYffHj8rUv2A7i8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YPgrxBFfmoPmJxaTgn8A3FTYSX9rSSdEFcerDWqE6UOgrC9OVchkHSw/s59E0Ok1fvbfPvxCfURNB8/n7VeQ0X+qrUXn0qXiuX/3vun1gfu25iCjSgFQVnXFGvTIdC/w9obxc/AfRVkf7r8D35pqmnchTuYxVeOku+rGwPAxEaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=b1YvnNlU; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1730110444; c=relaxed/simple;
+	bh=YtL7XBpxJk6ROHIqvUfHeTpLoBni23YAgmaSPnpnFrM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ju4Zhd7ikCamKWj8XajNwU2L0Zrod2tZ3DdvtCAmscFcGImtZYQKvQiu5UuvqU6AABWLTeBwevYGRYOMYJ/Tdl2WqfSAbaNHCeh00/jUNgH/RcL2TY8qbTgrBe6qSR5XJJY1QjktNsPdEBdZJHbdq130Woc0Sz3+sFDTF3vVRxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=ATZmbN9y; arc=none smtp.client-ip=198.252.153.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="b1YvnNlU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=l75o/teob3cpNFhgaRdf7D0Yc5eWCmQnljFJ8XqbWls=; b=b1YvnNlUCEXjlB/LRUya7G7kId
-	uqvmFhuhz88Adi3f1lV/OVpicaK4lCKMqxHqJ/wZuA2+wJPmiznHtuEY6XX2tffWEZhO0k7r5nSAC
-	ZnxhN6p4nBbF1TFeZavQY3KCc1an+Xn1Z0uHjUlVyUFpcJy+lBoLB8Xgv5bXWJpEEZc9AiPYdqMtW
-	I3NGXN7CeAwuRxGmn4VldmVshDqylcMyIPPIlyhLWrtcYlCLfM6ALsL9lcPCWaEKvCPYs12uUMJI8
-	Z94QtNWZVgDUc6PGs1Oc6wARqMJsHi2ih3eqkptoNCUekHMPbLRQBLhxs4N3ttsItT5ERr8EfhxJv
-	57HkOHCw==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1t5MhI-00G29t-Sp; Mon, 28 Oct 2024 11:10:05 +0100
-Message-ID: <2505d52c-3454-4892-8c90-e3d9b2f0c84f@igalia.com>
-Date: Mon, 28 Oct 2024 07:09:56 -0300
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="ATZmbN9y"
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx0.riseup.net (Postfix) with ESMTPS id 4XcTkV3cyBz9vB8;
+	Mon, 28 Oct 2024 10:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1730110434; bh=YtL7XBpxJk6ROHIqvUfHeTpLoBni23YAgmaSPnpnFrM=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=ATZmbN9yJgeJoNwb5uFNFJBJGiXahaiJ+vLZ78IB9dBFBq/1KGN4hJ7JZ5v2bWcKJ
+	 wkDj0FAHAEYD1/ZbPO5iVJCBEqNqnQ0Jl6JozjTUOQVJHNfFpWqGySJi1B4s/TCaL2
+	 yPJYlnkKUUwbF9w2A4ygAFWJXhOYDq3CEOq87sFM=
+X-Riseup-User-ID: 34E57D653E943C86F088611FC6F853262CC686371EA5F3C86E0378228CA93968
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XcTk62JbLzFv8y;
+	Mon, 28 Oct 2024 10:13:34 +0000 (UTC)
+Message-ID: <c3f35eb2-2197-46f6-838d-c1e832d1750c@riseup.net>
+Date: Mon, 28 Oct 2024 07:13:31 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] mm: shmem: override mTHP shmem default with a kernel
- parameter
-To: Barry Song <21cnbao@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
- David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang
- <ioworker0@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com
-References: <20241027175743.1056710-1-mcanal@igalia.com>
- <20241027175743.1056710-4-mcanal@igalia.com>
- <CAGsJ_4xCw3OvkMo6cVr+U97C3SO+n+5c1j5XRodLDaLXW4ALjg@mail.gmail.com>
+Subject: Re: [PATCH v12 08/15] drm/vkms: Re-introduce line-per-line
+ composition algorithm
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
+ <20241007-yuv-v12-8-01c1ada6fec8@bootlin.com>
+ <be1a9147-efbd-4c98-a0a4-7cf5a730fc70@riseup.net> <Zx9eblYbZsFqn-hX@fedora>
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <CAGsJ_4xCw3OvkMo6cVr+U97C3SO+n+5c1j5XRodLDaLXW4ALjg@mail.gmail.com>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <Zx9eblYbZsFqn-hX@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Barry,
+Hi Louis,
 
-On 27/10/24 18:54, Barry Song wrote:
-> On Mon, Oct 28, 2024 at 6:58 AM Maíra Canal <mcanal@igalia.com> wrote:
+On 28/10/24 06:50, Louis Chauvet wrote:
+> On 26/10/24 - 11:26, Maíra Canal wrote:
+>> Hi Louis,
 >>
->> Add the ``thp_shmem=`` kernel command line to allow specifying the
->> default policy of each supported shmem hugepage size. The kernel parameter
->> accepts the following format:
->>
->> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
->>
->> For example,
->>
->> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
->>
->> By configuring the default policy of several shmem huge pages, the user
->> can take advantage of mTHP before it's been configured through sysfs.
->>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   .../admin-guide/kernel-parameters.txt         |  10 ++
->>   Documentation/admin-guide/mm/transhuge.rst    |  17 +++
->>   mm/shmem.c                                    | 109 +++++++++++++++++-
->>   3 files changed, 135 insertions(+), 1 deletion(-)
->>
+>> On 07/10/24 13:10, Louis Chauvet wrote:
+>>> Re-introduce a line-by-line composition algorithm for each pixel format.
+>>> This allows more performance by not requiring an indirection per pixel
+>>> read. This patch is focused on readability of the code.
+>>>
+>>> Line-by-line composition was introduced by [1] but rewritten back to
+>>> pixel-by-pixel algorithm in [2]. At this time, nobody noticed the impact
+>>> on performance, and it was merged.
+>>>
+>>> This patch is almost a revert of [2], but in addition efforts have been
+>>> made to increase readability and maintainability of the rotation handling.
+>>> The blend function is now divided in two parts:
+>>> - Transformation of coordinates from the output referential to the source
+>>> referential
+>>> - Line conversion and blending
+>>>
+>>> Most of the complexity of the rotation management is avoided by using
+>>> drm_rect_* helpers. The remaining complexity is around the clipping, to
+>>> avoid reading/writing outside source/destination buffers.
+>>>
+>>> The pixel conversion is now done line-by-line, so the read_pixel_t was
+>>> replaced with read_pixel_line_t callback. This way the indirection is only
+>>> required once per line and per plane, instead of once per pixel and per
+>>> plane.
+>>>
+>>> The read_line_t callbacks are very similar for most pixel format, but it
+>>> is required to avoid performance impact. Some helpers for color
+>>> conversion were introduced to avoid code repetition:
+>>> - *_to_argb_u16: perform colors conversion. They should be inlined by the
+>>>     compiler, and they are used to avoid repetition between multiple variants
+>>>     of the same format (argb/xrgb and maybe in the future for formats like
+>>>     bgr formats).
+>>>
+>>> This new algorithm was tested with:
+>>> - kms_plane (for color conversions)
+>>> - kms_rotation_crc (for rotations of planes)
+>>> - kms_cursor_crc (for translations of planes)
+>>> - kms_rotation (for all rotations and formats combinations) [3]
+>>> The performance gain was mesured with kms_fb_stress [4] with some
+>>> modification to fix the writeback format.
+>>>
+>>> The performance improvement is around 5 to 10%.
+>>>
+>>> [1]: commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to accept
+>>>        new formats")
+>>>        https://lore.kernel.org/all/20220905190811.25024-7-igormtorrente@gmail.com/
+>>> [2]: commit 322d716a3e8a ("drm/vkms: isolate pixel conversion
+>>>        functionality")
+>>>        https://lore.kernel.org/all/20230418130525.128733-2-mcanal@igalia.com/
+>>> [3]: https://lore.kernel.org/igt-dev/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com/
+>>> [4]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
+>>>
+>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>>>
+>>> # Conflicts:
+>>> #	drivers/gpu/drm/vkms/vkms_composer.c
 > 
-> Hi Maíra,
+> I jut noticed this, I will remove it...
 > 
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index acabb04d0dd4..595fa096e28b 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -6700,6 +6700,16 @@
->>                          Force threading of all interrupt handlers except those
->>                          marked explicitly IRQF_NO_THREAD.
+>>> ---
+>>>    drivers/gpu/drm/vkms/vkms_composer.c | 234 ++++++++++++++++++++++++++++-------
+>>>    drivers/gpu/drm/vkms/vkms_drv.h      |  28 +++--
+>>>    drivers/gpu/drm/vkms/vkms_formats.c  | 224 ++++++++++++++++++++-------------
+>>>    drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
+>>>    drivers/gpu/drm/vkms/vkms_plane.c    |   5 +-
+>>>    5 files changed, 344 insertions(+), 149 deletions(-)
+>>>
 >>
->> +       shmem_anon=     [KNL]
->> +                       Format: <size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
->> +                       Control the default policy of each hugepage size for the
->> +                       internal shmem mount. <policy> is one of policies available
->> +                       for the shmem mount ("always", "inherit", "never", "within_size",
->> +                       and "advise").
->> +                       It can be used multiple times for multiple shmem THP sizes.
->> +                       See Documentation/admin-guide/mm/transhuge.rst for more
->> +                       details.
+>> [...]
+>>
+>>> -static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+>>> +static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
+>>>    {
+>>> -	__le16 *pixel = (__le16 *)in_pixel;
+>>> +	struct pixel_argb_u16 out_pixel;
+>>>    	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+>>>    	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+>>> @@ -226,40 +194,120 @@ static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pi
+>>>    	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+>>>    	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+>>> -	out_pixel->a = (u16)0xffff;
+>>> -	out_pixel->r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+>>> -	out_pixel->g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+>>> -	out_pixel->b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+>>> +	out_pixel.a = (u16)0xffff;
+>>> +	out_pixel.r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+>>> +	out_pixel.g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+>>> +	out_pixel.b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+>>> +
+>>> +	return out_pixel;
+>>>    }
+>>> -/**
+>>> - * vkms_compose_row - compose a single row of a plane
+>>> - * @stage_buffer: output line with the composed pixels
+>>> - * @plane: state of the plane that is being composed
+>>> - * @y: y coordinate of the row
+>>> +/*
+>>> + * The following functions are read_line function for each pixel format supported by VKMS.
+>>> + *
+>>> + * They read a line starting at the point @x_start,@y_start following the @direction. The result
+>>> + * is stored in @out_pixel and in the format ARGB16161616.
+>>> + *
+>>> + * These functions are very repetitive, but the innermost pixel loops must be kept inside these
+>>> + * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
+>>> + * loop factored out of these functions showed a slowdown by a factor of three.
+>>>     *
+>>> - * This function composes a single row of a plane. It gets the source pixels
+>>> - * through the y coordinate (see get_packed_src_addr()) and goes linearly
+>>> - * through the source pixel, reading the pixels and converting it to
+>>> - * ARGB16161616 (see the pixel_read() callback). For rotate-90 and rotate-270,
+>>> - * the source pixels are not traversed linearly. The source pixels are queried
+>>> - * on each iteration in order to traverse the pixels vertically.
+>>> + * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
+>>>     */
+>>> -void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
+>>> +
+>>> +static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
+>>> +			       enum pixel_read_direction direction, int count,
+>>> +			       struct pixel_argb_u16 out_pixel[])
+>>>    {
+>>> -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+>>> -	struct vkms_frame_info *frame_info = plane->frame_info;
+>>> -	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
+>>> -	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> +
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> +
+>>> +	while (out_pixel < end) {
+>>> +		u8 *px = (u8 *)src_pixels;
+>>
+>> Why are you converting u8* to u8*? There are repetitions of this pattern
+>> in this patch.
 > 
-> I'm not sure this is the right name. How about "thp_shmem"?
+> I think it was to be consistent between all the conversion functions. They
+> are exactly the same, so having the casting (even useless one) at the same
+> place may help to understand the code.
+> 
+> I will remove this cast if you prefer.
 
-Oops, sorry about that.
+I only suggested to remove as we are going to delete this function when
+we push [1]. So, I believe it's better to add as little code as
+possible.
 
-> 
->> +
->>          topology=       [S390,EARLY]
->>                          Format: {off | on}
->>                          Specify if the kernel should make use of the cpu
->> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
->> index 9b5b02c4d1ab..47e7fc30e22d 100644
->> --- a/Documentation/admin-guide/mm/transhuge.rst
->> +++ b/Documentation/admin-guide/mm/transhuge.rst
->> @@ -332,6 +332,23 @@ allocation policy for the internal shmem mount by using the kernel parameter
->>   seven valid policies for shmem (``always``, ``within_size``, ``advise``,
->>   ``never``, ``deny``, and ``force``).
->>
->> +In the same manner as ``thp_anon`` controls each supported anonymous THP
->> +size, ``thp_shmem`` controls each supported shmem THP size. ``thp_shmem``
->> +has the same format as ``thp_anon``, but also supports the policy
->> +``within_size``.
->> +
->> +``thp_shmem=`` may be specified multiple times to configure all THP sizes
->> +as required. If ``thp_shmem=`` is specified at least once, any shmem THP
->> +sizes not explicitly configured on the command line are implicitly set to
->> +``never``.
->> +
->> +``transparent_hugepage_shmem`` setting only affects the global toggle. If
->> +``thp_shmem`` is not specified, PMD_ORDER hugepage will default to
->> +``inherit``. However, if a valid ``thp_shmem`` setting is provided by the
->> +user, the PMD_ORDER hugepage policy will be overridden. If the policy for
->> +PMD_ORDER is not defined within a valid ``thp_shmem``, its policy will
->> +default to ``never``.
->> +
->>   Hugepages in tmpfs/shmem
->>   ========================
->>
->> diff --git a/mm/shmem.c b/mm/shmem.c
->> index 24cdeafd8260..0a7a7d04f725 100644
->> --- a/mm/shmem.c
->> +++ b/mm/shmem.c
->> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_always __read_mostly;
->>   static unsigned long huge_shmem_orders_madvise __read_mostly;
->>   static unsigned long huge_shmem_orders_inherit __read_mostly;
->>   static unsigned long huge_shmem_orders_within_size __read_mostly;
->> +static bool shmem_orders_configured __initdata;
->>   #endif
->>
->>   #ifdef CONFIG_TMPFS
->> @@ -5013,7 +5014,8 @@ void __init shmem_init(void)
->>           * Default to setting PMD-sized THP to inherit the global setting and
->>           * disable all other multi-size THPs.
->>           */
->> -       huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
->> +       if (!shmem_orders_configured)
->> +               huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
->>   #endif
->>          return;
->>
->> @@ -5174,6 +5176,26 @@ struct kobj_attribute thpsize_shmem_enabled_attr =
->>
->>   #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
->>
->> +static inline int get_order_from_str(const char *size_str)
->> +{
->> +       unsigned long size;
->> +       char *endptr;
->> +       int order;
->> +
->> +       size = memparse(size_str, &endptr);
->> +
->> +       if (!is_power_of_2(size))
->> +               goto err;
->> +       order = get_order(size);
->> +       if (BIT(order) & ~THP_ORDERS_ALL_FILE_DEFAULT)
->> +               goto err;
->> +
->> +       return order;
->> +err:
->> +       pr_err("invalid size %s in thp_shmem boot parameter\n", size_str);
->> +       return -EINVAL;
->> +}
->> +
->>   static int __init setup_transparent_hugepage_shmem(char *str)
->>   {
->>          int huge, ret = 0;
->> @@ -5206,6 +5228,91 @@ static int __init setup_transparent_hugepage_shmem(char *str)
->>   }
->>   __setup("transparent_hugepage_shmem=", setup_transparent_hugepage_shmem);
->>
->> +static char str_dup[PAGE_SIZE] __initdata;
->> +static int __init setup_thp_shmem(char *str)
->> +{
->> +       char *token, *range, *policy, *subtoken;
->> +       unsigned long always, inherit, madvise, within_size;
->> +       char *start_size, *end_size;
->> +       int start, end, nr;
->> +       char *p;
->> +
->> +       if (!str || strlen(str) + 1 > PAGE_SIZE)
->> +               goto err;
->> +       strcpy(str_dup, str);
->> +
->> +       always = huge_shmem_orders_always;
->> +       inherit = huge_shmem_orders_inherit;
->> +       madvise = huge_shmem_orders_madvise;
->> +       within_size = huge_shmem_orders_within_size;
->> +       p = str_dup;
->> +       while ((token = strsep(&p, ";")) != NULL) {
->> +               range = strsep(&token, ":");
->> +               policy = token;
->> +
->> +               if (!policy)
->> +                       goto err;
->> +
->> +               while ((subtoken = strsep(&range, ",")) != NULL) {
->> +                       if (strchr(subtoken, '-')) {
->> +                               start_size = strsep(&subtoken, "-");
->> +                               end_size = subtoken;
->> +
->> +                               start = get_order_from_str(start_size);
->> +                               end = get_order_from_str(end_size);
->> +                       } else {
->> +                               start = end = get_order_from_str(subtoken);
->> +                       }
->> +
->> +                       if (start < 0 || end < 0 || start > end)
->> +                               goto err;
->> +
->> +                       nr = end - start + 1;
->> +                       if (!strcmp(policy, "always")) {
->> +                               bitmap_set(&always, start, nr);
->> +                               bitmap_clear(&inherit, start, nr);
->> +                               bitmap_clear(&madvise, start, nr);
->> +                               bitmap_clear(&within_size, start, nr);
->> +                       } else if (!strcmp(policy, "advise")) {
->> +                               bitmap_set(&madvise, start, nr);
->> +                               bitmap_clear(&inherit, start, nr);
->> +                               bitmap_clear(&always, start, nr);
->> +                               bitmap_clear(&within_size, start, nr);
->> +                       } else if (!strcmp(policy, "inherit")) {
->> +                               bitmap_set(&inherit, start, nr);
->> +                               bitmap_clear(&madvise, start, nr);
->> +                               bitmap_clear(&always, start, nr);
->> +                               bitmap_clear(&within_size, start, nr);
->> +                       } else if (!strcmp(policy, "within_size")) {
->> +                               bitmap_set(&within_size, start, nr);
->> +                               bitmap_clear(&inherit, start, nr);
->> +                               bitmap_clear(&madvise, start, nr);
->> +                               bitmap_clear(&always, start, nr);
->> +                       } else if (!strcmp(policy, "never")) {
->> +                               bitmap_clear(&inherit, start, nr);
->> +                               bitmap_clear(&madvise, start, nr);
->> +                               bitmap_clear(&always, start, nr);
->> +                               bitmap_clear(&within_size, start, nr);
->> +                       } else {
->> +                               pr_err("invalid policy %s in thp_shmem boot parameter\n", policy);
->> +                               goto err;
->> +                       }
->> +               }
->> +       }
->> +
->> +       huge_shmem_orders_always = always;
->> +       huge_shmem_orders_madvise = madvise;
->> +       huge_shmem_orders_inherit = inherit;
->> +       huge_shmem_orders_within_size = within_size;
->> +       shmem_orders_configured = true;
->> +       return 1;
->> +
->> +err:
->> +       pr_warn("thp_shmem=%s: error parsing string, ignoring setting\n", str);
->> +       return 0;
->> +}
-> 
-> Can we share source code with thp_anon since there's a lot of duplication?
-
-I'm not a regular mm contributor and I'm most usually around drivers, so
-I don't know exactly here I could add shared code. Should I add the
-headers to "internal.h"?
+[1] 
+https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
 
 Best Regards,
 - Maíra
 
 > 
->> +__setup("thp_shmem=", setup_thp_shmem);
->> +
->>   #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+>>> +		*out_pixel = argb_u16_from_u8888(px[3], px[2], px[1], px[0]);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>> +	}
+>>> +}
+>>> +
+>>> +static void XRGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
+>>> +			       enum pixel_read_direction direction, int count,
+>>> +			       struct pixel_argb_u16 out_pixel[])
+>>> +{
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> +
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> +
+>>> +	while (out_pixel < end) {
+>>> +		u8 *px = (u8 *)src_pixels;
+>>> +		*out_pixel = argb_u16_from_u8888(255, px[2], px[1], px[0]);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>> +	}
+>>> +}
+>>> +
+>>> +static void ARGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
+>>> +				   int y_start, enum pixel_read_direction direction, int count,
+>>> +				   struct pixel_argb_u16 out_pixel[])
+>>> +{
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> +
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> +
+>>> +	while (out_pixel < end) {
+>>> +		u16 *px = (u16 *)src_pixels;
+>>> +		*out_pixel = argb_u16_from_u16161616(px[3], px[2], px[1], px[0]);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>> +	}
+>>> +}
+>>> +
+>>> +static void XRGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
+>>> +				   int y_start, enum pixel_read_direction direction, int count,
+>>> +				   struct pixel_argb_u16 out_pixel[])
+>>> +{
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> +
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> +
+>>> +	while (out_pixel < end) {
+>>> +		__le16 *px = (__le16 *)src_pixels;
+>>> +		*out_pixel = argb_u16_from_le16161616(cpu_to_le16(0xFFFF), px[2], px[1], px[0]);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>> +	}
+>>> +}
+>>> +
+>>> +static void RGB565_read_line(const struct vkms_plane_state *plane, int x_start,
+>>> +			     int y_start, enum pixel_read_direction direction, int count,
+>>> +			     struct pixel_argb_u16 out_pixel[])
+>>> +{
+>>> +	struct pixel_argb_u16 *end = out_pixel + count;
+>>> +	u8 *src_pixels;
+>>> +
+>>> +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+>>> -	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+>>> -		int x_pos = get_x_position(frame_info, limit, x);
+>>> +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+>>> -		if (drm_rotation_90_or_270(frame_info->rotation))
+>>> -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
+>>> -				+ frame_info->fb->format->cpp[0] * y;
+>>> +	while (out_pixel < end) {
+>>> +		__le16 *px = (__le16 *)src_pixels;
+>>> -		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
+>>> +		*out_pixel = argb_u16_from_RGB565(px);
+>>> +		out_pixel += 1;
+>>> +		src_pixels += step;
+>>>    	}
+>>>    }
+>>> @@ -359,25 +407,25 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+>>>    }
+>>>    /**
+>>> - * get_pixel_read_function() - Retrieve the correct read_pixel function for a specific
+>>> + * get_pixel_read_line_function() - Retrieve the correct read_line function for a specific
+>>>     * format. The returned pointer is NULL for unsupported pixel formats. The caller must ensure that
+>>>     * the pointer is valid before using it in a vkms_plane_state.
+>>>     *
+>>>     * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+>>>     */
+>>> -pixel_read_t get_pixel_read_function(u32 format)
+>>> +pixel_read_line_t get_pixel_read_line_function(u32 format)
+>>>    {
+>>>    	switch (format) {
+>>>    	case DRM_FORMAT_ARGB8888:
+>>> -		return &ARGB8888_to_argb_u16;
+>>> +		return &ARGB8888_read_line;
+>>>    	case DRM_FORMAT_XRGB8888:
+>>> -		return &XRGB8888_to_argb_u16;
+>>> +		return &XRGB8888_read_line;
+>>>    	case DRM_FORMAT_ARGB16161616:
+>>> -		return &ARGB16161616_to_argb_u16;
+>>> +		return &ARGB16161616_read_line;
+>>>    	case DRM_FORMAT_XRGB16161616:
+>>> -		return &XRGB16161616_to_argb_u16;
+>>> +		return &XRGB16161616_read_line;
+>>>    	case DRM_FORMAT_RGB565:
+>>> -		return &RGB565_to_argb_u16;
+>>> +		return &RGB565_read_line;
+>>>    	default:
+>>>    		/*
+>>>    		 * This is a bug in vkms_plane_atomic_check(). All the supported
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+>>> index 3ecea4563254..8d2bef95ff79 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_formats.h
+>>> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+>>> @@ -5,7 +5,7 @@
+>>>    #include "vkms_drv.h"
+>>> -pixel_read_t get_pixel_read_function(u32 format);
+>>> +pixel_read_line_t get_pixel_read_line_function(u32 format);
+>>>    pixel_write_t get_pixel_write_function(u32 format);
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> index 10e9b23dab28..8875bed76410 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>>> @@ -112,7 +112,6 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>>>    	frame_info = vkms_plane_state->frame_info;
+>>>    	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
+>>>    	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
+>>> -	memcpy(&frame_info->rotated, &new_state->dst, sizeof(struct drm_rect));
 >>
->>   #else /* !CONFIG_SHMEM */
->> --
->> 2.46.2
->>
+>> If you won't use rotated anymore, delete it from the struct.
 > 
-> Thanks
-> barry
+> It is already done in this patch.
+> 
+> Thanks for your reviews,
+> Louis Chauvet
+> 
+>> Best Regards,
+>> - Maíra
+>>
+>>>    	frame_info->fb = fb;
+>>>    	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+>>>    	drm_framebuffer_get(frame_info->fb);
+>>> @@ -122,10 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>>>    									  DRM_MODE_REFLECT_X |
+>>>    									  DRM_MODE_REFLECT_Y);
+>>> -	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+>>> -			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+>>> -	vkms_plane_state->pixel_read = get_pixel_read_function(fmt);
+>>> +	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
+>>>    }
+>>>    static int vkms_plane_atomic_check(struct drm_plane *plane,
+>>>
 
