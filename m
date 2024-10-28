@@ -1,57 +1,57 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3871DC734
-	for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 14:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4399F1DD0C8
+	for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 14:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730124021; cv=none; b=Vc4M9n3HnSIQQ4F471BEilt/fzSKegKEZrcFXr3gEkLwNyUNKHsMd0+DMtfF9e3cS/+gB0ghc7Z2/gmv6ODc2Vm/IbNZB+GCGBBCaj8XrgK6cu5GhsewaGuq5wUmoQwgp+PIcn6+rUuVsxU8QdV8zyktOYAdX+ygGgnk8ZObgSA=
+	t=1730124054; cv=none; b=bhRyrsAxjCp5q20ygZvc2BFIWGWVn++eUKfIP9+GPL9m+dOXntXLHrI9J/RZyKZX0pPNHVNjSjw0tkNGfTrkajDc+Ij4ZkkDxREg5nhrqYxd2HCk51Yn9wgJS6h/WwXWx1btnkZUe+9UDlckg0gdNU/pRe8I85t0vHBOjYsiT18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730124021; c=relaxed/simple;
-	bh=v2HK0A45xfCW6LF3YFD2TPmEq4ihQfGG/Qxy38acCAU=;
+	s=arc-20240116; t=1730124054; c=relaxed/simple;
+	bh=Ew7uv1Ej9gxdNQJgHdVVARFS6iEQx+F+aZ8qXNu4Ti0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ss/nPKXM1y/IhV2OE3wM6uoxlB8Rq8GNz0Xr+YVmnjkNklJYV15nzdE3D/xCh6SbFpEixsfiJkBVFkAkYKxUPD0XMM48YrwpKJOXb4hz2WXwKHsURAOF3vh73zhg3G1/F2XTsGjHIOrE4aOdGvq97d8Y+AQoPRsZ8UYLDS9xvWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=aNe4lK9f; arc=none smtp.client-ip=209.85.167.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=bX2pSuvvvXuLKht6JKXUpZa3ljoASo5K2LStzCdfvZ6QJBPW1XT+PQZnNoigHGNf872LDGj9KTDPf++06yZl0Wl1GN9YyOY8tGkiCMqYoaKJuF/7pkQ+yWrRVDjZTuo6hADPAwO9K7KbSQ3/Kz2CqPNp2E3r9iJZ5FQ1TIjvygY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=VtOhGLFt; arc=none smtp.client-ip=209.85.161.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="aNe4lK9f"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3e601b6a33aso2494769b6e.0
-        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 07:00:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="VtOhGLFt"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5ebc0dbc566so2302187eaf.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 07:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1730124018; x=1730728818; darn=vger.kernel.org;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1730124050; x=1730728850; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FihaM4IoEI/TwOyPoeUguS8WS7IqmB9x82K637EGe5Y=;
-        b=aNe4lK9fRYs0brgi0ZiIPyRw8NmUo0obkPXCawojqJlIMKj/ka38Ak0yvj7cXS6rn+
-         Aslkr30lDPMowwatyN1o8R6nLDEE2Iptq+JvpIfHgLQ06WztZ0Ej91IjhGRXMVgmazth
-         1c2ru7VoW6pOEf5n6ho4RLcA3aoOMuDdAYB5rH++aZ7+F8DDM2X2StdcJ0ksAbBzH/g1
-         TUp13wwYymwEa/oGDc5avaEQWbQxAef4xkIgSUgqv2r2gt4LSjduLYpbjEca8iXgWNJw
-         nyc0XOw1SgCyV99O5388VKEtKVun3p9OtdOpB1C8nQPUobFjmcceqSz4QTtz3YVHsHLz
-         odhg==
+        bh=5CyyWAppIMSemT0CuK62Hzyft+OY6WztWx8opHDh7Gk=;
+        b=VtOhGLFtMRINgCVX/MFbzoAWe/kNK7gsR+YtXeb7ibCI3qfQPXBfnw8go6Otz+5C9/
+         FaKvsdwrUKETyIE06QSa/6ojAKM+TmqFq9WBw9ADBLdMyPxEtDr+ieb5PR1p9RL1XTTj
+         1zQELN6mahRrknLnJiY1oXkJ91IICjMk7iiVgBA3sICGEmmCdi7r8IF42aOxLME/M8tY
+         GBIk0xXxbyWuvA9IMX6uQD5LyOqM8fWEUx7OOefeseDwcf1+sW6pZWAAxQzytNmZk6DK
+         vwqO7LDNNrvrw+Z5fhTkDc2HNRf6NWqYXNEK2+ilNxMtu17Wo+k5OCYNDCl6eP7kAdp2
+         0XDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730124018; x=1730728818;
+        d=1e100.net; s=20230601; t=1730124050; x=1730728850;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FihaM4IoEI/TwOyPoeUguS8WS7IqmB9x82K637EGe5Y=;
-        b=GjVYuIXc0LlIvKPfBWowsezP4xye3qglEskXFot+5l+bmNMkbgEA/3J8qze54lBHl1
-         fXiN/qg1L6O/c3lVI52JVxTQGKlDDv8EMpHpcPjVmWxH3VqDaIfsPGpmnSNHmg1DYVph
-         V6wr0YroHE6gSjXxtaefZKe/MG9Fp7ieLXsRHuPBD3GGl0dksHJdbERDETANy7z69iVd
-         h33wga9aiafGvwEV1vPS1c5wOrGZYqEW28AQbf55lNGZs1QQxURioxp7Y11tA/S1LQDU
-         7AzhhUuqmHXi6yaTgAishCbj/jvOBoUhV9k5hDc7xy9Q74eR4TvSVUaCyx6ZNUxCeP1i
-         biLg==
-X-Forwarded-Encrypted: i=1; AJvYcCWu2EwknriG6G4lEgqliSU8ziACKAbLUagE32fkZoQoa7Dd1KuhxfKmt/Buuf2N0CAbmfDEMSBUaOI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYBWJaS6+xFPlqtX7wjBOTwoaZJ1XJriRWsadBUojGMVoKb51m
-	Zh/dgJEHRG/LYMS/XRg8Ug3pQa6MR7wYCikovKexM2X3pF4yJdMFD/fNK3eOkQY=
-X-Google-Smtp-Source: AGHT+IH9co64vboTin+h8OS63UgFbBeD4w6rdjM3nCxgpXXvLvMDezoy7l2Ep0U63nuT2u+Cay9MJQ==
-X-Received: by 2002:a05:6808:444c:b0:3e6:4c48:8942 with SMTP id 5614622812f47-3e64c488acamr1321455b6e.35.1730124017959;
-        Mon, 28 Oct 2024 07:00:17 -0700 (PDT)
+        bh=5CyyWAppIMSemT0CuK62Hzyft+OY6WztWx8opHDh7Gk=;
+        b=QkHLK6IMOwsPwoaqIx3rpMrI7QH2aqY1Y7Wm6nb999iCywa5tFiySI4cNixUVd+iM0
+         AKFQY8n1dLbmYSLDoxOjH1kHump1bTOegVzjI7OX6jBvDCFEMDt49We9SYALPpjLcWd/
+         aT9nCnvHikMWYojuRcjUKoaW52iKtkNnYGEFewJuuasYya8ly/uGrGhegOMGRVIf4/Tv
+         kR/3gvdSSnvzk+GOXBJ2A0VqUlcGKGmVhuWLmlBGT7RsedgAavQwWQEyPWJuRLui4y0f
+         N/FT8mKrlphbxLJH2cX9bqMK3NbcWFhYqHM/FI2bcnvzXiBlA3tgn0vzBK0H1vbJKmZj
+         P/zw==
+X-Forwarded-Encrypted: i=1; AJvYcCVd7I7solby6nWMdUJofrvjcmJr6zwrsrrbk7p2dXw+/HGJBmZO2w2D1NiYN8hZOwV6/ICXYJLVt8o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyK+4uuPH+QixqfeqU80FoIRmucwr932paxp+035cAJLRSKXo0
+	8zH5qicAizdK8bnC8KAfilKVh8Q43sTJ7PHdZZuZMmSdPW8CQU7TGSicG1O1/bQ=
+X-Google-Smtp-Source: AGHT+IGBtH1NdyVtTtxosvWgimQBcEYOE5uA1gln4dVd1rWRKzOv+q6qmhcV6IpETFtUChiH4J473A==
+X-Received: by 2002:a05:6358:e4a9:b0:1b8:6074:b53 with SMTP id e5c5f4694b2df-1c3f9e18e55mr223282755d.10.1730124050180;
+        Mon, 28 Oct 2024 07:00:50 -0700 (PDT)
 Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d17972f5d5sm32494226d6.23.2024.10.28.07.00.17
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b18d295ebasm318533385a.50.2024.10.28.07.00.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 07:00:17 -0700 (PDT)
-Date: Mon, 28 Oct 2024 10:00:16 -0400
+        Mon, 28 Oct 2024 07:00:48 -0700 (PDT)
+Date: Mon, 28 Oct 2024 10:00:47 -0400
 From: Johannes Weiner <hannes@cmpxchg.org>
 To: Shakeel Butt <shakeel.butt@linux.dev>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -63,11 +63,11 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
 	Meta kernel team <kernel-team@meta.com>
-Subject: Re: [PATCH v1 3/6] memcg-v1: no need for memcg locking for dirty
+Subject: Re: [PATCH v1 4/6] memcg-v1: no need for memcg locking for writeback
  tracking
-Message-ID: <20241028140016.GC10985@cmpxchg.org>
+Message-ID: <20241028140047.GD10985@cmpxchg.org>
 References: <20241025012304.2473312-1-shakeel.butt@linux.dev>
- <20241025012304.2473312-4-shakeel.butt@linux.dev>
+ <20241025012304.2473312-5-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,14 +76,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025012304.2473312-4-shakeel.butt@linux.dev>
+In-Reply-To: <20241025012304.2473312-5-shakeel.butt@linux.dev>
 
-On Thu, Oct 24, 2024 at 06:23:00PM -0700, Shakeel Butt wrote:
+On Thu, Oct 24, 2024 at 06:23:01PM -0700, Shakeel Butt wrote:
 > During the era of memcg charge migration, the kernel has to be make sure
-> that the dirty stat updates do not race with the charge migration.
-> Otherwise it might update the dirty stats of the wrong memcg. Now with
-> the memcg charge migration deprecated, there is no more race for dirty
-> stat updates and the previous locking can be removed.
+> that the writeback stat updates do not race with the charge migration.
+> Otherwise it might update the writeback stats of the wrong memcg. Now
+> with the memcg charge migration deprecated, there is no more race for
+> writeback stat updates and the previous locking can be removed.
 > 
 > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 
