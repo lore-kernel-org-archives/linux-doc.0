@@ -1,99 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E681EF92F;
-	Mon, 28 Oct 2024 23:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A1A1DFDB9;
+	Mon, 28 Oct 2024 23:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730159592; cv=none; b=RpLdEUjQ9wUvJ4dscvjS0K8hK+75WNu10iQKXURgn22eezOXet7UcDdzWB7YqTh5L1gXhonyFKOC3aTVM8d4tefXbHEtO6QJfXRJScMOg3mKPeSuMHY9vch/Jj500F5XITA0Yavew6Ik8LzJ82it1AAiMLVaixUQ/IxdXIJYi9I=
+	t=1730159813; cv=none; b=hIb30apFFglWuxvmQXjsNvNETUxrOe7blNfQh6kapAq/UO58A9JLciKLyQxtcxqa2I65zOkcY5FR1xdiTvzsW75+wYzShRW0xTX1u4SwqxmY6Fyf9YbS2kxW6+1eYKokQ4O9uWBs7oFfpnHbmMcYovtteZINvM1WylmnoVatzwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730159592; c=relaxed/simple;
-	bh=lWRCW+I7hWCkqI1/Qywg1Mar1bIibz0LJvPC/YB25Ts=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hauGQpnbhsjiOWviQSASyDvu/jQzEodZpD/eUM4S1/MIUK4M4lWBzqHs8LIjN/rUIQqTjIGn4OeXVgQ3MNP875KXI2QYGFQVhhfzfpj1RIrmKDIhEyet/ANXG+C+84dPWEV723Fda/sdv3d6dMllP0FxWvcvaSqZO4Uj816XYRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7XjgYjM; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730159813; c=relaxed/simple;
+	bh=JUHufYIdqmKXSfDlteSW20zJ1BG7mrAiwl8Jxg4y7ik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H7oZeA0oemjaiQZqZhDmDJ/RScwRyXjQfd/XOW+D5YGxpyDB2qwsydp8BoaAdzFEHZtjj6TmUwbQwZknvbkTyU+bqTMEfKhd508RF8pri7bZlG1+dGkbGnvNddF2TdSm0kK8nXRU3zuEqCYb/MbuzHL/PTtyrgmnyEAbVp5qeYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9X2dsx/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V7XjgYjM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730159591; x=1761695591;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=lWRCW+I7hWCkqI1/Qywg1Mar1bIibz0LJvPC/YB25Ts=;
-  b=V7XjgYjMp5ss5363AZ5UbrsCuAHjVkO4S+6npce6q6IpVdPzX5g9S6+f
-   eixxWSPtP4+McKXfIZMAYvxnMKh6R1CWyr0iLwi8qS2MPwd8aOTYCv2QW
-   Yk16LOZA4HIjebkwpsd7SABkX3CGCOTL3ObgaDZ0C2TEPa2yw3yKDslTO
-   Za5h/Z3FDm5yaYX5LUU2COi3WA2KCXiR3kFTgLUR8UCdIp43yDtaV6Fih
-   67H94yZF/fRZWN0UJFDYgep650e9Kley6BGprPohjQ4FkyhRwKzGZV+LG
-   Gem2Zlqdz5Addfmdesg7RKGghPEW2/gRNZz4N5oQo5WcA/Qvz1q2vkRmh
-   w==;
-X-CSE-ConnectionGUID: E4NOKMwWT6SB9lbSO/qACg==
-X-CSE-MsgGUID: ajMMbTZ/RCyp7al/SgO99g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29920772"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29920772"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 16:53:08 -0700
-X-CSE-ConnectionGUID: Sl41N38STqmnbF/wNKCgVg==
-X-CSE-MsgGUID: Rw5lo38OTR+htm7wc4P2nw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="81396685"
-Received: from salmansi-mobl.amr.corp.intel.com (HELO [10.125.80.18]) ([10.125.80.18])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 16:53:06 -0700
-Message-ID: <963f9a3e-71f2-41ba-ba46-e27aa8fe991a@linux.intel.com>
-Date: Mon, 28 Oct 2024 16:53:04 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9X2dsx/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D64CC4CEC3;
+	Mon, 28 Oct 2024 23:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730159813;
+	bh=JUHufYIdqmKXSfDlteSW20zJ1BG7mrAiwl8Jxg4y7ik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G9X2dsx/WYpU0XxlJqeLzjw0zCr9QzJRK5HuFPJyM7dSk5hyi7aawTA4vbgZaNv0F
+	 AsyBMVdxeXcdUsTNSnjUxHXjhAqkVrOvkUOuUku3uS1aI2ubXKvNfF8o9ALjmi7G7S
+	 WFOswp6TSosWO5exTTVSL05V2sCYUj3Xgk2hdXoet7p+5R5oHmLwTvmkyttUXzlaRU
+	 V3gjgFqybd0njHSVHNtHTHTVqMajCw7LWVWt3In/sE8G8Yuf6dcQStPNIIT41lWVSS
+	 +dk3sMa1oXSufeFef45CJwSDzJLHsCvwToSMNlk+5RGO5EHZykpYsHA4ARnzD+jMQi
+	 K0F5FD1ai5N7Q==
+Date: Mon, 28 Oct 2024 16:56:50 -0700
+From: Kees Cook <kees@kernel.org>
+To: Rong Xu <xur@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Li <davidxl@google.com>, Han Shen <shenhan@google.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Maksim Panchenko <max4bolt@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Yabin Cui <yabinc@google.com>,
+	Krzysztof Pszeniczny <kpszeniczny@google.com>,
+	Sriraman Tallam <tmsriram@google.com>,
+	Stephane Eranian <eranian@google.com>, x86@kernel.org,
+	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v6 4/7] Add markers for text_unlikely and text_hot
+ sections
+Message-ID: <202410281656.6A598E64@keescook>
+References: <20241026051410.2819338-1-xur@google.com>
+ <20241026051410.2819338-5-xur@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] VERW based clean-up
-From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-To: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
-Cc: hpa@zytor.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- pawan.kumar.gupta@linux.intel.com
-References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241026051410.2819338-5-xur@google.com>
 
-Of course it isn't until after I hit send to realize I missed the "-v2" flag
-when I generated these patches! Sorry for the confusion!
+On Fri, Oct 25, 2024 at 10:14:06PM -0700, Rong Xu wrote:
+> Add markers like __hot_text_start, __hot_text_end, __unlikely_text_start,
+> and __unlikely_text_end which will be included in System.map. These markers
+> indicate how the compiler groups functions, providing valuable information
+> to developers about the layout and optimization of the code.
+> 
+> Co-developed-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Han Shen <shenhan@google.com>
 
-On 10/28/24 16:50, Daniel Sneddon wrote:
-> There are several mitigations that use the VERW instruction to clean
-> up internal CPU buffers.  Currently, each of these mitigations is
-> treated independently, but if VERW is needed for one of the
-> mitigations, it's on for all of them. This can lead to some confusion
-> if a user tries to disable one of the mitigations, but it is left
-> enabled for one of the others. The user needs to disable all 4 VERW-
-> based mitigations. Warn the user when one or more VERW mitigations are
-> disabled but not all of them. While we're messing with VERW
-> mitigations, might as well simplify them and remove the need to call
-> each of them twice.
-> 
-> V2:
-> Dropped the new knob previously introduced in the first patch (Borislav)
-> Add warning if not all 4 mitigations states match (Borislav)
-> Removed extra comment (Josh)
-> Code clean-up (Josh)
-> 
-> 
-> Daniel Sneddon (2):
->   x86/bugs: Check VERW mitigations for consistency
->   x86/bugs: Clean-up verw mitigations
-> 
->  arch/x86/include/asm/processor.h |   2 +-
->  arch/x86/kernel/cpu/bugs.c       | 206 +++++++++++++------------------
->  2 files changed, 90 insertions(+), 118 deletions(-)
-> 
+Yup, this is good.
 
+Reviewed-by: Kees Cook <kees@kernel.org>
+
+-- 
+Kees Cook
