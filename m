@@ -1,290 +1,308 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B9454765;
-	Mon, 28 Oct 2024 11:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E77D1D934D;
+	Mon, 28 Oct 2024 12:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730115277; cv=none; b=U29wHFho0Ry1ZXm3vvvAA21LOQn1S+0BALRbsQlIJHbF1El4Kt+CC+282um/MoaanOSaql6/Bn+wiJbZR19Gj5yZ1QnEjjTGZiSK28tafycgKj6ZlDn6ibBEanpVkfmQ14lsHHv7oTzM0EsbJQUW+pixObHkJ2R1sfYmZEYAesg=
+	t=1730117119; cv=none; b=Zaidiw4DNmxYu72Och+Hhjhuasc+u5qzioWp6Fz0nSoPDA5zR0bckzz9j9oFEsMCNAvK/i1qqunA+vTo/5cpQnv/IC1xoJWx6MbNOFCG5j0kmanHMFxEKPwUucGtu1O8+KCQ642wOn/HwH8hf3f/UD8q48O/wyAQNpZIPtIg7z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730115277; c=relaxed/simple;
-	bh=8zxqfKY9KK4jWJmruiARdXw0fMxOVXDgxwAQ6L0DW70=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tqjErg2+h5u9g6s8YRniCRChGHDoxZIDa6A/gmUfBbKSm7FidnSVXVt4BELgjtABuy8D8sHJPDCp7snYLazjeP12muTkTCNUOlkze7ihreW2U0IuVmExImbyAngJ6A9Qbk6RVa2XhklBYIu+ydrorZofwEU/3G0zcmp8Jog4umc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=eyuSdExE; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="eyuSdExE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=odLg8OLtLEPB9lZYVjnwYcKDJqm1UOOqheOqN1GgRNM=; b=eyuSdExE91ixSVAYvRqlkQCeKW
-	BfPS2+HRPptimKZcKXtx5c/NMMds3ub3l3pzmN69ca0RMuz9l/5PRalx+MtbXIXBqkxyBIFUwxIGY
-	9QdYl0xhbBXuPKTUX7fIl0KIredaMV5/rw5aLTbYWXPqEusgIsYepvIc0TyZFSWs6d3fuRgGP8CSM
-	E022BzzYdi0G/a/kgMWoLsAKF1GDXVHMCynGbUw+vbr4WvEdZkWVva94PhsAGs4fR1gLjSvITbwZt
-	GSWkUss3/jotIdYiP0CTQo/YHV9bm+/7TU3WeIoLQ/GmFeH3Dpm4SvwMBP9NeYxQBpT8A73bLNVRi
-	oAa5fCCw==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1t5O0m-00G3bt-6N; Mon, 28 Oct 2024 12:34:16 +0100
-Message-ID: <f1c35067-9381-424b-b962-526b85d59ea9@igalia.com>
-Date: Mon, 28 Oct 2024 08:34:08 -0300
+	s=arc-20240116; t=1730117119; c=relaxed/simple;
+	bh=AnS873QB+hwd0VrFLf/D5rY6qh3rve2wNTTBNEyvE14=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HjdhPq/FUVbvmtirnCczVW1JYteFKAQp59Unf549dOaDmbbMGo7Pce9KIqH+L098vxoViN2r69ewJJyCq7EDmrYR8S+8iqAsafYKfPSfzsb1Le81xCTcbsQ85syzdDpO+pEIxzHy7Vzejhu2Oqvs+P5KzcJOnGBhbYBBScTCapM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XcX8108CfzfdT3;
+	Mon, 28 Oct 2024 20:02:41 +0800 (CST)
+Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
+	by mail.maildlp.com (Postfix) with ESMTPS id B429C1402CC;
+	Mon, 28 Oct 2024 20:05:13 +0800 (CST)
+Received: from localhost.localdomain (10.90.30.45) by
+ dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 28 Oct 2024 20:05:13 +0800
+From: Yunsheng Lin <linyunsheng@huawei.com>
+To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
+	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>, Andrew
+ Morton <akpm@linux-foundation.org>, Linux-MM <linux-mm@kvack.org>, Jonathan
+ Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+Subject: [PATCH RFC 03/10] mm: page_frag: update documentation for page_frag
+Date: Mon, 28 Oct 2024 19:58:43 +0800
+Message-ID: <20241028115850.3409893-4-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20241028115850.3409893-1-linyunsheng@huawei.com>
+References: <20241028115850.3409893-1-linyunsheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] mm: shmem: override mTHP shmem default with a kernel
- parameter
-To: Barry Song <21cnbao@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
- David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang
- <ioworker0@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com
-References: <20241027175743.1056710-1-mcanal@igalia.com>
- <20241027175743.1056710-4-mcanal@igalia.com>
- <CAGsJ_4xCw3OvkMo6cVr+U97C3SO+n+5c1j5XRodLDaLXW4ALjg@mail.gmail.com>
- <2505d52c-3454-4892-8c90-e3d9b2f0c84f@igalia.com>
- <CAGsJ_4y13T+KE1hJPb=14LBvGixd4uQTcN5pS=Hok6Ca6RD+7g@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <CAGsJ_4y13T+KE1hJPb=14LBvGixd4uQTcN5pS=Hok6Ca6RD+7g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemf200006.china.huawei.com (7.185.36.61)
 
-Hi Barry,
+Update documentation about design, implementation and API usages
+for page_frag.
 
-On 28/10/24 08:09, Barry Song wrote:
-> On Mon, Oct 28, 2024 at 6:10 PM Maíra Canal <mcanal@igalia.com> wrote:
->>
->> Hi Barry,
->>
->> On 27/10/24 18:54, Barry Song wrote:
->>> On Mon, Oct 28, 2024 at 6:58 AM Maíra Canal <mcanal@igalia.com> wrote:
->>>>
->>>> Add the ``thp_shmem=`` kernel command line to allow specifying the
->>>> default policy of each supported shmem hugepage size. The kernel parameter
->>>> accepts the following format:
->>>>
->>>> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
->>>>
->>>> For example,
->>>>
->>>> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
->>>>
->>>> By configuring the default policy of several shmem huge pages, the user
->>>> can take advantage of mTHP before it's been configured through sysfs.
->>>>
->>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>>> ---
->>>>    .../admin-guide/kernel-parameters.txt         |  10 ++
->>>>    Documentation/admin-guide/mm/transhuge.rst    |  17 +++
->>>>    mm/shmem.c                                    | 109 +++++++++++++++++-
->>>>    3 files changed, 135 insertions(+), 1 deletion(-)
->>>>
->>>
->>> Hi Maíra,
->>>
->>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->>>> index acabb04d0dd4..595fa096e28b 100644
->>>> --- a/Documentation/admin-guide/kernel-parameters.txt
->>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
->>>> @@ -6700,6 +6700,16 @@
->>>>                           Force threading of all interrupt handlers except those
->>>>                           marked explicitly IRQF_NO_THREAD.
->>>>
->>>> +       shmem_anon=     [KNL]
->>>> +                       Format: <size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
->>>> +                       Control the default policy of each hugepage size for the
->>>> +                       internal shmem mount. <policy> is one of policies available
->>>> +                       for the shmem mount ("always", "inherit", "never", "within_size",
->>>> +                       and "advise").
->>>> +                       It can be used multiple times for multiple shmem THP sizes.
->>>> +                       See Documentation/admin-guide/mm/transhuge.rst for more
->>>> +                       details.
->>>
->>> I'm not sure this is the right name. How about "thp_shmem"?
->>
->> Oops, sorry about that.
->>
->>>
->>>> +
->>>>           topology=       [S390,EARLY]
->>>>                           Format: {off | on}
->>>>                           Specify if the kernel should make use of the cpu
->>>> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
->>>> index 9b5b02c4d1ab..47e7fc30e22d 100644
->>>> --- a/Documentation/admin-guide/mm/transhuge.rst
->>>> +++ b/Documentation/admin-guide/mm/transhuge.rst
->>>> @@ -332,6 +332,23 @@ allocation policy for the internal shmem mount by using the kernel parameter
->>>>    seven valid policies for shmem (``always``, ``within_size``, ``advise``,
->>>>    ``never``, ``deny``, and ``force``).
->>>>
->>>> +In the same manner as ``thp_anon`` controls each supported anonymous THP
->>>> +size, ``thp_shmem`` controls each supported shmem THP size. ``thp_shmem``
->>>> +has the same format as ``thp_anon``, but also supports the policy
->>>> +``within_size``.
->>>> +
->>>> +``thp_shmem=`` may be specified multiple times to configure all THP sizes
->>>> +as required. If ``thp_shmem=`` is specified at least once, any shmem THP
->>>> +sizes not explicitly configured on the command line are implicitly set to
->>>> +``never``.
->>>> +
->>>> +``transparent_hugepage_shmem`` setting only affects the global toggle. If
->>>> +``thp_shmem`` is not specified, PMD_ORDER hugepage will default to
->>>> +``inherit``. However, if a valid ``thp_shmem`` setting is provided by the
->>>> +user, the PMD_ORDER hugepage policy will be overridden. If the policy for
->>>> +PMD_ORDER is not defined within a valid ``thp_shmem``, its policy will
->>>> +default to ``never``.
->>>> +
->>>>    Hugepages in tmpfs/shmem
->>>>    ========================
->>>>
->>>> diff --git a/mm/shmem.c b/mm/shmem.c
->>>> index 24cdeafd8260..0a7a7d04f725 100644
->>>> --- a/mm/shmem.c
->>>> +++ b/mm/shmem.c
+CC: Alexander Duyck <alexander.duyck@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux-MM <linux-mm@kvack.org>
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+---
+ Documentation/mm/page_frags.rst | 110 +++++++++++++++++++++++++++++++-
+ include/linux/page_frag_cache.h |  54 ++++++++++++++++
+ mm/page_frag_cache.c            |  12 +++-
+ 3 files changed, 173 insertions(+), 3 deletions(-)
 
-[...]
-
->>>>    static int __init setup_transparent_hugepage_shmem(char *str)
->>>>    {
->>>>           int huge, ret = 0;
->>>> @@ -5206,6 +5228,91 @@ static int __init setup_transparent_hugepage_shmem(char *str)
->>>>    }
->>>>    __setup("transparent_hugepage_shmem=", setup_transparent_hugepage_shmem);
->>>>
->>>> +static char str_dup[PAGE_SIZE] __initdata;
->>>> +static int __init setup_thp_shmem(char *str)
->>>> +{
->>>> +       char *token, *range, *policy, *subtoken;
->>>> +       unsigned long always, inherit, madvise, within_size;
->>>> +       char *start_size, *end_size;
->>>> +       int start, end, nr;
->>>> +       char *p;
->>>> +
->>>> +       if (!str || strlen(str) + 1 > PAGE_SIZE)
->>>> +               goto err;
->>>> +       strcpy(str_dup, str);
->>>> +
->>>> +       always = huge_shmem_orders_always;
->>>> +       inherit = huge_shmem_orders_inherit;
->>>> +       madvise = huge_shmem_orders_madvise;
->>>> +       within_size = huge_shmem_orders_within_size;
->>>> +       p = str_dup;
->>>> +       while ((token = strsep(&p, ";")) != NULL) {
->>>> +               range = strsep(&token, ":");
->>>> +               policy = token;
->>>> +
->>>> +               if (!policy)
->>>> +                       goto err;
->>>> +
->>>> +               while ((subtoken = strsep(&range, ",")) != NULL) {
->>>> +                       if (strchr(subtoken, '-')) {
->>>> +                               start_size = strsep(&subtoken, "-");
->>>> +                               end_size = subtoken;
->>>> +
->>>> +                               start = get_order_from_str(start_size);
->>>> +                               end = get_order_from_str(end_size);
->>>> +                       } else {
->>>> +                               start = end = get_order_from_str(subtoken);
->>>> +                       }
->>>> +
->>>> +                       if (start < 0 || end < 0 || start > end)
->>>> +                               goto err;
->>>> +
->>>> +                       nr = end - start + 1;
->>>> +                       if (!strcmp(policy, "always")) {
->>>> +                               bitmap_set(&always, start, nr);
->>>> +                               bitmap_clear(&inherit, start, nr);
->>>> +                               bitmap_clear(&madvise, start, nr);
->>>> +                               bitmap_clear(&within_size, start, nr);
->>>> +                       } else if (!strcmp(policy, "advise")) {
->>>> +                               bitmap_set(&madvise, start, nr);
->>>> +                               bitmap_clear(&inherit, start, nr);
->>>> +                               bitmap_clear(&always, start, nr);
->>>> +                               bitmap_clear(&within_size, start, nr);
->>>> +                       } else if (!strcmp(policy, "inherit")) {
->>>> +                               bitmap_set(&inherit, start, nr);
->>>> +                               bitmap_clear(&madvise, start, nr);
->>>> +                               bitmap_clear(&always, start, nr);
->>>> +                               bitmap_clear(&within_size, start, nr);
->>>> +                       } else if (!strcmp(policy, "within_size")) {
->>>> +                               bitmap_set(&within_size, start, nr);
->>>> +                               bitmap_clear(&inherit, start, nr);
->>>> +                               bitmap_clear(&madvise, start, nr);
->>>> +                               bitmap_clear(&always, start, nr);
->>>> +                       } else if (!strcmp(policy, "never")) {
->>>> +                               bitmap_clear(&inherit, start, nr);
->>>> +                               bitmap_clear(&madvise, start, nr);
->>>> +                               bitmap_clear(&always, start, nr);
->>>> +                               bitmap_clear(&within_size, start, nr);
->>>> +                       } else {
->>>> +                               pr_err("invalid policy %s in thp_shmem boot parameter\n", policy);
->>>> +                               goto err;
->>>> +                       }
->>>> +               }
->>>> +       }
->>>> +
->>>> +       huge_shmem_orders_always = always;
->>>> +       huge_shmem_orders_madvise = madvise;
->>>> +       huge_shmem_orders_inherit = inherit;
->>>> +       huge_shmem_orders_within_size = within_size;
->>>> +       shmem_orders_configured = true;
->>>> +       return 1;
->>>> +
->>>> +err:
->>>> +       pr_warn("thp_shmem=%s: error parsing string, ignoring setting\n", str);
->>>> +       return 0;
->>>> +}
->>>
->>> Can we share source code with thp_anon since there's a lot of duplication?
->>
->> I'm not a regular mm contributor and I'm most usually around drivers, so
->> I don't know exactly here I could add shared code. Should I add the
->> headers to "internal.h"?
-> 
-> My comment isn't related to drivers or memory management. It's solely about
-> avoiding code duplication. For example, we could create a shared function to
-> handle both controls, reducing redundant code :-)
-
-Let me rephrase it.
-
-I completely agree that we should avoid code duplication. I'm asking
-where is the best place to add the headers of the shared functions.
-"linux/shmem_fs.h" doesn't look appropriate to me, so I believe the
-remaining options would be "linux/huge_mm.h" or "internal.h".
-
-I would like to know your opinion about those two options.
-
-Best Regards,
-- Maíra
-
-> 
->>
->> Best Regards,
->> - Maíra
->>
->>>
->>>> +__setup("thp_shmem=", setup_thp_shmem);
->>>> +
->>>>    #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
->>>>
->>>>    #else /* !CONFIG_SHMEM */
->>>> --
->>>> 2.46.2
->>>>
->>>
->>> Thanks
->>> barry
->>
+diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
+index 503ca6cdb804..34e654c2956e 100644
+--- a/Documentation/mm/page_frags.rst
++++ b/Documentation/mm/page_frags.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ==============
+ Page fragments
+ ==============
+@@ -40,4 +42,110 @@ page via a single call.  The advantage to doing this is that it allows for
+ cleaning up the multiple references that were added to a page in order to
+ avoid calling get_page per allocation.
+ 
+-Alexander Duyck, Nov 29, 2016.
++
++Architecture overview
++=====================
++
++.. code-block:: none
++
++                      +----------------------+
++                      | page_frag API caller |
++                      +----------------------+
++                                  |
++                                  |
++                                  v
++    +------------------------------------------------------------------+
++    |                   request page fragment                          |
++    +------------------------------------------------------------------+
++             |                                 |                     |
++             |                                 |                     |
++             |                          Cache not enough             |
++             |                                 |                     |
++             |                         +-----------------+           |
++             |                         | reuse old cache |--Usable-->|
++             |                         +-----------------+           |
++             |                                 |                     |
++             |                             Not usable                |
++             |                                 |                     |
++             |                                 v                     |
++        Cache empty                   +-----------------+            |
++             |                        | drain old cache |            |
++             |                        +-----------------+            |
++             |                                 |                     |
++             v_________________________________v                     |
++                              |                                      |
++                              |                                      |
++             _________________v_______________                       |
++            |                                 |              Cache is enough
++            |                                 |                      |
++ PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE         |                      |
++            |                                 |                      |
++            |               PAGE_SIZE >= PAGE_FRAG_CACHE_MAX_SIZE    |
++            v                                 |                      |
++    +----------------------------------+      |                      |
++    | refill cache with order > 0 page |      |                      |
++    +----------------------------------+      |                      |
++      |                    |                  |                      |
++      |                    |                  |                      |
++      |              Refill failed            |                      |
++      |                    |                  |                      |
++      |                    v                  v                      |
++      |      +------------------------------------+                  |
++      |      |   refill cache with order 0 page   |                  |
++      |      +----------------------------------=-+                  |
++      |                       |                                      |
++ Refill succeed               |                                      |
++      |                 Refill succeed                               |
++      |                       |                                      |
++      v                       v                                      v
++    +------------------------------------------------------------------+
++    |             allocate fragment from cache                         |
++    +------------------------------------------------------------------+
++
++API interface
++=============
++
++Depending on different aligning requirement, the page_frag API caller may call
++page_frag_*_align*() to ensure the returned virtual address or offset of the
++page is aligned according to the 'align/alignment' parameter. Note the size of
++the allocated fragment is not aligned, the caller needs to provide an aligned
++fragsz if there is an alignment requirement for the size of the fragment.
++
++.. kernel-doc:: include/linux/page_frag_cache.h
++   :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
++		 __page_frag_alloc_align page_frag_alloc_align page_frag_alloc
++
++.. kernel-doc:: mm/page_frag_cache.c
++   :identifiers: page_frag_cache_drain page_frag_free
++
++Coding examples
++===============
++
++Initialization and draining API
++-------------------------------
++
++.. code-block:: c
++
++   page_frag_cache_init(nc);
++   ...
++   page_frag_cache_drain(nc);
++
++
++Allocation & freeing API
++------------------------
++
++.. code-block:: c
++
++    void *va;
++
++    va = page_frag_alloc_align(nc, size, gfp, align);
++    if (!va)
++        goto do_error;
++
++    err = do_something(va, size);
++    if (err)
++        goto do_error;
++
++    ...
++
++    page_frag_free(va);
+diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
+index 5ae97f93a0a1..a2b1127e8ac8 100644
+--- a/include/linux/page_frag_cache.h
++++ b/include/linux/page_frag_cache.h
+@@ -28,11 +28,28 @@ static inline bool encoded_page_decode_pfmemalloc(unsigned long encoded_page)
+ 	return !!(encoded_page & PAGE_FRAG_CACHE_PFMEMALLOC_BIT);
+ }
+ 
++/**
++ * page_frag_cache_init() - Init page_frag cache.
++ * @nc: page_frag cache from which to init
++ *
++ * Inline helper to initialize the page_frag cache.
++ */
+ static inline void page_frag_cache_init(struct page_frag_cache *nc)
+ {
+ 	nc->encoded_page = 0;
+ }
+ 
++/**
++ * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
++ * @nc: page_frag cache from which to check
++ *
++ * Check if the current page in page_frag cache is allocated from the pfmemalloc
++ * reserves. It has the same calling context expectation as the allocation API.
++ *
++ * Return:
++ * true if the current page in page_frag cache is allocated from the pfmemalloc
++ * reserves, otherwise return false.
++ */
+ static inline bool page_frag_cache_is_pfmemalloc(struct page_frag_cache *nc)
+ {
+ 	return encoded_page_decode_pfmemalloc(nc->encoded_page);
+@@ -57,6 +74,19 @@ static inline unsigned int __page_frag_cache_commit(struct page_frag_cache *nc,
+ 	return __page_frag_cache_commit_noref(nc, pfrag, used_sz);
+ }
+ 
++/**
++ * __page_frag_alloc_align() - Allocate a page fragment with aligning
++ * requirement.
++ * @nc: page_frag cache from which to allocate
++ * @fragsz: the requested fragment size
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ * @align_mask: the requested aligning requirement for the 'va'
++ *
++ * Allocate a page fragment from page_frag cache with aligning requirement.
++ *
++ * Return:
++ * Virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *__page_frag_alloc_align(struct page_frag_cache *nc,
+ 					    unsigned int fragsz, gfp_t gfp_mask,
+ 					    unsigned int align_mask)
+@@ -72,6 +102,19 @@ static inline void *__page_frag_alloc_align(struct page_frag_cache *nc,
+ 	return va;
+ }
+ 
++/**
++ * page_frag_alloc_align() - Allocate a page fragment with aligning requirement.
++ * @nc: page_frag cache from which to allocate
++ * @fragsz: the requested fragment size
++ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
++ * @align: the requested aligning requirement for the fragment
++ *
++ * WARN_ON_ONCE() checking for @align before allocating a page fragment from
++ * page_frag cache with aligning requirement.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 					  unsigned int fragsz, gfp_t gfp_mask,
+ 					  unsigned int align)
+@@ -80,6 +123,17 @@ static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 	return __page_frag_alloc_align(nc, fragsz, gfp_mask, -align);
+ }
+ 
++/**
++ * page_frag_alloc() - Allocate a page fragment.
++ * @nc: page_frag cache from which to allocate
++ * @fragsz: the requested fragment size
++ * @gfp_mask: the allocation gfp to use when cache need to be refilled
++ *
++ * Allocate a page fragment from page_frag cache.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
+ static inline void *page_frag_alloc(struct page_frag_cache *nc,
+ 				    unsigned int fragsz, gfp_t gfp_mask)
+ {
+diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
+index f55d34cf7d43..d014130fb893 100644
+--- a/mm/page_frag_cache.c
++++ b/mm/page_frag_cache.c
+@@ -70,6 +70,10 @@ static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
+ 	return page;
+ }
+ 
++/**
++ * page_frag_cache_drain - Drain the current page from page_frag cache.
++ * @nc: page_frag cache from which to drain
++ */
+ void page_frag_cache_drain(struct page_frag_cache *nc)
+ {
+ 	if (!nc->encoded_page)
+@@ -182,8 +186,12 @@ void *__page_frag_cache_prepare(struct page_frag_cache *nc, unsigned int fragsz,
+ }
+ EXPORT_SYMBOL(__page_frag_cache_prepare);
+ 
+-/*
+- * Frees a page fragment allocated out of either a compound or order 0 page.
++/**
++ * page_frag_free - Free a page fragment.
++ * @addr: va of page fragment to be freed
++ *
++ * Free a page fragment allocated out of either a compound or order 0 page by
++ * virtual address.
+  */
+ void page_frag_free(void *addr)
+ {
+-- 
+2.33.0
 
