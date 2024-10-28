@@ -1,176 +1,257 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE311DFE1C;
-	Mon, 28 Oct 2024 20:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEEF18FC75;
+	Mon, 28 Oct 2024 21:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730149145; cv=none; b=IwWKSDkJkiHsCLPQpDeOGR5tFABIVQ2O7tZHohbWqIKczY8nI/uFVF7bryeYno2+Z9uGY+UwUPcA1Pf7Kz5icTs+Y/TrpmyTJxloHYiEO+cE0f1v7US7CiIHeXxo2wzh8gSrfGjwlCgRxtelk5y7BUbRrjg8oUr4wU/MZp5B8Dg=
+	t=1730149509; cv=none; b=uMWtCwT6/ThqSUtRmaEY71+M9eMxWpz8VHFPir/zjSMjG68afCyMt7IANQSqC0u0JO76Y4LcDZ9ueiGy93swtUvDSQvH10rIP89RYn0Sjr9NxJDTN8PTGl7CGrYXWxA5t9ynYjOhcXISG9icsKRZmyXlH3AitgoHDjiAJhUvoaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730149145; c=relaxed/simple;
-	bh=XDchRQtmy6pHQo4VldmyUQn5KpIMSBE9FuRx/IQ/fLc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ba/i5GJSzfWbnG6cDm5hqDqK02WJ9aIR73MA4UJvgfoayCXD69BlugrdoOGNP71ujMbWyTRPGgFsT3/+TlQAjK9+7cwoQl8Dss5CEmS5T7fVf7F4vg9td8FxKUHSSqYzblQd/LHdaVFTOUCColqZ78UojIU0LzkvuaaByoNlj+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YHWCjZnS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730149509; c=relaxed/simple;
+	bh=/eqOJMR5/kRv1PZUjhCMyPYy8GBp0CAd6+vdfLRQbdI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gkz1kV8NsMaJvfL14ryPE/WajsY/caB1/WnagiiT1D7tb6sFt0i0iTNnivSu3gc4FBkGxfpSGsGbGrWVYQyOIC0x2Ob6MFq2m5129THHADSzKcG+UoIabHi0136XMhKk4GKHZ5BSIXFE4pC4Cd9BATdXmfrpwzceX6hdKj9DL6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=auQDsa9M; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YHWCjZnS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8324C4CEC3;
-	Mon, 28 Oct 2024 20:59:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730149144;
-	bh=XDchRQtmy6pHQo4VldmyUQn5KpIMSBE9FuRx/IQ/fLc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=YHWCjZnSvGD0FLXm38frIZRba2sQQ98rHEmaoqo7+IGWHJUxibwDnNsBZgESkMQf2
-	 TsIZgg66kDAZi3cQ/raC0xLCHxFt/n+Q+GfpSPikoPYWogMwVVkT2YGGo6r+mvlpQs
-	 LYcYZiWraEirilGEQRB7r1dSqxIlLl6PnIyzBEG69k5H5ZL/4V51yCX9ue/AQ9hoao
-	 YtQPx9n4wU6TLKUu3BMoGWW4nbSLG6WcdHPvYzg+727B9k+tQFNcmm7b2B+OIclaEr
-	 WoCdB/gjnaxlHYJSzABbNThj3fTHRWtRg5gmc802RNwzAtTGyuBAMLTzhdJzsWVOka
-	 YksEeTIOFMwbA==
-Date: Mon, 28 Oct 2024 15:59:02 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 01/18] PCI/P2PDMA: refactor the p2pdma mapping helpers
-Message-ID: <20241028205902.GA1114413@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="auQDsa9M"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6ea051d04caso12213177b3.0;
+        Mon, 28 Oct 2024 14:05:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730149506; x=1730754306; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aLEBUO3zgTSFGN59d665N/08QPwfc0hewb2QT9/bCXo=;
+        b=auQDsa9MSurdqhXqznEynN05nQULs+sEUrDUJtpCKqMJcAyDCYdAghDJI36+VRjffh
+         iRhvJfuaUjpeELxtMxY+S1o0gIp9ya5zxCGvMiCmdb+9fKDg3hYRcLo+Xn5FS4dM599P
+         M6YIG+sMnIgDwiDm4C3ci/r18EoaPs/pN664w3OcKrWrOhLWS1hpeTsWJAy2Vw8Rjczz
+         X7ycBRcs9akzzS6CgpobV54lCblm+xy9C8CWBWNTJa+gwD/1DeUFTqpP6YCMXCQBwK5j
+         ugzmOSaUT2IwHeLDAdeBWzKUs0UlvezccU+CZyisHywOWB44PqlZWWBBJn/04UEks5yz
+         wooQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730149506; x=1730754306;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aLEBUO3zgTSFGN59d665N/08QPwfc0hewb2QT9/bCXo=;
+        b=uBVRJmsnYw+wl6S3rCR9Z0LBxqPIOoRi3lJhfL9BNGrY82oW4bNfNdmNslyxLS7n29
+         JkF+QRWaRlVqIkegij8KOmRmrGvKwXjriT7lvCAbBYtRYeAL1rnJwWCJ2yrKDuGuHJDW
+         T61yoIQ3vYegh4OiRXTTH+9YzFQWqSWsG4ZQI99haaZ1WzMBWchLHtBNstQe005Akq5C
+         P5I2RcUUw3wkeeEotizbC3AFRK+rg7jou0i4A2Hx8bDbVmrEQCnR2VqrDG9A9fPvxwo1
+         rKkTZ1HK2Il5HeZ0utjTz4Eg0/2IlgUGff+D3xGZppoc9u7nwzEXnIA6VzD0nBLYp5S0
+         sjFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTwQjDCeUc5+/q0jqqqGHrS5T5U+UBAcnkLWyYD62h25ex4NpwTEWvjocXFnI7mdZWqKBEyXQNKt6CFi0n@vger.kernel.org, AJvYcCV33y/D5GMiilnqJ7IFB8o100Pe03BEj9wO1s7+diM42+d988SpxdKnYa4FarZMX3J/5gyrrIQmchnQ@vger.kernel.org, AJvYcCWlOYOKC3CnCQXn7qpyFZehC/SNtZrBsKnLKM0jjrFBZPfCdeYKgdEY8hjIqoOWNBsdYX7NLpew@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy52Bw98U5zEF9e18SujQolLmO+/tbaZzoCfT6C54INHge2kfk8
+	yiNBPcixAcshGGhLmRA8oBgNnzEwP9Qw3uSdKfIXwiDiy7Oa4N0N
+X-Google-Smtp-Source: AGHT+IG+IPKm2Fw3hNr6RVtM0QZGyoPz7y6L5l00CFINrofIoAx5v5ae8AlvQ2HENfUdx2ayHL2eZA==
+X-Received: by 2002:a05:690c:6085:b0:6d5:7b2f:60a0 with SMTP id 00721157ae682-6e9d8afb26dmr97249987b3.34.1730149506371;
+        Mon, 28 Oct 2024 14:05:06 -0700 (PDT)
+Received: from localhost (fwdproxy-frc-034.fbsv.net. [2a03:2880:21ff:22::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e9c6c76a07sm16223747b3.81.2024.10.28.14.05.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 14:05:06 -0700 (PDT)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: hannes@cmpxchg.org
+Cc: nphamcs@gmail.com,
+	shakeel.butt@linux.dev,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	muchun.song@linux.dev,
+	tj@kernel.org,
+	lizefan.x@bytedance.com,
+	mkoutny@suse.com,
+	corbet@lwn.net,
+	lnyng@meta.com,
+	akpm@linux-foundation.org,
+	cgroups@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
+Date: Mon, 28 Oct 2024 14:05:05 -0700
+Message-ID: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a4d93ca45f7ad09105a1cf347e6b6d6b6fb7e303.1730037276.git.leon@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Prefer subject capitalization in drivers/pci:
+This patch introduces a new counter to memory.stat that tracks hugeTLB
+usage, only if hugeTLB accounting is done to memory.current. This
+feature is enabled the same way hugeTLB accounting is enabled, via
+the memory_hugetlb_accounting mount flag for cgroupsv2.
 
-  PCI/P2PDMA: Refactor ...
+1. Why is this patch necessary?
+Currently, memcg hugeTLB accounting is an opt-in feature [1] that adds
+hugeTLB usage to memory.current. However, the metric is not reported in
+memory.stat. Given that users often interpret memory.stat as a breakdown
+of the value reported in memory.current, the disparity between the two
+reports can be confusing. This patch solves this problem by including
+the metric in memory.stat as well, but only if it is also reported in
+memory.current (it would also be confusing if the value was reported in
+memory.stat, but not in memory.current)
 
-On Sun, Oct 27, 2024 at 04:21:01PM +0200, Leon Romanovsky wrote:
-> From: Christoph Hellwig <hch@lst.de>
-> 
-> The current scheme with a single helper to determine the P2P status
-> and map a scatterlist segment force users to always use the map_sg
-> helper to DMA map, which we're trying to get away from because they
-> are very cache inefficient.
-> ...
+Aside from the consistency between the two files, we also see benefits
+in observability. Userspace might be interested in the hugeTLB footprint
+of cgroups for many reasons. For instance, system admins might want to
+verify that hugeTLB usage is distributed as expected across tasks: i.e.
+memory-intensive tasks are using more hugeTLB pages than tasks that
+don't consume a lot of memory, or are seen to fault frequently. Note that
+this is separate from wanting to inspect the distribution for limiting
+purposes (in which case, hugeTLB controller makes more sense).
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+2. We already have a hugeTLB controller. Why not use that?
+It is true that hugeTLB tracks the exact value that we want. In fact, by
+enabling the hugeTLB controller, we get all of the observability
+benefits that I mentioned above, and users can check the total hugeTLB
+usage, verify if it is distributed as expected, etc.
 
-A couple minor nits below.
+With this said, there are 2 problems:
+(a) They are still not reported in memory.stat, which means the
+    disparity between the memcg reports are still there.
+(b) We cannot reasonably expect users to enable the hugeTLB controller
+    just for the sake of hugeTLB usage reporting, especially since
+    they don't have any use for hugeTLB usage enforcing [2].
 
-> @@ -1412,28 +1411,29 @@ int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
->  		size_t s_length = s->length;
->  		size_t pad_len = (mask - iova_len + 1) & mask;
->  
-> -		if (is_pci_p2pdma_page(sg_page(s))) {
-> -			map = pci_p2pdma_map_segment(&p2pdma_state, dev, s);
-> -			switch (map) {
-> -			case PCI_P2PDMA_MAP_BUS_ADDR:
-> -				/*
-> -				 * iommu_map_sg() will skip this segment as
-> -				 * it is marked as a bus address,
-> -				 * __finalise_sg() will copy the dma address
-> -				 * into the output segment.
-> -				 */
-> -				continue;
-> -			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-> -				/*
-> -				 * Mapping through host bridge should be
-> -				 * mapped with regular IOVAs, thus we
-> -				 * do nothing here and continue below.
-> -				 */
-> -				break;
-> -			default:
-> -				ret = -EREMOTEIO;
-> -				goto out_restore_sg;
-> -			}
-> +		switch (pci_p2pdma_state(&p2pdma_state, dev, sg_page(s))) {
-> +		case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-> +			/*
-> +			 * Mapping through host bridge should be mapped with
-> +			 * regular IOVAs, thus we do nothing here and continue
-> +			 * below.
-> +			 */
+[1] https://lore.kernel.org/all/20231006184629.155543-1-nphamcs@gmail.com/
+[2] Of course, we can't make a new patch for every feature that can be
+    duplicated. However, since the existing solution of enabling the
+    hugeTLB controller is an imperfect solution that still leaves a
+    discrepancy between memory.stat and memory.curent, I think that it
+    is reasonable to isolate the feature in this case.
+ 
+Suggested-by: Nhat Pham <nphamcs@gmail.com>
+Suggested-by: Shakeel Butt <shakeel.butt@linux.dev>
+Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
 
-I guess this is technically not a fall-through to the next case
-because there's no executable code here, but since the comment
-separates these two cases, I would find it easier to read if you
-included the break here explicitly.
+---
+Changelog
+v3:
+  * Removed check for whether CGRP_ROOT_HUGETLB_ACCOUNTING is on, since
+    this check is already handled by lruvec_stat_mod (and doing the
+    check in hugetlb.c actually breaks the build if MEMCG is not
+    enabled.
+  * Because there is now only one check for the flags, I've opted to
+    do all of the cleanup in a separate patch series.
+  * Added hugetlb information in cgroup-v2.rst
+  * Added Suggested-by: Shakeel Butt
+v2:
+  * Enables the feature only if memcg accounts for hugeTLB usage
+  * Moves the counter from memcg_stat_item to node_stat_item
+  * Expands on motivation & justification in commitlog
+  * Added Suggested-by: Nhat Pham
 
-> +		case PCI_P2PDMA_MAP_NONE:
-> +			break;
+ Documentation/admin-guide/cgroup-v2.rst |  5 +++++
+ include/linux/mmzone.h                  |  3 +++
+ mm/hugetlb.c                            |  2 ++
+ mm/memcontrol.c                         | 11 +++++++++++
+ mm/vmstat.c                             |  3 +++
+ 5 files changed, 24 insertions(+)
 
-> +void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
-> +		struct device *dev, struct page *page);
-> +
-> +/**
-> + * pci_p2pdma_state - check the P2P transfer state of a page
-> + * @state: 	P2P state structure
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 69af2173555f..bd7e81c2aa2b 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1646,6 +1646,11 @@ The following nested keys are defined.
+ 	  pgdemote_khugepaged
+ 		Number of pages demoted by khugepaged.
+ 
++	  hugetlb
++		Amount of memory used by hugetlb pages. This metric only shows
++		up if hugetlb usage is accounted for in memory.current (i.e.
++		cgroup is mounted with the memory_hugetlb_accounting option).
++
+   memory.numa_stat
+ 	A read-only nested-keyed file which exists on non-root cgroups.
+ 
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 17506e4a2835..972795ae5946 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -220,6 +220,9 @@ enum node_stat_item {
+ 	PGDEMOTE_KSWAPD,
+ 	PGDEMOTE_DIRECT,
+ 	PGDEMOTE_KHUGEPAGED,
++#ifdef CONFIG_HUGETLB_PAGE
++	NR_HUGETLB,
++#endif
+ 	NR_VM_NODE_STAT_ITEMS
+ };
+ 
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 190fa05635f4..fbb10e52d7ea 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1925,6 +1925,7 @@ void free_huge_folio(struct folio *folio)
+ 				     pages_per_huge_page(h), folio);
+ 	hugetlb_cgroup_uncharge_folio_rsvd(hstate_index(h),
+ 					  pages_per_huge_page(h), folio);
++	lruvec_stat_mod_folio(folio, NR_HUGETLB, -pages_per_huge_page(h));
+ 	mem_cgroup_uncharge(folio);
+ 	if (restore_reserve)
+ 		h->resv_huge_pages++;
+@@ -3093,6 +3094,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+ 
+ 	if (!memcg_charge_ret)
+ 		mem_cgroup_commit_charge(folio, memcg);
++	lruvec_stat_mod_folio(folio, NR_HUGETLB, pages_per_huge_page(h));
+ 	mem_cgroup_put(memcg);
+ 
+ 	return folio;
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 7845c64a2c57..5444d0e7bb64 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -310,6 +310,9 @@ static const unsigned int memcg_node_stat_items[] = {
+ 	PGDEMOTE_KSWAPD,
+ 	PGDEMOTE_DIRECT,
+ 	PGDEMOTE_KHUGEPAGED,
++#ifdef CONFIG_HUGETLB_PAGE
++	NR_HUGETLB,
++#endif
+ };
+ 
+ static const unsigned int memcg_stat_items[] = {
+@@ -1346,6 +1349,9 @@ static const struct memory_stat memory_stats[] = {
+ 	{ "unevictable",		NR_UNEVICTABLE			},
+ 	{ "slab_reclaimable",		NR_SLAB_RECLAIMABLE_B		},
+ 	{ "slab_unreclaimable",		NR_SLAB_UNRECLAIMABLE_B		},
++#ifdef CONFIG_HUGETLB_PAGE
++	{ "hugetlb",			NR_HUGETLB			},
++#endif
+ 
+ 	/* The memory events */
+ 	{ "workingset_refault_anon",	WORKINGSET_REFAULT_ANON		},
+@@ -1441,6 +1447,11 @@ static void memcg_stat_format(struct mem_cgroup *memcg, struct seq_buf *s)
+ 	for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
+ 		u64 size;
+ 
++#ifdef CONFIG_HUGETLB_PAGE
++		if (unlikely(memory_stats[i].idx == NR_HUGETLB) &&
++		    !(cgrp_dfl_root.flags & CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING))
++			continue;
++#endif
+ 		size = memcg_page_state_output(memcg, memory_stats[i].idx);
+ 		seq_buf_printf(s, "%s %llu\n", memory_stats[i].name, size);
+ 
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index b5a4cea423e1..871566b04b79 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1273,6 +1273,9 @@ const char * const vmstat_text[] = {
+ 	"pgdemote_kswapd",
+ 	"pgdemote_direct",
+ 	"pgdemote_khugepaged",
++#ifdef CONFIG_HUGETLB_PAGE
++	"nr_hugetlb",
++#endif
+ 	/* system-wide enum vm_stat_item counters */
+ 	"nr_dirty_threshold",
+ 	"nr_dirty_background_threshold",
+-- 
+2.43.5
 
-Checkpatch complains about space before tab here.
-
-> + * pci_p2pdma_bus_addr_map - map a PCI_P2PDMA_MAP_BUS_ADDR P2P transfer
-> + * @state: 	P2P state structure
-
-And here.
-
-> @@ -462,34 +462,32 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
->  		enum dma_data_direction dir, unsigned long attrs)
->  {
->  	struct pci_p2pdma_map_state p2pdma_state = {};
-> -	enum pci_p2pdma_map_type map;
->  	struct scatterlist *sg;
->  	int i, ret;
->  
->  	for_each_sg(sgl, sg, nents, i) {
-> -		if (is_pci_p2pdma_page(sg_page(sg))) {
-> -			map = pci_p2pdma_map_segment(&p2pdma_state, dev, sg);
-> -			switch (map) {
-> -			case PCI_P2PDMA_MAP_BUS_ADDR:
-> -				continue;
-> -			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-> -				/*
-> -				 * Any P2P mapping that traverses the PCI
-> -				 * host bridge must be mapped with CPU physical
-> -				 * address and not PCI bus addresses. This is
-> -				 * done with dma_direct_map_page() below.
-> -				 */
-> -				break;
-> -			default:
-> -				ret = -EREMOTEIO;
-> +		switch (pci_p2pdma_state(&p2pdma_state, dev, sg_page(sg))) {
-> +		case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-> +			/*
-> +			 * Any P2P mapping that traverses the PCI host bridge
-> +			 * must be mapped with CPU physical address and not PCI
-> +			 * bus addresses.
-> +			 */
-
-Same fall-through comment.
-
-> +		case PCI_P2PDMA_MAP_NONE:
-> +			sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
-> +					sg->offset, sg->length, dir, attrs);
-> +			if (sg->dma_address == DMA_MAPPING_ERROR) {
-> +				ret = -EIO;
->  				goto out_unmap;
->  			}
-> -		}
