@@ -1,146 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DD91E48A;
-	Mon, 28 Oct 2024 18:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C704B173;
+	Mon, 28 Oct 2024 19:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730140288; cv=none; b=kC+C+Izf0+UtyHkAz7RXLpcFUMlzNbDpwE+p4CvjEjqjVFaT/UF8WJlspLg4hwGrSv6HmlOanvxTGAhR0xr0hha1O3mag/C0EUQJ6hUgdFq/2CePRzcI7zZ8ii8uWFWWOqtrVXDqq49I7OCjTPSAXLVcu7cKQK6AhrAPb+zrkd8=
+	t=1730143908; cv=none; b=OUgzme/8XwNl1tC57+kPnz/MPH/UlY8SnTOaUR9VjEod/5M8e5hmv8tNNtayQ6K01rZOYF693CkhwXcBMbd+ZIJkO48+YV/Px4Yw0Otaxh41XbUqP2CP3uNvxyUGW/hZ2GJSG3ZdOAAtcIyLSvPetnl68LxxteSBM14EStdogcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730140288; c=relaxed/simple;
-	bh=knJ6KgEn+HUVeZA2+uVjttGH6laUFuY55CtAHYmMtaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vrn9l0OGa5cr0M4tNBtRG4VC9+9lujifXXAfwlTFjJvTdpUQHmzYXSNcYodbc68HXQs5FdCjV0kJW2qIbh0e5ZlB8dIMjPZoBltGBdJBSFJSP6pncKQEak6ACSjXZ9hZ0OC3hb5tVS8s4r5jm26oxhk6uGs+mP1SuB4vz3GHmlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QEmveI2N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730143908; c=relaxed/simple;
+	bh=cjdbZV5ZPfheGFbVrkdDtNRq2JcwEKKbOMHwK5Kq7Ug=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=qM3xMdl2dGBmEMNFzQqLlbT8ubkR8pvz07JbkCEB+YYZq5mT5Adee5PRJVb9jmBalZMYnryu9KQU5/wSi5m8MGeX1tZeqr6g45eXNbA4VrHKGbwOIbOI0N83cf+FJvAe5KVHcXq9RNwUWxnZEig+chH0o2VYug/EFb8lxODTsRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=rgV/OaSb; arc=none smtp.client-ip=198.252.153.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QEmveI2N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD61AC4CEC3;
-	Mon, 28 Oct 2024 18:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730140288;
-	bh=knJ6KgEn+HUVeZA2+uVjttGH6laUFuY55CtAHYmMtaY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QEmveI2NZTQJ8iB0oY/nED15Zobh8Lap9Ozk9y+25JoYHnQ/y87nbfEHvfKJTJ8Ex
-	 sfPWjATkYROgOP3lU8RC5va+oGpgsEBlqrziNnUWdFDy9QJPuBQEtGgkMS4ZDGwukD
-	 HALkgjvyTWxvfY+RmLi7pk4eZXuNROOLUMKiKyGsdmjv0qJF35J6VsGLjRWEChoQvS
-	 i3INY+wUl2b2QhDxuL2Ya0G5XbUvzLJRJw99SXw+pzDZdqKZ4j52bQcoQZ3UGY9Ybd
-	 QPfGwHv/EKf7hPKS8HZIe8cvC2khmqpcwfVdT7JN6XXNbHS2SFK78DFC6fHF1bbD1u
-	 stakc0GvtjnfQ==
-Date: Mon, 28 Oct 2024 20:31:21 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 07/18] dma-mapping: Implement link/unlink ranges API
-Message-ID: <20241028183121.GI1615717@unreal>
-References: <cover.1730037276.git.leon@kernel.org>
- <b434f2f6d3c601649c9b6973a2ec3ec2149bba37.1730037276.git.leon@kernel.org>
- <6a9366a5-7c5b-449c-b259-8e2492aae2a1@linux.intel.com>
- <20241028062252.GC1615717@unreal>
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="rgV/OaSb"
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4Xck684vnHzDqSH;
+	Mon, 28 Oct 2024 19:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1730143905; bh=cjdbZV5ZPfheGFbVrkdDtNRq2JcwEKKbOMHwK5Kq7Ug=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=rgV/OaSbta7GShv7nwZ2whXBakzHb2SBzHiY+9J9Tp06+k1EU7YGZVQ3lPu+4GgP6
+	 2lQv2nIc9+aab1wv0QFWxqPCDQvzROojMMJ3V2qWPrjjJ7i2GHMIoVmfYTlZyGuQE6
+	 3vt2jTnGAlBI2YaSlH/jtcMNAYdblZ+mnCID8tEE=
+X-Riseup-User-ID: F22E330D62DAD2F355815919666460B5781E5B3DA059EB560FC67CC1611AE6F8
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4Xck614SnJzFsg9;
+	Mon, 28 Oct 2024 19:31:37 +0000 (UTC)
+Message-ID: <5aa5af69-948e-4fdd-b69e-7b8874930178@riseup.net>
+Date: Mon, 28 Oct 2024 16:31:34 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241028062252.GC1615717@unreal>
+Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com
+References: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
+ <d3e8bb5a-6053-4a2b-a445-0cf4e610f112@riseup.net> <Zx9eazDt3f2meyht@fedora>
+ <6278651d-b61d-49d2-8151-7ab4ca03971c@riseup.net>
+ <Zx9u9K129dWhfzPQ@louis-chauvet-laptop>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <Zx9u9K129dWhfzPQ@louis-chauvet-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 28, 2024 at 08:22:52AM +0200, Leon Romanovsky wrote:
-> On Mon, Oct 28, 2024 at 10:00:25AM +0800, Baolu Lu wrote:
-> > On 2024/10/27 22:21, Leon Romanovsky wrote:
-> > > +/**
-> > > + * dma_iova_sync - Sync IOTLB
-> > > + * @dev: DMA device
-> > > + * @state: IOVA state
-> > > + * @offset: offset into the IOVA state to sync
-> > > + * @size: size of the buffer
-> > > + * @ret: return value from the last IOVA operation
-> > > + *
-> > > + * Sync IOTLB for the given IOVA state. This function should be called on
-> > > + * the IOVA-contigous range created by one ore more dma_iova_link() calls
-> > > + * to sync the IOTLB.
-> > > + */
-> > > +int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
-> > > +		size_t offset, size_t size, int ret)
-> > > +{
-> > > +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> > > +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-> > > +	struct iova_domain *iovad = &cookie->iovad;
-> > > +	dma_addr_t addr = state->addr + offset;
-> > > +	size_t iova_start_pad = iova_offset(iovad, addr);
-> > > +
-> > > +	addr -= iova_start_pad;
-> > > +	size = iova_align(iovad, size + iova_start_pad);
-> > > +
-> > > +	if (!ret)
-> > > +		ret = iommu_sync_map(domain, addr, size);
-> > > +	if (ret)
-> > > +		iommu_unmap(domain, addr, size);
-> > 
-> > It appears strange that mapping is not done in this helper, but
-> > unmapping is added in the failure path. Perhaps I overlooked anything?
-> 
-> Like iommu_sync_map() is performed on whole continuous range, the iommu_unmap()
-> should be done on the same range. So, technically you can unmap only part of
-> the range which called to dma_iova_link() and failed, but you will need
-> to make sure that iommu_sync_map() is still called for "successful" part of
-> iommu_map().
-> 
-> In that case, you will need to undo everything anyway and it means that
-> you will call to iommu_unmap() on the successful part of the range
-> anyway.
-> 
-> dma_iova_sync() is single operation for the whole range and
-> iommu_unmap() too, so they are bound together.
-> 
-> > To my understanding, it should like below:
-> > 
-> > 	return iommu_sync_map(domain, addr, size);
-> > 
-> > In the drivers that make use of this interface should do something like
-> > below:
-> > 
-> > 	ret = dma_iova_sync(...);
-> > 	if (ret)
-> > 		dma_iova_destroy(...)
-> 
-> It is actually what is happening in the code, but in less direct way due
-> to unwinding of the code.
+Hi Louis,
 
-After more thoughts on the topic, I think that it will be better to make
-this dma_iova_sync() less cryptic and more direct. I will change it to be
-as below in my next version:
+On 28/10/24 08:01, Louis Chauvet wrote:
+> On 28/10/24 - 07:17, Maíra Canal wrote:
+>> Hi Louis,
+>>
+>> On 28/10/24 06:50, Louis Chauvet wrote:
+>>> On 26/10/24 - 09:10, Maíra Canal wrote:
+>>>> Hi Louis,
+>>>>
+>>>> On 14/10/24 05:39, Louis Chauvet wrote:
+>>>>> On 11/10/24 - 10:53, Maira Canal wrote:
+>>>>>> Hi Louis,
+>>>>>>
+>>>>>> On 10/11/24 06:36, Louis Chauvet wrote:
+>>>>>>>
+>>>>>>> Hi all,
+>>>>>>>
+>>>>>>> Until this point, this series has not received any major comments since
+>>>>>>> v9. I will commit patches 1-9 next week if there are no further comments.
+>>>>>>>
+>>>>>>
+>>>>>> Although we are maintainers of VKMS, it isn't recommended that we push
+>>>>>> our own changes without even the Ack of another person. Please, read the
+>>>>>> "drm-misc Committer Guidelines" [1].
+>>>>>
+>>>>> Hi Maíra, Maxime,
+>>>>>
+>>>>> I apologize for this rushed commit request. I sent the initial email with
+>>>>> a delay before the commit action because I was not sure about the
+>>>>> procedure and wanted to give others a chance to raise any concerns.
+>>>>> Unfortunately, I overlooked the need to collect an Ack/Review for each
+>>>>> patch, even when there hadn't been any responses for several months. I'm
+>>>>> sorry for this oversight.
+>>>>>
+>>>>>> I can ack patches 05/15, 07/15, and 09/15, but it would be more
+>>>>>> beneficial for the community if you ask for an ack (from me or from the
+>>>>>> DRM maintainers, which are always around), instead of saying that you
+>>>>>> are going to commit the patches without any review.
+>>>>>
+>>>>> I will be happy to ask for acknowledgments if needed, but as you mentioned
+>>>>> multiple times: nobody is paid to maintain VKMS. Since you did not comment
+>>>>> these series since July, when you told me you would review my patches, I
+>>>>> assumed it was either okay or you no longer had the time to maintain
+>>>>> (which I completely understand).
+>>>>
+>>>> Yeah, I'm a volunteer and no longer have time to maintain VKMS. A couple
+>>>> of weeks ago I sent a patch removing myself as VKMS maintainer. This
+>>>> doesn't imply that patches can be pushed without review.
+>>>
+>>> I will acked-by and push your patch, it will be an easy "first commit". If
+>>> I do something wrong during the process, please tell me.
+>>>
+>>> Thanks for this precision, I understood this, and I will not push without
+>>> reviews, don't worry!
+>>>
+>>> Thanks a lot for all your reviews!
+>>>> We are a community with several active developers. Although I don't have
+>>>> time to properly review your patches, you can try to gather other
+>>>> developers to review your patches. You can try to use #dri-devel to get
+>>>> reviewers.
+>>>
+>>> Thanks for the tip, I will do this!
+>>>
+>>>> That said, you can add my ACK to patches 05/15, 07/15, and 09/15 and
+>>>> push the patches. I won't ack the YUV patches as I don't feel
+>>>> comfortable reviewing/acking those.
+>>>
+>>> Perfect for the patches 1..9, it will be a very nice step forward and will
+>>> reduce my conflicts a lot with the rest of my work!
+>>>>> Acked-by: Maíra Canal <mairacanal@riseup.net>
+>>>>
+>>>> BTW if the patches are fixing IGT tests, please update the list of fails
+>>>> and skips on DRM CI.
+>>>
+>>> For this, how should I do? Commit the series and wait for the bot results?
+>>> Run tests on my computer (I only have a x86 VM)? Is there some doc
+>>> somewhere?
+>>
+>> Check [1] for instructions on how to run the CI on GitLab.
+>>
+>> [1] https://docs.kernel.org/gpu/automated_testing.html
+> 
+> Thanks for the link!
+> 
+> I am stuck at the first step, do I need to ask some right to create a repo
+> on git.freedesktop.org? I don't see any button to create a repo, and I
+> can't fork any existing kernel repo.
 
-  1972 int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
-  1973                 size_t offset, size_t size)
-  1974 {
-  1975         struct iommu_domain *domain = iommu_get_dma_domain(dev);
-  1976         struct iommu_dma_cookie *cookie = domain->iova_cookie;
-  1977         struct iova_domain *iovad = &cookie->iovad;
-  1978         dma_addr_t addr = state->addr + offset;
-  1979         size_t iova_start_pad = iova_offset(iovad, addr);
-  1980
-  1981         return iommu_sync_map(domain, addr - iova_start_pad,
-  1982                       iova_align(iovad, size + iova_start_pad));
-  1983 }
-  1984 EXPORT_SYMBOL_GPL(dma_iova_sync);
+Check [1]. For more fd.o infra questions, you can ask on #freedesktop 
+(the answer will probably be quicker).
 
-Thanks
+[1] https://gitlab.freedesktop.org/freedesktop/freedesktop/-/wikis/home
+
+Best Regards,
+- Maíra
+
+> 
+> I also asked the access to CI-OK.
+> 
+> Thanks,
+> Louis Chauvet
+>   
+>> Best Regards,
+>> - Maíra
+>>
+>>>
+>>> Thanks a lot,
+>>> Louis Chauvet
+>>>
+>>>> Best Regards,
+>>>> - Maíra
+>>>>
+>>>>>
+>>>>> So, I hereby formally request reviews/ACKs for the following series:
+>>>>>
+>>>>> [this series]:https://lore.kernel.org/all/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com/
+>>>>> [2]:https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
+>>>>> [3]:https://lore.kernel.org/all/20240516-writeback_line_by_line-v1-0-7b2e3bf9f1c9@bootlin.com/
+>>>>>
+>>>>> (I have to send a v2 for [3] because of rebase conflict, but nothing else
+>>>>> changed)
+>>>>>
+>>>>> Thanks a lot,
+>>>>> Louis Chauvet
+>>>>>> [1] https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html
+>>>>>>
+>>>>>> Best Regards,
+>>>>>> - Maíra
+>>>>>>
+>>>>>>> For patches 10-15, I am currently waiting for feedback from Maxime to
+>>>>>>> send the next iteration with a fix for kunit tests.
+>>>>>>>
+>>>>>>> Thanks,
+>>>>>>> Louis Chauvet
+>>>>>>>
+>>>>>>> On 07/10/24 - 18:10, Louis Chauvet wrote:
+>>>>>>>> As all the rotation are now supported by VKMS, this simplification does
+>>>>>>>> not make sense anymore, so remove it.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>>>>>>> ---
+>>>>>>>>      drivers/gpu/drm/vkms/vkms_plane.c | 7 +------
+>>>>>>>>      1 file changed, 1 insertion(+), 6 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>>>>>>>> index 8875bed76410..5a028ee96c91 100644
+>>>>>>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>>>>>>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>>>>>>>> @@ -115,12 +115,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+>>>>>>>>      	frame_info->fb = fb;
+>>>>>>>>      	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+>>>>>>>>      	drm_framebuffer_get(frame_info->fb);
+>>>>>>>> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
+>>>>>>>> -									  DRM_MODE_ROTATE_90 |
+>>>>>>>> -									  DRM_MODE_ROTATE_270 |
+>>>>>>>> -									  DRM_MODE_REFLECT_X |
+>>>>>>>> -									  DRM_MODE_REFLECT_Y);
+>>>>>>>> -
+>>>>>>>> +	frame_info->rotation = new_state->rotation;
+>>>>>>>>      	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> -- 
+>>>>>>>> 2.46.2
+>>>>>>>>
+>>
+
