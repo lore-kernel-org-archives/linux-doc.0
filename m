@@ -1,121 +1,54 @@
-Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB9718E03D;
-	Mon, 28 Oct 2024 20:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE311DFE1C;
+	Mon, 28 Oct 2024 20:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730148139; cv=none; b=c0nbmXl+Iq2TRqcN248JizBlTGvatq8HHa6c/jQoGijZxGefQ57R+e9ZQr7lxUPwr1uHHFQsGfGUQylQjVblDUHCBYcaegqxClYSXAhaQxtV89wxsZ+i5rcduQ5UkkLCSvlmLZ8lMIq+OWypic+6olfeTEEweTI4JlNifn7vhKI=
+	t=1730149145; cv=none; b=IwWKSDkJkiHsCLPQpDeOGR5tFABIVQ2O7tZHohbWqIKczY8nI/uFVF7bryeYno2+Z9uGY+UwUPcA1Pf7Kz5icTs+Y/TrpmyTJxloHYiEO+cE0f1v7US7CiIHeXxo2wzh8gSrfGjwlCgRxtelk5y7BUbRrjg8oUr4wU/MZp5B8Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730148139; c=relaxed/simple;
-	bh=1b3wEfHTCpF0AXxOoU3n+1fQPTTY8V4zPHmhz1VF+UI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mvckNjf/+VCjlEwHF8glEoCS1DnHmfOrbTugLexbYgSf+Qv05AvPn4GPF5WGZq/IhjbGOENG3H/ZVnUsZsvbIK2Zsj6UB7EUnmhawGX/VcJTjfTxqE72QGtjmGIsKCeDzNaMz0chKgksAfohK749777+7ffm6N39yW/D9c9GGIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=B7aBkbFp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q3fPSrT4; arc=none smtp.client-ip=103.168.172.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
+	s=arc-20240116; t=1730149145; c=relaxed/simple;
+	bh=XDchRQtmy6pHQo4VldmyUQn5KpIMSBE9FuRx/IQ/fLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ba/i5GJSzfWbnG6cDm5hqDqK02WJ9aIR73MA4UJvgfoayCXD69BlugrdoOGNP71ujMbWyTRPGgFsT3/+TlQAjK9+7cwoQl8Dss5CEmS5T7fVf7F4vg9td8FxKUHSSqYzblQd/LHdaVFTOUCColqZ78UojIU0LzkvuaaByoNlj+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YHWCjZnS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="B7aBkbFp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q3fPSrT4"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailflow.phl.internal (Postfix) with ESMTP id 19B882006F0;
-	Mon, 28 Oct 2024 16:42:16 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Mon, 28 Oct 2024 16:42:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1730148136; x=
-	1730155336; bh=qyX0k5CJSPl4swUA6LpoOKwTmR0F2riD6PvL9n3i/VI=; b=B
-	7aBkbFptw/oXycTtJhJ2C6gGtE5PZkkSC5Nj4HB0UiZTKAmPvrp6282Dt2T5/LBl
-	FjPJrHBt14f38y24uU46hz/HHBwXpkaPKXGpTTnd5nWEQc07NsEpHYiFFhpPS7zR
-	JIiB5auMsMT7CKcY43NyYO3zyNgHZfSlcei+/3dR9fGCLTF1cP7401lT8dU/vbAK
-	ugoxQjLexWIzCQEGvnXXkM+LwDbB20mec7omJGSWZJpvws+rNkNcA9ZPh2TMjmoN
-	2caeDOnyZn3IZBbLI/+gMF5FLkNSknel2mSkgGDp/2pyIAAS1qCTY4MX6AQDNmnG
-	InzHXwcvuibGR6yiEeixg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1730148136; x=1730155336; bh=qyX0k5CJSPl4swUA6LpoOKwTmR0F
-	2riD6PvL9n3i/VI=; b=Q3fPSrT4GLl0OulFr5HDlvaFEU7EXA4STiZcwrkgAp2k
-	1zeToNyJ5VmXlOKqRIDqTnmtGdjzZxNw2uSJn8SLrMTLz359WSXhN7hAQe7kVmK4
-	TqH4i9dnDbAdo12ss99gvb0ASaEDJG/soADnuOSZUYJxRFlurjbt97pUf8QeX1HZ
-	H+RN99T0PCWRHeJ4y+3dsQHeQJIbHzC1kVHWi99LV0+iS89WAbT9eJF6i65uMuNU
-	AFaNN2O/E4w2hptX97UrsjMF7YnVbxHgQX5fcPr1KrbCiBJ+/t7YVApWNt9yJOus
-	nYwf2MCNT5sw1/FU/iL57k5jhiXV3ZvqgQXDZAanJA==
-X-ME-Sender: <xms:JvcfZz_t21KkK0mw6erepLFmrrM_LY-A9WQ_2vcJB05j_o9keUUn-g>
-    <xme:JvcfZ_u51H4QfAC4uSl6bGSxk1cYiJfoDMhGlETWJRJFkU2QWy_ZXltVxjUrkxi9d
-    6WNs7ePvOdn9cZqPRE>
-X-ME-Received: <xmr:JvcfZxAKbzSkUXn-eDy4H8hOFLOtWxZo6Rf9Zhxj4qxbWblcAWak_5LgRZi9a2XUnbmk4w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdejledguddufecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdfstddttddv
-    necuhfhrohhmpedfmfhirhhilhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllh
-    esshhhuhhtvghmohhvrdhnrghmvgeqnecuggftrfgrthhtvghrnhepkeevteduffekleef
-    teevvefgudeltdettdeikeejkeeuudekvdetkeeffeeftedtnecuffhomhgrihhnpehvuh
-    hsvggtrdhnvghtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
-    rhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhope
-    ehuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlvgigrghnuggvrhdrshhh
-    ihhshhhkihhnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhhuthhose
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehtghhlgieslhhinhhuthhrohhnihigrdgu
-    vgdprhgtphhtthhopehmihhnghhosehrvgguhhgrthdrtghomhdprhgtphhtthhopegsph
-    esrghlihgvnhekrdguvgdprhgtphhtthhopegurghvvgdrhhgrnhhsvghnsehlihhnuhig
-    rdhinhhtvghlrdgtohhmpdhrtghpthhtohepgiekieeskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohephhhprgesiiihthhorhdrtghomhdprhgtphhtthhopehpvghtvghriiesihhn
-    fhhrrgguvggrugdrohhrgh
-X-ME-Proxy: <xmx:JvcfZ_cU9YGCtH9KLR0DHxB_tC2Sr2ZhjE8ySD4IFQkZz3sKbIhvKQ>
-    <xmx:JvcfZ4ObJ0gQBv0jbp8LdkLks-xiQ27KNgFqceGmr1npGuVT-wUoBw>
-    <xmx:JvcfZxmFP8ad3skwpR-ZV8bdcVwzKEuU8ijIAtcZxf2NX1vQXfixQw>
-    <xmx:JvcfZyuzSU5oAKHiEl719bVQeOLcNg8beYJ_S4Xv5B9G8zsqL_Tnvw>
-    <xmx:KPcfZ0SgVfRC2UtF8RgPG45rq6wBV8LF8xgr4RWL5lm8XBdojhXtsijE>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Oct 2024 16:42:00 -0400 (EDT)
-Date: Mon, 28 Oct 2024 22:41:56 +0200
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, 	Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, 	Peter Zijlstra <peterz@infradead.org>,
- Ard Biesheuvel <ardb@kernel.org>,
- 	"Paul E. McKenney" <paulmck@kernel.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>,
- 	Xiongwei Song <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>,
- 	"Mike Rapoport (IBM)" <rppt@kernel.org>,
- Brijesh Singh <brijesh.singh@amd.com>,
- 	Michael Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>,
- 	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Alexey Kardashevskiy <aik@amd.com>, 	Jonathan Corbet <corbet@lwn.net>,
- Sohil Mehta <sohil.mehta@intel.com>, 	Ingo Molnar <mingo@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- 	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
- Kai Huang <kai.huang@intel.com>, 	Sandipan Das <sandipan.das@amd.com>,
- Breno Leitao <leitao@debian.org>,
- 	Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Alexei Starovoitov <ast@kernel.org>, 	Hou Tao <houtao1@huawei.com>,
- Juergen Gross <jgross@suse.com>,
- 	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>,
- Eric Biggers <ebiggers@google.com>, 	Jason Gunthorpe <jgg@ziepe.ca>,
- "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- 	Andrew Morton <akpm@linux-foundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, 	Yuntao Wang <ytcoode@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- 	Christophe Leroy <christophe.leroy@csgroup.eu>,
- Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
- 	Huang Shijie <shijie@os.amperecomputing.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- 	Namhyung Kim <namhyung@kernel.org>,
- Arnaldo Carvalho de Melo <acme@redhat.com>, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org
-Subject: Re: [PATCH v5 16/16] Revert "x86/lam: Disable ADDRESS_MASKING in
- most cases"
-Message-ID: <qhnyso6yukxdyox5hkod2yzrgg56vkr7er4howolgat35dvtd4@6qh6f5r425hi>
-References: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
- <20241028160917.1380714-17-alexander.shishkin@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YHWCjZnS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8324C4CEC3;
+	Mon, 28 Oct 2024 20:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730149144;
+	bh=XDchRQtmy6pHQo4VldmyUQn5KpIMSBE9FuRx/IQ/fLc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=YHWCjZnSvGD0FLXm38frIZRba2sQQ98rHEmaoqo7+IGWHJUxibwDnNsBZgESkMQf2
+	 TsIZgg66kDAZi3cQ/raC0xLCHxFt/n+Q+GfpSPikoPYWogMwVVkT2YGGo6r+mvlpQs
+	 LYcYZiWraEirilGEQRB7r1dSqxIlLl6PnIyzBEG69k5H5ZL/4V51yCX9ue/AQ9hoao
+	 YtQPx9n4wU6TLKUu3BMoGWW4nbSLG6WcdHPvYzg+727B9k+tQFNcmm7b2B+OIclaEr
+	 WoCdB/gjnaxlHYJSzABbNThj3fTHRWtRg5gmc802RNwzAtTGyuBAMLTzhdJzsWVOka
+	 YksEeTIOFMwbA==
+Date: Mon, 28 Oct 2024 15:59:02 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 01/18] PCI/P2PDMA: refactor the p2pdma mapping helpers
+Message-ID: <20241028205902.GA1114413@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -124,23 +57,120 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241028160917.1380714-17-alexander.shishkin@linux.intel.com>
+In-Reply-To: <a4d93ca45f7ad09105a1cf347e6b6d6b6fb7e303.1730037276.git.leon@kernel.org>
 
-On Mon, Oct 28, 2024 at 06:08:04PM +0200, Alexander Shishkin wrote:
-> This reverts commit 3267cb6d3a174ff83d6287dcd5b0047bbd912452.
-> 
-> LASS mitigates the Spectre based on LAM (SLAM) [1] and an earlier
-> commit made LAM depend on LASS, so we no longer need to disable LAM at
-> compile time, so revert the commit that disables LAM.
-> 
-> [1] https://download.vusec.net/papers/slam_sp24.pdf
-> 
-> Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> CC: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Prefer subject capitalization in drivers/pci:
 
-Before re-enabling LAM, you need to uncomment X86_FEATURE_LAM check in
-arch/x86/kernel/cpu/common.c introduced in recent 86e6b1547b3d ("x86: fix
-user address masking non-canonical speculation issue").
+  PCI/P2PDMA: Refactor ...
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+On Sun, Oct 27, 2024 at 04:21:01PM +0200, Leon Romanovsky wrote:
+> From: Christoph Hellwig <hch@lst.de>
+> 
+> The current scheme with a single helper to determine the P2P status
+> and map a scatterlist segment force users to always use the map_sg
+> helper to DMA map, which we're trying to get away from because they
+> are very cache inefficient.
+> ...
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+A couple minor nits below.
+
+> @@ -1412,28 +1411,29 @@ int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+>  		size_t s_length = s->length;
+>  		size_t pad_len = (mask - iova_len + 1) & mask;
+>  
+> -		if (is_pci_p2pdma_page(sg_page(s))) {
+> -			map = pci_p2pdma_map_segment(&p2pdma_state, dev, s);
+> -			switch (map) {
+> -			case PCI_P2PDMA_MAP_BUS_ADDR:
+> -				/*
+> -				 * iommu_map_sg() will skip this segment as
+> -				 * it is marked as a bus address,
+> -				 * __finalise_sg() will copy the dma address
+> -				 * into the output segment.
+> -				 */
+> -				continue;
+> -			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> -				/*
+> -				 * Mapping through host bridge should be
+> -				 * mapped with regular IOVAs, thus we
+> -				 * do nothing here and continue below.
+> -				 */
+> -				break;
+> -			default:
+> -				ret = -EREMOTEIO;
+> -				goto out_restore_sg;
+> -			}
+> +		switch (pci_p2pdma_state(&p2pdma_state, dev, sg_page(s))) {
+> +		case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> +			/*
+> +			 * Mapping through host bridge should be mapped with
+> +			 * regular IOVAs, thus we do nothing here and continue
+> +			 * below.
+> +			 */
+
+I guess this is technically not a fall-through to the next case
+because there's no executable code here, but since the comment
+separates these two cases, I would find it easier to read if you
+included the break here explicitly.
+
+> +		case PCI_P2PDMA_MAP_NONE:
+> +			break;
+
+> +void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
+> +		struct device *dev, struct page *page);
+> +
+> +/**
+> + * pci_p2pdma_state - check the P2P transfer state of a page
+> + * @state: 	P2P state structure
+
+Checkpatch complains about space before tab here.
+
+> + * pci_p2pdma_bus_addr_map - map a PCI_P2PDMA_MAP_BUS_ADDR P2P transfer
+> + * @state: 	P2P state structure
+
+And here.
+
+> @@ -462,34 +462,32 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+>  		enum dma_data_direction dir, unsigned long attrs)
+>  {
+>  	struct pci_p2pdma_map_state p2pdma_state = {};
+> -	enum pci_p2pdma_map_type map;
+>  	struct scatterlist *sg;
+>  	int i, ret;
+>  
+>  	for_each_sg(sgl, sg, nents, i) {
+> -		if (is_pci_p2pdma_page(sg_page(sg))) {
+> -			map = pci_p2pdma_map_segment(&p2pdma_state, dev, sg);
+> -			switch (map) {
+> -			case PCI_P2PDMA_MAP_BUS_ADDR:
+> -				continue;
+> -			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> -				/*
+> -				 * Any P2P mapping that traverses the PCI
+> -				 * host bridge must be mapped with CPU physical
+> -				 * address and not PCI bus addresses. This is
+> -				 * done with dma_direct_map_page() below.
+> -				 */
+> -				break;
+> -			default:
+> -				ret = -EREMOTEIO;
+> +		switch (pci_p2pdma_state(&p2pdma_state, dev, sg_page(sg))) {
+> +		case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> +			/*
+> +			 * Any P2P mapping that traverses the PCI host bridge
+> +			 * must be mapped with CPU physical address and not PCI
+> +			 * bus addresses.
+> +			 */
+
+Same fall-through comment.
+
+> +		case PCI_P2PDMA_MAP_NONE:
+> +			sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
+> +					sg->offset, sg->length, dir, attrs);
+> +			if (sg->dma_address == DMA_MAPPING_ERROR) {
+> +				ret = -EIO;
+>  				goto out_unmap;
+>  			}
+> -		}
