@@ -1,38 +1,38 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DFC1D88BF;
-	Mon, 28 Oct 2024 12:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04261DD9D3;
+	Mon, 28 Oct 2024 12:05:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730117120; cv=none; b=GNmo6+oD6+ITA+jcQLMMmDRFk4Q+STp8qAqoNbRZlIw01m1ZNo954tlzmTjlmWfrqQ7Q9w5s2QLsqd2jxcy7cmJVIx5kpONXMoxD1j/ox1zwsPCeYoJutS4cZ0k8mVkn1G8kefjMel8P4gJQ7Vu8bl4UiAjVjqnwTtnPXHKrpIw=
+	t=1730117152; cv=none; b=G67xggemWZtuoSVsDDKrBNZ9/2Co1z00uRTHGchVDQQd9G0QM9wUVgixD8ocJ6/gdyZHprmNqU4G86vvgmPMjjQQGr0ppYKVPMUHklx4tje1Vn/5wbbIS/j7mBcLNGfTBf9ko7mYcn5EOeybnvgEvIrrb6VN3jndJ6W5/wp2UbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730117120; c=relaxed/simple;
-	bh=DS2aTbCeOUmeXvTUnWabVFmip+BzhGwKcx05zKYK4pY=;
+	s=arc-20240116; t=1730117152; c=relaxed/simple;
+	bh=t8V0hpUj05kltlxBRa+iuwiv1coFLeOxyPz3fv0eFYc=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Kw/c/e9NW65dm4eON4CdSV4lB53j5UTtcR6OSg5+N+yKnjIsjtmp3DoGugtLtnjjvVwLHMP77bUxGzZGTn/ZZ1O9Y+gNWs1pgGSXZCsx8K26Kt3yhFSkVkHSB9c7TfJGUUTBf+eDrdMMCpzkWuqRajgkK3VTUJdQjEXblvzGRaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+	 MIME-Version:Content-Type; b=bEzJUkSeo1Rg6ky3AxSq7LmIXrzYPelOKAr4vmndfjffKharSCWy7FDA88uF349+J7h4pNi2ST2Rfi+oEgqCyXMB01Dql/1GBQJyDCRABBrQV4sgii65TnwTr+pJOKivlK48AWnUZt7Ks9AJpiqi8jlpv8iIiLqaBk71+W0LnrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4XcX9F73TGz2Ddk5;
-	Mon, 28 Oct 2024 20:03:45 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4XcX8c3pMSz10P7X;
+	Mon, 28 Oct 2024 20:03:12 +0800 (CST)
 Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9DEDC14010C;
-	Mon, 28 Oct 2024 20:05:15 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 1AA351800CF;
+	Mon, 28 Oct 2024 20:05:21 +0800 (CST)
 Received: from localhost.localdomain (10.90.30.45) by
  dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 28 Oct 2024 20:05:15 +0800
+ 15.2.1544.11; Mon, 28 Oct 2024 20:05:20 +0800
 From: Yunsheng Lin <linyunsheng@huawei.com>
 To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
 CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
 	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>, Andrew
  Morton <akpm@linux-foundation.org>, Linux-MM <linux-mm@kvack.org>, Jonathan
  Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-Subject: [PATCH RFC 04/10] mm: page_frag: introduce page_frag_alloc_abort() related API
-Date: Mon, 28 Oct 2024 19:58:44 +0800
-Message-ID: <20241028115850.3409893-5-linyunsheng@huawei.com>
+Subject: [PATCH RFC 07/10] mm: page_frag: introduce probe related API
+Date: Mon, 28 Oct 2024 19:58:47 +0800
+Message-ID: <20241028115850.3409893-8-linyunsheng@huawei.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20241028115850.3409893-1-linyunsheng@huawei.com>
 References: <20241028115850.3409893-1-linyunsheng@huawei.com>
@@ -47,111 +47,159 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpemf200006.china.huawei.com (7.185.36.61)
 
-For some case as tun_build_skb() without the needing of
-using complicated prepare & commit API, add the abort API to
-abort the operation of page_frag_alloc_*() related API for
-error handling knowing that no one else is taking extra
-reference to the just allocated fragment, and add abort_ref
-API to only abort the reference counting of the allocated
-fragment if it is already referenced by someone else.
+Some usecase may need a bigger fragment if current fragment
+can't be coalesced to previous fragment because more space
+for some header may be needed if it is a new fragment. So
+introduce probe related API to tell if there are minimum
+remaining memory in the cache to be coalesced to the previous
+fragment, in order to save memory as much as possible.
 
 CC: Alexander Duyck <alexander.duyck@gmail.com>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux-MM <linux-mm@kvack.org>
 Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
 ---
- Documentation/mm/page_frags.rst |  7 +++++--
- include/linux/page_frag_cache.h | 20 ++++++++++++++++++++
- mm/page_frag_cache.c            | 21 +++++++++++++++++++++
- 3 files changed, 46 insertions(+), 2 deletions(-)
+ Documentation/mm/page_frags.rst | 10 +++++++-
+ include/linux/page_frag_cache.h | 41 +++++++++++++++++++++++++++++++++
+ mm/page_frag_cache.c            | 35 ++++++++++++++++++++++++++++
+ 3 files changed, 85 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
-index 34e654c2956e..339e641beb53 100644
+index dcfceee3b923..c39b3daa5ca5 100644
 --- a/Documentation/mm/page_frags.rst
 +++ b/Documentation/mm/page_frags.rst
-@@ -114,9 +114,10 @@ fragsz if there is an alignment requirement for the size of the fragment.
+@@ -119,7 +119,13 @@ more performant if more memory is available. By using the prepare and commit
+ related API, the caller calls prepare API to requests the minimum memory it
+ needs and prepare API will return the maximum size of the fragment returned. The
+ caller needs to either call the commit API to report how much memory it actually
+-uses, or not do so if deciding to not use any memory.
++uses, or not do so if deciding to not use any memory. Some usecase may need a
++bigger fragment if the current fragment can't be coalesced to previous fragment
++because more space for some header may be needed if it is a new fragment, probe
++related API can be used to tell if there are minimum remaining memory in the
++cache to be coalesced to the previous fragment, in order to save memory as much
++as possible.
++
+ 
  .. kernel-doc:: include/linux/page_frag_cache.h
     :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
- 		 __page_frag_alloc_align page_frag_alloc_align page_frag_alloc
-+		 page_frag_alloc_abort
+@@ -129,9 +135,11 @@ uses, or not do so if deciding to not use any memory.
+ 		 __page_frag_alloc_refill_prepare_align
+ 		 page_frag_alloc_refill_prepare_align
+ 		 page_frag_alloc_refill_prepare
++                 page_frag_alloc_refill_probe page_frag_refill_probe
  
  .. kernel-doc:: mm/page_frag_cache.c
--   :identifiers: page_frag_cache_drain page_frag_free
-+   :identifiers: page_frag_cache_drain page_frag_free page_frag_alloc_abort_ref
+    :identifiers: page_frag_cache_drain page_frag_free page_frag_alloc_abort_ref
++                 __page_frag_alloc_refill_probe_align
  
  Coding examples
  ===============
-@@ -143,8 +144,10 @@ Allocation & freeing API
-         goto do_error;
- 
-     err = do_something(va, size);
--    if (err)
-+    if (err) {
-+        page_frag_alloc_abort(nc, va, size);
-         goto do_error;
-+    }
- 
-     ...
- 
 diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
-index a2b1127e8ac8..c3347c97522c 100644
+index 329390afbe78..0f7e8da91a67 100644
 --- a/include/linux/page_frag_cache.h
 +++ b/include/linux/page_frag_cache.h
-@@ -141,5 +141,25 @@ static inline void *page_frag_alloc(struct page_frag_cache *nc,
+@@ -63,6 +63,10 @@ void *__page_frag_cache_prepare(struct page_frag_cache *nc, unsigned int fragsz,
+ unsigned int __page_frag_cache_commit_noref(struct page_frag_cache *nc,
+ 					    struct page_frag *pfrag,
+ 					    unsigned int used_sz);
++void *__page_frag_alloc_refill_probe_align(struct page_frag_cache *nc,
++					   unsigned int fragsz,
++					   struct page_frag *pfrag,
++					   unsigned int align_mask);
+ 
+ static inline unsigned int __page_frag_cache_commit(struct page_frag_cache *nc,
+ 						    struct page_frag *pfrag,
+@@ -282,6 +286,43 @@ static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
+ 						      gfp_mask, ~0u);
  }
  
- void page_frag_free(void *addr);
-+void page_frag_alloc_abort_ref(struct page_frag_cache *nc, void *va,
-+			       unsigned int fragsz);
++/**
++ * page_frag_alloc_refill_probe() - Probe allocating a fragment and refilling
++ * a page_frag.
++ * @nc: page_frag cache from which to allocate and refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled
++ *
++ * Probe allocating a fragment and refilling a page_frag from page_frag cache.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
++ */
++static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
++						 unsigned int fragsz,
++						 struct page_frag *pfrag)
++{
++	return __page_frag_alloc_refill_probe_align(nc, fragsz, pfrag, ~0u);
++}
 +
 +/**
-+ * page_frag_alloc_abort - Abort the page fragment allocation.
-+ * @nc: page_frag cache to which the page fragment is aborted back
-+ * @va: virtual address of page fragment to be aborted
-+ * @fragsz: size of the page fragment to be aborted
++ * page_frag_refill_probe() - Probe refilling a page_frag.
++ * @nc: page_frag cache from which to refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled
 + *
-+ * It is expected to be called from the same context as the allocation API.
-+ * Mostly used for error handling cases to abort the fragment allocation knowing
-+ * that no one else is taking extra reference to the just aborted fragment, so
-+ * that the aborted fragment can be reused.
++ * Probe refilling a page_frag from page_frag cache.
++ *
++ * Return:
++ * True if refill succeeds, otherwise return false.
 + */
-+static inline void page_frag_alloc_abort(struct page_frag_cache *nc, void *va,
-+					 unsigned int fragsz)
++static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
++					  unsigned int fragsz,
++					  struct page_frag *pfrag)
 +{
-+	page_frag_alloc_abort_ref(nc, va, fragsz);
-+	nc->offset -= fragsz;
++	return !!page_frag_alloc_refill_probe(nc, fragsz, pfrag);
 +}
- 
- #endif
++
+ /**
+  * page_frag_refill_commit - Commit a prepare refilling.
+  * @nc: page_frag cache from which to commit
 diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
-index d014130fb893..4d5626da42ed 100644
+index 4d5626da42ed..c2902bdf7350 100644
 --- a/mm/page_frag_cache.c
 +++ b/mm/page_frag_cache.c
-@@ -201,3 +201,24 @@ void page_frag_free(void *addr)
- 		free_unref_page(page, compound_order(page));
+@@ -116,6 +116,41 @@ unsigned int __page_frag_cache_commit_noref(struct page_frag_cache *nc,
  }
- EXPORT_SYMBOL(page_frag_free);
-+
+ EXPORT_SYMBOL(__page_frag_cache_commit_noref);
+ 
 +/**
-+ * page_frag_alloc_abort_ref - Abort the reference of allocated fragment.
-+ * @nc: page_frag cache to which the page fragment is aborted back
-+ * @va: virtual address of page fragment to be aborted
-+ * @fragsz: size of the page fragment to be aborted
++ * __page_frag_alloc_refill_probe_align() - Probe allocating a fragment and
++ * refilling a page_frag with aligning requirement.
++ * @nc: page_frag cache from which to allocate and refill
++ * @fragsz: the requested fragment size
++ * @pfrag: the page_frag to be refilled.
++ * @align_mask: the requested aligning requirement for the fragment.
 + *
-+ * It is expected to be called from the same context as the allocation API.
-+ * Mostly used for error handling cases to abort the reference of allocated
-+ * fragment if the fragment has been referenced for other usages, to aovid the
-+ * atomic operation of page_frag_free() API.
++ * Probe allocating a fragment and refilling a page_frag from page_frag cache
++ * with aligning requirement.
++ *
++ * Return:
++ * virtual address of the page fragment, otherwise return NULL.
 + */
-+void page_frag_alloc_abort_ref(struct page_frag_cache *nc, void *va,
-+			       unsigned int fragsz)
++void *__page_frag_alloc_refill_probe_align(struct page_frag_cache *nc,
++					   unsigned int fragsz,
++					   struct page_frag *pfrag,
++					   unsigned int align_mask)
 +{
-+	VM_BUG_ON(va + fragsz !=
-+		  encoded_page_decode_virt(nc->encoded_page) + nc->offset);
++	unsigned long encoded_page = nc->encoded_page;
++	unsigned int size, offset;
 +
-+	nc->pagecnt_bias++;
++	size = PAGE_SIZE << encoded_page_decode_order(encoded_page);
++	offset = __ALIGN_KERNEL_MASK(nc->offset, ~align_mask);
++	if (unlikely(!encoded_page || offset + fragsz > size))
++		return NULL;
++
++	pfrag->page = encoded_page_decode_page(encoded_page);
++	pfrag->size = size - offset;
++	pfrag->offset = offset;
++
++	return encoded_page_decode_virt(encoded_page) + offset;
 +}
-+EXPORT_SYMBOL(page_frag_alloc_abort_ref);
++EXPORT_SYMBOL(__page_frag_alloc_refill_probe_align);
++
+ void *__page_frag_cache_prepare(struct page_frag_cache *nc, unsigned int fragsz,
+ 				struct page_frag *pfrag, gfp_t gfp_mask,
+ 				unsigned int align_mask)
 -- 
 2.33.0
 
