@@ -1,108 +1,89 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0C6C1DCB2D;
-	Mon, 28 Oct 2024 13:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E44D1DBB36
+	for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 13:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730123024; cv=none; b=KyrjQlIXphI+pYYlv21K6RTO1G8Va345VMg5VSntDudjpQLwntEmxvaT+Wwm58UtDLrTkPzAbOB0F+zxBXVOHHI98yEELHtOsb9pYBfoxrnbzyEIta0W7qZGjsBiqxeWLAqZAunS0s0ClRBiPqmZPobu5/c0O7pSzaR8WjiKpLk=
+	t=1730123635; cv=none; b=n1FpkYGLbdZFo/uhYoFxPKIRBi+I6GfpxXmqEkqqPl7Fa6/HZVPIvsfiu7hX4TZjiOp+E/A+iAJ7+80txUxG3LmTko3XcDqXAXR4w1ktZSXlYEHDyzBeNzY9NHa+pjiN68CILkwCL/p1r9ECLJZgNH8vbViLQtT3wr/g5eM60yY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730123024; c=relaxed/simple;
-	bh=uMi/PJfX0ne0yB7ZpkaQrwY7lz0yJr3IHebiWoYUnbM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XHPqLllFfiBZxOb5HjKCdOKy9qTCD1cVcmGwwoRQvQ1IK3XRN2nRvZ6p7+YhImFvsH9QWdY3Sd0pa8VQ+T053nHbgsA2XVDw9yogzqBOcddiq/9MY+o6IQqB4ADv0WeS7OXv8RAghpXWwbrEy1IjGMVdsnlQdukp9AP5tmPXUgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02037497;
-	Mon, 28 Oct 2024 06:44:11 -0700 (PDT)
-Received: from [10.163.42.200] (unknown [10.163.42.200])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C4103F66E;
-	Mon, 28 Oct 2024 06:43:36 -0700 (PDT)
-Message-ID: <92124be9-ffa5-4cf9-bec4-e7d3afb91a96@arm.com>
-Date: Mon, 28 Oct 2024 19:13:33 +0530
+	s=arc-20240116; t=1730123635; c=relaxed/simple;
+	bh=L5IFAGdxLKk4RP5WLTAZCi65fPYxfWuR27gxz1ekNPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OyJgiHdLehZLgpMB8sdAbZNL10hIPQFj8G+loWeGJhS/P+Xz8U7QHKpFyfwuEUdDInQnPGvPnB3VVAnMKUr2nNGUsCeHJFA0lz7Z/yC0d9dMa1S38S4XDjBjw/a3p3YJtEBjRCgeyo2y82fIPk16R8nkkLxWDvxZLy8nyFrokSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=dk9vHumB; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="dk9vHumB"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7b1457ba751so340300385a.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 06:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1730123631; x=1730728431; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UrmsujUgQJ5BlGaZvf5rEXiek96RGTOcx92GlV6YM4Q=;
+        b=dk9vHumBp4Ou8nakV4bmZm2GVSphMZEAsG/abqDET5MBRnNg4LnVTWtih80bMJwMOz
+         Ir59+SLDTczbS3cwJyjQXlq5NNq8DNSeDsDE9bGSaVVHD4EhBWMJFucJW8ZAJn47OW5Q
+         vHQNyNCn4xLPCHIkX7hAxvY6T4UDIC+u7JWKhdhn8WW6lFANLoAQdIAuNGYd51BGHgCZ
+         d+ewLqcIiGb9ctsMvs4WAygBLbaReRR34AP5qIyeg7m6xn9JvFtGOng9KexL/gOyehdz
+         G6qnvFcsjIRh/QiiC/74WvWHnWKoi1t9EigKkh6WYTFp2NxfEq2v510F25ne8igPXDAW
+         d3lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730123631; x=1730728431;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UrmsujUgQJ5BlGaZvf5rEXiek96RGTOcx92GlV6YM4Q=;
+        b=HRJuC3rCcy0UgEvw2O3e5llfF24cF4boBlomHSegdNLRTZ93KpFDAtB1QxzVZdz74O
+         2ZHySNNpAI7HlCsVWrYpAbxi9Q27QNIiVSvzEBnsYJZd1jE8pGoBOJ58EJlMuphaKtRj
+         R3Bcndoxhs1SrIqM+Ly8Vft/wQQ71iL4nB/Np0sCTVNOyGATCl347sv0+Pw2sU+Mg+hU
+         BUmH5/HvWXRVRCN11foICrFpBmZ5xOBbThG/rUDhqme8eFuWCaq9/dkiG5NNnpg+ghma
+         8jtv5yoKKo+8gKzoT89ubB8ZTKn6yC3nR0PPtAT4C2aWFSV8b2nUayE0lBEweJfkAIcN
+         RY9w==
+X-Forwarded-Encrypted: i=1; AJvYcCUOs5Y1+IJpStpmsdEIYqB+qsLDYpWTnyCOsMCX8Er6MHXrMdOaeqvhGqFZz4d+w663vQMFpi0XsEc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyqy9ZI5nPxmBbMdf56/bkUDII/TRpYsfjMjqJ9ra2lo2YynLMD
+	7JdW2GzLR45X/MTc/oXwVtZLfG5IfF2WE7GK7Ri1uxWNct6i276e26d/F6KVIg0=
+X-Google-Smtp-Source: AGHT+IH40KuDHrVOWhkEyQxVYIBNRcqoqm2Gc7OFJ7y7QxKdJ+GlPWy+DCSBDUatY4TQu0/pwXFjgQ==
+X-Received: by 2002:a05:620a:1709:b0:7a9:783e:3fb1 with SMTP id af79cd13be357-7b193efb057mr1458081785a.23.1730123630974;
+        Mon, 28 Oct 2024 06:53:50 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b18d2930ddsm319958485a.42.2024.10.28.06.53.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 06:53:49 -0700 (PDT)
+Date: Mon, 28 Oct 2024 09:53:45 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Hugh Dickins <hughd@google.com>,
+	Yosry Ahmed <yosryahmed@google.com>, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Meta kernel team <kernel-team@meta.com>
+Subject: Re: [PATCH v1 1/6] memcg-v1: fully deprecate move_charge_at_immigrate
+Message-ID: <20241028135345.GA10985@cmpxchg.org>
+References: <20241025012304.2473312-1-shakeel.butt@linux.dev>
+ <20241025012304.2473312-2-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] arm64/boot: Enable EL2 requirements for
- FEAT_Debugv8p9
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Brown <broonie@kernel.org>, kvmarm@lists.linux.dev,
- linux-doc@vger.kernel.org
-References: <20241001043602.1116991-1-anshuman.khandual@arm.com>
- <20241001043602.1116991-3-anshuman.khandual@arm.com>
- <ZxfOeqyb3RvsdYbU@J2N7QTR9R3> <72700154-cbf4-4a0a-b6e2-6f0709dec0ce@arm.com>
- <Zx-E_8SFV74s6xN8@J2N7QTR9R3>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <Zx-E_8SFV74s6xN8@J2N7QTR9R3>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241025012304.2473312-2-shakeel.butt@linux.dev>
 
-
-
-On 10/28/24 18:05, Mark Rutland wrote:
-> On Wed, Oct 23, 2024 at 11:42:37AM +0530, Anshuman Khandual wrote:
->>
->>
->> On 10/22/24 21:40, Mark Rutland wrote:
->>> On Tue, Oct 01, 2024 at 10:06:01AM +0530, Anshuman Khandual wrote:
->>>> Fine grained trap control for MDSELR_EL1 register needs to be configured in
->>>> HDFGRTR2_EL2, and HDFGWTR2_EL2 registers when kernel enters at EL1, but EL2
->>>> is also present. This adds a new helper __init_el2_fgt2() initializing this
->>>> new FEAT_FGT2 based fine grained registers.
->>>>
->>>> MDCR_EL2.EBWE needs to be enabled for additional (beyond 16) breakpoint and
->>>> watchpoint exceptions when kernel enters at EL1, but EL2 is also present.
->>>> This updates __init_el2_debug() as required for FEAT_Debugv8p9.
->>>>
->>>> While here, also update booting.rst with MDCR_EL3 and SCR_EL3 requirements.
->>>
->>> [...]
->>>
->>>> +  For CPUs with FEAT_Debugv8p9 extension present:
->>>> +
->>>> +  - If the kernel is entered at EL1 and EL2 is present:
->>>> +
->>>> +    - HDFGRTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
->>>> +    - HDFGWTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
->>>> +    - MDCR_EL2.EBWE (bit 43) must be initialized to 0b1
->>>> +
->>>> +  - If EL3 is present:
->>>> +
->>>> +    - MDCR_EL3.TDA (bit 9) must be initialized to 0b0
->>>
->>> AFAICT we need TDA==0 this regardless of FEAT_Debugv8p9 (and e.g. we need
->>
->> That's because MDCR_EL3.TDA=0, enables access to many other debug registers
->> beside FEAT_Debugv8p9, which are currently used and hence this MDCR_EL3.TDA
->> =0 requirement is a not a new one but rather a missing one instead ?
+On Thu, Oct 24, 2024 at 06:22:58PM -0700, Shakeel Butt wrote:
+> Proceed with the complete deprecation of memcg v1's charge moving
+> feature. The deprecation warning has been in the kernel for almost two
+> years and has been ported to all stable kernel since. Now is the time to
+> fully deprecate this feature.
 > 
-> Yes, that's why I said we need it regardless; it's an existing
-> requirement that wasn't documented.
+> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+> Reviewed-by: Roman Gushchin <roman.gushchin@linux.dev>
 
-Alright, got it.
-
-> 
->>
->>> MDCR_EL3.TPM==0 where FEAT_PMUv3 is implemented), so we should probably
->>> check if there's anything else we haven't yet documented in MDCR_EL3.
->>
->> Will scan through MDCR_EL3 register and match it with existing documentation
->> i.e Documentation/arch/arm64/booting.rst. If there are some missing MDCR_EL3
->> fields which should be mentioned, will add them via a separate pre-requisite
->> patch ?
-> 
-> Yes please.
-> 
-> Mark.
-
-Sure, will separate those changes in a pre-requisite patch as suggested.
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
