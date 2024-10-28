@@ -1,143 +1,136 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6611E18C90B
-	for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 06:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA43D18990E;
+	Mon, 28 Oct 2024 06:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730095904; cv=none; b=uhDKzy9Y1n6BkB7fWgR8sM4kfzwi7gcU1c1BheRccRJHAOVYrnlArJUNBmbCBHU5GwKNJF7qRMJ9A2wvKSPPPQyv6fsiXMGPZAWDZXMrqPqKKccKXtiL8g9zprmI8RDYOU4XoXquHj7IOvsnSUnrwCGLvqt7bKy01sRsHCjT8Us=
+	t=1730096578; cv=none; b=CJ4HNP+X17TBcrggTuNY3BYuLTXQNyUVRialrfAp7UN9AN8GEeDCJEN8Y0Hn9fF5CJkS2tnksp7hdomTZ8UqdEpMf9Ym7NRvb5+YsgxEY2nvmuqFiCf9O56vLsoYQNtoPYFtypAuLaCjWeOxCGWnThMjDGy2DnmLIpxC2xxZ6vQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730095904; c=relaxed/simple;
-	bh=jbuTbPN2jVKzp69xgs5KjAtQm+Zh5HKjy+T4XhAJERw=;
+	s=arc-20240116; t=1730096578; c=relaxed/simple;
+	bh=Jk5IbqRh4vCRoUbHWTgVvsfDpi3BO4pWidLR8NsFZ9M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A0qVuhKzyspT7U/j+USU/D+7PhGDacSpaqOS5tbThL3ASw3MCsdvSLx+3CNP6ZVFvLASlc9rGz3t8J9s5Q9o+LAKZSzrOuGfEh3fPY7v7z18yd36Jr/U+iDWkm/+K6hyAGWwOePAE4fTmK2q8xHE28hupGMH9/n7x4ZG3Pfhswg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W5H/rUM4; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=SpVNe8Mow7djTOb0sHisJ6bolaMdZ8FgvAbdTFY/Y0+grfLdAPbyOClGUHkPQCycbTOHEO50/dNjpbIyO/TedH/jaHAL1oEUOlHZElYWtkUsGrdtF1avwAm/Abi6Ey4DER5ccA0yilOz+luVoh0AxuW+MVkH152hLqIMMrlyBh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bDs6atF8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W5H/rUM4"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2e2a999b287so3119497a91.0
-        for <linux-doc@vger.kernel.org>; Sun, 27 Oct 2024 23:11:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730095902; x=1730700702; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jbuTbPN2jVKzp69xgs5KjAtQm+Zh5HKjy+T4XhAJERw=;
-        b=W5H/rUM4nurrPTaXV5tKSO7nGjmwC+XMPFaPlnTQS9kh7FY8X76VdDWKWmMtNRPmUm
-         KTTjhZgtLps2gZLK80QpiKXd0ARy1+jDwaZiIOWwO04sYjBZgJeuFBOrnFkOnLSeVrzW
-         8oTpFLhVSn6/ZyyM8aIW/t1YXj14Ox0y4E63ODcdNkvGSDHzHwHyRUpEHRHKI4ZKPsrM
-         Wj1vf1zB/ixQ7ISr3B7p9TEdfTqaVwYmgCEUDvkHeGPoEpElqXWHxdwZbzG0V7ruahek
-         F3tZLXf3UyBi60ytOPpJ8Ge9V44Rb1VXgYeRTTQ8Ati5p+wMUsOwjS0Xjrs11Df4mI4y
-         0VGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730095902; x=1730700702;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jbuTbPN2jVKzp69xgs5KjAtQm+Zh5HKjy+T4XhAJERw=;
-        b=cW7iUy3CZ7xFzMb7ttbylgx3/tHdcP/BdvFGxse8rR5VK4os1UyVgFzrqR1gUdlnnV
-         7Vt9nMEjqqz1pyPut9DXJprWMw+sGb8aDMihY7KNgvdTjNRetiTdK780NueeF9O6GRnE
-         7P7A7L86/DSrcfMk8M4ADt/BvR3f7XnYDgE9dABGreDlP6MpsBRCSnQobvqR9tkC3DeT
-         2zy9dYv60oTi7b5JSXPiAka6tZoxGqT+GfMNjmGq9QjX3O0q3GHsq46pUYPaLr7Wz5Eb
-         kVqDuGRsrzRP3MK6m6xq0nUmGU9j9yJx7KvTDAJ9P0pS57J7g2T7AP9RV+iYg9oPUDLZ
-         ZKKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUdtqlGSO0jndz8yY+I0Q0W/VA9Z41q5Fl1W3pkl6YQBC3601WXQW1ErEOM7f+T7qx69/ySHzKS8kY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0UrAFYnGfBkfY0SjzME+Bu6wAXl+6mfLbN7VpzZJQiiVYjgyt
-	KjcGhCSTI8Wl8K8fcT/Axyq/oW/J9ahJyRJ/sq57I+qYtDCzZMfX
-X-Google-Smtp-Source: AGHT+IG3UFg+q/e8fdl3GI/kVoudZOs1rz1KQ3OaB+SGwaxDn06pcGwHTnDQ0u21xR5lV5tr/XuCNw==
-X-Received: by 2002:a17:90a:5601:b0:2e2:e743:7501 with SMTP id 98e67ed59e1d1-2e8f0f533e7mr8222044a91.8.1730095901680;
-        Sun, 27 Oct 2024 23:11:41 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e77e5864e6sm8216108a91.47.2024.10.27.23.11.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Oct 2024 23:11:40 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id CE89E4229D6A; Mon, 28 Oct 2024 13:11:38 +0700 (WIB)
-Date: Mon, 28 Oct 2024 13:11:38 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc: patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: admin: reorganize kernel-parameters intro
-Message-ID: <Zx8rGu6Pgy83RLz6@archie.me>
-References: <20241028005356.214369-1-rdunlap@infradead.org>
- <Zx8ML4Q6GyGPw-sy@archie.me>
- <8b13719b-522d-48ec-92fe-6c98d651f947@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bDs6atF8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E16C4CEC3;
+	Mon, 28 Oct 2024 06:22:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730096577;
+	bh=Jk5IbqRh4vCRoUbHWTgVvsfDpi3BO4pWidLR8NsFZ9M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bDs6atF8lGVkOSu8PR/Zeze3PGZeuSNAwBS1wCvfCB64zduIV8EVNQLYrGRITgsOX
+	 m4HZ8igBY57cpFEdhFNUBm8dkFqVcwLIZJNyD3FxqvF/X6ketbJhvrbBPr+u6WZxZ3
+	 w11mQnvuMXHiPD97WTOWcp1gf7Qn8YL4dM5TPF8cGuddYW1HkSqRGukSUz9O+9rzqF
+	 KLngHHPHYjOu7rL222u8QMXoukG9r55bOcTa7Rw2qnhI04sopB/+K6VdPCEVj61xlv
+	 ViLwDGbr7PuiCkXsEHb96dqrPmRCahF5OFg843XZ1f+zK0SivcsINr8cHzq8IxXcnI
+	 li8XZp6ad0yXA==
+Date: Mon, 28 Oct 2024 08:22:52 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 07/18] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20241028062252.GC1615717@unreal>
+References: <cover.1730037276.git.leon@kernel.org>
+ <b434f2f6d3c601649c9b6973a2ec3ec2149bba37.1730037276.git.leon@kernel.org>
+ <6a9366a5-7c5b-449c-b259-8e2492aae2a1@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dHSCKawrK9nG6pkb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8b13719b-522d-48ec-92fe-6c98d651f947@infradead.org>
+In-Reply-To: <6a9366a5-7c5b-449c-b259-8e2492aae2a1@linux.intel.com>
 
+On Mon, Oct 28, 2024 at 10:00:25AM +0800, Baolu Lu wrote:
+> On 2024/10/27 22:21, Leon Romanovsky wrote:
+> > +/**
+> > + * dma_iova_sync - Sync IOTLB
+> > + * @dev: DMA device
+> > + * @state: IOVA state
+> > + * @offset: offset into the IOVA state to sync
+> > + * @size: size of the buffer
+> > + * @ret: return value from the last IOVA operation
+> > + *
+> > + * Sync IOTLB for the given IOVA state. This function should be called on
+> > + * the IOVA-contigous range created by one ore more dma_iova_link() calls
+> > + * to sync the IOTLB.
+> > + */
+> > +int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
+> > +		size_t offset, size_t size, int ret)
+> > +{
+> > +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> > +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> > +	struct iova_domain *iovad = &cookie->iovad;
+> > +	dma_addr_t addr = state->addr + offset;
+> > +	size_t iova_start_pad = iova_offset(iovad, addr);
+> > +
+> > +	addr -= iova_start_pad;
+> > +	size = iova_align(iovad, size + iova_start_pad);
+> > +
+> > +	if (!ret)
+> > +		ret = iommu_sync_map(domain, addr, size);
+> > +	if (ret)
+> > +		iommu_unmap(domain, addr, size);
+> 
+> It appears strange that mapping is not done in this helper, but
+> unmapping is added in the failure path. Perhaps I overlooked anything?
 
---dHSCKawrK9nG6pkb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Like iommu_sync_map() is performed on whole continuous range, the iommu_unmap()
+should be done on the same range. So, technically you can unmap only part of
+the range which called to dma_iova_link() and failed, but you will need
+to make sure that iommu_sync_map() is still called for "successful" part of
+iommu_map().
 
-On Sun, Oct 27, 2024 at 09:27:50PM -0700, Randy Dunlap wrote:
->=20
->=20
-> On 10/27/24 8:59 PM, Bagas Sanjaya wrote:
-> > On Sun, Oct 27, 2024 at 05:53:56PM -0700, Randy Dunlap wrote:
-> >> +This document may not be entirely up to date and comprehensive. The c=
-ommand
-> >> +"modinfo -p ${modulename}" shows a current list of all parameters of =
-a loadable
-> >> +module. Loadable modules, after being loaded into the running kernel,=
- also
-> >> +reveal their parameters in /sys/module/${modulename}/parameters/. Som=
-e of these
-> >> +parameters may be changed at runtime by the command
-> >> +``echo -n ${value} > /sys/module/${modulename}/parameters/${parm}``.
-> >=20
-> > How can users get support for parameters not documented here? Post to L=
-KML
-> > (and hoping that they also Cc: relevant maintainers and mailing list)?
->=20
-> That's probably the best option currently.
+In that case, you will need to undo everything anyway and it means that
+you will call to iommu_unmap() on the successful part of the range
+anyway.
 
-OK.
+dma_iova_sync() is single operation for the whole range and
+iommu_unmap() too, so they are bound together.
 
->=20
-> >> +KMG suffixes
-> >> +~~~~~~~~~~~~
-> >> +
-> >> +The [KMG] suffix is commonly described after a number of kernel
-> >> +parameter values. These 'K', 'M', and 'G' letters represent the _bina=
-ry_
-> >> +multipliers 'Kilo', 'Mega', and 'Giga', equaling 2^10, 2^20, and 2^30
-> >> +bytes respectively. Such letter suffixes can also be entirely omitted.
-> >> +
-> >=20
-> > Metric suffixes?
->=20
-> Hm, it looks like memparse() supports all of these suffixes: K, M, G, T, =
-P, E.
->=20
-> So the heading could be Metric suffixes along with some changed text.
->=20
+> To my understanding, it should like below:
+> 
+> 	return iommu_sync_map(domain, addr, size);
+> 
+> In the drivers that make use of this interface should do something like
+> below:
+> 
+> 	ret = dma_iova_sync(...);
+> 	if (ret)
+> 		dma_iova_destroy(...)
 
-Agreed.
+It is actually what is happening in the code, but in less direct way due
+to unwinding of the code.
 
-Thanks.
+As an simple example, see VFIO patch https://lore.kernel.org/all/0a517ddff099c14fac1ceb0e75f2f50ed183d09c.1730037276.git.leon@kernel.org/
+where failed in dma_iova_sync() will trigger call to unregister_dma_pages() and that will call to dma_iova_destroy().
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---dHSCKawrK9nG6pkb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZx8rGgAKCRD2uYlJVVFO
-oz2YAP98uCC3FPwW3EGkHnpcMof/YVq7xRBuMEbJyKq5avR0sAD/SLsSOVuoTORu
-d1HBbAHZnW9Oguk+sac8nimHlSHGPQo=
-=TZ/X
------END PGP SIGNATURE-----
-
---dHSCKawrK9nG6pkb--
+> 
+> > +	return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_iova_sync);
+> 
+> Thanks,
+> baolu
+> 
