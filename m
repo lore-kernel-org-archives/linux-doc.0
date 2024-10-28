@@ -1,369 +1,100 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A576B1EE02A;
-	Mon, 28 Oct 2024 22:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9071F428C
+	for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 22:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730154973; cv=none; b=WRgpoblBEC9V06r1vLgI4pJ2jjmIkhwlFV17zQ5k+lgI35td/S0dFpFK4Orh/Kpqm7cJnAFKNgn3I1w3sW40V+UkfXIEPqaB+IsTwm9pritX2JdAfAfcY26yCasErUEsKvJvCcSF9A7HJ+N9xQnWikeczY+W0gIyggIfB6WeJ9Q=
+	t=1730155112; cv=none; b=tTS8QTWnT1Wp2W1ilDBAhEaizeHA493zZxBvxuhPZNlarztfzMoAY8PsRg/bcLfDJU8Ux86/CtAGYuN28cezZGu8hVRQJ38soWbU7YVEGs83+DF1BEiqwmyU9jFn6bwvph/NX3EkGG3Qs/qlUeq14oNNFlYKwcl14y4GxH+uAMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730154973; c=relaxed/simple;
-	bh=wbhdZC6Z89reeMwCeY5MJEvFiZ3WcNwnaTzW5+GquY4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g9FavSYQqY1fIzY+OeFfxaow3vsqWROxE3CqPV2cORGxdWj/Q0bnZ1ZpLH1RtizO6tlfViwuGqX7lIS9AogWNyvPDsKoDo0K6cMubLUdTVRkTKePN7ufnB2eNWGL1Qe40i7ViQOLE/Vd95ChzOwUt9KNZ4pJ2ff7VzPYnqJV9zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BOpSFolF; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730155112; c=relaxed/simple;
+	bh=3kAJ5fLNsvxbUusp/GUr3EXaxom87TbU8FVUXa8qNpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pq9RNbDMTTYvE5xuyEt8HJUeAIAVPIQjxAzBHjA7MyHF8/oW7OztctTRu8XwCTxd3zZsBfm3phFdQ4haoH2Ze8C8qk8WTds7/d2cmIyS6nlYaKGE8Wz51TL9APv5a76A9BkAFIaz11gnNK/AA9/tAulAmmfNco6pgz3TcPSvzrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gfPXs3DI; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BOpSFolF"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-50d494ac189so1373753e0c.3;
-        Mon, 28 Oct 2024 15:36:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730154969; x=1730759769; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ruanekakymRz5BAdcZ4X/lBPdAj5pXrys4sR3ewuFz4=;
-        b=BOpSFolFFg8G34Pkp8AUtKEhdhF9X8XkZcLLxPHGSBhvSylX0s58XR11TDwOSYs5/J
-         95uJHvKvup4ltMO/71s+BR5pVNrcYmnNvEw5TieOYM62BIzrXLfZdIF4eFzw06OA+Hdx
-         WTeDudW6XrwG0s8ozqwV2VBCC+QsTuNod2gcF+itcKQ4P+VevsnDoEsZqqmqBVqo0NIO
-         xCFkUtc0VnUsc+BZEjk+hwl1DQ1JJjSJEXUxQVwlYtHknQMWggGfkoc5feLgKZjMD+Kd
-         1Jas0UEErauD16HWqq9Z2KfpczjOGaD1YKyLJ/fMYkrTIrEKkVkaa5dEGIC8ohcoRAz8
-         WvKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730154969; x=1730759769;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ruanekakymRz5BAdcZ4X/lBPdAj5pXrys4sR3ewuFz4=;
-        b=n2W6KHa9OcABeo8O/MFlc0Xdx91FDnj8Bc9MB3i9KopFXRHPtNYbO6NRNsxALBp5fO
-         m1MsJHzVnFOnHod+vf243eq4VQeVWN19EWjwbMGgHlk+D9crbbsS7EL6TQw+UxbO0qaZ
-         7rWjOVcN4rsUGMNU5ulNk/pIwNk8G+x72kalHJyOEMyY5hYZFt7KnObJkYjwpH2Xn77x
-         3VqrWfbE8CrxI87B+PTGqM03WmI6qxaUyYu5zBC9aBZ3YcLXqZnTL5Z5zEqzah9iwg+P
-         +Nu+VRN8DbLM0LIzt6bhyuo1DtAoGCfohMW+rDnWzQoCgkePddp1OPE84HuouipmC5l5
-         9Ypg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAc7mAQCgOjjjkflc1PXZKGIByJc0Uw5OR3Rf583p6M8rW4KvacBXgwRNy0PCWA/IBYEf2sfgs1Kg=@vger.kernel.org, AJvYcCV7nmweSZ2k3O/GSpuT9CzeA8geP3K++dad4I+M8oyKsVd4OzNDiEdi/f6iesPkeIAq/vOKwEkAkwF+uGhW@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxP0nEyibRugTbGGsJDDrnse5D2FzlWO8uc+jadLkgzTQB3/02
-	dMPHC3q6TJgpbIdfqRn5QAs9+a2QhXsKUbamCv7JXH+XIdKQZwLIFdpm8OIHoEjaSvDYzSFbzDj
-	J/cWagvvz9dD93A0vv6DH6vR15RM=
-X-Google-Smtp-Source: AGHT+IFwD/SdrQv0Dd5YYxYWS6K93sh3LWdxo8AeuPPutZ/ZdZN4h84VpKl95axI38SS8MoNcn2ehxkCY6a+bgThV0g=
-X-Received: by 2002:a05:6122:889:b0:50d:535b:a18a with SMTP id
- 71dfb90a1353d-510150459a6mr6315726e0c.6.1730154969575; Mon, 28 Oct 2024
- 15:36:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gfPXs3DI"
+Date: Mon, 28 Oct 2024 15:38:12 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1730155103;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bwLK6C+LIHsSNngRkDjly76woCmDfdoJJBIoyZxpefk=;
+	b=gfPXs3DIE87maV//JfRwM0t7efKE41bpOiF3xgjdXE/I3w+No0ES7jpsFkVQ8JF2bZfBYd
+	tBk1G4DPwru2/rXmlMfertXT43xysWl6HChbe9n70TskUmM5pvWSJYBZkE5EVbeALnGS6X
+	oXyc/tfy1W8TdE63D367dqpHaIltCCE=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: hannes@cmpxchg.org, nphamcs@gmail.com, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, muchun.song@linux.dev, tj@kernel.org, lizefan.x@bytedance.com, 
+	mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, akpm@linux-foundation.org, 
+	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
+Message-ID: <t5t72ygnlnb2oobagh35a5nyg7h4n4ir6dcm5mkebzbzj3ph7d@37i64rldiw5j>
+References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241027175743.1056710-1-mcanal@igalia.com> <20241027175743.1056710-4-mcanal@igalia.com>
- <CAGsJ_4xCw3OvkMo6cVr+U97C3SO+n+5c1j5XRodLDaLXW4ALjg@mail.gmail.com>
- <2505d52c-3454-4892-8c90-e3d9b2f0c84f@igalia.com> <CAGsJ_4y13T+KE1hJPb=14LBvGixd4uQTcN5pS=Hok6Ca6RD+7g@mail.gmail.com>
- <f1c35067-9381-424b-b962-526b85d59ea9@igalia.com>
-In-Reply-To: <f1c35067-9381-424b-b962-526b85d59ea9@igalia.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Tue, 29 Oct 2024 06:35:57 +0800
-Message-ID: <CAGsJ_4wJ2xoNRLMNkmLL3x1t2YiqQJ1=saXa+HNxRUbSNivRCw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] mm: shmem: override mTHP shmem default with a kernel parameter
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Oct 28, 2024 at 7:34=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igalia.com=
-> wrote:
->
-> Hi Barry,
->
-> On 28/10/24 08:09, Barry Song wrote:
-> > On Mon, Oct 28, 2024 at 6:10=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igalia=
-.com> wrote:
-> >>
-> >> Hi Barry,
-> >>
-> >> On 27/10/24 18:54, Barry Song wrote:
-> >>> On Mon, Oct 28, 2024 at 6:58=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igal=
-ia.com> wrote:
-> >>>>
-> >>>> Add the ``thp_shmem=3D`` kernel command line to allow specifying the
-> >>>> default policy of each supported shmem hugepage size. The kernel par=
-ameter
-> >>>> accepts the following format:
-> >>>>
-> >>>> thp_shmem=3D<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]=
-:<policy>
-> >>>>
-> >>>> For example,
-> >>>>
-> >>>> thp_shmem=3D16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never=
-;4M-8M:within_size
-> >>>>
-> >>>> By configuring the default policy of several shmem huge pages, the u=
-ser
-> >>>> can take advantage of mTHP before it's been configured through sysfs=
-.
-> >>>>
-> >>>> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> >>>> ---
-> >>>>    .../admin-guide/kernel-parameters.txt         |  10 ++
-> >>>>    Documentation/admin-guide/mm/transhuge.rst    |  17 +++
-> >>>>    mm/shmem.c                                    | 109 +++++++++++++=
-++++-
-> >>>>    3 files changed, 135 insertions(+), 1 deletion(-)
-> >>>>
-> >>>
-> >>> Hi Ma=C3=ADra,
-> >>>
-> >>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Docum=
-entation/admin-guide/kernel-parameters.txt
-> >>>> index acabb04d0dd4..595fa096e28b 100644
-> >>>> --- a/Documentation/admin-guide/kernel-parameters.txt
-> >>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> >>>> @@ -6700,6 +6700,16 @@
-> >>>>                           Force threading of all interrupt handlers =
-except those
-> >>>>                           marked explicitly IRQF_NO_THREAD.
-> >>>>
-> >>>> +       shmem_anon=3D     [KNL]
-> >>>> +                       Format: <size>[KMG],<size>[KMG]:<policy>;<si=
-ze>[KMG]-<size>[KMG]:<policy>
-> >>>> +                       Control the default policy of each hugepage =
-size for the
-> >>>> +                       internal shmem mount. <policy> is one of pol=
-icies available
-> >>>> +                       for the shmem mount ("always", "inherit", "n=
-ever", "within_size",
-> >>>> +                       and "advise").
-> >>>> +                       It can be used multiple times for multiple s=
-hmem THP sizes.
-> >>>> +                       See Documentation/admin-guide/mm/transhuge.r=
-st for more
-> >>>> +                       details.
-> >>>
-> >>> I'm not sure this is the right name. How about "thp_shmem"?
-> >>
-> >> Oops, sorry about that.
-> >>
-> >>>
-> >>>> +
-> >>>>           topology=3D       [S390,EARLY]
-> >>>>                           Format: {off | on}
-> >>>>                           Specify if the kernel should make use of t=
-he cpu
-> >>>> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentat=
-ion/admin-guide/mm/transhuge.rst
-> >>>> index 9b5b02c4d1ab..47e7fc30e22d 100644
-> >>>> --- a/Documentation/admin-guide/mm/transhuge.rst
-> >>>> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> >>>> @@ -332,6 +332,23 @@ allocation policy for the internal shmem mount =
-by using the kernel parameter
-> >>>>    seven valid policies for shmem (``always``, ``within_size``, ``ad=
-vise``,
-> >>>>    ``never``, ``deny``, and ``force``).
-> >>>>
-> >>>> +In the same manner as ``thp_anon`` controls each supported anonymou=
-s THP
-> >>>> +size, ``thp_shmem`` controls each supported shmem THP size. ``thp_s=
-hmem``
-> >>>> +has the same format as ``thp_anon``, but also supports the policy
-> >>>> +``within_size``.
-> >>>> +
-> >>>> +``thp_shmem=3D`` may be specified multiple times to configure all T=
-HP sizes
-> >>>> +as required. If ``thp_shmem=3D`` is specified at least once, any sh=
-mem THP
-> >>>> +sizes not explicitly configured on the command line are implicitly =
-set to
-> >>>> +``never``.
-> >>>> +
-> >>>> +``transparent_hugepage_shmem`` setting only affects the global togg=
-le. If
-> >>>> +``thp_shmem`` is not specified, PMD_ORDER hugepage will default to
-> >>>> +``inherit``. However, if a valid ``thp_shmem`` setting is provided =
-by the
-> >>>> +user, the PMD_ORDER hugepage policy will be overridden. If the poli=
-cy for
-> >>>> +PMD_ORDER is not defined within a valid ``thp_shmem``, its policy w=
-ill
-> >>>> +default to ``never``.
-> >>>> +
-> >>>>    Hugepages in tmpfs/shmem
-> >>>>    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> >>>>
-> >>>> diff --git a/mm/shmem.c b/mm/shmem.c
-> >>>> index 24cdeafd8260..0a7a7d04f725 100644
-> >>>> --- a/mm/shmem.c
-> >>>> +++ b/mm/shmem.c
->
-> [...]
->
-> >>>>    static int __init setup_transparent_hugepage_shmem(char *str)
-> >>>>    {
-> >>>>           int huge, ret =3D 0;
-> >>>> @@ -5206,6 +5228,91 @@ static int __init setup_transparent_hugepage_=
-shmem(char *str)
-> >>>>    }
-> >>>>    __setup("transparent_hugepage_shmem=3D", setup_transparent_hugepa=
-ge_shmem);
-> >>>>
-> >>>> +static char str_dup[PAGE_SIZE] __initdata;
-> >>>> +static int __init setup_thp_shmem(char *str)
-> >>>> +{
-> >>>> +       char *token, *range, *policy, *subtoken;
-> >>>> +       unsigned long always, inherit, madvise, within_size;
-> >>>> +       char *start_size, *end_size;
-> >>>> +       int start, end, nr;
-> >>>> +       char *p;
-> >>>> +
-> >>>> +       if (!str || strlen(str) + 1 > PAGE_SIZE)
-> >>>> +               goto err;
-> >>>> +       strcpy(str_dup, str);
-> >>>> +
-> >>>> +       always =3D huge_shmem_orders_always;
-> >>>> +       inherit =3D huge_shmem_orders_inherit;
-> >>>> +       madvise =3D huge_shmem_orders_madvise;
-> >>>> +       within_size =3D huge_shmem_orders_within_size;
-> >>>> +       p =3D str_dup;
-> >>>> +       while ((token =3D strsep(&p, ";")) !=3D NULL) {
-> >>>> +               range =3D strsep(&token, ":");
-> >>>> +               policy =3D token;
-> >>>> +
-> >>>> +               if (!policy)
-> >>>> +                       goto err;
-> >>>> +
-> >>>> +               while ((subtoken =3D strsep(&range, ",")) !=3D NULL)=
- {
-> >>>> +                       if (strchr(subtoken, '-')) {
-> >>>> +                               start_size =3D strsep(&subtoken, "-"=
-);
-> >>>> +                               end_size =3D subtoken;
-> >>>> +
-> >>>> +                               start =3D get_order_from_str(start_s=
-ize);
-> >>>> +                               end =3D get_order_from_str(end_size)=
-;
-> >>>> +                       } else {
-> >>>> +                               start =3D end =3D get_order_from_str=
-(subtoken);
-> >>>> +                       }
-> >>>> +
-> >>>> +                       if (start < 0 || end < 0 || start > end)
-> >>>> +                               goto err;
-> >>>> +
-> >>>> +                       nr =3D end - start + 1;
-> >>>> +                       if (!strcmp(policy, "always")) {
-> >>>> +                               bitmap_set(&always, start, nr);
-> >>>> +                               bitmap_clear(&inherit, start, nr);
-> >>>> +                               bitmap_clear(&madvise, start, nr);
-> >>>> +                               bitmap_clear(&within_size, start, nr=
-);
-> >>>> +                       } else if (!strcmp(policy, "advise")) {
-> >>>> +                               bitmap_set(&madvise, start, nr);
-> >>>> +                               bitmap_clear(&inherit, start, nr);
-> >>>> +                               bitmap_clear(&always, start, nr);
-> >>>> +                               bitmap_clear(&within_size, start, nr=
-);
-> >>>> +                       } else if (!strcmp(policy, "inherit")) {
-> >>>> +                               bitmap_set(&inherit, start, nr);
-> >>>> +                               bitmap_clear(&madvise, start, nr);
-> >>>> +                               bitmap_clear(&always, start, nr);
-> >>>> +                               bitmap_clear(&within_size, start, nr=
-);
-> >>>> +                       } else if (!strcmp(policy, "within_size")) {
-> >>>> +                               bitmap_set(&within_size, start, nr);
-> >>>> +                               bitmap_clear(&inherit, start, nr);
-> >>>> +                               bitmap_clear(&madvise, start, nr);
-> >>>> +                               bitmap_clear(&always, start, nr);
-> >>>> +                       } else if (!strcmp(policy, "never")) {
-> >>>> +                               bitmap_clear(&inherit, start, nr);
-> >>>> +                               bitmap_clear(&madvise, start, nr);
-> >>>> +                               bitmap_clear(&always, start, nr);
-> >>>> +                               bitmap_clear(&within_size, start, nr=
-);
-> >>>> +                       } else {
-> >>>> +                               pr_err("invalid policy %s in thp_shm=
-em boot parameter\n", policy);
-> >>>> +                               goto err;
-> >>>> +                       }
-> >>>> +               }
-> >>>> +       }
-> >>>> +
-> >>>> +       huge_shmem_orders_always =3D always;
-> >>>> +       huge_shmem_orders_madvise =3D madvise;
-> >>>> +       huge_shmem_orders_inherit =3D inherit;
-> >>>> +       huge_shmem_orders_within_size =3D within_size;
-> >>>> +       shmem_orders_configured =3D true;
-> >>>> +       return 1;
-> >>>> +
-> >>>> +err:
-> >>>> +       pr_warn("thp_shmem=3D%s: error parsing string, ignoring sett=
-ing\n", str);
-> >>>> +       return 0;
-> >>>> +}
-> >>>
-> >>> Can we share source code with thp_anon since there's a lot of duplica=
-tion?
-> >>
-> >> I'm not a regular mm contributor and I'm most usually around drivers, =
-so
-> >> I don't know exactly here I could add shared code. Should I add the
-> >> headers to "internal.h"?
-> >
-> > My comment isn't related to drivers or memory management. It's solely a=
-bout
-> > avoiding code duplication. For example, we could create a shared functi=
-on to
-> > handle both controls, reducing redundant code :-)
->
-> Let me rephrase it.
->
-> I completely agree that we should avoid code duplication. I'm asking
-> where is the best place to add the headers of the shared functions.
-> "linux/shmem_fs.h" doesn't look appropriate to me, so I believe the
-> remaining options would be "linux/huge_mm.h" or "internal.h".
+On Mon, Oct 28, 2024 at 02:05:05PM GMT, Joshua Hahn wrote:
+> This patch introduces a new counter to memory.stat that tracks hugeTLB
+> usage, only if hugeTLB accounting is done to memory.current. This
+> feature is enabled the same way hugeTLB accounting is enabled, via
+> the memory_hugetlb_accounting mount flag for cgroupsv2.
+> 
+> 1. Why is this patch necessary?
+> Currently, memcg hugeTLB accounting is an opt-in feature [1] that adds
+> hugeTLB usage to memory.current. However, the metric is not reported in
+> memory.stat. Given that users often interpret memory.stat as a breakdown
+> of the value reported in memory.current, the disparity between the two
+> reports can be confusing. This patch solves this problem by including
+> the metric in memory.stat as well, but only if it is also reported in
+> memory.current (it would also be confusing if the value was reported in
+> memory.stat, but not in memory.current)
+> 
+> Aside from the consistency between the two files, we also see benefits
+> in observability. Userspace might be interested in the hugeTLB footprint
+> of cgroups for many reasons. For instance, system admins might want to
+> verify that hugeTLB usage is distributed as expected across tasks: i.e.
+> memory-intensive tasks are using more hugeTLB pages than tasks that
+> don't consume a lot of memory, or are seen to fault frequently. Note that
+> this is separate from wanting to inspect the distribution for limiting
+> purposes (in which case, hugeTLB controller makes more sense).
+> 
+> 2. We already have a hugeTLB controller. Why not use that?
+> It is true that hugeTLB tracks the exact value that we want. In fact, by
+> enabling the hugeTLB controller, we get all of the observability
+> benefits that I mentioned above, and users can check the total hugeTLB
+> usage, verify if it is distributed as expected, etc.
+> 
+> With this said, there are 2 problems:
+> (a) They are still not reported in memory.stat, which means the
+>     disparity between the memcg reports are still there.
+> (b) We cannot reasonably expect users to enable the hugeTLB controller
+>     just for the sake of hugeTLB usage reporting, especially since
+>     they don't have any use for hugeTLB usage enforcing [2].
+> 
+> [1] https://lore.kernel.org/all/20231006184629.155543-1-nphamcs@gmail.com/
+> [2] Of course, we can't make a new patch for every feature that can be
+>     duplicated. However, since the existing solution of enabling the
+>     hugeTLB controller is an imperfect solution that still leaves a
+>     discrepancy between memory.stat and memory.curent, I think that it
+>     is reasonable to isolate the feature in this case.
+>  
+> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> Suggested-by: Shakeel Butt <shakeel.butt@linux.dev>
+> Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
 
-Both locations seem quite odd. I have a feeling that these boot command
-elements are purely internal, yet internal.h contains something that is
-actually 'external' to mm. The shared code isn't 'external' enough to belon=
-g
-in internal.h.
-
-I didn't realize that shmem has placed these controls in its own file;
-I thought they
-were also located in mm/huge_memory.c. Given the current situation, I would
-prefer to keep the code as it is and tolerate the code duplication.
-
-Unless we are going to place controls for shmem and other thp controls in
-one place, I feel your code is better than having a shared function either =
-in
-internal.h or linux/huge_mm.h.
-
->
-> I would like to know your opinion about those two options.
->
-> Best Regards,
-> - Ma=C3=ADra
->
-> >
-> >>
-> >> Best Regards,
-> >> - Ma=C3=ADra
-> >>
-> >>>
-> >>>> +__setup("thp_shmem=3D", setup_thp_shmem);
-> >>>> +
-> >>>>    #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-> >>>>
-> >>>>    #else /* !CONFIG_SHMEM */
-> >>>> --
-> >>>> 2.46.2
-> >>>>
-> >>>
-
-Thanks
-barry
+Acked-by: Shakeel Butt <shakeel.butt@linux.dev>
