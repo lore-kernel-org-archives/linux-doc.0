@@ -1,208 +1,125 @@
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB739187876;
-	Mon, 28 Oct 2024 10:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0ECA59;
+	Mon, 28 Oct 2024 10:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730110654; cv=none; b=rh8QKTH6irrgSkbMpWiv1jArsU/ldazD6j2/uhg2qOj8kfy1dv9lA4wpy8ETA/aF6pUxt1udx0rSZHek85anbJnsYo10lRWMdooNfEtbnAFtyy4k6OxX3p1gL2KShalhMEKvv91U0DZA4PCinIzxvejWbEhm/flzYvVhhhT4630=
+	t=1730110735; cv=none; b=sPm+rvPkJEhkm1TiP4KCrDPNb11w49qnpZRg1SxHqxf3VMjY9UzfPMv/MQAMQN3b0gphdSnBlI7twaHZsYquDHTaeOK3vEkmdkA9iDdJr+iJPMQOTmuNHWo2H1H4Qqp+UilaK7ICWRqqslptfShoXEfkdjvWOeQNrnIHI3dgA80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730110654; c=relaxed/simple;
-	bh=g4AQlFUQ9S+MSRIsWNQVarYHFzjSa00wLVilFkIXp0g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Vr/WUsZwjpOxct/PrEHm+D9lYrDrwxNePJwu57F77KQ/zbPuAnmILpqW2J5AKNnK4zfCJEdiSlShiZStxgYCr7VFa4F+IRpWIBDtBj+Tdg3je9cyFJWnGhPrW/83jvWYmAX+oIjCs2r+AHIST4apuYW9+LCaCmk7ZykBZySq3m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=rNiWLRqB; arc=none smtp.client-ip=198.252.153.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="rNiWLRqB"
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx1.riseup.net (Postfix) with ESMTPS id 4XcTpX1szDzDqF9;
-	Mon, 28 Oct 2024 10:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1730110644; bh=g4AQlFUQ9S+MSRIsWNQVarYHFzjSa00wLVilFkIXp0g=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=rNiWLRqBSZyVTolSGeS2kHwDMA+LnR9toGy0YIb3j3g+Xq6Y4MCiy6odbHInGenSN
-	 tqZCywxtjNK5DkgDleWyeN4fHiovJYeA3pfKy0mDnjhJIgRJSyazNE/wfqeD4+06n4
-	 Nir/XAiQxmYbACIc8qEc9dK6shMdDD/2BdB6bzFk=
-X-Riseup-User-ID: C24371E5919299DE26FBED04841B5421381C2E6F8F79BC121909B28BCA566AF5
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4XcTpB3gq4zFtfv;
-	Mon, 28 Oct 2024 10:17:06 +0000 (UTC)
-Message-ID: <6278651d-b61d-49d2-8151-7ab4ca03971c@riseup.net>
-Date: Mon, 28 Oct 2024 07:17:04 -0300
+	s=arc-20240116; t=1730110735; c=relaxed/simple;
+	bh=CvcmwJx68ibSr1FgYSs0BYn4vbK2dH2bI1Id4paFMiQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y8W2zKJGcPeHtmRGjrbeW7+VrEx2XhfgeAu4lF+p9KB4BnKXHQ3BDaFtGPzgQTznmctz8Nr2t9TkebjGalPm0rkKC6IaV7QjJJKHbYFWLRlhIRL4bbj7S1uLeUXOM1cuV7lREF0eZ9gpjZ9fhfNVQuiMvDKbeVhmwyLPwNYZxT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e3cdbc25a0so43690717b3.2;
+        Mon, 28 Oct 2024 03:18:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730110732; x=1730715532;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3p3W4EQbrJIJC/nea0IOGVy7gYy/irssqjHdBTm9iqU=;
+        b=os25eig5cyD3qUrFsqZdIfrjq+tkcftU2Q15ieWOJlj2xX0Lxvg2MCxfb5UdTUYudh
+         4gKz2v0pG4NTF6V5CTzW7zfFVHNb+ugDs7PQFogvtzW/4rJsENCFh6E98/VkKZSq67db
+         TDNa8kM3YxQBRjicmVLgkTpVU6ro8d+l7x3EIAPBFQJHJg2xgQUDTF2X+W68OX3Gzhxc
+         cgKb1pBhCQpR4iRswJAfp2mzToRh4DErdiU5W1PzamrnKbbvnNc/sDLvSACm530MweAf
+         dFqpRldFJRX4QwE/htSQh58UrAJJXoY5ZAlMyZ4fWgjIjK7LZAOn08O08GXgsPDA0F1P
+         Agdw==
+X-Forwarded-Encrypted: i=1; AJvYcCVHkosU+dzMcnvsWPDy4/r3taQjaBUIrbW4BFkTgl8akTI+fgMo/mtJv3ikqNXDcckyqfuGTsCzMipJ@vger.kernel.org, AJvYcCVKUwU7ckhtoS/V3+OhjT3qUlfhQXlZJNOP9sZwQKvWGTIGMuKQPj2fmt/JatGGoeBHKhxd6qqoTNj/1U4=@vger.kernel.org, AJvYcCVSd3T+HgxXo4kfoNAFG0FQXuVOPTS3L5TMzEqWxquA6pf+wikQ0EEnlWvgRP5Jm9QiqPiH8tUGzop3@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKTvY/Cz7j1dl3t5d+zFRXfTaEOZrtgIR1dEmEkR8qeikZ3A8Y
+	ddAXWDbqWjAzr3ziZaL3Y3T+m9pf+o60RWU1OMfsVrOb0BE2IyzDS8CWoz/B
+X-Google-Smtp-Source: AGHT+IHRQoFMZd7V8eMC6qtdDgsQ8w4+UFvpb2pTlzvSiEyPWT27T6iQbZxxk4VRPGNJ0+IbuFOszg==
+X-Received: by 2002:a05:690c:87:b0:6c3:7d68:b400 with SMTP id 00721157ae682-6e9d892546dmr60202167b3.10.1730110732434;
+        Mon, 28 Oct 2024 03:18:52 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e9c6bafebbsm13456837b3.15.2024.10.28.03.18.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Oct 2024 03:18:52 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6e3b7b3e9acso37026847b3.1;
+        Mon, 28 Oct 2024 03:18:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUCWYUN0AGOXcPfe8BPOahj1WLkIFaH6EirnxJdP18HnETCfM9xq80jn97u8Dsb/Noj5Ih2Zwh8ffNV@vger.kernel.org, AJvYcCVRLfUN/Bh+4CONzJWe02yuIn6px8Mse20wbxdCZEJ3BN0ryoVuTE4ThqD3pKkpaGCd1dg0cFEZwtMr@vger.kernel.org, AJvYcCXA1dZYkZfTzExgzG8eUzlTVHkHqvDQ0GCWw1awjBlIH+8rWu9GG+BTkoRJLlXbPIA4z81UWcB9Wnhn2MQ=@vger.kernel.org
+X-Received: by 2002:a05:690c:2508:b0:6e3:153a:ff62 with SMTP id
+ 00721157ae682-6e9d897c8damr57542137b3.23.1730110731964; Mon, 28 Oct 2024
+ 03:18:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- thomas.petazzoni@bootlin.com, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com
-References: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
- <d3e8bb5a-6053-4a2b-a445-0cf4e610f112@riseup.net> <Zx9eazDt3f2meyht@fedora>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <Zx9eazDt3f2meyht@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1729874904.git.grantpeltier93@gmail.com>
+In-Reply-To: <cover.1729874904.git.grantpeltier93@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 28 Oct 2024 11:18:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWHZR9pN3h=Jdsqs5Qb0mi_4CobBtu82PRgzrm5TRgE4A@mail.gmail.com>
+Message-ID: <CAMuHMdWHZR9pN3h=Jdsqs5Qb0mi_4CobBtu82PRgzrm5TRgE4A@mail.gmail.com>
+Subject: Re: [PATCH v5 0/2] dt-bindings: hwmon: pmbus: add bindings for isl68137
+To: Grant Peltier <grantpeltier93@gmail.com>
+Cc: robh@kernel.org, linux@roeck-us.net, magnus.damm@gmail.com, 
+	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Louis,
+Hi Grant,
 
-On 28/10/24 06:50, Louis Chauvet wrote:
-> On 26/10/24 - 09:10, Maíra Canal wrote:
->> Hi Louis,
->>
->> On 14/10/24 05:39, Louis Chauvet wrote:
->>> On 11/10/24 - 10:53, Maira Canal wrote:
->>>> Hi Louis,
->>>>
->>>> On 10/11/24 06:36, Louis Chauvet wrote:
->>>>>
->>>>> Hi all,
->>>>>
->>>>> Until this point, this series has not received any major comments since
->>>>> v9. I will commit patches 1-9 next week if there are no further comments.
->>>>>
->>>>
->>>> Although we are maintainers of VKMS, it isn't recommended that we push
->>>> our own changes without even the Ack of another person. Please, read the
->>>> "drm-misc Committer Guidelines" [1].
->>>
->>> Hi Maíra, Maxime,
->>>
->>> I apologize for this rushed commit request. I sent the initial email with
->>> a delay before the commit action because I was not sure about the
->>> procedure and wanted to give others a chance to raise any concerns.
->>> Unfortunately, I overlooked the need to collect an Ack/Review for each
->>> patch, even when there hadn't been any responses for several months. I'm
->>> sorry for this oversight.
->>>
->>>> I can ack patches 05/15, 07/15, and 09/15, but it would be more
->>>> beneficial for the community if you ask for an ack (from me or from the
->>>> DRM maintainers, which are always around), instead of saying that you
->>>> are going to commit the patches without any review.
->>>
->>> I will be happy to ask for acknowledgments if needed, but as you mentioned
->>> multiple times: nobody is paid to maintain VKMS. Since you did not comment
->>> these series since July, when you told me you would review my patches, I
->>> assumed it was either okay or you no longer had the time to maintain
->>> (which I completely understand).
->>
->> Yeah, I'm a volunteer and no longer have time to maintain VKMS. A couple
->> of weeks ago I sent a patch removing myself as VKMS maintainer. This
->> doesn't imply that patches can be pushed without review.
-> 
-> I will acked-by and push your patch, it will be an easy "first commit". If
-> I do something wrong during the process, please tell me.
-> 
-> Thanks for this precision, I understood this, and I will not push without
-> reviews, don't worry!
-> 
-> Thanks a lot for all your reviews!
->   
->> We are a community with several active developers. Although I don't have
->> time to properly review your patches, you can try to gather other
->> developers to review your patches. You can try to use #dri-devel to get
->> reviewers.
-> 
-> Thanks for the tip, I will do this!
-> 
->> That said, you can add my ACK to patches 05/15, 07/15, and 09/15 and
->> push the patches. I won't ack the YUV patches as I don't feel
->> comfortable reviewing/acking those.
-> 
-> Perfect for the patches 1..9, it will be a very nice step forward and will
-> reduce my conflicts a lot with the rest of my work!
- > >> Acked-by: Maíra Canal <mairacanal@riseup.net>
->>
->> BTW if the patches are fixing IGT tests, please update the list of fails
->> and skips on DRM CI.
-> 
-> For this, how should I do? Commit the series and wait for the bot results?
-> Run tests on my computer (I only have a x86 VM)? Is there some doc
-> somewhere?
+On Fri, Oct 25, 2024 at 7:16=E2=80=AFPM Grant Peltier <grantpeltier93@gmail=
+.com> wrote:
+> Renesas digital multiphase voltage regulators are capable of regulating
+> output voltages that exceed the range that their Vsense pins can detect.
+> In such applications, users may place a voltage divider between Vout and
+> the Vsense pin for a given rail. However, the driver currently has no
+> way of knowing if a voltage divider is being used which results in
+> erroneous telemetry being reported over hwmon.
+>
+> This patch set defines a devicetree bindings schema for Renesas digital
+> multiphase voltage regulators that are supported by the isl68137 driver
+> to allow users to add voltage divider definitions for any rail powered
+> by the device. This patch set also includes the required changes to the
+> isl68137 driver to enable scaling Vout/Pout telemetry for rails with a
+> defined voltage divider.
+>
+> v5:
+> - Fix clang compilation errors related to C23 syntax
 
-Check [1] for instructions on how to run the CI on GitLab.
+Thanks for the update!
 
-[1] https://docs.kernel.org/gpu/automated_testing.html
+> v4:
+> - Revert devicetree property name to "vout-voltage-divider" and refactor
+>   property description and driver implementation to match existing
+>   vout-voltage-divider implementation in max20730 as no suitable generic
+>   voltage divider schema exists.
 
-Best Regards,
-- Maíra
+Can you please elaborate (or point to the email that did so, in case
+I missed it)?
 
-> 
-> Thanks a lot,
-> Louis Chauvet
-> 
->> Best Regards,
->> - Maíra
->>
->>>
->>> So, I hereby formally request reviews/ACKs for the following series:
->>>
->>> [this series]:https://lore.kernel.org/all/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com/
->>> [2]:https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
->>> [3]:https://lore.kernel.org/all/20240516-writeback_line_by_line-v1-0-7b2e3bf9f1c9@bootlin.com/
->>>
->>> (I have to send a v2 for [3] because of rebase conflict, but nothing else
->>> changed)
->>>
->>> Thanks a lot,
->>> Louis Chauvet
->>>> [1] https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html
->>>>
->>>> Best Regards,
->>>> - Maíra
->>>>
->>>>> For patches 10-15, I am currently waiting for feedback from Maxime to
->>>>> send the next iteration with a fix for kunit tests.
->>>>>
->>>>> Thanks,
->>>>> Louis Chauvet
->>>>>
->>>>> On 07/10/24 - 18:10, Louis Chauvet wrote:
->>>>>> As all the rotation are now supported by VKMS, this simplification does
->>>>>> not make sense anymore, so remove it.
->>>>>>
->>>>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/vkms/vkms_plane.c | 7 +------
->>>>>>     1 file changed, 1 insertion(+), 6 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
->>>>>> index 8875bed76410..5a028ee96c91 100644
->>>>>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
->>>>>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
->>>>>> @@ -115,12 +115,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->>>>>>     	frame_info->fb = fb;
->>>>>>     	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
->>>>>>     	drm_framebuffer_get(frame_info->fb);
->>>>>> -	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
->>>>>> -									  DRM_MODE_ROTATE_90 |
->>>>>> -									  DRM_MODE_ROTATE_270 |
->>>>>> -									  DRM_MODE_REFLECT_X |
->>>>>> -									  DRM_MODE_REFLECT_Y);
->>>>>> -
->>>>>> +	frame_info->rotation = new_state->rotation;
->>>>>>     	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
->>>>>>     }
->>>>>>
->>>>>> -- 
->>>>>> 2.46.2
->>>>>>
+In reply to v2, G=C3=BCnter wrote:
 
+   "I would prefer, in the order of preference,
+
+    1) an applicable generic property definition
+    2) a definition that is already used elsewhere
+    3) a new chips specific definition"
+
+https://lore.kernel.org/all/3f460b62-4cd1-49dd-a98b-1fbcfdbd3af0@roeck-us.n=
+et
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
