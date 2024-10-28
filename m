@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D58188CDC;
-	Mon, 28 Oct 2024 23:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9B318FC83;
+	Mon, 28 Oct 2024 23:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730156425; cv=none; b=sbDytxEJ/Yfrl+xQ484gUmJNYqjGPHySBlhvLM4xXepZSmQUbTvpF3Zj+rtqfWWr6Te1ZaR1xyVgXJtsBEwgOPqbLu/dL7H3F4KvtmQ2+kpfIc1h/oU4Ok/CtKtyFhWl6E0bsFM4Fc88jkYxwVRIVYdI5kwFjs/ybocEFFVpo9Y=
+	t=1730157625; cv=none; b=RiXkUNzTyVhE3edscj93H+5JvWuLfqC6XOxz7Jaepsd8x0ehqpNA4mzEZHtnqSADGSRFbt739rCKTKCp62K396R8NSrkoNERPR5aZLxjT0j/4FuHlUFCg6QehTAePdELcR3W82FxDfscbzybmm7REBtZx8R/N1kYotDZtILtLIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730156425; c=relaxed/simple;
-	bh=CDr4ELMyn9OTolcpMiUCK+CxqHERk5vYWT0PXeKjM9o=;
+	s=arc-20240116; t=1730157625; c=relaxed/simple;
+	bh=Tde3yplX/35Zf8PAWxjRShS8odG7y676cVMjRuH6VLI=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=FN6oIVedhzAFnlQCU9+SE80CHdvpEjPutYcfqp1Y38tvqwhZ6Y33HbfQ50RqlyqSBnyD0aXVP/x5zeErtED+ZjoOhk3YleG/qTBBp/gnsTr0LoeNCApnxmN8CmM1OT9VFnXeoTy7knlfHP2RQTEjAUGRnjOs+Ga5izs/ij1CAnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ViC3EG1l; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=H/SrqbKD9KpnayQJUTaeu+ZYxgvi3weWbWQLr69wT+wjqtKRur+wv6T6poMQibBSTrQJ4uRbbi3UUV6u5nwA1oaUickHgx+IISjRFGDSV9Fl5mt8KKc/9j5rkJcmTgn/JqbHo/o2eW/JZwFH33MBZtAjGcISGrjveN+Tx2tWjMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+zHLWt7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViC3EG1l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D98DC4CEC3;
-	Mon, 28 Oct 2024 23:00:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+zHLWt7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E727C4CEC3;
+	Mon, 28 Oct 2024 23:20:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730156424;
-	bh=CDr4ELMyn9OTolcpMiUCK+CxqHERk5vYWT0PXeKjM9o=;
+	s=k20201202; t=1730157624;
+	bh=Tde3yplX/35Zf8PAWxjRShS8odG7y676cVMjRuH6VLI=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ViC3EG1lFiNLhF9YSxd3PqfOSLsA88kO/4/JXIwiZJ82OKIEHLwtd+dsNBmKi5hhN
-	 QCN67HPsGtbezNTQYFkmJhi9bXhhHwCLrFwSp/9FeVEvFP46Ykp5YPprbcDfMkMXtq
-	 yr2irfN85uik0guZbjSfjZRPBNtR+zAmzJvZZ8FMlAHF3N38Ac0rQVRbgu+PHx+Leq
-	 641+d3woXg1gikQdM44yGnl6OPD+vUV+2kG+aCirQLytUzUdsLrJ3iaom1hNPS0jb7
-	 VHOEpfCSsp/CcOlyNrJKOUNxv3GV2gQyvdkSb5c03+0CeIy9bs4ZqpRlqLbB9nMLx0
-	 h3u9pXnsj319w==
+	b=g+zHLWt7RqPOhhg10Q6nGDqjsg/5qZNWzYZFjiORxccyHup1yE1dVj1g933xfcfeF
+	 +uZlWOIPHKbLhMhLngaBF7W+Vn8OGyi9uBN6khXKXJPKcIM+3JjpVFNHLYj2YeJmtT
+	 U1gEoN8WaZn/Di1V/DvhWORDM5mgaWBj+069fNqHYlmje3/FKRVcKCMWHF6WlWc382
+	 j7o+zedOrPE2xozYUt72trkKeXBg2ZdoEPkney2kvbd9rRdwLrRPN1+emmJa3eKyXV
+	 bFmlvHuhmkYzlsp7jJsqIONlgj+6EvJPUmFDsI46vkmAMNIe/3JPak0BuWmaFAxX5n
+	 DqjLw7A9sA3XQ==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33FDE380AC1C;
-	Mon, 28 Oct 2024 23:00:33 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33D66380AC1C;
+	Mon, 28 Oct 2024 23:20:33 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -37,38 +37,43 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] docs: networking: packet_mmap: replace dead links with
- archive.org links
+Subject: Re: [PATCHv3 net-next 0/2] Bonding: returns detailed error about XDP
+ failures
 From: patchwork-bot+netdevbpf@kernel.org
 Message-Id: 
- <173015643203.206744.9313387806866726484.git-patchwork-notify@kernel.org>
-Date: Mon, 28 Oct 2024 23:00:32 +0000
-References: <20241021-packet_mmap_fix_link-v1-1-dffae4a174c0@outlook.com>
-In-Reply-To: <20241021-packet_mmap_fix_link-v1-1-dffae4a174c0@outlook.com>
-To: Levi Zim via B4 Relay <devnull+rsworktech.outlook.com@kernel.org>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- rsworktech@outlook.com
+ <173015763201.210329.16112928259951489548.git-patchwork-notify@kernel.org>
+Date: Mon, 28 Oct 2024 23:20:32 +0000
+References: <20241021031211.814-1-liuhangbin@gmail.com>
+In-Reply-To: <20241021031211.814-1-liuhangbin@gmail.com>
+To: Hangbin Liu <liuhangbin@gmail.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, ast@kernel.org, daniel@iogearbox.net,
+ hawk@kernel.org, john.fastabend@gmail.com, jiri@resnulli.us,
+ bigeasy@linutronix.de, lorenzo@kernel.org, andriin@fb.com, joamaki@gmail.com,
+ jv@jvosburgh.net, andy@greyhouse.net, corbet@lwn.net, andrew+netdev@lunn.ch,
+ razor@blackwall.org, toke@redhat.com, horms@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org
 
 Hello:
 
-This patch was applied to netdev/net.git (main)
+This series was applied to netdev/net-next.git (main)
 by Jakub Kicinski <kuba@kernel.org>:
 
-On Mon, 21 Oct 2024 21:55:49 +0800 you wrote:
-> From: Levi Zim <rsworktech@outlook.com>
+On Mon, 21 Oct 2024 03:12:09 +0000 you wrote:
+> Based on discussion[1], this patch set returns detailed error about XDP
+> failures. And update bonding document about XDP supports.
 > 
-> The original link returns 404 now. This commit replaces the dead google
-> site link with archive.org link.
-> 
-> Signed-off-by: Levi Zim <rsworktech@outlook.com>
+> v3: drop patch that modified the return value (Toke Høiland-Jørgensen)
+>     drop the sentence that repeat title (Nikolay Aleksandrov)
+> v2: update the title in the doc (Nikolay Aleksandrov)
 > 
 > [...]
 
 Here is the summary with links:
-  - [net] docs: networking: packet_mmap: replace dead links with archive.org links
-    https://git.kernel.org/netdev/net/c/b935252cc298
+  - [PATCHv3,net-next,1/2] bonding: return detailed error when loading native XDP fails
+    https://git.kernel.org/netdev/net-next/c/22ccb684c1ca
+  - [PATCHv3,net-next,2/2] Documentation: bonding: add XDP support explanation
+    https://git.kernel.org/netdev/net-next/c/9f59eccd9dd5
 
 You are awesome, thank you!
 -- 
