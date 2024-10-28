@@ -1,216 +1,303 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5105D1D95BE;
-	Mon, 28 Oct 2024 09:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0570A1CCEE6;
+	Mon, 28 Oct 2024 10:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730109058; cv=none; b=FkC1pEI+FdaA8n0hii5/rCjLOIJil3fkHXxS8j3J4hrWp13q/SehbxoM4oPaxSdea8rbPo2eMpQkCvLCsHSgzCqSz9LrZ4NlrmIWxS3GOaOwrOGNO4pcmA4dzGGskoaAi1jAGO/dAgue5PyjTZLFDPxF20xv3qUGIiq4vijG2fk=
+	t=1730110233; cv=none; b=CJRYJ0+0CzSMV8k+dLQwZG2nuG00dCQfv6Eb1JoX3C9sSA10QCbS6IBwK5CQKYtBPMxQ0Eq3xmkBvhsbNtldr3dMvgSpJsqql/t3REalpzzzLUqORQsh4RF5iT/LTBWLOj4Rm2X1wd/6N4dUuypv3opcrtIocghjHFyHOoelHjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730109058; c=relaxed/simple;
-	bh=LfVQuB/WLqPaPCpXPkT77PgzRCUObwYGWxP9FvMV96A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f5hn68S0ezUsZQxRd7NP0zlkl4RQQ9rXkm6QGCsboZ/LXGamQEyAH2zq7O72ZofAyvxeLvpAEbYgVI/RP+X5fVwRtESMZZMqEAFcEGnep1raZRAM4NrQc4lyHidgzjpnPwi33QzjW9ygjTe7uKvfi5FCJJi6XhM55sFeLzNPZnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SeZA7dLh; arc=none smtp.client-ip=217.70.178.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1730110233; c=relaxed/simple;
+	bh=gV/oZsrqDn2akko1b9Mj7FzqtILcpYffHj8rUv2A7i8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YPgrxBFfmoPmJxaTgn8A3FTYSX9rSSdEFcerDWqE6UOgrC9OVchkHSw/s59E0Ok1fvbfPvxCfURNB8/n7VeQ0X+qrUXn0qXiuX/3vun1gfu25iCjSgFQVnXFGvTIdC/w9obxc/AfRVkf7r8D35pqmnchTuYxVeOku+rGwPAxEaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=b1YvnNlU; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SeZA7dLh"
-Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id CD7F2C2482;
-	Mon, 28 Oct 2024 09:50:46 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9C3E0C0002;
-	Mon, 28 Oct 2024 09:50:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730109038;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ygwefzZm0X7crB1kSh4UYJ0HwJIwFEtTPF1aw1C4w/s=;
-	b=SeZA7dLhDS7D1EZbMB2iOlLN35lvktN9jpFGEeyc6TjBMd4rodrqsVBGnIOer1sGR7VLOZ
-	VTg2iMVJC+XS0eLUVvTEsqpJ/Z8hxNMe2tkslEINHczbhSwRUZmv6N7qbc+a1r+RIRv/kX
-	ljsJ0nIKpAzEEsbIpqYG5dI+1TY74WOx+WR13CrxBQh4hhlJfCTKsxCkHk8E8xC+jDtb4n
-	U6Qs/YnmGXlv+JMMhjswURMtB6YkT8bgnnpab3JKueglxaB/MJS0gHmatOGVsaXO+2QNku
-	BFT2WKMMUn7jx9Ruy9umOv/buSUD2/nVpHxS7fnWTDN7kW4r1+56zM59lquPzw==
-Date: Mon, 28 Oct 2024 10:50:35 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
-	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v12 09/15] drm/vkms: Remove useless drm_rotation_simplify
-Message-ID: <Zx9eazDt3f2meyht@fedora>
-Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Simona Vetter <simona@ffwll.ch>, rdunlap@infradead.org,
-	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com
-References: <ZwzYqihbReaLFn-c@louis-chauvet-laptop>
- <d3e8bb5a-6053-4a2b-a445-0cf4e610f112@riseup.net>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="b1YvnNlU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=l75o/teob3cpNFhgaRdf7D0Yc5eWCmQnljFJ8XqbWls=; b=b1YvnNlUCEXjlB/LRUya7G7kId
+	uqvmFhuhz88Adi3f1lV/OVpicaK4lCKMqxHqJ/wZuA2+wJPmiznHtuEY6XX2tffWEZhO0k7r5nSAC
+	ZnxhN6p4nBbF1TFeZavQY3KCc1an+Xn1Z0uHjUlVyUFpcJy+lBoLB8Xgv5bXWJpEEZc9AiPYdqMtW
+	I3NGXN7CeAwuRxGmn4VldmVshDqylcMyIPPIlyhLWrtcYlCLfM6ALsL9lcPCWaEKvCPYs12uUMJI8
+	Z94QtNWZVgDUc6PGs1Oc6wARqMJsHi2ih3eqkptoNCUekHMPbLRQBLhxs4N3ttsItT5ERr8EfhxJv
+	57HkOHCw==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1t5MhI-00G29t-Sp; Mon, 28 Oct 2024 11:10:05 +0100
+Message-ID: <2505d52c-3454-4892-8c90-e3d9b2f0c84f@igalia.com>
+Date: Mon, 28 Oct 2024 07:09:56 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] mm: shmem: override mTHP shmem default with a kernel
+ parameter
+To: Barry Song <21cnbao@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
+ David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang
+ <ioworker0@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+References: <20241027175743.1056710-1-mcanal@igalia.com>
+ <20241027175743.1056710-4-mcanal@igalia.com>
+ <CAGsJ_4xCw3OvkMo6cVr+U97C3SO+n+5c1j5XRodLDaLXW4ALjg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <CAGsJ_4xCw3OvkMo6cVr+U97C3SO+n+5c1j5XRodLDaLXW4ALjg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d3e8bb5a-6053-4a2b-a445-0cf4e610f112@riseup.net>
-X-GND-Sasl: louis.chauvet@bootlin.com
 
-On 26/10/24 - 09:10, Maíra Canal wrote:
-> Hi Louis,
+Hi Barry,
+
+On 27/10/24 18:54, Barry Song wrote:
+> On Mon, Oct 28, 2024 at 6:58â€¯AM MaÃ­ra Canal <mcanal@igalia.com> wrote:
+>>
+>> Add the ``thp_shmem=`` kernel command line to allow specifying the
+>> default policy of each supported shmem hugepage size. The kernel parameter
+>> accepts the following format:
+>>
+>> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
+>>
+>> For example,
+>>
+>> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
+>>
+>> By configuring the default policy of several shmem huge pages, the user
+>> can take advantage of mTHP before it's been configured through sysfs.
+>>
+>> Signed-off-by: MaÃ­ra Canal <mcanal@igalia.com>
+>> ---
+>>   .../admin-guide/kernel-parameters.txt         |  10 ++
+>>   Documentation/admin-guide/mm/transhuge.rst    |  17 +++
+>>   mm/shmem.c                                    | 109 +++++++++++++++++-
+>>   3 files changed, 135 insertions(+), 1 deletion(-)
+>>
 > 
-> On 14/10/24 05:39, Louis Chauvet wrote:
-> > On 11/10/24 - 10:53, Maira Canal wrote:
-> > > Hi Louis,
-> > > 
-> > > On 10/11/24 06:36, Louis Chauvet wrote:
-> > > > 
-> > > > Hi all,
-> > > > 
-> > > > Until this point, this series has not received any major comments since
-> > > > v9. I will commit patches 1-9 next week if there are no further comments.
-> > > > 
-> > > 
-> > > Although we are maintainers of VKMS, it isn't recommended that we push
-> > > our own changes without even the Ack of another person. Please, read the
-> > > "drm-misc Committer Guidelines" [1].
-> > 
-> > Hi Maíra, Maxime,
-> > 
-> > I apologize for this rushed commit request. I sent the initial email with
-> > a delay before the commit action because I was not sure about the
-> > procedure and wanted to give others a chance to raise any concerns.
-> > Unfortunately, I overlooked the need to collect an Ack/Review for each
-> > patch, even when there hadn't been any responses for several months. I'm
-> > sorry for this oversight.
-> > 
-> > > I can ack patches 05/15, 07/15, and 09/15, but it would be more
-> > > beneficial for the community if you ask for an ack (from me or from the
-> > > DRM maintainers, which are always around), instead of saying that you
-> > > are going to commit the patches without any review.
-> > 
-> > I will be happy to ask for acknowledgments if needed, but as you mentioned
-> > multiple times: nobody is paid to maintain VKMS. Since you did not comment
-> > these series since July, when you told me you would review my patches, I
-> > assumed it was either okay or you no longer had the time to maintain
-> > (which I completely understand).
+> Hi MaÃ­ra,
 > 
-> Yeah, I'm a volunteer and no longer have time to maintain VKMS. A couple
-> of weeks ago I sent a patch removing myself as VKMS maintainer. This
-> doesn't imply that patches can be pushed without review.
-
-I will acked-by and push your patch, it will be an easy "first commit". If 
-I do something wrong during the process, please tell me.
-
-Thanks for this precision, I understood this, and I will not push without
-reviews, don't worry!
-
-Thanks a lot for all your reviews!
- 
-> We are a community with several active developers. Although I don't have
-> time to properly review your patches, you can try to gather other
-> developers to review your patches. You can try to use #dri-devel to get
-> reviewers.
-
-Thanks for the tip, I will do this!
-
-> That said, you can add my ACK to patches 05/15, 07/15, and 09/15 and
-> push the patches. I won't ack the YUV patches as I don't feel
-> comfortable reviewing/acking those.
-
-Perfect for the patches 1..9, it will be a very nice step forward and will 
-reduce my conflicts a lot with the rest of my work!
-
-> Acked-by: Maíra Canal <mairacanal@riseup.net>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index acabb04d0dd4..595fa096e28b 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -6700,6 +6700,16 @@
+>>                          Force threading of all interrupt handlers except those
+>>                          marked explicitly IRQF_NO_THREAD.
+>>
+>> +       shmem_anon=     [KNL]
+>> +                       Format: <size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
+>> +                       Control the default policy of each hugepage size for the
+>> +                       internal shmem mount. <policy> is one of policies available
+>> +                       for the shmem mount ("always", "inherit", "never", "within_size",
+>> +                       and "advise").
+>> +                       It can be used multiple times for multiple shmem THP sizes.
+>> +                       See Documentation/admin-guide/mm/transhuge.rst for more
+>> +                       details.
 > 
-> BTW if the patches are fixing IGT tests, please update the list of fails
-> and skips on DRM CI.
+> I'm not sure this is the right name. How about "thp_shmem"?
 
-For this, how should I do? Commit the series and wait for the bot results? 
-Run tests on my computer (I only have a x86 VM)? Is there some doc 
-somewhere?
+Oops, sorry about that.
 
-Thanks a lot,
-Louis Chauvet
-
-> Best Regards,
-> - Maíra
 > 
-> > 
-> > So, I hereby formally request reviews/ACKs for the following series:
-> > 
-> > [this series]:https://lore.kernel.org/all/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com/
-> > [2]:https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-0-d47da50d4674@bootlin.com/
-> > [3]:https://lore.kernel.org/all/20240516-writeback_line_by_line-v1-0-7b2e3bf9f1c9@bootlin.com/
-> > 
-> > (I have to send a v2 for [3] because of rebase conflict, but nothing else
-> > changed)
-> > 
-> > Thanks a lot,
-> > Louis Chauvet
-> > > [1] https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-drm-misc.html
-> > > 
-> > > Best Regards,
-> > > - Maíra
-> > > 
-> > > > For patches 10-15, I am currently waiting for feedback from Maxime to
-> > > > send the next iteration with a fix for kunit tests.
-> > > > 
-> > > > Thanks,
-> > > > Louis Chauvet
-> > > > 
-> > > > On 07/10/24 - 18:10, Louis Chauvet wrote:
-> > > > > As all the rotation are now supported by VKMS, this simplification does
-> > > > > not make sense anymore, so remove it.
-> > > > > 
-> > > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > > ---
-> > > > >    drivers/gpu/drm/vkms/vkms_plane.c | 7 +------
-> > > > >    1 file changed, 1 insertion(+), 6 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> > > > > index 8875bed76410..5a028ee96c91 100644
-> > > > > --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> > > > > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> > > > > @@ -115,12 +115,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
-> > > > >    	frame_info->fb = fb;
-> > > > >    	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
-> > > > >    	drm_framebuffer_get(frame_info->fb);
-> > > > > -	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
-> > > > > -									  DRM_MODE_ROTATE_90 |
-> > > > > -									  DRM_MODE_ROTATE_270 |
-> > > > > -									  DRM_MODE_REFLECT_X |
-> > > > > -									  DRM_MODE_REFLECT_Y);
-> > > > > -
-> > > > > +	frame_info->rotation = new_state->rotation;
-> > > > >    	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
-> > > > >    }
-> > > > > 
-> > > > > -- 
-> > > > > 2.46.2
-> > > > > 
+>> +
+>>          topology=       [S390,EARLY]
+>>                          Format: {off | on}
+>>                          Specify if the kernel should make use of the cpu
+>> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+>> index 9b5b02c4d1ab..47e7fc30e22d 100644
+>> --- a/Documentation/admin-guide/mm/transhuge.rst
+>> +++ b/Documentation/admin-guide/mm/transhuge.rst
+>> @@ -332,6 +332,23 @@ allocation policy for the internal shmem mount by using the kernel parameter
+>>   seven valid policies for shmem (``always``, ``within_size``, ``advise``,
+>>   ``never``, ``deny``, and ``force``).
+>>
+>> +In the same manner as ``thp_anon`` controls each supported anonymous THP
+>> +size, ``thp_shmem`` controls each supported shmem THP size. ``thp_shmem``
+>> +has the same format as ``thp_anon``, but also supports the policy
+>> +``within_size``.
+>> +
+>> +``thp_shmem=`` may be specified multiple times to configure all THP sizes
+>> +as required. If ``thp_shmem=`` is specified at least once, any shmem THP
+>> +sizes not explicitly configured on the command line are implicitly set to
+>> +``never``.
+>> +
+>> +``transparent_hugepage_shmem`` setting only affects the global toggle. If
+>> +``thp_shmem`` is not specified, PMD_ORDER hugepage will default to
+>> +``inherit``. However, if a valid ``thp_shmem`` setting is provided by the
+>> +user, the PMD_ORDER hugepage policy will be overridden. If the policy for
+>> +PMD_ORDER is not defined within a valid ``thp_shmem``, its policy will
+>> +default to ``never``.
+>> +
+>>   Hugepages in tmpfs/shmem
+>>   ========================
+>>
+>> diff --git a/mm/shmem.c b/mm/shmem.c
+>> index 24cdeafd8260..0a7a7d04f725 100644
+>> --- a/mm/shmem.c
+>> +++ b/mm/shmem.c
+>> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_always __read_mostly;
+>>   static unsigned long huge_shmem_orders_madvise __read_mostly;
+>>   static unsigned long huge_shmem_orders_inherit __read_mostly;
+>>   static unsigned long huge_shmem_orders_within_size __read_mostly;
+>> +static bool shmem_orders_configured __initdata;
+>>   #endif
+>>
+>>   #ifdef CONFIG_TMPFS
+>> @@ -5013,7 +5014,8 @@ void __init shmem_init(void)
+>>           * Default to setting PMD-sized THP to inherit the global setting and
+>>           * disable all other multi-size THPs.
+>>           */
+>> -       huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
+>> +       if (!shmem_orders_configured)
+>> +               huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
+>>   #endif
+>>          return;
+>>
+>> @@ -5174,6 +5176,26 @@ struct kobj_attribute thpsize_shmem_enabled_attr =
+>>
+>>   #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
+>>
+>> +static inline int get_order_from_str(const char *size_str)
+>> +{
+>> +       unsigned long size;
+>> +       char *endptr;
+>> +       int order;
+>> +
+>> +       size = memparse(size_str, &endptr);
+>> +
+>> +       if (!is_power_of_2(size))
+>> +               goto err;
+>> +       order = get_order(size);
+>> +       if (BIT(order) & ~THP_ORDERS_ALL_FILE_DEFAULT)
+>> +               goto err;
+>> +
+>> +       return order;
+>> +err:
+>> +       pr_err("invalid size %s in thp_shmem boot parameter\n", size_str);
+>> +       return -EINVAL;
+>> +}
+>> +
+>>   static int __init setup_transparent_hugepage_shmem(char *str)
+>>   {
+>>          int huge, ret = 0;
+>> @@ -5206,6 +5228,91 @@ static int __init setup_transparent_hugepage_shmem(char *str)
+>>   }
+>>   __setup("transparent_hugepage_shmem=", setup_transparent_hugepage_shmem);
+>>
+>> +static char str_dup[PAGE_SIZE] __initdata;
+>> +static int __init setup_thp_shmem(char *str)
+>> +{
+>> +       char *token, *range, *policy, *subtoken;
+>> +       unsigned long always, inherit, madvise, within_size;
+>> +       char *start_size, *end_size;
+>> +       int start, end, nr;
+>> +       char *p;
+>> +
+>> +       if (!str || strlen(str) + 1 > PAGE_SIZE)
+>> +               goto err;
+>> +       strcpy(str_dup, str);
+>> +
+>> +       always = huge_shmem_orders_always;
+>> +       inherit = huge_shmem_orders_inherit;
+>> +       madvise = huge_shmem_orders_madvise;
+>> +       within_size = huge_shmem_orders_within_size;
+>> +       p = str_dup;
+>> +       while ((token = strsep(&p, ";")) != NULL) {
+>> +               range = strsep(&token, ":");
+>> +               policy = token;
+>> +
+>> +               if (!policy)
+>> +                       goto err;
+>> +
+>> +               while ((subtoken = strsep(&range, ",")) != NULL) {
+>> +                       if (strchr(subtoken, '-')) {
+>> +                               start_size = strsep(&subtoken, "-");
+>> +                               end_size = subtoken;
+>> +
+>> +                               start = get_order_from_str(start_size);
+>> +                               end = get_order_from_str(end_size);
+>> +                       } else {
+>> +                               start = end = get_order_from_str(subtoken);
+>> +                       }
+>> +
+>> +                       if (start < 0 || end < 0 || start > end)
+>> +                               goto err;
+>> +
+>> +                       nr = end - start + 1;
+>> +                       if (!strcmp(policy, "always")) {
+>> +                               bitmap_set(&always, start, nr);
+>> +                               bitmap_clear(&inherit, start, nr);
+>> +                               bitmap_clear(&madvise, start, nr);
+>> +                               bitmap_clear(&within_size, start, nr);
+>> +                       } else if (!strcmp(policy, "advise")) {
+>> +                               bitmap_set(&madvise, start, nr);
+>> +                               bitmap_clear(&inherit, start, nr);
+>> +                               bitmap_clear(&always, start, nr);
+>> +                               bitmap_clear(&within_size, start, nr);
+>> +                       } else if (!strcmp(policy, "inherit")) {
+>> +                               bitmap_set(&inherit, start, nr);
+>> +                               bitmap_clear(&madvise, start, nr);
+>> +                               bitmap_clear(&always, start, nr);
+>> +                               bitmap_clear(&within_size, start, nr);
+>> +                       } else if (!strcmp(policy, "within_size")) {
+>> +                               bitmap_set(&within_size, start, nr);
+>> +                               bitmap_clear(&inherit, start, nr);
+>> +                               bitmap_clear(&madvise, start, nr);
+>> +                               bitmap_clear(&always, start, nr);
+>> +                       } else if (!strcmp(policy, "never")) {
+>> +                               bitmap_clear(&inherit, start, nr);
+>> +                               bitmap_clear(&madvise, start, nr);
+>> +                               bitmap_clear(&always, start, nr);
+>> +                               bitmap_clear(&within_size, start, nr);
+>> +                       } else {
+>> +                               pr_err("invalid policy %s in thp_shmem boot parameter\n", policy);
+>> +                               goto err;
+>> +                       }
+>> +               }
+>> +       }
+>> +
+>> +       huge_shmem_orders_always = always;
+>> +       huge_shmem_orders_madvise = madvise;
+>> +       huge_shmem_orders_inherit = inherit;
+>> +       huge_shmem_orders_within_size = within_size;
+>> +       shmem_orders_configured = true;
+>> +       return 1;
+>> +
+>> +err:
+>> +       pr_warn("thp_shmem=%s: error parsing string, ignoring setting\n", str);
+>> +       return 0;
+>> +}
+> 
+> Can we share source code with thp_anon since there's a lot of duplication?
+
+I'm not a regular mm contributor and I'm most usually around drivers, so
+I don't know exactly here I could add shared code. Should I add the
+headers to "internal.h"?
+
+Best Regards,
+- MaÃ­ra
+
+> 
+>> +__setup("thp_shmem=", setup_thp_shmem);
+>> +
+>>   #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+>>
+>>   #else /* !CONFIG_SHMEM */
+>> --
+>> 2.46.2
+>>
+> 
+> Thanks
+> barry
+
