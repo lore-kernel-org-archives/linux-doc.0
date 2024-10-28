@@ -1,36 +1,36 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B371CC8B2;
-	Mon, 28 Oct 2024 09:50:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DF11CCB37;
+	Mon, 28 Oct 2024 09:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730109045; cv=none; b=HLPs20UzBW09vvez8NLSP4itYU/SHRyL8oCYBfdeieRE+zIKFSDMPqfKBBTZ0I4QQbGGWASSaoW3CpuQPlPHmD00QhIpwJbvvuKLbQgUYAH3YD8h2cbKSCQT8ZuYFVI9vZwZOPs6nL8bLC5BL6zRiIWdEzpof4t1AopRfhZxDdE=
+	t=1730109046; cv=none; b=uL2tyeyjBPp/prtClMT6WcEbh2LgBFztPAxEu9ZwtcB/auWsQPht3zKZxGN6mLySgAeOd/8Hwm7/l/jxZwqpd9fpsXD+lKkUlZcYQVunHTKVFJu/KQcvclpjww5YqAtCbYaS2I+wmRNgInBuYM1RjsW/6q0sraqk3gVSWXEpT0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730109045; c=relaxed/simple;
-	bh=ODx4FLHcP/vNnIHruibCcYFMQhWqWuYNqzd3qqRr5Yc=;
+	s=arc-20240116; t=1730109046; c=relaxed/simple;
+	bh=JL6zdtCBj+lG/CHVQwCQECACUoTeQPn98GBk0kjRtrw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NsagM2AbBtGSnwI6SwW9PUVxtlvPJNjpYSS3K+qknhHNf1c6TGVQkqn5ICE30/UnHjfLlcDVCuPJZhcbEu8hMD9ozYPnr7M33GV2Xol/tiafnYpyd3r0X4d4UMZ6b+J2xOUioKdkhdMx3Nyg19tydE8F2yBTNR4meyvP7b+mgGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Z3uwQ5rK; arc=none smtp.client-ip=217.70.183.194
+	 Content-Type:Content-Disposition:In-Reply-To; b=meE/QCT7ZxsFA60AN+dmpiymIxJyUXVurSHdPT6GmDPXJu3f6CihjXVGdIQyDhqOU7mMXOQKbweKZO3V37ThtdUulskGiQ9m3V4XfSf0Xv9EJlJ09/fE/1r+Nmn2MVvDak7TkzMQNmIv4D2IVRtoB9rFXy0G3Zz59+EKrEA6/0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jq0rJICZ; arc=none smtp.client-ip=217.70.183.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Z3uwQ5rK"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2C7E940009;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jq0rJICZ"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C88A51BF20D;
 	Mon, 28 Oct 2024 09:50:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730109040;
+	t=1730109041;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R8ruWVrrdgwZg4KfUdgZhCywnGpkovTfIl1NmWeerMU=;
-	b=Z3uwQ5rKVQ6Kh9PHzk0d4sxl5wA0KD3uqjB3kYxP7kczmLEwD6zjab3VoBAp3l4DPwLgBB
-	BdX0EYBTtj+XeUAAAPQfsXs/PD+INQxN+Ywh3ZT32HhUerA9nNPhJdAuakyd4hnpuyIbmg
-	3wqgGGajwfG8QY5u+6W3M1+CbFM4VpNRBcZY+PLjnX7R73iQdSxpSDZI2xhTdN0GEGksdY
-	v1F/GyU3NcozqnwZvgi8XVdbLnu6uRMIZ42Ed3anszkQWtz0FzjYVdaWWddhfNZ3i4gv3Y
-	rIBjsvF/t/yNN/WLFrPzraGWyYplyH6jhZ7vlRX/LJNlp2yIZCx/b4qcmS0z4Q==
-Date: Mon, 28 Oct 2024 10:50:37 +0100
+	bh=SDslykrwknL3FVOFNX/i8okLHJLbqdHGtFBsKYYD4yw=;
+	b=jq0rJICZhv5KrWU+MJs33iTafABnEp90i8xuG955buskZn8fCiSsLEIRYBYKU+LO7PEI3g
+	SN/owTLiKUri4KuhrZqf2UlXs1JywY61LycVtlYb3i1r5y6raetoDHyUIkcVESn/ZHHqen
+	dRhBp3fZkvX8bC3TJDvjRHmfLSi1+dh/WOOyCy0JmGKS4zhR2miNFryl5CWn2bmfBFPznd
+	tKpE8h09333+oV6M3t2xRYDnch4+p4wwKzGzsW9AHw2D4GehzV+mh5p30XzugQauXDAl0C
+	pmNKtFNgMxi4vxwvZdR19ZnNN5Beo73KQubTloLn+rxkca4WioS89MNXBrwMaA==
+Date: Mon, 28 Oct 2024 10:50:38 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>
 Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
@@ -48,9 +48,9 @@ Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
 	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
 	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
 	Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v12 13/15] drm/vkms: Create KUnit tests for YUV
- conversions
-Message-ID: <Zx9ebb1sEehlM150@fedora>
+Subject: Re: [PATCH v12 08/15] drm/vkms: Re-introduce line-per-line
+ composition algorithm
+Message-ID: <Zx9eblYbZsFqn-hX@fedora>
 Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
 	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
 	Melissa Wen <melissa.srw@gmail.com>,
@@ -68,8 +68,8 @@ Mail-Followup-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
 	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
 	Pekka Paalanen <pekka.paalanen@collabora.com>
 References: <20241007-yuv-v12-0-01c1ada6fec8@bootlin.com>
- <20241007-yuv-v12-13-01c1ada6fec8@bootlin.com>
- <d33f982f-f4ca-4bb2-9454-9d01a927d8b5@riseup.net>
+ <20241007-yuv-v12-8-01c1ada6fec8@bootlin.com>
+ <be1a9147-efbd-4c98-a0a4-7cf5a730fc70@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,159 +79,312 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d33f982f-f4ca-4bb2-9454-9d01a927d8b5@riseup.net>
+In-Reply-To: <be1a9147-efbd-4c98-a0a4-7cf5a730fc70@riseup.net>
 X-GND-Sasl: louis.chauvet@bootlin.com
 
-On 26/10/24 - 11:49, Maíra Canal wrote:
+On 26/10/24 - 11:26, Maíra Canal wrote:
 > Hi Louis,
 > 
 > On 07/10/24 13:10, Louis Chauvet wrote:
-> > From: Arthur Grillo <arthurgrillo@riseup.net>
+> > Re-introduce a line-by-line composition algorithm for each pixel format.
+> > This allows more performance by not requiring an indirection per pixel
+> > read. This patch is focused on readability of the code.
 > > 
-> > Create KUnit tests to test the conversion between YUV and RGB. Test each
-> > conversion and range combination with some common colors.
+> > Line-by-line composition was introduced by [1] but rewritten back to
+> > pixel-by-pixel algorithm in [2]. At this time, nobody noticed the impact
+> > on performance, and it was merged.
 > > 
-> > The code used to compute the expected result can be found in comment.
+> > This patch is almost a revert of [2], but in addition efforts have been
+> > made to increase readability and maintainability of the rotation handling.
+> > The blend function is now divided in two parts:
+> > - Transformation of coordinates from the output referential to the source
+> > referential
+> > - Line conversion and blending
 > > 
-> > [Louis Chauvet:
-> > - fix minor formating issues (whitespace, double line)
-> > - change expected alpha from 0x0000 to 0xffff
-> > - adapt to the new get_conversion_matrix usage
-> > - apply the changes from Arthur
-> > - move struct pixel_yuv_u8 to the test itself]
+> > Most of the complexity of the rotation management is avoided by using
+> > drm_rect_* helpers. The remaining complexity is around the clipping, to
+> > avoid reading/writing outside source/destination buffers.
 > > 
-> > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > The pixel conversion is now done line-by-line, so the read_pixel_t was
+> > replaced with read_pixel_line_t callback. This way the indirection is only
+> > required once per line and per plane, instead of once per pixel and per
+> > plane.
+> > 
+> > The read_line_t callbacks are very similar for most pixel format, but it
+> > is required to avoid performance impact. Some helpers for color
+> > conversion were introduced to avoid code repetition:
+> > - *_to_argb_u16: perform colors conversion. They should be inlined by the
+> >    compiler, and they are used to avoid repetition between multiple variants
+> >    of the same format (argb/xrgb and maybe in the future for formats like
+> >    bgr formats).
+> > 
+> > This new algorithm was tested with:
+> > - kms_plane (for color conversions)
+> > - kms_rotation_crc (for rotations of planes)
+> > - kms_cursor_crc (for translations of planes)
+> > - kms_rotation (for all rotations and formats combinations) [3]
+> > The performance gain was mesured with kms_fb_stress [4] with some
+> > modification to fix the writeback format.
+> > 
+> > The performance improvement is around 5 to 10%.
+> > 
+> > [1]: commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to accept
+> >       new formats")
+> >       https://lore.kernel.org/all/20220905190811.25024-7-igormtorrente@gmail.com/
+> > [2]: commit 322d716a3e8a ("drm/vkms: isolate pixel conversion
+> >       functionality")
+> >       https://lore.kernel.org/all/20230418130525.128733-2-mcanal@igalia.com/
+> > [3]: https://lore.kernel.org/igt-dev/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com/
+> > [4]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
+> > 
 > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > 
+> > # Conflicts:
+> > #	drivers/gpu/drm/vkms/vkms_composer.c
+
+I jut noticed this, I will remove it...
+
 > > ---
-> >   drivers/gpu/drm/vkms/Kconfig                  |  15 ++
-> >   drivers/gpu/drm/vkms/Makefile                 |   1 +
-> >   drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
-> >   drivers/gpu/drm/vkms/tests/Makefile           |   3 +
-> >   drivers/gpu/drm/vkms/tests/vkms_format_test.c | 232 ++++++++++++++++++++++++++
-> >   drivers/gpu/drm/vkms/vkms_formats.c           |   7 +-
-> >   drivers/gpu/drm/vkms/vkms_formats.h           |   5 +
-> >   7 files changed, 265 insertions(+), 2 deletions(-)
+> >   drivers/gpu/drm/vkms/vkms_composer.c | 234 ++++++++++++++++++++++++++++-------
+> >   drivers/gpu/drm/vkms/vkms_drv.h      |  28 +++--
+> >   drivers/gpu/drm/vkms/vkms_formats.c  | 224 ++++++++++++++++++++-------------
+> >   drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
+> >   drivers/gpu/drm/vkms/vkms_plane.c    |   5 +-
+> >   5 files changed, 344 insertions(+), 149 deletions(-)
 > > 
 > 
 > [...]
 > 
+> > -static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+> > +static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
+> >   {
+> > -	__le16 *pixel = (__le16 *)in_pixel;
+> > +	struct pixel_argb_u16 out_pixel;
+> >   	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+> >   	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+> > @@ -226,40 +194,120 @@ static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pi
+> >   	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+> >   	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+> > -	out_pixel->a = (u16)0xffff;
+> > -	out_pixel->r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+> > -	out_pixel->g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+> > -	out_pixel->b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+> > +	out_pixel.a = (u16)0xffff;
+> > +	out_pixel.r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+> > +	out_pixel.g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+> > +	out_pixel.b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
 > > +
-> > +static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
-> > +{
-> > +	const struct yuv_u8_to_argb_u16_case *param = test->param_value;
-> > +	struct pixel_argb_u16 argb;
+> > +	return out_pixel;
+> >   }
+> > -/**
+> > - * vkms_compose_row - compose a single row of a plane
+> > - * @stage_buffer: output line with the composed pixels
+> > - * @plane: state of the plane that is being composed
+> > - * @y: y coordinate of the row
+> > +/*
+> > + * The following functions are read_line function for each pixel format supported by VKMS.
+> > + *
+> > + * They read a line starting at the point @x_start,@y_start following the @direction. The result
+> > + * is stored in @out_pixel and in the format ARGB16161616.
+> > + *
+> > + * These functions are very repetitive, but the innermost pixel loops must be kept inside these
+> > + * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
+> > + * loop factored out of these functions showed a slowdown by a factor of three.
+> >    *
+> > - * This function composes a single row of a plane. It gets the source pixels
+> > - * through the y coordinate (see get_packed_src_addr()) and goes linearly
+> > - * through the source pixel, reading the pixels and converting it to
+> > - * ARGB16161616 (see the pixel_read() callback). For rotate-90 and rotate-270,
+> > - * the source pixels are not traversed linearly. The source pixels are queried
+> > - * on each iteration in order to traverse the pixels vertically.
+> > + * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
+> >    */
+> > -void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
 > > +
-> > +	for (size_t i = 0; i < param->n_colors; i++) {
-> > +		const struct format_pair *color = &param->colors[i];
-> > +		struct conversion_matrix matrix;
+> > +static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
+> > +			       enum pixel_read_direction direction, int count,
+> > +			       struct pixel_argb_u16 out_pixel[])
+> >   {
+> > -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+> > -	struct vkms_frame_info *frame_info = plane->frame_info;
+> > -	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
+> > -	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
 > > +
-> > +		get_conversion_matrix_to_argb_u16
-> > +			(DRM_FORMAT_NV12, param->encoding, param->range, &matrix);
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
 > > +
-> > +		argb = argb_u16_from_yuv888(color->yuv.y, color->yuv.u, color->yuv.v, &matrix);
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> > +
+> > +	while (out_pixel < end) {
+> > +		u8 *px = (u8 *)src_pixels;
 > 
-> This should be `argb_u16_from_yuv161616` as you fixed in [1].
+> Why are you converting u8* to u8*? There are repetitions of this pattern
+> in this patch.
 
-(I suppose you talk about [2]?)
+I think it was to be consistent between all the conversion functions. They 
+are exactly the same, so having the casting (even useless one) at the same 
+place may help to understand the code. 
 
-I understand that I change this function in a future series, but [2] is 
-not Acked-By yet. I prefer to have the opportunity to merge this 
-first series (with yuv888) quickly and to work on [2] later (I have less 
-conflicts between [2] and the rest of my work on configFS).
+I will remove this cast if you prefer.
 
-If I get a Acked-by on [2], I can merge the two commits and directly use 
-yuv161616 conversion functions.
-
-Thanks,
-Louis Chauvet
-
-[2]:https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-6-d47da50d4674@bootlin.com/
- 
-> [1] https://lore.kernel.org/all/20241007-b4-new-color-formats-v2-5-d47da50d4674@bootlin.com/
-> 
-> Best Regards,
-> - Maíra
-> 
-> > +
-> > +		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.a, color->argb.a), 257,
-> > +				    "On the A channel of the color %s expected 0x%04x, got 0x%04x",
-> > +				    color->name, color->argb.a, argb.a);
-> > +		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.r, color->argb.r), 257,
-> > +				    "On the R channel of the color %s expected 0x%04x, got 0x%04x",
-> > +				    color->name, color->argb.r, argb.r);
-> > +		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.g, color->argb.g), 257,
-> > +				    "On the G channel of the color %s expected 0x%04x, got 0x%04x",
-> > +				    color->name, color->argb.g, argb.g);
-> > +		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.b, color->argb.b), 257,
-> > +				    "On the B channel of the color %s expected 0x%04x, got 0x%04x",
-> > +				    color->name, color->argb.b, argb.b);
+> > +		*out_pixel = argb_u16_from_u8888(px[3], px[2], px[1], px[0]);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
 > > +	}
 > > +}
 > > +
-> > +static void vkms_format_test_yuv_u8_to_argb_u16_case_desc(struct yuv_u8_to_argb_u16_case *t,
-> > +							  char *desc)
+> > +static void XRGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
+> > +			       enum pixel_read_direction direction, int count,
+> > +			       struct pixel_argb_u16 out_pixel[])
 > > +{
-> > +	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "%s - %s",
-> > +		 drm_get_color_encoding_name(t->encoding), drm_get_color_range_name(t->range));
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
+> > +
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+> > +
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> > +
+> > +	while (out_pixel < end) {
+> > +		u8 *px = (u8 *)src_pixels;
+> > +		*out_pixel = argb_u16_from_u8888(255, px[2], px[1], px[0]);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
+> > +	}
 > > +}
 > > +
-> > +KUNIT_ARRAY_PARAM(yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_cases,
-> > +		  vkms_format_test_yuv_u8_to_argb_u16_case_desc
-> > +);
+> > +static void ARGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
+> > +				   int y_start, enum pixel_read_direction direction, int count,
+> > +				   struct pixel_argb_u16 out_pixel[])
+> > +{
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
 > > +
-> > +static struct kunit_case vkms_format_test_cases[] = {
-> > +	KUNIT_CASE_PARAM(vkms_format_test_yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_gen_params),
-> > +	{}
-> > +};
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
 > > +
-> > +static struct kunit_suite vkms_format_test_suite = {
-> > +	.name = "vkms-format",
-> > +	.test_cases = vkms_format_test_cases,
-> > +};
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
 > > +
-> > +kunit_test_suite(vkms_format_test_suite);
+> > +	while (out_pixel < end) {
+> > +		u16 *px = (u16 *)src_pixels;
+> > +		*out_pixel = argb_u16_from_u16161616(px[3], px[2], px[1], px[0]);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
+> > +	}
+> > +}
 > > +
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_DESCRIPTION("Kunit test for vkms format conversion");
-> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> > index adb1228e5201..0b201185eae7 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > @@ -7,6 +7,8 @@
-> >   #include <drm/drm_rect.h>
-> >   #include <drm/drm_fixed.h>
-> > +#include <kunit/visibility.h>
+> > +static void XRGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
+> > +				   int y_start, enum pixel_read_direction direction, int count,
+> > +				   struct pixel_argb_u16 out_pixel[])
+> > +{
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
 > > +
-> >   #include "vkms_formats.h"
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+> > +
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> > +
+> > +	while (out_pixel < end) {
+> > +		__le16 *px = (__le16 *)src_pixels;
+> > +		*out_pixel = argb_u16_from_le16161616(cpu_to_le16(0xFFFF), px[2], px[1], px[0]);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
+> > +	}
+> > +}
+> > +
+> > +static void RGB565_read_line(const struct vkms_plane_state *plane, int x_start,
+> > +			     int y_start, enum pixel_read_direction direction, int count,
+> > +			     struct pixel_argb_u16 out_pixel[])
+> > +{
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
+> > +
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+> > -	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+> > -		int x_pos = get_x_position(frame_info, limit, x);
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> > -		if (drm_rotation_90_or_270(frame_info->rotation))
+> > -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
+> > -				+ frame_info->fb->format->cpp[0] * y;
+> > +	while (out_pixel < end) {
+> > +		__le16 *px = (__le16 *)src_pixels;
+> > -		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
+> > +		*out_pixel = argb_u16_from_RGB565(px);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
+> >   	}
+> >   }
+> > @@ -359,25 +407,25 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+> >   }
 > >   /**
-> > @@ -247,8 +249,8 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
-> >   	return out_pixel;
-> >   }
-> > -static struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
-> > -						  const struct conversion_matrix *matrix)
-> > +VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
-> > +							    const struct conversion_matrix *matrix)
+> > - * get_pixel_read_function() - Retrieve the correct read_pixel function for a specific
+> > + * get_pixel_read_line_function() - Retrieve the correct read_line function for a specific
+> >    * format. The returned pointer is NULL for unsupported pixel formats. The caller must ensure that
+> >    * the pointer is valid before using it in a vkms_plane_state.
+> >    *
+> >    * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+> >    */
+> > -pixel_read_t get_pixel_read_function(u32 format)
+> > +pixel_read_line_t get_pixel_read_line_function(u32 format)
 > >   {
-> >   	u16 r, g, b;
-> >   	s64 fp_y, fp_channel_1, fp_channel_2;
-> > @@ -278,6 +280,7 @@ static struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel
-> >   	return argb_u16_from_u16161616(0xffff, r, g, b);
-> >   }
-> > +EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-> >   /*
-> >    * The following functions are read_line function for each pixel format supported by VKMS.
+> >   	switch (format) {
+> >   	case DRM_FORMAT_ARGB8888:
+> > -		return &ARGB8888_to_argb_u16;
+> > +		return &ARGB8888_read_line;
+> >   	case DRM_FORMAT_XRGB8888:
+> > -		return &XRGB8888_to_argb_u16;
+> > +		return &XRGB8888_read_line;
+> >   	case DRM_FORMAT_ARGB16161616:
+> > -		return &ARGB16161616_to_argb_u16;
+> > +		return &ARGB16161616_read_line;
+> >   	case DRM_FORMAT_XRGB16161616:
+> > -		return &XRGB16161616_to_argb_u16;
+> > +		return &XRGB16161616_read_line;
+> >   	case DRM_FORMAT_RGB565:
+> > -		return &RGB565_to_argb_u16;
+> > +		return &RGB565_read_line;
+> >   	default:
+> >   		/*
+> >   		 * This is a bug in vkms_plane_atomic_check(). All the supported
 > > diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
-> > index d583855cb320..b4fe62ab9c65 100644
+> > index 3ecea4563254..8d2bef95ff79 100644
 > > --- a/drivers/gpu/drm/vkms/vkms_formats.h
 > > +++ b/drivers/gpu/drm/vkms/vkms_formats.h
-> > @@ -13,4 +13,9 @@ void get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encod
-> >   				       enum drm_color_range range,
-> >   				       struct conversion_matrix *matrix);
-> > +#if IS_ENABLED(CONFIG_KUNIT)
-> > +struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
-> > +					   const struct conversion_matrix *matrix);
-> > +#endif
-> > +
-> >   #endif /* _VKMS_FORMATS_H_ */
+> > @@ -5,7 +5,7 @@
+> >   #include "vkms_drv.h"
+> > -pixel_read_t get_pixel_read_function(u32 format);
+> > +pixel_read_line_t get_pixel_read_line_function(u32 format);
+> >   pixel_write_t get_pixel_write_function(u32 format);
+> > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> > index 10e9b23dab28..8875bed76410 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> > @@ -112,7 +112,6 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+> >   	frame_info = vkms_plane_state->frame_info;
+> >   	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
+> >   	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
+> > -	memcpy(&frame_info->rotated, &new_state->dst, sizeof(struct drm_rect));
+> 
+> If you won't use rotated anymore, delete it from the struct.
+
+It is already done in this patch.
+
+Thanks for your reviews,
+Louis Chauvet
+
+> Best Regards,
+> - Maíra
+> 
+> >   	frame_info->fb = fb;
+> >   	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+> >   	drm_framebuffer_get(frame_info->fb);
+> > @@ -122,10 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+> >   									  DRM_MODE_REFLECT_X |
+> >   									  DRM_MODE_REFLECT_Y);
+> > -	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+> > -			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+> > -	vkms_plane_state->pixel_read = get_pixel_read_function(fmt);
+> > +	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
+> >   }
+> >   static int vkms_plane_atomic_check(struct drm_plane *plane,
 > > 
