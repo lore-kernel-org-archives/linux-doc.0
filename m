@@ -1,456 +1,454 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2054.outbound.protection.outlook.com [40.107.92.54])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B326156960;
-	Mon, 28 Oct 2024 05:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730094777; cv=fail; b=oBBfqwj+3jeuwabgmQkHYF7uEY8ZmtQa/MUKH7yhTAN8vblsb68aEdoVhqvqb1HcolQ4CMnze/P0gCKbLAPm2dxhgNubhR9zkBTu5eU/X6uNZMZRKamFgylspDv26hmv7YEJTT9cj/kmLGiVk1zmSVOlnGTD7zTMt3IXsIRLP2Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730094777; c=relaxed/simple;
-	bh=dce+NuVWHzNoGX0j9KMKUo2Y4zu/27A3AsurxadoyLU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Vd2GFXjasZEY2mDMIXq9JOa05o8WQN3WnOpqrC33v4YYLHXdESC+m6/tf2qNP9w9kredlQUGQLZvhIrcLHX8w1ou+jyc2mY9AkedYZei4xdN2cE4WzN85J9ANWaJBvLK3j2OdeHd7bTKzZSxYAeKAkhF4H/uGcWyxrPZayZ3Fxo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OI5TBY9+; arc=fail smtp.client-ip=40.107.92.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OI5TBY9+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ioy3+kWRPWOW2ZU227vat5JLDUBKSKJQXaOL2hEClu/dclzy5zXPhtYv5FCfc9umbJ4lE+G1WgKS1NAC4zZB8wtSpmZuDUfd/jpIpZfVe7NVNBh8ixX6A5uTjK98ZUpilz/pPwFGmCGpm9j9tGrlVsIEUyYhT6DtDOzBz9ntYB6Z/jLEyfneyfzhsmB3wgwfWP15HPeeBssgXoSGPEEz8Yx5501ORBPIUCQRvmUKlw0oYtb6GsmIqm22aFKeI0bhRMQZ6eHtrrZ3cuu29lkxshtMzgI9PXh5Tb5q1Rzw8d1J1DLp7Eg15c3L0i2bO5UaYKi5JzdtrTD6I4SZPcXlZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=se2Acy3wt1+7/AaktCxp5iguZQwWnS+8h2TM42AOS7I=;
- b=sFQlJ1bWwHXF4KnpuU1ZVR1822q4vzmxdk4nxu9lsihwO2BYNf1FCBM7yS1ueTNtgVtx64qd9xgeB1/u0GkfF7uAZHxq+w1BxvRK99reomC+YQdCbstuYEuF7QHN6nhE0guAONKWPgAJnN/3uUXzVC61xYWeFkCk/ZpKLs37Ee5BBshiaSjQFxdxd3ipt6R7A7X4lxjq68TVhsUJrwd9WNrwQctJbrXz9d7SGBvd014HIsol97mCaTBBQuKykDoCnLguwcx8cGDm/9QlcX56OJhgZRber8mFo/LE+OE09xr4RSbkXHQgG9QCWh2oR+wn+h3EdeJhZruLaNauBxQUSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=se2Acy3wt1+7/AaktCxp5iguZQwWnS+8h2TM42AOS7I=;
- b=OI5TBY9+mABJy1G4YeeDiP18N6ao9ScY0XvbsvkKqcnlYSrFFpls+IpHAt+qwZHgNFBlpewjBhocux6d+na5RhL1SBzolYj8jZZbKhkzjh9CYtR4LiNgyxxIkqNp64OZyhTVeDAQr+RDzKUsN2ZKjGsHXSweNO0IC1k2YCHVNxE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
- by PH7PR12MB6537.namprd12.prod.outlook.com (2603:10b6:510:1f2::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Mon, 28 Oct
- 2024 05:52:48 +0000
-Received: from BL1PR12MB5176.namprd12.prod.outlook.com
- ([fe80::ed5b:dd2f:995a:bcf4]) by BL1PR12MB5176.namprd12.prod.outlook.com
- ([fe80::ed5b:dd2f:995a:bcf4%5]) with mapi id 15.20.8093.024; Mon, 28 Oct 2024
- 05:52:47 +0000
-Message-ID: <c7cac2dd-8fc8-498f-b3c5-bd95900e881e@amd.com>
-Date: Mon, 28 Oct 2024 11:22:38 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/13] platform/x86: hfi: Introduce AMD Hardware
- Feedback Interface Driver
-Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
- platform-driver-x86@vger.kernel.org
-References: <20241028020251.8085-1-mario.limonciello@amd.com>
- <20241028020251.8085-6-mario.limonciello@amd.com>
-From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-In-Reply-To: <20241028020251.8085-6-mario.limonciello@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PEPF000001B1.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c04::d) To BL1PR12MB5176.namprd12.prod.outlook.com
- (2603:10b6:208:311::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C4018CBE1;
+	Mon, 28 Oct 2024 05:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.40
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730094816; cv=none; b=SM5UfOq0OvVqDi5A+VaYdNPhF37iVq1zPqX7lrAXNNzS78I5gSHdQ/JcB8B5+XP7UxMxQPgbb0G+74HzQMQsh1oPEBQst0TU5HuUsWE9MUNlZoKQEQef0jndAtIz8huDQP6dFE3AmlOruxM+Ms5487V58FXa1HMQt7O/Dz6Ve9s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730094816; c=relaxed/simple;
+	bh=xDwxuH/D2TDdThNS84QnRziL+54XMW+R3KNFgxCgDVI=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=mt1s8PBewG1RMcIX4gf4QY8xpht4guROq8mff028mFKjbC0/9eJ+pRz1QhyGZRrzYP4hj6kHYTPbWc5KjkNB5unvVodevSMPNAf2tW04tecsVw13YQuKLNgClaDuVxofz8IWFYsCtfRdZ4yUDu0GQrylwY5e748HXzsp/D2EUso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4XcMxt3jQkz8R03x;
+	Mon, 28 Oct 2024 13:53:22 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 49S5rJ0O066582;
+	Mon, 28 Oct 2024 13:53:19 +0800 (+08)
+	(envelope-from xu.xin16@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Mon, 28 Oct 2024 13:53:21 +0800 (CST)
+Date: Mon, 28 Oct 2024 13:53:21 +0800 (CST)
+X-Zmail-TransId: 2afa671f26d1ffffffffcfa-262de
+X-Mailer: Zmail v1.0
+Message-ID: <20241028135321916ZWK032bHhlbncjvmzDkZs@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|PH7PR12MB6537:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f5bceac-4f46-4687-0cf6-08dcf714bfbd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RUhWN1JRYU15azRwVDRwdDlzTzRybVladllpR2xWVWcrRGVZWVlCMzQybDJ0?=
- =?utf-8?B?NUx0NzcwdnZZcUt3ZklZTDNNazVsVU1TQ3NoYjlCZ3phMmN2YndpSVNJQXpj?=
- =?utf-8?B?UGgrNnlmUHpKWHFLbzlwTHByMk9nZUtuNk8wU29NYXYzOGUxQXpFRzdHdkl5?=
- =?utf-8?B?R0NrU2NDUFd3eDBXU2tQRHNkSkRwdnhmSmlQc0ROSzFGQkNmZmVTMnVSMlNj?=
- =?utf-8?B?dGV1VHM2dEU3OVJVVzF2ZU5EN1B6aHhlR2RYdUlsQnpMRnBwZ0xSbzBGVHg3?=
- =?utf-8?B?cnBVTmIxamlwTUpCVEc2RVdrWGFsd0QwZmtyUlhIODlrUWRZNjVXNWR3MjUy?=
- =?utf-8?B?MUF1QXlXQXoyWkxFdVlXMTNYNGM2Ky9ZUlppa2VzSGRIWkVsOW9tVkU1dktY?=
- =?utf-8?B?WlRrVnRSZjlLZDEzUVNDNWhLY28xZzdYYi9BRU1aaHRHSm9UdWtxWjlxaEd3?=
- =?utf-8?B?M2xaeWkyS3FJbFJ4akZLQUpYZHoxdUhWbWM5U052NVVxR2g0T0lDek0zZGx5?=
- =?utf-8?B?dVFYcGVKcXpwT2NXam1GZEZybnZ5YTZ1bnNJbzJvM0ZhbjZvdnFES1dTMHFa?=
- =?utf-8?B?Q1FjRXpLSmkxQ05iNFhTbEh0RHZub0dFdHVveWdFOUxJODMrVEE5YzF2cHRY?=
- =?utf-8?B?K21rd2pXOFltUHFPSUNzMGF3S3pFa3FaVnQ4K1JqT3JMaXZaRUNpUDNHNjNt?=
- =?utf-8?B?QWdHRTNZTDJsMXJXSVRTK2dIWExmWXhNRFZ2MnQyRFAwQmhqSzVoVnVWQnNl?=
- =?utf-8?B?WkVaKzd6S0dyOVdXdGZDVXJRZHNKRVVxcXhkdzFxTjhCajVBUXc3blhrNEVZ?=
- =?utf-8?B?YnFZNEJXV2dPdmNrdUtia1VHRkNvemx1K01yZGViS2YwQ0RhbWNOcmZMVXg4?=
- =?utf-8?B?SzFhWkhxQVZlTDFieC9NTDBxYklBa1Y4b1EzVUlhMVpycmRjQUtmd1RDSW5K?=
- =?utf-8?B?dmpyVlJ1aEY3REtkeS9lbjRaSEF3SVM4WmFDdk9wTHVaQWNTb0xoTE4yU3pG?=
- =?utf-8?B?eUZrQ0JXWm4wRk84NXJUUHJhTmNyZlpzYUVtZkhDdDQyM2lmMXYxbVdGdWlv?=
- =?utf-8?B?aEk3T1hOaWhPZ0RwUy9LWm1EVlRjM2xDSkdVWTVrS1VWeWFjU2ZDVHd0aFlI?=
- =?utf-8?B?ZnlIdkZGU3hadXpUOUF6emhPV2xlTi8rS1B1TEk3azcybUFWcGJPdXZxbjA5?=
- =?utf-8?B?SEwyL2ZMQ2dKVy9WWHp1c0tUTUtWYVpKUy9Wa1ZsR2w1N1VTR1pvaE5sbjVZ?=
- =?utf-8?B?NlV1eFZIR3ZIVStWZDJvOU1iOTVvZ3kyemgrU2FXQW40LzRjZXBnSnlhSnl1?=
- =?utf-8?B?bnVXZTFVckk2SkZ1cUpLMVpZeXI5eG9Vc3JyeEszckM3dTUyMS9YUmlRdDVT?=
- =?utf-8?B?L3kxVlpwa3FuZ2J2M1BjMDhQcUhlQUxFd2c1TkhTU0lPMnZORVpJZCtpUUlw?=
- =?utf-8?B?dVByT0VWMXRQOS9UY1FQWWFMN3BjS29uZk0ya3JoN2xFa0ZvNmJPYXBZOFJC?=
- =?utf-8?B?Sk9oblI2WUpqTU91RFlhNkRxaUtYdkxZcGcxNnJJdGRSM2lpK1Nwd0pjRkdN?=
- =?utf-8?B?ZmdkbDkwa2lMb0NsVUdvRWRjYVR3Ny82Q2QzM0lOR1h3b2lYcEVQZzh6dkFG?=
- =?utf-8?B?V1gycDBpZUpwaDBxRWl1R2RvS0hyN2dKdDQ0Vk1kc3g5OGVTRStCTjMwRUg1?=
- =?utf-8?B?MDdBY3pNclpIN3NqNjJaME5DdHl2YVJDeHRCenB2djlHV3Y4QVFIL2lWdjM1?=
- =?utf-8?Q?yCrM9Ke95ZxihnyUx740a8LqhnMiX+G4d4Vqgfr?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5176.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QklIUmtyQmpYeGdjWWEzOU5YUDJiSFNqTmNUUE5TZ2R4SUczRzZrMkh1N29r?=
- =?utf-8?B?RFdacVlBTkxvaGs2UlNTck5wRGJnR0NZUXhhYkxKV2NPa1RBZTBhUmtxNlZh?=
- =?utf-8?B?ZkVTbE0zdUxWQ2JMSnQ1S1VzdTlGTUh3R1R3Szc1cFJwU3VPT0pRejRpMjQy?=
- =?utf-8?B?UnZVUGJoYzNqTHUrMEJnRHR2VmptZkJjSTRWekxNbUNDMFNwMEwyUE45UG53?=
- =?utf-8?B?NEV4NjhaSjlCRW9vNlg0Uis3NTBrL1VmL2tLSTROdHg0Sm9yeWF6QjFzdzFR?=
- =?utf-8?B?RjVSaE5tRGVJaDVlOHZUNUlzbXpWTGJ2R0thT29SaS84T0VpRDd5UEVuVSt2?=
- =?utf-8?B?Z0R0OXBXL3BpU01zWlBoN2tRdkFaa2Z2ZHFoUUdSVUJDQmEyTms5ODRjSmdk?=
- =?utf-8?B?Y0NxY0VvYTZnaUlJRjM0SXkyV0FMazVTRjd2SkFtZTJ0MVJuYzVKZktKSXhj?=
- =?utf-8?B?VXljVUt2RkkvUXk1NXpYSlpsWCt1b0lvM0h5aHhvTXA4VFdteUlDRzREYVhu?=
- =?utf-8?B?K284Z1lJN2VWcUZFUmxIUUcyNVR6YkdCWFp5dENmTDgvMDU0Zmd1ZUxyQ2Fo?=
- =?utf-8?B?VDUxbEk2Z2RtcU0rM1NHcndIZ0k0SWNCTldnMHNpM1ZLT1BTOW5kbU82QktV?=
- =?utf-8?B?VlI0K1pnWDFIQkJURWJ2ZVJQUCthbjhsNXcrZmt5M05PS3ZKbE1MRnpycllK?=
- =?utf-8?B?RHZmUGk1NGRSWEhhRHhGbC9hNFRLYWdRR2JHYngxNzVYMlpmVVdIbzc1SVBo?=
- =?utf-8?B?cFJyN2lUWXl1YjArME5hZ3RRU0JNdWt0YVRBL0duOWhGWXBvbTlZQlBnUWo3?=
- =?utf-8?B?N1NnZjJlNE1CbDVRNVFubUNPeEJDMUFGdUd5bjJDcUhidmFoeXc1eDA2YnZG?=
- =?utf-8?B?cW1mdkhjMjZCZjZ1N20vUE53ZzZ4MVp3ekRxOTljd3ZQVlhKeDVqZGw0dlFm?=
- =?utf-8?B?dUUxRFVud2F6RHNtYjZtd0UyQXlsVnZZYjhPZGF3aWFTQjN3STJPOGk4bFJa?=
- =?utf-8?B?N25JMEhGYlRoditrUFhYUjdtSGNvbW1tOEF1VEFZTEpEUGhKZENrTGRuOUNJ?=
- =?utf-8?B?QjZXcmdFMk1OTVU0dThwemJiQklFdjlMaFcyNUlWOVpvQUpMNFZxYWprY2s4?=
- =?utf-8?B?S2VDeThZeFJzYzhBWjdxWE9hZUFucU00dXRMREVVN1NSS1BaWFJrM0g2UnVs?=
- =?utf-8?B?MHVsV0tEVmV2Zk5kYUhuK1BvWlNtMlVLR0xyWTlEK2RDL3pJNm85NFp1U1hv?=
- =?utf-8?B?bk1pdjIybTU4TXN3Q2NWOXVLY2NjZ21yUFJHUkZMMjdOdzJiR3pqdXpnSkt6?=
- =?utf-8?B?N0ZWcC9pZ2N2UkZrbWJGLzByZG1ZWllwOUpZcnNzeEJPbEdRVmFoTjFCU3hv?=
- =?utf-8?B?WlN6dEMvWVNpV0VLUlFQSkJveEczUlB1MUQzSWs0aFJ6WUkrNmgvTVJ0eEVY?=
- =?utf-8?B?d3BKOVVXbGFsL3Nzd3loZHVHaGVja0RUcUY5NklGcDNuV09CWjRuL01tMTZB?=
- =?utf-8?B?OFBxOEhBRUlBSGV0bXhISXhFYzJzMFRWSDN2WDNzQSt0bVZ6U3BKUmY0aDhW?=
- =?utf-8?B?MEJPb3dob1E3aFN4YUcwOGU5ZWU5NkVIcWdHanh3a1YxemlRd3ZBb0F2NU5s?=
- =?utf-8?B?TjRnalYwY3djSnBCV2xaWlE3UXB4bDQ1UG9qb2syVkVUVXZuQlJpM2M1eStP?=
- =?utf-8?B?T1krc29RR1U1WlJPdzN3WittMkJranBVbXI2UTJPMm5GeWtyRkVLWFRwbDhP?=
- =?utf-8?B?d3JQMlRWMWJlNHNqT2VoSkkvMUlRSXhBUEYxRm9RM2k0dFRGcXBlOFUyb2tt?=
- =?utf-8?B?cHZvVWpzVmNCK1dpYzFoTDNRMEFrVXZuUmNMcFovZy9uZzJ2b3pJalY3eVdR?=
- =?utf-8?B?M0pIRWJmVVNIV1lRajVoR05rVU9ERXVpVkJJWHJWdWRBL1E0TTdnMnNzOVRM?=
- =?utf-8?B?NFI3cFlqM1NuTHV3dk9rMFAxUW1VdW16Qll5cEk5NUsvb0kybzYxeHNiay93?=
- =?utf-8?B?V0dxU2dVR3IrcEE0Z0J2djNzWVE2MEtHRG5rYnZJSWY2d08xMnlNR2NKTi9N?=
- =?utf-8?B?NEZCVjc5dTJpajRmM3d0YW0vRGJHbnJ4bUFHbGpORi9TU05YS1pkZk1LZ2p0?=
- =?utf-8?Q?U72bUd7I36uBoOhjLJh5MuAAJ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f5bceac-4f46-4687-0cf6-08dcf714bfbd
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 05:52:47.1509
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EDJ/bf+BznQ43y55CrwzRRBbYI+kBFIAGHPWshl0crZc3ivWDImvQ4P+bjp8LTyCKRc971N7kcFU6/Etse3Z4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6537
+Mime-Version: 1.0
+From: <xu.xin16@zte.com.cn>
+To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mudongliangabcd@gmail.com>, <seakeel@gmail.com>
+Cc: <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
+        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHQgdjggUkVTRU5EXSBEb2NzL3poX0NOOiBUcmFuc2xhdGUgcGh5c2ljYWxfbWVtb3J5LnJzdCB0byBTaW1wbGlmaWVkIENoaW5lc2U=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 49S5rJ0O066582
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 671F26D2.000/4XcMxt3jQkz8R03x
 
+From: Yaxin Wang <wang.yaxin@zte.com.cn>
 
+This patch translates the "physical_memory.rst" document into
+Simplified Chinese to improve accessibility for Chinese-speaking
+developers and users.
 
-On 10/28/2024 07:32, Mario Limonciello wrote:
-> From: Perry Yuan <Perry.Yuan@amd.com>
-> 
-> The AMD Heterogeneous core design and Hardware Feedback Interface (HFI)
-> provide behavioral classification and a dynamically updated ranking table
-> for the scheduler to use when choosing cores for tasks.
-> 
-> There are two CPU core types defined: `Classic Core` and `Dense Core`.
-> "Classic" cores are the standard performance cores, while "Dense" cores
-> are optimized for area and efficiency.
-> 
-> Heterogeneous compute refers to CPU implementations that are comprised
-> of more than one architectural class, each with two capabilities. This
-> means each CPU reports two separate capabilities: "perf" and "eff".
-> 
-> Each capability lists all core ranking numbers between 0 and 255, where
-> a higher number represents a higher capability.
-> 
-> Heterogeneous systems can also extend to more than two architectural
-> classes.
-> 
-> The purpose of the scheduling feedback mechanism is to provide information
-> to the operating system scheduler in real time, allowing the scheduler to
-> direct threads to the optimal core during task scheduling.
-> 
-> All core ranking data are provided by the BIOS via a shared memory ranking
+The translation was done with attention to technical accuracy
+and readability, ensuring that the document remains informative
+and useful in its translated form.
 
-/s/BIOS/PMFW. (as you have mentioned it as PMFW in the entire series)
+Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
 
-> table, which the driver reads and uses to update core capabilities to the
-> scheduler. When the hardware updates the table, it generates a platform
-> interrupt to notify the OS to read the new ranking table.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
-> Reviewed-by: Gautham R. Shenoy <gautham.shenoy@amd.com>
-> Signed-off-by: Perry Yuan <perry.yuan@amd.com>
-> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
->  drivers/platform/x86/amd/Kconfig      |   1 +
->  drivers/platform/x86/amd/Makefile     |   1 +
->  drivers/platform/x86/amd/hfi/Kconfig  |  20 +++
->  drivers/platform/x86/amd/hfi/Makefile |   7 ++
->  drivers/platform/x86/amd/hfi/hfi.c    | 168 ++++++++++++++++++++++++++
->  5 files changed, 197 insertions(+)
->  create mode 100644 drivers/platform/x86/amd/hfi/Kconfig
->  create mode 100644 drivers/platform/x86/amd/hfi/Makefile
->  create mode 100644 drivers/platform/x86/amd/hfi/hfi.c
-> 
-> diff --git a/drivers/platform/x86/amd/Kconfig b/drivers/platform/x86/amd/Kconfig
-> index f88682d36447c..c3f69dbe3037d 100644
-> --- a/drivers/platform/x86/amd/Kconfig
-> +++ b/drivers/platform/x86/amd/Kconfig
-> @@ -5,6 +5,7 @@
->  
->  source "drivers/platform/x86/amd/pmf/Kconfig"
->  source "drivers/platform/x86/amd/pmc/Kconfig"
-> +source "drivers/platform/x86/amd/hfi/Kconfig"
->  
->  config AMD_HSMP
->  	tristate "AMD HSMP Driver"
-> diff --git a/drivers/platform/x86/amd/Makefile b/drivers/platform/x86/amd/Makefile
-> index dcec0a46f8af1..2676fc81fee54 100644
-> --- a/drivers/platform/x86/amd/Makefile
-> +++ b/drivers/platform/x86/amd/Makefile
-> @@ -9,3 +9,4 @@ amd_hsmp-y			:= hsmp.o
->  obj-$(CONFIG_AMD_HSMP)		+= amd_hsmp.o
->  obj-$(CONFIG_AMD_PMF)		+= pmf/
->  obj-$(CONFIG_AMD_WBRF)		+= wbrf.o
-> +obj-$(CONFIG_AMD_HFI)		+= hfi/
-> diff --git a/drivers/platform/x86/amd/hfi/Kconfig b/drivers/platform/x86/amd/hfi/Kconfig
-> new file mode 100644
-> index 0000000000000..08051cd4f74db
-> --- /dev/null
-> +++ b/drivers/platform/x86/amd/hfi/Kconfig
-> @@ -0,0 +1,20 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# AMD Hardware Feedback Interface Driver
-> +#
-> +
-> +config AMD_HFI
-> +	bool "AMD Hetero Core Hardware Feedback Driver"
-> +	depends on ACPI
-> +	depends on CPU_SUP_AMD
-> +	help
-> +	 Select this option to enable the AMD Heterogeneous Core Hardware Feedback Interface. If
-> +	 selected, hardware provides runtime thread classification guidance to the operating system
-> +	 on the performance and energy efficiency capabilities of each heterogeneous CPU core.
-> +	 These capabilities may vary due to the inherent differences in the core types and can
-> +	 also change as a result of variations in the operating conditions of the system such
-> +	 as power and thermal limits. If selected, the kernel relays updates in heterogeneous
-> +	 CPUs' capabilities to userspace, allowing for more optimal task scheduling and
-> +	 resource allocation, leveraging the diverse set of cores available.
-> +
-> +
-> diff --git a/drivers/platform/x86/amd/hfi/Makefile b/drivers/platform/x86/amd/hfi/Makefile
-> new file mode 100644
-> index 0000000000000..672c6ac106e95
-> --- /dev/null
-> +++ b/drivers/platform/x86/amd/hfi/Makefile
-> @@ -0,0 +1,7 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# AMD Hardware Feedback Interface Driver
-> +#
-> +
-> +obj-$(CONFIG_AMD_HFI) += amd_hfi.o
-> +amd_hfi-objs := hfi.o
-> diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/amd/hfi/hfi.c
-> new file mode 100644
-> index 0000000000000..a92fe74b415e3
-> --- /dev/null
-> +++ b/drivers/platform/x86/amd/hfi/hfi.c
-> @@ -0,0 +1,168 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * AMD Hardware Feedback Interface Driver
-> + *
-> + * Copyright (C) 2024 Advanced Micro Devices, Inc. All Rights Reserved.
-> + *
-> + * Authors: Perry Yuan <Perry.Yuan@amd.com>
-> + *          Mario Limonciello <mario.limonciello@amd.com>
-> + */
-> +
-> +#define pr_fmt(fmt)  "amd-hfi: " fmt
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/cpu.h>
-> +#include <linux/cpumask.h>
-> +#include <linux/gfp.h>
-> +#include <linux/init.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/printk.h>
+Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
+Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+Signed-off-by: xu xin <xu.xin16@zte.com.cn>
+---
+v7->v8:
+Some fixes according to:
+https://lore.kernel.org/all/87sesl2op0.fsf@trenco.lwn.net/
+1.add some suffixes "_zh_CN" to some duplicated labels
 
-required?
+ Documentation/translations/zh_CN/mm/index.rst |   1 +
+ .../translations/zh_CN/mm/physical_memory.rst | 356 ++++++++++++++++++
+ 2 files changed, 357 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/mm/physical_memory.rst
 
-> +#include <linux/smp.h>
-> +
-> +#define AMD_HFI_DRIVER		"amd_hfi"
-> +#define AMD_HETERO_CPUID_27	0x80000027
-> +static struct platform_device *device;
-> +
-> +struct amd_hfi_data {
-> +	const char	*name;
-> +	struct device	*dev;
-> +	struct mutex	lock;
-> +};
-> +
-> +struct amd_hfi_classes {
-> +	u32	perf;
-> +	u32	eff;
-> +};
-> +
-> +/**
-> + * struct amd_hfi_cpuinfo - HFI workload class info per CPU
-> + * @cpu:		cpu index
-> + * @cpus:		mask of cpus associated with amd_hfi_cpuinfo
-> + * @class_index:	workload class ID index
-> + * @nr_class:		max number of workload class supported
-> + * @amd_hfi_classes:	current cpu workload class ranking data
-> + *
-> + * Parameters of a logical processor linked with hardware feedback class
-> + */
-> +struct amd_hfi_cpuinfo {
-> +	int		cpu;
-> +	cpumask_var_t	cpus;
-> +	s16		class_index;
-> +	u8		nr_class;
-> +	struct amd_hfi_classes	*amd_hfi_classes;
-> +};
-> +
-> +static DEFINE_PER_CPU(struct amd_hfi_cpuinfo, amd_hfi_cpuinfo) = {.class_index = -1};
-> +
-> +static int amd_hfi_alloc_class_data(struct platform_device *pdev)
-> +{
-> +	struct amd_hfi_cpuinfo *hfi_cpuinfo;
-> +	struct device *dev = &pdev->dev;
-> +	int idx;
-> +	int nr_class_id;
-> +
-> +	nr_class_id = cpuid_eax(AMD_HETERO_CPUID_27);
-> +	if (nr_class_id < 0 || nr_class_id > 255) {
-> +		dev_err(dev, "failed to get number of supported classes: %d\n",
-> +			nr_class_id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	for_each_present_cpu(idx) {
-> +		struct amd_hfi_classes *classes;
-> +
-> +		classes = devm_kzalloc(dev,
-> +				       nr_class_id * sizeof(struct amd_hfi_classes),
-> +				       GFP_KERNEL);
-> +		if (!classes)
-> +			return -ENOMEM;
-> +		hfi_cpuinfo = per_cpu_ptr(&amd_hfi_cpuinfo, idx);
-> +		hfi_cpuinfo->amd_hfi_classes = classes;
-> +		hfi_cpuinfo->nr_class = nr_class_id;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void amd_hfi_remove(struct platform_device *pdev)
-> +{
-> +	struct amd_hfi_data *dev = platform_get_drvdata(pdev);
-> +
-> +	mutex_destroy(&dev->lock);
-> +}
-> +
-> +static const struct acpi_device_id amd_hfi_platform_match[] = {
-> +	{ "AMDI0104", 0},
-
-Space after "{" not required.
-
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(acpi, amd_hfi_platform_match);
-> +
-> +static int amd_hfi_probe(struct platform_device *pdev)
-> +{
-> +	struct amd_hfi_data *amd_hfi_data;
-> +	int ret;
-> +
-> +	if (!acpi_match_device(amd_hfi_platform_match, &pdev->dev))
-> +		return -ENODEV;
-> +
-> +	amd_hfi_data = devm_kzalloc(&pdev->dev, sizeof(*amd_hfi_data), GFP_KERNEL);
-> +	if (!amd_hfi_data)
-> +		return -ENOMEM;
-> +
-> +	amd_hfi_data->dev = &pdev->dev;
-> +	mutex_init(&amd_hfi_data->lock);
-
-devm_mutex_init()?
-
-using managed APIs can help remove entire amd_hfi_remove() function?
-
-> +	platform_set_drvdata(pdev, amd_hfi_data);
-> +
-> +	ret = amd_hfi_alloc_class_data(pdev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver amd_hfi_driver = {
-> +	.driver = {
-> +		.name = AMD_HFI_DRIVER,
-> +		.owner = THIS_MODULE,
-> +		.acpi_match_table = ACPI_PTR(amd_hfi_platform_match),
-> +	},
-> +	.probe = amd_hfi_probe,
-> +	.remove = amd_hfi_remove,
-> +};
-> +
-> +static int __init amd_hfi_init(void)
-> +{
-> +	int ret;
-> +
-> +	if (acpi_disabled ||
-> +	    !boot_cpu_has(X86_FEATURE_AMD_HETEROGENEOUS_CORES) ||
-> +	    !boot_cpu_has(X86_FEATURE_AMD_WORKLOAD_CLASS))
-> +		return -ENODEV;
-> +
-> +	device = platform_device_register_simple(AMD_HFI_DRIVER, -1, NULL, 0);
-> +	if (IS_ERR(device)) {
-> +		pr_err("unable to register HFI platform device\n");
-> +		return PTR_ERR(device);
-> +	}
-> +
-> +	ret = platform_driver_register(&amd_hfi_driver);
-> +	if (ret)
-> +		pr_err("failed to register HFI driver\n");
-> +
-> +	return ret;
-> +}
-> +
-> +static __exit void amd_hfi_exit(void)
-> +{
-> +	platform_device_unregister(device);
-> +	platform_driver_unregister(&amd_hfi_driver);
-> +}
-> +module_init(amd_hfi_init);
-> +module_exit(amd_hfi_exit);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("AMD Hardware Feedback Interface Driver");
+diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
+index 960b6d2f3d18..c8726bce8f74 100644
+--- a/Documentation/translations/zh_CN/mm/index.rst
++++ b/Documentation/translations/zh_CN/mm/index.rst
+@@ -54,6 +54,7 @@ Linux内存管理文档
+    page_owner
+    page_table_check
+    page_tables
++   physical_memory
+    remap_file_pages
+    split_page_table_lock
+    vmalloced-kernel-stacks
+diff --git a/Documentation/translations/zh_CN/mm/physical_memory.rst b/Documentation/translations/zh_CN/mm/physical_memory.rst
+new file mode 100644
+index 000000000000..4594d15cefec
+--- /dev/null
++++ b/Documentation/translations/zh_CN/mm/physical_memory.rst
+@@ -0,0 +1,356 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/mm/physical_memory.rst
++
++:翻译:
++
++   王亚鑫 Yaxin Wang <wang.yaxin@zte.com.cn>
++
++========
++物理内存
++========
++
++Linux可用于多种架构，因此需要一个与架构无关的抽象来表示物理内存。本章描述
++了管理运行系统中物理内存的结构。
++
++第一个与内存管理相关的主要概念是 `非一致性内存访问(NUMA)
++<https://en.wikipedia.org/wiki/Non-uniform_memory_access>`
++
++在多核和多插槽机器中，内存可能被组织成不同的存储区，这些存储区根据与处理器
++的距离“不同”而有不同的访问开销。例如，可能为每个CPU分配内存存储区，或者为
++外围设备在附近分配一个非常适合DMA的内存存储区。
++
++每个存储区被称为一个节点，节点在Linux中表示为 ``struct pglist_data``，
++即使是在UMA架构中也是这样表示。该结构总是通过 ``pg_data_t`` 来引用。特
++定节点的 ``pg_data_t`` 结构体可以通过NODE_DATA(nid)引用，其中nid被称
++为该节点的ID。
++
++对于非一致性内存访问（NUMA）架构，节点数据结构在引导时由特定于架构的代码早
++期分配。通常，这些结构在其所在的内存区上本地分配。对于一致性内存访问（UMA）
++架构，只使用一个静态的 ``pg_data_t`` 结构体，称为 ``contig_page_data``。
++节点将会在 :ref:`节点 <nodes>` 章节中进一步讨论。
++
++整个物理内存被划分为一个或多个被称为区域的块，这些区域表示内存的范围。这
++些范围通常由访问内存的架构限制来决定。在节点内，与特定区域对应的内存范围
++由 ``struct zone`` 结构体描述，该结构被定义为 ``zone_t``，每种区域都
++属于以下描述类型的一种。
++
++* ``ZONE_DMA`` 和 ``ZONE_DMA32`` 在历史上代表适用于DMA的内存，这些
++  内存由那些不能访问所有可寻址内存的外设访问。多年来，已经有了更好、更稳
++  固的接口来获取满足特定DMA需求的内存（这些接口由
++  Documentation/core-api/dma-api.rst 文档描述），但是 ``ZONE_DMA``
++  和 ``ZONE_DMA32`` 仍然表示访问受限的内存范围。
++
++取决于架构的不同，这两种区域可以在构建时通过关闭 ``CONFIG_ZONE_DMA`` 和
++``CONFIG_ZONE_DMA32`` 配置选项来禁用。一些64位的平台可能需要这两种区域，
++因为他们支持具有不同DMA寻址限制的外设。
++
++* ``ZONE_NORMAL`` 是普通内存的区域，这种内存可以被内核随时访问。如果DMA
++  设备支持将数据传输到所有可寻址的内存区域，那么可在该区域的页面上执行DMA
++  操作。``ZONE_NORMAL`` 总是开启的。
++
++* ``ZONE_HIGHMEM`` 是指那些没有在内核页表中永久映射的物理内存部分。该区
++  域的内存只能通过临时映射被内核访问。该区域只在某些32位架构上可用，并且是
++  通过 ``CONFIG_HIGHMEM`` 选项开启。
++
++* ``ZONE_MOVABLE`` 是指可访问的普通内存区域，就像 ``ZONE_NORMAL``
++  一样。不同之处在于 ``ZONE_MOVABLE`` 中的大多数页面内容是可移动的。
++  这意味着这些页面的虚拟地址不会改变，但它们的内容可能会在不同的物理页面
++  之间移动。通常，在内存热插拔期间填充 ``ZONE_MOVABLE``，在启动时也可
++  以使用 ``kernelcore``、``movablecore`` 和 ``movable_node``
++  这些内核命令行参数来填充。更多详细信息，请参阅内核文档
++  Documentation/mm/page_migration.rst 和
++  Documentation/admin-guide/mm/memory-hotplug.rst。
++
++* ``ZONE_DEVICE`` 表示位于持久性内存（PMEM）和图形处理单元（GPU）
++  等设备上的内存。它与RAM区域类型有不同的特性，并且它的存在是为了提供
++  :ref:`struct page<Pages>` 结构和内存映射服务，以便设备驱动程序能
++  识别物理地址范围。``ZONE_DEVICE`` 通过 ``CONFIG_ZONE_DEVICE``
++  选项开启。
++
++需要注意的是，许多内核操作只能使用 ``ZONE_NORMAL`` 来执行，因此它是
++性能最关键区域。区域在 :ref:`区域 <zones>` 章节中有更详细的讨论。
++
++节点和区域范围之间的关系由固件报告的物理内存映射决定，另外也由内存寻址
++的架构约束以及内核命令行中的某些参数决定。
++
++例如，在具有2GB RAM的x86统一内存架构（UMA）机器上运行32位内核时，整
++个内存将位于节点0，并且将有三个区域： ``ZONE_DMA``、 ``ZONE_NORMAL``
++和 ``ZONE_HIGHMEM``::
++
++  0                                                            2G
++  +-------------------------------------------------------------+
++  |                            node 0                           |
++  +-------------------------------------------------------------+
++
++  0         16M                    896M                        2G
++  +----------+-----------------------+--------------------------+
++  | ZONE_DMA |      ZONE_NORMAL      |       ZONE_HIGHMEM       |
++  +----------+-----------------------+--------------------------+
++
++
++在内核构建时关闭 ``ZONE_DMA`` 开启 ``ZONE_DMA32``，并且具有16GB
++RAM平均分配在两个节点上的arm64机器上，使用 ``movablecore=80%`` 参数
++启动时，``ZONE_DMA32``、``ZONE_NORMAL`` 和 ``ZONE_MOVABLE``
++位于节点0，而 ``ZONE_NORMAL`` 和 ``ZONE_MOVABLE`` 位于节点1::
++
++
++ 1G                                9G                         17G
++  +--------------------------------+ +--------------------------+
++  |              node 0            | |          node 1          |
++  +--------------------------------+ +--------------------------+
++
++  1G       4G        4200M          9G          9320M          17G
++  +---------+----------+-----------+ +------------+-------------+
++  |  DMA32  |  NORMAL  |  MOVABLE  | |   NORMAL   |   MOVABLE   |
++  +---------+----------+-----------+ +------------+-------------+
++
++
++内存存储区可能位于交错的节点。在下面的例子中，一台x86机器有16GB的RAM分
++布在4个内存存储区上，偶数编号的内存存储区属于节点0，奇数编号的内存条属于
++节点1::
++
++  0              4G              8G             12G            16G
++  +-------------+ +-------------+ +-------------+ +-------------+
++  |    node 0   | |    node 1   | |    node 0   | |    node 1   |
++  +-------------+ +-------------+ +-------------+ +-------------+
++
++  0   16M      4G
++  +-----+-------+ +-------------+ +-------------+ +-------------+
++  | DMA | DMA32 | |    NORMAL   | |    NORMAL   | |    NORMAL   |
++  +-----+-------+ +-------------+ +-------------+ +-------------+
++
++在这种情况下，节点0将覆盖从0到12GB的内存范围，而节点1将覆盖从4GB到16GB
++的内存范围。
++
++.. _nodes_zh_CN:
++
++节点
++====
++
++正如我们所提到的，内存中的每个节点由 ``pg_data_t`` 描述，通过
++``struct pglist_data`` 结构体的类型定义。在分配页面时，默认情况下，Linux
++使用节点本地分配策略，从离当前运行CPU的最近节点分配内存。由于进程倾向于在同
++一个CPU上运行，很可能会使用当前节点的内存。分配策略可以由用户控制，如内核文
++档 Documentation/admin-guide/mm/numa_memory_policy.rst 中所述。
++
++大多数NUMA（非统一内存访问）架构维护了一个指向节点结构的指针数组。这些实际
++的结构在启动过程中的早期被分配，这时特定于架构的代码解析了固件报告的物理内
++存映射。节点初始化的大部分工作是在由free_area_init()实现的启动过程之后
++完成，该函数在后面的小节 :ref:`初始化 <initialization>` 中有详细描述。
++
++除了节点结构，内核还维护了一个名为 ``node_states`` 的 ``nodemask_t``
++位掩码数组。这个数组中的每个位掩码代表一组特定属性的节点，这些属性由
++``enum node_states`` 定义，定义如下：
++
++``N_POSSIBLE``
++节点可能在某个时刻上线。
++
++``N_ONLINE``
++节点已经上线。
++
++``N_NORMAL_MEMORY``
++节点拥有普通内存。
++
++``N_HIGH_MEMORY``
++节点拥有普通或高端内存。当关闭 ``CONFIG_HIGHMEM`` 配置时，
++也可以称为 ``N_NORMAL_MEMORY``。
++
++``N_MEMORY``
++节点拥有（普通、高端、可移动）内存。
++
++``N_CPU``
++节点拥有一个或多个CPU。
++
++对于具有上述属性的每个节点，``node_states[<property>]``
++掩码中对应于节点ID的位会被置位。
++
++例如，对于具有常规内存和CPU的节点2，第二个bit将被设置::
++
++  node_states[N_POSSIBLE]
++  node_states[N_ONLINE]
++  node_states[N_NORMAL_MEMORY]
++  node_states[N_HIGH_MEMORY]
++  node_states[N_MEMORY]
++  node_states[N_CPU]
++
++有关使用节点掩码（nodemasks）可能进行的各种操作，请参考
++``include/linux/nodemask.h``。
++
++除此之外，节点掩码（nodemasks）提供用于遍历节点的宏，即
++``for_each_node()`` 和 ``for_each_online_node()``。
++
++例如，要为每个在线节点调用函数 foo()，可以这样操作::
++
++  for_each_online_node(nid) {
++		pg_data_t *pgdat = NODE_DATA(nid);
++
++		foo(pgdat);
++	}
++
++节点数据结构
++------------
++
++节点结构 ``struct pglist_data`` 在 ``include/linux/mmzone.h``
++中声明。这里我们将简要描述这个结构体的字段：
++
++通用字段
++~~~~~~~~
++
++``node_zones``
++表示该节点的区域列表。并非所有区域都可能被填充，但这是
++完整的列表。它被该节点的node_zonelists以及其它节点的
++node_zonelists引用。
++
++``node_zonelists``
++表示所有节点中所有区域的列表。此列表定义了分配内存时首选的区域
++顺序。``node_zonelists`` 在核心内存管理结构初始化期间，
++由 ``mm/page_alloc.c`` 中的 ``build_zonelists()``
++函数设置。
++
++``nr_zones``
++表示此节点中已填充区域的数量。
++
++``node_mem_map``
++对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_mem_map``
++表示每个物理帧的struct pages数组。
++
++``node_page_ext``
++对于使用FLATMEM内存模型的UMA系统，0号节点的 ``node_page_ext``
++是struct pages的扩展数组。只有在构建时开启了 ``CONFIG_PAGE_EXTENSION``
++选项的内核中才可用。
++
++``node_start_pfn``
++表示此节点中起始页面帧的页面帧号。
++
++``node_present_pages``
++表示此节点中存在的物理页面的总数。
++
++``node_spanned_pages``
++表示包括空洞在内的物理页面范围的总大小。
++
++``node_size_lock``
++一个保护定义节点范围字段的锁。仅在开启了 ``CONFIG_MEMORY_HOTPLUG`` 或
++``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 配置选项中的某一个时才定义。提
++供了 ``pgdat_resize_lock()`` 和 ``pgdat_resize_unlock()`` 用来操作
++``node_size_lock``，而无需检查 ``CONFIG_MEMORY_HOTPLUG`` 或
++``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项。
++
++``node_id``
++节点的节点ID（NID），从0开始。
++
++``totalreserve_pages``
++这是每个节点保留的页面，这些页面不可用于用户空间分配。
++
++``first_deferred_pfn``
++如果大型机器上的内存初始化被推迟，那么第一个PFN（页帧号）是需要初始化的。
++在开启了 ``CONFIG_DEFERRED_STRUCT_PAGE_INIT`` 选项时定义。
++
++``deferred_split_queue``
++每个节点的大页队列，这些大页的拆分被推迟了。仅在开启了 ``CONFIG_TRANSPARENT_HUGEPAGE``
++配置选项时定义。
++
++``__lruvec``
++每个节点的lruvec持有LRU（最近最少使用）列表和相关参数。仅在禁用了内存
++控制组（cgroups）时使用。它不应该直接访问，而应该使用 ``mem_cgroup_lruvec()``
++来查找lruvecs。
++
++回收控制
++~~~~~~~~
++
++另见内核文档 Documentation/mm/page_reclaim.rst 文件。
++
++``kswapd``
++每个节点的kswapd内核线程实例。
++
++``kswapd_wait``, ``pfmemalloc_wait``, ``reclaim_wait``
++同步内存回收任务的工作队列。
++
++``nr_writeback_throttled``
++等待写回脏页时，被限制的任务数量。
++
++``kswapd_order``
++控制kswapd尝试回收的order。
++
++``kswapd_highest_zoneidx``
++kswapd线程可以回收的最高区域索引。
++
++``kswapd_failures``
++kswapd无法回收任何页面的运行次数。
++
++``min_unmapped_pages``
++无法回收的未映射文件支持的最小页面数量。由 ``vm.min_unmapped_ratio``
++系统控制台（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 配置时定义。
++
++``min_slab_pages``
++无法回收的SLAB页面的最少数量。由 ``vm.min_slab_ratio`` 系统控制台
++（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 时定义。
++
++``flags``
++控制回收行为的标志位。
++
++内存压缩控制
++~~~~~~~~~~~~
++
++``kcompactd_max_order``
++kcompactd应尝试实现的页面order。
++
++``kcompactd_highest_zoneidx``
++kcompactd可以压缩的最高区域索引。
++
++``kcompactd_wait``
++同步内存压缩任务的工作队列。
++
++``kcompactd``
++每个节点的kcompactd内核线程实例。
++
++``proactive_compact_trigger``
++决定是否使用主动压缩。由 ``vm.compaction_proactiveness`` 系统控
++制台（sysctl）参数控制。
++
++统计信息
++~~~~~~~~
++
++``per_cpu_nodestats``
++表示节点的Per-CPU虚拟内存统计信息。
++
++``vm_stat``
++表示节点的虚拟内存统计数据。
++
++.. _zones_zh_CN:
++
++区域
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _pages_zh_CN:
++
++页
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _folios_zh_CN:
++
++页码
++====
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
++
++.. _initialization_zh_CN:
++
++初始化
++======
++
++.. admonition:: Stub
++
++  本节内容不完整。请列出并描述相应的字段。
+-- 
+2.27.0
