@@ -1,125 +1,172 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0ECA59;
-	Mon, 28 Oct 2024 10:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421191AB536
+	for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 10:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730110735; cv=none; b=sPm+rvPkJEhkm1TiP4KCrDPNb11w49qnpZRg1SxHqxf3VMjY9UzfPMv/MQAMQN3b0gphdSnBlI7twaHZsYquDHTaeOK3vEkmdkA9iDdJr+iJPMQOTmuNHWo2H1H4Qqp+UilaK7ICWRqqslptfShoXEfkdjvWOeQNrnIHI3dgA80=
+	t=1730110803; cv=none; b=CWgJq2XspZbVY5vQPQxbdSk9aqDA+WhBBsSpTQUfo6bE/4RSXLmFUt55C12cxcM0UEZ2zmtySoVw0FMGl7VZaaryCz0IUQ/duvGFrpVMIotdc1hmdGU6aH8ZrBf98BKfaCDsZTIo7tRhEqvj6CGptCH4KC9jDmeleTHNzPydIxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730110735; c=relaxed/simple;
-	bh=CvcmwJx68ibSr1FgYSs0BYn4vbK2dH2bI1Id4paFMiQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y8W2zKJGcPeHtmRGjrbeW7+VrEx2XhfgeAu4lF+p9KB4BnKXHQ3BDaFtGPzgQTznmctz8Nr2t9TkebjGalPm0rkKC6IaV7QjJJKHbYFWLRlhIRL4bbj7S1uLeUXOM1cuV7lREF0eZ9gpjZ9fhfNVQuiMvDKbeVhmwyLPwNYZxT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6e3cdbc25a0so43690717b3.2;
-        Mon, 28 Oct 2024 03:18:53 -0700 (PDT)
+	s=arc-20240116; t=1730110803; c=relaxed/simple;
+	bh=+eKOmr6kMvUFCzPSLNg/FAr9kh10bBpAJYADSjFQMVo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VTSbTPTy0D4K2EcH/4ZOc5pRuAT/qRsvwEIAcI4F2HnVpj9W6tl4Sv4uPsr1i9NpBK+XebbJieAuhPl3HLqq//w8u2D1gQRXTdloOSnAO5zB7t6ppI0niDzzbaxfZDcvZOFgxRuQAaha07cb3GQsknrYASF4y1n8zJsXnSzWPdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d6ajV2SF; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d6ajV2SF"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e2e88cb0bbso3052367a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 03:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730110799; x=1730715599; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=igD6vQ3WwH+IIb1oCc5ezu/rYCLuT5cyR3IdV0ruWZE=;
+        b=d6ajV2SFGn8JEus9UXnHskevvfMV3HCCs07gbIHnQMuYtwZRHKMScw0r69aoiK/Jj6
+         A1gcDd6+9bVBpSleBrWQKAoIagpXvxvmbWvcB5hiyKJy4XSIC2elD38f8/mqc6EOFY4M
+         2jfcwGKKPNyjxBPnkWUa02cqYo70h44tjonYs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730110732; x=1730715532;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3p3W4EQbrJIJC/nea0IOGVy7gYy/irssqjHdBTm9iqU=;
-        b=os25eig5cyD3qUrFsqZdIfrjq+tkcftU2Q15ieWOJlj2xX0Lxvg2MCxfb5UdTUYudh
-         4gKz2v0pG4NTF6V5CTzW7zfFVHNb+ugDs7PQFogvtzW/4rJsENCFh6E98/VkKZSq67db
-         TDNa8kM3YxQBRjicmVLgkTpVU6ro8d+l7x3EIAPBFQJHJg2xgQUDTF2X+W68OX3Gzhxc
-         cgKb1pBhCQpR4iRswJAfp2mzToRh4DErdiU5W1PzamrnKbbvnNc/sDLvSACm530MweAf
-         dFqpRldFJRX4QwE/htSQh58UrAJJXoY5ZAlMyZ4fWgjIjK7LZAOn08O08GXgsPDA0F1P
-         Agdw==
-X-Forwarded-Encrypted: i=1; AJvYcCVHkosU+dzMcnvsWPDy4/r3taQjaBUIrbW4BFkTgl8akTI+fgMo/mtJv3ikqNXDcckyqfuGTsCzMipJ@vger.kernel.org, AJvYcCVKUwU7ckhtoS/V3+OhjT3qUlfhQXlZJNOP9sZwQKvWGTIGMuKQPj2fmt/JatGGoeBHKhxd6qqoTNj/1U4=@vger.kernel.org, AJvYcCVSd3T+HgxXo4kfoNAFG0FQXuVOPTS3L5TMzEqWxquA6pf+wikQ0EEnlWvgRP5Jm9QiqPiH8tUGzop3@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKTvY/Cz7j1dl3t5d+zFRXfTaEOZrtgIR1dEmEkR8qeikZ3A8Y
-	ddAXWDbqWjAzr3ziZaL3Y3T+m9pf+o60RWU1OMfsVrOb0BE2IyzDS8CWoz/B
-X-Google-Smtp-Source: AGHT+IHRQoFMZd7V8eMC6qtdDgsQ8w4+UFvpb2pTlzvSiEyPWT27T6iQbZxxk4VRPGNJ0+IbuFOszg==
-X-Received: by 2002:a05:690c:87:b0:6c3:7d68:b400 with SMTP id 00721157ae682-6e9d892546dmr60202167b3.10.1730110732434;
-        Mon, 28 Oct 2024 03:18:52 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e9c6bafebbsm13456837b3.15.2024.10.28.03.18.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Oct 2024 03:18:52 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6e3b7b3e9acso37026847b3.1;
-        Mon, 28 Oct 2024 03:18:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUCWYUN0AGOXcPfe8BPOahj1WLkIFaH6EirnxJdP18HnETCfM9xq80jn97u8Dsb/Noj5Ih2Zwh8ffNV@vger.kernel.org, AJvYcCVRLfUN/Bh+4CONzJWe02yuIn6px8Mse20wbxdCZEJ3BN0ryoVuTE4ThqD3pKkpaGCd1dg0cFEZwtMr@vger.kernel.org, AJvYcCXA1dZYkZfTzExgzG8eUzlTVHkHqvDQ0GCWw1awjBlIH+8rWu9GG+BTkoRJLlXbPIA4z81UWcB9Wnhn2MQ=@vger.kernel.org
-X-Received: by 2002:a05:690c:2508:b0:6e3:153a:ff62 with SMTP id
- 00721157ae682-6e9d897c8damr57542137b3.23.1730110731964; Mon, 28 Oct 2024
- 03:18:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730110799; x=1730715599;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=igD6vQ3WwH+IIb1oCc5ezu/rYCLuT5cyR3IdV0ruWZE=;
+        b=uqi9GJW8PJjpp9wZeYVhu2tOlefcr7xDpvhPvbQxQMA938BoSCWQfLle9OhPHy6ldP
+         0+QS6N/LQ01vO/MNDXb/q72PMM1JTtOcaI2xFy82vKZP7tcvkmZWGrA8ZzXT/P35s26S
+         VoENze/TRSdO5tqzXTr+CeBo5RXxsjNakMQUFo7pNKC47AZZzgwpVz5zUe5hm+FW8FHm
+         eo64bR9y+LU+PtnMwZafQBFM4fBEwhdWxZUvqPEKmlzvNXKsQZRq7jvyqP+Vj7Zg0Ao/
+         qniHaXvKh4C/qZ8HEXpVlSAe1lkDW8rQ8et6KOhlq+Oxef76QBzLs9NfagGfWAX2T7wy
+         ZpVg==
+X-Forwarded-Encrypted: i=1; AJvYcCW0PwgHfrv4aA01LIdwGyFJWotRqkGamXALJ9y7C1L/x8znLd18fP9AT2OeG0ltICeRGRRNrN1fIAo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsWegZpnlDgJKSsyycdx6mdgcBYl6/sqQ5QGT/m/kUduFd+d/0
+	xdIcuhM/bevNcOonvO/NSTJ58Sb/T6hYKRWQkLWIVEsQD5s2jxT/+9YlPp3/8g==
+X-Google-Smtp-Source: AGHT+IG5RUGhFFKkFLavU9L9hqopmW7I2XCKG/M+A7RCSZxfFmmCOi3mYQmuh8gSXSXhedp2ZDqNjQ==
+X-Received: by 2002:a17:90b:3848:b0:2e0:5748:6ea1 with SMTP id 98e67ed59e1d1-2e8f11dcec5mr9319102a91.37.1730110799516;
+        Mon, 28 Oct 2024 03:19:59 -0700 (PDT)
+Received: from li-cloudtop.c.googlers.com.com (51.193.125.34.bc.googleusercontent.com. [34.125.193.51])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e8e3749977sm6768202a91.43.2024.10.28.03.19.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 03:19:59 -0700 (PDT)
+From: Li Li <dualli@chromium.org>
+To: dualli@google.com,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org,
+	arve@android.com,
+	tkjos@android.com,
+	maco@android.com,
+	joel@joelfernandes.org,
+	brauner@kernel.org,
+	cmllamas@google.com,
+	surenb@google.com,
+	arnd@arndb.de,
+	masahiroy@kernel.org,
+	bagasdotme@gmail.com,
+	horms@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	hridya@google.com,
+	smoreland@google.com
+Cc: kernel-team@android.com
+Subject: [PATCH net-next v6 0/1] binder: report txn errors via generic netlink (genl)
+Date: Mon, 28 Oct 2024 03:19:50 -0700
+Message-ID: <20241028101952.775731-1-dualli@chromium.org>
+X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1729874904.git.grantpeltier93@gmail.com>
-In-Reply-To: <cover.1729874904.git.grantpeltier93@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 28 Oct 2024 11:18:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWHZR9pN3h=Jdsqs5Qb0mi_4CobBtu82PRgzrm5TRgE4A@mail.gmail.com>
-Message-ID: <CAMuHMdWHZR9pN3h=Jdsqs5Qb0mi_4CobBtu82PRgzrm5TRgE4A@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] dt-bindings: hwmon: pmbus: add bindings for isl68137
-To: Grant Peltier <grantpeltier93@gmail.com>
-Cc: robh@kernel.org, linux@roeck-us.net, magnus.damm@gmail.com, 
-	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Grant,
+From: Li Li <dualli@google.com>
 
-On Fri, Oct 25, 2024 at 7:16=E2=80=AFPM Grant Peltier <grantpeltier93@gmail=
-.com> wrote:
-> Renesas digital multiphase voltage regulators are capable of regulating
-> output voltages that exceed the range that their Vsense pins can detect.
-> In such applications, users may place a voltage divider between Vout and
-> the Vsense pin for a given rail. However, the driver currently has no
-> way of knowing if a voltage divider is being used which results in
-> erroneous telemetry being reported over hwmon.
->
-> This patch set defines a devicetree bindings schema for Renesas digital
-> multiphase voltage regulators that are supported by the isl68137 driver
-> to allow users to add voltage divider definitions for any rail powered
-> by the device. This patch set also includes the required changes to the
-> isl68137 driver to enable scaling Vout/Pout telemetry for rails with a
-> defined voltage divider.
->
-> v5:
-> - Fix clang compilation errors related to C23 syntax
+It's a known issue that neither the frozen processes nor the system
+administration process of the OS can correctly deal with failed binder
+transactions. The reason is that there's no reliable way for the user
+space administration process to fetch the binder errors from the kernel
+binder driver.
 
-Thanks for the update!
+Android is such an OS suffering from this issue. Since cgroup freezer
+was used to freeze user applications to save battery, innocent frozen
+apps have to be killed when they receive sync binder transactions or
+when their async binder buffer is running out.
 
-> v4:
-> - Revert devicetree property name to "vout-voltage-divider" and refactor
->   property description and driver implementation to match existing
->   vout-voltage-divider implementation in max20730 as no suitable generic
->   voltage divider schema exists.
+This patch introduces the Linux generic netlink messages into the binder
+driver so that the Linux/Android system administration process can
+listen to important events and take corresponding actions, like stopping
+a broken app from attacking the OS by sending huge amount of spamming
+binder transactiions.
 
-Can you please elaborate (or point to the email that did so, in case
-I missed it)?
+The 1st version uses a global generic netlink for all binder contexts,
+raising potential security concerns. There were a few other feedbacks
+like request to kernel docs and test code. The thread can be found at
+https://lore.kernel.org/lkml/20240812211844.4107494-1-dualli@chromium.org/
 
-In reply to v2, G=C3=BCnter wrote:
+The 2nd version fixes those issues and has been tested on the latest
+version of AOSP. See https://r.android.com/3305462 for how userspace is
+going to use this feature and the test code. It can be found at
+https://lore.kernel.org/lkml/20241011064427.1565287-1-dualli@chromium.org/
 
-   "I would prefer, in the order of preference,
+The 3rd version replaces the handcrafted netlink source code with the
+netlink protocal specs in YAML. It also fixes the documentation issues.
+https://lore.kernel.org/lkml/20241021182821.1259487-1-dualli@chromium.org/
 
-    1) an applicable generic property definition
-    2) a definition that is already used elsewhere
-    3) a new chips specific definition"
+The 4th version just containsi trivial fixes, making the subject of the
+patch aligned with the subject of the cover letter.
+https://lore.kernel.org/lkml/20241021191233.1334897-1-dualli@chromium.org/
 
-https://lore.kernel.org/all/3f460b62-4cd1-49dd-a98b-1fbcfdbd3af0@roeck-us.n=
-et
+The 5th version incorporates the suggested fixes to the kernel doc and
+the init function. It also removes the unsupported uapi-header in YAML
+that contains "/" for subdirectory.
+https://lore.kernel.org/lkml/20241025075102.1785960-1-dualli@chromium.org/
 
-Thanks!
+The 6th version has some trivial kernel doc fixes, without modifying
+any other source code.
 
-Gr{oetje,eeting}s,
+v1: add a global binder genl socket for all contexts
+v2: change to per-context binder genl for security reason
+    replace the new ioctl with a netlink command
+    add corresponding doc Documentation/admin-guide/binder_genl.rst
+    add user space test code in AOSP
+v3: use YNL spec (./tools/net/ynl/ynl-regen.sh)
+    fix documentation index
+v4: change the subject of the patch and remove unsed #if 0
+v5: improve the kernel doc and the init function
+    remove unsupported uapi-header in YAML
+v6: fix some trivial kernel doc issues
 
-                        Geert
+Li Li (1):
+  binder: report txn errors via generic netlink
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+ Documentation/admin-guide/binder_genl.rst    |  93 ++++++
+ Documentation/admin-guide/index.rst          |   1 +
+ Documentation/netlink/specs/binder_genl.yaml |  59 ++++
+ drivers/android/Kconfig                      |   1 +
+ drivers/android/Makefile                     |   2 +-
+ drivers/android/binder.c                     | 302 ++++++++++++++++++-
+ drivers/android/binder_genl.c                |  38 +++
+ drivers/android/binder_genl.h                |  18 ++
+ drivers/android/binder_internal.h            |  22 ++
+ drivers/android/binder_trace.h               |  37 +++
+ drivers/android/binderfs.c                   |   4 +
+ include/uapi/linux/android/binder.h          |  31 ++
+ include/uapi/linux/binder_genl.h             |  42 +++
+ 13 files changed, 642 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/admin-guide/binder_genl.rst
+ create mode 100644 Documentation/netlink/specs/binder_genl.yaml
+ create mode 100644 drivers/android/binder_genl.c
+ create mode 100644 drivers/android/binder_genl.h
+ create mode 100644 include/uapi/linux/binder_genl.h
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+
+base-commit: 81bc949f640f78b507c7523de7c750bcc87c1bb8
+-- 
+2.47.0.163.g1226f6d8fa-goog
+
