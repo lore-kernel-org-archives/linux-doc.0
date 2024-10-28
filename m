@@ -1,66 +1,66 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3534192B81
-	for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 10:22:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D034F1925B6
+	for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 10:40:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730110932; cv=none; b=cMqwCntU8rX0SvYB4H92GqptUIh8ldQcioQhlaEdLFbyTKEGjfK99//e3v8/KdOibvEpaaxOmSvcAwinBWZHZO5O8f1zdB5vBv0BbK8s1cUPf3Xkum0obFdHxpK7VXrMWXjkZ38oEnLmuXdyUsRl5Ld39f6KTleCPnJ/4QkpHPs=
+	t=1730112030; cv=none; b=UZKQ1cluTU/JBzp3RmfIRsa18MU2Sf778bsnQOSO7SYM8HzY1K2CSVcvWvT6QPx133nDLXD/M1TK0rSEdj7os3RvbvDxRMVexvGlJqi4bBX6MZ1/Rus3tKCVpBycI6142DI0UTp3xPP4fENgYUMos7s+fLSiBM/mPlUITHXLN3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730110932; c=relaxed/simple;
-	bh=zzQI0ybI4KPvx0KGUmFyOvLHGQJA9P7/hFz4y1bc7uo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rL+AEHxRy+W/RThMPZk5FsxZiCr2/LTmiQ4yog78Ddif0Ta0Z81SHgpB960UJBjZsQgYdAR+yJKyhcKPFGMh2bXeoaKJnZGYaX0ElJpNEa1yMIB+/Smk5mL+mVmih+PCdXq5WqnqaaveQLz0tr4Af3Z5+MdWxDB01E4AtWXU5YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gPkBnhCi; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1730112030; c=relaxed/simple;
+	bh=wgvOFR93MVO34Tw2IcLbYfyQPbmBhtl0ULhFWXPap/s=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=msMLqhxlHrs7Z4XvMG9T1keeS1FrbUUr2tB5sVauGPq+JCp7fCeplPHcctW0rWx095BiuGmENeqciVbZSoE2x0sI7vwbq5Kdmb4OcWkyaavFM4QPphURCQgW44sCnuYjWV0Cf+Eg2GAgIgUFN016uuDYVWeITTiIKAnbvQKBmqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ccWsdmg9; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gPkBnhCi"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ccWsdmg9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730110929;
+	s=mimecast20190719; t=1730112027;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fuiFSGsUISRZ4rT4df5tv8vlp7keS7frwhZev7086vY=;
-	b=gPkBnhCisucrm4IX8v99ZgTsJHBoULOq+6TNW3t+iv4KYfIuDGppP+CfWMpWlDDxEL2yk4
-	IxPbCk3gSUehMaTMHNBNKdzAcvY5+NyVb3xBCwPvKYvDKQjZKLfiVh7Yyx8YIox3v4v03r
-	2A8G25sblcOk2wtTPyt1YbF5LAfSlXU=
+	bh=BdaIiJhMXSQOqg5cTY+NEVANs9jRAw6a5nwQGChQ1Wk=;
+	b=ccWsdmg9DQxELAd5Sc2MNXvb/cUEtKGNH85idIbGDlIxUWeoq1oODLFiBDljkaT/ImQ3LI
+	xK3Nbo0nMwkOZO/yyrI0N6vA5igO+BinswP1T24Lqoj66va/f2x9MgTDUMLHWxWdo1+Wlx
+	bft/sAaPchyF6VP7t78ygfOPtkPZrl8=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-113-NvB0uo6sMS6xLYNvEIiJ4A-1; Mon, 28 Oct 2024 06:22:08 -0400
-X-MC-Unique: NvB0uo6sMS6xLYNvEIiJ4A-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-37d45f1e935so2330185f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 03:22:08 -0700 (PDT)
+ us-mta-131-OH-W90O1P_Cswl9a1doH1g-1; Mon, 28 Oct 2024 06:40:26 -0400
+X-MC-Unique: OH-W90O1P_Cswl9a1doH1g-1
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-37d432f9f5eso2322421f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 03:40:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730110927; x=1730715727;
+        d=1e100.net; s=20230601; t=1730112025; x=1730716825;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
+         :content-language:references:cc:to:from:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=fuiFSGsUISRZ4rT4df5tv8vlp7keS7frwhZev7086vY=;
-        b=ncxZXu46pspDxh1hWdUsMX9OX8nuhFcZHO8GmosYqv+VMPHyXYsZDRrHVS/1GS/x35
-         dj3nUSnBKgtZMlJS0AZeGqDP6uPO1xKHhQ9ZGgFGU/R6VAk8f1hHJcOmn58DAnFVJfp6
-         ZKD8b1gDOnpZ2V8yV1IhcHnrWWtP05ssqPEoQfXXgKWZ4nRt6zCQ/NSKwzK20Ld+zlbU
-         U1vo4LcYYoYcrV7BKtnziaP/Wp8wKC6R5n9PcRv5CWB0JF+2uL59fp+LRLiGHzXlPBS1
-         Z4RzRD/qoHN3WNLZ2voRrnYOj+Z0cLeJxbZEroB1tsDCCh8B3j5XstUzll0HEsm23SjP
-         O4PA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9i++w2lZx3Ifjjd1NUpTt+xLt7bBScDhTpE2EJ6yFtewczl6glEs74tAvnuRW6qDnPL4TjbJ/MY4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGN1KXqSuz0QwFmKj/7Zpzp5JGlXs5Ik/JVF6/AcQ+svhAOQTM
-	7DqqFTOIcfybCGPH1qEL4FHKqKwdYvfajTI8rf6LM6kkURXauSyX+8n/sNqA5LsyU7FxmoRHWjD
-	0LKfP4oDTkxxx3lQgpB9XL05Ijl8GuIObBFw86pLvHr2hvuc7+g/FcgyzEg==
-X-Received: by 2002:adf:fbc4:0:b0:37d:461d:b1ea with SMTP id ffacd0b85a97d-380611ef3dbmr5454994f8f.48.1730110927299;
-        Mon, 28 Oct 2024 03:22:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGqHGN/n0Yj5v745GS9Jlm3ZDkDldCmmWyAXcowgeCBzN/fu8QX7Ognj41PjRQlj2fQuwJDiQ==
-X-Received: by 2002:adf:fbc4:0:b0:37d:461d:b1ea with SMTP id ffacd0b85a97d-380611ef3dbmr5454972f8f.48.1730110926867;
-        Mon, 28 Oct 2024 03:22:06 -0700 (PDT)
+        bh=BdaIiJhMXSQOqg5cTY+NEVANs9jRAw6a5nwQGChQ1Wk=;
+        b=Zsg+YDqvexdkTVJZrtxwRFbv3eYTwYLbgoFfsQLvlrX25KDLSeeT0184+zF0W4Z5/y
+         ej3A0XoR8RW3KkE9tAaXhO4y+pbj4FKE461zQJkHBQwq+IVhYlk/gZMAKJn/wWQ2PBzF
+         REbTH4fsUl6ka1qRXpy99jB1whe1fPAs76qjKrwEIkZ5SWr8hXNeCo1F1CZVjHrwkDR4
+         Vbbdzp7sITOxDynwpjEFIWi31q613lFJYfqWiAoM4tmHMwdFYdH6dF3UM9wmR3SkTvlS
+         ABUBJ7VAXKRhypT3k6VFDoK394nMxm6vgMDQH2DDsh6X3x+Ef/PfXR/8j/O5Fm/P1J6i
+         izcA==
+X-Forwarded-Encrypted: i=1; AJvYcCXgP+FWqlE3V41k8M0OIPgMBGSU0xJ7CHYkpipbCfOUC/qiAC1CEe28E+BDUCrkVRLr3lZM8ov+Zcs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylXbuTayaUa54AbLEPS+UiQVFj0GN7j7mWL86oB7NGHJ2yNk/I
+	TgvXDBAe+JZCtyCO7+Nq8gtepSILE6piKsGS2Zc9vbfpys4V2F/kcauuoBsgpeJe5qCooRDlfxx
+	83jTDNVtDfnMpmdNCeZieALHVEaliqc+GCm3d9fz0UYPcgGbRJVqJCcKxLf0KD3b9itmm
+X-Received: by 2002:a05:6000:10cc:b0:37c:cc4b:d1ea with SMTP id ffacd0b85a97d-380611f5ff0mr6235194f8f.53.1730112025330;
+        Mon, 28 Oct 2024 03:40:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGV0jRZSl++wHd4benXoWusxKV2hjEC/fjXGopqXIYY1Es/myN/5gcaoAwev1TcMGRGMWoTVw==
+X-Received: by 2002:a05:6000:10cc:b0:37c:cc4b:d1ea with SMTP id ffacd0b85a97d-380611f5ff0mr6235170f8f.53.1730112024946;
+        Mon, 28 Oct 2024 03:40:24 -0700 (PDT)
 Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b92f11sm9041515f8f.101.2024.10.28.03.22.05
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b71231sm9077127f8f.66.2024.10.28.03.40.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Oct 2024 03:22:06 -0700 (PDT)
-Message-ID: <f18fa492-5d59-4708-95f6-9878fffdf859@redhat.com>
-Date: Mon, 28 Oct 2024 11:22:05 +0100
+        Mon, 28 Oct 2024 03:40:24 -0700 (PDT)
+Message-ID: <071fa927-dcaf-4df2-b175-5ed6a200f112@redhat.com>
+Date: Mon, 28 Oct 2024 11:40:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,6 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 2/6] memcg-v1: remove charge move code
+From: David Hildenbrand <david@redhat.com>
 To: Shakeel Butt <shakeel.butt@linux.dev>,
  Andrew Morton <akpm@linux-foundation.org>
 Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
@@ -80,7 +81,7 @@ Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
  Meta kernel team <kernel-team@meta.com>, Michal Hocko <mhocko@suse.com>
 References: <20241025012304.2473312-1-shakeel.butt@linux.dev>
  <20241025012304.2473312-3-shakeel.butt@linux.dev>
-From: David Hildenbrand <david@redhat.com>
+ <f18fa492-5d59-4708-95f6-9878fffdf859@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -127,25 +128,28 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20241025012304.2473312-3-shakeel.butt@linux.dev>
+In-Reply-To: <f18fa492-5d59-4708-95f6-9878fffdf859@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-> -
-> -	pgdat = folio_pgdat(folio);
-> -	from_vec = mem_cgroup_lruvec(from, pgdat);
-> -	to_vec = mem_cgroup_lruvec(to, pgdat);
-> -
-> -	folio_memcg_lock(folio);
-> -
-> -	if (folio_test_anon(folio)) {
-> -		if (folio_mapped(folio)) {
-> -			__mod_lruvec_state(from_vec, NR_ANON_MAPPED, -nr_pages);
-> -			__mod_lruvec_state(to_vec, NR_ANON_MAPPED, nr_pages);
+On 28.10.24 11:22, David Hildenbrand wrote:
+>> -
+>> -	pgdat = folio_pgdat(folio);
+>> -	from_vec = mem_cgroup_lruvec(from, pgdat);
+>> -	to_vec = mem_cgroup_lruvec(to, pgdat);
+>> -
+>> -	folio_memcg_lock(folio);
+>> -
+>> -	if (folio_test_anon(folio)) {
+>> -		if (folio_mapped(folio)) {
+>> -			__mod_lruvec_state(from_vec, NR_ANON_MAPPED, -nr_pages);
+>> -			__mod_lruvec_state(to_vec, NR_ANON_MAPPED, nr_pages);
+> 
+> Good, because this code was likely wrong :) (-> partially mapped anon
+> folios)
 
-Good, because this code was likely wrong :) (-> partially mapped anon 
-folios)
-
+Staring at the code some more, mem_cgroup_move_charge_pte_range() refuses
+PTE-mapped large folios, so that might have done the right thing.
 
 -- 
 Cheers,
