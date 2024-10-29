@@ -1,117 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBA9206071;
-	Tue, 29 Oct 2024 14:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBE12AE7F;
+	Tue, 29 Oct 2024 14:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730212834; cv=none; b=Jy4282BObZw3X+Yo7UFpNgo1xFVoDgx9F8ZHMinzqXmAF0hvCQTnLS6LGH68wSnGN8ft2bxqyDr+JSS3HRHl1OK8g/PFQSlMgKmaDgJ+W+8z60VQEzR81O3kvinImHI52Ki6iGzlgxqg86Cy4MGhJ5bqhYoiEGM3aAs2M8AlFjk=
+	t=1730213395; cv=none; b=rqfdKU6nvZh34qI4hzUWa6zcQJDFIgNPPiwuJGL/ans2B8MWhgd4XA5jGvmFVH611lVnWCdkMKjRMao1tXjTIa6k/JzGRD/0CsMNk24ez97Xy8Pa7L4nv7rBbLkWJR/b08Y9E7HaHKJuUcGxqCLhQbhbkeITRwmL9UGfR9vsJ6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730212834; c=relaxed/simple;
-	bh=6KyHT+7ttw2brv7RoX9JFe5iSkFH7OpG7IZ9J2mXn9U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kgUX51RWz9OtaV04jRd/4Qq9kBgG3DEBvGlB8KAzLp+W/ZRB53e9pNXHL0kKICKD583H2w+ax5UTHQVAoz6eoBghQ+xqj4OO+3ynAbvcQXMuB2OKFctizVXzMn9FevjMfV1j5QLS4pK3+gYvtkMF/GAKtrhiWGEa6JtjD/v6nrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6zvIOkI; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730213395; c=relaxed/simple;
+	bh=DNai7oJ0zOfmdmuloM/IxFLitC4QWuuzG9CMmFEr1rI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=V/+DUqoDpD9GpIqzaUz0Gn3G0DhFrjYNA2OT0XWtUMn22hPLATysN+CS3w/IUcceB4mTJeUQaB7vAQhs7twPF1fr5CT7sNH2lUJkn1Vp93nNUWzMhF3FYwCFdyDYQ+Y+0fTn2JVbF7RRzy5rhro51ufqPspcWiLuUS8u/880XXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UzaD8BdS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6zvIOkI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730212832; x=1761748832;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6KyHT+7ttw2brv7RoX9JFe5iSkFH7OpG7IZ9J2mXn9U=;
-  b=U6zvIOkIT7kET7yl7ydF2vEDBFjgj5UrYDWbg1DJZi5uuyTu+7tF9L7e
-   gHP7fAZnOQLgcBmbDRhJhLXa9RxJ1L63BetVZ/PdRXgyNP2oELRak8hr/
-   CqfATtvaW4X54/nFm0RwR7cIPdcIreCclQCCPM9t00GD7Pp7H0TMebApw
-   tNdwBNGnW3mp1Vi+sLlhhE/gCqVyTzXEfndvCzyzWCud2ANhruV7l7/14
-   +YDppA2Y2sH+Wvz5J9HLRU9jU2mVV+AqQEnMaVanoMpvtoqNlv72zr9eR
-   gAuYoBY5vajysaC85cHXDPSDdr/Tbr6iGHijo7UZ5EKm/8kuYX/G61hTC
-   A==;
-X-CSE-ConnectionGUID: CP7gKtOXSNelicAFJhVHaw==
-X-CSE-MsgGUID: TKQzNyvzQ42pF75PANiFyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="47335801"
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="47335801"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:40:31 -0700
-X-CSE-ConnectionGUID: Rag48sEWQ8+dJ6ad7Z5JLQ==
-X-CSE-MsgGUID: OP9r9foDRxyldqmGqe14Hw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="87114346"
-Received: from jerrycli-mobl2.amr.corp.intel.com (HELO [10.125.224.112]) ([10.125.224.112])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:40:30 -0700
-Message-ID: <c5fa82d7-e5e9-4612-a238-3c58152c40d0@linux.intel.com>
-Date: Tue, 29 Oct 2024 07:40:28 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UzaD8BdS"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 444C1C4CECD;
+	Tue, 29 Oct 2024 14:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730213395;
+	bh=DNai7oJ0zOfmdmuloM/IxFLitC4QWuuzG9CMmFEr1rI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=UzaD8BdSY2kirnhryrwYlV/+AIMOBQs5wzu7xVHb8n8ft/2jzbQ5g8w4h8jrXSSUD
+	 vVtZRwVpCD1xQ2t3dMtfKi2J5N0cPQtr8C14a5U7T3FiyIWXQTVQIY74yqH8KQb4LH
+	 UnH5MGmfJGWCwFYSebC+iAN5JPEJNgR1HEij+vNCaAxFol+PEd+/fKR6IRTXj/j8KN
+	 PGmQvDcS45J+zsEfZI2pVrMJdrXpTK7l4b9BBQ6wnSYfIvO8wNAQp2wuMKS5zuZVvX
+	 jTSHP//MLDxT90jHA2TfWCpeOHBM5q5KK7qrg3m+U0Bcn5GWQN71O/oXeVhGSDZIXo
+	 LNilrz8CBZJtw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE22D3A662;
+	Tue, 29 Oct 2024 14:49:55 +0000 (UTC)
+From: Koakuma via B4 Relay <devnull+koachan.protonmail.com@kernel.org>
+Date: Tue, 29 Oct 2024 21:49:07 +0700
+Subject: [PATCH v3 1/2] sparc/build: Put usage of -fcall-used* flags behind
+ cc-option
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] x86/bugs: Clean-up verw mitigations
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, hpa@zytor.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, pawan.kumar.gupta@linux.intel.com
-References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
- <20992658d2c79f27de91a474a7b122782be5f04b.1730158506.git.daniel.sneddon@linux.intel.com>
- <20241029113702.GUZyDI3u_6IxiCWOBJ@fat_crate.local>
-Content-Language: en-US
-From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-In-Reply-To: <20241029113702.GUZyDI3u_6IxiCWOBJ@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20241029-sparc-cflags-v3-1-b28745a6bd71@protonmail.com>
+References: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com>
+In-Reply-To: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com>
+To: "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ glaubitz@physik.fu-berlin.de, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>
+Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Koakuma <koachan@protonmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730213393; l=2721;
+ i=koachan@protonmail.com; s=20240620; h=from:subject:message-id;
+ bh=j/K37+Baat6IoHsWFp39+kRW4co5mJJ6tRxT2CAjvfU=;
+ b=+hjWwxlr7VTHDpLFtlamCVvHi/a0OH/j3VFREyh7jZVAPzEJmwLiEHi3HSeUjllvhM20Uemvd
+ cTmir13kw+QD1TCZxCUMeECwfkCF9MB/AMaGO9DaYbHRCEeue6Hqnjs
+X-Developer-Key: i=koachan@protonmail.com; a=ed25519;
+ pk=UA59FS3yiAA1cnAAUZ1rehTmr6skh95PgkNRBLcoKCg=
+X-Endpoint-Received: by B4 Relay for koachan@protonmail.com/20240620 with
+ auth_id=174
+X-Original-From: Koakuma <koachan@protonmail.com>
+Reply-To: koachan@protonmail.com
 
-On 10/29/24 04:37, Borislav Petkov wrote:
-> On Mon, Oct 28, 2024 at 04:50:35PM -0700, Daniel Sneddon wrote:
->> @@ -599,20 +503,70 @@ static void __init verw_mitigations_check(void)
->>  	}
->>  }
->>  
->> -static void __init md_clear_select_mitigation(void)
->> +static bool __init verw_mitigations_disabled(void)
->>  {
->>  	verw_mitigations_check();
->> +	/*
->> +	 * TODO: Create a single mitigation variable that will allow for setting
-> 
-> A patch which introduces a TODO is basically telling me, it is not ready to go
-> anywhere yet...
-> 
->> +	 * the location of the mitigation, i.e.:
->> +	 *
->> +	 * kernel->user
->> +	 * kvm->guest
->> +	 * kvm->guest if device passthrough
->> +	 * kernel->idle
->> +	 */
->> +	return (mds_mitigation == MDS_MITIGATION_OFF &&
->> +		taa_mitigation == TAA_MITIGATION_OFF &&
->> +		mmio_mitigation == MMIO_MITIGATION_OFF &&
->> +		rfds_mitigation == RFDS_MITIGATION_OFF);
-> 
-> This should be used inside verw_mitigations_check() instead of repeated here,
-> no?
-> 
-> Also, pls call verw_mitigations_check() "check_verw_mitigations" - the name
-> should start with a verb.
-> 
-> Actually, you can merge verw_mitigations_check() and
-> verw_mitigations_disabled(). Please do a *minimal* patch when cleaning this up
-> - bugs.c is horrible. It should not get worse.
-> 
-I'll merge those two.
+From: Koakuma <koachan@protonmail.com>
 
-> What could also help is splitting this patch - it is hard to review as it
-> is...
-> 
-Sure, I'll split this up as much as possible.
-> Thx.
-> 
+Place -fcall-used* flags behind cc-option so that clang (which doesn't
+support them) can still compile the kernel.
+
+This is a safe change, the reasoning is as follows:
+
+In the (normal) 32-bit ABI, %g5 and %g7 is normally reserved, and in
+the 64-bit ABI, %g7 is the reserved one.
+Linux turns them into volatile registers by the way of -fcall-used-*,
+but on the other hand, omitting the flags shouldn't be harmful;
+compilers will now simply refuse to touch them, and any assembly
+code that happens to touch them would still work like usual (because
+Linux' conventions already treats them as volatile anyway).
+
+Signed-off-by: Koakuma <koachan@protonmail.com>
+---
+ arch/sparc/Makefile      | 4 ++--
+ arch/sparc/vdso/Makefile | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
+index 757451c3ea1df63b948e68a45988c78f5974f9ea..0400078076e588be93a702d1c64eb9fd34466075 100644
+--- a/arch/sparc/Makefile
++++ b/arch/sparc/Makefile
+@@ -29,7 +29,7 @@ UTS_MACHINE    := sparc
+ # versions of gcc.  Some gcc versions won't pass -Av8 to binutils when you
+ # give -mcpu=v8.  This silently worked with older bintutils versions but
+ # does not any more.
+-KBUILD_CFLAGS  += -m32 -mcpu=v8 -pipe -mno-fpu -fcall-used-g5 -fcall-used-g7
++KBUILD_CFLAGS  += -m32 -mcpu=v8 -pipe -mno-fpu $(call cc-option,-fcall-used-g5) $(call cc-option,-fcall-used-g7)
+ KBUILD_CFLAGS  += -Wa,-Av8
+ 
+ KBUILD_AFLAGS  += -m32 -Wa,-Av8
+@@ -45,7 +45,7 @@ export BITS   := 64
+ UTS_MACHINE   := sparc64
+ 
+ KBUILD_CFLAGS += -m64 -pipe -mno-fpu -mcpu=ultrasparc -mcmodel=medlow
+-KBUILD_CFLAGS += -ffixed-g4 -ffixed-g5 -fcall-used-g7 -Wno-sign-compare
++KBUILD_CFLAGS += -ffixed-g4 -ffixed-g5 $(call cc-option,-fcall-used-g7) -Wno-sign-compare
+ KBUILD_CFLAGS += -Wa,--undeclared-regs
+ KBUILD_CFLAGS += $(call cc-option,-mtune=ultrasparc3)
+ KBUILD_AFLAGS += -m64 -mcpu=ultrasparc -Wa,--undeclared-regs
+diff --git a/arch/sparc/vdso/Makefile b/arch/sparc/vdso/Makefile
+index 243dbfc4609d804fc221c3591eebe891107ffdab..50ec2978cda5397841daad6ffdc9682811b9b38e 100644
+--- a/arch/sparc/vdso/Makefile
++++ b/arch/sparc/vdso/Makefile
+@@ -46,7 +46,7 @@ CFL := $(PROFILING) -mcmodel=medlow -fPIC -O2 -fasynchronous-unwind-tables -m64
+        -fno-omit-frame-pointer -foptimize-sibling-calls \
+        -DDISABLE_BRANCH_PROFILING -DBUILD_VDSO
+ 
+-SPARC_REG_CFLAGS = -ffixed-g4 -ffixed-g5 -fcall-used-g5 -fcall-used-g7
++SPARC_REG_CFLAGS = -ffixed-g4 -ffixed-g5 $(call cc-option,-fcall-used-g5) $(call cc-option,-fcall-used-g7)
+ 
+ $(vobjs): KBUILD_CFLAGS := $(filter-out $(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS) $(SPARC_REG_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
+ 
+
+-- 
+2.47.0
+
 
