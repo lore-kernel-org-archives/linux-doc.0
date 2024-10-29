@@ -1,105 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0BF2BAF9;
-	Tue, 29 Oct 2024 15:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADC81917F9
+	for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 15:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730216037; cv=none; b=rbjm593hwsQ5PydUbEVgOgkR8k723hA1/B0GlpX9Ioz+vUPVm2AMSDUCxNCsmotmWmZHUsFoYcb/qX1Xl5YPFyuOfarzp5a+a9g7U80PQOPnqtdaAs2JO0rIPvESgianLN9CiRbUMH/uL/eD/HBcXxEE48+3p5CQYHoZXxfOgW8=
+	t=1730217194; cv=none; b=Dhiqchf0ScJgIwhHmAlMk3jYUoHZaMJJ4Top/lQkkbjH+1PCOuZ590FXbCYCFdGErVFaDMYVuJbN3LB1y33Xrh/RFBrY3/JaS8S9BKCgXz21YX6v3aMl4/nJTEgblCy7zQCAd0+m4SxPLkcrIYkTNg884i++O5BcBiSRgywZRds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730216037; c=relaxed/simple;
-	bh=RYKnZEqv2AHz7GCuZ5H2lCG+grAInnpuLE/fCCTz1r0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Udn26tAyh8mc3R6LZTeoCpdcLL9MsQdotGW7afTmrUN1UvJ3Bz5JfeB+1JqL/MpsXGdWbNUCp+L3QfkyqF68/NFK8+yCsl0q2gNexxSCdKatMG4B+aGVpzb7BFcvGywwP1aoXgCrEumorRiREYBNq1qOQegSqfFV5oxRSJlDvnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mv2sLZuq; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730217194; c=relaxed/simple;
+	bh=Q82MjAAJzY011abIoj9mr3/lCIvynpDz1KuaP8yYE3w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kx7gsIhv/Gz8w50YPBNn5YQXLpzlxF+bQ09kM5xJFZwBKupBFFGWJn8A4ItRxZXiMXL9g1vuYFUTFXw7KIGTPVOkWBJ1vLBjgV9rkHkmq6PrCLr5h6+ixZi46Rwxe9I325wJb+sneXDa2sf+LLGExhhQQpdd0lC8id3eC/SY3IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dhTJN25g; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mv2sLZuq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730216035; x=1761752035;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=RYKnZEqv2AHz7GCuZ5H2lCG+grAInnpuLE/fCCTz1r0=;
-  b=Mv2sLZuq0bdK9RpS6m/zJ5hfkm1SJh+yw6PzcwmJG+NayApKQSDHnXaG
-   RsvzRFpJ+Y7iSrKCCq2yU7y6fA3PXB1d9SV4+3Gyk1IHbULq3GnrYOcYb
-   yU8uQUZunhege5TJHrGqGvuzWU8tb2alSB6cnxqdA/XjTbjsyahu912Kn
-   56osHchO/vLJWbbh5GIXfV8UBHoCzQMvnWzrQDc+tdF74UKAUUYt/+Ebp
-   uPiHcWCPy4w9qSsRUCAw6wSxewkUzcWYTl8UWP1HEKUOlrkX76kyWravc
-   ZeHqHICuGeSazHSxmDLYbbVM3iQbV5E0Z/3f4i1eB3FdvqMkQ0OCnqu0C
-   A==;
-X-CSE-ConnectionGUID: xHwpOvutTwywtS05OBZiCQ==
-X-CSE-MsgGUID: YHEhFR9lR3WmBVT3L/PawA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="40479788"
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="40479788"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 08:33:54 -0700
-X-CSE-ConnectionGUID: SCEnkM6XSQWvufkUdTgvgQ==
-X-CSE-MsgGUID: 39/2vntDTvC1Ppbl3e09Gw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="86557459"
-Received: from jerrycli-mobl2.amr.corp.intel.com (HELO [10.125.224.112]) ([10.125.224.112])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 08:33:52 -0700
-Message-ID: <f82878e8-fdf7-4a73-93a1-2edf52fc0145@linux.intel.com>
-Date: Tue, 29 Oct 2024 08:33:51 -0700
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dhTJN25g"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539f58c68c5so9318774e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 08:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730217191; x=1730821991; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ll51C0PllLi1/aohJqQbI6RPBpDmFIRC+GA4ELQxeFw=;
+        b=dhTJN25gmGQnWVvbZHc8HZzVc5aEPMmtMNvZJLvBmiFgavwUXcHdgbezBKjI/4x9DT
+         1cBxNiLlrLyiJg8N2xdN4TU0WddqxEUkXcw/IHQQCdmuBiL9OzAR2f8lz7kSpN+G9HV6
+         FalKknhrBFfMv2+BNq2IuzeXoQPmZ+HjPFu6c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730217191; x=1730821991;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ll51C0PllLi1/aohJqQbI6RPBpDmFIRC+GA4ELQxeFw=;
+        b=SOg/6ProeEmCqU8Y9uoneNaKOi+ohr8fk8RPMRx9Ev6b/JghoLnJisnwdYpz9nQSBq
+         0v2+rwkCprfmwlvJssu/W8/wl1CiLtz1KwVU4+/hG2JVpiWEJEOubIrhIfxbuBPHQj1R
+         VjJhPv1/rbaV23LhQOxvo2OPYkli+lcj4q/RleSBNFsOy6GGKpdtkYfkucY4qzJ6R0ET
+         f8fXR44b2AHU28lvPLgGKdSBvMtY9fsIFNo3JWAz0V+sTmvH9sxRIloJIhz0krnklkT+
+         o11P/QU+GqTxLHYVSAtF4Fj02FoxGe/wXWe3onA5WTznLN8naRJrGDOCx8D2mgre+1OH
+         C33A==
+X-Forwarded-Encrypted: i=1; AJvYcCV8aC4xhZZmLD5CQnK2fDyVRNpaHHrUj0okqlVYxh76ajthAGhvzYNPrDQvaS0tO7vK2KD9w9mhFV8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywbfuoklfc6RVv+v5Jlcbp1ZUH20OwtRbk0PDireZ6Y/H9TEzej
+	0k0zPKZJ5lUhMrXzGNIYkzKZlrWMSUJyw3KCUAh/PGE7d9kEIwpkSkl17jqaDZ6bns/qNvXiTrx
+	xSoi1NJ8o6qkkMDrlGl04a4jN54gI/U5MJDk4
+X-Google-Smtp-Source: AGHT+IFq8kVq37MNUAjH9Q6myVE42MB00LVqimrYgoawu+grZEG8upkwKXnNYybcruxqIxH3d1HozSkgBqx+9rgCuS8=
+X-Received: by 2002:a05:6512:1256:b0:535:6a34:b8c3 with SMTP id
+ 2adb3069b0e04-53b348b9fecmr8822368e87.5.1730217190707; Tue, 29 Oct 2024
+ 08:53:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] x86/bugs: Clean-up verw mitigations
-To: Borislav Petkov <bp@alien8.de>, David Kaplan <David.Kaplan@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, hpa@zytor.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, pawan.kumar.gupta@linux.intel.com
-References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
- <20992658d2c79f27de91a474a7b122782be5f04b.1730158506.git.daniel.sneddon@linux.intel.com>
- <20241029113702.GUZyDI3u_6IxiCWOBJ@fat_crate.local>
- <c5fa82d7-e5e9-4612-a238-3c58152c40d0@linux.intel.com>
- <20241029150022.GJZyD4ht9wYcVetdDS@fat_crate.local>
-Content-Language: en-US
-From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-In-Reply-To: <20241029150022.GJZyD4ht9wYcVetdDS@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241028101952.775731-1-dualli@chromium.org> <20241028101952.775731-2-dualli@chromium.org>
+ <20241029071437.2381adea@kernel.org>
+In-Reply-To: <20241029071437.2381adea@kernel.org>
+From: Li Li <dualli@chromium.org>
+Date: Tue, 29 Oct 2024 08:52:59 -0700
+Message-ID: <CANBPYPiYAVDMeBUNRm8_wJojropMSL00UkGGV1ar+E3Y1STYfA@mail.gmail.com>
+Subject: Re: [PATCH net-next v6 1/1] binder: report txn errors via generic netlink
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net, 
+	edumazet@google.com, pabeni@redhat.com, donald.hunter@gmail.com, 
+	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com, 
+	maco@android.com, joel@joelfernandes.org, brauner@kernel.org, 
+	cmllamas@google.com, surenb@google.com, arnd@arndb.de, masahiroy@kernel.org, 
+	bagasdotme@gmail.com, horms@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org, hridya@google.com, 
+	smoreland@google.com, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/29/24 08:00, Borislav Petkov wrote:
-> On Tue, Oct 29, 2024 at 07:40:28AM -0700, Daniel Sneddon wrote:
->> Sure, I'll split this up as much as possible.
-> 
-> Actually, thinking about this more and looking at David's rework:
-> 
-> https://lore.kernel.org/r/20240912190857.235849-1-david.kaplan@amd.com
-> 
-> his basically is achieving what you're doing - a post-everything routine which
-> selects the final mitigation strategy once all the mitigation options have
-> been parsed and evaluated.
-> 
-> So I'm wondering if we should simply take his directly...
-> 
-> He removes that md_clear* function:
-> 
-> https://lore.kernel.org/r/20240912190857.235849-8-david.kaplan@amd.com
-> 
-> in favor of doing the final selection in the ->apply* functions and keeping
-> each mitigation functions simple.
-> 
-> Yours does this in a single function.
-> 
-> Practically speaking, the end result is the same.
-> 
-> Hmm...
-> 
-I really like the attack vector idea David is using. I suspect people really
-care about "protect my kernel from bad users" or "protect my host vm from
-guests" more than "protect me from mds and rfds." I was trying to get rid of the
-need to do a call to any kind of update function where he took the existing
-function and split it into one for each mitigation that needs it. Like you said,
-different approach same end result really.
+On Tue, Oct 29, 2024 at 7:14=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Mon, 28 Oct 2024 03:19:51 -0700 Li Li wrote:
+> > +                     report.err =3D BR_ONEWAY_SPAM_SUSPECT;
+> > +                     report.from_pid =3D proc->pid;
+> > +                     report.from_tid =3D thread->pid;
+> > +                     report.to_pid =3D target_proc ? target_proc->pid =
+: 0;
+> > +                     report.to_tid =3D target_thread ? target_thread->=
+pid : 0;
+> > +                     report.reply =3D reply;
+> > +                     report.flags =3D tr->flags;
+> > +                     report.code =3D tr->code;
+> > +                     report.data_size =3D tr->data_size;
+> > +                     binder_genl_send_report(context, &report, sizeof(=
+report));
+>
+> Could you break this struct apart into individual attributes?
+> Carrying binary structs in netlink has been done historically
+> but we moved away from it. It undermines the ability to extend
+> the output and do automatic error checking.
+
+Sure!
+
+>
+> BTW if you would like to keep using the uapi/linux/android directory
+> feel free to add this as the first patch of the series:
+> https://github.com/kuba-moo/linux/commit/73fde49060cd89714029ccee5d37dcc3=
+7b8291f6
+
+Awesome. Thank you for the patch!
