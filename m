@@ -1,152 +1,118 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1002F20492E;
-	Tue, 29 Oct 2024 11:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A3A205151;
+	Tue, 29 Oct 2024 11:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730201813; cv=none; b=Xd6axhvahhrC7wTXILeh+IDwqTc7cbd2KYrpDAQaRhIP+OI0bkyl8Bx7wpkgAxmZAQbvDYUxJeILt56QCTzInvhcoS0J3H3FWDptlI7oQAlt7W284mGu06L5m5YaohHpB0I8ghVKUepSMMGlsIBps1a4IsOQ4ShnixBfeAUT/fo=
+	t=1730201849; cv=none; b=iZrf6BbCHjJPQCSN2WzOoEIT2TPC0TR4n98yaZsUmyENTg1+pY6ydTkvbxkVeIQdhKxawbVKyzfYoxX++ROTk0YsJGJHioIsZk2sr18bFk2IP3A87GAbnCyrXw7WpsZ1RdIqU4Hw6JBO/DhRI1P1rF44zztibZPdZyy109VM2Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730201813; c=relaxed/simple;
-	bh=e5S/YKnH9NHvSS0aTqimfEThPXu31EgHVlB//jnSb+Y=;
+	s=arc-20240116; t=1730201849; c=relaxed/simple;
+	bh=57Sx9PTEFK++KLP+ahxoeTLSm5WWbmfZd6tVyMNFZ/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WAEechlrZZ1Wde5vL2l4O7QH/HTps2sbD8XEtdJmFxi/XnTAo8sRstOv2eCq0NVUr/T6Iw25KLe7nhNtGaA2eQqMjJMBBVLaSD0iZb9zAEA2hSQ7eGbHpZR1XawO7uek4zDRRHDwr0K5rQUx6rrAEUd97an1Gx2wRzUwhT73Jvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dr2Wko62; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=kCHJenx84w3Y7SVLcwzqTqekVQmbxaD/VBl5uQ+PBqT3iXlBuuuV0yE1ebEr6UL14NTv37Q8v7Ebrm1pSdU3S/1W56DrQMa13RLr2gU8+XGkH94rjjwiotzmuEPxVDYO21hrx/fLP8+nOBSbutML67nYveLywNcz2Co73ij6wy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=TPEdzcIw; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dr2Wko62"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=mRSboDDzGxAiy3/RWSIRW202wiGtlrHhBve+K+RhU38=; b=dr2Wko62gJxMTrK00ekmXTouum
-	fRryKzE23eZi7WLE5eGQk6PCAaQrrcRHJX9k1jouVRU0cHMV1MvhLFb98RCc9g9TNqUmYNKecxYBQ
-	uFIXCzATCX7D6+8YtDPtNJn8dHac5jrImCWIHVY3ECwJbPSx3CgB6kX3QNRc3nmHn+0l9xdb7Np8/
-	So0Nd2tjsSxVGVngTeSH1eZDkTiJVB5mgaQyoPUgWotA/0/MicKUle+uM5uxXXbyhguTWVxoB8jnq
-	aJNWDyAKr70EhEqdHM8BKT+/w+EoP0XF8/mH1cbPn5HFNO3OZclS8Y3guTbtx53/BanZR4/gGhGgO
-	FfRhsjhg==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5kWC-00000009t4y-0VcF;
-	Tue, 29 Oct 2024 11:36:12 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id BD8B630073F; Tue, 29 Oct 2024 12:36:11 +0100 (CET)
-Date: Tue, 29 Oct 2024 12:36:11 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="TPEdzcIw"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 27BBD40E0219;
+	Tue, 29 Oct 2024 11:37:24 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id IZhXHwRFY4rV; Tue, 29 Oct 2024 11:37:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1730201840; bh=eCpAktyIiVGESsEQ9DG1nf4m9PsJ6IeL20ZQjcotDag=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TPEdzcIwfFmui8gc2r+UzPwHtc6nudE5/aRg29rRgK1yCrCcOshIINfBXh4qllYyy
+	 LmRO2JzKVQHFOrSWYh7iGRceAzJMbnrMKI35jjl61CxmopGVT9miZ4pDB+T+PpCf+q
+	 dx7EYxnl+aEt3q5ngNf9caM1HDbpciCS1FNVApeKakOyNlm2j8ie3qDUMjevtpgiDr
+	 9sCVealnm2UTDZtzd7NmhHml8C5e9O8CThA7dtIInFTEhtcRPnTpTMICF3ZbVXVZ6A
+	 KUk2JXJnbAPdqSAXZB7wcDmrMb6XC9hKvvhpqs77wfBBcd0nyZ3idONU4Rb2WLeLqs
+	 28Az8MIleGVXNOW89iSV2WhgWSUKsh3ZKJ5Np24SMdkeATrF6GK2tchJzwg76MZ/Cr
+	 4I/AmE31gu1TNeyKuaMKd/mVD/+8juOl/Dc3rONgwBPvWOQdARYbW/QEQxe5sfKEJD
+	 T6yRfYcbWwXXiYsM9Y58YhxeraM8DLVIPeosYhaG1t779kPGb7bdHsU7utUMZhh4wU
+	 WKrCkxAIa1mNlPD9MP1ygxWyy/ITOy3p91UnOxP4pVBiGozb0GI1nXYW/BqWWvOBP8
+	 ViXOA1/CIM3cL1V1m5GoMnUgJf90yVvlXTMewKa9TD5fHHR95G3zhtIFyVuhwS/Ma9
+	 yFwWiCYdEukAAMISkCsc1VLA=
+Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C2BBB40E0198;
+	Tue, 29 Oct 2024 11:37:07 +0000 (UTC)
+Date: Tue, 29 Oct 2024 12:37:02 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
 	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Tony Luck <tony.luck@intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Breno Leitao <leitao@debian.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-	Juergen Gross <jgross@suse.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Yuntao Wang <ytcoode@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-	Huang Shijie <shijie@os.amperecomputing.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v5 03/16] x86/alternatives: Disable LASS when patching
- kernel alternatives
-Message-ID: <20241029113611.GS14555@noisy.programming.kicks-ass.net>
-References: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
- <20241028160917.1380714-4-alexander.shishkin@linux.intel.com>
- <7897bc3e-2d68-4aef-8668-f6eb9f8efd7f@intel.com>
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	hpa@zytor.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, pawan.kumar.gupta@linux.intel.com
+Subject: Re: [PATCH 2/2] x86/bugs: Clean-up verw mitigations
+Message-ID: <20241029113702.GUZyDI3u_6IxiCWOBJ@fat_crate.local>
+References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
+ <20992658d2c79f27de91a474a7b122782be5f04b.1730158506.git.daniel.sneddon@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7897bc3e-2d68-4aef-8668-f6eb9f8efd7f@intel.com>
+In-Reply-To: <20992658d2c79f27de91a474a7b122782be5f04b.1730158506.git.daniel.sneddon@linux.intel.com>
 
-On Mon, Oct 28, 2024 at 10:49:07AM -0700, Dave Hansen wrote:
-> On 10/28/24 09:07, Alexander Shishkin wrote:
-> >  static void text_poke_memcpy(void *dst, const void *src, size_t len)
-> >  {
-> > -	memcpy(dst, src, len);
-> > +	lass_stac();
-> > +	__inline_memcpy(dst, src, len);
-> > +	lass_clac();
-> >  }
-> >  
-> >  static void text_poke_memset(void *dst, const void *src, size_t len)
-> >  {
-> >  	int c = *(const int *)src;
-> >  
-> > -	memset(dst, c, len);
-> > +	lass_stac();
-> > +	__inline_memset(dst, c, len);
-> > +	lass_clac();
-> >  }
-> 
-> These are the _only_ users of lass_stac/clac() or the new inlines.
+On Mon, Oct 28, 2024 at 04:50:35PM -0700, Daniel Sneddon wrote:
+> @@ -599,20 +503,70 @@ static void __init verw_mitigations_check(void)
+>  	}
+>  }
+>  
+> -static void __init md_clear_select_mitigation(void)
+> +static bool __init verw_mitigations_disabled(void)
+>  {
+>  	verw_mitigations_check();
+> +	/*
+> +	 * TODO: Create a single mitigation variable that will allow for setting
 
-For now; I have vague memories of running into trouble with compilers
-doing random things with memcpy before, and having these inline versions
-gives us more control.
+A patch which introduces a TODO is basically telling me, it is not ready to go
+anywhere yet...
 
-One of the cases I remember running into was KASAN, where a compiler is
-SUPPOSED to issue __asan_memcpy calls instead of the regular memcpy
-calls, except they weren't all doing that, with the end result that our
-regular memcpy implementation grew instrumentation to deal with that.
+> +	 * the location of the mitigation, i.e.:
+> +	 *
+> +	 * kernel->user
+> +	 * kvm->guest
+> +	 * kvm->guest if device passthrough
+> +	 * kernel->idle
+> +	 */
+> +	return (mds_mitigation == MDS_MITIGATION_OFF &&
+> +		taa_mitigation == TAA_MITIGATION_OFF &&
+> +		mmio_mitigation == MMIO_MITIGATION_OFF &&
+> +		rfds_mitigation == RFDS_MITIGATION_OFF);
 
-That got sorted -- by deprecating / breaking all those non-conformant
-compilers. But still, I think it would be good to have the option to
-force a simple inline memcpy when needed.
+This should be used inside verw_mitigations_check() instead of repeated here,
+no?
 
-> First of all, I totally agree that the _existing_ strict objtool
-> behavior around STAC/CLAC is a good idea.
-> 
-> But text poking really is special and the context is highly unlikely to
-> result in bugs or exploits.  My first instinct here would have been to
-> tell objtool that the text poking code is OK and to relax objtool's
-> STAC/CLAC paranoia here.
-> 
-> Looking at objtool, I can see how important it is to keep the STAC/CLAC
-> code as dirt simple and foolproof as possible.  I don't see an obvious
-> way to except the text poking code without adding at least some complexity.
-> 
-> Basically what I'm asking for is if the goal is to keep objtool simple,
-> please *SAY* that.  Because on the surface this doesn't look like a good
-> idea.
+Also, pls call verw_mitigations_check() "check_verw_mitigations" - the name
+should start with a verb.
 
-There is, you can add it to uaccess_safe_builtin[], but I'm not sure we
-want to blanked accept memcpy() -- or perhaps that is what you're
-saying.
+Actually, you can merge verw_mitigations_check() and
+verw_mitigations_disabled(). Please do a *minimal* patch when cleaning this up
+- bugs.c is horrible. It should not get worse.
 
-Anyway, looking at this, I see we grew rep_{movs,stos}_alternative, as
-used in copy_user_generic() and __clear_user(). Which are all somewhat
-similar.
+What could also help is splitting this patch - it is hard to review as it
+is...
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
