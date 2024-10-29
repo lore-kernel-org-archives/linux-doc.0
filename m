@@ -1,128 +1,106 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF952904;
-	Tue, 29 Oct 2024 00:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874782F24;
+	Tue, 29 Oct 2024 00:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730161206; cv=none; b=c+M47BL19pKEcxCQg1a3QL2Y3XZXD0PU3BHXU3kvaVPdvBGbGcs9PgEIYnn+S7a5MmmUGF4muY0ug/U6gemkFm4+N5BYWQnqHbO15VGV7J5StGt5CIniUiTTEuNLT1vvSAkA3ePBJn2mtsyTzkQYBitq2LyIqq8Je07PxcIeyqQ=
+	t=1730161454; cv=none; b=CdkS2pG+ZXPGtO9E+KYKNbfUQKjpf9AfZQnQtDTGT+Hk/rcV7i5FMcYLHKhPBBxCiP7pRs5MwmBQm7N1wTrrq49Z9rzjnJeV9AfBBrJBtIgLyg5rv7+SCHer8A8QgQUS+aWiNURpePZZ/RbW4yP26EgTFjtYP9yUjVvB6EbgkHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730161206; c=relaxed/simple;
-	bh=FOUiNvi8O3GqXFPiU21I448Bt9bmNIXrroPvtjYN/Xs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AQUfetMYSqOrolVt1urwFwsLj0Iewb2RyFvSQgeNka7YAa8i60xVVFnGex/JyhxR0woEr6g6wTVXnpc2ClcwExP5L5Z2BjjIIM7tPDmRWyB4u6CvuKkF/KpCxbACD+EO7tUBiNHeJtTGnmQyegjEInal4jJJYf81ZlBAQl/JIZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=gLesxE+1; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1730161454; c=relaxed/simple;
+	bh=ItBVawkyYZp0EWfT6+0yoKLozZTxgVKCBDrO8HsDXCE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RpZU94TZFXF7fWX2Xc/uxPPsWJ+6HanhVqZxJKpMSjgJWPeKiVqaTMI/+TU8NLgpSC7I3I66qGUo8YUsYgRL5P3PmCvVYCR01XmO2SCPdBqlTru7U2H4M1r0t4JNrWpa5BUgARD/ZOnlUVX4x2TTKleyJx7RdBJqq/3KreJ8Ack=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=NVEpLQIt; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="gLesxE+1"
-Received: from [172.27.3.244] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49T0I9Jq034002
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Mon, 28 Oct 2024 17:18:10 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49T0I9Jq034002
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024101701; t=1730161095;
-	bh=lw19VMVgvpimByaEBMvY/Dq85RZi0Sbm7gXvjx0Vg/M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gLesxE+1tY7r5RxYlvoDemz/lwnCb6m7LWPZaAybe/08vd4npJw8ZzVaGbGq4Ola+
-	 UY78bVymAky07wU0B/tZweoyTY6bGNWuAFWaecf3Cc4GH7F+tg95/zQ86ZIoL8Tu2b
-	 kcsQ8F3YRJahe7p7s6zPL3QpKNDb8nOoO8tqg7vCFswE7KjaugvgUW+c1WPDT5LA6/
-	 AWQvtblVz5L14MTBe2U5RGZQKZRXO1TBplPFTlcr7OiN8d7i2Q6Lt3ime/klzEkmNI
-	 ulEBTXWImaZ++7WNbYcQwW69wthI9mt0RzihG9g3k42UO0VoHPe9szIT4vWrH5a13K
-	 muN3WPAz/4NIg==
-Message-ID: <0605fa9c-0e48-48ec-b04d-c2ef1c48fdd9@zytor.com>
-Date: Mon, 28 Oct 2024 17:18:09 -0700
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="NVEpLQIt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=fFRnu4Vhx5cKk2OMgERMj2QYR1dV0sibmG9c5odqYW4=; b=NVEpLQItEvLlotnrUjSWwdx51r
+	TLI7pFN3GbUCN0r/6IL209FWWEni3m9SkvRbYtyLhRvs36MCwqfXOb0jKlZt342cjdCkffZ7dY5Xl
+	+X3/yMKAH8rcl1j4p0N0HHSMzfBEpv+AsuEe+JXiP7BBnRFYqNDnpQDdz4Coa+RxQy81Kw2I+t5+Z
+	UuuEw6cWgb/0pCWafga7PLsTBWDQ3W19nIOMl986ukwjr4uGyuTBnvzNJ5Y6G2+bqEimoGYuBq+zB
+	fHIVSuXeKGI9eRhTUvQLoV4ekTRw6SxJlRmZdDd49UQD4LmsHogc/O7UsKNdqwnA8/EFpYynusSV0
+	D6BTaS8w==;
+Received: from [187.36.213.55] (helo=morissey..)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1t5a1P-00GIrd-PZ; Tue, 29 Oct 2024 01:23:44 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	Barry Song <baohua@kernel.org>,
+	David Hildenbrand <david@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Lance Yang <ioworker0@gmail.com>
+Cc: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH v2 0/4] mm: add more kernel parameters to control mTHP
+Date: Mon, 28 Oct 2024 21:13:04 -0300
+Message-ID: <20241029002324.1062723-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/7] objtool: Fix unreachable instruction warnings for
- weak functions
-To: Kees Cook <kees@kernel.org>, Rong Xu <xur@google.com>
-Cc: Alice Ryhl <aliceryhl@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
-        Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
-        Brian Gerst <brgerst@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Li <davidxl@google.com>, Han Shen <shenhan@google.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>,
-        Justin Stitt <justinstitt@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "Mike Rapoport (IBM)"
- <rppt@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Thomas Gleixner
- <tglx@linutronix.de>,
-        Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Maksim Panchenko <max4bolt@gmail.com>,
-        "David S. Miller"
- <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>,
-        Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>,
-        Krzysztof Pszeniczny <kpszeniczny@google.com>,
-        Sriraman Tallam <tmsriram@google.com>,
-        Stephane Eranian
- <eranian@google.com>, x86@kernel.org,
-        linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <20241026051410.2819338-1-xur@google.com>
- <20241026051410.2819338-3-xur@google.com> <202410281716.0C8F383@keescook>
-Content-Language: en-US
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <202410281716.0C8F383@keescook>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 10/28/24 17:16, Kees Cook wrote:
-> On Fri, Oct 25, 2024 at 10:14:04PM -0700, Rong Xu wrote:
->> In the presence of both weak and strong function definitions, the
->> linker drops the weak symbol in favor of a strong symbol, but
->> leaves the code in place. Code in ignore_unreachable_insn() has
->> some heuristics to suppress the warning, but it does not work when
->> -ffunction-sections is enabled.
->>
->> Suppose function foo has both strong and weak definitions.
->> Case 1: The strong definition has an annotated section name,
->> like .init.text. Only the weak definition will be placed into
->> .text.foo. But since the section has no symbols, there will be no
->> "hole" in the section.
->>
->> Case 2: Both sections are without an annotated section name.
->> Both will be placed into .text.foo section, but there will be only one
->> symbol (the strong one). If the weak code is before the strong code,
->> there is no "hole" as it fails to find the right-most symbol before
->> the offset.
->>
->> The fix is to use the first node to compute the hole if hole.sym
->> is empty. If there is no symbol in the section, the first node
->> will be NULL, in which case, -1 is returned to skip the whole
->> section.
->>
->> Co-developed-by: Han Shen <shenhan@google.com>
->> Signed-off-by: Han Shen <shenhan@google.com>
-> 
-> This seems logically correct to me, but I'd love to see review from Josh
-> and/or Peter Z on this change too.
-> 
-> Reviewed-by: Kees Cook <kees@kernel.org>
-> 
+This series introduces three patches related to the kernel parameters
+controlling mTHP. The first patch is a straightforward documentation update,
+correcting the format of the kernel parameter ``thp_anon=``.
 
-Does this happen even with -Wl,--gc-sections?
+The second and third patches focus on controlling THP support for shmem
+via the kernel command line. The second patch introduces a parameter to
+control the global default huge page allocation policy for the internal
+shmem mount. The third patch implements a parameter similar to ``thp_anon=``,
+but for shmem.
 
-	-hpa
+The goal of these changes is to simplify the configuration of systems that
+rely on mTHP support for shmem. For instance, a platform with a GPU that
+benefits from huge pages may want to enable huge pages for shmem. Having
+these kernel parameters streamlines the configuration process and ensures
+consistency across setups.
+
+v1 -> v2: https://lore.kernel.org/linux-mm/20241027175743.1056710-1-mcanal@igalia.com/T/
+
+* [1/4] s/fix the format/fix the doc in the commit's subject (Barry Song & David Hildenbrand)
+* [1/4] Add Barry's A-b to PATCH 1/3 (Barry Song)
+* [1/4] s/64KB/64K (David Hildenbrand)
+* [1/4] Add David's A-b to PATCH 1/3 (David Hildenbrand)
+* [2/4] Create the function `shmem_valid_huge()` to reduce code-duplication (Baolin Wang)
+* [3/4] New PATCH: generalize the function `setup_thp_anon()` and add it to common file
+* [4/4] Fix typo in the documentation: s/shmem_anon/thp_shmem (Barry Song)
+* [4/4] Reduce code-duplication (Barry Song)
+
+Best Regards,
+- Maíra
+
+Maíra Canal (4):
+  mm: fix docs for the kernel parameter ``thp_anon=``
+  mm: shmem: control THP support through the kernel command line
+  mm: generalize the implementation of ``thp_anon=``
+  mm: shmem: override mTHP shmem default with a kernel parameter
+
+ .../admin-guide/kernel-parameters.txt         |  19 ++-
+ Documentation/admin-guide/mm/transhuge.rst    |  25 +++-
+ include/linux/huge_mm.h                       |  29 +++++
+ mm/huge_memory.c                              | 109 ++++++++----------
+ mm/shmem.c                                    |  91 +++++++++++++--
+ 5 files changed, 201 insertions(+), 72 deletions(-)
+
+-- 
+2.46.2
 
