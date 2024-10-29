@@ -1,102 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E4218FC9D;
-	Tue, 29 Oct 2024 16:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8976194AD1;
+	Tue, 29 Oct 2024 16:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730219988; cv=none; b=OISdJElnxbk7+JaHNqlJfgdu6/2ug9kQjl1DACXc2hRRtohA+uF7ADj2jnTottXrB8qFdBgHCEfo0qP/Dn40WIHZML8WhkvJTA60AeP2YF+k2RSrsyxL1PYBoSUvqSEdJGK0yzb6Mqk3neV32o6d9l0tHS4nqG6mDV2e3lKSHO0=
+	t=1730220304; cv=none; b=Eb+H46F9liP0nGWKL7BhbY0tr3r/90Nlzp9sTOfwU+gVQyRFLHfKbvGq/5Ew5nFk2natRBiruA0lCZUfipK+abYZX5QCf1Y+WctK2JcMSyCCkpT/yOXcFFfgR9raE+rV9LXl5wwRblviTvw78MRUeTztd0rGPAqA/ljr0t0VFMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730219988; c=relaxed/simple;
-	bh=6I/kfLLxGDLdpTR0HeTd60odPvrBlqC94SDfCXBwCqA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YhQEMaA0nXHoKz0FN0+yzfTwPLyv8zRT+kJwF5Rb/rX6KlMKx9ktXInrUazfXtFxsxyYrL5MAabiD5VvWgvt1bj8mo9PMFMyfyW6mJ1P4o5CPfWQgBaniIRGQn+7EMjl9G7Bpw+fuSPrBVK17fmhCpQgE95KWk/WmmwPZwFyo0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cz3t6dTd; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730220304; c=relaxed/simple;
+	bh=FGhg9/5lJ7zrWIgk9nIXWwVFehhFDTKeJb/zyhiCTVk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f4tdhzuCUJWYrNgrJKu8RoLc+PXCHJYU1ZnCEfxcUOpfGB9/vgUJFhyGNqU2TCUlLI0GDt9ULK0hKO6QGtOiA2G4ytkFKzwnHPJcx2CWlXcHiLFXuhhcKnBlhRve6Oonza/I8y1FF02oPiVghcKgBWFWe1uOcf4SLt8DGDNoq0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FxnX1Q1S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cz3t6dTd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730219986; x=1761755986;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6I/kfLLxGDLdpTR0HeTd60odPvrBlqC94SDfCXBwCqA=;
-  b=cz3t6dTdmwaXLB9DgnPbQIjSounMYIG6j5nrR0+0UyOBO8ZOiPnFgodz
-   RE3r6Tmu545NQ7RjwrZHW5Hfk2AXBL1hIm7DYPsi/y22h+Mp2o0lnvM0V
-   GOhXkhQKysMwli7CRBzil3LirWMhed3q8Emb3HiFfYVbmMfAS9/O7HpYm
-   qEdQOUfI4DEzYPxNQJzvyqReREJxTyn278LJT+LrM+zJbhKC89nVJScAS
-   2gEPGVgw0M2FE6WUncIXyWYszOL6/m5P0v1NtO4ThTdv8BGrSk3sKw0H6
-   CzxhqZNR7GcKodl2CLDT0IEBTjMph3DXKsaPUAFthtEaEG3GdmY9vJLU+
-   g==;
-X-CSE-ConnectionGUID: RvktJUOzShacPSj1RTyLCQ==
-X-CSE-MsgGUID: ARRAQ0dpTh6VjgSZOTxm5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="29776054"
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="29776054"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 09:39:45 -0700
-X-CSE-ConnectionGUID: rwQaZcLyTgiUG4B2vTKvhg==
-X-CSE-MsgGUID: SeQh9DULTcm2cKy2vssFBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="86788553"
-Received: from jerrycli-mobl2.amr.corp.intel.com (HELO [10.125.224.112]) ([10.125.224.112])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 09:39:44 -0700
-Message-ID: <d6fa8ecb-17dd-4718-8ffc-b678dbe2c27c@linux.intel.com>
-Date: Tue, 29 Oct 2024 09:39:43 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FxnX1Q1S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7488BC4CEE4;
+	Tue, 29 Oct 2024 16:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730220303;
+	bh=FGhg9/5lJ7zrWIgk9nIXWwVFehhFDTKeJb/zyhiCTVk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FxnX1Q1Sq8u60xmVKPiDvb1bR5ObMLLtpjtql2eFaCWyF2cYDRHJ/fSJY3lSdUaFy
+	 MEnH+pphFFUa1oJDWPSkqa7dEVvCnGGhztH4EQL7tTysnAXVOHJC3g+s28XRU8V68/
+	 qXXH+b4/dUVoCZt6ffCR16sEIB3HVCdh1PEadSn5ccHDexto4Jp2WkY21Wu5/V0WUC
+	 D0l6T7pnR7kG2u0leEQcU2jLfE90yZKPewLrNWbr8E8RePImhm72dwljy4DKqq/bTB
+	 lU3Bmp66fUpjd7HsETGgCYItiQvulIBqFU3B21ppsQY1fXUvyFj/EGZE/53rCWwAmh
+	 Dtg1rtkXdIlNA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1t5pL3-007zVM-8J;
+	Tue, 29 Oct 2024 16:45:01 +0000
+Date: Tue, 29 Oct 2024 16:45:00 +0000
+Message-ID: <867c9q3lkj.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 8/9] KVM: arm64: Allow control of dpISA extensions in ID_AA64ISAR3_EL1
+In-Reply-To: <20241028-arm64-2024-dpisa-v1-8-a38d08b008a8@kernel.org>
+References: <20241028-arm64-2024-dpisa-v1-0-a38d08b008a8@kernel.org>
+	<20241028-arm64-2024-dpisa-v1-8-a38d08b008a8@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] x86/bugs: Clean-up verw mitigations
-To: Borislav Petkov <bp@alien8.de>
-Cc: David Kaplan <David.Kaplan@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, hpa@zytor.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- pawan.kumar.gupta@linux.intel.com
-References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
- <20992658d2c79f27de91a474a7b122782be5f04b.1730158506.git.daniel.sneddon@linux.intel.com>
- <20241029113702.GUZyDI3u_6IxiCWOBJ@fat_crate.local>
- <c5fa82d7-e5e9-4612-a238-3c58152c40d0@linux.intel.com>
- <20241029150022.GJZyD4ht9wYcVetdDS@fat_crate.local>
- <f82878e8-fdf7-4a73-93a1-2edf52fc0145@linux.intel.com>
- <20241029163712.GPZyEPOHFklQ1d1lMV@fat_crate.local>
-Content-Language: en-US
-From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-In-Reply-To: <20241029163712.GPZyEPOHFklQ1d1lMV@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 10/29/24 09:37, Borislav Petkov wrote:
-> On Tue, Oct 29, 2024 at 08:33:51AM -0700, Daniel Sneddon wrote:
->> I really like the attack vector idea David is using. I suspect people really
->> care about "protect my kernel from bad users" or "protect my host vm from
->> guests" more than "protect me from mds and rfds." 
+On Mon, 28 Oct 2024 20:24:17 +0000,
+Mark Brown <broonie@kernel.org> wrote:
 > 
-> Yeah, exactly!
+> ID_AA64ISAR3_EL1 is currently marked as unallocated in KVM but does have a
+> number of bitfields defined in it. Expose FPRCVT and FAMINMAX, two simple
+> instruction only extensions to guests.
 > 
->> I was trying to get rid of the need to do a call to any kind of update
->> function where he took the existing function and split it into one for each
->> mitigation that needs it. Like you said, different approach same end result
->> really.
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/kvm/sys_regs.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Right.
-> 
-> Ok, let's concentrate on David's set, then, so that we don't do
-> unnecessary/doubled work. I'd appreciate it if you took a look at the Intel's
-> side of things there but please wait until he sends a new version next week.
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index dad88e31f9537fe02e28b117d6a740f15572e0ba..ab348c314d7963437e1876d441169f3ef4eff095 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -2409,7 +2409,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  	ID_WRITABLE(ID_AA64ISAR2_EL1, ~(ID_AA64ISAR2_EL1_RES0 |
+>  					ID_AA64ISAR2_EL1_APA3 |
+>  					ID_AA64ISAR2_EL1_GPA3)),
+> -	ID_UNALLOCATED(6,3),
+> +	ID_WRITABLE(ID_AA64ISAR3_EL1, (ID_AA64ISAR3_EL1_FPRCVT |
+> +				       ID_AA64ISAR3_EL1_FAMINMAX)),
 
-Will do!
-> 
-> I guess if all agree with the final result, we could look into taking it for
-> 6.14 or so...
-> 
-> Thx.
-> 
+Please add the required sanitisation of the register so that we do not
+get any surprise exposure of unhandled features when someone changes
+ftr_id_aa64isar3[].
 
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
