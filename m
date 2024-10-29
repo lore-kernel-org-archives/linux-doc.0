@@ -1,124 +1,186 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206B820ADFC;
-	Tue, 29 Oct 2024 23:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B260E190665;
+	Tue, 29 Oct 2024 23:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730245355; cv=none; b=GZHC4KZgnidN6HBF3JsjLc1euaWkr7gqVGtSawM3P4THQnC7xQ1SoalA1BLe9cEg712Ww94fjQq0RndkmKlLbMw6ICdUTqsQ9VeVBAhjMwGFZBIEgH+VZ6sxlejpyeDqA0yTAEnT4O882+7H/rCTLAs2+F1iaCA0AXAjxisaSBw=
+	t=1730245380; cv=none; b=Fn2cuUKc8C/Wf165v+/DOBwoymh4sIKOExv54Ge9optyOh4wrlldfs8vfHtgokSiXdcO++MD2Y4aiXdG8rPgpi5HIwsLTu6Kh6vWLXIbxZ7YXZNm97B+mWCetQluk7Q18GKJAZVgNrdbvPcXWJxwT4UHi2mC4uCDou+goi9aZfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730245355; c=relaxed/simple;
-	bh=s11/RSSNd5eLw5Fbc7WixTPocGJ75zsFhB1GD96i6gw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T1+3ijbV9YTb/6d+rSsulk34AayLW21tgPRtF/5wDChkFo+2zH+JJslSl03GFjv1tT7QtTYRcY2nAhFfZOGtIfiyzKYctD8IpPr1G6yWsGap6Oh1m6wF2306crctVFMtgTpSAeJ4BYiitSMTqncbNFPzDygITWNmXp5k3ScMA/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=aMMZ79vO; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1730245380; c=relaxed/simple;
+	bh=P/ZMh9DdOcuMnvAMA2M8KUoPFFGuf1Rk6uM2ShCcXgk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RQQTo3CCdgmzGZ4w11fWtArkS12wHtn8dQ9LRdf4zR7K4o0vPWTGm6uOP+MjrI/UjGhIR6BWIfg2A38E+T2U8TdBy2NF6bC1uiL2giTkg9xmTCgn2rDCwyiEVGhg4VfJChJbLL3c7iLsE2Hnm0tU+T1EXI40aI7YTNQqZiTV5vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TUhMCI75; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="aMMZ79vO"
-Received: from [172.27.3.244] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49TNfXGb592027
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Tue, 29 Oct 2024 16:41:33 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49TNfXGb592027
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024101701; t=1730245297;
-	bh=s8jD91ycoelRAi31peFqxGDoUYOmCn36Gpqbgv/Oxb4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aMMZ79vO/9CZL/+2Slxl7Uhe1SXLMkFhDSfSsStEsgaMp8Gw7t9Xj1QmkgNDQJkbK
-	 GRiop4Z2vAd3TZN51McsRNtKYCH4QO2rWitK7UlrERy3Es3Eq1JOzR1lBadKkGVI2C
-	 kNdo2+/4xiSiJoB8LqZTUb+Fau+LVAxt+/JgqAHfSF5oMysVhf81ha+bOInT11kzoW
-	 D1vj+IDEtjWBMJubKqo5Cg9Dc9eMlz+iFx3NYNFxIeBt3YUmuoa2Lax9ZApIrL6hde
-	 /4Aw4t8cndU3ktlpF3aRf4ezFRtme4aIKiRva8hGBH5CD9nc9one1XIhBQQi2uDVZ/
-	 gXm8yAd+oR5jQ==
-Message-ID: <2e1c3685-6e6b-488d-ad8e-268193b13739@zytor.com>
-Date: Tue, 29 Oct 2024 16:41:33 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TUhMCI75"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2e56750bb0dso4384164a91.0;
+        Tue, 29 Oct 2024 16:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730245378; x=1730850178; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5feXvgGng4UyVwqTtiXO5SPyizWSYDtrgAync19J5IU=;
+        b=TUhMCI75oVl7DmVV/TYKuGXZ6uuaITaDZhi6Vy9JtoknStTahuDSQM+DZVEwNQXxqC
+         r+nJ4fKqa8+BUM1hhhxKw2RwvIjlE9PP5882PGzfimofYIGGTGEYxOT7LPHcskTTl8eZ
+         cTFYpMLONUJSJ3NClIG4W8QmzI4WZnWGRCETzAMxJOu/q+nnwn/IURxJw7R5SUlaXwbn
+         4AF9+JBkWFUdvQyZUZbaIYNQxvtiOkCJ/dGj9e64FbRHb0rh8bofl9hAf+ts9KmWEpQ6
+         a1A6CC5Dx7pPbM/qr1Ooai8NRu+JdFAqCii6uKB+o584f95Co0mlFHOdpKeq0O0mZPCS
+         9Gkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730245378; x=1730850178;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5feXvgGng4UyVwqTtiXO5SPyizWSYDtrgAync19J5IU=;
+        b=glyWPfDMSRwHPnPJOZwHlhPRZnrpJJtZh43LgEbwW4oVQPlfOkHYPWg91EzJ1NubiO
+         ycd+uwLESXlzPX/pBCn9ArtdaQgqykt3HETh7L4PvBG+otBXwNRtWxbvx0n62B8p2NTl
+         xQtgb7QDDKL8t83A0cdT9hJXlxkNF9ahb/N7x0+g1OkEdAPIn3cpggOPSkGJF3P8xgA2
+         2ypqBCvwKsv5SDSnWSUMTFW3qsEgn3hgcZzmBs7cMWqygE6mvuuvSNRAOBW1vwr/0W8c
+         x6nLJNHkIrJK1M2Y62W4MFU17ZEZElVZihhDfPXuVabhMzvIF2YVfg5tE4g6L0R00b4Q
+         qopg==
+X-Forwarded-Encrypted: i=1; AJvYcCXSHT6EppdiVP+jLF2zELBd32ZwTYV0YckwviJJWjq4aPVi4zHQUWUjaIllfe+8mzT7NKyEDxVe06XQAec=@vger.kernel.org, AJvYcCXkCjFy09cLve31Q4HFtlkAa8w5Mq2I2ksH8n3YDDI7bP08sSM7O85Jmmoc5Auqbea0YkjBj5weRE4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVSqhJH6O5zBa+tda7lG0041WSs4wMbQeAEGhDqKlBHe9endS5
+	0sVX1jfBau7ceeOaoDPYpoGlSiM6xRnn/CSgwWOKR1cJw001ciUTF6JcrWOAA8Q=
+X-Google-Smtp-Source: AGHT+IGLItW6eG57/BOKSOCl7xb6uVRToNOcNGndd7ZtiRJGOr4L61uJYTDa2Et0MWkJmJuYJA+x9A==
+X-Received: by 2002:a17:90a:a88c:b0:2e2:bb22:eb59 with SMTP id 98e67ed59e1d1-2e8f11dc376mr13808125a91.41.1730245377895;
+        Tue, 29 Oct 2024 16:42:57 -0700 (PDT)
+Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:5ce6:bad0:300c:46ef])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa3dbd2sm265396a91.20.2024.10.29.16.42.56
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 29 Oct 2024 16:42:57 -0700 (PDT)
+From: anish kumar <yesanishhere@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	anish kumar <yesanishhere@gmail.com>
+Subject: [PATCH] ASoC: doc: update clocking
+Date: Tue, 29 Oct 2024 16:42:31 -0700
+Message-Id: <20241029234231.46313-1-yesanishhere@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/16] x86/cpu: Defer CR pinning setup until after EFI
- initialization
-To: "Luck, Tony" <tony.luck@intel.com>,
-        "Hansen, Dave"
- <dave.hansen@intel.com>,
-        "Mehta, Sohil" <sohil.mehta@intel.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "x86@kernel.org"
- <x86@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Xiongwei Song <xiongwei.song@windriver.com>,
-        "Li, Xin3" <xin3.li@intel.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Michael Roth <michael.roth@amd.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Alexey Kardashevskiy <aik@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        "Huang, Kai" <kai.huang@intel.com>,
-        Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>,
-        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-        Juergen Gross <jgross@suse.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>,
-        Eric Biggers <ebiggers@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>, Yuntao Wang <ytcoode@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-        Huang Shijie <shijie@os.amperecomputing.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>
-References: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
- <20241028160917.1380714-6-alexander.shishkin@linux.intel.com>
- <a95a624b-214a-4b1f-ac16-dad5a9270bf8@intel.com>
- <SJ1PR11MB6083B9854320176B6301C530FC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <34dd023d-3ed5-4655-88be-14a7a300b91e@intel.com>
- <SJ1PR11MB6083CA923D92CD70AE6C5FB9FC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <869c1545-8c94-4820-a861-fbc563056597@intel.com>
- <aa3dc7dd-8939-4042-9e02-96dd29e45095@zytor.com>
- <SJ1PR11MB6083BB83EE16AEAD6D3F7C1BFC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <SJ1PR11MB6083BB83EE16AEAD6D3F7C1BFC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/29/24 16:18, Luck, Tony wrote:
->>> Yeah, I was talking about 64-bit only.  On 32-bit PAE a PGD maps 1/4 of
->>> the address space which is totally unworkable for stealing.
->>
->> But it is also not necessary.
-> 
-> So maybe we could make the 64-bit version of use_temporary_mm()
-> use some reserved address mapping to a reserved PGD in the upper
-> half of address space, and the 32-bit version continue to use "user"
-> addresses. It's unclear to me whether adding complexity here would be
-> worth it to remove the 64-bit STAC/CLAC text patching issues.
-> 
+Add ASoC clock api details to this document.
 
-For 32 bits we can also simply use something further down in the 
-hierarchy. It's not like we can afford to have the PGD be anything other 
-than RWX on 32 bits.
+Signed-off-by: anish kumar <yesanishhere@gmail.com>
+---
+ Documentation/sound/soc/clocking.rst | 85 +++++++++++++++++++++++++++-
+ 1 file changed, 84 insertions(+), 1 deletion(-)
 
-	-hpa
+diff --git a/Documentation/sound/soc/clocking.rst b/Documentation/sound/soc/clocking.rst
+index 32122d6877a3..eb0007dde7f7 100644
+--- a/Documentation/sound/soc/clocking.rst
++++ b/Documentation/sound/soc/clocking.rst
+@@ -18,7 +18,6 @@ Some master clocks (e.g. PLLs and CPU based clocks) are configurable in that
+ their speed can be altered by software (depending on the system use and to save
+ power). Other master clocks are fixed at a set frequency (i.e. crystals).
+ 
+-
+ DAI Clocks
+ ----------
+ The Digital Audio Interface is usually driven by a Bit Clock (often referred to
+@@ -42,5 +41,89 @@ rate, number of channels and word size) to save on power.
+ It is also desirable to use the codec (if possible) to drive (or master) the
+ audio clocks as it usually gives more accurate sample rates than the CPU.
+ 
++ASoC provided clock APIs
++------------------------
++
++    ::
++
++        int snd_soc_dai_set_sysclk(struct snd_soc_dai *dai, int clk_id,
++                                   unsigned int freq, int dir)
++
++    This function is generally called in the machine driver to set the sysclk
++    or MCLK. This function in turn calls the codec or platform callbacks to set
++    the sysclk/MCLK. If the call end up in codec driver and MCLK is either
++    provided by the codec in which case the direction should be SND_SOC_CLOCK_IN
++    and if the processor is providing the clock then it should be set to
++    SND_SOC_CLOCK_OUT. If the callback ends up in platform/cpu driver then it can
++    setup any clocks that is required for platform hardware.
++
++   dai:
++       digital audio interface corresponding to the component.
++
++   clk_id:
++       dai specific clock id
++
++   frequency:
++       new clock frequency in Hz
++
++   dir:
++       new clock direction (SND_SOC_CLOCK_IN or SND_SOC_CLOCK_OUT)
++
++    ::
++
++        int snd_soc_dai_set_clkdiv(struct snd_soc_dai *dai,
++                                   int div_id, int div)
++
++    This function is used to set the clock divider for the corresponding dai.
++    In case of codec dai connected through I2S for data transfer, bit clock
++    dividers are set based on this call to either multiple of bitclock
++    frequency required to support requested sample rate or equal to
++    bitclock frequency.
++
++   dai:
++       digital audio interface corresponding to the component.
++
++   div_id:
++       DAI specific clock divider ID
++
++   div:
++       new clock divisor.
++
++
++    ::
++
++        int snd_soc_dai_set_pll(struct snd_soc_dai *dai, int pll_id, int source,
++                                unsigned int freq_in, unsigned int freq_out)
++
++    This interface function unregisters the "thermal-cpufreq-%x" cooling device.
++    This function provides a way for the dai component drivers to configure
++    pll based on the input clock. This pll can be used to generate output
++    clock such as bit clock for the codec.
++
++   dai:
++       digital audio interface corresponding to the component.
++
++   pll_id:
++       DAI specific PLL ID
++
++   source:
++       DAI specific source for the PLL
++
++   freq_in:
++       PLL input clock frequency in Hz
++
++   freq_out:
++       requested PLL output clock frequency in Hz
++
++
++    ::
++
++        int snd_soc_dai_set_bclk_ratio(struct snd_soc_dai *dai, unsigned int ratio)
++
++    This function configures the DAI for a preset BCLK to sample rate ratio.
+ 
++   dai:
++       digital audio interface corresponding to the component.
+ 
++   ratio:
++       ration of BCLK to sample rate
+-- 
+2.39.3 (Apple Git-146)
 
