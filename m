@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A811361;
-	Tue, 29 Oct 2024 14:35:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBA9206071;
+	Tue, 29 Oct 2024 14:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730212547; cv=none; b=l2b/pkaD/tVLHG1U1S7QH/lCOvP8fXzgMbkF6WpJPiQW/ZFqpPnmu+FEFzlfKKXNLbzsemE57RwdgqnkbVD3NyYUT6YHFqrP+Kf1Wz1MtgmoeQKfcx+KDQ2U7lLTqbQpOdA65CTEvmxcsTZU27pDyaaludMvXJarCPp+xz1mlGE=
+	t=1730212834; cv=none; b=Jy4282BObZw3X+Yo7UFpNgo1xFVoDgx9F8ZHMinzqXmAF0hvCQTnLS6LGH68wSnGN8ft2bxqyDr+JSS3HRHl1OK8g/PFQSlMgKmaDgJ+W+8z60VQEzR81O3kvinImHI52Ki6iGzlgxqg86Cy4MGhJ5bqhYoiEGM3aAs2M8AlFjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730212547; c=relaxed/simple;
-	bh=XQYPCdG//h9n1D5bA82LeVGGe26ya7GVj2pU71BtCuI=;
+	s=arc-20240116; t=1730212834; c=relaxed/simple;
+	bh=6KyHT+7ttw2brv7RoX9JFe5iSkFH7OpG7IZ9J2mXn9U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fthKvggVVJ5doYuw5UzZav/UZgYVy/rQSH9Ug2tLBolte1O8bWYZQc2BZUZZ0UtC3Ynb/VCVuvYk4wJmiAxdziwKfKbZH3W04P2YsfVKl/Bl6Dmxi+VmR6+7eN8x817Ue43X46Ts0oR7gJkwJsWYnG9bMYXoSL9+yQTL38eYNDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brlEQOHR; arc=none smtp.client-ip=198.175.65.16
+	 In-Reply-To:Content-Type; b=kgUX51RWz9OtaV04jRd/4Qq9kBgG3DEBvGlB8KAzLp+W/ZRB53e9pNXHL0kKICKD583H2w+ax5UTHQVAoz6eoBghQ+xqj4OO+3ynAbvcQXMuB2OKFctizVXzMn9FevjMfV1j5QLS4pK3+gYvtkMF/GAKtrhiWGEa6JtjD/v6nrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6zvIOkI; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brlEQOHR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6zvIOkI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730212546; x=1761748546;
+  t=1730212832; x=1761748832;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=XQYPCdG//h9n1D5bA82LeVGGe26ya7GVj2pU71BtCuI=;
-  b=brlEQOHRpsY4Zr6BJODsOih+AAxIpv5cUP5E8QjsRMENXmpMk0AIW2Ws
-   4nDgLxqbyZgLPLD4ot0FJSowq2zR5C+kXfluf8N+Bm52mDm7M1CgxifRX
-   AG4AQV2V2PF5VJOLxr8S2iYWT3rmB8diNozDhFdaYuaLqvvVkczzlQa1u
-   gCKOgMAasSzk90qWQP2gvcdjCmJjeZuUUbB9T44UFpLs6hrjAHrsxXotU
-   VC04yx+216zaZ+DCsh8XCGQChrF3ODAQVk3AmlfFyfBIe5R27UMkx7BAS
-   LqLjcuiiOFNKlrdt6OodwoNQQbaERgWMcbEZwyP88zyhabvM7pryEnHDy
-   Q==;
-X-CSE-ConnectionGUID: r/Na/m2hRt+alUMZQNDhwA==
-X-CSE-MsgGUID: KZwt67MCT3KL/OtH/fNpRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29993232"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29993232"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:35:44 -0700
-X-CSE-ConnectionGUID: Uv7NIGJHSs2k4uq1dXl0UA==
-X-CSE-MsgGUID: 8NwKKm5WRASyKfHensucGQ==
+  bh=6KyHT+7ttw2brv7RoX9JFe5iSkFH7OpG7IZ9J2mXn9U=;
+  b=U6zvIOkIT7kET7yl7ydF2vEDBFjgj5UrYDWbg1DJZi5uuyTu+7tF9L7e
+   gHP7fAZnOQLgcBmbDRhJhLXa9RxJ1L63BetVZ/PdRXgyNP2oELRak8hr/
+   CqfATtvaW4X54/nFm0RwR7cIPdcIreCclQCCPM9t00GD7Pp7H0TMebApw
+   tNdwBNGnW3mp1Vi+sLlhhE/gCqVyTzXEfndvCzyzWCud2ANhruV7l7/14
+   +YDppA2Y2sH+Wvz5J9HLRU9jU2mVV+AqQEnMaVanoMpvtoqNlv72zr9eR
+   gAuYoBY5vajysaC85cHXDPSDdr/Tbr6iGHijo7UZ5EKm/8kuYX/G61hTC
+   A==;
+X-CSE-ConnectionGUID: CP7gKtOXSNelicAFJhVHaw==
+X-CSE-MsgGUID: TKQzNyvzQ42pF75PANiFyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="47335801"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="47335801"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:40:31 -0700
+X-CSE-ConnectionGUID: Rag48sEWQ8+dJ6ad7Z5JLQ==
+X-CSE-MsgGUID: OP9r9foDRxyldqmGqe14Hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="86593202"
+   d="scan'208";a="87114346"
 Received: from jerrycli-mobl2.amr.corp.intel.com (HELO [10.125.224.112]) ([10.125.224.112])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:35:43 -0700
-Message-ID: <9ef41b96-8b96-441e-b053-4d7c7d9aa74a@linux.intel.com>
-Date: Tue, 29 Oct 2024 07:35:41 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:40:30 -0700
+Message-ID: <c5fa82d7-e5e9-4612-a238-3c58152c40d0@linux.intel.com>
+Date: Tue, 29 Oct 2024 07:40:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] x86/bugs: Check VERW mitigations for consistency
+Subject: Re: [PATCH 2/2] x86/bugs: Clean-up verw mitigations
 To: Borislav Petkov <bp@alien8.de>
 Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
  Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
@@ -60,52 +60,58 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
  x86@kernel.org, hpa@zytor.com, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, pawan.kumar.gupta@linux.intel.com
 References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
- <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
- <20241029113911.GVZyDJX3rg8kh_4kYb@fat_crate.local>
+ <20992658d2c79f27de91a474a7b122782be5f04b.1730158506.git.daniel.sneddon@linux.intel.com>
+ <20241029113702.GUZyDI3u_6IxiCWOBJ@fat_crate.local>
 Content-Language: en-US
 From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-In-Reply-To: <20241029113911.GVZyDJX3rg8kh_4kYb@fat_crate.local>
+In-Reply-To: <20241029113702.GUZyDI3u_6IxiCWOBJ@fat_crate.local>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/29/24 04:39, Borislav Petkov wrote:
-> On Mon, Oct 28, 2024 at 04:50:34PM -0700, Daniel Sneddon wrote:
->> There are currently 4 mitigations that use VERW: MDS, TAA,
->> MMIO Stale Data, and Register File Data Sampling. Because
->> all 4 use the same mitigation path, if any one of them is
->> enabled, they're all enabled. Normally, this is what is
->> wanted. However, if a user wants to disable the mitigation,
->> this can cause problems. If the user misses disabling even
->> one of these mitigations, then none of them will be
->> disabled. This can cause confusion as the user expects to
->> regain the performance lost to the mitigation but isn't
->> seeing any improvement. Since there are already 4 knobs for
->> controlling it, adding a 5th knob that controls all 4
->> mitigations together would just overcomplicate things.
->> Instead, let the user know their mitigations are out of sync
->> when at least one of these mitigations is disabled but not
->> all 4.
+On 10/29/24 04:37, Borislav Petkov wrote:
+> On Mon, Oct 28, 2024 at 04:50:35PM -0700, Daniel Sneddon wrote:
+>> @@ -599,20 +503,70 @@ static void __init verw_mitigations_check(void)
+>>  	}
+>>  }
+>>  
+>> -static void __init md_clear_select_mitigation(void)
+>> +static bool __init verw_mitigations_disabled(void)
+>>  {
+>>  	verw_mitigations_check();
+>> +	/*
+>> +	 * TODO: Create a single mitigation variable that will allow for setting
 > 
-> Please split this commit message into smaller chunks for better readability.
-> For example:
+> A patch which introduces a TODO is basically telling me, it is not ready to go
+> anywhere yet...
 > 
->     There are currently 4 mitigations that use VERW: MDS, TAA, MMIO Stale Data,
->     and Register File Data Sampling. Because all 4 use the same mitigation path,
->     if any one of them is enabled, they're all enabled.
->     
->     Normally, this is what is wanted. However, if a user wants to disable the
->     mitigation, this can cause problems. If the user misses disabling even one of
->     these mitigations, then none of them will be disabled.
->     
->     This can cause confusion as the user expects to regain the performance lost to
->     the mitigation but isn't seeing any improvement. Since there are already
->     4 knobs for controlling it, adding a 5th knob that controls all 4 mitigations
->     together would just overcomplicate things.
->     
->     Instead, let the user know their mitigations are out of sync when at least one
->     of these mitigations is disabled but not all 4.
+>> +	 * the location of the mitigation, i.e.:
+>> +	 *
+>> +	 * kernel->user
+>> +	 * kvm->guest
+>> +	 * kvm->guest if device passthrough
+>> +	 * kernel->idle
+>> +	 */
+>> +	return (mds_mitigation == MDS_MITIGATION_OFF &&
+>> +		taa_mitigation == TAA_MITIGATION_OFF &&
+>> +		mmio_mitigation == MMIO_MITIGATION_OFF &&
+>> +		rfds_mitigation == RFDS_MITIGATION_OFF);
 > 
+> This should be used inside verw_mitigations_check() instead of repeated here,
+> no?
+> 
+> Also, pls call verw_mitigations_check() "check_verw_mitigations" - the name
+> should start with a verb.
+> 
+> Actually, you can merge verw_mitigations_check() and
+> verw_mitigations_disabled(). Please do a *minimal* patch when cleaning this up
+> - bugs.c is horrible. It should not get worse.
+> 
+I'll merge those two.
+
+> What could also help is splitting this patch - it is hard to review as it
+> is...
+> 
+Sure, I'll split this up as much as possible.
 > Thx.
 > 
 
-Will do.
