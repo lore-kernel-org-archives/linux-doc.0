@@ -1,154 +1,151 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FAE2107;
-	Tue, 29 Oct 2024 17:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7C91DCB31
+	for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 17:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730223651; cv=none; b=tX3/AWfhI9f2ElciqjNOpZX+wRLSMVfaDuaQhMFfKmfJYB8wvYcXXl7Tv5PuN1xGPYIrnJN480J6XxhJ55U5AjtAgLXqbMeobLeuiipgdYPS33jikJpmZLkAJtlda0BCy+NjBIUBSRMwKyGeajUhinyCh7NjfQT1OCXb8HkYrYU=
+	t=1730224428; cv=none; b=jkhFHCFSIhHZgWV7KzJWjnzk3knQOQWeYWqBkxRX09mlz98QhTz8YMUTAjBhDqa3CEPZM/JArL3FO8zcrmynPZMQlzc08akQcoYn03WHqiy3mJr/Zwu631FsTyMqjhmlDdSKQm2/Pw34htfeVYowSGuYXdzCXOTdNluC/Djozzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730223651; c=relaxed/simple;
-	bh=nOaHu/IehEL6OQiLLzh5zQdYlqOfd77xgDIYOg4DnAo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uiVu1IeFlnaGi2enyIU/OKZbZzrYravHgANnWMP7wUqRA0g54cZ0jdnTi1zmPSEtKlTMU3gj95mjMHqJWLhqWy2M1OT2GFg0FOWu7pwPzgzvBa4wIgI/kBOVaj+3KyURikYp6iOnY+e8bQM70MDdDOELd311ndls6DFrRro7LS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=prWlFthl; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1730224428; c=relaxed/simple;
+	bh=WziafT2eTMjBjW229ktOTyL8rO7sTGDiAd1/ejN4CL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y+UbwPjLo5nZmd7JgMUKdnFUZGPi4c8K5m8PUKB2w3G7cWJOtmOQWSOfOt/yXkDlw0ugD7DacN9qNPlD+8we48KxhC3dZI9ce8vwbvChLfaZ9vBAR5A8HtBDhm1T/FvYQGT5Hvc7mCvBRX/WX/xpvzN5Xx0Bqcyux0zkyiUfIUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=fTJU99wk; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="prWlFthl"
-Received: from [192.168.7.205] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49THe3A6451693
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Tue, 29 Oct 2024 10:40:03 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49THe3A6451693
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024101701; t=1730223604;
-	bh=l0/F6+jn/7mFUkBUVW0dl3LGmpVjN1lVeIa3tibqzhE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=prWlFthlScSlGElGCx1KOSTF9/+bR6IBrIn8zROURZ5GpR4+/Zk6ti2sYv2aB51+q
-	 HHVlYD85bN5u0dbpR9sNp/BA3UPvMJvN3/SHrVSZo8GM6HgdU7V92S5C04ByVEFS4a
-	 BX76o/UpzVfQPaLSFvo5M2l8NnsMtRt7ZhtLnPX2TbZrGJdoqqL+JSp9S1ZVk5r3P2
-	 /L1x8K52qb0lsshahMxfSv1dgjPVZx0/gSSVzd+rDgG/S68izOfhu+FZ+b34obl1mV
-	 dEOG8vkad6Q0JdH7jyNB3jFeZhw745r8bwrYm1G7qOHUjtJZuzqryj6CA4I1lyoEoQ
-	 OFq5kEREnpMcw==
-Message-ID: <538c630c-0de3-4807-9e9f-6af02dd18d0e@zytor.com>
-Date: Tue, 29 Oct 2024 10:40:03 -0700
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="fTJU99wk"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20cdb889222so55410165ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 10:53:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1730224426; x=1730829226; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EtH9ZoQPDiHEkDhWLDrz6/hg7ImzZ8y8bzq5j1Y7ZXc=;
+        b=fTJU99wkY+RRoB7XpBbCXXjI/OIxRM6ZKggywcCD1AQ5CkuWr7kIA2cI0s5AbC7PCx
+         xuhVIq/nP7lfy+NqbmQhkHeZVkH+q66Nl1ERPbhAc4SKqzixwiq8/QQHNMS25PoFD7q7
+         nXEsapYO/X7NwwAU+j3NSg6e9zQxmhcjVOy5M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730224426; x=1730829226;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EtH9ZoQPDiHEkDhWLDrz6/hg7ImzZ8y8bzq5j1Y7ZXc=;
+        b=kgdkbFMWeMvxiJ9ewSXKFf3F3O4QpfdpKCe5ijXYMAT7RuoqouFrZ/3JYU0kJ0K7x4
+         RVO8B6pRLTIdkDUmSQQYa1SvtTU5ZlaftjNakpOFNEpELHcYfQ5netCOEuiFGM4KKkpv
+         GTdZ2NY5p9S9d7+pgdbBKLqt3y3J/nflMTaTcPcHmB0X36gB3bx7AQNlELEVCNqrIytK
+         VJC5FeUaGKDJN6gKwegt3oDt2QIqclebygp+hfCRr3Wmp+3CaVe7Eg1dgst05KCWfnnJ
+         0Gtuh1LwrtummLZSckFL3hZMpmUaiaWEsFlyI+Hp69D22axgyns4qk7iRoAzYfdfjoWy
+         9hEw==
+X-Forwarded-Encrypted: i=1; AJvYcCUinhUyK4SCXB4eYkfrl6E/4D9uPpMAXOuN/6QllhB6g50/9vM8wsIPZeC/c34Y5C0r+za8bp07uyg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhF4sfUFvTcp969GNL0GRfmnvaaLKs85EEzQ7d2ItXBmavvNrV
+	202Rp1aQ5mPJ2qjTU34dMs6CDY4Gjq12BfOYdJlHxdHwJmrH0XDSBxraAzcC/vI=
+X-Google-Smtp-Source: AGHT+IFl0sEy36nL06f5S7GHxaLAmGOVL3UnW1+PfSkmqSMmqC2WV99zVZZGGp1yXDhj/okALP3/GQ==
+X-Received: by 2002:a17:902:d507:b0:20e:986a:6e72 with SMTP id d9443c01a7336-210c6c0906bmr183390355ad.30.1730224426104;
+        Tue, 29 Oct 2024 10:53:46 -0700 (PDT)
+Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bbf88490sm68819745ad.114.2024.10.29.10.53.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2024 10:53:45 -0700 (PDT)
+Date: Tue, 29 Oct 2024 10:53:41 -0700
+From: Joe Damato <jdamato@fastly.com>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org, namangulati@google.com, edumazet@google.com,
+	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
+	sdf@fomichev.me, peter@typeblog.net, m2shafiei@uwaterloo.ca,
+	bjorn@rivosinc.com, hch@infradead.org, willy@infradead.org,
+	willemdebruijn.kernel@gmail.com, skhawaja@google.com,
+	kuba@kernel.org, Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	"open list:BPF [MISC] :Keyword:(?:b|_)bpf(?:b|_)" <bpf@vger.kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>, Jan Kara <jack@suse.cz>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	Mina Almasry <almasrymina@google.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH net-next v2 0/6] Suspend IRQs during application busy
+ periods
+Message-ID: <ZyEhJXCrZgBLMJgB@LQ3V64L9R2>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+	namangulati@google.com, edumazet@google.com,
+	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
+	sdf@fomichev.me, peter@typeblog.net, m2shafiei@uwaterloo.ca,
+	bjorn@rivosinc.com, hch@infradead.org, willy@infradead.org,
+	willemdebruijn.kernel@gmail.com, skhawaja@google.com,
+	kuba@kernel.org, Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	"open list:BPF [MISC] :Keyword:(?:b|_)bpf(?:b|_)" <bpf@vger.kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>, Jan Kara <jack@suse.cz>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	Mina Almasry <almasrymina@google.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+References: <20241021015311.95468-1-jdamato@fastly.com>
+ <57a0e1e7-1079-4055-8072-d9105b70103f@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 25/27] KVM: nVMX: Add FRED VMCS fields
-To: Sean Christopherson <seanjc@google.com>, Chao Gao <chao.gao@intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
-References: <20241001050110.3643764-1-xin@zytor.com>
- <20241001050110.3643764-26-xin@zytor.com> <Zxn6Vc/2vvJ3VHCb@intel.com>
- <f9bb0740-21ec-482d-92fb-7fed3fef7d36@zytor.com> <Zx9Ua0dTQXwC9lzS@intel.com>
- <Zx_XmJnMCZjb7VBS@google.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <Zx_XmJnMCZjb7VBS@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <57a0e1e7-1079-4055-8072-d9105b70103f@redhat.com>
 
-On 10/28/2024 11:27 AM, Sean Christopherson wrote:
-> On Mon, Oct 28, 2024, Chao Gao wrote:
->> On Fri, Oct 25, 2024 at 12:25:45AM -0700, Xin Li wrote:
->>>>> static void nested_vmx_setup_cr_fixed(struct nested_vmx_msrs *msrs)
->>>>> diff --git a/arch/x86/kvm/vmx/nested.h b/arch/x86/kvm/vmx/nested.h
->>>>> index 2c296b6abb8c..5272f617fcef 100644
->>>>> --- a/arch/x86/kvm/vmx/nested.h
->>>>> +++ b/arch/x86/kvm/vmx/nested.h
->>>>> @@ -251,6 +251,14 @@ static inline bool nested_cpu_has_encls_exit(struct vmcs12 *vmcs12)
->>>>> 	return nested_cpu_has2(vmcs12, SECONDARY_EXEC_ENCLS_EXITING);
->>>>> }
->>>>>
->>>>> +static inline bool nested_cpu_has_fred(struct vmcs12 *vmcs12)
->>>>> +{
->>>>> +	return vmcs12->vm_entry_controls & VM_ENTRY_LOAD_IA32_FRED &&
->>>>> +	       vmcs12->vm_exit_controls & VM_EXIT_ACTIVATE_SECONDARY_CONTROLS &&
->>>>> +	       vmcs12->secondary_vm_exit_controls & SECONDARY_VM_EXIT_SAVE_IA32_FRED &&
->>>>> +	       vmcs12->secondary_vm_exit_controls & SECONDARY_VM_EXIT_LOAD_IA32_FRED;
->>>>
->>>> Is it a requirement in the SDM that the VMM should enable all FRED controls or
->>>> none? If not, the VMM is allowed to enable only one or two of them. This means
->>>> KVM would need to emulate FRED controls for the L1 VMM as three separate
->>>> features.
->>>
->>> The SDM doesn't say that.  But FRED states are used during and
->>> immediately after VM entry and exit, I don't see a good reason for a VMM
->>> to enable only one or two of the 3 save/load configs.
-> 
-> Not KVM's concern.
-> 
->>> Say if VM_ENTRY_LOAD_IA32_FRED is not set, it means a VMM needs to
->>> switch to guest FRED states before it does a VM entry, which is
->>> absolutely a big mess.
-> 
-> Again, not KVM's concern.
-> 
->> If the VMM doesn't enable FRED, it's fine to load guest FRED states before VM
->> entry, right?
-> 
-> Yep.  Or if L1 is simply broken and elects to manually load FRED state before
-> VM-Enter instead of using VM_ENTRY_LOAD_IA32_FRED, then any badness that happens
-> is 100% L1's problem to deal with.  KVM's responsiblity is to emulate the
-> architectural behavior, what L1 may or may not do is irrelevant.
+On Tue, Oct 29, 2024 at 11:25:18AM +0100, Paolo Abeni wrote:
+> On 10/21/24 03:52, Joe Damato wrote:
 
-Damn, obviously I COMPLETELY missed this point.
-
-Let me think how should KVM as L0 handle it.
+[...]
 
 > 
->> The key is to emulate hardware behavior accurately without making assumptions
->> about guests.
+> The changes makes sense to me, and I could not find any obvious issue in
+> the patches.
 > 
-> +1000
+> I think this deserve some - even basic - self-tests coverage. Note that
+> you can enable GRO on veth devices to make NAPI instances avail there.
 > 
->> If some combinations of controls cannot be emulated properly, KVM
->> should report internal errors at some point.
+> Possibly you could opt for a drivers/net defaulting to veth usage and
+> allowing the user to select real H/W via env variables.
 
-Yeah, only if CANNOT.  Otherwise a broken VMM will behave differently on
-real hardware and KVM, even if it crashes in a way which it never knows
-about, right?
+Sorry, Paolo, but I took a cursory look at veth and I need to object
+more strongly to your feedback here.
+
+My understanding (which could be incorrect) is that neither veth nor
+netdevsim use IRQs.
+
+The whole purpose of this series is to block IRQs while data is
+being busy polled to increase efficiency. That's in the cover
+letter.
+
+If neither of the drivers we'd use to simulate this in selftest use
+IRQs, how could we build a selftest which ensures IRQs are correctly
+suspended during busy periods without first making considerable
+changes to either (or both?) drivers?
+
+Respectfully: I don't think it's appropriate to block this series on
+that much additional work.
+
+Please reconsider and let me know how to proceed.
