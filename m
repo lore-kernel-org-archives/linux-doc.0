@@ -1,138 +1,117 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9778199E80
-	for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 16:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4F8198831;
+	Tue, 29 Oct 2024 16:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730219547; cv=none; b=JKpTok0X5SfvLD+N3tL/1+WgncsBXdG+TtJHifhkIcqaVywDVjCYhK57Wj2Djg30Srs7nYWGAB0I4ksPXZokOLGfZJuX2Wq+HNcTJ8Eqc0lQsCZACh7QnVLVU5cATfOOMci5tXiyvehVOzeV/fBbS60nuTwIWHdMDy18R4mp+tg=
+	t=1730219580; cv=none; b=YJXsocGETgaPCfx1VUs7sC6IF6zZIT7vRA1aen0tzwkc3IplGvvx6USQE2OlQWx++3fBLYx1D4vE08l6EbvFslyq4aI6lQRyCV0K7nhhX4fJk4YGqQvKkEq/CAkSb4YNmwp4ERpotJ24BDOaee3kM6iQ1ga5rBQfi1tBwsBAekc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730219547; c=relaxed/simple;
-	bh=hYolIBUKtKrKGdr/IPiPmwPl8fX/vuUGaiMdAk19sho=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mF1zWl295PG70J9+E4/JdLyfOgSC8b/sy/mJ5P4H6NmPJ2GI52BJwg1Obkci1ZvTMb9SJQ95XKV7exWOgKYoy0oWzLm0pmf8O8Ov9T0wuCawVU3LWysVYTiQoVDRHR+FhdMTNO1kHzp5zzteiJI8uCaWFaOLaBSMP4zZxlIqDrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DG5i+xB8; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1730219580; c=relaxed/simple;
+	bh=gZzvj1L1Uurkf/PTmqTauqG1geMqfWBB82+zNmPrqjk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qSpiGU4VgY9yTAuGZgNCcu5qXVLN7xF+R019KFrsmvOSEEmX8VsN3sOLjydnZ369rqSRtvfZdowvnGp7rV1lbg0yiMFU1Ex3bE3cggMw/hkHEJHhtSpwc9bf5VjZXE4OrsmNykg/AeFZ3cIYBpSncYp8P6dlp5FAK0yRhdO1xNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A2kyqAII; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DG5i+xB8"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fb51e00c05so84220181fa.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 09:32:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A2kyqAII"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5ebc1af8e91so2847529eaf.1;
+        Tue, 29 Oct 2024 09:32:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1730219543; x=1730824343; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bUOJQ4C9/O1JlNHOtWYDDSld89tRwaEqczlK/L6VWlA=;
-        b=DG5i+xB8SGrVP6U8PilwMIHhAi5GLnqFt+CvKNzMqJNLw0p5tPaCsgx6XRWncuD1kB
-         CfGhNnQBKRiqgENw+hdC7CPdlYXB6Vxl7QNG8g3Y3053jMyNAu2Pp6eVbisGDA+mR2o3
-         HV/iBXMSJCkShwetgK7YVtDYssxwmaozMebcV/F+tumD/Eh7gyKMJAKm6jpj8jrM4vpz
-         dHOUdJdNWG8obNGNafawz4qyNslWJl3x6MR3Nj8bvNfl2Mc8qWGrni1uz6MwyCjIDax2
-         vrxubw3uCO3/zbFbmA9h5z+FeIns8/7bNu3GHgCumQVzS16wKQvN/k8A9r+j5X4o8op4
-         r5IQ==
+        d=gmail.com; s=20230601; t=1730219577; x=1730824377; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=S/lGGqEKgUEddXZiGrZ4jfunD0Qbhe5FARK/pNKY1l4=;
+        b=A2kyqAIInAg0La0SdCgbfJykVC5hqzDq+HfLIExp8u5YAyEglMVQEAFyRRB5oZSTlF
+         wa7eh+nylJph/saC8YUmj1eJu871IcuqM7Bb0h4foKIjDCdVU9vre0dEtixdFCoofVc/
+         xEfD/wGCPaAkcJcL+f/WXicQ3Jo51QrsKc6PlYhbKnuDnEeIdWcSdTqb2jbGS+iB80Ea
+         xpn3h3MYoj23Fw0rDiOon+4ysfvo1VqNuesQMbBpuC4WqaNhkwOFmJrsivzJF0LHSHjf
+         NvkeXX85+ty7PIjnmXU89RbxbyHeEec+cJmP8WQzNKn4ymiw/clrE3X9aVKvexoDrxsu
+         5VAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730219543; x=1730824343;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1730219577; x=1730824377;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bUOJQ4C9/O1JlNHOtWYDDSld89tRwaEqczlK/L6VWlA=;
-        b=vvRfQ8EHK7YrhaO49Zu2iq//fBZcj4BqgHxRdJGPGDgNdxijkOF9evdYyTooPYbrL+
-         d8ehFSKOrZOx9QTSE0p2Wr9zFIzn7bZRpDRwjhBtCtRlafS/6fJG0u8dGaVA795s2FkQ
-         CSYXr7WDa1haRDaHFUN1RoYYsvY2eKxkZD68XooziXoILVwOOFEmA1cmvYIvF2UaZWE9
-         ZwJV+byrabA1bUADsHox4YbpS6r3LpvDMlMn2qpPWYi0wmjlUiXMPlC+4pWFH7vKWoLi
-         nfgsLmAHBft685h0Xf2a5stjDEs/6U2XQCSEI7KJN1XC3P6ZTUcm/MOIuWNI1w4mSE5Q
-         anKw==
-X-Forwarded-Encrypted: i=1; AJvYcCW2lDHOpViaiwBJI5f2IOHpCQURKnCi8neuO0xfbNFY/gjvyoe7afM9pMBHLeCr3pbCiVoiLWYpgrU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhqZ4y/YscFlcN6stg0OfqfI30aIZWL28IMhwwcii1owe5jP69
-	qBzvNs/LV9GzDVXdlesMG1bzzvft9RSrqc5kNvD706W6Kp8pfCCdVDFAb+qP7yQ=
-X-Google-Smtp-Source: AGHT+IFRjAbr9XWeX7K55eMSmZKhkY0RY3XF4MvBwCJPmM2jYr8kSDV9jS96JgjiVUw4zczZOC4WcA==
-X-Received: by 2002:a2e:be9f:0:b0:2fa:d4ef:f234 with SMTP id 38308e7fff4ca-2fcbdf6183emr96680611fa.1.1730219542770;
-        Tue, 29 Oct 2024 09:32:22 -0700 (PDT)
-Received: from ?IPV6:2a10:bac0:b000:7465:7285:c2ff:fedd:7e3a? ([2a10:bac0:b000:7465:7285:c2ff:fedd:7e3a])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b3099ddf1sm498006466b.149.2024.10.29.09.32.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Oct 2024 09:32:22 -0700 (PDT)
-Message-ID: <35c07733-d9e4-43a3-9dde-2cc10cd1ab9f@suse.com>
-Date: Tue, 29 Oct 2024 18:32:20 +0200
+        bh=S/lGGqEKgUEddXZiGrZ4jfunD0Qbhe5FARK/pNKY1l4=;
+        b=maHSP5tdFp5M6LtosnIf48P0K62fERkgHvK2D+iXoBGoyjIb3HSWIyyWB4PBhXN5q4
+         l+a0GhWNEvzroguGihi9mvKC8JJiWSHkZhHCbmq9x4rT/7ej/pRmdrqGBt/WfgbqT5S5
+         RYAMJaIlFj0aKGNN4Jpg/IvW2GcNbnu+DXHLEJY+g8lDmRmSMo/UATQMnXuyeM7Rt3ay
+         YCaaPFikhqsR6+BW9JgqbcU3aBF2NFrFfA0JXFqwjGImcEhXolg46kU6Fawzpsna92Bp
+         jERpbBaX9LUnluS+5ZZqeIWr1vxFPlaAcdupNXZXllK/loGSRClSc2kaZnUVNYBjyqm9
+         u9zA==
+X-Forwarded-Encrypted: i=1; AJvYcCVZcRE/K8QRYq48sEyc4uqcZydP6ASZ7YqmfKCZb7X6k7Mm1s/yJDADNhCK3jHFpWt5XBSTxxXhxdak@vger.kernel.org, AJvYcCW3Amb75wlTFuQYWwdVNiZ1ySxICqb2AFvGStyzSN7teR0ataEEwVOAm7OqB7Ig11hIzU3HAqa8775c@vger.kernel.org, AJvYcCWV3PqQ+UFC+KJ0KWulbpvA75fEoJ4oLBkOitqnDAIIlXp6ytUsKns8rFHXgPbpk/WITrKURdPz7qEjqYo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxgu7pD3jqng4Bnq1GcLh6wWAmAc+zs0qtF2CwPeFRANUD0rUVE
+	u7kf5Da9GQtttV2LOiZnDJwnWUdwXSaLUWGKrGPhCg8sqkeLXt9WIxyYAJuO
+X-Google-Smtp-Source: AGHT+IEinLyHOA1cU8O4mla2g+CTLD0/kpM9fr/Cvhw5KUFrWs0dqZE3hQDgF3DFEKEzSCm3sqc6BA==
+X-Received: by 2002:a05:6820:808:b0:5e1:ba38:86e7 with SMTP id 006d021491bc7-5ec23970a84mr7743542eaf.5.1730219577179;
+        Tue, 29 Oct 2024 09:32:57 -0700 (PDT)
+Received: from raspberrypi ([2600:1700:90:4c80::3b])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ec185d2da8sm2397806eaf.23.2024.10.29.09.32.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2024 09:32:55 -0700 (PDT)
+Date: Tue, 29 Oct 2024 11:32:53 -0500
+From: Grant Peltier <grantpeltier93@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: robh@kernel.org, linux@roeck-us.net, magnus.damm@gmail.com,
+	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] dt-bindings: hwmon: pmbus: add bindings for
+ isl68137
+Message-ID: <ZyEONRFoooymFcfJ@raspberrypi>
+References: <cover.1729874904.git.grantpeltier93@gmail.com>
+ <CAMuHMdWHZR9pN3h=Jdsqs5Qb0mi_4CobBtu82PRgzrm5TRgE4A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] x86/bugs: Check VERW mitigations for consistency
-To: Daniel Sneddon <daniel.sneddon@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
-Cc: hpa@zytor.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- pawan.kumar.gupta@linux.intel.com
-References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
- <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
-From: Nikolay Borisov <nik.borisov@suse.com>
-Content-Language: en-US
-In-Reply-To: <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWHZR9pN3h=Jdsqs5Qb0mi_4CobBtu82PRgzrm5TRgE4A@mail.gmail.com>
 
-
-
-On 29.10.24 г. 1:50 ч., Daniel Sneddon wrote:
-> There are currently 4 mitigations that use VERW: MDS, TAA,
-> MMIO Stale Data, and Register File Data Sampling. Because
-> all 4 use the same mitigation path, if any one of them is
-> enabled, they're all enabled. Normally, this is what is
-> wanted. However, if a user wants to disable the mitigation,
-> this can cause problems. If the user misses disabling even
-> one of these mitigations, then none of them will be
-> disabled. This can cause confusion as the user expects to
-> regain the performance lost to the mitigation but isn't
-> seeing any improvement. Since there are already 4 knobs for
-> controlling it, adding a 5th knob that controls all 4
-> mitigations together would just overcomplicate things.
-> Instead, let the user know their mitigations are out of sync
-> when at least one of these mitigations is disabled but not
-> all 4.
+On Mon, Oct 28, 2024 at 11:18:39AM +0100, Geert Uytterhoeven wrote:
+> > v4:
+> > - Revert devicetree property name to "vout-voltage-divider" and refactor
+> >   property description and driver implementation to match existing
+> >   vout-voltage-divider implementation in max20730 as no suitable generic
+> >   voltage divider schema exists.
 > 
-> Signed-off-by: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-> ---
->   arch/x86/kernel/cpu/bugs.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
+> Can you please elaborate (or point to the email that did so, in case
+> I missed it)?
 > 
-> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-> index d1915427b4ff..b26b3b554330 100644
-> --- a/arch/x86/kernel/cpu/bugs.c
-> +++ b/arch/x86/kernel/cpu/bugs.c
-> @@ -582,8 +582,26 @@ static void __init md_clear_update_mitigation(void)
->   		pr_info("Register File Data Sampling: %s\n", rfds_strings[rfds_mitigation]);
->   }
->   
-> +static void __init verw_mitigations_check(void)
-> +{
-> +	if (mds_mitigation == MDS_MITIGATION_OFF ||
-> +	    taa_mitigation == TAA_MITIGATION_OFF ||
-> +	    mmio_mitigation == MMIO_MITIGATION_OFF ||
-> +	    rfds_mitigation == RFDS_MITIGATION_OFF) {
-> +		if (mds_mitigation == MDS_MITIGATION_OFF &&
-> +		    taa_mitigation == TAA_MITIGATION_OFF &&
-> +		    mmio_mitigation == MMIO_MITIGATION_OFF &&
-> +		    rfds_mitigation == RFDS_MITIGATION_OFF)
-> +			return;
+> In reply to v2, G�nter wrote:
+> 
+>    "I would prefer, in the order of preference,
+> 
+>     1) an applicable generic property definition
+>     2) a definition that is already used elsewhere
+>     3) a new chips specific definition"
+> 
+> https://lore.kernel.org/all/3f460b62-4cd1-49dd-a98b-1fbcfdbd3af0@roeck-us.net
+> 
+> Thanks!
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+>
 
-Ugh, why don't you simply XOR the 4 values and if it's 1 it means the 
-inputs differe => there is inconsistency.
+Hi Geert,
 
-> +
-> +		pr_info("MDS, TAA, MMIO Stale Data, and Register File Data Sampling all depend on VERW\n");
-> +		pr_info("In order to disable any one of them please ensure all 4 are disabled.\n");
-> +	}
-> +}
-> +
->   static void __init md_clear_select_mitigation(void)
->   {
-> +	verw_mitigations_check();
->   	mds_select_mitigation();
->   	taa_select_mitigation();
->   	mmio_select_mitigation();
+After looking through existing bindings definitions, the only generic
+voltage divider property that I found was one that is intended to scale
+voltages for IIO io-channels. However, the use case here is to scale
+particular hwmon PMBus telemetry, which most closely matches the existing
+implementation of the vout-voltage-divider property in the max20730
+driver so I opted to copy that implementation based on Guenter's
+preferences. Is there something that I missed or more information that
+you are looking for?
+
+Thanks,
+Grant
