@@ -1,101 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8976194AD1;
-	Tue, 29 Oct 2024 16:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B3F1D7989;
+	Tue, 29 Oct 2024 16:48:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730220304; cv=none; b=Eb+H46F9liP0nGWKL7BhbY0tr3r/90Nlzp9sTOfwU+gVQyRFLHfKbvGq/5Ew5nFk2natRBiruA0lCZUfipK+abYZX5QCf1Y+WctK2JcMSyCCkpT/yOXcFFfgR9raE+rV9LXl5wwRblviTvw78MRUeTztd0rGPAqA/ljr0t0VFMk=
+	t=1730220528; cv=none; b=MHRqg2uEpqIbl4p2Wv6rZngMb/39o5fNLK5uBOlvFPvoe5GgOb6Lku17miW+JL1492Gu8MA3/ONZRh/CSnuPJubXvScOBKe6K9hYvmTXpAYU4bVAn5q+3xRFbBEdbC4OqBKhPoG2jmvTh5zV8CrmctqA/XWk/OP6JHFKpezvg9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730220304; c=relaxed/simple;
-	bh=FGhg9/5lJ7zrWIgk9nIXWwVFehhFDTKeJb/zyhiCTVk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f4tdhzuCUJWYrNgrJKu8RoLc+PXCHJYU1ZnCEfxcUOpfGB9/vgUJFhyGNqU2TCUlLI0GDt9ULK0hKO6QGtOiA2G4ytkFKzwnHPJcx2CWlXcHiLFXuhhcKnBlhRve6Oonza/I8y1FF02oPiVghcKgBWFWe1uOcf4SLt8DGDNoq0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FxnX1Q1S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730220528; c=relaxed/simple;
+	bh=UHUCi4vpc9NsIGRx2NWApkLxNhg8anztoSGFsyKXm3w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eGsDdLX4nLb/kOKikq2yJcuI2As+8u57c+YsrpN/FsVoDNvHJTmTiA3l/y84OMf9DhvRfrs5oS0EAid1NSQUPLnayDdbalOp7GfT2vqaDIu51hwbHNC5W2LjHgmCCzcWXyNY1C86wa182Xlt/m21v0wtQxsETNbWC7FkF5UAe8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OyHYnWW1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FxnX1Q1S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7488BC4CEE4;
-	Tue, 29 Oct 2024 16:45:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OyHYnWW1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB9EC4CEE7;
+	Tue, 29 Oct 2024 16:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730220303;
-	bh=FGhg9/5lJ7zrWIgk9nIXWwVFehhFDTKeJb/zyhiCTVk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FxnX1Q1Sq8u60xmVKPiDvb1bR5ObMLLtpjtql2eFaCWyF2cYDRHJ/fSJY3lSdUaFy
-	 MEnH+pphFFUa1oJDWPSkqa7dEVvCnGGhztH4EQL7tTysnAXVOHJC3g+s28XRU8V68/
-	 qXXH+b4/dUVoCZt6ffCR16sEIB3HVCdh1PEadSn5ccHDexto4Jp2WkY21Wu5/V0WUC
-	 D0l6T7pnR7kG2u0leEQcU2jLfE90yZKPewLrNWbr8E8RePImhm72dwljy4DKqq/bTB
-	 lU3Bmp66fUpjd7HsETGgCYItiQvulIBqFU3B21ppsQY1fXUvyFj/EGZE/53rCWwAmh
-	 Dtg1rtkXdIlNA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1t5pL3-007zVM-8J;
-	Tue, 29 Oct 2024 16:45:01 +0000
-Date: Tue, 29 Oct 2024 16:45:00 +0000
-Message-ID: <867c9q3lkj.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 8/9] KVM: arm64: Allow control of dpISA extensions in ID_AA64ISAR3_EL1
-In-Reply-To: <20241028-arm64-2024-dpisa-v1-8-a38d08b008a8@kernel.org>
-References: <20241028-arm64-2024-dpisa-v1-0-a38d08b008a8@kernel.org>
-	<20241028-arm64-2024-dpisa-v1-8-a38d08b008a8@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20201202; t=1730220528;
+	bh=UHUCi4vpc9NsIGRx2NWApkLxNhg8anztoSGFsyKXm3w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OyHYnWW1pjm6Aj8Kkcd/dadQl9cdDWv80O4cGEbK301k/HKDeMTCHwvXC+cwoVNue
+	 We6HnodpvPrTnrRZK2G3lOYDParD9rcxcFpCDPsScBhny2/aGDhYpHfyMfzYn2V5i2
+	 8vIqKiSqrbDs8K9LAxdas5kt/hXTScdnJlrcx6hI16sgOa8vSRzptDpr4ytKHcn6JC
+	 2K+J092fr8qm+NMl8fhV653EwxDOStqEih+f09slsAjOAG/FjJ16ZGRrUEa75cPx7F
+	 SRKR/Kt8/jRcBo0e6P4sI47wJZ5jEmWK0WEOf/k+ExW9WR6qRlyhSZXoppq6fNCTC3
+	 iAO+F3XpPWYrQ==
+Date: Tue, 29 Oct 2024 18:48:43 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 01/18] PCI/P2PDMA: refactor the p2pdma mapping helpers
+Message-ID: <20241029164843.GO1615717@unreal>
+References: <a4d93ca45f7ad09105a1cf347e6b6d6b6fb7e303.1730037276.git.leon@kernel.org>
+ <20241028205902.GA1114413@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241028205902.GA1114413@bhelgaas>
 
-On Mon, 28 Oct 2024 20:24:17 +0000,
-Mark Brown <broonie@kernel.org> wrote:
+On Mon, Oct 28, 2024 at 03:59:02PM -0500, Bjorn Helgaas wrote:
+> Prefer subject capitalization in drivers/pci:
 > 
-> ID_AA64ISAR3_EL1 is currently marked as unallocated in KVM but does have a
-> number of bitfields defined in it. Expose FPRCVT and FAMINMAX, two simple
-> instruction only extensions to guests.
+>   PCI/P2PDMA: Refactor ...
 > 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/kvm/sys_regs.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> On Sun, Oct 27, 2024 at 04:21:01PM +0200, Leon Romanovsky wrote:
+> > From: Christoph Hellwig <hch@lst.de>
+> > 
+> > The current scheme with a single helper to determine the P2P status
+> > and map a scatterlist segment force users to always use the map_sg
+> > helper to DMA map, which we're trying to get away from because they
+> > are very cache inefficient.
+> > ...
 > 
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index dad88e31f9537fe02e28b117d6a740f15572e0ba..ab348c314d7963437e1876d441169f3ef4eff095 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -2409,7 +2409,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->  	ID_WRITABLE(ID_AA64ISAR2_EL1, ~(ID_AA64ISAR2_EL1_RES0 |
->  					ID_AA64ISAR2_EL1_APA3 |
->  					ID_AA64ISAR2_EL1_GPA3)),
-> -	ID_UNALLOCATED(6,3),
-> +	ID_WRITABLE(ID_AA64ISAR3_EL1, (ID_AA64ISAR3_EL1_FPRCVT |
-> +				       ID_AA64ISAR3_EL1_FAMINMAX)),
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> 
+> A couple minor nits below.
 
-Please add the required sanitisation of the register so that we do not
-get any surprise exposure of unhandled features when someone changes
-ftr_id_aa64isar3[].
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+I'll fix, thanks
