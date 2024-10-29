@@ -1,107 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A7E207A01;
-	Tue, 29 Oct 2024 17:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FAE2107;
+	Tue, 29 Oct 2024 17:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730222928; cv=none; b=g0N71gz5Wg4AbLlNdHSdHzOuXBKyrEEFExCZ0IS5Qt/uRcwwkOm3KQ5b+Tg1s/sqSLltXYXTbj7b955gYqjAQuewmQr6QA2wYYxwr7Fq6qntF2utVpyM+ToxwV/yCeCNfmzDRwUur+HzetRdW7NYjU3V2xUuSCpwWHj9icbNWqU=
+	t=1730223651; cv=none; b=tX3/AWfhI9f2ElciqjNOpZX+wRLSMVfaDuaQhMFfKmfJYB8wvYcXXl7Tv5PuN1xGPYIrnJN480J6XxhJ55U5AjtAgLXqbMeobLeuiipgdYPS33jikJpmZLkAJtlda0BCy+NjBIUBSRMwKyGeajUhinyCh7NjfQT1OCXb8HkYrYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730222928; c=relaxed/simple;
-	bh=9ogyyqXIQi/uuhL7kuz5NJmlYRlDjf87yhyhV6XKxhk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KCIiZ3DCZhv8gu1iIjpM8IVA10vzCX8fJywxjIr7um9lXVS8D3aODbEmZpxdiYj1tOsfILCjumGAAPA9r2NnqcpEkr0OZM27RNLGsD3BQidi4mTnhNr362K0wVtuiH31xYK05G3nBlF4GN4qrXrPjW5ywSyy5KzliGU/7qC4crg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVzEA3m+; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730223651; c=relaxed/simple;
+	bh=nOaHu/IehEL6OQiLLzh5zQdYlqOfd77xgDIYOg4DnAo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uiVu1IeFlnaGi2enyIU/OKZbZzrYravHgANnWMP7wUqRA0g54cZ0jdnTi1zmPSEtKlTMU3gj95mjMHqJWLhqWy2M1OT2GFg0FOWu7pwPzgzvBa4wIgI/kBOVaj+3KyURikYp6iOnY+e8bQM70MDdDOELd311ndls6DFrRro7LS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=prWlFthl; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVzEA3m+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730222926; x=1761758926;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=9ogyyqXIQi/uuhL7kuz5NJmlYRlDjf87yhyhV6XKxhk=;
-  b=ZVzEA3m+ElWqYEIZ3pZVllg7CLhLRqkW8EuLBmbe72pCIes9I00vdc1o
-   zNyIS4hDmwIGyJbQ68cyJUlsu6KnvVaLsR6oPpIAkafSaBY2rmfw/JVau
-   KICEGvbaOqarKgcO1bkfTmRhSLfmy4T39zViI5dWq95a+wdz5lTsfx6Cn
-   4c+jLeQDxQ3s+jB/Ponw89hkvDX7svw8JB0Yxb5tBkC9dYeP5cDyeQvHH
-   QczZNCEWpTOt0Jth7yljMhPted1lOTVMKAbgfa6DcD2pB3AlAA4kYX55M
-   wB9yzkEWP8hlxTY3aikThXDNvHwwMM/cV6zddT17mRXz6EAH4v2itOwAd
-   g==;
-X-CSE-ConnectionGUID: c6cMI1pLSpaUl+LcrGOANg==
-X-CSE-MsgGUID: vmI3UB9oSCiSQIQ9fHymJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="17515710"
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="17515710"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:28:40 -0700
-X-CSE-ConnectionGUID: Gmx31W2JQuWsJkP81PRDSA==
-X-CSE-MsgGUID: ALxxAqEmRnGM8ug5OpYAKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="81585616"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:28:40 -0700
-From: Tony Luck <tony.luck@intel.com>
-To: Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	x86@kernel.org
-Cc: James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	patches@lists.linux.dev,
-	Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v8 7/7] x86/resctrl: Document the new "mba_MBps_event" file
-Date: Tue, 29 Oct 2024 10:28:32 -0700
-Message-ID: <20241029172832.93963-8-tony.luck@intel.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241029172832.93963-1-tony.luck@intel.com>
-References: <20241029172832.93963-1-tony.luck@intel.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="prWlFthl"
+Received: from [192.168.7.205] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 49THe3A6451693
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 29 Oct 2024 10:40:03 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 49THe3A6451693
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024101701; t=1730223604;
+	bh=l0/F6+jn/7mFUkBUVW0dl3LGmpVjN1lVeIa3tibqzhE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=prWlFthlScSlGElGCx1KOSTF9/+bR6IBrIn8zROURZ5GpR4+/Zk6ti2sYv2aB51+q
+	 HHVlYD85bN5u0dbpR9sNp/BA3UPvMJvN3/SHrVSZo8GM6HgdU7V92S5C04ByVEFS4a
+	 BX76o/UpzVfQPaLSFvo5M2l8NnsMtRt7ZhtLnPX2TbZrGJdoqqL+JSp9S1ZVk5r3P2
+	 /L1x8K52qb0lsshahMxfSv1dgjPVZx0/gSSVzd+rDgG/S68izOfhu+FZ+b34obl1mV
+	 dEOG8vkad6Q0JdH7jyNB3jFeZhw745r8bwrYm1G7qOHUjtJZuzqryj6CA4I1lyoEoQ
+	 OFq5kEREnpMcw==
+Message-ID: <538c630c-0de3-4807-9e9f-6af02dd18d0e@zytor.com>
+Date: Tue, 29 Oct 2024 10:40:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 25/27] KVM: nVMX: Add FRED VMCS fields
+To: Sean Christopherson <seanjc@google.com>, Chao Gao <chao.gao@intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
+References: <20241001050110.3643764-1-xin@zytor.com>
+ <20241001050110.3643764-26-xin@zytor.com> <Zxn6Vc/2vvJ3VHCb@intel.com>
+ <f9bb0740-21ec-482d-92fb-7fed3fef7d36@zytor.com> <Zx9Ua0dTQXwC9lzS@intel.com>
+ <Zx_XmJnMCZjb7VBS@google.com>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <Zx_XmJnMCZjb7VBS@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-New read/write file to show/set the memory bandwidth event used
-to control bandwidth used by each ctrl_mon group.
+On 10/28/2024 11:27 AM, Sean Christopherson wrote:
+> On Mon, Oct 28, 2024, Chao Gao wrote:
+>> On Fri, Oct 25, 2024 at 12:25:45AM -0700, Xin Li wrote:
+>>>>> static void nested_vmx_setup_cr_fixed(struct nested_vmx_msrs *msrs)
+>>>>> diff --git a/arch/x86/kvm/vmx/nested.h b/arch/x86/kvm/vmx/nested.h
+>>>>> index 2c296b6abb8c..5272f617fcef 100644
+>>>>> --- a/arch/x86/kvm/vmx/nested.h
+>>>>> +++ b/arch/x86/kvm/vmx/nested.h
+>>>>> @@ -251,6 +251,14 @@ static inline bool nested_cpu_has_encls_exit(struct vmcs12 *vmcs12)
+>>>>> 	return nested_cpu_has2(vmcs12, SECONDARY_EXEC_ENCLS_EXITING);
+>>>>> }
+>>>>>
+>>>>> +static inline bool nested_cpu_has_fred(struct vmcs12 *vmcs12)
+>>>>> +{
+>>>>> +	return vmcs12->vm_entry_controls & VM_ENTRY_LOAD_IA32_FRED &&
+>>>>> +	       vmcs12->vm_exit_controls & VM_EXIT_ACTIVATE_SECONDARY_CONTROLS &&
+>>>>> +	       vmcs12->secondary_vm_exit_controls & SECONDARY_VM_EXIT_SAVE_IA32_FRED &&
+>>>>> +	       vmcs12->secondary_vm_exit_controls & SECONDARY_VM_EXIT_LOAD_IA32_FRED;
+>>>>
+>>>> Is it a requirement in the SDM that the VMM should enable all FRED controls or
+>>>> none? If not, the VMM is allowed to enable only one or two of them. This means
+>>>> KVM would need to emulate FRED controls for the L1 VMM as three separate
+>>>> features.
+>>>
+>>> The SDM doesn't say that.  But FRED states are used during and
+>>> immediately after VM entry and exit, I don't see a good reason for a VMM
+>>> to enable only one or two of the 3 save/load configs.
+> 
+> Not KVM's concern.
+> 
+>>> Say if VM_ENTRY_LOAD_IA32_FRED is not set, it means a VMM needs to
+>>> switch to guest FRED states before it does a VM entry, which is
+>>> absolutely a big mess.
+> 
+> Again, not KVM's concern.
+> 
+>> If the VMM doesn't enable FRED, it's fine to load guest FRED states before VM
+>> entry, right?
+> 
+> Yep.  Or if L1 is simply broken and elects to manually load FRED state before
+> VM-Enter instead of using VM_ENTRY_LOAD_IA32_FRED, then any badness that happens
+> is 100% L1's problem to deal with.  KVM's responsiblity is to emulate the
+> architectural behavior, what L1 may or may not do is irrelevant.
 
-Signed-off-by: Tony Luck <tony.luck@intel.com>
----
- Documentation/arch/x86/resctrl.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Damn, obviously I COMPLETELY missed this point.
 
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index a824affd741d..d86081e76bbf 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -384,6 +384,16 @@ When monitoring is enabled all MON groups will also contain:
- 	Available only with debug option. The identifier used by hardware
- 	for the monitor group. On x86 this is the RMID.
- 
-+When the "mba_MBps" mount option is used all CTRL_MON groups will also contain:
-+
-+"mba_MBps_event":
-+	Reading this file shows which memory bandwidth event is used
-+	as input to a software feedback loop to keep memory bandwidth
-+	below the value specified in the schemata file. Writing the
-+	name of one of the supported memory bandwidth events found in
-+	/sys/fs/resctrl/info/L3_MON/monfeatures will change the input
-+	event.
-+
- Resource allocation rules
- -------------------------
- 
--- 
-2.47.0
+Let me think how should KVM as L0 handle it.
 
+> 
+>> The key is to emulate hardware behavior accurately without making assumptions
+>> about guests.
+> 
+> +1000
+> 
+>> If some combinations of controls cannot be emulated properly, KVM
+>> should report internal errors at some point.
+
+Yeah, only if CANNOT.  Otherwise a broken VMM will behave differently on
+real hardware and KVM, even if it crashes in a way which it never knows
+about, right?
