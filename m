@@ -1,331 +1,152 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E79205145;
-	Tue, 29 Oct 2024 11:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1002F20492E;
+	Tue, 29 Oct 2024 11:36:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730200464; cv=none; b=in3RGcO4340t1WK26uDOsAQmWi+en8WYTxdf0Sd0QqJp8+azMUccBxlZdW6UVJS0nQCL/6Vlsz83vrtbEwlmvfj1p4kpVkhDoksapraWW3AiJxj99gbcQZQY0i3BBHh6xNEhaTk3VP7qLB8xHceZBmWWtACmOpqytmqmfELj96A=
+	t=1730201813; cv=none; b=Xd6axhvahhrC7wTXILeh+IDwqTc7cbd2KYrpDAQaRhIP+OI0bkyl8Bx7wpkgAxmZAQbvDYUxJeILt56QCTzInvhcoS0J3H3FWDptlI7oQAlt7W284mGu06L5m5YaohHpB0I8ghVKUepSMMGlsIBps1a4IsOQ4ShnixBfeAUT/fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730200464; c=relaxed/simple;
-	bh=ntcR/5fxYI9veJkD9zPHKCvwGVU+MMkjl7VtMV4YZ1o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gfoNqO2S+/6+dmWbb18IGnmWOJgmSuwPuLdKR5uLcySFzNZj6lBHatZMMS/dazzkFpQ89ILGw+6fDvy+01f+dsGdUJjM85mRW/otUlh1lvmBxSRzjvYSouSv+bBjOUm6kWABG76RGZ4NTpxZaKY0yHUYen+IOmM9hVrSvmmuWwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=icbbYhzs; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1730201813; c=relaxed/simple;
+	bh=e5S/YKnH9NHvSS0aTqimfEThPXu31EgHVlB//jnSb+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WAEechlrZZ1Wde5vL2l4O7QH/HTps2sbD8XEtdJmFxi/XnTAo8sRstOv2eCq0NVUr/T6Iw25KLe7nhNtGaA2eQqMjJMBBVLaSD0iZb9zAEA2hSQ7eGbHpZR1XawO7uek4zDRRHDwr0K5rQUx6rrAEUd97an1Gx2wRzUwhT73Jvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dr2Wko62; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="icbbYhzs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=AYysOSKmA73dsvmvXqLdUufvFFewPZvF2sm/O7lEFDE=; b=icbbYhzsA3CPDkrmDlPobvrASF
-	TgWFZ+UPrdLjSqKdy4qnTyfO3dPdOBuz3wIoPYsDwA2dtN3u+U99rTYrFd8MTIxEZHSDVj0jN9ktp
-	uh1BMem9i7tZfX4kbBB/lhVtVHEPC7sXJnCqYlgmPhHV+/9RCzGWwtevCld+qNMmhfodP2Jf3p/pI
-	ZQ8ZNixTBHlnihJ83ah3aOIeGcHBM7EyENVvL6m1GPrsL6MkbUidSffJ+fu9pUVi8+ezVacCwMLXn
-	4TKEYYWaNWkyHjUOCfKBijLiq9Fbdmjj8cSd8wp84sBTY6rqFCQRayWCW5QfjbqLucqM/mF2rwCBZ
-	lSWMyx3A==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1t5kAm-00Gb04-T9; Tue, 29 Oct 2024 12:14:05 +0100
-Message-ID: <aa6d71d5-979d-41d7-bc5c-0ac0bc6f159a@igalia.com>
-Date: Tue, 29 Oct 2024 08:13:59 -0300
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dr2Wko62"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=mRSboDDzGxAiy3/RWSIRW202wiGtlrHhBve+K+RhU38=; b=dr2Wko62gJxMTrK00ekmXTouum
+	fRryKzE23eZi7WLE5eGQk6PCAaQrrcRHJX9k1jouVRU0cHMV1MvhLFb98RCc9g9TNqUmYNKecxYBQ
+	uFIXCzATCX7D6+8YtDPtNJn8dHac5jrImCWIHVY3ECwJbPSx3CgB6kX3QNRc3nmHn+0l9xdb7Np8/
+	So0Nd2tjsSxVGVngTeSH1eZDkTiJVB5mgaQyoPUgWotA/0/MicKUle+uM5uxXXbyhguTWVxoB8jnq
+	aJNWDyAKr70EhEqdHM8BKT+/w+EoP0XF8/mH1cbPn5HFNO3OZclS8Y3guTbtx53/BanZR4/gGhGgO
+	FfRhsjhg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t5kWC-00000009t4y-0VcF;
+	Tue, 29 Oct 2024 11:36:12 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id BD8B630073F; Tue, 29 Oct 2024 12:36:11 +0100 (CET)
+Date: Tue, 29 Oct 2024 12:36:11 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Xiongwei Song <xiongwei.song@windriver.com>,
+	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Tony Luck <tony.luck@intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	Kai Huang <kai.huang@intel.com>,
+	Sandipan Das <sandipan.das@amd.com>,
+	Breno Leitao <leitao@debian.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
+	Juergen Gross <jgross@suse.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Yuntao Wang <ytcoode@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
+	Huang Shijie <shijie@os.amperecomputing.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH v5 03/16] x86/alternatives: Disable LASS when patching
+ kernel alternatives
+Message-ID: <20241029113611.GS14555@noisy.programming.kicks-ass.net>
+References: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
+ <20241028160917.1380714-4-alexander.shishkin@linux.intel.com>
+ <7897bc3e-2d68-4aef-8668-f6eb9f8efd7f@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] mm: shmem: control THP support through the kernel
- command line
-To: Baolin Wang <baolin.wang@linux.alibaba.com>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>,
- David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Lance Yang <ioworker0@gmail.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com
-References: <20241029002324.1062723-1-mcanal@igalia.com>
- <20241029002324.1062723-3-mcanal@igalia.com>
- <6044e56a-7747-45d4-82c9-7a070950ddd2@linux.alibaba.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <6044e56a-7747-45d4-82c9-7a070950ddd2@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7897bc3e-2d68-4aef-8668-f6eb9f8efd7f@intel.com>
 
-Hi Baolin,
+On Mon, Oct 28, 2024 at 10:49:07AM -0700, Dave Hansen wrote:
+> On 10/28/24 09:07, Alexander Shishkin wrote:
+> >  static void text_poke_memcpy(void *dst, const void *src, size_t len)
+> >  {
+> > -	memcpy(dst, src, len);
+> > +	lass_stac();
+> > +	__inline_memcpy(dst, src, len);
+> > +	lass_clac();
+> >  }
+> >  
+> >  static void text_poke_memset(void *dst, const void *src, size_t len)
+> >  {
+> >  	int c = *(const int *)src;
+> >  
+> > -	memset(dst, c, len);
+> > +	lass_stac();
+> > +	__inline_memset(dst, c, len);
+> > +	lass_clac();
+> >  }
+> 
+> These are the _only_ users of lass_stac/clac() or the new inlines.
 
-On 28/10/24 23:03, Baolin Wang wrote:
-> 
-> 
-> On 2024/10/29 08:13, Maíra Canal wrote:
->> Add a new kernel command line to control the hugepage allocation policy
->> for the internal shmem mount, ``transparent_hugepage_shmem``. The
->> parameter is similar to ``transparent_hugepage`` and has the following
->> format:
->>
->> transparent_hugepage_shmem=<policy>
->>
->> where ``<policy>`` is one of the seven valid policies available for
->> shmem.
->>
->> By configuring the default hugepage allocation policy for the internal
->> shmem mount, applications that use shmem, such as the DRM GEM objects,
->> can take advantage of mTHP before it's been configured through sysfs.
-> 
-> Just out of curiosity, do you have any performance benefit data when 
-> using mTHP for DRM GEM objects?
+For now; I have vague memories of running into trouble with compilers
+doing random things with memcpy before, and having these inline versions
+gives us more control.
 
-I haven't yet benchmark mTHP with V3D (Raspberry Pi's GPU) and also I
-still need to find the ideal combination of huge pages' sizes. But the
-idea is to benefit from the Super Pages support that I recently
-implemented in V3D [1]. Currently, I'm using a separate tmpfs mountpoint
-to implement Super Pages.
+One of the cases I remember running into was KASAN, where a compiler is
+SUPPOSED to issue __asan_memcpy calls instead of the regular memcpy
+calls, except they weren't all doing that, with the end result that our
+regular memcpy implementation grew instrumentation to deal with that.
 
-I'll apply your refactor suggestion in the next version. Thanks!
+That got sorted -- by deprecating / breaking all those non-conformant
+compilers. But still, I think it would be good to have the option to
+force a simple inline memcpy when needed.
 
-[1] 
-https://mairacanal.github.io/unleashing-power-enabling-super-pages-on-RPi/
+> First of all, I totally agree that the _existing_ strict objtool
+> behavior around STAC/CLAC is a good idea.
+> 
+> But text poking really is special and the context is highly unlikely to
+> result in bugs or exploits.  My first instinct here would have been to
+> tell objtool that the text poking code is OK and to relax objtool's
+> STAC/CLAC paranoia here.
+> 
+> Looking at objtool, I can see how important it is to keep the STAC/CLAC
+> code as dirt simple and foolproof as possible.  I don't see an obvious
+> way to except the text poking code without adding at least some complexity.
+> 
+> Basically what I'm asking for is if the goal is to keep objtool simple,
+> please *SAY* that.  Because on the surface this doesn't look like a good
+> idea.
 
-Best Regards,
-- Maíra
+There is, you can add it to uaccess_safe_builtin[], but I'm not sure we
+want to blanked accept memcpy() -- or perhaps that is what you're
+saying.
 
-> 
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   .../admin-guide/kernel-parameters.txt         |  7 +++
->>   Documentation/admin-guide/mm/transhuge.rst    |  6 +++
->>   mm/shmem.c                                    | 53 +++++++++++++++----
->>   3 files changed, 57 insertions(+), 9 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/ 
->> Documentation/admin-guide/kernel-parameters.txt
->> index 1666576acc0e..acabb04d0dd4 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -6926,6 +6926,13 @@
->>               See Documentation/admin-guide/mm/transhuge.rst
->>               for more details.
->> +    transparent_hugepage_shmem= [KNL]
->> +            Format: [always|within_size|advise|never|deny|force]
->> +            Can be used to control the hugepage allocation policy for
->> +            the internal shmem mount.
->> +            See Documentation/admin-guide/mm/transhuge.rst
->> +            for more details.
->> +
->>       trusted.source=    [KEYS]
->>               Format: <string>
->>               This parameter identifies the trust source as a backend
->> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/ 
->> Documentation/admin-guide/mm/transhuge.rst
->> index 745055c3dc09..9b5b02c4d1ab 100644
->> --- a/Documentation/admin-guide/mm/transhuge.rst
->> +++ b/Documentation/admin-guide/mm/transhuge.rst
->> @@ -326,6 +326,12 @@ PMD_ORDER THP policy will be overridden. If the 
->> policy for PMD_ORDER
->>   is not defined within a valid ``thp_anon``, its policy will default to
->>   ``never``.
->> +Similarly to ``transparent_hugepage``, you can control the hugepage
->> +allocation policy for the internal shmem mount by using the kernel 
->> parameter
->> +``transparent_hugepage_shmem=<policy>``, where ``<policy>`` is one of 
->> the
->> +seven valid policies for shmem (``always``, ``within_size``, ``advise``,
->> +``never``, ``deny``, and ``force``).
->> +
->>   Hugepages in tmpfs/shmem
->>   ========================
->> diff --git a/mm/shmem.c b/mm/shmem.c
->> index 44282a296c33..26c1eb1b4b1d 100644
->> --- a/mm/shmem.c
->> +++ b/mm/shmem.c
->> @@ -582,7 +582,6 @@ static bool shmem_huge_global_enabled(struct inode 
->> *inode, pgoff_t index,
->>       }
->>   }
->> -#if defined(CONFIG_SYSFS)
->>   static int shmem_parse_huge(const char *str)
->>   {
->>       if (!strcmp(str, "never"))
->> @@ -599,7 +598,6 @@ static int shmem_parse_huge(const char *str)
->>           return SHMEM_HUGE_FORCE;
->>       return -EINVAL;
->>   }
->> -#endif
->>   #if defined(CONFIG_SYSFS) || defined(CONFIG_TMPFS)
->>   static const char *shmem_format_huge(int huge)
->> @@ -624,6 +622,20 @@ static const char *shmem_format_huge(int huge)
->>   }
->>   #endif
->> +static int shmem_valid_huge(int huge)
->> +{
->> +    if (!has_transparent_hugepage() &&
->> +            huge != SHMEM_HUGE_NEVER && huge != SHMEM_HUGE_DENY)
->> +        return -EINVAL;
->> +
->> +    /* Do not override huge allocation policy with non-PMD sized mTHP */
->> +    if (huge == SHMEM_HUGE_FORCE &&
->> +        huge_shmem_orders_inherit != BIT(HPAGE_PMD_ORDER))
->> +        return -EINVAL;
->> +
->> +    return 0;
->> +}
->> +
->>   static unsigned long shmem_unused_huge_shrink(struct shmem_sb_info 
->> *sbinfo,
->>           struct shrink_control *sc, unsigned long nr_to_free)
->>   {
->> @@ -5070,14 +5082,10 @@ static ssize_t shmem_enabled_store(struct 
->> kobject *kobj,
->>       huge = shmem_parse_huge(tmp);
->>       if (huge == -EINVAL)
->>           return -EINVAL;
->> -    if (!has_transparent_hugepage() &&
->> -            huge != SHMEM_HUGE_NEVER && huge != SHMEM_HUGE_DENY)
->> -        return -EINVAL;
->> -    /* Do not override huge allocation policy with non-PMD sized mTHP */
->> -    if (huge == SHMEM_HUGE_FORCE &&
->> -        huge_shmem_orders_inherit != BIT(HPAGE_PMD_ORDER))
->> -        return -EINVAL;
->> +    err = shmem_valid_huge(huge);
->> +    if (err)
->> +        return err;
->>       shmem_huge = huge;
->>       if (shmem_huge > SHMEM_HUGE_DENY)
->> @@ -5174,6 +5182,33 @@ struct kobj_attribute thpsize_shmem_enabled_attr =
->>       __ATTR(shmem_enabled, 0644, thpsize_shmem_enabled_show, 
->> thpsize_shmem_enabled_store);
->>   #endif /* CONFIG_TRANSPARENT_HUGEPAGE && CONFIG_SYSFS */
->> +#if defined(CONFIG_TRANSPARENT_HUGEPAGE)
->> +
->> +static int __init setup_transparent_hugepage_shmem(char *str)
->> +{
->> +    int huge, ret = 0;
->> +
->> +    if (!str)
->> +        goto out;
->> +
->> +    huge = shmem_parse_huge(str);
->> +    if (huge == -EINVAL)
->> +        goto out;
-> 
-> Looks better. But shmem_parse_huge() is also a common part, and what I 
-> am thinking is below:
-> 
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index f8b8b1ad2631..646d8943950a 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -629,24 +629,39 @@ static unsigned int 
-> shmem_huge_global_enabled(struct inode *inode, pgoff_t index
->          }
->   }
-> 
-> -#if defined(CONFIG_SYSFS)
->   static int shmem_parse_huge(const char *str)
->   {
-> +       int huge;
-> +
-> +       if (!str)
-> +               return -EINVAL;
-> +
->          if (!strcmp(str, "never"))
-> -               return SHMEM_HUGE_NEVER;
-> -       if (!strcmp(str, "always"))
-> -               return SHMEM_HUGE_ALWAYS;
-> -       if (!strcmp(str, "within_size"))
-> -               return SHMEM_HUGE_WITHIN_SIZE;
-> -       if (!strcmp(str, "advise"))
-> -               return SHMEM_HUGE_ADVISE;
-> -       if (!strcmp(str, "deny"))
-> -               return SHMEM_HUGE_DENY;
-> -       if (!strcmp(str, "force"))
-> -               return SHMEM_HUGE_FORCE;
-> -       return -EINVAL;
-> +               huge = SHMEM_HUGE_NEVER;
-> +       else if (!strcmp(str, "always"))
-> +               huge = SHMEM_HUGE_ALWAYS;
-> +       else if (!strcmp(str, "within_size"))
-> +               huge = SHMEM_HUGE_WITHIN_SIZE;
-> +       else if (!strcmp(str, "advise"))
-> +               huge = SHMEM_HUGE_ADVISE;
-> +       else if (!strcmp(str, "deny"))
-> +               huge = SHMEM_HUGE_DENY;
-> +       else if (!strcmp(str, "force"))
-> +               huge = SHMEM_HUGE_FORCE;
-> +       else
-> +               return -EINVAL;
-> +
-> +       if (!has_transparent_hugepage() &&
-> +           huge != SHMEM_HUGE_NEVER && huge != SHMEM_HUGE_DENY)
-> +               return -EINVAL;
-> +
-> +       /* Do not override huge allocation policy with non-PMD sized 
-> mTHP */
-> +       if (huge == SHMEM_HUGE_FORCE &&
-> +           huge_shmem_orders_inherit != BIT(HPAGE_PMD_ORDER))
-> +               return -EINVAL;
-> +
-> +       return huge;
->   }
-> -#endif
-> 
->   #if defined(CONFIG_SYSFS) || defined(CONFIG_TMPFS)
->   static const char *shmem_format_huge(int huge)
-> @@ -5104,16 +5119,8 @@ static ssize_t shmem_enabled_store(struct kobject 
-> *kobj,
->                  tmp[count - 1] = '\0';
-> 
->          huge = shmem_parse_huge(tmp);
-> -       if (huge == -EINVAL)
-> -               return -EINVAL;
-> -       if (!has_transparent_hugepage() &&
-> -                       huge != SHMEM_HUGE_NEVER && huge != 
-> SHMEM_HUGE_DENY)
-> -               return -EINVAL;
-> -
-> -       /* Do not override huge allocation policy with non-PMD sized 
-> mTHP */
-> -       if (huge == SHMEM_HUGE_FORCE &&
-> -           huge_shmem_orders_inherit != BIT(HPAGE_PMD_ORDER))
-> -               return -EINVAL;
-> +       if (huge < 0)
-> +               return huge;
-> 
->          shmem_huge = huge;
->          if (shmem_huge > SHMEM_HUGE_DENY)
-> @@ -5210,6 +5217,25 @@ struct kobj_attribute thpsize_shmem_enabled_attr =
->          __ATTR(shmem_enabled, 0644, thpsize_shmem_enabled_show, 
-> thpsize_shmem_enabled_store);
->   #endif /* CONFIG_TRANSPARENT_HUGEPAGE && CONFIG_SYSFS */
-> 
-> +#if defined(CONFIG_TRANSPARENT_HUGEPAGE)
-> +
-> +static int __init setup_transparent_hugepage_shmem(char *str)
-> +{
-> +       int huge;
-> +
-> +       huge = shmem_parse_huge(str);
-> +       if (huge < 0) {
-> +               pr_warn("transparent_hugepage_shmem= cannot parse, 
-> ignored\n");
-> +               return 0;
-> +       }
-> +
-> +       shmem_huge = huge;
-> +       return 1;
-> +}
-> +__setup("transparent_hugepage_shmem=", setup_transparent_hugepage_shmem);
-> +
-> +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-> +
->   #else /* !CONFIG_SHMEM */
-> 
->   /*
-
+Anyway, looking at this, I see we grew rep_{movs,stos}_alternative, as
+used in copy_user_generic() and __clear_user(). Which are all somewhat
+similar.
