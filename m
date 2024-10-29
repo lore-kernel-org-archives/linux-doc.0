@@ -1,114 +1,119 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BE67464;
-	Tue, 29 Oct 2024 11:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67701C2ED;
+	Tue, 29 Oct 2024 13:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730201973; cv=none; b=k3t/Zp3YvCvpiQD9yRnALFcYeAeS7W+Dkm3HEXvbfpG4rQY8bHcwdALgYFIE5Xyq9rmdZB6MXYX6UMLIHCqzazbU/EEoAU0UbIJIVxZvM8/Mo2sc/AiLPqm6oIE1pBzKbSgOOJMWFQY9BAp6Gos5z7v8wb2gb5apGeoT364Ju18=
+	t=1730206966; cv=none; b=H/CpLTD5YthhISyoT/EDxh7RzBcr0Eqm6Xg0s7/8CEwAhwgoeSbVOM8smc6h45gIaFYxolh+qAsv5lnJV0dh+BprbvpG2exttFvucBbHuLNX3hpCcTb8XfgE66JyLPgocQ//is13y+iu4gvtQGSkWtz6xtXKPwVFJUDZvlQ4GpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730201973; c=relaxed/simple;
-	bh=NkNFfbji0OME9gPCeQIakGoXEIkxCxgpbxmctKafQAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mg5dvMoqYBIUconUjTfTS2/efdEnyeAUVDq2cvLir92Lg7flinal/K/3NkXtprmtgPUvWHZEMYkwIegKUXC/cGVqvHppYz4Ut5QNl3OJDpR3aktKyoDREB7KevWtAvaCo0OqxpdFPgVDJTf8Dld39fBQcT8PYziYG+HZMJEcruw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=LJSlwFyM; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1730206966; c=relaxed/simple;
+	bh=6zlYd9Sh85VMhYNMWlJ/18aBsnWAUD7V/elpV+0eEzU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LmxAxGevDAP6y6IT3se1jQYzyP7I6kmDVqAjeKrz9aWarZPi5eeytBmM29Bh1SYtxqCqlmdlKqnveNcrefEQ2slmj+wV1oyyw/gNCF+Gc+oZb1PqCz7d569/cfErJH4qYWAL4WLsj6ep0YyIzCeAU3VsQEkDyTNaJvuV6zarjCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=xq2XKue2; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="LJSlwFyM"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D5EE140E0191;
-	Tue, 29 Oct 2024 11:39:28 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id bxg2LzqxNo7C; Tue, 29 Oct 2024 11:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1730201964; bh=0iZNTIQ41wXmMKTJ9iFXjkQg26CA/6aBHQN6CHwVF1M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LJSlwFyM18+RZszvDzcL2dKyJClz15WhcDZcVJreE+I1hNdOhwGLjKI5nNBgjmdL2
-	 L2UOZFPHzUAm+7g85IV9wljr3rn5o0dTfB1JKujBQQrLMjsp1olGdaxDbGk7l6ArJy
-	 D87II4rFCH8ROQsnevp9OgN0wyoJx5xWIkuluwTrMF37hjZyU1Yvgfg12V08592Jk+
-	 /FQUZTVXdciZ+bAySL0C/PF18QNRt7SaumlNYuoPmM2YZAjYb0iRI7Q/Q7eziaiSMk
-	 Mn9KIPnsjdrdpxbLqkdw/tqpCqhGj57Xvo9WgRtch14kzuSNTLbXgaWZ+yH0RzVOeJ
-	 YpJktNhlvPifhXVomcQ50te2O2KgeJPc+nY2CVjzjZd0tWx5cvizcJxSR4uc/czDCl
-	 2g7hHpwiz25eWVP7TeTWFylYBaOrb3Q7QbPQgHxxtjCEmW9hyL2cyLemJBBwauOkKo
-	 MkjO+CodGzDq2N34aznrZxlXgx6zZ1LYDsl55Y9SQIF+1MyYS+GTTwiJyBY6tdhQu8
-	 Cn6LWlTIpPQLWtmOGvEoswm5j5EG80T+QfP3lG5U8WIcdACPvkLWTy4/W1K7M7ry0q
-	 14u/Z9rG5cR4WMI5W/w0lE4Re7DGK0zgr3RDi1k9qIqLJtGR8AcpkRlBP9UsPSxUnU
-	 JnAFn6CXd5Rhz+0I3C+gNnp8=
-Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B3F0640E0192;
-	Tue, 29 Oct 2024 11:39:12 +0000 (UTC)
-Date: Tue, 29 Oct 2024 12:39:11 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	hpa@zytor.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, pawan.kumar.gupta@linux.intel.com
-Subject: Re: [PATCH 1/2] x86/bugs: Check VERW mitigations for consistency
-Message-ID: <20241029113911.GVZyDJX3rg8kh_4kYb@fat_crate.local>
-References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
- <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="xq2XKue2"
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T9B2Bi026333;
+	Tue, 29 Oct 2024 09:02:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=bx79OakHKqtLIjSc4XDf4/sUlI+
+	y0vKG14CYdzRXTng=; b=xq2XKue2LQPSiQXgNR2x7nHKoFOwwGMPeyPhNMiar9V
+	YcV9HHj1qQZR2kxxkeEiR1U7I63VGECziPNd7IN4IRNTj5j4q1ZPAK8jKoP2Ooh2
+	u7AZM9pn4dARjtGRJccLwRVxVwV7T4QK7GJqo5t145DIOxcR+07Y6073mx7uAccA
+	vZsgZ2t5NpaOcmzVTFQU9StnuHBuo7aOP6e9sFhoa4y/w33kAQYN7tWNKOfhLe9V
+	829156AGKnLARZSXviP3EcGXuF/GgZDaGno/KEG8Za1VaQEYMt/VhH7G3Muhx62s
+	N/F9YvYsMRU7ff4UsxmA6cMtb0EYl9fgIi5nhur55cQ==
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 42gwb2numn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Oct 2024 09:02:07 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 49TD25Ti016534
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 29 Oct 2024 09:02:05 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Tue, 29 Oct 2024 09:02:05 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Tue, 29 Oct 2024 09:02:05 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Tue, 29 Oct 2024 09:02:05 -0400
+Received: from CENCARNA-L02.ad.analog.com (CENCARNA-L02.ad.analog.com [10.117.116.108])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 49TD1hWX019740;
+	Tue, 29 Oct 2024 09:01:46 -0400
+From: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+To: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>
+CC: Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Delphine CC Chiu
+	<Delphine_CC_Chiu@Wiwynn.com>,
+        Rob Herring <robh@kernel.org>,
+        "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Peter
+ Yin <peteryin.openbmc@gmail.com>,
+        Noah Wang <noahwang.wang@outlook.com>, "Marek Vasut" <marex@denx.de>,
+        Lukas Wunner <lukas@wunner.de>,
+        Cedric
+ Encarnacion <cedricjustine.encarnacion@analog.com>
+Subject: [PATCH 0/2] Add driver for LTP8800-1A, LTP8800-2 and LTP8800-4A
+Date: Tue, 29 Oct 2024 21:01:35 +0800
+Message-ID: <20241029130137.31284-1-cedricjustine.encarnacion@analog.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: 4E73l1UoolAgn6w22Qz-IpePKHS3Uxo2
+X-Proofpoint-GUID: 4E73l1UoolAgn6w22Qz-IpePKHS3Uxo2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ priorityscore=1501 mlxlogscore=972 adultscore=0 suspectscore=0 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1011 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2410290099
 
-On Mon, Oct 28, 2024 at 04:50:34PM -0700, Daniel Sneddon wrote:
-> There are currently 4 mitigations that use VERW: MDS, TAA,
-> MMIO Stale Data, and Register File Data Sampling. Because
-> all 4 use the same mitigation path, if any one of them is
-> enabled, they're all enabled. Normally, this is what is
-> wanted. However, if a user wants to disable the mitigation,
-> this can cause problems. If the user misses disabling even
-> one of these mitigations, then none of them will be
-> disabled. This can cause confusion as the user expects to
-> regain the performance lost to the mitigation but isn't
-> seeing any improvement. Since there are already 4 knobs for
-> controlling it, adding a 5th knob that controls all 4
-> mitigations together would just overcomplicate things.
-> Instead, let the user know their mitigations are out of sync
-> when at least one of these mitigations is disabled but not
-> all 4.
+The LTP8800-1A/-2/-4A is a 150A/135A/200A step-down μModule regulator that
+provides microprocessor core voltage from 54V power distribution
+architecture. It features remote configurability and telemetry monitoring
+of power management parameters over PMBus. This patch series adds driver
+and bindings for these devices.
 
-Please split this commit message into smaller chunks for better readability.
-For example:
+Cedric Encarnacion (2):
+  dt-bindings: trivial-devices: add ltp8800
+  hwmon: pmbus: add driver for ltp8800-1a, ltp8800-4a, and ltp8800-2
 
-    There are currently 4 mitigations that use VERW: MDS, TAA, MMIO Stale Data,
-    and Register File Data Sampling. Because all 4 use the same mitigation path,
-    if any one of them is enabled, they're all enabled.
-    
-    Normally, this is what is wanted. However, if a user wants to disable the
-    mitigation, this can cause problems. If the user misses disabling even one of
-    these mitigations, then none of them will be disabled.
-    
-    This can cause confusion as the user expects to regain the performance lost to
-    the mitigation but isn't seeing any improvement. Since there are already
-    4 knobs for controlling it, adding a 5th knob that controls all 4 mitigations
-    together would just overcomplicate things.
-    
-    Instead, let the user know their mitigations are out of sync when at least one
-    of these mitigations is disabled but not all 4.
+ .../devicetree/bindings/trivial-devices.yaml  |   6 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/ltp8800.rst               | 103 ++++++++++++++++++
+ MAINTAINERS                                   |   7 ++
+ drivers/hwmon/pmbus/Kconfig                   |  18 +++
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/ltp8800.c                 |  74 +++++++++++++
+ 7 files changed, 210 insertions(+)
+ create mode 100644 Documentation/hwmon/ltp8800.rst
+ create mode 100644 drivers/hwmon/pmbus/ltp8800.c
 
-Thx.
 
+base-commit: 893acae4cdaf34fdde0e7285d5922af70775e5f7
 -- 
-Regards/Gruss,
-    Boris.
+2.39.2
 
-https://people.kernel.org/tglx/notes-about-netiquette
