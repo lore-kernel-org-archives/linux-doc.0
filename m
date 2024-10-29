@@ -1,203 +1,299 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6316213C3F6;
-	Tue, 29 Oct 2024 01:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C881863F;
+	Tue, 29 Oct 2024 02:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730165911; cv=none; b=prLV+oFeBbh8XMEJD5FtkPKV3O7aMGoMvplm5A61EaXviseEf3/xpezyae93JZo5Qs0cIqRt/pUFpzgYuCq87i7O+m7wOKAIh6gdSPvzIBkMgC9J3PhK68qpzaJNXJyriEcwXFCoPbl7Cd15o4NpFbTD0k3nLOmtZpaHxUhgPJ8=
+	t=1730167446; cv=none; b=el/GMBkgscd81hAn2mnX+PAUUdtIxcmdzCEXFT4KRuiuqAXzQ9EZmuuKER4jmEIYGWLVLjbZmfThfXVUufWENFX4J/TjAfldZgz290qg0lJqH5Bt07vVlPwjL7ghMzq6OymX4Yrf/fm7pvU4tha1GvlA8V3c//kfLdSviDtQrOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730165911; c=relaxed/simple;
-	bh=FK7FJ1NakIuFl1DY4Wq7E0A24NQ2ar4oPQk7kkTCPcQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sm3rwak1vQMuoGnS5wcW+LQtGFqHpWDUZmGarcIW1IlcTfUgDIGveZJARX3ZNhlz07JeP9wpoLU8F7titCnFl4BpgAvsa8zNnS3vY/kuXTsGoU3Wsp8B+PVErsU4lRj7IdlVlQor2anS+QSDCRMjzs3rnvClzT4IFfxjbW+9UJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=ZUXO2TKl; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1730167446; c=relaxed/simple;
+	bh=ZsO1ZU2TXg/NGu3J2x38UomRJPb4lMdm98glWHaQhxo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QArAaXSL/2dG0Saq0T0wHv8kONHQLGFdD1ijvx/oEczmAWreYNukN6yA0er0R36LjEFK38KEHGqjZAHJ7QZDyyN8ugeANB/j8GhbQ7anV+luLFoRW1K+xwalBqbu1WjRb7XkXZJcsOhgDRXHGVS77MNtQxwQgiamxCALosxfcus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ju1K9N7R; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="ZUXO2TKl"
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SMk9Lf027636;
-	Mon, 28 Oct 2024 21:38:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=FWkrk
-	QdfhdZu4b9/Od2xDQrjn4cLmKxHKOYM9xC/GVg=; b=ZUXO2TKlQjchgwTLmd7qt
-	wkHpwycv0X458HFuYjbILmpuFszO3UJ/5gwjW7tZacc1dzWXFB2xaLFU/WPonpFj
-	DESmwEgozLICKjK/G7157/YoCPze3mryc4n3InwVXjvKDxugM28GpZWq94hT4/1i
-	jM36mTN8rtZEgkCukToMSYWcDHAdcVPdKj9tjpiXCSUS89CG+aHMlriM4yLtsseo
-	KEMONmOE0wxohhoJS5oTfta9BTAzPwbVWyV7N7rfukTUlEFo5ZtaCTBf1AZhJTYX
-	fs+3bzbbMvWOwhNaG76Yy5Q6oUKbAAXxzOreBHtn/FXkc8vHrFw40Px1txuzIr3x
-	w==
-Received: from nwd2mta3.analog.com ([137.71.173.56])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 42gt92ukjp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Oct 2024 21:38:11 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 49T1cA8X018910
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 28 Oct 2024 21:38:10 -0400
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Mon, 28 Oct 2024 21:38:09 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Mon, 28 Oct 2024 21:38:09 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Mon, 28 Oct 2024 21:38:09 -0400
-Received: from MTINACO-L03.ad.analog.com (MTINACO-L03.ad.analog.com [10.117.223.14])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 49T1bgJR031384;
-	Mon, 28 Oct 2024 21:38:03 -0400
-From: Mariel Tinaco <Mariel.Tinaco@analog.com>
-To: <linux-kernel@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare
-	<jdelvare@suse.com>,
-        Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>,
-        "Jonathan Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Frank Li <Frank.Li@nxp.com>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>
-Subject: [PATCH 3/3] hwmon: (pmbus/ltc2978) add support for ltc7841
-Date: Tue, 29 Oct 2024 09:37:34 +0800
-Message-ID: <20241029013734.293024-4-Mariel.Tinaco@analog.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241029013734.293024-1-Mariel.Tinaco@analog.com>
-References: <20241029013734.293024-1-Mariel.Tinaco@analog.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ju1K9N7R"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1730167440; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=cJLV2I3mm++zjsZzUs9QwwWBlESHcgMWR+goQ5ld/5c=;
+	b=ju1K9N7RJJJ+w3jgF1CRis4GaECwQBLcCvEEZEyEdeLb+FMpR26wfmnAM6/ngHMjjLa+v21tY/rY2RFqFBo5Y4pG4c/f6VQrDO21uVWzezSn//iWNbbUHm0WdiZ/A37hl+uhg2MvR89Q2sLwLrEq6Uwt8h4MmvGXkCQLJ/BDEbE=
+Received: from 30.74.144.128(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WI8M9ZI_1730167438 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 29 Oct 2024 10:03:59 +0800
+Message-ID: <6044e56a-7747-45d4-82c9-7a070950ddd2@linux.alibaba.com>
+Date: Tue, 29 Oct 2024 10:03:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] mm: shmem: control THP support through the kernel
+ command line
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>,
+ David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Lance Yang <ioworker0@gmail.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+References: <20241029002324.1062723-1-mcanal@igalia.com>
+ <20241029002324.1062723-3-mcanal@igalia.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20241029002324.1062723-3-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: mYpGhXks3Cff0-9Btl0zeXOKFeTiXbdy
-X-Proofpoint-ORIG-GUID: mYpGhXks3Cff0-9Btl0zeXOKFeTiXbdy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- phishscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015 adultscore=0
- bulkscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410290011
 
-Add support for LTC7841. The LTC7841 is a high performance
-PolyPhase® single output synchronous boost converter controller.
-Multiphase operation reduces input and output capacitor
-requirements and allows the use of smaller inductors than the
-single-phase equivalent.
 
-The relevant registers in the LTC7841 are similar to the
-LTC7880, only reduced by some amount. So it's just a matter of adding
-the chip id. The device also doesn't support polling, on top of the
-reduced register set, so a separate case for setting the chip info is
-added.
 
-Signed-off-by: Mariel Tinaco <Mariel.Tinaco@analog.com>
----
- drivers/hwmon/pmbus/Kconfig   |  6 +++---
- drivers/hwmon/pmbus/ltc2978.c | 20 ++++++++++++++++++--
- 2 files changed, 21 insertions(+), 5 deletions(-)
+On 2024/10/29 08:13, Maíra Canal wrote:
+> Add a new kernel command line to control the hugepage allocation policy
+> for the internal shmem mount, ``transparent_hugepage_shmem``. The
+> parameter is similar to ``transparent_hugepage`` and has the following
+> format:
+> 
+> transparent_hugepage_shmem=<policy>
+> 
+> where ``<policy>`` is one of the seven valid policies available for
+> shmem.
+> 
+> By configuring the default hugepage allocation policy for the internal
+> shmem mount, applications that use shmem, such as the DRM GEM objects,
+> can take advantage of mTHP before it's been configured through sysfs.
 
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index a4f02cad92fd..f6d352841953 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -224,9 +224,9 @@ config SENSORS_LTC2978_REGULATOR
- 	depends on SENSORS_LTC2978 && REGULATOR
- 	help
- 	  If you say yes here you get regulator support for Linear Technology
--	  LTC3880, LTC3883, LTC3884, LTC3886, LTC3887, LTC3889, LTC7880,
--	  LTM4644, LTM4675, LTM4676, LTM4677, LTM4678, LTM4680, LTM4686,
--	  and LTM4700.
-+	  LTC3880, LTC3883, LTC3884, LTC3886, LTC3887, LTC3889, LTC7841,
-+	  LTC7880, LTM4644, LTM4675, LTM4676, LTM4677, LTM4678, LTM4680,
-+	  LTM4686, and LTM4700.
- 
- config SENSORS_LTC3815
- 	tristate "Linear Technologies LTC3815"
-diff --git a/drivers/hwmon/pmbus/ltc2978.c b/drivers/hwmon/pmbus/ltc2978.c
-index 73a86f4d6472..a6eb4d4b5487 100644
---- a/drivers/hwmon/pmbus/ltc2978.c
-+++ b/drivers/hwmon/pmbus/ltc2978.c
-@@ -23,7 +23,8 @@ enum chips {
- 	/* Managers */
- 	ltc2972, ltc2974, ltc2975, ltc2977, ltc2978, ltc2979, ltc2980,
- 	/* Controllers */
--	ltc3880, ltc3882, ltc3883, ltc3884, ltc3886, ltc3887, ltc3889, ltc7132, ltc7880,
-+	ltc3880, ltc3882, ltc3883, ltc3884, ltc3886, ltc3887, ltc3889, ltc7132,
-+	ltc7841, ltc7880,
- 	/* Modules */
- 	ltm2987, ltm4664, ltm4675, ltm4676, ltm4677, ltm4678, ltm4680, ltm4686,
- 	ltm4700,
-@@ -50,7 +51,7 @@ enum chips {
- #define LTC3880_MFR_CLEAR_PEAKS		0xe3
- #define LTC3880_MFR_TEMPERATURE2_PEAK	0xf4
- 
--/* LTC3883, LTC3884, LTC3886, LTC3889, LTC7132, LTC7880 */
-+/* LTC3883, LTC3884, LTC3886, LTC3889, LTC7132, LTC7841 and LTC7880 only */
- #define LTC3883_MFR_IIN_PEAK		0xe1
- 
- /* LTC2975 only */
-@@ -80,6 +81,7 @@ enum chips {
- #define LTC3887_ID			0x4700
- #define LTC3889_ID			0x4900
- #define LTC7132_ID			0x4CE0
-+#define LTC7841_ID			0x40D0
- #define LTC7880_ID			0x49E0
- #define LTM2987_ID_A			0x8010	/* A/B for two die IDs */
- #define LTM2987_ID_B			0x8020
-@@ -548,6 +550,7 @@ static const struct i2c_device_id ltc2978_id[] = {
- 	{"ltc3887", ltc3887},
- 	{"ltc3889", ltc3889},
- 	{"ltc7132", ltc7132},
-+	{"ltc7841", ltc7841},
- 	{"ltc7880", ltc7880},
- 	{"ltm2987", ltm2987},
- 	{"ltm4664", ltm4664},
-@@ -654,6 +657,8 @@ static int ltc2978_get_id(struct i2c_client *client)
- 		return ltc3889;
- 	else if (chip_id == LTC7132_ID)
- 		return ltc7132;
-+	else if (chip_id == LTC7841_ID)
-+		return ltc7841;
- 	else if (chip_id == LTC7880_ID)
- 		return ltc7880;
- 	else if (chip_id == LTM2987_ID_A || chip_id == LTM2987_ID_B)
-@@ -854,6 +859,16 @@ static int ltc2978_probe(struct i2c_client *client)
- 		  | PMBUS_HAVE_POUT
- 		  | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
- 		break;
-+	case ltc7841:
-+		data->features |= FEAT_CLEAR_PEAKS;
-+		info->read_word_data = ltc3883_read_word_data;
-+		info->pages = LTC3883_NUM_PAGES;
-+		info->func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN
-+		  | PMBUS_HAVE_STATUS_INPUT
-+		  | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-+		  | PMBUS_HAVE_IOUT
-+		  | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
-+		break;
- 	default:
- 		return -ENODEV;
- 	}
-@@ -907,6 +922,7 @@ static const struct of_device_id ltc2978_of_match[] = {
- 	{ .compatible = "lltc,ltc3887" },
- 	{ .compatible = "lltc,ltc3889" },
- 	{ .compatible = "lltc,ltc7132" },
-+	{ .compatible = "lltc,ltc7841" },
- 	{ .compatible = "lltc,ltc7880" },
- 	{ .compatible = "lltc,ltm2987" },
- 	{ .compatible = "lltc,ltm4664" },
--- 
-2.34.1
+Just out of curiosity, do you have any performance benefit data when 
+using mTHP for DRM GEM objects?
 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   .../admin-guide/kernel-parameters.txt         |  7 +++
+>   Documentation/admin-guide/mm/transhuge.rst    |  6 +++
+>   mm/shmem.c                                    | 53 +++++++++++++++----
+>   3 files changed, 57 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 1666576acc0e..acabb04d0dd4 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6926,6 +6926,13 @@
+>   			See Documentation/admin-guide/mm/transhuge.rst
+>   			for more details.
+>   
+> +	transparent_hugepage_shmem= [KNL]
+> +			Format: [always|within_size|advise|never|deny|force]
+> +			Can be used to control the hugepage allocation policy for
+> +			the internal shmem mount.
+> +			See Documentation/admin-guide/mm/transhuge.rst
+> +			for more details.
+> +
+>   	trusted.source=	[KEYS]
+>   			Format: <string>
+>   			This parameter identifies the trust source as a backend
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> index 745055c3dc09..9b5b02c4d1ab 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -326,6 +326,12 @@ PMD_ORDER THP policy will be overridden. If the policy for PMD_ORDER
+>   is not defined within a valid ``thp_anon``, its policy will default to
+>   ``never``.
+>   
+> +Similarly to ``transparent_hugepage``, you can control the hugepage
+> +allocation policy for the internal shmem mount by using the kernel parameter
+> +``transparent_hugepage_shmem=<policy>``, where ``<policy>`` is one of the
+> +seven valid policies for shmem (``always``, ``within_size``, ``advise``,
+> +``never``, ``deny``, and ``force``).
+> +
+>   Hugepages in tmpfs/shmem
+>   ========================
+>   
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 44282a296c33..26c1eb1b4b1d 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -582,7 +582,6 @@ static bool shmem_huge_global_enabled(struct inode *inode, pgoff_t index,
+>   	}
+>   }
+>   
+> -#if defined(CONFIG_SYSFS)
+>   static int shmem_parse_huge(const char *str)
+>   {
+>   	if (!strcmp(str, "never"))
+> @@ -599,7 +598,6 @@ static int shmem_parse_huge(const char *str)
+>   		return SHMEM_HUGE_FORCE;
+>   	return -EINVAL;
+>   }
+> -#endif
+>   
+>   #if defined(CONFIG_SYSFS) || defined(CONFIG_TMPFS)
+>   static const char *shmem_format_huge(int huge)
+> @@ -624,6 +622,20 @@ static const char *shmem_format_huge(int huge)
+>   }
+>   #endif
+>   
+> +static int shmem_valid_huge(int huge)
+> +{
+> +	if (!has_transparent_hugepage() &&
+> +			huge != SHMEM_HUGE_NEVER && huge != SHMEM_HUGE_DENY)
+> +		return -EINVAL;
+> +
+> +	/* Do not override huge allocation policy with non-PMD sized mTHP */
+> +	if (huge == SHMEM_HUGE_FORCE &&
+> +	    huge_shmem_orders_inherit != BIT(HPAGE_PMD_ORDER))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+>   static unsigned long shmem_unused_huge_shrink(struct shmem_sb_info *sbinfo,
+>   		struct shrink_control *sc, unsigned long nr_to_free)
+>   {
+> @@ -5070,14 +5082,10 @@ static ssize_t shmem_enabled_store(struct kobject *kobj,
+>   	huge = shmem_parse_huge(tmp);
+>   	if (huge == -EINVAL)
+>   		return -EINVAL;
+> -	if (!has_transparent_hugepage() &&
+> -			huge != SHMEM_HUGE_NEVER && huge != SHMEM_HUGE_DENY)
+> -		return -EINVAL;
+>   
+> -	/* Do not override huge allocation policy with non-PMD sized mTHP */
+> -	if (huge == SHMEM_HUGE_FORCE &&
+> -	    huge_shmem_orders_inherit != BIT(HPAGE_PMD_ORDER))
+> -		return -EINVAL;
+> +	err = shmem_valid_huge(huge);
+> +	if (err)
+> +		return err;
+>   
+>   	shmem_huge = huge;
+>   	if (shmem_huge > SHMEM_HUGE_DENY)
+> @@ -5174,6 +5182,33 @@ struct kobj_attribute thpsize_shmem_enabled_attr =
+>   	__ATTR(shmem_enabled, 0644, thpsize_shmem_enabled_show, thpsize_shmem_enabled_store);
+>   #endif /* CONFIG_TRANSPARENT_HUGEPAGE && CONFIG_SYSFS */
+>   
+> +#if defined(CONFIG_TRANSPARENT_HUGEPAGE)
+> +
+> +static int __init setup_transparent_hugepage_shmem(char *str)
+> +{
+> +	int huge, ret = 0;
+> +
+> +	if (!str)
+> +		goto out;
+> +
+> +	huge = shmem_parse_huge(str);
+> +	if (huge == -EINVAL)
+> +		goto out;
+
+Looks better. But shmem_parse_huge() is also a common part, and what I 
+am thinking is below:
+
+diff --git a/mm/shmem.c b/mm/shmem.c
+index f8b8b1ad2631..646d8943950a 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -629,24 +629,39 @@ static unsigned int 
+shmem_huge_global_enabled(struct inode *inode, pgoff_t index
+         }
+  }
+
+-#if defined(CONFIG_SYSFS)
+  static int shmem_parse_huge(const char *str)
+  {
++       int huge;
++
++       if (!str)
++               return -EINVAL;
++
+         if (!strcmp(str, "never"))
+-               return SHMEM_HUGE_NEVER;
+-       if (!strcmp(str, "always"))
+-               return SHMEM_HUGE_ALWAYS;
+-       if (!strcmp(str, "within_size"))
+-               return SHMEM_HUGE_WITHIN_SIZE;
+-       if (!strcmp(str, "advise"))
+-               return SHMEM_HUGE_ADVISE;
+-       if (!strcmp(str, "deny"))
+-               return SHMEM_HUGE_DENY;
+-       if (!strcmp(str, "force"))
+-               return SHMEM_HUGE_FORCE;
+-       return -EINVAL;
++               huge = SHMEM_HUGE_NEVER;
++       else if (!strcmp(str, "always"))
++               huge = SHMEM_HUGE_ALWAYS;
++       else if (!strcmp(str, "within_size"))
++               huge = SHMEM_HUGE_WITHIN_SIZE;
++       else if (!strcmp(str, "advise"))
++               huge = SHMEM_HUGE_ADVISE;
++       else if (!strcmp(str, "deny"))
++               huge = SHMEM_HUGE_DENY;
++       else if (!strcmp(str, "force"))
++               huge = SHMEM_HUGE_FORCE;
++       else
++               return -EINVAL;
++
++       if (!has_transparent_hugepage() &&
++           huge != SHMEM_HUGE_NEVER && huge != SHMEM_HUGE_DENY)
++               return -EINVAL;
++
++       /* Do not override huge allocation policy with non-PMD sized mTHP */
++       if (huge == SHMEM_HUGE_FORCE &&
++           huge_shmem_orders_inherit != BIT(HPAGE_PMD_ORDER))
++               return -EINVAL;
++
++       return huge;
+  }
+-#endif
+
+  #if defined(CONFIG_SYSFS) || defined(CONFIG_TMPFS)
+  static const char *shmem_format_huge(int huge)
+@@ -5104,16 +5119,8 @@ static ssize_t shmem_enabled_store(struct kobject 
+*kobj,
+                 tmp[count - 1] = '\0';
+
+         huge = shmem_parse_huge(tmp);
+-       if (huge == -EINVAL)
+-               return -EINVAL;
+-       if (!has_transparent_hugepage() &&
+-                       huge != SHMEM_HUGE_NEVER && huge != SHMEM_HUGE_DENY)
+-               return -EINVAL;
+-
+-       /* Do not override huge allocation policy with non-PMD sized mTHP */
+-       if (huge == SHMEM_HUGE_FORCE &&
+-           huge_shmem_orders_inherit != BIT(HPAGE_PMD_ORDER))
+-               return -EINVAL;
++       if (huge < 0)
++               return huge;
+
+         shmem_huge = huge;
+         if (shmem_huge > SHMEM_HUGE_DENY)
+@@ -5210,6 +5217,25 @@ struct kobj_attribute thpsize_shmem_enabled_attr =
+         __ATTR(shmem_enabled, 0644, thpsize_shmem_enabled_show, 
+thpsize_shmem_enabled_store);
+  #endif /* CONFIG_TRANSPARENT_HUGEPAGE && CONFIG_SYSFS */
+
++#if defined(CONFIG_TRANSPARENT_HUGEPAGE)
++
++static int __init setup_transparent_hugepage_shmem(char *str)
++{
++       int huge;
++
++       huge = shmem_parse_huge(str);
++       if (huge < 0) {
++               pr_warn("transparent_hugepage_shmem= cannot parse, 
+ignored\n");
++               return 0;
++       }
++
++       shmem_huge = huge;
++       return 1;
++}
++__setup("transparent_hugepage_shmem=", setup_transparent_hugepage_shmem);
++
++#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++
+  #else /* !CONFIG_SHMEM */
+
+  /*
