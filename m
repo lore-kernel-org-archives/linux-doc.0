@@ -1,61 +1,61 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17462144CF
-	for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 23:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59B920CCDB
+	for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 23:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730245524; cv=none; b=e7iTA/sNvURXZMjUuJRnYLBdRixlWpfbeRoWWL8Z1TDAMyEUvl1ufloaS5DI3WBLuQqO9XRtOa7EE1Zg2cELWzYVl8YDlMhlX4gKtne07wZ9nNxFUuUbpY1zZAI717SHG8FzADIM+zkoRDNIyezmrbQ7vnz2c6wI+dFRSa+PDd8=
+	t=1730245526; cv=none; b=S/xcLYNdJhIPA50hGs5O2ZFaqQTEM+IRmOowF3LKInDdqiYW+xiVZllxS66VmyG689km6T99R/g5e7BC4p0xumhBlp906VGrL0B2Kz8ytoF2gdhZjp7EQmQ94VppFfiPdmvmSieGvAU5Cuid1zez8HRfV75bz3NdOFajJ57LUzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730245524; c=relaxed/simple;
-	bh=uIj6D6eKxGy22T3W83W2H4Fei/chUVRqxoKSzM5k6/M=;
+	s=arc-20240116; t=1730245526; c=relaxed/simple;
+	bh=npdjbdQ9OiznYboXySJA7nsTUXQsbon7kndWJUIFVYU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hPoCmSiTho8incsv8rMzp+T/36sFt08/gf7mnZttZY7ydfNcoladu1CI5R2W2XYkC4YbDJrpvjgRqhpYuOn5Tjnhupr2Y4cTNjuy6tr2WtKatwi1jJu9NFxkW9Msh9gIfHtJwOpp5rN1zGP7Kzp36jcDcfU0ZPWiyzZZkJ1uk3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=tpACsMkN; arc=none smtp.client-ip=209.85.210.169
+	 In-Reply-To:To:Cc; b=V0gXOUgh5JQCC2Gm+5yr5OwrL0URXHPHssrE9mAA+CCII3iqdl3GnCVRg1na+1f0Nj5UvDL4fmQ74Gl/SCdQLEcQZrQPw9UOZ6YPsZw3N8LN40XkAq3I+oAqFgQZxCMf+BZzfuvLXYX/upZQRtUYYz3nTt4VCHos9mPe2yUVPUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=wl+1rBYr; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="tpACsMkN"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-71e3fce4a60so4358364b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 16:45:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="wl+1rBYr"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71e467c3996so4617847b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 16:45:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730245521; x=1730850321; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730245524; x=1730850324; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Kn/sn+D1z+93mY85aikbkRt+t3FRvwF0B8Ok3zV+OA0=;
-        b=tpACsMkNDdHDMljNEfzxdFWJukqwQPAK6dy9qtuDt+FvoNqjYJQDXJmiLSxFz9KKvp
-         QLY6DX1IIcTg1cEKmVYhfMcnOrfAtEyOEoeYY9prN77TOfsLcwcX03tycZ71gR/Mz/A1
-         Ie+IYvktVIsz5iTd3ax1eHk7gwW29LC+JlmrjS9r/rbajNiOwCyGKLvIwk/4Z6frMj3R
-         U9kDn5gc2YBbhwXJh9zbTtTLZt6BdjwydgcgNWaNiITBbp0PNZLUp9qngN7r4XCudRfh
-         PVUzNxPOOVGprPwDRI2TnvJJS7esOG0Ekph4ruIK/qEFAsAHQXiGQgIfHyGIWb2GUuA7
-         eJew==
+        bh=7vRNSIBiNXIf2UJE+KhXd4ECbBBsrxcPJxpg99mApzo=;
+        b=wl+1rBYrIzBTIjBxkPFFknrSKB0jUyrigEFzLOTBni7SCfSJ+u7U/RM/wRLcjz5Xxq
+         3gSS+eq/3o2u7gqgvN0KdysO3XZ6nymlZx28ap7dpI7/4MCBWLz+VqPTTI+ut4YSb3bx
+         zPp+QgI3wkI8C9FNG6QwW0jSj0+FYqDofgZpjR5JlvWl11m+2PAZE63MUTbaS/tjavsD
+         9BuEXlw2ilT2IrPApfxHBnEBb7qmdGNI66vv9UPMvpSA/MC+CklKce2K5rXMwdRQd6Sl
+         KCRdjF6asxFtriwUhhMU0SV7bWmDgwsmXkYC47HJdy7yc9D3jbQOcjq0dvT8LwLL5llK
+         j9pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730245521; x=1730850321;
+        d=1e100.net; s=20230601; t=1730245524; x=1730850324;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Kn/sn+D1z+93mY85aikbkRt+t3FRvwF0B8Ok3zV+OA0=;
-        b=XLT9vNiV495VTP2DgQqBN44AFCcbKniDvPyiAjuoA9j4yn2s0o3aD+h/HkaN8867ww
-         O1RwhQl2VEh9dEKMX69P0C14155p23r3nRunI9/jpHTddxcaiTGo6LdF22HVosrdlGlh
-         7McbwhsWpboxwrPouP8dD434WpExTJn0EWYhUnBZC8cr3fBHdjFyYtL2T5lXlRc4RmNm
-         No4a5kOD7LgkYSkvlnRq1XTM/OZLNcqHdnB8JKMzDAar2scrkrYsONPk6DZ3I2U3q1r7
-         DPbxJc3+awgfTOFEeLU51UnW6zrwdMg4MuuBkL+V5FQ/mqGc2lNt7NHbVcdVsdYt/13a
-         MWsw==
-X-Forwarded-Encrypted: i=1; AJvYcCUBnykAZ4hgRMzsZg+93LgyTRZRFG1YjpzP2kWTNlq8OtDpOLlOO2SJmomb/yWNE9419O3kQWLFiKk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnBjnlVQ+sNyVWx623Hw2z1alBwDhi0lCtEJDhQYOYM998DG6Z
-	99Zi4zF/UphUshHh2RnFhXzsdGF6A+TogP5HGNYqDCcLwMYXAjOLCSJqF88ZGm0=
-X-Google-Smtp-Source: AGHT+IFSRRwDJwzMEik28WuiCu9TazkISCRtSEmteAY39kMNDbrF9hMfjaoxtBbs1QyHM1hw6YiZLw==
-X-Received: by 2002:a05:6a21:e96:b0:1d2:eaca:4fa8 with SMTP id adf61e73a8af0-1d9a84d9df9mr21491704637.35.1730245520903;
-        Tue, 29 Oct 2024 16:45:20 -0700 (PDT)
+        bh=7vRNSIBiNXIf2UJE+KhXd4ECbBBsrxcPJxpg99mApzo=;
+        b=DXdONJEcCd+GoaThFejFbfLnSVZceIFLqaGAcmDbpibJvU59Z/1tuGOnA5dtg3zfpG
+         1oZyanUbIH57TRafwyeoarwvdpoVU0q6qsRhn7fyqOzB1F9TB4mBLQ/L1zFshZsQT+oS
+         XWGCxGCkvPkiO12Fv5slSBeGl1Ui/PQz/RnvA802lBRPpmghVS2+JCOSptyq8TkOtNIb
+         CX2ctRwv5SWuSrTnvd9A9JO3ardBvLM5809/TaeYdFSNhMszpyJgbOt89HD59FruV4ra
+         YodhotTB767OtlTKsgj0txlr5NJj4ttYkW6jmTHSt8Fho/yAPRJieR+lwzRm9fW40aVg
+         mb5w==
+X-Forwarded-Encrypted: i=1; AJvYcCWFZdJnxusjIA0zAlrznAD002tFfURlMcE+xi1V2KmgTQPGZ2AOFcKPJbMKrSphoLPyyv2QMQshH7A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz85a6q2zBh7UKGGoOfIq1m59kfRmfOzCRiPNcTex/xN5Y0GdhG
+	orFwxPMoh/PDOUxUwSg193/ITSDT1nLkPu5HeC2mTVF0ImhUCrSy+2ERU8TbXsg=
+X-Google-Smtp-Source: AGHT+IEYWYuZ3O/cciBKJ5slqaSkPGyDa205Q6lm+0Ith+W/z7NIQt+rMOIaCZW78WCxle4V1PPCdg==
+X-Received: by 2002:a05:6a21:3998:b0:1d9:ab7:a835 with SMTP id adf61e73a8af0-1d9a84d990cmr18634439637.33.1730245523952;
+        Tue, 29 Oct 2024 16:45:23 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057921863sm8157643b3a.33.2024.10.29.16.45.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057921863sm8157643b3a.33.2024.10.29.16.45.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 16:45:20 -0700 (PDT)
+        Tue, 29 Oct 2024 16:45:23 -0700 (PDT)
 From: Deepak Gupta <debug@rivosinc.com>
-Date: Tue, 29 Oct 2024 16:44:25 -0700
-Subject: [PATCH v7 25/32] riscv/hwprobe: zicfilp / zicfiss enumeration in
- hwprobe
+Date: Tue, 29 Oct 2024 16:44:26 -0700
+Subject: [PATCH v7 26/32] riscv: Add Firmware Feature SBI extensions
+ definitions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,8 +63,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241029-v5_user_cfi_series-v7-25-2727ce9936cb@rivosinc.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241029-v5_user_cfi_series-v7-26-2727ce9936cb@rivosinc.com>
 References: <20241029-v5_user_cfi_series-v7-0-2727ce9936cb@rivosinc.com>
 In-Reply-To: <20241029-v5_user_cfi_series-v7-0-2727ce9936cb@rivosinc.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
@@ -90,43 +90,63 @@ Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com, 
  atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com, 
  alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org, 
- rick.p.edgecombe@intel.com, Deepak Gupta <debug@rivosinc.com>
+ rick.p.edgecombe@intel.com
 X-Mailer: b4 0.14.0
 
-Adding enumeration of zicfilp and zicfiss extensions in hwprobe syscall.
+From: Clément Léger <cleger@rivosinc.com>
 
-Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+Add necessary SBI definitions to use the FWFT extension.
+
+Signed-off-by: Clément Léger <cleger@rivosinc.com>
 ---
- arch/riscv/include/uapi/asm/hwprobe.h | 2 ++
- arch/riscv/kernel/sys_hwprobe.c       | 2 ++
- 2 files changed, 4 insertions(+)
+ arch/riscv/include/asm/sbi.h | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 1e153cda57db..d5c5dec9ae6c 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -72,6 +72,8 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_EXT_ZCF		(1ULL << 46)
- #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
- #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
-+#define		RISCV_HWPROBE_EXT_ZICFILP	(1ULL << 49)
-+#define		RISCV_HWPROBE_EXT_ZICFISS	(1ULL << 50)
- #define RISCV_HWPROBE_KEY_CPUPERF_0	5
- #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
- #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index cea0ca2bf2a2..98f72ad7124f 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -107,6 +107,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
- 		EXT_KEY(ZCB);
- 		EXT_KEY(ZCMOP);
- 		EXT_KEY(ZICBOZ);
-+		EXT_KEY(ZICFILP);
-+		EXT_KEY(ZICFISS);
- 		EXT_KEY(ZICOND);
- 		EXT_KEY(ZIHINTNTL);
- 		EXT_KEY(ZIHINTPAUSE);
+diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
+index 98f631b051db..754e5cdabf46 100644
+--- a/arch/riscv/include/asm/sbi.h
++++ b/arch/riscv/include/asm/sbi.h
+@@ -34,6 +34,7 @@ enum sbi_ext_id {
+ 	SBI_EXT_PMU = 0x504D55,
+ 	SBI_EXT_DBCN = 0x4442434E,
+ 	SBI_EXT_STA = 0x535441,
++	SBI_EXT_FWFT = 0x46574654,
+ 
+ 	/* Experimentals extensions must lie within this range */
+ 	SBI_EXT_EXPERIMENTAL_START = 0x08000000,
+@@ -281,6 +282,32 @@ struct sbi_sta_struct {
+ 
+ #define SBI_SHMEM_DISABLE		-1
+ 
++/* SBI function IDs for FW feature extension */
++#define SBI_EXT_FWFT_SET		0x0
++#define SBI_EXT_FWFT_GET		0x1
++
++enum sbi_fwft_feature_t {
++	SBI_FWFT_MISALIGNED_EXC_DELEG		= 0x0,
++	SBI_FWFT_LANDING_PAD			= 0x1,
++	SBI_FWFT_SHADOW_STACK			= 0x2,
++	SBI_FWFT_DOUBLE_TRAP			= 0x3,
++	SBI_FWFT_PTE_AD_HW_UPDATING		= 0x4,
++	SBI_FWFT_LOCAL_RESERVED_START		= 0x5,
++	SBI_FWFT_LOCAL_RESERVED_END		= 0x3fffffff,
++	SBI_FWFT_LOCAL_PLATFORM_START		= 0x40000000,
++	SBI_FWFT_LOCAL_PLATFORM_END		= 0x7fffffff,
++
++	SBI_FWFT_GLOBAL_RESERVED_START		= 0x80000000,
++	SBI_FWFT_GLOBAL_RESERVED_END		= 0xbfffffff,
++	SBI_FWFT_GLOBAL_PLATFORM_START		= 0xc0000000,
++	SBI_FWFT_GLOBAL_PLATFORM_END		= 0xffffffff,
++};
++
++#define SBI_FWFT_GLOBAL_FEATURE_BIT		(1 << 31)
++#define SBI_FWFT_PLATFORM_FEATURE_BIT		(1 << 30)
++
++#define SBI_FWFT_SET_FLAG_LOCK			(1 << 0)
++
+ /* SBI spec version fields */
+ #define SBI_SPEC_VERSION_DEFAULT	0x1
+ #define SBI_SPEC_VERSION_MAJOR_SHIFT	24
 
 -- 
 2.34.1
