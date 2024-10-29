@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F88C20720E;
-	Tue, 29 Oct 2024 17:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F5420721D;
+	Tue, 29 Oct 2024 17:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730222924; cv=none; b=QessTwrB2HJpurzMtgTyt8QTQcmlyhVZlB0BVowOSASzNSq1nmpabSm2WxbHwNZKDst2Rb5fonFsPycPguZe0xQiqGtYkB5O3NYFowe1OjoyomlR2n0qPtCn5VKyjv5vOr3aK8i8a5zGZILZqqnV1yz7EyEZoLjNXWeVwgL4Ud8=
+	t=1730222925; cv=none; b=PWLt6Uqn4TFuCPzbruGotwRxL1TRgU1o3HmHlJMucxtR7xmFFwSWBBTfQ4j93G/DVoAawUX3CoRUMez6rqrZKDTO6BA3mm3B5FqY6lXZ1rngT3pG0vZWNJGd5bQDYkGN/EjSvbPKOEkuAP905+nOkIQXB1oJQd2M8bjE48yw4tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730222924; c=relaxed/simple;
-	bh=SHRi/W/hccHUHwXfh2MbFeVEffxuPn8jRJHIpiMoqm8=;
+	s=arc-20240116; t=1730222925; c=relaxed/simple;
+	bh=miXmdTqCp2YZmLRjd/Hq5yASIhebLezdHmtBpTOcFW8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DdoGn3MmV27AFJiMXrOhMm7iQhVN0zg/JelgzNbJd1mu1IQSFsunPTaSMr8vXbGCC2G5W3GCpu6n/l2RkvEfrRDYYeACV+B6HgOQDeutPmYbJWEhfd655xVHhXya+WlNRh4wrVot2aPLjBAAK64lN3dMDq39uB9wmbjomrcsDhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BJnplrOM; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=oY6++KSbErhoqluMY2k/RuQDsqdBrlo04s2LmtvZGKypTAUioxlALKtB/roiO4Mg9CPMkS0j3TUoy1xq8HMWmVu+aHIqAEOkYGH9nJGv/22qQ/KsF/xTj+o7h7La+QzzF6/JM/nWcF9Ly3NNegOee7gph+UcDqIJnkH2/ZQk7C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bcg3q6ql; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BJnplrOM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bcg3q6ql"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730222922; x=1761758922;
+  t=1730222923; x=1761758923;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=SHRi/W/hccHUHwXfh2MbFeVEffxuPn8jRJHIpiMoqm8=;
-  b=BJnplrOM1SbhFTeECN0ryKQSWJv0ENqD4b/vKwUI3lMt27O59jfTml35
-   g0Fr6DcP3JkeUqPYzHXLevmAHxFVyjJl20Lv0L5LkNFIIGYAH24gh+kEU
-   6FewOSZINCbRd7QFwJ/jZkpP4pbDnNnF0W7Lrb3nett27spUwftKfzJUm
-   hPxfSiN7fcZQ9iPl4kBPDI2Uwu9BvCv6OhjCMYyDvsn3ANlWB5tJpIVz3
-   E5vFNLXIk/TDZDkKRDl4+zSRo/Tyw+fz3ifYZESNBuIX3Q7ZUmFD+3px+
-   Fpogpvm8ItJdGTSdbCmn2jTg0j+8TJgOjF8h6Z/dbngreVFzI8YFU64Ta
+  bh=miXmdTqCp2YZmLRjd/Hq5yASIhebLezdHmtBpTOcFW8=;
+  b=Bcg3q6qlqZ3OvrEH1LcUEE0wEhSOioRarBaX4xP2G9Jpj9pHUZY+Kuen
+   c8soBv9eBrVsixHfPd/xF/CbI/j72th2LWx/Asbv0jaumZBBo7CqPrAhF
+   Try2SYL9KlMF0UliC2ZiJs4Gtt9KRnsLvokO4y57dziy1olYVyA0z/X1Z
+   +5It+09iQqmLVBSyUIk+WntJPtVVcU39G12SzpknLSuQqdq4g08PTqCpl
+   +FH5lP8jqjx8DmIgq5JUbQV8XysJ1CeeFgfARmHyuHZf45Yvj9i5NYb3t
+   mNGqBUWswSSRKzCCHcve47I2J/0Ah6S5HYs2Rkt9hVsYXeggx8VAKdGEK
    Q==;
-X-CSE-ConnectionGUID: qI+kAPBoQk+vp8mAHVvJiQ==
-X-CSE-MsgGUID: aJXGkaAZS4Ko33lQhsS4HQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="17515644"
+X-CSE-ConnectionGUID: o5CBbWLaTZ2KLYMdUkvlpw==
+X-CSE-MsgGUID: cFHPHtPzQVSHI0zqGp6chQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="17515677"
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="17515644"
+   d="scan'208";a="17515677"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:28:39 -0700
-X-CSE-ConnectionGUID: BOFCIB5QRBKbdxtkvryHQQ==
-X-CSE-MsgGUID: xYAeSO2AQSKDliCw3GcSrA==
+X-CSE-ConnectionGUID: hKlsxY9cSCierr3EPk7ONw==
+X-CSE-MsgGUID: d3m9/S7TS7WFH6LcqPhbpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="81585597"
+   d="scan'208";a="81585606"
 Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
   by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:28:39 -0700
 From: Tony Luck <tony.luck@intel.com>
@@ -59,9 +59,9 @@ Cc: James Morse <james.morse@arm.com>,
 	linux-doc@vger.kernel.org,
 	patches@lists.linux.dev,
 	Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v8 1/7] x86/resctrl: Prepare for per-ctrl_mon group mba_MBps control
-Date: Tue, 29 Oct 2024 10:28:26 -0700
-Message-ID: <20241029172832.93963-2-tony.luck@intel.com>
+Subject: [PATCH v8 4/7] x86/resctrl: Relax checks for mba_MBps mount option
+Date: Tue, 29 Oct 2024 10:28:29 -0700
+Message-ID: <20241029172832.93963-5-tony.luck@intel.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241029172832.93963-1-tony.luck@intel.com>
 References: <20241029172832.93963-1-tony.luck@intel.com>
@@ -73,102 +73,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Resctrl uses local memory bandwidth event as input to the feedback
-loop when the mba_MBps mount option is used. This means that this
-mount option cannot be used on systems that only support monitoring
-of total bandwidth.
-
-Prepare to allow users to choose the input event independently for
-each ctrl_mon group.
+This option may be used with any memory bandwidth monitoring event.
 
 Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- include/linux/resctrl.h                | 2 ++
- arch/x86/kernel/cpu/resctrl/internal.h | 2 ++
- arch/x86/kernel/cpu/resctrl/core.c     | 5 +++++
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 6 ++++++
- 4 files changed, 15 insertions(+)
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-index d94abba1c716..fd05b937e2f4 100644
---- a/include/linux/resctrl.h
-+++ b/include/linux/resctrl.h
-@@ -49,6 +49,8 @@ enum resctrl_event_id {
- 	QOS_L3_MBM_LOCAL_EVENT_ID	= 0x03,
- };
- 
-+extern enum resctrl_event_id mba_mbps_default_event;
-+
- /**
-  * struct resctrl_staged_config - parsed configuration to be applied
-  * @new_ctrl:		new ctrl value to be loaded
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index 955999aecfca..a6f051fb2e69 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -283,6 +283,7 @@ struct pseudo_lock_region {
-  *				monitor only or ctrl_mon group
-  * @mon:			mongroup related data
-  * @mode:			mode of resource group
-+ * @mba_mbps_event:		input event id when mba_sc mode is active
-  * @plr:			pseudo-locked region
-  */
- struct rdtgroup {
-@@ -295,6 +296,7 @@ struct rdtgroup {
- 	enum rdt_group_type		type;
- 	struct mongroup			mon;
- 	enum rdtgrp_mode		mode;
-+	enum resctrl_event_id		mba_mbps_event;
- 	struct pseudo_lock_region	*plr;
- };
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-index b681c2e07dbf..5b55a7ac7013 100644
---- a/arch/x86/kernel/cpu/resctrl/core.c
-+++ b/arch/x86/kernel/cpu/resctrl/core.c
-@@ -958,6 +958,11 @@ static __init bool get_rdt_mon_resources(void)
- 	if (rdt_cpu_has(X86_FEATURE_CQM_MBM_LOCAL))
- 		rdt_mon_features |= (1 << QOS_L3_MBM_LOCAL_EVENT_ID);
- 
-+	if (rdt_mon_features & (1 << QOS_L3_MBM_LOCAL_EVENT_ID))
-+		mba_mbps_default_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-+	else if (rdt_mon_features & (1 << QOS_L3_MBM_TOTAL_EVENT_ID))
-+		mba_mbps_default_event = QOS_L3_MBM_TOTAL_EVENT_ID;
-+
- 	if (!rdt_mon_features)
- 		return false;
- 
 diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index d7163b764c62..dbfb9d11f3f8 100644
+index dbfb9d11f3f8..5034a3dd0430 100644
 --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
 +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -65,6 +65,8 @@ static void rdtgroup_destroy_root(void);
+@@ -2345,7 +2345,7 @@ static bool supports_mba_mbps(void)
+ 	struct rdt_resource *rmbm = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+ 	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
  
- struct dentry *debugfs_resctrl;
- 
-+enum resctrl_event_id mba_mbps_default_event;
-+
- static bool resctrl_debug;
- 
- void rdt_last_cmd_clear(void)
-@@ -2665,6 +2667,8 @@ static int rdt_get_tree(struct fs_context *fc)
- 	if (ret)
- 		goto out_schemata_free;
- 
-+	rdtgroup_default.mba_mbps_event = mba_mbps_default_event;
-+
- 	kernfs_activate(rdtgroup_default.kn);
- 
- 	ret = rdtgroup_create_info_dir(rdtgroup_default.kn);
-@@ -3624,6 +3628,8 @@ static int rdtgroup_mkdir_ctrl_mon(struct kernfs_node *parent_kn,
- 		}
- 	}
- 
-+	rdtgrp->mba_mbps_event = mba_mbps_default_event;
-+
- 	goto out_unlock;
- 
- out_del_list:
+-	return (is_mbm_local_enabled() &&
++	return (is_mbm_enabled() &&
+ 		r->alloc_capable && is_mba_linear() &&
+ 		r->ctrl_scope == rmbm->mon_scope);
+ }
+@@ -2772,7 +2772,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
+ 		ctx->enable_cdpl2 = true;
+ 		return 0;
+ 	case Opt_mba_mbps:
+-		msg = "mba_MBps requires local MBM and linear scale MBA at L3 scope";
++		msg = "mba_MBps requires MBM and linear scale MBA at L3 scope";
+ 		if (!supports_mba_mbps())
+ 			return invalfc(fc, msg);
+ 		ctx->enable_mba_mbps = true;
 -- 
 2.47.0
 
