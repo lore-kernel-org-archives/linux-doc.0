@@ -1,106 +1,138 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADC81917F9
-	for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 15:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9778199E80
+	for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 16:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730217194; cv=none; b=Dhiqchf0ScJgIwhHmAlMk3jYUoHZaMJJ4Top/lQkkbjH+1PCOuZ590FXbCYCFdGErVFaDMYVuJbN3LB1y33Xrh/RFBrY3/JaS8S9BKCgXz21YX6v3aMl4/nJTEgblCy7zQCAd0+m4SxPLkcrIYkTNg884i++O5BcBiSRgywZRds=
+	t=1730219547; cv=none; b=JKpTok0X5SfvLD+N3tL/1+WgncsBXdG+TtJHifhkIcqaVywDVjCYhK57Wj2Djg30Srs7nYWGAB0I4ksPXZokOLGfZJuX2Wq+HNcTJ8Eqc0lQsCZACh7QnVLVU5cATfOOMci5tXiyvehVOzeV/fBbS60nuTwIWHdMDy18R4mp+tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730217194; c=relaxed/simple;
-	bh=Q82MjAAJzY011abIoj9mr3/lCIvynpDz1KuaP8yYE3w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kx7gsIhv/Gz8w50YPBNn5YQXLpzlxF+bQ09kM5xJFZwBKupBFFGWJn8A4ItRxZXiMXL9g1vuYFUTFXw7KIGTPVOkWBJ1vLBjgV9rkHkmq6PrCLr5h6+ixZi46Rwxe9I325wJb+sneXDa2sf+LLGExhhQQpdd0lC8id3eC/SY3IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dhTJN25g; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1730219547; c=relaxed/simple;
+	bh=hYolIBUKtKrKGdr/IPiPmwPl8fX/vuUGaiMdAk19sho=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mF1zWl295PG70J9+E4/JdLyfOgSC8b/sy/mJ5P4H6NmPJ2GI52BJwg1Obkci1ZvTMb9SJQ95XKV7exWOgKYoy0oWzLm0pmf8O8Ov9T0wuCawVU3LWysVYTiQoVDRHR+FhdMTNO1kHzp5zzteiJI8uCaWFaOLaBSMP4zZxlIqDrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DG5i+xB8; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dhTJN25g"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539f58c68c5so9318774e87.3
-        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 08:53:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DG5i+xB8"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fb51e00c05so84220181fa.0
+        for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 09:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730217191; x=1730821991; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ll51C0PllLi1/aohJqQbI6RPBpDmFIRC+GA4ELQxeFw=;
-        b=dhTJN25gmGQnWVvbZHc8HZzVc5aEPMmtMNvZJLvBmiFgavwUXcHdgbezBKjI/4x9DT
-         1cBxNiLlrLyiJg8N2xdN4TU0WddqxEUkXcw/IHQQCdmuBiL9OzAR2f8lz7kSpN+G9HV6
-         FalKknhrBFfMv2+BNq2IuzeXoQPmZ+HjPFu6c=
+        d=suse.com; s=google; t=1730219543; x=1730824343; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bUOJQ4C9/O1JlNHOtWYDDSld89tRwaEqczlK/L6VWlA=;
+        b=DG5i+xB8SGrVP6U8PilwMIHhAi5GLnqFt+CvKNzMqJNLw0p5tPaCsgx6XRWncuD1kB
+         CfGhNnQBKRiqgENw+hdC7CPdlYXB6Vxl7QNG8g3Y3053jMyNAu2Pp6eVbisGDA+mR2o3
+         HV/iBXMSJCkShwetgK7YVtDYssxwmaozMebcV/F+tumD/Eh7gyKMJAKm6jpj8jrM4vpz
+         dHOUdJdNWG8obNGNafawz4qyNslWJl3x6MR3Nj8bvNfl2Mc8qWGrni1uz6MwyCjIDax2
+         vrxubw3uCO3/zbFbmA9h5z+FeIns8/7bNu3GHgCumQVzS16wKQvN/k8A9r+j5X4o8op4
+         r5IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730217191; x=1730821991;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ll51C0PllLi1/aohJqQbI6RPBpDmFIRC+GA4ELQxeFw=;
-        b=SOg/6ProeEmCqU8Y9uoneNaKOi+ohr8fk8RPMRx9Ev6b/JghoLnJisnwdYpz9nQSBq
-         0v2+rwkCprfmwlvJssu/W8/wl1CiLtz1KwVU4+/hG2JVpiWEJEOubIrhIfxbuBPHQj1R
-         VjJhPv1/rbaV23LhQOxvo2OPYkli+lcj4q/RleSBNFsOy6GGKpdtkYfkucY4qzJ6R0ET
-         f8fXR44b2AHU28lvPLgGKdSBvMtY9fsIFNo3JWAz0V+sTmvH9sxRIloJIhz0krnklkT+
-         o11P/QU+GqTxLHYVSAtF4Fj02FoxGe/wXWe3onA5WTznLN8naRJrGDOCx8D2mgre+1OH
-         C33A==
-X-Forwarded-Encrypted: i=1; AJvYcCV8aC4xhZZmLD5CQnK2fDyVRNpaHHrUj0okqlVYxh76ajthAGhvzYNPrDQvaS0tO7vK2KD9w9mhFV8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywbfuoklfc6RVv+v5Jlcbp1ZUH20OwtRbk0PDireZ6Y/H9TEzej
-	0k0zPKZJ5lUhMrXzGNIYkzKZlrWMSUJyw3KCUAh/PGE7d9kEIwpkSkl17jqaDZ6bns/qNvXiTrx
-	xSoi1NJ8o6qkkMDrlGl04a4jN54gI/U5MJDk4
-X-Google-Smtp-Source: AGHT+IFq8kVq37MNUAjH9Q6myVE42MB00LVqimrYgoawu+grZEG8upkwKXnNYybcruxqIxH3d1HozSkgBqx+9rgCuS8=
-X-Received: by 2002:a05:6512:1256:b0:535:6a34:b8c3 with SMTP id
- 2adb3069b0e04-53b348b9fecmr8822368e87.5.1730217190707; Tue, 29 Oct 2024
- 08:53:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730219543; x=1730824343;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bUOJQ4C9/O1JlNHOtWYDDSld89tRwaEqczlK/L6VWlA=;
+        b=vvRfQ8EHK7YrhaO49Zu2iq//fBZcj4BqgHxRdJGPGDgNdxijkOF9evdYyTooPYbrL+
+         d8ehFSKOrZOx9QTSE0p2Wr9zFIzn7bZRpDRwjhBtCtRlafS/6fJG0u8dGaVA795s2FkQ
+         CSYXr7WDa1haRDaHFUN1RoYYsvY2eKxkZD68XooziXoILVwOOFEmA1cmvYIvF2UaZWE9
+         ZwJV+byrabA1bUADsHox4YbpS6r3LpvDMlMn2qpPWYi0wmjlUiXMPlC+4pWFH7vKWoLi
+         nfgsLmAHBft685h0Xf2a5stjDEs/6U2XQCSEI7KJN1XC3P6ZTUcm/MOIuWNI1w4mSE5Q
+         anKw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2lDHOpViaiwBJI5f2IOHpCQURKnCi8neuO0xfbNFY/gjvyoe7afM9pMBHLeCr3pbCiVoiLWYpgrU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhqZ4y/YscFlcN6stg0OfqfI30aIZWL28IMhwwcii1owe5jP69
+	qBzvNs/LV9GzDVXdlesMG1bzzvft9RSrqc5kNvD706W6Kp8pfCCdVDFAb+qP7yQ=
+X-Google-Smtp-Source: AGHT+IFRjAbr9XWeX7K55eMSmZKhkY0RY3XF4MvBwCJPmM2jYr8kSDV9jS96JgjiVUw4zczZOC4WcA==
+X-Received: by 2002:a2e:be9f:0:b0:2fa:d4ef:f234 with SMTP id 38308e7fff4ca-2fcbdf6183emr96680611fa.1.1730219542770;
+        Tue, 29 Oct 2024 09:32:22 -0700 (PDT)
+Received: from ?IPV6:2a10:bac0:b000:7465:7285:c2ff:fedd:7e3a? ([2a10:bac0:b000:7465:7285:c2ff:fedd:7e3a])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b3099ddf1sm498006466b.149.2024.10.29.09.32.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Oct 2024 09:32:22 -0700 (PDT)
+Message-ID: <35c07733-d9e4-43a3-9dde-2cc10cd1ab9f@suse.com>
+Date: Tue, 29 Oct 2024 18:32:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241028101952.775731-1-dualli@chromium.org> <20241028101952.775731-2-dualli@chromium.org>
- <20241029071437.2381adea@kernel.org>
-In-Reply-To: <20241029071437.2381adea@kernel.org>
-From: Li Li <dualli@chromium.org>
-Date: Tue, 29 Oct 2024 08:52:59 -0700
-Message-ID: <CANBPYPiYAVDMeBUNRm8_wJojropMSL00UkGGV1ar+E3Y1STYfA@mail.gmail.com>
-Subject: Re: [PATCH net-next v6 1/1] binder: report txn errors via generic netlink
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net, 
-	edumazet@google.com, pabeni@redhat.com, donald.hunter@gmail.com, 
-	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com, 
-	maco@android.com, joel@joelfernandes.org, brauner@kernel.org, 
-	cmllamas@google.com, surenb@google.com, arnd@arndb.de, masahiroy@kernel.org, 
-	bagasdotme@gmail.com, horms@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, hridya@google.com, 
-	smoreland@google.com, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] x86/bugs: Check VERW mitigations for consistency
+To: Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
+Cc: hpa@zytor.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pawan.kumar.gupta@linux.intel.com
+References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
+ <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
+Content-Language: en-US
+In-Reply-To: <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 29, 2024 at 7:14=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Mon, 28 Oct 2024 03:19:51 -0700 Li Li wrote:
-> > +                     report.err =3D BR_ONEWAY_SPAM_SUSPECT;
-> > +                     report.from_pid =3D proc->pid;
-> > +                     report.from_tid =3D thread->pid;
-> > +                     report.to_pid =3D target_proc ? target_proc->pid =
-: 0;
-> > +                     report.to_tid =3D target_thread ? target_thread->=
-pid : 0;
-> > +                     report.reply =3D reply;
-> > +                     report.flags =3D tr->flags;
-> > +                     report.code =3D tr->code;
-> > +                     report.data_size =3D tr->data_size;
-> > +                     binder_genl_send_report(context, &report, sizeof(=
-report));
->
-> Could you break this struct apart into individual attributes?
-> Carrying binary structs in netlink has been done historically
-> but we moved away from it. It undermines the ability to extend
-> the output and do automatic error checking.
 
-Sure!
 
->
-> BTW if you would like to keep using the uapi/linux/android directory
-> feel free to add this as the first patch of the series:
-> https://github.com/kuba-moo/linux/commit/73fde49060cd89714029ccee5d37dcc3=
-7b8291f6
+On 29.10.24 г. 1:50 ч., Daniel Sneddon wrote:
+> There are currently 4 mitigations that use VERW: MDS, TAA,
+> MMIO Stale Data, and Register File Data Sampling. Because
+> all 4 use the same mitigation path, if any one of them is
+> enabled, they're all enabled. Normally, this is what is
+> wanted. However, if a user wants to disable the mitigation,
+> this can cause problems. If the user misses disabling even
+> one of these mitigations, then none of them will be
+> disabled. This can cause confusion as the user expects to
+> regain the performance lost to the mitigation but isn't
+> seeing any improvement. Since there are already 4 knobs for
+> controlling it, adding a 5th knob that controls all 4
+> mitigations together would just overcomplicate things.
+> Instead, let the user know their mitigations are out of sync
+> when at least one of these mitigations is disabled but not
+> all 4.
+> 
+> Signed-off-by: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+> ---
+>   arch/x86/kernel/cpu/bugs.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+> 
+> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+> index d1915427b4ff..b26b3b554330 100644
+> --- a/arch/x86/kernel/cpu/bugs.c
+> +++ b/arch/x86/kernel/cpu/bugs.c
+> @@ -582,8 +582,26 @@ static void __init md_clear_update_mitigation(void)
+>   		pr_info("Register File Data Sampling: %s\n", rfds_strings[rfds_mitigation]);
+>   }
+>   
+> +static void __init verw_mitigations_check(void)
+> +{
+> +	if (mds_mitigation == MDS_MITIGATION_OFF ||
+> +	    taa_mitigation == TAA_MITIGATION_OFF ||
+> +	    mmio_mitigation == MMIO_MITIGATION_OFF ||
+> +	    rfds_mitigation == RFDS_MITIGATION_OFF) {
+> +		if (mds_mitigation == MDS_MITIGATION_OFF &&
+> +		    taa_mitigation == TAA_MITIGATION_OFF &&
+> +		    mmio_mitigation == MMIO_MITIGATION_OFF &&
+> +		    rfds_mitigation == RFDS_MITIGATION_OFF)
+> +			return;
 
-Awesome. Thank you for the patch!
+Ugh, why don't you simply XOR the 4 values and if it's 1 it means the 
+inputs differe => there is inconsistency.
+
+> +
+> +		pr_info("MDS, TAA, MMIO Stale Data, and Register File Data Sampling all depend on VERW\n");
+> +		pr_info("In order to disable any one of them please ensure all 4 are disabled.\n");
+> +	}
+> +}
+> +
+>   static void __init md_clear_select_mitigation(void)
+>   {
+> +	verw_mitigations_check();
+>   	mds_select_mitigation();
+>   	taa_select_mitigation();
+>   	mmio_select_mitigation();
