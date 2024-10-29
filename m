@@ -1,51 +1,51 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A3A205151;
-	Tue, 29 Oct 2024 11:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BE67464;
+	Tue, 29 Oct 2024 11:39:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730201849; cv=none; b=iZrf6BbCHjJPQCSN2WzOoEIT2TPC0TR4n98yaZsUmyENTg1+pY6ydTkvbxkVeIQdhKxawbVKyzfYoxX++ROTk0YsJGJHioIsZk2sr18bFk2IP3A87GAbnCyrXw7WpsZ1RdIqU4Hw6JBO/DhRI1P1rF44zztibZPdZyy109VM2Vc=
+	t=1730201973; cv=none; b=k3t/Zp3YvCvpiQD9yRnALFcYeAeS7W+Dkm3HEXvbfpG4rQY8bHcwdALgYFIE5Xyq9rmdZB6MXYX6UMLIHCqzazbU/EEoAU0UbIJIVxZvM8/Mo2sc/AiLPqm6oIE1pBzKbSgOOJMWFQY9BAp6Gos5z7v8wb2gb5apGeoT364Ju18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730201849; c=relaxed/simple;
-	bh=57Sx9PTEFK++KLP+ahxoeTLSm5WWbmfZd6tVyMNFZ/s=;
+	s=arc-20240116; t=1730201973; c=relaxed/simple;
+	bh=NkNFfbji0OME9gPCeQIakGoXEIkxCxgpbxmctKafQAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kCHJenx84w3Y7SVLcwzqTqekVQmbxaD/VBl5uQ+PBqT3iXlBuuuV0yE1ebEr6UL14NTv37Q8v7Ebrm1pSdU3S/1W56DrQMa13RLr2gU8+XGkH94rjjwiotzmuEPxVDYO21hrx/fLP8+nOBSbutML67nYveLywNcz2Co73ij6wy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=TPEdzcIw; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mg5dvMoqYBIUconUjTfTS2/efdEnyeAUVDq2cvLir92Lg7flinal/K/3NkXtprmtgPUvWHZEMYkwIegKUXC/cGVqvHppYz4Ut5QNl3OJDpR3aktKyoDREB7KevWtAvaCo0OqxpdFPgVDJTf8Dld39fBQcT8PYziYG+HZMJEcruw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=LJSlwFyM; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="TPEdzcIw"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="LJSlwFyM"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 27BBD40E0219;
-	Tue, 29 Oct 2024 11:37:24 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D5EE140E0191;
+	Tue, 29 Oct 2024 11:39:28 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id IZhXHwRFY4rV; Tue, 29 Oct 2024 11:37:20 +0000 (UTC)
+	with ESMTP id bxg2LzqxNo7C; Tue, 29 Oct 2024 11:39:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1730201840; bh=eCpAktyIiVGESsEQ9DG1nf4m9PsJ6IeL20ZQjcotDag=;
+	t=1730201964; bh=0iZNTIQ41wXmMKTJ9iFXjkQg26CA/6aBHQN6CHwVF1M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TPEdzcIwfFmui8gc2r+UzPwHtc6nudE5/aRg29rRgK1yCrCcOshIINfBXh4qllYyy
-	 LmRO2JzKVQHFOrSWYh7iGRceAzJMbnrMKI35jjl61CxmopGVT9miZ4pDB+T+PpCf+q
-	 dx7EYxnl+aEt3q5ngNf9caM1HDbpciCS1FNVApeKakOyNlm2j8ie3qDUMjevtpgiDr
-	 9sCVealnm2UTDZtzd7NmhHml8C5e9O8CThA7dtIInFTEhtcRPnTpTMICF3ZbVXVZ6A
-	 KUk2JXJnbAPdqSAXZB7wcDmrMb6XC9hKvvhpqs77wfBBcd0nyZ3idONU4Rb2WLeLqs
-	 28Az8MIleGVXNOW89iSV2WhgWSUKsh3ZKJ5Np24SMdkeATrF6GK2tchJzwg76MZ/Cr
-	 4I/AmE31gu1TNeyKuaMKd/mVD/+8juOl/Dc3rONgwBPvWOQdARYbW/QEQxe5sfKEJD
-	 T6yRfYcbWwXXiYsM9Y58YhxeraM8DLVIPeosYhaG1t779kPGb7bdHsU7utUMZhh4wU
-	 WKrCkxAIa1mNlPD9MP1ygxWyy/ITOy3p91UnOxP4pVBiGozb0GI1nXYW/BqWWvOBP8
-	 ViXOA1/CIM3cL1V1m5GoMnUgJf90yVvlXTMewKa9TD5fHHR95G3zhtIFyVuhwS/Ma9
-	 yFwWiCYdEukAAMISkCsc1VLA=
+	b=LJSlwFyM18+RZszvDzcL2dKyJClz15WhcDZcVJreE+I1hNdOhwGLjKI5nNBgjmdL2
+	 L2UOZFPHzUAm+7g85IV9wljr3rn5o0dTfB1JKujBQQrLMjsp1olGdaxDbGk7l6ArJy
+	 D87II4rFCH8ROQsnevp9OgN0wyoJx5xWIkuluwTrMF37hjZyU1Yvgfg12V08592Jk+
+	 /FQUZTVXdciZ+bAySL0C/PF18QNRt7SaumlNYuoPmM2YZAjYb0iRI7Q/Q7eziaiSMk
+	 Mn9KIPnsjdrdpxbLqkdw/tqpCqhGj57Xvo9WgRtch14kzuSNTLbXgaWZ+yH0RzVOeJ
+	 YpJktNhlvPifhXVomcQ50te2O2KgeJPc+nY2CVjzjZd0tWx5cvizcJxSR4uc/czDCl
+	 2g7hHpwiz25eWVP7TeTWFylYBaOrb3Q7QbPQgHxxtjCEmW9hyL2cyLemJBBwauOkKo
+	 MkjO+CodGzDq2N34aznrZxlXgx6zZ1LYDsl55Y9SQIF+1MyYS+GTTwiJyBY6tdhQu8
+	 Cn6LWlTIpPQLWtmOGvEoswm5j5EG80T+QfP3lG5U8WIcdACPvkLWTy4/W1K7M7ry0q
+	 14u/Z9rG5cR4WMI5W/w0lE4Re7DGK0zgr3RDi1k9qIqLJtGR8AcpkRlBP9UsPSxUnU
+	 JnAFn6CXd5Rhz+0I3C+gNnp8=
 Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C2BBB40E0198;
-	Tue, 29 Oct 2024 11:37:07 +0000 (UTC)
-Date: Tue, 29 Oct 2024 12:37:02 +0100
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B3F0640E0192;
+	Tue, 29 Oct 2024 11:39:12 +0000 (UTC)
+Date: Tue, 29 Oct 2024 12:39:11 +0100
 From: Borislav Petkov <bp@alien8.de>
 To: Daniel Sneddon <daniel.sneddon@linux.intel.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
@@ -55,10 +55,10 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
 	hpa@zytor.com, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, pawan.kumar.gupta@linux.intel.com
-Subject: Re: [PATCH 2/2] x86/bugs: Clean-up verw mitigations
-Message-ID: <20241029113702.GUZyDI3u_6IxiCWOBJ@fat_crate.local>
+Subject: Re: [PATCH 1/2] x86/bugs: Check VERW mitigations for consistency
+Message-ID: <20241029113911.GVZyDJX3rg8kh_4kYb@fat_crate.local>
 References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
- <20992658d2c79f27de91a474a7b122782be5f04b.1730158506.git.daniel.sneddon@linux.intel.com>
+ <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,47 +67,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20992658d2c79f27de91a474a7b122782be5f04b.1730158506.git.daniel.sneddon@linux.intel.com>
+In-Reply-To: <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
 
-On Mon, Oct 28, 2024 at 04:50:35PM -0700, Daniel Sneddon wrote:
-> @@ -599,20 +503,70 @@ static void __init verw_mitigations_check(void)
->  	}
->  }
->  
-> -static void __init md_clear_select_mitigation(void)
-> +static bool __init verw_mitigations_disabled(void)
->  {
->  	verw_mitigations_check();
-> +	/*
-> +	 * TODO: Create a single mitigation variable that will allow for setting
+On Mon, Oct 28, 2024 at 04:50:34PM -0700, Daniel Sneddon wrote:
+> There are currently 4 mitigations that use VERW: MDS, TAA,
+> MMIO Stale Data, and Register File Data Sampling. Because
+> all 4 use the same mitigation path, if any one of them is
+> enabled, they're all enabled. Normally, this is what is
+> wanted. However, if a user wants to disable the mitigation,
+> this can cause problems. If the user misses disabling even
+> one of these mitigations, then none of them will be
+> disabled. This can cause confusion as the user expects to
+> regain the performance lost to the mitigation but isn't
+> seeing any improvement. Since there are already 4 knobs for
+> controlling it, adding a 5th knob that controls all 4
+> mitigations together would just overcomplicate things.
+> Instead, let the user know their mitigations are out of sync
+> when at least one of these mitigations is disabled but not
+> all 4.
 
-A patch which introduces a TODO is basically telling me, it is not ready to go
-anywhere yet...
+Please split this commit message into smaller chunks for better readability.
+For example:
 
-> +	 * the location of the mitigation, i.e.:
-> +	 *
-> +	 * kernel->user
-> +	 * kvm->guest
-> +	 * kvm->guest if device passthrough
-> +	 * kernel->idle
-> +	 */
-> +	return (mds_mitigation == MDS_MITIGATION_OFF &&
-> +		taa_mitigation == TAA_MITIGATION_OFF &&
-> +		mmio_mitigation == MMIO_MITIGATION_OFF &&
-> +		rfds_mitigation == RFDS_MITIGATION_OFF);
-
-This should be used inside verw_mitigations_check() instead of repeated here,
-no?
-
-Also, pls call verw_mitigations_check() "check_verw_mitigations" - the name
-should start with a verb.
-
-Actually, you can merge verw_mitigations_check() and
-verw_mitigations_disabled(). Please do a *minimal* patch when cleaning this up
-- bugs.c is horrible. It should not get worse.
-
-What could also help is splitting this patch - it is hard to review as it
-is...
+    There are currently 4 mitigations that use VERW: MDS, TAA, MMIO Stale Data,
+    and Register File Data Sampling. Because all 4 use the same mitigation path,
+    if any one of them is enabled, they're all enabled.
+    
+    Normally, this is what is wanted. However, if a user wants to disable the
+    mitigation, this can cause problems. If the user misses disabling even one of
+    these mitigations, then none of them will be disabled.
+    
+    This can cause confusion as the user expects to regain the performance lost to
+    the mitigation but isn't seeing any improvement. Since there are already
+    4 knobs for controlling it, adding a 5th knob that controls all 4 mitigations
+    together would just overcomplicate things.
+    
+    Instead, let the user know their mitigations are out of sync when at least one
+    of these mitigations is disabled but not all 4.
 
 Thx.
 
