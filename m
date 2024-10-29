@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1126B207214;
-	Tue, 29 Oct 2024 17:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C392076B9;
+	Tue, 29 Oct 2024 17:28:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730222926; cv=none; b=u2FgZ2HNMbzV6JsLTAs/vg5qSwMzpOSMo1rzQrfI4lbJb1PI7XRRo3u3wrHgjqWOb2b2G0/M2SiZ7Fy777eHgirRuEssU87siB4ktI5EXMLIBS/7PYQgE9zhSZyyKKNueOFUg3Sl2Rmb2hRmGts9bPtLSOuUlDgnnUstWowkYAs=
+	t=1730222927; cv=none; b=Zo8lhzGAo2qmsdpwyuKvwRKp/c+Z+mHD5MnqekChQ5wKe/8jgM5V8f4p0DkgSsW+kusSHyO/z6JdPOzOR4VTS+AmKTPnCd4msPWGx6DVQHHL9fmZQn6VESOYp2aLahYTI7nVB55gEHShLfc1J/FncyRvW/IMZ88C4Sw+5OySJVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730222926; c=relaxed/simple;
-	bh=v+xCJOJVDhdzdFGOhm7Qwh+e7FfyEjIfLSDzmGGOMgQ=;
+	s=arc-20240116; t=1730222927; c=relaxed/simple;
+	bh=x885zf274l9nnySJCLiGWLrrEaCGAoB82a5tbTdAiiQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X0JFhGviJUQYbgUaNe5M0EISGzq4iONYpxtNavEtvSvktg47QuTsheHWDPtqQNFwKGET47wPtWKa8RN23avz1FG24EVNi5Tx4R2q1aXJuAuJiTWidNwLf3/xT1M2xdmgoIX/anq+UnqiiuULIvHJUAG210WZkoHfSXTn4AfTgZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g9nOi+Ys; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=YDAX7fSdiH1EOSHkBuFVEwhQiH/Kd+0GaC8e1gwwOhT1kK7fPnC5CMWgA7obyTkD2FslP5R+qc+EeYw4DXSMK5ukHs9h/p1N7Sr/3phgn6xzfnYBkIhMzUAAhXYeaa4WZm/oO1EYIRG8bMQB0ep0o7yDA7QO9ArgRXu/fVXA7tY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UDqFWFQN; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g9nOi+Ys"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UDqFWFQN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730222923; x=1761758923;
+  t=1730222925; x=1761758925;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=v+xCJOJVDhdzdFGOhm7Qwh+e7FfyEjIfLSDzmGGOMgQ=;
-  b=g9nOi+Ys0hy6tcrQjztTGZ04pV/UfeomCG0qMhPPTZgW0FQYvahaMF/7
-   7h7JOOuxgY30GIKfM3WlHXKfGfYj4nhi3QckZlxCt7+eYU/mtyIsS9rjy
-   domSjO7sQZ/3BIPrJefehEsjNB3C3dnhykCX84lhYIKmHYMkyf4ohtRji
-   h6CgHgMQRlqdI35jWETRu+YGthkMsWCSkDt6E5EtIbDsG03byddZ/JjWo
-   U0qiksjb6ZbIr7Ffb16f6wgpGtQuBiuh+ku3G77NwaKvF1SZqB07HzXQe
-   1LZpBuk/ug7MEZDg7A3bnErwJmw9obyeXMtY1/gXEDLRXHTplP/WY1rAy
+  bh=x885zf274l9nnySJCLiGWLrrEaCGAoB82a5tbTdAiiQ=;
+  b=UDqFWFQN5uS8yxDClFiutvUpFRC08q9/vlvoOZ2R9AL1/rZGWiq89U4X
+   lqMSfJxdoKhuojIVXtOhatcybJfkQP8vKYgLgMmr2MlGDe1HK+m9tD4Cw
+   dUzezeHzYeLKy2rqZWIniMZYcNNdgRop0rFewEMMX/04Xm/J6U17mwMOY
+   jIDZ4U7vHFk9hwAVZdXYuWewmBVCciEkPZuKlR1gRZ9BGIUM95Qi8oMEb
+   UEK4ofdmhkZzJzXSmOhLC0wTKmdhgv6k3eSZ+5TAYxXtxZooy+mE4Q43m
+   Pu3p9mnXUInthaGD8klkMpZdw9kkd/1IZUUUZ8Kz9JgS1wY4nbBB4I1nK
    A==;
-X-CSE-ConnectionGUID: lW9ANReuQpu1+NlDAGIZiw==
-X-CSE-MsgGUID: sxDMpCrPQz+nSR9M1ciY+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="17515666"
+X-CSE-ConnectionGUID: by96Ob69Sg+COIM3Jt61XQ==
+X-CSE-MsgGUID: +eYwLSAuRQmMtbkgPXCIng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="17515688"
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="17515666"
+   d="scan'208";a="17515688"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:28:39 -0700
-X-CSE-ConnectionGUID: YbGM6yPjRA+TbtWKUmg+QQ==
-X-CSE-MsgGUID: apXHOrM1RPSSX9LhriNZUA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:28:40 -0700
+X-CSE-ConnectionGUID: Zc6/88meSeayWJ/uY6FXiA==
+X-CSE-MsgGUID: dUhMnTlJQU6xnxVKlEJtBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="81585603"
+   d="scan'208";a="81585610"
 Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
   by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:28:39 -0700
 From: Tony Luck <tony.luck@intel.com>
@@ -59,9 +59,9 @@ Cc: James Morse <james.morse@arm.com>,
 	linux-doc@vger.kernel.org,
 	patches@lists.linux.dev,
 	Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v8 3/7] x86/resctrl: Refactor mbm_update()
-Date: Tue, 29 Oct 2024 10:28:28 -0700
-Message-ID: <20241029172832.93963-4-tony.luck@intel.com>
+Subject: [PATCH v8 5/7] x86/resctrl: Add "mba_MBps_event" file to ctrl_mon directories
+Date: Tue, 29 Oct 2024 10:28:30 -0700
+Message-ID: <20241029172832.93963-6-tony.luck@intel.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241029172832.93963-1-tony.luck@intel.com>
 References: <20241029172832.93963-1-tony.luck@intel.com>
@@ -73,109 +73,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Computing memory bandwidth for all enabled events resulted in
-identical code blocks for total and local bandwidth in mbm_update().
+When the mba_MBps mount option is used, provide a file in each
+ctrl_mon directory to show which memory monitoring event is
+being used.
 
-Refactor with a helper function to eliminate code duplication.
-
-No functional change.
-
+Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
 Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- arch/x86/kernel/cpu/resctrl/monitor.c | 69 ++++++++++-----------------
- 1 file changed, 24 insertions(+), 45 deletions(-)
+ arch/x86/kernel/cpu/resctrl/internal.h    |  2 ++
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c | 25 +++++++++++++++++++++++
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 17 +++++++++++++++
+ 3 files changed, 44 insertions(+)
 
-diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-index 3ef339e405c2..1b6cb3bbc008 100644
---- a/arch/x86/kernel/cpu/resctrl/monitor.c
-+++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-@@ -829,62 +829,41 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_mon_domain *dom_mbm)
- 	resctrl_arch_update_one(r_mba, dom_mba, closid, CDP_NONE, new_msr_val);
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+index a6f051fb2e69..5f3438ca9e2b 100644
+--- a/arch/x86/kernel/cpu/resctrl/internal.h
++++ b/arch/x86/kernel/cpu/resctrl/internal.h
+@@ -609,6 +609,8 @@ ssize_t rdtgroup_schemata_write(struct kernfs_open_file *of,
+ 				char *buf, size_t nbytes, loff_t off);
+ int rdtgroup_schemata_show(struct kernfs_open_file *of,
+ 			   struct seq_file *s, void *v);
++int rdtgroup_mba_mbps_event_show(struct kernfs_open_file *of,
++				 struct seq_file *s, void *v);
+ bool rdtgroup_cbm_overlaps(struct resctrl_schema *s, struct rdt_ctrl_domain *d,
+ 			   unsigned long cbm, int closid, bool exclusive);
+ unsigned int rdtgroup_cbm_to_size(struct rdt_resource *r, struct rdt_ctrl_domain *d,
+diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+index 200d89a64027..b9ba419e5c88 100644
+--- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
++++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+@@ -518,6 +518,31 @@ static int smp_mon_event_count(void *arg)
+ 	return 0;
  }
  
--static void mbm_update(struct rdt_resource *r, struct rdt_mon_domain *d,
--		       u32 closid, u32 rmid)
-+static void mbm_update_one_event(struct rdt_resource *r, struct rdt_mon_domain *d,
-+				 u32 closid, u32 rmid, enum resctrl_event_id evtid)
- {
- 	struct rmid_read rr = {0};
- 
- 	rr.r = r;
- 	rr.d = d;
-+	rr.evtid = evtid;
-+	rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
-+	if (IS_ERR(rr.arch_mon_ctx)) {
-+		pr_warn_ratelimited("Failed to allocate monitor context: %ld",
-+				    PTR_ERR(rr.arch_mon_ctx));
-+		return;
++int rdtgroup_mba_mbps_event_show(struct kernfs_open_file *of,
++				 struct seq_file *s, void *v)
++{
++	struct rdtgroup *rdtgrp;
++
++	rdtgrp = rdtgroup_kn_lock_live(of->kn);
++
++	if (rdtgrp) {
++		switch (rdtgrp->mba_mbps_event) {
++		case QOS_L3_MBM_LOCAL_EVENT_ID:
++			seq_puts(s, "mbm_local_bytes\n");
++			break;
++		case QOS_L3_MBM_TOTAL_EVENT_ID:
++			seq_puts(s, "mbm_total_bytes\n");
++			break;
++		case QOS_L3_OCCUP_EVENT_ID:
++			break;
++		}
 +	}
 +
-+	__mon_event_count(closid, rmid, &rr);
++	rdtgroup_kn_unlock(of->kn);
 +
-+	if (is_mba_sc(NULL))
-+		mbm_bw_count(closid, rmid, &rr);
-+
-+	resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
++	return 0;
 +}
- 
-+static void mbm_update(struct rdt_resource *r, struct rdt_mon_domain *d,
-+		       u32 closid, u32 rmid)
-+{
- 	/*
- 	 * This is protected from concurrent reads from user
- 	 * as both the user and we hold the global mutex.
- 	 */
--	if (is_mbm_total_enabled()) {
--		rr.evtid = QOS_L3_MBM_TOTAL_EVENT_ID;
--		rr.val = 0;
--		rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
--		if (IS_ERR(rr.arch_mon_ctx)) {
--			pr_warn_ratelimited("Failed to allocate monitor context: %ld",
--					    PTR_ERR(rr.arch_mon_ctx));
--			return;
--		}
--
--		__mon_event_count(closid, rmid, &rr);
--
--		/*
--		 * Call the MBA software controller only for the
--		 * control groups and when user has enabled
--		 * the software controller explicitly.
--		 */
--		if (is_mba_sc(NULL))
--			mbm_bw_count(closid, rmid, &rr);
--
--		resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
--	}
--	if (is_mbm_local_enabled()) {
--		rr.evtid = QOS_L3_MBM_LOCAL_EVENT_ID;
--		rr.val = 0;
--		rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
--		if (IS_ERR(rr.arch_mon_ctx)) {
--			pr_warn_ratelimited("Failed to allocate monitor context: %ld",
--					    PTR_ERR(rr.arch_mon_ctx));
--			return;
--		}
--
--		__mon_event_count(closid, rmid, &rr);
--
--		/*
--		 * Call the MBA software controller only for the
--		 * control groups and when user has enabled
--		 * the software controller explicitly.
--		 */
--		if (is_mba_sc(NULL))
--			mbm_bw_count(closid, rmid, &rr);
-+	if (is_mbm_total_enabled())
-+		mbm_update_one_event(r, d, closid, rmid, QOS_L3_MBM_TOTAL_EVENT_ID);
- 
--		resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
--	}
-+	if (is_mbm_local_enabled())
-+		mbm_update_one_event(r, d, closid, rmid, QOS_L3_MBM_LOCAL_EVENT_ID);
++
+ void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
+ 		    struct rdt_mon_domain *d, struct rdtgroup *rdtgrp,
+ 		    cpumask_t *cpumask, int evtid, int first)
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index 5034a3dd0430..3ba81963e981 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -1943,6 +1943,12 @@ static struct rftype res_common_files[] = {
+ 		.seq_show	= rdtgroup_schemata_show,
+ 		.fflags		= RFTYPE_CTRL_BASE,
+ 	},
++	{
++		.name		= "mba_MBps_event",
++		.mode		= 0644,
++		.kf_ops		= &rdtgroup_kf_single_ops,
++		.seq_show	= rdtgroup_mba_mbps_event_show,
++	},
+ 	{
+ 		.name		= "mode",
+ 		.mode		= 0644,
+@@ -2042,6 +2048,15 @@ void __init mbm_config_rftype_init(const char *config)
+ 		rft->fflags = RFTYPE_MON_INFO | RFTYPE_RES_CACHE;
  }
  
- /*
++static void mba_mbps_event_init(bool enable)
++{
++	struct rftype *rft;
++
++	rft = rdtgroup_get_rftype_by_name("mba_MBps_event");
++	if (rft)
++		rft->fflags = enable ? RFTYPE_CTRL_BASE : 0;
++}
++
+ /**
+  * rdtgroup_kn_mode_restrict - Restrict user access to named resctrl file
+  * @r: The resource group with which the file is associated.
+@@ -2371,6 +2386,8 @@ static int set_mba_sc(bool mba_sc)
+ 			d->mbps_val[i] = MBA_MAX_MBPS;
+ 	}
+ 
++	mba_mbps_event_init(mba_sc);
++
+ 	return 0;
+ }
+ 
 -- 
 2.47.0
 
