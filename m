@@ -1,114 +1,143 @@
-Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F662010E0;
-	Tue, 29 Oct 2024 03:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7F2200C96
+	for <linux-doc@vger.kernel.org>; Tue, 29 Oct 2024 05:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730174296; cv=none; b=Y7pUX+i7FKQmTeBMjZAY5tU9ru8vtJhyM2lCWDywwOiEXxK0WIFd9rHO6hzjoAyf2klpIr5heNo8iUH7pJSkzjy1H/HuXWVnUx0vKZNuc7qpgs5k4i3M27aDuCeSjlia7n7y3PpTgyF0vgYbY9EaLo7IeT/Nj+mK9t0/VoHJYS0=
+	t=1730181098; cv=none; b=XLhw8a2RieWfww/b0iuN2XcYZqH3AAQubPYgd/GmTMwmgj1RcIz0sxAdmTNddnt1kaqHqEIKAp8FPHu89rZsraJOwI6O6iHm+mdHkEkgrm+TV+yA2CYT88B1BYSBvYPin2RUL4G0aLoT0RUwPlYlBSj4WizKlbWnDbhjxVczEj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730174296; c=relaxed/simple;
-	bh=F2u3cl2SjWcs3OjghOgsxJYL8VpiRf/JhfUKtn4kDwQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ixoaW8PHqZyV1+vEMUozBxx/PtE+21srN3g5gMHeThVXR98HWM15PSnikxp/w9Zstp2lM9MDnkthck2BIjHU4rzi0/CTpa1JQ5JoHZ9zZywU72JN+O6MFn6lERz3s1dlrHdYtkKF7HbqJWSDDT+V8aEj5/W69MZc1n30/OBzz30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=AITu+Rjp; arc=none smtp.client-ip=67.231.148.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+	s=arc-20240116; t=1730181098; c=relaxed/simple;
+	bh=rkJGzaJiGDNyDHmrzD6Ukn0kvrLRqUNFw7rsJbF66DM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CbUyWXwQHGQzbdTAXXTD5iyV5y5Smi1G4J8n5FPooxeK+P4C7fbYDKOTAOiTlb4httOZSgBCre/e+syOizFnonjT/it1Ogrg2sTEEQ6881VT1fRXzlaRDQDWkKCZl6KTqvcRFHCwnP7dDplrqn1STVUaZMegt/x5c3veFs+dD4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O4MXc1dw; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="AITu+Rjp"
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T0ABte014722;
-	Mon, 28 Oct 2024 20:58:08 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pfpt0220; bh=/
-	sDZ1ethO15plh1blqFEQBc1mrttvUCmt9BDT2Yu4Rs=; b=AITu+RjpGFvVvxSAg
-	djOXHk2QWpOILA2opgcg4Sx/Ar2PwtzDgrjDK81oMKKJp+78apCWIy5SZ6BQ9HAF
-	ZCC1o0H4wG69/xKIXW7hvjmU22XyRuUJXkR/6WT6Vj2+J7wj2DG6br4uU2HNj8k0
-	8oYe7VqMSOPChGAp4g7bdUNdLebl1TPnIFqK6YJpXR119frU7Xn90Vhc3buSsvdP
-	Hxff5dxcFLL372azL8WDpbGofoguGWWfKVFKAg0jO+JQ68KPcX9+ml2MdkeuhXRX
-	dLLIsCRbchdBXnJ9wVVbWBQszcoFYikj+0ObPva22wh+0XHBU7jXaJ9/+ascmf++
-	F07/g==
-Received: from dc5-exch05.marvell.com ([199.233.59.128])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 42jmx40ggd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Oct 2024 20:58:08 -0700 (PDT)
-Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
- DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Mon, 28 Oct 2024 20:58:07 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
- (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Mon, 28 Oct 2024 20:58:07 -0700
-Received: from virtx40.. (unknown [10.28.34.196])
-	by maili.marvell.com (Postfix) with ESMTP id 64A163F7054;
-	Mon, 28 Oct 2024 20:58:03 -0700 (PDT)
-From: Linu Cherian <lcherian@marvell.com>
-To: <davem@davemloft.net>, <sgoutham@marvell.com>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC: <gakula@marvell.com>, <hkelam@marvell.com>, <sbhatta@marvell.com>,
-        <jerinj@marvell.com>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.comi>, <jiri@resnulli.us>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Linu Cherian <lcherian@marvell.com>
-Subject: [PATCH v4 net-next 3/3] devlink: Add documenation for OcteonTx2 AF
-Date: Tue, 29 Oct 2024 09:27:39 +0530
-Message-ID: <20241029035739.1981839-4-lcherian@marvell.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241029035739.1981839-1-lcherian@marvell.com>
-References: <20241029035739.1981839-1-lcherian@marvell.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O4MXc1dw"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-460969c49f2so146871cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Oct 2024 22:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1730181095; x=1730785895; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yS+AWBnCO/J18Xc6TcuxqR5XEdAGr/Rpio3YV4nA0AE=;
+        b=O4MXc1dwxcgbsQWGK53emGves46j/aC/NBO5mU8uxHNFbMgm99YV1mCvYt9FMmNEza
+         Nrd0l09XgIndpa3N3+rrO40GWHE8PMH7DSRn3APfxUKc4+e+mpNPr5krVYfDQMYaBz23
+         nH1KKMPj/U8SaZ35spcPGvPCabb5tlab7e/+5XDtZbEyF3Vt2zbgaTjPJRaLBEgdjAW8
+         aOkTwCEQ+Zcgy00U/n839uEzdgcCnE5gwi3sacJIgOnnSCbV2+TP+4lRbRS1z4BLEBFu
+         y1KDxn2N4Xlmsy+XhzHUd8ZpFcdvQNNezNsYWFO3DJcGqSuqYguNEDUe50pXcQrHwjMI
+         zJqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730181095; x=1730785895;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yS+AWBnCO/J18Xc6TcuxqR5XEdAGr/Rpio3YV4nA0AE=;
+        b=jJU6OJbBnY6NtLBl606Ad19SQAaFr3LFebPZiVTZZ8sQaOKBCERgTAQDAzosBgPI42
+         +N+7+2GG7gWEviDf1c5VXR/qg1dFlX792qZn8u01joK3ukVZXo6wYom/W/y27KPsw4du
+         NFqZA5TX22ktiqakPCpAjB+0k860CLxgCv57CkgfyY2ZnZ8BHzNikn1Xs1p78RS1Ttd5
+         fSFqE/JRCh04z0s3/PHm9pBciCbs2TKHcOJ0/OP1NpZMSM2fcTe6IgcYCYA4V91Ow1zj
+         3oksimHm5oLwGKwr6tTaoCDN0I8T7egS2nPF0/+s5NbMNz54EV71bSR3sfD0Hvc+HQfN
+         rIYA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOxKgu32fHnTKjdyrQwAXO3Adk2b+3musSuDnfMWYsv8c3Gli+RObbMpoO4r8VvbM76lAkSalN/bc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDSZb+qQvAMUpNzm7m/cJUDYtJStnVrHyoxqTdH3oNceGXzUCo
+	Sa5aO/0uq+jQEvMyDhFVSvs+iSQ4DqzUHEZP7vqsAJhhQxDG2QBBJhur5KLr2muGKVLj0kY999R
+	y5a9NwVUyPAGG8zAxuThA0cQFJZhC6yATG82y
+X-Gm-Gg: ASbGnctKRZys5j0Xnbhg4TnNN5coC0eJryCb3zT3Z2qOWKlXL/pvFB2XCQCYQ1Ys7tB
+	2GG3AuFbjpyf7kwRUt+/Z0hcdQHEkMNSBUlscPNk7EO8SKJnfwIxuCubBEC4=
+X-Google-Smtp-Source: AGHT+IEVAXdFG3fNtFOsbcJBNRZwq6dZ7NPHf4Fl17QtrnIba/Ad0eOq8gq9bIFuScwN6QgnbyAorRomVIE9wKpqH3w=
+X-Received: by 2002:a05:622a:38b:b0:45f:6f3:5671 with SMTP id
+ d75a77b69052e-46164fa2de0mr2424301cf.20.1730181094473; Mon, 28 Oct 2024
+ 22:51:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: I-XO5X8Xjcx0pKkDNmzNJ-VE3Ac3rchC
-X-Proofpoint-GUID: I-XO5X8Xjcx0pKkDNmzNJ-VE3Ac3rchC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+References: <20241026051410.2819338-1-xur@google.com> <20241026051410.2819338-3-xur@google.com>
+ <202410281716.0C8F383@keescook> <0605fa9c-0e48-48ec-b04d-c2ef1c48fdd9@zytor.com>
+In-Reply-To: <0605fa9c-0e48-48ec-b04d-c2ef1c48fdd9@zytor.com>
+From: Rong Xu <xur@google.com>
+Date: Mon, 28 Oct 2024 22:51:21 -0700
+Message-ID: <CAF1bQ=QDQ+ACsH2CchnRk2LDRpN_WYjJOAjr9FDspxiar+YbrQ@mail.gmail.com>
+Subject: Re: [PATCH v6 2/7] objtool: Fix unreachable instruction warnings for
+ weak functions
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Kees Cook <kees@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
+	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	David Li <davidxl@google.com>, Han Shen <shenhan@google.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
+	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add documenation for the following devlink params
-- npc_mcam_high_zone_percent
-- npc_def_rule_cntr
-- nix_maxlf
+I think the objtool works on individual object files (or vmlinux.o).
+The -Wl,--gc-sections flag, on the other hand, is a linker flag that
+acts on the final link -- it's applied after objtool invocations.
+Therefore, even with -Wl,--gc-sections, we'll still encounter those
+spurious warnings from objtool.
 
-Signed-off-by: Linu Cherian <lcherian@marvell.com>
----
-Changelog from v3:
-Newly added patch
+-Rong
 
- Documentation/networking/devlink/octeontx2.rst | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/Documentation/networking/devlink/octeontx2.rst b/Documentation/networking/devlink/octeontx2.rst
-index d33a90dd44bf..7808ab361692 100644
---- a/Documentation/networking/devlink/octeontx2.rst
-+++ b/Documentation/networking/devlink/octeontx2.rst
-@@ -40,6 +40,21 @@ The ``octeontx2 AF`` driver implements the following driver-specific parameters.
-      - runtime
-      - Use to set the quantum which hardware uses for scheduling among transmit queues.
-        Hardware uses weighted DWRR algorithm to schedule among all transmit queues.
-+   * - ``npc_mcam_high_zone_percent``
-+     - u8
-+     - runtime
-+     - Use to set the number of high priority zone entries in NPC MCAM that can be allocated
-+       by a user, out of the three priority zone categories high, mid and low.
-+   * - ``npc_def_rule_cntr``
-+     - bool
-+     - runtime
-+     - Use to enable or disable hit counters for the default rules in NPC MCAM.
-+   * - ``nix_maxlf``
-+     - u16
-+     - runtime
-+     - Use to set the maximum number of LFs in NIX hardware block. This would be useful
-+       to increase the availability of default resources allocated to enabled LFs like
-+       MCAM entries for example.
- 
- The ``octeontx2 PF`` driver implements the following driver-specific parameters.
- 
--- 
-2.34.1
-
+On Mon, Oct 28, 2024 at 5:19=E2=80=AFPM H. Peter Anvin <hpa@zytor.com> wrot=
+e:
+>
+> On 10/28/24 17:16, Kees Cook wrote:
+> > On Fri, Oct 25, 2024 at 10:14:04PM -0700, Rong Xu wrote:
+> >> In the presence of both weak and strong function definitions, the
+> >> linker drops the weak symbol in favor of a strong symbol, but
+> >> leaves the code in place. Code in ignore_unreachable_insn() has
+> >> some heuristics to suppress the warning, but it does not work when
+> >> -ffunction-sections is enabled.
+> >>
+> >> Suppose function foo has both strong and weak definitions.
+> >> Case 1: The strong definition has an annotated section name,
+> >> like .init.text. Only the weak definition will be placed into
+> >> .text.foo. But since the section has no symbols, there will be no
+> >> "hole" in the section.
+> >>
+> >> Case 2: Both sections are without an annotated section name.
+> >> Both will be placed into .text.foo section, but there will be only one
+> >> symbol (the strong one). If the weak code is before the strong code,
+> >> there is no "hole" as it fails to find the right-most symbol before
+> >> the offset.
+> >>
+> >> The fix is to use the first node to compute the hole if hole.sym
+> >> is empty. If there is no symbol in the section, the first node
+> >> will be NULL, in which case, -1 is returned to skip the whole
+> >> section.
+> >>
+> >> Co-developed-by: Han Shen <shenhan@google.com>
+> >> Signed-off-by: Han Shen <shenhan@google.com>
+> >
+> > This seems logically correct to me, but I'd love to see review from Jos=
+h
+> > and/or Peter Z on this change too.
+> >
+> > Reviewed-by: Kees Cook <kees@kernel.org>
+> >
+>
+> Does this happen even with -Wl,--gc-sections?
+>
+>         -hpa
+>
