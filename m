@@ -1,117 +1,135 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4F8198831;
-	Tue, 29 Oct 2024 16:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26A0198A19;
+	Tue, 29 Oct 2024 16:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730219580; cv=none; b=YJXsocGETgaPCfx1VUs7sC6IF6zZIT7vRA1aen0tzwkc3IplGvvx6USQE2OlQWx++3fBLYx1D4vE08l6EbvFslyq4aI6lQRyCV0K7nhhX4fJk4YGqQvKkEq/CAkSb4YNmwp4ERpotJ24BDOaee3kM6iQ1ga5rBQfi1tBwsBAekc=
+	t=1730219704; cv=none; b=MplGxv/2IPdNYGF/3kr/832qLDy14pjvlYpeMYt2vyf4Hflof5oqOqb8/mHcUJNZH1jcXchr3ljYOQtzebz/3BDQL+4M7pwq3Ix7d/15rPaVXKsLCkNWzwX+Mlc8dQix3jS5bHJnl9pYYQSEi4hxzNycRYsX0O+qNdC/4s3YRlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730219580; c=relaxed/simple;
-	bh=gZzvj1L1Uurkf/PTmqTauqG1geMqfWBB82+zNmPrqjk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qSpiGU4VgY9yTAuGZgNCcu5qXVLN7xF+R019KFrsmvOSEEmX8VsN3sOLjydnZ369rqSRtvfZdowvnGp7rV1lbg0yiMFU1Ex3bE3cggMw/hkHEJHhtSpwc9bf5VjZXE4OrsmNykg/AeFZ3cIYBpSncYp8P6dlp5FAK0yRhdO1xNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A2kyqAII; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730219704; c=relaxed/simple;
+	bh=0kPRdVaBnlSkEYEdzX5ydl9lntCUi+JXSR0mA62Hn98=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b4L80TLG1dE8fVjBKwWEoZo7YYcPGLbf3rOiwku2aRpcP0ARszFRolac67uDJetoZCrXio7fga30AhzXBGRK1XlCcnLHJYZPWVUV6IJzW18BLZGrHilCZiL5aSG+AOZ8+yoqPTSGt/qmqUCbF7YAjre+Kr+svrU09dhYtr0NKmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJ7Wac5e; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A2kyqAII"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5ebc1af8e91so2847529eaf.1;
-        Tue, 29 Oct 2024 09:32:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730219577; x=1730824377; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=S/lGGqEKgUEddXZiGrZ4jfunD0Qbhe5FARK/pNKY1l4=;
-        b=A2kyqAIInAg0La0SdCgbfJykVC5hqzDq+HfLIExp8u5YAyEglMVQEAFyRRB5oZSTlF
-         wa7eh+nylJph/saC8YUmj1eJu871IcuqM7Bb0h4foKIjDCdVU9vre0dEtixdFCoofVc/
-         xEfD/wGCPaAkcJcL+f/WXicQ3Jo51QrsKc6PlYhbKnuDnEeIdWcSdTqb2jbGS+iB80Ea
-         xpn3h3MYoj23Fw0rDiOon+4ysfvo1VqNuesQMbBpuC4WqaNhkwOFmJrsivzJF0LHSHjf
-         NvkeXX85+ty7PIjnmXU89RbxbyHeEec+cJmP8WQzNKn4ymiw/clrE3X9aVKvexoDrxsu
-         5VAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730219577; x=1730824377;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S/lGGqEKgUEddXZiGrZ4jfunD0Qbhe5FARK/pNKY1l4=;
-        b=maHSP5tdFp5M6LtosnIf48P0K62fERkgHvK2D+iXoBGoyjIb3HSWIyyWB4PBhXN5q4
-         l+a0GhWNEvzroguGihi9mvKC8JJiWSHkZhHCbmq9x4rT/7ej/pRmdrqGBt/WfgbqT5S5
-         RYAMJaIlFj0aKGNN4Jpg/IvW2GcNbnu+DXHLEJY+g8lDmRmSMo/UATQMnXuyeM7Rt3ay
-         YCaaPFikhqsR6+BW9JgqbcU3aBF2NFrFfA0JXFqwjGImcEhXolg46kU6Fawzpsna92Bp
-         jERpbBaX9LUnluS+5ZZqeIWr1vxFPlaAcdupNXZXllK/loGSRClSc2kaZnUVNYBjyqm9
-         u9zA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZcRE/K8QRYq48sEyc4uqcZydP6ASZ7YqmfKCZb7X6k7Mm1s/yJDADNhCK3jHFpWt5XBSTxxXhxdak@vger.kernel.org, AJvYcCW3Amb75wlTFuQYWwdVNiZ1ySxICqb2AFvGStyzSN7teR0ataEEwVOAm7OqB7Ig11hIzU3HAqa8775c@vger.kernel.org, AJvYcCWV3PqQ+UFC+KJ0KWulbpvA75fEoJ4oLBkOitqnDAIIlXp6ytUsKns8rFHXgPbpk/WITrKURdPz7qEjqYo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxgu7pD3jqng4Bnq1GcLh6wWAmAc+zs0qtF2CwPeFRANUD0rUVE
-	u7kf5Da9GQtttV2LOiZnDJwnWUdwXSaLUWGKrGPhCg8sqkeLXt9WIxyYAJuO
-X-Google-Smtp-Source: AGHT+IEinLyHOA1cU8O4mla2g+CTLD0/kpM9fr/Cvhw5KUFrWs0dqZE3hQDgF3DFEKEzSCm3sqc6BA==
-X-Received: by 2002:a05:6820:808:b0:5e1:ba38:86e7 with SMTP id 006d021491bc7-5ec23970a84mr7743542eaf.5.1730219577179;
-        Tue, 29 Oct 2024 09:32:57 -0700 (PDT)
-Received: from raspberrypi ([2600:1700:90:4c80::3b])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ec185d2da8sm2397806eaf.23.2024.10.29.09.32.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 09:32:55 -0700 (PDT)
-Date: Tue, 29 Oct 2024 11:32:53 -0500
-From: Grant Peltier <grantpeltier93@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: robh@kernel.org, linux@roeck-us.net, magnus.damm@gmail.com,
-	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 0/2] dt-bindings: hwmon: pmbus: add bindings for
- isl68137
-Message-ID: <ZyEONRFoooymFcfJ@raspberrypi>
-References: <cover.1729874904.git.grantpeltier93@gmail.com>
- <CAMuHMdWHZR9pN3h=Jdsqs5Qb0mi_4CobBtu82PRgzrm5TRgE4A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJ7Wac5e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730219702; x=1761755702;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=0kPRdVaBnlSkEYEdzX5ydl9lntCUi+JXSR0mA62Hn98=;
+  b=PJ7Wac5ePmZw5i/JnpugEiDR7LtUBr55DABF7HX1k0s3vpGJvq2965qJ
+   1P6yHzl4iWJjJtyA8V0cnzr0/gzwfBT5i7bfvQb5rG9uAXsvBj5/eam62
+   X3Kt2CW3wV0UpGPJ4mjNDUvRNXqAEK+vhXjFpMFY8TjwzhF+JWKh1kNI2
+   H5/H6XRmm2G3+y/hVWmst4Bq3Eox4gF/pOLqwuGN6Qg3LOPVjtl4TvRhK
+   SrWRVGuIO6IRd6I2CUuLYP6wr1xNxs/wAM2oH41xpJVU66AoIRoriTTw0
+   BCAgv4KlhggwI4Xy1txCfd+yOf++OYBUawqLFKtxmT1PjlpwLYfBDaRgU
+   g==;
+X-CSE-ConnectionGUID: Mf++VcBzQ8S8vT5IFpKQxg==
+X-CSE-MsgGUID: 2AQV5gXAQTmBVtCZqIbq5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="33669689"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="33669689"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 09:35:01 -0700
+X-CSE-ConnectionGUID: x3v5ZdEwQue2n/moDWY77A==
+X-CSE-MsgGUID: ulBzQPt4SLaRYDn4OrHebw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="81949200"
+Received: from jerrycli-mobl2.amr.corp.intel.com (HELO [10.125.224.112]) ([10.125.224.112])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 09:35:00 -0700
+Message-ID: <01b20580-9dd7-460b-aab1-86ad153fb3a7@linux.intel.com>
+Date: Tue, 29 Oct 2024 09:34:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] x86/bugs: Check VERW mitigations for consistency
+To: Nikolay Borisov <nik.borisov@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org
+Cc: hpa@zytor.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pawan.kumar.gupta@linux.intel.com
+References: <cover.1730158506.git.daniel.sneddon@linux.intel.com>
+ <3ed45a10e2f7fbecce31d9964b1da1372e8cb838.1730158506.git.daniel.sneddon@linux.intel.com>
+ <35c07733-d9e4-43a3-9dde-2cc10cd1ab9f@suse.com>
+Content-Language: en-US
+From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+In-Reply-To: <35c07733-d9e4-43a3-9dde-2cc10cd1ab9f@suse.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdWHZR9pN3h=Jdsqs5Qb0mi_4CobBtu82PRgzrm5TRgE4A@mail.gmail.com>
 
-On Mon, Oct 28, 2024 at 11:18:39AM +0100, Geert Uytterhoeven wrote:
-> > v4:
-> > - Revert devicetree property name to "vout-voltage-divider" and refactor
-> >   property description and driver implementation to match existing
-> >   vout-voltage-divider implementation in max20730 as no suitable generic
-> >   voltage divider schema exists.
+On 10/29/24 09:32, Nikolay Borisov wrote:
 > 
-> Can you please elaborate (or point to the email that did so, in case
-> I missed it)?
 > 
-> In reply to v2, G�nter wrote:
+> On 29.10.24 г. 1:50 ч., Daniel Sneddon wrote:
+>> There are currently 4 mitigations that use VERW: MDS, TAA,
+>> MMIO Stale Data, and Register File Data Sampling. Because
+>> all 4 use the same mitigation path, if any one of them is
+>> enabled, they're all enabled. Normally, this is what is
+>> wanted. However, if a user wants to disable the mitigation,
+>> this can cause problems. If the user misses disabling even
+>> one of these mitigations, then none of them will be
+>> disabled. This can cause confusion as the user expects to
+>> regain the performance lost to the mitigation but isn't
+>> seeing any improvement. Since there are already 4 knobs for
+>> controlling it, adding a 5th knob that controls all 4
+>> mitigations together would just overcomplicate things.
+>> Instead, let the user know their mitigations are out of sync
+>> when at least one of these mitigations is disabled but not
+>> all 4.
+>>
+>> Signed-off-by: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+>> ---
+>>   arch/x86/kernel/cpu/bugs.c | 18 ++++++++++++++++++
+>>   1 file changed, 18 insertions(+)
+>>
+>> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+>> index d1915427b4ff..b26b3b554330 100644
+>> --- a/arch/x86/kernel/cpu/bugs.c
+>> +++ b/arch/x86/kernel/cpu/bugs.c
+>> @@ -582,8 +582,26 @@ static void __init md_clear_update_mitigation(void)
+>>   		pr_info("Register File Data Sampling: %s\n", rfds_strings[rfds_mitigation]);
+>>   }
+>>   
+>> +static void __init verw_mitigations_check(void)
+>> +{
+>> +	if (mds_mitigation == MDS_MITIGATION_OFF ||
+>> +	    taa_mitigation == TAA_MITIGATION_OFF ||
+>> +	    mmio_mitigation == MMIO_MITIGATION_OFF ||
+>> +	    rfds_mitigation == RFDS_MITIGATION_OFF) {
+>> +		if (mds_mitigation == MDS_MITIGATION_OFF &&
+>> +		    taa_mitigation == TAA_MITIGATION_OFF &&
+>> +		    mmio_mitigation == MMIO_MITIGATION_OFF &&
+>> +		    rfds_mitigation == RFDS_MITIGATION_OFF)
+>> +			return;
 > 
->    "I would prefer, in the order of preference,
+> Ugh, why don't you simply XOR the 4 values and if it's 1 it means the 
+> inputs differe => there is inconsistency.
 > 
->     1) an applicable generic property definition
->     2) a definition that is already used elsewhere
->     3) a new chips specific definition"
-> 
-> https://lore.kernel.org/all/3f460b62-4cd1-49dd-a98b-1fbcfdbd3af0@roeck-us.net
-> 
-> Thanks!
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
->
+That's certainly cleaner. Will update.
 
-Hi Geert,
+Thx
+>> +
+>> +		pr_info("MDS, TAA, MMIO Stale Data, and Register File Data Sampling all depend on VERW\n");
+>> +		pr_info("In order to disable any one of them please ensure all 4 are disabled.\n");
+>> +	}
+>> +}
+>> +
+>>   static void __init md_clear_select_mitigation(void)
+>>   {
+>> +	verw_mitigations_check();
+>>   	mds_select_mitigation();
+>>   	taa_select_mitigation();
+>>   	mmio_select_mitigation();
 
-After looking through existing bindings definitions, the only generic
-voltage divider property that I found was one that is intended to scale
-voltages for IIO io-channels. However, the use case here is to scale
-particular hwmon PMBus telemetry, which most closely matches the existing
-implementation of the vout-voltage-divider property in the max20730
-driver so I opted to copy that implementation based on Guenter's
-preferences. Is there something that I missed or more information that
-you are looking for?
-
-Thanks,
-Grant
