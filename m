@@ -1,304 +1,137 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E11D2B9B4;
-	Tue, 29 Oct 2024 01:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C48528E7;
+	Tue, 29 Oct 2024 01:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730164068; cv=none; b=N+lyWpzV36K2Yy5ZJsaLHbiCLNqW8G6dxNrkDXRforukhIl4Zeobghqq5qdo+ZynyrwxcFy3om9HUQeYaOFBLVGBxq8Z+aLp7aGXvB6VZ5sGddAFNAnWKauOA+kYDSCeLEyr1x5WVvzCj80qPIp5Pj0ZCBOIbIqj1/lsbMCKYYo=
+	t=1730164538; cv=none; b=Of2yc77cPLNOvmcnxn5jKRfcaTjVcr0qQ4WTxTz6f2M6S2qwstLKouwdK9dn1RCKS1yPbENXVV3iYVvxzQk6xF5XTa/TKXl+y8z5gxRdHmhytVusdQ0sC8YV2aOiLW/7PwAg5eUMBYwEWkf1ZR4DzJ1/5mMtGIBj90+3AnNtNLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730164068; c=relaxed/simple;
-	bh=5deK5WVVMdJUqtGc3NbiIMg5lxPp68QnobnuNldxSgc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L+PDjzSIIM9hl7AJ1OaUhoN36K9wyxu76KjL9OKyCP+fJPde+/rrslkEqyo13PbPbf5SXOEKViSCS7znDP6p8TvELIh2B0XnapTq+jz+gvzgcIDosAWZdehmE2b9L7P0aqooa4oXE0j8ttMTgp9o69lwFWkYTSoIHM0R6Lvtc5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ew+aAWNP; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730164538; c=relaxed/simple;
+	bh=BPXHzgbikb8ukSh3ZvXHfskqukjyqJCn+2tP4slVmrU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IhoDuuXOAvQehry49+KRwl6incR9WErMPEdzLuow0Z4MzS8tf7y5Zff9Au+IePx8x5/CMqe2OepG3hLHxB2efxc5VeWtjgO7rZTCMaZZqAjrd5Jyl6vFh7mFQAVI9cnHksHIgXDBXoT2tO+x2AwUgGlzwWmj2OLqll2PNdy/mSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jSE3jRDH; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ew+aAWNP"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4a46b6affeaso1697926137.2;
-        Mon, 28 Oct 2024 18:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730164065; x=1730768865; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IG0PFS2Vufi1owynRS2sTlDlYx2r2czk9VLiILWiX+U=;
-        b=Ew+aAWNPK/BCbMVCqpQ6SzUTENRWvcrZT2GaWRSeGKcaFDZNAUkp5+k+MXXByp5HCP
-         /t6tjLtjUnBxlcTsEuLyDF0IAaabfyDVmWuK6UYLHqSDgt//focFp3NE+7VVQJ3Zwljr
-         iw8vDw7xYGuV62Flcp0JCtufgXd7HhwXzOH6tXiNjIgz+ZE6P+dEsREd6cpsnu19kD8s
-         p+WtzVbWNjOkzgxOG3sxLkpIFoNUB9cn28JV5UYgda0kTqaW8wANme1Yaoz3bxpJyp3Z
-         8BtzXSP1nc0Gz7tRB/Noh/+CEy6OYis5fNE+TaEoR/LSG//WQFNKT9kOP00GUubCd7rM
-         Ti4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730164065; x=1730768865;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IG0PFS2Vufi1owynRS2sTlDlYx2r2czk9VLiILWiX+U=;
-        b=wXyYW/XLEqi+6vfh8OW7QVDm+77iL+RiswqlnQ3GQuLxZNYlggPCF3nSzB4AAZS6zF
-         5Z0AiMVo2y1qmU9oetYZv6bw+ptBwki8wSBUl9szkjpkIiWqDeyf0iP36yKYfuPEEvCu
-         ICUyEmsGSIkGkKDTatSFYfd2kIVuL2wzoQDGOaR3f0jo0pDftUyA8jqdHUcXfAZzSRl+
-         n+A6OT4D8qyhTBWQPoyTXcnMMpN910zlm+i4CENl92NI4hKCVWX/ADDUh4tVVrpjdx6K
-         XEmjZGJ97Ea07Wob1DqqrgG3SurJgdHDTE0iFFYn9eV5efwpqSWhEX7akQSFs//PA0qR
-         a2PA==
-X-Forwarded-Encrypted: i=1; AJvYcCW0zjAEOzhuNoJu33OGK1Ayhk7lpSRYePNmQjnZvQx6IPkcqqdJLAu79Cm//5F9NjQeQOZwRcnwakRHOciH@vger.kernel.org, AJvYcCXoDMjsspl/47bFKcStOFTWGggV5XpxXDSdL8GFijA+KhfQWh81dgL3qNvTlDM00fjGkLVPpPl6vqQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqnjBN+kezgCepn+6CaTMlnnV+VJBuqbbUuSVnK7JgISEWbsFr
-	L5BmAhAd3hMlhzAKpNwaxS/SKmMQ80xKinJV5x9quncttoE9oM2NLBIyifiQAkqtZG91I7m7+9h
-	oc01C+YO6VgCqdBoo1SKu55cy00c=
-X-Google-Smtp-Source: AGHT+IFAQyuOiDaDWHTzQfoOvYmjnp4EXydCzQUk8uROlSAjxsOCXitgU6klSjw7VOVl8iKqy8ni8sOO5mYp738xB4Q=
-X-Received: by 2002:a05:6102:4192:b0:4a7:487d:88e4 with SMTP id
- ada2fe7eead31-4a8cfb443d7mr9031420137.4.1730164064894; Mon, 28 Oct 2024
- 18:07:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jSE3jRDH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730164537; x=1761700537;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BPXHzgbikb8ukSh3ZvXHfskqukjyqJCn+2tP4slVmrU=;
+  b=jSE3jRDHzszXyFSJTPfglwzQHes5LWJOwpBv4GmZelJusnQT2wlBTfEX
+   zFikZKzlXCrJY7/5n1fQ27OxbisofpG/uMOpCJhYymy2G2E5q9EA+Scwg
+   GNVd363ZoRz0uDCP/TWJuzvkGKEs8iHPkwbt3PBvn+QvZE/hyj5Q/3ybY
+   LCL0tNzhaUKamuKK/cdO7Bk6eD/bv/askxutLmNsiECwHfkLIUJmXQbnr
+   m7mIi4N8YtbIo9fN701RxRhjWriP3OmXeN1O0kyeLqGLqDqlQqqsECtcH
+   bPkP2mncxbPo25tU/myA/+5Te9yvjW+7n8VI0QQL2IooLm1u+qufqjDm9
+   w==;
+X-CSE-ConnectionGUID: FU7zsXsyR0mVKdQr2oZKog==
+X-CSE-MsgGUID: KkBiyXcASQS9UKyfg5hMiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29749269"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29749269"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 18:15:36 -0700
+X-CSE-ConnectionGUID: AdFz5mbGQM255BWdv/jjyA==
+X-CSE-MsgGUID: q0v2sqF2T6OS0OvhbUNXcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
+   d="scan'208";a="82122446"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 28 Oct 2024 18:15:35 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5apX-000d5s-36;
+	Tue, 29 Oct 2024 01:15:31 +0000
+Date: Tue, 29 Oct 2024 09:15:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Julian Vetter <jvetter@kalrayinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Yann Sionneau <ysionneau@kalrayinc.com>, linux-doc@vger.kernel.org
+Subject: [arnd-asm-generic:master 14/18] lib/iomem_copy.c:14: warning: This
+ comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202410290907.0mDZVYPK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241029002324.1062723-1-mcanal@igalia.com> <20241029002324.1062723-4-mcanal@igalia.com>
-In-Reply-To: <20241029002324.1062723-4-mcanal@igalia.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Tue, 29 Oct 2024 09:07:34 +0800
-Message-ID: <CAGsJ_4yp89one_hoB_87poU2wrpJh_0NVicRKW538eE6yo1kZw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] mm: generalize the implementation of ``thp_anon=``
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Oct 29, 2024 at 8:24=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igalia.com=
-> wrote:
->
-> Currently, the function ``setup_thp_anon()`` is extremely tied to the
-> policies and bitmaps that currently exist for anon THP. This means that
-> we can't reuse the function if we implement a ``thp_shmem=3D``.
->
-> This commit extracts the behavior of the function to a new generic
-> function. The new function is exposed in common headers for future use
-> by mm/shmem.c.
->
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+head:   a8cb1e92d29096b1fe58ef6fdcee699196eac1bd
+commit: b660d0a2acb9053d627befbb259a397d26aa9582 [14/18] New implementation for IO memcpy and IO memset
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241029/202410290907.0mDZVYPK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290907.0mDZVYPK-lkp@intel.com/reproduce)
 
-Sorry, Ma=C3=ADra, my mistake. I don't see much value in making
-get_order_from_str() a common
-API since bootcmd such a small thing. I'd prefer to stick with your
-previous code with
-just a rename=E2=80=94unless, at some point, we move both shmem and anon co=
-ntrols into
-mm/huge_memory.c.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290907.0mDZVYPK-lkp@intel.com/
 
-> ---
->  include/linux/huge_mm.h |  29 +++++++++++
->  mm/huge_memory.c        | 109 ++++++++++++++++++----------------------
->  2 files changed, 78 insertions(+), 60 deletions(-)
->
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index b94c2e8ee918..b82e9379f2bf 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -471,6 +471,35 @@ void split_huge_pmd_locked(struct vm_area_struct *vm=
-a, unsigned long address,
->  bool unmap_huge_pmd_locked(struct vm_area_struct *vma, unsigned long add=
-r,
->                            pmd_t *pmdp, struct folio *folio);
->
-> +static inline int get_order_from_str(const char *size_str,
-> +                                    const unsigned long thp_orders)
-> +{
-> +       unsigned long size;
-> +       char *endptr;
-> +       int order;
-> +
-> +       size =3D memparse(size_str, &endptr);
-> +
-> +       if (!is_power_of_2(size))
-> +               goto err;
-> +
-> +       order =3D get_order(size);
-> +       if (BIT(order) & ~thp_orders)
-> +               goto err;
-> +
-> +       return order;
-> +err:
-> +       pr_err("invalid size %s in boot parameter\n", size_str);
-> +       return -EINVAL;
-> +}
-> +
-> +struct thp_policy_bitmap {
-> +       const char *policy;
-> +       unsigned long bitmap;
-> +};
-> +
-> +int parse_huge_orders(char *p, struct thp_policy_bitmap *policies,
-> +                     const int num_policies, const unsigned long thp_ord=
-ers);
->  #else /* CONFIG_TRANSPARENT_HUGEPAGE */
->
->  static inline bool folio_test_pmd_mappable(struct folio *folio)
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 832ca761b4c3..c61f4481cb6a 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -958,91 +958,80 @@ static int __init setup_transparent_hugepage(char *=
-str)
->  }
->  __setup("transparent_hugepage=3D", setup_transparent_hugepage);
->
-> -static inline int get_order_from_str(const char *size_str)
-> -{
-> -       unsigned long size;
-> -       char *endptr;
-> -       int order;
-> -
-> -       size =3D memparse(size_str, &endptr);
-> -
-> -       if (!is_power_of_2(size))
-> -               goto err;
-> -       order =3D get_order(size);
-> -       if (BIT(order) & ~THP_ORDERS_ALL_ANON)
-> -               goto err;
-> -
-> -       return order;
-> -err:
-> -       pr_err("invalid size %s in thp_anon boot parameter\n", size_str);
-> -       return -EINVAL;
-> -}
-> -
-> -static char str_dup[PAGE_SIZE] __initdata;
-> -static int __init setup_thp_anon(char *str)
-> +int parse_huge_orders(char *p, struct thp_policy_bitmap *policies,
-> +                     const int num_policies, const unsigned long thp_ord=
-ers)
->  {
->         char *token, *range, *policy, *subtoken;
-> -       unsigned long always, inherit, madvise;
->         char *start_size, *end_size;
-> -       int start, end, nr;
-> -       char *p;
-> +       int start, end, nr, i;
-> +       bool policy_set;
->
-> -       if (!str || strlen(str) + 1 > PAGE_SIZE)
-> -               goto err;
-> -       strcpy(str_dup, str);
-> -
-> -       always =3D huge_anon_orders_always;
-> -       madvise =3D huge_anon_orders_madvise;
-> -       inherit =3D huge_anon_orders_inherit;
-> -       p =3D str_dup;
->         while ((token =3D strsep(&p, ";")) !=3D NULL) {
->                 range =3D strsep(&token, ":");
->                 policy =3D token;
->
->                 if (!policy)
-> -                       goto err;
-> +                       return 0;
->
->                 while ((subtoken =3D strsep(&range, ",")) !=3D NULL) {
-> +                       policy_set =3D false;
-> +
->                         if (strchr(subtoken, '-')) {
->                                 start_size =3D strsep(&subtoken, "-");
->                                 end_size =3D subtoken;
->
-> -                               start =3D get_order_from_str(start_size);
-> -                               end =3D get_order_from_str(end_size);
-> +                               start =3D get_order_from_str(start_size, =
-thp_orders);
-> +                               end =3D get_order_from_str(end_size, thp_=
-orders);
->                         } else {
-> -                               start =3D end =3D get_order_from_str(subt=
-oken);
-> +                               start =3D end =3D get_order_from_str(subt=
-oken, thp_orders);
->                         }
->
->                         if (start < 0 || end < 0 || start > end)
-> -                               goto err;
-> +                               return 0;
->
->                         nr =3D end - start + 1;
-> -                       if (!strcmp(policy, "always")) {
-> -                               bitmap_set(&always, start, nr);
-> -                               bitmap_clear(&inherit, start, nr);
-> -                               bitmap_clear(&madvise, start, nr);
-> -                       } else if (!strcmp(policy, "madvise")) {
-> -                               bitmap_set(&madvise, start, nr);
-> -                               bitmap_clear(&inherit, start, nr);
-> -                               bitmap_clear(&always, start, nr);
-> -                       } else if (!strcmp(policy, "inherit")) {
-> -                               bitmap_set(&inherit, start, nr);
-> -                               bitmap_clear(&madvise, start, nr);
-> -                               bitmap_clear(&always, start, nr);
-> -                       } else if (!strcmp(policy, "never")) {
-> -                               bitmap_clear(&inherit, start, nr);
-> -                               bitmap_clear(&madvise, start, nr);
-> -                               bitmap_clear(&always, start, nr);
-> -                       } else {
-> -                               pr_err("invalid policy %s in thp_anon boo=
-t parameter\n", policy);
-> -                               goto err;
-> +
-> +                       for (i =3D 0; i < num_policies; i++) {
-> +                               if (!strcmp(policy, policies[i].policy)) =
-{
-> +                                       bitmap_set(&policies[i].bitmap, s=
-tart, nr);
-> +                                       policy_set =3D true;
-> +                               } else
-> +                                       bitmap_clear(&policies[i].bitmap,=
- start, nr);
-> +                       }
-> +
-> +                       if (!policy_set && strcmp(policy, "never")) {
-> +                               pr_err("invalid policy %s in boot paramet=
-er\n", policy);
-> +                               return 0;
->                         }
->                 }
->         }
->
-> -       huge_anon_orders_always =3D always;
-> -       huge_anon_orders_madvise =3D madvise;
-> -       huge_anon_orders_inherit =3D inherit;
-> +       return 1;
-> +}
-> +
-> +static char str_dup[PAGE_SIZE] __initdata;
-> +static int __init setup_thp_anon(char *str)
-> +{
-> +       struct thp_policy_bitmap policies[] =3D {
-> +               { "always",  huge_anon_orders_always },
-> +               { "madvise",  huge_anon_orders_madvise },
-> +               { "inherit",  huge_anon_orders_inherit },
-> +       };
-> +       char *p;
-> +
-> +       if (!str || strlen(str) + 1 > PAGE_SIZE)
-> +               goto err;
-> +
-> +       strscpy(str_dup, str);
-> +       p =3D str_dup;
-> +
-> +       if (!parse_huge_orders(p, policies, ARRAY_SIZE(policies),
-> +                             THP_ORDERS_ALL_ANON))
-> +               goto err;
-> +
-> +       huge_anon_orders_always =3D policies[0].bitmap;
-> +       huge_anon_orders_madvise =3D policies[1].bitmap;
-> +       huge_anon_orders_inherit =3D policies[2].bitmap;
->         anon_orders_configured =3D true;
->         return 1;
->
-> --
-> 2.46.2
->
+All warnings (new ones prefixed by >>):
 
-Thanks
-Barry
+>> lib/iomem_copy.c:14: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * memset_io            Set a range of I/O memory to a constant value
+   lib/iomem_copy.c:55: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * memcpy_fromio        Copy a block of data from I/O memory
+   lib/iomem_copy.c:97: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * memcpy_toio          Copy a block of data into I/O memory
+
+
+vim +14 lib/iomem_copy.c
+
+    11	
+    12	#ifndef memset_io
+    13	/**
+  > 14	 * memset_io		Set a range of I/O memory to a constant value
+    15	 * @addr:		The beginning of the I/O-memory range to set
+    16	 * @val:		The value to set the memory to
+    17	 * @count:		The number of bytes to set
+    18	 *
+    19	 * Set a range of I/O memory to a given value.
+    20	 */
+    21	void memset_io(volatile void __iomem *addr, int val, size_t count)
+    22	{
+    23		long qc = (u8)val;
+    24	
+    25		qc *= ~0UL / 0xff;
+    26	
+    27		while (count && !IS_ALIGNED((long)addr, sizeof(long))) {
+    28			__raw_writeb(val, addr);
+    29			addr++;
+    30			count--;
+    31		}
+    32	
+    33		while (count >= sizeof(long)) {
+    34	#ifdef CONFIG_64BIT
+    35			__raw_writeq(qc, addr);
+    36	#else
+    37			__raw_writel(qc, addr);
+    38	#endif
+    39	
+    40			addr += sizeof(long);
+    41			count -= sizeof(long);
+    42		}
+    43	
+    44		while (count) {
+    45			__raw_writeb(val, addr);
+    46			addr++;
+    47			count--;
+    48		}
+    49	}
+    50	EXPORT_SYMBOL(memset_io);
+    51	#endif
+    52	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
