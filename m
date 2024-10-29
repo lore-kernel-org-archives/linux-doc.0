@@ -1,144 +1,128 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05D317D355;
-	Tue, 29 Oct 2024 17:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637F7203719;
+	Tue, 29 Oct 2024 17:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730222103; cv=none; b=awjg/v+DniR5yjSa/QjimRqEWlIjE0U4huiKWt5lJE4mISyY4NbcaABKpc64eUKF6H1Zk4RGsBIFguNGkhopVRwO7BjAwarOBYivCRFGtjOjtosKtAmuggRybozI9VmFf31fdA6BGvUkuRwvkpysMY7sQvQYebXYaTN9o1qcms8=
+	t=1730222922; cv=none; b=lWET/7GSH/rUq65ki1BCgVnY/5Q44IWY59Akkn4W8pG7pB1zmhcJ8MNsORgoZnRmAAU4KNafUF67JR9e+XFw9K6EOJnmIPHZqht5cgIDwHK5/eRO4CSEgtUS4CURWnDgxWGWryq0LyIJ/pxDgRtomDDw68fatzzOXy5UvDme/wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730222103; c=relaxed/simple;
-	bh=LqBQA0ivqqH8ZyZKx0n8JFFG1U13mopJfiR3HfDtNN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p1+uIZ/xCowFLb8aloz5DEynaEnnvxKfHXNxxVNFrTBz/p5+AS3wBiqvumLyIpwseT523SpVYwc+DuIp5xFQT1bdXQ8VNukgUP15Wgx4Rvo+g1CSOQcIXoApcWUc5G8wmi/q93u3Up3rgCTAhOrgZaR/hVPo34D2ze9euE1XLNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qtaDdZ5z; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1730222922; c=relaxed/simple;
+	bh=Iuf6Xk0m12VH4JrneWbnqoZPwuhneMbLQmLINWp5Ogo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rGyw0mUZEMuKhC889LaneraEOlUq/ddDNgJ0hy4svwLBE5tE8fmSVrMQbHff4xaRzbNW0ul1ULo4UFmH74FKWx37ewlb+u8uDKttPhmNkZNktJMEq5+SBd11KfXI00FYitVp997c8Ig8Kwe8twDLP7VtOv8q5aGeWphlmHH2zys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TAUFosc6; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qtaDdZ5z"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xq2/wRVUsy2jaJ29qDqN+mT7DMusIDqIZXNyENoMByg=; b=qtaDdZ5zpgOd3Fw3eXc6aoAx08
-	7t8FDzzNCE0NIsKqBHdowmPclK+I/eJDA6qgV0AheD0UMouI0NmMmSWmTb5921yCpVk2vjYVoGv2/
-	bpRTRLxm0o8Vh7eUQG78LVeUYniTIz7yHeGs5gdP8MIOxVkZdlF9Y2B6TZ4t+wcL8yrKJkOHPwShV
-	scBms6uZyZ84HMIbFXBaiwD3uEAhFRzDhr1GQgdiJkAD4a66u7wwPFCvn1K4VR43CZHaYbn1j7SnH
-	pK+WudxVw9mP218BIiDoYZUIgSIGRBdhsl+aXUvBXIkuMQSWQnh2kHC8V2BJkkCHqWqq7AAVNMM49
-	/fjt8Eow==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5pnG-0000000A2WL-0jJ5;
-	Tue, 29 Oct 2024 17:14:10 +0000
-Date: Tue, 29 Oct 2024 17:14:09 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Tony Luck <tony.luck@intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TAUFosc6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730222920; x=1761758920;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Iuf6Xk0m12VH4JrneWbnqoZPwuhneMbLQmLINWp5Ogo=;
+  b=TAUFosc6wjWG1OsjRth9tO2V6negNiyxsOSEq7y9DkeOgnFZL26daMUz
+   jmJeZDYqyUTXn8ED0sofOgPc95E+Bs3y1LsFwVyxpgI5KYPCS0Kpp9WnC
+   UurXO0FKrOV91Vgd3jInSJA/CG3q9joX8Qt+qUNs1dGNDVABw/6B8AdbT
+   ECtS5c1Qz+4Fb+iqnIOBb9jgnRGyJE3sVU3LS91KCFg/i0XK8xF+04ros
+   LXPb3ENhOEK4bKZwNOLDiP/3DVJ7XuWRKOn0bjj1jMWzPOD5swI8ar6yh
+   yUsnOhU7wIt7pNJ09LtojKsW9F5Q12nt3jme4OVKpK6mYDFwl1gtq86+x
+   Q==;
+X-CSE-ConnectionGUID: PMN0dnC5QB+OWsW2Yskc8g==
+X-CSE-MsgGUID: iM484KtZTiyna/ZP0JEHjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="17515633"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="17515633"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:28:39 -0700
+X-CSE-ConnectionGUID: NNDEMe48S12WU0V7De+VXA==
+X-CSE-MsgGUID: /ZNosftBQlWVME4l10itHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="81585594"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:28:39 -0700
+From: Tony Luck <tony.luck@intel.com>
+To: Fenghua Yu <fenghua.yu@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Peter Newman <peternewman@google.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Breno Leitao <leitao@debian.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-	Juergen Gross <jgross@suse.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Yuntao Wang <ytcoode@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-	Huang Shijie <shijie@os.amperecomputing.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v5 00/16] Enable Linear Address Space Separation support
-Message-ID: <ZyEX4cp-iiwiF_yX@casper.infradead.org>
-References: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	x86@kernel.org
+Cc: James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	patches@lists.linux.dev,
+	Tony Luck <tony.luck@intel.com>
+Subject: [PATCH v8 0/7] x86/resctrl: mba_MBps enhancement
+Date: Tue, 29 Oct 2024 10:28:25 -0700
+Message-ID: <20241029172832.93963-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 28, 2024 at 06:07:48PM +0200, Alexander Shishkin wrote:
-> Linear Address Space Separation (LASS) is a security feature that intends to
-> prevent malicious virtual address space accesses across user/kernel mode.
-> 
-> Such mode based access protection already exists today with paging and features
-> such as SMEP and SMAP. However, to enforce these protections, the processor
-> must traverse the paging structures in memory.  Malicious software can use
-> timing information resulting from this traversal to determine details about the
-> paging structures, and these details may also be used to determine the layout
-> of the kernel memory.
-> 
-> The LASS mechanism provides the same mode-based protections as paging but
-> without traversing the paging structures. Because the protections enforced by
-> LASS are applied before paging, software will not be able to derive
-> paging-based timing information from the various caching structures such as the
-> TLBs, mid-level caches, page walker, data caches, etc. LASS can avoid probing
-> using double page faults, TLB flush and reload, and SW prefetch instructions.
-> See [2], [3] and [4] for some research on the related attack vectors.
-> 
-> In addition, LASS prevents an attack vector described in a Spectre LAM (SLAM)
-> whitepaper [7].
-> 
-> LASS enforcement relies on the typical kernel implemetation to divide the
-> 64-bit virtual address space into two halves:
->   Addr[63]=0 -> User address space
->   Addr[63]=1 -> Kernel address space
-> Any data access or code execution across address spaces typically results in a
-> #GP fault.
-> 
-> Kernel accesses usually only happen to the kernel address space. However, there
-> are valid reasons for kernel to access memory in the user half. For these cases
-> (such as text poking and EFI runtime accesses), the kernel can temporarily
-> suspend the enforcement of LASS by toggling SMAP (Supervisor Mode Access
-> Prevention) using the stac()/clac() instructions and in one instance a downright
-> disabling LASS for an EFI runtime call.
-> 
-> User space cannot access any kernel address while LASS is enabled.
-> Unfortunately, legacy vsyscall functions are located in the address range
-> 0xffffffffff600000 - 0xffffffffff601000 and emulated in kernel.  To avoid
-> breaking user applications when LASS is enabled, extend the vsyscall emulation
-> in execute (XONLY) mode to the #GP fault handler.
-> 
-> In contrast, the vsyscall EMULATE mode is deprecated and not expected to be
-> used by anyone.  Supporting EMULATE mode with LASS would need complex
-> intruction decoding in the #GP fault handler and is probably not worth the
-> hassle. Disable LASS in this rare case when someone absolutely needs and
-> enables vsyscall=emulate via the command line.
+Add support to choose the memory monitor bandwidth event independently
+for each ctrl_mon group when resctrl is mounted with the mba_MBps
+option. Users may want this for applications that are not localized to
+NUMA boundaries.  Default behavior still uses local memory bandwidth
+when that event is supported by the platform.
 
-I lack the wit to read & understand these patches to answer this
-question, so I'll just ask it:
+Side benefit[0]: Systems that do not support the local bandwidth monitor
+event but do support the total bandwidth event can now use the mba_MBps
+mount option.
 
-What happens when the kernel does a NULL pointer dereference (due to a
-bug)?  It's not an attempt to access userspace, but it should result in
-a good bug report.  Normally this would be outside a STAC/CLAC region,
-but I suppose technically it could be within one.
+Changes since v7[1]:
+--------------------
+
+Almost a complete rewrite based on the new user ABI of a file
+in each ctrl_mon group to select the event instead of a mount
+option that applies to all groups.
+
+Some of the code from the v7 patch0001 was salvaged and is now
+split between patches 0002/0003 in this series. Patch 0002
+addresses comments from Reinette[2] with additional sanity
+checks, use of WARN_ON_ONCE() and early return from functions
+where these checks fail.
+
+I moved the refactor of mbm_update() to a separate patch to
+make it easier to review the changes to compute bandwidth for
+all memory bandwidth events.
+
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+
+[0] My original objective!
+[1] https://lore.kernel.org/all/20241003191228.67541-1-tony.luck@intel.com
+[2] https://lore.kernel.org/all/bb30835f-5be9-44b4-8544-2f528e7fc573@intel.com/
+
+Tony Luck (7):
+  x86/resctrl: Prepare for per-ctrl_mon group mba_MBps control
+  x86/resctrl: Compute memory bandwidth for all supported events
+  x86/resctrl: Refactor mbm_update()
+  x86/resctrl: Relax checks for mba_MBps mount option
+  x86/resctrl: Add "mba_MBps_event" file to ctrl_mon directories
+  x86/resctrl: Add write option to "mba_MBps_event" file
+  x86/resctrl: Document the new "mba_MBps_event" file
+
+ Documentation/arch/x86/resctrl.rst        | 10 +++
+ include/linux/resctrl.h                   |  2 +
+ arch/x86/kernel/cpu/resctrl/internal.h    |  6 ++
+ arch/x86/kernel/cpu/resctrl/core.c        |  5 ++
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c | 71 ++++++++++++++++++
+ arch/x86/kernel/cpu/resctrl/monitor.c     | 91 ++++++++++++-----------
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 28 ++++++-
+ 7 files changed, 167 insertions(+), 46 deletions(-)
+
+
+base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
+-- 
+2.47.0
 
