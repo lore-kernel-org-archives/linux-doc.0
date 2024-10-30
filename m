@@ -1,115 +1,131 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E0B1EABA5;
-	Wed, 30 Oct 2024 14:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ACDB672;
+	Wed, 30 Oct 2024 14:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730298825; cv=none; b=kYwLIJR5vrJPgNTvmcioif1DD6MC7fbmcDtKHDJqj6Njxzb32tgKzF3hVPmGiqipGDk/obIikegaDvmp7mmhRg6pWHQPoi2JC46rt0ej3N1J28BoLsl/WSSn2zrEPJrcpXCf0rOQDStOsOXeFHZDpuAE1jBm7a1YlbwqnJs5APo=
+	t=1730299464; cv=none; b=TmSM71kky24xujHSgbpxtal/gQp14g8PwqqMcrbCSdQHFzx6Atg6YHEPWwmqSh/PnGpaFqPf/Nwblwfn7bUWfmzSNpu24k1cxMo97cBOnf6CcoC/W56l5uI7MTTdCdHPIimKj9W4YBqr4YE+qVQX1f/DC8Kb4xwoYdJHdLifvf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730298825; c=relaxed/simple;
-	bh=nAXA1e6ereqmb3MHInQbwUXw9moQjsLdg9jJAZQQfmw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l2C6ZTFYoLtRCoCjBGiz+KY5k9rTHxAEqfkcIqVPBdp7mxyavK5VREY4Ntf3Ou2F848CNYVPVAhnCHuiVh9I2yvX15cS655zr149oOCrOqTPIkIf2BKufbw3wiTujQrsiJc7hgA6WnIJCd/4aRQgpLKVwD6njEu6+y9H55Wc5Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=WyIejBet; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="WyIejBet"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49UDw8v0012224;
-	Wed, 30 Oct 2024 14:33:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=YkQE0QbnYso+0/vqDX8+nkLt1O3VUV
-	PdnTC+wEH8KGE=; b=WyIejBetHbX0WyYb0GKLUyHBI8ejg4faUfq03iPDKQCjyC
-	i3eQ6LR/lXfw55UdBInl/1YGQxhPOjZrLTuu5WK3zQ6D+mLH6yFPsgv1UkRLhYww
-	ALuAuwUR3t/FUstC6wrPpSQRLXwPOrpdIKUQijW0H4bk6hZDZWSueEj1Rv7yh4wh
-	ZaWTgnrOwQSWDjhsVU4mbfzK/q1EXQoHseOFl4LzLYKMt7vefzsXgG5hGaekQ2lt
-	7bul14+5kPhuYmh6La4Y5kDWu4exphv0jy8OJF7lcC2YpF4qy9WVS4tQuPpT+3KK
-	1tjM8eVvRjfVGRiJ1hEK0gKbhXHg7/olgUTQ5bIw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42jyhbpbju-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Oct 2024 14:33:34 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49UEXX6l003381;
-	Wed, 30 Oct 2024 14:33:33 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42jyhbpbjq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Oct 2024 14:33:33 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49UBsOA9018383;
-	Wed, 30 Oct 2024 14:33:32 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42hc8k8ba4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Oct 2024 14:33:32 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49UEXSsL57475502
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 30 Oct 2024 14:33:28 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C983E20043;
-	Wed, 30 Oct 2024 14:33:28 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AA4C62004B;
-	Wed, 30 Oct 2024 14:33:27 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.155.204.135])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 30 Oct 2024 14:33:27 +0000 (GMT)
-Date: Wed, 30 Oct 2024 15:33:25 +0100
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
-Subject: Re: [PATCH v2 4/7] s390/physmem_info: query diag500(STORAGE LIMIT)
- to support QEMU/KVM memory devices
-Message-ID: <ZyJDtdElqCCwjcW+@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-References: <20241014144622.876731-1-david@redhat.com>
- <20241014144622.876731-5-david@redhat.com>
- <ZyJC+s5L6JI3xO44@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+	s=arc-20240116; t=1730299464; c=relaxed/simple;
+	bh=F2p1CIBhsgGPCFP7JP4hFpvJnWXOIzEKAIw73T3SjtE=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rV/ulRk25gKfzyKBAnEcgvwp9k7hDGA01NCZNnTkhGHkn7Uy3anUy7/uxzd9qw0yM/GNlTqRwOv9CoAFk1LdwkiZybdpg5B2v8RAVhIrbZaqFxYxXeLdZs+yxq3usxaerLsUDrOdVqo9qy22z6crn1to1rQM6KUg9BtxBwklbDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XdqWs0Gy4z6GDsD;
+	Wed, 30 Oct 2024 22:39:21 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 44F3C140498;
+	Wed, 30 Oct 2024 22:44:12 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 30 Oct
+ 2024 15:44:11 +0100
+Date: Wed, 30 Oct 2024 14:44:10 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 23/27] dax/region: Create resources on sparse DAX
+ regions
+Message-ID: <20241030144410.00001be7@Huawei.com>
+In-Reply-To: <20241029-dcd-type2-upstream-v5-23-8739cb67c374@intel.com>
+References: <20241029-dcd-type2-upstream-v5-0-8739cb67c374@intel.com>
+	<20241029-dcd-type2-upstream-v5-23-8739cb67c374@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZyJC+s5L6JI3xO44@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: pyTitmUaMPipLM8LFiCgngkB-xj0DyYQ
-X-Proofpoint-ORIG-GUID: LU3TDk4DyvFKwduroN5_L-gXPQpICUT5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- malwarescore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 phishscore=0 impostorscore=0 mlxlogscore=623 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410300111
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100011.china.huawei.com (7.191.174.247) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-> >  arch/s390/boot/physmem_info.c        | 46 ++++++++++++++++++++++++++--
-> >  arch/s390/include/asm/physmem_info.h |  3 ++
-> >  2 files changed, 46 insertions(+), 3 deletions(-)
+On Tue, 29 Oct 2024 15:34:58 -0500
+ira.weiny@intel.com wrote:
+
+> From: Navneet Singh <navneet.singh@intel.com>
 > 
-> Reviewed-by: Alexander Gordeev <agordeev@linux.ibm.com>
+> DAX regions which map dynamic capacity partitions require that memory be
+> allowed to come and go.  Recall sparse regions were created for this
+> purpose.  Now that extents can be realized within DAX regions the DAX
+> region driver can start tracking sub-resource information.
+> 
+> The tight relationship between DAX region operations and extent
+> operations require memory changes to be controlled synchronously with
+> the user of the region.  Synchronize through the dax_region_rwsem and by
+> having the region driver drive both the region device as well as the
+> extent sub-devices.
+> 
+> Recall requests to remove extents can happen at any time and that a host
+> is not obligated to release the memory until it is not being used.  If
+> an extent is not used allow a release response.
+> 
+> When extents are eligible for release.  No mappings exist but data may
+> reside in caches not yet written to the device.  Call
+> cxl_region_invalidate_memregion() to write back data to the device prior
+> to signaling the release complete.  This is inefficient but is the best
+> we can do at the moment and should occur infrequently with sufficiently
+> large extents and work loads.
+> 
+> The DAX layer has no need for the details of the CXL memory extent
+> devices.  Expose extents to the DAX layer as device children of the DAX
+> region device.  A single callback from the driver aids the DAX layer to
+> determine if the child device is an extent.  The DAX layer also
+> registers a devres function to automatically clean up when the device is
+> removed from the region.
+> 
+> There is a race between extents being surfaced and the dax_cxl driver
+> being loaded.  The driver must therefore scan for any existing extents
+> while still under the device lock.
+> 
+> Respond to extent notifications.  Manage the DAX region resource tree
+> based on the extents lifetime.  Return the status of remove
+> notifications to lower layers such that it can manage the hardware
+> appropriately.
+> 
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+One typo spotted.
 
-Sorry, it supposed to be for v3, so please dismiss this one.
+Otherwise seems fine to me but not an area I know well yet!
 
-> Thanks!
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
+> index 0867115aeef2e1b2d4c88b5c38b6648a404b1060..8ebbc4808c3509ff17ac3af045505dc42c003fb0 100644
+> --- a/drivers/dax/dax-private.h
+> +++ b/drivers/dax/dax-private.h
+
+> +/**
+> + * struct dax_resource - For sparse regions; an active resource
+> + * @region: dax_region this resources is in
+> + * @res: resource
+> + * @use_cnt: count the number of uses of this resource
+> + *
+> + * Changes to the dax_reigon and the dax_resources within it are protected by
+dax_region
+
+> + * dax_region_rwsem
+> + *
+> + * dax_resource's are not intended to be used outside the dax layer.
+> + */
+> +struct dax_resource {
+> +	struct dax_region *region;
+> +	struct resource *res;
+> +	unsigned int use_cnt;
+> +};
+
