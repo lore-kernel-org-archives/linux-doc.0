@@ -1,50 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24A9199EB0;
-	Wed, 30 Oct 2024 18:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9C41BD9F4;
+	Wed, 30 Oct 2024 18:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730313162; cv=none; b=u+RcS3d0BvauESYme9RkjKHQbZSf00EbBjXrVQXvi7Vi/nL7kN7gigprvgp7c3xl5LCveVra0D8UGW453e1XY+rALBpIPd4fejb1L2OVF7g9R4QuQ5u7ybVTIASvE8/1NixLcHT4NtZ6zQ1NTDW5EByHf0JP+f6xZdEknNpqYkA=
+	t=1730313186; cv=none; b=FB7E2a0fXT7/xklVT+CUaplIsJkpXktYmrKwyXeFCEoah6DB3aq6XK0wv9EPHaTxNAbM9tkKyjXi+Ln6+d5NrDMZNLzn2TbOohyN6weX2NTRR6SSpgEX0pk2qXzWWXIryQOUFH850K2RWBeIvaiSMe4jXbsSBWzATBtTAGNO2qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730313162; c=relaxed/simple;
-	bh=uKySPkrqXDPgs4yTMKdKB4kcwXEilJC0jwyaMkNRQAU=;
+	s=arc-20240116; t=1730313186; c=relaxed/simple;
+	bh=2RqiUqDobjJb8TzlK86nk9gSLyBgAadi2DM5HjlMjnc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YWC3Em00iMQXJ7XJoZ1JOvtW9QR56CI5M+yIYm3XKHYMX3gNtb/aQ8uZWbepj//b9HnnT9EFvaa981PXNd0ronQHpz8HiJLgOUgnuav8U5aPNVWtP9a37xyoVnyqz/W9E6yNTyMudSONse2pJM8MHn4PEdujjmcDy+Kt/iz7h9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9Ca4nDo; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=LdgbHlbEHiI0GxCfT+a/p6xF3dkxtYHpKtMow9B2wxL020WKCRNc/uriklQLAyi84pLE3s007a557Nyti8zfXx3IKbo20w/dWZJaPSFrnLECB/Yj2WKD5PxGvjZqG2oftIiyMdhK5zY26A/l6nkvEjmdvPttvVNmMzsTawVv6h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D38t/BjK; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9Ca4nDo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730313159; x=1761849159;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=uKySPkrqXDPgs4yTMKdKB4kcwXEilJC0jwyaMkNRQAU=;
-  b=X9Ca4nDorTllTaqjPwiqhs4WgK7+AJFmxvhDYovEPmJKbE0uFTXTqleM
-   Y5GDSd1aEes0QLCEjKhbvQFhi+zwJLlmWNUAi1Txaxvpl7nwCVmBoaZMC
-   4oJuerRRwJri8Z7pDuo/Sl95Lm9KTebyxDQXV0RTCGjWlJNdOEdDYpm/L
-   2jpG8Ol2XVh6nAlf96cK7W4/u1OVtxl8oB6b1949XVsopZ5xqv1lHOLSL
-   smeq1PGQX/EsItI2HDbKqWcr4sjyrDTpiPV9rIfLYTn1ZtGkow8Zs90nZ
-   JJZI9q50/tOhH8wtt2rMbjjMOjnNn3MjCoI5tVcEfsmzD2vnoiI2Se/FQ
-   A==;
-X-CSE-ConnectionGUID: P65+cg4bSMKhZIhjgoriYQ==
-X-CSE-MsgGUID: keazMJcQSFSUBeqhz7N3dA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="33961092"
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="33961092"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 11:32:38 -0700
-X-CSE-ConnectionGUID: uudTCmFsSOyE84T1m6xWag==
-X-CSE-MsgGUID: t/KE/7CBSrqMJdAtcmEXnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="82711049"
-Received: from nnlnb-sb-019.ccr.corp.intel.com (HELO [10.125.108.160]) ([10.125.108.160])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 11:32:37 -0700
-Message-ID: <64b7b0f9-d9e1-4458-8149-9ccbf78e1c27@intel.com>
-Date: Wed, 30 Oct 2024 11:32:35 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D38t/BjK"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d4fd00574so107858f8f.0;
+        Wed, 30 Oct 2024 11:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730313182; x=1730917982; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UpRP2MsIVMkQvKjqAp60xM5OFj18JwlP60eDqeYPxhc=;
+        b=D38t/BjKst48gAkdZMiGuYGPLc5bc4rRNo2XmVxbPLFgVWK/WE8efRcIXRULqFSpcg
+         3tK438dJf2z5z7MhTZyaMz+Dq8oG//ftPX9qZtxKByPItj9FZMHQkYIOJh+GMMsP4zj6
+         mwvuZdAuhRRQ3vTxCKKxWqoIrSgjm1Npkh5QX44D4d3hgdcVQ35Q62Kqfx4m9DQSBiL2
+         vnRVbT7pxnJ2BroCiSltE3lPZiW9nS7KXNR8kwBeX+7a0fSc8UEsyIWcaQRYk40kbuYB
+         W9QBkcaaJlmBXpcHd+vAqfUteW/pqVMNrOckHHYzV8PoZqVmWDT58c3vLLQQea7zQ1mz
+         xBmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730313182; x=1730917982;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UpRP2MsIVMkQvKjqAp60xM5OFj18JwlP60eDqeYPxhc=;
+        b=Bz0meVGx6GaYmyQ0ZTXEthYzTVwFjcFLvRK8aVQDq4iOlgMxOgtONoIgldksm88Y6J
+         irWKyY4GE2BJLgUGNnNOZeKtEJRRCPU8lH+5Xfpn+XU1xkfox/ShoO9rFkNDnm3bkGB3
+         HzVbjII6x+d1Bw8o12jjdCLJpAPs6I5NUpq2RDipU4prEaaYZ1AcDJlXbsYgd4ss7i91
+         rXCPo9Qie2Y54c3LgNtgoYESXvP6ZA+Ggiu9PBNOk4Wt7kmI/fH5cA7OepvI9agigP8v
+         UMnw59r6WPqk0a4kwRQfskiqTbHoskd3AXdma1kWAB0WUAIx0SQKEG8Xnwjwhpov2NwW
+         bgFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVY5yLB9DYR6JOb10NagSnMH40M7ToavRUZpZnAENt4LKe7TNlK4lTV5bI12q3gBSLTuGtsaUCJAIE=@vger.kernel.org, AJvYcCW9NE1gMyYtCbP2zKlCM0e4Sg3xl5RVIiPVGWasOaYMyPdNnvjkYuojVvbraFwM8waJq1DBl1Dr5XAhPQI/@vger.kernel.org, AJvYcCWQJcY2QhejS/hcb4RJjCBrs3Aqzzk2dhwqncNppnHjSRX8coQjClYvc6cdmlWcc3a43Njpk7IA@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywg8kXk4iEZcwMoJMyYJd9W8WFw558BaPqO0FoUAnOs7p2/Ny4e
+	In4CytzxA2l8FAPUhHn6Cyf9Mp4wt23XvbKQyoP+EKfq7anjYGVt
+X-Google-Smtp-Source: AGHT+IGUMEiJ5yqJQbqO4xA7/aA59KAvngIQZIC7OTI5GXqXyrK5y8mDR/1ooulIWDi8IfTeYR0uyA==
+X-Received: by 2002:a5d:688b:0:b0:374:c613:7c58 with SMTP id ffacd0b85a97d-381b97c08fbmr2847327f8f.29.1730313181936;
+        Wed, 30 Oct 2024 11:33:01 -0700 (PDT)
+Received: from [192.168.0.2] ([69.6.8.124])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b71221sm15888748f8f.68.2024.10.30.11.32.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Oct 2024 11:33:01 -0700 (PDT)
+Message-ID: <e37b9baa-51e5-48f9-a15d-521f29ce5f9c@gmail.com>
+Date: Wed, 30 Oct 2024 20:33:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,153 +61,109 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 12/27] cxl/cdat: Gather DSMAS data for DCD regions
-To: Ira Weiny <ira.weiny@intel.com>, Fan Ni <fan.ni@samsung.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Navneet Singh <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Dan Williams <dan.j.williams@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, linux-cxl@vger.kernel.org,
- linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20241029-dcd-type2-upstream-v5-0-8739cb67c374@intel.com>
- <20241029-dcd-type2-upstream-v5-12-8739cb67c374@intel.com>
+Subject: Re: [net-next v2] net: wwan: t7xx: reset device if suspend fails
+To: Jinjian Song <jinjian.song@fibocom.com>,
+ chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
+ haijun.liu@mediatek.com, m.chetan.kumar@linux.intel.com,
+ ricardo.martinez@linux.intel.com, loic.poulain@linaro.org,
+ johannes@sipsolutions.net, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com
+Cc: angelogioacchino.delregno@collabora.com, corbet@lwn.net,
+ danielwinkler@google.com, helgaas@kernel.org, korneld@google.com,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, netdev@vger.kernel.org,
+ Linas Vepstas <linasvepstas@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>
+References: <20241022084348.4571-1-jinjian.song@fibocom.com>
+ <20241029034657.6937-1-jinjian.song@fibocom.com>
 Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20241029-dcd-type2-upstream-v5-12-8739cb67c374@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+In-Reply-To: <20241029034657.6937-1-jinjian.song@fibocom.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Jinjian,
 
-
-On 10/29/24 1:34 PM, Ira Weiny wrote:
-> Additional DCD region (partition) information is contained in the DSMAS
-> CDAT tables, including performance, read only, and shareable attributes.
+On 29.10.2024 05:46, Jinjian Song wrote:
+> From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+>> On 22.10.2024 11:43, Jinjian Song wrote:
+>>> If driver fails to set the device to suspend, it means that the
+>>> device is abnormal. In this case, reset the device to recover
+>>> when PCIe device is offline.
+>>
+>> Is it a reproducible or a speculative issue? Does the fix recover 
+>> modem from a problematic state?
+>>
+>> Anyway we need someone more familiar with this hardware (Intel or 
+>> MediaTek engineer) to Ack the change to make sure we are not going to 
+>> put a system in a more complicated state.
 > 
-> Match DCD partitions with DSMAS tables and store the meta data.
+> Hi Sergey,
 > 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> This is a very difficult issue to replicate onece occured and fixed.
+> 
+> The issue occured when driver and device lost the connection. I have
+> encountered this problem twice so far:
+> 1. During suspend/resume stress test, there was a probabilistic D3L2
+> time sequence issue with the BIOS, result in PCIe link down, driver
+> read and write the register of device invalid, so suspend failed.
+> This issue was eventually fixed in the BIOS and I was able to restore
+> it through the reset module after reproducing the problem.
+> 
+> 2. During idle test, the modem probabilistic hang up, result in PCIe
+> link down, driver read and write the register of device invalid, so
+> suspend failed. This issue was eventually fiex in device modem firmware
+> by adjust a certain power supply voltage, and reset modem as a workround
+> to restore when the MBIM port command timeout in userspace applycations.
+> 
+> Hardware reset modem to recover was discussed with MTK, and they said
+> that if we don't want to keep the on-site problem location in case of
+> suspend failure, we can use the recover solution.
+> Both the ocurred issues result in the PCIe link issue, driver can't read 
+> and writer the register of WWAN device, so I want to add this path
+> to restore, hardware reset modem can recover modem, but using the 
+> pci_channle_offline() as the judgment is my inference.
 
-> ---
-> Changes:
-> [Fan: remove unwanted blank line]
-> [Rafael: Split out acpi change]
-> [iweiny: remove %pra use]
-> [Jonathan: s/cdat/CDAT/]
-> ---
->  drivers/cxl/core/cdat.c | 39 +++++++++++++++++++++++++++++++++++++++
->  drivers/cxl/core/mbox.c |  2 ++
->  drivers/cxl/cxlmem.h    |  3 +++
->  3 files changed, 44 insertions(+)
-> 
-> diff --git a/drivers/cxl/core/cdat.c b/drivers/cxl/core/cdat.c
-> index b5d30c5bf1e20725d13b4397a7ba90662bcd8766..7cd7734a3b0f0b742ee6e63973d12fb3e83ac332 100644
-> --- a/drivers/cxl/core/cdat.c
-> +++ b/drivers/cxl/core/cdat.c
-> @@ -17,6 +17,8 @@ struct dsmas_entry {
->  	struct access_coordinate cdat_coord[ACCESS_COORDINATE_MAX];
->  	int entries;
->  	int qos_class;
-> +	bool shareable;
-> +	bool read_only;
->  };
->  
->  static u32 cdat_normalize(u16 entry, u64 base, u8 type)
-> @@ -74,6 +76,8 @@ static int cdat_dsmas_handler(union acpi_subtable_headers *header, void *arg,
->  		return -ENOMEM;
->  
->  	dent->handle = dsmas->dsmad_handle;
-> +	dent->shareable = dsmas->flags & ACPI_CDAT_DSMAS_SHAREABLE;
-> +	dent->read_only = dsmas->flags & ACPI_CDAT_DSMAS_READ_ONLY;
->  	dent->dpa_range.start = le64_to_cpu((__force __le64)dsmas->dpa_base_address);
->  	dent->dpa_range.end = le64_to_cpu((__force __le64)dsmas->dpa_base_address) +
->  			      le64_to_cpu((__force __le64)dsmas->dpa_length) - 1;
-> @@ -255,6 +259,39 @@ static void update_perf_entry(struct device *dev, struct dsmas_entry *dent,
->  		dent->coord[ACCESS_COORDINATE_CPU].write_latency);
->  }
->  
-> +static void update_dcd_perf(struct cxl_dev_state *cxlds,
-> +			    struct dsmas_entry *dent)
-> +{
-> +	struct cxl_memdev_state *mds = to_cxl_memdev_state(cxlds);
-> +	struct device *dev = cxlds->dev;
-> +
-> +	for (int i = 0; i < mds->nr_dc_region; i++) {
-> +		/* CXL defines a u32 handle while CDAT defines u8, ignore upper bits */
-> +		u8 dc_handle = mds->dc_region[i].dsmad_handle & 0xff;
-> +
-> +		if (resource_size(&cxlds->dc_res[i])) {
-> +			struct range dc_range = {
-> +				.start = cxlds->dc_res[i].start,
-> +				.end = cxlds->dc_res[i].end,
-> +			};
-> +
-> +			if (range_contains(&dent->dpa_range, &dc_range)) {
-> +				if (dent->handle != dc_handle)
-> +					dev_warn(dev, "DC Region/DSMAS mis-matched handle/range; region [range 0x%016llx-0x%016llx] (%u); dsmas [range 0x%016llx-0x%016llx] (%u)\n"
-> +						      "   setting DC region attributes regardless\n",
-> +						dent->dpa_range.start, dent->dpa_range.end,
-> +						dent->handle,
-> +						dc_range.start, dc_range.end,
-> +						dc_handle);
-> +
-> +				mds->dc_region[i].shareable = dent->shareable;
-> +				mds->dc_region[i].read_only = dent->read_only;
-> +				update_perf_entry(dev, dent, &mds->dc_perf[i]);
-> +			}
-> +		}
-> +	}
-> +}
-> +
->  static void cxl_memdev_set_qos_class(struct cxl_dev_state *cxlds,
->  				     struct xarray *dsmas_xa)
->  {
-> @@ -278,6 +315,8 @@ static void cxl_memdev_set_qos_class(struct cxl_dev_state *cxlds,
->  		else if (resource_size(&cxlds->pmem_res) &&
->  			 range_contains(&pmem_range, &dent->dpa_range))
->  			update_perf_entry(dev, dent, &mds->pmem_perf);
-> +		else if (cxl_dcd_supported(mds))
-> +			update_dcd_perf(cxlds, dent);
->  		else
->  			dev_dbg(dev, "no partition for dsmas dpa: %#llx\n",
->  				dent->dpa_range.start);
-> diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
-> index 2c9a9af3dde3a294cde628880066b514b870029f..a4b5cb61b4e6f9b17e3e3e0cce356b0ac9f960d0 100644
-> --- a/drivers/cxl/core/mbox.c
-> +++ b/drivers/cxl/core/mbox.c
-> @@ -1649,6 +1649,8 @@ struct cxl_memdev_state *cxl_memdev_state_create(struct device *dev)
->  	mds->cxlds.type = CXL_DEVTYPE_CLASSMEM;
->  	mds->ram_perf.qos_class = CXL_QOS_CLASS_INVALID;
->  	mds->pmem_perf.qos_class = CXL_QOS_CLASS_INVALID;
-> +	for (int i = 0; i < CXL_MAX_DC_REGION; i++)
-> +		mds->dc_perf[i].qos_class = CXL_QOS_CLASS_INVALID;
->  
->  	return mds;
->  }
-> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
-> index 2fb93269ab4359dd12dfb912ded30654e2340be0..204f7bd9197bd1a02de44ef56a345811d2107ab4 100644
-> --- a/drivers/cxl/cxlmem.h
-> +++ b/drivers/cxl/cxlmem.h
-> @@ -466,6 +466,8 @@ struct cxl_dc_region_info {
->  	u64 blk_size;
->  	u32 dsmad_handle;
->  	u8 flags;
-> +	bool shareable;
-> +	bool read_only;
->  	u8 name[CXL_DC_REGION_STRLEN];
->  };
->  
-> @@ -533,6 +535,7 @@ struct cxl_memdev_state {
->  
->  	u8 nr_dc_region;
->  	struct cxl_dc_region_info dc_region[CXL_MAX_DC_REGION];
-> +	struct cxl_dpa_perf dc_perf[CXL_MAX_DC_REGION];
->  
->  	struct cxl_event_state event;
->  	struct cxl_poison_state poison;
-> 
+Thank you for the clarification. Let me summarize what I've understood 
+from the explanation:
+a) there were hardware (firmware) issues,
+b) issues already were solved,
+c) issues were not directly related to the device suspension procedure,
+d) you want to implement a backup plan to make the modem support robust.
 
+If got it right, then I would like to recommend to implement a generic 
+error handling solution for the PCIe interface. You can check this 
+document: Documentation/PCI/pci-error-recovery.rst
+
+Suddenly, I am not an expert in the PCIe link recovery procedure, so 
+I've CCed this message to PCI subsystem maintainers. I hope they can 
+suggest a conceptually correct way to handle these cases.
+
+>>> Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
+>>> ---
+>>> V2:
+>>>   * Add judgment, reset when device is offline
+>>> ---
+>>>   drivers/net/wwan/t7xx/t7xx_pci.c | 4 ++++
+>>>   1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/net/wwan/t7xx/t7xx_pci.c b/drivers/net/wwan/ 
+>>> t7xx/t7xx_pci.c
+>>> index e556e5bd49ab..4f89a353588b 100644
+>>> --- a/drivers/net/wwan/t7xx/t7xx_pci.c
+>>> +++ b/drivers/net/wwan/t7xx/t7xx_pci.c
+>>> @@ -427,6 +427,10 @@ static int __t7xx_pci_pm_suspend(struct pci_dev 
+>>> *pdev)
+>>>       iowrite32(T7XX_L1_BIT(0), IREG_BASE(t7xx_dev) + 
+>>> ENABLE_ASPM_LOWPWR);
+>>>       atomic_set(&t7xx_dev->md_pm_state, MTK_PM_RESUMED);
+>>>       t7xx_pcie_mac_set_int(t7xx_dev, SAP_RGU_INT);
+>>> +    if (pci_channel_offline(pdev)) {
+>>> +        dev_err(&pdev->dev, "Device offline, reset to recover\n");
+>>> +        t7xx_reset_device(t7xx_dev, PLDR);
+>>> +    }
+>>>       return ret;
+>>>   }
+
+--
+Sergey
