@@ -1,115 +1,154 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB3719CC24;
-	Wed, 30 Oct 2024 20:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7772A14F90;
+	Wed, 30 Oct 2024 21:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730321039; cv=none; b=CjhYiBDUX/dcWUF9DUOx5kiA8PIpiLaWRMXJYfBJuamJtEv8y7DtB/hlaqLD8/7sEks54xzPf2tjlcmSTwPJ+45N3Ez1NciqFAmz2iE3NzFl+JodWxxWSSB/IxTaTlFXSiA95NB2Gf6zeskizpRIK0zLguxL3zxYKqPpyxXGrh8=
+	t=1730322663; cv=none; b=btWfmSMr/y/PexnDcYKHsXtpXNtvOoMcmH7dgHgxrKly+fMraUK6qrpxsWQ313DbTQMV5OALmVP0x83nwoalXy3KJjQjwLfy4/HuLM/nNpLdOq9np4X3wU7q0UG+A6Vvs9Vp9kxEpKadfk2HM7DfXIQI6kp0bVMugfl3HGZ/uxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730321039; c=relaxed/simple;
-	bh=JNkFV7cr5Y+37qEIiiM4tOnuD78lQyY8VCgnDaJjAGY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PbiuyFTJBK98QuQCOrlcKz/nOOegIGE68tzSrGQD0DNzJu73hCWhYeT0iQbVS+gxE9hfqBVwfEw8KijaYdAVEXMeeq7zzoCyn1QP9cOWVAORKnL2JkFa2tuyAA/Hk5OEn/WRKLjbTuld1cnv2ruPe1KetO5Yw1z/OhuuQKI5wGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QxAEF9wV; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730322663; c=relaxed/simple;
+	bh=49YpfPgybjyunYRlnfXehdPEI1xELY9QE5/uJT2eRPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=OKdXsIS+svbrCFi7nUIkBnbKoaGi7E13i1aa1umAF0RR/uqCBe5bCk9ZqMOqoyWQecBz7Nm09ymc5GW6juw/Q3fF9w2GsLeWihun5XJXkr/vDMJs2cyJHpRCr/q2cFSqQOhS3rpF3Ev6t+VTd0xSju95xYR+tas00Vn9LY+dPyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pkEQfGIc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QxAEF9wV"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539e690479cso298392e87.3;
-        Wed, 30 Oct 2024 13:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730321036; x=1730925836; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JNkFV7cr5Y+37qEIiiM4tOnuD78lQyY8VCgnDaJjAGY=;
-        b=QxAEF9wVFhkEHLgeQtW3BCpI6GFg31z+eFP1G0TwVFTPWuGI/i+MctHPc4c1hfjs99
-         rmFNOcmNsu2UIDiSEkz+wXJrB7sZ6IFo8tqWkxjh9TF37O3nTNVDLZRKA5ULojWCw2D4
-         pfsYzQiRlZYMPOVYDWNcvePV7jztWyLS4VZm1CSLHQ28WYZ4hLEmi/YUnchSMAl/JPwe
-         nuKI0+Y9rBkSR/x0ON6olIYntCMs1IneFgYFeR0y49w3bdF3DYGOtDrEVFhrbWYixw7o
-         jr8tMRTDX1RNqXJ+G8CNdmYV7Qf6p81w13DsVAmNGFhwNNqXkopbu2NcGXYSjyeX7kXo
-         4fsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730321036; x=1730925836;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JNkFV7cr5Y+37qEIiiM4tOnuD78lQyY8VCgnDaJjAGY=;
-        b=wkNionCeLyqNID7FB8HMS4bivW0d63Ht36Pkpc1w+URYY23XFpDFj2X2CED2Lmllj3
-         YoXiNQeXE68ghLfiqwwCX93ZyewvpseS7YWjH6KyDmWitgjNrzhh9i4XTbvkRLMu4+LN
-         ibfd969Rmhu6e7Ccb0mqrYzs6A7cBUqcHDwfaGcUdVx1I87pIl8M/3pzHTIhY3KoIExE
-         S+VMVwVSZfdZzSShicg8ohupflQTc/TCFxgOSX8IBX8U5zDb4LDFygGsoKSmIlHLZPWG
-         IHCeluvO5Z7Kle6nsMNXUXWigkldK+gZ3/PBEII0jgZJj9ZEzsDTyYuIJ5iIbTuuuNZC
-         e2iA==
-X-Forwarded-Encrypted: i=1; AJvYcCUsQnJscU5PzNYjkf8cHRyXhNaezV7w/h8jtiqZItWzBKE/e+jbBf2LhJ1fDogZHAylRdOATUHvVB4qFIP8@vger.kernel.org, AJvYcCVC56Nlas1SJQq+Vd2hjvO9vWlqKw8Hvr3SFqqBuYpT5LXUaGbNKKCzC6EdP0ElPNHpU+1Juu3a@vger.kernel.org, AJvYcCXelvSqCwbd73E02ItKPOo2dCpfcO9nCeDzZ44u+NQ1xIzVEtR42Gk0sa7egCw9A7xIyz0OY3lUno2y@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIoag/kKWr4LVzxD5IfXRrcpfACnIoypCsffytnd5V0Qp0421w
-	M+kKW+0rGTwM5hFO/MgzfJ67aLS4pgBYY8Zn/CvXKRYvzgMf6hJTaejoMGqhzTPzH5Xjk5D/WG4
-	zNKpQ8PCqJuxMq8qK1qgr5n75ib4=
-X-Google-Smtp-Source: AGHT+IHwIVVPUQ6L4Z9pcPhSrmOucAHyfhtuRc1A2IaalpGTFNzP3GwdIuDPmFnxjOl0uDTjW9q7jnoMgwVaZUIENeM=
-X-Received: by 2002:a05:6512:b8e:b0:539:8b02:8f1d with SMTP id
- 2adb3069b0e04-53b348df014mr7797157e87.30.1730321035576; Wed, 30 Oct 2024
- 13:43:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pkEQfGIc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB149C4CECE;
+	Wed, 30 Oct 2024 21:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730322663;
+	bh=49YpfPgybjyunYRlnfXehdPEI1xELY9QE5/uJT2eRPQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=pkEQfGIccHm/wjiCrCCWe/fH7mfNqtwdKRguI2XyD+0KsDUZwN+Z3GEyLkB72KLSy
+	 ulaBG27WfSdkBPsSCq9Yjp/3JTK5hLojfRSklS9RUiQPlAcnN7CviYKk/XyzFK0ByX
+	 Ip+k/evjUE7lioJxM7T4DzxFai1kidYxX7YiT7IXRP34r0U25bFA99l8ZHQOmfqDpU
+	 1YHV4iYYti/4gl4juv7KbZgDYPOhzdN4tgMBXwvF191SrIvWNuZizINVQBdIJ1KUlB
+	 zAB3Bq3cuJ15LzgOUrz0K+qEuKnNH6URIYvoC6qQ0lGtlTrzqYvfrsPzuyf4NmCutU
+	 +Q30d8ivn5xlA==
+Date: Wed, 30 Oct 2024 16:11:00 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Arnaud Ebalard <arno@natisbad.org>,
+	Srujana Challa <schalla@marvell.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Kalle Valo <kvalo@kernel.org>, Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Kevin Cernekee <cernekee@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jie Wang <jie.wang@intel.com>,
+	Michal Witwicki <michal.witwicki@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Adam Guerin <adam.guerin@intel.com>,
+	Damian Muszynski <damian.muszynski@intel.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	zhang jiao <zhangjiao2@cmss.chinamobile.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-ide@vger.kernel.org, qat-linux@intel.com,
+	linux-crypto@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v6 00/10] Remove pcim_iomap_regions_request_all()
+Message-ID: <20241030211100.GA1220400@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
- <ZyIZ_Sq9D_v5v43l@tiehlicka> <20241030150102.GA706616@cmpxchg.org>
- <ZyJQaXAZSMKkFVQ2@tiehlicka> <20241030183044.GA706387@cmpxchg.org>
-In-Reply-To: <20241030183044.GA706387@cmpxchg.org>
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-Date: Wed, 30 Oct 2024 16:43:42 -0400
-Message-ID: <CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Michal Hocko <mhocko@suse.com>, nphamcs@gmail.com, shakeel.butt@linux.dev, 
-	roman.gushchin@linux.dev, muchun.song@linux.dev, tj@kernel.org, 
-	lizefan.x@bytedance.com, mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, 
-	akpm@linux-foundation.org, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241030112743.104395-1-pstanner@redhat.com>
 
-On Wed, Oct 30, 2024 at 2:30=E2=80=AFPM Johannes Weiner <hannes@cmpxchg.org=
-> wrote:
->
-> Joshua, can you please include something like this at the end:
->
-> lruvec_stat_mod_folio() keys off of folio->memcg linkage, which is
-> only set up if CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING is switched
-> on. This ensures that memory.stat::hugetlb is in sync with the hugetlb
-> share of memory.current.
+On Wed, Oct 30, 2024 at 12:27:33PM +0100, Philipp Stanner wrote:
+> Changes in v6:
+>   - Add Ilpo's RB to patch #1
+>   - Rephrase error log messages in patch #6. (Ilpo)
+> 
+> Changes in v5:
+>   - Add Acked-by's from Alexander and Bharat (the latter sent off-list,
+>     because of some issue with receiving the previous patch sets).
+> 
+> Changes in v4:
+>   - Add Acked-by's from Giovanni and Kalle.
+> 
+> Changes in v3:
+>   - Add missing full stops to commit messages (Andy).
+> 
+> Changes in v2:
+>   - Fix a bug in patch №4 ("crypto: marvell ...") where an error code
+>     was not set before printing it. (Me)
+>   - Apply Damien's Reviewed- / Acked-by to patches 1, 2 and 10. (Damien)
+>   - Apply Serge's Acked-by to patch №7. (Serge)
+>   - Apply Jiri's Reviewed-by to patch №8. (Jiri)
+>   - Apply Takashi Iwai's Reviewed-by to patch №9. (Takashi)
+> 
+> 
+> Hi all,
+> 
+> the PCI subsystem is currently working on cleaning up its devres API. To
+> do so, a few functions will be replaced with better alternatives.
+> 
+> This series removes pcim_iomap_regions_request_all(), which has been
+> deprecated already, and accordingly replaces the calls to
+> pcim_iomap_table() (which were only necessary because of
+> pcim_iomap_regions_request_all() in the first place) with calls to
+> pcim_iomap().
+> 
+> Would be great if you can take a look whether this behaves as you
+> intended for your respective component.
+> 
+> Cheers,
+> Philipp
+> 
+> Philipp Stanner (10):
+>   PCI: Make pcim_request_all_regions() a public function
+>   ata: ahci: Replace deprecated PCI functions
+>   crypto: qat - replace deprecated PCI functions
+>   crypto: marvell - replace deprecated PCI functions
+>   intel_th: pci: Replace deprecated PCI functions
+>   wifi: iwlwifi: replace deprecated PCI functions
+>   ntb: idt: Replace deprecated PCI functions
+>   serial: rp2: Replace deprecated PCI functions
+>   ALSA: korg1212: Replace deprecated PCI functions
+>   PCI: Remove pcim_iomap_regions_request_all()
+> 
+>  .../driver-api/driver-model/devres.rst        |  1 -
+>  drivers/ata/acard-ahci.c                      |  6 +-
+>  drivers/ata/ahci.c                            |  6 +-
+>  drivers/crypto/intel/qat/qat_420xx/adf_drv.c  | 11 +++-
+>  drivers/crypto/intel/qat/qat_4xxx/adf_drv.c   | 11 +++-
+>  .../marvell/octeontx2/otx2_cptpf_main.c       | 14 +++--
+>  .../marvell/octeontx2/otx2_cptvf_main.c       | 13 ++--
+>  drivers/hwtracing/intel_th/pci.c              |  9 ++-
+>  .../net/wireless/intel/iwlwifi/pcie/trans.c   | 16 ++---
+>  drivers/ntb/hw/idt/ntb_hw_idt.c               | 13 ++--
+>  drivers/pci/devres.c                          | 59 +------------------
+>  drivers/tty/serial/rp2.c                      | 12 ++--
+>  include/linux/pci.h                           |  3 +-
+>  sound/pci/korg1212/korg1212.c                 |  6 +-
+>  14 files changed, 76 insertions(+), 104 deletions(-)
 
-Hello Andrew,
-
-I saw that it was merged into mm-unstable earlier yesterday. Would it
-be possible
-to add this block of text to the patch description right before the footnot=
-es?
-
-3. Implementation Details:
-In the alloc / free hugetlb functions, we call lruvec_stat_mod_folio
-regardless of whether memcg accounts hugetlb. lruvec_stat_mod_folio
-keys off of folio->memcg which is only set up if the
-CGRP_ROOT_MEMORY_HUGETLB_ACCOUTING cgroup mount option is used, so
-it will not try to accumulate hugetlb unless the flag is set.
-This also ensures that memory.stat::hugetlb is the same as
-the share of memory.current that is used by hugetlb pages.
-
-And could you also update the list of signatures to reflect the
-responses on this version?
-Suggested-by: Nhat Pham <nphamcs@gmail.com>
-Suggested-by: Shakeel Butt <shakeel.butt@linux.dev>
-Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-Acked-by: Shakeel Butt <shakeel.butt@linux.dev>
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-Acked-by: Chris Down <chris@chrisdown.name>
-Reviewed-by: Roman Gushchin <roman.gushchin@linux.dev>
-Reviewed-by: Nhat Pham <nphamcs@gmail.com>
-Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
-
-Thank you so much, I hope you have a great rest of your day.
-Joshua
+Applied to pci/devm for v6.13, thanks!
