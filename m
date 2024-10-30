@@ -1,117 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82A84D8A7;
-	Wed, 30 Oct 2024 11:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD8F1E767D;
+	Wed, 30 Oct 2024 13:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730288594; cv=none; b=bJNrYsD9LdFRSoj8QjYX/PwqfPEjROGml4eWjluW/GgyK3cSLQbDHW8pelSui9LJUAJOJ5c4CgY6KK2sxTna4uR9gUI0fRmcIL6cJzNNRc+nn8NXh6QsSZc+lWYTJHw33HzT2EYZhbFxse7yShOu/zNYAffqmVliXtMHkwTE5LE=
+	t=1730293440; cv=none; b=Qvv32xu3Hh+QkktUE3hdpLddCzBU/CGT+OwXA1MnQxPC1OM4aMXJCE6UM/RPXS+NVl2hxdvIn+SvvwfO4Mc0zan+Ec4TsRgBT10wl1eGNwr/82QPjCkyXF0QHnEGgZ4zpYdGUEN5EceZfCKIUoBA0sfUCBkSMKPAxgQA7jq3oNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730288594; c=relaxed/simple;
-	bh=zBeBZaImPz0UNgvN3EkhqvIJaPld+Vg24M7vkVRlgB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ip+wC2rlV6GTLw+oDK1Tv8sND0DevLqhmjQqjI/XB+AdGnNF6bPY4NJDZ7IXFIVqKmkTQ6bQrY4QyF5YNMWAokwyzfKiAmnPXry2CqU5FMxF064seTy55+aaXRkp3pvYW9pfhysZVl1zgUqr8i2chKrZB/iDxNCLrFkj7gvvsv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gM+WrI/X; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730293440; c=relaxed/simple;
+	bh=PXExopGqHf/XUbPawY0gjrjO+odnFm47+qge4z72Bx0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=T8Bhux9sDzKJNH1XHO3BleKrsBuIUsBGeHcaxPrI5QI71YxwzqbryCU6qie+SP7zXebg0cwY4NV+9xCKLqYuLvn4B5o6nHYkw2FkeDyKIYwvfJevr9hKa6XJbV7nywluwmIPyGnWJhyKpz5YkkJgvqcyWOyMZpFQCyaTX24z3AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=eUcKZTex; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gM+WrI/X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730288593; x=1761824593;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zBeBZaImPz0UNgvN3EkhqvIJaPld+Vg24M7vkVRlgB4=;
-  b=gM+WrI/XQGoMWscgWvo+tXOrvLxlU0uHDoYHsbiBMIPVQVCbFhbFZFGL
-   GbgWQGZ6CVqCsQya5vALAYhpIbLTK+ZfoIOs+oiF9QIfVbJTSDllCrs5H
-   c/6T5jHSPEhTWaJqXs62ppBUS7Up/gGvmQnkRgaTSKnwBOTBUnxXyHjjK
-   18dRZGPwZOh5XiUMCdV05+BfjNgZ8sDrNGR7542MYFc7Pw2/0+zyLNwQs
-   q+QNJt8lF8Tvh4JX2by4ouF9Ns26tK5pAsf7mBorTAPS1NxNy5v9lY9r6
-   F16JMqmuHWrw5ZNvUmJ/3Kh0SlYWDOztvTOOd7oBQj3P2w7O/WVMh+KKG
-   Q==;
-X-CSE-ConnectionGUID: BkHqUyOIS6+NuONvC4vveg==
-X-CSE-MsgGUID: v7KdlA21S1OgIu1StkvyoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="29402801"
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="29402801"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 04:43:11 -0700
-X-CSE-ConnectionGUID: Vlw0gSJGRJa4rrcjq1XtoA==
-X-CSE-MsgGUID: P4iq76KnTAqvR179z7cXhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="105605929"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2024 04:43:01 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 3F18C275; Wed, 30 Oct 2024 13:43:00 +0200 (EET)
-Date: Wed, 30 Oct 2024 13:43:00 +0200
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>, 
-	"Hansen, Dave" <dave.hansen@intel.com>, "Mehta, Sohil" <sohil.mehta@intel.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Xiongwei Song <xiongwei.song@windriver.com>, "Li, Xin3" <xin3.li@intel.com>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Alexey Kardashevskiy <aik@amd.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon <daniel.sneddon@linux.intel.com>, 
-	"Huang, Kai" <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>, 
-	Breno Leitao <leitao@debian.org>, "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>
-Subject: Re: [PATCH v5 05/16] x86/cpu: Defer CR pinning setup until after EFI
- initialization
-Message-ID: <gb5cwrzxvlkrca2luqmeysgo6vilbqo6iirx5r3lds7ge4vk3i@qdfr2y3o66yd>
-References: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
- <20241028160917.1380714-6-alexander.shishkin@linux.intel.com>
- <a95a624b-214a-4b1f-ac16-dad5a9270bf8@intel.com>
- <SJ1PR11MB6083B9854320176B6301C530FC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <34dd023d-3ed5-4655-88be-14a7a300b91e@intel.com>
- <SJ1PR11MB6083CA923D92CD70AE6C5FB9FC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <869c1545-8c94-4820-a861-fbc563056597@intel.com>
- <aa3dc7dd-8939-4042-9e02-96dd29e45095@zytor.com>
- <SJ1PR11MB6083BB83EE16AEAD6D3F7C1BFC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="eUcKZTex"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=x/+J4VNwyIjYndlAztlVz2EFWQN/WXmhUknqKDEMai0=; b=eUcKZTexxC8M2Wcn30sWoZqyrh
+	LRP8JP0FKQ7H6mI4jJPzJasXn5FjP4SI+86Rk4Y2y+LLjP5yX8tNfAF7HOupm4XdtVK6GYJJltnXv
+	Bii1xx1Lszwsm1Sk9XipuwCR7WesaGLsQWxv1K8M4nDfto6PNgH91hdlxpZw/U8TmeR3WkUCaxwxP
+	9e05jUf7ku16Xrdqq5krv0SN2z2/ktQAPwydgXKS2DaY/XYz88gcC1yI6Ifwo7iXUkvjmfcUr9YgO
+	HGBP1vZXhg4m0Gh89vceRFzZgwj23LY6lgdxkFEmqno/aBR4spbKMiHFHtUzsjB9SyvtY9BTvrmjz
+	d4nXaHRQ==;
+Received: from [187.36.213.55] (helo=morissey..)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1t68MI-00H5h8-GV; Wed, 30 Oct 2024 14:03:35 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	Barry Song <baohua@kernel.org>,
+	David Hildenbrand <david@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Lance Yang <ioworker0@gmail.com>
+Cc: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH v3 1/4] mm: fix docs for the kernel parameter ``thp_anon=``
+Date: Wed, 30 Oct 2024 09:58:55 -0300
+Message-ID: <20241030130308.1066299-2-mcanal@igalia.com>
+X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20241030130308.1066299-1-mcanal@igalia.com>
+References: <20241030130308.1066299-1-mcanal@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB6083BB83EE16AEAD6D3F7C1BFC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 29, 2024 at 11:18:29PM +0000, Luck, Tony wrote:
-> >> Yeah, I was talking about 64-bit only.  On 32-bit PAE a PGD maps 1/4 of
-> >> the address space which is totally unworkable for stealing.
-> >
-> > But it is also not necessary.
-> 
-> So maybe we could make the 64-bit version of use_temporary_mm()
-> use some reserved address mapping to a reserved PGD in the upper
-> half of address space, and the 32-bit version continue to use "user"
-> addresses. It's unclear to me whether adding complexity here would be
-> worth it to remove the 64-bit STAC/CLAC text patching issues.
+If we add ``thp_anon=32,64K:always`` to the kernel command line, we
+will see the following error:
 
-Redesigning use_temporary_mm() is an interesting experiment, but it is
-out of scope for the series.
+[    0.000000] huge_memory: thp_anon=32,64K:always: error parsing string, ignoring setting
 
-LASS blocks LAM enabling. It would be nice to get LAM re-enabled soonish.
+This happens because the correct format isn't ``thp_anon=<size>,<size>[KMG]:<state>```,
+as [KMG] must follow each number to especify its unit. So, the correct
+format is ``thp_anon=<size>[KMG],<size>[KMG]:<state>```.
 
-Maybe we can look at use_temporary_mm() again after LASS gets upstream?
+Therefore, adjust the documentation to reflect the correct format of the
+parameter ``thp_anon=``.
 
+Fixes: dd4d30d1cdbe ("mm: override mTHP "enabled" defaults at kernel cmdline")
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Acked-by: Barry Song <baohua@kernel.org>
+Acked-by: David Hildenbrand <david@redhat.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ Documentation/admin-guide/mm/transhuge.rst      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 1518343bbe22..1666576acc0e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6688,7 +6688,7 @@
+ 			0: no polling (default)
+ 
+ 	thp_anon=	[KNL]
+-			Format: <size>,<size>[KMG]:<state>;<size>-<size>[KMG]:<state>
++			Format: <size>[KMG],<size>[KMG]:<state>;<size>[KMG]-<size>[KMG]:<state>
+ 			state is one of "always", "madvise", "never" or "inherit".
+ 			Control the default behavior of the system with respect
+ 			to anonymous transparent hugepages.
+diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+index 203ba7aaf5fc..745055c3dc09 100644
+--- a/Documentation/admin-guide/mm/transhuge.rst
++++ b/Documentation/admin-guide/mm/transhuge.rst
+@@ -303,7 +303,7 @@ control by passing the parameter ``transparent_hugepage=always`` or
+ kernel command line.
+ 
+ Alternatively, each supported anonymous THP size can be controlled by
+-passing ``thp_anon=<size>,<size>[KMG]:<state>;<size>-<size>[KMG]:<state>``,
++passing ``thp_anon=<size>[KMG],<size>[KMG]:<state>;<size>[KMG]-<size>[KMG]:<state>``,
+ where ``<size>`` is the THP size (must be a power of 2 of PAGE_SIZE and
+ supported anonymous THP)  and ``<state>`` is one of ``always``, ``madvise``,
+ ``never`` or ``inherit``.
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.46.2
+
