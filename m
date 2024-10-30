@@ -1,111 +1,83 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CEB1C461C;
-	Wed, 30 Oct 2024 23:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210381E8859;
+	Wed, 30 Oct 2024 23:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730329678; cv=none; b=KnZzC0iBp+jTpzMLQfxzmDPb1rJ7VjO4Ho0+H288LxdwaBUyKR2bNkPGcUe5xjQNBL90RquKzNpCoGHERDS2kacSmHFQ27AMFtCbM2zkSoF6UJvp25UpcIM3pNT2qP7p2YYKHWW2S7nbHu+3miuJPurkwOu20Im/WKy/Op3A9qI=
+	t=1730330788; cv=none; b=AEr2GSf//C3Ps2TBp2okS2EN5jjQOu6hlNZf5g26HpkEmv9xVSEFp8iqaMxPNDzO99KKSqHKtytFPMf6TAtqBak9xc6jTDgHAeCGXJSi7HbesGLG5hqzzwFAGgLJEsCyH50FMu5RHoie0AQ0zPlP/CSLoY1eRCNq5MqSDkrGqvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730329678; c=relaxed/simple;
-	bh=k04NMNMXrqvRSgu6BgTwsk5XZckCcyxM4DuTyrBThII=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iww5Tg2+FFnckzBHywQ+pqdXL8A6QHvQIFNSVgi3Cyd/0RQl2U0nI/+Gq8MBDohYrKOEx9ieFIvGRRFyZMWZr/YB4Z12MjMcOjtAsEAPbIwgIAdXUpcbzz5OwvXORuxhrEGYU388xnFfWqgTzTsYbNz7nOqU1ulEQ0D1PbnS3sQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4a46f36158cso92896137.2;
-        Wed, 30 Oct 2024 16:07:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730329675; x=1730934475;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0+cw5OG7++HvTkMSlH1pqCx2RaNzRtRQbppMdg7fFUU=;
-        b=WNKePoOyvCS7+OEqP/VwPHuES8pZrnak4jBcG8ZIxHHAaij16zLZ4es6IPqjXE/9iD
-         9obz3nnoJOVlFH2MWRAy9dzrl16IjFX8mtW6Zcr8AhnaKL5nAtl+7Xy8kpk8vLfQSvHF
-         fJpvyu6tuPKs9rF1K7TbVki7zuBWOPjMVQU7k6iQJA9OGnDmuTixJJ890byXC3Xk0i2r
-         fgAiq4QyutsjXVTPUKlHi9oPlJlzNKlpOZ/AxFxZEs8oeTULBcLlznt0ONfQ8y7sTkmA
-         PGMQc0o1b4R4oDvGgX6QKF7dzoLFscIGbBXSaFn8SBLO2Oxd4apV1gIa8uk0IqIplm5u
-         G2Cg==
-X-Forwarded-Encrypted: i=1; AJvYcCWybKhio3wzbNyJuPIYPUPy7xXk1P1Izb/tWVO8aNJ5MTgPlFt0G8fG50wOtgHnUfe1hi8XNxSBPPY=@vger.kernel.org, AJvYcCXWP0+iu3WQghF+Mx9yeA5FwKj0cF2PK757bd09MucxB/htLohUhp357lZtrG6b5oUBalOHE22Swok3NsEX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcZ/IpW8l9dmT19/zcxe90xBbUy3cUeuIEQ8sqV9jbbhmuMC6C
-	qr+ne8YCHEQNY/PoYUTh77/1JUAr1EUBUmG+HCAcLLAtK8T1/gGEmMhanzuCue3/v8qYquo8oSI
-	lkbHRt75CDqEaZVK22qv5D2Ad5VU=
-X-Google-Smtp-Source: AGHT+IGMklRUceOybb5U8CHA0gtern1luq2xaMrw4Yb+ytFY1QGuLZnSOWQsuvsCXLhJuiQT5lwa8DbpcFqiKvGY8/M=
-X-Received: by 2002:a05:6122:922:b0:50d:9c60:830c with SMTP id
- 71dfb90a1353d-5105d041fd0mr5485812e0c.7.1730329675518; Wed, 30 Oct 2024
- 16:07:55 -0700 (PDT)
+	s=arc-20240116; t=1730330788; c=relaxed/simple;
+	bh=wPMPLo0mta4qVpGzLolACfvuHSWiB6tecr7v0QVNiiE=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=uoW2mm6jWrWL2rKDMKOLgW9azTpaojFuf1s5t+T8LujTVDg1pCqS0f7LI6Ko036Tu2MXp+PLD+sHWLOMVfvP6+oTNwoVcWv49TroqD97kbdsvqr8Odd9cl5aWpZU+ydXrbNnoyC22IWsMTD+g+CgUXHYCq7Dnw8P3W0NWOTX4Kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=oFUriJg9; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="oFUriJg9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B2DBC4CED4;
+	Wed, 30 Oct 2024 23:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1730330785;
+	bh=wPMPLo0mta4qVpGzLolACfvuHSWiB6tecr7v0QVNiiE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oFUriJg92Dn4a60uaF1IBC3TaNYrQLGQvRPbLY4YNZMSGWLOgpyQrHkE7cN9ybocB
+	 EKR7ojApZlS2yHRM5OZq28OKvDu5+jREiU8oD1bwNorRmZh5zdt6zYU4mgpROhQi7w
+	 4PJpBrixkESQxiMBDqaU4jqMjqP9/ccGYLRKUlK0=
+Date: Wed, 30 Oct 2024 16:26:24 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@suse.com>,
+ nphamcs@gmail.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+ muchun.song@linux.dev, tj@kernel.org, lizefan.x@bytedance.com,
+ mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
+Message-Id: <20241030162624.2ae779257e68264c4bec99fd@linux-foundation.org>
+In-Reply-To: <CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
+References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
+	<ZyIZ_Sq9D_v5v43l@tiehlicka>
+	<20241030150102.GA706616@cmpxchg.org>
+	<ZyJQaXAZSMKkFVQ2@tiehlicka>
+	<20241030183044.GA706387@cmpxchg.org>
+	<CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241030130308.1066299-1-mcanal@igalia.com> <20241030130308.1066299-5-mcanal@igalia.com>
-In-Reply-To: <20241030130308.1066299-5-mcanal@igalia.com>
-From: Barry Song <baohua@kernel.org>
-Date: Thu, 31 Oct 2024 12:07:44 +1300
-Message-ID: <CAGsJ_4zMppHY29XXepOVTdEu2-1U6mGyZ8FqXZfP_in+2T3NAA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] mm: huge_memory: Use strscpy() instead of strcpy()
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 31, 2024 at 2:03=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igalia.com=
-> wrote:
->
-> Replace strcpy() with strscpy() in mm/huge_memory.c
->
-> strcpy() has been deprecated because it is generally unsafe, so help to
-> eliminate it from the kernel source.
->
-> Link: https://github.com/KSPP/linux/issues/88
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
->  mm/huge_memory.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index f92068864469..8f41a694433c 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -989,7 +989,7 @@ static int __init setup_thp_anon(char *str)
->
->         if (!str || strlen(str) + 1 > PAGE_SIZE)
->                 goto err;
-> -       strcpy(str_dup, str);
-> +       strscpy(str_dup, str);
+On Wed, 30 Oct 2024 16:43:42 -0400 Joshua Hahn <joshua.hahnjy@gmail.com> wrote:
 
-What is the difference between strcpy and strscpy without a size parameter?
+> I saw that it was merged into mm-unstable earlier yesterday. Would it
+> be possible
+> to add this block of text to the patch description right before the footnotes?
+> 
+> 3. Implementation Details:
+> In the alloc / free hugetlb functions, we call lruvec_stat_mod_folio
+> regardless of whether memcg accounts hugetlb. lruvec_stat_mod_folio
+> keys off of folio->memcg which is only set up if the
+> CGRP_ROOT_MEMORY_HUGETLB_ACCOUTING cgroup mount option is used, so
+> it will not try to accumulate hugetlb unless the flag is set.
+> This also ensures that memory.stat::hugetlb is the same as
+> the share of memory.current that is used by hugetlb pages.
 
-we have already a check and goto err. strcpy() is entirely safe.
-         if (!str || strlen(str) + 1 > PAGE_SIZE)
-                 goto err;
+Thanks, done.
 
-My understanding is that we don't need this patch.
+> And could you also update the list of signatures to reflect the
+> responses on this version?
+> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> Suggested-by: Shakeel Butt <shakeel.butt@linux.dev>
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Acked-by: Shakeel Butt <shakeel.butt@linux.dev>
+> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> Acked-by: Chris Down <chris@chrisdown.name>
+> Reviewed-by: Roman Gushchin <roman.gushchin@linux.dev>
+> Reviewed-by: Nhat Pham <nphamcs@gmail.com>
+> Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
 
->
->         always =3D huge_anon_orders_always;
->         madvise =3D huge_anon_orders_madvise;
-> @@ -4175,7 +4175,7 @@ static ssize_t split_huge_pages_write(struct file *=
-file, const char __user *buf,
->
->                 tok =3D strsep(&buf, ",");
->                 if (tok) {
-> -                       strcpy(file_path, tok);
-> +                       strscpy(file_path, tok);
->                 } else {
->                         ret =3D -EINVAL;
->                         goto out;
-> --
-> 2.46.2
->
-
-Thanks
-barry
+Done2.  I already had all that, plus an ack from Chris Down.
