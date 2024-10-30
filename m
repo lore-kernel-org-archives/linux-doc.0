@@ -1,83 +1,72 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8331BD9E7;
-	Wed, 30 Oct 2024 22:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB51A1D0F54;
+	Wed, 30 Oct 2024 22:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730326522; cv=none; b=QyBfsbvCpV8VFWPSkQaTOAJg20CH2X8o5uxJu8iQCGAomQPbIIKu3ajcVsElcGy8xlHfXHI+Ea2HcY4Uydcga1z3WqTjY+qMchM4asU4Qa2XBKUM0w+o0RWoUFMkIWZjqkVDXvfj47HHFVKQSw7AY41NOIgmIZid6nkZzaGNvg0=
+	t=1730326742; cv=none; b=NOf8BTvN2/JqLX7Q/dfy7a4Ji73Kem+PlVU+CJ84PHSK8NrlXetpEO2X4m+FF+FOFpfGsEyIlEqoJqJQLF97KVFX+Qlw1JUBAUucY9K7A9T/ezP69XJk2sSpFBGddYzGaX8IymXHcGgEtk5icif9q45AnZC4U127bqYt9jmFnSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730326522; c=relaxed/simple;
-	bh=gNLiUSNDbUK5gdJ/h7yIJYBjBIwe3NNxlxfk6xel3pY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=YzPCblr7f7YWH/30fvS8RcaZDgoPYj8DO3JXdV1nAvkPrDzMtLPU+t/qXD/+35O2e3GtDLGIVUtpAVv4NxiNrHrLcyK06chJe1WcbO1Fw/r0a6DMxEQ4+RQ7waXrvUxht4H1miwb3sYaxlUg4YT6f6/1XFXvom/QHlCItNLemrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UXK4CUjq; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1730326742; c=relaxed/simple;
+	bh=F3rCOskbgR5Tgx+Rf/5frqWmUJHOP3bkNxuCb2WvJA4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NFYZr0/BUsvskrrzWTWE8VQDx8056aydAHKxZ5TLE2RO6vguKy7XVWtRitvXQZaT57E2TtN0SDei3vD6sjtqxcMaR1cSHvkVPAai5W3C2KkA7V/xbtY836ohb1ouEeCp1CeQbYFoYFqGJ8C4pHq7+RaB3Wl7cu5QQQhrpI/VvCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rPA/LP7h; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UXK4CUjq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
-	Reply-To:Cc:Content-ID:Content-Description;
-	bh=gJT4TIuL5C3aM++J2WsarLR+2jY4J6dluuFUhKk9z4A=; b=UXK4CUjq4BGkQvoO5JD350HT52
-	pn9mHPx+tyLD8CO3pdGKU7kiJdhPoA2Lo6LuASPY239RIMYM2iGpdV3k/YheEKeXtviRI5MMWwZj+
-	scQJYCGbNApG+YBRkvy19ARf7MM77Th523lyoyd5awfqBGv/PPLOv+CMReJeS7Qx7CbIsRBTUJZbj
-	BgWPs8is8dVCzNOOgxzMtwo6FU+10YJFSAe3NNe4vLXzSG4CSS1F2NSRpl3vtpL+tNKSgnhSun5B2
-	ZiJZ+AIhf6xZAx9OJJQtUqkci2GOx+rTU8LvmYeWmhLZEIcxVyRSpmMUYSeiTBqx/3p2rId1XbOEW
-	fGb+ZxRw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6Gy9-0000000DyJX-0Pov;
-	Wed, 30 Oct 2024 22:15:14 +0000
-Message-ID: <ede71e83-8f3b-4d66-b3dd-bcf3aa857b99@infradead.org>
-Date: Wed, 30 Oct 2024 15:15:01 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rPA/LP7h"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 343C242C0B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1730326729; bh=mcsnwyNOjL28C4fD3C7HpEhmbEgiYcyoM3bw9n6dh1s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=rPA/LP7hJ/Umkl4IcwguZH6HORv5nbibamyQjSonnFpRubxoem/dlnC7lXjKGd84t
+	 9XABCZ0AYVKnQzAMojT4sdSWY+GVF5L5hKgW/K7EvyzzTb9fIyTUjbu2S4tRoT101m
+	 FJ94f/TkpJaWFmqd/tSkZPKNFwwrEUfFmeiyAiIzzLuFwjtpm2FRlQIPl9dTbj/sJ2
+	 cEiwUW8xWIIl2hIE/Ck5J0I6uEVIriRaIOSXi4bS8U2SGKipUYzbNfEJRC20MI0M/M
+	 Zwplo1TUVkq1MvGR3Pk2TAWXTvL1L+7hm8H4UMRvfVrjPDXHAh1hif8z9/qKyhFNe9
+	 wGJIBg+EYzytQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 343C242C0B;
+	Wed, 30 Oct 2024 22:18:49 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: anish kumar <yesanishhere@gmail.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH V2] ASoC: doc: update clocking
+In-Reply-To: <CABCoZhAgnkDReqdMTgEjKYX4b9y0XqocEheQR1DhsBCtp7zpHg@mail.gmail.com>
+References: <20241029235623.46990-1-yesanishhere@gmail.com>
+ <fceef9c9-f928-47fe-a6e7-cdb28af62f71@sirena.org.uk>
+ <CABCoZhAgnkDReqdMTgEjKYX4b9y0XqocEheQR1DhsBCtp7zpHg@mail.gmail.com>
+Date: Wed, 30 Oct 2024 16:18:46 -0600
+Message-ID: <874j4ts08p.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] Documentation:leds: Add leds-st1202.rst
-To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
- pavel@ucw.cz, lee@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <Zx0BKtXo55D_pCGk@admins-Air>
- <0ae13ad4-342a-48ca-bd7a-8f15f6d99504@infradead.org>
- <ZyKulcUCW3kk1AYX@admins-Air>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZyKulcUCW3kk1AYX@admins-Air>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi,
+anish kumar <yesanishhere@gmail.com> writes:
 
+>> This feels like it is (or should be) duplicating the kerneldoc generated
+>> documentation - I'm not sure that we can cross reference the two
+>> sensibly through?
+>
+> Jonathan, wondering if you know a way to link the clock functions defined
+> in https://github.com/torvalds/linux/blob/master/sound/soc/soc-dai.c here?
 
-On 10/30/24 3:09 PM, Vicentiu Galanopulo wrote:
-> Hi Randy,
-> Thanks for the review. Addressed all comments.
-> 
-> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+I'm not quite sure what your question is.  Kerneldoc comments can be
+brought into the documentation, of course - that's a big part of what
+the build system does.  You can link to that documentation just by
+saying function() - nothing more required.  What else are you looking
+for?
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks,
 
-Thanks.
-
-> ---
-> 
-> Changes in v2: Implement review comments
-> 
->  Documentation/leds/leds-st1202.rst | 36 ++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->  create mode 100644 Documentation/leds/leds-st1202.rst
-> 
-> diff --git a/Documentation/leds/leds-st1202.rst b/Documentation/leds/leds-st1202.rst
-> new file mode 100644
-> index 000000000000..72286a512c69
-> --- /dev/null
-> +++ b/Documentation/leds/leds-st1202.rst
-
--- 
-~Randy
+jon
