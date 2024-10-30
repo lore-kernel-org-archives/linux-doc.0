@@ -1,224 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6781521A6F0;
-	Wed, 30 Oct 2024 15:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE223213EE9
+	for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 15:27:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730301263; cv=none; b=WteeseNyHBwPIJBB1FcBKbrQCCFugUfYVqXPiRDfuNfdgIkyD/v0Abt4JK8rc9ay91maGphdIDOdigc9CaZq0c8U1k7yRL6STFRG5ieFe5UZ6N0RC8Qzw7EfECUHDgM2riGut4urSYa4QOAQ+kzGGh36qyC49Bo2wiuNqw0eUL4=
+	t=1730302063; cv=none; b=uMbo9nToa7vXNJu8rVrvEmq5iNQAZ8wQWdi3xgSJGfmYdjJuiUAuc2z01LN6r83wkevvKERYbOhvL/4gatUyOCd3unlDurKNsFn/tDJbd/QW/U3eHn8pPx9C+OjZlFL7WDNcdo2DKjLRURuYaeD6sIbbIDNLRDurQykvgD4MUN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730301263; c=relaxed/simple;
-	bh=OlIySM8DodN7dp6laXmryqK8XnG8NlruPsXd0qhOBbs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RT7LK558LAPPfLewHsH1mMfSkPlfmvygpT6wvnYFo1aQNv6THR75D5ICNjQMeO5Jz2Jap3EcPEygaw7Qdf86oql/F4iZ4U1HhMSe1zjSQ/BqKTH0A7hV3zJzZBb3WRle1Oc55X+P0+NwpwgY6yUQETL2L5HzX36lbpIm5Zamny8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hnGwg4Jb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730302063; c=relaxed/simple;
+	bh=6OKtBO9V7ryspxfflXMVeVAwE4QutMPA8qD3mnSFEVU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DMS4f05MMsTlZPuvOjqHxNmRIrCEN/3EHEEHt01xTtum/wb+FuOwJ7Uy6GjedUL6m/Ojvgi/DiNgkwLseB04NWeMGzUBGOfOVBu+++CIne8EZ65Luuv9On4YowFDHaL+Nzhm/4YlWYa8oB4R562a22DrAcZLOadfC29nFxLuBUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TDrINMGT; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hnGwg4Jb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6154CC4CED0;
-	Wed, 30 Oct 2024 15:14:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730301263;
-	bh=OlIySM8DodN7dp6laXmryqK8XnG8NlruPsXd0qhOBbs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hnGwg4JbAdghWJybJUqla2ZegkylUzfKB5TcyGzLPzUbM/IHSIANk1/OjZfOMsIzE
-	 xqJbLAd9/auwfxV3a72k98W/n2OkiLBw+b4+AH4591LyeHiEd9zNYC0YcvAAcDzGWU
-	 MMfeU7lQ/4g02Dp3UlnJ8gcov4oVJueML9uJF2xMFn03x9KMvtYH7yg8crE8p4oVjp
-	 pSLm8g7ZJrlcHiAx4IL0pxQft6UasJBqcwplMv6IxDlVEGvZHcOeI29e4L9G0lUpSe
-	 mshIdIFqzfpeNCnjYDIv78wDqXwdSd35IiiouiRcox3+6KBKU3xNITLDmysnSqFBmq
-	 +2U4Rit5ap4vQ==
-From: Leon Romanovsky <leon@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v1 14/17] RDMA/umem: Separate implicit ODP initialization from explicit ODP
-Date: Wed, 30 Oct 2024 17:13:00 +0200
-Message-ID: <23253254adaf3a1e6953de0c5852ac4598b456bd.1730298502.git.leon@kernel.org>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <cover.1730298502.git.leon@kernel.org>
-References: <cover.1730298502.git.leon@kernel.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TDrINMGT"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c96936065dso4942a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 08:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1730302059; x=1730906859; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WwB5DeVTS7vafGaY+6J9Yo9yIy438E4Wo0/qN3/NQSc=;
+        b=TDrINMGTZpSN/rZovHSMnAPD7cun/wOK9GyMmx+Quxfl7AenEEbjNGySnJ7uCPpB16
+         ZWPKehf9YexigaP9XkLdIskOPwL+O76EFpPssSj6dmjgILsyqb8Mfwfa5EKE/tC7mjXe
+         CCeTQKR0Ly7TJLjc3qB+uX7Dytq29vQoNgCWwJ5ynYumAibrjQ+oaHqSILOObsFRdaB/
+         1TxBHJRWebIOlBY5qzfJ47XjScckMlHPlLRVM1nxiPmub6q8aeskoY9iXzRFMH2I2vUb
+         T2traX2jZDPga/rs1aKQ2gKAhJN7+HmaTDeHr4sZM6/hfCuo1j2de1B6dE+8mzA6sQbY
+         AmJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730302059; x=1730906859;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WwB5DeVTS7vafGaY+6J9Yo9yIy438E4Wo0/qN3/NQSc=;
+        b=OViPXrEYty3aSeyBsTcE9Kt5HswUqb2FuJiopLRrSJFxpVCb9pA2BcpmBRThKOfkur
+         MWVCydr4eG0+WHfB3QJgaJxIg+ygMsiNUIRAyGxB0sNSsiQ07s3Wp/RMum5FzI3FuOVM
+         EFAU6qHK1ltc9xp2PahSsOPhnX4d8TJb73dyJxhEgPMTL/mL508Jymu9AC2ht+/6fB1Z
+         BYjep2CHxeoIItJOhQnOOCe5u1NoucT5bpmAHn2+kfOg5TjYs2YKmPHPL6pCasM6FAy2
+         rAJuyre2fmCy4O+TylPBxMwY40JwEpRw19bxM+u+nppddNFJPWxOAmX5lNSSKQMzS0in
+         yQbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWO3/KXs41IB9Y4JDmu9iNz4NT3Tf8JqsXZXoqwDxzo8NYZTQO36WZdFsWNim9FWeDJz8boE7ty+us=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFvU6e5NaGeQSGUdPuzkf/wpdR/ry8nSz36e2inRBDolCkoNdX
+	Wv6K5XTUqu3rHmyk0JEMZr9LbGw7XUS53y83krreRRsfvs58iv6S8lGGusCYtQM=
+X-Google-Smtp-Source: AGHT+IGmLSt0zTkktlnYGAfkGITlISBKJ2hsSa2xN9IdSwZmvdJA4vg8q68zy3/an3of/jLhkV7m6w==
+X-Received: by 2002:a05:6402:524f:b0:5c9:7f8b:4e3d with SMTP id 4fb4d7f45d1cf-5cd54af10dcmr2933577a12.23.1730302059107;
+        Wed, 30 Oct 2024 08:27:39 -0700 (PDT)
+Received: from localhost (109-81-81-105.rct.o2.cz. [109.81.81.105])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cbb62c0cb4sm4835864a12.43.2024.10.30.08.27.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2024 08:27:38 -0700 (PDT)
+Date: Wed, 30 Oct 2024 16:27:37 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Joshua Hahn <joshua.hahnjy@gmail.com>, nphamcs@gmail.com,
+	shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+	muchun.song@linux.dev, tj@kernel.org, lizefan.x@bytedance.com,
+	mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com,
+	akpm@linux-foundation.org, cgroups@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
+Message-ID: <ZyJQaXAZSMKkFVQ2@tiehlicka>
+References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
+ <ZyIZ_Sq9D_v5v43l@tiehlicka>
+ <20241030150102.GA706616@cmpxchg.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241030150102.GA706616@cmpxchg.org>
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Wed 30-10-24 11:01:02, Johannes Weiner wrote:
+> On Wed, Oct 30, 2024 at 12:35:25PM +0100, Michal Hocko wrote:
+> > On Mon 28-10-24 14:05:05, Joshua Hahn wrote:
+> > [...]
+> > > Changelog
+> > > v3:
+> > >   * Removed check for whether CGRP_ROOT_HUGETLB_ACCOUNTING is on, since
+> > >     this check is already handled by lruvec_stat_mod (and doing the
+> > >     check in hugetlb.c actually breaks the build if MEMCG is not
+> > >     enabled.
+> > [...]
+> > > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > > index 190fa05635f4..fbb10e52d7ea 100644
+> > > --- a/mm/hugetlb.c
+> > > +++ b/mm/hugetlb.c
+> > > @@ -1925,6 +1925,7 @@ void free_huge_folio(struct folio *folio)
+> > >  				     pages_per_huge_page(h), folio);
+> > >  	hugetlb_cgroup_uncharge_folio_rsvd(hstate_index(h),
+> > >  					  pages_per_huge_page(h), folio);
+> > > +	lruvec_stat_mod_folio(folio, NR_HUGETLB, -pages_per_huge_page(h));
+> > >  	mem_cgroup_uncharge(folio);
+> > >  	if (restore_reserve)
+> > >  		h->resv_huge_pages++;
+> > > @@ -3093,6 +3094,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+> > >  
+> > >  	if (!memcg_charge_ret)
+> > >  		mem_cgroup_commit_charge(folio, memcg);
+> > > +	lruvec_stat_mod_folio(folio, NR_HUGETLB, pages_per_huge_page(h));
+> > >  	mem_cgroup_put(memcg);
+> > >  
+> > >  	return folio;
+> > 
+> > I do not see any specific checks for CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING
+> > in these paths. I guess you wanted to say that you rely on
+> > mem_cgroup_commit_charge setting memcg pointer which then __lruvec_stat_mod_folio
+> > relies on when updating stats.
+> 
+> Yes, this is what Shakeel pointed out here:
+> 
+> https://lore.kernel.org/lkml/il346o3nahawquum3t5rzcuuntkdpyahidpm2ctmdibj3td7pm@2aqirlm5hrdh/
 
-Create separate functions for the implicit ODP initialization
-which is different from the explicit ODP initialization.
+It belongs to the changelog.
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/infiniband/core/umem_odp.c | 91 +++++++++++++++---------------
- 1 file changed, 46 insertions(+), 45 deletions(-)
+> > I suspect this all is done because you want a global counter to be
+> > updated as well, right? Changelog doesn't say anything about that
+> > though. Why is this needed when /proc/meminfo already describes the
+> > global hugetlb usage?
+> 
+> Sigh.
+> 
+> vmstats is the preferred framework for cgroup stats. It makes stat
+> items consistent between global and cgroup. It provides a per-node
+> breakdown as well which is useful. It avoids proliferating
+> cgroup-specific hooks in generic MM code.
+> 
+> It was a ton of work to integrate cgroup stats into vmstats and get
+> rid of all the memcg special casing everywhere. You were there for all
+> of it. We're not adding cgroup-specific stats unless unavoidable.
+> 
+> Duplication doesn't matter, either. We have plenty of overlap between
+> vmstat and meminfo. By all means, send a follow-up patch to have the
+> meminfo one sourced from global_node_page_state().
+> 
+> But you know all this.
 
-diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
-index 30cd8f353476..51d518989914 100644
---- a/drivers/infiniband/core/umem_odp.c
-+++ b/drivers/infiniband/core/umem_odp.c
-@@ -48,41 +48,44 @@
- 
- #include "uverbs.h"
- 
--static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
--				   const struct mmu_interval_notifier_ops *ops)
-+static void ib_init_umem_implicit_odp(struct ib_umem_odp *umem_odp)
-+{
-+	umem_odp->is_implicit_odp = 1;
-+	umem_odp->umem.is_odp = 1;
-+	mutex_init(&umem_odp->umem_mutex);
-+}
-+
-+static int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
-+			    const struct mmu_interval_notifier_ops *ops)
- {
- 	struct ib_device *dev = umem_odp->umem.ibdev;
-+	size_t page_size = 1UL << umem_odp->page_shift;
-+	unsigned long start;
-+	unsigned long end;
- 	int ret;
- 
- 	umem_odp->umem.is_odp = 1;
- 	mutex_init(&umem_odp->umem_mutex);
- 
--	if (!umem_odp->is_implicit_odp) {
--		size_t page_size = 1UL << umem_odp->page_shift;
--		unsigned long start;
--		unsigned long end;
--
--		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
--		if (check_add_overflow(umem_odp->umem.address,
--				       (unsigned long)umem_odp->umem.length,
--				       &end))
--			return -EOVERFLOW;
--		end = ALIGN(end, page_size);
--		if (unlikely(end < page_size))
--			return -EOVERFLOW;
--
--		ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
--					(end - start) >> PAGE_SHIFT,
--					1 << umem_odp->page_shift);
--		if (ret)
--			return ret;
--
--		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
--						   umem_odp->umem.owning_mm,
--						   start, end - start, ops);
--		if (ret)
--			goto out_free_map;
--	}
-+	start = ALIGN_DOWN(umem_odp->umem.address, page_size);
-+	if (check_add_overflow(umem_odp->umem.address,
-+			       (unsigned long)umem_odp->umem.length, &end))
-+		return -EOVERFLOW;
-+	end = ALIGN(end, page_size);
-+	if (unlikely(end < page_size))
-+		return -EOVERFLOW;
-+
-+	ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
-+				(end - start) >> PAGE_SHIFT,
-+				1 << umem_odp->page_shift);
-+	if (ret)
-+		return ret;
-+
-+	ret = mmu_interval_notifier_insert(&umem_odp->notifier,
-+					   umem_odp->umem.owning_mm, start,
-+					   end - start, ops);
-+	if (ret)
-+		goto out_free_map;
- 
- 	return 0;
- 
-@@ -106,7 +109,6 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
- {
- 	struct ib_umem *umem;
- 	struct ib_umem_odp *umem_odp;
--	int ret;
- 
- 	if (access & IB_ACCESS_HUGETLB)
- 		return ERR_PTR(-EINVAL);
-@@ -118,16 +120,10 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
- 	umem->ibdev = device;
- 	umem->writable = ib_access_writable(access);
- 	umem->owning_mm = current->mm;
--	umem_odp->is_implicit_odp = 1;
- 	umem_odp->page_shift = PAGE_SHIFT;
- 
- 	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
--	ret = ib_init_umem_odp(umem_odp, NULL);
--	if (ret) {
--		put_pid(umem_odp->tgid);
--		kfree(umem_odp);
--		return ERR_PTR(ret);
--	}
-+	ib_init_umem_implicit_odp(umem_odp);
- 	return umem_odp;
- }
- EXPORT_SYMBOL(ib_umem_odp_alloc_implicit);
-@@ -248,7 +244,7 @@ struct ib_umem_odp *ib_umem_odp_get(struct ib_device *device,
- }
- EXPORT_SYMBOL(ib_umem_odp_get);
- 
--void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
-+static void ib_umem_odp_free(struct ib_umem_odp *umem_odp)
- {
- 	struct ib_device *dev = umem_odp->umem.ibdev;
- 
-@@ -258,14 +254,19 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
- 	 * It is the driver's responsibility to ensure, before calling us,
- 	 * that the hardware will not attempt to access the MR any more.
- 	 */
--	if (!umem_odp->is_implicit_odp) {
--		mutex_lock(&umem_odp->umem_mutex);
--		ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
--					    ib_umem_end(umem_odp));
--		mutex_unlock(&umem_odp->umem_mutex);
--		mmu_interval_notifier_remove(&umem_odp->notifier);
--		hmm_dma_map_free(dev->dma_device, &umem_odp->map);
--	}
-+	mutex_lock(&umem_odp->umem_mutex);
-+	ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
-+				    ib_umem_end(umem_odp));
-+	mutex_unlock(&umem_odp->umem_mutex);
-+	mmu_interval_notifier_remove(&umem_odp->notifier);
-+	hmm_dma_map_free(dev->dma_device, &umem_odp->map);
-+}
-+
-+void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
-+{
-+	if (!umem_odp->is_implicit_odp)
-+		ib_umem_odp_free(umem_odp);
-+
- 	put_pid(umem_odp->tgid);
- 	kfree(umem_odp);
- }
+It is not really important what _I_ do know. The commit log is not
+written for me.
+
+Joshua has greatly improved the motivation part. Yet implementation
+specifics are still lacking behind mostly left in Changelog part of the
+commit message which will be dropped along with the diffstat.
+
+> I'm having a hard time seeing the way you are,
+> and have been, engaging with this patch as good-faithed.
+
+Sorry to hear that but this hasn't been my intention. My main focus has
+been to put implicit assumptions into patch description. I really do not
+see reason for such a pushback TBH.
 -- 
-2.46.2
-
+Michal Hocko
+SUSE Labs
