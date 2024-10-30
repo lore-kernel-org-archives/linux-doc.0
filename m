@@ -1,137 +1,146 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7741F1EF0A2
-	for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 14:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD951F81A2;
+	Wed, 30 Oct 2024 14:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730298444; cv=none; b=ADV5qQUvp+CKS7EV5HQdHu8GBdovVeVkJRalnDvL9dEB0D1X/lHMJDotZCG6B9rR7nGZEvOT0wGFUuxHTUyw0xQv8QDaE779EPwp5UZnsA4/jAfz/fqZ9lsDjpwZ1lciJ8n0ywChmwDtWlpsnok+8Xw7E3F+e8/NpFRZWI+ZGR8=
+	t=1730298639; cv=none; b=HhR+KoOtD4SYevsXHtLL6wiOyjMR48UXooQvYjaLtP9AdNKS8broEyAEbVTIkldrKD6ECLxZvNtgKFKzlAh6tiPpwROMNwgzONy+8gb2Fz8kzPORwWlvJ4zgyw86OCQqoHI/BKn2YLJkFSM7cZbBjWtEeQWByMn3kS2TtODflrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730298444; c=relaxed/simple;
-	bh=TKUoAPUA6DySqr60oJ3GcgzsVj/+dwLSsZp71Yup4YI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H1z40yrWCflMmHp7HBgW8a3bQ0uL7WQjrBY5sbGmZ6ha5nbbfp31IB/QwGC8/oweE4qHq82G8yiho70jKRRvGwXco6Bq0kTHMe98xJ7N36ppI/PHmT6xLu/4pDEb/bunodNi3W1Sw6dZuVCj2f1M6uzUP/4HmYd/fumSLGDlu+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LMxxUptL; arc=none smtp.client-ip=209.85.160.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1730298639; c=relaxed/simple;
+	bh=gzjIFKrEXj7Aftc4CfgtSmWNjrDVzXiGbesbIvaaSxs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NWIcWqkgLS7ZxJc+1HEL1W8wHXvi9n6WtXXr1HxP6ecBawZX27vRRlQLWy4uIPWN9nMy+W3WrvmgegO0d8VEs50Ah+y3mOfF5wJPxZEfC+c2a9KcBSxiNWMOnV5O6ohT0+urNXNGxABVbAdVYmSpKpM+UEJ5+9IvORomgIDDNwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=HbWDG2Ic; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LMxxUptL"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-2884a6b897cso3419329fac.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 07:27:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730298440; x=1730903240; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OJr8SKaI8AcnRFsMtOpCdNtJ/tI/x3PUXE9ZFvbALXk=;
-        b=LMxxUptL3PNCmEiCfCJOGsZr8i8vQ3+CEAmslNlLWag5WEQseAWVP6WRU443v/q/UX
-         kiM3Tfq6FJYfqHPRkVQw0b/amCMwz7BFp9TE2xffkp9f6ZWTN6ib77wcJ8S7FhzCYRCc
-         VjHb+3FY3k6cV/IeZsy88p5EJln69D0q8uUZJokzGt3W7vNtoQIexU2vvhTGss2xGcQ7
-         UJ2tQhhcwnMnxUq5vkWyAYvGWW5L9LBY53+09Rd1MIE/33zhzNLIELRTmb5RNtEfiTHb
-         XT45e4aQm9mWAU2eDN3FmcT//d2Js6PVu/VO8A891aQcSuzbMaOmS+TAE/4WZzH53fIi
-         oItA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730298440; x=1730903240;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OJr8SKaI8AcnRFsMtOpCdNtJ/tI/x3PUXE9ZFvbALXk=;
-        b=UIHzJfmQ4nT4wBmw3uvFVdUYDK0TyNWvgc5QPWVbGZLIazi3umEr1w75KmwYHv/L3Z
-         9Uv38YuhuLlG+SwyEZkFfUtuOXpRH8BpjXEVVQt+vUgMElRwPoH9FyutEFZRzBHRcavu
-         Aj5DEAQ0S7yYS0i7WYqk9W77O6+NsVCF5PJ5u02Ox4PQSMyIMEkVAFu0N4bc7Rj2gluD
-         P3YPvG1/56CFS+RqZm5Cjr1eHT6l6XCab7Fmi068DjXpGIS5fznub+JVPecR3AI47SF1
-         dF9JZFFwcIxYP+sMpyZ+7xz4bVqR4Cji04napY9Up0CalWWqX0ksUi6BLA2XHaLEfxkf
-         NpwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVnBYtCSj7e7aKIpxsU1TczOlmR+GhdIP99Nn7ArXgEuEQkAtflb4s90NfFCPJa0iWntoAizlSYrY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFexWk8MCXiRxVKrO5lv/ATI8FtMCHOw7pnMAXXEQGWvNlOcWb
-	owa84DPwgy0nmGoAxFHQwJ+WCmKhT66/xTKsAqXHymaBPiwhx4rp+Lq4fjOqWkw=
-X-Google-Smtp-Source: AGHT+IFjLF23bXQI112RrKS7DtmQwnJ60Ef1gSmQvtciDIl80QcFcve5plrDwJb0QoEP9FPGBx1k3g==
-X-Received: by 2002:a05:6870:a917:b0:288:2906:6882 with SMTP id 586e51a60fabf-29051db9ca3mr13044852fac.29.1730298440581;
-        Wed, 30 Oct 2024 07:27:20 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29035d20d3fsm3425347fac.5.2024.10.30.07.27.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Oct 2024 07:27:19 -0700 (PDT)
-Message-ID: <4c457ac4-139c-4df0-958a-fcda94705d02@baylibre.com>
-Date: Wed, 30 Oct 2024 09:27:17 -0500
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="HbWDG2Ic"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49UDw4Tk027057;
+	Wed, 30 Oct 2024 14:30:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=QoT7eE2k9HBigUNotJEuDjW8wq/kBu
+	Ua4MTBBYTqlWI=; b=HbWDG2Ic65XlMqb/D3TwV1oPEqcF5RCxQ9TgUawZNO/cqm
+	Tnp24tsoW/Yjbi3C0skNfiIGSg7D4RgRHMhB+sOoG0jH42U8eQUbakTlQf4MHUIv
+	jMTUrhx27tuhiPfBQEo8zVpryMy1EAo1IhxMSRKLuREM+rMVaXBliBAST9uH7Z/N
+	XClRoh83sBAvy0M/9lN+Bt+DcSLaKJMAlGS1HcT+eH5fEdx3Tzz9CIG/4lKSr8rJ
+	01dGny0S6N+sfaQQELe+lTMxfp53r/jeou/ANEqINjs+orALVgrTgUkjVdG5lmFy
+	laKJ0gzsMXThqGRL7OwEA0v028PFmwFRosHB+b/g==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j43g7pmv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Oct 2024 14:30:26 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49UEUQVq009391;
+	Wed, 30 Oct 2024 14:30:26 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j43g7pmn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Oct 2024 14:30:26 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49UBsO9F018383;
+	Wed, 30 Oct 2024 14:30:24 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42hc8k8aw1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Oct 2024 14:30:24 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49UEUKMk55116176
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Oct 2024 14:30:20 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 752C120043;
+	Wed, 30 Oct 2024 14:30:20 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1C2E02004B;
+	Wed, 30 Oct 2024 14:30:20 +0000 (GMT)
+Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.155.204.135])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 30 Oct 2024 14:30:20 +0000 (GMT)
+Date: Wed, 30 Oct 2024 15:30:18 +0100
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
+Subject: Re: [PATCH v2 4/7] s390/physmem_info: query diag500(STORAGE LIMIT)
+ to support QEMU/KVM memory devices
+Message-ID: <ZyJC+s5L6JI3xO44@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+References: <20241014144622.876731-1-david@redhat.com>
+ <20241014144622.876731-5-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/5] docs: iio: ad7380: add adaq4370-4 and adaq4380-4
-To: Julien Stephan <jstephan@baylibre.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20241030-ad7380-add-adaq4380-4-support-v4-0-864ff02babae@baylibre.com>
- <20241030-ad7380-add-adaq4380-4-support-v4-5-864ff02babae@baylibre.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20241030-ad7380-add-adaq4380-4-support-v4-5-864ff02babae@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241014144622.876731-5-david@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: jcbMrInueqgSbuMhblYjsLoimVoh1fDK
+X-Proofpoint-ORIG-GUID: zWiWWhTbdgzaKB2WcP0riaikdeezGz5v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=742 clxscore=1011
+ adultscore=0 mlxscore=0 priorityscore=1501 spamscore=0 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2410300111
 
-On 10/30/24 8:44 AM, Julien Stephan wrote:
-> Adding documentation for adaq4370-4 and adaq4380-4 supported devices. In
-> particular, document the reference voltage mechanism and the gain
-> parameter that are specific to adaq devices.
+On Mon, Oct 14, 2024 at 04:46:16PM +0200, David Hildenbrand wrote:
+
+Hi David,
+
+> To support memory devices under QEMU/KVM, such as virtio-mem,
+> we have to prepare our kernel virtual address space accordingly and
+> have to know the highest possible physical memory address we might see
+> later: the storage limit. The good old SCLP interface is not suitable for
+> this use case.
 > 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> In particular, memory owned by memory devices has no relationship to
+> storage increments, it is always detected using the device driver, and
+> unaware OSes (no driver) must never try making use of that memory.
+> Consequently this memory is located outside of the "maximum storage
+> increment"-indicated memory range.
+> 
+> Let's use our new diag500 STORAGE_LIMIT subcode to query this storage
+> limit that can exceed the "maximum storage increment", and use the
+> existing interfaces (i.e., SCLP) to obtain information about the initial
+> memory that is not owned+managed by memory devices.
+> 
+> If a hypervisor does not support such memory devices, the address exposed
+> through diag500 STORAGE_LIMIT will correspond to the maximum storage
+> increment exposed through SCLP.
+> 
+> To teach kdump on s390 to include memory owned by memory devices, there
+> will be ways to query the relevant memory ranges from the device via a
+> driver running in special kdump mode (like virtio-mem already implements
+> to filter /proc/vmcore access so we don't end up reading from unplugged
+> device blocks).
+> 
+> Tested-by: Mario Casquero <mcasquer@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  Documentation/iio/ad7380.rst | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
-> index 6f70b49b9ef27c1ac32acaefecd1146e5c8bd6cc..1b9777c33e0c3e9e06f72d7c957a012346d4a26a 100644
-> --- a/Documentation/iio/ad7380.rst
-> +++ b/Documentation/iio/ad7380.rst
-> @@ -27,6 +27,8 @@ The following chips are supported by this driver:
->  * `AD7386-4 <https://www.analog.com/en/products/ad7386-4.html>`_
->  * `AD7387-4 <https://www.analog.com/en/products/ad7387-4.html>`_
->  * `AD7388-4 <https://www.analog.com/en/products/ad7388-4.html>`_
-> +* `ADAQ4370-4 <https://www.analog.com/en/products/adaq4370-4.html>`_
-> +* `ADAQ4380-4 <https://www.analog.com/en/products/adaq4380-4.html>`_
->  
->  
->  Supported features
-> @@ -47,6 +49,12 @@ ad7380-4
->  ad7380-4 supports only an external reference voltage (2.5V to 3.3V). It must be
->  declared in the device tree as ``refin-supply``.
->  
-> +ADAQ devices
-> +~~~~~~~~~~~~
-> +
-> +adaq4370-4 and adaq4380-4 don't have an external reference, but use a 3V
+>  arch/s390/boot/physmem_info.c        | 46 ++++++++++++++++++++++++++--
+>  arch/s390/include/asm/physmem_info.h |  3 ++
+>  2 files changed, 46 insertions(+), 3 deletions(-)
 
-It's 3.3V, not 3V
+Reviewed-by: Alexander Gordeev <agordeev@linux.ibm.com>
 
-> +internal reference derived from one of its supplies (``refin-supply``)
-> +
->  All other devices from ad738x family
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
-> @@ -121,6 +129,14 @@ Example for AD7386/7/8 (2 channels parts):
->  
->  When enabling sequencer mode, the effective sampling rate is divided by two.
->  
-> +Gain (ADAQ devices only)
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +ADAQ devices have a pin selectable gain in front of each ADC. The appropriate
-> +gain is selectable from device tree using the ``adi,gain-milli`` property.
-> +Refer to the typical connection diagrams section of the datasheet for pin
-> +wiring.
-> +
->  Unimplemented features
->  ----------------------
->  
-> 
-
+Thanks!
