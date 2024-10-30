@@ -1,90 +1,171 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3751F426B
-	for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 14:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413B81F4731;
+	Wed, 30 Oct 2024 14:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730298750; cv=none; b=l+UzyxIGcCHQVpFN49quwoQrePM5PBoJuLc9S4wJLOmO7wb9NanpPiLzxMI6PdJnTz3fnGL40i/1HCvRWkrz5lJ3miwOi+Rtx2baJDACNnjPFlT70d1hzhaD6p4s5qgAVyTiRNgdkpOdKTkJvRpy/sS7A22eLcOUOfo9288GS+8=
+	t=1730298760; cv=none; b=nfDCYKHB2DhnNW7+XR8zHasz/0gPqzuES8HizMTMkg/uA8NDIAfG2+Xe5Ak182ka8cShaNMU5q5E1H+JhWXGdhq25gdnPsnb3glkxemwAUgEMzj0/ItHP16mykuUVj4Yg2htwyQeWng+EfCh5Ju3poOxMAO+BUYAPfOYzRNe1zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730298750; c=relaxed/simple;
-	bh=SGT2AIkoRmj7H5+Uq/8vMaBtkCRayM23+SR3bZUMwus=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CgNXU74zxrz2PAwBWTO+CnwAmMNUEbf3Aczvgs01TRlzxF3+v5JEEjThr4Yb1nLsrnhmqTr2Zv6EHW+HTRC71V76pw4h2vjSoWRxs0H1Vl3onZcZzbUKnv3kHMmZO5hBOrHs3SgxMW0VkY6skSqECalABk6+r7WBukr7EelOjqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=OMupvtV7; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OMupvtV7"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5ebc03951abso3130190eaf.2
-        for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 07:32:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730298747; x=1730903547; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EO8e1nRgxnqufLQ6d2cN8DPEeVmYd+WDTeF7P9l0cFQ=;
-        b=OMupvtV7OqVm2T/nNecC7hEzLIUp6A3CEx4/+gpJZX7srai5vQbLskqxqCJWVRKimz
-         YYt+7gtTM6pl2GR3qDp9WuS+/bacm4+SODUhOvGLOzE7oblrY5IG2jVzdTHLebUqi0kP
-         Q84hT2v0amONRw1zC1MD6aHOfnx2TZJZx7Hz8A17EWo5yvgtKGJip7kDvSVhPOeqhJW0
-         288BuiRfACCcPH/6vifRkWXso1NctGEuJJV4yiDlmqMdIxLe/idxCFijLc3RhlWmrx8b
-         DmoGvQ0NDECS9qA8sbJsznwRn2+FvMwWMFRXyrVcCgcAAOJur/1EAIH/smDCHBy56cVS
-         PRtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730298747; x=1730903547;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EO8e1nRgxnqufLQ6d2cN8DPEeVmYd+WDTeF7P9l0cFQ=;
-        b=su8zYotTfVqlwSjdxxQcFpUobnJ6UoaE78RHM/8VviGI0CnpzHJ4xl2sBWTpCo8iOS
-         4yNOvyKZLGFFY0FgUzYB1GzwxPDTFfd6D/r13CLG/z5L/CMl1rsH3oEQ1Gh3gOQAqFrx
-         qY0jPD2Cnf5DlctcS45hLFf0Dj6CZRIMn8PA6c0hxB1u8rTUVI+1m2b544ZISE9JOixB
-         bmIJGzshZX5WaJQ/7wlKko/yDlW9kKGoQu6NsexpqWE5nnSSg2CfiOpN5l9MJRGHqV12
-         mPhrJhaIz4Pit7K57dcs4Fv5erbS+vRbG0CTsBKQOTrLGRyJ17ml2tDAY4h/yGxSDeLm
-         0jMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXKE4WsPH9DrttrHdgn1BsTmjn4Nrkn9YvAGi5S3hhjDvKrimCk6yQKhY8ao4afLVri2pYnnEa9hww=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxzjx/dI59SQ0CqhTAPheqKY3cMHPSTOJMxz3R/FsIRL0xsXw/L
-	6+8iLYbRb+CIKy3jWX+/mT1opjF7hUtbm1Z+ME8d46MrYTJYSAJoZXzsLgySbwE=
-X-Google-Smtp-Source: AGHT+IFgChmc5MXJ9o3G/rmPEWmG7iNApA4OCV8tb1mZxdLLEWfHEgUK622U7JMkqFFaF0MofAwR3w==
-X-Received: by 2002:a05:6820:168e:b0:5eb:85ee:2cbd with SMTP id 006d021491bc7-5ec23a03f23mr10985838eaf.6.1730298746911;
-        Wed, 30 Oct 2024 07:32:26 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ec186fc10bsm2802631eaf.37.2024.10.30.07.32.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Oct 2024 07:32:25 -0700 (PDT)
-Message-ID: <78073c49-899a-4646-a834-6d5006d59501@baylibre.com>
-Date: Wed, 30 Oct 2024 09:32:23 -0500
+	s=arc-20240116; t=1730298760; c=relaxed/simple;
+	bh=v3iv01fkiGERUMvGlov6KCBtyaQUwrAGSlj+FhqRSrQ=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l+58vWepbuszHu1xD25pNS/UkvfTxb9f2YEqqMd1Sa5oH0+9dv6E76ciuvSFEUbOG9GyVhr3zuoiwNFC4FU4b/fF5RNNdmJRmwowkLDO6DlV/gyDve5gqYNBXcFAAUg+wd7gMFYSV0xPauNT1IVZBXdX2div6JWSyctGBU+MxUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XdqLX3xMcz6HJcw;
+	Wed, 30 Oct 2024 22:31:16 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id CC49B1401F3;
+	Wed, 30 Oct 2024 22:32:34 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 30 Oct
+ 2024 15:32:34 +0100
+Date: Wed, 30 Oct 2024 14:32:32 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 20/27] cxl/extent: Process DCD events and realize
+ region extents
+Message-ID: <20241030143232.000013b8@Huawei.com>
+In-Reply-To: <20241029-dcd-type2-upstream-v5-20-8739cb67c374@intel.com>
+References: <20241029-dcd-type2-upstream-v5-0-8739cb67c374@intel.com>
+	<20241029-dcd-type2-upstream-v5-20-8739cb67c374@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] ad7380: add adaq4370-4 and adaq4380-4 support
-To: Julien Stephan <jstephan@baylibre.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20241030-ad7380-add-adaq4380-4-support-v4-0-864ff02babae@baylibre.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20241030-ad7380-add-adaq4380-4-support-v4-0-864ff02babae@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On 10/30/24 8:44 AM, Julien Stephan wrote:
-> Hello,
-> 
-> This series add support for adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS)
-> which are quad-channel precision data acquisition signal chain μModule
-> solutions compatible with the ad738x family, with the following differences:
-> 
-Reviewed-by: David Lechner <dlechner@baylibre.com>
+A few minor things inline from a fresh read.
 
+Other than maybe a missing header, the others are all trivial
+and you can make your own minds up.
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huwei.com>
+
+>  #endif /* __CXL_CORE_H__ */
+> diff --git a/drivers/cxl/core/extent.c b/drivers/cxl/core/extent.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..315aa46252c15dcefe175da87522505f8ecf537c
+> --- /dev/null
+> +++ b/drivers/cxl/core/extent.c
+> @@ -0,0 +1,372 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*  Copyright(c) 2024 Intel Corporation. All rights reserved. */
+> +
+> +#include <linux/device.h>
+> +#include <cxl.h>
+
+
+> +static bool extents_contain(struct cxl_dax_region *cxlr_dax,
+> +			    struct cxl_endpoint_decoder *cxled,
+> +			    struct range *new_range)
+> +{
+> +	struct match_data md = {
+> +		.cxled = cxled,
+> +		.new_range = new_range,
+> +	};
+> +
+> +	struct device *extent_device __free(put_device)
+> +			= device_find_child(&cxlr_dax->dev, &md, match_contains);
+> +	if (!extent_device)
+> +		return false;
+> +
+> +	return true;
+trivial but could do.
+
+	return extent_device != NULL;
+
+> +}
+
+> +static bool extents_overlap(struct cxl_dax_region *cxlr_dax,
+> +			    struct cxl_endpoint_decoder *cxled,
+> +			    struct range *new_range)
+> +{
+> +	struct match_data md = {
+> +		.cxled = cxled,
+> +		.new_range = new_range,
+> +	};
+> +
+> +	struct device *extent_device __free(put_device)
+> +			= device_find_child(&cxlr_dax->dev, &md, match_overlaps);
+> +	if (!extent_device)
+> +		return false;
+> +
+> +	return true;
+As above.
+
+> +}
+
+> +static int cxlr_rm_extent(struct device *dev, void *data)
+> +{
+> +	struct region_extent *region_extent = to_region_extent(dev);
+> +	struct range *region_hpa_range = data;
+> +
+> +	if (!region_extent)
+> +		return 0;
+> +
+> +	/*
+> +	 * Any extent which 'touches' the released range is removed.
+
+Maybe single line comment syntax is fine here.
+
+> +	 */
+> +	if (range_overlaps(region_hpa_range, &region_extent->hpa_range)) {
+> +		dev_dbg(dev, "Remove region extent HPA [range 0x%016llx-0x%016llx]\n",
+> +			region_extent->hpa_range.start, region_extent->hpa_range.end);
+> +		region_rm_extent(region_extent);
+> +	}
+> +	return 0;
+> +}
+
+
+> +/* Callers are expected to ensure cxled has been attached to a region */
+> +int cxl_add_extent(struct cxl_memdev_state *mds, struct cxl_extent *extent)
+> +{
+> +	u64 start_dpa = le64_to_cpu(extent->start_dpa);
+> +	struct cxl_memdev *cxlmd = mds->cxlds.cxlmd;
+> +	struct cxl_endpoint_decoder *cxled;
+> +	struct range ed_range, ext_range;
+> +	struct cxl_dax_region *cxlr_dax;
+> +	struct cxled_extent *ed_extent;
+> +	struct cxl_region *cxlr;
+> +	struct device *dev;
+> +
+> +	ext_range = (struct range) {
+> +		.start = start_dpa,
+> +		.end = start_dpa + le64_to_cpu(extent->length) - 1,
+> +	};
+> +
+>
+
+
+> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
+> index 16e06b59d7f04762ca73a81740b0d6b2487301af..85b30a74a6fa5de1dd99c08c8318edd204e3e19d 100644
+> --- a/drivers/cxl/cxlmem.h
+> +++ b/drivers/cxl/cxlmem.h
+
+Is the xarray header included in here already?
+If not it should be.
+
+> @@ -506,6 +506,7 @@ static inline struct cxl_dev_state *mbox_to_cxlds(struct cxl_mailbox *cxl_mbox)
+>   * @pmem_perf: performance data entry matched to PMEM partition
+>   * @nr_dc_region: number of DC regions implemented in the memory device
+>   * @dc_region: array containing info about the DC regions
