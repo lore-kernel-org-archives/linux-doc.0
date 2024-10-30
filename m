@@ -1,69 +1,89 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259BE1E503C
-	for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 11:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82A84D8A7;
+	Wed, 30 Oct 2024 11:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730288131; cv=none; b=F5HpzXCrFqU6KRBQ5PqqyTmqRDmLZKoM3/r/S4oO9pXMdNQPTvH22yezMcrNMrh/JWmiXKZU9OTesrw2Drs7e+xoxzY66ZIxth6mdhNz9ONJWxqHoAzHT/mnapx2dms5HxxWQqh0EmZ8WfeHAhVx1M3AJMUqpbrT2AMv98BEicY=
+	t=1730288594; cv=none; b=bJNrYsD9LdFRSoj8QjYX/PwqfPEjROGml4eWjluW/GgyK3cSLQbDHW8pelSui9LJUAJOJ5c4CgY6KK2sxTna4uR9gUI0fRmcIL6cJzNNRc+nn8NXh6QsSZc+lWYTJHw33HzT2EYZhbFxse7yShOu/zNYAffqmVliXtMHkwTE5LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730288131; c=relaxed/simple;
-	bh=1fyz08x/Kfb96WrpapF+TWctlqmSXy+pjOmTfAbWKgQ=;
+	s=arc-20240116; t=1730288594; c=relaxed/simple;
+	bh=zBeBZaImPz0UNgvN3EkhqvIJaPld+Vg24M7vkVRlgB4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dwptJkUTGtWj8V2iktgri1XaTR0RJlmxtQNWchPytiGsirEmHIuL44B24C4jGu8BdlDDcqMjSKoBaSgUrOdw0bi+K1FmocV79pXqsfo2IMc6JU2qKYm5CvOKbH/HhyBiYPZKNgma7Ci+lfN2pvz13wfgGEg/N0aeNKNtVK2qSzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XjLDP5HO; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ip+wC2rlV6GTLw+oDK1Tv8sND0DevLqhmjQqjI/XB+AdGnNF6bPY4NJDZ7IXFIVqKmkTQ6bQrY4QyF5YNMWAokwyzfKiAmnPXry2CqU5FMxF064seTy55+aaXRkp3pvYW9pfhysZVl1zgUqr8i2chKrZB/iDxNCLrFkj7gvvsv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gM+WrI/X; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XjLDP5HO"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a9a68480164so918181766b.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 04:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1730288126; x=1730892926; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P6sR+aml3UxyTUx7NT7wVuDjaBfNaFGGHSlzNTNXs/8=;
-        b=XjLDP5HONNG9cLow71h+Nn5VS6utY8Am4mjYDywzDczSXwtXh+0NjqpmbZA3+C7CkB
-         FMLJEDMtZHaIATi+yL7Mq3+LkTSsFOHiNHkNrwBnJtgzJq7zFIqq9S/LX+QaXHumatc5
-         arebOkkiAq0KlGi2btCjpsCfJSHtBrTzUpjycGvrCbgAnywxsY5VM1San14DYXVmhO6O
-         fbEJzG0X0p9Tk2SMZpUqpXhx4tQ9EJ9ZBX16pzBK1mjrdMRO+yiq4FzaewL1+NMLqew3
-         v0SXlYt3T8b5WNB7R+8ostMEy0knf3PgskyatvCdjhr0yUdXIhPuXyXOA99Ixy2Lcsjg
-         NRoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730288126; x=1730892926;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P6sR+aml3UxyTUx7NT7wVuDjaBfNaFGGHSlzNTNXs/8=;
-        b=IVGtfT1W3TTQh3DUd7E1784HUaTetamhoNFEaDlkfjaQr903X0Uu5RYRo5CTLFKGRN
-         4dZK92LjhCWXKgmffUAdLdasFrWQlxs/R+KLb1AiEE6qZ7FYyL3Nd4WrQI4DUyADQFSn
-         F+/dC+X4BcYOitHbJNN6xGwjjt3Sm16MEv+JkCE7KzvutMnwSWUw1Dc5f37BTBG8KJ9W
-         +3GmLf9eyt47S40bpe8LZf6Y0WYmL18w378F+QRjWKD2c8703o74h8hqSFow/MiIfE5f
-         iqnzIRinG0BOVGEN3CvLVBH+3pqbpLPgePbRDKmiigbOajJP+y/c5GLMx/BxmipY0oUH
-         pHNg==
-X-Forwarded-Encrypted: i=1; AJvYcCVT85qck0sr4kBPVt/8pZLCDaozGkVJb2MH+wVwKyvjS3Ie7xzeR1hq9vziU/dHJdBBrEu8ysmqqOw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPbzzS3vWu1YFNFM5VlkK/6YxPBakbwemGYuiiRTk5kVBUCwmc
-	b+R1lJ/Qv5rmClouQyNyEK1g2rLhVnyzJBedzCPKibZe2lb57j4127MNgLYl04NqXov96u7f9HX
-	S
-X-Google-Smtp-Source: AGHT+IF1UTGG2OAepUDBUpyfkcQLgws5vfUoxVF55Jzoc7e5WgTf3wnHDi9okD0LZFzSuEMoKEAu+w==
-X-Received: by 2002:a17:906:f597:b0:a99:ebcc:bfbe with SMTP id a640c23a62f3a-a9de5d992f1mr1459936866b.27.1730288126292;
-        Wed, 30 Oct 2024 04:35:26 -0700 (PDT)
-Received: from localhost (109-81-81-105.rct.o2.cz. [109.81.81.105])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b1f298319sm556719966b.105.2024.10.30.04.35.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 04:35:26 -0700 (PDT)
-Date: Wed, 30 Oct 2024 12:35:25 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: hannes@cmpxchg.org, nphamcs@gmail.com, shakeel.butt@linux.dev,
-	roman.gushchin@linux.dev, muchun.song@linux.dev, tj@kernel.org,
-	lizefan.x@bytedance.com, mkoutny@suse.com, corbet@lwn.net,
-	lnyng@meta.com, akpm@linux-foundation.org, cgroups@vger.kernel.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
-Message-ID: <ZyIZ_Sq9D_v5v43l@tiehlicka>
-References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gM+WrI/X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730288593; x=1761824593;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zBeBZaImPz0UNgvN3EkhqvIJaPld+Vg24M7vkVRlgB4=;
+  b=gM+WrI/XQGoMWscgWvo+tXOrvLxlU0uHDoYHsbiBMIPVQVCbFhbFZFGL
+   GbgWQGZ6CVqCsQya5vALAYhpIbLTK+ZfoIOs+oiF9QIfVbJTSDllCrs5H
+   c/6T5jHSPEhTWaJqXs62ppBUS7Up/gGvmQnkRgaTSKnwBOTBUnxXyHjjK
+   18dRZGPwZOh5XiUMCdV05+BfjNgZ8sDrNGR7542MYFc7Pw2/0+zyLNwQs
+   q+QNJt8lF8Tvh4JX2by4ouF9Ns26tK5pAsf7mBorTAPS1NxNy5v9lY9r6
+   F16JMqmuHWrw5ZNvUmJ/3Kh0SlYWDOztvTOOd7oBQj3P2w7O/WVMh+KKG
+   Q==;
+X-CSE-ConnectionGUID: BkHqUyOIS6+NuONvC4vveg==
+X-CSE-MsgGUID: v7KdlA21S1OgIu1StkvyoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="29402801"
+X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
+   d="scan'208";a="29402801"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 04:43:11 -0700
+X-CSE-ConnectionGUID: Vlw0gSJGRJa4rrcjq1XtoA==
+X-CSE-MsgGUID: P4iq76KnTAqvR179z7cXhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
+   d="scan'208";a="105605929"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2024 04:43:01 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id 3F18C275; Wed, 30 Oct 2024 13:43:00 +0200 (EET)
+Date: Wed, 30 Oct 2024 13:43:00 +0200
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>, 
+	"Hansen, Dave" <dave.hansen@intel.com>, "Mehta, Sohil" <sohil.mehta@intel.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Xiongwei Song <xiongwei.song@windriver.com>, "Li, Xin3" <xin3.li@intel.com>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, 
+	Michael Roth <michael.roth@amd.com>, Alexey Kardashevskiy <aik@amd.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, 
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon <daniel.sneddon@linux.intel.com>, 
+	"Huang, Kai" <kai.huang@intel.com>, Sandipan Das <sandipan.das@amd.com>, 
+	Breno Leitao <leitao@debian.org>, "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
+	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>
+Subject: Re: [PATCH v5 05/16] x86/cpu: Defer CR pinning setup until after EFI
+ initialization
+Message-ID: <gb5cwrzxvlkrca2luqmeysgo6vilbqo6iirx5r3lds7ge4vk3i@qdfr2y3o66yd>
+References: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
+ <20241028160917.1380714-6-alexander.shishkin@linux.intel.com>
+ <a95a624b-214a-4b1f-ac16-dad5a9270bf8@intel.com>
+ <SJ1PR11MB6083B9854320176B6301C530FC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <34dd023d-3ed5-4655-88be-14a7a300b91e@intel.com>
+ <SJ1PR11MB6083CA923D92CD70AE6C5FB9FC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <869c1545-8c94-4820-a861-fbc563056597@intel.com>
+ <aa3dc7dd-8939-4042-9e02-96dd29e45095@zytor.com>
+ <SJ1PR11MB6083BB83EE16AEAD6D3F7C1BFC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,47 +92,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
+In-Reply-To: <SJ1PR11MB6083BB83EE16AEAD6D3F7C1BFC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com>
 
-On Mon 28-10-24 14:05:05, Joshua Hahn wrote:
-[...]
-> Changelog
-> v3:
->   * Removed check for whether CGRP_ROOT_HUGETLB_ACCOUNTING is on, since
->     this check is already handled by lruvec_stat_mod (and doing the
->     check in hugetlb.c actually breaks the build if MEMCG is not
->     enabled.
-[...]
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 190fa05635f4..fbb10e52d7ea 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1925,6 +1925,7 @@ void free_huge_folio(struct folio *folio)
->  				     pages_per_huge_page(h), folio);
->  	hugetlb_cgroup_uncharge_folio_rsvd(hstate_index(h),
->  					  pages_per_huge_page(h), folio);
-> +	lruvec_stat_mod_folio(folio, NR_HUGETLB, -pages_per_huge_page(h));
->  	mem_cgroup_uncharge(folio);
->  	if (restore_reserve)
->  		h->resv_huge_pages++;
-> @@ -3093,6 +3094,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
->  
->  	if (!memcg_charge_ret)
->  		mem_cgroup_commit_charge(folio, memcg);
-> +	lruvec_stat_mod_folio(folio, NR_HUGETLB, pages_per_huge_page(h));
->  	mem_cgroup_put(memcg);
->  
->  	return folio;
+On Tue, Oct 29, 2024 at 11:18:29PM +0000, Luck, Tony wrote:
+> >> Yeah, I was talking about 64-bit only.  On 32-bit PAE a PGD maps 1/4 of
+> >> the address space which is totally unworkable for stealing.
+> >
+> > But it is also not necessary.
+> 
+> So maybe we could make the 64-bit version of use_temporary_mm()
+> use some reserved address mapping to a reserved PGD in the upper
+> half of address space, and the 32-bit version continue to use "user"
+> addresses. It's unclear to me whether adding complexity here would be
+> worth it to remove the 64-bit STAC/CLAC text patching issues.
 
-I do not see any specific checks for CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING
-in these paths. I guess you wanted to say that you rely on
-mem_cgroup_commit_charge setting memcg pointer which then __lruvec_stat_mod_folio
-relies on when updating stats.
+Redesigning use_temporary_mm() is an interesting experiment, but it is
+out of scope for the series.
 
-I suspect this all is done because you want a global counter to be
-updated as well, right? Changelog doesn't say anything about that
-though. Why is this needed when /proc/meminfo already describes the
-global hugetlb usage?
+LASS blocks LAM enabling. It would be nice to get LAM re-enabled soonish.
+
+Maybe we can look at use_temporary_mm() again after LASS gets upstream?
+
 -- 
-Michal Hocko
-SUSE Labs
+  Kiryl Shutsemau / Kirill A. Shutemov
