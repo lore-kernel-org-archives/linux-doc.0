@@ -1,83 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210381E8859;
-	Wed, 30 Oct 2024 23:26:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DA319CC24;
+	Wed, 30 Oct 2024 23:48:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730330788; cv=none; b=AEr2GSf//C3Ps2TBp2okS2EN5jjQOu6hlNZf5g26HpkEmv9xVSEFp8iqaMxPNDzO99KKSqHKtytFPMf6TAtqBak9xc6jTDgHAeCGXJSi7HbesGLG5hqzzwFAGgLJEsCyH50FMu5RHoie0AQ0zPlP/CSLoY1eRCNq5MqSDkrGqvw=
+	t=1730332089; cv=none; b=WC9ADJCEzGypMags45DqcnwFsZFByX0OmOGH5TmnQOp7WqRFIxZwC0ssXSYLDEoK9Q/DHe8YpWVztI1szE6jD/Z/YENGeqpom27WKa/Mv4vtXj/hs49w4H3fLWcHrZa6K2DeLh54iPTHquqVexI+75jdHomkl69UtHRUuSTyE98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730330788; c=relaxed/simple;
-	bh=wPMPLo0mta4qVpGzLolACfvuHSWiB6tecr7v0QVNiiE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=uoW2mm6jWrWL2rKDMKOLgW9azTpaojFuf1s5t+T8LujTVDg1pCqS0f7LI6Ko036Tu2MXp+PLD+sHWLOMVfvP6+oTNwoVcWv49TroqD97kbdsvqr8Odd9cl5aWpZU+ydXrbNnoyC22IWsMTD+g+CgUXHYCq7Dnw8P3W0NWOTX4Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=oFUriJg9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730332089; c=relaxed/simple;
+	bh=Q0wXyQGBlYip/F0j6/woGSioAXOUzqyfPJJC3tkOLK8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=elIlq3jrMuXnU4PN1FknX7VQtbi4ib0J8euyl4s+xf+N/WvCIL9jT3NYKDzX22OpLMfWjzPmR2k5T7xL1YZ0G0LH9Zo2hs3GLQ+50l46HmZ2eaXiszdPOAHZ6eVvKrRyG+3ldibAO0Jn5i/SNVok6fzUlsc36M34ysaKtdq8mi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ju76Edax; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="oFUriJg9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B2DBC4CED4;
-	Wed, 30 Oct 2024 23:26:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1730330785;
-	bh=wPMPLo0mta4qVpGzLolACfvuHSWiB6tecr7v0QVNiiE=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ju76Edax"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA34C4CEF0;
+	Wed, 30 Oct 2024 23:48:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730332089;
+	bh=Q0wXyQGBlYip/F0j6/woGSioAXOUzqyfPJJC3tkOLK8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=oFUriJg92Dn4a60uaF1IBC3TaNYrQLGQvRPbLY4YNZMSGWLOgpyQrHkE7cN9ybocB
-	 EKR7ojApZlS2yHRM5OZq28OKvDu5+jREiU8oD1bwNorRmZh5zdt6zYU4mgpROhQi7w
-	 4PJpBrixkESQxiMBDqaU4jqMjqP9/ccGYLRKUlK0=
-Date: Wed, 30 Oct 2024 16:26:24 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@suse.com>,
- nphamcs@gmail.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
- muchun.song@linux.dev, tj@kernel.org, lizefan.x@bytedance.com,
- mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, cgroups@vger.kernel.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
-Message-Id: <20241030162624.2ae779257e68264c4bec99fd@linux-foundation.org>
-In-Reply-To: <CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
-References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
-	<ZyIZ_Sq9D_v5v43l@tiehlicka>
-	<20241030150102.GA706616@cmpxchg.org>
-	<ZyJQaXAZSMKkFVQ2@tiehlicka>
-	<20241030183044.GA706387@cmpxchg.org>
-	<CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	b=ju76EdaxYrc2VgAjivV0KVt2GMgCCgQhkFEfaJJ6/pgDxTefM1lg4Tf1OWyD6kJF1
+	 KPs45HSaTf/dlBDXadIlmKLrd/PTXlvHaEPFN+6htEnDe9la3DhVDjvzJ08pFbHCu1
+	 Mi9Dcrl+rhMsrI94lHkbmm+ltjVTd56lvqQYX2iMsa9T1VhTsDaczRIlDIIrjNFfwV
+	 BJFkhdoI7ChFFbj0fL95fN0enUv6F2jgu70AtVwj6XP/DlYWjcgdm+p8m6To/KCBGH
+	 7u3hKM5vMU2n1gcpbXdQJ1gi5+guUy9KsxG9mMUy4fX4yx/ByjRBAgjJViZhPyf2di
+	 YfF8DVjTLFaVg==
+Date: Wed, 30 Oct 2024 16:48:05 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Tal Gilboa <talgi@nvidia.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shay Agroskin
+ <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon
+ <darinzon@amazon.com>, Noam Dagan <ndagan@amazon.com>, Saeed Bishara
+ <saeedb@amazon.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Michael Chan
+ <michael.chan@broadcom.com>, Doug Berger <opendmb@gmail.com>, Claudiu
+ Manoil <claudiu.manoil@nxp.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Jian Shen <shenjian15@huawei.com>, Salil Mehta <salil.mehta@huawei.com>,
+ Jijie Shao <shaojijie@huawei.com>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>,
+ Geetha sowjanya <gakula@marvell.com>, Subbaraya Sundeep
+ <sbhatta@marvell.com>, hariprasad <hkelam@marvell.com>, Felix Fietkau
+ <nbd@nbd.name>, Sean Wang <sean.wang@mediatek.com>, Mark Lee
+ <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Saeed Mahameed
+ <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Leon Romanovsky
+ <leon@kernel.org>, Louis Peens <louis.peens@corigine.com>, Shannon Nelson
+ <shannon.nelson@amd.com>, Brett Creeley <brett.creeley@amd.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
+ <eperezma@redhat.com>, Roy Pledge <Roy.Pledge@nxp.com>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-rdma@vger.kernel.org,
+ oss-drivers@corigine.com, virtualization@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 2/2] dim: pass dim_sample to net_dim() by reference
+Message-ID: <20241030164805.40408945@kernel.org>
+In-Reply-To: <20241030194914.3268865-2-csander@purestorage.com>
+References: <20241030194914.3268865-1-csander@purestorage.com>
+	<20241030194914.3268865-2-csander@purestorage.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 30 Oct 2024 16:43:42 -0400 Joshua Hahn <joshua.hahnjy@gmail.com> wrote:
+On Wed, 30 Oct 2024 13:49:08 -0600 Caleb Sander Mateos wrote:
+> net_dim() is currently passed a struct dim_sample argument by value.
+> struct dim_sample is 24 bytes. Since this is greater 16 bytes, x86-64
+> passes it on the stack. All callers have already initialized dim_sample
+> on the stack, so passing it by value requires pushing a duplicated copy
+> to the stack. Either witing to the stack and immediately reading it, or
+> perhaps dereferencing addresses relative to the stack pointer in a chain
+> of push instructions, seems to perform quite poorly.
 
-> I saw that it was merged into mm-unstable earlier yesterday. Would it
-> be possible
-> to add this block of text to the patch description right before the footnotes?
-> 
-> 3. Implementation Details:
-> In the alloc / free hugetlb functions, we call lruvec_stat_mod_folio
-> regardless of whether memcg accounts hugetlb. lruvec_stat_mod_folio
-> keys off of folio->memcg which is only set up if the
-> CGRP_ROOT_MEMORY_HUGETLB_ACCOUTING cgroup mount option is used, so
-> it will not try to accumulate hugetlb unless the flag is set.
-> This also ensures that memory.stat::hugetlb is the same as
-> the share of memory.current that is used by hugetlb pages.
-
-Thanks, done.
-
-> And could you also update the list of signatures to reflect the
-> responses on this version?
-> Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> Suggested-by: Shakeel Butt <shakeel.butt@linux.dev>
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-> Acked-by: Shakeel Butt <shakeel.butt@linux.dev>
-> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-> Acked-by: Chris Down <chris@chrisdown.name>
-> Reviewed-by: Roman Gushchin <roman.gushchin@linux.dev>
-> Reviewed-by: Nhat Pham <nphamcs@gmail.com>
-> Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
-
-Done2.  I already had all that, plus an ack from Chris Down.
+Looks like patch 1 didn't get CCed to netdev. Please repost?
+-- 
+pw-bot: cr
