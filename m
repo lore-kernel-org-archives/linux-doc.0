@@ -1,137 +1,110 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E48222A495;
-	Wed, 30 Oct 2024 16:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76682215C62;
+	Wed, 30 Oct 2024 17:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730307260; cv=none; b=BDXlZCYOnkEwaj0FepYi7hQEdR39eNhYfFKYZmkSz01/r3vzJ9PeWS7R49bMcdxc44FzY9zopjaTAZBW+K/xVbWc8pitRJJZihiyFByf6HNpVN50jphUDA92D18TiAABrRZRMVEvyutI2HmvEtALrRgN+PoPSQa8noZy/kGTjzs=
+	t=1730307794; cv=none; b=ZB12nVq6G46eh6VJjQ+UeooI+ggC08w4n5VmXzr6k0+Crhmu4C39h/37AZMYuwY6esboyVjt7sw5vMRGWDK/rR3awHjjKB0Txqt8dUq2HTsgcV1B1hgvfvuurm0rgOFcDGOD0FT1fe2tjU1dGN9ui187y5EmTnK4wfSYug4Zbt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730307260; c=relaxed/simple;
-	bh=EMjeSvfOC5IkeddTk73wHP7CNIy5Wf4vXWrjzp14ZzA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aWjzkxksUNvPWWr+lNT7TQUDaeeKm1X1u0lLqB8AusMkHFzJXScnacxLGvC071jsssgaEBq//mCSi/uwlPoWI1OMgoxTHIayPstkQFmB6deV1P2VCdbnTW6JPgxXCPpNebZ1J/IpJW0sVfKSb4SzS5GwgaexgrYOPa33qRSnO9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YjpHq0m/; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1730307794; c=relaxed/simple;
+	bh=xaLOjVrI4UuOoIHBUz4HZ9I1PFZXA40k3S1zbQTvOro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pyr+PJP+bqDocf5gnXX7TnRIA8B95TOwK9jCUklpQSSgIGhHRaVZRbgvMOX/JAedfNFnzo/p3/TuaQgevL9zZqppA8J4pX6CnM0SIJWHp72OpLlbGGDonb8szcizdqZvWgAFCy0vW+WdxG2BC1ltDLtS4QRUrixNc273MeQrCBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LHPN8+8n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YjpHq0m/"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B655FC000B;
-	Wed, 30 Oct 2024 16:54:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730307255;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SvmAMGax6dNwCZy8+Fe42XCwON0HoTKAXTO/9PqlEtM=;
-	b=YjpHq0m/GxEuDroMzfEDPgg+YUwnojLZ8Rq74FKOypdQiJf7iCKwQfASsGvcydXS0VqW7F
-	zJ14yG1WcrEKd6xEbWLFNJkczPIGQZuso6zQvuwFzMZ5G4uF7W0+MxyZRyglteULdkxC4i
-	E0Tq4Eft30snvBIRTzZawHMsKyRYst2JxZoCD9ZjHnJfqa0PCv186Dd36lnN2avhzDiSYg
-	oaGue/7w2znr+OhM2ywZ3824K9EtpZCATZmcKEB8WOk3G52zyXRgAX6BXw1zJGegDEHtvz
-	t2J3Oe8uO2yDqIOtastSjp2OXiKLvNDBLC7v1m58u/LAI+PxjhAA29fJ45Rg3Q==
-From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Wed, 30 Oct 2024 17:53:20 +0100
-Subject: [PATCH RFC net-next v2 18/18] net: pse-pd: pd692x0: Add support
- for PSE PI priority feature
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LHPN8+8n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57FDCC4CECE;
+	Wed, 30 Oct 2024 17:03:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730307794;
+	bh=xaLOjVrI4UuOoIHBUz4HZ9I1PFZXA40k3S1zbQTvOro=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LHPN8+8nKtpCllz/g2EPsz88AegVBlVNxYu7A/iZd+VBjYe50uYaDnla3TLGW4S72
+	 ambRMrlE5Z6lEoqxQX7OMTYTUT2txic9VV/qA6n+JlDyyEdRZZf7kTtHqqoLTcpJiY
+	 bicHMeYZWffaVBIQv0mZ9M1/zMEwBZr+tQYaJIDIC9i6mJVAOgn8KzpsthPiGBaU4q
+	 Ptiu5i9BbNXt7C9AEGeye3gmxjyy3IOwrnMsw9UW6NdHDZjQjl5ERvhWT1XaO/Dg0s
+	 Pit/vq4sHbWQczf6oJbmPvtEfIhB0KO0cc3vCc4gLK1SkL01XwpgfAhzaI4hffOc5c
+	 R4VO6N50128zQ==
+Date: Wed, 30 Oct 2024 17:03:06 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v2 11/18] regulator: Add support for power
+ budget description
+Message-ID: <578d2348-9a17-410e-b7c8-772c0d82c10f@sirena.org.uk>
+References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
+ <20241030-feature_poe_port_prio-v2-11-9559622ee47a@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241030-feature_poe_port_prio-v2-18-9559622ee47a@bootlin.com>
-References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
-In-Reply-To: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, 
- Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- Simon Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
- Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Kory Maincent <kory.maincent@bootlin.com>
-X-Mailer: b4 0.15-dev-8cb71
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="prXmSPGW9RUQhXiM"
+Content-Disposition: inline
+In-Reply-To: <20241030-feature_poe_port_prio-v2-11-9559622ee47a@bootlin.com>
+X-Cookie: I feel partially hydrogenated!
 
-From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-This patch extends the PSE callbacks by adding support for the newly
-introduced pi_set_prio() callback, enabling the configuration of PSE PI
-priorities. The current port priority is now also included in the status
-information returned to users.
+--prXmSPGW9RUQhXiM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reviewed-by: Kyle Swenson <kyle.swenson@est.tech>
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
----
- drivers/net/pse-pd/pd692x0.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+On Wed, Oct 30, 2024 at 05:53:13PM +0100, Kory Maincent wrote:
 
-diff --git a/drivers/net/pse-pd/pd692x0.c b/drivers/net/pse-pd/pd692x0.c
-index 0af7db80b2f8..018b6559049f 100644
---- a/drivers/net/pse-pd/pd692x0.c
-+++ b/drivers/net/pse-pd/pd692x0.c
-@@ -685,6 +685,8 @@ static int pd692x0_ethtool_get_status(struct pse_controller_dev *pcdev,
- 	if (ret < 0)
- 		return ret;
- 	status->c33_avail_pw_limit = ret;
-+	/* PSE core priority start at 0 */
-+	status->c33_prio = buf.data[2] - 1;
- 
- 	memset(&buf, 0, sizeof(buf));
- 	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_PORT_CLASS];
-@@ -1061,6 +1063,25 @@ static int pd692x0_pi_set_current_limit(struct pse_controller_dev *pcdev,
- 	return pd692x0_sendrecv_msg(priv, &msg, &buf);
- }
- 
-+static int pd692x0_pi_set_prio(struct pse_controller_dev *pcdev, int id,
-+			       unsigned int prio)
-+{
-+	struct pd692x0_priv *priv = to_pd692x0_priv(pcdev);
-+	struct pd692x0_msg msg, buf = {0};
-+	int ret;
-+
-+	ret = pd692x0_fw_unavailable(priv);
-+	if (ret)
-+		return ret;
-+
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_SET_PORT_PARAM];
-+	msg.sub[2] = id;
-+	/* Controller priority from 1 to 3 */
-+	msg.data[4] = prio + 1;
-+
-+	return pd692x0_sendrecv_msg(priv, &msg, &buf);
-+}
-+
- static const struct pse_controller_ops pd692x0_ops = {
- 	.setup_pi_matrix = pd692x0_setup_pi_matrix,
- 	.ethtool_get_status = pd692x0_ethtool_get_status,
-@@ -1070,6 +1091,7 @@ static const struct pse_controller_ops pd692x0_ops = {
- 	.pi_get_voltage = pd692x0_pi_get_voltage,
- 	.pi_get_current_limit = pd692x0_pi_get_current_limit,
- 	.pi_set_current_limit = pd692x0_pi_set_current_limit,
-+	.pi_set_prio = pd692x0_pi_set_prio,
- };
- 
- #define PD692X0_FW_LINE_MAX_SZ 0xff
-@@ -1486,6 +1508,8 @@ static int pd692x0_i2c_probe(struct i2c_client *client)
- 	priv->pcdev.ops = &pd692x0_ops;
- 	priv->pcdev.dev = dev;
- 	priv->pcdev.types = ETHTOOL_PSE_C33;
-+	priv->pcdev.port_prio_supp_modes = BIT(ETHTOOL_PSE_PORT_PRIO_DYNAMIC);
-+	priv->pcdev.pis_prio_max = 2;
- 	ret = devm_pse_controller_register(dev, &priv->pcdev);
- 	if (ret)
- 		return dev_err_probe(dev, ret,
+> +/**
+> + * regulator_get_power_budget - get regulator total power budget
+> + * @regulator: regulator source
+> + *
+> + * Return: Power budget of the regulator in mW.
+> + */
+> +int regulator_get_power_budget(struct regulator *regulator)
+> +{
+> +	return regulator->rdev->constraints->pw_budget;
+> +}
 
--- 
-2.34.1
+This is going to go badly with multiple consumers...
 
+> +static inline int regulator_get_power_budget(struct regulator *regulator)
+> +{
+> +	return 0;
+> +}
+
+We should probably default to INT_MAX here and in the case where we do
+have support, that way consumers will fail gracefully when no budget is
+specified.
+
+--prXmSPGW9RUQhXiM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmciZskACgkQJNaLcl1U
+h9AnVQf/dquldrMtKE+BySk6azhTqAAT6WH3XqoGfpYdYax1H6llEMjkX0stqKkb
+yLZPvq+oPk9vtvrfTRoN7QI9o/4o4c1PVNkF/iUSaosJfVCXniOH6rsVYZpbQp4P
+v/YEyQ9lw9DWEATwkMf3xXFGvwcPCiLI44ZxaeFu9eIUK9QoyRFVzY3ajfaSCmLs
+028OklZvbhhL1NThsGZw+b9C4JvE4bjYp16V/sih8BRfeY6eTw60Km5jYTnR+CMI
+Qbmgw25vYYnKMEeKuac8GDYOevJ8yBoUnd/DkBPcCyj0khS3HftFozMjp4/I0rlU
+Hdf0yLQTNlvF2ux77cavWyi8YSLkdQ==
+=seAF
+-----END PGP SIGNATURE-----
+
+--prXmSPGW9RUQhXiM--
