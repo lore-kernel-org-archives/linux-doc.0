@@ -1,118 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB7C54BD4;
-	Wed, 30 Oct 2024 07:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2892B1E1C2F;
+	Wed, 30 Oct 2024 09:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730274056; cv=none; b=JGM9RGitHvUI9PkCiD+FxnYKJBqj0RdE9jDXySVcnIRNb2IxTrzVFXbMO1mQhYdBJWYJY0livWzzS+v7//Ai5Pmg6adDX/48SD9s6GvIdIMUN14E91X8aYByGBC/ehElv4UCkyBZP0dL+BMowf5x29R/3Q2V6C6qlsGBD/o3Vbc=
+	t=1730279911; cv=none; b=FozCmfpWkccrtlUwXafBvlKPVlUKRhhn1rXZHvo8tcyN1EHVhhZqjK9sO4CD5ioq7l4ZMlt7VhErdPDhjjrhDyM0ickBqtjgRwa6Cp0igyhmuTgEni36Y52a+sopYy9AQliDV7IB7+JXl6ZzY6eAfY/qylZJBE8Edb8rhgzcx7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730274056; c=relaxed/simple;
-	bh=eSqWFRIQnRvRRjhGGysN8HKp4eg/vPUz0KXMyPn7OE8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pB+Z7CKxWQ+yPUpiFVTR8N2aknBCu5E+EigPQmQbX3B16wbnCuY5yAvRnFTRsFUOmTLxT6taXVjZVOnWN+Nu8EX47/aHD0Dc+muUNCZS8BOriu/JKguXzT20tBhISDGkvyrWFxUmiPVrj+0eN+Sux3NxrjOK5mQlOE4Abva/978=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mRJfcRzT; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730279911; c=relaxed/simple;
+	bh=mrzUihUwK1kLG+bYYOGkwULFloc6lD3FUZNPd5rYjSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o8tzbWLslk6N5XrMCrLqS3fklgWpWrnkvlrmpPJBEcls455JGZ2ZdCGkPimo4weSpVce6NpE/kX0I83/C3hYxRbMsC1cZr9L0pUAriVjeW05+kJBjYF+k47Bw55W+cHsO+nujjEVOOGdBOWkuc0iSopDQXW7NZG0k5gnn8Lv1AI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=jj/uDHjk; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mRJfcRzT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730274055; x=1761810055;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=eSqWFRIQnRvRRjhGGysN8HKp4eg/vPUz0KXMyPn7OE8=;
-  b=mRJfcRzTkV4C9hTOk1jaAMEkz9aFgPWIIJhKd+yqkZiooSgvDgiOtsNm
-   u+42PYjSzXUBE7wwndpliLzYVj1Q/RGBCjc7hZ4kgqtyqYHX7pBQbV0tJ
-   PHX5FAx+AZNEuJ/A2FHf/Xz47CWK7xMuFwVbziz77VlotYwOsYgqM0Z+v
-   MwTaqvO5gc61hQCD811aIvamF+ExdRSgj7/ADspNm9VNrHmDGFw2OR7RU
-   07yoR1Cv29x5/zAfjM1Ui6cpj2oUHbmkSl2aCsVc9Al26vbQGn/sdWMdh
-   kOdajEOxbTG26Xy5gPzpxhrqguiX6IZzQn7HCo2DUKFwZ/pOILhnqKIB0
-   Q==;
-X-CSE-ConnectionGUID: XjLH+7WqS5uqp1Z2lNqYEA==
-X-CSE-MsgGUID: Dq7vwrG8QMy1Ws0TAtUUtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30106526"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30106526"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 00:40:54 -0700
-X-CSE-ConnectionGUID: gjNB63zcTO+mIRhaK2mr5w==
-X-CSE-MsgGUID: 1/hes1Q6QZGqBhXSTnOFHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,244,1725346800"; 
-   d="scan'208";a="82644102"
-Received: from ubik.fi.intel.com (HELO localhost) ([10.237.72.184])
-  by orviesa007.jf.intel.com with ESMTP; 30 Oct 2024 00:40:41 -0700
-From: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-To: Peter Zijlstra <peterz@infradead.org>, Dave Hansen <dave.hansen@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave
- Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>, "Paul E. McKenney"
- <paulmck@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Xiongwei Song
- <xiongwei.song@windriver.com>, Xin Li <xin3.li@intel.com>, "Mike Rapoport
- (IBM)" <rppt@kernel.org>, Brijesh Singh <brijesh.singh@amd.com>, Michael
- Roth <michael.roth@amd.com>, Tony Luck <tony.luck@intel.com>, "Kirill A.
- Shutemov" <kirill.shutemov@linux.intel.com>, Alexey Kardashevskiy
- <aik@amd.com>, Jonathan Corbet <corbet@lwn.net>, Sohil Mehta
- <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
- <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>,
- Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>, Alexei Starovoitov
- <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross
- <jgross@suse.com>, Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook
- <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, Jason Gunthorpe
- <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>,
- Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du
- <changbin.du@huawei.com>, Huang Shijie <shijie@os.amperecomputing.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Namhyung Kim
- <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-efi@vger.kernel.org, alexander.shishkin@linux.intel.com
-Subject: Re: [PATCH v5 03/16] x86/alternatives: Disable LASS when patching
- kernel alternatives
-In-Reply-To: <20241029184840.GJ14555@noisy.programming.kicks-ass.net>
-References: <20241028160917.1380714-1-alexander.shishkin@linux.intel.com>
- <20241028160917.1380714-4-alexander.shishkin@linux.intel.com>
- <7897bc3e-2d68-4aef-8668-f6eb9f8efd7f@intel.com>
- <20241029113611.GS14555@noisy.programming.kicks-ass.net>
- <20241029184840.GJ14555@noisy.programming.kicks-ass.net>
-Date: Wed, 30 Oct 2024 09:40:41 +0200
-Message-ID: <87jzdqt4w6.fsf@ubik.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="jj/uDHjk"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49U2d3BX003176;
+	Wed, 30 Oct 2024 09:18:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=jqu18WWYA7mw0ZGNsF1kdxCvtmyRwS
+	c6a2CbR1IFlB8=; b=jj/uDHjkkjLhSmhyTR5vc1Q3am/xkkBWxLTUI+Pup5Fe8V
+	WCsIq5eb6poelcJKbph8X+6byZTLeomNpyjmmx03Oroc/a4xEFD6d7JOZ13roQR0
+	Ni20wPPskTGGXGhiMYyDxGOSxqhRZ4cKAx/XhqiWKiuYjBIC2JGYcPe2ILVV0gDK
+	mb7gNAvF1SdJ+M9Fcvr3YejR3izwRI2ff9YFVvMxbJAoZTLcDnw4Aq/PvQD5FqO5
+	tJl6fZ9zj559VGoL9xWwq48oNDigLdr6OIKZGUf82JyFFP73nJ20bpsodAFr9aol
+	XzFiHn8DvyYrl4wlIQSXdqq5piMTxj4IzLDCtkKQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j3nsx8ee-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Oct 2024 09:18:18 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49U9IHCM006146;
+	Wed, 30 Oct 2024 09:18:17 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j3nsx8ec-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Oct 2024 09:18:17 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49U7pooi018404;
+	Wed, 30 Oct 2024 09:18:16 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42hc8k78y6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Oct 2024 09:18:16 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49U9ICFd31588748
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Oct 2024 09:18:12 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8236320043;
+	Wed, 30 Oct 2024 09:18:12 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E764620040;
+	Wed, 30 Oct 2024 09:18:09 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.60])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 30 Oct 2024 09:18:09 +0000 (GMT)
+Date: Wed, 30 Oct 2024 10:18:07 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 1/7] Documentation: s390-diag.rst: make diag500 a
+ generic KVM hypercall
+Message-ID: <20241030091807.6264-C-hca@linux.ibm.com>
+References: <20241025141453.1210600-1-david@redhat.com>
+ <20241025141453.1210600-2-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241025141453.1210600-2-david@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: xbg5UVAt4jfMY0OkVx_kJRYkSZy8lNGS
+X-Proofpoint-GUID: ANSw34wLFtb4MLTfjsXS-gU2XHH8XCJ_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ bulkscore=0 mlxlogscore=440 clxscore=1015 priorityscore=1501
+ suspectscore=0 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ malwarescore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410300072
 
-Peter Zijlstra <peterz@infradead.org> writes:
+On Fri, Oct 25, 2024 at 04:14:46PM +0200, David Hildenbrand wrote:
+> Let's make it a generic KVM hypercall, allowing other subfunctions to
+> be more independent of virtio.
+> 
+> While at it, document that unsupported/unimplemented subfunctions result
+> in a SPECIFICATION exception.
+> 
+> This is a preparation for documenting a new hypercall.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  Documentation/virt/kvm/s390/s390-diag.rst | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
 
-> On Tue, Oct 29, 2024 at 12:36:11PM +0100, Peter Zijlstra wrote:
->  static __always_inline void *__inline_memcpy(void *to, const void *from, size_t len)
->  {
->  	void *ret = to;
->  
-> -	asm volatile("rep movsb"
-> -		     : "+D" (to), "+S" (from), "+c" (len)
-> -		     : : "memory");
-> -	return ret;
-> +	asm volatile("1:\n\t"
-> +		     ALT_64("rep movsb",
-> +			    "call rep_movs_alternative", ALT_NOT(X86_FEATURE_FSRM))
-
-I don't know if it matters, but this basically brings in a whole memcpy
-to a text_poke situation, which should only be a handful of bytes, and
-creates a new stack frame in the !FSRM case, which the __always_inline
-was intending to avoid. But given what text_poke is, maybe micro
-optimizations don't really matter. And fewer memcpy() implementations
-seems like a good idea.
-
-Thanks,
---
-Alex
+Reviewed-by: Heiko Carstens <hca@linux.ibm.com>
