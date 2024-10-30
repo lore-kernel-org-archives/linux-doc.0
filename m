@@ -1,139 +1,126 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6942E199E89
-	for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 09:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F69A194151;
+	Wed, 30 Oct 2024 10:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730281749; cv=none; b=sZlVwY/9RegyqDHJp4vHG7rYDjPPRfwedwxpoNyPN17uyQgM1yF4DueLn6dWXTKQR4wD2bKQ3stBe3s1uN8FHxnuyg2RvV+qH+w74FASHMISpjUb+QYOstB3X+aEzBhc/l2ypn35baf1XM6UMuHSTf3716b/CSH38I1LM059hB8=
+	t=1730282678; cv=none; b=KMoPTb+vkgA3Vtkz7ExwIIck9lzgfV1xATLAWQ/zG4IvJmMctYmTRfiipq2Lag5J78/A7QBh8vaphqYrI61QbeM3SNomgV8v32un4Z2MTISxOzZeJAH/Nqt/tLetKMYzM2ykQyvDslskILdFn4lFdAFZuJaaHkC13XTm3w8jEh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730281749; c=relaxed/simple;
-	bh=8EXfK793ZLefNzwp6pzA38h547RH694mwEtv1gJlZdg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pDtLTZbpK/c8fUtgTcqSd+2MaWSGkTszpmqXOmpewm3Rk7tYSvBBXVmnvExw4E55iHN577uUZi8uN4ppJutZkp6dVwK5c6nH+1XOMXiGDeRMxjEeQZqexNoyRCF72Ru3rsPH+8V+8do23G7rV6h+k5F2HcVgjeEVVsIGbMVDXwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=uYkfxmvE; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1730282678; c=relaxed/simple;
+	bh=x9327/y0ayjOlDpKWFFxaZgtxDwZhLqHbl7ht1HUnz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qi0pjV3LZL00fTVKIJx3YgxPDoqEJO62xry2+J7SDfUpGJPqVq0eH1mmzZIFMfDBbsAAbQAdp87Rv7j66WGeJFJFG9u8r7iSDVRyqzEWNBSEtk2TfdfyBf1qyUr4rdV5qyTyR/Oy7ad0W5LYsXixdzblBYHXa7XevTtxj3AeqoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=WpvEjBLh; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="uYkfxmvE"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-208cf673b8dso61016525ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 02:49:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730281747; x=1730886547; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lSwaSXBIpjqVkyV12CEixJTdRNCxUGANMEGYJ3Ap4Vg=;
-        b=uYkfxmvEite+cTjrEJjeKemaYNBz42YwMnGUkR7Xe1BIhB/ulPj80z9umIgEiBgZfi
-         H8fpRYPtUf/8xr2EQEYmq29zJONbchcmcnetG9f3tkaF/LcaoLrgdKZOPYmy2Q6YNrXf
-         pNT+vRkT51lXaI6g+eDp2/XYPUa8qvGYJ7AloYZd/newcaj6lAZyJGxd9UM7F1UfTYkS
-         WN9zjFX7X07cOSA3wknrKFdmLzj+AL1don01++a0hyi9J315A2RlZ8E/SOt783Q20OCm
-         x9RBQQcPsPeeriqx1mxFl7RCbm4rIfaWEobMhTQeTZMrFrc034H6PrjowRImT5/vrtMl
-         tUjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730281747; x=1730886547;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lSwaSXBIpjqVkyV12CEixJTdRNCxUGANMEGYJ3Ap4Vg=;
-        b=v/XvTsiipMvgrNgHpDF+06WXPZdhZtnzV/M0aptkmTpMrXqNjXBW6dlxbVJxYXF+72
-         yJSQeYGn7H+chqvuEyO9G6u9LArcFKxAOenEcSKHvbp0gsajJluayiywcWR/26mPp6aC
-         FHgrxePk7sDOT9bbhSdr958F9y1u+x6GgCfPuwp4fY6l93GmHmsY9R5Ncdi9KJRwWSqg
-         CnNDm7gGuUmp14/qFQRyIBrRVMknrVzAMt6/AajCjpIuK38iJonIhgPUqwpjBJI4ZspZ
-         eMKAg6xCy4NCTOy5ZDKv3tGktmZgKEKfURj6ypLYXZFpko1XrYe2SGWabOQalTqKbwUb
-         2oag==
-X-Gm-Message-State: AOJu0YyiX6I0B6bDcW9CMONEDAaVIphjZZjW2O2YjeWMRJzpOpu/6Gmz
-	m1NCy/hCvkTNJbLDEx6j7UD8L50UNcSIKKZcBAroeSB7quDLqHZ3gdLtX82EUp8=
-X-Google-Smtp-Source: AGHT+IF5owZ613IN08gSTF1W4NumSlPE9N+GNRcutDlRWZGvuBkpKbCkuSRP83keNi1c5BU43LWC/Q==
-X-Received: by 2002:a17:903:124d:b0:20c:5cb1:ddf0 with SMTP id d9443c01a7336-210c68a9c2bmr199322865ad.10.1730281746621;
-        Wed, 30 Oct 2024 02:49:06 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bc0864d7sm78342745ad.303.2024.10.30.02.48.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Oct 2024 02:49:06 -0700 (PDT)
-Message-ID: <ca1cb4b8-e206-4bc3-adf3-3801fd05f8e8@rivosinc.com>
-Date: Wed, 30 Oct 2024 10:48:47 +0100
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="WpvEjBLh"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49U2d2Zd012478;
+	Wed, 30 Oct 2024 10:04:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=z32S3KqoArkKiV5/iHoKdn4+IX63mI
+	RttPijudjwk+s=; b=WpvEjBLhEEaq3JqBZ628gSJNXMH+fEq+cwtdowOE5bZcZL
+	WyPiUfkuhBLrEbNIM0Kcl6rr5nS8wPXQz7+sx+M/zjcvG6r5W3fOLy2UoOeM9d5o
+	lyHayKJd6Uit8qQPOeKYclqe8EMA72rC7sLiHGrxaGaA2S4atpj3G9yNeVFx/F7i
+	YFh6dGD6MUmFxsMuxEgUQkX/OIc47esSGDVyVFC2+bv+zA3paZEsT60UCq05MUqH
+	U1tH/4KtNXcrDqve2q3ZPnQ2pHDcltma5Q7Zh2cIK1C20kJpPK+1FVCC95tB6y3E
+	bfw1TgwakmD2Y78gwD3waZcTpd8v8CIg6773XKIA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42k6gt2uaq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Oct 2024 10:04:26 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49UA4PB7003903;
+	Wed, 30 Oct 2024 10:04:25 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42k6gt2uak-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Oct 2024 10:04:25 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49U7po0N018404;
+	Wed, 30 Oct 2024 10:04:24 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42hc8k7dsc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Oct 2024 10:04:24 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49UA4K8336438500
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Oct 2024 10:04:20 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AF22D20082;
+	Wed, 30 Oct 2024 10:04:20 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6C1A62007F;
+	Wed, 30 Oct 2024 10:04:20 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.60])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 30 Oct 2024 10:04:20 +0000 (GMT)
+Date: Wed, 30 Oct 2024 11:04:18 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Mario Casquero <mcasquer@redhat.com>
+Subject: Re: [PATCH v3 3/7] s390/physmem_info: query diag500(STORAGE LIMIT)
+ to support QEMU/KVM memory devices
+Message-ID: <20241030100418.6264-I-hca@linux.ibm.com>
+References: <20241025141453.1210600-1-david@redhat.com>
+ <20241025141453.1210600-4-david@redhat.com>
+ <20241030092324.6264-E-hca@linux.ibm.com>
+ <35fc960b-0013-4264-93d6-6511d54ab474@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] riscv: hwprobe: export bfloat16 ISA extension
-To: Inochi Amaoto <inochiama@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Evan Green <evan@rivosinc.com>,
- Charlie Jenkins <charlie@rivosinc.com>,
- Andrew Jones <ajones@ventanamicro.com>, Andy Chiu <andybnac@gmail.com>,
- Xiao Wang <xiao.w.wang@intel.com>, Samuel Holland <samuel.holland@sifive.com>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20241028071746.869740-1-inochiama@gmail.com>
- <20241028071746.869740-4-inochiama@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20241028071746.869740-4-inochiama@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <35fc960b-0013-4264-93d6-6511d54ab474@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: jMpsSJ9u4VEsnQ5qhNnomQE2ssfMG_fY
+X-Proofpoint-ORIG-GUID: qENfN970vDa7Liz-_CUTkjbzzRihWYNV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1015 phishscore=0 adultscore=0 spamscore=0 bulkscore=0
+ mlxlogscore=593 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410300076
 
-
-
-On 28/10/2024 08:17, Inochi Amaoto wrote:
-> Export Zfbmin, Zvfbfmin, Zvfbfwma ISA extension through hwprobe.
+On Wed, Oct 30, 2024 at 10:42:05AM +0100, David Hildenbrand wrote:
+> On 30.10.24 10:23, Heiko Carstens wrote:
+> > Looks like I couldn't convince you to implement a query subcode.
 > 
-> Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
-> ---
->  Documentation/arch/riscv/hwprobe.rst  | 12 ++++++++++++
->  arch/riscv/include/uapi/asm/hwprobe.h |  3 +++
->  2 files changed, 15 insertions(+)
+> Well, you convinced me that it might be useful, but after waiting on
+> feedback from the KVM folks ... which didn't happen I moved on. In the cover
+> letter I have "No query function for diag500 for now."
 > 
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> index 85b709257918..8c30dd06f3c0 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -239,6 +239,18 @@ The following keys are defined:
->         ratified in commit 98918c844281 ("Merge pull request #1217 from
->         riscv/zawrs") of riscv-isa-manual.
->  
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZFBFMIN`: The Zfbfmin extension is supported as
-> +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-> +       ("Added Chapter title to BF16").
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFMIN`: The Zvfbfmin extension is supported as
-> +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-> +       ("Added Chapter title to BF16").
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFWMA`: The Zvfbfwma extension is supported as
-> +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-> +       ("Added Chapter title to BF16").
-> +
->  * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
->       :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
->       mistakenly classified as a bitmask rather than a value.
-> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-> index 1e153cda57db..95d00a065b4e 100644
-> --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> @@ -72,6 +72,9 @@ struct riscv_hwprobe {
->  #define		RISCV_HWPROBE_EXT_ZCF		(1ULL << 46)
->  #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
->  #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
-> +#define		RISCV_HWPROBE_EXT_ZFBFMIN	(1ULL << 49)
-> +#define		RISCV_HWPROBE_EXT_ZVFBFMIN	(1ULL << 50)
-> +#define		RISCV_HWPROBE_EXT_ZVFBFWMA	(1ULL << 51)
+> My thinking was that if we go for a query subcode, maybe we'd start "anew"
+> with a new diag and use "0=query" like all similar instructions I am aware
+> of. And that is then a bigger rework ...
+> 
+> ... and I am not particularly interested in extra work without a clear
+> statement from KVM people what (a) if that work is required and; (b) what it
+> should look like.
 
-Hi Inochi,
-
-These should be added as well in sys_hwprobe.c (see hwprobe_isa_ext0()).
-
-Thanks,
-
-Clément
-
->  #define RISCV_HWPROBE_KEY_CPUPERF_0	5
->  #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
->  #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-
+Yes, it is all good. Let's just move on.
