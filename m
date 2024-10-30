@@ -1,147 +1,127 @@
-Received: from smtp-fw-9102.amazon.com (smtp-fw-9102.amazon.com [207.171.184.29])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D7B1EBA16;
-	Wed, 30 Oct 2024 13:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.184.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C841E411D;
+	Wed, 30 Oct 2024 13:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730296257; cv=none; b=gvnBWfKzQi+eLIdcqo9s4NBByUVdV3ByV2ACnpDdYioCSM7MnvTRpIGX3YO0KiEveJ7osD1MWEaQEsr0SjqxrxGPc3oJENgjdjhFkXkptFongOz7v2LZcWfA1x3J0fbRz/atVSJMQLWWo2+sxse/KDr82leSoL7xBbZbtzAnHV0=
+	t=1730296513; cv=none; b=YF29L3LzPXgGFy2qoz1D/XaCbGxtRFtfAs5WJFfawbt+xgWuDi0Uo1eFUgFed3zGhQkIFwY2axQiL/2PrNZOxtdCm0d42lCpeTDMI4/Gh1DQCsmD1r/evIdqQmG/ZMHvR0uhVdU+dT5K9B1JrmoVBx6cVlge7cC42tXXiFdgZjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730296257; c=relaxed/simple;
-	bh=KEwEpQdJY5TdUoDFmv47xM2UNsTBxRNoYKCsHyvBKq4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cnhmN4voorPQJgYaXcnc7dY8b+5zD0rcZsmBuSWi/STbg2rrNh0BRcMLJZurNWVev4FLFPs/shUCESWVFbsKmAzMq4215y/f01xNn7aRa5zlDPnil78JtRR9l6b5tpeU7H02YCTsUfzeiobyXtY6Xfw9WZG9Y55QT+M8lSRoj88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=SPp+p+il; arc=none smtp.client-ip=207.171.184.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1730296513; c=relaxed/simple;
+	bh=fLLxAizB9Y30p225SNqqFwWn/BalMkVtTpwZfeA+jYA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=nRcL4r6skc4ARUCmGrpye6A3qlFVZnUr2Dv7xEFN1faTwbyqm80NtpEQ8nmDWeB4Yw/mJqROGq677stOLKzZn2w4rryDl8mcfJMfb2O64oAzSiB6vXXg0mZttRMoQ9w0XxhJBXrjJ0I1OktQj2b5eMQdA+IC7OS/THz0ubFKr/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Fv1Sv6tB; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="SPp+p+il"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazon201209; t=1730296255; x=1761832255;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7/qXvSh0Hjany10m5XTRwJaHsD/IFz61ERHpnmidOYs=;
-  b=SPp+p+ilvd+Xn68IOkHSbIuDM5bwYkr2Y2T1VMzqcWbLulVRAc/WOE6R
-   bE3g0m5GjPlNiyQy/DScaEdNysG3zkcqBLubZD3eGl88jfs3XsQLN65mH
-   Ry4tfsrd0ALbamhOqnau8e471UZYvRYfqLu7hUHGTHBBamSK3t+p2tB9e
-   g=;
-X-IronPort-AV: E=Sophos;i="6.11,245,1725321600"; 
-   d="scan'208";a="465820264"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 13:50:54 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [10.0.21.151:12628]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.35.102:2525] with esmtp (Farcaster)
- id 00b2c9f1-27f5-4a01-ae54-6fda17405dbb; Wed, 30 Oct 2024 13:50:53 +0000 (UTC)
-X-Farcaster-Flow-ID: 00b2c9f1-27f5-4a01-ae54-6fda17405dbb
-Received: from EX19D020UWC002.ant.amazon.com (10.13.138.147) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 30 Oct 2024 13:50:46 +0000
-Received: from EX19MTAUEB002.ant.amazon.com (10.252.135.47) by
- EX19D020UWC002.ant.amazon.com (10.13.138.147) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 30 Oct 2024 13:50:45 +0000
-Received: from email-imr-corp-prod-pdx-all-2c-8a67eb17.us-west-2.amazon.com
- (10.43.8.2) by mail-relay.amazon.com (10.252.135.97) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1258.34 via Frontend Transport; Wed, 30 Oct 2024 13:50:45 +0000
-Received: from ua2d7e1a6107c5b.home (dev-dsk-roypat-1c-dbe2a224.eu-west-1.amazon.com [172.19.88.180])
-	by email-imr-corp-prod-pdx-all-2c-8a67eb17.us-west-2.amazon.com (Postfix) with ESMTPS id B5B724032D;
-	Wed, 30 Oct 2024 13:50:35 +0000 (UTC)
-From: Patrick Roy <roypat@amazon.co.uk>
-To: <tabba@google.com>, <quic_eberman@quicinc.com>, <david@redhat.com>,
-	<seanjc@google.com>, <pbonzini@redhat.com>, <jthoughton@google.com>,
-	<ackerleytng@google.com>, <vannapurve@google.com>, <rppt@kernel.org>
-CC: Patrick Roy <roypat@amazon.co.uk>, <graf@amazon.com>,
-	<jgowans@amazon.com>, <derekmn@amazon.com>, <kalyazin@amazon.com>,
-	<xmarcalx@amazon.com>, <linux-mm@kvack.org>, <corbet@lwn.net>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <chenhuacai@kernel.org>,
-	<kernel@xen0n.name>, <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <hca@linux.ibm.com>, <gor@linux.ibm.com>,
-	<agordeev@linux.ibm.com>, <borntraeger@linux.ibm.com>, <svens@linux.ibm.com>,
-	<gerald.schaefer@linux.ibm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-	<hpa@zytor.com>, <luto@kernel.org>, <peterz@infradead.org>,
-	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <shuah@kernel.org>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
-Subject: [RFC PATCH v3 6/6] kvm: selftests: run gmem tests with KVM_GMEM_NO_DIRECT_MAP set
-Date: Wed, 30 Oct 2024 13:49:10 +0000
-Message-ID: <20241030134912.515725-7-roypat@amazon.co.uk>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241030134912.515725-1-roypat@amazon.co.uk>
-References: <20241030134912.515725-1-roypat@amazon.co.uk>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Fv1Sv6tB"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F06511C0014;
+	Wed, 30 Oct 2024 13:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1730296503;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FBWSnrYbPYTXB3jgIun4x/rw7wXL/3v2QiOAW9tdHW4=;
+	b=Fv1Sv6tBcAoXr/iGLwaKDlbCt+E3cScSUIYKGeJkATS48LQ/+pmajW6MCUZUsvQKdZLuFH
+	02bsLDMTOb/jXel8pJsoASvlccMbbysRMdUr7KCoG6/rTkit3+j+EK91Ot8H1H41HY7glf
+	AmwzGdTQL39PucSWKgiDU21T0yfKVAugN+K3wSVQCg68HErSpYbFeLhRM26MLrRfw9+ps1
+	rFCyo7L27z5fIgJJL2MEUH4Rnx1xXu3NYREKoDyQbeevIPbRbfvpA27UhYQjkOUq3sDFoc
+	ZT5NVFBUGSWu8cC+nJeTGf2x+/krUJKjXUQll9ozGkQUWbHXVr+3rU6bfF8wvQ==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Wed, 30 Oct 2024 14:54:43 +0100
+Subject: [PATCH net-next v19 01/10] net: Make dev_get_hwtstamp_phylib
+ accessible
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
+Message-Id: <20241030-feature_ptp_netnext-v19-1-94f8aadc9d5c@bootlin.com>
+References: <20241030-feature_ptp_netnext-v19-0-94f8aadc9d5c@bootlin.com>
+In-Reply-To: <20241030-feature_ptp_netnext-v19-0-94f8aadc9d5c@bootlin.com>
+To: Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, 
+ Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
+ Simon Horman <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>, 
+ donald.hunter@gmail.com, danieller@nvidia.com, ecree.xilinx@gmail.com, 
+ Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Rahul Rameshbabu <rrameshbabu@nvidia.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ Shannon Nelson <shannon.nelson@amd.com>, 
+ Alexandra Winter <wintera@linux.ibm.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ Jacob Keller <jacob.e.keller@intel.com>
+X-Mailer: b4 0.14.1
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Also adjust test_create_guest_memfd_invalid, as now BIT(0) is a
-valid value for flags (note that this also fixes an issue where the loop
-in test_create_guest_memfd_invalid is a noop. I've posted that fix as a
-separate patch last week [1]).
+Make the dev_get_hwtstamp_phylib function accessible in prevision to use
+it from ethtool to read the hwtstamp current configuration.
 
-[1]: https://lore.kernel.org/kvm/20241024095956.3668818-1-roypat@amazon.co.uk/
-
-Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
- tools/testing/selftests/kvm/guest_memfd_test.c             | 2 +-
- .../selftests/kvm/x86_64/private_mem_conversions_test.c    | 7 ++++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/guest_memfd_test.c b/tools/testing/selftests/kvm/guest_memfd_test.c
-index ba0c8e9960358..d04f7ff3dfb15 100644
---- a/tools/testing/selftests/kvm/guest_memfd_test.c
-+++ b/tools/testing/selftests/kvm/guest_memfd_test.c
-@@ -134,7 +134,7 @@ static void test_create_guest_memfd_invalid(struct kvm_vm *vm)
- 			    size);
- 	}
+Change in v8:
+- New patch
+
+Change in v10:
+- Remove export symbol as ethtool can't be built as a module.
+- Move the declaration to net/core/dev.h instead of netdevice.h
+---
+ net/core/dev.h       | 2 ++
+ net/core/dev_ioctl.c | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/net/core/dev.h b/net/core/dev.h
+index 7881bced70a9..a1267cff715e 100644
+--- a/net/core/dev.h
++++ b/net/core/dev.h
+@@ -285,5 +285,7 @@ static inline void dev_xmit_recursion_dec(void)
+ int dev_set_hwtstamp_phylib(struct net_device *dev,
+ 			    struct kernel_hwtstamp_config *cfg,
+ 			    struct netlink_ext_ack *extack);
++int dev_get_hwtstamp_phylib(struct net_device *dev,
++			    struct kernel_hwtstamp_config *cfg);
  
--	for (flag = 0; flag; flag <<= 1) {
-+	for (flag = BIT(1); flag; flag <<= 1) {
- 		fd = __vm_create_guest_memfd(vm, page_size, flag);
- 		TEST_ASSERT(fd == -1 && errno == EINVAL,
- 			    "guest_memfd() with flag '0x%lx' should fail with EINVAL",
-diff --git a/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c b/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c
-index 82a8d88b5338e..dfc78781e93b8 100644
---- a/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c
-@@ -367,7 +367,7 @@ static void *__test_mem_conversions(void *__vcpu)
- }
- 
- static void test_mem_conversions(enum vm_mem_backing_src_type src_type, uint32_t nr_vcpus,
--				 uint32_t nr_memslots)
-+				 uint32_t nr_memslots, uint64_t gmem_flags)
+ #endif
+diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
+index 46d43b950471..67cf68817f23 100644
+--- a/net/core/dev_ioctl.c
++++ b/net/core/dev_ioctl.c
+@@ -266,8 +266,8 @@ static int dev_eth_ioctl(struct net_device *dev,
+  * -EOPNOTSUPP for phylib for now, which is still more accurate than letting
+  * the netdev handle the GET request.
+  */
+-static int dev_get_hwtstamp_phylib(struct net_device *dev,
+-				   struct kernel_hwtstamp_config *cfg)
++int dev_get_hwtstamp_phylib(struct net_device *dev,
++			    struct kernel_hwtstamp_config *cfg)
  {
- 	/*
- 	 * Allocate enough memory so that each vCPU's chunk of memory can be
-@@ -394,7 +394,7 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type, uint32_t
- 
- 	vm_enable_cap(vm, KVM_CAP_EXIT_HYPERCALL, (1 << KVM_HC_MAP_GPA_RANGE));
- 
--	memfd = vm_create_guest_memfd(vm, memfd_size, 0);
-+	memfd = vm_create_guest_memfd(vm, memfd_size, gmem_flags);
- 
- 	for (i = 0; i < nr_memslots; i++)
- 		vm_mem_add(vm, src_type, BASE_DATA_GPA + slot_size * i,
-@@ -477,7 +477,8 @@ int main(int argc, char *argv[])
- 		}
- 	}
- 
--	test_mem_conversions(src_type, nr_vcpus, nr_memslots);
-+	test_mem_conversions(src_type, nr_vcpus, nr_memslots, 0);
-+	test_mem_conversions(src_type, nr_vcpus, nr_memslots, KVM_GMEM_NO_DIRECT_MAP);
- 
- 	return 0;
- }
+ 	if (phy_is_default_hwtstamp(dev->phydev))
+ 		return phy_hwtstamp_get(dev->phydev, cfg);
+
 -- 
-2.47.0
+2.34.1
 
