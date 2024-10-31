@@ -1,161 +1,236 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2081.outbound.protection.outlook.com [40.107.101.81])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177491C6B8;
-	Thu, 31 Oct 2024 13:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730381431; cv=fail; b=drAwFbF9ZezZ4DmWOeYPZ0EH5KhsI8wV+8RVmjpqw6aJnQXKUzToISin320o8irWnHlrlKRuDe9Q2Ujl2PAIGD8Adsdd6LjO2YA5gnsAlWF3amx2383s3q7JAhZh39kkh6vW/z8/LgCCPnbIgsCNLfYOTMRf/DmynGmS70sDCTs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730381431; c=relaxed/simple;
-	bh=K9oKbElIz4JRbjg9u/+qVy26nn+RtoQY37Ey09FDfWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=k+OJG0Ye3rnujjLTTYDVa7mRHPtK4NnctPx0l4rIRBKyl3Dqqbjy+0pEZ2/ocLKy8MEwLNVxD7rcVST7eo8cRpZCw7txHy+XQxe3noxsL42bb04OOE6yuUxjm88JNlTu2vPxTFhs/P3nza6K+AuvmWLqm583zw6VxWhk//MZe5Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eHbysi8e; arc=fail smtp.client-ip=40.107.101.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F9C14901B
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 13:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730381646; cv=none; b=jiJIzGUDps+ZBOYI4SPk9U1GawN7ErMZqlJypmCMiDvchWXyBYxWAuE0IKuQgiWvfbXSm0rl4rLUoLzBPOi1KHl1QpH2n0oycF83SgsX3ANcfNu2ur3L3EOv/f/nvNPECi1VEkcRV8kb6b8PFL+Pc+F/YO3/PAEjB6Fm+VBOXUI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730381646; c=relaxed/simple;
+	bh=lHlVuwc9yKhhTdvAgJ7M5o7k87Io2woWjcJIqYmQghg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bkEdYRUhCTDJpv4LrnUy428oSV0xEQfnV17AwmG2eEb3LgaSrOo5Sb+ytlIuUPtNkHp/2iHze2LfwnL47juYHGrSWUvzT+UtjcZej/GEn6IhaAipMkicRfdPreOXryaz3FyKhVybZ1UUWxIRmcI7t9wS4wsVryHosOfJSisdAjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DJKN8wop; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eHbysi8e"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eELcUy9CK4xXpoCeq2baioeR/CVyAN17LKRj4IgEUvnBpCv4xPRe//FoZnb5LRPPPeevKQ1cEsfrTWxJoTtpRuW2TjAsYHr8kTMpQBbcznbVw7v2VvLRxXGUOsrO6NKeT5KwT4NXAtnBc6A/LbSUZMyLcQo5rCVELwDfDLRbdteQ8/f6ZvaZN6j24+14pWw3SQKKyAAxt5yc7B5cCSyC+e10VyHIsXzuQhMgWFctodVLBsBERjo6wuInjUKey7kd5qZwzQmbFRonUpDhNvq9z7gGAVFY0HGKjPeVigg6cAxMwMANG+yj2qYVSKdFNBxXHeZnCI0uSUaQ4tuhnEGsPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yqga48FKvh/DMeFTPpXC68qiiqT79WO3X3I1louPmAc=;
- b=qIlyhWtRsVEz7noa6s5PCvOFl7rOEzht3rPvLrOR5AreLhnAMKX9dh1MNovE1J8JkXteDrBOke8mzsucum3AenGEwYPEU1JRuPsT0lk7PJ5aOK/KyTAhQBnLxWrY5OTyzw0vVOw3hY4AZPq8Vt5UXIkYSTHub02+F7YEMNZHTes0MB4sZdLPw+pcLHfD4FYbePcdanypd2B9FIxR4dX+yKZJkncYKfZrNgwvOuvoigDu9XaEc9rEvCEIh2omXpTEATkr7GTfiGnMjuZXHNxiDRopxxedhEQ3MV8+cKWZ2fql+AmTbWPRAQMS8n05nhqXxxZ5jKc4rzBKAt2bI8Rcuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yqga48FKvh/DMeFTPpXC68qiiqT79WO3X3I1louPmAc=;
- b=eHbysi8exKjUUyvjDyuf61MseSmW4Dxitx9C183SRzZRvNg1TeMNA7xUYLYXq324O1XRqn64yccqRFh5hCtcStFYVxkBC5v8g+P+TBOjigkaCM99F5oPz3hcm7YVgAxX59Po7t9gqTeWZzUzfA3Y06L3CcyMxR+2bNrA/Kts8tTUNujhQj2UJXWsSG6ZaIPBja4XxiKQ4TIorMl5kX8eHJH8cPOhnPbs2eM5kVOzUNDbz3ycwUibMlSefGOeEOx03k0TieSxesLlcUtd2+DuE88/bpBOJ1QEOySgF1X85wBhAMjj3REsVrYZSKU/yhxCg47+11Bh6ifrKPlAdEuAzA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by MW4PR12MB6828.namprd12.prod.outlook.com (2603:10b6:303:209::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.23; Thu, 31 Oct
- 2024 13:30:26 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8093.018; Thu, 31 Oct 2024
- 13:30:26 +0000
-Date: Thu, 31 Oct 2024 10:30:24 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: kevin.tian@intel.com, corbet@lwn.net, joro@8bytes.org,
-	suravee.suthikulpanit@amd.com, will@kernel.org,
-	robin.murphy@arm.com, dwmw2@infradead.org, shuah@kernel.org,
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	baolu.lu@linux.intel.com, eric.auger@redhat.com,
-	jean-philippe@linaro.org, mdf@kernel.org, mshavit@google.com,
-	shameerali.kolothum.thodi@huawei.com, smostafa@google.com,
-	yi.l.liu@intel.com, aik@amd.com, zhangfei.gao@linaro.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v6 06/10] iommufd/viommu: Add iommufd_viommu_find_dev
- helper
-Message-ID: <20241031133024.GM10193@nvidia.com>
-References: <cover.1730313494.git.nicolinc@nvidia.com>
- <3f0240cf9f2169750d929ecbc8cc658ed5bc3734.1730313494.git.nicolinc@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3f0240cf9f2169750d929ecbc8cc658ed5bc3734.1730313494.git.nicolinc@nvidia.com>
-X-ClientProxiedBy: BN0PR04CA0038.namprd04.prod.outlook.com
- (2603:10b6:408:e8::13) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DJKN8wop"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730381642;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=DfVritWC7IRKAQiQlgAVdrxgfoMbtuoscnWLde6VVP4=;
+	b=DJKN8wop+nTzNsNO5fzCuCC2+r2JiOKgrxiQfDmF2d6Wkp9XHWIv60uY+3I4nXXWfhuO6K
+	yJc2NNe6JWeBTIYc3hrzieud/f8cxy1UEfETvH3kc7zq+JQiS6vikNpjX0VHeQc4WPB9Ip
+	FoK/2Y8fzrdODol9Afp10TlaNbYb2kw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-688-7rX_kuXxMMmB2e4MiOW1jQ-1; Thu, 31 Oct 2024 09:34:00 -0400
+X-MC-Unique: 7rX_kuXxMMmB2e4MiOW1jQ-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43163a40ee0so6600065e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 06:34:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730381639; x=1730986439;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DfVritWC7IRKAQiQlgAVdrxgfoMbtuoscnWLde6VVP4=;
+        b=Z6DdViuULoiMoelQA/XAzVwgC6J6ODgADvh0DGjg3h1or4L3zFwbgfFE5gZtyKm5dr
+         Y4Z2cHUDg05K7lMJidDYIknqpMzugcu87GHwDPqF7N/5XOACB7nwmzz3SZGkpoeQZ41p
+         ooQNWJ6yJV8ghR5cychbR7aZgJcZk9Q2SDi3P3fOQh+dhgk/VOfkKxsM5G13dJZMeIsl
+         OK1HrRFyrDV0rcVpQZ1KrPdJRVVkCL41Xhgp7zBi4VxFykRU042NFcyXmOF4MV1oC/Jc
+         4029+WA4iE3Qu1njPBN7TFL6MTV0NxENzVncVeh3kAOR1RCkHA1q4B7dIS+tIEp96Sag
+         xljQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXQALb9IAsvZIQgJNzTPe74Ju/qq8Hf9Ihdwe6NMAINAqzig26tc8CAYI55qrY5A25xWK9Iuy+430E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNjVn1oIs2IYDvPl6TMNsq3MOpQbf6zR48mb3dmMmtWiSIyZHv
+	VU7NbInwzUw5W5cbiSI0vtEi35HKVXy5t8Di9PT5dC8uXW1wEGHppBji9EaIMzMRGD/cgy4mDjr
+	xyXOyl/+VLpyYAd7cn5lM+wZ5Ua+bidyTtX3SQz/Ixag02pmJZeDtOF1K4Q==
+X-Received: by 2002:a05:600c:1c01:b0:431:12a8:7f1a with SMTP id 5b1f17b1804b1-4319acadc13mr189865935e9.16.1730381639142;
+        Thu, 31 Oct 2024 06:33:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF+gPPe3ew7+y1OLC57nwOwBccPCqhXN51sYPcz2OwDjQcaOxZQW4t1gXnP/zgP1MKCnzV/dg==
+X-Received: by 2002:a05:600c:1c01:b0:431:12a8:7f1a with SMTP id 5b1f17b1804b1-4319acadc13mr189865755e9.16.1730381638730;
+        Thu, 31 Oct 2024 06:33:58 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe? (p200300cbc70aed007ddf1ea94f7a91fe.dip0.t-ipconnect.de. [2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd947c26sm57601345e9.26.2024.10.31.06.33.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Oct 2024 06:33:56 -0700 (PDT)
+Message-ID: <5745d2ca-4d87-4d1f-b38f-734c7086f462@redhat.com>
+Date: Thu, 31 Oct 2024 14:33:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MW4PR12MB6828:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca9bd530-bf91-4cda-d08e-08dcf9b02dd1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?4s2ao0bKZoU8EYrEyS7+sr1FCbf6EfdOSW3wIpeKOa0wgRLNlk9plW7DxqfJ?=
- =?us-ascii?Q?K8t86Bm8bv59Wep5Wrh+epmIGky3y2ozT5f7vYRWdt+9GorgIuNBL71gizPa?=
- =?us-ascii?Q?fbOKhXE10hmBDp5XK2RH3vQq75o4NNI7PmhLU0jg0upeaIc2VSmkMFfVdu+g?=
- =?us-ascii?Q?7sJa1U9XtHFsq1PKA8aLa7p5+0PDtplHnBDeJ75+p6/1Xf+f8Z+JaT1aLFAr?=
- =?us-ascii?Q?35AAv+oyy3thoMnpcHh2FQNPG8HpcO5GN8LfJB9V8Yc7HLTdaNW8i4vP/ejI?=
- =?us-ascii?Q?LeFQY7bIjZbqqojAS3DA+aDKn7iVEiT/KcQpMWgGp22kkGOjB3JKXpBoHVDY?=
- =?us-ascii?Q?tqfZnkqhVx/j8ujnR+I0nGSJv2lZU68MdiFteb8sl0FQ4NWNUGKZzon5s+8N?=
- =?us-ascii?Q?ppI/U3kz+sBD2Oun9yNWLBNDMyrzodOaEyz1dMwuQ5AvGcif4qAboFakd4MC?=
- =?us-ascii?Q?OdVAqnD57CHXQb6MS2innP4rzqvk1wMYnwulPqwMxJ0ImYRi/FHcj4m7zAeD?=
- =?us-ascii?Q?xZQnuwEcJDRazEuOqO1BbOg0SeX3hBz+bJ4plU7tTrJ++Q81ECbpwrAYvnLw?=
- =?us-ascii?Q?OJC+RF70+XSISsWGLfaSbnwD/nfLvweY//hnS2i8SyFW4moNXgLLOu0xqrXV?=
- =?us-ascii?Q?LO+UTeBB/tYBohk0uCwq5WAX+HinQwzbWGxDesjFcObVhrN+RqQnt9IsLtqe?=
- =?us-ascii?Q?5NC9qMhlLbVZK5pXnAD4PxQmkFh6g2kBlWFVLXIbrtEKA5rNxkyoCJI7e69L?=
- =?us-ascii?Q?FA2zwsyr8bVZAy2hMWQx4RkKIPET/2dMp/wFnjD5vQ1piaKOhrKgoCV6uKon?=
- =?us-ascii?Q?E75pfs6tkGDn8N8yKaX1PxKns6cZzl2fSyHo+cgtnGghk6hrborIw2IRbi6x?=
- =?us-ascii?Q?avLYWcSXY7O21g+0rY3LeD4nt1buVESSQbiKU+pwOXVOQtBjLoHLtlqoCctX?=
- =?us-ascii?Q?ckz55eISy3pYn0u4NyZxiEw/6hKKGg4q9L1nfcFntL8ysZxsKBfD8uwrKmL+?=
- =?us-ascii?Q?uOZCVPfj1GaegGASTCY2lzTdYwRZ6IvgwcfNpwicpBdIpStfJuIwMgpRiTxd?=
- =?us-ascii?Q?rJnO2F2s+n5Ns5RoSq8ck5Ky94ITjxrb/DRhrJfmwRopoDKi8Iio7zYBgkAy?=
- =?us-ascii?Q?LKaTasUg6ZEkeuTjfi1KfKUDwoIw0orfgjAzfNItyZWipUmGT7ncxRxwYull?=
- =?us-ascii?Q?hW45ABkbvZraHZkbt+AiZ96bN1XhXdPc/+GDB414cNK3lnLjNFtc6x0pe/bM?=
- =?us-ascii?Q?NWSrA1JsKSxAFZc86n2w6Lh2fku1T57fyglKL4mgdu9qMktYB5GneQxxH3ob?=
- =?us-ascii?Q?CFCd5jug8cmn73eGClhh+M7f?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Sp6ktlDhWN1uG9zyaHPvqxMOSLRHOUl6YuC+9hWy/2LqhyuxkEVsQrZBkDtu?=
- =?us-ascii?Q?sShcOAQaLGffOLWwSovlxQqRkjo/gY+42sfHUcCdJ1r9QLbf1IA4Kl30bh6V?=
- =?us-ascii?Q?HC8I5ZV8Snew83oGJklZPqxXuhdnXUubCASfLvvaf+fyJLRksd4mwJNd0/7k?=
- =?us-ascii?Q?IPsLqIiG7WQ7/EcZeEvxiKQNHwevRClCPXYg0UCFo4MkvNVRuoQsggR8zQJv?=
- =?us-ascii?Q?zx/7PbXZfLf5XTk4wdcVNC9VglpmxT2qvTPrYFrnoM2gS+rmwVFy/LagHf9d?=
- =?us-ascii?Q?PaACa6ekv0nhtoRDYluauRwnQrxzT6RzIaW0qyrlHN/BJPKswEz4fqsB2Ac4?=
- =?us-ascii?Q?XFM2mmd9YMWb6oDvGgZ8nWwHIGZmpyC2LReQsoftq7bHgEDlI47OXWEaJjbs?=
- =?us-ascii?Q?7aTF6cxjVOs2EfacxhFoPAxtIzCATltPwv9iA5hJuylt/jh7yx2THGmB7/tQ?=
- =?us-ascii?Q?AEM+F4s12pCo0uz73GBoSa3az9WZeOz/69AvSdQM1Pc3UXkRVZ1BKFopfr9s?=
- =?us-ascii?Q?OaGF6Phynax/Ngm585TGR9D8R5m2Vv316otfVr8lwIptxg3fUCji+9OYIGxi?=
- =?us-ascii?Q?vIOvHURcHL3uHufbHbOpOHlRIyadepGP58fYOrum7IiyK4H0/yvQjQEEvX99?=
- =?us-ascii?Q?+VhanV0vOei5vclZZS/nh4GyXNatxPZiqnZrd9vjz5ZXio7SjjGnQN7r6O0C?=
- =?us-ascii?Q?aOAvRuf99HDionuP3bTaMeSHdsyf2lLu8auA67tLH1NRYuQsIRfZeNO/v3OS?=
- =?us-ascii?Q?I1JTy4oDziuAuYXCFjov9TZtc0d2ugH22dPMWi3vZhk+rupvtgJSVcqhQthy?=
- =?us-ascii?Q?8RRJ8BQYrNJWrOtORDGGRqny3J/vumpU13qBgfon3QnPDhV0g4EA4tKsFuNK?=
- =?us-ascii?Q?RomZiCRwH9yHM8p5MYlVumeGiM6hz9NPJWgZAKFQhs06KxcsRzG94nRPQAwK?=
- =?us-ascii?Q?YtVdxAJTf4L30odUEyI9sSH7M7k+JEgrZW2+caZAIuL0DyLBfwpx/XieROwA?=
- =?us-ascii?Q?fbKeKvUGo7X4B/JP87+dpI0HtnOPLGAX/EQOeEHilMo3beGS8oSJ2+sB0DXM?=
- =?us-ascii?Q?okYRgmx9/pjrMFwsTkoreh8F9q2wyvIsXzM1DTPA07DM4kybitiG+NUY/s6d?=
- =?us-ascii?Q?Y2S3FoSQjWJkCwt3rvI/atTto+Ev9+sjJDSvKXlj4A62bJm9hWwrUf5IEfqJ?=
- =?us-ascii?Q?lyBX2KJ1EsXRhl8McgsREBpLi0DCxFLNUv5+g5vzfWBaYwTSNdNn2HlLV1Ul?=
- =?us-ascii?Q?vn/2Hsy97FTx2Ie+tXk/kv1PK36+AZoMUWcpkVk7qvNdEQrh5j3pAoTF0O6q?=
- =?us-ascii?Q?kiUyz3KM3ZuSOlnVXWzX3Srhr5hLmoFtH2+3iZaD0/5klrnlKJQJhOHC07Tu?=
- =?us-ascii?Q?GChCEiRPbIkq05SF6Jkr4TAhyXG77GTf8Mms365kgai5MgDcq0R7yQSr0WRl?=
- =?us-ascii?Q?KV2zCCZQeTMn5Vl8RiBfMC/azZqGAzj+ngGvs6lrZAXAHHWrYvjXfMRYKPYT?=
- =?us-ascii?Q?FPUjI7vlXGqjqYGJAkEpPdNAYBd5vaODa43mi6oDuWiq0zLonKOnOjFaMr8N?=
- =?us-ascii?Q?GV3MBVgrbz/f6R46H7M=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca9bd530-bf91-4cda-d08e-08dcf9b02dd1
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 13:30:25.9679
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d6xSfNUDqumCOcgXTFwmLmuHpVIqUPTNwZu3waNRgsuUNt62Q2WZDgHS4/31kXIi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6828
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] mm: shmem: override mTHP shmem default with a
+ kernel parameter
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>,
+ Ryan Roberts <ryan.roberts@arm.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+References: <20241030130308.1066299-1-mcanal@igalia.com>
+ <20241030130308.1066299-4-mcanal@igalia.com>
+ <2c507326-3267-431e-936a-23e2ab6a3baf@redhat.com>
+ <899284fa-953f-48a1-af29-222d0d55881c@igalia.com>
+ <cfcfaed5-8612-46f4-b3dd-67e1d81d049f@redhat.com>
+ <95c48a30-0696-4110-950e-e81afb4ffc2a@igalia.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <95c48a30-0696-4110-950e-e81afb4ffc2a@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 30, 2024 at 02:35:32PM -0700, Nicolin Chen wrote:
-> This avoids a bigger trouble of exposing struct iommufd_device and struct
-> iommufd_vdevice in the public header.
+On 31.10.24 14:24, Maíra Canal wrote:
+> Hi David,
 > 
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
->  include/linux/iommufd.h        |  8 ++++++++
->  drivers/iommu/iommufd/driver.c | 13 +++++++++++++
->  2 files changed, 21 insertions(+)
+> On 31/10/24 09:57, David Hildenbrand wrote:
+>> On 31.10.24 13:51, Maíra Canal wrote:
+>>> Hi David,
+>>>
+>>> On 31/10/24 09:37, David Hildenbrand wrote:
+>>>> On 30.10.24 13:58, Maíra Canal wrote:
+>>>>> Add the ``thp_shmem=`` kernel command line to allow specifying the
+>>>>> default policy of each supported shmem hugepage size. The kernel
+>>>>> parameter
+>>>>> accepts the following format:
+>>>>>
+>>>>> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-
+>>>>> <size>[KMG]:<policy>
+>>>>>
+>>>>> For example,
+>>>>>
+>>>>> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
+>>>>>
+>>>>> By configuring the default policy of several shmem hugepages, the user
+>>>>> can take advantage of mTHP before it's been configured through sysfs.
+>>>>>
+>>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>>>> ---
+>>>>>     .../admin-guide/kernel-parameters.txt         |  10 ++
+>>>>>     Documentation/admin-guide/mm/transhuge.rst    |  17 +++
+>>>>>     mm/shmem.c                                    | 109 +++++++++++++
+>>>>> ++++-
+>>>>>     3 files changed, 135 insertions(+), 1 deletion(-)
+>>>>>
+>>>
+>>> [...]
+>>>
+>>>>> diff --git a/mm/shmem.c b/mm/shmem.c
+>>>>> index dfcc88ec6e34..c2299fa0b345 100644
+>>>>> --- a/mm/shmem.c
+>>>>> +++ b/mm/shmem.c
+>>>>> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_always
+>>>>> __read_mostly;
+>>>>>     static unsigned long huge_shmem_orders_madvise __read_mostly;
+>>>>>     static unsigned long huge_shmem_orders_inherit __read_mostly;
+>>>>>     static unsigned long huge_shmem_orders_within_size __read_mostly;
+>>>>> +static bool shmem_orders_configured __initdata;
+>>>>>     #endif
+>>>>>     #ifdef CONFIG_TMPFS
+>>>>> @@ -5027,7 +5028,8 @@ void __init shmem_init(void)
+>>>>>          * Default to setting PMD-sized THP to inherit the global
+>>>>> setting and
+>>>>>          * disable all other multi-size THPs.
+>>>>>          */
+>>>>> -    huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
+>>>>> +    if (!shmem_orders_configured)
+>>>>> +        huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
+>>>>>     #endif
+>>>>>         return;
+>>>>> @@ -5180,6 +5182,26 @@ struct kobj_attribute
+>>>>> thpsize_shmem_enabled_attr =
+>>>>>     #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
+>>>>> +static inline int get_order_from_str(const char *size_str)
+>>>>> +{
+>>>>> +    unsigned long size;
+>>>>> +    char *endptr;
+>>>>> +    int order;
+>>>>> +
+>>>>> +    size = memparse(size_str, &endptr);
+>>>>> +
+>>>>> +    if (!is_power_of_2(size))
+>>>>> +        goto err;
+>>>>> +    order = get_order(size);
+>>>>> +    if (BIT(order) & ~THP_ORDERS_ALL_FILE_DEFAULT)
+>>>>> +        goto err;
+>>>>> +
+>>>>> +    return order;
+>>>>> +err:
+>>>>> +    pr_err("invalid size %s in thp_shmem boot parameter\n", size_str);
+>>>>> +    return -EINVAL;
+>>>>> +}
+>>>>
+>>>> Hm, mostly copy and paste. You could reuse existing get_order_from_str()
+>>>> simply by passing in the supported orders and moving error reporting to
+>>>> the caller.
+>>>>
+>>>
+>>> Can I use functions from mm/huge_memory.c here?
+>>
+>> Yes, that's the idea.
+>>
+> 
+> Unfortunately, it isn't possible without adding the function to a
+> header.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Well ... sure, what's the problem with that?
 
-Jason
+-- 
+Cheers,
+
+David / dhildenb
+
