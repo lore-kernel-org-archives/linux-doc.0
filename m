@@ -1,231 +1,127 @@
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C2E13AD32;
-	Thu, 31 Oct 2024 22:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9401E481;
+	Thu, 31 Oct 2024 22:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730412984; cv=none; b=KPMiISdcaEYikwrSholMjBi8qvJVHkXT5nFaLdoDVqKqj1RX/6ok7kLJz626d4qNHEw2wABerBTm+GiXysngmEopuIm1/mQyL9LgtvisjqUWj6hwnNAIP6gDUs5YAn9d1Q8HNVo0P8B8vf8z5Cps8p1SysKvO1KNmnwPcZrdPvE=
+	t=1730414252; cv=none; b=UlGniP3YfQQvO4yUK+P2OZJ3vxah5vEX3Um7JXtnRA7LC/CRP6rZwNWCjpCj66Ov1jzi+5ca7kCm2uSXhRauLNUguPBOzfGKbasbo9WtfyPsoNrY24EHufvQaRnjeSxMAnuJZV0iERPKCqud7DIS7t8bOCU0Z9ebJS7nBVrfnEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730412984; c=relaxed/simple;
-	bh=xGj6SyYTGlSmaOCg9dZ12pTsR/xuCvN9gVBYeO7XoxY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k4AlNe/8PiFJNBL28qxrRl1QNYMW8b+G9R1ABHVtlllzSDJUMlGKVNLGd91Qsqy5a46T0qynjYzi+5+6ubwpYZ1O5ny5LYU5Fo+K+s8OMH+Q/vF9vkAw2yLAa5i4WmXObKXQxEzHWSMR3tCOKcy7A+6xEACTF8E5dENbz+dwvm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OqMLNFGa; arc=none smtp.client-ip=209.85.222.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730414252; c=relaxed/simple;
+	bh=HfxuReQImXwvhpLuPipg5vqXGCC5//yJ2cqMYklD4uE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Gmnv/QYNOADNVUbuqsixXtstrubkTCTM/Ts8e6jZWijmrpMBEF7+H8lLFd8NSsUWPuKpmOhHOPDnXQnWNxM3X034TLpyrFwzDU2woyA/3ggE4XAdfYLLL7FCsT7nFtteEorWHrYYN9wshWAZ7NRYgflzt2wozaA9fGpQ1pt42QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HkpDpmu7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqMLNFGa"
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-84fcb020503so632264241.0;
-        Thu, 31 Oct 2024 15:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730412976; x=1731017776; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=At8ovDf+5lHEpcARWPf57j7UUROFTNc1zmMWeWGQGKU=;
-        b=OqMLNFGaKLGZAvCgQ9F7d/H9bEhrZYVVN1EyIIrBGDTy0L5RnLXU4P7bIY4XcZHgMR
-         zNZQEP0zwgeFHPlUvI0s8kYMn957jJpJlLO6CJCodZbxbpIGprVp7VlrJTjTMNWWsHyz
-         ogAUXuDKsPA22jnDhCx1LO0V8gljSE+0ZTeBMZVtwi1zm1vdt6bWk/bkkrbGNoP+191v
-         J4HDU/A5Q4C1PBoXNHIzqKkv4tIH2UdPNBOrnTHS07F6ldOgkYwVwU0BrCSlZDjIhjtl
-         yCFRvBA7YiZQPEHaK22XsSbzPjLneAhvmn44H+dcRKKZSlDs6ewYZ4qwcEwotOjqvn92
-         Ieiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730412976; x=1731017776;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=At8ovDf+5lHEpcARWPf57j7UUROFTNc1zmMWeWGQGKU=;
-        b=UauYDuYWDqJtMtIPfxQwaKr32GkvA0jy67ubGtIxc85nJ3DHkjMfw5NII3hoFDKnJ+
-         1wJzjLIWKLya+0h9m9cys8q6hBOEEiLyxErlv/MEh9wQgVAXvQHeJg9Zo85Mcq1/QeEi
-         7F8M9VMFSr4bk7tq+9rTDN7KFdrp7UopsAhkhWcgVdDLdMY8pv9zJ36KwyiPPITEWVRE
-         SUlHL35xQsTP4waPyCDCrMQ1BifbVSA+FmnaUCnIs9Nb3FFT1n2GzU33HlHoA5k/fWuO
-         DUbQv2ScWV/BnsDwiWMoDJAUatkC1I1oRrTS6crm41OgbYELpTEM0x6/MuATETmH68ch
-         r4mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVghEUMucnzzUT+L+wc5JIaOl5J0GSbHqfsKDGNrYQVUTkH6EwAcTuFU1IHMHXa/KIPC+OY6mLIwKg=@vger.kernel.org, AJvYcCXEsoS3EvKSaDB4vHNiv60UQX840Sf8a4PBjqR8PujNyn4pkfj38lf2Y5IsMZWdZVdNyo5y/efIZZPXsJ3w@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMDiw4wvFFybg3VBi0QICuHp4bxdmexHWGVhVdsRnEfx4Dk1pV
-	4VMyqCMWPc+1U4ZBWP3dkz9/3b3Mv8UpogndeV9p6zwDcJdoz8T3DZ5BYEil+028NCqfe9CbD2r
-	BqxxmeKVcgeHwiNPZmtzsY0t8VNs=
-X-Google-Smtp-Source: AGHT+IF5s362VZFuoEzcTPgJzHq2ZjpzoixUU5YIbWzRRZOjmbUvgPZkiYW1zW66g2j1XaM34aY6EiLzimNFpcj7x/8=
-X-Received: by 2002:a05:6102:14a1:b0:4a4:77c7:9471 with SMTP id
- ada2fe7eead31-4a961b0577amr2292088137.5.1730412976254; Thu, 31 Oct 2024
- 15:16:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HkpDpmu7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37DBCC4CEC3;
+	Thu, 31 Oct 2024 22:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730414251;
+	bh=HfxuReQImXwvhpLuPipg5vqXGCC5//yJ2cqMYklD4uE=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=HkpDpmu7UAbaJtrXnkkFcec2474fvBoqy1ujDdyxLJNxpkcAbhiAXS1i+Za5t54bZ
+	 GVwE5D/p4jdo5We7G5n3MMQRMeZt1O4PwIEk3Q8dSYOvRJp80k8RjogGFcur/qZ9A4
+	 65A4DQPqRNeJPryDCd7dZX/z2M2Qj8ilUSZb90Qw15sK2bj1m9OGio2DHx9qbloBzI
+	 03SnuZRNrUzggGH9xeKrEfxS8fiBmLPxUjVP6p1J98HwOansT2wUsTL+V9wzx6AmkH
+	 IK4e9kIEtrcKNkxVSuQU1G4u+Vdbl9KNU2pocO2pR1bDSBN1vVB/WbCKXWURZsDZGW
+	 fsY12541kUjOQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241030130308.1066299-1-mcanal@igalia.com> <20241030130308.1066299-4-mcanal@igalia.com>
- <2c507326-3267-431e-936a-23e2ab6a3baf@redhat.com> <899284fa-953f-48a1-af29-222d0d55881c@igalia.com>
- <cfcfaed5-8612-46f4-b3dd-67e1d81d049f@redhat.com> <95c48a30-0696-4110-950e-e81afb4ffc2a@igalia.com>
- <5745d2ca-4d87-4d1f-b38f-734c7086f462@redhat.com> <d65176f1-df6f-4e21-b281-469ec958f26f@igalia.com>
- <CAGsJ_4zObE7hsFangzmKK0c6wZ7xZS3fCEYdx5W6HkAHqcP20g@mail.gmail.com> <ec69b1ee-89f4-47d2-a223-f277b7aad76b@redhat.com>
-In-Reply-To: <ec69b1ee-89f4-47d2-a223-f277b7aad76b@redhat.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Fri, 1 Nov 2024 11:16:05 +1300
-Message-ID: <CAGsJ_4wMZbRAYDzu9QVZDeu2WS9zfLH4r9yVqXHu2UsZiG0RKQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] mm: shmem: override mTHP shmem default with a
- kernel parameter
-To: David Hildenbrand <david@redhat.com>
-Cc: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 01 Nov 2024 00:37:27 +0200
+Message-Id: <D5ACNMVX5LXB.1L0S9P2J3UDJH@kernel.org>
+Cc: <dpsmith@apertussolutions.com>, <mingo@redhat.com>, <bp@alien8.de>,
+ <hpa@zytor.com>, <dave.hansen@linux.intel.com>, <ardb@kernel.org>,
+ <mjg59@srcf.ucam.org>, <James.Bottomley@hansenpartnership.com>,
+ <peterhuewe@gmx.de>, <jgg@ziepe.ca>, <luto@amacapital.net>,
+ <nivedita@alum.mit.edu>, <herbert@gondor.apana.org.au>,
+ <davem@davemloft.net>, <corbet@lwn.net>, <ebiederm@xmission.com>,
+ <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v11 00/20] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Thomas Gleixner" <tglx@linutronix.de>, "Ross Philipson"
+ <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
+ <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+ <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
+ <iommu@lists.linux-foundation.org>
+X-Mailer: aerc 0.18.2
+References: <20240913200517.3085794-1-ross.philipson@oracle.com>
+ <87wmhoulb9.ffs@tglx>
+In-Reply-To: <87wmhoulb9.ffs@tglx>
 
-On Fri, Nov 1, 2024 at 10:39=E2=80=AFAM David Hildenbrand <david@redhat.com=
-> wrote:
->
-> On 31.10.24 22:12, Barry Song wrote:
-> > On Fri, Nov 1, 2024 at 3:20=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igalia.=
-com> wrote:
-> >>
-> >> On 31/10/24 10:33, David Hildenbrand wrote:
-> >>> On 31.10.24 14:24, Ma=C3=ADra Canal wrote:
-> >>>> Hi David,
-> >>>>
-> >>>> On 31/10/24 09:57, David Hildenbrand wrote:
-> >>>>> On 31.10.24 13:51, Ma=C3=ADra Canal wrote:
-> >>>>>> Hi David,
-> >>>>>>
-> >>>>>> On 31/10/24 09:37, David Hildenbrand wrote:
-> >>>>>>> On 30.10.24 13:58, Ma=C3=ADra Canal wrote:
-> >>>>>>>> Add the ``thp_shmem=3D`` kernel command line to allow specifying=
- the
-> >>>>>>>> default policy of each supported shmem hugepage size. The kernel
-> >>>>>>>> parameter
-> >>>>>>>> accepts the following format:
-> >>>>>>>>
-> >>>>>>>> thp_shmem=3D<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-
-> >>>>>>>> <size>[KMG]:<policy>
-> >>>>>>>>
-> >>>>>>>> For example,
-> >>>>>>>>
-> >>>>>>>> thp_shmem=3D16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:n=
-ever;4M-8M:within_size
-> >>>>>>>>
-> >>>>>>>> By configuring the default policy of several shmem hugepages, th=
-e
-> >>>>>>>> user
-> >>>>>>>> can take advantage of mTHP before it's been configured through s=
-ysfs.
-> >>>>>>>>
-> >>>>>>>> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> >>>>>>>> ---
-> >>>>>>>>      .../admin-guide/kernel-parameters.txt         |  10 ++
-> >>>>>>>>      Documentation/admin-guide/mm/transhuge.rst    |  17 +++
-> >>>>>>>>      mm/shmem.c                                    | 109 +++++++=
-++++++
-> >>>>>>>> ++++-
-> >>>>>>>>      3 files changed, 135 insertions(+), 1 deletion(-)
-> >>>>>>>>
-> >>>>>>
-> >>>>>> [...]
-> >>>>>>
-> >>>>>>>> diff --git a/mm/shmem.c b/mm/shmem.c
-> >>>>>>>> index dfcc88ec6e34..c2299fa0b345 100644
-> >>>>>>>> --- a/mm/shmem.c
-> >>>>>>>> +++ b/mm/shmem.c
-> >>>>>>>> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_alway=
-s
-> >>>>>>>> __read_mostly;
-> >>>>>>>>      static unsigned long huge_shmem_orders_madvise __read_mostl=
-y;
-> >>>>>>>>      static unsigned long huge_shmem_orders_inherit __read_mostl=
-y;
-> >>>>>>>>      static unsigned long huge_shmem_orders_within_size __read_m=
-ostly;
-> >>>>>>>> +static bool shmem_orders_configured __initdata;
-> >>>>>>>>      #endif
-> >>>>>>>>      #ifdef CONFIG_TMPFS
-> >>>>>>>> @@ -5027,7 +5028,8 @@ void __init shmem_init(void)
-> >>>>>>>>           * Default to setting PMD-sized THP to inherit the glob=
-al
-> >>>>>>>> setting and
-> >>>>>>>>           * disable all other multi-size THPs.
-> >>>>>>>>           */
-> >>>>>>>> -    huge_shmem_orders_inherit =3D BIT(HPAGE_PMD_ORDER);
-> >>>>>>>> +    if (!shmem_orders_configured)
-> >>>>>>>> +        huge_shmem_orders_inherit =3D BIT(HPAGE_PMD_ORDER);
-> >>>>>>>>      #endif
-> >>>>>>>>          return;
-> >>>>>>>> @@ -5180,6 +5182,26 @@ struct kobj_attribute
-> >>>>>>>> thpsize_shmem_enabled_attr =3D
-> >>>>>>>>      #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
-> >>>>>>>> +static inline int get_order_from_str(const char *size_str)
-> >>>>>>>> +{
-> >>>>>>>> +    unsigned long size;
-> >>>>>>>> +    char *endptr;
-> >>>>>>>> +    int order;
-> >>>>>>>> +
-> >>>>>>>> +    size =3D memparse(size_str, &endptr);
-> >>>>>>>> +
-> >>>>>>>> +    if (!is_power_of_2(size))
-> >>>>>>>> +        goto err;
-> >>>>>>>> +    order =3D get_order(size);
-> >>>>>>>> +    if (BIT(order) & ~THP_ORDERS_ALL_FILE_DEFAULT)
-> >>>>>>>> +        goto err;
-> >>>>>>>> +
-> >>>>>>>> +    return order;
-> >>>>>>>> +err:
-> >>>>>>>> +    pr_err("invalid size %s in thp_shmem boot parameter\n",
-> >>>>>>>> size_str);
-> >>>>>>>> +    return -EINVAL;
-> >>>>>>>> +}
-> >>>>>>>
-> >>>>>>> Hm, mostly copy and paste. You could reuse existing
-> >>>>>>> get_order_from_str()
-> >>>>>>> simply by passing in the supported orders and moving error
-> >>>>>>> reporting to
-> >>>>>>> the caller.
-> >>>>>>>
-> >>>>>>
-> >>>>>> Can I use functions from mm/huge_memory.c here?
-> >>>>>
-> >>>>> Yes, that's the idea.
-> >>>>>
-> >>>>
-> >>>> Unfortunately, it isn't possible without adding the function to a
-> >>>> header.
-> >>>
-> >>> Well ... sure, what's the problem with that?
-> >>
-> >> David & Barry, how do you feel about adding `get_order_from_str()` to
-> >> lib/cmdline.c?
+On Thu Oct 31, 2024 at 9:25 PM EET, Thomas Gleixner wrote:
+> On Fri, Sep 13 2024 at 13:04, Ross Philipson wrote:
+> > The larger focus of the TrenchBoot project (https://github.com/TrenchBo=
+ot) is to
+> > enhance the boot security and integrity in a unified manner. The first =
+area of
+> > focus has been on the Trusted Computing Group's Dynamic Launch for esta=
+blishing
+> > a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Ro=
+ot of
+> > Trust for Measurement). The project has been and continues to work on p=
+roviding
+> > a unified means to Dynamic Launch that is a cross-platform (Intel and A=
+MD) and
+> > cross-architecture (x86 and Arm), with our recent involvment in the upc=
+oming
+> > Arm DRTM specification. The order of introducing DRTM to the Linux kern=
+el
+> > follows the maturity of DRTM in the architectures. Intel's Trusted eXec=
+ution
+> > Technology (TXT) is present today and only requires a preamble loader, =
+e.g. a
+> > boot loader, and an OS kernel that is TXT-aware. AMD DRTM implementatio=
+n has
+> > been present since the introduction of AMD-V but requires an additional
+> > component that is AMD specific and referred to in the specification as =
+the
+> > Secure Loader, which the TrenchBoot project has an active prototype in
+> > development. Finally Arm's implementation is in specification developme=
+nt stage
+> > and the project is looking to support it when it becomes available.
 > >
-> > I'd vote to leave it as is. If, at some point, the controls for shared =
-memory
-> > and anonymous memory are moved to a file, that would be the right time
-> > to call the same get_order_from_str() for both.
->  > > This is too trivial to warrant being an exposed API in huge_memory.h
-> > or cmdline.
+> > This patchset provides detailed documentation of DRTM, the approach use=
+d for
+> > adding the capbility, and relevant API/ABI documentation. In addition t=
+o the
+> > documentation the patch set introduces Intel TXT support as the first p=
+latform
+> > for Linux Secure Launch.
 >
-> I ... don't quite agree. cmdline.c is probably a bit excessive and I
-> wouldn't suggest that at this point.
+> So this looks pretty reasonable to me by now and I'm inclined to take it
+> through the tip x86 tree, but that needs reviewed/acked-by's from the
+> crypto and TPM folks. EFI has been reviewed already.
 >
-> This seems like a reasonable helper function to have as inline in
-> mm/internal.h.
+> Can we make progress on this please?
 
-For get_order_from_str() specifically, I agree that it's fine to keep
-it in internal.h,
-as it could be considered a general need. However, anything larger than tha=
-t
-in parse bootcmd seems too trivial and not general enough to qualify as an =
-API.
+So TPM patches do have bunch of glitches:
+
+- 15/20: I don't get this. There is nothing to report unless tree
+  is falling. The reported-by tag literally meaningless. Maybe this
+  is something that makes sense with this feature. Explain from that
+  angle.
+- 16/20: Is this actually a bug fix? If it is should be before 15/20.
+- 17/20: the commit message could do a better job explaining how the
+  locality can vary. I'm not sure how this will be used by rest of
+  the patch set.
+- 18/20: I'm not confident we want to give privilege to set locality
+  to the user space. The commit message neither makes a case of this.
+  Has this been tested to together with bus encryption (just checking)?
 
 >
-> ... unless I am missing something important and the obvious code
-> duplication is warranted.
+> Thanks,
 >
-> --
-> Cheers,
->
-> David / dhildenb
->
+>         tglx
 
-Thanks
-barry
+BR, Jarkko
