@@ -1,98 +1,131 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91B483CD9;
-	Thu, 31 Oct 2024 11:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E63199FC6;
+	Thu, 31 Oct 2024 11:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730372721; cv=none; b=UetsmoqcaxcvnSeUADnDoZ9aegv4OJboy3LsVvo3IpeQTr1tyPXuwyU3yP3I1abcz6h8N0yNcy/oAglwaRDqmq6/jJzlEqUc3LfC4Boh5FZ7pNLlgjsQ8Zg+B8L5DPKM5OSe2EGrL9n4gDCe9YHgyOZCaB7u/X/oKFi0W53deo8=
+	t=1730372790; cv=none; b=miLfg5PysWWoQnKO64lpeKZATt5FmDFCkTsdendIFHb/pzlRZnphHNDIS6WX9xc0XSKgy4FMs28ca4fUNgkCVHWUgjz8omsW9FSG2emeTYIJNff441zlyGWxky8Ht+AY/mfUFXXIAbR8KFWb2mIPVyKCAW5wRGuYbZf6gGHBem4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730372721; c=relaxed/simple;
-	bh=aWh93UdsW+ofCnEmC+bDfoHOGpAIraWLb+wruBoqjFE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q/xwUl9lMU1wmY2cPWMp9tuKc3qXTghkUjMJ1wOft34j37Nrz//QEXOH3f7rinVrBK6g8CSJppHAx8MhsjSuDI1yTqbSMxr3AnVmiYg4a4a5pi2pb2Vwre8HIenXUsfht9O65ZE1ZHnIpAfs3e203pCSPtxwsdniczXs6rIpTlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=eEVrm90f; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="eEVrm90f"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=bgiB0fkkBLj2oc3y0qvgYJD9tY50zygRBIR9nY3SL6Q=; b=eEVrm90fdjL0prxhIcDDWd+4Rf
-	xT2SPCXpv4VELMiX0JSNlOreeldkxHC9nipIE2muNOeFTNkQqhPVutgBHczyLlF5CHI79EFh7krHC
-	9weMOsYxc3h5loQRZaCM7mmIVc4Kg41JYGNUSBmFzIWYQeFHPwSBSwAdQvBtysOWwog7hDtQNYF+E
-	T9RVYEGqCxTjcB18AQS9sKfzSswu8gf+RqvST+rPtVoZsUg2FGbiLRLSREmg9tUml2Om3Z7V63RhJ
-	rebyn7ujHh4RQKxh0ay9R0tPiNpSyfu4kxkPkHZEBccwhskiEnM4f9TFf8QPCjbWnCj1rMqdi1Wtu
-	hISUBStA==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1t6SzB-00Ha8d-KZ; Thu, 31 Oct 2024 12:05:05 +0100
-Message-ID: <f2a213eb-e69b-4572-b837-0c384bbb5960@igalia.com>
-Date: Thu, 31 Oct 2024 08:04:58 -0300
+	s=arc-20240116; t=1730372790; c=relaxed/simple;
+	bh=ZBN0W8BcE9Q5aKWuCWSFA/w5EPDOGkHkgksio0pa6aA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hMz72mGOpQ34/H2gG3aRvlmU3S5GJkUpnlDFpxfAaOpRGD+MKes204nDjk3XyonLr6mM9t7dCkyx0P6MmUwGcGcOlVeaIoWRt6oe9MyC6lNLuMkYcRmHGkNkg7A5dkp0Aon8npSIyuFywmR5+yestqm+s6YdYTvYIrbkyFyp13k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5c941623a5aso3324137a12.0;
+        Thu, 31 Oct 2024 04:06:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730372786; x=1730977586;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fI0obEY2fOPVsshDc4EINPODg5wAd8JBksvUKXbxFzs=;
+        b=sUlD2sVIeo7z50DawC02eOcH+3JHxeH7ltMb69Ajb6fOrygtflNq8pUAkyR3nkYqIP
+         TUsBrhJledYFUzuMdAUG4DCaIEMIisAMfUkBJgPtlLJOzhKrbKKkb/TkjlLaSia0pWph
+         GIagYqZ6MR4B4+k0srPaV/fgQfH/Kjigtkh2yYjTnzaWoXF+gys7d0CAvxdtHGxasnmS
+         LLSVYbfmus9KTtGNz9TfNSVgfbrNJaa2z7zCUlvlxWICDoSU0G9pbc32MtTmqkN8/l3e
+         6by43viLBlkJiom7kRWR212GE1nSM4q7o4TfvPPFVAaWFVkUbsD7hDxsnZ93v+AUANtw
+         IKKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVktu93cDd53N6/xhB3N1/Cvgr/MYeeZVmVT2e89Y2UJW50PHjBq6/BLBO1rNZzmhs9c9d6PnERJUs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS8zctbUJ8IAeZtjpmWCF3u8sCOuojkkGCNQzgh+IXSPtOLk9d
+	EoWOuuflf8Nlf7KCZG9pU6GqMMCfO/q0k8czeyIGqjL3TSBoP7QP
+X-Google-Smtp-Source: AGHT+IGdBBqXwDf26omGbpm6rsmYdTyMfipjhzsVooqc1JRhzWRBH0LtOcrSAylwxxS4v0mC4/u1og==
+X-Received: by 2002:a05:6402:400a:b0:5ca:18c9:f382 with SMTP id 4fb4d7f45d1cf-5ceabec5c98mr2113689a12.3.1730372785655;
+        Thu, 31 Oct 2024 04:06:25 -0700 (PDT)
+Received: from localhost (fwdproxy-lla-114.fbsv.net. [2a03:2880:30ff:72::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac76ffdcsm475159a12.28.2024.10.31.04.06.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 04:06:24 -0700 (PDT)
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH v2 0/2] x86/bugs: default spectre_v2_user_cmd depends on
+ Kconfig
+Date: Thu, 31 Oct 2024 04:06:15 -0700
+Message-Id: <20241031-x86_bugs_last_v2-v2-0-b7ff1dab840e@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] mm: add more kernel parameters to control mTHP
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
- Barry Song <baohua@kernel.org>, David Hildenbrand <david@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang
- <ioworker0@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com
-References: <20241030130308.1066299-1-mcanal@igalia.com>
- <20241030155059.9e27019842ef7c009b728b27@linux-foundation.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20241030155059.9e27019842ef7c009b728b27@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKdkI2cC/y3MQQrCMBBG4asM/7qBJBUtuYpIiGZSB6Rqpi2F0
+ rsLtsv3Ld4K5SqsCLSi8iwq7wGBfEN4PNPQs5GMQPDWn5xtnVm6c7xPvcZX0jHO3qRcuuLspWT
+ HaAifykWW//J627vydxKV8cBt+wGkSEoldwAAAA==
+X-Change-ID: 20241031-x86_bugs_last_v2-adf8f107fd1e
+To: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+ Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1818; i=leitao@debian.org;
+ h=from:subject:message-id; bh=ZBN0W8BcE9Q5aKWuCWSFA/w5EPDOGkHkgksio0pa6aA=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBnI2SvE3a6eZOrJ4Xf+W7ou7YKvn+UT68T7KMDC
+ 0dnRNqgqVWJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCZyNkrwAKCRA1o5Of/Hh3
+ bcaTD/wO/J3csSEPMKnMOiJuluZD/RYPaEa7jdFi6xKG81jZY5Rs5wLd2jy2IHGKtvUPuRKEVgO
+ js/ugOIng/jKG6kzvuFsDb3qyyPeNSfNbXzTNPrMMRikVP8Y2+nhNaRD0kRx23Cl5qdDZhR7+kd
+ V64TZryu0uFH8rHVyruzLZsiN4DV27l0UsFWaYJB/Xyw4Mmn4jpSYLk0p/GqjbeneEWluIZn2OP
+ za+v+qp7Z8uLxYW5RRvyIUWX7wFwYqWEI9WEC/hmBKaHyEintAwiItMVUCZErANpYv5npDXPM6i
+ sN7u5TY72P1mK5ntKd6lQsjID01iwGFPJ/ONEZ0+OW2GLTO1pt31sZldJij2GFKDT0EdHYYHGaM
+ 6VzUkSXAHHePhWhELgjTbkej68MsIXPNF7JbxJZQG+EV6HB3kF7gaVWerkjV91UfXYdppvEZsBU
+ SkBaqtcDxjdHuJE/B7JbMkuboJ1IZJ2mhXDf0vRSh/gYYPLEaptBfUQpU+2crGt/yyN1ui8H7UM
+ mbhSJCYOsXdY/9ke2/J0/U0OyGqJbz+FgF/jOEphWLpT4ccHrZU1Hqi9ObxzvzZLPp3o13g+NuX
+ aWDEBnieekn8swGn/dT9oKE+K08yRi05EBAdBNCNPu8FdozZwMfV0rk2yJ37HIVD8htgthO7EpI
+ q4MpcK9zlAso0GA==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
-Hi Andrew,
+This series contains two patches that improve the handling of Spectre v2
+user mitigations in the x86 architecture:
 
-On 30/10/24 19:50, Andrew Morton wrote:
-> On Wed, 30 Oct 2024 09:58:54 -0300 Maíra Canal <mcanal@igalia.com> wrote:
-> 
->> The second and third patches focus on controlling THP support for shmem
->> via the kernel command line. The second patch introduces a parameter to
->> control the global default huge page allocation policy for the internal
->> shmem mount.
-> 
-> The changelogs for patches 2 and 3 both say
-> 
-> : By configuring ..., applications that use shmem, such as the DRM GEM objects,
-> : can take advantage of mTHP before it's been configured through sysfs.
-> 
-> There isn't a lot of info here - please explain this timing issue in
-> more detail.
-> 
-> Because the question which leaps to mind is: shouldn't the
-> "applications that use shmem" be changed to "configure mTHP through
-> sysfs" *before* "using shmem"?  Seems pretty basic.
+1. Make spectre_v2_user_cmd default depend on Kconfig
+2. Simplify spectre_v2_user_select_mitigation() using cpu_smt_possible()
 
-Sorry about that, I'll try to improve the commit messages and add more 
-details.
+The first patch was originally part of a larger patchset [1] but was
+removed in version 3 [2] to simplify the revision process. Now that the
+original patchset has been merged, I am resubmitting this patch
+separately.
 
-As mentioned in the example I gave ("DRM GEM objects"), my main use is
-GEM objects backed by shmem. I'd like to use Huge Pages on the GPU and I
-can only do that if I have contiguous memory to back my objects.
+This patch aligns the default configuration of spectre_v2_user_cmd with
+CONFIG_MITIGATION_SPECTRE_V2, consistent with other user-selectable
+mitigations.
 
-I can't think how I can change sysfs from a DRM driver.
+The other patch is a simple optimization that leverages the
+cpu_smt_possible() helper function to simplify the code in
+spectre_v2_user_select_mitigation().
 
-Best Regards,
-- Maíra
+Together, these changes improve code consistency and simplify the
+configuration and selection of Spectre v2 user mitigations.
 
-> 
-> 
-> Also, please consider my question to be a critique of the changelogs.
-> If the changelogs were complete, I wouldn't need to ask any questions!
+[1] https://lore.kernel.org/all/20240118173213.2008115-4-leitao@debian.org/
+[2] https://lore.kernel.org/all/20240422165830.2142904-1-leitao@debian.org/
+
+Changelog:
+ v2:
+   * Added the documentation bits in kernel-parameters.txt, as suggested
+     by Pawan.
+ v1:
+   * https://lore.kernel.org/all/20241015105107.496105-1-leitao@debian.org/#r
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Breno Leitao (2):
+      x86/bugs: Use cpu_smt_possible helper
+      x86/bugs: spectre user default must depend on MITIGATION_SPECTRE_V2
+
+ Documentation/admin-guide/kernel-parameters.txt |  2 ++
+ arch/x86/kernel/cpu/bugs.c                      | 17 ++++++++---------
+ 2 files changed, 10 insertions(+), 9 deletions(-)
+---
+base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
+change-id: 20241031-x86_bugs_last_v2-adf8f107fd1e
+
+Best regards,
+-- 
+Breno Leitao <leitao@debian.org>
 
