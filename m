@@ -1,57 +1,57 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0621813AA35
-	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 17:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A1E1A0BFE
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 17:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730394960; cv=none; b=AFxYMc1MGHARofw7VwBbmmfefrlL6X43idbYrfz4D6gAUvEuvoIPlVhM3n7NVQy1AsX9lhW86NVZEP6v+yOH1vKf/I7t0sfyQceuhxQUF6EGB6FBxdIrw3LF3SUlt3C5DFx2hBdFO2OfR0UwM0FaYPASk2bU552W5Lof63MNPDU=
+	t=1730395053; cv=none; b=qkTzcZ0y24EVULewp3dqdwMiaPPUL44KpsEeCswOnja/az6Cx+FinngurieVLaBzrw97lllNPcS9gFhzagQsB4yXPhvIz2efPw4Pq5PkLRWZb8T6U0RYCQ3ktZXOE0ohJmZrvolaLnzMZfbhQXA7T5mfIwcqRqIBKQZ8Q8/ztN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730394960; c=relaxed/simple;
-	bh=YRLK2nAQvUQ2VTLYfTC1W4uTW9dy3fKPR7lH/mOllvs=;
+	s=arc-20240116; t=1730395053; c=relaxed/simple;
+	bh=bx0jessu0KfLRZtCqrKGlDJ3ti7ypTOq/nU0abf7IMo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iP/5lHPzSasdDM9R9LT3ek5VYkiSywh+oNybmvCX9QKDshBUnhIptGDSrQfj/4zwYEXe1QCNmLbdIHADyRLX+4H67KZc8fncUVFuoYNS8GKcB38z4sCguer+Y+NuI2xo/JDpry5h1CFO2MbHqCuH2IU1izwH8WZXMzKb9Qr67Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=J6fo23DV; arc=none smtp.client-ip=209.85.208.174
+	 In-Reply-To:Content-Type; b=YB40X7kUo5swMLQXYDZD/II7rl1Rp4vxsbIQPgg8UtZXo4zRpaxf69a5OZV1RnzJmO52AqpUiJLM/f1KmmkIZpCPthlgLUAMBilMfOrpUWR1qiNvl6vRY6KnUivlrKR7Ya/PBlmqp/wHk39rJ5vbCcaux6g7DvFhJvXlQX7WP70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Tm9fylOI; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="J6fo23DV"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb58980711so11577411fa.0
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 10:15:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Tm9fylOI"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d462c91a9so745821f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 10:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1730394956; x=1730999756; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1730395050; x=1730999850; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=FthgIjAqLOLHlW+bbPCASseCj6Y1lbUXeoQ5RfEPC2g=;
-        b=J6fo23DVS9KODSVrBm2LyeevwxvTvziq7cLR8nzG3IpGuCclTJiojlOdRI14LOJs87
-         II2VOVDjD3kzQ8yZKdD512tYt0zwh5TRL4KdQXC9AhcVobsyxd4z+8mbJZrwRq/2VLB0
-         QuZUe84r4Gs0D21bJoIsQgV0zDT08H+kEq2Ic=
+        bh=yuVL5XevAlSQZiTVvR3V3r/+5ebo7kY9AfDcEkuoaT4=;
+        b=Tm9fylOI8o3RBB7refl2qDn20v4IulV4ZCK4YXcswsL5fFskYp4jvguqX+xCFC0GLn
+         hAuYQGLVOfiUL70RFgUMtjdXRGwiVlDxpbfei60Ut/FHceOAAXr6WVOIKxZ1WWiau/kI
+         GQxPv+JvLHtNTCeD/R3MNsl2ihOyMm4ivWR5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730394956; x=1730999756;
+        d=1e100.net; s=20230601; t=1730395050; x=1730999850;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FthgIjAqLOLHlW+bbPCASseCj6Y1lbUXeoQ5RfEPC2g=;
-        b=ICSiFVioG4WIhqlcnFcPE55ZAcLRdCNgTL0BUmCpDdcWtJPcLVPFfeZCxrK/DsTggg
-         CokENNPRx2CuIntHN/MX1NejG34KBfyTc1Y1JkcPZA0zGK1Oh/oRIFd/UHInwkBZMgA1
-         vL6HNo+LfuN3q0VNICJ8rGAdyuBEnNBgO797V1lVGltyecx+kwn++2pmk/u9afLuPTKX
-         5n/D8VT0Xn+aMYUvnYzcZHpFni6mAubUzxfNrNlAddbls1VEMkZaq9PTWOoZNlsBWg0O
-         ktM93CBNvV63jAzG1B8Mict2kfQL26xn6Ra2T83xcmz4rykadO2w3Fo+mY1B2ifNNDu9
-         a3aA==
-X-Forwarded-Encrypted: i=1; AJvYcCUv9V3fAWseldDy4YkZjnLeAHQ6UVzjRHKMR55ByLjJJcBU/fnLEP7ZH3SFquqVBdQ/xNMLokSLdcg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyFCn/TNko66vDYps47FYr2qOg9KRDHK8XPXBCfRFqOyXhmD3L
-	tckBpVLpEI+cQbRsWOQLrnLW5zPYZMMuKmKPe+T9jLKrtAvW55YNynFz/+KIUg==
-X-Google-Smtp-Source: AGHT+IH9MeS0Ax989nuL+76nnyjmZEpJ6kAlmbQ9fbTl6gSc7YUojU8nnLTZuojFuuIYn0X+UAcr8A==
-X-Received: by 2002:a05:651c:1504:b0:2fb:5014:abf9 with SMTP id 38308e7fff4ca-2fcbe04f0bamr96395301fa.31.1730394954583;
-        Thu, 31 Oct 2024 10:15:54 -0700 (PDT)
+        bh=yuVL5XevAlSQZiTVvR3V3r/+5ebo7kY9AfDcEkuoaT4=;
+        b=xOp8a2fZzZQqZjoZmwukUl268Nd6+cOw1qoUg2WGiYTUGKKnpCFdkcfP/9b5ov6BwA
+         XxTT5oqjdS4OJ7/QijIJET/Ol9DSJFMM+86j0uP3fN4hZd5mSLsCL88USgabHF5G23dV
+         nhxxdnSoBnZPYINMtK7o8COqM+7w6pDNcCAnAnPBx8rY12drNTLAdOqA7l03AlOjhFSj
+         wEd1QtpgMDH2uPrXV/D7VBcOESR6FgvlWVzlIiE2AHQEsZLb/ewzymFbxM5nVCM8u7fk
+         e1l2kf+OGmybSVUfsuNomA74FjcsjeN3nO60O0XZoY7edlwU4Vdwn55SqtOged0KQ5hd
+         +eFA==
+X-Forwarded-Encrypted: i=1; AJvYcCUNBONkQlJd7Sfoir2eNZ2fhFoJoqgjn0o4/dYKh7EBJveeXHKTomqJDlPdZUoaFEJ4Qjg/h5eiQ34=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRWbRkxdTUjATU1da2dVk0ii8p3DUuc2l1iuPfDlzAgHAwxa1x
+	sgFhH+DN/6Vr1Np/jldc9G/c/9YOd3DUybRSK1+jhz8kwUmSj5linMha1WdKcw==
+X-Google-Smtp-Source: AGHT+IFjT29yi5SX0dw1nHhzoYLJGP+01L3NL5a3fZUFudXflNMBcjs32Cnleu5VTb7EMdHUUlSccA==
+X-Received: by 2002:a05:6000:ac1:b0:37d:3280:203a with SMTP id ffacd0b85a97d-381b7057644mr5887676f8f.10.1730395049620;
+        Thu, 31 Oct 2024 10:17:29 -0700 (PDT)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d69845csm32794345e9.47.2024.10.31.10.15.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7c08sm2713960f8f.17.2024.10.31.10.17.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 10:15:53 -0700 (PDT)
-Message-ID: <d9c01354-853c-459b-9da4-3c1d77102749@broadcom.com>
-Date: Thu, 31 Oct 2024 10:15:38 -0700
+        Thu, 31 Oct 2024 10:17:28 -0700 (PDT)
+Message-ID: <5ab60ad8-5625-41d3-b20a-4137a8f4c19a@broadcom.com>
+Date: Thu, 31 Oct 2024 10:17:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,8 +59,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [resend PATCH 1/2] dim: make dim_calc_stats() inputs const
- pointers
+Subject: Re: [resend PATCH 2/2] dim: pass dim_sample to net_dim() by reference
 To: Caleb Sander Mateos <csander@purestorage.com>,
  Andrew Lunn <andrew+netdev@lunn.ch>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -97,6 +96,7 @@ Cc: intel-wired-lan@lists.osuosl.org, linux-arm-kernel@lists.infradead.org,
  linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
  oss-drivers@corigine.com, virtualization@lists.linux.dev
 References: <20241031002326.3426181-1-csander@purestorage.com>
+ <20241031002326.3426181-2-csander@purestorage.com>
 Content-Language: en-US
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
@@ -131,16 +131,47 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20241031002326.3426181-1-csander@purestorage.com>
+In-Reply-To: <20241031002326.3426181-2-csander@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 10/30/24 17:23, Caleb Sander Mateos wrote:
-> Make the start and end arguments to dim_calc_stats() const pointers
-> to clarify that the function does not modify their values.
+> net_dim() is currently passed a struct dim_sample argument by value.
+> struct dim_sample is 24 bytes. Since this is greater 16 bytes, x86-64
+> passes it on the stack. All callers have already initialized dim_sample
+> on the stack, so passing it by value requires pushing a duplicated copy
+> to the stack. Either witing to the stack and immediately reading it, or
+> perhaps dereferencing addresses relative to the stack pointer in a chain
+> of push instructions, seems to perform quite poorly.
+> 
+> In a heavy TCP workload, mlx5e_handle_rx_dim() consumes 3% of CPU time,
+> 94% of which is attributed to the first push instruction to copy
+> dim_sample on the stack for the call to net_dim():
+> // Call ktime_get()
+>    0.26 |4ead2:   call   4ead7 <mlx5e_handle_rx_dim+0x47>
+> // Pass the address of struct dim in %rdi
+>         |4ead7:   lea    0x3d0(%rbx),%rdi
+> // Set dim_sample.pkt_ctr
+>         |4eade:   mov    %r13d,0x8(%rsp)
+> // Set dim_sample.byte_ctr
+>         |4eae3:   mov    %r12d,0xc(%rsp)
+> // Set dim_sample.event_ctr
+>    0.15 |4eae8:   mov    %bp,0x10(%rsp)
+> // Duplicate dim_sample on the stack
+>   94.16 |4eaed:   push   0x10(%rsp)
+>    2.79 |4eaf1:   push   0x10(%rsp)
+>    0.07 |4eaf5:   push   %rax
+> // Call net_dim()
+>    0.21 |4eaf6:   call   4eafb <mlx5e_handle_rx_dim+0x6b>
+> 
+> To allow the caller to reuse the struct dim_sample already on the stack,
+> pass the struct dim_sample by reference to net_dim().
 > 
 > Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com> 
+#bcm{sysport,genet}.c
+
+Thanks!
 -- 
 Florian
