@@ -1,211 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B781BD9C0;
-	Thu, 31 Oct 2024 21:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730410497; cv=fail; b=spXvpfgIPfAhmkb8qrn0J3g5RDcHCzdB3Gm3haUjBLN195BGoIoUFN67cAIQXWYtxiiVxS+s1RRThw86bdzuem9iQlpFzlU5sdx9c++ni/QKd0/WWVkyZSBy6OYqbCa4WhkOoz+KsaJJrPclL1OGeyt3OlD+lmPFkvq32QThfdo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730410497; c=relaxed/simple;
-	bh=LAIUbJP6n18k+2vaI7aFLfNKBQ/jfNnH0c79lijvh44=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ft1bfXlwP08XIzAJEirvvdLhirlpmGyOjenpq5ftwsktjLeJJoP+n1Gxi3SUJo0wqH7qJ33IASoRjbkQFksKHIB/K3a5dwOLcZCjT1czlsAplwF4cyQHZnGz+q9elVCVFny19CgaA4G8+tac0ISanb8/LjyguCn+nGkZmoRelqI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CTsVPf9P; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1404A1CBE9F
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 21:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730410791; cv=none; b=vAwg0/yD/+Ued87sSS1O4WroskvFm/H9lqUkar8EMsmkdbAr8YkXeOdhSqlWvmQdpXZ6eLpIWXZXrWkKAYZjCHSyGHZE6znhyyacC5PQpQqXbGpNU0iR1fNlf1LhK+7sXLAWlGwq2fI5VTPhgZFDyEk8FbL2Dh0+enuKwHGvvyE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730410791; c=relaxed/simple;
+	bh=hmZEoE9F1KOcW36e3uTA3ZMp9t9/NxyYPFC1dw7nd2I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pOdw4G3dPV8/EI8KOpkxFweKwJFeJ/TAZNuKmOYhXj0FNE/j3V0WGhGxIXa9wVsICG3M2DCdP3knDZFUo/LXYEXqsVIsekYg6vMPhHQ+pWo3ORkafcqJEibTtKMhW4dQOjymqXV4uVqFJnoLywNq+SIQb8FNefWWgzeY1pw2tVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gTHT2F/d; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CTsVPf9P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730410491; x=1761946491;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=LAIUbJP6n18k+2vaI7aFLfNKBQ/jfNnH0c79lijvh44=;
-  b=CTsVPf9Pu1kX0EiX6va9oiQ6tJoI9obDL1wmn1YJtiaS0FUtkK0N1VOe
-   ACfgLgkVG3kqBC551b6T2bvzWv8cm0Q7KTG1Q2wPMWFIPJWUwn7cnUDM9
-   S+pH7uWnV+ZkO63/kW/1lMe1Hsmfn0So5XF1bD6FzQ/C29vyEbJRxH98X
-   RUs6E9GvyXw44GfUG3dxaAAfPHvDTZr8zEHTTSU+ccMs7eo/IaNUb0Cjm
-   noRJfc5hAdLmqfcacdSC+GVyw27bCViEmh1l/6ceCRIk7MNMjonQLLGi6
-   4U1Pmfq6SS6x+yzXMf+PksZvqjL0Ei9l6cK7vhp16/BOXqUoboF/uTAiM
-   A==;
-X-CSE-ConnectionGUID: hS2qDMeZQp+EDF6rHSjriA==
-X-CSE-MsgGUID: ZLTZrciFR1O9yW0n0xvQbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="41541944"
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="41541944"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 14:34:50 -0700
-X-CSE-ConnectionGUID: sHy8ijzGSuaMkFYltNDULA==
-X-CSE-MsgGUID: XfsIyOG/SOiNvvhXHdImYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="82440277"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Oct 2024 14:34:46 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 31 Oct 2024 14:34:41 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 31 Oct 2024 14:34:41 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.171)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 31 Oct 2024 14:34:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uX0REdmoC4/mQfiTRSj+nfo36X+lcF9wPItqw9TsiDHaqozMxl1XCciWDQW45m1LDezQuUEKlINl9z7IX0suGXFZcSlnSzcvhsav7AWl0feiKydX4uo2l+fQQb184BhiMP/uWm1sDn5j2Az3DBpR7vSQA/EQkucyJq8i9YOVvp3DzlbgWtOyQbL5nGIJ3gn6LA36nuziX4boWhXmQAIOYEfyTn8fq/vqP+mzjAX23coqG7Sj8GDbvs6N0/FxZbOOc576nq3j3pyN7lvBqujlshX7DviK8KhXByl9kNNsrEhLCWl032vVfa+rBnEUuq2L/R6vl1G3asgE0KW0LbB8mQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vuHmcGzlMUJxsIn7+EhS/amxKbN2tXsDvsgdo4qQihs=;
- b=UGPtIdeVKy0Ms8N5sKZVVAzTc3LDmNsJlzv7CTwCreqvf5M+vJbkQ+tVvjeA3hUgjUhXmbh77NOfqrCbK8qn2LNWA+iOBloWI4CBYJ94G+XcZ5Y0rQeFVTmu1FEH7E+d3Bg8il6X2FMg1x+/PFF2bEn1GkyUinafT7VswV/22nmcoNXdf7QEBR4FpKEQLUuz4Ktr6zuH4v1aAn7MqWOZ9rg/mw8WDkuB3DbNPxq1C+sbDk5rD+al0oi3cZxJF3XmqT+osxScOoWJNxm8OWsY8XAmf/Qiz5EsnHxzCqzcg6a2kwESELUsVBKjowe+xNxZHVHR4mQzFt1hZAvhtNuSkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by SA1PR11MB8796.namprd11.prod.outlook.com (2603:10b6:806:467::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Thu, 31 Oct
- 2024 21:34:38 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::cf7d:9363:38f4:8c57%3]) with mapi id 15.20.8093.027; Thu, 31 Oct 2024
- 21:34:37 +0000
-Date: Thu, 31 Oct 2024 16:34:30 -0500
-From: Ira Weiny <ira.weiny@intel.com>
-To: metux <metux@gmx.de>, Ira Weiny <ira.weiny@intel.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
-	<rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
-	<senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Davidlohr Bueso
-	<dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, Dan Williams
-	<dan.j.williams@intel.com>
-CC: Fan Ni <fan.ni@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH v2 0/4] printf: Add struct range print specifier
-Message-ID: <6723f7e664470_7b1f129430@iweiny-mobl.notmuch>
-References: <20241025-cxl-pra-v2-0-123a825daba2@intel.com>
- <18854680-4ab7-4453-85ff-78351d4d4ec9@gmx.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <18854680-4ab7-4453-85ff-78351d4d4ec9@gmx.de>
-X-ClientProxiedBy: MW4PR03CA0224.namprd03.prod.outlook.com
- (2603:10b6:303:b9::19) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gTHT2F/d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730410783;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=fS8gDTZFJocEezC83019NI02fuHlBLQO1gTHctRA88I=;
+	b=gTHT2F/d9Ce3r0EUZHTh22PYyaxYEuF6n4Tjeqw0Y3DaMJsEfYFXN+6WKhK0VTpUvMcJUz
+	RzGWVYh7tedzzVZnFnKD+hHtW0vD0W1VJaFJKb4FZ3ft/RwVW8+8mH1TqMr5G1Y4a/5PaM
+	LKfwjYIX9taGe4AEAvJMID1gZa9UD34=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-3-JshKIhZcOPOLcyVbJaVrMg-1; Thu, 31 Oct 2024 17:39:41 -0400
+X-MC-Unique: JshKIhZcOPOLcyVbJaVrMg-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-37d52ca258eso682088f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 14:39:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730410780; x=1731015580;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fS8gDTZFJocEezC83019NI02fuHlBLQO1gTHctRA88I=;
+        b=SXIleu3XhDU/uVP85oN+2/mpudYXxS6acA1sbv5HBiaFqmvTDe3+XN+aNA/YLGiLP1
+         lGlRor8t70eHWL4nKRiwN9HLHVZ7OSWWVNN/6h3NQVYSJqy5a78K/FP44aOX+7Jj0XRr
+         Fr1yiBLrZZB4Iipry1e0WtMemb1ioFE/sr21XCi208HYTwzC0srZooHO+Q+goZvdppiu
+         JxgsvMgVlKuXVCj0D5DothNqHaYh1d+Sr0tdjzTN+CZSBcqHnwOpHSmUlBL/6qX6t1ja
+         YiOGlO8K/8CoW9hthcnTVfl78RdsUp5037lpgV6TYcjnhhz7/mpD7WPjAitniDS3qjZ+
+         7KIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXgRR42h1P01njOv1dO9VZkiRYJixcekctf3vavqcY2SDzw4Gc/Y5VvvI9j+z8aRgAcIvyTed3fZQU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzADw/aaTMHahphs+BKonFdta5QsDKFOs87Wnqs06sEg7+jDopi
+	aldaJtaSPGAsJKDygh/Ej3ICkO4gkohG2Ptk3t0rQhFAs5SnEnUarlj1wNV/kUkahYXoKl/6xKL
+	NgAZO8VI/sAOJbONzPFsUntmhFUoqyn6GK1qtNbm37RhIFRlljldBCzsVsQ==
+X-Received: by 2002:adf:ee4d:0:b0:37d:45f0:b33 with SMTP id ffacd0b85a97d-381b7056d6amr6777243f8f.9.1730410780499;
+        Thu, 31 Oct 2024 14:39:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IENOxIGk6gyTscvzdN2IufYd95BCndSW0PH0URMhHpqGHW7gsAlNh6s+kWKbfa51JfOcQCEvQ==
+X-Received: by 2002:adf:ee4d:0:b0:37d:45f0:b33 with SMTP id ffacd0b85a97d-381b7056d6amr6777232f8f.9.1730410780072;
+        Thu, 31 Oct 2024 14:39:40 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe? (p200300cbc70aed007ddf1ea94f7a91fe.dip0.t-ipconnect.de. [2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113e51csm3203248f8f.79.2024.10.31.14.39.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Oct 2024 14:39:39 -0700 (PDT)
+Message-ID: <ec69b1ee-89f4-47d2-a223-f277b7aad76b@redhat.com>
+Date: Thu, 31 Oct 2024 22:39:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SA1PR11MB8796:EE_
-X-MS-Office365-Filtering-Correlation-Id: 67e6b5eb-ded5-4d80-0cfd-08dcf9f3d1e7
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|921020;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fZxxCVa+BeHv2wRq3UrZfmUdAxxNIxru4lhTpdHfyxxLyiIvoAO+M7SpaSTt?=
- =?us-ascii?Q?5BRls27NwSOnXd3/Ab7mcM4Rrc/OQRclDQylk66r5Rx4TAqpiTaCOhCGyTmJ?=
- =?us-ascii?Q?Gto7xXs1DW3RY+EgSJBUDWeJvi1XqyaD8sl9oaOePnlg8b4q6NhEtOoT/ji0?=
- =?us-ascii?Q?glqLFJKiysFki1D3o0Hro600Eo2c7/QSSpDyID0tHNZ/x+60CNmoRtKvscpo?=
- =?us-ascii?Q?WAkU5aoLVh9fiT0evm6slLxuiETm5G2hYcg+MIFajBUqv8GgJJem/ydQPKqM?=
- =?us-ascii?Q?aAN/25QGBIDrpXRSeQ5uSV8s1pTwRF7D4sw3soMG2X4xJGDG+/gD6ixyHga+?=
- =?us-ascii?Q?RTy3cuiOKE0onynxZkCtj/ygooT7cfrlkeXK0Kr0LgvovsARRhGNaGpzi7er?=
- =?us-ascii?Q?bFti6i4MJxHkLr5Q5enPg2ObQCshFuLBH2pbuJX7XjSMDJ/cDzw4obaRceux?=
- =?us-ascii?Q?5++T9qjHkKXCWLnlHAPYpa5duO1N3HxEEzUJHJur7DiOsDj0+gDOfpI+Oebw?=
- =?us-ascii?Q?oDBhVFu81keh6XnBHWaMH6eVTsrcK7UgUBhjBAGMD1P2wYaYwZ45OQKudQDT?=
- =?us-ascii?Q?+o5vEk+jQVcvCdGpSsywWByMorihrIG7AOBYfvvDb5tsjcp7jfhmWUYwJPmf?=
- =?us-ascii?Q?Ti615aPAjyunhdZuazfAR5t6zg40GqwyaNHKDyTI4xfCI3puWiN7B41mF6JG?=
- =?us-ascii?Q?rg19tO4TtYfWVCom4Q/BR4IDCaM5+deoJzAXOz9niH6C+oak/gPTB+jbohlo?=
- =?us-ascii?Q?ZbnsYCKerugsulUm5YUEOXAsdn04WsrWokbtdc5KDBYHt2GumYIjQ2pjHKYe?=
- =?us-ascii?Q?dz1ZaLqF0iWHHHK3f7ujg3IuS5XjeNfRkYNb+itc/6RAVGxuklQYFIag8eX+?=
- =?us-ascii?Q?MytpPwjBVaczNixl0HIkrG8NBTc2YhXEWu7LdFH5XShXk5C7lL1lx4zacvoQ?=
- =?us-ascii?Q?ATn5ddllf3ek3JvqVtRu9LkN0u2x247ddFZN/G4bbqifYtNJ9dzLV2itfM57?=
- =?us-ascii?Q?9EnP1nAOv0Bia6HJ/VXt3ujBc6Iz4Nz7WtNorjUC3O1ap2Pe/3quXssT+LD7?=
- =?us-ascii?Q?y8/wb+r/NcuAWkR9PEfqE6yqZzA99YKA1TBRZp1NprAEi4Dy1p380M+jVSjH?=
- =?us-ascii?Q?+Gnb+IGjde0QO1WqI+nyjvnBtMRdiGw7IEyqcD0dgtfB7Uts5xc1CdlNwPNc?=
- =?us-ascii?Q?7GXbvKalorAz6uGX0tbRz2g2CW/UTDtwgMx5uAMJ/V1gugQFweIrJss/cefK?=
- =?us-ascii?Q?9PFAgnd/5CASN/5Qov73KErrBNTbzcnl9ewaITVHjYsjVHDyZW4RQByv8MYu?=
- =?us-ascii?Q?WldxlxblMYh6rtweXuT/3o/GQcdVVGmCS6LLv3H5+7uMwyPTnJyNg7j/+3vt?=
- =?us-ascii?Q?Gbr+yM8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KrapXK2hz1qw2zqwvkaGifmaVflDhDI1sjYl07DfElssdNaf46NoA7+amn3W?=
- =?us-ascii?Q?luDoQF4W5XgZpZ/nUeRPjr72voc+buKTk3YR4haTUvT9HbT3JTlSUkIp8ukB?=
- =?us-ascii?Q?Gcf6UER1XKsXWUbSu31i4YM8Cw11plkca0Ug0XLWUKqzRiTWZKt8EL/RBk5U?=
- =?us-ascii?Q?IVvHTDDCGbs54hxC3W8jjrUhcDDPDO4ZfKDJVXY/YdDob62cuOkBsfSA4lHt?=
- =?us-ascii?Q?7T/g+4W9NHqcYxIBNtu5FLyMs7zP0KmRYrmrPqSyFmX9bq8GSQR5MXpdk6hj?=
- =?us-ascii?Q?j0MUiJEaOopE8b3fBAQp4d5mE/onpWGnS47tWtWJxJcIPQE5ESEtn4QYEErt?=
- =?us-ascii?Q?FqJQEWu3dGx83irCJcegEBPQA1Ut5lkJb0GrXG9tJhlBAwyQTmMIrmJ5YFPl?=
- =?us-ascii?Q?GPNsct0ryBCXEYtqVVzN2r5N77mrbh6FnJcjDMjpWbgXHvjpK56IIrv3O40l?=
- =?us-ascii?Q?W58cIGumbjSkFh9eF4QdD4/WLZfB9CrLAOtMKRMKeKgfeH/tUCrLSbJQrsu6?=
- =?us-ascii?Q?rfYO+IhoYUiTrkYtlYy4FsM1i8JUmtHU28Gp7jBZv+5KomN4lQliDaUzZDt0?=
- =?us-ascii?Q?zhBwR1ECXqDpcp79xcdSE8Keq0v5cjGx7CuPBgChzYDbH0HpRyIO60eOqK4Y?=
- =?us-ascii?Q?A/bsnLG8afm//KW91HqQrhqbDeZedzsgulIrRe7pBC+LEEW0q5BjsZh1gGLy?=
- =?us-ascii?Q?o+gSUPfeZVRD7Kh5kFDrDhZzJH/4tAo2g5r/E0cZyNGOL5MuzJhozYZe88sJ?=
- =?us-ascii?Q?jJZE9VIZRyiDbj9A1VL6jvuDvRnP60iWT8XdTD/cxoEXHOzNx8+FaJLrXSpZ?=
- =?us-ascii?Q?sUkptdNBIX2Yh3CzcypzzKNnb1E+TLW+ebq1bic4agFrgXlKqUvoguvsoE4Z?=
- =?us-ascii?Q?Lifbh5K2y07bowu3y7W6UvJY4kmAYPw//ysBG2DQlBiLbiPsyNa8XB+/6l5A?=
- =?us-ascii?Q?9dNyMe208wW1BbG/0FycE0DQUXkBMQ/0lESxrbG/nmENmREkgPG7ka0PQAbZ?=
- =?us-ascii?Q?urIlEO23JmA4XcNTVZA4oWjtGaO+rVFz8NzBPaBQJrpWAUF3Jb51zrh19zCB?=
- =?us-ascii?Q?OypMkZzFqPJmG+uQ6SPsjUB2jAfj685Rcp27YlyFYuXP6FihgCMmZC4hmULn?=
- =?us-ascii?Q?YXcJn1R7TvUPYvpZfWW12lgrsKdXlGwFYIo9j/oOiK1SdexZK+Lg/PhbjMb8?=
- =?us-ascii?Q?7otZzbDu+rUO2w/i31zSgbZ/22yRmwvJvz1qmfZXusmkbdYDUsl4flyirTyg?=
- =?us-ascii?Q?Mk8jEkp4hZ0wKDb3XHyvzuTkbd6RksgPt9NLEZ6mzCUqs+wdGJbjEQejJjze?=
- =?us-ascii?Q?+QBNomMH/1hEUKTmd54/4kOgylWcckKtX1MUIQUST1krWoc6TQKAFs/Wr+vx?=
- =?us-ascii?Q?PxzJf7LnzVW8HI3YTP6qIXf9ibJ8mzc1K0DokBR3qhUwUmlpT6PX00lzXVzy?=
- =?us-ascii?Q?5ZzjfMme1GF0166Un3Yfmx9Ccb1vkxC0N+gStWKRwWiNK986HzRUhleplNcD?=
- =?us-ascii?Q?tOIuxQWttC6S1sc2EZLtd9nB6X1vG9cyRhvprH4Gm6Qr2d1/qNfUwvRcaULQ?=
- =?us-ascii?Q?aWm3KQTUUfV61LkKXfw1n0vI9X/nzgxOLAjIg7Rw?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67e6b5eb-ded5-4d80-0cfd-08dcf9f3d1e7
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 21:34:37.5143
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AAOugliBMd35x0Qr/M1dSDyCQqq8oih3Qqq11nyQnSxwMnPdJ5xVuF77z9gDIliWktf3PRykDhIw3m+ZV2Ozcg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8796
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] mm: shmem: override mTHP shmem default with a
+ kernel parameter
+To: Barry Song <21cnbao@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
+ Ryan Roberts <ryan.roberts@arm.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang
+ <ioworker0@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+References: <20241030130308.1066299-1-mcanal@igalia.com>
+ <20241030130308.1066299-4-mcanal@igalia.com>
+ <2c507326-3267-431e-936a-23e2ab6a3baf@redhat.com>
+ <899284fa-953f-48a1-af29-222d0d55881c@igalia.com>
+ <cfcfaed5-8612-46f4-b3dd-67e1d81d049f@redhat.com>
+ <95c48a30-0696-4110-950e-e81afb4ffc2a@igalia.com>
+ <5745d2ca-4d87-4d1f-b38f-734c7086f462@redhat.com>
+ <d65176f1-df6f-4e21-b281-469ec958f26f@igalia.com>
+ <CAGsJ_4zObE7hsFangzmKK0c6wZ7xZS3fCEYdx5W6HkAHqcP20g@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <CAGsJ_4zObE7hsFangzmKK0c6wZ7xZS3fCEYdx5W6HkAHqcP20g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-metux wrote:
-> On 26.10.24 02:46, Ira Weiny wrote:
-> > Support for the Compute Express Link (CXL) Dynamic Capacity Devices
-> > (DCD) have grown a number of uses to print struct range.[1]  Support for
-> > a printf specifier '%pra' was being worked within a large series and has
-> > garnered a number of comments and discussion.
+On 31.10.24 22:12, Barry Song wrote:
+> On Fri, Nov 1, 2024 at 3:20 AM Maíra Canal <mcanal@igalia.com> wrote:
+>>
+>> On 31/10/24 10:33, David Hildenbrand wrote:
+>>> On 31.10.24 14:24, Maíra Canal wrote:
+>>>> Hi David,
+>>>>
+>>>> On 31/10/24 09:57, David Hildenbrand wrote:
+>>>>> On 31.10.24 13:51, Maíra Canal wrote:
+>>>>>> Hi David,
+>>>>>>
+>>>>>> On 31/10/24 09:37, David Hildenbrand wrote:
+>>>>>>> On 30.10.24 13:58, Maíra Canal wrote:
+>>>>>>>> Add the ``thp_shmem=`` kernel command line to allow specifying the
+>>>>>>>> default policy of each supported shmem hugepage size. The kernel
+>>>>>>>> parameter
+>>>>>>>> accepts the following format:
+>>>>>>>>
+>>>>>>>> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-
+>>>>>>>> <size>[KMG]:<policy>
+>>>>>>>>
+>>>>>>>> For example,
+>>>>>>>>
+>>>>>>>> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
+>>>>>>>>
+>>>>>>>> By configuring the default policy of several shmem hugepages, the
+>>>>>>>> user
+>>>>>>>> can take advantage of mTHP before it's been configured through sysfs.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>>>>>>> ---
+>>>>>>>>      .../admin-guide/kernel-parameters.txt         |  10 ++
+>>>>>>>>      Documentation/admin-guide/mm/transhuge.rst    |  17 +++
+>>>>>>>>      mm/shmem.c                                    | 109 +++++++++++++
+>>>>>>>> ++++-
+>>>>>>>>      3 files changed, 135 insertions(+), 1 deletion(-)
+>>>>>>>>
+>>>>>>
+>>>>>> [...]
+>>>>>>
+>>>>>>>> diff --git a/mm/shmem.c b/mm/shmem.c
+>>>>>>>> index dfcc88ec6e34..c2299fa0b345 100644
+>>>>>>>> --- a/mm/shmem.c
+>>>>>>>> +++ b/mm/shmem.c
+>>>>>>>> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_always
+>>>>>>>> __read_mostly;
+>>>>>>>>      static unsigned long huge_shmem_orders_madvise __read_mostly;
+>>>>>>>>      static unsigned long huge_shmem_orders_inherit __read_mostly;
+>>>>>>>>      static unsigned long huge_shmem_orders_within_size __read_mostly;
+>>>>>>>> +static bool shmem_orders_configured __initdata;
+>>>>>>>>      #endif
+>>>>>>>>      #ifdef CONFIG_TMPFS
+>>>>>>>> @@ -5027,7 +5028,8 @@ void __init shmem_init(void)
+>>>>>>>>           * Default to setting PMD-sized THP to inherit the global
+>>>>>>>> setting and
+>>>>>>>>           * disable all other multi-size THPs.
+>>>>>>>>           */
+>>>>>>>> -    huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
+>>>>>>>> +    if (!shmem_orders_configured)
+>>>>>>>> +        huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
+>>>>>>>>      #endif
+>>>>>>>>          return;
+>>>>>>>> @@ -5180,6 +5182,26 @@ struct kobj_attribute
+>>>>>>>> thpsize_shmem_enabled_attr =
+>>>>>>>>      #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
+>>>>>>>> +static inline int get_order_from_str(const char *size_str)
+>>>>>>>> +{
+>>>>>>>> +    unsigned long size;
+>>>>>>>> +    char *endptr;
+>>>>>>>> +    int order;
+>>>>>>>> +
+>>>>>>>> +    size = memparse(size_str, &endptr);
+>>>>>>>> +
+>>>>>>>> +    if (!is_power_of_2(size))
+>>>>>>>> +        goto err;
+>>>>>>>> +    order = get_order(size);
+>>>>>>>> +    if (BIT(order) & ~THP_ORDERS_ALL_FILE_DEFAULT)
+>>>>>>>> +        goto err;
+>>>>>>>> +
+>>>>>>>> +    return order;
+>>>>>>>> +err:
+>>>>>>>> +    pr_err("invalid size %s in thp_shmem boot parameter\n",
+>>>>>>>> size_str);
+>>>>>>>> +    return -EINVAL;
+>>>>>>>> +}
+>>>>>>>
+>>>>>>> Hm, mostly copy and paste. You could reuse existing
+>>>>>>> get_order_from_str()
+>>>>>>> simply by passing in the supported orders and moving error
+>>>>>>> reporting to
+>>>>>>> the caller.
+>>>>>>>
+>>>>>>
+>>>>>> Can I use functions from mm/huge_memory.c here?
+>>>>>
+>>>>> Yes, that's the idea.
+>>>>>
+>>>>
+>>>> Unfortunately, it isn't possible without adding the function to a
+>>>> header.
+>>>
+>>> Well ... sure, what's the problem with that?
+>>
+>> David & Barry, how do you feel about adding `get_order_from_str()` to
+>> lib/cmdline.c?
 > 
-> This is just printing out hex dump of a memory range, correct ?
+> I'd vote to leave it as is. If, at some point, the controls for shared memory
+> and anonymous memory are moved to a file, that would be the right time
+> to call the same get_order_from_str() for both.
+ > > This is too trivial to warrant being an exposed API in huge_memory.h
+> or cmdline.
 
-No.  This prints the struct range values not the data.
+I ... don't quite agree. cmdline.c is probably a bit excessive and I 
+wouldn't suggest that at this point.
 
-> 
-> What I'm looking for quite some time is a sane way for dumping structs
-> in a human readable form (field: value pairs, using their actual types
-> eg. int vs string, ...).
->
-> Any idea to do that in a generic way ?
-> (potentially using debug info ?)
-> 
+This seems like a reasonable helper function to have as inline in 
+mm/internal.h.
 
-For printing buffers less than 64 bytes look at:[1]
+... unless I am missing something important and the obvious code 
+duplication is warranted.
 
- %*ph
+-- 
+Cheers,
 
-or bigger buffers
+David / dhildenb
 
-print_hex_dump()
-
-Ira
-
-[1] https://www.kernel.org/doc/html/latest/core-api/printk-formats.html
