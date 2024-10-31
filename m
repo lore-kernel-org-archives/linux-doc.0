@@ -1,110 +1,203 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DA11BD9DC;
-	Thu, 31 Oct 2024 03:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB40ECF;
+	Thu, 31 Oct 2024 05:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730347124; cv=none; b=Jpyf9wd0NR+pMTyYB7Yaz2Ix2/eiXqwNO6+fdH1A151jCgRpTdlgOaTRT6hw/q4bgvLdYSSrYq4JqD6q8OONU3g65go+pOFzcMMkVjElRUr3Rdmx2ZzRf9lxuHZK4IHoi/lUf9r77eJysn7ZC2E492Al8Cknjq6Eu4KKnHb3yOE=
+	t=1730351905; cv=none; b=AUoFKOdgFQ/A+jUzM7tO46OrwTCyCNjfFM1BmEhXJVgr2toXUCx0NbXCtqA3fOg7rOewP1CrVS2AfCgHBv1n0bCcXiHY6SU1xHmnr3rK+KNKT6zzbBE/+aLcOD7d45Fp8BwO1mOtSPjcCkEdQHaX6iGTRULptMKJuCqc4Ur280k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730347124; c=relaxed/simple;
-	bh=P+ZoPofAO9CrQzRt6EgkaEQnuN2/i7IZf1CrYZsm3lQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jv4FC23yh6QARE1YUNSJmoS8xc6u/M0Yag3qZAXw0RZzwHjoglAfQFu4jHrNo2jXUNf5ZgPQkgpCm83YZoLrkCKDP2qB3tAmewIYeIxyPnj7k2XaPXpSOuhUddPCYC0KwmSet44oM3HWDvh7EVgkUQgaBZr4bDkRDhTWGRtcW0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBeriMDp; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730351905; c=relaxed/simple;
+	bh=ZdinlePpULWqH7ET7gqNPsgQNIti4nJjHM5IQmdTsHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MOzJIwsqWx5jtlz+tCHy1GD7WWRUYIPFaUxqCpe6IGb8WiK4NL5YIWoWY6f2eSX7APD5CH6wYIjX5GeeSdr1ERZvNqlkEL8rvWrDFsUaUmjEwgKCOkvi6SCALR5WOnZ5L7/sV/lUiN90a7HIHMsIRkTPvE1jtrBI+C5olEiZbcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RMPyA8IP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBeriMDp"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20cb89a4e4cso4255515ad.3;
-        Wed, 30 Oct 2024 20:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730347122; x=1730951922; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YKsH7tcmYk6G4taCb3CHfNomgw1vnUT3D+1Ikv+W9E0=;
-        b=cBeriMDpdyV7aOZCEaksd78AGqBWHVXVsWzGJyhvZyR9C85BrSzldxwmxSSJ1srZ7N
-         Nqc/WypVORmUei2PRAo0Dkajpb3yq5/ubrn5ri2s5iyTNa2zV1PM2AwwlY32TACK8eK1
-         8rnqj/v/XUl1brUNVuSWhdCZpBfn0cWPnQSWgkZ4lIe62P+O47StAr9cABryGIGo614d
-         qVqmn452pbITYxqZamdKUuAnwcSthdwg8JsuwOwJ96WD8u2iceX4KBV4ngwWzeb1FmrD
-         x5dylvwjrkeFZmYpE9TZpiMW8cWJObAhEDA7q76m64UvTILdWM3RlxgDQDL96kzQuc4L
-         kZmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730347122; x=1730951922;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YKsH7tcmYk6G4taCb3CHfNomgw1vnUT3D+1Ikv+W9E0=;
-        b=VL2Cl+7HrPdF0QIL37S9D7C/wxRBg3q0nj2+OEzXG4cpFxxKSQ78ZR2Rvx0hW0DWIB
-         1wzLBb8P3+i7cwWS8gu5Ayl55nu8bTGYLwKEamMxW4HwXF3H+RIHt/c0dXmYUYDIW6Dc
-         kb44PCFeaJxteq4dcLsXth4FkhbjOX2ZgOh23DON4J+Ya3IXyNQUJv4HjwihbjoCBN5U
-         7Vb1H4N23p67MTfq6736SjiiiOty+xNF4N7OFYvylxeK77oN1bItqZOg/dwypaEwDEoz
-         NSF/3iKUP2esvkUcTtQ+Rqy9uDheWhnlGW6TmpYoaGOOUPgA3cq85g8bYezK5tmJDAGf
-         s64A==
-X-Forwarded-Encrypted: i=1; AJvYcCUhAsrCZiN2eVIhzJWJKfHwP2gYjUsXT3tjm1q/yISUbWga29p1rs3Vl3vNe7NfWjcPBIDo+9Isxc8=@vger.kernel.org, AJvYcCXQQWXyU/eMJb7DgpkecnevIOUL0EfNWkwFSppzRm76EqYfRcNaFDf5MpVFrYFUmVp1gIGltoCvgdQjZ5E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqF+1nm3JkvEEX+vi3+KkAGXs5si85GfLuiQk04aPdw+Hpq5O8
-	/BrV7/34Gig/FOrKXelPw/jbXy4DcU1o45HTKQFYrl/Zt3ZV6Zuy
-X-Google-Smtp-Source: AGHT+IHM7J/7cbyKydtwl/06qdn1JLPkjt8hrSlBqOmvnNdDccMARyW/y2ckAtM+E2wDuFntDycUnQ==
-X-Received: by 2002:a17:903:2346:b0:20d:2804:bcde with SMTP id d9443c01a7336-210c6c293f5mr235511265ad.35.1730347121557;
-        Wed, 30 Oct 2024 20:58:41 -0700 (PDT)
-Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:7d08:cd12:4b73:5f28])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057c4ed4sm3028065ad.230.2024.10.30.20.58.40
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 30 Oct 2024 20:58:41 -0700 (PDT)
-From: anish kumar <yesanishhere@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: [PATCH V2] ASoC: doc: update clock api details
-Date: Wed, 30 Oct 2024 20:58:29 -0700
-Message-Id: <20241031035829.54852-1-yesanishhere@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RMPyA8IP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA908C4CEC3;
+	Thu, 31 Oct 2024 05:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730351904;
+	bh=ZdinlePpULWqH7ET7gqNPsgQNIti4nJjHM5IQmdTsHc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RMPyA8IPs8hjUViyUytsVxUaPGHlFCtTrKLcDtYdmuB+dklu31+1IdQ0srWoh3czY
+	 TTYFxFQeuagV/ZYap92pUk4XqttXxDHEMC+m7BFRjryC3uXhDZCvROOcKRwqzMHh29
+	 NLhDLXADEfZlnsdXrHMtMyVH+tMGp/Y9g/vHR3u+tpbEohfO6YxdmRZK6a96mHPP8W
+	 qE9+mzTEyZnvaHqUxu3jmrX8pWtlqwS8UlaTvL/2kYGdCU8n1oCYeMuM4mnjEiI9dk
+	 9v5j9llQIUtKuMLuBUI9STsks/xS2kyGvRLRgfRbGSSxBaPUIfQiiPA41rNNJDUlvw
+	 I9s7GF6+Y7odg==
+Date: Wed, 30 Oct 2024 22:18:22 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc: Gabriel Krisman Bertazi <krisman@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, smcv@collabora.com,
+	kernel-dev@igalia.com, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	Gabriel Krisman Bertazi <krisman@suse.de>, llvm@lists.linux.dev
+Subject: Re: [PATCH v8 8/9] tmpfs: Expose filesystem features via sysfs
+Message-ID: <20241031051822.GA2947788@thelio-3990X>
+References: <20241021-tonyk-tmpfs-v8-0-f443d5814194@igalia.com>
+ <20241021-tonyk-tmpfs-v8-8-f443d5814194@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241021-tonyk-tmpfs-v8-8-f443d5814194@igalia.com>
 
-Added ASoC clock api kernel doc in this
-document.
+Hi André,
 
-Signed-off-by: anish kumar <yesanishhere@gmail.com>
----
-v2: converted to use kernel doc based on comment
-from Jonathan and Mark. 
+On Mon, Oct 21, 2024 at 01:37:24PM -0300, André Almeida wrote:
+> Expose filesystem features through sysfs, so userspace can query if
+> tmpfs support casefold.
+> 
+> This follows the same setup as defined by ext4 and f2fs to expose
+> casefold support to userspace.
+> 
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> Reviewed-by: Gabriel Krisman Bertazi <krisman@suse.de>
+> ---
+>  mm/shmem.c | 37 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+> 
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index ea01628e443423d82d44277e085b867ab9bf4b28..0739143d1419c732359d3a3c3457c3acb90c5b22 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -5546,3 +5546,40 @@ struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
+>  	return page;
+>  }
+>  EXPORT_SYMBOL_GPL(shmem_read_mapping_page_gfp);
+> +
+> +#if defined(CONFIG_SYSFS) && defined(CONFIG_TMPFS)
+> +#if IS_ENABLED(CONFIG_UNICODE)
+> +static DEVICE_STRING_ATTR_RO(casefold, 0444, "supported");
+> +#endif
+> +
+> +static struct attribute *tmpfs_attributes[] = {
+> +#if IS_ENABLED(CONFIG_UNICODE)
+> +	&dev_attr_casefold.attr.attr,
+> +#endif
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group tmpfs_attribute_group = {
+> +	.attrs = tmpfs_attributes,
+> +	.name = "features"
+> +};
+> +
+> +static struct kobject *tmpfs_kobj;
+> +
+> +static int __init tmpfs_sysfs_init(void)
+> +{
+> +	int ret;
+> +
+> +	tmpfs_kobj = kobject_create_and_add("tmpfs", fs_kobj);
+> +	if (!tmpfs_kobj)
+> +		return -ENOMEM;
+> +
+> +	ret = sysfs_create_group(tmpfs_kobj, &tmpfs_attribute_group);
+> +	if (ret)
+> +		kobject_put(tmpfs_kobj);
+> +
+> +	return ret;
+> +}
+> +
+> +fs_initcall(tmpfs_sysfs_init);
+> +#endif /* CONFIG_SYSFS && CONFIG_TMPFS */
+> 
+> -- 
+> 2.47.0
+> 
 
- Documentation/sound/soc/clocking.rst | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+This change as commit 5132f08bd332 ("tmpfs: Expose filesystem features
+via sysfs") in -next introduces a kCFI violation when accessing
+/sys/fs/tmpfs/features/casefold. An attribute group created with
+sysfs_create_group() has ->sysfs_ops() set to kobj_sysfs_ops, which has
+a ->show() value of kobj_attr_show(). When kobj_attr_show() goes to call
+the attribute's ->show() value after container_of(), there will be a
+type mismatch in the case of the casefold attr, as it was defined with a
+->show() value of device_show_string() but that does not match the type
+of ->show() in 'struct kobj_attribute'.
 
-diff --git a/Documentation/sound/soc/clocking.rst b/Documentation/sound/soc/clocking.rst
-index 32122d6877a3..25d016ea8b65 100644
---- a/Documentation/sound/soc/clocking.rst
-+++ b/Documentation/sound/soc/clocking.rst
-@@ -42,5 +42,17 @@ rate, number of channels and word size) to save on power.
- It is also desirable to use the codec (if possible) to drive (or master) the
- audio clocks as it usually gives more accurate sample rates than the CPU.
- 
-+ASoC provided clock APIs
-+------------------------
- 
-+.. kernel-doc:: sound/soc/soc-dai.c
-+   :identifiers: snd_soc_dai_set_sysclk
- 
-+.. kernel-doc:: sound/soc/soc-dai.c
-+   :identifiers: snd_soc_dai_set_clkdiv
-+
-+.. kernel-doc:: sound/soc/soc-dai.c
-+   :identifiers: snd_soc_dai_set_pll
-+
-+.. kernel-doc:: sound/soc/soc-dai.c
-+   :identifiers: snd_soc_dai_set_bclk_ratio
--- 
-2.39.3 (Apple Git-146)
+I can easily reproduce this with the following commands:
 
+  $ printf 'CONFIG_%s=y\n' CFI_CLANG UNICODE >kernel/configs/repro.config
+
+  $ make -skj"$(nproc)" ARCH=arm64 LLVM=1 mrproper virtconfig repro.config Image.gz
+  ...
+
+  $ curl -LSs https://github.com/ClangBuiltLinux/boot-utils/releases/download/20230707-182910/arm64-rootfs.cpio.zst | zstd -d >rootfs.cpio
+
+  $ qemu-system-aarch64 \
+      -display none \
+      -nodefaults \
+      -cpu max,pauth-impdef=true \
+      -machine virt,gic-version=max,virtualization=true \
+      -append 'console=ttyAMA0 earlycon rdinit=/bin/sh' \
+      -kernel arch/arm64/boot/Image.gz \
+      -initrd rootfs.cpio \
+      -m 512m \
+      -serial mon:stdio
+  ...
+  # mount -t sysfs sys /sys
+  # cat /sys/fs/tmpfs/features/casefold
+  [   70.558496] CFI failure at kobj_attr_show+0x2c/0x4c (target: device_show_string+0x0/0x38; expected type: 0xc527b809)
+  [   70.560018] Internal error: Oops - CFI: 00000000f2008228 [#1] PREEMPT SMP
+  [   70.560647] Modules linked in:
+  [   70.561770] CPU: 0 UID: 0 PID: 46 Comm: cat Not tainted 6.12.0-rc4-00008-g5132f08bd332 #1
+  [   70.562429] Hardware name: linux,dummy-virt (DT)
+  [   70.562897] pstate: 21402009 (nzCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+  [   70.563377] pc : kobj_attr_show+0x2c/0x4c
+  [   70.563674] lr : sysfs_kf_seq_show+0xb4/0x130
+  [   70.563987] sp : ffff80008043bac0
+  [   70.564236] x29: ffff80008043bac0 x28: 000000007ffff001 x27: 0000000000000000
+  [   70.564877] x26: 0000000001000000 x25: 000000007ffff001 x24: 0000000000000001
+  [   70.565339] x23: fff000000238a000 x22: ffff9fa31a3996f8 x21: fff00000023fc000
+  [   70.565806] x20: fff000000201df80 x19: fff000000238b000 x18: 0000000000000000
+  [   70.566273] x17: 00000000c527b809 x16: 00000000df43c25c x15: fff000001fef8200
+  [   70.566727] x14: 0000000000000000 x13: fff00000022450f0 x12: 0000000000001000
+  [   70.567177] x11: fff00000023fc000 x10: 0000000000000000 x9 : ffff9fa31a18fac4
+  [   70.567682] x8 : ffff9fa319badde4 x7 : 0000000000000000 x6 : 000000000000003f
+  [   70.568138] x5 : 0000000000000040 x4 : 0000000000000000 x3 : 0000000000000004
+  [   70.568585] x2 : fff00000023fc000 x1 : ffff9fa31a881f90 x0 : fff000000201df80
+  [   70.569169] Call trace:
+  [   70.569389]  kobj_attr_show+0x2c/0x4c
+  [   70.569706]  sysfs_kf_seq_show+0xb4/0x130
+  [   70.570020]  kernfs_seq_show+0x44/0x54
+  [   70.570280]  seq_read_iter+0x14c/0x4b0
+  [   70.570543]  kernfs_fop_read_iter+0x60/0x198
+  [   70.570820]  copy_splice_read+0x1f0/0x2f4
+  [   70.571092]  splice_direct_to_actor+0xf4/0x2e0
+  [   70.571376]  do_splice_direct+0x68/0xb8
+  [   70.571626]  do_sendfile+0x1e8/0x488
+  [   70.571874]  __arm64_sys_sendfile64+0xe0/0x12c
+  [   70.572161]  invoke_syscall+0x58/0x114
+  [   70.572424]  el0_svc_common+0xa8/0xdc
+  [   70.572676]  do_el0_svc+0x1c/0x28
+  [   70.572910]  el0_svc+0x38/0x68
+  [   70.573132]  el0t_64_sync_handler+0x90/0xfc
+  [   70.573394]  el0t_64_sync+0x190/0x19
+  [   70.574001] Code: 72970131 72b8a4f1 6b11021f 54000040 (d4304500)
+  [   70.574635] ---[ end trace 0000000000000000 ]---
+
+I am not sure if there is a better API exists or if a local copy should
+be rolled but I think the current scheme is definitely wrong because
+there is no 'struct device' here.
+
+If there is any patch I can test or further information I can provide, I
+am more than happy to do so.
+
+Cheers,
+Nathan
