@@ -1,91 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3BE1BD9ED;
-	Thu, 31 Oct 2024 09:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27ED51494A3
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 09:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730365536; cv=none; b=jRLFUHaDhawOOosw6jwRBzwt5fS8zFezPukS0atGK0S42PyfSRRdJQh11Nfiy/YiLnpuZ+l2Ho3dy6KrwOfC8BwEiw2iYK1HEn9yPixKjAEWTrkCmnDTxWJ8j14+jbkH1kKDs9bW0G4KNkjvoLoCkFsGmKuFJiNfzc90Q6GS5M0=
+	t=1730366716; cv=none; b=uva+fZfzllpLAPgpcIBTW7dkynjRwJIWPIzEpVcLYoJeDTtsAxEg+0foI72N2zXyadXIV0/VwQfBT5KUDrvCYo2QMIlQGKoViMLvgUaHUVHuVPAQ9DiGsjpCBwShppqp2Lt+sPBG1h3LKw31fCkGkQmC99MuAjj2ERioj0BC4jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730365536; c=relaxed/simple;
-	bh=GG1JVJs4dR1AOjE1AJ7ilFPgtAWW0eecmwqTp/vt+xo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JL4tYAR5kRcDvdtnAsHyh0rE+tlwPiEGJmicXcf1WZbwYu19Wuo6qD54KAXfllD83qohOO84Y3TImntX5oYPtHLMqoCRyYw9Ghduf33ADU9ivkGJQ0JlE4J9BWHYTid3RblvUAGNLjMdQvMeNxVLEBjOA9nvesucvGgkw6/C5kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QmlWshUd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730366716; c=relaxed/simple;
+	bh=f1HdzsV7YLGVcnFKYBqESX9JVFF3pHrZctef8EYPBBo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c0Q37Y70skJC4bslY5IdYZFO8kYMW88xkfJFrmyzzHLRkzf9XvqW30IRQ+qyNPwQbeqvfvU/5ybF9aSpwMJTkktmdnBwDjlsvmc5p2gvSQ1PvJEtYb38mN1L+SVCNKuXD3vDXxXTaILSSu6Vl7mly3NVEFb8uG6DpRWVzWT4K2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hIjH2sJj; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QmlWshUd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E46ACC4CEC3;
-	Thu, 31 Oct 2024 09:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730365535;
-	bh=GG1JVJs4dR1AOjE1AJ7ilFPgtAWW0eecmwqTp/vt+xo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QmlWshUdBNcB1FWxXRPNndrpzxX3aAqhzeAeIGagnyn4fy5f45tGBkaDIMtVIOMSH
-	 f2449uvXl29R43CYnG1NWyJNJFs8AcYS+J3/4AoaP+t4DGqAhmFlaAi0DonSP1IJXs
-	 nqTFKGmBX62BU7Kq02whoNjJqhZNJXu4xTMAUf5TA9MsBWXeKgqU/7OfPHX4JQdM6Q
-	 cYeO/+jCF2CQ7VRPVWNfb4dd0leBLAU/Wm+kzEVcI2myW0Ik/rO07OwQb1Z9w7wpM9
-	 cbflE1vTPSMudvnmxNiKBwpQsf9zOOlAijHfeIWAa1xqN0InkTRlZPm0qFA7PRteHE
-	 VKaKdM1Y44eGA==
-Date: Thu, 31 Oct 2024 11:05:30 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
-Message-ID: <20241031090530.GC7473@unreal>
-References: <cover.1730298502.git.leon@kernel.org>
- <3144b6e7-5c80-46d2-8ddc-a71af3c23072@kernel.dk>
- <20241031083450.GA30625@lst.de>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hIjH2sJj"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2cc469c62so488827a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 02:25:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1730366713; x=1730971513; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lcLB4HIZIK9oMvpqdAO2JM1v5FMdpcqxSsSVqe7+kq0=;
+        b=hIjH2sJjYXgRh2d/cZHKE1fVLWmbkUHiB29dCGH6onGlS3oRhMncWZEaH50x7bjmGX
+         AglZgDbHIsGVoj3vp1tkeGyeuSy5uvtrSfrmj7uSKNf4HCejiXZgyPhAHhRSIMKasU2v
+         lSoYTioSaNphcFncA6+0sEcX5gcFWkKnX7Egc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730366713; x=1730971513;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lcLB4HIZIK9oMvpqdAO2JM1v5FMdpcqxSsSVqe7+kq0=;
+        b=rBpyw5HFIbgqoHIth3qPIVH8PVBaAj7gXJV6h1tDmdOI6AXqz+7CYCZBZR/5rMfxyk
+         GUT6EhJX+uF1uJ313FeB0kJw4X7vsgs0ZgAytXhmsnifrQ6QdAs5KqJj3h2xx5Y2pzq4
+         UkCbZWaG/2phRsrXf3zcdEzNuypJvWMYp0JvdoEjk+lEHZxW1vNmykc9lsKORu4vWPmC
+         whvcnVhJiNSUCyIiAzaSS8fqa3zX7p+RNKMKEF8xNc2dBB3Wo7rlINUiAhAGph4Iv8Dx
+         tIy2duEyi7vTM34LxSNotTs1hh2RZM9WF09Zrdy7Ubbogi/hFziQSJ+2Ji4/p3c38IF0
+         /Bcg==
+X-Forwarded-Encrypted: i=1; AJvYcCU1/XU5YmI7EWakY0rCKHyvMsOIbB7o1YGXbMDDhmhzuIW0iapcMN7uXux2nINIowOxCx5s7wRrDIM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfEmqWvQGTWJXOu18f5Fc7VNygj3EBec9OBDS3TRfxhr2PsPZw
+	OOAHD3+y3QokIu4QBMLH3/RokVATNBHlF/x7AsK37p7aNld9VvJ1GvDFRyFINA==
+X-Google-Smtp-Source: AGHT+IFRvrb9zsW85LZDqilyIUEvRLLhdyBSF+TWI+xHMtdLZ26nlm2NAngIK5apmSpEcozgXAu4Hw==
+X-Received: by 2002:a17:90a:1f87:b0:2e2:d3f6:6efc with SMTP id 98e67ed59e1d1-2e8f10a8890mr20553638a91.28.1730366713299;
+        Thu, 31 Oct 2024 02:25:13 -0700 (PDT)
+Received: from li-cloudtop.c.googlers.com.com (51.193.125.34.bc.googleusercontent.com. [34.125.193.51])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fbe707fsm3074953a91.37.2024.10.31.02.25.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 02:25:12 -0700 (PDT)
+From: Li Li <dualli@chromium.org>
+To: dualli@google.com,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org,
+	arve@android.com,
+	tkjos@android.com,
+	maco@android.com,
+	joel@joelfernandes.org,
+	brauner@kernel.org,
+	cmllamas@google.com,
+	surenb@google.com,
+	arnd@arndb.de,
+	masahiroy@kernel.org,
+	bagasdotme@gmail.com,
+	horms@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	hridya@google.com,
+	smoreland@google.com
+Cc: kernel-team@android.com
+Subject: [PATCH net-next v7 0/2] binder: report txn errors via generic netlink
+Date: Thu, 31 Oct 2024 02:25:02 -0700
+Message-ID: <20241031092504.840708-1-dualli@chromium.org>
+X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241031083450.GA30625@lst.de>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 31, 2024 at 09:34:50AM +0100, Christoph Hellwig wrote:
-> On Wed, Oct 30, 2024 at 07:44:13PM -0600, Jens Axboe wrote:
-> > On Christoph's request, I tested this series last week and saw some
-> > pretty significant performance regressions on my box. I don't know what
-> > the status is in terms of that, just want to make sure something like
-> > this doesn't get merged until that is both fully understood and sorted
-> > out.
+From: Li Li <dualli@google.com>
 
-This series is a subset of the series you tested and doesn't include the
-block layer changes which most likely were the cause of the performance
-regression.
+It's a known issue that neither the frozen processes nor the system
+administration process of the OS can correctly deal with failed binder
+transactions. The reason is that there's no reliable way for the user
+space administration process to fetch the binder errors from the kernel
+binder driver.
 
-This is why I separated the block layer changes from the rest of the series
-and marked them as RFC.
+Android is such an OS suffering from this issue. Since cgroup freezer
+was used to freeze user applications to save battery, innocent frozen
+apps have to be killed when they receive sync binder transactions or
+when their async binder buffer is running out.
 
-The current patch set is viable for HMM and VFIO. Can you please retest
-only this series and leave the block layer changes for later till Christoph
-finds the answer for the performance regression?
+This patch introduces the Linux generic netlink messages into the binder
+driver so that the Linux/Android system administration process can
+listen to important events and take corresponding actions, like stopping
+a broken app from attacking the OS by sending huge amount of spamming
+binder transactiions.
 
-Thanks
+The 1st version uses a global generic netlink for all binder contexts,
+raising potential security concerns. There were a few other feedbacks
+like request to kernel docs and test code. The thread can be found at
+https://lore.kernel.org/lkml/20240812211844.4107494-1-dualli@chromium.org/
 
-> 
-> Working on it, but I have way too many things going on at once.  Note
-> that the weird thing about your setup was that we apparently dropped into
-> the slow path, which still puzzles me.  But I should probably also look
-> into making that path a little less slow.
-> 
-> 
+The 2nd version fixes those issues and has been tested on the latest
+version of AOSP. See https://r.android.com/3305462 for how userspace is
+going to use this feature and the test code. It can be found at
+https://lore.kernel.org/lkml/20241011064427.1565287-1-dualli@chromium.org/
+
+The 3rd version replaces the handcrafted netlink source code with the
+netlink protocal specs in YAML. It also fixes the documentation issues.
+https://lore.kernel.org/lkml/20241021182821.1259487-1-dualli@chromium.org/
+
+The 4th version just containsi trivial fixes, making the subject of the
+patch aligned with the subject of the cover letter.
+https://lore.kernel.org/lkml/20241021191233.1334897-1-dualli@chromium.org/
+
+The 5th version incorporates the suggested fixes to the kernel doc and
+the init function. It also removes the unsupported uapi-header in YAML
+that contains "/" for subdirectory.
+https://lore.kernel.org/lkml/20241025075102.1785960-1-dualli@chromium.org/
+
+The 6th version has some trivial kernel doc fixes, without modifying
+any other source code.
+https://lore.kernel.org/lkml/20241028101952.775731-1-dualli@chromium.org/
+
+The 7th version breaks the binary struct netlink message into individual
+attributes to better support automatic error checking. Thanks Jakub for
+improving ynl-gen.
+
+v1: add a global binder genl socket for all contexts
+v2: change to per-context binder genl for security reason
+    replace the new ioctl with a netlink command
+    add corresponding doc Documentation/admin-guide/binder_genl.rst
+    add user space test code in AOSP
+v3: use YNL spec (./tools/net/ynl/ynl-regen.sh)
+    fix documentation index
+v4: change the subject of the patch and remove unsed #if 0
+v5: improve the kernel doc and the init function
+    remove unsupported uapi-header in YAML
+v6: fix some trivial kernel doc issues
+v7: break the binary struct binder_report into individual attributes
+
+Jakub Kicinski (1):
+  tools: ynl-gen: allow uapi headers in sub-dirs
+
+Li Li (1):
+  binder: report txn errors via generic netlink
+
+ Documentation/admin-guide/binder_genl.rst    |  93 ++++++
+ Documentation/admin-guide/index.rst          |   1 +
+ Documentation/netlink/specs/binder_genl.yaml | 114 +++++++
+ drivers/android/Kconfig                      |   1 +
+ drivers/android/Makefile                     |   2 +-
+ drivers/android/binder.c                     | 313 ++++++++++++++++++-
+ drivers/android/binder_genl.c                |  38 +++
+ drivers/android/binder_genl.h                |  18 ++
+ drivers/android/binder_internal.h            |  22 ++
+ drivers/android/binder_trace.h               |  35 +++
+ drivers/android/binderfs.c                   |   4 +
+ include/uapi/linux/android/binder.h          |  31 ++
+ include/uapi/linux/android/binder_genl.h     |  56 ++++
+ tools/net/ynl/ynl-gen-c.py                   |   1 +
+ 14 files changed, 721 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/admin-guide/binder_genl.rst
+ create mode 100644 Documentation/netlink/specs/binder_genl.yaml
+ create mode 100644 drivers/android/binder_genl.c
+ create mode 100644 drivers/android/binder_genl.h
+ create mode 100644 include/uapi/linux/android/binder_genl.h
+
+
+base-commit: d30b56c8666d2543112152dd5d93d052eafd6bc2
+-- 
+2.47.0.163.g1226f6d8fa-goog
+
