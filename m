@@ -1,219 +1,281 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C75B12BF24;
-	Thu, 31 Oct 2024 17:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EA213A868
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 17:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730395920; cv=none; b=I/UTdlVfFP4pyupQUmqceBBOxJ/Du8TwkDK6MQ3nADuVnhZJOmV1F5CQ0GjMxdnfhSv9YRXon8QG3Sr5TYmqdHr1D9mXh1s5I+Ls7nrxaBH3wVcS92dRsOYdNNOqMRhWZMn/DVYkfoz8uBGFTaAtzYd4uSarODXDFRJgLw+1NaU=
+	t=1730396022; cv=none; b=h1P3BX4Xs9JQIyl6wHslYUUpzkDyRf5zkPg5P0cpEu5Ko2h0th/W1RrVUx+NIBQLO+gFl2Hcj0pTfJHRPqHOlTsZeQJfcDWIWzIdh3c7na+jAhnqylmPGZNCU/byfzta3u/rnjPvXf7tmwf8mkBIISyWC9s1avG3xgRbkOf/xGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730395920; c=relaxed/simple;
-	bh=xGVT2nBFCDAbzlIh7Ah1fbzejAdzg17V5Cpg2c4tHcY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q6Z51Im0hI5/Uot/c32BU8E2YfPQbMT1lj+QYoTKOOPYHA48TLfYTVows6FMgNVQRV9Q3rbU9aph1+XKpPcKPNMMBqMuoxyltiNpQt5+gDDFwI7vJobbNXVviMoQnRS3EibzgpboHqInD8h2mKatWDj0SJCXZzJKv/Vy/F9otLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=L4WjqTxB; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="L4WjqTxB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Ffw5aTG/Bg8AZvVV88lvHBoZWy1zMvuq5Y4L7YnrbgE=; b=L4WjqTxBbEYzeWZS79F4oi3fLN
-	DQRV8F4k3QheS9+mQuPSDjQLUMzjppXK0+Up04zWhnkgMJVX6X50RZvY8sSMbfoBxnVm9Dn8sUTHN
-	ylnFebThg+uuZpPbkrTdyM6qWuhC9pYOXmgkPYPunDWWVPud1qVSMdgb/ImjMbqL0wQNOZQcDV2Fb
-	RATS7IzlnaLXDvV2SKK+kcI9XqANr2Hzhuxb+Z0AHcvsRfGzOX5Up5jLv4bKLk60BNY0W9OzGzza8
-	eDwMlr74hgZ2QqrKX5hKhINDjJxZjp34aG4t7EuRjCHEfzXCQcYdh5vtY5HoCLcCPuMQgWQbbMy0A
-	636bhaNw==;
-Received: from [189.78.222.89] (helo=[192.168.15.100])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1t6Z18-0007Hm-Rc; Thu, 31 Oct 2024 18:31:31 +0100
-Message-ID: <c104f427-f9d9-498c-a719-ed6bf118226d@igalia.com>
-Date: Thu, 31 Oct 2024 14:31:21 -0300
+	s=arc-20240116; t=1730396022; c=relaxed/simple;
+	bh=Ert0mHUbaRsNQ6biPmh//hNtFM+72TJEV28aPZ+D5N8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q/6LUqYCXlPX0uTPbxz3G1qzWvU0lztTy8kTYJzoalVyWNOz8wHhkWGwxden/F1mIWN2WFUlQXlQI3NYbbkKvWvfzfyJLyzwTTkSCxUWqQaT2Us2Kdp50vyRhZfeHupZJktNl/yyF8TmGOsRCVXq+o5RET28oQQF7QH8QsS+kJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1t6Z2H-0002lx-NB; Thu, 31 Oct 2024 18:32:41 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1t6Z2F-001O7s-1j;
+	Thu, 31 Oct 2024 18:32:39 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1t6Z2F-006Gv8-1L;
+	Thu, 31 Oct 2024 18:32:39 +0100
+Date: Thu, 31 Oct 2024 18:32:39 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v2 15/18] net: pse-pd: Add support for
+ getting and setting port priority
+Message-ID: <ZyO_N1EOTZCprgMJ@pengutronix.de>
+References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
+ <20241030-feature_poe_port_prio-v2-15-9559622ee47a@bootlin.com>
+ <ZyMpkJRHZWYsszh2@pengutronix.de>
+ <20241031121104.6f7d669c@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 8/9] tmpfs: Expose filesystem features via sysfs
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Gabriel Krisman Bertazi <krisman@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
- Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, smcv@collabora.com, kernel-dev@igalia.com,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- Gabriel Krisman Bertazi <krisman@suse.de>, llvm@lists.linux.dev,
- linux-btrfs@vger.kernel.org, Chris Mason <clm@fb.com>
-References: <20241021-tonyk-tmpfs-v8-0-f443d5814194@igalia.com>
- <20241021-tonyk-tmpfs-v8-8-f443d5814194@igalia.com>
- <20241031051822.GA2947788@thelio-3990X>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20241031051822.GA2947788@thelio-3990X>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241031121104.6f7d669c@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Hi Nathan,
+On Thu, Oct 31, 2024 at 12:11:04PM +0100, Kory Maincent wrote:
+> > This part will need some clarification about behavior with mixed port
+> > configurations. Here is my proposal:
+> > 
+> >  * Expected behaviors in mixed port priority configurations:
+> >  * - When ports are configured with a mix of disabled, static, and dynamic
+> >  *   priority modes, the following behaviors are expected:
+> >  *     - Ports with priority disabled (ETHTOOL_PSE_PORT_PRIO_DISABLED) are
+> >  *       treated with lowest priority, receiving power only if the budget
+> >  *       remains after static and dynamic ports have been served.
+> >  *     - Static-priority ports are allocated power up to their requested
+> >  *       levels during PD classification, provided the budget allows.
+> >  *     - Dynamic-priority ports receive power based on real-time consumption,
+> >  *       as monitored by the PSE controller, relative to the remaining budget
+> >  *       after static ports.
+> 
+> I was not thinking of supporting mixed configuration but indeed why not.
+> The thing is the Microchip PSE does not support static priority. I didn't find a
+> way to have only detection and classification enabled without auto activation.
+> Mixed priority could not be tested for now.
 
-Em 31/10/2024 02:18, Nathan Chancellor escreveu:
-> Hi André,
-> 
-> On Mon, Oct 21, 2024 at 01:37:24PM -0300, André Almeida wrote:
->> Expose filesystem features through sysfs, so userspace can query if
->> tmpfs support casefold.
->>
->> This follows the same setup as defined by ext4 and f2fs to expose
->> casefold support to userspace.
->>
->> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->> Reviewed-by: Gabriel Krisman Bertazi <krisman@suse.de>
->> ---
->>   mm/shmem.c | 37 +++++++++++++++++++++++++++++++++++++
->>   1 file changed, 37 insertions(+)
->>
->> diff --git a/mm/shmem.c b/mm/shmem.c
->> index ea01628e443423d82d44277e085b867ab9bf4b28..0739143d1419c732359d3a3c3457c3acb90c5b22 100644
->> --- a/mm/shmem.c
->> +++ b/mm/shmem.c
->> @@ -5546,3 +5546,40 @@ struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
->>   	return page;
->>   }
->>   EXPORT_SYMBOL_GPL(shmem_read_mapping_page_gfp);
->> +
->> +#if defined(CONFIG_SYSFS) && defined(CONFIG_TMPFS)
->> +#if IS_ENABLED(CONFIG_UNICODE)
->> +static DEVICE_STRING_ATTR_RO(casefold, 0444, "supported");
->> +#endif
->> +
->> +static struct attribute *tmpfs_attributes[] = {
->> +#if IS_ENABLED(CONFIG_UNICODE)
->> +	&dev_attr_casefold.attr.attr,
->> +#endif
->> +	NULL
->> +};
->> +
->> +static const struct attribute_group tmpfs_attribute_group = {
->> +	.attrs = tmpfs_attributes,
->> +	.name = "features"
->> +};
->> +
->> +static struct kobject *tmpfs_kobj;
->> +
->> +static int __init tmpfs_sysfs_init(void)
->> +{
->> +	int ret;
->> +
->> +	tmpfs_kobj = kobject_create_and_add("tmpfs", fs_kobj);
->> +	if (!tmpfs_kobj)
->> +		return -ENOMEM;
->> +
->> +	ret = sysfs_create_group(tmpfs_kobj, &tmpfs_attribute_group);
->> +	if (ret)
->> +		kobject_put(tmpfs_kobj);
->> +
->> +	return ret;
->> +}
->> +
->> +fs_initcall(tmpfs_sysfs_init);
->> +#endif /* CONFIG_SYSFS && CONFIG_TMPFS */
->>
->> -- 
->> 2.47.0
->>
-> 
-> This change as commit 5132f08bd332 ("tmpfs: Expose filesystem features
-> via sysfs") in -next introduces a kCFI violation when accessing
-> /sys/fs/tmpfs/features/casefold. An attribute group created with
-> sysfs_create_group() has ->sysfs_ops() set to kobj_sysfs_ops, which has
-> a ->show() value of kobj_attr_show(). When kobj_attr_show() goes to call
-> the attribute's ->show() value after container_of(), there will be a
-> type mismatch in the case of the casefold attr, as it was defined with a
-> ->show() value of device_show_string() but that does not match the type
-> of ->show() in 'struct kobj_attribute'.
-> 
-> I can easily reproduce this with the following commands:
-> 
->    $ printf 'CONFIG_%s=y\n' CFI_CLANG UNICODE >kernel/configs/repro.config
-> 
->    $ make -skj"$(nproc)" ARCH=arm64 LLVM=1 mrproper virtconfig repro.config Image.gz
->    ...
-> 
->    $ curl -LSs https://github.com/ClangBuiltLinux/boot-utils/releases/download/20230707-182910/arm64-rootfs.cpio.zst | zstd -d >rootfs.cpio
-> 
->    $ qemu-system-aarch64 \
->        -display none \
->        -nodefaults \
->        -cpu max,pauth-impdef=true \
->        -machine virt,gic-version=max,virtualization=true \
->        -append 'console=ttyAMA0 earlycon rdinit=/bin/sh' \
->        -kernel arch/arm64/boot/Image.gz \
->        -initrd rootfs.cpio \
->        -m 512m \
->        -serial mon:stdio
->    ...
->    # mount -t sysfs sys /sys
->    # cat /sys/fs/tmpfs/features/casefold
->    [   70.558496] CFI failure at kobj_attr_show+0x2c/0x4c (target: device_show_string+0x0/0x38; expected type: 0xc527b809)
->    [   70.560018] Internal error: Oops - CFI: 00000000f2008228 [#1] PREEMPT SMP
->    [   70.560647] Modules linked in:
->    [   70.561770] CPU: 0 UID: 0 PID: 46 Comm: cat Not tainted 6.12.0-rc4-00008-g5132f08bd332 #1
->    [   70.562429] Hardware name: linux,dummy-virt (DT)
->    [   70.562897] pstate: 21402009 (nzCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
->    [   70.563377] pc : kobj_attr_show+0x2c/0x4c
->    [   70.563674] lr : sysfs_kf_seq_show+0xb4/0x130
->    [   70.563987] sp : ffff80008043bac0
->    [   70.564236] x29: ffff80008043bac0 x28: 000000007ffff001 x27: 0000000000000000
->    [   70.564877] x26: 0000000001000000 x25: 000000007ffff001 x24: 0000000000000001
->    [   70.565339] x23: fff000000238a000 x22: ffff9fa31a3996f8 x21: fff00000023fc000
->    [   70.565806] x20: fff000000201df80 x19: fff000000238b000 x18: 0000000000000000
->    [   70.566273] x17: 00000000c527b809 x16: 00000000df43c25c x15: fff000001fef8200
->    [   70.566727] x14: 0000000000000000 x13: fff00000022450f0 x12: 0000000000001000
->    [   70.567177] x11: fff00000023fc000 x10: 0000000000000000 x9 : ffff9fa31a18fac4
->    [   70.567682] x8 : ffff9fa319badde4 x7 : 0000000000000000 x6 : 000000000000003f
->    [   70.568138] x5 : 0000000000000040 x4 : 0000000000000000 x3 : 0000000000000004
->    [   70.568585] x2 : fff00000023fc000 x1 : ffff9fa31a881f90 x0 : fff000000201df80
->    [   70.569169] Call trace:
->    [   70.569389]  kobj_attr_show+0x2c/0x4c
->    [   70.569706]  sysfs_kf_seq_show+0xb4/0x130
->    [   70.570020]  kernfs_seq_show+0x44/0x54
->    [   70.570280]  seq_read_iter+0x14c/0x4b0
->    [   70.570543]  kernfs_fop_read_iter+0x60/0x198
->    [   70.570820]  copy_splice_read+0x1f0/0x2f4
->    [   70.571092]  splice_direct_to_actor+0xf4/0x2e0
->    [   70.571376]  do_splice_direct+0x68/0xb8
->    [   70.571626]  do_sendfile+0x1e8/0x488
->    [   70.571874]  __arm64_sys_sendfile64+0xe0/0x12c
->    [   70.572161]  invoke_syscall+0x58/0x114
->    [   70.572424]  el0_svc_common+0xa8/0xdc
->    [   70.572676]  do_el0_svc+0x1c/0x28
->    [   70.572910]  el0_svc+0x38/0x68
->    [   70.573132]  el0t_64_sync_handler+0x90/0xfc
->    [   70.573394]  el0t_64_sync+0x190/0x19
->    [   70.574001] Code: 72970131 72b8a4f1 6b11021f 54000040 (d4304500)
->    [   70.574635] ---[ end trace 0000000000000000 ]---
-> 
-> I am not sure if there is a better API exists or if a local copy should
-> be rolled but I think the current scheme is definitely wrong because
-> there is no 'struct device' here.
-> 
+No, problem.
 
-Thank you for the report, I'm trying to fix it, it seems I have used 
-something for device drivers in a filesystem. I wonder how btrfs doesn't 
-get this error, since tmpfs_sysfs_init() is very similar to 
-btrfs_init_sysfs().
-
-> If there is any patch I can test or further information I can provide, I
-> am more than happy to do so.
+> "Requested Power: The requested power of the logical port, related to the
+> requested class. In case of DSPD, it is the sum of the related class power for
+> each pair-set. The value is in steps of 0.1 W.
+> Assigned Class: The assigned classification depends on the requested class and
+> the available power. An 0xC value means that classification was not assigned
+> and power was not allocated to this port."
 > 
-> Cheers,
-> Nathan
+> We could set the current limit to all unconnected ports if the budget limit goes
+> under 100W. This will add complexity as the PD692x0 can set current limit only
+> inside specific ranges. Maybe it is a bit too specific to Microchip.
+> Microchip PSE should only support dynamic mode.
 
+No need to fake it right now, you came up with nice idea to have
+"configurable" method, wich in case of PD692x0 is only a single build in
+method. Since user space will be ably to see available and used
+prioritization methods - i'm happy with it.
+
+> >  *
+> >  * Handling scenarios where power budget is exceeded:
+> >  * - Hot-plug behavior: If a new device is added that causes the total power
+> >  *   demand to exceed the PSE budget, the newly added device is de-prioritized
+> >  *   and shut down to maintain stability for previously connected devices.
+> >  *   This behavior ensures that existing connections are not disrupted, though
+> >  *   it may lead to inconsistent behavior if the device is disconnected and
+> >  *   reconnected (hot-plugged).
+> 
+> Do we want this behavior even if the new device has an highest priority than
+> other previously connected devices?
+
+Huh... good question. I assume, if we go with policy in kernel, then it
+is ok to implement just some one. But, I assume, we will need this kind of
+interface soon or later: 
+
+Warning! this is discussion, i'm in process of understanding :D
+
+/**
+ * enum pse_disconnection_policy - Disconnection strategies for same-priority
+ *   devices when power budget is exceeded, tailored to specific priority modes.
+ *
+ * Each device can have multiple disconnection policies set as an array of
+ * priorities. When the power budget is exceeded, the policies are executed
+ * in the order defined by the user. This allows for a more nuanced and 
+ * flexible approach to handling power constraints across a range of devices
+ * with similar priorities or attributes.
+ *
+ * Example Usage:
+ *   - Users can specify an ordered list of policies, such as starting with
+ *     `PSE_DISCON_STATIC_CLASS_HIGHEST_FIRST` to prioritize based on class,
+ *     followed by `PSE_DISCON_LRC` to break ties based on connection time.
+ *     This ordered execution ensures that power disconnections align closely
+ *     with the system’s operational requirements and priorities.
+ *
+ * @PSE_DISCON_LRC: Disconnect least recently connected device.
+ *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_STATIC
+ *   - Behavior: When multiple devices share the same priority level, the
+ *     system disconnects the device that was most recently connected.
+ *   - Rationale: This strategy favors stability for longer-standing connections,
+ *     assuming that established devices may be more critical.
+ *   - Use Case: Suitable for systems prioritizing stable power allocation for
+ *     existing static-priority connections, making newer devices suitable
+ *     candidates for disconnection if limits are exceeded.
+
+ * @PSE_DISCON_ROUND_ROBIN_IDX_LOWEST_FIRST: Disconnect based on port index in a 
+ *   round-robin manner, starting with the lowest index.
+ *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_STATIC
+ *   - Behavior: Disconnects devices sequentially based on port index, starting
+ *     with the lowest. If multiple disconnections are required, the process
+ *     continues in ascending order.
+ *   - Rationale: Provides a predictable, systematic approach for static-priority
+ *     devices, making it clear which device will be disconnected next if power
+ *     limits are reached.
+ *   - Use Case: Appropriate for systems where static-priority devices are equal
+ *     in role, and fairness in disconnections is prioritized.
+
+ * @PSE_DISCON_ROUND_ROBIN_IDX_HIGHEST_FIRST: Disconnect based on port index in a 
+ *   round-robin manner, starting with the highest index.
+ *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_STATIC
+ *   - Behavior: Disconnects devices sequentially based on port index, starting
+ *     with the highest. If multiple disconnections are required, the process
+ *     continues in descending order.
+ *   - Rationale: Provides a predictable, systematic approach for static-priority
+ *     devices, prioritizing disconnection from the highest port number downwards.
+ *   - Use Case: Suitable for scenarios where higher port numbers are less critical,
+ *     or where devices connected to higher ports can be sacrificed first.
+
+ * @PSE_DISCON_STATIC_CLASS_HIGHEST_FIRST: Disconnect based on static allocation
+ *   class, disconnecting higher-class devices first.
+ *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_STATIC
+ *   - Behavior: Disconnects devices in order of their assigned power class,
+ *     with higher-class devices being disconnected first.
+ *   - Rationale: This strategy can be useful in scenarios where the goal is to
+ *     preserve lower-class devices for minimal essential services, possibly
+ *     sacrificing higher-class, power-intensive devices.
+ *   - Use Case: Fits scenarios where power classes represent power-hungry or
+ *     non-essential devices, allowing essential services to continue under
+ *     constrained power conditions.
+
+ * @PSE_DISCON_STATIC_CLASS_LOWEST_FIRST: Disconnect based on static allocation
+ *   class, disconnecting lower-class devices first.
+ *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_STATIC
+ *   - Behavior: Disconnects devices in order of their assigned power class,
+ *     with lower-class devices being disconnected first.
+ *   - Rationale: Ensures that higher-class, more critical devices retain power
+ *     during constrained conditions.
+ *   - Use Case: Fits scenarios where power classes represent priority, allowing
+ *     the system to maintain higher-class static devices under constrained
+ *     conditions.
+
+ * @PSE_DISCON_STATIC_CLASS_BUDGET_MATCH: Disconnect based on static allocation
+ *   class, targeting devices that release enough allocated power to meet the
+ *   current power requirement.
+ *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_STATIC
+ *   - Behavior: Searches for the lowest-priority device that can release
+ *     sufficient allocated power to meet the current budget requirement.
+ *     Ensures that disconnection occurs only when enough power is freed.
+ *   - Rationale: This strategy is useful when the goal is to balance power
+ *     budget requirements while minimizing the number of disconnected devices.
+ *     It ensures that the system does not needlessly disconnect multiple
+ *     devices if a single disconnection is sufficient to meet the power needs.
+ *   - Use Case: Ideal for systems where precise power budget management is
+ *     necessary, and disconnections must be efficient in terms of freeing
+ *     enough power with minimal impact on the system.
+
+ * @PSE_DISCON_LOWEST_AVG_POWER: Disconnect device with the lowest average
+ *   power draw, minimizing impact on dynamic power allocation.
+ *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_DYNAMIC
+ *   - Behavior: Among devices with the same priority level, the system
+ *     disconnects the device with the lowest average power draw.
+ *   - If multiple devices have the same average power draw and priority,
+ *     further tie-breaking mechanisms can be applied, such as disconnecting
+ *     the least recently connected device.
+ *   - Rationale: Minimizes disruption across dynamic devices, keeping as many
+ *     active as possible by removing the lowest-power ones.
+ *   - Use Case: Suitable for dynamic-priority systems where maximizing the
+ *     number of connected devices is more important than individual device
+ *     power requirements.
+
+ * @PSE_DISCON_LONGEST_IDLE: Disconnect device with the longest idle time
+ *   (low or no recent active power usage).
+ *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_DYNAMIC
+ *   - Behavior: Disconnects the device with the longest period of inactivity,
+ *     where "idle" is defined as low current draw or absence of recent data
+ *     transmission.
+ *   - If multiple devices have the same idle time and priority, a tie-breaking
+ *     mechanism, such as round-robin based on port index, can be used.
+ *   - Rationale: Optimizes resource allocation in dynamic-priority setups by
+ *     maintaining active devices while deprioritizing those with minimal
+ *     recent usage.
+ *   - Use Case: Ideal for dynamic environments, like sensor networks, where
+ *     devices may be intermittently active and can be deprioritized during
+ *     idle periods.
+ *
+ * These disconnection policies provide flexibility in handling cases where
+ * multiple devices with the same priority exceed the PSE budget, aligning
+ * with either static or dynamic port priority modes:
+ *   - `ETHTOOL_PSE_PORT_PRIO_STATIC` benefits from policies that maintain
+ *     stable power allocation, favoring longer-standing or higher-class
+ *     devices (e.g., `PSE_DISCON_LRC`, `PSE_DISCON_ROUND_ROBIN_IDX`,
+ *     `PSE_DISCON_STATIC_CLASS_HIGHEST_FIRST`, `PSE_DISCON_STATIC_CLASS_LOWEST_FIRST`,
+ *     `PSE_DISCON_STATIC_CLASS_BUDGET_MATCH`).
+ *   - `ETHTOOL_PSE_PORT_PRIO_DYNAMIC` supports policies that dynamically
+ *     adjust based on real-time metrics (e.g., `PSE_DISCON_LOWEST_AVG_POWER`,
+ *     `PSE_DISCON_LONGEST_IDLE`), ideal for setups where usage fluctuates
+ *     frequently.
+ *   - Users can define an ordered array of disconnection policies, allowing
+ *     the system to apply each policy in sequence, providing nuanced control
+ *     over how power disconnections are handled.
+ */
+
+PD692x0 seems to use @PSE_DISCON_ROUND_ROBIN_IDX_HIGHEST_FIRST disconnection
+policy.
+
+ETHTOOL_PSE_PORT_PRIO_DYNAMIC and ETHTOOL_PSE_PORT_PRIO_STATIC seems to be the
+source of information which should be used to trigger the disconnection policy.
+Correct?
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
