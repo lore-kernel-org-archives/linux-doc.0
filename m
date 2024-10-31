@@ -1,258 +1,216 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D3C1C463F;
-	Thu, 31 Oct 2024 18:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E8F1BD000;
+	Thu, 31 Oct 2024 18:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730397985; cv=none; b=LLsV0empd1eNISs/y8/w5ksrmhAXBKHGPY03eFDNn74d2LQkfL3zpSPtp2m0+D2+yXDINnBe/TW7ePUKZMzlJGe7usLftNK60Jb7Gnk70fqozhe4QTOb23FqzP7DzTAg1HkIOz7OnG91LnDyXBTAaO8/erKfYybr0K5PeTAE9X0=
+	t=1730398434; cv=none; b=m0ZuhdeEIQZQhmLxRsz22FmQ0FretvXdBb90snpwbU4DSZ++C3KlUa/U98FpvwketCKj5zXGNXE9PtU7JydXpeAcum2GLIUKjePwSphFji1EjO4JVPbiga82nLRajvLVgkG1ER6suFat/K0Q7zsK/PM4nxz2ckXLpHptiIgMHjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730397985; c=relaxed/simple;
-	bh=6P9xgPCLCn1gF47vP1Q/qpB7fXcZkuf7C7x8fmcRBzQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FeO5fC/RQhv9h8FlW0KMNPb9whmYM/zfCGk49rURoGykxb1n2zMdtfB169iRpGMzlJueeCz0dZjDfuzRhKalAZhHgsNVm1xITrOv2Ufs68C2fKhXlrSh0nExWk6KvsoldA3GgB+cUSh+kh8OUAQe/7CyvsNo8tcAgAJc4+zL15s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DmRPKB6H; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1730398434; c=relaxed/simple;
+	bh=6TKrJg/emMufwx5afPy1lcRH0AYFrELgAHBnsPz+13k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QYD3tSz6Z/DiYh6nMP3QTn0UJlNmugdDDIdubhGzuBP3GNuSNYRJnXY8gaSD7xcOIQ7hw7F+ne+f18kUT9kAQpRpFJdahr+RYp+llLlOFHlGHPJ5qk4kLRWYiRJukW7RVGu12xbRPwEh+h/AAidGiIaA0S0szgWGBL9LdRC6XP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qv7OuOK7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DmRPKB6H"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D27A120011;
-	Thu, 31 Oct 2024 18:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730397979;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o4Wn/46pVuuaTENAL8EOOI2/SmJ1WAof8XzHSYEsemM=;
-	b=DmRPKB6HIga9I8eQcU5I/3LLbAxC+8brWGgG/Od8P/wMszB6O9g57flE58ZYpsRBnca+ZY
-	INy78ekCs1Keli9uH78rZxhAUsXa1sKJfuBLuWs1VlkBWePEMNDWUsMNxeWYzGfp94+IAS
-	rn9Uep0ADNWxLYVuXsB/UUmwxZOYseu+YPdVz7jDs/CxSd/sRzI+ar8DgDlx6QHelfW5zF
-	vYs7pP3KT09G+WwZf/3b5SBg92zfCNPqwqBkgBl6alwOpdbrpz+TXwpaxNX0+1bB66wGA5
-	SPBK3raoKRKec+z3VRrQSEyYcK+QDjSCVUZWqx7REMEi1eiAtN9lypSSG5A4+g==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Thu, 31 Oct 2024 19:06:07 +0100
-Subject: [PATCH v13 7/7] drm/vkms: Add support for DRM_FORMAT_R*
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qv7OuOK7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE1B2C4CECF;
+	Thu, 31 Oct 2024 18:13:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730398434;
+	bh=6TKrJg/emMufwx5afPy1lcRH0AYFrELgAHBnsPz+13k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qv7OuOK7dRxA2KAheVIq5dKvVqLqATTcGnmL/q7E2/YS5FUtuSiEMEkwKcM9efYKj
+	 Tf0gnRnjBpXP9kIO3eoP/8buVf70rvZBbD7J+rHmsINEfZG25u3lz5UBMsI8QzhiTB
+	 /iVU1Yq2CFuICoRJH4CxHZ4AN5VC2uCV4RzOiRa4UaeSIgulISwrbW3O0Wq8BnwFjO
+	 7gM0vMwSuSJuyZg2yTNcpyBXwqgaM4exkA+VgFFWzBF1/q+xfki7jGZsi6TvMt47xm
+	 J/8OVUwSOkrrH29RJJxCB3U7Wv06tEnVy9nNd/vmlCY1Vika9gQFK0TdJM6k/66LwN
+	 DnqHjpblzXdoQ==
+Date: Thu, 31 Oct 2024 11:13:51 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc: Gabriel Krisman Bertazi <krisman@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Hugh Dickins <hughd@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, smcv@collabora.com,
+	kernel-dev@igalia.com, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	Gabriel Krisman Bertazi <krisman@suse.de>, llvm@lists.linux.dev,
+	linux-btrfs@vger.kernel.org, Chris Mason <clm@fb.com>
+Subject: Re: [PATCH v8 8/9] tmpfs: Expose filesystem features via sysfs
+Message-ID: <20241031181351.GA1181429@thelio-3990X>
+References: <20241021-tonyk-tmpfs-v8-0-f443d5814194@igalia.com>
+ <20241021-tonyk-tmpfs-v8-8-f443d5814194@igalia.com>
+ <20241031051822.GA2947788@thelio-3990X>
+ <c104f427-f9d9-498c-a719-ed6bf118226d@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241031-yuv-v13-7-c67a337301ae@bootlin.com>
-References: <20241031-yuv-v13-0-c67a337301ae@bootlin.com>
-In-Reply-To: <20241031-yuv-v13-0-c67a337301ae@bootlin.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, rdunlap@infradead.org, 
- arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
- seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
- 20241031-yuv-v13-0-bd5463126faa@bootlin.com, 
- Pekka Paalanen <pekka.paalanen@collabora.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6382;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=6P9xgPCLCn1gF47vP1Q/qpB7fXcZkuf7C7x8fmcRBzQ=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnI8cP4dvN76fN6xEFIWCu8xg/bjkbtaiO2qslL
- lpHgNXjWiCJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZyPHDwAKCRAgrS7GWxAs
- 4pCTEAC65VaSi2wZd6K8QhpGEv+Pen4ly3ebwzJm8y8X7GyJlYkdgTshvbR6/THXmc9enl0BflT
- J0sLGrSA6WnFZgEuxfcPUzXYTxBdyjFvH3YCbYa+0EF5brYP+/ZYxivgn22P3Z/DCRkB3RHSTaF
- lkIzeCkoNiKMXcfEarPf8XlYgqQ3ieAj0xaS7DiqliGOUXj5thq++1hIYZ42kjzlFrnASVJQMlW
- RUvvSscwFJ4VeyjhweoQPOOv62A7SQmdRsQe0x8rt1QC6KMX0YUUuU534LXtPB86HXHLawC1cLc
- xWjasjZXUGcsdVldhjelw/pgLqluHzw8tdDKrxyEFmOOD5fm6Oi1PHDXulF9hR11Js/96oPKo7O
- G7JUX7ZJk7nFSvnml7LcblX+/20e0Wyv8wX7LhKZyXvj29hc/kqbYalUGxkG7h4befDygWfv1WQ
- rgGYDcEpUQF7WmIxgQw6hYyaLY9u4uvzGWP2T3E+YCA02Hfj/oNmu6++euii4DrplDSfpkd5hzs
- DmzOlV8HAz0O9gUTLFEr65Sw3iYzXA6UhZm6OL7Mv9TudwNQ9ZIayJrIIhVqv5cSvR5VxzzFTiI
- 0h4eeiTRzMtm06SrgvKof8Mkcu9HcQV2pDh+Y5i8o95b9Z2uZzigO0JxwdbHe5qK4gOx7ZZ7lzE
- TuVdDbml2DJ2QaA==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c104f427-f9d9-498c-a719-ed6bf118226d@igalia.com>
 
-This add the support for:
-- R1/R2/R4/R8
+On Thu, Oct 31, 2024 at 02:31:21PM -0300, André Almeida wrote:
+> Hi Nathan,
+> 
+> Em 31/10/2024 02:18, Nathan Chancellor escreveu:
+> > Hi André,
+> > 
+> > On Mon, Oct 21, 2024 at 01:37:24PM -0300, André Almeida wrote:
+> > > Expose filesystem features through sysfs, so userspace can query if
+> > > tmpfs support casefold.
+> > > 
+> > > This follows the same setup as defined by ext4 and f2fs to expose
+> > > casefold support to userspace.
+> > > 
+> > > Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> > > Reviewed-by: Gabriel Krisman Bertazi <krisman@suse.de>
+> > > ---
+> > >   mm/shmem.c | 37 +++++++++++++++++++++++++++++++++++++
+> > >   1 file changed, 37 insertions(+)
+> > > 
+> > > diff --git a/mm/shmem.c b/mm/shmem.c
+> > > index ea01628e443423d82d44277e085b867ab9bf4b28..0739143d1419c732359d3a3c3457c3acb90c5b22 100644
+> > > --- a/mm/shmem.c
+> > > +++ b/mm/shmem.c
+> > > @@ -5546,3 +5546,40 @@ struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
+> > >   	return page;
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(shmem_read_mapping_page_gfp);
+> > > +
+> > > +#if defined(CONFIG_SYSFS) && defined(CONFIG_TMPFS)
+> > > +#if IS_ENABLED(CONFIG_UNICODE)
+> > > +static DEVICE_STRING_ATTR_RO(casefold, 0444, "supported");
+> > > +#endif
+> > > +
+> > > +static struct attribute *tmpfs_attributes[] = {
+> > > +#if IS_ENABLED(CONFIG_UNICODE)
+> > > +	&dev_attr_casefold.attr.attr,
+> > > +#endif
+> > > +	NULL
+> > > +};
+> > > +
+> > > +static const struct attribute_group tmpfs_attribute_group = {
+> > > +	.attrs = tmpfs_attributes,
+> > > +	.name = "features"
+> > > +};
+> > > +
+> > > +static struct kobject *tmpfs_kobj;
+> > > +
+> > > +static int __init tmpfs_sysfs_init(void)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	tmpfs_kobj = kobject_create_and_add("tmpfs", fs_kobj);
+> > > +	if (!tmpfs_kobj)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	ret = sysfs_create_group(tmpfs_kobj, &tmpfs_attribute_group);
+> > > +	if (ret)
+> > > +		kobject_put(tmpfs_kobj);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +fs_initcall(tmpfs_sysfs_init);
+> > > +#endif /* CONFIG_SYSFS && CONFIG_TMPFS */
+> > > 
+> > > -- 
+> > > 2.47.0
+> > > 
+> > 
+> > This change as commit 5132f08bd332 ("tmpfs: Expose filesystem features
+> > via sysfs") in -next introduces a kCFI violation when accessing
+> > /sys/fs/tmpfs/features/casefold. An attribute group created with
+> > sysfs_create_group() has ->sysfs_ops() set to kobj_sysfs_ops, which has
+> > a ->show() value of kobj_attr_show(). When kobj_attr_show() goes to call
+> > the attribute's ->show() value after container_of(), there will be a
+> > type mismatch in the case of the casefold attr, as it was defined with a
+> > ->show() value of device_show_string() but that does not match the type
+> > of ->show() in 'struct kobj_attribute'.
+> > 
+> > I can easily reproduce this with the following commands:
+> > 
+> >    $ printf 'CONFIG_%s=y\n' CFI_CLANG UNICODE >kernel/configs/repro.config
+> > 
+> >    $ make -skj"$(nproc)" ARCH=arm64 LLVM=1 mrproper virtconfig repro.config Image.gz
+> >    ...
+> > 
+> >    $ curl -LSs https://github.com/ClangBuiltLinux/boot-utils/releases/download/20230707-182910/arm64-rootfs.cpio.zst | zstd -d >rootfs.cpio
+> > 
+> >    $ qemu-system-aarch64 \
+> >        -display none \
+> >        -nodefaults \
+> >        -cpu max,pauth-impdef=true \
+> >        -machine virt,gic-version=max,virtualization=true \
+> >        -append 'console=ttyAMA0 earlycon rdinit=/bin/sh' \
+> >        -kernel arch/arm64/boot/Image.gz \
+> >        -initrd rootfs.cpio \
+> >        -m 512m \
+> >        -serial mon:stdio
+> >    ...
+> >    # mount -t sysfs sys /sys
+> >    # cat /sys/fs/tmpfs/features/casefold
+> >    [   70.558496] CFI failure at kobj_attr_show+0x2c/0x4c (target: device_show_string+0x0/0x38; expected type: 0xc527b809)
+> >    [   70.560018] Internal error: Oops - CFI: 00000000f2008228 [#1] PREEMPT SMP
+> >    [   70.560647] Modules linked in:
+> >    [   70.561770] CPU: 0 UID: 0 PID: 46 Comm: cat Not tainted 6.12.0-rc4-00008-g5132f08bd332 #1
+> >    [   70.562429] Hardware name: linux,dummy-virt (DT)
+> >    [   70.562897] pstate: 21402009 (nzCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+> >    [   70.563377] pc : kobj_attr_show+0x2c/0x4c
+> >    [   70.563674] lr : sysfs_kf_seq_show+0xb4/0x130
+> >    [   70.563987] sp : ffff80008043bac0
+> >    [   70.564236] x29: ffff80008043bac0 x28: 000000007ffff001 x27: 0000000000000000
+> >    [   70.564877] x26: 0000000001000000 x25: 000000007ffff001 x24: 0000000000000001
+> >    [   70.565339] x23: fff000000238a000 x22: ffff9fa31a3996f8 x21: fff00000023fc000
+> >    [   70.565806] x20: fff000000201df80 x19: fff000000238b000 x18: 0000000000000000
+> >    [   70.566273] x17: 00000000c527b809 x16: 00000000df43c25c x15: fff000001fef8200
+> >    [   70.566727] x14: 0000000000000000 x13: fff00000022450f0 x12: 0000000000001000
+> >    [   70.567177] x11: fff00000023fc000 x10: 0000000000000000 x9 : ffff9fa31a18fac4
+> >    [   70.567682] x8 : ffff9fa319badde4 x7 : 0000000000000000 x6 : 000000000000003f
+> >    [   70.568138] x5 : 0000000000000040 x4 : 0000000000000000 x3 : 0000000000000004
+> >    [   70.568585] x2 : fff00000023fc000 x1 : ffff9fa31a881f90 x0 : fff000000201df80
+> >    [   70.569169] Call trace:
+> >    [   70.569389]  kobj_attr_show+0x2c/0x4c
+> >    [   70.569706]  sysfs_kf_seq_show+0xb4/0x130
+> >    [   70.570020]  kernfs_seq_show+0x44/0x54
+> >    [   70.570280]  seq_read_iter+0x14c/0x4b0
+> >    [   70.570543]  kernfs_fop_read_iter+0x60/0x198
+> >    [   70.570820]  copy_splice_read+0x1f0/0x2f4
+> >    [   70.571092]  splice_direct_to_actor+0xf4/0x2e0
+> >    [   70.571376]  do_splice_direct+0x68/0xb8
+> >    [   70.571626]  do_sendfile+0x1e8/0x488
+> >    [   70.571874]  __arm64_sys_sendfile64+0xe0/0x12c
+> >    [   70.572161]  invoke_syscall+0x58/0x114
+> >    [   70.572424]  el0_svc_common+0xa8/0xdc
+> >    [   70.572676]  do_el0_svc+0x1c/0x28
+> >    [   70.572910]  el0_svc+0x38/0x68
+> >    [   70.573132]  el0t_64_sync_handler+0x90/0xfc
+> >    [   70.573394]  el0t_64_sync+0x190/0x19
+> >    [   70.574001] Code: 72970131 72b8a4f1 6b11021f 54000040 (d4304500)
+> >    [   70.574635] ---[ end trace 0000000000000000 ]---
+> > 
+> > I am not sure if there is a better API exists or if a local copy should
+> > be rolled but I think the current scheme is definitely wrong because
+> > there is no 'struct device' here.
+> > 
+> 
+> Thank you for the report, I'm trying to fix it, it seems I have used
+> something for device drivers in a filesystem. I wonder how btrfs doesn't get
+> this error, since tmpfs_sysfs_init() is very similar to btrfs_init_sysfs().
 
-R1 format was tested with [1] and [2].
+Upon a quick glance, it looks like all of the btrfs sysfs functions
+properly match the ->show() and ->store() type in kobj_attribute, so
+there is no type mismatch when they are called indirectly.
 
-[1]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
-[2]: https://lore.kernel.org/igt-dev/20240306-b4-kms_tests-v1-0-8fe451efd2ac@bootlin.com/
-
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_formats.c | 110 +++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/vkms/vkms_plane.c   |   4 ++
- 2 files changed, 113 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 90adcc924c31..3db7fe1ae844 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -249,6 +249,16 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
- 	return out_pixel;
- }
- 
-+static struct pixel_argb_u16 argb_u16_from_gray8(u8 gray)
-+{
-+	return argb_u16_from_u8888(255, gray, gray, gray);
-+}
-+
-+static struct pixel_argb_u16 argb_u16_from_grayu16(u16 gray)
-+{
-+	return argb_u16_from_u16161616(0xFFFF, gray, gray, gray);
-+}
-+
- VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
- 							    const struct conversion_matrix *matrix)
- {
-@@ -286,7 +296,7 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-  * The following functions are read_line function for each pixel format supported by VKMS.
-  *
-  * They read a line starting at the point @x_start,@y_start following the @direction. The result
-- * is stored in @out_pixel and in the format ARGB16161616.
-+ * is stored in @out_pixel and in a 64 bits format, see struct pixel_argb_u16.
-  *
-  * These functions are very repetitive, but the innermost pixel loops must be kept inside these
-  * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
-@@ -295,6 +305,96 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-  * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
-  */
- 
-+static void Rx_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	struct pixel_argb_u16 *end = out_pixel + count;
-+	int bits_per_pixel = drm_format_info_bpp(plane->frame_info->fb->format, 0);
-+	u8 *src_pixels;
-+	int rem_x, rem_y;
-+
-+	WARN_ONCE(drm_format_info_block_height(plane->frame_info->fb->format, 0) != 1,
-+		  "%s() only support formats with block_h == 1", __func__);
-+
-+	packed_pixels_addr(plane->frame_info, x_start, y_start, 0, &src_pixels, &rem_x, &rem_y);
-+	int bit_offset = (8 - bits_per_pixel) - rem_x * bits_per_pixel;
-+	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+	int mask = (0x1 << bits_per_pixel) - 1;
-+	int lum_per_level = 0xFFFF / mask;
-+
-+	if (direction == READ_LEFT_TO_RIGHT || direction == READ_RIGHT_TO_LEFT) {
-+		int restart_bit_offset;
-+		int step_bit_offset;
-+
-+		if (direction == READ_LEFT_TO_RIGHT) {
-+			restart_bit_offset = 8 - bits_per_pixel;
-+			step_bit_offset = -bits_per_pixel;
-+		} else {
-+			restart_bit_offset = 0;
-+			step_bit_offset = bits_per_pixel;
-+		}
-+
-+		while (out_pixel < end) {
-+			u8 val = ((*src_pixels) >> bit_offset) & mask;
-+
-+			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
-+
-+			bit_offset += step_bit_offset;
-+			if (bit_offset < 0 || 8 <= bit_offset) {
-+				bit_offset = restart_bit_offset;
-+				src_pixels += step;
-+			}
-+			out_pixel += 1;
-+		}
-+	} else if (direction == READ_TOP_TO_BOTTOM || direction == READ_BOTTOM_TO_TOP) {
-+		while (out_pixel < end) {
-+			u8 val = (*src_pixels >> bit_offset) & mask;
-+			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
-+			src_pixels += step;
-+			out_pixel += 1;
-+		}
-+	}
-+}
-+
-+static void R1_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R2_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R8_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	struct pixel_argb_u16 *end = out_pixel + count;
-+	u8 *src_pixels;
-+	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+
-+	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
-+
-+	while (out_pixel < end) {
-+		*out_pixel = argb_u16_from_gray8(*src_pixels);
-+		src_pixels += step;
-+		out_pixel += 1;
-+	}
-+}
-+
- static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
- 			       enum pixel_read_direction direction, int count,
- 			       struct pixel_argb_u16 out_pixel[])
-@@ -606,6 +706,14 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	case DRM_FORMAT_YVU422:
- 	case DRM_FORMAT_YVU444:
- 		return &planar_yuv_read_line;
-+	case DRM_FORMAT_R1:
-+		return &R1_read_line;
-+	case DRM_FORMAT_R2:
-+		return &R2_read_line;
-+	case DRM_FORMAT_R4:
-+		return &R4_read_line;
-+	case DRM_FORMAT_R8:
-+		return &R8_read_line;
- 	default:
- 		/*
- 		 * This is a bug in vkms_plane_atomic_check(). All the supported
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 8f764a108b00..67f891e7ac58 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -30,6 +30,10 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_YVU420,
- 	DRM_FORMAT_YVU422,
- 	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_R1,
-+	DRM_FORMAT_R2,
-+	DRM_FORMAT_R4,
-+	DRM_FORMAT_R8,
- };
- 
- static struct drm_plane_state *
-
--- 
-2.46.2
-
+Cheers,
+Nathan
