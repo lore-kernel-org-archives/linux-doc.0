@@ -1,127 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9401E481;
-	Thu, 31 Oct 2024 22:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459361CF280;
+	Thu, 31 Oct 2024 23:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730414252; cv=none; b=UlGniP3YfQQvO4yUK+P2OZJ3vxah5vEX3Um7JXtnRA7LC/CRP6rZwNWCjpCj66Ov1jzi+5ca7kCm2uSXhRauLNUguPBOzfGKbasbo9WtfyPsoNrY24EHufvQaRnjeSxMAnuJZV0iERPKCqud7DIS7t8bOCU0Z9ebJS7nBVrfnEE=
+	t=1730415861; cv=none; b=hE264WCURBCsMDk1zILuoO9MD6eWGJMuA8C8ZzGDecDwaB96sCdtbD6NG1hMqSeDQrhPFzNip+kw87deMAYjVThlh5K4fqjjCvl4hAgvP9cr9dJcn35GTQQzGe4jBhdsT4VsZqhhBmYmVC5Pn4B5X7VrsRQK4JJCy8IyhSOhtSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730414252; c=relaxed/simple;
-	bh=HfxuReQImXwvhpLuPipg5vqXGCC5//yJ2cqMYklD4uE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Gmnv/QYNOADNVUbuqsixXtstrubkTCTM/Ts8e6jZWijmrpMBEF7+H8lLFd8NSsUWPuKpmOhHOPDnXQnWNxM3X034TLpyrFwzDU2woyA/3ggE4XAdfYLLL7FCsT7nFtteEorWHrYYN9wshWAZ7NRYgflzt2wozaA9fGpQ1pt42QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HkpDpmu7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730415861; c=relaxed/simple;
+	bh=g6mgr1PiSpqyrNl30sSjTkEcTnFjsET5qcjpTWm2Pzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GwGziNkL9mz0mqCwGLX6ZWrx28A9vB58xeQwcgXR+Gk9KaWD0ik+B7slvml6dsC1eZrLbuBdADkpFtM0qopFwrB0/OguEASUYFo2YsreaEF5oVYwIhwOxOKKs9f2y9NqSLaHe82dJ3WHtAE1awrdPBzEvjS5JzNG4yaaiGeEDv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsHWpqDp; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HkpDpmu7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37DBCC4CEC3;
-	Thu, 31 Oct 2024 22:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730414251;
-	bh=HfxuReQImXwvhpLuPipg5vqXGCC5//yJ2cqMYklD4uE=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=HkpDpmu7UAbaJtrXnkkFcec2474fvBoqy1ujDdyxLJNxpkcAbhiAXS1i+Za5t54bZ
-	 GVwE5D/p4jdo5We7G5n3MMQRMeZt1O4PwIEk3Q8dSYOvRJp80k8RjogGFcur/qZ9A4
-	 65A4DQPqRNeJPryDCd7dZX/z2M2Qj8ilUSZb90Qw15sK2bj1m9OGio2DHx9qbloBzI
-	 03SnuZRNrUzggGH9xeKrEfxS8fiBmLPxUjVP6p1J98HwOansT2wUsTL+V9wzx6AmkH
-	 IK4e9kIEtrcKNkxVSuQU1G4u+Vdbl9KNU2pocO2pR1bDSBN1vVB/WbCKXWURZsDZGW
-	 fsY12541kUjOQ==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsHWpqDp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730415856; x=1761951856;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g6mgr1PiSpqyrNl30sSjTkEcTnFjsET5qcjpTWm2Pzo=;
+  b=GsHWpqDpiXXxeuSjrttl81hepIFmiKpPtXqRxwV0drpYqIyJHGPyZBpf
+   OjE2uAXj/TY/rBPfYlol31kAg1r9FX4BU/lhIfVBzzaIIXrRgDpPUOvBr
+   iZhV1f74wZrLosCYZpJYIPi5WTw6vF9DjSlqi7DxYgqGxAtXsxq1z85rI
+   y6jz2NC5l6vVGLl9gxbnDL2Dtx3Sv9Swr4od6rkUmbNgDR5APUSz10FDV
+   wcKvHHBbF30B5gMwGTtySR2VomvmcbUygU8NWaJkSKy4+CGBNl7gNvx1K
+   JjkZDrRGg79xq2Z4RTO5udZChx3Qc2S93rt6hsoFCtgRqI+Dbd3NFgH4C
+   A==;
+X-CSE-ConnectionGUID: 6rIjlog6SgKzohIScB1CCg==
+X-CSE-MsgGUID: xoMlOg3LSK+SKzkKm75b9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="34114358"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="34114358"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 16:04:05 -0700
+X-CSE-ConnectionGUID: xlWR6pseQeWhTQ5qLJxk6w==
+X-CSE-MsgGUID: zKlYlmxTRS6cTKeVIy+vAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="82700487"
+Received: from adande-mobl.amr.corp.intel.com (HELO desk) ([10.125.145.235])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 16:04:05 -0700
+Date: Thu, 31 Oct 2024 16:03:58 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Amit Shah <amit@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
+	peterz@infradead.org, jpoimboe@kernel.org, corbet@lwn.net,
+	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+	seanjc@google.com, pbonzini@redhat.com,
+	daniel.sneddon@linux.intel.com, kai.huang@intel.com,
+	sandipan.das@amd.com, boris.ostrovsky@oracle.com,
+	Babu.Moger@amd.com, david.kaplan@amd.com
+Subject: Re: [PATCH 1/2] x86: cpu/bugs: add support for AMD ERAPS feature
+Message-ID: <20241031225900.k3epw7xej757kz4d@desk>
+References: <20241031153925.36216-1-amit@kernel.org>
+ <20241031153925.36216-2-amit@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 01 Nov 2024 00:37:27 +0200
-Message-Id: <D5ACNMVX5LXB.1L0S9P2J3UDJH@kernel.org>
-Cc: <dpsmith@apertussolutions.com>, <mingo@redhat.com>, <bp@alien8.de>,
- <hpa@zytor.com>, <dave.hansen@linux.intel.com>, <ardb@kernel.org>,
- <mjg59@srcf.ucam.org>, <James.Bottomley@hansenpartnership.com>,
- <peterhuewe@gmx.de>, <jgg@ziepe.ca>, <luto@amacapital.net>,
- <nivedita@alum.mit.edu>, <herbert@gondor.apana.org.au>,
- <davem@davemloft.net>, <corbet@lwn.net>, <ebiederm@xmission.com>,
- <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
- <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
- <trenchboot-devel@googlegroups.com>
-Subject: Re: [PATCH v11 00/20] x86: Trenchboot secure dynamic launch Linux
- kernel support
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Thomas Gleixner" <tglx@linutronix.de>, "Ross Philipson"
- <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
- <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
- <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
- <iommu@lists.linux-foundation.org>
-X-Mailer: aerc 0.18.2
-References: <20240913200517.3085794-1-ross.philipson@oracle.com>
- <87wmhoulb9.ffs@tglx>
-In-Reply-To: <87wmhoulb9.ffs@tglx>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241031153925.36216-2-amit@kernel.org>
 
-On Thu Oct 31, 2024 at 9:25 PM EET, Thomas Gleixner wrote:
-> On Fri, Sep 13 2024 at 13:04, Ross Philipson wrote:
-> > The larger focus of the TrenchBoot project (https://github.com/TrenchBo=
-ot) is to
-> > enhance the boot security and integrity in a unified manner. The first =
-area of
-> > focus has been on the Trusted Computing Group's Dynamic Launch for esta=
-blishing
-> > a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Ro=
-ot of
-> > Trust for Measurement). The project has been and continues to work on p=
-roviding
-> > a unified means to Dynamic Launch that is a cross-platform (Intel and A=
-MD) and
-> > cross-architecture (x86 and Arm), with our recent involvment in the upc=
-oming
-> > Arm DRTM specification. The order of introducing DRTM to the Linux kern=
-el
-> > follows the maturity of DRTM in the architectures. Intel's Trusted eXec=
-ution
-> > Technology (TXT) is present today and only requires a preamble loader, =
-e.g. a
-> > boot loader, and an OS kernel that is TXT-aware. AMD DRTM implementatio=
-n has
-> > been present since the introduction of AMD-V but requires an additional
-> > component that is AMD specific and referred to in the specification as =
-the
-> > Secure Loader, which the TrenchBoot project has an active prototype in
-> > development. Finally Arm's implementation is in specification developme=
-nt stage
-> > and the project is looking to support it when it becomes available.
-> >
-> > This patchset provides detailed documentation of DRTM, the approach use=
-d for
-> > adding the capbility, and relevant API/ABI documentation. In addition t=
-o the
-> > documentation the patch set introduces Intel TXT support as the first p=
-latform
-> > for Linux Secure Launch.
->
-> So this looks pretty reasonable to me by now and I'm inclined to take it
-> through the tip x86 tree, but that needs reviewed/acked-by's from the
-> crypto and TPM folks. EFI has been reviewed already.
->
-> Can we make progress on this please?
+On Thu, Oct 31, 2024 at 04:39:24PM +0100, Amit Shah wrote:
+> From: Amit Shah <amit.shah@amd.com>
+> 
+> Remove explicit RET stuffing / filling on VMEXITs and context
+> switches on AMD CPUs with the ERAPS feature (Turin+).
+> 
+> With the Enhanced Return Address Prediction Security feature,  any
+> hardware TLB flush results in flushing of the RSB (aka RAP in AMD spec).
+> This guarantees an RSB flush across context switches.
 
-So TPM patches do have bunch of glitches:
+Is it that the mov to CR3 triggers the RSB flush?
 
-- 15/20: I don't get this. There is nothing to report unless tree
-  is falling. The reported-by tag literally meaningless. Maybe this
-  is something that makes sense with this feature. Explain from that
-  angle.
-- 16/20: Is this actually a bug fix? If it is should be before 15/20.
-- 17/20: the commit message could do a better job explaining how the
-  locality can vary. I'm not sure how this will be used by rest of
-  the patch set.
-- 18/20: I'm not confident we want to give privilege to set locality
-  to the user space. The commit message neither makes a case of this.
-  Has this been tested to together with bus encryption (just checking)?
+> Feature documented in AMD PPR 57238.
 
->
-> Thanks,
->
->         tglx
+I couldn't find ERAPS feature description here, I could only manage to find
+the bit position:
 
-BR, Jarkko
+24 	ERAPS. Read-only. Reset: 1. Indicates support for enhanced return
+	address predictor security.
+
+Could you please point me to the document/section where this is described?
