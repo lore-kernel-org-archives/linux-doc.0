@@ -1,103 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB021CB50D;
-	Thu, 31 Oct 2024 19:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B1A1C9DD5;
+	Thu, 31 Oct 2024 19:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730402505; cv=none; b=PY42mS2EibO2OCKTw0XKwiVv9Eg2ONQ9Z/DRQlkEXurzsIusUMNgvf0TAeYmFP++kRqFhvH26SyN4pMsTKp1VtPZwoPQcJntWThVSOqc9H/UXRFv3Lw2IZ09dzK54ujxLMF/Gqm3463LcHjsnKfuMERSmZpbvg2uS2oL+n03oMA=
+	t=1730402719; cv=none; b=tF081hnKn4uKCu9Y16qrTStV5uUHV8i+9gz3MWiW7SiLqE4wIuFzJpIcnwIrysWV0g58/8KDiPABX34/+LR0cKwWt3pdHkR2ta1RvA1tjLWK82JGGNwHubkqRAhSH2RA8BSFIlM+PdHQ7UP92YtJGrqr22PaOoFZd2M7hSnQio0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730402505; c=relaxed/simple;
-	bh=0ZSgsybRkNgA//hqHaFbgWNG+1PnzRnJxZ3UfA4h9Rs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=baj/cIlTsE3+H0jT3h9LQrr7BeBMrYUtsmOHzq4yX+9I98SLUz6lzMDcbxSGRHLUb5DMtA3bQ/4ih6iWsYjGHbywS9JEoDlQJfIIpIZFXq2v35x3p9aAdkN58Wb7iwJ/f58+RMg435LMvo5DD4adLi1Cu8ocZs7QfP4vq7hEISo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jAotM7qd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730402719; c=relaxed/simple;
+	bh=EH1NxSt+Pdnf7Bw+M0iBaivcvXqmL0RJLwQ2N7+oIGk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hrPmeaWqxpje1usT9cD+WQCd8MBLYImk6qk1trgqo4mSodLZE3KddihgDSYKdSF2+xwR0i6ONR8sN3yf2sdOoboXaqfdvCEVB/h+THXzeY0i6LdDQBODKvUYEZzdL/G0JhMN5J/7EpYwANkWyXP7UJqYyIXGeux+rERCgFF6fyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vjv/af64; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=O304umbi; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jAotM7qd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D72CC4CED3;
-	Thu, 31 Oct 2024 19:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730402504;
-	bh=0ZSgsybRkNgA//hqHaFbgWNG+1PnzRnJxZ3UfA4h9Rs=;
-	h=From:Date:Subject:To:Cc:From;
-	b=jAotM7qdJB81uguvOPNpxfpjVngo51BMHoiWwhXcNwIr86J2udKL3utXN7I8nPX9D
-	 0i5FNYPAvnweqqvT0bm0XYe1PtZ4mKOgF9eoqRskXUjc/MV0MJOAxvbjx8vDBLL7P1
-	 IznFmDgKZJ7m4+clMiJKYbYRyJU4OKXSAaSTe6KFtu/wypGH16NGKR5dtJ8HUyWrwK
-	 hP1l9PZWShs9wx8rvpOQOXdW8JG7Xn42JrzsKZWz6Qs/Eue1hHS889sSa5NlOJYFPo
-	 bqg91tOQdWR2/9gmviQwUdmeISpwPXAxxQ35CttsiqQfOsDQ8Q+NPVHYR5rKsPIGtb
-	 UOSjGJZfOXQSg==
-From: Mark Brown <broonie@kernel.org>
-Date: Thu, 31 Oct 2024 19:21:38 +0000
-Subject: [PATCH] arm64/gcs: Fix outdated ptrace documentation
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vjv/af64";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="O304umbi"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1730402715;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iQ+EOPL/V+hQ49Yycx1LmMX/gDzsFgIKjYT1P4zOubs=;
+	b=vjv/af64u6mEzqmtnnI2LLHwiqEAbrxeScDOJDQ+xzgfhak0wuopvAH75wdHaIGtILg7Kp
+	LBDNN9rPonxWJ3T8l0/HV9iryIEYfgsBQUF7r5Zox6rqNLupQFThwE8ly2YxgrkxPa3CSg
+	PQ82uXnIJ6u+kIKsgqNiA1TG0v3YV3DOtR7hk0lMhdv3ZRjXU4sIV/dr5oTriImAIGnyvn
+	HebLhfFGMDQtogeuUdmDzfhYi8MAoL8vmU4sCzAIig+g6oeq8werbC0UFQDPGjt+fFl3hu
+	0Fk4o8uuFPl/rHsJGYUO4vgPg5P1k3AkC4/pzZXkFGKiLPowTyt1u8E9aRU2wA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1730402715;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iQ+EOPL/V+hQ49Yycx1LmMX/gDzsFgIKjYT1P4zOubs=;
+	b=O304umbi8H6l/f1CHjtv+6rKM+lfYXngXWnPnxmhIZB2RBZrwBkxEAZinNpNMu0Vi+7AWR
+	5tv90Kg2ggamzjAg==
+To: Ross Philipson <ross.philipson@oracle.com>,
+ linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org
+Cc: ross.philipson@oracle.com, dpsmith@apertussolutions.com,
+ mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+ dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+ James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
+ jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+ nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
+ corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
+ baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+ andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v11 00/20] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+In-Reply-To: <20240913200517.3085794-1-ross.philipson@oracle.com>
+References: <20240913200517.3085794-1-ross.philipson@oracle.com>
+Date: Thu, 31 Oct 2024 20:25:14 +0100
+Message-ID: <87wmhoulb9.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241031-arm64-gcs-doc-disable-v1-1-d7f6ded62046@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAMHYI2cC/x3MwQqDMAyA4VeRnA0krp2wVxkeahtdwLWjARHEd
- 1/x+B3+/wSTqmLw6k6osqtpyQ3cdxA/Ia+CmpphoMExPRhD/T4drtEwlYhJLcyboDiKxOz9SAK
- t/VVZ9Li/7+m6/vrBbvZnAAAA
-X-Change-ID: 20241031-arm64-gcs-doc-disable-e40c0115570e
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-9b746
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1804; i=broonie@kernel.org;
- h=from:subject:message-id; bh=0ZSgsybRkNgA//hqHaFbgWNG+1PnzRnJxZ3UfA4h9Rs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnI9jG+FCHClvg5NARf9CZ3l7Gnyt4LVv9jrok91J5
- qnOg2QOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZyPYxgAKCRAk1otyXVSH0GolB/
- 9x7Rxxvu35bazi1kYivVoC5b5L6KYYjB5ulPK+yCDLHX1M2g2elshC33kBGGBQfzRF3JggFfO+88p8
- n20h9PE6vHwLrVDuNFBtsQrhgsVJ/rw+HfLsPeYmQCRljuCtnUUcmGX23ZtPv6h3rfIYE2WJh+lqlj
- vZWgVQyxmUNdT+moVsN+2SRNllvrhzUVbob4Z2ynSYARcreMguOwoOJ3tGLUAYLxNjshJuKLVF/DcL
- 88+iglT8m6AMP5OQN0oWaVN14FBlUNvt8uL3JSwQaMEtO2wfKYq+r4HpnjmXb23NY7hbmSWihugV69
- twT6cz31E1oSFzQJj4edC/qPaQK0Rz
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain
 
-The ptrace documentation for GCS was written prior to the implementation of
-clone3() when we still blocked enabling of GCS via ptrace. This restriction
-was relaxed as part of implementing clone3() support since we implemented
-support for the GCS not being managed by the kernel but the documentation
-still mentions the restriction. Update the documentation to reflect what
-was merged.
+On Fri, Sep 13 2024 at 13:04, Ross Philipson wrote:
+> The larger focus of the TrenchBoot project (https://github.com/TrenchBoot) is to
+> enhance the boot security and integrity in a unified manner. The first area of
+> focus has been on the Trusted Computing Group's Dynamic Launch for establishing
+> a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Root of
+> Trust for Measurement). The project has been and continues to work on providing
+> a unified means to Dynamic Launch that is a cross-platform (Intel and AMD) and
+> cross-architecture (x86 and Arm), with our recent involvment in the upcoming
+> Arm DRTM specification. The order of introducing DRTM to the Linux kernel
+> follows the maturity of DRTM in the architectures. Intel's Trusted eXecution
+> Technology (TXT) is present today and only requires a preamble loader, e.g. a
+> boot loader, and an OS kernel that is TXT-aware. AMD DRTM implementation has
+> been present since the introduction of AMD-V but requires an additional
+> component that is AMD specific and referred to in the specification as the
+> Secure Loader, which the TrenchBoot project has an active prototype in
+> development. Finally Arm's implementation is in specification development stage
+> and the project is looking to support it when it becomes available.
+>
+> This patchset provides detailed documentation of DRTM, the approach used for
+> adding the capbility, and relevant API/ABI documentation. In addition to the
+> documentation the patch set introduces Intel TXT support as the first platform
+> for Linux Secure Launch.
 
-We have not yet merged clone3() itself but all the support other than in
-clone() itself is there.
+So this looks pretty reasonable to me by now and I'm inclined to take it
+through the tip x86 tree, but that needs reviewed/acked-by's from the
+crypto and TPM folks. EFI has been reviewed already.
 
-Fixes: 7058bf87cd59 ("arm64/gcs: Document the ABI for Guarded Control Stacks")
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- Documentation/arch/arm64/gcs.rst | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Can we make progress on this please?
 
-diff --git a/Documentation/arch/arm64/gcs.rst b/Documentation/arch/arm64/gcs.rst
-index af58d9151cb72df9058ddccadb2602127b479c95..1f65a3193e7765dce9bfd6ad88b9fbd6a225ed86 100644
---- a/Documentation/arch/arm64/gcs.rst
-+++ b/Documentation/arch/arm64/gcs.rst
-@@ -204,11 +204,8 @@ When returning from a signal handler:
- * A new regset NT_ARM_GCS is defined for use with PTRACE_GETREGSET and
-   PTRACE_SETREGSET.
- 
--* Due to the complexity surrounding allocation and deallocation of stacks and
--  lack of practical application it is not possible to enable GCS via ptrace.
--  GCS may be disabled via the ptrace interface.
--
--* Other GCS modes may be configured via ptrace.
-+* The GCS mode, including enable and disable, may be configured via ptrace.
-+  If GCS is enabled via ptrace no new GCS will be allocated for the thread.
- 
- * Configuration via ptrace ignores locking of GCS mode bits.
- 
+Thanks,
 
----
-base-commit: 9b9be78258511e67767e4aa51f587cf22feb5065
-change-id: 20241031-arm64-gcs-doc-disable-e40c0115570e
-
-Best regards,
--- 
-Mark Brown <broonie@kernel.org>
+        tglx
 
