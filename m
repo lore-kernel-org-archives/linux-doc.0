@@ -1,425 +1,254 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073F61CCEF0;
-	Thu, 31 Oct 2024 21:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C60481B95B;
+	Thu, 31 Oct 2024 21:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730409271; cv=none; b=phMdIHBtSigpIB5wbhNKoOL2zu8NZ9RW+tuQTdyeZV1dfyjpB5Rj+tlOljMVmhz/98rnAJkboKLjN3eC37BDisgGG6VrHibSCS0CCIBgFJ01tice3fGsWgA3raUYi87kulVI5E+EsJ6xfjn+7GEm/G5EocdwrURoHEqPiZZNTlk=
+	t=1730409494; cv=none; b=XZ/Ulwr4aWy0ff92M7t4di6Ov7cmKUXIWQNr5Qb8OEUx5nn7QVlDtNoP9n/9lKs3WvFgPnjhy4hwC2hhJ+UhfPKIRKjwOyeqI++1lfWU9ocHKHP2aZxTV/dJY0FxPdVDCeYlXGlYVvR1iDR26MdWjoQwB9zdepyGWSGy8awMV3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730409271; c=relaxed/simple;
-	bh=RRtrqqMbfo9WLcBqXvrnr6HPvDcT59O7mv2nBeXr0Zo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=R/nV7mvcdlgivQrMBjEw7xBIH+QqCK3pyDjw4TjFBeKnrFuq0tjcKQJKtuXUnDR1NHXSViNrnm9TOOVdA79YwYsW1GIcWdeoNlyoP8NpJIIo1NO+ijtDvDazhkFlgJcMFpHX8+x0F7VLfYZQ14XLrXjsTVPWQjoG2HpqDTv+VO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HAWfAvbV; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HAWfAvbV"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7181caa08a3so707929a34.0;
-        Thu, 31 Oct 2024 14:14:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730409264; x=1731014064; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LPazV1JVZ+rJiB4cQZzsaPS5152uN4daTfkLyJT4WL0=;
-        b=HAWfAvbVlaHK3ojko53XJaeW8IaKaFFXYNmY/FFYXWjmlzL1KwKTMebuxlYQmFzLco
-         qyY9TG13Kvn+/HjHcPbKlX6ffiYctopgJ3Hmi78KBrRqWzJ1uAK9PYAGJcGhAm3LyYU8
-         nszOHsu6uUfE1Qj7Ov6xWcSDhJnTvKW+ZnpVi2l2KwQ7KUCU+BAdM0HvcvwCx5KOM0MS
-         wSrS3F776cDULRpl/lw7AO3bDUqVuP+iP9YeRdFOvVM+dGNs+8iH7UiWgCcenDRFAqXL
-         Jnx+wqZbwbzU6f0aVhgTS8oISh6HD+5LPqhUSa71gSfYzsqV4FEOnoL1TltZAuq6V3rz
-         o4IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730409264; x=1731014064;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LPazV1JVZ+rJiB4cQZzsaPS5152uN4daTfkLyJT4WL0=;
-        b=ZZniWaaO23p4WmuCYocy+Sci51Sv4PPCwvG0Tm0CnIxYnskDi8wPY1CnpEB5OFNBYh
-         vAyFItKnzi5NhSsZFIltNDTRy9nEosWuARNPT7LnXmrTRSs46njfCU058ChkkPQW3s1v
-         yKvO9Yh3tcicTCH2RmFork5IURIpkhi3YE4L+yFjHXzvGdkPqWL0EmtRCKXyl6wj2Q8m
-         TaC0nRO6sm1qGyk0N885TcsOsMXU37xrc7zOcD4dpLZx/Os2uAj8q2/oinRJty6ZsRq6
-         KU5/gSoPuo8qKOgzjkdRZ+g3cmody95GYVwyHR/qp2WBGf8qtbXbRvEZLGuPYj3zfGxk
-         WErw==
-X-Forwarded-Encrypted: i=1; AJvYcCUnpoSvzdLwrGvEq1cVXTO9/h1XR18Lem6fddhb/BLEq33Km52tSKF5yY4vXNF286P5iqVvff9kgN+DH7o=@vger.kernel.org, AJvYcCVU/px0dH8A+j9CPWaD0B2MzgcLCpffuCfblfQc6Jt1obGWuoaK/bvDt8hbxG3RThX4vv+ecybM4ik=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywu3G/6luQqFXZfpPQgfEqKUOSI42z6V5xWJ9vCwd8cbAwdF9cV
-	nvCRnJ24YAoNi0dnuvvzXmEF8VtOl+r4koOWOF6GGO3GlaQMzEE5
-X-Google-Smtp-Source: AGHT+IFmYaap2Wni351x1VdRzRSrUnsTkvh8m8muoKEvpD74QBB2JR0XQJa/rmqeyVecvmJNm7NyyA==
-X-Received: by 2002:a05:6830:71aa:b0:718:12af:7efa with SMTP id 46e09a7af769-71867e65410mr24330292a34.0.1730409263823;
-        Thu, 31 Oct 2024 14:14:23 -0700 (PDT)
-Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:7d08:cd12:4b73:5f28])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7189cc7ec84sm490292a34.38.2024.10.31.14.14.21
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 31 Oct 2024 14:14:22 -0700 (PDT)
-From: anish kumar <yesanishhere@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: [PATCH V4] Docs/sound: Update codec-to-codec documentation
-Date: Thu, 31 Oct 2024 14:14:11 -0700
-Message-Id: <20241031211411.58726-1-yesanishhere@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+	s=arc-20240116; t=1730409494; c=relaxed/simple;
+	bh=5BATugqDwGVncVLZt4qNEQ9Icpc45cvvmhwogP9IPLU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d2XCtyNfSkgUjmj6EuU5/CN7FSDAN9xuwhj3xAhZwkzCRm1Tm2IBBupgk7EQU+ZEsiwXUO15GOR6GCJrToDzK0Avsi+KbQusktY716O7iEU0zfYhLZs3LLktE4KxUEWcmzqVb1CeWx4MVdP8ljQyKx0LrwH9Sfdiy/evDjEQye4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 478E21063;
+	Thu, 31 Oct 2024 14:18:35 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 279FA3F73B;
+	Thu, 31 Oct 2024 14:17:51 -0700 (PDT)
+Message-ID: <3567312e-5942-4037-93dc-587f25f0778c@arm.com>
+Date: Thu, 31 Oct 2024 21:17:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
+References: <cover.1730298502.git.leon@kernel.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <cover.1730298502.git.leon@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Updated documentation to provide more details
-for codec-to-codec connection especially around
-the scenarios and DAPM core details for C2C
-creation.
+On 30/10/2024 3:12 pm, Leon Romanovsky wrote:
+> Changelog:
+> v1:
+>   * Squashed two VFIO patches into one
+>   * Added Acked-by/Reviewed-by tags
+>   * Fix docs spelling errors
+>   * Simplified dma_iova_sync() API
+>   * Added extra check in dma_iova_destroy() if mapped size to make code more clear
+>   * Fixed checkpatch warnings in p2p patch
+>   * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
+>     be more general
+>   * Reduced the number of changes in VFIO patch
+> v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
+> 
+> ----------------------------------------------------------------------------
+> The code can be downloaded from:
+> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git tag:dma-split-oct-30
+> 
+> ----------------------------------------------------------------------------
+> Currently the only efficient way to map a complex memory description through
+> the DMA API is by using the scatterlist APIs.
 
-Signed-off-by: anish kumar <yesanishhere@gmail.com>
----
-v4: sent wrong patch so corrected that in this.
+It's really not efficient... In most cases they're just wrappers for a 
+bunch of dma_map_page() etc. calls for the convenience of callers who 
+are using a scatterlist for their own reasons anyway. Even with 
+iommu-dma, I expect that approach would likely perform better for most 
+users as well, given that typical individual segment sizes are much more 
+likely to be in scope of the IOVA caches.
 
-v3: took care of comments from Charles Keepax and
-as advised modified some details.
+The hilarious amount of work that iommu_dma_map_sg() does is pretty much 
+entirely for the benefit of v4l2 and dma-buf importers who *depend* on 
+being able to linearise a scatterlist in DMA address space. TBH I doubt 
+there are many actual scatter-gather-capable devices with significant 
+enough limitations to meaningfully benefit from DMA segment combining 
+these days - I've often thought that by now it might be a good idea to 
+turn that behaviour off by default and add an attribute for callers to 
+explicitly request it.
 
-v2: Fixed the compilation error reported by Sphinx
- Documentation/sound/soc/codec-to-codec.rst | 296 +++++++++++++--------
- 1 file changed, 190 insertions(+), 106 deletions(-)
+> The SG APIs are unique in that
+> they efficiently combine the two fundamental operations of sizing and allocating
+> a large IOVA window from the IOMMU and processing all the per-address
+> swiotlb/flushing/p2p/map details.
 
- Documentation/sound/soc/codec-to-codec.rst | 307 ++++++++++++++-------
- 1 file changed, 208 insertions(+), 99 deletions(-)
+Except that's obviously not unique when the page APIs also combine the 
+exact same operations? :/
 
-diff --git a/Documentation/sound/soc/codec-to-codec.rst b/Documentation/sound/soc/codec-to-codec.rst
-index 0418521b6e03..c0d6e831ae4b 100644
---- a/Documentation/sound/soc/codec-to-codec.rst
-+++ b/Documentation/sound/soc/codec-to-codec.rst
-@@ -1,115 +1,224 @@
--==============================================
--Creating codec to codec dai link for ALSA dapm
--==============================================
-+Codec-to-Codec Connections in ALSA
-+==================================
- 
--Mostly the flow of audio is always from CPU to codec so your system
--will look as below:
--::
-+An ALSA-based audio system typically involves playback and capture
-+functionality, where users may require audio file playback through
-+speakers or recording from microphones. However, certain systems
-+necessitate audio data routing directly between components, such as FM
-+radio to speakers, without CPU involvement. For such scenarios, ASoC(
-+ALSA system on chip) provides a mechanism known as codec-to-codec (C2C)
-+connections, leveraging the Dynamic Audio Power Management (DAPM)
-+framework to facilitate direct data transfers between codecs.
- 
--   ---------          ---------
--  |         |  dai   |         |
--      CPU    ------->    codec
--  |         |        |         |
--   ---------          ---------
-+Introduction
-+------------
- 
--In case your system looks as below:
--::
-+In most audio systems, audio data flows from the CPU to the codec. In
-+specific configurations, such as those involving Bluetooth codecs,
-+audio can be transmitted directly between codecs without CPU
-+intervention. ASoC supports both architectures, and for systems that
-+do not involve the CPU, it utilizes C2C digital audio
-+interface (DAI) connections. This document discusses the procedure
-+for establishing C2C DAI links to enable such functionality.
-+
-+Audio Data Flow Paths
-+---------------------
-+
-+In a typical configuration, audio flow can be visualized as follows:
-+
-+.. code-block:: text
-+
-+    ---------          ---------
-+   |         |  dai   |         |
-+   |    CPU   -------->  codec  |
-+   |         |        |         |
-+    ---------          ---------
-+
-+In more intricate setups, the system may not involve the CPU but
-+instead utilizes multiple codecs as shown below. For instance,
-+Codec-2 acts as a cellular modem, while Codec-3 connects to a
-+speaker. Audio data can be received by Codec-2 and transmitted to
-+Codec-3 without CPU intervention, demonstrating the ideal conditions
-+for establishing a C2C DAI connection.
-+
-+.. code-block:: text
- 
-                        ---------
-                       |         |
--                        codec-2
-+                      | codec-1  <---cellular modem
-                       |         |
-                       ---------
-                            |
--                         dai-2
--                           |
--   ----------          ---------
--  |          |  dai-1 |         |
--      CPU     ------->  codec-1
--  |          |        |         |
--   ----------          ---------
-+                         dai-1
-+                           ↓
-+    ---------          ---------
-+   |         |cpu_dai |         |
-+   |   CPU    ------->  codec-2 |
-+   |         |        |         |
-+    ---------          ---------
-                            |
-                          dai-3
--                           |
-+                           ↓
-                        ---------
-                       |         |
--                        codec-3
-+                      | codec-3  --->speaker
-                       |         |
-                        ---------
- 
--Suppose codec-2 is a bluetooth chip and codec-3 is connected to
--a speaker and you have a below scenario:
--codec-2 will receive the audio data and the user wants to play that
--audio through codec-3 without involving the CPU.This
--aforementioned case is the ideal case when codec to codec
--connection should be used.
--
--Your dai_link should appear as below in your machine
--file:
--::
--
-- /*
--  * this pcm stream only supports 24 bit, 2 channel and
--  * 48k sampling rate.
--  */
-- static const struct snd_soc_pcm_stream dsp_codec_params = {
--        .formats = SNDRV_PCM_FMTBIT_S24_LE,
--        .rate_min = 48000,
--        .rate_max = 48000,
--        .channels_min = 2,
--        .channels_max = 2,
-- };
--
-- {
--    .name = "CPU-DSP",
--    .stream_name = "CPU-DSP",
--    .cpu_dai_name = "samsung-i2s.0",
--    .codec_name = "codec-2,
--    .codec_dai_name = "codec-2-dai_name",
--    .platform_name = "samsung-i2s.0",
--    .dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
--            | SND_SOC_DAIFMT_CBM_CFM,
--    .ignore_suspend = 1,
--    .c2c_params = &dsp_codec_params,
--    .num_c2c_params = 1,
-- },
-- {
--    .name = "DSP-CODEC",
--    .stream_name = "DSP-CODEC",
--    .cpu_dai_name = "wm0010-sdi2",
--    .codec_name = "codec-3,
--    .codec_dai_name = "codec-3-dai_name",
--    .dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
--            | SND_SOC_DAIFMT_CBM_CFM,
--    .ignore_suspend = 1,
--    .c2c_params = &dsp_codec_params,
--    .num_c2c_params = 1,
-- },
--
--Above code snippet is motivated from sound/soc/samsung/speyside.c.
--
--Note the "c2c_params" callback which lets the dapm know that this
--dai_link is a codec to codec connection.
--
--In dapm core a route is created between cpu_dai playback widget
--and codec_dai capture widget for playback path and vice-versa is
--true for capture path. In order for this aforementioned route to get
--triggered, DAPM needs to find a valid endpoint which could be either
--a sink or source widget corresponding to playback and capture path
--respectively.
--
--In order to trigger this dai_link widget, a thin codec driver for
--the speaker amp can be created as demonstrated in wm8727.c file, it
--sets appropriate constraints for the device even if it needs no control.
--
--Make sure to name your corresponding cpu and codec playback and capture
--dai names ending with "Playback" and "Capture" respectively as dapm core
--will link and power those dais based on the name.
--
--A dai_link in a "simple-audio-card" will automatically be detected as
--codec to codec when all DAIs on the link belong to codec components.
--The dai_link will be initialized with the subset of stream parameters
--(channels, format, sample rate) supported by all DAIs on the link. Since
--there is no way to provide these parameters in the device tree, this is
--mostly useful for communication with simple fixed-function codecs, such
--as a Bluetooth controller or cellular modem.
-+In the diagram above, two kinds of use cases can be supported:
-+
-+  1. Host music playback: CPU -> codec-2 -> codec-3 -> Speaker
-+
-+     When an application on the host plays audio, ASoC informs the DAPM
-+     (Dynamic Audio Power Management) core that the main CPU DAI
-+     (Digital Audio Interface) is now an active source. DAPM then parses
-+     through the audio graph until it finds the speaker sink.
-+
-+     The act of playing audio triggers the following power-up sequence:
-+
-+     - The ``CPU -> codec-2`` DAI is activated.
-+     - DAPM powers up the C2C  DAI link between codec-2 and codec-3, as
-+        it is part of the active audio path.
-+
-+  2. Cellular call: codec-1 -> codec-2 -> codec-3 -> Speaker
-+
-+     In this case, the host is not involved at all. The modem acts as the
-+     audio source, and DAPM powers up everything between it and the sink
-+     (i.e., the speaker). This power-up sequence involves:
-+
-+     - The C2C DAI link between codec-1 and codec-2.
-+     - The C2C DAI link between codec-2 and codec-3.
-+
-+     DAPM ensures that all necessary components in the audio path from the
-+     modem to the speaker are powered up, enabling direct audio playback
-+     from the modem without host intervention.
-+
-+
-+Creating Codec-to-Codec Connections in ALSA
-+-------------------------------------------
-+
-+To create a C2C DAI in ALSA, a ``snd_soc_dai_link`` must be
-+added to the machine driver before registering the sound card.
-+During this registration, the core checks for the presence of
-+``c2c_params`` within the ``snd_soc_dai_link``, determining whether
-+to classify the DAI link as C2C.
-+
-+While establishing the PCM node, the ASoC core inspects this
-+parameter. Instead of generating a user-space PCM node, it creates
-+an internal PCM node utilized by kernel drivers. Consequently,
-+running ``cat /proc/asound/pcm`` will yield no visible PCM nodes.
-+
-+Boot-up logs will display message similar to:
-+
-+.. code-block:: text
-+
-+   ASoC: registered pcm #0 codec2codec(Playback Codec)
-+
-+To trigger this DAI link, a control interface is established by the
-+DAPM core during internal DAI creation. This interface links to
-+the ``snd_soc_dai_link_event`` function, which is invoked when a
-+path connects in the DAPM core. A mixer must be created to trigger
-+the connection, prompting the DAPM core to evaluate path
-+connections and call the ``snd_soc_dai_link_event`` callback with
-+SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
-+
-+It is important to note that not all operations defined in
-+``snd_soc_dai_ops`` are invoked as C2C connections offer
-+limited control over DAI configuration. The operations typically
-+executed in C2C setups include startup, ``hw_params``, ``hw_free``,
-+digital mute, and shutdown from the ``snd_soc_dai_ops`` struct.
-+
-+Code Changes for Codec-to-Codec
-+-------------------------------
-+
-+The DAI link configuration in the machine file should resemble the
-+following code snippet:
-+
-+.. code-block:: c
-+
-+   /*
-+    * This PCM stream only supports 24-bit, 2 channels, and
-+    * 48kHz sampling rate.
-+    */
-+   static const struct snd_soc_pcm_stream dsp_codec_params = {
-+       .formats = SNDRV_PCM_FMTBIT_S24_LE,
-+       .rate_min = 48000,
-+       .rate_max = 48000,
-+       .channels_min = 2,
-+       .channels_max = 2,
-+   };
-+
-+   static struct snd_soc_dai_link dai_links[] = {
-+   {
-+       .name = "CPU-DSP",
-+       .stream_name = "CPU-DSP",
-+       .cpu_dai_name = "samsung-i2s.0",
-+       .codec_name = "codec-2",
-+       .codec_dai_name = "codec-2-dai_name",
-+       .platform_name = "samsung-i2s.0",
-+       .dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
-+                  | SND_SOC_DAIFMT_CBM_CFM,
-+       .ignore_suspend = 1,
-+       .c2c_params = &dsp_codec_params,
-+       .num_c2c_params = 1,
-+   },
-+   {
-+       .name = "DSP-CODEC",
-+       .stream_name = "DSP-CODEC",
-+       .cpu_dai_name = "wm0010-sdi2",
-+       .codec_name = "codec-3",
-+       .codec_dai_name = "codec-3-dai_name",
-+       .dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
-+                  | SND_SOC_DAIFMT_CBM_CFM,
-+       .ignore_suspend = 1,
-+       .c2c_params = &dsp_codec_params,
-+       .num_c2c_params = 1,
-+   },
-+   };
-+
-+To better understand the configuration inspired by the setup found in
-+``sound/soc/samsung/speyside.c``, here are several key points:
-+
-+1. The presence of ``c2c_params`` informs the DAPM core that the DAI link
-+   represents a C2C connection.
-+
-+2. ``c2c_params`` can be an array, and ``num_c2c_params`` defines the size
-+   of this array.
-+
-+3. If ``num_c2c_params`` is 1:
-+
-+   - The C2C DAI is configured with the provided ``snd_soc_pcm_stream``
-+     parameters.
-+
-+4. If ``num_c2c_params`` is greater than 1:
-+
-+   - A kcontrol is created, allowing the user to select the index of the
-+     ``c2c_params`` array to be used.
-+
-+This flexible approach enables dynamic configuration of C2C
-+connections based on runtime requirements.
-+
-+In the DAPM core, a route is established between the CPU DAI
-+playback widget and the codec DAI capture widget for playback, with
-+the reverse applying to the capture path. To trigger these routes,
-+DAPM requires valid endpoints, which can be either sink or source
-+widgets corresponding to the playback and capture paths, respectively.
-+
-+To activate this DAI link widget, codec driver is required.
-+If it doesn't exist, thin codec driver can be implemented,
-+following a similar strategy to that in ``wm8727.c``. This driver
-+should set the necessary constraints for the device, even with
-+minimal control requirements.
-+
-+
-+Simple-audio-card configuration
-+-------------------------------
-+
-+A dai_link in a "simple-audio-card" will automatically be
-+detected as C2C when all DAIs on the link belong to
-+codec components. The dai_link will be initialized with the
-+subset of stream parameters (channels, format, sample rate)
-+supported by all DAIs on the link. Since there is no way to
-+provide these parameters in the device tree, this is mostly useful
-+for communication with simple fixed-function codecs, such as a
-+Bluetooth controller or cellular modem.
--- 
-2.39.3 (Apple Git-146)
+> This uniqueness has been a long standing pain point as the scatterlist API
+> is mandatory, but expensive to use.
 
+Huh? When and where has anything ever called it mandatory? Nobody's 
+getting sent to DMA jail for open-coding:
+
+	for_each_sg(...)
+		my_dma_addr = dma_map_page(..., sg_page());
+
+if they do know the map_sg operation is unnecessarily expensive for 
+their needs.
+
+> It prevents any kind of optimization or
+> feature improvement (such as avoiding struct page for P2P) due to the impossibility
+> of improving the scatterlist.
+> 
+> Several approaches have been explored to expand the DMA API with additional
+> scatterlist-like structures (BIO, rlist), instead split up the DMA API
+> to allow callers to bring their own data structure.
+
+And this line of reasoning is still "2 + 2 = Thursday" - what is to say 
+those two notions in any way related? We literally already have one 
+generic DMA operation which doesn't operate on struct page, yet needed 
+nothing "split up" to be possible. Fair enough if callers want some 
+alternative interfaces for mapping memory as well, but to be a common 
+DMA API it has to be usable everywhere and cover all the DMA operations 
+that the current page-based APIs provide, otherwise those callers 
+obviously can't stop using struct pages. What precludes a 
+straightforward dma_map_phys() etc. to parallel the existing API? What's 
+the justification for an IOMMU-specific design when surely if anyone can 
+benefit from more memory-efficient structures across drivers and 
+subsystems it's the little embedded platforms, not the big servers 
+already happy to spend tens to hundreds of megabytes on IOMMU pagetables?
+
+> The API is split up into parts:
+>   - Allocate IOVA space:
+>      To do any pre-allocation required. This is done based on the caller
+>      supplying some details about how much IOMMU address space it would need
+>      in worst case.
+>   - Map and unmap relevant structures to pre-allocated IOVA space:
+>      Perform the actual mapping into the pre-allocated IOVA. This is very
+>      similar to dma_map_page().
+ >
+> In this and the next series [1], examples of three different users are converted
+> to the new API to show the benefits and its versatility. Each user has a unique
+> flow:
+>   1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
+>      dynamically map/unmap large numbers of single pages. This becomes
+>      significantly faster in the IOMMU case as the map/unmap is now just
+>      a page table walk, the IOVA allocation is pre-computed once. Significant
+>      amounts of memory are saved as there is no longer a need to store the
+>      dma_addr_t of each page.
+
+I particularly enjoy the comment in patch #11 calling out how this 
+"unique flow" is fundamentally incompatible with the API it's supposed 
+to show off and has to rely on a sketchy hack to abuse its 
+"versatility". Great stuff.
+
+>   2. VFIO PCI live migration code is building a very large "page list"
+>      for the device. Instead of allocating a scatter list entry per allocated
+>      page it can just allocate an array of 'struct page *', saving a large
+>      amount of memory.
+
+VFIO already assumes a coherent device with (realistically) an IOMMU 
+which it explicitly manages - why is it even pretending to need a 
+generic DMA API?
+
+>   3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+>      list without having to allocate then populate an intermediate SG table.
+
+As above, given that a bio_vec still deals in struct pages, that could 
+seemingly already be done by just mapping the pages, so how is it 
+proving any benefit of a fragile new interface?
+
+Heck, not that I really want to encourage it, but we also already have 
+network drivers who don't have the space to stash both a DMA address 
+*and* a page address in their descriptors, and economise on shadow 
+storage by instead grovelling into the default IOMMU domain with 
+iova_to_phys(). I mean, I'd _kinda_ like to send them to DMA jail, but 
+it's not an absolutely unreasonable trick to play... also DMA jail 
+doesn't exist.
+
+> To make the use of the new API easier, HMM and block subsystems are extended
+> to hide the optimization details from the caller. Among these optimizations:
+>   * Memory reduction as in most real use cases there is no need to store mapped
+>     DMA addresses and unmap them.
+>   * Reducing the function call overhead by removing the need to call function
+>     pointers and use direct calls instead.
+> 
+> This step is first along a path to provide alternatives to scatterlist and
+> solve some of the abuses and design mistakes, for instance in DMABUF's P2P
+> support.
+
+My big concern here is that a thin and vaguely-defined wrapper around 
+the IOMMU API is itself a step which smells strongly of "abuse and 
+design mistake", given that the basic notion of allocating DMA addresses 
+in advance clearly cannot generalise. Thus it really demands some 
+considered justification beyond "We must do something; This is 
+something; Therefore we must do this." to be convincing.
+
+Thanks,
+Robin.
+
+> 
+> Thanks
+> 
+> [1] This still points to v0, as the change is just around handling dma_iova_sync():
+> https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org
+> 
+> Christoph Hellwig (6):
+>    PCI/P2PDMA: Refactor the p2pdma mapping helpers
+>    dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+>    iommu: generalize the batched sync after map interface
+>    iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+>    dma-mapping: add a dma_need_unmap helper
+>    docs: core-api: document the IOVA-based API
+> 
+> Leon Romanovsky (11):
+>    dma-mapping: Add check if IOVA can be used
+>    dma: Provide an interface to allow allocate IOVA
+>    dma-mapping: Implement link/unlink ranges API
+>    mm/hmm: let users to tag specific PFN with DMA mapped bit
+>    mm/hmm: provide generic DMA managing logic
+>    RDMA/umem: Store ODP access mask information in PFN
+>    RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+>      linkage
+>    RDMA/umem: Separate implicit ODP initialization from explicit ODP
+>    vfio/mlx5: Explicitly use number of pages instead of allocated length
+>    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+>    vfio/mlx5: Convert vfio to use DMA link API
+> 
+>   Documentation/core-api/dma-api.rst   |  70 ++++
+>   drivers/infiniband/core/umem_odp.c   | 250 +++++----------
+>   drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+>   drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+>   drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+>   drivers/iommu/dma-iommu.c            | 459 +++++++++++++++++++++++----
+>   drivers/iommu/iommu.c                |  65 ++--
+>   drivers/pci/p2pdma.c                 |  38 +--
+>   drivers/vfio/pci/mlx5/cmd.c          | 373 +++++++++++-----------
+>   drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+>   drivers/vfio/pci/mlx5/main.c         |  87 +++--
+>   include/linux/dma-map-ops.h          |  54 ----
+>   include/linux/dma-mapping.h          |  85 +++++
+>   include/linux/hmm-dma.h              |  32 ++
+>   include/linux/hmm.h                  |  16 +
+>   include/linux/iommu.h                |   4 +
+>   include/linux/pci-p2pdma.h           |  84 +++++
+>   include/rdma/ib_umem_odp.h           |  25 +-
+>   kernel/dma/direct.c                  |  44 +--
+>   kernel/dma/mapping.c                 |  20 ++
+>   mm/hmm.c                             | 231 +++++++++++++-
+>   21 files changed, 1377 insertions(+), 684 deletions(-)
+>   create mode 100644 include/linux/hmm-dma.h
+> 
