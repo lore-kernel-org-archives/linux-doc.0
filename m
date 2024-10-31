@@ -1,159 +1,242 @@
-Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2050.outbound.protection.outlook.com [40.107.95.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5759ECF;
-	Thu, 31 Oct 2024 18:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.95.48.154
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730399321; cv=none; b=sos17Pt9terkCfg9ka4dNsmFKskIh6P9LMuOsftHfENJRCnqO/u3+3zx5CHt6iipe+VowOtaF+Y0SBFUq7IJ2N02xAPnbzL1HgJjY77OAfa0GDZZYMZ4I3wf4s1crLyPbLGTCSLibRqsLKGCX1LXuzLxP1MF9yWonHCVFTi9YXQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730399321; c=relaxed/simple;
-	bh=KmwLm1kJ4WZZP0gDaTLd6EW1oaxS04gX6rRqg4i+XjQ=;
-	h=Subject:From:To:CC:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=V7MCslYMUOf91HdVBIB7VzN1Djc0gbaUGdrY2FsPw4UW4+zDkFGof3AmiwcgRp9cgZt9vCIJXSUaWNEUxtlPfEFWFtqLbB1HDhD0nbGOM+qomD6ZUpxDGwMJ83D91PUejsgVg/qMPGw4VuQVvaB1XZdL/ZJ3hzSt5l/V4BjJozk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=LvxegUup; arc=none smtp.client-ip=52.95.48.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327941E495;
+	Thu, 31 Oct 2024 18:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730399628; cv=fail; b=nkoLr87IDpVcEyIEbXwwFAFsECbAe890SGr7fgNigiXXyAMQUz+LyEMlfWvEEW4i3F/Bp34PM5VP4h3jKbWshtf8N9h3pnaF5BkFDClTZ/KeY7mZ4pCc3cNel3AAo1qgazwImZsynK463eT1cZlJBowzqqAQMmzyC6lsiC/mylk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730399628; c=relaxed/simple;
+	bh=AC5R0abFBRS8yWsme8gZPKYV4HebATPq9QQVyM7/KaA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gg9IvXaTomP2g4TWbSxD+sFcsVo6h/aieRaqAiLbkRi2azJ0CFDq3A30AQBiKzbq7JVRXuM4zW9vhV5Di4uq7fAAEXg5PAP4bg3Fpp4pXQJgK5/yMbp4Y6P941W/cXJACX22z5U/V7EMzgyc89ecmLcKp69kRUQI41lJP6MGxnI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=q3Sd+ldg; arc=fail smtp.client-ip=40.107.95.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="LvxegUup"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1730399320; x=1761935320;
-  h=from:to:cc:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version:subject;
-  bh=ecc7x6z5tBSynVvbhNaEuzIQivszgPRWP9c+1MOAWAs=;
-  b=LvxegUup2l1p3WnvlGmTBkWYcvmjbjFqeZYRXNTPhzt9/JiLpYlt+QbS
-   u2MbwY1tIIjgMPhQIGIU33NAVPdrStDNmAV5t7QvMPuG/4MfZ0D4IWFwn
-   yyPZ3+cBw+PU9y3eyZBaFw4PgZHYlv/JkaYbRru8brOe/Z7lweyZPI0G/
-   4=;
-X-IronPort-AV: E=Sophos;i="6.11,247,1725321600"; 
-   d="scan'208";a="436222997"
-Subject: RE: [resend PATCH 2/2] dim: pass dim_sample to net_dim() by reference
-Thread-Topic: [resend PATCH 2/2] dim: pass dim_sample to net_dim() by reference
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.2])
-  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 18:28:34 +0000
-Received: from EX19MTAEUC002.ant.amazon.com [10.0.10.100:34386]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.16.73:2525] with esmtp (Farcaster)
- id 86134643-d973-4b41-85cd-ca98a4e48a9d; Thu, 31 Oct 2024 18:28:32 +0000 (UTC)
-X-Farcaster-Flow-ID: 86134643-d973-4b41-85cd-ca98a4e48a9d
-Received: from EX19D005EUA004.ant.amazon.com (10.252.50.241) by
- EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Thu, 31 Oct 2024 18:28:32 +0000
-Received: from EX19D022EUA002.ant.amazon.com (10.252.50.201) by
- EX19D005EUA004.ant.amazon.com (10.252.50.241) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
- Thu, 31 Oct 2024 18:28:31 +0000
-Received: from EX19D022EUA002.ant.amazon.com ([fe80::7f87:7d63:def0:157d]) by
- EX19D022EUA002.ant.amazon.com ([fe80::7f87:7d63:def0:157d%3]) with mapi id
- 15.02.1258.034; Thu, 31 Oct 2024 18:28:31 +0000
-From: "Kiyanovski, Arthur" <akiyano@amazon.com>
-To: Caleb Sander Mateos <csander@purestorage.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Brett Creeley
-	<brett.creeley@amd.com>, Broadcom internal kernel review list
-	<bcm-kernel-feedback-list@broadcom.com>, Christophe Leroy
-	<christophe.leroy@csgroup.eu>, Claudiu Manoil <claudiu.manoil@nxp.com>,
-	"Arinzon, David" <darinzon@amazon.com>, "David S. Miller"
-	<davem@davemloft.net>, Doug Berger <opendmb@gmail.com>, Eric Dumazet
-	<edumazet@google.com>, =?iso-8859-1?Q?Eugenio_P=E9rez?=
-	<eperezma@redhat.com>, Felix Fietkau <nbd@nbd.name>, Florian Fainelli
-	<florian.fainelli@broadcom.com>, Geetha sowjanya <gakula@marvell.com>,
-	hariprasad <hkelam@marvell.com>, Jakub Kicinski <kuba@kernel.org>, Jason Wang
-	<jasowang@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Leon Romanovsky
-	<leon@kernel.org>, Lorenzo Bianconi <lorenzo@kernel.org>, Louis Peens
-	<louis.peens@corigine.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, "Matthias
- Brugger" <matthias.bgg@gmail.com>, Michael Chan <michael.chan@broadcom.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, "Dagan, Noam" <ndagan@amazon.com>,
-	Paolo Abeni <pabeni@redhat.com>, Przemek Kitszel
-	<przemyslaw.kitszel@intel.com>, Roy Pledge <Roy.Pledge@nxp.com>, "Bshara,
- Saeed" <saeedb@amazon.com>, Saeed Mahameed <saeedm@nvidia.com>, Sean Wang
-	<sean.wang@mediatek.com>, Shannon Nelson <shannon.nelson@amd.com>, "Agroskin,
- Shay" <shayagr@amazon.com>, Simon Horman <horms@kernel.org>, "Subbaraya
- Sundeep" <sbhatta@marvell.com>, Sunil Goutham <sgoutham@marvell.com>, "Tal
- Gilboa" <talgi@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Tony Nguyen
-	<anthony.l.nguyen@intel.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, Xuan
- Zhuo <xuanzhuo@linux.alibaba.com>
-CC: "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linuxppc-dev@lists.ozlabs.org"
-	<linuxppc-dev@lists.ozlabs.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "oss-drivers@corigine.com"
-	<oss-drivers@corigine.com>, "virtualization@lists.linux.dev"
-	<virtualization@lists.linux.dev>
-Thread-Index: AQHbKytOj0WWkTVG4E2tmTmQTyqqDrKhLiag
-Date: Thu, 31 Oct 2024 18:28:19 +0000
-Deferred-Delivery: Thu, 31 Oct 2024 18:27:59 +0000
-Message-ID: <7f494c4ae5a041fbafa4059e85431857@amazon.com>
-References: <20241031002326.3426181-1-csander@purestorage.com>
- <20241031002326.3426181-2-csander@purestorage.com>
-In-Reply-To: <20241031002326.3426181-2-csander@purestorage.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="q3Sd+ldg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YUxjwLuOSAPkNS8y3cir1kZxgSGZOPc1EE8AFFNaIA3umLvbQtKQyEOJniFXz3yffUowWZUB0vwihKaOIKpg6cIUm3JL5t4CdJk+//FKmmcEIxFM3jbxOjgOTrqMr32taGI9VOh+s9wMiEi96ncJK9KdI5zpXTQ6MsEE+BpDEYj8qO6+5X3SKzKI9itZVKdS2Jr0RaKFyAqCfIDI+CE2mu/tbqOQj5jLiYLXrNXNG2hpj38rkYAtde6O1oKRrTTN8pFMex5XU4Q1aH2x3AkXLqwme0yCkXuAxmwBgnTE39ZgKaOtl+2d/oDxGuSkB4FtQt2AC2mBxiQLQKOpvGYckw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AaGtt5UWke7eKLBcn9GJysdUCXPLuMsJR2N2fnRzcT0=;
+ b=ZC8oovF0FQUhGgkxz76EmAOqDY1FPCW+Ypb5Jeh2KdtaOn3oD93hkRzahrp71uzKaYYqlXfaYhrFRWXb09/J93R3VnHE/JYFRx0csSBwY7RDaL3FKDC26IxesG1u3i0n/2lTKBzmP9c0mrd8217UTN7UexQvtlnbaMdfDMbCBxfm9v0pUF4MLTjf10cAmGP6LziTqmidMX9O3hn+KqA6BGKS6mIir+aTKT9ayKdVGzncuiQWtZCg/NjXUIeqhlzvrtxZwg6mwMZquhAFp/E7YY29az0I55S+/boD/pi8AuCrru6QnfI1o0PwMXO7vub4N2cYf98kNDXj5TDRHIBlXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AaGtt5UWke7eKLBcn9GJysdUCXPLuMsJR2N2fnRzcT0=;
+ b=q3Sd+ldgXUGRihb0iUEvrCE0DSPnGmcgBxZR1hBB2P5GJJ6SLLnMCgh8/dtq+Nq/S5wOmcA846o7oYvVY+K7D7zzgQMiCYTnEgI7BhYX3hm/5C/zRylnTS+/7zv1qJR6yWVdlLp1L4r5cJcA8MFernW4CCwyBrcjueTrpjMu9VLXNgBKjxDPPJcXRi4jhmqYuq4hDXec9aRBP+RzRh79ZWAzmZdngqmxmpwd0Q+clt9QGKfV1IGh3c2mmPwqIp6Auw0+1mdhduU2SzkE+osQon+lzPKPbiMKxSJ0qkee/2CWd/hVOuuBQJuPOHL+3KQHha+7HAWPSMQTX6shc4NYsw==
+Received: from PH7P220CA0135.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:327::35)
+ by MN2PR12MB4301.namprd12.prod.outlook.com (2603:10b6:208:1d4::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Thu, 31 Oct
+ 2024 18:33:42 +0000
+Received: from CY4PEPF0000E9D0.namprd03.prod.outlook.com
+ (2603:10b6:510:327:cafe::bf) by PH7P220CA0135.outlook.office365.com
+ (2603:10b6:510:327::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.22 via Frontend
+ Transport; Thu, 31 Oct 2024 18:33:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CY4PEPF0000E9D0.mail.protection.outlook.com (10.167.241.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8114.16 via Frontend Transport; Thu, 31 Oct 2024 18:33:42 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 31 Oct
+ 2024 11:33:26 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Thu, 31 Oct 2024 11:33:25 -0700
+Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
+ Transport; Thu, 31 Oct 2024 11:33:24 -0700
+Date: Thu, 31 Oct 2024 11:33:23 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: <kevin.tian@intel.com>, <corbet@lwn.net>, <joro@8bytes.org>,
+	<suravee.suthikulpanit@amd.com>, <will@kernel.org>, <robin.murphy@arm.com>,
+	<dwmw2@infradead.org>, <shuah@kernel.org>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <baolu.lu@linux.intel.com>,
+	<eric.auger@redhat.com>, <jean-philippe@linaro.org>, <mdf@kernel.org>,
+	<mshavit@google.com>, <shameerali.kolothum.thodi@huawei.com>,
+	<smostafa@google.com>, <yi.l.liu@intel.com>, <aik@amd.com>,
+	<zhangfei.gao@linaro.org>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v6 12/13] iommufd/selftest: Add IOMMU_VIOMMU_ALLOC test
+ coverage
+Message-ID: <ZyPNc0VhJUrTGZAq@Asurada-Nvidia>
+References: <cover.1730313237.git.nicolinc@nvidia.com>
+ <8188b47bbee49e071907e1df37a3af269bd840b6.1730313237.git.nicolinc@nvidia.com>
+ <20241031131637.GK10193@nvidia.com>
+ <ZyOydn+/s6enh1jg@Asurada-Nvidia>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZyOydn+/s6enh1jg@Asurada-Nvidia>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D0:EE_|MN2PR12MB4301:EE_
+X-MS-Office365-Filtering-Correlation-Id: 94bf1a32-fd93-4dd5-a0c9-08dcf9da8bca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?DuJOHwUzdb2FSrznFbT2l+vcrenBbAPr262kbsWyKYvUvbXFJj9MR9fpGq04?=
+ =?us-ascii?Q?seg+P7DpSI+giWta97QKGYeigrgbLm0eMbVZzEfVS0eYMlnzYFN7OdT249kR?=
+ =?us-ascii?Q?TY/GfwipvNWI3H+Ll12ob+G+ldLwFhAPU9dNymbg2ReV6dOYIQj2+2tnTuyt?=
+ =?us-ascii?Q?PTpYKweR90+AfDLkiT6EQ6yfw0NEM7vVwHDARy2TblAgLim/Hm4YFnfkeyPb?=
+ =?us-ascii?Q?OjRLTU7mxmvzRPNiJfmClWJieKM5FDeztOItH3PvkufWjTEhJ6vmJ6Xi6wUj?=
+ =?us-ascii?Q?yxky27d5fgXt3tLfm6n3TIiMjFOLwYOeu02iwtbvXKVU5Y6lnCvF6aOAPeSY?=
+ =?us-ascii?Q?TbQlsvBNoIeXZXzre0S/jeIMbavgWVB0AOvzvnqj9qbfg0yPYsvVxgM85xPm?=
+ =?us-ascii?Q?tl2vYgO9pYkt9zitz0RV5ww9e92qCqXGAnbDeFVQaBubPuaXj8ykIiPnllTi?=
+ =?us-ascii?Q?nlWKDqiyYN+Sz0f2E1t6QkMmCNYsGnTmxdLuUp8/QPsFbBbf3HgBZzNH/FUB?=
+ =?us-ascii?Q?gfnpVA1Bssue2CkNUI019CzMFYxDX4/WU/C5S2+5eKAqZBZL4Wd3FtkDrsNw?=
+ =?us-ascii?Q?zBdlIFZU2Z+94qTdG+uNeXBonNBQEjglUgbihPxt8t9saOtNmI53znH5t8WY?=
+ =?us-ascii?Q?g6r+xiqBXQXCoRlFJCwXaMn/cVAEeQL2f23zb47kLfFWvcrvVvFxAHbZn7yo?=
+ =?us-ascii?Q?0Nn5OvELKGG/OdtC43NffMsrT9CCS5as0nnVnnghcI25swuQO2+EzlUsMBAr?=
+ =?us-ascii?Q?y+YpoYS766f2xSh2re14dvWRsrYoK5xDJepUwtQtw16dn8/aoUe4QQwARAJo?=
+ =?us-ascii?Q?97fNnExz88TYbMengTdsXTGn5bGtAQS7mZEZNLKAFcEumARb20QZWt2BJAEG?=
+ =?us-ascii?Q?dl4SQql4xrPBfChFUoh6iB9cbi71UUccJJ4yL3z0OcqmrqeXv/qznOn+Jvpi?=
+ =?us-ascii?Q?FAGInubu2TOBsYQCrcAI4TKn9DoXQCSJKR+vv84pBO/LgGyVbTcbER8zvP17?=
+ =?us-ascii?Q?RKRXerHgMAEKkWMTK0JzM928AI/V40NDs2QYzwKJttvWl6+aDQEljOpOxh0j?=
+ =?us-ascii?Q?CSmNABMdVlvcEbvoAYnHdwB8Fylm3OJPEiksG2/TIrWt+Qh9H5K2nQIbceKR?=
+ =?us-ascii?Q?rjOcmXHGtFawdtjvuhqahoDAW1MvWXQJftkxYivPeW+XDQEaSmy65fyaj2uk?=
+ =?us-ascii?Q?KHZvLGN+R2FWM+oPj+4TdCBD6Xq7Vg9Ik4fgo/sHlqrTsZl9i7dX7WR1V6GX?=
+ =?us-ascii?Q?FPYrIuzpGppnIUkA1bGTzzxiIgAaM/KckD3iF3gOEPscmlHsHHktZ5yxrR0r?=
+ =?us-ascii?Q?ZGIXtP7VbfORjJwztK7i8yug8aztXVJrPPHC9gFf2aDB14k16i+u/AydyAHm?=
+ =?us-ascii?Q?oFz4kM2alBfpkfJ3hkqUKxex2RWjp/iwhcZjVJMhQYzkA5kReA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 18:33:42.2329
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94bf1a32-fd93-4dd5-a0c9-08dcf9da8bca
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000E9D0.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4301
 
-> -----Original Message-----
-> From: Caleb Sander Mateos <csander@purestorage.com>
-> Sent: Wednesday, October 30, 2024 5:23 PM
->=20
-> net_dim() is currently passed a struct dim_sample argument by value.
-> struct dim_sample is 24 bytes. Since this is greater 16 bytes, x86-64 pas=
-ses it
-> on the stack. All callers have already initialized dim_sample on the stac=
-k, so
-> passing it by value requires pushing a duplicated copy to the stack. Eith=
-er
-> witing to the stack and immediately reading it, or perhaps dereferencing
-> addresses relative to the stack pointer in a chain of push instructions, =
-seems
-> to perform quite poorly.
->=20
-> In a heavy TCP workload, mlx5e_handle_rx_dim() consumes 3% of CPU time,
-> 94% of which is attributed to the first push instruction to copy dim_samp=
-le on
-> the stack for the call to net_dim():
-> // Call ktime_get()
->   0.26 |4ead2:   call   4ead7 <mlx5e_handle_rx_dim+0x47>
-> // Pass the address of struct dim in %rdi
->        |4ead7:   lea    0x3d0(%rbx),%rdi
-> // Set dim_sample.pkt_ctr
->        |4eade:   mov    %r13d,0x8(%rsp)
-> // Set dim_sample.byte_ctr
->        |4eae3:   mov    %r12d,0xc(%rsp)
-> // Set dim_sample.event_ctr
->   0.15 |4eae8:   mov    %bp,0x10(%rsp)
-> // Duplicate dim_sample on the stack
->  94.16 |4eaed:   push   0x10(%rsp)
->   2.79 |4eaf1:   push   0x10(%rsp)
->   0.07 |4eaf5:   push   %rax
-> // Call net_dim()
->   0.21 |4eaf6:   call   4eafb <mlx5e_handle_rx_dim+0x6b>
->=20
-> To allow the caller to reuse the struct dim_sample already on the stack, =
-pass
-> the struct dim_sample by reference to net_dim().
->=20
-> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
-> ---
+On Thu, Oct 31, 2024 at 09:38:17AM -0700, Nicolin Chen wrote:
+> On Thu, Oct 31, 2024 at 10:16:37AM -0300, Jason Gunthorpe wrote:
+> > On Wed, Oct 30, 2024 at 02:34:38PM -0700, Nicolin Chen wrote:
+> > > +FIXTURE_SETUP(iommufd_viommu)
+...
+> > > +		EXPECT_ERRNO(EBUSY,
+> > > +			     _test_ioctl_destroy(self->fd, self->hwpt_id));
+> > 
+> > There shouldn't be testing in the FIXTURE_SETUP, it should just do
+> > enough to setup the fixture. negative tests/etc should be in their own
+> > function
+> 
+> OK. I'll make a change by moving all EXPECT_ERRNOs to a TEST_F.
 
-Thank you for this patch.
+Will squash the followings into this patch in v7:
 
-For the ENA part:
-
-Reviewed-by: Arthur Kiyanovski <akiyano@amazon.com>
-
-Thanks,
-Arthur
+diff --git a/tools/testing/selftests/iommu/iommufd.c b/tools/testing/selftests/iommu/iommufd.c
+index 4fc5185fca0dc..bad11f65b63dd 100644
+--- a/tools/testing/selftests/iommu/iommufd.c
++++ b/tools/testing/selftests/iommu/iommufd.c
+@@ -2424,42 +2424,21 @@ FIXTURE_SETUP(iommufd_viommu)
+ 		test_cmd_mock_domain(self->ioas_id, &self->stdev_id, NULL,
+ 				     &self->device_id);
+ 
+-		/* Negative test -- invalid hwpt */
+-		test_err_viommu_alloc(ENOENT, self->device_id, self->hwpt_id,
+-				      IOMMU_VIOMMU_TYPE_SELFTEST, NULL);
+-
+-		/* Negative test -- not a nesting parent hwpt */
+-		test_cmd_hwpt_alloc(self->device_id, self->ioas_id, 0,
+-				    &self->hwpt_id);
+-		test_err_viommu_alloc(EINVAL, self->device_id, self->hwpt_id,
+-				      IOMMU_VIOMMU_TYPE_SELFTEST, NULL);
+-		test_ioctl_destroy(self->hwpt_id);
+-
+ 		/* Allocate a nesting parent hwpt */
+ 		test_cmd_hwpt_alloc(self->device_id, self->ioas_id,
+ 				    IOMMU_HWPT_ALLOC_NEST_PARENT,
+ 				    &self->hwpt_id);
+-		/* Negative test -- unsupported viommu type */
+-		test_err_viommu_alloc(EOPNOTSUPP, self->device_id,
+-				      self->hwpt_id, 0xdead, NULL);
+ 
+ 		/* Allocate a vIOMMU taking refcount of the parent hwpt */
+ 		test_cmd_viommu_alloc(self->device_id, self->hwpt_id,
+ 				      IOMMU_VIOMMU_TYPE_SELFTEST,
+ 				      &self->viommu_id);
+-		EXPECT_ERRNO(EBUSY,
+-			     _test_ioctl_destroy(self->fd, self->hwpt_id));
+ 
+ 		/* Allocate a regular nested hwpt */
+ 		test_cmd_hwpt_alloc_nested(self->device_id, self->viommu_id, 0,
+ 					   &self->nested_hwpt_id,
+ 					   IOMMU_HWPT_DATA_SELFTEST, &data,
+ 					   sizeof(data));
+-		EXPECT_ERRNO(EBUSY,
+-			     _test_ioctl_destroy(self->fd, self->viommu_id));
+-	} else {
+-		test_err_viommu_alloc(ENOENT, self->device_id, self->hwpt_id,
+-				      IOMMU_VIOMMU_TYPE_SELFTEST, NULL);
+ 	}
+ }
+ 
+@@ -2482,6 +2461,36 @@ TEST_F(iommufd_viommu, viommu_auto_destroy)
+ {
+ }
+ 
++TEST_F(iommufd_viommu, viommu_negative_tests)
++{
++	uint32_t device_id = self->device_id;
++	uint32_t ioas_id = self->ioas_id;
++	uint32_t hwpt_id;
++
++	if (self->device_id) {
++		/* Negative test -- invalid hwpt (hwpt_id=0) */
++		test_err_viommu_alloc(ENOENT, device_id, 0,
++				      IOMMU_VIOMMU_TYPE_SELFTEST, NULL);
++
++		/* Negative test -- not a nesting parent hwpt */
++		test_cmd_hwpt_alloc(device_id, ioas_id, 0, &hwpt_id);
++		test_err_viommu_alloc(EINVAL, device_id, hwpt_id,
++				      IOMMU_VIOMMU_TYPE_SELFTEST, NULL);
++		test_ioctl_destroy(hwpt_id);
++
++		/* Negative test -- unsupported viommu type */
++		test_err_viommu_alloc(EOPNOTSUPP, device_id, self->hwpt_id,
++				      0xdead, NULL);
++		EXPECT_ERRNO(EBUSY,
++			     _test_ioctl_destroy(self->fd, self->hwpt_id));
++		EXPECT_ERRNO(EBUSY,
++			     _test_ioctl_destroy(self->fd, self->viommu_id));
++	} else {
++		test_err_viommu_alloc(ENOENT, self->device_id, self->hwpt_id,
++				      IOMMU_VIOMMU_TYPE_SELFTEST, NULL);
++	}
++}
++
+ TEST_F(iommufd_viommu, viommu_alloc_nested_iopf)
+ {
+ 	struct iommu_hwpt_selftest data = {
