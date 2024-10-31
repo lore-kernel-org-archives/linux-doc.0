@@ -1,177 +1,213 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A1E1A0BFE
-	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 17:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA5D84DF5;
+	Thu, 31 Oct 2024 17:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730395053; cv=none; b=qkTzcZ0y24EVULewp3dqdwMiaPPUL44KpsEeCswOnja/az6Cx+FinngurieVLaBzrw97lllNPcS9gFhzagQsB4yXPhvIz2efPw4Pq5PkLRWZb8T6U0RYCQ3ktZXOE0ohJmZrvolaLnzMZfbhQXA7T5mfIwcqRqIBKQZ8Q8/ztN0=
+	t=1730395155; cv=none; b=EZjg1VEfBpuQCe71Xjwf6tHF2jPzVT7HM6bHZnCEX7lDM7deYznx4ZxXU51bZztNy57n35TPyJiyhelTV5t1cycTa2dV52wp834FTSQ4A6aKTwUizK4zCnoq20FR8LSxjODwt99EgxsMyNdykuAabpPJRR1Qa/Kh66jcEZaGCzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730395053; c=relaxed/simple;
-	bh=bx0jessu0KfLRZtCqrKGlDJ3ti7ypTOq/nU0abf7IMo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YB40X7kUo5swMLQXYDZD/II7rl1Rp4vxsbIQPgg8UtZXo4zRpaxf69a5OZV1RnzJmO52AqpUiJLM/f1KmmkIZpCPthlgLUAMBilMfOrpUWR1qiNvl6vRY6KnUivlrKR7Ya/PBlmqp/wHk39rJ5vbCcaux6g7DvFhJvXlQX7WP70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Tm9fylOI; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1730395155; c=relaxed/simple;
+	bh=Z81RgYI7DX9G0+oJwfOUwwqUhMbmKggB/1r3M9LqC34=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=f1lN6Z+Tj6pf3tEMq3feR+2fe8MDI+lMOfPwzueEaoFqCbZz2wLefCd+qrXolI4zJDoJwEAjTP57ALhSENEEBz4YpIOMBpb2Vu1d/2zw/4nCrUdM+De3cKgwlQ4G9KAalXkZSMD14taQ//pPrW+HEzJxWzIFAABhxzlYJju06+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=m7uBDVMh; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Tm9fylOI"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d462c91a9so745821f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 10:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1730395050; x=1730999850; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=yuVL5XevAlSQZiTVvR3V3r/+5ebo7kY9AfDcEkuoaT4=;
-        b=Tm9fylOI8o3RBB7refl2qDn20v4IulV4ZCK4YXcswsL5fFskYp4jvguqX+xCFC0GLn
-         hAuYQGLVOfiUL70RFgUMtjdXRGwiVlDxpbfei60Ut/FHceOAAXr6WVOIKxZ1WWiau/kI
-         GQxPv+JvLHtNTCeD/R3MNsl2ihOyMm4ivWR5Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730395050; x=1730999850;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yuVL5XevAlSQZiTVvR3V3r/+5ebo7kY9AfDcEkuoaT4=;
-        b=xOp8a2fZzZQqZjoZmwukUl268Nd6+cOw1qoUg2WGiYTUGKKnpCFdkcfP/9b5ov6BwA
-         XxTT5oqjdS4OJ7/QijIJET/Ol9DSJFMM+86j0uP3fN4hZd5mSLsCL88USgabHF5G23dV
-         nhxxdnSoBnZPYINMtK7o8COqM+7w6pDNcCAnAnPBx8rY12drNTLAdOqA7l03AlOjhFSj
-         wEd1QtpgMDH2uPrXV/D7VBcOESR6FgvlWVzlIiE2AHQEsZLb/ewzymFbxM5nVCM8u7fk
-         e1l2kf+OGmybSVUfsuNomA74FjcsjeN3nO60O0XZoY7edlwU4Vdwn55SqtOged0KQ5hd
-         +eFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUNBONkQlJd7Sfoir2eNZ2fhFoJoqgjn0o4/dYKh7EBJveeXHKTomqJDlPdZUoaFEJ4Qjg/h5eiQ34=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRWbRkxdTUjATU1da2dVk0ii8p3DUuc2l1iuPfDlzAgHAwxa1x
-	sgFhH+DN/6Vr1Np/jldc9G/c/9YOd3DUybRSK1+jhz8kwUmSj5linMha1WdKcw==
-X-Google-Smtp-Source: AGHT+IFjT29yi5SX0dw1nHhzoYLJGP+01L3NL5a3fZUFudXflNMBcjs32Cnleu5VTb7EMdHUUlSccA==
-X-Received: by 2002:a05:6000:ac1:b0:37d:3280:203a with SMTP id ffacd0b85a97d-381b7057644mr5887676f8f.10.1730395049620;
-        Thu, 31 Oct 2024 10:17:29 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7c08sm2713960f8f.17.2024.10.31.10.17.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 10:17:28 -0700 (PDT)
-Message-ID: <5ab60ad8-5625-41d3-b20a-4137a8f4c19a@broadcom.com>
-Date: Thu, 31 Oct 2024 10:17:17 -0700
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m7uBDVMh"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Z81RgYI7DX9G0+oJwfOUwwqUhMbmKggB/1r3M9LqC34=; b=m7uBDVMhZmFnzJTU02VOUAj1JO
+	5oah4hOzZo/B/uebEzBLchYE2rro6TK1xzFgKevotqIacDpsjarydZMrlJSZ3aHzqsfJi79WYfRHp
+	Qn9we5vYNY9hduyxrwCmLQ25pmkS4f0v+p/QAbjvDeJDwsUiDuGw5E50b5YOmE6MgXbnpVgtXQwlY
+	7xQiAa9V3VZUS54Ql0cMSlTYS7oHEIcdKNFrotQRaCdKhrCQPTZNBQyALXlofGvflK9XkHeJGPfk4
+	oJUPGgUt43SdCHT+UbmKL5Y54y9QsFxes1Qy7WZ0UOSX7x3OcQTebRERrJ929b7Bq/lNP5Jnfotth
+	E77gJ25Q==;
+Received: from [2605:ed00:430b:e0:59ee:279e:5c98:9214] (helo=syn-2605-ed00-430b-00e0-59ee-279e-5c98-9214.inf6.spectrum.com)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t6Yp4-0000000ExZ6-0dY7;
+	Thu, 31 Oct 2024 17:19:03 +0000
+Message-ID: <74db59658c40fad82d681bd1ebcf893c7ec27322.camel@infradead.org>
+Subject: Re: (subset) [PATCH v6 0/6] Add PSCI v1.3 SYSTEM_OFF2 support for
+ hibernation
+From: David Woodhouse <dwmw2@infradead.org>
+To: Catalin Marinas <catalin.marinas@arm.com>, Oliver Upton
+	 <oliver.upton@linux.dev>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, James Morse <james.morse@arm.com>, 
+ linux-doc@vger.kernel.org, Marc Zyngier <maz@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, kvmarm@lists.linux.dev, Len Brown <len.brown@intel.com>, 
+ Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org, Pavel
+ Machek <pavel@ucw.cz>, Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,  Miguel Luis
+ <miguel.luis@oracle.com>, Will Deacon <will@kernel.org>, "Rafael J.
+ Wysocki" <rafael@kernel.org>,  Paolo Bonzini <pbonzini@redhat.com>,
+ linux-kselftest@vger.kernel.org, Francesco Lavra
+ <francescolavra.fl@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date: Thu, 31 Oct 2024 17:18:57 +0000
+In-Reply-To: <ZyN09BSZqKLXLi6_@arm.com>
+References: <20241019172459.2241939-1-dwmw2@infradead.org>
+	 <172989416837.3684225.4795897590830335669.b4-ty@linux.dev>
+	 <ZyN09BSZqKLXLi6_@arm.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-0dHbCxxpnyAOzGGh7YUT"
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [resend PATCH 2/2] dim: pass dim_sample to net_dim() by reference
-To: Caleb Sander Mateos <csander@purestorage.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Arthur Kiyanovski <akiyano@amazon.com>, Brett Creeley
- <brett.creeley@amd.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Claudiu Manoil <claudiu.manoil@nxp.com>, David Arinzon
- <darinzon@amazon.com>, "David S. Miller" <davem@davemloft.net>,
- Doug Berger <opendmb@gmail.com>, Eric Dumazet <edumazet@google.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Felix Fietkau <nbd@nbd.name>, Geetha sowjanya <gakula@marvell.com>,
- hariprasad <hkelam@marvell.com>, Jakub Kicinski <kuba@kernel.org>,
- Jason Wang <jasowang@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Leon Romanovsky <leon@kernel.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Louis Peens <louis.peens@corigine.com>, Mark Lee <Mark-MC.Lee@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Michael Chan <michael.chan@broadcom.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Noam Dagan <ndagan@amazon.com>,
- Paolo Abeni <pabeni@redhat.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Roy Pledge <Roy.Pledge@nxp.com>, Saeed Bishara <saeedb@amazon.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Sean Wang <sean.wang@mediatek.com>,
- Shannon Nelson <shannon.nelson@amd.com>, Shay Agroskin <shayagr@amazon.com>,
- Simon Horman <horms@kernel.org>, Subbaraya Sundeep <sbhatta@marvell.com>,
- Sunil Goutham <sgoutham@marvell.com>, Tal Gilboa <talgi@nvidia.com>,
- Tariq Toukan <tariqt@nvidia.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: intel-wired-lan@lists.osuosl.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- oss-drivers@corigine.com, virtualization@lists.linux.dev
-References: <20241031002326.3426181-1-csander@purestorage.com>
- <20241031002326.3426181-2-csander@purestorage.com>
-Content-Language: en-US
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20241031002326.3426181-2-csander@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On 10/30/24 17:23, Caleb Sander Mateos wrote:
-> net_dim() is currently passed a struct dim_sample argument by value.
-> struct dim_sample is 24 bytes. Since this is greater 16 bytes, x86-64
-> passes it on the stack. All callers have already initialized dim_sample
-> on the stack, so passing it by value requires pushing a duplicated copy
-> to the stack. Either witing to the stack and immediately reading it, or
-> perhaps dereferencing addresses relative to the stack pointer in a chain
-> of push instructions, seems to perform quite poorly.
-> 
-> In a heavy TCP workload, mlx5e_handle_rx_dim() consumes 3% of CPU time,
-> 94% of which is attributed to the first push instruction to copy
-> dim_sample on the stack for the call to net_dim():
-> // Call ktime_get()
->    0.26 |4ead2:   call   4ead7 <mlx5e_handle_rx_dim+0x47>
-> // Pass the address of struct dim in %rdi
->         |4ead7:   lea    0x3d0(%rbx),%rdi
-> // Set dim_sample.pkt_ctr
->         |4eade:   mov    %r13d,0x8(%rsp)
-> // Set dim_sample.byte_ctr
->         |4eae3:   mov    %r12d,0xc(%rsp)
-> // Set dim_sample.event_ctr
->    0.15 |4eae8:   mov    %bp,0x10(%rsp)
-> // Duplicate dim_sample on the stack
->   94.16 |4eaed:   push   0x10(%rsp)
->    2.79 |4eaf1:   push   0x10(%rsp)
->    0.07 |4eaf5:   push   %rax
-> // Call net_dim()
->    0.21 |4eaf6:   call   4eafb <mlx5e_handle_rx_dim+0x6b>
-> 
-> To allow the caller to reuse the struct dim_sample already on the stack,
-> pass the struct dim_sample by reference to net_dim().
-> 
-> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com> 
-#bcm{sysport,genet}.c
+--=-0dHbCxxpnyAOzGGh7YUT
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
--- 
-Florian
+On Thu, 2024-10-31 at 12:15 +0000, Catalin Marinas wrote:
+> On Fri, Oct 25, 2024 at 10:12:41PM +0000, Oliver Upton wrote:
+> > On Sat, 19 Oct 2024 18:15:41 +0100, David Woodhouse wrote:
+> > > The PSCI v1.3 spec (https://developer.arm.com/documentation/den0022)
+> > > adds support for a SYSTEM_OFF2 function enabling a HIBERNATE_OFF stat=
+e
+> > > which is analogous to ACPI S4. This will allow hosting environments t=
+o
+> > > determine that a guest is hibernated rather than just powered off, an=
+d
+> > > ensure that they preserve the virtual environment appropriately to
+> > > allow the guest to resume safely (or bump the hardware_signature in t=
+he
+> > > FACS to trigger a clean reboot instead).
+> > >=20
+> > > [...]
+> >=20
+> > I grabbed the KVM portions of this series, as they look ready to go. Ha=
+ppy
+> > to take the last one through kvmarm tree w/ acks, and can toss it on to=
+p.
+>=20
+> Happy for you to take the last patch as well through the KVM tree. Feel
+> free to adjust the code comment as you see fit.
+
+Thanks. that's probably the best option, as it depends on the
+definitions in psci.h.
+
+
+
+--=-0dHbCxxpnyAOzGGh7YUT
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQxMDMxMTcxODU3WjAvBgkqhkiG9w0BCQQxIgQgXj4JjBxS
+GpJRHt4R/QigzKQdZ0AQGY+kiQkvx1wgwl8wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgATPJ2hSFJxp8lcIdp1Blm/djS4vOdPyZyV
+z/SzILzJZTPHjmYVj1XQbE8654zMpShdYvnyqgwjNJKAcbBRjBko4Ac+irNbJDLWSjlrwMM9cCym
+vqB6csy3ojsGMvg/NI5iW6fPTRYd5s3UOAU3xxG+YsX0Poaeicb4C6xpchcX2wzWL6tOka+1LCWg
+q5fnneDafbvQH1yj/GNu3kcldmdMZud/H8BiVOG0jdxDyrryZNFotcnqeo4Lc4FisNDqXL8n4/yv
+xourtqk/zauPWx4H0z0vgtsTDQ4w4RKWJnjPx85HLyoNK2fc93zAnMQKXF5s64nQO70smj/Q2JPv
+hq5dm4/AUqJkFqg/UddQ2785htFUw+sff35usc5xeS9MBI4+40Wewyt9f29A/S293DAU/oH/UUcW
+C2iRrOkTQfgBfgYTJWEUnN1wRt6ynZPRzfg1MRStGHoBXrHfKZ8y4B2LEPOWtwrVP1CzOjiqNDcu
+t38MJo8xyZeJ/l6TzeisP+PbTL4FGIQ55HcriktLh7cv4zxwx87kHihwi8MxI+8/I37x936KR7GK
+Ww2q83Mr0QKd0MRpofThAOAUnuRdA/haDNld0hI4U3EShsrY40d3Eh+4CPTUrr0RV8/QIf0Cf/4R
+RG16dKo4rJMs9R8JmupuFmWjbwaHCkX5dudfRAgF+wAAAAAAAA==
+
+
+--=-0dHbCxxpnyAOzGGh7YUT--
