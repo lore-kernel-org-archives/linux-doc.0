@@ -1,142 +1,130 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from toucan.tulip.relay.mailchannels.net (toucan.tulip.relay.mailchannels.net [23.83.218.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7857A8F66;
-	Thu, 31 Oct 2024 00:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730336125; cv=none; b=pfQSBEbyTQvMRm9FNCauKdx2xnPkOWEuMPlMBpym4eG7x3SgkPB7XUetGiJ8m+zC9i5C4yPqHXt7ZWswm8vtIvbqXnfsKWiTet81YGxPZ0lY8sFE9s9BNtre0by/fp9TBV2vNCIya9p7uE/AUE9VYQa2CYaln8fJxH3Mz3yMUIc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730336125; c=relaxed/simple;
-	bh=Od7omPSz9BaN9sshYGoYt/Z4rS3IaFoQqbm3IyJQMDI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831621F5FD;
+	Thu, 31 Oct 2024 01:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.254
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730338489; cv=pass; b=k5OTCes2nJF5CqSqmXukjS8qkkUDNTtobGW+wu/O/92/We8+efG8G7BoBkOiXwS3UGhc5L+8183w+Be8i5EOIeaMvYNcugpuS7R0kcPIATkKZ2O7uIKSavzZdZWyq7hSI0DYz2U3LShabG7AGa8rYx+RP5N+yX+Ytx7aMh6R36o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730338489; c=relaxed/simple;
+	bh=rNY4ZEsKz1XcAvfQ3B7Ej6wRo9eCFo6EpoMo41PYFgE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OHsM3tMOzUiWNIqZvOaC6euD1D/u+5UGxy2HdWB41AwfEEQVR2aL+0HbpVQvLyAn4v8toGfDkv7qs2CEan3T3xJy/+P39Y5NrkB1FodNLA7+rrVIWjfearw8wrluJ9uybXgLDf8VcxF/4LpohlWRMMdgBYEbw5k2VaYzb8A9SAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJl+28CR; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PwmnJTevWJeCSyvml1bAc/MWncPiC+JyItxgUfoxPfOJwOqUC9Y89zh/pkVIyeTQnSPukgHtv41ADhK7o3B7UjyliefEsK4arkDGcDWKu+Ex+rqtjbsIujO9JYmpXgQ5Rh+GvRLVALsgtFyxxq3mF5gwFIGUFZRBeDvndkK0f7M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net; spf=pass smtp.mailfrom=stgolabs.net; dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b=Rp5zyH0D; arc=pass smtp.client-ip=23.83.218.254
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stgolabs.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJl+28CR"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7ede6803585so1160293a12.0;
-        Wed, 30 Oct 2024 17:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730336123; x=1730940923; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wBeWV7tV4dhN+Dc0nHSthtw8S0qQfB2LgeDtw0O2Ou4=;
-        b=fJl+28CRe8AEwLNyvw/5dP2pd0r5Ti1cNiV2lHbEg3cxNfdhKcnNxn4O1jT75PxdfS
-         d1Lb7dTqorLaXdMfzNyBqTAFz6oXhHAoV3D+CUwWR3AgHPIemW6gID/JAC/cYOiB/obC
-         KsFtp54Z7rxRAZ8a7x9xdi4NYSS0ry/L0jZghuhEvdCrzHVh0R6O0uPCzE1TIVinqGCY
-         eejomTMIKnYms61niyqB8qO8G5hISU2L5+2FM2QX21eUBAl9Hcf0ww6ps9Urpreiq1L/
-         jhKZfkjk0yOEuCCG6dF7+4mWbgbYlT7CmJiOh6abJl2IJQxv2G38DzpVPam4wqqwiCqS
-         2jKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730336123; x=1730940923;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wBeWV7tV4dhN+Dc0nHSthtw8S0qQfB2LgeDtw0O2Ou4=;
-        b=MZY3IsUeRI1mLULyG5pi15KdopAWsh0joQV4m8txCwdAPL7iHNAdjUGMJ/bOuXCzI5
-         3uPrXSAWsUDT3Sd7ibm0M53DS+RkJnsmr6TdvG59/m4AOaF1AD6YO1ZlIButGryCqufk
-         WY/EXy3Evd/BN6SCwZuDM2oUWicjoIIQTMgCxqxtJ2zAUiEUgg8N9XLPj/PWsb+h2Qvq
-         dsnPpaPxTjY6NRS2SPj44gigPGwT6fmQO684zsyGy43LAivvTOnH0/9P1+woAgSq88j/
-         LBbPLWq6p88edAFD8PHMSAOoTWyJ3fU+gorUS5RSf03S5JmLzvF05uOti95+unxDKFJX
-         oGfg==
-X-Forwarded-Encrypted: i=1; AJvYcCU80GQudVDFEP8qpiK+0ZshthiSOWGJkDhIptrt7ywjxPmLdPR82bnnccz4UHiwKGcrzq8Lb51PG96H@vger.kernel.org, AJvYcCVFeCoeIpwSxUI2Vkxexnl6ShOj4Db5KsFgQBiwtn1ABw8hlqwX8bAxKuuM5KTAeE3VnTefw9axtxSHpM8E@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHP6f9sOIbm4WhP1kOOlY+jEphlmhsekykFCCNFLRpQny2Mkn7
-	8anLdMDQwuWWbsteCOh+GAHJjWwB+xXIvaxqucVh1TlRZi0gcOS9
-X-Google-Smtp-Source: AGHT+IFEX+rnRSyrXUDoHNwkx7LfXDM9G0tpm8ZaarJqa9LeRXsBMW4+d9L3dOaT+rDyULyvQszO8Q==
-X-Received: by 2002:a05:6a21:99a7:b0:1d2:fad2:a537 with SMTP id adf61e73a8af0-1db95019e92mr1050310637.18.1730336122585;
-        Wed, 30 Oct 2024 17:55:22 -0700 (PDT)
-Received: from localhost ([121.250.214.124])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc1e5f5bsm261059b3a.55.2024.10.30.17.55.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 17:55:22 -0700 (PDT)
-Date: Thu, 31 Oct 2024 08:54:54 +0800
-From: Inochi Amaoto <inochiama@gmail.com>
-To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
-	Inochi Amaoto <inochiama@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Evan Green <evan@rivosinc.com>, 
-	Charlie Jenkins <charlie@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>, 
-	Andy Chiu <andybnac@gmail.com>, Xiao Wang <xiao.w.wang@intel.com>, 
-	Samuel Holland <samuel.holland@sifive.com>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] riscv: hwprobe: export bfloat16 ISA extension
-Message-ID: <prcy6rwydyjz55uaw6rorqbjv64kxu2ibaq2dy3xeno4nzfr6e@akhf6btyc7lc>
-References: <20241028071746.869740-1-inochiama@gmail.com>
- <20241028071746.869740-4-inochiama@gmail.com>
- <ca1cb4b8-e206-4bc3-adf3-3801fd05f8e8@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b="Rp5zyH0D"
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id C103D81DF2;
+	Thu, 31 Oct 2024 01:34:45 +0000 (UTC)
+Received: from pdx1-sub0-mail-a302.dreamhost.com (100-101-211-53.trex-nlb.outbound.svc.cluster.local [100.101.211.53])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 4793281AE1;
+	Thu, 31 Oct 2024 01:34:45 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1730338485; a=rsa-sha256;
+	cv=none;
+	b=pPgL2BH4D1O320WRi6wXpIm4KJqWpTYwnSyI/NsCy6j4rY7aL43kXomYW44GLv4B8SKUhe
+	NWeSH55Yg7C+XS7ImUXzL7TrqVj6tohceLFipOKCZE5QbEPiqxDxVVkd0w/6fpH6G4db27
+	Aegn26H/8mUh/uieaHjymY9ACVJZHtdSpZ4etO0+lLitzA+LmMempgAV66lW5DtJI7Hbf7
+	eIHrOVycZ5eEtn7ka9JSbgAHtd8maXtkZ6W5dszu7ka0ufylhhVsjxyBIjc+03tTHxMWrk
+	oW49OkigmiEuYlHwd4vt+1U0TwQiqe10vxCoIRlfKfYUiCQ4k5Nw1LyHd2iJtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1730338485;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=RG/uXRPHc0RIEwtk48jA5QoUoXx5IObwxDejHafllLQ=;
+	b=DLRmi6oqmm6JypnXglUVRdlg1qEmpa5k2SHlcD1PzATs4hlPYKzOdky8/Ueanlv/qS/nxT
+	z8GvughOk5jDRq9SbgFOV1qaHlCzNEcx3NPdEY9WMdNqKZTyMqMl8M01TLzB8VovL8Ulza
+	e2Bm90Rv/vT6LLwhex9SrLodly38QuctaX2Q80gBJKEEkAa1PrHl7I4mnFQF/aGuhWf4V/
+	S5GeYENIKUum5h6UtGB5CK9BZlLf7SOTA1YSA5VetpDJxw2Apk/JCuVoUO+FKcftJh8wwv
+	zhTmLJlpvBYlFY9c3gb+LFE1Pebokr1dSeYJpeJfWy32BoEkME/fykwMLkJOKg==
+ARC-Authentication-Results: i=1;
+	rspamd-77cfccfb8-fr6hp;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Inform-Spot: 47ec64386e760ba2_1730338485657_2876808699
+X-MC-Loop-Signature: 1730338485657:1963751466
+X-MC-Ingress-Time: 1730338485657
+Received: from pdx1-sub0-mail-a302.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.101.211.53 (trex/7.0.2);
+	Thu, 31 Oct 2024 01:34:45 +0000
+Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dave@stgolabs.net)
+	by pdx1-sub0-mail-a302.dreamhost.com (Postfix) with ESMTPSA id 4Xf6440KMnz4F;
+	Wed, 30 Oct 2024 18:34:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+	s=dreamhost; t=1730338485;
+	bh=RG/uXRPHc0RIEwtk48jA5QoUoXx5IObwxDejHafllLQ=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=Rp5zyH0D3vQoov9tU7mIKSQT3ghl2d8YMauHrveQ0Fn/uPNcGFDx1EHYSlguRW+7V
+	 uNiQ0JxdnCHDOq8hE9Pl0SvGVokt/2zHdkvt2UY3YlD90zBaQhbakgLm7Toz7TUjBw
+	 JkHUUcS+x0pnl8b5BFp9mjDzUGPOS0WkZZamOSJjWDcukGEpFUiUvhXvVHcvDLOgYR
+	 dOqbShMYCIe4FN7X2Hp26TcF5Gwz/XkVcBi78T6V0ynYzgWeo+RfyRnrmpWHVH6kGH
+	 O/qbDkjKSHF8osegaIexo0DUXnMl7c+z8W6HwXq3d+RC/agy81CSeT7EkbhQvRl0Ez
+	 t45epL8qEdlxw==
+Date: Wed, 30 Oct 2024 18:34:41 -0700
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: ira.weiny@intel.com
+Cc: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Navneet Singh <navneet.singh@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v5 08/27] cxl/mem: Read dynamic capacity configuration
+ from the device
+Message-ID: <20241031013441.tsuqkrbqbhwsv2ui@offworld>
+References: <20241029-dcd-type2-upstream-v5-0-8739cb67c374@intel.com>
+ <20241029-dcd-type2-upstream-v5-8-8739cb67c374@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ca1cb4b8-e206-4bc3-adf3-3801fd05f8e8@rivosinc.com>
+In-Reply-To: <20241029-dcd-type2-upstream-v5-8-8739cb67c374@intel.com>
+User-Agent: NeoMutt/20220429
 
-On Wed, Oct 30, 2024 at 10:48:47AM +0100, Clément Léger wrote:
-> 
-> 
-> On 28/10/2024 08:17, Inochi Amaoto wrote:
-> > Export Zfbmin, Zvfbfmin, Zvfbfwma ISA extension through hwprobe.
-> > 
-> > Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
-> > ---
-> >  Documentation/arch/riscv/hwprobe.rst  | 12 ++++++++++++
-> >  arch/riscv/include/uapi/asm/hwprobe.h |  3 +++
-> >  2 files changed, 15 insertions(+)
-> > 
-> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> > index 85b709257918..8c30dd06f3c0 100644
-> > --- a/Documentation/arch/riscv/hwprobe.rst
-> > +++ b/Documentation/arch/riscv/hwprobe.rst
-> > @@ -239,6 +239,18 @@ The following keys are defined:
-> >         ratified in commit 98918c844281 ("Merge pull request #1217 from
-> >         riscv/zawrs") of riscv-isa-manual.
-> >  
-> > +  * :c:macro:`RISCV_HWPROBE_EXT_ZFBFMIN`: The Zfbfmin extension is supported as
-> > +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-> > +       ("Added Chapter title to BF16").
-> > +
-> > +  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFMIN`: The Zvfbfmin extension is supported as
-> > +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-> > +       ("Added Chapter title to BF16").
-> > +
-> > +  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFWMA`: The Zvfbfwma extension is supported as
-> > +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-> > +       ("Added Chapter title to BF16").
-> > +
-> >  * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
-> >       :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
-> >       mistakenly classified as a bitmask rather than a value.
-> > diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-> > index 1e153cda57db..95d00a065b4e 100644
-> > --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> > +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> > @@ -72,6 +72,9 @@ struct riscv_hwprobe {
-> >  #define		RISCV_HWPROBE_EXT_ZCF		(1ULL << 46)
-> >  #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
-> >  #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
-> > +#define		RISCV_HWPROBE_EXT_ZFBFMIN	(1ULL << 49)
-> > +#define		RISCV_HWPROBE_EXT_ZVFBFMIN	(1ULL << 50)
-> > +#define		RISCV_HWPROBE_EXT_ZVFBFWMA	(1ULL << 51)
-> 
-> Hi Inochi,
-> 
-> These should be added as well in sys_hwprobe.c (see hwprobe_isa_ext0()).
-> 
-> Thanks,
-> 
-> Clément
-> 
+On Tue, 29 Oct 2024, ira.weiny@intel.com wrote:
 
-OK, I will add it, thanks for the reminder.
+>+/* See CXL 3.1 Table 8-164 get dynamic capacity config Output Payload */
+>+struct cxl_mbox_get_dc_config_out {
+>+	u8 avail_region_count;
+>+	u8 regions_returned;
+>+	u8 rsvd[6];
+>+	/* See CXL 3.1 Table 8-165 */
+>+	struct cxl_dc_region_config {
+>+		__le64 region_base;
+>+		__le64 region_decode_length;
+>+		__le64 region_length;
+>+		__le64 region_block_size;
+>+		__le32 region_dsmad_handle;
+>+		u8 flags;
+>+		u8 rsvd[3];
+>+	} __packed region[] __counted_by(regions_retunred);
+>+	/* Trailing fields unused */
+>+} __packed;
+>+#define CXL_DYNAMIC_CAPACITY_SANITIZE_ON_RELEASE_FLAG BIT(0)
 
-Regards,
-Inochi
+Fan, is this something qemu wants to support?
