@@ -1,122 +1,198 @@
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0112A1BE841
-	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 17:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE8B1BFDEC;
+	Thu, 31 Oct 2024 17:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730396635; cv=none; b=AS7SRlW8UhhrXYn7H3kAA6nvegENWKt4nw+bsnyfdUA+nU0Y5L2K4Mb+scZe4mMBzdwjUdE7N73ir6Rz/GgmCskQcVal/YKNEdqZeefP7cG/e6SkwolNIij71xZONMrq4qaF0xwCZciwGM1JozcN4PELCynuLvRbey0R/6OBvrI=
+	t=1730397225; cv=none; b=OWyBwomAdkekVZdQt5pvHMh+BguRNt7hj94qbRB7W9YaiI0P8cnuvKS8H13K5eneYBrVVgZ5RXQawr78cbMjkF1rD4pK/DSgIhOg903QeK6Ogs/KiJ1csi7yHJCQSd077WsAn4PDg4dq3/SwwuWRPZiLxA+hbilokNFlt/4f+YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730396635; c=relaxed/simple;
-	bh=mhTsv1ygiWFnjDiVQe/E1G0vEfNsEKPKJTElZp6SXYc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o5drMGmat1IvtdmmbYJEJsLYns1OyoXbQk0RrPsNz/6OIO6LaNlZIabqJkwhkJS6CBT/YO741L29H5q6KfU6cvzUW0XfG+0rlq8TU72z/2kTt47wDfhE03fT/F9I1ScH/FUPmwscZ+9YX2CKPIyFE3+yh+rKELK+CAq7s183xMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=dZqBiU8D; arc=none smtp.client-ip=209.85.166.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1730397225; c=relaxed/simple;
+	bh=+UNcxZgMXrYbfQ0Wk9GKtPGOAGGqTYaVl8i/PMhH4u4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=DyTm8z6wBHXnkdR533+5RcT3tLAD71R1aQhGToFGO0hi1whrgrEfqJgUFgD9SuaF1rCeiJeqmEnPccEq01hAKWB2GQppb6crdieZs5fp0b1UPYxoMCteexeHSTwK6UebHUB2GmhZKgK/AGlzWzqyIk0AKz9UnvDgkkMLjITrF1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JXbQ7+fH; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="dZqBiU8D"
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-8377fd760b0so44243339f.2
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 10:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1730396633; x=1731001433; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cJN1S3OA8zjlhqH9iA1Z8bsg9GoFf4IOEEdKUROgci0=;
-        b=dZqBiU8DXpQWfL+3eDl4LNW0W8j+Gz/J02RI+YIltmvo+mXJ8sK+GXmVmFZki7saWo
-         EiOfNKfrdJx3cH16jzNPC4J1UW6Znf3Fl/LOGauWgtG+nlV9MvRTmmWSW6AdlRhGm/jV
-         PruJ2QGCXMvZiFufP41oXDueGWmKZx5GRxOMoWb0ks7naLXT2NhNcFb42vJMO6j/oPYs
-         sF3gAAC6PSuY+vA3Fy9x0bAH+9iJjo/A832nbSe1ZHD2UM/UnGW26frMvAhMmeuGc11m
-         XpHb/8EJldScXIeKUKhsgBZlD+JolvOaJA8QEP8jb3Jlp4Rr0giiK4Jb9loOapjHOiFD
-         oB+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730396633; x=1731001433;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cJN1S3OA8zjlhqH9iA1Z8bsg9GoFf4IOEEdKUROgci0=;
-        b=jAkynMoroJ/YFGSMOPgVNMbvOctlHoTKKOT2WULxOdHG5ILxu49IhVUNIsSamerRgx
-         IJC6/XROAF1h2ONpcZeu9sa+VNOx0KCvlu3gOIAJUsndLDip/Cb4kzTotcGiwrukWAlC
-         aEhwskaJFdErhJ8umanrwvyGWnqXQn0V+Zqsmai6BWCS8YjQcCwpXeil8/WB/ulF+SYt
-         4BTdyqR58AzpbKPgylW3dEqSWJhCf4Xt7Wrjp0nDImo01eCpKlbWKGQYGI/otqXu0zNz
-         sJv3+virjOgNz/+tyxlpW6bPmz/IPthIvmb7ol6zdbZRysuhB5f/Ka8+e2nBdwZytQQE
-         /HYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWsBXzIbekKsayUqK9We9SbHx/edsRfFFHGv9ESEmZWvvmHxMGWuWSV9rvnhCF9Kjrn6pHHSDMJDw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwulNIScVI5nnyVBXdje384FAjCncJRm0hUBVMKoyeEkuqCjMUF
-	Cq/DQgWKC5JChgMhPQBojjWNL5LHgOOEAbyb+PGNM3brNDGHXvIoPu4uvQcZRAc=
-X-Google-Smtp-Source: AGHT+IGqvDPac4jMToI9PP3ppL4bi2ob+amIyOKddZ0fGQ56qF7607m8ktK4Ur1sfUjByGfZ1fMmYA==
-X-Received: by 2002:a05:6602:6d0b:b0:83a:a9e9:6dc9 with SMTP id ca18e2360f4ac-83b1c4c27eemr2156317139f.12.1730396633080;
-        Thu, 31 Oct 2024 10:43:53 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4de048e3736sm379375173.81.2024.10.31.10.43.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 10:43:52 -0700 (PDT)
-Message-ID: <8b4500da-4ed8-4cd2-ba3b-0c2d0b5b4551@kernel.dk>
-Date: Thu, 31 Oct 2024 11:43:50 -0600
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JXbQ7+fH"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0C4C1E0004;
+	Thu, 31 Oct 2024 17:53:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1730397220;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nPw90jBWzUneCJNYVnnpD4jiAcd/VX1BxcTgAriuwkw=;
+	b=JXbQ7+fHk3DMA3kBGlKtvnotuatUHPN2AB+xkDUmpHpvpZtgoT9pJHNANItIYwyB22liAo
+	UqbbPISD4mZaol59zPxIYZSV2iOIxkoVxo77Uf0e7p63NomDs5yO5azhqpnFFk8WRtGtNG
+	e+ixKblgW7vEpVlbX0FEjtUl0mmsnIvltOznaQYm6rrGcHl/86WfH3cloS6BH/Wz7naRvA
+	AiM9PbbAAXOxYmsgJ+CR/okrXtwRu69La+6D65fI71l/AtWaQziHNr9v5OgWDxf7JxWDu5
+	C7KGRx9sv08wwo1gQjdJ81zyKw3ZdkcWWZX+0MZq6Pnkhzn5RBZN2USYV0PqpQ==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Date: Thu, 31 Oct 2024 18:53:25 +0100
+Subject: [PATCH v13 1/9] drm/vkms: Code formatting
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
-To: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
- Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
-References: <cover.1730298502.git.leon@kernel.org>
- <3144b6e7-5c80-46d2-8ddc-a71af3c23072@kernel.dk>
- <20241031083450.GA30625@lst.de> <20241031090530.GC7473@unreal>
- <20241031092113.GA1791@lst.de> <20241031093746.GA88858@unreal>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20241031093746.GA88858@unreal>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241031-yuv-v13-1-bd5463126faa@bootlin.com>
+References: <20241031-yuv-v13-0-bd5463126faa@bootlin.com>
+In-Reply-To: <20241031-yuv-v13-0-bd5463126faa@bootlin.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, Simona Vetter <simona@ffwll.ch>, 
+ Helen Koike <helen.koike@collabora.com>, rdunlap@infradead.org, 
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4941;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=+UNcxZgMXrYbfQ0Wk9GKtPGOAGGqTYaVl8i/PMhH4u4=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnI8QbO6//f1X5+HAiouby0mxlRwWNBb9rgZlRs
+ rNAosVqUTGJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZyPEGwAKCRAgrS7GWxAs
+ 4h+cEAC+FMQ2S5fLDcIIhh5hSPwuVpYSOt3Gi3m4YqFr1g0kKumHCYwN0WJCcCigI3d6lBDNn37
+ LT1Sr9iFED/i995GE/bT+EkZs5rcjVQULGuGiZGIzDX97SpDF4bOIujJCXtF2TPeHJqusCI3k2r
+ kDbCtVd4GpQcdBCDeLoGvCs/TWjBWOeUVORBmjyqfMJ2dIPn1Xe9q8PNJNvO/mP4sUo6vmHXhxW
+ N+tz7yl97LPdlwuy8ZIF8M/0kheUJiN6QHjC/Vf/w/ZzR7NpKjH/PrxiGdmJK+qY8SciBS2nMKQ
+ c8FS4e25oYZwZHbnP1cSWV6hpjG2iyZ+/Zm7Zwo3HXFhe+95uNtYJx++W9QLCCEHCNmMBExaqzD
+ 0H1CukynLm7ujTjA6DagbPHRgsSiMvPCblLQwL+9g6GsCiH6MhUsB1Q5UFIfyjuS1VLc6ItCpmB
+ RCxZj7w50OzZcjcU6uvo+4qrg51CTeGAwZqFnFiV9jm8gW7UwkNvWI3M7H8Nk1/06cGUpD+IFlk
+ c6HdjYX7N3ODlnRPdl8CbNQTmvi7yRm7hhvlAQpvM5rCqITWWzAc21vUQd7HXWCpoU0egDD2tN6
+ EtkYEDMOvRe/FJDcWFPSowKhaJVFN5EaNS1oaIjSNwS1NoT8+VMNbiGVaKuiE/Q79WXLlERwi9H
+ 7/VM6kvFD1dfQVg==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-On 10/31/24 3:37 AM, Leon Romanovsky wrote:
-> On Thu, Oct 31, 2024 at 10:21:13AM +0100, Christoph Hellwig wrote:
->> On Thu, Oct 31, 2024 at 11:05:30AM +0200, Leon Romanovsky wrote:
->>> This series is a subset of the series you tested and doesn't include the
->>> block layer changes which most likely were the cause of the performance
->>> regression.
->>>
->>> This is why I separated the block layer changes from the rest of the series
->>> and marked them as RFC.
->>>
->>> The current patch set is viable for HMM and VFIO. Can you please retest
->>> only this series and leave the block layer changes for later till Christoph
->>> finds the answer for the performance regression?
->>
->> As the subset doesn't touch block code or code called by block I don't
->> think we need Jens to benchmark it, unless he really wants to.
-> 
-> He wrote this sentence in his email, while responding on subset which
-> doesn't change anything in block layer: "just want to make sure
-> something like this doesn't get merged until that is both fully
-> understood and sorted out."
-> 
-> This series works like a charm for RDMA (HMM) and VFIO.
+Few no-op changes to remove double spaces and fix wrong alignments.
 
-I don't care about rdma/vfio, nor do I test it, so you guys can do
-whatever you want there, as long as it doesn't regress the iommu side.
-The block series is separate, so we'll deal with that when we get there.
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+ drivers/gpu/drm/vkms/vkms_composer.c | 10 +++++-----
+ drivers/gpu/drm/vkms/vkms_crtc.c     |  6 ++----
+ drivers/gpu/drm/vkms/vkms_drv.c      |  3 +--
+ drivers/gpu/drm/vkms/vkms_plane.c    |  8 ++++----
+ 4 files changed, 12 insertions(+), 15 deletions(-)
 
-I don't know why you CC'ed linux-block on the series.
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 57a5769fc994..931e214b225c 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -96,7 +96,7 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
+ 	s64 a_fp = drm_int2fixp(a);
+ 	s64 b_fp = drm_int2fixp(b);
+ 
+-	s64 delta = drm_fixp_mul(b_fp - a_fp,  t);
++	s64 delta = drm_fixp_mul(b_fp - a_fp, t);
+ 
+ 	return drm_fixp2int(a_fp + delta);
+ }
+@@ -309,8 +309,8 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
+ void vkms_composer_worker(struct work_struct *work)
+ {
+ 	struct vkms_crtc_state *crtc_state = container_of(work,
+-						struct vkms_crtc_state,
+-						composer_work);
++							  struct vkms_crtc_state,
++							  composer_work);
+ 	struct drm_crtc *crtc = crtc_state->base.crtc;
+ 	struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
+ 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+@@ -335,7 +335,7 @@ void vkms_composer_worker(struct work_struct *work)
+ 		crtc_state->gamma_lut.base = (struct drm_color_lut *)crtc->state->gamma_lut->data;
+ 		crtc_state->gamma_lut.lut_length =
+ 			crtc->state->gamma_lut->length / sizeof(struct drm_color_lut);
+-		max_lut_index_fp = drm_int2fixp(crtc_state->gamma_lut.lut_length  - 1);
++		max_lut_index_fp = drm_int2fixp(crtc_state->gamma_lut.lut_length - 1);
+ 		crtc_state->gamma_lut.channel_value2index_ratio = drm_fixp_div(max_lut_index_fp,
+ 									       u16_max_fp);
+ 
+@@ -374,7 +374,7 @@ void vkms_composer_worker(struct work_struct *work)
+ 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
+ }
+ 
+-static const char * const pipe_crc_sources[] = {"auto"};
++static const char *const pipe_crc_sources[] = { "auto" };
+ 
+ const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
+ 					size_t *count)
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index a40295c18b48..39bf9d4247fa 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -188,8 +188,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+ 		return ret;
+ 
+ 	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
+-		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state,
+-								  plane);
++		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state, plane);
+ 		WARN_ON(!plane_state);
+ 
+ 		if (!plane_state->visible)
+@@ -205,8 +204,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+ 
+ 	i = 0;
+ 	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
+-		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state,
+-								  plane);
++		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state, plane);
+ 
+ 		if (!plane_state->visible)
+ 			continue;
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index 2d1e95cb66e5..19b7322ce49d 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -82,8 +82,7 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+ 	drm_atomic_helper_wait_for_flip_done(dev, old_state);
+ 
+ 	for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
+-		struct vkms_crtc_state *vkms_state =
+-			to_vkms_crtc_state(old_crtc_state);
++		struct vkms_crtc_state *vkms_state = to_vkms_crtc_state(old_crtc_state);
+ 
+ 		flush_work(&vkms_state->composer_work);
+ 	}
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index e5c625ab8e3e..5a8d295e65f2 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -117,10 +117,10 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+ 	drm_framebuffer_get(frame_info->fb);
+ 	frame_info->rotation = drm_rotation_simplify(new_state->rotation, DRM_MODE_ROTATE_0 |
+-						     DRM_MODE_ROTATE_90 |
+-						     DRM_MODE_ROTATE_270 |
+-						     DRM_MODE_REFLECT_X |
+-						     DRM_MODE_REFLECT_Y);
++									  DRM_MODE_ROTATE_90 |
++									  DRM_MODE_ROTATE_270 |
++									  DRM_MODE_REFLECT_X |
++									  DRM_MODE_REFLECT_Y);
+ 
+ 	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+ 			drm_rect_height(&frame_info->rotated), frame_info->rotation);
 
 -- 
-Jens Axboe
+2.46.2
+
