@@ -1,160 +1,138 @@
-Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2D6199395;
-	Thu, 31 Oct 2024 10:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D44019994A
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 10:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730371346; cv=none; b=gnI2TVUtl5K/AJDuVZcHf1TtdelpCBH0YuoVQ/sYYWDFRxo7pSFV2AoaKuGTIMRT6os3Y8X7IDIyLERAwPr1rjd23w3BzJ5k3ahkS04jgid+8ISpmfUHKhG/ThrHRjoBzBfiapDlM/XMS/4QD21+IuPuhghq4e0J7884+kmH88w=
+	t=1730371869; cv=none; b=bBIe+86QUONx9/QKYYT6ivko2ZC6cfkODiREgbIImOML7Ft+jinoHvRzgR6D9Tb5+kDhNh6oyllQdK7cDXrwd+of2MhkIIdwnkvY0/bFgeAmQ70JbBdQrEkUV/shDmkVmO8X4cR7xmSoCHcoTBcV9KlMHToPQ+ocivNZ/Pei6EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730371346; c=relaxed/simple;
-	bh=LirR3kzbScaAvwOKGcEk0tU8aX0hkYtaRdjnyAUg0cA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gMCcwrT8qGm18JX3KLTwGt8USSqCHAPTWHPx8psi55r7JDjVkLjHf2eWazlM0J7uF9yfY5HzBCpdd7qWG9Zzb8to1TBEtPx9yXeVpXYB1iq3sLyGzNgIA34P/726lzshHlrusc4RKRE05XnE3CODNjkcNDWBtOTk+gvUkVse31Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=eE2nQMdK; arc=none smtp.client-ip=52.119.213.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1730371869; c=relaxed/simple;
+	bh=uh9+w29J7T5ImrWhnSAaEfztZF7N3Bb4bZAX+Lkmx1M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cSnnoL0SWngkzhs9VLz6emCNBDdCaq+dtAa7QptM3gn8ESW1m/FihO8vQaI1whI+Zl+xl2DUTbjK/9WSqULvmLVrPXILc18O4kqn0bukc0zwuVr1TwS3AlezIn6RlGerA5FKpDqUP0i0C5b3k1EYSZBaCcrT2cK5RwQdTN2DJoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dKF1OA+j; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="eE2nQMdK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazon201209; t=1730371345; x=1761907345;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=2XSQmg9XPL/tUl5Uy9X9cqzqndsoHfM/nyIda+DnmYs=;
-  b=eE2nQMdKcNLuqicCNqHp/j4fLUzG++kDn/aXTaIkjrxy5eY2/n2qc5ry
-   EzFguMwjRcOQS5VGG5a41lkhKP6ZfTWaqVDNzaPKrgKQYgBX0k0gFbeLE
-   JPgqQh8ZhswAKPqQP8H1Rp4WrKhK2Ha3PN+RHSxJuaQgS+TfABckgWvzv
-   0=;
-X-IronPort-AV: E=Sophos;i="6.11,247,1725321600"; 
-   d="scan'208";a="37873631"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 10:42:19 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.38.20:53488]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.22.121:2525] with esmtp (Farcaster)
- id f575b9e2-c87c-4dc7-9ccf-8641a67b176b; Thu, 31 Oct 2024 10:42:18 +0000 (UTC)
-X-Farcaster-Flow-ID: f575b9e2-c87c-4dc7-9ccf-8641a67b176b
-Received: from EX19D003UWB002.ant.amazon.com (10.13.138.11) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Thu, 31 Oct 2024 10:42:09 +0000
-Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.204) by
- EX19D003UWB002.ant.amazon.com (10.13.138.11) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
- Thu, 31 Oct 2024 10:42:09 +0000
-Received: from email-imr-corp-prod-iad-all-1b-a03c1db8.us-east-1.amazon.com
- (10.25.36.214) by mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1258.34 via Frontend Transport; Thu, 31 Oct 2024 10:42:08 +0000
-Received: from [127.0.0.1] (dev-dsk-roypat-1c-dbe2a224.eu-west-1.amazon.com [172.19.88.180])
-	by email-imr-corp-prod-iad-all-1b-a03c1db8.us-east-1.amazon.com (Postfix) with ESMTPS id 524C0804C3;
-	Thu, 31 Oct 2024 10:42:02 +0000 (UTC)
-Message-ID: <27646c08-f724-49f7-9f45-d03bad500219@amazon.co.uk>
-Date: Thu, 31 Oct 2024 10:42:00 +0000
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dKF1OA+j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730371866;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/AXLe6BNzWvyIS2X556SHcAm5RhCKXQ2/dARiTIO1wE=;
+	b=dKF1OA+jVKImLzoO93mlteGO8sAnZp8eKtln6P0Z0EmbkIrz/o+ONZu6UVCd1UHyHB7sSU
+	7ExB7uVRrCxn706A2wWclkNYUlHQEpiGiiKFZN4nAEFC69+3YMN5zC2/0JgGq8AompGWsI
+	XF6J3hc98rtIQjh74rYERjnJaQ8C/RU=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-270-FfRlZDJKOxi-My59rw6RDw-1; Thu, 31 Oct 2024 06:51:04 -0400
+X-MC-Unique: FfRlZDJKOxi-My59rw6RDw-1
+Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-4a481940bb0so261355137.0
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 03:51:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730371864; x=1730976664;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/AXLe6BNzWvyIS2X556SHcAm5RhCKXQ2/dARiTIO1wE=;
+        b=hGzK5q1wDvgu+8rwRqnPSEv3duV+kRQN246yR12dj1XESGpszNKbrBIGJh5dWyTB2c
+         fBrmss51ggzuIrXpMjze0UaR9H3UxvPEL6Rbz0ssZuaDB2EvOr7mIG60SzhDsjm9KW8e
+         nHLVDvstRnhIljdGCvWJnWPynNkxBpuf6NY6Iru0WAuvhJMOSi3m9ssoWrDSd/TGj0EW
+         LOiW06cMyzipZgKqydRiwwKNKMRu7WlK85oWYw0ZOaaS5GevkntyylI+Qxyx7f3OPqB+
+         rj4iZSH7j6FEJQzyo/ERgysMX95Ci10rYsCtSPfPMHzSHiz9hzWEZehBOmOJsOdNkNxZ
+         k3jA==
+X-Forwarded-Encrypted: i=1; AJvYcCX/yiMLhI1Gem5y29EC4eV9Kzpe4I2+DpASu164dls5nYqMlLZCObvIzGMRRKP6WMG9u5YmKjAz3DM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzT7RLt28ExGX1ZsJtgoI5RF6CGjysIOF6PaE5Msxkdp4ov5g+D
+	o0GLquSoaP5KF/qR/9I72m7UTP7V8OQy1zYeq9mjlGTUiWT8FWRvGv/pAN0kHcsOkjZLrI/KSwJ
+	2sUCNiMGESpXbxTOzYylzj2S5FV2Yhk27WwiCRZRtP3N2OyrbYO1VxSUflZ02VgJ+Q7MVyIrkBJ
+	JbK7MKZzxyvOR/UHGIeE/jTlUHb93buhkF
+X-Received: by 2002:a05:6102:e0e:b0:4a4:72f0:793e with SMTP id ada2fe7eead31-4a95437210amr3812149137.20.1730371864234;
+        Thu, 31 Oct 2024 03:51:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHwfzEyODsd5Ja8ZyzC6TH+ukrerObDa1tg1mi7WbgzDduWTc2C+QNy9WoO6WjMViQRFfbhvhDuBNxMti+84S8=
+X-Received: by 2002:a05:6102:e0e:b0:4a4:72f0:793e with SMTP id
+ ada2fe7eead31-4a95437210amr3812123137.20.1730371863840; Thu, 31 Oct 2024
+ 03:51:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
-To: David Hildenbrand <david@redhat.com>, <tabba@google.com>,
-	<quic_eberman@quicinc.com>, <seanjc@google.com>, <pbonzini@redhat.com>,
-	<jthoughton@google.com>, <ackerleytng@google.com>, <vannapurve@google.com>,
-	<rppt@kernel.org>
-CC: <graf@amazon.com>, <jgowans@amazon.com>, <derekmn@amazon.com>,
-	<kalyazin@amazon.com>, <xmarcalx@amazon.com>, <linux-mm@kvack.org>,
-	<corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <paul.walmsley@sifive.com>,
-	<palmer@dabbelt.com>, <aou@eecs.berkeley.edu>, <hca@linux.ibm.com>,
-	<gor@linux.ibm.com>, <agordeev@linux.ibm.com>, <borntraeger@linux.ibm.com>,
-	<svens@linux.ibm.com>, <gerald.schaefer@linux.ibm.com>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <luto@kernel.org>, <peterz@infradead.org>,
-	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <shuah@kernel.org>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
-References: <20241030134912.515725-1-roypat@amazon.co.uk>
- <4aa0ccf4-ebbe-4244-bc85-8bc8dcd14e74@redhat.com>
-From: Patrick Roy <roypat@amazon.co.uk>
-Content-Language: en-US
-Autocrypt: addr=roypat@amazon.co.uk; keydata=
- xjMEY0UgYhYJKwYBBAHaRw8BAQdA7lj+ADr5b96qBcdINFVJSOg8RGtKthL5x77F2ABMh4PN
- NVBhdHJpY2sgUm95IChHaXRodWIga2V5IGFtYXpvbikgPHJveXBhdEBhbWF6b24uY28udWs+
- wpMEExYKADsWIQQ5DAcjaM+IvmZPLohVg4tqeAbEAgUCY0UgYgIbAwULCQgHAgIiAgYVCgkI
- CwIEFgIDAQIeBwIXgAAKCRBVg4tqeAbEAmQKAQC1jMl/KT9pQHEdALF7SA1iJ9tpA5ppl1J9
- AOIP7Nr9SwD/fvIWkq0QDnq69eK7HqW14CA7AToCF6NBqZ8r7ksi+QLOOARjRSBiEgorBgEE
- AZdVAQUBAQdAqoMhGmiXJ3DMGeXrlaDA+v/aF/ah7ARbFV4ukHyz+CkDAQgHwngEGBYKACAW
- IQQ5DAcjaM+IvmZPLohVg4tqeAbEAgUCY0UgYgIbDAAKCRBVg4tqeAbEAtjHAQDkh5jZRIsZ
- 7JMNkPMSCd5PuSy0/Gdx8LGgsxxPMZwePgEAn5Tnh4fVbf00esnoK588bYQgJBioXtuXhtom
- 8hlxFQM=
-In-Reply-To: <4aa0ccf4-ebbe-4244-bc85-8bc8dcd14e74@redhat.com>
+References: <20241031074618.3585491-1-guanjun@linux.alibaba.com>
+ <20241031074618.3585491-2-guanjun@linux.alibaba.com> <87v7x8woeq.ffs@tglx>
+In-Reply-To: <87v7x8woeq.ffs@tglx>
+From: Ming Lei <ming.lei@redhat.com>
+Date: Thu, 31 Oct 2024 18:50:51 +0800
+Message-ID: <CAFj5m9KZRjupM+bsuc-r_kTu1h8+wtc_fdmkHWS=cNbg4aU03g@mail.gmail.com>
+Subject: Re: [PATCH RFC v1 1/2] genirq/affinity: add support for limiting
+ managed interrupts
+To: Thomas Gleixner <tglx@linutronix.de>, Christoph Hellwig <hch@lst.de>
+Cc: Guanjun <guanjun@linux.alibaba.com>, corbet@lwn.net, axboe@kernel.dk, 
+	mst@redhat.com, jasowang@redhat.com, xuanzhuo@linux.alibaba.com, 
+	eperezma@redhat.com, vgoyal@redhat.com, stefanha@redhat.com, 
+	miklos@szeredi.hu, peterz@infradead.org, akpm@linux-foundation.org, 
+	paulmck@kernel.org, thuth@redhat.com, rostedt@goodmis.org, bp@alien8.de, 
+	xiongwei.song@windriver.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2024-10-31 at 09:50 +0000, David Hildenbrand wrote:
-> On 30.10.24 14:49, Patrick Roy wrote:
->> Unmapping virtual machine guest memory from the host kernel's direct map
->> is a successful mitigation against Spectre-style transient execution
->> issues: If the kernel page tables do not contain entries pointing to
->> guest memory, then any attempted speculative read through the direct map
->> will necessarily be blocked by the MMU before any observable
->> microarchitectural side-effects happen. This means that Spectre-gadgets
->> and similar cannot be used to target virtual machine memory. Roughly 60%
->> of speculative execution issues fall into this category [1, Table 1].
->>
->> This patch series extends guest_memfd with the ability to remove its
->> memory from the host kernel's direct map, to be able to attain the above
->> protection for KVM guests running inside guest_memfd.
->>
->> === Changes to v2 ===
->>
->> - Handle direct map removal for physically contiguous pages in arch code
->>    (Mike R.)
->> - Track the direct map state in guest_memfd itself instead of at the
->>    folio level, to prepare for huge pages support (Sean C.)
->> - Allow configuring direct map state of not-yet faulted in memory
->>    (Vishal A.)
->> - Pay attention to alignment in ftrace structs (Steven R.)
->>
->> Most significantly, I've reduced the patch series to focus only on
->> direct map removal for guest_memfd for now, leaving the whole "how to do
->> non-CoCo VMs in guest_memfd" for later. If this separation is
->> acceptable, then I think I can drop the RFC tag in the next revision
->> (I've mainly kept it here because I'm not entirely sure what to do with
->> patches 3 and 4).
-> 
-> Hi,
-> 
-> keeping upcoming "shared and private memory in guest_memfd" in mind, I
-> assume the focus would be to only remove the direct map for private memory?
-> 
-> So in the current upstream state, you would only be removing the direct
-> map for private memory, currently translating to "encrypted"/"protected"
-> memory that is inaccessible either way already.
-> 
-> Correct?
+On Thu, Oct 31, 2024 at 6:35=E2=80=AFPM Thomas Gleixner <tglx@linutronix.de=
+> wrote:
+>
+> On Thu, Oct 31 2024 at 15:46, guanjun@linux.alibaba.com wrote:
+> >  #ifdef CONFIG_SMP
+> >
+> > +static unsigned int __read_mostly managed_irqs_per_node;
+> > +static struct cpumask managed_irqs_cpumsk[MAX_NUMNODES] __cacheline_al=
+igned_in_smp =3D {
+> > +     [0 ... MAX_NUMNODES-1] =3D {CPU_BITS_ALL}
+> > +};
+> >
+> > +static void __group_prepare_affinity(struct cpumask *premask,
+> > +                                  cpumask_var_t *node_to_cpumask)
+> > +{
+> > +     nodemask_t nodemsk =3D NODE_MASK_NONE;
+> > +     unsigned int ncpus, n;
+> > +
+> > +     get_nodes_in_cpumask(node_to_cpumask, premask, &nodemsk);
+> > +
+> > +     for_each_node_mask(n, nodemsk) {
+> > +             cpumask_and(&managed_irqs_cpumsk[n], &managed_irqs_cpumsk=
+[n], premask);
+> > +             cpumask_and(&managed_irqs_cpumsk[n], &managed_irqs_cpumsk=
+[n], node_to_cpumask[n]);
+>
+> How is this managed_irqs_cpumsk array protected against concurrency?
+>
+> > +             ncpus =3D cpumask_weight(&managed_irqs_cpumsk[n]);
+> > +             if (ncpus < managed_irqs_per_node) {
+> > +                     /* Reset node n to current node cpumask */
+> > +                     cpumask_copy(&managed_irqs_cpumsk[n], node_to_cpu=
+mask[n]);
+>
+> This whole logic is incomprehensible and aside of the concurrency
+> problem it's broken when CPUs are made present at run-time because these
+> cpu masks are static and represent the stale state of the last
+> invocation.
+>
+> Given the limitations of the x86 vector space, which is not going away
+> anytime soon, there are only two options IMO to handle such a scenario.
+>
+>    1) Tell the nvme/block layer to disable queue affinity management
 
-Yea, with the upcomming "shared and private" stuff, I would expect the
-the shared<->private conversions would call the routines from patch 3 to
-restore direct map entries on private->shared, and zap them on
-shared->private.
++1
 
-But as you said, the current upstream state has no notion of "shared"
-memory in guest_memfd, so everything is private and thus everything is
-direct map removed (although it is indeed already inaccessible anyway
-for TDX and friends. That's what makes this patch series a bit awkward
-:( )
+There are other use cases, such as cpu isolation, which can benefit from
+this way too.
 
-> -- 
-> Cheers,
-> 
-> David / dhildenb
-> 
+https://lore.kernel.org/linux-nvme/20240702104112.4123810-1-ming.lei@redhat=
+.com/
 
-Best, 
-Patrick
+Thanks,
+
