@@ -1,32 +1,33 @@
 Received: from smtpcmd15176.aruba.it (smtpcmd15176.aruba.it [62.149.156.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916E31A2645
-	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 16:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B431BBBF8
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 16:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730392705; cv=none; b=CNdIIR85VY2rkhzCuOjbgdI/R8F6PwXqLORxHdRFE6mWI1NREqBuECEhx+VjGKBacrgKntJOwJRvJQVsBhIfyucAHfvXVNyFxE68IGiwfv+izb0pMXz8YxoAQadZkGqBzMgHu+CQBKXf6AWSJJbbKAHW76JNso9CtlYqD11ODAo=
+	t=1730392705; cv=none; b=V0I/ziu8KRJvYkLhGaB3/VQpwX9MGf43OKacDtEXReZqXUjMSx1lS9XW+/WUN3wVZeGUL+kLeDjfFy7Qfk0S/vxNyJWJWvRxel8K7PNdzWzMNmIS2kGiEU6Y4ij2LTnssYAaTVItNr+evebyy/jRMokwLo7z10LqZGQqONGjFXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730392705; c=relaxed/simple;
-	bh=QHCTcDHh9G125r7NA7Zw5G3TKp3bPoZnaDdbcmBx/WA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lPk0ZiAE3SEHpGd+l6077iHG+Ta4k1lfEPQ2WFQFjGuWZzMXOPUnoe04MlVeD0GuMrtAj1kFmJNObilrF1fuBZ12HyepLOqWm1Y0m3noV3UbX9Sr+I5WDkFT+stPxUOCMPY8LA1ThLe5OY1qZr3KvOSr69OoRrHccwriT+RpSek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=temperror (0-bit key) header.d=aruba.it header.i=@aruba.it header.b=cR5xwb33; arc=none smtp.client-ip=62.149.156.176
+	bh=VFMn6ViOGXV/RBm2wpEduDTGHwJW7KOXv7vL9E399kg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=HLvD0bq5XDcZ4b/YdxGREVz+LKnOeJLEvyQzRpN3heyUJWcSasuaTJNTlacY4/hlEh5dHo8QgEeAM5fOPag8Vh227+oU2g0BdhFre+inVdXb/0zu9e6WMOvcqMPGiZrGOa5aDc8hg+ERksi3VsTQgZzLsrO7w9yD86QYvBAsBSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=temperror (0-bit key) header.d=aruba.it header.i=@aruba.it header.b=PP3IWnSh; arc=none smtp.client-ip=62.149.156.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=aruba.it header.i=@aruba.it header.b="cR5xwb33"
+	dkim=temperror (0-bit key) header.d=aruba.it header.i=@aruba.it header.b="PP3IWnSh"
 Received: from polimar.everex.local ([79.0.204.227])
 	by Aruba Outgoing Smtp  with ESMTPSA
-	id 6Y8atb5dFqJRS6Y8atNuFA; Thu, 31 Oct 2024 17:35:11 +0100
+	id 6Y8atb5dFqJRS6Y8etNuIC; Thu, 31 Oct 2024 17:35:12 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1730392511; bh=QHCTcDHh9G125r7NA7Zw5G3TKp3bPoZnaDdbcmBx/WA=;
+	t=1730392512; bh=VFMn6ViOGXV/RBm2wpEduDTGHwJW7KOXv7vL9E399kg=;
 	h=From:To:Subject:Date:MIME-Version;
-	b=cR5xwb33gBC/xTG1X+4jBGBxhdwv1XZ2YffJMoljENlapUqegJ2RQox990n0YmJ+I
-	 dM58lZYAVAwuKNTpg6gPe9k1mYvv2gaLqqY8X+TQF5hcA4wpaxa3dhIqWmpypiWs/3
-	 5SjS3CAjyfRQlwnZMCNh0epADq5ri6o100DkMs0D2Yh9JRELjd5aZlKVJPgW6SjNXf
-	 PN1Gfw2su6TLejSY7v96Ch7zqB4v05ytRI6OkUizxf0JAf1ByY7BXyNWbX6pWIuWD7
-	 KwiubcG93pA+KObNreKtuRraTifer6tqU6OGk4Zzqs9wBJb4gtunuOt2zjoAnO/juL
-	 KeT/wtFoZPKtg==
+	b=PP3IWnShM85Pc794Fy9G7m5usfsR7PN3DslIheGNAhAKkxSj8HIEIwiIidtSJqVSH
+	 oJz+wiUsS1BBqp6kJQnpfRuUdAc1EzdvRkC1eTTTMzeOZHwuRpkXDuL1lkiQT+E+wP
+	 j9DFS3nPh3YPcQbyNsq/q4mb/l4MamBBLwKGGCD/dIoStB15PrU9dweuftXD30533X
+	 8UtLkcMavTHFBnclaZxwiMS6dzCxjiy4WbQg4HS1cwReUh2MnSFXWUXCpyob/mlFWR
+	 Z4pngbdg5gsxfUaXnGcUpWCYtzJC11zhPu+UBZPKc/fYBqrNf3hGk2I/SM6fdXHwC/
+	 +0+KQ99UrIJ5A==
 From: Rodolfo Giometti <giometti@enneenne.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -44,10 +45,12 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Rodolfo Giometti <giometti@enneenne.com>
-Subject: [V2 0/4] Add PPS generators
-Date: Thu, 31 Oct 2024 17:35:04 +0100
-Message-Id: <20241031163508.259522-1-giometti@enneenne.com>
+Subject: [V2 3/4] Documentation pps.rst: add PPS generators documentation
+Date: Thu, 31 Oct 2024 17:35:07 +0100
+Message-Id: <20241031163508.259522-4-giometti@enneenne.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241031163508.259522-1-giometti@enneenne.com>
+References: <20241031163508.259522-1-giometti@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,69 +58,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfN/FxSRnUHB8WmG0CP+7byCawZGM+hNWPsQQe7XCZ8BG6h94SNtY3v8NkMD6m77ludedH4mu/SejsdPh1Qkgnq1AJw6JrKoxc0lrTKjYyVfqMlpUFe0J
- 3oq2GuqyBUkU5oLMhfTNAVCtc+Al5t3aUP5HUvjw9PAM2CSeisVSFzou9hLuABhKbZ3IVj+MBZ1k+25gQ5Oh6FqegXlFpBt/io0nx7oqvSlInTAuwFFogD3c
- vOI2LlKHEGNKYY2PG7IPt+wlaLpb4GoJp83zTTESoeIKjJ6FKCTPmUAVYFT8jMM1QK11AsOIBoLRrQKJgtqeZpB1heIOQVCdAP4fNhX48724+P3M14egsyH7
- O8iaJawf1h1CdTekqeFFEuaFzByUk5mkAH+C0U8KORUYtC/EnRkQnWATOZ1tcl40kAhOFlrj51GcjMqMNLiwWy/fkb/1qlTBVsTdesdZwATk3gvCFzO0wGme
- aXTRc3gosfDLpFZJHBM1ab9r6oC3sGqdWXnWHY+8QMOVS2fu+8QyBWbG3GYUfLuy06I7vBAE9orsTeyWb3sLvDBilrDlRN6B6gSgzCxms4J5nn99BwZSDH1a
- tVDqQp3i+W8DxdQv528GVGo8vDv49fo4UCJPrewkCygXz4Cm/zRPnKPnOOzLV5yfzihISGsyYe6XbXxMwomXLfns1uff/oqeGcslinXbBnV4/Ny1JXUMSssx
- Rljyh3qJkap2w+RiktjKn8PKh/nbf/tO
+X-CMAE-Envelope: MS4xfC4xJUzpyCeO512MKewBUXNC4nAmGrgTaZrYRB09ByD5SuetG3jKHT7f5+pLMj3x/nDQx7PZ0NY7Kh6FUgquTM9fs7rlt107VMFkASeI8bDdaPuVagbg
+ s0CZ/4bJTUgvzoajhk4OOsSPNcjk/X0Pj4udoZ1NXVVBqdW+suT6YjOI9qmJYZDZ4Jgk18DKXOIfYHaWjPITDdNDYgL6MLKPuLcuFLsY6fZJQkAF6lVSuyAp
+ crDj6HfPLJO+YNzhokInuNKmoNBpeKTgV+6V3h8ErcugLoTCLKxceqEEnaDssY6/2Tw5nFYGb0DdDct5JMH+ILgmo3QiIMvKCJ6gpR1gsA3FRehLK5+vzSdn
+ Q6p697yL76leu9kKsMpZ+UmdFJVLFpBsEAiri+mZTiw4y91p8yAEy8MggacEerUONWK3I+ODfN1vWlg0QZ6uEoc34/ZOVOHY/VtJGjBmrY68+grEyaMleQxw
+ zvYEJM3GHEKDdTpYcJdGYWnRmCjsxkRPACFx0vh87UUKFpIUaLFeHvE+3vS3jxLsB3r1/l7VfhpxIsUA3ar8rCjLl68cpwZU4Cef0Njt2zUxRU2RWEKxOePO
+ HZyU6oMvz+nqGyftZZQbL8woxAP7LlKgtw/0JS+yA54Ucnc+VVnBcO7XY15uqUB0TZOf4wkJf7xjtKkPvDEevwBE4HEWEXSDiXTJJXSWNtKriaxMPHF5yF5T
+ zigl0OuO8O1mHUXLSuO50dlTWEARQLXe
 
-PPS generators are special hardware which are able to produce PPS
-(Pulse Per Second) signals.
+This patch adds some examples about how to register a new PPS
+generator in the system, and how to manage it.
 
-This patchset adds PPS generators class in order to have a well-defined
-interface for these devices.
+Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
+---
+ Documentation/driver-api/pps.rst | 40 ++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-Changelog:
-
-V1 -> V2:
-    * new file Documentation/ABI/testing/sysfs-pps-gen added in MAINTAINERS
-    * date for the documentation ABI set to v6.13 which will be released on 2025-02
-    * removed documentation for non-existent sysfs "name" entry
-    * spelling and/or syntax errors fixed
-
-RFC -> V1:
-    * char device reworked (get_device/set_device)
-    * dummy driver has been moved in a separate patch
-    * idr_ replaced with ida_* functions
-    * fixes in include/uapi/linux/pps_gen.h
-    * MAINTAINERS updated
-    * new ioctl PPS_GEN_USESYSTEMCLOCK added
-    * new ioctl PPS_GEN_FETCHEVENT added
-    * .compat_ioctl dropped
-    * WARN_ON() removed from pps_gen_cdev_release()
-    * not needed pr_*() calls removed or replaced with dev_*()
-    * more quite driver
-    * name attribute dropped
-    * white spaces removed
-
-Rodolfo Giometti (4):
-  drivers pps: add PPS generators support
-  drivers pps/generators: add dummy PPS generator
-  Documentation pps.rst: add PPS generators documentation
-  Documentation ABI: add PPS generators documentation
-
- Documentation/ABI/testing/sysfs-pps-gen       |  38 ++
- Documentation/driver-api/pps.rst              |  40 ++
- .../userspace-api/ioctl/ioctl-number.rst      |   1 +
- MAINTAINERS                                   |   2 +
- drivers/pps/Makefile                          |   3 +-
- drivers/pps/generators/Kconfig                |  22 +-
- drivers/pps/generators/Makefile               |   4 +
- drivers/pps/generators/pps_gen-dummy.c        |  96 +++++
- drivers/pps/generators/pps_gen.c              | 344 ++++++++++++++++++
- drivers/pps/generators/sysfs.c                |  75 ++++
- include/linux/pps_gen_kernel.h                |  78 ++++
- include/uapi/linux/pps_gen.h                  |  37 ++
- 12 files changed, 738 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-pps-gen
- create mode 100644 drivers/pps/generators/pps_gen-dummy.c
- create mode 100644 drivers/pps/generators/pps_gen.c
- create mode 100644 drivers/pps/generators/sysfs.c
- create mode 100644 include/linux/pps_gen_kernel.h
- create mode 100644 include/uapi/linux/pps_gen.h
-
+diff --git a/Documentation/driver-api/pps.rst b/Documentation/driver-api/pps.rst
+index 78dded03e5d8..dffa06ed919f 100644
+--- a/Documentation/driver-api/pps.rst
++++ b/Documentation/driver-api/pps.rst
+@@ -202,6 +202,46 @@ Sometimes one needs to be able not only to catch PPS signals but to produce
+ them also. For example, running a distributed simulation, which requires
+ computers' clock to be synchronized very tightly.
+ 
++To do so the class pps-gen has been added. PPS generators can be
++registered in the kernel by defining a struct pps_gen_source_info as
++follows::
++
++    static struct pps_gen_source_info pps_gen_dummy_info = {
++            .name                   = "dummy",
++            .use_system_clock       = true,
++            .get_time               = pps_gen_dummy_get_time,
++            .enable                 = pps_gen_dummy_enable,
++    };
++
++Where the use_system_clock states if the generator uses the system
++clock to generate its pulses, or from a peripheral device
++clock. Method get_time() is used to query the time stored into the
++generator clock, while the method enable() is used to enable or
++disable the PPS pulse generation.
++
++Then calling the function pps_gen_register_source() in your
++initialization routine as follows creates a new generator in the
++system::
++
++    pps_gen = pps_gen_register_source(&pps_gen_dummy_info);
++
++Generators SYSFS support
++------------------------
++
++If the SYSFS filesystem is enabled in the kernel it provides a new class::
++
++    $ ls /sys/class/pps-gen/
++    pps-gen0/  pps-gen1/  pps-gen2/
++
++Every directory is the ID of a PPS generator defined in the system and
++inside you find several files::
++
++    $ ls -F /sys/class/pps-gen/pps-gen0/
++    dev  enable  name  power/  subsystem@  system  time  uevent
++
++To enable the PPS signal generation you can use the command below::
++
++    $ echo 1 > /sys/class/pps-gen/pps-gen0/enable
+ 
+ Parallel port generator
+ ------------------------
 -- 
 2.34.1
 
