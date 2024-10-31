@@ -1,109 +1,124 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C882146D78
-	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 06:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE61A1448DC
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 06:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730356097; cv=none; b=pn7T8uWtvuXoxUmVCjgRM56P9nJMrRkBqQXaI/ltNEx5PDHmFscqdCQze4qtf7OPLQGNhqP3eflt5+D0ekLkHqkofEXQv3Ux9Rcqp2P5aveV/30HLGj6fV2xhLWOHHdSe6VjYhrLAbcBoo+5zUjkg5ar/AVYKs9ji+pnyBwYFq0=
+	t=1730356108; cv=none; b=pVeFZGvjQKc4QAseMTuHxiHFa5WBVvYdBsWDUAUvCpx330jbFUBvsm99rJ+FZCqN5OG8w83ZcbYOaDPjZZA/O+DbC2ygxcPyC//AS1Elo6DglVuek4vZvOqINGD6T7c+k3A9N+8IscKCN0hs5lWLis223nsdDSJiRM3S6cow27s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730356097; c=relaxed/simple;
-	bh=wkX0knes67D1sQ81nk6Wm0WE8+LMS8rVH+c/FHWtHRI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rAgymb6WDgPaK/OCiP/ibfVpjnOwKLCZcuZfwioQMAFJ/96Ztx9kJtYsFNv1JsEIpkoPOz/fsqfH3fb4bS3XunCbp/PmDfYH0cADmyvbPBGZp3eBSj6g5F3mZ6vVNXIBIJGyUgWzfCidrNVUaM2PKEEAK2A25MDSNe4+rmsqwTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t6Of2-0003tQ-9r; Thu, 31 Oct 2024 07:28:00 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t6Of1-001JgC-1p;
-	Thu, 31 Oct 2024 07:27:59 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t6Of1-0069Yn-1R;
-	Thu, 31 Oct 2024 07:27:59 +0100
-Date: Thu, 31 Oct 2024 07:27:59 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v2 05/18] net: pse-pd: Add support for PSE
- device index
-Message-ID: <ZyMjbzK7SJq5nmYz@pengutronix.de>
-References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
- <20241030-feature_poe_port_prio-v2-5-9559622ee47a@bootlin.com>
+	s=arc-20240116; t=1730356108; c=relaxed/simple;
+	bh=MKqc+jnQFmyBLCFxWGJ3NUD1kakYxp1Ft7jvVu1cUio=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UzK1lhouP5wZcI+ZiV4m9IZz3ptyH6VTJlqsm4HPTW5H/bsyO7pOzOoSSRn/YyHjlW5hKgGW2seQ/5fw9XSQ21vRwKcx4sRAWl7wCBb78o0BvA/JiFfnFYvgX4vsSLqLnIJ0OipwGZqkPg+StzyhUPxOX0M286i6oBvPPCWbJuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fY6XB+a9; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fY6XB+a9"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539f53973fdso523855e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Oct 2024 23:28:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730356104; x=1730960904; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0A+2k/ULHhbtDsFz6ukwr2SikYuSBp3Zz6My29BV53I=;
+        b=fY6XB+a9GcvCY54J/6TCzSg+CFj7efwDBSnGFtOhF8l4VX7duOpc27ENEfN+QUTbs8
+         qfo9uf7ksKv4G21sRhXh34ZrNekFpKwMxFeJWpDqPAuC8cD5OcRfZCysrEEV69n2Ekpn
+         JWAxJNllYlXYUzbxvjz1H3WeD2rO1u++uDWk+UjtrJ3BFAykNy+zxTNabfu8sY0Q6J+Z
+         df1m25hI34NoqQikQkmLMzG4ZqNcav3mLIJiVc3J2UB2Jnnss3stSS+EgoZ4zvhIbKnF
+         J4/4JBQv9+1LfhwE3S8pUdBv6piptGORTZXSSw/SNO8EkaQy69zZrwYP5BMGBFhlulV1
+         ZHTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730356104; x=1730960904;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0A+2k/ULHhbtDsFz6ukwr2SikYuSBp3Zz6My29BV53I=;
+        b=dhgiv3QLdleR5VeoeNzWy85v90rHn92r8kEPLgnAc3q5IM+rpXvU8csJUTVFroEXo0
+         JI4bTFNbH6UEZg7IErwshoBJdUz3q/mjTZqit8laZSdIjuVAWMfXmKaIhfTZXJ9+mouH
+         ZqlzhQ7xzdz5tu7FDENlgCn11CUKwACJwnOoXRxGaLZohDBUgtU2j1EuHXnVOR0lFJqW
+         raToqP1HDPyNTzcoEjH20g7PHMPhsicpsafQwbyvzJwFwg5IavDov9e+7v3DvVlRcC5L
+         FLf43ohRQM1PoHPTtgR60pcIxLqbbWDkEvL+i3Sdllwd6V+ec2TG9tmbMVQmquatnpFB
+         jKGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWzkw55P7n53iv0WKBW+X+BQc5sF6Q0iwLsQXJyQGsaEjCnCAHgQMLvAXst41p8n5pWsd1xb7IsCzM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTAmSPjon0k7MnYEbcUp87nsNKuxLqs1dp7pF4GrhgTivU3UK3
+	WLxo69h0cQYYWZKpWpwnCn4dVlYzouWFJ1soa+IAtp5w7X4bzcQZ9KzOEbv87ZlfFmP3V5W2fRX
+	xND7C1IFG7gd0tjNoNMuhs/yvjTBLnkYsa2jxMA==
+X-Google-Smtp-Source: AGHT+IFS7cpOzSPiFnYyQueXqV7l2SMv8NBdQwLcqFAZDqrWEol+iOoyDA3s2GJBPsOCBe+TjxRn94cV+pCmUA4hIqQ=
+X-Received: by 2002:a05:6512:2243:b0:539:8ee8:749e with SMTP id
+ 2adb3069b0e04-53c7bbc136cmr376123e87.3.1730356103938; Wed, 30 Oct 2024
+ 23:28:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241030-feature_poe_port_prio-v2-5-9559622ee47a@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <cover.1730313494.git.nicolinc@nvidia.com>
+In-Reply-To: <cover.1730313494.git.nicolinc@nvidia.com>
+From: Zhangfei Gao <zhangfei.gao@linaro.org>
+Date: Thu, 31 Oct 2024 14:28:12 +0800
+Message-ID: <CABQgh9GYOgBJwRhvsWpPwS4vgDzCvXCAUxc8DQy8ObHAOvpbRQ@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] iommufd: Add vIOMMU infrastructure (Part-2: vDEVICE)
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, joro@8bytes.org, 
+	suravee.suthikulpanit@amd.com, will@kernel.org, robin.murphy@arm.com, 
+	dwmw2@infradead.org, shuah@kernel.org, iommu@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, baolu.lu@linux.intel.com, 
+	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org, 
+	mshavit@google.com, shameerali.kolothum.thodi@huawei.com, smostafa@google.com, 
+	yi.l.liu@intel.com, aik@amd.com, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Oct 30, 2024 at 05:53:07PM +0100, Kory Maincent wrote:
+On Thu, 31 Oct 2024 at 05:36, Nicolin Chen <nicolinc@nvidia.com> wrote:
+>
+> Following the previous vIOMMU series, this adds another vDEVICE structure,
+> representing the association from an iommufd_device to an iommufd_viommu.
+> This gives the whole architecture a new "v" layer:
+>   _______________________________________________________________________
+>  |                      iommufd (with vIOMMU/vDEVICE)                    |
+>  |                        _____________      _____________               |
+>  |                       |             |    |             |              |
+>  |      |----------------|    vIOMMU   |<---|   vDEVICE   |<------|      |
+>  |      |                |             |    |_____________|       |      |
+>  |      |     ______     |             |     _____________     ___|____  |
+>  |      |    |      |    |             |    |             |   |        | |
+>  |      |    | IOAS |<---|(HWPT_PAGING)|<---| HWPT_NESTED |<--| DEVICE | |
+>  |      |    |______|    |_____________|    |_____________|   |________| |
+>  |______|________|______________|__________________|_______________|_____|
+>         |        |              |                  |               |
+>   ______v_____   |        ______v_____       ______v_____       ___v__
+>  |   struct   |  |  PFN  |  (paging)  |     |  (nested)  |     |struct|
+>  |iommu_device|  |------>|iommu_domain|<----|iommu_domain|<----|device|
+>  |____________|   storage|____________|     |____________|     |______|
+>
+> This vDEVICE object is used to collect and store all vIOMMU-related device
+> information/attributes in a VM. As an initial series for vDEVICE, add only
+> the virt_id to the vDEVICE, which is a vIOMMU specific device ID in a VM:
+> e.g. vSID of ARM SMMUv3, vDeviceID of AMD IOMMU, and vRID of Intel VT-d to
+> a Context Table. This virt_id helps IOMMU drivers to link the vID to a pID
+> of the device against the physical IOMMU instance. This is essential for a
+> vIOMMU-based invalidation, where the request contains a device's vID for a
+> device cache flush, e.g. ATC invalidation.
+>
+> Therefore, with this vDEVICE object, support a vIOMMU-based invalidation,
+> by reusing IOMMUFD_CMD_HWPT_INVALIDATE for a vIOMMU object to flush cache
+> with a given driver data.
+>
+> As for the implementation of the series, add driver support in ARM SMMUv3
+> for a real world use case.
+>
+> This series is on Github:
+> https://github.com/nicolinc/iommufd/commits/iommufd_viommu_p2-v6
+> (QEMU branch for testing will be provided in Jason's nesting series)
 
-...
->  /**
->   * struct pse_control - a PSE control
-> @@ -440,18 +441,22 @@ int pse_controller_register(struct pse_controller_dev *pcdev)
->  
->  	mutex_init(&pcdev->lock);
->  	INIT_LIST_HEAD(&pcdev->pse_control_head);
-> +	ret = ida_alloc_max(&pse_ida, INT_MAX, GFP_KERNEL);
+Thanks Nico
 
-s/INT_MAX/U32_MAX
+I tested on aarch64, functions are OK.
 
-...
->  struct pse_control_status {
-> +	u32 pse_id;
->  	enum ethtool_podl_pse_admin_state podl_admin_state;
-...
->  struct pse_controller_dev {
->  	const struct pse_controller_ops *ops;
-> @@ -163,6 +166,7 @@ struct pse_controller_dev {
->  	enum ethtool_pse_types types;
->  	struct pse_pi *pi;
->  	bool no_of_pse_pi;
-> +	int id;
+But with some hacks
+https://github.com/Linaro/linux-kernel-uadk/commit/22f47d6f3a34a0867a187473bd5ba0e0ee3395d4
 
-        u32 id
-
-It would be better to have one type for all variables.
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Thanks
