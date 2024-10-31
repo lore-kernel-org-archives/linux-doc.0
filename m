@@ -1,314 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EF7360;
-	Thu, 31 Oct 2024 00:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD33943AD9;
+	Thu, 31 Oct 2024 00:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730334714; cv=none; b=hxdvvkq7dTElTDQFrIw4917wqSt+yPXc7thcGTUOW/7dqwZFfpwHWE4rgZN6uF9XPN0GMZam+nbwIISAtYW/B66lD1tSWhlnlN0G1J0c855kikA+GWZwDJj7FEeGgSXiyM0ihGHTO9rsqSyRCKJQ0pWK4NjxomzCX6jtl2D4l74=
+	t=1730335787; cv=none; b=PtgKTeZSzR0TPTUuEKMhFpuiVBiB6ry95/gg7Uz1oye33DOajP1JQjlp/Dsg6s+JsGNNAOMAulyorFj6Ulc4SIQhC8174IXo481CcwEvLMT8kVmoOK6GaZgyK/fPhKnJKoAXpbuAXfZ+BVOFgRFLEaG8UswqbCqthPfRBTFtucE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730334714; c=relaxed/simple;
-	bh=A4dRY4eH4YbXkwbpbPcRMGQgIKn3Mq9XborynAEqih4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T6HIn6zfJXd32evUFz+xSYN4m8SiCu9qHAzUe9wy+ijcEiwwIzYcilY3uq0gQ/pOoCqh77BUu5IJDhJRiXVzIEsL07J0zl9UgP8qfpXeQtklQMlC0d1Vw58+jkP/nAub5NeMqQ3sl3gYjaHnlUbJ8H37JQEncfDzmiE3UR2dR5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4V5Qp12; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730335787; c=relaxed/simple;
+	bh=AouGVQ2CRkjpEWM70bUJlCu0V+yKP2XQnmW+HAZ45c8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=FiP3h2rh3ORjD+jgKuVqQNsDW+8FcI9Pxm5WU/di2rTGrTHU3OOjug5LarxJ8LaTMJ+8CXz0omag0PJ12CTa/DQCcm2lDbQl8JEA7ClDJ1pG0P1NzJW9QPm/B+t5R5UnTWCwlFVRFcy7yLkAXn5NbpitsND0lGBVO8uy6hBqB0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=g/AnwqZ3; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4V5Qp12"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29394C4CECE;
-	Thu, 31 Oct 2024 00:31:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730334714;
-	bh=A4dRY4eH4YbXkwbpbPcRMGQgIKn3Mq9XborynAEqih4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=J4V5Qp12LY5EeOcgR0buUcw72ZwRGWsulAbVYjtJtpNpcAfefeNEOjOwIGd9T+c+N
-	 kOp5GNxGL8C5ruWRPeTaljv4JWHN0XcNBsS7v/5LcQx9q5CU1HJzSh3q7x5mhrmTmy
-	 PqNFDiwbcUNVA3HJmeSVWsuBVAtVloqwqomQmFNsgS6xDhriobUC0XrwmNAIU4B2ck
-	 /uzCcxKc8uwYmWmpPng1togWANntCnbBqlNhkT3l4xc/LuGXrUACE6nyykORIocjrr
-	 LCLmh5h9RKgqZXcNMjpAOWN2eDpERQTmX6IiypxFhJCK8jyOeZfKZrtlARrCdct5NI
-	 NyqXxIpLS0oJQ==
-Date: Wed, 30 Oct 2024 17:31:52 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Akinobu Mita <akinobu.mita@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Morton
- <akpm@linux-foundation.org>, kernel-team@meta.com, Thomas Huth
- <thuth@redhat.com>, "Paul E. McKenney" <paulmck@kernel.org>, "Borislav
- Petkov (AMD)" <bp@alien8.de>, Steven Rostedt <rostedt@goodmis.org>,
- Xiongwei Song <xiongwei.song@windriver.com>, Mina Almasry
- <almasrymina@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, Alexander
- Lobakin <aleksander.lobakin@intel.com>, Oleksij Rempel
- <o.rempel@pengutronix.de>, linux-doc@vger.kernel.org (open
- list:DOCUMENTATION), linux-kernel@vger.kernel.org (open list),
- netdev@vger.kernel.org (open list:NETWORKING [GENERAL])
-Subject: Re: [PATCH net-next v4] net: Implement fault injection forcing skb
- reallocation
-Message-ID: <20241030173152.0349b466@kernel.org>
-In-Reply-To: <20241023113819.3395078-1-leitao@debian.org>
-References: <20241023113819.3395078-1-leitao@debian.org>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="g/AnwqZ3"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49UCH9ug019847;
+	Thu, 31 Oct 2024 00:49:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	7xhMTx79uWJ0oHC0IxM8Ok0hQb/h6nRSursI6CrKMEE=; b=g/AnwqZ3Yif4Pzs9
+	KNW5jnZUznCrIQweqAJPN2eBbylguIg9A+Lb3oIoZ/6PVJ+K6OE8qFGSS9kW39i4
+	jqRrPlz4uQIfbSHSlMIx8YFg+l1p4wMsEfNbfVfakFk7UPY7S4X9vMPJp3WGVB4v
+	LFe3/fhmghYYimkF1MItCwkWuigpuJI+FLXRIgLjNp7PcRPXfD4H/XfNYZ+3kUyW
+	XHMhMBbexVYS9emVN69riDIRc+7EIVogY99NrtMJc3BSMjm8WRQ8ftxFZTKMg0bE
+	0YYLsxaAasl1dM/MhkJZ/KY22YvtnOhIUiZ3MwgrhVJbfTv7a9JnSkI8K5FumQ4R
+	hCFDCQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42kmp0ht14-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 31 Oct 2024 00:49:20 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49V0nKMA010497
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 31 Oct 2024 00:49:20 GMT
+Received: from [10.71.115.184] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 30 Oct
+ 2024 17:49:19 -0700
+Message-ID: <07d5a8b5-e985-45c1-95e0-1def6695ba9b@quicinc.com>
+Date: Wed, 30 Oct 2024 17:49:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v29 04/33] xhci: sideband: add initial api to register a
+ sideband entity
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC: "srinivas.kandagatla@linaro.org" <srinivas.kandagatla@linaro.org>,
+        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
+        "perex@perex.cz"
+	<perex@perex.cz>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "corbet@lwn.net"
+	<corbet@lwn.net>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "tiwai@suse.com" <tiwai@suse.com>,
+        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+        "pierre-louis.bossart@linux.intel.com"
+	<pierre-louis.bossart@linux.intel.com>,
+        "broonie@kernel.org"
+	<broonie@kernel.org>,
+        "bgoswami@quicinc.com" <bgoswami@quicinc.com>,
+        "robh@kernel.org" <robh@kernel.org>,
+        "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+        "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>,
+        "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>,
+        "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org"
+	<linux-arm-msm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>,
+        "alsa-devel@alsa-project.org"
+	<alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+ <20241015212915.1206789-5-quic_wcheng@quicinc.com>
+ <20241025232252.wsk4lviqzyzqjzuh@synopsys.com>
+ <52ea0b32-79c7-42e8-8e2c-192d08f41e64@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <52ea0b32-79c7-42e8-8e2c-192d08f41e64@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: OqRiUjmTcddOaQjqdwLe-IzQ-UetsT-M
+X-Proofpoint-ORIG-GUID: OqRiUjmTcddOaQjqdwLe-IzQ-UetsT-M
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 malwarescore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 clxscore=1015 phishscore=0 spamscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410310005
 
-On Wed, 23 Oct 2024 04:38:01 -0700 Breno Leitao wrote:
-> +- fail_skb_realloc
-> +
-> +  inject skb (socket buffer) reallocation events into the network path. The
-> +  primary goal is to identify and prevent issues related to pointer
-> +  mismanagement in the network subsystem.  By forcing skb reallocation at
-> +  strategic points, this feature creates scenarios where existing pointers to
-> +  skb headers become invalid.
-> +
-> +  When the fault is injected and the reallocation is triggered, these pointers
+On 10/29/2024 11:58 AM, Wesley Cheng wrote:
+> Hi Thinh,
+>
+> On 10/25/2024 4:22 PM, Thinh Nguyen wrote:
+>> Hi,
+>>
+>> On Tue, Oct 15, 2024, Wesley Cheng wrote:
+>>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>>
+>>> Introduce XHCI sideband, which manages the USB endpoints being requested by
+>>> a client driver.  This is used for when client drivers are attempting to
+>>> offload USB endpoints to another entity for handling USB transfers.  XHCI
+>>> sideband will allow for drivers to fetch the required information about the
+>>> transfer ring, so the user can submit transfers independently.  Expose the
+>>> required APIs for drivers to register and request for a USB endpoint and to
+>>> manage XHCI secondary interrupters.
+>>>
+>>> Multiple ring segment page linking, proper endpoint clean up, and allowing
+>>> module compilation added by Wesley Cheng to complete original concept code
+>>> by Mathias Nyman.
+>>>
+>>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>> Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>> ---
+>>>  drivers/usb/host/Kconfig          |   9 +
+>>>  drivers/usb/host/Makefile         |   2 +
+>>>  drivers/usb/host/xhci-sideband.c  | 424 ++++++++++++++++++++++++++++++
+>>>  drivers/usb/host/xhci.h           |   4 +
+>>>  include/linux/usb/xhci-sideband.h |  70 +++++
+>>>  5 files changed, 509 insertions(+)
+>>>  create mode 100644 drivers/usb/host/xhci-sideband.c
+>>>  create mode 100644 include/linux/usb/xhci-sideband.h
+>>>
+>>> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+>>> index 4448d0ab06f0..96659efa4be5 100644
+>>> --- a/drivers/usb/host/Kconfig
+>>> +++ b/drivers/usb/host/Kconfig
+>>> @@ -104,6 +104,15 @@ config USB_XHCI_RZV2M
+>>>  	  Say 'Y' to enable the support for the xHCI host controller
+>>>  	  found in Renesas RZ/V2M SoC.
+>>>  
+>>> +config USB_XHCI_SIDEBAND
+>>> +	tristate "xHCI support for sideband"
+>>> +	help
+>>> +	  Say 'Y' to enable the support for the xHCI sideband capability.
+>>> +	  Provide a mechanism for a sideband datapath for payload associated
+>> Please correct me if I'm wrong, but this doesn't look like the actual
+>> xHCI Audio Sideband capability described in the xHCI spec section 7.9
+>> but rather a specific implementation for Qcom right? For the xHCI Audio
+>> Sideband xHCI capability, the driver should detect this capability
+>> through the xHCI get extended capability. If this is not xHCI Audio
+>> Sideband capability, we should properly clarify this in the
+>> documentation and the naming of things to avoid any confusion.
+> Sure, that's a good point.  It does still currently rely on utilizing the system memory for USB IO transfers.  I can add some comments and update some of the documentation to reflect that this is different. 
 
-s/these pointers/cached pointers to skb headers and data/
+Hi Mathias,
 
-> +  no longer reference valid memory locations. This deliberate invalidation
-> +  helps expose code paths where proper pointer updating is neglected after a
-> +  reallocation event.
-> +
-> +  By creating these controlled fault scenarios, the system can catch instances
-> +  where stale pointers are used, potentially leading to memory corruption or
-> +  system instability.
-> +
-> +  To select the interface to act on, write the network name to the following file:
-> +  `/sys/kernel/debug/fail_skb_realloc/devname`
-> +  If this field is left empty (which is the default value), skb reallocation
-> +  will be forced on all network interfaces.
+Would it make sense to rename the APIs and driver to something other than "sideband" so that users don't get confused with the audio sideband that is mentioned above by Thinh?  How about using something like xhci-sec-intr to signify that this driver has APIs that will help support the use of xHCI secondary interrupters?
 
-Should we mention here that KASAN or some such is needed to catch 
-the bugs? Chances are the resulting UAF will not crash and go unnoticed
-without KASAN.
+Thanks
 
->  - NVMe fault injection
->  
->    inject NVMe status code and retry flag on devices permitted by setting
-> @@ -216,6 +238,19 @@ configuration of fault-injection capabilities.
->  	use a negative errno, you better use 'printf' instead of 'echo', e.g.:
->  	$ printf %#x -12 > retval
->  
-> +- /sys/kernel/debug/fail_skb_realloc/devname:
-> +
-> +        Specifies the network interface on which to force SKB reallocation.  If
-> +        left empty, SKB reallocation will be applied to all network interfaces.
-> +
-> +        Example usage::
-> +
-> +          # Force skb reallocation on eth0
-> +          echo "eth0" > /sys/kernel/debug/fail_skb_realloc/devname
-> +
-> +          # Clear the selection and force skb reallocation on all interfaces
-> +          echo "" > /sys/kernel/debug/fail_skb_realloc/devname
-> +
->  Boot option
->  ^^^^^^^^^^^
->  
-> @@ -227,6 +262,7 @@ use the boot option::
->  	fail_usercopy=
->  	fail_make_request=
->  	fail_futex=
-> +	fail_skb_realloc=
->  	mmc_core.fail_request=<interval>,<probability>,<space>,<times>
->  
->  proc entries
-> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> index 48f1e0fa2a13..285e36a5e5d7 100644
-> --- a/include/linux/skbuff.h
-> +++ b/include/linux/skbuff.h
-> @@ -2681,6 +2681,12 @@ static inline void skb_assert_len(struct sk_buff *skb)
->  #endif /* CONFIG_DEBUG_NET */
->  }
->  
-> +#if defined(CONFIG_FAIL_SKB_REALLOC)
-> +void skb_might_realloc(struct sk_buff *skb);
-> +#else
-> +static inline void skb_might_realloc(struct sk_buff *skb) {}
-> +#endif
-> +
->  /*
->   *	Add data to an sk_buff
->   */
-> @@ -2781,6 +2787,7 @@ static inline enum skb_drop_reason
->  pskb_may_pull_reason(struct sk_buff *skb, unsigned int len)
->  {
->  	DEBUG_NET_WARN_ON_ONCE(len > INT_MAX);
-> +	skb_might_realloc(skb);
->  
->  	if (likely(len <= skb_headlen(skb)))
->  		return SKB_NOT_DROPPED_YET;
-> @@ -3216,6 +3223,7 @@ static inline int __pskb_trim(struct sk_buff *skb, unsigned int len)
->  
->  static inline int pskb_trim(struct sk_buff *skb, unsigned int len)
->  {
-> +	skb_might_realloc(skb);
->  	return (len < skb->len) ? __pskb_trim(skb, len) : 0;
->  }
->  
-> @@ -3970,6 +3978,7 @@ int pskb_trim_rcsum_slow(struct sk_buff *skb, unsigned int len);
->  
->  static inline int pskb_trim_rcsum(struct sk_buff *skb, unsigned int len)
->  {
-> +	skb_might_realloc(skb);
->  	if (likely(len >= skb->len))
->  		return 0;
->  	return pskb_trim_rcsum_slow(skb, len);
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 7315f643817a..52bb27115185 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -2115,6 +2115,16 @@ config FAIL_SUNRPC
->  	  Provide fault-injection capability for SunRPC and
->  	  its consumers.
->  
-> +config FAIL_SKB_REALLOC
-> +	bool "Fault-injection capability forcing skb to reallocate"
-> +	depends on FAULT_INJECTION_DEBUG_FS
-> +	help
-> +	  Provide fault-injection capability that forces the skb to be
-> +	  reallocated, caughting possible invalid pointers to the skb.
+Wesley Cheng
 
-catching
-
-> +	  For more information, check
-> +	  Documentation/dev-tools/fault-injection/fault-injection.rst
-> +
->  config FAULT_INJECTION_CONFIGFS
->  	bool "Configfs interface for fault-injection capabilities"
->  	depends on FAULT_INJECTION
-> diff --git a/net/core/Makefile b/net/core/Makefile
-> index 5a72a87ee0f1..d9326600e289 100644
-> --- a/net/core/Makefile
-> +++ b/net/core/Makefile
-> @@ -46,3 +46,4 @@ obj-$(CONFIG_OF)	+= of_net.o
->  obj-$(CONFIG_NET_TEST) += net_test.o
->  obj-$(CONFIG_NET_DEVMEM) += devmem.o
->  obj-$(CONFIG_DEBUG_NET_SMALL_RTNL) += rtnl_net_debug.o
-> +obj-$(CONFIG_FAIL_SKB_REALLOC) += skb_fault_injection.o
-> diff --git a/net/core/skb_fault_injection.c b/net/core/skb_fault_injection.c
-> new file mode 100644
-> index 000000000000..21b0ea48c139
-> --- /dev/null
-> +++ b/net/core/skb_fault_injection.c
-> @@ -0,0 +1,103 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/fault-inject.h>
-> +#include <linux/netdevice.h>
-> +#include <linux/debugfs.h>
-> +#include <linux/skbuff.h>
-
-alphabetic sort, please?
-
-> +static struct {
-> +	struct fault_attr attr;
-> +	char devname[IFNAMSIZ];
-> +	bool filtered;
-> +} skb_realloc = {
-> +	.attr = FAULT_ATTR_INITIALIZER,
-> +	.filtered = false,
-> +};
-> +
-> +static bool should_fail_net_realloc_skb(struct sk_buff *skb)
-> +{
-> +	struct net_device *net = skb->dev;
-> +
-> +	if (skb_realloc.filtered &&
-> +	    strncmp(net->name, skb_realloc.devname, IFNAMSIZ))
-> +		/* device name filter set, but names do not match */
-> +		return false;
-> +
-> +	if (!should_fail(&skb_realloc.attr, 1))
-> +		return false;
-> +
-> +	return true;
-> +}
-> +ALLOW_ERROR_INJECTION(should_fail_net_realloc_skb, TRUE);
-> +
-> +void skb_might_realloc(struct sk_buff *skb)
-> +{
-> +	if (!should_fail_net_realloc_skb(skb))
-> +		return;
-> +
-> +	pskb_expand_head(skb, 0, 0, GFP_ATOMIC);
-> +}
-> +EXPORT_SYMBOL(skb_might_realloc);
-> +
-> +static int __init fail_skb_realloc_setup(char *str)
-> +{
-> +	return setup_fault_attr(&skb_realloc.attr, str);
-> +}
-> +__setup("fail_skb_realloc=", fail_skb_realloc_setup);
-> +
-> +static void reset_settings(void)
-> +{
-> +	skb_realloc.filtered = false;
-> +	memzero_explicit(&skb_realloc.devname, IFNAMSIZ);
-
-why _explicit ?
-
-> +}
-> +
-> +static ssize_t devname_write(struct file *file, const char __user *buffer,
-> +			     size_t count, loff_t *ppos)
-> +{
-> +	ssize_t ret;
-> +
-> +	reset_settings();
-> +	ret = simple_write_to_buffer(&skb_realloc.devname, IFNAMSIZ,
-> +				     ppos, buffer, count);
-> +	if (ret < 0)
-> +		return ret;
-
-the buffer needs to be null terminated, like:
-
-skb_realloc.devname[IFNAMSIZ - 1] = '\0';
-
-no?
-
-> +	strim(skb_realloc.devname);
-> +
-> +	if (strnlen(skb_realloc.devname, IFNAMSIZ))
-> +		skb_realloc.filtered = true;
-> +
-> +	return count;
-> +}
-> +
-> +static ssize_t devname_read(struct file *file,
-> +			    char __user *buffer,
-> +			    size_t size, loff_t *ppos)
-> +{
-> +	if (!skb_realloc.filtered)
-> +		return 0;
-> +
-> +	return simple_read_from_buffer(buffer, size, ppos, &skb_realloc.devname,
-> +				       strlen(skb_realloc.devname));
-> +}
-> +
-> +static const struct file_operations devname_ops = {
-> +	.write = devname_write,
-> +	.read = devname_read,
-> +};
-> +
-> +static int __init fail_skb_realloc_debugfs(void)
-> +{
-> +	umode_t mode = S_IFREG | 0600;
-> +	struct dentry *dir;
-> +
-> +	dir = fault_create_debugfs_attr("fail_skb_realloc", NULL,
-> +					&skb_realloc.attr);
-> +	if (IS_ERR(dir))
-> +		return PTR_ERR(dir);
-> +
-> +	debugfs_create_file("devname", mode, dir, NULL, &devname_ops);
-> +
-> +	return 0;
-> +}
-> +
-> +late_initcall(fail_skb_realloc_debugfs);
--- 
-pw-bot: cr
+> Thanks
+>
+> Wesley Cheng
+>
+>> I believe your implementation still needs to provide the data to the
+>> host controller through the system memory right? The xHCI Audio Sideband
+>> capability may pass the data to the xHC other than the main memory.
+>>
+>> BR,
+>> Thinh
+>>
+>>> +	  with audio class endpoints. This allows for an audio DSP to use
+>>> +	  xHCI USB endpoints directly, allowing CPU to sleep while playing
+>>> +	  audio.
+>>> +
+>>>  config USB_XHCI_TEGRA
+>>>  	tristate "xHCI support for NVIDIA Tegra SoCs"
+>>>  	depends on PHY_TEGRA_XUSB
