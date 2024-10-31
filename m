@@ -1,66 +1,66 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3773619E7FA
-	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 12:32:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E37D19D09F
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 12:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730377936; cv=none; b=A4j9hY/BkEBOgd8rfO6WuAkKIZyct9OV7j+9axNAQwhjWUdHJ8qYHxbh3qWo8+JbhudWUZ3ub9SeOgFRsHnysHtJr0cRc4rG+YcoWTxxKlwEyG8uyt/tIDEEFULFiNmdfyoEyHRhFO1vFGCWGKj8lk/W4GIf6L2pL6H48k27fOY=
+	t=1730378244; cv=none; b=LImXpz8UGXkA3AkBNLSKrCDtk6QwuOXcbgXqfPPAqg0SgTW3jsTLFYnRKzr0jTg3CZ2m0y53uPmxoiO5C+tzW4bV4hQctXEebwp05Z6Vo9Pqinx39SIfo3de5MzEN8cvmjRnAD+cgvmJl2s18rCzJ8W+klEeLAFUoEXem1DX+ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730377936; c=relaxed/simple;
-	bh=FH5I3Wai2PmcuMB0QzacofP1XL4+KCIHsuePUvm+ZJI=;
+	s=arc-20240116; t=1730378244; c=relaxed/simple;
+	bh=HoD8ilGuMYtPbxx4dST3nnZ9of8lsIcP2oN0hCFRKgA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZdM1eg3DkrH3kuZ2Qu5lktVkDoa5TsID6EWJLgDcbIW266/hO0E1sljRn5bRxt0MIOK+60hpJ7VcwKeCRLlwPOW4wnNVpfdPajngM1a3OvHJz7IjZuuITJZ+GZreItpMEfqaifHtjAmxHC33y1L2/OEudeE2VUY+eW1HUc/AldI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FazrPV9m; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=PIcDAS1VgNO+MnuNVu4tlsxtw07WR/q3SeHH92j/VHRxjzcsZ5inALGfE0oCFKTaNdSJkKogmVpob/5f6/gKqVqeXUJnFrkqvTVDiFGLxGSemd3dOe03/4jBM+Tjtq720FSh2xlyCqTi6xyajo1970nE9FvH2U53KU6oGQlZy/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rm87MSNG; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FazrPV9m"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rm87MSNG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730377933;
+	s=mimecast20190719; t=1730378241;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uKrPAKxKq1Jx7vedNmeCC6agMwFMSyba5+2s6PfI3BE=;
-	b=FazrPV9mIDDthsEUXgrUat5ZvJ0A1l5AHBL+sQXsmIus62eCF5mhDExtpxIjqLlqaEk0ql
-	mqyeDXT7ulDP8BkTjNbhq51Z717sjHtilNDaLLLtyUowxrs+Tw8xK0h1sIRMasuavyT+No
-	CE2eRr7cInk0aCpWrguDivJEkxAsGTU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=4Hal6WHS1aE76VZfKuRs4hvYStmTjVfx8JR8a8dnIgM=;
+	b=Rm87MSNG4g62aYi2UbteDGmLDXZGBPi5ZX4jsMl1yaiSgFAvfeAhwQ9hYvw98qmwHqxacc
+	2NKJ8lpMFGjE3dvk9q/btTq9phxUpIfeZa84XW9leuoI2TNCCZBS5GUxTmBgHhirs1TYxV
+	7ndo3KqfeAuue9IVbg0mvaX/05IiXbQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-588-EBIGNKJ0NNmV2FCdDZNcHg-1; Thu, 31 Oct 2024 08:32:12 -0400
-X-MC-Unique: EBIGNKJ0NNmV2FCdDZNcHg-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-37d49887a2cso499355f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 05:32:11 -0700 (PDT)
+ us-mta-526-85R3GRvDPCerFQsvBtSsmg-1; Thu, 31 Oct 2024 08:37:17 -0400
+X-MC-Unique: 85R3GRvDPCerFQsvBtSsmg-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4315c1b5befso5551395e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 05:37:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730377931; x=1730982731;
+        d=1e100.net; s=20230601; t=1730378236; x=1730983036;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=uKrPAKxKq1Jx7vedNmeCC6agMwFMSyba5+2s6PfI3BE=;
-        b=N2bDAmSlBpW77rRvIJr7Ncc6fPvyQ3ng4T7ujhXMFdO+HxS6w13mdr9E+2aZyKioVB
-         ZratyvqTFWft6aREnoa9Xh0sPzwy0x0Y+NKluTyU7TyM1mnjW3NWy5S6+GaiNEOKT+Kj
-         3fuZ4TvfwigiQUpERiijoRZaSWDpv37iCmKat0Lsl8ploK9nVudu6VlTh+5td2gCucKY
-         YwI2h5bSQunx6eYrNWvecFHUMDiWawmjEYagv8NTGj18NlY6tw8NEX/JYGd9mB/eADux
-         kR3xyCaAQORuRuu4LQJ0jfExymzfOKU/T8dcQ/uLfIwmOk0I0mSHMuuZ+N3L/FH41AEH
-         MMVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVIvXYkMDplyGRQY4FATQ5eH4xXfz+GdP5y/9UDGCs1TJSPp2MICzX9HHkki3BaF6KClNe5j6dMyQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGTr7UhjYI1nIKswzHCg2jDoEtEonVpDRcifALyj56DfRVOePO
-	5qE7a5qIKlmQJdXp44dkgvMKFBDVresuptMG1WJUMUSq1tCWBW/XEflyhH8TiLTJA28KUkKV6+y
-	qYs/6CfFy9SX8DtLrRdsIqx35AcnRSPP2UM7uHLBuVLj7vYGCubNeHKw/BQ==
-X-Received: by 2002:a5d:59a5:0:b0:37d:3b31:7a9d with SMTP id ffacd0b85a97d-381c14bb067mr1633444f8f.23.1730377930692;
-        Thu, 31 Oct 2024 05:32:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEu82J0PIR+pp4nUH/6upDWBeLgmtjty7qYAPHYGLGOrQCvA2FcAzeK4yv20KNlMVeyZpEHrw==
-X-Received: by 2002:a5d:59a5:0:b0:37d:3b31:7a9d with SMTP id ffacd0b85a97d-381c14bb067mr1633399f8f.23.1730377930212;
-        Thu, 31 Oct 2024 05:32:10 -0700 (PDT)
+        bh=4Hal6WHS1aE76VZfKuRs4hvYStmTjVfx8JR8a8dnIgM=;
+        b=UcGTui5qtr8oqONE9J6rzMrRVdkB0F60fRuZecoVFjTOsUxAcT0ZiXRnqP8+PSUki2
+         0aTFBqT+WdnXVjNcOpfZuND5/Pl9DTIQv0DILb1NYBRx5osfmYCzGnbZ5lEMRNmLJ3H5
+         l+c/LAn0E4/qD5aZ0DoVxNRpOj/ouSsiSQmrpXE+1xpkWBwu4WyYuMolRfIEjd9K0kv1
+         GX2J8YF8c6M+v/EF/2eHa9qc2aFrxxYqc4dqHH6gmekfqqKPHrHCWrbldzPwWXeCLb4a
+         +aFinoogkOR8yH+5pFE1teAno2U7MV/rka46mdE1gMaKfytB8lUzkLcVv7i57YE8/6zT
+         wg9w==
+X-Forwarded-Encrypted: i=1; AJvYcCUIjJHpl9ugDiDK+mLkpmxAsrxhaW7oAf/YOp7LLbbtqGD/jhtj8HrbMXgPUAA2Jl+x2snhqxMkscQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqMBWV0d0kVJFmFqeYMVINxZ4M7IxOIXXKZ+pRWU40dnkfQTVW
+	mAsHr2+VGycqV0M9gksXhAS2UV0jxazBPpMfQq5kAdNnCPTz53SUuhQxAP/l3h1pzWrwnnVuILP
+	KRpVYdMmK148ZElyvf0Gz66P5pJKSjt7yRIAkd60UFqqNMh+ICWCww2L9bA==
+X-Received: by 2002:a05:600c:4fd3:b0:431:60d0:9088 with SMTP id 5b1f17b1804b1-4319ac9acedmr180517935e9.13.1730378236479;
+        Thu, 31 Oct 2024 05:37:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFSVID/xCV/RTrYmwxSXhv/tUYwNIbN7QNfqet0lWlt3ppFonkE6MHSCcoT38nLBWw61eJ3qA==
+X-Received: by 2002:a05:600c:4fd3:b0:431:60d0:9088 with SMTP id 5b1f17b1804b1-4319ac9acedmr180517665e9.13.1730378236072;
+        Thu, 31 Oct 2024 05:37:16 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe? (p200300cbc70aed007ddf1ea94f7a91fe.dip0.t-ipconnect.de. [2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113e595sm1994177f8f.77.2024.10.31.05.32.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d698055sm25127635e9.40.2024.10.31.05.37.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 05:32:09 -0700 (PDT)
-Message-ID: <73d19983-b97c-49fc-be9e-89728626dbed@redhat.com>
-Date: Thu, 31 Oct 2024 13:32:08 +0100
+        Thu, 31 Oct 2024 05:37:14 -0700 (PDT)
+Message-ID: <2c507326-3267-431e-936a-23e2ab6a3baf@redhat.com>
+Date: Thu, 31 Oct 2024 13:37:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] mm: shmem: control THP support through the kernel
- command line
+Subject: Re: [PATCH v3 3/4] mm: shmem: override mTHP shmem default with a
+ kernel parameter
 To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
  Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
  Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>,
@@ -78,7 +78,7 @@ To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
 Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, kernel-dev@igalia.com
 References: <20241030130308.1066299-1-mcanal@igalia.com>
- <20241030130308.1066299-3-mcanal@igalia.com>
+ <20241030130308.1066299-4-mcanal@igalia.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -126,51 +126,226 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20241030130308.1066299-3-mcanal@igalia.com>
+In-Reply-To: <20241030130308.1066299-4-mcanal@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 On 30.10.24 13:58, Maíra Canal wrote:
-> Add a new kernel command line to control the hugepage allocation policy
-> for the internal shmem mount, ``transparent_hugepage_shmem``. The
-> parameter is similar to ``transparent_hugepage`` and has the following
-> format:
+> Add the ``thp_shmem=`` kernel command line to allow specifying the
+> default policy of each supported shmem hugepage size. The kernel parameter
+> accepts the following format:
 > 
-> transparent_hugepage_shmem=<policy>
+> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
 > 
-> where ``<policy>`` is one of the seven valid policies available for
-> shmem.
+> For example,
 > 
-> By configuring the default hugepage allocation policy for the internal
-> shmem mount, applications that use shmem, such as the DRM GEM objects,
+> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
+> 
+> By configuring the default policy of several shmem hugepages, the user
 > can take advantage of mTHP before it's been configured through sysfs.
 > 
 > Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   .../admin-guide/kernel-parameters.txt         |  7 ++
->   Documentation/admin-guide/mm/transhuge.rst    |  6 ++
->   mm/shmem.c                                    | 72 +++++++++++++------
->   3 files changed, 62 insertions(+), 23 deletions(-)
+>   .../admin-guide/kernel-parameters.txt         |  10 ++
+>   Documentation/admin-guide/mm/transhuge.rst    |  17 +++
+>   mm/shmem.c                                    | 109 +++++++++++++++++-
+>   3 files changed, 135 insertions(+), 1 deletion(-)
 > 
 > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 1666576acc0e..acabb04d0dd4 100644
+> index acabb04d0dd4..b48d744d99b0 100644
 > --- a/Documentation/admin-guide/kernel-parameters.txt
 > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6926,6 +6926,13 @@
->   			See Documentation/admin-guide/mm/transhuge.rst
->   			for more details.
+> @@ -6700,6 +6700,16 @@
+>   			Force threading of all interrupt handlers except those
+>   			marked explicitly IRQF_NO_THREAD.
 >   
-> +	transparent_hugepage_shmem= [KNL]
-> +			Format: [always|within_size|advise|never|deny|force]
-> +			Can be used to control the hugepage allocation policy for
-> +			the internal shmem mount.
-> +			See Documentation/admin-guide/mm/transhuge.rst
-> +			for more details.
+> +	thp_shmem=	[KNL]
+> +			Format: <size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
+> +			Control the default policy of each hugepage size for the
+> +			internal shmem mount. <policy> is one of policies available
+> +			for the shmem mount ("always", "inherit", "never", "within_size",
+> +			and "advise").
+> +			It can be used multiple times for multiple shmem THP sizes.
+> +			See Documentation/admin-guide/mm/transhuge.rst for more
+> +			details.
 > +
+>   	topology=	[S390,EARLY]
+>   			Format: {off | on}
+>   			Specify if the kernel should make use of the cpu
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> index 9b5b02c4d1ab..47e7fc30e22d 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -332,6 +332,23 @@ allocation policy for the internal shmem mount by using the kernel parameter
+>   seven valid policies for shmem (``always``, ``within_size``, ``advise``,
+>   ``never``, ``deny``, and ``force``).
+>   
+> +In the same manner as ``thp_anon`` controls each supported anonymous THP
+> +size, ``thp_shmem`` controls each supported shmem THP size. ``thp_shmem``
+> +has the same format as ``thp_anon``, but also supports the policy
+> +``within_size``.
+> +
+> +``thp_shmem=`` may be specified multiple times to configure all THP sizes
+> +as required. If ``thp_shmem=`` is specified at least once, any shmem THP
+> +sizes not explicitly configured on the command line are implicitly set to
+> +``never``.
+> +
+> +``transparent_hugepage_shmem`` setting only affects the global toggle. If
+> +``thp_shmem`` is not specified, PMD_ORDER hugepage will default to
+> +``inherit``. However, if a valid ``thp_shmem`` setting is provided by the
+> +user, the PMD_ORDER hugepage policy will be overridden. If the policy for
+> +PMD_ORDER is not defined within a valid ``thp_shmem``, its policy will
+> +default to ``never``.
+> +
+>   Hugepages in tmpfs/shmem
+>   ========================
+>   
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index dfcc88ec6e34..c2299fa0b345 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_always __read_mostly;
+>   static unsigned long huge_shmem_orders_madvise __read_mostly;
+>   static unsigned long huge_shmem_orders_inherit __read_mostly;
+>   static unsigned long huge_shmem_orders_within_size __read_mostly;
+> +static bool shmem_orders_configured __initdata;
+>   #endif
+>   
+>   #ifdef CONFIG_TMPFS
+> @@ -5027,7 +5028,8 @@ void __init shmem_init(void)
+>   	 * Default to setting PMD-sized THP to inherit the global setting and
+>   	 * disable all other multi-size THPs.
+>   	 */
+> -	huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
+> +	if (!shmem_orders_configured)
+> +		huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
+>   #endif
+>   	return;
+>   
+> @@ -5180,6 +5182,26 @@ struct kobj_attribute thpsize_shmem_enabled_attr =
+>   
+>   #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
+>   
+> +static inline int get_order_from_str(const char *size_str)
+> +{
+> +	unsigned long size;
+> +	char *endptr;
+> +	int order;
+> +
+> +	size = memparse(size_str, &endptr);
+> +
+> +	if (!is_power_of_2(size))
+> +		goto err;
+> +	order = get_order(size);
+> +	if (BIT(order) & ~THP_ORDERS_ALL_FILE_DEFAULT)
+> +		goto err;
+> +
+> +	return order;
+> +err:
+> +	pr_err("invalid size %s in thp_shmem boot parameter\n", size_str);
+> +	return -EINVAL;
+> +}
 
-LGTM, and it's consistent with the parameter for anon.
+Hm, mostly copy and paste. You could reuse existing get_order_from_str() 
+simply by passing in the supported orders and moving error reporting to 
+the caller.
 
-Acked-by: David Hildenbrand <david@redhat.com>
+static inline int get_order_from_str(const char *size_str,
+		int valid_orders)
+{
+	...
+	if (!is_power_of_2(size))
+		return -EINVAL;
+	order = get_order(size);
+	if (BIT(order) & ~valid_orders)
+		return -EINVAL;
+	return order;
+}
+
+> +
+>   static int __init setup_transparent_hugepage_shmem(char *str)
+>   {
+>   	int huge;
+> @@ -5195,6 +5217,91 @@ static int __init setup_transparent_hugepage_shmem(char *str)
+>   }
+>   __setup("transparent_hugepage_shmem=", setup_transparent_hugepage_shmem);
+>   
+> +static char str_dup[PAGE_SIZE] __initdata;
+> +static int __init setup_thp_shmem(char *str)
+> +{
+> +	char *token, *range, *policy, *subtoken;
+> +	unsigned long always, inherit, madvise, within_size;
+> +	char *start_size, *end_size;
+> +	int start, end, nr;
+> +	char *p;
+> +
+> +	if (!str || strlen(str) + 1 > PAGE_SIZE)
+> +		goto err;
+> +	strscpy(str_dup, str);
+> +
+> +	always = huge_shmem_orders_always;
+> +	inherit = huge_shmem_orders_inherit;
+> +	madvise = huge_shmem_orders_madvise;
+> +	within_size = huge_shmem_orders_within_size;
+> +	p = str_dup;
+> +	while ((token = strsep(&p, ";")) != NULL) {
+> +		range = strsep(&token, ":");
+> +		policy = token;
+> +
+> +		if (!policy)
+> +			goto err;
+> +
+> +		while ((subtoken = strsep(&range, ",")) != NULL) {
+> +			if (strchr(subtoken, '-')) {
+> +				start_size = strsep(&subtoken, "-");
+> +				end_size = subtoken;
+> +
+> +				start = get_order_from_str(start_size);
+> +				end = get_order_from_str(end_size);
+> +			} else {
+> +				start = end = get_order_from_str(subtoken);
+> +			}
+> +
+> +			if (start < 0 || end < 0 || start > end)
+> +				goto err;
+> +
+> +			nr = end - start + 1;
+> +			if (!strcmp(policy, "always")) {
+> +				bitmap_set(&always, start, nr);
+> +				bitmap_clear(&inherit, start, nr);
+> +				bitmap_clear(&madvise, start, nr);
+> +				bitmap_clear(&within_size, start, nr);
+> +			} else if (!strcmp(policy, "advise")) {
+> +				bitmap_set(&madvise, start, nr);
+> +				bitmap_clear(&inherit, start, nr);
+> +				bitmap_clear(&always, start, nr);
+> +				bitmap_clear(&within_size, start, nr);
+> +			} else if (!strcmp(policy, "inherit")) {
+> +				bitmap_set(&inherit, start, nr);
+> +				bitmap_clear(&madvise, start, nr);
+> +				bitmap_clear(&always, start, nr);
+> +				bitmap_clear(&within_size, start, nr);
+> +			} else if (!strcmp(policy, "within_size")) {
+> +				bitmap_set(&within_size, start, nr);
+> +				bitmap_clear(&inherit, start, nr);
+> +				bitmap_clear(&madvise, start, nr);
+> +				bitmap_clear(&always, start, nr);
+> +			} else if (!strcmp(policy, "never")) {
+> +				bitmap_clear(&inherit, start, nr);
+> +				bitmap_clear(&madvise, start, nr);
+> +				bitmap_clear(&always, start, nr);
+> +				bitmap_clear(&within_size, start, nr);
+> +			} else {
+> +				pr_err("invalid policy %s in thp_shmem boot parameter\n", policy);
+> +				goto err;
+> +			}
+> +		}
+> +	}
+
+
+Similarly, copy-paste. But not that easy to abstract :) So maybe we'll 
+have to keep that as is for now.
+
 
 -- 
 Cheers,
