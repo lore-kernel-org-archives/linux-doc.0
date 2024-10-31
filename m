@@ -1,222 +1,281 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sg2apc01on2127.outbound.protection.outlook.com [40.107.215.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56247175BF
-	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 12:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730379471; cv=none; b=LyMOiVtsZPjYvvk47bg/qW8hUjteOcCuJzQX6zu8f6y4X82/P9giz2e7kbzzH8iknO5n5P1zgqb5WeByPBmbgDIQOl1ElSDHPrHflFwlvYreEaSglMFnqxSbTV+DJk9oe0coD2DxNSEbtfVgwlrq4/ADd0tWdmXeOg9rUQO4bO4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730379471; c=relaxed/simple;
-	bh=z8eGgKnexZVw+VlUp9lrigcwdaRr5kcqPwNdbZBUaF4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gIyZurBleQGrGqfJEUP0OH7GFwNoUiPHLKUbRYELzhK7NwHAFlYy0lfpMtI4FjExlJjvdWNwa8Di1ogA+bjp1ZRt3TSg1uJAe87l512ly4PNZsR9LfehSNptzoIGG+gFocsIr8bbpuT1FwfAXHLZv6Y3Hb490KfoX1tz9oxOPt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gJICNBVv; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978C21991BE;
+	Thu, 31 Oct 2024 13:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.127
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730380197; cv=fail; b=FNkhEHcp8R9QXFwLW/1sQAclpc4cA0JcwzDmjPXg6FNx+6mt0CZNaMCpv8hdysiCx4GS5hzo+6FCn/GQb8gHToV5xltWiAuEHy1QNvitHyH/9fEz8Ih4msoZDVlCbyxmgcnHNuG40I86vd4oHDyv++Bdx1mp93HsZmaq56/z7/c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730380197; c=relaxed/simple;
+	bh=KQt0qyfnFczN9Nikee8eYixTLeSpTX0GHq4Ke9cQUmw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZnutY6qKJ2rEcbYhp+sb80jdnx7ypj+7SqztrnTmdDpnVu6ZQKOXtD7t/lrFYUE+xAmYC1p+Vaao8dEchZ+KU+QNqjzHj7HMyKEOH2gv5IMibQaQwoP633SJ9GXbrASTRTjSMUCD/0dTssHrQ9RUmUHTfqRj5uAHV3oKcnMQ7fI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=F2RdWql0; arc=fail smtp.client-ip=40.107.215.127
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gJICNBVv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730379467;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=e7lqBrJGwzCPo68ZE7+NaOI9FGmTKu9VV5AzlULMSGQ=;
-	b=gJICNBVv760v19qJwdnSJu72KhTOAJmtuiIYaGxC8Vfu3rHRKOqV0UHaa27R6M1Jon04MO
-	SCIwcdwIrtIGfM8NFtj9GoxRVLCxnGl/6k2QuDRi9X5l/PJKKBQdoY3IiH2Fi6Dz0DfFbL
-	T+gh/vhNCkmgwm9QpEgZ0DZUAu2gXU4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-149-eVLRvNlMMl2K1o_BkIcVIg-1; Thu, 31 Oct 2024 08:57:44 -0400
-X-MC-Unique: eVLRvNlMMl2K1o_BkIcVIg-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-37d462b64e3so416650f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 05:57:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730379463; x=1730984263;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=e7lqBrJGwzCPo68ZE7+NaOI9FGmTKu9VV5AzlULMSGQ=;
-        b=eUKI5HupWvgmw3qrlRjxGK+GZE/4W6cfmnNqIIBk3QvOjETM79A7HMkQV5unYd7CxN
-         y/jzA0uRg9psJLNctnczASdr6O5Ga5v0HTpwpLuE9YoUhK7bDda5IPOZoxFVGopZaFhG
-         dbi+TDn3NSjBtFWgVA1BVhMVsIUOboIgRMETqxNIMNua1NSQasCCb/oCqmgLgg5pcIsA
-         SJG1Fd/Z4nfHsJEQbVYgzzNfIKyQ2FobE+0XvZf7yq2vQ+hjTunVkr/GioRs/R22gcD+
-         dsxukCEe01KRKB+/kq0E0nYWG02RM65p1Fn3WkUZhDrwAKJNazCvLSJSslm5PYqiH10v
-         lAuw==
-X-Forwarded-Encrypted: i=1; AJvYcCVC+kwd2nu9esaE8IIW4GMR/P9uXeJS+zmTn1ng/DygUVMGgLexpZIM1kFZ5SuPp6d/+7+SYPLshcY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB0yd51yxnjgGYuNX4U9NMEVj9dyL2prXFRhEJ7lajTWuf0PYi
-	bzQnzZZH0p3tWWDsMpbaEIeNOZf6i48W+FrjVKzRJZoKwUlMatuPLG1Awttf59QEOryHtLAh+WL
-	MDN/iYZGCuasNMcv143238QzWEjgcnp7rSSmgc+7g0iF9eIm9vGb61K+MRw==
-X-Received: by 2002:adf:ef84:0:b0:37c:d20d:447c with SMTP id ffacd0b85a97d-38061163710mr12935226f8f.29.1730379462820;
-        Thu, 31 Oct 2024 05:57:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE0J9/q3tFo4XeSLVcZXz3CbWqqLIM5gE8i1e7RDDh1jFP1bZOGOFsHQwWmb0PNuPoMuLElaw==
-X-Received: by 2002:adf:ef84:0:b0:37c:d20d:447c with SMTP id ffacd0b85a97d-38061163710mr12935211f8f.29.1730379462431;
-        Thu, 31 Oct 2024 05:57:42 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe? (p200300cbc70aed007ddf1ea94f7a91fe.dip0.t-ipconnect.de. [2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c116a781sm2057848f8f.96.2024.10.31.05.57.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 05:57:41 -0700 (PDT)
-Message-ID: <cfcfaed5-8612-46f4-b3dd-67e1d81d049f@redhat.com>
-Date: Thu, 31 Oct 2024 13:57:40 +0100
+	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="F2RdWql0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nqSlOjpjffkiElb1Q+oecdnw/uoWdbFX5Y2BL88uqnm4uM2IDXNhyE/1F6SHU+C1/McnxLj8WbRiZj0SUYdS7kmvOz1Rn4y93ndVvgQyy6l5dnD42dZnf9cpZYF2mTP+5NESZx//8mOFwUoiEEC5HnSgYQBZsr71I0G2dBTw605v/6xZ6DuYEaki28FQ08r85lBnvL/jtY0Q1P7tdFg22GtGSDV/khB7IjKYDeWlOtDFt1CL9AsksYONfhs4/LNjZivf06FIHQRl9h2xDCls4+T+GFN6QIeFl0eedcwTzryVhdaqGwnjUSVpPgHw9CVUklXxhC/asILqqGI1Z7Gk3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aZYlpQTCTa8nV6TQLlq7S+sdt2aCdcEeGA6qU1KAn/o=;
+ b=AtLB0lxzL9K1lVgGfglhsJ+hJWeAnYgTnkFWKZBCjvsEhCCFi0lWRhRDUAGRlRY+zFIDnYohzSP0DEghtfGd3QuHY2+cfInf67cuws5mkwttLUKy0DlRkYjklArm11MUCpqwp023wJqkooTtiAuPepooFkRFoM/xdg06nluses+tBaDX3UT1Cm+v1o1YARHFVNm6+uhRrBbd//Co/wCoBR2bdpWonUTuEptyLA9SssDXaMOaLmIcJ/hXFHyMJzUfA89osE5oeFW0VDlWf0nZgK2clEsctcDH4ysyAYTeOGRVJ3K+I+zt8xoRp1DP4f3hr1gxwzueqvrS0okb4sbl3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
+ dkim=pass header.d=fibocom.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aZYlpQTCTa8nV6TQLlq7S+sdt2aCdcEeGA6qU1KAn/o=;
+ b=F2RdWql09cEEgJULpD+0+05PHj7g4ZBhUe9zexEJczGoYKr6KrQk1Onr1qE4TcDJskI5Mklpd+MgPrirzv9ntBUlebUvHfCnsyhDAsS7+Uz/Y4MVEV+Ukvu2egMELU+aPCvTUXzn1C/3F8bfq0BWJfuanSRJiCjqJF3n7b9t8u0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fibocom.com;
+Received: from TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
+ by TYZPR02MB6294.apcprd02.prod.outlook.com (2603:1096:400:287::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Thu, 31 Oct
+ 2024 13:09:47 +0000
+Received: from TY0PR02MB5766.apcprd02.prod.outlook.com
+ ([fe80::f53d:47b:3b04:9a8b]) by TY0PR02MB5766.apcprd02.prod.outlook.com
+ ([fe80::f53d:47b:3b04:9a8b%4]) with mapi id 15.20.8114.015; Thu, 31 Oct 2024
+ 13:09:47 +0000
+From: Jinjian Song <jinjian.song@fibocom.com>
+To: ryazanov.s.a@gmail.com,
+	Jinjian Song <jinjian.song@fibocom.com>,
+	chandrashekar.devegowda@intel.com,
+	chiranjeevi.rapolu@linux.intel.com,
+	haijun.liu@mediatek.com,
+	m.chetan.kumar@linux.intel.com,
+	ricardo.martinez@linux.intel.com,
+	loic.poulain@linaro.org,
+	johannes@sipsolutions.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: angelogioacchino.delregno@collabora.com,
+	bhelgaas@google.com,
+	corbet@lwn.net,
+	danielwinkler@google.com,
+	helgaas@kernel.org,
+	korneld@google.com,
+	linasvepstas@gmail.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	matthias.bgg@gmail.com,
+	netdev@vger.kernel.org
+Subject: Re: [net-next v2] net: wwan: t7xx: reset device if suspend fails
+Date: Thu, 31 Oct 2024 21:09:30 +0800
+Message-Id: <20241031130930.5583-1-jinjian.song@fibocom.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <e37b9baa-51e5-48f9-a15d-521f29ce5f9c@gmail.com>
+References: <20241022084348.4571-1-jinjian.song@fibocom.com> <20241029034657.6937-1-jinjian.song@fibocom.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TYAPR01CA0167.jpnprd01.prod.outlook.com
+ (2603:1096:404:7e::35) To TY0PR02MB5766.apcprd02.prod.outlook.com
+ (2603:1096:400:1b5::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] mm: shmem: override mTHP shmem default with a
- kernel parameter
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com
-References: <20241030130308.1066299-1-mcanal@igalia.com>
- <20241030130308.1066299-4-mcanal@igalia.com>
- <2c507326-3267-431e-936a-23e2ab6a3baf@redhat.com>
- <899284fa-953f-48a1-af29-222d0d55881c@igalia.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <899284fa-953f-48a1-af29-222d0d55881c@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR02MB5766:EE_|TYZPR02MB6294:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4bd1cf01-6e63-4f22-3279-08dcf9ad4b59
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|52116014|366016|376014|1800799024|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bkZyZmxlZGM5ZnhoMHVTTVNYcWpZME9GNU1kamRaK1FtTEFCSGJmY0VhMEVN?=
+ =?utf-8?B?L0xESHlMS05BYys2aHRJUFpsa1dKYWtNaXJncFpMY1dwR283V3hYY1VRcnhV?=
+ =?utf-8?B?eHo4Y1RSZGFxY3o5dmViVnRKaFd5YUl5OWIwQm5WQkUzWXF6ZENqaWR2NFI5?=
+ =?utf-8?B?YUpVeDgrazZyU3ZFU2RvOVZyOHdMRDQxN0xzNGtOWUFDdFB3THZQVlZsajNB?=
+ =?utf-8?B?eWx2YTdxRklxN3dUMUZ3WHhBWWdFeFZvcWFTRjBCdzNLeFV6UXNLeTBVMk1s?=
+ =?utf-8?B?aWdYa0o1MHZ2cXRBZnp0Z2crdkpBZVEwMHZWb1BzcGhpVllvQUtiVStMMll4?=
+ =?utf-8?B?WWM0eDErTFhHUkNzRnE5aUpnVzlnV0t0M0hVVW9iL3hDaGZDbFd5MW9CREx4?=
+ =?utf-8?B?TngySWtUbVVzc3ozYlhzQWVtd24rYjJFYklkRVJzQUN1cFRFV082TUZQVzVT?=
+ =?utf-8?B?K1RmZXd1YURhNWRqcUN5R1NySXdtR25XZUpMTHlYSXlOSXdOU3VMVDhlb0lO?=
+ =?utf-8?B?Qm9PMXhCbHlmVWthdWRvZ1JiU3FHaVVjSGt1Y2hHREV3K3lPdWYraUpmRWlY?=
+ =?utf-8?B?MmJ3cGVNbm9uMTNSemJGc0w2UG9Jb21lYldHd2FNRGIxZmxIQTBvTDZXVk1v?=
+ =?utf-8?B?TkdsSDdveFk0SmxIZG5teURjdFRjRXNRNE9Ic1lIbjhlQkc2Z1VkUXRhWk9H?=
+ =?utf-8?B?VW4yWXlvV21Qcjc2dzd0ZEtCbnJHK093QTloVXJ0c0FWSXZqZFJBbVEwMjlp?=
+ =?utf-8?B?c3FvYk42RFNLMDJWZk81L3FkMVl3c3V5ZlYzbmFsSE9scjJTdnc1T284R2Qz?=
+ =?utf-8?B?YkRSanJyd1drTlBuVFZYTjFpaG9tQVlpeDZzK3VLWnRCZUpCR2xUa1E1M1Bj?=
+ =?utf-8?B?ZjRPOWV5eXBLMXNoakh0dTNYOXI0bVdQWURiWmNyc1plNDloRC80OWl1T3J6?=
+ =?utf-8?B?cHZ3aTU0aEt3d2gxU2FvMFlVMHRBNncvTHhUaFlnd1J0TFAyMjlwSThlT1p3?=
+ =?utf-8?B?QTNPcmlBc3E1TnZ2SHBReG1ncGRJMmRSdWovd004WW5wV2ZNTm9mOVBYNXMv?=
+ =?utf-8?B?RUdVVWdQUmJGdnlCd3kyc1BGT29VdjBMdTNHdGcrZkZycC96cXRuUHZBWm9y?=
+ =?utf-8?B?WDZDTFU4Um90dDZBL3l0OHBPQ0xtYlVXRnVzVldhOFlwZHVoZXFXSlQ1V0ln?=
+ =?utf-8?B?OTRGL1d3VHA3d2xZQWZ0VzQyNThxVEpqUGExWjhTUlFuYjArZEdiMW44QW9L?=
+ =?utf-8?B?RzdXZ3g3Z1FXK0tQN3FnSVRrZS9sWHI4aCtCVFFyb0QybkdaTWZMMm1FTUVw?=
+ =?utf-8?B?dlltMDZueFQxTGRmWTdPZ1Bpa2s3WVFFVWtMT09BU3VuTEd0NFlITlY5c2Vw?=
+ =?utf-8?B?WDBmZGxzNXpNUkc0Vks0aG1xM2UySVMwOVhydExQbkVCRlUwRjhXenp0TnpS?=
+ =?utf-8?B?cFRXVkRQYzZia1gvNVlNR3BISGpmVmU5K2FjeVN1TGw4bUpRMGw2N2VoYytC?=
+ =?utf-8?B?eW8yRGY2TDJOc3JqSDdnTi9Za09Va083ZFk0TzNYbTFWOGtVWnYvTWZSRGZ0?=
+ =?utf-8?B?MHdwdVVCZ3daRlpVMVFsZElwaXV1N2JMbUk5ektOemg0VUZTUkprd05sVWZu?=
+ =?utf-8?B?eEE1NUdxK0NxeHc2Y0x5K0txVk05YkhScFJKN2E1aGI3UE82L0dKM1kvTnU1?=
+ =?utf-8?B?Q2ZrOEgrTUxVK0NFaVpNMURGeVp0MTEzd05uRDY0VC9RTnpEOEx0VE8wZFg4?=
+ =?utf-8?B?d3grbHBhZ3ZHbVlIYnFVMjZBdVVITlY5dXZ6ZjNkQ1VaS0tZVHU2YklSUTkv?=
+ =?utf-8?B?YUxsR21ySzFVWm1nNFFyUkFUV0RWZVIyZEpPWmM5VEtqMlBnYStFdnk3Z24x?=
+ =?utf-8?Q?No8Z87wbMYmPb?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR02MB5766.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(366016)(376014)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UWJDZ0lhdDBvZHoyazZNcXp4L3FFRHM3RUU2RU80VllEUzVWT3RxbDE4L2xu?=
+ =?utf-8?B?eE5kazI2TnpoQVU3RUd0L0F3T0VGZkMyUWw5MHpabkJWTi93cEFkc0tHQnZB?=
+ =?utf-8?B?QXNlUDhrU3FKbHpVS1VJSGlBMm4xRWNhWTR5UFhXRDh1TW5SaG9UaisyTjBa?=
+ =?utf-8?B?SllzOWlVQ0ZxVXhPKzhPeXlmeFpVczMvVTdZOFNjZjN3V0ZUejYvZWYxYURt?=
+ =?utf-8?B?S2dRMkNqZkFqZWYvLzlseWhXTnpOdGlGdmZwUVQyL3hGRFphNWFvdkpjZ05F?=
+ =?utf-8?B?YXovRG95dll6aDJFU3B1cGJ6Mi96UU1kdUwvL2MwMDJKNkQxQlpJWWtMeGNk?=
+ =?utf-8?B?bnEvbjhjcWJ3b2tSaGt0VW8wSEdNU25SeDVsZWRTdmcwV0lGTnFLOFlVeUhN?=
+ =?utf-8?B?dUIxNjRhYXEveWt6TU5Mb1JZY0lSUXZUU3c0bWZCZE5YWlp4VDQxM0RXZkJi?=
+ =?utf-8?B?RkRsVCtPNXNPVVVIMmlKMmtBbG5oajdadDdQdk01YzlZYWNCODVWMGhleVBJ?=
+ =?utf-8?B?UytmWmx2dTRsWVNFRDVSK1F3Q0dkeTdvQVJsb2pnWHM5WE1jNDVxSnorQ1hr?=
+ =?utf-8?B?bDg5MlA3S0plUlBSdGJZS1VKdk1sN2g4TkdRM1oxNDBCR0hvaEwyRjF6bmJE?=
+ =?utf-8?B?cUU5QTJKR3hnMlVieGdRN241QkU1R0VTcjByZzVJVi8zTURwbDJMTG01ank3?=
+ =?utf-8?B?Z3p1U1dTU3VCZUFyT01VRVkyYlBudnl0WVpPWTNVZFlwVTFUTVRVWkV3RXRV?=
+ =?utf-8?B?MW5FNGdhWFJOVE5vZS9seUxJVFQ3V0RaRnJOM2tNazRrUmZ6bEdJdGVvTFZ4?=
+ =?utf-8?B?UUZVYm9CR01UdGJtZnpGcXVZSm1SSVhIQ0M2czQxdy8zbXZMQmxRSTkyayta?=
+ =?utf-8?B?TDNiWnE2b21jcy9Fdzc4aG1md1VYTlhIbFlPVG80TjR1Y2RmU3BuTTlkcC9i?=
+ =?utf-8?B?NzlIaWhKeEFxc2NiaHYzZDd0WXZ5NVE3d29GVFBEa0ZPbVoyUnNCUit2L2hM?=
+ =?utf-8?B?aHNlTm9Dd0tqbjQvN25DRDI1TXVqRkoybHdmRUlubTdPeFhka0pXR2ZaL3Bo?=
+ =?utf-8?B?Y0pIMXBEWHRXdjZpRjB3YU16TDZTc3FZWlJEMlN5aEJMWG9JV1ZEZFE2cnhn?=
+ =?utf-8?B?MXJEajltOEV0SndJbWRnWHZHMU4wdjIxZEtnanVQcG4ra2JXRzhudjV0NTl2?=
+ =?utf-8?B?eHlsUVdlSGFnK2VtMzRXNFUzTWswR2lpQnNaaDBzb3N3VE9oUGExNmZ5NHJC?=
+ =?utf-8?B?RnBZS0ovaHhYYTYvNkpzZTQ1RFVGQXRiYTZ1L3pkaUR0WmoyN2ZSTlBZR1Bl?=
+ =?utf-8?B?MXdsY1FTOGpET1NuR0JBcWdibkNzVENSRXRZUUNQUFk3NWwyb2tHanhqRlZB?=
+ =?utf-8?B?Mm1iMWFwRHJqN0JYQ2VMOE02RU1JWEE3RmdudkVwUnBKN21zYjhUaldCa3Ni?=
+ =?utf-8?B?dkcrMFpES1duSG1nQXpFdGtSamVqUjk4SmFFMFNmbVAyeDl5Y0FLRnF4UkhX?=
+ =?utf-8?B?VmJZN0V4QmJsOFlTdzA5WERRTWR1a3dsVkpxakpwTWJTRkpDMlNxV21jWmNr?=
+ =?utf-8?B?YlBQRy9UWmdSQWJaUThwVkdacDl4L0Z5Z3FPc0RxNGNXUE5NVzdrQk4xeUw1?=
+ =?utf-8?B?eFA5QVhmYzdvQTNoMFRFeFZEMEUrTHdzc29zdGM1MnU2ZWlVL2czSmQ4VDRO?=
+ =?utf-8?B?MmQzQmlPbEd2cGM3VXE2cFhMSVdPNFZkL2JiZ1pLWW9nVndHUnR4Z2s4bHFo?=
+ =?utf-8?B?QXBnQjNnWXBpZkpndVRTMnBVVjZsbTJ4cWFFYThoWm1NUFd1QncxWFZLYXhL?=
+ =?utf-8?B?QWZkZTNWWmlhZ2hqZXlHNEVTVmxWU3lnU1kvWmdRRXNRQmdQSlNYNzJManli?=
+ =?utf-8?B?NWkzcE1KN1cxenhNanA2QS9ZK3E3TzJFVjRHTzllQUZlQ2NaSzBDelp4QVMy?=
+ =?utf-8?B?dkRXRFM3T1ZWSkN4ZW9ZWkRyVW5tTXk1QkZ1dmJnWi9QSlROaEgwQWowaERN?=
+ =?utf-8?B?L29yRkg4MEJSRUQ0RDlpbGYzWFN1aGlYTUZwWk41Z3VpenRQSWNoYmNQZXQy?=
+ =?utf-8?B?NEg5d0lSTDdOeEk5RnM2ODdYdDBjTGI1M2FiSmdNOXZGeHQ3ZlFtK1BGR0Jm?=
+ =?utf-8?B?aHZldnRHbmR5anlpL25XODRFR1c5K2I1d0JTQXZYQXI5UytsWVpiL0F6cTFH?=
+ =?utf-8?B?aFE9PQ==?=
+X-OriginatorOrg: fibocom.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bd1cf01-6e63-4f22-3279-08dcf9ad4b59
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR02MB5766.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 13:09:47.2400
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zLgpRfjTMmiueSuCkZxlajCnm0CKazX7dwtAK/mDMPTdfOzDFaomrM167hv94lpR/oM5MDSFHKXAOFhmzQ85h247HF7XuRXgAp9jcB86l3A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR02MB6294
 
-On 31.10.24 13:51, Maíra Canal wrote:
-> Hi David,
-> 
-> On 31/10/24 09:37, David Hildenbrand wrote:
->> On 30.10.24 13:58, Maíra Canal wrote:
->>> Add the ``thp_shmem=`` kernel command line to allow specifying the
->>> default policy of each supported shmem hugepage size. The kernel
->>> parameter
->>> accepts the following format:
->>>
->>> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-
->>> <size>[KMG]:<policy>
->>>
->>> For example,
->>>
->>> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
->>>
->>> By configuring the default policy of several shmem hugepages, the user
->>> can take advantage of mTHP before it's been configured through sysfs.
->>>
->>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>> ---
->>>    .../admin-guide/kernel-parameters.txt         |  10 ++
->>>    Documentation/admin-guide/mm/transhuge.rst    |  17 +++
->>>    mm/shmem.c                                    | 109 +++++++++++++++++-
->>>    3 files changed, 135 insertions(+), 1 deletion(-)
->>>
-> 
-> [...]
-> 
->>> diff --git a/mm/shmem.c b/mm/shmem.c
->>> index dfcc88ec6e34..c2299fa0b345 100644
->>> --- a/mm/shmem.c
->>> +++ b/mm/shmem.c
->>> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_always
->>> __read_mostly;
->>>    static unsigned long huge_shmem_orders_madvise __read_mostly;
->>>    static unsigned long huge_shmem_orders_inherit __read_mostly;
->>>    static unsigned long huge_shmem_orders_within_size __read_mostly;
->>> +static bool shmem_orders_configured __initdata;
->>>    #endif
->>>    #ifdef CONFIG_TMPFS
->>> @@ -5027,7 +5028,8 @@ void __init shmem_init(void)
->>>         * Default to setting PMD-sized THP to inherit the global
->>> setting and
->>>         * disable all other multi-size THPs.
->>>         */
->>> -    huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
->>> +    if (!shmem_orders_configured)
->>> +        huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
->>>    #endif
->>>        return;
->>> @@ -5180,6 +5182,26 @@ struct kobj_attribute thpsize_shmem_enabled_attr =
->>>    #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
->>> +static inline int get_order_from_str(const char *size_str)
->>> +{
->>> +    unsigned long size;
->>> +    char *endptr;
->>> +    int order;
->>> +
->>> +    size = memparse(size_str, &endptr);
->>> +
->>> +    if (!is_power_of_2(size))
->>> +        goto err;
->>> +    order = get_order(size);
->>> +    if (BIT(order) & ~THP_ORDERS_ALL_FILE_DEFAULT)
->>> +        goto err;
->>> +
->>> +    return order;
->>> +err:
->>> +    pr_err("invalid size %s in thp_shmem boot parameter\n", size_str);
->>> +    return -EINVAL;
->>> +}
->>
->> Hm, mostly copy and paste. You could reuse existing get_order_from_str()
->> simply by passing in the supported orders and moving error reporting to
->> the caller.
->>
-> 
-> Can I use functions from mm/huge_memory.c here?
+From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
 
-Yes, that's the idea.
+>Hi Jinjian,
+>
+>On 29.10.2024 05:46, Jinjian Song wrote:
+>> From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+>>> On 22.10.2024 11:43, Jinjian Song wrote:
+>>>> If driver fails to set the device to suspend, it means that the
+>>>> device is abnormal. In this case, reset the device to recover
+>>>> when PCIe device is offline.
+>>>
+>>> Is it a reproducible or a speculative issue? Does the fix recover 
+>>> modem from a problematic state?
+>>>
+>>> Anyway we need someone more familiar with this hardware (Intel or 
+>>> MediaTek engineer) to Ack the change to make sure we are not going to 
+>>> put a system in a more complicated state.
+>> 
+>> Hi Sergey,
+>> 
+>> This is a very difficult issue to replicate onece occured and fixed.
+>> 
+>> The issue occured when driver and device lost the connection. I have
+>> encountered this problem twice so far:
+>> 1. During suspend/resume stress test, there was a probabilistic D3L2
+>> time sequence issue with the BIOS, result in PCIe link down, driver
+>> read and write the register of device invalid, so suspend failed.
+>> This issue was eventually fixed in the BIOS and I was able to restore
+>> it through the reset module after reproducing the problem.
+>> 
+>> 2. During idle test, the modem probabilistic hang up, result in PCIe
+>> link down, driver read and write the register of device invalid, so
+>> suspend failed. This issue was eventually fiex in device modem firmware
+>> by adjust a certain power supply voltage, and reset modem as a workround
+>> to restore when the MBIM port command timeout in userspace applycations.
+>> 
+>> Hardware reset modem to recover was discussed with MTK, and they said
+>> that if we don't want to keep the on-site problem location in case of
+>> suspend failure, we can use the recover solution.
+>> Both the ocurred issues result in the PCIe link issue, driver can't read 
+>> and writer the register of WWAN device, so I want to add this path
+>> to restore, hardware reset modem can recover modem, but using the 
+>> pci_channle_offline() as the judgment is my inference.
+>
+>Thank you for the clarification. Let me summarize what I've understood 
+>from the explanation:
+>a) there were hardware (firmware) issues,
+>b) issues already were solved,
+>c) issues were not directly related to the device suspension procedure,
+>d) you want to implement a backup plan to make the modem support robust.
+>
+>If got it right, then I would like to recommend to implement a generic 
+>error handling solution for the PCIe interface. You can check this 
+>document: Documentation/PCI/pci-error-recovery.rst
+Hi Sergey,
 
--- 
-Cheers,
+Yes, got it right.
+I want to identify the scenario and then recover by reset device,
+otherwise suspend failure will aways prevent the system from suspending
+if it occurs.
 
-David / dhildenb
+>Suddenly, I am not an expert in the PCIe link recovery procedure, so 
+>I've CCed this message to PCI subsystem maintainers. I hope they can 
+>suggest a conceptually correct way to handle these cases.
 
+Thanks.
+
+>>>> Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
+>>>> ---
+>>>> V2:
+>>>>   * Add judgment, reset when device is offline
+>>>> ---
+>>>>   drivers/net/wwan/t7xx/t7xx_pci.c | 4 ++++
+>>>>   1 file changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/drivers/net/wwan/t7xx/t7xx_pci.c b/drivers/net/wwan/ 
+>>>> t7xx/t7xx_pci.c
+>>>> index e556e5bd49ab..4f89a353588b 100644
+>>>> --- a/drivers/net/wwan/t7xx/t7xx_pci.c
+>>>> +++ b/drivers/net/wwan/t7xx/t7xx_pci.c
+>>>> @@ -427,6 +427,10 @@ static int __t7xx_pci_pm_suspend(struct pci_dev 
+>>>> *pdev)
+>>>>       iowrite32(T7XX_L1_BIT(0), IREG_BASE(t7xx_dev) + 
+>>>> ENABLE_ASPM_LOWPWR);
+>>>>       atomic_set(&t7xx_dev->md_pm_state, MTK_PM_RESUMED);
+>>>>       t7xx_pcie_mac_set_int(t7xx_dev, SAP_RGU_INT);
+>>>> +    if (pci_channel_offline(pdev)) {
+>>>> +        dev_err(&pdev->dev, "Device offline, reset to recover\n");
+>>>> +        t7xx_reset_device(t7xx_dev, PLDR);
+>>>> +    }
+>>>>       return ret;
+>>>>   }
+>
+>--
+>Sergey
+>
+
+Best Regards,
+Jinjian
