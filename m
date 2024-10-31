@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A165193402;
-	Thu, 31 Oct 2024 21:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CBB13AA41;
+	Thu, 31 Oct 2024 22:01:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730411653; cv=none; b=qv4XJYcy39QBhKATUr8FwiyzwbTYqB0Jhk26iuhUbgrW9jwJmQTdwQOFHZTGizy2y2gvVtHEZW+b5uaITvzQs3FFx6FbOgoeQX8vQQfaX4Q6k8RVCg2WqImjZ/yC/BrPjMxLEiL7M/8H4lQgVhU4nZsVEXdVFXnIbcW3SoCny74=
+	t=1730412065; cv=none; b=PaVD0bparIxiYxzyDOL6rA5MpN8IdcLx0AynZEX+BsVX8a33NGpOg5zsX8vsxQe42AFk/jcgm2K0TBEksTLqVdrIETHb6GBk4/NGcm0Sa6Xvp3aTAsmC9rP1N3rW6njh5CyFgpVLMumdWmNVnetj5k5X6ai93GyzmqqbYHx04K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730411653; c=relaxed/simple;
-	bh=KdoeNpiS/p+rm8Qelj5rACdK1Lf1Zz8RIgV4JeX9MUc=;
+	s=arc-20240116; t=1730412065; c=relaxed/simple;
+	bh=mli1Atw6PyXuvECUxOl9Z+txoGCag/Z+uJErvLmuJCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MD9AaGLd+lkjnUCSO1crLmm2OM/ZyyLaWN/+cP1TmllF9VhokmEoQDxzrnMsi8R72uzyZCdSYZzz7RShlVZKLJyYhSA+LYLkCz0s7obgVGnHoTchIpgqaOdQ27qSwCssLSkGrBguDoU2o3+0wloXEWT5MNUMUIbR4bz/tiJnNpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4p+2YOoo; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=r4IbjYQCEv+aliqtAJ+sE5vTn0zkP15OFS6SxB/r/A+Bm/0Cx1m81WG8ApwFuK5LUlbK0rwx88s9FGXCWgX+rb7Ib3kexDpogqS4msSgpORf1cbFOmws0dVkjF69pceYzAmTFZDlSG/lDrKp64g97CHD0KAyv6L28rY5rzlkQTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=6aHHFGgs; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4p+2YOoo"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="6aHHFGgs"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Md7xndCkD5h/1Ch/BvzvPhebt5YH0GB26ZGICP1J8EE=; b=4p+2YOoorOOUn81RfZBszqpd02
-	3As8Zzp1BVYReRCL4m63N+KP7tSEKUD+78tkLXYIOnUxqpjpHRwftpR9h3wrqOY3TFyc0acwoq9Vz
-	KvtlxzqP2sTWj30TIhxZG9GLjjyAhiuyt11D6WAe4BGDVohWOeCLV1Uln0q4b10plMVw=;
+	bh=GwToQwxM8kx7q3+HzuWGhIps5K52U+9AhM85wKa6nTo=; b=6aHHFGgsFHmGujFuTpmy4m85ty
+	PXAJmHSysIhatnVT8OXmx2HmlFs13uWO1i9UtTZ/ICdlbtTDErRH2SmxdzGA1pt6XVDLVIw5LLmNn
+	OvK+nKs3trl5ni9W1L2dFEUACSWnOPJRog9O5oQ1iT534oxmxLQYwtIkthGhWcPoRJEM=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1t6d7A-00Bp5Y-Up; Thu, 31 Oct 2024 22:54:00 +0100
-Date: Thu, 31 Oct 2024 22:54:00 +0100
+	id 1t6dDk-00Bp7o-Tu; Thu, 31 Oct 2024 23:00:48 +0100
+Date: Thu, 31 Oct 2024 23:00:48 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
@@ -50,7 +50,7 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>
 Subject: Re: [PATCH RFC net-next v2 08/18] net: pse-pd: Add support for
  reporting events
-Message-ID: <ede82d07-6adc-486a-b715-e6e783655333@lunn.ch>
+Message-ID: <1ce06df3-e092-47a8-bec6-8829eeb826bc@lunn.ch>
 References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
  <20241030-feature_poe_port_prio-v2-8-9559622ee47a@bootlin.com>
 Precedence: bulk
@@ -63,21 +63,23 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20241030-feature_poe_port_prio-v2-8-9559622ee47a@bootlin.com>
 
-> +static struct phy_device *
-> +pse_control_find_phy_by_id(struct pse_controller_dev *pcdev, int id)
+> +static unsigned long pse_to_regulator_notifs(unsigned long notifs)
 > +{
-> +	struct pse_control *psec;
-> +
-> +	mutex_lock(&pse_list_mutex);
-> +	list_for_each_entry(psec, &pcdev->pse_control_head, list) {
-> +		if (psec->id == id)
-> +			return psec->attached_phydev;
+> +	switch (notifs) {
+> +	case ETHTOOL_C33_PSE_EVENT_OVER_CURRENT:
+> +		return REGULATOR_EVENT_OVER_CURRENT;
+> +	case ETHTOOL_C33_PSE_EVENT_OVER_TEMP:
+> +		return REGULATOR_EVENT_OVER_TEMP;
+> +	}
+> +	return 0;
+> +}
 
-The mutex is still locked. I'm surprised your testing did not
-deadlock, and that none of the automated tools have reported this.
 
+https://elixir.bootlin.com/linux/v6.11.5/source/include/uapi/regulator/regulator.h#L36
 
-    Andrew
+ * NOTE: These events can be OR'ed together when passed into handler.
 
----
-pw-bot: cr
+ETHTOOL_C33_PSE_EVENT_OVER_* are also bits which could be OR'ed
+together, so is this function correct?
+
+	Andrew
