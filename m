@@ -1,38 +1,38 @@
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C6A1BC097;
-	Thu, 31 Oct 2024 18:06:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FAE1C57A0;
+	Thu, 31 Oct 2024 18:06:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730397982; cv=none; b=VRIsnsC2TZj8qV/FQw8Fnll+4GD9LZ3ClGMryMc+hIwwlpqV0/YZSLGOXFiNv0+LBTxXIpRoPc2qS+QARSwQnbMA5MxlwgsO2RprIhIJItgEvgcW4I0kVlI/c19x8i6+GWwnrDpI1GaqcsMH8P1LZta6PY4CTrFOlMUK/Nwp5zk=
+	t=1730397983; cv=none; b=bkE9ihBTHSuHLCMZ8PzoAbMEa0m+18dss/XaxjFiVXncO9I3UT7hYUW1Y4fDw33PlypWsCD+M3/FFBW5bRtr5rrwAQV7b9TT0OUCWdhUFbka9XvXVb3Z9lDw5kEDfW61aBtXWw9yo8ZlBRgZPTPjxq3SHdlOl2PBvCwORZUuhhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730397982; c=relaxed/simple;
-	bh=L2eAww3XB8bl9Sxnoiq/z6nn2Apw5rKlRY7sfjjDvWY=;
+	s=arc-20240116; t=1730397983; c=relaxed/simple;
+	bh=OY3WebhRv0aeGADgqvUb4/UTEnKrmR0RzKDlWJXZa2E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AMRR4R8KPHx0wxrC+fbK32TNoarSvDuY20b/vBMUCUYLTInA2u3ViJigBY/Yn9fQPARK6akGTmUB8DwRxowE2Lf4dcp/Q5XqOhuWqg03RxQ+JvbsMToy2FBlUV39DQJg5oc+OMHk6Hy/ViDru6hF43VkxwYGU0Ky3f4tRSoPhHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=faiK9yf7; arc=none smtp.client-ip=217.70.183.200
+	 In-Reply-To:To:Cc; b=dbtbF9DGJkmSN/HPVRZnctgnC7g59r9KJwmLUFRD3R06hGmXfPWpwxSbd6Z04j6c11SGGsB0jhqrZJJHsV63bPpJ3BA5cKRHanEoTviooCSMuR6staRxVVtTAiYAJB15cqDrNmLOMSujaXPy0c+PU9VHthmNF5Mu46iaMmBWTAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DPQD5qUk; arc=none smtp.client-ip=217.70.183.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="faiK9yf7"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7E7182000F;
-	Thu, 31 Oct 2024 18:06:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DPQD5qUk"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 831F22000B;
+	Thu, 31 Oct 2024 18:06:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730397977;
+	t=1730397973;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4dr23WBAY8ZlBbMVkhnAU+t1UPEWAWhnUCz8S7CEndk=;
-	b=faiK9yf7SG5VWhqxjI7OQYfTJCjTC/kXWbTKyR85Z9wRBPDHGFGatRmW1p6pfD+NpH7hQH
-	qJvECZm+zTdJO9j/OOUZcJpz7G+PQBY/sZMgjxCvkGjwEZuYAJop9bHoxPyoiUAhSJpMSj
-	PpDBAYJDLBJkmUtifD5ofUVk46CCHy38rS71lVKGD53E4lgr4jskE2tfVA7440m9tEHWrS
-	91itqMj3gHjpazHbvibxm21eqdoKWcpHRnXZ33nlTvOVEYGuYVjH+NTMrIDRwtrkYHu2ME
-	c2zV+Uy/80wekas0CgOlMs9+dc0PjEEcA2aO9hM2j2OS9r8AZhevuOSEUANsLg==
+	bh=hsQ2CTA2pljllkiENrEWMPdAOoEF3CDQQvjJFAj8G3E=;
+	b=DPQD5qUkYkmp/uTYcGSpBlp7CYk0GB6U5ar80NulIzYl9Y49YCPnhcRuDrknHevkSUVm1L
+	9VO4T0DBrYCHrtO/gtFq6XAG95mb9mSiQbAWaRE55jvXBfUEE4++AXZbtCP6XW0NyPR7pJ
+	Ieb7g4P485uhxVZwTlSHFam9SsF4RJeB1Tlj6NpjzWMPbuKwCWsNXuG4Tj6FzphJ+o9msk
+	LgraFgyO98FwJ5PT2V6aOJmtFD4nRhYRyrggt0Gkcj5QoTXuHHBDcdIkV6NWx3aU9JWGkS
+	2rhAPJmz9I7UQBdHpb5CQixRD+wmwhi6e4R6CZYRmzwl/KpNBjYuOIxsMW3O/g==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Thu, 31 Oct 2024 19:06:06 +0100
-Subject: [PATCH v13 6/7] drm/vkms: Add how to run the Kunit tests
+Date: Thu, 31 Oct 2024 19:06:03 +0100
+Subject: [PATCH v13 3/7] drm/vkms: Drop YUV formats TODO
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241031-yuv-v13-6-c67a337301ae@bootlin.com>
+Message-Id: <20241031-yuv-v13-3-c67a337301ae@bootlin.com>
 References: <20241031-yuv-v13-0-c67a337301ae@bootlin.com>
 In-Reply-To: <20241031-yuv-v13-0-c67a337301ae@bootlin.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>, 
@@ -60,57 +60,50 @@ Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
  seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
  20241031-yuv-v13-0-bd5463126faa@bootlin.com
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1115;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=881;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=cnp5oJy7nuzGGG9ERF9CFtbtr9GkJcMMWvS4L3S4Vps=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnI8cOFnJu/bZQoRm8WNJWKPZ7P7plt4DDDTlM8
- j66b+RPbOGJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZyPHDgAKCRAgrS7GWxAs
- 4rjhD/9wfcZde53S6DmfNyReBfKsHbeMUDS8S1lrLiocRSH5sVv+v55ZHLE0Mc2saY8LYQtJQ96
- TPk2LlZMpuIoCVz5W58wUrRK4zvK8RmY/vC7I+OKGrsl4lN18ytbHTojjtWlBW0Rf0Kvn2GMIpV
- xNBbC89FUpabOywT40Nr91bjdk23FFkmacwBYNAjnOnFHaubB8ldtNx0uYU2BFDWactuxc08qso
- O6PMGQiNUA7dnPYFyA1HsD9PnR39jQ0itseWGpOZ5q6dZfyksL3N16/+dJGer3jloVy1tXD1ikr
- m9cOAb37TsDRXl51RJBVHuMRwi7h8VJgT9t/ERi0w+l+KeGxXVJV4xuRBUAfMi6zbwOwXajxFIE
- QJ5qX38IZWM7Obfgod0IZ/7w1Z7hJifCy9iNb+FOSpTLGThKLWKbTQtPBlvW5V4Eyjh6I7YzGhr
- YwuByOtPMIjdk6GbbyYl1WqodB2bU+2bskr1FHHCOjMqhg48JA0IOJKTxXlnq+HOcC6lMPOwK9v
- q3c+B0irndOdxOwF3b6hv4L3Je9H0lwqir09GGEE2yRYAp99L0gjyQkC6eJg9Snlwl/WObxl8FA
- 2oNFXOZ4PyeC4imMKun6PhwgcVLwhX7QAoY9nz83YPlmUp4fdoyUMWlVtlStQu0ZB/nacUPhKOB
- gG1dkbcug/N/GkQ==
+ bh=P2BW0rn/HzAIDwl58Rwi6B7V7fHRrzFFCT1b251G+Ng=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnI8cNTg7Vuqg944sB2+yE/4NQDuaF8i/v33e2M
+ TxAZd53WzuJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZyPHDQAKCRAgrS7GWxAs
+ 4i+4D/9+eY7dnehTONtd/+40Vi4PhyrB8h7laI5EeVBfEFG1vvcV/Q5W5VdtDTKPn+hEb+JZmkR
+ NVe7SmjHHjApdudPYlEB+6wMgE/igdXbuu0qXL9vGhFfDASuD3lIxVeRCghZjLho0ZGeyDb1TSu
+ O34LB2lpUpAUmgnoCqeHl4+Nl5Vt4adS7NlxG814SY4lra1o1N8T5UtSUSqo9g3ndbWfTm/MJqx
+ 4W+rkJSUZxf72V23MAM5mT+6XTCtP92D1vYN+H9yPI0xSspyfEmyblGLH/Q8W7OI+sgVVKbH4WI
+ N756sKHtglDAT0uVcTgGOcDp9UQD6n3OcFhWmtILXhPkCE+mhbJIDTRLaFRW4prlwJXOV8c1Gkr
+ xgeqpDpE5mnijB3zCnWh6Z3UXnT8FHVAaL4F7xMX7jiN2DyFoWaAdFqyP0opMcpp8F7FpZxHQF7
+ yNVxkhqRzvLSOtXRWriIQazObUw9CHyId9g/qYwFlcgDe4bW1GMTK/c4u5h9Y6h4qdGZNoVDsDA
+ ziTsbTIgWQK+6m1mh21/weiwzJuB4fztM9m1OBPt53MhQlo+Q+kGGzhvy3Tw7cfUiKvdMknRhk3
+ R2neb1AP4t8Cwb3wPRLNErieXXE2cq+IocgLhul74Lr5Il7i7IHAUyzGEAL4cXx8OG/S7OTYjVU
+ EyireR2ErzDnkXw==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
 
 From: Arthur Grillo <arthurgrillo@riseup.net>
 
-Now that we have KUnit tests, add instructions on how to run them.
+VKMS has support for YUV formats now. Remove the task from the TODO
+list.
 
 Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/gpu/vkms.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ Documentation/gpu/vkms.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 13b866c3617c..5ef5ef2e6a21 100644
+index ba04ac7c2167..13b866c3617c 100644
 --- a/Documentation/gpu/vkms.rst
 +++ b/Documentation/gpu/vkms.rst
-@@ -89,6 +89,17 @@ You can also run subtests if you do not want to run the entire test::
-   sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
-   sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+@@ -122,8 +122,7 @@ There's lots of plane features we could add support for:
  
-+Testing With KUnit
-+==================
-+
-+KUnit (Kernel unit testing framework) provides a common framework for unit tests
-+within the Linux kernel.
-+More information in ../dev-tools/kunit/index.rst .
-+
-+To run the VKMS KUnit tests::
-+
-+  tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/vkms/tests
-+
- TODO
- ====
+ - Scaling.
  
+-- Additional buffer formats, especially YUV formats for video like NV12.
+-  Low/high bpp RGB formats would also be interesting.
++- Additional buffer formats. Low/high bpp RGB formats would be interesting.
+ 
+ - Async updates (currently only possible on cursor plane using the legacy
+   cursor api).
 
 -- 
 2.46.2
