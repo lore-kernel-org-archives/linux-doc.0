@@ -1,208 +1,109 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501DF149C55;
-	Thu, 31 Oct 2024 20:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4484149C55;
+	Thu, 31 Oct 2024 20:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730406684; cv=none; b=BSU2oCi5mvMn4zbq1Fr25l06ejAyi9Jo8xLnA1QyjKTDdjlD5jrZQs/sNe5WBqwDgQNMPpPmDgSojLthaHdnARuvbPdiMNK+P/OAvweRGvToOZBWGZ+R3DaPJ9TC4OUvMQ4QhAZm3ylqHhamTrNiC+WuOL2XfwhxatzMeezPdxE=
+	t=1730407391; cv=none; b=NKI2eZTcXD4gGnQ966LEFxyxOQQE1uOmDpmih0aXhFnqDXs0qXpT/tqnr1ja1sYM9NqKu6O64NDv4bjvrq8Y/VGpEjABgGODWS1RZZxideCeTM4372rZLGT22XLmIEMQQ3h7ssAThUqauzBbEO3+lbw1i/PKmLI5grqyAKF8K8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730406684; c=relaxed/simple;
-	bh=P1bJiXe8GnKyu/ySxojpU6jwUOt2VNjYBJzNu185JFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BvNjpKtvFW0jWQvUYETyvuYc1su8qB6auyj6eN3FVBHEWLfWoqHwhu5fbI2152IddO3osZprBUkmKX70FnhgXjJEVsqpzIIMGCj1idZrxGbSnyboZb1rpfOhzs+XYH5qL52i6R7dR+3QUnLePio1xxfXMOiIVMBBcUacLl16ziI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqOatbGS; arc=none smtp.client-ip=209.85.221.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730407391; c=relaxed/simple;
+	bh=H9TYKTBvHoQ5rvWOlZrf5R8cp5gm744S0WtiOVj2YhM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dQ6vyye8Y2R4V3qRUCATesG+f7RmUzE2M+Is2l+G1NUeK/6fHM7Qd/ZKl2NlNiRAbO8XyZNvOTYFegqzhiXJPT8kXgN87d7JSrcOjY6tw7PvylqA2DSCMULKkfWZnjov8kxP7DF5OGoAadJoji7wnuGIXVUbKiC3I+Kh7wTH9sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lr7kPUgI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqOatbGS"
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-50e08caccaaso340886e0c.3;
-        Thu, 31 Oct 2024 13:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730406681; x=1731011481; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PjKN7tZX5djLcQKARKgrJqvB70L8Avjuss3DvMiTveI=;
-        b=GqOatbGSLAQfUKuwxybdQPjKVXPWYCWyl2hEaxV1VHSx7yzg+NHvTA3MK/DovOosp7
-         bSPfB6GEScCSIj6USdATOUqDs1J0loRQvgOPCNeBGHDT96g5eeTqiTGNCQ3cYTKuQc/Y
-         Q46I6KnbhYxt8nKUxWown9rJUU5GuXI4jhUI1Ok5A2hP0mcsNkDFaGLqpEMir56nWrMi
-         GcUvtX+mcHch9S8zI+evrCJVIIBd0DE0yEn361JBHYmWEUKfGEXNYraJ1AUvh9uD/Psa
-         k+2XM45DvqFkMGY6fRk4OXB0uVjkkuLCiOOG+gVLZnZQKSLfTckX4a6pU2GSUHh5XYlu
-         +mdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730406681; x=1731011481;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PjKN7tZX5djLcQKARKgrJqvB70L8Avjuss3DvMiTveI=;
-        b=aCGzNrESMQxA0Uv+mlHZi00+fDUZOhxYKkQIZkcY52+UrHxJX7K1buGOWbfMGEgf26
-         x5/xxylWJ8wIdE+TVRb/m0AzkIPf0VMmQv6ldJKt4clwDS2NeCet2qzP8w0NWMWSIcbd
-         DLfwTEHX0zqUEBzMVZtwoIC6hptFBO7qEH2TJeDbAsk6jlpm06IArX6PQpCrRvkOAaxW
-         UB1d6ZnmMVXyREHd4nTxJO5L0+tkXqf41qfoyQnI6C1POaFAfCPuEqNETzCi5uPIvgLF
-         AoiPlqMuPozLkvxOfyiKaagjSMnTvHGEi2YT7dpcUIeNqFzuPVEKS5hPanquAGkEYyUj
-         cuuw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5RqiSBWz2q1DVcvp0nKAjfI+phnjv+ic+SRlf/k2QZFYrAGU6F3migah+hgpKkdxoKdXqfZyQXVTtj+I4@vger.kernel.org, AJvYcCUbB+/ErpebslOZwnuPCd+xClBjM+yT8Sfd/cMGHxvOG59faRLOJLh+KLuAJamphbnSGSs9nd5L9gw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQxQr+XvxCRalutawmSgpLoex6ZiR9LCRkwzmjC/LJq/nwMwQm
-	Ho/kteYu3hAzezm1Zus7j+0XwzOhZk7htnWUUAtIUwICAG2RCE27DtqJinz0Pbw2NewHrdDrpTc
-	2RxpwnHKQP9EJ4nJFGnTtpGQlbc8=
-X-Google-Smtp-Source: AGHT+IEmyVDhmBiDFywpW0Y5L3JMBL1wCacCAVV6g4W1w/fQzAjSYfRVrCOQVnesEO9IM5y19B5DvolYUSWaCQNk4Gk=
-X-Received: by 2002:a05:6122:659a:b0:50d:c2e6:2730 with SMTP id
- 71dfb90a1353d-5105d002b39mr10005710e0c.2.1730406681092; Thu, 31 Oct 2024
- 13:31:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lr7kPUgI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7011FC4CEC3;
+	Thu, 31 Oct 2024 20:43:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730407391;
+	bh=H9TYKTBvHoQ5rvWOlZrf5R8cp5gm744S0WtiOVj2YhM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lr7kPUgI/7iVNgICJResGJ30FaV5ODcyHJ9WGRkVobW4I+2qmOuISPyR7TgVvtOL0
+	 SmzSJOoShZhbOMucGyUH2uuWA6uV+MEqkVpWqucL5pewOQIRjkLlpdRuvDl1QVDfWX
+	 j1897yIh4R6d4BkCIdg8zDSKqwvM5/ucAQVUt6ez1WZ9F859wkA3oJfZDIz3/BvZ9Q
+	 CFmDxviw5iM6FMEQKmQ/YcUbuNijZ7G5KlXaJgFBJfCLtyj90f3jtiAtedA93PWWwn
+	 Aojx0RCSHe5LU/8+xXjxLd+N9OOoZAjQdgre/g+5QavM+S81ng8FOAv7tC01+C4SFj
+	 e0eXzNVUyHdgQ==
+Date: Thu, 31 Oct 2024 22:43:06 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241031204306.GB88858@unreal>
+References: <cover.1730298502.git.leon@kernel.org>
+ <3144b6e7-5c80-46d2-8ddc-a71af3c23072@kernel.dk>
+ <20241031083450.GA30625@lst.de>
+ <20241031090530.GC7473@unreal>
+ <20241031092113.GA1791@lst.de>
+ <20241031093746.GA88858@unreal>
+ <8b4500da-4ed8-4cd2-ba3b-0c2d0b5b4551@kernel.dk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241030130308.1066299-1-mcanal@igalia.com> <20241030130308.1066299-5-mcanal@igalia.com>
- <CAGsJ_4zMppHY29XXepOVTdEu2-1U6mGyZ8FqXZfP_in+2T3NAA@mail.gmail.com>
- <b31bd54c-400c-4432-8b4b-0ba12bcf8011@igalia.com> <CAGsJ_4wKdCq8HnH=R3dWefZAqbLjyX06WdJ4T_UMogFZDS7Wqg@mail.gmail.com>
- <d3549d00-3f58-4f62-8903-4b7b8b3a42b1@igalia.com> <CAGsJ_4x95s_wkzvJS-Yjy2yyv5NRRSfkQHeoa6sPeWj_pX8s=g@mail.gmail.com>
-In-Reply-To: <CAGsJ_4x95s_wkzvJS-Yjy2yyv5NRRSfkQHeoa6sPeWj_pX8s=g@mail.gmail.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Fri, 1 Nov 2024 09:31:10 +1300
-Message-ID: <CAGsJ_4xj2TJuH0Kd8hhRfhmfn2ek+9v-iD8qjZM6pNAHEj8kgQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] mm: huge_memory: Use strscpy() instead of strcpy()
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-dev@igalia.com, kees@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8b4500da-4ed8-4cd2-ba3b-0c2d0b5b4551@kernel.dk>
 
-On Fri, Nov 1, 2024 at 9:27=E2=80=AFAM Barry Song <21cnbao@gmail.com> wrote=
-:
->
-> On Fri, Nov 1, 2024 at 1:12=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igalia.co=
-m> wrote:
-> >
-> > +cc Kees Cook
-> >
-> > Hi Barry,
-> >
-> > On 31/10/24 09:01, Barry Song wrote:
-> > > On Thu, Oct 31, 2024 at 6:55=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igal=
-ia.com> wrote:
-> > >>
-> > >> Hi Barry,
-> > >>
-> > >> On 30/10/24 20:07, Barry Song wrote:
-> > >>> On Thu, Oct 31, 2024 at 2:03=E2=80=AFAM Ma=C3=ADra Canal <mcanal@ig=
-alia.com> wrote:
-> > >>>>
-> > >>>> Replace strcpy() with strscpy() in mm/huge_memory.c
-> > >>>>
-> > >>>> strcpy() has been deprecated because it is generally unsafe, so he=
-lp to
-> > >>>> eliminate it from the kernel source.
-> > >>>>
-> > >>>> Link: https://github.com/KSPP/linux/issues/88
-> > >>>> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> > >>>> ---
-> > >>>>    mm/huge_memory.c | 4 ++--
-> > >>>>    1 file changed, 2 insertions(+), 2 deletions(-)
-> > >>>>
-> > >>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > >>>> index f92068864469..8f41a694433c 100644
-> > >>>> --- a/mm/huge_memory.c
-> > >>>> +++ b/mm/huge_memory.c
-> > >>>> @@ -989,7 +989,7 @@ static int __init setup_thp_anon(char *str)
-> > >>>>
-> > >>>>           if (!str || strlen(str) + 1 > PAGE_SIZE)
-> > >>>>                   goto err;
-> > >>>> -       strcpy(str_dup, str);
-> > >>>> +       strscpy(str_dup, str);
-> > >>>
-> > >>> What is the difference between strcpy and strscpy without a size pa=
-rameter?
-> > >>>
-> > >>> we have already a check and goto err. strcpy() is entirely safe.
-> > >>>            if (!str || strlen(str) + 1 > PAGE_SIZE)
-> > >>>                    goto err;
-> > >>>
-> > >>> My understanding is that we don't need this patch.
-> > >>
-> > >> strcpy() is a deprecated interface [1]. From the GitHub issue I link=
-ed
-> > >> in the commit description, Kees states: "A lot of kernel code is sti=
-ll
-> > >> using strcpy(). While the CONFIG_FORTIFY_SOURCE wrapper macros tend =
-to
-> > >> make its use mostly safe, it would be nice to eliminate the function
-> > >> from the kernel entirely."
-> > >
-> > > I don't see any value added here since strscpy() has no size paramete=
-r and
-> >
-> > As `str_dup` is a sized buffer, we don't need to specify the size
-> > parameter.
-> >
-> > > we have checked strlen(str) + 1 > PAGE_SIZE to avoid parsing any poin=
-tless
-> > > bootcmd longer than PAGE_SIZE.
-> >
-> >  From my point of view, this is an extra layer of safety. A developer
-> > could change `str_dup` to SZ_4K and leave PAGE_SIZE in the check. This
-> > could pass by in a review and we would have a check that allows strings
-> > bigger than the destination buffer in systems using 16KB pages.
-> >
-> > But see that `split_huge_pages_write` uses `strcpy` without any checks.
-> >
-> > I can remove the internal check from `setup_thp_anon` if you feel it
-> > would be more suitable.
->
-> My point is that we shouldn't remove the strlen(str) + 1 > PAGE_SIZE
-> check, as it could lead to situations like this:
->
-> For thp_anon=3DAB, where len(A) =3D PAGE_SIZE and B is illegal, we would
-> mistakenly interpret the string as valid by ignoring B after trimming it.
->
-> Therefore, if you remove the check, you could instead do:
->
-> len =3D strscpy(str_dup, src);
-> if (len >=3D sizeof(str_dup))
->       err;
+On Thu, Oct 31, 2024 at 11:43:50AM -0600, Jens Axboe wrote:
+> On 10/31/24 3:37 AM, Leon Romanovsky wrote:
+> > On Thu, Oct 31, 2024 at 10:21:13AM +0100, Christoph Hellwig wrote:
+> >> On Thu, Oct 31, 2024 at 11:05:30AM +0200, Leon Romanovsky wrote:
+> >>> This series is a subset of the series you tested and doesn't include the
+> >>> block layer changes which most likely were the cause of the performance
+> >>> regression.
+> >>>
+> >>> This is why I separated the block layer changes from the rest of the series
+> >>> and marked them as RFC.
+> >>>
+> >>> The current patch set is viable for HMM and VFIO. Can you please retest
+> >>> only this series and leave the block layer changes for later till Christoph
+> >>> finds the answer for the performance regression?
+> >>
+> >> As the subset doesn't touch block code or code called by block I don't
+> >> think we need Jens to benchmark it, unless he really wants to.
+> > 
+> > He wrote this sentence in his email, while responding on subset which
+> > doesn't change anything in block layer: "just want to make sure
+> > something like this doesn't get merged until that is both fully
+> > understood and sorted out."
+> > 
+> > This series works like a charm for RDMA (HMM) and VFIO.
+> 
+> I don't care about rdma/vfio, nor do I test it, so you guys can do
+> whatever you want there, as long as it doesn't regress the iommu side.
+> The block series is separate, so we'll deal with that when we get there.
+> 
+> I don't know why you CC'ed linux-block on the series.
 
-Perhaps -E2BIG ( or < 0) i'm not quite sure :-)
+Because of the second part, which is marked as RFC and based on this
+one. I think that it is better to present whole picture to everyone
+interested in the discussion.
 
->
-> I have no objection to replacing strcpy with strscpy, so feel free to go
-> ahead :-)
->
-> >
-> > Best Regards,
-> > - Ma=C3=ADra
-> >
-> >  > > But I have no objection to this patch if other people like it.
-> > >
-> > >>
-> > >> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#s=
-trcpy
-> > >>
-> > >> Best Regards,
-> > >> - Ma=C3=ADra
-> > >>
-> > >>>
-> > >>>>
-> > >>>>           always =3D huge_anon_orders_always;
-> > >>>>           madvise =3D huge_anon_orders_madvise;
-> > >>>> @@ -4175,7 +4175,7 @@ static ssize_t split_huge_pages_write(struct=
- file *file, const char __user *buf,
-> > >>>>
-> > >>>>                   tok =3D strsep(&buf, ",");
-> > >>>>                   if (tok) {
-> > >>>> -                       strcpy(file_path, tok);
-> > >>>> +                       strscpy(file_path, tok);
-> > >>>>                   } else {
-> > >>>>                           ret =3D -EINVAL;
-> > >>>>                           goto out;
-> > >>>> --
-> > >>>> 2.46.2
-> > >>>>
-> > >>>
-> Thanks
-> barry
+Thanks
+
+> 
+> -- 
+> Jens Axboe
+> 
