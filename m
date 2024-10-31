@@ -1,37 +1,37 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3ACB1BD027;
-	Thu, 31 Oct 2024 17:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1249513AA5F;
+	Thu, 31 Oct 2024 17:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730394541; cv=none; b=FCUHLBVMdrvvUiqcpSi4lPIKzknT04AzaYwGqNcSN9XsgcZtfqqwq1Sex2qPqeWeWOdcBKUsyyflPnR5aTalFDx1w4iAqhK7wm1cGLQ66P4JnEJk7stl/NI/H98/BKecOOLCAEbfCE24IBzMBdG68/u68tj4fwNlkDihjw6LaEo=
+	t=1730394853; cv=none; b=R6qY30zQsoEf21Ksf7dL19WOs5B5t344TpZTv76dCuTg7LWnkYCMIkXKSq3SKgQmWj1cNRt4ph0PP1n0d3MpyVp5o2RmYjy0QLaPzJBe5T3HcJrDrrEjY221Jl8t0GO10f8itOdZHfJBzKHgZ3/PionGOemgW919Gy5C/s3N69Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730394541; c=relaxed/simple;
-	bh=KEfJVaU2vKKs59rSj84s5z2k64209Avi9d7VZOcfglY=;
+	s=arc-20240116; t=1730394853; c=relaxed/simple;
+	bh=mSzN6YpXlT2GzYEgoQL3jtlhmNugZ15r4Hvr/ti307k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A34wdJc3DjWjiGk1hiU7Fvwbzfq/ISTpp7EbCB65OhKW8aCUHhw9pMUOiu7p113WmfrWuAYf5VWiV96B1/jMo2B1FGO/PKWkLcrGYy8tjsQZvFjgSLFuwlWGkz7WXpJkgyq1avEK0XkE+Wb0idymPzDsJWxaN0vtqs8CKm/WsP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MewKg2wu; arc=none smtp.client-ip=90.155.92.199
+	 In-Reply-To:Content-Type; b=Yd+lL+OGe8K5nUo1Q1MUxaXwvaL1/Z2Ed0BWUEA/E0FUp3O9jWQcrC7kEf3dYSp4zinHQz5SJAXEm09XYFTh9HLMgqy3L/9LkxRh0lK74kKLrskm29ny5dPlof3fyELdr9A8j283OuFdWjSA1SITbdR5aamkw1CQ66nZ9qWmfsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mLfJIACh; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MewKg2wu"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mLfJIACh"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
 	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
 	Sender:Reply-To:Content-ID:Content-Description;
-	bh=W5h6trhGhExF9MOboKem+7LHZquHhoyqfmnTScAyrLI=; b=MewKg2wulCfzTIKrRFCIVr5gCL
-	e/egJE8/Dc8+nGTXY2SvFMb2cbFmxrMODa6k2Ie9i8m1aZKby6ty6thYVNV13GqXkcsvHDErjYQsE
-	eBMDxfUq5gfzrfDNgb/Axb3BzCIaKe2qicHvMDcZorBvCmDPxympe1XgW0LUsJFmUTiwPlLxQpEg7
-	c8cC/0hcJumyFcntPigjvxIh8XHuFREuwS662SmSmSgV56l4Xxojtm7zmyPmAOsoDVBFs2tHLhA09
-	svYuv+yZ8JgaG0JF+3gAdoNWcX+QLGy/QzgC3rCfJBShMaiDgysv8IbQKwkojqOBSea1iAl2eysbA
-	XqoxlXqg==;
+	bh=vGJ47LHXuM5gzL0ZKbBs9aIHU/WzZZSYIs59zdk6VbQ=; b=mLfJIACh/yCI7flYsVrDVtOGCz
+	GddrhMrGvlIQU7ELUMg8S0GIB12y/mv65gJKhcpH0jtALmYcMDHykmA0Pu79TdoIzeVIj7gXgu1em
+	Xp9++UhzJ7DlvHIARYlrGPaj3auHDJrundmXfwO334rrJ8fHuFlBsHQ1rM4uSvjGzrHZl6uWE2rwx
+	umncXZMIe+XBZuIZjIdiXnbOEcxVHT6N6DEn0To4TcG+sOutakVoebYPh98ZL87AAK5htn6meoLv1
+	YHGlq/rgOlOOiNHYtXdA6je9VgjUVBogIAMzkCYlUSclhSArL4hDqcNPU6OBjdvWt5oGZjyfPL42L
+	d1WHnrbA==;
 Received: from [50.53.2.24] (helo=[192.168.254.17])
 	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6YfA-0000000AVse-3jn4;
-	Thu, 31 Oct 2024 17:08:50 +0000
-Message-ID: <b4854dab-b5e5-4e72-97ff-4d7cdb5723c1@infradead.org>
-Date: Thu, 31 Oct 2024 10:08:40 -0700
+	id 1t6YkJ-0000000AVur-456O;
+	Thu, 31 Oct 2024 17:14:08 +0000
+Message-ID: <07528a82-13ee-421f-8ad9-e99689d4f03a@infradead.org>
+Date: Thu, 31 Oct 2024 10:14:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,7 +39,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [V2 1/4] drivers pps: add PPS generators support
+Subject: Re: [V2 3/4] Documentation pps.rst: add PPS generators documentation
 To: Rodolfo Giometti <giometti@enneenne.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>, Greg KH <greg@kroah.com>,
@@ -51,73 +51,78 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Greg KH <greg@kroah.com>,
  Zage David <david.zage@intel.com>,
  Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>
 References: <20241031163508.259522-1-giometti@enneenne.com>
- <20241031163508.259522-2-giometti@enneenne.com>
+ <20241031163508.259522-4-giometti@enneenne.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241031163508.259522-2-giometti@enneenne.com>
+In-Reply-To: <20241031163508.259522-4-giometti@enneenne.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 10/31/24 9:35 AM, Rodolfo Giometti wrote:
-> Sometimes one needs to be able not only to catch PPS signals but to
-> produce them also. For example, running a distributed simulation,
-> which requires computers' clock to be synchronized very tightly.
-> 
-> This patch adds PPS generators class in order to have a well-defined
-> interface for these devices.
+> This patch adds some examples about how to register a new PPS
+> generator in the system, and how to manage it.
 > 
 > Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
 > ---
->  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
->  MAINTAINERS                                   |   1 +
->  drivers/pps/Makefile                          |   3 +-
->  drivers/pps/generators/Kconfig                |  13 +-
->  drivers/pps/generators/Makefile               |   3 +
->  drivers/pps/generators/pps_gen.c              | 344 ++++++++++++++++++
->  drivers/pps/generators/sysfs.c                |  75 ++++
->  include/linux/pps_gen_kernel.h                |  78 ++++
->  include/uapi/linux/pps_gen.h                  |  37 ++
->  9 files changed, 553 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/pps/generators/pps_gen.c
->  create mode 100644 drivers/pps/generators/sysfs.c
->  create mode 100644 include/linux/pps_gen_kernel.h
->  create mode 100644 include/uapi/linux/pps_gen.h
+>  Documentation/driver-api/pps.rst | 40 ++++++++++++++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
 > 
-
-> diff --git a/drivers/pps/generators/Kconfig b/drivers/pps/generators/Kconfig
-> index d615e640fcad..5edbfdb8bd92 100644
-> --- a/drivers/pps/generators/Kconfig
-> +++ b/drivers/pps/generators/Kconfig
-> @@ -3,7 +3,16 @@
->  # PPS generators configuration
->  #
+> diff --git a/Documentation/driver-api/pps.rst b/Documentation/driver-api/pps.rst
+> index 78dded03e5d8..dffa06ed919f 100644
+> --- a/Documentation/driver-api/pps.rst
+> +++ b/Documentation/driver-api/pps.rst
+> @@ -202,6 +202,46 @@ Sometimes one needs to be able not only to catch PPS signals but to produce
+>  them also. For example, running a distributed simulation, which requires
+>  computers' clock to be synchronized very tightly.
 >  
-> -comment "PPS generators support"
-> +menuconfig PPS_GENERATOR
-> +	tristate "PPS generators support"
-> +	help
-> +	  PPS generators are special hardware which are able to produce PPS
-> +	  (Pulse Per Second) signals.
+> +To do so the class pps-gen has been added. PPS generators can be
+> +registered in the kernel by defining a struct pps_gen_source_info as
+> +follows::
 > +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called pps_gen_core.ko.
-
-Drop the ".ko" suffix as you did for the dummy module and most of the kernel does.
-
+> +    static struct pps_gen_source_info pps_gen_dummy_info = {
+> +            .name                   = "dummy",
+> +            .use_system_clock       = true,
+> +            .get_time               = pps_gen_dummy_get_time,
+> +            .enable                 = pps_gen_dummy_enable,
+> +    };
 > +
-> +if PPS_GENERATOR
+> +Where the use_system_clock states if the generator uses the system
+> +clock to generate its pulses, or from a peripheral device
+
+                                 or they are from a peripheral device
+
+> +clock. Method get_time() is used to query the time stored into the
+> +generator clock, while the method enable() is used to enable or
+> +disable the PPS pulse generation.
+> +
+> +Then calling the function pps_gen_register_source() in your
+> +initialization routine as follows creates a new generator in the
+> +system::
+> +
+> +    pps_gen = pps_gen_register_source(&pps_gen_dummy_info);
+> +
+> +Generators SYSFS support
+> +------------------------
+> +
+> +If the SYSFS filesystem is enabled in the kernel it provides a new class::
+> +
+> +    $ ls /sys/class/pps-gen/
+> +    pps-gen0/  pps-gen1/  pps-gen2/
+> +
+> +Every directory is the ID of a PPS generator defined in the system and
+> +inside you find several files::
+> +
+> +    $ ls -F /sys/class/pps-gen/pps-gen0/
+> +    dev  enable  name  power/  subsystem@  system  time  uevent
+> +
+> +To enable the PPS signal generation you can use the command below::
+> +
+> +    $ echo 1 > /sys/class/pps-gen/pps-gen0/enable
 >  
->  config PPS_GENERATOR_PARPORT
->  	tristate "Parallel port PPS signal generator"
-> @@ -12,3 +21,5 @@ config PPS_GENERATOR_PARPORT
->  	  If you say yes here you get support for a PPS signal generator which
->  	  utilizes STROBE pin of a parallel port to send PPS signals. It uses
->  	  parport abstraction layer and hrtimers to precisely control the signal.
-> +
-> +endif # PPS_GENERATOR
-
+>  Parallel port generator
+>  ------------------------
 
 -- 
 ~Randy
