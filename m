@@ -1,213 +1,243 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA5D84DF5;
-	Thu, 31 Oct 2024 17:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6C81BDA85
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 17:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730395155; cv=none; b=EZjg1VEfBpuQCe71Xjwf6tHF2jPzVT7HM6bHZnCEX7lDM7deYznx4ZxXU51bZztNy57n35TPyJiyhelTV5t1cycTa2dV52wp834FTSQ4A6aKTwUizK4zCnoq20FR8LSxjODwt99EgxsMyNdykuAabpPJRR1Qa/Kh66jcEZaGCzc=
+	t=1730395209; cv=none; b=Wownl7uRMUS5qr47F59ZTpcIMDw+tS2/bMK0jM5ZdzqMWuw5Y1l52FOlaKuF1/duk600yVEq/xRY5Bj+aC3mqjxwGbjbRTtOIsoHcOY3SZ19BZnsUNH3qKO6Q7kT4p8zgzWlT1FCijd7vXkIC5TvmkUUVZ1InLsu6q0BIfpgzQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730395155; c=relaxed/simple;
-	bh=Z81RgYI7DX9G0+oJwfOUwwqUhMbmKggB/1r3M9LqC34=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=f1lN6Z+Tj6pf3tEMq3feR+2fe8MDI+lMOfPwzueEaoFqCbZz2wLefCd+qrXolI4zJDoJwEAjTP57ALhSENEEBz4YpIOMBpb2Vu1d/2zw/4nCrUdM+De3cKgwlQ4G9KAalXkZSMD14taQ//pPrW+HEzJxWzIFAABhxzlYJju06+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=m7uBDVMh; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1730395209; c=relaxed/simple;
+	bh=mBfBKMdNjU6LD3I7YHUbQ9mT5gM9AFujU/rJ0kWLqbs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=djz1RjBpGIIS8F5EYFdbAXc5+KQwFQQh5YefaolyAH9KjFXz1H7YgrES2YJj0o0czMHio0B3UVzrR0+UGZxcG361RYntR01yCi23ASX3XeLRkC6d1Fsm0TVXgXEanNpZm63mXMETIYZ8mTpdtzpWY+e/NNGQP5mG0rDi24K76lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=b/DWy6M8; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m7uBDVMh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Z81RgYI7DX9G0+oJwfOUwwqUhMbmKggB/1r3M9LqC34=; b=m7uBDVMhZmFnzJTU02VOUAj1JO
-	5oah4hOzZo/B/uebEzBLchYE2rro6TK1xzFgKevotqIacDpsjarydZMrlJSZ3aHzqsfJi79WYfRHp
-	Qn9we5vYNY9hduyxrwCmLQ25pmkS4f0v+p/QAbjvDeJDwsUiDuGw5E50b5YOmE6MgXbnpVgtXQwlY
-	7xQiAa9V3VZUS54Ql0cMSlTYS7oHEIcdKNFrotQRaCdKhrCQPTZNBQyALXlofGvflK9XkHeJGPfk4
-	oJUPGgUt43SdCHT+UbmKL5Y54y9QsFxes1Qy7WZ0UOSX7x3OcQTebRERrJ929b7Bq/lNP5Jnfotth
-	E77gJ25Q==;
-Received: from [2605:ed00:430b:e0:59ee:279e:5c98:9214] (helo=syn-2605-ed00-430b-00e0-59ee-279e-5c98-9214.inf6.spectrum.com)
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6Yp4-0000000ExZ6-0dY7;
-	Thu, 31 Oct 2024 17:19:03 +0000
-Message-ID: <74db59658c40fad82d681bd1ebcf893c7ec27322.camel@infradead.org>
-Subject: Re: (subset) [PATCH v6 0/6] Add PSCI v1.3 SYSTEM_OFF2 support for
- hibernation
-From: David Woodhouse <dwmw2@infradead.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, Oliver Upton
-	 <oliver.upton@linux.dev>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, James Morse <james.morse@arm.com>, 
- linux-doc@vger.kernel.org, Marc Zyngier <maz@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, kvmarm@lists.linux.dev, Len Brown <len.brown@intel.com>, 
- Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org, Pavel
- Machek <pavel@ucw.cz>, Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
- Suzuki K Poulose <suzuki.poulose@arm.com>,  Miguel Luis
- <miguel.luis@oracle.com>, Will Deacon <will@kernel.org>, "Rafael J.
- Wysocki" <rafael@kernel.org>,  Paolo Bonzini <pbonzini@redhat.com>,
- linux-kselftest@vger.kernel.org, Francesco Lavra
- <francescolavra.fl@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Date: Thu, 31 Oct 2024 17:18:57 +0000
-In-Reply-To: <ZyN09BSZqKLXLi6_@arm.com>
-References: <20241019172459.2241939-1-dwmw2@infradead.org>
-	 <172989416837.3684225.4795897590830335669.b4-ty@linux.dev>
-	 <ZyN09BSZqKLXLi6_@arm.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-0dHbCxxpnyAOzGGh7YUT"
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="b/DWy6M8"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2e31977c653so134143a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 10:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1730395206; x=1731000006; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SKkFDkzIEBItD3yNbuSEm7Az14lr6rR23lccwnGeVnE=;
+        b=b/DWy6M8QwiR2jMbwUgRKI48rrxRBoPeUnXaP8A6atdWBO5SzLKiU9ESm2xusUFuxM
+         CosRDnvhxR0/fhe15ksMhBFs0EQDH3QbN4GCxdcNipOaEt4ZdaFV9xJgeXI98HwLovSg
+         jpXYgJNWQ5K0oHBpTeUmNZZ2h4V59mhLaxSdkRBboUWtvR/RcEISfZlLigLpcJiz8wUa
+         cQNJLiU9bcTqEJl9931ZEgiBOobFoAZO6Pjok1AC14BKa6QjaW3QQxNNBPm/cvUIgHOf
+         WTD8nR6fzwdSdeldFNWXWUPCRmPTeWmFOfHaSa3Xy33y9vTp7tq7+W/95PKc9MuXdFFP
+         Dpgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730395206; x=1731000006;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SKkFDkzIEBItD3yNbuSEm7Az14lr6rR23lccwnGeVnE=;
+        b=AzBRxEBvtFiF0jCvE8ky9hBvq4DFNK87/W7KtLhUW7lzGoC5aPLFe0t/gNoqbmH9Ae
+         OausGibr5kPsw54aKH0kXe85pnbxw3f0yLDCPwnOcvpv62i1uDETssbLpze6P/9f5s4x
+         /bFF3BxjzCHeoGL2PofKFL40qc3j8qVmQTdHvwd3Gvus0ROam2RS8gZ1NwGV7r/CEroZ
+         D6wH3d71X6Mr7/7FW7gUsXr88ul7T7fXglg7GwKYmlUmNl06aq/BB9Ly0srfqbPTFBLr
+         ZL4ysKcJo6bo15Ud7tNZ4S7X+0E8K1N5CLH+DZo8gb2GKZFxqJONeGl0Gft3ou6dGujg
+         aDMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWvDPmIDyLkGLAsY5W1LjTAZNzuFTe19odLkxuHraxYpHd2M8+83Eyjlz3RnFz3Omd8o6W0Uftj1U8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfzqavOQ2aTfwG3qLrfkV7ild82Mi2r39Hkj45z86oo+KzeHAu
+	V/TUn99RSfAjoCkyeNbbeSexm/X6wdKv62WYehcOMfr7Yv2nop0mIVS5jEs1x9JA4Qi7p68lj+c
+	sviwZmvCV08PzC99F8nR/TmIIDKgh4S9B70FvHg==
+X-Google-Smtp-Source: AGHT+IH6t05mbCPluyw/Zm7bZ8Y86vIuSvJgupQimK2c7oAZcHqEQQGqxSncMtgAi8PvmdylJnQUlmy+Sc53Mt/5SYg=
+X-Received: by 2002:a17:90b:3003:b0:2e2:b45d:bbb9 with SMTP id
+ 98e67ed59e1d1-2e8f11bfd7bmr9879885a91.6.1730395206352; Thu, 31 Oct 2024
+ 10:20:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
-
-
---=-0dHbCxxpnyAOzGGh7YUT
+References: <20241031002326.3426181-1-csander@purestorage.com>
+ <20241031002326.3426181-2-csander@purestorage.com> <ZyN8xpq5C36Tg9rz@LouisNoVo>
+In-Reply-To: <ZyN8xpq5C36Tg9rz@LouisNoVo>
+From: Caleb Sander <csander@purestorage.com>
+Date: Thu, 31 Oct 2024 10:19:55 -0700
+Message-ID: <CADUfDZoba9hNOBU7TT+0K6BYiYzVkZ_awt751g6HBm+-cCZf8w@mail.gmail.com>
+Subject: Re: [resend PATCH 2/2] dim: pass dim_sample to net_dim() by reference
+To: Louis Peens <louis.peens@corigine.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Arthur Kiyanovski <akiyano@amazon.com>, Brett Creeley <brett.creeley@amd.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Claudiu Manoil <claudiu.manoil@nxp.com>, 
+	David Arinzon <darinzon@amazon.com>, "David S. Miller" <davem@davemloft.net>, 
+	Doug Berger <opendmb@gmail.com>, Eric Dumazet <edumazet@google.com>, 
+	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Felix Fietkau <nbd@nbd.name>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Geetha sowjanya <gakula@marvell.com>, hariprasad <hkelam@marvell.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Jason Wang <jasowang@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Leon Romanovsky <leon@kernel.org>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Mark Lee <Mark-MC.Lee@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Michael Chan <michael.chan@broadcom.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Noam Dagan <ndagan@amazon.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Roy Pledge <Roy.Pledge@nxp.com>, 
+	Saeed Bishara <saeedb@amazon.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Sean Wang <sean.wang@mediatek.com>, Shannon Nelson <shannon.nelson@amd.com>, 
+	Shay Agroskin <shayagr@amazon.com>, Simon Horman <horms@kernel.org>, 
+	Subbaraya Sundeep <sbhatta@marvell.com>, Sunil Goutham <sgoutham@marvell.com>, 
+	Tal Gilboa <talgi@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, intel-wired-lan@lists.osuosl.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-rdma@vger.kernel.org, 
+	netdev@vger.kernel.org, oss-drivers@corigine.com, 
+	virtualization@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2024-10-31 at 12:15 +0000, Catalin Marinas wrote:
-> On Fri, Oct 25, 2024 at 10:12:41PM +0000, Oliver Upton wrote:
-> > On Sat, 19 Oct 2024 18:15:41 +0100, David Woodhouse wrote:
-> > > The PSCI v1.3 spec (https://developer.arm.com/documentation/den0022)
-> > > adds support for a SYSTEM_OFF2 function enabling a HIBERNATE_OFF stat=
-e
-> > > which is analogous to ACPI S4. This will allow hosting environments t=
-o
-> > > determine that a guest is hibernated rather than just powered off, an=
-d
-> > > ensure that they preserve the virtual environment appropriately to
-> > > allow the guest to resume safely (or bump the hardware_signature in t=
-he
-> > > FACS to trigger a clean reboot instead).
-> > >=20
-> > > [...]
-> >=20
-> > I grabbed the KVM portions of this series, as they look ready to go. Ha=
-ppy
-> > to take the last one through kvmarm tree w/ acks, and can toss it on to=
-p.
->=20
-> Happy for you to take the last patch as well through the KVM tree. Feel
-> free to adjust the code comment as you see fit.
+On Thu, Oct 31, 2024 at 5:49=E2=80=AFAM Louis Peens <louis.peens@corigine.c=
+om> wrote:
+>
+> On Wed, Oct 30, 2024 at 06:23:26PM -0600, Caleb Sander Mateos wrote:
+> > net_dim() is currently passed a struct dim_sample argument by value.
+> > struct dim_sample is 24 bytes. Since this is greater 16 bytes, x86-64
+> > passes it on the stack. All callers have already initialized dim_sample
+> > on the stack, so passing it by value requires pushing a duplicated copy
+> > to the stack. Either witing to the stack and immediately reading it, or
+> > perhaps dereferencing addresses relative to the stack pointer in a chai=
+n
+> > of push instructions, seems to perform quite poorly.
+> >
+> > In a heavy TCP workload, mlx5e_handle_rx_dim() consumes 3% of CPU time,
+> > 94% of which is attributed to the first push instruction to copy
+> > dim_sample on the stack for the call to net_dim():
+> > // Call ktime_get()
+> >   0.26 |4ead2:   call   4ead7 <mlx5e_handle_rx_dim+0x47>
+> > // Pass the address of struct dim in %rdi
+> >        |4ead7:   lea    0x3d0(%rbx),%rdi
+> > // Set dim_sample.pkt_ctr
+> >        |4eade:   mov    %r13d,0x8(%rsp)
+> > // Set dim_sample.byte_ctr
+> >        |4eae3:   mov    %r12d,0xc(%rsp)
+> > // Set dim_sample.event_ctr
+> >   0.15 |4eae8:   mov    %bp,0x10(%rsp)
+> > // Duplicate dim_sample on the stack
+> >  94.16 |4eaed:   push   0x10(%rsp)
+> >   2.79 |4eaf1:   push   0x10(%rsp)
+> >   0.07 |4eaf5:   push   %rax
+> > // Call net_dim()
+> >   0.21 |4eaf6:   call   4eafb <mlx5e_handle_rx_dim+0x6b>
+> >
+> > To allow the caller to reuse the struct dim_sample already on the stack=
+,
+> > pass the struct dim_sample by reference to net_dim().
+> >
+> > Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+> > ---
+> >  Documentation/networking/net_dim.rst                   |  2 +-
+> >  drivers/net/ethernet/amazon/ena/ena_netdev.c           |  2 +-
+> >  drivers/net/ethernet/broadcom/bcmsysport.c             |  2 +-
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c              |  4 ++--
+> >  drivers/net/ethernet/broadcom/genet/bcmgenet.c         |  2 +-
+> >  drivers/net/ethernet/freescale/enetc/enetc.c           |  2 +-
+> >  drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        |  4 ++--
+> >  drivers/net/ethernet/intel/ice/ice_txrx.c              |  4 ++--
+> >  drivers/net/ethernet/intel/idpf/idpf_txrx.c            |  4 ++--
+> >  drivers/net/ethernet/marvell/octeontx2/nic/otx2_txrx.c |  2 +-
+> >  drivers/net/ethernet/mediatek/mtk_eth_soc.c            |  4 ++--
+> >  drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c      |  4 ++--
+> >  drivers/net/ethernet/netronome/nfp/nfd3/dp.c           |  4 ++--
+> >  drivers/net/ethernet/netronome/nfp/nfdk/dp.c           |  4 ++--
+> >  drivers/net/ethernet/pensando/ionic/ionic_txrx.c       |  2 +-
+> >  drivers/net/virtio_net.c                               |  2 +-
+> >  drivers/soc/fsl/dpio/dpio-service.c                    |  2 +-
+> >  include/linux/dim.h                                    |  2 +-
+> >  lib/dim/net_dim.c                                      | 10 +++++-----
+> >  19 files changed, 31 insertions(+), 31 deletions(-)
+> >
+> --- snip --
+>
+> > diff --git a/drivers/net/ethernet/netronome/nfp/nfd3/dp.c b/drivers/net=
+/ethernet/netronome/nfp/nfd3/dp.c
+> > index d215efc6cad0..f1c6c47564b1 100644
+> > --- a/drivers/net/ethernet/netronome/nfp/nfd3/dp.c
+> > +++ b/drivers/net/ethernet/netronome/nfp/nfd3/dp.c
+> > @@ -1177,11 +1177,11 @@ int nfp_nfd3_poll(struct napi_struct *napi, int=
+ budget)
+> >                       pkts =3D r_vec->rx_pkts;
+> >                       bytes =3D r_vec->rx_bytes;
+> >               } while (u64_stats_fetch_retry(&r_vec->rx_sync, start));
+> >
+> >               dim_update_sample(r_vec->event_ctr, pkts, bytes, &dim_sam=
+ple);
+> > -             net_dim(&r_vec->rx_dim, dim_sample);
+> > +             net_dim(&r_vec->rx_dim, &dim_sample);
+> >       }
+> >
+> >       if (r_vec->nfp_net->tx_coalesce_adapt_on && r_vec->tx_ring) {
+> >               struct dim_sample dim_sample =3D {};
+> >               unsigned int start;
+> > @@ -1192,11 +1192,11 @@ int nfp_nfd3_poll(struct napi_struct *napi, int=
+ budget)
+> >                       pkts =3D r_vec->tx_pkts;
+> >                       bytes =3D r_vec->tx_bytes;
+> >               } while (u64_stats_fetch_retry(&r_vec->tx_sync, start));
+> >
+> >               dim_update_sample(r_vec->event_ctr, pkts, bytes, &dim_sam=
+ple);
+> > -             net_dim(&r_vec->tx_dim, dim_sample);
+> > +             net_dim(&r_vec->tx_dim, &dim_sample);
+> >       }
+> >
+> >       return pkts_polled;
+> >  }
+> >
+> > diff --git a/drivers/net/ethernet/netronome/nfp/nfdk/dp.c b/drivers/net=
+/ethernet/netronome/nfp/nfdk/dp.c
+> > index dae5af7d1845..ebeb6ab4465c 100644
+> > --- a/drivers/net/ethernet/netronome/nfp/nfdk/dp.c
+> > +++ b/drivers/net/ethernet/netronome/nfp/nfdk/dp.c
+> > @@ -1287,11 +1287,11 @@ int nfp_nfdk_poll(struct napi_struct *napi, int=
+ budget)
+> >                       pkts =3D r_vec->rx_pkts;
+> >                       bytes =3D r_vec->rx_bytes;
+> >               } while (u64_stats_fetch_retry(&r_vec->rx_sync, start));
+> >
+> >               dim_update_sample(r_vec->event_ctr, pkts, bytes, &dim_sam=
+ple);
+> > -             net_dim(&r_vec->rx_dim, dim_sample);
+> > +             net_dim(&r_vec->rx_dim, &dim_sample);
+> >       }
+> >
+> >       if (r_vec->nfp_net->tx_coalesce_adapt_on && r_vec->tx_ring) {
+> >               struct dim_sample dim_sample =3D {};
+> >               unsigned int start;
+> > @@ -1302,11 +1302,11 @@ int nfp_nfdk_poll(struct napi_struct *napi, int=
+ budget)
+> >                       pkts =3D r_vec->tx_pkts;
+> >                       bytes =3D r_vec->tx_bytes;
+> >               } while (u64_stats_fetch_retry(&r_vec->tx_sync, start));
+> >
+> >               dim_update_sample(r_vec->event_ctr, pkts, bytes, &dim_sam=
+ple);
+> > -             net_dim(&r_vec->tx_dim, dim_sample);
+> > +             net_dim(&r_vec->tx_dim, &dim_sample);
+> >       }
+> >
+> >       return pkts_polled;
+> >  }
+> --- snip ---
+>
+> Hi Caleb. Looks like a fair enough update to me in general, but I am not =
+an
+> expert on 'dim'. For the corresponding nfp driver changes feel free to ad=
+d:
+>
+> Signed-off-by: Louis Peens <louis.peens@corigine.com>
 
-Thanks. that's probably the best option, as it depends on the
-definitions in psci.h.
+Hi Louis,
+Thanks for the review. Did you mean "Reviewed-by"? If there was a
+change you were suggesting, I missed it.
 
-
-
---=-0dHbCxxpnyAOzGGh7YUT
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQxMDMxMTcxODU3WjAvBgkqhkiG9w0BCQQxIgQgXj4JjBxS
-GpJRHt4R/QigzKQdZ0AQGY+kiQkvx1wgwl8wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgATPJ2hSFJxp8lcIdp1Blm/djS4vOdPyZyV
-z/SzILzJZTPHjmYVj1XQbE8654zMpShdYvnyqgwjNJKAcbBRjBko4Ac+irNbJDLWSjlrwMM9cCym
-vqB6csy3ojsGMvg/NI5iW6fPTRYd5s3UOAU3xxG+YsX0Poaeicb4C6xpchcX2wzWL6tOka+1LCWg
-q5fnneDafbvQH1yj/GNu3kcldmdMZud/H8BiVOG0jdxDyrryZNFotcnqeo4Lc4FisNDqXL8n4/yv
-xourtqk/zauPWx4H0z0vgtsTDQ4w4RKWJnjPx85HLyoNK2fc93zAnMQKXF5s64nQO70smj/Q2JPv
-hq5dm4/AUqJkFqg/UddQ2785htFUw+sff35usc5xeS9MBI4+40Wewyt9f29A/S293DAU/oH/UUcW
-C2iRrOkTQfgBfgYTJWEUnN1wRt6ynZPRzfg1MRStGHoBXrHfKZ8y4B2LEPOWtwrVP1CzOjiqNDcu
-t38MJo8xyZeJ/l6TzeisP+PbTL4FGIQ55HcriktLh7cv4zxwx87kHihwi8MxI+8/I37x936KR7GK
-Ww2q83Mr0QKd0MRpofThAOAUnuRdA/haDNld0hI4U3EShsrY40d3Eh+4CPTUrr0RV8/QIf0Cf/4R
-RG16dKo4rJMs9R8JmupuFmWjbwaHCkX5dudfRAgF+wAAAAAAAA==
-
-
---=-0dHbCxxpnyAOzGGh7YUT--
+Best,
+Caleb
