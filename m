@@ -1,39 +1,39 @@
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70BF13A25F;
-	Thu, 31 Oct 2024 10:56:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91B483CD9;
+	Thu, 31 Oct 2024 11:05:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730372172; cv=none; b=oFNzizW1rBhySRuzK7AGwCdfHiGgGQL2DsCh8W/j9M2GrO5snDIKhNYkzI66DEfgTEJIqG5AX0qrZk87Y6/3o5T0/nKcfo8szeJeLdEzK/vuAtOVBC0sFXuHLhqMYx9A6XftRcgr4f0g3znnIbx0cbJFb/fwnzv88trAWlYuH7Y=
+	t=1730372721; cv=none; b=UetsmoqcaxcvnSeUADnDoZ9aegv4OJboy3LsVvo3IpeQTr1tyPXuwyU3yP3I1abcz6h8N0yNcy/oAglwaRDqmq6/jJzlEqUc3LfC4Boh5FZ7pNLlgjsQ8Zg+B8L5DPKM5OSe2EGrL9n4gDCe9YHgyOZCaB7u/X/oKFi0W53deo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730372172; c=relaxed/simple;
-	bh=jLofZIwivoLG+7s6ZAAzJLv64dhFLgAvPyWSQFGY6Ms=;
+	s=arc-20240116; t=1730372721; c=relaxed/simple;
+	bh=aWh93UdsW+ofCnEmC+bDfoHOGpAIraWLb+wruBoqjFE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kYQl32ifrIdD4tCpuwS57i4UvCVouehuiZX5B+lrNDxZLiSOJR1aSgpugVEGHNvuJYRaaV9dx60eLjPHt2XKlb2EsgKgZlrXL7W/Namy0cBDWmnFiT/3be6Q/pI6glt7mS3N2dhuCJMH2rO9N17o4ewrCO5lZMfCPFAky+L8q2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=AGmG8ygU; arc=none smtp.client-ip=178.60.130.6
+	 In-Reply-To:Content-Type; b=q/xwUl9lMU1wmY2cPWMp9tuKc3qXTghkUjMJ1wOft34j37Nrz//QEXOH3f7rinVrBK6g8CSJppHAx8MhsjSuDI1yTqbSMxr3AnVmiYg4a4a5pi2pb2Vwre8HIenXUsfht9O65ZE1ZHnIpAfs3e203pCSPtxwsdniczXs6rIpTlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=eEVrm90f; arc=none smtp.client-ip=178.60.130.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="AGmG8ygU"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="eEVrm90f"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
 	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=1e1Pem+qp2w/Akjj6dWKUEh4AeuCe5dpoYvS12Rnvgk=; b=AGmG8ygUmt9zRxbe2HYj47fYd2
-	EiRCxeRBJhijKoPrVolQe3tPVfysPtMjYtfTkYC0HlELl1ad+sr4YTi26PSK3Pq6lXHeCk4BHRDyF
-	Z6KZ5gMf6p+XnvldU6r/AUir8KBGsjcuWD8L8fk1fW+Y7Bpg7j6ENGCB+QC0B8LbUC6gY1Gg+QhXk
-	ldArIjA3eFO430UEK26691k2vzg+aqSImfJBCTfeNHNiaGw2sEcSyz2PD8lmYdGjbzRjYtmFwKYXu
-	mpTp9wyEzy+y5aKhz/x/O19EIGbFgEiLCMAvsiDxRE96AMCONwG34ZmhgPp8JtkVSwn0MlrqiU6F6
-	RnFAcbFQ==;
+	bh=bgiB0fkkBLj2oc3y0qvgYJD9tY50zygRBIR9nY3SL6Q=; b=eEVrm90fdjL0prxhIcDDWd+4Rf
+	xT2SPCXpv4VELMiX0JSNlOreeldkxHC9nipIE2muNOeFTNkQqhPVutgBHczyLlF5CHI79EFh7krHC
+	9weMOsYxc3h5loQRZaCM7mmIVc4Kg41JYGNUSBmFzIWYQeFHPwSBSwAdQvBtysOWwog7hDtQNYF+E
+	T9RVYEGqCxTjcB18AQS9sKfzSswu8gf+RqvST+rPtVoZsUg2FGbiLRLSREmg9tUml2Om3Z7V63RhJ
+	rebyn7ujHh4RQKxh0ay9R0tPiNpSyfu4kxkPkHZEBccwhskiEnM4f9TFf8QPCjbWnCj1rMqdi1Wtu
+	hISUBStA==;
 Received: from [187.36.213.55] (helo=[192.168.1.103])
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1t6SqD-00HZkr-Lv; Thu, 31 Oct 2024 11:55:50 +0100
-Message-ID: <b31bd54c-400c-4432-8b4b-0ba12bcf8011@igalia.com>
-Date: Thu, 31 Oct 2024 07:55:42 -0300
+	id 1t6SzB-00Ha8d-KZ; Thu, 31 Oct 2024 12:05:05 +0100
+Message-ID: <f2a213eb-e69b-4572-b837-0c384bbb5960@igalia.com>
+Date: Thu, 31 Oct 2024 08:04:58 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,86 +41,58 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] mm: huge_memory: Use strscpy() instead of strcpy()
-To: Barry Song <baohua@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
- David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+Subject: Re: [PATCH v3 0/4] mm: add more kernel parameters to control mTHP
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+ Barry Song <baohua@kernel.org>, David Hildenbrand <david@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang
  <ioworker0@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, kernel-dev@igalia.com
 References: <20241030130308.1066299-1-mcanal@igalia.com>
- <20241030130308.1066299-5-mcanal@igalia.com>
- <CAGsJ_4zMppHY29XXepOVTdEu2-1U6mGyZ8FqXZfP_in+2T3NAA@mail.gmail.com>
+ <20241030155059.9e27019842ef7c009b728b27@linux-foundation.org>
 Content-Language: en-US
 From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <CAGsJ_4zMppHY29XXepOVTdEu2-1U6mGyZ8FqXZfP_in+2T3NAA@mail.gmail.com>
+In-Reply-To: <20241030155059.9e27019842ef7c009b728b27@linux-foundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Barry,
+Hi Andrew,
 
-On 30/10/24 20:07, Barry Song wrote:
-> On Thu, Oct 31, 2024 at 2:03 AM Maíra Canal <mcanal@igalia.com> wrote:
->>
->> Replace strcpy() with strscpy() in mm/huge_memory.c
->>
->> strcpy() has been deprecated because it is generally unsafe, so help to
->> eliminate it from the kernel source.
->>
->> Link: https://github.com/KSPP/linux/issues/88
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   mm/huge_memory.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->> index f92068864469..8f41a694433c 100644
->> --- a/mm/huge_memory.c
->> +++ b/mm/huge_memory.c
->> @@ -989,7 +989,7 @@ static int __init setup_thp_anon(char *str)
->>
->>          if (!str || strlen(str) + 1 > PAGE_SIZE)
->>                  goto err;
->> -       strcpy(str_dup, str);
->> +       strscpy(str_dup, str);
+On 30/10/24 19:50, Andrew Morton wrote:
+> On Wed, 30 Oct 2024 09:58:54 -0300 Maíra Canal <mcanal@igalia.com> wrote:
 > 
-> What is the difference between strcpy and strscpy without a size parameter?
+>> The second and third patches focus on controlling THP support for shmem
+>> via the kernel command line. The second patch introduces a parameter to
+>> control the global default huge page allocation policy for the internal
+>> shmem mount.
 > 
-> we have already a check and goto err. strcpy() is entirely safe.
->           if (!str || strlen(str) + 1 > PAGE_SIZE)
->                   goto err;
+> The changelogs for patches 2 and 3 both say
 > 
-> My understanding is that we don't need this patch.
+> : By configuring ..., applications that use shmem, such as the DRM GEM objects,
+> : can take advantage of mTHP before it's been configured through sysfs.
+> 
+> There isn't a lot of info here - please explain this timing issue in
+> more detail.
+> 
+> Because the question which leaps to mind is: shouldn't the
+> "applications that use shmem" be changed to "configure mTHP through
+> sysfs" *before* "using shmem"?  Seems pretty basic.
 
-strcpy() is a deprecated interface [1]. From the GitHub issue I linked
-in the commit description, Kees states: "A lot of kernel code is still
-using strcpy(). While the CONFIG_FORTIFY_SOURCE wrapper macros tend to
-make its use mostly safe, it would be nice to eliminate the function
-from the kernel entirely."
+Sorry about that, I'll try to improve the commit messages and add more 
+details.
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy
+As mentioned in the example I gave ("DRM GEM objects"), my main use is
+GEM objects backed by shmem. I'd like to use Huge Pages on the GPU and I
+can only do that if I have contiguous memory to back my objects.
+
+I can't think how I can change sysfs from a DRM driver.
 
 Best Regards,
 - Maíra
 
 > 
->>
->>          always = huge_anon_orders_always;
->>          madvise = huge_anon_orders_madvise;
->> @@ -4175,7 +4175,7 @@ static ssize_t split_huge_pages_write(struct file *file, const char __user *buf,
->>
->>                  tok = strsep(&buf, ",");
->>                  if (tok) {
->> -                       strcpy(file_path, tok);
->> +                       strscpy(file_path, tok);
->>                  } else {
->>                          ret = -EINVAL;
->>                          goto out;
->> --
->> 2.46.2
->>
 > 
-> Thanks
-> barry
+> Also, please consider my question to be a critique of the changelogs.
+> If the changelogs were complete, I wouldn't need to ask any questions!
 
