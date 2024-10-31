@@ -1,132 +1,97 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82221B95B;
-	Thu, 31 Oct 2024 21:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E5E16A92E;
+	Thu, 31 Oct 2024 21:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730409530; cv=none; b=CXH2mRRwXU4wNodljRDIX3MetPYWidbibuU4fLqKwLL4jfFsleNDJ2pcdn6CmJATNUIiZ0F57kYH3xBSKdaOF11QvfihoHBnP5tq7T1Q3talz9KyPor6I1nGPlAhmbYVCwJ9T+U1iTCAnPfQ0k+K5Rzr/8A5848T7u8BppVIj/M=
+	t=1730410125; cv=none; b=SEVZunkYiDzXxEPGqW9FmighPN62nIJx+aIcNlZRWQ9UZBrJKkYEa1YGcEjQsjQ9MdtR1koYOTrLaZpOIfRjbrd9X7uSBAH/oG1eZW+WYgiQjeyabHoce50FWKW89MsvZkxmJHJvINeNpLVE3j3X5f/eFVXRT4Uwj35jg2MZuSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730409530; c=relaxed/simple;
-	bh=cpF4AAIzOXZkhcxxrsLBIFg7A1MuiEGbI4VYVNmRk2I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fXWydcTckPwAkrENjwo9kxOzW6qUXDA6oe73dDomPtcinqiaTcpbbconc0jeDRz/wewdwp0fneIXmrIlw+hPi2llObKDKN80ioNPt8PeZdq3aQOxXSSdjk7jJfQU05QxUe/Uktpo8UvWK1d3hA+q0/k1h1EGjLZB19CtjS5T3DY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C6EFD153B;
-	Thu, 31 Oct 2024 14:19:11 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 334AF3F73B;
-	Thu, 31 Oct 2024 14:18:30 -0700 (PDT)
-Message-ID: <7e362d8b-c02a-4327-9c5d-af1c4725ddc7@arm.com>
-Date: Thu, 31 Oct 2024 21:18:11 +0000
+	s=arc-20240116; t=1730410125; c=relaxed/simple;
+	bh=SGR83djc/v2VkXvkg2+OaTGIuGeErWCQ2UGUDAVfgmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rwhPATI0kSc6KYOekVAkh4NXr612neXa7FGkGx/P8InsZt/X/fHWMH0/BZFG/QOAIoW2T7SCl/1MO48e9Vf+jxypaan717zj154AiMKcCLklQ2X2P2+G9Sy1oWvEcfSDEDDwgKUN6mK/H/aN8ZjIW3ejkxWAuZIs1rj7Wrg651U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=XmA9oC92; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="XmA9oC92"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=OKM06f42KHs8vmOBjtTC1kovaCxYd14xIsb8xvHlv5k=; b=XmA9oC92+zr/QTiXUtC2sY5wkH
+	Iwr4q+kvTqI+Pcch/D99gITHL8n+XkTrXRb+g8c2yxSGuTYONOXJ3UGZU7HiPE0egm/Xcof5WImv7
+	20+7MKV5yYGts8Hj5j2e92vw3atdDorpO5bbtxSoeWC0yvGxYCITVza7y4EnzCPGATwM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1t6ciT-00BowT-Tq; Thu, 31 Oct 2024 22:28:29 +0100
+Date: Thu, 31 Oct 2024 22:28:29 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v2 05/18] net: pse-pd: Add support for PSE
+ device index
+Message-ID: <46d4b5be-60d3-4949-8eb9-9e8a036cb580@lunn.ch>
+References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
+ <20241030-feature_poe_port_prio-v2-5-9559622ee47a@bootlin.com>
+ <ZyMjbzK7SJq5nmYz@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 08/17] dma-mapping: add a dma_need_unmap helper
-To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
-References: <cover.1730298502.git.leon@kernel.org>
- <00385b3557fa074865d37b0ac613d2cb28bcb741.1730298502.git.leon@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <00385b3557fa074865d37b0ac613d2cb28bcb741.1730298502.git.leon@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZyMjbzK7SJq5nmYz@pengutronix.de>
 
-On 30/10/2024 3:12 pm, Leon Romanovsky wrote:
-> From: Christoph Hellwig <hch@lst.de>
+On Thu, Oct 31, 2024 at 07:27:59AM +0100, Oleksij Rempel wrote:
+> On Wed, Oct 30, 2024 at 05:53:07PM +0100, Kory Maincent wrote:
 > 
-> Add helper that allows a driver to skip calling dma_unmap_*
-> if the DMA layer can guarantee that they are no-nops.
+> ...
+> >  /**
+> >   * struct pse_control - a PSE control
+> > @@ -440,18 +441,22 @@ int pse_controller_register(struct pse_controller_dev *pcdev)
+> >  
+> >  	mutex_init(&pcdev->lock);
+> >  	INIT_LIST_HEAD(&pcdev->pse_control_head);
+> > +	ret = ida_alloc_max(&pse_ida, INT_MAX, GFP_KERNEL);
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->   include/linux/dma-mapping.h |  5 +++++
->   kernel/dma/mapping.c        | 20 ++++++++++++++++++++
->   2 files changed, 25 insertions(+)
-> 
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index 8074a3b5c807..6906edde505d 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -410,6 +410,7 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
->   {
->   	return dma_dev_need_sync(dev) ? __dma_need_sync(dev, dma_addr) : false;
->   }
-> +bool dma_need_unmap(struct device *dev);
->   #else /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
->   static inline bool dma_dev_need_sync(const struct device *dev)
->   {
-> @@ -435,6 +436,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
->   {
->   	return false;
->   }
-> +static inline bool dma_need_unmap(struct device *dev)
-> +{
-> +	return false;
-> +}
->   #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
->   
->   struct page *dma_alloc_pages(struct device *dev, size_t size,
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index 864a1121bf08..daa97a650778 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -442,6 +442,26 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr)
->   }
->   EXPORT_SYMBOL_GPL(__dma_need_sync);
->   
-> +/**
-> + * dma_need_unmap - does this device need dma_unmap_* operations
-> + * @dev: device to check
-> + *
-> + * If this function returns %false, drivers can skip calling dma_unmap_* after
-> + * finishing an I/O.  This function must be called after all mappings that might
-> + * need to be unmapped have been performed.
+> s/INT_MAX/U32_MAX
 
-In terms of the unmap call itself, why don't we just use dma_skip_sync 
-to short-cut dma_direct_unmap_*() and make sure it's as cheap as possible?
+ * Return: The allocated ID, or %-ENOMEM if memory could not be allocated,
+ * or %-ENOSPC if there are no free IDs.
 
-In terms of not having to unmap implying not having to store addresses 
-at all, it doesn't seem super-useful when you still have to store them 
-for long enough to find out that you don't :/
+static inline int ida_alloc_max(struct ida *ida, unsigned int max, gfp_t gfp)
 
-Thanks,
-Robin.
+We need to be careful here, at least theoretically. Assuming a 32 bit
+system, and you pass it U32_MAX, how does it return values in the
+range S32_MAX..U32_MAX when it also needs to be able to return
+negative numbers as errors?
 
-> + */
-> +bool dma_need_unmap(struct device *dev)
-> +{
-> +	if (!dma_map_direct(dev, get_dma_ops(dev)))
-> +		return true;
-> +#ifdef CONFIG_DMA_NEED_SYNC
-> +	if (!dev->dma_skip_sync)
-> +		return true;
-> +#endif
-> +	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_need_unmap);
-> +
->   static void dma_setup_need_sync(struct device *dev)
->   {
->   	const struct dma_map_ops *ops = get_dma_ops(dev);
+I think the correct value to pass is S32_MAX, because it will always
+fit in a u32, and there is space left for negative values for errors.
+
+But this is probably theoretical, no real system should have that many
+controllers.
+
+	Andrew
