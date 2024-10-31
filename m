@@ -1,66 +1,94 @@
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A68713B5B7;
-	Thu, 31 Oct 2024 06:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA4A1465B1
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 06:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730355305; cv=none; b=QAYhFbBkXfXTGB5rItAmCMtlcxGsBsIUXB4RnEa3O4suYhkDN7KQpQbsvNrA5JvbWpHvqz5QOk+F4XfRSHxQYrMr4fLZYh6SY3r28YDRe/n6ngwNC6ScC1x8UjwuZnG/Hs389sQj7JEzlW/YMjRAc5gZjW0W4YuK0QXf19t05mM=
+	t=1730355538; cv=none; b=raPIsVoPorlWEWk+9EUKjieHs5igmibtpP3oH0ZnrLwGBwira3fs0dz2ivOD2GEwap6U8QSFFYzkBUNnYYSd8bnWTik8ECS/CtZfKhru+ZN2RUU7uj/EcBEeSq7tYFVDwDNnw53GW+LPtEY1NAd2aVS6CQaLpc2UMETXcEdvv+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730355305; c=relaxed/simple;
-	bh=/2IfPP/kPsd912xC+PLNTP5ZoGjEAYutZ9wVPBQfvuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aFCiYZSmPDSYR56gDQ1FR6d3s/hFAUX0Aav3aphrkJllCF2GBzlSB6ha4FU+ikTdbSlQA2KvXxFAJENjqTmauAnzkOJitTh8GYeayP88/f7wTXZIBR5stsbdSg0G4nCpg5gvSnFuzoNJtT53YrVN1SGFyjfbSVW/VKFoRHSw2y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=d6VQldyY; arc=none smtp.client-ip=115.124.30.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="d6VQldyY"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1730355289; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=vw7QPvnKotts5je5C1UU+eljjlhNkVENeMXFIwudP3g=;
-	b=d6VQldyYhwU55focFb8/wpuk2FXISpIUJRoM3joeM0gosgevxXCouKwjlT2ZR7NhddhqI6qJI4hjG8URdhQ3BzwztLHeyM1cSk1Yj6I8Q3/AJ5NHJ7OzfEeEPoU3OMeelddpbu7NtQepVV0d4jSs14v7b56cunhazyIqH78L1Q8=
-Received: from 30.74.144.119(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WIHH.U._1730355288 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 31 Oct 2024 14:14:49 +0800
-Message-ID: <b27412f1-4ae3-4daa-b5f6-9fed246fcc56@linux.alibaba.com>
-Date: Thu, 31 Oct 2024 14:14:46 +0800
+	s=arc-20240116; t=1730355538; c=relaxed/simple;
+	bh=RDCtHX+TEpBrpKXWUjkNi8VEpT+KCOZN+o2Yf1/biPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NyTaUWHVSsUAC+RHhKbqOFh2QygqAvkSJsJM/LuBnKSQGfUoxakeLbQovcu2m98F7O3J6TlTo4NLC3kPQglhcFZmf/dcW9Y9Ixr5DJLWlCtKvv+RCPBRArQhRTankKZ+cqqh6cQ6Y3quDBwSy4Dk5iqlD8yUILMNjlQXFRg3Lrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1t6OVt-0003MA-Ml; Thu, 31 Oct 2024 07:18:33 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1t6OVq-001JfG-0o;
+	Thu, 31 Oct 2024 07:18:30 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1t6OVq-0069Ol-0P;
+	Thu, 31 Oct 2024 07:18:30 +0100
+Date: Thu, 31 Oct 2024 07:18:30 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v2 03/18] net: pse-pd: tps23881: Use helpers
+ to calculate bit offset for a channel
+Message-ID: <ZyMhNqRaalfbP_f2@pengutronix.de>
+References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
+ <20241030-feature_poe_port_prio-v2-3-9559622ee47a@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwspinlock: Remove unused (devm_)hwspin_lock_request
-To: linux@treblig.org, andersson@kernel.org, peterz@infradead.org,
- mingo@redhat.com, will@kernel.org
-Cc: longman@redhat.com, boqun.feng@gmail.com, corbet@lwn.net,
- linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241027205445.239108-1-linux@treblig.org>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20241027205445.239108-1-linux@treblig.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241030-feature_poe_port_prio-v2-3-9559622ee47a@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
+On Wed, Oct 30, 2024 at 05:53:05PM +0100, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> This driver frequently follows a pattern where two registers are read or
+> written in a single operation, followed by calculating the bit offset for
+> a specific channel.
+> 
+> Introduce helpers to streamline this process and reduce code redundancy,
+> making the codebase cleaner and more maintainable.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> ---
 
+Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-On 2024/10/28 04:54, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> devm_hwspin_lock_request() was added by 2018's
-> commit 4f1acd758b08 ("hwspinlock: Add devm_xxx() APIs to request/free
-> hwlock") however, it's never been used, everyone uses the
-> devm_hwspin_lock_request_specific() call instead.
-> 
-> Remove it.
-> 
-> Similarly, the none-devm variant isn't used.
-> Remove it, and the referring documentation.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-
-LGTM. Thanks.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
