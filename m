@@ -1,256 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C860613342F;
-	Thu, 31 Oct 2024 15:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AD01A287E;
+	Thu, 31 Oct 2024 15:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730389188; cv=none; b=Q2yEpoM/FsrBKj/h6JzMPXy8ur0LB4WiVdvZb0AswQQjKT6yR33fPOUpLkQT5izCtTm4LRCUPX4cmsb7CjuJ7+1t51ICl8Dy65wdi0R5P7B2JYJU7xHDrprpkBNe/CO4ZXMEQ7eyTDiLbfx6TTUu+TVd4R6VVJFNRkXa0OEWFsM=
+	t=1730390109; cv=none; b=gFfqP/SJoPkVesAY46Mxya+GEtjvQBgvFJ27gsQwU2xlhnuL6HdFfig9badYkRP25nOSxEHRAhPjFBoQKglftOE0Ele+NzAlY0CCiNWnqvlepDzw56KPyOJGbebjBPq0A3RAufTmijxNZs/KSs21KFgDki7N9f5i3CxCzvGvnlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730389188; c=relaxed/simple;
-	bh=e71oB15xt8MmnWusRVcbVCxjQ6isEJHcrB9uA5JO/lc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YzG24kNMjH+nbgwtpMPhyQthX2CZQHRdf/OoLdowa6RWAbxKcHb4THxAVm4Rs1KwCxxrxgUqbt8Xf6fOmU6Lq2AhbPVsw8GJaE7wg/9dDd2Epw7REwVu3sHnYZ6buRjAc5whX2IlYZHrK0bsmzOsUyIshX92WAYSPv8Sd8P1jTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ULJr67lf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730390109; c=relaxed/simple;
+	bh=wlV3Rx5aKG704hWG8gNKyyb0F+JFaerl7qBcn2lQewo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UXcRsOZshkOVAVs1wqmvPMg6cK4Ij3VFGj4DPFJfMDtKG0//wKh6cc1VU1IbMA4NqwOIk6O7euzVh8eKdlhIsHxp9239oAVdOxjnP6IER2Vwev9eFcvL8ZYzGsbE2KniV+qLuFKWZsGytCnlbz9xKobrk1vosxFanQahyGglHQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nRcYbMDw; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ULJr67lf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D37EC4DDEF;
-	Thu, 31 Oct 2024 15:39:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730389188;
-	bh=e71oB15xt8MmnWusRVcbVCxjQ6isEJHcrB9uA5JO/lc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ULJr67lf+4KQuW7r9rwL1KDzGbwqfAOwmRBvRkKoF5RTN0gheHbDyKT2Pu/35w7b4
-	 5W6JIA5KGaiO/y/ZgVNQ1wZpH7ahk4rym+A9YNHjQinVWzt/1HlI6NI/DXdWoEzAC4
-	 7nHahXbe1dWWH7yxUNX7YQDiPGi1aQC1Mg1C5xYB1liy7Ad1MCUMnlhbUIiP+1QTy5
-	 L66yUwMWP8SkJ8VRO3NnnzWbzyTyI5rLpnzJ8lAEm4jLLmp2DVl1q982ezeajQGymB
-	 0PXinBfOeZlEDSlcZ6G/MIYtUpuv6vsOQ/ji6PhM7TSIVD07W4QpR5NN87X5HZKKYS
-	 TdnJpk0OBhJJw==
-From: Amit Shah <amit@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	x86@kernel.org,
-	linux-doc@vger.kernel.org
-Cc: amit.shah@amd.com,
-	thomas.lendacky@amd.com,
-	bp@alien8.de,
-	tglx@linutronix.de,
-	peterz@infradead.org,
-	jpoimboe@kernel.org,
-	pawan.kumar.gupta@linux.intel.com,
-	corbet@lwn.net,
-	mingo@redhat.com,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	seanjc@google.com,
-	pbonzini@redhat.com,
-	daniel.sneddon@linux.intel.com,
-	kai.huang@intel.com,
-	sandipan.das@amd.com,
-	boris.ostrovsky@oracle.com,
-	Babu.Moger@amd.com,
-	david.kaplan@amd.com
-Subject: [PATCH 2/2] x86: kvm: svm: add support for ERAPS and FLUSH_RAP_ON_VMRUN
-Date: Thu, 31 Oct 2024 16:39:25 +0100
-Message-ID: <20241031153925.36216-3-amit@kernel.org>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241031153925.36216-1-amit@kernel.org>
-References: <20241031153925.36216-1-amit@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nRcYbMDw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730390107; x=1761926107;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=wlV3Rx5aKG704hWG8gNKyyb0F+JFaerl7qBcn2lQewo=;
+  b=nRcYbMDwUR7Qbx+yF4Lbw2VGRNVejdqKMYgmD8z4tj29yGH75A7KKsyQ
+   BbazPfyLqRwheHd1T32Bwv6w+kxpFeBsRGDEbgNhm+wB1Z4stXFy2nX0Q
+   mFfpJNzH0TIm1xKbySfRHsPYi2i0Nyb/9WnBk7NcYTYfAxFxOJ0d4Dfss
+   Gmi7kH9fWtgLgyRVohftGGPzLNJG68Nv57QfUnUqYpGXYahgTDa/6fQrE
+   roXCHv8shxpH1TeVGsQrJ3A3U1FPPGSrA3MbeI2kQlZbhengbAWkutza9
+   PoBG6jJ2qIm6F2l2HZMXlu9+yN0EaTqxk4KjypZEE7PYPRmawMULP5Jqi
+   g==;
+X-CSE-ConnectionGUID: tp3ALZ9mQPSbIyrUhKf+oA==
+X-CSE-MsgGUID: Li5EgCUfR2Kr4iefjQCbXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="41507963"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="41507963"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 08:55:06 -0700
+X-CSE-ConnectionGUID: rSnazU4oRDish+4AbsdK9A==
+X-CSE-MsgGUID: xHNWbduNRwO9xzz1Nz+KAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="82571183"
+Received: from dwoodwor-mobl2.amr.corp.intel.com (HELO [10.125.108.232]) ([10.125.108.232])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 08:55:04 -0700
+Message-ID: <880d28c7-7284-41b2-88dc-12498b473a86@intel.com>
+Date: Thu, 31 Oct 2024 08:55:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/27] DCD: Add support for Dynamic Capacity Devices
+ (DCD)
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+ Ira Weiny <ira.weiny@intel.com>
+Cc: Fan Ni <fan.ni@samsung.com>, Navneet Singh <navneet.singh@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso
+ <dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, linux-cxl@vger.kernel.org,
+ linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+ linux-btrfs@vger.kernel.org, Johannes Thumshirn
+ <johannes.thumshirn@wdc.com>, Robert Moore <robert.moore@intel.com>,
+ Len Brown <lenb@kernel.org>, "Rafael J. Wysocki"
+ <rafael.j.wysocki@intel.com>, linux-acpi@vger.kernel.org,
+ acpica-devel@lists.linux.dev, Li Ming <ming4.li@intel.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hardening@vger.kernel.org
+References: <20241029-dcd-type2-upstream-v5-0-8739cb67c374@intel.com>
+ <20241030144841.00006746@Huawei.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20241030144841.00006746@Huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Amit Shah <amit.shah@amd.com>
 
-AMD CPUs with the ERAPS feature (Turin+) have a larger RSB (aka RAP).
-While the new default RSB size is used on the host without any software
-modification necessary, the RSB usage for guests is limited to the older
-value (32 entries) for backwards compatibility.  With this patch, KVM
-enables guest mode to also use the default number of entries by setting
-the new ALLOW_LARGER_RAP bit in the VMCB.
 
-The two cases for backward compatibility that need special handling are
-nested guests, and guests using shadow paging (or when NPT is disabled):
+On 10/30/24 7:48 AM, Jonathan Cameron wrote:
+> On Tue, 29 Oct 2024 15:34:35 -0500
+> Ira Weiny <ira.weiny@intel.com> wrote:
+> 
+>> A git tree of this series can be found here:
+>>
+>> 	https://github.com/weiny2/linux-kernel/tree/dcd-v4-2024-10-29
+>>
+>> Series info
+>> ===========
+>>
+>> This series has 4 parts:
+>>
+>> Patch 1: Add core range_overlaps() function
+>> Patch 2-6: CXL clean up/prelim patches
+>> Patch 7-25: Core DCD support
+>> Patch 26-27: cxl_test support
+> 
+> Other than a few trivial comments and that one build bot reported
+> issue all looks good to me. Nice work Ira, Navneet etc.
+> 
+> Maybe optimistic to hit 6.13, but I'd love it if it did.
+> If not, Dave, how about shaving a few off the front so at least
+> there is less to remember for v6 onwards :)
 
-For nested guests: the ERAPS feature adds host/guest tagging to entries
-in the RSB, but does not distinguish between ASIDs.  On a nested exit,
-the L0 hypervisor instructs the microcode (via another new VMCB bit,
-FLUSH_RAP_ON_VMRUN) to flush the RSB on the next VMRUN to prevent RSB
-poisoning attacks from an L2 guest to an L1 guest.  With that in place,
-this feature can be exposed to guests.
+I'd like to take it for 6.13. Just seeing if Dan has any last minute complaints :) We should be able to take 1-6 at least.
 
-For shadow paging guests: do not expose this feature to guests; only
-expose if nested paging is enabled, to ensure context switches within
-guests trigger TLB flushes on the CPU -- thereby ensuring guest context
-switches flush guest RSB entries.  For shadow paging, the CPU's CR3 is
-not used for guest processes, and hence cannot benefit from this
-feature.
-
-Signed-off-by: Amit Shah <amit.shah@amd.com>
----
- arch/x86/include/asm/svm.h |  6 +++++-
- arch/x86/kvm/cpuid.c       | 15 ++++++++++++-
- arch/x86/kvm/svm/svm.c     | 44 ++++++++++++++++++++++++++++++++++++++
- arch/x86/kvm/svm/svm.h     | 15 +++++++++++++
- 4 files changed, 78 insertions(+), 2 deletions(-)
-
-diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
-index 2b59b9951c90..f8584a63c859 100644
---- a/arch/x86/include/asm/svm.h
-+++ b/arch/x86/include/asm/svm.h
-@@ -129,7 +129,8 @@ struct __attribute__ ((__packed__)) vmcb_control_area {
- 	u64 tsc_offset;
- 	u32 asid;
- 	u8 tlb_ctl;
--	u8 reserved_2[3];
-+	u8 erap_ctl;
-+	u8 reserved_2[2];
- 	u32 int_ctl;
- 	u32 int_vector;
- 	u32 int_state;
-@@ -175,6 +176,9 @@ struct __attribute__ ((__packed__)) vmcb_control_area {
- #define TLB_CONTROL_FLUSH_ASID 3
- #define TLB_CONTROL_FLUSH_ASID_LOCAL 7
- 
-+#define ERAP_CONTROL_ALLOW_LARGER_RAP 0
-+#define ERAP_CONTROL_FLUSH_RAP 1
-+
- #define V_TPR_MASK 0x0f
- 
- #define V_IRQ_SHIFT 8
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index 41786b834b16..2c2a60964a2e 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -797,6 +797,8 @@ void kvm_set_cpu_caps(void)
- 		F(WRMSR_XX_BASE_NS)
- 	);
- 
-+	if (tdp_enabled)
-+		kvm_cpu_cap_check_and_set(X86_FEATURE_ERAPS);
- 	kvm_cpu_cap_check_and_set(X86_FEATURE_SBPB);
- 	kvm_cpu_cap_check_and_set(X86_FEATURE_IBPB_BRTYPE);
- 	kvm_cpu_cap_check_and_set(X86_FEATURE_SRSO_NO);
-@@ -1357,8 +1359,19 @@ static inline int __do_cpuid_func(struct kvm_cpuid_array *array, u32 function)
- 		entry->eax = entry->ebx = entry->ecx = entry->edx = 0;
- 		break;
- 	case 0x80000021:
--		entry->ebx = entry->ecx = entry->edx = 0;
-+		unsigned int ebx_mask = 0;
-+
-+		entry->ecx = entry->edx = 0;
- 		cpuid_entry_override(entry, CPUID_8000_0021_EAX);
-+
-+		/*
-+		 * Bits 23:16 in EBX indicate the size of the RSB.
-+		 * Expose the value in the hardware to the guest.
-+		 */
-+		if (kvm_cpu_cap_has(X86_FEATURE_ERAPS))
-+			ebx_mask |= GENMASK(23, 16);
-+
-+		entry->ebx &= ebx_mask;
- 		break;
- 	/* AMD Extended Performance Monitoring and Debug */
- 	case 0x80000022: {
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 9df3e1e5ae81..ecd290ff38f8 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -1360,6 +1360,28 @@ static void init_vmcb(struct kvm_vcpu *vcpu)
- 	if (boot_cpu_has(X86_FEATURE_V_SPEC_CTRL))
- 		set_msr_interception(vcpu, svm->msrpm, MSR_IA32_SPEC_CTRL, 1, 1);
- 
-+	/*
-+	 * If the hardware has a larger RSB, use it in the guest context as
-+	 * well.
-+	 *
-+	 * When running nested guests: the hardware tags host and guest RSB
-+	 * entries, but the entries are ASID agnostic.  Differentiating L1 and
-+	 * L2 guests isn't possible in hardware.  To prevent L2->L1 RSB
-+	 * poisoning attacks in this case, the L0 hypervisor must set
-+	 * FLUSH_RAP_ON_VMRUN in the L1's VMCB on a nested #VMEXIT to ensure
-+	 * the next VMRUN flushes the RSB.
-+	 *
-+	 * For shadow paging / NPT disabled case: the CPU's CR3 does not
-+	 * contain the CR3 of the running guest process, and hence intra-guest
-+	 * context switches will not cause a hardware TLB flush, which in turn
-+	 * does not result in a guest RSB flush that the ERAPS feature
-+	 * provides.  Do not expose ERAPS or the larger RSB to the guest in
-+	 * this case, so the guest continues implementing software mitigations
-+	 * as well as only sees 32 entries for the RSB.
-+	 */
-+	if (boot_cpu_has(X86_FEATURE_ERAPS) && npt_enabled)
-+		vmcb_set_larger_rap(svm->vmcb);
-+
- 	if (kvm_vcpu_apicv_active(vcpu))
- 		avic_init_vmcb(svm, vmcb);
- 
-@@ -3393,6 +3415,7 @@ static void dump_vmcb(struct kvm_vcpu *vcpu)
- 	pr_err("%-20s%016llx\n", "tsc_offset:", control->tsc_offset);
- 	pr_err("%-20s%d\n", "asid:", control->asid);
- 	pr_err("%-20s%d\n", "tlb_ctl:", control->tlb_ctl);
-+	pr_err("%-20s%d\n", "erap_ctl:", control->erap_ctl);
- 	pr_err("%-20s%08x\n", "int_ctl:", control->int_ctl);
- 	pr_err("%-20s%08x\n", "int_vector:", control->int_vector);
- 	pr_err("%-20s%08x\n", "int_state:", control->int_state);
-@@ -3559,6 +3582,27 @@ static int svm_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
- 
- 		trace_kvm_nested_vmexit(vcpu, KVM_ISA_SVM);
- 
-+		if (boot_cpu_has(X86_FEATURE_ERAPS)
-+		    && vmcb_is_larger_rap(svm->vmcb01.ptr)) {
-+			/*
-+			 * XXX a few further optimizations can be made:
-+			 *
-+			 * 1. In pre_svm_run() we can reset this bit when a hw
-+			 * TLB flush has happened - any context switch on a
-+			 * CPU (which causes a TLB flush) auto-flushes the RSB
-+			 * - eg when this vCPU is scheduled on a different
-+			 * pCPU.
-+			 *
-+			 * 2. This is also not needed in the case where the
-+			 * vCPU is being scheduled on the same pCPU, but there
-+			 * was a context switch between the #VMEXIT and VMRUN.
-+			 *
-+			 * 3. If the guest returns to L2 again after this
-+			 * #VMEXIT, there's no need to flush the RSB.
-+			 */
-+			vmcb_set_flush_rap(svm->vmcb01.ptr);
-+		}
-+
- 		vmexit = nested_svm_exit_special(svm);
- 
- 		if (vmexit == NESTED_EXIT_CONTINUE)
-diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-index 43fa6a16eb19..8a7877f46dc5 100644
---- a/arch/x86/kvm/svm/svm.h
-+++ b/arch/x86/kvm/svm/svm.h
-@@ -500,6 +500,21 @@ static inline bool svm_is_intercept(struct vcpu_svm *svm, int bit)
- 	return vmcb_is_intercept(&svm->vmcb->control, bit);
- }
- 
-+static inline void vmcb_set_flush_rap(struct vmcb *vmcb)
-+{
-+	__set_bit(ERAP_CONTROL_FLUSH_RAP, (unsigned long *)&vmcb->control.erap_ctl);
-+}
-+
-+static inline void vmcb_set_larger_rap(struct vmcb *vmcb)
-+{
-+	__set_bit(ERAP_CONTROL_ALLOW_LARGER_RAP, (unsigned long *)&vmcb->control.erap_ctl);
-+}
-+
-+static inline bool vmcb_is_larger_rap(struct vmcb *vmcb)
-+{
-+	return test_bit(ERAP_CONTROL_ALLOW_LARGER_RAP, (unsigned long *)&vmcb->control.erap_ctl);
-+}
-+
- static inline bool nested_vgif_enabled(struct vcpu_svm *svm)
- {
- 	return guest_can_use(&svm->vcpu, X86_FEATURE_VGIF) &&
--- 
-2.47.0
+> 
+> Jonathan
 
