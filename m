@@ -1,354 +1,299 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2120.outbound.protection.outlook.com [40.107.237.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E37D19D09F
-	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 12:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730378244; cv=none; b=LImXpz8UGXkA3AkBNLSKrCDtk6QwuOXcbgXqfPPAqg0SgTW3jsTLFYnRKzr0jTg3CZ2m0y53uPmxoiO5C+tzW4bV4hQctXEebwp05Z6Vo9Pqinx39SIfo3de5MzEN8cvmjRnAD+cgvmJl2s18rCzJ8W+klEeLAFUoEXem1DX+ec=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730378244; c=relaxed/simple;
-	bh=HoD8ilGuMYtPbxx4dST3nnZ9of8lsIcP2oN0hCFRKgA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PIcDAS1VgNO+MnuNVu4tlsxtw07WR/q3SeHH92j/VHRxjzcsZ5inALGfE0oCFKTaNdSJkKogmVpob/5f6/gKqVqeXUJnFrkqvTVDiFGLxGSemd3dOe03/4jBM+Tjtq720FSh2xlyCqTi6xyajo1970nE9FvH2U53KU6oGQlZy/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rm87MSNG; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9552619CC1F;
+	Thu, 31 Oct 2024 12:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.120
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730378979; cv=fail; b=YMzcdBiCGznOGQHQD9ep57MtSJ6WgUqsacU7TmkBzl9iX/wy0RCEUcq6Qvtf6QgVBrI5X11m/T1+IOpFy9xPQO6YqEEPt2hnWt/d1yL0QREJnJ+o4IL0W+0d4jdS7il6Hxo6ot8VFli4xJmrm65Jn4FJcbVhkjNlaYfM/QPoqW0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730378979; c=relaxed/simple;
+	bh=GWUwJTjpK78e2ch1vbqsK3sDIgc7mCKvcI1beEWSpv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=PdxImG3VvDXHWYMAHsYqXKTfYOrdnnlVgvgyYKKQnaIEnc+kOsWCuXZBpAgMQ18d5FNLxPDGENlPJioHrVZWoAFt7XbwpN+M7Tg4Q8Bi5gHYEH+5cVZOrDlVpHpEP0NGMLLduMzypNZl990sJfAhiyjEZhJjMNyOzwcnkaRFnq0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corigine.com; spf=pass smtp.mailfrom=corigine.com; dkim=pass (1024-bit key) header.d=corigine.onmicrosoft.com header.i=@corigine.onmicrosoft.com header.b=VlNzCXWx; arc=fail smtp.client-ip=40.107.237.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corigine.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corigine.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rm87MSNG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730378241;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=4Hal6WHS1aE76VZfKuRs4hvYStmTjVfx8JR8a8dnIgM=;
-	b=Rm87MSNG4g62aYi2UbteDGmLDXZGBPi5ZX4jsMl1yaiSgFAvfeAhwQ9hYvw98qmwHqxacc
-	2NKJ8lpMFGjE3dvk9q/btTq9phxUpIfeZa84XW9leuoI2TNCCZBS5GUxTmBgHhirs1TYxV
-	7ndo3KqfeAuue9IVbg0mvaX/05IiXbQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-526-85R3GRvDPCerFQsvBtSsmg-1; Thu, 31 Oct 2024 08:37:17 -0400
-X-MC-Unique: 85R3GRvDPCerFQsvBtSsmg-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4315c1b5befso5551395e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 05:37:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730378236; x=1730983036;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4Hal6WHS1aE76VZfKuRs4hvYStmTjVfx8JR8a8dnIgM=;
-        b=UcGTui5qtr8oqONE9J6rzMrRVdkB0F60fRuZecoVFjTOsUxAcT0ZiXRnqP8+PSUki2
-         0aTFBqT+WdnXVjNcOpfZuND5/Pl9DTIQv0DILb1NYBRx5osfmYCzGnbZ5lEMRNmLJ3H5
-         l+c/LAn0E4/qD5aZ0DoVxNRpOj/ouSsiSQmrpXE+1xpkWBwu4WyYuMolRfIEjd9K0kv1
-         GX2J8YF8c6M+v/EF/2eHa9qc2aFrxxYqc4dqHH6gmekfqqKPHrHCWrbldzPwWXeCLb4a
-         +aFinoogkOR8yH+5pFE1teAno2U7MV/rka46mdE1gMaKfytB8lUzkLcVv7i57YE8/6zT
-         wg9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUIjJHpl9ugDiDK+mLkpmxAsrxhaW7oAf/YOp7LLbbtqGD/jhtj8HrbMXgPUAA2Jl+x2snhqxMkscQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqMBWV0d0kVJFmFqeYMVINxZ4M7IxOIXXKZ+pRWU40dnkfQTVW
-	mAsHr2+VGycqV0M9gksXhAS2UV0jxazBPpMfQq5kAdNnCPTz53SUuhQxAP/l3h1pzWrwnnVuILP
-	KRpVYdMmK148ZElyvf0Gz66P5pJKSjt7yRIAkd60UFqqNMh+ICWCww2L9bA==
-X-Received: by 2002:a05:600c:4fd3:b0:431:60d0:9088 with SMTP id 5b1f17b1804b1-4319ac9acedmr180517935e9.13.1730378236479;
-        Thu, 31 Oct 2024 05:37:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFSVID/xCV/RTrYmwxSXhv/tUYwNIbN7QNfqet0lWlt3ppFonkE6MHSCcoT38nLBWw61eJ3qA==
-X-Received: by 2002:a05:600c:4fd3:b0:431:60d0:9088 with SMTP id 5b1f17b1804b1-4319ac9acedmr180517665e9.13.1730378236072;
-        Thu, 31 Oct 2024 05:37:16 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe? (p200300cbc70aed007ddf1ea94f7a91fe.dip0.t-ipconnect.de. [2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d698055sm25127635e9.40.2024.10.31.05.37.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 05:37:14 -0700 (PDT)
-Message-ID: <2c507326-3267-431e-936a-23e2ab6a3baf@redhat.com>
-Date: Thu, 31 Oct 2024 13:37:13 +0100
+	dkim=pass (1024-bit key) header.d=corigine.onmicrosoft.com header.i=@corigine.onmicrosoft.com header.b="VlNzCXWx"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DZjHI1FvPSv5cooUrudqbiCqI6Vvh5e+sYVhIJHhzuKhInAIUAOP8lGJliGMLoujxgLYuF0E5PcSf0XszAlA6pmxyn/ec9NAZriAWrxpeiNogOWJGO+bZ2nIlpiBRDZYGeASiDRmWWhe5E+hK3Kx+j4fHc/83UTwiZoVETJA6On2TZ/iJ7a9+IbMAq5ZdWy6k/5wO3q8FAg5FG7nN/ZixJgdp5WH/K/8jFn4xcDg2kBO4gBTlDIog8FV+5RnCQEEYvXubB/92D0fYcnkAkww29+itII8BiY9nrF9vu6Jvn/BDUGFavUkz4y6bGlg/tVJAt75oJE4CZdq6fu8bTwShg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hdLzqf/yTk55heKa4L26mVR5RIL4KsJIu5JPiJiDxC8=;
+ b=LM4+K1qKLlq6+MN2U7iQZzfTMDZ3V3UjfA9PTgVXlvPDCxAn8Eg/t58gocrZGruMJzTow/tgxIldJgL51VBW57z1T86KB4EYvkTRaZUva6B/Daihhs6WDsxyoO6Il25A3m44I751jrRLr+10vrm0lQUWPOH3DCNEX9jGDYb/j1+mJFcdUgK8AvmPe4F2JH+vyh2sHlDeGRaZ1W7eMI9PmwVxmzMWiS70hCvAaZiBUd1V8PX65uFPCJJJvbyObqWRg1xTcXvWcvC6fU1j7npjp7l6CLvef/HNv2y7RrwX20tX1UpVfc2WyhFx5F78VpPoRxJSnIt3rvFZ+2ZPOQK9Ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hdLzqf/yTk55heKa4L26mVR5RIL4KsJIu5JPiJiDxC8=;
+ b=VlNzCXWx3K5bDL+6v2udxSkE5ZadCwXCXbfxFi0qxBFVRXwYwCwyIkrXLIxMK8pPguxoSDwTlrZ2B7M7+CtuRfcwKBv3BbHJgooclb7TXLlpqLA/fKFPthCsfaiRIELDLBCRzdOmHH/qT9i8SrgSuMbG2bTjRw4+quFe90oH+VM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from BL0PR13MB4403.namprd13.prod.outlook.com (2603:10b6:208:1c4::8)
+ by MW5PR13MB5414.namprd13.prod.outlook.com (2603:10b6:303:195::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.24; Thu, 31 Oct
+ 2024 12:49:31 +0000
+Received: from BL0PR13MB4403.namprd13.prod.outlook.com
+ ([fe80::bbcb:1c13:7639:bdc0]) by BL0PR13MB4403.namprd13.prod.outlook.com
+ ([fe80::bbcb:1c13:7639:bdc0%6]) with mapi id 15.20.8114.020; Thu, 31 Oct 2024
+ 12:49:31 +0000
+Date: Thu, 31 Oct 2024 14:49:10 +0200
+From: Louis Peens <louis.peens@corigine.com>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	David Arinzon <darinzon@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Doug Berger <opendmb@gmail.com>, Eric Dumazet <edumazet@google.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Felix Fietkau <nbd@nbd.name>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	hariprasad <hkelam@marvell.com>, Jakub Kicinski <kuba@kernel.org>,
+	Jason Wang <jasowang@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Leon Romanovsky <leon@kernel.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Noam Dagan <ndagan@amazon.com>, Paolo Abeni <pabeni@redhat.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Roy Pledge <Roy.Pledge@nxp.com>, Saeed Bishara <saeedb@amazon.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Shannon Nelson <shannon.nelson@amd.com>,
+	Shay Agroskin <shayagr@amazon.com>, Simon Horman <horms@kernel.org>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Sunil Goutham <sgoutham@marvell.com>, Tal Gilboa <talgi@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	intel-wired-lan@lists.osuosl.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-rdma@vger.kernel.org,
+	netdev@vger.kernel.org, oss-drivers@corigine.com,
+	virtualization@lists.linux.dev
+Subject: Re: [resend PATCH 2/2] dim: pass dim_sample to net_dim() by reference
+Message-ID: <ZyN8xpq5C36Tg9rz@LouisNoVo>
+References: <20241031002326.3426181-1-csander@purestorage.com>
+ <20241031002326.3426181-2-csander@purestorage.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241031002326.3426181-2-csander@purestorage.com>
+X-ClientProxiedBy: JNAP275CA0002.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::7)
+ To BL0PR13MB4403.namprd13.prod.outlook.com (2603:10b6:208:1c4::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] mm: shmem: override mTHP shmem default with a
- kernel parameter
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com
-References: <20241030130308.1066299-1-mcanal@igalia.com>
- <20241030130308.1066299-4-mcanal@igalia.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20241030130308.1066299-4-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR13MB4403:EE_|MW5PR13MB5414:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a7b7130-47b6-4d73-28b3-08dcf9aa76a5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?c/Ftqv0wIKpMdlsyPPggGsb7wRuRQa5trC96IOtdxBDmhGFKAbqcQFqvaIb7?=
+ =?us-ascii?Q?2JuP/PgXEEe7fxfG3TffUAgUUL8uVS+6enUYEUNoIVFfuf8Edc8W/AeEA0qf?=
+ =?us-ascii?Q?4FhtWceoFK8LwnuxSu+La3ElbEvF7o25uAfHUG2skCqZi1c3Rq75B8JbVtRs?=
+ =?us-ascii?Q?gbhTeac4/lI/fI4Zu9aI+cdm8fvgi6Axt3LmlLHw7a1yepsnky/WfUNCh3qz?=
+ =?us-ascii?Q?1Abfurf4eGHrOjmO/mWXCZKsZAbmv9F6eEzKqgV0/U8mvHqQDypxjEw5yVN0?=
+ =?us-ascii?Q?GqHv8n3/+MpgatBQb2P0a25thp3OfTcN0f3u6klat32WmuRojJj3Nghh3Gnq?=
+ =?us-ascii?Q?1guUQ2QW9LEBMF6vIpTrpBj9JesUupj/9HgQ5WT8pMTkBdRwCtKIsrFUfCFt?=
+ =?us-ascii?Q?JQJQtLZeshuoDJLkfIPRvoB+p9Plev/QetAN5k/Fewi9D+cI0+mmIiiHL5Vr?=
+ =?us-ascii?Q?v4VkMdFfs2+0aBY2TXK+EfHo9z6wPMYzRHoaaYP8sH9+Ac4xWqGWrqLPfU9i?=
+ =?us-ascii?Q?cmH2iCOvV6kN/PXLUpwCWJDtNnslD74sV4mEU/B0+1DaBYD/DbPUbufjtIba?=
+ =?us-ascii?Q?qY7Jt6JkIZ3ULH65TAs5wJ7bAbmp17SaFdMV7aT7hmwML56+WxOWuYRas+kO?=
+ =?us-ascii?Q?llPNkHjgL74PC9GS8I7ZIAeY/q94kz7zA1YbE0Kj/QJhvsSnc9B4XvhSeb7+?=
+ =?us-ascii?Q?X5DX6zDxuoLaXJ7+G77IDuovN8l+7ue3RvPZu81z9jBWuay6V7rK6It3p+Zo?=
+ =?us-ascii?Q?D6JzsHz4VWpBihU8aV/yRRLcfsBvD2XcaP1zM837SOUEj2zyQcL73bpNFivp?=
+ =?us-ascii?Q?68JxdWnL6bXYDPsb7XiUJUB/ECEfUs2XYEg+v0+/e0uUNGg8o2CEZNGc8eSS?=
+ =?us-ascii?Q?LXPe7Cv2TBYnw7J7Ynyie3tZjX82+Zph5ezss8WECOu+nL+BNJp9RksMy246?=
+ =?us-ascii?Q?X/TS18JRy0kieeQtfwQh9UNP2VgVmpaX9vA+7/vmoqjf1Z8yia6RQLtYT3RP?=
+ =?us-ascii?Q?BnX6PB5HSaF/uJtwfVZAq2Rlci/EmnRLoFkeR/Iz8YEJOR67kLnRLdh0cHvL?=
+ =?us-ascii?Q?n8UH3ZAodeASBDLvP47H/A1RJGqZPUCrDaylKPYuJgNdcv6xuUSHTUvIQekO?=
+ =?us-ascii?Q?oVYW+CXydXd/ryUmj3yixSCQdPirWtdKv/rWTDFU2+G8EV7Ayo+JDbXjv39n?=
+ =?us-ascii?Q?ZCaDUjddukJpvnAAYkqazPyU7s+1+nl7Cvw+olLboqcOBLG+Aoluf1jaWpgB?=
+ =?us-ascii?Q?3I8Xlh0E/lJNLqQZs/C9f+CD3AOvGIp+zoFaaQJGjPXNqd5yVRu4d2ng0NEq?=
+ =?us-ascii?Q?AmpDEnTdN15ux5rXqlRlJIzp?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR13MB4403.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?V6yYCgQPIOt5l6NIDak0QlxNjmeokJDdNd8W5TbwD9NnrRZWDia2NrDrAUlb?=
+ =?us-ascii?Q?vf7eSGPXFj9xlf+cA5KtmTCW7hCY6p1f+Cr6I6NOVA7A9b9hukA2GSrrzeKk?=
+ =?us-ascii?Q?mtcFEAsGZJ46tvJGs9snHGyMb2/2Lk+WVEgYLbf+KMHK9bq9kuXkGo/shQUx?=
+ =?us-ascii?Q?hTJTzTMAFYAvMllI014CKVK3ATgYCxUwlLEf5p93n7zSuGLQs90oPWQ3uBrS?=
+ =?us-ascii?Q?LMO3VlwFi8OlrnkUwA1QLm6zZMFeZ2qbg0+PmuEXmHqJ6GQ9/qCSRCNPvakt?=
+ =?us-ascii?Q?CCw4wAFmNgOEbd7YCs1xUX+po0XEX2gBUk4s/Z9pTzOAWfSFqaznrxkB3Mhm?=
+ =?us-ascii?Q?JUIMxrnmCo7jzyIybyeAzFx3WUMMz7v6R2KebePcPa9w2GkMV1IiHYUncKfn?=
+ =?us-ascii?Q?zbQpHtjvsgE5xvCm5/m6NDhZWKmBxXcjo05Lyr5n1o/6vGbb/CXThgCsUQzw?=
+ =?us-ascii?Q?IT9IxPe3Sk1VayWf9kVOIjEgJoxJp0QG/GpWhHS4g8S5n4WYvCEHG/lq5YUH?=
+ =?us-ascii?Q?zEfhKTvuQYyY5OcZu4cejQo62vY6NFtCfvtTCtRU6vqQWy1+Awu/cWp3W/4L?=
+ =?us-ascii?Q?XXEoDNW8phtt4XxOOadjxHE/hAQvabPyI75MLjbD9LvFknhac+UKY5ELBqHO?=
+ =?us-ascii?Q?ckGoTsKKvE8bcMIQhbznl42LIZDzm2wFEjIRZWUzJGro3O628zvnlnDyo8ao?=
+ =?us-ascii?Q?oaQEPkUgE9WSeW8FULciCNUD9majMrLUy4dwg/PSEXod5vCoQ9ka+FUpWHsR?=
+ =?us-ascii?Q?EF7m45FRiW1MdMonshPaZzP4JMZKNtopj2sfXY26pnIpPekkj/D0uC+M5Ih3?=
+ =?us-ascii?Q?t95i3rLOB5spGs/2S6i8Or19a/jGReuQHPKdV0jfdux5B7pMjeZNBX9Ko3Jb?=
+ =?us-ascii?Q?DM9To0sP8dqSgJmG6GP5VUEj9qLmF1jgW+eYfN4xptGmcqkxPonmuhqjzVJL?=
+ =?us-ascii?Q?NxIMErde+YdvHNegDN+1hUGlEI3LBIDDVBkH5b1PDlQA3+ZOtZSuD7GowVp2?=
+ =?us-ascii?Q?iFDXmZjdsmM/TrC3cd+ILsP8BRL/aZroPkylnGq3vd9z5p58TLEAD/w01Ok/?=
+ =?us-ascii?Q?HA/FDZTeiFXHfNBdhnmGgmixWqNIRODsMB+kRmGwZzlhhcaW2UrG9zUeCH2t?=
+ =?us-ascii?Q?wByWzsuHLdduL+76v4rlcuCd8WleD64WHnSJOW2W/iapVjZ0RksVIBZdQxsH?=
+ =?us-ascii?Q?8+r9EF3eREYvQGdVxiOlyToNXFww10VQYiMFEnsMJufwHn581HENn8a+yy2l?=
+ =?us-ascii?Q?aZ/GPcHfTvNRo7bAE9+PjGOdR0JnTOZbjYTglx+7Mz+lAKoC1yybHKt0PSPJ?=
+ =?us-ascii?Q?DkO435CeQKN0RnER30EFnnWeNbJRtg0YdyaeMglBVkbZHUVNBQcheuS1WkRi?=
+ =?us-ascii?Q?lpyTw66qSZkUwH/MHojlrhtSPAoWWzG5l+4CeU+6419s7rBgy4mc1xqfKZAJ?=
+ =?us-ascii?Q?eIJOT5Ng+0aTJsp4USvy9fW0UIHOs4ochHEUaPIy+1IlSxiew2ckONSgk7v+?=
+ =?us-ascii?Q?oXoDWXI2PG3kGT+Yp2zXOoet4vjN5ANXwCBbIrAZ8qFAeLgI8EQQ4VLk/1FU?=
+ =?us-ascii?Q?jOwyhvuHMsx9WtQXdD2kU2G2F/0M5rumEagjMTfBycz7uTwNv1vfo/L2Da40?=
+ =?us-ascii?Q?lw=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a7b7130-47b6-4d73-28b3-08dcf9aa76a5
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR13MB4403.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 12:49:31.6106
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R9f61Zk4LrodHYoH2hHLXBcixOq58vk40qQ75o2Z67QVpoPEmysiKuVpUjaKTeNU0uQYc1oZCHX12oWVdAigbTquI/oSQF4t1w1aQgWQvy0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR13MB5414
 
-On 30.10.24 13:58, Maíra Canal wrote:
-> Add the ``thp_shmem=`` kernel command line to allow specifying the
-> default policy of each supported shmem hugepage size. The kernel parameter
-> accepts the following format:
+On Wed, Oct 30, 2024 at 06:23:26PM -0600, Caleb Sander Mateos wrote:
+> net_dim() is currently passed a struct dim_sample argument by value.
+> struct dim_sample is 24 bytes. Since this is greater 16 bytes, x86-64
+> passes it on the stack. All callers have already initialized dim_sample
+> on the stack, so passing it by value requires pushing a duplicated copy
+> to the stack. Either witing to the stack and immediately reading it, or
+> perhaps dereferencing addresses relative to the stack pointer in a chain
+> of push instructions, seems to perform quite poorly.
 > 
-> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
+> In a heavy TCP workload, mlx5e_handle_rx_dim() consumes 3% of CPU time,
+> 94% of which is attributed to the first push instruction to copy
+> dim_sample on the stack for the call to net_dim():
+> // Call ktime_get()
+>   0.26 |4ead2:   call   4ead7 <mlx5e_handle_rx_dim+0x47>
+> // Pass the address of struct dim in %rdi
+>        |4ead7:   lea    0x3d0(%rbx),%rdi
+> // Set dim_sample.pkt_ctr
+>        |4eade:   mov    %r13d,0x8(%rsp)
+> // Set dim_sample.byte_ctr
+>        |4eae3:   mov    %r12d,0xc(%rsp)
+> // Set dim_sample.event_ctr
+>   0.15 |4eae8:   mov    %bp,0x10(%rsp)
+> // Duplicate dim_sample on the stack
+>  94.16 |4eaed:   push   0x10(%rsp)
+>   2.79 |4eaf1:   push   0x10(%rsp)
+>   0.07 |4eaf5:   push   %rax
+> // Call net_dim()
+>   0.21 |4eaf6:   call   4eafb <mlx5e_handle_rx_dim+0x6b>
 > 
-> For example,
+> To allow the caller to reuse the struct dim_sample already on the stack,
+> pass the struct dim_sample by reference to net_dim().
 > 
-> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
-> 
-> By configuring the default policy of several shmem hugepages, the user
-> can take advantage of mTHP before it's been configured through sysfs.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 > ---
->   .../admin-guide/kernel-parameters.txt         |  10 ++
->   Documentation/admin-guide/mm/transhuge.rst    |  17 +++
->   mm/shmem.c                                    | 109 +++++++++++++++++-
->   3 files changed, 135 insertions(+), 1 deletion(-)
+>  Documentation/networking/net_dim.rst                   |  2 +-
+>  drivers/net/ethernet/amazon/ena/ena_netdev.c           |  2 +-
+>  drivers/net/ethernet/broadcom/bcmsysport.c             |  2 +-
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.c              |  4 ++--
+>  drivers/net/ethernet/broadcom/genet/bcmgenet.c         |  2 +-
+>  drivers/net/ethernet/freescale/enetc/enetc.c           |  2 +-
+>  drivers/net/ethernet/hisilicon/hns3/hns3_enet.c        |  4 ++--
+>  drivers/net/ethernet/intel/ice/ice_txrx.c              |  4 ++--
+>  drivers/net/ethernet/intel/idpf/idpf_txrx.c            |  4 ++--
+>  drivers/net/ethernet/marvell/octeontx2/nic/otx2_txrx.c |  2 +-
+>  drivers/net/ethernet/mediatek/mtk_eth_soc.c            |  4 ++--
+>  drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c      |  4 ++--
+>  drivers/net/ethernet/netronome/nfp/nfd3/dp.c           |  4 ++--
+>  drivers/net/ethernet/netronome/nfp/nfdk/dp.c           |  4 ++--
+>  drivers/net/ethernet/pensando/ionic/ionic_txrx.c       |  2 +-
+>  drivers/net/virtio_net.c                               |  2 +-
+>  drivers/soc/fsl/dpio/dpio-service.c                    |  2 +-
+>  include/linux/dim.h                                    |  2 +-
+>  lib/dim/net_dim.c                                      | 10 +++++-----
+>  19 files changed, 31 insertions(+), 31 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index acabb04d0dd4..b48d744d99b0 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6700,6 +6700,16 @@
->   			Force threading of all interrupt handlers except those
->   			marked explicitly IRQF_NO_THREAD.
->   
-> +	thp_shmem=	[KNL]
-> +			Format: <size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
-> +			Control the default policy of each hugepage size for the
-> +			internal shmem mount. <policy> is one of policies available
-> +			for the shmem mount ("always", "inherit", "never", "within_size",
-> +			and "advise").
-> +			It can be used multiple times for multiple shmem THP sizes.
-> +			See Documentation/admin-guide/mm/transhuge.rst for more
-> +			details.
-> +
->   	topology=	[S390,EARLY]
->   			Format: {off | on}
->   			Specify if the kernel should make use of the cpu
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index 9b5b02c4d1ab..47e7fc30e22d 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -332,6 +332,23 @@ allocation policy for the internal shmem mount by using the kernel parameter
->   seven valid policies for shmem (``always``, ``within_size``, ``advise``,
->   ``never``, ``deny``, and ``force``).
->   
-> +In the same manner as ``thp_anon`` controls each supported anonymous THP
-> +size, ``thp_shmem`` controls each supported shmem THP size. ``thp_shmem``
-> +has the same format as ``thp_anon``, but also supports the policy
-> +``within_size``.
-> +
-> +``thp_shmem=`` may be specified multiple times to configure all THP sizes
-> +as required. If ``thp_shmem=`` is specified at least once, any shmem THP
-> +sizes not explicitly configured on the command line are implicitly set to
-> +``never``.
-> +
-> +``transparent_hugepage_shmem`` setting only affects the global toggle. If
-> +``thp_shmem`` is not specified, PMD_ORDER hugepage will default to
-> +``inherit``. However, if a valid ``thp_shmem`` setting is provided by the
-> +user, the PMD_ORDER hugepage policy will be overridden. If the policy for
-> +PMD_ORDER is not defined within a valid ``thp_shmem``, its policy will
-> +default to ``never``.
-> +
->   Hugepages in tmpfs/shmem
->   ========================
->   
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index dfcc88ec6e34..c2299fa0b345 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_always __read_mostly;
->   static unsigned long huge_shmem_orders_madvise __read_mostly;
->   static unsigned long huge_shmem_orders_inherit __read_mostly;
->   static unsigned long huge_shmem_orders_within_size __read_mostly;
-> +static bool shmem_orders_configured __initdata;
->   #endif
->   
->   #ifdef CONFIG_TMPFS
-> @@ -5027,7 +5028,8 @@ void __init shmem_init(void)
->   	 * Default to setting PMD-sized THP to inherit the global setting and
->   	 * disable all other multi-size THPs.
->   	 */
-> -	huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
-> +	if (!shmem_orders_configured)
-> +		huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
->   #endif
->   	return;
->   
-> @@ -5180,6 +5182,26 @@ struct kobj_attribute thpsize_shmem_enabled_attr =
->   
->   #if defined(CONFIG_TRANSPARENT_HUGEPAGE)
->   
-> +static inline int get_order_from_str(const char *size_str)
-> +{
-> +	unsigned long size;
-> +	char *endptr;
-> +	int order;
-> +
-> +	size = memparse(size_str, &endptr);
-> +
-> +	if (!is_power_of_2(size))
-> +		goto err;
-> +	order = get_order(size);
-> +	if (BIT(order) & ~THP_ORDERS_ALL_FILE_DEFAULT)
-> +		goto err;
-> +
-> +	return order;
-> +err:
-> +	pr_err("invalid size %s in thp_shmem boot parameter\n", size_str);
-> +	return -EINVAL;
-> +}
+--- snip --
 
-Hm, mostly copy and paste. You could reuse existing get_order_from_str() 
-simply by passing in the supported orders and moving error reporting to 
-the caller.
+> diff --git a/drivers/net/ethernet/netronome/nfp/nfd3/dp.c b/drivers/net/ethernet/netronome/nfp/nfd3/dp.c
+> index d215efc6cad0..f1c6c47564b1 100644
+> --- a/drivers/net/ethernet/netronome/nfp/nfd3/dp.c
+> +++ b/drivers/net/ethernet/netronome/nfp/nfd3/dp.c
+> @@ -1177,11 +1177,11 @@ int nfp_nfd3_poll(struct napi_struct *napi, int budget)
+>  			pkts = r_vec->rx_pkts;
+>  			bytes = r_vec->rx_bytes;
+>  		} while (u64_stats_fetch_retry(&r_vec->rx_sync, start));
+>  
+>  		dim_update_sample(r_vec->event_ctr, pkts, bytes, &dim_sample);
+> -		net_dim(&r_vec->rx_dim, dim_sample);
+> +		net_dim(&r_vec->rx_dim, &dim_sample);
+>  	}
+>  
+>  	if (r_vec->nfp_net->tx_coalesce_adapt_on && r_vec->tx_ring) {
+>  		struct dim_sample dim_sample = {};
+>  		unsigned int start;
+> @@ -1192,11 +1192,11 @@ int nfp_nfd3_poll(struct napi_struct *napi, int budget)
+>  			pkts = r_vec->tx_pkts;
+>  			bytes = r_vec->tx_bytes;
+>  		} while (u64_stats_fetch_retry(&r_vec->tx_sync, start));
+>  
+>  		dim_update_sample(r_vec->event_ctr, pkts, bytes, &dim_sample);
+> -		net_dim(&r_vec->tx_dim, dim_sample);
+> +		net_dim(&r_vec->tx_dim, &dim_sample);
+>  	}
+>  
+>  	return pkts_polled;
+>  }
+>  
+> diff --git a/drivers/net/ethernet/netronome/nfp/nfdk/dp.c b/drivers/net/ethernet/netronome/nfp/nfdk/dp.c
+> index dae5af7d1845..ebeb6ab4465c 100644
+> --- a/drivers/net/ethernet/netronome/nfp/nfdk/dp.c
+> +++ b/drivers/net/ethernet/netronome/nfp/nfdk/dp.c
+> @@ -1287,11 +1287,11 @@ int nfp_nfdk_poll(struct napi_struct *napi, int budget)
+>  			pkts = r_vec->rx_pkts;
+>  			bytes = r_vec->rx_bytes;
+>  		} while (u64_stats_fetch_retry(&r_vec->rx_sync, start));
+>  
+>  		dim_update_sample(r_vec->event_ctr, pkts, bytes, &dim_sample);
+> -		net_dim(&r_vec->rx_dim, dim_sample);
+> +		net_dim(&r_vec->rx_dim, &dim_sample);
+>  	}
+>  
+>  	if (r_vec->nfp_net->tx_coalesce_adapt_on && r_vec->tx_ring) {
+>  		struct dim_sample dim_sample = {};
+>  		unsigned int start;
+> @@ -1302,11 +1302,11 @@ int nfp_nfdk_poll(struct napi_struct *napi, int budget)
+>  			pkts = r_vec->tx_pkts;
+>  			bytes = r_vec->tx_bytes;
+>  		} while (u64_stats_fetch_retry(&r_vec->tx_sync, start));
+>  
+>  		dim_update_sample(r_vec->event_ctr, pkts, bytes, &dim_sample);
+> -		net_dim(&r_vec->tx_dim, dim_sample);
+> +		net_dim(&r_vec->tx_dim, &dim_sample);
+>  	}
+>  
+>  	return pkts_polled;
+>  }
+--- snip ---
 
-static inline int get_order_from_str(const char *size_str,
-		int valid_orders)
-{
-	...
-	if (!is_power_of_2(size))
-		return -EINVAL;
-	order = get_order(size);
-	if (BIT(order) & ~valid_orders)
-		return -EINVAL;
-	return order;
-}
+Hi Caleb. Looks like a fair enough update to me in general, but I am not an
+expert on 'dim'. For the corresponding nfp driver changes feel free to add:
 
-> +
->   static int __init setup_transparent_hugepage_shmem(char *str)
->   {
->   	int huge;
-> @@ -5195,6 +5217,91 @@ static int __init setup_transparent_hugepage_shmem(char *str)
->   }
->   __setup("transparent_hugepage_shmem=", setup_transparent_hugepage_shmem);
->   
-> +static char str_dup[PAGE_SIZE] __initdata;
-> +static int __init setup_thp_shmem(char *str)
-> +{
-> +	char *token, *range, *policy, *subtoken;
-> +	unsigned long always, inherit, madvise, within_size;
-> +	char *start_size, *end_size;
-> +	int start, end, nr;
-> +	char *p;
-> +
-> +	if (!str || strlen(str) + 1 > PAGE_SIZE)
-> +		goto err;
-> +	strscpy(str_dup, str);
-> +
-> +	always = huge_shmem_orders_always;
-> +	inherit = huge_shmem_orders_inherit;
-> +	madvise = huge_shmem_orders_madvise;
-> +	within_size = huge_shmem_orders_within_size;
-> +	p = str_dup;
-> +	while ((token = strsep(&p, ";")) != NULL) {
-> +		range = strsep(&token, ":");
-> +		policy = token;
-> +
-> +		if (!policy)
-> +			goto err;
-> +
-> +		while ((subtoken = strsep(&range, ",")) != NULL) {
-> +			if (strchr(subtoken, '-')) {
-> +				start_size = strsep(&subtoken, "-");
-> +				end_size = subtoken;
-> +
-> +				start = get_order_from_str(start_size);
-> +				end = get_order_from_str(end_size);
-> +			} else {
-> +				start = end = get_order_from_str(subtoken);
-> +			}
-> +
-> +			if (start < 0 || end < 0 || start > end)
-> +				goto err;
-> +
-> +			nr = end - start + 1;
-> +			if (!strcmp(policy, "always")) {
-> +				bitmap_set(&always, start, nr);
-> +				bitmap_clear(&inherit, start, nr);
-> +				bitmap_clear(&madvise, start, nr);
-> +				bitmap_clear(&within_size, start, nr);
-> +			} else if (!strcmp(policy, "advise")) {
-> +				bitmap_set(&madvise, start, nr);
-> +				bitmap_clear(&inherit, start, nr);
-> +				bitmap_clear(&always, start, nr);
-> +				bitmap_clear(&within_size, start, nr);
-> +			} else if (!strcmp(policy, "inherit")) {
-> +				bitmap_set(&inherit, start, nr);
-> +				bitmap_clear(&madvise, start, nr);
-> +				bitmap_clear(&always, start, nr);
-> +				bitmap_clear(&within_size, start, nr);
-> +			} else if (!strcmp(policy, "within_size")) {
-> +				bitmap_set(&within_size, start, nr);
-> +				bitmap_clear(&inherit, start, nr);
-> +				bitmap_clear(&madvise, start, nr);
-> +				bitmap_clear(&always, start, nr);
-> +			} else if (!strcmp(policy, "never")) {
-> +				bitmap_clear(&inherit, start, nr);
-> +				bitmap_clear(&madvise, start, nr);
-> +				bitmap_clear(&always, start, nr);
-> +				bitmap_clear(&within_size, start, nr);
-> +			} else {
-> +				pr_err("invalid policy %s in thp_shmem boot parameter\n", policy);
-> +				goto err;
-> +			}
-> +		}
-> +	}
-
-
-Similarly, copy-paste. But not that easy to abstract :) So maybe we'll 
-have to keep that as is for now.
-
-
--- 
-Cheers,
-
-David / dhildenb
-
+Signed-off-by: Louis Peens <louis.peens@corigine.com>
