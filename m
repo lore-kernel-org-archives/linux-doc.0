@@ -1,94 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8248314D2BD;
-	Thu, 31 Oct 2024 07:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877591531C0
+	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 08:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730361574; cv=none; b=i7N6c3wlAu6Ko939RcrInEo/CXNNxvXvDyC/rrPZeZj2gQwJ0uJFagrSzR/YpozNJtd7tu76zZ3nERmRaBsazblCJbVJ4iyskMWj5myvbbcl1ItUkQ+F83wmj0icyfpc7dn9oo9rYr45eBtV1kX6iFEinnCyHGRATOTE3Eo8hDc=
+	t=1730362372; cv=none; b=W235bZW4i/iC1ZAhvAXLMXn1KKRqm/YZGFBrCgxgQcGKlQRKy7KvVXQvlRPTndPESGMnw3AhHeW338bQyB4VqInBdCmP6cUa1D16kzWCvYZvN7e2CdBf4mwHv2ngaaBEjalIJJJrYRlkhc8r9QNHy84CIJAQSbL2bChomlDt89w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730361574; c=relaxed/simple;
-	bh=r4WvFfTJfMdRUmFzrlSoIGEf8BKQg/IhRD4qnokJQvg=;
+	s=arc-20240116; t=1730362372; c=relaxed/simple;
+	bh=dklUTvxcoZQ19Ejb/he4j0SPUhxKOWxWCHjH3frzbvg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EsnBx/V7/NQ5tIcul5WSbkatoRqNQMlug8lvecIHPIJ8ogC+GOg9YuGCC6JB0uzN1sdLUvN0Xk7YpsKIa9jeoOEBfhrOV6biQWi5vpQfR2S++TQcyQqlpsT5m1kf/fymy3cybNCLslirgt/Jptpa7Pm6wgWtp5Rae0L4hlL57GY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YSE0qfi9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=QlXTDyiZB8i+j/d7rQwpw/fY3OVFjgLrRi9sksW4TIbLdqdXDjZ7N0Jpj+/C8mrGjCj5oV7xLaqK8y9VmD8r+oT/+ZYL8MtENHmYs9k94oN1iIcsGIzqB+cw6+eRFAPbID8BFI8+A6TVwRDwAlcyWZTlA+gaPKnNByVkOr7pEnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=MOqUzrqV; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YSE0qfi9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A22C4CEC3;
-	Thu, 31 Oct 2024 07:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730361574;
-	bh=r4WvFfTJfMdRUmFzrlSoIGEf8BKQg/IhRD4qnokJQvg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YSE0qfi9lLOBn1EH9BGdBYxYLpBIBHIK0QaNCb5Z2f/3ZU0SiPGduT5S8BZpZzVhE
-	 QsE8znEvky7HGyINHWNHZtUimXc0OyWjetPBBGPw4IpeX6whHRZ0Squq75I9D2OXoh
-	 Dj4A2PcDjtD53WxZ8CfoENNGNXS3uZ1vTjYJ05qe8rdIM0RAaKg01VZUsT2btH90gN
-	 3IfJ20Y+iAFHW1y+lpY5HZMEPNs5tEjpoTUkB7qMwux7hxpqN1+o4tJ7RVpOBKxrIT
-	 w9KRIYFGI2KFLA4w2wF7IkinK0w9y+ewKYwfXPBFWw7JG53t4IL192NVOKYAlQAK8j
-	 0+j+mdz3I8PxQ==
-Date: Thu, 31 Oct 2024 09:59:28 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
-Message-ID: <20241031075928.GA7473@unreal>
-References: <cover.1730298502.git.leon@kernel.org>
- <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
- <19cf7d58-4a28-4ce8-9524-8c99fdc79062@infradead.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="MOqUzrqV"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a9a0f198d38so96385166b.1
+        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 01:12:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1730362368; x=1730967168; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1NsFGdhFHt7vNHkeF4Op7bN0bdu6mqlOlf3mw5K16Yo=;
+        b=MOqUzrqVELO0B1aiEWK4CwehXQYZyGKsf+b3Rl3n/boLMSvyuxYSoy2DC0PtZArDyH
+         cALtfqIFfgEnzIdv3FNmNDYkpucv8Q7gGit8+SKvpoG+Kc2jntn1jlDGjqCzEitrsyS5
+         jEgg+WjarVmoP8ph0KcA9Eu0dJ5J0BpYVz4sRESr0+MkdTWCYDgSzsXEgJfCfx5/Icix
+         BTe0CJVPvMj7qeOwgwSN+Gujn4zWNUCrnSZYv3QEPBv9CI5mgGRr7AkHA2gQ17mcDK0Z
+         BUGmIqUGWeAzBRp/ZsshlngqFOdIdGeyd8wkZrOR9Uu6lX/55OWq273rgm6BC79FnQoy
+         Pj7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730362368; x=1730967168;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1NsFGdhFHt7vNHkeF4Op7bN0bdu6mqlOlf3mw5K16Yo=;
+        b=i48lKkRCSryp1Nuql5FOYQrsWvhjKF9L24k1CDieGR30M/3f/j1AtbqWjSCCJDLWin
+         nGoHOregYM2iDP27Pu/v8aBCGtOTYATzZGsqT0oAIj3xS2YlMoc/I94nkLKn/Q0BiLdL
+         2YMqn9Ro8+g6sElgT7DPRHfJiwh7foZ0yawiTOh0/NyfEF+LmYCzR8R1Eb0IAzpLMBWu
+         fkkWUTb56FKAO8fR0krpepIc7PBpLQ+J7GXl2TqkhitML4+sdVuzoer4Q589RZW4CM7Y
+         Xw4Qbtu3/yJHyl+Io0c9RqYa2YS/aHxXXQBaEzBRjtxRej4lqfWDjNKHKuk2GW/mhxpG
+         5rmA==
+X-Forwarded-Encrypted: i=1; AJvYcCXBjivawFMZDV6DBNOX3FONYDBelIfulZHWXwa4oNsDipd284PeTcwghHweX6JaOcIT8EsfF+jEu8g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGSu+0QKQaCxD9PrSzW6+QYiOwNfjxF50ljfzZPUKdos1KED6J
+	DkgAG9EcSvk9WeYItVDmNYX2xJkyYy53q2DSd4yfRWszRsZQu7/Yzm23k3AjROw=
+X-Google-Smtp-Source: AGHT+IErqAcDPZr221CAovWq14T0+yAWNPysXadW1rVCxC28+QsDk01at4oQ+oc4iW1WxHhAWm19ug==
+X-Received: by 2002:a17:907:94c1:b0:a99:4ca4:4ff4 with SMTP id a640c23a62f3a-a9de5d98002mr1492014866b.23.1730362367461;
+        Thu, 31 Oct 2024 01:12:47 -0700 (PDT)
+Received: from localhost (109-81-81-105.rct.o2.cz. [109.81.81.105])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e564c55ffsm39587566b.59.2024.10.31.01.12.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 01:12:47 -0700 (PDT)
+Date: Thu, 31 Oct 2024 09:12:46 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, nphamcs@gmail.com,
+	shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+	muchun.song@linux.dev, tj@kernel.org, lizefan.x@bytedance.com,
+	mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com,
+	akpm@linux-foundation.org, cgroups@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
+Message-ID: <ZyM7_i1HFnFfUmIR@tiehlicka>
+References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
+ <ZyIZ_Sq9D_v5v43l@tiehlicka>
+ <20241030150102.GA706616@cmpxchg.org>
+ <ZyJQaXAZSMKkFVQ2@tiehlicka>
+ <20241030183044.GA706387@cmpxchg.org>
+ <CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <19cf7d58-4a28-4ce8-9524-8c99fdc79062@infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
 
-On Wed, Oct 30, 2024 at 06:41:21PM -0700, Randy Dunlap wrote:
-> (nits)
+On Wed 30-10-24 16:43:42, Joshua Hahn wrote:
+> On Wed, Oct 30, 2024 at 2:30 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
+> >
+> > Joshua, can you please include something like this at the end:
+> >
+> > lruvec_stat_mod_folio() keys off of folio->memcg linkage, which is
+> > only set up if CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING is switched
+> > on. This ensures that memory.stat::hugetlb is in sync with the hugetlb
+> > share of memory.current.
 > 
-> On 10/30/24 8:12 AM, Leon Romanovsky wrote:
-> > From: Christoph Hellwig <hch@lst.de>
-> > 
-> > Add an explanation of the newly added IOVA-based mapping API.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  Documentation/core-api/dma-api.rst | 70 ++++++++++++++++++++++++++++++
-> >  1 file changed, 70 insertions(+)
-
-<...>
-
-> > +These APIs allow a very efficient mapping when using an IOMMU.  They are an
-> > +optional path that requires extra code and are only recommended for drivers
-> > +where DMA mapping performance, or the space usage for storing the DMA addresses
-> > +matter.  All the consideration from the previous section apply here as well.
+> Hello Andrew,
 > 
->                     considerations
-
-<...>
-
-> > +is used to unmap a range previous mapped, and
+> I saw that it was merged into mm-unstable earlier yesterday. Would it
+> be possible
+> to add this block of text to the patch description right before the footnotes?
 > 
->                             previously
+> 3. Implementation Details:
+> In the alloc / free hugetlb functions, we call lruvec_stat_mod_folio
+> regardless of whether memcg accounts hugetlb. lruvec_stat_mod_folio
+> keys off of folio->memcg which is only set up if the
+> CGRP_ROOT_MEMORY_HUGETLB_ACCOUTING cgroup mount option is used, so
+> it will not try to accumulate hugetlb unless the flag is set.
 
-Thanks
+Thanks for the update and sorry for being pitbull here but this is
+is a bit confusing. Let me try to reformulate as per my understanding
+
+In the alloc / free hugetlb functions, we call lruvec_stat_mod_folio
+regardless of whether memcg accounts hugetlb.  mem_cgroup_commit_charge
+called from alloc_hugetlb_folio will set memcg for folio only if
+CGRP_ROOT_MEMORY_HUGETLB_ACCOUTING is enabled so lruvec_stat_mod_folio
+accounts per memcg hugetlb counter only if the feature is enabled.
+Regardless of the memcg accounting, though, the newly added global
+counter is updated and shown in /proc/vmstat.
+
+I would also add the following
+
+The global counter is added because vmstats is the preferred framework
+for cgroup stats. It makes stat items consistent between global and
+cgroup. It provides a per-node breakdown as well which is useful. It
+avoids proliferating cgroup-specific hooks in generic MM code.
+
+I will leave up to you whether to add above paragraphs but I believe
+they clarify the intention and the implementation.
+
+Acked-by: Michal Hocko <mhocko@suse.com>
+Thanks!
+-- 
+Michal Hocko
+SUSE Labs
