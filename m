@@ -1,86 +1,71 @@
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sg2apc01on2127.outbound.protection.outlook.com [40.107.215.127])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2084.outbound.protection.outlook.com [40.107.220.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978C21991BE;
-	Thu, 31 Oct 2024 13:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.127
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB82613A869;
+	Thu, 31 Oct 2024 13:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.84
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730380197; cv=fail; b=FNkhEHcp8R9QXFwLW/1sQAclpc4cA0JcwzDmjPXg6FNx+6mt0CZNaMCpv8hdysiCx4GS5hzo+6FCn/GQb8gHToV5xltWiAuEHy1QNvitHyH/9fEz8Ih4msoZDVlCbyxmgcnHNuG40I86vd4oHDyv++Bdx1mp93HsZmaq56/z7/c=
+	t=1730380330; cv=fail; b=GcvTyIDMM9EyINY/fO58UAfe5YQdw4aUAztCrs03kEBJjOrzZWW7bc5LgNxGrsdUCKHp0j3EcXSc/xz65KfSE2M1yvf6sv66IbN0b7qsdhyOuMTOzhoJQWmhPB1j/x0PcBn0PC9zY66nl3ReTb7j2BpGyrHJpCSr3CWyEsweXmo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730380197; c=relaxed/simple;
-	bh=KQt0qyfnFczN9Nikee8eYixTLeSpTX0GHq4Ke9cQUmw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZnutY6qKJ2rEcbYhp+sb80jdnx7ypj+7SqztrnTmdDpnVu6ZQKOXtD7t/lrFYUE+xAmYC1p+Vaao8dEchZ+KU+QNqjzHj7HMyKEOH2gv5IMibQaQwoP633SJ9GXbrASTRTjSMUCD/0dTssHrQ9RUmUHTfqRj5uAHV3oKcnMQ7fI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=F2RdWql0; arc=fail smtp.client-ip=40.107.215.127
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
+	s=arc-20240116; t=1730380330; c=relaxed/simple;
+	bh=tDrIk7KvH0bPYzQG61efQjx2hAhSIIHlJXu2WC59UTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ssaycNsqwWEtPL9+4sg6ycQmBAqlrZoBGhM4LdK7tHNPdZHhj70aDPWf9h1WjXw3VmDKecPjmXAIPMKnkeJsynJHzxOKFdQiUyWfyiEeCo3dBALcWYeOLTPVvQZ7q6WN0f5dX++HJsNSi86ioiaYih7pmZS+AjaCaKbVyT1TgYE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YA9lGHOn; arc=fail smtp.client-ip=40.107.220.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="F2RdWql0"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YA9lGHOn"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nqSlOjpjffkiElb1Q+oecdnw/uoWdbFX5Y2BL88uqnm4uM2IDXNhyE/1F6SHU+C1/McnxLj8WbRiZj0SUYdS7kmvOz1Rn4y93ndVvgQyy6l5dnD42dZnf9cpZYF2mTP+5NESZx//8mOFwUoiEEC5HnSgYQBZsr71I0G2dBTw605v/6xZ6DuYEaki28FQ08r85lBnvL/jtY0Q1P7tdFg22GtGSDV/khB7IjKYDeWlOtDFt1CL9AsksYONfhs4/LNjZivf06FIHQRl9h2xDCls4+T+GFN6QIeFl0eedcwTzryVhdaqGwnjUSVpPgHw9CVUklXxhC/asILqqGI1Z7Gk3A==
+ b=RJPiLEMlNbvTO4B+t6nZBQwvSkEOp476Ma3e9g3yDejzF37XfjGtzLX7+TwUagUJH5N3lLDPJMRNHBMHdnRSWjRhI201tAJ93nPLHdvgDO/0GH39NOXSK2xNzfco3rtQCSTjvjpyvEpqx0KWz+BlL7ZbIGSSrYYxhtYLlsYANYDCV+DUXvj0L1nKnaqgtK8awB8LW38gQi/HVo0ZyJcP9sxjKNd13o/1UsbhLQZCTf1LxnOJNf6jWFSX2mUK8CySxeO5tqopJc8JGvHmsShoe8hyyzBnhKiYsYkui9zpkJxNzuEO7rfdVOkWSl8n5ignM5H2vDO/NNMYiCS+SG297Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aZYlpQTCTa8nV6TQLlq7S+sdt2aCdcEeGA6qU1KAn/o=;
- b=AtLB0lxzL9K1lVgGfglhsJ+hJWeAnYgTnkFWKZBCjvsEhCCFi0lWRhRDUAGRlRY+zFIDnYohzSP0DEghtfGd3QuHY2+cfInf67cuws5mkwttLUKy0DlRkYjklArm11MUCpqwp023wJqkooTtiAuPepooFkRFoM/xdg06nluses+tBaDX3UT1Cm+v1o1YARHFVNm6+uhRrBbd//Co/wCoBR2bdpWonUTuEptyLA9SssDXaMOaLmIcJ/hXFHyMJzUfA89osE5oeFW0VDlWf0nZgK2clEsctcDH4ysyAYTeOGRVJ3K+I+zt8xoRp1DP4f3hr1gxwzueqvrS0okb4sbl3A==
+ bh=WYT++5TrMUSTDSarr4q2vGrKIvKPdXkJ7jAVZP1fR9s=;
+ b=QWyHYhNunFyumvew8CM4bfRhfPoWheSpoH/r2RFXa34eXiBJz4a58sajVdHnRl74qrpd0PuIWr1+wfbrRM7rL8QmwPuxEe/fdFKnohjNEVDcKV5hAlNCo55txCsErjmHSIX5zzSsQayH2J4diskHOLlr3FUMUAXXSMKhbCUTP6ZkOZQ5IRmyplQvY/HO8AZHXiCpgWHohK5eG8TEWe5mQ9gyBFKQLIqtB3hA20+nwQLaYDkiWbyeoeyPQxjVDIO+DXwwSAK3UO5l19IIFCR40dFPIQeWXhTG4MAoXqWhGV0lnk/nKppm6XTXANC7gU611HibadmNFDtUrVBt7wvURw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
- dkim=pass header.d=fibocom.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aZYlpQTCTa8nV6TQLlq7S+sdt2aCdcEeGA6qU1KAn/o=;
- b=F2RdWql09cEEgJULpD+0+05PHj7g4ZBhUe9zexEJczGoYKr6KrQk1Onr1qE4TcDJskI5Mklpd+MgPrirzv9ntBUlebUvHfCnsyhDAsS7+Uz/Y4MVEV+Ukvu2egMELU+aPCvTUXzn1C/3F8bfq0BWJfuanSRJiCjqJF3n7b9t8u0=
+ bh=WYT++5TrMUSTDSarr4q2vGrKIvKPdXkJ7jAVZP1fR9s=;
+ b=YA9lGHOniyWaFPFo3agtz2D/htK5dvUy3TopSnT5Co2qY9Xgfq2d1xO09+9mipcaxENr9cYMSlIopu4YF+FXqlI6VMc96PvfQR5wAEBJSdzl2lWR5tiUm1AqhJOM8qUqfcoITF4Z97/rovxF5UbjZwuSh6+1nMouA43vXhv5djvt2J4eyMjadOoGQejIL3KEmkv64iWniLv52qDHwX6TE9/+yniI0mEf00htE1MMm229AUpq1CCp/NHzL5BJTPNiCJ9d6j5/D8apIhBiP6fVpJlw7q4n92dX1DaBOio8vxSTqviRjzUQrPfR8H9yVdCC13x0IPPqAr9dfU90r4UcdQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fibocom.com;
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
- by TYZPR02MB6294.apcprd02.prod.outlook.com (2603:1096:400:287::14) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by IA0PR12MB8423.namprd12.prod.outlook.com (2603:10b6:208:3dc::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Thu, 31 Oct
- 2024 13:09:47 +0000
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b]) by TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b%4]) with mapi id 15.20.8114.015; Thu, 31 Oct 2024
- 13:09:47 +0000
-From: Jinjian Song <jinjian.song@fibocom.com>
-To: ryazanov.s.a@gmail.com,
-	Jinjian Song <jinjian.song@fibocom.com>,
-	chandrashekar.devegowda@intel.com,
-	chiranjeevi.rapolu@linux.intel.com,
-	haijun.liu@mediatek.com,
-	m.chetan.kumar@linux.intel.com,
-	ricardo.martinez@linux.intel.com,
-	loic.poulain@linaro.org,
-	johannes@sipsolutions.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: angelogioacchino.delregno@collabora.com,
-	bhelgaas@google.com,
-	corbet@lwn.net,
-	danielwinkler@google.com,
-	helgaas@kernel.org,
-	korneld@google.com,
-	linasvepstas@gmail.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	matthias.bgg@gmail.com,
-	netdev@vger.kernel.org
-Subject: Re: [net-next v2] net: wwan: t7xx: reset device if suspend fails
-Date: Thu, 31 Oct 2024 21:09:30 +0800
-Message-Id: <20241031130930.5583-1-jinjian.song@fibocom.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <e37b9baa-51e5-48f9-a15d-521f29ce5f9c@gmail.com>
-References: <20241022084348.4571-1-jinjian.song@fibocom.com> <20241029034657.6937-1-jinjian.song@fibocom.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TYAPR01CA0167.jpnprd01.prod.outlook.com
- (2603:1096:404:7e::35) To TY0PR02MB5766.apcprd02.prod.outlook.com
- (2603:1096:400:1b5::6)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.21; Thu, 31 Oct
+ 2024 13:12:03 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8093.018; Thu, 31 Oct 2024
+ 13:12:02 +0000
+Date: Thu, 31 Oct 2024 10:12:01 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: kevin.tian@intel.com, corbet@lwn.net, joro@8bytes.org,
+	suravee.suthikulpanit@amd.com, will@kernel.org,
+	robin.murphy@arm.com, dwmw2@infradead.org, shuah@kernel.org,
+	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	baolu.lu@linux.intel.com, eric.auger@redhat.com,
+	jean-philippe@linaro.org, mdf@kernel.org, mshavit@google.com,
+	shameerali.kolothum.thodi@huawei.com, smostafa@google.com,
+	yi.l.liu@intel.com, aik@amd.com, zhangfei.gao@linaro.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v6 02/13] iommufd: Move _iommufd_object_alloc helper to a
+ sharable file
+Message-ID: <20241031131201.GH10193@nvidia.com>
+References: <cover.1730313237.git.nicolinc@nvidia.com>
+ <52abef167409b25bfee559a0c03f2607ce77be3c.1730313237.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <52abef167409b25bfee559a0c03f2607ce77be3c.1730313237.git.nicolinc@nvidia.com>
+X-ClientProxiedBy: BN9PR03CA0683.namprd03.prod.outlook.com
+ (2603:10b6:408:10e::28) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,194 +73,117 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY0PR02MB5766:EE_|TYZPR02MB6294:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4bd1cf01-6e63-4f22-3279-08dcf9ad4b59
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|IA0PR12MB8423:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e4fea9f-b76a-4d4c-029a-08dcf9ad9c39
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|52116014|366016|376014|1800799024|921020|38350700014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bkZyZmxlZGM5ZnhoMHVTTVNYcWpZME9GNU1kamRaK1FtTEFCSGJmY0VhMEVN?=
- =?utf-8?B?L0xESHlMS05BYys2aHRJUFpsa1dKYWtNaXJncFpMY1dwR283V3hYY1VRcnhV?=
- =?utf-8?B?eHo4Y1RSZGFxY3o5dmViVnRKaFd5YUl5OWIwQm5WQkUzWXF6ZENqaWR2NFI5?=
- =?utf-8?B?YUpVeDgrazZyU3ZFU2RvOVZyOHdMRDQxN0xzNGtOWUFDdFB3THZQVlZsajNB?=
- =?utf-8?B?eWx2YTdxRklxN3dUMUZ3WHhBWWdFeFZvcWFTRjBCdzNLeFV6UXNLeTBVMk1s?=
- =?utf-8?B?aWdYa0o1MHZ2cXRBZnp0Z2crdkpBZVEwMHZWb1BzcGhpVllvQUtiVStMMll4?=
- =?utf-8?B?WWM0eDErTFhHUkNzRnE5aUpnVzlnV0t0M0hVVW9iL3hDaGZDbFd5MW9CREx4?=
- =?utf-8?B?TngySWtUbVVzc3ozYlhzQWVtd24rYjJFYklkRVJzQUN1cFRFV082TUZQVzVT?=
- =?utf-8?B?K1RmZXd1YURhNWRqcUN5R1NySXdtR25XZUpMTHlYSXlOSXdOU3VMVDhlb0lO?=
- =?utf-8?B?Qm9PMXhCbHlmVWthdWRvZ1JiU3FHaVVjSGt1Y2hHREV3K3lPdWYraUpmRWlY?=
- =?utf-8?B?MmJ3cGVNbm9uMTNSemJGc0w2UG9Jb21lYldHd2FNRGIxZmxIQTBvTDZXVk1v?=
- =?utf-8?B?TkdsSDdveFk0SmxIZG5teURjdFRjRXNRNE9Ic1lIbjhlQkc2Z1VkUXRhWk9H?=
- =?utf-8?B?VW4yWXlvV21Qcjc2dzd0ZEtCbnJHK093QTloVXJ0c0FWSXZqZFJBbVEwMjlp?=
- =?utf-8?B?c3FvYk42RFNLMDJWZk81L3FkMVl3c3V5ZlYzbmFsSE9scjJTdnc1T284R2Qz?=
- =?utf-8?B?YkRSanJyd1drTlBuVFZYTjFpaG9tQVlpeDZzK3VLWnRCZUpCR2xUa1E1M1Bj?=
- =?utf-8?B?ZjRPOWV5eXBLMXNoakh0dTNYOXI0bVdQWURiWmNyc1plNDloRC80OWl1T3J6?=
- =?utf-8?B?cHZ3aTU0aEt3d2gxU2FvMFlVMHRBNncvTHhUaFlnd1J0TFAyMjlwSThlT1p3?=
- =?utf-8?B?QTNPcmlBc3E1TnZ2SHBReG1ncGRJMmRSdWovd004WW5wV2ZNTm9mOVBYNXMv?=
- =?utf-8?B?RUdVVWdQUmJGdnlCd3kyc1BGT29VdjBMdTNHdGcrZkZycC96cXRuUHZBWm9y?=
- =?utf-8?B?WDZDTFU4Um90dDZBL3l0OHBPQ0xtYlVXRnVzVldhOFlwZHVoZXFXSlQ1V0ln?=
- =?utf-8?B?OTRGL1d3VHA3d2xZQWZ0VzQyNThxVEpqUGExWjhTUlFuYjArZEdiMW44QW9L?=
- =?utf-8?B?RzdXZ3g3Z1FXK0tQN3FnSVRrZS9sWHI4aCtCVFFyb0QybkdaTWZMMm1FTUVw?=
- =?utf-8?B?dlltMDZueFQxTGRmWTdPZ1Bpa2s3WVFFVWtMT09BU3VuTEd0NFlITlY5c2Vw?=
- =?utf-8?B?WDBmZGxzNXpNUkc0Vks0aG1xM2UySVMwOVhydExQbkVCRlUwRjhXenp0TnpS?=
- =?utf-8?B?cFRXVkRQYzZia1gvNVlNR3BISGpmVmU5K2FjeVN1TGw4bUpRMGw2N2VoYytC?=
- =?utf-8?B?eW8yRGY2TDJOc3JqSDdnTi9Za09Va083ZFk0TzNYbTFWOGtVWnYvTWZSRGZ0?=
- =?utf-8?B?MHdwdVVCZ3daRlpVMVFsZElwaXV1N2JMbUk5ektOemg0VUZTUkprd05sVWZu?=
- =?utf-8?B?eEE1NUdxK0NxeHc2Y0x5K0txVk05YkhScFJKN2E1aGI3UE82L0dKM1kvTnU1?=
- =?utf-8?B?Q2ZrOEgrTUxVK0NFaVpNMURGeVp0MTEzd05uRDY0VC9RTnpEOEx0VE8wZFg4?=
- =?utf-8?B?d3grbHBhZ3ZHbVlIYnFVMjZBdVVITlY5dXZ6ZjNkQ1VaS0tZVHU2YklSUTkv?=
- =?utf-8?B?YUxsR21ySzFVWm1nNFFyUkFUV0RWZVIyZEpPWmM5VEtqMlBnYStFdnk3Z24x?=
- =?utf-8?Q?No8Z87wbMYmPb?=
+	=?us-ascii?Q?/qjcREiaXHms1iO5bDa/fT1mDmOsBJAyF/P+7vLnHUebaBYQH2RHiw5yx0ky?=
+ =?us-ascii?Q?a5MzRpNKA6LQ/e45DzsQbBwlAHHwjGS8t/2+leH4IPDJCykr8Y506lV0+ld6?=
+ =?us-ascii?Q?7c761gYfDnBMr/Tm2GThlUdi0eKH3S5wchZnWIpkhqcMBIjFCHf95Mo1l4KA?=
+ =?us-ascii?Q?HETsNEwE1JTMIVBRhu244WLjBfTFG91HHWwWNT2NHP1qOx9KdOzHXVKR7kC4?=
+ =?us-ascii?Q?rEVjj91AZgfJFIKTe1ENTeS13/ZVHjhaULYVZYfwQel6xDK21s28fJXBn05x?=
+ =?us-ascii?Q?YMUBw1pRfymk2mei061zX63whHgORDi7icPnQJ4b+LWu2CgL8PdV7w2fOY2f?=
+ =?us-ascii?Q?2SS4YkT1IN5HaerFEYVU6nTdPc7DClbsz/OlglEtfdLp1Lhd1kvix81HAWqj?=
+ =?us-ascii?Q?XVmp9c2xzWdbgSOIBa3vpfx5aYawwSF2yJifezA5Nl1jku7QbaPWRuYlCgAH?=
+ =?us-ascii?Q?dkWNDKrCBUVmxKaPIxJHXXFs/t0OPXI43UadmODMJsuu3VOMyFEEHp4DFQj3?=
+ =?us-ascii?Q?V1ho4iD0PKUO36AAxXM47/WjCgMnqbXJjeFB+vM9dMLforfqS9UtQKh2NteB?=
+ =?us-ascii?Q?wOAPOurqYTI+1FirwQDgoSKJp2MqeXl9k3bYVUbVcXpnbd6TY3lOs5EW6vzJ?=
+ =?us-ascii?Q?qe3o+UiYrwUNTrtp4DI8gNWD4sUPAifTJAAOwshJApRb3zW4pM8jV5764lQb?=
+ =?us-ascii?Q?mbw6zdBR+4cUe+aCEqkDS7EUmkaI8TxrjCtm7mbXOL3GGpgkLtsi0oq2j8yu?=
+ =?us-ascii?Q?jL1POTWG3riHpqxUp4UCPo1DBqNPhpUgIMVs/iWq6h/1GgUErWpSe8YiwvvH?=
+ =?us-ascii?Q?liHM8H8rhQmYR7FAxQDOth8fu39jQsr+weeLs9ZE4XZ8iYU5KQfFx+22KxaX?=
+ =?us-ascii?Q?CZ7IzNdHNUKCgkUsttr3qJbB7+tbO2pJi5L8G2RJOWHfSFzaaJ/1FttGY1Ja?=
+ =?us-ascii?Q?XlLdHEsY/PQx3EtD5KhnWOYsnOYMXEw3ZUsld/gFloCsqJ0o7UC0JssB3kZU?=
+ =?us-ascii?Q?/Sl0/SOl41hXlRwJ/ytCa9/Bnr0OLe4uCDjryDOoVmqhviN664JlTct48wjm?=
+ =?us-ascii?Q?nMUtPy7Ug9iLOr18bzT+TyFHHeqDBfGaDNVivXAOENnUionm/wqyOOJSy3ib?=
+ =?us-ascii?Q?e2WlLNQWbw2qwfpODOerTGak6pl62OOlCqZqhmnKMlgjNmUzbLXQgrcEPQmB?=
+ =?us-ascii?Q?gpGVAPkhw7d+Op4tseDhnJSPR2p1bmk9B4WRTNKlPI9OW97WJFZUJ+clcZCS?=
+ =?us-ascii?Q?zRakPRqPpJXPD2arzeB9CEo5j3eT27lfJVD8qWIJVNLvzvaFAUJ3cMTfzvhC?=
+ =?us-ascii?Q?NxGZu92fVrInMOAM11lxdo7E?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR02MB5766.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(366016)(376014)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UWJDZ0lhdDBvZHoyazZNcXp4L3FFRHM3RUU2RU80VllEUzVWT3RxbDE4L2xu?=
- =?utf-8?B?eE5kazI2TnpoQVU3RUd0L0F3T0VGZkMyUWw5MHpabkJWTi93cEFkc0tHQnZB?=
- =?utf-8?B?QXNlUDhrU3FKbHpVS1VJSGlBMm4xRWNhWTR5UFhXRDh1TW5SaG9UaisyTjBa?=
- =?utf-8?B?SllzOWlVQ0ZxVXhPKzhPeXlmeFpVczMvVTdZOFNjZjN3V0ZUejYvZWYxYURt?=
- =?utf-8?B?S2dRMkNqZkFqZWYvLzlseWhXTnpOdGlGdmZwUVQyL3hGRFphNWFvdkpjZ05F?=
- =?utf-8?B?YXovRG95dll6aDJFU3B1cGJ6Mi96UU1kdUwvL2MwMDJKNkQxQlpJWWtMeGNk?=
- =?utf-8?B?bnEvbjhjcWJ3b2tSaGt0VW8wSEdNU25SeDVsZWRTdmcwV0lGTnFLOFlVeUhN?=
- =?utf-8?B?dUIxNjRhYXEveWt6TU5Mb1JZY0lSUXZUU3c0bWZCZE5YWlp4VDQxM0RXZkJi?=
- =?utf-8?B?RkRsVCtPNXNPVVVIMmlKMmtBbG5oajdadDdQdk01YzlZYWNCODVWMGhleVBJ?=
- =?utf-8?B?UytmWmx2dTRsWVNFRDVSK1F3Q0dkeTdvQVJsb2pnWHM5WE1jNDVxSnorQ1hr?=
- =?utf-8?B?bDg5MlA3S0plUlBSdGJZS1VKdk1sN2g4TkdRM1oxNDBCR0hvaEwyRjF6bmJE?=
- =?utf-8?B?cUU5QTJKR3hnMlVieGdRN241QkU1R0VTcjByZzVJVi8zTURwbDJMTG01ank3?=
- =?utf-8?B?Z3p1U1dTU3VCZUFyT01VRVkyYlBudnl0WVpPWTNVZFlwVTFUTVRVWkV3RXRV?=
- =?utf-8?B?MW5FNGdhWFJOVE5vZS9seUxJVFQ3V0RaRnJOM2tNazRrUmZ6bEdJdGVvTFZ4?=
- =?utf-8?B?UUZVYm9CR01UdGJtZnpGcXVZSm1SSVhIQ0M2czQxdy8zbXZMQmxRSTkyayta?=
- =?utf-8?B?TDNiWnE2b21jcy9Fdzc4aG1md1VYTlhIbFlPVG80TjR1Y2RmU3BuTTlkcC9i?=
- =?utf-8?B?NzlIaWhKeEFxc2NiaHYzZDd0WXZ5NVE3d29GVFBEa0ZPbVoyUnNCUit2L2hM?=
- =?utf-8?B?aHNlTm9Dd0tqbjQvN25DRDI1TXVqRkoybHdmRUlubTdPeFhka0pXR2ZaL3Bo?=
- =?utf-8?B?Y0pIMXBEWHRXdjZpRjB3YU16TDZTc3FZWlJEMlN5aEJMWG9JV1ZEZFE2cnhn?=
- =?utf-8?B?MXJEajltOEV0SndJbWRnWHZHMU4wdjIxZEtnanVQcG4ra2JXRzhudjV0NTl2?=
- =?utf-8?B?eHlsUVdlSGFnK2VtMzRXNFUzTWswR2lpQnNaaDBzb3N3VE9oUGExNmZ5NHJC?=
- =?utf-8?B?RnBZS0ovaHhYYTYvNkpzZTQ1RFVGQXRiYTZ1L3pkaUR0WmoyN2ZSTlBZR1Bl?=
- =?utf-8?B?MXdsY1FTOGpET1NuR0JBcWdibkNzVENSRXRZUUNQUFk3NWwyb2tHanhqRlZB?=
- =?utf-8?B?Mm1iMWFwRHJqN0JYQ2VMOE02RU1JWEE3RmdudkVwUnBKN21zYjhUaldCa3Ni?=
- =?utf-8?B?dkcrMFpES1duSG1nQXpFdGtSamVqUjk4SmFFMFNmbVAyeDl5Y0FLRnF4UkhX?=
- =?utf-8?B?VmJZN0V4QmJsOFlTdzA5WERRTWR1a3dsVkpxakpwTWJTRkpDMlNxV21jWmNr?=
- =?utf-8?B?YlBQRy9UWmdSQWJaUThwVkdacDl4L0Z5Z3FPc0RxNGNXUE5NVzdrQk4xeUw1?=
- =?utf-8?B?eFA5QVhmYzdvQTNoMFRFeFZEMEUrTHdzc29zdGM1MnU2ZWlVL2czSmQ4VDRO?=
- =?utf-8?B?MmQzQmlPbEd2cGM3VXE2cFhMSVdPNFZkL2JiZ1pLWW9nVndHUnR4Z2s4bHFo?=
- =?utf-8?B?QXBnQjNnWXBpZkpndVRTMnBVVjZsbTJ4cWFFYThoWm1NUFd1QncxWFZLYXhL?=
- =?utf-8?B?QWZkZTNWWmlhZ2hqZXlHNEVTVmxWU3lnU1kvWmdRRXNRQmdQSlNYNzJManli?=
- =?utf-8?B?NWkzcE1KN1cxenhNanA2QS9ZK3E3TzJFVjRHTzllQUZlQ2NaSzBDelp4QVMy?=
- =?utf-8?B?dkRXRFM3T1ZWSkN4ZW9ZWkRyVW5tTXk1QkZ1dmJnWi9QSlROaEgwQWowaERN?=
- =?utf-8?B?L29yRkg4MEJSRUQ0RDlpbGYzWFN1aGlYTUZwWk41Z3VpenRQSWNoYmNQZXQy?=
- =?utf-8?B?NEg5d0lSTDdOeEk5RnM2ODdYdDBjTGI1M2FiSmdNOXZGeHQ3ZlFtK1BGR0Jm?=
- =?utf-8?B?aHZldnRHbmR5anlpL25XODRFR1c5K2I1d0JTQXZYQXI5UytsWVpiL0F6cTFH?=
- =?utf-8?B?aFE9PQ==?=
-X-OriginatorOrg: fibocom.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4bd1cf01-6e63-4f22-3279-08dcf9ad4b59
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR02MB5766.apcprd02.prod.outlook.com
+	=?us-ascii?Q?NvaYDQieSNl3V3Emi3XqfJphg1zTDndWFDgu3x2JrbPAcs4C3EwxXukBqkjl?=
+ =?us-ascii?Q?OORILrgwyr5fEWhQi54LCfJu78WWKHSuyNbWhvgUMMAt3/fYJ51cA4NihD22?=
+ =?us-ascii?Q?Z+Oq5WDa2mp26N/WNAOmUWkX5AeIxRF8tUrfWY1iMzymS+36unPXRG/wFbwb?=
+ =?us-ascii?Q?tmdnVIz4SMSWnUk9dCFEdcgy4SwmISYf5c1KlX73gq++bXLoiQ83NuWOIigg?=
+ =?us-ascii?Q?rNraTuwC4xQgZlsHx9ih7oH4xAnCIwdnZktHY+dnlht6x+Pox9JfXFsWIGLm?=
+ =?us-ascii?Q?la3FfZAU3caK0SP6R+2TsJsvoOyizwl02yEmRSZvXXCWym79Va13gBMxoc1A?=
+ =?us-ascii?Q?Jg+OO4uBv+bS6YNNqRqyEFd0g4yvFMs9hKjLS3ZuJsEg6Fjmerl8tOb4UFDB?=
+ =?us-ascii?Q?To3RLand5DiWOdDfwHa0isuRHCB6CTzXnowr5quMzAz8dHXY58YmF+RTto54?=
+ =?us-ascii?Q?eAyWHyda3LWeITbmAh93ZhNTHiXIboA/6cHF9jgrRZpsncKMspRF8uhBWpIE?=
+ =?us-ascii?Q?8vbMZLG1lYszCAQQvRdMriWY9puOM9qabtCj/OZQO9OoxFcPCSz6J2HVg/H0?=
+ =?us-ascii?Q?cLMGZHOEx4hNsMXHAHhK/ZLpbeGY+1G94TarvWIkCP9mbW5lstNvz/jA5k9u?=
+ =?us-ascii?Q?t3gm96AmIx+rS5ymVgOzJRvGArLeBfJILw19lm5eNuKIX5PJHP3rnAyzmeAp?=
+ =?us-ascii?Q?uXKgX25OFk5WcbrbrnQCXdQ6n7b+xCJgo+vqC8KFY39diG9P0kUy5fpEjMc1?=
+ =?us-ascii?Q?KhOXCNqRlW2YTb2hKWkGK+CWNyB335Fws1eqoy7w+wW9UDhDPL0RQVLH/p/W?=
+ =?us-ascii?Q?wmhGdWyY3VaSQgGc93pUumOUKR23k6UI1AEAj/RQd6F7iZuoP0cm7fTIsLes?=
+ =?us-ascii?Q?UQjMJludH+4fZNQjzXRdq0ebwZnzHp4p4Zb2NAf4j/uR74/0mQlX/7yRwti2?=
+ =?us-ascii?Q?04QKrJ89jo6ntuT3HVJHxkLB9dgyNk1lnuz6pLphqnC5eZXKZjxTwNpYmsrI?=
+ =?us-ascii?Q?wf5tTbZHKyzPT4apMr4IqshujM6cTD3wGKSEX6pDo/LG/2DWt4eilJUuHnc0?=
+ =?us-ascii?Q?EprVfo+QzQ4/9K9+PQvGy85Nw3OLliV3lqphV0vUKg+UkE0F4tBSH1uilCS0?=
+ =?us-ascii?Q?Pab2QPkyMIeVW/CQYXbiQzhtsl4/R6GliR0mf6dVAlFb825yerjPkoztCH/t?=
+ =?us-ascii?Q?YrG1TaMZ9rvioGzRaddvrXVvtpi/WbUQMjK1vaTkCr84iXDb7hotE41E7Hk3?=
+ =?us-ascii?Q?5ZPmkfws6/KDSC7lhnjUr/TX2KQxQIlfwOmTbPgxZG6l4fSOl8XDSQ6Q6MJQ?=
+ =?us-ascii?Q?lhsoFzlkwSbsgW37YwqmRuTRNnkKH4Bf5JzI9aaprrj84bqiGkgJWDjL/11e?=
+ =?us-ascii?Q?SqDa4Dl5RUqo/Dc7KuRPoLsNLCEyhywP4p1u+EBupsPbqBSRJAJvTA9qRrf2?=
+ =?us-ascii?Q?9moif5Rc9EMllSeOucvof0pXyUGbhut+qFZHBIkJPcR9jNSeM6UYGCm9Cf02?=
+ =?us-ascii?Q?Rcs9NXkS1vpm+b3dEVJqP7HvPAzZI8BTLtwqMuEE4/7J0ZKCJchJxFOGrsvP?=
+ =?us-ascii?Q?XDiA32RPfEFisJfMrAc=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e4fea9f-b76a-4d4c-029a-08dcf9ad9c39
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 13:09:47.2400
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2024 13:12:02.7423
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zLgpRfjTMmiueSuCkZxlajCnm0CKazX7dwtAK/mDMPTdfOzDFaomrM167hv94lpR/oM5MDSFHKXAOFhmzQ85h247HF7XuRXgAp9jcB86l3A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR02MB6294
+X-MS-Exchange-CrossTenant-UserPrincipalName: d9OrtMzqvCKWqBZty1C0m2SDxLU3ONqm4cOrCsILFqqmiSubli2y/YlHIAZAIDFD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8423
 
-From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+On Wed, Oct 30, 2024 at 02:34:28PM -0700, Nicolin Chen wrote:
+> The following patch will add a new vIOMMU allocator that will require this
+> _iommufd_object_alloc to be sharable with IOMMU drivers (and iommufd too).
+> 
+> Add a new driver.c file that will be built with CONFIG_IOMMUFD_DRIVER_CORE
+> selected by CONFIG_IOMMUFD, and put the CONFIG_DRIVER under that remaining
+> to be selectable for drivers to build the existing iova_bitmap.c file.
+> 
+> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
+>  drivers/iommu/iommufd/Kconfig           |  5 ++++
+>  drivers/iommu/iommufd/Makefile          |  5 +++-
+>  drivers/iommu/iommufd/iommufd_private.h |  4 ---
+>  include/linux/iommufd.h                 | 10 +++++++
+>  drivers/iommu/iommufd/driver.c          | 40 +++++++++++++++++++++++++
+>  drivers/iommu/iommufd/main.c            | 32 --------------------
+>  6 files changed, 59 insertions(+), 37 deletions(-)
+>  create mode 100644 drivers/iommu/iommufd/driver.c
+> 
+> diff --git a/drivers/iommu/iommufd/Kconfig b/drivers/iommu/iommufd/Kconfig
+> index 76656fe0470d..83addbe2ff7b 100644
+> --- a/drivers/iommu/iommufd/Kconfig
+> +++ b/drivers/iommu/iommufd/Kconfig
+> @@ -1,9 +1,14 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +config IOMMUFD_DRIVER_CORE
+> +	tristate
+> +	default IOMMUFD_DRIVER || IOMMUFD
+> +
+>  config IOMMUFD
+>  	tristate "IOMMU Userspace API"
+>  	select INTERVAL_TREE
+>  	select INTERVAL_TREE_SPAN_ITER
+>  	select IOMMU_API
+> +	select IOMMUFD_DRIVER_CORE
 
->Hi Jinjian,
->
->On 29.10.2024 05:46, Jinjian Song wrote:
->> From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
->>> On 22.10.2024 11:43, Jinjian Song wrote:
->>>> If driver fails to set the device to suspend, it means that the
->>>> device is abnormal. In this case, reset the device to recover
->>>> when PCIe device is offline.
->>>
->>> Is it a reproducible or a speculative issue? Does the fix recover 
->>> modem from a problematic state?
->>>
->>> Anyway we need someone more familiar with this hardware (Intel or 
->>> MediaTek engineer) to Ack the change to make sure we are not going to 
->>> put a system in a more complicated state.
->> 
->> Hi Sergey,
->> 
->> This is a very difficult issue to replicate onece occured and fixed.
->> 
->> The issue occured when driver and device lost the connection. I have
->> encountered this problem twice so far:
->> 1. During suspend/resume stress test, there was a probabilistic D3L2
->> time sequence issue with the BIOS, result in PCIe link down, driver
->> read and write the register of device invalid, so suspend failed.
->> This issue was eventually fixed in the BIOS and I was able to restore
->> it through the reset module after reproducing the problem.
->> 
->> 2. During idle test, the modem probabilistic hang up, result in PCIe
->> link down, driver read and write the register of device invalid, so
->> suspend failed. This issue was eventually fiex in device modem firmware
->> by adjust a certain power supply voltage, and reset modem as a workround
->> to restore when the MBIM port command timeout in userspace applycations.
->> 
->> Hardware reset modem to recover was discussed with MTK, and they said
->> that if we don't want to keep the on-site problem location in case of
->> suspend failure, we can use the recover solution.
->> Both the ocurred issues result in the PCIe link issue, driver can't read 
->> and writer the register of WWAN device, so I want to add this path
->> to restore, hardware reset modem can recover modem, but using the 
->> pci_channle_offline() as the judgment is my inference.
->
->Thank you for the clarification. Let me summarize what I've understood 
->from the explanation:
->a) there were hardware (firmware) issues,
->b) issues already were solved,
->c) issues were not directly related to the device suspension procedure,
->d) you want to implement a backup plan to make the modem support robust.
->
->If got it right, then I would like to recommend to implement a generic 
->error handling solution for the PCIe interface. You can check this 
->document: Documentation/PCI/pci-error-recovery.rst
-Hi Sergey,
+Should drop the select
 
-Yes, got it right.
-I want to identify the scenario and then recover by reset device,
-otherwise suspend failure will aways prevent the system from suspending
-if it occurs.
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
->Suddenly, I am not an expert in the PCIe link recovery procedure, so 
->I've CCed this message to PCI subsystem maintainers. I hope they can 
->suggest a conceptually correct way to handle these cases.
-
-Thanks.
-
->>>> Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
->>>> ---
->>>> V2:
->>>>   * Add judgment, reset when device is offline
->>>> ---
->>>>   drivers/net/wwan/t7xx/t7xx_pci.c | 4 ++++
->>>>   1 file changed, 4 insertions(+)
->>>>
->>>> diff --git a/drivers/net/wwan/t7xx/t7xx_pci.c b/drivers/net/wwan/ 
->>>> t7xx/t7xx_pci.c
->>>> index e556e5bd49ab..4f89a353588b 100644
->>>> --- a/drivers/net/wwan/t7xx/t7xx_pci.c
->>>> +++ b/drivers/net/wwan/t7xx/t7xx_pci.c
->>>> @@ -427,6 +427,10 @@ static int __t7xx_pci_pm_suspend(struct pci_dev 
->>>> *pdev)
->>>>       iowrite32(T7XX_L1_BIT(0), IREG_BASE(t7xx_dev) + 
->>>> ENABLE_ASPM_LOWPWR);
->>>>       atomic_set(&t7xx_dev->md_pm_state, MTK_PM_RESUMED);
->>>>       t7xx_pcie_mac_set_int(t7xx_dev, SAP_RGU_INT);
->>>> +    if (pci_channel_offline(pdev)) {
->>>> +        dev_err(&pdev->dev, "Device offline, reset to recover\n");
->>>> +        t7xx_reset_device(t7xx_dev, PLDR);
->>>> +    }
->>>>       return ret;
->>>>   }
->
->--
->Sergey
->
-
-Best Regards,
-Jinjian
+Jason
