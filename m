@@ -1,92 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459361CF280;
-	Thu, 31 Oct 2024 23:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF8E1CDFB4;
+	Thu, 31 Oct 2024 23:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730415861; cv=none; b=hE264WCURBCsMDk1zILuoO9MD6eWGJMuA8C8ZzGDecDwaB96sCdtbD6NG1hMqSeDQrhPFzNip+kw87deMAYjVThlh5K4fqjjCvl4hAgvP9cr9dJcn35GTQQzGe4jBhdsT4VsZqhhBmYmVC5Pn4B5X7VrsRQK4JJCy8IyhSOhtSQ=
+	t=1730416123; cv=none; b=GiaRLycDh9WSpKchxfwNjiZLSt3tmvukd4EyCuQhZVTSb7BwRVfnh5+QpCcZ8fE91Aag+9oVcK/KBFxgqfPlBYHHHtSgGBl2MbsudGSbvzc+rDkqkHHAMMJsZcBcn7zvX8sAramupxPzaNxwiILMXOU7kDEbfJAsvQr/JLn2T6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730415861; c=relaxed/simple;
-	bh=g6mgr1PiSpqyrNl30sSjTkEcTnFjsET5qcjpTWm2Pzo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GwGziNkL9mz0mqCwGLX6ZWrx28A9vB58xeQwcgXR+Gk9KaWD0ik+B7slvml6dsC1eZrLbuBdADkpFtM0qopFwrB0/OguEASUYFo2YsreaEF5oVYwIhwOxOKKs9f2y9NqSLaHe82dJ3WHtAE1awrdPBzEvjS5JzNG4yaaiGeEDv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsHWpqDp; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730416123; c=relaxed/simple;
+	bh=t5kudjeNUZ1aRqDlkJODNg0WxGYF3b7fXMYAj3ZS57k=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=jwvvumgdzqOyrqKizuv6bDy9fEy2qrWWcVFkUfeGZmfs6m/3/BHdmerNyfOxVFU3WljwVxe5K1o259gYHQSjilMwasLijIHOOoJJ6RhHgCGDeBTwo5BQxXxTC43kVzJ+If1n9AnOnQZJUG3aY9ZYuTKsS2vOzj6S1cVSgX38Ksg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=se5Xgp53; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=s6ZB5YV2; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsHWpqDp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730415856; x=1761951856;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g6mgr1PiSpqyrNl30sSjTkEcTnFjsET5qcjpTWm2Pzo=;
-  b=GsHWpqDpiXXxeuSjrttl81hepIFmiKpPtXqRxwV0drpYqIyJHGPyZBpf
-   OjE2uAXj/TY/rBPfYlol31kAg1r9FX4BU/lhIfVBzzaIIXrRgDpPUOvBr
-   iZhV1f74wZrLosCYZpJYIPi5WTw6vF9DjSlqi7DxYgqGxAtXsxq1z85rI
-   y6jz2NC5l6vVGLl9gxbnDL2Dtx3Sv9Swr4od6rkUmbNgDR5APUSz10FDV
-   wcKvHHBbF30B5gMwGTtySR2VomvmcbUygU8NWaJkSKy4+CGBNl7gNvx1K
-   JjkZDrRGg79xq2Z4RTO5udZChx3Qc2S93rt6hsoFCtgRqI+Dbd3NFgH4C
-   A==;
-X-CSE-ConnectionGUID: 6rIjlog6SgKzohIScB1CCg==
-X-CSE-MsgGUID: xoMlOg3LSK+SKzkKm75b9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="34114358"
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="34114358"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 16:04:05 -0700
-X-CSE-ConnectionGUID: xlWR6pseQeWhTQ5qLJxk6w==
-X-CSE-MsgGUID: zKlYlmxTRS6cTKeVIy+vAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="82700487"
-Received: from adande-mobl.amr.corp.intel.com (HELO desk) ([10.125.145.235])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 16:04:05 -0700
-Date: Thu, 31 Oct 2024 16:03:58 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Amit Shah <amit@kernel.org>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
-	linux-doc@vger.kernel.org, amit.shah@amd.com,
-	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
-	peterz@infradead.org, jpoimboe@kernel.org, corbet@lwn.net,
-	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
-	seanjc@google.com, pbonzini@redhat.com,
-	daniel.sneddon@linux.intel.com, kai.huang@intel.com,
-	sandipan.das@amd.com, boris.ostrovsky@oracle.com,
-	Babu.Moger@amd.com, david.kaplan@amd.com
-Subject: Re: [PATCH 1/2] x86: cpu/bugs: add support for AMD ERAPS feature
-Message-ID: <20241031225900.k3epw7xej757kz4d@desk>
-References: <20241031153925.36216-1-amit@kernel.org>
- <20241031153925.36216-2-amit@kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="se5Xgp53";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="s6ZB5YV2"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1730416115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X43PY2/hEbcwBt7Pbr1N5jc7wEXE8dAimnVrIUPcOUE=;
+	b=se5Xgp53tVB20jyRaaH2iLjXvXwdVsngVIXx9grBEo+lfKa20ugZbbEHcGZhaUpww0RoiY
+	EXWxDRXyp/5faxfVpX5j/HOnWJYwef48MKnqdLSdvRM+SzcC1UZFRSJg9BI8kwdSD2BHp/
+	nhk3F3EKXMN6sHSp0wCKuprK38Y4dIXmLxkF/8Q9LaxZMHrSg3gXcdsJN+btBRaSTYSPph
+	5blEOt0hGuEUHTfEFiNEXw+ofxhlFgZ17QaVFDdq27ezhnrMNksI+PJWPa+WgTBVDwz/5o
+	yOoLg/budsRsV6AywMk3nLc/CDR9rIfvLZDG/1VMgbwz7rZxbiTVpKZTIKOAkg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1730416115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X43PY2/hEbcwBt7Pbr1N5jc7wEXE8dAimnVrIUPcOUE=;
+	b=s6ZB5YV2NU3xPp/8Y/vclO3GDuEX/ui6tits119rcH2YQb1nCQFRLUCWuey0wof92SceYv
+	CsFSTGLmEip3OrDg==
+To: Jarkko Sakkinen <jarkko@kernel.org>, Ross Philipson
+ <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org
+Cc: dpsmith@apertussolutions.com, mingo@redhat.com, bp@alien8.de,
+ hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
+ mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, jgg@ziepe.ca, luto@amacapital.net,
+ nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
+ corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
+ baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+ andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v11 00/20] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+In-Reply-To: <D5ACNMVX5LXB.1L0S9P2J3UDJH@kernel.org>
+References: <20240913200517.3085794-1-ross.philipson@oracle.com>
+ <87wmhoulb9.ffs@tglx> <D5ACNMVX5LXB.1L0S9P2J3UDJH@kernel.org>
+Date: Fri, 01 Nov 2024 00:08:34 +0100
+Message-ID: <87ldy3vpjh.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241031153925.36216-2-amit@kernel.org>
+Content-Type: text/plain
 
-On Thu, Oct 31, 2024 at 04:39:24PM +0100, Amit Shah wrote:
-> From: Amit Shah <amit.shah@amd.com>
-> 
-> Remove explicit RET stuffing / filling on VMEXITs and context
-> switches on AMD CPUs with the ERAPS feature (Turin+).
-> 
-> With the Enhanced Return Address Prediction Security feature,  any
-> hardware TLB flush results in flushing of the RSB (aka RAP in AMD spec).
-> This guarantees an RSB flush across context switches.
+On Fri, Nov 01 2024 at 00:37, Jarkko Sakkinen wrote:
+> On Thu Oct 31, 2024 at 9:25 PM EET, Thomas Gleixner wrote:
+>> So this looks pretty reasonable to me by now and I'm inclined to take it
+>> through the tip x86 tree, but that needs reviewed/acked-by's from the
+>> crypto and TPM folks. EFI has been reviewed already.
+>>
+>> Can we make progress on this please?
+>
+> So TPM patches do have bunch of glitches:
+>
+> - 15/20: I don't get this. There is nothing to report unless tree
+>   is falling. The reported-by tag literally meaningless. Maybe this
+>   is something that makes sense with this feature. Explain from that
+>   angle.
+> - 16/20: Is this actually a bug fix? If it is should be before 15/20.
+> - 17/20: the commit message could do a better job explaining how the
+>   locality can vary. I'm not sure how this will be used by rest of
+>   the patch set.
+> - 18/20: I'm not confident we want to give privilege to set locality
+>   to the user space. The commit message neither makes a case of this.
+>   Has this been tested to together with bus encryption (just checking)?
 
-Is it that the mov to CR3 triggers the RSB flush?
+Can you please explicitely voice your detailed technical concerns in
+replies to the actual patches?
 
-> Feature documented in AMD PPR 57238.
+Thanks,
 
-I couldn't find ERAPS feature description here, I could only manage to find
-the bit position:
-
-24 	ERAPS. Read-only. Reset: 1. Indicates support for enhanced return
-	address predictor security.
-
-Could you please point me to the document/section where this is described?
+        tglx
