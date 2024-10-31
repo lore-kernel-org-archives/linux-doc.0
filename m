@@ -1,55 +1,55 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3A31CC897;
-	Thu, 31 Oct 2024 20:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501DF149C55;
+	Thu, 31 Oct 2024 20:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730406455; cv=none; b=FgwQ9Cxm6vp4kWVBFwDtA8YbMcWUxW3aUJitp9vJAfdBdirHX5DxiLXwSfM5kwkFt67l4oxa7BKgOyzTSQ7DP5UtNTz3WqhOWr413q29+4VyE6x/++Z2SWX2UcKHmu5k/oKzkt3YNn425avGfZ9Q5d2s1XtDrWHAtMs04CYzNug=
+	t=1730406684; cv=none; b=BSU2oCi5mvMn4zbq1Fr25l06ejAyi9Jo8xLnA1QyjKTDdjlD5jrZQs/sNe5WBqwDgQNMPpPmDgSojLthaHdnARuvbPdiMNK+P/OAvweRGvToOZBWGZ+R3DaPJ9TC4OUvMQ4QhAZm3ylqHhamTrNiC+WuOL2XfwhxatzMeezPdxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730406455; c=relaxed/simple;
-	bh=ksbw4OAtdunw38b5pHOwDydUmQIFq4t28QBYB/egqgA=;
+	s=arc-20240116; t=1730406684; c=relaxed/simple;
+	bh=P1bJiXe8GnKyu/ySxojpU6jwUOt2VNjYBJzNu185JFY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ar08Bj8UysjKJ5D8KHLZcCZtd0Jtg53Xw3WL6M5ZGE1HYkzweBJPLPZOKoEHGedCOD4WMwXNEfAfOaFtx55cUHgLYp0ari3WEXivf461m+3plRHYO1xnFhZlvvfswyQbEFrjRSOahDxIG0yROfaFAfDRju+6YKlIh5qPMcur8Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DO7QTYNh; arc=none smtp.client-ip=209.85.221.177
+	 To:Cc:Content-Type; b=BvNjpKtvFW0jWQvUYETyvuYc1su8qB6auyj6eN3FVBHEWLfWoqHwhu5fbI2152IddO3osZprBUkmKX70FnhgXjJEVsqpzIIMGCj1idZrxGbSnyboZb1rpfOhzs+XYH5qL52i6R7dR+3QUnLePio1xxfXMOiIVMBBcUacLl16ziI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqOatbGS; arc=none smtp.client-ip=209.85.221.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DO7QTYNh"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-50d4213c5f6so449919e0c.3;
-        Thu, 31 Oct 2024 13:27:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqOatbGS"
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-50e08caccaaso340886e0c.3;
+        Thu, 31 Oct 2024 13:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730406451; x=1731011251; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1730406681; x=1731011481; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=amvcyG4D30V+zPACcGkMCnMlW1VYfRruH76cCv8fQ/Y=;
-        b=DO7QTYNhMWQPkb/Vos6ZogsHQvMyy2WTUmNoIwQXNQhlr4wzKrMpNZkk4oLJNzrc6P
-         qUymyQnTMACAEt+6QhawNsMNb5ujxGHN/3Aq93P71hClfXeNiL1DtMXgqYytcAF28cgF
-         czj7BuVevZueh7ogl4+ZpLDNnzCCcZ/JdXCK3lRBpeyqqXA3uE6Qe2lygQdOCunCzK8W
-         6aQTz1lCO2CkiFkw6OsP0lyiU9J83AHarh4qnZo2x/UJHE7N0puzQb0dBzu6qY67tl5x
-         s2vLUKzge9XkNEaLn9D+QwnKxwa6Tn5XkwvQtcT4fWoxsRhVYyMWaR+Jr6Lq0e8Yx8bm
-         W6Zw==
+        bh=PjKN7tZX5djLcQKARKgrJqvB70L8Avjuss3DvMiTveI=;
+        b=GqOatbGSLAQfUKuwxybdQPjKVXPWYCWyl2hEaxV1VHSx7yzg+NHvTA3MK/DovOosp7
+         bSPfB6GEScCSIj6USdATOUqDs1J0loRQvgOPCNeBGHDT96g5eeTqiTGNCQ3cYTKuQc/Y
+         Q46I6KnbhYxt8nKUxWown9rJUU5GuXI4jhUI1Ok5A2hP0mcsNkDFaGLqpEMir56nWrMi
+         GcUvtX+mcHch9S8zI+evrCJVIIBd0DE0yEn361JBHYmWEUKfGEXNYraJ1AUvh9uD/Psa
+         k+2XM45DvqFkMGY6fRk4OXB0uVjkkuLCiOOG+gVLZnZQKSLfTckX4a6pU2GSUHh5XYlu
+         +mdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730406451; x=1731011251;
+        d=1e100.net; s=20230601; t=1730406681; x=1731011481;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=amvcyG4D30V+zPACcGkMCnMlW1VYfRruH76cCv8fQ/Y=;
-        b=VcHRmdSlUbbQ0QRlxCKqsnJzI3ko1y7DBIX2Jr0A/rzNABXKKh8h+8TpXxx0f2ANM+
-         /6g+iTsVwj3DIw4BB9fc98f/uH6eNNsY2YYS37sASVvVpPjbKbxAy6puyprk7AuvKTcD
-         EEnw6s2vVqTZCFfjqjfgA2GXISAZpBCCB44c6O3cYTKAT27whuFRqy1dxhhF7/EXkWg6
-         xu6FqYmL39hywJtkdYBMpSzQFUmlh5GmrQYWA5bXdfcIXNWX4RTfL9QNltVdFV1+KjOg
-         fRY0CCmYR75NfhsDT+XaMNct5TjMk3s/rx/ADyZk0sA+uWlI3J28nhuKXrgH9Es/1xtB
-         GDvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVhCD52ifA+x0QF59nvvZdjI0MhMe+q1OnWi7hfhaTi60S9qSQkaMAQuxZJDAGKcBtRDoFLoIhJfX4=@vger.kernel.org, AJvYcCWuR+SzFnQINUw3pqPmia+nHV58qHhFlFN/Kb8B5xTNU2EEN3ZPsGHgzgM4qE1j64eBYf8OcCSelYjgmcZ/@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+1KyeT1/rsVyH9Cv49pt110Lv+aJtnkL68YqXedfVUfd11fh0
-	MuGaHSdcNEDuar8S80LBIeZE/EtKzRDUrtHbZJEDR/WHnCHCwBqAqZNu5JjGCl/ygfs79PN3ynJ
-	orSHJv8/6SOrqEbWGZVj5mWn1C3U=
-X-Google-Smtp-Source: AGHT+IEjP5n4EaL/lfyR2Oq4IthrHgwE9IctYNm9yJ0eUDY9obh+WLPxcfQ1PXLfkX2tfzwznjrPSroNST9yVLXbGUA=
-X-Received: by 2002:a05:6122:31aa:b0:50d:5be4:c39d with SMTP id
- 71dfb90a1353d-5106ad573c6mr5815502e0c.0.1730406451519; Thu, 31 Oct 2024
- 13:27:31 -0700 (PDT)
+        bh=PjKN7tZX5djLcQKARKgrJqvB70L8Avjuss3DvMiTveI=;
+        b=aCGzNrESMQxA0Uv+mlHZi00+fDUZOhxYKkQIZkcY52+UrHxJX7K1buGOWbfMGEgf26
+         x5/xxylWJ8wIdE+TVRb/m0AzkIPf0VMmQv6ldJKt4clwDS2NeCet2qzP8w0NWMWSIcbd
+         DLfwTEHX0zqUEBzMVZtwoIC6hptFBO7qEH2TJeDbAsk6jlpm06IArX6PQpCrRvkOAaxW
+         UB1d6ZnmMVXyREHd4nTxJO5L0+tkXqf41qfoyQnI6C1POaFAfCPuEqNETzCi5uPIvgLF
+         AoiPlqMuPozLkvxOfyiKaagjSMnTvHGEi2YT7dpcUIeNqFzuPVEKS5hPanquAGkEYyUj
+         cuuw==
+X-Forwarded-Encrypted: i=1; AJvYcCU5RqiSBWz2q1DVcvp0nKAjfI+phnjv+ic+SRlf/k2QZFYrAGU6F3migah+hgpKkdxoKdXqfZyQXVTtj+I4@vger.kernel.org, AJvYcCUbB+/ErpebslOZwnuPCd+xClBjM+yT8Sfd/cMGHxvOG59faRLOJLh+KLuAJamphbnSGSs9nd5L9gw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQxQr+XvxCRalutawmSgpLoex6ZiR9LCRkwzmjC/LJq/nwMwQm
+	Ho/kteYu3hAzezm1Zus7j+0XwzOhZk7htnWUUAtIUwICAG2RCE27DtqJinz0Pbw2NewHrdDrpTc
+	2RxpwnHKQP9EJ4nJFGnTtpGQlbc8=
+X-Google-Smtp-Source: AGHT+IEmyVDhmBiDFywpW0Y5L3JMBL1wCacCAVV6g4W1w/fQzAjSYfRVrCOQVnesEO9IM5y19B5DvolYUSWaCQNk4Gk=
+X-Received: by 2002:a05:6122:659a:b0:50d:c2e6:2730 with SMTP id
+ 71dfb90a1353d-5105d002b39mr10005710e0c.2.1730406681092; Thu, 31 Oct 2024
+ 13:31:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,11 +59,11 @@ MIME-Version: 1.0
 References: <20241030130308.1066299-1-mcanal@igalia.com> <20241030130308.1066299-5-mcanal@igalia.com>
  <CAGsJ_4zMppHY29XXepOVTdEu2-1U6mGyZ8FqXZfP_in+2T3NAA@mail.gmail.com>
  <b31bd54c-400c-4432-8b4b-0ba12bcf8011@igalia.com> <CAGsJ_4wKdCq8HnH=R3dWefZAqbLjyX06WdJ4T_UMogFZDS7Wqg@mail.gmail.com>
- <d3549d00-3f58-4f62-8903-4b7b8b3a42b1@igalia.com>
-In-Reply-To: <d3549d00-3f58-4f62-8903-4b7b8b3a42b1@igalia.com>
+ <d3549d00-3f58-4f62-8903-4b7b8b3a42b1@igalia.com> <CAGsJ_4x95s_wkzvJS-Yjy2yyv5NRRSfkQHeoa6sPeWj_pX8s=g@mail.gmail.com>
+In-Reply-To: <CAGsJ_4x95s_wkzvJS-Yjy2yyv5NRRSfkQHeoa6sPeWj_pX8s=g@mail.gmail.com>
 From: Barry Song <21cnbao@gmail.com>
-Date: Fri, 1 Nov 2024 09:27:20 +1300
-Message-ID: <CAGsJ_4x95s_wkzvJS-Yjy2yyv5NRRSfkQHeoa6sPeWj_pX8s=g@mail.gmail.com>
+Date: Fri, 1 Nov 2024 09:31:10 +1300
+Message-ID: <CAGsJ_4xj2TJuH0Kd8hhRfhmfn2ek+9v-iD8qjZM6pNAHEj8kgQ@mail.gmail.com>
 Subject: Re: [PATCH v3 4/4] mm: huge_memory: Use strscpy() instead of strcpy()
 To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
@@ -74,126 +74,135 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 1, 2024 at 1:12=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igalia.com>=
- wrote:
+On Fri, Nov 1, 2024 at 9:27=E2=80=AFAM Barry Song <21cnbao@gmail.com> wrote=
+:
 >
-> +cc Kees Cook
->
-> Hi Barry,
->
-> On 31/10/24 09:01, Barry Song wrote:
-> > On Thu, Oct 31, 2024 at 6:55=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igalia=
-.com> wrote:
-> >>
-> >> Hi Barry,
-> >>
-> >> On 30/10/24 20:07, Barry Song wrote:
-> >>> On Thu, Oct 31, 2024 at 2:03=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igal=
+> On Fri, Nov 1, 2024 at 1:12=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igalia.co=
+m> wrote:
+> >
+> > +cc Kees Cook
+> >
+> > Hi Barry,
+> >
+> > On 31/10/24 09:01, Barry Song wrote:
+> > > On Thu, Oct 31, 2024 at 6:55=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igal=
 ia.com> wrote:
-> >>>>
-> >>>> Replace strcpy() with strscpy() in mm/huge_memory.c
-> >>>>
-> >>>> strcpy() has been deprecated because it is generally unsafe, so help=
- to
-> >>>> eliminate it from the kernel source.
-> >>>>
-> >>>> Link: https://github.com/KSPP/linux/issues/88
-> >>>> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> >>>> ---
-> >>>>    mm/huge_memory.c | 4 ++--
-> >>>>    1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>>
-> >>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> >>>> index f92068864469..8f41a694433c 100644
-> >>>> --- a/mm/huge_memory.c
-> >>>> +++ b/mm/huge_memory.c
-> >>>> @@ -989,7 +989,7 @@ static int __init setup_thp_anon(char *str)
-> >>>>
-> >>>>           if (!str || strlen(str) + 1 > PAGE_SIZE)
-> >>>>                   goto err;
-> >>>> -       strcpy(str_dup, str);
-> >>>> +       strscpy(str_dup, str);
-> >>>
-> >>> What is the difference between strcpy and strscpy without a size para=
-meter?
-> >>>
-> >>> we have already a check and goto err. strcpy() is entirely safe.
-> >>>            if (!str || strlen(str) + 1 > PAGE_SIZE)
-> >>>                    goto err;
-> >>>
-> >>> My understanding is that we don't need this patch.
-> >>
-> >> strcpy() is a deprecated interface [1]. From the GitHub issue I linked
-> >> in the commit description, Kees states: "A lot of kernel code is still
-> >> using strcpy(). While the CONFIG_FORTIFY_SOURCE wrapper macros tend to
-> >> make its use mostly safe, it would be nice to eliminate the function
-> >> from the kernel entirely."
+> > >>
+> > >> Hi Barry,
+> > >>
+> > >> On 30/10/24 20:07, Barry Song wrote:
+> > >>> On Thu, Oct 31, 2024 at 2:03=E2=80=AFAM Ma=C3=ADra Canal <mcanal@ig=
+alia.com> wrote:
+> > >>>>
+> > >>>> Replace strcpy() with strscpy() in mm/huge_memory.c
+> > >>>>
+> > >>>> strcpy() has been deprecated because it is generally unsafe, so he=
+lp to
+> > >>>> eliminate it from the kernel source.
+> > >>>>
+> > >>>> Link: https://github.com/KSPP/linux/issues/88
+> > >>>> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> > >>>> ---
+> > >>>>    mm/huge_memory.c | 4 ++--
+> > >>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+> > >>>>
+> > >>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> > >>>> index f92068864469..8f41a694433c 100644
+> > >>>> --- a/mm/huge_memory.c
+> > >>>> +++ b/mm/huge_memory.c
+> > >>>> @@ -989,7 +989,7 @@ static int __init setup_thp_anon(char *str)
+> > >>>>
+> > >>>>           if (!str || strlen(str) + 1 > PAGE_SIZE)
+> > >>>>                   goto err;
+> > >>>> -       strcpy(str_dup, str);
+> > >>>> +       strscpy(str_dup, str);
+> > >>>
+> > >>> What is the difference between strcpy and strscpy without a size pa=
+rameter?
+> > >>>
+> > >>> we have already a check and goto err. strcpy() is entirely safe.
+> > >>>            if (!str || strlen(str) + 1 > PAGE_SIZE)
+> > >>>                    goto err;
+> > >>>
+> > >>> My understanding is that we don't need this patch.
+> > >>
+> > >> strcpy() is a deprecated interface [1]. From the GitHub issue I link=
+ed
+> > >> in the commit description, Kees states: "A lot of kernel code is sti=
+ll
+> > >> using strcpy(). While the CONFIG_FORTIFY_SOURCE wrapper macros tend =
+to
+> > >> make its use mostly safe, it would be nice to eliminate the function
+> > >> from the kernel entirely."
+> > >
+> > > I don't see any value added here since strscpy() has no size paramete=
+r and
 > >
-> > I don't see any value added here since strscpy() has no size parameter =
-and
->
-> As `str_dup` is a sized buffer, we don't need to specify the size
-> parameter.
->
-> > we have checked strlen(str) + 1 > PAGE_SIZE to avoid parsing any pointl=
-ess
-> > bootcmd longer than PAGE_SIZE.
->
->  From my point of view, this is an extra layer of safety. A developer
-> could change `str_dup` to SZ_4K and leave PAGE_SIZE in the check. This
-> could pass by in a review and we would have a check that allows strings
-> bigger than the destination buffer in systems using 16KB pages.
->
-> But see that `split_huge_pages_write` uses `strcpy` without any checks.
->
-> I can remove the internal check from `setup_thp_anon` if you feel it
-> would be more suitable.
-
-My point is that we shouldn't remove the strlen(str) + 1 > PAGE_SIZE
-check, as it could lead to situations like this:
-
-For thp_anon=3DAB, where len(A) =3D PAGE_SIZE and B is illegal, we would
-mistakenly interpret the string as valid by ignoring B after trimming it.
-
-Therefore, if you remove the check, you could instead do:
-
-len =3D strscpy(str_dup, src);
-if (len >=3D sizeof(str_dup))
-      err;
-
-I have no objection to replacing strcpy with strscpy, so feel free to go
-ahead :-)
-
->
-> Best Regards,
-> - Ma=C3=ADra
->
->  > > But I have no objection to this patch if other people like it.
+> > As `str_dup` is a sized buffer, we don't need to specify the size
+> > parameter.
 > >
-> >>
-> >> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#str=
-cpy
-> >>
-> >> Best Regards,
-> >> - Ma=C3=ADra
-> >>
-> >>>
-> >>>>
-> >>>>           always =3D huge_anon_orders_always;
-> >>>>           madvise =3D huge_anon_orders_madvise;
-> >>>> @@ -4175,7 +4175,7 @@ static ssize_t split_huge_pages_write(struct f=
-ile *file, const char __user *buf,
-> >>>>
-> >>>>                   tok =3D strsep(&buf, ",");
-> >>>>                   if (tok) {
-> >>>> -                       strcpy(file_path, tok);
-> >>>> +                       strscpy(file_path, tok);
-> >>>>                   } else {
-> >>>>                           ret =3D -EINVAL;
-> >>>>                           goto out;
-> >>>> --
-> >>>> 2.46.2
-> >>>>
-> >>>
-Thanks
-barry
+> > > we have checked strlen(str) + 1 > PAGE_SIZE to avoid parsing any poin=
+tless
+> > > bootcmd longer than PAGE_SIZE.
+> >
+> >  From my point of view, this is an extra layer of safety. A developer
+> > could change `str_dup` to SZ_4K and leave PAGE_SIZE in the check. This
+> > could pass by in a review and we would have a check that allows strings
+> > bigger than the destination buffer in systems using 16KB pages.
+> >
+> > But see that `split_huge_pages_write` uses `strcpy` without any checks.
+> >
+> > I can remove the internal check from `setup_thp_anon` if you feel it
+> > would be more suitable.
+>
+> My point is that we shouldn't remove the strlen(str) + 1 > PAGE_SIZE
+> check, as it could lead to situations like this:
+>
+> For thp_anon=3DAB, where len(A) =3D PAGE_SIZE and B is illegal, we would
+> mistakenly interpret the string as valid by ignoring B after trimming it.
+>
+> Therefore, if you remove the check, you could instead do:
+>
+> len =3D strscpy(str_dup, src);
+> if (len >=3D sizeof(str_dup))
+>       err;
+
+Perhaps -E2BIG ( or < 0) i'm not quite sure :-)
+
+>
+> I have no objection to replacing strcpy with strscpy, so feel free to go
+> ahead :-)
+>
+> >
+> > Best Regards,
+> > - Ma=C3=ADra
+> >
+> >  > > But I have no objection to this patch if other people like it.
+> > >
+> > >>
+> > >> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#s=
+trcpy
+> > >>
+> > >> Best Regards,
+> > >> - Ma=C3=ADra
+> > >>
+> > >>>
+> > >>>>
+> > >>>>           always =3D huge_anon_orders_always;
+> > >>>>           madvise =3D huge_anon_orders_madvise;
+> > >>>> @@ -4175,7 +4175,7 @@ static ssize_t split_huge_pages_write(struct=
+ file *file, const char __user *buf,
+> > >>>>
+> > >>>>                   tok =3D strsep(&buf, ",");
+> > >>>>                   if (tok) {
+> > >>>> -                       strcpy(file_path, tok);
+> > >>>> +                       strscpy(file_path, tok);
+> > >>>>                   } else {
+> > >>>>                           ret =3D -EINVAL;
+> > >>>>                           goto out;
+> > >>>> --
+> > >>>> 2.46.2
+> > >>>>
+> > >>>
+> Thanks
+> barry
