@@ -1,95 +1,82 @@
-Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5211CC8B3;
-	Thu, 31 Oct 2024 20:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAD41C2DA4;
+	Thu, 31 Oct 2024 21:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730408345; cv=none; b=KWb0lFl/sfnAU+kaeKm8eBZ/JPrnFaBY3ccbB+R/86o+TqbSuZLFn6fO6o2844mfjmUahm6ocn9MfcWIchpfBLthB0rdlW4M7fc0kz9VJbfRzZvth5/59WrRh9Hj3IIFimun2+xLg4Hr76lLuQnxWzol42CWX0qg4zsBZvZeZeY=
+	t=1730409097; cv=none; b=IlwodQ0aMilOa+/lITvvBk+KUXyQxz1uqDm2vckk8YMgcmyiOW3Jno4H5Mg4NOlDdTU0t3hgc7vYd8XZpz/OiUFNr663hSjPlJSLmhwVf5IdpJZZZRGim24KrxyeI6xJn31lEDbOyt1FRHrKE4grdkoYGTSBGBCRFe0nHxWYwJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730408345; c=relaxed/simple;
-	bh=7mUD4I9cbXdRGvKvEga1xf/cghvf/DMenSSv8W2QQ60=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BXk+IyXYWv9JF3tSr5CF45eAPV9wkAETUGbAdPGy++7cY3yjIgYUUMG/CfyQNIzF6e5ZARXE2P2AbbbxRqLu3vkp6zQyLEfIS8VFHmCQHWxssqTDB2hH70YCDmb83zp+DgD1G4XcB+/9VKkPY1hsCxP6oCblTIixDNA96KqRwE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=KQItnnFo; arc=none smtp.client-ip=199.89.1.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1730409097; c=relaxed/simple;
+	bh=zJycXNzwaNgn4ci0EBST+oGnYoZHWasgXjEBU4OI52U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iXaGJphmMeAttyS+QRrXBdIoPz6D5fRjJx7f+oydpmuuxSVDgiw6jmlP4gFwqwrv1pEAhlh5PeTGm9VqNU5w9NW3+VJ4c3g/g8ne7f0LAwxMG+nOrZbKljHF3UYueE1fS0dGkw7lqz5v63ut+rX1xFBTj2MJs4q/jac0bIjX5xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=B2LUiHxs; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="KQItnnFo"
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4XfbvQ5NP0zlgMVV;
-	Thu, 31 Oct 2024 20:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1730408329; x=1733000330; bh=ZlDdWjIwcF/8pUBLz0z5Lqqx
-	Mf6+H+v/mtLue+A0j/A=; b=KQItnnFo7mG7FWlSn3t8mhT5t9clJf67jiW5lKnA
-	ZppzqrwKZgP8zNGovmxHxm4CgKw1QIgMkZL2m/uWgA9EFnGppkBxNloFeY2nBD1s
-	ZZ07cMTdtM3ysyJ9elPwZuRYvrT0OrA/gN1i6yMy2myCM+hqyS+zYZ+UjaGfu7R2
-	fngVCGsv9pCcGdCAX0ZD8Ou0QW/I9uJWEEMJX7Iy7N4DsjR03B2mVlP4fjVQ0dvh
-	UJP2d9IJ4Ng9+UjXBh5e2JDMfcPA0PjQLHmFQzdvAtVj63xiEvvV2PLxyQOlpYxj
-	pR/9i5KIYfJjjDVF135v4xvdMr5gQhkX72qeykrLw4SqHQ==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id fkPnSCZ1Z4-b; Thu, 31 Oct 2024 20:58:49 +0000 (UTC)
-Received: from [100.66.154.22] (unknown [104.135.204.82])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4Xfbv36gp4zlgTWK;
-	Thu, 31 Oct 2024 20:58:39 +0000 (UTC)
-Message-ID: <d4378502-6bc2-4064-8c35-191738105406@acm.org>
-Date: Thu, 31 Oct 2024 13:58:37 -0700
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="B2LUiHxs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=YCTs6BqS9ZgBaULSmac4Uouh4bUhMEp9TLAj0m9+Ols=; b=B2LUiHxsZ25aru8BQuH2hExiJN
+	YfqxN2Eyx9ZT12xG0bY8PpP05aEdiIx7ZAcRlNRUQ3Be0Mcmbf1Rx73lacVU4hIHsrePB0GCtp7MV
+	XgRAWTlVkC3d4mlT6drBC/n+P/1aR8UwMZa7ir0J2HoqinO9PT4AM9pI9j6E6L5xMLvU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1t6cRq-00BotB-Pk; Thu, 31 Oct 2024 22:11:18 +0100
+Date: Thu, 31 Oct 2024 22:11:18 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v2 03/18] net: pse-pd: tps23881: Use helpers
+ to calculate bit offset for a channel
+Message-ID: <0e9ecb5a-3a6a-4b99-8177-1532134e3e25@lunn.ch>
+References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
+ <20241030-feature_poe_port_prio-v2-3-9559622ee47a@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/7] block: don't merge different kinds of P2P
- transfers in a single bio
-To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
-References: <cover.1730037261.git.leon@kernel.org>
- <34d44537a65aba6ede215a8ad882aeee028b423a.1730037261.git.leon@kernel.org>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <34d44537a65aba6ede215a8ad882aeee028b423a.1730037261.git.leon@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241030-feature_poe_port_prio-v2-3-9559622ee47a@bootlin.com>
 
-On 10/27/24 7:21 AM, Leon Romanovsky wrote:
-> +		/*
-> +		 * When doing ZONE_DEVICE-based P2P transfers, all pages in a
-> +		 * bio must be P2P pages from the same device.
-> +		 */
-> +		if ((bio->bi_opf & REQ_P2PDMA) &&
-> +		    !zone_device_pages_have_same_pgmap(bv->bv_page, page))
-> +			return 0;
+> +	val = tps23881_set_val(ret, chan, 0, BIT(chan % 4), BIT(chan % 4));
+> +		val = tps23881_set_val(val, chan, 0, BIT(chan % 4),
+> +				       BIT(chan % 4));
+> +	val = tps23881_set_val(ret, chan, 4, BIT(chan % 4), BIT(chan % 4));
+> +		val = tps23881_set_val(val, chan, 4, BIT(chan % 4),
+> +				       BIT(chan % 4));
+> +	val = tps23881_calc_val(ret, chan, 0, BIT(chan % 4));
+> +		val = tps23881_calc_val(ret, chan, 0, BIT(chan % 4));
+> +	val = tps23881_calc_val(ret, chan, 0, BIT(chan % 4));
+> +	val = tps23881_calc_val(ret, chan, 4, BIT(chan % 4));
+> +		val = tps23881_calc_val(ret, chan, 0, BIT(chan % 4));
+> +		val = tps23881_calc_val(ret, chan, 4, BIT(chan % 4));
 
-It's probably too late to change the "zone_device_" prefix into
-something that cannot be confused with a reference to zoned block
-devices?
+It looks like all the callers of this helper pass BIT(chan % 4) as the
+last parameter. Maybe move that into the helper as well?
 
-Thanks,
-
-Bart.
-
+     Andrew
