@@ -1,130 +1,126 @@
-Received: from toucan.tulip.relay.mailchannels.net (toucan.tulip.relay.mailchannels.net [23.83.218.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831621F5FD;
-	Thu, 31 Oct 2024 01:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.254
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730338489; cv=pass; b=k5OTCes2nJF5CqSqmXukjS8qkkUDNTtobGW+wu/O/92/We8+efG8G7BoBkOiXwS3UGhc5L+8183w+Be8i5EOIeaMvYNcugpuS7R0kcPIATkKZ2O7uIKSavzZdZWyq7hSI0DYz2U3LShabG7AGa8rYx+RP5N+yX+Ytx7aMh6R36o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730338489; c=relaxed/simple;
-	bh=rNY4ZEsKz1XcAvfQ3B7Ej6wRo9eCFo6EpoMo41PYFgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PwmnJTevWJeCSyvml1bAc/MWncPiC+JyItxgUfoxPfOJwOqUC9Y89zh/pkVIyeTQnSPukgHtv41ADhK7o3B7UjyliefEsK4arkDGcDWKu+Ex+rqtjbsIujO9JYmpXgQ5Rh+GvRLVALsgtFyxxq3mF5gwFIGUFZRBeDvndkK0f7M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net; spf=pass smtp.mailfrom=stgolabs.net; dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b=Rp5zyH0D; arc=pass smtp.client-ip=23.83.218.254
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stgolabs.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3007445025;
+	Thu, 31 Oct 2024 01:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730338824; cv=none; b=fTNv+aSKa1JwQDrqklA+ZuNAvdjz0ONyxgX3oYJ8LNP4m8vkVr+bnFcOedRrI/Hq6gMFZS68GVxaJ8L9w9UVv/Y+NcfAYJeOmcJXkccJs8eabRwAL4cxLxAHj0U/yJqxoc8bbEn/fY512ka64FAgmP2HZkWwj9sRWXXeQyQA9jE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730338824; c=relaxed/simple;
+	bh=podcbddspYpvHJXXihg9dE2KxIjh8shQLhcEgSSNyfc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GLEo86GvjJ7e3sU67FwzIINJ95CmNYlpzACSba/gRoV3NQofpQhyKN6tEO9e7Xb0ktgslAKtbbM3lAb5xVyXShgZLqxDFtw5cxvPh5KCHLhYQIvs2lsGUHWLXtXvDgLqGNxFGwjX+Kl3vrIiS3mag6ekrnUFMlceASWND61qRcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=maQAUBKZ; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b="Rp5zyH0D"
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id C103D81DF2;
-	Thu, 31 Oct 2024 01:34:45 +0000 (UTC)
-Received: from pdx1-sub0-mail-a302.dreamhost.com (100-101-211-53.trex-nlb.outbound.svc.cluster.local [100.101.211.53])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 4793281AE1;
-	Thu, 31 Oct 2024 01:34:45 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1730338485; a=rsa-sha256;
-	cv=none;
-	b=pPgL2BH4D1O320WRi6wXpIm4KJqWpTYwnSyI/NsCy6j4rY7aL43kXomYW44GLv4B8SKUhe
-	NWeSH55Yg7C+XS7ImUXzL7TrqVj6tohceLFipOKCZE5QbEPiqxDxVVkd0w/6fpH6G4db27
-	Aegn26H/8mUh/uieaHjymY9ACVJZHtdSpZ4etO0+lLitzA+LmMempgAV66lW5DtJI7Hbf7
-	eIHrOVycZ5eEtn7ka9JSbgAHtd8maXtkZ6W5dszu7ka0ufylhhVsjxyBIjc+03tTHxMWrk
-	oW49OkigmiEuYlHwd4vt+1U0TwQiqe10vxCoIRlfKfYUiCQ4k5Nw1LyHd2iJtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1730338485;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=RG/uXRPHc0RIEwtk48jA5QoUoXx5IObwxDejHafllLQ=;
-	b=DLRmi6oqmm6JypnXglUVRdlg1qEmpa5k2SHlcD1PzATs4hlPYKzOdky8/Ueanlv/qS/nxT
-	z8GvughOk5jDRq9SbgFOV1qaHlCzNEcx3NPdEY9WMdNqKZTyMqMl8M01TLzB8VovL8Ulza
-	e2Bm90Rv/vT6LLwhex9SrLodly38QuctaX2Q80gBJKEEkAa1PrHl7I4mnFQF/aGuhWf4V/
-	S5GeYENIKUum5h6UtGB5CK9BZlLf7SOTA1YSA5VetpDJxw2Apk/JCuVoUO+FKcftJh8wwv
-	zhTmLJlpvBYlFY9c3gb+LFE1Pebokr1dSeYJpeJfWy32BoEkME/fykwMLkJOKg==
-ARC-Authentication-Results: i=1;
-	rspamd-77cfccfb8-fr6hp;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Inform-Spot: 47ec64386e760ba2_1730338485657_2876808699
-X-MC-Loop-Signature: 1730338485657:1963751466
-X-MC-Ingress-Time: 1730338485657
-Received: from pdx1-sub0-mail-a302.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.101.211.53 (trex/7.0.2);
-	Thu, 31 Oct 2024 01:34:45 +0000
-Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dave@stgolabs.net)
-	by pdx1-sub0-mail-a302.dreamhost.com (Postfix) with ESMTPSA id 4Xf6440KMnz4F;
-	Wed, 30 Oct 2024 18:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-	s=dreamhost; t=1730338485;
-	bh=RG/uXRPHc0RIEwtk48jA5QoUoXx5IObwxDejHafllLQ=;
-	h=Date:From:To:Cc:Subject:Content-Type;
-	b=Rp5zyH0D3vQoov9tU7mIKSQT3ghl2d8YMauHrveQ0Fn/uPNcGFDx1EHYSlguRW+7V
-	 uNiQ0JxdnCHDOq8hE9Pl0SvGVokt/2zHdkvt2UY3YlD90zBaQhbakgLm7Toz7TUjBw
-	 JkHUUcS+x0pnl8b5BFp9mjDzUGPOS0WkZZamOSJjWDcukGEpFUiUvhXvVHcvDLOgYR
-	 dOqbShMYCIe4FN7X2Hp26TcF5Gwz/XkVcBi78T6V0ynYzgWeo+RfyRnrmpWHVH6kGH
-	 O/qbDkjKSHF8osegaIexo0DUXnMl7c+z8W6HwXq3d+RC/agy81CSeT7EkbhQvRl0Ez
-	 t45epL8qEdlxw==
-Date: Wed, 30 Oct 2024 18:34:41 -0700
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: ira.weiny@intel.com
-Cc: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v5 08/27] cxl/mem: Read dynamic capacity configuration
- from the device
-Message-ID: <20241031013441.tsuqkrbqbhwsv2ui@offworld>
-References: <20241029-dcd-type2-upstream-v5-0-8739cb67c374@intel.com>
- <20241029-dcd-type2-upstream-v5-8-8739cb67c374@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="maQAUBKZ"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5c9850ae22eso621805a12.3;
+        Wed, 30 Oct 2024 18:40:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730338818; x=1730943618; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KFR+bKCwvRVUX/BxiY5sWjZTz3GjZpROxqvWLTi/ADs=;
+        b=maQAUBKZyrkQ8RQY++EsROsRe9wO5+1lt/OQ4eePoPUomfnYaeqEdjiaToCT1CB5FY
+         EN2TG2tAGm3MPQ3vcCT43NTxdL0JJlDmc6iQqOr1+WjlJekTnuhcBzhb7bpPBvIbAh2Z
+         4JM8j8dh3/UXHFcHnhq/Qj0oP8g2u/xcMbTMR/joPUSrMQ8BZiHaHGuFNt/PW+rUnL41
+         7JN02+I2NMjnN7AZXtFglGlkPbMKJe9rgIFvZ13W+CmInBWJOcb5x4psi5vwSMd3Ffht
+         nwDpObpWlNYqmugoe7r7POgaqA8CeILGfKfAZr444E5YOvyDmxRoDlo7mTfIThths1GY
+         5mpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730338818; x=1730943618;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KFR+bKCwvRVUX/BxiY5sWjZTz3GjZpROxqvWLTi/ADs=;
+        b=fZZUc14fSvXfSe7GtqYrMfyO5yYlyTxnr/bp+Jkr/fwPyNs/UyaJzGiKCl3s8kBJ6B
+         1FwKTeQuzdhsc5U+Kf33bGvOR7vmjQo3B7dwjVVGNx5GS6PzC2H4faelYIDCxwSQ0oIX
+         QOq36UdhWAul8HrYRnjnT05CyWhU6A72NBbbSr6qvErs4PFqNkRuYzCE+ad2UYI8FYil
+         Qts43WyAmOxJJo3f6WGMVY6rSd+cYmKOsEDvXjFTkBKjXhDviGyEd2SnNDlvHVH4Fr9N
+         YuWQ4WC0VHwnlTDMUN1kzKzWt8MsaUBdNJFoR2Nxak96lGaB4ES77HSl6mzqWqNbzobU
+         s/jg==
+X-Forwarded-Encrypted: i=1; AJvYcCUtebUGE5/llhZx0B7ovQrTBSODU/g1Bt60cjpD25PREAjRBtgOtw3KjXYVjbhuYE9f6AJ7ehNgqRE=@vger.kernel.org, AJvYcCWUxroT8jhNirRGahyJjgod6R6XPgKmcNFr8BPxGFeKvrO2uPFnmf/QgxerFilg8aRaMGF/wBWpc/EWC4JH@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzjn8wfMdB0l0WZLfW9MMTQWWDlmHThHROj1HgaN5mQkYOtQ9m5
+	nqsEmquMupdjzB6Zw3h0rMvTKZ54Y64XSS6tMzqxvuO8oXg23kF/LS6llDNR1UF8ZK86aTHyZZO
+	2Bm5uu8XiOcMX/fM8XomspvrJX4w=
+X-Google-Smtp-Source: AGHT+IHJgLaqlTk3oM2roWzZFSZzpTQuATiSid0TpEirjsjoVUFKzoTKPH5jyfrAx515v80ao8diru9MxcSS6gEH6o4=
+X-Received: by 2002:a05:6402:2550:b0:5c8:a01c:e511 with SMTP id
+ 4fb4d7f45d1cf-5cbbf892059mr13375133a12.10.1730338818227; Wed, 30 Oct 2024
+ 18:40:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20241029-dcd-type2-upstream-v5-8-8739cb67c374@intel.com>
-User-Agent: NeoMutt/20220429
+References: <20241030130308.1066299-1-mcanal@igalia.com> <20241030130308.1066299-5-mcanal@igalia.com>
+In-Reply-To: <20241030130308.1066299-5-mcanal@igalia.com>
+From: Lance Yang <ioworker0@gmail.com>
+Date: Thu, 31 Oct 2024 09:39:42 +0800
+Message-ID: <CAK1f24=BNmnhkUWpRZ8hKapN7ZwFp3G+967hVV79bdaxqMsaLg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] mm: huge_memory: Use strscpy() instead of strcpy()
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
+	Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>, 
+	David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel-dev@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 29 Oct 2024, ira.weiny@intel.com wrote:
+Hi Ma=C3=ADra,
 
->+/* See CXL 3.1 Table 8-164 get dynamic capacity config Output Payload */
->+struct cxl_mbox_get_dc_config_out {
->+	u8 avail_region_count;
->+	u8 regions_returned;
->+	u8 rsvd[6];
->+	/* See CXL 3.1 Table 8-165 */
->+	struct cxl_dc_region_config {
->+		__le64 region_base;
->+		__le64 region_decode_length;
->+		__le64 region_length;
->+		__le64 region_block_size;
->+		__le32 region_dsmad_handle;
->+		u8 flags;
->+		u8 rsvd[3];
->+	} __packed region[] __counted_by(regions_retunred);
->+	/* Trailing fields unused */
->+} __packed;
->+#define CXL_DYNAMIC_CAPACITY_SANITIZE_ON_RELEASE_FLAG BIT(0)
+Looks like a lot of kernel code is still using strcpy() ;p
 
-Fan, is this something qemu wants to support?
+On Wed, Oct 30, 2024 at 9:03=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igalia.com=
+> wrote:
+>
+> Replace strcpy() with strscpy() in mm/huge_memory.c
+>
+> strcpy() has been deprecated because it is generally unsafe, so help to
+> eliminate it from the kernel source.
+>
+> Link: https://github.com/KSPP/linux/issues/88
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+
+Feel free to add:
+Reviewed-by: Lance Yang <ioworker0@gmail.com>
+
+Thanks,
+Lance
+
+
+> ---
+>  mm/huge_memory.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index f92068864469..8f41a694433c 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -989,7 +989,7 @@ static int __init setup_thp_anon(char *str)
+>
+>         if (!str || strlen(str) + 1 > PAGE_SIZE)
+>                 goto err;
+> -       strcpy(str_dup, str);
+> +       strscpy(str_dup, str);
+>
+>         always =3D huge_anon_orders_always;
+>         madvise =3D huge_anon_orders_madvise;
+> @@ -4175,7 +4175,7 @@ static ssize_t split_huge_pages_write(struct file *=
+file, const char __user *buf,
+>
+>                 tok =3D strsep(&buf, ",");
+>                 if (tok) {
+> -                       strcpy(file_path, tok);
+> +                       strscpy(file_path, tok);
+>                 } else {
+>                         ret =3D -EINVAL;
+>                         goto out;
+> --
+> 2.46.2
+>
