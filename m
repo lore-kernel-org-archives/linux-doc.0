@@ -1,207 +1,79 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1381E199938;
-	Thu, 31 Oct 2024 11:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBC513A869;
+	Thu, 31 Oct 2024 11:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730373073; cv=none; b=HkpkvUPMuKlDUNno9cW/acgI1NUYM1XSCB+nvs74EiZ4sukODCRevBxHMIn6XyimZJQtifqP7q8tGjilGg9HLurY2jkSe43kkUKuDchRBqLWQ3imKFAzWlX7D5uFk6XCTlTxlEw4zU3J2vdftzYMrtKFgoLK/qFbhdIN1LHiRJw=
+	t=1730373250; cv=none; b=jjyrQrkjwT5FJc2fKYSW5WpL9l6G70LuDnUvOAVO/VqgVB8lTnAl4LQ6pNBRTSrAeC07wOt4UUGGge9KUESCwFFCM3UBgZiBDX7Q/jYUUf9KnebXLqPL837QIerq6FGEpHF6Xb6qz7v4L+utLCfzvnWmpCnvcB6BGZUFHGeQcMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730373073; c=relaxed/simple;
-	bh=TV0wVUiqbaBLqqJfBKzLW+zvX7tmDihROeEg6pwNMwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dnzg8vCk8LrIMrp2jiNpQLjU+wwid9Mqdk7AD7UwL1Jb7VvaTVfviFp6bgokSNE554MblreeLAcctOOrIxyWGTNuPHR9t2K9n+loIDkUOLqw8ripXaixaaK9FgImd/uicgTjQ0i9+88dkGbw2jPLBk1XfiTm7T5lq/Y/oSGhJhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZxbYVDg0; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1730373250; c=relaxed/simple;
+	bh=GfY6uEgX/ususpsUcZOx7OWF5IJU0mwMlBmVQZiOSsE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H8G4U9iJWkn+jsxdMjGacmiAzkY/jvch8aXmgu/bovNCAmlaIlmiRvzYB7MBd3JA8PvguhrTcirZsNFWyXew/ymfabYiviHPJSTeu7X1hAKy7pXgb+W82oIg79v2hBrLVC8aMeoj6d6jtO98qVhgtGaBuZCj833qJJsgPdkU4TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=hHmpXcD5; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZxbYVDg0"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B74401BF205;
-	Thu, 31 Oct 2024 11:11:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730373067;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s3fwGAsiVjhiFN+U0RnYGt9DvUiZUwlPvWKhDGS9w9o=;
-	b=ZxbYVDg0ud6CZzHns5bxh+lwbTLwVmMO3DRnsa9irmz3HgAJ0OKoboGDaskT0tGFG+5Rig
-	JN0nq6d3DaGk6xziOpKv7lHwb7zPkd2vU7+5R5mCSYsAZmWSpdajtrk1AIT8ND+QMqIt9g
-	Fp1H2800F/uo8qijfHyS93a4qFZAFSU5W2ZwQACJtKHEbLF/CHg8vNWQzDIcKLN9a/01cr
-	XL1Rl5uiIHzl6pCb7aEhpoHds1azKE2tyb8WkxUxjZLhbII9a4EYX2O+8aZ/3C195vOdPQ
-	NYDn0zGWciBZ8hGETfalr+N0gw8uKdDL9yjxWA4jR9ibKJS1dyraYVriUjF1zw==
-Date: Thu, 31 Oct 2024 12:11:04 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v2 15/18] net: pse-pd: Add support for
- getting and setting port priority
-Message-ID: <20241031121104.6f7d669c@kmaincent-XPS-13-7390>
-In-Reply-To: <ZyMpkJRHZWYsszh2@pengutronix.de>
-References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
-	<20241030-feature_poe_port_prio-v2-15-9559622ee47a@bootlin.com>
-	<ZyMpkJRHZWYsszh2@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="hHmpXcD5"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49V6nioL009687;
+	Thu, 31 Oct 2024 06:13:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=YYC/8DnwoAIbtcz0I+
+	v3DJqMUw3+Qmf/MjyCT7t5k1E=; b=hHmpXcD5x9m2K/9IXPzvJOBy7nF1TxUAvs
+	M3WKAFt8CYVMlmxI9A7ySoezAfL1xV1XDPMWP0gcX7SrI6kJc3lWvJLZNB8hSPa/
+	ve6NjwEa6C6x+oc7g26GpLMdNiX9ZO+Eka4mEs9hoipjotp7bhpx5zGy6Ly40b0+
+	9GOh39UxfWqdpCxv2J7BtIxxfeH6GM171N5BJb2N2zRllNjmwU1SUPijxo7palXe
+	TKwjIjx2JMY9a/sStRfFJx0aGwmlbeOO48mGSl+ftuxw2zX766qLOhdlfmYG3Nb0
+	D6KXZYO9zj1j0kJsAWFo0tVn7d0h1MVuusekZdQhTSRlRL5ugiCw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 42gvuje4vq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 31 Oct 2024 06:13:52 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 31 Oct
+ 2024 11:13:50 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 31 Oct 2024 11:13:50 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 9ABBC820241;
+	Thu, 31 Oct 2024 11:13:50 +0000 (UTC)
+Date: Thu, 31 Oct 2024 11:13:49 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: anish kumar <yesanishhere@gmail.com>
+CC: <perex@perex.cz>, <tiwai@suse.com>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH V3] Docs/sound: Update codec-to-codec documentation
+Message-ID: <ZyNmbQ88HbvkaSe8@opensource.cirrus.com>
+References: <20241028194121.41993-1-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241028194121.41993-1-yesanishhere@gmail.com>
+X-Proofpoint-GUID: r-wnKOItCPaFgg7dN0ce5OH3aXa1sIN5
+X-Proofpoint-ORIG-GUID: r-wnKOItCPaFgg7dN0ce5OH3aXa1sIN5
+X-Proofpoint-Spam-Reason: safe
 
-On Thu, 31 Oct 2024 07:54:08 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On Mon, Oct 28, 2024 at 12:41:21PM -0700, anish kumar wrote:
+> Updated documentation to provide more details
+> for codec-to-codec connection.
+> 
+> Signed-off-by: anish kumar <yesanishhere@gmail.com>
+> ---
+> v3: took care of comments from Charles Keepax and
+> as advised modified some details.
 
-> > diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-> > index a1ad257b1ec1..22664b1ea4a2 100644
-> > --- a/include/uapi/linux/ethtool.h
-> > +++ b/include/uapi/linux/ethtool.h
-> > @@ -1002,11 +1002,35 @@ enum ethtool_c33_pse_pw_d_status {
-> >   * enum ethtool_c33_pse_events - event list of the C33 PSE controller.
-> >   * @ETHTOOL_C33_PSE_EVENT_OVER_CURRENT: PSE output current is too high.
-> >   * @ETHTOOL_C33_PSE_EVENT_OVER_TEMP: PSE in over temperature state.
-> > + * @ETHTOOL_C33_PSE_EVENT_CONNECTED: PD detected on the PSE.
-> > + * @ETHTOOL_C33_PSE_EVENT_DISCONNECTED: PD has been disconnected on the
-> > PSE.
-> > + * @ETHTOOL_C33_PSE_EVENT_PORT_PRIO_STATIC_ERROR: PSE faced an error in
-> > static
-> > + *	port priority management mode.
-> >   */
-> > =20
-> >  enum ethtool_c33_pse_events {
-> > -	ETHTOOL_C33_PSE_EVENT_OVER_CURRENT =3D	1 << 0,
-> > -	ETHTOOL_C33_PSE_EVENT_OVER_TEMP =3D	1 << 1,
-> > +	ETHTOOL_C33_PSE_EVENT_OVER_CURRENT =3D		1 << 0,
-> > +	ETHTOOL_C33_PSE_EVENT_OVER_TEMP =3D		1 << 1,
-> > +	ETHTOOL_C33_PSE_EVENT_CONNECTED =3D		1 << 2,
-> > +	ETHTOOL_C33_PSE_EVENT_DISCONNECTED =3D		1 << 3,
-> > +	ETHTOOL_C33_PSE_EVENT_PORT_PRIO_STATIC_ERROR =3D	1 << 4,
-> > +}; =20
->=20
-> Same here, priority concept is not part of the spec, so the C33 prefix
-> should be removed.
+This still has all the DPCM bits in it.
 
-Ack. So we assume PoDL could have the same interruption events.
-
-> > +/**
-> > + * enum pse_port_prio_modes - PSE port priority modes.
-> > + * @ETHTOOL_PSE_PORT_PRIO_DISABLED: Port priority disabled.
-> > + * @ETHTOOL_PSE_PORT_PRIO_STATIC: PSE static port priority. Port prior=
-ity
-> > + *	based on the power requested during PD classification. This mode
-> > + *	is managed by the PSE core.
-> > + * @ETHTOOL_PSE_PORT_PRIO_DYNAMIC: PSE dynamic port priority. Port pri=
-ority
-> > + *	based on the current consumption per ports compared to the total
-> > + *	power budget. This mode is managed by the PSE controller.
-> > + */ =20
->=20
-> This part will need some clarification about behavior with mixed port
-> configurations. Here is my proposal:
->=20
->  * Expected behaviors in mixed port priority configurations:
->  * - When ports are configured with a mix of disabled, static, and dynamic
->  *   priority modes, the following behaviors are expected:
->  *     - Ports with priority disabled (ETHTOOL_PSE_PORT_PRIO_DISABLED) are
->  *       treated with lowest priority, receiving power only if the budget
->  *       remains after static and dynamic ports have been served.
->  *     - Static-priority ports are allocated power up to their requested
->  *       levels during PD classification, provided the budget allows.
->  *     - Dynamic-priority ports receive power based on real-time consumpt=
-ion,
->  *       as monitored by the PSE controller, relative to the remaining bu=
-dget
->  *       after static ports.
-
-I was not thinking of supporting mixed configuration but indeed why not.
-The thing is the Microchip PSE does not support static priority. I didn't f=
-ind a
-way to have only detection and classification enabled without auto activati=
-on.
-Mixed priority could not be tested for now.
-
-"Requested Power: The requested power of the logical port, related to the
-requested class. In case of DSPD, it is the sum of the related class power =
-for
-each pair-set. The value is in steps of 0.1 W.
-Assigned Class: The assigned classification depends on the requested class =
-and
-the available power. An 0xC value means that classification was not assigned
-and power was not allocated to this port."
-
-We could set the current limit to all unconnected ports if the budget limit=
- goes
-under 100W. This will add complexity as the PD692x0 can set current limit o=
-nly
-inside specific ranges. Maybe it is a bit too specific to Microchip.
-Microchip PSE should only support dynamic mode.
-
->  *
->  * Handling scenarios where power budget is exceeded:
->  * - Hot-plug behavior: If a new device is added that causes the total po=
-wer
->  *   demand to exceed the PSE budget, the newly added device is de-priori=
-tized
->  *   and shut down to maintain stability for previously connected devices.
->  *   This behavior ensures that existing connections are not disrupted, t=
-hough
->  *   it may lead to inconsistent behavior if the device is disconnected a=
-nd
->  *   reconnected (hot-plugged).
-
-Do we want this behavior even if the new device has an highest priority than
-other previously connected devices?
-
->  * - Startup behavior (boot): When the system initializes with attached
-> devices,
->  *   the PSE allocates power based on a predefined order (e.g., by port i=
-ndex)
->  *   until the budget is exhausted. Devices connected later in this order=
- may
->  *   not be enabled if they would exceed the power budget, resulting in
-> consistent
->  *   behavior during startup but potentially differing from runtime behav=
-ior
->  *   (hot-plug).
->  *
->  * - Consistency challenge: These two scenarios=E2=80=94hot-plug vs. syst=
-em boot=E2=80=94may
-> lead
->  *   to different handling of devices. During system boot, power is alloc=
-ated
->  *   sequentially, potentially leaving out high-priority devices added la=
-ter
-> due to
->  *   a first-come-first-serve approach. In contrast, hot-plug behavior fa=
-vors
-> the
->  *   status quo, maintaining stability for initially connected devices, w=
-hich
->  *   might not align with the system's prioritization policy.
-
-This could be solve by the future support of persistent configuration. Inde=
-ed
-the Microchip controller has a non-volatile memory to save the current
-configuration (3.1.3) and we could hope future PSE controller could do
-the same as there is indeed a consistency challenge.
-This support will be added in a later patch series.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thanks,
+Charles
