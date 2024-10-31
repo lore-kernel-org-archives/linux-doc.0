@@ -1,66 +1,39 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CCB1B3B2E
-	for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 17:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C75B12BF24;
+	Thu, 31 Oct 2024 17:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730395853; cv=none; b=m2dno9Ve9i4R640v8XKL3heHblGQKJmr9oVxyBvPqzcaD2yeXfxAJeZZudhCJoEt6ROwYfeN6DngxnjlckchJJrkhtU6agQvX16ibQSna1fepYzmmXECGsE+Z2n3WA9bAElbOAKo+kUh8j3GuGm7nMpzIAxhs4p8OY8y6Vx/2kA=
+	t=1730395920; cv=none; b=I/UTdlVfFP4pyupQUmqceBBOxJ/Du8TwkDK6MQ3nADuVnhZJOmV1F5CQ0GjMxdnfhSv9YRXon8QG3Sr5TYmqdHr1D9mXh1s5I+Ls7nrxaBH3wVcS92dRsOYdNNOqMRhWZMn/DVYkfoz8uBGFTaAtzYd4uSarODXDFRJgLw+1NaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730395853; c=relaxed/simple;
-	bh=pZ0/4MtkFUVPvfV/ywB73HL1pJJdQCYJdUGMpDz4N6Y=;
+	s=arc-20240116; t=1730395920; c=relaxed/simple;
+	bh=xGVT2nBFCDAbzlIh7Ah1fbzejAdzg17V5Cpg2c4tHcY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=It1+rQh+d/82WH7or+3NShkzShG1P8ej0F0FJCcBdueXYuVn9pTonh5TxxDnkE/oN6JM4ginW3G0SsJx7uzvbicMHrwGHrPdbZo2cW+rhzwhE5lruHlkzy6C2py7W7p7sbLjMXaIpEMHy+5HrTHlC/XHeInXGw23u3JEHJJPxlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KAzLDSa6; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=Q6Z51Im0hI5/Uot/c32BU8E2YfPQbMT1lj+QYoTKOOPYHA48TLfYTVows6FMgNVQRV9Q3rbU9aph1+XKpPcKPNMMBqMuoxyltiNpQt5+gDDFwI7vJobbNXVviMoQnRS3EibzgpboHqInD8h2mKatWDj0SJCXZzJKv/Vy/F9otLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=L4WjqTxB; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KAzLDSa6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730395848;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=po4aGjAZdOMFvGy5VxwhLDYTRzbKRpxyFH4vyJU9YZ4=;
-	b=KAzLDSa6Z7AXxwvFVpiJopkLPE0lFVlWhRqm+lEaspI6kqN8NQT7QOvzJLVyQBpe88y16/
-	ScbUj/AaXfuroWgc3MHwU5nTME6QjCe+5HZfk0/PWcodfZNtJO+BZmNQham9nv9G5IVW2V
-	PlS5GBvs9gYbemfFwK+7mT82KAKSHpw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-562--U6GcPJNMYaUZ91q0a1I5Q-1; Thu, 31 Oct 2024 13:30:41 -0400
-X-MC-Unique: -U6GcPJNMYaUZ91q0a1I5Q-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-37d43e7acd9so567397f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 31 Oct 2024 10:30:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730395840; x=1731000640;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=po4aGjAZdOMFvGy5VxwhLDYTRzbKRpxyFH4vyJU9YZ4=;
-        b=WCutrKeeMRd2PNe3WAN3446bfPB6Fsetk6pnkOgD2ApZcnqoRaCRxCJMGrdSOUr8Kl
-         dRWDZp9x2JcZ3+uj3dXAdrE/JHLE6Qd1G28ibytjs75JC93O9/zm5cFuatgucatbtn85
-         SPp5dTdztpdVYfQGZKmozd57An+bLbq6t+7akRA37m0aD6YHCqEypcn8TjZIqrgRXcif
-         rgL5KM3a6wZKa7HH7+fKzbSLpekS9toRqgthAZkAOqDLBIPvmt7WtwydsLtvyI744mtN
-         yyQ3ZEcffW5RgVK0GwroNR24KXsOxTHddmPgkVoJGwhHHc1PRdQXTfLjaljEiLnJf6W/
-         akYg==
-X-Forwarded-Encrypted: i=1; AJvYcCVdLhZVZVjH/RbNfY8Rzhyf1kmDpJMr65CX3SRUSInBjFnLAu/d/FCIrG3yyK32Z04YKwQXWzh73Fk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsWTXt8ukjvbxLUgNdC9yv76gQnZvE01a/Y7i/oA2Bmfn5bhZn
-	N35jgskIu8zNWF246CLeenTCnfQ7q9I5cY9mj+0QwUjYzbi6g1SiHh0excqIUPQsd2ddpOC3ss5
-	d/IFG874DQIysS2QM7aPzHt4AX/t4JAu/0JAaSjkDXvkmi2fRfEGQU5/1rA==
-X-Received: by 2002:adf:ce89:0:b0:37d:476d:2d58 with SMTP id ffacd0b85a97d-380611e56aemr13825431f8f.45.1730395839706;
-        Thu, 31 Oct 2024 10:30:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEEi4RPqd4a5QbOU7yDumOOtBgboxiLYO1zuyID1truLpjoe27PGIaeDpB/SPHnzDghbR46aA==
-X-Received: by 2002:adf:ce89:0:b0:37d:476d:2d58 with SMTP id ffacd0b85a97d-380611e56aemr13825396f8f.45.1730395839298;
-        Thu, 31 Oct 2024 10:30:39 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe? (p200300cbc70aed007ddf1ea94f7a91fe.dip0.t-ipconnect.de. [2003:cb:c70a:ed00:7ddf:1ea9:4f7a:91fe])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10e7280sm2745874f8f.59.2024.10.31.10.30.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 10:30:38 -0700 (PDT)
-Message-ID: <3b5d2bf2-2d27-43a1-86fe-076878823edf@redhat.com>
-Date: Thu, 31 Oct 2024 18:30:37 +0100
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="L4WjqTxB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Ffw5aTG/Bg8AZvVV88lvHBoZWy1zMvuq5Y4L7YnrbgE=; b=L4WjqTxBbEYzeWZS79F4oi3fLN
+	DQRV8F4k3QheS9+mQuPSDjQLUMzjppXK0+Up04zWhnkgMJVX6X50RZvY8sSMbfoBxnVm9Dn8sUTHN
+	ylnFebThg+uuZpPbkrTdyM6qWuhC9pYOXmgkPYPunDWWVPud1qVSMdgb/ImjMbqL0wQNOZQcDV2Fb
+	RATS7IzlnaLXDvV2SKK+kcI9XqANr2Hzhuxb+Z0AHcvsRfGzOX5Up5jLv4bKLk60BNY0W9OzGzza8
+	eDwMlr74hgZ2QqrKX5hKhINDjJxZjp34aG4t7EuRjCHEfzXCQcYdh5vtY5HoCLcCPuMQgWQbbMy0A
+	636bhaNw==;
+Received: from [189.78.222.89] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1t6Z18-0007Hm-Rc; Thu, 31 Oct 2024 18:31:31 +0100
+Message-ID: <c104f427-f9d9-498c-a719-ed6bf118226d@igalia.com>
+Date: Thu, 31 Oct 2024 14:31:21 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,182 +41,179 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/7] virtio-mem: s390 support
-To: Sumanth Korikkar <sumanthk@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>
-References: <20241025141453.1210600-1-david@redhat.com>
- <ZyOv2E-WEcppbf3G@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
- <ZyO0lPkLPGnpDKrr@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v8 8/9] tmpfs: Expose filesystem features via sysfs
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Gabriel Krisman Bertazi <krisman@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, smcv@collabora.com, kernel-dev@igalia.com,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ Gabriel Krisman Bertazi <krisman@suse.de>, llvm@lists.linux.dev,
+ linux-btrfs@vger.kernel.org, Chris Mason <clm@fb.com>
+References: <20241021-tonyk-tmpfs-v8-0-f443d5814194@igalia.com>
+ <20241021-tonyk-tmpfs-v8-8-f443d5814194@igalia.com>
+ <20241031051822.GA2947788@thelio-3990X>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <ZyO0lPkLPGnpDKrr@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20241031051822.GA2947788@thelio-3990X>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 31.10.24 17:47, Sumanth Korikkar wrote:
-> On Thu, Oct 31, 2024 at 05:27:06PM +0100, Sumanth Korikkar wrote:
->> On Fri, Oct 25, 2024 at 04:14:45PM +0200, David Hildenbrand wrote:
->>> Let's finally add s390 support for virtio-mem; my last RFC was sent
->>> 4 years ago, and a lot changed in the meantime.
->>>
->>> The latest QEMU series is available at [1], which contains some more
->>> details and a usage example on s390 (last patch).
->>>
->>> There is not too much in here: The biggest part is querying a new diag(500)
->>> STORAGE_LIMIT hypercall to obtain the proper "max_physmem_end".
->>>
->>> The last three patches are not strictly required but certainly nice-to-have.
->>>
->>> Note that -- in contrast to standby memory -- virtio-mem memory must be
->>> configured to be automatically onlined as soon as hotplugged. The easiest
->>> approach is using the "memhp_default_state=" kernel parameter or by using
->>> proper udev rules. More details can be found at [2].
->>>
->>> I have reviving+upstreaming a systemd service to handle configuring
->>> that on my todo list, but for some reason I keep getting distracted ...
->>>
->>> I tested various things, including:
->>>   * Various memory hotplug/hotunplug combinations
->>>   * Device hotplug/hotunplug
->>>   * /proc/iomem output
->>>   * reboot
->>>   * kexec
->>>   * kdump: make sure we properly enter the "kdump mode" in the virtio-mem
->>>     driver
->>>
->>> kdump support for virtio-mem memory on s390 will be sent out separately.
->>>
->>> v2 -> v3
->>> * "s390/kdump: make is_kdump_kernel() consistently return "true" in kdump
->>>     environments only"
->>>   -> Sent out separately [3]
->>> * "s390/physmem_info: query diag500(STORAGE LIMIT) to support QEMU/KVM memory
->>>     devices"
->>>   -> No query function for diag500 for now.
->>>   -> Update comment above setup_ident_map_size().
->>>   -> Optimize/rewrite diag500_storage_limit() [Heiko]
->>>   -> Change handling in detect_physmem_online_ranges [Alexander]
->>>   -> Improve documentation.
->>> * "s390/sparsemem: provide memory_add_physaddr_to_nid() with CONFIG_NUMA"
->>>   -> Added after testing on systems with CONFIG_NUMA=y
->>>
->>> v1 -> v2:
->>> * Document the new diag500 subfunction
->>> * Use "s390" instead of "s390x" consistently
->>>
->>> [1] https://lkml.kernel.org/r/20241008105455.2302628-1-david@redhat.com
->>> [2] https://virtio-mem.gitlab.io/user-guide/user-guide-linux.html
->>> [3] https://lkml.kernel.org/r/20241023090651.1115507-1-david@redhat.com
->>>
->>> Cc: Heiko Carstens <hca@linux.ibm.com>
->>> Cc: Vasily Gorbik <gor@linux.ibm.com>
->>> Cc: Alexander Gordeev <agordeev@linux.ibm.com>
->>> Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
->>> Cc: Sven Schnelle <svens@linux.ibm.com>
->>> Cc: Thomas Huth <thuth@redhat.com>
->>> Cc: Cornelia Huck <cohuck@redhat.com>
->>> Cc: Janosch Frank <frankja@linux.ibm.com>
->>> Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>
->>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->>> Cc: Jason Wang <jasowang@redhat.com>
->>> Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->>> Cc: "Eugenio P?rez" <eperezma@redhat.com>
->>> Cc: Eric Farman <farman@linux.ibm.com>
->>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>> Cc: Jonathan Corbet <corbet@lwn.net>
->>>
->>> David Hildenbrand (7):
->>>    Documentation: s390-diag.rst: make diag500 a generic KVM hypercall
->>>    Documentation: s390-diag.rst: document diag500(STORAGE LIMIT)
->>>      subfunction
->>>    s390/physmem_info: query diag500(STORAGE LIMIT) to support QEMU/KVM
->>>      memory devices
->>>    virtio-mem: s390 support
->>>    lib/Kconfig.debug: default STRICT_DEVMEM to "y" on s390
->>>    s390/sparsemem: reduce section size to 128 MiB
->>>    s390/sparsemem: provide memory_add_physaddr_to_nid() with CONFIG_NUMA
->>>
->>>   Documentation/virt/kvm/s390/s390-diag.rst | 35 +++++++++++++----
->>>   arch/s390/boot/physmem_info.c             | 47 ++++++++++++++++++++++-
->>>   arch/s390/boot/startup.c                  |  7 +++-
->>>   arch/s390/include/asm/physmem_info.h      |  3 ++
->>>   arch/s390/include/asm/sparsemem.h         | 10 ++++-
->>>   drivers/virtio/Kconfig                    | 12 +++---
->>>   lib/Kconfig.debug                         |  2 +-
->>>   7 files changed, 98 insertions(+), 18 deletions(-)
->>>
->>>
->>> base-commit: ae90f6a6170d7a7a1aa4fddf664fbd093e3023bc
->>> -- 
->>> 2.46.1
->>>
+Hi Nathan,
+
+Em 31/10/2024 02:18, Nathan Chancellor escreveu:
+> Hi André,
+> 
+> On Mon, Oct 21, 2024 at 01:37:24PM -0300, André Almeida wrote:
+>> Expose filesystem features through sysfs, so userspace can query if
+>> tmpfs support casefold.
 >>
->> Tested successfully various memory hotplug operations on lpar.
+>> This follows the same setup as defined by ext4 and f2fs to expose
+>> casefold support to userspace.
 >>
-> Just to be more precise, tested memory hotplug/hotunplug combinations +
-> Device hotplug/hotunplug operations on guest.
+>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>> Reviewed-by: Gabriel Krisman Bertazi <krisman@suse.de>
+>> ---
+>>   mm/shmem.c | 37 +++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 37 insertions(+)
+>>
+>> diff --git a/mm/shmem.c b/mm/shmem.c
+>> index ea01628e443423d82d44277e085b867ab9bf4b28..0739143d1419c732359d3a3c3457c3acb90c5b22 100644
+>> --- a/mm/shmem.c
+>> +++ b/mm/shmem.c
+>> @@ -5546,3 +5546,40 @@ struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
+>>   	return page;
+>>   }
+>>   EXPORT_SYMBOL_GPL(shmem_read_mapping_page_gfp);
+>> +
+>> +#if defined(CONFIG_SYSFS) && defined(CONFIG_TMPFS)
+>> +#if IS_ENABLED(CONFIG_UNICODE)
+>> +static DEVICE_STRING_ATTR_RO(casefold, 0444, "supported");
+>> +#endif
+>> +
+>> +static struct attribute *tmpfs_attributes[] = {
+>> +#if IS_ENABLED(CONFIG_UNICODE)
+>> +	&dev_attr_casefold.attr.attr,
+>> +#endif
+>> +	NULL
+>> +};
+>> +
+>> +static const struct attribute_group tmpfs_attribute_group = {
+>> +	.attrs = tmpfs_attributes,
+>> +	.name = "features"
+>> +};
+>> +
+>> +static struct kobject *tmpfs_kobj;
+>> +
+>> +static int __init tmpfs_sysfs_init(void)
+>> +{
+>> +	int ret;
+>> +
+>> +	tmpfs_kobj = kobject_create_and_add("tmpfs", fs_kobj);
+>> +	if (!tmpfs_kobj)
+>> +		return -ENOMEM;
+>> +
+>> +	ret = sysfs_create_group(tmpfs_kobj, &tmpfs_attribute_group);
+>> +	if (ret)
+>> +		kobject_put(tmpfs_kobj);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +fs_initcall(tmpfs_sysfs_init);
+>> +#endif /* CONFIG_SYSFS && CONFIG_TMPFS */
+>>
+>> -- 
+>> 2.47.0
+>>
+> 
+> This change as commit 5132f08bd332 ("tmpfs: Expose filesystem features
+> via sysfs") in -next introduces a kCFI violation when accessing
+> /sys/fs/tmpfs/features/casefold. An attribute group created with
+> sysfs_create_group() has ->sysfs_ops() set to kobj_sysfs_ops, which has
+> a ->show() value of kobj_attr_show(). When kobj_attr_show() goes to call
+> the attribute's ->show() value after container_of(), there will be a
+> type mismatch in the case of the casefold attr, as it was defined with a
+> ->show() value of device_show_string() but that does not match the type
+> of ->show() in 'struct kobj_attribute'.
+> 
+> I can easily reproduce this with the following commands:
+> 
+>    $ printf 'CONFIG_%s=y\n' CFI_CLANG UNICODE >kernel/configs/repro.config
+> 
+>    $ make -skj"$(nproc)" ARCH=arm64 LLVM=1 mrproper virtconfig repro.config Image.gz
+>    ...
+> 
+>    $ curl -LSs https://github.com/ClangBuiltLinux/boot-utils/releases/download/20230707-182910/arm64-rootfs.cpio.zst | zstd -d >rootfs.cpio
+> 
+>    $ qemu-system-aarch64 \
+>        -display none \
+>        -nodefaults \
+>        -cpu max,pauth-impdef=true \
+>        -machine virt,gic-version=max,virtualization=true \
+>        -append 'console=ttyAMA0 earlycon rdinit=/bin/sh' \
+>        -kernel arch/arm64/boot/Image.gz \
+>        -initrd rootfs.cpio \
+>        -m 512m \
+>        -serial mon:stdio
+>    ...
+>    # mount -t sysfs sys /sys
+>    # cat /sys/fs/tmpfs/features/casefold
+>    [   70.558496] CFI failure at kobj_attr_show+0x2c/0x4c (target: device_show_string+0x0/0x38; expected type: 0xc527b809)
+>    [   70.560018] Internal error: Oops - CFI: 00000000f2008228 [#1] PREEMPT SMP
+>    [   70.560647] Modules linked in:
+>    [   70.561770] CPU: 0 UID: 0 PID: 46 Comm: cat Not tainted 6.12.0-rc4-00008-g5132f08bd332 #1
+>    [   70.562429] Hardware name: linux,dummy-virt (DT)
+>    [   70.562897] pstate: 21402009 (nzCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+>    [   70.563377] pc : kobj_attr_show+0x2c/0x4c
+>    [   70.563674] lr : sysfs_kf_seq_show+0xb4/0x130
+>    [   70.563987] sp : ffff80008043bac0
+>    [   70.564236] x29: ffff80008043bac0 x28: 000000007ffff001 x27: 0000000000000000
+>    [   70.564877] x26: 0000000001000000 x25: 000000007ffff001 x24: 0000000000000001
+>    [   70.565339] x23: fff000000238a000 x22: ffff9fa31a3996f8 x21: fff00000023fc000
+>    [   70.565806] x20: fff000000201df80 x19: fff000000238b000 x18: 0000000000000000
+>    [   70.566273] x17: 00000000c527b809 x16: 00000000df43c25c x15: fff000001fef8200
+>    [   70.566727] x14: 0000000000000000 x13: fff00000022450f0 x12: 0000000000001000
+>    [   70.567177] x11: fff00000023fc000 x10: 0000000000000000 x9 : ffff9fa31a18fac4
+>    [   70.567682] x8 : ffff9fa319badde4 x7 : 0000000000000000 x6 : 000000000000003f
+>    [   70.568138] x5 : 0000000000000040 x4 : 0000000000000000 x3 : 0000000000000004
+>    [   70.568585] x2 : fff00000023fc000 x1 : ffff9fa31a881f90 x0 : fff000000201df80
+>    [   70.569169] Call trace:
+>    [   70.569389]  kobj_attr_show+0x2c/0x4c
+>    [   70.569706]  sysfs_kf_seq_show+0xb4/0x130
+>    [   70.570020]  kernfs_seq_show+0x44/0x54
+>    [   70.570280]  seq_read_iter+0x14c/0x4b0
+>    [   70.570543]  kernfs_fop_read_iter+0x60/0x198
+>    [   70.570820]  copy_splice_read+0x1f0/0x2f4
+>    [   70.571092]  splice_direct_to_actor+0xf4/0x2e0
+>    [   70.571376]  do_splice_direct+0x68/0xb8
+>    [   70.571626]  do_sendfile+0x1e8/0x488
+>    [   70.571874]  __arm64_sys_sendfile64+0xe0/0x12c
+>    [   70.572161]  invoke_syscall+0x58/0x114
+>    [   70.572424]  el0_svc_common+0xa8/0xdc
+>    [   70.572676]  do_el0_svc+0x1c/0x28
+>    [   70.572910]  el0_svc+0x38/0x68
+>    [   70.573132]  el0t_64_sync_handler+0x90/0xfc
+>    [   70.573394]  el0t_64_sync+0x190/0x19
+>    [   70.574001] Code: 72970131 72b8a4f1 6b11021f 54000040 (d4304500)
+>    [   70.574635] ---[ end trace 0000000000000000 ]---
+> 
+> I am not sure if there is a better API exists or if a local copy should
+> be rolled but I think the current scheme is definitely wrong because
+> there is no 'struct device' here.
+> 
 
-Thanks a bunch!
+Thank you for the report, I'm trying to fix it, it seems I have used 
+something for device drivers in a filesystem. I wonder how btrfs doesn't 
+get this error, since tmpfs_sysfs_init() is very similar to 
+btrfs_init_sysfs().
 
--- 
-Cheers,
-
-David / dhildenb
+> If there is any patch I can test or further information I can provide, I
+> am more than happy to do so.
+> 
+> Cheers,
+> Nathan
 
