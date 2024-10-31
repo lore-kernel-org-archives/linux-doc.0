@@ -1,122 +1,113 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D2C80BF8;
-	Thu, 31 Oct 2024 19:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C255719D089;
+	Thu, 31 Oct 2024 19:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730401432; cv=none; b=LaOVD8+rzhImT8iKtFRa46OwlGQ2adJ6hGxIZJHf0oxUrj90NLrUgCNdDirRxAU8dyJXdrT3QCAyrYbSt7VCWw01le/BjdPzMpFmwUmaNJ015iu8sSjkhZFsfe6RoGBlToYnXNiV9+OVTHVMQG8cs8Nft2IokhKaCYtp/9RY7XE=
+	t=1730401931; cv=none; b=Jf44UpFTWdoTL7LVgagz9rm0wa9MqFqRLerw55ywFXvZmMZ0WqOkVQwVVP3PJg/2kS4MOxVMR+hgldO7yx8MaaJWQg9eCRwfpgsxXRR4KXiHROuoJaym3IrqaycMJcOWdtkOujPI43Zwx421jR3MwfduwFhYerN86cTJCgZvk2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730401432; c=relaxed/simple;
-	bh=uZESYCwSy02piR+29ifqwWC+ET5V5TOOXfN7NXL/460=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ANyzSGnhcCdAAqFSoVhTK+C15EgHAqVlKeIp9T7h8Ija9Jck8YHRAbTKuzK5VCWr6lJfIKdS6fI77cDGnv3NkslKe4bpuLBy8Rfus4kjhn5cNWNNVfg+V3Z2zAOBzGZ8OPsNoRgegNhLqYsYZW8BkX/wqW+6JxXCQJs683Y6yj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RNvtUg4c; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730401931; c=relaxed/simple;
+	bh=2ZpWWwgTmjp68SUfsUHTWPgHi2hxjOIEwTbMNUcwUEM=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=s7Aw/B+tnaXsdYn5efkXorf1ttgt+wZ2751khd0zekxwmWlOvYj7AVobuY7Xpa7X/CQcISxgC2tP4DlAd57ITVgJzfs7fTABSkSqsGWcNSmT5Ufdf1P6E5x5amkIL2HZYE14OyNILGEQCJQ4NwVtN/UUEix0wdLaEXLUuczXgDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=CO847FxM; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNvtUg4c"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5c94c4ad9d8so1673957a12.2;
-        Thu, 31 Oct 2024 12:03:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730401428; x=1731006228; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uZESYCwSy02piR+29ifqwWC+ET5V5TOOXfN7NXL/460=;
-        b=RNvtUg4cXEsaH/wvEbZ/V9m472OJ/YniYkFDGCixHMXYOidIff1ZxrNYbytkCTn+H1
-         vSs43DTIFmLBQw5Rev40DBldL+jNsZB4jsVQWgP+S5wBt8Gxre3tMVBg8SvIzu5CFGdG
-         4fVs+4n53T0m+7Y/FSGGYT3d/vZNUyAn6h7LGkMohlH9r3qFKBj97xCj6hdIPzXGUuMi
-         cMy1SGG8q1D9+DgNQQNXfQ7Gwvl3um1H7PwuJ/XG6MzIEFRCvjCqTc0aW9ebKvZbsqDp
-         Srzya2d0WSIksMrIAPon1nCLfRdjElmLtTYYpnpLFJUHjfDLoij790q+2Ono4Wvmiocq
-         AHUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730401428; x=1731006228;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uZESYCwSy02piR+29ifqwWC+ET5V5TOOXfN7NXL/460=;
-        b=w8GN85WcjM/EU6Oi08pPWZ+9DP+c4Ui4CkL/q3x/HMs6Ezi2+mXQ4XNPXr8suXgq2w
-         l91BPPw3xMjNWs/AtBEGkkNmE5QZ5D950EJriFVHXlvgG7hcGZpscLy+cDsWV/TpgOn+
-         rYrWYL+xciy4xh+Ho8f9hnSPiUcr/QUdSZYFtpZkn2NdmpNm+v5x1wajfcNSyoKk/sme
-         yH/JvGBhRjdQI4+BDf9pl+QndIyE2GQ49gkapGMzE72OufZ0auuck89hQvv6fBcvlsyO
-         fzgJbQNCJr9Ruo2lrdKa0GzHYCPR6T65tvYXA17x4hLlUBmQWJ6i5kg/DaK3esFoTK6+
-         nYjg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9fjfNCPzQ60v6Yg4LeOTKWmIRyjCGmjx8OwgD5SUPgGgl7gPYuoMBZaj5Ipan6PES6eUZmfpA@vger.kernel.org, AJvYcCVNu78HFgAMF4kg+mciBDO0pIgj7fcMBhpI2B2X7OEqre0hS7foBHt7Y4INXretbQT8sFYMVodAuIcsGEbP@vger.kernel.org, AJvYcCVYLe1ay78FQ0QyHl3IvQ9Qrsqm+JO2KuTbuEDv4OP1czduvP96+H1n4ekS9x6r282v4WJKT+8D2L8b@vger.kernel.org
-X-Gm-Message-State: AOJu0YwB1s7vcYBwLvXdeNMAMEQhoX+oRewOF6UM2VfA71wQywYkEwsv
-	Z1BK+dSaJmiTPILdiZA/VjRuGndFem+0tTYSAHw1NCrv4q/wqTfqTJGQkWh0YHGn1ZV7Zo69deC
-	Sa1O3Su5VjGenvoC7TUFoAKecYsw=
-X-Google-Smtp-Source: AGHT+IFrpwGE0LJQq69tNQQsCndtpIAHUJ6FP3dpoTvWpaJX4mOBqsgxY7fkpk4UaRiczuaoWI/jB/OMed7/7+JLSic=
-X-Received: by 2002:a05:6402:354f:b0:5c9:4a35:7a20 with SMTP id
- 4fb4d7f45d1cf-5cea967920amr3734778a12.14.1730401428267; Thu, 31 Oct 2024
- 12:03:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="CO847FxM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+	Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=+aMdUrek5lqvlZKodKKva4xJumBiFz9JBAG3043NKoA=; b=CO847FxMlLq3zPRRQ1yey0VkO/
+	n7wcRKBMqedbA68kbbGyCA/yTfr4oa8dmGiTLm07L2X8aUo74Z2Ri7nTciOBhRNw+4lPO15zr548k
+	F3MYeNSqHOy3wG5O9FODJoMeij0nFXfqwMDWFBy1psKRz9FG7C1CV2cJDgmlA/l/YyuBRmP9D41SE
+	YpuXV8qQJ5RRHPHPZzrF93L4GNIpeMth1R1DZLzHGrPU1S+qouQuVRS8eODyaM35Wp+8f89xQxFxA
+	QYAovVJ3JSk8nfqvSQvTNDMNj9LmMNQ0gYj9Ckya7vAK9AVgrkGanuzUcoFDGOPbguPlBIfnmjN3n
+	exCpwDkw==;
+Received: from [189.78.222.89] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1t6aaB-00098s-KT; Thu, 31 Oct 2024 20:11:47 +0100
+Message-ID: <3386dc35-3ed1-4aab-abd2-42adfa25ddd9@igalia.com>
+Date: Thu, 31 Oct 2024 16:11:39 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
- <ZyIZ_Sq9D_v5v43l@tiehlicka> <20241030150102.GA706616@cmpxchg.org>
- <ZyJQaXAZSMKkFVQ2@tiehlicka> <20241030183044.GA706387@cmpxchg.org>
- <CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com> <ZyM7_i1HFnFfUmIR@tiehlicka>
-In-Reply-To: <ZyM7_i1HFnFfUmIR@tiehlicka>
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-Date: Thu, 31 Oct 2024 15:03:34 -0400
-Message-ID: <CAN+CAwMioguv6itTSYVUO9__kQVv6HZO2-i0NWt10-x7f6JVSQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
-To: Michal Hocko <mhocko@suse.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, nphamcs@gmail.com, shakeel.butt@linux.dev, 
-	roman.gushchin@linux.dev, muchun.song@linux.dev, tj@kernel.org, 
-	lizefan.x@bytedance.com, mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, 
-	akpm@linux-foundation.org, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 8/9] tmpfs: Expose filesystem features via sysfs
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Gabriel Krisman Bertazi <krisman@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, smcv@collabora.com, kernel-dev@igalia.com,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ Gabriel Krisman Bertazi <krisman@suse.de>, llvm@lists.linux.dev,
+ linux-btrfs@vger.kernel.org, Chris Mason <clm@fb.com>
+References: <20241021-tonyk-tmpfs-v8-0-f443d5814194@igalia.com>
+ <20241021-tonyk-tmpfs-v8-8-f443d5814194@igalia.com>
+ <20241031051822.GA2947788@thelio-3990X>
+ <c104f427-f9d9-498c-a719-ed6bf118226d@igalia.com>
+Content-Language: en-US
+In-Reply-To: <c104f427-f9d9-498c-a719-ed6bf118226d@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Michal,
+Em 31/10/2024 14:31, André Almeida escreveu:
+> Hi Nathan,
+> 
+> Em 31/10/2024 02:18, Nathan Chancellor escreveu:
+>> Hi André,
+>>
 
-On Thu, Oct 31, 2024 at 4:12=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrot=
-e:
->
-> I would also add the following
->
-> The global counter is added because vmstats is the preferred framework
-> for cgroup stats. It makes stat items consistent between global and
-> cgroup. It provides a per-node breakdown as well which is useful. It
-> avoids proliferating cgroup-specific hooks in generic MM code.
->
-> Acked-by: Michal Hocko <mhocko@suse.com>
-> Thanks!
-> --
-> Michal Hocko
-> SUSE Labs
+[...]
 
-Thank you for your feedback and review. I think this makes sense,
-I will add a new paragraph to the implementation details section!
+>> If there is any patch I can test or further information I can provide, I
+>> am more than happy to do so.
+>>
 
-Andrew -- I am sorry to ask again, but do you think you can replace
-the 3rd section in the patch (3. Implementation Details) with the
-following paragraphs? Thank you so much!
+I found the issue, was just the DEVICE_ macro that I wasn't supposed to 
+use inside of tmpfs, this diff solved the error for me, I will send a 
+proper patch in a moment:
 
-In the alloc / free hugetlb functions, we call lruvec_stat_mod_folio
-regardless of whether memcg accounts hugetlb. mem_cgroup_commit_charge
-which is called from alloc_hugetlb_folio will set memcg for the folio
-only if the CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING cgroup mount option is
-used, so lruvec_stat_mod_folio accounts per-memcg hugetlb counters
-only if the feature is enabled. Regardless of whether memcg accounts
-for hugetlb, the newly added global counter is updated and shown
-in /proc/vmstat.
+-- >8 --
 
-The global counter is added because vmstats is the preferred framework
-for cgroup stats. It makes stat items consistent between global and
-cgroups. It also provides a per-node breakdown, which is useful.
-Because it does not use cgroup-specific hooks, we also keep generic
-MM code separate from memcg code.
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 971e6f1184a5..db52c34d5020 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -5551,12 +5551,21 @@ EXPORT_SYMBOL_GPL(shmem_read_mapping_page_gfp);
 
-Thank you Johannes & Michal for your continued feedback and interest
-in my work, and thank you Andrew for reviewing and allowing me to
-fix the patch messages.
+  #if defined(CONFIG_SYSFS) && defined(CONFIG_TMPFS)
+  #if IS_ENABLED(CONFIG_UNICODE)
+-static DEVICE_STRING_ATTR_RO(casefold, 0444, "supported");
++static ssize_t casefold_show(struct kobject *kobj, struct 
+kobj_attribute *a,
++                       char *buf)
++{
++               return sysfs_emit(buf, "supported\n");
++}
++static struct kobj_attribute tmpfs_attr_casefold = {
++               .attr = { .name = "casefold", .mode = 0444 },
++               .show = casefold_show,
++               .store = NULL,
++};
+  #endif
 
-I hope you all have a great rest of your day!
-Joshua
+  static struct attribute *tmpfs_attributes[] = {
+  #if IS_ENABLED(CONFIG_UNICODE)
+-       &dev_attr_casefold.attr.attr,
++       &tmpfs_attr_casefold.attr,
+  #endif
+         NULL
+  };
