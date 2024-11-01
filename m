@@ -1,124 +1,139 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585A919F43B;
-	Fri,  1 Nov 2024 15:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380D41C305A
+	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 15:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730473832; cv=none; b=jejEW7mk7CgEvhyrN9Xdfho+HKIH7mcMbQHbIsuFA5mkH+cl/OsU5NB7tnDiUoKZDzmv4uOKN5qoPctJAr5Pg8HS3D3ggtpBxLJa7KOuve7ibUIT87e0pqsejDeZSNRylymlz62gIXcFtwrNgSll50GAr+bIEGBIJv9pz+4N0Mw=
+	t=1730474296; cv=none; b=UA0OWMgTM2ejxKBdSZFOxIQfloJ17Pz+nD2XchqM1Px6npqGe1GVQCHI1dOpx2MEA6UWIi3GgneYzsDlivRZkxrSisZGYNhajH0hzbvilgLXk/sjtuwRjrWC5BeLDJ9Jc9nGsqIHdUb8x8zgUWjzgMI8pQTzhjZeDMoHrWX5zbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730473832; c=relaxed/simple;
-	bh=wG+chI/4UZO5jGgLoc/oTzdlxZquqHoUg8VBqRFJICo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zg9vczn36kihoAU5xeXvcaV1dNQTtcS8dIlzprU3AVdTWwJJPPYJf9dbSHA1BYEK15A1Ofg/vco7mSYLUZmpzs845qWHrO2j95rbFtzWj6thdYH5FcHA8/RDSBJuiQ+KkfPbXbux4y6cqTMNJ9I2n+vWZtx1eJMRJaFwrX/LvrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k6YsdPsW; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730474296; c=relaxed/simple;
+	bh=xGkv3LzrhtoCbCqtDpE3y3Q0GFXGAU72Ny2WiKf/Iuk=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=b3jM06v8P/gC3/GSGTgvAsyj82pc2dNqEJwGxzTyI8BG+/l35lMHyyb34krj95mIKhRbAZba/7tg6ncylgJAr9pFQBr3bCvIgpB79EX9590DamMqz1hb5VTkQSVt2GY3gZh0TiNg52911EI9mnPu31yQLT8wZSP27rEA6SuxpUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bYuZc2if; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k6YsdPsW"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2e2bd0e2c4fso1740373a91.3;
-        Fri, 01 Nov 2024 08:10:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bYuZc2if"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6e3705b2883so45538707b3.3
+        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 08:18:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730473829; x=1731078629; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GLHEFIz6OYXrCESggZlGnEkVWOeVNMnrs5P4PoJFuVY=;
-        b=k6YsdPsWspL5Z6dMGdYyM2Bq7g56fT7FWj/sLRUCgtkmngDLLZbB/JXI7aDn0e/xSk
-         HcJZg9Ku4PlsvuctJhW8cMIgs6r9zoV3tUiw1qtT4Wv1V/zzuxKAxVsppzGUn7gjkmho
-         +Inb0cOsUF9Q3CRNJniraFQurX2aOythnN9+7Bzl5groe68TM3LP0ba4CKUHGeiFoXxy
-         ZQgBHGZaGmDMb8PyNUD8FU6vgWvgJO3SzzTckS/TgM7IRVkFXC18SriGIwzQgzhpAv+y
-         t3+++DaHEOX1zenWZdrIA7mXN8oYkcEM8tujOgriHVoVx2R5uIsAuU4jCvE7U/Xfh2t4
-         PJpA==
+        d=google.com; s=20230601; t=1730474293; x=1731079093; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=By0MMba+WbzG2cXuHlWeMQpST2oOpWmZSXA68XVHYo0=;
+        b=bYuZc2ifWnC89m8jPwJZ+9o1aVJVUPtGrn+a2Tq6I7DPyGcA7YqMirJwCywfY7dDdV
+         LulpNzMnigxZTsvXIDZqVd0UG19ynWGvrjwz5SRW/g2Y3nbuR/kASz3mqdwBJyyZSdij
+         jLg+cW5GwRjt6NxPFfAOW9D/BPgCK2aHrRLlZQ2ogRpr/BBTq3vgBDnbUVkErVrPmxGF
+         bdEiXB6uJMIDzWdMp3GEumYry8fh8R4gTLUOn89JMNi8cyiQ7KAcdZXj52mMsvzifjMd
+         PimfOS64nkjk4Ng7RqN2hT6f6KWwDVzZO89CKJYuXA7RXYpYUiIs1IDUD6eg4ir1Wkv9
+         kAtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730473829; x=1731078629;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GLHEFIz6OYXrCESggZlGnEkVWOeVNMnrs5P4PoJFuVY=;
-        b=IbpJG7e2fRvk6FpHgqpOh3pDQyfbttksO3gEKjcIhcMMGhIQDpfItfbF5aIrRenBdo
-         F0SEzmi+/JZVjO4f0ZFEaT+z388q2a0G24YFXEx/K5ZMBZXxJcvOM5DDd0uMuT1LSe5k
-         vpVMmpiuUSFLw8nTeiXiij06uvsbhZw7FHuAd0xsMI/padWXB8x//PyE60M3phDm7gb4
-         jHDKTaY0NEhQESAm9+ypdnbDhYojZ4WhxJwNmo/Dfuw+DIdBcTHQ5YAFMXHgUl9Qr1de
-         Mry/GpojmRFTtZEOYCvbWSkhbI3Mu8I0MXNMlR5fz2x9JU5IXFgh2C1Nwbuyl2ulBLpU
-         a5iQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVBaO7l+j+LSw+ahlbOZsFVu/IXOC2RTte4OA8MM9Pj4M9gRzPeFTk590qYSa3w7ZqAl2cHgsKKv5LTF3NV@vger.kernel.org, AJvYcCVIXuS7r0/OexUJoLDfAEGLwcMtaydf9OLHwG4Pwbk4PmCW8GUsPCLAaCjrzXTd1uOuSBP3jk+XNZ5HxC0=@vger.kernel.org, AJvYcCWpfrTWAl5KiS1Dj1bHPn3wyTowDjItNUzm/UP1RUUFAimk9I/qy5AO1vrkMGEieFXLZsYqpU3uq92F@vger.kernel.org, AJvYcCWxAALzOoWw7o4zqHHz/Gvr2snrVSVjA5ljP+sKnvKHJ3qQADSBTkkrPrcak8ReOMqvshagsGozzZt4@vger.kernel.org, AJvYcCXLwYpNXN9Z5vOvfUnqb1eRRHMj7iMPUAzTiK/dSdfvtgGksdYoK3RZBD+nRRay2FABb81Ky4KootLa@vger.kernel.org
-X-Gm-Message-State: AOJu0YycrD1Eq9X5vo53JK1ze8sEhNNF3+Nx+3kQYkQdUhdjAw0ZOHqD
-	SnRdgqOWuJIhQJW4LNkyKUIdUiNAXVJrCXBqhr9drpq6m1SaOeqki7bsQQ==
-X-Google-Smtp-Source: AGHT+IGBaoFdTTYrMwEIUc2SYb3gkcNYaF696BCJ+PIXirOU5+dmKWZrLhvF0QjXxuTctSLRVsYkSw==
-X-Received: by 2002:a17:90b:1a8c:b0:2e2:b21b:2247 with SMTP id 98e67ed59e1d1-2e93c1e6e78mr9104077a91.27.1730473829482;
-        Fri, 01 Nov 2024 08:10:29 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa450d8sm5055509a91.25.2024.11.01.08.10.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 08:10:28 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 1 Nov 2024 08:10:27 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Patrick Rudolph <patrick.rudolph@9elements.com>,
-	Naresh Solanki <naresh.solanki@9elements.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] hwmon: (pmbus/core) clear faults after setting
- smbalert mask
-Message-ID: <fa3ccd3b-7dab-45b2-92ec-49400e39114c@roeck-us.net>
-References: <20241024-tps25990-v3-0-b6a6e9d4b506@baylibre.com>
- <20241024-tps25990-v3-4-b6a6e9d4b506@baylibre.com>
+        d=1e100.net; s=20230601; t=1730474293; x=1731079093;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=By0MMba+WbzG2cXuHlWeMQpST2oOpWmZSXA68XVHYo0=;
+        b=AyZTPUVsAAU+PCZDMG0iohzvI2FC1gblTJr2jRJLfTp+oG7Njc42t0vU3kIXTAG+EL
+         0xlcbABsqywGsn7O+3s525IBVq/8KRIXLpe5XlRYA+/MyO8CB3ls+dOyPSBq2G/EFeAv
+         rVwH8dNT1q59987F+Bt2ku5IxVamqTXrV5OgvuRSAA6Bq96pgS/tOVg99m7JhEWsNWVP
+         Kwtsam6ekrHHj7408UAC2SQG+uGtnmOcittZLu1CKOXQddlSzyvax4YwVpQAyZYILLzP
+         pPAA6x2abGvYtQspW6xBkVg4wQiEdYRdB7dKbpsfx2JY0CKNQs8Oqgkm/e124mzDo3h9
+         5trg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEZs5f2wOubNd14J55QwOkkftqpJ0lZCGlj+ISpPEf/Ys0Sq0X3WqANMpLRIrYRz2XhXhTQgseB60=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS1PNLacCThA93RqmrjABfzDHrTrYen9oKOZXRYs+C3/EEqra5
+	0U0oTFXLqSouSEjcPmS/gnjG0Lmr7Ai9dwKo7YpDIJVN4AqriJmVYE+qNQ0aDbOZIWEH6Fs+lp/
+	aYw==
+X-Google-Smtp-Source: AGHT+IFdnwVveoc9N/MGUlZwVqfEB7IUicwB9rrAOOy2FhtDeXiq05HGyssNX0DfJOP/ZgHAaQZXrEGcvIk=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:6c8c:b0:6e3:1702:b3e6 with SMTP id
+ 00721157ae682-6ea64b8c450mr251257b3.4.1730474293279; Fri, 01 Nov 2024
+ 08:18:13 -0700 (PDT)
+Date: Fri, 1 Nov 2024 08:18:11 -0700
+In-Reply-To: <2233397c-f423-40e3-8546-728b50ce0489@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241024-tps25990-v3-4-b6a6e9d4b506@baylibre.com>
+Mime-Version: 1.0
+References: <27646c08-f724-49f7-9f45-d03bad500219@amazon.co.uk> <2233397c-f423-40e3-8546-728b50ce0489@amazon.com>
+Message-ID: <ZyTxM7Po4v7VkmHO@google.com>
+Subject: Re: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
+From: Sean Christopherson <seanjc@google.com>
+To: Derek Manwaring <derekmn@amazon.com>
+Cc: roypat@amazon.co.uk, ackerleytng@google.com, agordeev@linux.ibm.com, 
+	aou@eecs.berkeley.edu, borntraeger@linux.ibm.com, bp@alien8.de, 
+	catalin.marinas@arm.com, chenhuacai@kernel.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, david@redhat.com, gerald.schaefer@linux.ibm.com, 
+	gor@linux.ibm.com, graf@amazon.com, hca@linux.ibm.com, hpa@zytor.com, 
+	jgowans@amazon.com, jthoughton@google.com, kalyazin@amazon.com, 
+	kernel@xen0n.name, kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+	luto@kernel.org, mathieu.desnoyers@efficios.com, mhiramat@kernel.org, 
+	mingo@redhat.com, palmer@dabbelt.com, paul.walmsley@sifive.com, 
+	pbonzini@redhat.com, peterz@infradead.org, quic_eberman@quicinc.com, 
+	rostedt@goodmis.org, rppt@kernel.org, shuah@kernel.org, svens@linux.ibm.com, 
+	tabba@google.com, tglx@linutronix.de, vannapurve@google.com, will@kernel.org, 
+	x86@kernel.org, xmarcalx@amazon.com, David Kaplan <david.kaplan@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Oct 24, 2024 at 08:10:38PM +0200, Jerome Brunet wrote:
-> pmbus_write_smbalert_mask() ignores the errors if the chip can't set
-> smbalert mask the standard way. It is not necessarily a problem for the irq
-> support if the chip is otherwise properly setup but it may leave an
-> uncleared fault behind.
-> 
-> pmbus_core will pick the fault on the next register_check(). The register
-> check will fails regardless of the actual register support by the chip.
-> 
-> This leads to missing attributes or debugfs entries for chips that should
-> provide them.
-> 
-> We cannot rely on register_check() as PMBUS_SMBALERT_MASK may be read-only.
-> 
-> Unconditionally clear the page fault after setting PMBUS_SMBALERT_MASK to
-> avoid the problem.
-> 
-> Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> Fixes: 221819ca4c36 ("hwmon: (pmbus/core) Add interrupt support")
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> ---
->  drivers/hwmon/pmbus/pmbus_core.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-> index ce697ca03de01c0e5a352f8f6b72671137721868..a0a397d571caa1a6620ef095f9cf63d94e8bda1d 100644
-> --- a/drivers/hwmon/pmbus/pmbus_core.c
-> +++ b/drivers/hwmon/pmbus/pmbus_core.c
-> @@ -3346,7 +3346,12 @@ static int pmbus_regulator_notify(struct pmbus_data *data, int page, int event)
->  
->  static int pmbus_write_smbalert_mask(struct i2c_client *client, u8 page, u8 reg, u8 val)
->  {
-> -	return _pmbus_write_word_data(client, page, PMBUS_SMBALERT_MASK, reg | (val << 8));
-> +	int ret;
-> +
-> +	ret = _pmbus_write_word_data(client, page, PMBUS_SMBALERT_MASK, reg | (val << 8));
-> +	pmbus_clear_fault_page(client, -1);
++David Kaplan
 
-Why -1 and not page ?
+On Thu, Oct 31, 2024, Derek Manwaring wrote:
+> On 2024-10-31 at 10:42+0000 Patrick Roy wrote:
+> > On Thu, 2024-10-31 at 09:50 +0000, David Hildenbrand wrote:
+> > > On 30.10.24 14:49, Patrick Roy wrote:
+> > >> Most significantly, I've reduced the patch series to focus only on
+> > >> direct map removal for guest_memfd for now, leaving the whole "how to do
+> > >> non-CoCo VMs in guest_memfd" for later. If this separation is
+> > >> acceptable, then I think I can drop the RFC tag in the next revision
+> > >> (I've mainly kept it here because I'm not entirely sure what to do with
+> > >> patches 3 and 4).
+> > >
+> > > Hi,
+> > >
+> > > keeping upcoming "shared and private memory in guest_memfd" in mind, I
+> > > assume the focus would be to only remove the direct map for private memory?
+> > >
+> > > So in the current upstream state, you would only be removing the direct
+> > > map for private memory, currently translating to "encrypted"/"protected"
+> > > memory that is inaccessible either way already.
+> > >
+> > > Correct?
+> >
+> > Yea, with the upcomming "shared and private" stuff, I would expect the
+> > the shared<->private conversions would call the routines from patch 3 to
+> > restore direct map entries on private->shared, and zap them on
+> > shared->private.
+> >
+> > But as you said, the current upstream state has no notion of "shared"
+> > memory in guest_memfd, so everything is private and thus everything is
+> > direct map removed (although it is indeed already inaccessible anyway
+> > for TDX and friends. That's what makes this patch series a bit awkward
+> > :( )
+> 
+> TDX and SEV encryption happens between the core and main memory, so
+> cached guest data we're most concerned about for transient execution
+> attacks isn't necessarily inaccessible.
+> 
+> I'd be interested what Intel, AMD, and other folks think on this, but I
+> think direct map removal is worthwhile for CoCo cases as well.
 
-Guenter
+Removal of the direct map entries for guest private PFNs likely won't affect the
+ability of an attacker to glean information from the unencrypted data that's in
+the CPU caches, at least not on x86.  Both TDX and SEV steal physical address
+bit(s) for tagging encrypted memory, and unless things have changed on recent
+AMD microarchitectures (I'm 99.9% certain Intel CPUs haven't changed), those stolen
+address bits are propagated into the caches.  I.e. the encrypted and unencrypted
+forms of a given PFN are actually two different physical addresses under the hood.
+
+I don't actually know how SEV uses the stolen PA bits though.  I don't see how it
+simply be the ASID, because IIUC, AMD CPUs allow for more unique SEV-capable ASIDs
+than uniquely addressable PAs by the number of stolen bits.  But I would be very
+surprised if the tag for the cache isn't guaranteed to be unique per encryption key.
+
+David?
