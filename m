@@ -1,58 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-80008.amazon.com (smtp-fw-80008.amazon.com [99.78.197.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB78E1CDFC0;
-	Fri,  1 Nov 2024 18:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF61A146592;
+	Fri,  1 Nov 2024 18:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730485808; cv=none; b=kI4Ev9hd6luLt7m+xs4TBQBb1CCqBtWeF9iRDqtv6zRBmYZks3fwAP1vfh+jnQc3bM8an8K8/Xt6RQEuEwgushN/5YddXsD2qfXFv6C4L2l1W0f4te7snudQGLtAfExn/9xihV89IX9J2a45LIF/DUx6AlbanfZ8IwXV0mFA2Fo=
+	t=1730485880; cv=none; b=pIYomHORwYEI9SiEnfS6jdUwwmIBP3xZeK71ocDAY3Un/zLv6YOSmzROwq+tN12uQFluB4GxjlLI756HNXuGuS+FLpY3RGkd/FetX2t9aJopXb7AZzx6LiRGpomyU0vIreLotMyNNj60MMuUMJoDFSG7l05Mnxoea55Rz7SafUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730485808; c=relaxed/simple;
-	bh=M1AJnptp3q89FP8JKWFMSHQx2J6Ez6Csk6iW8Ojwuek=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Mv6LDh/eB1oFmZmvaRAY1D8nyGxZsC5sK7Y6V5JWfc0yj9uQfgiP9INFw/ys2oimKbZv46WDa+S7nr8z7CdohZ2svyjzaiLj9Ax5jCaybmh7m3SQclwNLQvG0Wm2zgg9boD/NoKKEInEYkpLKb6S6wz+fTj+nAeiNQDG+694E6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=TXushUYZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730485880; c=relaxed/simple;
+	bh=VBXbIFvMdAI0b5axWwLGdBXRoBbolCT6d2ZfYFcgkm4=;
+	h=Message-ID:Date:MIME-Version:To:CC:References:Subject:From:
+	 In-Reply-To:Content-Type; b=eoZwB+eV71tk5QqFs6PCGXJCgsKWn3L1T0vnoxMDjbA76LJOrckRAy0tbzq1whHgioXBSWwxLWuUDKtGiTsAASZUnjntd5u+V+0jcCyZlI4xPcEAh9xBoxnu1d5pSWKzvu7FcBsMXh74mMbH/fS4/87mxNOgNM2kYXPsvN8Ok/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=eCAhZMbj; arc=none smtp.client-ip=99.78.197.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TXushUYZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3112AC4CECD;
-	Fri,  1 Nov 2024 18:30:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1730485807;
-	bh=M1AJnptp3q89FP8JKWFMSHQx2J6Ez6Csk6iW8Ojwuek=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TXushUYZq3Mny+b91xw8UTojUT+2fIt447xCock7tlRnG7ihb7+iZXiQSnRj4Oh0a
-	 AkZEmMr4BeA/6ejyUbWSeg+kbAeH5AomN3U/GAPMbs+4qzCsvFesPOSe2HcTRxOPyz
-	 vJmWfcM8/XwysWJqjhMsmzcX6xHYbdaIzmdlRTNc=
-Date: Fri, 1 Nov 2024 11:30:06 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, Barry
- Song <baohua@kernel.org>, David Hildenbrand <david@redhat.com>, Ryan
- Roberts <ryan.roberts@arm.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Lance Yang <ioworker0@gmail.com>,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com
-Subject: Re: [PATCH v5 0/5] mm: add more kernel parameters to control mTHP
-Message-Id: <20241101113006.454a96eaafc723ebde69429f@linux-foundation.org>
-In-Reply-To: <20241101165719.1074234-2-mcanal@igalia.com>
-References: <20241101165719.1074234-2-mcanal@igalia.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="eCAhZMbj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1730485878; x=1762021878;
+  h=message-id:date:mime-version:to:cc:references:subject:
+   from:in-reply-to:content-transfer-encoding;
+  bh=VBXbIFvMdAI0b5axWwLGdBXRoBbolCT6d2ZfYFcgkm4=;
+  b=eCAhZMbjCsb1Ubg5PIF0neLVul3DHRNBD4YRpV/5j/xrdj+lEIZiS04b
+   DhYuyza5iscJnNXF103HVVzmUFPjzwETJuL4RiFO8nRdj0Xlan2TeqLmt
+   ZTNjpjkM/yKJFh2Zi84tkjV2yLQVOQkLoYFN9OOxiH5sVoeot3iWUMVfh
+   Y=;
+X-IronPort-AV: E=Sophos;i="6.11,250,1725321600"; 
+   d="scan'208";a="142665536"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-80008.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 18:31:18 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [10.0.38.20:58862]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.34.72:2525] with esmtp (Farcaster)
+ id dae0559c-5720-41e8-8da6-e0592ac6ae3b; Fri, 1 Nov 2024 18:31:17 +0000 (UTC)
+X-Farcaster-Flow-ID: dae0559c-5720-41e8-8da6-e0592ac6ae3b
+Received: from EX19D003UWC002.ant.amazon.com (10.13.138.169) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Fri, 1 Nov 2024 18:31:17 +0000
+Received: from [10.142.234.83] (10.142.234.83) by
+ EX19D003UWC002.ant.amazon.com (10.13.138.169) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
+ Fri, 1 Nov 2024 18:31:14 +0000
+Message-ID: <37fbfc65-b145-4a22-a48c-1921204d5635@amazon.com>
+Date: Fri, 1 Nov 2024 11:31:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: <dave.hansen@intel.com>
+CC: <ackerleytng@google.com>, <agordeev@linux.ibm.com>,
+	<aou@eecs.berkeley.edu>, <borntraeger@linux.ibm.com>, <bp@alien8.de>,
+	<canellac@amazon.at>, <catalin.marinas@arm.com>, <chenhuacai@kernel.org>,
+	<corbet@lwn.net>, <dave.hansen@linux.intel.com>, <david@redhat.com>,
+	<derekmn@amazon.com>, <elena.reshetova@intel.com>,
+	<gerald.schaefer@linux.ibm.com>, <gor@linux.ibm.com>, <graf@amazon.com>,
+	<hca@linux.ibm.com>, <hpa@zytor.com>, <jgowans@amazon.com>,
+	<jthoughton@google.com>, <kalyazin@amazon.com>, <kernel@xen0n.name>,
+	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<luto@kernel.org>, <mathieu.desnoyers@efficios.com>, <mhiramat@kernel.org>,
+	<mingo@redhat.com>, <mlipp@amazon.at>, <palmer@dabbelt.com>,
+	<paul.walmsley@sifive.com>, <pbonzini@redhat.com>, <peterz@infradead.org>,
+	<quic_eberman@quicinc.com>, <rostedt@goodmis.org>, <roypat@amazon.co.uk>,
+	<rppt@kernel.org>, <seanjc@google.com>, <shuah@kernel.org>,
+	<svens@linux.ibm.com>, <tabba@google.com>, <tglx@linutronix.de>,
+	<vannapurve@google.com>, <will@kernel.org>, <x86@kernel.org>,
+	<xmarcalx@amazon.com>
+References: <51fe5ad1-7057-4d43-b92c-580d187d2aeb@intel.com>
+Subject: Re: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
+Content-Language: en-US
+From: "Manwaring, Derek" <derekmn@amazon.com>
+In-Reply-To: <51fe5ad1-7057-4d43-b92c-580d187d2aeb@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: EX19D040UWB001.ant.amazon.com (10.13.138.82) To
+ EX19D003UWC002.ant.amazon.com (10.13.138.169)
 
-On Fri,  1 Nov 2024 13:54:04 -0300 Ma=EDra Canal <mcanal@igalia.com> wrote:
+On 2024-11-01 at 17:20+0000, Dave Hansen wrote:
+> On 11/1/24 09:56, Manwaring, Derek wrote:
+> > But if other mitigations completely prevent even speculative access
+> > of TD private memory like you're saying, then agree nothing to gain
+> > from direct map removal in the TDX case.
+> Remember, guest unmapping is done in the VMM.  The VMM is not trusted in
+> the TDX (or SEV-SNP) model.  If any VMM can harm the protections on
+> guest memory, then we have a big problem.
+>
+> That isn't to say big problem can't happen.  Say some crazy attack comes
+> to light where the VMM can attack TDX if the VMM has mapping for a guest
+> (or TDX module) memory.  Crazier things have happened, and guest
+> unmapping _would_ help there, if you trusted the VMM.
+>
+> Basically, I think guest unmapping only helps system security as a whole
+> if you must _already_ trust the VMM.
 
-> This series introduces four patches related to the kernel parameters
-> controlling mTHP and a fifth patch replacing `strcpy()` for `strscpy()`
-> in the file `mm/huge_memory.c`.
+Yeah that makes a lot of sense. I just view the ideal outcome as a
+composition of strong, independent defenses. So as a guest you have the
+confidentiality and integrity guarantees of the hardware, *and* you have
+an up-to-date, good-hygiene (albeit not attested) host kernel just in
+case some crazy attack/gap comes up.
 
-Thanks.  I extracted [1/1] from the series, as the first patch is
-6.12-rcX material.
+From that standpoint I'm still tempted to turn the question around a bit
+for the host kernel's perspective. Like if the host kernel should not
+(and indeed cannot with TDX controls in place) access guest private
+memory, why not remove it from the direct map?
 
+Derek
