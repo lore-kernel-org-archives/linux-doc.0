@@ -1,155 +1,174 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26611A0BE7;
-	Fri,  1 Nov 2024 18:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97431CEAA2
+	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 18:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730486031; cv=none; b=FlUIwquv0yqEZgZSSaQ6YG3JxMRVxD9cTaeX1NXWME2abtix8Czf+yjtNh8xqv5/jriLjEKyivF7/BHc1ChgHrQVe25++P93H3U7VMQEkMcdN0LX00w25qxuzEvJgSgrfRrX4Tl/CkHP2Y0V8Y9Uj9Tf/nBdrBL9NNkRDsVd2gg=
+	t=1730486250; cv=none; b=jWzm17pabN21xKUMMitvHwSgcvYShTPSHB9vc4gYk7U2F2kOqL5br7RJEgoSkHVC4ExIEYO9YZ+dkjv8iGCBeNXRzbbPQAUIsnRNDrb83IdXoHUXzrmWF8eV1HgWAhuyuTlbXjSgfsQHdqdEuIWNa3+HcnJ7Sw+bBKzO8PMIjLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730486031; c=relaxed/simple;
-	bh=tROKjePuUSAmKwGZuyxzGjNzAUwcXQRit98mObk0JPU=;
+	s=arc-20240116; t=1730486250; c=relaxed/simple;
+	bh=jKoboGztv7bSsKkIlP79WvPeyrvZcZXc4ISTP2ydXJc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LxpFnQN+jHYl4Y/GUudaJzAbjACyXeSYiG3HjyQCPLzXc5poCY4Mvwnp/ptetYmiC6kxP/JWY6Pf8yqheOUtQWD9xZygtjOO1FTu8nnc8Ek34WpyfcxHyINqyJsYPpd2FXchec+Dj571x9tZK08FS/Prtj7O5QtkY3FHyvrPtuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L+KFgwT+; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=stFVJulqBsIeaT0IqGTaA309nm8lsucr1fLm4nHRHXCs058V3VrsK+vtMzr2Tgx6r5v6rOMytW7yGkX12Hfm3Bc9MgYH/+vv3xc1OV2s7HEJKMDpFPiopgBIPlTOuuv+1+yHhaDvEuhycTrIbI2h8eRdBmGHyKTsd1lB7rAfLP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oltBx3FM; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L+KFgwT+"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5cb15b84544so2660012a12.2;
-        Fri, 01 Nov 2024 11:33:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oltBx3FM"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-460969c49f2so48881cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 11:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730486028; x=1731090828; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1730486247; x=1731091047; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+aKXYmYjBAuMzUUIrdg8wG61gEq+XCTqxoCb6g2OWXI=;
-        b=L+KFgwT+BpL7LM4O7Bvw4c0Nuaxihtnf4PCxM2npR5IiK093rNZx4Qr5RJ36FivMZH
-         uML4oPQ5SuNTpxDsEfET9BspC8iQmCs7wrGuVkqGRyTGGYSbxoA48sEohnmDW/KuZtIS
-         7MmPF9p3zP8Mv36ogyTERzS8ZeUd3BhvQPCHn7XRvf/TGtv13RQXMBECVJd9qBFHCtwu
-         Ng+fIatSFv0Fiq219koKvGescyrZPsKAH6M+E4cIxkbl6y7Qxsl7MkRi4u2rF+AtfstQ
-         0km5ATid7V6timClR9tu8gsFShYFbtgXqKHBeNUyv4YPKd/g6sd4QgfS4GIr+r1d3CaW
-         yI5g==
+        bh=Ra0xT/SkPUuyvhZ+lS69adyS93PRUWclgK8p/jLJodM=;
+        b=oltBx3FM9RjUFhJ3FKiKhEBsEHo5X60UjnD7Ejme7FJqLN2lxXoMUGvE2LGNYkqoU1
+         GlP8V9+o45STfQwHcQv/EuPMorA9lXVxAIpluQK4mQwfFdlB2xUkUrsM4KEe2sHuxnqF
+         pwe36gOFfaXeaQlYGxKrul0OnGpndwpcEYykqrFlmeCQzmT/cIO8xByYYf0o7RBOAVAQ
+         agx77Vwr18pr8bt9osuYzixhgZzFLNZUQ/vTQzKbyTkXVJHFkNRheozCJw12f9m8yzuK
+         nLDB5FxyOjrbp1awvbrbITv6EvkMqb4OPSUaNb8DI1yHEzBm1vCFWyhOOZ6WqOzQ0yX4
+         rjbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730486028; x=1731090828;
+        d=1e100.net; s=20230601; t=1730486247; x=1731091047;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+aKXYmYjBAuMzUUIrdg8wG61gEq+XCTqxoCb6g2OWXI=;
-        b=wGYVo+JSBQg2pZXQAR7wW0+fmnr7S/rsS++5LIb5MqMletQeVuKslw12yWBdCZ/mPP
-         yI2zH7X7avMq/rl1xn3szUO6+Id6lrcT6Ud3Fh4g0ITEz7avhbZEi9XJYhQD//2Q4quN
-         kNLGCN8/LgC639CONILgkR8ELeh7jJAKv/mxjXp/WLbfjBOmxV6Yliu/UACvollBhJTe
-         lTSH/JFWbmwwUJnd4rqExGTKQnrbNfI7pzRFvmx51OzZezMHSqu0vKX1rw8Rz/iOKE0+
-         fyk8C3yM/VV+EwVzv/78aJWIgPxLkr4DJbRKwVlVjAFXpfiD12DZ0CxacxJWcMP1QLT0
-         qkfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUkuMPgomzkC6LnbECD2/my6RXZXCgQ2Fns98zQZTOVoO8Id82TBadqYaFKfdkE5hCg+kEzk2q5zW5LPFtx@vger.kernel.org, AJvYcCXQueZlfuOFnyUnq2ioJa5cdMFN7avqQlNSvs53edDjJBCfezrnCAV+lnAGCbqHkyDs5afgGOmKRbEZ@vger.kernel.org, AJvYcCXp49DO3+n5ZreCbdmM50aLghCK0ASY2XoxofbZX2wL2aEWGSPbkt2Dq+snK+PIhpm3E1d/4wV/@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaACX0ddcE4FfhLghujWYotKyN5BUYhggMmpT5BhQ90ZmBe8B5
-	MPg4wr5ravv4pZbtNcG8bEX37A/SCJPnS6b/uiSOaMz/1+xR9Jt+exlnBQl8NA/XrKSx0FPoQdN
-	A87TOcYnx3VoTSoPNombePMlRi0g=
-X-Google-Smtp-Source: AGHT+IGir20gPToL50TgOpG3orUvf19xkLLVjvjLOCoU66Vkq4D32IzyCycWQAYpcoMknZ+dUtfXBJc4Jegp+l+59nA=
-X-Received: by 2002:a05:6402:2808:b0:5cb:739d:5416 with SMTP id
- 4fb4d7f45d1cf-5ceb936b3d3mr3274777a12.31.1730486027898; Fri, 01 Nov 2024
- 11:33:47 -0700 (PDT)
+        bh=Ra0xT/SkPUuyvhZ+lS69adyS93PRUWclgK8p/jLJodM=;
+        b=EQ22brfGFj3gkNkZ6PA+FjE1rwgab3Z5YWH/vjteTVjJ/o/OF2UkGJjY9e61SFWV+E
+         6YJ3Bvh8U7k96wKlW3s2j5WE9HX6rEWY/dkdbX0vDplrCWmduoJKVaBV8UYOm07554/+
+         ERMTPBDqWXGdSrdlmWrgA9WGu/J5F7parjdMFoL4coDdX3S74gmYukV2glYN35DYDb1f
+         m8yQr1TUnJbVAyDryUrk6KDs5dXT50MnzBICDh1XcZ8sSzwsLUKGlgaOtooIlWaMe7KI
+         861X5Vz+XhnRgmbeT4k9RYKRZ+3Fb7DUaWKY2KH8w+VHPSvUnvkL30JxU/pqInF4Zq6s
+         lgig==
+X-Forwarded-Encrypted: i=1; AJvYcCVN6NsPI7XsFbmp/OGekHeIWKYYAlG3WBUqzqMIhxHTPFADf7sUneTBNdCeArRDEOUSTK2zUtp5dGk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhbWTlaN5BH+I1QnuFQJ2D1ZUb6vBNCFIhtrzourGRPfGa23Rl
+	GUhBUPkUoVXVnaGo/K0zgOcvelvjfr+1OiUd8M/OW0VzptreXH4yyY+GvL/Pr47FQGY2o1/crir
+	LiGMPdLdml5Ul0ZyjN5mpnyP4tECp9RzzaS3A
+X-Gm-Gg: ASbGnctXLBTCihPA7Gn1WzrnYfz5hgitI9OqJ2/O50qsRG6DWySRX0It92MFZEW7F4V
+	aE9/1nj73TM40DYuyBZQ7NWGR5gef9UB5NPtQsd9AwAN1kLIBsIfILoQJbMAv
+X-Google-Smtp-Source: AGHT+IFXHlNZolCtvQqrkR9hwhUI8RViuIj2smBYH8pafbRsbRshQf8L/zWcjJGkwIIhtoJd28KJvaEPAg+jH8b1gU0=
+X-Received: by 2002:a05:622a:1350:b0:462:b6c6:8246 with SMTP id
+ d75a77b69052e-462c5f02ebamr346081cf.14.1730486247209; Fri, 01 Nov 2024
+ 11:37:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
- <ZyIZ_Sq9D_v5v43l@tiehlicka> <20241030150102.GA706616@cmpxchg.org>
- <ZyJQaXAZSMKkFVQ2@tiehlicka> <20241030183044.GA706387@cmpxchg.org>
- <CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
- <ZyM7_i1HFnFfUmIR@tiehlicka> <CAN+CAwMioguv6itTSYVUO9__kQVv6HZO2-i0NWt10-x7f6JVSQ@mail.gmail.com>
- <20241031183413.bb0bc34e8354cc14cdfc3c29@linux-foundation.org>
-In-Reply-To: <20241031183413.bb0bc34e8354cc14cdfc3c29@linux-foundation.org>
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-Date: Fri, 1 Nov 2024 14:33:36 -0400
-Message-ID: <CAN+CAwORE8+P7Td9yebkb0TVT92SZv8oasrypewCspf5om1fYQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, nphamcs@gmail.com, 
-	shakeel.butt@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	tj@kernel.org, lizefan.x@bytedance.com, mkoutny@suse.com, corbet@lwn.net, 
-	lnyng@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
+References: <20241026051410.2819338-1-xur@google.com> <20241026051410.2819338-4-xur@google.com>
+ <CAK7LNAR6Ni5FZJBK_FZXWZpMZG2ppvZFCtwjx9Z=o8L1e-CyjA@mail.gmail.com>
+In-Reply-To: <CAK7LNAR6Ni5FZJBK_FZXWZpMZG2ppvZFCtwjx9Z=o8L1e-CyjA@mail.gmail.com>
+From: Rong Xu <xur@google.com>
+Date: Fri, 1 Nov 2024 11:37:13 -0700
+Message-ID: <CAF1bQ=TjpUrEgiqepyaGAiDoFM8jzozzxW=0YvTXpFY64YoTzw@mail.gmail.com>
+Subject: Re: [PATCH v6 3/7] Adjust symbol ordering in text output section
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
+	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 31, 2024 at 9:34=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
+Current order is:
+.text.hot, .text, .text_unlikely, .text.unknown, .text.asan
+
+The patch reorders them to:
+.text.asan, .text.unknown, .text_unlikely, .text.hot, .text
+
+The majority of the code resides in three sections: .text.hot, .text, and
+ .text.unlikely, with .text.unknown containing a negligible amount.
+.text.asan is only generated in ASAN builds.
+
+Our primary goal is to group code segments based on their execution
+frequency (hotness).
+
+First, we want to place .text.hot adjacent to .text. Since we cannot put
+.text.hot after .text (Due to constraints with -ffunction-sections,
+placing .text.hot after .text is problematic), we need to put
+.text.hot before .text.
+
+Then it comes to .text.unlikely, we cannot put it after .text
+(same -ffunction-sections issue) . Therefore, we'll position .text.unlikely
+before .text.hot.
+
+.text.unknown and .tex.asan follow the same logic.
+
+This revised ordering effectively reverses the original arrangement (for
+.text.unlikely, .text.unknown, and .tex.asan), maintaining a similar level =
+of
+affinity between sections.
+
+I hope this explains the reason for the new ordering.
+
+-Rong
+
+On Fri, Nov 1, 2024 at 11:06=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> On Thu, 31 Oct 2024 15:03:34 -0400 Joshua Hahn <joshua.hahnjy@gmail.com> =
-wrote:
+> On Sat, Oct 26, 2024 at 7:14=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+> >
+> > When the -ffunction-sections compiler option is enabled, each function
+> > is placed in a separate section named .text.function_name rather than
+> > putting all functions in a single .text section.
+> >
+> > However, using -function-sections can cause problems with the
+> > linker script. The comments included in include/asm-generic/vmlinux.lds=
+.h
+> > note these issues.:
+> >   =E2=80=9CTEXT_MAIN here will match .text.fixup and .text.unlikely if =
+dead
+> >    code elimination is enabled, so these sections should be converted
+> >    to use ".." first.=E2=80=9D
+> >
+> > It is unclear whether there is a straightforward method for converting
+> > a suffix to "..".
+> >
+> > This patch modifies the order of subsections within the text output
+> > section. Specifically, it repositions sections with certain fixed patte=
+rns
+> > (for example .text.unlikely) before TEXT_MAIN, ensuring that they are
+> > grouped and matched together. It also places .text.hot section at the
+> > beginning of a page to help the TLB performance.
 >
-> > Andrew -- I am sorry to ask again, but do you think you can replace
-> > the 3rd section in the patch (3. Implementation Details) with the
-> > following paragraphs?
 >
-> No problem.
-> : 3.  Implementation Details:
-> : In the alloc / free hugetlb functions, we call lruvec_stat_mod_folio
-> : regardless of whether memcg accounts hugetlb.  mem_cgroup_commit_charge
-> : which is called from alloc_hugetlb_folio will set memcg for the folio
-> : only if the CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING cgroup mount option is
-> : used, so lruvec_stat_mod_folio accounts per-memcg hugetlb counters only
-> : if the feature is enabled.  Regardless of whether memcg accounts for
-> : hugetlb, the newly added global counter is updated and shown in
-> : /proc/vmstat.
-> :
-> : The global counter is added because vmstats is the preferred framework
-> : for cgroup stats.  It makes stat items consistent between global and
-> : cgroups.  It also provides a per-node breakdown, which is useful.
-> : Because it does not use cgroup-specific hooks, we also keep generic MM
-> : code separate from memcg code.
-> :
-> : With this said, there are 2 problems:
-> : (a) They are still not reported in memory.stat, which means the
-> :     disparity between the memcg reports are still there.
-> : (b) We cannot reasonably expect users to enable the hugeTLB controller
-> :     just for the sake of hugeTLB usage reporting, especially since
-> :     they don't have any use for hugeTLB usage enforcing [2].
-> :
-> : [1] https://lore.kernel.org/all/20231006184629.155543-1-nphamcs@gmail.c=
-om/
-> : [2] Of course, we can't make a new patch for every feature that can be
-> :     duplicated. However, since the existing solution of enabling the
-> :     hugeTLB controller is an imperfect solution that still leaves a
-> :     discrepancy between memory.stat and memory.curent, I think that it
-> :     is reasonable to isolate the feature in this case.
+> The fixed patterns are currently listed in this order:
 >
-
-Hello Andrew,
-
-Thank you for your help as always. I apologize for not being clear in my
-original request -- the "With this said, there are 2 problems:" paragraph i=
-s
-part of the 2nd section (2. We already have a hugeTLB controller...) So the
-outline will be:
-
-This patch introduces...
-
-1. Why is this patch necessary?\n
-Currently, memcg hugeTLB accounting...
-
-Aside from the consistency between...
-
-2. We already have a hugeTLB controller. Why not use that?\n
-It is true that hugeTLB tracks...
-
-With this said, there are 2 problems:\n
-  (a) They are still not...
-  (b) We cannot reasonably...
-
-3. Implementation Details\n
-In the alloc / free hugetlb functions, ...
-
-The global counter is added because...
-
-[1] https://lore.kernel.org/ ...
-[2] Of course, we can't make a new patch...
-
-Thank you for your patience. I promise that this is the last change
-to the patch message, I apologize for the frequent requests for
-modifications. I hope you have a great day!
-Joshua
+>   .text.hot, .text_unlikely, .text.unknown, .text.asan.
+>
+> You reorder them to:
+>
+>   .text.asan, .text.unknown, .text.unlikely, .text.hot
+>
+>
+> I believe it is better to describe your thoughts
+> about the reshuffling among the fixed pattern sections.
+>
+> Otherwise, It is unclear to me.
+>
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
