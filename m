@@ -1,138 +1,139 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E2F17C91;
-	Fri,  1 Nov 2024 02:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E50113CABC;
+	Fri,  1 Nov 2024 03:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730427206; cv=none; b=ptrOFAE3ugInowDHmdajOhic3tjwmGtdjM64xRvTgwvn3AjDZSrv5QM4CYUusFbKL3e8lBYM4CKI3rlaQEgVH+Wyorce1wpDT7Ehsu8oc5HYqapBZ3fTJN/Gc+bluyRzSK5r0htXxUR2+58ndPMi2jdXCvstESeds12TZnoSidY=
+	t=1730430208; cv=none; b=VjI4CYzzuCDY3Eha3grPHEjSmoulR1xTRb5P8pkU7Sk5NBTgVFZPaY3zG7rZEMHr7Gm7pqxdFOE/p+N9ttGkQAPGDgVJQRvppX9KQkdmJoWDaYvWVeBDKOduxm6lamhOJgJXlqAxI0XnY5hn6dS0D+Lr29afGPy4LV8PKsQ4vsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730427206; c=relaxed/simple;
-	bh=VmJYV41tllW25FZf3Oc/NCLhuoIMwX9svmMOiic3T7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZHn6Kv8dcLEPnJDffizZop4jyrwLTgPxfy6QzNDTp0OdpPF23XMXda3HIJzSl5FEzkwEWp29fmSLooIr5/1aIC+p42UPYd9/YgjqCrgOVGNPMVMdzqSzO7bm6gYq23gbeUYY25CGbV8MfrLVOHVonQCDuYo3Pjxhq4A5tmDn6TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ieDfyz1B; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730430208; c=relaxed/simple;
+	bh=y8yW7zcDDjfMePg5zhO73d5G3dBGBJ+0ZlV2Vk5qn0o=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=VFQ0RTdc212GQKBEsNrvdqe4FwsZP317OZxSsbSQOWYieWJCCoHkU8slCfAxMgaFohsWoV6TJZq1V4XI5/YcDIglKofxh+JtdDj/sfzOUROjl1frNAP4vR8rlX5PhrGAFYFosOUBH0I9N7lHzRduRX1pgRFt8psNRfyzPg5LmZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=cGhmaTsb; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ieDfyz1B"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7db54269325so1130042a12.2;
-        Thu, 31 Oct 2024 19:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730427200; x=1731032000; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rZOZuucoarJhPdgJIizqCWGGAjPi/UbhCrvv3LalGO0=;
-        b=ieDfyz1BlsSJSIsmJskkz9pKXaZbAXzsBzf4HohxG1rygzXNK603ohMHrFzXL49q8r
-         lpjwv2TfHE4puxvOzPEhWHYxFGdIGu6dwgMdvBYv8CguDZx0PO6fMeMBPM0GtZdBqIC+
-         TBK2mgjxyJB8Hj7Ee7cptQRfRWnlWQdbdOi+Mld+gxA+LLlN3VlG2O1SlyZ3lRYR6H6n
-         uTIlMdJhpCkbzwwhLO8kUVmh3qdDTWowcxYCmPwrPmj5J1Fa1RqKNgGcNM1N45CPiwS/
-         0t/Tn3efsK1socgerQ2TEL4fT9Q692v2IRYXII+XpzuM6Nrs0652nMb4qRv/w7Mlrj7G
-         HEFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730427200; x=1731032000;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rZOZuucoarJhPdgJIizqCWGGAjPi/UbhCrvv3LalGO0=;
-        b=cocCuKpgceFY/ysbU9Exi7V7Yaqh3rBDnNUkg58MNPnaWIRGwVtnsOFkTRKiSf0ioH
-         4bQWkRi64WMnmBX5NpKNTHL/4A+CRSU0KtvwcAObysA2N4cD8JDW4O9Y2bfH+/DPdJTu
-         iI320GPahk/iAGp1/sS3T6frVxPdcvqT4e3noUcWAn45svYEFresNAE9ngz5CBbhBbdk
-         Dgdt38ZqIP8HDXyrsmGjBMQNcoGJyuDhjYvfW+S6XdIIN/EfSSggWkVLWhHOLzJQaTeQ
-         n8NUXUUlazq9m8uubPeuoKbaYJdEU2s2qmpS1OapydD24iyRMG6CkxC8/vToQbOS46hN
-         yo/A==
-X-Forwarded-Encrypted: i=1; AJvYcCU/oW2bdvCV1uwvhzXUXkaqPYeTi4HZa+wVuGuhyhcBuW5MAcoiPyUN2wleTgwBwH18qDUqMccAo0o=@vger.kernel.org, AJvYcCWt79oCXEvKQHg3HadQrru/7iDivL7+5s92ktRzghS9zimseHZpuqBs4uCzCeSHlho9201Bxf7G5VroJe4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRvlBh/2rjBmKERmA/Z5B5QimQkSWgvyJERKTkUir460AWubs6
-	vnz7oJG8BIHJr8bH2BOfQzGMUw0G0MnaJxG3Bu2eIHE4G7xjG+yguHIBfg==
-X-Google-Smtp-Source: AGHT+IHFxRwrAmlWQSawoDRQWB12YXIyMpZvpxkaSI7FwbamgT8XpysSwshg5o2vXRwnXDG+toxcWw==
-X-Received: by 2002:a05:6a20:e605:b0:1d9:dfd:93c0 with SMTP id adf61e73a8af0-1dba556fdc2mr1893780637.49.1730427200136;
-        Thu, 31 Oct 2024 19:13:20 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fbfb05asm4067002a91.48.2024.10.31.19.13.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 19:13:18 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id DA1AA422298D; Fri, 01 Nov 2024 09:13:12 +0700 (WIB)
-Date: Fri, 1 Nov 2024 09:13:12 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: anish kumar <yesanishhere@gmail.com>, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com, corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH V4] Docs/sound: Update codec-to-codec documentation
-Message-ID: <ZyQ5OJM8k1rGog2R@archie.me>
-References: <20241031211411.58726-1-yesanishhere@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="cGhmaTsb"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1730430201; h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+	bh=lHTFluFn91Zgm50b/7m57y+ytTEX564G7atSqw12Uyc=;
+	b=cGhmaTsb8/XMusaCd7fl8mpaoKg3/Lh/ZeUojnSnkfvmilMgHf8/rV+IV0BDL4RCjphDNiLoE0ex7OtqQnnOtswIEmGmGCJiV9A0NP8aO2/XhQXhlzSUdJwjrzYxOvnVDOry3t6eSlbLSDtLLDAb44vyfUsgEe7bF89lP7bYis0=
+Received: from smtpclient.apple(mailfrom:guanjun@linux.alibaba.com fp:SMTPD_---0WIKwQpa_1730430199 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 01 Nov 2024 11:03:20 +0800
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LF52oUGBAhFpI3TC"
-Content-Disposition: inline
-In-Reply-To: <20241031211411.58726-1-yesanishhere@gmail.com>
-
-
---LF52oUGBAhFpI3TC
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
+Subject: Re: [PATCH RFC v1 1/2] genirq/affinity: add support for limiting
+ managed interrupts
+From: mapicccy <guanjun@linux.alibaba.com>
+In-Reply-To: <87v7x8woeq.ffs@tglx>
+Date: Fri, 1 Nov 2024 11:03:08 +0800
+Cc: corbet@lwn.net,
+ axboe@kernel.dk,
+ mst@redhat.com,
+ jasowang@redhat.com,
+ xuanzhuo@linux.alibaba.com,
+ eperezma@redhat.com,
+ vgoyal@redhat.com,
+ stefanha@redhat.com,
+ miklos@szeredi.hu,
+ peterz@infradead.org,
+ akpm@linux-foundation.org,
+ paulmck@kernel.org,
+ thuth@redhat.com,
+ rostedt@goodmis.org,
+ bp@alien8.de,
+ xiongwei.song@windriver.com,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org,
+ virtualization@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <9847EC49-8F55-486A-985D-C3EDD168762D@linux.alibaba.com>
+References: <20241031074618.3585491-1-guanjun@linux.alibaba.com>
+ <20241031074618.3585491-2-guanjun@linux.alibaba.com> <87v7x8woeq.ffs@tglx>
+To: Thomas Gleixner <tglx@linutronix.de>
+X-Mailer: Apple Mail (2.3774.300.61.1.2)
 
-On Thu, Oct 31, 2024 at 02:14:11PM -0700, anish kumar wrote:
-> Updated documentation to provide more details
-> for codec-to-codec connection especially around
-> the scenarios and DAPM core details for C2C
-> creation.
-"Describe in more detail codec-to-codec connection, especially on
-use cases and DAPM core details for C2C creation."
-> +An ALSA-based audio system typically involves playback and capture
-> +functionality, where users may require audio file playback through
-> +speakers or recording from microphones. However, certain systems
-> +necessitate audio data routing directly between components, such as FM
-> +radio to speakers, without CPU involvement. For such scenarios, ASoC(
-> +ALSA system on chip) provides a mechanism known as codec-to-codec (C2C)
-"For such scenarios, ASoC (ALSA system on chip) ..."
-> +connections, leveraging the Dynamic Audio Power Management (DAPM)
-> +framework to facilitate direct data transfers between codecs.
-> <snipped>...
-> +To better understand the configuration inspired by the setup found in
-> +``sound/soc/samsung/speyside.c``, here are several key points:
-> +
-> +1. The presence of ``c2c_params`` informs the DAPM core that the DAI link
-> +   represents a C2C connection.
-> +
-> +2. ``c2c_params`` can be an array, and ``num_c2c_params`` defines the si=
-ze
-> +   of this array.
-> +
-> +3. If ``num_c2c_params`` is 1:
-> +
-> +   - The C2C DAI is configured with the provided ``snd_soc_pcm_stream``
-> +     parameters.
-> +
-> +4. If ``num_c2c_params`` is greater than 1:
-> +
-> +   - A kcontrol is created, allowing the user to select the index of the
-> +     ``c2c_params`` array to be used.
 
-I guess #3 and #4 can be combined, i.e. "If ``num_c2c_params`` is 1, ...;
-otherwise if ``num_c2c_params`` is greater than 1, ...".
 
-Thanks.
+> 2024=E5=B9=B410=E6=9C=8831=E6=97=A5 18:35=EF=BC=8CThomas Gleixner =
+<tglx@linutronix.de> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> On Thu, Oct 31 2024 at 15:46, guanjun@linux.alibaba.com wrote:
+>> #ifdef CONFIG_SMP
+>>=20
+>> +static unsigned int __read_mostly managed_irqs_per_node;
+>> +static struct cpumask managed_irqs_cpumsk[MAX_NUMNODES] =
+__cacheline_aligned_in_smp =3D {
+>> +	[0 ... MAX_NUMNODES-1] =3D {CPU_BITS_ALL}
+>> +};
+>>=20
+>> +static void __group_prepare_affinity(struct cpumask *premask,
+>> +				     cpumask_var_t *node_to_cpumask)
+>> +{
+>> +	nodemask_t nodemsk =3D NODE_MASK_NONE;
+>> +	unsigned int ncpus, n;
+>> +
+>> +	get_nodes_in_cpumask(node_to_cpumask, premask, &nodemsk);
+>> +
+>> +	for_each_node_mask(n, nodemsk) {
+>> +		cpumask_and(&managed_irqs_cpumsk[n], =
+&managed_irqs_cpumsk[n], premask);
+>> +		cpumask_and(&managed_irqs_cpumsk[n], =
+&managed_irqs_cpumsk[n], node_to_cpumask[n]);
+>=20
+> How is this managed_irqs_cpumsk array protected against concurrency?
 
---=20
-An old man doll... just what I always wanted! - Clara
+My intention was to allocate up to `managed_irq_per_node` cpu bits from =
+`managed_irqs_cpumask[n]`,
+even if another task modifies some of the bits in the =
+`managed_irqs_cpumask[n]` at the same time.
 
---LF52oUGBAhFpI3TC
-Content-Type: application/pgp-signature; name="signature.asc"
+>=20
+>> +		ncpus =3D cpumask_weight(&managed_irqs_cpumsk[n]);
+>> +		if (ncpus < managed_irqs_per_node) {
+>> +			/* Reset node n to current node cpumask */
+>> +			cpumask_copy(&managed_irqs_cpumsk[n], =
+node_to_cpumask[n]);
+>=20
+> This whole logic is incomprehensible and aside of the concurrency
+> problem it's broken when CPUs are made present at run-time because =
+these
+> cpu masks are static and represent the stale state of the last
+> invocation.
 
------BEGIN PGP SIGNATURE-----
+Sorry, I realize there is indeed a logic issue here (caused by =
+developing on 5.10 LTS and rebase to the latest linux-next).
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZyQ5NAAKCRD2uYlJVVFO
-o5xQAP4j3eAqx7gX+rsm+lIePL79OVwhm3ezNuXCEqibAGrMcQEAilp7lgEL9fP0
-L9V8spKCrUVJCs5OPOedR9G3AdRMsw8=
-=sXwv
------END PGP SIGNATURE-----
+>=20
+> Given the limitations of the x86 vector space, which is not going away
+> anytime soon, there are only two options IMO to handle such a =
+scenario.
+>=20
+>   1) Tell the nvme/block layer to disable queue affinity management
+>=20
+>   2) Restrict the devices and queues to the nodes they sit on
 
---LF52oUGBAhFpI3TC--
+I have tried fixing this issue through nvme driver, but later discovered =
+that the same issue exists with virtio net.
+Therefore, I want to address this with a more general solution.
+
+Thanks,
+Guanjun
+
+>=20
+> Thanks,
+>=20
+>        tglx
+
