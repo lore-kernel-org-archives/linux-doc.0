@@ -1,254 +1,250 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAED51C9DFE;
-	Fri,  1 Nov 2024 18:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADBD1C9DFE;
+	Fri,  1 Nov 2024 18:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730484131; cv=none; b=kGZKBUrJFHftr5Z4u0JpOuDrZIq6+1ipvq5fgmV9J9iHwIlX+iGiKFpryh2QZ20mBDBxzg14H0N5GT4Pbh9Pd2xatehvf+2Q51Q0LKKYBXWJRkkwigiIt+wIYW6CydCTRTnz9b496iFaAOiJIH8vd3v+1vCZD1bfJqEnf3yPdo4=
+	t=1730484190; cv=none; b=m//abxCBt0W3DxWIwlt48RymDPorxzDfqtNfweZNZ3gyg0i6inG4IWoJLzlEe8WBItCEsit+Xk3Qtlj/nkZHY72NDh0JPisdyxaFy4zmHbmLD59mRGslkZotvSlLRJdxlOwTEZx8pFRJnxQ4ATC3N/Tv10Fh9ESgcQ/k1qFoBAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730484131; c=relaxed/simple;
-	bh=yf+VbjccGDPjouoiu4RTs2jbGv/eZpG+kY8QMxVP930=;
+	s=arc-20240116; t=1730484190; c=relaxed/simple;
+	bh=2PFCJ1jIx50CTh8mnAHhd/LEOEjk5EjjiciJxGv0MQY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=go5kz2BXPgMj9vU1RHOehcheALm/Xjx1WVUhheTck4E4lJlog28TX3kiWRdA/mbNAZlJevkqFXckvy9DFTTvg4fJ1+KDJk+wk2hLPM1kYcNQbegJqY7W988tw2h5wkxWUKoRYAAFOnEKJyolW5O8SNGeRLeJUWIa4bxdVLhDxmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMj0K0Td; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=WG/HN7/yVF0o8ACsXAvAFZ7bTZ16OiXxGPH1xabz6X37Wc6cPLUjg9w4cSk4rE8SQwZKTRAV56UVq7zofyDItSD+oCtWwuDxHU2jCx8OQxEcjj8zN3wJc8iZASz3oIJwpQBPJZkBhFkAPI1vCvWkL1PuXFbh6seb6fnQSvSRucE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIfuhPQB; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMj0K0Td"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AEC9C4CECF;
-	Fri,  1 Nov 2024 18:02:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730484130;
-	bh=yf+VbjccGDPjouoiu4RTs2jbGv/eZpG+kY8QMxVP930=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DMj0K0TdyGo4awmjWyX9rvFoQpJiSEV9RezEzy7DcnFKiI9FwLqmnwSUgv9SN1qDP
-	 /XsvDGvVwy2LAzXdD2bnBWh7OBqYw2uhH1Lxc5jCDo+wOib5W3lUOc3BDQvZEvOUWE
-	 4RsgJ3mJ1SKgdRJiE9RYBWSnC7UeJUyIiKxww4+ZukU45d+v1VrEjY2ZacNlPmMieG
-	 8CCLPodSBt9yzdW+L/BiXv8qvkfidCGdqwX2xa8CMII76cGjEKhB96Ym5rfqhNC7B5
-	 1hdcGqnIM5P7RjR4vOMpyVZ87aFPRxQQx7rSk9m3smSalHkBQyG9+R3pNdANqvePhQ
-	 wxg3FboZwNVCg==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb470a8b27so29507831fa.1;
-        Fri, 01 Nov 2024 11:02:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUKnaR49F5e/4uAlffTxX1QnHDcjsmJBqFt85X/SdFqODJkbaoaLOsKmfP3lOEJJY+6kv+aMp+wW+nyzrtW@vger.kernel.org, AJvYcCUTv6AlMIUmUVbwcvVDnYgLKl5Z55GNudnsy9bEJudQS6hrCAqln9/+up/LH9mYP5Y13Ug6xdn4dztk@vger.kernel.org, AJvYcCUg5IPVXcM0kMF1d/CeYzEptr2YX/Jzc0DWVIeoR04j3BskntNioLAKJFVP23fdveNGQrD7dwxoiYYy1eBk@vger.kernel.org, AJvYcCUxkJLXR+NNBwP2jHoyqv+wTUWK8xcjpx0IF1drJnnrORd5+/Ll3eTe+V22Dm/nJLVC3RjFFIxRUFNr@vger.kernel.org, AJvYcCXdMolJoOjjW7u8JfCpl0yVmzVm8d6t00jj0vlAye8fq030Y0nZOEhB1SwO3kM1rnaZOGQriMjEBbeX@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsxJ7KJsVgwcg3GHFLjIMLS7gyhf6fJYk5zJ5Ui+2pxdVRkzfJ
-	2RN5/IlDTvn4n4e8EHPnWZURu74xHL/Wo4TPDZtjYOxK5Nee29pqvtILeaFq1G5ma20zPEv50eR
-	zmwQJ7HdqLNtTCLNfmIvOadcA/8E=
-X-Google-Smtp-Source: AGHT+IGXpzOp+TOI/Z+oB8P3DJaQk4b55pWJ1exOoCI7V9N4vLzVvJvZUnzzo+0mc6rOxssSfsUznlZix7baiPYy58Y=
-X-Received: by 2002:a2e:bd05:0:b0:2fa:ce87:b7da with SMTP id
- 38308e7fff4ca-2fdef2a7c0bmr21784721fa.18.1730484128447; Fri, 01 Nov 2024
- 11:02:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIfuhPQB"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c94c4ad9d8so3062772a12.2;
+        Fri, 01 Nov 2024 11:03:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730484187; x=1731088987; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dtBrptE3IDFDm9Nqxu1m5bjFJws/Kg65BIqj6cJbQgA=;
+        b=GIfuhPQBcKnv2sBYIUJJ4dRMiblU7RgAeSiKu4guOESFLYPxINK/xNeJF4rtM4woYY
+         w8+D5NM4qAUjCByuS3ADXm/Ge+dMd4g6R6kI2Yo0euzJLbOu2nBFUj5qLLGH27GPgEmY
+         KYD0OSaRgtH/NSCjBujHqas+PHv/ZTLW1fBA+Yh0V+pm6vNaRzs/sMbHMH2GpmIUhPBy
+         vHU3KPZV+RueuqBc/Y5uvC2LvQ+veTF1UIgghOqgXojhY9oGDDJCN+HlGRDi+81XisP3
+         iFCD557WxHbt4sjrpjvSxywNH2PL4Y4RHD8kbHTzkV6rl/ampVh73qDxiU+q4nQ4hYWu
+         HB/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730484187; x=1731088987;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dtBrptE3IDFDm9Nqxu1m5bjFJws/Kg65BIqj6cJbQgA=;
+        b=UMRkeSv6C5dIURHdSrJaP2FNYusai0VCRt2jeTl6/7ML0JR+9gFYtscLXRd7RWBm/0
+         sK8YKS+uoCWCD7+Fyc/u22yMp/P62M2PbQiRjo9+1f1FzPaAkud8yFDm44xPbCcSmFXl
+         0ookEsfFCTIi+6/mx5cQFMHMp2vl6ruPNTNv1iTY/mN1MPAPxIhdP+BGLNEFihLAuU5d
+         MkWnvAGLYXfxDwB7/YUJYEgByMUHoUH86a/9kVpJqdYi/W+AhmUeCR1YINC7f21/1LsS
+         kBNxlOpuT/tBaeCswRQD5Zk01C0j6kWuVX/HoIGMH3QvKYZE51N3Mls8J8QXr9ICEXaj
+         jPHg==
+X-Forwarded-Encrypted: i=1; AJvYcCULCIB4CYk+u7gSg5DL95tgrna4BeiEX194v/I6Lrxsj+gGj6j7XwR9Zp5L7obORyAXy4UeVDoQuuo=@vger.kernel.org, AJvYcCXuviOuLwb1FrgmY49rgApkU9wyCsPNwYa8fxPeA9tTzGB20ZP8QqimMdhlTsG6iT2A2/vxIO+R@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhucpbYFzt72jn7lF0L8yNrDCHb4ShUfuG6o/8DZa1qCb42Zhr
+	GrX87o6a1XO3KIV3vXJsnhf6A6IprXKBwLTSDz6zFe7RrJocccshE/ORWBs4sg04CmrR6WBFsEM
+	Qp8/av4jyggi9bkv/EltaHPebGog=
+X-Google-Smtp-Source: AGHT+IFhQJCnptmvwLhKeIjfTGQ5k2d5GHSh4lMOwbeuYhq+xdA6qKUWY+D9NFMnMwaY2AJ7ZxR4X2PoXz5p/69Qclk=
+X-Received: by 2002:aa7:c88d:0:b0:5ce:ade2:a26b with SMTP id
+ 4fb4d7f45d1cf-5ceade2a8afmr4303157a12.8.1730484187068; Fri, 01 Nov 2024
+ 11:03:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241023224409.201771-1-xur@google.com> <20241023224409.201771-2-xur@google.com>
-In-Reply-To: <20241023224409.201771-2-xur@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 2 Nov 2024 03:01:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARiEhNBPikEv--YpdKTPt5B5tFF_J0T8+xbi1CS6WJBFQ@mail.gmail.com>
-Message-ID: <CAK7LNARiEhNBPikEv--YpdKTPt5B5tFF_J0T8+xbi1CS6WJBFQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/7] Add AutoFDO support for Clang build
-To: Rong Xu <xur@google.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-6-ap420073@gmail.com>
+ <CAHS8izNbS4i+ke0bK07-rNLuq6RGXD-H73DhVb1-tsUOzSCBog@mail.gmail.com>
+In-Reply-To: <CAHS8izNbS4i+ke0bK07-rNLuq6RGXD-H73DhVb1-tsUOzSCBog@mail.gmail.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Sat, 2 Nov 2024 03:02:54 +0900
+Message-ID: <CAMArcTUGTF2Qr9=W_mcrA9au2jhm0Ru6hC+Nt3V2tk=LODQs+A@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 5/8] net: devmem: add ring parameter filtering
+To: Mina Almasry <almasrymina@google.com>
+Cc: Praveen Kaligineedi <pkaligineedi@google.com>, davem@davemloft.net, kuba@kernel.org, 
+	pabeni@redhat.com, edumazet@google.com, donald.hunter@gmail.com, 
+	corbet@lwn.net, michael.chan@broadcom.com, andrew+netdev@lunn.ch, 
+	hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org, 
+	daniel@iogearbox.net, john.fastabend@gmail.com, dw@davidwei.uk, 
+	sdf@fomichev.me, asml.silence@gmail.com, brett.creeley@amd.com, 
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org, kory.maincent@bootlin.com, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
+	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
+	willemb@google.com, daniel.zahka@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2024 at 7:44=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+On Fri, Nov 1, 2024 at 11:29=E2=80=AFPM Mina Almasry <almasrymina@google.co=
+m> wrote:
 >
-> Add the build support for using Clang's AutoFDO. Building the kernel
-> with AutoFDO does not reduce the optimization level from the
-> compiler. AutoFDO uses hardware sampling to gather information about
-> the frequency of execution of different code paths within a binary.
-> This information is then used to guide the compiler's optimization
-> decisions, resulting in a more efficient binary. Experiments
-> showed that the kernel can improve up to 10% in latency.
+> Hi Taehee, sorry for the late reply. I was out on vacation and needed
+> to catch up on some stuff when I got back.
+
+Hi Mina,
+Thank you so much for your review :)
+
 >
-> The support requires a Clang compiler after LLVM 17. This submission
-> is limited to x86 platforms that support PMU features like LBR on
-> Intel machines and AMD Zen3 BRS. Support for SPE on ARM 1,
->  and BRBE on ARM 1 is part of planned future work.
+> On Tue, Oct 22, 2024 at 9:25=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
+rote:
+> >
+> > If driver doesn't support ring parameter or tcp-data-split configuratio=
+n
+> > is not sufficient, the devmem should not be set up.
+> > Before setup the devmem, tcp-data-split should be ON and
+> > header-data-split-thresh value should be 0.
+> >
+> > Tested-by: Stanislav Fomichev <sdf@fomichev.me>
+> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+> > ---
+> >
+> > v4:
+> >  - Check condition before __netif_get_rx_queue().
+> >  - Separate condition check.
+> >  - Add Test tag from Stanislav.
+> >
+> > v3:
+> >  - Patch added.
+> >
+> >  net/core/devmem.c | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> >
+> > diff --git a/net/core/devmem.c b/net/core/devmem.c
+> > index 11b91c12ee11..3425e872e87a 100644
+> > --- a/net/core/devmem.c
+> > +++ b/net/core/devmem.c
+> > @@ -8,6 +8,8 @@
+> >   */
+> >
+> >  #include <linux/dma-buf.h>
+> > +#include <linux/ethtool.h>
+> > +#include <linux/ethtool_netlink.h>
+> >  #include <linux/genalloc.h>
+> >  #include <linux/mm.h>
+> >  #include <linux/netdevice.h>
+> > @@ -131,6 +133,8 @@ int net_devmem_bind_dmabuf_to_queue(struct net_devi=
+ce *dev, u32 rxq_idx,
+> >                                     struct net_devmem_dmabuf_binding *b=
+inding,
+> >                                     struct netlink_ext_ack *extack)
+> >  {
+> > +       struct kernel_ethtool_ringparam kernel_ringparam =3D {};
+> > +       struct ethtool_ringparam ringparam =3D {};
+> >         struct netdev_rx_queue *rxq;
+> >         u32 xa_idx;
+> >         int err;
+> > @@ -140,6 +144,20 @@ int net_devmem_bind_dmabuf_to_queue(struct net_dev=
+ice *dev, u32 rxq_idx,
+> >                 return -ERANGE;
+> >         }
+> >
+> > +       if (!dev->ethtool_ops->get_ringparam)
+> > +               return -EOPNOTSUPP;
+> > +
 >
-> Here is an example workflow for AutoFDO kernel:
+> Maybe an error code not EOPNOTSUPP. I think that gets returned when
+> NET_DEVMEM is not compiled in and other situations like that. Lets
+> pick another error code? Maybe ENODEV.
+
+There are several same code in the ethtool core.
+It returns EOPNOTSUPP consistently.
+In the v3 series, Brett reviewed it.
+So, I changed it from EINVAL to EOPNOTSUPP it was reasonable to me.
+So I prefer EOPNOTSUPP but I will follow your decision.
+What do you think?
+
 >
-> 1) Build the kernel on the host machine with LLVM enabled, for example,
->        $ make menuconfig LLVM=3D1
->     Turn on AutoFDO build config:
->       CONFIG_AUTOFDO_CLANG=3Dy
->     With a configuration that has LLVM enabled, use the following
->     command:
->        scripts/config -e AUTOFDO_CLANG
->     After getting the config, build with
->       $ make LLVM=3D1
+> Also consider extack error message. But it's very unlikely to hit this
+> error, so maybe not necessary.
+
+I removed extack from the v3. because ethtool doesn't use extack for
+the same logic. It was reasonable to me.
+
 >
-> 2) Install the kernel on the test machine.
+> > +       dev->ethtool_ops->get_ringparam(dev, &ringparam, &kernel_ringpa=
+ram,
+> > +                                       extack);
+> > +       if (kernel_ringparam.tcp_data_split !=3D ETHTOOL_TCP_DATA_SPLIT=
+_ENABLED) {
+> > +               NL_SET_ERR_MSG(extack, "tcp-data-split is disabled");
+> > +               return -EINVAL;
+> > +       }
+> > +       if (kernel_ringparam.hds_thresh) {
+> > +               NL_SET_ERR_MSG(extack, "header-data-split-thresh is not=
+ zero");
+> > +               return -EINVAL;
+> > +       }
+> > +
 >
-> 3) Run the load tests. The '-c' option in perf specifies the sample
->    event period. We suggest     using a suitable prime number,
->    like 500009, for this purpose.
->    For Intel platforms:
->       $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count> \
->         -o <perf_file> -- <loadtest>
->    For AMD platforms:
->       The supported system are: Zen3 with BRS, or Zen4 with amd_lbr_v2
->      For Zen3:
->       $ cat proc/cpuinfo | grep " brs"
->       For Zen4:
->       $ cat proc/cpuinfo | grep amd_lbr_v2
->       $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a \
->         -N -b -c <count> -o <perf_file> -- <loadtest>
+> Thinking about drivers that support tcp-data-split, but don't support
+> any kind of hds_thresh. For us (GVE), the hds_thresh is implicitly
+> always 0.
 >
-> 4) (Optional) Download the raw perf file to the host machine.
+> Does the driver need to explicitly set hds_thresh to 0? If so, that
+> adds a bit of churn to driver code. Is it possible to detect in this
+> function that the driver doesn't support hds_thresh and allow the
+> binding if so?
 >
-> 5) To generate an AutoFDO profile, two offline tools are available:
->    create_llvm_prof and llvm_profgen. The create_llvm_prof tool is part
->    of the AutoFDO project and can be found on GitHub
->    (https://github.com/google/autofdo), version v0.30.1 or later. The
->    llvm_profgen tool is included in the LLVM compiler itself. It's
->    important to note that the version of llvm_profgen doesn't need to
->    match the version of Clang. It needs to be the LLVM 19 release or
->    later, or from the LLVM trunk.
->       $ llvm-profgen --kernel --binary=3D<vmlinux> --perfdata=3D<perf_fil=
-e> \
->         -o <profile_file>
->    or
->       $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file> \
->         --format=3Dextbinary --out=3D<profile_file>
+> I see in the previous patch you do something like:
 >
->    Note that multiple AutoFDO profile files can be merged into one via:
->       $ llvm-profdata merge -o <profile_file>  <profile_1> ... <profile_n=
+> supported_ring_params & ETHTOOL_RING_USE_HDS_THRS
+>
+> To detect there is hds_thresh support. I was wondering if something
+> like this is possible so we don't have to update GVE and all future
+> drivers to explicitly set thresh to 0.
+
+How about setting maximum hds_threshold to 0?
+The default value of hds_threshold of course 0.
+I think gve code does not need to change much, just adding like below
+will be okay.
+
+I think if drivers don't support setting hds_threshold explicitly, it
+is actually the same as support only 0.
+So, there is no problem I think.
+
+I didn't analyze gve driver code, So I might think it too optimistically.
+
+#define GVE_HDS_THRESHOLD_MAX 0
+kernel_ering->hds_thresh =3D GVE_HDS_THRESHOLD_MAX;
+kernel_ering->hds_thresh_max =3D GVE_HDS_THRESHOLD_MAX;
+...
+.supported_ring_params  =3D ETHTOOL_RING_USE_TCP_DATA_SPLIT |
+ETHTOOL_RING_USE_HDS_THRS,
+
+ethtool command may show like this.
+ethtool -g enp7s0f3np3
+Ring parameters for enp7s0f3np3:
+Pre-set maximums:
+...
+Header data split thresh:       0
+Current hardware settings:
+...
+TCP data split:         on
+Header data split thresh:       0
+
+If a driver can't set up hds_threshold, ethtool command may show like this.
+ethtool -g enp7s0f3np3
+Ring parameters for enp7s0f3np3:
+Pre-set maximums:
+TX push buff len:       n/a
+Header data split thresh:       n/a
+Current hardware settings:
+...
+TCP data split:         on
+Header data split thresh:       n/a
+
+Thanks a lot!
+Taehee Yoo
+
+>
+> Other than that, looks fine to me.
 >
 >
-> 6) Rebuild the kernel using the AutoFDO profile file with the same config
->    as step 1, (Note CONFIG_AUTOFDO_CLANG needs to be enabled):
->       $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<profile_file>
->
-> Co-developed-by: Han Shen <shenhan@google.com>
-> Signed-off-by: Han Shen <shenhan@google.com>
-> Signed-off-by: Rong Xu <xur@google.com>
-> Suggested-by: Sriraman Tallam <tmsriram@google.com>
-> Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
-> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> Suggested-by: Stephane Eranian <eranian@google.com>
-> Tested-by: Yonghong Song <yonghong.song@linux.dev>
-
-
-
-
-> +Workflow
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Here is an example workflow for AutoFDO kernel:
-> +
-> +1)  Build the kernel on the host machine with LLVM enabled,
-> +    for example, ::
-> +
-> +      $ make menuconfig LLVM=3D1
-> +
-> +    Turn on AutoFDO build config::
-> +
-> +      CONFIG_AUTOFDO_CLANG=3Dy
-> +
-> +    With a configuration that with LLVM enabled, use the following comma=
-nd::
-> +
-> +      $ scripts/config -e AUTOFDO_CLANG
-> +
-> +    After getting the config, build with ::
-> +
-> +      $ make LLVM=3D1
-> +
-> +2) Install the kernel on the test machine.
-> +
-> +3) Run the load tests. The '-c' option in perf specifies the sample
-> +   event period. We suggest using a suitable prime number, like 500009,
-> +   for this purpose.
-> +
-> +   - For Intel platforms::
-> +
-> +      $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count> =
--o <perf_file> -- <loadtest>
-> +
-> +   - For AMD platforms::
-
-I am not sure if this double-colon is needed
-when the next line is not code.
-
-
-
-> +     The supported systems are: Zen3 with BRS, or Zen4 with amd_lbr_v2. =
-To check,
-> +     For Zen3::
-> +
-> +      $ cat proc/cpuinfo | grep " brs"
-> +
-> +     For Zen4::
-> +
-> +      $ cat proc/cpuinfo | grep amd_lbr_v2
-> +
-> +     The following command generated the perf data file::
-> +
-> +      $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a =
--N -b -c <count> -o <perf_file> -- <loadtest>
-> +
-> +4) (Optional) Download the raw perf file to the host machine.
-> +
-> +5) To generate an AutoFDO profile, two offline tools are available:
-> +   create_llvm_prof and llvm_profgen. The create_llvm_prof tool is part
-> +   of the AutoFDO project and can be found on GitHub
-> +   (https://github.com/google/autofdo), version v0.30.1 or later.
-> +   The llvm_profgen tool is included in the LLVM compiler itself. It's
-> +   important to note that the version of llvm_profgen doesn't need to ma=
-tch
-> +   the version of Clang. It needs to be the LLVM 19 release of Clang
-> +   or later, or just from the LLVM trunk. ::
-> +
-> +      $ llvm-profgen --kernel --binary=3D<vmlinux> --perfdata=3D<perf_fi=
-le> -o <profile_file>
-> +
-> +   or ::
-> +
-> +      $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file> --=
-format=3Dextbinary --out=3D<profile_file>
-> +
-> +   Note that multiple AutoFDO profile files can be merged into one via::
-> +
-> +      $ llvm-profdata merge -o <profile_file> <profile_1> <profile_2> ..=
-. <profile_n>
-> +
-> +6) Rebuild the kernel using the AutoFDO profile file with the same confi=
-g as step 1,
-> +   (Note CONFIG_AUTOFDO_CLANG needs to be enabled)::
-> +
-> +      $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<profile_file>
-> +
-
-Trailing blank line.
-
-.git/rebase-apply/patch:187: new blank line at EOF.
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+> --
+> Thanks,
+> Mina
