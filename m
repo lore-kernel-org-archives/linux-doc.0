@@ -1,100 +1,67 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DF11CACF2;
-	Fri,  1 Nov 2024 19:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADDE0168DA;
+	Fri,  1 Nov 2024 20:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730490654; cv=none; b=U8EHsd2MBLJY1oQOiWAQx0oYIKclsbwK1DhgeXDADLlaLrwFDiRKZ13CyMnKilaaksLBu8elefRqtTLamdnE2iEI+cxHaWg7foW1AzArkxUYkAD+zJDnMdWjo0E5mFzoxiumDOr9zaMh0VWGGA8sCZo6DBFe7vcg/kowoRC6Jxg=
+	t=1730491370; cv=none; b=U1VlrF5dM/huJYiJJ4edFIQPJiGBwQHnzaUPq1rCsW5d/pCm1EMm2pMIIm194aQUyVVWc22S1cDNjTbEEP4RWu00Sg/cCuVwR2GqFeBQvM0HxyBL4AmPMnN3xXmOrxJhCYT3llh4mbC2YayLTAyX8XFu/25iZsm5aMgC0C936iU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730490654; c=relaxed/simple;
-	bh=+PeT/jDp4KoZyt9s+Sve4yG5x/fHvIguUNTGGiy6glA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G9zegkFLWgIdkwCTRtPNfg/tcHwuCzrYwV/N054Hlb542V8VzZK771ol55cVjMAmwnsaXDbAFTZGeg5nTU0neLrtLOVxc1+SwGVsevk2QatC56fKs/KjABMaSzW6qe79rUnaglyQsMqQnYpfonZR6zdeACGOdbG4aC29cCSwW0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I4lN64mz; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730491370; c=relaxed/simple;
+	bh=f3nsllbCQdhYtJ0TOpk5TkpNqh6JamHPbpnqCkZMV3A=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=dV4LliR4z52Kzs4r02/52i98yy6g2/5Q0C90kIP2oqral1hPgz9+S0BftjYHldElj9cubuxxB6BBoOhoLh2/gvlrRoFcOAJuyvideGuu6lDRdO0LT7ymdixlUYnF5kyc2DAiZsVKgsq6EulAxs/MQxw4dH4AfSqOXae6r7AXGkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZwetropD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I4lN64mz"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-720d14c8dbfso921548b3a.0;
-        Fri, 01 Nov 2024 12:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730490652; x=1731095452; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ftqK4qgrfPDQKJun50MBlxvq3jOWOxUMXftZhPIQqC4=;
-        b=I4lN64mz036a3b2h84SActAfalpTlwPTwJawBGeXZIEts8d3vR7lXenTCVLTWWYz1Z
-         XfYIfLsaaetG6zAmade4S41yx3lM0wBpGIlTwK2kMnnYWieYAhESTgSHf8zzYWbGB5XM
-         dby+uW7yEJvTewqLuU12Hhsb1TN1v6s5dAb3k+tBjaR7xZvTfViGZcq11Z8mKn6DVdYn
-         8rK7uC7Jbz/xr0pgL9SyzlH6zinXCiAu/+AaNJIWIMc1KCyqoALbU8t7UNbij9IFf1wl
-         sSBGvadBGZFxfuO56WmwNEwMmrHV+qVtmsWhvwhwfGNVP93psRihvgo9zsrrwrmdpNHw
-         7JIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730490652; x=1731095452;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ftqK4qgrfPDQKJun50MBlxvq3jOWOxUMXftZhPIQqC4=;
-        b=eo0w9opbS4HblEhKLOQMmqsBMdGDnQPUARh84uLdTM8SmO6Xwo4IdMcqG56MHOFV1O
-         rIrlTyNqTtnGiM3F67zv0UKQC8KnN/qB+gxfk9msveLHD53x20CSsIbqynSBB0ZJK2KE
-         PBVZZiAZfP4FHoU58KXykWCXXioLBMXMIcTnUPRvDMcfOqzX8Aegu7Zjj0iWI2cxJ2KH
-         oE++fVj2/3JCYvSI/D9pTr2WOrs7ENDzAfIWpDfGbDKpA8Po0ULyVxsNhmYw2Jh8OKtm
-         UJvopgPux6Z3Bbu4xaZCRaXz1r7Bvk1CeHjkM0c63H0z5vzgN/n8Y4Sgb/wItjL4lyFh
-         9KAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCmhpoetNJym3cqgo/ZtERGim9QS0xIiDfkVhzB1LXgpWj+uZb3a8DPwBlvg8EsIhnLSqXm04Mcou6@vger.kernel.org, AJvYcCVk6w2Rbb4pUB5KIO8ejzGzwIgroFdI1bHH2/up6afAZ81v+IAYdp3X3yeMFru9+DXB0av2A6geN1oO@vger.kernel.org, AJvYcCWnBQopma7GPWisz3mh74o0sBfhaHWJULNal5ZOWgStTgqt0MBc9+wC0hPrJOM5/yFWlsQvZx5pxoyz@vger.kernel.org, AJvYcCX8zYmlF6rlEqWJba2anyNVUQbwzPjIPecZztXHmhAM2zqQmsse8gVTcyT3PiepY9Pt5jwSaORzxGlJH5M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7DuKO+fuiyEbbWW6E2yuCbq+b9yzMBy8YRQW+YuVNUOyg+jkR
-	PJByIHnn0oFng+tUWZdvUtJJCN1SvqRtg22mUqPHYY0tk3DhihjY
-X-Google-Smtp-Source: AGHT+IHy2efgV2f8+lIor2FHW6CLXYQw+RV7fTRd0zGkfCr0NO8eBpBbVjgDm4Wjx6iXOPHKLMcuVg==
-X-Received: by 2002:a05:6a00:10cf:b0:71e:6a99:472f with SMTP id d2e1a72fcca58-720b9de116emr10709471b3a.24.1730490651732;
-        Fri, 01 Nov 2024 12:50:51 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc2c54f1sm2999113b3a.121.2024.11.01.12.50.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 12:50:51 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 1 Nov 2024 12:50:50 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Mariel Tinaco <Mariel.Tinaco@analog.com>
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, Frank Li <Frank.Li@nxp.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 3/3] hwmon: (pmbus/ltc2978) add support for ltc7841
-Message-ID: <734abd1a-a371-4d4d-8389-a8ad445e8fc9@roeck-us.net>
-References: <20241029013734.293024-1-Mariel.Tinaco@analog.com>
- <20241029013734.293024-4-Mariel.Tinaco@analog.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ZwetropD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC1F8C4CECD;
+	Fri,  1 Nov 2024 20:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1730491370;
+	bh=f3nsllbCQdhYtJ0TOpk5TkpNqh6JamHPbpnqCkZMV3A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZwetropDKQEu/NJU4bfSC09XFs6ym0AuwfPTWaXT9NWadUD19fcqSOk5zgDkABm8F
+	 6YxRAJgEzt+oJ/FIJYTYqdDO+Gg7ep9PEYBr4aAoFCvC+vXFvekcvisxI1MnuXIpcb
+	 ZItApmFJ3Yk+4j4EyA51KnMHhM/exKLZ2aFsQaTU=
+Date: Fri, 1 Nov 2024 13:02:49 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ nphamcs@gmail.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+ muchun.song@linux.dev, tj@kernel.org, lizefan.x@bytedance.com,
+ mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
+Message-Id: <20241101130249.c065324ab9927ac3a61ffcb0@linux-foundation.org>
+In-Reply-To: <CAN+CAwORE8+P7Td9yebkb0TVT92SZv8oasrypewCspf5om1fYQ@mail.gmail.com>
+References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
+	<ZyIZ_Sq9D_v5v43l@tiehlicka>
+	<20241030150102.GA706616@cmpxchg.org>
+	<ZyJQaXAZSMKkFVQ2@tiehlicka>
+	<20241030183044.GA706387@cmpxchg.org>
+	<CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
+	<ZyM7_i1HFnFfUmIR@tiehlicka>
+	<CAN+CAwMioguv6itTSYVUO9__kQVv6HZO2-i0NWt10-x7f6JVSQ@mail.gmail.com>
+	<20241031183413.bb0bc34e8354cc14cdfc3c29@linux-foundation.org>
+	<CAN+CAwORE8+P7Td9yebkb0TVT92SZv8oasrypewCspf5om1fYQ@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241029013734.293024-4-Mariel.Tinaco@analog.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 29, 2024 at 09:37:34AM +0800, Mariel Tinaco wrote:
-> Add support for LTC7841. The LTC7841 is a high performance
-> PolyPhase® single output synchronous boost converter controller.
-> Multiphase operation reduces input and output capacitor
-> requirements and allows the use of smaller inductors than the
-> single-phase equivalent.
-> 
-> The relevant registers in the LTC7841 are similar to the
-> LTC7880, only reduced by some amount. So it's just a matter of adding
-> the chip id. The device also doesn't support polling, on top of the
-> reduced register set, so a separate case for setting the chip info is
-> added.
-> 
-> Signed-off-by: Mariel Tinaco <Mariel.Tinaco@analog.com>
+On Fri, 1 Nov 2024 14:33:36 -0400 Joshua Hahn <joshua.hahnjy@gmail.com> wrote:
 
-Applied.
+> Thank you for your help as always. I apologize for not being clear in my
+> original request -- the "With this said, there are 2 problems:" paragraph is
+> part of the 2nd section (2. We already have a hugeTLB controller...) So the
+> outline will be:
 
-Thanks,
-Guenter
+I think it would be best if you were to send a new version of the patch :)
+
+And while there, please make the title "memcg/hugetlb: Add ...".
