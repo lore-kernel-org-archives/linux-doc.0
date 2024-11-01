@@ -1,112 +1,254 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89201CDA1E;
-	Fri,  1 Nov 2024 17:49:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAED51C9DFE;
+	Fri,  1 Nov 2024 18:02:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730483343; cv=none; b=tZY3HUMapFdNO77K7KQYxXlnU9j/FnKICgpCqKybG39nOh8Nx4HtjqsS5ugcPYmJ2dk7qq1y8gzfHuobZrf9pyq7SfFGZ2tqSe+gQTiCpL1oRwcGIml4fSCCUId4FSQnbpigAq3p+UdNtDzPnKxHlJEkoZYvy1j1DYnFOMaCr1o=
+	t=1730484131; cv=none; b=kGZKBUrJFHftr5Z4u0JpOuDrZIq6+1ipvq5fgmV9J9iHwIlX+iGiKFpryh2QZ20mBDBxzg14H0N5GT4Pbh9Pd2xatehvf+2Q51Q0LKKYBXWJRkkwigiIt+wIYW6CydCTRTnz9b496iFaAOiJIH8vd3v+1vCZD1bfJqEnf3yPdo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730483343; c=relaxed/simple;
-	bh=/b91CoH0L4+ZOxrMGr0zsD4PKr5FuOWyhTBccBHPH7w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pY862RUOU+qViJAjj52Nv2gVmc4W5gp2DCC8UZV54Gn3TF9TcjTxI2PEQg0+W8cXl6wPIt+I7AwA/3Z3ZAqS1azIiIGimxWA5gPFVOPHu423TM7ciklJfpNEhRC1A7Aqnyt0dkrzDYv+u9FdaZeWR1sB1QEpPm8Bd5/80yVondc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LjtBASiJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730484131; c=relaxed/simple;
+	bh=yf+VbjccGDPjouoiu4RTs2jbGv/eZpG+kY8QMxVP930=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=go5kz2BXPgMj9vU1RHOehcheALm/Xjx1WVUhheTck4E4lJlog28TX3kiWRdA/mbNAZlJevkqFXckvy9DFTTvg4fJ1+KDJk+wk2hLPM1kYcNQbegJqY7W988tw2h5wkxWUKoRYAAFOnEKJyolW5O8SNGeRLeJUWIa4bxdVLhDxmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMj0K0Td; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjtBASiJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E5DC4CECD;
-	Fri,  1 Nov 2024 17:48:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMj0K0Td"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AEC9C4CECF;
+	Fri,  1 Nov 2024 18:02:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730483343;
-	bh=/b91CoH0L4+ZOxrMGr0zsD4PKr5FuOWyhTBccBHPH7w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LjtBASiJpj3wSWJdTJkZgQD3yarqRwCy6apE0QFm4Yo6QoTSPUahEDoXH/eZR5Wd6
-	 loXUanal2E/JmK4aF1aCq61B4EkINhFbMdzBp21IbCNAnSVmM7wQEdroXQVurZg9Dl
-	 WdjtXYLh3YN+FlE7SojVKHollfTiMWZ3WUSCE/Vnl5hbcudFjg+YsV6bwC5VhD2hdW
-	 rwHsJ3S7bKIes/RzbFtfxPjx4qZDEoueK/xypG9lfrEjtOe5CpRmzRrkkS/a6RqPht
-	 so5a9ymD7x0VWkisb6FJTR0pGEnM+OYO8duhU05uFutMCvjJPGgA6Rl7Jdg6rGQ/lB
-	 ukMPsfwBG2mTg==
-Date: Fri, 1 Nov 2024 18:48:55 +0100
-From: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: David Woodhouse <dwmw2@infradead.org>, sami.mujawar@arm.com,
-	ardb@kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-	Shuah Khan <shuah@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Francesco Lavra <francescolavra.fl@gmail.com>,
-	Miguel Luis <miguel.luis@oracle.com>
-Subject: Re: [PATCH v6 6/6] arm64: Use SYSTEM_OFF2 PSCI call to power off for
- hibernate
-Message-ID: <ZyUUh6KawapLkj0z@lpieralisi>
-References: <20241019172459.2241939-1-dwmw2@infradead.org>
- <20241019172459.2241939-7-dwmw2@infradead.org>
- <ZyPEn4qhaYyYqrzk@lpieralisi>
+	s=k20201202; t=1730484130;
+	bh=yf+VbjccGDPjouoiu4RTs2jbGv/eZpG+kY8QMxVP930=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=DMj0K0TdyGo4awmjWyX9rvFoQpJiSEV9RezEzy7DcnFKiI9FwLqmnwSUgv9SN1qDP
+	 /XsvDGvVwy2LAzXdD2bnBWh7OBqYw2uhH1Lxc5jCDo+wOib5W3lUOc3BDQvZEvOUWE
+	 4RsgJ3mJ1SKgdRJiE9RYBWSnC7UeJUyIiKxww4+ZukU45d+v1VrEjY2ZacNlPmMieG
+	 8CCLPodSBt9yzdW+L/BiXv8qvkfidCGdqwX2xa8CMII76cGjEKhB96Ym5rfqhNC7B5
+	 1hdcGqnIM5P7RjR4vOMpyVZ87aFPRxQQx7rSk9m3smSalHkBQyG9+R3pNdANqvePhQ
+	 wxg3FboZwNVCg==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb470a8b27so29507831fa.1;
+        Fri, 01 Nov 2024 11:02:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUKnaR49F5e/4uAlffTxX1QnHDcjsmJBqFt85X/SdFqODJkbaoaLOsKmfP3lOEJJY+6kv+aMp+wW+nyzrtW@vger.kernel.org, AJvYcCUTv6AlMIUmUVbwcvVDnYgLKl5Z55GNudnsy9bEJudQS6hrCAqln9/+up/LH9mYP5Y13Ug6xdn4dztk@vger.kernel.org, AJvYcCUg5IPVXcM0kMF1d/CeYzEptr2YX/Jzc0DWVIeoR04j3BskntNioLAKJFVP23fdveNGQrD7dwxoiYYy1eBk@vger.kernel.org, AJvYcCUxkJLXR+NNBwP2jHoyqv+wTUWK8xcjpx0IF1drJnnrORd5+/Ll3eTe+V22Dm/nJLVC3RjFFIxRUFNr@vger.kernel.org, AJvYcCXdMolJoOjjW7u8JfCpl0yVmzVm8d6t00jj0vlAye8fq030Y0nZOEhB1SwO3kM1rnaZOGQriMjEBbeX@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsxJ7KJsVgwcg3GHFLjIMLS7gyhf6fJYk5zJ5Ui+2pxdVRkzfJ
+	2RN5/IlDTvn4n4e8EHPnWZURu74xHL/Wo4TPDZtjYOxK5Nee29pqvtILeaFq1G5ma20zPEv50eR
+	zmwQJ7HdqLNtTCLNfmIvOadcA/8E=
+X-Google-Smtp-Source: AGHT+IGXpzOp+TOI/Z+oB8P3DJaQk4b55pWJ1exOoCI7V9N4vLzVvJvZUnzzo+0mc6rOxssSfsUznlZix7baiPYy58Y=
+X-Received: by 2002:a2e:bd05:0:b0:2fa:ce87:b7da with SMTP id
+ 38308e7fff4ca-2fdef2a7c0bmr21784721fa.18.1730484128447; Fri, 01 Nov 2024
+ 11:02:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZyPEn4qhaYyYqrzk@lpieralisi>
+References: <20241023224409.201771-1-xur@google.com> <20241023224409.201771-2-xur@google.com>
+In-Reply-To: <20241023224409.201771-2-xur@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 2 Nov 2024 03:01:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARiEhNBPikEv--YpdKTPt5B5tFF_J0T8+xbi1CS6WJBFQ@mail.gmail.com>
+Message-ID: <CAK7LNARiEhNBPikEv--YpdKTPt5B5tFF_J0T8+xbi1CS6WJBFQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/7] Add AutoFDO support for Clang build
+To: Rong Xu <xur@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
+	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
+	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[+Ard, Sami, for EFI]
+On Thu, Oct 24, 2024 at 7:44=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+>
+> Add the build support for using Clang's AutoFDO. Building the kernel
+> with AutoFDO does not reduce the optimization level from the
+> compiler. AutoFDO uses hardware sampling to gather information about
+> the frequency of execution of different code paths within a binary.
+> This information is then used to guide the compiler's optimization
+> decisions, resulting in a more efficient binary. Experiments
+> showed that the kernel can improve up to 10% in latency.
+>
+> The support requires a Clang compiler after LLVM 17. This submission
+> is limited to x86 platforms that support PMU features like LBR on
+> Intel machines and AMD Zen3 BRS. Support for SPE on ARM 1,
+>  and BRBE on ARM 1 is part of planned future work.
+>
+> Here is an example workflow for AutoFDO kernel:
+>
+> 1) Build the kernel on the host machine with LLVM enabled, for example,
+>        $ make menuconfig LLVM=3D1
+>     Turn on AutoFDO build config:
+>       CONFIG_AUTOFDO_CLANG=3Dy
+>     With a configuration that has LLVM enabled, use the following
+>     command:
+>        scripts/config -e AUTOFDO_CLANG
+>     After getting the config, build with
+>       $ make LLVM=3D1
+>
+> 2) Install the kernel on the test machine.
+>
+> 3) Run the load tests. The '-c' option in perf specifies the sample
+>    event period. We suggest     using a suitable prime number,
+>    like 500009, for this purpose.
+>    For Intel platforms:
+>       $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count> \
+>         -o <perf_file> -- <loadtest>
+>    For AMD platforms:
+>       The supported system are: Zen3 with BRS, or Zen4 with amd_lbr_v2
+>      For Zen3:
+>       $ cat proc/cpuinfo | grep " brs"
+>       For Zen4:
+>       $ cat proc/cpuinfo | grep amd_lbr_v2
+>       $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a \
+>         -N -b -c <count> -o <perf_file> -- <loadtest>
+>
+> 4) (Optional) Download the raw perf file to the host machine.
+>
+> 5) To generate an AutoFDO profile, two offline tools are available:
+>    create_llvm_prof and llvm_profgen. The create_llvm_prof tool is part
+>    of the AutoFDO project and can be found on GitHub
+>    (https://github.com/google/autofdo), version v0.30.1 or later. The
+>    llvm_profgen tool is included in the LLVM compiler itself. It's
+>    important to note that the version of llvm_profgen doesn't need to
+>    match the version of Clang. It needs to be the LLVM 19 release or
+>    later, or from the LLVM trunk.
+>       $ llvm-profgen --kernel --binary=3D<vmlinux> --perfdata=3D<perf_fil=
+e> \
+>         -o <profile_file>
+>    or
+>       $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file> \
+>         --format=3Dextbinary --out=3D<profile_file>
+>
+>    Note that multiple AutoFDO profile files can be merged into one via:
+>       $ llvm-profdata merge -o <profile_file>  <profile_1> ... <profile_n=
+>
+>
+> 6) Rebuild the kernel using the AutoFDO profile file with the same config
+>    as step 1, (Note CONFIG_AUTOFDO_CLANG needs to be enabled):
+>       $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<profile_file>
+>
+> Co-developed-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Rong Xu <xur@google.com>
+> Suggested-by: Sriraman Tallam <tmsriram@google.com>
+> Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
+> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+> Suggested-by: Stephane Eranian <eranian@google.com>
+> Tested-by: Yonghong Song <yonghong.song@linux.dev>
 
-On Thu, Oct 31, 2024 at 06:55:43PM +0100, Lorenzo Pieralisi wrote:
-> On Sat, Oct 19, 2024 at 06:15:47PM +0100, David Woodhouse wrote:
-> 
-> [...]
-> 
-> > +#ifdef CONFIG_HIBERNATION
-> > +static int psci_sys_hibernate(struct sys_off_data *data)
-> > +{
-> > +	/*
-> > +	 * Zero is an acceptable alternative to PSCI_1_3_OFF_TYPE_HIBERNATE_OFF
-> > +	 * and is supported by hypervisors implementing an earlier version
-> > +	 * of the pSCI v1.3 spec.
-> > +	 */
-> 
-> It is obvious but with this patch applied a host kernel would start executing
-> SYSTEM_OFF2 too if supported in firmware to hibernate, it is not a hypervisor
-> only code path.
-> 
-> Related to that: is it now always safe to override
-> 
-> commit 60c0d45a7f7a ("efi/arm64: use UEFI for system reset and poweroff")
-> 
-> for hibernation ? It is not very clear to me why overriding PSCI for
-> poweroff was the right thing to do - tried to follow that patch history but
-> the question remains (it is related to UpdateCapsule() but I don't know
-> how that applies to the hibernation use case).
 
-RFC: It is unclear to me what happens in current mainline if we try to
-hibernate with EFI runtime services enabled and a capsule update pending (we
-issue EFI ResetSystem(EFI_RESET_SHUTDOWN,..) which might not be compatible
-with the reset required by the pending capsule update request) what happens
-in this case I don't know but at least the choice is all contained in
-EFI firmware.
 
-Then if in the same scenario now we are switching to PSCI SYSTEM_OFF2 for the
-hibernate reset I suspect that what happens to the in-flight capsule
-update requests strictly depends on what "reset" PSCI SYSTEM_OFF2 will
-end up doing ?
 
-I think this is just a corner case and it is unlikely it has been ever
-tested (is it even possible ? Looking at EFI folks) - it would be good
-to clarify it at least to make sure we understand this code path.
+> +Workflow
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Here is an example workflow for AutoFDO kernel:
+> +
+> +1)  Build the kernel on the host machine with LLVM enabled,
+> +    for example, ::
+> +
+> +      $ make menuconfig LLVM=3D1
+> +
+> +    Turn on AutoFDO build config::
+> +
+> +      CONFIG_AUTOFDO_CLANG=3Dy
+> +
+> +    With a configuration that with LLVM enabled, use the following comma=
+nd::
+> +
+> +      $ scripts/config -e AUTOFDO_CLANG
+> +
+> +    After getting the config, build with ::
+> +
+> +      $ make LLVM=3D1
+> +
+> +2) Install the kernel on the test machine.
+> +
+> +3) Run the load tests. The '-c' option in perf specifies the sample
+> +   event period. We suggest using a suitable prime number, like 500009,
+> +   for this purpose.
+> +
+> +   - For Intel platforms::
+> +
+> +      $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count> =
+-o <perf_file> -- <loadtest>
+> +
+> +   - For AMD platforms::
 
-Thanks,
-Lorenzo
+I am not sure if this double-colon is needed
+when the next line is not code.
+
+
+
+> +     The supported systems are: Zen3 with BRS, or Zen4 with amd_lbr_v2. =
+To check,
+> +     For Zen3::
+> +
+> +      $ cat proc/cpuinfo | grep " brs"
+> +
+> +     For Zen4::
+> +
+> +      $ cat proc/cpuinfo | grep amd_lbr_v2
+> +
+> +     The following command generated the perf data file::
+> +
+> +      $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a =
+-N -b -c <count> -o <perf_file> -- <loadtest>
+> +
+> +4) (Optional) Download the raw perf file to the host machine.
+> +
+> +5) To generate an AutoFDO profile, two offline tools are available:
+> +   create_llvm_prof and llvm_profgen. The create_llvm_prof tool is part
+> +   of the AutoFDO project and can be found on GitHub
+> +   (https://github.com/google/autofdo), version v0.30.1 or later.
+> +   The llvm_profgen tool is included in the LLVM compiler itself. It's
+> +   important to note that the version of llvm_profgen doesn't need to ma=
+tch
+> +   the version of Clang. It needs to be the LLVM 19 release of Clang
+> +   or later, or just from the LLVM trunk. ::
+> +
+> +      $ llvm-profgen --kernel --binary=3D<vmlinux> --perfdata=3D<perf_fi=
+le> -o <profile_file>
+> +
+> +   or ::
+> +
+> +      $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file> --=
+format=3Dextbinary --out=3D<profile_file>
+> +
+> +   Note that multiple AutoFDO profile files can be merged into one via::
+> +
+> +      $ llvm-profdata merge -o <profile_file> <profile_1> <profile_2> ..=
+. <profile_n>
+> +
+> +6) Rebuild the kernel using the AutoFDO profile file with the same confi=
+g as step 1,
+> +   (Note CONFIG_AUTOFDO_CLANG needs to be enabled)::
+> +
+> +      $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<profile_file>
+> +
+
+Trailing blank line.
+
+.git/rebase-apply/patch:187: new blank line at EOF.
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
