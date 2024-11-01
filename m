@@ -1,91 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED17142623;
-	Fri,  1 Nov 2024 06:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B8614B075;
+	Fri,  1 Nov 2024 06:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730441482; cv=none; b=cbd4V0zc8L1fDA2CeWvlXPunbwN0yueQDoPhvcPjpeyoG4ZS2YyRsYBEgC1NaJQS1HPFnZrrFXymF68HGErdbNUv88cwpjVWXa480m1YE/lCG5ITwSzidJR/AuBmcWN/P9wswJ81R0f/7PngfeH268TPk/zNkqz8YYt8rA0XNxs=
+	t=1730441835; cv=none; b=pCoePpGI2x2LfZav5mCNQPkZLVGwDwLKUSGHeZ1qwGurYpSkPhwVDx8+WPvMTwZ2/q/envg7MeTdKAahkEfFTCxeteJ/bw2ua9sOtB58GwLQQ2XQHrAUuvgGxaf6aVy+jTE98coKtIv4Xl0QPERQW0sw5494paM3gunSLQd3I2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730441482; c=relaxed/simple;
-	bh=xuvDhMPsSnRBldbb9zqlIWoH9RpyHnNr2U6kz9Sckdc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tHF/LwrVqE8V7BRl88UC8sZTPdWa+lVlIuo/pGI7Wjb9JoSyM0hlLydOwTPwqRST3m+AebfyQZWCsNA5U0rPGk7PFAuhxpuyH90SywNkqAvl3aMo52PjoF8hPJxrg7VvZk6PmvZYWpqbcFMTvYs+Z83NJqH0kpt2oOn0Ozlu7dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GxotyBrg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730441835; c=relaxed/simple;
+	bh=yu1cG7CIC2MYC6M3OhZGHOfXf2MsQfyLDHAjoH+rVaQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vk9uX7Rd54yE6WpV3PXuXrwnP5DQ/q9mpaKPcdAfMJenHzThjV5bt/PbdJKJRR+MgdxEWmSR71O40tjm1FnOOcrBkUmt0s/KOO/g17dvJcaxmFlnC5pvdq5jZn5MDLE6gadMHR/ets+P79YdV3M7z6XcNMkA0Swgqjb+FadKk+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=NEJtvFLd; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GxotyBrg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C71BBC4CECD;
-	Fri,  1 Nov 2024 06:11:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730441481;
-	bh=xuvDhMPsSnRBldbb9zqlIWoH9RpyHnNr2U6kz9Sckdc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GxotyBrgjRANc5p7HrsCLBXgaj4HLa5WC8j/hwfVk4KJAdkHmExC7kSQTYNp89ILA
-	 Yx2fbg2gbC1Wjyn01FDcCrk577MzfB5np9DJobJUCMYKqeBjjKbyJl4ye3AMAvF9/M
-	 eWLWv6oFnkXuCdVlONIFHy4LNALMfsWKyHZrQE/pe6g5rPZdzyyrOB4cB2hoNjYS79
-	 lqHPB1G+uBa5evs4A6a/506EDsJ0Nq/l3fddVEF8YAVmp1SK1vnA6Z0/l70YE3mAJc
-	 C3wKq7ppvuxcUZM3NDVqxKZW+swjVBkdxdhk2qeZWESspprkV0FeKW4hemHsE21yeg
-	 a8+9J8MNFi77A==
-Date: Fri, 1 Nov 2024 08:11:16 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH 2/7] block: don't merge different kinds of P2P
- transfers in a single bio
-Message-ID: <20241101061116.GC88858@unreal>
-References: <cover.1730037261.git.leon@kernel.org>
- <34d44537a65aba6ede215a8ad882aeee028b423a.1730037261.git.leon@kernel.org>
- <d4378502-6bc2-4064-8c35-191738105406@acm.org>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="NEJtvFLd"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=Wf6WgzYn/n1XTo8KMrM7SRj471QCpaNLgfU5SHhOBVQ=; t=1730441832; x=1730873832;
+	 b=NEJtvFLdbC0IDqjyWjFZGwJbOG+DwMXm36CfWnhd4DTobVsv+jhNVp3IgUALSmG4IRDcyTTGpa
+	scrXZjIAsWMjuDlMx6A4t9/Tg5u/q0wQ9e9iJQTiyyFeyGgrSWcw3L1niXioiqPUWgEFxt1T8B/2y
+	gEV6Xu6iFZqAx35IjczCVkxgBDHlG2clnbDZYTaJYQLbynPG/Ta+nDxugsYQizGz09lOeiBIERAcB
+	0Dhtp4g3BqapMfUkI3ag5jly+70FzVPLjsTKQbs04cVws0ydCkvfY3G+bZ/Hm6IbDzQezEVczxBkc
+	U8H97M8d9x8GXM0FPbFg1PA+qUvnNkAH8n41Q==;
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	id 1t6ky2-0007Pg-Vm; Fri, 01 Nov 2024 07:17:07 +0100
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-next@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: [PATCH v2] docs: bug-bisect: add a note about bisecting -next
+Date: Fri,  1 Nov 2024 07:17:06 +0100
+Message-ID: <0b8245f429a3cb162f8f6c0686081700a9c09cc4.1730441728.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d4378502-6bc2-4064-8c35-191738105406@acm.org>
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1730441832;cf286b9e;
+X-HE-SMSGID: 1t6ky2-0007Pg-Vm
 
-On Thu, Oct 31, 2024 at 01:58:37PM -0700, Bart Van Assche wrote:
-> On 10/27/24 7:21 AM, Leon Romanovsky wrote:
-> > +		/*
-> > +		 * When doing ZONE_DEVICE-based P2P transfers, all pages in a
-> > +		 * bio must be P2P pages from the same device.
-> > +		 */
-> > +		if ((bio->bi_opf & REQ_P2PDMA) &&
-> > +		    !zone_device_pages_have_same_pgmap(bv->bv_page, page))
-> > +			return 0;
-> 
-> It's probably too late to change the "zone_device_" prefix into
-> something that cannot be confused with a reference to zoned block
-> devices?
+Explicitly mention how to bisect -next, as nothing in the kernel tree
+currently explains that bisects between -next versions won't work well
+and it's better to bisect between mainline and -next.
 
-It is never too late to send a patch which renames the names, but it needs
-to be worth it. However it is hard to see global benefit from zone_device_* rename.
-ZONE_DEVICE is a well known term in the kernel and it is used all other places
-in the kernel.
+Co-developed-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Reviewed-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
+v2:
+- slightly change patch descption
+- make the text more how-toish to better match the rest of the document
 
-Thanks
+v1: https://lore.kernel.org/all/20241022-doc-bisect-next-v1-1-196c0a60d554@kernel.org/
+- initial release
+---
+ Documentation/admin-guide/bug-bisect.rst | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-> 
-> Thanks,
-> 
-> Bart.
-> 
+diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/admin-guide/bug-bisect.rst
+index 585630d14581c7..47264c199247e6 100644
+--- a/Documentation/admin-guide/bug-bisect.rst
++++ b/Documentation/admin-guide/bug-bisect.rst
+@@ -108,6 +108,27 @@ a fully reliable and straight-forward way to reproduce the regression, too.*
+ With that the process is complete. Now report the regression as described by
+ Documentation/admin-guide/reporting-issues.rst.
+ 
++Bisecting linux-next
++--------------------
++
++If you face a problem only happening in linux-next, bisect between the
++linux-next branches 'stable' and 'master'. The following commands will start
++the process for a linux-next tree you added as a remote called 'next'::
++
++  git bisect start
++  git bisect good next/stable
++  git bisect bad next/master
++
++The 'stable' branch refers to the state of linux-mainline the current
++linux-next release (found in the 'master' branch) is based on -- the former
++thus should be free of any problems that show up in -next, but not in Linus'
++tree.
++
++This will bisect across a wide range of changes, some of which you might have
++used in earlier linux-next releases without problems. Sadly there is no simple
++way to avoid checking them: bisecting from one linux-next release to a later
++one (say between 'next-20241020' and 'next-20241021') is impossible, as they
++share no common history.
+ 
+ Additional reading material
+ ---------------------------
+
+base-commit: 062d98be0e3f6dcf08e40a1101e967b2eb4fb92f
+-- 
+2.45.0
+
