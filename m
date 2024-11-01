@@ -1,174 +1,136 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97431CEAA2
-	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 18:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB31F14A629;
+	Fri,  1 Nov 2024 18:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730486250; cv=none; b=jWzm17pabN21xKUMMitvHwSgcvYShTPSHB9vc4gYk7U2F2kOqL5br7RJEgoSkHVC4ExIEYO9YZ+dkjv8iGCBeNXRzbbPQAUIsnRNDrb83IdXoHUXzrmWF8eV1HgWAhuyuTlbXjSgfsQHdqdEuIWNa3+HcnJ7Sw+bBKzO8PMIjLU=
+	t=1730486639; cv=none; b=pbRxmRsn9SkIaukoc1S0SzUH5//8yCLyht3m7QTMYICE3SbHjSDSnQwQvylKKGeYXZaIf2G+2up2vHXv1ine1qw/p5/Rmh4djdwaD7g72jJHpG5/a10YycXlYjPV+C2pAb/mkbD2n0VuxhdC6AkWxhmoZm+I+FseKWmNV+AKaaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730486250; c=relaxed/simple;
-	bh=jKoboGztv7bSsKkIlP79WvPeyrvZcZXc4ISTP2ydXJc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=stFVJulqBsIeaT0IqGTaA309nm8lsucr1fLm4nHRHXCs058V3VrsK+vtMzr2Tgx6r5v6rOMytW7yGkX12Hfm3Bc9MgYH/+vv3xc1OV2s7HEJKMDpFPiopgBIPlTOuuv+1+yHhaDvEuhycTrIbI2h8eRdBmGHyKTsd1lB7rAfLP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oltBx3FM; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1730486639; c=relaxed/simple;
+	bh=vPc1Ldvq2PDuLY+WWtt/CAl7h5TN13wwfuaoOzg1fOA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HWsvxwczBYqrg5KKZzUMdjWBtATwxmjS+GT0L6EGy3HVZHijdpzGabqKgu4yrKUDCP0j/GXFrh1UaxUrpMqga3RBKqImzI4rLhBPZpfZGJ3EF1LeFvTjF5+0ed1BfTPrxg+3GYFng4L/W7MYi1MWP0akujG3viNWWTR3AApeUx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j5P6aRZU; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oltBx3FM"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-460969c49f2so48881cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 11:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730486247; x=1731091047; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ra0xT/SkPUuyvhZ+lS69adyS93PRUWclgK8p/jLJodM=;
-        b=oltBx3FM9RjUFhJ3FKiKhEBsEHo5X60UjnD7Ejme7FJqLN2lxXoMUGvE2LGNYkqoU1
-         GlP8V9+o45STfQwHcQv/EuPMorA9lXVxAIpluQK4mQwfFdlB2xUkUrsM4KEe2sHuxnqF
-         pwe36gOFfaXeaQlYGxKrul0OnGpndwpcEYykqrFlmeCQzmT/cIO8xByYYf0o7RBOAVAQ
-         agx77Vwr18pr8bt9osuYzixhgZzFLNZUQ/vTQzKbyTkXVJHFkNRheozCJw12f9m8yzuK
-         nLDB5FxyOjrbp1awvbrbITv6EvkMqb4OPSUaNb8DI1yHEzBm1vCFWyhOOZ6WqOzQ0yX4
-         rjbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730486247; x=1731091047;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ra0xT/SkPUuyvhZ+lS69adyS93PRUWclgK8p/jLJodM=;
-        b=EQ22brfGFj3gkNkZ6PA+FjE1rwgab3Z5YWH/vjteTVjJ/o/OF2UkGJjY9e61SFWV+E
-         6YJ3Bvh8U7k96wKlW3s2j5WE9HX6rEWY/dkdbX0vDplrCWmduoJKVaBV8UYOm07554/+
-         ERMTPBDqWXGdSrdlmWrgA9WGu/J5F7parjdMFoL4coDdX3S74gmYukV2glYN35DYDb1f
-         m8yQr1TUnJbVAyDryUrk6KDs5dXT50MnzBICDh1XcZ8sSzwsLUKGlgaOtooIlWaMe7KI
-         861X5Vz+XhnRgmbeT4k9RYKRZ+3Fb7DUaWKY2KH8w+VHPSvUnvkL30JxU/pqInF4Zq6s
-         lgig==
-X-Forwarded-Encrypted: i=1; AJvYcCVN6NsPI7XsFbmp/OGekHeIWKYYAlG3WBUqzqMIhxHTPFADf7sUneTBNdCeArRDEOUSTK2zUtp5dGk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhbWTlaN5BH+I1QnuFQJ2D1ZUb6vBNCFIhtrzourGRPfGa23Rl
-	GUhBUPkUoVXVnaGo/K0zgOcvelvjfr+1OiUd8M/OW0VzptreXH4yyY+GvL/Pr47FQGY2o1/crir
-	LiGMPdLdml5Ul0ZyjN5mpnyP4tECp9RzzaS3A
-X-Gm-Gg: ASbGnctXLBTCihPA7Gn1WzrnYfz5hgitI9OqJ2/O50qsRG6DWySRX0It92MFZEW7F4V
-	aE9/1nj73TM40DYuyBZQ7NWGR5gef9UB5NPtQsd9AwAN1kLIBsIfILoQJbMAv
-X-Google-Smtp-Source: AGHT+IFXHlNZolCtvQqrkR9hwhUI8RViuIj2smBYH8pafbRsbRshQf8L/zWcjJGkwIIhtoJd28KJvaEPAg+jH8b1gU0=
-X-Received: by 2002:a05:622a:1350:b0:462:b6c6:8246 with SMTP id
- d75a77b69052e-462c5f02ebamr346081cf.14.1730486247209; Fri, 01 Nov 2024
- 11:37:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j5P6aRZU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730486638; x=1762022638;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=vPc1Ldvq2PDuLY+WWtt/CAl7h5TN13wwfuaoOzg1fOA=;
+  b=j5P6aRZUN3ahm6l5e0/a5uSel7vkrrDQAP5iYFgiqKOuoWZgVj8f60Md
+   aytAzinOUx6KN70O3+idxVtUPdkRoHv2l72ZbS3nzpJylyFjAwHB4z9K7
+   KtYuKizpL3QxyUqecs4O59uHlkAzemIZ3vAHyoBJ7xFqVEhuU94bph0K7
+   OKqvxNySkSQAoqX9i279T1zufuHyn8uktucU6WJuA371Qm866i0bFf+lF
+   W1Hu6xNCM7Bn4Mqo0SgqBGCc/nCNGpd86exEiLBDMXY8kKW4NfjaG8CsU
+   Ox8n8ACtAgfSHUJ6COWExYxHP/RTX5gZPvjBQ+cNR8eSqfE+NCRXTr5jk
+   g==;
+X-CSE-ConnectionGUID: wHPEjQ4LTquWEuweCuo0Dw==
+X-CSE-MsgGUID: vG8bjfl3QoOkrq0IisCPvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30216946"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30216946"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 11:43:57 -0700
+X-CSE-ConnectionGUID: nItOh5W8SBua+HcT4OK75w==
+X-CSE-MsgGUID: Rqmuf4uZTza2bSiqESaTiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
+   d="scan'208";a="83866016"
+Received: from ccbilbre-mobl3.amr.corp.intel.com (HELO [10.124.220.146]) ([10.124.220.146])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 11:43:54 -0700
+Message-ID: <d467e6bd-c673-415f-8bb0-91603f06498a@intel.com>
+Date: Fri, 1 Nov 2024 11:43:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241026051410.2819338-1-xur@google.com> <20241026051410.2819338-4-xur@google.com>
- <CAK7LNAR6Ni5FZJBK_FZXWZpMZG2ppvZFCtwjx9Z=o8L1e-CyjA@mail.gmail.com>
-In-Reply-To: <CAK7LNAR6Ni5FZJBK_FZXWZpMZG2ppvZFCtwjx9Z=o8L1e-CyjA@mail.gmail.com>
-From: Rong Xu <xur@google.com>
-Date: Fri, 1 Nov 2024 11:37:13 -0700
-Message-ID: <CAF1bQ=TjpUrEgiqepyaGAiDoFM8jzozzxW=0YvTXpFY64YoTzw@mail.gmail.com>
-Subject: Re: [PATCH v6 3/7] Adjust symbol ordering in text output section
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
+To: "Manwaring, Derek" <derekmn@amazon.com>
+Cc: ackerleytng@google.com, agordeev@linux.ibm.com, aou@eecs.berkeley.edu,
+ borntraeger@linux.ibm.com, bp@alien8.de, canellac@amazon.at,
+ catalin.marinas@arm.com, chenhuacai@kernel.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, david@redhat.com, elena.reshetova@intel.com,
+ gerald.schaefer@linux.ibm.com, gor@linux.ibm.com, graf@amazon.com,
+ hca@linux.ibm.com, hpa@zytor.com, jgowans@amazon.com, jthoughton@google.com,
+ kalyazin@amazon.com, kernel@xen0n.name, kvm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, luto@kernel.org, mathieu.desnoyers@efficios.com,
+ mhiramat@kernel.org, mingo@redhat.com, mlipp@amazon.at, palmer@dabbelt.com,
+ paul.walmsley@sifive.com, pbonzini@redhat.com, peterz@infradead.org,
+ quic_eberman@quicinc.com, rostedt@goodmis.org, roypat@amazon.co.uk,
+ rppt@kernel.org, seanjc@google.com, shuah@kernel.org, svens@linux.ibm.com,
+ tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+ will@kernel.org, x86@kernel.org, xmarcalx@amazon.com
+References: <51fe5ad1-7057-4d43-b92c-580d187d2aeb@intel.com>
+ <37fbfc65-b145-4a22-a48c-1921204d5635@amazon.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <37fbfc65-b145-4a22-a48c-1921204d5635@amazon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Current order is:
-.text.hot, .text, .text_unlikely, .text.unknown, .text.asan
+On 11/1/24 11:31, Manwaring, Derek wrote:
+>>From that standpoint I'm still tempted to turn the question around a bit
+> for the host kernel's perspective. Like if the host kernel should not
+> (and indeed cannot with TDX controls in place) access guest private
+> memory, why not remove it from the direct map?
 
-The patch reorders them to:
-.text.asan, .text.unknown, .text_unlikely, .text.hot, .text
+Pretend that the machine check warts aren't there.
 
-The majority of the code resides in three sections: .text.hot, .text, and
- .text.unlikely, with .text.unknown containing a negligible amount.
-.text.asan is only generated in ASAN builds.
-
-Our primary goal is to group code segments based on their execution
-frequency (hotness).
-
-First, we want to place .text.hot adjacent to .text. Since we cannot put
-.text.hot after .text (Due to constraints with -ffunction-sections,
-placing .text.hot after .text is problematic), we need to put
-.text.hot before .text.
-
-Then it comes to .text.unlikely, we cannot put it after .text
-(same -ffunction-sections issue) . Therefore, we'll position .text.unlikely
-before .text.hot.
-
-.text.unknown and .tex.asan follow the same logic.
-
-This revised ordering effectively reverses the original arrangement (for
-.text.unlikely, .text.unknown, and .tex.asan), maintaining a similar level =
-of
-affinity between sections.
-
-I hope this explains the reason for the new ordering.
-
--Rong
-
-On Fri, Nov 1, 2024 at 11:06=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Sat, Oct 26, 2024 at 7:14=E2=80=AFAM Rong Xu <xur@google.com> wrote:
-> >
-> > When the -ffunction-sections compiler option is enabled, each function
-> > is placed in a separate section named .text.function_name rather than
-> > putting all functions in a single .text section.
-> >
-> > However, using -function-sections can cause problems with the
-> > linker script. The comments included in include/asm-generic/vmlinux.lds=
-.h
-> > note these issues.:
-> >   =E2=80=9CTEXT_MAIN here will match .text.fixup and .text.unlikely if =
-dead
-> >    code elimination is enabled, so these sections should be converted
-> >    to use ".." first.=E2=80=9D
-> >
-> > It is unclear whether there is a straightforward method for converting
-> > a suffix to "..".
-> >
-> > This patch modifies the order of subsections within the text output
-> > section. Specifically, it repositions sections with certain fixed patte=
-rns
-> > (for example .text.unlikely) before TEXT_MAIN, ensuring that they are
-> > grouped and matched together. It also places .text.hot section at the
-> > beginning of a page to help the TLB performance.
->
->
-> The fixed patterns are currently listed in this order:
->
->   .text.hot, .text_unlikely, .text.unknown, .text.asan.
->
-> You reorder them to:
->
->   .text.asan, .text.unknown, .text.unlikely, .text.hot
->
->
-> I believe it is better to describe your thoughts
-> about the reshuffling among the fixed pattern sections.
->
-> Otherwise, It is unclear to me.
->
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+It costs performance and complexity, for an only theoretical gain.  This
+is especially true for a VMM that's not doing a just doing confidential
+guests.  You fracture the direct map to pieces forever (for now).
