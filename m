@@ -1,134 +1,281 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54C314E2CF;
-	Fri,  1 Nov 2024 18:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF351714B9
+	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 19:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730487024; cv=none; b=I8Y/cM7wO03LaKRQhdDqvgGav0Wbbcz77AD4twa7FWzK0wqRtidszcec683tKRAPTovs8hXx4LzV4bCcgroV5V4JW/n0Pmpddrr2LI+R8nX1GwZSTR4leYqobCXgsKdjnvLKjJr8WbZ1QKPXWQh8ydThzawX4B7ql6iA8XqTBxI=
+	t=1730488322; cv=none; b=TSQ1zcnMbExXO/Xbdm2uC2FxYBYAMZB8qpqUSO3XG3FushT+Bxpj78qDRHS8CaUzRsEFsBiLge/RrFPDwNW/MBn86wipONhHUxzpfRdTxJMiRbC3rAW4M+FgMUsapRMssk1dQJI46uLkXtky35HAuzaebIcElqJMmWOGeglFg20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730487024; c=relaxed/simple;
-	bh=IzKndoq1y5uvkISusZBjbIdpZ6DgTUHjs9SpnABBesY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SAA/5WnXGDjIbp02PtFLOaM3XwSXA/Ecob4G6FZ55CalGWOibhnCLsEFRGFlVlzFAxpki56re83ZRgmKC/FIBnVQCvh2Be6ezJuBWQR4jLyvHNvWgCv40hxr3EX0+g81dWlkgK6YD9NrIwTTLbeawRi0JrKMr6LKM90XL6lyw/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBXWmhmA; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730488322; c=relaxed/simple;
+	bh=Ca9uy1c+6+qSM5CaxYm4g1ZphcgIFtIPGfZxbIIV/RA=;
+	h=Date:Message-Id:Mime-Version:Subject:From:To:Cc:Content-Type; b=p+yow7wOeaMf1XtAM9vc2xA2VC7nwelrQMhg79yu2xphwAOUYqTXY2Pfk4dRTLsm9v4p/RzlPq0dCbx/ujJ4yVtJO0MQZ1ahuhIhIeL8csgMXoU7dYbTOkS+LlfFeTENMxE73jdyYLZUw62hzjxxmzLVOivPOjYl7rU66BPGVZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JVLeJ0Q7; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBXWmhmA"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5c9634c9160so2604850a12.2;
-        Fri, 01 Nov 2024 11:50:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JVLeJ0Q7"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6e1fbe2a6b1so44587567b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 12:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730487021; x=1731091821; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/cx1j4qPEH2XN2Dq+8x0lOo2o9j/yfjA6WKPbJ2T5FU=;
-        b=GBXWmhmA+83dOuuF08C90KCXkNMkxppU9E7tEgzT2FQnesNeTwiblK9hYX2DwQWLGr
-         WWl5G3uyjcYU2JaZ07tpSlBBl9pf09CNSDKFdpXiwYhx48NCdFBh5/NH1XmLHxVh6rWW
-         mcQ1G7FMMnkK9YRnToVelz55yFNpHjInloO24xcz/289jgk1QJxUXQqj3c7ZoAr6HupI
-         woX8XCihZhsU22fYE6ryrKeO0k3ZkS5LO+P1TKkChNbbiXGpTdb45etR/UCVSh1mdrVn
-         Xm9iGpHMx0ymUtk94o2hF0mRcqxfURr04S0vJZx3ZZNEDVPXBKGTHw6/CjVfC4dHsckp
-         R77Q==
+        d=google.com; s=20230601; t=1730488320; x=1731093120; darn=vger.kernel.org;
+        h=cc:to:from:subject:mime-version:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qGyHLoLCO60zyzVrXBcmBsuhk/6ChoSuiiRvD06R0Ao=;
+        b=JVLeJ0Q7daobeZANy9+4TQdVxCy3PZBKU6qzJZCOUzUnuDeoEifQRJEhbZPxWMyLo2
+         W7FhhpvFobu/g55WuiSg/q+153drcggnkmlY79L41CM9b/BNaNf+uZjRpfQ6zIpDHu/+
+         OGYpIiam8UIfBCGlEFNjU/nBVxSV++f4MFFp5QdlmtQ/y0nkmyMxE+xzyS7dyATEXNfi
+         XgMzxSd491gCBCspIij3jRfRHl4jieMzKls4tE/g+o4qce444gcShRsgiaCbQ3sDUirb
+         JcoD9u9YpgXIAWsIjS3ifThTqpNxsxW/i48Yl8NJYirgzuu8d7B+XmdF0DAar+rH/m54
+         TaBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730487021; x=1731091821;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/cx1j4qPEH2XN2Dq+8x0lOo2o9j/yfjA6WKPbJ2T5FU=;
-        b=sv91dpFqnH9BQWeAnAwL2AhOOWc17yFtTSNHSedZm0VbxIeXRPp4pDsLGvhHT3Cyzs
-         ImynkyaNX19D75APpiVXDTZzjGR/Ad649YL7d8iXCEY6Lc6Fzu5YQVGGJI0+Rlylxjaw
-         3mKGobyC1TLok60pMWfp16CYbjWayMTCEdeqmJeSfJwVsngQzsL+1ItEA6NfrMheqTVZ
-         YNQOG97uK/tbXurHKBv2VQLSDf7VtpCbUJT8fyvw6UTmcoY8LX3YHxiezL2Zj+pCA3R0
-         1XLJhE1vtD/SlNoxO0lIuP/JH41T+DIs9e1pZqFdv6oIBDljBTBK1EK5VquJYZepAacH
-         R6kg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3EOZgXp2rbTq4o1QMGHesusetQGtMx/AxH5LxirX8xM+0f180ussZ45wGJ0KeMXbY0H+tCo3S@vger.kernel.org, AJvYcCXdm34WBx18okeCT2lb6UEJ28cntEV1zEBsEJV3++UVEdoAK3oKtJb9/scAQVaqPbu7KjRqpyWZfWA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwONhBo70bzJ1o0/qkEm68hS/63/sJXNH+U6Lk4FXgA0Zn06XKs
-	5HjODhE/bnUtdWaG2Jz5SIK/Qz6o2MGCV5nRgBWJr51E8k+pEiovn6pI6demxen4qoll4TVkiZe
-	EZoGnWVYpN8IEhoyMUG6t1BVJGlQ=
-X-Google-Smtp-Source: AGHT+IECCJUMetbyiWUo3MWiJJbExvRiT8/JwwURxEhSCq7lHx3DrQe2R3Dxu+uO5SgSHl+goQbGOpYvHPJR11J/IyU=
-X-Received: by 2002:a05:6402:51d4:b0:5cb:acfa:621d with SMTP id
- 4fb4d7f45d1cf-5cbbf876aa1mr16708719a12.3.1730487020986; Fri, 01 Nov 2024
- 11:50:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730488320; x=1731093120;
+        h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qGyHLoLCO60zyzVrXBcmBsuhk/6ChoSuiiRvD06R0Ao=;
+        b=i2QS8Kx4cGjc1AqyMnnMiIjXfltUqutXzUAk82zbF5DILLEHLI0kYkDV55R/uKDNav
+         BA6aX+RmG8BXftr77TB6DU7CbOcCNhEUSKLGPEuwDhOMwKOf/MDX6gUMiCX5Gdlcsfs7
+         APZPL7d9KgMEcTAL8+m+AhZs/6CFydGpCNVRFFt8Hq4mQC48GUkwoMdLib+kuJ8J+M0o
+         DdSiU2+fHxaCutdBVrW2aGZXX+P57lwrwC84y8XwCARys7OaWIkHsbqoIbtMD4pXIxWI
+         Ql/933cytSE6mvcnj2/d08Z/X/mtC+OFL3ls/FU/J0CojrA/hxrNXrSGIBuhSUHFHKsr
+         lUOg==
+X-Forwarded-Encrypted: i=1; AJvYcCU5VBC6pggEbs6RXXhQ6je7b+4WTvoo9Yi+dzvJQ73w2tpLflmfP1FawD1IQSh+Eqoj2RYAGI1T7wk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoIOWiU9VmgvnY8Mo8nISMQ2cw4yaAl1H7j3n3uIB3zh+16w2V
+	hoNRG6V5yn/0wZBut67lh66m5CqJMRtVy7zw8v/bqqNG3+cblP7olc3iS5A/jZxkLWVR1V2fML9
+	h7oWLrw==
+X-Google-Smtp-Source: AGHT+IExfO3GhTUorPhn74vvA2Ew+xUdeuR6Buzz+Y5G9C5vnSgo3TGMxhFt4h9DTJYT75pyQsEjAcCgqPg3
+X-Received: from irogers.svl.corp.google.com ([2620:15c:2c5:11:f2e6:5ab5:a95f:35cb])
+ (user=irogers job=sendgmr) by 2002:a05:690c:6913:b0:6e3:1627:e866 with SMTP
+ id 00721157ae682-6e9d8b8da3fmr8768857b3.3.1730488320283; Fri, 01 Nov 2024
+ 12:12:00 -0700 (PDT)
+Date: Fri,  1 Nov 2024 12:11:53 -0700
+Message-Id: <20241101191156.1272730-1-irogers@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-4-ap420073@gmail.com>
- <CAHS8izOSuPj66UiZ=pDn2Bin_C6_6b5ya0AxiRkuv0apKcU0fA@mail.gmail.com>
-In-Reply-To: <CAHS8izOSuPj66UiZ=pDn2Bin_C6_6b5ya0AxiRkuv0apKcU0fA@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Sat, 2 Nov 2024 03:50:09 +0900
-Message-ID: <CAMArcTXAMezwF4gEQ6fE7sJAS2FPMonOVx7qm=8itYMD5Zv0ug@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 3/8] net: ethtool: add support for configuring header-data-split-thresh
-To: Mina Almasry <almasrymina@google.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
-	edumazet@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
-	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
-	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
-	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.199.ga7371fff76-goog
+Subject: [PATCH v3 1/4] proc_pid_fdinfo.5: Reduce indent for most of the page
+From: Ian Rogers <irogers@google.com>
+To: Alejandro Colomar <alx@kernel.org>, "G . Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-man@vger.kernel.org, Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 1, 2024 at 11:56=E2=80=AFPM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> On Tue, Oct 22, 2024 at 9:24=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
-rote:
-> >
-> > The header-data-split-thresh option configures the threshold value of
-> > the header-data-split.
-> > If a received packet size is larger than this threshold value, a packet
-> > will be split into header and payload.
-> > The header indicates TCP and UDP header, but it depends on driver spec.
-> > The bnxt_en driver supports HDS(Header-Data-Split) configuration at
-> > FW level, affecting TCP and UDP too.
-> > So, If header-data-split-thresh is set, it affects UDP and TCP packets.
-> >
-> > Example:
-> >    # ethtool -G <interface name> header-data-split-thresh <value>
-> >
-> >    # ethtool -G enp14s0f0np0 tcp-data-split on header-data-split-thresh=
- 256
-> >    # ethtool -g enp14s0f0np0
-> >    Ring parameters for enp14s0f0np0:
-> >    Pre-set maximums:
-> >    ...
-> >    Header data split thresh:  256
-> >    Current hardware settings:
-> >    ...
-> >    TCP data split:         on
-> >    Header data split thresh:  256
->
-> This is a nit, feel free to ignore, but I wonder if we should call it
-> 'Data split thresh' instead of 'Header data split threshold'.
->
-> It was a bit weird for me to refer to the feature as tcp-data-split,
-> but the threshold as hds_threshold which i guess is short for header
-> split threshold. Aligning the names to 'TCP data split [threshold]'
-> would be nice I think.
+When /proc/pid/fdinfo was part of proc.5 man page the indentation made
+sense. As a standalone man page the indentation doesn't need to be so
+far over to the right. Remove the initial tagged pragraph.
 
-The reason why I used it is that I thought a command name and print
-should be the same or very similar. Both "Data split thresh" and
-"TCP data split threshold" are similar to the command.
-But "Header data split thresh" is the same as the command. it's
-very clear. So I still prefer "Header data split thresh".
-But If you prefer these names, I will change it.
+Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+Signed-off-by: Ian Rogers <irogers@google.com>
+---
+ man/man5/proc_pid_fdinfo.5 | 52 ++++++++++++++++++--------------------
+ 1 file changed, 25 insertions(+), 27 deletions(-)
 
-Thanks a lot!
-Taehee Yoo
+diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
+index 1e23bbe02..87e6dbe56 100644
+--- a/man/man5/proc_pid_fdinfo.5
++++ b/man/man5/proc_pid_fdinfo.5
+@@ -8,18 +8,17 @@
+ .SH NAME
+ /proc/pid/fdinfo/ \- information about file descriptors
+ .SH DESCRIPTION
+-.TP
+-.IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
+-This is a subdirectory containing one entry for each file which the
++Since Linux 2.6.22,
++this is a subdirectory containing one entry for each file which the
+ process has open, named by its file descriptor.
+ The files in this directory are readable only by the owner of the process.
+ The contents of each file can be read to obtain information
+ about the corresponding file descriptor.
+ The content depends on the type of file referred to by the
+ corresponding file descriptor.
+-.IP
++.P
+ For regular files and directories, we see something like:
+-.IP
++.P
+ .in +4n
+ .EX
+ .RB "$" " cat /proc/12015/fdinfo/4"
+@@ -28,7 +27,7 @@ flags:  01002002
+ mnt_id: 21
+ .EE
+ .in
+-.IP
++.P
+ The fields are as follows:
+ .RS
+ .TP
+@@ -51,7 +50,6 @@ this field incorrectly displayed the setting of
+ at the time the file was opened,
+ rather than the current setting of the close-on-exec flag.
+ .TP
+-.I
+ .I mnt_id
+ This field, present since Linux 3.15,
+ .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
+@@ -59,13 +57,13 @@ is the ID of the mount containing this file.
+ See the description of
+ .IR /proc/ pid /mountinfo .
+ .RE
+-.IP
++.P
+ For eventfd file descriptors (see
+ .BR eventfd (2)),
+ we see (since Linux 3.8)
+ .\" commit cbac5542d48127b546a23d816380a7926eee1c25
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -74,16 +72,16 @@ mnt_id:	10
+ eventfd\-count:               40
+ .EE
+ .in
+-.IP
++.P
+ .I eventfd\-count
+ is the current value of the eventfd counter, in hexadecimal.
+-.IP
++.P
+ For epoll file descriptors (see
+ .BR epoll (7)),
+ we see (since Linux 3.8)
+ .\" commit 138d22b58696c506799f8de759804083ff9effae
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -93,7 +91,7 @@ tfd:        9 events:       19 data: 74253d2500000009
+ tfd:        7 events:       19 data: 74253d2500000007
+ .EE
+ .in
+-.IP
++.P
+ Each of the lines beginning
+ .I tfd
+ describes one of the file descriptors being monitored via
+@@ -110,13 +108,13 @@ descriptor.
+ The
+ .I data
+ field is the data value associated with this file descriptor.
+-.IP
++.P
+ For signalfd file descriptors (see
+ .BR signalfd (2)),
+ we see (since Linux 3.8)
+ .\" commit 138d22b58696c506799f8de759804083ff9effae
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -125,7 +123,7 @@ mnt_id:	10
+ sigmask:	0000000000000006
+ .EE
+ .in
+-.IP
++.P
+ .I sigmask
+ is the hexadecimal mask of signals that are accepted via this
+ signalfd file descriptor.
+@@ -135,12 +133,12 @@ and
+ .BR SIGQUIT ;
+ see
+ .BR signal (7).)
+-.IP
++.P
+ For inotify file descriptors (see
+ .BR inotify (7)),
+ we see (since Linux 3.8)
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -150,7 +148,7 @@ inotify wd:2 ino:7ef82a sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8
+ inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
+ .EE
+ .in
+-.IP
++.P
+ Each of the lines beginning with "inotify" displays information about
+ one file or directory that is being monitored.
+ The fields in this line are as follows:
+@@ -168,19 +166,19 @@ The ID of the device where the target file resides (in hexadecimal).
+ .I mask
+ The mask of events being monitored for the target file (in hexadecimal).
+ .RE
+-.IP
++.P
+ If the kernel was built with exportfs support, the path to the target
+ file is exposed as a file handle, via three hexadecimal fields:
+ .IR fhandle\-bytes ,
+ .IR fhandle\-type ,
+ and
+ .IR f_handle .
+-.IP
++.P
+ For fanotify file descriptors (see
+ .BR fanotify (7)),
+ we see (since Linux 3.8)
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -190,7 +188,7 @@ fanotify flags:0 event\-flags:88002
+ fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
+ .EE
+ .in
+-.IP
++.P
+ The fourth line displays information defined when the fanotify group
+ was created via
+ .BR fanotify_init (2):
+@@ -210,7 +208,7 @@ argument given to
+ .BR fanotify_init (2)
+ (expressed in hexadecimal).
+ .RE
+-.IP
++.P
+ Each additional line shown in the file contains information
+ about one of the marks in the fanotify group.
+ Most of these fields are as for inotify, except:
+@@ -228,16 +226,16 @@ The events mask for this mark
+ The mask of events that are ignored for this mark
+ (expressed in hexadecimal).
+ .RE
+-.IP
++.P
+ For details on these fields, see
+ .BR fanotify_mark (2).
+-.IP
++.P
+ For timerfd file descriptors (see
+ .BR timerfd (2)),
+ we see (since Linux 3.17)
+ .\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:    0
+-- 
+2.47.0.199.ga7371fff76-goog
 
->
-> --
-> Thanks,
-> Mina
