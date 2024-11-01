@@ -1,78 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com [207.171.190.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955AD3224;
-	Fri,  1 Nov 2024 00:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A4B36B;
+	Fri,  1 Nov 2024 00:10:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.190.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730419470; cv=none; b=eIUu+NHSJ1qVuqOlCA3W0XXpUwpd/zybiHd/i1eVA6YAsPFflja7J9e8OuhcWcZu4C+ZXEwdBQzj7PzOdQIJJkaveQUccQzwjR2FrQV1UjES5n/1bYV9maIsJQwBkp8vaSstUh/AbDPc2T9qY5PAvc1lh/lKM0HZiHRUHwhaokw=
+	t=1730419823; cv=none; b=ohBMag/8VrfoIZZpvC7QIXXq/5ThxSIGuYjwulu9W4CMMBICfkrI3BRXjdV+2qhBuENK0NgiUgQW/Fq623M8azVaMBXwQcUO7owdfsyRW7QoBJ9RVLS2Ok+gw1Qo4ndHWmGPyOw8oLuH7ndL7hJAFHjzDwk1elip9n5OEG00UF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730419470; c=relaxed/simple;
-	bh=5EIuy6X4D4fkJiwOgPsn6cbZt+cCjkpuJdNK+pbCoWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HC3ZWI291J5p+94RT11rIBB47Gceq8cP0k+lCwIIg6Tf1jOlV07Fh3Vz2Rd4RUQm91dpfyrVjQBMiZAEcH/+ix1ggmIIp3oLKQ4ywUqDGome3wPqCGFMYB0pwj65+83a5o4BinOs/f5GSZd/9GuxNujQjTY3O2fy8ab/sTrnvbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dwIN34ml; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730419823; c=relaxed/simple;
+	bh=jNxyG945mWZFitSBBl3P/Pi37LkMXgLexJ4MyYO00SI=;
+	h=Message-ID:Date:MIME-Version:To:CC:References:Subject:From:
+	 In-Reply-To:Content-Type; b=niixt4GDyZOaJhLQPm4WH6TUz/iGLymPsIiqnMMwkr3oEasE63SYBaAD30riYeO5lnyXCttuSITXLioQDk0mnya7nO+KkmegbuIHntXgrul3q502Qu7oyVhhu8s5OI6LujHvZGtJnEO+O3msCZSCsI3gbeS9x5gQvY4dhkdXB4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=PBjMG6r+; arc=none smtp.client-ip=207.171.190.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dwIN34ml"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BA8AC4CEC3;
-	Fri,  1 Nov 2024 00:04:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730419470;
-	bh=5EIuy6X4D4fkJiwOgPsn6cbZt+cCjkpuJdNK+pbCoWU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dwIN34ml1q4mjRNWon0RI01TNb0vikJmaeuNbl9uB3bj4ABqYcNx3fJmxhG5zN+Xq
-	 WqmPirnAPprHdjM50pkY5HKEj667cU07SjiltpHMxaYy/kTxNxd1goTnQNd+pH0ijb
-	 WFARvv/KQvwhB+gdv3t6BQyr4spgRYk9l1XMfxZtqpsb7J1vVnAVuBATf5CDmn32Le
-	 bY8x6D92LU8iIVdNdDbY8K+u+tATl3OZCclsTKEaZ7yQq+tuotybytQ3NZh5sM4kN/
-	 4qPprUclXSzv1M/63sv/zYv6LKDFXHj6R6OEzMqb6iqZqauiSOqGklnZ2gkWRFRq4S
-	 AhwHI8SUzf+hA==
-Date: Thu, 31 Oct 2024 17:04:28 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Akinobu Mita <akinobu.mita@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Morton
- <akpm@linux-foundation.org>, kernel-team@meta.com, Thomas Huth
- <thuth@redhat.com>, "Paul E. McKenney" <paulmck@kernel.org>, "Borislav
- Petkov (AMD)" <bp@alien8.de>, Steven Rostedt <rostedt@goodmis.org>,
- Xiongwei Song <xiongwei.song@windriver.com>, Mina Almasry
- <almasrymina@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, Alexander
- Lobakin <aleksander.lobakin@intel.com>, Oleksij Rempel
- <o.rempel@pengutronix.de>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next v4] net: Implement fault injection forcing skb
- reallocation
-Message-ID: <20241031170428.27c1f26a@kernel.org>
-In-Reply-To: <20241031-hallowed-bizarre-curassow-ea16cc@leitao>
-References: <20241023113819.3395078-1-leitao@debian.org>
-	<20241030173152.0349b466@kernel.org>
-	<20241031-hallowed-bizarre-curassow-ea16cc@leitao>
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="PBjMG6r+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1730419818; x=1761955818;
+  h=message-id:date:mime-version:to:cc:references:subject:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jNxyG945mWZFitSBBl3P/Pi37LkMXgLexJ4MyYO00SI=;
+  b=PBjMG6r+2XgemzvXNiRS/nOv26MvOljajnGdveYrMBpmA1MwWUkwdHpn
+   0LAz0d39k1fVkEsQ+H8ilkocCRFpfEwi+SBZJtFtHrCuccr/i2HbIrzNC
+   Vzn1knGOIQtMoIqaIKI4RHXVOWTcnEdhNS/r/bhbu2U1Xe/JRt25G52Hl
+   o=;
+X-IronPort-AV: E=Sophos;i="6.11,248,1725321600"; 
+   d="scan'208";a="381598034"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-33001.sea14.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 00:10:17 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [10.0.7.35:3117]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.50.158:2525] with esmtp (Farcaster)
+ id 9403627f-3ea8-485f-95a8-ff158371f477; Fri, 1 Nov 2024 00:10:16 +0000 (UTC)
+X-Farcaster-Flow-ID: 9403627f-3ea8-485f-95a8-ff158371f477
+Received: from EX19D003UWC002.ant.amazon.com (10.13.138.169) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Fri, 1 Nov 2024 00:10:15 +0000
+Received: from [192.168.20.174] (10.106.101.30) by
+ EX19D003UWC002.ant.amazon.com (10.13.138.169) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
+ Fri, 1 Nov 2024 00:10:12 +0000
+Message-ID: <2233397c-f423-40e3-8546-728b50ce0489@amazon.com>
+Date: Thu, 31 Oct 2024 17:10:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+To: <roypat@amazon.co.uk>
+CC: <ackerleytng@google.com>, <agordeev@linux.ibm.com>,
+	<aou@eecs.berkeley.edu>, <borntraeger@linux.ibm.com>, <bp@alien8.de>,
+	<catalin.marinas@arm.com>, <chenhuacai@kernel.org>, <corbet@lwn.net>,
+	<dave.hansen@linux.intel.com>, <david@redhat.com>, <derekmn@amazon.com>,
+	<gerald.schaefer@linux.ibm.com>, <gor@linux.ibm.com>, <graf@amazon.com>,
+	<hca@linux.ibm.com>, <hpa@zytor.com>, <jgowans@amazon.com>,
+	<jthoughton@google.com>, <kalyazin@amazon.com>, <kernel@xen0n.name>,
+	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<luto@kernel.org>, <mathieu.desnoyers@efficios.com>, <mhiramat@kernel.org>,
+	<mingo@redhat.com>, <palmer@dabbelt.com>, <paul.walmsley@sifive.com>,
+	<pbonzini@redhat.com>, <peterz@infradead.org>, <quic_eberman@quicinc.com>,
+	<rostedt@goodmis.org>, <rppt@kernel.org>, <seanjc@google.com>,
+	<shuah@kernel.org>, <svens@linux.ibm.com>, <tabba@google.com>,
+	<tglx@linutronix.de>, <vannapurve@google.com>, <will@kernel.org>,
+	<x86@kernel.org>, <xmarcalx@amazon.com>
+References: <27646c08-f724-49f7-9f45-d03bad500219@amazon.co.uk>
+Subject: Re: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
+Content-Language: en-US
+From: "Manwaring, Derek" <derekmn@amazon.com>
+In-Reply-To: <27646c08-f724-49f7-9f45-d03bad500219@amazon.co.uk>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D031UWA004.ant.amazon.com (10.13.139.19) To
+ EX19D003UWC002.ant.amazon.com (10.13.138.169)
 
-On Thu, 31 Oct 2024 02:41:18 -0700 Breno Leitao wrote:
-> > Should we mention here that KASAN or some such is needed to catch 
-> > the bugs? Chances are the resulting UAF will not crash and go unnoticed
-> > without KASAN.  
-> 
-> What about adding something like this in the fail_skb_realloc section in
-> the fault-injection.rst file:
+On 2024-10-31 at 10:42+0000 Patrick Roy wrote:
+> On Thu, 2024-10-31 at 09:50 +0000, David Hildenbrand wrote:
+> > On 30.10.24 14:49, Patrick Roy wrote:
+> >> Most significantly, I've reduced the patch series to focus only on
+> >> direct map removal for guest_memfd for now, leaving the whole "how to do
+> >> non-CoCo VMs in guest_memfd" for later. If this separation is
+> >> acceptable, then I think I can drop the RFC tag in the next revision
+> >> (I've mainly kept it here because I'm not entirely sure what to do with
+> >> patches 3 and 4).
+> >
+> > Hi,
+> >
+> > keeping upcoming "shared and private memory in guest_memfd" in mind, I
+> > assume the focus would be to only remove the direct map for private memory?
+> >
+> > So in the current upstream state, you would only be removing the direct
+> > map for private memory, currently translating to "encrypted"/"protected"
+> > memory that is inaccessible either way already.
+> >
+> > Correct?
+>
+> Yea, with the upcomming "shared and private" stuff, I would expect the
+> the shared<->private conversions would call the routines from patch 3 to
+> restore direct map entries on private->shared, and zap them on
+> shared->private.
+>
+> But as you said, the current upstream state has no notion of "shared"
+> memory in guest_memfd, so everything is private and thus everything is
+> direct map removed (although it is indeed already inaccessible anyway
+> for TDX and friends. That's what makes this patch series a bit awkward
+> :( )
 
-SG
+TDX and SEV encryption happens between the core and main memory, so
+cached guest data we're most concerned about for transient execution
+attacks isn't necessarily inaccessible.
 
-> > the buffer needs to be null terminated, like:
-> > 
-> > skb_realloc.devname[IFNAMSIZ - 1] = '\0';
-> > 
-> > no?  
-> 
-> Yes, but isn't it what the next line do, with strim()?
+I'd be interested what Intel, AMD, and other folks think on this, but I
+think direct map removal is worthwhile for CoCo cases as well.
 
-I could be wrong, but looks like first thing strim does is call strlen()
+Derek
