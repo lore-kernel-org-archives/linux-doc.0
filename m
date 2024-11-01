@@ -1,123 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB9C1A28C;
-	Fri,  1 Nov 2024 01:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434A78289A;
+	Fri,  1 Nov 2024 01:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730424855; cv=none; b=AxmfDEbrnmKOrgZJFNFyDBQ3cXkXSyodznN8rr2MtuEFDI6U7WWQmfoN1/KVOJzStVRTCDIeTUK99QzTIX8nyasRecnZhVOZwcPtP53HmNukBoZh9+f8ZcoKTZj9pyWzy+nV3hQpNCnj90AuvK23CXIPbPM+RhzY0WW05Menmpc=
+	t=1730425797; cv=none; b=QdoQgurthr/5RnWHcEXBHytWSd48E+Hel5oIe+omkbTH3GgiNH+hx/4U+4oc88doIkFKI2/XW2m4vJXAu1QfMG2gYxPQhByFZGzmaizRRFgc3z8oitwhnenYNVratQE0p9/B2KrBqu6OmJ1aHj9SLzdRskrs9HBtokFVPKrpFSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730424855; c=relaxed/simple;
-	bh=iuRrKWaA7cQTIyPCJ6yJTE+QtMeoAL4LZfUWuyrYEsE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=OAThwe9Xkm5i0GNVG9rMlXB+o0B/DydIa8u8Ouk5OklsAx7271Y6U3twtpP7ml2MhkpBXQBJ82WQ+CETUxwRt/GpzAJq5EWzJl8e7bJE6y4y8LBndQIT+13HRw/dF+teSqy3HsvsTmFXgcK5vvoHB/h9ln0QHpM5OAv6B6ek+rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=GpuWICIL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730425797; c=relaxed/simple;
+	bh=dE/ylJ6ge1HqyoW9KyWdTWFUjztcM0sAXkdF7dnXeaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lsoWvAabJPuli6zbwNczelqKRXCRQDIINjH4F5Cv6IyUjpSribnYwwRYn5Ui+zDHj1AjC/6faATal2tnob7gsyb87BfxcEtcGcu5WvQ0muIDVuQZImTedFeeSvESI2j65pVJXRjG28ijvgdWIc5aDEQBxVWYu9rz4/Kw7Mkjd2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q/JFupgb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="GpuWICIL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C871DC4CEC3;
-	Fri,  1 Nov 2024 01:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1730424854;
-	bh=iuRrKWaA7cQTIyPCJ6yJTE+QtMeoAL4LZfUWuyrYEsE=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q/JFupgb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49094C4CEC3;
+	Fri,  1 Nov 2024 01:49:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730425796;
+	bh=dE/ylJ6ge1HqyoW9KyWdTWFUjztcM0sAXkdF7dnXeaY=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GpuWICIL+Q/CLeMoNRVbEARwd89pPGZ7xUCRu3cWVupQ6FST+77g34uuO/ZGFt77C
-	 3L7u8bU287h7xhes3x2bSVREFmPHuxmutMmV7rv9SW+Nn5KAdMGUuxEmWCgoc9BymO
-	 MCnKk23Hfox75P0Hb1QKLPrAn3/CdIJpqPqBAgc8=
-Date: Thu, 31 Oct 2024 18:34:13 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
- nphamcs@gmail.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
- muchun.song@linux.dev, tj@kernel.org, lizefan.x@bytedance.com,
- mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, cgroups@vger.kernel.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v3 1/1] memcg/hugetlb: Adding hugeTLB counters to memcg
-Message-Id: <20241031183413.bb0bc34e8354cc14cdfc3c29@linux-foundation.org>
-In-Reply-To: <CAN+CAwMioguv6itTSYVUO9__kQVv6HZO2-i0NWt10-x7f6JVSQ@mail.gmail.com>
-References: <20241028210505.1950884-1-joshua.hahnjy@gmail.com>
-	<ZyIZ_Sq9D_v5v43l@tiehlicka>
-	<20241030150102.GA706616@cmpxchg.org>
-	<ZyJQaXAZSMKkFVQ2@tiehlicka>
-	<20241030183044.GA706387@cmpxchg.org>
-	<CAN+CAwM1FJCaGrdBMarD2YthX8jcBEKx9Sd07yj-ZcpDxinURQ@mail.gmail.com>
-	<ZyM7_i1HFnFfUmIR@tiehlicka>
-	<CAN+CAwMioguv6itTSYVUO9__kQVv6HZO2-i0NWt10-x7f6JVSQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	b=q/JFupgbMKZgQ495HX2P33PdvSIrJV3/NNeKT6CPJMaxh3c+rPteRAj09A9L1BA0+
+	 XxZ/pzQjTauyOBmEODAKVygey1QRUEjQoUIzZCos/sGERIgLSQgOy4tWM81T0aWeRb
+	 DX3kRIHPwrV7UxA06/B9Bn1o+C05DIUdy3N3bVsFSotoAyt4rOxc8+wC76/QphYtaO
+	 rqymvrECTI9m2erJ0zmH/tQTow33Zacx2SevANUsuldp182fQmPYg4re6Vv8zxDlIv
+	 2gkdCXaBPNOxIU2kUcXBwyJmhtYkE2AQLPr3pRdamKSZSKZPYBB29IX3lmTC+x9PDT
+	 /i9hDMMjhGTNA==
+Date: Thu, 31 Oct 2024 18:49:55 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Maksym Kutsevol <max@kutsevol.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Breno Leitao <leitao@debian.org>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v4 2/2] netcons: Add udp send fail statistics
+ to netconsole
+Message-ID: <20241031184955.159d2211@kernel.org>
+In-Reply-To: <CAO6EAnW4LwZax-UJf8s1uNS=V7FYJ6e1N3MekNjzaoyVDCO_Tg@mail.gmail.com>
+References: <20241027-netcons-add-udp-send-fail-statistics-to-netconsole-v4-0-a8065a43c897@kutsevol.com>
+	<20241027-netcons-add-udp-send-fail-statistics-to-netconsole-v4-2-a8065a43c897@kutsevol.com>
+	<20241030184928.3273f76d@kernel.org>
+	<CAO6EAnW4LwZax-UJf8s1uNS=V7FYJ6e1N3MekNjzaoyVDCO_Tg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 31 Oct 2024 15:03:34 -0400 Joshua Hahn <joshua.hahnjy@gmail.com> wrote:
+On Thu, 31 Oct 2024 21:19:26 -0400 Maksym Kutsevol wrote:
+> Thanks for looking into this!
+> 
+> Parroting examples, e.g.
+> struct pcpu_lstats {
+> u64_stats_t packets;
+> u64_stats_t bytes;
+> struct u64_stats_sync syncp;
+> } __aligned(2 * sizeof(u64));
+> 
+> in netdevice.h https://github.com/torvalds/linux/blob/master/include/linux/netdevice.h#L2743-L2747
+> I don't have any strongly held opinion about this. I'd appreciate an
+> explanation (a link would suffice) why this is a bad idea.
 
-> Andrew -- I am sorry to ask again, but do you think you can replace
-> the 3rd section in the patch (3. Implementation Details) with the
-> following paragraphs?
+No entirely sure why the pcpu stats in netdev are aligned like this,
+but yours are not per cpu, and not fast path of any sort. So aligning
+is a premature optimization in the first place.
 
-No problem.
+> > > +static void netpoll_send_udp_count_errs(struct netconsole_target *nt,
+> > > +                                     const char *msg, int len)  
+> >
+> > This is defined in the netconsole driver, it should not use the
+> > netpoll_ prefix for the function name.'  
+> 
+> netconsole_send_udp_count_errs sounds better?
 
-: This patch introduces a new counter to memory.stat that tracks hugeTLB
-: usage, only if hugeTLB accounting is done to memory.current.  This feature
-: is enabled the same way hugeTLB accounting is enabled, via the
-: memory_hugetlb_accounting mount flag for cgroupsv2.
-: 
-: 1. Why is this patch necessary?
-: Currently, memcg hugeTLB accounting is an opt-in feature [1] that adds
-: hugeTLB usage to memory.current.  However, the metric is not reported in
-: memory.stat.  Given that users often interpret memory.stat as a breakdown
-: of the value reported in memory.current, the disparity between the two
-: reports can be confusing.  This patch solves this problem by including the
-: metric in memory.stat as well, but only if it is also reported in
-: memory.current (it would also be confusing if the value was reported in
-: memory.stat, but not in memory.current)
-: 
-: Aside from the consistency between the two files, we also see benefits in
-: observability.  Userspace might be interested in the hugeTLB footprint of
-: cgroups for many reasons.  For instance, system admins might want to
-: verify that hugeTLB usage is distributed as expected across tasks: i.e. 
-: memory-intensive tasks are using more hugeTLB pages than tasks that don't
-: consume a lot of memory, or are seen to fault frequently.  Note that this
-: is separate from wanting to inspect the distribution for limiting purposes
-: (in which case, hugeTLB controller makes more sense).
-: 
-: 2.  We already have a hugeTLB controller.  Why not use that?  It is true
-: that hugeTLB tracks the exact value that we want.  In fact, by enabling
-: the hugeTLB controller, we get all of the observability benefits that I
-: mentioned above, and users can check the total hugeTLB usage, verify if it
-: is distributed as expected, etc.
-: 
-: 3.  Implementation Details:
-: In the alloc / free hugetlb functions, we call lruvec_stat_mod_folio
-: regardless of whether memcg accounts hugetlb.  mem_cgroup_commit_charge
-: which is called from alloc_hugetlb_folio will set memcg for the folio
-: only if the CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING cgroup mount option is
-: used, so lruvec_stat_mod_folio accounts per-memcg hugetlb counters only
-: if the feature is enabled.  Regardless of whether memcg accounts for
-: hugetlb, the newly added global counter is updated and shown in
-: /proc/vmstat.
-: 
-: The global counter is added because vmstats is the preferred framework
-: for cgroup stats.  It makes stat items consistent between global and
-: cgroups.  It also provides a per-node breakdown, which is useful. 
-: Because it does not use cgroup-specific hooks, we also keep generic MM
-: code separate from memcg code.
-: 
-: With this said, there are 2 problems:
-: (a) They are still not reported in memory.stat, which means the
-:     disparity between the memcg reports are still there.
-: (b) We cannot reasonably expect users to enable the hugeTLB controller
-:     just for the sake of hugeTLB usage reporting, especially since
-:     they don't have any use for hugeTLB usage enforcing [2].
-: 
-: [1] https://lore.kernel.org/all/20231006184629.155543-1-nphamcs@gmail.com/
-: [2] Of course, we can't make a new patch for every feature that can be
-:     duplicated. However, since the existing solution of enabling the
-:     hugeTLB controller is an imperfect solution that still leaves a
-:     discrepancy between memory.stat and memory.curent, I think that it
-:     is reasonable to isolate the feature in this case.
-
+I don't think the _count_errs() suffix is needed any more
