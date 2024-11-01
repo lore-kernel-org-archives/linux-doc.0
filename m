@@ -1,189 +1,118 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0941F4721
-	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 21:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C685F1D0F61;
+	Fri,  1 Nov 2024 21:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730495926; cv=none; b=Ig3Ujhh4Z//WaQfAowUoWt76twyTqLZW82uRuMvJgzwzpvviGyM382KfrE//wiprbFgGB0J10bIuELxV0HN1gGhrN/j0J//LtIZFE+uRfkz3o9rhFOh5qDf19Uza5woEBZ0Wtqq6K9+MoLCNe2vNUSRcBygFsBfDY+JJMdVp4/Q=
+	t=1730495984; cv=none; b=blrGWZiDV812455Hjy04XwSLFE1/jEtGWYU5PSL2rI79ie/sLQ62oDHA09e+aLyrz5O+dT7sfoyegVzTBxfppGO8WZBB8mvtwbikRnyZPX43Fy+Zrt/omujDUFB6EoiBdKHqX2/j8SYSYCViQtHjGKZMZ2jfmDjooy6tkf0RVK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730495926; c=relaxed/simple;
-	bh=Awj3Jg1ogd2g+jOA0ktWCv4ePA/1467909DTGuGVo4o=;
-	h=Date:In-Reply-To:Message-Id:Mime-Version:References:Subject:From:
-	 To:Cc:Content-Type; b=tpGRU+cMetbmiaKh7k6JNDANK0RAqJN+PcR1Zs4XYFOpUby0C9OdZjgH9WbpgfyA3HRD+iOhFPlwRseq3zAsCXVf/C9awoyPOpyNNsPGxgZP0bNV1asEmaVTxyFycjPw30RqksYQlvn4AguP80rqX5sW+Zbjh7wlrcMVQnDgXM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UQMPVANn; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
+	s=arc-20240116; t=1730495984; c=relaxed/simple;
+	bh=fJEg2VjMXer2Y0al47UWb2qt+VXk29+LnZoE+tlChVM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=TkFezg/GSp57f2lqJBOV4ypHMjposAQkw+ehgXUBQkBM8q+o4ClL/FNTURvJ5wjlJBQOxyQGFKOjRvblAATxtaRNHEqEmQadDxJ1p8FzscQOu9rXg7svVr2XhK55Dcp9NRa3OspnjhFtafWH9MS+3cOMkkhA5QRzvGuJvZp5F40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nHYL0beI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UQMPVANn"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e3313b47a95so1392937276.3
-        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 14:18:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730495923; x=1731100723; darn=vger.kernel.org;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ge6tq0CykQ0JdTcvuQi+p1TgzlbFfZoJPBWTv3905dE=;
-        b=UQMPVANnKAUPghxAIjKDlzMug0xFOaKG8ov8DfUxhvF/OnjWqAk4uy1r3dwDmdHmBZ
-         X8kbmsF1bhlXmKSQ7X/j1PXBFVLu9V59+DVau67B7pdkYxIZH0eGGoOqy3x7+UgQmM4G
-         PWgCRIl4tTy1813HdQfCmEF8j7m04QR4U8FcnZqEeygQFDc0R8DQL/PaGXgdBwnlNqis
-         PIJiXQ1i8qF/LYdzi8KR0kkaSrLKcZImU1KRsIFSu8gRGxw6Yc6qqN2ClHQ6UQDfMjzp
-         7DOFKPbLu0IH1P+Xq0gcK8iS8xwirhGrka0LO3UdDPe8I2QowHN0R5zt+RerZS8r7YSo
-         yo3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730495923; x=1731100723;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ge6tq0CykQ0JdTcvuQi+p1TgzlbFfZoJPBWTv3905dE=;
-        b=fuJIypLFqcN+cqg/ZHY4rUrUq4jy9NB3ZuJqfLYjMJgjytTLTt2uSMxQ8qkamA2PyD
-         5YdjLLXYq6e430OFbb6sBzK6xbosD+ndZrLDPlyVN2oyL1CgggdGwnJvzxA23+PQFLlc
-         AyRjqf5uNSVEJic4rNofTb0ivDlDPXlk5SBc/rs95yXpydmdJwfZ2iot4ejOoZ6TmM77
-         x/FurcfUiV8hsKV+88oChwZsTqcZAysceJegLElFphfT1V29HdKw7jsmWS36vQ7bQfpK
-         gB3Ca/AcUDW3nHwD5hVut0WAiGKy2ya01zj2xJOwTgkU5YdWbFo/fS/M3rq/ycU09jA+
-         IcLw==
-X-Forwarded-Encrypted: i=1; AJvYcCX+Wi2U3MD9qXw/PY3wjKRU6w7yCMAVpLjpyD+Tdj2N4mK1rlAvhxgMqZqUq/TilMzHchMKYp60cH4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw47/hqsVaZo4uoYUFXqTc5Ip2tMh5VntOiK35Y5ilcXRe+wDL9
-	Ow/pD71+U98KwKt60pNtXbgTqdEeG/EAFkPlrN5lhNL/vvjGARX+s3F7pFHHqyolBCxkAancP0u
-	/lNwdJA==
-X-Google-Smtp-Source: AGHT+IE/8CzI7i3EySC0vIuva6sxGxU1mgLMmC415LORgd6XesninyBQ7kr/kIBLxbPUm8vOr/8ZTo08y5s7
-X-Received: from irogers.svl.corp.google.com ([2620:15c:2c5:11:f2e6:5ab5:a95f:35cb])
- (user=irogers job=sendgmr) by 2002:a25:dcd3:0:b0:e28:f231:1aa8 with SMTP id
- 3f1490d57ef6-e3087a416d3mr103176276.2.1730495923359; Fri, 01 Nov 2024
- 14:18:43 -0700 (PDT)
-Date: Fri,  1 Nov 2024 14:18:30 -0700
-In-Reply-To: <20241101211830.1298073-1-irogers@google.com>
-Message-Id: <20241101211830.1298073-4-irogers@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHYL0beI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9031C4CECD;
+	Fri,  1 Nov 2024 21:19:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730495983;
+	bh=fJEg2VjMXer2Y0al47UWb2qt+VXk29+LnZoE+tlChVM=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=nHYL0beIEk+vI+DD7w/Us6zMyJvldIqAHUSHcrklNSvCq11LHVJ6CBt5xv78b/JJC
+	 dPgfCM0V6snWFNmONDbXmhzak1nJPTLPySPFRUP6u0ExWLG4v595JsxTxoCBMrdjFC
+	 MemL5Z6ImC8jJD4GJHp89n7ZT8Hlxi8POl1YslvSCwUkZcXMSg4Rv6kE/ZzPa3pG1C
+	 hh/T4YG/hSqq/sGxKd6WvIuzu+pTMu7CuG8uE9ou0AIh3M3TG0vQsvpSUDj273uU/N
+	 hPD62pWdslpiS1uhT+lzHqwad/pyPyc8nOEunPm6wT3zzTJD7lqpahjKEqBJu4hL8U
+	 v723ef+lxzjkA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20241101211830.1298073-1-irogers@google.com>
-X-Mailer: git-send-email 2.47.0.199.ga7371fff76-goog
-Subject: [PATCH v4 4/4] proc_pid_fdinfo.5: Add DRM subsection
-From: Ian Rogers <irogers@google.com>
-To: Alejandro Colomar <alx@kernel.org>, "G . Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-man@vger.kernel.org, Ian Rogers <irogers@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 01 Nov 2024 23:19:38 +0200
+Message-Id: <D5B5MLX1C8TS.2U6YPCYBWBTYT@kernel.org>
+Cc: <dpsmith@apertussolutions.com>, <mingo@redhat.com>, <bp@alien8.de>,
+ <hpa@zytor.com>, <dave.hansen@linux.intel.com>, <ardb@kernel.org>,
+ <mjg59@srcf.ucam.org>, <James.Bottomley@hansenpartnership.com>,
+ <peterhuewe@gmx.de>, <jgg@ziepe.ca>, <luto@amacapital.net>,
+ <nivedita@alum.mit.edu>, <herbert@gondor.apana.org.au>,
+ <davem@davemloft.net>, <corbet@lwn.net>, <ebiederm@xmission.com>,
+ <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v11 00/20] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Jarkko Sakkinen" <jarkko@kernel.org>, "Thomas Gleixner"
+ <tglx@linutronix.de>, "Ross Philipson" <ross.philipson@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+ <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
+ <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>
+X-Mailer: aerc 0.18.2
+References: <20240913200517.3085794-1-ross.philipson@oracle.com>
+ <D5ARS5Y7EATS.2GVNSARKXKIDI@kernel.org> <87a5eivgku.ffs@tglx>
+ <D5B5I0WUU8F0.30JMZ6QHPOFRK@kernel.org>
+In-Reply-To: <D5B5I0WUU8F0.30JMZ6QHPOFRK@kernel.org>
 
-Add description of DRM fdinfo information based on the Linux kernel's
-`Documentation/gpu/drm-usage-stats.rst`:
-https://docs.kernel.org/gpu/drm-usage-stats.html
+On Fri Nov 1, 2024 at 11:13 PM EET, Jarkko Sakkinen wrote:
+> On Fri Nov 1, 2024 at 10:34 PM EET, Thomas Gleixner wrote:
+> > On Fri, Nov 01 2024 at 12:28, Jarkko Sakkinen wrote:
+> > > On Fri Sep 13, 2024 at 11:04 PM EEST, Ross Philipson wrote:
+> > >> A quick note on terminology. The larger open source project itself i=
+s called
+> > >> TrenchBoot, which is hosted on Github (links below). The kernel feat=
+ure enabling
+> > >> the use of Dynamic Launch technology is referred to as "Secure Launc=
+h" within
+> > >> the kernel code. As such the prefixes sl_/SL_ or slaunch/SLAUNCH wil=
+l be seen
+> > >> in the code. The stub code discussed above is referred to as the SL =
+stub.
+> > >
+> > > 1. I don't see any tags in most of the patches so don't get the rush.=
+ This
+> > >    includes also patches for x86. Why I would care to review TPM patc=
+hes
+> > >    when there is over a dozen unreviewed and untested patches before =
+it?
+> > > 2. TPM patches have been in circulation in and out of the patch set
+> > >    for some time now with little or no improvement.
+> > >
+> > > Why the sudden buzz? I have not heard much about this since last earl=
+y
+> > > summer.  Have to spend some time recalling what this is about anyway.=
+ I
+> > > cannot trust that my tags make any sense before more reviewed/tested-=
+by
+> > > tags before the TPM patches.
+> >
+> > If I intend to merge the patches then I surely have looked at them
+> > deeply. I don't have to send a reviewed-by just to apply them
+> > afterwards.
+> >
+> > There was enough motion on these patches and this posting is in your
+> > inbox for 6 weeks now without any reaction from you.
+> >
+> > The TPM changes are very much independent from the x86 specific ones, s=
+o
+> > why do you want x86 review tags in order to look at the ones which are
+> > specific to your subsystem especially as some of them seem to address
+> > real short comings there independent of trenchboot.
+>
+> I think we can sort them out independently as long as we find a
+> conclusion how to address locality change.
 
-Signed-off-by: Ian Rogers <irogers@google.com>
----
- man/man5/proc_pid_fdinfo.5 | 94 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
+And to be fair: there was no reaction from anyone. It is mostly x86
+patch set, meaning that I was waiting for some reaction first from that
+side.  And I did respond to that when it came.
 
-diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-index b7efde8f4..bcaf33817 100644
---- a/man/man5/proc_pid_fdinfo.5
-+++ b/man/man5/proc_pid_fdinfo.5
-@@ -300,6 +300,100 @@ fields contain the values that
- .BR timerfd_gettime (2)
- on this file descriptor would return.)
- .RE
-+.SS Direct Rendering Manager
-+.P
-+DRM drivers can optionally choose to expose usage stats through
-+/proc/pid/fdinfo/. For example:
-+.P
-+.in +4n
-+.EX
-+pos:    0
-+flags:  02100002
-+mnt_id: 26
-+ino:    284
-+drm-driver:     i915
-+drm-client-id:  39
-+drm-pdev:       0000:00:02.0
-+drm-total-system0:      6044 KiB
-+drm-shared-system0:     0
-+drm-active-system0:     0
-+drm-resident-system0:   6044 KiB
-+drm-purgeable-system0:  1688 KiB
-+drm-total-stolen-system0:       0
-+drm-shared-stolen-system0:      0
-+drm-active-stolen-system0:      0
-+drm-resident-stolen-system0:    0
-+drm-purgeable-stolen-system0:   0
-+drm-engine-render:      346249 ns
-+drm-engine-copy:        0 ns
-+drm-engine-video:       0 ns
-+drm-engine-capacity-video:      2
-+drm-engine-video-enhance:       0 ns
-+.EE
-+.TP
-+.IR drm-driver: " .+  (mandatory)"
-+The name this driver registered.
-+.TP
-+.IR drm-pdev: " <aaaa:bb:cc.d>"
-+For PCI devices this should contain the PCI slot address of the device
-+in question.
-+.TP
-+.IR drm-client-id: " [0-9]+"
-+Unique value relating to the open DRM file descriptor used to
-+distinguish duplicated and shared file descriptors.
-+.P
-+GPUs usually contain multiple execution engines. Each shall be given a
-+stable and unique name (<engine_name>), with possible values
-+documented in the driver specific documentation.
-+.TP
-+.IR drm-engine-<engine_name>: " [0-9]+ ns"
-+GPU engine utilization, time spent busy executing workloads for this client.
-+.TP
-+.IR drm-engine-capacity-<engine_name>: " [0-9]+"
-+Capacity of the engine if not 1, cannot be 0.
-+.TP
-+.IR drm-cycles-<engine_name>: " [0-9]+"
-+Contains the number of busy cycles for the given engine.  Values are
-+not required to be constantly monotonic, but are required to catch up
-+with the previously reported larger value within a reasonable
-+period. Upon observing a value lower than what was previously read,
-+userspace is expected to stay with that larger previous value until a
-+monotonic update is seen.
-+.TP
-+.IR drm-total-cycles-<engine_name>: " [0-9]+"
-+Contains the total number cycles for the given engine.  This is a
-+timestamp in GPU unspecified unit that matches the update rate of
-+drm-cycles-<engine_name>. For drivers that implement this interface,
-+the engine utilization can be calculated entirely on the GPU clock
-+domain, without considering the CPU sleep time between 2 samples.
-+.P
-+Each possible memory type which can be used to store buffer objects by
-+the GPU in question shall be given a stable and unique name <region>.
-+The name "memory" is reserved to refer to normal system memory.
-+.TP
-+.IR drm-memory-<region>: " [0-9]+ [KiB|MiB]"
-+The amount of storage currently consumed by the buffer objects belong
-+to this client, in the respective memory region.
-+.IP
-+Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
-+indicating kibi- or mebi-bytes.
-+.TP
-+.IR drm-shared-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that are shared with another file (e.g., have more
-+than a single handle).
-+.TP
-+.IR drm-total-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that including shared and private memory.
-+.TP
-+.IR drm-resident-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that are resident in the specified region.
-+.TP
-+.IR drm-purgeable-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that are purgeable.
-+.TP
-+.IR drm-active-<region>: " [0-9]+ [KiB|MiB]"
-+The total size of buffers that are active on one or more engines.
-+
- .SH HISTORY
- Since Linux 2.6.22.
- .SH SEE ALSO
--- 
-2.47.0.199.ga7371fff76-goog
+IMHO: let's get a solution for that one problem and then it should be
+fine as far as I'm concerned.
 
+BR, Jarkko
