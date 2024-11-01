@@ -1,144 +1,133 @@
-Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com [207.171.190.10])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B681CA81;
-	Fri,  1 Nov 2024 16:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.190.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E4A19D089;
+	Fri,  1 Nov 2024 16:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730480185; cv=none; b=Iq/AZrugbDcDrZScwSAd/j2quUAj+xi9SQZHf2ZfvMajiO13pl921lb7wuqNRwKEjzP82Q3SWh6BVN4dIc/yNeSNyPX8tjKBI5yI9jtRjTdWW7mPjDiXLGbQ0njKopxPDIvQu3j9r6mmeqURMQZ7nM/guSWSAhEimi8qeL4sdko=
+	t=1730480283; cv=none; b=iGwZ5eMLZ/vQ5E97YFVgfO7dSv7dzoB3NNWaN3aLZpxzXSYUDKQ6hjPc3QhGORy9jbXwMhbKfU8Lx3FzrGEtDAuGaPu45hfaky1fkln7fVCkPp593sUZK2NW+UgMD+oDMc8E5vR6slUFml2g8yOfUMrS+w5yIct7twCFneEa6nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730480185; c=relaxed/simple;
-	bh=KmcSGZZTBepw/haBxjfNfgGPXnl3daZOBZVZzzq5xe4=;
-	h=Message-ID:Date:MIME-Version:To:CC:References:Subject:From:
-	 In-Reply-To:Content-Type; b=Fk0ljucdrdtRL3rhaYIE/c4hLceyFDWYfzvcXPWK//4f6fJus2LK9I6XyDBZBYZ3BrozDnprQ/tZB8nymIARIK9EFgS9PmnHo5CzVAYfGEDSxCQUuLH0pJzWUH9Hd7vGcZ4kKGgKUJs1hkfiSmoTC/wq8s/HxlWunPUUyCpseXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=PCk7D6/X; arc=none smtp.client-ip=207.171.190.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1730480283; c=relaxed/simple;
+	bh=HDC9n7jAiluZfuMMJjrAzZXg0wYGwTpUbwryLaEZ4jA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RCBQStJNwT0bfvzrCb9Q9v8Sk/9KpZe/Aw1GmkFLvylFE6bpI3KnBgyHCDoVU4fsbzn2yKNyvGHU0WBey7eRokZIcZjc/xK8QPsFjoVh1SOwYUFDwCTcWfisi2BRzxhRJKNaB3Qdq4mk424ed69AeaQTpdxK95frh7Z2f7gRP88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=d1cXjxzK; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="PCk7D6/X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1730480183; x=1762016183;
-  h=message-id:date:mime-version:to:cc:references:subject:
-   from:in-reply-to:content-transfer-encoding;
-  bh=KmcSGZZTBepw/haBxjfNfgGPXnl3daZOBZVZzzq5xe4=;
-  b=PCk7D6/Xsej0yYJGNbxAPA+qHiAKeCt3/rm3MZKcin/UJ4i9Xlw8usDF
-   74YFiJIFV5pNWSgyXDidK4xnYBMdbXIg7Bbaex4VP8vHcUtep44nGDNTK
-   hbuSj1UrFzhta5y4XhmMB438agIqZasDU0cgObqoRmZjBjNpEUpR6dMam
-   A=;
-X-IronPort-AV: E=Sophos;i="6.11,250,1725321600"; 
-   d="scan'208";a="381765496"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-33001.sea14.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 16:56:22 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.38.20:55997]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.34.72:2525] with esmtp (Farcaster)
- id 6a9142ea-5ddd-46d3-9d40-2688c563fdd9; Fri, 1 Nov 2024 16:56:21 +0000 (UTC)
-X-Farcaster-Flow-ID: 6a9142ea-5ddd-46d3-9d40-2688c563fdd9
-Received: from EX19D003UWC002.ant.amazon.com (10.13.138.169) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.218) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Fri, 1 Nov 2024 16:56:20 +0000
-Received: from [192.168.208.156] (10.106.101.42) by
- EX19D003UWC002.ant.amazon.com (10.13.138.169) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
- Fri, 1 Nov 2024 16:56:17 +0000
-Message-ID: <7bd627df-0303-4ded-b8c8-ceb84fb20f0d@amazon.com>
-Date: Fri, 1 Nov 2024 09:56:12 -0700
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="d1cXjxzK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=QmeuZbhj6lC4GdqAZ3mOlOVzHqfnX+iXpQ+XjcOOq+Y=; b=d1cXjxzKKBdnY22DrVcOvY8alL
+	sfpQ/8NTFP3a9dpohbtQlkQduFk/c5sUqOAFfYz7W4eUbeI7ouLgHGz9g6si1DWS6tAhtFJFCL6jo
+	J1C0qHwUnL3Hkni5JJyaXBG8i4V1lCLEvoUQ3BpfZK+wAfYHdxBEb4pr1mF8cm7c7g324FkNWSgDu
+	WFXi7i85RR7lGkqsH3KxSwJkNQBmhGRCbqYWPA9ju5P3c6hElOGH42E7KpFxxqVdUAuCcEKMXM7V8
+	eifJbrDoDUGye4XBp00gzzdtGJuBgLFpJXYpaLIDll8PpILDZ02WJ0c8fCuPK5WVH/e3YZ5VzAvBi
+	9A5YDWsQ==;
+Received: from [187.36.213.55] (helo=morissey..)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1t6uxz-000VPu-9o; Fri, 01 Nov 2024 17:57:44 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	Barry Song <baohua@kernel.org>,
+	David Hildenbrand <david@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Lance Yang <ioworker0@gmail.com>
+Cc: linux-mm@kvack.org,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH v5 0/5] mm: add more kernel parameters to control mTHP
+Date: Fri,  1 Nov 2024 13:54:04 -0300
+Message-ID: <20241101165719.1074234-2-mcanal@igalia.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: <dave.hansen@intel.com>
-CC: <ackerleytng@google.com>, <agordeev@linux.ibm.com>,
-	<aou@eecs.berkeley.edu>, <borntraeger@linux.ibm.com>, <bp@alien8.de>,
-	<catalin.marinas@arm.com>, <chenhuacai@kernel.org>, <corbet@lwn.net>,
-	<dave.hansen@linux.intel.com>, <david@redhat.com>, <derekmn@amazon.com>,
-	<gerald.schaefer@linux.ibm.com>, <gor@linux.ibm.com>, <graf@amazon.com>,
-	<hca@linux.ibm.com>, <hpa@zytor.com>, <jgowans@amazon.com>,
-	<jthoughton@google.com>, <kalyazin@amazon.com>, <kernel@xen0n.name>,
-	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<luto@kernel.org>, <mathieu.desnoyers@efficios.com>, <mhiramat@kernel.org>,
-	<mingo@redhat.com>, <palmer@dabbelt.com>, <paul.walmsley@sifive.com>,
-	<pbonzini@redhat.com>, <peterz@infradead.org>, <quic_eberman@quicinc.com>,
-	<rostedt@goodmis.org>, <roypat@amazon.co.uk>, <rppt@kernel.org>,
-	<seanjc@google.com>, <shuah@kernel.org>, <svens@linux.ibm.com>,
-	<tabba@google.com>, <tglx@linutronix.de>, <vannapurve@google.com>,
-	<will@kernel.org>, <x86@kernel.org>, <xmarcalx@amazon.com>,
-	<mlipp@amazon.at>, <canellac@amazon.at>, <elena.reshetova@intel.com>
-References: <784d1522-0451-4844-a334-8b7d49019437@intel.com>
-Subject: Re: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
-Content-Language: en-US
-From: "Manwaring, Derek" <derekmn@amazon.com>
-In-Reply-To: <784d1522-0451-4844-a334-8b7d49019437@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EX19D038UWB002.ant.amazon.com (10.13.139.185) To
- EX19D003UWC002.ant.amazon.com (10.13.138.169)
 
-+Elena
+This series introduces four patches related to the kernel parameters
+controlling mTHP and a fifth patch replacing `strcpy()` for `strscpy()`
+in the file `mm/huge_memory.c`.
 
-On 2024-11-01 at 16:06+0000, Dave Hansen wrote:
-> On 10/31/24 17:10, Manwaring, Derek wrote:
-> > TDX and SEV encryption happens between the core and main memory, so
-> > cached guest data we're most concerned about for transient execution
-> > attacks isn't necessarily inaccessible.
-> >
-> > I'd be interested what Intel, AMD, and other folks think on this, but I
-> > think direct map removal is worthwhile for CoCo cases as well.
->
-> I'm not sure specifically which attacks you have in mind.  [...]
->
-> I _think_ you might be thinking of attacks like MDS where some random
-> microarchitectural buffer contains guest data after a VM exit and then
-> an attacker extracts it.  Direct map removal doesn't affect these
-> buffers and doesn't mitigate an attacker getting the data out.
+The first patch is a straightforward documentation update, correcting
+the format of the kernel parameter ``thp_anon=``.
 
-Right, the only attacks we can thwart with direct map removal are
-transient execution attacks on the host kernel whose leak origin is
-"Mapped memory" in Table 1 of the Quarantine paper [2]. Maybe the
-simplest hypothetical to consider here is a new spectre v1 gadget in the
-host kernel.
+The second, third, and fourth patches focus on controlling THP support for
+shmem via the kernel command line. The second patch introduces a parameter to
+control the global default huge page allocation policy for the internal
+shmem mount. The third patch moves a piece of code to a shared header to ease
+the implementation of the fourth patch. Finally, the fourth patch implements
+a parameter similar to ``thp_anon=``, but for shmem.
 
-> The main thing I think you want to keep in mind is mentioned in the "TDX
-> Module v1.5 Base Architecture Specification"[1]:
->
-> > Any software except guest TD or TDX module must not be able to
-> > speculatively or non-speculatively access TD private memory,
->
-> That's a pretty broad claim and it involves mitigations in hardware and
-> the TDX module.
->
-> 1. https://cdrdv2.intel.com/v1/dl/getContent/733575
+The goal of these changes is to simplify the configuration of systems that
+rely on mTHP support for shmem. For instance, a platform with a GPU that
+benefits from huge pages may want to enable huge pages for shmem. Having
+these kernel parameters streamlines the configuration process and ensures
+consistency across setups.
 
-Thank you, I hadn't seen that. That is a very strong claim as far as
-preventing speculative access; I didn't realize Intel claimed that about
-TDX. The comma followed by "to detect if a prior corruption attempt was
-successful" makes me wonder a bit if the statement is not quite as broad
-as it sounds, but maybe that's just meant to relate it to the integrity
-section?
+Let me know your thoughts.
 
-> If the attack is mitigated when the > data is _mapped_, then it's
-> certainly not possible _unmapped_.
->
-> So why bother with direct map removal for TDX?  A VMM write to TD
-> private data causes machine checks.  So any kernel bug that even
-> accidentally writes to kernel memory can bring the whole system down.
-> Not nice.
+v1 -> v2: https://lore.kernel.org/linux-mm/20241027175743.1056710-1-mcanal@igalia.com/T/
 
-Fair enough. It hasn't been clear to me if there is a machine check when
-the host kernel accesses guest memory only transiently. I was assuming
-there is not. But if other mitigations completely prevent even
-speculative access of TD private memory like you're saying, then agree
-nothing to gain from direct map removal in the TDX case.
+* [1/3] s/fix the format/fix the doc in the commit's subject (Barry Song & David Hildenbrand)
+* [1/3] Add Barry's A-b to PATCH 1/3 (Barry Song)
+* [1/3] s/64KB/64K (David Hildenbrand)
+* [1/3] Add David's A-b to PATCH 1/3 (David Hildenbrand)
+* [2/3] Create the function `shmem_valid_huge()` to reduce code-duplication (Baolin Wang)
+* [3/4] New PATCH: generalize the function `setup_thp_anon()` and add it to common file
+* [4/4] Fix typo in the documentation: s/shmem_anon/thp_shmem (Barry Song)
+* [4/4] Reduce code-duplication (Barry Song)
 
-Derek
+v2 -> v3: https://lore.kernel.org/linux-mm/20241029002324.1062723-1-mcanal@igalia.com/T/
 
+* [2/4] Apply Wang's suggestion (Baolin Wang)
+* [3/4] Delete PATCH 3/4 from v2 and implement ``thp_shmem=`` just like in v1 (Barry Song)
+* [4/4] New PATCH: "mm: huge_memory: Use strscpy() instead of strcpy()"
 
-[2] https://download.vusec.net/papers/quarantine_raid23.pdf
+v3 -> v4: https://lore.kernel.org/linux-mm/20241030130308.1066299-1-mcanal@igalia.com/T/
+
+* [2/5] Improve commit message by including details about the use of the kernel parameter (Andrew Morton)
+* [2/5] Add Baolin's R-b to PATCH 2/5 (Baolin Wang)
+* [2/5] Add David's R-b to PATCH 2/5 (David Hildenbrand)
+* [3/5] New PATCH: "mm: move ``get_order_from_str()`` to internal.h" (Barry Song & David Hildenbrand)
+* [4/5] Improve commit message by including details about the use of the kernel parameter (Andrew Morton)
+* [5/5] Add Lance's R-b to PATCH 5/5 (Lance Yang)
+
+v4 -> v5: https://lore.kernel.org/linux-mm/20241101164313.1073238-2-mcanal@igalia.com/T/
+
+* [3/5] Don't use personal e-mail address (Maíra Canal)
+
+Best Regards,
+- Maíra
+
+Maíra Canal (5):
+  mm: fix docs for the kernel parameter ``thp_anon=``
+  mm: shmem: control THP support through the kernel command line
+  mm: move ``get_order_from_str()`` to internal.h
+  mm: shmem: override mTHP shmem default with a kernel parameter
+  mm: huge_memory: Use strscpy() instead of strcpy()
+
+ .../admin-guide/kernel-parameters.txt         |  19 +-
+ Documentation/admin-guide/mm/transhuge.rst    |  25 ++-
+ mm/huge_memory.c                              |  42 ++---
+ mm/internal.h                                 |  22 +++
+ mm/shmem.c                                    | 177 +++++++++++++++---
+ 5 files changed, 234 insertions(+), 51 deletions(-)
+
+-- 
+2.46.2
+
