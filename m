@@ -1,154 +1,133 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4204415852F
-	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 08:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0311F25757;
+	Fri,  1 Nov 2024 08:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730449934; cv=none; b=er3SotGyF71M7KRmiQEtL5EA8Uys7PQV6rx3UoywqFJTVUKbGbcHvJHUMD22wh3Jw0GMP1Mg/GLXpBQ6eVpujBA28iWp6w9WdcMexV4YsmrPJeKKKtQmPBEfCHIB8iMah/AWJn6CPE+XsU6H1WtR4bIgNPwmqtBT0DJJ6fQLYTc=
+	t=1730451058; cv=none; b=tFDl+fHpLrqJj79ESeE7NY1dneiuxqNxtSRpRD8HL9u5ToimXLb7LvtlwhW3mAIEFgxqpMHOgQD8FvKJoZvmMDtPTw46E0bglK3l+FAaz6nH+nl/8jCxOZUwYZUUd2AZOCWjjbPlmFjHu6biJeOee5MHMCTHZuN5z0skhtMB0WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730449934; c=relaxed/simple;
-	bh=SIw5E0b2RSZkIPrX258J7VBZ9Fk9xKHVun/bxusijmk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e5WHq7kmZhlhhskD6szYHKuyMNJt6m3M8xXF8yGLT9BDjpAqPiT8yvPPcfCsoBGl9NGLWiNNGKcy/SbM6YUbZZC3m6g7D36I+AjDQ1T9qseYDPvybS3XnG89jml2Q2F56jAgUWSTkR3YJcjG0VAk2vMTX5j8zDVhIy3JexqiJK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t6n4O-0007x2-Jj; Fri, 01 Nov 2024 09:31:48 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t6n4K-001U2A-0C;
-	Fri, 01 Nov 2024 09:31:44 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t6n4J-007xe3-31;
-	Fri, 01 Nov 2024 09:31:43 +0100
-Date: Fri, 1 Nov 2024 09:31:43 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v2 15/18] net: pse-pd: Add support for
- getting and setting port priority
-Message-ID: <ZySR75i3BEzNbjnv@pengutronix.de>
-References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
- <20241030-feature_poe_port_prio-v2-15-9559622ee47a@bootlin.com>
- <ZyMpkJRHZWYsszh2@pengutronix.de>
- <20241031121104.6f7d669c@kmaincent-XPS-13-7390>
+	s=arc-20240116; t=1730451058; c=relaxed/simple;
+	bh=7Gv2CqzecQ8F4MJ4RrKkxM6klDrmuRMoDH8RdhY0ReU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BkkMhn156Bi08QfVXvRZcu9FvKBe7cqIs0Vgt2ownosrQ4aCfdvbUONIJPNDp801Noz6C5XMs7edbSyIAwdV/azjsrJYVvJBZRj7jXtV+QscHvs/pgLWpiZIgtrB6cDZe47V9k4d17yCHOuv2HDv82Ky4KQ3X9fhZe+3sIg23vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjR7OsFr; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjR7OsFr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B174C4CED2;
+	Fri,  1 Nov 2024 08:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730451057;
+	bh=7Gv2CqzecQ8F4MJ4RrKkxM6klDrmuRMoDH8RdhY0ReU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=qjR7OsFrdihA7dg0hpyjg9HMDJP61+hracN3Kea7Nu7/Azg1y4PBcP7U99Qkm9Vxk
+	 Nn9ff/BEvmY8/t1ltJa0JUCnGcKqGs6hzn/SL10Rr5r4fWRDtAeJ9LXr5sGxyFRx2z
+	 F1eIx16Rv+t4TGgSDM0/BtOY2XKAGOhVeoQfojY7DDcw9Hmxvvm7qUULsP1OuZsWPh
+	 uShABLy+TSjvZDS+W6NjrA5RiEB2zLVbx89FubLEZdHrOMny0E5nvaJitx/BXfmTyz
+	 GfIptvJ+7IXDsC7Oj9MCy6293wyoTHDKT+4Nc+naDTzxTZznrlXvbCTYWjcOJcQaDl
+	 w/KVGbLEQtrNw==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fb4fa17044so18915221fa.3;
+        Fri, 01 Nov 2024 01:50:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUu+ShiaB5ud1wTw/PiWICMEIZpDXH88Rd9jw0V35gehOMo/ZeY9eiUWs3C9EwJY1HxDt3GprF3MQAEvGTSpVVp@vger.kernel.org, AJvYcCVCS7wzBfUTGEiyTLArNiaVoanVqsUypYBSif4HKeLreRqYsOxBDY5XK0FdGDm9ydOTgmuIu2GAnk0TcdY=@vger.kernel.org, AJvYcCVH3Yi7A/nqGvVmbOjTz2KQ9ANEGwCI1nuUedZGSnIslzqDjJSyNqqzT2/3Xgut3kFrz15wSEn8/uhW@vger.kernel.org, AJvYcCXSjC+vwVwQoiypF+zN0lP40uweMsbRmb9JzuRfpGAJyYJKXIXMSahp8NSQiNr2IYg9zBo9iJPU1DjFbhEU@vger.kernel.org, AJvYcCXVDtdplsWeeT8artZWPUqf9G/T7UTd4GSMhM1v9CrespleFHK8nMI5b0XbJ5zmDivWbuZNmM9/ZG/K@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+vdgG12DalX3Uog9Z/eJgLa/fXO39JH8Ggk/LIWqrTnkcAUhe
+	pVhFE8wPc7FG3Tfnclzqm9qLexP7w8Y+O75bZod43Ff1u7jCvss3RZ/1ug6xkMAlH0PVLnGBmBO
+	z6x1yQDwJfvkhP1L6JSKhsfAKO7g=
+X-Google-Smtp-Source: AGHT+IGq5KFbAI9S4x36ffXOC0opBJXf4wJXpPrXgnubpE+Mpoy/r4fbPNLJGcyf/oa8AjMSFwlnLkaspaUTNz8mWrE=
+X-Received: by 2002:a05:651c:211b:b0:2fb:6110:c5cb with SMTP id
+ 38308e7fff4ca-2fedb7d9117mr14787541fa.34.1730451055747; Fri, 01 Nov 2024
+ 01:50:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241031121104.6f7d669c@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20240913200517.3085794-1-ross.philipson@oracle.com>
+ <87wmhoulb9.ffs@tglx> <D5ACNMVX5LXB.1L0S9P2J3UDJH@kernel.org>
+ <87ldy3vpjh.ffs@tglx> <D5AF4HY1I6AA.27WRBDDGLYH39@kernel.org> <D5AF9K79H8WO.PVW93P31GHMH@kernel.org>
+In-Reply-To: <D5AF9K79H8WO.PVW93P31GHMH@kernel.org>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 1 Nov 2024 09:50:44 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXHFDMKEH46MG3731FS043XyxHchoTJtDOst6kvfMezUuQ@mail.gmail.com>
+Message-ID: <CAMj1kXHFDMKEH46MG3731FS043XyxHchoTJtDOst6kvfMezUuQ@mail.gmail.com>
+Subject: Re: [PATCH v11 00/20] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ross Philipson <ross.philipson@oracle.com>, 
+	linux-kernel@vger.kernel.org, x86@kernel.org, linux-integrity@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-efi@vger.kernel.org, 
+	iommu@lists.linux-foundation.org, dpsmith@apertussolutions.com, 
+	mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, 
+	mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, 
+	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
+	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, 
+	ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
+	kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com, 
+	trenchboot-devel@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 31, 2024 at 12:11:04PM +0100, Kory Maincent wrote:
-> On Thu, 31 Oct 2024 07:54:08 +0100
-> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> 
-> > > diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-> > > index a1ad257b1ec1..22664b1ea4a2 100644
-> > > --- a/include/uapi/linux/ethtool.h
-> > > +++ b/include/uapi/linux/ethtool.h
-> > > @@ -1002,11 +1002,35 @@ enum ethtool_c33_pse_pw_d_status {
-> > >   * enum ethtool_c33_pse_events - event list of the C33 PSE controller.
-> > >   * @ETHTOOL_C33_PSE_EVENT_OVER_CURRENT: PSE output current is too high.
-> > >   * @ETHTOOL_C33_PSE_EVENT_OVER_TEMP: PSE in over temperature state.
-> > > + * @ETHTOOL_C33_PSE_EVENT_CONNECTED: PD detected on the PSE.
-> > > + * @ETHTOOL_C33_PSE_EVENT_DISCONNECTED: PD has been disconnected on the
-> > > PSE.
-> > > + * @ETHTOOL_C33_PSE_EVENT_PORT_PRIO_STATIC_ERROR: PSE faced an error in
-> > > static
-> > > + *	port priority management mode.
-> > >   */
-> > >  
-> > >  enum ethtool_c33_pse_events {
-> > > -	ETHTOOL_C33_PSE_EVENT_OVER_CURRENT =	1 << 0,
-> > > -	ETHTOOL_C33_PSE_EVENT_OVER_TEMP =	1 << 1,
-> > > +	ETHTOOL_C33_PSE_EVENT_OVER_CURRENT =		1 << 0,
-> > > +	ETHTOOL_C33_PSE_EVENT_OVER_TEMP =		1 << 1,
-> > > +	ETHTOOL_C33_PSE_EVENT_CONNECTED =		1 << 2,
-> > > +	ETHTOOL_C33_PSE_EVENT_DISCONNECTED =		1 << 3,
-> > > +	ETHTOOL_C33_PSE_EVENT_PORT_PRIO_STATIC_ERROR =	1 << 4,
-> > > +};  
-> > 
-> > Same here, priority concept is not part of the spec, so the C33 prefix
-> > should be removed.
-> 
-> Ack. So we assume PoDL could have the same interruption events.
-> 
-> > > +/**
-> > > + * enum pse_port_prio_modes - PSE port priority modes.
-> > > + * @ETHTOOL_PSE_PORT_PRIO_DISABLED: Port priority disabled.
-> > > + * @ETHTOOL_PSE_PORT_PRIO_STATIC: PSE static port priority. Port priority
-> > > + *	based on the power requested during PD classification. This mode
-> > > + *	is managed by the PSE core.
-> > > + * @ETHTOOL_PSE_PORT_PRIO_DYNAMIC: PSE dynamic port priority. Port priority
-> > > + *	based on the current consumption per ports compared to the total
-> > > + *	power budget. This mode is managed by the PSE controller.
-> > > + */  
+On Fri, 1 Nov 2024 at 01:40, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+>
+> On Fri Nov 1, 2024 at 2:33 AM EET, Jarkko Sakkinen wrote:
+> > On Fri Nov 1, 2024 at 1:08 AM EET, Thomas Gleixner wrote:
+> > > On Fri, Nov 01 2024 at 00:37, Jarkko Sakkinen wrote:
+> > > > On Thu Oct 31, 2024 at 9:25 PM EET, Thomas Gleixner wrote:
+> > > >> So this looks pretty reasonable to me by now and I'm inclined to take it
+> > > >> through the tip x86 tree, but that needs reviewed/acked-by's from the
+> > > >> crypto and TPM folks. EFI has been reviewed already.
+> > > >>
+> > > >> Can we make progress on this please?
+> > > >
+> > > > So TPM patches do have bunch of glitches:
+> > > >
+> > > > - 15/20: I don't get this. There is nothing to report unless tree
+> > > >   is falling. The reported-by tag literally meaningless. Maybe this
+> > > >   is something that makes sense with this feature. Explain from that
+> > > >   angle.
+> > > > - 16/20: Is this actually a bug fix? If it is should be before 15/20.
+> > > > - 17/20: the commit message could do a better job explaining how the
+> > > >   locality can vary. I'm not sure how this will be used by rest of
+> > > >   the patch set.
+> > > > - 18/20: I'm not confident we want to give privilege to set locality
+> > > >   to the user space. The commit message neither makes a case of this.
+> > > >   Has this been tested to together with bus encryption (just checking)?
+> > >
+> > > Can you please explicitely voice your detailed technical concerns in
+> > > replies to the actual patches?
+> >
+> > - 15/20 looks like a rigged patch. I don't really know why it is done
+> >   so it is hard to either suggest how "resolve it".
+> > - 16/20 probably makes sense but if it is a bug fix or part of it is,
+> >   the bug fix should have relevant fixes etc tags so that it can be
+> >   picked up to stable kernels.
+> > - 17-18/20: I'd speak about this as the "one whole" i.e. here the
+> >   privilege to be able change locality during run-time is really
+> >   concerning. Could the locality be figured out for the kernel
+> >   command-line instead? The sysfs attribute can exist as read-only.
+> >
+> > So yeah, the way I see it 15-16 are the more trivial issue to sort
+> > out (probably) but with 17-18 we have an actual architectural concern
+> > for kernel overall.
+>
+> Further:
+>
+> 15/20: I can accept this without reported-by tag (or changed as
+> suggested-by). It does not harm.
+> 16/20: I'll re-review this with time. I'll try to get this done
+> latest next week.
+>
+> So let's put focus only on 17 and 18. Can this problem be sorted out
+> by kernel command-line parameter? In the case of locality we want to
+> keep regular "chain of trust" i.e. boot-loader makes the decision,
+> *even* in the case of DRTM. I would call this almost as constraint
+> that would be wise to set.
+>
 
-After thinking about it more overnight, I wanted to revisit the idea of having
-a priority strategy per port. Right now, if one port is set to static or
-dynamic mode, all disabled ports seem to have to follow it somehow too. This
-makes it feel like we should have a strategy for the whole power domain, not
-just for each port.
+Please don't add a kernel command line parameter for this - the code
+running in the decompressor will be the one setting it and there are
+better ways to pass information between these components (and the
+slaunch stack is already doing that in any case)
 
-I'm having trouble imagining how a per-port priority strategy would work in
-this setup.
-
-Another point that came to mind is that we might have two different components
-here, and we need to keep these two parts separate in follow-up discussions:
-
-- **Budget Evaluation Strategy**: The static approach seems straightforward—if
-a class requests more than available, appropriate actions are taken. However,
-the dynamic approach has more complexity, such as determining the threshold,
-how long violations can be tolerated, and whether a safety margin should be
-maintained before exceeding maximum load.
-
-- **Disconnection Policy**: Once a budget violation is detected, this decides
-how to react, like which ports should be disconnected and in what order.
-
-Would it make more sense to have a unified strategy for power domains, where we
-apply the same budget evaluation mode (static or dynamic) and disconnection
-policy to all ports in that domain? This could make the configuration simpler
-and the power management more predictable.
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Also, let's have this discussion in the appropriate place, i.e., on
+the thread for each respective patch.
