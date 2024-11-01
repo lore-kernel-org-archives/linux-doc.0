@@ -1,208 +1,349 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7231214F132;
-	Fri,  1 Nov 2024 18:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF4D1CDA27
+	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 18:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730484513; cv=none; b=SfW4KRX/dNXDqLwcP8dukazqkxj2Ih5I78CfNDSIg77imSZDKSzDHywo5CU32l+UNt8R3p3BCN8MnwornMDabg0NzvtsWXeJ+MNxMKqY25MMwLjQk25Wf6wp+EmgA8bYoZUtqOvcJLvvkLBl3WyTky0S2wAs0WMMSyrS70oVQ3I=
+	t=1730485173; cv=none; b=Nm5GHeenSM7ZEX8QJ0CvD4spYR2d6x+0A/tVeKalXE3DE1hT2pBbUXTkGb9RVlX+Iseg+xRPUSp5YqDFcNa8CjyVsQPHZHCbG1lkPaYogXJddZdWPCqfaH4PRIqniJ2211rB0rWKarku6OBJysiLMzO9s+2ikyW03dyYwSuSuNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730484513; c=relaxed/simple;
-	bh=kUlkaiEAbITpS5libgwOHCPxndGIP44TyCYpqXX2sCA=;
+	s=arc-20240116; t=1730485173; c=relaxed/simple;
+	bh=e/JuFjLxAkY9/2840JwIFVwiYSAtqEb7V4148Hvo2as=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gLwHaSmKPZllour4ncTjFOUlMofOc7kc3yArcmBSsrfGr7Al6hBFkD6373NyrkjkYs5omEjUK4GSzDmkNG3qvfD1mEiowHMK6Ha6OGCxAtHem6ZGov7lt7IRJJotMx9yidHO10EiHifUZm5i9vTRE6rNQ2lslpRvQROEEjh1YiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jo5m7Obc; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=BZwCkzWS9wJ5vEuBS1HOGa3OzfNzBbdnPmlYZlAPJZYvnr4+xP2LUtlBDgDCK0pJj6Na1bISqK3aOMVadAdTtxNunbf8cLTWUgOsDsHMBgmJ9x+KNvDs4aarKOkw7NotTK4FJ2SyoX4ACpWcHsoaI8uczYBPR1QxBfbqfA5X4Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RI6YeC0F; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jo5m7Obc"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a9a977d6cc7so155772266b.3;
-        Fri, 01 Nov 2024 11:08:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RI6YeC0F"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-460a8d1a9b7so40481cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 11:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730484510; x=1731089310; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1730485170; x=1731089970; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OCtfL4LKHT16bIcd7QMas0zSxNmGktKU2W/PiR+cLdA=;
-        b=jo5m7Obcq+O7EZwiP/XUFW7vZgq6Qu/b1D+OuoUmveJl2CqwRY1sckShFrDGFQW9ZH
-         DJeHXTFoQHMBuiuL25d8BjvAwS1jDyzLVDlWa8Z2l8XwpbWH/5xW+dVcvL8da7OkGCx7
-         TDGK+qUfFDetDygw7DcUE7Lf9xxl6P1pJgNxK21GGMv44Dy/c5h02/v0+dq8yB2uAUuh
-         qhoz/qKpO6Ks3PSVjW5GJs2EJlqR1tqxvzYX6/2CNnp0BWb8idfgKwaxMFecUogXaamp
-         O85u2/WfLiYsyId0WJ0EV+sRLUxOhyG2u4h45L9oSQNNPwj/tC9IyvFIQS/oIX5P3Fi4
-         D5rw==
+        bh=qgLXiMi+J/NggzUVpUpWAWf65WUGcPu7JpIAGtH2HNQ=;
+        b=RI6YeC0F4iMm6UearPpmK5yftZr0jZfE+cP0k45ImLIRf9/LDr4Mqj/GnXQV0myLqN
+         nfCUmc8h7QdewGO6Zl5badmKbWgs/CvvWa0vb2m1fnZ8lz5BNHVTRBxI+xrpjT2yxCdC
+         Sa+PtgXz7fM3UQlBuoG1XnMBsdaiUAHR67LiSnEws2K/90HtnytV8zqwMhzDVa/HdMdi
+         XO4+yo/IFIlj8KEjU5bI9cOO1k/RrR6LGDWvwrodNFHvRB/6Kg/MiDZPo9Bj5rg1Bkv4
+         /HN23XggNhWxhi8b8XC6j+AN03M/GjBtL1ilhuSxDU94Ne1BwAFKYgCcQkeBXPIJUVfa
+         W1Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730484510; x=1731089310;
+        d=1e100.net; s=20230601; t=1730485170; x=1731089970;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OCtfL4LKHT16bIcd7QMas0zSxNmGktKU2W/PiR+cLdA=;
-        b=Xfo05r1LtBuIAYYKyRu3m8uc5NWNXWf5NF13zNOlJzJ69mXHzS7OjYF7BdRaRSZ4aE
-         dgeAsLvwZ1uWE8bfYWJVlBu5Qc0O3k3aAqZkOxpnzMWoJ+YUu/Rnmg1ic1rguIbDNFCA
-         RneUKctxhbWwNbQncCFdQOdeVJ72ozzqCOzi3g6PvffadnW0KJC9KO3vb9xHsrs8jISe
-         lWnbT4euHMartLTk3GJc1ybgXvPd78kwkr5xeRw0/Tkh6Do8dqFQPv6WmgL30KerssvV
-         Vjj8THIQ4W6ZlP4jQR+ekBgrka+JYYjWTvPeaS4UUgoCcgWOayyqVma06fAgaxean7RW
-         8RDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZe+ueiQu8YaFJfv8altbvCPtXGBB4kAVnDD+1/PKK4sapQ26NVH7uwxZNgMhEZBFCPd8qZ22S@vger.kernel.org, AJvYcCVwjimj7VubaC70Mp+8gD0L9djDJ54B3v0Oj3qQugVtGYMC/+VfcmKBANXvD/H+1V+1zY3ayPuNqC4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuX+rZpIhd1/tjYx+58JJta13/RsC5kUcHRRNZpN2D+mhkocHc
-	BBX3pmCWqk3/l760lEtAl+0H6jRBoVFZfj8MuLNHB178NBZim+8BW+EAiA0oMwwP3akhMJHUFz0
-	U4qvxuselx4uWYzmsIoAl/uuBjho=
-X-Google-Smtp-Source: AGHT+IHsQJRWuTtNCKMdaamaYNellvKQy+MGvR0wU3bd0Udn5YV99dp3SCMg6+sdMqCBWuD+vOxqtsHpUCD/03Lpc2E=
-X-Received: by 2002:a05:6402:524b:b0:5ce:afba:f48a with SMTP id
- 4fb4d7f45d1cf-5ceb935bbc3mr4809875a12.27.1730484509256; Fri, 01 Nov 2024
- 11:08:29 -0700 (PDT)
+        bh=qgLXiMi+J/NggzUVpUpWAWf65WUGcPu7JpIAGtH2HNQ=;
+        b=gT+tjcTG3CDc1anjFjnyutQQC54MyMVIv3BNdoe5fvC/reiRY046UuRkN5dZXy0XIC
+         6f04K2SvglVceeU+kuHWbIcDZVkj9gcoS5aAkTcfySPwvQH8cUiT+la4/AQGDeL3SJxe
+         lfPm4r9h6a54UF5dYC4/GZgepU+KoebUx79Okx7oXId4D3sp7MxNfP1ohKxUPOOAXt/m
+         pkB9inFeSNwxE+x9oQuHtKb4Xfb37KgnIpzbWPeZpJLO6slqtORclz9E5kNk8IcCeLX0
+         8x7V4pUvjcD9H7KjJBS4T9PtuZOicPutsVX0C8VXEUsH/N/02IZIjQbpeMihRxGNdjDU
+         DWlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWTMSPp3Qji1FLhk9ozuWxesNRMzVU0HUkdUbUgEzcaJjzqI5wGAWamjTLru/dkG7kuvawqryxf24=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKkz5uhunVM3nYHweCBeI6M6PJrKINeQ0SqZsHfQUJIIXR9u2j
+	mQ627adA32upgSA0QZTWrElS+X/yxiq0C4mt0yd1ltI2YwNjlQUKjsubACqUS0QtuQLNe8T4UXY
+	Gh/Sm+LBfZsjh1DSY5HW6XNDavva+zi7cVAJ8
+X-Gm-Gg: ASbGncs18PqbG44VDDQMGcK0JOtU9ecTCHPjvajIjLoSs8fGrTtAIPkMHOyd/MY3KXJ
+	pdCE3+iLE9hCxO79E+m/q4J4QHGyhmKAB
+X-Google-Smtp-Source: AGHT+IG0Gl6acjuLtCR71sVFFcnhFR0iLK3dlvBmCqJ96g8N7a0fo0kc0B9rcLPxt1c8RC8oB6pYjnPbwvn9UeWu/NA=
+X-Received: by 2002:a05:622a:1ba4:b0:461:4150:b833 with SMTP id
+ d75a77b69052e-462c5fe1ce9mr232521cf.22.1730485169937; Fri, 01 Nov 2024
+ 11:19:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-7-ap420073@gmail.com>
- <CAHS8izMingYgf_ZuGWZMFNb3QGGkqKFjYwWvFpdbLW5yBWvvng@mail.gmail.com>
-In-Reply-To: <CAHS8izMingYgf_ZuGWZMFNb3QGGkqKFjYwWvFpdbLW5yBWvvng@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Sat, 2 Nov 2024 03:08:17 +0900
-Message-ID: <CAMArcTXzTQJuA2q26i61OFgOSrnAvOyNWKFbW59V+h4WqBt_3g@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 6/8] net: ethtool: add ring parameter filtering
-To: Mina Almasry <almasrymina@google.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
-	edumazet@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
-	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
-	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
-	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
+References: <20241015211719.1152862-1-irogers@google.com> <20241101132437.ahn7xdgvmqamatce@devuan>
+In-Reply-To: <20241101132437.ahn7xdgvmqamatce@devuan>
+From: Ian Rogers <irogers@google.com>
+Date: Fri, 1 Nov 2024 11:19:18 -0700
+Message-ID: <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the page
+To: Alejandro Colomar <alx@kernel.org>
+Cc: "G . Branden Robinson" <g.branden.robinson@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-man@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 1, 2024 at 11:35=E2=80=AFPM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> On Tue, Oct 22, 2024 at 9:25=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
+On Fri, Nov 1, 2024 at 6:24=E2=80=AFAM Alejandro Colomar <alx@kernel.org> w=
 rote:
+>
+> On Tue, Oct 15, 2024 at 02:17:17PM -0700, Ian Rogers wrote:
+> > When /proc/pid/fdinfo was part of proc.5 man page the indentation made
+> > sense. As a standalone man page the indentation doesn't need to be so
+> > far over to the right. Remove the initial tagged pragraph and move the
+> > styling to the initial summary description.
 > >
-> > While the devmem is running, the tcp-data-split and
-> > header-data-split-thresh configuration should not be changed.
-> > If user tries to change tcp-data-split and threshold value while the
-> > devmem is running, it fails and shows extack message.
-> >
-> > Tested-by: Stanislav Fomichev <sdf@fomichev.me>
-> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+> > Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+> > Signed-off-by: Ian Rogers <irogers@google.com>
 > > ---
+> >  man/man5/proc_pid_fdinfo.5 | 66 ++++++++++++++++++--------------------
+> >  1 file changed, 32 insertions(+), 34 deletions(-)
 > >
-> > v4:
-> >  - Add netdev_devmem_enabled() helper.
-> >  - Add Test tag from Stanislav.
-> >
-> > v3:
-> >  - Patch added
-> >
-> >  include/net/netdev_rx_queue.h | 14 ++++++++++++++
-> >  net/ethtool/common.h          |  1 +
-> >  net/ethtool/rings.c           | 13 +++++++++++++
-> >  3 files changed, 28 insertions(+)
-> >
-> > diff --git a/include/net/netdev_rx_queue.h b/include/net/netdev_rx_queu=
-e.h
-> > index 596836abf7bf..7fbb64ce8d89 100644
-> > --- a/include/net/netdev_rx_queue.h
-> > +++ b/include/net/netdev_rx_queue.h
-> > @@ -55,6 +55,20 @@ get_netdev_rx_queue_index(struct netdev_rx_queue *qu=
-eue)
-> >         return index;
-> >  }
-> >
-> > +static inline bool netdev_devmem_enabled(struct net_device *dev)
+> > diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
+> > index 1e23bbe02..8678caf4a 100644
+> > --- a/man/man5/proc_pid_fdinfo.5
+> > +++ b/man/man5/proc_pid_fdinfo.5
+> > @@ -6,20 +6,19 @@
+> >  .\"
+> >  .TH proc_pid_fdinfo 5 (date) "Linux man-pages (unreleased)"
+> >  .SH NAME
+> > -/proc/pid/fdinfo/ \- information about file descriptors
+> > +.IR /proc/ pid /fdinfo " \- information about file descriptors"
 >
-> Mega nit: netdev_memory_provider_enabled().
->
-> This is actually not devmem specific, and there is already an io_uring
-> provider in the works.
->
-> But, also, we already have dev_get_min_mp_channel_count() defined in
-> linux/netdevice.h. Lets re-use that one instead of adding another
-> helper that does almost the same thing. Sorry, I should have
-> remembered we already have this helper in the last iteration.
+> I wouldn't add formatting here for now.  That's something I prefer to be
+> cautious about, and if we do it, we should do it in a separate commit.
 
-Ah, I didn't catch it too.
-I will use dev_get_min_mp_channel_count() instead.
-Thanks a lot!
+I'll move it to a separate patch. Is the caution due to a lack of test
+infrastructure? That could be something to get resolved, perhaps
+through Google summer-of-code and the like.
 
+> >  .SH DESCRIPTION
+> > -.TP
+> > -.IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
+> > -This is a subdirectory containing one entry for each file which the
+> > -process has open, named by its file descriptor.
+> > -The files in this directory are readable only by the owner of the proc=
+ess.
+> > -The contents of each file can be read to obtain information
+> > -about the corresponding file descriptor.
+> > -The content depends on the type of file referred to by the
+> > -corresponding file descriptor.
+> > -.IP
+> > +Since Linux 2.6.22,
 >
-> Other than that, looks fine to me.
+> You could move this information to a HISTORY section.
+
+Sure, tbh I'm not sure anybody cares about this information and it
+could be as well to delete it. Sorry people running 17 year old
+kernels. For now I'll try to leave it unchanged.
+
+> > +this subdirectory contains one entry for each file that process
+> > +.I pid
+> > +has open, named by its file descriptor.  The files in this directory
 >
-> > +{
-> > +       struct netdev_rx_queue *queue;
-> > +       int i;
-> > +
-> > +       for (i =3D 0; i < dev->real_num_rx_queues; i++) {
-> > +               queue =3D __netif_get_rx_queue(dev, i);
-> > +               if (queue->mp_params.mp_priv)
-> > +                       return true;
-> > +       }
-> > +
-> > +       return false;
-> > +}
-> > +
-> >  int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq);
+> Please don't reflow existing text.  Please read about semantic newlines
+> in man-pages(7):
+>
+> $ MANWIDTH=3D72 man man-pages | sed -n '/Use semantic newlines/,/^$/p'
+>    Use semantic newlines
+>      In  the  source of a manual page, new sentences should be started
+>      on new lines, long sentences should be split into lines at clause
+>      breaks (commas, semicolons, colons, and so on), and long  clauses
+>      should be split at phrase boundaries.  This convention, sometimes
+>      known  as  "semantic newlines", makes it easier to see the effect
+>      of patches, which often operate at the level of  individual  sen=E2=
+=80=90
+>      tences, clauses, or phrases.
+
+I'll update for v3 but I'm reminded of `git diff --word-diff=3Dcolor` so
+perhaps this recommendation is outdated.
+
+Thanks,
+Ian
+
+> Have a lovely day!
+> Alex
+>
+> > +are readable only by the owner of the process.  The contents of each
+> > +file can be read to obtain information about the corresponding file
+> > +descriptor.  The content depends on the type of file referred to by
+> > +the corresponding file descriptor.
+> > +.P
+> >  For regular files and directories, we see something like:
+> > -.IP
+> > +.P
+> >  .in +4n
+> >  .EX
+> >  .RB "$" " cat /proc/12015/fdinfo/4"
+> > @@ -28,7 +27,7 @@ flags:  01002002
+> >  mnt_id: 21
+> >  .EE
+> >  .in
+> > -.IP
+> > +.P
+> >  The fields are as follows:
+> >  .RS
+> >  .TP
+> > @@ -51,7 +50,6 @@ this field incorrectly displayed the setting of
+> >  at the time the file was opened,
+> >  rather than the current setting of the close-on-exec flag.
+> >  .TP
+> > -.I
+> >  .I mnt_id
+> >  This field, present since Linux 3.15,
+> >  .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
+> > @@ -59,13 +57,13 @@ is the ID of the mount containing this file.
+> >  See the description of
+> >  .IR /proc/ pid /mountinfo .
+> >  .RE
+> > -.IP
+> > +.P
+> >  For eventfd file descriptors (see
+> >  .BR eventfd (2)),
+> >  we see (since Linux 3.8)
+> >  .\" commit cbac5542d48127b546a23d816380a7926eee1c25
+> >  the following fields:
+> > -.IP
+> > +.P
+> >  .in +4n
+> >  .EX
+> >  pos: 0
+> > @@ -74,16 +72,16 @@ mnt_id:   10
+> >  eventfd\-count:               40
+> >  .EE
+> >  .in
+> > -.IP
+> > +.P
+> >  .I eventfd\-count
+> >  is the current value of the eventfd counter, in hexadecimal.
+> > -.IP
+> > +.P
+> >  For epoll file descriptors (see
+> >  .BR epoll (7)),
+> >  we see (since Linux 3.8)
+> >  .\" commit 138d22b58696c506799f8de759804083ff9effae
+> >  the following fields:
+> > -.IP
+> > +.P
+> >  .in +4n
+> >  .EX
+> >  pos: 0
+> > @@ -93,7 +91,7 @@ tfd:        9 events:       19 data: 74253d2500000009
+> >  tfd:        7 events:       19 data: 74253d2500000007
+> >  .EE
+> >  .in
+> > -.IP
+> > +.P
+> >  Each of the lines beginning
+> >  .I tfd
+> >  describes one of the file descriptors being monitored via
+> > @@ -110,13 +108,13 @@ descriptor.
+> >  The
+> >  .I data
+> >  field is the data value associated with this file descriptor.
+> > -.IP
+> > +.P
+> >  For signalfd file descriptors (see
+> >  .BR signalfd (2)),
+> >  we see (since Linux 3.8)
+> >  .\" commit 138d22b58696c506799f8de759804083ff9effae
+> >  the following fields:
+> > -.IP
+> > +.P
+> >  .in +4n
+> >  .EX
+> >  pos: 0
+> > @@ -125,7 +123,7 @@ mnt_id:   10
+> >  sigmask:     0000000000000006
+> >  .EE
+> >  .in
+> > -.IP
+> > +.P
+> >  .I sigmask
+> >  is the hexadecimal mask of signals that are accepted via this
+> >  signalfd file descriptor.
+> > @@ -135,12 +133,12 @@ and
+> >  .BR SIGQUIT ;
+> >  see
+> >  .BR signal (7).)
+> > -.IP
+> > +.P
+> >  For inotify file descriptors (see
+> >  .BR inotify (7)),
+> >  we see (since Linux 3.8)
+> >  the following fields:
+> > -.IP
+> > +.P
+> >  .in +4n
+> >  .EX
+> >  pos: 0
+> > @@ -150,7 +148,7 @@ inotify wd:2 ino:7ef82a sdev:800001 mask:800afff ig=
+nored_mask:0 fhandle\-bytes:8
+> >  inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandl=
+e\-bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
+> >  .EE
+> >  .in
+> > -.IP
+> > +.P
+> >  Each of the lines beginning with "inotify" displays information about
+> >  one file or directory that is being monitored.
+> >  The fields in this line are as follows:
+> > @@ -168,19 +166,19 @@ The ID of the device where the target file reside=
+s (in hexadecimal).
+> >  .I mask
+> >  The mask of events being monitored for the target file (in hexadecimal=
+).
+> >  .RE
+> > -.IP
+> > +.P
+> >  If the kernel was built with exportfs support, the path to the target
+> >  file is exposed as a file handle, via three hexadecimal fields:
+> >  .IR fhandle\-bytes ,
+> >  .IR fhandle\-type ,
+> >  and
+> >  .IR f_handle .
+> > -.IP
+> > +.P
+> >  For fanotify file descriptors (see
+> >  .BR fanotify (7)),
+> >  we see (since Linux 3.8)
+> >  the following fields:
+> > -.IP
+> > +.P
+> >  .in +4n
+> >  .EX
+> >  pos: 0
+> > @@ -190,7 +188,7 @@ fanotify flags:0 event\-flags:88002
+> >  fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle=
+\-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
+> >  .EE
+> >  .in
+> > -.IP
+> > +.P
+> >  The fourth line displays information defined when the fanotify group
+> >  was created via
+> >  .BR fanotify_init (2):
+> > @@ -210,7 +208,7 @@ argument given to
+> >  .BR fanotify_init (2)
+> >  (expressed in hexadecimal).
+> >  .RE
+> > -.IP
+> > +.P
+> >  Each additional line shown in the file contains information
+> >  about one of the marks in the fanotify group.
+> >  Most of these fields are as for inotify, except:
+> > @@ -228,16 +226,16 @@ The events mask for this mark
+> >  The mask of events that are ignored for this mark
+> >  (expressed in hexadecimal).
+> >  .RE
+> > -.IP
+> > +.P
+> >  For details on these fields, see
+> >  .BR fanotify_mark (2).
+> > -.IP
+> > +.P
+> >  For timerfd file descriptors (see
+> >  .BR timerfd (2)),
+> >  we see (since Linux 3.17)
+> >  .\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85
+> >  the following fields:
+> > -.IP
+> > +.P
+> >  .in +4n
+> >  .EX
+> >  pos:    0
+> > --
+> > 2.47.0.rc1.288.g06298d1525-goog
 > >
-> >  #endif
-> > diff --git a/net/ethtool/common.h b/net/ethtool/common.h
-> > index 4a2de3ce7354..5b8e5847ba3c 100644
-> > --- a/net/ethtool/common.h
-> > +++ b/net/ethtool/common.h
-> > @@ -5,6 +5,7 @@
-> >
-> >  #include <linux/netdevice.h>
-> >  #include <linux/ethtool.h>
-> > +#include <net/netdev_rx_queue.h>
-> >
-> >  #define ETHTOOL_DEV_FEATURE_WORDS      DIV_ROUND_UP(NETDEV_FEATURE_COU=
-NT, 32)
-> >
-> > diff --git a/net/ethtool/rings.c b/net/ethtool/rings.c
-> > index e1fd82a91014..ca313c301081 100644
-> > --- a/net/ethtool/rings.c
-> > +++ b/net/ethtool/rings.c
-> > @@ -258,6 +258,19 @@ ethnl_set_rings(struct ethnl_req_info *req_info, s=
-truct genl_info *info)
-> >                 return -ERANGE;
-> >         }
-> >
-> > +       if (netdev_devmem_enabled(dev)) {
-> > +               if (kernel_ringparam.tcp_data_split !=3D
-> > +                   ETHTOOL_TCP_DATA_SPLIT_ENABLED) {
-> > +                       NL_SET_ERR_MSG(info->extack,
-> > +                                      "tcp-data-split should be enable=
-d while devmem is running");
->
-> Maybe: "can't disable tcp-data-split while device has memory provider ena=
-bled"
-
-Thanks! I will use it!
-
->
-> > +                       return -EINVAL;
-> > +               } else if (kernel_ringparam.hds_thresh) {
-> > +                       NL_SET_ERR_MSG(info->extack,
-> > +                                      "header-data-split-thresh should=
- be zero while devmem is running");
->
-> Maybe: "can't set non-zero hds_thresh while device is memory provider ena=
-bled".
-
-Thanks, I will use it too.
-
-Thanks a lot!
-Taehee Yoo
-
->
 >
 > --
-> Thanks,
-> Mina
+> <https://www.alejandro-colomar.es/>
