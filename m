@@ -1,170 +1,119 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139B118FC7F
-	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 10:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C01C160783;
+	Fri,  1 Nov 2024 10:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730456614; cv=none; b=JpXiKutnUZl9jbyYYEJWCpuQ+uOPYqwFrQx63DcH+STUVU3p7PK83u+HdQVoNrL2NymDGkLjypC9XMAtJFrIPNPHV8Yk4f1dvGZcMzPMf85cS83JF8Y4fPoZ7Nx84VvNV+fkZD0LwPAW7QIAkBQVwub/Z43ouViM146eOwwN0Gw=
+	t=1730456923; cv=none; b=mU8LHtEPoK95EASrcuPCKpQBARf862Jd7zPpGsxwOeoD5iZCPZv/5tllSMrvsOmhMczQQMynZtvrZFtKjjKH2SZWYZ/9Rh7V9YOOUUbqk18FKCwiYQ20hyISSiNRQOtZlLTClYbJJa6Z21XP1/mbecoy1TieSk9yGyDuAn+a3GI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730456614; c=relaxed/simple;
-	bh=8b9a53kp/jr0dPpeCii/tX8yWaa+/nuB5CkfS4qxa7E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tA+g/SKZ3OFbn/8u+EM+13nlgu7WIl4+oRTipOPdEL4w5PhGotuGqi9vUTbfEYciGPs2D7E2h+RdWjoz4anQ+GVARFpG/76WpdqfD6sq2TLqA9fLOQr4v0GQw4qscXDv+w4CleYFM/fIlUloRNYLuM05D8F0NtO9vIy2vjInc24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t6oo8-0000H7-S1; Fri, 01 Nov 2024 11:23:08 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t6oo6-001Ur2-2x;
-	Fri, 01 Nov 2024 11:23:06 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t6oo6-007zJb-2X;
-	Fri, 01 Nov 2024 11:23:06 +0100
-Date: Fri, 1 Nov 2024 11:23:06 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v2 15/18] net: pse-pd: Add support for
- getting and setting port priority
-Message-ID: <ZySsCuOvSnVZnIwq@pengutronix.de>
-References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
- <20241030-feature_poe_port_prio-v2-15-9559622ee47a@bootlin.com>
- <ZyMpkJRHZWYsszh2@pengutronix.de>
- <20241031121104.6f7d669c@kmaincent-XPS-13-7390>
- <ZySR75i3BEzNbjnv@pengutronix.de>
+	s=arc-20240116; t=1730456923; c=relaxed/simple;
+	bh=mSFWh3r0scHZ1FR2DYIx0Tc2V6UZfNOyeDKa23YOOmQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Oti4BDohuQvNKzBY3gUG1Ha5F/4lewH1QnZlvuGQPqzRenKDNxo7iaJv+7ro3p+hCJbsmSYxuTIKXbFjSAokZJnbLeo2286RrvF1cKvLLxDI1vcrcOGQNvk8VmfvaKVGr/HV/mphtmDgn0JTCoUN7HuMBPWRzYmc9LPd9ZV787g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dp17+hLh; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dp17+hLh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40FEBC4CECD;
+	Fri,  1 Nov 2024 10:28:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730456922;
+	bh=mSFWh3r0scHZ1FR2DYIx0Tc2V6UZfNOyeDKa23YOOmQ=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=Dp17+hLhUwjK7Vwhq5YmGk2Rk/Vmsz7lB3wJrvj8hnCTYk50wdScvildLCtA4iBAO
+	 6eA4s5JD6uE23Qn4gAlSnK9KxBlBRbni3VS+RIg95V3ZR/azVJqcizrcu6XMMtwJAS
+	 Mvjp40ENNcaw476FxBKgo0TQsqFR++HZ6ibnCwrrM//1IzgoZzHcNk39p6ZsvxZJ7S
+	 /6ePK9AoJdXCSJrtoWkjNiKAf21Y79MeAo+g1X290rINW5gItxttGySRNYb2V1w5wM
+	 LSIpd6L/3kNBbY9n6PC3N3wVb1ZkATqlA0IZVVOaZZ7pzVAgK9/bqmoMGP2MRUsCT1
+	 ME7TUSxuYp0XA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZySR75i3BEzNbjnv@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 01 Nov 2024 12:28:38 +0200
+Message-Id: <D5ARS5Y7EATS.2GVNSARKXKIDI@kernel.org>
+Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v11 00/20] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Ross Philipson" <ross.philipson@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+ <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
+ <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>
+X-Mailer: aerc 0.18.2
+References: <20240913200517.3085794-1-ross.philipson@oracle.com>
+In-Reply-To: <20240913200517.3085794-1-ross.philipson@oracle.com>
 
-On Fri, Nov 01, 2024 at 09:31:43AM +0100, Oleksij Rempel wrote:
-> On Thu, Oct 31, 2024 at 12:11:04PM +0100, Kory Maincent wrote:
-> > On Thu, 31 Oct 2024 07:54:08 +0100
-> > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> > 
-> > > > diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-> > > > index a1ad257b1ec1..22664b1ea4a2 100644
-> > > > --- a/include/uapi/linux/ethtool.h
-> > > > +++ b/include/uapi/linux/ethtool.h
-> > > > @@ -1002,11 +1002,35 @@ enum ethtool_c33_pse_pw_d_status {
-> > > >   * enum ethtool_c33_pse_events - event list of the C33 PSE controller.
-> > > >   * @ETHTOOL_C33_PSE_EVENT_OVER_CURRENT: PSE output current is too high.
-> > > >   * @ETHTOOL_C33_PSE_EVENT_OVER_TEMP: PSE in over temperature state.
-> > > > + * @ETHTOOL_C33_PSE_EVENT_CONNECTED: PD detected on the PSE.
-> > > > + * @ETHTOOL_C33_PSE_EVENT_DISCONNECTED: PD has been disconnected on the
-> > > > PSE.
-> > > > + * @ETHTOOL_C33_PSE_EVENT_PORT_PRIO_STATIC_ERROR: PSE faced an error in
-> > > > static
-> > > > + *	port priority management mode.
-> > > >   */
-> > > >  
-> > > >  enum ethtool_c33_pse_events {
-> > > > -	ETHTOOL_C33_PSE_EVENT_OVER_CURRENT =	1 << 0,
-> > > > -	ETHTOOL_C33_PSE_EVENT_OVER_TEMP =	1 << 1,
-> > > > +	ETHTOOL_C33_PSE_EVENT_OVER_CURRENT =		1 << 0,
-> > > > +	ETHTOOL_C33_PSE_EVENT_OVER_TEMP =		1 << 1,
-> > > > +	ETHTOOL_C33_PSE_EVENT_CONNECTED =		1 << 2,
-> > > > +	ETHTOOL_C33_PSE_EVENT_DISCONNECTED =		1 << 3,
-> > > > +	ETHTOOL_C33_PSE_EVENT_PORT_PRIO_STATIC_ERROR =	1 << 4,
-> > > > +};  
-> > > 
-> > > Same here, priority concept is not part of the spec, so the C33 prefix
-> > > should be removed.
-> > 
-> > Ack. So we assume PoDL could have the same interruption events.
-> > 
-> > > > +/**
-> > > > + * enum pse_port_prio_modes - PSE port priority modes.
-> > > > + * @ETHTOOL_PSE_PORT_PRIO_DISABLED: Port priority disabled.
-> > > > + * @ETHTOOL_PSE_PORT_PRIO_STATIC: PSE static port priority. Port priority
-> > > > + *	based on the power requested during PD classification. This mode
-> > > > + *	is managed by the PSE core.
-> > > > + * @ETHTOOL_PSE_PORT_PRIO_DYNAMIC: PSE dynamic port priority. Port priority
-> > > > + *	based on the current consumption per ports compared to the total
-> > > > + *	power budget. This mode is managed by the PSE controller.
-> > > > + */  
-> 
-> After thinking about it more overnight, I wanted to revisit the idea of having
-> a priority strategy per port. Right now, if one port is set to static or
-> dynamic mode, all disabled ports seem to have to follow it somehow too. This
-> makes it feel like we should have a strategy for the whole power domain, not
-> just for each port.
-> 
-> I'm having trouble imagining how a per-port priority strategy would work in
-> this setup.
-> 
-> Another point that came to mind is that we might have two different components
-> here, and we need to keep these two parts separate in follow-up discussions:
-> 
-> - **Budget Evaluation Strategy**: The static approach seems straightforward—if
-> a class requests more than available, appropriate actions are taken. However,
-> the dynamic approach has more complexity, such as determining the threshold,
-> how long violations can be tolerated, and whether a safety margin should be
-> maintained before exceeding maximum load.
-> 
-> - **Disconnection Policy**: Once a budget violation is detected, this decides
-> how to react, like which ports should be disconnected and in what order.
-> 
-> Would it make more sense to have a unified strategy for power domains, where we
-> apply the same budget evaluation mode (static or dynamic) and disconnection
-> policy to all ports in that domain? This could make the configuration simpler
-> and the power management more predictable.
+On Fri Sep 13, 2024 at 11:04 PM EEST, Ross Philipson wrote:
+> The larger focus of the TrenchBoot project (https://github.com/TrenchBoot=
+) is to
+> enhance the boot security and integrity in a unified manner. The first ar=
+ea of
+> focus has been on the Trusted Computing Group's Dynamic Launch for establ=
+ishing
+> a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Root=
+ of
+> Trust for Measurement). The project has been and continues to work on pro=
+viding
+> a unified means to Dynamic Launch that is a cross-platform (Intel and AMD=
+) and
+> cross-architecture (x86 and Arm), with our recent involvment in the upcom=
+ing
+> Arm DRTM specification. The order of introducing DRTM to the Linux kernel
+> follows the maturity of DRTM in the architectures. Intel's Trusted eXecut=
+ion
+> Technology (TXT) is present today and only requires a preamble loader, e.=
+g. a
+> boot loader, and an OS kernel that is TXT-aware. AMD DRTM implementation =
+has
+> been present since the introduction of AMD-V but requires an additional
+> component that is AMD specific and referred to in the specification as th=
+e
+> Secure Loader, which the TrenchBoot project has an active prototype in
+> development. Finally Arm's implementation is in specification development=
+ stage
+> and the project is looking to support it when it becomes available.
+>
+> This patchset provides detailed documentation of DRTM, the approach used =
+for
+> adding the capbility, and relevant API/ABI documentation. In addition to =
+the
+> documentation the patch set introduces Intel TXT support as the first pla=
+tform
+> for Linux Secure Launch.
+>
+> A quick note on terminology. The larger open source project itself is cal=
+led
+> TrenchBoot, which is hosted on Github (links below). The kernel feature e=
+nabling
+> the use of Dynamic Launch technology is referred to as "Secure Launch" wi=
+thin
+> the kernel code. As such the prefixes sl_/SL_ or slaunch/SLAUNCH will be =
+seen
+> in the code. The stub code discussed above is referred to as the SL stub.
 
-Except of user reports, do we have documented confirmation about dynamic
-Budget Evaluation Strategy in PD692x0 firmware?
+1. I don't see any tags in most of the patches so don't get the rush. This
+   includes also patches for x86. Why I would care to review TPM patches
+   when there is over a dozen unreviewed and untested patches before it?
+2. TPM patches have been in circulation in and out of the patch set
+   for some time now with little or no improvement.
 
-Do this configuration bits are what I called Budget Evaluation Strategy?
-Version 3.55:
-Bits [3..0]—BT port PM mode
-0x0: The port power that is used for power management purposes is
-     dynamic (Iport x Vmain).
-0x1: The port power that is used for power management purposes is port
-     TPPL_BT.
-0x2: The port power that is used for power management purposes is
-     dynamic for non LLDP/CDP/Autoclass ports and TPPL_BT for
-     LLDP/CDP/Autoclass ports.
+Why the sudden buzz? I have not heard much about this since last early
+summer.  Have to spend some time recalling what this is about anyway. I
+cannot trust that my tags make any sense before more reviewed/tested-by
+tags before the TPM patches.
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+BR, Jarkko
