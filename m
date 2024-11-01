@@ -1,144 +1,87 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F020A16F900;
-	Fri,  1 Nov 2024 11:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4FD175D2D;
+	Fri,  1 Nov 2024 12:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730462368; cv=none; b=ciGAx99xnaw3ncjJ6nCkBLFHlYNMpbezrJ5BtijG9ZzqyQ8Yts5wpMHKFRS/xyHZ5oS0Vt/78D+r2bBJbHiPX8aPk4d5eagRqoBhBKaXnR8eTwqxuSOsw5WobikI5nqytOuokYNex/oKVVHF19kfimsXf3F133I9LMuE2aQEGkU=
+	t=1730462886; cv=none; b=KyfsJ+F14V6RGBkznkv3pMpX9QBSdIFxKgsBsMO44rRm4RdaIrPxn4GK/kuEjycus0+g/L8eE71BbP421RVSnczFjXh2YNUbxWnrKGHa9m57nwVeEBnfe1jfU15LJVTqROMTUd24u/dui78581tzfEuXOQbsg6hREOg5jOms6R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730462368; c=relaxed/simple;
-	bh=Cy17cxS3exMAa5EYxCtbEI6xO583/s41JPE9jXkvWXk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bbO99RTYPOdoU5K2SmAjf7LDB4SujwsvhffZkC9AdqMuhP0GcNsatbW6DF+G3Cve15ZKsdMBMhX47sULv3EAyrHN9uWJdmhDH2pJBW1j4yo/5J3fdSzIWCMrFoA6ILIjoIF/cLzR3ps7rn+luTmrBsRm5N/4M2SrfbVI6mNV7h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=A0AdBwlw; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="A0AdBwlw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1730462359;
-	bh=PxxK//bLD+jeJ2f15a2lFQhb+K2TaOY8DEpUcye4zX4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=A0AdBwlwSnCruceC5TZQSMYy2U9wtrWwQEt0c2YlPTxqreaVj9FbW9D5JL04jiIqC
-	 jlKZB8sUg6cu+p89HdksEe2URJ4SjLgMpLZaRWGHviFqBzP5J93C++HWq69UwQtS+F
-	 X8fi4Rt41xbMctUb8AVBUkBpPCQ6JBrPcLO7BILKlc4g+glhFaqGPoua0zakWGHyW0
-	 Fq7Q0jEANCp3eiXXbx4+eMM7N8fApkgiiiJ0SMnV6QThAa0nzL5v+Lc64h4brp8/7T
-	 I1DHM5+HvWEsAMs8s51wLZJgMWPvXptL4fJ6cKHtPTgqKgt9fEnO6LpUanKct14Rdt
-	 PYFDG74pSjJ2w==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4XfztG6Jb6z4x3q;
-	Fri,  1 Nov 2024 22:59:18 +1100 (AEDT)
-Date: Fri, 1 Nov 2024 22:59:16 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, Mark Brown
- <broonie@kernel.org>
-Subject: Re: [PATCH v2] docs: bug-bisect: add a note about bisecting -next
-Message-ID: <20241101225916.075af3aa@canb.auug.org.au>
-In-Reply-To: <0b8245f429a3cb162f8f6c0686081700a9c09cc4.1730441728.git.linux@leemhuis.info>
-References: <0b8245f429a3cb162f8f6c0686081700a9c09cc4.1730441728.git.linux@leemhuis.info>
+	s=arc-20240116; t=1730462886; c=relaxed/simple;
+	bh=/4kZC+ZCOEXnxMgCCkREutWG+jRk6O0PFIWcBSF/p8g=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Wcr4WItb/CbT4jWidsAhebKro2YNYZnWZW+goPlZXOvtMqo9QwshStIViKT/v2y2UFJDG1u1FU/5m5IsXzolSOHbXVh0RBRMaAii2i8Q6rBmNE8wj+sNycT0Pn/e1TfHg6X0+oSTwWo55aWGQwYn0cv6hr9mL1ysKFIUWg4x7TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Xfzyc6hTmz6LD4F;
+	Fri,  1 Nov 2024 20:03:04 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id E957B140B3C;
+	Fri,  1 Nov 2024 20:07:58 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 1 Nov
+ 2024 13:07:58 +0100
+Date: Fri, 1 Nov 2024 12:07:56 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ira Weiny <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 20/27] cxl/extent: Process DCD events and realize
+ region extents
+Message-ID: <20241101120756.00002abe@Huawei.com>
+In-Reply-To: <672260877ccb7_483142942f@iweiny-mobl.notmuch>
+References: <20241029-dcd-type2-upstream-v5-0-8739cb67c374@intel.com>
+	<20241029-dcd-type2-upstream-v5-20-8739cb67c374@intel.com>
+	<20241030143232.000013b8@Huawei.com>
+	<672260877ccb7_483142942f@iweiny-mobl.notmuch>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/thZGsFuOZvPRq2.M2fnAQ.V";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500009.china.huawei.com (7.191.174.84) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
---Sig_/thZGsFuOZvPRq2.M2fnAQ.V
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-Hi Thorsten,
+> 
+> > > diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
+> > > index 16e06b59d7f04762ca73a81740b0d6b2487301af..85b30a74a6fa5de1dd99c08c8318edd204e3e19d 100644
+> > > --- a/drivers/cxl/cxlmem.h
+> > > +++ b/drivers/cxl/cxlmem.h  
+> > 
+> > Is the xarray header included in here already?
+> > If not it should be.  
+> 
+> Looking around we have been lax in this behavior.  cxl.h does not explicitly
+> include xarray.h either.  I agree they both should after this.
+> 
+> Let me send a follow on patch to add it.
 
-Thanks for this.  A couple of comments.
+Works for me.
 
-On Fri,  1 Nov 2024 07:17:06 +0100 Thorsten Leemhuis <linux@leemhuis.info> =
-wrote:
->
-> Explicitly mention how to bisect -next, as nothing in the kernel tree
-> currently explains that bisects between -next versions won't work well
-> and it's better to bisect between mainline and -next.
->=20
-> Co-developed-by: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
-> v2:
-> - slightly change patch descption
-> - make the text more how-toish to better match the rest of the document
->=20
-> v1: https://lore.kernel.org/all/20241022-doc-bisect-next-v1-1-196c0a60d55=
-4@kernel.org/
-> - initial release
-> ---
->  Documentation/admin-guide/bug-bisect.rst | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->=20
-> diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/adm=
-in-guide/bug-bisect.rst
-> index 585630d14581c7..47264c199247e6 100644
-> --- a/Documentation/admin-guide/bug-bisect.rst
-> +++ b/Documentation/admin-guide/bug-bisect.rst
-> @@ -108,6 +108,27 @@ a fully reliable and straight-forward way to reprodu=
-ce the regression, too.*
->  With that the process is complete. Now report the regression as describe=
-d by
->  Documentation/admin-guide/reporting-issues.rst.
-> =20
-> +Bisecting linux-next
-> +--------------------
-> +
-> +If you face a problem only happening in linux-next, bisect between the
-> +linux-next branches 'stable' and 'master'. The following commands will s=
-tart
-> +the process for a linux-next tree you added as a remote called 'next'::
-> +
-> +  git bisect start
-> +  git bisect good next/stable
-> +  git bisect bad next/master
-> +
-> +The 'stable' branch refers to the state of linux-mainline the current
-                                                             ^
-                                                             that the curre=
-nt
+J
+> 
+> Ira
+> 
+> >   
+> > > @@ -506,6 +506,7 @@ static inline struct cxl_dev_state *mbox_to_cxlds(struct cxl_mailbox *cxl_mbox)
+> > >   * @pmem_perf: performance data entry matched to PMEM partition
+> > >   * @nr_dc_region: number of DC regions implemented in the memory device
+> > >   * @dc_region: array containing info about the DC regions  
+> 
+> 
+> 
 
-> +linux-next release (found in the 'master' branch) is based on -- the for=
-mer
-> +thus should be free of any problems that show up in -next, but not in Li=
-nus'
-> +tree.
-
-As you say, 'stable' only works for the current linux-next release.  If
-you are trying to bisect a previous release, you can always find the
-SHA1 associated with the base of any linux-next release using "grep
-origin Next/SHA1s".  Not sure how useful that is.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/thZGsFuOZvPRq2.M2fnAQ.V
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmckwpQACgkQAVBC80lX
-0GzWJQf8CSBcTxvbMkxJSEKUQQ05RjNIA9X0dt9R5yolLNcg3sr6PVf3pbTMrLOA
-LtuhKJ+B39CLehUzMEmMnvVcaG1Bwm6PYMCv0kxHw1XcPOOVVOsSJVcX+WG0aqy2
-WXYsDVGGnWffwpBUxsl48wxw6rvu0PZlIatnc76j1S8ckCEV6jlxM0UbK1NCl28l
-TrvfEkVt7HhYizwM259pgQy7yUuBDctdqpTj6cUTJjF7OMkvTNjC4OeiiSznrFuo
-yU/JfWUNxwEETksSUNvYUWf780LNv8T/7p5krYU8Y/OEOdQ3Ubg9+Inj4JADGQUY
-QgdoOaVggPa4jVZCsii3WOFIROyeBg==
-=e0eX
------END PGP SIGNATURE-----
-
---Sig_/thZGsFuOZvPRq2.M2fnAQ.V--
