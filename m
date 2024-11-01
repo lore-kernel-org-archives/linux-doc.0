@@ -1,139 +1,93 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E50113CABC;
-	Fri,  1 Nov 2024 03:03:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29D913A24D;
+	Fri,  1 Nov 2024 03:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730430208; cv=none; b=VjI4CYzzuCDY3Eha3grPHEjSmoulR1xTRb5P8pkU7Sk5NBTgVFZPaY3zG7rZEMHr7Gm7pqxdFOE/p+N9ttGkQAPGDgVJQRvppX9KQkdmJoWDaYvWVeBDKOduxm6lamhOJgJXlqAxI0XnY5hn6dS0D+Lr29afGPy4LV8PKsQ4vsI=
+	t=1730431071; cv=none; b=l2iuAHKU3o7A8Q/DPu6crS/nfqzBlpyNL7YiCm5tWh40tczTpaIDaZ0lJqSt0vCbnwLE5OVfTyRw1RLZHIHQG9LcyMhSgnRBV4PR8q1rtG1WB35yCWR47pVuWrtf0UQ/Oix+kRIwPUFXS0GAJfoCvyF/vC/OXpkirF4fOFVNVjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730430208; c=relaxed/simple;
-	bh=y8yW7zcDDjfMePg5zhO73d5G3dBGBJ+0ZlV2Vk5qn0o=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=VFQ0RTdc212GQKBEsNrvdqe4FwsZP317OZxSsbSQOWYieWJCCoHkU8slCfAxMgaFohsWoV6TJZq1V4XI5/YcDIglKofxh+JtdDj/sfzOUROjl1frNAP4vR8rlX5PhrGAFYFosOUBH0I9N7lHzRduRX1pgRFt8psNRfyzPg5LmZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=cGhmaTsb; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1730431071; c=relaxed/simple;
+	bh=nxjll38E6fkaKQQHuECcDsC3eYGfdaj9xNUPAl8lBo0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=rdpsIz0/5JMhyCL7Lq6sxNOrF44M3ize/aA6xh6P3WW0S+Ku9zBcRyxmADy4DJpS2QQXE0xBmTYlPQgLsOSMPvkVkt4IINNp3cgrIgNSP41tW/hLdwSZcw4dPRw8o1ec6jHcKQtVBk+mowlSWhWNfwfT4voGMB5yxkENKsf0c4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=efDuU9/Z; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=efDuU9/Z; arc=none smtp.client-ip=96.44.175.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="cGhmaTsb"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1730430201; h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
-	bh=lHTFluFn91Zgm50b/7m57y+ytTEX564G7atSqw12Uyc=;
-	b=cGhmaTsb8/XMusaCd7fl8mpaoKg3/Lh/ZeUojnSnkfvmilMgHf8/rV+IV0BDL4RCjphDNiLoE0ex7OtqQnnOtswIEmGmGCJiV9A0NP8aO2/XhQXhlzSUdJwjrzYxOvnVDOry3t6eSlbLSDtLLDAb44vyfUsgEe7bF89lP7bYis0=
-Received: from smtpclient.apple(mailfrom:guanjun@linux.alibaba.com fp:SMTPD_---0WIKwQpa_1730430199 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 01 Nov 2024 11:03:20 +0800
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="efDuU9/Z";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="efDuU9/Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1730431066;
+	bh=nxjll38E6fkaKQQHuECcDsC3eYGfdaj9xNUPAl8lBo0=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=efDuU9/Zbc3f0lTndGZZEaRkDrG0Vz4pkv0GarqSEP+mPgMbWQESJXtyMSMYAXr0k
+	 vvqCMaZ8nOjlI3hHuiTAhY+9FWTrrmCu0qw6UeP3/JoojaiyoVeoTQjmgTZTiiWhl1
+	 v80oxR3ctZUE3xhMRwCkCnopo24wBKz6RgVUs1AY=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 9E01512819B1;
+	Thu, 31 Oct 2024 23:17:46 -0400 (EDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id OblsZ3dP4NMJ; Thu, 31 Oct 2024 23:17:46 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1730431066;
+	bh=nxjll38E6fkaKQQHuECcDsC3eYGfdaj9xNUPAl8lBo0=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=efDuU9/Zbc3f0lTndGZZEaRkDrG0Vz4pkv0GarqSEP+mPgMbWQESJXtyMSMYAXr0k
+	 vvqCMaZ8nOjlI3hHuiTAhY+9FWTrrmCu0qw6UeP3/JoojaiyoVeoTQjmgTZTiiWhl1
+	 v80oxR3ctZUE3xhMRwCkCnopo24wBKz6RgVUs1AY=
+Received: from [10.250.250.46] (122x212x32x58.ap122.ftth.ucom.ne.jp [122.212.32.58])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id BDC0E12817AD;
+	Thu, 31 Oct 2024 23:17:41 -0400 (EDT)
+Message-ID: <685f3f00ddf88e961e2d861b7c783010774fe19d.camel@HansenPartnership.com>
+Subject: Re: [PATCH v11 18/20] tpm: Add sysfs interface to allow setting and
+ querying the default locality
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Ross Philipson <ross.philipson@oracle.com>,
+ linux-kernel@vger.kernel.org,  x86@kernel.org,
+ linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
+ linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org
+Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, 
+ bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org, 
+ mjg59@srcf.ucam.org, peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, 
+ luto@amacapital.net, nivedita@alum.mit.edu, herbert@gondor.apana.org.au, 
+ davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
+ dwmw2@infradead.org,  baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+ andrew.cooper3@citrix.com,  trenchboot-devel@googlegroups.com
+Date: Fri, 01 Nov 2024 12:17:24 +0900
+In-Reply-To: <20240913200517.3085794-19-ross.philipson@oracle.com>
+References: <20240913200517.3085794-1-ross.philipson@oracle.com>
+	 <20240913200517.3085794-19-ross.philipson@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
-Subject: Re: [PATCH RFC v1 1/2] genirq/affinity: add support for limiting
- managed interrupts
-From: mapicccy <guanjun@linux.alibaba.com>
-In-Reply-To: <87v7x8woeq.ffs@tglx>
-Date: Fri, 1 Nov 2024 11:03:08 +0800
-Cc: corbet@lwn.net,
- axboe@kernel.dk,
- mst@redhat.com,
- jasowang@redhat.com,
- xuanzhuo@linux.alibaba.com,
- eperezma@redhat.com,
- vgoyal@redhat.com,
- stefanha@redhat.com,
- miklos@szeredi.hu,
- peterz@infradead.org,
- akpm@linux-foundation.org,
- paulmck@kernel.org,
- thuth@redhat.com,
- rostedt@goodmis.org,
- bp@alien8.de,
- xiongwei.song@windriver.com,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org,
- virtualization@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9847EC49-8F55-486A-985D-C3EDD168762D@linux.alibaba.com>
-References: <20241031074618.3585491-1-guanjun@linux.alibaba.com>
- <20241031074618.3585491-2-guanjun@linux.alibaba.com> <87v7x8woeq.ffs@tglx>
-To: Thomas Gleixner <tglx@linutronix.de>
-X-Mailer: Apple Mail (2.3774.300.61.1.2)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
+On Fri, 2024-09-13 at 13:05 -0700, Ross Philipson wrote:
+> Expose a sysfs interface to allow user mode to set and query the
+> default locality set for the TPM chip.
 
+What does a user need this for?  It somewhat conflicts with the idea of
+running the kernel and user space TPM access in separate localities for
+the purposes of key release, so we can seal keys to only release in the
+kernel by policy.  When I last talked about this I thought we'd
+probably use 0 for user and, say 2, for the kernel (mainly because
+prior incarnations of this patch set seemed to access the TPM in
+locality 2 from the kernel).  It really doesn't matter *what* locality
+we use for the kernel and the user as long as it's known ahead of time
+and the user can't gain access to the kernel locality.
 
-> 2024=E5=B9=B410=E6=9C=8831=E6=97=A5 18:35=EF=BC=8CThomas Gleixner =
-<tglx@linutronix.de> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Thu, Oct 31 2024 at 15:46, guanjun@linux.alibaba.com wrote:
->> #ifdef CONFIG_SMP
->>=20
->> +static unsigned int __read_mostly managed_irqs_per_node;
->> +static struct cpumask managed_irqs_cpumsk[MAX_NUMNODES] =
-__cacheline_aligned_in_smp =3D {
->> +	[0 ... MAX_NUMNODES-1] =3D {CPU_BITS_ALL}
->> +};
->>=20
->> +static void __group_prepare_affinity(struct cpumask *premask,
->> +				     cpumask_var_t *node_to_cpumask)
->> +{
->> +	nodemask_t nodemsk =3D NODE_MASK_NONE;
->> +	unsigned int ncpus, n;
->> +
->> +	get_nodes_in_cpumask(node_to_cpumask, premask, &nodemsk);
->> +
->> +	for_each_node_mask(n, nodemsk) {
->> +		cpumask_and(&managed_irqs_cpumsk[n], =
-&managed_irqs_cpumsk[n], premask);
->> +		cpumask_and(&managed_irqs_cpumsk[n], =
-&managed_irqs_cpumsk[n], node_to_cpumask[n]);
->=20
-> How is this managed_irqs_cpumsk array protected against concurrency?
+Regards,
 
-My intention was to allocate up to `managed_irq_per_node` cpu bits from =
-`managed_irqs_cpumask[n]`,
-even if another task modifies some of the bits in the =
-`managed_irqs_cpumask[n]` at the same time.
-
->=20
->> +		ncpus =3D cpumask_weight(&managed_irqs_cpumsk[n]);
->> +		if (ncpus < managed_irqs_per_node) {
->> +			/* Reset node n to current node cpumask */
->> +			cpumask_copy(&managed_irqs_cpumsk[n], =
-node_to_cpumask[n]);
->=20
-> This whole logic is incomprehensible and aside of the concurrency
-> problem it's broken when CPUs are made present at run-time because =
-these
-> cpu masks are static and represent the stale state of the last
-> invocation.
-
-Sorry, I realize there is indeed a logic issue here (caused by =
-developing on 5.10 LTS and rebase to the latest linux-next).
-
->=20
-> Given the limitations of the x86 vector space, which is not going away
-> anytime soon, there are only two options IMO to handle such a =
-scenario.
->=20
->   1) Tell the nvme/block layer to disable queue affinity management
->=20
->   2) Restrict the devices and queues to the nodes they sit on
-
-I have tried fixing this issue through nvme driver, but later discovered =
-that the same issue exists with virtio net.
-Therefore, I want to address this with a more general solution.
-
-Thanks,
-Guanjun
-
->=20
-> Thanks,
->=20
->        tglx
+James
 
