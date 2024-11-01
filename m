@@ -1,123 +1,108 @@
-Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com [207.171.190.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A4B36B;
-	Fri,  1 Nov 2024 00:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.190.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CE517753;
+	Fri,  1 Nov 2024 00:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730419823; cv=none; b=ohBMag/8VrfoIZZpvC7QIXXq/5ThxSIGuYjwulu9W4CMMBICfkrI3BRXjdV+2qhBuENK0NgiUgQW/Fq623M8azVaMBXwQcUO7owdfsyRW7QoBJ9RVLS2Ok+gw1Qo4ndHWmGPyOw8oLuH7ndL7hJAFHjzDwk1elip9n5OEG00UF8=
+	t=1730421215; cv=none; b=KstCablHElQ6mo4dyFNWFlZ3z9tlGXJYk5wiltppXCNaEZyqZmCWsPBcUG1BS5T5K5Zq5r/Axy9zX2abJMf3HWEIcBWwhnAkN87VyrtofeUU88aUvQmS+ZDD+VjqofdP3ezqwTMsQM0qPZl+cnV0V/5MruRDnbe63jMgTuB7qAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730419823; c=relaxed/simple;
-	bh=jNxyG945mWZFitSBBl3P/Pi37LkMXgLexJ4MyYO00SI=;
-	h=Message-ID:Date:MIME-Version:To:CC:References:Subject:From:
-	 In-Reply-To:Content-Type; b=niixt4GDyZOaJhLQPm4WH6TUz/iGLymPsIiqnMMwkr3oEasE63SYBaAD30riYeO5lnyXCttuSITXLioQDk0mnya7nO+KkmegbuIHntXgrul3q502Qu7oyVhhu8s5OI6LujHvZGtJnEO+O3msCZSCsI3gbeS9x5gQvY4dhkdXB4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=PBjMG6r+; arc=none smtp.client-ip=207.171.190.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1730421215; c=relaxed/simple;
+	bh=JOqTpgy5T4UYFfRSxeC8Hsvp7K+oY1FR38Cm1XCvAJw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=BUVz1/RN+gOthH3f28jMa6mjKgQfkHhnG5XOfemXKdTuQu5fbHJBRJ4/FLrbNDuYBAzrkc0p8435nu4Ztw9prtM7tUc1hK9LNkE0ojm21oJoN8WbIDSeh5+egx73+6mVKpX5nTIT7LqXWuOKUzxgssc50Q6ceg3bWWyUIVsiIn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tDVdeGoS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="PBjMG6r+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1730419818; x=1761955818;
-  h=message-id:date:mime-version:to:cc:references:subject:
-   from:in-reply-to:content-transfer-encoding;
-  bh=jNxyG945mWZFitSBBl3P/Pi37LkMXgLexJ4MyYO00SI=;
-  b=PBjMG6r+2XgemzvXNiRS/nOv26MvOljajnGdveYrMBpmA1MwWUkwdHpn
-   0LAz0d39k1fVkEsQ+H8ilkocCRFpfEwi+SBZJtFtHrCuccr/i2HbIrzNC
-   Vzn1knGOIQtMoIqaIKI4RHXVOWTcnEdhNS/r/bhbu2U1Xe/JRt25G52Hl
-   o=;
-X-IronPort-AV: E=Sophos;i="6.11,248,1725321600"; 
-   d="scan'208";a="381598034"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-33001.sea14.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 00:10:17 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.7.35:3117]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.50.158:2525] with esmtp (Farcaster)
- id 9403627f-3ea8-485f-95a8-ff158371f477; Fri, 1 Nov 2024 00:10:16 +0000 (UTC)
-X-Farcaster-Flow-ID: 9403627f-3ea8-485f-95a8-ff158371f477
-Received: from EX19D003UWC002.ant.amazon.com (10.13.138.169) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Fri, 1 Nov 2024 00:10:15 +0000
-Received: from [192.168.20.174] (10.106.101.30) by
- EX19D003UWC002.ant.amazon.com (10.13.138.169) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
- Fri, 1 Nov 2024 00:10:12 +0000
-Message-ID: <2233397c-f423-40e3-8546-728b50ce0489@amazon.com>
-Date: Thu, 31 Oct 2024 17:10:11 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tDVdeGoS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEC80C4CED4;
+	Fri,  1 Nov 2024 00:33:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730421215;
+	bh=JOqTpgy5T4UYFfRSxeC8Hsvp7K+oY1FR38Cm1XCvAJw=;
+	h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
+	b=tDVdeGoShHzHJ4KUpuULtbcdXFySN9uy/gfThoWBusIWDUa0IeYatInt0hkyM5Tzq
+	 LouYEGFgfBSs7YLVVjbNDXK5ZYwAjZXxEA1h5tKRMPrn43fIt5SZuDMqJRJvQlMvp7
+	 A9aR3ACyH58sUg0szTxRf1mgBWMn0RPcGMBsD/hVZpa+SuWf0VXva9aEOSMxSN21FY
+	 AbU4us6aTzDvpv+c22zTeTKelXaCjrMDHkfeSY5qLViLUCs4M24IsERwqFWkCSlmNs
+	 0KNTrffIhVhY5TaEgY0gKtHrAPqhzmq2vVKG6HPxD6QQeuBmQ8M+FcEozYJMGq+VEy
+	 bUhV66CbYt8rQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: <roypat@amazon.co.uk>
-CC: <ackerleytng@google.com>, <agordeev@linux.ibm.com>,
-	<aou@eecs.berkeley.edu>, <borntraeger@linux.ibm.com>, <bp@alien8.de>,
-	<catalin.marinas@arm.com>, <chenhuacai@kernel.org>, <corbet@lwn.net>,
-	<dave.hansen@linux.intel.com>, <david@redhat.com>, <derekmn@amazon.com>,
-	<gerald.schaefer@linux.ibm.com>, <gor@linux.ibm.com>, <graf@amazon.com>,
-	<hca@linux.ibm.com>, <hpa@zytor.com>, <jgowans@amazon.com>,
-	<jthoughton@google.com>, <kalyazin@amazon.com>, <kernel@xen0n.name>,
-	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<luto@kernel.org>, <mathieu.desnoyers@efficios.com>, <mhiramat@kernel.org>,
-	<mingo@redhat.com>, <palmer@dabbelt.com>, <paul.walmsley@sifive.com>,
-	<pbonzini@redhat.com>, <peterz@infradead.org>, <quic_eberman@quicinc.com>,
-	<rostedt@goodmis.org>, <rppt@kernel.org>, <seanjc@google.com>,
-	<shuah@kernel.org>, <svens@linux.ibm.com>, <tabba@google.com>,
-	<tglx@linutronix.de>, <vannapurve@google.com>, <will@kernel.org>,
-	<x86@kernel.org>, <xmarcalx@amazon.com>
-References: <27646c08-f724-49f7-9f45-d03bad500219@amazon.co.uk>
-Subject: Re: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
-Content-Language: en-US
-From: "Manwaring, Derek" <derekmn@amazon.com>
-In-Reply-To: <27646c08-f724-49f7-9f45-d03bad500219@amazon.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D031UWA004.ant.amazon.com (10.13.139.19) To
- EX19D003UWC002.ant.amazon.com (10.13.138.169)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 01 Nov 2024 02:33:30 +0200
+Message-Id: <D5AF4HY1I6AA.27WRBDDGLYH39@kernel.org>
+To: "Thomas Gleixner" <tglx@linutronix.de>, "Ross Philipson"
+ <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
+ <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+ <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
+ <iommu@lists.linux-foundation.org>
+Cc: <dpsmith@apertussolutions.com>, <mingo@redhat.com>, <bp@alien8.de>,
+ <hpa@zytor.com>, <dave.hansen@linux.intel.com>, <ardb@kernel.org>,
+ <mjg59@srcf.ucam.org>, <James.Bottomley@hansenpartnership.com>,
+ <peterhuewe@gmx.de>, <jgg@ziepe.ca>, <luto@amacapital.net>,
+ <nivedita@alum.mit.edu>, <herbert@gondor.apana.org.au>,
+ <davem@davemloft.net>, <corbet@lwn.net>, <ebiederm@xmission.com>,
+ <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v11 00/20] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+X-Mailer: aerc 0.18.2
+References: <20240913200517.3085794-1-ross.philipson@oracle.com>
+ <87wmhoulb9.ffs@tglx> <D5ACNMVX5LXB.1L0S9P2J3UDJH@kernel.org>
+ <87ldy3vpjh.ffs@tglx>
+In-Reply-To: <87ldy3vpjh.ffs@tglx>
 
-On 2024-10-31 at 10:42+0000 Patrick Roy wrote:
-> On Thu, 2024-10-31 at 09:50 +0000, David Hildenbrand wrote:
-> > On 30.10.24 14:49, Patrick Roy wrote:
-> >> Most significantly, I've reduced the patch series to focus only on
-> >> direct map removal for guest_memfd for now, leaving the whole "how to do
-> >> non-CoCo VMs in guest_memfd" for later. If this separation is
-> >> acceptable, then I think I can drop the RFC tag in the next revision
-> >> (I've mainly kept it here because I'm not entirely sure what to do with
-> >> patches 3 and 4).
+On Fri Nov 1, 2024 at 1:08 AM EET, Thomas Gleixner wrote:
+> On Fri, Nov 01 2024 at 00:37, Jarkko Sakkinen wrote:
+> > On Thu Oct 31, 2024 at 9:25 PM EET, Thomas Gleixner wrote:
+> >> So this looks pretty reasonable to me by now and I'm inclined to take =
+it
+> >> through the tip x86 tree, but that needs reviewed/acked-by's from the
+> >> crypto and TPM folks. EFI has been reviewed already.
+> >>
+> >> Can we make progress on this please?
 > >
-> > Hi,
+> > So TPM patches do have bunch of glitches:
 > >
-> > keeping upcoming "shared and private memory in guest_memfd" in mind, I
-> > assume the focus would be to only remove the direct map for private memory?
-> >
-> > So in the current upstream state, you would only be removing the direct
-> > map for private memory, currently translating to "encrypted"/"protected"
-> > memory that is inaccessible either way already.
-> >
-> > Correct?
+> > - 15/20: I don't get this. There is nothing to report unless tree
+> >   is falling. The reported-by tag literally meaningless. Maybe this
+> >   is something that makes sense with this feature. Explain from that
+> >   angle.
+> > - 16/20: Is this actually a bug fix? If it is should be before 15/20.
+> > - 17/20: the commit message could do a better job explaining how the
+> >   locality can vary. I'm not sure how this will be used by rest of
+> >   the patch set.
+> > - 18/20: I'm not confident we want to give privilege to set locality
+> >   to the user space. The commit message neither makes a case of this.
+> >   Has this been tested to together with bus encryption (just checking)?
 >
-> Yea, with the upcomming "shared and private" stuff, I would expect the
-> the shared<->private conversions would call the routines from patch 3 to
-> restore direct map entries on private->shared, and zap them on
-> shared->private.
+> Can you please explicitely voice your detailed technical concerns in
+> replies to the actual patches?
+
+- 15/20 looks like a rigged patch. I don't really know why it is done
+  so it is hard to either suggest how "resolve it".
+- 16/20 probably makes sense but if it is a bug fix or part of it is,
+  the bug fix should have relevant fixes etc tags so that it can be
+  picked up to stable kernels.
+- 17-18/20: I'd speak about this as the "one whole" i.e. here the
+  privilege to be able change locality during run-time is really
+  concerning. Could the locality be figured out for the kernel
+  command-line instead? The sysfs attribute can exist as read-only.
+
+So yeah, the way I see it 15-16 are the more trivial issue to sort
+out (probably) but with 17-18 we have an actual architectural concern
+for kernel overall.
+
+> Thanks,
 >
-> But as you said, the current upstream state has no notion of "shared"
-> memory in guest_memfd, so everything is private and thus everything is
-> direct map removed (although it is indeed already inaccessible anyway
-> for TDX and friends. That's what makes this patch series a bit awkward
-> :( )
+>         tglx
 
-TDX and SEV encryption happens between the core and main memory, so
-cached guest data we're most concerned about for transient execution
-attacks isn't necessarily inaccessible.
-
-I'd be interested what Intel, AMD, and other folks think on this, but I
-think direct map removal is worthwhile for CoCo cases as well.
-
-Derek
+BR, Jarkko
