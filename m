@@ -1,98 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2076839F4;
-	Fri,  1 Nov 2024 08:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4204415852F
+	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 08:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730449074; cv=none; b=NA/jeO3gzfAm8AuwnONUtgvjE7JHET89I/lFYl8xFw7h00RB6RCF+NOTeMah1MW5CluQa+23KjDSqeBsYCnjj/+LiODuQ+yD5Yl/6uONK9MJGV6ki+/mZvDCHDbVLs1Gqw+1O01WC+FYbuHlSaEDLSVPpLwz95R0BJ53bIWaXmQ=
+	t=1730449934; cv=none; b=er3SotGyF71M7KRmiQEtL5EA8Uys7PQV6rx3UoywqFJTVUKbGbcHvJHUMD22wh3Jw0GMP1Mg/GLXpBQ6eVpujBA28iWp6w9WdcMexV4YsmrPJeKKKtQmPBEfCHIB8iMah/AWJn6CPE+XsU6H1WtR4bIgNPwmqtBT0DJJ6fQLYTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730449074; c=relaxed/simple;
-	bh=bRIUBXwyuUR5UZBUszgbH8lg8rGnMux7wOltYqXItLs=;
+	s=arc-20240116; t=1730449934; c=relaxed/simple;
+	bh=SIw5E0b2RSZkIPrX258J7VBZ9Fk9xKHVun/bxusijmk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qU2zvEyuLbuWahiE6NhjHPvglDzMqPbCuASCwKwlzBRUpmVi7IwbFM67oQ3MtfP+XOR3/RB/8+q0SWUF3YM6A/nmzRgxB8EJEXqGBaMDFcT0/pc5WBVqk7KOa4ZzPuQwB3KTX6UF1SdOsPthsEU20SlXTRuzw7ta3lpyYTZAB2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzQq78Qs; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzQq78Qs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730449073; x=1761985073;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bRIUBXwyuUR5UZBUszgbH8lg8rGnMux7wOltYqXItLs=;
-  b=JzQq78QsdlrVeRmDy93DeGosFMpZgKCKQ1Hd9zC4wQgT3p33J8urC00S
-   9oCGZqfe4snliWSEKegFid4arcuNEn8/SZEvxKBJqI9yEDkNsGBI6yZt+
-   ZBkPF5X4C8frrgV0hucbrSBAJYgp/TuJIp0oxRM5IlxReTT0gIVVlc3lU
-   gQfx2/h+PLArpWtNFhGHNDBnCj0hAxtlwE6VBcbdSQeg7t8vy8sKk9Raz
-   aG31y+b5O2mqeXSitwxx8vQDt2gGiGnu7Po1oupEf+jr0mz0hnAhXlGDO
-   K8/S8PbeabB0oTQqsm3/lKlvbObwvLEvDVjtJinWl7a7hYx4wc7LWQDs4
-   w==;
-X-CSE-ConnectionGUID: 7u15njSNTCydLSFk34IKJw==
-X-CSE-MsgGUID: QbxfAPI5TNGwLCeu0JDefQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="41579347"
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="41579347"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 01:17:52 -0700
-X-CSE-ConnectionGUID: zK+JKYeGQ/mNbJIvyhA3OA==
-X-CSE-MsgGUID: rxGZFeNORqqCwLTOdcXExg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="88024299"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 01:17:49 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t6mqn-00000009xZS-1yQQ;
-	Fri, 01 Nov 2024 10:17:45 +0200
-Date: Fri, 1 Nov 2024 10:17:45 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Rodolfo Giometti <giometti@enneenne.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>, Greg KH <greg@kroah.com>,
-	corbet@lwn.net, Hall Christopher S <christopher.s.hall@intel.com>,
-	Mohan Subramanian <subramanian.mohan@intel.com>, tglx@linutronix.de,
-	Dong Eddie <eddie.dong@intel.com>, N Pandith <pandith.n@intel.com>,
-	T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
-	Zage David <david.zage@intel.com>,
-	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [V2 4/4] Documentation ABI: add PPS generators documentation
-Message-ID: <ZySOqYbGAmrmVZek@smile.fi.intel.com>
-References: <20241031163508.259522-1-giometti@enneenne.com>
- <20241031163508.259522-5-giometti@enneenne.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=e5WHq7kmZhlhhskD6szYHKuyMNJt6m3M8xXF8yGLT9BDjpAqPiT8yvPPcfCsoBGl9NGLWiNNGKcy/SbM6YUbZZC3m6g7D36I+AjDQ1T9qseYDPvybS3XnG89jml2Q2F56jAgUWSTkR3YJcjG0VAk2vMTX5j8zDVhIy3JexqiJK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1t6n4O-0007x2-Jj; Fri, 01 Nov 2024 09:31:48 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1t6n4K-001U2A-0C;
+	Fri, 01 Nov 2024 09:31:44 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1t6n4J-007xe3-31;
+	Fri, 01 Nov 2024 09:31:43 +0100
+Date: Fri, 1 Nov 2024 09:31:43 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v2 15/18] net: pse-pd: Add support for
+ getting and setting port priority
+Message-ID: <ZySR75i3BEzNbjnv@pengutronix.de>
+References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
+ <20241030-feature_poe_port_prio-v2-15-9559622ee47a@bootlin.com>
+ <ZyMpkJRHZWYsszh2@pengutronix.de>
+ <20241031121104.6f7d669c@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241031163508.259522-5-giometti@enneenne.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241031121104.6f7d669c@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, Oct 31, 2024 at 05:35:08PM +0100, Rodolfo Giometti wrote:
-> This patch adds the documentation for the ABI between the Linux kernel
-> and userspace regarding the PPS generators.
+On Thu, Oct 31, 2024 at 12:11:04PM +0100, Kory Maincent wrote:
+> On Thu, 31 Oct 2024 07:54:08 +0100
+> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> 
+> > > diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
+> > > index a1ad257b1ec1..22664b1ea4a2 100644
+> > > --- a/include/uapi/linux/ethtool.h
+> > > +++ b/include/uapi/linux/ethtool.h
+> > > @@ -1002,11 +1002,35 @@ enum ethtool_c33_pse_pw_d_status {
+> > >   * enum ethtool_c33_pse_events - event list of the C33 PSE controller.
+> > >   * @ETHTOOL_C33_PSE_EVENT_OVER_CURRENT: PSE output current is too high.
+> > >   * @ETHTOOL_C33_PSE_EVENT_OVER_TEMP: PSE in over temperature state.
+> > > + * @ETHTOOL_C33_PSE_EVENT_CONNECTED: PD detected on the PSE.
+> > > + * @ETHTOOL_C33_PSE_EVENT_DISCONNECTED: PD has been disconnected on the
+> > > PSE.
+> > > + * @ETHTOOL_C33_PSE_EVENT_PORT_PRIO_STATIC_ERROR: PSE faced an error in
+> > > static
+> > > + *	port priority management mode.
+> > >   */
+> > >  
+> > >  enum ethtool_c33_pse_events {
+> > > -	ETHTOOL_C33_PSE_EVENT_OVER_CURRENT =	1 << 0,
+> > > -	ETHTOOL_C33_PSE_EVENT_OVER_TEMP =	1 << 1,
+> > > +	ETHTOOL_C33_PSE_EVENT_OVER_CURRENT =		1 << 0,
+> > > +	ETHTOOL_C33_PSE_EVENT_OVER_TEMP =		1 << 1,
+> > > +	ETHTOOL_C33_PSE_EVENT_CONNECTED =		1 << 2,
+> > > +	ETHTOOL_C33_PSE_EVENT_DISCONNECTED =		1 << 3,
+> > > +	ETHTOOL_C33_PSE_EVENT_PORT_PRIO_STATIC_ERROR =	1 << 4,
+> > > +};  
+> > 
+> > Same here, priority concept is not part of the spec, so the C33 prefix
+> > should be removed.
+> 
+> Ack. So we assume PoDL could have the same interruption events.
+> 
+> > > +/**
+> > > + * enum pse_port_prio_modes - PSE port priority modes.
+> > > + * @ETHTOOL_PSE_PORT_PRIO_DISABLED: Port priority disabled.
+> > > + * @ETHTOOL_PSE_PORT_PRIO_STATIC: PSE static port priority. Port priority
+> > > + *	based on the power requested during PD classification. This mode
+> > > + *	is managed by the PSE core.
+> > > + * @ETHTOOL_PSE_PORT_PRIO_DYNAMIC: PSE dynamic port priority. Port priority
+> > > + *	based on the current consumption per ports compared to the total
+> > > + *	power budget. This mode is managed by the PSE controller.
+> > > + */  
 
-...
+After thinking about it more overnight, I wanted to revisit the idea of having
+a priority strategy per port. Right now, if one port is set to static or
+dynamic mode, all disabled ports seem to have to follow it somehow too. This
+makes it feel like we should have a strategy for the whole power domain, not
+just for each port.
 
-> +What:		/sys/class/pps-gen/
-> +Date:		February 2025
+I'm having trouble imagining how a per-port priority strategy would work in
+this setup.
 
-Don't you want to add KernelVersion? The date is hard to map to the actual
-version where it may appear first.
+Another point that came to mind is that we might have two different components
+here, and we need to keep these two parts separate in follow-up discussions:
 
-> +Contact:	Rodolfo Giometti <giometti@enneenne.com>
+- **Budget Evaluation Strategy**: The static approach seems straightforward—if
+a class requests more than available, appropriate actions are taken. However,
+the dynamic approach has more complexity, such as determining the threshold,
+how long violations can be tolerated, and whether a safety margin should be
+maintained before exceeding maximum load.
 
-Ditto for all of them.
+- **Disconnection Policy**: Once a budget violation is detected, this decides
+how to react, like which ports should be disconnected and in what order.
 
+Would it make more sense to have a unified strategy for power domains, where we
+apply the same budget evaluation mode (static or dynamic) and disconnection
+policy to all ports in that domain? This could make the configuration simpler
+and the power management more predictable.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
