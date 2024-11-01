@@ -1,192 +1,287 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51BA1D968D;
-	Fri,  1 Nov 2024 20:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D52E1CB526
+	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 20:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730491656; cv=none; b=f1Tqk7z7v07mLBX2cm9ZUCK1JVAsfRYrVYQFnkeDc4NH/8wv9PceG7q5BesbGjErImL5Vj/rgKb/tEfsUxL8zi1FzCee7opOu2C+558J2WhG/RVZPxQs2TVuLBTHvHl2dzWf74piVCXzMBNAQswEu5uuxQr57ySUXAHbGrq05Zg=
+	t=1730491735; cv=none; b=c52v3HeQBGRnyztEWBdf1v3w9Y7pAHiXi6HTNU9MR0rbZWCmfrrvfzAzL0b55WIHnPoVpIBepfqHFFHUnoSpQd8+7uQ8gQiiEHDrPuAtoQ8nXFDTibQI7SW82qGcJoeY+FTEIMyMLWmIN9DZ+ZJlga8KSq7P1x4pBAvcL5Jcqbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730491656; c=relaxed/simple;
-	bh=4gAT0HFny/uubV2wFiEE++QBBhOmMgPZGZyxNpwgaFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ty7ZysxOGcV6elSP8os/bn3zmOEbAk+MWb5dExcZ3nbRCpo+Lgr4spBBOBOk55SGJx57qWH6PYNMHp7Pm9u1CgAbZXv/rzKzkJLd13aJvsSno91yGEVaTyI32A+X/lsaYIJ5YNWPyS/t+2V//2iyDO9pGyg+10bWYMaGbLBd49s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nSp7NtGk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730491735; c=relaxed/simple;
+	bh=C3bK9lq2Iat+ytyW1C1WkA7TwIFFMRn5QKSxbvhI+cU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nde5qJSHYe7GGW5rcyk0EIjgqGgdtOeneeDsla++M9f2TZKEpitUN3wCD+VTYdq471kTzbtrUd7ygga5G4BXt82L8zUjOkiEKbGk/SkwroKU1ntLTmQjMSATrQCdGhQPwxwWORYm2qY5HZK/k0589hphrmDBldcazxNY82IY+5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zXNwz71D; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nSp7NtGk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1738EC4CECD;
-	Fri,  1 Nov 2024 20:07:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730491656;
-	bh=4gAT0HFny/uubV2wFiEE++QBBhOmMgPZGZyxNpwgaFk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nSp7NtGknZUTHxyNdjiHayaQzDcnoV9I7Rgyca29npV1RbPnNYvUBoYcyEI/z4/4B
-	 vUrncQg83m/Bnpgk/+GoD0+04QzbTbLyr38LR3FLkr7HwqncfuKxOtnwz75G2gQEE9
-	 VuRAWCjCK7JEJ0iI44nEy5pTRd2GmPaw3gMsg5c6jgk53XeUAnKe0DE1mP0tdwEx8p
-	 sfhveAa6HQDruGbLdL8AKOkXMAb2YQgH+GIKJTOh2DfNkFNSaV6ey4qeaeHpfulxDC
-	 LiZKNtHlU1h0TWPEjTo+pHeO0m2MxvnIUQSr3PELF0GhKJimHTpVapbkrI3Kw6Qh+8
-	 YiIxsgBQV4Kwg==
-Date: Fri, 1 Nov 2024 21:07:29 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Ian Rogers <irogers@google.com>
-Cc: "G . Branden Robinson" <g.branden.robinson@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-Message-ID: <20241101200729.6wgyksuwdtsms3eu@devuan>
-References: <20241015211719.1152862-1-irogers@google.com>
- <20241101132437.ahn7xdgvmqamatce@devuan>
- <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zXNwz71D"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4608dddaa35so74701cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 13:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1730491732; x=1731096532; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JBhvgsyP68AaFdlci9462ArR+t5qoTnQQ8nehGqn+cY=;
+        b=zXNwz71DBFYPz1sP5tfi2wFU+rcqCxWNhXVt2i2142V47hg70xrU6vguW7SsouXX7r
+         Zyqc37ECf0g/6Ws31Gy/T9wCErubS/LXrbzp2jJUgp3CR0i6mZfArpC6O1rjG8q3FJxW
+         d1TFY/HsqQF5DHQL1bLEMwC3ex1Al6xI2tqEKITA14oGphNGm90PA9JyNHHzv4VFc7Tz
+         SCgcrLj0pGdRigYvgQJ5q0Pbo8vfGPkKmTxrXf68CypkgzJ40jRgbkudCemnIRzbGlSZ
+         a6hVjNGCACYFOVkQXGWoD7rxzdpDHAwBtLf6l5KrVSXaoWx5WrEClQqgorYlL/SmrsUG
+         d2QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730491732; x=1731096532;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JBhvgsyP68AaFdlci9462ArR+t5qoTnQQ8nehGqn+cY=;
+        b=AvYmvrC/CZlkl3EDHwSK58iYGOWjXd9pD3Ls5HjFjk835Q0U3CkYwXF3gIeG1IcsyF
+         8cZ1ixzA3dokQQO8JASiyZzdnBBjSBCd+cNbTGwXYEChfJN4hrp+BPctYiGTnK1JVNlm
+         d0tT0YyLjdzf1sXDNE88oqTJaTFR8s53Di5oBZcbhrAGIKwqDV6d8mMclgof2jOab/P+
+         kJoe3CFH46qcmdQMlrbjJh3F57K6rWtqd2z3zZmtRGnkK5jAsBuBJlAXMJj7TIbQTWZR
+         B0O31M9QnEfEte6iXaWq6QkrdG5ztgGH0CJWmJXRR5aT16YjfWEXvkoEjIKPqLayodFL
+         swbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVbgyALZib84B+2Ias9Gy66CHVQPuU5EybXjCfxU7sj3WP6fVxl7HVWr7pARylHLlz4PC+GFf99ZWI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPp99hio8Rzu6rq9lTj3WzWTpSJhWrX2C89n2ALSrkcV/28e7o
+	IFGQsANzA1UIdX5ilzfQlkD8EGTXtEqNndY+e1N3xbJ4BvBMPs8Ze4iGD3kTsOsB90EpiuMBlQh
+	xbjt2/u684CZwLjWVnvN7suxBhYPMThB/OUvt
+X-Gm-Gg: ASbGncu1BpGoF/ZUAq4q7p9jh9ZVoMm1n+IuB92hSYN2wt2YPl/h2HVE1eWnzeiPV2g
+	M1l+8XfTe/MEVBQUFVg2B347KPZ2g/orKwKiKdXai1V86HpOyx9tu0w4r7W95
+X-Google-Smtp-Source: AGHT+IHLzbr5jZfQL/RFF11+CfvITxPQwh4PBiAl7YBrfB0o/NYh07B9/QUFW2fV1iv3quuB+T2eISwzjxXYEChmiRQ=
+X-Received: by 2002:a05:622a:5289:b0:460:77ac:8773 with SMTP id
+ d75a77b69052e-462c60000d5mr609401cf.26.1730491732027; Fri, 01 Nov 2024
+ 13:08:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vmpttclijleburvy"
-Content-Disposition: inline
-In-Reply-To: <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
-
-
---vmpttclijleburvy
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+References: <20241023224409.201771-1-xur@google.com> <20241023224409.201771-2-xur@google.com>
+ <CAK7LNARiEhNBPikEv--YpdKTPt5B5tFF_J0T8+xbi1CS6WJBFQ@mail.gmail.com>
+In-Reply-To: <CAK7LNARiEhNBPikEv--YpdKTPt5B5tFF_J0T8+xbi1CS6WJBFQ@mail.gmail.com>
+From: Rong Xu <xur@google.com>
+Date: Fri, 1 Nov 2024 13:08:38 -0700
+Message-ID: <CAF1bQ=QvQ=NRCOky3-k_9eoo4BVgW+_C7g6TBmSw=qNurPW9uA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/7] Add AutoFDO support for Clang build
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
+	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
+	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-MIME-Version: 1.0
 
-Hi Ian,
-
-On Fri, Nov 01, 2024 at 11:19:18AM -0700, Ian Rogers wrote:
-> On Fri, Nov 1, 2024 at 6:24=E2=80=AFAM Alejandro Colomar <alx@kernel.org>=
- wrote:
+On Fri, Nov 1, 2024 at 11:02=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Thu, Oct 24, 2024 at 7:44=E2=80=AFAM Rong Xu <xur@google.com> wrote:
 > >
-> > On Tue, Oct 15, 2024 at 02:17:17PM -0700, Ian Rogers wrote:
-> > > When /proc/pid/fdinfo was part of proc.5 man page the indentation made
-> > > sense. As a standalone man page the indentation doesn't need to be so
-> > > far over to the right. Remove the initial tagged pragraph and move the
-> > > styling to the initial summary description.
-> > >
-> > > Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
-> > > Signed-off-by: Ian Rogers <irogers@google.com>
-> > > ---
-> > >  man/man5/proc_pid_fdinfo.5 | 66 ++++++++++++++++++------------------=
---
-> > >  1 file changed, 32 insertions(+), 34 deletions(-)
-> > >
-> > > diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-> > > index 1e23bbe02..8678caf4a 100644
-> > > --- a/man/man5/proc_pid_fdinfo.5
-> > > +++ b/man/man5/proc_pid_fdinfo.5
-> > > @@ -6,20 +6,19 @@
-> > >  .\"
-> > >  .TH proc_pid_fdinfo 5 (date) "Linux man-pages (unreleased)"
-> > >  .SH NAME
-> > > -/proc/pid/fdinfo/ \- information about file descriptors
-> > > +.IR /proc/ pid /fdinfo " \- information about file descriptors"
+> > Add the build support for using Clang's AutoFDO. Building the kernel
+> > with AutoFDO does not reduce the optimization level from the
+> > compiler. AutoFDO uses hardware sampling to gather information about
+> > the frequency of execution of different code paths within a binary.
+> > This information is then used to guide the compiler's optimization
+> > decisions, resulting in a more efficient binary. Experiments
+> > showed that the kernel can improve up to 10% in latency.
 > >
-> > I wouldn't add formatting here for now.  That's something I prefer to be
-> > cautious about, and if we do it, we should do it in a separate commit.
->=20
-> I'll move it to a separate patch. Is the caution due to a lack of test
-> infrastructure? That could be something to get resolved, perhaps
-> through Google summer-of-code and the like.
-
-That change might be controversial.  We'd first need to check that all
-software that reads the NAME section would behave well for this.
-
-Also, many other pages might need to be changed accordingly for
-consistency.
-
-For testing infrastructure I think we're good.  The makefile already
-does a lot of testing.
-
->=20
-> > >  .SH DESCRIPTION
-> > > -.TP
-> > > -.IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
-> > > -This is a subdirectory containing one entry for each file which the
-> > > -process has open, named by its file descriptor.
-> > > -The files in this directory are readable only by the owner of the pr=
-ocess.
-> > > -The contents of each file can be read to obtain information
-> > > -about the corresponding file descriptor.
-> > > -The content depends on the type of file referred to by the
-> > > -corresponding file descriptor.
-> > > -.IP
-> > > +Since Linux 2.6.22,
+> > The support requires a Clang compiler after LLVM 17. This submission
+> > is limited to x86 platforms that support PMU features like LBR on
+> > Intel machines and AMD Zen3 BRS. Support for SPE on ARM 1,
+> >  and BRBE on ARM 1 is part of planned future work.
 > >
-> > You could move this information to a HISTORY section.
->=20
-> Sure, tbh I'm not sure anybody cares about this information and it
-> could be as well to delete it. Sorry people running 17 year old
-> kernels. For now I'll try to leave it unchanged.
-
-I would like to keep it in HISTORY.  You never know when it'll be useful
-and it's just one line or a few; it won't hurt.
-
->=20
-> > > +this subdirectory contains one entry for each file that process
-> > > +.I pid
-> > > +has open, named by its file descriptor.  The files in this directory
+> > Here is an example workflow for AutoFDO kernel:
 > >
-> > Please don't reflow existing text.  Please read about semantic newlines
-> > in man-pages(7):
+> > 1) Build the kernel on the host machine with LLVM enabled, for example,
+> >        $ make menuconfig LLVM=3D1
+> >     Turn on AutoFDO build config:
+> >       CONFIG_AUTOFDO_CLANG=3Dy
+> >     With a configuration that has LLVM enabled, use the following
+> >     command:
+> >        scripts/config -e AUTOFDO_CLANG
+> >     After getting the config, build with
+> >       $ make LLVM=3D1
 > >
-> > $ MANWIDTH=3D72 man man-pages | sed -n '/Use semantic newlines/,/^$/p'
-> >    Use semantic newlines
-> >      In  the  source of a manual page, new sentences should be started
-> >      on new lines, long sentences should be split into lines at clause
-> >      breaks (commas, semicolons, colons, and so on), and long  clauses
-> >      should be split at phrase boundaries.  This convention, sometimes
-> >      known  as  "semantic newlines", makes it easier to see the effect
-> >      of patches, which often operate at the level of  individual  sen=
-=E2=80=90
-> >      tences, clauses, or phrases.
->=20
-> I'll update for v3 but I'm reminded of `git diff --word-diff=3Dcolor` so
-> perhaps this recommendation is outdated.
+> > 2) Install the kernel on the test machine.
+> >
+> > 3) Run the load tests. The '-c' option in perf specifies the sample
+> >    event period. We suggest     using a suitable prime number,
+> >    like 500009, for this purpose.
+> >    For Intel platforms:
+> >       $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count>=
+ \
+> >         -o <perf_file> -- <loadtest>
+> >    For AMD platforms:
+> >       The supported system are: Zen3 with BRS, or Zen4 with amd_lbr_v2
+> >      For Zen3:
+> >       $ cat proc/cpuinfo | grep " brs"
+> >       For Zen4:
+> >       $ cat proc/cpuinfo | grep amd_lbr_v2
+> >       $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a=
+ \
+> >         -N -b -c <count> -o <perf_file> -- <loadtest>
+> >
+> > 4) (Optional) Download the raw perf file to the host machine.
+> >
+> > 5) To generate an AutoFDO profile, two offline tools are available:
+> >    create_llvm_prof and llvm_profgen. The create_llvm_prof tool is part
+> >    of the AutoFDO project and can be found on GitHub
+> >    (https://github.com/google/autofdo), version v0.30.1 or later. The
+> >    llvm_profgen tool is included in the LLVM compiler itself. It's
+> >    important to note that the version of llvm_profgen doesn't need to
+> >    match the version of Clang. It needs to be the LLVM 19 release or
+> >    later, or from the LLVM trunk.
+> >       $ llvm-profgen --kernel --binary=3D<vmlinux> --perfdata=3D<perf_f=
+ile> \
+> >         -o <profile_file>
+> >    or
+> >       $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file> \
+> >         --format=3Dextbinary --out=3D<profile_file>
+> >
+> >    Note that multiple AutoFDO profile files can be merged into one via:
+> >       $ llvm-profdata merge -o <profile_file>  <profile_1> ... <profile=
+_n>
+> >
+> > 6) Rebuild the kernel using the AutoFDO profile file with the same conf=
+ig
+> >    as step 1, (Note CONFIG_AUTOFDO_CLANG needs to be enabled):
+> >       $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<profile_file>
+> >
+> > Co-developed-by: Han Shen <shenhan@google.com>
+> > Signed-off-by: Han Shen <shenhan@google.com>
+> > Signed-off-by: Rong Xu <xur@google.com>
+> > Suggested-by: Sriraman Tallam <tmsriram@google.com>
+> > Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
+> > Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+> > Suggested-by: Stephane Eranian <eranian@google.com>
+> > Tested-by: Yonghong Song <yonghong.song@linux.dev>
+>
+>
+>
+>
+> > +Workflow
+> > +=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Here is an example workflow for AutoFDO kernel:
+> > +
+> > +1)  Build the kernel on the host machine with LLVM enabled,
+> > +    for example, ::
+> > +
+> > +      $ make menuconfig LLVM=3D1
+> > +
+> > +    Turn on AutoFDO build config::
+> > +
+> > +      CONFIG_AUTOFDO_CLANG=3Dy
+> > +
+> > +    With a configuration that with LLVM enabled, use the following com=
+mand::
+> > +
+> > +      $ scripts/config -e AUTOFDO_CLANG
+> > +
+> > +    After getting the config, build with ::
+> > +
+> > +      $ make LLVM=3D1
+> > +
+> > +2) Install the kernel on the test machine.
+> > +
+> > +3) Run the load tests. The '-c' option in perf specifies the sample
+> > +   event period. We suggest using a suitable prime number, like 500009=
+,
+> > +   for this purpose.
+> > +
+> > +   - For Intel platforms::
+> > +
+> > +      $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count=
+> -o <perf_file> -- <loadtest>
+> > +
+> > +   - For AMD platforms::
+>
+> I am not sure if this double-colon is needed
+> when the next line is not code.
 
-No, this isn't outdated, since that reduces the quality of the diff.
-Also, I review a lot of patches in the mail client, without running
-git(1).  And it's not just for reviewing diffs, but also for writing
-them.  Semantic newlines reduce the amount of work for producing the
-diffs.  And lastly, the source code reads much better if it's logically
-divided in phrases.
+Thanks for catching this. We don't mean to use "::" here. It should be
+":" and there is supposed to be a blank line after this.
+Also a blank line before "For Zen3::". I will fix this in the patch.
 
->=20
-> Thanks,
-> Ian
+>
+>
+>
+> > +     The supported systems are: Zen3 with BRS, or Zen4 with amd_lbr_v2=
+. To check,
+> > +     For Zen3::
+> > +
+> > +      $ cat proc/cpuinfo | grep " brs"
+> > +
+> > +     For Zen4::
+> > +
+> > +      $ cat proc/cpuinfo | grep amd_lbr_v2
+> > +
+> > +     The following command generated the perf data file::
+> > +
+> > +      $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -=
+a -N -b -c <count> -o <perf_file> -- <loadtest>
+> > +
+> > +4) (Optional) Download the raw perf file to the host machine.
+> > +
+> > +5) To generate an AutoFDO profile, two offline tools are available:
+> > +   create_llvm_prof and llvm_profgen. The create_llvm_prof tool is par=
+t
+> > +   of the AutoFDO project and can be found on GitHub
+> > +   (https://github.com/google/autofdo), version v0.30.1 or later.
+> > +   The llvm_profgen tool is included in the LLVM compiler itself. It's
+> > +   important to note that the version of llvm_profgen doesn't need to =
+match
+> > +   the version of Clang. It needs to be the LLVM 19 release of Clang
+> > +   or later, or just from the LLVM trunk. ::
+> > +
+> > +      $ llvm-profgen --kernel --binary=3D<vmlinux> --perfdata=3D<perf_=
+file> -o <profile_file>
+> > +
+> > +   or ::
+> > +
+> > +      $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file> =
+--format=3Dextbinary --out=3D<profile_file>
+> > +
+> > +   Note that multiple AutoFDO profile files can be merged into one via=
+::
+> > +
+> > +      $ llvm-profdata merge -o <profile_file> <profile_1> <profile_2> =
+... <profile_n>
+> > +
+> > +6) Rebuild the kernel using the AutoFDO profile file with the same con=
+fig as step 1,
+> > +   (Note CONFIG_AUTOFDO_CLANG needs to be enabled)::
+> > +
+> > +      $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<profile_file>
+> > +
+>
+> Trailing blank line.
+>
+> .git/rebase-apply/patch:187: new blank line at EOF.
 
---=20
-<https://www.alejandro-colomar.es/>
+Will remote the blank line.
 
---vmpttclijleburvy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmclNQAACgkQnowa+77/
-2zLQjA//UmIZXrXU6535kY+aK/mDc00ttn4ZEHEus8oEyTBWz3H66RobCLhJ6DFJ
-xI5J/BbrMfh9sLMWjH3qcZIIU+X3Sf4HRRtVoroYv52YoxaXdEvhZWUWxTs3E9HY
-0khMstgT7sq7O6xPP5+agLepDOkXvrcFU14lJgVlX6XCE0r/rphKUvbAq0F++Bni
-K5Xm3lh2Zrr502R0/hQqhWiaLENnuFMHCeju2OXp+CsHadU2H+PbNwG4GQv6yC16
-iNx8beNUCcmTAdEujbT8HJgptXls7HkmaMnFD6WhoumJOZiNTdObQDNvPIwRTRvY
-BjGKbYmyqsj2Eh9fg+8corHD18vC8bDZdfmKh6PvGo1Jg/KYfqBuQfhaC1U8STg+
-G1H5MDf61j4dzdM72ZzR72f/TQLXhkAZBDinJ9xeBJdIAd8EewJd4XD9+LkXxEPE
-Lqa2lAnfbGWtt1shO5gZFW/U9FOYL9C8KM0ZI8giLPn06YtbEYncdzJfIJw4ZD93
-UlnllwfyFEA2iUx8+R3I0SXXvWAQu9VYUAeipfhyIwk3TWgb1h5zrCuqmBifsVf9
-pbEUDw2K0mBuDJ07KRSdUivVWsqUP6Fxodlv+HWv4LYA3RDhXFgnizEeO8sgFntm
-MpplL9VbBayCOqjmDSUWMIe2bo8vJ44AJP4MzbGNT5wyIdcLz7U=
-=rohc
------END PGP SIGNATURE-----
-
---vmpttclijleburvy--
+>
+>
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
