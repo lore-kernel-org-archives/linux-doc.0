@@ -1,349 +1,535 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF4D1CDA27
-	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 18:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362E91CEAA8;
+	Fri,  1 Nov 2024 18:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730485173; cv=none; b=Nm5GHeenSM7ZEX8QJ0CvD4spYR2d6x+0A/tVeKalXE3DE1hT2pBbUXTkGb9RVlX+Iseg+xRPUSp5YqDFcNa8CjyVsQPHZHCbG1lkPaYogXJddZdWPCqfaH4PRIqniJ2211rB0rWKarku6OBJysiLMzO9s+2ikyW03dyYwSuSuNk=
+	t=1730485478; cv=none; b=Zh/2ajaLj4TiajE3AbDvQSuweJg6Mym6JVchX5ZZpJaxT5K97ALMbE0ddLxEdRbzpKvnQGwdCBMLco1JtBkAjZf/fHLDE31Qzpim5BbhrCQEIrwGO6c/eY5+/JhNutgexDpPb0uVHIN9oYihXPa57aDr5le9l/OhPyNHUpnmkV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730485173; c=relaxed/simple;
-	bh=e/JuFjLxAkY9/2840JwIFVwiYSAtqEb7V4148Hvo2as=;
+	s=arc-20240116; t=1730485478; c=relaxed/simple;
+	bh=7Y3xjV0ZuS4nvHhvxlHK8fz0UTttlGc3d1rYqmB729c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BZwCkzWS9wJ5vEuBS1HOGa3OzfNzBbdnPmlYZlAPJZYvnr4+xP2LUtlBDgDCK0pJj6Na1bISqK3aOMVadAdTtxNunbf8cLTWUgOsDsHMBgmJ9x+KNvDs4aarKOkw7NotTK4FJ2SyoX4ACpWcHsoaI8uczYBPR1QxBfbqfA5X4Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RI6YeC0F; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=aWuvNvQuT6Ub0raeqJSbGerBjziNB0Ei1WK3Av0PT7Zp0dTweIwT3fDaVO9K1YAcFiZjKBxP+QBVo0I2Exz+K8wKHAFWC5cfvWHt8zrrq4eR1bYejWdH32c9Ocw27zIFQFQkrYhtSep3RlcGQ/PPbBa4UstinNODZRXXL3/1aO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WczDzkCX; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RI6YeC0F"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-460a8d1a9b7so40481cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 11:19:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WczDzkCX"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43163667f0eso18868195e9.0;
+        Fri, 01 Nov 2024 11:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730485170; x=1731089970; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1730485474; x=1731090274; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qgLXiMi+J/NggzUVpUpWAWf65WUGcPu7JpIAGtH2HNQ=;
-        b=RI6YeC0F4iMm6UearPpmK5yftZr0jZfE+cP0k45ImLIRf9/LDr4Mqj/GnXQV0myLqN
-         nfCUmc8h7QdewGO6Zl5badmKbWgs/CvvWa0vb2m1fnZ8lz5BNHVTRBxI+xrpjT2yxCdC
-         Sa+PtgXz7fM3UQlBuoG1XnMBsdaiUAHR67LiSnEws2K/90HtnytV8zqwMhzDVa/HdMdi
-         XO4+yo/IFIlj8KEjU5bI9cOO1k/RrR6LGDWvwrodNFHvRB/6Kg/MiDZPo9Bj5rg1Bkv4
-         /HN23XggNhWxhi8b8XC6j+AN03M/GjBtL1ilhuSxDU94Ne1BwAFKYgCcQkeBXPIJUVfa
-         W1Dw==
+        bh=ELOu5sdCGzG7mrx9esFW7n7qvnZGEC0NDwkpJCN/3V8=;
+        b=WczDzkCXtlRY8v0B86AZ/aNcS79m0tUkIW86jC7+vbcUgNIGgKu8knDjveXhvweQym
+         y95yg/ZXDQXJQnc7yZ7zJP6o5pFpNcIv1LfdGFcYZrGDrThO5rHy3c2kT50oQji2F78n
+         8Y7byOunK77ZKj+0YOU5ku6DvJ5mZYdkQ7uNGhW9nhMsWkMCqX8/Xf2EMbAuKi01dTsP
+         F7E3sfpyYNanp/dx4GXDANWt9MirvnQ/fq+hNjBw6Vkfs7KBSvFK6id1BBaEf1//VSti
+         Bus7OriJ1cORScbP9H0UHbS2D7V65f/aSZMXSLDrvq2nuHdXAk5YyzhIxw5D3undSSj+
+         xDGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730485170; x=1731089970;
+        d=1e100.net; s=20230601; t=1730485474; x=1731090274;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qgLXiMi+J/NggzUVpUpWAWf65WUGcPu7JpIAGtH2HNQ=;
-        b=gT+tjcTG3CDc1anjFjnyutQQC54MyMVIv3BNdoe5fvC/reiRY046UuRkN5dZXy0XIC
-         6f04K2SvglVceeU+kuHWbIcDZVkj9gcoS5aAkTcfySPwvQH8cUiT+la4/AQGDeL3SJxe
-         lfPm4r9h6a54UF5dYC4/GZgepU+KoebUx79Okx7oXId4D3sp7MxNfP1ohKxUPOOAXt/m
-         pkB9inFeSNwxE+x9oQuHtKb4Xfb37KgnIpzbWPeZpJLO6slqtORclz9E5kNk8IcCeLX0
-         8x7V4pUvjcD9H7KjJBS4T9PtuZOicPutsVX0C8VXEUsH/N/02IZIjQbpeMihRxGNdjDU
-         DWlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWTMSPp3Qji1FLhk9ozuWxesNRMzVU0HUkdUbUgEzcaJjzqI5wGAWamjTLru/dkG7kuvawqryxf24=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKkz5uhunVM3nYHweCBeI6M6PJrKINeQ0SqZsHfQUJIIXR9u2j
-	mQ627adA32upgSA0QZTWrElS+X/yxiq0C4mt0yd1ltI2YwNjlQUKjsubACqUS0QtuQLNe8T4UXY
-	Gh/Sm+LBfZsjh1DSY5HW6XNDavva+zi7cVAJ8
-X-Gm-Gg: ASbGncs18PqbG44VDDQMGcK0JOtU9ecTCHPjvajIjLoSs8fGrTtAIPkMHOyd/MY3KXJ
-	pdCE3+iLE9hCxO79E+m/q4J4QHGyhmKAB
-X-Google-Smtp-Source: AGHT+IG0Gl6acjuLtCR71sVFFcnhFR0iLK3dlvBmCqJ96g8N7a0fo0kc0B9rcLPxt1c8RC8oB6pYjnPbwvn9UeWu/NA=
-X-Received: by 2002:a05:622a:1ba4:b0:461:4150:b833 with SMTP id
- d75a77b69052e-462c5fe1ce9mr232521cf.22.1730485169937; Fri, 01 Nov 2024
- 11:19:29 -0700 (PDT)
+        bh=ELOu5sdCGzG7mrx9esFW7n7qvnZGEC0NDwkpJCN/3V8=;
+        b=oJiaBhqHdbX3cyYdMi3rbZRxu0vyy4RJrATILK4Vg8G9kg0D4OXkwTQyZ1ianB0LSe
+         zQ2cLOfOWlsUFksfo/e0cchFdBRrsL7aBT7EfbIRGSuLpfLEz+MfLIY+qlb6pNljfWMl
+         X1lcFUCkl50S1ifghpANYjFSLt9dsssvQ/fga3s7JLeHiVc42girMxm46rX1X2OknomT
+         H2Po2SV/dGwBlXGc3bwe4XScttedt8wCJAP/5NNcMAjo1C+ssBfbcpqI9+DlP/jiHvcz
+         YBIN1ysUxKuf+JOLGwPvD4yyQc3OcP40CCxpu6YvIlJvh7rSEjlydQpb56tdkhIu4Xp6
+         uKOA==
+X-Forwarded-Encrypted: i=1; AJvYcCV/sIC498Jxk57b9rDIKc7v4Gj9mbB6PLOMcO8xj+vMOQz3AfvRXTiQq20aquWWZVC0TuuDBhrzHh0=@vger.kernel.org, AJvYcCXx7VRfIEo5eqTRMVqWHOdR3A0RMejYljEdgumcc3QmfwmjNY0lYIFoj7i4ifY7oCrB0aZiQAXZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJuVg+IEWtde4KnSuHNYQX2N2QwXTKmgFlelDUWrFqTczMvKBR
+	xlSkJCIpm4EmptzMsKPdnHrcdGAKerljVNwG2RIzHYrB61Ecta/JiBI8NcCz5/1XDDXORggvE/u
+	++jRh9+AasTXPkjg/A+h6Z/IeytA=
+X-Google-Smtp-Source: AGHT+IFviI2qoAoYMW5Qhm9MxPmN5QCmHggT3C9AJ44CN2aVROEK6EHFeY6P3SawaErrY7Vnsn1vz7xFuzzdZa7HVZU=
+X-Received: by 2002:a5d:59a8:0:b0:37d:2edd:b731 with SMTP id
+ ffacd0b85a97d-381c7a6cc78mr3897730f8f.30.1730485474172; Fri, 01 Nov 2024
+ 11:24:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241015211719.1152862-1-irogers@google.com> <20241101132437.ahn7xdgvmqamatce@devuan>
-In-Reply-To: <20241101132437.ahn7xdgvmqamatce@devuan>
-From: Ian Rogers <irogers@google.com>
-Date: Fri, 1 Nov 2024 11:19:18 -0700
-Message-ID: <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the page
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "G . Branden Robinson" <g.branden.robinson@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-man@vger.kernel.org
+References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-9-ap420073@gmail.com>
+ <CAHS8izN-PXYC0GspMFPqeACqDTTRK_B8guuXc6+KAXRFaSPG6Q@mail.gmail.com>
+In-Reply-To: <CAHS8izN-PXYC0GspMFPqeACqDTTRK_B8guuXc6+KAXRFaSPG6Q@mail.gmail.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Sat, 2 Nov 2024 03:24:22 +0900
+Message-ID: <CAMArcTVY+8rVtnYronP4Ud6T0S1eSgQX3N0TK_BFYjiBxDaSyA@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 8/8] bnxt_en: add support for device memory tcp
+To: Mina Almasry <almasrymina@google.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
+	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
+	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
+	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
+	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
+	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
+	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
+	willemb@google.com, daniel.zahka@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 1, 2024 at 6:24=E2=80=AFAM Alejandro Colomar <alx@kernel.org> w=
+On Fri, Nov 1, 2024 at 11:53=E2=80=AFPM Mina Almasry <almasrymina@google.co=
+m> wrote:
+>
+> On Tue, Oct 22, 2024 at 9:25=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
 rote:
->
-> On Tue, Oct 15, 2024 at 02:17:17PM -0700, Ian Rogers wrote:
-> > When /proc/pid/fdinfo was part of proc.5 man page the indentation made
-> > sense. As a standalone man page the indentation doesn't need to be so
-> > far over to the right. Remove the initial tagged pragraph and move the
-> > styling to the initial summary description.
 > >
-> > Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
-> > Signed-off-by: Ian Rogers <irogers@google.com>
+> > Currently, bnxt_en driver satisfies the requirements of Device memory
+> > TCP, which is tcp-data-split.
+> > So, it implements Device memory TCP for bnxt_en driver.
+> >
+> > From now on, the aggregation ring handles netmem_ref instead of page
+> > regardless of the on/off of netmem.
+> > So, for the aggregation ring, memory will be handled with the netmem
+> > page_pool API instead of generic page_pool API.
+> >
+> > If Devmem is enabled, netmem_ref is used as-is and if Devmem is not
+> > enabled, netmem_ref will be converted to page and that is used.
+> >
+> > Driver recognizes whether the devmem is set or unset based on the
+> > mp_params.mp_priv is not NULL.
+> > Only if devmem is set, it passes PP_FLAG_ALLOW_UNREADABLE_NETMEM.
+>
+> Looks like in the latest version, you pass
+> PP_FLAG_ALLOW_UNREADABLE_NETMEM unconditionally, so this line is
+> obsolete.
+
+Okay, I will remove this line.
+
+>
+> However, I think you should only pass PP_FLAG_ALLOW_UNREADABLE_NETMEM
+> if hds_thresh=3D=3D0 and tcp-data-split=3D=3D1, because otherwise the dri=
+ver
+> is not configured well enough to handle unreadable netmem, right? I
+> know that we added checks in the devmem binding to detect hds_thresh
+> and tcp-data-split, but we should keep another layer of protection in
+> the driver. The driver should not set PP_FLAG_ALLOW_UNREADABLE_NETMEM
+> unless it's configured to be able to handle unreadable netmem.
+
+Okay, I agree, I will pass PP_FLAG_ALLOW_UNREADABLE_NETMEM
+only when hds_thresh=3D=3D0 and tcp-data-split=3D=3D1.
+
+>
+> >
+> > Tested-by: Stanislav Fomichev <sdf@fomichev.me>
+> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
 > > ---
-> >  man/man5/proc_pid_fdinfo.5 | 66 ++++++++++++++++++--------------------
-> >  1 file changed, 32 insertions(+), 34 deletions(-)
 > >
-> > diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-> > index 1e23bbe02..8678caf4a 100644
-> > --- a/man/man5/proc_pid_fdinfo.5
-> > +++ b/man/man5/proc_pid_fdinfo.5
-> > @@ -6,20 +6,19 @@
-> >  .\"
-> >  .TH proc_pid_fdinfo 5 (date) "Linux man-pages (unreleased)"
-> >  .SH NAME
-> > -/proc/pid/fdinfo/ \- information about file descriptors
-> > +.IR /proc/ pid /fdinfo " \- information about file descriptors"
->
-> I wouldn't add formatting here for now.  That's something I prefer to be
-> cautious about, and if we do it, we should do it in a separate commit.
-
-I'll move it to a separate patch. Is the caution due to a lack of test
-infrastructure? That could be something to get resolved, perhaps
-through Google summer-of-code and the like.
-
-> >  .SH DESCRIPTION
-> > -.TP
-> > -.IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
-> > -This is a subdirectory containing one entry for each file which the
-> > -process has open, named by its file descriptor.
-> > -The files in this directory are readable only by the owner of the proc=
-ess.
-> > -The contents of each file can be read to obtain information
-> > -about the corresponding file descriptor.
-> > -The content depends on the type of file referred to by the
-> > -corresponding file descriptor.
-> > -.IP
-> > +Since Linux 2.6.22,
->
-> You could move this information to a HISTORY section.
-
-Sure, tbh I'm not sure anybody cares about this information and it
-could be as well to delete it. Sorry people running 17 year old
-kernels. For now I'll try to leave it unchanged.
-
-> > +this subdirectory contains one entry for each file that process
-> > +.I pid
-> > +has open, named by its file descriptor.  The files in this directory
->
-> Please don't reflow existing text.  Please read about semantic newlines
-> in man-pages(7):
->
-> $ MANWIDTH=3D72 man man-pages | sed -n '/Use semantic newlines/,/^$/p'
->    Use semantic newlines
->      In  the  source of a manual page, new sentences should be started
->      on new lines, long sentences should be split into lines at clause
->      breaks (commas, semicolons, colons, and so on), and long  clauses
->      should be split at phrase boundaries.  This convention, sometimes
->      known  as  "semantic newlines", makes it easier to see the effect
->      of patches, which often operate at the level of  individual  sen=E2=
-=80=90
->      tences, clauses, or phrases.
-
-I'll update for v3 but I'm reminded of `git diff --word-diff=3Dcolor` so
-perhaps this recommendation is outdated.
-
-Thanks,
-Ian
-
-> Have a lovely day!
-> Alex
->
-> > +are readable only by the owner of the process.  The contents of each
-> > +file can be read to obtain information about the corresponding file
-> > +descriptor.  The content depends on the type of file referred to by
-> > +the corresponding file descriptor.
-> > +.P
-> >  For regular files and directories, we see something like:
-> > -.IP
-> > +.P
-> >  .in +4n
-> >  .EX
-> >  .RB "$" " cat /proc/12015/fdinfo/4"
-> > @@ -28,7 +27,7 @@ flags:  01002002
-> >  mnt_id: 21
-> >  .EE
-> >  .in
-> > -.IP
-> > +.P
-> >  The fields are as follows:
-> >  .RS
-> >  .TP
-> > @@ -51,7 +50,6 @@ this field incorrectly displayed the setting of
-> >  at the time the file was opened,
-> >  rather than the current setting of the close-on-exec flag.
-> >  .TP
-> > -.I
-> >  .I mnt_id
-> >  This field, present since Linux 3.15,
-> >  .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
-> > @@ -59,13 +57,13 @@ is the ID of the mount containing this file.
-> >  See the description of
-> >  .IR /proc/ pid /mountinfo .
-> >  .RE
-> > -.IP
-> > +.P
-> >  For eventfd file descriptors (see
-> >  .BR eventfd (2)),
-> >  we see (since Linux 3.8)
-> >  .\" commit cbac5542d48127b546a23d816380a7926eee1c25
-> >  the following fields:
-> > -.IP
-> > +.P
-> >  .in +4n
-> >  .EX
-> >  pos: 0
-> > @@ -74,16 +72,16 @@ mnt_id:   10
-> >  eventfd\-count:               40
-> >  .EE
-> >  .in
-> > -.IP
-> > +.P
-> >  .I eventfd\-count
-> >  is the current value of the eventfd counter, in hexadecimal.
-> > -.IP
-> > +.P
-> >  For epoll file descriptors (see
-> >  .BR epoll (7)),
-> >  we see (since Linux 3.8)
-> >  .\" commit 138d22b58696c506799f8de759804083ff9effae
-> >  the following fields:
-> > -.IP
-> > +.P
-> >  .in +4n
-> >  .EX
-> >  pos: 0
-> > @@ -93,7 +91,7 @@ tfd:        9 events:       19 data: 74253d2500000009
-> >  tfd:        7 events:       19 data: 74253d2500000007
-> >  .EE
-> >  .in
-> > -.IP
-> > +.P
-> >  Each of the lines beginning
-> >  .I tfd
-> >  describes one of the file descriptors being monitored via
-> > @@ -110,13 +108,13 @@ descriptor.
-> >  The
-> >  .I data
-> >  field is the data value associated with this file descriptor.
-> > -.IP
-> > +.P
-> >  For signalfd file descriptors (see
-> >  .BR signalfd (2)),
-> >  we see (since Linux 3.8)
-> >  .\" commit 138d22b58696c506799f8de759804083ff9effae
-> >  the following fields:
-> > -.IP
-> > +.P
-> >  .in +4n
-> >  .EX
-> >  pos: 0
-> > @@ -125,7 +123,7 @@ mnt_id:   10
-> >  sigmask:     0000000000000006
-> >  .EE
-> >  .in
-> > -.IP
-> > +.P
-> >  .I sigmask
-> >  is the hexadecimal mask of signals that are accepted via this
-> >  signalfd file descriptor.
-> > @@ -135,12 +133,12 @@ and
-> >  .BR SIGQUIT ;
-> >  see
-> >  .BR signal (7).)
-> > -.IP
-> > +.P
-> >  For inotify file descriptors (see
-> >  .BR inotify (7)),
-> >  we see (since Linux 3.8)
-> >  the following fields:
-> > -.IP
-> > +.P
-> >  .in +4n
-> >  .EX
-> >  pos: 0
-> > @@ -150,7 +148,7 @@ inotify wd:2 ino:7ef82a sdev:800001 mask:800afff ig=
-nored_mask:0 fhandle\-bytes:8
-> >  inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandl=
-e\-bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
-> >  .EE
-> >  .in
-> > -.IP
-> > +.P
-> >  Each of the lines beginning with "inotify" displays information about
-> >  one file or directory that is being monitored.
-> >  The fields in this line are as follows:
-> > @@ -168,19 +166,19 @@ The ID of the device where the target file reside=
-s (in hexadecimal).
-> >  .I mask
-> >  The mask of events being monitored for the target file (in hexadecimal=
-).
-> >  .RE
-> > -.IP
-> > +.P
-> >  If the kernel was built with exportfs support, the path to the target
-> >  file is exposed as a file handle, via three hexadecimal fields:
-> >  .IR fhandle\-bytes ,
-> >  .IR fhandle\-type ,
-> >  and
-> >  .IR f_handle .
-> > -.IP
-> > +.P
-> >  For fanotify file descriptors (see
-> >  .BR fanotify (7)),
-> >  we see (since Linux 3.8)
-> >  the following fields:
-> > -.IP
-> > +.P
-> >  .in +4n
-> >  .EX
-> >  pos: 0
-> > @@ -190,7 +188,7 @@ fanotify flags:0 event\-flags:88002
-> >  fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle=
-\-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
-> >  .EE
-> >  .in
-> > -.IP
-> > +.P
-> >  The fourth line displays information defined when the fanotify group
-> >  was created via
-> >  .BR fanotify_init (2):
-> > @@ -210,7 +208,7 @@ argument given to
-> >  .BR fanotify_init (2)
-> >  (expressed in hexadecimal).
-> >  .RE
-> > -.IP
-> > +.P
-> >  Each additional line shown in the file contains information
-> >  about one of the marks in the fanotify group.
-> >  Most of these fields are as for inotify, except:
-> > @@ -228,16 +226,16 @@ The events mask for this mark
-> >  The mask of events that are ignored for this mark
-> >  (expressed in hexadecimal).
-> >  .RE
-> > -.IP
-> > +.P
-> >  For details on these fields, see
-> >  .BR fanotify_mark (2).
-> > -.IP
-> > +.P
-> >  For timerfd file descriptors (see
-> >  .BR timerfd (2)),
-> >  we see (since Linux 3.17)
-> >  .\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85
-> >  the following fields:
-> > -.IP
-> > +.P
-> >  .in +4n
-> >  .EX
-> >  pos:    0
-> > --
-> > 2.47.0.rc1.288.g06298d1525-goog
+> > v4:
+> >  - Do not select NET_DEVMEM in Kconfig.
+> >  - Pass PP_FLAG_ALLOW_UNREADABLE_NETMEM flag unconditionally.
+> >  - Add __bnxt_rx_agg_pages_xdp().
+> >  - Use gfp flag in __bnxt_alloc_rx_netmem().
+> >  - Do not add *offset in the __bnxt_alloc_rx_netmem().
+> >  - Do not pass queue_idx to bnxt_alloc_rx_page_pool().
+> >  - Add Test tag from Stanislav.
+> >  - Add page_pool_recycle_direct_netmem() helper.
 > >
+> > v3:
+> >  - Patch added.
+> >
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c | 182 ++++++++++++++++------
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.h |   2 +-
+> >  include/net/page_pool/helpers.h           |   6 +
+> >  3 files changed, 142 insertions(+), 48 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/et=
+hernet/broadcom/bnxt/bnxt.c
+> > index 7d9da483b867..7924b1da0413 100644
+> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> > @@ -55,6 +55,7 @@
+> >  #include <net/page_pool/helpers.h>
+> >  #include <linux/align.h>
+> >  #include <net/netdev_queues.h>
+> > +#include <net/netdev_rx_queue.h>
+> >
+> >  #include "bnxt_hsi.h"
+> >  #include "bnxt.h"
+> > @@ -863,6 +864,22 @@ static void bnxt_tx_int(struct bnxt *bp, struct bn=
+xt_napi *bnapi, int budget)
+> >                 bnapi->events &=3D ~BNXT_TX_CMP_EVENT;
+> >  }
+> >
+> > +static netmem_ref __bnxt_alloc_rx_netmem(struct bnxt *bp, dma_addr_t *=
+mapping,
+> > +                                        struct bnxt_rx_ring_info *rxr,
+> > +                                        unsigned int *offset,
+> > +                                        gfp_t gfp)
+> > +{
+> > +       netmem_ref netmem;
+> > +
+> > +       netmem =3D page_pool_alloc_netmem(rxr->page_pool, gfp);
+> > +       if (!netmem)
+> > +               return 0;
+> > +       *offset =3D 0;
+> > +
+> > +       *mapping =3D page_pool_get_dma_addr_netmem(netmem);
+> > +       return netmem;
+> > +}
+> > +
+> >  static struct page *__bnxt_alloc_rx_page(struct bnxt *bp, dma_addr_t *=
+mapping,
+> >                                          struct bnxt_rx_ring_info *rxr,
+> >                                          unsigned int *offset,
+> > @@ -972,21 +989,21 @@ static inline u16 bnxt_find_next_agg_idx(struct b=
+nxt_rx_ring_info *rxr, u16 idx)
+> >         return next;
+> >  }
+> >
+> > -static inline int bnxt_alloc_rx_page(struct bnxt *bp,
+> > -                                    struct bnxt_rx_ring_info *rxr,
+> > -                                    u16 prod, gfp_t gfp)
+> > +static inline int bnxt_alloc_rx_netmem(struct bnxt *bp,
+> > +                                      struct bnxt_rx_ring_info *rxr,
+> > +                                      u16 prod, gfp_t gfp)
+> >  {
+> >         struct rx_bd *rxbd =3D
+> >                 &rxr->rx_agg_desc_ring[RX_AGG_RING(bp, prod)][RX_IDX(pr=
+od)];
+> >         struct bnxt_sw_rx_agg_bd *rx_agg_buf;
+> > -       struct page *page;
+> > -       dma_addr_t mapping;
+> >         u16 sw_prod =3D rxr->rx_sw_agg_prod;
+> >         unsigned int offset =3D 0;
+> > +       dma_addr_t mapping;
+> > +       netmem_ref netmem;
+> >
+> > -       page =3D __bnxt_alloc_rx_page(bp, &mapping, rxr, &offset, gfp);
+> > +       netmem =3D __bnxt_alloc_rx_netmem(bp, &mapping, rxr, &offset, g=
+fp);
+> >
+> > -       if (!page)
+> > +       if (!netmem)
+> >                 return -ENOMEM;
+> >
+> >         if (unlikely(test_bit(sw_prod, rxr->rx_agg_bmap)))
+> > @@ -996,7 +1013,7 @@ static inline int bnxt_alloc_rx_page(struct bnxt *=
+bp,
+> >         rx_agg_buf =3D &rxr->rx_agg_ring[sw_prod];
+> >         rxr->rx_sw_agg_prod =3D RING_RX_AGG(bp, NEXT_RX_AGG(sw_prod));
+> >
+> > -       rx_agg_buf->page =3D page;
+> > +       rx_agg_buf->netmem =3D netmem;
+> >         rx_agg_buf->offset =3D offset;
+> >         rx_agg_buf->mapping =3D mapping;
+> >         rxbd->rx_bd_haddr =3D cpu_to_le64(mapping);
+> > @@ -1044,7 +1061,7 @@ static void bnxt_reuse_rx_agg_bufs(struct bnxt_cp=
+_ring_info *cpr, u16 idx,
+> >                 struct rx_agg_cmp *agg;
+> >                 struct bnxt_sw_rx_agg_bd *cons_rx_buf, *prod_rx_buf;
+> >                 struct rx_bd *prod_bd;
+> > -               struct page *page;
+> > +               netmem_ref netmem;
+> >
+> >                 if (p5_tpa)
+> >                         agg =3D bnxt_get_tpa_agg_p5(bp, rxr, idx, start=
+ + i);
+> > @@ -1061,11 +1078,11 @@ static void bnxt_reuse_rx_agg_bufs(struct bnxt_=
+cp_ring_info *cpr, u16 idx,
+> >                 cons_rx_buf =3D &rxr->rx_agg_ring[cons];
+> >
+> >                 /* It is possible for sw_prod to be equal to cons, so
+> > -                * set cons_rx_buf->page to NULL first.
+> > +                * set cons_rx_buf->netmem to 0 first.
+> >                  */
+> > -               page =3D cons_rx_buf->page;
+> > -               cons_rx_buf->page =3D NULL;
+> > -               prod_rx_buf->page =3D page;
+> > +               netmem =3D cons_rx_buf->netmem;
+> > +               cons_rx_buf->netmem =3D 0;
+> > +               prod_rx_buf->netmem =3D netmem;
+> >                 prod_rx_buf->offset =3D cons_rx_buf->offset;
+> >
+> >                 prod_rx_buf->mapping =3D cons_rx_buf->mapping;
+> > @@ -1190,29 +1207,104 @@ static struct sk_buff *bnxt_rx_skb(struct bnxt=
+ *bp,
+> >         return skb;
+> >  }
+> >
+> > -static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> > -                              struct bnxt_cp_ring_info *cpr,
+> > -                              struct skb_shared_info *shinfo,
+> > -                              u16 idx, u32 agg_bufs, bool tpa,
+> > -                              struct xdp_buff *xdp)
+> > +static bool __bnxt_rx_agg_pages_skb(struct bnxt *bp,
+> > +                                   struct bnxt_cp_ring_info *cpr,
+> > +                                   struct sk_buff *skb,
+> > +                                   u16 idx, u32 agg_bufs, bool tpa)
+> >  {
+>
+> To be honest I could not immediately understand why
+> __bnxt_rx_agg_pages needed to be split into __bnxt_rx_agg_pages_skb
+> and __bnxt_rx_agg_pages_xdp.
+>
+> Fundamentally speaking we wanted the netmem transition to be as smooth
+> and low-churn as possible for drivers. The only big changes in this
+> patch are the split between skb and xdp. That points to a problem in
+> the design of netmem maybe.
+>
+> For xdp, core makes sure that if xdp is enabled on the device, then
+> the netmem is always pages (never unreadable). So I think netmem
+> should be able to handle xdp as well as skb. Can you give more details
+> on why the split?
+
+In the v3 patch, there was an opinion that refactoring for separating
+into skb path and xdp path in the future. So I changed.
+As you feel, I think separating skb path and xdp path is not directly
+related to the purpose of this patch.
+I agree the separating them but no need to be included in this patchset.
+I will revert it.
+
+>
+> >         struct bnxt_napi *bnapi =3D cpr->bnapi;
+> >         struct pci_dev *pdev =3D bp->pdev;
+> > -       struct bnxt_rx_ring_info *rxr =3D bnapi->rx_ring;
+> > -       u16 prod =3D rxr->rx_agg_prod;
+> > +       struct bnxt_rx_ring_info *rxr;
+> >         u32 i, total_frag_len =3D 0;
+> >         bool p5_tpa =3D false;
+> > +       u16 prod;
+> > +
+> > +       rxr =3D bnapi->rx_ring;
+> > +       prod =3D rxr->rx_agg_prod;
+> >
+> >         if ((bp->flags & BNXT_FLAG_CHIP_P5_PLUS) && tpa)
+> >                 p5_tpa =3D true;
+> >
+> >         for (i =3D 0; i < agg_bufs; i++) {
+> > -               skb_frag_t *frag =3D &shinfo->frags[i];
+> > -               u16 cons, frag_len;
+> > +               struct bnxt_sw_rx_agg_bd *cons_rx_buf;
+> >                 struct rx_agg_cmp *agg;
+> > +               u16 cons, frag_len;
+> > +               dma_addr_t mapping;
+> > +               netmem_ref netmem;
+> > +
+> > +               if (p5_tpa)
+> > +                       agg =3D bnxt_get_tpa_agg_p5(bp, rxr, idx, i);
+> > +               else
+> > +                       agg =3D bnxt_get_agg(bp, cpr, idx, i);
+> > +               cons =3D agg->rx_agg_cmp_opaque;
+> > +               frag_len =3D (le32_to_cpu(agg->rx_agg_cmp_len_flags_typ=
+e) &
+> > +                           RX_AGG_CMP_LEN) >> RX_AGG_CMP_LEN_SHIFT;
+> > +
+> > +               cons_rx_buf =3D &rxr->rx_agg_ring[cons];
+> > +               skb_add_rx_frag_netmem(skb, i, cons_rx_buf->netmem,
+> > +                                      cons_rx_buf->offset, frag_len,
+> > +                                      BNXT_RX_PAGE_SIZE);
+> > +               __clear_bit(cons, rxr->rx_agg_bmap);
+> > +
+> > +               /* It is possible for bnxt_alloc_rx_netmem() to allocat=
+e
+> > +                * a sw_prod index that equals the cons index, so we
+> > +                * need to clear the cons entry now.
+> > +                */
+> > +               mapping =3D cons_rx_buf->mapping;
+> > +               netmem =3D cons_rx_buf->netmem;
+> > +               cons_rx_buf->netmem =3D 0;
+> > +
+> > +               if (bnxt_alloc_rx_netmem(bp, rxr, prod, GFP_ATOMIC) !=
+=3D 0) {
+> > +                       skb->len -=3D frag_len;
+> > +                       skb->data_len -=3D frag_len;
+> > +                       skb->truesize -=3D BNXT_RX_PAGE_SIZE;
+> > +                       --skb_shinfo(skb)->nr_frags;
+> > +                       cons_rx_buf->netmem =3D netmem;
+> > +
+> > +                       /* Update prod since possibly some pages have b=
+een
+> > +                        * allocated already.
+> > +                        */
+> > +                       rxr->rx_agg_prod =3D prod;
+> > +                       bnxt_reuse_rx_agg_bufs(cpr, idx, i, agg_bufs - =
+i, tpa);
+> > +                       return 0;
+> > +               }
+> > +
+> > +               dma_sync_single_for_cpu(&pdev->dev, mapping, BNXT_RX_PA=
+GE_SIZE,
+> > +                                       bp->rx_dir);
+> > +
+>
+> You should probably use page_pool_dma_sync_for_cpu. I'm merging a
+> change to make that function skip dma-syncing for net_iov:
+>
+> https://lore.kernel.org/netdev/20241029204541.1301203-5-almasrymina@googl=
+e.com/
+>
+> Which is necessary following Jason Gunthorpe's guidance.
+
+Okay, no problem.
+I will wait to merge it then I will use that then send a v5 patch.
+
+>
+> > +               total_frag_len +=3D frag_len;
+> > +               prod =3D NEXT_RX_AGG(prod);
+> > +       }
+> > +       rxr->rx_agg_prod =3D prod;
+> > +       return total_frag_len;
+> > +}
+> > +
+> > +static u32 __bnxt_rx_agg_pages_xdp(struct bnxt *bp,
+> > +                                  struct bnxt_cp_ring_info *cpr,
+> > +                                  struct skb_shared_info *shinfo,
+> > +                                  u16 idx, u32 agg_bufs, bool tpa,
+> > +                                  struct xdp_buff *xdp)
+> > +{
+> > +       struct bnxt_napi *bnapi =3D cpr->bnapi;
+> > +       struct pci_dev *pdev =3D bp->pdev;
+> > +       struct bnxt_rx_ring_info *rxr;
+> > +       u32 i, total_frag_len =3D 0;
+> > +       bool p5_tpa =3D false;
+> > +       u16 prod;
+> > +
+> > +       rxr =3D bnapi->rx_ring;
+> > +       prod =3D rxr->rx_agg_prod;
+> > +
+> > +       if ((bp->flags & BNXT_FLAG_CHIP_P5_PLUS) && tpa)
+> > +               p5_tpa =3D true;
+> > +
+> > +       for (i =3D 0; i < agg_bufs; i++) {
+> >                 struct bnxt_sw_rx_agg_bd *cons_rx_buf;
+> > -               struct page *page;
+> > +               skb_frag_t *frag =3D &shinfo->frags[i];
+> > +               struct rx_agg_cmp *agg;
+> > +               u16 cons, frag_len;
+> >                 dma_addr_t mapping;
+> > +               netmem_ref netmem;
+> >
+> >                 if (p5_tpa)
+> >                         agg =3D bnxt_get_tpa_agg_p5(bp, rxr, idx, i);
+> > @@ -1223,9 +1315,10 @@ static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> >                             RX_AGG_CMP_LEN) >> RX_AGG_CMP_LEN_SHIFT;
+> >
+> >                 cons_rx_buf =3D &rxr->rx_agg_ring[cons];
+> > -               skb_frag_fill_page_desc(frag, cons_rx_buf->page,
+> > -                                       cons_rx_buf->offset, frag_len);
+> > +               skb_frag_fill_netmem_desc(frag, cons_rx_buf->netmem,
+> > +                                         cons_rx_buf->offset, frag_len=
+);
+> >                 shinfo->nr_frags =3D i + 1;
+> > +
+> >                 __clear_bit(cons, rxr->rx_agg_bmap);
+> >
+> >                 /* It is possible for bnxt_alloc_rx_page() to allocate
+> > @@ -1233,15 +1326,15 @@ static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+> >                  * need to clear the cons entry now.
+> >                  */
+> >                 mapping =3D cons_rx_buf->mapping;
+> > -               page =3D cons_rx_buf->page;
+> > -               cons_rx_buf->page =3D NULL;
+> > +               netmem =3D cons_rx_buf->netmem;
+> > +               cons_rx_buf->netmem =3D 0;
+> >
+> > -               if (xdp && page_is_pfmemalloc(page))
+> > +               if (netmem_is_pfmemalloc(netmem))
+> >                         xdp_buff_set_frag_pfmemalloc(xdp);
+> >
+> > -               if (bnxt_alloc_rx_page(bp, rxr, prod, GFP_ATOMIC) !=3D =
+0) {
+> > +               if (bnxt_alloc_rx_netmem(bp, rxr, prod, GFP_ATOMIC) !=
+=3D 0) {
+> >                         --shinfo->nr_frags;
+> > -                       cons_rx_buf->page =3D page;
+> > +                       cons_rx_buf->netmem =3D netmem;
+> >
+> >                         /* Update prod since possibly some pages have b=
+een
+> >                          * allocated already.
+> > @@ -1266,20 +1359,12 @@ static struct sk_buff *bnxt_rx_agg_pages_skb(st=
+ruct bnxt *bp,
+> >                                              struct sk_buff *skb, u16 i=
+dx,
+> >                                              u32 agg_bufs, bool tpa)
+> >  {
+> > -       struct skb_shared_info *shinfo =3D skb_shinfo(skb);
+> > -       u32 total_frag_len =3D 0;
+> > -
+> > -       total_frag_len =3D __bnxt_rx_agg_pages(bp, cpr, shinfo, idx,
+> > -                                            agg_bufs, tpa, NULL);
+> > -       if (!total_frag_len) {
+> > +       if (!__bnxt_rx_agg_pages_skb(bp, cpr, skb, idx, agg_bufs, tpa))=
+ {
+> >                 skb_mark_for_recycle(skb);
+> >                 dev_kfree_skb(skb);
+> >                 return NULL;
+> >         }
+> >
+> > -       skb->data_len +=3D total_frag_len;
+> > -       skb->len +=3D total_frag_len;
+> > -       skb->truesize +=3D BNXT_RX_PAGE_SIZE * agg_bufs;
+> >         return skb;
+> >  }
+> >
+> > @@ -1294,8 +1379,8 @@ static u32 bnxt_rx_agg_pages_xdp(struct bnxt *bp,
+> >         if (!xdp_buff_has_frags(xdp))
+> >                 shinfo->nr_frags =3D 0;
+> >
+> > -       total_frag_len =3D __bnxt_rx_agg_pages(bp, cpr, shinfo,
+> > -                                            idx, agg_bufs, tpa, xdp);
+> > +       total_frag_len =3D __bnxt_rx_agg_pages_xdp(bp, cpr, shinfo,
+> > +                                                idx, agg_bufs, tpa, xd=
+p);
+> >         if (total_frag_len) {
+> >                 xdp_buff_set_frags_flag(xdp);
+> >                 shinfo->nr_frags =3D agg_bufs;
+> > @@ -3341,15 +3426,15 @@ static void bnxt_free_one_rx_agg_ring(struct bn=
+xt *bp, struct bnxt_rx_ring_info
+> >
+> >         for (i =3D 0; i < max_idx; i++) {
+> >                 struct bnxt_sw_rx_agg_bd *rx_agg_buf =3D &rxr->rx_agg_r=
+ing[i];
+> > -               struct page *page =3D rx_agg_buf->page;
+> > +               netmem_ref netmem =3D rx_agg_buf->netmem;
+> >
+> > -               if (!page)
+> > +               if (!netmem)
+> >                         continue;
+> >
+> > -               rx_agg_buf->page =3D NULL;
+> > +               rx_agg_buf->netmem =3D 0;
+> >                 __clear_bit(i, rxr->rx_agg_bmap);
+> >
+> > -               page_pool_recycle_direct(rxr->page_pool, page);
+> > +               page_pool_recycle_direct_netmem(rxr->page_pool, netmem)=
+;
+> >         }
+> >  }
+> >
+> > @@ -3620,7 +3705,10 @@ static int bnxt_alloc_rx_page_pool(struct bnxt *=
+bp,
+> >         pp.dev =3D &bp->pdev->dev;
+> >         pp.dma_dir =3D bp->rx_dir;
+> >         pp.max_len =3D PAGE_SIZE;
+> > -       pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV;
+> > +       pp.flags =3D PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV |
+> > +                  PP_FLAG_ALLOW_UNREADABLE_NETMEM;
+>
+> PP_FLAG_ALLOW_UNREADABLE_NETMEM should only be set when the driver can
+> handle unreadable netmem. I.e. when hds_thresh=3D=3D0 and
+> tcp-data-split=3D=3D1.
+
+Okay, I will add a condition for that.
+
+Thanks a lot!
+Taehee Yoo
+
+>
 >
 > --
-> <https://www.alejandro-colomar.es/>
+> Thanks,
+> Mina
