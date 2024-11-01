@@ -1,90 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD4F1BDC3;
-	Fri,  1 Nov 2024 22:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C6C1607B4;
+	Fri,  1 Nov 2024 22:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730499524; cv=none; b=Xm88zyOtTxggdAmEmwJX6CS4MJEK87I1dc+nGZomr/0y5RMpk8Ama2M94FRLC+qyErWFfvczndiZwxPS3j52epFhdyx+F0rOTgy3yTyJHD8U2viEdCkSjeU/UoWvZKmYy2hN1uvZSfsMeV2dTLr9z30lORcYre6cIGS9aMGazs0=
+	t=1730500827; cv=none; b=GM58zIvjYKTQRPiw5MqukCTwAiCNrOH9p8x5yWUYcc276AoU3B2Mqw4u0zti0wHiL0QwzegTyKncr6yXrFbhGr3qoRubpNKb7bZE/N35yNIciBTZF9ROKxZT34CZMlVX2hBZHl1hiIp50WL0BWpQFa2xI8DuXKf6RgdWuF6w6bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730499524; c=relaxed/simple;
-	bh=SfvWv72ZbUeIjpMhK1H+Di14U2NJnni6MvQ7OWwTfDo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=Tgk8V7UiG9fDuH1MkAMx4AGoUCWqxpr/uJi/XTGgSN4+PBJ3hK1QAUijCdkJLiUNvADPAxT6wSMk5oN46NF+adxRBABufqz0tJWNYqph9rtdWIFZddGiLOnLy4bWtEK5yW1e6715795CnekstnYP3yw9Ii3CojTjBDm/sYQxeTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G8B5Fbih; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730500827; c=relaxed/simple;
+	bh=sMW1iMQ4lLqWN3HqoFgf6CYTcFcZSa67VJDpiJOY6+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YYNJJsCpfpGBmBItDkwozK/ONwHHygJLLHSOBoWxzPcBEx+oJqd733svUA6bMx69DwfYXRBF3Cpj8mR+jeAqhAvYyFsrqHDzTHcOEYFWc+mTFEWOCHuvzaGLp3YpY/KKC9M62H3dr0Jhqe/U453GA/P1oXBr2vhBFekJmInP1do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KYjSc3XC; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G8B5Fbih"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E707C4CECD;
-	Fri,  1 Nov 2024 22:18:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730499523;
-	bh=SfvWv72ZbUeIjpMhK1H+Di14U2NJnni6MvQ7OWwTfDo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G8B5FbihtNvVjmiGncdZkw/5g49VXEDLWU6dCd6f7AgBZV7b3MDz4Mio9teMOIupZ
-	 ARqPuoMHB79uUnWfl+rqF4KTcZ/gObfhf3oVmSS9eCRk0qutPaqPxfYhbHSu3Vq/je
-	 HAnbzuzI/c9euOqXkGM4iUaORjvXEUct9BNxVVJk/Pbc72JYcDPtDceTthEVk9fecj
-	 /Eb+mS/2aEEzZIyWFJQYVe4M7FITlC7FUxUCj5mBCz6yf4dfV6rgbJW7pxdd+uGM6c
-	 HQnGDrwoQ/wXmcgGWjGK7qycALq7sacle8cuCNP5D38T9ddXyPOhWhHpmJw1iV1I20
-	 ayJ6MSw0pdYXA==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KYjSc3XC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730500825; x=1762036825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sMW1iMQ4lLqWN3HqoFgf6CYTcFcZSa67VJDpiJOY6+o=;
+  b=KYjSc3XCPAzvQWlaMHd+cgvlY9kvBg6Dau5HMtd9q6rxnaMA/+5yP8Jx
+   pSZzPjYkDC05KP10kDPvk/73EGpX6PRHo/w4gjT8ozCoLZyxYUFkKXM11
+   iGbQOroyJ+SNBAt6LaHOwiKujhcxeUBKbMb7DI8swJIZWYHs2ze5E/C6J
+   rClVBtPVBqDmENYA/rzGNQI5Z6Vz6w29vcD1pe9h0k8U2ClbFyerrCVMo
+   kt5EbXJj34Kt/VfA/029g/pkdyTWwE9U1bqjlbomj+Pk5MGsD0c1b3SZ1
+   BRHBCyK2HjuQee0gnyUFEiYcrfhAPHRHfuyRYStiNvj9PfDqy58JIUAWC
+   g==;
+X-CSE-ConnectionGUID: yA7AKUOZToqYTyixbIlvOQ==
+X-CSE-MsgGUID: o0pbPpItTF6qqYvQqKllZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="33971633"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="33971633"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 15:40:24 -0700
+X-CSE-ConnectionGUID: MVxzXCWySY2A3JHFUc4O8w==
+X-CSE-MsgGUID: 7btia7agTySAFPD1MCQDlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
+   d="scan'208";a="87032201"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.70])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 15:40:22 -0700
+Date: Fri, 1 Nov 2024 15:40:21 -0700
+From: Tony Luck <tony.luck@intel.com>
+To: Fenghua Yu <fenghua.yu@intel.com>
+Cc: Reinette Chatre <reinette.chatre@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v8 1/7] x86/resctrl: Prepare for per-ctrl_mon group
+ mba_MBps control
+Message-ID: <ZyVY1UdOCu7ZPVsw@agluck-desk3>
+References: <20241029172832.93963-1-tony.luck@intel.com>
+ <20241029172832.93963-2-tony.luck@intel.com>
+ <f6205054-c29e-97d6-67d3-dd3544a01dec@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 02 Nov 2024 00:18:39 +0200
-Message-Id: <D5B6VSE24UFU.3IMXJC23PCNFW@kernel.org>
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Thomas Gleixner" <tglx@linutronix.de>, "Ross Philipson"
- <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
- <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
- <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
- <iommu@lists.linux-foundation.org>
-Cc: <dpsmith@apertussolutions.com>, <mingo@redhat.com>, <bp@alien8.de>,
- <hpa@zytor.com>, <dave.hansen@linux.intel.com>, <ardb@kernel.org>,
- <mjg59@srcf.ucam.org>, <James.Bottomley@hansenpartnership.com>,
- <peterhuewe@gmx.de>, <jgg@ziepe.ca>, <luto@amacapital.net>,
- <nivedita@alum.mit.edu>, <herbert@gondor.apana.org.au>,
- <davem@davemloft.net>, <corbet@lwn.net>, <ebiederm@xmission.com>,
- <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
- <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
- <trenchboot-devel@googlegroups.com>
-Subject: Re: [PATCH v11 00/20] x86: Trenchboot secure dynamic launch Linux
- kernel support
-X-Mailer: aerc 0.18.2
-References: <20240913200517.3085794-1-ross.philipson@oracle.com>
- <D5ARS5Y7EATS.2GVNSARKXKIDI@kernel.org> <87a5eivgku.ffs@tglx>
- <D5B5I0WUU8F0.30JMZ6QHPOFRK@kernel.org>
- <D5B5MLX1C8TS.2U6YPCYBWBTYT@kernel.org> <87msiitxto.ffs@tglx>
-In-Reply-To: <87msiitxto.ffs@tglx>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f6205054-c29e-97d6-67d3-dd3544a01dec@intel.com>
 
-On Sat Nov 2, 2024 at 12:04 AM EET, Thomas Gleixner wrote:
-> On Fri, Nov 01 2024 at 23:19, Jarkko Sakkinen wrote:
-> > On Fri Nov 1, 2024 at 11:13 PM EET, Jarkko Sakkinen wrote:
-> >> I think we can sort them out independently as long as we find a
-> >> conclusion how to address locality change.
-> >
-> > And to be fair: there was no reaction from anyone. It is mostly x86
-> > patch set, meaning that I was waiting for some reaction first from that
-> > side.  And I did respond to that when it came.
->
-> The x86 side is mostly self contained, so the damage there is minimal,
-> but the TPM parts are changing the generic operations and the x86 parts
-> depend on them.
->
-> So let's not create a chicken and egg problem and solve the TPM parts,
-> which at my cursory glance are partially legitimate fixes, independent
-> of the actual trenchboot x86 functionality.
+On Fri, Nov 01, 2024 at 03:03:32PM -0700, Fenghua Yu wrote:
+> > diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+> > index b681c2e07dbf..5b55a7ac7013 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/core.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/core.c
+> > @@ -958,6 +958,11 @@ static __init bool get_rdt_mon_resources(void)
+> >   	if (rdt_cpu_has(X86_FEATURE_CQM_MBM_LOCAL))
+> >   		rdt_mon_features |= (1 << QOS_L3_MBM_LOCAL_EVENT_ID);
+> > +	if (rdt_mon_features & (1 << QOS_L3_MBM_LOCAL_EVENT_ID))
+> 
+> Please change this check to:
+> 
+> 	if (is_mbm_local_enabled())
+> 
+> > +		mba_mbps_default_event = QOS_L3_MBM_LOCAL_EVENT_ID;
+> > +	else if (rdt_mon_features & (1 << QOS_L3_MBM_TOTAL_EVENT_ID))
+> 
+> and this check to:
+> 
+> 	else if (is_mbm_total_enabled())
+> 
+> > +		mba_mbps_default_event = QOS_L3_MBM_TOTAL_EVENT_ID;
+> > +
 
-Yeah, I'm already writing a (draft/RFC) patch to demonstrate my
-proposal that I sent so all good.
+You are correct. I had a moment of amnesia and forgot those
+helpers existed and just pasted the expressions used to set
+each of the bits in rdt_mon_features.
 
->
-> Thanks,
->
->         tglx
+I will change as you suggest.
 
-BR, Jarkko
+-Tony
