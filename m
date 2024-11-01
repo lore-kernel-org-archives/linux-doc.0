@@ -1,341 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2051.outbound.protection.outlook.com [40.107.241.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0279479;
-	Fri,  1 Nov 2024 13:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730467486; cv=none; b=bc8I6bWEny8fiJKwa277FKudCR82QIdMBk43oR/gG9VOlB48wJYt7AHDrMJ3DFAL1xWnVbtInbEDDKtjjNIy0a1sFbp5G/Xr8w3pOM/sshgXgsiNB1fD55jej34zvsOm0xvQPxOyg9PcKLPUKqkKh4sD2xqAhZYJh6LlKMBXYck=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730467486; c=relaxed/simple;
-	bh=kOPe53k3pne06Tgy9gvWlTsoJZ6eLug2mHwnHOd1KC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RuHksoH6+G+i2GtWxKsZ1R0OQn7i5PiZlbhmmzMBe58OcbBz/FEJFXjn4RY4h6n4Y43oUbJU5BrUhjjHavwnZtnuG5CRft75AVTUJONhfsLUwYn0eaC5iZhrOdv3fmLg9NBAdH3vJK+TUvF1h3cC063ua8BnbfR7n0z7a52bXPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BW90yfi5; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031AD18953D;
+	Fri,  1 Nov 2024 14:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.241.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730470312; cv=fail; b=NuiX6Aq2q8aOJjSpEa2bN+DsyaE/He9RfbQ9xeyCbXf1PIKACJWkiVdx/hdYbvdkx7fqiPIqLnuaX+XCeaHMWJxa/DOmoWogoyLVJHdRGgKnElx7UAyyv3txVELdn0dyMaxiLK8TKKSfIwZ29tnI+csVEJEILBdzhYFtRvS04qA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730470312; c=relaxed/simple;
+	bh=FcuBZIVAiIvm+uqz+Qg3cVryH2iFqIfgBMsZH5XY33E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=nrm3Kx2nRX+Dmu68ZZ3dUaFhIu0z/YUlPb2cXZOA8N3NrS/sP09N3yxmX6lpodmz7+746igujAvlPy9VLMylNmIDwzJhgBcGSY4yECnFu9r439hSudiZUxbEnYMnfhO6vevm0BhW9g/uq+tT+DSDU+ioVOR+n5Z6hu5vo7FH1rw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ML1LqBsL; arc=fail smtp.client-ip=40.107.241.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BW90yfi5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CF1CC4CECD;
-	Fri,  1 Nov 2024 13:24:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730467485;
-	bh=kOPe53k3pne06Tgy9gvWlTsoJZ6eLug2mHwnHOd1KC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BW90yfi5VjHVGsx+qjjfpfbR/939M3+2W+t0zwt7buqUP0Ccd6n/ZHArIRu07gRUI
-	 lN2TYl8hLpIZhdF5gmFUJ8gPtUQtFP5eHsdkLYLDJTjjNz7XqK5sfH3kSvLQHi6XY3
-	 ybIQpcfOzWwcNotk2dPw3bXLhIj9nbjtzJyknYpsLYT5OQA1u4qzGAMLoyTV947myL
-	 i1fA4ZYvxsxI2pD3UV2OO1SIutLgjPMlniZLu5IfzQpiR/FIyeClkqcZXR1lCmXF0Z
-	 PQZYpDVod+b1gv4IwWE8eCl3GWFNH2gU4K8hBqt4ztmnB38yilZdEkxkGV0S5eF1Fk
-	 IZuRbRBhe8aAQ==
-Date: Fri, 1 Nov 2024 14:24:37 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Ian Rogers <irogers@google.com>
-Cc: "G . Branden Robinson" <g.branden.robinson@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-Message-ID: <20241101132437.ahn7xdgvmqamatce@devuan>
-References: <20241015211719.1152862-1-irogers@google.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ML1LqBsL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=REOBmEEetSh0SD6r91Y69LLoyD3dZB1zXBYvTVWtsn5o1vlS8lAthpxj353xvFOKSj8DI9bqIc0iQger2/oQpjd4Ua9hDyL5lpCZBjZJWXaXBznJxmIv9vWkHf3uYO2eUOFy0PwmScP2i5fVUE4Vzef52i/C1KEYa94Ln5aeFvrNK2wOjmhM9zkaDrd22tGUizBCw9rkYTpB/Hxy+VMAOh1i8Vk36ZlBS447NCvthSdD7jiSvEBFFPfIKPTbdmgCuLkV+Yu3pOAMZKT4GhVRzFVi4K0gQicUPeVNhSxr4zoSRiScgYpv1Nb9HRZHQ6wSsN9B+XQsU3O9VikAXCiftw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FcuBZIVAiIvm+uqz+Qg3cVryH2iFqIfgBMsZH5XY33E=;
+ b=s7Ay+eMoZca8GTADkDj6TjNxpw8lZBoQQfzNjbwGx/6PnyVZgVxkzQzb6paxf7VJVwX3fvl06UAjrrWkOCcE2KxjWC2+14zY5IGJN1XaLHHuV20hYX7Y79iq/1Pes+ad+MyvlyUhH1HdL4PTEE7vDbGWQW99vg4VhStqcpG8QGloHn+5GbWUI2cweVHdHNjfDGjU+MlzSCZaO35k6Hd1LGSKQk8tDmmtRH/c/0egYalY1p2wOVDjEQUB25nO803+v5aO4kTYp9+H/+6/c/EyPCzlBjau1d3rMvcwXQ5hxIXvIVHbVpPml3UbPGfI6lHVsNsVwrAyPZ0w9bIFhnT10Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FcuBZIVAiIvm+uqz+Qg3cVryH2iFqIfgBMsZH5XY33E=;
+ b=ML1LqBsL/Xur/PveIZ+HLyxJxWUdQ0/wMqBDh7OeLfwbyf1CTIcSE2OBbdYtYbS4n2gSVQkgAieJnpj3CIG68pJg5AEH4DMq/tp13QJ0kflnm/wcPNhsjj8deU0y3s0yuoolbMJ5bw7ME9ta29KFfsW0iJ+VVe9xqeiIFAolfyxZ33njbIw3S3rurhkwLvn6mFZHYNcd5RgDdGrZezYScEFC9xHYYcn1O0UOssVohZW8Avh4YkuJCHBgLaEpzmTlqLJJem1CvZ4NYAMjCqt/uJgLWWJ36rHbCDKbmkQx/DoACLnXJx4VrpUd++WgGUmwLI1QDiUDTJrXWET0QNxugg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM8PR04MB7779.eurprd04.prod.outlook.com (2603:10a6:20b:24b::14)
+ by DU0PR04MB9418.eurprd04.prod.outlook.com (2603:10a6:10:359::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.29; Fri, 1 Nov
+ 2024 14:11:45 +0000
+Received: from AM8PR04MB7779.eurprd04.prod.outlook.com
+ ([fe80::7417:d17f:8d97:44d2]) by AM8PR04MB7779.eurprd04.prod.outlook.com
+ ([fe80::7417:d17f:8d97:44d2%3]) with mapi id 15.20.8093.027; Fri, 1 Nov 2024
+ 14:11:45 +0000
+Date: Fri, 1 Nov 2024 16:11:40 +0200
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: Louis Peens <louis.peens@corigine.com>
+Cc: Caleb Sander <csander@purestorage.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	David Arinzon <darinzon@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Doug Berger <opendmb@gmail.com>, Eric Dumazet <edumazet@google.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Felix Fietkau <nbd@nbd.name>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	hariprasad <hkelam@marvell.com>, Jakub Kicinski <kuba@kernel.org>,
+	Jason Wang <jasowang@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Leon Romanovsky <leon@kernel.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Noam Dagan <ndagan@amazon.com>, Paolo Abeni <pabeni@redhat.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Roy Pledge <Roy.Pledge@nxp.com>, Saeed Bishara <saeedb@amazon.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Shannon Nelson <shannon.nelson@amd.com>,
+	Shay Agroskin <shayagr@amazon.com>, Simon Horman <horms@kernel.org>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Sunil Goutham <sgoutham@marvell.com>, Tal Gilboa <talgi@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	intel-wired-lan@lists.osuosl.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-rdma@vger.kernel.org,
+	netdev@vger.kernel.org, oss-drivers@corigine.com,
+	virtualization@lists.linux.dev
+Subject: Re: [resend PATCH 2/2] dim: pass dim_sample to net_dim() by reference
+Message-ID: <20241101141140.umi3qwpnirb2x4vy@skbuf>
+References: <20241031002326.3426181-1-csander@purestorage.com>
+ <20241031002326.3426181-2-csander@purestorage.com>
+ <ZyN8xpq5C36Tg9rz@LouisNoVo>
+ <CADUfDZoba9hNOBU7TT+0K6BYiYzVkZ_awt751g6HBm+-cCZf8w@mail.gmail.com>
+ <ZySXV46T4IE8YVqX@LouisNoVo>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZySXV46T4IE8YVqX@LouisNoVo>
+X-ClientProxiedBy: VI1PR0102CA0046.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803::23) To AM8PR04MB7779.eurprd04.prod.outlook.com
+ (2603:10a6:20b:24b::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rrjrdqy252cemugf"
-Content-Disposition: inline
-In-Reply-To: <20241015211719.1152862-1-irogers@google.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7779:EE_|DU0PR04MB9418:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2de5844-94ac-4e8c-25d1-08dcfa7f1e49
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?vPRAA/mP1hMqM6II9NAyNAkZLAhpnKhNDvnPJDjPW6zkPGfmme6+viuAFV24?=
+ =?us-ascii?Q?J4A8O5Lmv9BCx26F+QXEFJ2KZi18LxYlO5HDiz60GrZISaFgZL9iY2zO2tz9?=
+ =?us-ascii?Q?6EQjJWI1EnF99EbPANvgEVAYrmgiLR+/k5P3L0qW5KoIxvBYhZpubgA6ShnH?=
+ =?us-ascii?Q?1KpX1PIc8WjOTvvVI6NwqpmHUI1ZVM2VHoTUWVIrp4paBwFSgGK4qwXELSBW?=
+ =?us-ascii?Q?SLHOUBDjtu73hrv0fzRDVDQ00e9yFO3zoH5VjuIQ2wx5vfjpayqm3qEeuM1T?=
+ =?us-ascii?Q?wX40GiB3U4gV2umguJUasl6cyC2xk859L8IzMKeVoQmQs0fSdg6Ryn0z/ec1?=
+ =?us-ascii?Q?sjfzmdsea6KSrFccEXD9/N11io1TinXv5WC1Cr/VumZ7MhZbFQe1k1HtKPf5?=
+ =?us-ascii?Q?QpPwi/eS143tj09kt6iBynqdPc7Rhmrq/zxNonES90p2CdVosA7j+irrv60i?=
+ =?us-ascii?Q?AprS+Krui26DFxTP3MbH6Y1rvx+RqcqjOftAvmwcZ5kj/iTmXI5BGhwH+yTA?=
+ =?us-ascii?Q?QpzdCf/0dohJrFFzp+FAA1CBNKrVqpU2EWk/MDnGwnfi7WPQ2yq1AybXPYid?=
+ =?us-ascii?Q?Ciad3T1oQiuT1x5qp4hNJLj5ql4LbVAir/RbD0TpIB/8vA1RkWK+bmuOox71?=
+ =?us-ascii?Q?yPnYcOPbOmFhk+7rFw3XViQXtH3IA07up9hkV8WRf2tH7wePHrahpCTTFyD5?=
+ =?us-ascii?Q?2QhBg3kVArq9+6chvEAplz/GXquIhJOlifHpXM83JNZ+MVHwswk0JcxsBENT?=
+ =?us-ascii?Q?CLmgoGS70opaGCiLp386A10lPdG4Z0oykzC1wiGTPCPydPxIcqeh4EsoszyW?=
+ =?us-ascii?Q?G2CGhGzkWbi0nTDN5hh04Qo3Ec++e38XcnCHkSrpeKXDbsxzVy2tsjQNRTfr?=
+ =?us-ascii?Q?yCa6I1fzzBdsA0EfpOYEjzCnbIjBgJkr30zN4ieZdbQOtDIb4slD2Y36JEer?=
+ =?us-ascii?Q?PWkaIqu6BgzZuh9R4Y3YSTHu4n0ko6MRRQ01F/Sv0QiLRIg77fbZRjew/5rI?=
+ =?us-ascii?Q?DUmmUiPb6XLh3PO8CtdZ32pOCAICRUleWJi+MyUfbyIXlfzsY8A1UFzI7ygp?=
+ =?us-ascii?Q?d8BHuRUycQrZi4OJb3VJvfObeb00ZlR69Z3pSqv44hSPc7jLxI/Kskaz4ESu?=
+ =?us-ascii?Q?QuCWHmGUUS5csxBj8BGD3sv4vDB2MNtWaXUrWqmbueJV0UngF9qod+yOUTNm?=
+ =?us-ascii?Q?XTO9uUQ31NcxbN7v1Op8C6VvmH0EdS/yplgUqxXwNeSnZ8Fn22pui4BxXmOu?=
+ =?us-ascii?Q?B6d83GLmoGPYi5r+KOjihQm1C+kLsWuw+nd/08ubLx7fthZ0fJjYPgyne7dF?=
+ =?us-ascii?Q?1si1PoTG3SoeABUJIitKQA8G?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7779.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?qc0CwUh2UiVTxFZ+vLYY4JxI7CkcnXr+wlVKd8Fn+TUyHeFjD6R0HuJe4ZqH?=
+ =?us-ascii?Q?2dphNV6Cm5KwkoghylQGj80B8QNjLo1C0WOAiSgOdiGOfZ2DppVjwnAJN2CF?=
+ =?us-ascii?Q?SytOIp3AJUbwpRqCvCPijfif6QW/0QmOghapZ52vZcMH6qceVwwyU2CT3400?=
+ =?us-ascii?Q?Brj2pQ9W0j5hc+trEBKPDlTBaZX4bFXrmXlanI/Og9b/iaQuk8ILbjKDEJrK?=
+ =?us-ascii?Q?O/zjqSCnhl3d3mNCOJuvj01Qs9pUOahN1vtmY+hHvtD6kks0KG2OOkGpZQHE?=
+ =?us-ascii?Q?jjXRu6KVd8mSlrfa0lGz57gvBRpWf4yUtw5bYxXYRmv2cwGqhCMIikHX5axE?=
+ =?us-ascii?Q?kxYe5lNRRfv8Mok7qFUA5tbRA3MlooTp8mL3TFLa5K/kB5gmjxCGr5DJN+9d?=
+ =?us-ascii?Q?kQN1r3L+rvOruw+JDUqcf2pmwWwYBGjtA9MYYzO/7akJUhANfE4l/udZ7orH?=
+ =?us-ascii?Q?XNlqwGOgOAAaBdmQtp/2CYLLgDlyhwwB4e4DKDktQbDwlBaLFzxN9THzzB/o?=
+ =?us-ascii?Q?0Lw3ZEmwTBtK2Vcr7QTJ9Ta5xeD7Cwq15Vo9njaTHq9VXsqZG2EEQ0cH+Cwz?=
+ =?us-ascii?Q?gjTDMIRnYB+QcNMS/aQ2aSGTlBUBCr9etXdLg2lcshc10mzlsqWU6/7kveJ4?=
+ =?us-ascii?Q?hyYjG6shk/qJWjldriKuHoN9IaNHk/qullqNdl+7vilfIf1DyY+Nsl8syhKp?=
+ =?us-ascii?Q?SnLVZvuEhSxo5ooc0bgWFi7Js+2VtIHMXNL/UjhYt5lPLIOvG5rUi5L9FLsy?=
+ =?us-ascii?Q?pksLKdYA2iqBniP3aF6lw7g2o49DoDdWsvR0xVBUnbKVw2qUTaieOJbcUlzm?=
+ =?us-ascii?Q?Ufhm1koVFbXZ7Junf5L+cENc+BdBdoM9E32utsFLcSMia2BTTNQurtrxsCog?=
+ =?us-ascii?Q?hEgdXOqM5axELxuvHR64orqGJLhQsuTwkd9YjbqMqwSGe+kd2Y83Y0mThQpG?=
+ =?us-ascii?Q?BSC1BhxImxRa+3i/hyqrcc9f0Jnesgc+ZIhKQDWNB6jtn/83qzn2U4UQgNfy?=
+ =?us-ascii?Q?pE3ENABTUlTT4qMMcjSnIN+buwZu3XzkyLFhYrFezT7FSRvpCLK33DpAYP7l?=
+ =?us-ascii?Q?HzAeN/p669fGwJX2SGbVmgMJzkKhd2DQrQjD8G/J6VXiQsXJ83Fn0hvAE+Qt?=
+ =?us-ascii?Q?4sGBv++XTI4IRb0uesAYiPGIoJArQ+geiTsBQHaDRl+P0fnUU2KhddDlyPYA?=
+ =?us-ascii?Q?w2Q0Fgbu+a5rtsGSRGnvh5iLT1uzUrmLtNQXHVxaHpFKm3H9xr5R23Ew9V+R?=
+ =?us-ascii?Q?Xe+7dgNGv6k9C6khjEjm0JQvjx1EhddqeDlm8HuZC6/FJ/RfGX0qN4P2zTbL?=
+ =?us-ascii?Q?0zm9grbpxciEPXk/CVLwpVCuOv2YJcPZhfQNvEqsCBpG1Ryw+Ln+OmoR3iU4?=
+ =?us-ascii?Q?ajTSmR56xT6XPfAjQ9V8M3QaqreFpza3sTlXyb7NQVjhhUDPCeI/pVa2nsNm?=
+ =?us-ascii?Q?MeyWz/vVT3zd+LIVUdjcF0lhTigxl+cZtcoU2oDHNuKLuPikMBdZcB7n0mto?=
+ =?us-ascii?Q?rEiAcEpZgXzpxoNd22aaXJjMyOsctZswSJENK+D233I+4KMCF/zX7310g0fz?=
+ =?us-ascii?Q?gNNH47Zf2aZJgO1ycPIjbboy5fWBKJ7JDZZnMRfmimz49sVZfvJMOTRePw2/?=
+ =?us-ascii?Q?HA=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2de5844-94ac-4e8c-25d1-08dcfa7f1e49
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7779.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 14:11:45.7255
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lvz+wtk68xfzuakCOH59mkdbwJBLa6IrP+KSUxbxKcwDNgP/LPJ6SO6Et/7e5fVb2cJYCgszdlaYrDARHy6Y3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9418
 
+On Fri, Nov 01, 2024 at 10:54:47AM +0200, Louis Peens wrote:
+> Hi - sorry, I do still manage to mix up when to use signed-off-by and
+> reviewed-by.
 
---rrjrdqy252cemugf
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-MIME-Version: 1.0
-
-On Tue, Oct 15, 2024 at 02:17:17PM -0700, Ian Rogers wrote:
-> When /proc/pid/fdinfo was part of proc.5 man page the indentation made
-> sense. As a standalone man page the indentation doesn't need to be so
-> far over to the right. Remove the initial tagged pragraph and move the
-> styling to the initial summary description.
->=20
-> Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
-> Signed-off-by: Ian Rogers <irogers@google.com>
-> ---
->  man/man5/proc_pid_fdinfo.5 | 66 ++++++++++++++++++--------------------
->  1 file changed, 32 insertions(+), 34 deletions(-)
->=20
-> diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-> index 1e23bbe02..8678caf4a 100644
-> --- a/man/man5/proc_pid_fdinfo.5
-> +++ b/man/man5/proc_pid_fdinfo.5
-> @@ -6,20 +6,19 @@
->  .\"
->  .TH proc_pid_fdinfo 5 (date) "Linux man-pages (unreleased)"
->  .SH NAME
-> -/proc/pid/fdinfo/ \- information about file descriptors
-> +.IR /proc/ pid /fdinfo " \- information about file descriptors"
-
-I wouldn't add formatting here for now.  That's something I prefer to be
-cautious about, and if we do it, we should do it in a separate commit.
-
->  .SH DESCRIPTION
-> -.TP
-> -.IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
-> -This is a subdirectory containing one entry for each file which the
-> -process has open, named by its file descriptor.
-> -The files in this directory are readable only by the owner of the proces=
-s.
-> -The contents of each file can be read to obtain information
-> -about the corresponding file descriptor.
-> -The content depends on the type of file referred to by the
-> -corresponding file descriptor.
-> -.IP
-> +Since Linux 2.6.22,
-
-You could move this information to a HISTORY section.
-
-> +this subdirectory contains one entry for each file that process
-> +.I pid
-> +has open, named by its file descriptor.  The files in this directory
-
-Please don't reflow existing text.  Please read about semantic newlines
-in man-pages(7):
-
-$ MANWIDTH=3D72 man man-pages | sed -n '/Use semantic newlines/,/^$/p'
-   Use semantic newlines
-     In  the  source of a manual page, new sentences should be started
-     on new lines, long sentences should be split into lines at clause
-     breaks (commas, semicolons, colons, and so on), and long  clauses
-     should be split at phrase boundaries.  This convention, sometimes
-     known  as  "semantic newlines", makes it easier to see the effect
-     of patches, which often operate at the level of  individual  sen=E2=80=
-=90
-     tences, clauses, or phrases.
-
-Have a lovely day!
-Alex
-
-> +are readable only by the owner of the process.  The contents of each
-> +file can be read to obtain information about the corresponding file
-> +descriptor.  The content depends on the type of file referred to by
-> +the corresponding file descriptor.
-> +.P
->  For regular files and directories, we see something like:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  .RB "$" " cat /proc/12015/fdinfo/4"
-> @@ -28,7 +27,7 @@ flags:  01002002
->  mnt_id: 21
->  .EE
->  .in
-> -.IP
-> +.P
->  The fields are as follows:
->  .RS
->  .TP
-> @@ -51,7 +50,6 @@ this field incorrectly displayed the setting of
->  at the time the file was opened,
->  rather than the current setting of the close-on-exec flag.
->  .TP
-> -.I
->  .I mnt_id
->  This field, present since Linux 3.15,
->  .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
-> @@ -59,13 +57,13 @@ is the ID of the mount containing this file.
->  See the description of
->  .IR /proc/ pid /mountinfo .
->  .RE
-> -.IP
-> +.P
->  For eventfd file descriptors (see
->  .BR eventfd (2)),
->  we see (since Linux 3.8)
->  .\" commit cbac5542d48127b546a23d816380a7926eee1c25
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -74,16 +72,16 @@ mnt_id:	10
->  eventfd\-count:               40
->  .EE
->  .in
-> -.IP
-> +.P
->  .I eventfd\-count
->  is the current value of the eventfd counter, in hexadecimal.
-> -.IP
-> +.P
->  For epoll file descriptors (see
->  .BR epoll (7)),
->  we see (since Linux 3.8)
->  .\" commit 138d22b58696c506799f8de759804083ff9effae
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -93,7 +91,7 @@ tfd:        9 events:       19 data: 74253d2500000009
->  tfd:        7 events:       19 data: 74253d2500000007
->  .EE
->  .in
-> -.IP
-> +.P
->  Each of the lines beginning
->  .I tfd
->  describes one of the file descriptors being monitored via
-> @@ -110,13 +108,13 @@ descriptor.
->  The
->  .I data
->  field is the data value associated with this file descriptor.
-> -.IP
-> +.P
->  For signalfd file descriptors (see
->  .BR signalfd (2)),
->  we see (since Linux 3.8)
->  .\" commit 138d22b58696c506799f8de759804083ff9effae
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -125,7 +123,7 @@ mnt_id:	10
->  sigmask:	0000000000000006
->  .EE
->  .in
-> -.IP
-> +.P
->  .I sigmask
->  is the hexadecimal mask of signals that are accepted via this
->  signalfd file descriptor.
-> @@ -135,12 +133,12 @@ and
->  .BR SIGQUIT ;
->  see
->  .BR signal (7).)
-> -.IP
-> +.P
->  For inotify file descriptors (see
->  .BR inotify (7)),
->  we see (since Linux 3.8)
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -150,7 +148,7 @@ inotify wd:2 ino:7ef82a sdev:800001 mask:800afff igno=
-red_mask:0 fhandle\-bytes:8
->  inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandle\=
--bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
->  .EE
->  .in
-> -.IP
-> +.P
->  Each of the lines beginning with "inotify" displays information about
->  one file or directory that is being monitored.
->  The fields in this line are as follows:
-> @@ -168,19 +166,19 @@ The ID of the device where the target file resides =
-(in hexadecimal).
->  .I mask
->  The mask of events being monitored for the target file (in hexadecimal).
->  .RE
-> -.IP
-> +.P
->  If the kernel was built with exportfs support, the path to the target
->  file is exposed as a file handle, via three hexadecimal fields:
->  .IR fhandle\-bytes ,
->  .IR fhandle\-type ,
->  and
->  .IR f_handle .
-> -.IP
-> +.P
->  For fanotify file descriptors (see
->  .BR fanotify (7)),
->  we see (since Linux 3.8)
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:	0
-> @@ -190,7 +188,7 @@ fanotify flags:0 event\-flags:88002
->  fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle\-=
-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
->  .EE
->  .in
-> -.IP
-> +.P
->  The fourth line displays information defined when the fanotify group
->  was created via
->  .BR fanotify_init (2):
-> @@ -210,7 +208,7 @@ argument given to
->  .BR fanotify_init (2)
->  (expressed in hexadecimal).
->  .RE
-> -.IP
-> +.P
->  Each additional line shown in the file contains information
->  about one of the marks in the fanotify group.
->  Most of these fields are as for inotify, except:
-> @@ -228,16 +226,16 @@ The events mask for this mark
->  The mask of events that are ignored for this mark
->  (expressed in hexadecimal).
->  .RE
-> -.IP
-> +.P
->  For details on these fields, see
->  .BR fanotify_mark (2).
-> -.IP
-> +.P
->  For timerfd file descriptors (see
->  .BR timerfd (2)),
->  we see (since Linux 3.17)
->  .\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85
->  the following fields:
-> -.IP
-> +.P
->  .in +4n
->  .EX
->  pos:    0
-> --=20
-> 2.47.0.rc1.288.g06298d1525-goog
->=20
-
---=20
-<https://www.alejandro-colomar.es/>
-
---rrjrdqy252cemugf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmck1pUACgkQnowa+77/
-2zI8FQ/8D9EPYu4wju/TAVHgaKGIEfcv/qsDaMh52KMkW/6Lkj81laXLzfEk5zPw
-yMYKELHyhvNZe8ZjL94BKFRmX1wE4MJBtMy/a8FVwIGdsY3+Odla55NMWlj6pk9Z
-OH3c3QaSP9US1OdSoXf61bt3v6nwL3pyUtoCm5ZMGRmCIOy4rLZnWhfAwBexL0jE
-/EM56KjB0aENn8wLOtgz+vNuPVrXQHMIQ9b/+p3Ymu1gPi8Jpou2Cmzk3smnYnQi
-B0sgaAkVXnUJwhmCH7hwzuVXrKkHzOMbVrfgJzU7ONOXPJyn7LBdMF2oR9/BzpcG
-Jgn2UJ7n+hffD35M10MzdW5HFgPo/NTdWEp4SCaZE0u2Lg2PUJUl3nnsmFm56Jqb
-VNqdF9aMdYT/WNJhZY/QpDjkZwXeo3xd4uLWaxImzx3IYkQMsiQ178hNKPYu3j/V
-qG8AhgHnyHTGUBDGKZazKB+sZgXKLyfORuFE0KqvJi34ZzCxZ/tPX5szJYyd5iR5
-O0HUDeCrwmFRnxFqlGnJD43uuVrPq/tVoMN8xTVbRRoKmTlidhZHUaz5+jOjjRBI
-s1p4fppcGF3aFTeslQsT3umhKtE8U1xYOqYdk96JpVsznjU/je073TQeiT2eaMSH
-YecF07tEWELQiWbr79B/hQ+1Doi8vhseJPb15kl7OuXTzNfUZqQ=
-=KPYY
------END PGP SIGNATURE-----
-
---rrjrdqy252cemugf--
+You use Signed-off-by when you submit a patch and Reviewed-by when you
+review it.
