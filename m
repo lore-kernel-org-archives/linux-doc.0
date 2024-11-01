@@ -1,238 +1,285 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577AF1D0F77
-	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 20:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2E9168DA;
+	Fri,  1 Nov 2024 20:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730493667; cv=none; b=U60Xe+JmRXaQ5VLCIXUajyUvw+QFpKPbRuuOFNYv84e509yim4tJcGlzNC71Q6qAQt8d0k5+Wquso+xj5f3Ye2Ix1BkJZMJC1DviwUMyVZGlmzcZaTWsw6O9hxqxAWKfM4SjzemZKUoAranB4rOCqST8y6FxANr1rvCCoZQIiLo=
+	t=1730493846; cv=none; b=qGK3CV8eOu9H8/svmdxLdLoa7ik+goP669DSPVcPNHHUFbSvUjVlQ1akCaSVoM1AwMKPMjr+9YbzTMFKQ8zXB+II5IHK+ZfAyvMqyPswZfYBSmuvEc/Lngiq/AA8AQ4Je1KtdLq1YkaL5fDES64/qXtC+GaU0nWnSdcVR9qSzY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730493667; c=relaxed/simple;
-	bh=QnZ9NtjUbdQTJvpttaHRdaRqT9o2KWoYfK1rOy0QK5g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TVTj7kNigF0kUD2JyxYwfsH9SeOW2pCdLAJbq2QZiy7hSH4t7rrDrjpXhj2jwZ1GVwX0u574Nc451iWnQzvC35vL9kvlR7OqZfSL0JBBa1vWWxDnllmFKBR+sP+YpK0oQExvRgArzi8kM5qIxYpAaROjqALGFNIdfenKhfAAnjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jVm02lnN; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1730493846; c=relaxed/simple;
+	bh=kZgWT+E+imGucwM5FYY+x2OMrD6FaStxjjPGQVYzOuk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iFgpO165XEjRddiericuEuSqR70to3OL6X9kpU5mSeGTcZJNOeua5Qg7anpmrK5l4qP+LicyT9nexmsa6Ix4qZzNr9V8V4lFTv+GBVj7CjwXSkiTjdwjYp5IMaO5COGVsFT4WIBNzstSy+ibl0pVF168Y1jtFiTLP5Q9i60vzSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DopupVo9; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jVm02lnN"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-460b295b9eeso17511cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 13:41:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DopupVo9"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e29267b4dc4so2175747276.0;
+        Fri, 01 Nov 2024 13:44:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730493663; x=1731098463; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4cWDY3NSGHiCMXI2nz1acGMypfvF/NU2Y53NaKDsy0s=;
-        b=jVm02lnN8pB9N5B2eS+ZuHYukaQQD3tXkTNG3eQfEr99qJSgo/aBqr/mG/UbsAFo0N
-         PKv14VgFZhVY/FNHiixVKIFrW3hwE60+ZKAg6fV6GCWlULb0k9N2AN0HY1jPwUeXH+Gx
-         5wipCyb09zw0gnE2bKZVtIXvNz0O0dc4CeM5TYSjVeKTu7Br7vanqAOPAsUGIXfETChV
-         LhMrYvCSJ71+xBPMaUcwCoY/Ng08s0JTfNVQNNqpKH5Ts72rmnuT0Ri0wYGuyhqZzBnY
-         wuP1b2BCnZT7kX54hZtWMyhZuP7ZMVyaFc/QE+re+vu/B0Wg42puhsUJGKpku3fhlEEM
-         mQ0g==
+        d=gmail.com; s=20230601; t=1730493844; x=1731098644; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tCM+fKsGzk5AZDxT4A2dewBEVdVNNm2ySi8AOsEK/l0=;
+        b=DopupVo9r7dS5G16picQQmYfaWbV7cnYFKXGhlVOCgsGcrQy4YhX1+lnZeb0mZEMV8
+         6ZZFxTj9VJqLUC6JEeeOTmgGwBpXe/SWZ6EjXO5EMlJvgBgFQbZp/korgWGM71wn3FMr
+         kH52ekqIelY4BkNHmKY7sZAiGA4zKZ+jFkX1n4WLq7TZA21nIMQMPz47Z9yhZkQvYyDK
+         UNnBPD7I9UoVkvMLJvhe3rr2mdlQ1zyPHKQhhHXF4cRgR6HFBwyCg63a7GubU/PXlTBp
+         ptflkiFG7gNtwhSGX3Itz/aHrHEOkx03m+6YFUyqiJd2bi5HlaEDXntzoaFXNbJbt/D1
+         mDhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730493663; x=1731098463;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4cWDY3NSGHiCMXI2nz1acGMypfvF/NU2Y53NaKDsy0s=;
-        b=UghgRO06Dz7dLOj/RJz3s6Q1WJmZmsOI6gEiA+ojui4LMB9EXmbs5VVzAX4H226HDs
-         nTVYTnT7o0XJQNQrdeM6K9UlPZj0zp5COs5aPOCszXocHluFbhc7cxw+P2tZR+NMY6Od
-         P2sOHfvy5pTaxKTi6eZtGzaJABxDyywIPISz5mKS11aOBQoS1LxIByAtKaFrqjdP0KG3
-         f5MaSmbEAOaNDGPfNMw7WVejc7ARak0Xp4GF0CayIRDAMnmf3wjyzNDKbJebixs5I90M
-         KALyaSeQvGIcdgkV6DJRxOcl09MRx6gdX8O+JmCLbzB93mfCnwYeV/67D3Uw6PFoBb0T
-         T5Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCV2DCnq9zNN8jJDzVYxfD5GGiJUFyg8b9BXdGbXtENL/r20pMXCtUSCwN5tPLUPbfxjS9zjxVXmEOk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLM/Sy0JyADGRkLZEVNZd58ivlP6XmeB3qZ7+wdbq+ReLWaeTf
-	su9+jhu5ctNah8JiOeFn9HzbZG88Gn+IIyA3X3uIfPjgzLns8OnRXmw7t2636OXTERWPbAh94LI
-	AE3daJRvq4+ChYyozPAkIEJZ45c6V3NKpVG52
-X-Gm-Gg: ASbGncuZpKKaWqPefv0gn1ooIduK2jS8cdGL8+QDESEF8Pof0EYnFd3Om7LAIgNAw/a
-	tHEZ7Ub8HzlpF7mQRLMWlXE172j50vBosLw092MYxbHODzp6LoLbEwYHNQ+g2iw==
-X-Google-Smtp-Source: AGHT+IHQx73scTifKy/me2Cyi0Y+euncHKvBIpySAjRUMBxZGYBYJh/Kcv4YekjCYJP7ayAIXMrsTrsGu3mbqoHIrJU=
-X-Received: by 2002:a05:622a:2a10:b0:461:4467:14c7 with SMTP id
- d75a77b69052e-462c5d3126cmr905151cf.0.1730493662840; Fri, 01 Nov 2024
- 13:41:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730493844; x=1731098644;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tCM+fKsGzk5AZDxT4A2dewBEVdVNNm2ySi8AOsEK/l0=;
+        b=sVLzmhiteHg5KjAwBUZ5I2/s684K+fFGqc9CRMV53s8xTAAbjbbKTQpA3UiQFxUQTK
+         +3Tjaa7DV1C7DV+fAy6ghLRryCCyLzNC2fbj5jvfIOqUgLYwiahs2YlnvA6V39VITNEK
+         UIBJADYbjBcRtVio8UOYZXyaOIukZZVbrBNKk2J0PGtv5hnE1LiblHOPNBqLUZW4Txjg
+         cqmGmwlnw22sv6L9oldIMSPfkOjyPz1AaWNBYB4BE7nAdnIuvYBhP9CCtXx0ce9LUcDK
+         IWzfJ6GA4jA8zp0J4BcLUaGP0PWtKgKII2g0ey1odvWQGDCJw2+/1hytQRVcTkRMHGif
+         SOXA==
+X-Forwarded-Encrypted: i=1; AJvYcCUi2VDf8aK2XXnDdqUcVSA9Y7Ug6VrbNXIxpvhc8pvoFrf80kRur0zhFTAIwb+mqZFSWlwt9xFW/2Ib@vger.kernel.org, AJvYcCUztViepbTMkDiTqd/OZ0DMiqS2YWNdMvZ9Ez57OFlJo7jsCFj+3KeraszfQMAt0aJ78XsegQlgN2jBl3IZ@vger.kernel.org, AJvYcCWRJ6vAxG5TsVPg1UMow129caJ/cjGAzSrbyvxWE3mIPT8WKP7YAx9N6bCjsVtZHtCtxHmeN7N1@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8LWG0OHtfJ62BtVb4ao/ejl1GLMgVN7iEDpZTG80gvx1eQsS2
+	XYfb99+D+HnK/S3FmTVFZzGIbLxTGHLWVZUdgPsxpLPYXpvzhr3m
+X-Google-Smtp-Source: AGHT+IEkuzO5zxQKkn/65x1uoWoqfWH/QbZaag/6vrSeC1yuyVpynp5j/emFlwaPWuvpnu0ognHsMA==
+X-Received: by 2002:a05:6902:b0e:b0:e30:cbde:1252 with SMTP id 3f1490d57ef6-e330266ec61mr3601095276.36.1730493843734;
+        Fri, 01 Nov 2024 13:44:03 -0700 (PDT)
+Received: from localhost (fwdproxy-frc-022.fbsv.net. [2a03:2880:21ff:16::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e30e8a61797sm871280276.12.2024.11.01.13.44.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2024 13:44:03 -0700 (PDT)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: akpm@linux-foundation.org,
+	hannes@cmpxchg.org
+Cc: nphamcs@gmail.com,
+	shakeel.butt@linux.dev,
+	roman.gushchin@linux.dev,
+	muchun.song@linux.dev,
+	chris@chrisdown.name,
+	tj@kernel.org,
+	lizefan.x@bytedance.com,
+	mkoutny@suse.com,
+	corbet@lwn.net,
+	lnyng@meta.com,
+	cgroups@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
+Date: Fri,  1 Nov 2024 13:44:02 -0700
+Message-ID: <20241101204402.1885383-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-6-ap420073@gmail.com>
- <CAHS8izNbS4i+ke0bK07-rNLuq6RGXD-H73DhVb1-tsUOzSCBog@mail.gmail.com> <CAMArcTUGTF2Qr9=W_mcrA9au2jhm0Ru6hC+Nt3V2tk=LODQs+A@mail.gmail.com>
-In-Reply-To: <CAMArcTUGTF2Qr9=W_mcrA9au2jhm0Ru6hC+Nt3V2tk=LODQs+A@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 1 Nov 2024 13:40:51 -0700
-Message-ID: <CAHS8izN0_v0UTNT9Xu8yJcvStvAYBQW3kadMG_0d4xr7Ta-VVQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 5/8] net: devmem: add ring parameter filtering
-To: Taehee Yoo <ap420073@gmail.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Ziwei Xiao <ziweixiao@google.com>
-Cc: Praveen Kaligineedi <pkaligineedi@google.com>, davem@davemloft.net, kuba@kernel.org, 
-	pabeni@redhat.com, edumazet@google.com, donald.hunter@gmail.com, 
-	corbet@lwn.net, michael.chan@broadcom.com, andrew+netdev@lunn.ch, 
-	hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org, 
-	daniel@iogearbox.net, john.fastabend@gmail.com, dw@davidwei.uk, 
-	sdf@fomichev.me, asml.silence@gmail.com, brett.creeley@amd.com, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 1, 2024 at 11:03=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wro=
-te:
->
-> On Fri, Nov 1, 2024 at 11:29=E2=80=AFPM Mina Almasry <almasrymina@google.=
-com> wrote:
-> >
-> > Hi Taehee, sorry for the late reply. I was out on vacation and needed
-> > to catch up on some stuff when I got back.
->
-> Hi Mina,
-> Thank you so much for your review :)
->
-> >
-> > On Tue, Oct 22, 2024 at 9:25=E2=80=AFAM Taehee Yoo <ap420073@gmail.com>=
- wrote:
-> > >
-> > > If driver doesn't support ring parameter or tcp-data-split configurat=
-ion
-> > > is not sufficient, the devmem should not be set up.
-> > > Before setup the devmem, tcp-data-split should be ON and
-> > > header-data-split-thresh value should be 0.
-> > >
-> > > Tested-by: Stanislav Fomichev <sdf@fomichev.me>
-> > > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
-> > > ---
-> > >
-> > > v4:
-> > >  - Check condition before __netif_get_rx_queue().
-> > >  - Separate condition check.
-> > >  - Add Test tag from Stanislav.
-> > >
-> > > v3:
-> > >  - Patch added.
-> > >
-> > >  net/core/devmem.c | 18 ++++++++++++++++++
-> > >  1 file changed, 18 insertions(+)
-> > >
-> > > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> > > index 11b91c12ee11..3425e872e87a 100644
-> > > --- a/net/core/devmem.c
-> > > +++ b/net/core/devmem.c
-> > > @@ -8,6 +8,8 @@
-> > >   */
-> > >
-> > >  #include <linux/dma-buf.h>
-> > > +#include <linux/ethtool.h>
-> > > +#include <linux/ethtool_netlink.h>
-> > >  #include <linux/genalloc.h>
-> > >  #include <linux/mm.h>
-> > >  #include <linux/netdevice.h>
-> > > @@ -131,6 +133,8 @@ int net_devmem_bind_dmabuf_to_queue(struct net_de=
-vice *dev, u32 rxq_idx,
-> > >                                     struct net_devmem_dmabuf_binding =
-*binding,
-> > >                                     struct netlink_ext_ack *extack)
-> > >  {
-> > > +       struct kernel_ethtool_ringparam kernel_ringparam =3D {};
-> > > +       struct ethtool_ringparam ringparam =3D {};
-> > >         struct netdev_rx_queue *rxq;
-> > >         u32 xa_idx;
-> > >         int err;
-> > > @@ -140,6 +144,20 @@ int net_devmem_bind_dmabuf_to_queue(struct net_d=
-evice *dev, u32 rxq_idx,
-> > >                 return -ERANGE;
-> > >         }
-> > >
-> > > +       if (!dev->ethtool_ops->get_ringparam)
-> > > +               return -EOPNOTSUPP;
-> > > +
-> >
-> > Maybe an error code not EOPNOTSUPP. I think that gets returned when
-> > NET_DEVMEM is not compiled in and other situations like that. Lets
-> > pick another error code? Maybe ENODEV.
->
-> There are several same code in the ethtool core.
-> It returns EOPNOTSUPP consistently.
-> In the v3 series, Brett reviewed it.
-> So, I changed it from EINVAL to EOPNOTSUPP it was reasonable to me.
-> So I prefer EOPNOTSUPP but I will follow your decision.
-> What do you think?
->
-> >
-> > Also consider extack error message. But it's very unlikely to hit this
-> > error, so maybe not necessary.
->
-> I removed extack from the v3. because ethtool doesn't use extack for
-> the same logic. It was reasonable to me.
->
+This patch introduces a new counter to memory.stat that tracks hugeTLB
+usage, only if hugeTLB accounting is done to memory.current. This
+feature is enabled the same way hugeTLB accounting is enabled, via
+the memory_hugetlb_accounting mount flag for cgroupsv2.
 
-Ah, looks like I accidentally re-opened discussion on a couple of
-items that you're already aligned on. Not critical. This is fine by
-me.
+1. Why is this patch necessary?
+Currently, memcg hugeTLB accounting is an opt-in feature [1] that adds
+hugeTLB usage to memory.current. However, the metric is not reported in
+memory.stat. Given that users often interpret memory.stat as a breakdown
+of the value reported in memory.current, the disparity between the two
+reports can be confusing. This patch solves this problem by including
+the metric in memory.stat as well, but only if it is also reported in
+memory.current (it would also be confusing if the value was reported in
+memory.stat, but not in memory.current)
 
-> >
-> > > +       dev->ethtool_ops->get_ringparam(dev, &ringparam, &kernel_ring=
-param,
-> > > +                                       extack);
-> > > +       if (kernel_ringparam.tcp_data_split !=3D ETHTOOL_TCP_DATA_SPL=
-IT_ENABLED) {
-> > > +               NL_SET_ERR_MSG(extack, "tcp-data-split is disabled");
-> > > +               return -EINVAL;
-> > > +       }
-> > > +       if (kernel_ringparam.hds_thresh) {
-> > > +               NL_SET_ERR_MSG(extack, "header-data-split-thresh is n=
-ot zero");
-> > > +               return -EINVAL;
-> > > +       }
-> > > +
-> >
-> > Thinking about drivers that support tcp-data-split, but don't support
-> > any kind of hds_thresh. For us (GVE), the hds_thresh is implicitly
-> > always 0.
-> >
-> > Does the driver need to explicitly set hds_thresh to 0? If so, that
-> > adds a bit of churn to driver code. Is it possible to detect in this
-> > function that the driver doesn't support hds_thresh and allow the
-> > binding if so?
-> >
-> > I see in the previous patch you do something like:
-> >
-> > supported_ring_params & ETHTOOL_RING_USE_HDS_THRS
-> >
-> > To detect there is hds_thresh support. I was wondering if something
-> > like this is possible so we don't have to update GVE and all future
-> > drivers to explicitly set thresh to 0.
->
-> How about setting maximum hds_threshold to 0?
-> The default value of hds_threshold of course 0.
-> I think gve code does not need to change much, just adding like below
-> will be okay.
->
-> I think if drivers don't support setting hds_threshold explicitly, it
-> is actually the same as support only 0.
-> So, there is no problem I think.
->
-> I didn't analyze gve driver code, So I might think it too optimistically.
->
-> #define GVE_HDS_THRESHOLD_MAX 0
-> kernel_ering->hds_thresh =3D GVE_HDS_THRESHOLD_MAX;
-> kernel_ering->hds_thresh_max =3D GVE_HDS_THRESHOLD_MAX;
-> ...
-> .supported_ring_params  =3D ETHTOOL_RING_USE_TCP_DATA_SPLIT |
-> ETHTOOL_RING_USE_HDS_THRS,
->
+Aside from the consistency between the two files, we also see benefits
+in observability. Userspace might be interested in the hugeTLB footprint
+of cgroups for many reasons. For instance, system admins might want to
+verify that hugeTLB usage is distributed as expected across tasks: i.e.
+memory-intensive tasks are using more hugeTLB pages than tasks that
+don't consume a lot of memory, or are seen to fault frequently. Note that
+this is separate from wanting to inspect the distribution for limiting
+purposes (in which case, hugeTLB controller makes more sense).
 
-OK, if you can think of a way to do this without any churn to other
-drivers, that would be better, but this is fine by me either way.
+2. We already have a hugeTLB controller. Why not use that?
+It is true that hugeTLB tracks the exact value that we want. In fact, by
+enabling the hugeTLB controller, we get all of the observability
+benefits that I mentioned above, and users can check the total hugeTLB
+usage, verify if it is distributed as expected, etc.
 
-Reviewed-by: Mina Almasry <almasrymina@google.com>
+With this said, there are 2 problems:
+(a) They are still not reported in memory.stat, which means the
+    disparity between the memcg reports are still there.
+(b) We cannot reasonably expect users to enable the hugeTLB controller
+    just for the sake of hugeTLB usage reporting, especially since
+    they don't have any use for hugeTLB usage enforcing [2].
 
---=20
-Thanks,
-Mina
+3. Implementation Details:
+In the alloc / free hugetlb functions, we call lruvec_stat_mod_folio
+regardless of whether memcg accounts hugetlb. mem_cgroup_commit_charge
+which is called from alloc_hugetlb_folio will set memcg for the folio
+only if the CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING cgroup mount option is
+used, so lruvec_stat_mod_folio accounts per-memcg hugetlb counters
+only if the feature is enabled. Regardless of whether memcg accounts
+for hugetlb, the newly added global counter is updated and shown
+in /proc/vmstat.
+
+The global counter is added because vmstats is the preferred framework
+for cgroup stats. It makes stat items consistent between global and
+cgroups. It also provides a per-node breakdown, which is useful.
+Because it does not use cgroup-specific hooks, we also keep generic
+MM code separate from memcg code.
+
+[1] https://lore.kernel.org/all/20231006184629.155543-1-nphamcs@gmail.com/
+[2] Of course, we can't make a new patch for every feature that can be
+    duplicated. However, since the existing solution of enabling the
+    hugeTLB controller is an imperfect solution that still leaves a
+    discrepancy between memory.stat and memory.curent, I think that it
+    is reasonable to isolate the feature in this case.
+ 
+Suggested-by: Nhat Pham <nphamcs@gmail.com>
+Suggested-by: Shakeel Butt <shakeel.butt@linux.dev>
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+Acked-by: Shakeel Butt <shakeel.butt@linux.dev>
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Acked-by: Chris Down <chris@chrisdown.name>
+Acked-by: Michal Hocko <mhocko@suse.com>
+Reviewed-by: Roman Gushchin <roman.gushchin@linux.dev>
+Reviewed-by: Nhat Pham <nphamcs@gmail.com>
+Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
+
+---
+Changelog
+v4:
+  * Added {acked,suggested,reviewed}-by to the list
+  * Added an extra section detailing why having no checks for mount
+    options or configs is ok (handled by lruvec_stat_mod_folio). Also
+    includes justifications for adding a global counter
+v3:
+  * Removed check for whether CGRP_ROOT_HUGETLB_ACCOUNTING is on, since
+    this check is already handled by lruvec_stat_mod (and doing the
+    check in hugetlb.c actually breaks the build if MEMCG is not
+    enabled.
+  * Because there is now only one check for the flags, I've opted to
+    do all of the cleanup in a separate patch series.
+  * Added hugetlb information in cgroup-v2.rst
+  * Added Suggested-by: Shakeel Butt
+v2:
+  * Enables the feature only if memcg accounts for hugeTLB usage
+  * Moves the counter from memcg_stat_item to node_stat_item
+  * Expands on motivation & justification in commitlog
+  * Added Suggested-by: Nhat Pham
+
+ Documentation/admin-guide/cgroup-v2.rst |  5 +++++
+ include/linux/mmzone.h                  |  3 +++
+ mm/hugetlb.c                            |  2 ++
+ mm/memcontrol.c                         | 11 +++++++++++
+ mm/vmstat.c                             |  3 +++
+ 5 files changed, 24 insertions(+)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 69af2173555f..bd7e81c2aa2b 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1646,6 +1646,11 @@ The following nested keys are defined.
+ 	  pgdemote_khugepaged
+ 		Number of pages demoted by khugepaged.
+ 
++	  hugetlb
++		Amount of memory used by hugetlb pages. This metric only shows
++		up if hugetlb usage is accounted for in memory.current (i.e.
++		cgroup is mounted with the memory_hugetlb_accounting option).
++
+   memory.numa_stat
+ 	A read-only nested-keyed file which exists on non-root cgroups.
+ 
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 17506e4a2835..972795ae5946 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -220,6 +220,9 @@ enum node_stat_item {
+ 	PGDEMOTE_KSWAPD,
+ 	PGDEMOTE_DIRECT,
+ 	PGDEMOTE_KHUGEPAGED,
++#ifdef CONFIG_HUGETLB_PAGE
++	NR_HUGETLB,
++#endif
+ 	NR_VM_NODE_STAT_ITEMS
+ };
+ 
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 190fa05635f4..fbb10e52d7ea 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1925,6 +1925,7 @@ void free_huge_folio(struct folio *folio)
+ 				     pages_per_huge_page(h), folio);
+ 	hugetlb_cgroup_uncharge_folio_rsvd(hstate_index(h),
+ 					  pages_per_huge_page(h), folio);
++	lruvec_stat_mod_folio(folio, NR_HUGETLB, -pages_per_huge_page(h));
+ 	mem_cgroup_uncharge(folio);
+ 	if (restore_reserve)
+ 		h->resv_huge_pages++;
+@@ -3093,6 +3094,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+ 
+ 	if (!memcg_charge_ret)
+ 		mem_cgroup_commit_charge(folio, memcg);
++	lruvec_stat_mod_folio(folio, NR_HUGETLB, pages_per_huge_page(h));
+ 	mem_cgroup_put(memcg);
+ 
+ 	return folio;
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 7845c64a2c57..5444d0e7bb64 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -310,6 +310,9 @@ static const unsigned int memcg_node_stat_items[] = {
+ 	PGDEMOTE_KSWAPD,
+ 	PGDEMOTE_DIRECT,
+ 	PGDEMOTE_KHUGEPAGED,
++#ifdef CONFIG_HUGETLB_PAGE
++	NR_HUGETLB,
++#endif
+ };
+ 
+ static const unsigned int memcg_stat_items[] = {
+@@ -1346,6 +1349,9 @@ static const struct memory_stat memory_stats[] = {
+ 	{ "unevictable",		NR_UNEVICTABLE			},
+ 	{ "slab_reclaimable",		NR_SLAB_RECLAIMABLE_B		},
+ 	{ "slab_unreclaimable",		NR_SLAB_UNRECLAIMABLE_B		},
++#ifdef CONFIG_HUGETLB_PAGE
++	{ "hugetlb",			NR_HUGETLB			},
++#endif
+ 
+ 	/* The memory events */
+ 	{ "workingset_refault_anon",	WORKINGSET_REFAULT_ANON		},
+@@ -1441,6 +1447,11 @@ static void memcg_stat_format(struct mem_cgroup *memcg, struct seq_buf *s)
+ 	for (i = 0; i < ARRAY_SIZE(memory_stats); i++) {
+ 		u64 size;
+ 
++#ifdef CONFIG_HUGETLB_PAGE
++		if (unlikely(memory_stats[i].idx == NR_HUGETLB) &&
++		    !(cgrp_dfl_root.flags & CGRP_ROOT_MEMORY_HUGETLB_ACCOUNTING))
++			continue;
++#endif
+ 		size = memcg_page_state_output(memcg, memory_stats[i].idx);
+ 		seq_buf_printf(s, "%s %llu\n", memory_stats[i].name, size);
+ 
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index b5a4cea423e1..871566b04b79 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1273,6 +1273,9 @@ const char * const vmstat_text[] = {
+ 	"pgdemote_kswapd",
+ 	"pgdemote_direct",
+ 	"pgdemote_khugepaged",
++#ifdef CONFIG_HUGETLB_PAGE
++	"nr_hugetlb",
++#endif
+ 	/* system-wide enum vm_stat_item counters */
+ 	"nr_dirty_threshold",
+ 	"nr_dirty_background_threshold",
+-- 
+2.43.5
+
