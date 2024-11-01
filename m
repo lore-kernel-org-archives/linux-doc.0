@@ -1,116 +1,124 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C75137745;
-	Fri,  1 Nov 2024 23:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF18165F0C;
+	Fri,  1 Nov 2024 23:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730504241; cv=none; b=ZDLqvOVBEEySuLrCP8D4PoqUwnBWViS/I9sq18VYewfjVan2cOAX/1e9tGHfbnRkd5q8Y16TB8SLeBjU9bNDOwOp/g1SkNLlOr0r6FjrW/HfxIPLpo4hUaO0P/KI3/Po+Tlej8LLKol5BDek3HB8gYfbPBVknfmeIL8hEAJi9Bk=
+	t=1730504918; cv=none; b=nO6yaeRt2/oiLplXsiJql2Wue58mhedy+CjDG3naG8vZWsAt/aST3AbQTOJZB1562DJK56Vb0jiyYEtngKwY4V4lihsbJmP9Vkoyu0ekoAvaFS1nsKiyqpQfHJfLuAOtlShgOalHcLfykmQr3LI5pXK7CUeyX8Ejy6lah9I74Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730504241; c=relaxed/simple;
-	bh=3kj6OyEELQBFa/kDWXd9HVrlsW3N9aS0gU28/KPADWY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FBEs2Wwqcz1EUvh6EVcKJoD2IfYHjsbUoH0K6sid+LCmW0l2Kg8GrgseqXXQcdXNYFilSq/1ofped9L6KdJLRHuQYUyR6WaU1BVyodjLA90cquw5oWK9Yp28k869PzSqjiBdWF6FMJP52wQ6YuE/3nyJ11FGcva0L5hOEhWBrns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JWEj9QjS; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=a34UxBWJ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1730504918; c=relaxed/simple;
+	bh=21sE4yu3fLR3GE+R+fbN8Kwt1qsk+dJsWr1o3Qpjm84=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ME8iYO8Wie79v8DlzmusDlEsHhu3W8IoWjAozyHp+xLMMmOVfZK6xY+51ptR5YAGAX50As16vNpkfFgdh2Y3NBrA09pcM6Na5A0CZ00XcUXsGe6DbFQB6JPMVjbpaYm8TYI9D1uLIuqBTy+iki10k+Hi3j3WIAdrrd5R4RWH0yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XnXnosvs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JWEj9QjS";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="a34UxBWJ"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1730504237;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5hEbhXrDUtyuWKJd3ehaILokOGyu2h6Q6B5wfuMSyD0=;
-	b=JWEj9QjSBEyCLLc2sdGDVDHcdRYMuPETvwuhGBviRL/LQKvn0eWocb5w+DiZzTkMOC7uWr
-	fPD9AbGNop10pVIuH2G+X+xTlNcnjpn660Vh8xo343ffA86Q0uSwb/8dj3Ueq4kIt/ADcQ
-	010zK74KumgO4nFr89HL5E2dEoLNEy27jC4ROhnqzx+5Z9wDK0MKHKLCNIcMKqD/Zr99ne
-	JqEajIb88CUZjq/bfKi3QEFvH57wRgSxlAteKaAlmfFj67bIMdq4VY1zkcnab4V2ZKLHw7
-	ofr7M1f2WJ2XvhOmww5tSuy3ohxhYNOXMtOf25dGqdwuD0cYokRIE9DrQHL9Cg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1730504237;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5hEbhXrDUtyuWKJd3ehaILokOGyu2h6Q6B5wfuMSyD0=;
-	b=a34UxBWJt0wl4wyuMAv1RCtfRBgMJ6wl9RM2K6j1I9qDmQClIdys5MO7cAup4fpZLr9ZT6
-	aU3o2yNbv17xKKBg==
-To: mapicccy <guanjun@linux.alibaba.com>
-Cc: corbet@lwn.net, axboe@kernel.dk, mst@redhat.com, jasowang@redhat.com,
- xuanzhuo@linux.alibaba.com, eperezma@redhat.com, vgoyal@redhat.com,
- stefanha@redhat.com, miklos@szeredi.hu, peterz@infradead.org,
- akpm@linux-foundation.org, paulmck@kernel.org, thuth@redhat.com,
- rostedt@goodmis.org, bp@alien8.de, xiongwei.song@windriver.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, virtualization@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RFC v1 1/2] genirq/affinity: add support for limiting
- managed interrupts
-In-Reply-To: <9847EC49-8F55-486A-985D-C3EDD168762D@linux.alibaba.com>
-References: <20241031074618.3585491-1-guanjun@linux.alibaba.com>
- <20241031074618.3585491-2-guanjun@linux.alibaba.com> <87v7x8woeq.ffs@tglx>
- <9847EC49-8F55-486A-985D-C3EDD168762D@linux.alibaba.com>
-Date: Sat, 02 Nov 2024 00:37:16 +0100
-Message-ID: <87h68qttjn.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XnXnosvs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D8EC4CECD;
+	Fri,  1 Nov 2024 23:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730504917;
+	bh=21sE4yu3fLR3GE+R+fbN8Kwt1qsk+dJsWr1o3Qpjm84=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=XnXnosvsFADcp34ib5vlgimxIxx2hd7Pjef5THJI9VVq5Ojoyv5PIg77XyeSWqkpu
+	 66nPXvTGBe2GebhBXvtmRRmwEtCk6RHvBJXW6UE5brLsMjvfjRq52vt7zjy57ah1L4
+	 TW9+pfOdpOxnHJeZwW7BbBB+PwAmxii+sHR0im5Ij8jEg3EReC9JifYlEDoVOlRsSC
+	 WH/IjMU5p8vyRKtPIlhikn2jrYpahswiqsXIGxGWZ8Yc/oSThSDzBdSkhZZ6lcSrvo
+	 SOb6qjGufmi09tVcOozs2eIJlHpLpdh0ReTQ9UOP47rKb7ityr7c6maIluBPiYmE6L
+	 X2IiZu85paz9w==
+From: SeongJae Park <sj@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Jann Horn <jannh@google.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Suren Baghdasaryan <surenb@google.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH] docs/mm: add VMA locks documentation
+Date: Fri,  1 Nov 2024 16:48:32 -0700
+Message-Id: <20241101234832.56873-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <8e02f3a4-d498-401d-aaba-e53ed2ac6a3a@lucifer.local>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 01 2024 at 11:03, mapicccy wrote:
->> 2024=E5=B9=B410=E6=9C=8831=E6=97=A5 18:35=EF=BC=8CThomas Gleixner <tglx@=
-linutronix.de> =E5=86=99=E9=81=93=EF=BC=9A
->>> +	get_nodes_in_cpumask(node_to_cpumask, premask, &nodemsk);
->>> +
->>> +	for_each_node_mask(n, nodemsk) {
->>> +		cpumask_and(&managed_irqs_cpumsk[n], &managed_irqs_cpumsk[n], premas=
-k);
->>> +		cpumask_and(&managed_irqs_cpumsk[n], &managed_irqs_cpumsk[n], node_t=
-o_cpumask[n]);
->>=20
->> How is this managed_irqs_cpumsk array protected against concurrency?
->
-> My intention was to allocate up to `managed_irq_per_node` cpu bits from `=
-managed_irqs_cpumask[n]`,
-> even if another task modifies some of the bits in the `managed_irqs_cpuma=
-sk[n]` at the same time.
+On Fri, 1 Nov 2024 20:58:39 +0000 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
 
-That may have been your intention, but how is this even remotely
-correct?
+[...]
+> On Fri, Nov 01, 2024 at 06:50:33PM +0000, Lorenzo Stoakes wrote:
+> > Locking around VMAs is complicated and confusing. While we have a number of
+> > disparate comments scattered around the place, we seem to be reaching a
+> > level of complexity that justifies a serious effort at clearly documenting
+> > how locks are expected to be interacted with when it comes to interacting
+> > with mm_struct and vm_area_struct objects.
+> >
+> > This is especially pertinent as regards efforts to find sensible
+> > abstractions for these fundamental objects within the kernel rust
+> > abstraction whose compiler strictly requires some means of expressing these
+> > rules (and through this expression can help self-document these
+> > requirements as well as enforce them which is an exciting concept).
+> >
+> > The document limits scope to mmap and VMA locks and those that are
+> > immediately adjacent and relevant to them - so additionally covers page
+> > table locking as this is so very closely tied to VMA operations (and relies
+> > upon us handling these correctly).
+> >
+> > The document tries to cover some of the nastier and more confusing edge
+> > cases and concerns especially around lock ordering and page table teardown.
+> >
+> > The document also provides some VMA lock internals, which are up to date
+> > and inclusive of recent changes to recent sequence number changes.
+> >
+> > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-Aside of that. If it's intentional and you think it's correct then you
-should have documented that in the code and also annotated it to not
-trigger santiziers.
+Acked-by: SeongJae Park <sj@kernel.org>
 
->> Given the limitations of the x86 vector space, which is not going away
->> anytime soon, there are only two options IMO to handle such a scenario.
->>=20
->>   1) Tell the nvme/block layer to disable queue affinity management
->>=20
->>   2) Restrict the devices and queues to the nodes they sit on
->
-> I have tried fixing this issue through nvme driver, but later
-> discovered that the same issue exists with virtio net.  Therefore, I
-> want to address this with a more general solution.
+> > ---
+> >
+> > REVIEWERS NOTES:
+> >    You can speed up doc builds by running `make SPHINXDIRS=mm htmldocs`. I
+> >    also uploaded a copy of this to my website at
+> >    https://ljs.io/output/mm/vma_locks to make it easier to have a quick
+> >    read through. Thanks!
+> >
+> >
+> >  Documentation/mm/index.rst     |   1 +
+> >  Documentation/mm/vma_locks.rst | 527 +++++++++++++++++++++++++++++++++
+> >  2 files changed, 528 insertions(+)
+> >  create mode 100644 Documentation/mm/vma_locks.rst
+> >
+> > diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+> > index 0be1c7503a01..da5f30acaca5 100644
+> > --- a/Documentation/mm/index.rst
+> > +++ b/Documentation/mm/index.rst
+> > @@ -64,3 +64,4 @@ documentation, or deleted if it has served its purpose.
+> >     vmemmap_dedup
+> >     z3fold
+> >     zsmalloc
+> > +   vma_locks
 
-I understand, but a general solution for this problem won't exist
-ever.
+This is the "Unsorted Documentation" section.  If the document is really for
+the section, I'd suggest putting it in alphabetically sorted order, for the
+consistency.  However, if putting the document under the section is not your
+real intention, I think it might be better to be put under "Process Addresses"
+section above.  What do you think?
 
-It's very reasonable to restrict this for one particular device type or
-subsystem while maintaining the strict managed property for others, no?
-
-General solutions are definitely preferred, but not for the price that
-they break existing completely correct and working setups. Which is what
-your 2/2 patch does for sure.
 
 Thanks,
+SJ
 
-        tglx
+[...]
