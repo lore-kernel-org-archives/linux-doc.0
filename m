@@ -1,94 +1,151 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B6742C0B;
-	Fri,  1 Nov 2024 09:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A371715886C;
+	Fri,  1 Nov 2024 10:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730454954; cv=none; b=twu8wPckR2X9wVFduClZzlYC4s4z1DTsZ7FpH4HX2N9q7K+HRDACI4/rSFBy+dLx8DC3tLcXgQBi0S9fxW+uDQSpB2ia65MofWRfYssJyuhvsjNbTDXqF69qi+6gMayDnYM4ZxYbM5zNakHTmpOFXaiiNCgLcTJkL53y7z/Ml/g=
+	t=1730455485; cv=none; b=VRuqlAALfUb3j1UHKNAe8Em95jevnq2tWgTuRODcZbtuTY1+c0vjiFoMZh+Gj3m2pAl7Y6p/mjRT1TeKdLccC/2Nvp2WFpamaBmNjVOOwbQ1nLneCPTKul7XOCrIQWoiGY2lKXOO8gtn2w/DGh8KCXkhkykOryLqJxG8NDIZHH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730454954; c=relaxed/simple;
-	bh=WTYnH8m7kXjv8qZInYAhGdSknl4/AE4BuBqGwmmfme0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Np/46xcta5Hs3uTgAiEV6Px+vUHZ1FJvXxFJqSrrqTEONyCmYwKl4ua0f9FFWkPpsN6zyramtDmcr5h9Yd0q+ES5jgvV+N2GM+SFznK5GUCoHNXluOZLD8EycdT953GkEji44vmyVt4vlHCznU3kHSTl/xFg1Yak53Q57AeQSdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a99f646ff1bso218807166b.2;
-        Fri, 01 Nov 2024 02:55:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730454950; x=1731059750;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/t+QYyf8qZDtsRwJcXowF6EM2CgFAnHXFELfH+lEWqI=;
-        b=gYX1RaQ0MlVJJ+c7J8jfgDm+GH/0R3zyq+b1OctAr+pI97pnbvI6tcmDj5bauVqJeo
-         TUcSj8YWUZcQ+3f41F0WkjWrBGEKejsoJAwbKuNQ4nGbPHs/EIodily2j3yjVj5D5UTT
-         YGwgGt01TThpeneWl5j1fYYWZO/64lfj89e5s0V2n5SbTul4mKYpHpsWwgFlUirPp0XV
-         zUvQkmQvzxuq5VG/ivD2LZdHGkuIKPL8EKc5c/7L4ybztQ1VJWjPXtghLYT4TQWFIGce
-         3zRYRONBveWeV706MPy9Th+DOKqKrOcH8MO24xH4x1hNCUDcRViEaegqkghw2tviefQH
-         1YIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6xPpXcxrAQ5Rxf7YB/486pnNDMctzBvWDgAtAzMMjqi1txnrP77PsmRYKdc45us44TG0B/YWRCX2laBca@vger.kernel.org, AJvYcCVQ2FvZj+3lWk9++lMhZiMaP9xYrltiNCgCwzS/UlXh04s7bhEV2ApPBbs7Rj/imVFv6/7lycyYmFo=@vger.kernel.org, AJvYcCXz6gGVc0+wp2d9INCJb7b3eW+VTJHk4Az2l88Zi3rh715sHpuQWU+AKF8E0UIzNxNUEtYZrLk8@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPU23VjHM82f7+Yu0SbLdZyIInlBsK+Q4ij1vpxE5jdqD4H1Zn
-	YRrxhrx8oSuADGtEyGVvsgXoC9je3ibXZmFQPSYjB0kRatdPUYEu
-X-Google-Smtp-Source: AGHT+IGCLOakR0b9WPcsve9Vt1k91BRnbuy4Q1X5xpkkj29pof6MeeJf5jFzuWN+7Je/9pRzsXBdsQ==
-X-Received: by 2002:a17:907:7b9e:b0:a9a:dac:2ab9 with SMTP id a640c23a62f3a-a9e3a6c99ebmr932418066b.42.1730454950171;
-        Fri, 01 Nov 2024 02:55:50 -0700 (PDT)
-Received: from gmail.com (fwdproxy-lla-116.fbsv.net. [2a03:2880:30ff:74::face:b00c])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e564c4fc6sm162479666b.69.2024.11.01.02.55.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 02:55:49 -0700 (PDT)
-Date: Fri, 1 Nov 2024 02:55:47 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Akinobu Mita <akinobu.mita@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>, kernel-team@meta.com,
-	Thomas Huth <thuth@redhat.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Mina Almasry <almasrymina@google.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next v4] net: Implement fault injection forcing skb
- reallocation
-Message-ID: <20241101-macho-wolverine-of-glee-2ea606@leitao>
-References: <20241023113819.3395078-1-leitao@debian.org>
- <20241030173152.0349b466@kernel.org>
- <20241031-hallowed-bizarre-curassow-ea16cc@leitao>
- <20241031170428.27c1f26a@kernel.org>
+	s=arc-20240116; t=1730455485; c=relaxed/simple;
+	bh=ItQI00nS8tC10ZV8l2jyRO6gDNvw+VRojMmh7RUgXnI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=O9rVOXWydgqhEhMBP66sNELAZQfe1EmkughdleQ/FTMs4SfuzRYAlpj3UFLYTCGZFNiDcLJ5hEBpdcmrNiog+CFHUhe57Ve0jVV3qG5K0x7PnbUqjz7YqL+9HnuBvk2fwfdeNFZ0JaCJoTQvpXTLWLCExFCc6J82NBBOcRefAOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fOMg2SZJ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fOMg2SZJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E6CDC4CED1;
+	Fri,  1 Nov 2024 10:04:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730455485;
+	bh=ItQI00nS8tC10ZV8l2jyRO6gDNvw+VRojMmh7RUgXnI=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=fOMg2SZJB9VVqSZQ39KHQMlL2y8sJbkrgDhxf7Z8ZlTa/VEnVFFfhaaRPrtwP8/yh
+	 POWHBMEO8mFRPnTFzrzEAvAEa7YdtvJVaxBM49PI/q8ZQvP3Ym8s220U+NYbs9OsdS
+	 +vuoKWKCLZUorjlnKqZZaysZwEpw/R1tDdJNbIBLC8DK5NT7+pO7AolUM2yicAOYd9
+	 mhheEhTsmnGjUz9/4jZki/KtKYunba+0jUH54/79vbCL8pbHJ+pCAz4ugGM27D+IUj
+	 rJ4UiSjiCb3r6TDI0JUpPfI/DvTRhUCObpYTAuV8sPwA4fh1Mkuv/pfrUbjsKVyDRn
+	 VRPZSZJ8prfFA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241031170428.27c1f26a@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 01 Nov 2024 12:04:41 +0200
+Message-Id: <D5AR9TGFZL14.AZMGA2G8GTDA@kernel.org>
+Subject: Re: [PATCH v11 16/20] tpm: Make locality requests return consistent
+ values
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Ross Philipson" <ross.philipson@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+ <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
+ <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>
+Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+X-Mailer: aerc 0.18.2
+References: <20240913200517.3085794-1-ross.philipson@oracle.com>
+ <20240913200517.3085794-17-ross.philipson@oracle.com>
+In-Reply-To: <20240913200517.3085794-17-ross.philipson@oracle.com>
 
-Hello Jakub,
+On Fri Sep 13, 2024 at 11:05 PM EEST, Ross Philipson wrote:
+> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+>
+> The function tpm_tis_request_locality() is expected to return the localit=
+y
+> value that was requested, or a negative error code upon failure. If it is=
+ called
+> while locality_count of struct tis_data is non-zero, no actual locality r=
+equest
+> will be sent. Because the ret variable is initially set to 0, the
+> locality_count will still get increased, and the function will return 0. =
+For a
+> caller, this would indicate that locality 0 was successfully requested an=
+d not
+> the state changes just mentioned.
+>
+> Additionally, the function __tpm_tis_request_locality() provides inconsis=
+tent
+> error codes. It will provide either a failed IO write or a -1 should it h=
+ave
+> timed out waiting for locality request to succeed.
+>
+> This commit changes __tpm_tis_request_locality() to return valid negative=
+ error
+> codes to reflect the reason it fails. It then adjusts the return value ch=
+eck in
+> tpm_tis_request_locality() to check for a non-negative return value befor=
+e
+> incrementing locality_cout. In addition, the initial value of the ret val=
+ue is
+> set to a negative error to ensure the check does not pass if
+> __tpm_tis_request_locality() is not called.
+>
+> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> ---
+>  drivers/char/tpm/tpm_tis_core.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/char/tpm/tpm_tis_core.c b/drivers/char/tpm/tpm_tis_c=
+ore.c
+> index 22ebf679ea69..20a8b341be0d 100644
+> --- a/drivers/char/tpm/tpm_tis_core.c
+> +++ b/drivers/char/tpm/tpm_tis_core.c
+> @@ -210,7 +210,7 @@ static int __tpm_tis_request_locality(struct tpm_chip=
+ *chip, int l)
+>  again:
+>  		timeout =3D stop - jiffies;
+>  		if ((long)timeout <=3D 0)
+> -			return -1;
+> +			return -EBUSY;
+>  		rc =3D wait_event_interruptible_timeout(priv->int_queue,
+>  						      (check_locality
+>  						       (chip, l)),
+> @@ -229,18 +229,21 @@ static int __tpm_tis_request_locality(struct tpm_ch=
+ip *chip, int l)
+>  			tpm_msleep(TPM_TIMEOUT);
+>  		} while (time_before(jiffies, stop));
+>  	}
+> -	return -1;
+> +	return -EBUSY;
+>  }
+> =20
+>  static int tpm_tis_request_locality(struct tpm_chip *chip, int l)
+>  {
+>  	struct tpm_tis_data *priv =3D dev_get_drvdata(&chip->dev);
+> -	int ret =3D 0;
+> +	int ret =3D -EBUSY;
+> +
+> +	if (l < 0 || l > TPM_MAX_LOCALITY)
+> +		return -EINVAL;
+> =20
+>  	mutex_lock(&priv->locality_count_mutex);
+>  	if (priv->locality_count =3D=3D 0)
+>  		ret =3D __tpm_tis_request_locality(chip, l);
+> -	if (!ret)
+> +	if (ret >=3D 0)
+>  		priv->locality_count++;
+>  	mutex_unlock(&priv->locality_count_mutex);
+>  	return ret;
 
-On Thu, Oct 31, 2024 at 05:04:28PM -0700, Jakub Kicinski wrote:
-> > > the buffer needs to be null terminated, like:
-> > > 
-> > > skb_realloc.devname[IFNAMSIZ - 1] = '\0';
-> > > 
-> > > no?  
-> > 
-> > Yes, but isn't it what the next line do, with strim()?
-> 
-> I could be wrong, but looks like first thing strim does is call strlen()
+First of all, -1 is as consistent value as a value can be.
 
-makes sense. Let me send a v5 with the fixes, and we can continue from
-there.
+Secondly:
 
-Thanks for the review!
---breno
+	if (tpm_tis_request_locality(chip, 0) !=3D 0)
+		return -EBUSY;
+
+What am I missing here?
+
+BR, Jarkko
