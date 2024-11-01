@@ -1,121 +1,154 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC941A4F1F
-	for <linux-doc@vger.kernel.org>; Fri,  1 Nov 2024 14:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA561A76C7;
+	Fri,  1 Nov 2024 14:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730472967; cv=none; b=UMhIXtm/tX4wkTN0yF5TEzjj+pyKfLI38r+K0d8hViZlD3hgMlSWDg5wfy3ydutEYrUF4UyKXZ1K1Tx0AQty6xSLeZwTzk1RDXpnsUcpx/iVgG6zlXKhdiyAs3v0YQDD+gRzzJH6tJiwUAjkVDsnf5DvBdJ7AmcX3EUZin1DjEM=
+	t=1730473198; cv=none; b=OcTz/rDK94vDf0fkIDW7/4Wm/mHZVfYw3qA80H+AWfRM6vDnwku9f6304fiS1DqxWid3Y4Ukpa+wApRQ5mehimfhOqsoKPgofLRQ1iHPCNIRXnQ9+Qm08C7p7syyqSkSXqA1ORjzgM3p7fua5YtXxGBkVQxvvEdmkIA8+mTiFeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730472967; c=relaxed/simple;
-	bh=G08w8LMJtXnAa9vC3FM4sYMixgeFmAcZ+IpY7IqZ+uY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YXHnVckyH51A/DgHMaWUfyBrzcHea2eY+v3Baylfg5sowM9LcZkPVsec2Le2uU/lE7DLJuZZaZXSH6Bs2hB4Ca1IkKh5jr0fpnmOapru1VhaWIcaP1hHMJy3NPcBLx7mzPVzTgLk3RtMFycJukHeHXcFnSlxuZlRUCoHS+V3zoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ewAUmhFT; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1730473198; c=relaxed/simple;
+	bh=3bMwQVXOgP3wNeVR1dq0E85K3PeuAuQVja79ikYM2XM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T9Ha1JdH1LRsoDQPhe5c4csOP77MtTRgeAh2+dDNej+UAbJqEyQ3WRKVn2RHk1i/uAl1sQ8ACbqwcUKrMKmwRGrg1YJmfOh+iWRUXF0uPmgxmyDvdx07gk/Ic6wwJaBBB8/3s/p3JH7YyDE6c42L0ZYv/oHZo38LTpU1WI9TfnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l0Yo/xoB; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ewAUmhFT"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4608dddaa35so174281cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 07:56:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l0Yo/xoB"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20caea61132so18142745ad.2;
+        Fri, 01 Nov 2024 07:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730472965; x=1731077765; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ccy+Y36kHfW2wfpfx/1iIr3oOsrbhtg+RURg3eebIqc=;
-        b=ewAUmhFTPdZhFdkmW3ol87ApD6N9oMTsD0tvR0JfWJ3TGaAiM3rIc5UTjMi5tYO2eh
-         z3hBOGWxjySTCZDpjc9QbGGBRtqo4f+y0jGJtjUjUrhB4VnS+WIga2m9b0wtE80NLB9o
-         B96KrczzkThtyy2CRWa5QaFuQSqqnbTIYkMvVryqM8gq3vEBn9eZ1B5/JYKRDOTqn7XE
-         COJ2Qn+BiTayEldM1rPS4HeP7OOgxd6eqRLdvXkN2YVJgEOHAvZwr8rXOe9mS0P1WBps
-         odkVxSqrbXnnNcUTDeVfRzcEjENR8LqDMs14Lg/pgR4do/f77ZHklpW2XQUaoql+7ztI
-         Kiug==
+        d=gmail.com; s=20230601; t=1730473196; x=1731077996; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9eGIngRauW1UIGfd9PdLFIGiBeWYjimj/krraQmp0L0=;
+        b=l0Yo/xoBNjKNO7d1EgmkFS66RNKyimKWmC8Ui2z85tm4/7oWXGNTWaq7YGE1FsX44W
+         VZYHYZ4IoQmiK8Onq/+E95IboRX57zNIrbXggienIRXKH3UcLappt8+5PApEGykaMw7I
+         +JngFu1slAKG/GfXxQMHLtV/SWbr9zZjvmh7j77AX7Vlkr2PPUkVoYKOD5Ljv5WS/aYe
+         zQIW+tx4q1ScvIoPvpOEh+o0Y/zS42wAaofeCghrM89VshDDe4hnkxeZZKRrjziYCJ9n
+         AmIoDCxn8w5gv5NHNGtQc8CUfbVWRY7eQL8+kw+hyAK8AtW5qO2XegXo2mDPrZnx2tuX
+         eXfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730472965; x=1731077765;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1730473196; x=1731077996;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ccy+Y36kHfW2wfpfx/1iIr3oOsrbhtg+RURg3eebIqc=;
-        b=Z8OprKDY2Gs9NRJSX/xoZfJAMvClIONepwqmHjVUY38wRtRM4yPt0W2s8CZWnMAGNU
-         wjMSyKfvxREwWJnmClfR5Vnr4nNzR8Z68t5ZdNW/sP++C5C5BbDZ5lhpZxPaNy73L8sJ
-         yYWxlPM0/ZEzU+u0RmuTtMGd6GMTBVnYW1eZOoBUnOsfb5gs16W+nYcNlLGxe04amjsc
-         Pv4BlJLdhEmL+12GlKF8eO/rFJDcBCEkDl3kc5HarFSlcKcoyRd4nNcs2vozcHPpnQQ/
-         lb2tpvNRFE63GG9EXMq7RgP8l6667Firxfy95G+CRjljt9MTVjBuANeBU2R7VHLJ9slw
-         1UdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUA9lbjvzR2axj1u+jtUkYnN3UeLUsf2iCEVwkFwUSjIVWTz9X0JNKCAtz3Ki6Gekttc+Lt7SXIWsw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj7o1F3LPxwrpLj7e7/Q6dh0CHdGt+kRjcLkYVYl7aZrjaitDY
-	v3IOSkYSVMT3R5YshhQfjQTnrD9hBRfusvmysHOahXHtim2tinllC5YwxrQRgPBaDGBgzwNmnus
-	jqMlXmfJQGz5RCCtNDapDWn3Ewhq1iY1Q3/px
-X-Gm-Gg: ASbGncvhM//Dj+ou0Oe+M0c6F4HMG6cNHvyuytvyBELjJEw1F3LVUNuA9woTNFCGke+
-	neG2932TFrHhO0pK0tKQGGsUdtqMhcRM=
-X-Google-Smtp-Source: AGHT+IF00UWkqt4znVPLzeUZimdQfCe7Xr8KZzMNIgyj1roW3uHRVXOdasFyJRnjjsoE2545UrngIkf4oV3O0aKfFQg=
-X-Received: by 2002:ac8:7f93:0:b0:460:4a62:4ff3 with SMTP id
- d75a77b69052e-462ad2d9308mr5942321cf.23.1730472964716; Fri, 01 Nov 2024
- 07:56:04 -0700 (PDT)
+        bh=9eGIngRauW1UIGfd9PdLFIGiBeWYjimj/krraQmp0L0=;
+        b=gSB9SyW7ieUAf5vOVIWKdL6fomzSEWk9KlHjOkDw+gi4qQ4H4/8lSPFSQsbyZ9ddo0
+         cSeA8H81JnrSpCnk331c6pBGuVwWmnm1JNKSI33aR53+flwtwA2mzaOPUhBVxv6gnIpl
+         LXnyEo0yDSU8szYc6EfOmmCAJoxV79zCOnXzzwwS/bJY9YP3P+5uL7EVMS/VyKDN6EKL
+         GtIBFAtMs6Ypxf6MjcffmEqd7XbRROc0hWsRrK1ad8bbnxJ4t5Al8mtuuIIitbdfXoU4
+         h9erOySE/E/zpccQ6MJbXj960dXEEP55whB9xDZ+CWA6jqL2sdBf4GZv58BSN7MjJiPG
+         Q4PA==
+X-Forwarded-Encrypted: i=1; AJvYcCUNzNg9ot+AzFhttjEqdm503ayXuKNQTe8RRwQXFfzK32cSXXhcFn4UJpXQtFk5S+L272BDPr5AjLjD@vger.kernel.org, AJvYcCVhmSI9gIyxaev+Cm3ZxCIut1/WWDc7D3BA5kXoOrOKaBTdDi+GjqeIBZgWs4SwHksGOUXWCOXDQeLd@vger.kernel.org, AJvYcCWSTcyrdOcITNFluqd0q9N4/TxrBOvsIAPTHZOCa+Wpa+XMoANY+WsEAP8r4jD3oNO1bUmwWGDN/tvWYUKh@vger.kernel.org, AJvYcCXFEOTzNnexWUbYAUWPBaxMrQK1Es5S/y8bfjd2UvxSplsvlyIwzGRA3vDmZWOmMzXz6/ZakgDEKMEz7E0=@vger.kernel.org, AJvYcCXe2XoqjebOciOnJaOXK+wFFATcIK6r8BMb1AqnIzK6vOiRBigqzAFyT8ATR0DLGdJt1jRY2jLtPiHM@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxt/y8udTTw7O68Q4npJwf/chxuDgiUMGyE2MYOG2+jj2Ppo/dF
+	/RiQi/EWFQp4NdNyYTmducnxsrn05AcAUF2NcAVujoNher7Ndg3t
+X-Google-Smtp-Source: AGHT+IFJV6XaO9ugF55WOE9V5wx/QZRvczx+bhWTlXqEzysfABS2WlJPihoaAQfK4h8sO7bqmkBTPg==
+X-Received: by 2002:a17:903:22ce:b0:20c:a692:cf1e with SMTP id d9443c01a7336-2111af5aa61mr49596165ad.43.1730473195830;
+        Fri, 01 Nov 2024 07:59:55 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057f5872sm22280565ad.295.2024.11.01.07.59.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2024 07:59:55 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 1 Nov 2024 07:59:54 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Patrick Rudolph <patrick.rudolph@9elements.com>,
+	Naresh Solanki <naresh.solanki@9elements.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v3 2/6] hwmon: (pmbus/core) improve handling of write
+ protected regulators
+Message-ID: <228997a3-fd6e-4028-a822-1507d43bcf84@roeck-us.net>
+References: <20241024-tps25990-v3-0-b6a6e9d4b506@baylibre.com>
+ <20241024-tps25990-v3-2-b6a6e9d4b506@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-4-ap420073@gmail.com>
-In-Reply-To: <20241022162359.2713094-4-ap420073@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 1 Nov 2024 07:55:52 -0700
-Message-ID: <CAHS8izOSuPj66UiZ=pDn2Bin_C6_6b5ya0AxiRkuv0apKcU0fA@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 3/8] net: ethtool: add support for configuring header-data-split-thresh
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
-	edumazet@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
-	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
-	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
-	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241024-tps25990-v3-2-b6a6e9d4b506@baylibre.com>
 
-On Tue, Oct 22, 2024 at 9:24=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wro=
-te:
->
-> The header-data-split-thresh option configures the threshold value of
-> the header-data-split.
-> If a received packet size is larger than this threshold value, a packet
-> will be split into header and payload.
-> The header indicates TCP and UDP header, but it depends on driver spec.
-> The bnxt_en driver supports HDS(Header-Data-Split) configuration at
-> FW level, affecting TCP and UDP too.
-> So, If header-data-split-thresh is set, it affects UDP and TCP packets.
->
-> Example:
->    # ethtool -G <interface name> header-data-split-thresh <value>
->
->    # ethtool -G enp14s0f0np0 tcp-data-split on header-data-split-thresh 2=
-56
->    # ethtool -g enp14s0f0np0
->    Ring parameters for enp14s0f0np0:
->    Pre-set maximums:
->    ...
->    Header data split thresh:  256
->    Current hardware settings:
->    ...
->    TCP data split:         on
->    Header data split thresh:  256
+On Thu, Oct 24, 2024 at 08:10:36PM +0200, Jerome Brunet wrote:
+> Writing PMBus protected registers does succeed from the smbus perspective,
+> even if the write is ignored by the device and a communication fault is
+> raised. This fault will silently be caught and cleared by pmbus irq if one
+> has been registered.
+> 
+> This means that the regulator call may return succeed although the
+> operation was ignored.
+> 
+> With this change, the operation which are not supported will be properly
+> flagged as such and the regulator framework won't even try to execute them.
+> 
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> ---
+>  drivers/hwmon/pmbus/pmbus.h      |  4 ++++
+>  drivers/hwmon/pmbus/pmbus_core.c | 35 ++++++++++++++++++++++++++++++++++-
+>  include/linux/pmbus.h            | 14 ++++++++++++++
+>  3 files changed, 52 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+> index d605412a3173b95041524285ad1fde52fb64ce5a..ddb19c9726d62416244f83603b92d81d82e64891 100644
+> --- a/drivers/hwmon/pmbus/pmbus.h
+> +++ b/drivers/hwmon/pmbus/pmbus.h
+> @@ -487,6 +487,8 @@ struct pmbus_driver_info {
+>  /* Regulator ops */
+>  
+>  extern const struct regulator_ops pmbus_regulator_ops;
+> +int pmbus_regulator_init_cb(struct regulator_dev *rdev,
+> +			    struct regulator_config *config);
+>  
+>  /* Macros for filling in array of struct regulator_desc */
+>  #define PMBUS_REGULATOR_STEP(_name, _id, _voltages, _step, _min_uV)  \
+> @@ -501,6 +503,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
+>  		.n_voltages = _voltages,			\
+>  		.uV_step = _step,				\
+>  		.min_uV = _min_uV,				\
+> +		.init_cb = pmbus_regulator_init_cb,		\
+>  	}
+>  
+>  #define PMBUS_REGULATOR(_name, _id)   PMBUS_REGULATOR_STEP(_name, _id, 0, 0, 0)
+> @@ -516,6 +519,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
+>  		.n_voltages = _voltages,			\
+>  		.uV_step = _step,				\
+>  		.min_uV = _min_uV,				\
+> +		.init_cb = pmbus_regulator_init_cb,		\
+>  	}
+>  
+>  #define PMBUS_REGULATOR_ONE(_name)   PMBUS_REGULATOR_STEP_ONE(_name, 0, 0, 0)
+> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+> index 085a4dc91d9bad3d2aacdd946b74a094ea9ae458..7bdd8f2ffcabc51500437182f411e9826cd7a55d 100644
+> --- a/drivers/hwmon/pmbus/pmbus_core.c
+> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+> @@ -2721,8 +2721,21 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
+>  	if (!(data->flags & PMBUS_NO_WRITE_PROTECT)) {
+>  		ret = _pmbus_read_byte_data(client, 0xff, PMBUS_WRITE_PROTECT);
+>  
+> -		if (ret > 0 && (ret & PB_WP_ANY))
+> +		switch (ret) {
 
-This is a nit, feel free to ignore, but I wonder if we should call it
-'Data split thresh' instead of 'Header data split threshold'.
+This changes semantics. The mask for PB_WP_ANY was there explicitly to
+avoid situations where vendors set more than those bits for whatever
+reason. With this change, write protect status will no longer be
+recognized for such devices.
 
-It was a bit weird for me to refer to the feature as tcp-data-split,
-but the threshold as hds_threshold which i guess is short for header
-split threshold. Aligning the names to 'TCP data split [threshold]'
-would be nice I think.
+Yes, I know, "the standard says", but standard violations are common
+with PMBus devices. That is the whole point of all those callbacks.
 
---=20
-Thanks,
-Mina
+Long story short, please do not make changes like this. "ret" still needs
+to be masked.
+
+Guenter
