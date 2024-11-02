@@ -1,227 +1,645 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7D41CEADD;
-	Fri,  1 Nov 2024 23:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730505329; cv=fail; b=VwusE63XRpXjYwiQfWjdr397N28mcrIILNYi5daK893vOAji+X/+b02mWmdIGuW69Sn+J3WqChq5vf5VucoPCMMg7XuYapECR6LKCsoDYMMBRugpd/1EdQBexgvZD7kpm0ycZoK2WIuKSTYX/VWxbLd7lJtibmzGrTI7HEjTSB4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730505329; c=relaxed/simple;
-	bh=2RTENDAa8OKiKcVpOCcEyKHrwdS+1CdFnU+7kyTEn+Q=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=GFdAu+4SEcWeqdW/zbTc98NRMfVHbDi9mv81CAonf+5oFceSk8S4+CaepnYEvvcxR+fqwYTlowhgsy7Nno3SfSdJSEuG9BUo14MPrayuxao8ThmrhBDV1Y0eSI44lxjoWTxKvrw1Ek8ul/IJk92i4WVRUxcJwDxU2HdgSOA5fZg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JiCWLKTc; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F7F56B8C
+	for <linux-doc@vger.kernel.org>; Sat,  2 Nov 2024 00:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730508852; cv=none; b=m64/enUPMpr3OM7fFZwABE8zorUIwmf3EJHpmoy5wSG/+JWPZdXCythqQL6ZrikeuMP7Gc3sb+R2s5G2h1CnFJbBFQqlZ+c21nqkAjEz1LdnKt5MH6MErJbuTEWa6xUkYu1rROa2mSvjo8cN/5dBsCsr2rjxi0Uu7Q+IaRk20TQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730508852; c=relaxed/simple;
+	bh=mYM6Ds9iE6pRwZlhlkS5Lq/0IcfI2Hs2Q58NRMwYiPg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=IEK//cMbeFyXRiepldXLBZjpLA78kJ0rUkefB2LFi+lPNZBoo/EUYYyipyD02WZ4Ng56K8r2JDF1YmegIT2b9J0TH8ldn8FQVnwrq/20vNiTuD0jTUAEMcUWrmCEk79ML1W9+h1wvcmjSZUrRtvsl8B+aXThffjK5DiRb7NY6XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=Vikf6IrD; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JiCWLKTc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730505328; x=1762041328;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=2RTENDAa8OKiKcVpOCcEyKHrwdS+1CdFnU+7kyTEn+Q=;
-  b=JiCWLKTcjSeGGWt5GjC7k70S4K7Z1vMOXQCnQSVhIH2Y5ggOK/PEdmiD
-   RKTJdS2rKCQRGqhTraShaCr0YU6hvICe3iOHTrGj6M6gLefTRKVvS1HR7
-   mFMIkziuPspJAhq61MHSfauD/V9HMXOKOlAsrgwh+zuxdDtz6Szd0zYIL
-   5zn3RUjS/RkXR9z4V/xJIpCPiEODXRmJXNCOaBCPUknoorcoAPc6njWuV
-   REX5pRii0S9oxMfKFmcfsuZGzHKPhyueRlEfH5dGoT/qjIZI/DIuktt6J
-   Py8BjSFjklME7gmQODK2M0hGdwmuvOzZz79JOJ1/GCPC8stdlxGozPaJn
-   Q==;
-X-CSE-ConnectionGUID: Rvvqw2jWR4iDDgVY7hB3dw==
-X-CSE-MsgGUID: mGkLNts2RkmM+6KH6ACfug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="40915349"
-X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="40915349"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 16:55:27 -0700
-X-CSE-ConnectionGUID: 8zW5A+wNTOGazVJyiaFfkw==
-X-CSE-MsgGUID: EzS5PmCLTTWpo86WpOnZ1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="87922322"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Nov 2024 16:55:27 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 1 Nov 2024 16:55:26 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 1 Nov 2024 16:55:26 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.41) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 1 Nov 2024 16:55:26 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KWSBNkf5ou3rtqgYkQ6mQnWnfEXzqzje4KwT+UlTY7Ma7sFM3RojmH6cWLSXji4gHaUXKQn3rlIu3SrWeJWS4ZLNpb1N9tdPV0rRcqxlaYGNTzBJ//QWmoKezvbB5p4oKdRQahBY4U6TnnsdzJ/BmA+4uefiA5LqMGU27+B5zrTz1ATMGcvftf+QDQjd1TOgxPes+IABnQ84vOqHCawQ46RZc0bsy/s3foaoet8ACWyvA/phV9hz2IA8iRkDFMPeYeygXNDFkHfXCHaICvwa2upmzYH4GdnwKhx+8gBDTCwahk5gW5uh0CkieTlIq6qz6H41Rpy9lfWHMbpZyL+6NA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2RTENDAa8OKiKcVpOCcEyKHrwdS+1CdFnU+7kyTEn+Q=;
- b=uxc2gJpPz3x2hw6MWHqLQY+24T+Rz/5G7yw3IneyZZD8l/PXXoEZYdgXjZaQFYWNWIKH1XCGXdklinOIKwwH93LwgCrntoURqNOyrGwiwtBXIbSIXTplF7rQC1JzM6hpqab0Kwj3TbdJ0ZacMRvl0OnEQLTqVViHgkUSyPLEMBRdEmllox+J2M35mCnxR4skw+E0IUJzJysl6Wt+LQcOqznPwlPF8UyLe6RDjs7YlpPNLbM1wZstI5syklIP/fBYqi0FsuSDaC+vy6mwnap6Xu8fEPwiQUKWajJaARjgovRXyh/6auTpzKmM5JTD63o8Y+yzvnXGIQQSrnnwUBRc+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by MN0PR11MB6010.namprd11.prod.outlook.com (2603:10b6:208:371::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Fri, 1 Nov
- 2024 23:55:19 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361%3]) with mapi id 15.20.8114.015; Fri, 1 Nov 2024
- 23:55:19 +0000
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "Yu, Fenghua" <fenghua.yu@intel.com>, "Chatre, Reinette"
-	<reinette.chatre@intel.com>, Peter Newman <peternewman@google.com>, "Jonathan
- Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	"x86@kernel.org" <x86@kernel.org>
-CC: James Morse <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
-	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH v8 6/7] x86/resctrl: Add write option to "mba_MBps_event"
- file
-Thread-Topic: [PATCH v8 6/7] x86/resctrl: Add write option to "mba_MBps_event"
- file
-Thread-Index: AQHbKigHp2P1tXTtZkmmnqKqvRPLY7KjFsiAgAAFx7A=
-Date: Fri, 1 Nov 2024 23:55:19 +0000
-Message-ID: <SJ1PR11MB60833197C3FCC0B3CF9AA290FC562@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <20241029172832.93963-1-tony.luck@intel.com>
- <20241029172832.93963-7-tony.luck@intel.com>
- <6a677a4b-7163-cc2d-a615-6b8c499eb281@intel.com>
-In-Reply-To: <6a677a4b-7163-cc2d-a615-6b8c499eb281@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|MN0PR11MB6010:EE_
-x-ms-office365-filtering-correlation-id: 263ff7dd-8a28-4dd6-3206-08dcfad0a3f8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?UDMydi94Z2hvaS83U2Z3NnoyeVBDd1E3L1ZZYk9yYm1uTGZUQjkxYk9wYitk?=
- =?utf-8?B?ZThVcDRrZXhyWGV2Z3NwN0ovaXBabW84S0cvYkhSb3JVbjBYQm9IeVBYcmR5?=
- =?utf-8?B?c2ZOWHpjRlFDSU8ybXlCOU9BcmJuUWFKRmhpekVKbElQMUNORUNMaTdpY0Zu?=
- =?utf-8?B?MFNyMmY2aUV4OVQrdnIrV2RYRjhCVit4b0p1dkQzalNXMHFWdEt2OW1TaVVE?=
- =?utf-8?B?bU1YRDFKdVg2dmUxd0pxN21jWURmZG80cnVuQzh4QytaMnpPYnBWcm0vTFVz?=
- =?utf-8?B?V2pXb096UkJrVzNycHhMellzaHhJc0dySTVxd3Z2OGE1SWFvRnZWV0MwdEJE?=
- =?utf-8?B?Q3diOXQ3anBPK010enlyTDJLU29TTy9wRlhrMm9wOTQzY0Z4VkgrTUlLNXYv?=
- =?utf-8?B?L2UxS3JJMHVlQmdEb1VycyszdkM3RXg4Nkg5ODVKQ2RYaFQrUFkvYVBoUFYw?=
- =?utf-8?B?MTU5bytyQldEby9PYkpjTklVQXRmYUR4bjZTY1kxM3ZiWXhqSGFhVGZKWWov?=
- =?utf-8?B?U3NlQWJLaWJ1a2Z3VnNTQmIvSzJDOEszbkEzd1VIOEdqWUF1Ny9SRWdGSGNl?=
- =?utf-8?B?T2lEdjMvZWZGRU1rUWhucDdjd3FJS0ljOEJSUHpiSkduTSt2L0xKcDdoN1Jq?=
- =?utf-8?B?VktvT3dGa0lDdzN3SFRJbnBaVnBGeTVwckJvSlRaOUNqNVdSMWhVVWRjTFdW?=
- =?utf-8?B?OTllU2dpSEVUc20wQm92RXMyTVA3Z2lWV0RTOWlycXZuOE4rSTluUWNRVHM1?=
- =?utf-8?B?ZUJUaHp0K3pqcmg2YnJlb3RjTFBsWlNNL2JQYWlVMnkzYStPZ2QyUnp4cVgv?=
- =?utf-8?B?eXdiUzFScXorMDMvdDVoTkpjWEFiVDJXenBWNHd1bHN4YWRKRzlBd2N1dGVp?=
- =?utf-8?B?c1dWODBSR2pGUUdSS2RMM20yTzJRVXovVlF3MVRiMW91SHpaN0QvcHlFT2Uy?=
- =?utf-8?B?RGtCbjNtOFNzbmNzWG83UU5jWlBFN281YjVLOEZOb3RNeGhCRkU5aHFkS2Nm?=
- =?utf-8?B?akRPSnB1MFkxVEU1RUNRRW9rUEZNOC8yNmd3ckVPdjBNTEFtL2VIMTZKR0VN?=
- =?utf-8?B?dW1EblRId21xMHlodnpJL0lYcVNOTURVVlk0Yk5ZNVZsa3AzWnpjbDJiUkJn?=
- =?utf-8?B?Q0QvR0JpaEk2T3lqR1lORFhvQno1NTFJQ2czeXM0L0ZyMVNQNEJBYjhOZllV?=
- =?utf-8?B?aWkvZVZhdDZTNi9WZ0xYUWVSRjRpSlY2OGl6UjhWZCtCemlqNFVQK1N6RjJT?=
- =?utf-8?B?U0NYRU1VYk40WUhTUUttVGE4RXU0dnl6LzFIQVUxV0lNaEVsQUNSQ2pWS2xn?=
- =?utf-8?B?VmEvODdyNFBjZkZ2dTlyMmxsSlMwT0szanRWVWxramttVk53VG83NHdaUFcr?=
- =?utf-8?B?cytrM29haUppUjlOVGlaZmxFczJheitlOXU2OTNRZHJnSUVLcUNhTVFCbFd6?=
- =?utf-8?B?NTh3M0NBSUZLUTJhcFNlRFRQT3FZeEh1MFFXMmJta3AvQStMbmVFMmc1SEhM?=
- =?utf-8?B?NWIyQUhkWkplaHlTdGtMS2hDcEZEMWxDM2hsdWFwcllya2NyUW1XSVdES0Fr?=
- =?utf-8?B?NWgxSnBuL1BmSCtYUFdUM2JOY2lrdnIySEoxQjZHSm9pRlBPMDEvelkvUVA4?=
- =?utf-8?B?RkdHdlh4M0hUZFp1YmErNWdZS0F4dmFSc1FZMU1QY2JNeVdSNVhlemdBVDBJ?=
- =?utf-8?B?aDNzcXBZQlBGY2szcHg5OWZsZ1ZOWk53UFQwekt2ZmQvMUd2UENQbE4rWjQ4?=
- =?utf-8?B?SDV2NTdWdHdQWmlnWlcvdDhneUZBWVlRLzdKMVNieG02MVFnS2FEM2RGdW9s?=
- =?utf-8?Q?JZ1I/IDoWfUgQBugtfBqRUE9jOPS9na5WrJYE=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ekkwM2lEa3Y4NDFzR0tIbGdOU29sWUd0Z1hqRmZKbGo4R0pYUFRwaEZmUDUz?=
- =?utf-8?B?dUNpdlFxOGpNc3F0U0xFODhUTnlFU3U5SmtVRkFXdzBXeWt0YkQrbnZTdStJ?=
- =?utf-8?B?a094OG9EOGQ1WURXS1pMN3dhTDJwZURPTHpPWDhHUTVJeTFJc0FSR1JWZHl0?=
- =?utf-8?B?WUYwcEszUnhOS1Zlam9wNHdZMkNzcGZUOGNudmh6N3ZkTjJsY1pMNm5HeC80?=
- =?utf-8?B?b0NQd2hmaUlKaldnS2R0eXNWSkd6cGR3ZG5BUy9NVHFOZjI2MVF5ZHBPNGVW?=
- =?utf-8?B?Wjl1by9rQ0pGaVpyZVhtczRCNnNHNDlYeGsxeGpJL0FqMXphUEc0c2hNWlAw?=
- =?utf-8?B?Z29IdGI4MS8yclY5YjczZHZFMHJqZ2N1OTlOQWFuRTloMFVnVHNyVjR3dFlr?=
- =?utf-8?B?bnJhenQ0dFNhWDBCQUxIMGhGaEpPWGdXVkgxRjlvaHZIbnFLQUozN0ovdkl0?=
- =?utf-8?B?TWZUUlI4enNkejFCUG94NXVtVm5UTGh1NC9udnFSclZTY0VsZGdWNURwVFRk?=
- =?utf-8?B?VjczSVByVjV0alBjVDViRFNmWkRBejhGTGlYcFk4MGppcVJPeUxZeE94Z2hw?=
- =?utf-8?B?TDJWcWlSTXNoSVNKaWNEK3hvT25TdzZoM0g0bFlldlE5YjlWZmVXQXlXR2I5?=
- =?utf-8?B?Y1NMOFdieUhuKzJtQW5ud1M2UW1tU2FYVnVhekd6V1UyNmNGSmRGRDlzK2xk?=
- =?utf-8?B?OFh1czdNUkpERDVOaUJGcXQzbHlJTlc2REE1QW5kbnk3T2VQby91SVRzL011?=
- =?utf-8?B?SWlPd2xYVjZVanF3STg4OU03ZHRSSWxkL2Zqa2ZUdmF3QnBMU1RpdENtUkEz?=
- =?utf-8?B?MHhKMEFndk9LSWJ3L2VudDFHWWJNVGQyUE5YRUF0c3hnZjlncElNdDVSTlJp?=
- =?utf-8?B?dGhVVHJTcy9xWFhQZ0RxN1dGdXdiYW5qRzB4WVlqL29GSHQ2cjhhb0hxVjFK?=
- =?utf-8?B?QldiVG1nQW4zc1VXaTFDb0VDN0lhNEhvUitsV2loV2g1R1FMR05VM1NvRWVt?=
- =?utf-8?B?eU5aNjU5cFV2eFM3czBxS0ZlclNWMmhBQ1FSNWlwQ0ljZjBpeUUwTDh0TXBs?=
- =?utf-8?B?dTYvblZBbk9sK0UrSjZORnEvT2ZCN08wOHNuVWJySHR0NXY0Q2pCeFhZY1NQ?=
- =?utf-8?B?RjlPM0JpY0o5cnc1RVdnRlppdmNZY3p6MlJKY2lNbVF4RWdkS1gvR29LWWxn?=
- =?utf-8?B?djNiMzN1NmFCRnU0R3ZhSHFGNXdjK0pMVTF3dHNXQ3ZkV1FVc0lQa2x5QThw?=
- =?utf-8?B?eC9mdTROU1E0WERPcnBEWnc2RGRaSUlPZk51MGd4M2I2N0s0dWE1RmVBYmRO?=
- =?utf-8?B?UmxzQ0hqeElXclhTZ1NxbWIyMVB3TWRmS1ljdldMRUJBRFRQWVBHQ2svWGlM?=
- =?utf-8?B?UjFna1BHTm5MSExpM2VjUjNkM0RraThscFV4bENza1N1RTdmU3JjMm1mQTd5?=
- =?utf-8?B?VXRNakMrVFhWNVVCMDNITWVZY09yVHE3UzdsT2VmVTBGYjVycWJQV3pKV3V2?=
- =?utf-8?B?MENCaENzUWJESmNhaGZIREZOL1VIaDcrdjhrRnM0a01HZnlGaVpja2FHZG5C?=
- =?utf-8?B?QlY5Umo4N0lpMzhOOXJlTmFIU3lmcDZ0czkrdzk1T0tmNE4xeEk2cTA3ZVhr?=
- =?utf-8?B?K0h4RTdLNUtnYnJvWGp6aFV3ajRSbW9ZWk1URFQ0ODRxb1ZpQThBZ1hOYkU2?=
- =?utf-8?B?ZmFJWVJKSmNhNjllRUs1VlRNRkxMUkwyM3ZCTHBTOGJPQWxHOHpidXYrNzlE?=
- =?utf-8?B?bDBCR1VjWTBJSlJrZDUvSVM0eXdGTURzQks4c1A3djJJSDF2SkZhUU43L1or?=
- =?utf-8?B?cVFqV0djT3BidUxsOFhMR2NVdmZob2ZPeWd0UjJBMjdOT1NpYU1FbS9ENkdR?=
- =?utf-8?B?U21rKzJQaGt0L1p5RXZZZ1ZPOTl0c3lkMEZZMzVuYWNWSGRkOGVOMTkveW5k?=
- =?utf-8?B?OVpZYXRHWUtXd1FZKzcwMUI2UjlXR3NvTEdSVGJjV3lnMGFKSW82OVF2VVor?=
- =?utf-8?B?WHNtdHVpWGV4VmdNTWNsNS9YVTkxdVE0RmJHR29zYVljZWFVQkkxSVh3ZDlH?=
- =?utf-8?B?MEVXVEEvSkgvWnlxTDlpUzhKZFNpbzJQaU5vYmorWit2ODlzbXNJNVNsWjhZ?=
- =?utf-8?Q?yy0UgtEQ2N+P8a10AStRE34OT?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="Vikf6IrD"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-720d01caa66so1081697b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 01 Nov 2024 17:54:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1730508848; x=1731113648; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H9U8t9geXRuxCjt5c4RtdFN4c2J4CGusZ2cJOWhcxvA=;
+        b=Vikf6IrDfx6lRpJdrF53Z0lEFj9RGTw2jSXO9cRVq8h74H1NH4lSyox7KkTjLP21d2
+         elZ0Avooia5G1eueaYnLlZp5DzNN6KE6u3qOL0Fhe24Jq5RfSzH11drz2Cm3RHFoqlKw
+         Xm7eaBeBJxcbN3/U1NiSdqj+wNWAolli6XT6k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730508848; x=1731113648;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H9U8t9geXRuxCjt5c4RtdFN4c2J4CGusZ2cJOWhcxvA=;
+        b=eV4YBb1/njbrnsHPhc+JZ/sZS58h9R36h6PPI398uwPhbCBT/WJsGtAlQ+KR78IMHr
+         7i5nw1Wlj7pWmIe6/aD8najZ6Lb4XHY46z5F7oo3hCuXdl2plfdzaxcCGiy3/kBUv/ti
+         PRwJ/SZloUWd9X6fPSL8csSzLxVKgxAWqccKtlTDx6rGmi4j2/tyVk5e1zNcOb6ezAOu
+         1OoiE5AurF4McoAKGyGdt9Rr96P3kRRs0CRZpP5isPUvzpMeSuu/h79aQjkWC32+mONP
+         IgDM5/VN6svMN/VzGEm/5AqS7Q0D7veJGXfw67NtveJr2t6H56wzVqdAu1d4QdmdVZMW
+         Y5EA==
+X-Forwarded-Encrypted: i=1; AJvYcCVU9S3nFiXOx3l8REqKgmQHBUwzdZsmxlNEerubQqtdjpKqxb1XQBQQZFmMSS0Y1JkbtZK+jDMfva0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVyZGb9MXsjvRqWssKm4mdXzA2lTF+4h567JaXwBwe0RVmEUmY
+	jcto/mdy4MmchbHejKiWFDjHoXQr/hHHJcXaux4XnPA+r6i22CTzzgR4t3uW1e8=
+X-Google-Smtp-Source: AGHT+IFzokMz+ngVu1nVCETiuT6fFVy/P5v1oQJM3oL+bK3Cm7SQx9ooLqVcsoszcmVocAMVaHM6oA==
+X-Received: by 2002:a05:6a00:2e10:b0:71e:5a6a:94ca with SMTP id d2e1a72fcca58-720b9d94ab5mr11366117b3a.19.1730508848307;
+        Fri, 01 Nov 2024 17:54:08 -0700 (PDT)
+Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc3152fesm3274549b3a.195.2024.11.01.17.54.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2024 17:54:07 -0700 (PDT)
+From: Joe Damato <jdamato@fastly.com>
+To: netdev@vger.kernel.org
+Cc: bagasdotme@gmail.com,
+	pabeni@redhat.com,
+	namangulati@google.com,
+	edumazet@google.com,
+	amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	sdf@fomichev.me,
+	peter@typeblog.net,
+	m2shafiei@uwaterloo.ca,
+	bjorn@rivosinc.com,
+	hch@infradead.org,
+	willy@infradead.org,
+	willemdebruijn.kernel@gmail.com,
+	skhawaja@google.com,
+	kuba@kernel.org,
+	Joe Damato <jdamato@fastly.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	bpf@vger.kernel.org (open list:BPF [MISC]:Keyword:(?:\b|_)bpf(?:\b|_)),
+	Christian Brauner <brauner@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
+	linux-kernel@vger.kernel.org (open list),
+	linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK),
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	Mina Almasry <almasrymina@google.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Shuah Khan <shuah@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Subject: [PATCH net-next v4 0/7] Suspend IRQs during application busy periods
+Date: Sat,  2 Nov 2024 00:51:56 +0000
+Message-Id: <20241102005214.32443-1-jdamato@fastly.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 263ff7dd-8a28-4dd6-3206-08dcfad0a3f8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2024 23:55:19.0382
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qCLsugxAuxBxNRK/IHmzLqhODlEf1RSM0NgjxhYzsdk6bF1cIz5HN39Cke+o/9aAXFncYagGDU0yG659I13HIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6010
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-PiA+ICsgICBpZiAoIXN0cmNtcChidWYsICJtYm1fbG9jYWxfYnl0ZXMiKSkgew0KPiA+ICsgICAg
-ICAgICAgIGlmIChpc19tYm1fbG9jYWxfZW5hYmxlZCgpKQ0KPiA+ICsgICAgICAgICAgICAgICAg
-ICAgcmR0Z3JwLT5tYmFfbWJwc19ldmVudCA9IFFPU19MM19NQk1fTE9DQUxfRVZFTlRfSUQ7DQo+
-ID4gKyAgICAgICAgICAgZWxzZQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgcmV0ID0gLUVOWElP
-Ow0KPiA+ICsgICB9IGVsc2UgaWYgKCFzdHJjbXAoYnVmLCAibWJtX3RvdGFsX2J5dGVzIikpIHsN
-Cj4gPiArICAgICAgICAgICBpZiAoaXNfbWJtX3RvdGFsX2VuYWJsZWQoKSkNCj4gPiArICAgICAg
-ICAgICAgICAgICAgIHJkdGdycC0+bWJhX21icHNfZXZlbnQgPSBRT1NfTDNfTUJNX1RPVEFMX0VW
-RU5UX0lEOw0KPg0KPg0KPiBVc2VyIG1heSB0aGluayBlYWNoIHRpbWUgdG9nZ2xpbmcgdGhlIGxv
-Y2FsL3RvdGFsIGV2ZW50IHdpbGwgZWZmZWN0IE1CQS4NCj4gQW5kIHRoZXkgbWF5IGNyZWF0ZSB1
-c2FnZSBjYXNlIGxpa2UgZnJlcXVlbnRseSBjaGFuZ2luZyB0aGUgZXZlbnRzIHRvDQo+IG1haW50
-YWluL2FkanVzdCBib3RoIHRvdGFsIGFuZCBsb2NhbCB3aXRoaW4gYncgYm91bmRhcnkuDQo+DQo+
-IEJ1dCB0b2dnbGluZyBtYmFfbWJwc19ldmVudCBmYXN0ZXIgdGhhbiAxc2VjIGRvZXNuJ3QgaGF2
-ZSBhbnkgZWZmZWN0IG9uDQo+IE1CQSBTQyBiZWNhdXNlIE1CQSBTQyBpcyBjYWxsZWQgZXZlcnkg
-b25lIHNlY29uZC4NCj4NCj4gTWF5YmUgbmVlZCB0byBhZGQgYSByYXRlbGltaXQgb2YgMSBzZWNv
-bmQgb24gY2FsbGluZyB0aGlzIGZ1bmN0aW9uPyBBbmQNCj4gYWRkaW5nIGluZm8gaW4gdGhlIGRv
-Y3VtZW50IHRoYXQgdG9nZ2xpbmcgc3BlZWQgc2hvdWxkIGJlIHNsb3dlciB0aGFuIDENCj4gc2Vj
-b25kPw0KDQpUaGUgbGltaXQgd291bGQgbmVlZCB0byBiZSBwZXIgY3RybF9tb24gZ3JvdXAsIG5v
-dCBvbiBjYWxscyB0byB0aGlzIGZ1bmN0aW9uLg0KSXQncyBwZXJmZWN0bHkgb2sgdG8gc3dpdGNo
-IG11bHRpcGxlIGdyb3VwcyBpbiBhIHNob3J0IGludGVydmFsLg0KDQpJJ20gbm90IHN1cmUgaG93
-IHRvIHJhdGUgbGltaXQgaGVyZS4gSSBjb3VsZCBhZGQgYSBkZWxheSBzbyB0aGF0IHRoZSB3cml0
-ZSgpDQpjYWxsIGJsb2NrcyB1bnRpbCBlbm91Z2ggdGltZSBwYXNzZXMgYmVmb3JlIG1ha2luZyB0
-aGUgY2hhbmdlLiBCdXQNCndoYXQgc2hvdWxkIEkgZG8gaWYgYSB1c2VyIHN1Ym1pdHMgbW9yZSB3
-cml0ZXMgdG8gdGhlIGZpbGU/IFF1ZXVlIHRoZW0NCmFsbCBhbmQgYXBwbHkgYXQgb25lIHNlY29u
-ZCBpbnRlcnZhbHM/DQoNCk1heWJlIGl0IHdvdWxkIGJlIGJldHRlciB0byBqdXN0IHRvIGFkZCBz
-b21lIGFkZGl0aW9uYWwgdGV4dCB0byB0aGUNCmRvY3VtZW50YXRpb24gcG9pbnRpbmcgb3V0IHRo
-YXQgcmVzY3RybCBvbmx5IGNoZWNrcyBiYW5kd2lkdGggb25jZQ0KcGVyIHNlY29uZCB0byBtYWtl
-IHRocm90dGxpbmcgYWRqdXN0bWVudHMuIFNvIGNoYW5nZXMgdG8gdGhlIGV2ZW50DQp3aWxsIG9u
-bHkgaGF2ZSBlZmZlY3QgYWZ0ZXIgc29tZSBzZWNvbmRzIGhhdmUgcGFzc2VkPw0KDQotVG9ueQ0K
+Greetings:
+
+Welcome to v4, see changelog below. Note that our performance tests were
+not re-run for this revision as we updated the selftest, FAQ in the
+cover letter, and kernel documentation. No functional/code changes.
+
+This series introduces a new mechanism, IRQ suspension, which allows
+network applications using epoll to mask IRQs during periods of high
+traffic while also reducing tail latency (compared to existing
+mechanisms, see below) during periods of low traffic. In doing so, this
+balances CPU consumption with network processing efficiency.
+
+Martin Karsten (CC'd) and I have been collaborating on this series for
+several months and have appreciated the feedback from the community on
+our RFC [1]. We've updated the cover letter and kernel documentation in
+an attempt to more clearly explain how this mechanism works, how
+applications can use it, and how it compares to existing mechanisms in
+the kernel. We've added an additional test case, 'fullbusy', achieved by
+modifying libevent for comparison. See below for a detailed description,
+link to the patch, and test results.
+
+I briefly mentioned this idea at netdev conf 2024 (for those who were
+there) and Martin described this idea in an earlier paper presented at
+Sigmetrics 2024 [2].
+
+~ The short explanation (TL;DR)
+
+We propose adding a new napi config parameter: irq_suspend_timeout to
+help balance CPU usage and network processing efficiency when using IRQ
+deferral and napi busy poll.
+
+If this parameter is set to a non-zero value *and* a user application
+has enabled preferred busy poll on a busy poll context (via the
+EPIOCSPARAMS ioctl introduced in commit 18e2bf0edf4d ("eventpoll: Add
+epoll ioctl for epoll_params")), then application calls to epoll_wait
+for that context will cause device IRQs and softirq processing to be
+suspended as long as epoll_wait successfully retrieves data from the
+NAPI. Each time data is retrieved, the irq_suspend_timeout is deferred.
+
+If/when network traffic subsides and epoll_wait returns no data, IRQ
+suspension is immediately reverted back to the existing
+napi_defer_hard_irqs and gro_flush_timeout mechanism which was
+introduced in commit 6f8b12d661d0 ("net: napi: add hard irqs deferral
+feature")).
+
+The irq_suspend_timeout serves as a safety mechanism. If userland takes
+a long time processing data, irq_suspend_timeout will fire and restart
+normal NAPI processing.
+
+For a more in depth explanation, please continue reading.
+
+~ Comparison with existing mechanisms
+
+Interrupt mitigation can be accomplished in napi software, by setting
+napi_defer_hard_irqs and gro_flush_timeout, or via interrupt coalescing
+in the NIC. This can be quite efficient, but in both cases, a fixed
+timeout (or packet count) needs to be configured. However, a fixed
+timeout cannot effectively support both low- and high-load situations:
+
+At low load, an application typically processes a few requests and then
+waits to receive more input data. In this scenario, a large timeout will
+cause unnecessary latency.
+
+At high load, an application typically processes many requests before
+being ready to receive more input data. In this case, a small timeout
+will likely fire prematurely and trigger irq/softirq processing, which
+interferes with the application's execution. This causes overhead, most
+likely due to cache contention.
+
+While NICs attempt to provide adaptive interrupt coalescing schemes,
+these cannot properly take into account application-level processing.
+
+An alternative packet delivery mechanism is busy-polling, which results
+in perfect alignment of application processing and network polling. It
+delivers optimal performance (throughput and latency), but results in
+100% cpu utilization and is thus inefficient for below-capacity
+workloads.
+
+We propose to add a new packet delivery mode that properly alternates
+between busy polling and interrupt-based delivery depending on busy and
+idle periods of the application. During a busy period, the system
+operates in busy-polling mode, which avoids interference. During an idle
+period, the system falls back to interrupt deferral, but with a small
+timeout to avoid excessive latencies. This delivery mode can also be
+viewed as an extension of basic interrupt deferral, but alternating
+between a small and a very large timeout.
+
+This delivery mode is efficient, because it avoids softirq execution
+interfering with application processing during busy periods. It can be
+used with blocking epoll_wait to conserve cpu cycles during idle
+periods. The effect of alternating between busy and idle periods is that
+performance (throughput and latency) is very close to full busy polling,
+while cpu utilization is lower and very close to interrupt mitigation.
+
+~ Usage details
+
+IRQ suspension is introduced via a per-NAPI configuration parameter that
+controls the maximum time that IRQs can be suspended.
+
+Here's how it is intended to work:
+  - The user application (or system administrator) uses the netdev-genl
+    netlink interface to set the pre-existing napi_defer_hard_irqs and
+    gro_flush_timeout NAPI config parameters to enable IRQ deferral.
+
+  - The user application (or system administrator) sets the proposed
+    irq_suspend_timeout parameter via the netdev-genl netlink interface
+    to a larger value than gro_flush_timeout to enable IRQ suspension.
+
+  - The user application issues the existing epoll ioctl to set the
+    prefer_busy_poll flag on the epoll context.
+
+  - The user application then calls epoll_wait to busy poll for network
+    events, as it normally would.
+
+  - If epoll_wait returns events to userland, IRQs are suspended for the
+    duration of irq_suspend_timeout.
+
+  - If epoll_wait finds no events and the thread is about to go to
+    sleep, IRQ handling using napi_defer_hard_irqs and gro_flush_timeout
+    is resumed.
+
+As long as epoll_wait is retrieving events, IRQs (and softirq
+processing) for the NAPI being polled remain disabled. When network
+traffic reduces, eventually a busy poll loop in the kernel will retrieve
+no data. When this occurs, regular IRQ deferral using gro_flush_timeout
+for the polled NAPI is re-enabled.
+
+Unless IRQ suspension is continued by subsequent calls to epoll_wait, it
+automatically times out after the irq_suspend_timeout timer expires.
+Regular deferral is also immediately re-enabled when the epoll context
+is destroyed.
+
+~ Usage scenario
+
+The target scenario for IRQ suspension as packet delivery mode is a
+system that runs a dominant application with substantial network I/O.
+The target application can be configured to receive input data up to a
+certain batch size (via epoll_wait maxevents parameter) and this batch
+size determines the worst-case latency that application requests might
+experience. Because packet delivery is suspended during the target
+application's processing, the batch size also determines the worst-case
+latency of concurrent applications using the same RX queue(s).
+
+gro_flush_timeout should be set as small as possible, but large enough to
+make sure that a single request is likely not being interfered with.
+
+irq_suspend_timeout is largely a safety mechanism against misbehaving
+applications. It should be set large enough to cover the processing of an
+entire application batch, i.e., the factor between gro_flush_timeout and
+irq_suspend_timeout should roughly correspond to the maximum batch size
+that the target application would process in one go.
+
+~ Design rationale
+
+The implementation of the IRQ suspension mechanism very nicely dovetails
+with the existing mechanism for IRQ deferral when preferred busy poll is
+enabled (introduced in commit 7fd3253a7de6 ("net: Introduce preferred
+busy-polling"), see that commit message for more details).
+
+While it would be possible to inject the suspend timeout via
+the existing epoll ioctl, it is more natural to avoid this path for one
+main reason:
+
+  An epoll context is linked to NAPI IDs as file descriptors are added;
+  this means any epoll context might suddenly be associated with a
+  different net_device if the application were to replace all existing
+  fds with fds from a different device. In this case, the scope of the
+  suspend timeout becomes unclear and many edge cases for both the user
+  application and the kernel are introduced
+
+Only a single iteration through napi busy polling is needed for this
+mechanism to work effectively. Since an important objective for this
+mechanism is preserving cpu cycles, exactly one iteration of the napi
+busy loop is invoked when busy_poll_usecs is set to 0.
+
+~ Important call outs in the implementation
+
+  - Enabling per epoll-context preferred busy poll will now effectively
+    lead to a nonblocking iteration through napi_busy_loop, even when
+    busy_poll_usecs is 0. See patch 4.
+
+  - Patches apply cleanly on commit 160a810b2a85 ("net: vxlan: update
+    the document for vxlan_snoop()").
+
+~ Benchmark configs & descriptions
+
+The changes were benchmarked with memcached [3] using the benchmarking
+tool mutilate [4].
+
+To facilitate benchmarking, a small patch [5] was applied to memcached
+1.6.29 to allow setting per-epoll context preferred busy poll and other
+settings via environment variables. Another small patch [6] was applied
+to libevent to enable full busy-polling.
+
+Multiple scenarios were benchmarked as described below and the scripts
+used for producing these results can be found on github [7] (note: all
+scenarios use NAPI-based traffic splitting via SO_INCOMING_ID by passing
+-N to memcached):
+
+  - base:
+    - no other options enabled
+  - deferX:
+    - set defer_hard_irqs to 100
+    - set gro_flush_timeout to X,000
+  - napibusy:
+    - set defer_hard_irqs to 100
+    - set gro_flush_timeout to 200,000
+    - enable busy poll via the existing ioctl (busy_poll_usecs = 64,
+      busy_poll_budget = 64, prefer_busy_poll = true)
+  - fullbusy:
+    - set defer_hard_irqs to 100
+    - set gro_flush_timeout to 5,000,000
+    - enable busy poll via the existing ioctl (busy_poll_usecs = 1000,
+      busy_poll_budget = 64, prefer_busy_poll = true)
+    - change memcached's nonblocking epoll_wait invocation (via
+      libevent) to using a 1 ms timeout
+  - suspendX:
+    - set defer_hard_irqs to 100
+    - set gro_flush_timeout to X,000
+    - set irq_suspend_timeout to 20,000,000
+    - enable busy poll via the existing ioctl (busy_poll_usecs = 0,
+      busy_poll_budget = 64, prefer_busy_poll = true)
+
+~ Benchmark results
+
+Tested on:
+
+Single socket AMD EPYC 7662 64-Core Processor
+Hyperthreading disabled
+4 NUMA Zones (NPS=4)
+16 CPUs per NUMA zone (64 cores total)
+2 x Dual port 100gbps Mellanox Technologies ConnectX-5 Ex EN NIC
+
+The test machine is configured such that a single interface has 8 RX
+queues. The queues' IRQs and memcached are pinned to CPUs that are
+NUMA-local to the interface which is under test. The NIC's interrupt
+coalescing configuration is left at boot-time defaults.
+
+Results:
+
+Results are shown below. The mechanism added by this series is
+represented by the 'suspend' cases. Data presented shows a summary over
+at least 10 runs of each test case [8] using the scripts on github [7].
+For latency, the median is shown. For throughput and CPU utilization,
+the average is shown.
+
+The results also include cycles-per-query (cpq) and
+instruction-per-query (ipq) metrics, following the methodology proposed
+in [2], to augment the CPU utilization numbers, which could be skewed
+due to frequency scaling. We find that this does not appear to be the
+case as CPU utilization and low-level metrics show similar trends.
+
+These results were captured using the scripts on github [7] to
+illustrate how this approach compares with other pre-existing
+mechanisms. This data is not to be interpreted as scientific data
+captured in a fully isolated lab setting, but instead as best effort,
+illustrative information comparing and contrasting tradeoffs.
+
+The absolute QPS results are higher than our previous submission, but
+the relative differences between variants are equivalent. Because the
+patches have been rebased on 6.12, several factors have likely
+influenced the overall performance. Most importantly, we had to switch
+to a new set of basic kernel options, which has likely altered the
+baseline performance. Because the overall comparison of variants still
+holds, we have not attempted to recreate the exact set of kernel options
+from the previous submission.
+
+Compare:
+- Throughput (MAX) and latencies of base vs suspend.
+- CPU usage of napibusy and fullbusy during lower load (200K, 400K for
+  example) vs suspend.
+- Latency of the defer variants vs suspend as timeout and load
+  increases.
+
+The overall takeaway is that the suspend variants provide a superior
+combination of high throughput, low latency, and low cpu utilization
+compared to all other variants. Each of the suspend variants works very
+well, but some fine-tuning between latency and cpu utilization is still
+possible by tuning the small timeout (gro_flush_timeout).
+
+Note: we've reorganized the results to make comparison among testcases
+with the same load easier.
+
+  testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
+      base  200K  200024     127     254     458      25   12748   11289
+   defer10  200K  199991      64     128     166      27   18763   16574
+   defer20  200K  199986      72     135     178      25   15405   14173
+   defer50  200K  200025      91     149     198      23   12275   12203
+  defer200  200K  199996     182     266     326      18    8595    9183
+  fullbusy  200K  200040      58     123     167     100   43641   23145
+  napibusy  200K  200009     115     244     299      56   24797   24693
+ suspend10  200K  200005      63     128     167      32   19559   17240
+ suspend20  200K  199952      69     132     170      29   16324   14838
+ suspend50  200K  200019      84     144     189      26   13106   12516
+suspend200  200K  199978     168     264     326      20    9331    9643
+
+  testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
+      base  400K  400017     157     292     762      39    9287    9325
+   defer10  400K  400033      71     141     204      53   13950   12943
+   defer20  400K  399935      79     150     212      47   12027   11673
+   defer50  400K  399888     101     171     231      39    9556    9921
+  defer200  400K  399993     200     287     358      32    7428    8576
+  fullbusy  400K  400018      63     132     203     100   21827   16062
+  napibusy  400K  399970      89     230     292      83   18156   16508
+ suspend10  400K  400061      69     139     202      54   13576   13057
+ suspend20  400K  399988      73     144     206      49   11930   11773
+ suspend50  400K  399975      88     161     218      42    9996   10270
+suspend200  400K  399954     172     276     353      34    7847    8713
+
+  testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
+      base  600K  600031     166     289     631      61    9188    8787
+   defer10  600K  599967      85     167     262      75   11833   10947
+   defer20  600K  599888      89     165     243      66   10513   10362
+   defer50  600K  600072     109     185     253      55    8664    9190
+  defer200  600K  599951     222     315     393      45    6892    8213
+  fullbusy  600K  600041      69     145     227     100   14549   13936
+  napibusy  600K  599980      79     188     280      96   13927   14155
+ suspend10  600K  600028      78     159     267      69   10877   11032
+ suspend20  600K  600026      81     159     254      64    9922   10320
+ suspend50  600K  600007      96     178     258      57    8681    9331
+suspend200  600K  599964     177     295     369      47    7115    8366
+
+  testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
+      base  800K  800034     198     329     698      84    9366    8338
+   defer10  800K  799718     243     642    1457      95   10532    9007
+   defer20  800K  800009     132     245     399      89    9956    8979
+   defer50  800K  800024     136     228     378      80    9002    8598
+  defer200  800K  799965     255     362     473      66    7481    8147
+  fullbusy  800K  799927      78     157     253     100   10915   12533
+  napibusy  800K  799870      81     173     273      99   10826   12532
+ suspend10  800K  799991      84     167     269      83    9380    9802
+ suspend20  800K  799979      90     172     290      78    8765    9404
+ suspend50  800K  800031     106     191     307      71    7945    8805
+suspend200  800K  799905     182     307     411      62    6985    8242
+
+  testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
+      base 1000K  919543    3805    6390   14229      98    9324    7978
+   defer10 1000K  850751    4574    7382   15370      99   10218    8470
+   defer20 1000K  890296    4736    6862   14858      99    9708    8277
+   defer50 1000K  932694    3463    6180   13251      97    9148    8053
+  defer200 1000K  951311    3524    6052   13599      96    8875    7845
+  fullbusy 1000K 1000011      90     181     278     100    8731   10686
+  napibusy 1000K 1000050      93     184     280     100    8721   10547
+ suspend10 1000K  999962     101     193     306      92    8138    8980
+ suspend20 1000K 1000030     103     191     324      88    7844    8763
+ suspend50 1000K 1000001     114     202     320      83    7396    8431
+suspend200 1000K  999965     185     314     428      76    6733    8072
+
+  testcase  load     qps  avglat  95%lat  99%lat     cpu     cpq     ipq
+      base   MAX 1005592    4651    6594   14979     100    8679    7918
+   defer10   MAX  928204    5106    7286   15199     100    9398    8380
+   defer20   MAX  984663    4774    6518   14920     100    8861    8063
+   defer50   MAX 1044099    4431    6368   14652     100    8350    7948
+  defer200   MAX 1040451    4423    6610   14674     100    8380    7931
+  fullbusy   MAX 1236608    3715    3987   12805     100    7051    7936
+  napibusy   MAX 1077516    4345   10155   15957     100    8080    7842
+ suspend10   MAX 1218344    3760    3990   12585     100    7150    7935
+ suspend20   MAX 1220056    3752    4053   12602     100    7150    7961
+ suspend50   MAX 1213666    3791    4103   12919     100    7183    7959
+suspend200   MAX 1217411    3768    3988   12863     100    7161    7954
+
+~ FAQ
+
+  - Why is a new parameter needed? Does irq_suspend_timeout override
+    gro_flush_timeout?
+
+    Using the suspend mechanism causes the system to alternate between
+    polling mode and irq-driven packet delivery. During busy periods,
+    irq_suspend_timeout overrides gro_flush_timeout and keeps the system
+    busy polling, but when epoll finds no events, the setting of
+    gro_flush_timeout and napi_defer_hard_irqs determine the next step.
+
+    There are essentially three possible loops for network processing and
+    packet delivery:
+    
+    1) hardirq -> softirq   -> napi poll; basic interrupt delivery
+    
+    2)   timer -> softirq   -> napi poll; deferred irq processing
+    
+    3)   epoll -> busy-poll -> napi poll; busy looping
+    
+    Loop 2) can take control from Loop 1), if gro_flush_timeout and
+    napi_defer_hard_irqs are set.
+    
+    If gro_flush_timeout and napi_defer_hard_irqs are set, Loops 2) and
+    3) "wrestle" with each other for control. During busy periods,
+    irq_suspend_timeout is used as timer in Loop 2), which essentially
+    tilts this in favour of Loop 3).
+    
+    If gro_flush_timeout and napi_defer_hard_irqs are not set, Loop 3)
+    cannot take control from Loop 1).
+    
+    Therefore, setting gro_flush_timeout and napi_defer_hard_irqs is the
+    recommended usage, because otherwise setting irq_suspend_timeout
+    might not have any discernible effect.
+
+    We ran experiments with these parameters set to zero and the results
+    are as expected and essentially the same as the base case.
+
+  - Can the new timeout value be threaded through the new epoll ioctl ?
+
+    Only with difficulty. The epoll ioctl sets options on an epoll
+    context and the NAPI ID associated with an epoll context can change
+    based on what file descriptors a user app adds to the epoll context.
+    This would introduce complexity in the API from the user perspective
+    and also complexity in the kernel.
+
+  - Can irq suspend be built by combining NIC coalescing and
+    gro_flush_timeout ?
+
+    No. The problem is that the long timeout must engage if and only if
+    prefer-busy is active.
+
+    When using NIC coalescing for the short timeout (without
+    napi_defer_hard_irqs/gro_flush_timeout), an interrupt after an idle
+    period will trigger softirq, which will run napi polling. At this
+    point, prefer-busy is not active, so NIC interrupts would be
+    re-enabled. Then it is not possible for the longer timeout to
+    interject to switch control back to polling. In other words, only by
+    using the software timer for the short timeout, it is possible to
+    extend the timeout without having to reprogram the NIC timer or
+    reach down directly and disable interrupts.
+
+    Using gro_flush_timeout for the long timeout also has problems, for
+    the same underlying reason. In the current napi implementation,
+    gro_flush_timeout is not tied to prefer-busy. We'd either have to
+    change that and in the process modify the existing deferral
+    mechanism, or introduce a state variable to determine whether
+    gro_flush_timeout is used as long timeout for irq suspend or whether
+    it is used for its default purpose. In an earlier version, we did
+    try something similar to the latter and made it work, but it ends up
+    being a lot more convoluted than our current proposal.
+
+  - Isn't it already possible to combine busy looping with irq deferral?
+
+    Yes, in fact enabling irq deferral via napi_defer_hard_irqs and
+    gro_flush_timeout is a precondition for prefer_busy_poll to have an
+    effect. If the application also uses a tight busy loop with
+    essentially nonblocking epoll_wait (accomplished with a very short
+    timeout parameter), this is the fullbusy case shown in the results.
+    An application using blocking epoll_wait is shown as the napibusy
+    case in the result. It's a hybrid approach that provides limited
+    latency benefits compared to the base case and plain irq deferral,
+    but not as good as fullbusy or suspend.
+
+~ Special thanks
+
+Several people were involved in earlier stages of the development of this
+mechanism whom we'd like to thank:
+
+  - Peter Cai (CC'd), for the initial kernel patch and his contributions
+    to the paper.
+    
+  - Mohammadamin Shafie (CC'd), for testing various versions of the kernel
+    patch and providing helpful feedback.
+
+Thanks,
+Martin and Joe
+
+[1]: https://lore.kernel.org/netdev/20240812125717.413108-1-jdamato@fastly.com/
+[2]: https://doi.org/10.1145/3626780
+[3]: https://github.com/memcached/memcached/blob/master/doc/napi_ids.txt
+[4]: https://github.com/leverich/mutilate
+[5]: https://raw.githubusercontent.com/martinkarsten/irqsuspend/main/patches/memcached.patch
+[6]: https://raw.githubusercontent.com/martinkarsten/irqsuspend/main/patches/libevent.patch
+[7]: https://github.com/martinkarsten/irqsuspend
+[8]: https://github.com/martinkarsten/irqsuspend/tree/main/results
+
+v4:
+  - Added a new FAQ item to cover letter.
+  - Updated patch 6 to use socat instead of nc in busy_poll_test.sh and
+    updated busy_poller.c to use netlink directly to configure napi
+    params.
+  - Updated the kernel documentation in patch 7 to include more details.
+  - Dropped Stanislav's Acked-by and Bagas' Reviewed-by from patch 7
+    since the documentation was updated.
+
+v3:
+  - Added Stanislav Fomichev's Acked-by to every patch except the newly
+    added selftest.
+  - Added Bagas Sanjaya's Reviewed-by to the documentation patch.
+  - Fixed the commit message of patch 2 to remove a reference to the now
+    non-existent sysfs setting.
+  - Added a self test which tests both "regular" busy poll and busy poll
+    with suspend enabled. This was added as patch 6 as requested by
+    Paolo. netdevsim was chosen instead of veth due to netdevsim's
+    pre-existing support for netdev-genl. See the commit message of
+    patch 6 for more details.
+
+v2: https://lore.kernel.org/bpf/20241021015311.95468-1-jdamato@fastly.com/
+  - Cover letter updated, including a re-run of test data.
+  - Patch 1 rewritten to use netdev-genl instead of sysfs.
+  - Patch 3 updated with a comment added to napi_resume_irqs.
+  - Patch 4 rebased to apply now that commit b9ca079dd6b0 ("eventpoll:
+    Annotate data-race of busy_poll_usecs") has been picked up from VFS.
+  - Patch 6 updated the kernel documentation.
+
+rfc -> v1:
+  - Cover letter updated to include more details.
+  - Patch 1 updated to remove the documentation added. This was moved to
+    patch 6 with the rest of the docs (see below).
+  - Patch 5 updated to fix an error uncovered by the kernel build robot.
+    See patch 5's changelog for more details.
+  - Patch 6 added which updates kernel documentation.
+
+Joe Damato (2):
+  selftests: net: Add busy_poll_test
+  docs: networking: Describe irq suspension
+
+Martin Karsten (5):
+  net: Add napi_struct parameter irq_suspend_timeout
+  net: Suspend softirq when prefer_busy_poll is set
+  net: Add control functions for irq suspension
+  eventpoll: Trigger napi_busy_loop, if prefer_busy_poll is set
+  eventpoll: Control irq suspension for prefer_busy_poll
+
+ Documentation/netlink/specs/netdev.yaml       |   7 +
+ Documentation/networking/napi.rst             | 176 +++++++++-
+ fs/eventpoll.c                                |  35 +-
+ include/linux/netdevice.h                     |   2 +
+ include/net/busy_poll.h                       |   3 +
+ include/uapi/linux/netdev.h                   |   1 +
+ net/core/dev.c                                |  58 +++-
+ net/core/dev.h                                |  25 ++
+ net/core/netdev-genl-gen.c                    |   5 +-
+ net/core/netdev-genl.c                        |  12 +
+ tools/include/uapi/linux/netdev.h             |   1 +
+ tools/testing/selftests/net/.gitignore        |   1 +
+ tools/testing/selftests/net/Makefile          |   3 +-
+ tools/testing/selftests/net/busy_poll_test.sh | 164 +++++++++
+ tools/testing/selftests/net/busy_poller.c     | 328 ++++++++++++++++++
+ 15 files changed, 810 insertions(+), 11 deletions(-)
+ create mode 100755 tools/testing/selftests/net/busy_poll_test.sh
+ create mode 100644 tools/testing/selftests/net/busy_poller.c
+
+
+base-commit: dbb9a7ef347828870df3e5e6ddf19469a3277fc9
+-- 
+2.25.1
+
