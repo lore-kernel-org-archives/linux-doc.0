@@ -1,149 +1,157 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7F69474;
-	Sat,  2 Nov 2024 19:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF09715E5B5;
+	Sat,  2 Nov 2024 19:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730575086; cv=none; b=qAd5V8qVCseqLCptWlk48TqhcDQov6m/l2xMDM81HSox/jCS6H+tA751ouNFFMiSCH1tnJ9MVWc1ckwudvAF5bIcT5r5e2pLoFVR5X2tPqBxzKcZu6GpTMH6XfDCcmebs5B++6WOeZbGx30wG8KVQ5V6vZOiDpEYyc4QBH2h7dA=
+	t=1730576826; cv=none; b=ni0rgK7cMNEbInucPrXUJsjZpbHWqRK1V8CXnuBZ7pe4co0rCmjp5W+pmPG+s0B2rCuqaRR0cQnYeXDuoxFzh3OP5SYLV/WW8x+SLRgakDVTXXA1bWaWd+N9lLdl3jN1RRKvhofRCWcVGz+zgOlgOjZTNn27QoAUH3bi2uZOJwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730575086; c=relaxed/simple;
-	bh=FvlFwpJDSO+d5NYtpPrqV+dgkHif69q8Gp1faalEoHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m5q29lmFQ97ktq9uHWie/tKMfjSaAf7Gi+HyCW1EpzF5k0DchypAyImphTwOPzFAAQim0SsMXUmzD7rMHbI5fgGcMKW1JO6/2Kf1rRyrvhs7n0ZqWyXsXmaVRiWmHOm6ZFGqWJIwkBYilSXeHvOCvcJRbvVkIH6m9/c/bIwOyuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=siV35kK1; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1730576826; c=relaxed/simple;
+	bh=MQI3BNtZBxdg6mXqk8yc8wb4V0fZXGUlCkoeCxmMzyo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lMSpnEc54rNMF5KWUeRPefvYOJcsyNvKYpEWcdBMxgd+g6t2sd4ruk/ZyQnNtETO1wk/bkDpQsOC6u0yQ3J9ebv55DC5THo/lt4nwgFj7ClnBUNy9ECvF4g9NmAYHDhJg6S0WAX3LvuNbbpmCsDsjBG1g6SEy8/Ll0NO5qTsLL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=cUVolbLf; arc=none smtp.client-ip=202.61.224.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="siV35kK1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=gRdoADem0zi3UiPGufevBBdXeee4wC93CBeg2OV7GkM=; b=siV35kK1g1+QJ3GQvf6cmw53CE
-	FRCDIEOreFqbmhbkCLZsSHAm4yeYhjJ5gKOWRUahEOiLnDvibrxUNzV2LLRsf89e8yRVbDTzIaBI8
-	moOd8grqJqCQ6pEEO3yVxO1PmGYeEyXxwZBuXUdeICBocNDgVNiGssk7VPockapDNesdotdwBNpmt
-	BJXcpNbaTTj1LfSn45EjlIYHYje4DY6AinU7TN+K9g2TigsS2ug4Lld7Ddo76dK93TAuvTTlzy6In
-	MmEtnJ9oo3AOruesWjn9+hoH79ncjg2n1+czjydf8jl0P4jCF/1RnBGrwco7fqljjWYcecGeEs/UN
-	c72enfNA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <cjwatson@debian.org>)
-	id 1t7JSZ-00AqcD-D6; Sat, 02 Nov 2024 19:06:55 +0000
-Received: from ns1.rosewood.vpn.ucam.org ([172.20.153.2] helo=riva.ucam.org)
-	by riva.rosewood.vpn.ucam.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <cjwatson@debian.org>)
-	id 1t7JSY-0044X1-0k;
-	Sat, 02 Nov 2024 19:06:54 +0000
-Date: Sat, 2 Nov 2024 19:06:53 +0000
-From: Colin Watson <cjwatson@debian.org>
-To: "G. Branden Robinson" <cjwatson@debian.org>
-Cc: Alejandro Colomar <alx@kernel.org>, Ian Rogers <irogers@google.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org, groff@gnu.org
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-Message-ID: <ZyZ4Tfxfr7M-EqUo@riva.ucam.org>
-Mail-Followup-To: Alejandro Colomar <alx@kernel.org>,
-	Ian Rogers <irogers@google.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org, groff@gnu.org
-References: <20241015211719.1152862-1-irogers@google.com>
- <20241101132437.ahn7xdgvmqamatce@devuan>
- <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
- <20241101200729.6wgyksuwdtsms3eu@devuan>
- <20241102100837.anfonowxfx4ekn3d@illithid>
+	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="cUVolbLf"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 881682805B9;
+	Sat,  2 Nov 2024 20:46:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
+	t=1730576820; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=BGTnDaqtKnLhX/3sR+UXxn46A/x2F6Nip/nY5s5e61A=;
+	b=cUVolbLfq/bcxZpLz4bc++OQ6L6azX7WwNkEW08OV5Nahc38rQocTTwPrD0gttmiLds/6m
+	0HoYHc+KmEm0pAAxJcWa0jfnBkNi3atxtA2lcSXL7Z9/pMUgesS8Jbzj0FCvczyHgO1Ljl
+	6MmEabP+QjC4QUptGltAIIqMHfZML+CpIFOC0NRwJ9ch0IKoVXsSZjCbh/9qesnupWMKkB
+	MFC98K+CWLGLyJDzlwQofObmdQNchwwsJjCN5T+2CLw+/ORgWBZvwp6BjqtKwmk0x+VY+A
+	2dHCJPRFu41XjMujZIXmK6JKycr73XH5jF8JHmJm1m4RTFgSRUP1/qUMFWTVxw==
+Message-ID: <09349180-027a-4b29-a40c-9dc3425e592c@cachyos.org>
+Date: Sat, 2 Nov 2024 20:46:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241102100837.anfonowxfx4ekn3d@illithid>
-X-Debian-User: cjwatson
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/7] Add AutoFDO support for Clang build
+To: Rong Xu <xur@google.com>, Alice Ryhl <aliceryhl@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>,
+ Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>,
+ Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+ Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>,
+ Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)"
+ <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner
+ <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>,
+ workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Maksim Panchenko <max4bolt@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>,
+ Krzysztof Pszeniczny <kpszeniczny@google.com>,
+ Sriraman Tallam <tmsriram@google.com>, Stephane Eranian <eranian@google.com>
+Cc: x86@kernel.org, linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20241102175115.1769468-1-xur@google.com>
+ <20241102175115.1769468-2-xur@google.com>
+Content-Language: en-US
+From: Peter Jung <ptr1337@cachyos.org>
+Organization: CachyOS
+In-Reply-To: <20241102175115.1769468-2-xur@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sat, Nov 02, 2024 at 05:08:37AM -0500, G. Branden Robinson wrote:
-> On GNU/Linux systems, the only man page indexer I know of is Colin
-> Watson's man-db--specifically, its mandb(8) program.  But it's nicely
-> designed so that the "topic and summary description extraction" task is
-> delegated to a standalone tool, lexgrog(1), and we can use that.
+
+
+On 02.11.24 18:51, Rong Xu wrote:
+> Add the build support for using Clang's AutoFDO. Building the kernel
+> with AutoFDO does not reduce the optimization level from the
+> compiler. AutoFDO uses hardware sampling to gather information about
+> the frequency of execution of different code paths within a binary.
+> This information is then used to guide the compiler's optimization
+> decisions, resulting in a more efficient binary. Experiments
+> showed that the kernel can improve up to 10% in latency.
 > 
-> $ lexgrog /tmp/proc_pid_fdinfo_mini.5
-> /tmp/proc_pid_fdinfo_mini.5: parse failed
+> The support requires a Clang compiler after LLVM 17. This submission
+> is limited to x86 platforms that support PMU features like LBR on
+> Intel machines and AMD Zen3 BRS. Support for SPE on ARM 1,
+>   and BRBE on ARM 1 is part of planned future work.
 > 
-> Oh, damn.  I wasn't expecting that.  Maybe this is what defeats Michael
-> Kerrisk's scraper with respect to groff's man pages.[1]
-
-How embarrassing.  Could somebody please file a bug on
-https://gitlab.com/man-db/man-db/-/issues to remind me to fix that?  (Of
-course there'll be a lead time for fixes to get into distributions.)
-
-> Well, I can find a silver lining here, because it gives me an even
-> better reason than I had to pitch an idea I've been kicking around for a
-> while.  Why not enhance groff man(7) to support a mode where _it_ will
-> spit out the "Name"/"NAME" section, and only that, _for_ you?
+> Here is an example workflow for AutoFDO kernel:
 > 
-> This would be as easy as checking for an option, say '-d EXTRACT=Name',
-> and having the package's "TH" and "SH" macro definitions divert
-> (literally, with the `di` request) everything _except_ the section of
-> interest to a diversion that is then never called/output.  (This is
-> similar to an m4 feature known as the "black hole diversion".)
+> 1) Build the kernel on the host machine with LLVM enabled, for example,
+>         $ make menuconfig LLVM=1
+>      Turn on AutoFDO build config:
+>        CONFIG_AUTOFDO_CLANG=y
+>      With a configuration that has LLVM enabled, use the following
+>      command:
+>         scripts/config -e AUTOFDO_CLANG
+>      After getting the config, build with
+>        $ make LLVM=1
 > 
-> All of the features necessary to implement this[2] were part of troff as
-> far as back as the birth of the man(7) package itself.  It's not clear
-> to me why it wasn't done back in the 1980s.
+> 2) Install the kernel on the test machine.
 > 
-> lexgrog(1) itself will of course have to stay around for years to come,
-> but this could take a significant distraction off of Colin's plate--I
-> believe I have seen him grumble about how much *roff syntax he has to
-> parse to have the feature be workable, and that's without upstart groff
-> maintainers exploring up to every boundary that existed even in 1979 and
-> cheerfully exercising their findings in man pages.
+> 3) Run the load tests. The '-c' option in perf specifies the sample
+>     event period. We suggest     using a suitable prime number,
+>     like 500009, for this purpose.
+>     For Intel platforms:
+>        $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count> \
+>          -o <perf_file> -- <loadtest>
+>     For AMD platforms:
+>        The supported system are: Zen3 with BRS, or Zen4 with amd_lbr_v2
+>       For Zen3:
+>        $ cat proc/cpuinfo | grep " brs"
+>        For Zen4:
+>        $ cat proc/cpuinfo | grep amd_lbr_v2
+>        $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a \
+>          -N -b -c <count> -o <perf_file> -- <loadtest>
+> 
+> 4) (Optional) Download the raw perf file to the host machine.
+> 
+> 5) To generate an AutoFDO profile, two offline tools are available:
+>     create_llvm_prof and llvm_profgen. The create_llvm_prof tool is part
+>     of the AutoFDO project and can be found on GitHub
+>     (https://github.com/google/autofdo), version v0.30.1 or later. The
+>     llvm_profgen tool is included in the LLVM compiler itself. It's
+>     important to note that the version of llvm_profgen doesn't need to
+>     match the version of Clang. It needs to be the LLVM 19 release or
+>     later, or from the LLVM trunk.
+>        $ llvm-profgen --kernel --binary=<vmlinux> --perfdata=<perf_file> \
+>          -o <profile_file>
+>     or
+>        $ create_llvm_prof --binary=<vmlinux> --profile=<perf_file> \
+>          --format=extbinary --out=<profile_file>
+> 
+>     Note that multiple AutoFDO profile files can be merged into one via:
+>        $ llvm-profdata merge -o <profile_file>  <profile_1> ... <profile_n>
+> 
+> 6) Rebuild the kernel using the AutoFDO profile file with the same config
+>     as step 1, (Note CONFIG_AUTOFDO_CLANG needs to be enabled):
+>        $ make LLVM=1 CLANG_AUTOFDO_PROFILE=<profile_file>
+> 
+> Co-developed-by: Han Shen<shenhan@google.com>
+> Signed-off-by: Han Shen<shenhan@google.com>
+> Signed-off-by: Rong Xu<xur@google.com>
+> Suggested-by: Sriraman Tallam<tmsriram@google.com>
+> Suggested-by: Krzysztof Pszeniczny<kpszeniczny@google.com>
+> Suggested-by: Nick Desaulniers<ndesaulniers@google.com>
+> Suggested-by: Stephane Eranian<eranian@google.com>
+> Tested-by: Yonghong Song<yonghong.song@linux.dev>
+> Tested-by: Yabin Cui<yabinc@google.com>
+> Tested-by: Nathan Chancellor<nathan@kernel.org>
+> Reviewed-by: Kees Cook<kees@kernel.org>
 
-lexgrog(1) is a useful (if oddly-named, sorry) debugging tool, but if
-you focus on that then you'll end up with a design that's not very
-useful.  What really matters is indexing the whole system's manual
-pages, and mandb(8) does not do that by invoking lexgrog(1) one page at
-a time, but rather by running more or less the same code in-process.  I
-already know that getting acceptable performance for this requires care,
-as illustrated by one of the NEWS entries for man-db 2.10.0:
+Tested-by: Peter Jung <ptr1337@cachyos.org>
 
- * Significantly improve `mandb(8)` and `man -K` performance in the common
-   case where pages are of moderate size and compressed using `zlib`: `mandb
-   -c` goes from 344 seconds to 10 seconds on a test system.
-
-... so I'm prepared to bet that forking nroff one page at a time will be
-unacceptably slow.  (This also combines with the fact that man-db
-applies some sandboxing when it's calling nroff just in case it might
-happen that a moderately-sized C++ project has less than 100% perfect
-security when doing text processing, which I'm sure everyone agrees
-would never happen.)
-
-If it were possible to run nroff over a whole batch of pages and get
-output for each of them in one go, then maaaaybe.  man-db would need a
-reliable way to associate each line (or sometimes multiple lines) of
-output with each source file, and of course care would be needed around
-error handling and so on.  I can see the appeal, in terms of processing
-the actual language rather than a pile of hacks that try to guess what
-to do with it - but on the other hand this starts to feel like a much
-less natural fit for the way nroff is run in every other situation,
-where you're processing one document at a time.
-
-Cheers,
-
--- 
-Colin Watson (he/him)                              [cjwatson@debian.org]
