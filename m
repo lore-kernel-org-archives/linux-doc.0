@@ -1,119 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14C380034;
-	Sat,  2 Nov 2024 09:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6B413BACC;
+	Sat,  2 Nov 2024 09:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730538174; cv=none; b=HzqwUBWV6nr4t1pqI4lC+jj3WMoiOmcNQ0ji6pOeIdawP3H48MAGtC1zt4qnG2PTIixvUOSZ9nqyzuppBtFUOjnzE7hbKUX9Jtu3ycN9bdlrarC7hl2+9VPit91goYUf/Jj+Q6/kd5KwUjZBzqOMC1R4t9KxXUOJK/ftX2UiDF8=
+	t=1730539213; cv=none; b=QtoUoW1e/9xnUInb9lKbP4usxCsJwSM5rta7UkH/KABxwzhwSDjRhH6XZhhx6aDjLGE25p1A2sAwLADDSsjECf30jVeNsT0KXpuagAKgOZ1exEnUfGhH+B/nH6f0tB1eo5sp/vVWHVC9dEmkpuWVZXVc8pGmy4ahM5ko6FdKaMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730538174; c=relaxed/simple;
-	bh=LBoNUIt26/rOHWnEOHVZz/A27Sk+n0iu8cOSeH8LX0E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W+DvCPuBLR7bRFnlwK5q2H8WOY4nWQqfry8PNYIv24G4+H03IwltwtZqYyvvpSolBqApT91ARyxg/O9APQ9lBWQtxzW6SOFodYuQLVTUxJem+EVNkcU4bAh1nP1n4OTh2bALAYH0f1SwruG0JZlTAdAnGI63JNrQl7I9GJaEz34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T92cCCsw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730539213; c=relaxed/simple;
+	bh=gdWMNWxXFHL9qw19MfKzkIcpkx3y/3En0QAut+yHzj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ppqjffqyjGWkhESdV09o3Vrf8Br3RcnLLGbXUlcRAFqOiSV2+4V7JoeW9eijVkDyJOcxbz3mw9esm4qZNG1SWXvLRlv0LwK1EXklfrCgPpIj55nJ8pomUe51HaLD7b1FwykP/H8X0XAaiFsaCBMo0oCqoLN3FMhuKQGp3Tn5Qb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jD53bc4f; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T92cCCsw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 636D3C4CED2;
-	Sat,  2 Nov 2024 09:02:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730538173;
-	bh=LBoNUIt26/rOHWnEOHVZz/A27Sk+n0iu8cOSeH8LX0E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=T92cCCswFZ6WUioUkTmAiZjzCFTDeI+a3/42QMv5GjnyNBbMyng9Px/d+iIX2InM9
-	 3AZnttj3GzjwZ2lzOP/h3brXdgoQoGYzuA7WYBmAkbWiBU2dNjo+ZW4zQTGS7LUM1k
-	 dbtmjb2bFrO/MAiO73+Bz6l3Ktq6bELYuCzxuV4NHaB+G9uYkwiiMwZfz8JwnG0i1J
-	 n1+n5fO85Fg+fLTfst0zqL81ZEL9oe181eo59eLEmvaQkTlEzOAaKxuZUCFbWABq3Z
-	 hPDmi4z6gt370GEiK8h4bl9GY/CLtSPP2i/8/XUdz0mRl4d4nIKN4N2gugIjuys4Er
-	 8ZnA3qUSEqY+A==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539ebb5a20aso2823551e87.2;
-        Sat, 02 Nov 2024 02:02:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCULTF9pE8Zea+O+PyN2fpTAGghZvguAzRw3FmT1J4R1uplp2bN+rLpdRv4VVnEElwz4CW1wm8u4wRBkLEI=@vger.kernel.org, AJvYcCUN7Pc8+4URK/Ew0rZys2kZ2IGGPE27S18QluhBWDbIub8QitxnTTQjgbVSYxVqRuy5BuVD4l0bMW4KH2kr@vger.kernel.org, AJvYcCUmCewdJe/an1WjEgGjYjtUL2FY0VkX7r8abUhsEDgMOGoHxkKngw8PwhKbzMZ+tUjdRBK2ryBS18lL@vger.kernel.org, AJvYcCWVLhwOzSPu9nAl0gtISzkmcU8DPo9u7srTa43kR3PLjIEIuUkAwj993HnmtWu+3KuvgcZx/ENXaBUQFy9Bo9h8@vger.kernel.org, AJvYcCX8FMkL7kmTxUyipybr0gnu6zC/3Vd0KYxDdl1p5JzAQRNF6Hia6/vkistTnSFyt1yismD2t4ZRvST4@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqBlbIriPCmD4Mang9w9zxjs0Tdgxm5GIAjltBzxupgtsITR1+
-	WH1MfiuK6S8BTf4zP2GAOtfEz1iP0JXUpLipi7tAjo+rqGf4IZAjKk809gSEXfCNLelYMFEafc9
-	Ds/7G9HecsxVf1U+smastyVbzTqM=
-X-Google-Smtp-Source: AGHT+IH5OhSbyxPUwoV8Hi3NZvUJk62Sk/kM4uS3eDew9nHH5ECqnhoFDJijntPKiKzAeGwvpQ6+AOtWhMBUTM8YWgU=
-X-Received: by 2002:a19:e043:0:b0:539:94aa:d512 with SMTP id
- 2adb3069b0e04-53d65e1771emr2299160e87.53.1730538171706; Sat, 02 Nov 2024
- 02:02:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jD53bc4f"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7180d9d0dcbso1061087a34.3;
+        Sat, 02 Nov 2024 02:20:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730539211; x=1731144011; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kpGFODYS8j6Lc9OgDllYcnBQdgtbbm75EKILrrrUJdM=;
+        b=jD53bc4fu3eKgADSgSp5ryOi2Pt+RtUNSHkSsDjKTopyKeR8mxRmaTENTBHW9YKPZN
+         bn2NpPYRqvIVGPbbACVzupUe7MWD8MM3v2wSsxjLoLEZl1tYaPF+5QAIeVRFpFZRR/zv
+         qyt+9g6FHw3BiXsaUb+n4T5f4LfijoQysK7O+kCq3ciE2goKgCPInzPeSycxxYMLWysj
+         o2wTqeqErhtQne2vCAnaIsVarmTUbjw3GW4pPO3TNx2WwcZ1LUBd40o58LOopUUajpMy
+         Z3CLh5+eMRrx2h2Add2J5iKHwGZY4//F2s9F0OzeTaaB5FKxS7RfIKwhxKOAQX737Q/Z
+         fY5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730539211; x=1731144011;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kpGFODYS8j6Lc9OgDllYcnBQdgtbbm75EKILrrrUJdM=;
+        b=FOLGGAPpPiv95a1TLUu2rrbjuEOAfsWfxjKLpwVRa8uvnYgVYEXPWmtKsao4lssoUg
+         g9Ut5uhMXj38T4rSrwHFS7j4YeIbtvZj7iJ5UDwo/5G7evYr/SxNCylC8XuNX3dCrfc7
+         FkkOLwylp18Tugq1eKzcW80lbfsqe83wqqD56Uojl6fLMxO7JeSsjQLa/5zj1wycTorT
+         scL5XiuJMiaspqaqCSSpBNBWwyOaeCWm/nIcaqZTuqYXqVXft0BmBLUl+SZrXN/5PjV1
+         NyFgebeFFNz5GajT+NXiwmt0HQ+TUCfe8h5qhtp+lOVUION52m4huUSc/PDEeHfhor+3
+         KRDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0GweHSFZplVYDFWAiso7F7rIvYhaFvJ/zCUtGTnm2HEvo+T13BmvRO6IKljk9d//Ay6dUjexd4qyn@vger.kernel.org, AJvYcCV2Y7jssZ0Kj/ZSxSM949C3DWYnoI2ZSgBnA1wIVVH08r6bYL+SPSGzD269zqK7IDKeFyNB8qqNS6o=@vger.kernel.org, AJvYcCWvHxDHBiK+If7eRbDSbEB1Jbit2TSb5vAbH2bMicEEQLJpFUYtcW8Lp7MNt7j+kk63bJE8P6iQPTqR9PXR@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQ5XKxMU1kyqwFcbiQcUeUFkhXfg3aFitL+dbMZpCDCqOYqDyh
+	6BCHAd1FbK4tWvHs391F/oBqE83CP9E6Z06xAMhhxgkIKbYP73Ff
+X-Google-Smtp-Source: AGHT+IFLReBsrRpmxL4vu2o+HK8LR5rKgVTw5Pae/xERGUN3VNDuKb5mCI4fypHiqCUe37x/W4d24w==
+X-Received: by 2002:a05:6830:6015:b0:717:fe2d:a4e4 with SMTP id 46e09a7af769-7189b4f40e0mr8772997a34.19.1730539211247;
+        Sat, 02 Nov 2024 02:20:11 -0700 (PDT)
+Received: from illithid ([2600:1700:957d:1d70::49])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7189cccf736sm1089795a34.69.2024.11.02.02.20.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Nov 2024 02:20:10 -0700 (PDT)
+Date: Sat, 2 Nov 2024 04:20:07 -0500
+From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+To: Ian Rogers <irogers@google.com>
+Cc: Alejandro Colomar <alx@kernel.org>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-man@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] proc_pid_fdinfo.5: Add subsection headers for
+ different fd types
+Message-ID: <20241102092007.ixxtdc6u4iutxmam@illithid>
+References: <20241101211830.1298073-1-irogers@google.com>
+ <20241101211830.1298073-3-irogers@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <D5BB5GX4KEUO.VJ2G9G9QKYRR@kernel.org> <20241102062259.2521361-1-jarkko@kernel.org>
- <D5BHBW3NUS5C.293GUI03HMTCF@kernel.org>
-In-Reply-To: <D5BHBW3NUS5C.293GUI03HMTCF@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Sat, 2 Nov 2024 10:02:40 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXGk8y=rZiNiDcD-8mDKJB5HkTowM7g+kjO6616MGdTQaQ@mail.gmail.com>
-Message-ID: <CAMj1kXGk8y=rZiNiDcD-8mDKJB5HkTowM7g+kjO6616MGdTQaQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/2] tpm, tpm_tis: Introduce TPM_IOC_SET_LOCALITY
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Peter Huewe <peterhuewe@gmx.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	James.Bottomley@hansenpartnership.com, andrew.cooper3@citrix.com, 
-	baolu.lu@linux.intel.com, bp@alien8.de, dave.hansen@linux.intel.com, 
-	davem@davemloft.net, dpsmith@apertussolutions.com, dwmw2@infradead.org, 
-	ebiederm@xmission.com, herbert@gondor.apana.org.au, hpa@zytor.com, 
-	iommu@lists.linux-foundation.org, kanth.ghatraju@oracle.com, 
-	kexec@lists.infradead.org, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	luto@amacapital.net, mingo@redhat.com, mjg59@srcf.ucam.org, 
-	nivedita@alum.mit.edu, ross.philipson@oracle.com, tglx@linutronix.de, 
-	trenchboot-devel@googlegroups.com, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4bjtnlpbcduyzdoo"
+Content-Disposition: inline
+In-Reply-To: <20241101211830.1298073-3-irogers@google.com>
 
-On Sat, 2 Nov 2024 at 07:29, Jarkko Sakkinen <jarkko@kernel.org> wrote:
->
-> On Sat Nov 2, 2024 at 8:22 AM EET, Jarkko Sakkinen wrote:
-> > DRTM needs to be able to set the locality used by kernel. Provide
-> > TPM_IOC_SET_LOCALITY operation for this purpose. It is enabled only if
-> > the kernel command-line has 'tpm.set_locality_enabled=1'. The operation
-> > is one-shot allowed only for tpm_tis for the moment.
-> >
-> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> > ---
-> > v2:
-> > - Do not ignore the return value of tpm_ioc_set_locality().
-> > - if (!(chip->flags & TPM_CHIP_FLAG_SET_LOCALITY_ENABLED))
-> > - Refined kernel-parameters.txt description.
-> > - Use __u8 instead of u8 in the uapi.
-> > - Tested with https://codeberg.org/jarkko/tpm-set-locality-test/src/branch/main/src/main.rs
->
-> This version has been also tested (and encountered bugs fixed). I wrote
-> a small test program to verify that it works linked above.
->
-> After the boot, the new ioctl can reset exactly once the locality. Other
-> benefit is that the feature can be selected per driver (at this point
-> tpm_tis drivers) and protection of the access with DAC, SELinux etc.
->
-> And thanks to the kernel command-line parameter, it is an opt-in
-> feature like it should because vast majority of users will probably
-> never use trenchboot. I.e. set 'tpm.set_locality_enable=1' to have
-> the ioctl available.
->
-> I think this is a solution that at least I could live with. It has
-> somewhat rigid commmon-sense constraints.
->
 
-Before adding a kernel command line parameter, please ask yourself who
-is going to set it and where, and whether there is any risk of abuse.
-The kernel command line is external input that is not signed, and the
-only known user of this set_locality feature is internal to the
-kernel.
+--4bjtnlpbcduyzdoo
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 3/4] proc_pid_fdinfo.5: Add subsection headers for
+ different fd types
+MIME-Version: 1.0
 
-Same for the ioctl() [as well as the read-write sysfs node]: looking
-at the code (patch 19/20) it doesn't seem like user space needs to be
-able to modify this at all, at least not for the patch set as
-presented. So for now, can we just stick with making the sysfs node
-read-only?
+Hi Ian,
 
-The only thing I would recommend is exporting the set_locality()
-symbol in a module namespace, so that it is obvious that it is not
-intended for general use by other modules (although not impossible).
-E.g., CRYPTO_INTERNAL does something similar, and if
-MODULE_IMPORT_NS(CRYPTO_INTERNAL) appears in new code, reviewers are
-alerted that it accesses internal APIs rather than ones intended for
-other subsystems to use.
+At 2024-11-01T14:18:29-0700, Ian Rogers wrote:
+> Make the sections about eventfd, epoll, signalfd, inotify, fanotify,
+> timerfd better separated with a clearer subsection header.
+>=20
+> Signed-off-by: Ian Rogers <irogers@google.com>
+[...]
+> +.SS eventfd
+>  .P
+[...]
+> +.SS epoll
+>  .P
+[...]
+> +.SS signalfd
+>  .P
+[...]
+> +.SS inotify
+>  .P
+[etc.]
+
+I suggest deleting the paragraphing macros when you add (sub)sectioning
+macros immediately before them.  In these cases the `P` calls end up
+doing nothing.
+
+groff_man(7):
+       .SS [subheading=E2=80=90text]
+              Set subheading=E2=80=90text as a subsection heading indented
+              between a section heading and an ordinary paragraph (.P).
+              If no argument is given, a one=E2=80=90line input trap is pla=
+nted;
+              text on the next line becomes subheading=E2=80=90text.  The l=
+eft
+              margin is reset to the value of the SN register to set the
+              heading text in bold (or the font specified by the string
+              HF).  If the heading font \*[HF] is bold, use of an italic
+              style in subheading=E2=80=90text is mapped to the bold=E2=80=
+=90italic
+              style if available in the font family.  The inset level is
+              reset to 1, setting the left margin to the value of the IN
+              register.  Text after subheading=E2=80=90text is set as an
+              ordinary paragraph (.P).
+
+Regards,
+Branden
+
+--4bjtnlpbcduyzdoo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmcl7scACgkQ0Z6cfXEm
+bc5BFg//Q9uaGXm0MGnz6aClftEXxT5cINEJIJq4ZOtnAqBKeSw5QBdlvDiPIMPr
+Rv9yHC5rz5Ha6STdxQCX6feI2OImonRaWx8ZCl92h3U03Wxhw686lBGSfdHdwJqe
+6sqMDyIVILx3oqnWkuqfs/SIKRkmbVBacBo0x6KSOglbHR/Swa9qEMtmyJzrnxzJ
+PJctPqWtxv8Zd8+zNc1caOG3ckeLwnNtUeoVC4iOe3hFdSE3XBnm5hM0UbGFSYjG
+AHcfRD3C8QsQYO+F9ikevajUwijcCXmyoQ6Pe85qqSL6Fcn1u7HHA705NEomDDD+
+Bfn3S5txZANBc1IxGqc7CKnUy3MuoIYP5bmoF8VTje3crBCBaNqg610F8FfaLPYj
+KR6mx29956y5GnfhAsYWx1nyNio+6KaBHXL9qE80Fwq4+s3V8UJT+Ii4jRd1cnI6
+JXNMfdjf82P4gKeDLi31LsYUHxO/paq0gVLerw8YPtJUiozjM5QxbnvCCSx2zKr8
+L7syuSsFt7VVQyJyY3REHT35LTxcNx7h/QRnXxlvM8lVLDzHcGegsk5lCCf2OMyg
+YjCFZihestXdMtn74kSArBWGjjqW4Zu5gojc6dMXp5pC+JzeGxhzWFN6iFGPFgUH
+LTQimXt367vOAdi9XpoaaG1FkZHiXXlMLcHbq315rctNKdsJAl8=
+=14Tv
+-----END PGP SIGNATURE-----
+
+--4bjtnlpbcduyzdoo--
