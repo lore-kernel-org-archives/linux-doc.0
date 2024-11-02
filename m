@@ -1,120 +1,116 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB12156C5E;
-	Sat,  2 Nov 2024 11:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED9B18BBA2;
+	Sat,  2 Nov 2024 13:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730548735; cv=none; b=g43jykcFTFaLbyVorU0noIH3eBmH36rTj9YIkl+rs+PzS/1YktT7dlhB9ZUQzgK7zQ7NNiphppcai5eh9e8dWqPgQ+LlO+kjdHy1Vy0PFGU3ihIhFWDFvGnWITkWj0Gk7AZ73hKtatbQgkT9kZ2kTR/I25cOOS+StO02n+iwtsA=
+	t=1730554785; cv=none; b=UVt9+4OAKUDRNT8jAU734NqhHyibru9T67F5Gsy6Cz+HqXgoRj1BinO7tV+6wpbysqX6JT4QqDqyCVCxAPftOYeHFR1wQ3i6L1hysAXnqboB6irqQ2jJn9dCtZn0w51YOdNPnt0Qu/dBwRf46ZcCBZrP8kUqs6Qa7Hbrb4hrnDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730548735; c=relaxed/simple;
-	bh=D6bf6gLA62pRkD0pj8flG3S6quk9YQrNdAopeW5bBKI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lCXenEqaO0qbY/rxJWcQ0diAtLEaZk09nBhJe+ecaL7PaaGZC2V8hEGV0xfTfXuYN+6eCSp3odpgWZKONc2hquXRHmqUjt+cXjC1HCW3Uh5zvliMAfE+nir7kz9+GkdWl2P4MeQbtWZk6Ok8I/89AExT1XrHjcpVSrMHPo97FJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=qLR8Z67T; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
+	s=arc-20240116; t=1730554785; c=relaxed/simple;
+	bh=sxBligjgKTVDk7jjHZnmdCYx6SXn35Wcjb9+LxenKDs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=OppJJp8iGZStFVyBHXz9lAELuZqL+vKRf7XlgIUlkUFm3oyOCpmzJ7hEIVIX4+yeYkPvLqo3XT3IUx+HJbHicRl+2EN6y/27e+z+UXta2ucxo+NUAtuRz/gYfhWE6Rsua0Nt4C9WfqWoN/60BOzWeR5jmlPKw3KyINr0R15pfE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=um5mVVfu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="qLR8Z67T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1730548722;
-	bh=6TF7qHWXKnX4ueyZiWxg6f0gvRh8CdiV1FQ7mPoKW/M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qLR8Z67TFqah17XudQ08GqBw3lJgNhFTH7j0vCpd/2RBfGUBxUTPnmsy+p4zh8sl/
-	 UZJy6MFfqdV+UTnl9GwUY8pbLjPlN7W6oh212LTggvbhL+OyVx0puf1F6aLxBJ5g/k
-	 As0j1s7LUr7gytCgipCTVRRXaP0g0JNIDI0xp5nKuVmgkpVoNPM2BnSencrYBYCYhR
-	 4myftQmz2MA/FcBsVC04Mp7Xjs1PYhioBiAQTCHm3lMAwK98bGFroNEh2enpTLDYAE
-	 VRmKi7ujllk9GRX4EH1tTNwtsqk//ooAHOlQL4U45dJXv1+cs5Fbs6+TlTuydhO4qS
-	 sxfPrRj+04WiA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Xgbq56pJwz4w2K;
-	Sat,  2 Nov 2024 22:58:41 +1100 (AEDT)
-Date: Sat, 2 Nov 2024 22:58:41 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, Mark Brown
- <broonie@kernel.org>
-Subject: Re: [PATCH v2] docs: bug-bisect: add a note about bisecting -next
-Message-ID: <20241102225841.4efa2969@canb.auug.org.au>
-In-Reply-To: <c9547d48-9efa-4e4e-b7fb-d82f3621bd30@leemhuis.info>
-References: <0b8245f429a3cb162f8f6c0686081700a9c09cc4.1730441728.git.linux@leemhuis.info>
-	<20241101225916.075af3aa@canb.auug.org.au>
-	<c9547d48-9efa-4e4e-b7fb-d82f3621bd30@leemhuis.info>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="um5mVVfu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74441C4CEC3;
+	Sat,  2 Nov 2024 13:39:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730554783;
+	bh=sxBligjgKTVDk7jjHZnmdCYx6SXn35Wcjb9+LxenKDs=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=um5mVVfufD7+UoTS8jMDsamcAhTuEjg6A0ORTzlgu/Q9HKzwpAFL8iOUXfTlXE6SC
+	 /p0QR+RtUL9Lu/NsyzijhcdmJ7LLTFvDK0Il25LCvW5ro0aSLqy/cuIPeFJ32CNN2d
+	 EN4I7xt4Fqi1xj5fDmEMseVMu5/OUto2eSx8ZhLDvnZMjfVKzFYlhNY8zClW0aRoFG
+	 GmnpSIGDIQLBPeArr7ea6SBJDNPyFj71iMd+Eof2IlOmyJdsGPcPMohuEw0fPsUw9F
+	 tW483OucMVL5HcSVaPNMb/aegWoBkcTzRpZ2wAr6Pd1DE/c0yJRZl0s9Ce3WF6t1SA
+	 LbSvkCk/SYRMQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/2v1/SZ96.poebqvD8yaCdWD";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/2v1/SZ96.poebqvD8yaCdWD
-Content-Type: text/plain; charset=US-ASCII
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 02 Nov 2024 15:39:38 +0200
+Message-Id: <D5BQGY5425TQ.3U6N698H2KYWO@kernel.org>
+Cc: "Jonathan Corbet" <corbet@lwn.net>, "Peter Huewe" <peterhuewe@gmx.de>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>, <James.Bottomley@hansenpartnership.com>,
+ <andrew.cooper3@citrix.com>, <baolu.lu@linux.intel.com>, <bp@alien8.de>,
+ <dave.hansen@linux.intel.com>, <davem@davemloft.net>,
+ <dpsmith@apertussolutions.com>, <dwmw2@infradead.org>,
+ <ebiederm@xmission.com>, <herbert@gondor.apana.org.au>, <hpa@zytor.com>,
+ <iommu@lists.linux-foundation.org>, <kanth.ghatraju@oracle.com>,
+ <kexec@lists.infradead.org>, <linux-crypto@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-efi@vger.kernel.org>,
+ <linux-integrity@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <luto@amacapital.net>, <mingo@redhat.com>, <mjg59@srcf.ucam.org>,
+ <nivedita@alum.mit.edu>, <ross.philipson@oracle.com>, <tglx@linutronix.de>,
+ <trenchboot-devel@googlegroups.com>, <x86@kernel.org>
+Subject: Re: [RFC PATCH v2 1/2] tpm, tpm_tis: Introduce TPM_IOC_SET_LOCALITY
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Ard Biesheuvel" <ardb@kernel.org>
+X-Mailer: aerc 0.18.2
+References: <D5BB5GX4KEUO.VJ2G9G9QKYRR@kernel.org>
+ <20241102062259.2521361-1-jarkko@kernel.org>
+ <D5BHBW3NUS5C.293GUI03HMTCF@kernel.org>
+ <CAMj1kXGk8y=rZiNiDcD-8mDKJB5HkTowM7g+kjO6616MGdTQaQ@mail.gmail.com>
+ <D5BMMJYMVWKJ.3MIGB8KW34PR2@kernel.org>
+ <CAMj1kXExMWBAx7geuU8Uwp9CQLpJyTgYmWUw2CtKd3xT8mMFsg@mail.gmail.com>
+In-Reply-To: <CAMj1kXExMWBAx7geuU8Uwp9CQLpJyTgYmWUw2CtKd3xT8mMFsg@mail.gmail.com>
 
-Hi Thorsten,
-
-On Sat, 2 Nov 2024 12:28:21 +0100 Thorsten Leemhuis <linux@leemhuis.info> w=
-rote:
->
-> On 01.11.24 12:59, Stephen Rothwell wrote:
+On Sat Nov 2, 2024 at 12:52 PM EET, Ard Biesheuvel wrote:
+> > Short answer: I have no idea. I would not mind that but neither
+> > the commit message for TPM give a clue on this. Actually, I *do
+> > not care* if it is RO and RW but I'm neither good at guessing
+> > random shit.
 > >
- > On Fri,  1 Nov 2024 07:17:06 +0100 Thorsten Leemhuis <linux@leemhuis.inf=
-o> wrote:
-> > [...] =20
-> >> +The 'stable' branch refers to the state of linux-mainline the current=
- =20
-> >                                                              ^
-> >                                                              that the c=
-urrent =20
->=20
-> Ohh, I thought such a "that" would be optional here, but I'm not a
-> native speaker, so I guess I was wrong.
+>
+> You were cc'ed on the rest of the series, no?
 
-Yeah, I guess it is optional, but I prefer it written like that - it
-sounds better to my ear.
+Yeah, but that does not make sysfs attribute having store operation less
+confusing. At minimum 2/2 should replace the current sysfs patch, if
+store operation is not required.
 
-> >> +linux-next release (found in the 'master' branch) is based on -- the =
-former
-> >> +thus should be free of any problems that show up in -next, but not in=
- Linus'
-> >> +tree. =20
-> >=20
-> > As you say, 'stable' only works for the current linux-next release.  If
-> > you are trying to bisect a previous release, you can always find the
-> > SHA1 associated with the base of any linux-next release using "grep
-> > origin Next/SHA1s".  Not sure how useful that is. =20
->=20
-> Hmmm. Not sure. Open for opinions here. But right now I tend to think:
-> nice to know, but not relevant enough for this text, as most people want
-> to check if latest -next is still affected -- so why then bisect with a
-> older -next release?
+> Shall we clarify this first, before proposing patches that introduce
+> new ioctls() and kernel command line parameters to a security
+> sensitive subsystem?
+>
+> My reading of 19/20 is that the secure launch module sets the default
+> locality, and given that it can be built as a module, setting the
+> default locality needs to be exported to modules (but as I indicated,
+> this should probably be in a TPM internal module namespace)
+>
+> If setting the default locality from user space is a requirement down
+> the road, we can discuss it then. For now, let's not go off into the
+> weeds and derail this series even more.
 
-That is fine.
+If sysfs store is not required after all, and only thing that touches
+the locality is slmodule, tweaking 17/20's set operation to this would
+be good enough for me:
 
---=20
-Cheers,
-Stephen Rothwell
+int tpm_chip_set_locality(struct tpm_chip *chip, u8 locality)
+{
+	int ret;
 
---Sig_/2v1/SZ96.poebqvD8yaCdWD
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+	if (locality >=3D TPM_MAX_LOCALITY)
+		return false;
 
------BEGIN PGP SIGNATURE-----
+	ret =3D tpm_try_get_ops(chip);
+	if (ret)
+		return ret;
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmcmE/EACgkQAVBC80lX
-0GxrWQf/VT/2+CqyZMkFwzQv4WRD92JfhQ6Pm89raTs6ujYWDg2yZtG10+6nH2dG
-D25OEVQNbkwQ4dlbtojDh8hvLMDQgIbhCID/QtiRDubFXInA1PC6jLRt1VISvCTM
-xi6VCJJiA/FiQwh4jdymwbOWASZMCPJcSi615iYikiBVjFcYY5TojGE2XtZ7+2Am
-8Bw+fi4bwdBdd++GhVkovpF1Us0VHGivsSITM9A5B9cwvVo2R+MhBlKzaqVzlsFo
-KJM22OsrqU24s5Ga5brfNON6K0jXbQk5F7k6h47l6l1klMXeZ3It010ENvRiZo6R
-KHHIaIdNTtit3IzhTTCTixbqXALnIw==
-=nvsW
------END PGP SIGNATURE-----
+	chip->default_locality =3D locality;
 
---Sig_/2v1/SZ96.poebqvD8yaCdWD--
+	tpm_put_ops(chip);
+	return 0;
+}
+EXPORT_SYMBOL_GPL(tpm_chip_set_locality);
+
+Now that I've worked on this issue I think also 15/20 and 16/20 are
+pretty clear I can suggest some tweaks to the commit messages later to
+make then more self-explatonery.
+
+BR, Jarkko
