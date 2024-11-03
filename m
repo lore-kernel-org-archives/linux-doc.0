@@ -1,45 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA67B17DFF5;
-	Sun,  3 Nov 2024 19:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499257C0BE;
+	Sun,  3 Nov 2024 20:21:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730663750; cv=none; b=sZmX0tvTsYmqykq1wm5SNG/CHHTZj6spSnmTl8gkGs8qwQ6TmRyKGkyHrb3h2QKueG+yvd6k3XT5i/2naUfSlu3YyF7AY663C3S0GVEvg/czhgltaa1sXGG+tWfpc5hGPvnai7sbfLYrMR4GayPX3lTjZIF6HrAupVYoe8AxVRw=
+	t=1730665302; cv=none; b=f8jO5OFbF4aPJsndKXAxBcfktN4K9zo27t8jeb5YFjgjwYJKPN/wT1pS4uuy1epLniWIQqAPPtW5bLCoUNW/DnuqivMbcSfsYUHcxfTI0NAO7nWpLQgnQEgyhbzyuO1trNnR7C83YAZDEhLkoNsoDu12/SNbETXPZTpMSbebj0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730663750; c=relaxed/simple;
-	bh=CkuDlYfKZOxDpFjnDLG0+0sTCT27qXAWrvfalxB7i1w=;
+	s=arc-20240116; t=1730665302; c=relaxed/simple;
+	bh=8Ukc+M8CZYwlrpkjWIRwsZhzje/hVh2caYXefeqy6UU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h0Us+6CllReudhs9/Q51ZbQ4iEOj9cwitPH8f3FG9bfOZYLU2eU3dvUSBSb0gNupF+n5J7NVtKBTRjQDQfN8/YJ3aQCAVCEKWB0l7TE1+3uE3/kcQYPsAn/FogJGi6+iKuROJvtdx2JkbyFjVzSACafqzv+c2gbdCScZ9ZnxsHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KaBKBSiK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=uVozJLcZW2r6j1htm7KQGm80vj9xv2PP2q2c3EE+vlpExFUj26JGHRP/k6fLRj9/0onUz9+WI1tV1+oJWG4a2nKCl0RHdDw8Nsud6/5HZ6vIa4vrB9g7zD6TbmtF2BYEPzBwHKtlawUrfpCOJSfXS4cMRheZTmjd4BX8nNQqX6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbPRZL05; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KaBKBSiK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D43BFC4CECD;
-	Sun,  3 Nov 2024 19:55:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbPRZL05"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD122C4CECD;
+	Sun,  3 Nov 2024 20:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730663750;
-	bh=CkuDlYfKZOxDpFjnDLG0+0sTCT27qXAWrvfalxB7i1w=;
+	s=k20201202; t=1730665301;
+	bh=8Ukc+M8CZYwlrpkjWIRwsZhzje/hVh2caYXefeqy6UU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=KaBKBSiKoHtHLChxibTwcWccAJHnIEMljcbjsJ7EDA+FY/K2Kr6PJNQAeZte7CuIu
-	 xvZgDLVg12KH2yp0tkwfjZRyTDnn9KBNOqgnkHqnbmUihMCjLUq7D2lYjW+7iBNmN2
-	 JScF8bWY5RX/Ou2NFGg+3iGHW7iZjYTmwzTqfcfRgBFa3LS09gvCEMcnnFcPvBMCF/
-	 sxSkOFBCe6TNN5wtLyxrB3TUge2+WTngtBua8AvKOzu2lLo/UmxqGqxNeHdR8s4wju
-	 MalhcsPrwJV8HulQ2jFgrknXMD1Oau9VhCHq+Dfyi7BjQkltoxXil1NGV58I0/l9+P
-	 obhZj9NPl7odQ==
-Date: Sun, 3 Nov 2024 11:55:48 -0800
+	b=hbPRZL054fJi30LppOH0pHtwRISF1ZSCdVrUtYIu0ppNa8ioEdfJ/dm3YYfLz3NtM
+	 FDDzikzL4fj4/2tA7J1E2L9mrUIuRitDbxRchOPRHLYcpY+eVOIJJUF/2sw3Nv+KC/
+	 MkKYL5CoKKRrOmeBncDVf/hgEJBxRSJtwv+KWf1H5OACVRVjFtm4ZhiLiklw82+0AM
+	 m+Qj20+jgyR1zDpVDBdBJVbyxI0vaXCMLviA7xAjCakdiPWw7LkGP1wzsNIVt0xcPl
+	 p/Kmu0WgZ75pRzFzZgf6IDZpKyq49AkrdXRhOn5GT7MpWMd7DiNlI4obZ4xpQ3JFue
+	 qRzwHjaAGgKpw==
+Date: Sun, 3 Nov 2024 12:21:38 -0800
 From: Jakub Kicinski <kuba@kernel.org>
-To: Linu Cherian <lcherian@marvell.com>
-Cc: <davem@davemloft.net>, <sgoutham@marvell.com>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <gakula@marvell.com>, <hkelam@marvell.com>,
- <sbhatta@marvell.com>, <jerinj@marvell.com>, <edumazet@google.com>,
- <pabeni@redhat.comi>, <jiri@resnulli.us>, <corbet@lwn.net>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v4 net-next 3/3] devlink: Add documenation for OcteonTx2
- AF
-Message-ID: <20241103115548.35d0cbdf@kernel.org>
-In-Reply-To: <20241029035739.1981839-4-lcherian@marvell.com>
-References: <20241029035739.1981839-1-lcherian@marvell.com>
-	<20241029035739.1981839-4-lcherian@marvell.com>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Arthur Kiyanovski
+ <akiyano@amazon.com>, Brett Creeley <brett.creeley@amd.com>, Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Claudiu Manoil
+ <claudiu.manoil@nxp.com>, David Arinzon <darinzon@amazon.com>, "David S.
+ Miller" <davem@davemloft.net>, Doug Berger <opendmb@gmail.com>, Eric
+ Dumazet <edumazet@google.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
+ <eperezma@redhat.com>, Felix Fietkau <nbd@nbd.name>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Geetha sowjanya <gakula@marvell.com>,
+ hariprasad <hkelam@marvell.com>, Jason Wang <jasowang@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Leon Romanovsky <leon@kernel.org>, Lorenzo
+ Bianconi <lorenzo@kernel.org>, Louis Peens <louis.peens@corigine.com>, Mark
+ Lee <Mark-MC.Lee@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Michael Chan <michael.chan@broadcom.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Noam Dagan <ndagan@amazon.com>, Paolo Abeni
+ <pabeni@redhat.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, Roy
+ Pledge <Roy.Pledge@nxp.com>, Saeed Bishara <saeedb@amazon.com>, Saeed
+ Mahameed <saeedm@nvidia.com>, Sean Wang <sean.wang@mediatek.com>, Shannon
+ Nelson <shannon.nelson@amd.com>, Shay Agroskin <shayagr@amazon.com>, Simon
+ Horman <horms@kernel.org>, Subbaraya Sundeep <sbhatta@marvell.com>, Sunil
+ Goutham <sgoutham@marvell.com>, Tal Gilboa <talgi@nvidia.com>, Tariq Toukan
+ <tariqt@nvidia.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ intel-wired-lan@lists.osuosl.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ oss-drivers@corigine.com, virtualization@lists.linux.dev
+Subject: Re: [resend PATCH 2/2] dim: pass dim_sample to net_dim() by
+ reference
+Message-ID: <20241103122138.6d0d62f6@kernel.org>
+In-Reply-To: <20241031002326.3426181-2-csander@purestorage.com>
+References: <20241031002326.3426181-1-csander@purestorage.com>
+	<20241031002326.3426181-2-csander@purestorage.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,13 +73,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 29 Oct 2024 09:27:39 +0530 Linu Cherian wrote:
-> +   * - ``npc_def_rule_cntr``
-> +     - bool
-> +     - runtime
-> +     - Use to enable or disable hit counters for the default rules in NPC MCAM.
+On Wed, 30 Oct 2024 18:23:26 -0600 Caleb Sander Mateos wrote:
+> In a heavy TCP workload, mlx5e_handle_rx_dim() consumes 3% of CPU time,
+> 94% of which is attributed to the first push instruction to copy
+> dim_sample on the stack for the call to net_dim():
 
-How are those counters accessible? ethtool -S? debugfs ? it should be
-documented here. Plus please add examples of what such rules cover.
-"default rules in NPC MCAM" requires too much familiarity with the
-device.
+Change itself looks fine, so we can apply, but this seems surprising.
+Are you sure this is not just some measurement problem?
+Do you see 3% higher PPS with this change applied?
