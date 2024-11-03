@@ -1,176 +1,168 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFBCB658;
-	Sun,  3 Nov 2024 04:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0008428EA;
+	Sun,  3 Nov 2024 04:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730606721; cv=none; b=jELYMWhiYVepAzVbt3Gv85IWWGlDyOjGtS8FYjy1nwuAM3yn2OHogouFb4z3+51cisHt2EMtR5TmIl4AYRu0MynaB2z6M6OgK8gVxzY9Bo6520Lh4eXqgKeWKYnwHKwLu8TbclBywWF+zhxgUCk1vP0FopHKO1BzoBdXkNvi10I=
+	t=1730608218; cv=none; b=tnR+VWDUONkWiOlppAM7eUAIHQnblEL7Ua7yUYvwT9fxA+VnY0MoM9HQLwT7E2UxM4C1YQKsvHfcB9mnZj2tVn/VmDvvzwXGij2QmBpkjJJltWzt8bzwqA6t8v0kgeP4GjA4DybWCbAUbVNmcMZ03fRZCG/RRzLvQLI6RgA02/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730606721; c=relaxed/simple;
-	bh=Gyg5zdarFFMb9NhxqxzGVJBjxsx3a/E23SagF5aTie0=;
+	s=arc-20240116; t=1730608218; c=relaxed/simple;
+	bh=UOkJubWVbjUckxAsC3BZst4ninDeJFWztDq1rrPPH0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I1nqPiDEX1AWPIMH+Id+RzWipY0fzpeTQINnZIYg9t8hnOeTypThgOIdGFpwonOHjWgDAsCJGM2kpotlFdiTKWKYNlVtrU7ZrVNnbcQKFjWwG6m8uS9n1shavdW7FYozmcKrGs+9LnzZgy7Rz/aICB1GT706zMZRdxtDXbfOJUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nt31FliZ; arc=none smtp.client-ip=209.85.160.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=rlu0saXOLWTkxsr1Fttv0nl9Vb2XMrDrhRbF2P5MZzypG3yvYGl7GwYyuvGiKeB8RaXFcHvRwStuhYD+Xi12IkuE0QUdBJhHLf/a/fWAkA6ioINIi7JfvTbjxX+RquiOTqc1TWr+wZoBKYmtbEKmtdBqF1JgO34BgOWhr+dMlrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4Z6x0wM; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nt31FliZ"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2884910c846so1487949fac.0;
-        Sat, 02 Nov 2024 21:05:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4Z6x0wM"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e2dcf4b153so2354481a91.1;
+        Sat, 02 Nov 2024 21:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730606719; x=1731211519; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1730608216; x=1731213016; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q3NbQqHGavlGKaUtOquClqL6oZ5jwUgWkkB2nQy7c60=;
-        b=Nt31FliZ3SEbXlilSR+apIOf28sqm+j9kzfgwHBn1KA8GOZCe31cGLhfhLpTNfQInu
-         Dy30lzlLIO2/ABoPotTUfHjOqUaWeISrfCRidEbeTIbotDEurXfN9kPKl4yhzfpmUxzI
-         vpGaC+Lwzdx8He+KnwxhzJDsHQhxi3K8XJYH+0KWIr3LFU499ffdX/NmRxeQLqJzbKhF
-         9OMhbARgdItiB1uWB8x8RAPeJU8gqm8J5SGRF38AeMDyHeG2RVlYZbqnfHgJ/byaDsyz
-         8Lk/V7bO4Cq/LDQEX7IwSJBbsIYL7arxZ/aj6m0s9yMCvHm5IUQ8WLxxyxRmVzYpEQf7
-         FWTQ==
+        bh=TU1iPo1XNRxyguAsVZx6k45psWdUF0btX9WLPzjyImY=;
+        b=W4Z6x0wMfdnfMljMHjP7B3qX5qmN80GSP5pL1hcB5f4kCIQghzLSeBxCFP5BAC4avw
+         3lytz9X02nZGCrVVO8uquuRU0q1/3adNpqga5o9vSe0qDcsGpW+q4tGKMUkyrzN3ctlx
+         hh4kLs+QCXuhK1s44DNKGshqw2SyH+DTTAqUS5aHn4Lpm2CzGUT8mrSvb0EENGvXY+WJ
+         izs2diQFI/yoHB8LktwSi7LOVX0YRXukkhjWQDXlwtIpzgp1BhETjwWIiQWBkhbjaKDk
+         Rg+aSCu8RfMNBQDXjdcBLqe9al89TTKJerA2eJMGnTnEgw4C26fwoaZOTczlohaUpfrE
+         u6xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730606719; x=1731211519;
+        d=1e100.net; s=20230601; t=1730608216; x=1731213016;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q3NbQqHGavlGKaUtOquClqL6oZ5jwUgWkkB2nQy7c60=;
-        b=C+vTi0NcDWjP/TXWzfU/mKVac8JIwybGwaesJEperCmlucAne/qaGVvtLQkEoTblj3
-         GpmS2gsQlzNcGzltWzdxXMAtqt/0G0fR6Cq/a3/3GiTG0j6WL/EkC1jAPbSJbKBDCZqq
-         7ATFVQE7/e7eY0UMWKtH8UgLMBx93NlUCzL0jZ2LUW2RKWNFde4hHtCz+VYGjSKXDTHP
-         hzotEK4aEDEoXUIwKJiLbPu6rhDAu4IR2YV9ZqPuIYJZS0R5IQ4ftf3WGERzkhv0aEQk
-         7Ijn9tcO0+KxMy7/pWkFQcSkkV8W4seNp/2d5i7HgAZ4CIJA2kui2+XskjejqC6wWdOQ
-         ldMg==
-X-Forwarded-Encrypted: i=1; AJvYcCV7THiO+bz4VGblBTL+kSgljOu29iDB7Dv0/7ou4UUdGFPiNBoLBBY1wJpw4JCXn47HuOzQbT7gNpk=@vger.kernel.org, AJvYcCWtYjCofpMuo/Ol8a1o1kUKQg/jboUgYw7e32hAvhgod3zog17lBHF2XkmAEc0SiuXMAVUAGLOGT9ws@vger.kernel.org, AJvYcCX3Q2hQmd+UpPQf/Azac9oVs2H+UVmw+Q4P+uMHOMXS+89sj3ux/bKIwZKCfkjEb34OWoMoCyt+ozNdzxeg@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkHmKVSd30COj03UvbDEsaO6NFMCU6E+qUzTakbNEDG6tzEZLi
-	zQQ0B1HqaA6nUR+rkSs/WXy8voGm49VbtvNlpb9Rq7O68CTrk7YI
-X-Google-Smtp-Source: AGHT+IH1IuMJjXidoZxnvbOq8EhauNN2fyc1gFkAHH1Y5mnVtlVIMI/Co/2ogwXyqrLdvm8tOuNG6w==
-X-Received: by 2002:a05:6870:498f:b0:277:eea4:a436 with SMTP id 586e51a60fabf-2948442b3e7mr9572727fac.7.1730606719281;
-        Sat, 02 Nov 2024 21:05:19 -0700 (PDT)
-Received: from illithid ([2600:1700:957d:1d70::49])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-294874880c7sm2151154fac.22.2024.11.02.21.05.16
+        bh=TU1iPo1XNRxyguAsVZx6k45psWdUF0btX9WLPzjyImY=;
+        b=OdanOEQY8+XzIwECnU7nUplW3w33ybmRwouYIMfnIWi9Q+fyqG8YQT6+N2yoN+Vvis
+         0RXQ0mVaGhjlv/Yk9FdFY3sAWId/89/ydyZvXncAssmG+44i8PeiJwF3RvDYXWZCirH8
+         hgYVYy+xmWmDUXWP/apKKxViiveRZXCxgDHzIA8gCGkNPje0hbf0yoWpPSzqjTUdIL/N
+         FSJIpTFafZA7RWVoB9Y0wahb7JvQpZAzdbnRyWvlrx8FW805SVSd0fagGQsY4T+wlvIh
+         HVrAhjHM6LdTBOIfnzEzGrff32f3BW9gSAf/WGdU1RZ9g21woqj9aXEfcli+w4HwILfN
+         RR2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUqCL1a9mkFkwFzYtpb6CCgLFKUjd4JkGWrHtKwhZWXrdokOdo08qHT1+GPmsdE0Qkza/qKHxPFhydR8Os=@vger.kernel.org, AJvYcCX3yPKE3Tm2PzKY2Fv7Iy2mqOU9jIky1cMPglt3QRaCRYO0zPH1L6atRiIl2pli3bMEfMDh9LYYtm8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxuw3oEQfkUaRQB0Kl57hvJqcbEZ7oC7w2eTP1ykE1WpFiBqVt5
+	vq84lzqrJ1diR+VucL9ZU0nB4eYMoD+CW3cHTh28GYJe5hJspAikcqRUdw==
+X-Google-Smtp-Source: AGHT+IFauDCpZ+k6jElDMzszDx6vfx9ldpd6UtiB9LWLMm+npN+Fq8uUQnNMD0MippzkzGRD8w9dSA==
+X-Received: by 2002:a17:90b:1c10:b0:2e9:449e:d57f with SMTP id 98e67ed59e1d1-2e9449ed944mr11239234a91.34.1730608216078;
+        Sat, 02 Nov 2024 21:30:16 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e93dac037bsm5827012a91.31.2024.11.02.21.30.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Nov 2024 21:05:17 -0700 (PDT)
-Date: Sat, 2 Nov 2024 23:05:14 -0500
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Ian Rogers <irogers@google.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org, cjwatson@debian.org, groff@gnu.org
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-Message-ID: <20241103040514.6wo54kf7smiqf4yg@illithid>
-References: <20241015211719.1152862-1-irogers@google.com>
- <20241101132437.ahn7xdgvmqamatce@devuan>
- <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
- <20241101200729.6wgyksuwdtsms3eu@devuan>
- <20241102100837.anfonowxfx4ekn3d@illithid>
- <20241102103937.ose4y72a7yl3dcmz@devuan>
+        Sat, 02 Nov 2024 21:30:15 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id B97A34207D11; Sun, 03 Nov 2024 11:30:11 +0700 (WIB)
+Date: Sun, 3 Nov 2024 11:30:11 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: anish kumar <yesanishhere@gmail.com>, lgirdwood@gmail.com,
+	broonie@kernel.org, perex@perex.cz, tiwai@suse.com, corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] ALSA: machine: update documentation
+Message-ID: <Zyb8U3lSvYP0UeuN@archie.me>
+References: <20241102073718.64040-1-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pscddhjqsar3tshn"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rt7spwSO33Y0VSmV"
 Content-Disposition: inline
-In-Reply-To: <20241102103937.ose4y72a7yl3dcmz@devuan>
+In-Reply-To: <20241102073718.64040-1-yesanishhere@gmail.com>
 
 
---pscddhjqsar3tshn
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--rt7spwSO33Y0VSmV
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,
+On Sat, Nov 02, 2024 at 12:37:18AM -0700, anish kumar wrote:
+> +Additionaly below example macro can be used to register cpu, codec and
+> +platform dai.
+> +
+> +SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
+> +	DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
+> +	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
+> +	DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
+> +
 
-At 2024-11-02T11:39:37+0100, Alejandro Colomar wrote:
-> And diffs are a real win for text.  Thus, semantic newlines are a real
-> win for text.  "Write poems, not prose."  (Any chance we may get that
-> warning added to groff(1)?  :D)
+Make the macro usage a literal code block:
 
-Yes, but I've kicked it out to groff 1.25 because a gift-wrapped
-opportunity came along.  We get to retire a warning category and its
-number.
+---- >8 ----
+diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/soc/=
+machine.rst
+index af7bad7ba13455..8788953cd160f5 100644
+--- a/Documentation/sound/soc/machine.rst
++++ b/Documentation/sound/soc/machine.rst
+@@ -76,9 +76,9 @@ either dai name or device tree node but not both. Also, n=
+ames used here
+ for cpu/codec/platform dais should be globally unique.
+=20
+ Additionaly below example macro can be used to register cpu, codec and
+-platform dai.
++platform dai::
+=20
+-SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
++  SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
+ 	DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
+ 	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
+ 	DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
 
-groff(7) [1.23.0]:
+>  Machine Power Map
+> ------------------
+> +---------------------------
 
-Warnings
-...
-       el             16   The el request was encountered with no prior
-                           corresponding ie request.
+Keep the section underline length as-is.
 
-groff 1.24.0 [in preparation] NEWS:
+>  Machine Controls
+> -----------------
+> +-----------------------
 
-*  The "el" warning category has been withdrawn.  If enabled (which it
-   was not by default), the formatter would emit a diagnostic if it
-   inferred an imbalance between `ie` and `el` requests.  Unfortunately
-   its technique wasn't reliable and sometimes spuriously issued these
-   warnings, and making it perfectly reliable did not look tractable.
-   We recommend using brace escape sequences `\{` and `\}` to ensure
-   that your control flow structures remain maintainable.
+Likewise.
 
-This was a 35-year-old bug (or incomplete feature) in GNU troff that as
-far as I know first came to attention 10 years ago when the
-then-Heirloom Doctools maintainer pointed out an incompatibility between
-AT&T troff (from which Heirloom Doctools descends) and GNU troff.
+> +Clocking Controls:
+> +=E2=80=94-----------------
+> +
 
-https://savannah.gnu.org/bugs/?45502
+Fix the underline to render the section name as a heading:
 
-More recently, Paul Eggert scored big-time grognard points by actually
-depending on the AT&T troff behavior in the zic(8) man page.
+---- >8 ----
+diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/soc/=
+machine.rst
+index 8788953cd160f5..bdb9dfc5d88e45 100644
+--- a/Documentation/sound/soc/machine.rst
++++ b/Documentation/sound/soc/machine.rst
+@@ -113,8 +113,8 @@ Machine Controls
+ Machine specific audio mixer controls can be added in the DAI init functio=
+n.
+=20
+=20
+-Clocking Controls:
+-=E2=80=94-----------------
++Clocking Controls
++-----------------
+=20
+ As previously noted, clock configuration is handled within the machine dri=
+ver.
+ For details on the clock APIs that the machine driver can utilize for
 
-https://savannah.gnu.org/bugs/?65474
+Thanks.
 
-We therefore _had_ to fix it.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-The consequence is that the warning category `el` and bit 4 in the
-warning mask integer are undefined for groff 1.24.
-
-This was irresistible serendipity, because this warning category was (1)
-not enabled by default and (2) probably used only by people who wouldn't
-object to style warnings anyway.
-
-In groff 1.25, I want to revive bit 4 as new warning category `style`.
-
-Ending sentences before the end of a text line is something we can warn
-about as discussed a while back, and I plan to do so.
-
-https://lists.gnu.org/archive/html/groff/2022-06/msg00052.html
-
-I've been collecting specimens of other contemplated style warnings.
-
-https://savannah.gnu.org/bugs/?62776
-
-Regards,
-Branden
-
---pscddhjqsar3tshn
+--rt7spwSO33Y0VSmV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmcm9nIACgkQ0Z6cfXEm
-bc5ZnRAAqhIZQOmVX214qFJPNcP4uF/DYd1DJjyabBQb/MwJd/KVO1kM/n2bsaAG
-F/alGpXKF+6oJ2mlz05zkC/I0qMQ7JxB6jDxtSRTivQyT2zf0pHFIZTrOj/7Po5S
-SnmRJk354RKLXJF6JtjG6Wtymyg/hbnQEMzOCl8c6p46vwcg7b+cK8G5G5dsZRKY
-bH1pjEPunVQEFeQKnVTmulirbSYduhWk07q2j6VMM8E3JaX2zSSQf4EyHutCTGoP
-VztycC1344QDk2w00PdgDAEKLIclzTQpttqatlCy2rBcLhAvDrimeqmA7H4weQlo
-xrJNz7mxYYGdEGJiFdBpRygvdmkAvbqVpPn8hbv0Y8cFSnisnHdMfWluaVEnSCm8
-hYRDHcRx7ZwQeP/d+AL8B9uHQrLoA53iZLqt6RnzZZyRqae8L0ayTQnoRjGVACDR
-XGFhl85oisMEd4eJeMihq2qV60UXz2tUWFpd9BApWdtj7ySKKe0Ul+0BOesXnJw9
-5abyFC6NTt/FlhUJRi85GR97AavxYLwPGOjkDOiqf3pelY0JrF4QmS3dH2I2zIka
-+DslpTR0aEyWNwUsNxIACSmvmE4UXKKoYX1fqGpAwUlPXssRsz283TGSlxUdSisK
-f2aND1zHzp/1WFkK2FQ5fCPmC/7BX+wslaVFrMBan/9QTRDcvDc=
-=GEH3
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZyb8TQAKCRD2uYlJVVFO
+o1hOAP9R9VsgeiB4iKTuCnYoM6G0YPc8VyRxU3OPqb9NEcxGLwD/bQOiGdO8WGsY
+rH0ofGPjc0f9lG+v2jNZ9JtN/Bq28AE=
+=uLdD
 -----END PGP SIGNATURE-----
 
---pscddhjqsar3tshn--
+--rt7spwSO33Y0VSmV--
