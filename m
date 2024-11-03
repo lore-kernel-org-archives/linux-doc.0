@@ -1,146 +1,379 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972A61CAAC;
-	Sun,  3 Nov 2024 01:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C954430;
+	Sun,  3 Nov 2024 02:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730598917; cv=none; b=PH4IERzdPOD29gZv2k0KQUYVLtwfZGkexVyYswemVng/j32R1BVISNXKeFFzW5WKsaanE78g9i+yCEzit3j5USVnOgxa6KmIGc1vs7IIaa3ZGVQN8yvWXMyYHEVeQBfip3DPosvwK/9YVQnne1hoFLJqX4r1+1NOBfANEIvb+kI=
+	t=1730602488; cv=none; b=EDOwaGNu+81/BAlPiBAG2ifs124AuQCmFuMmBfd3aI/Re13f/2d2CxmsDD9shK4EisvilKg1nFnCdEBRnqHXyjMYOBgWcJ2lSyUEfpSjx0RKKVeqQZNg8cQ9g8j01z6mBDzS0AGt9xQSDLW0+s5DcOuu8O+3Ga5PY6zH5uvc0F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730598917; c=relaxed/simple;
-	bh=MQSLFU0emUg0QSn9Kb4mG6MNIHeHGE0ph4Ah++xolDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oq8xzEHNLcFvDP4IGfgAziP0lcO8pc8Y1gCFpOIVl/5tn/nJIRlBKeJg3BcU567C/fbdvc56AlrvB3GtiZVNpqtuuSYET1TCmyN+Efj5iA6970Kbfgt/YMmSEXuFiL0m3IPZIOCb4UTU6YuNn95RyHlkazHtz7aMQf51AuxHHDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=u6nDwis5; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1730602488; c=relaxed/simple;
+	bh=flYBXQEmU6lVa4S29lDD3s75gqQsMGVj/lGkcg1sGEE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dAn8YMmvh02St70MaH4JSBWzW1T44jagMrk9gOtlPTPLAgFyJGaNLpsJ6ynfjGz0WAKnCXZBU3S8g3qrd3xR61Wer6wbq3z0v8xQjAEtKqEHpxOVnbY31A9t3a4e1ZM8FMdx1LG4DKUTpqlpFlbNo9fgw2Kb8ZCaKnfTVicWBqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VVw/z83d; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="u6nDwis5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=SULx6WWex0zzFL0T/OSMqTCr1B9gJbo9/bk9Ij2EfwI=; b=u6nDwis57Rnxvgsa2eYvT8mt1a
-	CGT3O9g8y6unsU9cd4hiWHI3Nlu833C1T/dYb3EpnmzKMaFy2KqBRFx+UbhDOYqpDMzdOyYAsbHG/
-	NgFx4MTzGto8f97RMXUV8CJP750z/pJ0PkhKhLuw2uZ1ZaLkuy0LBmUzxtF77FsY+JwhJjv/GGYOe
-	OvEvgkC1Zgu6VpSY1cFFicdCPQ+3aLJxbQYK9QkeY1AhEcweXthomy2CzbdGVuoGubyO8AD+K4+Ti
-	DPDhHkiO//LXPOhNVe/sVzeG1kY2G/j9tzdrKmB92JCN6XHdcWH3FsB6WeDOAiaD3Jh5tuM25P2TB
-	3iAFAsHg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <cjwatson@debian.org>)
-	id 1t7PpZ-00B5DZ-Hg; Sun, 03 Nov 2024 01:55:06 +0000
-Received: from ns1.rosewood.vpn.ucam.org ([172.20.153.2] helo=riva.ucam.org)
-	by riva.rosewood.vpn.ucam.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <cjwatson@debian.org>)
-	id 1t7PpX-004umt-2m;
-	Sun, 03 Nov 2024 01:55:03 +0000
-Date: Sun, 3 Nov 2024 01:55:02 +0000
-From: Colin Watson <cjwatson@debian.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Alejandro Colomar <alx@kernel.org>, Ian Rogers <irogers@google.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org, groff@gnu.org
-Subject: Re: [PATCH v2 1/3] proc_pid_fdinfo.5: Reduce indent for most of the
- page
-Message-ID: <ZybX9q_zReTgdMxU@riva.ucam.org>
-Mail-Followup-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>,
-	Alejandro Colomar <alx@kernel.org>, Ian Rogers <irogers@google.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org, groff@gnu.org
-References: <20241015211719.1152862-1-irogers@google.com>
- <20241101132437.ahn7xdgvmqamatce@devuan>
- <CAP-5=fXo5XjxUXshm9eRX-hCcC5VWOv0C5LBZ3Z0_wQb+rdnsw@mail.gmail.com>
- <20241101200729.6wgyksuwdtsms3eu@devuan>
- <20241102100837.anfonowxfx4ekn3d@illithid>
- <ZyZ4Tfxfr7M-EqUo@riva.ucam.org>
- <20241103005023.kdv5bkpqkpmsom5g@illithid>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VVw/z83d"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5ebc5b4190eso1738752eaf.3;
+        Sat, 02 Nov 2024 19:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730602486; x=1731207286; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Pig1jzNQ2MNjxc4weYjfTeNoJRHZv0yUVkReARxcao=;
+        b=VVw/z83dbN9Eg04UsbicHRadKPrFIlUgTGMcFOG7VayF13dKD4c23xhQ54ckC+dYRB
+         V4iur7KJujpd5HBJMma6h5mVkPb5PJK6RIQCujyey9MM1H4MRUcjw8LqCa5bgRfbO1Yp
+         3cewEMirvsAbuxEgGx8RQaSILsDQbvc/RmzdsiZFTZf6ma/SxKX2MByqXzyu8+G+Y3xE
+         wxEmmrUB/yXK5EX2ZcOH03GbH6monJA3Z+eGZHShC20wkUK3Dygx3ZNSw5XA5YR2YPbe
+         kYlqtWB85aqfHVwVcfYFxh6tcJztqF4Aoc+yBzegsye9nb+lnIrELtlA7FS4+9bKPT0P
+         ASuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730602486; x=1731207286;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1Pig1jzNQ2MNjxc4weYjfTeNoJRHZv0yUVkReARxcao=;
+        b=IIbjv69iqMMIhrv4MtWhgC9O7u6xp5NJiN1yYBYnwTjoY4hwiQDJbj5BPyeVrX+9nr
+         +tsxT2FAJtk9nUS7yvUWx5C9dFj3Mxn6bDTj5MeQUGgoa7pm1j92EiBoaPdv9QTs1ek+
+         805WJkRZUCz3QofAis33Uc1XCptAJ25rg+vvG3byxBYAnloxFc3/ivBJ+8QK4dkKRnfU
+         MYWURbfkuxvFhXX0bgkXZ91PJIO1oIf7XzzQVG7bXlwNOiIjVB9Po1V7IBq7dXYFVYOj
+         TcAscG3/JC58soLcnm0wAjthN6iYv7OpePaaV0Gxf4rvYBaccKEX+zvZLdwJFTrnVHy4
+         vbgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWmk9Y9YnkfY6ctMyjKyFciiWEy5ZToYLkRjMtmW/PgdYa1rE6Hs9qjJGauDTlMwJAIt9bgaWA3oNY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywm12fqquCwDeWH211hZUJFy7fq/LRH01zRXN1snooR021cGkE1
+	rzt9p/VI8m1pLIg6OdNcwEQRhKZSmBUvdwtz69KcnW7HPfMxkfEH
+X-Google-Smtp-Source: AGHT+IGCOWgJXEaMsNkUNVbWnTDywdL6DAlGGZRp6QOydgZZesOqZguYyN31TRIX9tNhibSNgxuh+A==
+X-Received: by 2002:a05:6870:7029:b0:287:3cf8:4abe with SMTP id 586e51a60fabf-2948449c34dmr9477744fac.18.1730602485735;
+        Sat, 02 Nov 2024 19:54:45 -0700 (PDT)
+Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:7d08:cd12:4b73:5f28])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29487716fefsm2133041fac.35.2024.11.02.19.54.42
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 02 Nov 2024 19:54:44 -0700 (PDT)
+From: anish kumar <yesanishhere@gmail.com>
+To: myungjoo.ham@samsung.com,
+	cw00.choi@samsung.com,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	anish kumar <yesanishhere@gmail.com>
+Subject: [PATCH] Documentation: extcon: add documentation for Extcon subsystem
+Date: Sat,  2 Nov 2024 19:54:36 -0700
+Message-Id: <20241103025436.69196-1-yesanishhere@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241103005023.kdv5bkpqkpmsom5g@illithid>
-X-Debian-User: cjwatson
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 02, 2024 at 07:50:23PM -0500, G. Branden Robinson wrote:
-> At 2024-11-02T19:06:53+0000, Colin Watson wrote:
-> > How embarrassing.  Could somebody please file a bug on
-> > https://gitlab.com/man-db/man-db/-/issues to remind me to fix that?
-> 
-> Done; <https://gitlab.com/man-db/man-db/-/issues/46>.
+The Extcon (External Connector) subsystem driver lacked proper
+documentation. This commit adds comprehensive documentation
+explaining the purpose, key components, and usage of the Extcon
+framework.
 
-Thanks, working on it.
+The new documentation includes:
+- An overview of the Extcon subsystem
+- Descriptions of key structures
+- Explanations of core functions
+- Information on the sysfs interface
+- A usage example for driver developers
 
-> > I already know that getting acceptable performance for
-> > this requires care, as illustrated by one of the NEWS entries for
-> > man-db 2.10.0:
-> > 
-> >  * Significantly improve `mandb(8)` and `man -K` performance in the
-> >    common case where pages are of moderate size and compressed using
-> >    `zlib`: `mandb -c` goes from 344 seconds to 10 seconds on a test
-> >    system.
-> > 
-> > ... so I'm prepared to bet that forking nroff one page at a time will
-> > be unacceptably slow.
-> 
-> Probably, but there is little reason to run nroff that way (as of groff
-> 1.23).  It already works well, but I have ideas for further hardening
-> groff's man(7) and mdoc(7) packages such that they return to a
-> well-defined state when changing input documents.
+Signed-off-by: anish kumar <yesanishhere@gmail.com>
+---
+ Documentation/driver-api/extcon.rst | 255 ++++++++++++++++++++++++++++
+ Documentation/driver-api/index.rst  |   1 +
+ MAINTAINERS                         |   1 +
+ 3 files changed, 257 insertions(+)
+ create mode 100644 Documentation/driver-api/extcon.rst
 
-Being able to keep track of which output goes with which input pages is
-critical to the indexer, though (as you acknowledge later in your
-reply).  It can't just throw the whole lot at nroff and call it a day.
-
-One other thing: mandb/lexgrog also looks for preprocessing filter hints
-in pages (`'\" te` and the like).  This is obscure, to be sure, but
-either a replacement would need to do the same thing or we'd need to be
-certain that it's no longer required.
-
-> > and of course care would be needed around error handling and so on.
-> 
-> I need to give this thought, too.  What sorts of error scenarios do you
-> foresee?  GNU troff itself, if it can't open a file to be formatted,
-> reports an error diagnostic and continues to the next `argv` string
-> until it reaches the end of input.
-
-That might be sufficient, or man-db might need to be able to detect
-which pages had errors.  I'm not currently sure.
-
-> > but on the other hand this starts to feel like a much less natural fit
-> > for the way nroff is run in every other situation, where you're
-> > processing one document at a time.
-> 
-> This I disagree with.  Or perhaps more precisely, it's another example
-> of the exception (man(1)) swallowing the rule (nroff/troff).  nroff and
-> troff were written as Unix filters; they read the standard input stream
-> (and/or argument list)[1], do some processing, and write to standard
-> output.[2]
-> 
-> Historically, troff (or one of its preprocessors) was commonly used with
-> multiple input files to catenate them.
-
-But this application is not conceptually like catenation (even if it
-might be possible to implement it that way).  The collection of all
-manual pages on a system is not like one long document that happens to
-be split over multiple files, certainly not from an indexer's point of
-view.
-
+diff --git a/Documentation/driver-api/extcon.rst b/Documentation/driver-api/extcon.rst
+new file mode 100644
+index 000000000000..d3217b9cdcd5
+--- /dev/null
++++ b/Documentation/driver-api/extcon.rst
+@@ -0,0 +1,255 @@
++=======================
++Extcon Device Subsystem
++=======================
++
++Overview
++========
++
++The Extcon (External Connector) subsystem provides a unified framework for
++managing external connectors in Linux systems. It allows drivers to report
++the state of external connectors and provides a standardized interface for
++userspace to query and monitor these states.
++
++Extcon is particularly useful in modern devices with multiple connectivity
++options, such as smartphones, tablets, and laptops. It helps manage various
++types of connectors, including:
++
++1. USB connectors (e.g., USB-C, micro-USB)
++2. Charging ports (e.g., fast charging, wireless charging)
++3. Audio jacks (e.g., 3.5mm headphone jack)
++4. Video outputs (e.g., HDMI, DisplayPort)
++5. Docking stations
++
++Real-world examples:
++
++1. Smartphone USB-C port:
++   A single USB-C port on a smartphone can serve multiple functions. Extcon
++   can manage the different states of this port, such as:
++   - USB data connection
++   - Charging (various types like fast charging, USB Power Delivery)
++   - Audio output (USB-C headphones)
++   - Video output (USB-C to HDMI adapter)
++
++2. Laptop docking station:
++   When a laptop is connected to a docking station, multiple connections are
++   made simultaneously. Extcon can handle the state changes for:
++   - Power delivery
++   - External displays
++   - USB hub connections
++   - Ethernet connectivity
++
++3. Wireless charging pad:
++   Extcon can manage the state of a wireless charging connection, allowing
++   the system to respond appropriately when a device is placed on or removed
++   from the charging pad.
++
++4. Smart TV HDMI ports:
++   In a smart TV, Extcon can manage multiple HDMI ports, detecting when
++   devices are connected or disconnected, and potentially identifying the
++   type of device (e.g., gaming console, set-top box, Blu-ray player).
++
++The Extcon framework simplifies the development of drivers for these complex
++scenarios by providing a standardized way to report and query connector
++states, handle mutually exclusive connections, and manage connector
++properties. This allows for more robust and flexible handling of external
++connections in modern devices.
++
++Key Components
++==============
++
++extcon_dev
++----------
++
++The core structure representing an Extcon device::
++
++    struct extcon_dev {
++        const char *name;
++        const unsigned int *supported_cable;
++        const u32 *mutually_exclusive;
++
++        /* Internal data */
++        struct device dev;
++        unsigned int id;
++        struct raw_notifier_head nh_all;
++        struct raw_notifier_head *nh;
++        struct list_head entry;
++        int max_supported;
++        spinlock_t lock;
++        u32 state;
++
++        /* Sysfs related */
++        struct device_type extcon_dev_type;
++        struct extcon_cable *cables;
++        struct attribute_group attr_g_muex;
++        struct attribute **attrs_muex;
++        struct device_attribute *d_attrs_muex;
++    };
++
++Key fields:
++
++- ``name``: Name of the Extcon device
++- ``supported_cable``: Array of supported cable types
++- ``mutually_exclusive``: Array defining mutually exclusive cable types
++  This field is crucial for enforcing hardware constraints. It's an array of
++  32-bit unsigned integers, where each element represents a set of mutually
++  exclusive cable types. The array should be terminated with a 0.
++
++  For example:
++
++  ::
++
++      static const u32 mutually_exclusive[] = {
++          BIT(0) | BIT(1),  /* Cable 0 and 1 are mutually exclusive */
++          BIT(2) | BIT(3) | BIT(4),  /* Cables 2, 3, and 4 are mutually exclusive */
++          0  /* Terminator */
++      };
++
++  In this example, cables 0 and 1 cannot be connected simultaneously, and
++  cables 2, 3, and 4 are also mutually exclusive. This is useful for
++  scenarios like a single port that can either be USB or HDMI, but not both
++  at the same time.
++
++  The Extcon core uses this information to prevent invalid combinations of
++  cable states, ensuring that the reported states are always consistent
++  with the hardware capabilities.
++
++- ``state``: Current state of the device (bitmap of connected cables)
++
++
++extcon_cable
++------------
++
++Represents an individual cable managed by an Extcon device::
++
++    struct extcon_cable {
++        struct extcon_dev *edev;
++        int cable_index;
++        struct attribute_group attr_g;
++        struct device_attribute attr_name;
++        struct device_attribute attr_state;
++        struct attribute *attrs[3];
++        union extcon_property_value usb_propval[EXTCON_PROP_USB_CNT];
++        union extcon_property_value chg_propval[EXTCON_PROP_CHG_CNT];
++        union extcon_property_value jack_propval[EXTCON_PROP_JACK_CNT];
++        union extcon_property_value disp_propval[EXTCON_PROP_DISP_CNT];
++        DECLARE_BITMAP(usb_bits, EXTCON_PROP_USB_CNT);
++        DECLARE_BITMAP(chg_bits, EXTCON_PROP_CHG_CNT);
++        DECLARE_BITMAP(jack_bits, EXTCON_PROP_JACK_CNT);
++        DECLARE_BITMAP(disp_bits, EXTCON_PROP_DISP_CNT);
++    };
++
++Core Functions
++==============
++
++.. kernel-doc:: drivers/extcon/extcon.c
++   :identifiers: extcon_get_state
++
++.. kernel-doc:: drivers/extcon/extcon.c
++   :identifiers: extcon_set_state
++
++.. kernel-doc:: drivers/extcon/extcon.c
++   :identifiers: extcon_set_state_sync
++
++.. kernel-doc:: drivers/extcon/extcon.c
++   :identifiers: extcon_get_property
++
++
++Sysfs Interface
++===============
++
++Extcon devices expose the following sysfs attributes:
++
++- ``name``: Name of the Extcon device
++- ``state``: Current state of all supported cables
++- ``cable.N/name``: Name of the Nth supported cable
++- ``cable.N/state``: State of the Nth supported cable
++
++Usage Example
++-------------
++
++.. code-block:: c
++
++    #include <linux/module.h>
++    #include <linux/platform_device.h>
++    #include <linux/extcon.h>
++
++    struct my_extcon_data {
++        struct extcon_dev *edev;
++        struct device *dev;
++    };
++
++    static const unsigned int my_extcon_cable[] = {
++        EXTCON_USB,
++        EXTCON_USB_HOST,
++        EXTCON_NONE,
++    };
++
++    static int my_extcon_probe(struct platform_device *pdev)
++    {
++        struct my_extcon_data *data;
++        int ret;
++
++        data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
++        if (!data)
++            return -ENOMEM;
++
++        data->dev = &pdev->dev;
++
++        /* Initialize extcon device */
++        data->edev = devm_extcon_dev_allocate(data->dev, my_extcon_cable);
++        if (IS_ERR(data->edev)) {
++            dev_err(data->dev, "Failed to allocate extcon device\n");
++            return PTR_ERR(data->edev);
++        }
++
++        /* Register extcon device */
++        ret = devm_extcon_dev_register(data->dev, data->edev);
++        if (ret < 0) {
++            dev_err(data->dev, "Failed to register extcon device\n");
++            return ret;
++        }
++
++        platform_set_drvdata(pdev, data);
++
++        /* Example: Set initial state */
++        extcon_set_state_sync(data->edev, EXTCON_USB, true);
++
++        dev_info(data->dev, "My extcon driver probed successfully\n");
++        return 0;
++    }
++
++    static int my_extcon_remove(struct platform_device *pdev)
++    {
++        struct my_extcon_data *data = platform_get_drvdata(pdev);
++
++        /* Example: Clear state before removal */
++        extcon_set_state_sync(data->edev, EXTCON_USB, false);
++
++        dev_info(data->dev, "My extcon driver removed\n");
++        return 0;
++    }
++
++    static const struct of_device_id my_extcon_of_match[] = {
++        { .compatible = "my,extcon-device", },
++        { },
++    };
++    MODULE_DEVICE_TABLE(of, my_extcon_of_match);
++
++    static struct platform_driver my_extcon_driver = {
++        .driver = {
++            .name = "my-extcon-driver",
++            .of_match_table = my_extcon_of_match,
++        },
++        .probe = my_extcon_probe,
++        .remove = my_extcon_remove,
++    };
++
++    module_platform_driver(my_extcon_driver);
++
++This example demonstrates:
++---------------------------
++
++- Defining supported cable types (USB and USB Host in this case).
++- Allocating and registering an extcon device.
++- Setting an initial state for a cable (USB connected in this example).
++- Clearing the state when the driver is removed.
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index 7f83e05769b4..16e2c4ec3c01 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -86,6 +86,7 @@ Subsystem-specific APIs
+    dmaengine/index
+    dpll
+    edac
++   extcon
+    firmware/index
+    fpga/index
+    frame-buffer
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c27f3190737f..7a8739ed9d46 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8572,6 +8572,7 @@ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/extcon.git
+ F:	Documentation/devicetree/bindings/extcon/
++F:	Documentation/driver-api/extcon.rst
+ F:	Documentation/firmware-guide/acpi/extcon-intel-int3496.rst
+ F:	drivers/extcon/
+ F:	include/linux/extcon.h
 -- 
-Colin Watson (he/him)                              [cjwatson@debian.org]
+2.39.3 (Apple Git-146)
+
