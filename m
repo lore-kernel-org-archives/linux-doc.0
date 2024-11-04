@@ -1,141 +1,97 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E601C57A5;
-	Mon,  4 Nov 2024 21:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE681FCC4B;
+	Mon,  4 Nov 2024 21:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730754825; cv=none; b=q1DPpMXorLmuFv0xTI8UwXShfm5nu1aVQqc+b1niAsH/MKRZE9ROQaFBstetpUZ78ExSiX7AjqQW/LDHXMMevHrS+I7A8XTjdwCLhv+FsvOHZpgzIfjOA/nV05ab27sP60uVpKb/xnuY8xcAeNuYWB1k5RV+j9YiNpt48doMHTY=
+	t=1730754955; cv=none; b=l8caEn5sOHZhczt87eM6Lcb0qcog0+wjQPw22PS0gke60Nufw+bb8vG8PEP+xSoJZPkq71T5LcuNbbFmIsXknXLwp8M++syZDN2sv5NlAiZ6TlIOXRGW1DTNuKGZFhAqZHUdWut8W1o2V2UcI7sQ2bxZQPjOwiSF7OfeB+E/tvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730754825; c=relaxed/simple;
-	bh=TdV1m7lsJV9n+gRB4GbAabE6d/d+dG0m6q0qhV7Vk8A=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=jEF2iBUtTqbTVYSArqhuKMM/nsJMKQJqPRUzPNWrJxVyqZgUVNs0C7kFkGUfH8hJOWNLuzzy6Lcl9NOP9/JmCd6cIRLEt5DJ6LgfbVMmsbtY9l7hdNX4V7MBC343xZZufs5aYuqXPcS879hQfq3p/j/pQXKCjpuyWzx/oYGN7os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=HYxM/F1j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=A07LXhM+; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1730754955; c=relaxed/simple;
+	bh=G724cTYSxP4miHIIyEFDyCy7z3lHBjLNE65y3n6EGR0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n9gW3IFKysHemVrRm4xjSCNW8fiNGhOzBMQn9iR9ymZn7El/g9lQhVVu6oBQBlNHxc0+fpGVteroL0VyetEou9F1aCpCiq6NzsK2jXoiRAn5iV8zw74+1V/Whvr8vnSRzQLqS1JqflwXdVjS1547WmGJY1WAwvG0v5FluI2CY2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fxm6eUqC; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="HYxM/F1j";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="A07LXhM+"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1785425400BB;
-	Mon,  4 Nov 2024 16:13:40 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Mon, 04 Nov 2024 16:13:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1730754819;
-	 x=1730841219; bh=V0h+HnwYM6G14tqfuEBcSfoAhMcxFQIDMQETosW9jT0=; b=
-	HYxM/F1j4lMV3qcZLf2/ywYPB0bgQgPU6nQk/K+naRkovv97U83DYHb5KcZpVf0x
-	ZhuynQAg2mHgQNN0HFSmADvFhF7W9d3aHDAY+PwKB96XTDbcfrRyBU5b3+YOqxF8
-	lSs3ySfRLS5x4/W/BuRz3ksq2PI415eD9vq5HefepgZdoRPI7NKVqZlqj8whkqJ1
-	3I4g4CTkC56DDZ51egRLXec1uHz0TMxxcMYZlCULGmJsX43AipvtOXBugK4W5eWO
-	V9dYVQHJjlW64YoXXdjryU6Nn0fsAb0X86QsCIBylrRXYd8Jbr+2HBFc01Yu89Ly
-	Jgxm0YMrYBejXJTS+Cdjag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730754819; x=
-	1730841219; bh=V0h+HnwYM6G14tqfuEBcSfoAhMcxFQIDMQETosW9jT0=; b=A
-	07LXhM+Iq1HCBnCunXqpgfNDV2r2wBsNjVcaZBED84teZ5OBI84eO40xTruVaIlb
-	CTu83Z7rZQ2g8IgSY0iTyGsddlsmaSymS8tyx1YgdBNMiEIdjPhO/8NyuWBsAQ4R
-	3BFY+ngJ4zsKrv96GIyRw/02pP+F6h35hwPpRiObV2FABJLxInkhSlBx2LpvWHul
-	V+Pf7xzFnQ5C4DWgfCzFo3teifpTB3Dfy14StP7CJfAPLbaUBebJEEZic94jUVZZ
-	kSnsXvCgjRtBS8YSngsbswoTuY+AYE4lBGLlDQb7KenMqJqKtDLPMDZFaSDjBtdi
-	tlbU1kJwhvS+te9me5dNQ==
-X-ME-Sender: <xms:AjkpZ7iLwMb7LS52CjGTazhHzh1hC8c78ofVs3xc41WaM4CjDfFK9g>
-    <xme:AjkpZ4DpGENhrWdnaGR8Via9b10QYZcLhlzRZMc6gY3rzc6XU4y_y32T3mzMtaXJO
-    gQ-LbupRVMkdcAaFvQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeliedgudeghecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
-    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeef
-    uddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhguse
-    grrhhmrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhr
-    tghpthhtohepmhhitgesughighhikhhougdrnhgvthdprhgtphhtthhopegrohhusegvvg
-    gtshdrsggvrhhkvghlvgihrdgvughupdhrtghpthhtohepghhnohgrtghksehgohhoghhl
-    vgdrtghomhdprhgtphhtthhopehirhhoghgvrhhssehgohhoghhlvgdrtghomhdprhgtph
-    htthhopehpvghtvghriiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegrughr
-    ihgrnhdrhhhunhhtvghrsehinhhtvghlrdgtohhmpdhrtghpthhtoheprggtmhgvsehkvg
-    hrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:AjkpZ7HDxCwy4I__a2KM4WoXIAT-uVa-FUNo5xAINlv6PIc3MDmN3g>
-    <xmx:AjkpZ4TEpwHRFnIZ1r1FdqqUbIpgwi0-D_DPyXW0gWwGbaQgNqoybQ>
-    <xmx:AjkpZ4wI8UxMGhZhBFFMXFGGRBq8PaJdE2Bz84HCW1PVRGBfp3N5_Q>
-    <xmx:AjkpZ-4HRRofSWplUrAHFwaw7MrOvwaTcko0TgpGFlly-Euyx3Q6Ew>
-    <xmx:AzkpZx8kPUEQuc9kjEr7jGh3aP1zGFEnrt0qIDe_xxeUuWuooZ8w3Cme>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 708CF2220071; Mon,  4 Nov 2024 16:13:38 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fxm6eUqC"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43169902057so36518355e9.0;
+        Mon, 04 Nov 2024 13:15:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730754952; x=1731359752; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DXDa4pJRXXSF53bW6sg5r+RrA4H/A0V2XZTYAKAhegw=;
+        b=Fxm6eUqCmMQfpDbbCGcy+LeyfyZ8QLj4b9MeEFxkGgbNJdYw7Rcp8B8DRmXgK91XbT
+         /aEYv9/5e6fTUFOVlqVMzzDqdmU5UoRvv+1UpbM1d3aVd3ueC7dHv6Fm4bQlgICsuFCn
+         Nbx6JyOWrxC41g4ufm1j75WxbPM2mHXRUcxHJAVaxO7g1jkbGC2VvkanT4OsXc8O4DWW
+         3yjUPl7E4o+Gwpxtl5clE+ixGY1xHAmYTBmKbMAvVij5AYjIO+Awy64BtwFrFlcdufx1
+         wyEVZL6CN7PC3BhBvRNUGe1hh1X5c+NsWRZjQTCTH7y3o6mWv+gKLKMDAWLFLmrRnrE1
+         Xucg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730754952; x=1731359752;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DXDa4pJRXXSF53bW6sg5r+RrA4H/A0V2XZTYAKAhegw=;
+        b=XAnfsF/MmI/vaOZxc8oGkG/Y42z8TgLPKqH7yrMTsXmtJQK+LrUIygHkejph8LSg/w
+         FVyh3ET7yoEheD9+5rcvoK5mkB2iQ3UiOFO1keT32YsUqu1/sBLsY4Q/RzF/lpMTkbay
+         b45D2CdLKOn8MfevXhjqiwG5XxjzeeVdB+wSiBZwxfogFMnz/RqBrG/iGzxjqbFmpfP7
+         bBfNoPuNSPrssDkGcbKStChzjoP31ArHAI62/dwX30kbLUAB5aMqVUuFXnP4s3ZHdqig
+         8fhhMgSUSeABjJ7fT4ZEum8c+vxjD2pXw+Ecesx0cX9MvOPW/jbho1bPPUTc/1cIOLm0
+         N5Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRUrqWydTW4z9VaLauZcDAaSE2f+LZi3S0xb2VZ+k30g+wAOxmv/VRQetxVbBkGXRQEvP5GS3d@vger.kernel.org, AJvYcCWMdolbBLQwrJKIM36t4CM6Jp0em3wlFi7Z16UCi0GIw9zxhYV5XrN5ttnFL58G1UdiQ03dzZZKVJU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGF0aPPbbosaqlzpKvaNGPI+m3YuMZ6+NDS/McUQQ+5h1nz5Sl
+	AFxHabShdr+2TePRSqn8ytNzVLzAwCA405f9CK7hSdVEZ30PWwQU
+X-Google-Smtp-Source: AGHT+IEFhX8r7t2wnhakUur8cbvnOFOryn45oEMeOTW1QXqNNbQOndMdabsi1v2egkHAs2YMkWfzwQ==
+X-Received: by 2002:a05:600c:1c29:b0:431:588a:4498 with SMTP id 5b1f17b1804b1-431bb985df9mr186940475e9.14.1730754952179;
+        Mon, 04 Nov 2024 13:15:52 -0800 (PST)
+Received: from [192.168.0.2] ([69.6.8.124])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5e7c9asm169928695e9.21.2024.11.04.13.15.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 13:15:50 -0800 (PST)
+Message-ID: <8d7b1c5b-346f-4d81-a06a-809690dd4c87@gmail.com>
+Date: Mon, 4 Nov 2024 23:16:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 04 Nov 2024 22:13:18 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Charlie Jenkins" <charlie@rivosinc.com>,
- "Peter Zijlstra" <peterz@infradead.org>, "Ingo Molnar" <mingo@redhat.com>,
- "Arnaldo Carvalho de Melo" <acme@kernel.org>,
- "Namhyung Kim" <namhyung@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>,
- "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
- "Jiri Olsa" <jolsa@kernel.org>, "Ian Rogers" <irogers@google.com>,
- "Adrian Hunter" <adrian.hunter@intel.com>,
- "Paul Walmsley" <paul.walmsley@sifive.com>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
- =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>,
- "Christian Brauner" <brauner@kernel.org>, guoren <guoren@kernel.org>,
- "John Garry" <john.g.garry@oracle.com>, "Will Deacon" <will@kernel.org>,
- "James Clark" <james.clark@linaro.org>, "Mike Leach" <mike.leach@linaro.org>,
- "Leo Yan" <leo.yan@linux.dev>, "Jonathan Corbet" <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org,
- bpf@vger.kernel.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Message-Id: <3b56fc50-4c6c-4520-adba-461797a3b5ec@app.fastmail.com>
-In-Reply-To: <20241104-perf_syscalltbl-v1-0-9adae5c761ef@rivosinc.com>
-References: <20241104-perf_syscalltbl-v1-0-9adae5c761ef@rivosinc.com>
-Subject: Re: [PATCH RFT 00/16] perf tools: Use generic syscall scripts for all archs
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next v8 0/3] net: wwan: t7xx: Add t7xx debug ports
+To: Jinjian Song <jinjian.song@fibocom.com>,
+ chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
+ haijun.liu@mediatek.com, m.chetan.kumar@linux.intel.com,
+ ricardo.martinez@linux.intel.com, loic.poulain@linaro.org,
+ johannes@sipsolutions.net, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
+ linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com,
+ corbet@lwn.net, linux-mediatek@lists.infradead.org, helgaas@kernel.org,
+ danielwinkler@google.com, korneld@google.com, andrew+netdev@lunn.ch,
+ horms@kernel.org
+References: <20241104094436.466861-1-jinjian.song@fibocom.com>
+Content-Language: en-US
+From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+In-Reply-To: <20241104094436.466861-1-jinjian.song@fibocom.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 4, 2024, at 22:06, Charlie Jenkins wrote:
-> Standardize the generation of syscall headers around syscall tables.
-> Previously each architecture independently selected how syscall headers
-> would be generated, or would not define a way and fallback onto
-> libaudit. Convert all architectures to use a standard syscall header
-> generation script and allow each architecture to override the syscall
-> table to use if they do not use the generic table.
->
-> As a result of these changes, no architecture will require libaudit, and
-> so the fallback case of using libaudit is removed by this series.
->
-> Testing:
->
-> I have tested that the syscall mappings of id to name generation works
-> as expected for every architecture, but I have only validated that perf
-> trace compiles and runs as expected on riscv, arm64, and x86_64.
->
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+On 04.11.2024 11:44, Jinjian Song wrote:
+> Add support for t7xx WWAN device to debug by ADB (Android Debug Bridge)
+> port and MTK MIPCi (Modem Information Process Center) port.
+> 
+> Application can use ADB (Android Debug Bridge) port to implement
+> functions (shell, pull, push ...) by ADB protocol commands.
+> 
+> Application can use MIPC (Modem Information Process Center) port
+> to debug antenna tuner or noise profiling through this MTK modem
+> diagnostic interface.
 
-Thanks for doing this, I had plans to do this myself, but hadn't
-completed that bit so far. I'm travelling at the moment, so I'm
-not sure I have time to look at it in enough detail this week.
+Well done, Jinjian! For the whole series:
 
-One problem I ran into doing this previously was the incompatible
-format of the tables for x86 and s390, which have conflicting
-interpretations of what the '-' character means. It's possible
-that this is only really relevant for the in-kernel table,
-not the version in tools.
-
-     Arnd
+Reviewed-by: Sergey Ryazanov <ryazanov.s.a@gmail.com>
