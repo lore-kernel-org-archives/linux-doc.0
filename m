@@ -1,127 +1,120 @@
-Received: from weasel.tulip.relay.mailchannels.net (weasel.tulip.relay.mailchannels.net [23.83.218.247])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B523D17583;
-	Mon,  4 Nov 2024 17:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.247
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730741264; cv=pass; b=gvqR4leaVxFf0uDAVXZ+T4MJbHLmoab9C+0I0mlgOffx0zQBDmfoBJ2My+AFA/q2MzAtlu5Q0wSkOv0iMc32AgPgp/hY0mnM89pGmRREopWlK7QBQctPNIMfyD4njzeH05iDAVap1nfXClJ/pRxJlN8XUCpENQR0eovtxe6/eVU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730741264; c=relaxed/simple;
-	bh=Frw8kbtAjBVVCciXSX1r8i47gxNY6wwNd2Hun+4Z/ho=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB07F1BF7FC
+	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 17:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730741442; cv=none; b=u843/23hxb8jz725zWO5PghY2VN3wMESVllQbHQwvZ8tiD+O3iFNgb2Rp04pGddJntmHAhcmjZeXl/9gTKAxFefq0+ibKBVUXLfXk6ZkLT5+yOHsHjGo8sv5m2Glnhgbk00K3oNfrpMNKUpQr1zu6pYBIt5WxLt7e46RB+u+eBs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730741442; c=relaxed/simple;
+	bh=/mFCWCpaBZs2wG9hSEe600YSbGFLNcouMVo90maLyig=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LrT//jczYJPa79g9VZvSkwg7qtJdcXk8MEXAeSsTYUC4IFwHzTK1gFIEYq0DyXWDnxJaC66tXkdoHjPHUlCuv2xeS3wqkQxfo1MyxOAEaf5F7Ym0021Usrsor5Iw627Hwpi7oVVwFF8plK5T3uaSzkViReyyo29YkZHkzLH6l+I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net; spf=pass smtp.mailfrom=stgolabs.net; dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b=cLFkz6ds; arc=pass smtp.client-ip=23.83.218.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stgolabs.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stgolabs.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=n9eM+N1436XTX45saFbtGkaBiY1fQo2LOvo0CZNLFFxAC8NYuQGO1s0VKP5EabtPSNP4Jyt9AOysJRb1T7/DoV+hnXIeXStUhhwbplXfGlw8360uqXtUcNpx9fLtqEJbm9WM2GdYjiz+/zM2cLbE4t9uAbIRM9+T7jQ+zzWhaz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k6GA3Vu8; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b="cLFkz6ds"
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 9BCF5C40C1;
-	Mon,  4 Nov 2024 17:10:02 +0000 (UTC)
-Received: from pdx1-sub0-mail-a258.dreamhost.com (100-101-211-194.trex-nlb.outbound.svc.cluster.local [100.101.211.194])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 11A6EC5C46;
-	Mon,  4 Nov 2024 17:10:02 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1730740202; a=rsa-sha256;
-	cv=none;
-	b=jUkeV484MmCPZs/erbZ9d3nDS1wFv8nQNTjm/iJbIvuKvCdLCF/+e9ZhpBlVGJg2VXm1Hm
-	kTNX6F0h0OMT/AAuSuKZKwcL8jeB0A+xaMdfbFo9XrQqqp4vsMJhmYEzwx/0ej7pMPFG9+
-	csaHQq2CwdFcjhoUJVVWHejCC/TXArL7DRFRk837VE/RQvv3GqYGxNMug7zyUnb5ItVTrG
-	nxGA+NxtSFIZ3qgNibcqfezNEqG1WB463YpNBodknB6YBDzjH0OiEJXti4bmZY5+wZwzM6
-	Up1OmOGh26L0PlZLvi4iVATwhH8wvIPSm5bKWHiyHYGhMRG0LCaxjgU1VIuwwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1730740202;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=djeiyArVI2uFrm3uwF32I+TnLqOcCdOJyErXRw8sf90=;
-	b=h625JFI/Hzg7GDPVBvGfKVPBPQRutobeArZAUUDN6s+sh8bIldFVyGrIZPDKHW2HNldMBs
-	HS/dQpnDKJjJ6qIegGkTBxyVp8oDgKLUfxjgHcd9LbJLNP9zlG3nRkQDqo7a1tYtqux5S1
-	XtKSeKbPF4i8rKHZX/KoeOh2g2dClEq7YYN1mdbiltcm6zAIcdFfTnw6apZAMuL88f5rAo
-	UOOuwPwffEBkWTFuWyUgonSUZmoxD9cWTmrK95lBRLKYnFJ089IoMw94km/MZRp+ue1foI
-	vlgMhwzm0MyL/wG2hU8Ce9TdUzyjsG/VNBiZ5o8UY7r7jeigVX+Wupkl79JCpg==
-ARC-Authentication-Results: i=1;
-	rspamd-57ff586b7f-9lkcj;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Suffer-Share: 50c4f2063b14fee1_1730740202439_5728283
-X-MC-Loop-Signature: 1730740202439:3750142550
-X-MC-Ingress-Time: 1730740202439
-Received: from pdx1-sub0-mail-a258.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.101.211.194 (trex/7.0.2);
-	Mon, 04 Nov 2024 17:10:02 +0000
-Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dave@stgolabs.net)
-	by pdx1-sub0-mail-a258.dreamhost.com (Postfix) with ESMTPSA id 4XhydN5ZFdz7f;
-	Mon,  4 Nov 2024 09:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-	s=dreamhost; t=1730740201;
-	bh=djeiyArVI2uFrm3uwF32I+TnLqOcCdOJyErXRw8sf90=;
-	h=Date:From:To:Cc:Subject:Content-Type;
-	b=cLFkz6ds+WpTY5zg9wuuYvEd/NO/U3juHAI5RX5rIUR4sj7kLz3KjqBx5vgMqVoUv
-	 imO+VG9fMNwr1Z/3IAdZ7BdHrtr+M/rdYLJOcokuDvYLUO+szwMd8SlUwBfMc5nVU+
-	 3vqAdJJkOy9LibgPqcPx//DOhhwwdbjdJlkfhWM0YLrF7V9JFCLmRWk+kIGoEgmmQw
-	 tnNNEen2ZQyFSSdb1z5FsuOlWbp5ESuRkjwNefzdzyR/JsEzqJrPA+Hr1acZTugVMK
-	 bAjLPTDf7nCdgzIIwE0b04Kby1c4/D+0pXL5uTEd3msj9QK5se4nMkOy2Pr2sf+7Og
-	 bxWIBCsqYNQtw==
-Date: Mon, 4 Nov 2024 09:09:57 -0800
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: ira.weiny@intel.com
-Cc: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Navneet Singh <navneet.singh@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v5 08/27] cxl/mem: Read dynamic capacity configuration
- from the device
-Message-ID: <20241104170957.2vxxpnjwvmaiwrt3@offworld>
-References: <20241029-dcd-type2-upstream-v5-0-8739cb67c374@intel.com>
- <20241029-dcd-type2-upstream-v5-8-8739cb67c374@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k6GA3Vu8"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7ed9f1bcb6bso3085614a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 09:30:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1730741439; x=1731346239; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Uko8HRkTeNblmOW9btgKs6zqXzdL6OFUo+xRmjIxbBI=;
+        b=k6GA3Vu85WaeOslb6nVAyBImufIgCqBcLDiDVx3RxeW1swYhmwKo7MkOWmVTmpdlai
+         ti9JGTZfXBnCDYgDbtss554TY6vHFqKHqwL++A7Qphna6smKcdui72qpHya1h9bHkR04
+         +Z1bR1XS1x540Hbt3GywmKEz8r6UaBxAxLK1NL1Ar+Qu/VyI9xmPmIos/tM0+QaXYcB7
+         PGBJ9XbYFwT+By47VNtM8P1KilEDMy8O9hbbKq0VznXJCJqdGT7H58i2HMf4VGL4+Qmf
+         bcuL+EIesQfuroHh8C743/FQ6IkRHkPxTTXOF4RyZCTZuYlxTSw29cZSdKrLBUgAWOyd
+         keTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730741439; x=1731346239;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uko8HRkTeNblmOW9btgKs6zqXzdL6OFUo+xRmjIxbBI=;
+        b=JptiRI3Eta5x3QsokOGvWDI2foXqOYmi8T8OLBDQIV3UD4LXMxh26dP0Ox0CoX63QE
+         qkdTXfIwEtUxFIFfqvYmGHKQ8XuIeZ8HWlCD1cMmXPZFf67An/4X7mchA889PdPm/Wc1
+         SCJpLDNKsGro3f0Vxq0mxwDuUHNH1d0Rp4Y9ja6eA3jCXNxBHeiiACr47WHFqsGUMxOl
+         4R3JXpM2VEt4vPO/TXmRcqIUXqnlqjY/edOmfQB1ilBaEe1rrTrKd/l6KHsYguE2u7k4
+         0xdARAyhhXblXPOmV9AVGoyCn+MizT+Hyy0b3wcMsbl/QmK0FIKHwgOPHMB43jDWLeiH
+         WkyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/97la/khRLmgt/Upz/kcLDi6PFGRVuj/vE2d14B/ObVQog9L7JeoACSrg3ovO6rCvABIniGNu8RI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGjFxOw6x+T/EzkBh5lDTyO1xFMW1A44Ak2PyeMhD1EEO9UCc8
+	i51K2/3LXDZfrCcuMM3stm2n2UTpHQNuG9Bfu7ozLziz1D1HGns6d9th9FGmQg==
+X-Google-Smtp-Source: AGHT+IEGOOT/8Hf+1rAAAGQHfgG5uBjGTgnPTvESY0/W1ruAvP96UeZmKwzbhDibddrutT5kRXi5Lg==
+X-Received: by 2002:a05:6a20:b68a:b0:1d2:e8f6:818 with SMTP id adf61e73a8af0-1d9a83d0a95mr45329316637.17.1730741438695;
+        Mon, 04 Nov 2024 09:30:38 -0800 (PST)
+Received: from google.com ([2a00:79e0:2e28:6:e673:81cf:d338:f1bc])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc2c7ef1sm7698084b3a.103.2024.11.04.09.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 09:30:37 -0800 (PST)
+Date: Mon, 4 Nov 2024 10:30:29 -0700
+From: Yu Zhao <yuzhao@google.com>
+To: Shakeel Butt <shakeel.butt@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Hugh Dickins <hughd@google.com>,
+	Yosry Ahmed <yosryahmed@google.com>, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Meta kernel team <kernel-team@meta.com>
+Subject: Re: [PATCH v1 5/6] memcg-v1: no need for memcg locking for MGLRU
+Message-ID: <ZykEtcHrQRq-KrBC@google.com>
+References: <20241025012304.2473312-1-shakeel.butt@linux.dev>
+ <20241025012304.2473312-6-shakeel.butt@linux.dev>
+ <iwmabnye3nl4merealrawt3bdvfii2pwavwrddrqpraoveet7h@ezrsdhjwwej7>
+ <CAOUHufZexpg-m5rqJXUvkCh5nS6RqJYcaS9b=xra--pVnHctPA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241029-dcd-type2-upstream-v5-8-8739cb67c374@intel.com>
-User-Agent: NeoMutt/20220429
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOUHufZexpg-m5rqJXUvkCh5nS6RqJYcaS9b=xra--pVnHctPA@mail.gmail.com>
 
-On Tue, 29 Oct 2024, ira.weiny@intel.com wrote:
+On Sat, Oct 26, 2024 at 09:26:04AM -0600, Yu Zhao wrote:
+> On Sat, Oct 26, 2024 at 12:34 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> >
+> > On Thu, Oct 24, 2024 at 06:23:02PM GMT, Shakeel Butt wrote:
+> > > While updating the generation of the folios, MGLRU requires that the
+> > > folio's memcg association remains stable. With the charge migration
+> > > deprecated, there is no need for MGLRU to acquire locks to keep the
+> > > folio and memcg association stable.
+> > >
+> > > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+> >
+> > Andrew, can you please apply the following fix to this patch after your
+> > unused fixup?
+> 
+> Thanks!
 
->+/* See CXL 3.1 Table 8-164 get dynamic capacity config Output Payload */
->+struct cxl_mbox_get_dc_config_out {
->+	u8 avail_region_count;
->+	u8 regions_returned;
->+	u8 rsvd[6];
->+	/* See CXL 3.1 Table 8-165 */
->+	struct cxl_dc_region_config {
->+		__le64 region_base;
->+		__le64 region_decode_length;
->+		__le64 region_length;
->+		__le64 region_block_size;
->+		__le32 region_dsmad_handle;
->+		u8 flags;
->+		u8 rsvd[3];
->+	} __packed region[] __counted_by(regions_retunred);
+syzbot caught the following:
 
-s/retunred/returned
+  WARNING: CPU: 0 PID: 85 at mm/vmscan.c:3140 folio_update_gen+0x23d/0x250 mm/vmscan.c:3140
+  ...
+
+Andrew, can you please fix this in place? Thank you.
+
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index ddaaff67642e..9a610dbff384 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -3138,7 +3138,6 @@ static int folio_update_gen(struct folio *folio, int gen)
+ 	unsigned long new_flags, old_flags = READ_ONCE(folio->flags);
+ 
+ 	VM_WARN_ON_ONCE(gen >= MAX_NR_GENS);
+-	VM_WARN_ON_ONCE(!rcu_read_lock_held());
+ 
+ 	do {
+ 		/* lru_gen_del_folio() has isolated this page? */
