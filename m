@@ -1,45 +1,87 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0431F1AC43A;
-	Mon,  4 Nov 2024 09:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28E01B0F12;
+	Mon,  4 Nov 2024 10:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730714322; cv=none; b=V73v9GV5bllLdY5Tsdl4wamL1QtjxwKIqfd7qzOdplSj3vOD7Uut4XkdT2N3PCwvj4ymQ4no3NdDY1TQPpdKhshBVroo76t3unchcHXORlJjMu4jS4avEzigsUeZvzux9p4bryI0iOOK5Ek4nlToL1f7nYiZjUloHxeMyPhTk+c=
+	t=1730715305; cv=none; b=bcmQXn4Anc+44k1EhSNY4oas2+pR0Rrm7OQ6+28djHc7E5/3v4QywhrqBkdiCCxK0j66NT7fkdKxedbaSlPxOTUciFZGA5PJeRuU340eoX0aG6F1INdj73gucxkuiKRGolZxT4KTgCvOu6j1pywAEqlDscv0vvVDiSZDSoK7mEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730714322; c=relaxed/simple;
-	bh=cGc3p1RFcABDoSgLbkrGYjJv7Mesj0EoAuHiRfKkhAs=;
+	s=arc-20240116; t=1730715305; c=relaxed/simple;
+	bh=mcIce5Fq/hEFHVI7AkWHxaRExFRL0bAcIhE1CoWgubY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5JeEGzYWMvq9KMV6l6lu6ywy5BptCkhHy+dSFPzflj+VtaNNrSN2tm398mpI1d4fC9/aDsPFa5MLrFx5VBjMegLZo2Ug45+5l30KCx6YNhcyv0tSLZOmsSPoUkYuhBaCJy0fUuVqSTuW9ZgVJjWayxo17Zi/DwVocIIKaQF1gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id EF664227AAD; Mon,  4 Nov 2024 10:58:31 +0100 (CET)
-Date: Mon, 4 Nov 2024 10:58:31 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
-Message-ID: <20241104095831.GA28751@lst.de>
-References: <cover.1730298502.git.leon@kernel.org> <3567312e-5942-4037-93dc-587f25f0778c@arm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ec4fFsLVD50VTD1VUuhLiunct51+9GZFzfboSzX9Ujz/olBAUfg7Q3HhwZbhbOBAEnFSB+kKo8QxoBxCvWzkMQqHkpg0UIXsRhSRhnr9VpD084G03RQY/UnuUvKDqnqRNWTZUNOEybFGLF0iI+DyzKr1SHzIU25b9s3k4RGtIpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=bc2GFbbO; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="bc2GFbbO"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4AAXVT016625;
+	Mon, 4 Nov 2024 10:14:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=0pvu1h2wXjRKNrgWewAcE0S2SfJqBR
+	QG0tc62qAKP1Q=; b=bc2GFbbOrUg75hb8XWifBlNgNziOkjtTBeEn/bsEhj4I45
+	ELj+3HePqnGj2/YkyqgACqS+hWhpOjncwtFu1Mlc5bvFDsKSnBB8ye+hFW3l8f1d
+	dK0IITttHJwU6DpIWhHFXYZEUGSKf3f2X6Os52VbjyqfVaJGUGWUUI3Qyya+mAx9
+	/jCPOJhhfall7WT56KGgt6yqFTtbDbMZS+WZMcv/PDrUpUBy1f4653UbX4DqF7uZ
+	zeu12fyHgh9mTOyV6AsonE3drxfFpXk+w+51ESoCVhgd+Gdl+k5lpnbaWKrvhQQq
+	OVWrjYn8ABEmtULhfmBxnsiCdQrSvBJCAcyBdm5A==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42pv9b80e5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 Nov 2024 10:14:54 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4A4ABm80018784;
+	Mon, 4 Nov 2024 10:14:53 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42pv9b80e1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 Nov 2024 10:14:53 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4A49iji3008453;
+	Mon, 4 Nov 2024 10:14:53 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42nywk3mwx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 Nov 2024 10:14:53 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4A4AEn4J35062488
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 4 Nov 2024 10:14:49 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 15E3B20076;
+	Mon,  4 Nov 2024 10:14:49 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DA99820073;
+	Mon,  4 Nov 2024 10:14:47 +0000 (GMT)
+Received: from osiris (unknown [9.171.95.25])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon,  4 Nov 2024 10:14:47 +0000 (GMT)
+Date: Mon, 4 Nov 2024 11:14:46 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 0/7] virtio-mem: s390 support
+Message-ID: <20241104101446.9483-B-hca@linux.ibm.com>
+References: <20241025141453.1210600-1-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,89 +90,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3567312e-5942-4037-93dc-587f25f0778c@arm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20241025141453.1210600-1-david@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VHeFIyuzTNW6zfc61Cu-HEnOAgIKsDwU
+X-Proofpoint-ORIG-GUID: sEYZz5grUf9yUrSKVVfQ3jI2KcH0p6Ka
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
+ impostorscore=0 phishscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=0 spamscore=0 mlxlogscore=647 mlxscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411040089
 
-On Thu, Oct 31, 2024 at 09:17:45PM +0000, Robin Murphy wrote:
-> The hilarious amount of work that iommu_dma_map_sg() does is pretty much 
-> entirely for the benefit of v4l2 and dma-buf importers who *depend* on 
-> being able to linearise a scatterlist in DMA address space. TBH I doubt 
-> there are many actual scatter-gather-capable devices with significant 
-> enough limitations to meaningfully benefit from DMA segment combining these 
-> days - I've often thought that by now it might be a good idea to turn that 
-> behaviour off by default and add an attribute for callers to explicitly 
-> request it.
+On Fri, Oct 25, 2024 at 04:14:45PM +0200, David Hildenbrand wrote:
+> Let's finally add s390 support for virtio-mem; my last RFC was sent
+> 4 years ago, and a lot changed in the meantime.
 
-Even when devices are not limited they often perform significantly better
-when IOVA space is not completely fragmented.  While the dma_map_sg code
-is a bit gross due to the fact that it has to deal with unaligned segments,
-the coalescing itself often is a big win.
+...
 
-Note that dma_map_sg also has two other very useful features:  batching
-of the iotlb flushing, and support for P2P, which to be efficient also
-requires batching the lookups.
+> David Hildenbrand (7):
+>   Documentation: s390-diag.rst: make diag500 a generic KVM hypercall
+>   Documentation: s390-diag.rst: document diag500(STORAGE LIMIT)
+>     subfunction
+>   s390/physmem_info: query diag500(STORAGE LIMIT) to support QEMU/KVM
+>     memory devices
+>   virtio-mem: s390 support
+>   lib/Kconfig.debug: default STRICT_DEVMEM to "y" on s390
+>   s390/sparsemem: reduce section size to 128 MiB
+>   s390/sparsemem: provide memory_add_physaddr_to_nid() with CONFIG_NUMA
+> 
+>  Documentation/virt/kvm/s390/s390-diag.rst | 35 +++++++++++++----
+>  arch/s390/boot/physmem_info.c             | 47 ++++++++++++++++++++++-
+>  arch/s390/boot/startup.c                  |  7 +++-
+>  arch/s390/include/asm/physmem_info.h      |  3 ++
+>  arch/s390/include/asm/sparsemem.h         | 10 ++++-
+>  drivers/virtio/Kconfig                    | 12 +++---
+>  lib/Kconfig.debug                         |  2 +-
+>  7 files changed, 98 insertions(+), 18 deletions(-)
 
->> This uniqueness has been a long standing pain point as the scatterlist API
->> is mandatory, but expensive to use.
->
-> Huh? When and where has anything ever called it mandatory? Nobody's getting 
-> sent to DMA jail for open-coding:
-
-You don't get sent to jail.  But you do not get batched iotlb sync, you
-don't get properly working P2P, and you don't get IOVA coalescing.
-
->> Several approaches have been explored to expand the DMA API with additional
->> scatterlist-like structures (BIO, rlist), instead split up the DMA API
->> to allow callers to bring their own data structure.
->
-> And this line of reasoning is still "2 + 2 = Thursday" - what is to say 
-> those two notions in any way related? We literally already have one generic 
-> DMA operation which doesn't operate on struct page, yet needed nothing 
-> "split up" to be possible.
-
-Yeah, I don't really get the struct page argument.  In fact if we look
-at the nitty-gritty details of dma_map_page it doesn't really need a
-page at all.  I've been looking at cleaning some of this up and providing
-a dma_map_phys/paddr which would be quite handy in a few places.  Note
-because we don't have a struct page for the memory, but because converting
-to/from it all the time is not very efficient.
-
->>   2. VFIO PCI live migration code is building a very large "page list"
->>      for the device. Instead of allocating a scatter list entry per allocated
->>      page it can just allocate an array of 'struct page *', saving a large
->>      amount of memory.
->
-> VFIO already assumes a coherent device with (realistically) an IOMMU which 
-> it explicitly manages - why is it even pretending to need a generic DMA 
-> API?
-
-AFAIK that does isn't really vfio as we know it but the control device
-for live migration.  But Leon or Jason might fill in more.
-
-The point is that quite a few devices have these page list based APIs
-(RDMA where mlx5 comes from, NVMe with PRPs, AHCI, GPUs).
-
->
->>   3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
->>      list without having to allocate then populate an intermediate SG table.
->
-> As above, given that a bio_vec still deals in struct pages, that could 
-> seemingly already be done by just mapping the pages, so how is it proving 
-> any benefit of a fragile new interface?
-
-Because we only need to preallocate the tiny constant sized dma_iova_state
-as part of the request instead of an additional scatterlist that requires
-sizeof(struct page *) + sizeof(dma_addr_t) + 3 * sizeof(unsigned int)
-per segment, including a memory allocation per I/O for that.
-
-> My big concern here is that a thin and vaguely-defined wrapper around the 
-> IOMMU API is itself a step which smells strongly of "abuse and design 
-> mistake", given that the basic notion of allocating DMA addresses in 
-> advance clearly cannot generalise. Thus it really demands some considered 
-> justification beyond "We must do something; This is something; Therefore we 
-> must do this." to be convincing.
-
-At least for the block code we have a nice little core wrapper that is
-very easy to use, and provides a great reduction of memory use and
-allocations.  The HMM use case I'll let others talk about.
-
+Series applied. Thanks a lot!
