@@ -1,488 +1,309 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EA74EB50;
-	Sun,  3 Nov 2024 23:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9701632D8
+	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 02:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730675756; cv=none; b=jqteDl4D8r/8znXe6WCwYBImjkLOvktrXo49DjW5d7nXyUSxCrhR1aY2KxqJqLgoQgDBFx6Cm4GlDkDGPIgwHS7kWgALPFB2bGq3T9lH6b9Hq6VmXZgGxpvLomn4yDnUz7kTX4swzYwi0dv7CSQ2K10hRujyfu8+6ZInJsSzO8c=
+	t=1730686365; cv=none; b=PAKuNL1u2p8ZYXd+/AoL3WRPB6cLuMbkK4krsDJN9/LEj36t+c/SFOiKoyTpQSAN++zPJVaLFEdXJ7a9fHdtrdguDIkZ46/WDmHTNcVGfUn5fFDFjEbn85d3QlZ3e/tqZMUZOM91yJTQyJBPHBVZuyamxaHPdLzBRdXDuWL7Ukg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730675756; c=relaxed/simple;
-	bh=BE4DGyJ8XjLzaAsRPWHaw4RoO+TPlZsY/cThhh6d+Jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kk022HZwGVS8oLtYJ1i/tlZ8kMGE4Tnv/bsTq7UcsaXR00zOuQfCgMCCuN64KwL2BnzhGH8216XhUmGZrHAQ12fGXOuienjMhMTmS0j8a0YB4/lpvzLXcfuhaIDJw56N77VP15FE/4VQMnhMHs+WnKFEm5YYih0ZCqmy5HxMWK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CQBRltNs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730686365; c=relaxed/simple;
+	bh=Aq+g9zjzXgLlBEn62nblVp+7Ru0ZlXhweAF/WZlbf/Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QyoZjUgXJHh1ob47iBwJGvfE5rhhbHSINrjmIVZjluY7yPEBz1LnK6IDWMO6stn+f/gHWVYq963+bc7VZf29qLrIWJQFnlcHc4ZTaKDy1jteWN1X1kjF4ZKcGdYClrc+h+Tw8wTMAL2gcIX1IkI42MX1k8KwbEFGIci8kpZWpcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Y3s3B8E6; arc=none smtp.client-ip=95.215.58.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CQBRltNs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2494EC4CECD;
-	Sun,  3 Nov 2024 23:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730675756;
-	bh=BE4DGyJ8XjLzaAsRPWHaw4RoO+TPlZsY/cThhh6d+Jk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CQBRltNstbBw0WGplF7nRlkQ7LztYZCpG4LCj917GjVKxpiklE/kUjsw0VaYJPLJZ
-	 uMsj294WitOfdRBaeQ5E9lEHOixCRXRsL3eLiSAAhd03y4Tf/P5byT8qCIOnk05uPX
-	 ivaMcYuCv8+I7vBpylea9oypc1XETtXTbBG5s7rYDiVTlkoD/QCKBBtFKNNO9bHvlP
-	 Mn0HvdK0h+VCrN3SiUtCC76sesfXektKKTzXum8NJr6oenwG9dZrGTRYSaQzuglwP4
-	 PqKbqUV8qdPsrYqFRvjCK6tNVT3eRVQgxQb/Yyhau77MvUEYw5I/BP0i3YG9RVVh6P
-	 QVS/Rw8eSypqQ==
-Date: Sun, 3 Nov 2024 15:15:54 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Li Li <dualli@chromium.org>
-Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, donald.hunter@gmail.com,
- gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
- maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
- cmllamas@google.com, surenb@google.com, arnd@arndb.de,
- masahiroy@kernel.org, bagasdotme@gmail.com, horms@kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, hridya@google.com, smoreland@google.com,
- kernel-team@android.com
-Subject: Re: [PATCH net-next v7 2/2] binder: report txn errors via generic
- netlink
-Message-ID: <20241103151554.5fc79ce1@kernel.org>
-In-Reply-To: <20241031092504.840708-3-dualli@chromium.org>
-References: <20241031092504.840708-1-dualli@chromium.org>
-	<20241031092504.840708-3-dualli@chromium.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Y3s3B8E6"
+Message-ID: <07a5170b-8a7b-44c6-8ad1-af8d4c361661@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1730686354;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+NLIq6E1rAhGMwYQwDhRmVx3L0gQuv/WE61i9e5og3I=;
+	b=Y3s3B8E6e+JHg8Q1rYQETmFD65AOdOAkXrehnxdba/gRaO91uleRAqLE+exnA+V5pEHBqO
+	lryZ8MseadYcbP4OF7NzuygTGC5NwpMkf8g72l5NpgO4eW+nqTJ9p5m9a8VPGQGfEZZ4+K
+	wjZnCTdALYNTJ2IcIRybADFbIPMrolw=
+Date: Mon, 4 Nov 2024 10:12:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] docs/zh_CN: add the translation of kbuild/llvm.rst
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ llvm@lists.linux.dev
+References: <20241023153235.1291567-1-dzm91@hust.edu.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20241023153235.1291567-1-dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 31 Oct 2024 02:25:04 -0700 Li Li wrote:
-> +===========================================================
-> +Generic Netlink for the Android Binder Driver (Binder Genl)
-> +===========================================================
-> +
-> +The Generic Netlink subsystem in the Linux kernel provides a generic way for
-> +the Linux kernel to communicate to the user space applications via binder
-> +driver. It is used to report various kinds of binder transactions to user
-> +space administration process. The driver allows multiple binder devices and
-> +their corresponding binder contexts. Each context has an independent Generic
-> +Netlink for security reason. To prevent untrusted user applications from
-> +accessing the netlink data, the kernel driver uses unicast mode instead of
-> +multicast.
-> +
-> +Basically, the user space code uses the "set" command to request what kind
-> +of binder transactions reported by the kernel binder driver. The driver then
 
-Something is missing here. s/reported/should be reported/ ?
 
-> +uses "reply" command to acknowledge the request. The "set" command also
-> +registers the current user space process to receive the reports. When the
-> +user space process exits, the previous request will be reset to prevent any
-> +potential leaks.
+
+在 2024/10/23 23:32, Dongliang Mu 写道:
+> Finish the translation of kbuild/llvm.rst and move llvm from TODO
+> to the main body.
+>
+> Update to commit 145082ebfcf0 ("Documentation/llvm: turn make command
+> for ccache into code block")
+>
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+
+
+Thanks,
+Yanteng
+> ---
+>   .../translations/zh_CN/kbuild/index.rst       |   3 +-
+>   .../translations/zh_CN/kbuild/llvm.rst        | 203 ++++++++++++++++++
+>   2 files changed, 205 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/kbuild/llvm.rst
+>
+> diff --git a/Documentation/translations/zh_CN/kbuild/index.rst b/Documentation/translations/zh_CN/kbuild/index.rst
+> index 0ba96aecb13a..3f9ab52fa5bb 100644
+> --- a/Documentation/translations/zh_CN/kbuild/index.rst
+> +++ b/Documentation/translations/zh_CN/kbuild/index.rst
+> @@ -17,6 +17,7 @@
+>       gcc-plugins
+>       kbuild
+>       reproducible-builds
+> +    llvm
+>   
+>   TODO:
+>   
+> @@ -25,7 +26,7 @@ TODO:
+>   - makefiles
+>   - modules
+>   - issues
+> -- llvm
 > +
-> +Currently the driver can report binder transactions that "failed" to reach
-> +the target process, or that are "delayed" due to the target process being
-> +frozen by cgroup freezer, or that are considered "spam" according to existing
-> +logic in binder_alloc.c.
-> +
-> +When the specified binder transactions happen, the driver uses the "report"
-> +command to send a generic netlink message to the registered process,
-> +containing the payload struct binder_report.
-> +
-> +More details about the flags, attributes and operations can be found at the
-> +the doc sections in Documentations/netlink/specs/binder_genl.yaml and the
-> +kernel-doc comments of the new source code in binder.{h|c}.
-> +
-> +Using Binder Genl
-> +-----------------
-> +
-> +The Binder Genl can be used in the same way as any other generic netlink
-> +drivers. Userspace application uses a raw netlink socket to send commands
-> +to and receive packets from the kernel driver.
-> +
-> +.. note::
-> +    If the userspace application that talks to the driver exits, the kernel
-> +    driver will automatically reset the configuration to the default and
-> +    stop sending more reports to prevent leaking memory.
-> +
-> +Usage example (user space pseudo code):
-> +
-> +::
-> +
-> +    // open netlink socket
-> +    int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_GENERIC);
-> +
-> +    // bind netlink socket
-> +    bind(fd, struct socketaddr);
-> +
-> +    // get the family id of the binder genl
-> +    send(fd, CTRL_CMD_GETFAMILY, CTRL_ATTR_FAMILY_NAME, "binder");
-> +    void *data = recv(CTRL_CMD_NEWFAMILY);
-> +    __u16 id = nla(data)[CTRL_ATTR_FAMILY_ID];
-> +
-> +    // enable per-context binder report
-> +    send(fd, id, BINDER_GENL_CMD_SET, 0, BINDER_GENL_FLAG_FAILED |
-> +            BINDER_GENL_FLAG_DELAYED);
-> +
-> +    // confirm the per-context configuration
-> +    void *data = recv(fd, BINDER_GENL_CMD_REPLY);
-> +    __u32 pid =  nla(data)[BINDER_GENL_A_CMD_PID];
-> +    __u32 flags = nla(data)[BINDER_GENL_A_CMD_FLAGS];
-> +
-> +    // set optional per-process report, overriding the per-context one
-> +    send(fd, id, BINDER_GENL_CMD_SET, getpid(),
-> +            BINDER_GENL_FLAG_SPAM | BINDER_REPORT_OVERRIDE);
-> +
-> +    // confirm the optional per-process configuration
-> +    void *data = recv(fd, BINDER_GENL_CMD_REPLY);
-> +    __u32 pid =  nla(data)[BINDER_GENL_A_CMD_PID];
-> +    __u32 flags = nla(data)[BINDER_GENL_A_CMD_FLAGS];
-> +
-> +    // wait and read all binder reports
-> +    while (running) {
-> +            void *data = recv(fd, BINDER_GENL_CMD_REPORT);
-> +            u32 *attr = nla(data)[BINDER_GENL_A_REPORT_XXX];
-> +
-> +            // process binder report
-> +            do_something(*attr);
-> +    }
-> +
-> +    // clean up
-> +    send(fd, id, BINDER_GENL_CMD_SET, 0, 0);
-> +    send(fd, id, BINDER_GENL_CMD_SET, getpid(), 0);
-> +    close(fd);
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-> index e85b1adf5908..b3b5cfadffe5 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -79,6 +79,7 @@ configure specific aspects of kernel behavior to your liking.
->     aoe/index
->     auxdisplay/index
->     bcache
-> +   binder_genl
->     binderfs
->     binfmt-misc
->     blockdev/index
-> diff --git a/Documentation/netlink/specs/binder_genl.yaml b/Documentation/netlink/specs/binder_genl.yaml
+>   
+>   .. only::  subproject and html
+>   
+> diff --git a/Documentation/translations/zh_CN/kbuild/llvm.rst b/Documentation/translations/zh_CN/kbuild/llvm.rst
 > new file mode 100644
-> index 000000000000..35e5f0120fc7
+> index 000000000000..f71092144a26
 > --- /dev/null
-> +++ b/Documentation/netlink/specs/binder_genl.yaml
-> @@ -0,0 +1,114 @@
-> +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+> +++ b/Documentation/translations/zh_CN/kbuild/llvm.rst
+> @@ -0,0 +1,203 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +name: binder_genl
-> +protocol: genetlink
-> +uapi-header: linux/android/binder_genl.h
-> +doc: Netlink protocol to report binder transaction errors and warnings.
+> +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +definitions:
-> +  -
-> +    type: flags
-> +    name: flag
-> +    doc: |
-> +      Used with "set" and "reply" command below, defining what kind of binder
-> +      transactions reported to the user space administration process.
-
-Please the references to which commands use given enum and attr.
-The YAML specs are automatically rendered as HTML:
-https://docs.kernel.org/next/networking/netlink_spec/net_shaper.html
-so hopefully it's clear which attrs are used where.
-
-> +    value-start: 0
-
-I thought flags default to starting from 0 (or rather (1<<0))
-Please delete this if it's not needed.
-
-> +    entries: [ failed, delayed, spam, override ]
+> +:Original: Documentation/kbuild/llvm.rst
+> +:Translator: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
 > +
-> +attribute-sets:
-> +  -
-> +    name: cmd
-> +    doc: The supported attributes of "set" and "reply" commands
-> +    attributes:
-> +      -
-> +        name: pid
-> +        type: u32
-> +        doc: |
-> +          What binder proc or context to enable binder genl report,
-> +          used by "set" and "reply" command below.
-> +      -
-> +        name: flags
-> +        type: u32
-> +        doc: |
-> +          What kind of binder transactions reported via binder genl,
-> +          used by "set" and "reply" command below.
-> +  -
-> +    name: report
-> +    doc: The supported attributes of "report" command
-> +    attributes:
-> +      -
-> +        name: err
-> +        type: u32
-> +        doc: |
-> +          Copy of binder_driver_return_protocol returned to the sender,
-> +          used by "report" command below.
-> +      -
-> +        name: from_pid
-> +        type: u32
-> +        doc: |
-> +          Sender pid of the corresponding binder transaction
-> +          used by "report" command below.
-> +      -
-> +        name: from_tid
-> +        type: u32
-> +        doc: |
-> +          Sender tid of the corresponding binder transaction
-> +          used by "report" command below.
-> +      -
-> +        name: to_pid
-> +        type: u32
-> +        doc: |
-> +          Target pid of the corresponding binder transaction
-> +          used by "report" command below.
-> +      -
-> +        name: to_tid
-> +        type: u32
-> +        doc: |
-> +          Target tid of the corresponding binder transaction
-> +          used by "report" command below.
-> +      -
-> +        name: reply
-> +        type: u32
-> +        doc: |
-> +          1 means the transaction is a reply, 0 otherwise
-> +          used by "report" command below.
-> +      -
-> +        name: flags
-> +        type: u32
-> +        doc: |
-> +          Copy of binder_transaction_data->flags
-> +          used by "report" command below.
-> +      -
-> +        name: code
-> +        type: u32
-> +        doc: |
-> +          Copy of binder_transaction_data->code
-> +          used by "report" command below.
-> +      -
-> +        name: data_size
-> +        type: u32
-> +        doc: |
-> +          Copy of binder_transaction_data->data_size
-> +          used by "report" command below.
+> +==========================
+> +使用 Clang/LLVM 构建 Linux
+> +==========================
 > +
-> +operations:
-> +  list:
-> +    -
-> +      name: set
-> +      doc: |
-> +        Set flags from user space, requesting what kinds of binder
-> +        transactions to report.
-> +      attribute-set: cmd
+> +本文档介绍如何使用 Clang 和 LLVM 工具构建 Linux 内核。
 > +
-> +      do:
-> +        request: &params
-> +          attributes:
-> +            - pid
-> +            - flags
-> +        reply: *params
-> +    -
-> +      name: reply
-> +      doc: Acknowledge the above "set" request, echoing the same params.
-
-Hm, this looks strange. We shouldn't need a separate op entry for reply.
-Operations are request + response.
-
-> +    -
-> +      name: report
-> +      doc: Send the requested binder transaction reports to user space.
-
-This is probably an event and contain the list of fields carried:
-https://docs.kernel.org/next/userspace-api/netlink/specs.html
-The list of fields is needed for user space C and C++ code gen.
-
-> +/**
-> + * binder_genl_set_report() - set binder report flags
-> + * @context:	the binder context to set the flags
-> + * @pid:	the target process
-> + * @flags:	the flags to set
-> + *
-> + * If pid is 0, the flags are applied to the whole binder context.
-> + * Otherwise, the flags are applied to the specific process only.
-> + */
-> +static int binder_genl_set_report(struct binder_context *context, u32 pid,
-> +				  u32 flags)
-> +{
-> +	struct binder_proc *proc;
+> +关于
+> +----
 > +
-> +	if (flags != (flags & (BINDER_GENL_FLAG_OVERRIDE
-> +			| BINDER_GENL_FLAG_FAILED
-> +			| BINDER_GENL_FLAG_DELAYED
-> +			| BINDER_GENL_FLAG_SPAM))) {
-
-please add
-
-	enum: flag
-
-to the definition of the flags field in YAML.
-Netlink will auto-generate a policy checking that only values defined
-in the enum are allowed.
-
-> +		pr_err("Invalid binder report flags: %u\n", flags);
-> +		return -EINVAL;
-> +	}
+> +Linux 内核传统上一直使用 GNU 工具链（如 GCC 和 binutils）进行编译。持续的工作使得
+> +`Clang <https://clang.llvm.org/>`_ 和 `LLVM <https://llvm.org/>`_ 工具可
+> +作为可行的替代品。一些发行版，如 `Android <https://www.android.com/>`_、
+> +`ChromeOS <https://www.chromium.org/chromium-os>`_、`OpenMandriva
+> +<https://www.openmandriva.org/>`_ 和 `Chimera Linux
+> +<https://chimera-linux.org/>`_ 使用 Clang 编译的内核。谷歌和 Meta 的数据中心
+> +集群也运行由 Clang 编译的内核。
 > +
-> +	if (!pid) {
-> +		/* Set the global flags for the whole binder context */
-> +		context->report_flags = flags;
-> +	} else {
-> +		/* Set the per-process flags */
-> +		proc = binder_find_proc(pid);
-> +		if (!proc) {
-> +			pr_err("Invalid binder report pid %u\n", pid);
-> +			return -EINVAL;
-> +		}
+> +`LLVM 是由 C++ 对象实现的工具链组件集合 <https://www.aosabook.org/en/llvm.html>`_。
+> +Clang 是 LLVM 的前端，支持 C 语言和内核所需的 GNU C 扩展，其发音为 "klang"，而非
+> +"see-lang"。
 > +
-> +		proc->report_flags = flags;
-> +	}
+> +使用 LLVM 构建
+> +--------------
 > +
-> +	return 0;
-> +}
-
-> @@ -6311,6 +6500,83 @@ binder_defer_work(struct binder_proc *proc, enum binder_deferred_state defer)
->  	mutex_unlock(&binder_deferred_lock);
->  }
->  
-> +/**
-> + * binder_genl_nl_set_doit() - .doit handler for BINDER_GENL_CMD_SET
-> + * @skb:	the metadata struct passed from netlink driver
-> + * @info:	the generic netlink struct passed from netlink driver
-> + *
-> + * Implements the .doit function to process binder genl commands.
-> + */
-> +int binder_genl_nl_set_doit(struct sk_buff *skb, struct genl_info *info)
-> +{
-> +	int payload;
-> +	int portid;
-> +	u32 pid;
-> +	u32 flags;
-> +	void *hdr;
-> +	struct binder_context *context;
+> +通过以下命令调用 ``make``::
 > +
-> +	/* Both attributes are required for BINDER_GENL_CMD_SET */
-> +	if (!info->attrs[BINDER_GENL_A_CMD_PID] || !info->attrs[BINDER_GENL_A_CMD_FLAGS]) {
-
-Use GENL_REQ_ATTR_CHECK, it will set metadata to let user space know
-which attrs are missing
-
-> +		pr_err("Attributes not set\n");
-
-and then you can delete this
-
-> +		return -EINVAL;
-> +	}
+> +	make LLVM=1
 > +
-> +	portid = nlmsg_hdr(skb)->nlmsg_pid;
-> +	pid = nla_get_u32(info->attrs[BINDER_GENL_A_CMD_PID]);
-> +	flags = nla_get_u32(info->attrs[BINDER_GENL_A_CMD_FLAGS]);
-> +	context = container_of(info->family, struct binder_context,
-> +			       genl_family);
+> +为主机目标进行编译。对于交叉编译::
 > +
-> +	if (context->report_portid && context->report_portid != portid) {
-> +		pr_err("No permission to set report flags from %u\n", portid);
-
-It's better to communicate the errors to application using extack
-(inside the netlink reply) using NL_SET_ERR_MSG(info->extack, "yourmsg")
-
-> +		return -EPERM;
-> +	}
+> +	make LLVM=1 ARCH=arm64
 > +
-> +	if (binder_genl_set_report(context, pid, flags) < 0) {
-> +		pr_err("Failed to set report flags %u for %u\n", flags, pid);
-> +		return -EINVAL;
-> +	}
+> +LLVM= 参数
+> +----------
 > +
-> +	payload = nla_total_size(sizeof(pid)) + nla_total_size(sizeof(flags));
-> +	skb = genlmsg_new(payload + GENL_HDRLEN, GFP_KERNEL);
-> +	if (!skb) {
-> +		pr_err("Failed to alloc binder genl reply message\n");
-> +		return -ENOMEM;
-> +	}
+> +LLVM 有 GNU binutils 工具的替代品。这些工具可以单独启用。以下是支持的 make 变量
+> +完整列表::
 > +
-> +	hdr = genlmsg_put_reply(skb, info, info->family, 0,
-> +				BINDER_GENL_CMD_REPLY);
-
-Use the same ID as the request, the BINDER_GENL_CMD_REPLY
-shouldn't exist. And then you can use genlmsg_iput().
-
-> +	if (!hdr)
-> +		goto free_skb;
+> +	make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+> +	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+> +	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
 > +
-> +	if (nla_put_u32(skb, BINDER_GENL_A_CMD_PID, pid))
-> +		goto cancel_skb;
+> +``LLVM=1`` 扩展为上述命令。
 > +
-> +	if (nla_put_u32(skb, BINDER_GENL_A_CMD_FLAGS, flags))
-
-it's typical to chain all the nla_puts..
-
-	if (nla_put_u32(skb, BINDER_GENL_A_CMD_PID, pid) ||
-	    nla_put_u32(skb, BINDER_GENL_A_CMD_FLAGS, flags))
-
-to avoid repeating the goto's for every field.
-
-> +		goto cancel_skb;
+> +如果你的 LLVM 工具不在 PATH 中，你可以使用以斜杠结尾的 LLVM 变量提供它们的位置::
 > +
-> +	genlmsg_end(skb, hdr);
+> +	make LLVM=/path/to/llvm/
 > +
-> +	if (genlmsg_reply(skb, info)) {
-> +		pr_err("Failed to send binder genl reply message\n");
-> +		return -EFAULT;
-> +	}
+> +这将使用 ``/path/to/llvm/clang``、``/path/to/llvm/ld.lld`` 等工具。也可以
+> +使用以下命令::
 > +
-> +	if (!context->report_portid)
-> +		context->report_portid = portid;
+> +	PATH=/path/to/llvm:$PATH make LLVM=1
 > +
-> +	return 0;
+> +如果你的 LLVM 工具带有版本后缀，并且你希望测试该特定版本而非无后缀的可执行文件，
+> +类似于 ``LLVM=1``，你可以使用 ``LLVM`` 变量传递该后缀::
 > +
-> +cancel_skb:
-> +	pr_err("Failed to add reply attributes to binder genl message\n");
-> +	genlmsg_cancel(skb, hdr);
-> +free_skb:
-> +	pr_err("Free binder genl reply message on error\n");
-> +	nlmsg_free(skb);
-> +	return -EMSGSIZE;
-> +}
+> +	make LLVM=-14
 > +
->  static void print_binder_transaction_ilocked(struct seq_file *m,
->  					     struct binder_proc *proc,
->  					     const char *prefix,
-> @@ -6894,6 +7160,28 @@ const struct binder_debugfs_entry binder_debugfs_entries[] = {
->  	{} /* terminator */
->  };
->  
-> +/**
-> + * binder_genl_init() - initialize binder generic netlink
-> + * @family:	the generic netlink family
-> + * @name:	the binder device name
-> + *
-> + * Registers the binder generic netlink family.
-> + */
-> +int binder_genl_init(struct genl_family *family, const char *name)
-> +{
-> +	int ret;
+> +这将使用 ``clang-14``、``ld.lld-14`` 等工具。为了支持带有版本后缀的树外路径组合，
+> +我们建议::
 > +
-> +	memcpy(family, &binder_genl_nl_family, sizeof(*family));
-> +	strscpy(family->name, name, GENL_NAMSIZ);
-
-You're trying to register multiple families with different names?
-The family defines the language / protocol. If you have multiple
-entities to multiplex you should do that based on attributes inside
-the messages.
-
-> +	ret = genl_register_family(family);
-> +	if (ret) {
-> +		pr_err("Failed to register binder genl: %s\n", name);
-> +		return ret;
-> +	}
+> +	PATH=/path/to/llvm/:$PATH make LLVM=-14
 > +
-> +	return 0;
-> +}
+> +``LLVM=0`` 与省略 ``LLVM`` 完全不同，它将表现得像 ``LLVM=1``。如果你只希望使用
+> +某些 LLVM 工具，请使用它们各自的 make 变量。
+> +
+> +在通过不同命令配置和构建时，应为每次调用 ``make`` 设置相同的 ``LLVM=`` 值。如果
+> +运行的脚本最终会调用 ``make``，则还应将 ``LLVM=`` 设置为环境变量。
+> +
+> +交叉编译
+> +--------
+> +
+> +单个 Clang 编译器二进制文件（及其对应的 LLVM 工具）通常会包含所有支持的后端，这可以
+> +简化交叉编译，尤其是使用 ``LLVM=1`` 时。如果仅使用 LLVM 工具，``CROSS_COMPILE``
+> +或目标三元组前缀就变得不必要。示例::
+> +
+> +	make LLVM=1 ARCH=arm64
+> +
+> +作为混合 LLVM 和 GNU 工具的示例，对于像 ``ARCH=s390`` 这样目前尚不支持
+> +``ld.lld`` 或 ``llvm-objcopy`` 的目标，你可以通过以下方式调用 ``make``::
+> +
+> +	make LLVM=1 ARCH=s390 LD=s390x-linux-gnu-ld.bfd \
+> +	  OBJCOPY=s390x-linux-gnu-objcopy
+> +
+> +此示例将调用 ``s390x-linux-gnu-ld.bfd`` 作为链接器和
+> +``s390x-linux-gnu-objcopy``，因此请确保它们在你的 ``$PATH`` 中。
+> +
+> +当 ``LLVM=1`` 未设置时，``CROSS_COMPILE`` 不会用于给 Clang 编译器二进制文件
+> +（或相应的 LLVM 工具）添加前缀，而 GNU 工具则需要这样做。
+> +
+> +LLVM_IAS= 参数
+> +--------------
+> +
+> +Clang 可以编译汇编代码。你可以传递 ``LLVM_IAS=0`` 禁用此行为，使 Clang 调用
+> +相应的非集成汇编器。示例::
+> +
+> +	make LLVM=1 LLVM_IAS=0
+> +
+> +在交叉编译时，你需要使用 ``CROSS_COMPILE`` 与 ``LLVM_IAS=0``，从而设置
+> +``--prefix=`` 使得编译器可以对应的非集成汇编器（通常，在面向另一种架构时，
+> +你不想使用系统汇编器）。例如::
+> +
+> +	make LLVM=1 ARCH=arm LLVM_IAS=0 CROSS_COMPILE=arm-linux-gnueabi-
+> +
+> +Ccache
+> +------
+> +
+> +``ccache`` 可以与 ``clang`` 一起使用，以改善后续构建（尽管在不同构建之间
+> +KBUILD_BUILD_TIMESTAMP_ 应设置为同一确定值，以避免 100% 的缓存未命中，
+> +详见 Reproducible_builds_ 获取更多信息）::
+> +
+> +	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
+> +
+> +.. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
+> +.. _Reproducible_builds: reproducible-builds.html#timestamps
+> +
+> +支持的架构
+> +----------
+> +
+> +LLVM 并不支持 Linux 内核所有可支持的架构，同样，即使 LLVM 支持某一架构，也并不意味着在
+> +该架构下内核可以正常构建或工作。以下是当前 ``CC=clang`` 或 ``LLVM=1`` 支持的架构总结。
+> +支持级别对应于 MAINTAINERS 文件中的 "S" 值。如果某个架构未列出，则表示 LLVM 不支持它
+> +或存在已知问题。使用最新的稳定版 LLVM 或甚至开发版本通常会得到最佳结果。一个架构的
+> +``defconfig`` 通常预期能够良好工作，但某些配置可能存在尚未发现的问题。欢迎在以下
+> +问题跟踪器中提交错误报告！
+> +
+> +.. list-table::
+> +   :widths: 10 10 10
+> +   :header-rows: 1
+> +
+> +   * - 架构
+> +     - 支持级别
+> +     - ``make`` 命令
+> +   * - arm
+> +     - 支持
+> +     - ``LLVM=1``
+> +   * - arm64
+> +     - 支持
+> +     - ``LLVM=1``
+> +   * - hexagon
+> +     - 维护
+> +     - ``LLVM=1``
+> +   * - loongarch
+> +     - 维护
+> +     - ``LLVM=1``
+> +   * - mips
+> +     - 维护
+> +     - ``LLVM=1``
+> +   * - powerpc
+> +     - 维护
+> +     - ``LLVM=1``
+> +   * - riscv
+> +     - 支持
+> +     - ``LLVM=1``
+> +   * - s390
+> +     - 维护
+> +     - ``LLVM=1`` （LLVM >= 18.1.0），``CC=clang`` （LLVM < 18.1.0）
+> +   * - um (用户模式)
+> +     - 维护
+> +     - ``LLVM=1``
+> +   * - x86
+> +     - 支持
+> +     - ``LLVM=1``
+> +
+> +获取帮助
+> +--------
+> +
+> +- `网站 <https://clangbuiltlinux.github.io/>`_
+> +- `邮件列表 <https://lore.kernel.org/llvm/>`_: <llvm@lists.linux.dev>
+> +- `旧邮件列表档案 <https://groups.google.com/g/clang-built-linux>`_
+> +- `问题跟踪器 <https://github.com/ClangBuiltLinux/linux/issues>`_
+> +- IRC: #clangbuiltlinux 在 irc.libera.chat
+> +- `Telegram <https://t.me/ClangBuiltLinux>`_: @ClangBuiltLinux
+> +- `维基 <https://github.com/ClangBuiltLinux/linux/wiki>`_
+> +- `初学者问题 <https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22>`_
+> +
+> +.. _zh_cn_getting_llvm:
+> +
+> +获取 LLVM
+> +---------
+> +
+> +我们在 `kernel.org <https://kernel.org/pub/tools/llvm/>`_ 提供预编译的稳定版 LLVM。
+> +这些版本已经针对 Linux 内核构建，使用配置文件数据进行优化。相较于其他发行版中的 LLVM，它们应该
+> +能提高内核构建时间。
+> +
+> +以下是一些有助于从源代码构建 LLVM 或通过发行版的包管理器获取 LLVM 的链接。
+> +
+> +- https://releases.llvm.org/download.html
+> +- https://github.com/llvm/llvm-project
+> +- https://llvm.org/docs/GettingStarted.html
+> +- https://llvm.org/docs/CMake.html
+> +- https://apt.llvm.org/
+> +- https://www.archlinux.org/packages/extra/x86_64/llvm/
+> +- https://github.com/ClangBuiltLinux/tc-build
+> +- https://github.com/ClangBuiltLinux/linux/wiki/Building-Clang-from-source
+> +- https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/
 
