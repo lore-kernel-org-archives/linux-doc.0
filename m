@@ -1,209 +1,136 @@
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sg2apc01on2121.outbound.protection.outlook.com [40.107.215.121])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441E61AF0A0;
-	Mon,  4 Nov 2024 09:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.121
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730713561; cv=fail; b=rcoYrcmU+xwpZQ99u6Q+PIb/F5cxiSGCIv9X4BX4NVtQOLegGqxnYme55uwJk9RC7QHqXkE4ofa8L2ZmlVWSydzR+Pr7eIEGfjiQ+vcRh8rNGOFCbAC5An8XcvFOsJnayNVhUTbUzcEwoRlt6xcpe9pKgOQSAserPeGp6jCVc6Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730713561; c=relaxed/simple;
-	bh=98pWwlrBk7khPcN8tJL75j8XyXJXn1k6CA6hSHzHuqI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=G/rbFJZ5xZucj71Qvqfz5LAv366p4EAZcifQ7K5wmn2v9vs+gdsono/m+Y80bbWHbnIABNZqiPc5YpkMYqvHS+bG/kuObOv1NMK0VODf66hwyry2yNIdWfacUtiYI+K4yuqccAHvnuu3npQj8NL/PBWYnDWUIecU5TBYam7bogc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=leJpFKb+; arc=fail smtp.client-ip=40.107.215.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="leJpFKb+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jxQ77KoqmTPn7+yxQkCeAFWSg/l0Nhrn7ykX5JOPCP3CiJGfavQmUl0/Br8oz1k1lKJeZYu1ZpOC8JcpJ7qRgQJGHyPzIy1/xtHbDKOwqAlg+b+UVTHUVTAW7JpS6YWJwYq+zImMs2vLeUDusBULia3oPLdajtP/RGkKengPrL+pYpTzDqaWMmAwbGROqsnhruC4n3/ZI5nDxFY0Y4hIVpFdjVqsSlwshNc0j5eqw4sSKHFDY0fgJcQGmui68pKcCPWea5FfMAejjax5zBPFvbaEzp11pXYhd7zYut8j5ITB5mcW0X2wKMtbI3IaIMipM+iCjAC9vXs4RgVLRI3nbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qR/IPmJERzKwq7pyhhzpV+mbaE98mDNPcQJZDDRh8mw=;
- b=aHtdC/qlKt/4wRem/pluPQsk8m4A5dlpEnlUIHtrAi78606RZxpXiuxWi8JQrgJ/6/q7U7MTaV3sN+ltFGzQwcMM01hFLar1FSOMeMYrhBPzz1BWnEG/+GSCHwdBBTtcJUcs+qiFY7GJz444Q2OJcU5Zl1AO2rzTe2OIyW+NEAN3vtGtlnMNRO2I7AEKVBXuMI1sjfMotZtz6bHgks+NHtQD6bEd0ZAN4X4NbYM0v95an5Kdc0HSjEBAeLb5JlEGGw8hzuqIxRArLKHKHOapYB7Ei/1h8Eiu/FLF1O3z7vMn9Gnx5xkDcqbCOz5Y+B0i4H8r4WO5w0eKKu99KiMu3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
- dkim=pass header.d=fibocom.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qR/IPmJERzKwq7pyhhzpV+mbaE98mDNPcQJZDDRh8mw=;
- b=leJpFKb+dVp0issH3qocnT9aLaxSqR6gcb/qq6tDn+UtcEr4mItIJAoodQu770jVH5H5xU3689k012ajctaP5MQs5tvUq52FKsZEGVHNG3bMdVkjs49/z0Rb6AZleNZ/G/D0A2nmuK2VJmJpQdHDJq05/AMA1XnGQsIagUdSnK4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fibocom.com;
-Received: from SEZPR02MB5782.apcprd02.prod.outlook.com (2603:1096:101:4f::8)
- by TYZPR02MB5764.apcprd02.prod.outlook.com (2603:1096:400:1d0::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.28; Mon, 4 Nov
- 2024 09:45:56 +0000
-Received: from SEZPR02MB5782.apcprd02.prod.outlook.com
- ([fe80::4843:bf84:bd17:827e]) by SEZPR02MB5782.apcprd02.prod.outlook.com
- ([fe80::4843:bf84:bd17:827e%5]) with mapi id 15.20.8114.020; Mon, 4 Nov 2024
- 09:45:56 +0000
-From: Jinjian Song <jinjian.song@fibocom.com>
-To: chandrashekar.devegowda@intel.com,
-	chiranjeevi.rapolu@linux.intel.com,
-	haijun.liu@mediatek.com,
-	m.chetan.kumar@linux.intel.com,
-	ricardo.martinez@linux.intel.com,
-	loic.poulain@linaro.org,
-	ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	angelogioacchino.delregno@collabora.com,
-	linux-arm-kernel@lists.infradead.org,
-	matthias.bgg@gmail.com,
-	corbet@lwn.net,
-	linux-mediatek@lists.infradead.org,
-	helgaas@kernel.org,
-	danielwinkler@google.com,
-	korneld@google.com,
-	andrew+netdev@lunn.ch,
-	horms@kernel.org,
-	Jinjian Song <jinjian.song@fibocom.com>
-Subject: [net-next v8 3/3] net: wwan: t7xx: Unify documentation column width
-Date: Mon,  4 Nov 2024 17:44:36 +0800
-Message-Id: <20241104094436.466861-4-jinjian.song@fibocom.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241104094436.466861-1-jinjian.song@fibocom.com>
-References: <20241104094436.466861-1-jinjian.song@fibocom.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0008.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::10) To SEZPR02MB5782.apcprd02.prod.outlook.com
- (2603:1096:101:4f::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0431F1AC43A;
+	Mon,  4 Nov 2024 09:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730714322; cv=none; b=V73v9GV5bllLdY5Tsdl4wamL1QtjxwKIqfd7qzOdplSj3vOD7Uut4XkdT2N3PCwvj4ymQ4no3NdDY1TQPpdKhshBVroo76t3unchcHXORlJjMu4jS4avEzigsUeZvzux9p4bryI0iOOK5Ek4nlToL1f7nYiZjUloHxeMyPhTk+c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730714322; c=relaxed/simple;
+	bh=cGc3p1RFcABDoSgLbkrGYjJv7Mesj0EoAuHiRfKkhAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r5JeEGzYWMvq9KMV6l6lu6ywy5BptCkhHy+dSFPzflj+VtaNNrSN2tm398mpI1d4fC9/aDsPFa5MLrFx5VBjMegLZo2Ug45+5l30KCx6YNhcyv0tSLZOmsSPoUkYuhBaCJy0fUuVqSTuW9ZgVJjWayxo17Zi/DwVocIIKaQF1gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id EF664227AAD; Mon,  4 Nov 2024 10:58:31 +0100 (CET)
+Date: Mon, 4 Nov 2024 10:58:31 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241104095831.GA28751@lst.de>
+References: <cover.1730298502.git.leon@kernel.org> <3567312e-5942-4037-93dc-587f25f0778c@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR02MB5782:EE_|TYZPR02MB5764:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49b70a3b-b0c8-4b30-e5b6-08dcfcb57ae2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?M/USkgIm0r4QnbZvSE7yLkhTuy6NTqudQ+KXAVMTjgFxBypoaHLG7nP5s7rn?=
- =?us-ascii?Q?fr+N9WA5zdpOVRn3L04f8wjSq+CU0WUDjOeNgNwIN2P7HQ2r59ohUCcMEEPT?=
- =?us-ascii?Q?U6eDe08+uVoAzbMOuhNHHtTR1eXw51l5GkJomwt/u9gEnpDQoPGAgFfDhNQv?=
- =?us-ascii?Q?DVrv9fKLfw1QrHBlM4qgBYJPGhyNox43aCntIcTvkvT8t/5TrRV+UJ0U9OxP?=
- =?us-ascii?Q?8qbxzndIWz1xAwedWMMNb2nG+b2ttCQjnb/0p12aqFPND6+tF64DdRCDte6v?=
- =?us-ascii?Q?k/5S6u7FnqyORDZ12tBkdgH40mc+TIZuOiFSOWV8JkBHqyFJkr3LKq+KEDl4?=
- =?us-ascii?Q?Bpp2W/H6UyOASTIUJDdtzIl7+DiKxUnvOq8EW7vq0rsRZNZ3uwi34W6RHwiS?=
- =?us-ascii?Q?E1xrPegVHbxbkWwPqqBGeapGpZAlJfouOm9RjqAs1tr1GjRXkyPosThkadER?=
- =?us-ascii?Q?RYqW4E3FkFaR1kiCSbpBaz0h3esburF9oXz3lCdyh06B6bovvDFdenwVEST6?=
- =?us-ascii?Q?xIfZWIIEgH09NaUVxxPQdwXx1jDeSluBVwLaHpQyOv/pH2qLI/suLzBaIWSq?=
- =?us-ascii?Q?hZLmjJkxkOj612/ML/MDahbc+VoAMp1EgoN26qMA4/RXr7z6X5O6z46wu1eR?=
- =?us-ascii?Q?6zG+xoFfXyCyQ58E31T2TB/x5OE49VmPZp5oxpsIXwoMM1WeH9G07IYU859n?=
- =?us-ascii?Q?cpIE7UTiVHbi3jcjmTOoxo5r13bxi12RWwmZ2PK9FHzJo8CIM89dYDEt8U5K?=
- =?us-ascii?Q?/oqnIu3bbayz1RprnPI2aGHxXuNsmCGuGL4Mqa2H1O2mNT0pn64lW7JCc1MH?=
- =?us-ascii?Q?1kFQxJ9liAzNwTreXAannNb42vMagIDOTPpVuoLfD60gK40EERxrLp6dYDFi?=
- =?us-ascii?Q?jbqjmPzsyYnJbRKxHo42P9F++4IpcL17iKTn9PfuF3J5jQ8+2964H6wjC6Ie?=
- =?us-ascii?Q?nBLHFP0bfy2brrSkVOoDwgsjlqPjJ33IL38t9HPB09osu4ck+18fTYSDqZkQ?=
- =?us-ascii?Q?Sb4eHIFI6o/GBeyv42bL3wBWR5QxYALdhKMir2fd+nHTV2J4w144IVmAWUPv?=
- =?us-ascii?Q?EiRCDNo5hduLcQuZrq+5fKcytpt7SqpZUaamdNCt4UED5/uWh5QBo91gemKM?=
- =?us-ascii?Q?c6HhCi4X8CJKGFKupwAet1mvUV+E6Fabx8xPVXIBXqiMtVkPWcsCSpD/ABsR?=
- =?us-ascii?Q?ZPawzAFVd8yW0raht72Tj3FT3dZjEUg6Nk8usHipmpjVryYkTseqCpuDZp6n?=
- =?us-ascii?Q?lziBehluwGxQZbYheWu+JyUc/VFvCme43qzdE0WdUoycrrNhapzROlrN6xso?=
- =?us-ascii?Q?sPxdj94CNTjbO2OIVQbrmx5IjMtUs/md5dxAZ2yDVX/huZr/+1D7FsL5xo5s?=
- =?us-ascii?Q?tG0Zc9wFFQhNYcI6tbEjI+ioiLxB?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR02MB5782.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(38350700014)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9RxOlGxKiPeL8sar8/iyty6ib5oF3disbbCVJHdp99DhsFYRhzl7Xk0JS9HJ?=
- =?us-ascii?Q?CPOBj6K0hu639ayP1oHIYYoXxBR8k5KvayPyscmFpT7GXWWGGB87qM95XCOa?=
- =?us-ascii?Q?Ae9XtN9TYkkD4inGqowPcILA8G6c+klA6u8IbF6hc4ClCBeGC76M0T3pYPVw?=
- =?us-ascii?Q?fqNG3ruHh2QjebkhaLkk7/3yKr7K6K2UlXG4oYVvIbF3lRDbJn+55RXIAUNG?=
- =?us-ascii?Q?raAPQqI+hzpy1PlayHXLqi8lXE8evlLE+SyG3gVzoRX1q0KDTZEitbuoWQpb?=
- =?us-ascii?Q?Fpu/Q1+nOniTbIxEcu/9hJd/zytaqqSI+SRe+FlPsToAHJApRf61mmYMe5c4?=
- =?us-ascii?Q?CeXVQShM7h4jJz686ij5QliLShckcoFUGTVNlTaGHpnnd2odyclPFNhFVi47?=
- =?us-ascii?Q?4zRV2m1TEEKZJyao/67AD1zAWFZDrI4GTz49YcpPyDCRO2wXa5ueNtR89PjM?=
- =?us-ascii?Q?+nXD6o7IpfvuzrYEkan2v+JtM04pZ+q6srtnPVd0e646CsmjL755f969n23U?=
- =?us-ascii?Q?r7Zdv7rdudoNw1PMO+tAV17dD8b7cbr71kpsfcx8jxPnaCDKGwJgbgiDN4fq?=
- =?us-ascii?Q?nofU8q9cVOkvaUWC8woupXM5weQyvH4Lq9q9LnBb5iJQoUx4x/s+zjgdLUVp?=
- =?us-ascii?Q?wsONCqMpu5SILyD/zukKRcdKQJr+RmwU0938YbcfeRrNgRFISRnAFPD8vNCI?=
- =?us-ascii?Q?KUpwC+V2p3dYtJh3Kh7c9fPiDdv8q62aaS+LqJ3MElVBAKyExB1BLjEMkJB2?=
- =?us-ascii?Q?/CsTMFQaS63lHDWnTRDPjFpFkwk511Yfp2z/PGliWjqkuo9jDLXQt91Z8pZi?=
- =?us-ascii?Q?mZGbpzfqkNwr+Zpx2nkK3LxeLmwref5SjdZXQmBYeNv8hrVH8mDk59PsyMRa?=
- =?us-ascii?Q?k6j+Sfm/xQ++xCuqEjw91oD91xUjv9X4+c70wOIufrja221lPPOq0dkYZwH7?=
- =?us-ascii?Q?16k6eaWH25KASd+7m2X2KjdBblQFcKx/PBwFB+dC3vfY2URiQu+n+vUVe+uh?=
- =?us-ascii?Q?IC6ekYfzmnsl0YVcWEKkCDUp9Zyps/XqZEJBDUb0wLoAH9NF0d0Jf5RRUddO?=
- =?us-ascii?Q?XXPrLHuC+ILUuVRbgr301/oIVRQthl6f2RRaKwxfchGGS27WwW0VK9QX4FRu?=
- =?us-ascii?Q?tH7EiCqDiZWPv9hVFkh51ZbMePEzzwhM5NZurrjqAfj6JPESEPY8+XwMekmx?=
- =?us-ascii?Q?RBeGs3g0e/U+DwQIlmxyysndIqQ1gyWEFbSjy2otOvkV6dPX4NjOdAPRD7MG?=
- =?us-ascii?Q?lJtZrZef3iX6siqzXy8nYxvsZty5LU8SsALQpI7kkEFH9R4By8oGti3F4Jwy?=
- =?us-ascii?Q?55BiEbRF3BX9ue0gRJFpaT7pZoo8l1c4KOOy3CPJgdn9n63OxE+gTznP+OjO?=
- =?us-ascii?Q?o7kBUSB+3p4bLTr3XxNm6uQ2y91gBxYsIafFC53ZnAsW7uU+A+RqGUWGoyTo?=
- =?us-ascii?Q?g7MTV58EcHx6+vEBmrIr3bVTwHzchnRVQfM41EAWOvl9P0mXkyW+xM3B/N9D?=
- =?us-ascii?Q?Ds5r+Cy+6W5b4y3MW+WHABnDNfBGTfhmDvPN9i/vpEC8iev1NBiswH+RUALM?=
- =?us-ascii?Q?HF4+VVt21gPVsHVgLgMlEJmdk0Ob0PdE7ajM97z5xxhUN8M2HeeXm/gm/tGV?=
- =?us-ascii?Q?2Q=3D=3D?=
-X-OriginatorOrg: fibocom.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49b70a3b-b0c8-4b30-e5b6-08dcfcb57ae2
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR02MB5782.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 09:45:56.3845
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4beKTGOy3+x8nwS8ZhFKIU6q0TRqFwKyBXSVUPi4bTSP85vNhQon6sxNIMHgbT3g6XRmGk7FD/sKlbvi9gFQ4YVX6s6N88p7jWYRisRvOc8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR02MB5764
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3567312e-5942-4037-93dc-587f25f0778c@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Unify the column width of the document to comply with specifications.
+On Thu, Oct 31, 2024 at 09:17:45PM +0000, Robin Murphy wrote:
+> The hilarious amount of work that iommu_dma_map_sg() does is pretty much 
+> entirely for the benefit of v4l2 and dma-buf importers who *depend* on 
+> being able to linearise a scatterlist in DMA address space. TBH I doubt 
+> there are many actual scatter-gather-capable devices with significant 
+> enough limitations to meaningfully benefit from DMA segment combining these 
+> days - I've often thought that by now it might be a good idea to turn that 
+> behaviour off by default and add an attribute for callers to explicitly 
+> request it.
 
-Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
----
- .../networking/device_drivers/wwan/t7xx.rst     | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+Even when devices are not limited they often perform significantly better
+when IOVA space is not completely fragmented.  While the dma_map_sg code
+is a bit gross due to the fact that it has to deal with unaligned segments,
+the coalescing itself often is a big win.
 
-diff --git a/Documentation/networking/device_drivers/wwan/t7xx.rst b/Documentation/networking/device_drivers/wwan/t7xx.rst
-index 4cf777c341cd..e07de7700dfc 100644
---- a/Documentation/networking/device_drivers/wwan/t7xx.rst
-+++ b/Documentation/networking/device_drivers/wwan/t7xx.rst
-@@ -7,12 +7,13 @@
- ============================================
- t7xx driver for MTK PCIe based T700 5G modem
- ============================================
--The t7xx driver is a WWAN PCIe host driver developed for linux or Chrome OS platforms
--for data exchange over PCIe interface between Host platform & MediaTek's T700 5G modem.
--The driver exposes an interface conforming to the MBIM protocol [1]. Any front end
--application (e.g. Modem Manager) could easily manage the MBIM interface to enable
--data communication towards WWAN. The driver also provides an interface to interact
--with the MediaTek's modem via AT commands.
-+The t7xx driver is a WWAN PCIe host driver developed for linux or Chrome OS
-+platforms for data exchange over PCIe interface between Host platform &
-+MediaTek's T700 5G modem.
-+The driver exposes an interface conforming to the MBIM protocol [1]. Any front
-+end application (e.g. Modem Manager) could easily manage the MBIM interface to
-+enable data communication towards WWAN. The driver also provides an interface
-+to interact with the MediaTek's modem via AT commands.
- 
- Basic usage
- ===========
-@@ -45,8 +46,8 @@ The driver provides sysfs interfaces to userspace.
- 
- t7xx_mode
- ---------
--The sysfs interface provides userspace with access to the device mode, this interface
--supports read and write operations.
-+The sysfs interface provides userspace with access to the device mode, this
-+interface supports read and write operations.
- 
- Device mode:
- 
--- 
-2.34.1
+Note that dma_map_sg also has two other very useful features:  batching
+of the iotlb flushing, and support for P2P, which to be efficient also
+requires batching the lookups.
+
+>> This uniqueness has been a long standing pain point as the scatterlist API
+>> is mandatory, but expensive to use.
+>
+> Huh? When and where has anything ever called it mandatory? Nobody's getting 
+> sent to DMA jail for open-coding:
+
+You don't get sent to jail.  But you do not get batched iotlb sync, you
+don't get properly working P2P, and you don't get IOVA coalescing.
+
+>> Several approaches have been explored to expand the DMA API with additional
+>> scatterlist-like structures (BIO, rlist), instead split up the DMA API
+>> to allow callers to bring their own data structure.
+>
+> And this line of reasoning is still "2 + 2 = Thursday" - what is to say 
+> those two notions in any way related? We literally already have one generic 
+> DMA operation which doesn't operate on struct page, yet needed nothing 
+> "split up" to be possible.
+
+Yeah, I don't really get the struct page argument.  In fact if we look
+at the nitty-gritty details of dma_map_page it doesn't really need a
+page at all.  I've been looking at cleaning some of this up and providing
+a dma_map_phys/paddr which would be quite handy in a few places.  Note
+because we don't have a struct page for the memory, but because converting
+to/from it all the time is not very efficient.
+
+>>   2. VFIO PCI live migration code is building a very large "page list"
+>>      for the device. Instead of allocating a scatter list entry per allocated
+>>      page it can just allocate an array of 'struct page *', saving a large
+>>      amount of memory.
+>
+> VFIO already assumes a coherent device with (realistically) an IOMMU which 
+> it explicitly manages - why is it even pretending to need a generic DMA 
+> API?
+
+AFAIK that does isn't really vfio as we know it but the control device
+for live migration.  But Leon or Jason might fill in more.
+
+The point is that quite a few devices have these page list based APIs
+(RDMA where mlx5 comes from, NVMe with PRPs, AHCI, GPUs).
+
+>
+>>   3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+>>      list without having to allocate then populate an intermediate SG table.
+>
+> As above, given that a bio_vec still deals in struct pages, that could 
+> seemingly already be done by just mapping the pages, so how is it proving 
+> any benefit of a fragile new interface?
+
+Because we only need to preallocate the tiny constant sized dma_iova_state
+as part of the request instead of an additional scatterlist that requires
+sizeof(struct page *) + sizeof(dma_addr_t) + 3 * sizeof(unsigned int)
+per segment, including a memory allocation per I/O for that.
+
+> My big concern here is that a thin and vaguely-defined wrapper around the 
+> IOMMU API is itself a step which smells strongly of "abuse and design 
+> mistake", given that the basic notion of allocating DMA addresses in 
+> advance clearly cannot generalise. Thus it really demands some considered 
+> justification beyond "We must do something; This is something; Therefore we 
+> must do this." to be convincing.
+
+At least for the block code we have a nice little core wrapper that is
+very easy to use, and provides a great reduction of memory use and
+allocations.  The HMM use case I'll let others talk about.
 
