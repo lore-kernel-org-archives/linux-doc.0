@@ -1,50 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970C818C342;
-	Mon,  4 Nov 2024 19:27:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980CE1E89C;
+	Mon,  4 Nov 2024 19:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730748449; cv=none; b=W6JNgerrAHHiwQ5Ob4z/vnPK2ZLA7Tk+XOEGCxTzc4/lsucofqQ77eslhl9Xjh0uTdNxnFkI5wasXQoktdRqt0yLsWqXyCvXWElNa6/XNaohsib1VWMZIUVQhXzqvV1s2z6wryQIuo6Z6pRiPNCpda5yUnqPONuMcRhgV7ibmSU=
+	t=1730748558; cv=none; b=b50Na2BrVQtjHd0qz4wHkrSff+BKg4Bt3p8kgdj4ymfKkEFo7Yzsz5KTwEZzC23YWG5ooazEeXmRP7zI6BTIl0CAltlU8wjmArWEZKIeBDDfqC0w715Akk5XaZJTlNZ6ldJjYF5F87yUyLhyrbp/AdL/s+MP3qsY7sAojfkljU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730748449; c=relaxed/simple;
-	bh=5ahiCxIeZ7Zrt1cRCp5O4yGFLwbtDrlU6FhUnRAbct8=;
+	s=arc-20240116; t=1730748558; c=relaxed/simple;
+	bh=/10lBdbCWP9c3Me7/mu9OI01ETDGMCC5hQMI8xKD5pE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gwNlCqKGyC0Hj9X4Ld9Iu7NRvkwYD5XxZT1zHWKOyfekxWgnHG5WArTqaDsPp7turOXI6NOEqjGudWb5rWeXF3bha5lTAqJCqW4jyFSaNUDQtX8U/VYMAriZJFXKyhGMqmJfsS5ql22zl8EocMB9DpUPQQHfAY9Ix/r50DYeC94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=klx0eLPS; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=hCO5pQcpLfJMUZeDsCM4lf7OP94bP30zrj8xwiBfZR8hE+rhmFDrOBLYp6MK0cBvXtVBoIlc+k/hsyRsSJWGzneYYYWptOsd8Uy2aTAihS5B71nBqGE7pbuDSnDqgatUeWbD80f+CDkaRLj+EK4ZoFzt/vgZhDr9DmRTbHcqLuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rPCgB/ql; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="klx0eLPS"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B0B1242C30
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rPCgB/ql"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B99CA42C30
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1730748446; bh=MHJe88wvtxmCRW4ig638nW8IyXo/qVPt9CcKtlrPNmk=;
+	t=1730748553; bh=/10lBdbCWP9c3Me7/mu9OI01ETDGMCC5hQMI8xKD5pE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=klx0eLPSMwaoBnjz9CLwEYI3z7WCAB93gg4Niq8lpCA2We7OMAqwIH3BJnURQgp/B
-	 HNHq/Hotc/1FSWgVk0RBDJx93ap0TEmHaQmv//p663DWHIGDDnyP10vkfB/XS0pznZ
-	 6p3wgL1gGlAYbVuhTzgjmvjigjxLQ/ruT5RdQ8eTTXCcMa7Y9TAyevozZxooZPTCTI
-	 I4KYEusl72ACasNjAHg11ig8DlbiVTN9UR3iyz8X0p6RPER/Dv6lrYyJ2AxD3bMURF
-	 CneFXoroeK7NJX+D1cG5YKTrvvtZM5CdrbB5lCFvLfrCbRN8rhDYJQeoXywmx+aQv2
-	 CQ5V5C3DdmPbg==
+	b=rPCgB/qlsGJ8NYn2P3Xu3eYnNHSDIz71O2zjl+/TLaJYiB8cb1gv6fLhBCYFvZL2T
+	 k16tSJCFfOxT0OaBukHDepE0Z//EVth1mIXdZY/KpYfPVPQ8TUIHtEVyMXv1MTCGUz
+	 Anv5+DJa751ezbTghlnHwmM4Umhp3zmiBayhls5ih4jGm4Wy5fY/U94e4QJofLDHY4
+	 CoqsILds69cZAvUR/2Os1vbf6wdq30E9LBAbrFMTIYHCCEStNH43ovd6IzXyGmHFHo
+	 8Rb9TiHvVE31b1deKd6yY3tGNAJHmp6nKaOoaI/KqkVWxcqmIuRFjkpG2Gx47B6phq
+	 r0tShdfrs251A==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B0B1242C30;
-	Mon,  4 Nov 2024 19:27:26 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B99CA42C30;
+	Mon,  4 Nov 2024 19:29:13 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: xu.xin16@zte.com.cn, alexs@kernel.org, si.yanteng@linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mudongliangabcd@gmail.com, seakeel@gmail.com
-Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, xu.xin16@zte.com.cn,
- he.peilin@zte.com.cn, tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn,
- zhang.yunkai@zte.com.cn
-Subject: Re: [PATCH linux-next v8 RESEND] Docs/zh_CN: Translate
- physical_memory.rst to Simplified Chinese
-In-Reply-To: <20241028135321916ZWK032bHhlbncjvmzDkZs@zte.com.cn>
-References: <20241028135321916ZWK032bHhlbncjvmzDkZs@zte.com.cn>
-Date: Mon, 04 Nov 2024 12:27:25 -0700
-Message-ID: <87ikt294v6.fsf@trenco.lwn.net>
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, kexec@lists.infradead.org,
+ linux-doc@vger.kernel.org
+Cc: bhe@redhat.com, vgoyal@redhat.com, dyoung@redhat.com,
+ linux-kernel@vger.kernel.org, linux-debuggers@vger.kernel.org,
+ stephen.s.brennan@oracle.com, horms@kernel.org, kernel@gpiccoli.net,
+ kernel-dev@igalia.com, mhklinux@outlook.com, "Guilherme G. Piccoli"
+ <gpiccoli@igalia.com>
+Subject: Re: [PATCH V4] Documentation: Improve crash_kexec_post_notifiers
+ description
+In-Reply-To: <20241027204159.985163-1-gpiccoli@igalia.com>
+References: <20241027204159.985163-1-gpiccoli@igalia.com>
+Date: Mon, 04 Nov 2024 12:29:12 -0700
+Message-ID: <87ed3q94s7.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,35 +54,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-OK, I have applied this patch.  A couple of comments for future reference:
+"Guilherme G. Piccoli" <gpiccoli@igalia.com> writes:
 
-<xu.xin16@zte.com.cn> writes:
-
-> From: Yaxin Wang <wang.yaxin@zte.com.cn>
+> The crash_kexec_post_notifiers description could be improved a bit,
+> by clarifying its upsides (yes, there are some!) and be more descriptive
+> about the downsides, specially mentioning code that enables the option
+> unconditionally, like Hyper-V[0], PowerPC (fadump)[1] and more recently,
+> AMD SEV-SNP[2].
 >
-> This patch translates the "physical_memory.rst" document into
-> Simplified Chinese to improve accessibility for Chinese-speaking
-> developers and users.
+> [0] Commit a11589563e96 ("x86/Hyper-V: Report crash register data or kmsg before running crash kernel").
+> [1] Commit 06e629c25daa ("powerpc/fadump: Fix inaccurate CPU state info in vmcore generated with panic").
+> [2] Commit 8ef979584ea8 ("crypto: ccp: Add panic notifier for SEV/SNP firmware shutdown on kdump").
+>
+> Reviewed-by: Stephen Brennan <stephen.s.brennan@oracle.com>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> ---
 
-Our documentation requests that patch changelogs be phrased in the
-imperative tense and avoid terms like "this patch".  Some maintainers
-are quite insistent about that; I'm not one of them, but it is better to
-follow that guidance.
-
-> The translation was done with attention to technical accuracy
-> and readability, ensuring that the document remains informative
-> and useful in its translated form.
-
-This is not helpful in a changelog; if you have not paid such attention,
-you should not be submitting the patch in the first place.  Comments
-like this can go after the "---" line if you really need to include
-them. 
-
-> Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
-
-...and this I don't understand at all; why do you need to reference that
-patch here?
-
-Thanks,
+Applied, thanks.
 
 jon
