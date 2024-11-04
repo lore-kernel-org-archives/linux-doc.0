@@ -1,74 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7721A1FDF9B;
-	Mon,  4 Nov 2024 22:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F4A1FA270
+	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 23:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730758715; cv=none; b=XrPlFkiKQhkM2y9N3svjUhx3hUBbbEYRzhp0n5P5dyz88L/gKyaM4XWnb1ElQWDtXO2jOnwUgRB2GtTf1ECZW230XvO+wqSTXF98JlfBpcnrMs13A1sTHLkv1iQZph+08/JiJ2OMUEL5r44HFnQGOIqFtzLw2Pi/Fj4RHTt5mf8=
+	t=1730763339; cv=none; b=AgKWidouIrU4rboRiUh6NVhDmsn6Rd5Uj4oKWbkNIctrSEcXtkBrfT7SLIieD/j2o6O+hLrNPzfCAYB69/4+EwPwwcix7vwbCw1eWe9dCMfxHvx9l67MfPZzzi+7IBfC9GDFIf6rF3tNBIfEiV2fzgOO8FAPsQqcW4JALeS+pn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730758715; c=relaxed/simple;
-	bh=bZVCcEDLTWFLC6Yv2DcTeKjA09yueP5Uek2v1WAoKK8=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=XNI6cHMLytvGMAcAdddMZV/8b8jWsCpugvlN2eDai0pKGg7bOr/rPyxBxI4mCCxwsVi96VrRl3vSXmcWV123GR4UJgTlwlpWYXANDB3yuIRjqWzHsYafYYXbge55r2dGDcthocL1XLlJ5p9kVlZ34wmUAKTYlcL4v+0rWQXYZy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=cTVpqxqx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730763339; c=relaxed/simple;
+	bh=KrmY+S+q6BIC6iikQDGqq/OAqNilCEI8g7m4VhXfxKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N2XeptCfNkZp0loZeK4G8kFakZ5RtdexKWrDTAwM5UpeKDnJy9i3BtLsq0M9ZZOYHpdhwE1xX1qT9WV8eWkry2AzMlqmu8W6xwKLMd41jp0YL9eslZh6vAAHbmwIrHZIlkKwcTwInXZc0KdDus0wgQmF4HO0dm9w/IpndOHwq6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=XohlK632; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="cTVpqxqx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B596C4CECE;
-	Mon,  4 Nov 2024 22:18:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1730758715;
-	bh=bZVCcEDLTWFLC6Yv2DcTeKjA09yueP5Uek2v1WAoKK8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cTVpqxqx/q3YShRhLM9GTA7g+G5oQJJqAFH5cmmF351bScmptSfdAzmnQu0Eviefp
-	 ZWIlpcocv68SUxF+DKJnxcDcbEHCr3t2FO33ROeT32VbFbxmEs9QOCUItO1mi4PnDG
-	 Ddjm2AgM/XPSqQzttet1pSi0ATh3sY0mzoNaC5zU=
-Date: Mon, 4 Nov 2024 14:18:34 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Yu Zhao <yuzhao@google.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Johannes Weiner
- <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Roman Gushchin
- <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, Hugh
- Dickins <hughd@google.com>, Yosry Ahmed <yosryahmed@google.com>,
- linux-mm@kvack.org, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, Meta kernel team
- <kernel-team@meta.com>
-Subject: Re: [PATCH v1 5/6] memcg-v1: no need for memcg locking for MGLRU
-Message-Id: <20241104141834.fc30ea90bbc80446d0fcf1f0@linux-foundation.org>
-In-Reply-To: <CAOUHufZ=SMN=GWMjvpDxiXxyMAvDDc4eEzYvAWP4=7atT7SX7g@mail.gmail.com>
-References: <20241025012304.2473312-1-shakeel.butt@linux.dev>
-	<20241025012304.2473312-6-shakeel.butt@linux.dev>
-	<iwmabnye3nl4merealrawt3bdvfii2pwavwrddrqpraoveet7h@ezrsdhjwwej7>
-	<CAOUHufZexpg-m5rqJXUvkCh5nS6RqJYcaS9b=xra--pVnHctPA@mail.gmail.com>
-	<ZykEtcHrQRq-KrBC@google.com>
-	<20241104133834.e0e138038a111c2b0d20bdde@linux-foundation.org>
-	<CAOUHufbA6GN=k3baYdvLN_xSQvX0UgA7OCeqT8TsWLEW7o=y9w@mail.gmail.com>
-	<CAOUHufZ=SMN=GWMjvpDxiXxyMAvDDc4eEzYvAWP4=7atT7SX7g@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="XohlK632"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7eab7622b61so3709200a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 15:35:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730763337; x=1731368137; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=31BGTQSdIkP/4Zu0IN+x2yZh6+VSpCdF3MI1H4dhuNY=;
+        b=XohlK632eUpc2BcnmIxUPkgr1LiSBJG+Bv1tV/Fk48ez7StLDZGT8lwiW7mEp7BpMU
+         jmEhpBrdnDsMSRxA8vxVmQnhNfcXUlwBcFixuVcTDOGg7agf17CPfPOCy1sIvfO3Ihzt
+         bs81q67b+9aWmOZk+uOnz+WtopmwwbVsWG18lRrQgNKgKAFco6rId4lUeaREg5/yFgYw
+         INuImmwHILRgS56naJ6udVcckXR+lV/unVdVYwvI6weSP1kwL2kPCntH2JPGPLZTl8ew
+         xyaxBg0B1vAXkwHMDkYcxGGh0RSgODBn8gIooM5CBmJBPFEansQ0JaDrn91Dzo5KCCKU
+         DDTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730763337; x=1731368137;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=31BGTQSdIkP/4Zu0IN+x2yZh6+VSpCdF3MI1H4dhuNY=;
+        b=nOKEG8buCtjQEpK556Ps6aQn2Rv+nWtsdCzjvr1036RO4O2JSfaUGZND0B5As3Pgdy
+         specmXy4zK7e8CrXgAu62cf6fxZ7WFv++631L/crmKc9/UHsXQ/khZ2DFx1LaeEOGV1X
+         MCxm1yspj2EpUwGcr2YC9mHRCn65ZGy+LMheoy/oiUW9fv5loYJ9JMcXx2H+XeYxg/Fu
+         RBi+wrHt3ZTWalFiPjGXcO+YnQOaBUG5p6xSV08fwpba4+MUzGznH+Xi+im8/GFx6EyW
+         PA/NHal0AC1l8aR8N7TYj196QBIMNUXAzEp0MvH5dCNL9firjz/5YkqF/+7dRs3gyvYB
+         fbyA==
+X-Forwarded-Encrypted: i=1; AJvYcCUoKNAWeQ5UAMq5S2nQTzYxEPtLM71mfDgxoFmLO0qw/mpvf3/angLPNt+GjGfxcUYMd2mljNO9wR8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3xT29O+VhiSJ16zZvmOfohUGC2zggD9NB24B1sz0/LJF60E7x
+	VIppp7VU47yeRuj2v8T1CoFjvcxVqstIpqCi7h3atIVeZgwm7U4rXNkxkVI92c4=
+X-Google-Smtp-Source: AGHT+IHUkdei85jsd4jEJe1dv8cR5cqR+1/XIGSXNDsrFT+G8g62SWEwp7GVusVEZsJaOrWKuYtEtQ==
+X-Received: by 2002:a17:903:40ca:b0:20c:a19d:e73e with SMTP id d9443c01a7336-210c6cf2237mr433175125ad.57.1730763336945;
+        Mon, 04 Nov 2024 15:35:36 -0800 (PST)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057c7560sm66579565ad.237.2024.11.04.15.35.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 15:35:36 -0800 (PST)
+Date: Mon, 4 Nov 2024 15:35:33 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Ian Rogers <irogers@google.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Christian Brauner <brauner@kernel.org>, guoren <guoren@kernel.org>,
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+	James Clark <james.clark@linaro.org>,
+	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFT 00/16] perf tools: Use generic syscall scripts for
+ all archs
+Message-ID: <ZylaRaMqEsEjYjs6@ghost>
+References: <20241104-perf_syscalltbl-v1-0-9adae5c761ef@rivosinc.com>
+ <3b56fc50-4c6c-4520-adba-461797a3b5ec@app.fastmail.com>
+ <Zyk9hX8CB_2rbWsi@ghost>
+ <CAP-5=fUdZRbCp+2ghEUdp+qJ1BuMDuTtw9R+dFAaom+3oqQV_g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP-5=fUdZRbCp+2ghEUdp+qJ1BuMDuTtw9R+dFAaom+3oqQV_g@mail.gmail.com>
 
-On Mon, 4 Nov 2024 15:08:09 -0700 Yu Zhao <yuzhao@google.com> wrote:
-
-> > The assertion was caused by the patch in this thread. It used to
-> > assert that a folio must be protected from charge migration. Charge
-> > migration is removed by this series, and as part of the effort, this
-> > patch removes the RCU lock.
+On Mon, Nov 04, 2024 at 02:03:28PM -0800, Ian Rogers wrote:
+> On Mon, Nov 4, 2024 at 1:32 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
 > >
-> > > And a link to the sysbot report?
+> > On Mon, Nov 04, 2024 at 10:13:18PM +0100, Arnd Bergmann wrote:
+> > > On Mon, Nov 4, 2024, at 22:06, Charlie Jenkins wrote:
+> > > > Standardize the generation of syscall headers around syscall tables.
+> > > > Previously each architecture independently selected how syscall headers
+> > > > would be generated, or would not define a way and fallback onto
+> > > > libaudit. Convert all architectures to use a standard syscall header
+> > > > generation script and allow each architecture to override the syscall
+> > > > table to use if they do not use the generic table.
+> > > >
+> > > > As a result of these changes, no architecture will require libaudit, and
+> > > > so the fallback case of using libaudit is removed by this series.
+> > > >
+> > > > Testing:
+> > > >
+> > > > I have tested that the syscall mappings of id to name generation works
+> > > > as expected for every architecture, but I have only validated that perf
+> > > > trace compiles and runs as expected on riscv, arm64, and x86_64.
+> > > >
+> > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > >
+> > > Thanks for doing this, I had plans to do this myself, but hadn't
+> > > completed that bit so far. I'm travelling at the moment, so I'm
+> > > not sure I have time to look at it in enough detail this week.
+> > >
+> > > One problem I ran into doing this previously was the incompatible
+> > > format of the tables for x86 and s390, which have conflicting
+> > > interpretations of what the '-' character means. It's possible
+> > > that this is only really relevant for the in-kernel table,
+> > > not the version in tools.
+> > >
 > >
-> > https://syzkaller.appspot.com/bug?extid=24f45b8beab9788e467e
+> > I don't think that is an issue for this usecase because the only
+> > information that is taken from the syscall table is the number and the
+> > name of the syscall. '-' doesn't appear in either of these columns!
 > 
-> Or this link would work better:
+> This is cool stuff. An area that may not be immediately apparent for
+> improvement is that the x86-64 build only has access to the 64-bit
+> syscall table. Perhaps all the syscall tables should always be built
+> and then at runtime the architecture of the perf.data file, etc. used
+> to choose the appropriate one. The cleanup to add an ELF host #define
+> could help with this:
+> https://lore.kernel.org/linux-perf-users/20241017002520.59124-1-irogers@google.com/
+
+Oh that's a great idea! I think these changes will make it more seamless
+to make that a reality.
+
 > 
-> https://lore.kernel.org/lkml/67294349.050a0220.701a.0010.GAE@google.com/
+> Ultimately I'd like to see less arch code as it inherently makes cross
+> platform worker harder. That doesn't impact this work which I'm happy
+> to review.
 
-Thanks, I pasted everyone's everything in there, so it will all be
-accessible by the sufficiently patient.
+Yeah I agree. Reducing arch code was the motivation for this change.
+There was the issue a couple weeks ago that caused all architectures
+that used libaudit to break from commit 7a2fb5619cc1fb53 ("perf trace:
+Fix iteration of syscall ids in syscalltbl->entries"), so this change
+will eliminate that source of difference between architectures.
 
+- Charlie
+
+> 
+> Thanks,
+> Ian
