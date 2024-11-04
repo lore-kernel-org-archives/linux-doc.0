@@ -1,105 +1,104 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB5A16190C;
-	Mon,  4 Nov 2024 07:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17ED7171E43;
+	Mon,  4 Nov 2024 08:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730704410; cv=none; b=mO+E5wP9pUZRuGqCWHO1CAI6FNwk+gyAPMN70PFhVyOvO/VV4OySGxUavXrjrSUELoj66H3bvdBV+DoYY8DlHVKf4IZqk1RHgylacrxaqRQiz0RWrYrXiOP2FLk359K+AvS0xyg5G7SAdob8568HsNvMN0XwENex8esvBL7T8eI=
+	t=1730707953; cv=none; b=mQMOTRPYfnQGtCNISLK32Qw3sJY67nJdSY0RjxmbV+W5PCzpEohyXyq2vAo1dll7FWjRhS9WgCRhLw2oq1Vfa8waUpojD/Xmuzo5g52+D2/N/CQrB4RYNX2p9aTrThnh5TSMzM0Hd5mD2IbGnG96EAbBYbYLKRzXqORWu+hmGNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730704410; c=relaxed/simple;
-	bh=DN/aF0Rx4q9nI31XFvXVTZjHeGK8s9mBhUmgHGiPmzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=guhqgMAx5k4bw1WaSa/SW4cg6bMmhDG1su8IAD8O+/V2nTvgDdde0HTF3I6QQ//9rJZLL40XHCDnJmESMVuIiHdKjlf+4DjLloFWRb8Nqk1RSYzp5TzBk0HtttHMU3GQ6+lg1aC1bLI4vWNhCxR0oFi7cZuff3p2AJnl5dmF3Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mo9Ub8eH; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1730707953; c=relaxed/simple;
+	bh=XCX6qrzCMImbBpxh+YBej+RlpN9TLIbz23OhwpXYnmc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GDVXjPVv4Ms+8LrH/+husEGOMWQc8XnisY+7EjwfjiFi5cLVzgxMsqwNrXEsEaFHgR63OpOsSaoaGz+mRpaH1/5KfIi2ksSLf35lqMQtdcUngDTvbLJfV4X/WrNWZfg85Z9bku1ul0dzo7Jznd8/lOeTOAhDhK4jfeFeIpXsH7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KK+oTxFF; arc=none smtp.client-ip=209.85.167.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mo9Ub8eH"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9a6acac4c3so643404366b.0;
-        Sun, 03 Nov 2024 23:13:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KK+oTxFF"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3e60f6ea262so1817098b6e.1;
+        Mon, 04 Nov 2024 00:12:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730704405; x=1731309205; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oImu3BDF6/CvLBQLJIYfDXK8FedxePSyT6Ukp32htEU=;
-        b=mo9Ub8eHYdATvuFWLQr5hn53hxa1f9PiBuG1DD3fcQizsui8pbGSzDR/b+ZQdGOwha
-         Xkvk0rksu66TehULO60rnGJwrnN9dtLpCpuT1nDXXA39NKtrZjTSJQaOv6H6vxal4Q1v
-         egm4/L7MzxpwS2mokRvEPscGHjEw3XcPLPw3W5MJEHheY5FkEjwFTAoiGk5AYDKYPhNw
-         nmf1eiLE19PnZBM8qKd6UaMArJLHJftFliOK54VZu7AeaubT7V9Qyp+hQOEWgVFZan3t
-         D1hxqnZuFY/cbHBAAk8PdhS2sjpTmQNIL0C3VUjjHW8BBwsAxJfa02byYvabwRfJZcGl
-         o1LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730704405; x=1731309205;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1730707950; x=1731312750; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oImu3BDF6/CvLBQLJIYfDXK8FedxePSyT6Ukp32htEU=;
-        b=s8ASBoAemmBHRkfFf0bM7fZCNCgVE/ifcWMmUBjQl/rmXDHLOEaYrxJ8KJJOhHfQ4y
-         MSh8okNk8B9zw01c6nFGJiVYb5ydNflGZvWIejGLjA2LY8L21nN2wCMv+mcklM1gMnUK
-         O1BCd0IfrCxKuJUuB8kt7rz89+dKkkEkvemPVG9oBl3hj67qlp5kn2EyGv9dWqdlQAOo
-         dKpgUFZOO24TyI0soIGYYhMrFS4ou8zxgb0q8ZuOdU8lD+XHScxPlwtGwySj4iJB29HE
-         Q7kfbSp+kw1HW9ZJ593kuBC2CZGzZGAdJj14RhphVvfY5H2QcvX6r3zXqQFOWxUKbgV/
-         kYhg==
-X-Forwarded-Encrypted: i=1; AJvYcCVo/5Gt7wxuWF6QVpQjskVjzz/PemGJHOdyroAGD+b1GxQaJpno1djLrMORIX4pITmwuNM7f2FXuI/uOJJv@vger.kernel.org, AJvYcCWeIVfCQ3w2WS/gltI76TzvPQKuVK2S13VkdMM/MjmCtZdd+H766RMsyolFX1zN4Io3/IRvCJWXJcU1@vger.kernel.org, AJvYcCXUh7rO896DaGbdUu8Y8BOKvTPN5VgOTG2hENbWKXId7vQGpr1s5QrXJJ/HN0BkoxuHgCL7B9y+l+XH6A==@vger.kernel.org, AJvYcCXXOISnPkXWicRVtPb3mgJ+wl4B5VGRj0P30dY/3/6mdCmdbxP+OS5TT2BLjiTcb31Z4xta+s30tha7@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5CviZLtf81oLFCPehM97rlrHzQ3rAa6TwDjpMHYe/P6azLvlU
-	dLMaFenQH9olONfYZ01k8IFoIUxb4GQ1SChHmZar55qdpbTd6x0r
-X-Google-Smtp-Source: AGHT+IFYIQZXhx+OysSO0fTZLSwThb7s3X8HqjAw+0oYmWSu9pnc41l1DW5ZVPldKXfAb5lkarCoEQ==
-X-Received: by 2002:a17:907:9815:b0:a9a:9b1:f972 with SMTP id a640c23a62f3a-a9de61cf153mr2820354366b.40.1730704404610;
-        Sun, 03 Nov 2024 23:13:24 -0800 (PST)
-Received: from andrea ([2a01:5a8:300:22d3:2aa3:fe1f:17f7:f982])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e565e09bcsm513885466b.126.2024.11.03.23.13.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Nov 2024 23:13:24 -0800 (PST)
-Date: Mon, 4 Nov 2024 09:13:19 +0200
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH v6 00/13] Zacas/Zabha support and qspinlocks
-Message-ID: <Zyh0D9N8SgQd_zne@andrea>
-References: <20241103145153.105097-1-alexghiti@rivosinc.com>
+        bh=XCX6qrzCMImbBpxh+YBej+RlpN9TLIbz23OhwpXYnmc=;
+        b=KK+oTxFFcs+u1i9CwjG4zVojW2e+ghWt9HKgipoDkavZwKtbKWcsjHrYc8FqcvY78n
+         3svg1HhDulsgcqPuvy3y0+eJCKQDMUEKmCsYziSeOQfEZfHkwB4k5j7AbRfYDdGhrel7
+         oaVqmymH/oShujOcy5Jr28bRnhxmnOFw1+BGvOyjA2wnegPQrcC96gunjNaSFjcaK+os
+         4TDJ85hRhXX6x0Un8j/dd1hXhwdv8imgqSN/yP9XPe35qYAYmmTUKHGgyvlhffOLHuzy
+         5MXMb30blvSdFXIvSA3HLBhUEKGGoAP2T6HMzV0g3xwzfubAKxlVjFvrRm3fLXTXLApj
+         D+AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730707950; x=1731312750;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XCX6qrzCMImbBpxh+YBej+RlpN9TLIbz23OhwpXYnmc=;
+        b=AZEod8kNasDJ1PgFK+QevTNfC0JhA9hysft6W/UXYI93ZAbgC1Sr0qTiFJaJRfvW0l
+         2qqt+P1QsbrFq1BFE4KPFV4JDxE9Au1yxaawkwjzoXEVK+OK6On1g2iypRt5kigL705C
+         ALz77FHhu3yAmcrJmUxHAOFc09mRVxPxPalDAGj0opZFL/dL3pwGqOYeLxfDyLiKmSVz
+         pVMMM44ApM1+0USRpg5WE8z2qehScK1Zq7tkdDnF3FqER7C7yzANcA3DaRUuGQO9cyxN
+         UgL4tniGbgkx60K/OlrBnYJRY3b7qvVEnCGgrG0Ew+ssvN22yFJTQsGlzQnx29tFqxE9
+         Mtjg==
+X-Forwarded-Encrypted: i=1; AJvYcCVV7KER+SdLRgxBaTYEQqpUC4T4qdyveaQvJUHVlcIdz6GXxyvDkwrfIt1VmhNtea5telUI29JQHdH9@vger.kernel.org, AJvYcCWpaOGpU//TvlLWcQUFGnNYrg41T6Z452EmOXyUB7jnIfdm4hztUrs7hzmdo3ILsroDDnizW10VY0ZZ@vger.kernel.org, AJvYcCX2uiiDVX1wByIwWmnMzOEffG3sng6vLbtp3JXnnSp+3sdfE4PtejfDXTr3MNkf4ndDlrssUO1jiiBeXfk=@vger.kernel.org, AJvYcCXY6xK2uyHlmQS3XDC/upY8ZP0skZuj68dJ/dcN687cKOlG8z81Qo6YrLMdXQ47liaKF+YjYfHd5m6hIs+I@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZbAqZatLQecCMRLF6dWP3/xkEHG4OXWc48vBUth8+ZwFfrjMC
+	iB2LGlXvGZOWMaQ0upngb/U0ysMJo1EudX9SMphq3Sm/YZFFPR14MUHVOSSvieWyTjfl7NRp+/N
+	B0yc70Dxb3eP/rVgkvwJwdQW8Py8=
+X-Google-Smtp-Source: AGHT+IHyNmXIv/Qkf7hr1oDZ5RSdZMwySKzbkHyHElTN8xOk9/nD1kciEaKHao+bZTDKxz2iSJGs2BZ1r4zKnk+g5NA=
+X-Received: by 2002:a05:6808:448b:b0:3e6:23b7:bf4c with SMTP id
+ 5614622812f47-3e63846135emr26460681b6e.13.1730707950027; Mon, 04 Nov 2024
+ 00:12:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241103145153.105097-1-alexghiti@rivosinc.com>
+References: <20241022052905.4062682-1-kcfeng0@nuvoton.com> <20241022052905.4062682-3-kcfeng0@nuvoton.com>
+ <319d7395-680b-478a-aec3-08bae9177f73@roeck-us.net>
+In-Reply-To: <319d7395-680b-478a-aec3-08bae9177f73@roeck-us.net>
+From: Ban Feng <baneric926@gmail.com>
+Date: Mon, 4 Nov 2024 16:12:18 +0800
+Message-ID: <CALz278a9ypz+2j7yfHQ1t9M_HxJW_8oW6rmYOOgUSKCTxMz+Vg@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] hwmon: Add driver for I2C chip Nuvoton NCT7363Y
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: jdelvare@suse.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, corbet@lwn.net, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org, kwliu@nuvoton.com, 
+	kcfeng0@nuvoton.com, DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Alexandre Ghiti (11):
->   riscv: Move cpufeature.h macros into their own header
->   riscv: Do not fail to build on byte/halfword operations with Zawrs
->   riscv: Implement cmpxchg32/64() using Zacas
->   dt-bindings: riscv: Add Zabha ISA extension description
->   riscv: Implement cmpxchg8/16() using Zabha
->   riscv: Improve zacas fully-ordered cmpxchg()
->   riscv: Implement arch_cmpxchg128() using Zacas
->   riscv: Implement xchg8/16() using Zabha
->   riscv: Add ISA extension parsing for Ziccrse
->   dt-bindings: riscv: Add Ziccrse ISA extension description
->   riscv: Add qspinlock support
-> 
-> Guo Ren (2):
->   asm-generic: ticket-lock: Reuse arch_spinlock_t of qspinlock
->   asm-generic: ticket-lock: Add separate ticket-lock.h
+On Fri, Nov 1, 2024 at 10:48=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> =
+wrote:
+>
+> On Tue, Oct 22, 2024 at 01:29:05PM +0800, baneric926@gmail.com wrote:
+> > From: Ban Feng <kcfeng0@nuvoton.com>
+> >
+> > The NCT7363Y is a fan controller which provides up to 16
+> > independent FAN input monitors. It can report each FAN input count
+> > values. The NCT7363Y also provides up to 16 independent PWM
+> > outputs. Each PWM can output specific PWM signal by manual mode to
+> > control the FAN duty outside.
+> >
+> > Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
+>
+> Applied. I did fix a couple of the nitpicks raised by Christophe,
+> but I did not replace for_each_child_of_node() with
+> for_each_child_of_node_scoped() since I can not test the code
+> and did not want to make a functional change.
+>
+> Thanks,
+> Guenter
 
-For the series,
+Hi Guenter,
 
-Reviewed-by: Andrea Parri <parri.andrea@gmail.com>
+Appreciate your kind support,
+I'll keep following your version and check the part of
+for_each_child_of_node_scoped.
 
-  Andrea
+Thanks,
+Ban
