@@ -1,154 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273801BFE06;
-	Mon,  4 Nov 2024 15:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3407D4A08;
+	Mon,  4 Nov 2024 15:11:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730732918; cv=none; b=h0gPI9b8OD0nKPSVPrjflbc0rjcIkhYrVxPd+enpX3HW+OZWf1aB0xZjyKYwvobiPAwugtAFle/+iuJkDblilyvzmY/4MFNlJ7TvJuUUinsXjc0VpksUYZJt3HlgaskSoMl3ItXOrlZ277T29ibNyRrm/gmBgCAt8ooPCL5dh2A=
+	t=1730733096; cv=none; b=KEnJpt3f8QHCEV6AttZFYTsAr5voZ5++aWHrEtSmxGw468dfa8lIjKXpr2XlL4zKWZZMVW07fJTtCETZJ4elgnhQTINg+a7OVgdlBF9XB9/zg9onRGhZKyhzGWYhuQF2DfkWMaYINi+o1yyj5SfFZl82Gw6dSg7Th6tn6sipj8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730732918; c=relaxed/simple;
-	bh=aCcYfdU0Q+jbJmWBtJhf1SBpQ++QF9TaBJeYMGrxrKg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ELWQFNbwxFwP3BP+C7m8rHH72PAgBuJzzx1ebQLK/GOqAXrHJjXf3IjKNbAWedTk/uJLrOhvL+ZcE5znzxM5rWaLNzYwoLBcrBxls8oTykPfp1x8LOUdBmFOqBw70Oc6MfCBI9IONYuekWYBnHtsS4HsxMdOxgSsh/hhUSNjFwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oyy1QO/J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730733096; c=relaxed/simple;
+	bh=kTcIvo7yioetmpNQbu0IC5h4s6IrPCBWdMVl5D73t7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s/4MfXs2h+9gsFfPmilwtAYpQkgUwk6S05C5oHqmpFIz0Z9ZYutPwMQ+02wIfwFjKa/SJePEV8nX4ww7DplNcppNQMooYqFZBBLZJrISpYPeYMGfTWodu6hbYc9zeoLV6UvkhQrCFz9FLv94WDE4yj9jV1tO49q6IgZ/Fc1KT4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxceTN5N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oyy1QO/J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB60C4CED5;
-	Mon,  4 Nov 2024 15:08:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxceTN5N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B3BEC4CECE;
+	Mon,  4 Nov 2024 15:11:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730732917;
-	bh=aCcYfdU0Q+jbJmWBtJhf1SBpQ++QF9TaBJeYMGrxrKg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=oyy1QO/JnB5WGVdEuMNweuk20cDyY2GhqSj7mUcCIRZTK9umCV1CD91xOFBc3fOg4
-	 O/Vl/EIb8FFK5KTnIsO4mycVc6R5gsR5dIQAHrnJaeQfajYHRu9ACkOY7rgiWez676
-	 mk3z7JwJ3mT7kvUCWm00JmRCgbg9JbPI2iMAWiOhJ+8bXJjbuBhExdwjyZ7kDyYtzk
-	 6/SjFDhc1DRaCWE3YBniXeRhWP5sYVmGW8uyp7CYXxafbED0q0xaH0QTgXGd4oUu/t
-	 SyRHl08MiYIVObwoG/UfMFBFf5AhF6akLvGveu9bUP/xiFza8NLfjHe3gIcy7ll+ls
-	 yM4TQM1YcAH+w==
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e28fe3b02ffso3718134276.3;
-        Mon, 04 Nov 2024 07:08:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUvLPC/LE3wO28Z//SathiqdwcUpRbQuRIhgKGvhqaLvteWhpFOwri8fcCxpzfnNssA6zyt/qITYML2@vger.kernel.org, AJvYcCWKVysyQjEVapZkkMhKbDhLYdZgY7rP0Yt/6srJQmGFf5GKu6qbE8XGrIPjUUWnXlTLR1YJmWngj20K@vger.kernel.org, AJvYcCXpKlgICfZcG7PAeYU9hLy2b2tsCr4k5fWy7EYJCNdGtT22uLXl3mQcjYMwCtzI+um85KqwyG5TnTimp8s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxb6tGnnV6wh4E2raIL3y5fqVV/AP5K6awdWvmnk47RIhPHYadD
-	HY1XQ0+jNqe1Bb5otjGVBj2ebRCrbjkJy/aA8d+gdrtAjgFSxh2RCJo2JKq9GjoSsDWdSrzj928
-	DghfQIJEp5lMvimOXHTRVXs5kZQ==
-X-Google-Smtp-Source: AGHT+IF4ODCVM5LJpqXkmxMdu5G3rUJur0n+5iNYKMlkY8DKa8KLzX/GaIwsSP1M3kVSAtulHsZ85uuLiDf724+J+Wo=
-X-Received: by 2002:a05:690c:61ca:b0:6e3:252c:408 with SMTP id
- 00721157ae682-6ea523cb2c8mr157949527b3.20.1730732916661; Mon, 04 Nov 2024
- 07:08:36 -0800 (PST)
+	s=k20201202; t=1730733095;
+	bh=kTcIvo7yioetmpNQbu0IC5h4s6IrPCBWdMVl5D73t7g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lxceTN5NoMnOb7R/VPtFgRQBTl8fQIQGc+4Gk8OT4K//G+8yFdf1m763nh4hbSYjQ
+	 Q8L0dM+aIbjCHQBdLLToU6JHIkL0xE1N1MhABdTFa4no5VZJo28LxZQQBoWB/t2irM
+	 h5+K4mIJXpoBeCpFomfpoaJA0yVQ95MKtcPaM1xFuLRiXCcZpu4o9nJ6qlaqTN5121
+	 YfE8P7UqD3VEHAvSGFS2dsG4TFkL6XuDxtv562XTMv3j6/0Cdx0wFHXFycCvk81Ndz
+	 w+K2Nd4Qks64XUx2V2qChbExvIWBEDSFoFlvjbEWoQUHMeDg67rC+qPPhYHGReiBK2
+	 bN5bKB2JDwa6w==
+Date: Mon, 4 Nov 2024 16:11:23 +0100
+From: Lorenzo Pieralisi <lpieralisi@kernel.org>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: David Woodhouse <dwmw2@infradead.org>, sami.mujawar@arm.com,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+	Shuah Khan <shuah@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Francesco Lavra <francescolavra.fl@gmail.com>,
+	Miguel Luis <miguel.luis@oracle.com>
+Subject: Re: [PATCH v6 6/6] arm64: Use SYSTEM_OFF2 PSCI call to power off for
+ hibernate
+Message-ID: <ZyjkGwkrQ+R+fI8m@lpieralisi>
+References: <20241019172459.2241939-1-dwmw2@infradead.org>
+ <20241019172459.2241939-7-dwmw2@infradead.org>
+ <ZyPEn4qhaYyYqrzk@lpieralisi>
+ <ZyUUh6KawapLkj0z@lpieralisi>
+ <CAMj1kXFma8-GqKuOs5-UAQY9asbq2p9EubSjjbywaURa4T4WnA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1730326915.git.grantpeltier93@gmail.com> <1dff1f63a2e122788e2c17f192472705491aa5b8.1730326916.git.grantpeltier93@gmail.com>
-In-Reply-To: <1dff1f63a2e122788e2c17f192472705491aa5b8.1730326916.git.grantpeltier93@gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 4 Nov 2024 09:08:25 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJqhxcMu2yeqvJvUOJ_g3uDv3t1JwaMxAfZQGXFj3rAvw@mail.gmail.com>
-Message-ID: <CAL_JsqJqhxcMu2yeqvJvUOJ_g3uDv3t1JwaMxAfZQGXFj3rAvw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] dt-bindings: hwmon: isl68137: add bindings to
- support voltage dividers
-To: Grant Peltier <grantpeltier93@gmail.com>
-Cc: linux@roeck-us.net, geert+renesas@glider.be, magnus.damm@gmail.com, 
-	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMj1kXFma8-GqKuOs5-UAQY9asbq2p9EubSjjbywaURa4T4WnA@mail.gmail.com>
 
-On Wed, Oct 30, 2024 at 5:41=E2=80=AFPM Grant Peltier <grantpeltier93@gmail=
-.com> wrote:
->
-> Add devicetree bindings to support declaring optional voltage dividers to
-> the rail outputs of supported digital multiphase regulators. Some
-> applications require Vout to exceed the voltage range that the Vsense pin
-> can detect. This binding definition allows users to define the
-> characteristics of a voltage divider placed between Vout and the Vsense
-> pin for any rail powered by the device.
->
-> These bindings copy the vout-voltage-divider property defined in the
-> maxim,max20730 bindings schema since it is the best fit for the use case
-> of scaling hwmon PMBus telemetry. The generic voltage-divider property
-> used by many iio drivers was determined to be a poor fit because that
-> schema is tied directly to iio for the purpose of scaling io-channel
-> voltages and the isl68137 driver is not an iio driver.
->
-> Signed-off-by: Grant Peltier <grantpeltier93@gmail.com>
-> ---
->  .../hwmon/pmbus/renesas,isl68137.yaml         | 147 ++++++++++++++++++
->  1 file changed, 147 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/renesas=
-,isl68137.yaml
->
-> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl681=
-37.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.ya=
-ml
-> new file mode 100644
-> index 000000000000..ed659c2baadf
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.yaml
-> @@ -0,0 +1,147 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +
-> +$id: http://devicetree.org/schemas/hwmon/pmbus/renesas,isl68137.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas Digital Multiphase Voltage Regulators with PMBus
-> +
-> +maintainers:
-> +  - Grant Peltier <grant.peltier.jg@renesas.com>
-> +
-> +description: |
-> +  Renesas digital multiphase voltage regulators with PMBus.
-> +  https://www.renesas.com/en/products/power-management/multiphase-power/=
-multiphase-dcdc-switching-controllers
-> +
-> +properties:
-> +  compatible:
-> +    enum:
+On Mon, Nov 04, 2024 at 02:54:12PM +0100, Ard Biesheuvel wrote:
+> On Fri, 1 Nov 2024 at 18:49, Lorenzo Pieralisi <lpieralisi@kernel.org> wrote:
+> >
+> > [+Ard, Sami, for EFI]
+> >
+> > On Thu, Oct 31, 2024 at 06:55:43PM +0100, Lorenzo Pieralisi wrote:
+> > > On Sat, Oct 19, 2024 at 06:15:47PM +0100, David Woodhouse wrote:
+> > >
+> > > [...]
+> > >
+> > > > +#ifdef CONFIG_HIBERNATION
+> > > > +static int psci_sys_hibernate(struct sys_off_data *data)
+> > > > +{
+> > > > +   /*
+> > > > +    * Zero is an acceptable alternative to PSCI_1_3_OFF_TYPE_HIBERNATE_OFF
+> > > > +    * and is supported by hypervisors implementing an earlier version
+> > > > +    * of the pSCI v1.3 spec.
+> > > > +    */
+> > >
+> > > It is obvious but with this patch applied a host kernel would start executing
+> > > SYSTEM_OFF2 too if supported in firmware to hibernate, it is not a hypervisor
+> > > only code path.
+> > >
+> > > Related to that: is it now always safe to override
+> > >
+> > > commit 60c0d45a7f7a ("efi/arm64: use UEFI for system reset and poweroff")
+> > >
+> > > for hibernation ? It is not very clear to me why overriding PSCI for
+> > > poweroff was the right thing to do - tried to follow that patch history but
+> > > the question remains (it is related to UpdateCapsule() but I don't know
+> > > how that applies to the hibernation use case).
+> >
+> > RFC: It is unclear to me what happens in current mainline if we try to
+> > hibernate with EFI runtime services enabled and a capsule update pending (we
+> > issue EFI ResetSystem(EFI_RESET_SHUTDOWN,..) which might not be compatible
+> > with the reset required by the pending capsule update request) what happens
+> > in this case I don't know but at least the choice is all contained in
+> > EFI firmware.
+> >
+> > Then if in the same scenario now we are switching to PSCI SYSTEM_OFF2 for the
+> > hibernate reset I suspect that what happens to the in-flight capsule
+> > update requests strictly depends on what "reset" PSCI SYSTEM_OFF2 will
+> > end up doing ?
+> >
+> > I think this is just a corner case and it is unlikely it has been ever
+> > tested (is it even possible ? Looking at EFI folks) - it would be good
+> > to clarify it at least to make sure we understand this code path.
+> >
+> 
+> I'm not aware of any OS that actually uses capsule update at runtime
+> (both Windows and Linux queue up the capsule and call the
+> UpdateCapsule() runtime service at boot time after a reboot).
+> 
+> So it is unlikely that this would break anything, and I'd actually be
+> inclined to disable capsule update at runtime altogether.
+> 
+> I will also note that hibernation with EFI is flaky in general, given
+> that EFI memory regions may move around
 
-Somehow "isl68137" is missing from your list. "make
-dt_compatible_check" reports it as not documented.
+Thank you for chiming in, I think we are OK (I don't think this patch
+will create more issues than the ones that are already there for hibernate
+anyway) - the reasoning behind the change is in the commit logs.
 
-> +      - renesas,isl68220
-> +      - renesas,isl68221
-> +      - renesas,isl68222
-> +      - renesas,isl68223
-> +      - renesas,isl68224
-> +      - renesas,isl68225
-> +      - renesas,isl68226
-> +      - renesas,isl68227
-> +      - renesas,isl68229
-> +      - renesas,isl68233
-> +      - renesas,isl68239
-> +      - renesas,isl69222
-> +      - renesas,isl69223
-> +      - renesas,isl69224
-> +      - renesas,isl69225
-> +      - renesas,isl69227
-> +      - renesas,isl69228
-> +      - renesas,isl69234
-> +      - renesas,isl69236
-> +      - renesas,isl69239
-> +      - renesas,isl69242
-> +      - renesas,isl69243
-> +      - renesas,isl69247
-> +      - renesas,isl69248
-> +      - renesas,isl69254
-> +      - renesas,isl69255
-> +      - renesas,isl69256
-> +      - renesas,isl69259
-> +      - renesas,isl69260
-> +      - renesas,isl69268
-> +      - renesas,isl69269
-> +      - renesas,isl69298
-> +      - renesas,raa228000
-> +      - renesas,raa228004
-> +      - renesas,raa228006
-> +      - renesas,raa228228
-> +      - renesas,raa229001
-> +      - renesas,raa229004
+Lorenzo
