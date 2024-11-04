@@ -1,120 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC3C185B4D;
-	Mon,  4 Nov 2024 11:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109EF7C0BE
+	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 12:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730720369; cv=none; b=IfXP4NHpuW3B2eJ8lYZxrEY/8SzRa3zN2jfDv3NV5EdzB52FMbbfKFGNZpEaRqTIpG5Y3BpEL+q0GUrFDjGjSwAF8xxhC1Z8wayKx2J7akm4FRT1EJ6ljZ3kk05q0b2Z9nSGrWkjrB7cL/QoOlVXMIPGp3NryKVAO1tY2qkSiRo=
+	t=1730721761; cv=none; b=i8agLGp60/q4UY6X6ZAHUpE5AZS2xgZ/3G+yqRwUkqtv+GNTA4vtvxMWHwTnJVtP3sP90fLb8ndGqOn4KjaDRSYKTFyVw+Ohl+Eu0TqZrmVi7bNiZ65oo0OxRFk94xNJrXGXYqHKaoaBQh+S7WiKkKOxgBURqFhCpNGU4uhZTSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730720369; c=relaxed/simple;
-	bh=NEDVbMitndD/iK6JWHs2o1S6pn7h57zEQ83wRjOGbwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T4X21Z2//bEFcE/Mnm7SRAEbSe2Hv30g+1ieVBA2BegoCMvZRAoZOdSYFpbC4l5dWo/3l6/XioIhCYr0byPK6IIo/c0GUEkwnb/QtZ52vhrykbqbJ639Y5Z0Py3PptiFz59LSlKcCL2rXk+pa2DGBNiLTqUUqvjENG+VpJVB3hU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FCNZl80y; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FCNZl80y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E43EC4CECE;
-	Mon,  4 Nov 2024 11:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730720366;
-	bh=NEDVbMitndD/iK6JWHs2o1S6pn7h57zEQ83wRjOGbwM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FCNZl80yEk5l8SaYaoCBd/ngvAnMVCC2ZjSDbwZfQ8mrGoQAQHq0KZ0YySad2w6iD
-	 bhKUdk2VJPuLxk2n0zNkeYqVTjWimCe0KY+EoWT4fqvV1+YLhQUvABpjnzxQEgdqFM
-	 2BpPxg0LwBCTYbhkxkUYZgp3KkOsOZRDo+BKC3lH3JeAsOEk2fzj8ARLQQ14RhFnrX
-	 uXWBkNGPfoaMl6N4kDz6OiMk0Mf/BwrYcYvvPP+t71xWn1ZjQA3Q6lgcGNVObYG5Gq
-	 GbS2qup3wwHfcN9yIP+AIN4pioJI5Luew6aYTY7gCJ1DnGQC9xzlf55e02PVxyG0ae
-	 QwBznLzmgrROQ==
-Date: Mon, 4 Nov 2024 13:39:20 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Robin Murphy <robin.murphy@arm.com>, Jens Axboe <axboe@kernel.dk>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
-Message-ID: <20241104113920.GD99170@unreal>
-References: <cover.1730298502.git.leon@kernel.org>
- <3567312e-5942-4037-93dc-587f25f0778c@arm.com>
- <20241104095831.GA28751@lst.de>
+	s=arc-20240116; t=1730721761; c=relaxed/simple;
+	bh=RKfETeJ5M6wul7ruC9euhfuUUfanF67mO987XR1Xo/M=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z3jolilvAs0KJZWXo0V5/Fr+DSylnimbaUuUQghN6vJQdPzcL7pDZeen49aioHpSPg4OqqNTzmZVpTGIRQsBCn95tTRMiGU1jV/U7bkKMC1rvlaYSpBOmnXL5Hl2cD+C97TON56SDivwANdaUhBUqNgPcuJV/WsFtu7svIFS5T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Xhqmj1RD8z2Fb4P;
+	Mon,  4 Nov 2024 20:00:53 +0800 (CST)
+Received: from kwepemd200012.china.huawei.com (unknown [7.221.188.145])
+	by mail.maildlp.com (Postfix) with ESMTPS id BF0DB1A0188;
+	Mon,  4 Nov 2024 20:02:31 +0800 (CST)
+Received: from huawei.com (10.145.6.51) by kwepemd200012.china.huawei.com
+ (7.221.188.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Mon, 4 Nov
+ 2024 20:02:30 +0800
+From: Zhou Wang <wangzhou1@hisilicon.com>
+To: <maz@kernel.org>, <tglx@linutronix.de>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>, Zhou
+ Wang <wangzhou1@hisilicon.com>, Nianyao Tang <tangnianyao@huawei.com>
+Subject: [PATCH] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
+Date: Mon, 4 Nov 2024 20:11:43 +0800
+Message-ID: <20241104121143.2169264-1-wangzhou1@hisilicon.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241104095831.GA28751@lst.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemd200012.china.huawei.com (7.221.188.145)
 
-On Mon, Nov 04, 2024 at 10:58:31AM +0100, Christoph Hellwig wrote:
-> On Thu, Oct 31, 2024 at 09:17:45PM +0000, Robin Murphy wrote:
+When enabled GICv4.1 in hip09, VMAPP will fail to clear some caches
+during unmapping operation, which will cause some vSGIs interrupts lost.
 
-<...>
+To fix the issue, it needs to send vinvall command after vmovp.
 
-> >>   2. VFIO PCI live migration code is building a very large "page list"
-> >>      for the device. Instead of allocating a scatter list entry per allocated
-> >>      page it can just allocate an array of 'struct page *', saving a large
-> >>      amount of memory.
-> >
-> > VFIO already assumes a coherent device with (realistically) an IOMMU which 
-> > it explicitly manages - why is it even pretending to need a generic DMA 
-> > API?
-> 
-> AFAIK that does isn't really vfio as we know it but the control device
-> for live migration.  But Leon or Jason might fill in more.
+Signed-off-by: Nianyao Tang <tangnianyao@huawei.com>
+Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
+---
+ Documentation/arch/arm64/silicon-errata.rst |  2 ++
+ arch/arm64/Kconfig                          | 10 ++++++
+ drivers/irqchip/irq-gic-v3-its.c            | 36 ++++++++++++++++-----
+ 3 files changed, 40 insertions(+), 8 deletions(-)
 
-Yes, you are right, as it is written above "VFIO PCI live migration ...".
-That piece of code directly connected to the underlying real HW device
-and uses DMA API to provide live migration functionality to/from that
-device.
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index 65bfab1b1861..77db10e944f0 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -258,6 +258,8 @@ stable kernels.
+ | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
+ |                | ,11} SMMU PMCG  |                 |                             |
+ +----------------+-----------------+-----------------+-----------------------------+
++| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
+++----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index fd9df6dcc593..27082e075d1a 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1232,6 +1232,16 @@ config HISILICON_ERRATUM_161600802
+ 
+ 	  If unsure, say Y.
+ 
++config HISILICON_ERRATUM_162100801
++	bool "Hip09 162100801 erratum support"
++	default y
++	help
++	  When enabled GICv4.1 in hip09, VMAPP will fail to clear some caches
++	  during unmapping operation, which will cause some vSGIs interrupts
++	  lost. So fix it by sending vinvall commands after vmovp.
++
++	  If unsure, say Y.
++
+ config QCOM_FALKOR_ERRATUM_1003
+ 	bool "Falkor E1003: Incorrect translation due to ASID change"
+ 	default y
+diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+index 52f625e07658..69b09072d24d 100644
+--- a/drivers/irqchip/irq-gic-v3-its.c
++++ b/drivers/irqchip/irq-gic-v3-its.c
+@@ -44,6 +44,7 @@
+ #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
+ #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
+ #define ITS_FLAGS_FORCE_NON_SHAREABLE		(1ULL << 3)
++#define ITS_FLAGS_WORKAROUND_HISILICON_162100801	(1ULL << 4)
+ 
+ #define RD_LOCAL_LPI_ENABLED                    BIT(0)
+ #define RD_LOCAL_PENDTABLE_PREALLOCATED         BIT(1)
+@@ -1314,6 +1315,14 @@ static void its_send_vmapp(struct its_node *its,
+ 	its_send_single_vcommand(its, its_build_vmapp_cmd, &desc);
+ }
+ 
++static void its_send_vinvall(struct its_node *its, struct its_vpe *vpe)
++{
++	struct its_cmd_desc desc;
++
++	desc.its_vinvall_cmd.vpe = vpe;
++	its_send_single_vcommand(its, its_build_vinvall_cmd, &desc);
++}
++
+ static void its_send_vmovp(struct its_vpe *vpe)
+ {
+ 	struct its_cmd_desc desc = {};
+@@ -1351,17 +1360,12 @@ static void its_send_vmovp(struct its_vpe *vpe)
+ 
+ 		desc.its_vmovp_cmd.col = &its->collections[col_id];
+ 		its_send_single_vcommand(its, its_build_vmovp_cmd, &desc);
++		if (is_v4_1(its) && (its->flags &
++			    ITS_FLAGS_WORKAROUND_HISILICON_162100801))
++			its_send_vinvall(its, vpe);
+ 	}
+ }
+ 
+-static void its_send_vinvall(struct its_node *its, struct its_vpe *vpe)
+-{
+-	struct its_cmd_desc desc;
+-
+-	desc.its_vinvall_cmd.vpe = vpe;
+-	its_send_single_vcommand(its, its_build_vinvall_cmd, &desc);
+-}
+-
+ static void its_send_vinv(struct its_device *dev, u32 event_id)
+ {
+ 	struct its_cmd_desc desc;
+@@ -4781,6 +4785,14 @@ static bool its_set_non_coherent(void *data)
+ 	return true;
+ }
+ 
++static bool __maybe_unused its_enable_quirk_hip09_162100801(void *data)
++{
++	struct its_node *its = data;
++
++	its->flags |= ITS_FLAGS_WORKAROUND_HISILICON_162100801;
++	return true;
++}
++
+ static const struct gic_quirk its_quirks[] = {
+ #ifdef CONFIG_CAVIUM_ERRATUM_22375
+ 	{
+@@ -4827,6 +4839,14 @@ static const struct gic_quirk its_quirks[] = {
+ 		.init	= its_enable_quirk_hip07_161600802,
+ 	},
+ #endif
++#ifdef CONFIG_HISILICON_ERRATUM_162100801
++	{
++		.desc	= "ITS: Hip09 erratum 162100801",
++		.iidr	= 0x00051736,
++		.mask	= 0xffffffff,
++		.init	= its_enable_quirk_hip09_162100801,
++	},
++#endif
+ #ifdef CONFIG_ROCKCHIP_ERRATUM_3588001
+ 	{
+ 		.desc   = "ITS: Rockchip erratum RK3588001",
+-- 
+2.34.1
 
-> 
-> The point is that quite a few devices have these page list based APIs
-> (RDMA where mlx5 comes from, NVMe with PRPs, AHCI, GPUs).
-> 
-> >
-> >>   3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
-> >>      list without having to allocate then populate an intermediate SG table.
-> >
-> > As above, given that a bio_vec still deals in struct pages, that could 
-> > seemingly already be done by just mapping the pages, so how is it proving 
-> > any benefit of a fragile new interface?
-> 
-> Because we only need to preallocate the tiny constant sized dma_iova_state
-> as part of the request instead of an additional scatterlist that requires
-> sizeof(struct page *) + sizeof(dma_addr_t) + 3 * sizeof(unsigned int)
-> per segment, including a memory allocation per I/O for that.
-> 
-> > My big concern here is that a thin and vaguely-defined wrapper around the 
-> > IOMMU API is itself a step which smells strongly of "abuse and design 
-> > mistake", given that the basic notion of allocating DMA addresses in 
-> > advance clearly cannot generalise. Thus it really demands some considered 
-> > justification beyond "We must do something; This is something; Therefore we 
-> > must do this." to be convincing.
-> 
-> At least for the block code we have a nice little core wrapper that is
-> very easy to use, and provides a great reduction of memory use and
-> allocations.  The HMM use case I'll let others talk about.
-
-I'm not sure about which wrappers Robin talks, but if we are talking
-about HMM wrappers, they gave us perfect combination of usability,
-performance and maintenance. All HMM users use same pattern, same
-structures and don't need to worry about internal DMA/IOMMU details.
-
-Thanks
