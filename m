@@ -1,212 +1,144 @@
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BA323A0;
-	Mon,  4 Nov 2024 02:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22EC93F9FB;
+	Mon,  4 Nov 2024 02:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730687625; cv=none; b=EfzrjCkwFw5pEyrvCnJOMaxaVwpZIXj+3oo2Adk9+nHUI4D7tTpL6UEP87tUk29AmltX8KDUPn08PCaREQbgCRzT0Roi5/549+AcedxsYTga/19SCHcVa8kBoZ1JU/2QrkKplQPegVKjgCbLFyP2eBjv0N82Ie6v4Vba9TqaAt0=
+	t=1730688341; cv=none; b=VlzZo95ArdYOg90RSJymq0iskXOawVIugHXhC6FzTJ3d8OYR0eehOBRtFVMQENDIBprRt/0lBL7gcGqD3lrtORZ9lQs1jpyaa6NiYgjiZuZnjsLe61oZBw15k+lDH2K5dqyPp5L6N4n1lwKI7rTXGGnQKzSjpSvhFLbWL+9Z6Pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730687625; c=relaxed/simple;
-	bh=G/oRmBDJcCJLwa+QL1ScenWu4cHaDUeRUWfC5Lm+XI0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BL3jBG5KYwho2M5y2FcXgP143jWnEfDGlWtXEhp0oM9+r2o7mX5A4Wanlm417yJfF3BB93bWrhYUnNBNSJSfdpZkhyi3VXC1b4vfKdYe/8Kxd4YPlrP1SzTP4WdhM7kAssvCGxhpU0+kHx9hFIFgTVo4jE3lwBnXuMpnpik1g8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=nF3ibdzt; arc=none smtp.client-ip=115.124.30.118
+	s=arc-20240116; t=1730688341; c=relaxed/simple;
+	bh=jsgdTX+H2BCb7+bHl6hFQLAaK6roe3D9XtFvpTGfs/w=;
+	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=jWY6lQakn1TeDtMpreNTS2qBbaPMYDPQtO59+DH3fcTm+mB6LoSChjrB5SNwWk4XV+D5nVTHuVk/8asCrhIhihknqU6XlvBFXdKLLzH1A30fkZEO4QTZB9GeNm6IcApEQ3JgQHnBwNTLV0IKBGxdYKWlDJtuhxn1BuoOh3QeX+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Ghtfo3iN; arc=none smtp.client-ip=115.124.30.132
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="nF3ibdzt"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Ghtfo3iN"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1730687614; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=v1/peVX+FsyEZ3e/HuCFZ4YVCmzU5pF7SqzFiNM/ok0=;
-	b=nF3ibdzt8SMIifbblHV5nAEq1IPJGB0e3080baIMIKgofLaEDiXfz9FvbU1GEVVgBOVqPqZBq+zPzpT7RPSPPDF4zo+kzpgHPpwHedzaGGBm0i41ddD4CPZa28CL94YXlobDBzH4e4hq3EYUNYnkt3RjVgXAXs51BHVQIUwz6To=
-Received: from 30.74.144.113(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WIZh3ES_1730687612 cluster:ay36)
+	t=1730688329; h=Message-ID:Subject:Date:From:To;
+	bh=VMJ0qNC7D3RhewOuf4cdyfmebiUIbRwkpgu9S0MsSDk=;
+	b=Ghtfo3iNlPsczOQfcwZDbigc6J/l+rP9HuakHxOaD+Tl+u8h00rpn6o5mJVWwXkSUdajpgt2nh7n2yvq7AMm015SgVs5tpkRAswXqGrJDKMilrPMbcskoDPpCjKIoD80pdzGyZbNgeeELnHbS+jVIPtw83LqCqJ1eMwO0v1oAJU=
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0WIZlEgZ_1730688325 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 04 Nov 2024 10:33:33 +0800
-Message-ID: <ea5546e6-1c80-45fd-b58e-6739a5a6f357@linux.alibaba.com>
-Date: Mon, 4 Nov 2024 10:33:32 +0800
+          Mon, 04 Nov 2024 10:45:25 +0800
+Message-ID: <1730688315.6177652-4-xuanzhuo@linux.alibaba.com>
+Subject: Re: [resend PATCH 1/2] dim: make dim_calc_stats() inputs const pointers
+Date: Mon, 4 Nov 2024 10:45:15 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Caleb Sander Mateos <csander@purestorage.com>,
+ intel-wired-lan@lists.osuosl.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org,
+ oss-drivers@corigine.com,
+ virtualization@lists.linux.dev,
+ Andrew Lunn <andrew+netdev@lunn.ch>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Arthur Kiyanovski <akiyano@amazon.com>,
+ Brett Creeley <brett.creeley@amd.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Claudiu Manoil <claudiu.manoil@nxp.com>,
+ David Arinzon <darinzon@amazon.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Doug Berger <opendmb@gmail.com>,
+ Eric Dumazet <edumazet@google.com>,
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Felix Fietkau <nbd@nbd.name>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Geetha sowjanya <gakula@marvell.com>,
+ hariprasad <hkelam@marvell.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Leon Romanovsky <leon@kernel.org>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Louis Peens <louis.peens@corigine.com>,
+ Mark Lee <Mark-MC.Lee@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Michael Chan <michael.chan@broadcom.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Noam Dagan <ndagan@amazon.com>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Roy Pledge <Roy.Pledge@nxp.com>,
+ Saeed Bishara <saeedb@amazon.com>,
+ Saeed Mahameed <saeedm@nvidia.com>,
+ Sean Wang <sean.wang@mediatek.com>,
+ Shannon Nelson <shannon.nelson@amd.com>,
+ Shay Agroskin <shayagr@amazon.com>,
+ Simon Horman <horms@kernel.org>,
+ Subbaraya Sundeep <sbhatta@marvell.com>,
+ Sunil Goutham <sgoutham@marvell.com>,
+ Tal Gilboa <talgi@nvidia.com>,
+ Tariq Toukan <tariqt@nvidia.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>
+References: <20241031002326.3426181-1-csander@purestorage.com>
+In-Reply-To: <20241031002326.3426181-1-csander@purestorage.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/5] mm: shmem: override mTHP shmem default with a
- kernel parameter
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Hugh Dickins <hughd@google.com>, Barry Song <baohua@kernel.org>,
- David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Lance Yang <ioworker0@gmail.com>
-Cc: linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com
-References: <20241101165719.1074234-2-mcanal@igalia.com>
- <20241101165719.1074234-6-mcanal@igalia.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20241101165719.1074234-6-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+
+On Wed, 30 Oct 2024 18:23:25 -0600, Caleb Sander Mateos <csander@purestorage.com> wrote:
+> Make the start and end arguments to dim_calc_stats() const pointers
+> to clarify that the function does not modify their values.
+>
+> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 
 
+Reviewed-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-On 2024/11/2 00:54, Maíra Canal wrote:
-> Add the ``thp_shmem=`` kernel command line to allow specifying the
-> default policy of each supported shmem hugepage size. The kernel parameter
-> accepts the following format:
-> 
-> thp_shmem=<size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
-> 
-> For example,
-> 
-> thp_shmem=16K-64K:always;128K,512K:inherit;256K:advise;1M-2M:never;4M-8M:within_size
-> 
-> Some GPUs may benefit from using huge pages. Since DRM GEM uses shmem
-> to allocate anonymous pageable memory, it’s essential to control the huge
-> page allocation policy for the internal shmem mount. This control can be
-> achieved through the ``transparent_hugepage_shmem=`` parameter.
-> 
-> Beyond just setting the allocation policy, it’s crucial to have granular
-> control over the size of huge pages that can be allocated. The GPU may
-> support only specific huge page sizes, and allocating pages larger/smaller
-> than those sizes would be ineffective.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   .../admin-guide/kernel-parameters.txt         |  10 ++
->   Documentation/admin-guide/mm/transhuge.rst    |  17 +++
->   mm/shmem.c                                    | 105 +++++++++++++++++-
->   3 files changed, 131 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index acabb04d0dd4..b48d744d99b0 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6700,6 +6700,16 @@
->   			Force threading of all interrupt handlers except those
->   			marked explicitly IRQF_NO_THREAD.
->   
-> +	thp_shmem=	[KNL]
-> +			Format: <size>[KMG],<size>[KMG]:<policy>;<size>[KMG]-<size>[KMG]:<policy>
-> +			Control the default policy of each hugepage size for the
-> +			internal shmem mount. <policy> is one of policies available
-> +			for the shmem mount ("always", "inherit", "never", "within_size",
-> +			and "advise").
-> +			It can be used multiple times for multiple shmem THP sizes.
-> +			See Documentation/admin-guide/mm/transhuge.rst for more
-> +			details.
-> +
->   	topology=	[S390,EARLY]
->   			Format: {off | on}
->   			Specify if the kernel should make use of the cpu
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index 9c6f6da612c4..5034915f4e8e 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -332,6 +332,23 @@ allocation policy for the internal shmem mount by using the kernel parameter
->   seven valid policies for shmem (``always``, ``within_size``, ``advise``,
->   ``never``, ``deny``, and ``force``).
->   
-> +In the same manner as ``thp_anon`` controls each supported anonymous THP
-> +size, ``thp_shmem`` controls each supported shmem THP size. ``thp_shmem``
-> +has the same format as ``thp_anon``, but also supports the policy
-> +``within_size``.
-> +
-> +``thp_shmem=`` may be specified multiple times to configure all THP sizes
-> +as required. If ``thp_shmem=`` is specified at least once, any shmem THP
-> +sizes not explicitly configured on the command line are implicitly set to
-> +``never``.
-> +
-> +``transparent_hugepage_shmem`` setting only affects the global toggle. If
-> +``thp_shmem`` is not specified, PMD_ORDER hugepage will default to
-> +``inherit``. However, if a valid ``thp_shmem`` setting is provided by the
-> +user, the PMD_ORDER hugepage policy will be overridden. If the policy for
-> +PMD_ORDER is not defined within a valid ``thp_shmem``, its policy will
-> +default to ``never``.
-> +
->   Hugepages in tmpfs/shmem
->   ========================
->   
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index dfcc88ec6e34..d2bf98aece40 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -136,6 +136,7 @@ static unsigned long huge_shmem_orders_always __read_mostly;
->   static unsigned long huge_shmem_orders_madvise __read_mostly;
->   static unsigned long huge_shmem_orders_inherit __read_mostly;
->   static unsigned long huge_shmem_orders_within_size __read_mostly;
-> +static bool shmem_orders_configured __initdata;
->   #endif
->   
->   #ifdef CONFIG_TMPFS
-> @@ -5027,7 +5028,8 @@ void __init shmem_init(void)
->   	 * Default to setting PMD-sized THP to inherit the global setting and
->   	 * disable all other multi-size THPs.
->   	 */
-> -	huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
-> +	if (!shmem_orders_configured)
-> +		huge_shmem_orders_inherit = BIT(HPAGE_PMD_ORDER);
->   #endif
->   	return;
->   
-> @@ -5195,6 +5197,107 @@ static int __init setup_transparent_hugepage_shmem(char *str)
->   }
->   __setup("transparent_hugepage_shmem=", setup_transparent_hugepage_shmem);
->   
-> +static char str_dup[PAGE_SIZE] __initdata;
-> +static int __init setup_thp_shmem(char *str)
-> +{
-> +	char *token, *range, *policy, *subtoken;
-> +	unsigned long always, inherit, madvise, within_size;
-> +	char *start_size, *end_size;
-> +	int start, end, nr;
-> +	char *p;
-> +
-> +	if (!str || strlen(str) + 1 > PAGE_SIZE)
-> +		goto err;
-> +	strscpy(str_dup, str);
-> +
-> +	always = huge_shmem_orders_always;
-> +	inherit = huge_shmem_orders_inherit;
-> +	madvise = huge_shmem_orders_madvise;
-> +	within_size = huge_shmem_orders_within_size;
-> +	p = str_dup;
-> +	while ((token = strsep(&p, ";")) != NULL) {
-> +		range = strsep(&token, ":");
-> +		policy = token;
-> +
-> +		if (!policy)
-> +			goto err;
-> +
-> +		while ((subtoken = strsep(&range, ",")) != NULL) {
-> +			if (strchr(subtoken, '-')) {
-> +				start_size = strsep(&subtoken, "-");
-> +				end_size = subtoken;
-> +
-> +				start = get_order_from_str(start_size,
-> +							   THP_ORDERS_ALL_FILE_DEFAULT);
-> +				end = get_order_from_str(end_size,
-> +							 THP_ORDERS_ALL_FILE_DEFAULT);
-> +			} else {
-> +				start_size = end_size = subtoken;
-> +				start = end = get_order_from_str(subtoken,
-> +								 THP_ORDERS_ALL_FILE_DEFAULT);
-> +			}
-> +
-> +			if (start == -EINVAL) {
-> +				pr_err("invalid size %s in thp_shmem boot parameter\n",
-> +				       start_size);
-> +				goto err;
-> +			}
-> +
-> +			if (end == -EINVAL) {
-> +				pr_err("invalid size %s in thp_shmem boot parameter\n",
-> +				       end_size);
-> +				goto err;
-> +			}
-
-I have the same feeling that these are redundant checks. Otherwise look 
-good to me.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>  include/linux/dim.h | 3 ++-
+>  lib/dim/dim.c       | 3 ++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/linux/dim.h b/include/linux/dim.h
+> index 1b581ff25a15..84579a50ae7f 100644
+> --- a/include/linux/dim.h
+> +++ b/include/linux/dim.h
+> @@ -349,11 +349,12 @@ void dim_park_tired(struct dim *dim);
+>   *
+>   * Calculate the delta between two samples (in data rates).
+>   * Takes into consideration counter wrap-around.
+>   * Returned boolean indicates whether curr_stats are reliable.
+>   */
+> -bool dim_calc_stats(struct dim_sample *start, struct dim_sample *end,
+> +bool dim_calc_stats(const struct dim_sample *start,
+> +		    const struct dim_sample *end,
+>  		    struct dim_stats *curr_stats);
+>
+>  /**
+>   *	dim_update_sample - set a sample's fields with given values
+>   *	@event_ctr: number of events to set
+> diff --git a/lib/dim/dim.c b/lib/dim/dim.c
+> index 83b65ac74d73..97c3d084ebf0 100644
+> --- a/lib/dim/dim.c
+> +++ b/lib/dim/dim.c
+> @@ -52,11 +52,12 @@ void dim_park_tired(struct dim *dim)
+>  	dim->steps_left   = 0;
+>  	dim->tune_state   = DIM_PARKING_TIRED;
+>  }
+>  EXPORT_SYMBOL(dim_park_tired);
+>
+> -bool dim_calc_stats(struct dim_sample *start, struct dim_sample *end,
+> +bool dim_calc_stats(const struct dim_sample *start,
+> +		    const struct dim_sample *end,
+>  		    struct dim_stats *curr_stats)
+>  {
+>  	/* u32 holds up to 71 minutes, should be enough */
+>  	u32 delta_us = ktime_us_delta(end->time, start->time);
+>  	u32 npkts = BIT_GAP(BITS_PER_TYPE(u32), end->pkt_ctr, start->pkt_ctr);
+> --
+> 2.45.2
+>
