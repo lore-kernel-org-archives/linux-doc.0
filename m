@@ -1,130 +1,95 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7E718C034
-	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 21:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F3A1CDFBE;
+	Mon,  4 Nov 2024 21:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730755979; cv=none; b=hL6/ymTnV3y3jOHC8BtzlTCEl+2tBwTYbZeqWKeTjR5woRsOuhIps2QjVtBj1WsyIcXhxv1NG13TQABOpwRDGFMc4x75p+QOCbwED72Ghbi1tUAIUQOfhspCZJ5zyy+ShWfIpawi48neZ9XglCb/eqfTmL+bW4Uo1E+kDRjl2pU=
+	t=1730756316; cv=none; b=FQXYbKuW6btAWukxhiU1QjWoelnQr1crrdyN55jc5iCso5RXjRbf31TgVsA7wRcZLSJ+cVoqo9RzYAaaTMaDW10dY6jhpW6gGnPxUKhfiWb4uuh1c/McFcPKOJPhrW7w7UpZK9u+J1PE4atlzaDrLVIg9FfryosV45Mei7N3XSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730755979; c=relaxed/simple;
-	bh=fdBVewMiYACcHTkjuVH8eoAcByaa4rdMJHtffZ8NRzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CirRnbjRuj+EmxV+3d4meLQAPm7pEpHoRjeuDf0v6Oqr206qEzWox9SK2mHT35k72wIh9Pof5LkCUMcFoGn56Ac+z9o75LdG443dTPuv4EUM/LpUGf96erkXPEVHX4oWVqAlhJsXTi/aNTZGxQnMnvM970z5tuCMCLJd0be9LEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=uKqG2jrk; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1730756316; c=relaxed/simple;
+	bh=WwBZK0JB5bJHyGasmcj/L8/Envcc8v3532gInv1sJ/I=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=pwDzTdWbcC1d5iXanz8NpdgCWp0D/+75Lnt3HxI4dtXpMf//MxKg7ZODlguMMOt0fz3ePIlEE2m2O5kXOrRYg/c1yIhrgURL5wPQ64Mi1jhZY0R3LbvQjnpn7A84KPQ6Kr7kAwsUsF0yV+7XrrFuVV5XoPoH/340aUDmJEAigKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Co2uEtQt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="uKqG2jrk"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-71ec997ad06so3855239b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 13:32:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730755977; x=1731360777; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EzIIL5jV51s8QxZDArUoUfDkcHu/NNqV1EZULNrSbms=;
-        b=uKqG2jrkpUbqp9onmjHwE05Gj/mClK5YVTKtwVC640w8OrdgAtBYJhzbhQ+BndMu5j
-         qMcRQfAtI/EgCWGBZhLufrqBlbWL57fGQXTh624wUksdZHq9Mp3unmS7p8RHhT/rFPAS
-         En20N+I9K4R2J0+bJ/ofplkIffJjBNNLpzqq8a4E1G3r3aQ0IKG9uBF50TGzax9RFBhf
-         ZmyERaLGBfwetqYNL7vLn6PJ2O0rgqgPDtDeItioJ5bXCGhgmJXoG0Li/6AktWNwj39P
-         TJfCH3emoc/2U0mowVBjsGTXg+gyAcXCbPENsK1OmLyNfPDzpNhpaEt/4WxLg3k4bxpt
-         tvdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730755977; x=1731360777;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EzIIL5jV51s8QxZDArUoUfDkcHu/NNqV1EZULNrSbms=;
-        b=idQTv6agxr17YuqSwAT7HBFKtnpdWMJTdua7jNhXN0C047RDhvAN6cN6jJ+qSuDRoW
-         DTtzpUJYgzGx9i/nSvJg0v8I8FibJFYlMyti20OUKD/oy88RqkGb4RKYssI9t1qlbWF0
-         dSNxM4Cubg0HWv1lfua0pvJvnLYjmhtEltY+H/6HQbhIKTXryUCnCBq9WCbHGmqSt1QY
-         6sx04U3aSLsezkJewOoWrLk/cHcjR/5p50bnlVNExn7p1hUxtL6YpeuVQIfrh04ke5ap
-         13rnSBkMpo3yEiQIe9m/kIZyTU6jrEve4ulIGCKQDivgYdZYWLwnhgT1EsVAwpgqLS8t
-         KbJg==
-X-Forwarded-Encrypted: i=1; AJvYcCVyFdKdRi31d/zgNVAya0jO40GG9ustBSUbWN13VILcsOsEE/QX6nL2JgiFbAMZf95Md/V8dMpGf2A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEcxVc7Nmy2ErQjrpFrNrY+IGvi1jET2V4xDyYCX71HdT+NZX9
-	25mhBoRMwOYoRP0YgbzBuV1Ac0PKWA/9ZVoImZ+Q1zMeTGha5bhdMmngKYBlmho=
-X-Google-Smtp-Source: AGHT+IE1gCnZHDhbNSzOxIsLAwqp2zm4KQPfqsRjT/TyxizeRL+Gzx/ZXVxE+GJ5uzuO8nBhG5XzOQ==
-X-Received: by 2002:a05:6a21:9993:b0:1db:d8df:8c4e with SMTP id adf61e73a8af0-1dbd8dfc276mr7417523637.12.1730755977373;
-        Mon, 04 Nov 2024 13:32:57 -0800 (PST)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc1ef7d9sm8114469b3a.83.2024.11.04.13.32.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 13:32:56 -0800 (PST)
-Date: Mon, 4 Nov 2024 13:32:53 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>, guoren <guoren@kernel.org>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	James Clark <james.clark@linaro.org>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFT 00/16] perf tools: Use generic syscall scripts for
- all archs
-Message-ID: <Zyk9hX8CB_2rbWsi@ghost>
-References: <20241104-perf_syscalltbl-v1-0-9adae5c761ef@rivosinc.com>
- <3b56fc50-4c6c-4520-adba-461797a3b5ec@app.fastmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Co2uEtQt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10236C4CECE;
+	Mon,  4 Nov 2024 21:38:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1730756315;
+	bh=WwBZK0JB5bJHyGasmcj/L8/Envcc8v3532gInv1sJ/I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Co2uEtQt0SYWN/uVQ8wieRC7EHb2o4A0t5p5W8viVE7GGxZJMu4laOwivRh0DqQnk
+	 gewQq4bFlkQa/k+pWap14rQjNpT3cK2mzTskebMAZswHXL5zsbOTylRg7rDJO9DoSu
+	 ve1ju0QIq0U2PPofuCoqgwp5qdylE8rnkPFuEewY=
+Date: Mon, 4 Nov 2024 13:38:34 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Yu Zhao <yuzhao@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Johannes Weiner
+ <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Roman Gushchin
+ <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, Hugh
+ Dickins <hughd@google.com>, Yosry Ahmed <yosryahmed@google.com>,
+ linux-mm@kvack.org, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, Meta kernel team
+ <kernel-team@meta.com>
+Subject: Re: [PATCH v1 5/6] memcg-v1: no need for memcg locking for MGLRU
+Message-Id: <20241104133834.e0e138038a111c2b0d20bdde@linux-foundation.org>
+In-Reply-To: <ZykEtcHrQRq-KrBC@google.com>
+References: <20241025012304.2473312-1-shakeel.butt@linux.dev>
+	<20241025012304.2473312-6-shakeel.butt@linux.dev>
+	<iwmabnye3nl4merealrawt3bdvfii2pwavwrddrqpraoveet7h@ezrsdhjwwej7>
+	<CAOUHufZexpg-m5rqJXUvkCh5nS6RqJYcaS9b=xra--pVnHctPA@mail.gmail.com>
+	<ZykEtcHrQRq-KrBC@google.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3b56fc50-4c6c-4520-adba-461797a3b5ec@app.fastmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 04, 2024 at 10:13:18PM +0100, Arnd Bergmann wrote:
-> On Mon, Nov 4, 2024, at 22:06, Charlie Jenkins wrote:
-> > Standardize the generation of syscall headers around syscall tables.
-> > Previously each architecture independently selected how syscall headers
-> > would be generated, or would not define a way and fallback onto
-> > libaudit. Convert all architectures to use a standard syscall header
-> > generation script and allow each architecture to override the syscall
-> > table to use if they do not use the generic table.
-> >
-> > As a result of these changes, no architecture will require libaudit, and
-> > so the fallback case of using libaudit is removed by this series.
-> >
-> > Testing:
-> >
-> > I have tested that the syscall mappings of id to name generation works
-> > as expected for every architecture, but I have only validated that perf
-> > trace compiles and runs as expected on riscv, arm64, and x86_64.
-> >
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+On Mon, 4 Nov 2024 10:30:29 -0700 Yu Zhao <yuzhao@google.com> wrote:
+
+> On Sat, Oct 26, 2024 at 09:26:04AM -0600, Yu Zhao wrote:
+> > On Sat, Oct 26, 2024 at 12:34 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> > >
+> > > On Thu, Oct 24, 2024 at 06:23:02PM GMT, Shakeel Butt wrote:
+> > > > While updating the generation of the folios, MGLRU requires that the
+> > > > folio's memcg association remains stable. With the charge migration
+> > > > deprecated, there is no need for MGLRU to acquire locks to keep the
+> > > > folio and memcg association stable.
+> > > >
+> > > > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+> > >
+> > > Andrew, can you please apply the following fix to this patch after your
+> > > unused fixup?
+> > 
+> > Thanks!
 > 
-> Thanks for doing this, I had plans to do this myself, but hadn't
-> completed that bit so far. I'm travelling at the moment, so I'm
-> not sure I have time to look at it in enough detail this week.
+> syzbot caught the following:
 > 
-> One problem I ran into doing this previously was the incompatible
-> format of the tables for x86 and s390, which have conflicting
-> interpretations of what the '-' character means. It's possible
-> that this is only really relevant for the in-kernel table,
-> not the version in tools.
+>   WARNING: CPU: 0 PID: 85 at mm/vmscan.c:3140 folio_update_gen+0x23d/0x250 mm/vmscan.c:3140
+>   ...
 > 
+> Andrew, can you please fix this in place?
 
-I don't think that is an issue for this usecase because the only
-information that is taken from the syscall table is the number and the
-name of the syscall. '-' doesn't appear in either of these columns! 
+OK, but...
 
-- Charlie
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -3138,7 +3138,6 @@ static int folio_update_gen(struct folio *folio, int gen)
+>  	unsigned long new_flags, old_flags = READ_ONCE(folio->flags);
+>  
+>  	VM_WARN_ON_ONCE(gen >= MAX_NR_GENS);
+> -	VM_WARN_ON_ONCE(!rcu_read_lock_held());
+>  
+>  	do {
+>  		/* lru_gen_del_folio() has isolated this page? */
 
->      Arnd
+it would be good to know why this assertion is considered incorrect? 
+And a link to the sysbot report?
+
+Thanks.
