@@ -1,143 +1,191 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2119.outbound.protection.outlook.com [40.107.255.119])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02941494DA
-	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 09:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730711765; cv=none; b=lIfjLr12KTvyjICGnBIru2p1ziAlzBLQgJ5ElF60zc7BgVWZO8rCnuuySLoh5PLX6FjP5Vz3Dswwl42mOZV+DR/4eAm2EVyxsAmoWobjZZWJ3tbJWiNvNV/C/MTlzbFwOc1orf9Vr6U+FQi5h1TFXhA8N0fbcaHHxXOLHFy299E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730711765; c=relaxed/simple;
-	bh=z6GJ93yXRjyXplh2SP64pD8kWWUiAltxGKL0J8st/Ls=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GQZ4A8xd5gq25T3jCsVCJ3yVx0KTb/lRNTcpG/yxd+aMa9gfzew3rDHD3wVNMjZ5M4N27YW1hcuB4hrGhPwXHp1P1vbYTrsH8L4Ml/76x0YijO7T7LhtGFfKbXCpJ4eKWPmMExjn1YqrLOOmBx4YFLYOFrnm4lfdcGnx7kuYfwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=q55mNCKE; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE928198A0E;
+	Mon,  4 Nov 2024 09:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.119
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730713509; cv=fail; b=YnRqKkNjrlbaBIEGl+w8NOD/H04ny/ubQnt4a0MMNLsgKkl0ZKtr520TStVsmjinlQzB/tI67pbR/gbZIM8eMWIw1smGnY9Aj/k3bph8YmBzl//EfXNfJRxq74vj2YDPEnh1YoQJjPrSaFOWGGpbm0cFQGUxqsGchIS8j2h1kJ4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730713509; c=relaxed/simple;
+	bh=+nh5PU4nK8TL8ihazpxAUadQ68TPHGnSnTcykg5Yvn8=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=dL2QpX4l3emHOfZ7NnEJwLC2n4W7gCKH5LtWkUG1yCOWs7P24H1xVocZz8ySErQJDZsaoLpl17RGU1OM7+HU1NWb/sBSMWsSVTU2vmwizQGvB8Snkvk57uRBpLR7maBi5GF4JFr+kE3oxWGvRFtPVURmzjgHfvv6jemPIw3VqKQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=KrvN6GIp; arc=fail smtp.client-ip=40.107.255.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="q55mNCKE"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43193678216so34483945e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 01:16:02 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="KrvN6GIp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UP0BqFyJfD3hEo0W4bgV8qtZ7yDTqfGa5/p+Aa642PQET7c+gI/12rsfb0zhRS7VWOS3ilXeFQm80cgDWM2+SZq0eZfFjg8oFcYGNUT8+Yhq4bJBVVUKb61nJyldYyYOnyPjCrP2PF+5PfHa1xBYmpXAtNHcQRbQG7YIGTq361JhQJVKlFbrmjl6gacF1ZwZxHydjv8UEtIAlK0049VxAhDXkJm1HQ0ktJT5G/UdVesXJdmr+0OVSGYfBdkoVURa1bVkGEKa08XjUto4ZCqrL93VW/YQKeLt4NnWWw4x6w0MF4rWQQxtHEvqg1VZkflBCiDP4Ro/QYG5SlYfwvnCxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+x8WbTWZicQ7znriEfViEdrXAvoFejolOMzYSLA+irU=;
+ b=PBMYKHTvSCCrYgb51OHnW8Z2zwh89bKiq1yyqIj+ixePSIwnrtAJ7VV1j0qpUPryy05hsCUiNWwTr+JEXSmoUUgeyzJtsY8woygHIQkeoacgYhojjs5x9o4hUzp1aDlTtU/3F8NdD3a8oCvsrgAvVtXysJQ7avFGQBHHIdFi+7TX0QxPMC+chzjsOttEttFvfq+hHpgPQpAlDA9iW1TX81HvuCg1Ot8E0lOmHNqt31ytoLOnTcSnxGJ8gVHIWF92PdIL5SqtwmtZs2a9WsGGA3HeaeHZXO2IRb1nujKsN+PT85c8jsZw/fGpvtCBExUw5Wr8zeL8e7FKUEjqmVeIHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
+ dkim=pass header.d=fibocom.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730711761; x=1731316561; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BHNHWIYjHvkIzmcPqQT0+mDEdOP8FoTFnfjxUafDk0o=;
-        b=q55mNCKEc14B3e9IhwmUwR3HosflLGppuPFP3M3TrK2t/JeuGl9WUUVfgAWWGP0+Eu
-         TP6cYR7Ig7gNAjd5An1lQVoSz/9lyPCR/UBMHf5XTkNQZoanShX8ZHYk5WGqY3CHb3sx
-         1jZVjCX45Iie4ieIox4TgAlOwUYVknqmGHdqZ4GRv2DYAWdHb5QW1HJ5vwvgSxP615le
-         mRAwnfUuvWeRs+x8of0V49Tps25pVq+ndaeYyectG+Wr6riyxIT08hm2c0WKZYTy9Mef
-         LfTmrHMP04+J2hL+ESeO8M4TJ4oju7SPn/1dl5+v0Laz9KcgnjLexXyoZX9+Dct18XPf
-         UcZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730711761; x=1731316561;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BHNHWIYjHvkIzmcPqQT0+mDEdOP8FoTFnfjxUafDk0o=;
-        b=lnqeeJD9s4o2pD5UyKQ0AI0ZkNr0126Q/xES0FCF6JxHtwwxrxfIA33p8ie6YuIi/7
-         nll4mBKTcGHW+DeX4609OJ84/l21GLUNgRtKuQVHPFhLb7IcK02+htlN8xmfNfJ2vw7+
-         pP6eU2KWLqMrogGetzZlg76H2GWNqMDF5gakKvANfxNZZSoHBEJiXXPy7FwCpWvQrFL/
-         FR1p87Vu4ttYiyzbLbpDoH9nK9gZZqqD5D1UxZ2xh1+EoKbvtJfLmkjeFUg+TrLwtwoX
-         AAfY/DaVR1q6sX5GHqEVvbGD10MMKthTKkHG9jkYVR/+aNMOg9KEBX9coHUr0hdsF8fF
-         Da0w==
-X-Gm-Message-State: AOJu0Ywj5S5v4IC1WYlbrhc/90ezlGwdcNhyMwF3smbBZ6n2AKsgRns0
-	SW2tW+IcA7kn3lOcpXxGv0Q/Cjh8LGMS8Kw8Z1iX3x7/zO+g7Kmtrpbdk5muNs4=
-X-Google-Smtp-Source: AGHT+IE4s+sASLiF+pi+exNOnX7ReBg009W7YiTR8d4XFS+TSr8/rXuH9ghRVqL/4nhzY++NrQ3GdQ==
-X-Received: by 2002:a05:600c:428b:b0:432:7c08:d113 with SMTP id 5b1f17b1804b1-4327c08d232mr119169755e9.6.1730711759998;
-        Mon, 04 Nov 2024 01:15:59 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd917f0bsm173335235e9.17.2024.11.04.01.15.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 01:15:59 -0800 (PST)
-Message-ID: <2e775421-0c3e-48ef-8a8c-6734f7fcf298@rivosinc.com>
-Date: Mon, 4 Nov 2024 10:15:56 +0100
+ d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+x8WbTWZicQ7znriEfViEdrXAvoFejolOMzYSLA+irU=;
+ b=KrvN6GIpH6MKv65N+QDUBy7R05ZGJ5OfMJZWkXoG403Kx2dP1oOe68xooEGp2K01L4MCbCAlN9TkL7P5P1nIrjDcZ0ElKyZLYreU5sIUYo25DItMVk7maoILa31dJH0sRGVsjKemAu3U+FxT1zxqfpyzFyBt4xiS30hp9yVbkuU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fibocom.com;
+Received: from SEZPR02MB5782.apcprd02.prod.outlook.com (2603:1096:101:4f::8)
+ by KL1PR02MB6454.apcprd02.prod.outlook.com (2603:1096:820:cd::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.35; Mon, 4 Nov
+ 2024 09:44:56 +0000
+Received: from SEZPR02MB5782.apcprd02.prod.outlook.com
+ ([fe80::4843:bf84:bd17:827e]) by SEZPR02MB5782.apcprd02.prod.outlook.com
+ ([fe80::4843:bf84:bd17:827e%5]) with mapi id 15.20.8114.020; Mon, 4 Nov 2024
+ 09:44:56 +0000
+From: Jinjian Song <jinjian.song@fibocom.com>
+To: chandrashekar.devegowda@intel.com,
+	chiranjeevi.rapolu@linux.intel.com,
+	haijun.liu@mediatek.com,
+	m.chetan.kumar@linux.intel.com,
+	ricardo.martinez@linux.intel.com,
+	loic.poulain@linaro.org,
+	ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	angelogioacchino.delregno@collabora.com,
+	linux-arm-kernel@lists.infradead.org,
+	matthias.bgg@gmail.com,
+	corbet@lwn.net,
+	linux-mediatek@lists.infradead.org,
+	helgaas@kernel.org,
+	danielwinkler@google.com,
+	korneld@google.com,
+	andrew+netdev@lunn.ch,
+	horms@kernel.org,
+	Jinjian Song <jinjian.song@fibocom.com>
+Subject: [net-next v8 0/3] net: wwan: t7xx: Add t7xx debug ports
+Date: Mon,  4 Nov 2024 17:44:33 +0800
+Message-Id: <20241104094436.466861-1-jinjian.song@fibocom.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0008.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::10) To SEZPR02MB5782.apcprd02.prod.outlook.com
+ (2603:1096:101:4f::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] riscv: add ISA extension parsing for bfloat16 ISA
- extension
-To: Inochi Amaoto <inochiama@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Evan Green <evan@rivosinc.com>,
- Charlie Jenkins <charlie@rivosinc.com>,
- Andrew Jones <ajones@ventanamicro.com>, Andy Chiu <andybnac@gmail.com>,
- Xiao Wang <xiao.w.wang@intel.com>, Samuel Holland <samuel.holland@sifive.com>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Yixun Lan <dlan@gentoo.org>, Longbin Li <looong.bin@gmail.com>
-References: <20241103074959.1135240-1-inochiama@gmail.com>
- <20241103074959.1135240-3-inochiama@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20241103074959.1135240-3-inochiama@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR02MB5782:EE_|KL1PR02MB6454:EE_
+X-MS-Office365-Filtering-Correlation-Id: cabc73e7-e361-41e0-0ead-08dcfcb55753
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|7416014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?KAOhuXXVmpQQlMojUMhy90mjj+dU0QAp8O9xPx7SLr/c5XWwXw02boEsMDGD?=
+ =?us-ascii?Q?dphvH8+rGheMgxMAPYUnd44Pd3W3CI1RF1/IhNTjF81tTP16hHaw++SrU//Q?=
+ =?us-ascii?Q?7bGgD0H3nqmOGbVLP6J48ntC+1KhIUT9QIjyquaupcZJcCDDXcHRPOh0zS2u?=
+ =?us-ascii?Q?Er9SAVKm6Rnr/M29PV+UCt2SPA3s4OLekcYcOZu3CjKScHxWUyESzv+E2lpG?=
+ =?us-ascii?Q?EZ8a62bU9CIN9fmDQwq2AqrDTfK71n9HWK8O5aRRpT+jf2TB7EAx4JN7B5xo?=
+ =?us-ascii?Q?RQeTkiADFITD5kdNX7rQ/oY163NLbft4oWV9t72ix+XP77GzLyyCN78acEPh?=
+ =?us-ascii?Q?DqiNxnKfBbVWEEkwxNKkzHF2wyyjadr9devp/RTVOU8dKyIyIJu25ONfR9Kl?=
+ =?us-ascii?Q?lcZLIg1UBKJjMUsgcEcTwCrrISe846Z+JVyWeRitSmS+hzDlOqh31rbfXx3G?=
+ =?us-ascii?Q?3z2hPjR1Q6kgXcjetZ3Qr3kM7GWWKZ0z/XRTtAhon1c8LF1sGbwEMbr29E24?=
+ =?us-ascii?Q?ufViHpQ3sqwtzRHMgJENiORWgAOpUEpd+Ys3zlwKScPG4p8GLEIWwq/yj4Fx?=
+ =?us-ascii?Q?XTy7fQp2Mld57G6Sagl17E+9MfJk2cgM8UmKIVQO6pI3nnBqXCN3qc9DP8lP?=
+ =?us-ascii?Q?phlBT6NlsZ47K/cwkVZeF/nbAYKB9fQzmyvEbzrjAeOPZIcTS/tIA7Q4oiSN?=
+ =?us-ascii?Q?7KMgcyb4FDaQFnStnkkFonaNm/yZNocGrABrbG8RB3C27n2d4DqGEdpyPIuV?=
+ =?us-ascii?Q?1w5YDK4oFvFGCjAWlvE8WDtQdESq2BmeZjZtHvoTQW4le6dYgqJR7fFoyyTa?=
+ =?us-ascii?Q?CnemSIlbbSjiItEYF54yIGAz5GUtWTqemXq1ANaFWmbjtM4aSRXL/4kmTbzT?=
+ =?us-ascii?Q?00oQ1w2BYZy1uU5p2gIrj1OgBcRg2UZWhC5j720VARLUITa3vpg7i1rHzyvR?=
+ =?us-ascii?Q?IIxP7CyKr5NlktTV8upTVnH1TDSSApz1bB8YL//pfiLiofrys86du3XwgDpz?=
+ =?us-ascii?Q?VLAaxqwrTmXxMxYwRP+r45i8DbTMlkvquqF0Kiii0Hk+5PrtNWF1Rt9eJEQG?=
+ =?us-ascii?Q?F/SOzWXhiimG2/8M0vjcYGxu/GKJKVI5uKkkt6+PoR9AoAOvUn4fRVo2EsNX?=
+ =?us-ascii?Q?8xDWrNWn+XFkH2SmbYM9hyQWyckTqiFH4WC1/AGUSUXZB9EI14mtG74oJ1D+?=
+ =?us-ascii?Q?6WLXsgVFcCtvG8a6jhcPhB3HCGFF9JG9RHvsxKv98noarl19/j4aollVW6Fa?=
+ =?us-ascii?Q?Z73S+yiLFngBPP1E3JkDz/tzNGCp1lH5IkkjCC6NkvA7zRiWP2IPgkDkKPx6?=
+ =?us-ascii?Q?rXKHLd3SLAs4Ts883rPKtYwIrJyeKuHxk73Q5/G4pNp1tl8kwgZBL5zwTw6f?=
+ =?us-ascii?Q?sPy3wEMludrrFWrqm8Bnzct7D40K?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR02MB5782.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(7416014)(38350700014)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?QhVMNdemABAHHKzWeNZ1wnYHfyUhKIiNJfnDGPdej2FrD28CaiP7IhsOxeY6?=
+ =?us-ascii?Q?uUH8QFqDi9g7JCCu+C6k9oLabLlUlpDm4kvLZans1LZau4bcW/ZW3VcIP19C?=
+ =?us-ascii?Q?ldZyN/PxOiiyF2lTSbHsnRylJV1WchKePog57uiNB+Kr9Tyb/NVotdeD0qzZ?=
+ =?us-ascii?Q?XLWFQizBUe4cOhA7wNPP5SMv2VcGBjlon+t+O/jBLF7MYUpNwECl5z0IEM+t?=
+ =?us-ascii?Q?jSX2hKYiLbfevvSi5PesbFCCg+AvTQ5s8IzaBH7iyYO8c5srYkmmxMJHLHZ2?=
+ =?us-ascii?Q?CBkaF8lbnaaS6fM89+8xJ3aJBC1sNkOqkVRpRgbdmus/Z4TThd1BXl06scGZ?=
+ =?us-ascii?Q?PAhFQq1jGqxr5/iydKjm+j+JM7/g7RBN2BuldqCsQnD4R22SMgrKzwg3xRQ+?=
+ =?us-ascii?Q?sHXHnhSkOJ4S0eQHEMPgiR53NSKMzrse8erOCxruwA5LV3P0GubEaOBArQXC?=
+ =?us-ascii?Q?YIr0JizmL0K1xopeov/wrI7d0zbGhi4ZkIHaGVBDbBlc7Z2ATF+QkW+EQqhj?=
+ =?us-ascii?Q?+GOkQepyAcP/uDI45KZ5iixthX2Lpqipt27A8iinDQVc3bAV1iL1StIk4vu/?=
+ =?us-ascii?Q?jvYqjSLhMnB6meuNqyKAU8SCoQS6c6d+i6k+Hchl7JLdi7o2qRDfIRH78Vco?=
+ =?us-ascii?Q?4GXqvyAz/ehwmdHrUB6jBih2sOu2vOzKV6ITSBnjEXrn7qvPe4LWcZfc6Fos?=
+ =?us-ascii?Q?b8v6dXfIOXdN5wtP4kKIdWBxRiGnbZy0n/Y9T1RCR/yvYQpZ16FLsXGD4nrl?=
+ =?us-ascii?Q?pxyPXXQJGjY6ZHfeAcclbcuXmGiCpGAR88l3GExyVFXlV3EBNPuKikjL4UTE?=
+ =?us-ascii?Q?hRSaT4V63zfg3MYey+rn+L5NrGV9Jziq5NckDI2iHIAkOBLSqMSKsOrJPnv+?=
+ =?us-ascii?Q?u5Ujsnfba2g/ymgV3Ig4C8hcnfkbMmbBEtWmtvpt5BuUX8iV05jtd7p9v570?=
+ =?us-ascii?Q?yk3bEdvv0Jte5z5VWd8mcPqPfvc3R73RQpE+2t6UzNkluWUtcxGDd66IlEDg?=
+ =?us-ascii?Q?S+aHK47By62S9ZwXTvdw01bWmXUWYQ2tC7ZMm2yNTQikdDIgUoQn91Er/tiv?=
+ =?us-ascii?Q?n+/ekGAyqy8jNMVg0sUbQUnSFFcE8EUmumnAVXD84flMN0ASEpK6NzRXu6Gj?=
+ =?us-ascii?Q?blH5VfWeFdDQ6GzBYECcfPBQpTVeac16VQTapTlCi9fwBXGA63XQHoDwiRu1?=
+ =?us-ascii?Q?Cxg9Pi2Pov/DZ3TsEuGNymUJUWNX74zthZb0UEPlaO3QcNsXAyMityRittbA?=
+ =?us-ascii?Q?cjtJ64XbD7r1p69HytT1XSR+cIqHBhSPsBZkcBSte/WOtibraXpJLdPXR+Iz?=
+ =?us-ascii?Q?kS/q0UA4WR8kT37oRVk0OgZqLgnv5xmNiqo7NlMoFKvB5wLtKKX6PoGVUt/m?=
+ =?us-ascii?Q?48vKFSXvhDXWJouX/lwMfhLSC63PPJ2X1I4dIavbudg3/o4PMC5CPFdUR92X?=
+ =?us-ascii?Q?xez1Zz85+8+J8mJsCTZXXid4ycqniCcgijZKD1J+KcJGank2IqoO5J5PzVKf?=
+ =?us-ascii?Q?JmjwHj8MwszYc+ysh+84VA5/RYiYv1J+qMTcPIDKMUOhTgNwrzHtR3caKt5V?=
+ =?us-ascii?Q?HuheyD0HOpIaxn4Jg3RZa9Ybb0X/Po13YhvBwq1PYX58GQp+vSwavgS4zC77?=
+ =?us-ascii?Q?Iw=3D=3D?=
+X-OriginatorOrg: fibocom.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cabc73e7-e361-41e0-0ead-08dcfcb55753
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR02MB5782.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 09:44:56.6742
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MJl64IDhSrQDOEtlne00p33q4L6og1z6cIssOtERpI6B5lub77is7eogppt3qN4G2TFzoa68jxPKJB9V79kOdiFuyzIxH/hPpp5rLI7x2Xg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR02MB6454
 
+Add support for t7xx WWAN device to debug by ADB (Android Debug Bridge)
+port and MTK MIPCi (Modem Information Process Center) port.
 
+Application can use ADB (Android Debug Bridge) port to implement
+functions (shell, pull, push ...) by ADB protocol commands.
 
-On 03/11/2024 08:49, Inochi Amaoto wrote:
-> Add parsing for Zfbmin, Zvfbfmin, Zvfbfwma ISA extension which
-> were ratified in 4dc23d62 ("Added Chapter title to BF16") of
-> the riscv-isa-manual.
-> 
-> Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
-> ---
->  arch/riscv/include/asm/hwcap.h | 3 +++
->  arch/riscv/kernel/cpufeature.c | 3 +++
->  2 files changed, 6 insertions(+)
-> 
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-> index 46d9de54179e..97657fb63af6 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -93,6 +93,9 @@
->  #define RISCV_ISA_EXT_ZCMOP		84
->  #define RISCV_ISA_EXT_ZAWRS		85
->  #define RISCV_ISA_EXT_SVVPTC		86
-> +#define RISCV_ISA_EXT_ZFBFMIN		87
-> +#define RISCV_ISA_EXT_ZVFBFMIN		88
-> +#define RISCV_ISA_EXT_ZVFBFWMA		89
->  
->  #define RISCV_ISA_EXT_XLINUXENVCFG	127
->  
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index 3a8eeaa9310c..1b286f5bc591 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -325,6 +325,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
->  	__RISCV_ISA_EXT_DATA(zacas, RISCV_ISA_EXT_ZACAS),
->  	__RISCV_ISA_EXT_DATA(zawrs, RISCV_ISA_EXT_ZAWRS),
->  	__RISCV_ISA_EXT_DATA(zfa, RISCV_ISA_EXT_ZFA),
-> +	__RISCV_ISA_EXT_DATA(zfbfmin, RISCV_ISA_EXT_ZFBFMIN),
->  	__RISCV_ISA_EXT_DATA(zfh, RISCV_ISA_EXT_ZFH),
->  	__RISCV_ISA_EXT_DATA(zfhmin, RISCV_ISA_EXT_ZFHMIN),
->  	__RISCV_ISA_EXT_DATA(zca, RISCV_ISA_EXT_ZCA),
-> @@ -357,6 +358,8 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
->  	__RISCV_ISA_EXT_SUPERSET(zve64d, RISCV_ISA_EXT_ZVE64D, riscv_zve64d_exts),
->  	__RISCV_ISA_EXT_SUPERSET(zve64f, RISCV_ISA_EXT_ZVE64F, riscv_zve64f_exts),
->  	__RISCV_ISA_EXT_SUPERSET(zve64x, RISCV_ISA_EXT_ZVE64X, riscv_zve64x_exts),
-> +	__RISCV_ISA_EXT_DATA(zvfbfmin, RISCV_ISA_EXT_ZVFBFMIN),
-> +	__RISCV_ISA_EXT_DATA(zvfbfwma, RISCV_ISA_EXT_ZVFBFWMA),
+Application can use MIPC (Modem Information Process Center) port
+to debug antenna tuner or noise profiling through this MTK modem
+diagnostic interface.
 
-@Conor,
+Jinjian Song (3):
+  wwan: core: Add WWAN ADB and MIPC port type
+  net: wwan: t7xx: Add debug ports
+  net: wwan: t7xx: Unify documentation column width
 
-Should we wait for your V/F validation support to be merged before this
-one ?
+ .../networking/device_drivers/wwan/t7xx.rst   | 64 ++++++++++++++++---
+ drivers/net/wwan/t7xx/t7xx_modem_ops.c        |  1 +
+ drivers/net/wwan/t7xx/t7xx_pci.c              | 58 +++++++++++++++--
+ drivers/net/wwan/t7xx/t7xx_pci.h              |  1 +
+ drivers/net/wwan/t7xx/t7xx_port.h             |  3 +
+ drivers/net/wwan/t7xx/t7xx_port_proxy.c       | 51 +++++++++++++--
+ drivers/net/wwan/t7xx/t7xx_port_proxy.h       |  1 +
+ drivers/net/wwan/t7xx/t7xx_port_wwan.c        |  8 ++-
+ drivers/net/wwan/wwan_core.c                  |  8 +++
+ include/linux/wwan.h                          |  4 ++
+ 10 files changed, 178 insertions(+), 21 deletions(-)
 
-Thanks,
-
-Clément
-
-
->  	__RISCV_ISA_EXT_DATA(zvfh, RISCV_ISA_EXT_ZVFH),
->  	__RISCV_ISA_EXT_DATA(zvfhmin, RISCV_ISA_EXT_ZVFHMIN),
->  	__RISCV_ISA_EXT_DATA(zvkb, RISCV_ISA_EXT_ZVKB),
+-- 
+2.34.1
 
