@@ -1,132 +1,147 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28E01B0F12;
-	Mon,  4 Nov 2024 10:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF24018BBB4;
+	Mon,  4 Nov 2024 10:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730715305; cv=none; b=bcmQXn4Anc+44k1EhSNY4oas2+pR0Rrm7OQ6+28djHc7E5/3v4QywhrqBkdiCCxK0j66NT7fkdKxedbaSlPxOTUciFZGA5PJeRuU340eoX0aG6F1INdj73gucxkuiKRGolZxT4KTgCvOu6j1pywAEqlDscv0vvVDiSZDSoK7mEM=
+	t=1730716130; cv=none; b=nUKpdAFnnjS3+elkgWZrEyeUoAmXwl8AxIN9fEHZLs9BQiIIaizp9Y0pc8F2vsMNv/ROFH7SmfS0BiAFbq1cV5BOdf4XsfdyXwnS73kS53ZmSRUv0qGfKPtOL2mDO4lZT0bYNYzPB3uoN2vIeelYiNlovOQ1N7HMxfgaNpjhqYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730715305; c=relaxed/simple;
-	bh=mcIce5Fq/hEFHVI7AkWHxaRExFRL0bAcIhE1CoWgubY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ec4fFsLVD50VTD1VUuhLiunct51+9GZFzfboSzX9Ujz/olBAUfg7Q3HhwZbhbOBAEnFSB+kKo8QxoBxCvWzkMQqHkpg0UIXsRhSRhnr9VpD084G03RQY/UnuUvKDqnqRNWTZUNOEybFGLF0iI+DyzKr1SHzIU25b9s3k4RGtIpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=bc2GFbbO; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1730716130; c=relaxed/simple;
+	bh=5yCUb9iEmqAl5JeozlTqbQUOQU1E4HhX0nD32s37cyQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vFN8FwqE9F5dgk2LyBqLgxZHt9E9NCEFq6uB8ZpcbMB3CqMRoEAKdtXc7wMURTW5WTCeQ6bKfmMrfN9/ud7aG4u4UtgFLZoClBUTrQng9MYmLYuWybUZey9x6LqKxZpGT5iaBDGVd6H3f03vEYfDKMufHcXv2MqWtWh4vduB4hI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=QdLo9AKC; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="bc2GFbbO"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4AAXVT016625;
-	Mon, 4 Nov 2024 10:14:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=0pvu1h2wXjRKNrgWewAcE0S2SfJqBR
-	QG0tc62qAKP1Q=; b=bc2GFbbOrUg75hb8XWifBlNgNziOkjtTBeEn/bsEhj4I45
-	ELj+3HePqnGj2/YkyqgACqS+hWhpOjncwtFu1Mlc5bvFDsKSnBB8ye+hFW3l8f1d
-	dK0IITttHJwU6DpIWhHFXYZEUGSKf3f2X6Os52VbjyqfVaJGUGWUUI3Qyya+mAx9
-	/jCPOJhhfall7WT56KGgt6yqFTtbDbMZS+WZMcv/PDrUpUBy1f4653UbX4DqF7uZ
-	zeu12fyHgh9mTOyV6AsonE3drxfFpXk+w+51ESoCVhgd+Gdl+k5lpnbaWKrvhQQq
-	OVWrjYn8ABEmtULhfmBxnsiCdQrSvBJCAcyBdm5A==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42pv9b80e5-1
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="QdLo9AKC"
+Received: from pps.filterd (m0431383.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4006aq012703;
+	Mon, 4 Nov 2024 02:28:30 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pfpt0220; bh=Biy9dbFu5WQ7Ep/SXsojLCxxQ
+	f75VUN+dr2jor6u15I=; b=QdLo9AKC3CGtw07o2K3cFVfoCyVYNNT2drJm3+2Tz
+	xA8PJ0jPbs2LAosq5rrSqqcJEQvdFivly3vS2+JXGLFG8SnWT/N52iUAfTxRM/sb
+	HVlhPgQqKmZaULVg+oO87rvA9Ec69AZhUqJsvflyr//3oMiTqbt5IvJXaqQdL4u3
+	R1+soildg9zgBwRsowNi85RpWuDqeXB0pX/gxVcAOFIIF+ipn5c+cPGhALrzGPlm
+	xPr298a4JFywVBrY6TFMMZla3oS8qk+ZJLqVnFe/ULYP8PNUtTRdLYlPQ8M+qVMx
+	cT5owj0Pv4qZSsFqCGc+DPr9ndErP2h+SSKsF5Z6Uhd5Q==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 42p4u69jv2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 04 Nov 2024 10:14:54 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4A4ABm80018784;
-	Mon, 4 Nov 2024 10:14:53 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42pv9b80e1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 04 Nov 2024 10:14:53 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4A49iji3008453;
-	Mon, 4 Nov 2024 10:14:53 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42nywk3mwx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 04 Nov 2024 10:14:53 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4A4AEn4J35062488
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 4 Nov 2024 10:14:49 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 15E3B20076;
-	Mon,  4 Nov 2024 10:14:49 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DA99820073;
-	Mon,  4 Nov 2024 10:14:47 +0000 (GMT)
-Received: from osiris (unknown [9.171.95.25])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon,  4 Nov 2024 10:14:47 +0000 (GMT)
-Date: Mon, 4 Nov 2024 11:14:46 +0100
-From: Heiko Carstens <hca@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, virtualization@lists.linux.dev,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v3 0/7] virtio-mem: s390 support
-Message-ID: <20241104101446.9483-B-hca@linux.ibm.com>
-References: <20241025141453.1210600-1-david@redhat.com>
+	Mon, 04 Nov 2024 02:28:29 -0800 (PST)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Mon, 4 Nov 2024 02:28:28 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Mon, 4 Nov 2024 02:28:28 -0800
+Received: from hyd1403.caveonetworks.com (unknown [10.29.37.84])
+	by maili.marvell.com (Postfix) with SMTP id E25353F706D;
+	Mon,  4 Nov 2024 02:28:23 -0800 (PST)
+Date: Mon, 4 Nov 2024 15:58:22 +0530
+From: Linu Cherian <lcherian@marvell.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: <davem@davemloft.net>, <sgoutham@marvell.com>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <gakula@marvell.com>,
+        <hkelam@marvell.com>, <sbhatta@marvell.com>, <jerinj@marvell.com>,
+        <edumazet@google.com>, <pabeni@redhat.comi>, <jiri@resnulli.us>,
+        <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 net-next 2/3] octeontx2-af: Knobs for NPC default rule
+ counters
+Message-ID: <20241104102822.GA1011185@hyd1403.caveonetworks.com>
+References: <20241029035739.1981839-1-lcherian@marvell.com>
+ <20241029035739.1981839-3-lcherian@marvell.com>
+ <20241103115310.61154a0d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20241025141453.1210600-1-david@redhat.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: VHeFIyuzTNW6zfc61Cu-HEnOAgIKsDwU
-X-Proofpoint-ORIG-GUID: sEYZz5grUf9yUrSKVVfQ3jI2KcH0p6Ka
+In-Reply-To: <20241103115310.61154a0d@kernel.org>
+X-Proofpoint-ORIG-GUID: iolFY7MA4iBNNeHGsH4ckbATTMXMYz3F
+X-Proofpoint-GUID: iolFY7MA4iBNNeHGsH4ckbATTMXMYz3F
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- impostorscore=0 phishscore=0 malwarescore=0 priorityscore=1501
- suspectscore=0 spamscore=0 mlxlogscore=647 mlxscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411040089
+ engine=ICAP:2.0.293,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
+ definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
 
-On Fri, Oct 25, 2024 at 04:14:45PM +0200, David Hildenbrand wrote:
-> Let's finally add s390 support for virtio-mem; my last RFC was sent
-> 4 years ago, and a lot changed in the meantime.
+Hi Jakub,
 
-...
-
-> David Hildenbrand (7):
->   Documentation: s390-diag.rst: make diag500 a generic KVM hypercall
->   Documentation: s390-diag.rst: document diag500(STORAGE LIMIT)
->     subfunction
->   s390/physmem_info: query diag500(STORAGE LIMIT) to support QEMU/KVM
->     memory devices
->   virtio-mem: s390 support
->   lib/Kconfig.debug: default STRICT_DEVMEM to "y" on s390
->   s390/sparsemem: reduce section size to 128 MiB
->   s390/sparsemem: provide memory_add_physaddr_to_nid() with CONFIG_NUMA
+On 2024-11-04 at 01:23:10, Jakub Kicinski (kuba@kernel.org) wrote:
+> On Tue, 29 Oct 2024 09:27:38 +0530 Linu Cherian wrote:
+> > +	struct npc_install_flow_rsp rsp = { 0 };
 > 
->  Documentation/virt/kvm/s390/s390-diag.rst | 35 +++++++++++++----
->  arch/s390/boot/physmem_info.c             | 47 ++++++++++++++++++++++-
->  arch/s390/boot/startup.c                  |  7 +++-
->  arch/s390/include/asm/physmem_info.h      |  3 ++
->  arch/s390/include/asm/sparsemem.h         | 10 ++++-
->  drivers/virtio/Kconfig                    | 12 +++---
->  lib/Kconfig.debug                         |  2 +-
->  7 files changed, 98 insertions(+), 18 deletions(-)
+> @rsp is reused in the loop, either it doesn't have to be inited at all,
+> or it has to be inited before every use
 
-Series applied. Thanks a lot!
+Ack. It doesnt have to be inited. Will remove.
+
+> 
+> > +	struct npc_mcam *mcam = &rvu->hw->mcam;
+> > +	struct rvu_npc_mcam_rule *rule;
+> > +	int blkaddr;
+> > +
+> > +	blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_NPC, 0);
+> > +	if (blkaddr < 0)
+> > +		return -EINVAL;
+> > +
+> > +	mutex_lock(&mcam->lock);
+> > +	list_for_each_entry(rule, &mcam->mcam_rules, list) {
+> > +		if (!is_mcam_entry_enabled(rvu, mcam, blkaddr, rule->entry))
+> > +			continue;
+> > +		if (!rule->default_rule)
+> > +			continue;
+> > +		if (enable && !rule->has_cntr) { /* Alloc and map new counter */
+> > +			__rvu_mcam_add_counter_to_rule(rvu, rule->owner,
+> > +						       rule, &rsp);
+> > +			if (rsp.counter < 0) {
+> > +				dev_err(rvu->dev, "%s: Err to allocate cntr for default rule (err=%d)\n",
+> > +					__func__, rsp.counter);
+> > +				break;
+> 
+> shouldn't you "unwind" in this case? We'll leave the counter enabled
+> for some rules and disabled for others
+
+
+Wanted to keep a best effort approach here, will make it clear in the documentation.
+
+> 
+> > +			}
+> > +			npc_map_mcam_entry_and_cntr(rvu, mcam, blkaddr,
+> > +						    rule->entry, rsp.counter);
+> > +		}
+> > +
+> > +		if (enable && rule->has_cntr) /* Reset counter before use */ {
+> > +			rvu_write64(rvu, blkaddr,
+> > +				    NPC_AF_MATCH_STATX(rule->cntr), 0x0);
+> > +			continue;
+> 
+> so setting to enabled while already enabled resets the value?
+> If so that's neither documented, nor.. usual.
+
+
+Will move this code under,  if (enable && !rule->has_cntr) case.
+Infact, all enablement happens only from devlink control, hence the
+above if check is really not required and can be confusing. 
+
+> 
+> > +		}
+> > +
+> > +		if (!enable && rule->has_cntr) /* Free and unmap counter */ {
+> > +			__rvu_mcam_remove_counter_from_rule(rvu, rule->owner,
+> > +							    rule);
+> > +		}
+> 
+> unnecesary parenthesis
+
+Ack.
+
+
+Thanks,
+Linu Cherian.
