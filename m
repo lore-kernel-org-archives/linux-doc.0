@@ -1,287 +1,225 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171D71CC178
-	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 20:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CA81C57A5
+	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 21:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730751888; cv=none; b=TYyk7ukqaacVKi/iI0OQkwBEzO2sgmW6GKdUVpwkAaDkFUkgJ5OKB95nIsa8GK3Jpw80MbBwaAqO7qo1oLHqBktgGnS+avaO3a7jdwocsf8Vn06Za0UwKbm6MDCcJy5EukiQglZe+MoSJIWHy++49m58CZejnjmd2LMWourGGK8=
+	t=1730754406; cv=none; b=mZKZWpbQ2AsPb0jraaneDaiyrHGE9NVLXnbtwg43Y168nyTWBj6m4ymyi4gKmXaw2XB+IAmneiXgXqJGjoluyPgI75GddEh5v3saTQFfNgXM9ioo4P26y1HY0Vz5mVfxNnsRO0BPwoMklcQM79xZD/O/IRT8dH2xdaXVzN6u+DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730751888; c=relaxed/simple;
-	bh=67y70xaii5XM8g7k6nlqO2Sz7xsbmRTKi3nk9lApgZg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MVcfxGwxN/m249M5k5hzM7H9ym4Nu4jYZzpegMBcsoAKSj1KqItLt3j9ZFClbTCgSI/frQIrnVKmS2bQVLpybXIKzWnvAjcUPbKtODTo/dFq2euFxvBeG2hgnnJ4/sEBoFYhzbFQyKW7q//ZXa1sngXbQ2WyUyn1DC4n02ReMTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=L4WxrH0u; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1730754406; c=relaxed/simple;
+	bh=5/i4aYa+bDmYTyC5+2MiIF90lU7UD7sa8a5447uXxv8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LyvMfS5bDjwNA8U14BnN59lTIr1gic9ZJv0MPNxrDdhXOmkaLNakNXuky36XfMTjaJLpbhZtJE2fMAwWGAYyQkuwj66bZA869Oeaif6JXBe/ZyAG8zHVG0EPdqddQXrv23PNMeOB25BhxxIndrkgOM5FbrWOGnq6ZVuT7xsnwC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=z1yOEn+f; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="L4WxrH0u"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6ce3fc4e58bso28327926d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 12:24:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="z1yOEn+f"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-71e467c3996so3972310b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 13:06:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730751885; x=1731356685; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pMAD4dMvrggttxV8M69ZLvHtnrpB33PuIkwveI53NKI=;
-        b=L4WxrH0uZhubZfi6BY9kROcKxdJD1fi+NeGQ/lyRT17PpLldrqe59R0aivGfmsyRIk
-         YV3vtC4X90oh4sXn5llGV14QH6DyDr3ljEVl0Tuz2+tPnzxFGP4VGetC2EDJg17r2n7P
-         O3Ju9grbe06+r2av0tONNsNQGzMSE/2hbQeGddTehw+V8NDuUhaYbIQGfVblUUA8vTIf
-         AO8Njcwn9uwMl0i7zSYc2pONYKOQOuOJQ7QI7rup1buJn/TXF/PlZ/dk5qxstKvI6pSr
-         yiF7BI/b/ZammF6rtl4mOKeIzQcsrTu68MHP0qKyMmWeS8SGKwYe8V/5/6VPdrzeraXw
-         xdoA==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730754402; x=1731359202; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4V9Yv2fAvOK/vMiP82IoKQz/aaC4GtvY8C8de1dPo6U=;
+        b=z1yOEn+flhKXg8I1JSj4uCDyhQcr++5qhPuW4e9nTtRUhby6Iefe42ANg2SspvsKfv
+         KaIcgOL45jgrnR9I0HEBcgjbTjTCodEvlvwTY+pH3AUb+laFPqyJGEd1YN6P3W5KGxt3
+         RUycyDy9/OGrKHnqqUKQSUkliPPfIEF5ipHIpUq/BO84d/EXAk4Thpdaj3y41xNkPVtc
+         0KMckUeSErZiXjnMPLlrGGPHXCg9wJhlHUUu6YrXyjhMcZNo4zX5SQHZ/mfoQ8ZKMH0V
+         49iqVr9vmjmHmw0YvhXb1/AnuTA0OhkgJeRCBbD9eKTjFWcNa8CJaHq7f8ZFT91h7daz
+         lsvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730751885; x=1731356685;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pMAD4dMvrggttxV8M69ZLvHtnrpB33PuIkwveI53NKI=;
-        b=huToN2vx3Ty5REpIcxpSZfcaiJy3/NfiC1lZsWy1FKl9+qWj/Jf0snenx346h8I5OE
-         RqhPK1Mrlgb2Lwj95FXkSEFUgZGX8Q4zR7u56tSGdI2Auh53kVCk17FuaMoWQ0Q79Yh3
-         PnsWEz37vfDdO9u5Y+EroDWpSnIHJAKQOiAIbdg2XTbk/HY/fBraHGF1nPpxyybgWysL
-         MpHJCwLO7kESvyzHAt6rOo/u0n/BgGAwyA9fJ/aQ/q96z/gWMwyUUCJRuKzSM/WcUKeo
-         stanUvvmZVWZP0zJOI1ROOfKPHjJNnEvv4/icoeiMn9Sf0IhexlVJS1IIJ4n9PQdAu9T
-         iotQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWWl+s7l5Jf4QYWNVD3gypP8ttcWGFmA7VAway942nzwyzZFwrSqbqNzncMUVrhfjTcJUubu1yES2Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2q0PlETDb6KUtPveIgau2pqijt8Gp27v44HWijxLFXA689Ryh
-	3Z/i+ec6evPp5z2q5BTccFG1B/Xjnxfd3No4BNxLWabNl5F5bn3tGNaM9ypCvcHa7krowbE0/ox
-	0dp3hjY557cf/MlxGIW/okgVeAdvPLR61uUPa
-X-Google-Smtp-Source: AGHT+IHYwEpMyGlK9DOHyJMnwe42enHazr4mglbcxXxObxPF+Ii3w3TsZ72VmrnN6P90z6NOVOpNUA9yHGlz3tNrg7Q=
-X-Received: by 2002:a05:6214:390c:b0:6cb:aa7b:b8cc with SMTP id
- 6a1803df08f44-6d351aa3f45mr211213366d6.16.1730751884546; Mon, 04 Nov 2024
- 12:24:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730754402; x=1731359202;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4V9Yv2fAvOK/vMiP82IoKQz/aaC4GtvY8C8de1dPo6U=;
+        b=QPtNBqPKWRHB/BUgSjAb0DeA1cYIo075ru9AgaWYOsuUwbpRrfDtO7lQ70KIUyJ7sj
+         nQzA28r/a4HzIxrwUhvI+eO9eU2Y0EdwCHyPWKp+FmThJTQ3+yfZXpTJOvK/yDybsDz3
+         u7DJI3DXRk39nwbFlF4xGGkMQBNoe4fxp121C471qotQPvbbvVxmTgqSNWeiEFlvgEOC
+         5uz7OGYjQMh8AlmvCVFdvnvdExuzppqyYklIUc9ZRMPe+tV24U9IqcItCvITYvLYgiiR
+         xwTNgVS59CbJ+oYojkAixLKyzqe5LKXap+MHRjUSkbmaKlusWOkbvORTNxdKqIFAiB3u
+         0dtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVYfG8BHvPdRc57WjALglhvhwj8Xl9fCYZPG9vxSFZR1gei/7cHO5ua6NwYGVH97IR7RIPQFLhLo/U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyULQLDPqWiiVYaOzevyArJ5122kIuPkCIIpDNqMIYM7zwxi1Py
+	gD+LN9amXFuy3JcjkBWBvt07ADwGftwvw5BEf0kdJg2MYdqbGty08GrBXLg/ATU=
+X-Google-Smtp-Source: AGHT+IFk0UULo9afhQbnlnWjUo65KmcRu9RXVFubvhCDhtDv1i7bMZR037d187cAIN7jV72mG65BAw==
+X-Received: by 2002:a05:6a00:398f:b0:71e:3b8:666f with SMTP id d2e1a72fcca58-72062f712a6mr45086642b3a.11.1730754402245;
+        Mon, 04 Nov 2024 13:06:42 -0800 (PST)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7ee490e08f4sm7248293a12.40.2024.11.04.13.06.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 13:06:41 -0800 (PST)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH RFT 00/16] perf tools: Use generic syscall scripts for all
+ archs
+Date: Mon, 04 Nov 2024 13:06:02 -0800
+Message-Id: <20241104-perf_syscalltbl-v1-0-9adae5c761ef@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241102175115.1769468-1-xur@google.com> <20241102175115.1769468-2-xur@google.com>
- <09349180-027a-4b29-a40c-9dc3425e592c@cachyos.org> <3183ab86-8f1f-4624-9175-31e77d773699@cachyos.org>
- <CACkGtrgOw8inYCD96ot_w9VwzoFvvgCReAx0P-=Rxxqj2FT4_A@mail.gmail.com> <67c07d2f-fb1f-4b7d-96e2-fb5ceb8fc692@cachyos.org>
-In-Reply-To: <67c07d2f-fb1f-4b7d-96e2-fb5ceb8fc692@cachyos.org>
-From: Han Shen <shenhan@google.com>
-Date: Mon, 4 Nov 2024 12:24:29 -0800
-Message-ID: <CACkGtrgJHtG5pXR1z=6G4XR6ffT5jEi3jZQo=UhYj091naBhsA@mail.gmail.com>
-Subject: Re: [PATCH v7 1/7] Add AutoFDO support for Clang build
-To: Peter Jung <ptr1337@cachyos.org>
-Cc: Rong Xu <xur@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
-	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	David Li <davidxl@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
-	workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	Maksim Panchenko <max4bolt@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Yonghong Song <yonghong.song@linux.dev>, 
-	Yabin Cui <yabinc@google.com>, Krzysztof Pszeniczny <kpszeniczny@google.com>, 
-	Sriraman Tallam <tmsriram@google.com>, Stephane Eranian <eranian@google.com>, x86@kernel.org, 
-	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADs3KWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDS0Nj3YLUorT44sri5MScnJKkHF2zNEuLlNS05GSzNFMloK6CotS0zAq
+ widFKQW4hSrG1tQBojDoLZgAAAA==
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+ Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>, 
+ John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>, 
+ James Clark <james.clark@linaro.org>, Mike Leach <mike.leach@linaro.org>, 
+ Leo Yan <leo.yan@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+ Arnd Bergmann <arnd@arndb.de>
+Cc: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-csky@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7158; i=charlie@rivosinc.com;
+ h=from:subject:message-id; bh=5/i4aYa+bDmYTyC5+2MiIF90lU7UD7sa8a5447uXxv8=;
+ b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ7qmeciNY1P03++xMXAsfRHbpe+78drinTw1tXbGz7+Wr
+ Ju8KWh2RykLgxgHg6yYIgvPtQbm1jv6ZUdFyybAzGFlAhnCwMUpABM5EsbI8GVF2ZM24Xkrris0
+ z/sq5lEb29TY+lRskptvquex1zdnTmVkeMmzRCpUqM1DZ3Uzn/zaQNNXQb5t557syf19M6pitXc
+ /DwA=
+X-Developer-Key: i=charlie@rivosinc.com; a=openpgp;
+ fpr=7D834FF11B1D8387E61C776FFB10D1F27D6B1354
 
-Hi Peter,
-Thanks for providing the detailed reproduce.
-Now I can see the error (after I synced to 6.12.0-rc6, I was using rc5).
-I'll look into that and report back.
+Standardize the generation of syscall headers around syscall tables.
+Previously each architecture independently selected how syscall headers
+would be generated, or would not define a way and fallback onto
+libaudit. Convert all architectures to use a standard syscall header
+generation script and allow each architecture to override the syscall
+table to use if they do not use the generic table.
 
-> I have tested your provided method, but the AutoFDO profile (lld does
-not get lto-sample-profile=3D$pathtoprofile passed)
+As a result of these changes, no architecture will require libaudit, and
+so the fallback case of using libaudit is removed by this series.
 
-I see. You also turned on ThinLTO, which I didn't, so the profile was
-only used during compilation, not passed to lld.
+Testing:
 
-Thanks,
-Han
+I have tested that the syscall mappings of id to name generation works
+as expected for every architecture, but I have only validated that perf
+trace compiles and runs as expected on riscv, arm64, and x86_64.
 
-On Mon, Nov 4, 2024 at 9:31=E2=80=AFAM Peter Jung <ptr1337@cachyos.org> wro=
-te:
->
-> Hi Han,
->
-> I have tested your provided method, but the AutoFDO profile (lld does
-> not get lto-sample-profile=3D$pathtoprofile passed)  nor Clang as compile=
-r
-> gets used.
-> Please replace following PKGBUILD and config from linux-mainline with
-> the provided one in the gist. The patch is also included there.
->
-> https://gist.github.com/ptr1337/c92728bb273f7dbc2817db75eedec9ed
->
-> The main change I am doing here, is passing following to the build array
-> and replacing "make all":
->
-> make LLVM=3D1 LLVM_IAS=3D1 CLANG_AUTOFDO_PROFILE=3D${srcdir}/perf.afdo al=
-l
->
-> When compiling the kernel with makepkg, this results at the packaging to
-> following issue and can be reliable reproduced.
->
-> Regards,
->
-> Peter
->
->
-> On 04.11.24 05:50, Han Shen wrote:
-> > Hi Peter, thanks for reporting the issue. I am trying to reproduce it
-> > in the up-to-date archlinux environment. Below is what I have:
-> >    0. pacman -Syu
-> >    1. cloned archlinux build files from
-> > https://aur.archlinux.org/linux-mainline.git the newest mainline
-> > version is 6.12rc5-1.
-> >    2. changed the PKGBUILD file to include the patches series
-> >    3. changed the "config" to turn on clang autofdo
-> >    4. collected afdo profiles
-> >    5. MAKEFLAGS=3D"-j48 V=3D1 LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D$(pwd)/p=
-erf.afdo" \
-> >          makepkg -s --skipinteg --skippgp
-> >    6. install and reboot
-> > The above steps succeeded.
-> > You mentioned the error happens at "module_install", can you instruct
-> > me how to execute the "module_install" step?
-> >
-> > Thanks,
-> > Han
-> >
-> > On Sat, Nov 2, 2024 at 12:53=E2=80=AFPM Peter Jung<ptr1337@cachyos.org>=
- wrote:
-> >>
-> >>
-> >> On 02.11.24 20:46, Peter Jung wrote:
-> >>>
-> >>> On 02.11.24 18:51, Rong Xu wrote:
-> >>>> Add the build support for using Clang's AutoFDO. Building the kernel
-> >>>> with AutoFDO does not reduce the optimization level from the
-> >>>> compiler. AutoFDO uses hardware sampling to gather information about
-> >>>> the frequency of execution of different code paths within a binary.
-> >>>> This information is then used to guide the compiler's optimization
-> >>>> decisions, resulting in a more efficient binary. Experiments
-> >>>> showed that the kernel can improve up to 10% in latency.
-> >>>>
-> >>>> The support requires a Clang compiler after LLVM 17. This submission
-> >>>> is limited to x86 platforms that support PMU features like LBR on
-> >>>> Intel machines and AMD Zen3 BRS. Support for SPE on ARM 1,
-> >>>>    and BRBE on ARM 1 is part of planned future work.
-> >>>>
-> >>>> Here is an example workflow for AutoFDO kernel:
-> >>>>
-> >>>> 1) Build the kernel on the host machine with LLVM enabled, for examp=
-le,
-> >>>>          $ make menuconfig LLVM=3D1
-> >>>>       Turn on AutoFDO build config:
-> >>>>         CONFIG_AUTOFDO_CLANG=3Dy
-> >>>>       With a configuration that has LLVM enabled, use the following
-> >>>>       command:
-> >>>>          scripts/config -e AUTOFDO_CLANG
-> >>>>       After getting the config, build with
-> >>>>         $ make LLVM=3D1
-> >>>>
-> >>>> 2) Install the kernel on the test machine.
-> >>>>
-> >>>> 3) Run the load tests. The '-c' option in perf specifies the sample
-> >>>>      event period. We suggest     using a suitable prime number,
-> >>>>      like 500009, for this purpose.
-> >>>>      For Intel platforms:
-> >>>>         $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c
-> >>>> <count> \
-> >>>>           -o <perf_file> -- <loadtest>
-> >>>>      For AMD platforms:
-> >>>>         The supported system are: Zen3 with BRS, or Zen4 with amd_lb=
-r_v2
-> >>>>        For Zen3:
-> >>>>         $ cat proc/cpuinfo | grep " brs"
-> >>>>         For Zen4:
-> >>>>         $ cat proc/cpuinfo | grep amd_lbr_v2
-> >>>>         $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS=
-:k
-> >>>> -a \
-> >>>>           -N -b -c <count> -o <perf_file> -- <loadtest>
-> >>>>
-> >>>> 4) (Optional) Download the raw perf file to the host machine.
-> >>>>
-> >>>> 5) To generate an AutoFDO profile, two offline tools are available:
-> >>>>      create_llvm_prof and llvm_profgen. The create_llvm_prof tool is=
- part
-> >>>>      of the AutoFDO project and can be found on GitHub
-> >>>>      (https://github.com/google/autofdo), version v0.30.1 or later. =
-The
-> >>>>      llvm_profgen tool is included in the LLVM compiler itself. It's
-> >>>>      important to note that the version of llvm_profgen doesn't need=
- to
-> >>>>      match the version of Clang. It needs to be the LLVM 19 release =
-or
-> >>>>      later, or from the LLVM trunk.
-> >>>>         $ llvm-profgen --kernel --binary=3D<vmlinux> --
-> >>>> perfdata=3D<perf_file> \
-> >>>>           -o <profile_file>
-> >>>>      or
-> >>>>         $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_fi=
-le> \
-> >>>>           --format=3Dextbinary --out=3D<profile_file>
-> >>>>
-> >>>>      Note that multiple AutoFDO profile files can be merged into one=
- via:
-> >>>>         $ llvm-profdata merge -o <profile_file>  <profile_1> ...
-> >>>> <profile_n>
-> >>>>
-> >>>> 6) Rebuild the kernel using the AutoFDO profile file with the same c=
-onfig
-> >>>>      as step 1, (Note CONFIG_AUTOFDO_CLANG needs to be enabled):
-> >>>>         $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<profile_file>
-> >>>>
-> >>>> Co-developed-by: Han Shen<shenhan@google.com>
-> >>>> Signed-off-by: Han Shen<shenhan@google.com>
-> >>>> Signed-off-by: Rong Xu<xur@google.com>
-> >>>> Suggested-by: Sriraman Tallam<tmsriram@google.com>
-> >>>> Suggested-by: Krzysztof Pszeniczny<kpszeniczny@google.com>
-> >>>> Suggested-by: Nick Desaulniers<ndesaulniers@google.com>
-> >>>> Suggested-by: Stephane Eranian<eranian@google.com>
-> >>>> Tested-by: Yonghong Song<yonghong.song@linux.dev>
-> >>>> Tested-by: Yabin Cui<yabinc@google.com>
-> >>>> Tested-by: Nathan Chancellor<nathan@kernel.org>
-> >>>> Reviewed-by: Kees Cook<kees@kernel.org>
-> >>> Tested-by: Peter Jung<ptr1337@cachyos.org>
-> >>>
-> >> The compilations and testing with the "make pacman-pkg" function from
-> >> the kernel worked fine.
-> >>
-> >> One problem I do face:
-> >> When I apply a AutoFDO profile together with the PKGBUILD [1] from
-> >> archlinux im running into issues at "module_install" at the packaging.
-> >>
-> >> See following log:
-> >> ```
-> >> make[2]: *** [scripts/Makefile.modinst:125:
-> >> /tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc-autofdo/usr=
-/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/arch/x86/kvm/kvm.ko]
-> >> Error 1
-> >> make[2]: *** Deleting file
-> >> '/tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc-autofdo/us=
-r/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/arch/x86/kvm/kvm.ko'
-> >>     INSTALL
-> >> /tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc-autofdo/usr=
-/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/crypto/cryptd.ko
-> >> make[2]: *** Waiting for unfinished jobs....
-> >> ```
-> >>
-> >>
-> >> This can be fixed with removed "INSTALL_MOD_STRIP=3D1" to the passed
-> >> parameters of module_install.
-> >>
-> >> This explicitly only happens, if a profile is passed - otherwise the
-> >> packaging works without problems.
-> >>
-> >> Regards,
-> >>
-> >> Peter Jung
-> >>
->
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+---
+Charlie Jenkins (16):
+      perf tools: Create generic syscall table support
+      perf tools: arc: Support generic syscall headers
+      perf tools: csky: Support generic syscall headers
+      perf tools: arm: Support syscall headers
+      perf tools: sh: Support syscall headers
+      perf tools: sparc: Support syscall headers
+      perf tools: xtensa: Support syscall header
+      perf tools: x86: Use generic syscall scripts
+      perf tools: alpha: Support syscall header
+      perf tools: parisc: Support syscall header
+      perf tools: arm64: Use syscall table
+      perf tools: loongarch: Use syscall table
+      perf tools: mips: Use generic syscall scripts
+      perf tools: powerpc: Use generic syscall table scripts
+      perf tools: s390: Use generic syscall table scripts
+      perf tools: Remove dependency on libaudit
+
+ Documentation/admin-guide/workload-tracing.rst     |   2 +-
+ tools/build/feature/Makefile                       |   4 -
+ tools/build/feature/test-libaudit.c                |  11 -
+ tools/perf/Documentation/perf-check.txt            |   1 -
+ tools/perf/Makefile.config                         |  28 +-
+ tools/perf/Makefile.perf                           |  12 +-
+ tools/perf/arch/alpha/entry/syscalls/Kbuild        |   2 +
+ .../arch/alpha/entry/syscalls/Makefile.syscalls    |   5 +
+ tools/perf/arch/alpha/entry/syscalls/syscall.tbl   | 504 ++++++++++++++++++++
+ tools/perf/arch/alpha/include/syscall_table.h      |   2 +
+ tools/perf/arch/arc/entry/syscalls/Kbuild          |   2 +
+ .../perf/arch/arc/entry/syscalls/Makefile.syscalls |   3 +
+ tools/perf/arch/arc/include/syscall_table.h        |   2 +
+ tools/perf/arch/arm/entry/syscalls/Kbuild          |   4 +
+ .../perf/arch/arm/entry/syscalls/Makefile.syscalls |   2 +
+ tools/perf/arch/arm/entry/syscalls/syscall.tbl     | 479 +++++++++++++++++++
+ tools/perf/arch/arm/include/syscall_table.h        |   2 +
+ tools/perf/arch/arm64/Makefile                     |  22 -
+ tools/perf/arch/arm64/entry/syscalls/Kbuild        |   3 +
+ .../arch/arm64/entry/syscalls/Makefile.syscalls    |   6 +
+ tools/perf/arch/arm64/entry/syscalls/mksyscalltbl  |  46 --
+ .../perf/arch/arm64/entry/syscalls/syscall_32.tbl  | 476 +++++++++++++++++++
+ .../perf/arch/arm64/entry/syscalls/syscall_64.tbl  |   1 +
+ tools/perf/arch/arm64/include/syscall_table.h      |   8 +
+ tools/perf/arch/csky/entry/syscalls/Kbuild         |   2 +
+ .../arch/csky/entry/syscalls/Makefile.syscalls     |   3 +
+ tools/perf/arch/csky/include/syscall_table.h       |   2 +
+ tools/perf/arch/loongarch/Makefile                 |  22 -
+ tools/perf/arch/loongarch/entry/syscalls/Kbuild    |   2 +
+ .../loongarch/entry/syscalls/Makefile.syscalls     |   3 +
+ .../arch/loongarch/entry/syscalls/mksyscalltbl     |  45 --
+ tools/perf/arch/loongarch/include/syscall_table.h  |   2 +
+ tools/perf/arch/mips/Makefile                      |  18 -
+ tools/perf/arch/mips/entry/syscalls/Kbuild         |   2 +
+ .../arch/mips/entry/syscalls/Makefile.syscalls     |   5 +
+ tools/perf/arch/mips/entry/syscalls/mksyscalltbl   |  32 --
+ tools/perf/arch/mips/include/syscall_table.h       |   2 +
+ tools/perf/arch/parisc/entry/syscalls/Kbuild       |   3 +
+ .../arch/parisc/entry/syscalls/Makefile.syscalls   |   6 +
+ tools/perf/arch/parisc/entry/syscalls/syscall.tbl  | 463 +++++++++++++++++++
+ tools/perf/arch/parisc/include/syscall_table.h     |   8 +
+ tools/perf/arch/powerpc/Makefile                   |  25 -
+ tools/perf/arch/powerpc/entry/syscalls/Kbuild      |   3 +
+ .../arch/powerpc/entry/syscalls/Makefile.syscalls  |   6 +
+ .../perf/arch/powerpc/entry/syscalls/mksyscalltbl  |  39 --
+ tools/perf/arch/powerpc/include/syscall_table.h    |   8 +
+ tools/perf/arch/riscv/entry/syscalls/Kbuild        |   2 +
+ .../arch/riscv/entry/syscalls/Makefile.syscalls    |   4 +
+ tools/perf/arch/riscv/include/syscall_table.h      |   8 +
+ tools/perf/arch/s390/Makefile                      |  21 -
+ tools/perf/arch/s390/entry/syscalls/Kbuild         |   2 +
+ .../arch/s390/entry/syscalls/Makefile.syscalls     |   5 +
+ tools/perf/arch/s390/entry/syscalls/mksyscalltbl   |  32 --
+ tools/perf/arch/s390/include/syscall_table.h       |   2 +
+ tools/perf/arch/sh/entry/syscalls/Kbuild           |   2 +
+ .../perf/arch/sh/entry/syscalls/Makefile.syscalls  |   4 +
+ tools/perf/arch/sh/entry/syscalls/syscall.tbl      | 468 +++++++++++++++++++
+ tools/perf/arch/sh/include/syscall_table.h         |   2 +
+ tools/perf/arch/sparc/entry/syscalls/Kbuild        |   3 +
+ .../arch/sparc/entry/syscalls/Makefile.syscalls    |   5 +
+ tools/perf/arch/sparc/entry/syscalls/syscall.tbl   | 510 +++++++++++++++++++++
+ tools/perf/arch/sparc/include/syscall_table.h      |   8 +
+ tools/perf/arch/x86/Build                          |   1 -
+ tools/perf/arch/x86/Makefile                       |  25 -
+ tools/perf/arch/x86/entry/syscalls/Kbuild          |   3 +
+ .../perf/arch/x86/entry/syscalls/Makefile.syscalls |   6 +
+ tools/perf/arch/x86/entry/syscalls/syscalltbl.sh   |  42 --
+ tools/perf/arch/x86/include/syscall_table.h        |   8 +
+ tools/perf/arch/xtensa/entry/syscalls/Kbuild       |   2 +
+ .../arch/xtensa/entry/syscalls/Makefile.syscalls   |   4 +
+ tools/perf/arch/xtensa/entry/syscalls/syscall.tbl  | 435 ++++++++++++++++++
+ tools/perf/arch/xtensa/include/syscall_table.h     |   2 +
+ tools/perf/builtin-check.c                         |   1 -
+ tools/perf/builtin-help.c                          |   2 -
+ tools/perf/builtin-trace.c                         |  30 --
+ tools/perf/check-headers.sh                        |   9 +
+ tools/perf/perf.c                                  |   6 +-
+ tools/perf/scripts/Makefile.syscalls               |  69 +++
+ tools/perf/scripts/syscalltbl.sh                   |  86 ++++
+ tools/perf/tests/make                              |   7 +-
+ tools/perf/util/env.c                              |   4 +-
+ tools/perf/util/generate-cmdlist.sh                |   4 +-
+ tools/perf/util/syscalltbl.c                       |  87 +---
+ tools/scripts/syscall.tbl                          | 405 ++++++++++++++++
+ 84 files changed, 4089 insertions(+), 555 deletions(-)
+---
+base-commit: 59b723cd2adbac2a34fc8e12c74ae26ae45bf230
+change-id: 20240913-perf_syscalltbl-6f98defcc6f5
+-- 
+- Charlie
+
