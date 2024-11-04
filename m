@@ -1,93 +1,73 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586A418EB1;
-	Mon,  4 Nov 2024 18:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7CB224F0
+	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 18:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730743237; cv=none; b=k58yCBmQUurnTBF9sdpuX5gkJI9nC5ZG1kR+aXMkgymY9ocuYaULKTpmqfJfslZBX0jiLMF0rqDH/aUikSCw3azkhGVsn/EbQ09J1i0S7y+w18T4W+kdErmpTea/cIDrMeDAPYk3XCP0tiuPy81JCiNX3fTr1hNS2xInwNTNttI=
+	t=1730743574; cv=none; b=nXy6qP1QmVp8CGl8DHBLyzulDduEggiXAUcu7nSRm9Wg6VYoJGON6d7Fbd+5EYLF4KpGt3LFALn7v+x5Evu8Y1gpY8SnOy4gdbaIQNQxnZOh7EuFGkIdItzj2LS/ENtWCFaFrTrqeqbAWkClcWBKGaDG/OmZGb/x8kqrUONEI3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730743237; c=relaxed/simple;
-	bh=l4ClbwKLAAUCIKk+H9sLcRUgk+8DLPI9VAyS+KjeJy4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bEZrEQsKbdpcyQknsv3oBYpPPIvJgTk0lEk0pfhBFrtDCSTns6M9aGbnKn4TRt39bRsu67XhPCoP5UnYtoEYsctlIghoany0d9vsaWRxd1ILMGWZ/GcOcGdaD5n5JiB1jm1+CZ1xtkuzn4g/o5atKp0OMaUyHmGoHuIoF1QN3EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kqmmFoFZ; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1730743574; c=relaxed/simple;
+	bh=nGG+MV+xQmMz+wlNJOE4gL2q6N5vqtV9pCezokSNoAU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=f8tkkgAVYF54VlfLMlrYJv7w1lQSfFzh7gqQADRQ5ko6pgp83SQkR13fjmSIYneIkzV8bBoNHqmbIrSYwqCndhh2D4aVcUTrfHm3c6i+SoS5uPZ+WTRTUVBR0kYWLQ3OmpQmnBBxsIX1sPefLAG0CdSHEqCpo42TKwQppuPQAlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=H4KQXDxJ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kqmmFoFZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=E1fQfudbR4NO1VNaKqotSsHuPMFHOb9T1HzqpLDUDRk=; b=kqmmFoFZlMBxlNL7guu+uAEGuL
-	CjAyvw2Y3uIngSJsfQMhpP9DlavupameoKxseM32OJwZ0E5vc2BYSj5MwMWbbb+XV7bzXeb1tPGeb
-	S9LlE+t0jLMEeH/2ctqWtCGHdcIwti/YvYNXvJ2m3nsYYquI5vZ1XX0nqU1EK7qmT2n0XKm8S8xA+
-	co72pHyJ3NW4idW/a02gi65wk7NG4Tt2J/NOuwOmQ3u1iA39NT+PmW2wahcejC+goy5xTh6cHoQhp
-	mnWDOwacTaSKc/46mL+gdcWNFJ8u3cjkg9rFN9ziwcBQ+7Un+0iPK8oshD0JU4rh5VTdf4wbxXM7F
-	TQYkdxAw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t81NL-0000000BOXx-36QD;
-	Mon, 04 Nov 2024 18:00:28 +0000
-Message-ID: <123bd610-03d7-4c08-9314-616c0d3349d2@infradead.org>
-Date: Mon, 4 Nov 2024 10:00:21 -0800
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="H4KQXDxJ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1C44842C17
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1730743566; bh=/0y2O9ytWRH95P46gcpeK5LlP5AXzRkoyZ5dONRYt98=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=H4KQXDxJ6ie3J6FGIqWPo0o1EcPE/3oeSzUqSR09YGirH1B636S/9Ys3/j9Xu89oS
+	 7FKQSdgO8gTmPM7XglGB6YasqaNGuFpAN213El9YyW9V7Pcey04QCvfDUynJt5IK44
+	 vrEsz+eTSBxPslokaZ6nQUZi6AwsQbmiUYNjroyhoNuo2u3KHM6zb3tghT9s9q7zg6
+	 FMSiC9ibbZLMpQoCXPcjYUHuH75JEeZ8r4JihLEEF/vUTEsv34UpbiCyYrYFEP/uoM
+	 8kH2UAzJFnoh046hNu8kQ52sY4Nh7BAWnEoh3MQrXII/vDj8cX8XDgGrmTQIrfEomG
+	 eUyfx6lnJSntQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1C44842C17;
+	Mon,  4 Nov 2024 18:06:06 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc: patches@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>, Bagas
+ Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2] Documentation: admin: reorganize kernel-parameters
+ intro
+In-Reply-To: <20241029180320.412629-1-rdunlap@infradead.org>
+References: <20241029180320.412629-1-rdunlap@infradead.org>
+Date: Mon, 04 Nov 2024 11:06:05 -0700
+Message-ID: <875xp2an76.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 04/12] platform/x86: hfi: Introduce AMD Hardware
- Feedback Interface Driver
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-References: <20241104175407.19546-1-mario.limonciello@amd.com>
- <20241104175407.19546-5-mario.limonciello@amd.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241104175407.19546-5-mario.limonciello@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Randy Dunlap <rdunlap@infradead.org> writes:
 
+> Reorganize the introduction to the kernel-parameters file to place
+> related paragraphs together:
+>
+> - move module info together and near the beginning
+> - add a Special Handling section for dashes, underscores, double quotes,
+>   cpu lists, and metric (KMG) suffixes. Expand the KMG suffixes to
+>   include TPE as well.
+> - add a Kernel Build Options section
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.rst |   36 ++++++++------
+>  1 file changed, 23 insertions(+), 13 deletions(-)
 
-On 11/4/24 9:53 AM, Mario Limonciello wrote:
-> diff --git a/drivers/platform/x86/amd/hfi/Kconfig b/drivers/platform/x86/amd/hfi/Kconfig
-> new file mode 100644
-> index 0000000000000..79e3b0073275c
-> --- /dev/null
-> +++ b/drivers/platform/x86/amd/hfi/Kconfig
-> @@ -0,0 +1,18 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# AMD Hardware Feedback Interface Driver
-> +#
-> +
-> +config AMD_HFI
-> +	bool "AMD Hetero Core Hardware Feedback Driver"
-> +	depends on ACPI
-> +	depends on CPU_SUP_AMD
-> +	help
-> +	 Select this option to enable the AMD Heterogeneous Core Hardware Feedback Interface. If
-> +	 selected, hardware provides runtime thread classification guidance to the operating system
-> +	 on the performance and energy efficiency capabilities of each heterogeneous CPU core.
-> +	 These capabilities may vary due to the inherent differences in the core types and can
-> +	 also change as a result of variations in the operating conditions of the system such
-> +	 as power and thermal limits. If selected, the kernel relays updates in heterogeneous
-> +	 CPUs' capabilities to userspace, allowing for more optimal task scheduling and
-> +	 resource allocation, leveraging the diverse set of cores available.
+Applied, thanks.
 
-Please adjust the help text to fit in 80 columns.
-Thanks.
-
--- 
-~Randy
-
+jon
