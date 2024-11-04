@@ -1,96 +1,85 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0E5290F;
-	Mon,  4 Nov 2024 04:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC1C158D80;
+	Mon,  4 Nov 2024 05:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730696355; cv=none; b=XYuMO9oWvU8p/p8gP8+qn0JQSxfpFhosaJxlVXwWWtdat+BAYvLiJ3J6AuE8WtxcfNB5hLByOh/Fbl7/RNWxW2SlTfYQUZmugLPBko3/PmmJOvJlwLHp/2ciVHCEuJ0dw9LBhObOKgz8eYYVtBvQLkr7iiGIt3GJYMCtcMbnsEU=
+	t=1730697583; cv=none; b=K5Q7AREA1tZeDV52xAxBLYCjaeUI2F4FnF9WrDUrcidd591R9SydLmSPn52l86EQJlF2+b12mmv+gW6KtrQluYf6x0K3svNPR2RHnBUvz9wlF6oBALI5cA/hHxjW57qWMCUwzF7kaqt1ABLOP8Ty5cQi8A1ZAgo+TbRrrBe9Ie8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730696355; c=relaxed/simple;
-	bh=Jt4RcuHkOj5IeNvPZBqpHJRxypJtJBa9YJbPuHFS7Aw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bXT+YKizlts1nHjhnV1sb8X2vscxWR9+PEjzr+OG0dvRHJu8oLZCzb0Uv5xld2yWQQI2zNY1Bz9QsrEd+fDGYSpLjKnVfVCXIriNXjN1PysPi/7ll/kuWbDO3aMnTJyA+JCOwezDzEGzvrIE0TtApxjgR3/H75SSV6bYHquTxEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kaAfuPFS; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730697583; c=relaxed/simple;
+	bh=xoxCS8iKpWugSye0PZV3SEOikbY85j123h7jneBI664=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EFgU8lrk+jPgAeWSNWa+WoXQYK5RysqcCd1dIv2J+9l3k3OsfLWWW9GGWj4kvSC2HKLl5khG+93UBXb7nB2FdyGelVcJt03vAYIFcRcbpXq/qNbO/4h3jUvFExgaoaby0ZbsLb7tsYWcUKIJchiHwkDLP4h22eVkS1a8DYsjCoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=hlFyOMn3; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kaAfuPFS"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-288a90e4394so1651512fac.0;
-        Sun, 03 Nov 2024 20:59:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730696352; x=1731301152; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DAe1wmm4BkgGKm7wP48Ig8w9IoXg1CatWh+ffievHIE=;
-        b=kaAfuPFShzQdiabKCwJv0tIEnyQHXaTc+nsPhR1/s7/tg+Vgsm2bU3r/FjUWZy07In
-         j0QTfiRfz+TCl5Ok5ABWuvZV3o1mCBJQIq4TsD8/BFdziKnnoS/bMwQSBdsYO1jItgxr
-         VsFr+hkDdQaHd6QHqdLQlLhrnpdd/PmVPjufQLmAj46unXqPtrDIzcrPOTzbDIvdxTZP
-         jeJdi1n4BcWA/Zc9F8AEynbGLcwzbpMFTdw8svyIpbO3KJWDD/kJaLMaI67QCjYX+WWq
-         oT6NKCysbTv2HNeR9KdWtSeGZ9USNvNjLYHAmwlpdE1K7fbzwvjQjy6NhjRYsRItyukp
-         xMQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730696352; x=1731301152;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DAe1wmm4BkgGKm7wP48Ig8w9IoXg1CatWh+ffievHIE=;
-        b=iQ/D3pse3tdD0Y3Jva9GDHUF9xYqj7x98VSYrrXpIuDEMFFnLKsx3DybkxssPHjFCl
-         t1CAC98OaBt9Wf6YVqtADgcX++EcW5cbRS5enR6LL//g3WD/YgSOF9r154ySSUixFKCg
-         vLk61DZ0SH3yEqFM5243un13tFbNUfqegC43MaUqYjJd88aoLbUgi/IxBN1JarXwdC9H
-         dMQHJFOrGX2n+tmBREiBbHYbJWuwZPAbCoY2wCfKcbIF/KoT8CykOYhBGq5E/sK+yJkT
-         wN+hQw8N2ZuXuU/7UDi1D2itP+x2UnFvUsplWspa5zNd4BhDkREF9bv0An1YXKIZ5zD+
-         d1Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCVXpu4OWZiV52lIQh9tyTapwI8gUf9u+/TacKB6TN4gj8iDkVLCnLMCMmXGNYGSY6+HgRvpE7in5Fw=@vger.kernel.org, AJvYcCVwS2xUAawXIf3N3QCfQQ2bVZbVRtb7zKf5Fr9sYcdlp9dqpI9XGGH0DwAr4eXdzLBcrf2LkTAGSKaJik4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE8f4i1hIgz4BY7sjL/avDy/S6L0nMv5FePngdh8sf+ljsNkDF
-	OPZNfROunHiJB+xdyq4Ae0LJn120CY7iWMGR3TJBO80t7LQ1C1PY72M3D+wG7iM=
-X-Google-Smtp-Source: AGHT+IHm5OFis4N7IDgOVt2Y/qM9YbNq3zg8pPv8AEQHKHkQuMFKLcdlocqXa0gnydejahaQ/trD4Q==
-X-Received: by 2002:a05:6870:31c4:b0:278:1863:f4b6 with SMTP id 586e51a60fabf-2946470bedemr16282036fac.15.1730696352506;
-        Sun, 03 Nov 2024 20:59:12 -0800 (PST)
-Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:b556:ea07:1094:f018])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2948771706dsm2783077fac.45.2024.11.03.20.59.09
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 03 Nov 2024 20:59:11 -0800 (PST)
-From: anish kumar <yesanishhere@gmail.com>
-To: srinivas.kandagatla@linaro.org,
-	corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: [PATCH] MAINTAINERS: add slimbus documentation
-Date: Sun,  3 Nov 2024 20:59:07 -0800
-Message-Id: <20241104045907.76298-1-yesanishhere@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="hlFyOMn3"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B34FA40E0265;
+	Mon,  4 Nov 2024 05:19:30 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id HUB403dSBHRM; Mon,  4 Nov 2024 05:19:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1730697566; bh=uvRLGH51BTjpJDWX+PnWENMXUIuW2j1cR0NDXCI5sxQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hlFyOMn3B21Vm9sfKaibxSCbdjYu+HVu23itsYF/djgAkuxtAUt4v0KhdJroEFjd9
+	 h2Ina0pupP63hYyxlh60f3M+ZoaKpAvTxD4CFz+94PukFjTRSMOfcN1NQh3wh+Nyha
+	 tJ9gP//r0QyDJQGdB6agAfUYJzmgbXCW2E87f1vTB5gsHxh8nFkqWyMNX0dA8QFn6x
+	 jFx0o4FKgltKf2O5Rx0DWdJ0BNh3o9uu3A9iUpKAWX4mdYIC85hxxgVQIE7ypEtxji
+	 kIQdTBnNRkgsYhWbtpPW77gTrQUXKk8GtJ7OHQDyQ+inz6pqInhaWwqNdskyzl1A6E
+	 rKPvC8f7RMUiZJy9HgU4Z1QrMtNfg4cmYKMMo1fMZ6Hn0yocUfu9ZnGonlqKNdhNmS
+	 irfxGsgKffjf7NoQ0yj9yblMI1GafPg8gNNDfiWPDbYz8CNGJw9uwM4KWxLzyRuoQK
+	 hLJnmGZoGHLr+4kQpJKMz6PCNIE5rmo73tVY3NMw94s6AQi0hzXuitHLzuWu20w5az
+	 XxEAA8T7siQHG1l+O0w6/HxfsZCx9QKJtKcPvTZjkpnDXKUTSNUfxwkSSVvFmeO7ch
+	 tlCKZyLq6rypVV2gdt998UlC0qwr+YaPhwWEBVDwlERd6tjL/uIOoRgS886GN4owoq
+	 YIKZ87XunBzon16SsftJdwSY=
+Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 17C1040E0220;
+	Mon,  4 Nov 2024 05:19:03 +0000 (UTC)
+Date: Mon, 4 Nov 2024 06:18:56 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Amit Shah <amit@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, tglx@linutronix.de, peterz@infradead.org,
+	jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com,
+	corbet@lwn.net, mingo@redhat.com, dave.hansen@linux.intel.com,
+	hpa@zytor.com, seanjc@google.com, pbonzini@redhat.com,
+	daniel.sneddon@linux.intel.com, kai.huang@intel.com,
+	sandipan.das@amd.com, boris.ostrovsky@oracle.com,
+	Babu.Moger@amd.com, david.kaplan@amd.com
+Subject: Re: [PATCH 2/2] x86: kvm: svm: add support for ERAPS and
+ FLUSH_RAP_ON_VMRUN
+Message-ID: <20241104051856.GNZyhZQOvGlcWFn8Ey@fat_crate.local>
+References: <20241031153925.36216-1-amit@kernel.org>
+ <20241031153925.36216-3-amit@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241031153925.36216-3-amit@kernel.org>
 
-In the commit 202318d37613d264e30d71cc32ef442492d6d279
-slimbus documentation was added but it missed
-the update in this file. Currently get_maintainer script
-is missing the main maintainer.
+On Thu, Oct 31, 2024 at 04:39:25PM +0100, Amit Shah wrote:
+> +	if (boot_cpu_has(X86_FEATURE_ERAPS) && npt_enabled)
 
-Signed-off-by: anish kumar <yesanishhere@gmail.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+s/boot_cpu_has/cpu_feature_enabled/g
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7ad507f49324..5e1d00d7043e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20951,6 +20951,7 @@ M:	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
- L:	linux-sound@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/slimbus/
-+F:	Documentation/driver-api/slimbus.rst
- F:	drivers/slimbus/
- F:	include/linux/slimbus.h
- 
+
 -- 
-2.39.3 (Apple Git-146)
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
