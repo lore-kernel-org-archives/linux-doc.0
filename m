@@ -1,146 +1,142 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2CE1AF0A0
-	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 14:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0E21B6D1C
+	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 14:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730731150; cv=none; b=A5V/pT1dCctHORE3ZAdjBY1n3rjQ9dvIWI2wkFdiJz1oJpr4rD5G4EaVeOfLwO970Miafp7/F/SLGw44eHq90/TlUDiOSf1ATgrAUUfEQD+fuOCxDo5cN/GJCg2r6q2eJVzB1TS51IR02vAOIBBI0p4jFjHAhR40Ivw19oFjTP0=
+	t=1730731973; cv=none; b=ecdLOiWxKramXnvYvheRs5ylOM0nmP1N6P8A/m+K2Gayb2vxkuq/kgHv75OYgIZh+MXTFXHc7iYh3OZlVEwbw9cfELV1npv30+MsBGxTzhQcOBxDIwCHQnNDdIFeg8KuHLUOfAhnuRZS3Dp/D7lwQa3WVYNdzuGJ0XLXt1eXl/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730731150; c=relaxed/simple;
-	bh=N9mNTgS7KydKjujfpo8o+RMYb3M2ubWeqVEZYIZNbvY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PqfnzBApcSwLOf9AxvFyG8gKW/eTAwXi7OuGKAu8FxVv+M+d9e339duFljOOnSM7ajf7M5Hmay/Eq2OYzAk++hhwQDvFQ3G8dOxhC93A2aV6FH9cap8UanrBoJLZlOG9TiBFzsU7GPaERM84pIdvHDhdVf7pCPbVAXYdrPBbai4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=K+f7yHOq; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1730731973; c=relaxed/simple;
+	bh=A+L77clO/jgNKTSswUmQ6XjD5os9WSM+Y+3NhJMuPE8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=rx7Ge4Ae9sP7NrWZJKY9j1Bo9VecCiIydtCoYVelXI8PYaH6hhagVm7c6ENCf21wScS1qjofbp88Y+fbaWmDfyFrWX9pUhRuajk8P7LTwGdut7XHy3WgZzrHY92JZtAFZyVQ+MTmASZorTu0pC3MyxKCAfI7FWzLZnkggSkB63c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=mg0Sadq8; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="K+f7yHOq"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4315c1c7392so37201905e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 06:39:08 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="mg0Sadq8"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5cb6ca2a776so6357338a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 06:52:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730731147; x=1731335947; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V1xpNFk8hvdBrc0E2hQPlR3zKBSGiQuhict/6bGeGu0=;
-        b=K+f7yHOq5S1lh7AD2ez4PM4me8oYXnj5UNBnNruXUhJAPHo4e73cIN0RGxX1f03Xqb
-         ElACQYVew7z5byW2nH1Gd4c206wTqPvjvXXy5HHQ4BbmddfBYiWltjkvRfMzIwQNcJ3F
-         2189AQfn84FG2NvnBmWXPILW1rGvtL67Er/Ub/oawIXnBH7Ng/gys7iAtplvqHeDQWOF
-         2GwOClTK+pr97pzJcze3dXTYg8mxi/xj8A/rJ/5FQLF70y5CmzLx+6H+Ic/pNlndrDLG
-         c+Ys2MqHOW+ADAK0rexJK7BydnB3OdVCEQoO7vmEK4h9bAZO1X5rM9wXAFIYOWOLkKAc
-         zjvw==
+        d=citrix.com; s=google; t=1730731970; x=1731336770; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=A+L77clO/jgNKTSswUmQ6XjD5os9WSM+Y+3NhJMuPE8=;
+        b=mg0Sadq8peP6S0MnX3RJ30jguLz0oHDk+LeCf7EP8ote2kdBP0jMsCLxD+jQ9mTmiP
+         EHdPWXkeft6HnHh4kW1wq4MCES/BsxqmfqIvYGefkWw3RY3nb4vWUVJxtS5H4+sm7+5z
+         kDPE6UfxvzqZfB0ez6054Tz9UTozszBFygp+I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730731147; x=1731335947;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V1xpNFk8hvdBrc0E2hQPlR3zKBSGiQuhict/6bGeGu0=;
-        b=LZ0XRIPga7PxvTXWXU8uhWEOc5b+Jjfi2qdTpiskYaQJll5EO7jsG7igN9Qib3ckdY
-         5ahQkTSm9ld5dMULyVulLV3Hpe/NQu+Ohx0oS4kynb0TFSJ0msLFmy+TN5E37mT+HeEJ
-         reGnLUfRAyBaUFPUxBhrv8vonymRp7nzlKsS8pEuTdXJwqx0W3wCLxrs6alOHDkw4G9j
-         fGubOrF4AbhzgBhSlga6K9Ee2RmuAUanjKsTp4m9IbyDqTZP6CgQaibIDPMD8Iae+u8K
-         o8TqiqM3GO7OiAGSxqF3jDzhpH6jhMNGssU88O5yHUqG6bZ5iX1bBZ18jTqaHGOO7pko
-         H9+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV/xg0Hln76UdJ2cu9+dI3QsW9KG0yWpqPk52lmLyKIRa29tT9PRMzMZHNHo+sIUOgeFOfmzm8KYz8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwICTrO0bL8Y71ov8naABoisvam7RgDITgmqymX7fd38FgBFkKP
-	n3Qkdp8gK/n8DcO8WPYdxsdfNzqxIfzYB+6YvgytE/f8f7hFUVn85rXDZH8ompA=
-X-Google-Smtp-Source: AGHT+IEkd7fCxmipKdK/jhPqqpXWWRduRKJdf1Fys48euGtYO2BQbNuoCcaPoeGNZkFLXLCk4YE8xA==
-X-Received: by 2002:a5d:5847:0:b0:37d:4d3f:51e9 with SMTP id ffacd0b85a97d-381c7aa451dmr10370065f8f.40.1730731147068;
-        Mon, 04 Nov 2024 06:39:07 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:4393:a9f:472d:9404])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c116abf3sm13387483f8f.101.2024.11.04.06.39.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 06:39:06 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jean Delvare <jdelvare@suse.com>,  Jonathan Corbet <corbet@lwn.net>,
-  Patrick Rudolph <patrick.rudolph@9elements.com>,  Naresh Solanki
- <naresh.solanki@9elements.com>,  Rob Herring <robh@kernel.org>,  Krzysztof
- Kozlowski <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
-  Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-  linux-hwmon@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org,  devicetree@vger.kernel.org,
-  linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v3 3/6] hwmon: (pmbus/core) add wp module param
-In-Reply-To: <fa79de78-aed9-4cd3-bff9-310f2b4a32c9@roeck-us.net> (Guenter
-	Roeck's message of "Mon, 4 Nov 2024 06:18:27 -0800")
-References: <20241024-tps25990-v3-0-b6a6e9d4b506@baylibre.com>
-	<20241024-tps25990-v3-3-b6a6e9d4b506@baylibre.com>
-	<47164712-876e-4bb8-a4fa-4b3d91f2554b@roeck-us.net>
-	<1jjzdj5qyy.fsf@starbuckisacylon.baylibre.com>
-	<fa79de78-aed9-4cd3-bff9-310f2b4a32c9@roeck-us.net>
-Date: Mon, 04 Nov 2024 15:39:05 +0100
-Message-ID: <1jfro783na.fsf@starbuckisacylon.baylibre.com>
+        d=1e100.net; s=20230601; t=1730731970; x=1731336770;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A+L77clO/jgNKTSswUmQ6XjD5os9WSM+Y+3NhJMuPE8=;
+        b=DIqHngy5sbGYcw+mNusDnJvWnXGVeeDPt/OYv8oZKZCszC3Gxryx5dA77ReDPwT2o+
+         DKP6xXa79QL5mFx1VIIhuGgWh7dWLje6BwXM3R61kb2C9KfTT0Fje75vhNXZ5X9Qjn65
+         A+CzrDyu7ysVb4K2EHg5AvBNkYwHX3JZ5nmWH+g+pK4MIGSzVqzQQ0gWklgPVfs53OKA
+         iHIHO11cFTKDGHbxKrfg2TaPJfPCv9Hwf90joQLmVVCUPZ3m8qHX0MJispPKuNn8y+da
+         dTrDcS8ahwoiCGsXrmNVYMVRfoxhPKeiUeyv2QknCiMfG7sCicBL1Py1s9EBohiolm1g
+         KB8A==
+X-Forwarded-Encrypted: i=1; AJvYcCWXoRa13m7oO5IdLI7+OmQd5GvBH1UDJbTLaK9NX3qVwVAezvoOrqAGZKdYjhSI+nINntGb4ODZreo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6mWL6NVBCtm11b8geY/z3cxBTpybyLWQaC0y0Cb2JfdqZHb+8
+	Zh44KutoGiIQhQW8gj2b2cJbNUeAifx+Yz8ktQisminYA9vXA4jo08RRFKsRNFM=
+X-Google-Smtp-Source: AGHT+IFDoo4WXZsH1fvO8W9i5FbdAmpXIPw4/xweeTupoFAMkMnrTfdxoGCfyN+ozSaWXapAkjmu6w==
+X-Received: by 2002:a05:6402:d05:b0:5c9:6fc1:6177 with SMTP id 4fb4d7f45d1cf-5cd54a84c8fmr14836198a12.11.1730731970469;
+        Mon, 04 Nov 2024 06:52:50 -0800 (PST)
+Received: from [10.125.226.166] ([185.25.67.249])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cec86a4ef2sm2765279a12.3.2024.11.04.06.52.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 06:52:49 -0800 (PST)
+Message-ID: <e9711ae1-b983-4f3e-89b4-513db62e4eef@citrix.com>
+Date: Mon, 4 Nov 2024 14:52:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+To: amit.shah@amd.com
+Cc: Babu.Moger@amd.com, David.Kaplan@amd.com, Sandipan.Das@amd.com,
+ Thomas.Lendacky@amd.com, boris.ostrovsky@oracle.com, bp@alien8.de,
+ corbet@lwn.net, daniel.sneddon@linux.intel.com, dave.hansen@linux.intel.com,
+ hpa@zytor.com, jpoimboe@kernel.org, kai.huang@intel.com,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mingo@redhat.com,
+ pawan.kumar.gupta@linux.intel.com, pbonzini@redhat.com,
+ peterz@infradead.org, seanjc@google.com, tglx@linutronix.de, x86@kernel.org
+References: <c3fbf18a4ec015039388617ed899db98272cf181.camel@amd.com>
+Subject: Re: [PATCH 1/2] x86: cpu/bugs: add support for AMD ERAPS feature
+Content-Language: en-GB
+From: Andrew Cooper <andrew.cooper3@citrix.com>
+Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
+ 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
+ 6+ahAA==
+In-Reply-To: <c3fbf18a4ec015039388617ed899db98272cf181.camel@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon 04 Nov 2024 at 06:18, Guenter Roeck <linux@roeck-us.net> wrote:
-
-> On 11/4/24 00:43, Jerome Brunet wrote:
+> Unfortunately, that's all we have right now in the official
+> documentation.
 >
->>>> +/*
->>>> + * PMBus write protect forced mode:
->>>> + * PMBus may come up with a variety of write protection configuration.
->>>> + * 'pmbus_wp' may be used if a particular write protection is necessary.
->>>> + * The ability to actually alter the protection may also depend on the chip
->>>> + * so the actual runtime write protection configuration may differ from
->>>> + * the requested one. pmbus_core currently support the following value:
->>>> + * - 0: write protection removed
->>>> + * - 1: write protection fully enabled, including OPERATION and VOUT_COMMAND
->>>> + *      registers. Chips essentially become read-only with this.
->>>
->>> Would it be desirable to also suppport the ability to set the output voltage
->>> but not limits (PB_WP_VOUT) ?
->> I was starting simple, it is doable sure.
->> It is not something I will be able to test on actual since does not
->> support that.
->> Do you want me to add "2: write protection enable execpt for
->> VOUT_COMMAND." ?
->> 
->
-> Please add it. I have a number of PMBus test boards and will be able to test it.
->
-> Thee are three options, though. Per specification:
+> I've put up some notes in
+> https://amitshah.net/2024/11/eraps-reduces-software-tax-for-hardware-bugs/
 
-Any preference for the value mapped to each mode ? Using the one from
-the spec does not seem practical (32768, 16384, 8192).
+I appreciate the attempt to get a few details out, but this is very
+confused on bunch of details.
 
-The bit number, maybe (7, 6, 5) ?
+Most importantly, you've described Intel RSB underflows, but named it
+AMD BTC.
 
-or just by order strongest locking ?
+"Retbleed" is two totally different things.   I begged the discoverers
+to give it two names, and I also begged the x86 maintainers to not alias
+them in Linux's view of the world, but alas.
 
->
-> 1000 0000 Disable all writes except to the WRITE_PROTECT command
+AMD's BTC comes from a bad branch type prediction, and a late resteer
+from the ret uop executing.   It has nothing to do with RAS/RSB
+underflow conditions.
 
-3
-
-> 0100 0000 Disable all writes except to the WRITE_PROTECT, OPERATION and
->           PAGE commands
-
-2
-
-> 0010 0000 Disable all writes except to the WRITE_PROTECT, OPERATION,
->           PAGE, ON_OFF_CONFIG and VOUT_COMMAND commands
-
-1 ?
-
->
-> The driver uses OPERATION and VOUT_COMMAND, so we should have options
-> to disable them separately. It may be desirable, for example, to be able
-> to turn on a regulator but not to change the voltages. Also, since
-> full write protection also disables writes to the page register,
-> the impact of full write protection on multi-page chips needs to be
-> documented.
-
-Noted. I'll update the documentation.
-
->
-> Thanks,
-> Guenter
-
--- 
-Jerome
+~Andrew
