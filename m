@@ -1,119 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3667C0BE;
-	Mon,  4 Nov 2024 12:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC47E1B5EBC
+	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 12:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730722137; cv=none; b=NYDcb1zazBJepLaclp5KujOdamxy27xsTMlIcUMt5MfaK3nr+EUMayTXkfEWaGHPuGx/BeTYMcEa9lbJIn85xYkkm1Yq6fAo2Yzxx0NhzQ3IYNSGfqI2NK3TyRqK0DXOJo+IyZYoojL8WOxTm/ND56mdpGvreDWWbWWlEq+HF+E=
+	t=1730722283; cv=none; b=RdpwSmJVJCim8yaepn1xGOB6NtrzXdK3yPGscmSgc6XcQBtmHUGnsLqgNta0WHjUbmMZreSv1/Zd3VsaHBUNyd/6FIOy830xMgbnTVJbI3GBEpjNQMZ2BbHHfatCrEClISe7X3/C0xQourU5Zm7UfiqJCUZN5cWaaUj7ybAdXIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730722137; c=relaxed/simple;
-	bh=SXIvHTd084348Ke5hjT7V7ym8x/naf+cJdPZdoJW6Pc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qmTr3VNhzlQVrCD/JOZjgvKX9YxMPZc8ijFZyy1XL4DYD3L/6YCfw4iwjtz/DUlURcJfNdbD9v8OqqNA3zWMY19kuzq88oD53qHtSTjKbB/S411ElSlFzVLdxGnDwRg0HKs3Ih190IrUpPTYXB30IjlZeJsZGCBfzjb7wuOnts0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DDO3E/mO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730722283; c=relaxed/simple;
+	bh=EW/+kcRIbtWGNG3/HSSUqqzHxBuvplmY1+As85O/USI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kp4oIneUsZ5W1JUehAM7isFVLRVv34hRQVqTbkErUopHlsQ+9ITVuk3I6zns97Pg3yppcklvDzqs3/EUo87Mb60fewoROQuXQZA23zxLTdunoBEWaDt8vbsxvIR1jRnrdZVfOvutV53O+OlAc5jzcmM2jpc2yCtPzJGq5RWtVXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=mJ88Vh8f; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DDO3E/mO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D23DC4CECE;
-	Mon,  4 Nov 2024 12:08:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730722136;
-	bh=SXIvHTd084348Ke5hjT7V7ym8x/naf+cJdPZdoJW6Pc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DDO3E/mOiAY0758tF5tnLUHufD1GRhv9AYEu6ZOgOJMVl/Z9sT/9aAecuWawlLAw/
-	 aoCdYv/rP2yWtq8edvyWN9n8P2E/WBAd3bFcz02dvkcbQrpjh9WPfseqjwJmWX4Ilx
-	 /5uzJ0QMbZRy6c9zQCGMIFIJ2wVm6ew5LHNzLl2QTpXJYWBgiECnbxjtRhIip8F6fu
-	 gHAg4WBkOq/FyPqSciLh2MlHTIaufVD1QRdJTBgs9WiJpAp2KuVMSVdavDKwRFThan
-	 kP+wTniL7qDjWE7vVNfuYmpCTJpoVinLpsCmhe3yt/kPZa8wfbIk4a/SNRjAblFLvo
-	 XEC7F/l9vsJFw==
-Date: Mon, 4 Nov 2024 12:08:51 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Inochi Amaoto <inochiama@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Andy Chiu <andybnac@gmail.com>, Xiao Wang <xiao.w.wang@intel.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Yixun Lan <dlan@gentoo.org>, Longbin Li <looong.bin@gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: riscv: add bfloat16 ISA extension
- description
-Message-ID: <20241104-clean-osmosis-680d64616712@spud>
-References: <20241103074959.1135240-1-inochiama@gmail.com>
- <20241103074959.1135240-2-inochiama@gmail.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="mJ88Vh8f"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-431695fa98bso31861855e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 04:11:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730722279; x=1731327079; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TZ56fmXjiTYLxN4xJpDGh5ZMZmSWUVoHQN6nZMrXMmc=;
+        b=mJ88Vh8f4AgqdZfk6jOIOxM/mqdr9htX0xvZa6bK5j/v/qP1gv7qRBKwsfXaA4j3Nq
+         2pBlTY/M2TgbIMc4M/kwFFQL+dqv/Iu/dSJ+ETnMXZDq7nriS1JUUrEsRryGE2hPSt9S
+         7PTbgZsfMwW6StKBNNUsOhh0hDbY6E5UrP5FhN/hLG7byRh5Yy53XLfiVg+8qzr+A1Bv
+         k+3ZeN+ZsX7Xieyg9jCRZeT+JCgookHmAvD6uqAzWiYljoiC1QFOoVlgoVex37l60Z9G
+         cU3qe6kYYaWsCryBHQBpc1WZR0O3VXM7NgrcsD1snktUZVEmxniQ+Nl4H5WFX+gBf9XU
+         +bZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730722279; x=1731327079;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TZ56fmXjiTYLxN4xJpDGh5ZMZmSWUVoHQN6nZMrXMmc=;
+        b=XVYCntHv0QTU9tWMsH3XfP71n/mPmhEr4bUL6amqXtMQT0kppFORmSrXSEqBB2NICX
+         gt2KFNA1yqkCh/nIaQvR2HyiJdOXwX39z2EpJvDAGRsOBUq85XS5mkooluPvh6ff9j+i
+         BojZkdtXPFdlEcBU4rFX4R8UsOIQ3/n726FGfgLRlwD1fQHvpTchVDHL1v6A/P7dwmXa
+         k4VCVenXBVjqakmGbqZLTG6rPIKUrPAH74jmt71DZANpBxCbji+NM9TTQF6UEHO8ANrP
+         x80DC6+bbXTaAVsVHskEb9dBToEz+UHJmAuJatbqNKMJ/u5CcetC8BZL/R9wI89OA/27
+         SJXA==
+X-Gm-Message-State: AOJu0YxO2WvNbSf9QHbnHBkFu0l1CCHJfVRJuj5hLPrei3/TprRdGb4j
+	fERxAcuU/RJcrPJhCw/8+gFjpXTk5Hux273fwKmCw5/lS4ZQeC4I2JqONV7OmiA=
+X-Google-Smtp-Source: AGHT+IG0KNeictXp2keg0xKTrwSw2dpZ3byLRxQUDBWwUtsFo73cuCa8JZLWaGjBv/Dn/iKV+Gzl5g==
+X-Received: by 2002:a05:600c:1f0e:b0:431:5ba2:2450 with SMTP id 5b1f17b1804b1-4319ad253ecmr271545645e9.33.1730722278899;
+        Mon, 04 Nov 2024 04:11:18 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d698144sm156541575e9.39.2024.11.04.04.11.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 04:11:18 -0800 (PST)
+Message-ID: <b823ad91-af5c-43a7-bf16-78d683937e0e@rivosinc.com>
+Date: Mon, 4 Nov 2024 13:11:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="chiq5kZJ1B12zV8S"
-Content-Disposition: inline
-In-Reply-To: <20241103074959.1135240-2-inochiama@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] riscv: hwprobe: export bfloat16 ISA extension
+To: Inochi Amaoto <inochiama@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Evan Green <evan@rivosinc.com>,
+ Charlie Jenkins <charlie@rivosinc.com>,
+ Andrew Jones <ajones@ventanamicro.com>, Andy Chiu <andybnac@gmail.com>,
+ Xiao Wang <xiao.w.wang@intel.com>, Samuel Holland <samuel.holland@sifive.com>
+Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Yixun Lan <dlan@gentoo.org>, Longbin Li <looong.bin@gmail.com>
+References: <20241103074959.1135240-1-inochiama@gmail.com>
+ <20241103074959.1135240-4-inochiama@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <20241103074959.1135240-4-inochiama@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
---chiq5kZJ1B12zV8S
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Sun, Nov 03, 2024 at 03:49:55PM +0800, Inochi Amaoto wrote:
-> @@ -605,6 +623,33 @@ properties:
->          then:
->            contains:
->              const: zca
-> +      # Zfbfmin depends on F
-> +      - if:
-> +          contains:
-> +            const: zfbfmin
-> +        then:
-> +          contains:
-> +            const: f
-> +      # Zvfbfmin depends on V or Zve32f
-> +      - if:
-> +          contains:
-> +            const: zvfbfmin
-> +        then:
-> +          oneOf:
-> +            - contains:
-> +                const: v
-> +            - contains:
-> +                const: zve32f
-> +      # Zvfbfwma depends on Zfbfmin and Zvfbfmin
+On 03/11/2024 08:49, Inochi Amaoto wrote:
+> Export Zfbmin, Zvfbfmin, Zvfbfwma ISA extension through hwprobe.
+> 
+> Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
+> ---
+>  Documentation/arch/riscv/hwprobe.rst  | 12 ++++++++++++
+>  arch/riscv/include/uapi/asm/hwprobe.h |  3 +++
+>  arch/riscv/kernel/sys_hwprobe.c       |  3 +++
+>  3 files changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+> index 85b709257918..8c30dd06f3c0 100644
+> --- a/Documentation/arch/riscv/hwprobe.rst
+> +++ b/Documentation/arch/riscv/hwprobe.rst
+> @@ -239,6 +239,18 @@ The following keys are defined:
+>         ratified in commit 98918c844281 ("Merge pull request #1217 from
+>         riscv/zawrs") of riscv-isa-manual.
+>  
+> +  * :c:macro:`RISCV_HWPROBE_EXT_ZFBFMIN`: The Zfbfmin extension is supported as
+> +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
+> +       ("Added Chapter title to BF16").
+> +
+> +  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFMIN`: The Zvfbfmin extension is supported as
+> +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
+> +       ("Added Chapter title to BF16").
+> +
+> +  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFWMA`: The Zvfbfwma extension is supported as
+> +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
+> +       ("Added Chapter title to BF16").
+> +
+>  * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
+>       :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
+>       mistakenly classified as a bitmask rather than a value.
+> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+> index 1e153cda57db..95d00a065b4e 100644
+> --- a/arch/riscv/include/uapi/asm/hwprobe.h
+> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+> @@ -72,6 +72,9 @@ struct riscv_hwprobe {
+>  #define		RISCV_HWPROBE_EXT_ZCF		(1ULL << 46)
+>  #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
+>  #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
+> +#define		RISCV_HWPROBE_EXT_ZFBFMIN	(1ULL << 49)
+> +#define		RISCV_HWPROBE_EXT_ZVFBFMIN	(1ULL << 50)
+> +#define		RISCV_HWPROBE_EXT_ZVFBFWMA	(1ULL << 51)
+>  #define RISCV_HWPROBE_KEY_CPUPERF_0	5
+>  #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+>  #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+> index cea0ca2bf2a2..de1966bd1776 100644
+> --- a/arch/riscv/kernel/sys_hwprobe.c
+> +++ b/arch/riscv/kernel/sys_hwprobe.c
+> @@ -131,6 +131,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+>  			EXT_KEY(ZVE64D);
+>  			EXT_KEY(ZVE64F);
+>  			EXT_KEY(ZVE64X);
+> +			EXT_KEY(ZVFBFMIN);
+> +			EXT_KEY(ZVFBFWMA);
+>  			EXT_KEY(ZVFH);
+>  			EXT_KEY(ZVFHMIN);
+>  			EXT_KEY(ZVKB);
+> @@ -147,6 +149,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+>  			EXT_KEY(ZCD);
+>  			EXT_KEY(ZCF);
+>  			EXT_KEY(ZFA);
+> +			EXT_KEY(ZFBFMIN);
+>  			EXT_KEY(ZFH);
+>  			EXT_KEY(ZFHMIN);
+>  		}
 
-IMO these contents are statements of the obvious and not needed, but I
-wouldn't bother respinning for that alone.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Looks good to me !
 
+Reviewed-by: Clément Léger <cleger@rivosinc.com>
 
-> +      - if:
-> +          contains:
-> +            const: zvfbfwma
-> +        then:
-> +          allOf:
-> +            - contains:
-> +                const: zfbfmin
-> +            - contains:
-> +                const: zvfbfmin
-
-
---chiq5kZJ1B12zV8S
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZyi5UwAKCRB4tDGHoIJi
-0lKHAQDEI0kOz+OHaroUU4xjzlawxX4O6ZtbtSJqYh5MNgmuPgD/YnypDRlmGdwJ
-65/KZHetJzgdli/qMjrnTBAk5HF8pAs=
-=SPCS
------END PGP SIGNATURE-----
-
---chiq5kZJ1B12zV8S--
+Thanks
