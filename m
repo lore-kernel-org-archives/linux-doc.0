@@ -1,240 +1,389 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2062.outbound.protection.outlook.com [40.107.95.62])
+Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCD5762D2;
-	Tue,  5 Nov 2024 16:25:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730823913; cv=fail; b=gvoCKYnyFsuf+4BlRaF2kREl69gRByIsFWn6ivCzOHCu+w97ka9dY5z7eW1iZvSi528YaD12sHAIXKZBopcRF4feHmkDTkBp6OY2cnnRLf9gp1OIA0JG+wg+AgA12ZCsTQwUqhmzIq9/sVkwfuk/gSqnLZdum2QDcryPOwnz7pc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730823913; c=relaxed/simple;
-	bh=Zs+yfx2SSjVmWng0MD0rz1GJxpfcbz3CjAy8sOZYeuw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=T9ccQ8X21VDsQZT4XTWOkva+gEjUKCtpCf7Fssb4LqMBFAoxkBYH4rn0FFRE4DiavKNxfQoiKL9oOUzQb5o/O2HiNmsceMYL6HlBJXEuPv7qmH9bszkVrMQn52l/yYHkiap5KTMeuRu9ArMOC9/kbfnEC4/PDeVzI4dQZBy7SHE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ebeBpK7v; arc=fail smtp.client-ip=40.107.95.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B513914A09A;
+	Tue,  5 Nov 2024 17:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730827197; cv=none; b=TI7sWXak8APR6cy2LMQMtB9M+zQce1HvTZG0fnjizMZZ3EMOFHILnfOlsvPZMT/yI5jbg6g5dyUj29ofOT5+F8lo8Uy2A/0HYUfyLOlTcnnfgI1gK/zyx8Q3YCJ3krb/Oyax+COqQtvZ7bYIMwA/DexCQSvQYqxAvsjUVFYe7wA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730827197; c=relaxed/simple;
+	bh=/bX30gzCn1WaGdN6UaNjhjh3nLrFDnZyAJu1tkyMiiE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=CI+zM8ONqIeDg7FAHD3V1iO+2NSbWMlGGjYtCe46RE+Cd5XX7CYbmCvfu9B46BdzkSuuPCZ22W1Ndf6qyVZWKLT0DB+Q9t3SlYhWLVlSkMWGoCASAInimHC6yF3TvS1ax0qMMb/iROvUastFtPtv4wau+PhVbxYyEGKzq2vsbqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=Gq+f2AxN; arc=none smtp.client-ip=202.61.224.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ebeBpK7v"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LiU79+etX6ZYz8M/40XFEgrEy7vNmEpcN5mH+ZFqJ4M4nFhBNUw8RawLGtlKveuT3Nfkl5f3mhzRayW+8UZeIkzWtMtluxoudeY5PFfT7neC5aR/JQdKM2RApENSlqO6cTAAJCxIPuUoJaxAAnF6MEsm0Pd3kvSCflcO2G8CDYreMoacsJmYVGRb9goVQKH50Pi6QZ1DyjXU/qvX65w98NinPHe68E29x6aVsBat/8MnWjYZ86eksoXp8IS52jJ6V3YlFEogSWNgpolkTJNB0Yx+w0WsUqq7rT7ZeuCEYCVihklrStkpt851MFO3KjkMoQL/VU02u74P4WqYJ4s37w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zs+yfx2SSjVmWng0MD0rz1GJxpfcbz3CjAy8sOZYeuw=;
- b=Tpm9SX3IxQ3Z3ZPuLs2WfvZZqsrSkqDZX2vAM2N8QtFRfHYzTnlnfjODqy4IHDgRyxtnNyW+d0mjQHbF5IRPWWHU8ue6Au+DcIxujZ5KtFEMCWHTJXD9QCjkEdiblykxFgI/IILzLUKUnBeA3usZP2eg+1r03HQxWqMQRYGRD6Q+8et9O4IU+mdsUrZ1kL24g0tGULT+6sULpVsimX+zfaSgIx1y1ldQYuG5GUUD0b2+43gBOLo6KIU1nvTL7LSxcM8qZaxWOyTCLMpSM9D29sbgw8oTkYItG8RXpbE1s87RoFhJ66trW7xQMxeWB0gDrxLat33N8fFat3T/dK4ocQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zs+yfx2SSjVmWng0MD0rz1GJxpfcbz3CjAy8sOZYeuw=;
- b=ebeBpK7vNw5CHlJ0rlrRcl5NiEnVPfJk3aiVUqoCN4QwTsz9RAkD+ajW8geWJH8bMEvFphWL+Ypdtk7gzaBzKpkMHJSgF37FwSdpx3NCmO5Ay7jlk1b9q3BVI+SjgRx8+1lT1wZQqasFWtKgeMxfbr8mM4fAdJEVS5ff9NWCjlA=
-Received: from SA1PR12MB6945.namprd12.prod.outlook.com (2603:10b6:806:24c::16)
- by DS7PR12MB6333.namprd12.prod.outlook.com (2603:10b6:8:96::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
- 2024 16:25:07 +0000
-Received: from SA1PR12MB6945.namprd12.prod.outlook.com
- ([fe80::67ef:31cd:20f6:5463]) by SA1PR12MB6945.namprd12.prod.outlook.com
- ([fe80::67ef:31cd:20f6:5463%7]) with mapi id 15.20.8137.018; Tue, 5 Nov 2024
- 16:25:07 +0000
-From: "Shah, Amit" <Amit.Shah@amd.com>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "dave.hansen@intel.com"
-	<dave.hansen@intel.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "boris.ostrovsky@oracle.com"
-	<boris.ostrovsky@oracle.com>, "kai.huang@intel.com" <kai.huang@intel.com>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"jpoimboe@kernel.org" <jpoimboe@kernel.org>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "daniel.sneddon@linux.intel.com"
-	<daniel.sneddon@linux.intel.com>, "Lendacky, Thomas"
-	<Thomas.Lendacky@amd.com>, "seanjc@google.com" <seanjc@google.com>,
-	"mingo@redhat.com" <mingo@redhat.com>, "pbonzini@redhat.com"
-	<pbonzini@redhat.com>, "tglx@linutronix.de" <tglx@linutronix.de>, "Moger,
- Babu" <Babu.Moger@amd.com>, "Das1, Sandipan" <Sandipan.Das@amd.com>,
-	"hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
-	<peterz@infradead.org>, "bp@alien8.de" <bp@alien8.de>, "Kaplan, David"
-	<David.Kaplan@amd.com>
-Subject: Re: [PATCH 1/2] x86: cpu/bugs: add support for AMD ERAPS feature
-Thread-Topic: [PATCH 1/2] x86: cpu/bugs: add support for AMD ERAPS feature
-Thread-Index:
- AQHbK6w5P1k2kYbMrUGkcWui1gHZ+rKhfTCAgAVa8wCAAHjUAIAAAJqAgAADwgCAAA9+gIAABmUAgAEbeYCAAF71gIAAAY8A
-Date: Tue, 5 Nov 2024 16:25:07 +0000
-Message-ID: <97f499912538a81f06936ff02e8236bb01a82ae8.camel@amd.com>
-References: <20241031153925.36216-1-amit@kernel.org>
-	 <20241031153925.36216-2-amit@kernel.org>
-	 <05c12dec-3f39-4811-8e15-82cfd229b66a@intel.com>
-	 <4b23d73d450d284bbefc4f23d8a7f0798517e24e.camel@amd.com>
-	 <bb90dce4-8963-476a-900b-40c3c00d8aac@intel.com>
-	 <b79c02aab50080cc8bee132eb5a0b12c42c4be06.camel@amd.com>
-	 <53c918b4-2e03-4f68-b3f3-d18f62d5805c@intel.com>
-	 <3ac6da4a8586014925057a413ce46407b9699fa9.camel@amd.com>
-	 <62063466-69bc-4eca-9f22-492c70b02250@intel.com>
-	 <975a74f19f9c8788e5abe99d37ca2b7697b55a23.camel@amd.com>
-	 <a296a079-fec6-42d7-82fe-b1b7e9004230@intel.com>
-In-Reply-To: <a296a079-fec6-42d7-82fe-b1b7e9004230@intel.com>
-Accept-Language: en-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR12MB6945:EE_|DS7PR12MB6333:EE_
-x-ms-office365-filtering-correlation-id: 373eb63c-6427-43db-3581-08dcfdb66953
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?bmpjd0ZLRnNzdlRzYzEybzRvWXlWSGQwR3l3R0lzZFRUVGhjOTJpZWZ1SGhE?=
- =?utf-8?B?aXgyQVk4bmgyeTlZSU9iREVIRkJZZ0tIMURLREhZbDI2czdlZG1hV3B6bno2?=
- =?utf-8?B?UEh6R1Y5ejFjQ3ZmckxTZkpuUnE4N0VhR2kzV3FFd1pNYnpqVlI4d28xdjZx?=
- =?utf-8?B?SUhiSkFSUVJpb0lhUU5MM2txQ2d4KzQrREI4d3g3RFErVk1qZVkwWVBGUGp4?=
- =?utf-8?B?L2FYMU0wUk1ERW9zaThlVGZ6cnlTdWUrY1lqcVRHMVBtbE9nakhDckFrT3hQ?=
- =?utf-8?B?dEtpQ3liTkxOeGtpUFlWREU2N2RITi9pZC9wdU9OZE04WFlNaXFqMGxiMlV0?=
- =?utf-8?B?RTVsVEN2OEEzODlJa3V4b2Q0UXc4bjNPdG0rZ01tYjJEYi9NdEVyR0E0aDZh?=
- =?utf-8?B?YW1DUndxcXJVQXJhUGlWYU8wVnR4bEQ1NWIxUlBUMmNkOWhIaTZrbGVrOVlI?=
- =?utf-8?B?RUxRSmQrTGhjSmkxOXJ5cUtCamxzSTFWSjBRQ3ZVTk94YVl3ZkxENy9xdGo4?=
- =?utf-8?B?Z1NsNkZVV2tPR05XZmpneG93czRIS2t1YUdUSldVZUc5M0N3Z1krL0M5akFV?=
- =?utf-8?B?K0xWa2hQVm9GYXdOV09zMW9ydElPeVRuSVV1STJTa0xUbnA3T0xaR0Vna2ha?=
- =?utf-8?B?K0pxQ3l3ZUhhM2NDUTJxem5TajJiSU4yQTJsR3Q3L0RKVHlXNnBFK1RuY3BQ?=
- =?utf-8?B?UlBFenliKzRrWTJLQ3FFTmJZNkE3Nkdad3VUSDVHOXZxelBhcVRyclkzSTR3?=
- =?utf-8?B?aUNFUUJMdHZObHZDMGJnSk5RTGVtV3FQUG9BQXI5SGJkOElvTFFRTGlwaENp?=
- =?utf-8?B?azlTTFM2cnJhem1LWGNzWG9pR29yR01JSVR4aWFNVGV3eVdVUGJwNmRxRGND?=
- =?utf-8?B?QmltVFN3eWhUT0p2U0lScERSSEIrdDA0QTlwOWVBUWtTcnQ3UFBKY3hQMUcw?=
- =?utf-8?B?UEZQYXUvSUgxMUJxaENzNFBSSzQ1LzRMSmEyQUdLMjd3aDM5NU0xOEhZWmVJ?=
- =?utf-8?B?aCtTd1VVTmlPbm1NSExET2lGa014cmVZNWZtamhxeUMvUC9Ocm1FdDBMM3BI?=
- =?utf-8?B?MmVPdWxwQXdESFJrK2hXQXBIMWZOMjd2dUxpQkhIdG10eUpjb3htenhGMy9Y?=
- =?utf-8?B?Q2xZaXF6WFkrMjhOYnhmNjh5NlovOHdMQm1lNS9DSnNmRVRMczJFY2JsQWJT?=
- =?utf-8?B?VXFaVEtENGJFcnVHZVRFWk0rQ1RxeUpudTZVYUx0a01UMVhNUGh6c3phdVFT?=
- =?utf-8?B?ekFxbHJkTjRwaGR2d0JxQWpudTBpNGdZZGF3dlNSNkRjY0MyN05NZ25YQUtl?=
- =?utf-8?B?MlY1VlJBN3B4U0FjcGhPTEdKdmF4Zm1mSm5mbWtSNEdKWmtNNyt5OWt4bkY2?=
- =?utf-8?B?T0QrREJoSEhoWExGcEp1Zi9UVmpURkVyR0JlZHlIWVVmRUVQYTZSU2Nxd1lU?=
- =?utf-8?B?YjZqWkVqbjVXQktPTWU5Vk93UStFV1hyQ3ZZdkxnOGp4a1RLQVNnb1k2OVAw?=
- =?utf-8?B?cERDdWlRWEl3amgwMnExZEpSODRjRlhwM1U0cGVobk9vVVJUM2ozZVgweXpW?=
- =?utf-8?B?UTJXc2ZuaVRIVjdWRGs3YmkyM1E0UVpuY1ltNTJhSEt3dFhKUHNrZ1BnUlc5?=
- =?utf-8?B?UWRMSlFaemdNZktNYlMrQzBKTUZzQmEzZWRJVW13cGdZZ21HYm1wK1JhZmlD?=
- =?utf-8?B?a0hKZ1dKQldlZko3MlhHVnZONG5BUlVob2dZTFNrVXIzd0pNMFA5QStpdHha?=
- =?utf-8?Q?c4yOPkbrXKwsOFsVhhEyOTCroTX5EBxLOtmkzVQ?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB6945.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?U2RvajdRanlSMzlRL3RITzdReEIxOUx1L0ZvekcwUjRwdzRaNGl1VXIzd2dQ?=
- =?utf-8?B?dllkQnpZY25iVG03UnRTRHI0WDdZSGRWK0l6K1BmSDNEN0thdDN4bmxNSzhp?=
- =?utf-8?B?K1BTWEFwUy9QaUh0S2NiZnN0ZmJkeDFUVmhFZ0NRZndhTmIweDl5cDU3ZFJE?=
- =?utf-8?B?UWZCZ21OVS9vKy9wd3N0N25NTXIrOGxYWVhqMU1jMkxOdXhxL1pIZ3E0cWNF?=
- =?utf-8?B?Q3duTjVqQ01jQ1lCNVREVXZtZW9sbWtEYWJVWlErMktNTExFL3JsWHIvcGJY?=
- =?utf-8?B?WEZLL0JvaGxXZ2h6V2s0d0lUMGxWbk1ZZnNERTF2aEVjNjZYa3dNcnRJa2pB?=
- =?utf-8?B?OEVEc0NReHVxVEppZFBaQUJiY29HLzIxd0sxN2lOeXlJdEdmNU1YRGw4MWN0?=
- =?utf-8?B?SWRLMTlKUzZhTHZvVm1UWVRES2lmQXlsWFozL1JYUEREYVh2bU8zVGgxU2dx?=
- =?utf-8?B?eWY3bmFjMnZLMVZNalBCNmFkdFlCZ05EYVlRR3ZMM2NaOXVwdmpQY3pVWFg3?=
- =?utf-8?B?R1ZZckFTTnlrVm5xclpobjMya2JPL0FQbHBzTGYxekpBenJIWnBJT0Y2b0JF?=
- =?utf-8?B?MjBQSG1FT2dZN2w4aVFzdHhwTEZlamFhb0JrRmpoa1MwNHYwMG42YWxiMlFC?=
- =?utf-8?B?WEJ2clFmVE5NdTVTYjVPckhxUjlKb0dsRVFYeWt3Z2p1WWtsRThiemtzU0d4?=
- =?utf-8?B?MkowaEJnbGlEYW12YmlvaW1Bck81d0hObGRjYXpIV08rVEVwdWVNc3FmOE9P?=
- =?utf-8?B?K0pJQzNWSlQxanFHS2FpM1EvdU5hRnlIT2REdXM2U1czUWpyNkxkbnQxS0FH?=
- =?utf-8?B?eGRSeFh1cVFGaTAzWlN0alZhTU1KNHpWQ0Rqd3lNcEVWa2ZpNFI1ZDJKWExx?=
- =?utf-8?B?VmlXWVN5MnZrdTlJaUFmcklQR09ncENFUkkvSzg0OGpiNlhzNGtzRUlNZXda?=
- =?utf-8?B?dld3emJwQVFQMDFsb0xUajBIeC9QMjlXcEhOSzFBckgyZ2FZZjBha2JIdDNL?=
- =?utf-8?B?MWtWR05ES2Q1S0NiNXNlVUdJTXNSbU5RVllleGhzdjFGYzRicTJUSVdFNWt6?=
- =?utf-8?B?Nnh1TTNMdWFJbTB6S2ZKYnFjZDhGeWU1c1EwVU9EK0hnL055ajh3cEZxM0Rh?=
- =?utf-8?B?UTIwak1EWjBjOXY5SXRFN0tpaTV0R2FtK0V0cXBHZStOTTVFRXI0cjNTMFBo?=
- =?utf-8?B?N29SOWRmOHV4dEJ5OUk3R2RFczhJcTJFcEdjKzFaaHR4Yjdnc01IaDBUeU1j?=
- =?utf-8?B?dFNGQ1N2cGRZdzhWWEthalloVklLR1I4YnZaZzlldmlBUlpPU0Q2cExXNW9Z?=
- =?utf-8?B?V1Zndnp4T29oZ29uNnVOdWgwYngxRlhIZkJoRHlEY1RhbTNvb2hlSE10RGRJ?=
- =?utf-8?B?c1gxSWF3RVFuVDM5Q3VDSHNLUkJxOWZvVVZ4VXk0cms3V3J3elJyQjdGNVNR?=
- =?utf-8?B?bWlDU2ljR3NKNUtvQ0FIK3NaVDRMWnV6Vk5lUEpOMVdEZmtXOGFiNU5jQTNG?=
- =?utf-8?B?VXlpMTlCNW01aTc4Tm4rTXkxUHRrdkI4RUFINUZFeitzUUprT3hGc2l3V3Jt?=
- =?utf-8?B?Z01JVDk1THZpczlmWWorQURoT1hnSkV2a2gwVWVFSnFIRG91aXBlczVIQkNv?=
- =?utf-8?B?OFVzUFdUSUh0bTB3TWlnSVJnVnF5Rzk3Um1udVFjTWM2ajU3S3NsYVd6cGNW?=
- =?utf-8?B?OVpReXVmNTZNMWtTQ3lzZ0RUQXlXOHVZSmxzbjdXRVYzNXdXWnFjYXJEZzhJ?=
- =?utf-8?B?dXFSd1N3QktnVGV0dFZXZVhSQ3B0ZmRTdUpkSmEwNFhHTlpEdlExOWVweCtp?=
- =?utf-8?B?ZVE5dDQ0Qk9lSmt6aVdjQnBkQ1BWRm5lREhEZ1QyRXdnSU9QWVpoZmFzUGRa?=
- =?utf-8?B?MDltOCtnQnRVNE95bE9wVDZxYi9nU0czNERLZmlnQ2k3UU5pc1QrdEtONlZ4?=
- =?utf-8?B?K3pOSDRVYzhyZ2VtVmJ5K0kySzUwOVhaNmNEenMwbU5pSVlVS3Zkdm5LUE1v?=
- =?utf-8?B?ZkJjZnhRRHMyenN1Wi96NC82LzZQSzQ1ay9KUFNNSUVpdjVjY2RnNTRHbDg4?=
- =?utf-8?B?VS83MjNucEdLc3hYRzdPc3hYa0tuNFphSXd6NzZXV1JsQW1RN1VWaUVOd0dm?=
- =?utf-8?Q?d4R3qAipPgBKZ/j4VkLtTakS5?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DF149BA0A867A34CBA7B9E5021C2568E@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="Gq+f2AxN"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 282912805B7;
+	Tue,  5 Nov 2024 18:19:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
+	t=1730827190; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=vgfw7rDj5f/syr7E1CkO3oIgV84tN86uVeGmrlkmarQ=;
+	b=Gq+f2AxNGuD3AduQOgJrrNil0VAYXQ04QWw1/94m/8D7pERLY9aqAipNvYA7dFE4UMQEMW
+	XzPSHY/nep8AlD2jD6PYYFkAK8S8+9mmZe7eo70X8HvGBXZYLvYzPnTO9R8evFbQBUdWSY
+	BeRWGUAPJ2OiH0wIDUuJLB7rXQELe3+zDaCUfUe0IH5HRc32EudTip5wBmqkcGjCtHsrjd
+	oA9GxucR1qjMb0jXIaoS7hPX1xJZkM36Zm7qQN0ioJFQrNy+pMvt6KZShGVb3hdf+5ZQOU
+	83n95TeQ6pjdc+fyeFnGwNfHlKiP+YnJSfcEJg3GRO26RvTDHI3MJqVzf3dV7A==
+Message-ID: <e9889ff1-053a-4acf-bb45-ee31d255da2a@cachyos.org>
+Date: Tue, 5 Nov 2024 18:19:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB6945.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 373eb63c-6427-43db-3581-08dcfdb66953
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2024 16:25:07.2165
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9tj7d5PaTvC03vG5G/xHHF2Yh8N8xhmYLShopTZ4E5U6gcZesRw9FlfxUii+E/HFEQaNkf2LfKJwmKp7PiDchQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6333
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/7] Add AutoFDO support for Clang build
+From: Peter Jung <ptr1337@cachyos.org>
+To: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>,
+ Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>,
+ Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Juergen Gross <jgross@suse.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ "Mike Rapoport (IBM)" <rppt@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner
+ <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>,
+ workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Maksim Panchenko <max4bolt@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>,
+ Krzysztof Pszeniczny <kpszeniczny@google.com>,
+ Sriraman Tallam <tmsriram@google.com>, Stephane Eranian
+ <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20241102175115.1769468-1-xur@google.com>
+ <20241102175115.1769468-2-xur@google.com>
+ <09349180-027a-4b29-a40c-9dc3425e592c@cachyos.org>
+ <3183ab86-8f1f-4624-9175-31e77d773699@cachyos.org>
+ <CACkGtrgOw8inYCD96ot_w9VwzoFvvgCReAx0P-=Rxxqj2FT4_A@mail.gmail.com>
+ <67c07d2f-fb1f-4b7d-96e2-fb5ceb8fc692@cachyos.org>
+ <CACkGtrgJHtG5pXR1z=6G4XR6ffT5jEi3jZQo=UhYj091naBhsA@mail.gmail.com>
+ <CAF1bQ=SbeR3XhFc7JYGOh69JZfAwQV8nupAQM+ZxpzNEFUFxJw@mail.gmail.com>
+ <449fddd2-342f-48cc-9a11-8a34814f1284@cachyos.org>
+ <e4dad58c-e329-4e9a-aa6f-8b08bdf8f350@cachyos.org>
+Content-Language: en-US
+Organization: CachyOS
+In-Reply-To: <e4dad58c-e329-4e9a-aa6f-8b08bdf8f350@cachyos.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-T24gVHVlLCAyMDI0LTExLTA1IGF0IDA4OjE5IC0wODAwLCBEYXZlIEhhbnNlbiB3cm90ZToNCj4g
-T24gMTEvNS8yNCAwMjozOSwgU2hhaCwgQW1pdCB3cm90ZToNCj4gPiBPbiBNb24sIDIwMjQtMTEt
-MDQgYXQgMDk6NDUgLTA4MDAsIERhdmUgSGFuc2VuIHdyb3RlOg0KPiA+IEknbSBleHBlY3Rpbmcg
-dGhlIEFQTSB1cGRhdGUgY29tZSBvdXQgc29vbiwgYnV0IEkgaGF2ZSBwdXQgdG9nZXRoZXINCj4g
-PiANCj4gPiBodHRwczovL2FtaXRzaGFoLm5ldC8yMDI0LzExL2VyYXBzLXJlZHVjZXMtc29mdHdh
-cmUtdGF4LWZvci1oYXJkd2FyZS1idWdzLw0KPiA+IA0KPiA+IGJhc2VkIG9uIGluZm9ybWF0aW9u
-IEkgaGF2ZS7CoCBJIHRoaW5rIGl0J3MgbW9zdGx5IGNvbnNpc3RlbnQgd2l0aA0KPiA+IHdoYXQN
-Cj4gPiBJJ3ZlIHNhaWQgc28gZmFyIC0gd2l0aCB0aGUgZXhjZXB0aW9uIG9mIHRoZSBtb3YtQ1Iz
-IGZsdXNoIG9ubHkNCj4gPiBjb25maXJtZWQgeWVzdGVyZGF5Lg0KPiANCj4gVGhhdCdzIGJldHRl
-ci7CoCBCdXQgeW91ciBvcmlnaW5hbCBjb3ZlciBsZXR0ZXIgZGlkIHNheToNCj4gDQo+IAlGZWF0
-dXJlIGRvY3VtZW50ZWQgaW4gQU1EIFBQUiA1NzIzOC4NCj4gDQo+IHdoaWNoIGlzIHRlY2huaWNh
-bGx5IHRydWUgYmVjYXVzZSB0aGUgX2JpdF8gaXMgZGVmaW5lZC7CoCBCdXQgaXQncw0KPiBmYXIs
-DQo+IGZhciBmcm9tIGJlaW5nIHN1ZmZpY2llbnRseSBkb2N1bWVudGVkIGZvciBMaW51eCB0byBh
-Y3R1YWxseSB1c2UgaXQuDQoNClllYTsgYXBvbG9naWVzLg0KDQo+IENvdWxkIHdlIHBsZWFzZSBi
-ZSBtb3JlIGNhcmVmdWwgYWJvdXQgdGhlc2UgaW4gdGhlIGZ1dHVyZT8NCj4gDQo+ID4gPiBTbywg
-SSdsbCBmbGlwIHRoaXMgYmFjayBhcm91bmQuwqAgVG9kYXksIFg4Nl9GRUFUVVJFX1JTQl9DVFhT
-Vw0KPiA+ID4gemFwcw0KPiA+ID4gdGhlDQo+ID4gPiBSU0Igd2hlbmV2ZXIgUlNQIGlzIHVwZGF0
-ZWQgdG8gYSBuZXcgdGFzayBzdGFjay7CoCBQbGVhc2UgY29udmluY2UNCj4gPiA+IG1lDQo+ID4g
-PiB0aGF0IEVSQVBTIHByb3ZpZGVzIHN1cGVyaW9yIGNvdmVyYWdlIG9yIGlzIHVubmVjZXNzYXJ5
-IGluIGFsbA0KPiA+ID4gdGhlDQo+ID4gPiBwb3NzaWJsZSBjb21iaW5hdGlvbnMgc3dpdGNoaW5n
-IGJldHdlZW46DQo+ID4gPiANCj4gPiA+IAlkaWZmZXJlbnQgdGhyZWFkLCBzYW1lIG1tDQo+ID4g
-DQo+ID4gVGhpcyBjYXNlIGlzIHRoZSBzYW1lIHVzZXJzcGFjZSBwcm9jZXNzIHdpdGggdmFsaWQg
-YWRkcmVzc2VzIGluIHRoZQ0KPiA+IFJTQg0KPiA+IGZvciB0aGF0IHByb2Nlc3MuwqAgQW4gaW52
-YWxpZCBzcGVjdWxhdGlvbiBpc24ndCBzZWN1cml0eSBzZW5zaXRpdmUsDQo+ID4ganVzdCBhIG1p
-c3ByZWRpY3Rpb24gdGhhdCB3b24ndCBiZSByZXRpcmVkLsKgIFNvIHdlIGFyZSBnb29kIGhlcmUu
-DQo+IA0KPiBEb2VzIHRoYXQgbWF0Y2ggd2hhdCB0aGUgX19zd2l0Y2hfdG9fYXNtIGNvbW1lbnQg
-c2F5cywgdGhvdWdoPw0KPiANCj4gPiDCoMKgwqDCoMKgwqDCoCAvKg0KPiA+IMKgwqDCoMKgwqDC
-oMKgwqAgKiBXaGVuIHN3aXRjaGluZyBmcm9tIGEgc2hhbGxvd2VyIHRvIGEgZGVlcGVyIGNhbGwg
-c3RhY2sNCj4gPiDCoMKgwqDCoMKgwqDCoMKgICogdGhlIFJTQiBtYXkgZWl0aGVyIHVuZGVyZmxv
-dyBvciB1c2UgZW50cmllcyBwb3B1bGF0ZWQNCj4gPiDCoMKgwqDCoMKgwqDCoMKgICogd2l0aCB1
-c2Vyc3BhY2UgYWRkcmVzc2VzLiBPbiBDUFVzIHdoZXJlIHRob3NlIGNvbmNlcm5zDQo+ID4gwqDC
-oMKgwqDCoMKgwqDCoCAqIGV4aXN0LCBvdmVyd3JpdGUgdGhlIFJTQiB3aXRoIGVudHJpZXMgd2hp
-Y2ggY2FwdHVyZQ0KPiA+IMKgwqDCoMKgwqDCoMKgwqAgKiBzcGVjdWxhdGl2ZSBleGVjdXRpb24g
-dG8gcHJldmVudCBhdHRhY2suDQo+ID4gwqDCoMKgwqDCoMKgwqDCoCAqLw0KPiANCj4gSXQgaXMg
-YWxzbyB0YWxraW5nIGp1c3QgYWJvdXQgY2FsbCBkZXB0aCwgbm90IGFib3V0IHNhbWUtYWRkcmVz
-cy0NCj4gc3BhY2UNCj4gUlNCIGVudHJpZXMgYmVpbmcgaGFybWxlc3MuwqAgVGhhdCdzIGJlY2F1
-c2UgdGhpcyBpcyBhbHNvIHRyeWluZyB0bw0KPiBhdm9pZA0KPiBoYXZpbmcgdGhlIGtlcm5lbCBj
-b25zdW1lIGFueSB1c2VyLXBsYWNlZCBSU0IgZW50cmllcywgcmVnYXJkbGVzcyBvZg0KPiB3aGV0
-aGVyIHRoZXkncmUgZnJvbSB0aGUgc2FtZSBtbSBvciBub3QuDQo+IA0KPiA+ID4gCXVzZXI9Pmtl
-cm5lbCwgc2FtZSBtbQ0KPiA+ID4gCWtlcm5lbD0+dXNlciwgc2FtZSBtbQ0KPiA+IA0KPiA+IHVz
-ZXIta2VybmVsIGlzIHByb3RlY3RlZCB3aXRoIFNNRVAuwqAgQWxzbywgd2UgZG9uJ3QgY2FsbA0K
-PiA+IEZJTExfUkVUVVJOX0JVRkZFUiBmb3IgdGhlc2Ugc3dpdGNoZXM/DQo+IA0KPiBBbWl0LCBJ
-J20gYmVnaW5uaW5nIHRvIGZlYXIgdGhhdCB5b3UgaGF2ZW4ndCBnb25lIGFuZCBsb29rZWQgYXQg
-dGhlDQo+IHJlbGV2YW50IGNvZGUgaGVyZS7CoCBQbGVhc2UgZ28gbG9vayBhdA0KPiBTWU1fRlVO
-Q19TVEFSVChfX3N3aXRjaF90b19hc20pDQo+IGluIGFyY2gveDg2L2VudHJ5L2VudHJ5XzY0LlMu
-wqAgSSBiZWxpZXZlIHRoaXMgY29kZSBpcyBjYWxsZWQgZm9yIGFsbA0KPiB0YXNrIHN3aXRjaGVz
-LCBpbmNsdWRpbmcgc3dpdGNoaW5nIGZyb20gYSB1c2VyIHRhc2sgdG8gYSBrZXJuZWwNCj4gdGFz
-ay7CoCBJDQo+IGFsc28gYmVsaWV2ZSB0aGF0IEZJTExfUkVUVVJOX0JVRkZFUiBpcyB1c2VkIHVu
-Y29uZGl0aW9uYWxseSBmb3INCj4gZXZlcnkNCj4gX19zd2l0Y2hfdG9fYXNtIGNhbGwgKHdoZW4g
-WDg2X0ZFQVRVUkVfUlNCX0NUWFNXIGlzIG9uIG9mIGNvdXJzZSkuDQo+IA0KPiBDb3VsZCB3ZSBw
-bGVhc2Ugc3RhcnQgb3ZlciBvbiB0aGlzIHBhdGNoPw0KPiANCj4gTGV0J3MgZ2V0IHRoZSBFUkFQ
-UytUTEItZmx1c2ggbm9uc2Vuc2Ugb3V0IG9mIHRoZSBrZXJuZWwgYW5kIGdldCB0aGUNCj4gY29t
-bWl0IG1lc3NhZ2UgcmlnaHQuDQo+IA0KPiBUaGVuIGxldCdzIGdvIGZyb20gdGhlcmUuDQoNCkFs
-cmlnaHQgLSB5b3UndmUgYmVlbiByZWFsbHkgcGF0aWVudCwgc28gdGhhbmtzIGZvciB0aGF0LiAg
-SSBhZ3JlZSBJJ2xsDQpwb3N0IGEgdjIgd2l0aCB1cGRhdGVkIGNvbW1pdCBtZXNzYWdlcywgYW5k
-IHRoZW4gY29udGludWUgdGhpcw0KZGlzY3Vzc2lvbiBvbiB1c2VyL2tlcm5lbCB0YXNrIHN3aXRj
-aC4gIEFuZCBJJ2xsIGFsc28gYWRkIGFuIFJGQyB0YWcgdG8NCml0IHRvIGVuc3VyZSBpdCBkb2Vz
-bid0IGdldCBwaWNrZWQgdXAuDQoNCgkJQW1pdA0K
+Here the bugreport, in case someone wants to track it:
+
+https://sourceware.org/bugzilla/show_bug.cgi?id=32340
+
+On 05.11.24 15:56, Peter Jung wrote:
+> You were right - reverting commit:
+> https://github.com/bminor/binutils-gdb/commit/ 
+> b20ab53f81db7eefa0db00d14f06c04527ac324c from the 2.43 branch does fix 
+> the packaging.
+> 
+> I will forward this to an issue at their bugzilla.
+> 
+> On 05.11.24 15:33, Peter Jung wrote:
+>> Hi Rong,
+>>
+>> Glad that you were able to reproduce the issue!
+>> Thanks for finding the root cause as well as the part of the code. 
+>> This really helps.
+>>
+>> I was able to do a successful packaging with binutils 2.42.
+>> Lets forward this to the binutils tracker and hope this will be soon 
+>> solved. 🙂
+>>
+>> I have tested this also on the latest commit 
+>> (e1e4078ac59740a79cd709d61872abe15aba0087) and the issue is also 
+>> reproducible there.
+>>
+>> Thanks for your time! I dont see this as blocker. 🙂
+>> It gets time to get this series merged :P
+>>
+>> Best regards,
+>>
+>> Peter
+>>
+>>
+>>
+>> On 05.11.24 08:25, Rong Xu wrote:
+>>> We debugged this issue and we found the failure seems to only happen
+>>> with strip (version 2.43) in binutil.
+>>>
+>>> For a profile-use compilation, either with -fprofile-use (PGO or
+>>> iFDO), or -fprofile-sample-use (AutoFDO),
+>>> an ELF section of .llvm.call-graph-profile is created for the object.
+>>> For some reasons (like to save space?),
+>>> the relocations in this section are of type "rel', rather the more
+>>> common "rela" type.
+>>>
+>>> In this case,
+>>> $ readelf -r kvm.ko |grep llvm.call-graph-profile
+>>> Relocation section '.rel.llvm.call-graph-profile' at offset 0xf62a00
+>>> contains 4 entries:
+>>>
+>>> strip (v2.43.0) has difficulty handling the relocations in
+>>> .rel.llvm.call-graph-profile -- it silently failed with --strip-debug.
+>>> But strip (v.2.42) has no issue with kvm.ko. The strip in llvm (i.e.
+>>> llvm-strip) also passes with kvm.ko
+>>>
+>>> I compared binutil/strip source code for version v2.43.0 and v2.42.
+>>> The different is around here:
+>>> In v2.42 of bfd/elfcode.h
+>>>     1618       if ((entsize == sizeof (Elf_External_Rela)
+>>>     1619            && ebd->elf_info_to_howto != NULL)
+>>>     1620           || ebd->elf_info_to_howto_rel == NULL)
+>>>     1621         res = ebd->elf_info_to_howto (abfd, relent, &rela);
+>>>     1622       else
+>>>     1623         res = ebd->elf_info_to_howto_rel (abfd, relent, &rela);
+>>>
+>>> In v2.43.0 of bfd/elfcode.h
+>>>     1618       if (entsize == sizeof (Elf_External_Rela)
+>>>     1619           && ebd->elf_info_to_howto != NULL)
+>>>     1620         res = ebd->elf_info_to_howto (abfd, relent, &rela);
+>>>     1621       else if (ebd->elf_info_to_howto_rel != NULL)
+>>>     1622         res = ebd->elf_info_to_howto_rel (abfd, relent, &rela);
+>>>
+>>> In the 2.43 strip, line 1618 is false and line 1621 is also false.
+>>> "res" is returned as false and the program exits with -1.
+>>>
+>>> While in 2.42, line 1620 is true and we get "res" from line 1621 and
+>>> program functions correctly.
+>>>
+>>> I'm not familiar with binutil code base and don't know the reason for
+>>> removing line 1620.
+>>> I can file a bug for binutil for people to further investigate this.
+>>>
+>>> It seems to me that this issue should not be a blocker for our patch.
+>>>
+>>> Regards,
+>>>
+>>> -Rong
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> On Mon, Nov 4, 2024 at 12:24 PM Han Shen<shenhan@google.com> wrote:
+>>>> Hi Peter,
+>>>> Thanks for providing the detailed reproduce.
+>>>> Now I can see the error (after I synced to 6.12.0-rc6, I was using 
+>>>> rc5).
+>>>> I'll look into that and report back.
+>>>>
+>>>>> I have tested your provided method, but the AutoFDO profile (lld does
+>>>> not get lto-sample-profile=$pathtoprofile passed)
+>>>>
+>>>> I see. You also turned on ThinLTO, which I didn't, so the profile was
+>>>> only used during compilation, not passed to lld.
+>>>>
+>>>> Thanks,
+>>>> Han
+>>>>
+>>>> On Mon, Nov 4, 2024 at 9:31 AM Peter Jung<ptr1337@cachyos.org> wrote:
+>>>>> Hi Han,
+>>>>>
+>>>>> I have tested your provided method, but the AutoFDO profile (lld does
+>>>>> not get lto-sample-profile=$pathtoprofile passed)  nor Clang as 
+>>>>> compiler
+>>>>> gets used.
+>>>>> Please replace following PKGBUILD and config from linux-mainline with
+>>>>> the provided one in the gist. The patch is also included there.
+>>>>>
+>>>>> https://gist.github.com/ptr1337/c92728bb273f7dbc2817db75eedec9ed
+>>>>>
+>>>>> The main change I am doing here, is passing following to the build 
+>>>>> array
+>>>>> and replacing "make all":
+>>>>>
+>>>>> make LLVM=1 LLVM_IAS=1 CLANG_AUTOFDO_PROFILE=${srcdir}/perf.afdo all
+>>>>>
+>>>>> When compiling the kernel with makepkg, this results at the 
+>>>>> packaging to
+>>>>> following issue and can be reliable reproduced.
+>>>>>
+>>>>> Regards,
+>>>>>
+>>>>> Peter
+>>>>>
+>>>>>
+>>>>> On 04.11.24 05:50, Han Shen wrote:
+>>>>>> Hi Peter, thanks for reporting the issue. I am trying to reproduce it
+>>>>>> in the up-to-date archlinux environment. Below is what I have:
+>>>>>>     0. pacman -Syu
+>>>>>>     1. cloned archlinux build files from
+>>>>>> https://aur.archlinux.org/linux-mainline.git the newest mainline
+>>>>>> version is 6.12rc5-1.
+>>>>>>     2. changed the PKGBUILD file to include the patches series
+>>>>>>     3. changed the "config" to turn on clang autofdo
+>>>>>>     4. collected afdo profiles
+>>>>>>     5. MAKEFLAGS="-j48 V=1 LLVM=1 CLANG_AUTOFDO_PROFILE=$(pwd)/ 
+>>>>>> perf.afdo" \
+>>>>>>           makepkg -s --skipinteg --skippgp
+>>>>>>     6. install and reboot
+>>>>>> The above steps succeeded.
+>>>>>> You mentioned the error happens at "module_install", can you instruct
+>>>>>> me how to execute the "module_install" step?
+>>>>>>
+>>>>>> Thanks,
+>>>>>> Han
+>>>>>>
+>>>>>> On Sat, Nov 2, 2024 at 12:53 PM Peter Jung<ptr1337@cachyos.org> 
+>>>>>> wrote:
+>>>>>>>
+>>>>>>> On 02.11.24 20:46, Peter Jung wrote:
+>>>>>>>> On 02.11.24 18:51, Rong Xu wrote:
+>>>>>>>>> Add the build support for using Clang's AutoFDO. Building the 
+>>>>>>>>> kernel
+>>>>>>>>> with AutoFDO does not reduce the optimization level from the
+>>>>>>>>> compiler. AutoFDO uses hardware sampling to gather information 
+>>>>>>>>> about
+>>>>>>>>> the frequency of execution of different code paths within a 
+>>>>>>>>> binary.
+>>>>>>>>> This information is then used to guide the compiler's optimization
+>>>>>>>>> decisions, resulting in a more efficient binary. Experiments
+>>>>>>>>> showed that the kernel can improve up to 10% in latency.
+>>>>>>>>>
+>>>>>>>>> The support requires a Clang compiler after LLVM 17. This 
+>>>>>>>>> submission
+>>>>>>>>> is limited to x86 platforms that support PMU features like LBR on
+>>>>>>>>> Intel machines and AMD Zen3 BRS. Support for SPE on ARM 1,
+>>>>>>>>>     and BRBE on ARM 1 is part of planned future work.
+>>>>>>>>>
+>>>>>>>>> Here is an example workflow for AutoFDO kernel:
+>>>>>>>>>
+>>>>>>>>> 1) Build the kernel on the host machine with LLVM enabled, for 
+>>>>>>>>> example,
+>>>>>>>>>           $ make menuconfig LLVM=1
+>>>>>>>>>        Turn on AutoFDO build config:
+>>>>>>>>>          CONFIG_AUTOFDO_CLANG=y
+>>>>>>>>>        With a configuration that has LLVM enabled, use the 
+>>>>>>>>> following
+>>>>>>>>>        command:
+>>>>>>>>>           scripts/config -e AUTOFDO_CLANG
+>>>>>>>>>        After getting the config, build with
+>>>>>>>>>          $ make LLVM=1
+>>>>>>>>>
+>>>>>>>>> 2) Install the kernel on the test machine.
+>>>>>>>>>
+>>>>>>>>> 3) Run the load tests. The '-c' option in perf specifies the 
+>>>>>>>>> sample
+>>>>>>>>>       event period. We suggest     using a suitable prime number,
+>>>>>>>>>       like 500009, for this purpose.
+>>>>>>>>>       For Intel platforms:
+>>>>>>>>>          $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c
+>>>>>>>>> <count> \
+>>>>>>>>>            -o <perf_file> -- <loadtest>
+>>>>>>>>>       For AMD platforms:
+>>>>>>>>>          The supported system are: Zen3 with BRS, or Zen4 with 
+>>>>>>>>> amd_lbr_v2
+>>>>>>>>>         For Zen3:
+>>>>>>>>>          $ cat proc/cpuinfo | grep " brs"
+>>>>>>>>>          For Zen4:
+>>>>>>>>>          $ cat proc/cpuinfo | grep amd_lbr_v2
+>>>>>>>>>          $ perf record --pfm-events 
+>>>>>>>>> RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k
+>>>>>>>>> -a \
+>>>>>>>>>            -N -b -c <count> -o <perf_file> -- <loadtest>
+>>>>>>>>>
+>>>>>>>>> 4) (Optional) Download the raw perf file to the host machine.
+>>>>>>>>>
+>>>>>>>>> 5) To generate an AutoFDO profile, two offline tools are 
+>>>>>>>>> available:
+>>>>>>>>>       create_llvm_prof and llvm_profgen. The create_llvm_prof 
+>>>>>>>>> tool is part
+>>>>>>>>>       of the AutoFDO project and can be found on GitHub
+>>>>>>>>>       (https://github.com/google/autofdo), version v0.30.1 or 
+>>>>>>>>> later. The
+>>>>>>>>>       llvm_profgen tool is included in the LLVM compiler 
+>>>>>>>>> itself. It's
+>>>>>>>>>       important to note that the version of llvm_profgen 
+>>>>>>>>> doesn't need to
+>>>>>>>>>       match the version of Clang. It needs to be the LLVM 19 
+>>>>>>>>> release or
+>>>>>>>>>       later, or from the LLVM trunk.
+>>>>>>>>>          $ llvm-profgen --kernel --binary=<vmlinux> --
+>>>>>>>>> perfdata=<perf_file> \
+>>>>>>>>>            -o <profile_file>
+>>>>>>>>>       or
+>>>>>>>>>          $ create_llvm_prof --binary=<vmlinux> -- 
+>>>>>>>>> profile=<perf_file> \
+>>>>>>>>>            --format=extbinary --out=<profile_file>
+>>>>>>>>>
+>>>>>>>>>       Note that multiple AutoFDO profile files can be merged 
+>>>>>>>>> into one via:
+>>>>>>>>>          $ llvm-profdata merge -o <profile_file>  <profile_1> ...
+>>>>>>>>> <profile_n>
+>>>>>>>>>
+>>>>>>>>> 6) Rebuild the kernel using the AutoFDO profile file with the 
+>>>>>>>>> same config
+>>>>>>>>>       as step 1, (Note CONFIG_AUTOFDO_CLANG needs to be enabled):
+>>>>>>>>>          $ make LLVM=1 CLANG_AUTOFDO_PROFILE=<profile_file>
+>>>>>>>>>
+>>>>>>>>> Co-developed-by: Han Shen<shenhan@google.com>
+>>>>>>>>> Signed-off-by: Han Shen<shenhan@google.com>
+>>>>>>>>> Signed-off-by: Rong Xu<xur@google.com>
+>>>>>>>>> Suggested-by: Sriraman Tallam<tmsriram@google.com>
+>>>>>>>>> Suggested-by: Krzysztof Pszeniczny<kpszeniczny@google.com>
+>>>>>>>>> Suggested-by: Nick Desaulniers<ndesaulniers@google.com>
+>>>>>>>>> Suggested-by: Stephane Eranian<eranian@google.com>
+>>>>>>>>> Tested-by: Yonghong Song<yonghong.song@linux.dev>
+>>>>>>>>> Tested-by: Yabin Cui<yabinc@google.com>
+>>>>>>>>> Tested-by: Nathan Chancellor<nathan@kernel.org>
+>>>>>>>>> Reviewed-by: Kees Cook<kees@kernel.org>
+>>>>>>>> Tested-by: Peter Jung<ptr1337@cachyos.org>
+>>>>>>>>
+>>>>>>> The compilations and testing with the "make pacman-pkg" function 
+>>>>>>> from
+>>>>>>> the kernel worked fine.
+>>>>>>>
+>>>>>>> One problem I do face:
+>>>>>>> When I apply a AutoFDO profile together with the PKGBUILD [1] from
+>>>>>>> archlinux im running into issues at "module_install" at the 
+>>>>>>> packaging.
+>>>>>>>
+>>>>>>> See following log:
+>>>>>>> ```
+>>>>>>> make[2]: *** [scripts/Makefile.modinst:125:
+>>>>>>> /tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc- 
+>>>>>>> autofdo/usr/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/ 
+>>>>>>> arch/x86/kvm/kvm.ko]
+>>>>>>> Error 1
+>>>>>>> make[2]: *** Deleting file
+>>>>>>> '/tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc- 
+>>>>>>> autofdo/usr/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/ 
+>>>>>>> arch/x86/kvm/kvm.ko'
+>>>>>>>      INSTALL
+>>>>>>> /tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc- 
+>>>>>>> autofdo/usr/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/ 
+>>>>>>> crypto/cryptd.ko
+>>>>>>> make[2]: *** Waiting for unfinished jobs....
+>>>>>>> ```
+>>>>>>>
+>>>>>>>
+>>>>>>> This can be fixed with removed "INSTALL_MOD_STRIP=1" to the passed
+>>>>>>> parameters of module_install.
+>>>>>>>
+>>>>>>> This explicitly only happens, if a profile is passed - otherwise the
+>>>>>>> packaging works without problems.
+>>>>>>>
+>>>>>>> Regards,
+>>>>>>>
+>>>>>>> Peter Jung
+>>>>>>>
+>>
+> 
+
