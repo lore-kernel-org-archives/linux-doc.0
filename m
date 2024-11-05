@@ -1,36 +1,36 @@
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E5D18132A;
-	Tue,  5 Nov 2024 09:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003491D096F;
+	Tue,  5 Nov 2024 09:41:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730799476; cv=none; b=UE48MG9Otw8hFPDr5FeiE6HiadqULfmMEZuOLwgdKtJi40a3ZRkYawCroj+elyYeiRUUKrYL0LG2xyRTpQsPEZxAXKu6G1IU6U6n+oLINwmHwAca17jTjwrRYxgbR0M0sUHZmG4Z2YFdZnjQrgbyRPh89sOisQ8+gB4ujwFYOfI=
+	t=1730799700; cv=none; b=b9nNZzkbACUIoFd9WjGaj/nxLG6nl0QFSFmgHpZWvCSrGVUQmHmuun71G+x9tEFuF/0JLzZeJzrGnI5XXOlXHjFvPcdaBb6A/QloWAlwddFkg5ShozQqOYYGRZlr7gpMcoUjzppuPZnf7e9RkhGQ2bnYEjYMxsq2THNGFxd/3O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730799476; c=relaxed/simple;
-	bh=OPMyPZ/nN+s/36X28r03Byw7nSGvegOONAt4v90nVYA=;
+	s=arc-20240116; t=1730799700; c=relaxed/simple;
+	bh=Bht3mVnw3eoSre2ku/X+CZwcS9IrWEnHjw2SqJO08Mc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m0GPcoECoznX6eUY72y4X2UUTWpUZLjGdSvTdZMR1UhzBs4Ouq+59QnlKwd34V03T0J68zjaBeCqtI56qvQTmdhO08KE51zUWCFpnMDTvdzq3ObrkB/Hs8f8OyBVUFZMJG8RCCPbIt8HxrsKZtADqhdK/NGs081c1hqLqScOpG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N/ciw9h6; arc=none smtp.client-ip=217.70.183.195
+	 MIME-Version:Content-Type; b=If8+dLkglSSzDcanK83OvejtF3TgOTDSqujKXOMtqDYmXwvaVL/Vev6Ctm61tGWuf49qhKKd9T3lj1JBUHsQrj9nOac4u+Xqz4Oic5cm9LZ6JM6coFwcCHzpMr1BVXL0OzsJqBIl+ymeOoWzqaUgx7cbl5X54SLumtPBdahPjK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RUiKM27i; arc=none smtp.client-ip=217.70.183.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N/ciw9h6"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 28C266000C;
-	Tue,  5 Nov 2024 09:37:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RUiKM27i"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 560056001C;
+	Tue,  5 Nov 2024 09:41:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730799471;
+	t=1730799696;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VMZH9qjxYSsxGYOaVw8OePZ0Lknrw9sanV0iKJrFNwU=;
-	b=N/ciw9h6pX84ScQNMrK/isvQ2TwTUFjte9wypoRRhw0Wyhskw5Ul9BMwrMZ9n8YhYel/gU
-	1DwfodZTlMopWo6fZFXr3Hi4PV/33XZiAku+uSH06x2F3/pYr5n/gVzDsS+Fjv29PO3vur
-	pqxj/Tv+cCAL1OiBAKveJmly1L+kKZclytc4B+8rWbv8hMTILi0L+VgHRCJ9tiwO090au/
-	Lu2uRGLKaBoZE5497I+1v1F+viIS01EczaGmxln9llcqv/r/IRfuYxLo1MLP3DmMogbm+P
-	Ue3aVmZX0jOGVTU4lOKSEs5a3Wd4m616cfL/Se4FiKVQzM46VBxu+iWJwOW/fg==
-Date: Tue, 5 Nov 2024 10:37:49 +0100
+	bh=iSlKTSAxySHJjqChqONbCgqJ554fuVdntFyNBbMZcnY=;
+	b=RUiKM27ifxsvhKGdHUwUehRrWR/ubOy2tPzHRt2dFcLhK1GRmGMnezUVAwuhdudenDOXnz
+	HFSuFXWa8RbceDm9pw12pZX0zUw1HKkIuE8ZY31RYw58CPTf4gpfg3mUbwxcpMJE83a/HD
+	3xUKHCl2cx0Zdx3rSA2SnFQdhPf4yb88Pou5aJ5HrcUdvcapsOCQNsqCeOvGTqxAGP9D6T
+	cXLPPx9HPHjv2TsxtCVdBHY0SL71UFc+BWZotVxtodQ1L/iBHENd0+LX7ZucKAXjju338n
+	fj+WH9Do6VOWnSakoMGopvtGi2XJHJZ1H+1XAwuVVVKxY0XR/wZW64mjrHgmeA==
+Date: Tue, 5 Nov 2024 10:41:21 +0100
 From: Kory Maincent <kory.maincent@bootlin.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
@@ -45,13 +45,13 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
  linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
  Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
  Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v2 07/18] net: ethtool: Add support for
- ethnl_info_init_ntf helper function
-Message-ID: <20241105103749.0fe5a3a0@kmaincent-XPS-13-7390>
-In-Reply-To: <3a2a2b15-cbda-45b5-ab09-8a783e9f48aa@lunn.ch>
+Subject: Re: [PATCH RFC net-next v2 08/18] net: pse-pd: Add support for
+ reporting events
+Message-ID: <20241105104121.75655186@kmaincent-XPS-13-7390>
+In-Reply-To: <1ce06df3-e092-47a8-bec6-8829eeb826bc@lunn.ch>
 References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
-	<20241030-feature_poe_port_prio-v2-7-9559622ee47a@bootlin.com>
-	<3a2a2b15-cbda-45b5-ab09-8a783e9f48aa@lunn.ch>
+	<20241030-feature_poe_port_prio-v2-8-9559622ee47a@bootlin.com>
+	<1ce06df3-e092-47a8-bec6-8829eeb826bc@lunn.ch>
 Organization: bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -64,43 +64,30 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-GND-Sasl: kory.maincent@bootlin.com
 
-On Thu, 31 Oct 2024 22:44:51 +0100
+On Thu, 31 Oct 2024 23:00:48 +0100
 Andrew Lunn <andrew@lunn.ch> wrote:
 
-> On Wed, Oct 30, 2024 at 05:53:09PM +0100, Kory Maincent wrote:
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> >=20
-> > Introduce support for the ethnl_info_init_ntf helper function to enable
-> > initialization of ethtool notifications outside of the netlink.c file.
-> > This change allows for more flexible notification handling.
-> >=20
-> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> > ---
-> >=20
-> > changes in v2:
-> > - new patch.
-> > ---
-> >  net/ethtool/netlink.c | 5 +++++
-> >  net/ethtool/netlink.h | 2 ++
-> >  2 files changed, 7 insertions(+)
-> >=20
-> > diff --git a/net/ethtool/netlink.c b/net/ethtool/netlink.c
-> > index e3f0ef6b851b..808cc8096f93 100644
-> > --- a/net/ethtool/netlink.c
-> > +++ b/net/ethtool/netlink.c
-> > @@ -805,6 +805,11 @@ static void ethnl_default_notify(struct net_device
-> > *dev, unsigned int cmd, typedef void (*ethnl_notify_handler_t)(struct
-> > net_device *dev, unsigned int cmd, const void *data);
-> > =20
-> > +void ethnl_info_init_ntf(struct genl_info *info, u8 cmd)
+> > +static unsigned long pse_to_regulator_notifs(unsigned long notifs)
 > > +{
-> > +	genl_info_init_ntf(info, &ethtool_genl_family, cmd);
-> > +}
-> > + =20
+> > +	switch (notifs) {
+> > +	case ETHTOOL_C33_PSE_EVENT_OVER_CURRENT:
+> > +		return REGULATOR_EVENT_OVER_CURRENT;
+> > +	case ETHTOOL_C33_PSE_EVENT_OVER_TEMP:
+> > +		return REGULATOR_EVENT_OVER_TEMP;
+> > +	}
+> > +	return 0;
+> > +} =20
 >=20
-> I've not looked at the users yet. Does this need EXPORT_SYMBOL_GPL()?
+>=20
+> https://elixir.bootlin.com/linux/v6.11.5/source/include/uapi/regulator/re=
+gulator.h#L36
+>=20
+>  * NOTE: These events can be OR'ed together when passed into handler.
+>=20
+> ETHTOOL_C33_PSE_EVENT_OVER_* are also bits which could be OR'ed
+> together, so is this function correct?
 
-No it doesn't as the user is net/ethtool/pse-pd.c
+You are right, thanks for seeing it.
 
 Regards,
 --=20
