@@ -1,123 +1,124 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E25D1CAA4;
-	Tue,  5 Nov 2024 18:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E781EBFF3
+	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 18:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730832126; cv=none; b=BvkdaDCDzBq470iUmip+aqeSfGPSi7YgN1hAbMAr4X2G3yxMpSHNsys6dXA9WwordJhH6cXx9m/pjbMLIQZequgCirOgrDcvZpBwxbrMwZqVCipmwJvw6DgflFKp03W/+bWbnrFnblWZosDmwScOFmn9mkS58B1DNf35cORwob0=
+	t=1730832668; cv=none; b=f+tz/etY6vjMYE4bUUKPVhycJnIx7moJxprAX3HtypAzEXaF7lUsDaCfhZDbzyytw1z3ukabWaAKq/BUg03KkS4OMz1AXQ2WXsLMCv8IxksTtBZNIFu/MV/i3LA7E6LufaOEKNsTIJbLZdfrJHGw2+zIT4vJVwdqf/s5A00c3as=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730832126; c=relaxed/simple;
-	bh=QzP2bRViQ/TcbaNgdOaaGba2JIDq/ZR9CWshGbNoVnk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tibwL6Po8VlI7E6FXzBR498YlqTPWaUH87ome583GmqqNO5I6Z7QLVezQad7SyU097sK8ZPVCj+5bpRk35dHtlp4+WZyloHIISX/YBIJXURDorU0qpvRr5L77i0WhEvw64gHD5gH3V1nEjA48jShKuTBdEO7YsMVg+26EhfirS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e30d0d84d23so4754831276.3;
-        Tue, 05 Nov 2024 10:42:04 -0800 (PST)
+	s=arc-20240116; t=1730832668; c=relaxed/simple;
+	bh=nJnTbD5cGZ0OfD00jTtdrajsLazl3DFTJAxArG9Ps+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h6t1l5ijlKjtc6vcb4ycg5sAwTNsf+JAbI2nk626x6RUfcTTiAOdPmLyWjYIJKoVJSvVAj5/OdIc8o5JntMEZPYt4IKuaBYULgjkwVrr4bbmWemPIc65ObPDrRo2+4ltwyx+6leW8E2Ninnipwemn9y1A872eUwRZm5PgyDd5ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=MwMI3f1F; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="MwMI3f1F"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7b15d7b7a32so459377285a.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2024 10:51:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1730832663; x=1731437463; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C194RVyLAfjN0SwVJhWOGUoO0421PCIPswUt8quSHT8=;
+        b=MwMI3f1FiJtKbSb+104JZqGid1wfIf3uJt8Wjuw4Mn8iu/DsebWaYWZdRPs8idwCnR
+         G+I7AF7bhCUUSUBNQw+QPCmepNj+NeS+8V7uRjlg5iaVIA9CPV//gHtzykp6RFpWjSB3
+         bEjGvNxbf2LnXaftz75p065/1sD/GAPsEOMMNpMZ5UjmD4y8a40GfLBTM1Qq2oU8QdZ3
+         J8GIR4YQWuWl6Dtsf0Dy0aRq1Eila20Aj2m0v4hcEgmRZY3sAHdnp8RqfyrRoDjZYtzT
+         ObzFuPZUFv04pc7JsyasDhZ57mi4ATensZ+Vjda89fVA64rlDYTQ6JD+3xUJlCux182V
+         pzZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730832122; x=1731436922;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PSnGoCT2pZT0OF0fjiepGD9oIfM6c69suXwNMvqD0iA=;
-        b=NVADob1gPKhZuBKx3XucRNtv+ht1ES/O0D2kWZE6+ubuuy2vn3LIz/0PWxEEeSYcQP
-         QpXoKhsxOsjHhVXvCLtd323JVeeeXD+hfiL7o5Sp3ZpIX5SKC9WdnnjOQ7iZ3u8vvjmg
-         LWXv8L49OutiQQWuOdhUjjNlGI7PS9R7X7y6x7ISB9U6p3bhOLzOcurtu6WYAhLMaMZk
-         9f1mTj19ZVDbwrO1LM8m197xGn+QoPBQZZaZ+1LEW1OMawHNMuZI+0MvmX0JG0hGTDHq
-         UPc5DPnNnp8WH3NYxKlZYRuXSg/fQe2FNrbNT0yLZL6Jfjyi5UHOh1APJDL74c+9O0v8
-         8QXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFD3bI8eOvSL/Id+vVkUmV7IIPRmNzTIFILVTD9niNbLptVfN0byg1jt5qSvFJDWZvq9qNAud5MOzDVIo=@vger.kernel.org, AJvYcCURZns9sVzSQNTJLjy5r5a+/KH/7ftkf3v0sUUVNjGRCPlJ49yi7vFqZSNRWBDrM0HYW7tnW8QIxJXj@vger.kernel.org, AJvYcCVvqRk98NtNiQBxup9+jr7aFzDZ5Lm6m9XF+8L7gnIkv0xd8Kcs8KESqUxXYnvaIhii31wg8kWT0e8w@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXybjJWq6aXmmjm7PtcDE5iSuIGkSFz/OcX5ldlv7Xs9dJuuPz
-	SDoA82lZMSf8n+SwrEZdtfNp4kvT5v4miHSyZ3fXZpzEf2cI//CvvAsohndP
-X-Google-Smtp-Source: AGHT+IFuv5zUEhaor/uGFFmP2r5OxhKjribmEkAhrQSABm9le2kuhEiluwLYezgLC2v+BmOyGohZkA==
-X-Received: by 2002:a05:690c:16:b0:6d3:f283:8550 with SMTP id 00721157ae682-6e9d8b001dfmr332473067b3.28.1730832122542;
-        Tue, 05 Nov 2024 10:42:02 -0800 (PST)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6ea55ac9d34sm23848947b3.15.2024.11.05.10.42.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Nov 2024 10:42:01 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6e2e3e4f65dso11398927b3.3;
-        Tue, 05 Nov 2024 10:42:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVJWTtESAcXvX7VLE7+M+vgdOy634hj2Hvb/9e23nREttBOKavEIBAzAjt99SkwWrHXekGeDB9/wDkZ@vger.kernel.org, AJvYcCWUeBZK6BHThPkFbve5aJvSUPdQHW0cgQ7YXjgyg9G50HwUMSBk/IVn7exhefbOZzovzABgodBbPlaF@vger.kernel.org, AJvYcCXrFZ2w3nVGjDpiwZltfrMVx219MI2itIKc+sa+cFOOZi3W1c40UJKJS6ycheQtAf+kskvzSpjKA11ZP2A=@vger.kernel.org
-X-Received: by 2002:a05:690c:4b8d:b0:6ea:7831:e436 with SMTP id
- 00721157ae682-6ea7831ec21mr136922067b3.12.1730832121695; Tue, 05 Nov 2024
- 10:42:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730832663; x=1731437463;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C194RVyLAfjN0SwVJhWOGUoO0421PCIPswUt8quSHT8=;
+        b=osuLWgTRhvmtmtYAjz8Zh2cyVuqnRvUDwvarBCnpNOY4gfEnSudbaMhdwART9XCxzy
+         JJbXpGgGxPRJsc/JCt2j1ma8uaY7hEG4U7TFD5NZHVa8KtsjRI0ThdqaOl9fiMpaeB7I
+         ehcpbv1AWO2z3zsUNWkplbauRZ95ExifrN/0lOtrUF5XfBCqBfmyEX3LASt/LWE8gptk
+         yEFUD/ppx5OIRV3oG6oEnWyxbzRwXFhCdQXmmlY47naafQO4wfU+Qv1a6viwhcOW6B90
+         fZRHHMncqQ3fGJrAKojes+J8KRFwqQ9tI8O9F3VUy4+UihwAUfXUqum+K2k5NjZuIkfg
+         kNwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUvrpJEpXvHwH8oVo7+2TG88vY0530pHUER02P27UxQBjS8H4hRdQ0QJCi31UPqw+b5/4m3bRchmFk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0qsI3zuWt7VAF4gUrthGg8xPXPEYGVQauixUxPKPKP2av+/Pc
+	n44dzlgzDsivHVQEHhKsUjcw8aML/AhaE2Ze+d6K4japK8cMgAxY3w3kGTC/9zM=
+X-Google-Smtp-Source: AGHT+IGWpBzbxGzBgv9Gx5tLlQAZYsSh7jgfOX8tW5mq4qsvhcUPgq93VZEIR90XeqIlAFYpEQmgSA==
+X-Received: by 2002:a05:620a:1908:b0:7b1:481f:b89c with SMTP id af79cd13be357-7b193f0a206mr4853751585a.35.1730832662826;
+        Tue, 05 Nov 2024 10:51:02 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b2f3a70971sm549852785a.77.2024.11.05.10.51.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 10:51:01 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1t8Odp-000000023WW-0CZJ;
+	Tue, 05 Nov 2024 14:51:01 -0400
+Date: Tue, 5 Nov 2024 14:51:01 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241105185101.GH35848@ziepe.ca>
+References: <cover.1730298502.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1730326915.git.grantpeltier93@gmail.com>
- <1dff1f63a2e122788e2c17f192472705491aa5b8.1730326916.git.grantpeltier93@gmail.com>
- <CAL_JsqJqhxcMu2yeqvJvUOJ_g3uDv3t1JwaMxAfZQGXFj3rAvw@mail.gmail.com>
- <0f855c81-ce0e-41e8-ae08-5f653d3ca8b0@roeck-us.net> <CAL_JsqK=kgoKvusMMqdtx7b4z2aveE5O9Q=UHXCgook5UBS4bA@mail.gmail.com>
- <2afabeb7-9cf7-4092-965d-55a9c0762948@roeck-us.net> <20241105-imprecise-unharmed-ec1474ad1acc@spud>
-In-Reply-To: <20241105-imprecise-unharmed-ec1474ad1acc@spud>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Nov 2024 19:41:49 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUV5XfbTgJ+N=QgS7VVb2Ao5z6SY5hahHKfvUboH6f8Pw@mail.gmail.com>
-Message-ID: <CAMuHMdUV5XfbTgJ+N=QgS7VVb2Ao5z6SY5hahHKfvUboH6f8Pw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] dt-bindings: hwmon: isl68137: add bindings to
- support voltage dividers
-To: Conor Dooley <conor@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Grant Peltier <grantpeltier93@gmail.com>, geert+renesas@glider.be, magnus.damm@gmail.com, 
-	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1730298502.git.leon@kernel.org>
 
-Hi Conor,
+On Wed, Oct 30, 2024 at 05:12:46PM +0200, Leon Romanovsky wrote:
 
-On Tue, Nov 5, 2024 at 7:35=E2=80=AFPM Conor Dooley <conor@kernel.org> wrot=
-e:
-> On Tue, Nov 05, 2024 at 07:45:38AM -0800, Guenter Roeck wrote:
-> > On 11/5/24 04:19, Rob Herring wrote:
-> > > On Mon, Nov 4, 2024 at 7:20=E2=80=AFPM Guenter Roeck <linux@roeck-us.=
-net> wrote:
-> > > > Turns out it is also documented as "isil,isl68137" in trivial-devic=
-es.yaml
-> > > > (together with isil,isl69260). Both are referenced in .dts files. H=
-ow should
-> > > > that be handled ?
-> > >
-> > > Move those compatibles here. And this file should be renamed to
-> > > isil,isl68137.yaml or some other actual compatible value.
-> > >
-> >
-> > I guess that is a bit more complicated since Renesas acquired Intersil.
-> > Is there a common guidance explaining how new compatibles should be def=
-ined
-> > in such situations ?
-> >
-> > Anyway, I had the patches queued in linux-next. I dropped them until
-> > this is sorted out.
->
-> The old ones with existing compatibles should keep their names, the new o=
-nes
-> should probably match whatever is in their datasheet so that people can
-> have an easier time.
+>  Documentation/core-api/dma-api.rst   |  70 ++++
+>  drivers/infiniband/core/umem_odp.c   | 250 +++++----------
+>  drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+>  drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+>  drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+>  drivers/iommu/dma-iommu.c            | 459 +++++++++++++++++++++++----
+>  drivers/iommu/iommu.c                |  65 ++--
+>  drivers/pci/p2pdma.c                 |  38 +--
+>  drivers/vfio/pci/mlx5/cmd.c          | 373 +++++++++++-----------
+>  drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+>  drivers/vfio/pci/mlx5/main.c         |  87 +++--
+>  include/linux/dma-map-ops.h          |  54 ----
+>  include/linux/dma-mapping.h          |  85 +++++
+>  include/linux/hmm-dma.h              |  32 ++
+>  include/linux/hmm.h                  |  16 +
+>  include/linux/iommu.h                |   4 +
+>  include/linux/pci-p2pdma.h           |  84 +++++
+>  include/rdma/ib_umem_odp.h           |  25 +-
+>  kernel/dma/direct.c                  |  44 +--
+>  kernel/dma/mapping.c                 |  20 ++
+>  mm/hmm.c                             | 231 +++++++++++++-
 
-Renesas seems to have a document about that:
-https://www.renesas.com/en/document/gde/intersil-part-code-nomenclature-gui=
-de
+This is touching alot of subsystems, at least two are mine :)
 
-But of course that doesn't help with the vendor prefix...
+Who is in the hot seat to merge this? Are we expecting it this merge
+window?
 
-Gr{oetje,eeting}s,
+I've read through past versions and am happy with the general
+concept. Would like to read it again in details.
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Thanks,
+Jason
