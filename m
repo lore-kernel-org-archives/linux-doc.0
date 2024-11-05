@@ -1,36 +1,36 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003491D096F;
-	Tue,  5 Nov 2024 09:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18D41CEEB4;
+	Tue,  5 Nov 2024 09:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730799700; cv=none; b=b9nNZzkbACUIoFd9WjGaj/nxLG6nl0QFSFmgHpZWvCSrGVUQmHmuun71G+x9tEFuF/0JLzZeJzrGnI5XXOlXHjFvPcdaBb6A/QloWAlwddFkg5ShozQqOYYGRZlr7gpMcoUjzppuPZnf7e9RkhGQ2bnYEjYMxsq2THNGFxd/3O4=
+	t=1730800118; cv=none; b=VeoQeUKbrBeF1J8tItpwnKZjKB4x/+FwBvx22QHwQdbzrC0kHx3EXwWnMfGtHW0Kg2uxL7RJ3TefVn45RHLkIMdiROQEDNDBJraiGX8ZkkN2sqPJUo8GDZgPm0QuBSF1vG8ANYqlLaC0nmhGcePsH1aRzzXeOk9PuHnVYn+Fanc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730799700; c=relaxed/simple;
-	bh=Bht3mVnw3eoSre2ku/X+CZwcS9IrWEnHjw2SqJO08Mc=;
+	s=arc-20240116; t=1730800118; c=relaxed/simple;
+	bh=/2QwgAXiPUODt4iE59pzhQ9GeyVS881QJbOf6HO4EEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=If8+dLkglSSzDcanK83OvejtF3TgOTDSqujKXOMtqDYmXwvaVL/Vev6Ctm61tGWuf49qhKKd9T3lj1JBUHsQrj9nOac4u+Xqz4Oic5cm9LZ6JM6coFwcCHzpMr1BVXL0OzsJqBIl+ymeOoWzqaUgx7cbl5X54SLumtPBdahPjK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RUiKM27i; arc=none smtp.client-ip=217.70.183.195
+	 MIME-Version:Content-Type; b=Ho2UdaOENC8OmE8DP2rEnpMV4se82IdSaR1UaRwXg9VGrxYnqoSgQXfN/tPhXHPfvkFYDbqsQMkm5LitDuuLVR3Jid4CHjC3cMjU+RyYOX4DQ2le7L7hIJPdafRUUqnPQEk8NrBajcm0kEISg896qAbhnm5bdCWkqH/8W9Y+q+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=cwJawqnX; arc=none smtp.client-ip=217.70.183.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RUiKM27i"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 560056001C;
-	Tue,  5 Nov 2024 09:41:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cwJawqnX"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E8CB1FF804;
+	Tue,  5 Nov 2024 09:48:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730799696;
+	t=1730800107;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iSlKTSAxySHJjqChqONbCgqJ554fuVdntFyNBbMZcnY=;
-	b=RUiKM27ifxsvhKGdHUwUehRrWR/ubOy2tPzHRt2dFcLhK1GRmGMnezUVAwuhdudenDOXnz
-	HFSuFXWa8RbceDm9pw12pZX0zUw1HKkIuE8ZY31RYw58CPTf4gpfg3mUbwxcpMJE83a/HD
-	3xUKHCl2cx0Zdx3rSA2SnFQdhPf4yb88Pou5aJ5HrcUdvcapsOCQNsqCeOvGTqxAGP9D6T
-	cXLPPx9HPHjv2TsxtCVdBHY0SL71UFc+BWZotVxtodQ1L/iBHENd0+LX7ZucKAXjju338n
-	fj+WH9Do6VOWnSakoMGopvtGi2XJHJZ1H+1XAwuVVVKxY0XR/wZW64mjrHgmeA==
-Date: Tue, 5 Nov 2024 10:41:21 +0100
+	bh=wPMHfYx6OZKwpmgoXf5RalkYoqx0nz8w42w1wG828y4=;
+	b=cwJawqnXxr1f7ZN/2ZvfHNMJEDZ9q51ODGu4Xxrpjx3L8oppyPKkYDJ6ipF9ri7LxUnxW+
+	V4eHzflWTxKVgAVjYWLljJoJQ/990J7ROAt4rdNeLd/IMDv7hrzo/tMRdHDbviNfwkf0Ld
+	AsrIwCrlOOW5oyWfgYbcUcYcuyqbgh8eH2Q/aEqGIUVxXnTxORBnWs9Ce8L1w8XPU80QIT
+	D1dAQ7xln7m/QYMUwogJdOjGWN4kKsEKHTWOZC4rPILt4CWyC0V0c1rg18OGilPIjRuV/d
+	9msH4aSdSxU8MHNRBPHuEa1m/5pY1z5BgCdxYNrelOEo1sZ1pDYV99QjZZgPHA==
+Date: Tue, 5 Nov 2024 10:48:24 +0100
 From: Kory Maincent <kory.maincent@bootlin.com>
 To: Andrew Lunn <andrew@lunn.ch>
 Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
@@ -47,11 +47,11 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
  Chevallier <maxime.chevallier@bootlin.com>
 Subject: Re: [PATCH RFC net-next v2 08/18] net: pse-pd: Add support for
  reporting events
-Message-ID: <20241105104121.75655186@kmaincent-XPS-13-7390>
-In-Reply-To: <1ce06df3-e092-47a8-bec6-8829eeb826bc@lunn.ch>
+Message-ID: <20241105104824.2bc51cf7@kmaincent-XPS-13-7390>
+In-Reply-To: <ede82d07-6adc-486a-b715-e6e783655333@lunn.ch>
 References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
 	<20241030-feature_poe_port_prio-v2-8-9559622ee47a@bootlin.com>
-	<1ce06df3-e092-47a8-bec6-8829eeb826bc@lunn.ch>
+	<ede82d07-6adc-486a-b715-e6e783655333@lunn.ch>
 Organization: bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -64,30 +64,32 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-GND-Sasl: kory.maincent@bootlin.com
 
-On Thu, 31 Oct 2024 23:00:48 +0100
+On Thu, 31 Oct 2024 22:54:00 +0100
 Andrew Lunn <andrew@lunn.ch> wrote:
 
-> > +static unsigned long pse_to_regulator_notifs(unsigned long notifs)
+> > +static struct phy_device *
+> > +pse_control_find_phy_by_id(struct pse_controller_dev *pcdev, int id)
 > > +{
-> > +	switch (notifs) {
-> > +	case ETHTOOL_C33_PSE_EVENT_OVER_CURRENT:
-> > +		return REGULATOR_EVENT_OVER_CURRENT;
-> > +	case ETHTOOL_C33_PSE_EVENT_OVER_TEMP:
-> > +		return REGULATOR_EVENT_OVER_TEMP;
-> > +	}
-> > +	return 0;
-> > +} =20
+> > +	struct pse_control *psec;
+> > +
+> > +	mutex_lock(&pse_list_mutex);
+> > +	list_for_each_entry(psec, &pcdev->pse_control_head, list) {
+> > +		if (psec->id =3D=3D id)
+> > +			return psec->attached_phydev; =20
 >=20
->=20
-> https://elixir.bootlin.com/linux/v6.11.5/source/include/uapi/regulator/re=
-gulator.h#L36
->=20
->  * NOTE: These events can be OR'ed together when passed into handler.
->=20
-> ETHTOOL_C33_PSE_EVENT_OVER_* are also bits which could be OR'ed
-> together, so is this function correct?
+> The mutex is still locked. I'm surprised your testing did not
+> deadlock, and that none of the automated tools have reported this.
 
-You are right, thanks for seeing it.
+Ouch indeed! As explained in the cover letter, this v2 has not been fully
+tested.
+But I have built it with smatch and sparse. Weirdly they didn't find it.=20
+Thanks for seeing it.
+
+
+> ---
+> pw-bot: cr
+
+Does RFC patch series pass through the netdev CI build test?=20
 
 Regards,
 --=20
