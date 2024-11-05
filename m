@@ -1,60 +1,62 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08FC1E47B9
-	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 17:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A551E6306
+	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 17:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730829550; cv=none; b=PBBLuljREu2YSNbxVJ9wAUnvryjTS0swBatMWOXEikdNnv0i6mpZpKrJFDsxdQbthXJHEZqh0ZZm2/s4eNoARw2IeiNjZdXL/g7FPpAxbpZ8AnMg3PY5DoK9mtKLx/nsg2wtTmmEpMwX7oxpePwGZNWaG4EMam+DO+xLkLA8d4s=
+	t=1730829551; cv=none; b=b6O9iQLQ3QkNUrSaYyBW4A2+Dr8EyobrWZut4n/6HYK/Ao7SmHsPBJZIeVVHu4WIr1yWuHa63TKAiVn8Y0Cf8GyI7AdYk4nfwuU0EPX15X2eDzX6W+mrEjgxtDadqq9nDT7HE+CpTd3KIXQf7wQM8mnEhKpPAtLXwyusQ+sSKCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730829550; c=relaxed/simple;
-	bh=s1Ro2carmg4cdDYn+ZehICRb2kuGKQPQwpxPJuGVnxU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BMtD/uO0wuMlMdOIv1eHCqQsKqQKMHxkCC2VD3iQVZabZPqm5eW/uKho22rat5iS6e6+RqazFenvRzLqL44m50YXhPuPrilgOra6b+WNl3qs1AlDELDn+UsAUYxs6K2kaeV/9aU1I9E7qrRCUSbdaOYDiU+yi1+RZlUxbNYZ0uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=AqkgHuVH; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1730829551; c=relaxed/simple;
+	bh=o/S07rQA5LKC++ibvZP8+btEUdTChzX9PQxEcexB2Fc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=QRgi+zIITaNa8F+HE9w4w/uRAPzdxMgleE42TxecdPl2YS6fm27xl7liv8o+trD9LQ6RL6ayUwVJtqdyJdq4l9mUN/St+0dW9nFtTOHtgB1nOBIrwPZW2TZwGRTF8zevVhMWttTlvYfuNGUK8bWGf0GAc+YJqbqgIaiTHpXyPPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yUhpqV+n; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="AqkgHuVH"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-37d47b38336so4315650f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2024 09:59:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yUhpqV+n"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d51055097so3739071f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2024 09:59:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730829545; x=1731434345; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h5ogXhGcm7nw9YXJ/wsq+XgFGJryP19GjyijWvmr/6w=;
-        b=AqkgHuVHHFvPL1Llx5VtgWdT1zGkNFZYUKEkEw6f13DZ7ReohSGR38jxhaHpDXqln/
-         C1KzoR0Kp/YDsLYBu02MxgPXjh09qHVso/c/BEyqJFgVV6AzeoYo6q2WiGIvEKB6pHik
-         nL0VhLF2R28mD8PBIPSdDEz9y43V6FpN8Av/yIyFEeQvIKLABd/VTu878rTD5aa0wmAu
-         TQzEUtNd9CcayiBaxyIt/RwieA+EvonploQvPgBOt4Pz9Ia9DdtlDGXaPt44hoU8e14B
-         sirj2/IXZBy+dhKGryfzW9rtLnNysVeld0D1bzX4CZQabEq4j2vEEPYNXnSDMFf0v6iW
-         0JpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730829545; x=1731434345;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730829547; x=1731434347; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h5ogXhGcm7nw9YXJ/wsq+XgFGJryP19GjyijWvmr/6w=;
-        b=tS8QOnG3bpNs0y32wCANCv06vkUA97jGeF8SlaYSUrkacSKYDRbKNW/Hcih/k3dgzc
-         xXp2+oW0+XXGkZqtFbY96YYXuASbbAi0X8v0NA9NpZNql2vNUz/52bDuot5Ih558FgF5
-         WuTRCplL8o+Qpdm6yciFdrPU836Zw/qZh52zBljNJwM+A5I+Nqrv4TjuVh3kiY+xyacx
-         dDupX47unS1oBiK/v9OMwXnCVanCyeermg2S0uIiQJvw0ecaRPoMFeB0asGlUXb3uvMf
-         nU/6jtV4zD5XHFTdTyOVm9kXc1OUlxFS72ghEGAlESiYOeBy1+g664DySr6SVG5eAWYt
-         1Lcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJZ3UuEZrE1NOMdFt0K7aYnugd+7GbPFjNpp3aI0HiwqL37RtwBghWVIxFo+Z+1XA4ctMbzHGs4ts=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxs+XfVQymI29ATftKqw0hfBKbBv+Y1HnuHKvQSSAyz5JANZUAC
-	E88nIizdah9pFurhU7dV0GfhMVMn4fZXzruFZ2UvmgsLwlJ69UGr+OYxQtaiQLeTkvHC39Pbqiz
-	x
-X-Google-Smtp-Source: AGHT+IHh68+kuUND1IhEtMvxa4mwILdaC1HK3yEzW1UgqnS53G2pJxkVVM+O6YaqsovSK+Qf+4Cr5g==
-X-Received: by 2002:adf:e6c4:0:b0:374:c4e2:3ca7 with SMTP id ffacd0b85a97d-380610f81cdmr24243679f8f.5.1730829545040;
-        Tue, 05 Nov 2024 09:59:05 -0800 (PST)
+        bh=cYYwPmz/G4AVlx/yjCM3Cevdc1UJIzYaJNcdAVGLoTM=;
+        b=yUhpqV+nXxZaMER0EZpXWOoKN9RIwuImlQxNVU7hw77/BtQ4r8I58ZKfFzCE7ikPKX
+         +EL5rM0/XmPMp2R8aAtmSK6iWN6LsuDnCxsdIOPGc8LkDjwO9H9yqyRa7HmHZPPT/1Gv
+         bmNwiWQ5RlkEhYHYQphKj5cfUAcyB9+3uay2xd7Qr4LZLlTBmI9Bfc7LNF63DGhv3FiY
+         OxiTfealCA7MRAfIdJB0ozCVGLbBZm928ED3hAva94CKciYiyXzJDMUc5s229gNjNhVH
+         IAUXiiw3uviF3Rn9/oBOAHf8Gy3AcdFjpmkYjqVFKkNORgakMlowj7bJmBzgMdeO+cy9
+         fK2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730829547; x=1731434347;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cYYwPmz/G4AVlx/yjCM3Cevdc1UJIzYaJNcdAVGLoTM=;
+        b=aIKFUQLHKoPeUbI/Dpwinfe2JZmj5CTPnnBeL6prbpeJ/wEzeyHPqxXofuyimZ0it1
+         HGobR4VEz9op+Lm8dTcRR4a/9HDpLJrMOUl10pHOoZhyPnU/K8SEVO4RmONK7eBFl+4/
+         sl83FGKlDfj0MB2PBb+ogYbkOJD0OozCa5lJnrdKc6T2Rp/U7qbXfq05qxT317RhxP1S
+         pFlhAQdr8K23+q1dAdKuIYuv0FFEA7Hm5ekgmzSRSE6ke/oQWOQ4kbzc3+KdOzEGk41i
+         mm2fHfgJlaiNX4/m0KKgmuaAczue1YGGFP4SATXcAduGwQYlg9nt9lCDUWQViW5vdxPW
+         Yicw==
+X-Forwarded-Encrypted: i=1; AJvYcCUWEyElp0OkvhM/huhDQb6LdrWGyNDCsTmlitzwgAH/dX7qLdr9jdh9ppR07quKseEp/XYD/VmLJ2A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlcxQliIwRhrSimqU4gYGBUw7HNd7GKWesypsxHtfkwz9XBxTO
+	2yj+1OSVja9pBxtky09P0XVPTKcPr1IR649ixG+b6Vr/RJmIQmfqKcBlYpIVW04wQ4dFWt/XT5p
+	s
+X-Google-Smtp-Source: AGHT+IE25zC4eqQ6X5jlcca9JvDhL9cTo62Y8/Ni22/gumHeYIQDsBdSiTMBQDkr9GZdErmEGlPxEw==
+X-Received: by 2002:a05:6000:188b:b0:37d:4c8f:2e1 with SMTP id ffacd0b85a97d-381c7a4c76amr10961922f8f.22.1730829546869;
+        Tue, 05 Nov 2024 09:59:06 -0800 (PST)
 Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:5b9b:df02:2761:7a57])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-381c113dd7fsm16959481f8f.70.2024.11.05.09.59.04
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-381c113dd7fsm16959481f8f.70.2024.11.05.09.59.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 09:59:04 -0800 (PST)
+        Tue, 05 Nov 2024 09:59:06 -0800 (PST)
 From: Jerome Brunet <jbrunet@baylibre.com>
-Subject: [PATCH v4 0/7] hwmon: pmbus: add tps25990 efuse support
-Date: Tue, 05 Nov 2024 18:58:37 +0100
-Message-Id: <20241105-tps25990-v4-0-0e312ac70b62@baylibre.com>
+Date: Tue, 05 Nov 2024 18:58:39 +0100
+Subject: [PATCH v4 2/7] hwmon: (pmbus/core) allow drivers to override
+ WRITE_PROTECT
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,13 +65,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAM5cKmcC/22Qy2rDMBBFf8VoXRVZb3nV/yhd6DFyBImdSo5pC
- Pn3ThJITclCiyvmHObOhTSoBRoZugupsJZW5gmDfOtI3PlpBFoSZsIZl8wxR5dj48o5RoWMLOb
- MAzBNcPxYIZefu+rzC/OutGWu57t57W+/LyRrT9HkgjAgBRinPoI/70uo8B7nA7l5Vr5hOduwH
- NksAPEIqjfiBSuebI9vwwpkg/YaXJJBMf2PvT4KVfg+4UmWR6u/iwzdc50K42nvsSkt4zRXSDT
- 5xVNjwXirlMZaA1ZAX/ANKNoPZRk61euUQoZshI5WCqu1Z4GnoJSLYF2QLIIwFle5/gIovC+2p
- QEAAA==
-X-Change-ID: 20240909-tps25990-34c0cff2be06
+Message-Id: <20241105-tps25990-v4-2-0e312ac70b62@baylibre.com>
+References: <20241105-tps25990-v4-0-0e312ac70b62@baylibre.com>
+In-Reply-To: <20241105-tps25990-v4-0-0e312ac70b62@baylibre.com>
 To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
  Jonathan Corbet <corbet@lwn.net>, 
  Patrick Rudolph <patrick.rudolph@9elements.com>, 
@@ -79,98 +77,51 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
 Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-i2c@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
- Vaishnav Achath <vaishnav.a@ti.com>
+ linux-i2c@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3554; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=s1Ro2carmg4cdDYn+ZehICRb2kuGKQPQwpxPJuGVnxU=;
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBnKlzZUkdB3O+6c2WU7AIDPphi2EEqpayNiq61K
- dPxum6Q7tSJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZypc2QAKCRDm/A8cN/La
- hfBWEAC0Axpud9hi76rSoyLVhQ9UTySoxGQfWheUgOTS/1QxUKND9fcPnvhXn7yim/hLYues193
- yloPlBlff+0SBN3y7cDA+J3QL4mdmh0SyM59wVz/E9vakRyLYO30bz/VW/vbuWiCMPAtvUa5Ghv
- Vkb4JKVI14qjUN7LcnQsRQLhPUGPU4MwUreilFAcA2M7hrFKBvVpS3xVy+uUdS7NZQLXyhGGb6c
- mNQxVAd9iVsXLw9/FpvX4jA8LqMIKHOt2cP+04vNSgAxGVF+uvtolBlVWgbNBpbFviCzM+68LdW
- 21aXu4Uw5LaYmvptR0EZEx/Dw/Bj4DTnuhLLiDbyz6uk3KpCEoxf7aP21Xwb78fYtL7GIgEqw7A
- d8b9z4XUO0RFZXirZUuhMeGor0TY6QZUMGru1IoPfJ0o9MkYfzPJcCED+BtV9PaI9pkhfdSZsQs
- YlRgl1+m6NR0id4rvTIBA1/b+KyziBjEQ1xplCb3RX0PkJ+UHM4ON4fb+zY2e73IiV4sQF/gOQr
- Vkw60e5XYcz9tnNVhfKxTm0lHHPckn2ydnrOCqSU79RHsaCn6udHszRUOOMYLd7NBLOyFvKIz9g
- OA69lSgvVcIy44DVC6vNkwCyND4t44QIJJ9yUKE+COdrF+ZsUvAYqurKhjPMS3RdzVVEjYJHJSz
- xIf+HUMPdByy2iQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1166; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=o/S07rQA5LKC++ibvZP8+btEUdTChzX9PQxEcexB2Fc=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBnKlziyU5VuYN5u7I6QgqGhZ8ra1bIhVFcODbjP
+ PHsCrqyZn+JAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZypc4gAKCRDm/A8cN/La
+ hcaED/9tYQFT9ZLIrrU3Lezn+ZTE00hfX46jWTWOz68yb6noBO44loCXAYdt9ZlwhWT9ChCdVoL
+ UcfopD7Ig3TwiRQV0MXXZcDrRav5Hk8vCd/OQbUYh9NOt2CMpIgHSyZnSBJkJNPIkOJ+JsB1iiN
+ /vmJKV21Qery6AgmWIppQUBaMidxhCiZFML+autKjnG5ppY6OuIFjeUcfY23YBjNttDJOK4DH9t
+ 29myh0c7v9WUUYtj2Nv3PlbcjCKz8ik5TLLe2qTFQrtlO4tfzYSXQlhcKNwylZDroKDi24WMClr
+ OQebZlBuQju5+cAkra0xbxGZT7BuBD6QipiaDLkI/pvX8ThccnWhHiAFnwuMYNkWfXIApA+TiJ1
+ r1s4oU2ZPU6w/kF08WbfPcGqz+vpXRjSb8SeDTHWLkzWBUDeNvJRjA4oYMK5zFhj/B5zqTbGeVG
+ gvjqU40HPnbzAXe8DCXqBAnDCX6noi6LInpC/DJfGstpyz+9Rm/Oat/Xwf50GBocAQm2Ow47KVF
+ aF67fDMNmsMoRbOuqrKHUo8JIl0dNnufu3PCVTwCjwh8irunipdkEAYOEtMCUJvF5iqI6apx5Q+
+ khWqE4IoIstnVnJO/24/TRdBtMTf/WMbdG31uc6bMlJEJYp5j0LExPvQLTET8/5MuGh+BAlFlBm
+ zkj/Qt9e33/9VfA==
 X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
  fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-This patchset adds initial support for the Texas Instruments TPS25990
-eFuse. The TPS25990 is an integrated, high-current circuit protection and
-power management device. TPS25895 may be stacked on the TPS25990 for
-higher currents.
+Use _pmbus_read_byte_data() rather than calling smbus directly to check
+the write protection status. This give a chance to device implementing
+write protection differently to report back on the actual write protection
+status.
 
-This patchset provides basic telemetry support for the device.
-On boot, the device is write protected. Limits can be changed in sysfs
-if the write protection is removed using the introduced pmbus parameter.
-
-Limits will be restored to the default value device on startup, unless
-saved to NVM. Writing the NVM is not supported by the driver at the moment.
-
-As part of this series, PMBus regulator support is improved to better
-support write-protected devices.
-
-Patch 3 depends on the regulator patchset available here [1].
-This is a compilation dependency.
-
-[1]: https://lore.kernel.org/r/20241008-regulator-ignored-data-v2-0-d1251e0ee507@baylibre.com
-
-Changes in v4:
-- Fix write protect value masking when initializing pmbus chips
-- Add 2 more write protect forced mode (VOUT and OP)
-- Move module parameter documentation to Documentation/hwmon/pmbus-core.rst
-- Add pmbus flag documentation.
-- Fix 0-day bitfield report.
-- Link to v3: https://lore.kernel.org/r/20241024-tps25990-v3-0-b6a6e9d4b506@baylibre.com
-
-Changes in v3:
-- Ease application and Group with hwmon write protect patches from:
-  https://lore.kernel.org/r/20240920-pmbus-wp-v1-0-d679ef31c483@baylibre.com
-- Link to v2: https://lore.kernel.org/r/20240920-tps25990-v2-0-f3e39bce5173@baylibre.com
-
-Changes in v2:
-- Drop PGOOD command support
-- Use micro-ohms for rimon property and better handle range.
-- Adjust read/write callbacks to let PMBus core do the job by default
-- Drop history reset specific properties and remap to the generic ones
-- Drop debugfs write_protect property and remap to the generic register
-- Link to v1: https://lore.kernel.org/r/20240909-tps25990-v1-0-39b37e43e795@baylibre.com
-
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 ---
-Jerome Brunet (7):
-      hwmon: (pmbus) add documentation for existing flags
-      hwmon: (pmbus/core) allow drivers to override WRITE_PROTECT
-      hwmon: (pmbus/core) improve handling of write protected regulators
-      hwmon: (pmbus/core) add wp module param
-      hwmon: (pmbus/core) clear faults after setting smbalert mask
-      dt-bindings: hwmon: pmbus: add ti tps25990 support
-      hwmon: (pmbus/tps25990): add initial support
+ drivers/hwmon/pmbus/pmbus_core.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
- .../bindings/hwmon/pmbus/ti,tps25990.yaml          |  83 ++++
- Documentation/hwmon/index.rst                      |   1 +
- Documentation/hwmon/pmbus-core.rst                 |  50 +++
- Documentation/hwmon/tps25990.rst                   | 148 +++++++
- MAINTAINERS                                        |   8 +
- drivers/hwmon/pmbus/Kconfig                        |  17 +
- drivers/hwmon/pmbus/Makefile                       |   1 +
- drivers/hwmon/pmbus/pmbus.h                        |   4 +
- drivers/hwmon/pmbus/pmbus_core.c                   |  95 ++++-
- drivers/hwmon/pmbus/tps25990.c                     | 428 +++++++++++++++++++++
- include/linux/pmbus.h                              |  14 +
- 11 files changed, 840 insertions(+), 9 deletions(-)
----
-base-commit: 516ddbfef736c843866a0b2db559ce89b40ce378
-change-id: 20240909-tps25990-34c0cff2be06
-prerequisite-change-id: 20240920-regulator-ignored-data-78e7a855643e:v2
-prerequisite-patch-id: 468882ab023813ffe8a7eeb210d05b5177a1954a
-prerequisite-patch-id: 2d88eb941437003c6ba1cebb09a352a65b94f358
-prerequisite-patch-id: e64c06b721cda2e3c41a670251335d8a2a66a236
+diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+index ce7fd4ca9d89b0f0a02e6c99db391a7cfca924a8..085a4dc91d9bad3d2aacdd946b74a094ea9ae458 100644
+--- a/drivers/hwmon/pmbus/pmbus_core.c
++++ b/drivers/hwmon/pmbus/pmbus_core.c
+@@ -2719,9 +2719,7 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
+ 	 * limit registers need to be disabled.
+ 	 */
+ 	if (!(data->flags & PMBUS_NO_WRITE_PROTECT)) {
+-		pmbus_wait(client);
+-		ret = i2c_smbus_read_byte_data(client, PMBUS_WRITE_PROTECT);
+-		pmbus_update_ts(client, false);
++		ret = _pmbus_read_byte_data(client, 0xff, PMBUS_WRITE_PROTECT);
+ 
+ 		if (ret > 0 && (ret & PB_WP_ANY))
+ 			data->flags |= PMBUS_WRITE_PROTECTED | PMBUS_SKIP_STATUS_CHECK;
 
-Best regards,
 -- 
-Jerome
+2.45.2
 
