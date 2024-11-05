@@ -1,162 +1,144 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F4A1FA270
-	for <linux-doc@vger.kernel.org>; Mon,  4 Nov 2024 23:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C42195
+	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 00:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730763339; cv=none; b=AgKWidouIrU4rboRiUh6NVhDmsn6Rd5Uj4oKWbkNIctrSEcXtkBrfT7SLIieD/j2o6O+hLrNPzfCAYB69/4+EwPwwcix7vwbCw1eWe9dCMfxHvx9l67MfPZzzi+7IBfC9GDFIf6rF3tNBIfEiV2fzgOO8FAPsQqcW4JALeS+pn8=
+	t=1730765073; cv=none; b=j4mNX5DlUHixD14zuMRigHI04ZguEGZ0zw5Pij9p+lNugUE5qTT/n6ANWA8PKzL7veNq/GdkSyQQUUy3JCtNKSufoWQbXlfAfulf5trfRjOV7r48mgS+vk6D3PEdKc7051hE4UIlOLuj1E+rmpAytADUPHtkie+8K26GjoEVLsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730763339; c=relaxed/simple;
-	bh=KrmY+S+q6BIC6iikQDGqq/OAqNilCEI8g7m4VhXfxKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N2XeptCfNkZp0loZeK4G8kFakZ5RtdexKWrDTAwM5UpeKDnJy9i3BtLsq0M9ZZOYHpdhwE1xX1qT9WV8eWkry2AzMlqmu8W6xwKLMd41jp0YL9eslZh6vAAHbmwIrHZIlkKwcTwInXZc0KdDus0wgQmF4HO0dm9w/IpndOHwq6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=XohlK632; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1730765073; c=relaxed/simple;
+	bh=qeUfMege/AiB/je3hBCsy+mid3QVCDsAnhw/lkw6DEo=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=UnzozwiEU3WsyCj8T7Q6+5E7+ls8Zo/92N5l+WrOEH//QXcXHpFNRz1vGGWynh7VGtmnkFs7hnxrIaQKt0hePJYbLZBZjWElXU+YJVq1McWCBffmTsJ07/H4eG+f93jI+2jCCeFCliz1WxUSXy0RGJ2GKxb4SHIyMo2YlI4E/i8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=VhMC3Fgm; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="XohlK632"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7eab7622b61so3709200a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 15:35:37 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="VhMC3Fgm"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4314b316495so41048715e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 04 Nov 2024 16:04:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730763337; x=1731368137; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=31BGTQSdIkP/4Zu0IN+x2yZh6+VSpCdF3MI1H4dhuNY=;
-        b=XohlK632eUpc2BcnmIxUPkgr1LiSBJG+Bv1tV/Fk48ez7StLDZGT8lwiW7mEp7BpMU
-         jmEhpBrdnDsMSRxA8vxVmQnhNfcXUlwBcFixuVcTDOGg7agf17CPfPOCy1sIvfO3Ihzt
-         bs81q67b+9aWmOZk+uOnz+WtopmwwbVsWG18lRrQgNKgKAFco6rId4lUeaREg5/yFgYw
-         INuImmwHILRgS56naJ6udVcckXR+lV/unVdVYwvI6weSP1kwL2kPCntH2JPGPLZTl8ew
-         xyaxBg0B1vAXkwHMDkYcxGGh0RSgODBn8gIooM5CBmJBPFEansQ0JaDrn91Dzo5KCCKU
-         DDTA==
+        d=citrix.com; s=google; t=1730765070; x=1731369870; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=sesnMCMP/HStXvO1xZBQzhjE1UZuU9gmGZkAu8bel2Q=;
+        b=VhMC3FgmtSq7gLtZYks6R67leqYjsKp/n/0DXFqTDFUJZn0jdhueVQwB3uTdiTjZPy
+         yvZ0Jy1oNXNzBuvUj6gcKT6GEQaYjcwOXwNOh0wZPJ01aBedK8Y6LLg/BCI2BCaMCeV9
+         GhU+nFSXZXEaU4IMK08pxWT6SKfwuENOLRwlY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730763337; x=1731368137;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=31BGTQSdIkP/4Zu0IN+x2yZh6+VSpCdF3MI1H4dhuNY=;
-        b=nOKEG8buCtjQEpK556Ps6aQn2Rv+nWtsdCzjvr1036RO4O2JSfaUGZND0B5As3Pgdy
-         specmXy4zK7e8CrXgAu62cf6fxZ7WFv++631L/crmKc9/UHsXQ/khZ2DFx1LaeEOGV1X
-         MCxm1yspj2EpUwGcr2YC9mHRCn65ZGy+LMheoy/oiUW9fv5loYJ9JMcXx2H+XeYxg/Fu
-         RBi+wrHt3ZTWalFiPjGXcO+YnQOaBUG5p6xSV08fwpba4+MUzGznH+Xi+im8/GFx6EyW
-         PA/NHal0AC1l8aR8N7TYj196QBIMNUXAzEp0MvH5dCNL9firjz/5YkqF/+7dRs3gyvYB
-         fbyA==
-X-Forwarded-Encrypted: i=1; AJvYcCUoKNAWeQ5UAMq5S2nQTzYxEPtLM71mfDgxoFmLO0qw/mpvf3/angLPNt+GjGfxcUYMd2mljNO9wR8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3xT29O+VhiSJ16zZvmOfohUGC2zggD9NB24B1sz0/LJF60E7x
-	VIppp7VU47yeRuj2v8T1CoFjvcxVqstIpqCi7h3atIVeZgwm7U4rXNkxkVI92c4=
-X-Google-Smtp-Source: AGHT+IHUkdei85jsd4jEJe1dv8cR5cqR+1/XIGSXNDsrFT+G8g62SWEwp7GVusVEZsJaOrWKuYtEtQ==
-X-Received: by 2002:a17:903:40ca:b0:20c:a19d:e73e with SMTP id d9443c01a7336-210c6cf2237mr433175125ad.57.1730763336945;
-        Mon, 04 Nov 2024 15:35:36 -0800 (PST)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057c7560sm66579565ad.237.2024.11.04.15.35.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 15:35:36 -0800 (PST)
-Date: Mon, 4 Nov 2024 15:35:33 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Ian Rogers <irogers@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>, guoren <guoren@kernel.org>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	James Clark <james.clark@linaro.org>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFT 00/16] perf tools: Use generic syscall scripts for
- all archs
-Message-ID: <ZylaRaMqEsEjYjs6@ghost>
-References: <20241104-perf_syscalltbl-v1-0-9adae5c761ef@rivosinc.com>
- <3b56fc50-4c6c-4520-adba-461797a3b5ec@app.fastmail.com>
- <Zyk9hX8CB_2rbWsi@ghost>
- <CAP-5=fUdZRbCp+2ghEUdp+qJ1BuMDuTtw9R+dFAaom+3oqQV_g@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1730765070; x=1731369870;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sesnMCMP/HStXvO1xZBQzhjE1UZuU9gmGZkAu8bel2Q=;
+        b=eA0heicIKP6YiTjJfGYV7cvZk9bw+5pBUtpwqPqyKhd7gbMrH5NexKQTCpSDb25CkV
+         Y8VgnDHZJ/LUv5qjuGkEnnDj59zk+VGzqmRMVZJj5NijsEiRJTGrGkWHdH8zfIt4aCXC
+         CDdTTcsIIKffWmdkpBxObHyfvakjqUth/iWyMD4PoFlj3bU8aFWqsHza6gheK7a4uSQZ
+         MsKM+/xFPCBBmu1Hv97KjXbzO5OhZe0qNF6vFmUK2Dlhs/Wg4bx2kRuLBT7cqZIqcMiI
+         k/o/+dOPTNw+UptVIeaojcuEBnLX2xhmXoTZqkHPRq20fVcJS1uh6fRfEGS3X96UzxYg
+         SXYA==
+X-Forwarded-Encrypted: i=1; AJvYcCV2bH1+oKBaDnl3cuLtUwvOZDx5+lvdv/iW15qlCvL4u6MsDzhhpWqWA/BmBECu4kqGp2peGf/NKcw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkejvYzAMGKBoJmeFKXfnxNJ+qsAAkGED6gIljtGadd53y1iqw
+	k7geQYMYvDkyTzn59cmM7PhRVYrp0MIoFQs/Luz8egf5fiEK7zBIG+tIROC8CjY=
+X-Google-Smtp-Source: AGHT+IFSNVnW7S8yuwR6GGVHG3ABf/ZPmOmCYAFNEOsMjavp25/AFDw0XQEZg0C9Uwu707CZEs2e/g==
+X-Received: by 2002:a05:600c:4ecc:b0:431:3c67:fb86 with SMTP id 5b1f17b1804b1-4327b801f83mr148395835e9.33.1730765069904;
+        Mon, 04 Nov 2024 16:04:29 -0800 (PST)
+Received: from [192.168.1.10] (host-92-26-98-202.as13285.net. [92.26.98.202])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd74f132sm204043415e9.0.2024.11.04.16.04.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 16:04:29 -0800 (PST)
+Message-ID: <e5463e70-a0a6-4cce-9c2c-4a09c2e622ef@citrix.com>
+Date: Tue, 5 Nov 2024 00:04:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAP-5=fUdZRbCp+2ghEUdp+qJ1BuMDuTtw9R+dFAaom+3oqQV_g@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+To: dave.hansen@intel.com
+Cc: Amit.Shah@amd.com, Babu.Moger@amd.com, David.Kaplan@amd.com,
+ Sandipan.Das@amd.com, Thomas.Lendacky@amd.com, boris.ostrovsky@oracle.com,
+ bp@alien8.de, corbet@lwn.net, daniel.sneddon@linux.intel.com,
+ dave.hansen@linux.intel.com, hpa@zytor.com, jpoimboe@kernel.org,
+ kai.huang@intel.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mingo@redhat.com,
+ pawan.kumar.gupta@linux.intel.com, pbonzini@redhat.com,
+ peterz@infradead.org, seanjc@google.com, tglx@linutronix.de, x86@kernel.org
+References: <62063466-69bc-4eca-9f22-492c70b02250@intel.com>
+Subject: Re: [PATCH 1/2] x86: cpu/bugs: add support for AMD ERAPS feature
+Content-Language: en-GB
+From: Andrew Cooper <andrew.cooper3@citrix.com>
+Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
+ 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
+ 6+ahAA==
+In-Reply-To: <62063466-69bc-4eca-9f22-492c70b02250@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 04, 2024 at 02:03:28PM -0800, Ian Rogers wrote:
-> On Mon, Nov 4, 2024 at 1:32 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
-> >
-> > On Mon, Nov 04, 2024 at 10:13:18PM +0100, Arnd Bergmann wrote:
-> > > On Mon, Nov 4, 2024, at 22:06, Charlie Jenkins wrote:
-> > > > Standardize the generation of syscall headers around syscall tables.
-> > > > Previously each architecture independently selected how syscall headers
-> > > > would be generated, or would not define a way and fallback onto
-> > > > libaudit. Convert all architectures to use a standard syscall header
-> > > > generation script and allow each architecture to override the syscall
-> > > > table to use if they do not use the generic table.
-> > > >
-> > > > As a result of these changes, no architecture will require libaudit, and
-> > > > so the fallback case of using libaudit is removed by this series.
-> > > >
-> > > > Testing:
-> > > >
-> > > > I have tested that the syscall mappings of id to name generation works
-> > > > as expected for every architecture, but I have only validated that perf
-> > > > trace compiles and runs as expected on riscv, arm64, and x86_64.
-> > > >
-> > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > >
-> > > Thanks for doing this, I had plans to do this myself, but hadn't
-> > > completed that bit so far. I'm travelling at the moment, so I'm
-> > > not sure I have time to look at it in enough detail this week.
-> > >
-> > > One problem I ran into doing this previously was the incompatible
-> > > format of the tables for x86 and s390, which have conflicting
-> > > interpretations of what the '-' character means. It's possible
-> > > that this is only really relevant for the in-kernel table,
-> > > not the version in tools.
-> > >
-> >
-> > I don't think that is an issue for this usecase because the only
-> > information that is taken from the syscall table is the number and the
-> > name of the syscall. '-' doesn't appear in either of these columns!
-> 
-> This is cool stuff. An area that may not be immediately apparent for
-> improvement is that the x86-64 build only has access to the 64-bit
-> syscall table. Perhaps all the syscall tables should always be built
-> and then at runtime the architecture of the perf.data file, etc. used
-> to choose the appropriate one. The cleanup to add an ELF host #define
-> could help with this:
-> https://lore.kernel.org/linux-perf-users/20241017002520.59124-1-irogers@google.com/
+> So, I'll flip this back around.  Today, X86_FEATURE_RSB_CTXSW zaps the
+> RSB whenever RSP is updated to a new task stack.  Please convince me
+> that ERAPS provides superior coverage or is unnecessary in all the
+> possible combinations switching between:
+>
+> 	different thread, same mm
+> 	user=>kernel, same mm
+> 	kernel=>user, same mm
+> 	different mm (we already covered this)
+>
+> Because several of those switches can happen without a CR3 write or INVPCID.
 
-Oh that's a great idea! I think these changes will make it more seamless
-to make that a reality.
+user=>kernel=>user, same mm explicitly does not want to flush the RAS,
+because if the system call is shallow enough, some of the userspace RAS
+is still intact on when you get back into user mode.
 
-> 
-> Ultimately I'd like to see less arch code as it inherently makes cross
-> platform worker harder. That doesn't impact this work which I'm happy
-> to review.
+The case which I expect will go wrong is user=>kernel=>different kthread
+because this stays on the same mm.
 
-Yeah I agree. Reducing arch code was the motivation for this change.
-There was the issue a couple weeks ago that caused all architectures
-that used libaudit to break from commit 7a2fb5619cc1fb53 ("perf trace:
-Fix iteration of syscall ids in syscalltbl->entries"), so this change
-will eliminate that source of difference between architectures.
+That does need to flush the RAS and won't hit any TLB maintenance
+instructions that I'm aware of.
 
-- Charlie
-
-> 
-> Thanks,
-> Ian
+~Andrew
