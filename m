@@ -1,143 +1,153 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2B21D2B0F;
-	Tue,  5 Nov 2024 10:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7252EB1F
+	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 10:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730802023; cv=none; b=DwWfZfSAuN7nSTo5aIACEOjbbTnOt65AYzTjC+Fe4V4GnTUvBaPAEZzC5fGa/TyetCgCXH9hMpDFyWsUXCdETf71LY66JPqexspfzGV4ZisSyCiZJhIcgcMMoe+oRAy51gWWYNnmggVXabqoe9fkboBZo4um6baVxrzIgfOBrIQ=
+	t=1730802960; cv=none; b=f7RvU0jvj1/7b8uxo9+8ac16r64Mx5Z2sPtayCuy+4XJZKukig2M/kpWdlAnSqtmW6rQBfk5Uf7oQTa9RlfXcO9NZ2nKKKZfGt2AIYhZfPQfyhLx0ojuvArQP1DRMrO+T28FKXcCcIIJiM9elZifR+6hLXI/a0ytysdpOXp3oSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730802023; c=relaxed/simple;
-	bh=v3ndVqHP3JRvh4yNpNPFvc9eMbj704RDjLO3v5uk7+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e26rrBfzB6B6HiQp28RWFiuk03P/dTcHZQmr+Fb+4t/doe1R81lafrOmn/dfEBnkQbHr62Y0o8KXfJ03X3jujXro66/x0hUa5cao8Yqq39AsvaBwW3RCCVbwE4cwrd3EigW6vGN5dlIXIFv/EU677muNfM5nd/uI8mrj41JpX08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Yba7nZWr; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1730802960; c=relaxed/simple;
+	bh=6HhMrwij3Sm4Ez5HTdLMk1GmRfoKOqzP5Je5fYiFaKY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OENSoaQAf8wZFh4EymzV+9A7MCLCNJPoRBeCfR60YACWonwjJ/KKi4xBl2r24CUL/Usrk61Fo/oUD4KRrFFLVFGIwjqDFmw5rDrTTl9/xJ/qN0pFf9zMnOjCrrV7w65WsngrilBkcz5yTbRO5dzEUMLKomUvBNKsKUbKgpQ56ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2E9iggUA; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Yba7nZWr"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3360540006;
-	Tue,  5 Nov 2024 10:20:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730802012;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=frgUE9MhZvamkR8/ewj/FH/e6YcRGcG2QNQN+94jcNI=;
-	b=Yba7nZWr2CAkTBIK7Mj2OKyXuhW8Vz19vTFCdmac8rpbineGSAFFAtemZixk7v1lofDUVW
-	luBANgbVN0srjxsnSOZk7Q40+m6qUWTLnzyCTFhG9+TRKyP0isbXXDHCKq+4zN06GyCBK+
-	ukmpXaBubgFe/Gfuuns8mYFAiWNKxzisXVyZI7HbFavAJcVmM+B7/Kw+8tKXNJZEMW1lnP
-	uXZ4O9NKC6LTV64+z3m7H6bBg7NVGUn9WqvOGe5M8lPlqJR1/ii2o9FJLjLETwoydNQXe5
-	icwpNbRbw7nQwZQSQBhp2raay6/zXxorSgG7rlAnLUq0dm/2j5gH+O5jTIrtYw==
-Date: Tue, 5 Nov 2024 11:20:10 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v2 15/18] net: pse-pd: Add support for
- getting and setting port priority
-Message-ID: <20241105112010.17d6f40b@kmaincent-XPS-13-7390>
-In-Reply-To: <ZySsCuOvSnVZnIwq@pengutronix.de>
-References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
-	<20241030-feature_poe_port_prio-v2-15-9559622ee47a@bootlin.com>
-	<ZyMpkJRHZWYsszh2@pengutronix.de>
-	<20241031121104.6f7d669c@kmaincent-XPS-13-7390>
-	<ZySR75i3BEzNbjnv@pengutronix.de>
-	<ZySsCuOvSnVZnIwq@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2E9iggUA"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5cedea84d77so1969991a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2024 02:35:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1730802957; x=1731407757; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sDJ/Kctg4e0f30HvMWXY+UgoVtT+n9MKZZPRr6MzBqE=;
+        b=2E9iggUAKqBSR1LN03HPKhPVOvgh2KKD9pzQ1sUyfa2Rmy33jiwJYmQBibQxNMljfx
+         PJgAagA+3V4tVMaZmCtIhO9lJ0I5sSOqXUsVmxRx0vNzVRrd7Q875EwFCYaVvoRj7aVs
+         itvpI7inseyDsLACySXkl5tF6tTFTPvFAG0VQYFoZz1s9Dh+b6wx8/RIStIZ/AxTg8U0
+         LOP3sO8dnVNCWtPZ8bsJxWl0JM0vAKvKkp+bcs04MeYPRz2lWY+7VfSqAWwPVUH5iV44
+         U4FkC+Qvm7WkVQDV4Ov2bADRCOHjQPrqRKLk4piQgt4d/j3IZIxEaAZuk2M/ZKCukxm8
+         y5nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730802957; x=1731407757;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sDJ/Kctg4e0f30HvMWXY+UgoVtT+n9MKZZPRr6MzBqE=;
+        b=FD2rQrE/+kEQ2s2VQgz+bqD/IriEvyoZn6YxdklB45xvprJY03ETfmXklyhPgdnvPO
+         EkufmI1+tOzcGO4lkeSY09Jj1UHAB45wzS2wzfhmDDaghDH4nYOTYs0560lyj9UE5uqr
+         tzY56XGSMgMyGF6fKNctEaXEMSBAnDYBatIonMnxFoT1NzRWknAAYd6qx43U6oKhj3mz
+         q+ban6BRjY5P6FYROEiFlgRWxHLDmlgOLbJ7l59ytlNFBBjO/iiZq9G/LexNV0GMgw1U
+         kBuNhdZJTLZAiUJSh1TIn2RHWBb8stesXml5nENF6tvt5x/vt318dowy4gUg2R07VcUG
+         3bJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVTjqswtdyjwVgSslC1A3TovXXtfoFlhBbt1pPPj9oBz7eXFWc6NeqThAoi7qJFRdDoeiPRD1xU3FI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywvbvx+NOvs5TABayiH2FfplFqt6Zfl37Fl8SpFEYUUVtVfM3ZF
+	6Tcfbx7tlpDNO9F6cMvCkCMAxvw0WGnWzqLfG17vpDsGM7EDP8mafMySZbwgGdQkhx/L/sPF0gW
+	7cmP/BIEi6a2BXwvq5fVQDVTLT0euh13QD0Zl
+X-Google-Smtp-Source: AGHT+IG8aPze0kJVzo0IME8bHugDyPyiohoFX5zaBuXzmMbChOtscLPmMnEKHt24u7PgbFxdiPbd9OFtGrxcTJYEPSw=
+X-Received: by 2002:a17:907:7e84:b0:a9a:123d:3f1a with SMTP id
+ a640c23a62f3a-a9e508d4af3mr1757814966b.17.1730802956929; Tue, 05 Nov 2024
+ 02:35:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <cover.1730244116.git.babu.moger@amd.com> <d27c3a15ccb11c6ba76794eba6cf7c013b0bb074.1730244116.git.babu.moger@amd.com>
+ <CALPaoCh1BWdWww8Kztd13GBaY9mMeZX268fOQgECRytiKm-nPQ@mail.gmail.com> <6fd12815-98eb-469f-8477-0de12af29aa2@amd.com>
+In-Reply-To: <6fd12815-98eb-469f-8477-0de12af29aa2@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Tue, 5 Nov 2024 11:35:46 +0100
+Message-ID: <CALPaoCgiHEaY_cDbCo=537JJ7mkYZDFFDs9heYvtQ80fXuuvWQ@mail.gmail.com>
+Subject: Re: [PATCH v9 19/26] x86/resctrl: Add the interface to unassign a MBM counter
+To: babu.moger@amd.com
+Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, 
+	fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com, thuth@redhat.com, 
+	paulmck@kernel.org, rostedt@goodmis.org, akpm@linux-foundation.org, 
+	xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com, 
+	daniel.sneddon@linux.intel.com, perry.yuan@amd.com, sandipan.das@amd.com, 
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
+	jithu.joseph@intel.com, brijesh.singh@amd.com, xin3.li@intel.com, 
+	ebiggers@google.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com, 
+	james.morse@arm.com, tan.shaopeng@fujitsu.com, tony.luck@intel.com, 
+	vikas.shivappa@linux.intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com, 
+	eranian@google.com, jpoimboe@kernel.org, thomas.lendacky@amd.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
 
-On Fri, 1 Nov 2024 11:23:06 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+Hi Babu,
 
-> On Fri, Nov 01, 2024 at 09:31:43AM +0100, Oleksij Rempel wrote:
-> > On Thu, Oct 31, 2024 at 12:11:04PM +0100, Kory Maincent wrote: =20
-> > > On Thu, 31 Oct 2024 07:54:08 +0100
-> > > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> > >  =20
->  [...] =20
->  [...] =20
-> > >=20
-> > > Ack. So we assume PoDL could have the same interruption events.
-> > >  =20
->  [...] =20
-> >=20
-> > After thinking about it more overnight, I wanted to revisit the idea of
-> > having a priority strategy per port. Right now, if one port is set to
-> > static or dynamic mode, all disabled ports seem to have to follow it
-> > somehow too. This makes it feel like we should have a strategy for the
-> > whole power domain, not just for each port.
-> >=20
-> > I'm having trouble imagining how a per-port priority strategy would wor=
-k in
-> > this setup.
+On Mon, Nov 4, 2024 at 7:21=E2=80=AFPM Moger, Babu <babu.moger@amd.com> wro=
+te:
+>
+> Hi Peter,
+>
+> On 11/4/24 08:16, Peter Newman wrote:
+> > Hi Babu,
+> >
+> > On Wed, Oct 30, 2024 at 12:25=E2=80=AFAM Babu Moger <babu.moger@amd.com=
+> wrote:
+> >>
+> >> The mbm_cntr_assign mode provides a limited number of hardware counter=
+s
+> >> that can be assigned to an RMID, event pair to monitor bandwidth while
+> >> assigned. If all counters are in use, the kernel will show an error
+> >> message: "Out of MBM assignable counters" when a new assignment is
+> >> requested. To make space for a new assignment, users must unassign an
+> >> already assigned counter.
+> >>
+> >> Introduce an interface that allows for the unassignment of counter IDs
+> >> from both the group and the domain. Additionally, ensure that the glob=
+al
+> >> counter is released if it is no longer assigned to any domains.
+> >
+> > This seems unnecessarily restrictive. What's wrong with monitoring
+> > different groups in different domains?
+>
+> Yes. User can monitor different groups in different domains. But, they
+> will have to use different global counter for each group.
 
-Indeed you are right. I was first thinking of using the same port priority =
-for
-all the ports of a PSE but it seems indeed better to have it by Power domai=
-n.
+What is a global counter anyways? It sounds like an artifact of an
+earlier revision. This concept does not sound intuitive to the user.
 
-> > Another point that came to mind is that we might have two different
-> > components here, and we need to keep these two parts separate in follow=
--up
-> > discussions:
-> >=20
-> > - **Budget Evaluation Strategy**: The static approach seems
-> > straightforward=E2=80=94if a class requests more than available, approp=
-riate
-> > actions are taken. However, the dynamic approach has more complexity, s=
-uch
-> > as determining the threshold, how long violations can be tolerated, and
-> > whether a safety margin should be maintained before exceeding maximum l=
-oad.
-> >=20
-> > - **Disconnection Policy**: Once a budget violation is detected, this
-> > decides how to react, like which ports should be disconnected and in wh=
-at
-> > order.
-> >=20
-> > Would it make more sense to have a unified strategy for power domains,
-> > where we apply the same budget evaluation mode (static or dynamic) and
-> > disconnection policy to all ports in that domain? This could make the
-> > configuration simpler and the power management more predictable. =20
+>
+> Here is an example.
+>
+> #cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+> groupA//0=3Dt;1=3D_;
+> groupB//0=3D_;1=3Dl;
+>
+> Group A - counter 0 (Assigned to total event in Domain 0)
+> Group B - counter 1 (Assigned to local event in Domain 1)
+>
+> We allocate two different counters here.  Now we are left with 30 counter=
+s
+> (max 32).
+>
+>
+> This is similar to CLOSID management we follow in resctrl. This is not a
+> new restriction,
 
-Yes, these policies and the port priority mode should be per power domains.=
-=20
+It is a restriction in a new feature that resembles a restriction in
+an existing feature.
 
-> Except of user reports, do we have documented confirmation about dynamic
-> Budget Evaluation Strategy in PD692x0 firmware?
->=20
-> Do this configuration bits are what I called Budget Evaluation Strategy?
-> Version 3.55:
-> Bits [3..0]=E2=80=94BT port PM mode
-> 0x0: The port power that is used for power management purposes is
->      dynamic (Iport x Vmain).
+I don't see what function the global allocator serves now that there
+is already a per-domain allocator. My best guess is that it avoids the
+case of an mbm_assign_control write that succeeds in some domains but
+fails in others.
 
-Yes it seems so. I can't find any more configurations on the budget evaluat=
-ion
-strategy than the power limit.
+I admit I said earlier that I was only planning to allocate globally,
+but now that I'm evaluating how to make resctrl's monitoring
+functionality scale on large systems, I'm being forced to reconsider.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+As long as this is only a limitation I can fix later, I don't see it
+as an obstacle. There would just need to be better documentation of
+what sort of internal data structures the user needs to visualize in
+order to use this feature successfully.
+
+-Peter
