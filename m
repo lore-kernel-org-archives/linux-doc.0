@@ -1,207 +1,269 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2046.outbound.protection.outlook.com [40.107.220.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0110921315C
-	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 19:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730836441; cv=none; b=maqa9Z+7siiQWvYChGViZij3aW4KE1xcmipDegbs0LoVLHk86Nd83btkmPVoacY3fN8ppzM8nN0yz+G7JxBkFnzXpbOm6Dr19uFNsBo4yOCdPQxPoK6efyq1y4I2orSURxXVHmox9y0nZ3Os3XNAEyyn0pFxBTy3oZ6kgxPVPmA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730836441; c=relaxed/simple;
-	bh=q3kRFS0aC9llW2hXigplm+6X6nuxwR5TAuU7KtMvtNw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bKzFUw45xfaniQjVcf0MC9brp0PWgxosYJZavfnvOHgYJJicffL2nc5I9Wi3p053kqGWEVfWANHIsZlgHMnsnRPOaLvRueg6HzCY1q+CFfkzxWOwQuksS99c1hCtpamI+TtJOV2zi+YHtZ7iOkHNSr+4OqfpmNNLMu9cGx8pLPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=cCnrWGzn; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84D321314B;
+	Tue,  5 Nov 2024 19:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730836704; cv=fail; b=G8dfVqXj/3xf7fV1ed2LVygdj5r+8Yvr7AU8TPTEW1ErXp8JQWuSrPwkLbCXJIbhcI0bUV7HcKgKkC/M9yW+Lk3hTaxPx5TmfCjb8OSnTsUnWK+zlXj98d0oRFlMOSYAtscPpRCHOz75fSzFeUHfWZpV0qwbSnMKIggBiLQO7iY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730836704; c=relaxed/simple;
+	bh=KguuQTWVe8JYJDjOh/U2y7iOEoCT+PVR6rEC5pJ8P5M=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=jKZPL+mUh/BkFAYK8Aa9n5l5SW9AWEk0lusW9Qal1Dh9D3GGeEv2g4tkQP3KMXOCERvxDaPoy5Hd4eG/4QeqGUuHIJb05bGGsJrXSxB3Sg1DrvisLDioBB9js9k3+HxLtNp6sZqzXt4gq6Usk+aiSCPS79q7yWfESokimNTkvLc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=iXF8wyoB; arc=fail smtp.client-ip=40.107.220.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="cCnrWGzn"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-460a23ad00eso1473361cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2024 11:53:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1730836439; x=1731441239; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+fX00798BJ3ATWBHAwavTUTImd2ssZMf/WzAfMHnat0=;
-        b=cCnrWGznqeSBxBybSIX9KF2jm+YHihlVV6QSsqvER5HCYWOvEMYWGMMrUPl6GATwiZ
-         srLlBdBWXyC4dDZ9YWe3VWgJGOBPRvDEFxnahCiNSoGSK8bsmnQxtRiboeppWUadKGCS
-         P0/6mWuTEfwnZ1pXQCym0DsT+gHAJHBeVYSJiwS3/eJ6vh4YNHNi7skohTpFGvza6lWl
-         fkKSEpvQfMWtstvuZMSaGHptv80S6FNKODFfEMfpGP7fRaQ/eU4VJbTXyRIKbK2qiPC3
-         5qsFAaTWTC9aUfiNVu8c4B7nPODBl1MRoHORCscuhmjiWPpV8Au1arDi3GEwmKgoOGUS
-         NoAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730836439; x=1731441239;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+fX00798BJ3ATWBHAwavTUTImd2ssZMf/WzAfMHnat0=;
-        b=vZxZpub9+f9UOcqImPoJRWujBl7Xla/YLVsp9VXzeXVOTFff7RHEvr2nRGpkDkfI5L
-         Mu2YiO80AAy3V5Z/ft2tZW4lno3IEqCI4585U4ycH1tNtxntzcMCgHoLupygmwEGYtBB
-         lna11apz0YXfQSLGoOUWfhPxvu0PgqdcLhMkeAdrTFixC/gJGQjnsZrDIw1p1Ey9pOSh
-         37Y1h9QRpBu77Ow0YT3ux99nO2HEBdrW7k35qAusm4hYU9K5sMW0igBQ4bx+qF6mQfi+
-         zmtTzhhUaO0X4gBjxYpLWJ0LEDQMk52+mIZqO/NKTt6Ut93ReKG/8C4cF/KD2XkjIGVI
-         x9qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUnQiwcc2FiW2PUbo0FPhV+3gsR/Yq99emQFJB6M1avdQND6/Gio812gxARPsX71eXOQWXMV/OXoAo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2xHJAZob91nhQt2yF1Y50r0BAYbqN8EmLgHsKMoGWb2rYXDxm
-	2+CnrIL5ibVTXo1uVKeClv6XjsS1fs/6IJ/Jk706TvmjtjQBRyIPb76/tLfDS4U=
-X-Google-Smtp-Source: AGHT+IEaav3D7n+muLVYjXAvVqOfQiyB3KvOcn2o5SW6dcKTwKh96GbO3Tfnssa4/aNZfrPdV+MQVQ==
-X-Received: by 2002:ad4:4eeb:0:b0:6cb:ed27:145c with SMTP id 6a1803df08f44-6d35b9510a3mr302739006d6.19.1730836438787;
-        Tue, 05 Nov 2024 11:53:58 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d35415a62asm63870536d6.80.2024.11.05.11.53.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 11:53:58 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1t8Pcj-000000023mq-1vDZ;
-	Tue, 05 Nov 2024 15:53:57 -0400
-Date: Tue, 5 Nov 2024 15:53:57 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Robin Murphy <robin.murphy@arm.com>, Leon Romanovsky <leon@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
-Message-ID: <20241105195357.GI35848@ziepe.ca>
-References: <cover.1730298502.git.leon@kernel.org>
- <3567312e-5942-4037-93dc-587f25f0778c@arm.com>
- <20241104095831.GA28751@lst.de>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="iXF8wyoB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QqKcKS4bv/UtNN2/y3SmYZfGKg8rsCt5WHVGuLuz8hytPLSDyMMLV/fT/CQjDXPfiXRIiK7/8HmIDf/ULOwRCOxCEuUvzljxxjkBReJHAYl8J527x8zdPSBAFBtXAIIgTPxWP628AeBguzLMcQjP4dKqW6ADRTf6ALceE45hhi2SrGBVDudpOk4AaiMrwdSCYx64A+yZKW8aErknKH8bADpTjBbtt44QMrAUUbJGwHu6Ndk8pjFbBDszCWQbIbCRjDUdnUIIMYs37hm6HkuZYAljgiJP1OmPhT9Q+8iJlG9cWhspP1FWIJTyhuSh8u7OPoZVHNFIpwWrjCbIgyCiAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J4sV397K/qUnQQhKn5HYBXOahWtpXKqvQxbcxGwbWiI=;
+ b=GhvA7UAOz2hp1wHxB8SDtoLnqzDiAxk+bVnIE1Ns7bC1jpk509QNOnMts1hqz06wSOIntJFf8Y9Gkchm2Sk2hoham8NzubHbr1ivwEcsI67Oq6rPmGMbBAABbSkwQVEjisKbenco4ty1jfE10+AuZY9XOKofOdhAnUGBEpCYuPsP5LZ2j+yxArzWQtXBVNcHar15sOEGjNLtGOfllfghWTUkCC7eeDu5cFkGihEmQhXIEzI7bdrqVFzi5DX52uEqsjLDosZR0QOlE10QhWvOyKV4+9R7K7KhMAyI+S7PiYn/Ymi9xo+hNt8vKu4/1vUCzdwUjwuwkXU+kgDsCVVtaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J4sV397K/qUnQQhKn5HYBXOahWtpXKqvQxbcxGwbWiI=;
+ b=iXF8wyoBikNucR5ggRC82lm8zcUjXNvsSrOWvKkav/TwUoMGPyfYFuiMvbgroYXshJ+pS48iUYXSWChllmg6pouuSqS3y0LRQ5Kk9YiIr+8Bi1z5miamHVkKNwiOAsYLYoOJrqS6YfBbq+HxzCJ+Op0DWQ25bZEmjp4iI049w00=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by CH3PR12MB7595.namprd12.prod.outlook.com (2603:10b6:610:14c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
+ 2024 19:58:19 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8114.031; Tue, 5 Nov 2024
+ 19:58:19 +0000
+Message-ID: <6514f004-c83b-422e-a31d-f9e1f399cb5f@amd.com>
+Date: Tue, 5 Nov 2024 13:58:15 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v9 19/26] x86/resctrl: Add the interface to unassign a MBM
+ counter
+To: Peter Newman <peternewman@google.com>
+Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com, thuth@redhat.com,
+ paulmck@kernel.org, rostedt@goodmis.org, akpm@linux-foundation.org,
+ xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
+ daniel.sneddon@linux.intel.com, perry.yuan@amd.com, sandipan.das@amd.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
+ jithu.joseph@intel.com, brijesh.singh@amd.com, xin3.li@intel.com,
+ ebiggers@google.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com,
+ james.morse@arm.com, tan.shaopeng@fujitsu.com, tony.luck@intel.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ maciej.wieczor-retman@intel.com, eranian@google.com, jpoimboe@kernel.org,
+ thomas.lendacky@amd.com
+References: <cover.1730244116.git.babu.moger@amd.com>
+ <d27c3a15ccb11c6ba76794eba6cf7c013b0bb074.1730244116.git.babu.moger@amd.com>
+ <CALPaoCh1BWdWww8Kztd13GBaY9mMeZX268fOQgECRytiKm-nPQ@mail.gmail.com>
+ <6fd12815-98eb-469f-8477-0de12af29aa2@amd.com>
+ <CALPaoCgiHEaY_cDbCo=537JJ7mkYZDFFDs9heYvtQ80fXuuvWQ@mail.gmail.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <CALPaoCgiHEaY_cDbCo=537JJ7mkYZDFFDs9heYvtQ80fXuuvWQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1PR04CA0018.namprd04.prod.outlook.com
+ (2603:10b6:806:2ce::23) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241104095831.GA28751@lst.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH3PR12MB7595:EE_
+X-MS-Office365-Filtering-Correlation-Id: d882140d-e4ae-4f5d-220b-08dcfdd43225
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?YnIxUUR6WkpJZXFUSG9HMXI3blMvaE9BNjlZaDRoRjdHbVZuYXhYSGk3by83?=
+ =?utf-8?B?NHN3c1FsTHJEMHJZV05KcVdWNmVZejZhSXNiajFaSzI2Q0gzNmd2N0VXRGRi?=
+ =?utf-8?B?WXBTRlhmSkRiSnNaRmNNUmUycEEvNkk2d215alEwOTFBRjk5SjBsUjkyb2lj?=
+ =?utf-8?B?Z2Q0K3l1Umx5VmNyWEZUM0djNlp6UWsvOU45S2UrMllKckREQnozMGFPdFBQ?=
+ =?utf-8?B?MFV2bHArZnczVlpLdEl6c1RueHB2dTJ4dWxtYnd5aUd0M1pENVd0WVBnOUd6?=
+ =?utf-8?B?RVBVNXpld2Z0eXhMYVM0TzVNbkgvNmlxaVRKZndEOEV1OUY4UWhLSXoxcnZO?=
+ =?utf-8?B?NVBEa2hsaVpTUTRDcjNtK0ZkUmhrM2RUWDFUMUFMZ2NQSzJycXFPZ2xoYUxB?=
+ =?utf-8?B?QTJZOTBNSExBNmdoNlJ5NlF6bHp4eTZRamJpWlk0NmxuWXQrSnpKSE9CV002?=
+ =?utf-8?B?bEFVamRGUGM1NEh6clN3M2E0WXJ5SEpoT3k4MC9aS3libzZmTDZTaVVJV3Rk?=
+ =?utf-8?B?SGZVcVR5VWxJY1JLMVVYQUQ0QlVKeC9pVjk2QlcvUzB6cm4yOVlZTFJ5MHBL?=
+ =?utf-8?B?d29rSDk1dGg0SWZjVUo1WmJwVmxyOVZETXZDYW5sMndrcStrb1lDZmtSWUZN?=
+ =?utf-8?B?QVRQR3pvaHZJbmh5elg5Q09mZlJNUkw2OG13c3M2OURTZzJzWHBIVW8vUzJx?=
+ =?utf-8?B?SGtMaW0wZFdQaSthU3YxS2MvY1JxS0kxc3FqV0drcjRjTXFyNTJQdlNDcTN4?=
+ =?utf-8?B?ditJZ2w1SmxGQ3pYRGM0dDNxT2ZRMktHdlIzbTVwZ1ViclhYcldKMWRzMTdY?=
+ =?utf-8?B?YWdKY2FrbDFyMFNxVEtzaHJ0MW9wOHozSFJHa1NWRXlqVHM5RFZ5MDg2M3Jl?=
+ =?utf-8?B?aVpwUXNqMVFveEZyb09uT0NLSzRaZ3ZPNFZqU2QvTXM4MjNUbVFBWGs5SWJM?=
+ =?utf-8?B?MUF2bTFQVWVzWFVscHJya2UyejNtcVdBR0lFMVIvMUV2UHlhN0t0bXJMRTYz?=
+ =?utf-8?B?R1pncmwvcWp6ZlZreEM2Q29raXRmVGRRTXNnUGxZZG8xWFliWTdZMXJaSVlm?=
+ =?utf-8?B?NUxmQmU0d0JvT01xMjhhdWRUN0dZbnhJNFg5RmpJMlJyZzhFMGJWaFBTcTNm?=
+ =?utf-8?B?cUdtbHBLdXE4NStNSURRb1Y2ekdVemFWY1VmVXZzQ2RZdEFTcmczQmVScVRo?=
+ =?utf-8?B?WUNZbWZTem5aZHJjT1ZUcWphWm1jMXpzeEIyM3JyYnV3Q0NGSFFTZVk5cmQ5?=
+ =?utf-8?B?UUJsS3FYSGV3ZVhaWGgxc2J3aS9ndUJlNVRHbExvQ2FSY3dla0VZb0dkZXFi?=
+ =?utf-8?B?NE9yOFJ4Y2RCempCcHZRR2pCNVNhTTgya3JDZm9OTUlVck1hSndxb3J1Z1VJ?=
+ =?utf-8?B?dkhmT3JvMWxCdEsydlpJSnUzWmxiQUN6Q0hyOGxjTDBUanV4S1pKbGE5SGln?=
+ =?utf-8?B?V2dQSnhYSDZuSndDMkcvWkU4ZGRjSUJMYXE1b3FteE0zTUFzaUM0K3dRbnlB?=
+ =?utf-8?B?VTJXeDZ4NFhFVGhONyt4UjRVd3E3SnpvN1Y4S0svdldKRUV4TWo3UnhFQ3Nk?=
+ =?utf-8?B?cjZxK1ZjY1JFUUppVTFLQlZ3UXFJMEhQMU96b1gyQ0xDZ1ZpTjN1MXo5L1Ju?=
+ =?utf-8?B?SWU4VE41RnhYZWFDTFk3UlNqMS9XeXZWd2c2KzJLc2U1ZmdBYUFralB4VGln?=
+ =?utf-8?B?U3oweFBSRFg2Q0F4MVlZb1c4RkVSam9ta2FwdW5uS0ttTE5WN21rZ2RqYml0?=
+ =?utf-8?Q?xV2XlBm5gL8+UxU0Mc7DCof2t2t/7eDs/d3hyGx?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YVR1cE9EWUJ5WkpSNEtyMEhaUmlDT2daQTFCTm1jdEptMXZoY2gxbEVaZ1Jy?=
+ =?utf-8?B?QzJqZUZ1c2F3RDdLZjVoK3dCS2NEanVyVFRzMUNxYy8vMFZHc1dQR2FJVFlr?=
+ =?utf-8?B?OGFydGVFUFJzcGpPb2g2ZlB5SGFNbTE0aVk0MW96WWcrc3FENGdtYm1wdjFz?=
+ =?utf-8?B?bU9ISmZXRjlvQ1FQcXh3dEtqODVNTzZVZS81VVV4dENxak5qTEd6TkdBeGVj?=
+ =?utf-8?B?TVNEc1hYbmZFZE5zSVdMT21LcDRzcVQycUZNMTgyQnpBNVhNT0xBbGJLRkp6?=
+ =?utf-8?B?UlBrdktXZFgvSlBnT08wYWdycDlDeFF3RGZwejk4aVN2M3NWWjd1TW5ydGs3?=
+ =?utf-8?B?dWdlRGo3Y2hzQjBJUDdzVS9BeU9qWUlxbUs2WkdJbWlSYTVmdENGWlVrSStV?=
+ =?utf-8?B?ZUpDTVc3dFhQWSt6ZWdYMC95ZktQYlFyNWZ1cmV2eEM5YVM3VDcxS2tEZ3g1?=
+ =?utf-8?B?eG91bkMyVlVEdy9udnpwM1FjNDREQW03ZWh6dGlsbVVzK3NDSWRZcVFwait6?=
+ =?utf-8?B?R2g5elBYV2RodnQrSnFLUS9ZYU0ydnVrVVJCL2ZkOWxlY3BYa0NwME5TMS9M?=
+ =?utf-8?B?R1FaTGcrai8rNVBvSDVVc2JFRWhDc3hLZ2Z2b3g5ZzE1NHQ5a2I4RmNwSWFv?=
+ =?utf-8?B?RmVUSkd6YXl3YkVGOEJxZE1mSHE1SlFsaHltQmF2d0pUS3VlTlkzdTF1aUp0?=
+ =?utf-8?B?VitnOTU5MDJQWHlCQkd6azBEMTg2aFZ6aDByOWNVWWtCN2ZNRXc3eGY3ZWx1?=
+ =?utf-8?B?cXBqejIvL1RIVmpPaXEvak12SFZPUzJNQlA3MUVZT0Nib3lCMXFtYURRNEpE?=
+ =?utf-8?B?TUV3YjJ1OEo4Y2NEYndZanlsYUlXUTd5WEl3Nkk5cDlrRnFMcFdoL09NSktm?=
+ =?utf-8?B?Vm5OSVFtK1kzSFFDK1hYMjZjeFBUTFlXLzU2RUhZTElTcXkzN0VxemNqdkpT?=
+ =?utf-8?B?YWlFSFhkb1FjZ0QwNDdzYS9iVUtCanI2UDE0dlVWeFd1UFF6UUtOKzFmU3Bl?=
+ =?utf-8?B?ampuQTBDWCtmVDlSb0JCeTI3dnFxL1gvd3ZKdU5VYUdRQU1mV3VocTkxTWhD?=
+ =?utf-8?B?bkRsRWZucEl0KzRKenVjUUdUcSt3K3ZwNEVTbmVjdG1TWHpOVUNZcU52cFZu?=
+ =?utf-8?B?aDBrTzVGbUpzZlBiS3d6R25oMWNkUjhLNjJMOEFkd2FFTDQ1UTlQUmpzUjVZ?=
+ =?utf-8?B?YnZ0WnQ0ZXRqUzFQOXQzaW9GdnlxaS9GLzdQNHFJRTNqMVZFeGhpSUprVXkr?=
+ =?utf-8?B?a2M3QW9uVVlRekZQR1JqcU50QUFCOHZHR2M4TkozRU9UZnFzeWhIYTl2Slg4?=
+ =?utf-8?B?WCt4SGIrWlB0YUJJZ3FqVlBmYTFUSHBrV29Ka0huMXBSUWVPWXBDM0piY1pv?=
+ =?utf-8?B?eWVWa0lVMTNxN205K3M0TUpqdjJPNDkvZGh3RUtYWkNsaHhOa05HUXFXSjdE?=
+ =?utf-8?B?bDV5TFhGMnJsampjYTgxV3hYRTY3NTV3ODFIUVY4K0dKTFE5Y0UvdEVBbXBN?=
+ =?utf-8?B?RVBoTzh4VWUzTlBSVi9ZaVJaemc2V3gyaGNTT2NrWWE0M0I3MmZlMlVHZSsx?=
+ =?utf-8?B?YXVIbE0yeTZQekM1d1p3MllFWUxVc0FUajZzaXM0YnBYdi96OEMrb2p6RVdL?=
+ =?utf-8?B?aXpIb1l5cXRrQVVsZnJOdU1xNnFOMzIvSnVMdDFjemZhQitKZnFhdThPRC94?=
+ =?utf-8?B?Q0EwZy9WeW1UWEI5dkVhcEU1dEFXSGNwV3VPZ1Zya3ppaTBNcklNUHpiMktv?=
+ =?utf-8?B?c3M1TUNycDV3UURVUzBJdU1wYzJ0SmI4MGxnODJnRVJVZkVicnE1RGVEL29i?=
+ =?utf-8?B?Wjc3OWZ4VGNheXl4WHBFU1pXQ3Z4anN6VXI0K0YvNklnL090SXMvNnE4R3Az?=
+ =?utf-8?B?aDVDYm5ueklPYmg5SUMrUWxTaXlMY1UwaXRqbG94Q3k1L2hSSTBBWW1IWWcy?=
+ =?utf-8?B?VnBuWmdDMFROQVdiWFl6N1hkY0ttL0Rtbnp6ZTFGN1Fmb2xmcGFQVEp4MTZz?=
+ =?utf-8?B?ZGNGLytDdFl1dW1RZHVXaHo5d0lGd1k3ZGYxNm4vNU9qT2hydndZTnhxMG9D?=
+ =?utf-8?B?NnZHbWFFTDRla0hVdEdnczRqM0o2cUxGSnZlcDZzWjZHRVhKL1JXSldNakJa?=
+ =?utf-8?Q?nfqc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d882140d-e4ae-4f5d-220b-08dcfdd43225
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 19:58:19.7837
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0iJDBrUGDNJPtrjkoClsReJhqJYmDFwLWCIhIIgS2Eo1GQT6NsOaOQ78YIGzu8pS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7595
 
-On Mon, Nov 04, 2024 at 10:58:31AM +0100, Christoph Hellwig wrote:
-> On Thu, Oct 31, 2024 at 09:17:45PM +0000, Robin Murphy wrote:
-> > The hilarious amount of work that iommu_dma_map_sg() does is pretty much 
-> > entirely for the benefit of v4l2 and dma-buf importers who *depend* on 
-> > being able to linearise a scatterlist in DMA address space. TBH I doubt 
-> > there are many actual scatter-gather-capable devices with significant 
-> > enough limitations to meaningfully benefit from DMA segment combining these 
-> > days - I've often thought that by now it might be a good idea to turn that 
-> > behaviour off by default and add an attribute for callers to explicitly 
-> > request it.
+Hi Peter,
+
+On 11/5/24 04:35, Peter Newman wrote:
+> Hi Babu,
 > 
-> Even when devices are not limited they often perform significantly better
-> when IOVA space is not completely fragmented.  While the dma_map_sg code
-> is a bit gross due to the fact that it has to deal with unaligned segments,
-> the coalescing itself often is a big win.
-
-RDMA is like this too, Almost all the MR HW gets big wins if the
-entire scatter list is IOVA contiguous. One of the future steps I'd
-like to see on top of this is to fine tune the IOVA allocation backing
-MRs to exactly match the HW needs. Having proper alignment and
-contiguity can be huge reduction in device overhead, like a 100MB MR
-may need to store 200K of mapping information on-device, but with a
-properly aligned IOVA this can be reduced to only 16 bytes.
-
-Avoiding a double translation tax when the iommu HW is enabled is
-potentially significant. We have some RDMA workloads with VMs where
-the NIC is holding ~1GB of memory just for translations, but the iommu
-is active as the S2. ie we are paying a double tax on translation.
-
-It could be a very interesting trade off to reduce the NIC side to
-nothing and rely on the CPU IOMMU with nested translation instead.
-
-> Note that dma_map_sg also has two other very useful features:  batching
-> of the iotlb flushing, and support for P2P, which to be efficient also
-> requires batching the lookups.
-
-This is the main point, and I think, is the uniqueness Leon is talking
-about. We don't get those properties through any other API and this
-one series preserves them.
-
-In fact I would say that is the entire point of this series: preserve
-everything special about dma_map_sg() compared to dma_map_page() but
-don't require a scatterlist.
-
-> >> Several approaches have been explored to expand the DMA API with additional
-> >> scatterlist-like structures (BIO, rlist), instead split up the DMA API
-> >> to allow callers to bring their own data structure.
-> >
-> > And this line of reasoning is still "2 + 2 = Thursday" - what is to say 
-> > those two notions in any way related? We literally already have one generic 
-> > DMA operation which doesn't operate on struct page, yet needed nothing 
-> > "split up" to be possible.
+> On Mon, Nov 4, 2024 at 7:21 PM Moger, Babu <babu.moger@amd.com> wrote:
+>>
+>> Hi Peter,
+>>
+>> On 11/4/24 08:16, Peter Newman wrote:
+>>> Hi Babu,
+>>>
+>>> On Wed, Oct 30, 2024 at 12:25 AM Babu Moger <babu.moger@amd.com> wrote:
+>>>>
+>>>> The mbm_cntr_assign mode provides a limited number of hardware counters
+>>>> that can be assigned to an RMID, event pair to monitor bandwidth while
+>>>> assigned. If all counters are in use, the kernel will show an error
+>>>> message: "Out of MBM assignable counters" when a new assignment is
+>>>> requested. To make space for a new assignment, users must unassign an
+>>>> already assigned counter.
+>>>>
+>>>> Introduce an interface that allows for the unassignment of counter IDs
+>>>> from both the group and the domain. Additionally, ensure that the global
+>>>> counter is released if it is no longer assigned to any domains.
+>>>
+>>> This seems unnecessarily restrictive. What's wrong with monitoring
+>>> different groups in different domains?
+>>
+>> Yes. User can monitor different groups in different domains. But, they
+>> will have to use different global counter for each group.
 > 
-> Yeah, I don't really get the struct page argument.  In fact if we look
-> at the nitty-gritty details of dma_map_page it doesn't really need a
-> page at all. 
+> What is a global counter anyways? It sounds like an artifact of an
+> earlier revision. This concept does not sound intuitive to the user.
 
-Today, if you want to map a P2P address you must have a struct page,
-because page->pgmap is the only source of information on the P2P
-topology.
 
-So the logic is, to get P2P without struct page we need a way to have
-all the features of dma_map_sg() but without a mandatory scatterlist
-because we cannot remove struct page from scatterlist.
+# cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+32
 
-This series gets to the first step - no scatterlist. There will need
-to be another series to provide an alternative to page->pgmap to get
-the P2P information. Then we really won't have struct page dependence
-in the DMA API.
+This is a global counter. We have totally 32 hardware counters.
 
-I actually once looked at how to enhance dma_map_resource() to support
-P2P and it was not very nice, the unmap side became quite complex. I
-think this is a more elgant solution than what I was sketching.
+This is tracked by the bitmap mbm_cntr_free_map.
 
-> >>      for the device. Instead of allocating a scatter list entry per allocated
-> >>      page it can just allocate an array of 'struct page *', saving a large
-> >>      amount of memory.
-> >
-> > VFIO already assumes a coherent device with (realistically) an IOMMU which 
-> > it explicitly manages - why is it even pretending to need a generic DMA 
-> > API?
+
 > 
-> AFAIK that does isn't really vfio as we know it but the control device
-> for live migration.  But Leon or Jason might fill in more.
+>>
+>> Here is an example.
+>>
+>> #cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>> groupA//0=t;1=_;
+>> groupB//0=_;1=l;
+>>
+>> Group A - counter 0 (Assigned to total event in Domain 0)
+>> Group B - counter 1 (Assigned to local event in Domain 1)
+>>
+>> We allocate two different counters here.  Now we are left with 30 counters
+>> (max 32).
+>>
+>>
+>> This is similar to CLOSID management we follow in resctrl. This is not a
+>> new restriction,
+> 
+> It is a restriction in a new feature that resembles a restriction in
+> an existing feature.
+> 
+> I don't see what function the global allocator serves now that there
+> is already a per-domain allocator. My best guess is that it avoids the
+> case of an mbm_assign_control write that succeeds in some domains but
+> fails in others.
+> 
+> I admit I said earlier that I was only planning to allocate globally,
+> but now that I'm evaluating how to make resctrl's monitoring
+> functionality scale on large systems, I'm being forced to reconsider.
+> 
+> As long as this is only a limitation I can fix later, I don't see it
+> as an obstacle. There would just need to be better documentation of
+> what sort of internal data structures the user needs to visualize in
+> order to use this feature successfully.
 
-Yes, this is the control side of the VFIO live migration driver that
-needs rather a lot of memory to store the migration blob. There is
-definitely an iommu, and the VF function is definitely translating,
-but it doesn't mean the PF function is using dma-iommu.c, it is often
-in iommu passthrough/identity and using DMA direct.
 
-It was done as an alternative example on how to use the API. Again
-there are more improvements possible there, the driver does not take
-advantage of contiguity or alignment when programming the HW.
+We have totally 32 global counters. That means we can assign up to 32 events.
 
-> Because we only need to preallocate the tiny constant sized dma_iova_state
-> as part of the request instead of an additional scatterlist that requires
-> sizeof(struct page *) + sizeof(dma_addr_t) + 3 * sizeof(unsigned int)
-> per segment, including a memory allocation per I/O for that.
+Assigning events requires sending an IPI to write the MSR
+(MSR_IA32_L3_QOS_ABMC_CFG) on every domain affected.
 
-Right, eliminating scatterlist entirely on fast paths is a big
-point. I recall Chuck was keen on the same thing for NFSoRDMA as well.
+So, we wanted another bitmap to track if status of the assignment on each
+domain. This is tracked by mbm_cntr_map. This bit is updated when we send
+the IPI on that domain.
 
-> At least for the block code we have a nice little core wrapper that is
-> very easy to use, and provides a great reduction of memory use and
-> allocations.  The HMM use case I'll let others talk about.
+I dont consider this as a limitation. This helps to avoid sending
+unnecessary IPIs to all the domains when user wants to assign an event.
+This is kind of improvement I would say.
 
-I saw the Intel XE team make a complicated integration with the DMA
-API that wasn't so good. They were looking at an earlier version of
-this and I think the feedback was positive. It should make a big
-difference, but we will need to see what they come up and possibly
-tweak things.
+We still have the option to applying the assignment to all the domains by
+setting "*" for the domain.
 
-Jason
+-- 
+Thanks
+Babu Moger
