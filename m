@@ -1,84 +1,87 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF30182C5
-	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 01:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F22D4A0A;
+	Tue,  5 Nov 2024 02:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730771695; cv=none; b=BCHSyV9wa302AryaHEipM7zUwSUcPdfRh4to5a2kouy40NhWmigUT9m53QId1RbD+BJLagOb9QM3Tl8Uv9gZn7QgoG6kIVHrvJeFyCu4+yJjcaRdtX2HADxaYKAPw+MrwuxXBcp2MHljoRpzDxYeTIFH1UFbEn7r9QwXcVxMmsk=
+	t=1730774501; cv=none; b=FN8oViOzmemDVHxPdBtCX2wM7Emn8x6KdLvQ+y5Fs3fNsbvWuAsUIt2CoRrTGuQS69z6tid0AYwsorBOHRgsONah07+Hb/0j3Sca5uM9fyWPG7rW2mIVuz5zyacNQj9BeVnQF0NeMDqUzdfVYyDWhoesvsMEVTsrAQ3hDnJykBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730771695; c=relaxed/simple;
-	bh=lnJDtrTL1MsNyLMAYR2ZhVsqJk1fB7gvtch5yzbAIqY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XOHSPtMrtOaGX+vm2JQtslk5T20KO6EO431oibR3d3T604kWj4fTbfyI8QGPI9cXvvIJZStMrL8TE2yz5dnXN7pw8h+iq7laPyDLTWGwYB4lzSc7m42rSoVsUDhr96+PjroejwcUYgyhqohtADIl6Vj/OOMglAg9ER31J9n2OfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YGOfZcnL; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1730774501; c=relaxed/simple;
+	bh=0lIcSnVwCAI4Pw+NDcQerVcPmYcpucg0B382cbnO0JQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Rbn5EqXnc/U6qUwSO7iPBbbZfL+jgVog9xMK+bkARxM5VbkarOOwZ/hvvD787np5RIv4DAt27/RUXc/Qza3WHnLqQsGdDiDE3Xtvjw17mw99SNt7lrDXFcz8QUm7vF1wEyViicvb3rFPkRzAQqq2P9kImg/r2Ib+vqZr+5qb79M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MDTvydDf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YGOfZcnL"
-Message-ID: <641acef2-70f4-4172-9fa9-da0f5203a78e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1730771691;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X8du5UDbJgBaBFsyasBilSMR7ufZ6HPXVdbTI8bmy3I=;
-	b=YGOfZcnLRMUrsmTt8X0u0xbAQ8VPhMyfmphdl4jfHEn3/i1lHFww3CMuu/WGe2gdVBwJvF
-	cipbF3O+u7/obR7gc6O+JweHH/JPmaRXpCuG4ESiSnyX4ssBnQP1fA5MM3/kmOE6r94vmS
-	r7a7qsmInEK1NsBE6af3D1L1L7OHNSs=
-Date: Tue, 5 Nov 2024 09:54:36 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MDTvydDf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34C61C4CECE;
+	Tue,  5 Nov 2024 02:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730774501;
+	bh=0lIcSnVwCAI4Pw+NDcQerVcPmYcpucg0B382cbnO0JQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MDTvydDfw4yBvleERy0u+BKlBHr9bqcoHSxKTddeg8zMutO21k7xhr/0QAE5HO30n
+	 HQQUPDxQ1oU6up0p6TsuOaUqZ6s/NllktAK8Dw/5q7TjOK1InqcHjR3MJpGoQ3B7zg
+	 7dRA/K2SY73/26hYIhQ2FJ1XWZEc5exDoGo3cb1RVtOMnnIU2mFkdsbGg+vYDhR8ex
+	 0tFWyzmWXW4/ZDE44sPjUTl1NOT+z+3VAOjEut7T/e4MadI3XSDeYr2Xl284zujhV4
+	 kBpPcVIRFMhSxWJpjYzNun9+QKdTCiMAfKD9JhkT42CTCXhueRp0iLOj1GeOh+Z6Qp
+	 3iHMUd7x93cww==
+Date: Mon, 4 Nov 2024 18:41:39 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Li Li <dualli@chromium.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, donald.hunter@gmail.com,
+ gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
+ maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
+ cmllamas@google.com, surenb@google.com, arnd@arndb.de,
+ masahiroy@kernel.org, bagasdotme@gmail.com, horms@kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, hridya@google.com, smoreland@google.com,
+ kernel-team@android.com
+Subject: Re: [PATCH net-next v7 2/2] binder: report txn errors via generic
+ netlink
+Message-ID: <20241104184139.3eb03c69@kernel.org>
+In-Reply-To: <CANBPYPjo0KKm3JbPk=E8Nuv05i=EeR93PHWjSU8fcH-GVWV94w@mail.gmail.com>
+References: <20241031092504.840708-1-dualli@chromium.org>
+	<20241031092504.840708-3-dualli@chromium.org>
+	<20241103151554.5fc79ce1@kernel.org>
+	<CANBPYPj4VCYuhOTxPSHBGNtpRyG5wRzuMxRB49eSDXXjrxb7TA@mail.gmail.com>
+	<20241104081928.7e383c93@kernel.org>
+	<CANBPYPjo0KKm3JbPk=E8Nuv05i=EeR93PHWjSU8fcH-GVWV94w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH linux-next v8 RESEND] Docs/zh_CN: Translate
- physical_memory.rst to Simplified Chinese
-To: Jonathan Corbet <corbet@lwn.net>, xu.xin16@zte.com.cn, alexs@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mudongliangabcd@gmail.com, seakeel@gmail.com
-Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, he.peilin@zte.com.cn,
- tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn, zhang.yunkai@zte.com.cn
-References: <20241028135321916ZWK032bHhlbncjvmzDkZs@zte.com.cn>
- <87ikt294v6.fsf@trenco.lwn.net>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <87ikt294v6.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon, 4 Nov 2024 09:12:37 -0800 Li Li wrote:
+> That's why binder genl uses unicast instead of multicast. The administration
+> process of the OS (Android in this case) always runs before any other user
+> applications, which registers itself to the kernel binder driver and uses it
+> exclusively. With a unified family name, the same userspace admin process
+> has access to all binder contexts. With separate family names, each domain
+> admin process can register itself to the corresponding binder context.
 
+Side note - it'd be useful for my understanding to know what the binder
+families would be. You register them in binderfs_binder_device_create(), 
+what creates the devices and how many do we expect?
 
+Back to answering - I don't know why the same process would have to bind
+to all domains. You record which portid is bound to the context, the portid
+identifies the socket.
 
-在 2024/11/5 03:27, Jonathan Corbet 写道:
-> OK, I have applied this patch.  A couple of comments for future reference:
->
-> <xu.xin16@zte.com.cn> writes:
->
->> Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
-> ...and this I don't understand at all; why do you need to reference that
-> patch here?
-We use it to mark the progress of the translation against
-the original document. If we don't put this tag on at the
-very beginning, when the translation falls behind the original
-document for a while, we'll have to go through the whole
-original document log from the very top downwards, which
-is an enormous amount of work. On the other hand, the
-checktransupdate.py also works based on this tag.
+BTW portids can get reused, do you need to do something when the admin
+process dies? To prevent normal user from binding to the same portid?
 
-Yeah, this tag might seem a bit ambiguous. I think maybe
-we could improve it? For example:
+> So, do you think the current implementation of registering multiple families
+> with different names acceptable? Or is there a better way to do it? Thank
+> you very much!
 
-Trans_mark commit 7332f9e45d2e ("docs/mm: Physical Memory: Fix grammar")
-
-Thanks,
-Yanteng
->
-> Thanks,
->
-> jon
-
+I don't see what having the separate families buys you.
+The genl family ID is added to the netlink message in nlmsg_type.
+That's it, it doesn't do anything else.
+You can add an attribute to the message to carry context->name
+and you'll be able to demux the messages.
