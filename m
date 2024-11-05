@@ -1,63 +1,51 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7591D9A48
-	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 14:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5403BB48;
+	Tue,  5 Nov 2024 14:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730817390; cv=none; b=fpgThRPcsGtY0at2NskzdA4dcaaF4C7zyZcNG1AXpn00IDMttu7i61xuh53pfMmmfnB6fjVuAHS6MITtYnQpY/aBFNijqRYRfCV3PSy9Q5l6hSbNZ70+MdCqwHjd7zczzeOloJYuEcwCrKOsszUTIA9SRdchFHqlpVp/uY4WOl4=
+	t=1730818064; cv=none; b=frnKryqow076Fi+30HsCbTW4GSJ1iehHAHoLr2NGD25AhRpSNjZSH6oAVu8C939p6geD45LdRMp3TkGXVxITL6Our4QpJtqa0TPLRhN2UvTGnn3OshDtWCJl92nqtPwxgpfv3m0v7gUgmrMliOVQTotCRu1ONQUUxajnBwGtumA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730817390; c=relaxed/simple;
-	bh=gvda3/xY9bP1mILtrzwnkgGAhrN4G2kluGqpKX2yQnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=skXMxoPfdyQJJGlZn9ZK+uKLFrZdK9QCQGPzqr/cM7+BIkg5ZK2dIucdpDOOYsm2pwEDaj3ibwzdu+tpnwpYDdVguvcBVuSBxFCJKE693K2rozk1X9DN0dI21mRwZeeKiZxAUAEeXNsFMIlKR6YVqsd5PCyvKfdigkzu4oROpYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t8KfD-0008Lz-Ix; Tue, 05 Nov 2024 15:36:11 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t8KfD-0029sp-0B;
-	Tue, 05 Nov 2024 15:36:11 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1t8KfC-00FPJz-31;
-	Tue, 05 Nov 2024 15:36:10 +0100
-Date: Tue, 5 Nov 2024 15:36:10 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v2 15/18] net: pse-pd: Add support for
- getting and setting port priority
-Message-ID: <ZyotWqt09diq-MqX@pengutronix.de>
-References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
- <20241030-feature_poe_port_prio-v2-15-9559622ee47a@bootlin.com>
- <ZyMpkJRHZWYsszh2@pengutronix.de>
- <20241031121104.6f7d669c@kmaincent-XPS-13-7390>
- <ZyO_N1EOTZCprgMJ@pengutronix.de>
- <20241105144913.3c25b476@kmaincent-XPS-13-7390>
+	s=arc-20240116; t=1730818064; c=relaxed/simple;
+	bh=PoMXd7dlUgpkCKiBbkJd6Cewg8bQWQ/YiMv9xYOQ8As=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=A+T//UuoaSnD2BRJ6mAkJCGgtIczKZ3tM7YbwbLcLRPzs0UGj4bvC9A9TKOJHzioAHD0CMHh2OeJMaOksktsA3wYh1A/dP2psh3yWS4MJLwc3Dc5froXPYv03yN3pugTywCDyVoPi7p+CPe84qf3pLPP+Vbecf2fFClC19Zg/xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rCwN0OvS; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rCwN0OvS"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EA92F42C18
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1730818062; bh=JhjK8oTNggpbugVNNGBco7M0sdg9E4DFfHV94J2MJWU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=rCwN0OvS5F75E1dWKkP70arURvgbR2oYqARd44Iq2rzpnqySFqYpt+GWC42lhhaHe
+	 bi8LqvjvipRcFI1eR6ecFAXE9p2ZVie0OS+WMDaI0+N6AXUai8E0ThRHyk4WeRtGA8
+	 vzq8/0rWcK92gEhdGH0sbwBs1VpYgZUh2dDndZGdKvtkw9RR2OAJxrxovkw1rLSnUm
+	 iczoZkj0ONLltGGE3WwfP23eKHGZsc2jsgmGCFBH79AHWskyMo6IKz1wZikoIioIr/
+	 eE8zuKWn4Z0dh+O3YB69zCkwgAQh7vmKWOElUyKDrVIMFA9ZCQctdRnmHdNdU0iyWG
+	 zJZquT6/ykT3Q==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id EA92F42C18;
+	Tue,  5 Nov 2024 14:47:41 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Yanteng Si <si.yanteng@linux.dev>, xu.xin16@zte.com.cn,
+ alexs@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mudongliangabcd@gmail.com, seakeel@gmail.com
+Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, he.peilin@zte.com.cn,
+ tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn, zhang.yunkai@zte.com.cn
+Subject: Re: [PATCH linux-next v8 RESEND] Docs/zh_CN: Translate
+ physical_memory.rst to Simplified Chinese
+In-Reply-To: <641acef2-70f4-4172-9fa9-da0f5203a78e@linux.dev>
+References: <20241028135321916ZWK032bHhlbncjvmzDkZs@zte.com.cn>
+ <87ikt294v6.fsf@trenco.lwn.net>
+ <641acef2-70f4-4172-9fa9-da0f5203a78e@linux.dev>
+Date: Tue, 05 Nov 2024 07:47:41 -0700
+Message-ID: <871pzp7n5e.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,107 +53,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241105144913.3c25b476@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 05, 2024 at 02:49:13PM +0100, Kory Maincent wrote:
-> On Thu, 31 Oct 2024 18:32:39 +0100
-> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> 
-> >  * @PSE_DISCON_STATIC_CLASS_BUDGET_MATCH: Disconnect based on static
-> > allocation
-> >  *   class, targeting devices that release enough allocated power to meet the
-> >  *   current power requirement.
-> >  *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_STATIC
-> >  *   - Behavior: Searches for the lowest-priority device that can release
-> >  *     sufficient allocated power to meet the current budget requirement.
-> >  *     Ensures that disconnection occurs only when enough power is freed.
-> >  *   - Rationale: This strategy is useful when the goal is to balance power
-> >  *     budget requirements while minimizing the number of disconnected
-> > devices.
-> >  *     It ensures that the system does not needlessly disconnect multiple
-> >  *     devices if a single disconnection is sufficient to meet the power
-> > needs.
-> >  *   - Use Case: Ideal for systems where precise power budget management is
-> >  *     necessary, and disconnections must be efficient in terms of freeing
-> >  *     enough power with minimal impact on the system.
-> 
-> Not sure about this one. PSE_DISCON_STATIC_CLASS_HIGHEST_FIRST would be
-> sufficient for that case.
+Yanteng Si <si.yanteng@linux.dev> writes:
 
-ack
+> =E5=9C=A8 2024/11/5 03:27, Jonathan Corbet =E5=86=99=E9=81=93:
+>> OK, I have applied this patch.  A couple of comments for future referenc=
+e:
+>>
+>> <xu.xin16@zte.com.cn> writes:
+>>
+>>> Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
+>> ...and this I don't understand at all; why do you need to reference that
+>> patch here?
+> We use it to mark the progress of the translation against
+> the original document. If we don't put this tag on at the
+> very beginning, when the translation falls behind the original
+> document for a while, we'll have to go through the whole
+> original document log from the very top downwards, which
+> is an enormous amount of work. On the other hand, the
+> checktransupdate.py also works based on this tag.
+>
+> Yeah, this tag might seem a bit ambiguous. I think maybe
+> we could improve it? For example:
+>
+> Trans_mark commit 7332f9e45d2e ("docs/mm: Physical Memory: Fix grammar")
 
-> >  * @PSE_DISCON_LOWEST_AVG_POWER: Disconnect device with the lowest average
-> >  *   power draw, minimizing impact on dynamic power allocation.
-> >  *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_DYNAMIC
-> >  *   - Behavior: Among devices with the same priority level, the system
-> >  *     disconnects the device with the lowest average power draw.
-> >  *   - If multiple devices have the same average power draw and priority,
-> >  *     further tie-breaking mechanisms can be applied, such as disconnecting
-> >  *     the least recently connected device.
-> >  *   - Rationale: Minimizes disruption across dynamic devices, keeping as many
-> >  *     active as possible by removing the lowest-power ones.
-> >  *   - Use Case: Suitable for dynamic-priority systems where maximizing the
-> >  *     number of connected devices is more important than individual device
-> >  *     power requirements.
-> > 
-> >  * @PSE_DISCON_LONGEST_IDLE: Disconnect device with the longest idle time
-> >  *   (low or no recent active power usage).
-> >  *   - Relevant for: ETHTOOL_PSE_PORT_PRIO_DYNAMIC
-> >  *   - Behavior: Disconnects the device with the longest period of inactivity,
-> >  *     where "idle" is defined as low current draw or absence of recent data
-> >  *     transmission.
-> >  *   - If multiple devices have the same idle time and priority, a
-> > tie-breaking
-> >  *     mechanism, such as round-robin based on port index, can be used.
-> >  *   - Rationale: Optimizes resource allocation in dynamic-priority setups by
-> >  *     maintaining active devices while deprioritizing those with minimal
-> >  *     recent usage.
-> >  *   - Use Case: Ideal for dynamic environments, like sensor networks, where
-> >  *     devices may be intermittently active and can be deprioritized during
-> >  *     idle periods.
-> >  *
-> >  * These disconnection policies provide flexibility in handling cases where
-> >  * multiple devices with the same priority exceed the PSE budget, aligning
-> >  * with either static or dynamic port priority modes:
-> >  *   - `ETHTOOL_PSE_PORT_PRIO_STATIC` benefits from policies that maintain
-> >  *     stable power allocation, favoring longer-standing or higher-class
-> >  *     devices (e.g., `PSE_DISCON_LRC`, `PSE_DISCON_ROUND_ROBIN_IDX`,
-> >  *     `PSE_DISCON_STATIC_CLASS_HIGHEST_FIRST`,
-> > `PSE_DISCON_STATIC_CLASS_LOWEST_FIRST`,
-> >  *     `PSE_DISCON_STATIC_CLASS_BUDGET_MATCH`).
-> >  *   - `ETHTOOL_PSE_PORT_PRIO_DYNAMIC` supports policies that dynamically
-> >  *     adjust based on real-time metrics (e.g., `PSE_DISCON_LOWEST_AVG_POWER`,
-> >  *     `PSE_DISCON_LONGEST_IDLE`), ideal for setups where usage fluctuates
-> >  *     frequently.
-> >  *   - Users can define an ordered array of disconnection policies, allowing
-> >  *     the system to apply each policy in sequence, providing nuanced control
-> >  *     over how power disconnections are handled.
-> >  */
-> 
-> I think I can add support for one or two of these modes in this patch series.
-> Modes relevant for dynamic port priority can't be used for now as nothing
-> support them.
+"Update to commit xxx" suggests that the current patch is somehow
+changing that commit.  "Update the translation through commit xxxx"
+would be a bit clearer in that regard.  I think it's better to stay with
+something resembling plain language rather than adding a new pseudo-tag
+that outsiders won't understand.
 
-ack
+Thanks,
 
-> Do you think I should add this full enumeration in ethtool UAPI even if not all
-> of them are supported yet? 
+jon
 
-No, do not worry, it was just my brain dump. Care only about actually
-used variants. If some one will need something different, we will
-already know how to address it.
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
