@@ -1,433 +1,140 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FDF1E2825
-	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 17:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88F81E5005
+	for <linux-doc@vger.kernel.org>; Tue,  5 Nov 2024 17:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730829130; cv=none; b=lzhrxTt6HlgAajs47L+WeZxVrKcqLuZgQoJmY0NHABmaFZZ8TP61xBey8DZdoYxCb9aBII9IcTKez6lvaeqRUzO7y3Zm2Cpw0m9Ahy0QbcAmMHHon5m0XYQkanSxYmBRRHN/Ox+T/pqIbnebz1cuyrl6UV+yFUIOEPL6/y7843Q=
+	t=1730829549; cv=none; b=dyF+PfIiG/d5z1wm9n8lt1uKt1PYeTJTmIbQU4eqiME8m5jxjVV2+KKCUHRVUKnWwsFwBbl3qQ6JqfvthQLLR1qi9NTDSgxoYB0ev7wz8pjlNa1SrD1neQBc33ZfvG25CEOcEuT9alf2AJVzHA7kN7+QJEFw7y8bPBZUjZKEDOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730829130; c=relaxed/simple;
-	bh=+7QG5+NJbKj00cNkZtLscXQvF3IjZiYR4AanUDs5sPs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rxnw+NgqrBDlptkSCGiopsOf7BDirKi3/C6nS+v+CD96Q1G8m8q1PXdjWInA/zRkJPrCmRbinDsj7q+inOq6IvNzoBHrKHHO29vj8ytvJVrHCnlKZC+G1fFGkmoFlkPpp4GhNm41hyD81LV4guRe3i5bD9GrT/BzUsuydfReUyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZN7o5Oqm; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1730829549; c=relaxed/simple;
+	bh=ktW0GKrYRwS/MWSHyPsz9MtYv3cVuAnNYT/fHajylvw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VcPsUeGT5eKqNq1HFUrX9bYJZFmuMfrV92b76dHdrHMSah3Q7eH5osjWZNYKNj/KL8oUGptDDdazAtfSsyNdAbeju3qujMYo/1gZoIYN5N7gQu1s/SGeB5Y3gJFad+f9UHkNeFXAd0ytlyvijtpBNmkmNhCHzHtvBaLx1jItmr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=thW1ggpa; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZN7o5Oqm"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-460b295b9eeso3901cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2024 09:52:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="thW1ggpa"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37d538fe5f2so3884549f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 05 Nov 2024 09:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730829127; x=1731433927; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BfUA3/rDNyi3HTYVcuuUTBZRfkh4ulVjf/kXG8SdzRY=;
-        b=ZN7o5OqmyJbTrqlhyXEATLXm1+UyZwVBBu8i/Vg6IZQnWXYWcbG+I2aANvEW5/aAQQ
-         RAd8lBuZmf3i0we0K5/oXE+CMSmtkYP7NpKsNpcWbhcquMFWkV23FPbS5bue9S0lOzIu
-         4WG+jiSPH2lHA4M0okGyipiDqWZHnjpWAIdw3QjcH/0T4TtniRWZzRjMZ4Mx93HmIRjS
-         FMU+goalAb5aCGRPFrdzuIiXdm7LBKWmJorOSOx6qAzXJK0UpirpWxhfJhyFu/ZCxjL+
-         Bau6vS7MI/bXFaUT6pyelOttP+0zhtJEykZzAUlEsc5RPxbAhmGDbHZoObEkQLxruzru
-         gTDg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730829546; x=1731434346; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HQOF7ULLSSCvm8fW5y6GOnkdNjq0wbdWw4lgdHQeMiE=;
+        b=thW1ggpa8q7pBFB4F0WZ8vRgkn4hIc3yNHmUfk6aPYvLzRJ4S+bBko1oc+gn6MQvLm
+         vxkjh6E7s3tnJJ5oknxZPdjBrkCMI12d9eHbuNqQhWmk7qYkyiTrYmI2DgL60eOJ0iyU
+         gfo5mUoNPWf6y5kcOPslOmRP6Ne+xNiybUNjnJH7g+7M7gfMmrxrE1Cg/FHTXcV4oi2x
+         4zGe8/Jd5rfKKjuyhcltwyx3y1YAosDQByH6assb2PxF4QxBNExlrEDzRT44YvX0OpvE
+         fmaWUOY3HCIWGuFkpYAe3crxBfFDJz7EVUVXoo8yxAMERtrdOS0XPiRCZhWAO9m9IZ5k
+         klMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730829127; x=1731433927;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1730829546; x=1731434346;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BfUA3/rDNyi3HTYVcuuUTBZRfkh4ulVjf/kXG8SdzRY=;
-        b=K6GNxK3LlnHgDcLpyXpQm5RSpS48BkFPNAzWVUsYuFX65TtGoYcDMkoOgCyiGXWjsb
-         oheH4LQM0GhaGla4rzJx3joLQdITcwQdTeRIscSW5VXTfHExnAELV8Zt/vH8xch5Oz4i
-         Gdzm4MrCqjRv9WGVjiBothh63kwQdCZZrzaLTa2g4x6TL5uAbcKAzKFSRzTUMMTdJnnh
-         i0/gj3agvAxKBfVYkultQeL0ov5bKfduZm8C1tOlZKXwrSNmQPz/mmHSGBI+9q1kzc5a
-         ydd02JJlPh/+dy6ZnAsjExPUjoH7Z3TPLqlLmrp5hihn4NU9gNGRirJtjYovL/gF2EKb
-         PaSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrrU1hqCQsnr/eNxVXLIHrMqRxNusXpNqVOh502k4y7eHQoKko07iqiW++lhV5xPiDDK/WXiye5NU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfmR/it3CI7mBZJMT/anhYpXt1MIN5NC4UAAI6Jp7SnxV6bPS8
-	uzzoQ5/llbGkxqTFzFD5waj0rhKdQLeno3tLwBpSE1uAOrivF3wJGIUac9wJLTolDlXcRc8yc09
-	WpGKjdMes9fODmvJBhMov6lXMu4mmCWcSeQkw
-X-Gm-Gg: ASbGnctNDDETZZqmxC1JGZte6nwNyunZtbRVOFWQWvUn6LprNClm56yDNf1+rMmu31m
-	xxI6ZplPtkbKr3Vd1WOb+Uy0O5JCh2MxG6bXbqI0QL7JQGZvoHKAPkuIt7KKEuQ==
-X-Google-Smtp-Source: AGHT+IGONnoDoxOE1c2aZlxWJ/Cx1ZVvDUz6sU9V9ccTIGEg2o+Kn0N18L0g84R6qxxrsMsZ+Tlpk13NrTZuLEVSMiA=
-X-Received: by 2002:ac8:5d0a:0:b0:462:ad94:3555 with SMTP id
- d75a77b69052e-462e6183889mr3434541cf.25.1730829126973; Tue, 05 Nov 2024
- 09:52:06 -0800 (PST)
+        bh=HQOF7ULLSSCvm8fW5y6GOnkdNjq0wbdWw4lgdHQeMiE=;
+        b=tFwZtefCcMsMk/XXzRMHFmWW+XIeTORBJV1Z2hZpEZWlIWLZ680XTZPezMUomb0pPS
+         +eE8XMPuW4ZwkCaIi/UllSqACJim3rmck25dAcOthxBAfClR75Qw+NxFuratFBLPJm/2
+         bZo0hkdwGdygRfHB6Tdx9iRFSCmgZFbdX5cTM2BQLPsU4GNED7/zP3z8HmQrMywNtn7A
+         wjO1Qh+okXb5HilBnynBWzQvsUlzxpjHWVhbOEGeuuh8N92JHJKCAK/xiNZkJe8nm4y8
+         f6V2iBkkb0ReK0tmAWxRdJSoLt08z7Ay9dn+VnmJfFGMHknKrceIN4axUR6gH+thmMP+
+         LdcA==
+X-Forwarded-Encrypted: i=1; AJvYcCUErsVs2kmYYK2DBR9NOJahQOLqCwzSIa8M2JLb0qADh/8EM4l0j0dr8MC1ksiGT13Re5TDIxZsEoE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaDE+7CnQGYXaQWIr6nGgOaWRsUcnCkeMWJlGdipSxwmqh6a30
+	hpuMFcqa/TUjPe2dht5p9b4Zrha37XBKlJIazirRlYXcvXfrP3LWczi+3I1SWVk=
+X-Google-Smtp-Source: AGHT+IFiXg+Pk7NwIRN/jmZgmoFna52TL4VngHOo1/Xg+wnm0k2K8RU347YgH7g7hKinh//u0MjnxQ==
+X-Received: by 2002:a05:6000:1842:b0:37c:cd38:c51e with SMTP id ffacd0b85a97d-381be7adf74mr14978203f8f.1.1730829545960;
+        Tue, 05 Nov 2024 09:59:05 -0800 (PST)
+Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:5b9b:df02:2761:7a57])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-381c113dd7fsm16959481f8f.70.2024.11.05.09.59.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 09:59:05 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+Date: Tue, 05 Nov 2024 18:58:38 +0100
+Subject: [PATCH v4 1/7] hwmon: (pmbus) add documentation for existing flags
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241102175115.1769468-1-xur@google.com> <20241102175115.1769468-2-xur@google.com>
- <09349180-027a-4b29-a40c-9dc3425e592c@cachyos.org> <3183ab86-8f1f-4624-9175-31e77d773699@cachyos.org>
- <CACkGtrgOw8inYCD96ot_w9VwzoFvvgCReAx0P-=Rxxqj2FT4_A@mail.gmail.com>
- <67c07d2f-fb1f-4b7d-96e2-fb5ceb8fc692@cachyos.org> <CACkGtrgJHtG5pXR1z=6G4XR6ffT5jEi3jZQo=UhYj091naBhsA@mail.gmail.com>
- <CAF1bQ=SbeR3XhFc7JYGOh69JZfAwQV8nupAQM+ZxpzNEFUFxJw@mail.gmail.com>
- <449fddd2-342f-48cc-9a11-8a34814f1284@cachyos.org> <e4dad58c-e329-4e9a-aa6f-8b08bdf8f350@cachyos.org>
- <e9889ff1-053a-4acf-bb45-ee31d255da2a@cachyos.org>
-In-Reply-To: <e9889ff1-053a-4acf-bb45-ee31d255da2a@cachyos.org>
-From: Rong Xu <xur@google.com>
-Date: Tue, 5 Nov 2024 09:51:55 -0800
-Message-ID: <CAF1bQ=QzZvMY2v4vzb74CuuiS-MbRP0=G5oobAGAFRd5qyF8PQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/7] Add AutoFDO support for Clang build
-To: Peter Jung <ptr1337@cachyos.org>
-Cc: Han Shen <shenhan@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
-	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	David Li <davidxl@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
-	workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	Maksim Panchenko <max4bolt@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Yonghong Song <yonghong.song@linux.dev>, 
-	Yabin Cui <yabinc@google.com>, Krzysztof Pszeniczny <kpszeniczny@google.com>, 
-	Sriraman Tallam <tmsriram@google.com>, Stephane Eranian <eranian@google.com>, x86@kernel.org, 
-	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241105-tps25990-v4-1-0e312ac70b62@baylibre.com>
+References: <20241105-tps25990-v4-0-0e312ac70b62@baylibre.com>
+In-Reply-To: <20241105-tps25990-v4-0-0e312ac70b62@baylibre.com>
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Patrick Rudolph <patrick.rudolph@9elements.com>, 
+ Naresh Solanki <naresh.solanki@9elements.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-i2c@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1629; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=ktW0GKrYRwS/MWSHyPsz9MtYv3cVuAnNYT/fHajylvw=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBnKlzhvQPxtedOYvOHyn1+qAaTyZ4JJnw30qwln
+ EmtnD0is7CJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZypc4QAKCRDm/A8cN/La
+ hfpJD/0cVfc7WiZKYsK62JOY8LNupfGVTbpzODKb8RJB3dN+fxSu0tW+glVc5ZdarEcN9f0BS49
+ U7GG9gt1rMeoFIb0LIF79IJhyqxoMWrI+QLnzv1jdOxBvymUEo0Ws1ZbH5Nx0XwGjL+VWHNdhgp
+ /xihJLmUkjlvF0GKw5txxoxIEqS9ZvlISyt765OEHkHo1bsmolevYUxadEeixFRWvPw5/XDTBOq
+ f7Hz+B+RmWjySaFqfzcW9/e3vfOBm70VMjGIXvP8narC6s3iLHBFZdCGR0yDTvc2lgJeo7MuvzO
+ 8g/N8NRP+ChPbmCQocpJvgi/q36kJCeZFOBEWNzwSPm60KCO/XpAFHNJWTtsYWRgFFgOu0taJ5P
+ GgeywGDVnqQH4lO5EEGdEeJ5lC+ch3J4OBRNzks5zkJtIpUsupcrHp1RvYoj3tn/K87AEaEBsTS
+ SvXDJOY2NPwVtKrQMHto36BkOI5kRmA1iXTYhl7UtJGy/5DexI10W81OVqp8kcl9uHPiepLpSwD
+ 1I5iIP4cYL6G2MQJLXO8XvXxqwQYTsAK6k67F2xtheisQQtQ/rgTXsdFZf2hx437FmM9AE7RXJt
+ Xj/7X6AZ8UEfF6CXXKFafLSlGK6blMq6nZT72oubMkEfc/ZkjvmS+gB9X3WrIobuKEtrpjltd0Y
+ JVf8QuYTYDWop2g==
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-Hi Peter, thanks for verifying and filing the bug report!
+PMBUS_NO_WRITE_PROTECT and PMBUS_USE_COEFFICIENTS_CMD flags have been added
+to pmbus, but the corresponding documentation was not updated.
 
--Rong
+Update the documentation before adding new flags
 
-On Tue, Nov 5, 2024 at 9:19=E2=80=AFAM Peter Jung <ptr1337@cachyos.org> wro=
-te:
->
-> Here the bugreport, in case someone wants to track it:
->
-> https://sourceware.org/bugzilla/show_bug.cgi?id=3D32340
->
-> On 05.11.24 15:56, Peter Jung wrote:
-> > You were right - reverting commit:
-> > https://github.com/bminor/binutils-gdb/commit/
-> > b20ab53f81db7eefa0db00d14f06c04527ac324c from the 2.43 branch does fix
-> > the packaging.
-> >
-> > I will forward this to an issue at their bugzilla.
-> >
-> > On 05.11.24 15:33, Peter Jung wrote:
-> >> Hi Rong,
-> >>
-> >> Glad that you were able to reproduce the issue!
-> >> Thanks for finding the root cause as well as the part of the code.
-> >> This really helps.
-> >>
-> >> I was able to do a successful packaging with binutils 2.42.
-> >> Lets forward this to the binutils tracker and hope this will be soon
-> >> solved. =F0=9F=99=82
-> >>
-> >> I have tested this also on the latest commit
-> >> (e1e4078ac59740a79cd709d61872abe15aba0087) and the issue is also
-> >> reproducible there.
-> >>
-> >> Thanks for your time! I dont see this as blocker. =F0=9F=99=82
-> >> It gets time to get this series merged :P
-> >>
-> >> Best regards,
-> >>
-> >> Peter
-> >>
-> >>
-> >>
-> >> On 05.11.24 08:25, Rong Xu wrote:
-> >>> We debugged this issue and we found the failure seems to only happen
-> >>> with strip (version 2.43) in binutil.
-> >>>
-> >>> For a profile-use compilation, either with -fprofile-use (PGO or
-> >>> iFDO), or -fprofile-sample-use (AutoFDO),
-> >>> an ELF section of .llvm.call-graph-profile is created for the object.
-> >>> For some reasons (like to save space?),
-> >>> the relocations in this section are of type "rel', rather the more
-> >>> common "rela" type.
-> >>>
-> >>> In this case,
-> >>> $ readelf -r kvm.ko |grep llvm.call-graph-profile
-> >>> Relocation section '.rel.llvm.call-graph-profile' at offset 0xf62a00
-> >>> contains 4 entries:
-> >>>
-> >>> strip (v2.43.0) has difficulty handling the relocations in
-> >>> .rel.llvm.call-graph-profile -- it silently failed with --strip-debug=
-.
-> >>> But strip (v.2.42) has no issue with kvm.ko. The strip in llvm (i.e.
-> >>> llvm-strip) also passes with kvm.ko
-> >>>
-> >>> I compared binutil/strip source code for version v2.43.0 and v2.42.
-> >>> The different is around here:
-> >>> In v2.42 of bfd/elfcode.h
-> >>>     1618       if ((entsize =3D=3D sizeof (Elf_External_Rela)
-> >>>     1619            && ebd->elf_info_to_howto !=3D NULL)
-> >>>     1620           || ebd->elf_info_to_howto_rel =3D=3D NULL)
-> >>>     1621         res =3D ebd->elf_info_to_howto (abfd, relent, &rela)=
-;
-> >>>     1622       else
-> >>>     1623         res =3D ebd->elf_info_to_howto_rel (abfd, relent, &r=
-ela);
-> >>>
-> >>> In v2.43.0 of bfd/elfcode.h
-> >>>     1618       if (entsize =3D=3D sizeof (Elf_External_Rela)
-> >>>     1619           && ebd->elf_info_to_howto !=3D NULL)
-> >>>     1620         res =3D ebd->elf_info_to_howto (abfd, relent, &rela)=
-;
-> >>>     1621       else if (ebd->elf_info_to_howto_rel !=3D NULL)
-> >>>     1622         res =3D ebd->elf_info_to_howto_rel (abfd, relent, &r=
-ela);
-> >>>
-> >>> In the 2.43 strip, line 1618 is false and line 1621 is also false.
-> >>> "res" is returned as false and the program exits with -1.
-> >>>
-> >>> While in 2.42, line 1620 is true and we get "res" from line 1621 and
-> >>> program functions correctly.
-> >>>
-> >>> I'm not familiar with binutil code base and don't know the reason for
-> >>> removing line 1620.
-> >>> I can file a bug for binutil for people to further investigate this.
-> >>>
-> >>> It seems to me that this issue should not be a blocker for our patch.
-> >>>
-> >>> Regards,
-> >>>
-> >>> -Rong
-> >>>
-> >>>
-> >>>
-> >>>
-> >>>
-> >>> On Mon, Nov 4, 2024 at 12:24=E2=80=AFPM Han Shen<shenhan@google.com> =
-wrote:
-> >>>> Hi Peter,
-> >>>> Thanks for providing the detailed reproduce.
-> >>>> Now I can see the error (after I synced to 6.12.0-rc6, I was using
-> >>>> rc5).
-> >>>> I'll look into that and report back.
-> >>>>
-> >>>>> I have tested your provided method, but the AutoFDO profile (lld do=
-es
-> >>>> not get lto-sample-profile=3D$pathtoprofile passed)
-> >>>>
-> >>>> I see. You also turned on ThinLTO, which I didn't, so the profile wa=
-s
-> >>>> only used during compilation, not passed to lld.
-> >>>>
-> >>>> Thanks,
-> >>>> Han
-> >>>>
-> >>>> On Mon, Nov 4, 2024 at 9:31=E2=80=AFAM Peter Jung<ptr1337@cachyos.or=
-g> wrote:
-> >>>>> Hi Han,
-> >>>>>
-> >>>>> I have tested your provided method, but the AutoFDO profile (lld do=
-es
-> >>>>> not get lto-sample-profile=3D$pathtoprofile passed)  nor Clang as
-> >>>>> compiler
-> >>>>> gets used.
-> >>>>> Please replace following PKGBUILD and config from linux-mainline wi=
-th
-> >>>>> the provided one in the gist. The patch is also included there.
-> >>>>>
-> >>>>> https://gist.github.com/ptr1337/c92728bb273f7dbc2817db75eedec9ed
-> >>>>>
-> >>>>> The main change I am doing here, is passing following to the build
-> >>>>> array
-> >>>>> and replacing "make all":
-> >>>>>
-> >>>>> make LLVM=3D1 LLVM_IAS=3D1 CLANG_AUTOFDO_PROFILE=3D${srcdir}/perf.a=
-fdo all
-> >>>>>
-> >>>>> When compiling the kernel with makepkg, this results at the
-> >>>>> packaging to
-> >>>>> following issue and can be reliable reproduced.
-> >>>>>
-> >>>>> Regards,
-> >>>>>
-> >>>>> Peter
-> >>>>>
-> >>>>>
-> >>>>> On 04.11.24 05:50, Han Shen wrote:
-> >>>>>> Hi Peter, thanks for reporting the issue. I am trying to reproduce=
- it
-> >>>>>> in the up-to-date archlinux environment. Below is what I have:
-> >>>>>>     0. pacman -Syu
-> >>>>>>     1. cloned archlinux build files from
-> >>>>>> https://aur.archlinux.org/linux-mainline.git the newest mainline
-> >>>>>> version is 6.12rc5-1.
-> >>>>>>     2. changed the PKGBUILD file to include the patches series
-> >>>>>>     3. changed the "config" to turn on clang autofdo
-> >>>>>>     4. collected afdo profiles
-> >>>>>>     5. MAKEFLAGS=3D"-j48 V=3D1 LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D$(=
-pwd)/
-> >>>>>> perf.afdo" \
-> >>>>>>           makepkg -s --skipinteg --skippgp
-> >>>>>>     6. install and reboot
-> >>>>>> The above steps succeeded.
-> >>>>>> You mentioned the error happens at "module_install", can you instr=
-uct
-> >>>>>> me how to execute the "module_install" step?
-> >>>>>>
-> >>>>>> Thanks,
-> >>>>>> Han
-> >>>>>>
-> >>>>>> On Sat, Nov 2, 2024 at 12:53=E2=80=AFPM Peter Jung<ptr1337@cachyos=
-.org>
-> >>>>>> wrote:
-> >>>>>>>
-> >>>>>>> On 02.11.24 20:46, Peter Jung wrote:
-> >>>>>>>> On 02.11.24 18:51, Rong Xu wrote:
-> >>>>>>>>> Add the build support for using Clang's AutoFDO. Building the
-> >>>>>>>>> kernel
-> >>>>>>>>> with AutoFDO does not reduce the optimization level from the
-> >>>>>>>>> compiler. AutoFDO uses hardware sampling to gather information
-> >>>>>>>>> about
-> >>>>>>>>> the frequency of execution of different code paths within a
-> >>>>>>>>> binary.
-> >>>>>>>>> This information is then used to guide the compiler's optimizat=
-ion
-> >>>>>>>>> decisions, resulting in a more efficient binary. Experiments
-> >>>>>>>>> showed that the kernel can improve up to 10% in latency.
-> >>>>>>>>>
-> >>>>>>>>> The support requires a Clang compiler after LLVM 17. This
-> >>>>>>>>> submission
-> >>>>>>>>> is limited to x86 platforms that support PMU features like LBR =
-on
-> >>>>>>>>> Intel machines and AMD Zen3 BRS. Support for SPE on ARM 1,
-> >>>>>>>>>     and BRBE on ARM 1 is part of planned future work.
-> >>>>>>>>>
-> >>>>>>>>> Here is an example workflow for AutoFDO kernel:
-> >>>>>>>>>
-> >>>>>>>>> 1) Build the kernel on the host machine with LLVM enabled, for
-> >>>>>>>>> example,
-> >>>>>>>>>           $ make menuconfig LLVM=3D1
-> >>>>>>>>>        Turn on AutoFDO build config:
-> >>>>>>>>>          CONFIG_AUTOFDO_CLANG=3Dy
-> >>>>>>>>>        With a configuration that has LLVM enabled, use the
-> >>>>>>>>> following
-> >>>>>>>>>        command:
-> >>>>>>>>>           scripts/config -e AUTOFDO_CLANG
-> >>>>>>>>>        After getting the config, build with
-> >>>>>>>>>          $ make LLVM=3D1
-> >>>>>>>>>
-> >>>>>>>>> 2) Install the kernel on the test machine.
-> >>>>>>>>>
-> >>>>>>>>> 3) Run the load tests. The '-c' option in perf specifies the
-> >>>>>>>>> sample
-> >>>>>>>>>       event period. We suggest     using a suitable prime numbe=
-r,
-> >>>>>>>>>       like 500009, for this purpose.
-> >>>>>>>>>       For Intel platforms:
-> >>>>>>>>>          $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b=
- -c
-> >>>>>>>>> <count> \
-> >>>>>>>>>            -o <perf_file> -- <loadtest>
-> >>>>>>>>>       For AMD platforms:
-> >>>>>>>>>          The supported system are: Zen3 with BRS, or Zen4 with
-> >>>>>>>>> amd_lbr_v2
-> >>>>>>>>>         For Zen3:
-> >>>>>>>>>          $ cat proc/cpuinfo | grep " brs"
-> >>>>>>>>>          For Zen4:
-> >>>>>>>>>          $ cat proc/cpuinfo | grep amd_lbr_v2
-> >>>>>>>>>          $ perf record --pfm-events
-> >>>>>>>>> RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k
-> >>>>>>>>> -a \
-> >>>>>>>>>            -N -b -c <count> -o <perf_file> -- <loadtest>
-> >>>>>>>>>
-> >>>>>>>>> 4) (Optional) Download the raw perf file to the host machine.
-> >>>>>>>>>
-> >>>>>>>>> 5) To generate an AutoFDO profile, two offline tools are
-> >>>>>>>>> available:
-> >>>>>>>>>       create_llvm_prof and llvm_profgen. The create_llvm_prof
-> >>>>>>>>> tool is part
-> >>>>>>>>>       of the AutoFDO project and can be found on GitHub
-> >>>>>>>>>       (https://github.com/google/autofdo), version v0.30.1 or
-> >>>>>>>>> later. The
-> >>>>>>>>>       llvm_profgen tool is included in the LLVM compiler
-> >>>>>>>>> itself. It's
-> >>>>>>>>>       important to note that the version of llvm_profgen
-> >>>>>>>>> doesn't need to
-> >>>>>>>>>       match the version of Clang. It needs to be the LLVM 19
-> >>>>>>>>> release or
-> >>>>>>>>>       later, or from the LLVM trunk.
-> >>>>>>>>>          $ llvm-profgen --kernel --binary=3D<vmlinux> --
-> >>>>>>>>> perfdata=3D<perf_file> \
-> >>>>>>>>>            -o <profile_file>
-> >>>>>>>>>       or
-> >>>>>>>>>          $ create_llvm_prof --binary=3D<vmlinux> --
-> >>>>>>>>> profile=3D<perf_file> \
-> >>>>>>>>>            --format=3Dextbinary --out=3D<profile_file>
-> >>>>>>>>>
-> >>>>>>>>>       Note that multiple AutoFDO profile files can be merged
-> >>>>>>>>> into one via:
-> >>>>>>>>>          $ llvm-profdata merge -o <profile_file>  <profile_1> .=
-..
-> >>>>>>>>> <profile_n>
-> >>>>>>>>>
-> >>>>>>>>> 6) Rebuild the kernel using the AutoFDO profile file with the
-> >>>>>>>>> same config
-> >>>>>>>>>       as step 1, (Note CONFIG_AUTOFDO_CLANG needs to be enabled=
-):
-> >>>>>>>>>          $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<profile_file>
-> >>>>>>>>>
-> >>>>>>>>> Co-developed-by: Han Shen<shenhan@google.com>
-> >>>>>>>>> Signed-off-by: Han Shen<shenhan@google.com>
-> >>>>>>>>> Signed-off-by: Rong Xu<xur@google.com>
-> >>>>>>>>> Suggested-by: Sriraman Tallam<tmsriram@google.com>
-> >>>>>>>>> Suggested-by: Krzysztof Pszeniczny<kpszeniczny@google.com>
-> >>>>>>>>> Suggested-by: Nick Desaulniers<ndesaulniers@google.com>
-> >>>>>>>>> Suggested-by: Stephane Eranian<eranian@google.com>
-> >>>>>>>>> Tested-by: Yonghong Song<yonghong.song@linux.dev>
-> >>>>>>>>> Tested-by: Yabin Cui<yabinc@google.com>
-> >>>>>>>>> Tested-by: Nathan Chancellor<nathan@kernel.org>
-> >>>>>>>>> Reviewed-by: Kees Cook<kees@kernel.org>
-> >>>>>>>> Tested-by: Peter Jung<ptr1337@cachyos.org>
-> >>>>>>>>
-> >>>>>>> The compilations and testing with the "make pacman-pkg" function
-> >>>>>>> from
-> >>>>>>> the kernel worked fine.
-> >>>>>>>
-> >>>>>>> One problem I do face:
-> >>>>>>> When I apply a AutoFDO profile together with the PKGBUILD [1] fro=
-m
-> >>>>>>> archlinux im running into issues at "module_install" at the
-> >>>>>>> packaging.
-> >>>>>>>
-> >>>>>>> See following log:
-> >>>>>>> ```
-> >>>>>>> make[2]: *** [scripts/Makefile.modinst:125:
-> >>>>>>> /tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc-
-> >>>>>>> autofdo/usr/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/
-> >>>>>>> arch/x86/kvm/kvm.ko]
-> >>>>>>> Error 1
-> >>>>>>> make[2]: *** Deleting file
-> >>>>>>> '/tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc-
-> >>>>>>> autofdo/usr/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/
-> >>>>>>> arch/x86/kvm/kvm.ko'
-> >>>>>>>      INSTALL
-> >>>>>>> /tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc-
-> >>>>>>> autofdo/usr/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/
-> >>>>>>> crypto/cryptd.ko
-> >>>>>>> make[2]: *** Waiting for unfinished jobs....
-> >>>>>>> ```
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> This can be fixed with removed "INSTALL_MOD_STRIP=3D1" to the pas=
-sed
-> >>>>>>> parameters of module_install.
-> >>>>>>>
-> >>>>>>> This explicitly only happens, if a profile is passed - otherwise =
-the
-> >>>>>>> packaging works without problems.
-> >>>>>>>
-> >>>>>>> Regards,
-> >>>>>>>
-> >>>>>>> Peter Jung
-> >>>>>>>
-> >>
-> >
->
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ Documentation/hwmon/pmbus-core.rst | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/Documentation/hwmon/pmbus-core.rst b/Documentation/hwmon/pmbus-core.rst
+index 1eaf2b0158376812eaff1786d01b0f330c85eab8..686a00265bf71231c684afad6df41d6266303919 100644
+--- a/Documentation/hwmon/pmbus-core.rst
++++ b/Documentation/hwmon/pmbus-core.rst
+@@ -308,6 +308,10 @@ currently provides a flags field with four bits used::
+ 
+ 	#define PMBUS_READ_STATUS_AFTER_FAILED_CHECK	BIT(3)
+ 
++	#define PMBUS_NO_WRITE_PROTECT			BIT(4)
++
++	#define PMBUS_USE_COEFFICIENTS_CMD		BIT(5)
++
+ 	struct pmbus_platform_data {
+ 		u32 flags;              /* Device specific flags */
+ 
+@@ -358,3 +362,14 @@ This can be done by reading a known register. By setting this flag the
+ driver will try to read the STATUS register after each failed
+ register check. This read may fail, but it will put the chip into a
+ known state.
++
++PMBUS_NO_WRITE_PROTECT
++
++Some PMBus chips respond with invalid data when reading the WRITE_PROTECT
++register. For such chips, this flag should be set so that the PMBus core
++driver doesn't use the WRITE_PROTECT command to determine its behavior.
++
++PMBUS_USE_COEFFICIENTS_CMD
++
++When this flag is set the PMBus core driver will use the COEFFICIENTS
++register to initialize the coefficients for the direct mode format.
+
+-- 
+2.45.2
+
