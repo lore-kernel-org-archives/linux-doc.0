@@ -1,34 +1,61 @@
-Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE591D8DE0;
-	Tue,  5 Nov 2024 14:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF2A38DD6;
+	Tue,  5 Nov 2024 15:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730818628; cv=none; b=NUmLkQdUbii+jmjMs4oFoCIvKYdsFI5UJsMBCveml2qK3/fd3a5eJR8dpNAy+HXkkg9kC61q5decY/1ojYBk4Vjz5ew3Lh5F3zsWCjAhc+xwFOaj0+F9zyMtWQW+3yeFbA/uuyB8HfqN3+N+seC3uSfLCZRz57Omfw9JhaKxrF0=
+	t=1730821543; cv=none; b=lhaku6cV8H7ePBAesl2A/zbifOIC9dTQT1puE5f4e8bQ5qvWSYZRdHEFVRPlFkN/lwNh7uZ6vH1foTbRo023TXh/Nawo8gFVozV8sjXZw+qYCiXIPWhE4XIz95x6Zm82Sr+Zntog18iVhEuFkE7ZAnYVR/A/0T0DIF7Vfp22daQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730818628; c=relaxed/simple;
-	bh=PxqwVVcYGVdItCi+GbxYmGsYLaqI1+qVjoBZ5+jwOPA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hRVVpO0tWCkgBdTVqRQy0c/+49ZW/Zj/AwwCFCGS/jdmcUmD/cZYdFQ04vcKDHwiSdG27YmrjLEkSUI+dOYAsCzPSy4UgW9PO/oNSpACsqVRC95+hfzYCNf+uc5TsmZguZYPNuBkJRj/Ohs4R9tuSx1xa9IUlqzJ7Rb0AiutWz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=YWjP+Q2L; arc=none smtp.client-ip=202.61.224.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
+	s=arc-20240116; t=1730821543; c=relaxed/simple;
+	bh=KS0e2C0yzq5Sdw72rQdkimvdeeHIPQaOIVPRw/R+Jpc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GslpZMcRox1s0VSw/49fGDBrR9oLfpbVX7TszKElA1oJJYZ7KvCGGwYi6OQoOauFqZ8dIzpas318JyqVetia+GzQTYHqw7zuHXIBS6wNxWIoAhgcyT60o1iu+TRSAnCqYYxzpx+ugGOiBpYXcap74IRhEGN1BvMZoOGMkdHXlvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VylFva/R; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="YWjP+Q2L"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3D0112805A2;
-	Tue,  5 Nov 2024 15:56:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1730818617; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=0YTgtBqW+0YW1QX49rj8Vs5Pdkwg9by73TTIC3Ltc3g=;
-	b=YWjP+Q2LUuViWIN9YEFqY6pzzJ+x2KOjIxg8Dq/wzbLcXQOMRfbAdys9z4irK6jTXan8BU
-	+haVU74KkzlGO7AWiMLDHBfAaLMnEGTldr8e9ITY6zFTGBld1svpqVa6QJCboAiMdj0AHB
-	hsGZfq7nKotgssZDNc636aTdo3pzgQbeF5v4fryDaQmpwdqEcaiNCm0GYVqwc7PEi4XcgQ
-	5h7OZdxIN03SNpwDnWMSibgTaLJbm+a41H3fDulJyVuzLOEWCEsPmjMtpe4E2WX+zaitPq
-	l8AqgUqhY9lcZSl2j7C9xBZ6SYX8SzvrWOkxjgyGDnIOvKSAxqoxxiN0F4AzYQ==
-Message-ID: <e4dad58c-e329-4e9a-aa6f-8b08bdf8f350@cachyos.org>
-Date: Tue, 5 Nov 2024 15:56:51 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VylFva/R"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3e5fa17a79dso3120922b6e.1;
+        Tue, 05 Nov 2024 07:45:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730821540; x=1731426340; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=U46kt6szyPyGfKSsshK2tYyR7oUZn8yLnP4zxUDzHSw=;
+        b=VylFva/R2DSY1A0YLojLrzgSkt9o+19GtZmsqsdBz7IdHODGux0520Cx67lzopPr+a
+         7L55CFXEk8xGcNlYA2i0aS11JkZC6S5upGyYvAW7QvqcEDpmp88YB30rikOMWcWteSZ1
+         w2T+QaT0aY3EFWAMWCfP6dinxQiwtZieenxK0UJ6OLRbGpWvyTFpGi5W27PrV8cv6d0g
+         W0liaz4PgeoAFVby1WqsAn0G76ZRkVHAb9KAE40Ig1NVClG2ybHjNY9MrGkdpCvW4xfs
+         FBoKOF1514UkuKZsdE41+wOTx0GsIsHp8ZPYf/zD8eSJ4cTKx3OfejQ6FOYE2QhiK+q1
+         XkkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730821540; x=1731426340;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U46kt6szyPyGfKSsshK2tYyR7oUZn8yLnP4zxUDzHSw=;
+        b=PSPTx0IHQWHVt6GleYywXonsvShYyIYzd4kcVTwVWr/wypS/FOG0OY3GcCBW9rorpw
+         5L0UAwE5EjzZb6uu6C/pkScGFphZ1uHebCn4ZdRKs4CE1YCwOfBHRPTTSb7/jy6RTbs2
+         5R4niJ5wlh2dFZSfXZfmRpoIi9LYohvrNBhLqxQ6DXexJIhrPIJ3Hr1id6CNWqSmAsOa
+         /e38A3E3F1FrA2bX1UV4UzxhqY0BRLx+ybTnxWckk0Pmx7KyEo7IJgUcqDvOfdfcKeKm
+         PK6GqCsoRoeSiX/tBa5SOfy2pelwnmzw+Tp+TP9gIH7DJdNsgBNgl7jmDmHzza7js9Na
+         zXbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWR1I4DwdLadpsKmONfenvbUjaObXByH8eYrUFONzD91a5XF08QN+MNPF7xI4PVDoIG8T1dk0bHIT0hbIo=@vger.kernel.org, AJvYcCX1Vu3j7dsvE81TsGOmhnxyt1OfwiVcO8q9k1ALybXrSYgWSdPqPNDacd+RcRs7jYdF51Eq7LpEUuzn@vger.kernel.org, AJvYcCXFVCZ/fwxyZ+URyCp99CxBgE2SI5bFiLAf1JJdKZd16VBk/pZfhvY8o6pdEloqtKl3VkNod0bLDOHW@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOrJkblCzeZTEG/ag8ut1qqsLKfSAFaU2/VJt03HuNV07agh8H
+	OSRQUR5KNVg6sJ48QlT2ipmsT+hE6N9qje/VbNhoA3xA7Ujmz8ek
+X-Google-Smtp-Source: AGHT+IHdutIt/b133vTBEiC3TH29nMw8GJxs9wcEnAoVYP1T0wE1L3L0Jiw/MMiFm6kvD4HQ4d7W6w==
+X-Received: by 2002:a05:6808:150e:b0:3e7:6468:1fd5 with SMTP id 5614622812f47-3e76468380fmr10048209b6e.34.1730821540507;
+        Tue, 05 Nov 2024 07:45:40 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7ee45299f2dsm9182016a12.15.2024.11.05.07.45.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Nov 2024 07:45:39 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <2afabeb7-9cf7-4092-965d-55a9c0762948@roeck-us.net>
+Date: Tue, 5 Nov 2024 07:45:38 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -36,340 +63,137 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/7] Add AutoFDO support for Clang build
-From: Peter Jung <ptr1337@cachyos.org>
-To: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>
-Cc: Alice Ryhl <aliceryhl@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>,
- Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>,
- Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Juergen Gross <jgross@suse.com>, Justin Stitt <justinstitt@google.com>,
- Kees Cook <kees@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- "Mike Rapoport (IBM)" <rppt@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner
- <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>,
- workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Maksim Panchenko <max4bolt@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
- Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>,
- Krzysztof Pszeniczny <kpszeniczny@google.com>,
- Sriraman Tallam <tmsriram@google.com>, Stephane Eranian
- <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-References: <20241102175115.1769468-1-xur@google.com>
- <20241102175115.1769468-2-xur@google.com>
- <09349180-027a-4b29-a40c-9dc3425e592c@cachyos.org>
- <3183ab86-8f1f-4624-9175-31e77d773699@cachyos.org>
- <CACkGtrgOw8inYCD96ot_w9VwzoFvvgCReAx0P-=Rxxqj2FT4_A@mail.gmail.com>
- <67c07d2f-fb1f-4b7d-96e2-fb5ceb8fc692@cachyos.org>
- <CACkGtrgJHtG5pXR1z=6G4XR6ffT5jEi3jZQo=UhYj091naBhsA@mail.gmail.com>
- <CAF1bQ=SbeR3XhFc7JYGOh69JZfAwQV8nupAQM+ZxpzNEFUFxJw@mail.gmail.com>
- <449fddd2-342f-48cc-9a11-8a34814f1284@cachyos.org>
+Subject: Re: [PATCH v6 2/2] dt-bindings: hwmon: isl68137: add bindings to
+ support voltage dividers
+To: Rob Herring <robh@kernel.org>
+Cc: Grant Peltier <grantpeltier93@gmail.com>, geert+renesas@glider.be,
+ magnus.damm@gmail.com, grant.peltier.jg@renesas.com,
+ brandon.howell.jg@renesas.com, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+References: <cover.1730326915.git.grantpeltier93@gmail.com>
+ <1dff1f63a2e122788e2c17f192472705491aa5b8.1730326916.git.grantpeltier93@gmail.com>
+ <CAL_JsqJqhxcMu2yeqvJvUOJ_g3uDv3t1JwaMxAfZQGXFj3rAvw@mail.gmail.com>
+ <0f855c81-ce0e-41e8-ae08-5f653d3ca8b0@roeck-us.net>
+ <CAL_JsqK=kgoKvusMMqdtx7b4z2aveE5O9Q=UHXCgook5UBS4bA@mail.gmail.com>
 Content-Language: en-US
-Organization: CachyOS
-In-Reply-To: <449fddd2-342f-48cc-9a11-8a34814f1284@cachyos.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <CAL_JsqK=kgoKvusMMqdtx7b4z2aveE5O9Q=UHXCgook5UBS4bA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-You were right - reverting commit:
-https://github.com/bminor/binutils-gdb/commit/b20ab53f81db7eefa0db00d14f06c04527ac324c 
-from the 2.43 branch does fix the packaging.
+On 11/5/24 04:19, Rob Herring wrote:
+> On Mon, Nov 4, 2024 at 7:20 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> On 11/4/24 07:08, Rob Herring wrote:
+>>> On Wed, Oct 30, 2024 at 5:41 PM Grant Peltier <grantpeltier93@gmail.com> wrote:
+>>>>
+>>>> Add devicetree bindings to support declaring optional voltage dividers to
+>>>> the rail outputs of supported digital multiphase regulators. Some
+>>>> applications require Vout to exceed the voltage range that the Vsense pin
+>>>> can detect. This binding definition allows users to define the
+>>>> characteristics of a voltage divider placed between Vout and the Vsense
+>>>> pin for any rail powered by the device.
+>>>>
+>>>> These bindings copy the vout-voltage-divider property defined in the
+>>>> maxim,max20730 bindings schema since it is the best fit for the use case
+>>>> of scaling hwmon PMBus telemetry. The generic voltage-divider property
+>>>> used by many iio drivers was determined to be a poor fit because that
+>>>> schema is tied directly to iio for the purpose of scaling io-channel
+>>>> voltages and the isl68137 driver is not an iio driver.
+>>>>
+>>>> Signed-off-by: Grant Peltier <grantpeltier93@gmail.com>
+>>>> ---
+>>>>    .../hwmon/pmbus/renesas,isl68137.yaml         | 147 ++++++++++++++++++
+>>>>    1 file changed, 147 insertions(+)
+>>>>    create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..ed659c2baadf
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/renesas,isl68137.yaml
+>>>> @@ -0,0 +1,147 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +
+>>>> +$id: http://devicetree.org/schemas/hwmon/pmbus/renesas,isl68137.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Renesas Digital Multiphase Voltage Regulators with PMBus
+>>>> +
+>>>> +maintainers:
+>>>> +  - Grant Peltier <grant.peltier.jg@renesas.com>
+>>>> +
+>>>> +description: |
+>>>> +  Renesas digital multiphase voltage regulators with PMBus.
+>>>> +  https://www.renesas.com/en/products/power-management/multiphase-power/multiphase-dcdc-switching-controllers
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    enum:
+>>>
+>>> Somehow "isl68137" is missing from your list. "make
+>>> dt_compatible_check" reports it as not documented.
+>>>
+>>
+>> Turns out it is also documented as "isil,isl68137" in trivial-devices.yaml
+>> (together with isil,isl69260). Both are referenced in .dts files. How should
+>> that be handled ?
+> 
+> Move those compatibles here. And this file should be renamed to
+> isil,isl68137.yaml or some other actual compatible value.
+> 
 
-I will forward this to an issue at their bugzilla.
+I guess that is a bit more complicated since Renesas acquired Intersil.
+Is there a common guidance explaining how new compatibles should be defined
+in such situations ?
 
-On 05.11.24 15:33, Peter Jung wrote:
-> Hi Rong,
-> 
-> Glad that you were able to reproduce the issue!
-> Thanks for finding the root cause as well as the part of the code. This 
-> really helps.
-> 
-> I was able to do a successful packaging with binutils 2.42.
-> Lets forward this to the binutils tracker and hope this will be soon 
-> solved. 🙂
-> 
-> I have tested this also on the latest commit 
-> (e1e4078ac59740a79cd709d61872abe15aba0087) and the issue is also 
-> reproducible there.
-> 
-> Thanks for your time! I dont see this as blocker. 🙂
-> It gets time to get this series merged :P
-> 
-> Best regards,
-> 
-> Peter
-> 
-> 
-> 
-> On 05.11.24 08:25, Rong Xu wrote:
->> We debugged this issue and we found the failure seems to only happen
->> with strip (version 2.43) in binutil.
->>
->> For a profile-use compilation, either with -fprofile-use (PGO or
->> iFDO), or -fprofile-sample-use (AutoFDO),
->> an ELF section of .llvm.call-graph-profile is created for the object.
->> For some reasons (like to save space?),
->> the relocations in this section are of type "rel', rather the more
->> common "rela" type.
->>
->> In this case,
->> $ readelf -r kvm.ko |grep llvm.call-graph-profile
->> Relocation section '.rel.llvm.call-graph-profile' at offset 0xf62a00
->> contains 4 entries:
->>
->> strip (v2.43.0) has difficulty handling the relocations in
->> .rel.llvm.call-graph-profile -- it silently failed with --strip-debug.
->> But strip (v.2.42) has no issue with kvm.ko. The strip in llvm (i.e.
->> llvm-strip) also passes with kvm.ko
->>
->> I compared binutil/strip source code for version v2.43.0 and v2.42.
->> The different is around here:
->> In v2.42 of bfd/elfcode.h
->>     1618       if ((entsize == sizeof (Elf_External_Rela)
->>     1619            && ebd->elf_info_to_howto != NULL)
->>     1620           || ebd->elf_info_to_howto_rel == NULL)
->>     1621         res = ebd->elf_info_to_howto (abfd, relent, &rela);
->>     1622       else
->>     1623         res = ebd->elf_info_to_howto_rel (abfd, relent, &rela);
->>
->> In v2.43.0 of bfd/elfcode.h
->>     1618       if (entsize == sizeof (Elf_External_Rela)
->>     1619           && ebd->elf_info_to_howto != NULL)
->>     1620         res = ebd->elf_info_to_howto (abfd, relent, &rela);
->>     1621       else if (ebd->elf_info_to_howto_rel != NULL)
->>     1622         res = ebd->elf_info_to_howto_rel (abfd, relent, &rela);
->>
->> In the 2.43 strip, line 1618 is false and line 1621 is also false.
->> "res" is returned as false and the program exits with -1.
->>
->> While in 2.42, line 1620 is true and we get "res" from line 1621 and
->> program functions correctly.
->>
->> I'm not familiar with binutil code base and don't know the reason for
->> removing line 1620.
->> I can file a bug for binutil for people to further investigate this.
->>
->> It seems to me that this issue should not be a blocker for our patch.
->>
->> Regards,
->>
->> -Rong
->>
->>
->>
->>
->>
->> On Mon, Nov 4, 2024 at 12:24 PM Han Shen<shenhan@google.com> wrote:
->>> Hi Peter,
->>> Thanks for providing the detailed reproduce.
->>> Now I can see the error (after I synced to 6.12.0-rc6, I was using rc5).
->>> I'll look into that and report back.
->>>
->>>> I have tested your provided method, but the AutoFDO profile (lld does
->>> not get lto-sample-profile=$pathtoprofile passed)
->>>
->>> I see. You also turned on ThinLTO, which I didn't, so the profile was
->>> only used during compilation, not passed to lld.
->>>
->>> Thanks,
->>> Han
->>>
->>> On Mon, Nov 4, 2024 at 9:31 AM Peter Jung<ptr1337@cachyos.org> wrote:
->>>> Hi Han,
->>>>
->>>> I have tested your provided method, but the AutoFDO profile (lld does
->>>> not get lto-sample-profile=$pathtoprofile passed)  nor Clang as 
->>>> compiler
->>>> gets used.
->>>> Please replace following PKGBUILD and config from linux-mainline with
->>>> the provided one in the gist. The patch is also included there.
->>>>
->>>> https://gist.github.com/ptr1337/c92728bb273f7dbc2817db75eedec9ed
->>>>
->>>> The main change I am doing here, is passing following to the build 
->>>> array
->>>> and replacing "make all":
->>>>
->>>> make LLVM=1 LLVM_IAS=1 CLANG_AUTOFDO_PROFILE=${srcdir}/perf.afdo all
->>>>
->>>> When compiling the kernel with makepkg, this results at the 
->>>> packaging to
->>>> following issue and can be reliable reproduced.
->>>>
->>>> Regards,
->>>>
->>>> Peter
->>>>
->>>>
->>>> On 04.11.24 05:50, Han Shen wrote:
->>>>> Hi Peter, thanks for reporting the issue. I am trying to reproduce it
->>>>> in the up-to-date archlinux environment. Below is what I have:
->>>>>     0. pacman -Syu
->>>>>     1. cloned archlinux build files from
->>>>> https://aur.archlinux.org/linux-mainline.git the newest mainline
->>>>> version is 6.12rc5-1.
->>>>>     2. changed the PKGBUILD file to include the patches series
->>>>>     3. changed the "config" to turn on clang autofdo
->>>>>     4. collected afdo profiles
->>>>>     5. MAKEFLAGS="-j48 V=1 LLVM=1 CLANG_AUTOFDO_PROFILE=$(pwd)/ 
->>>>> perf.afdo" \
->>>>>           makepkg -s --skipinteg --skippgp
->>>>>     6. install and reboot
->>>>> The above steps succeeded.
->>>>> You mentioned the error happens at "module_install", can you instruct
->>>>> me how to execute the "module_install" step?
->>>>>
->>>>> Thanks,
->>>>> Han
->>>>>
->>>>> On Sat, Nov 2, 2024 at 12:53 PM Peter Jung<ptr1337@cachyos.org> wrote:
->>>>>>
->>>>>> On 02.11.24 20:46, Peter Jung wrote:
->>>>>>> On 02.11.24 18:51, Rong Xu wrote:
->>>>>>>> Add the build support for using Clang's AutoFDO. Building the 
->>>>>>>> kernel
->>>>>>>> with AutoFDO does not reduce the optimization level from the
->>>>>>>> compiler. AutoFDO uses hardware sampling to gather information 
->>>>>>>> about
->>>>>>>> the frequency of execution of different code paths within a binary.
->>>>>>>> This information is then used to guide the compiler's optimization
->>>>>>>> decisions, resulting in a more efficient binary. Experiments
->>>>>>>> showed that the kernel can improve up to 10% in latency.
->>>>>>>>
->>>>>>>> The support requires a Clang compiler after LLVM 17. This 
->>>>>>>> submission
->>>>>>>> is limited to x86 platforms that support PMU features like LBR on
->>>>>>>> Intel machines and AMD Zen3 BRS. Support for SPE on ARM 1,
->>>>>>>>     and BRBE on ARM 1 is part of planned future work.
->>>>>>>>
->>>>>>>> Here is an example workflow for AutoFDO kernel:
->>>>>>>>
->>>>>>>> 1) Build the kernel on the host machine with LLVM enabled, for 
->>>>>>>> example,
->>>>>>>>           $ make menuconfig LLVM=1
->>>>>>>>        Turn on AutoFDO build config:
->>>>>>>>          CONFIG_AUTOFDO_CLANG=y
->>>>>>>>        With a configuration that has LLVM enabled, use the 
->>>>>>>> following
->>>>>>>>        command:
->>>>>>>>           scripts/config -e AUTOFDO_CLANG
->>>>>>>>        After getting the config, build with
->>>>>>>>          $ make LLVM=1
->>>>>>>>
->>>>>>>> 2) Install the kernel on the test machine.
->>>>>>>>
->>>>>>>> 3) Run the load tests. The '-c' option in perf specifies the sample
->>>>>>>>       event period. We suggest     using a suitable prime number,
->>>>>>>>       like 500009, for this purpose.
->>>>>>>>       For Intel platforms:
->>>>>>>>          $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c
->>>>>>>> <count> \
->>>>>>>>            -o <perf_file> -- <loadtest>
->>>>>>>>       For AMD platforms:
->>>>>>>>          The supported system are: Zen3 with BRS, or Zen4 with 
->>>>>>>> amd_lbr_v2
->>>>>>>>         For Zen3:
->>>>>>>>          $ cat proc/cpuinfo | grep " brs"
->>>>>>>>          For Zen4:
->>>>>>>>          $ cat proc/cpuinfo | grep amd_lbr_v2
->>>>>>>>          $ perf record --pfm-events 
->>>>>>>> RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k
->>>>>>>> -a \
->>>>>>>>            -N -b -c <count> -o <perf_file> -- <loadtest>
->>>>>>>>
->>>>>>>> 4) (Optional) Download the raw perf file to the host machine.
->>>>>>>>
->>>>>>>> 5) To generate an AutoFDO profile, two offline tools are available:
->>>>>>>>       create_llvm_prof and llvm_profgen. The create_llvm_prof 
->>>>>>>> tool is part
->>>>>>>>       of the AutoFDO project and can be found on GitHub
->>>>>>>>       (https://github.com/google/autofdo), version v0.30.1 or 
->>>>>>>> later. The
->>>>>>>>       llvm_profgen tool is included in the LLVM compiler itself. 
->>>>>>>> It's
->>>>>>>>       important to note that the version of llvm_profgen doesn't 
->>>>>>>> need to
->>>>>>>>       match the version of Clang. It needs to be the LLVM 19 
->>>>>>>> release or
->>>>>>>>       later, or from the LLVM trunk.
->>>>>>>>          $ llvm-profgen --kernel --binary=<vmlinux> --
->>>>>>>> perfdata=<perf_file> \
->>>>>>>>            -o <profile_file>
->>>>>>>>       or
->>>>>>>>          $ create_llvm_prof --binary=<vmlinux> -- 
->>>>>>>> profile=<perf_file> \
->>>>>>>>            --format=extbinary --out=<profile_file>
->>>>>>>>
->>>>>>>>       Note that multiple AutoFDO profile files can be merged 
->>>>>>>> into one via:
->>>>>>>>          $ llvm-profdata merge -o <profile_file>  <profile_1> ...
->>>>>>>> <profile_n>
->>>>>>>>
->>>>>>>> 6) Rebuild the kernel using the AutoFDO profile file with the 
->>>>>>>> same config
->>>>>>>>       as step 1, (Note CONFIG_AUTOFDO_CLANG needs to be enabled):
->>>>>>>>          $ make LLVM=1 CLANG_AUTOFDO_PROFILE=<profile_file>
->>>>>>>>
->>>>>>>> Co-developed-by: Han Shen<shenhan@google.com>
->>>>>>>> Signed-off-by: Han Shen<shenhan@google.com>
->>>>>>>> Signed-off-by: Rong Xu<xur@google.com>
->>>>>>>> Suggested-by: Sriraman Tallam<tmsriram@google.com>
->>>>>>>> Suggested-by: Krzysztof Pszeniczny<kpszeniczny@google.com>
->>>>>>>> Suggested-by: Nick Desaulniers<ndesaulniers@google.com>
->>>>>>>> Suggested-by: Stephane Eranian<eranian@google.com>
->>>>>>>> Tested-by: Yonghong Song<yonghong.song@linux.dev>
->>>>>>>> Tested-by: Yabin Cui<yabinc@google.com>
->>>>>>>> Tested-by: Nathan Chancellor<nathan@kernel.org>
->>>>>>>> Reviewed-by: Kees Cook<kees@kernel.org>
->>>>>>> Tested-by: Peter Jung<ptr1337@cachyos.org>
->>>>>>>
->>>>>> The compilations and testing with the "make pacman-pkg" function from
->>>>>> the kernel worked fine.
->>>>>>
->>>>>> One problem I do face:
->>>>>> When I apply a AutoFDO profile together with the PKGBUILD [1] from
->>>>>> archlinux im running into issues at "module_install" at the 
->>>>>> packaging.
->>>>>>
->>>>>> See following log:
->>>>>> ```
->>>>>> make[2]: *** [scripts/Makefile.modinst:125:
->>>>>> /tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc- 
->>>>>> autofdo/usr/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/ 
->>>>>> arch/x86/kvm/kvm.ko]
->>>>>> Error 1
->>>>>> make[2]: *** Deleting file
->>>>>> '/tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc- 
->>>>>> autofdo/usr/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/ 
->>>>>> arch/x86/kvm/kvm.ko'
->>>>>>      INSTALL
->>>>>> /tmp/makepkg/linux-cachyos-rc-autofdo/pkg/linux-cachyos-rc- 
->>>>>> autofdo/usr/lib/modules/6.12.0-rc5-5-cachyos-rc-autofdo/kernel/ 
->>>>>> crypto/cryptd.ko
->>>>>> make[2]: *** Waiting for unfinished jobs....
->>>>>> ```
->>>>>>
->>>>>>
->>>>>> This can be fixed with removed "INSTALL_MOD_STRIP=1" to the passed
->>>>>> parameters of module_install.
->>>>>>
->>>>>> This explicitly only happens, if a profile is passed - otherwise the
->>>>>> packaging works without problems.
->>>>>>
->>>>>> Regards,
->>>>>>
->>>>>> Peter Jung
->>>>>>
-> 
+Anyway, I had the patches queued in linux-next. I dropped them until
+this is sorted out.
+
+Guenter
 
