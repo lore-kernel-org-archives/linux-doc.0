@@ -1,86 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506F81D63F8;
-	Wed,  6 Nov 2024 21:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6306620D4FE;
+	Wed,  6 Nov 2024 23:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730927862; cv=none; b=HHsESl9uSCfD8+V/mtCa7PhAK59Vi0juzycV00VvAT5Q/cJXHJi1ygJ3AG1duHsORp0CdtRPaTrSq3UVL0vDuphJyF1uGph0Jsgn88XKCXxl6ev2k2YCxDf7psEoRZL1mr4oAO3zSv28YPSmRM7LCbjVkYqHvqJsgos/9Xyz3Fo=
+	t=1730937142; cv=none; b=Kqtj+/yMDFvSrRagdZjMU8+IUwNL0KBFxqAOVGMLoJzncYYgD8PpE7nagwYW9mwZsq5iavF7cDh7ZUK+haWn4RD2oPGbtTE2zZFHDAdOpgG2yl2uSWwuNA+Ez0h1aB30S69anGefVAfLKQX626EldI524BwC2ok3SYpf6IdgCWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730927862; c=relaxed/simple;
-	bh=30pjOrftk+x/9JwFj0XfoVd8G3rer8//+ZVC/VnGbV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=C1utmz2oLjsbPUXDXMZKDncuJBj8EfT8hiHX+7EYZDDa61hHvuAq3WUryPWWm8QY8n/T6+3SQXXrGeu7KQiLDKdMNt4O/BXSQETWWJmDGZIj+w22l3subD719qSYHZl7WL8A7uwKUf6uf1yVTXNmqRrOgd4Izp9JnHhBzuzIPrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i2IEBEy0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730937142; c=relaxed/simple;
+	bh=Y1qQw4FYOeQlsbYrvpZWQ8Dw59H+2DFmX490k1WVDLw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k6dyHfE6XEIx27m0nFs12NwT7/0/4ZGTsTYhiRwJIdivylUszj3oxc+ThJvjI21PG1FolhdEmHP22CzWj5l00CoQLuRqJGMa2UrRRf2zI4Epus85lxsI/z8EKmB8bHM48v3nkzCFpVGcmHB2v3BT5SkFwX9urgRB77M+/PxQIxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cpugjt5V; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2IEBEy0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2A0EC4CEC6;
-	Wed,  6 Nov 2024 21:17:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730927860;
-	bh=30pjOrftk+x/9JwFj0XfoVd8G3rer8//+ZVC/VnGbV8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=i2IEBEy0j5D6Hs5Uelajxim0x5TkJosdCViiVn14KMOBw8KohhHaQgG89hYZF88zK
-	 aMR8vAPDhWthT1BdH1NW/FUsfEza4PvVABrzQeDnfoKiFwTKMEdywdy61ULnVBP2+8
-	 zp+sWqiDVR7a0GIBS67GeWSF94r8ugyryFnBU3qvr8x+b0OyLaTQ9jzX/nygZQDi6b
-	 v7f39T8ICyEkIDNzWosdvngu32r48JRKRT/NJuDDjsIcQ49X22O2iB967W8UknozZl
-	 CTwUencrutetUgfz0Y0Lo4P0lDXtnflnybqcjopiqVTBhYUxPiD16hMcRmAsib+uFo
-	 3es9zqoHZeraA==
-Date: Wed, 6 Nov 2024 15:17:38 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Sanman Pradhan <sanman.p211993@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, netdev@vger.kernel.org,
-	alexanderduyck@fb.com, kuba@kernel.org, kernel-team@meta.com,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	horms@kernel.org, corbet@lwn.net, mohsin.bashr@gmail.com,
-	sanmanpradhan@meta.com, andrew+netdev@lunn.ch,
-	vadim.fedorenko@linux.dev, jdamato@fastly.com, sdf@fomichev.me,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH net-next] eth: fbnic: Add PCIe hardware statistics
-Message-ID: <20241106211738.GA1540450@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cpugjt5V"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7ea7ad1e01fso318704a12.0;
+        Wed, 06 Nov 2024 15:52:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730937141; x=1731541941; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BZoQBXfahC5oBSPPmFRFV/8BoW/kEtqQMgBRoBlf8qA=;
+        b=Cpugjt5VzAN/v7/to8uvPBmhzpIdttKyKgXwRDjST73nYk1Wc8Lv4VJwZpGdqAXi82
+         j9p+GnHGXI2NyeofR8T88t0NrRFlkOjDrxRImD0EGLPTmxHLTLmR5VF9nB5g95tLLczX
+         L7/qVruJjDCcY12XbPX9oI2EP6q67B3IVjLxv9lV2eP44GdyTGBAoSxxNvPSwAOj60dr
+         3CwKlW2iZeDnjg539ry/gFoJeX3ZlCPOjEdaCJW5nRWJjGjVnaBqotTA2U9qdWSos/Zc
+         eqcK68kBk6P0NEhf1z79oub2FB/6sZ6efH2u/s4t2p9Bs+kIx2UoV9TSDAscSh2y9+1e
+         gdcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730937141; x=1731541941;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BZoQBXfahC5oBSPPmFRFV/8BoW/kEtqQMgBRoBlf8qA=;
+        b=dDjwWfKfjq0d9iBpNakhKxokMbQ5Za6jYjprKa9EdPESzn0LQ1PZMpa9LSX3iU3mew
+         EwcHsDGGHjpWhqgvXU1fmHFctmlDNwdzATebWQpiKyF1dk1tohSE4AfzBfFSeIB7ogFC
+         b1YD8lXt6BfBHKMFDtL8AXgI1n8uc90R+ezJoyizMpQIo6PLEaixvBEYbZnguJrMP8EV
+         RfSys80M5FOm62HdmuEnzQSowcV8xSs1OJbbFdAbzddGraEmmAJ+vceNWjsRPfXrd1PS
+         1vk5hlpEtLpP/kvHQNFO8K4qCjI61SMXQ/X/5gm8O6o8xvcKmU4VihUZtGdXL3c0uVrF
+         kMbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVLjqQF6HbJb5udZuN0fDXF/p0DD4fw/y0rFnN6Smrql4a2POPNUsjrDrCtToWannXU9rfYr4Mm6yM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfswwNIMeQjZ8RGeFQ6uhmBfnFWE1RBv2OZsBvGri5T9rVPFQL
+	2KYQoWZ9mpXheAbrDCBBT7FzjAiOAjTSAB2ifKwPYUEuTbpAjD7c
+X-Google-Smtp-Source: AGHT+IEaWT2x2dkg8hWnsbNNHdlIEVlmXRlcTy4iqlOjzVVEHmONb9iRe1bPNQFrAFanCQABHTAY7w==
+X-Received: by 2002:a05:6a20:7346:b0:1d2:eaea:39d7 with SMTP id adf61e73a8af0-1dc105f22cbmr1976871637.9.1730937140712;
+        Wed, 06 Nov 2024 15:52:20 -0800 (PST)
+Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:c934:17a7:b0a5:6e02])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72407a57105sm115903b3a.192.2024.11.06.15.52.19
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 06 Nov 2024 15:52:20 -0800 (PST)
+From: anish kumar <yesanishhere@gmail.com>
+To: corbet@lwn.net,
+	broonie@kernel.org,
+	dlechner@baylibre.com,
+	u.kleine-koenig@pengutronix.de,
+	Jonathan.Cameron@huawei.com,
+	pstanner@redhat.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	anish kumar <yesanishhere@gmail.com>
+Subject: [PATCH 1/2] Documentation: devres: add missing mailbox helpers
+Date: Wed,  6 Nov 2024 15:52:16 -0800
+Message-Id: <20241106235217.94718-1-yesanishhere@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241106175054.GG5006@unreal>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 06, 2024 at 07:50:54PM +0200, Leon Romanovsky wrote:
-> On Wed, Nov 06, 2024 at 11:12:57AM -0600, Bjorn Helgaas wrote:
-> > On Wed, Nov 06, 2024 at 02:22:51PM +0200, Leon Romanovsky wrote:
-> > > On Tue, Nov 05, 2024 at 04:26:25PM -0800, Sanman Pradhan wrote:
-> > > > Add PCIe hardware statistics support to the fbnic driver. These stats
-> > > > provide insight into PCIe transaction performance and error conditions,
-> > > > including, read/write and completion TLP counts and DWORD counts and
-> > > > debug counters for tag, completion credit and NP credit exhaustion
-> > > > 
-> > > > The stats are exposed via ethtool and can be used to monitor PCIe
-> > > > performance and debug PCIe issues.
-> > > 
-> > > And how does PCIe statistics belong to ethtool?
-> > > 
-> > > This PCIe statistics to debug PCIe errors and arguably should be part of
-> > > PCI core and not hidden in netdev tool.
-> > 
-> > How would this be done in the PCI core?  As far as I can tell, all
-> > these registers are device-specific and live in some device BAR.
-> 
-> I would expect some sysfs file/directory exposed through PCI core.
-> That sysfs needs to be connected to the relevant device through
-> callback, like we are doing with .sriov_configure(). So every PCI
-> device will be able to expose statistics without relation to netdev.
-> 
-> That interface should provide read access and write access with zero
-> value to reset the counter/counters.
+mailbox api's were missing from the devres documentation.
+This patch adds them.
 
-Seems plausible.  We do already have something sort of similar with
-aer_stats_attrs[].  I don't think there's a way to reset them though,
-and they're just all thrown in the top-level device directory, which
-probably isn't scalable.
+Signed-off-by: anish kumar <yesanishhere@gmail.com>
+---
+ Documentation/driver-api/driver-model/devres.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Bjorn
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index 5f2ee8d717b1..8350a098f81f 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -346,6 +346,10 @@ LED
+   devm_led_trigger_register()
+   devm_of_led_get()
+ 
++MAILBOX
++  devm_mbox_controller_register()
++  devm_mbox_controller_unregister()
++
+ MDIO
+   devm_mdiobus_alloc()
+   devm_mdiobus_alloc_size()
+-- 
+2.39.3 (Apple Git-146)
+
