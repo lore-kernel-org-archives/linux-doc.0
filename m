@@ -1,114 +1,83 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06871DF736;
-	Wed,  6 Nov 2024 12:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD181E04AD;
+	Wed,  6 Nov 2024 13:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730895797; cv=none; b=In232tsZuFG8nFDIO7IBFY2HRZCp4Evbc2WF6wNHQR3YtqxMp7PGryjUnhBrnK/1XTuSwuHtwSRKYHkp/Phlgke4hCXx9lIM7VE4spcnFAeWCNM7AhLHEL0RTTESjiEgqJRuGIgPSNvJdgHOg/c1FuSzkFDyGVOHVSdrDdJAh8Q=
+	t=1730898748; cv=none; b=fAH9Ly+vjSFhE9LC1CSNHqVuejoEw2b5wx9udpwJODhoz6Q/XemdxKTKG16/sCbAjpzonh5h+Du6GWQnPbS2Gy6drBmx9tFsGnaGSgST+nELCL/LnzuyIFGNTtqJGmbt6zVISQW7sMB7evaSzsG+k6kECWDY5uOUazUchOVUAmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730895797; c=relaxed/simple;
-	bh=LOcx39WpVkgfByGcE2LRb/j3Yp/QZsre70eNEo5cn4U=;
+	s=arc-20240116; t=1730898748; c=relaxed/simple;
+	bh=3SfESvrKfdyPsR2Toa1m1lCX2fQeSf+A2nGffmF11BM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZATViSbhxNkdIQFkq4GttlexRha0yrXI7N4H5UrqpfKIEz6FQYTK7tZ1vhIJMLRK3egd1ZLwOlWwE0AA1lYbBqomZf0MgIcotIaLiZAgXWqcQjoRtDzclvjL8IkP6j8iDJeQLHt62qCV6GZeVWvwmEyjPzW29sgwjltat868Vh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XXx6FtH7; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fGenyS9gPLtx7E6bODNeeZZ1/tPEJEKkj+J4+/XTZkcJPYSWn6uQWcm6BCDFIiFRAkL5j1sotrOTiaSCg+PyMx41lyM+YpaMufL1+abpqBQdrCJyRxT2vVBw5+11Ify9NVwF2YJtwBhmxSsnjU1hfVN17jLcZMU/yk76lDNu0oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGmwz3OA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XXx6FtH7"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-720be27db74so639848b3a.1;
-        Wed, 06 Nov 2024 04:23:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730895795; x=1731500595; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LOcx39WpVkgfByGcE2LRb/j3Yp/QZsre70eNEo5cn4U=;
-        b=XXx6FtH7krhWL5ZRyU+Ilk6ciRc8Dycvxx6Ve+9vbJz+C6f5989GGiX+ZfM2tADOlt
-         BPClAo87eJXrzVHEzoG+FI/foO5IESSJuY+89pM5Mz78dEI0K8rR/3hpYpIbJt+I1Vu+
-         E5DZW2ETXLHiY2bg3YAnTMOikyw3EUybnUqsS4RLRjQRseERAcZYZpqGRhlO2yyv51rz
-         oggBuKGw6pfelfbYOOOFuGC21Ldvr5rNb2XVyAbbD1cGZWiwLNkXboYVSRHmnkOHjVGI
-         rVn/pmCpkGirklgs1CxoTdzR/L12O8RedL1PnlHK3fmaPOC5B8J3xWg9uCapshsnEam7
-         O4UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730895795; x=1731500595;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LOcx39WpVkgfByGcE2LRb/j3Yp/QZsre70eNEo5cn4U=;
-        b=PpcM7Z48MZ7zW9Izdz9AqtUwx3FLSv/fAg3ScVlqm8LW0QcaGmbKTEzNrMfN3gGnpD
-         m6XFynODXedFSn2ya6/Awj4l1r3ZsTsSbbfApokv7BMhPt2eVpJoNE4/Q8GhbsIncoxb
-         6rUz26/x5q5kO/ZXJwGGfcwO6k8ax80LEl/NgukVJFm24IKc67nEvRhGGrxvaEpPt2zD
-         pEKwYW0QuCIH+WvjhXepi932VH5Bo+Kp8Pk964mjuyhazjrTzJUDQr6slNbuMMiq73Se
-         X5Ave2q0zWMvPAud6jwE7oHowDMqqaIcnU6WY49784qAd6AoomEKJseZWqqTbadZgN+/
-         pn5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU5FwfmjuZ40+r2Bd4kpC88vMNOgFj3jyZnSghjrUpJOtomBqirVB+4TwCpOzyryF74Kr+YlbnuJz+ndhe+@vger.kernel.org, AJvYcCW55TZZZr38Yr4mI6onjG6aWhPW3OzPp5Ux/4H64/ACkDKHK9Ic13EaQyQZ04zkz1VaPqkdR+PFPXpiWmu48paV@vger.kernel.org, AJvYcCXv2+HnnLg2WZjvi3bImgLtHO5nGsoRy7q8Oj/U3ZqvgwLtyIa+bTqMtN+pykSDdbNFI5URptxAm98=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtiYv9Qd2nBVMutzLhLdfCD7Zzc+Ozb9zZ3hXaCjNrhoAfnJvg
-	we8TZvdZ6xmo9ff1/zCUSLtpFhQMjtrCUF1/QxDs17sMvNuaVNP9
-X-Google-Smtp-Source: AGHT+IHlm62VXnUBPd59sCVU+HT7bAgeu3hCGilmSCgsLu4geYKqabYoClmdsAEnS+JE+O9J3JzzKg==
-X-Received: by 2002:a05:6a00:2d9f:b0:71e:60d9:910d with SMTP id d2e1a72fcca58-723f79bb0f7mr4043502b3a.6.1730895794957;
-        Wed, 06 Nov 2024 04:23:14 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc2eb3cfsm11545357b3a.151.2024.11.06.04.23.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 04:23:14 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 6E2A9447D1DB; Wed, 06 Nov 2024 19:23:11 +0700 (WIB)
-Date: Wed, 6 Nov 2024 19:23:11 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com,
-	kevin.tian@intel.com, corbet@lwn.net
-Cc: joro@8bytes.org, suravee.suthikulpanit@amd.com, will@kernel.org,
-	robin.murphy@arm.com, dwmw2@infradead.org, shuah@kernel.org,
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	baolu.lu@linux.intel.com, eric.auger@redhat.com,
-	jean-philippe@linaro.org, mdf@kernel.org, mshavit@google.com,
-	shameerali.kolothum.thodi@huawei.com, smostafa@google.com,
-	yi.l.liu@intel.com, aik@amd.com, zhangfei.gao@linaro.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v7 10/10] Documentation: userspace-api: iommufd: Update
- vDEVICE
-Message-ID: <Zytfr7p_EpJhJn41@archie.me>
-References: <cover.1730836308.git.nicolinc@nvidia.com>
- <e1ff278b7163909b2641ae04ff364bb41d2a2a2e.1730836308.git.nicolinc@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGmwz3OA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74AE1C4CED4;
+	Wed,  6 Nov 2024 13:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730898747;
+	bh=3SfESvrKfdyPsR2Toa1m1lCX2fQeSf+A2nGffmF11BM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BGmwz3OAHtxzQimhPb+0ta8GU6ekMnC0Nr55rDVo5Z3eBQBSlzx2R0yCIlpqJTOug
+	 j2jouZOq2FDue45FB9L57askeLY0wQvdBhk/Gs0RrA+xfuh6r844UNGSxzP1OQXWIs
+	 WXhKJLIxD2erc+Tx9VY3wDSHDZY+JfqC87LI5/t4yCyTb2NIa+Jd6NPO6/Ndk+e/sn
+	 7wPD0pSWLEOAvVSYTLYShwVsWDCllhThbE4uSdrDpnIealbuz3ZctYPnh6JBIFnxXG
+	 77B/lfXugrwKHs9CL6LdpZVWzV+0Ah6f+DmjxZMCmxviBIoCDOqDZRF9mx6ufS7cB3
+	 YKiC40WL00LVg==
+Date: Wed, 6 Nov 2024 13:12:23 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: stable@vger.kernel.org, conor.dooley@microchip.com,
+	Jason Montleon <jmontleo@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	llvm@lists.linux.dev
+Subject: Re: FAILED: Patch "RISC-V: disallow gcc + rust builds" failed to
+ apply to v6.11-stable tree
+Message-ID: <20241106-undead-cupbearer-a22f27c8b9e2@spud>
+References: <20241106020840.164364-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="syaj6gmswHEiPKJ3"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="T7IwLFePnUSWKnbZ"
 Content-Disposition: inline
-In-Reply-To: <e1ff278b7163909b2641ae04ff364bb41d2a2a2e.1730836308.git.nicolinc@nvidia.com>
+In-Reply-To: <20241106020840.164364-1-sashal@kernel.org>
 
 
---syaj6gmswHEiPKJ3
-Content-Type: text/plain; charset=utf-8
+--T7IwLFePnUSWKnbZ
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 05, 2024 at 12:05:18PM -0800, Nicolin Chen wrote:
-> With the introduction of the new object and its infrastructure, update the
-> doc and the vIOMMU graph to reflect that.
->=20
+On Tue, Nov 05, 2024 at 09:08:39PM -0500, Sasha Levin wrote:
+> The patch below does not apply to the v6.11-stable tree.
+> If someone wants it applied there, or to any other stable or longterm
+> tree, then please email the backport, including the original git commit
+> id to <stable@vger.kernel.org>.
 
-The docs LGTM, thanks!
+I sent 20241106-happily-unknotted-9984b07a414e@spud that should be a
+6.11 viable version of this change.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Cheers,
+Conor.
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---syaj6gmswHEiPKJ3
+--T7IwLFePnUSWKnbZ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZytfqgAKCRD2uYlJVVFO
-oxifAQDdYsaaemlGOg+HrwqFiJ4FGcIBJuGbdcKG/6uUBE3M+QD9HxxzagI26xbd
-JHDxjJmzYXAcyjOWhV8j58xav3gTZgU=
-=8SqO
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZytrNwAKCRB4tDGHoIJi
+0lrZAQDwZgrJpDCrMBOUflphmluD0ARCIvhYF9shsNzm9sAm5gEA4dQEww2rvB2W
+ETWhXsstVjfNvdt4kg8SZh+nFLTwKQc=
+=IEMP
 -----END PGP SIGNATURE-----
 
---syaj6gmswHEiPKJ3--
+--T7IwLFePnUSWKnbZ--
