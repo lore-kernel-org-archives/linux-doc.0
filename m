@@ -1,92 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB1F1DBB19;
-	Wed,  6 Nov 2024 09:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A6B1D0F44;
+	Wed,  6 Nov 2024 10:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730887094; cv=none; b=HLOioQqb8FHwnEUUzyiLnRTMqUFqZZwNKzBX99N3vvql9Jsbh5NOkMvTDtpbD2MNDUqdd1V0hhBWrD51T6mVc3Ah0XdSnbS698VA922MA4KvNwII5EWSt5ATPDX24ZgPQTvh+a0kIQjd8ZGHN9Ke+6VyUxOovJekMCccNAl9q1Q=
+	t=1730888126; cv=none; b=kOMFg38BO8winEm0yZWizfaTSF7WpdU4xzockeTifUObi6lu7B4VWyZS8AJYS8fDBedb0yf6AGsKPoZBzqiHlyEQ7zHWnite3EKLIRbUFLf8J1sUt2JiqGjdQ1nZQ0nho5yp85y3/fc59PNBro6cGZTfj2wum1sJC2HaFY0IT0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730887094; c=relaxed/simple;
-	bh=v8MGY8fIOjiRO62KuDPIpuuvvuGKfZqakLVcpgvfos8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A/edl9fF69BfkxahyjN8dsuQFHj0b8sXsdojKU5njGuLEGH1j2yNPtBFXfc7dyafOMfzCqcpUFNIYqfiDWTYaOfOBfiAUwzNw+/k4P2IYcJWlL4Gnfszbur2taPQphq+hiK+e+27Vx6k2A0CW3+j6Sia+7CY2CUDtg5lWbWmce0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4tFQcBG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730888126; c=relaxed/simple;
+	bh=Kk2Mg+juAsR7WQRM3pY13+cePOPXE5TlmC4eYylWueQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X9uuhIkf7qQafGHS263frfh8907ct1kTq7cUaMj3/PRWVkDT1Pq9OPPF4k6XiC65y0O/bVb/OykBpw5JQuS3Vi1/DTIDRoQ1BTn5t08QB68lMC2WPgDB8k+1hYn56AQ+qVqC/+al5blX3eusAI0K1k74cMdQH49rM6bbINQIkO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NODiduU5; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4tFQcBG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5476C4CECD;
-	Wed,  6 Nov 2024 09:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730887094;
-	bh=v8MGY8fIOjiRO62KuDPIpuuvvuGKfZqakLVcpgvfos8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=J4tFQcBGImd7zjqBscyrbJmQyZBmDm9vp/5LyzdgUxK5hLHXwadxt/fGg1M0w1thZ
-	 ns/NmF1+evjJkaVRvI+uYAimqkHX6aFthvTl8HBxQax5BzZ5Wt0DUrHW5zHo6L3xvw
-	 bCnIf+/icPcrnEwWCUUZNydB4wfi46a7ogvDGh/I5MQLPEojIOa61UA3q/4IVUUpci
-	 mdWk7nPrNxJM81fnmeWHCNjlTJc9wlUcI8fw+pULFZCY/ZX3pOM/fUR1Ru85+LcSLe
-	 oNs5TnnQRGHKVXekvT1M82Pmel82WAfV6IyoFb2cXrI7qiTkvw4ehENVta550zPMOG
-	 JnPo4UTF8Zv2g==
-Date: Wed, 6 Nov 2024 09:58:05 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Julien Stephan <jstephan@baylibre.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Conor Dooley
- <conor.dooley@microchip.com>
-Subject: Re: [PATCH v4 0/5] ad7380: add adaq4370-4 and adaq4380-4 support
-Message-ID: <20241106095805.0a3c49ef@jic23-huawei>
-In-Reply-To: <20241102153718.6d12295e@jic23-huawei>
-References: <20241030-ad7380-add-adaq4380-4-support-v4-0-864ff02babae@baylibre.com>
-	<78073c49-899a-4646-a834-6d5006d59501@baylibre.com>
-	<20241102153718.6d12295e@jic23-huawei>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NODiduU5"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20c767a9c50so62824775ad.1;
+        Wed, 06 Nov 2024 02:15:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730888124; x=1731492924; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kk2Mg+juAsR7WQRM3pY13+cePOPXE5TlmC4eYylWueQ=;
+        b=NODiduU5kYX00PUoMearZHBENH5SCY1OXgrvjmsVkcamV9yvXzTUzk2pJ9epyZx86C
+         OkQEpn3vi82/Q8mtaUp8BR5Umf8r+EzZBlkQXoghpshaJMyQHSbJSf47DxuwWYiNTrtJ
+         nqEUbt0xuuP93W4wGkKqTh41Ziq+KBch9lbZh0FhZR2uldXZS9jqqMzcm/7ZuotwN1XM
+         O1o1wnK1eDlPlQ8mC5DXkQzOVzGEvHvO/d8bds8FJbZlCF9jKAOtTd8daOk5WGRM3tUb
+         2rJ9lIlIMlOJMpZO8q94eAY23IoqV+YELKr+pXaQPjS8baQQb2odKHac5AY4yQseMtG3
+         Rh6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730888124; x=1731492924;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kk2Mg+juAsR7WQRM3pY13+cePOPXE5TlmC4eYylWueQ=;
+        b=VIdRR1pj5zm2WdhIRiWL2Tg8s22hFhJ98PGC0H0u4pUL3+gI3cTfm5VGRbamfAUpU9
+         a849Lix4IDPy2TY8Y4mVpJJhdd3xuuEJnSp+6HdxHex9b9rXghCQutaextsTSS01xu5A
+         jaYyqas7LDoPVJwyacKJxoKNqDdJOWztMOl0eVT7HOxRCWEEvBlOHs3dNL7yfotlGWBc
+         GKwBlbRiDU4GgjojiTGFGoQTJL8ITlCDOUlfz8S247eprPZ5kj6cvko6AHeUgrnPO3qW
+         4eWYlr5TJkrYhm72GYeRlyfOHtVvz6gTVVqN2AxbkIWdjP89gdu2K9443HWHXbyB8znD
+         Yxzw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRSCw6+u2ufVsLQiSqoyJn2xnB80OA1WweUJ8E2N0rksWWdo5dClHxh9782V9tz/fNfei8McEXU2DK+jc=@vger.kernel.org, AJvYcCVdovVNQF3yfUKq3tya+TYf4TZd4ZfOl4dzvoObChRCHlXc6FCQAvEGXfLuIbBbavp7Yg2cJigm5AcnpQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHjf6O776xSSqiP5pnEtbQFokN2guq/hlIqkP8auGh80cMDgY0
+	+CeaisL/4Y7B62PsB18ZCGCZIh9P9nJfWvuyP2HJjdZiisyX88ne
+X-Google-Smtp-Source: AGHT+IHCrwxxC/T/hM43rZ0+oojFA/JHrqLFh+NEeuiqci4BhpOIy5F1ZKwN03Yu/GNbze2PZjYrmg==
+X-Received: by 2002:a17:902:f543:b0:20c:e875:12c2 with SMTP id d9443c01a7336-2111b0028edmr242839715ad.51.1730888123988;
+        Wed, 06 Nov 2024 02:15:23 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e99a55c08fsm1211020a91.27.2024.11.06.02.15.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Nov 2024 02:15:23 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id A7FE44525300; Wed, 06 Nov 2024 17:15:20 +0700 (WIB)
+Date: Wed, 6 Nov 2024 17:15:20 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-next@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3] docs: bug-bisect: add a note about bisecting -next
+Message-ID: <ZytBuIRztNwrXoe_@archie.me>
+References: <ec19d5fc503ff7db3d4c4ff9e97fff24cc78f72a.1730808651.git.linux@leemhuis.info>
+ <ZyrAoWSF9KXxtuYL@archie.me>
+ <1a3dcbe4-76dd-40c4-bafd-16be33607e77@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9623nhha283o+tV6"
+Content-Disposition: inline
+In-Reply-To: <1a3dcbe4-76dd-40c4-bafd-16be33607e77@leemhuis.info>
+
+
+--9623nhha283o+tV6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2 Nov 2024 15:37:18 +0000
-Jonathan Cameron <jic23@kernel.org> wrote:
-
-> On Wed, 30 Oct 2024 09:32:23 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
+On Wed, Nov 06, 2024 at 06:26:49AM +0100, Thorsten Leemhuis wrote:
+> On 06.11.24 02:04, Bagas Sanjaya wrote:
+> > On Tue, Nov 05, 2024 at 01:11:08PM +0100, Thorsten Leemhuis wrote:
+> >> +Bisecting linux-next
+> >> +--------------------
+> >> +
+> >> +If you face a problem only happening in linux-next, bisect between the
+> >> +linux-next branches 'stable' and 'master'. The following commands wil=
+l start
+> >> +the process for a linux-next tree you added as a remote called 'next'=
+::
+> >> +
+> >=20
+> > Has linux-next tree remote addition be covered before?
 >=20
-> > On 10/30/24 8:44 AM, Julien Stephan wrote: =20
-> > > Hello,
-> > >=20
-> > > This series add support for adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS)
-> > > which are quad-channel precision data acquisition signal chain =CE=BC=
-Module
-> > > solutions compatible with the ad738x family, with the following diffe=
-rences:
-> > >    =20
-> > Reviewed-by: David Lechner <dlechner@baylibre.com> =20
->=20
-> FWIW, this looks fine to me and I can tweak the voltage in the docs whilst
-> applying.  I'm stalled on merging this series by the fix dependency worki=
-ng
-> it's way into upstream.=20
-Applied.  I tweaked that voltage in the docs to 3.3V as per David's feedbac=
-k.
+> No. That document where this is added does not explain at all how to
+> clone a git repo or add remotes, it just focuses on the bisection. So I
+> don't think we need to explain this here.
 
-Pushed out as testing to give 0-day a brief look.
-
-Note I merged rc6 to get the fix this was dependent on.
+OK.
 
 >=20
-> Thanks,
->=20
-> Jonathan
->=20
-> >  =20
->=20
->=20
+> Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst handles
+> such things, as it has a different target audience. Should it cover
+> -next as well? Not sure. I for now decided to focus on this addition.
 
+I think for those who want to test linux-next, they can simply follow [1].
+Maybe we can add a pointer to it.
+
+Thanks.
+
+[1]: https://www.kernel.org/doc/man-pages/linux-next.html
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--9623nhha283o+tV6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZytBswAKCRD2uYlJVVFO
+o0M5AQDRShK3Iju/OosulVtOR5OytAs1Bw2JbMTVa8I48IfF5gEA3v16wzQuefW2
+UDKTATyC9P76ZIQcG0trJ9Sfm09T+Ak=
+=Gi0d
+-----END PGP SIGNATURE-----
+
+--9623nhha283o+tV6--
