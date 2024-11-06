@@ -1,116 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408FF209694;
-	Wed,  6 Nov 2024 19:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3142208993;
+	Wed,  6 Nov 2024 19:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730920721; cv=none; b=CY9EZiRj0kp+pe87mgq6L/qqNXZtK9OtIL1tLeszRh1EVIFgwGGLTvqL0WuUI3bxGlfzNEGQ5oQ2Ht+x3/pfylgb4Sg0m2SQCxItYRRj5HWwkSbCnTGS9pN7UhNfaGE6jawcRMefxSUxjhNHs2u08bbCnAVMSToJeRtwbcDZseA=
+	t=1730921686; cv=none; b=hx0S6TER5NxbxpKKkqZoEdQPPPXVxrUqQm6czzlhez7ti+epNUUR3W5eXI/dmNHs0RrNsaguCgKiCFv80hhrfhSr2EF6wKnBvLhoIMekL/tTDDQn3oTEaBwoMvxYRWvY2TizKt3RWvRjo1qjcc0w+bTbRwPwUsUCSnPwv5oIr9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730920721; c=relaxed/simple;
-	bh=PopP+TMYEu9u9Wtpj2ca/oZ+nG0S3JEZMtl8PKNU85c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lacDMb0usiUWu9pI0hn2a5yf4f8wONuw+HRD5/98i2CYm1LFfn6HKVyJCH+W8FehptKQEXRVWY4uDLfQPMmv/W60LGXc3Gt2/qO83C3asUmMqdT1qkAbvfQ3jrF54eWK0EDRCBQC1mPm4cOPv4+QeLDl//T7mf0eJveBjoH3uLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cql7wZ3y; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730921686; c=relaxed/simple;
+	bh=nh5Iw3wIeZlc3o8MkHLTikKGtch8cks3p+2h+K+8zHE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FGPteICDEMPkxCGxptaIvANil+DYhCtojp7b0TdLrrSphuoD+aPsLzrZp01IXgqSKv7/ghTUx7IX5Y78jrFj4khViAZ5xJox6w2vbRKxYmbiFM1d7QNc97lD00auDRMGaAiu1DomTgPGSDiTsgM7xuM0mXOJ+aWvwrjp/ghevu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=G4dqd6Y9; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cql7wZ3y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730920719; x=1762456719;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PopP+TMYEu9u9Wtpj2ca/oZ+nG0S3JEZMtl8PKNU85c=;
-  b=cql7wZ3y2h7UgEQE9jPpCmO7dkvbcedDbde5kCDqPModxKpZDszqWNdC
-   LaVPI9WpPmIh0eoTw08OxhWBYQTwofSWrjimUDVJzS0FLBXKYEFxyRDcE
-   8D1B1U7aYhCZ+WAjXcfbG0JYLs+3ZiGavqroCXlWtpEcCvWhT1lENS3Zv
-   6t1YoamTICFkda4HdugRQGwDDoVUzoQEUXLUH4zUkyo1/hJ142DMAiVZ0
-   CNb6xBd7t5f+qD8bkNf2ftBlTHhCekBnuzRnJ0fadUt93kc+3GidB06l9
-   OsnrtExjwzd7fOvou5MbAvMF2RqCQEOVqG77bJ4YBOS+DB2P0z6is75/t
-   A==;
-X-CSE-ConnectionGUID: 6pfU9YjSSuW4ADXO1LOgIQ==
-X-CSE-MsgGUID: +P91PUOmRq2+VMKhYdnFJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30961539"
-X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="30961539"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 11:18:38 -0800
-X-CSE-ConnectionGUID: gWZquagcRye5wvJB1LztTQ==
-X-CSE-MsgGUID: gPFRrxvATH+CgSbzbOJ1Iw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="89580837"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 06 Nov 2024 11:18:34 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8lXz-000pKt-0k;
-	Wed, 06 Nov 2024 19:18:31 +0000
-Date: Thu, 7 Nov 2024 03:17:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Peter Yin <peteryin.openbmc@gmail.com>,
-	Noah Wang <noahwang.wang@outlook.com>, Marek Vasut <marex@denx.de>,
-	Lukas Wunner <lukas@wunner.de>,
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-Subject: Re: [PATCH v2 2/2] hwmon: pmbus: add driver for ltp8800-1a,
- ltp8800-4a, and ltp8800-2
-Message-ID: <202411070253.p3aIhGGg-lkp@intel.com>
-References: <20241106030918.24849-3-cedricjustine.encarnacion@analog.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="G4dqd6Y9"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A6G0X2M010653;
+	Wed, 6 Nov 2024 19:34:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	w/LQsJh9BBw2IrfdXhHrCYc+FRYh+tRIFnuT+7nVT1U=; b=G4dqd6Y9867SGTJ3
+	BBq0B1D/BSnPBzdQldIwK90WKmrCD6mfh2t4Xl2V45eo29tI9deE9cM5GX7r9t9e
+	2SqsFAd0+C+wfAIX6Un/4SikrfIKVSn7hFiPfxTF0Pmxp1Qrh4z0GhJbbKbXsuwk
+	FlOUf9rR/DES9UscgNxiyyaSso4E3U8v4QNASFv2/uaOtQZlvTOD1ARsK01b62RI
+	L7w4HY9t57YlmBEXbWaCct6ThJX4IxQfZFTS4axNlS5u+/7WCfypdscz3MEh0zfC
+	Af/3CmLM8QsKo+YACYgdjtgIXoOckc4qHITbF312uTroeEeUFKRazWh7QZtK/sYn
+	hxQqew==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42qn73c51k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Nov 2024 19:34:31 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A6JYUk9027635
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 6 Nov 2024 19:34:30 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 6 Nov 2024 11:34:30 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v30 05/30] usb: host: xhci-plat: Set XHCI max interrupters if property is present
+Date: Wed, 6 Nov 2024 11:33:48 -0800
+Message-ID: <20241106193413.1730413-6-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241106030918.24849-3-cedricjustine.encarnacion@analog.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ZYRJUZFSQhCIfMn12nRCm0xWyZK69PmO
+X-Proofpoint-GUID: ZYRJUZFSQhCIfMn12nRCm0xWyZK69PmO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=999 suspectscore=0 spamscore=0 clxscore=1015 phishscore=0
+ lowpriorityscore=0 mlxscore=0 adultscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411060149
 
-Hi Cedric,
+Some platforms may want to limit the number of XHCI interrupters allocated.
+This is passed to xhci-plat as a device property.  Ensure that this is read
+and the max_interrupters field is set.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci-plat.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[auto build test WARNING on 30a984c0c9d8c631cc135280f83c441d50096b6d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-trivial-devices-add-ltp8800/20241106-111734
-base:   30a984c0c9d8c631cc135280f83c441d50096b6d
-patch link:    https://lore.kernel.org/r/20241106030918.24849-3-cedricjustine.encarnacion%40analog.com
-patch subject: [PATCH v2 2/2] hwmon: pmbus: add driver for ltp8800-1a, ltp8800-4a, and ltp8800-2
-config: x86_64-buildonly-randconfig-002-20241107 (https://download.01.org/0day-ci/archive/20241107/202411070253.p3aIhGGg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070253.p3aIhGGg-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070253.p3aIhGGg-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/hwmon/pmbus/ltp8800.c:12:36: warning: 'ltp8800_reg_desc' defined but not used [-Wunused-const-variable=]
-      12 | static const struct regulator_desc ltp8800_reg_desc[] = {
-         |                                    ^~~~~~~~~~~~~~~~
-
-
-vim +/ltp8800_reg_desc +12 drivers/hwmon/pmbus/ltp8800.c
-
-    11	
-  > 12	static const struct regulator_desc ltp8800_reg_desc[] = {
-    13		PMBUS_REGULATOR("vout", 0),
-    14	};
-    15	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index e6c9006bd568..3acdbbd9aea3 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -267,6 +267,8 @@ int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev, const s
+ 
+ 		device_property_read_u32(tmpdev, "imod-interval-ns",
+ 					 &xhci->imod_interval);
++		device_property_read_u16(tmpdev, "num-hc-interrupters",
++					 &xhci->max_interrupters);
+ 	}
+ 
+ 	/*
