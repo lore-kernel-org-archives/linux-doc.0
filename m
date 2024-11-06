@@ -1,94 +1,71 @@
-Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01B1205129;
-	Wed,  6 Nov 2024 17:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2C320651A;
+	Wed,  6 Nov 2024 17:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730912679; cv=none; b=iEaIwImkcDkn7WKRZfQOfrrtszIWx0BhRlh1FnMI2GfJhO6LGlxSEANmqtlNgiX5Ggj7Mv836gIPHV1vBnDQWlw3JvIKS1mYP0xycWLuauHEAmkDAwn+MkH0G/BwM/t8D4QNWkNF4WDKOL3KT6TKMLmu0EHW/j8dtnA6BzhIWj8=
+	t=1730913179; cv=none; b=nNWgtrjIokWvSdUnbujlVSm0tj9KxBK9gbDTwoBu6Yi3Bp2yK5AGUfflGk+K3zJrG09NbmOlmBQvVAxF/xIqtNpfITmlOBs9nLZCbfPE/gbPpAlqMncCXEw7XRn4YwTrCOEnjflddGaRcE2mOAlaIDLuZ3Lixpr/msBnOv36G0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730912679; c=relaxed/simple;
-	bh=45lm7teIJIgBDhR6WrM3tTb7cS3pi+iWOg5nbyI7j9s=;
-	h=Message-ID:Date:MIME-Version:To:CC:References:Subject:From:
-	 In-Reply-To:Content-Type; b=P2OEFf0qVj99/zSGe16l3AyuSQa44eD07dZ4inQQMexq5SEUgEqmvYUFjgiafvqgCH7j5X0eKvWf4lhokwtJYRQT4ijrRtMSnikwFqdGjotLlupaFvH6xnWm6wkGbqj5pkNNW87xBEnmpBdvOSdKNa5YJJu5+TdR+fvZU4g7OAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=MntEmEzy; arc=none smtp.client-ip=99.78.197.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1730913179; c=relaxed/simple;
+	bh=TJ8k3mCggEOeNdf46pEjfuifIThabvQ7xAOUebYtnhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Yl/5kAySkFR4y4ljEJKYv+zyPHDbDM+hAyrOsQtC/7oeorVY7LB0yJuXIIlF8Sbsmuvs3/ykxUilzoM0Jb+LgHmOBqOQOrRNXNNA//koEnqawPbzuzLuAuhHfut2MwMxFON5bYli4lXps7qiRos7K+ELJ6a03u4UXS+8f2AuK2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GFXjOsN2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="MntEmEzy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1730912678; x=1762448678;
-  h=message-id:date:mime-version:to:cc:references:subject:
-   from:in-reply-to:content-transfer-encoding;
-  bh=45lm7teIJIgBDhR6WrM3tTb7cS3pi+iWOg5nbyI7j9s=;
-  b=MntEmEzy4eKV8WMoKuJyil3cfPrevzWF7DEZpYXiDmtvyRiVc3D0lwNW
-   ltL3Lns9qmLFg6rgQLjlCj/B5cFfgGCN9ZF1r7ioMv3dg8jIP3mmlK7KS
-   QWFogHx/Gy/w/k1wiJjArCiCCfT24P0eAjEY0ovMHoIJZNO9D0petJvvj
-   o=;
-X-IronPort-AV: E=Sophos;i="6.11,263,1725321600"; 
-   d="scan'208";a="2538545"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 17:04:38 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [10.0.38.20:42869]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.35.42:2525] with esmtp (Farcaster)
- id 18efcd76-237c-46fb-afb1-2dbc7d25b1d1; Wed, 6 Nov 2024 17:04:37 +0000 (UTC)
-X-Farcaster-Flow-ID: 18efcd76-237c-46fb-afb1-2dbc7d25b1d1
-Received: from EX19D003UWC002.ant.amazon.com (10.13.138.169) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 6 Nov 2024 17:04:37 +0000
-Received: from [192.168.12.4] (10.187.171.30) by EX19D003UWC002.ant.amazon.com
- (10.13.138.169) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35; Wed, 6 Nov 2024
- 17:04:34 +0000
-Message-ID: <7ad5d114-3d19-4c33-bb3c-7f8940ad114e@amazon.com>
-Date: Wed, 6 Nov 2024 10:04:27 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GFXjOsN2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F5F7C4CEC6;
+	Wed,  6 Nov 2024 17:12:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730913178;
+	bh=TJ8k3mCggEOeNdf46pEjfuifIThabvQ7xAOUebYtnhQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=GFXjOsN2J8icjY3vS2+wkJgieDisOOZ+NKfEGqjNgMoDZ6uKErMucXSzMAdDZIoaH
+	 YSVnIJi4oyz90j8KTq3hzpbLMso/IONUBj+qZJ03kq8UHdNNed6i+BaVFQBDECdrM+
+	 SDxmmbp3pe84qstIeftQTPKmAnHGVafhyXV5Iv6TpNBnpme04zLibSQCROwUSRDodA
+	 gcY/w26YP7tOEar+IkwwIDR9zyKuspBsKwLOJq68nn3SuTHsoe+wPt7ahtWrVjFNiC
+	 esJfImPYD4LsU8u3aWHxBcN43PgzIO6+vr8+5H5XPi4bB3ccu6Zhz+UoI0rVu/ZWuJ
+	 Znia/LLl84cZg==
+Date: Wed, 6 Nov 2024 11:12:57 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Sanman Pradhan <sanman.p211993@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, netdev@vger.kernel.org,
+	alexanderduyck@fb.com, kuba@kernel.org, kernel-team@meta.com,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	horms@kernel.org, corbet@lwn.net, mohsin.bashr@gmail.com,
+	sanmanpradhan@meta.com, andrew+netdev@lunn.ch,
+	vadim.fedorenko@linux.dev, jdamato@fastly.com, sdf@fomichev.me,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH net-next] eth: fbnic: Add PCIe hardware statistics
+Message-ID: <20241106171257.GA1529850@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: <elena.reshetova@intel.com>
-CC: <ackerleytng@google.com>, <agordeev@linux.ibm.com>,
-	<aou@eecs.berkeley.edu>, <borntraeger@linux.ibm.com>, <bp@alien8.de>,
-	<canellac@amazon.at>, <catalin.marinas@arm.com>, <chenhuacai@kernel.org>,
-	<corbet@lwn.net>, <dave.hansen@intel.com>, <dave.hansen@linux.intel.com>,
-	<david@redhat.com>, <derekmn@amazon.com>, <gerald.schaefer@linux.ibm.com>,
-	<gor@linux.ibm.com>, <graf@amazon.com>, <hca@linux.ibm.com>, <hpa@zytor.com>,
-	<jgowans@amazon.com>, <jthoughton@google.com>, <kalyazin@amazon.com>,
-	<kernel@xen0n.name>, <kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
-	<linux-s390@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<loongarch@lists.linux.dev>, <luto@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <mhiramat@kernel.org>, <mingo@redhat.com>,
-	<mlipp@amazon.at>, <palmer@dabbelt.com>, <paul.walmsley@sifive.com>,
-	<pbonzini@redhat.com>, <peterz@infradead.org>, <quic_eberman@quicinc.com>,
-	<rostedt@goodmis.org>, <roypat@amazon.co.uk>, <rppt@kernel.org>,
-	<seanjc@google.com>, <shuah@kernel.org>, <svens@linux.ibm.com>,
-	<tabba@google.com>, <tglx@linutronix.de>, <vannapurve@google.com>,
-	<will@kernel.org>, <x86@kernel.org>, <xmarcalx@amazon.com>
-References: <DM8PR11MB57509ED04CB0730680735AC9E7512@DM8PR11MB5750.namprd11.prod.outlook.com>
-Subject: RE: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
-Content-Language: en-US
-From: "Manwaring, Derek" <derekmn@amazon.com>
-In-Reply-To: <DM8PR11MB57509ED04CB0730680735AC9E7512@DM8PR11MB5750.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D032UWB002.ant.amazon.com (10.13.139.190) To
- EX19D003UWC002.ant.amazon.com (10.13.138.169)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241106122251.GC5006@unreal>
 
-On 2024-11-04 at 08:33+0000, Elena Reshetova wrote:
-> This statement *is* for integrity section. We have a separate TDX guidance
-> on side-channels (including speculative) [3] and some speculative attacks
-> that affect confidentiality (for example spectre v1) are listed as not covered
-> by TDX but remaining SW responsibility (as they are now).
+On Wed, Nov 06, 2024 at 02:22:51PM +0200, Leon Romanovsky wrote:
+> On Tue, Nov 05, 2024 at 04:26:25PM -0800, Sanman Pradhan wrote:
+> > Add PCIe hardware statistics support to the fbnic driver. These stats
+> > provide insight into PCIe transaction performance and error conditions,
+> > including, read/write and completion TLP counts and DWORD counts and
+> > debug counters for tag, completion credit and NP credit exhaustion
+> > 
+> > The stats are exposed via ethtool and can be used to monitor PCIe
+> > performance and debug PCIe issues.
+> 
+> And how does PCIe statistics belong to ethtool?
+> 
+> This PCIe statistics to debug PCIe errors and arguably should be part of
+> PCI core and not hidden in netdev tool.
 
-Thanks for the additional info, Elena. Given that clarification, I
-definitely see direct map removal and TDX as complementary.
+How would this be done in the PCI core?  As far as I can tell, all
+these registers are device-specific and live in some device BAR.
 
-Derek
+Bjorn
