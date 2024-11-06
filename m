@@ -1,492 +1,183 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A546880B;
-	Wed,  6 Nov 2024 00:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F819502B1;
+	Wed,  6 Nov 2024 00:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730852789; cv=none; b=QtMrmQkRKIPMu8MIPkiJ7lyvagJgsXEzEtsXJr7/Re54tcjQWG4EoL2JJhPQ7WKKqgjIFw3obI3WNnPbf3B6+nLUWuWiXK0GK3ojQMk7Oxk28clG2p2PxjSAFPOOXmjPARx+/dA63/qe0ZY6nObMkgOMfX5sywjaSqjtHKk0vDo=
+	t=1730853543; cv=none; b=sd9pwcxwh89DyA+9WaN41qYtu5+OMweGZvEBE1fH3F2++W4JrYoKh6i/ddE/xPCRKesrUnxWIo3KnsRK35KY4BbAsQv0NWVjJO4yp7KG0DjbZrzaIdBXjPgwobm7qNxhOLw/4iHwFZuBGDq/bZhDfsCkHwXKGQVZwwKaWqms158=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730852789; c=relaxed/simple;
-	bh=5syg6IcFL+X6xshG3yM0xl986OEFBxGzoLVfk6Vq1g8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KXsGyphV5L3tInPLtSRxdEcIGnxditK3EkNIkLh1J8T95/EXZeBMxgBpdX0MX5S/1HlBzmeM8EhVgrnmn+B7VC76bQ2MAOv057AW8nQn6bu82JFY2QBCH31tcm8b77VSwizSWKR58b0uE/5WyQOuvUst4SLd0bpidYa+Z9J/A3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D2LQ8D+6; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730853543; c=relaxed/simple;
+	bh=CbnbHhZ5g+AnISB2qi8+n7pIi443xyPrj0/svOudxF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GmhC+OLLwK24t/NHvdNVUVOCAp3iAkX9yvtfgSGzR3blQBeDj9Q6wBXxgA7ZpkCGXWkqOTK+y2YnvTlOE1S1Enm+HsmW1lZHlZjVtpPbBtXcnrpc/ry52ql+ms/yZnmjQ1fP/NvDlBGlF24+TJn0FIHd8CIn4yaXMp9wlrPBUtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URx8y0+G; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D2LQ8D+6"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7ea76a12c32so4592059a12.1;
-        Tue, 05 Nov 2024 16:26:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730852787; x=1731457587; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=64tOp7EWdaLLShJ9e30DKuX+hso6z7A9q54lerqgD6E=;
-        b=D2LQ8D+6Yw/27GOzn4QBehp2w4VwQcC5TWo940JgwigyqgzsRq7R+TonPxq9VrI3Pz
-         YVia+uFOMoSfFBWh0k9hZhNlDFnVdotPmmp7XBvKWKVhA1N2phiZFYyWsTzGkkP7oEPP
-         zv+LrKKeGvbtDSw9KwhLlMx+owPK/wNq+GonhP7YKZbvA02LgrKHwPfsJJTvGgB5ccDD
-         RShdVPTKPVFVTBUD7YFE1NImAL0mfrc6GeKTjiJiEKG1zRn2DCk0lH8qK4vGugBTMxcB
-         j1T58pbkNc/xL2TaQYNyGIOZdsLRGECuXLt4KQapvjFz2bi+DbuvD51YcFEOh3IADnnE
-         jZSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730852787; x=1731457587;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=64tOp7EWdaLLShJ9e30DKuX+hso6z7A9q54lerqgD6E=;
-        b=pLSdna9wdr96+rk67uqUJaAgOmZkIbtcdY11hZyo0V62XpJM52C5tav9fHvTes/0t4
-         ScDRq3AM+h9M/X4WPeeoaZGWOFsPcOo9Rhv9RJz9rERcC8ISbWGFoVlbgRaA2cY9fDKr
-         rhxdf0CYNI3+EKe790Avbfhn4DS6NxxuiwCbqXc57YkopOrUNCf6zRoE/k5xUVu4i6Xo
-         HPWJulMuOLx9un4XQ1A4n9IQ3mgz+8LSCmiCuNFNajiveTZDsVeeywKji8KsT3saQjDr
-         Qro8pM+jZy5XBTJsmMMDyJDcE83xld0yidDqeB1KCTs7sLdxCGyCdwat7yxY4MZ6qGdI
-         NjOw==
-X-Forwarded-Encrypted: i=1; AJvYcCVRx+r7wZpsBsuU09W6FACCPeRM9DULoZB85Dqk7IwIgacdKbqb5mXhzQGGUsTgZL0ZXTQlaVvKs6DaEd1X@vger.kernel.org, AJvYcCX40EmTIQbo/QWal8EoCinefX5/otN3z7fp65cYG99RzTaMmLqn+C1wjK+04V/kpeI12krOfSOT2AM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwqEJ8Mbndwgat7o3t3GTvn715hJc7Lbedxviq/BOeW/T6h49C
-	H+7Bt31fNdETGxTpeoOSLHO5jxKiSdwdcse8uZMXEWOsOKx4Dxim71HgT5tl
-X-Google-Smtp-Source: AGHT+IEXR0UM1pNdHmUOdURIDsawjuhpl7KrERDdIynTPMV6kSIeQupyh2BWQ341jNVGYvBlz72H/g==
-X-Received: by 2002:a05:6a20:d807:b0:1d9:87e3:11f5 with SMTP id adf61e73a8af0-1db91e5358amr30912254637.37.1730852786573;
-        Tue, 05 Nov 2024 16:26:26 -0800 (PST)
-Received: from localhost (fwdproxy-prn-032.fbsv.net. [2a03:2880:ff:20::face:b00c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057d44cesm85233315ad.255.2024.11.05.16.26.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 16:26:26 -0800 (PST)
-From: Sanman Pradhan <sanman.p211993@gmail.com>
-To: netdev@vger.kernel.org
-Cc: alexanderduyck@fb.com,
-	kuba@kernel.org,
-	kernel-team@meta.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	mohsin.bashr@gmail.com,
-	sanmanpradhan@meta.com,
-	andrew+netdev@lunn.ch,
-	vadim.fedorenko@linux.dev,
-	jdamato@fastly.com,
-	sdf@fomichev.me,
-	sanman.p211993@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next] eth: fbnic: Add PCIe hardware statistics
-Date: Tue,  5 Nov 2024 16:26:25 -0800
-Message-ID: <20241106002625.1857904-1-sanman.p211993@gmail.com>
-X-Mailer: git-send-email 2.43.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URx8y0+G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730853541; x=1762389541;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CbnbHhZ5g+AnISB2qi8+n7pIi443xyPrj0/svOudxF8=;
+  b=URx8y0+GKu1JcvX7vqMpnbItOYVw4YpfIpvSdun8/XFkbdjQfhVd8Aqf
+   ggUBJ0zyPCROBNC7qfIG8zN9wfSgeVLHWhvn6Oki/Jf+hCRyYjfon1zWc
+   FmiBlc7oVI68dvyyNy5sIikVojXDhA/oDOOKi3zAaCOpGuyP58w8DkHtt
+   3KeufQRppw4tIyPtGOiaT1mv+/wM53mGO22zw/zrmhBFyok0RXWZfKbZP
+   kDkFoIqK2WUbbCBfozlRY6vh08A4jNtyVnkawDp0YYTt79j8KDFnUda9Y
+   D6b60doaipPFmEJCV0zpBpWiuwnIUZ0K6feBRYU/7wyZWXw0wVLLLZ/YX
+   w==;
+X-CSE-ConnectionGUID: sqdOaDe3TvOS1FmJlAhhtQ==
+X-CSE-MsgGUID: Uh4bKZtIT+SSoa5vYInGbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="41227719"
+X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
+   d="scan'208";a="41227719"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 16:38:57 -0800
+X-CSE-ConnectionGUID: CMQEnPN1R86AFU17tTOaog==
+X-CSE-MsgGUID: ht2dK8EgRFGQ7ou2Yl+MAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
+   d="scan'208";a="88793876"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Nov 2024 16:38:54 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t8U4R-000me5-2a;
+	Wed, 06 Nov 2024 00:38:51 +0000
+Date: Wed, 6 Nov 2024 08:38:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
+Message-ID: <202411060859.fqkOY75Z-lkp@intel.com>
+References: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
 
-Add PCIe hardware statistics support to the fbnic driver. These stats
-provide insight into PCIe transaction performance and error conditions,
-including, read/write and completion TLP counts and DWORD counts and
-debug counters for tag, completion credit and NP credit exhaustion
+Hi Vicentiu,
 
-The stats are exposed via ethtool and can be used to monitor PCIe
-performance and debug PCIe issues.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Sanman Pradhan <sanman.p211993@gmail.com>
----
- .../device_drivers/ethernet/meta/fbnic.rst    |  27 +++++
- drivers/net/ethernet/meta/fbnic/fbnic.h       |   1 +
- drivers/net/ethernet/meta/fbnic/fbnic_csr.h   |  39 ++++++
- .../net/ethernet/meta/fbnic/fbnic_ethtool.c   |  77 +++++++++++-
- .../net/ethernet/meta/fbnic/fbnic_hw_stats.c  | 114 ++++++++++++++++++
- .../net/ethernet/meta/fbnic/fbnic_hw_stats.h  |  17 +++
- .../net/ethernet/meta/fbnic/fbnic_netdev.c    |   3 +
- drivers/net/ethernet/meta/fbnic/fbnic_pci.c   |   2 +
- 8 files changed, 278 insertions(+), 2 deletions(-)
+[auto build test ERROR on lee-leds/for-leds-next]
+[also build test ERROR on robh/for-next linus/master v6.12-rc6 next-20241105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-index 32ff114f5c26..31c6371c45f8 100644
---- a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-+++ b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-@@ -27,3 +27,30 @@ driver takes over.
- devlink dev info provides version information for all three components. In
- addition to the version the hg commit hash of the build is included as a
- separate entry.
-+
-+
-+PCIe Statistics
-+---------------
-+
-+The fbnic driver exposes PCIe hardware performance statistics through ethtool.
-+These statistics provide insights into PCIe transaction behavior and potential
-+performance bottlenecks.
-+
-+Statistics Categories
-+
-+1. PCIe Transaction Counters:
-+
-+   These counters track PCIe transaction activity:
-+        - pcie_ob_rd_tlp: Outbound read Transaction Layer Packets count
-+        - pcie_ob_rd_dword: DWORDs transferred in outbound read transactions
-+        - pcie_ob_wr_tlp: Outbound write Transaction Layer Packets count
-+        - pcie_ob_wr_dword: DWORDs transferred in outbound write transactions
-+        - pcie_ob_cpl_tlp: Outbound completion TLP count
-+        - pcie_ob_cpl_dword: DWORDs transferred in outbound completion TLPs
-+
-+2. PCIe Resource Monitoring:
-+
-+   These counters indicate PCIe resource exhaustion events:
-+        - pcie_ob_rd_no_tag: Read requests dropped due to tag unavailability
-+        - pcie_ob_rd_no_cpl_cred: Read requests dropped due to completion credit exhaustion
-+        - pcie_ob_rd_no_np_cred: Read requests dropped due to non-posted credit exhaustion
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic.h b/drivers/net/ethernet/meta/fbnic/fbnic.h
-index fec567c8fe4a..a8fedff48103 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic.h
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic.h
-@@ -6,6 +6,7 @@
+url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/dt-bindings-leds-Add-LED1202-LED-Controller/20241106-001305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20241105161041.4813-3-vicentiu.galanopulo%40remote-tech.co.uk
+patch subject: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241106/202411060859.fqkOY75Z-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060859.fqkOY75Z-lkp@intel.com/reproduce)
 
- #include <linux/interrupt.h>
- #include <linux/io.h>
-+#include <linux/netdevice.h>
- #include <linux/ptp_clock_kernel.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_csr.h b/drivers/net/ethernet/meta/fbnic/fbnic_csr.h
-index 79cdd231d327..9ee562acbdfc 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_csr.h
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_csr.h
-@@ -882,6 +882,45 @@ enum {
- #define FBNIC_MAX_QUEUES		128
- #define FBNIC_CSR_END_QUEUE	(0x40000 + 0x400 * FBNIC_MAX_QUEUES - 1)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060859.fqkOY75Z-lkp@intel.com/
 
-+#define FBNIC_TCE_DROP_CTRL		0x0403d		/* 0x100f0*/
-+
-+/* PUL User Registers*/
-+#define FBNIC_PUL_USER_OB_RD_TLP_CNT_31_0 \
-+					0x3106e		/* 0xc41b8 */
-+#define FBNIC_PUL_USER_OB_RD_DWORD_CNT_31_0 \
-+					0x31070		/* 0xc41c0 */
-+#define FBNIC_PUL_USER_OB_RD_DWORD_CNT_63_32 \
-+					0x31071		/* 0xc41c4 */
-+#define FBNIC_PUL_USER_OB_WR_TLP_CNT_31_0 \
-+					0x31072		/* 0xc41c8 */
-+#define FBNIC_PUL_USER_OB_WR_TLP_CNT_63_32 \
-+					0x31073		/* 0xc41cc */
-+#define FBNIC_PUL_USER_OB_WR_DWORD_CNT_31_0 \
-+					0x31074		/* 0xc41d0 */
-+#define FBNIC_PUL_USER_OB_WR_DWORD_CNT_63_32 \
-+					0x31075		/* 0xc41d4 */
-+#define FBNIC_PUL_USER_OB_CPL_TLP_CNT_31_0 \
-+					0x31076		/* 0xc41d8 */
-+#define FBNIC_PUL_USER_OB_CPL_TLP_CNT_63_32 \
-+					0x31077		/* 0xc41dc */
-+#define FBNIC_PUL_USER_OB_CPL_DWORD_CNT_31_0 \
-+					0x31078		/* 0xc41e0 */
-+#define FBNIC_PUL_USER_OB_CPL_DWORD_CNT_63_32 \
-+					0x31079		/* 0xc41e4 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_CPL_CRED_31_0 \
-+					0x3107a		/* 0xc41e8 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_CPL_CRED_63_32 \
-+					0x3107b		/* 0xc41ec */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_TAG_31_0 \
-+					0x3107c		/* 0xc41f0 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_TAG_63_32 \
-+					0x3107d		/* 0xc41f4 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_NP_CRED_31_0 \
-+					0x3107e		/* 0xc41f8 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_NP_CRED_63_32 \
-+					0x3107f		/* 0xc41fc */
-+#define FBNIC_CSR_END_PUL_USER	0x31080	/* CSR section delimiter */
-+
- /* BAR 4 CSRs */
+All error/warnings (new ones prefixed by >>):
 
- /* The IPC mailbox consists of 32 mailboxes, with each mailbox consisting
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c b/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
-index 1117d5a32867..9f590a42a9df 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
-@@ -6,6 +6,39 @@
- #include "fbnic_netdev.h"
- #include "fbnic_tlv.h"
+   drivers/leds/leds-st1202.c: In function 'st1202_dt_init':
+>> drivers/leds/leds-st1202.c:350:49: warning: missing terminating " character
+     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
+         |                                                 ^
+>> drivers/leds/leds-st1202.c:350:49: error: missing terminating " character
+     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/leds/leds-st1202.c:351:41: error: 'error' undeclared (first use in this function); did you mean 'err'?
+     351 |                                         error: %d\n", err);
+         |                                         ^~~~~
+         |                                         err
+   drivers/leds/leds-st1202.c:351:41: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/leds/leds-st1202.c:351:46: error: expected ')' before ':' token
+     351 |                                         error: %d\n", err);
+         |                                              ^
+         |                                              )
+   drivers/leds/leds-st1202.c:350:38: note: to match this '('
+     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
+         |                                      ^
+>> drivers/leds/leds-st1202.c:351:50: error: stray '\' in program
+     351 |                                         error: %d\n", err);
+         |                                                  ^
+   drivers/leds/leds-st1202.c:351:52: warning: missing terminating " character
+     351 |                                         error: %d\n", err);
+         |                                                    ^
+   drivers/leds/leds-st1202.c:351:52: error: missing terminating " character
+     351 |                                         error: %d\n", err);
+         |                                                    ^~~~~~~~
+>> drivers/leds/leds-st1202.c:352:36: error: expected ';' before '}' token
+     352 |                         return err;
+         |                                    ^
+         |                                    ;
+     353 |                 }
+         |                 ~                   
 
-+struct fbnic_stat {
-+	u8 string[ETH_GSTRING_LEN];
-+	unsigned int size;
-+	unsigned int offset;
-+};
-+
-+#define FBNIC_STAT_FIELDS(type, name, stat) { \
-+	.string = name, \
-+	.size = sizeof_field(struct type, stat), \
-+	.offset = offsetof(struct type, stat), \
-+}
-+
-+/* Hardware statistics not captured in rtnl_link_stats */
-+#define FBNIC_HW_STAT(name, stat) \
-+	FBNIC_STAT_FIELDS(fbnic_hw_stats, name, stat)
-+
-+static const struct fbnic_stat fbnic_gstrings_hw_stats[] = {
-+	/* PCIE */
-+	FBNIC_HW_STAT("pcie_ob_rd_tlp", pcie.ob_rd_tlp),
-+	FBNIC_HW_STAT("pcie_ob_rd_dword", pcie.ob_rd_dword),
-+	FBNIC_HW_STAT("pcie_ob_wr_tlp", pcie.ob_wr_tlp),
-+	FBNIC_HW_STAT("pcie_ob_wr_dword", pcie.ob_wr_dword),
-+	FBNIC_HW_STAT("pcie_ob_cpl_tlp", pcie.ob_cpl_tlp),
-+	FBNIC_HW_STAT("pcie_ob_cpl_dword", pcie.ob_cpl_dword),
-+	FBNIC_HW_STAT("pcie_ob_rd_no_tag", pcie.ob_rd_no_tag),
-+	FBNIC_HW_STAT("pcie_ob_rd_no_cpl_cred", pcie.ob_rd_no_cpl_cred),
-+	FBNIC_HW_STAT("pcie_ob_rd_no_np_cred", pcie.ob_rd_no_np_cred),
-+};
-+
-+#define FBNIC_HW_FIXED_STATS_LEN ARRAY_SIZE(fbnic_gstrings_hw_stats)
-+#define FBNIC_HW_STATS_LEN \
-+	(FBNIC_HW_FIXED_STATS_LEN)
-+
- static int
- fbnic_get_ts_info(struct net_device *netdev,
- 		  struct kernel_ethtool_ts_info *tsinfo)
-@@ -51,6 +84,43 @@ static void fbnic_set_counter(u64 *stat, struct fbnic_stat_counter *counter)
- 		*stat = counter->value;
- }
 
-+static void fbnic_get_strings(struct net_device *dev, u32 sset, u8 *data)
-+{
-+	int i;
-+
-+	switch (sset) {
-+	case ETH_SS_STATS:
-+		for (i = 0; i < FBNIC_HW_STATS_LEN; i++)
-+			ethtool_puts(&data, fbnic_gstrings_hw_stats[i].string);
-+		break;
-+	}
-+}
-+
-+static int fbnic_get_sset_count(struct net_device *dev, int sset)
-+{
-+	switch (sset) {
-+	case ETH_SS_STATS:
-+		return FBNIC_HW_STATS_LEN;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static void fbnic_get_ethtool_stats(struct net_device *dev,
-+				    struct ethtool_stats *stats, u64 *data)
-+{
-+	struct fbnic_net *fbn = netdev_priv(dev);
-+	const struct fbnic_stat *stat;
-+	int i;
-+
-+	fbnic_get_hw_stats(fbn->fbd);
-+
-+	for (i = 0; i < FBNIC_HW_STATS_LEN; i++) {
-+		stat = &fbnic_gstrings_hw_stats[i];
-+		data[i] = *(u64 *)((u8 *)&fbn->fbd->hw_stats + stat->offset);
-+	}
-+}
-+
- static void
- fbnic_get_eth_mac_stats(struct net_device *netdev,
- 			struct ethtool_eth_mac_stats *eth_mac_stats)
-@@ -117,10 +187,13 @@ static void fbnic_get_ts_stats(struct net_device *netdev,
- }
+vim +350 drivers/leds/leds-st1202.c
 
- static const struct ethtool_ops fbnic_ethtool_ops = {
--	.get_drvinfo		= fbnic_get_drvinfo,
- 	.get_ts_info		= fbnic_get_ts_info,
--	.get_ts_stats		= fbnic_get_ts_stats,
-+	.get_drvinfo		= fbnic_get_drvinfo,
-+	.get_strings		= fbnic_get_strings,
-+	.get_sset_count		= fbnic_get_sset_count,
-+	.get_ethtool_stats	= fbnic_get_ethtool_stats,
- 	.get_eth_mac_stats	= fbnic_get_eth_mac_stats,
-+	.get_ts_stats		= fbnic_get_ts_stats,
- };
+   318	
+   319	static int st1202_dt_init(struct st1202_chip *chip)
+   320	{
+   321		struct device *dev = &chip->client->dev;
+   322		struct st1202_led *led;
+   323		int err, reg;
+   324	
+   325		for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+   326			struct led_init_data init_data = {};
+   327	
+   328			err = of_property_read_u32(child, "reg", &reg);
+   329			if (err) {
+   330				of_node_put(child);
+   331				return dev_err_probe(dev, err, "Invalid register, error: %d\n", err);
+   332			}
+   333	
+   334			led = &chip->leds[reg];
+   335			led->is_active = true;
+   336			led->fwnode = of_fwnode_handle(child);
+   337	
+   338			led->led_cdev.max_brightness = U8_MAX;
+   339			led->led_cdev.brightness_set_blocking = st1202_led_set;
+   340			led->led_cdev.pattern_set = st1202_led_pattern_set;
+   341			led->led_cdev.pattern_clear = st1202_led_pattern_clear;
+   342			led->led_cdev.default_trigger = "pattern";
+   343	
+   344			init_data.fwnode = led->fwnode;
+   345			init_data.devicename = "st1202";
+   346			init_data.default_label = ":";
+   347			err = devm_led_classdev_register_ext(dev,
+   348						&led->led_cdev, &init_data);
+   349			if (err < 0) {
+ > 350				dev_err_probe(dev, err, "Failed to register LED class dev,
+ > 351						error: %d\n", err);
+ > 352				return err;
+   353			}
+   354			led->led_cdev.brightness_set = st1202_brightness_set;
+   355			led->led_cdev.brightness_get = st1202_brightness_get;
+   356		}
+   357	
+   358		return 0;
+   359	}
+   360	
 
- void fbnic_set_ethtool_ops(struct net_device *dev)
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.c b/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.c
-index a0acc7606aa1..eb19b49fe306 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.c
-@@ -25,3 +25,117 @@ u64 fbnic_stat_rd64(struct fbnic_dev *fbd, u32 reg, u32 offset)
- 	 */
- 	return ((u64)upper << 32);
- }
-+
-+static void fbnic_hw_stat_rst64(struct fbnic_dev *fbd, u32 reg, s32 offset,
-+				struct fbnic_stat_counter *stat)
-+{
-+	/* Record initial counter values and compute deltas from there to ensure
-+	 * stats start at 0 after reboot/reset. This avoids exposing absolute
-+	 * hardware counter values to userspace.
-+	 */
-+	stat->u.old_reg_value_64 = fbnic_stat_rd64(fbd, reg, offset);
-+}
-+
-+static void fbnic_hw_stat_rd64(struct fbnic_dev *fbd, u32 reg, s32 offset,
-+			       struct fbnic_stat_counter *stat)
-+{
-+	u64 new_reg_value;
-+
-+	new_reg_value = fbnic_stat_rd64(fbd, reg, offset);
-+	stat->value += new_reg_value - stat->u.old_reg_value_64;
-+	stat->u.old_reg_value_64 = new_reg_value;
-+}
-+
-+static void fbnic_reset_pcie_stats_asic(struct fbnic_dev *fbd,
-+					struct fbnic_pcie_stats *pcie)
-+{
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_TLP_CNT_31_0,
-+			    1,
-+			    &pcie->ob_rd_tlp);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_DWORD_CNT_31_0,
-+			    1,
-+			    &pcie->ob_rd_dword);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_CPL_TLP_CNT_31_0,
-+			    1,
-+			    &pcie->ob_cpl_tlp);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_CPL_DWORD_CNT_31_0,
-+			    1,
-+			    &pcie->ob_cpl_dword);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_WR_TLP_CNT_31_0,
-+			    1,
-+			    &pcie->ob_wr_tlp);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_WR_DWORD_CNT_31_0,
-+			    1,
-+			    &pcie->ob_wr_dword);
-+
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_DBG_CNT_TAG_31_0,
-+			    1,
-+			    &pcie->ob_rd_no_tag);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_DBG_CNT_CPL_CRED_31_0,
-+			    1,
-+			    &pcie->ob_rd_no_cpl_cred);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_DBG_CNT_NP_CRED_31_0,
-+			    1,
-+			    &pcie->ob_rd_no_np_cred);
-+}
-+
-+static void fbnic_get_pcie_stats_asic64(struct fbnic_dev *fbd,
-+					struct fbnic_pcie_stats *pcie)
-+{
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_TLP_CNT_31_0,
-+			   1,
-+			   &pcie->ob_rd_tlp);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_DWORD_CNT_31_0,
-+			   1,
-+			   &pcie->ob_rd_dword);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_WR_TLP_CNT_31_0,
-+			   1,
-+			   &pcie->ob_wr_tlp);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_WR_DWORD_CNT_31_0,
-+			   1,
-+			   &pcie->ob_wr_dword);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_CPL_TLP_CNT_31_0,
-+			   1,
-+			   &pcie->ob_cpl_tlp);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_CPL_DWORD_CNT_31_0,
-+			   1,
-+			   &pcie->ob_cpl_dword);
-+
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_DBG_CNT_TAG_31_0,
-+			   1,
-+			   &pcie->ob_rd_no_tag);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_DBG_CNT_CPL_CRED_31_0,
-+			   1,
-+			   &pcie->ob_rd_no_cpl_cred);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_DBG_CNT_NP_CRED_31_0,
-+			   1,
-+			   &pcie->ob_rd_no_np_cred);
-+}
-+
-+void fbnic_reset_hw_stats(struct fbnic_dev *fbd)
-+{
-+	fbnic_reset_pcie_stats_asic(fbd, &fbd->hw_stats.pcie);
-+}
-+
-+void fbnic_get_hw_stats(struct fbnic_dev *fbd)
-+{
-+	fbnic_get_pcie_stats_asic64(fbd, &fbd->hw_stats.pcie);
-+}
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.h b/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.h
-index 30348904b510..0be403ac211b 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.h
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.h
-@@ -11,6 +11,21 @@ struct fbnic_stat_counter {
- 	bool reported;
- };
-
-+struct fbnic_hw_stat {
-+	struct fbnic_stat_counter frames;
-+	struct fbnic_stat_counter bytes;
-+};
-+
-+struct fbnic_pcie_stats {
-+	struct fbnic_stat_counter ob_rd_tlp, ob_rd_dword;
-+	struct fbnic_stat_counter ob_wr_tlp, ob_wr_dword;
-+	struct fbnic_stat_counter ob_cpl_tlp, ob_cpl_dword;
-+
-+	struct fbnic_stat_counter ob_rd_no_tag;
-+	struct fbnic_stat_counter ob_rd_no_cpl_cred;
-+	struct fbnic_stat_counter ob_rd_no_np_cred;
-+};
-+
- struct fbnic_eth_mac_stats {
- 	struct fbnic_stat_counter FramesTransmittedOK;
- 	struct fbnic_stat_counter FramesReceivedOK;
-@@ -33,8 +48,10 @@ struct fbnic_mac_stats {
-
- struct fbnic_hw_stats {
- 	struct fbnic_mac_stats mac;
-+	struct fbnic_pcie_stats pcie;
- };
-
- u64 fbnic_stat_rd64(struct fbnic_dev *fbd, u32 reg, u32 offset);
-
-+void fbnic_reset_hw_stats(struct fbnic_dev *fbd);
- void fbnic_get_hw_stats(struct fbnic_dev *fbd);
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-index c08798fad203..9cb850b78795 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-@@ -627,6 +627,9 @@ struct net_device *fbnic_netdev_alloc(struct fbnic_dev *fbd)
-
- 	fbnic_reset_queues(fbn, default_queues, default_queues);
-
-+	/* Capture snapshot of hardware stats so netdev can calculate delta */
-+	fbnic_reset_hw_stats(fbd);
-+
- 	fbnic_reset_indir_tbl(fbn);
- 	fbnic_rss_key_fill(fbn->rss_key);
- 	fbnic_rss_init_en_mask(fbn);
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_pci.c b/drivers/net/ethernet/meta/fbnic/fbnic_pci.c
-index 2de5a6fde7e8..cd1fe1114819 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_pci.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_pci.c
-@@ -455,6 +455,8 @@ static void __fbnic_pm_attach(struct device *dev)
- 	struct net_device *netdev = fbd->netdev;
- 	struct fbnic_net *fbn;
-
-+	fbnic_reset_hw_stats(fbd);
-+
- 	if (fbnic_init_failure(fbd))
- 		return;
-
---
-2.43.5
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
