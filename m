@@ -1,83 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD181E04AD;
-	Wed,  6 Nov 2024 13:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F8017DFF2;
+	Wed,  6 Nov 2024 13:59:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730898748; cv=none; b=fAH9Ly+vjSFhE9LC1CSNHqVuejoEw2b5wx9udpwJODhoz6Q/XemdxKTKG16/sCbAjpzonh5h+Du6GWQnPbS2Gy6drBmx9tFsGnaGSgST+nELCL/LnzuyIFGNTtqJGmbt6zVISQW7sMB7evaSzsG+k6kECWDY5uOUazUchOVUAmM=
+	t=1730901552; cv=none; b=GzZCkoLtGk4gxBVmutuN9ku12/STHGBUW+3PbGwdPrBO+nWgYAlD0VZXFrJm9lkv2uL2PBg5x0SmYey+dHttPdWet7EefKAWdReM8Ojxdcn72g8kOQFfR9zxc5c27sO9ucN4ngE2eXgD+VbOzeG2UOm/UKAuoOAZbBa0J8P/k9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730898748; c=relaxed/simple;
-	bh=3SfESvrKfdyPsR2Toa1m1lCX2fQeSf+A2nGffmF11BM=;
+	s=arc-20240116; t=1730901552; c=relaxed/simple;
+	bh=L/8YMxvyNwnI5zLAy8H13m0yzgYnRf4I8l3T6fZ9kp0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fGenyS9gPLtx7E6bODNeeZZ1/tPEJEKkj+J4+/XTZkcJPYSWn6uQWcm6BCDFIiFRAkL5j1sotrOTiaSCg+PyMx41lyM+YpaMufL1+abpqBQdrCJyRxT2vVBw5+11Ify9NVwF2YJtwBhmxSsnjU1hfVN17jLcZMU/yk76lDNu0oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGmwz3OA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=kkNUL0FBZ+th6qVguHhw6Uf58Ek293uvte2gc1iaQlihwytgxV5VQqbA8gp7lQNvWVbIFpMEiBHL6PW50Vmh7BvzW5bOkb2n/4ZHCmGbRm75FeG0aHvOFzneBr74gAI2/1AoZTACa3LqhEixxtVsRXXKy3lfHmc3pjeMi6/LexY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AAC2tMlv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGmwz3OA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74AE1C4CED4;
-	Wed,  6 Nov 2024 13:12:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AAC2tMlv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F352C4CEC6;
+	Wed,  6 Nov 2024 13:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730898747;
-	bh=3SfESvrKfdyPsR2Toa1m1lCX2fQeSf+A2nGffmF11BM=;
+	s=k20201202; t=1730901551;
+	bh=L/8YMxvyNwnI5zLAy8H13m0yzgYnRf4I8l3T6fZ9kp0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BGmwz3OAHtxzQimhPb+0ta8GU6ekMnC0Nr55rDVo5Z3eBQBSlzx2R0yCIlpqJTOug
-	 j2jouZOq2FDue45FB9L57askeLY0wQvdBhk/Gs0RrA+xfuh6r844UNGSxzP1OQXWIs
-	 WXhKJLIxD2erc+Tx9VY3wDSHDZY+JfqC87LI5/t4yCyTb2NIa+Jd6NPO6/Ndk+e/sn
-	 7wPD0pSWLEOAvVSYTLYShwVsWDCllhThbE4uSdrDpnIealbuz3ZctYPnh6JBIFnxXG
-	 77B/lfXugrwKHs9CL6LdpZVWzV+0Ah6f+DmjxZMCmxviBIoCDOqDZRF9mx6ufS7cB3
-	 YKiC40WL00LVg==
-Date: Wed, 6 Nov 2024 13:12:23 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: stable@vger.kernel.org, conor.dooley@microchip.com,
-	Jason Montleon <jmontleo@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	llvm@lists.linux.dev
-Subject: Re: FAILED: Patch "RISC-V: disallow gcc + rust builds" failed to
- apply to v6.11-stable tree
-Message-ID: <20241106-undead-cupbearer-a22f27c8b9e2@spud>
-References: <20241106020840.164364-1-sashal@kernel.org>
+	b=AAC2tMlvCJbV+uWBMVEliFPVSO9bTha3xYSXhQAPt+H9lLA58DMqvN4hmiwYYiWFx
+	 12R5+XhgTpUi6+t16UD2DJiIrY/lHPx3RkZHg8D4E65lpVPOEuNPrypkZmm4K0zXoV
+	 ci/sGr39maUiaVzl04vQfxAnLOeD9jIJy1RSkoejgQ3vtkGmXtnR2ZFpjMxUMFXwOY
+	 lSbjAp37B28zxvxdKWbIR3JbLt5rKg/9AcPQQEB+8oJrRy/kAsGAAPsoGQLYhNC6Uu
+	 jNG7hTe20UX3HX7UtlQ/l6haQHJquE/7LEGAKq1aysds6PuMzDsIEVI8YbzbQzcy2J
+	 oU8esAsYPShpg==
+Date: Wed, 6 Nov 2024 14:59:08 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/3] [PATCH v4] dt-bindings: leds: Add LED1202 LED
+ Controller
+Message-ID: <us45a35olruo6xaykepmhkdhal3zbit6f5kxo2utzqiukc3kte@kzbwcm7qtfww>
+References: <20241106061812.6819-1-vicentiu.galanopulo@remote-tech.co.uk>
+ <20241106061812.6819-2-vicentiu.galanopulo@remote-tech.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="T7IwLFePnUSWKnbZ"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241106020840.164364-1-sashal@kernel.org>
+In-Reply-To: <20241106061812.6819-2-vicentiu.galanopulo@remote-tech.co.uk>
 
+On Wed, Nov 06, 2024 at 06:18:08AM +0000, Vicentiu Galanopulo wrote:
+> The LED1202 is a 12-channel low quiescent current LED driver with:
+>   * Supply range from 2.6 V to 5 V
+>   * 20 mA current capability per channel
+>   * 1.8 V compatible I2C control interface
+>   * 8-bit analog dimming individual control
+>   * 12-bit local PWM resolution
+>   * 8 programmable patterns
+> 
+> If the led node is present in the controller then the channel is
+> set to active.
+> 
+> v1: https://lore.kernel.org/lkml/ZnCnnQfwuRueCIQ0@admins-Air/T/
+> v2: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
+> v3: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
 
---T7IwLFePnUSWKnbZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This goes after ---.
 
-On Tue, Nov 05, 2024 at 09:08:39PM -0500, Sasha Levin wrote:
-> The patch below does not apply to the v6.11-stable tree.
-> If someone wants it applied there, or to any other stable or longterm
-> tree, then please email the backport, including the original git commit
-> id to <stable@vger.kernel.org>.
+Please run scripts/checkpatch.pl and fix reported warnings. Then please
+run 'scripts/checkpatch.pl --strict' and (probably) fix more warnings.
+Some warnings can be ignored, especially from --strict run, but the code
+here looks like it needs a fix. Feel free to get in touch if the warning
+is not clear.
 
-I sent 20241106-happily-unknotted-9984b07a414e@spud that should be a
-6.11 viable version of this change.
+This ws correct in v3 so I do not understand what is happening with this
+patch.
 
-Cheers,
-Conor.
+> 
+> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+> 
+> ---
+> Changes in v4:
+>   - remove label property, use devm_led_classdev_register_ext instead
 
---T7IwLFePnUSWKnbZ
-Content-Type: application/pgp-signature; name="signature.asc"
+Where? This is a binding.
 
------BEGIN PGP SIGNATURE-----
+>   - use as base patch the v3
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZytrNwAKCRB4tDGHoIJi
-0lrZAQDwZgrJpDCrMBOUflphmluD0ARCIvhYF9shsNzm9sAm5gEA4dQEww2rvB2W
-ETWhXsstVjfNvdt4kg8SZh+nFLTwKQc=
-=IEMP
------END PGP SIGNATURE-----
+What does it mean? How can you no use v3, but something else?
 
---T7IwLFePnUSWKnbZ--
+> Changes in v3:
+>   - remove active property
+> Changes in v2:
+>   - renamed label to remove color from it
+>   - add color property for each node
+>   - add function and function-enumerator property for each node
+> ---
+
+You have also whitespace errors in your patch. Again:
+Please run scripts/checkpatch.pl and fix reported warnings. Then please
+run 'scripts/checkpatch.pl --strict' and (probably) fix more warnings.
+Some warnings can be ignored, especially from --strict run, but the code
+here looks like it needs a fix. Feel free to get in touch if the warning
+is not clear.
+
+>  .../devicetree/bindings/leds/st,led1202.yaml  | 132 ++++++++++++++++++
+>  1 file changed, 132 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/st,led1202.yaml
+
+Best regards,
+Krzysztof
+
