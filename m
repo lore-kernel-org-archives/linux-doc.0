@@ -1,125 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBA218C903;
-	Wed,  6 Nov 2024 02:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7981925BD
+	for <linux-doc@vger.kernel.org>; Wed,  6 Nov 2024 02:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730858923; cv=none; b=VFu+DtC08/RIQH2WrvtFKb3jTdYQNLcdTM3w6bkYFC4uEk6NrN/g9YvrjGV6IHJv9YPONx5EoY+jy4yQUwyu1O305jJ2hGYruQgI8fAmAmWjsCXFWhMe/mCQ2FUfF63jfLwfpSuZFmFcCxbHbpJl4zEamnQRuk/Sf1snWhDFFKc=
+	t=1730858968; cv=none; b=KY5igbw4Z3oXREz/2ycxE0Jrl9+4XaGgKtjZgbOBfqKg4RHgXI52uuMWQflXYL/mfAadnJcDRa5A/C/qZ/jhPehYm7mTcMLVXAYIQ6Fl6MU8BKMokxGxhQYBoUEecxcrgEPxZG1wXoJlpp5/PC8zLR+d2TkAPzrJUY9tP4DU7ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730858923; c=relaxed/simple;
-	bh=6RdsDJCekACBSQ/decuXvIXkG38AIIzXKc9s9K/m2gg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lr3yLsxcELH4ZEviu4VrdtYRl43Kp66ga93tfizhtb2RKCgp6I57JX1ngQT8C4vwsTy8cCULleIFdUoHWaWnpcWWU76y+OCW8pwiyzMGpu/KGmNyDo5x+9haai1+tVh1qGfMb/KhC64edndvDOMH+JcYFOF6hUhhygWJM6mBgH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bLHmkCgU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730858968; c=relaxed/simple;
+	bh=qoICrbOY2eN8WqKvK8iQFEjhTz0vF/bERGMi3ZJ3ZBE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uiTFO4NPrM8/qZLZEJfJSxsnpneTClxqDWYfmoK2GakMDVbm6jyAOPd8ptvVwVa+IUgToUkEAX9jeevFZZgBYT3+BJuuyim5RgIq//IZSi/ATBwHlpRQJeIBP3qznCdMgHN8xaSVcYySsR+eymZ2FATd7BLH47uFMNfjE5S1vYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ywwtr1Yr; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bLHmkCgU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9674AC4CECF;
-	Wed,  6 Nov 2024 02:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730858923;
-	bh=6RdsDJCekACBSQ/decuXvIXkG38AIIzXKc9s9K/m2gg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bLHmkCgUJ8DNphFMJIs7Y3zWta2o/5rLa7tqziceKYdXxus72OVZ4cX+WT3Owi4tH
-	 GeCEDoEbkPXfWNLhFNVRVU3ay+cNaMYJa2ReoghcKoWNjHPVVVZiSKrXE4aKEMlWiu
-	 H2tS88ZzFwO7Re5Wmuz1xRquMvrWiIZAYE8kPVY1o1dNUEzaUzR9cfq2ejIEddVgFN
-	 wullEsRfSuLLKnImSGCS7lZiFgtk8mlvUoks/y7F+tzmnA9rmXFNGKZGhkjzQAC4Qo
-	 dnAnympltpJLRlZvIwnNaoabTBpI8AijOmlIq0rBxWkCkSfY+sT2XPQybyA8l/2DxZ
-	 XsNTTbAkmF/1A==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org,
-	conor.dooley@microchip.com
-Cc: Jason Montleon <jmontleo@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	llvm@lists.linux.dev
-Subject: FAILED: Patch "RISC-V: disallow gcc + rust builds" failed to apply to v6.11-stable tree
-Date: Tue,  5 Nov 2024 21:08:39 -0500
-Message-ID: <20241106020840.164364-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ywwtr1Yr"
+Message-ID: <9209f37c-e3e8-4390-9630-0157ed8eb690@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1730858964;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fk3QSDOqZOzm7LJ9rcdSnlstSgCPdypDTHx34fMzi18=;
+	b=Ywwtr1Yr84/JkqcZ67GQ7Zo4xcXVaHPruO6DQ4Q7d4Qic967DC4RMbrejhdGoBATi7dVT7
+	U2pCeJBst191n+1KkZ17RxTSPgkuIRumIGfHswIOQmv5Ni66u5iGKwmKkJwcLuDud9Rvn/
+	3e1RFm95tWcpSKt7veiKKDHlu3PqU7A=
+Date: Wed, 6 Nov 2024 10:09:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Patchwork-Hint: ignore
-X-stable: review
+Subject: Re: [PATCH linux-next v8 RESEND] Docs/zh_CN: Translate
+ physical_memory.rst to Simplified Chinese
+To: Jonathan Corbet <corbet@lwn.net>, xu.xin16@zte.com.cn, alexs@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mudongliangabcd@gmail.com, seakeel@gmail.com
+Cc: wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, he.peilin@zte.com.cn,
+ tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn, zhang.yunkai@zte.com.cn
+References: <20241028135321916ZWK032bHhlbncjvmzDkZs@zte.com.cn>
+ <87ikt294v6.fsf@trenco.lwn.net>
+ <641acef2-70f4-4172-9fa9-da0f5203a78e@linux.dev>
+ <871pzp7n5e.fsf@trenco.lwn.net>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <871pzp7n5e.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-The patch below does not apply to the v6.11-stable tree.
-If someone wants it applied there, or to any other stable or longterm
-tree, then please email the backport, including the original git commit
-id to <stable@vger.kernel.org>.
+
+
+
+在 2024/11/5 22:47, Jonathan Corbet 写道:
+> Yanteng Si <si.yanteng@linux.dev> writes:
+>
+>> 在 2024/11/5 03:27, Jonathan Corbet 写道:
+>>> OK, I have applied this patch.  A couple of comments for future reference:
+>>>
+>>> <xu.xin16@zte.com.cn> writes:
+>>>
+>>>> Update to commit 7332f9e45d2e("docs/mm: Physical Memory: Fix grammar")
+>>> ...and this I don't understand at all; why do you need to reference that
+>>> patch here?
+>> We use it to mark the progress of the translation against
+>> the original document. If we don't put this tag on at the
+>> very beginning, when the translation falls behind the original
+>> document for a while, we'll have to go through the whole
+>> original document log from the very top downwards, which
+>> is an enormous amount of work. On the other hand, the
+>> checktransupdate.py also works based on this tag.
+>>
+>> Yeah, this tag might seem a bit ambiguous. I think maybe
+>> we could improve it? For example:
+>>
+>> Trans_mark commit 7332f9e45d2e ("docs/mm: Physical Memory: Fix grammar")
+> "Update to commit xxx" suggests that the current patch is somehow
+> changing that commit.  "Update the translation through commit xxxx"
+> would be a bit clearer in that regard.  I think it's better to stay with
+> something resembling plain language rather than adding a new pseudo-tag
+> that outsiders won't understand.
+Approve!
 
 Thanks,
-Sasha
-
------------------- original commit in Linus's tree ------------------
-
-From 33549fcf37ec461f398f0a41e1c9948be2e5aca4 Mon Sep 17 00:00:00 2001
-From: Conor Dooley <conor.dooley@microchip.com>
-Date: Tue, 1 Oct 2024 12:28:13 +0100
-Subject: [PATCH] RISC-V: disallow gcc + rust builds
-
-During the discussion before supporting rust on riscv, it was decided
-not to support gcc yet, due to differences in extension handling
-compared to llvm (only the version of libclang matching the c compiler
-is supported). Recently Jason Montleon reported [1] that building with
-gcc caused build issues, due to unsupported arguments being passed to
-libclang. After some discussion between myself and Miguel, it is better
-to disable gcc + rust builds to match the original intent, and
-subsequently support it when an appropriate set of extensions can be
-deduced from the version of libclang.
-
-Closes: https://lore.kernel.org/all/20240917000848.720765-2-jmontleo@redhat.com/ [1]
-Link: https://lore.kernel.org/all/20240926-battering-revolt-6c6a7827413e@spud/ [2]
-Fixes: 70a57b247251a ("RISC-V: enable building 64-bit kernels with rust support")
-Cc: stable@vger.kernel.org
-Reported-by: Jason Montleon <jmontleo@redhat.com>
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Link: https://lore.kernel.org/r/20241001-playlist-deceiving-16ece2f440f5@spud
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
----
- Documentation/rust/arch-support.rst | 2 +-
- arch/riscv/Kconfig                  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
-index 750ff371570a0..54be7ddf3e57a 100644
---- a/Documentation/rust/arch-support.rst
-+++ b/Documentation/rust/arch-support.rst
-@@ -17,7 +17,7 @@ Architecture   Level of support  Constraints
- =============  ================  ==============================================
- ``arm64``      Maintained        Little Endian only.
- ``loongarch``  Maintained        \-
--``riscv``      Maintained        ``riscv64`` only.
-+``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
- ``um``         Maintained        \-
- ``x86``        Maintained        ``x86_64`` only.
- =============  ================  ==============================================
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 62545946ecf43..f4c570538d55b 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -177,7 +177,7 @@ config RISCV
- 	select HAVE_REGS_AND_STACK_ACCESS_API
- 	select HAVE_RETHOOK if !XIP_KERNEL
- 	select HAVE_RSEQ
--	select HAVE_RUST if RUSTC_SUPPORTS_RISCV
-+	select HAVE_RUST if RUSTC_SUPPORTS_RISCV && CC_IS_CLANG
- 	select HAVE_SAMPLE_FTRACE_DIRECT
- 	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI
- 	select HAVE_STACKPROTECTOR
--- 
-2.43.0
-
-
-
+Yanteng
+>
+> Thanks,
+>
+> jon
+>
+>
 
