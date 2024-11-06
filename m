@@ -1,262 +1,92 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1900C1DE8AA;
-	Wed,  6 Nov 2024 09:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB1F1DBB19;
+	Wed,  6 Nov 2024 09:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730883845; cv=none; b=pEL92YEwEQnUi20HUH7f7JGYiYw7LKy+SZ7B6Yh062eEyV8W0APYnJbSBH+i+6YB8O7pA76Zr5JTYp6QZGhgAprg9+4UNAwokDk8sjoX585isv/M60AYXMNsyjY1LDJIJq5DMlra70KeEby339BV9Lz88Rdw0kw3wY3rT1Bg+Nk=
+	t=1730887094; cv=none; b=HLOioQqb8FHwnEUUzyiLnRTMqUFqZZwNKzBX99N3vvql9Jsbh5NOkMvTDtpbD2MNDUqdd1V0hhBWrD51T6mVc3Ah0XdSnbS698VA922MA4KvNwII5EWSt5ATPDX24ZgPQTvh+a0kIQjd8ZGHN9Ke+6VyUxOovJekMCccNAl9q1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730883845; c=relaxed/simple;
-	bh=3r21XRN3UpgjXD9NjMS6rOTS6phVDAT7Vp1FP+ogCIo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ur10UHKaxykgztvvogamYVGtqs7fo2pd10oZ8jt70Ob1gv7QnRsBueGw5MK72TkOPX61+3klEITEQn0Xhp5GTXtQWAIZlOOwsco8gJ44G1577Gn3rvhwSEXXvJ7ukoer6wG9UQky8Agu0wrR0ga9qwAsPjKu2ZjXsFJ0esi6PZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=LQZ4D/m5; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1730887094; c=relaxed/simple;
+	bh=v8MGY8fIOjiRO62KuDPIpuuvvuGKfZqakLVcpgvfos8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A/edl9fF69BfkxahyjN8dsuQFHj0b8sXsdojKU5njGuLEGH1j2yNPtBFXfc7dyafOMfzCqcpUFNIYqfiDWTYaOfOBfiAUwzNw+/k4P2IYcJWlL4Gnfszbur2taPQphq+hiK+e+27Vx6k2A0CW3+j6Sia+7CY2CUDtg5lWbWmce0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4tFQcBG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="LQZ4D/m5"
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A687rpU019762;
-	Wed, 6 Nov 2024 04:03:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=uJMJV
-	fIOafJRves3UKb0L/emqLVFnZqj4bvZYN0+nS8=; b=LQZ4D/m5bQKYQ2/n/6Mgw
-	FohyHs7ObQfITBDoHNW5XVx7aBSRfBJoWwHaDHgQt7v6IcDW84TZ8cc4m8jRZodG
-	7H6LrSMW4eLhyFX21s5zLrQrG56jfH5IB+qa6ZUVBpHZ/4S5uxQJrPM3tPhX8tAJ
-	f2SBO3RRgJpRRCkYZ/VEsV982otJTARoccgamDCkzBkwoNAx747r81O+e74GUQFB
-	ytGZlsNwrBmNdnqaNcfucENLLWdN2hXuppB/aEEEZ0OBg5jXjIfGKUoJqf+8ZErF
-	SEqE/ZoASsLsOoMJnKEvFbK/Dhv4pUHFvlhaZpdwnDoAA7qV0Vo6T8p0Yaq+Kfoj
-	Q==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 42qbq36kf1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 Nov 2024 04:03:46 -0500 (EST)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 4A693jGg025342
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 6 Nov 2024 04:03:45 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Wed, 6 Nov 2024
- 04:03:45 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Wed, 6 Nov 2024 04:03:45 -0500
-Received: from ATORRENO-L02.ad.analog.com (ATORRENO-L02.ad.analog.com [10.116.44.137])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 4A693GTE006260;
-	Wed, 6 Nov 2024 04:03:36 -0500
-From: Alexis Cezar Torreno <alexisczezar.torreno@analog.com>
-To: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-hwmon@vger.kernel.org>
-CC: Radu Sabau <radu.sabau@analog.com>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>,
-        Alexis Cezar Torreno
-	<alexisczezar.torreno@analog.com>,
-        Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=
-	<u.kleine-koenig@pengutronix.de>
-Subject: [PATCH 2/2] hwmon: (pmbus/adp1050): Support adp1051 and adp1055
-Date: Wed, 6 Nov 2024 17:03:11 +0800
-Message-ID: <20241106090311.17536-3-alexisczezar.torreno@analog.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241106090311.17536-1-alexisczezar.torreno@analog.com>
-References: <20241106090311.17536-1-alexisczezar.torreno@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4tFQcBG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5476C4CECD;
+	Wed,  6 Nov 2024 09:58:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730887094;
+	bh=v8MGY8fIOjiRO62KuDPIpuuvvuGKfZqakLVcpgvfos8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=J4tFQcBGImd7zjqBscyrbJmQyZBmDm9vp/5LyzdgUxK5hLHXwadxt/fGg1M0w1thZ
+	 ns/NmF1+evjJkaVRvI+uYAimqkHX6aFthvTl8HBxQax5BzZ5Wt0DUrHW5zHo6L3xvw
+	 bCnIf+/icPcrnEwWCUUZNydB4wfi46a7ogvDGh/I5MQLPEojIOa61UA3q/4IVUUpci
+	 mdWk7nPrNxJM81fnmeWHCNjlTJc9wlUcI8fw+pULFZCY/ZX3pOM/fUR1Ru85+LcSLe
+	 oNs5TnnQRGHKVXekvT1M82Pmel82WAfV6IyoFb2cXrI7qiTkvw4ehENVta550zPMOG
+	 JnPo4UTF8Zv2g==
+Date: Wed, 6 Nov 2024 09:58:05 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Julien Stephan <jstephan@baylibre.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Conor Dooley
+ <conor.dooley@microchip.com>
+Subject: Re: [PATCH v4 0/5] ad7380: add adaq4370-4 and adaq4380-4 support
+Message-ID: <20241106095805.0a3c49ef@jic23-huawei>
+In-Reply-To: <20241102153718.6d12295e@jic23-huawei>
+References: <20241030-ad7380-add-adaq4380-4-support-v4-0-864ff02babae@baylibre.com>
+	<78073c49-899a-4646-a834-6d5006d59501@baylibre.com>
+	<20241102153718.6d12295e@jic23-huawei>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: 1tcfpG5b4eFXICtNvjch-qh3Xmbjtdrn
-X-Proofpoint-GUID: 1tcfpG5b4eFXICtNvjch-qh3Xmbjtdrn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- suspectscore=0 phishscore=0 spamscore=0 bulkscore=0 clxscore=1015
- mlxlogscore=999 impostorscore=0 priorityscore=1501 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411060073
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-ADP1051: 6 PWM for I/O Voltage, I/O Current, Temperature
-ADP1055: 6 PWM for I/O Voltage, I/O Current, Power, Temperature
-Signed-off-by: Alexis Cezar Torreno <alexisczezar.torreno@analog.com>
----
- Documentation/hwmon/adp1050.rst | 52 ++++++++++++++++++++++++++++++---
- drivers/hwmon/pmbus/adp1050.c   | 44 +++++++++++++++++++++++++---
- 2 files changed, 88 insertions(+), 8 deletions(-)
+On Sat, 2 Nov 2024 15:37:18 +0000
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-diff --git a/Documentation/hwmon/adp1050.rst b/Documentation/hwmon/adp1050.rst
-index 8fa937064886..5e2edcbe0c59 100644
---- a/Documentation/hwmon/adp1050.rst
-+++ b/Documentation/hwmon/adp1050.rst
-@@ -13,18 +13,33 @@ Supported chips:
- 
-     Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1050.pdf
- 
-+  * Analog Devices ADP1051
-+
-+    Prefix: 'adp1051'
-+
-+    Addresses scanned: I2C 0x70 - 0x77
-+
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1051.pdf
-+
-+  * Analog Devices ADP1055
-+
-+    Prefix: 'adp1055'
-+
-+    Addresses scanned: I2C 0x4B - 0x77
-+
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1055.pdf
-+
- Authors:
- 
-   - Radu Sabau <radu.sabau@analog.com>
- 
--
- Description
- -----------
- 
--This driver supprts hardware monitoring for Analog Devices ADP1050 Digital
--Controller for Isolated Power Supply with PMBus interface.
-+This driver supports hardware monitoring for Analog Devices ADP1050, ADP1051, and
-+ADP1055 Digital Controller for Isolated Power Supply with PMBus interface.
- 
--The ADP1050 is an advanced digital controller with a PMBus™
-+The ADP105X is an advanced digital controller with a PMBus™
- interface targeting high density, high efficiency dc-to-dc power
- conversion used to monitor system temperatures, voltages and currents.
- Through the PMBus interface, the device can monitor input/output voltages,
-@@ -49,16 +64,45 @@ Sysfs Attributes
- in1_label         "vin"
- in1_input         Measured input voltage
- in1_alarm	  Input voltage alarm
-+in1_crit          Critical maximum input voltage
-+in1_crit_alarm    Input voltage high alarm
-+in1_lcrit         Critical minimum input voltage
-+in1_lcrit_alarm   Input voltage critical low alarm
- in2_label	  "vout1"
- in2_input	  Measured output voltage
- in2_crit	  Critical maximum output voltage
- in2_crit_alarm    Output voltage high alarm
- in2_lcrit	  Critical minimum output voltage
- in2_lcrit_alarm	  Output voltage critical low alarm
-+in2_max           Critical maximum output voltage
-+in2_max_alarm     Output voltage critical max alarm
-+in2_min           Critical minimum output voltage
-+in2_min_alarm     Output voltage critical min alarm
- curr1_label	  "iin"
- curr1_input	  Measured input current.
- curr1_alarm	  Input current alarm
-+curr1_crit        Critical maximum input current
-+curr1_crit_alarm  Input current high alarm
-+curr2_label       "iout1"
-+curr2_input       Measured output current
-+curr2_crit        Critical maximum output current
-+curr2_crit_alarm  Output current high alarm
-+curr2_lcrit       Critical minimum output current
-+curr2_lcrit_alarm Output current critical low alarm
-+curr2_max         Critical maximum output current
-+curr2_max_alarm   Output current critical max alarm
-+power1_label      "pout1"
-+power1_input      Measured output power
-+power1_crit       Critical maximum output power
-+power1_crit_alarm Output power high alarm
- temp1_input       Measured temperature
- temp1_crit	  Critical high temperature
- temp1_crit_alarm  Chip temperature critical high alarm
-+temp1_max         Critical maximum temperature
-+temp1_max_alarm   Temperature critical max alarm
-+temp2_input       Measured temperature
-+temp2_crit        Critical high temperature
-+temp2_crit_alarm  Chip temperature critical high alarm
-+temp2_max         Critical maximum temperature
-+temp2_max_alarm   Temperature critical max alarm
- ================= ========================================
-diff --git a/drivers/hwmon/pmbus/adp1050.c b/drivers/hwmon/pmbus/adp1050.c
-index 20f22730fc01..db2054181d14 100644
---- a/drivers/hwmon/pmbus/adp1050.c
-+++ b/drivers/hwmon/pmbus/adp1050.c
-@@ -6,8 +6,8 @@
-  */
- #include <linux/bits.h>
- #include <linux/i2c.h>
--#include <linux/mod_devicetable.h>
- #include <linux/module.h>
-+#include <linux/mod_devicetable.h>
- 
- #include "pmbus.h"
- 
-@@ -23,19 +23,55 @@ static struct pmbus_driver_info adp1050_info = {
- 		| PMBUS_HAVE_STATUS_TEMP,
- };
- 
-+static struct pmbus_driver_info adp1051_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = linear,
-+	.format[PSC_CURRENT_IN] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_VOUT
-+		   | PMBUS_HAVE_IOUT | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_VOUT
-+		   | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT
-+		   | PMBUS_HAVE_STATUS_TEMP,
-+};
-+
-+static struct pmbus_driver_info adp1055_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = linear,
-+	.format[PSC_CURRENT_IN] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_VOUT
-+		   | PMBUS_HAVE_IOUT | PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3
-+		   | PMBUS_HAVE_POUT | PMBUS_HAVE_STATUS_VOUT
-+		   | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT
-+		   | PMBUS_HAVE_STATUS_TEMP,
-+};
-+
- static int adp1050_probe(struct i2c_client *client)
- {
--	return pmbus_do_probe(client, &adp1050_info);
-+	const struct pmbus_driver_info *info;
-+
-+	info = device_get_match_data(&client->dev);
-+	if (!info)
-+		return -ENODEV;
-+
-+	return pmbus_do_probe(client, info);
- }
- 
- static const struct i2c_device_id adp1050_id[] = {
--	{"adp1050"},
-+	{ .name = "adp1050", .driver_data = (kernel_ulong_t)&adp1050_info},
-+	{ .name = "adp1051", .driver_data = (kernel_ulong_t)&adp1051_info},
-+	{ .name = "adp1055", .driver_data = (kernel_ulong_t)&adp1055_info},
- 	{}
- };
-+
- MODULE_DEVICE_TABLE(i2c, adp1050_id);
- 
- static const struct of_device_id adp1050_of_match[] = {
--	{ .compatible = "adi,adp1050"},
-+	{ .compatible = "adi,adp1050", .data = &adp1050_info},
-+	{ .compatible = "adi,adp1051", .data = &adp1051_info},
-+	{ .compatible = "adi,adp1055", .data = &adp1055_info},
- 	{}
- };
- MODULE_DEVICE_TABLE(of, adp1050_of_match);
--- 
-2.34.1
+> On Wed, 30 Oct 2024 09:32:23 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
+>=20
+> > On 10/30/24 8:44 AM, Julien Stephan wrote: =20
+> > > Hello,
+> > >=20
+> > > This series add support for adaq4370-4 (2MSPS) and adaq4380-4 (4MSPS)
+> > > which are quad-channel precision data acquisition signal chain =CE=BC=
+Module
+> > > solutions compatible with the ad738x family, with the following diffe=
+rences:
+> > >    =20
+> > Reviewed-by: David Lechner <dlechner@baylibre.com> =20
+>=20
+> FWIW, this looks fine to me and I can tweak the voltage in the docs whilst
+> applying.  I'm stalled on merging this series by the fix dependency worki=
+ng
+> it's way into upstream.=20
+Applied.  I tweaked that voltage in the docs to 3.3V as per David's feedbac=
+k.
+
+Pushed out as testing to give 0-day a brief look.
+
+Note I merged rc6 to get the fix this was dependent on.
+
+>=20
+> Thanks,
+>=20
+> Jonathan
+>=20
+> >  =20
+>=20
+>=20
 
