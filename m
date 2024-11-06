@@ -1,77 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C75188CC9;
-	Wed,  6 Nov 2024 14:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A233E2022F5;
+	Wed,  6 Nov 2024 14:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730901749; cv=none; b=dtCYcXgKwZ/IJcuYvNGcoheGWn/J5f3a8gx2scfUt4/vSTa3LC/6c53BKsogTr8WFhzAhNMWqsOkNaL22vKV8Kaf8sbYfdQNWtIaRt0tBkzPb08oJnFGEu2CsdHTHMW/UI9o2cVlSu0rGCYREX2ePuKq1CWPqVU99gsdJAGKT0A=
+	t=1730903341; cv=none; b=AZfnYjWRm8AcpXtSUJqLVlfuogWHaECQSOe/G8RYcN0uiu6EzUseB8symjLCwy9flHVa03YTN5PWyb3xrv4S5JhRJjGOefF5Zx2ALo46G7Y+Ne9LemCXFAKhVJCfp0FCCgahrESUUumyXI/LDU5smQuDZZA76kZP+rdYzH943l4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730901749; c=relaxed/simple;
-	bh=/FKciTcW80Woxl5rG3QH5J1wGHkVKx3o/SXZ9vV/a8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PZxcUufCnYqoaTnAnpbkulLewt2D/1yXalYslCI4cGtHHqeIrAri7HJYy+kFqOHJkn8irnw5lQbO6hQV+WUzOE8gPpSpgwiKxRJF4NcUkVGnGh7KYiNEmbstxASANC6s5YB0mxieEOkgGX80YtkV+xv+fCvxPJTnHrbyT8VahUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVDIRaBL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730903341; c=relaxed/simple;
+	bh=TUBw2uIBrv3P6Vu94x6Bt/3l45ZfpEg6eDWmfn9rJmo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iIKbY2qkUCRr2o3mPa3FwRFniCouUZGX33yh1Vix01NWc5Vgz0h3FvdN9px9TB2AUVINHYnm+zGEnADYHhagseB+zJ0sBswsWV1CiYrwnMxBJY6wVJtmMaKHuF8sdEqCgkS7nYYHWmisBQAXA8C3k9l3rFh4NnkF+jsDNF1nb+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nqJWy2wM; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVDIRaBL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B109EC4CECC;
-	Wed,  6 Nov 2024 14:02:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730901746;
-	bh=/FKciTcW80Woxl5rG3QH5J1wGHkVKx3o/SXZ9vV/a8g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JVDIRaBL8kXAceC7CZtmsFsNPKpBCUDPEhqhOtZDnGRT1L+z4yfD9cnzY3Z+0eln4
-	 gS4MNoUQzgPpsDzFEVp/dtRsimGCp/pmyrL42B97ry9HCRiRQ/xL8N0CiZ5ZyJZSbd
-	 sPRBZi0fkqh6IFZtdoi7/lKR5cLjpZYWKtRoXPce8AHFpHbvwxXd5K0N16KvZ4N/fy
-	 A6PJSNurVY6DDMUlXRbdnTQf7DjOzJxGxA3G5fdoAf3zAkI58KOSX5sQT5kKPzKq0d
-	 AhTM45E86u3uW9/8+cjUJ6wRv4TrOXr9J58Avmi7D7kiEwEwUXnF98hg266LfCEo77
-	 +57ifc0DPp8yw==
-Date: Wed, 6 Nov 2024 15:02:23 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/3] [PATCH v4] dt-bindings: leds: Add LED1202 LED
- Controller
-Message-ID: <z2msksz2aso4mip57mlyecxaiyqrcyy4e7dh6w6mdy33mevnpb@wgx7anub3qmn>
-References: <20241106061812.6819-1-vicentiu.galanopulo@remote-tech.co.uk>
- <20241106061812.6819-2-vicentiu.galanopulo@remote-tech.co.uk>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nqJWy2wM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4A01A42C18
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1730903333; bh=zlLF8omotvZApa3hMNvREdMOe0PP8IHuj07kcO93LH8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=nqJWy2wMQC+qyxsFeZd2htuNSXGlVPULYqAA/CcvISYCFX0T2rWntfYHfE70jEhen
+	 P8blfMtfeyKT8jSp2nHOy44EJOFU7MO+V4kMdMutmUXqrp1+VSKu58gQMWPqtzUJ5k
+	 q8mnDiWouD1ZyNrrZeTw8Ye3GYze3sB6jWAw0j4MsesXS2X4zidgyvqZ3+iXbJoyAC
+	 hFfVpLi9xBqyEmwlY7FEn7nLR/SZ9LjTomWz091R1zWGsql4zq9WrO2D0H6gIHDI1l
+	 5IO9d+5zNrJJ1aCwjUK2mnqnq2fkYPgGX+g58dKfTQvAcqPnUUXYw3/VneiJZ6uCGe
+	 SxvKSJooXfzgQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4A01A42C18;
+	Wed,  6 Nov 2024 14:28:53 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Dragan Simic <dsimic@manjaro.org>, apw@canonical.com, joe@perches.com
+Cc: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+ workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, wens@csie.org, dsimic@manjaro.org
+Subject: Re: [PATCH v2 0/3] Make Helped-by tag supported
+In-Reply-To: <cover.1730874296.git.dsimic@manjaro.org>
+References: <cover.1730874296.git.dsimic@manjaro.org>
+Date: Wed, 06 Nov 2024 07:28:52 -0700
+Message-ID: <87h68k4esb.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241106061812.6819-2-vicentiu.galanopulo@remote-tech.co.uk>
+Content-Type: text/plain
 
-On Wed, Nov 06, 2024 at 06:18:08AM +0000, Vicentiu Galanopulo wrote:
-> The LED1202 is a 12-channel low quiescent current LED driver with:
->   * Supply range from 2.6 V to 5 V
->   * 20 mA current capability per channel
->   * 1.8 V compatible I2C control interface
->   * 8-bit analog dimming individual control
->   * 12-bit local PWM resolution
->   * 8 programmable patterns
-> 
-> If the led node is present in the controller then the channel is
-> set to active.
-> 
-> v1: https://lore.kernel.org/lkml/ZnCnnQfwuRueCIQ0@admins-Air/T/
-> v2: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
-> v3: https://lore.kernel.org/all/ZniNdGgKyUMV-hjq@admins-Air/T/
-> 
-> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+Dragan Simic <dsimic@manjaro.org> writes:
 
-Really, try by yourself:
+> This is a short series that adds Helped-by tag to the list of accepted
+> tags in scripts/checkpatch.pl, and describes the intended use of this new
+> tag in Documentation/process/submitting-patches.rst.
+>
+> The proposed Helped-by tag fits well to indicate someone had helped with
+> the development of a patch, to the level that doesn't warrant providing
+> a Co-developed-by tag, but is much more than it would've been indicated
+> by providing a Suggested-by tag.
 
-b4 diff 20241106061812.6819-2-vicentiu.galanopulo@remote-tech.co.uk
-Works? No. Should work? Yes and tools make it working, don't re-invent
-the process.
+The documentation is meant to cover our existing conventions, rather
+than to drive new ones - usually, at least.  There are exactly 11
+commits in the history with Helped-by, suggesting we're not really at an
+established convention at this point.  Given that there has been some
+resistance to inventing new tags, are we sure that we want this one?
 
-Best regards,
-Krzysztof
+Thanks,
 
+jon
