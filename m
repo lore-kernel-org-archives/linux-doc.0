@@ -1,154 +1,81 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40138.protonmail.ch (mail-40138.protonmail.ch [185.70.40.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AD4372;
-	Thu,  7 Nov 2024 04:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF08EC0;
+	Thu,  7 Nov 2024 04:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730953890; cv=none; b=OaKyWiznfrPQyBjtVbExmtYcy3Db6c0to/3/PXAoi9DUx7REodsMzr+JKL5a4iTmRr6X2HnSwRdxXcMyKGzilomS6UgC7pYXBnLW6vSms/1B0Ubp5lEbB9nqyBh7gDrIJgDziml19Yrtf1vXaDzSk4fRQSTrebeHhmzOMobEGjw=
+	t=1730955564; cv=none; b=TFuzg7iHGg63Ld5uP98+5iA0gzwZyBDIWEZGzW6BEU3GbyRGvLaEdn1/pqAuOGESFuG2RuZYkyEVF2Yeq5VUOocn5SObCok3mQr7djq/63lDJUWEINvrYAV1QKXxoZnPGZPSpTiSQfAaqMVt+ckHJaS/4Z42097L8lffhYuZ/jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730953890; c=relaxed/simple;
-	bh=YBg7K16J6QX1rjvLstPMBbbo5WtxqTKH7wW9aPT0AZ4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g+5ANXUBkeTGhd0sv4v2ZKz+NztiVCJ7dsMThrQVDPvgeOAeJqR5NiJjCUJF6UT5dobIUcWCE/kS9spsb7A8XF5gEkEsTK2HWjn5Mj/8/l+UNeL5UqfB6E3lrRxCLaFEe9E17lbWXBemESsufmVKQ0m0jHHPafdIji/4GECHhc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fd1utv2v; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730955564; c=relaxed/simple;
+	bh=G7Gxwsmv0+3x5lOyM08ljVWb/XbhyZ2QrdlGiuqIGGQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g98V5JJuY2GcOskM1nzfFXgnZJLq47H3fePCd4YqJIwGYDSbG8aMoGodYll2LmV6q1zx4PQHCUTvJjYaJN2xKcZDkTWuciHsPQlKrKairjaC0D+PzzUVKmCBy5nrOfyyPBNLE/daDp9KrAQ9AHI5fbvTB6aOFKuXiospyHuZnbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=LfCWsxJa; arc=none smtp.client-ip=185.70.40.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fd1utv2v"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539e59dadebso442194e87.0;
-        Wed, 06 Nov 2024 20:31:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730953886; x=1731558686; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gRkCg2WwREvUvmuCgqmdpMrJhtUN4b15M25FgIXyNck=;
-        b=fd1utv2vDvtxA1ocDqYlYBCPOmUJf8+L1rLsw6jun8KWhkMfg2a3bsieU7bwxgdlpS
-         5cHPBCEg2XavHAiQfW4NpQfCx71hKZ+1p796yjl39zvKSSbJNX9Z2qIF3D+gqNVFWSA5
-         zT97VSfY7Hbl5C+mXMG/J/DBuoisTzYFIlXJBd5WG5rmM+QQzUDFbt0kXktzLck2u3r0
-         QKGFDLA4+EJTdxJwL3+jjxLL83U4XTZHvXAZl3koa7h/sUK63zVRlOJJL5fSii6Qhc0t
-         xO6THJHlsCjHwJgkeVunAQfHaz+9sIKaE3J03818b08Wg8O4cYyKstmhfnhMc1aB1scC
-         ccXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730953886; x=1731558686;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gRkCg2WwREvUvmuCgqmdpMrJhtUN4b15M25FgIXyNck=;
-        b=rCElltuVUtbHscOiAQ26952GITRHfFj8PE3f2kJsUDGR5QccsgjbRZhps9jW6s6FZf
-         nqkiUUgzK1cKtn7wQRJ0rtCxza2Vzf5ho4EJDJbyrGfc6fDBBlI8csVIvbOSHyBzHD1X
-         05idM4kVz4/b/lNsoU4qfhQzQBWqhcQMlBBLgJdbWR8UEglyoEEz65Z87aVCsgQO4MeP
-         ABrP95BmLN9wA3mctr+6UU69E38E/oezBDFGVj94+Gqd50DVXpIf+doImct48CrFdoPA
-         UdVufeS4V7MmvvYXbnC3F4N2yFt5sEQCV/zLfTVfbxTsBroin+C2U+nOSWNDwZfWMpxC
-         b9bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUKKiJ11ja4MivW2l5oeZKVr/fgOhKpreugawEVSHziL8HPkH/2O5/YXsn2XRxzkKYjGBn/OFNn218=@vger.kernel.org, AJvYcCUvT4GOwWysGpP1YTZ8i6yOL/DpBLUkHkdx1m1crp290jKsPp+M43e5vQg5JnvqcvysuAF0QBYkFXr03czO@vger.kernel.org, AJvYcCVzMkBvixUrm3h25sYsUXGOVQM96BxIDhB9Mv/YKEQsly8JGTR1TCrBlMV5yxLDy/abImTmxq5aLvKcOOM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyg6B/szyvn3zVcqHa+961kvcgg12lq1SerWMG4Po3+VXDrde3H
-	+mGBzqA0jdVTW3q+hYg74iXs9yDEqFEFC/iYo3XtRRDiRIZUbq/UHHpc7uyqFgU5dd+u8Iz5Lps
-	kRAjQ60guFSR5Amrp7q6Xu0kXcWY=
-X-Google-Smtp-Source: AGHT+IGIhdamdcK2Mig+wvTrARkH1ryi6qF4sZog+7cY1AgdHa+yA2DoDJJhgLAndDq6NuItiG8RULDjmcrB7BNtDcY=
-X-Received: by 2002:a05:6512:3d06:b0:53a:1e5:572a with SMTP id
- 2adb3069b0e04-53b348f9926mr22052439e87.16.1730953886244; Wed, 06 Nov 2024
- 20:31:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="LfCWsxJa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1730955559; x=1731214759;
+	bh=G7Gxwsmv0+3x5lOyM08ljVWb/XbhyZ2QrdlGiuqIGGQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+	b=LfCWsxJaELfUNy4MWW7my9jM6f9EGW5SzXgj4lvlgrHZbENCgfTkxOIyqATjVaRdT
+	 GKGl6h4HcgB1OKQBkiQQbzQFojSmdQik+S7MwUKkkcEsbDcxp2qS0JuyWvb9s2RFBk
+	 GY1/3KUCwYG21nEW/ilWyrZY751vxxbxex4nE5afMhAaDb9jHQ/s/3Dc+s18i5oPec
+	 kfAv/yw30LGy7nR6gc4+/PUXnGJ/mEC7TYIM0enEvFUEi8oq7g1dBX0JWvEGYRhZ5l
+	 hyOpg50ZBFl1EyPhjOW+zGxOSMSivkH/epFHDT5RWGpMmvUbM4c0pw6cwqDZ5hPPPu
+	 go1q3MOq1VpLA==
+Date: Thu, 07 Nov 2024 04:59:14 +0000
+To: Nathan Chancellor <nathan@kernel.org>
+From: Koakuma <koachan@protonmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de, Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] sparc/build: Put usage of -fcall-used* flags behind cc-option
+Message-ID: <rYw6ZTCE58uNrfyK1pJXSaAnn3kXRYBiLf-TYQI8tnJSU3ECWG01RkUahjZC_rkJomCiROTUUvg6Jf1u5VfyBfIalrSF2jHtGqI94MGK8zg=@protonmail.com>
+In-Reply-To: <20241029222421.GA2632697@thelio-3990X>
+References: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com> <20241029-sparc-cflags-v3-1-b28745a6bd71@protonmail.com> <20241029222421.GA2632697@thelio-3990X>
+Feedback-ID: 6608610:user:proton
+X-Pm-Message-ID: 0a66f026db29138ca89fc00dcc0965591dc038fd
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241102073718.64040-1-yesanishhere@gmail.com> <Zyb8U3lSvYP0UeuN@archie.me>
-In-Reply-To: <Zyb8U3lSvYP0UeuN@archie.me>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Wed, 6 Nov 2024 20:31:14 -0800
-Message-ID: <CABCoZhAV0+MK6FEDRpojHoW4opfqNaYCtTrBTjA8O8+yurLr2A@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: machine: update documentation
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Mark,
+Nathan Chancellor <nathan@kernel.org> wrote:
+>=20
+> Clang builds now succeed with this series and builds with GCC 14.2.0
+> continue to pass and boot successfully.
+>=20
+> Reviewed-by: Nathan Chancellor nathan@kernel.org
+>=20
+> Tested-by: Nathan Chancellor nathan@kernel.org
+>=20
+> One comment below, please carry these tags forward if there are future
+> revisions without substantial technical changes.
 
-Do you have any comments, or should I
-go ahead and respin the patch to address
-the review comments?
+Forgive me for still being unfamiliar with the term, but does this mean tha=
+t
+when I send a v4 I should paste the Reviewed-by and Tested-by lines into th=
+e
+commit message of the patch?
 
-On Sat, Nov 2, 2024 at 9:30=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com>=
- wrote:
->
-> On Sat, Nov 02, 2024 at 12:37:18AM -0700, anish kumar wrote:
-> > +Additionaly below example macro can be used to register cpu, codec and
-> > +platform dai.
-> > +
-> > +SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-> > +     DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
-> > +     DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
-> > +     DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
-> > +
->
-> Make the macro usage a literal code block:
->
-> ---- >8 ----
-> diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/so=
-c/machine.rst
-> index af7bad7ba13455..8788953cd160f5 100644
-> --- a/Documentation/sound/soc/machine.rst
-> +++ b/Documentation/sound/soc/machine.rst
-> @@ -76,9 +76,9 @@ either dai name or device tree node but not both. Also,=
- names used here
->  for cpu/codec/platform dais should be globally unique.
->
->  Additionaly below example macro can be used to register cpu, codec and
-> -platform dai.
-> +platform dai::
->
-> -SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-> +  SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
->         DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
->         DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
->         DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
->
-> >  Machine Power Map
-> > ------------------
-> > +---------------------------
->
-> Keep the section underline length as-is.
->
-> >  Machine Controls
-> > -----------------
-> > +-----------------------
->
-> Likewise.
->
-> > +Clocking Controls:
-> > +=E2=80=94-----------------
-> > +
->
-> Fix the underline to render the section name as a heading:
->
-> ---- >8 ----
-> diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/so=
-c/machine.rst
-> index 8788953cd160f5..bdb9dfc5d88e45 100644
-> --- a/Documentation/sound/soc/machine.rst
-> +++ b/Documentation/sound/soc/machine.rst
-> @@ -113,8 +113,8 @@ Machine Controls
->  Machine specific audio mixer controls can be added in the DAI init funct=
-ion.
->
->
-> -Clocking Controls:
-> -=E2=80=94-----------------
-> +Clocking Controls
-> +-----------------
->
->  As previously noted, clock configuration is handled within the machine d=
-river.
->  For details on the clock APIs that the machine driver can utilize for
->
-> Thanks.
->
-> --
-> An old man doll... just what I always wanted! - Clara
+> > -KBUILD_CFLAGS +=3D -m32 -mcpu=3Dv8 -pipe -mno-fpu -fcall-used-g5 -fcal=
+l-used-g7
+> > +KBUILD_CFLAGS +=3D -m32 -mcpu=3Dv8 -pipe -mno-fpu $(call cc-option,-fc=
+all-used-g5) $(call cc-option,-fcall-used-g7)
+>=20
+>=20
+> Small nit, this (and the one in the vdso) could probably be one
+> cc-option call? Is it likely that one flag would be implemented in the
+> compiler without the other?
+>=20
+> $(call cc-option,-fcall-used-g5 -fcall-used-g7)
+
+Ah, didn't know it's possible to do that, the other uses of it I see seem
+to use one flag per call. I'll test and send a new revision, thanks.
