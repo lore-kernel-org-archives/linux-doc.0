@@ -1,81 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA5E212D07;
-	Thu,  7 Nov 2024 15:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BDD185B56;
+	Thu,  7 Nov 2024 16:01:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730994021; cv=none; b=Q7BGY+n/mugdxfEh9A1R7MKqAXZlaPAs3kZ1GFJUeOeAt1SBE/yr+RJSKp5wQ7H3vcMavYOb5rbGj7Py1G90eTgCgcpm42HJQ+BC6KcJXyZGcc6tf98jD7EHKm/bWVKQmmtTIkPHUBj6yp9rXArIFwwxM4didOKeI4+P9MH1Zh4=
+	t=1730995306; cv=none; b=kDr04ihUAIQB+G8qceL71sASy26fCXNWAwgi5Bkq5TdFkWIdLnvuUpJ8wMlh6ky5y/6lEVN3eRK5TnKDsgModL1qMytqhTpYbhUtVkuQN8CRk3AVXwKVCfWdo2mbQysERIJmnczpfEynZY4ZmcucTyEqUawpGrj5bQfjydTJfSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730994021; c=relaxed/simple;
-	bh=99mRawCrYiyprXONM9QgUaVEZFk1e6ntZv9bAFDjUBA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=OuzEbWt4P7dQIGsqn4rt7iN3OxMdJRmg+1BuO95VRtoc+vdxi2NiLFSUf5JAqq29NwLIT7WRDcG310cNBytOhzmg+maAVuFWMLvrbqNdPFXsyO3AzkkfX6PPZ/WsKkwhkPibt2GuCVicevfawuXYblHHomHrZM1PtxvbhWSw0Rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WXqnWT70; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730995306; c=relaxed/simple;
+	bh=hMklc/6WmXMZ09yE5NJe+P85xdMeI48PhxKfCNy5kXc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nSRUqGUAJ1uPtKVcII81AZ7nNJxHK+G2bIIcRSLAy9fKlAeYnyZgywjcZa5uYbO1v7KPP3PJoorhr/fsukwXIVzRUYrJqMJyeI+8ZVmpmmH7zfClYp36BoSFvCtLCbQNjyFQhxgOm/+tAIxWdbMuonBDQLQyj87is9jP2VG59+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hxRpCXWW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WXqnWT70"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A2FC4CECC;
-	Thu,  7 Nov 2024 15:40:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hxRpCXWW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E48AC4CECC;
+	Thu,  7 Nov 2024 16:01:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730994020;
-	bh=99mRawCrYiyprXONM9QgUaVEZFk1e6ntZv9bAFDjUBA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=WXqnWT70L0uCsEMEDK0W4BHqJtQFvcQOJlDNjWU4nZ2yiaoHXoGT6jULrpZoLXDpZ
-	 xQDxiRHnIv265cNFOrWyYVbUfRHoA7ubXSwOGT1dwby2BJZUnkpM8rowKrOfl6ywdj
-	 PKJWjcRdcLN/XCOcss+aZvp6dO5GAhgUvuFzat3S0NHeViZsFGIht2fDaDpEi8IeGG
-	 oUdTtS/jQ4vQSo1sbDsJbdSd41HCboKC3HGbyDM/mn37r2G6G9H7o9nN3wugYQc2F3
-	 +VsupFAUlMbOBIFNIHS1bKRWGVuPxjFI8d90RNmB6HznQQNauTrwY9BcvsVGtmPc74
-	 g8oL3FtWgeMMA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 34BA63809A80;
-	Thu,  7 Nov 2024 15:40:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1730995306;
+	bh=hMklc/6WmXMZ09yE5NJe+P85xdMeI48PhxKfCNy5kXc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hxRpCXWWnuqesbDNX7V0sh5CLPpZrsc2X058EnX9uOD2aoCCp3jbaGCnHl0biBuTU
+	 1kGpxAnG7rsNmbdlwXq1HdGkDYni+E6g35oKUfovtBtYaQyM4rLKvm6mXfD0BpegqX
+	 MULRkO5xotXaEUDb+VBx9nluqS3CFP01Cq56ARCHu8J7Yna9hkW3bps/sUkVHp15hU
+	 KG6NkSQRPzOnd/BX0AA6BBcixahnv1BiI7QE0yGIVZ9SMtK7NnPwTzQATjDly4qEwt
+	 o3QupO2W1COCQ+iwXYOnoKJJVGCWErJyatlq8OtSi3xoYgbwRWhGfjDYRZf62moAN/
+	 yuBqSBzkMtULA==
+Date: Thu, 7 Nov 2024 09:01:43 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Koakuma <koachan@protonmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Jonathan Corbet <corbet@lwn.net>, sparclinux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] sparc/build: Put usage of -fcall-used* flags
+ behind cc-option
+Message-ID: <20241107160143.GA1328360@thelio-3990X>
+References: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com>
+ <20241029-sparc-cflags-v3-1-b28745a6bd71@protonmail.com>
+ <20241029222421.GA2632697@thelio-3990X>
+ <rYw6ZTCE58uNrfyK1pJXSaAnn3kXRYBiLf-TYQI8tnJSU3ECWG01RkUahjZC_rkJomCiROTUUvg6Jf1u5VfyBfIalrSF2jHtGqI94MGK8zg=@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/1] BPF verifier documentation cleanup
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173099403000.2004583.8555324576230265420.git-patchwork-notify@kernel.org>
-Date: Thu, 07 Nov 2024 15:40:30 +0000
-References: <20241107063708.106340-1-xandfury@gmail.com>
-In-Reply-To: <20241107063708.106340-1-xandfury@gmail.com>
-To: Abhinav Saxena <xandfury@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, bpf@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, ast@kernel.org,
- daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
- eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
- haoluo@google.com, jolsa@kernel.org, corbet@lwn.net
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <rYw6ZTCE58uNrfyK1pJXSaAnn3kXRYBiLf-TYQI8tnJSU3ECWG01RkUahjZC_rkJomCiROTUUvg6Jf1u5VfyBfIalrSF2jHtGqI94MGK8zg=@protonmail.com>
 
-Hello:
-
-This patch was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
-
-On Wed,  6 Nov 2024 23:37:07 -0700 you wrote:
-> Hi everyone,
+On Thu, Nov 07, 2024 at 04:59:14AM +0000, Koakuma wrote:
+> Nathan Chancellor <nathan@kernel.org> wrote:
+> > 
+> > Clang builds now succeed with this series and builds with GCC 14.2.0
+> > continue to pass and boot successfully.
+> > 
+> > Reviewed-by: Nathan Chancellor nathan@kernel.org
+> > 
+> > Tested-by: Nathan Chancellor nathan@kernel.org
+> > 
+> > One comment below, please carry these tags forward if there are future
+> > revisions without substantial technical changes.
 > 
-> I am interested in contributing to the BPF subsystem, starting with
-> documentation cleanup. The patch removes trailing whitespace from the
-> verifier documentation to maintain consistent formatting.
+> Forgive me for still being unfamiliar with the term, but does this mean that
+
+No worries, it is definitely a customary thing.
+
+> when I send a v4 I should paste the Reviewed-by and Tested-by lines into the
+> commit message of the patch?
+
+Yes, you should add them either right above or right below your signoff.
+It is up to the submitter to add tags that have been sent on prior
+revisions when sending an updated version, assuming that there has not
+been a reason to drop them, such as substantial changes from a prior
+version that might require a new review or testing. In that case, I
+typically add a note in the changelog as to why I did not carry them
+forward.
+
+The tip documentation 4.2.3 through 4.2.6 has some good information
+about some other Linux kernel commit message expectations if you find
+yourself submitting more patches in the future:
+
+https://docs.kernel.org/process/maintainer-tip.html#changelog
+
+> > > -KBUILD_CFLAGS += -m32 -mcpu=v8 -pipe -mno-fpu -fcall-used-g5 -fcall-used-g7
+> > > +KBUILD_CFLAGS += -m32 -mcpu=v8 -pipe -mno-fpu $(call cc-option,-fcall-used-g5) $(call cc-option,-fcall-used-g7)
+> > 
+> > 
+> > Small nit, this (and the one in the vdso) could probably be one
+> > cc-option call? Is it likely that one flag would be implemented in the
+> > compiler without the other?
+> > 
+> > $(call cc-option,-fcall-used-g5 -fcall-used-g7)
 > 
-> I have tested this patch with scripts/checkpatch.pl and it reports no
-> issues.
-> 
-> [...]
+> Ah, didn't know it's possible to do that, the other uses of it I see seem
+> to use one flag per call. I'll test and send a new revision, thanks.
 
-Here is the summary with links:
-  - [1/1] docs: bpf: verifier: remove trailing whitespace
-    https://git.kernel.org/bpf/bpf-next/c/342f751e15c3
+Yeah, I would agree that it is typical to use cc-option for one flag at
+a time but the entire string just gets passed to $(CC), so there is
+technically no limitation for how many flags can be tested. This happens
+to be a rare instance where the flags share a common internal compiler
+implementation so we know that one cannot be implemented without the
+other.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Cheers,
+Nathan
