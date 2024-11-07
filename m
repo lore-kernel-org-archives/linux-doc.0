@@ -1,59 +1,59 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63D9193438
-	for <linux-doc@vger.kernel.org>; Thu,  7 Nov 2024 06:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA8A802
+	for <linux-doc@vger.kernel.org>; Thu,  7 Nov 2024 07:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730962053; cv=none; b=auV+/0TUgo1CEMw9ViNS8jvAN3Lib9T5sgT5v/v6Ha2bdtS8SAXRlF0TbjNN8qu9fxXpZdzGuF7ALkEcjpyWCFK6prig2VpB9WCdJ/3kXcU0p+mWqZScIDNM9gUzr70gtBlYPS7T/R3bx9rucQhK/XGE3bk5zbYc3MKRk4FVA+c=
+	t=1730963263; cv=none; b=j7/ov6ZTLIka5stW8l3Ugndqg40FZsyJpDkm6DtsUdNC6lnsoATMa0OrPkymBe5TtX5ovSV0zbWO7x6xyfcyuc0to7ALBGn9i7vkWqyLZdJxl02fKyr3r7WaX9c8MzaWjDewO3UROzam/UWkXbiay5uAdlEYlKW76R96Xt1ntrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730962053; c=relaxed/simple;
-	bh=ocy21hewhSAxDYmjcwPkCD/e6H5tK1tO/YDxSNJA5gg=;
+	s=arc-20240116; t=1730963263; c=relaxed/simple;
+	bh=NYEYaszDCKS6MIiIuxuXn81pOqKy8MbBGIZkvXZMufI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aHjykJYqsxUfOkea7LsyJh9IPbaewO6raTMGqHlpvo/mW+qrsyjrUpsZuUmHl0MRwTJ70GbLyA/vEhLHXun5n28/KyRWZ3R3vDpkkM0j48owdj1B1tZQQMifgTVzmAmZbTovdEhl00bBfMg6R9828lFJiQ9B4sTl8d+zufGWQHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=IGwfooxI; arc=none smtp.client-ip=209.85.210.177
+	 In-Reply-To:Content-Type; b=uF7huU9DwTsR+qEJGvItTozjykbF/E1Xr0JJdAGnqyujDiIQEb6ECXi/JmSEHtYLUff065cnRJytEGtnpg1cHOm2SEXjLyWk5KU8mL+NXTTbXibpx/5I8Y/lz+vjcRgWRjLHQ+C2eB3FMmzceOJ9Z2sLZscZg9mkX5jNAUbAoIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=KKR17yro; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="IGwfooxI"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-72041ff06a0so471203b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 06 Nov 2024 22:47:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="KKR17yro"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-656d8b346d2so481518a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 06 Nov 2024 23:07:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1730962051; x=1731566851; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1730963261; x=1731568061; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=s4sYJYVbNn+8nZHewUYqHaSq6iJqGNPs8Z77SlmIpAU=;
-        b=IGwfooxItxr2eZv0Z6GebPYXkNiKtZQTDa9+C3jDPMSvd/nreT/SlUrmCsqHMsEl8R
-         7c75cPpXaqCny/fci5KFlGzHiAxNlUddAKefRPmnjedzIfmCk1p2PEHiYfIaLbUzJOEE
-         1XiVsRDxPbSyelvE5M/qPlRwKw+/VsuqsXYsD6v0dtpSlS2HcwWMyokYhwzh3ND4moY/
-         weS3OEE0Kji4mKge3Yid4t6k+jujD1MhNQag1LmNOtvWwV7vkjFxo2duEBf/FfyE4aTq
-         0R75mpU43oVS4RNy2MD0iQWIp5PrZrO+03MAj6I8E25kd/fGADokFuecyqZ/xtp+EsHo
-         cb6Q==
+        bh=t9J6ZkVLkF9TjYcxor30Dw8R0oFPmno4Aqm71Ans3kY=;
+        b=KKR17yrog/KDtRshwJRhQviUDHtks3uUp39ng9SGrhvwa7cfY/faa2aZeEUYGke1eZ
+         4LyNypexRNdMRe6/zqy6tIh/I9vV8Azg79XfXQdj4Wlmp7ns+q+uKqjCNU1Gbas59p4e
+         tGZQjfzzFNim5f0cTMZVpXT4gThkIC3/X0APSQZc9kDzLeFp4XQRqFEw0mxtWl1CPuko
+         7NFZ9XN8MmQOG5xxD44zwoSYMJxWX96qXv4z8scMmGYJODqieVLUQN515dXJryC9yqvG
+         8wcME2PS4qK0ujB3r52KZcw7LTBR3SMasw/jlNtJ93k6tUg9VSwFyTEpjaqLFGHDVg8h
+         uumA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730962051; x=1731566851;
+        d=1e100.net; s=20230601; t=1730963261; x=1731568061;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s4sYJYVbNn+8nZHewUYqHaSq6iJqGNPs8Z77SlmIpAU=;
-        b=rWfWKq9UtGTOJqEgzKAcVQukHN6MT3Cg9OtfIF088NusLPskrNiAFjxcDrONovErzW
-         FOhKSUeQfnXpGT4Wa5WbcFjV87pb8iJG2S1sAB7757NdaJsc0HejaJMBVLAfCYAcoCAQ
-         KW1J9VKM8HzvwteXeOoicQPBzUWlXkKc7rGI2aBjfyoQqggqdbD6qU7fybKcDlUsB4mb
-         6QkDN2HajAw9eAwQ+7xyRfUFXzySuINF5ajYjDA2D9OHVskS2GXJTjAXwrJs+FZFG3xN
-         zYXr1tjSY2riig0KaIOh//2Mf3PdVgecTGqd4wPZSQkVMRw5S0mNFmS0V+btYQjUJSCz
-         ydRA==
-X-Forwarded-Encrypted: i=1; AJvYcCVs8jufQNI2zZGkfOZi9qYx3MaJ+PV4/ObHeGnCKHz5jJ3Kfiiim7klCpWW+XKZ40wFtcgQjQCQmXY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxrToCj+Mzr9zr1vwdITKa4qph1f8ijtMX+0MRXolyJHp6XIhz
-	e8SAI/Us373e84B/CJwc4Xkqv8f68Dl3omp0geVqpJUpWhKEJIzDZmABla1OX8k=
-X-Google-Smtp-Source: AGHT+IGp00cwnqhnTxAKDFFNKj94JDLmBpGJ7s9/Sh6DkVmQYzY5A32qRipE+c1ujUWd9JYadTCp2w==
-X-Received: by 2002:a05:6a00:3917:b0:71d:e93e:f542 with SMTP id d2e1a72fcca58-720c9990c4amr28075226b3a.21.1730962051155;
-        Wed, 06 Nov 2024 22:47:31 -0800 (PST)
+        bh=t9J6ZkVLkF9TjYcxor30Dw8R0oFPmno4Aqm71Ans3kY=;
+        b=wTSgdsIMnkhHk3wC+Wvgc6XD9/DXU3RVw7IhUs6CgtlALLV3KidHLeZr1/mwLbsr8F
+         k3yADwaduyyJc29+ZLq50pwMtEs2thuDKqFR83L5fxYck1katnFL62/U97hjob3tECWu
+         KKLaNmEWdPNS8tQB+1rMkszhp3uXmFjEN7mI6K93itarjKgKTzp/rkAUyF02cHdi07+C
+         gh3BhzEPuk5ftvFhi0WTkF0fEExtvFFuZwfdf8UedJJ9aTdCnIhBNZhfVa1UBUiUV8yM
+         KD5zYABxjjTg5/hLvLuSHpguKvFe0uznioR4jay9Va4kJIR3xh+79cc/ykhTv3L7o09x
+         u/Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCXK8uqg0/poICerOdja+Xmq9lA+rEET9MecU/Hnp5phYHnJI75V5bDqhymDDzdMHWCT0qcmN6fzvbY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOExNqCDibUVnmEez9Fjfp7eYxeVwyY5kQiNFTOK8oHoVUqVoG
+	GBAbxsTdSSq6CmGBh6/AC9VqQwzW8JJ2nRBLRnfTazqRtTtWF0OmGXGCQjiI9dI=
+X-Google-Smtp-Source: AGHT+IHf4CApQHJTCaTaCg14Ohd9icv9JUFttYZZ8i+nL6y8/wPd1vccYgmdOWC5BimsZ1SOppfnwA==
+X-Received: by 2002:a05:6a21:3382:b0:1db:e0ad:8ff6 with SMTP id adf61e73a8af0-1dbe0ad944amr16241954637.1.1730963260628;
+        Wed, 06 Nov 2024 23:07:40 -0800 (PST)
 Received: from [10.84.149.95] ([63.216.146.178])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078ce169sm722303b3a.86.2024.11.06.22.47.25
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72407a17ebcsm746789b3a.138.2024.11.06.23.07.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2024 22:47:30 -0800 (PST)
-Message-ID: <356ef11a-02aa-4661-b8af-4c72cef5c9b5@bytedance.com>
-Date: Thu, 7 Nov 2024 14:47:21 +0800
+        Wed, 06 Nov 2024 23:07:40 -0800 (PST)
+Message-ID: <28a9f8d6-3b8e-44c6-9458-062a7fe2b8e1@bytedance.com>
+Date: Thu, 7 Nov 2024 15:07:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,9 +63,9 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH] docs/mm: add VMA locks documentation
 Content-Language: en-US
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>,
+To: Jann Horn <jannh@google.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
  "Liam R . Howlett" <Liam.Howlett@oracle.com>,
  Vlastimil Babka <vbabka@suse.cz>, Alice Ryhl <aliceryhl@google.com>,
  Boqun Feng <boqun.feng@gmail.com>, Matthew Wilcox <willy@infradead.org>,
@@ -75,62 +75,102 @@ Cc: Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
 References: <20241101185033.131880-1-lorenzo.stoakes@oracle.com>
  <CAG48ez0qsAM-dkOUDetmNBSK4typ5t_FvMvtGiB7wQsP-G1jVg@mail.gmail.com>
  <2bf6329e-eb3b-4c5e-bd3a-b519eefffd63@lucifer.local>
- <5969f498-a515-4394-a2b6-5d3abe2872aa@bytedance.com>
- <ad882462-0ae9-4ca7-bbf7-7728de71c422@lucifer.local>
+ <CAG48ez1eeQatc0GC_hfOM_mvwjwQ=89JDmp_U5_diLy7ycjEdQ@mail.gmail.com>
+ <c0f64fa7-81fd-4691-86b5-2ad39ba9d8a7@bytedance.com>
+ <CAG48ez3hyaymBo_Y9V2Hpx8TRHbE2WyZoeLhi1n0VW9Np7iw2Q@mail.gmail.com>
 From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <ad882462-0ae9-4ca7-bbf7-7728de71c422@lucifer.local>
+In-Reply-To: <CAG48ez3hyaymBo_Y9V2Hpx8TRHbE2WyZoeLhi1n0VW9Np7iw2Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 
-On 2024/11/6 19:28, Lorenzo Stoakes wrote:
-> On Wed, Nov 06, 2024 at 10:56:29AM +0800, Qi Zheng wrote:
->>
->>
->> On 2024/11/5 00:42, Lorenzo Stoakes wrote:
->>> On Sat, Nov 02, 2024 at 02:45:35AM +0100, Jann Horn wrote:
->>>> On Fri, Nov 1, 2024 at 7:50 PM Lorenzo Stoakes
+On 2024/11/7 02:09, Jann Horn wrote:
+> On Wed, Nov 6, 2024 at 4:09 AM Qi Zheng <zhengqi.arch@bytedance.com> wrote:
+>> On 2024/11/5 05:29, Jann Horn wrote:
+>>> On Mon, Nov 4, 2024 at 5:42 PM Lorenzo Stoakes
 >>
 >> [...]
 >>
->>>>> +
->>>>> +Page table locks
->>>>> +----------------
->>
->> Many thanks to Lorenzo for documenting page table locks! This is really
->> needed. And at a glance, I agree with Jann's additions.
-> 
-> Thanks!
-> 
-> Will be respinning with all comments taken into account relatively soon.
-> 
->>
->>>>
->>>> (except last-level page tables: khugepaged already deletes those for
->>>> file mappings without using the mmap lock at all in
->>>> retract_page_tables(), and there is a pending series that will do the
->>>> same with page tables in other VMAs too, see
->>>> <https://lore.kernel.org/all/cover.1729157502.git.zhengqi.arch@bytedance.com/>)
->>
->> Thanks to Jann for mentioning this series, I just updated it to v2
->> recently:
->>
->> https://lore.kernel.org/lkml/cover.1730360798.git.zhengqi.arch@bytedance.com/
-> 
-> Yeah I need to read through a little bit as I was unaware of these paths (mm is
-> a big and sprawling subsystem more so than one might expect... :)
-> 
-> Could you cc- me on any respin, as at least an interested observer? Thanks!
-
-Sure, will cc- you in the next version. ;)
-
-> 
->>
 >>>
->>> Ugh wut OK haha. Will look into this.
+>>> I think it's important to know about the existence of hardware writes
+>>> because it means you need atomic operations when making changes to
+>>> page tables. Like, for example, in many cases when changing a present
+>>> PTE, you can't even use READ_ONCE()/WRITE_ONCE() for PTEs and need
+>>> atomic RMW operations instead - see for example ptep_get_and_clear(),
+>>> which is basically implemented in arch code as an atomic xchg so that
+>>> it can't miss concurrent A/D bit updates.
+>>>
 >>
->> Thanks!
+>> Totally agree! But I noticed before that ptep_clear() doesn't seem
+>> to need atomic operations because it doesn't need to care about the
+>> A/D bit.
 >>
+>> I once looked at the history of how the ptep_clear() was introduced.
+>> If you are interested, you can take a look at my local draft below.
+>> Maybe I missed something.
+>>
+>> ```
+>> mm: pgtable: make ptep_clear() non-atomic
+>>
+>>       In the generic ptep_get_and_clear() implementation, it is just a simple
+>>       combination of ptep_get() and pte_clear(). But for some architectures
+>>       (such as x86 and arm64, etc), the hardware will modify the A/D bits
+>> of the
+>>       page table entry, so the ptep_get_and_clear() needs to be overwritten
+>>       and implemented as an atomic operation to avoid contention, which has a
+>>       performance cost.
+>>
+>>       The commit d283d422c6c4 ("x86: mm: add x86_64 support for page table
+>>       check") adds the ptep_clear() on the x86, and makes it call
+>>       ptep_get_and_clear() when CONFIG_PAGE_TABLE_CHECK is enabled. The page
+>>       table check feature does not actually care about the A/D bits, so only
+>>       ptep_get() + pte_clear() should be called. But considering that the
+>> page
+>>       table check is a debug option, this should not have much of an impact.
+>>
+>>       But then the commit de8c8e52836d ("mm: page_table_check: add hooks to
+>>       public helpers") changed ptep_clear() to unconditionally call
+>>       ptep_get_and_clear(), so that the  CONFIG_PAGE_TABLE_CHECK check can be
+>>       put into the page table check stubs (in
+>> include/linux/page_table_check.h).
+>>       This also cause performance loss to the kernel without
+>>       CONFIG_PAGE_TABLE_CHECK enabled, which doesn't make sense.
+>>
+>>       To fix it, just calling ptep_get() and pte_clear() in the ptep_clear().
+>>
+>>       Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+>>
+>> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+>> index 117b807e3f894..2ace92293f5f5 100644
+>> --- a/include/linux/pgtable.h
+>> +++ b/include/linux/pgtable.h
+>> @@ -506,7 +506,10 @@ static inline void clear_young_dirty_ptes(struct
+>> vm_area_struct *vma,
+>>    static inline void ptep_clear(struct mm_struct *mm, unsigned long addr,
+>>                                 pte_t *ptep)
+>>    {
+>> -       ptep_get_and_clear(mm, addr, ptep);
+>> +       pte_t pte = ptep_get(ptep);
+>> +
+>> +       pte_clear(mm, addr, ptep);
+>> +       page_table_check_pte_clear(mm, pte);
+>>    }
+>>
+>> ```
 > 
-> :>)
+> ptep_clear() is currently only used in debug code and in khugepaged
+> collapse paths, which are fairly expensive, so I don't think the cost
+> of an extra atomic RMW op should matter here; but yeah, the change
+> looks correct to me.
+
+Thanks for double-checking it! And I agree that an extra atomic RMW op
+is not a problem in the current call path. But this may be used for
+other paths in the future. After all, for the present pte entry, we
+need to call ptep_clear() instead of pte_clear() to ensure that
+PAGE_TABLE_CHECK works properly.
+
+Maybe this is worth sending a formal patch. ;)
+
+Thanks!
+
