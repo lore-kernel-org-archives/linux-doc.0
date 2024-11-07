@@ -1,106 +1,75 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59B320E00B;
-	Wed,  6 Nov 2024 23:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF952621;
+	Thu,  7 Nov 2024 00:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730937144; cv=none; b=s8db0blV05MUSpWQQjvpAR9I5pHSW7BPrJEzR098TLDt3teEroZHNbM8veQ0GuWnoWjnObnRbATxAgHq+FQbAlTJxdt2cAm9hSBfT1ICQ4FIj87Lz3piZ0/mFNzmdsvE6MFtLG2B6TO/A8t/9Xt/PEPkM+ThFJNKxKDujLsggM4=
+	t=1730938201; cv=none; b=M9yMITpiJUOwMSaqEM4LJFvjGsVw9gKjLbO5+z0sd/wOwNCfo/2nIR+aThtiCQiCCiqkKL1UBYuA45pOBqI8lxplMeB7HhlCftQ/Gt5Yjddzunv0vtZ4F8eXwlPCt/yP4ioSMoakt/w+NZwoTOgAUPfYCACD7tPpy3JpWzXvZro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730937144; c=relaxed/simple;
-	bh=8vf+K6JwL9Su/uwu8IdndaFHxeNiHJK4imkCcmwbNAM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OBAPK+FEIdEaCVhAqDQqzQIci5KZTt4kPAxACDuffgHpEsH2wL9AuyR+BgQptyXhJyTGE/7LssxCH9GTCQrfoht/+V4Ubpr8Ycuaf2AgmAwx0s7XUCZZ2lopMP1xxQJfDNZ+58tldclJD2pon2jqoQu6wLgGn6uo2i3sKakfCS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mFDSzYp+; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730938201; c=relaxed/simple;
+	bh=ahJJ66zHU05O74HVdHJzt0TPlEhGTsvZ3dF1zQoUn14=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r6g3F+JcMo/I+ENo3f5FvSrhxBnzT6Ppp7w0Ffs5HfoZW3Q+51EgRQKYRXWyH0GCutcJuhs2AzTNxur03senSYL8bFM2hLqRE1rh8xGM+uZ4C+1LTfRsAouAXG8fxiA1cyLSskDvkC8SKPcgcuCyyGcflL5FtNvhKshhwg2qZPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lsQ0t20I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mFDSzYp+"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-71e953f4e7cso230238b3a.3;
-        Wed, 06 Nov 2024 15:52:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730937142; x=1731541942; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mk7Tp+RjS5BgkuwZhoTl8pH8m0pljr6UbcMTui39Ycg=;
-        b=mFDSzYp+eGTi9g252OJKMItH6tkI07ACK0RHyvAAdTcWj4mapFE6XfXLLECf0nvJhR
-         SCD3JhFrx6eE8fjS3CDZsScjwSfeIQGwzluj8V5+3Ti9p3AP6jQC7/p1ReMk0G6f+CPK
-         xqvExuORmUhRT0axi7oxXJZ9f57ImrOWUMFFyfQiC6bKBKnRLTidsueB+c2pg0/DH61a
-         et1VMv1sh7TlLUymm7Itt24fZTtg06UUkoInRkIXcMwXFvFkC7mLU9/adQESam5CIc8U
-         L2ZyVnYmGu/bUdy+jttLdWN6U/CvPHDuGQNU8yDvyucGmkcZzK+xPD2cnaKuV+/O1umn
-         pg1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730937142; x=1731541942;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mk7Tp+RjS5BgkuwZhoTl8pH8m0pljr6UbcMTui39Ycg=;
-        b=cuHVe5YP1wVVat3snb6FQNpTKsvaAN29cOGXtqdt2xqXJB7LegsHY9gh4W9m0OE5Le
-         8+uTTU84XGwRsesJXU+dZJdZnfl3lj3d1+h+YUnBkqITdZrSaOLqkyOzY0L9s7Z9pKF6
-         AGpv2noVfWh+A/8D/Ixgz7jLqS29MrMk6JCMGtp16c6hL/xq44StSA/JgIIfTM7+jms/
-         Jn+UikLzfp+oeWs4v65ufrIkfDEPUzRe7zV97iNbmCF2KSNgRqb6qOcLQ7Ybl9ehW4tc
-         C7NA0j31LfqO0Jd6fWlevfsAxWBd/JV2r1rumUrO5oZ33WTXl/sACPT+Rmi1zYgaZuTY
-         t0dw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0Pep0Q+D9cqMvmSB+IlOa0cOm0ud7tZCpe2L/txtD9z887eyEvTFQwooQq2LP6PVJOX/Bnnogcf0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDvz7zRR7tNx0J4mhqVFRjjaPMJOV80RiLqTFdKVl/WYMxzZXL
-	pEA+VA6QJvvnAAauTwRS1Y4Tv8gTL518p1RTKC9ywh99b1ZeJXAkzVZ05GAzDNs=
-X-Google-Smtp-Source: AGHT+IE6JiMF31f+svf6/ZmhCyKP/bwqW/n3LIDQLf0PSHY/jFJLtiob+Ff2r9PmoipDkjqOftQ0Dw==
-X-Received: by 2002:a05:6a00:22c5:b0:71e:e3:608 with SMTP id d2e1a72fcca58-720c99bb6e5mr28241031b3a.26.1730937142249;
-        Wed, 06 Nov 2024 15:52:22 -0800 (PST)
-Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:c934:17a7:b0a5:6e02])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72407a57105sm115903b3a.192.2024.11.06.15.52.20
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 06 Nov 2024 15:52:21 -0800 (PST)
-From: anish kumar <yesanishhere@gmail.com>
-To: corbet@lwn.net,
-	broonie@kernel.org,
-	dlechner@baylibre.com,
-	u.kleine-koenig@pengutronix.de,
-	Jonathan.Cameron@huawei.com,
-	pstanner@redhat.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: [PATCH 2/2] Documentation: devres: add missing remoteproc helpers
-Date: Wed,  6 Nov 2024 15:52:17 -0800
-Message-Id: <20241106235217.94718-2-yesanishhere@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20241106235217.94718-1-yesanishhere@gmail.com>
-References: <20241106235217.94718-1-yesanishhere@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lsQ0t20I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FB8EC4CEC6;
+	Thu,  7 Nov 2024 00:09:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730938200;
+	bh=ahJJ66zHU05O74HVdHJzt0TPlEhGTsvZ3dF1zQoUn14=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lsQ0t20IwarFbJ2em6VqcpTNT2X+mVuMHAgvasRwD7LNz3KqPPAjmuy79qAsMUi5x
+	 iSD3EiSrHUF+45lkum9NSMz7qLI5KgcJeKH15ObrWOWIOChavCj0p5Wq3SiNU97oe6
+	 ltkzg1D5wDTFztIGseIaLdsHCHb1FyjYksIU8ZSobLt7DmSWOTrtson85eo/441p1L
+	 ymOd74czcubFQaCVCOQTtP30rH0Hdc13vw7g9ut9oOO15v8c1WY5JwGBFTTpgYzi/V
+	 I0U/VeBxLpw9r2MeITtxlxiLGPdST8eJMo53yLmnoY5s1hSfnAa0rX0HEJUwaHBSjj
+	 4UFJ8m9Q2v6cQ==
+Date: Wed, 6 Nov 2024 16:09:58 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+ Sanman Pradhan <sanman.p211993@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, netdev@vger.kernel.org, alexanderduyck@fb.com,
+ kernel-team@meta.com, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ mohsin.bashr@gmail.com, sanmanpradhan@meta.com, andrew+netdev@lunn.ch,
+ vadim.fedorenko@linux.dev, jdamato@fastly.com, sdf@fomichev.me,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Subject: Re: [PATCH net-next] eth: fbnic: Add PCIe hardware statistics
+Message-ID: <20241106160958.6d287fd8@kernel.org>
+In-Reply-To: <76fdd29a-c7fa-4b99-ae63-cce17c91dae9@lunn.ch>
+References: <20241106122251.GC5006@unreal>
+	<20241106171257.GA1529850@bhelgaas>
+	<76fdd29a-c7fa-4b99-ae63-cce17c91dae9@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-remoteproc helpers were missing from the devres documentation.
-This patch adds them.
+On Wed, 6 Nov 2024 18:36:16 +0100 Andrew Lunn wrote:
+> > How would this be done in the PCI core?  As far as I can tell, all
+> > these registers are device-specific and live in some device BAR.  
+> 
+> Is this a licences PCIe core?
+> 
+> Could the same statistics appear in other devices which licence the
+> same core? Maybe this needs pulling out into a helper?
 
-Signed-off-by: anish kumar <yesanishhere@gmail.com>
----
- Documentation/driver-api/driver-model/devres.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+The core is licensed but I believe the _USER in the defines names means
+the stats sit in the integration logic not the licensed IP. I could be
+wrong.
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index 8350a098f81f..7bf06e5c9274 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -448,6 +448,12 @@ REGULATOR
-   devm_regulator_register_supply_alias()
-   devm_regulator_unregister_notifier()
- 
-+REMOTEPROC
-+  devm_rproc_add()
-+  devm_rproc_free()
-+  devm_rproc_alloc()
-+  devm_rproc_remove()
-+
- RESET
-   devm_reset_control_get()
-   devm_reset_controller_register()
--- 
-2.39.3 (Apple Git-146)
+> If this is true, other uses of this core might not be networking
+> hardware, so ethtool -S would not be the best interfaces. Then they
+> should appear in debugfs?
 
+I tried to push back on adding PCIe config to network tooling,
+and nobody listened. Look at all the PCI stuff in devlink params.
+Some vendors dump PCIe signal integrity into ethtool -S
