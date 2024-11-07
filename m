@@ -1,49 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41241D54C5;
-	Thu,  7 Nov 2024 08:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317DA130A7D;
+	Thu,  7 Nov 2024 08:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730967812; cv=none; b=VcsR2OjlG3ZtAo+xsmSDvrDdILwj1+2zKm+YohWJwUqHlQK9M0vx7RMosbR0dQG+PZ0RH5s7btIKDGDUV3waTbFYmWHL/HKS0W7YCMlrR4GkhxIQZFrfM+wli+1xcuH8Get+cQFWMCxgQ64qQA3NTaP95EqzrGNeIGuSn8kX92g=
+	t=1730968385; cv=none; b=HElfQ84nRhXuslRwtQ80dN3vwGW/yR8TiOaVsNNfk+1dfnh5UJ+d+QuF1VYUTESEHPI5/uYlg22YG3BUDtVW9zIW8CYXXhg5ojlFXaMEJdcIQL43KJrJ9gNTeG7X1UrsRgZT6Ck5Xf0ux1iRtgD1JNn5diryuUUsPw6WT5I2s/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730967812; c=relaxed/simple;
-	bh=Jbge6csLBNINYCXV95rg8/Nd3s0MiFub4Pcr7+ZJbGg=;
+	s=arc-20240116; t=1730968385; c=relaxed/simple;
+	bh=Q5vqlG4GRkS0wGm8P5LN2aEevhS4iCH3ohyd5g2YAZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K+UM+S17rxexX1Ikk5T/UrynA5IcZIJxVmj1DT8JqHyQASgWxds6wGPWOCA/Bc/1tuieiYkOUPGHF/UDzkIPrtMRA+JwxOhSNgS3MpdSzybHMjET4/UBngkURkPgHHk1WBPj5cnOA+3YIyKFKLC/m3Qd+ZLU4uS+0VVFt6Npxfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNYIz/hX; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNYIz/hX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8C65C4CECC;
-	Thu,  7 Nov 2024 08:23:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730967811;
-	bh=Jbge6csLBNINYCXV95rg8/Nd3s0MiFub4Pcr7+ZJbGg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nNYIz/hXsVN4JPR71e8KybkNE5EmOacdX6hsKefcdPD8zebVEv549cZXEDemLFV+G
-	 IdVj9iLlPa3+LsbQKetSkti8VpRkDFBxrByZ787p6MmLMPDOXd760ugIqFOVVM0ZHE
-	 e6fwG+epmtbdae8AHOV1K3DuyhFpMicylMfuukRAPCq3kAa4k1zEzAII7H7b2IOh4Y
-	 wvmhIQR+egU+5GacIGE4O4sNeHo36O1xF48yypbI3x5k8aIBUgq5tK0o9w/7j7yK9u
-	 SIvz91ooHyqy+Tu2Vm2hCmUjq1W6zbha9lGq62QLT9dAlL/Ws3cIijs2mPDZAK+qKG
-	 lsJ3xijuWWLPg==
-Date: Thu, 7 Nov 2024 10:23:27 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Bjorn Helgaas <helgaas@kernel.org>,
-	Sanman Pradhan <sanman.p211993@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, netdev@vger.kernel.org,
-	alexanderduyck@fb.com, kernel-team@meta.com, davem@davemloft.net,
-	edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, mohsin.bashr@gmail.com, sanmanpradhan@meta.com,
-	andrew+netdev@lunn.ch, vadim.fedorenko@linux.dev,
-	jdamato@fastly.com, sdf@fomichev.me, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH net-next] eth: fbnic: Add PCIe hardware statistics
-Message-ID: <20241107082327.GI5006@unreal>
-References: <20241106122251.GC5006@unreal>
- <20241106171257.GA1529850@bhelgaas>
- <76fdd29a-c7fa-4b99-ae63-cce17c91dae9@lunn.ch>
- <20241106160958.6d287fd8@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BxsFN4AlmqpgW7qfSm6yAFa9SNsqzb2Qxvii4yaBuagLaexsO62UYmY7FOt5y9+oddLAErAxi11AUAnPS+xwmB1tPiiUk5sEoefLd/AH7onuT7+n+9JNUH5jZUqX3sah6TDhQl6gkq39r9vpOHWsZPKeEz1BNISstfataG18nDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B5FAE68AA6; Thu,  7 Nov 2024 09:32:56 +0100 (CET)
+Date: Thu, 7 Nov 2024 09:32:56 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+	Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241107083256.GA9071@lst.de>
+References: <cover.1730298502.git.leon@kernel.org> <3567312e-5942-4037-93dc-587f25f0778c@arm.com> <20241104095831.GA28751@lst.de> <20241105195357.GI35848@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,31 +48,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241106160958.6d287fd8@kernel.org>
+In-Reply-To: <20241105195357.GI35848@ziepe.ca>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Nov 06, 2024 at 04:09:58PM -0800, Jakub Kicinski wrote:
-> On Wed, 6 Nov 2024 18:36:16 +0100 Andrew Lunn wrote:
-> > > How would this be done in the PCI core?  As far as I can tell, all
-> > > these registers are device-specific and live in some device BAR.  
-> > 
-> > Is this a licences PCIe core?
-> > 
-> > Could the same statistics appear in other devices which licence the
-> > same core? Maybe this needs pulling out into a helper?
+On Tue, Nov 05, 2024 at 03:53:57PM -0400, Jason Gunthorpe wrote:
+> > Yeah, I don't really get the struct page argument.  In fact if we look
+> > at the nitty-gritty details of dma_map_page it doesn't really need a
+> > page at all. 
 > 
-> The core is licensed but I believe the _USER in the defines names means
-> the stats sit in the integration logic not the licensed IP. I could be
-> wrong.
+> Today, if you want to map a P2P address you must have a struct page,
+> because page->pgmap is the only source of information on the P2P
+> topology.
 > 
-> > If this is true, other uses of this core might not be networking
-> > hardware, so ethtool -S would not be the best interfaces. Then they
-> > should appear in debugfs?
-> 
-> I tried to push back on adding PCIe config to network tooling,
-> and nobody listened. Look at all the PCI stuff in devlink params.
-> Some vendors dump PCIe signal integrity into ethtool -S
+> So the logic is, to get P2P without struct page we need a way to have
+> all the features of dma_map_sg() but without a mandatory scatterlist
+> because we cannot remove struct page from scatterlist.
 
-Can you please give an example? I grepped various keywords and didn't
-find anything suspicious.
+Well, that is true but also not the point.  The hard part is to
+find the P2P routing information without the page.  After that
+any physical address based interface will work, including a trivial
+dma_map_phys.
 
-Thanks
+> > At least for the block code we have a nice little core wrapper that is
+> > very easy to use, and provides a great reduction of memory use and
+> > allocations.  The HMM use case I'll let others talk about.
+> 
+> I saw the Intel XE team make a complicated integration with the DMA
+> API that wasn't so good. They were looking at an earlier version of
+> this and I think the feedback was positive. It should make a big
+> difference, but we will need to see what they come up and possibly
+> tweak things.
+
+Not even sure what XE is, but do you have a pointer to it?  It would
+really be great if people having DMA problems talked to the dma-mapping
+and iommu maintaines / list..
+
