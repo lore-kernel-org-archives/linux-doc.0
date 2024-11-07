@@ -1,178 +1,140 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5A06FBF;
-	Thu,  7 Nov 2024 03:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90472E62B;
+	Thu,  7 Nov 2024 03:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730949656; cv=none; b=UWV4uj3aFnvKNUbnKkyBRojP0YJvduz4SzfDY2V6g2oMw6LYqKGOsceE5Lo1WjX+ZQ7HPjJF9U2QeHlFw6uriO2pL7qZZV3FNfPcIbQQp2ZzsLgYIo3udqmYPM8fgweGX6QpS8Mc6dPLT+sa9zDLA/SBHVuUzDTpAkTNByAWIgs=
+	t=1730950392; cv=none; b=b94jl9qoEi5tVmcRnyLRzoCc6UHdyiU3ThT3zHONtSqJ5TojHrOQLXp2wiPpFJ4mSBwf+Lh5B//us5Y5pR27UdxCamUJWVnr//jRq/i9KLQydL7Uh58hOHSi8fSpeZOPAg8iMnWfQ8vTP8XeyYD3b5qlN11zmvVGDSD+MwEji1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730949656; c=relaxed/simple;
-	bh=MfgIsmThhu9LXOQDEMR7hFNs+rsV9Z5JVos+Z0mGxsw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u2yNn2CbDrOPk8+d5SEIFVh1Q/oaM1wpLT9w9/oUsOTlx2KZQwTfeFv6MIqnApSNjeRbS3K4HdZhC06rsKd+VIsjzZhSvaIggnnyBME3aWRTt/zv+jB5B5wypY2pWj216byAHu6zwfTbbGw+5cPylhHXCjNOLYYoRZjPKq6Ln08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pjo5hqvz; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1730950392; c=relaxed/simple;
+	bh=L7RQ5p127isxhSgyM1HUfN42OLCegbGS1VLKiJgIbd0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WEz3aCYfekSvMddWKFrwiWZndrQxlx4akpQqfr/s6h+ewnNTgcOnLaJW44o/sOusgLrJubzIc9jW3WuWMzRsZ1lW3yrcK3+hdw/gLBGji5va2B0Ztj4HHHnQSlArhokjIV0AKW7A5uZsiW6JMHG6JTTAWuMsMUh4V9PaZOksV7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MarRR0JJ; arc=none smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pjo5hqvz"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20ca1b6a80aso5835335ad.2;
-        Wed, 06 Nov 2024 19:20:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MarRR0JJ"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7181caa08a3so332874a34.0;
+        Wed, 06 Nov 2024 19:33:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730949654; x=1731554454; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R8jNzrElX9RmiBjTI8h4pv70akApgYg9F+hG3zefMUQ=;
-        b=Pjo5hqvzeBgJLYQ6ITzLTC6JbEEpdqyPnKJmdBLJloqI59GnepRNto+dWyB8WV4XpM
-         gi0/bAGspN7lmq24pgZZhnUcA/jbC9REUY+K8JwQO3dU/UQOQCVjbYo4Sdgo4MYj1c8b
-         uzPMB+gYV3/ffkFjaeL9a30TbGuW++5K1KSlsVTxUU3NmgsiGKQ1dxb4Gl8Yt4PGc4MP
-         mTRZxteS8AOd8vDzEXFbxIpqqTTdtKmmTXpn6c6JWdPNPL/gjAs48ZIe1klQ/+JbOxz5
-         /s9djrUmVGS/qUDgOuj+CcnUT3Dvvzp6PNIboTJ76XHsablyh58+ftDnrXuSk4LSIPzF
-         c6DQ==
+        d=gmail.com; s=20230601; t=1730950389; x=1731555189; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7uKB9c4AOgBqlbIFhdwAokG6qi+ibSt5e8VIEMQvkNU=;
+        b=MarRR0JJWpfxFfcfOQTfSd73zdj+uf9kJUwFR8xMVVX1EZivrCkFnwnYUAct2ZjNRQ
+         MIQ6AcvuPkKtANGYxJiIqG7mrXjjuGxiD6kdwacRLRx8jySCnv2fp/w6cdYiY1ffZt5s
+         jZaHIv1S/PUVWKhNQAZx/dZLbpzezUtMKFqzeB/Q+4wmUmTwzaRYo6CbVBp6D+6Qag9V
+         0bmPEJaLw0hr8e2+zOFSTgyhaasNmoA1w5PJFrD12KF9XalwNSXUU9MpWxAVp+2rXZSq
+         FdgmW4WRitA045mbcwSjmJhp9nDe1ds3Z6WigxIunX0oMjHEYFtMdGZUMKG0eOVqwlPn
+         XE7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730949654; x=1731554454;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R8jNzrElX9RmiBjTI8h4pv70akApgYg9F+hG3zefMUQ=;
-        b=kpDecBy5T6kzrhOgCpP0HbFP5EDObQCpj66fVQUPDXE7A6rV532Lr+9cFdi/eJGIvA
-         qIEjzIh0xSdmowssIuttYaME2hCrJlVj5E18llk+NULqjzT8Sg6ydP2pRelfm6k2eDgf
-         eDSs3ySOMmn5e36KwNUBDgFyR4cv7DdD3dMFMZ2tAps5hO5SKu/+5Hlf98n5s9/sL5GR
-         M+2ysUt0JjFXkKgGv23UJxDToz6hsVXitR++pejSSgt8Yi5No0jTqzslkPOts2dQd7Rp
-         juQsQLxivELB95KID4anIx+QNUKEkX9QqtbWllMI3q9fZ6+r/22EfvBj9Wz6Ldl4YUVT
-         7Zpg==
-X-Forwarded-Encrypted: i=1; AJvYcCVI455pR1yOG/ukx0aynzat/lXjW6zWHdzDfGZe+XHSye03thh5wRcPzDMe2k0m9066Rtc2rszqZ1c=@vger.kernel.org, AJvYcCXCoICHzrFeDH6FE2RDwV7/Q6CY5mUD7OkZiOnFX5ez38zDvTPc0Mc3Xn6cRNgTuReAZLcUvqDLvlw5bn6Bb38x@vger.kernel.org, AJvYcCXNHhbS4yHWYhILHaM8h9lIijG4/GcKrxdWkfLBCq+LojgK8wfo0qOcfpWI4koSyoAcPWel5EYYsJQPyDaN@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbYRWbRrAUoTROEBm9In9kNx0QxdO3vlRSrwnk/sV+b/Q19gwE
-	tvbY89eqHTz8k6PZCnnPDUaNRycrfs8nVAq4YJ+ElZq4FncYi+bz
-X-Google-Smtp-Source: AGHT+IFP7jI8N7MZAQEh3fKVwbjpLCzLZAOp+2qk1ae0Rl9Avg2cfhgX+kUyGo3POLdRxL4zyEhtHA==
-X-Received: by 2002:a17:903:985:b0:210:f07d:b3d9 with SMTP id d9443c01a7336-2111af1757amr325782555ad.6.1730949653768;
-        Wed, 06 Nov 2024 19:20:53 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177dc803dsm2208695ad.12.2024.11.06.19.20.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 19:20:52 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id A156F41F52FB; Thu, 07 Nov 2024 10:20:49 +0700 (WIB)
-Date: Thu, 7 Nov 2024 10:20:49 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, joro@8bytes.org,
-	suravee.suthikulpanit@amd.com, will@kernel.org,
-	robin.murphy@arm.com, dwmw2@infradead.org, shuah@kernel.org,
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	baolu.lu@linux.intel.com, eric.auger@redhat.com,
-	jean-philippe@linaro.org, mdf@kernel.org, mshavit@google.com,
-	shameerali.kolothum.thodi@huawei.com, smostafa@google.com,
-	yi.l.liu@intel.com, aik@amd.com, zhangfei.gao@linaro.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v7 13/13] Documentation: userspace-api: iommufd: Update
- vIOMMU
-Message-ID: <ZywyEUmL4HvM8B9v@archie.me>
-References: <cover.1730836219.git.nicolinc@nvidia.com>
- <7e4302064e0d02137c1b1e139342affc0485ed3f.1730836219.git.nicolinc@nvidia.com>
- <ZywQP3_TpdttuCy8@archie.me>
- <ZywZcSidYCWkJgrw@Asurada-Nvidia>
+        d=1e100.net; s=20230601; t=1730950389; x=1731555189;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7uKB9c4AOgBqlbIFhdwAokG6qi+ibSt5e8VIEMQvkNU=;
+        b=kIlqcIXWa+RfxEHF9fGuiuXLTYpHzmQso5/vYyQoqRJCHZISSryfQP3kTCjJJk4rIG
+         dSmh67sRFJMcipc5XFcFNHA9ewxKJk4X8JewNtNo10zF28SCFz1mkWwjbX956SKxlGSx
+         1Pz6waR8ao7WRxeVD7xYjwOk/C8AVP0jUWTW4SmuwmVF7VVJ9Bs7VXuWm2SnHIRAzkmY
+         2e3Kj+46A8vQcbLUTfAfi9UiEBmJsJ4jqEERQXObrNq04ochbAxhQgvEAu8L9ioH1+zi
+         kH5JEsox6TsM7bPTkX4Z2dZokM7Mo6Fd0wk4i1AiLk9WIJnBRLf80d3ENpzca5wca35P
+         PYrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1mKKo+M/JS5aXKlLFjovTsbUErZ6jyvkVCx/WgLJ0+OANGh/NS0VrQuRByiCFo4xd4so9rChzAR8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yye07tdnOmXxuG8suEACMusofimQ7uKL/bT/nrnlKN9izqhD+Ap
+	bd6mnILGSgxJl+Oqgppkclb5PMj1AztsVUD6Gg2e08cufPl5kXu1
+X-Google-Smtp-Source: AGHT+IG85Z2kzUWZUsFXuadQW5dXzIQ5keYo/mbSGdhtKjqZGh6buuuds8l1kZrmjy4hhmVgIBzpKw==
+X-Received: by 2002:a05:6871:10b:b0:288:865e:1864 with SMTP id 586e51a60fabf-29051745061mr37928524fac.0.1730950389598;
+        Wed, 06 Nov 2024 19:33:09 -0800 (PST)
+Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:c934:17a7:b0a5:6e02])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29546c8eb0fsm167476fac.14.2024.11.06.19.33.06
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 06 Nov 2024 19:33:08 -0800 (PST)
+From: anish kumar <yesanishhere@gmail.com>
+To: corbet@lwn.net,
+	broonie@kernel.org,
+	dlechner@baylibre.com,
+	u.kleine-koenig@pengutronix.de,
+	Jonathan.Cameron@huawei.com,
+	pstanner@redhat.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	anish kumar <yesanishhere@gmail.com>
+Subject: [PATCH] docs: driver-model: generate kernel-doc for driver model using script
+Date: Wed,  6 Nov 2024 19:33:03 -0800
+Message-Id: <20241107033303.97509-1-yesanishhere@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fVTjkEpn9ekAW5rv"
-Content-Disposition: inline
-In-Reply-To: <ZywZcSidYCWkJgrw@Asurada-Nvidia>
+Content-Transfer-Encoding: 8bit
 
+In commit 63dc355 ("remove the driver-model structures from the
+documentation"), the kernel-doc text was removed, and users were
+instructed to read the documentation directly from the source code.
+However, using the kernel-doc script to extract and generate the
+documentation is a better approach, as it ensures the documentation
+remains in sync with the code. Additionally, it provides users with
+a more convenient way to access the documentation without needing to
+refer directly to the source code.
 
---fVTjkEpn9ekAW5rv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch adds kernel-doc annotations for the driver model to
+facilitate the use of the kernel-doc script.
 
-On Wed, Nov 06, 2024 at 05:35:45PM -0800, Nicolin Chen wrote:
-> On Thu, Nov 07, 2024 at 07:56:31AM +0700, Bagas Sanjaya wrote:
-> > On Tue, Nov 05, 2024 at 12:04:29PM -0800, Nicolin Chen wrote:
-> > > With the introduction of the new object and its infrastructure, updat=
-e the
-> > > doc to reflect that and add a new graph.
-> > >=20
-> > > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> > > Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> > > ---
-> > >  Documentation/userspace-api/iommufd.rst | 69 +++++++++++++++++++++++=
-+-
-> > >  1 file changed, 68 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/Documentation/userspace-api/iommufd.rst b/Documentation/=
-userspace-api/iommufd.rst
-> > > index 2deba93bf159..a8b7766c2849 100644
-> > > --- a/Documentation/userspace-api/iommufd.rst
-> > > +++ b/Documentation/userspace-api/iommufd.rst
-> > > @@ -63,6 +63,37 @@ Following IOMMUFD objects are exposed to userspace:
-> > >    space usually has mappings from guest-level I/O virtual addresses =
-to guest-
-> > >    level physical addresses.
-> > > =20
-> > > +- IOMMUFD_OBJ_VIOMMU, representing a slice of the physical IOMMU ins=
-tance,
-> > > +  passed to or shared with a VM. It may be some HW-accelerated virtu=
-alization
-> > > +  features and some SW resources used by the VM. For examples:
-> > > +  * Security namespace for guest owned ID, e.g. guest-controlled cac=
-he tags
-> > > +  * Non-device-affiliated event reporting, e.g. invalidation queue e=
-rrors
-> > > +  * Access to a sharable nesting parent pagetable across physical IO=
-MMUs
-> > > +  * Virtualization of various platforms IDs, e.g. RIDs and others
-> > > +  * Delivery of paravirtualized invalidation
-> > > +  * Direct assigned invalidation queues
-> > > +  * Direct assigned interrupts
-> >=20
-> > The bullet list above is outputted in htmldocs build as long-running pa=
-ragraph
-> > instead.
->=20
-> Oh, I overlooked this list.
->=20
-> Would the following change be okay?
->=20
-> -------------------------------------------------
-> diff --git a/Documentation/userspace-api/iommufd.rst b/Documentation/user=
-space-api/iommufd.rst
-> index 0ef22b3ca30b..011cbc71b6f5 100644
-> --- a/Documentation/userspace-api/iommufd.rst
-> +++ b/Documentation/userspace-api/iommufd.rst
-> @@ -68,2 +68,3 @@ Following IOMMUFD objects are exposed to userspace:
->    features and some SW resources used by the VM. For examples:
-> +
->    * Security namespace for guest owned ID, e.g. guest-controlled cache t=
-ags
-> @@ -75,2 +76,3 @@ Following IOMMUFD objects are exposed to userspace:
->    * Direct assigned interrupts
-> +
->    Such a vIOMMU object generally has the access to a nesting parent page=
-table
-> -------------------------------------------------
->=20
-> The outputted html is showing a list with this.
+Signed-off-by: anish kumar <yesanishhere@gmail.com>
+---
+ Documentation/driver-api/driver-model/bus.rst    | 4 +++-
+ Documentation/driver-api/driver-model/device.rst | 4 ++--
+ Documentation/driver-api/driver-model/driver.rst | 3 ++-
+ 3 files changed, 7 insertions(+), 4 deletions(-)
 
-Yup, that's right!
+diff --git a/Documentation/driver-api/driver-model/bus.rst b/Documentation/driver-api/driver-model/bus.rst
+index 9709ab62a468..15fb77fc69df 100644
+--- a/Documentation/driver-api/driver-model/bus.rst
++++ b/Documentation/driver-api/driver-model/bus.rst
+@@ -4,7 +4,9 @@ Bus Types
+ 
+ Definition
+ ~~~~~~~~~~
+-See the kerneldoc for the struct bus_type.
++
++.. kernel-doc:: include/linux/device/bus.h
++    :identifiers: struct bus_type
+ 
+ int bus_register(struct bus_type * bus);
+ 
+diff --git a/Documentation/driver-api/driver-model/device.rst b/Documentation/driver-api/driver-model/device.rst
+index 0833be568b06..14095770e80b 100644
+--- a/Documentation/driver-api/driver-model/device.rst
++++ b/Documentation/driver-api/driver-model/device.rst
+@@ -2,8 +2,8 @@
+ The Basic Device Structure
+ ==========================
+ 
+-See the kerneldoc for the struct device.
+-
++.. kernel-doc:: include/linux/device/device.h
++    :identifiers: struct device
+ 
+ Programming Interface
+ ~~~~~~~~~~~~~~~~~~~~~
+diff --git a/Documentation/driver-api/driver-model/driver.rst b/Documentation/driver-api/driver-model/driver.rst
+index 06f818b1d622..b5e8b00878ca 100644
+--- a/Documentation/driver-api/driver-model/driver.rst
++++ b/Documentation/driver-api/driver-model/driver.rst
+@@ -2,7 +2,8 @@
+ Device Drivers
+ ==============
+ 
+-See the kerneldoc for the struct device_driver.
++.. kernel-doc:: include/linux/device/driver.h
++    :identifiers: struct device_driver
+ 
+ Allocation
+ ~~~~~~~~~~
+-- 
+2.39.3 (Apple Git-146)
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---fVTjkEpn9ekAW5rv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZywyBQAKCRD2uYlJVVFO
-o05dAPoCkLQClFT+zDGmYdVx68XDBEfdBl1CCmp2FZ3jz4uFtAEAqVIZoqERkKzk
-iTAIm9NwYZC9ESLhO1HMIWvngDLktgw=
-=Xpoe
------END PGP SIGNATURE-----
-
---fVTjkEpn9ekAW5rv--
