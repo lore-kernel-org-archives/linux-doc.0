@@ -1,37 +1,37 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5858E218313;
-	Thu,  7 Nov 2024 21:23:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19AA1CF7BB;
+	Thu,  7 Nov 2024 21:27:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731014640; cv=none; b=Nrx90KxIFKpaD6IRKnI7bzWvINTlLHIp78IFQGcfkaVK3sUj0plwv/AsDmvA7CMEi1TWVmJ9xF5f36tYCJqgj3ab9wkOfYrL+UsEmyixcvP6kCBZ211FGz4WwH1ZRveSzxMip2BNhKRAoEKqTPJdFjKFE2rvQJ8i+fSJPCvB6Lw=
+	t=1731014876; cv=none; b=X+k1jU9MPena+PlByLGio46VluITir/7l6IZlzt74+HVblC7zEMrdqt7aYf0eNJaeH7BDD2ST8DlcWBzis4kFE077s4lsOwic5Qg/gfiTwkedWQnWu7PSm9q//4ZorWYTiXg15Wj/SsHFIqumOGgT5yOSMmwOeXjcyNOuVdz8yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731014640; c=relaxed/simple;
-	bh=9LkBI3C6kD8JEl0wtx2VRjvRgTzIRnyR2AgW3nixLQw=;
+	s=arc-20240116; t=1731014876; c=relaxed/simple;
+	bh=/5O2yM6cSoexUm1k2FuSpVpukyPaM82R9j5MQmDfdMo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j/zlJa8PnkREHDeeB7HwfCOsx32aWQSVwTmkyM6mjSQ3BYGFQwBaUumywabt8qp9RoDA8MQxpSnrxot96nlqrcVys6LPdnH7SIfyWIh/WvEle3PMuGY+Mo43T+XOn/QpX4UaP2U4pCkh0Zh09y9TuTEIYXso+FuGybaCQXfL5DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LPEoxixV; arc=none smtp.client-ip=90.155.50.34
+	 In-Reply-To:Content-Type; b=rD/dVlbdPUjtAq2rDJiCH+A01vKYxwBklNvkKlENP4NUdywnmpG6A3Fh+MLafk0S/fY7/DoQurLHaUQ8AZC0H/LPXS4KJN64iRcej2g25Ji3XgJCWIsCYSuMyg+6ZCqSW2c7vvEl7iFFjnKdfhUCHl5D6Prg5P3p3zOOcetODok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BR4GP991; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LPEoxixV"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BR4GP991"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
 	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
 	:Reply-To:Content-ID:Content-Description;
-	bh=3pYTYYb1/To+QdfwUXIh4HFvD0hPTWesxwO7yD+UceQ=; b=LPEoxixVx1h+sI2xi7uE4kQwiD
-	RfC13yFgeGed7ODGQutbaI09XspRgPleBbDnESvLfjl7IZlEC51YJVB58leFKBDZvZsRv6J203nqv
-	WmGi2lu71l2NzQDM0EXpvDkOU7OnawZG8EFFrypmIMsee3xjWmk5TwBeIbyUMQWoqcd0fa3xhUZJ7
-	A2UYHGHcLU4QgtqC6uJVQD4I/aCXl3b6pm2jX+yTBhEhwov3v4hyeLl5KJnjcItvP2dsZpKsrH4S4
-	foeeTDT7CEUtIWWk3j4z+S6trc4nVp5Bx95nhhOH6uC8OO7GIq+cnZCdi10Z9v3Mvs+4OFwDHlaPS
-	v4ujPg8w==;
+	bh=H53gTgSvdWax/zZL64yJwGeYE21AjKgQA626FjrFwLs=; b=BR4GP991Y9geV8HsB/7flsgSWc
+	yWeY44FYPTSEz96TvCs95Slu/6skrii7R3ogGOnyO+oxCQPTUi9aA1jyQEFuB/3Xl4ag/lJGb4C44
+	YuY0oYHeLeRbbAp+x3T/U1ZzJqxhiWUl+9XiftnETJaacBgeUjaQTIuxDjdZq9oaatYEpQN9dyl4j
+	Ayrozy3fhEcTfQbenIl56gU7iioU8zt6hjcWndszrrOQ9gentzc1hjL3Bl/N1N7u0xmh2phoLQim0
+	Pdr6eZ/c+wIBMTS3DVfMVhrIlaFsF/nJoigSnJiwk4kAO1HXg6EjG3PbxJF6NBjPV8y4y/v0OnFtp
+	e73M+Fgw==;
 Received: from [50.53.2.24] (helo=[192.168.254.17])
 	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t99ys-00000007R39-2i5x;
-	Thu, 07 Nov 2024 21:23:55 +0000
-Message-ID: <c8b67896-b1d1-45fd-aab4-6ff8ce64a1e6@infradead.org>
-Date: Thu, 7 Nov 2024 13:23:49 -0800
+	id 1t9A2f-00000007RPw-1rwZ;
+	Thu, 07 Nov 2024 21:27:50 +0000
+Message-ID: <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org>
+Date: Thu, 7 Nov 2024 13:27:46 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,52 +39,59 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs: Add guides section for debugging
-To: Jonathan Corbet <corbet@lwn.net>,
+Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
+To: Jonathan Corbet <corbet@lwn.net>, anish kumar <yesanishhere@gmail.com>,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
  Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
- mauro.chehab@linux.intel.com, kernel@collabora.com,
- bob.beckett@collabora.com, nicolas.dufresne@collabora.com
-References: <20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com>
- <20241028-media_docs_improve_v3-v1-1-2b1b486c223e@collabora.com>
- <87ldxu235z.fsf@trenco.lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20241107200835.3033-1-yesanishhere@gmail.com>
+ <87cyj622oc.fsf@trenco.lwn.net>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87ldxu235z.fsf@trenco.lwn.net>
+In-Reply-To: <87cyj622oc.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 11/7/24 12:35 PM, Jonathan Corbet wrote:
-> Sebastian Fricke <sebastian.fricke@collabora.com> writes:
+
+On 11/7/24 12:45 PM, Jonathan Corbet wrote:
+> anish kumar <yesanishhere@gmail.com> writes:
 > 
->> This idea was formed after noticing that new developers experience
->> certain difficulty to navigate within the multitude of different
->> debugging options in the Kernel and while there often is good
->> documentation for the tools, the developer has to know first that they
->> exist and where to find them.
->> Add a general debugging section to the Kernel documentation, as an
->> easily locatable entry point to other documentation and as a general
->> guideline for the topic.
+>> Add a comprehensive debugging guide for ALSA audio issues, covering
+>> topics from bootup to runtime debugging. This document aims to help
+>> developers diagnose and resolve common audio problems in Linux.
 >>
->> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>> The guide includes sections on:
+>> - Bootup/bringup issues
+>> - Runtime debugging
+>> - XRUN debugging
+>> - Audio pops and clicks
+>>
+>> This addresses the lack of a centralized debugging resource for ALSA
+>> and should help improve the troubleshooting process for audio drivers.
+>>
+>> Inspired by discussions on LKML:
+>> https://lkml.org/lkml/2024/9/24/392
+>>
+>> Signed-off-by: anish kumar <yesanishhere@gmail.com>
 >> ---
->>  Documentation/index.rst                            |   2 +
->>  .../driver_development_debugging_guide.rst         | 206 +++++++++++++++
->>  Documentation/process/debugging/general_advice.rst |  48 ++++
->>  Documentation/process/debugging/index.rst          |  21 ++
->>  .../debugging/userspace_debugging_guide.rst        | 278 +++++++++++++++++++++
->>  5 files changed, 555 insertions(+)
->>
+>>  Documentation/sound/soc/debug.rst | 334 ++++++++++++++++++++++++++++++
+>>  Documentation/sound/soc/index.rst |   1 +
+>>  2 files changed, 335 insertions(+)
+>>  create mode 100644 Documentation/sound/soc/debug.rst
+> 
+> At a first glance, this seems useful.
+> 
+> I was just looking at Sebastian's new debugging documentation:
+> 
+>   https://lore.kernel.org/all/20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com/
+> 
+> ... so my immediate thought is that this documentation should be
+> coherent and together, rather than scattered though the docs.  Maybe
+> move this to process/debugging and integrate it with his work?
 
-You two have probably already gone over this, but I would not go
-looking into Documentation/process/ at all for debugging advice.
-
-IOW, I think that these docs belong somewhere else.
-
+and once again I disagree that these docs should be in Documentation/process/.
 
 -- 
 ~Randy
