@@ -1,99 +1,63 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E92621315C;
-	Thu,  7 Nov 2024 17:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731002295; cv=pass; b=gdbw+AyyvWeW0WByncjL/jHJwNqTZfR+Eu2A4aqTLJnwyQNgkm2CvNUQ89sdlhtwIvdVVkULFos+5RZkGiYh51GiY/+/zyNhlYFYn9/tmKgPoBe/zYuyY/hFWmy0aqx5pZkRd2NNSEgvhl/PJ2dTH0keKG0eJPgQjDKOpUxN7DY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731002295; c=relaxed/simple;
-	bh=Qi6g7F8k0JBc5E6QkTEzTkFAtQSM8yWD2ngfjTGKb4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z4VuzQySr0608dBzPwnV1pooS96MnrXmPfctdRIwDvLP+n0HZpChadcUS9YhlRLTLD6ZqogOq0F1NKeL9uRniUgpbEj8mBQF+4nv+elgixAOy+rxiOEhDkYqdUusb88RVTJJK1AYV0PxkUi+aBwxP4P/bEgXsd5Sd/S+ZWwc2o0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=PxNC7pBh; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F159217C96;
+	Thu,  7 Nov 2024 18:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731003647; cv=none; b=MF5DOxE3jRIPwbAFWpO+z7un35kY8yPS4rYg6reomX79Sp4lIyYqCu9eIM7Rra/zlq4pVeoMsg+5T9yu68fpKOum+5bUlCNklnXhdr35Y8AU6SU5lI2buGKmmX7gj02gUdXqQct+qYL+yimeOelqyJR8yEsXcx31+87D3hy5+hc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731003647; c=relaxed/simple;
+	bh=NfRPqnOEv8qgSmUY8eAN37O27hV4PrF669xF/MA5aBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BFU2OutkvO3qI/5rH4vvOejCfZnxDerzKTcUyn2B0w6gK5K3uSNRtaIJrdLiAtfbfZQSciik9rlx0nAvcqeinv2N8paPHl0tmNbaYSKvqkrJH0d1GcF/WXBNOw//cXpZ0aoCb79i8oOj9GtxLSKD5uNr18Hz4On1l1RPEPSX5fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q8AbVen8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="PxNC7pBh"
-ARC-Seal: i=1; a=rsa-sha256; t=1731002277; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=mgK/DLF99LJx79M7uwPPi7LSMQufualEYQ5D5DB5W784YfcgbVQgown8YgkNoAWWlX0MKIohsq1lPsH9B4YWffj1/jmu4sGiX/RSMm8eNFSd8R94GvTOw186eQ4BDQR1a5T35ql7Fvk6EIJrXE8FUQZqfIemVtLwOWW1/BY7jn8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1731002277; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=sls/wkVJ47W5gvv/QQf49njHmwYUvRDdW8tOQBTRFVU=; 
-	b=V7TsTCJRZB6raf+IWh9yPIDcYnptqDBWXWp/cAto7q6bCxHqlUJV16uI9prvdLZ0GHFZhYDaZu5V4Lm56mUUwe+NEFH+MBD4c6j3jiDyHKNxZnuF7HzkIJ1FXMvX0FNEVfH/0x6Dy2WpxHZFD4YSxF4L09itZ36osSBQYyyxIkA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731002277;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=sls/wkVJ47W5gvv/QQf49njHmwYUvRDdW8tOQBTRFVU=;
-	b=PxNC7pBhXaWRPCQadTgaTATWNIzwYWiWjVBZl6EvpjMyveu/xTKiA+Q8QYFCCNJG
-	9DeQJWZYEESO8rSBxvzrlh6Tsa4ifFioPAgflgCqj4ygF2pVTKRneb1lClOdRjUWPkb
-	uGEpPZNBN/tY8C3fs/aN0+orvG88tx2LcvlvlOZc=
-Received: by mx.zohomail.com with SMTPS id 173100227513635.06961771683052;
-	Thu, 7 Nov 2024 09:57:55 -0800 (PST)
-Date: Thu, 7 Nov 2024 18:57:50 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-	mauro.chehab@linux.intel.com, kernel@collabora.com,
-	bob.beckett@collabora.com, nicolas.dufresne@collabora.com
-Subject: Re: [PATCH 0/2] Documentation: Debugging guide
-Message-ID: <20241107175750.y7tuzqulfbjl5k4f@basti-XPS-13-9310>
-References: <20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com>
- <87ttcj0z8x.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q8AbVen8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D47BDC4CECC;
+	Thu,  7 Nov 2024 18:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731003646;
+	bh=NfRPqnOEv8qgSmUY8eAN37O27hV4PrF669xF/MA5aBU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=q8AbVen8ryhPxWKGFTRnGe3Jh71a6EmFJ+uKqT3DsvRE+M4xvlt1//CyvX25e5Vy9
+	 n5q85Juq3rdaAfgspxVmmc4FOTQ/y/nOvUJkUju0Z0PPzvvQ4aHckPy+Mp9FFRyedL
+	 tPpp+1KP7kxU53CRxh/wCn24EdmjoIybyZZbSzmo9fc+RIN1TVFMNjUQVc44PTR1eN
+	 wp8XWmgVxKd9DWXxIbx8/8hG83TktmhrX5A/D4VmVurW7GZZFnP5zsD5pA/Ub8lbLw
+	 oTSjaneHrUnvMZFE6lQ3fi2Pmx2lUinpCLNihEdzP2WqkSlx1G+FQOUB8a2sQgIzvZ
+	 EM5OK9wwW4qkA==
+Date: Thu, 7 Nov 2024 10:20:44 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Sanman Pradhan <sanman.p211993@gmail.com>
+Cc: netdev@vger.kernel.org, alexanderduyck@fb.com, kernel-team@meta.com,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ horms@kernel.org, corbet@lwn.net, mohsin.bashr@gmail.com,
+ sanmanpradhan@meta.com, andrew+netdev@lunn.ch, vadim.fedorenko@linux.dev,
+ jdamato@fastly.com, sdf@fomichev.me, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2] eth: fbnic: Add PCIe hardware statistics
+Message-ID: <20241107102044.4e5ba38f@kernel.org>
+In-Reply-To: <20241107020555.321245-1-sanman.p211993@gmail.com>
+References: <20241107020555.321245-1-sanman.p211993@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87ttcj0z8x.fsf@trenco.lwn.net>
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hey Jon,
+On Wed,  6 Nov 2024 18:05:55 -0800 Sanman Pradhan wrote:
+> +	FBNIC_HW_STAT("pcie_ob_rd_tlp", pcie.ob_rd_tlp),
+> +	FBNIC_HW_STAT("pcie_ob_rd_dword", pcie.ob_rd_dword),
+> +	FBNIC_HW_STAT("pcie_ob_wr_tlp", pcie.ob_wr_tlp),
+> +	FBNIC_HW_STAT("pcie_ob_wr_dword", pcie.ob_wr_dword),
+> +	FBNIC_HW_STAT("pcie_ob_cpl_tlp", pcie.ob_cpl_tlp),
+> +	FBNIC_HW_STAT("pcie_ob_cpl_dword", pcie.ob_cpl_dword),
+> +	FBNIC_HW_STAT("pcie_ob_rd_no_tag", pcie.ob_rd_no_tag),
+> +	FBNIC_HW_STAT("pcie_ob_rd_no_cpl_cred", pcie.ob_rd_no_cpl_cred),
+> +	FBNIC_HW_STAT("pcie_ob_rd_no_np_cred", pcie.ob_rd_no_np_cred),
 
-On 07.11.2024 09:45, Jonathan Corbet wrote:
->Sebastian Fricke <sebastian.fricke@collabora.com> writes:
->
->> The series contains:
->> - a general debugging guide split into debugging for driver developers and
->> debugging from userspace
->> - a new summary page for all media related documentation. This is inspired by
->> other subsystems, which first of all allows a user to find the subsystem
->> under the subsystems page and secondly eases general navigation through the
->> documentation that is sprinkled onto multiple places.
->> - a guide on how to debug code in the media subsystem, which points to the
->> parts of the general documentation and adds own routines.
->
->So I am just getting into looking at this; the fact that I had a hard
->time applying the series has not helped...
->
->> base-commit: 8c64f4cdf4e6cc5682c52523713af8c39c94e6d5
->
->That is ... 6.9?  Why are you basing your patches on such an ancient
->kernel?  If you want me to apply them for 6.12 (not guaranteed in any
->case, it's getting late) you'll need to bring them forward to current
->docs-next.
-
-Yes sorry something must be wrong in with my master tree here, I will
-rebase on docs-next and do a respin once I know whether something else
-needs to be fixed.
-
->
->Thanks,
->
->jon
->
-
-Regards,
-
-Sebastian Fricke
+Having thought about this a bit longer I think Andrew's point is valid.
+Let's move these to a debugfs file. Sorry for the flip flop.
