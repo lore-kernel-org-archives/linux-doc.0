@@ -1,111 +1,112 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17D720A5DF;
-	Thu,  7 Nov 2024 11:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6057A1E1043;
+	Thu,  7 Nov 2024 12:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730979133; cv=none; b=pyiyTSXRzCkGpXlPoY5Mj2anCxfpV0SfprPQZTbkM8i9uQuBT+hRaMj1SdzvxmRPKIfOG8nXshZB3BY0AjiAw/cRtLtfVoz2yl32wadIKrm9Mf8DyIH6eTtRS2EB4RzVs4b6xoUP/j21fTugZ6Cym9tqyfWA2FMC9Ev+tkXAfu8=
+	t=1730981044; cv=none; b=prssGHZoGga3PNqzeQkyet3K0ryYBnIbxyJIRgtucaIY2o1l5FbBvYwAyQHxAGR/mBBcnX8B53wveCNcheEvurisEJZg6kSQMRc29nFBqwysXB+zCzmCBPxaGHQ2ctWlY//S71sHqg2KKx/hgJdv2UkVBOgkQVZac8+REqUm62w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730979133; c=relaxed/simple;
-	bh=oWZpsdzL8+Oft8QnzpI3UMaHxsB9xIpuOeSvk8blJiE=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rRDxUO5coTbYkQQXvMU3S74qVe+hvwMMk7zt438gMnaM6mSSdPGxyJYkZMzXhmJ87pNBaI1OGyXsKlPOD2eSJtogUI5PrzMVPdNCrqAQmycMVo/X7NbAxh3Ey7PU9xQI3n1qz6aUalEs7uWy9ehiBmwlWxGlECKuX1NW2huKFzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Xkg0401xQz6LD8H;
-	Thu,  7 Nov 2024 19:32:04 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id D48DC1400DD;
-	Thu,  7 Nov 2024 19:32:07 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 7 Nov
- 2024 12:32:07 +0100
-Date: Thu, 7 Nov 2024 11:32:05 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: <ira.weiny@intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
- Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
- Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
-	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
-	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 23/27] dax/region: Create resources on sparse DAX
- regions
-Message-ID: <20241107113205.00007f53@Huawei.com>
-In-Reply-To: <20241105-dcd-type2-upstream-v6-23-85c7fa2140fe@intel.com>
-References: <20241105-dcd-type2-upstream-v6-0-85c7fa2140fe@intel.com>
-	<20241105-dcd-type2-upstream-v6-23-85c7fa2140fe@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1730981044; c=relaxed/simple;
+	bh=sArRfQxYfZMbU4cikQr6WIkfm8lZA8u6rZoXTALLxCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tWPRgcPKScDm7udAKx3HwQGRZOkHPYWfMEqB1OdV1vDN0fRNB8s3SHudb5uC7U6nRoYTA9Xd5osD7pXeeGxAgD1YHcSqkkZWzQpFuO80K5bvxFkViE/N4OuV7VE/SEq9L1FyAf65NDm+7u6CbUheF2HJWmzHZBS5JFSl0jbiFC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BflWPUhJ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BflWPUhJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAC72C4CECE;
+	Thu,  7 Nov 2024 12:04:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730981044;
+	bh=sArRfQxYfZMbU4cikQr6WIkfm8lZA8u6rZoXTALLxCw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BflWPUhJYIFqeW3zSsVxyh0NT3DMX3jnwUuFKmhROEuiSvm8X6O4VsSDqT3oSQpC6
+	 ieHY4miugx3sANh939P2rMLcQh6SyRa4hUS3CZRhSsGYF+KilCSElqSBppi6vQgzj/
+	 WLv4zGAWrqNgJjwbL3G4JNNVNH2Q20Uc3NpSZch15jvegKLxr+vHPx/h8Q/A/ySzHX
+	 FOc7GB2fKWgr2gf7ASFsVPtfY/RGtFuVHb/IkzXNxsooYsqy62v/MVSgP5Mp7Z9MuD
+	 +LVOGXjXv2VVVtNurR999VgxrrpleHCzK8eajIVsxJCj+lzpG+KPy/xqXTY5udzjrz
+	 q9wG6gAta9gUQ==
+Date: Thu, 7 Nov 2024 14:03:57 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Sanman Pradhan <sanman.p211993@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, netdev@vger.kernel.org,
+	alexanderduyck@fb.com, kernel-team@meta.com, davem@davemloft.net,
+	edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, mohsin.bashr@gmail.com, sanmanpradhan@meta.com,
+	andrew+netdev@lunn.ch, jdamato@fastly.com, sdf@fomichev.me,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH net-next] eth: fbnic: Add PCIe hardware statistics
+Message-ID: <20241107120357.GL5006@unreal>
+References: <20241106122251.GC5006@unreal>
+ <20241106171257.GA1529850@bhelgaas>
+ <76fdd29a-c7fa-4b99-ae63-cce17c91dae9@lunn.ch>
+ <20241106160958.6d287fd8@kernel.org>
+ <20241107082327.GI5006@unreal>
+ <b35f536e-1eb0-4b7b-85f4-df94d76927d6@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500011.china.huawei.com (7.191.174.215) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b35f536e-1eb0-4b7b-85f4-df94d76927d6@linux.dev>
 
-On Tue, 05 Nov 2024 12:38:45 -0600
-ira.weiny@intel.com wrote:
+On Thu, Nov 07, 2024 at 11:30:23AM +0000, Vadim Fedorenko wrote:
+> On 07/11/2024 08:23, Leon Romanovsky wrote:
+> > On Wed, Nov 06, 2024 at 04:09:58PM -0800, Jakub Kicinski wrote:
+> > > On Wed, 6 Nov 2024 18:36:16 +0100 Andrew Lunn wrote:
+> > > > > How would this be done in the PCI core?  As far as I can tell, all
+> > > > > these registers are device-specific and live in some device BAR.
+> > > > 
+> > > > Is this a licences PCIe core?
+> > > > 
+> > > > Could the same statistics appear in other devices which licence the
+> > > > same core? Maybe this needs pulling out into a helper?
+> > > 
+> > > The core is licensed but I believe the _USER in the defines names means
+> > > the stats sit in the integration logic not the licensed IP. I could be
+> > > wrong.
+> > > 
+> > > > If this is true, other uses of this core might not be networking
+> > > > hardware, so ethtool -S would not be the best interfaces. Then they
+> > > > should appear in debugfs?
+> > > 
+> > > I tried to push back on adding PCIe config to network tooling,
+> > > and nobody listened. Look at all the PCI stuff in devlink params.
+> > > Some vendors dump PCIe signal integrity into ethtool -S
+> > 
+> > Can you please give an example? I grepped various keywords and didn't
+> > find anything suspicious.
+> 
+> Hmm...
 
-> From: Navneet Singh <navneet.singh@intel.com>
+Ohh, I looked in some other place.
+
 > 
-> DAX regions which map dynamic capacity partitions require that memory be
-> allowed to come and go.  Recall sparse regions were created for this
-> purpose.  Now that extents can be realized within DAX regions the DAX
-> region driver can start tracking sub-resource information.
+> [root@host ~]# ethtool -i eth0 | grep driver
+> driver: mlx5_core
+> [root@host ~]# ethtool -S eth0 | grep pci
+>      rx_pci_signal_integrity: 1
+>      tx_pci_signal_integrity: 1471
+>      outbound_pci_stalled_rd: 0
+>      outbound_pci_stalled_wr: 0
+>      outbound_pci_stalled_rd_events: 0
+>      outbound_pci_stalled_wr_events: 0
 > 
-> The tight relationship between DAX region operations and extent
-> operations require memory changes to be controlled synchronously with
-> the user of the region.  Synchronize through the dax_region_rwsem and by
-> having the region driver drive both the region device as well as the
-> extent sub-devices.
-> 
-> Recall requests to remove extents can happen at any time and that a host
-> is not obligated to release the memory until it is not being used.  If
-> an extent is not used allow a release response.
-> 
-> When extents are eligible for release.  No mappings exist but data may
-> reside in caches not yet written to the device.  Call
-> cxl_region_invalidate_memregion() to write back data to the device prior
-> to signaling the release complete.
-> 
-> Speculative writes after a release may dirty the cache such that a read
-> from a newly surfaced extent may not come from the device.  Call
-> cxl_region_invalidate_memregion() prior to bringing a new extent online
-> to ensure the cache is marked invalid.
-> 
-> While these invalidate calls are inefficient they are the best we can do
-> to ensure cache consistency without back invalidate.  Furthermore this
-> should occur infrequently with sufficiently large extents and work loads
-> to not be too bad of an impact.
-> 
-> The DAX layer has no need for the details of the CXL memory extent
-> devices.  Expose extents to the DAX layer as device children of the DAX
-> region device.  A single callback from the driver aids the DAX layer to
-> determine if the child device is an extent.  The DAX layer also
-> registers a devres function to automatically clean up when the device is
-> removed from the region.
-> 
-> There is a race between extents being surfaced and the dax_cxl driver
-> being loaded.  The driver must therefore scan for any existing extents
-> while still under the device lock.
-> 
-> Respond to extent notifications.  Manage the DAX region resource tree
-> based on the extents lifetime.  Return the status of remove
-> notifications to lower layers such that it can manage the hardware
-> appropriately.
-> 
-> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-Same again.
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Isn't it a PCIe statistics?
+
+I didn't do full archaeological research and stopped at 2017 there these
+counters were updated to use new API, but it looks like they there from
+stone age.
+
+It was a mistake to put it there and they should be moved to PCI core
+together with other hundreds debug counters which ConnectX devices have
+but don't expose yet.
+
+Thanks
