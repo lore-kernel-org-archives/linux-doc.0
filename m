@@ -1,92 +1,129 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93CB1D932F;
-	Thu,  7 Nov 2024 10:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191421F12F9;
+	Thu,  7 Nov 2024 11:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730976463; cv=none; b=B0l6ylNqlF43SKJ5faykbDw+UtMJN8y02grelya6jRRQf+Ki5rg99hDKsNII6/7OHlmX86AoFneQCD8QOESnQaiv4S1TOuV8W0DTU8RyXUNeMNtkv5TR6rQ+YXhB8BP/KB7Ez9SvAMd1IvNC+81G/7XJ3O8m/VjWlhFOujgkMjU=
+	t=1730977711; cv=none; b=lSZ2VIrrFz+JtwtZ0K2rHXBpfaO8XQixD1Tg07e3ncPeJnEWde7QfyPqgPp3RRFkua5Gutd+3X8f8dK8m2WxsuFvVgIVmzfGWJB4w152Wc0iFFR38I4np5ytRwARi5B+nkFebGQSjrqKOU+I7LnA0YTVXXL2lfBCt5hZ1u03R2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730976463; c=relaxed/simple;
-	bh=Cnxa1tCsanHSGqjuAhH8pqnLSS+wZUMsDLPxNRnuZuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Uu9RW2VdxD3OMrioR9+oDPcdX7ih0ucW8xhM/BxdT8jAg3MYG0AOm74NWFESCQNUSF2SkQmpVQMUQH+OE2qv4EG3VzJ2D/pY5IaWlWQ8uOlVQ5eRIbBNzAvPugN+6+eQmsh4ZrnihAXRuxTGC2s1lk3+wQg5h4dSxhLAk40q3B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oZX0T0Qe; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oZX0T0Qe"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E23E26000F;
-	Thu,  7 Nov 2024 10:47:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1730976452;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mKJpWykVcJd+0xdKpQJ/zkwyZG5GBmfR2RA2zeLo5LY=;
-	b=oZX0T0QerH27DR9/wz5lIe41T96lKQ/K6vZ4NGgqEuMsPcTAzifsUH7oHJhr/dvxjLc50A
-	FklC5ob7oYdp8+royJTRYh2t85g242pruCaT7XhP+tC+oZZTm0tT8eFr7qGNk4f47xAJ2V
-	87NFSgTVMdoHFdAqH32qrMFQIr5G676SEFVyGn8hfUiajSnFh9yW2xLsVP9wCovIh/DwCX
-	7zgmJDMHILGSU0K0r9IfvWEqp4KpYdplWni/JEEFhROrSzgWTAgRs7q4+1yrfF58f23bwZ
-	4/R/JaQmac23d3wKANqZEMwOp7RgYw3fEKMl/+mBYyiHi2DD4GQaX0CjBZsc5Q==
-Date: Thu, 7 Nov 2024 11:47:28 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
- <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
- <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
- Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v2 03/18] net: pse-pd: tps23881: Use
- helpers to calculate bit offset for a channel
-Message-ID: <20241107114728.109051bc@kmaincent-XPS-13-7390>
-In-Reply-To: <0e9ecb5a-3a6a-4b99-8177-1532134e3e25@lunn.ch>
-References: <20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com>
-	<20241030-feature_poe_port_prio-v2-3-9559622ee47a@bootlin.com>
-	<0e9ecb5a-3a6a-4b99-8177-1532134e3e25@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1730977711; c=relaxed/simple;
+	bh=Z7Xqgehlx8wZTxjCgV/aoC/vyS4B8U7q2wXoaRWeyiE=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HW52O0iM4xHDaJJ/G9K4rwh36qFCQ8TyznPiH9uPASSDootQIiPHGO7JntIR+4vXWfN1oodKs1ezgjVpPpB6cZpv5ELHu7xeT3QpQAaRBKq1oC6lKutgunndcaPtEg/8ibyqfdEgcnz5stz8mdg2HLr47vqxdEtrkacnUMfPHsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XkfST2ntzz6LDGF;
+	Thu,  7 Nov 2024 19:08:09 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3660A140CB9;
+	Thu,  7 Nov 2024 19:08:13 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 7 Nov
+ 2024 12:08:12 +0100
+Date: Thu, 7 Nov 2024 11:08:10 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ira Weiny <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 05/27] cxl/hdm: Use guard() in cxl_dpa_set_mode()
+Message-ID: <20241107110810.00000fc1@Huawei.com>
+In-Reply-To: <20241105-dcd-type2-upstream-v6-5-85c7fa2140fe@intel.com>
+References: <20241105-dcd-type2-upstream-v6-0-85c7fa2140fe@intel.com>
+	<20241105-dcd-type2-upstream-v6-5-85c7fa2140fe@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Thu, 31 Oct 2024 22:11:18 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
+On Tue, 05 Nov 2024 12:38:27 -0600
+Ira Weiny <ira.weiny@intel.com> wrote:
 
-> > +	val =3D tps23881_set_val(ret, chan, 0, BIT(chan % 4), BIT(chan % 4));
-> > +		val =3D tps23881_set_val(val, chan, 0, BIT(chan % 4),
-> > +				       BIT(chan % 4));
-> > +	val =3D tps23881_set_val(ret, chan, 4, BIT(chan % 4), BIT(chan % 4));
-> > +		val =3D tps23881_set_val(val, chan, 4, BIT(chan % 4),
-> > +				       BIT(chan % 4));
-> > +	val =3D tps23881_calc_val(ret, chan, 0, BIT(chan % 4));
-> > +		val =3D tps23881_calc_val(ret, chan, 0, BIT(chan % 4));
-> > +	val =3D tps23881_calc_val(ret, chan, 0, BIT(chan % 4));
-> > +	val =3D tps23881_calc_val(ret, chan, 4, BIT(chan % 4));
-> > +		val =3D tps23881_calc_val(ret, chan, 0, BIT(chan % 4));
-> > +		val =3D tps23881_calc_val(ret, chan, 4, BIT(chan % 4)); =20
->=20
-> It looks like all the callers of this helper pass BIT(chan % 4) as the
-> last parameter. Maybe move that into the helper as well?
+> Additional DCD functionality is being added to this call which will be
+> simplified by the use of guard() with the cxl_dpa_rwsem.
+> 
+> Convert the function to use guard() prior to adding DCD functionality.
+> 
+> Suggested-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-There is different cases in the patch 4 of the series.
+You missed some RBs from v5 and I don't think this changed.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Davidlohr also gave one.
+
+> ---
+>  drivers/cxl/core/hdm.c | 21 ++++++---------------
+>  1 file changed, 6 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/cxl/core/hdm.c b/drivers/cxl/core/hdm.c
+> index 3df10517a3278f228c7535fcbdb607d7b75bc879..463ba2669cea55194e2be2c26d02af75dde8d145 100644
+> --- a/drivers/cxl/core/hdm.c
+> +++ b/drivers/cxl/core/hdm.c
+> @@ -424,7 +424,6 @@ int cxl_dpa_set_mode(struct cxl_endpoint_decoder *cxled,
+>  	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
+>  	struct cxl_dev_state *cxlds = cxlmd->cxlds;
+>  	struct device *dev = &cxled->cxld.dev;
+> -	int rc;
+>  
+>  	switch (mode) {
+>  	case CXL_DECODER_RAM:
+> @@ -435,11 +434,9 @@ int cxl_dpa_set_mode(struct cxl_endpoint_decoder *cxled,
+>  		return -EINVAL;
+>  	}
+>  
+> -	down_write(&cxl_dpa_rwsem);
+> -	if (cxled->cxld.flags & CXL_DECODER_F_ENABLE) {
+> -		rc = -EBUSY;
+> -		goto out;
+> -	}
+> +	guard(rwsem_write)(&cxl_dpa_rwsem);
+> +	if (cxled->cxld.flags & CXL_DECODER_F_ENABLE)
+> +		return -EBUSY;
+>  
+>  	/*
+>  	 * Only allow modes that are supported by the current partition
+> @@ -447,21 +444,15 @@ int cxl_dpa_set_mode(struct cxl_endpoint_decoder *cxled,
+>  	 */
+>  	if (mode == CXL_DECODER_PMEM && !resource_size(&cxlds->pmem_res)) {
+>  		dev_dbg(dev, "no available pmem capacity\n");
+> -		rc = -ENXIO;
+> -		goto out;
+> +		return -ENXIO;
+>  	}
+>  	if (mode == CXL_DECODER_RAM && !resource_size(&cxlds->ram_res)) {
+>  		dev_dbg(dev, "no available ram capacity\n");
+> -		rc = -ENXIO;
+> -		goto out;
+> +		return -ENXIO;
+>  	}
+>  
+>  	cxled->mode = mode;
+> -	rc = 0;
+> -out:
+> -	up_write(&cxl_dpa_rwsem);
+> -
+> -	return rc;
+> +	return 0;
+>  }
+>  
+>  int cxl_dpa_alloc(struct cxl_endpoint_decoder *cxled, unsigned long long size)
+> 
+
