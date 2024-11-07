@@ -1,81 +1,109 @@
-Received: from mail-40138.protonmail.ch (mail-40138.protonmail.ch [185.70.40.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF08EC0;
-	Thu,  7 Nov 2024 04:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC24E16419;
+	Thu,  7 Nov 2024 06:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730955564; cv=none; b=TFuzg7iHGg63Ld5uP98+5iA0gzwZyBDIWEZGzW6BEU3GbyRGvLaEdn1/pqAuOGESFuG2RuZYkyEVF2Yeq5VUOocn5SObCok3mQr7djq/63lDJUWEINvrYAV1QKXxoZnPGZPSpTiSQfAaqMVt+ckHJaS/4Z42097L8lffhYuZ/jk=
+	t=1730960359; cv=none; b=ofUMO6rgzn1sLCaduw+AZE0D788POSQ9mrUxWA8qMqPf0n3JnLze0HA2njVJlkNDa1wbV3EeGlgi1MjtPGj/h5nMU4jkA9HqK6Z6Hxpo+QSzdmO6AG9qUe2YtR3oqlp7FEwrYUJLQBPxI24J+5qwCap1PowNByrCM0sutcbRsHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730955564; c=relaxed/simple;
-	bh=G7Gxwsmv0+3x5lOyM08ljVWb/XbhyZ2QrdlGiuqIGGQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g98V5JJuY2GcOskM1nzfFXgnZJLq47H3fePCd4YqJIwGYDSbG8aMoGodYll2LmV6q1zx4PQHCUTvJjYaJN2xKcZDkTWuciHsPQlKrKairjaC0D+PzzUVKmCBy5nrOfyyPBNLE/daDp9KrAQ9AHI5fbvTB6aOFKuXiospyHuZnbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=LfCWsxJa; arc=none smtp.client-ip=185.70.40.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1730960359; c=relaxed/simple;
+	bh=ANxD13YAGSTYC6cNRZS2MistrSwi7MUahJbAyk88Auw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M1iRxb0cu36f9BxS10jTXOb7ppCouVr/m2f/kgFtXsKJwybtmz81ds3lNFMNhDo0Ih/8i/RwOxiRXzpbkUkZ4E1xUabr5xo77EOweLEVzYOYeB/bVWunhRYem+s/NB6lUut0kJyF8UUeN2vqC3LP0ppJsjZKjbJaUs9Cr8FcfsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DpbhpSjD; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="LfCWsxJa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1730955559; x=1731214759;
-	bh=G7Gxwsmv0+3x5lOyM08ljVWb/XbhyZ2QrdlGiuqIGGQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=LfCWsxJaELfUNy4MWW7my9jM6f9EGW5SzXgj4lvlgrHZbENCgfTkxOIyqATjVaRdT
-	 GKGl6h4HcgB1OKQBkiQQbzQFojSmdQik+S7MwUKkkcEsbDcxp2qS0JuyWvb9s2RFBk
-	 GY1/3KUCwYG21nEW/ilWyrZY751vxxbxex4nE5afMhAaDb9jHQ/s/3Dc+s18i5oPec
-	 kfAv/yw30LGy7nR6gc4+/PUXnGJ/mEC7TYIM0enEvFUEi8oq7g1dBX0JWvEGYRhZ5l
-	 hyOpg50ZBFl1EyPhjOW+zGxOSMSivkH/epFHDT5RWGpMmvUbM4c0pw6cwqDZ5hPPPu
-	 go1q3MOq1VpLA==
-Date: Thu, 07 Nov 2024 04:59:14 +0000
-To: Nathan Chancellor <nathan@kernel.org>
-From: Koakuma <koachan@protonmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de, Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] sparc/build: Put usage of -fcall-used* flags behind cc-option
-Message-ID: <rYw6ZTCE58uNrfyK1pJXSaAnn3kXRYBiLf-TYQI8tnJSU3ECWG01RkUahjZC_rkJomCiROTUUvg6Jf1u5VfyBfIalrSF2jHtGqI94MGK8zg=@protonmail.com>
-In-Reply-To: <20241029222421.GA2632697@thelio-3990X>
-References: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com> <20241029-sparc-cflags-v3-1-b28745a6bd71@protonmail.com> <20241029222421.GA2632697@thelio-3990X>
-Feedback-ID: 6608610:user:proton
-X-Pm-Message-ID: 0a66f026db29138ca89fc00dcc0965591dc038fd
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DpbhpSjD"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7203c431f93so435621b3a.1;
+        Wed, 06 Nov 2024 22:19:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730960356; x=1731565156; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2+AhCXqAG1kLEFq3qc9uec/6rupnmZiZFxA7GdB80Lg=;
+        b=DpbhpSjDsVbOsaOb5pKjtXPqyIds0EOqdkyxhczRGAr+gWB0p0ia7tX2QHIIzkkzgL
+         +RXX3/zJ/yl5D6CdG33ELVmWy2WEhOxrIh6eh018v6UcGu8Uc9IR5UNqN1wV3RO35tJm
+         +HJHscdY5JnV5BQbKlFUJykGxXJDj8s3WORKGZrOp6+X9dUGcZ1uMjlsLiVjvO+WEbUQ
+         dVidUqZtx8gnKAeFJP2xBWPL4rk76KAswGjniUtbNzHKKSHiB9yEyDKkTyrQSZkQz4Wo
+         GfyDs3z/8aa4c0b1hqfrPO8AY1BBJLcyEiSULKXKNMV8nbTa0Vq9MT9/iW90ld3qp+dO
+         ZXyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730960356; x=1731565156;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2+AhCXqAG1kLEFq3qc9uec/6rupnmZiZFxA7GdB80Lg=;
+        b=a+xFbwJbWDdGhpTJOTnCdk9PEe7oHEqc6NiX4k0ZA1v2CmeTOAKm/ePrw0EenGduID
+         NslvlliNUFdXJuSvOLV1ce3VTCsqfZQG4vyJgpi6tHeCFn+u6HXkjSM4DaA77Xhm32vH
+         XLnkmjZRbzS0ZbE+cHxKXFYGPojEB0BhWEUM6Pm7JFOdBGmPjGbf2o9IUWpxGztyQ5+E
+         DsYtdszoEKEjSbvkG8m/204AcnGmIli4/+m1rB0v7npwpYZY6FBeXnJEK6zcFcJRRXQg
+         lBpvB7EMmvhjwy+QLyx3amZ81Xl/OrPzc0nb2JwWPFUAOlZkPaGvaqEJlK1SE1PWFi71
+         TeQA==
+X-Forwarded-Encrypted: i=1; AJvYcCUIIbvZiBmlHUW7Pkxn6CIeRwiR4YtKAeReglKDfMn5/4+zablMHZg1z2D12OZZ1PmIWKawz4FEGIgBsuQv@vger.kernel.org, AJvYcCWwiS0HISDv/oMACCLyFJxtjBtZV2bibf1WhFU7sSQT/OBb4hFJ+2VjMvb3s/k2XYFox+5bMmW5ACs/@vger.kernel.org, AJvYcCX5GIhE5NQ/cyVpXuLJGDgPtgVl09/6rAV8DbaCRV2+YPnP7ifIEwAWvfG+8sqYz5OMU1T4BM4V74k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycMrBLC1m1yU2xGno9CZT8+KyeD8Ad8CrHCZti2xBmmeCat4Et
+	d/5/mTAnn2hDgWGeY1l7QMleIDZUmRKT4dOwCYkXeoQZBkuEwxr1jgLNcTLc
+X-Google-Smtp-Source: AGHT+IGNBcdEGIHkv+fNvnfYUh3MUw696z8lIVcstfD0ZkGTSBmAMs23W89m3QsQO5uwBr67WzaqIg==
+X-Received: by 2002:a05:6a00:803:b0:71e:4930:162c with SMTP id d2e1a72fcca58-724080b01afmr1146788b3a.6.1730960355859;
+        Wed, 06 Nov 2024 22:19:15 -0800 (PST)
+Received: from 1337.tail8aa098.ts.net (ms-studentunix-nat0.cs.ucalgary.ca. [136.159.16.20])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7240785ffc2sm676523b3a.25.2024.11.06.22.19.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Nov 2024 22:19:15 -0800 (PST)
+From: Abhinav Saxena <xandfury@gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Abhinav Saxena <xandfury@gmail.com>
+Subject: [PATCH] docs: fix typos and whitespace in Documentation/process/backporting.rst
+Date: Wed,  6 Nov 2024 23:19:11 -0700
+Message-Id: <20241107061911.106040-1-xandfury@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Nathan Chancellor <nathan@kernel.org> wrote:
->=20
-> Clang builds now succeed with this series and builds with GCC 14.2.0
-> continue to pass and boot successfully.
->=20
-> Reviewed-by: Nathan Chancellor nathan@kernel.org
->=20
-> Tested-by: Nathan Chancellor nathan@kernel.org
->=20
-> One comment below, please carry these tags forward if there are future
-> revisions without substantial technical changes.
+- Fix repeated word "when" in backporting documentation
+- Remove trailing whitespace after '$' character
 
-Forgive me for still being unfamiliar with the term, but does this mean tha=
-t
-when I send a v4 I should paste the Reviewed-by and Tested-by lines into th=
-e
-commit message of the patch?
+These issues were reported by checkpatch.pl. No functional changes.
 
-> > -KBUILD_CFLAGS +=3D -m32 -mcpu=3Dv8 -pipe -mno-fpu -fcall-used-g5 -fcal=
-l-used-g7
-> > +KBUILD_CFLAGS +=3D -m32 -mcpu=3Dv8 -pipe -mno-fpu $(call cc-option,-fc=
-all-used-g5) $(call cc-option,-fcall-used-g7)
->=20
->=20
-> Small nit, this (and the one in the vdso) could probably be one
-> cc-option call? Is it likely that one flag would be implemented in the
-> compiler without the other?
->=20
-> $(call cc-option,-fcall-used-g5 -fcall-used-g7)
+Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
+---
+ Documentation/process/backporting.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Ah, didn't know it's possible to do that, the other uses of it I see seem
-to use one flag per call. I'll test and send a new revision, thanks.
+diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
+index a71480fcf3b4..5e15adc34799 100644
+--- a/Documentation/process/backporting.rst
++++ b/Documentation/process/backporting.rst
+@@ -553,7 +553,7 @@ Submitting backports to stable
+ ==============================
+ 
+ As the stable maintainers try to cherry-pick mainline fixes onto their
+-stable kernels, they may send out emails asking for backports when when
++stable kernels, they may send out emails asking for backports when
+ encountering conflicts, see e.g.
+ <https://lore.kernel.org/stable/2023101528-jawed-shelving-071a@gregkh/>.
+ These emails typically include the exact steps you need to cherry-pick
+@@ -563,9 +563,9 @@ One thing to make sure is that your changelog conforms to the expected
+ format::
+ 
+   <original patch title>
+-  
++
+   [ Upstream commit <mainline rev> ]
+-  
++
+   <rest of the original changelog>
+   [ <summary of the conflicts and their resolutions> ]
+   Signed-off-by: <your name and email>
+-- 
+2.34.1
+
