@@ -1,115 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A76A1BD007;
-	Thu,  7 Nov 2024 16:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643F9DDBE;
+	Thu,  7 Nov 2024 16:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730997741; cv=none; b=qv2RjRZmrPZg9L/6dpLvwponwQuY+nQKI+HfwIcShaJWrGqpyFUClgIKB1PR0zaCHaLpR3e2np4MwVkN7Uhs9KGTY0r3ZxduPV3C7kkXiHj2HQU6vwHnZmdmIgnQFN0lcTerW4T1SNxskYLOhDslKZSyx60WtzjOLznsGA9nNqs=
+	t=1730997940; cv=none; b=MPCATpW3Ar9xKNCI7SWUgd4os+RdzcKZCV3mbUC5/Ce4AdkodqOSsOpJ7FSvGWwVQ2NEmZ1iPsxhc3Uk70ypUql72EaVMuIwJMn8Pkb7J27t4uCfGJUx9nPy0if+Kic5IdgbK/supLNhBaBvJVkkpbtEUIIqoownfN1KS/IWTDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730997741; c=relaxed/simple;
-	bh=WdyKJtb8azsZYUqpDghR52nsf2xjEriGSxLwMe1jM+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fOElM6KrOSI4KaTsLjEKLodjH7pIHLJO/ebG1TtXTfq0l326D7neBZh6DxHI7uf/F+JOA17dCfadhACNvOxKr0dzSfP4YLm7m6ybnF3hXel9jIziVZS/f3B1SwDkB4pLwOY61QaduDKlZmDkRBHbOJvhHp8uNxYd8vPNdk4gjAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PACSSb+f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730997940; c=relaxed/simple;
+	bh=Be7kVOqc9oDldRngyHDx9b/u8eyDM+L+Oo7d4LCyzzE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Apa3JuB32dA4V7uPYobV3x9+AECx76zuISWmXy29OV0nb71CtIeFsUn76uZMO+tWw2w8s1SiLKDtrDQZtwhmmqQpJpL78GICEMP3JyAj6pXwBVugIwZxBTTxzwG33ABzBx0fgTtEaVbQqv32s7mhFSc4tnespcvPyGuw3s6PMo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qGwe81Pj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PACSSb+f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2188C4CECC;
-	Thu,  7 Nov 2024 16:42:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qGwe81Pj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 671C3C4CECC;
+	Thu,  7 Nov 2024 16:45:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730997741;
-	bh=WdyKJtb8azsZYUqpDghR52nsf2xjEriGSxLwMe1jM+I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PACSSb+fkWRl1il2twepV9lGk0DfomBOx8yQJfl8C+dbvcTbwd81LLg+GMQ06POoq
-	 ll5wofgywYTaRdTplbtJTlrZM5TGL12Jo0XdF0qEjyxxz3NPAeOgG5ewqVbkY+yQnc
-	 NDm6HvvJna0JwBNQuL6bBOFizP86JAudh9Txo/Hs0cPSfsPJeSH9MRFSmY2ibQkbjS
-	 mqZ3aOkw7PF3Kl1A9ExApW/bOjmeNCQQLRTKsyKnIfBkhgcpRMzDpnTcMJP4yTeJS9
-	 EhpbgDoTgBboKn8tUXhknXtZyWa1NscBKBTa+h9+UHB72ISRrcY0x6Va2r/LLKi4JS
-	 MwIbf4felViAA==
-Date: Thu, 7 Nov 2024 18:42:13 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Andrew Lunn <andrew@lunn.ch>, Bjorn Helgaas <helgaas@kernel.org>,
-	Sanman Pradhan <sanman.p211993@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, netdev@vger.kernel.org,
-	alexanderduyck@fb.com, kernel-team@meta.com, davem@davemloft.net,
-	edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, mohsin.bashr@gmail.com, sanmanpradhan@meta.com,
-	andrew+netdev@lunn.ch, jdamato@fastly.com, sdf@fomichev.me,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH net-next] eth: fbnic: Add PCIe hardware statistics
-Message-ID: <20241107164213.GA189042@unreal>
-References: <20241106122251.GC5006@unreal>
- <20241106171257.GA1529850@bhelgaas>
- <76fdd29a-c7fa-4b99-ae63-cce17c91dae9@lunn.ch>
- <20241106160958.6d287fd8@kernel.org>
- <20241107082327.GI5006@unreal>
- <b35f536e-1eb0-4b7b-85f4-df94d76927d6@linux.dev>
- <20241107120357.GL5006@unreal>
- <20241107074009.5712809a@kernel.org>
+	s=k20201202; t=1730997939;
+	bh=Be7kVOqc9oDldRngyHDx9b/u8eyDM+L+Oo7d4LCyzzE=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=qGwe81PjHYQN7GxX/Ql27Z+dHxd7xgchW+3Pfzi52Lo8B20FXA+byY1BJC6ZrUHYY
+	 h9oZpbQIfGI6qHDfPdKwHo5TLsYFSzywTAWXLxvusHMZvIA7g8YDvnksK7adgv/S8/
+	 +5QzeqPPauL9SaNfaW0DoMmLaeMU8CRaf4D7wmgU1PKN+YDcstXnKzQhNYa5A6MYWP
+	 6fMHRKp9oRcA/lPRbROwSNasiAAvbxpxSH2TKErlHDKVx+zjZuKUXD8DzixxhyeOvB
+	 3nc8GJ05I127RIjYNsuyQRBN3lyesC/CbUBtm4RAjF3SEJyL5a9YJ/jKOcweSwU0fM
+	 gf+GDGvF+QNOA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241107074009.5712809a@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 07 Nov 2024 18:45:35 +0200
+Message-Id: <D5G3K1QSPRNS.153H4EMMWEEBU@kernel.org>
+Cc: "Roberto Sassu" <roberto.sassu@huawei.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] tpm: Opt-in in disable PCR integrity protection
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Mimi Zohar" <zohar@linux.ibm.com>, <linux-integrity@vger.kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Peter Huewe" <peterhuewe@gmx.de>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>, "James Bottomley"
+ <James.Bottomley@HansenPartnership.com>
+X-Mailer: aerc 0.18.2
+References: <20241107095138.78209-1-jarkko@kernel.org>
+ <e015a939893d35efe75e598152725adcc2befdd8.camel@linux.ibm.com>
+ <D5FZRXBCH2B4.1GQIIVQHVB2XI@kernel.org>
+ <7f77c0e8b481fd813b3a76b84d33d8db62e235f7.camel@linux.ibm.com>
+In-Reply-To: <7f77c0e8b481fd813b3a76b84d33d8db62e235f7.camel@linux.ibm.com>
 
-On Thu, Nov 07, 2024 at 07:40:09AM -0800, Jakub Kicinski wrote:
-> On Thu, 7 Nov 2024 14:03:57 +0200 Leon Romanovsky wrote:
-> > > [root@host ~]# ethtool -i eth0 | grep driver
-> > > driver: mlx5_core
-> > > [root@host ~]# ethtool -S eth0 | grep pci
-> > >      rx_pci_signal_integrity: 1
-> > >      tx_pci_signal_integrity: 1471
-> > >      outbound_pci_stalled_rd: 0
-> > >      outbound_pci_stalled_wr: 0
-> > >      outbound_pci_stalled_rd_events: 0
-> > >      outbound_pci_stalled_wr_events: 0
-> > > 
-> > > Isn't it a PCIe statistics?  
-> > 
-> > I didn't do full archaeological research and stopped at 2017 there these
-> > counters were updated to use new API, but it looks like they there from
-> > stone age.
-> > 
-> > It was a mistake to put it there and they should be moved to PCI core
-> > together with other hundreds debug counters which ConnectX devices have
-> > but don't expose yet.
-> 
-> Whatever hand-waving you do now, it's impossible to take you seriously
-> where the device driver of which you are a maintainer does the same
-> thing. 
+On Thu Nov 7, 2024 at 4:00 PM EET, Mimi Zohar wrote:
+> On Thu, 2024-11-07 at 15:47 +0200, Jarkko Sakkinen wrote:
+> > On Thu Nov 7, 2024 at 3:44 PM EET, Mimi Zohar wrote:
+> > > >=20
+> > > > @@ -232,18 +236,26 @@ int tpm2_pcr_extend(struct tpm_chip *chip, u3=
+2 pcr_idx,
+> > > >  	int rc;
+> > > >  	int i;
+> > > > =20
+> > > > -	rc =3D tpm2_start_auth_session(chip);
+> > > > -	if (rc)
+> > > > -		return rc;
+> > > > +	if (!disable_pcr_integrity_protection) {
+> > > > +		rc =3D tpm2_start_auth_session(chip);
+> > > > +		if (rc)
+> > > > +			return rc;
+> > > > +	}
+> > > > =20
+> > > >  	rc =3D tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_PCR_EXTEND);
+> > > >  	if (rc) {
+> > > > -		tpm2_end_auth_session(chip);
+> > > > +		if (!disable_pcr_integrity_protection)
+> > > > +			tpm2_end_auth_session(chip);
+> > > >  		return rc;
+> > > >  	}
+> > > > =20
+> > > > -	tpm_buf_append_name(chip, &buf, pcr_idx, NULL);
+> > > > -	tpm_buf_append_hmac_session(chip, &buf, 0, NULL, 0);
+> > > > +	if (!disable_pcr_integrity_protection) {
+> > > > +		tpm_buf_append_name(chip, &buf, pcr_idx);
+> > >=20
+> > > tpm_buf_append_name() parameters didn't change.  Don't remove the 'na=
+me' field
+> > > here.
+> >=20
+> > Hmm... weird I'll check this. Maybe I had something left to staging...
 
-I said that it is a mistake and can add that we can move it to new infrastructure.
+Yes! This was correct in my clone but not in the patch.
 
-> And your direction going forward for PCIe debug, AFAIU, is the
-> proprietary fwctl stuff. Please stop.
+Clearly a sign that I wait until next week before sending a new version
+:-)
 
-Nice, and we are returning back to the discussion of evil vendors vs.
-good people who are working in cloud companies which produce hardware
-for themselves but don't call themselves vendors.
 
-The latter can do whatever they want, but vendors are doing only crap.
+> >=20
+> > >=20
+> > >=20
+> > > > +		tpm_buf_append_hmac_session(chip, &buf, 0, NULL, 0);
+> > > > +	} else {
+> > > > +		tpm_buf_append_handle(chip, &buf, pcr_idx);
+> > >=20
+> >=20
+> > > Or here.
+> >=20
+> > Here I think it is appropriate
+>
+> Agreed
 
-The patch author added these debug counters, and magically it is fine for you:
-+   These counters indicate PCIe resource exhaustion events:
-+        - pcie_ob_rd_no_tag: Read requests dropped due to tag unavailability
-+        - pcie_ob_rd_no_cpl_cred: Read requests dropped due to completion credit exhaustion
-+        - pcie_ob_rd_no_np_cred: Read requests dropped due to non-posted credit exhaustion
+Great
 
-For example, mlx5 devices and Broadcom have two simple PCIe counters: rx_errors and tx_errors,
-which have nothing to do with fwctl.
-
-And the idea, what you can take mistakes from the past, ignore the
-feedback and repeat these mistakes, fills me with amazement.
-
-So why don't you allow module parameters? Many drivers have them, but
-new are not allowed. If I claim that "vendor XXX has it, can I add it
-too?", we all know the answer.
-
-Thanks
+BR, Jarkko
