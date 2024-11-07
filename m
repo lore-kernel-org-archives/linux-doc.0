@@ -1,117 +1,136 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9F8D53F;
-	Thu,  7 Nov 2024 06:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63D9193438
+	for <linux-doc@vger.kernel.org>; Thu,  7 Nov 2024 06:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730961435; cv=none; b=G3ARsKvVAsbbGP3cI0hlq56mB5INWzMqMO8sLBSjcVTA/9vejyyI9QV6E34NwdkvhBUr4QVFPk/0tNQpUJuQ21ZvbDHsjuLJftqnixriAExRiEzdjZYqSMV1XDLLy5yRlLH76GnSVBVGi9C41pmcBvRqFLoIDzmlphUs2GGPIDE=
+	t=1730962053; cv=none; b=auV+/0TUgo1CEMw9ViNS8jvAN3Lib9T5sgT5v/v6Ha2bdtS8SAXRlF0TbjNN8qu9fxXpZdzGuF7ALkEcjpyWCFK6prig2VpB9WCdJ/3kXcU0p+mWqZScIDNM9gUzr70gtBlYPS7T/R3bx9rucQhK/XGE3bk5zbYc3MKRk4FVA+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730961435; c=relaxed/simple;
-	bh=R7Agzor76R8cssshT5VP5bIKcU+JM+7fLhT/BpB5DJ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MIqAYKspR8HuQhv17n7ZEZwcFJVMlz75D+xOA7LBzbSSNsA2I1iMCY/8r/EsiuFn6V1o8Det5gJ6Tsg6FVdjjgksnAGvRpZ8s4muGvU/H/UE1XosymOHoIJyivPkVgN/gKANp0oWwt/OJLuLvVAeoatlE+V+H2Rt57+pHSe7WL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MhIrKvI1; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730962053; c=relaxed/simple;
+	bh=ocy21hewhSAxDYmjcwPkCD/e6H5tK1tO/YDxSNJA5gg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aHjykJYqsxUfOkea7LsyJh9IPbaewO6raTMGqHlpvo/mW+qrsyjrUpsZuUmHl0MRwTJ70GbLyA/vEhLHXun5n28/KyRWZ3R3vDpkkM0j48owdj1B1tZQQMifgTVzmAmZbTovdEhl00bBfMg6R9828lFJiQ9B4sTl8d+zufGWQHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=IGwfooxI; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MhIrKvI1"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7181885ac34so437091a34.3;
-        Wed, 06 Nov 2024 22:37:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="IGwfooxI"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-72041ff06a0so471203b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 06 Nov 2024 22:47:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730961433; x=1731566233; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A2DKKAPCqm3qy9Qkbsj/XEzvJTNx0NheCX+H6XvpWYI=;
-        b=MhIrKvI1tdYtGc9OKrDNn57fL1mjDGHgL0FmFoiJrYhM77vzKh1/nbU19tbnu996tj
-         8b3c+eKFH13Ry4jNJiYFGLg7QvakjsshRxU2UiS6XtoueFzvXPW45QX0aL962Vz74OEk
-         9DeoENtTHrY58V5C7qDiMoMtMsDWMc+02Z2zVxC1MEwUr8MuLuh22ckzguSHUchQrBzb
-         rmuvHcaTesm1/9+MOuZCjdq71DYNwqsz/ZtHhjlrC+Udw4hFF+1wCRveo0Xcv6qCumCH
-         zna9+Rjh6h2u7BV5Gwz7satGirOawJ55wtPqFQhFNR1usdNNpgbqr/7J9TAxWh/iCkxV
-         N31g==
+        d=bytedance.com; s=google; t=1730962051; x=1731566851; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s4sYJYVbNn+8nZHewUYqHaSq6iJqGNPs8Z77SlmIpAU=;
+        b=IGwfooxItxr2eZv0Z6GebPYXkNiKtZQTDa9+C3jDPMSvd/nreT/SlUrmCsqHMsEl8R
+         7c75cPpXaqCny/fci5KFlGzHiAxNlUddAKefRPmnjedzIfmCk1p2PEHiYfIaLbUzJOEE
+         1XiVsRDxPbSyelvE5M/qPlRwKw+/VsuqsXYsD6v0dtpSlS2HcwWMyokYhwzh3ND4moY/
+         weS3OEE0Kji4mKge3Yid4t6k+jujD1MhNQag1LmNOtvWwV7vkjFxo2duEBf/FfyE4aTq
+         0R75mpU43oVS4RNy2MD0iQWIp5PrZrO+03MAj6I8E25kd/fGADokFuecyqZ/xtp+EsHo
+         cb6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730961433; x=1731566233;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A2DKKAPCqm3qy9Qkbsj/XEzvJTNx0NheCX+H6XvpWYI=;
-        b=BGx4uOufOx/2cYcUzF+VAQWKLMn5rbCBqEl2ETUf2u7My5HT6GEa+w/vO6ZQaMDkY+
-         WQJFYo0e8+c6WWN7aPESaLQEhxFt7y53hmsKpVa9fL3SGzAO4CBEYFEUqy57E4RLP1Iu
-         U2lkXvhyE4aT1ln5LTkU3jxYVxlfU1PEJ1ECsKks6u7KVNlSeOLZqI7qpjz1iH8R88+g
-         I2mQuZv4E9FmcvRRncHonNtqfL2+wOpiv1NvKstX8NQYt2x2UBzz4HXJUaISp9hsx40o
-         VeQCYkGcGbr0M3Kj4q/avCOubrUhkXl9j0BVKIhxshn8weL8JaZgxS9hWUpgvYsoYZ8a
-         uh3A==
-X-Forwarded-Encrypted: i=1; AJvYcCUVEVDjyfgqQyKS111LyC997x++xIUmetX4FkuPuQuAklt2s4yjZwrZfDsgGHqqXJWhWHdY33QPa8Zp@vger.kernel.org, AJvYcCX+niPa3ALypFHEqTDkTrdpxJustUo8ScqZ9V/dzCbbC2EDrMRZTzYWt8mBVgLYs0fSmqTNx9bWPyi+aYNB@vger.kernel.org, AJvYcCX1lgOQKzvv2elf9S4HeG/U7Ax6E2iZILWYIqDx+PfMUzbihVw3v2GnYxqlpjCKxorrQq0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfOHvRnA8ZdqPfqeh2Winskl4G5Jsb48Hcdd//QwAwFPq3g8n1
-	h0QRcnvR3zO56IKQbycu5amcV7gYsvC5g47jdzOSnykTTejf1+5L
-X-Google-Smtp-Source: AGHT+IGs2DM71e9maKHXQ+AR3VNSQggk59vK7PPwYNupVqCEJ8J8WZE4T3dtfFxGit5d8SayinzITA==
-X-Received: by 2002:a05:6830:6f83:b0:718:4395:1cc7 with SMTP id 46e09a7af769-71868118311mr47224102a34.12.1730961433243;
-        Wed, 06 Nov 2024 22:37:13 -0800 (PST)
-Received: from 1337.tail8aa098.ts.net (ms-studentunix-nat0.cs.ucalgary.ca. [136.159.16.20])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f48abbdsm616310a12.10.2024.11.06.22.37.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 22:37:12 -0800 (PST)
-From: Abhinav Saxena <xandfury@gmail.com>
-To: linux-kernel-mentees@lists.linuxfoundation.org,
-	bpf@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Abhinav Saxena <xandfury@gmail.com>
-Subject: [PATCH 1/1] docs: bpf: verifier: remove trailing whitespace
-Date: Wed,  6 Nov 2024 23:37:08 -0700
-Message-Id: <20241107063708.106340-2-xandfury@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241107063708.106340-1-xandfury@gmail.com>
-References: <20241107063708.106340-1-xandfury@gmail.com>
+        d=1e100.net; s=20230601; t=1730962051; x=1731566851;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s4sYJYVbNn+8nZHewUYqHaSq6iJqGNPs8Z77SlmIpAU=;
+        b=rWfWKq9UtGTOJqEgzKAcVQukHN6MT3Cg9OtfIF088NusLPskrNiAFjxcDrONovErzW
+         FOhKSUeQfnXpGT4Wa5WbcFjV87pb8iJG2S1sAB7757NdaJsc0HejaJMBVLAfCYAcoCAQ
+         KW1J9VKM8HzvwteXeOoicQPBzUWlXkKc7rGI2aBjfyoQqggqdbD6qU7fybKcDlUsB4mb
+         6QkDN2HajAw9eAwQ+7xyRfUFXzySuINF5ajYjDA2D9OHVskS2GXJTjAXwrJs+FZFG3xN
+         zYXr1tjSY2riig0KaIOh//2Mf3PdVgecTGqd4wPZSQkVMRw5S0mNFmS0V+btYQjUJSCz
+         ydRA==
+X-Forwarded-Encrypted: i=1; AJvYcCVs8jufQNI2zZGkfOZi9qYx3MaJ+PV4/ObHeGnCKHz5jJ3Kfiiim7klCpWW+XKZ40wFtcgQjQCQmXY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxrToCj+Mzr9zr1vwdITKa4qph1f8ijtMX+0MRXolyJHp6XIhz
+	e8SAI/Us373e84B/CJwc4Xkqv8f68Dl3omp0geVqpJUpWhKEJIzDZmABla1OX8k=
+X-Google-Smtp-Source: AGHT+IGp00cwnqhnTxAKDFFNKj94JDLmBpGJ7s9/Sh6DkVmQYzY5A32qRipE+c1ujUWd9JYadTCp2w==
+X-Received: by 2002:a05:6a00:3917:b0:71d:e93e:f542 with SMTP id d2e1a72fcca58-720c9990c4amr28075226b3a.21.1730962051155;
+        Wed, 06 Nov 2024 22:47:31 -0800 (PST)
+Received: from [10.84.149.95] ([63.216.146.178])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078ce169sm722303b3a.86.2024.11.06.22.47.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Nov 2024 22:47:30 -0800 (PST)
+Message-ID: <356ef11a-02aa-4661-b8af-4c72cef5c9b5@bytedance.com>
+Date: Thu, 7 Nov 2024 14:47:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] docs/mm: add VMA locks documentation
+Content-Language: en-US
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Alice Ryhl <aliceryhl@google.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Matthew Wilcox <willy@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20241101185033.131880-1-lorenzo.stoakes@oracle.com>
+ <CAG48ez0qsAM-dkOUDetmNBSK4typ5t_FvMvtGiB7wQsP-G1jVg@mail.gmail.com>
+ <2bf6329e-eb3b-4c5e-bd3a-b519eefffd63@lucifer.local>
+ <5969f498-a515-4394-a2b6-5d3abe2872aa@bytedance.com>
+ <ad882462-0ae9-4ca7-bbf7-7728de71c422@lucifer.local>
+From: Qi Zheng <zhengqi.arch@bytedance.com>
+In-Reply-To: <ad882462-0ae9-4ca7-bbf7-7728de71c422@lucifer.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
----
- Documentation/bpf/verifier.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/bpf/verifier.rst b/Documentation/bpf/verifier.rst
-index d23761540002..95e6f80a407e 100644
---- a/Documentation/bpf/verifier.rst
-+++ b/Documentation/bpf/verifier.rst
-@@ -507,7 +507,7 @@ Notes:
-   from the parent state to the current state.
- 
- * Details about REG_LIVE_READ32 are omitted.
--  
-+
- * Function ``propagate_liveness()`` (see section :ref:`read_marks_for_cache_hits`)
-   might override the first parent link. Please refer to the comments in the
-   ``propagate_liveness()`` and ``mark_reg_read()`` source code for further
-@@ -571,7 +571,7 @@ works::
-   are considered equivalent.
- 
- .. _read_marks_for_cache_hits:
--  
-+
- Read marks propagation for cache hits
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--- 
-2.34.1
 
+On 2024/11/6 19:28, Lorenzo Stoakes wrote:
+> On Wed, Nov 06, 2024 at 10:56:29AM +0800, Qi Zheng wrote:
+>>
+>>
+>> On 2024/11/5 00:42, Lorenzo Stoakes wrote:
+>>> On Sat, Nov 02, 2024 at 02:45:35AM +0100, Jann Horn wrote:
+>>>> On Fri, Nov 1, 2024 at 7:50 PM Lorenzo Stoakes
+>>
+>> [...]
+>>
+>>>>> +
+>>>>> +Page table locks
+>>>>> +----------------
+>>
+>> Many thanks to Lorenzo for documenting page table locks! This is really
+>> needed. And at a glance, I agree with Jann's additions.
+> 
+> Thanks!
+> 
+> Will be respinning with all comments taken into account relatively soon.
+> 
+>>
+>>>>
+>>>> (except last-level page tables: khugepaged already deletes those for
+>>>> file mappings without using the mmap lock at all in
+>>>> retract_page_tables(), and there is a pending series that will do the
+>>>> same with page tables in other VMAs too, see
+>>>> <https://lore.kernel.org/all/cover.1729157502.git.zhengqi.arch@bytedance.com/>)
+>>
+>> Thanks to Jann for mentioning this series, I just updated it to v2
+>> recently:
+>>
+>> https://lore.kernel.org/lkml/cover.1730360798.git.zhengqi.arch@bytedance.com/
+> 
+> Yeah I need to read through a little bit as I was unaware of these paths (mm is
+> a big and sprawling subsystem more so than one might expect... :)
+> 
+> Could you cc- me on any respin, as at least an interested observer? Thanks!
+
+Sure, will cc- you in the next version. ;)
+
+> 
+>>
+>>>
+>>> Ugh wut OK haha. Will look into this.
+>>
+>> Thanks!
+>>
+> 
+> :>)
