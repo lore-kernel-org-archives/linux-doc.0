@@ -1,449 +1,857 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85282170C0;
-	Thu,  7 Nov 2024 20:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F11D210186;
+	Thu,  7 Nov 2024 20:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731010130; cv=none; b=NrwHseBuMtX4du4V6BuXQkjaQLmno0OovC7ItNKTODPW024UYarD9liR+fSCviGAoag4/nhqIBZaS6FrMgbdYcQrlJZtXeZkGnNEibr6ZowLXQheyL1cv6Wfqg4qf+wGRt/ajU5agPbfMLLOD3kfzFQMiSNyH8U7eAyC/1GAY9k=
+	t=1731011708; cv=none; b=Mypxo4dkzRjekxFB4tyTPLwYvl2l73Ld3BAKjxW72P0YMtvYgde+zdGNdxBi3ooSJhYOKtFmm4DXI+HFBjW+dEgO3hfFu2TYe/T6wSVFUe5QQGzk2nWap4AZMSaeB843RX1xw0iILHGfuYixK0b0D6xS1gtTQqLsvouz/lMj0Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731010130; c=relaxed/simple;
-	bh=Av7RhMGmU7eYjhAI+BRygBLlpxSr/FpTMggFJIPP6Cw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jV2c94H31bAeqEdvYZZoxWSU7Wb4VMjD24yhUmMeDvbC6tffOkpQv2j2YdHKp50W3MiuNvfiusoYYuZbGD+6jJAe5IoA6VQXLvP0XjfBxW36bqJIT9Z1I4KHHXorBqsStP9hCLNMP0Ko9/9XG5m5wuMDC5MIO1d3Rf6KJGpSQMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fUWkqQDu; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731011708; c=relaxed/simple;
+	bh=19hW8PuCgxIPzbUowxpzz/rix8WFwj+jKUS8LmciWGA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JDLmSvU+93yxBkgvtGfTzHaLiyR5ze6qzDCEUnx2efZUHiZvkwnu9epJzKU5Dzev5vH3cgmgBJvF2FrcyjTPfP0jRAfYAUx0jFopNa41g37Y8aRDUgLoJ2QLWCm45yNS2+IjNcdlPZTot8k8T1lm2VsOj7pRkicOGFbsFDRQgU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DvQ+Fh+T; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUWkqQDu"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20cdbe608b3so14902275ad.1;
-        Thu, 07 Nov 2024 12:08:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731010128; x=1731614928; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LU4E2f33NJ7g8z08bE6corv3PqBSlHY6GAIthEiSDn0=;
-        b=fUWkqQDuC2AJAU14RqV7HYfVz+DK2e3QCL8cpu3M45shE5hc+b0wTkKcIh/6QAZbS1
-         +Rv9p3skcBiQDPy5bKO0JuKlowfqtr9h69WyNcP5q0mNf0LX8lQvlM1ZQaryxVETno8p
-         zUB2pQeY1LRkSp4tdVOYCMlfWFKIkNLgLnjoog68n5tn1q3ZCIEWVOF6Fovt/P7CGxNx
-         4l9+Ojzg0QyVQpA1D8gdxthRMyhLAqPmnb7eU8lSoRWk6j7uiOiwYPMp/IcIqQqVQqAJ
-         z3ltsDCMLnhlPOSPpWPVLF+y47yJhWR/JVpnAeczEbGVFE+0j1xUwGauQJUnoTYEWYML
-         CGYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731010128; x=1731614928;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LU4E2f33NJ7g8z08bE6corv3PqBSlHY6GAIthEiSDn0=;
-        b=Au2xnc/AGQc0N2elgfjuRRJFupGzyCI1LD1u3XvhXSHWaIEQZdZy91xpbH7jzUeKmW
-         d+L2yPE5jVvwUFN1ckerDvoG4ywQStgUQDs7RqQtYv6FeBPmrEpkKTClK/n9zkSBq3J6
-         X39UNe9bdCtvu2x+eyOjIRnBChn2OEsHAEJvzMacIo3bMhLBQReb1TuEhBncmV63aXcE
-         VuurZWfHGdcO+Tc8WEd/w8UTg05upaWQq+QsAPjK2LVFuCg1Z+gMLRWDacYtZG0e4BLr
-         gMN/R8i0WtURvMfauar90D/glyFknoRvPIQoFX7rOu6qYuS2/2S7sWhp5nKv/4Vh+WwG
-         I9Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCVp2ijKDBdkgIyonn8nVKvOO3uK97v0GxKCsAHux20dnCj5vQLKkuK1h8+YindzdX9yQEKsXZQowAoifgU=@vger.kernel.org, AJvYcCW7epUri9QZUudLoHYcmq1nzwdR7PxdMCgF/Wb8ow6yTryIv0ALMGePzdVne14yLH5blK6f+8A0JhE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzc68U7+2hK5kjHadbO4iV04y8JKp3B/+XUzi2ixRuG3N01R+Fq
-	QruzcPzeWXtQSJgO3OQJZNLn5Tt6jhb+mtpXwllRtkni9cxMs9nd
-X-Google-Smtp-Source: AGHT+IFxpnNqWRSEMYChCKmfzU48M6/R4+Uj+mojz28SSf+uk/G7ozEA5wJ3MCiy4a5Q+tR6rKHqmA==
-X-Received: by 2002:a17:902:e54b:b0:211:898:7ceb with SMTP id d9443c01a7336-2118354e2e8mr2249405ad.14.1731010127785;
-        Thu, 07 Nov 2024 12:08:47 -0800 (PST)
-Received: from localhost.localdomain ([4.79.216.99])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177dca005sm16645385ad.37.2024.11.07.12.08.46
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 07 Nov 2024 12:08:47 -0800 (PST)
-From: anish kumar <yesanishhere@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: [RFC PATCH] ALSA: Add debugging guide for audio issues
-Date: Thu,  7 Nov 2024 12:08:35 -0800
-Message-Id: <20241107200835.3033-1-yesanishhere@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DvQ+Fh+T"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1892842C17
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1731011705; bh=DFw9ZsVMxMIKa+nOzXr4cmBSgYZp9HpUQquoar8CQoc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=DvQ+Fh+TNLH+1NAdomYSn+J7tk+DR59I7dLWOTFDtM3ch0OHen/QL2XQgbUSTIEEq
+	 ZG0DASTbv6Olq1nkfYQohV0zQbfd0qZg4zgsRNGTU7f4ZhyMjzps0V/vNktO5iQsOz
+	 YoQnTsTbLtsLSb34HgFnABOuaMAZtX9gMiBA0zfjD57Ed9JLwEcXsmqpdRj3IBHFxG
+	 8oaL88Ta8minJsoP2Wk+w3uNA7jtz5AJqi2EIpCrZ4yuOOCOyF8aJy07hqda6FIcl7
+	 8dy/9ptAMuQn+AlAQoKx4qg1y7U7LMkEFbLMH6PXLNSiOg9huM5V/ibU9L9+RSvOEM
+	 GLN1yA6Iw7AIg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1892842C17;
+	Thu,  7 Nov 2024 20:35:05 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
+ mauro.chehab@linux.intel.com, kernel@collabora.com,
+ bob.beckett@collabora.com, nicolas.dufresne@collabora.com, Sebastian
+ Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH 1/2] docs: Add guides section for debugging
+In-Reply-To: <20241028-media_docs_improve_v3-v1-1-2b1b486c223e@collabora.com>
+References: <20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com>
+ <20241028-media_docs_improve_v3-v1-1-2b1b486c223e@collabora.com>
+Date: Thu, 07 Nov 2024 13:35:04 -0700
+Message-ID: <87ldxu235z.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Add a comprehensive debugging guide for ALSA audio issues, covering
-topics from bootup to runtime debugging. This document aims to help
-developers diagnose and resolve common audio problems in Linux.
+Sebastian Fricke <sebastian.fricke@collabora.com> writes:
 
-The guide includes sections on:
-- Bootup/bringup issues
-- Runtime debugging
-- XRUN debugging
-- Audio pops and clicks
+> This idea was formed after noticing that new developers experience
+> certain difficulty to navigate within the multitude of different
+> debugging options in the Kernel and while there often is good
+> documentation for the tools, the developer has to know first that they
+> exist and where to find them.
+> Add a general debugging section to the Kernel documentation, as an
+> easily locatable entry point to other documentation and as a general
+> guideline for the topic.
+>
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> ---
+>  Documentation/index.rst                            |   2 +
+>  .../driver_development_debugging_guide.rst         | 206 +++++++++++++++
+>  Documentation/process/debugging/general_advice.rst |  48 ++++
+>  Documentation/process/debugging/index.rst          |  21 ++
+>  .../debugging/userspace_debugging_guide.rst        | 278 +++++++++++++++=
+++++++
+>  5 files changed, 555 insertions(+)
+>
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 36e61783437c..be19f0a79a6a 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -57,6 +57,7 @@ Various other manuals with useful information for all k=
+ernel developers.
+>     dev-tools/testing-overview
+>     kernel-hacking/index
+>     trace/index
+> +   process/debugging/index
+>     fault-injection/index
 
-This addresses the lack of a centralized debugging resource for ALSA
-and should help improve the troubleshooting process for audio drivers.
+Please, let's not add this to the top-level page.  I've been through a
+multi-year struggle trying to trim that page down to the point where it
+is possible to actually find something of interest there.  Everybody
+wants their stuff up front, but please link this from the process guide
+instead.=20
 
-Inspired by discussions on LKML:
-https://lkml.org/lkml/2024/9/24/392
+>     livepatch/index
+>     rust/index
+> @@ -76,6 +77,7 @@ developers seeking information on the kernel's user-spa=
+ce APIs.
+>     The kernel build system <kbuild/index>
+>     admin-guide/reporting-issues.rst
+>     User-space tools <tools/index>
+> +   process/debugging/userspace_debugging_guide.rst
+>     userspace-api/index
 
-Signed-off-by: anish kumar <yesanishhere@gmail.com>
----
- Documentation/sound/soc/debug.rst | 334 ++++++++++++++++++++++++++++++
- Documentation/sound/soc/index.rst |   1 +
- 2 files changed, 335 insertions(+)
- create mode 100644 Documentation/sound/soc/debug.rst
+...and linking it twice from that page is even worse...
 
-diff --git a/Documentation/sound/soc/debug.rst b/Documentation/sound/soc/debug.rst
-new file mode 100644
-index 000000000000..3905fc9e4c58
---- /dev/null
-+++ b/Documentation/sound/soc/debug.rst
-@@ -0,0 +1,334 @@
-+===================================================
-+ALSA Debugging Tools and Techniques in Linux Kernel
-+===================================================
-+
-+:Author: Anish Kumar <yesanishhere@gmail.com>
-+
-+Abstract
-+--------
-+
-+This document provides different tools and techniques useful for debugging audio
-+issues in Linux, covering problems from booting to shutdown. This guide is not
-+exhaustive but aims to explain potential audio issues or bugs that can arise
-+when bringing up audio drivers on Linux or fixing existing audio corruption
-+issues during playback or capture.
-+
-+1. Introduction
-+===============
-+
-+Audio debugging in Linux systems requires a systematic approach to identify and
-+resolve issues at various stages of the audio pipeline. This document presents a
-+comprehensive guide to audio debugging tools and techniques, covering bootup
-+issues, runtime debugging, and specific problems such as audio corruption and
-+XRUNs.
-+
-+2. Bootup/Bringup Issues
-+========================
-+
-+In order to provide audio services, the ALSA sound card is the first component
-+that gets registered in the system. If you are not hearing boot-up sounds, check
-+the following in the procfs filesystem:
-+
-+- **/proc/asound/**: This is a virtual filesystem in Linux that provides
-+  information about the ALSA sound system. It allows users to interact with and
-+  obtain details about audio devices.
-+
-+- Check if **/proc/asound/cards** is populated. If it is not, this means sound
-+  card registration has failed. All sound cards are listed there. This entry can
-+  be useful for:
-+
-+  - Verifying if a sound card has been properly registered and is present in the
-+    system.
-+  - Finding the index of a given card. Card indexes are dynamically assigned as
-+    cards are registered. User-space software may assume cards have certain
-+    indexes, which could change depending on runtime dynamics. For example,
-+    index 0 may be assigned to card B instead of card A if card A's registration
-+    is deferred due to a missing dependency (e.g., an I2C codec that has not
-+    been probed yet).
-+
-+If the sound card is registered, check its capabilities and devices for
-+playback. There are various devices that can be connected to the system, such as
-+wired headsets, Bluetooth headsets, and internal speakers. If you are looking to
-+play audio on a wired headset, look for the corresponding entry in:
-+
-+- **/proc/asound/pcm**: This lists all PCM devices for all sound cards present
-+  in the system. Each PCM device has a directory structure like:
-+  :file:`/proc/asound/cardX/pcmY[p,c]/*`. Here, X is the card index number (as found
-+  in **/proc/asound/cards**) and Y is the PCM device index (as found in
-+  **/proc/asound/pcm**). The [p,c] indicates the direction of the PCM stream:
-+
-+  - p: Playback stream. Represents the PCM device used for audio output (e.g.,
-+    sending audio data to speakers).
-+  - c: Capture stream. Represents the PCM device used for audio input (e.g.,
-+    receiving audio data from a microphone).
-+
-+For playback, the relevant PCM device should be listed as:
-+:file:`/proc/asound/card0/pcm0p0c0`. Example output from my system::
-+
-+    00-00: CX20632 Analog : CX20632 Analog : playback 1 : capture 1
-+    00-02: HDMI 0 : HDMI 0 : playback 1
-+
-+This output indicates that I have only one sound card in my system, with
-+starting index 0, capable of both playing and capturing audio. The same sound
-+card also provides HDMI playback capability, but no ARCIN, so there is no
-+capture path.
-+
-+2.1 How Sound Card Registration Happens
-+---------------------------------------
-+
-+If the sound card is not registered, or if it is registered but the
-+corresponding device node is not created, it is important to understand how the
-+ASoC core creates these nodes. In summary, it creates PCM nodes once it finds
-+all the CPU DAI, codec DAI, and platform DAI associated with the particular
-+``snd_soc_dai_link`` instance. For example, in the kernel source file
-+:file:`sound/soc/samsung/littlemill.c`:
-+
-+.. code-block:: c
-+
-+    SND_SOC_DAILINK_DEFS(cpu,
-+        DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
-+        DAILINK_COMP_ARRAY(COMP_CODEC("wm8994-codec", "wm8994-aif1")),
-+        DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
-+
-+    SND_SOC_DAILINK_DEFS(baseband,
-+        DAILINK_COMP_ARRAY(COMP_CPU("wm8994-aif2")),
-+        DAILINK_COMP_ARRAY(COMP_CODEC("wm1250-ev1.1-0027", "wm1250-ev1")));
-+
-+The ``SND_SOC_DAILINK_DEFS`` macro helps define the parameters for a digital
-+audio interface (DAI) link in a structured way. The macro typically includes
-+definitions for several important components of a DAI link:
-+
-+- **CPU DAI**: The data interface associated with the CPU that handles audio
-+  data. It defines how the CPU interacts with the audio subsystem.
-+- **Codec DAI**: The data interface for the audio codec, which converts digital
-+  audio data to an analog signal (and vice versa). This is crucial for playback
-+  and capture.
-+- **Platform DAI**: Represents the platform layer that connects the CPU and
-+  codec DAI. It handles the specifics of data transfer between the CPU and
-+  codec.
-+- **Stream Names**: Defines the names for playback and capture streams, which
-+  are used by the audio subsystem for routing audio data.
-+
-+This can be simplified as follows for easier understanding:
-+
-+.. code-block:: c
-+
-+    SND_SOC_DAILINK_DEFS(my_dai_link,
-+        SND_SOC_DAILINK_REG(cpu_dai),
-+        SND_SOC_DAILINK_REG(codec_dai),
-+        SND_SOC_DAILINK_REG(platform_dai)
-+    );
-+
-+When ``devm_snd_soc_register_card`` is called, the ASoC core checks if the CPU,
-+codec, and platform DAI probe callbacks are successful. If any of these fail,
-+the sound card registration fails. There are two probes involved: one for the
-+registration of the device (which could be I2C, I2S, or any hardware device) and
-+the other is the probe callback from the ASoC core. Both must succeed for the
-+devices to show up in the proc filesystem. For example, if the codec driver is
-+I2C-based, the first probe for the I2C driver should succeed, and as part of
-+this, the ASoC component gets registered. When the card is being registered by
-+the machine driver, the ASoC core checks if the codec component probe is
-+successful. The same applies to other CPU and platform components.
-+
-+3. Runtime Debugging
-+====================
-+
-+Once the sound card and corresponding PCM nodes appear in the procfs filesystem,
-+basic audio booting is successful. However, this does not guarantee successful
-+playback using the ``aplay`` command. For example::
-+
-+    aplay -D hw:0,0 sound.wav
-+
-+If audio does not play, check the following:
-+
-+- **Unsupported Sample Rate**: Ensure the audio file's sample rate matches the
-+  hardware's supported rates. Use::
-+
-+    aplay -f S16_LE -c 2 -r 44100 sound.wav
-+
-+  If the hardware does not support the requested sample rate, it may lead to
-+  playback issues.
-+
-+- **Incorrect Channels**: Verify that the number of channels in your audio file
-+  matches the hardware's supported configuration (e.g., stereo vs. mono).
-+
-+- **Bit Depth Issues**: Ensure the bit depth of the audio file is supported by
-+  the hardware.
-+
-+- **Device Configuration**: Confirm that the card and device numbers are correct
-+  by checking your device list with::
-+
-+    aplay -l
-+
-+- **Format Conversion**: If the format is unsupported, convert it to a
-+  compatible format (e.g., WAV).
-+
-+4. Noise Debugging
-+==================
-+
-+If you are experiencing noise issues, it may be beneficial to check if you are
-+encountering XRUN issues. XRUNs can often manifest as audible noise or glitches
-+in the audio output.
-+
-+4.1 What is XRUN?
-+-----------------
-+XRUN refers to an overflow or underflow condition in the audio buffer during
-+playback or recording.
-+
-+4.2 Types of XRUN
-+-----------------
-+- **Overflow (XRUN)**: This occurs when the audio playback buffer runs out of
-+  data to play. This situation arises when the application is not supplying data
-+  to the buffer quickly enough, leading to dropouts or gaps in the sound.
-+
-+- **Underflow (XRUN)**: This happens when the audio capture buffer fills up
-+  before the application can process the incoming data. If the application does
-+  not read the data quickly enough, it causes data loss, and the capture stream
-+  fails to record audio smoothly.
-+
-+4.3 Causes of XRUNs
-+-------------------
-+- **High CPU Load**: If the system is under heavy load, it may not process audio
-+  interrupts on time, leading to missed interrupts.
-+
-+- **Incorrect Period Size**: A period size that is too small may result in
-+  system scheduling delays, causing interrupts to be handled late and leading to
-+  frame drops and ultimately XRUNs.
-+
-+- **Inefficient Audio Processing by Userspace**: If userspace tasks take too
-+  long to execute, this can delay the feeding or retrieval of data from the
-+  buffer.
-+
-+- **I/O Latency**: Latency from I/O in single-threaded, non-optimized audio
-+  applications can cause significant problems related to XRUN. Due to large I/O
-+  latencies, the ALSA buffer is likely to overflow or underflow. Applications
-+  like aplay, arecord, tinyplay, and tinyrecord may suffer from this issue
-+  because they are single-threaded.
-+
-+- **Misconfiguration**: Improper settings in the audio application or driver
-+  configuration can contribute to XRUN occurrences.
-+
-+4.4 Debugging XRUN
-+------------------
-+Diagnosing the exact cause of XRUNs can be challenging. However, the following
-+steps can help identify the issue:
-+
-+1. **Reduce CPU Load**: Stop any applications other than the playback
-+   application to see if the XRUNs cease.
-+
-+2. **Increase Period Size**: Adjusting the period size can give the system more
-+   time to handle interrupts.
-+
-+3. **Test with Special Files**: If I/O latency is suspected, try playing audio
-+   via special files like ``/dev/zero`` (e.g., ``aplay -D hw:0,0 -f CD -d 30``),
-+   as this reads data from RAM rather than I/O.
-+
-+4. **Change Userspace Application**: Switch to a different application to see if
-+   it is the source of the problem.
-+
-+5. **Use ftrace**: Profile the call flow of the ALSA drivers using ftrace to
-+   determine if any function calls are taking too long to execute during XRUN
-+   events.
-+
-+6. **Check ALSA Documentation**: Refer to the ALSA XRUN Debugging Guide [#f1]_
-+   for additional troubleshooting steps.
-+
-+7. **Inspect procfs Filesystem**: Use the command
-+   ``cat /proc/asound/cardX/pcmY/subZ/status`` to dump the hardware and software
-+   pointers of the ring buffer used by ALSA. Check if the pointers are
-+   incrementing correctly. If they do not change, it indicates that the
-+   underlying hardware is unable to process data, which could be due to
-+   misconfiguration or some bug in interrupt processing.
-+
-+4.5 Example Status Output
-+-------------------------
-+The following command displays the status output for a specific PCM device::
-+
-+    # cat /proc/asound/card0/pcm0p/sub0/status
-+
-+The output is as follows::
-+
-+    state: RUNNING
-+    owner_pid: 1234
-+    trigger_time: 1000000.1000000
-+    tstamp: 1000000.1000000
-+    delay: 1234
-+    avail: 0
-+    avail_max: 0
-+    hw_ptr: 64
-+    appl_ptr: 4192
-+
-+**Description of Fields**:
-+
-+- **state**: Current state of the PCM device (e.g., RUNNING).
-+- **owner_pid**: Process ID of the owner of the PCM stream.
-+- **trigger_time**: Time when the last trigger occurred.
-+- **tstamp**: Timestamp of the last audio sample processed.
-+- **delay**: Current delay in microseconds.
-+- **avail**: Available frames in the buffer.
-+- **avail_max**: Maximum frames that can be made available.
-+- **hw_ptr**: Hardware pointer indicating the position in the buffer.
-+- **appl_ptr**: Application pointer indicating the position in the buffer.
-+
-+4.6 Fixing XRUNs
-+----------------
-+- **Optimize Application**: Convert single-threaded applications like
-+  aplay/arecord/tinyplay/tinyrecord to multi-threaded ones. This allows one
-+  thread to read multimedia data while another thread writes to the hardware. An
-+  additional RAM circular buffer may be needed to manage I/O latency. The thread
-+  reading from I/O should read larger amounts of data into the circular buffer,
-+  while the thread writing to hardware reads from this buffer.
-+
-+- **Increase Period Size**: Adjusting the period size can help accommodate
-+  delays in audio processing, allowing the CPU more time to handle interrupts.
-+
-+- **Optimize System Performance**: Reducing CPU load or prioritizing audio
-+  processing can help mitigate XRUNs.
-+
-+5. Audio Pops and Clicks
-+========================
-+
-+For detailed information about audio pops and clicks, refer to :doc:`/sound/soc/pops-clicks`.
-+
-+5.1 Debugging Pop Issues
-+------------------------
-+To diagnose and resolve pop issues, consider the following steps:
-+
-+1. **Check Sequencing**:
-+
-+   - Ensure that the sequencing mentioned in the above document is being
-+     followed correctly.
-+
-+2. **Device Switching**:
-+
-+   - If pops occur during the switch from one device to another, test by playing
-+     zero data to determine if the issue persists::
-+
-+       aplay -f dat /dev/zero
-+
-+   - If the pops continue, it indicates that the device switch is causing the
-+     problem.
-+
-+3. **Register Write Events**:
-+
-+   - If pops occur during register writes due to triggered events, you can
-+     introduce a delay between register writes with the following command::
-+
-+       echo 1 > /sys/module/snd_soc_core/parameters/regmap_sync_cache
-+
-+   - This command introduces a delay between register writes, which may help in
-+     identifying the specific register causing the pop.
-+
-+6. Conclusion
-+=============
-+
-+Audio debugging in Linux systems requires a methodical approach and
-+understanding of various components in the audio pipeline. By following the
-+techniques and utilizing the tools described in this document, developers can
-+effectively diagnose and resolve audio-related issues in Linux environments.
-+Regular system monitoring, proactive debugging, and staying updated with the
-+latest ALSA developments are key to maintaining optimal audio performance in
-+Linux systems.
-+
-+.. [#f1] ALSA XRUN Debugging Guide:
-+   https://www.alsa-project.org/main/index.php/XRUN_Debug
-diff --git a/Documentation/sound/soc/index.rst b/Documentation/sound/soc/index.rst
-index e57df2dab2fd..667d18681583 100644
---- a/Documentation/sound/soc/index.rst
-+++ b/Documentation/sound/soc/index.rst
-@@ -18,3 +18,4 @@ The documentation is spilt into the following sections:-
-    jack
-    dpcm
-    codec-to-codec
-+   debug
--- 
-2.39.3 (Apple Git-146)
+>  See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_,
+> diff --git a/Documentation/process/debugging/driver_development_debugging=
+_guide.rst b/Documentation/process/debugging/driver_development_debugging_g=
+uide.rst
+> new file mode 100644
+> index 000000000000..f3d9c2c192c4
+> --- /dev/null
+> +++ b/Documentation/process/debugging/driver_development_debugging_guide.=
+rst
+> @@ -0,0 +1,206 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Debugging advice for driver development
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +This document serves as a general starting point and lookup for debuggin=
+g device
+> +drivers.
+> +While this guide focuses on debugging that requires re-compiling the
+> +module/kernel, the :doc:`userspace debugging guide
+> +</process/debugging/userspace_debugging_guide>` will guide
+> +you through tools like dynamic debug, ftrace and other tools useful for
+> +debugging issues and behavior.
+> +For general debugging advice, see the :doc:`general advice document
+> +</process/debugging/general_advice>`.
+> +
+> +.. contents::
+> +    :depth: 3
 
+Not sure this is necessary for these short files, but whatever
+
+> +The following sections show you the available tools.
+> +
+> +Printk & friends
+> +----------------
+
+When referencing the function, say printk() - that's the convention we
+use.=20
+
+> +
+> +These are derivatives of printf() with varying destinations and support =
+for
+> +being dynamically turned on or off, or lack thereof.
+> +
+> +Simple printk
+> +~~~~~~~~~~~~~
+> +
+> +The classic, can be used to great effect for quick and dirty development
+> +of new modules or to extract arbitrary necessary data for troubleshootin=
+g.
+> +
+> +Prerequisite: `CONFIG_PRINTK` (usually enabled by default)
+> +
+> +**Pros**:
+> +
+> +- No need to learn anything, simple to use
+> +- Easy to modify exactly to your needs (formatting of the data (See:
+> +  :doc:`/core-api/printk-formats`), visibility in the log)
+> +- Can cause delays in the execution of the code (beneficial to confirm w=
+hether
+> +  timing is a factor)
+> +
+> +**Cons**:
+> +
+> +- Requires rebuilding the kernel/module
+> +- Can cause delays in the execution of the code (which can cause issues =
+to be
+> +  not reproducible)
+> +
+> +For the full documentation see :doc:`/core-api/printk-basics`
+> +
+> +Trace_printk
+> +~~~~~~~~~~~~
+> +
+> +Prerequisite: `CONFIG_DYNAMIC_FTRACE` & `#include <linux/ftrace.h>`
+> +
+> +It is a tiny bit less comfortable to use than printk(), because you will=
+ have
+> +to read the messages from the trace file (See: :ref:`read_ftrace_log`
+> +instead of from the kernel log, but very useful when printk() adds unwan=
+ted
+> +delays into the code execution, causing issues to be flaky or hidden.)
+> +
+> +If the processing of this still causes timing issues then you can try
+> +trace_puts().
+> +
+> +For the full Documentation see trace_printk()
+> +
+> +dev_dbg
+> +~~~~~~~
+> +
+> +Print statement, which can be targeted by :ref:`process/debugging/usersp=
+ace_debugging_guide:dynamic debug`
+
+It would still be nice to stick to the line-length limit wherever
+possible.  Here it is possible.
+
+> +that contains additional information about the device used within the co=
+ntext.
+> +
+> +**When is it appropriate to leave a debug print in the code?**
+> +
+> +Permanent debug statements have to be useful for a developer to troubles=
+hoot
+> +driver misbehavior. Judging that is a bit more of an art than a science,=
+ but
+> +some guidelines are in the :ref:`Coding style guidelines <process/coding=
+-style:13) printing kernel messages>`
+
+Here too.
+
+Working drivers are supposed to be quiet, though, so I think the real
+answer to this question is "almost never".
+
+> +Custom printk
+> +~~~~~~~~~~~~~
+> +
+> +Example::
+> +
+> +  #define core_dbg(fmt, arg...) do { \
+> +	  if (core_debug) \
+> +		  printk(KERN_DEBUG pr_fmt("core: " fmt), ## arg); \
+> +	  } while (0)
+> +
+> +**When should you do this?**
+> +
+> +It is better to just use a pr_debug(), which can later be turned on/off =
+with
+> +dynamic debug. Additionally, a lot of drivers activate these prints via a
+> +variable like `core_debug` set by a module parameter. However, Module
+
+If you really want to mark up that name, it should probably be ``literal``
+
+> +parameters `are not recommended anymore
+> +<https://lore.kernel.org/all/2024032757-surcharge-grime-d3dd@gregkh>`_.
+> +
+> +Ftrace
+> +------
+> +
+> +Creating a custom Ftrace tracepoint
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This seems ... minimal.  It would be good to have, if nothing else, a
+paragraph explaining what a tracepoint is and how it might be useful.
+
+> +Here is a basic description of :ref:`how to implement new tracepoints
+> +<trace/tracepoints:usage>`.
+> +
+> +For the full event tracing documentation see :doc:`/trace/events`
+> +
+> +For the full Ftrace documentation see :doc:`/trace/ftrace`
+> +
+> +DebugFS
+> +-------
+> +
+> +Prerequisite: `CONFIG_DEBUG_FS` & `#include <linux/debugfs.h>`
+> +
+> +DebugFS differs from the other approaches of debugging, as it doesn't wr=
+ite
+> +messages to the kernel log nor add traces to the code. Instead it allows=
+ the
+> +developer to handle a set of files.
+> +With these files you can either store values of variables or make
+> +register/memory dumps or you can make these files writable and modify
+> +values/settings in the driver.
+> +
+> +Possible use-cases among others:
+> +
+> +- Store register values
+> +- Keep track of variables
+> +- Store errors
+> +- Store settings
+> +- Toggle a setting like debug on/off
+> +- Error injection
+> +
+> +This is especially useful, when the size of a data dump would be hard to=
+ digest
+> +as part of the general kernel log (for example when dumping raw bitstrea=
+m data)
+> +or when you are not interested in all the values all the time, but with =
+the
+> +possibility to inspect them.
+> +
+> +The general idea is:
+> +
+> +- Create a directory during probe (`struct dentry *parent =3D
+> +  debugfs_create_dir("my_driver", NULL);`)
+
+Again, I think this wants to be literal, not italic?
+
+> +- Create a file (`debugfs_create_u32("my_value", 444, parent, &my_variab=
+le);`)
+> +
+> +  - In this example the file is found in `/sys/kernel/debug/my_driver/my=
+_value`
+> +    (with read permissions for user/group/all)
+> +  - any update of `my_variable` will update the value in the file
+
+That's a bit of a strange way to put it.  I would say that any read of
+the file will return the current contents of the variable.
+
+> +- Clean up the folder when removing the device
+> +  (`debugfs_remove_recursive(parent);`)
+> +
+> +For the full documentation see :doc:`/filesystems/debugfs`.
+> +
+> +KASAN, UBSAN, lockdep and other error checkers
+> +----------------------------------------------
+> +
+> +KASAN (Kernel Address Sanitizer)
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Prerequisite: `CONFIG_KASAN`
+> +
+> +KASAN is a dynamic memory error detector that helps to find use-after-fr=
+ee and
+> +out-of-bounds bugs. It uses compile-time instrumentation to check every =
+memory
+> +access.
+> +
+> +For the full documentation see :doc:`/dev-tools/kasan`.
+> +
+> +UBSAN (Undefined Behavior Sanitizer)
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Prerequisite: `CONFIG_UBSAN`
+> +
+> +UBSAN relies on compiler instrumentation and runtime checks to detect un=
+defined
+> +behavior. It is designed to find a variety of issues, including signed i=
+nteger
+> +overflow, array index out of bounds, and more.
+> +
+> +For the full documentation see :doc:`/dev-tools/ubsan`
+> +
+> +lockdep (Lock Dependency Validator)
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Prerequisite: `CONFIG_DEBUG_LOCKDEP`
+> +
+> +lockdep is a runtime lock dependency validator that detects potential de=
+adlocks
+> +and other locking-related issues in the kernel.
+> +It tracks lock acquisitions and releases, building a dependency graph th=
+at is
+> +analyzed for potential deadlocks.
+> +lockdep is especially useful for validating the correctness of lock orde=
+ring in
+> +the kernel.
+> +
+> +For the full documentation see :doc:`/RCU/lockdep`
+
+That is anything but full documentation of lockdep; it's really only
+about RCU.  I wish (hint :) that we had proper documentation for lockdep
+that we could link here.  For the purposes of a reader who needs this
+level of guide, though, linking deep into RCU is not likely to be
+helpful.=20
+
+> +device coredump
+> +---------------
+> +
+> +Prerequisite: `#include <linux/devcoredump.h>`
+> +
+> +Provides the infrastructure for a driver to provide arbitrary data to us=
+erland.
+> +It is most often used in conjunction with udev or similar userland appli=
+cation
+> +to listen for kernel uevents, which indicate that the dump is ready. Ude=
+v has
+> +rules to copy that file somewhere for long-term storage and analysis, as=
+ by
+> +default, the data for the dump is automatically cleaned up after 5 minut=
+es.
+> +That data is analyzed with driver-specific tools or GDB.
+> +
+> +You can find an example implementation at:
+> +`drivers/media/platform/qcom/venus/core.c
+> +<https://elixir.bootlin.com/linux/v6.11.6/source/drivers/media/platform/=
+qcom/venus/core.c#L30>`__
+> +
+> +**Copyright** =C2=A92024 : Collabora
+> diff --git a/Documentation/process/debugging/general_advice.rst b/Documen=
+tation/process/debugging/general_advice.rst
+> new file mode 100644
+> index 000000000000..631430656d53
+> --- /dev/null
+> +++ b/Documentation/process/debugging/general_advice.rst
+> @@ -0,0 +1,48 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +General debugging advice
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Depending on the issue, a different set of tools is available to track d=
+own the
+> +problem or even to realize whether there is one in the first place.
+> +
+> +As a first step you have to figure out what kind of issue you want to de=
+bug.
+> +Depending on the answer, your methodology and choice of tools may vary.
+> +
+> +Do I need to debug with limited access?
+> +---------------------------------------
+> +
+> +Do you have limited access to the machine or are you unable to stop the =
+running
+> +execution?
+> +
+> +In this case your debugging capability depends on built-in debugging sup=
+port of
+> +provided distro kernel.
+> +The :doc:`/process/debugging/userspace_debugging_guide` provides a brief
+> +overview over range of possible debugging tools in that situation. You c=
+an
+> +check the capability of your kernel, in most cases, by looking into conf=
+ig file
+> +within the /boot folder.
+> +
+> +Do I have root access to the system?
+> +------------------------------------
+> +
+> +Are you easily able to replace the module in question or to install a new
+> +kernel?
+> +
+> +In that case your range of available tools is a lot bigger, you can find=
+ the
+> +tools in the :doc:`/process/debugging/driver_development_debugging_guide=
+`.
+> +
+> +Is timing a factor?
+> +-------------------
+> +
+> +It is important to understand if the problem you want to debug manifests=
+ itself
+> +consistently (i.e. given a set of inputs you always get the same, incorr=
+ect
+> +output), or inconsistently. If it manifests itself inconsistently, some =
+timing
+> +factor might be at play. If inserting delays into the code does change t=
+he
+> +behavior, then quite likely timing is a factor.
+> +
+> +When timing does alter the outcome of the code execution using a simple
+> +printk() for debugging purposes won't work, a similar alternative is to =
+use
+
+I'd s/won't/may not/
+
+> +trace_printk() , which logs the debug messages to the trace file instead=
+ of the
+> +kernel log.
+> +
+> +**Copyright** =C2=A92024 : Collabora
+> diff --git a/Documentation/process/debugging/index.rst b/Documentation/pr=
+ocess/debugging/index.rst
+> new file mode 100644
+> index 000000000000..c200ede7c955
+> --- /dev/null
+> +++ b/Documentation/process/debugging/index.rst
+> @@ -0,0 +1,21 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Debugging advice for Linux Kernel developers
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+
+This file needs an introductory paragraph (at least) saying what it is
+about.  A simple directory listing is not hugely useful.
+
+An alternative might be to turn your "general advice" document into the
+index.rst file.
+
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   general_advice
+> +   driver_development_debugging_guide
+> +   userspace_debugging_guide
+> +
+> +.. only::  subproject and html
+> +
+> +   Indices
+> +   =3D=3D=3D=3D=3D=3D=3D
+> +
+> +   * :ref:`genindex`
+> +
+> +**Copyright** =C2=A92024 : Collabora
+> diff --git a/Documentation/process/debugging/userspace_debugging_guide.rs=
+t b/Documentation/process/debugging/userspace_debugging_guide.rst
+> new file mode 100644
+> index 000000000000..0afe35c468a9
+> --- /dev/null
+> +++ b/Documentation/process/debugging/userspace_debugging_guide.rst
+> @@ -0,0 +1,278 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +Userspace debugging advice
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +
+> +A brief overview of common tools to debug the Linux Kernel from userspac=
+e.
+> +For debugging advice aimed at driver developer go :doc:`here
+> +</process/debugging/driver_development_debugging_guide>`.
+> +For general debugging advice, see :doc:`general-debugging-guide
+> +</process/debugging/general_advice>`.
+> +
+> +.. contents::
+> +    :depth: 3
+> +
+> +The following sections show you the available tools.
+> +
+> +Dynamic debug
+> +-------------
+> +
+> +Mechanism to filter what ends up in the kernel log by dis-/en-abling log
+> +messages.
+> +
+> +Prerequisite: `CONFIG_DYNAMIC_DEBUG`
+> +
+> +.. _valid_dyndbg_prints:
+> +
+> +Dynamic debug is only able to target:
+> +
+> +- pr_debug()
+> +- dev_dbg()
+> +- print_hex_dump_debug()
+> +- print_hex_dump_bytes()
+
+It would, of course, be nice to set up kerneldoc for all of those
+functions so that these lines link through to something useful.  The
+last one has kerneldoc, it just needs to be pulled in somewhere.
+
+> +Therefore the usability of this tool is, as of now, quite limited as the=
+re is
+> +no uniform rule for adding debug prints to the codebase, resulting in a =
+variety
+> +of ways these prints are implemented.
+> +
+> +Also, note that most debug statements are implemented as a variation of
+> +dprintk(), which have to be activated via a parameter in respective modu=
+le,
+> +dynamic debug is unable to do that step for you.
+> +
+> +Here is one example, that enables all available pr_debug() 's within the=
+ file::
+> +
+> +  $ alias ddcmd=3D'echo $* > /proc/dynamic_debug/control'
+> +  $ ddcmd '-p; file v4l2-h264.c +p'
+
+It seems to me that the alias just obfuscates things, why bother?
+
+> +  $ grep =3Dp /proc/dynamic_debug/control
+> +   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =
+=3Dp
+> +   "ref_pic_list_b%u (cur_poc %u%c) %s"
+> +   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =
+=3Dp
+> +   "ref_pic_list_p (cur_poc %u%c) %s\n"
+
+What does this output tell the reader?
+
+> +**When should you use this over** `Ftrace`_ **?**
+
+All that markup to link five lines down?
+
+> +- When the code contains one of the :ref:`valid print statements
+> +  <valid_dyndbg_prints>` or when you have added multiple pr_debug()
+
+Do we really need to go through adding the label and markup just to link
+a half-screen up the page?
+
+> +  statements during development
+> +- When timing is not an issue, meaning if multiple pr_debug() statements=
+ in
+> +  the code won't cause delays
+> +- When you care more about receiving specific log messages than tracing =
+the
+> +  pattern of how a function is called
+> +
+> +For the full documentation see :doc:`/admin-guide/dynamic-debug-howto`
+> +
+> +Ftrace
+> +------
+> +
+> +Prerequisite: `CONFIG_DYNAMIC_FTRACE`
+> +
+> +You can find the tracing folder in either `/sys/kernel/` or `/sys/debug/=
+kernel/`.
+
+Maybe tell the poor reader what "the tracing folder" is?
+
+> +Some of the most important operations for debugging are:
+> +
+> +- You can perform a function trace by adding a function name to the
+> +  `set_ftrace_filter` file (which accepts any function name found within=
+ the
+> +  `available_filter_functions` file) or you can specifically disable cer=
+tain
+> +  functions by adding their names to the `set_ftrace_notrace` file (More=
+ info
+> +  at: :ref:`trace/ftrace:dynamic ftrace`).
+> +- In order to find out where the calls originates from you can activate =
+the
+> +  `func_stack_trace` option under `options/func_stack_trace`.
+> +- Tracing the children of a function call and showing the return values =
+is
+> +  possible by adding the desired function in the `set_graph_function` fi=
+le
+> +  (requires config `FUNCTION_GRAPH_RETVAL`) more info at
+> +  :ref:`trace/ftrace:dynamic ftrace with the function graph tracer`.
+> +
+> +For the full Ftrace documentation see :doc:`/trace/ftrace`
+> +
+> +Or you could also trace for specific events by :ref:`using event tracing
+> +<trace/events:2. using event tracing>`, which can be defined as describe=
+d here:
+> +:ref:`Creating a custom Ftrace tracepoint
+> +<process/debugging/driver_development_debugging_guide:ftrace>`.
+> +
+> +For the full Ftrace event tracing documentation see :doc:`/trace/events`
+> +
+> +.. _read_ftrace_log:
+> +
+> +Reading the ftrace log
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The `trace` file can be read just like any other file (`cat`, `tail`, `h=
+ead`,
+> +`vim`, etc.), the size of the file is limited by the `buffer_size_kb` (`=
+`echo
+> +1000 > buffer_size_kb``). The :ref:`trace/ftrace:trace_pipe` will behave
+> +similar to the `trace` file, but whenever you read from the file the con=
+tent is
+> +consumed.
+> +
+> +Kernelshark
+> +~~~~~~~~~~~
+> +
+> +A GUI interface to visualize the traces as a graph and list view from the
+> +output of the `trace-cmd
+> +<https://git.kernel.org/pub/scm/utils/trace-cmd/trace-cmd.git/>`__ appli=
+cation.
+> +
+> +For the full documentation see `<https://kernelshark.org/Documentation.h=
+tml>`__
+> +
+> +Perf & alternatives
+> +-------------------
+> +
+> +The tools mentioned above provide ways to inspect kernel code, results, =
+variable values, etc.
+> +Sometimes you have to find out first where to look and for those cases, =
+a box of
+> +performance tracking tools can help you to frame the issue.
+> +
+> +Why should you do a performance analysis?
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +A performance analysis is a good first step when among other reasons:
+> +
+> +- you cannot define the issue
+> +- you do not know where it occurs
+> +- the running system should not be interrupted or it is a remote system,=
+ where
+> +  you cannot install a new module/kernel
+> +
+> +How to do a simple analysis with linux tools?
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +For the start of a performance analysis, you can start with the usual to=
+ols
+> +like:
+> +
+> +- `top` / `htop` / `atop` (*get an overview of the system load, see spik=
+es on
+> +  specific processes*)
+> +- `mpstat -P ALL` (*look at the load distribution among CPUs*)
+> +- `iostat -x` (*observe input and output devices utilization and perform=
+ance*)
+> +- `vmstat` (*overview of memory usage on the system*)
+> +- `pidstat` (*similar to* `vmstat` *but per process, to dial it down to =
+the
+> +  target*)
+> +- `strace -tp $PID` (*once you know the process, you can figure out how =
+it
+> +  communicates with the Kernel*)
+> +
+> +These should help to narrow down the areas to look at sufficiently.
+> +
+> +Diving deeper with perf
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The **perf** tool provides a series of metrics and events to further dia=
+l down
+> +on issues.
+> +
+> +Prerequisite: build or install perf on your system
+> +
+> +Gather statistics data for finding all files starting with `gcc` in `/us=
+r`::
+> +
+> +  # perf stat -d find /usr -name 'gcc*' | wc -l
+> +
+> +   Performance counter stats for 'find /usr -name gcc*':
+> +
+> +     1277.81 msec    task-clock             #    0.997 CPUs utilized
+> +     9               context-switches       #    7.043 /sec
+> +     1               cpu-migrations         #    0.783 /sec
+> +     704             page-faults            #  550.943 /sec
+> +     766548897       cycles                 #    0.600 GHz              =
+           (97.15%)
+> +     798285467       instructions           #    1.04  insn per cycle   =
+           (97.15%)
+> +     57582731        branches               #   45.064 M/sec            =
+           (2.85%)
+> +     3842573         branch-misses          #    6.67% of all branches  =
+           (97.15%)
+> +     281616097       L1-dcache-loads        #  220.390 M/sec            =
+           (97.15%)
+> +     4220975         L1-dcache-load-misses  #    1.50% of all L1-dcache =
+accesses   (97.15%)
+> +     <not supported> LLC-loads
+> +     <not supported> LLC-load-misses
+> +
+> +   1.281746009 seconds time elapsed
+> +
+> +   0.508796000 seconds user
+> +   0.773209000 seconds sys
+> +
+> +
+> +  52
+> +
+> +The availability of events and metrics depends on the system you are run=
+ning.
+> +
+> +For the full documentation see
+> +`<https://perf.wiki.kernel.org/index.php/Main_Page>`__
+> +
+> +Perfetto
+> +~~~~~~~~
+> +
+> +A set of tools to measure and analyze how well applications and systems =
+perform.
+> +You can use it to:
+> +
+> +* identify bottlenecks
+> +* optimize code
+> +* make software run faster and more efficiently.
+> +
+> +**What is the difference between perfetto and perf?**
+> +
+> +* perf is tool as part of and specialized for the Linux Kernel and has C=
+LI user
+> +  interface.
+> +* perfetto cross-platform performance analysis stack, has extended
+> +  functionality into userspace and provides a WEB user interface.
+> +
+> +For the full documentation see `<https://perfetto.dev/docs/>`__
+> +
+> +Kernel panic analysis tools
+> +---------------------------
+> +
+> +  To analyse the crash dump please use `Kdump` & `Kexec`.
+
+Those will not *analyze* a crash dump.
+
+> +  For the full documentation see the :doc:`/admin-guide/kdump/kdump`
+> +
+> +  In order to find the corresponding line in the code you can use `faddr=
+2line
+> +  <https://elixir.bootlin.com/linux/v6.11.6/source/scripts/faddr2line>`_=
+_, note
+> +  that you need to enable `CONFIG_DEBUG_INFO` for that to work.
+> +
+> +  An alternative to using `faddr2line` is the use of `objdump` (and it's
+> +  derivatives for the different platforms like `aarch64-linux-gnu-objdum=
+p`),
+> +  take this line as an example:
+> +
+> +  `[  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]`.
+> +
+> +  We can find the corresponding line of code by executing::
+> +
+> +    aarch64-linux-gnu-objdump -dS drivers/staging/media/rkvdec/rockchip-=
+vdec.ko | grep rkvdec_device_run\>: -A 40
+> +    0000000000000ac8 <rkvdec_device_run>:
+> +     ac8:	d503201f 	nop
+> +     acc:	d503201f 	nop
+> +    {
+> +     ad0:	d503233f 	paciasp
+> +     ad4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+> +     ad8:	910003fd 	mov	x29, sp
+> +     adc:	a90153f3 	stp	x19, x20, [sp, #16]
+> +     ae0:	a9025bf5 	stp	x21, x22, [sp, #32]
+> +        const struct rkvdec_coded_fmt_desc *desc =3D ctx->coded_fmt_desc;
+> +     ae4:	f9411814 	ldr	x20, [x0, #560]
+> +        struct rkvdec_dev *rkvdec =3D ctx->dev;
+> +     ae8:	f9418015 	ldr	x21, [x0, #768]
+> +        if (WARN_ON(!desc))
+> +     aec:	b4000654 	cbz	x20, bb4 <rkvdec_device_run+0xec>
+> +        ret =3D pm_runtime_resume_and_get(rkvdec->dev);
+> +     af0:	f943d2b6 	ldr	x22, [x21, #1952]
+> +        ret =3D __pm_runtime_resume(dev, RPM_GET_PUT);
+> +     af4:	aa0003f3 	mov	x19, x0
+> +     af8:	52800081 	mov	w1, #0x4                   	// #4
+> +     afc:	aa1603e0 	mov	x0, x22
+> +     b00:	94000000 	bl	0 <__pm_runtime_resume>
+> +        if (ret < 0) {
+> +     b04:	37f80340 	tbnz	w0, #31, b6c <rkvdec_device_run+0xa4>
+> +        dev_warn(rkvdec->dev, "Not good\n");
+> +     b08:	f943d2a0 	ldr	x0, [x21, #1952]
+> +     b0c:	90000001 	adrp	x1, 0 <rkvdec_try_ctrl-0x8>
+> +     b10:	91000021 	add	x1, x1, #0x0
+> +     b14:	94000000 	bl	0 <_dev_warn>
+> +        *bad =3D 1;
+> +     b18:	d2800001 	mov	x1, #0x0                   	// #0
+> +     ...
+> +
+> +  Meaning, in this line from the crash dump::
+> +
+> +    [  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]
+> +
+> +  I can take the `0x50` as offset, which I have to add to the base addre=
+ss
+> +  of the corresponding function, which I find in this line::
+> +
+> +    0000000000000ac8 <rkvdec_device_run>:
+> +
+> +  The result of `0xac8 + 0x50 =3D 0xb18`
+> +  And when I search for that address within the function I get the
+> +  following line::
+> +
+> +    *bad =3D 1;
+> +    b18:      d2800001        mov     x1, #0x0
+> +
+> +**Copyright** =C2=A92024 : Collabora
+
+Thanks,
+
+jon
