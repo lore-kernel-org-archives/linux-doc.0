@@ -1,79 +1,60 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C255212D11
-	for <linux-doc@vger.kernel.org>; Thu,  7 Nov 2024 14:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6075A212D0A;
+	Thu,  7 Nov 2024 14:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730990630; cv=none; b=m/uZcLlEqgzeXr8nzYddONXWsGQxai1RYTofUMK5i4cPQqdlGVH38F9RJQETS9Sy4QYTzfvvcDDeqjuqswKrZOudipWgn8tkz7fsivziGypRYxTHTgo+IjzgcRbybm13F9CDDSrW1WLT5rtb8qF6zgf3gI3l587d5lmGvYB5ELg=
+	t=1730991041; cv=none; b=KF1Pi/XPDLudh8YngSWkiZQfPfA67vcde1o+dVB+msGB+TC37M7B+cQcpsCi76LIWCTnP+2MThiJtBS2OtFzEQrbtQgQ/22JT7mxsvCvyF+GDNWJ4Qna7UZbVZY3sNkS09h1k6wrpVeM9OzLonE7Zn9dIQT+6XIdUY0eU16SK94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730990630; c=relaxed/simple;
-	bh=u/UibkWukm8QVSh5GSo+c+62ziGUL4DF2iQ/BqbFg1w=;
+	s=arc-20240116; t=1730991041; c=relaxed/simple;
+	bh=jRpyuqPS/RfPxFE82RRibgYz8lq1+WOk8OnAFcqr9HY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mlz9FS7D8Wb9i+SDXVgTMgNReyn80SPm97EcVDuShiet9wmPKNVQLIihzLrCgiUgnntF4xB5pXZTbfpymEuvxhwuc05uvjIX7b7TCEEpAiXCQTZTmjHqs8hUj8g8OBMPQ3Vw1zAijvtnoOgjz5aeu2WhAeQ23sfHmiEP8tJPi2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CQgJF8Zj; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=TseYEo9Sc1rogDpsbz6SqeZrzllntPZvdl3T5EDO0NCyrZvyJvbm/SuKHvd6oTBQEsPO6BCgeafQXB2hZhBcAIPEHYI6S+e2uh8JcWkoZvKypBSbbXu819N199ik9jwWJFqJxUcovGwklrpp5+8ociNIZWuWem51q4EcIayKLCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HrTTNVLG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CQgJF8Zj"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4314c452180so12689725e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 07 Nov 2024 06:43:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1730990626; x=1731595426; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K3cGH6XjgAeljYo8IyTePdbXv29oLDJnLSASBiasK6k=;
-        b=CQgJF8ZjW7z+XNziw5C67PhXckA68Y9GH93kK0NplJ9HPftB3LA8vRXpDC0kLrCvlK
-         fx9qaV61oEe2wxHObaEPPqhACCBz97PTYIj9P9CdCx612+P6marjKQ3UYMd2c67a5zQv
-         HRPf6Li/qZv+rffwXUVPx1Wq5Kt96XA153uokkNV+nifKnnmwiSx847KuIiw6Ow6cDHh
-         8BrK5oRQolAvi5Iif580q0d8hYKZT7f+2r/gpZOTkIELQli5GiFqoKs7eMnCzKi7z5hq
-         lOYsxQUD2NQXry0tk8/L91iqen0Adf2C3Qq6gyQFtx1fgK1xNCvyM8M1psUT/FAB3CdT
-         +l6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730990626; x=1731595426;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K3cGH6XjgAeljYo8IyTePdbXv29oLDJnLSASBiasK6k=;
-        b=q8aBSV/BptlIxpqasJ3sVibW5phXa8u5lhpWgZlCD01tMXa7H0ikZOiu5a1CE70OHG
-         NMz+Q+UTNlhtX+IVbU8Z3eWn1paB2OSCruOeyGg7L9AK3BljvCG3rAeazli6bl4xpScB
-         xLTipTgYMf+UFhUhOqu/++GrYeR3rLqFHhiy+XrW0umKSIsRVvZRBIslrdRVml7xm8Ag
-         JpEh6tH3GnMCWEZ25CHPozsamZrTSaPdzAVoH0FctcS1+OyW+6RMLfLUiOMtxMr0Mrsr
-         eQzEje1FmYjJ7naFZuxc0IO6wzF7WCOTFQKrHSt9apg0uIMyWZ66yCrpGDz3goUW3o2q
-         oyHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVnYeLymn1Zu0pYOMlX9MBoVa5vUIuHDyIxKYAhiIpdZAbkLHY0XK/bBGBfTOZn+9DQYSApF2LHNtg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yydh42NVLBCQZS1D6VuG0vg+82gnT0QEsVh4HyedBqsyfT6Ayuf
-	FHGHnPdcWoguxFP7tCDQqmngh2Mdlm5eP4bJxYEQ2lCTWpDKGS0XP0uBJW0dEjc=
-X-Google-Smtp-Source: AGHT+IGhzDR7keUmd6bQp19ov+4IRWvETVRPa552MarSidF2G2tCRWC9KHmpiAN33CFuWpsfUB76gg==
-X-Received: by 2002:a05:6000:1a88:b0:374:c21a:9dd4 with SMTP id ffacd0b85a97d-381f0aeb76emr176470f8f.20.1730990626513;
-        Thu, 07 Nov 2024 06:43:46 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381eda0604bsm1887520f8f.105.2024.11.07.06.43.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 06:43:46 -0800 (PST)
-Date: Thu, 7 Nov 2024 15:43:43 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: metux <metux@gmx.de>
-Cc: Ira Weiny <ira.weiny@intel.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HrTTNVLG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3FA6C4CECC;
+	Thu,  7 Nov 2024 14:50:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730991041;
+	bh=jRpyuqPS/RfPxFE82RRibgYz8lq1+WOk8OnAFcqr9HY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HrTTNVLGr0k6BbKW0dEb6ZIQo/RQQdIVrWJQhWAQa6JALjw5Uelh67HLaTrZXT/Je
+	 mIj8OIN2KIw7OAdV8IRlUiwd1QctmZrFFKGXfzc0aWRWBVRkbHZd3v4Ma0JjAH5r4o
+	 RllAPWRCzhb8AxRbCdK9JWFR5uvuvXaq57Bcp6JVx0/+/n0Vcd0FTwQpD0C13UseaK
+	 zsbYe92XLKd6seRM8ug+RJKv9lk+J/tjBGwOyqeU8B+pQc9OZ32dNHSW1nTVwFmSDB
+	 FF5TUjLYtNLjZJdK1mLn10lmaVO1g0mDZm3TMUsuhwXHoQmZjhgnckwVIp3naxiGmO
+	 N7zfMcFtrOHMw==
+Date: Thu, 7 Nov 2024 16:50:34 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Fan Ni <fan.ni@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-cxl@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] printf: Add struct range print specifier
-Message-ID: <ZyzSHxq8WuPp_Ewx@pathway.suse.cz>
-References: <20241025-cxl-pra-v2-0-123a825daba2@intel.com>
- <18854680-4ab7-4453-85ff-78351d4d4ec9@gmx.de>
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 07/17] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20241107145034.GO5006@unreal>
+References: <cover.1730298502.git.leon@kernel.org>
+ <f8c7f160c9ae97fef4ccd355f9979727552c7374.1730298502.git.leon@kernel.org>
+ <51c5a5d5-6f90-4c42-b0ef-b87791e00f20@arm.com>
+ <20241104091048.GA25041@lst.de>
+ <20241104121924.GC35848@ziepe.ca>
+ <20241104125302.GA11168@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,35 +63,162 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <18854680-4ab7-4453-85ff-78351d4d4ec9@gmx.de>
+In-Reply-To: <20241104125302.GA11168@lst.de>
 
-On Wed 2024-10-30 11:51:54, metux wrote:
-> On 26.10.24 02:46, Ira Weiny wrote:
-> > Support for the Compute Express Link (CXL) Dynamic Capacity Devices
-> > (DCD) have grown a number of uses to print struct range.[1]  Support for
-> > a printf specifier '%pra' was being worked within a large series and has
-> > garnered a number of comments and discussion.
+On Mon, Nov 04, 2024 at 01:53:02PM +0100, Christoph Hellwig wrote:
+> On Mon, Nov 04, 2024 at 08:19:24AM -0400, Jason Gunthorpe wrote:
+> > > That's a good point.  Only mapped through host bridge P2P can even
+> > > end up here, so the address is a perfectly valid physical address
+> > > in the host.  But I'm not sure if all arch_sync_dma_for_device
+> > > implementations handle IOMMU memory fine.
+> > 
+> > I was told on x86 if you do a cache flush operation on MMIO there is a
+> > chance it will MCE. Recently had some similar discussions about ARM
+> > where it was asserted some platforms may have similar.
 > 
-> This is just printing out hex dump of a memory range, correct ?
+> On x86 we never flush caches for DMA operations anyway, so x86 isn't
+> really the concern here, but architectures that do cache incoherent DMA
+> to PCIe devices.  Which isn't a whole lot as most SOCs try to avoid that
+> for PCIe even if they lack DMA coherent for lesser peripherals, but I bet
+> there are some on arm/arm64 and maybe riscv or mips.
 > 
-> What I'm looking for quite some time is a sane way for dumping structs
-> in a human readable form (field: value pairs, using their actual types
-> eg. int vs string, ...).
+> > It would be safest to only call arch flushing calls on memory that is
+> > mapped cachable. We can assume that a P2P target is never CPU
+> > mapped cachable, regardless of how the DMA is routed.
+> 
+> Yes.  I.e. force DMA_ATTR_SKIP_CPU_SYNC for P2P.
 
-You like to print it similar way like "gdb" or other debugging tools do.
-Do I get it correctly, please?
+What do you think?
 
-> Any idea to do that in a generic way ?
-> (potentially using debug info ?)
-
-I am afraid that a generic solution would really need to work with
-a debuginfo.
-
-That said, there exists some generic approaches for printing various
-values in the trace code, for example, see
-
-    Documentation/trace/kprobetrace.rst
-    Documentation/trace/events.rst
-
-Best Regards,
-Petr
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index 38bcb3ecceeb..065bdace3344 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -559,14 +559,19 @@ static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
+ {
+ 	enum dma_data_direction dir = rq_dma_dir(req);
+ 	unsigned int mapped = 0;
++	unsigned long attrs = 0;
+ 	int error = 0;
+ 
+ 	iter->addr = state->addr;
+ 	iter->len = dma_iova_size(state);
++	if (req->cmd_flags & REQ_P2PDMA) {
++		attrs |= DMA_ATTR_SKIP_CPU_SYNC;
++		req->cmd_flags &= ~REQ_P2PDMA;
++	}
+ 
+ 	do {
+ 		error = dma_iova_link(dma_dev, state, vec->paddr, mapped,
+-				vec->len, dir, 0);
++				vec->len, dir, attrs);
+ 		if (error)
+ 			goto error_unmap;
+ 		mapped += vec->len;
+@@ -578,7 +583,7 @@ static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
+ 
+ 	return true;
+ error_unmap:
+-	dma_iova_destroy(dma_dev, state, mapped, rq_dma_dir(req), 0);
++	dma_iova_destroy(dma_dev, state, mapped, rq_dma_dir(req), attrs);
+ 	iter->status = errno_to_blk_status(error);
+ 	return false;
+ }
+@@ -633,7 +638,6 @@ bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_dev,
+ 			 * P2P transfers through the host bridge are treated the
+ 			 * same as non-P2P transfers below and during unmap.
+ 			 */
+-			req->cmd_flags &= ~REQ_P2PDMA;
+ 			break;
+ 		default:
+ 			iter->status = BLK_STS_INVAL;
+@@ -644,6 +648,8 @@ bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_dev,
+ 	if (blk_can_dma_map_iova(req, dma_dev) &&
+ 	    dma_iova_try_alloc(dma_dev, state, vec.paddr, total_len))
+ 		return blk_rq_dma_map_iova(req, dma_dev, state, iter, &vec);
++
++	req->cmd_flags &= ~REQ_P2PDMA;
+ 	return blk_dma_map_direct(req, dma_dev, iter, &vec);
+ }
+ EXPORT_SYMBOL_GPL(blk_rq_dma_map_iter_start);
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index 62980ca8f3c5..5fe30fbc42b0 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -23,6 +23,7 @@ struct mmu_interval_notifier;
+  * HMM_PFN_WRITE - if the page memory can be written to (requires HMM_PFN_VALID)
+  * HMM_PFN_ERROR - accessing the pfn is impossible and the device should
+  *                 fail. ie poisoned memory, special pages, no vma, etc
++ * HMM_PFN_P2PDMA - P@P page, not bus mapped
+  * HMM_PFN_P2PDMA_BUS - Bus mapped P2P transfer
+  * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output transformation
+  *                      to mark that page is already DMA mapped
+@@ -41,6 +42,7 @@ enum hmm_pfn_flags {
+ 	HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
+ 
+ 	/* Sticky flag, carried from Input to Output */
++	HMM_PFN_P2PDMA     = 1UL << (BITS_PER_LONG - 5),
+ 	HMM_PFN_P2PDMA_BUS = 1UL << (BITS_PER_LONG - 6),
+ 	HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 7),
+ 
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 4ef2b3815212..b2ec199c2ea8 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -710,6 +710,7 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
+ 	struct page *page = hmm_pfn_to_page(pfns[idx]);
+ 	phys_addr_t paddr = hmm_pfn_to_phys(pfns[idx]);
+ 	size_t offset = idx * map->dma_entry_size;
++	unsigned long attrs = 0;
+ 	dma_addr_t dma_addr;
+ 	int ret;
+ 
+@@ -740,6 +741,9 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
+ 
+ 	switch (pci_p2pdma_state(p2pdma_state, dev, page)) {
+ 	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
++		attrs |= DMA_ATTR_SKIP_CPU_SYNC;
++		pfns[idx] |= HMM_PFN_P2PDMA;
++		fallthrough;
+ 	case PCI_P2PDMA_MAP_NONE:
+ 		break;
+ 	case PCI_P2PDMA_MAP_BUS_ADDR:
+@@ -752,7 +756,8 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
+ 
+ 	if (dma_use_iova(state)) {
+ 		ret = dma_iova_link(dev, state, paddr, offset,
+-				    map->dma_entry_size, DMA_BIDIRECTIONAL, 0);
++				    map->dma_entry_size, DMA_BIDIRECTIONAL,
++				    attrs);
+ 		if (ret)
+ 			return DMA_MAPPING_ERROR;
+ 
+@@ -793,6 +798,7 @@ bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
+ 	struct dma_iova_state *state = &map->state;
+ 	dma_addr_t *dma_addrs = map->dma_list;
+ 	unsigned long *pfns = map->pfn_list;
++	unsigned long attrs = 0;
+ 
+ #define HMM_PFN_VALID_DMA (HMM_PFN_VALID | HMM_PFN_DMA_MAPPED)
+ 	if ((pfns[idx] & HMM_PFN_VALID_DMA) != HMM_PFN_VALID_DMA)
+@@ -801,14 +807,16 @@ bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
+ 
+ 	if (pfns[idx] & HMM_PFN_P2PDMA_BUS)
+ 		; /* no need to unmap bus address P2P mappings */
+-	else if (dma_use_iova(state))
++	else if (dma_use_iova(state)) {
++		if (pfns[idx] & HMM_PFN_P2PDMA)
++			attrs |= DMA_ATTR_SKIP_CPU_SYNC;
+ 		dma_iova_unlink(dev, state, idx * map->dma_entry_size,
+-				map->dma_entry_size, DMA_BIDIRECTIONAL, 0);
+-	else if (dma_need_unmap(dev))
++				map->dma_entry_size, DMA_BIDIRECTIONAL, attrs);
++	} else if (dma_need_unmap(dev))
+ 		dma_unmap_page(dev, dma_addrs[idx], map->dma_entry_size,
+ 			       DMA_BIDIRECTIONAL);
+ 
+-	pfns[idx] &= ~(HMM_PFN_DMA_MAPPED | HMM_PFN_P2PDMA_BUS);
++	pfns[idx] &= ~(HMM_PFN_DMA_MAPPED | HMM_PFN_P2PDMA | HMM_PFN_P2PDMA_BUS);
+ 	return true;
+ }
+ EXPORT_SYMBOL_GPL(hmm_dma_unmap_pfn);
