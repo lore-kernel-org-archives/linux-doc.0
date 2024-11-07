@@ -1,35 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3051DB534;
-	Thu,  7 Nov 2024 12:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9F120CCE5;
+	Thu,  7 Nov 2024 13:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730983228; cv=none; b=XS8RI0hKdKhik+2ZAjp7tjMLMY4JChwDlxOJVjoWel7JSZPJwaEL3RpeBmYNpYi6IbjcmC0MK/KVC2TDpEP4TtmrqhE+oey1ZzB9hKrK5BNAk9IXXssMYP/wy+xLuGoIS0LtCibEv96da2wKd4Yg/fOe9dvNOoERPsIikZWw24U=
+	t=1730985659; cv=none; b=N+fmoOZiHYIPydVYP72b/yrnOnJGcTrrgrkl4JrLs0ExAk2qHiWoS90Xzw82z8jXxJ3pHiJ2gvppqYBeMySXSUJ2ZmEhb6e4/gOpKyUPaUcpRyQSixDzEY1WsiwRGqNrlUXfxwrzJf6LeOxNoyIsrXiBrOCvc9ghpYWZb4dJr1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730983228; c=relaxed/simple;
-	bh=VZ/R76eZ40KfZxIQM47Eo9NR0UwGvAKmLQ8wW76gHE8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=q3vXZhR4Lhe6E//Sck0fS0SKfmdxiJysf6ker/PwNn4mfzBoAaNH5GPZvR6XbUAU8eTYhe44GIpRSaKLUBgNU0pOj/pdZd4BDBN5QgRVjD880YpMRHmZcTsVQw1ZxnvwtAh/Jsrbs9NRavrUIp7YziQcf4LW6tO4syRn8cncxZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RmtHNgc5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730985659; c=relaxed/simple;
+	bh=/hIKkyMLrJn4I2+JsuYojwtEsAVODgj3nEdGixCrPkg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=o6Xv8L/456XJcpLlrTB5/MmzCXPuKkAdf6g/lahQnM12+wIsTOw4keHKSsUXR7hKY93qduvTEpE7jiZ79D7zSjNU0TYCbJ40xPWUcRf8gavGIKCHr52JG3zbWYW/dnc/wFO0//jywKHGMY1j+jiH0a2XQnti2QdgqsWlZizdJ7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=IREtZLrW; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=IREtZLrW; arc=none smtp.client-ip=96.44.175.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RmtHNgc5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EF80C4CECC;
-	Thu,  7 Nov 2024 12:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730983226;
-	bh=VZ/R76eZ40KfZxIQM47Eo9NR0UwGvAKmLQ8wW76gHE8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=RmtHNgc5aEh2jxi4LKZXroPeeq47lr+t5xy/sjX88jCya+GqX/J23XpfTXiHkbo+P
-	 RkA8aL9tmby/TCWLNUuHku7wuB8l63MMBCBNrFM9wX0+3Ymg8fydtjGDkRIgzVX6Bs
-	 vtTE28ikWXgdpm4UILIzcRJ+/JYjeuX3+/r+CFtodst2X9BkJa/4/cYOlCgl/3nuRA
-	 AwcqX74NgvsR86bxTMveB+M1h+M5NmIk9+D7LGHotpxVd3EY36gpbiOP9OVqkOg2Wh
-	 IYM2FJN7T9qe5mjoTjKMgcgO82f1BhXBcVrVaHb8TJwEvm0CQ4uES1rNlZP1vHwC6v
-	 88HD52YJcLtBQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70F763809A80;
-	Thu,  7 Nov 2024 12:40:36 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="IREtZLrW";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="IREtZLrW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1730985656;
+	bh=/hIKkyMLrJn4I2+JsuYojwtEsAVODgj3nEdGixCrPkg=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=IREtZLrWGdLMbP8gYjwk6LbsOguaKFhfoP5bXlTMRlXB0Qp9l+kX4NkMR6S3Q5keu
+	 Zo4odXhZ294W/2hzIUsw4hy1ExdFQpfl5P1yZV2zK6C89bxH0x0/JuMsc9m9gNHm3N
+	 0Ygd5WD+fsZRxej/IjGR/CV8F5TTBLAVjvaAWza0=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 7CEF11286BF7;
+	Thu, 07 Nov 2024 08:20:56 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id kEfJ871_3_8j; Thu,  7 Nov 2024 08:20:56 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1730985656;
+	bh=/hIKkyMLrJn4I2+JsuYojwtEsAVODgj3nEdGixCrPkg=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=IREtZLrWGdLMbP8gYjwk6LbsOguaKFhfoP5bXlTMRlXB0Qp9l+kX4NkMR6S3Q5keu
+	 Zo4odXhZ294W/2hzIUsw4hy1ExdFQpfl5P1yZV2zK6C89bxH0x0/JuMsc9m9gNHm3N
+	 0Ygd5WD+fsZRxej/IjGR/CV8F5TTBLAVjvaAWza0=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 5A1591286A68;
+	Thu, 07 Nov 2024 08:20:55 -0500 (EST)
+Message-ID: <76d9ae11c339b589a8ec94f010e7439b7ce7d283.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2] tpm: Opt-in in disable PCR integrity protection
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>, linux-integrity@vger.kernel.org, 
+ Jonathan Corbet <corbet@lwn.net>, Peter Huewe <peterhuewe@gmx.de>, Jason
+ Gunthorpe <jgg@ziepe.ca>
+Cc: Roberto Sassu <roberto.sassu@huawei.com>, Mimi Zohar
+ <zohar@linux.ibm.com>,  linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Thu, 07 Nov 2024 08:20:53 -0500
+In-Reply-To: <20241107095138.78209-1-jarkko@kernel.org>
+References: <20241107095138.78209-1-jarkko@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,55 +64,41 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next v8 0/3] net: wwan: t7xx: Add t7xx debug ports
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173098323525.1650074.3036692889717501713.git-patchwork-notify@kernel.org>
-Date: Thu, 07 Nov 2024 12:40:35 +0000
-References: <20241104094436.466861-1-jinjian.song@fibocom.com>
-In-Reply-To: <20241104094436.466861-1-jinjian.song@fibocom.com>
-To: Jinjian Song <jinjian.song@fibocom.com>
-Cc: chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
- haijun.liu@mediatek.com, m.chetan.kumar@linux.intel.com,
- ricardo.martinez@linux.intel.com, loic.poulain@linaro.org,
- ryazanov.s.a@gmail.com, johannes@sipsolutions.net, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
- linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com, corbet@lwn.net,
- linux-mediatek@lists.infradead.org, helgaas@kernel.org,
- danielwinkler@google.com, korneld@google.com, andrew+netdev@lunn.ch,
- horms@kernel.org
 
-Hello:
+On Thu, 2024-11-07 at 11:51 +0200, Jarkko Sakkinen wrote:
+[...]
+> +void tpm_buf_append_auth(struct tpm_chip *chip, struct tpm_buf *buf,
+> +                        u8 attributes, u8 *passphrase, int
+> passphrase_len)
+> +{
+> +       /* offset tells us where the sessions area begins */
+> +       int offset = buf->handles * 4 + TPM_HEADER_SIZE;
+> +       u32 len = 9 + passphrase_len;
+> +
+> +       if (tpm_buf_length(buf) != offset) {
+> +               /* not the first session so update the existing
+> length */
+> +               len += get_unaligned_be32(&buf->data[offset]);
+> +               put_unaligned_be32(len, &buf->data[offset]);
+> +       } else {
+> +               tpm_buf_append_u32(buf, len);
+> +       }
+> +       /* auth handle */
+> +       tpm_buf_append_u32(buf, TPM2_RS_PW);
+> +       /* nonce */
+> +       tpm_buf_append_u16(buf, 0);
+> +       /* attributes */
+> +       tpm_buf_append_u8(buf, 0);
+> +       /* passphrase */
+> +       tpm_buf_append_u16(buf, passphrase_len);
+> +       tpm_buf_append(buf, passphrase, passphrase_len);
+> +}
+> +
 
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+The rest of the code looks fine, but if you're going to extract this as
+a separate function instead of doing the open coded struct
+tpm2_null_auth that was there originally, you should probably extract
+and use the tpm2_buf_append_auth() function in trusted_tpm2.c
 
-On Mon,  4 Nov 2024 17:44:33 +0800 you wrote:
-> Add support for t7xx WWAN device to debug by ADB (Android Debug Bridge)
-> port and MTK MIPCi (Modem Information Process Center) port.
-> 
-> Application can use ADB (Android Debug Bridge) port to implement
-> functions (shell, pull, push ...) by ADB protocol commands.
-> 
-> Application can use MIPC (Modem Information Process Center) port
-> to debug antenna tuner or noise profiling through this MTK modem
-> diagnostic interface.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v8,1/3] wwan: core: Add WWAN ADB and MIPC port type
-    https://git.kernel.org/netdev/net-next/c/495e7c8e9601
-  - [net-next,v8,2/3] net: wwan: t7xx: Add debug ports
-    https://git.kernel.org/netdev/net-next/c/61329a1152dd
-  - [net-next,v8,3/3] net: wwan: t7xx: Unify documentation column width
-    https://git.kernel.org/netdev/net-next/c/238f2ca1e61f
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+James
 
