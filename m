@@ -1,52 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6057A1E1043;
-	Thu,  7 Nov 2024 12:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0101F472C
+	for <linux-doc@vger.kernel.org>; Thu,  7 Nov 2024 12:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730981044; cv=none; b=prssGHZoGga3PNqzeQkyet3K0ryYBnIbxyJIRgtucaIY2o1l5FbBvYwAyQHxAGR/mBBcnX8B53wveCNcheEvurisEJZg6kSQMRc29nFBqwysXB+zCzmCBPxaGHQ2ctWlY//S71sHqg2KKx/hgJdv2UkVBOgkQVZac8+REqUm62w=
+	t=1730982906; cv=none; b=VMK7lff0VQm91QRfpPoj9j2iD4mutv8PlHJOCoIj61io9aqy+HBsRCRI5QW4Ve8Xj4rP3qVklxqoe3jckcqCtuwifCU+0vxIiV1AyXBtb6vr1ixFHmFXf1O9UhJGkaMY8A+r3DeYwUo6jfaNAADE/GLB5ZSk3oZv4MGwEOjEDmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730981044; c=relaxed/simple;
-	bh=sArRfQxYfZMbU4cikQr6WIkfm8lZA8u6rZoXTALLxCw=;
+	s=arc-20240116; t=1730982906; c=relaxed/simple;
+	bh=Esda7sxbhP4fmYNvQU/wAslDDgX06gVPKFPIdwfsU+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tWPRgcPKScDm7udAKx3HwQGRZOkHPYWfMEqB1OdV1vDN0fRNB8s3SHudb5uC7U6nRoYTA9Xd5osD7pXeeGxAgD1YHcSqkkZWzQpFuO80K5bvxFkViE/N4OuV7VE/SEq9L1FyAf65NDm+7u6CbUheF2HJWmzHZBS5JFSl0jbiFC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BflWPUhJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZOizMv5PLWw7q9XcYaeaANRYB4Puv9GZ73SIEiD6/ZmsgGinrPPIKdqWqTANqFyH9uVXsGfy1GGBtWm4iseLrabFlahNxT/gpnWg11UoCcP/GnuGLNvMfjFxK5+r6HMALBoxDdiCGjZuCOTTERMSUp59qLNnlFOKD8UwKDux71g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=T/i8KB/e; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BflWPUhJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAC72C4CECE;
-	Thu,  7 Nov 2024 12:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730981044;
-	bh=sArRfQxYfZMbU4cikQr6WIkfm8lZA8u6rZoXTALLxCw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BflWPUhJYIFqeW3zSsVxyh0NT3DMX3jnwUuFKmhROEuiSvm8X6O4VsSDqT3oSQpC6
-	 ieHY4miugx3sANh939P2rMLcQh6SyRa4hUS3CZRhSsGYF+KilCSElqSBppi6vQgzj/
-	 WLv4zGAWrqNgJjwbL3G4JNNVNH2Q20Uc3NpSZch15jvegKLxr+vHPx/h8Q/A/ySzHX
-	 FOc7GB2fKWgr2gf7ASFsVPtfY/RGtFuVHb/IkzXNxsooYsqy62v/MVSgP5Mp7Z9MuD
-	 +LVOGXjXv2VVVtNurR999VgxrrpleHCzK8eajIVsxJCj+lzpG+KPy/xqXTY5udzjrz
-	 q9wG6gAta9gUQ==
-Date: Thu, 7 Nov 2024 14:03:57 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Sanman Pradhan <sanman.p211993@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, netdev@vger.kernel.org,
-	alexanderduyck@fb.com, kernel-team@meta.com, davem@davemloft.net,
-	edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, mohsin.bashr@gmail.com, sanmanpradhan@meta.com,
-	andrew+netdev@lunn.ch, jdamato@fastly.com, sdf@fomichev.me,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH net-next] eth: fbnic: Add PCIe hardware statistics
-Message-ID: <20241107120357.GL5006@unreal>
-References: <20241106122251.GC5006@unreal>
- <20241106171257.GA1529850@bhelgaas>
- <76fdd29a-c7fa-4b99-ae63-cce17c91dae9@lunn.ch>
- <20241106160958.6d287fd8@kernel.org>
- <20241107082327.GI5006@unreal>
- <b35f536e-1eb0-4b7b-85f4-df94d76927d6@linux.dev>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="T/i8KB/e"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43168d9c6c9so7456105e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 07 Nov 2024 04:35:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1730982903; x=1731587703; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=t1E1HnzW14p3ky9k8ykLp0FSr/w1f40YmC6K/07hNjw=;
+        b=T/i8KB/eFyxCVOLSP5PKRigER5gise95lorYfWRq3a7ivXoa/8je4UVKYQ+GDhGUJZ
+         o5FjBVw72GkKE82oknX9mHyl/hVCPQJOEh7Ao0M7fa/L4+e1FVaJjyyDOBJbr7KsoCZg
+         EzKvM7yAgPG3ORpajHmifSdWODITFudOfntxFy/WeOJxV/hlBJu2Uc49f46l69uLvefK
+         G+ha8qw2HKGsrMQ/VmNa9Axg0IppqFPvCSDmHrRSpBK8xS6tKo2p8Y4RYKDvHlTNGClb
+         k6VnulrYWsmAXkAk6gej0TVQksuhYniHePVvPKNR3qma+TRlxveI5vmbiaHTaiEDn77Q
+         NWVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730982903; x=1731587703;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t1E1HnzW14p3ky9k8ykLp0FSr/w1f40YmC6K/07hNjw=;
+        b=kyXnNAEr75HOGM6MuW8uwKTMOZkCS7VQ1pkA0lxIYgJEYNZlfWfb7fJZffxUmayAQf
+         bzNzerGW8ULUVzD1UScO5kka2mD9BEU2mYFetYdavKZlQVypWNvMsnwN+Y2CbBYbsf/s
+         N03Kh/I1jFcFxmYU9uaZbEp+rIt2YaSpEPK6W1jzMQwz7cB+C1w3tehfJc75wRzU9okv
+         q1C7NPgo+pdXzZf3mkmWYfRCXRWgdME0X1/82CbLJ9YVl9S8ww03KC/cLFv6v6F7jMjx
+         FbwMR59hh4NvghpJXzDL/sKIkavE4AVZXaBE9DW6CctW1n0PXhA/N/NAz8MYBgTFhw4w
+         nv8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWKK7dN09zF2j3738kW7EeerYuq+FixfveNNax2Ay3ZKfvDILeTdlmNyA2SsmJ37lN8R6DepE705ig=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJbYgN3oTRtrZs0SlrA6bv11a+/FBuDprPqoj8og583mOzUpkH
+	qDszqWflje1E7cmDL/E9R+SRTwfE8Gwk6NKTtP7wAgPNHLUei+vLl5CZIy1wWdA=
+X-Google-Smtp-Source: AGHT+IHN/1L/dUoeYcgUToN3r4u5BpldBQGtGvcGjc/Hw9fcK0iHSssfgI0Mi5Z6DtlW3jdu9v85TQ==
+X-Received: by 2002:a05:600c:5618:b0:42c:cd88:d0f4 with SMTP id 5b1f17b1804b1-431a01782c6mr381936165e9.22.1730982902712;
+        Thu, 07 Nov 2024 04:35:02 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed970d10sm1603880f8f.20.2024.11.07.04.35.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2024 04:35:02 -0800 (PST)
+Date: Thu, 7 Nov 2024 13:34:59 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Fan Ni <fan.ni@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-cxl@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] Documentation/printf: struct resource add start
+ == end special case
+Message-ID: <Zyyz85FfUuLv_oo7@pathway.suse.cz>
+References: <20241025-cxl-pra-v2-0-123a825daba2@intel.com>
+ <20241025-cxl-pra-v2-2-123a825daba2@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,58 +82,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b35f536e-1eb0-4b7b-85f4-df94d76927d6@linux.dev>
+In-Reply-To: <20241025-cxl-pra-v2-2-123a825daba2@intel.com>
 
-On Thu, Nov 07, 2024 at 11:30:23AM +0000, Vadim Fedorenko wrote:
-> On 07/11/2024 08:23, Leon Romanovsky wrote:
-> > On Wed, Nov 06, 2024 at 04:09:58PM -0800, Jakub Kicinski wrote:
-> > > On Wed, 6 Nov 2024 18:36:16 +0100 Andrew Lunn wrote:
-> > > > > How would this be done in the PCI core?  As far as I can tell, all
-> > > > > these registers are device-specific and live in some device BAR.
-> > > > 
-> > > > Is this a licences PCIe core?
-> > > > 
-> > > > Could the same statistics appear in other devices which licence the
-> > > > same core? Maybe this needs pulling out into a helper?
-> > > 
-> > > The core is licensed but I believe the _USER in the defines names means
-> > > the stats sit in the integration logic not the licensed IP. I could be
-> > > wrong.
-> > > 
-> > > > If this is true, other uses of this core might not be networking
-> > > > hardware, so ethtool -S would not be the best interfaces. Then they
-> > > > should appear in debugfs?
-> > > 
-> > > I tried to push back on adding PCIe config to network tooling,
-> > > and nobody listened. Look at all the PCI stuff in devlink params.
-> > > Some vendors dump PCIe signal integrity into ethtool -S
-> > 
-> > Can you please give an example? I grepped various keywords and didn't
-> > find anything suspicious.
+On Fri 2024-10-25 19:46:54, Ira Weiny wrote:
+> The code when printing a struct resource will check for start == end and
+> only print the start value.
 > 
-> Hmm...
-
-Ohh, I looked in some other place.
-
+> Document this special case.
 > 
-> [root@host ~]# ethtool -i eth0 | grep driver
-> driver: mlx5_core
-> [root@host ~]# ethtool -S eth0 | grep pci
->      rx_pci_signal_integrity: 1
->      tx_pci_signal_integrity: 1471
->      outbound_pci_stalled_rd: 0
->      outbound_pci_stalled_wr: 0
->      outbound_pci_stalled_rd_events: 0
->      outbound_pci_stalled_wr_events: 0
-> 
-> Isn't it a PCIe statistics?
+> Suggested-by: Petr Mladek <pmladek@suse.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-I didn't do full archaeological research and stopped at 2017 there these
-counters were updated to use new API, but it looks like they there from
-stone age.
+Looks good.
 
-It was a mistake to put it there and they should be moved to PCI core
-together with other hundreds debug counters which ConnectX devices have
-but don't expose yet.
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-Thanks
+Best Regards,
+Petr
