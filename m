@@ -1,137 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51317217F5C;
-	Thu,  7 Nov 2024 20:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBF621830B;
+	Thu,  7 Nov 2024 20:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731012309; cv=none; b=gR9ntX7pLRp7eOKsyN4vlvVWWIIdoOF1QQIUWi6pjGI+htgOXR+HfpM9aDEdq4kaD3tCJpo2gw5z2y/pJb7K0hbZGbKEa2Riad4HNTn078aZyFZy+sFyAXj1ZzEXi3B2EOyVeV+NPrdByW+L5fmKxdNCLaie+o5Fg4rJ0WEk5No=
+	t=1731012342; cv=none; b=faWW/BQHVhv3LsZsx8ZzGQv7sOkX40EhlT1XrHOj0XOvFx+axZsSdAGr4w/5RGItRwqbqFcqOJwyFIGE/sz2FcFRZIYFyRkAJiws/uBBkgiLcBxot5gsB34SDPMHWS5pyi+/r2JdijMu+cSMrZcQKQmUF1pJ64oOiydxTI5ligU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731012309; c=relaxed/simple;
-	bh=TOAtp4toshHubG+QWf7mLLFWC4nu6LMEdHwXu5eYJ7k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JNZfRlvG6uI3a9ph4HUMafgejEF/ErsMhA+scxuv75yifgiH1Ccrl4/F+Off8ez1nC4rsgIUFJ+cHVfM765W48AW2vIIJ6JfUz1jTkcPZPatDPHDvaUeHK5mBNRbKrOhycNZeuZ/jMNTqZOgF2XvPlBohqTou2zXbYyEviQ97zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DmQfYSyN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731012342; c=relaxed/simple;
+	bh=n/eB7KhfK7BP837zIWLOHe7+NAjFY3sMqDDCzkeAIU4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=oWw7BFeAUYlJ+UrLA3U6QS8Tik4O7dvDpgEdM8lAUB6KXXGZ3Z10xDRgbS6oXVMvL0HFhGdXLWts6aTQG/lFF/baKqejRdMwv+LirXVl/+tQ9eK7zoGxwQd+siX9GePJpI7C5Eh9ahUJGhyefn1YLrOn2fVjE4GRKFsDa27SEtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pin27Uwm; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DmQfYSyN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61555C4CECC;
-	Thu,  7 Nov 2024 20:45:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731012308;
-	bh=TOAtp4toshHubG+QWf7mLLFWC4nu6LMEdHwXu5eYJ7k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DmQfYSyN557ZaAA1bJb7ExxyPTgjDfFF5PZfAM2GMCgFO1N4mF+tOBYp/kOjjVDxz
-	 RI2Zj4OpJRUVWYH1p8b4kSSWkeD0m/QkyhUV70moN4DKQgatFPQQrK50oNHuRr9EDa
-	 P+y2dE7kps+GGe75B/WvphIQZZV5uGwL8R49YIWf/5AuYXkDu7I1YBiU6k10ak13Td
-	 RPjXGHq2KH/vFUvxx3nMypKkvLGtXimNb8xoARX8Hxlgimohj2PDzNXCBCqescvea7
-	 h4Qm0FfqlcWtMcbfQGSv3YNPKJamU8OWi386Gx/K/ZMz4hnbRcOXVKmeW0LvfBdHKt
-	 4LOAqFqHvlcGg==
-Date: Thu, 7 Nov 2024 13:45:04 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Rong Xu <xur@google.com>
-Cc: Alice Ryhl <aliceryhl@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
-	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
-	Brian Gerst <brgerst@gmail.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Li <davidxl@google.com>, Han Shen <shenhan@google.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Juergen Gross <jgross@suse.com>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Maksim Panchenko <max4bolt@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Yabin Cui <yabinc@google.com>,
-	Krzysztof Pszeniczny <kpszeniczny@google.com>,
-	Sriraman Tallam <tmsriram@google.com>,
-	Stephane Eranian <eranian@google.com>, x86@kernel.org,
-	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v7 7/7] Add Propeller configuration for kernel build
-Message-ID: <20241107204504.GA3432398@thelio-3990X>
-References: <20241102175115.1769468-1-xur@google.com>
- <20241102175115.1769468-8-xur@google.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pin27Uwm"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2515542C17
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1731012340; bh=HnueUzWqD3mCAftcKyQZS53p8PXVi/3VDLYnP9vcBIk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=pin27UwmQiu/qK3+ikBOnyb7W1MiS6sjDeSD5FHFJg2lwKaKgeA40qe2zRItdN+Jl
+	 PVB51sWf4e3whcMEgbWKsYk7imYgK0ZLOg+FqG3lC7krhPKmi6t9d361O1anmQf7vi
+	 D+CVB6W976k/C00NiaYy+1d0w9Aj2oh263JMiNsS9gq3q2ozDuOTjC1h3wDmsFTE/Q
+	 qdUNLiMZrjz/4nhDvJWA1BWysfC1D1YVEVlXKikhjYL96YZyugUsg8MxzpSHXsLVmL
+	 oTdAEushXiio+UUnqfFzGEsuTjAZnxGqkfUwsNn3sMUPnBN3L/uhHis5nWFRnhxlap
+	 mj4GjdrAKlO3Q==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2515542C17;
+	Thu,  7 Nov 2024 20:45:40 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: anish kumar <yesanishhere@gmail.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com, Sebastian Fricke
+ <sebastian.fricke@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org, anish kumar <yesanishhere@gmail.com>
+Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
+In-Reply-To: <20241107200835.3033-1-yesanishhere@gmail.com>
+References: <20241107200835.3033-1-yesanishhere@gmail.com>
+Date: Thu, 07 Nov 2024 13:45:39 -0700
+Message-ID: <87cyj622oc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241102175115.1769468-8-xur@google.com>
+Content-Type: text/plain
 
-Hi Rong,
+anish kumar <yesanishhere@gmail.com> writes:
 
-On Sat, Nov 02, 2024 at 10:51:14AM -0700, Rong Xu wrote:
-> diff --git a/scripts/Makefile.propeller b/scripts/Makefile.propeller
-> new file mode 100644
-> index 0000000000000..344190717e471
-> --- /dev/null
-> +++ b/scripts/Makefile.propeller
-> @@ -0,0 +1,28 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +# Enable available and selected Clang Propeller features.
-> +ifdef CLANG_PROPELLER_PROFILE_PREFIX
-> +  CFLAGS_PROPELLER_CLANG := -fbasic-block-sections=list=$(CLANG_PROPELLER_PROFILE_PREFIX)_cc_profile.txt -ffunction-sections
-> +  KBUILD_LDFLAGS += --symbol-ordering-file=$(CLANG_PROPELLER_PROFILE_PREFIX)_ld_profile.txt --no-warn-symbol-ordering
-> +else
-> +  CFLAGS_PROPELLER_CLANG := -fbasic-block-sections=labels
-> +endif
+> Add a comprehensive debugging guide for ALSA audio issues, covering
+> topics from bootup to runtime debugging. This document aims to help
+> developers diagnose and resolve common audio problems in Linux.
+>
+> The guide includes sections on:
+> - Bootup/bringup issues
+> - Runtime debugging
+> - XRUN debugging
+> - Audio pops and clicks
+>
+> This addresses the lack of a centralized debugging resource for ALSA
+> and should help improve the troubleshooting process for audio drivers.
+>
+> Inspired by discussions on LKML:
+> https://lkml.org/lkml/2024/9/24/392
+>
+> Signed-off-by: anish kumar <yesanishhere@gmail.com>
+> ---
+>  Documentation/sound/soc/debug.rst | 334 ++++++++++++++++++++++++++++++
+>  Documentation/sound/soc/index.rst |   1 +
+>  2 files changed, 335 insertions(+)
+>  create mode 100644 Documentation/sound/soc/debug.rst
 
-It appears that '-fbasic-block-sections=labels' has been deprecated in
-the main branch of LLVM, as I see a warning repeated over and over when
-building allmodconfig:
+At a first glance, this seems useful.
 
-  clang: warning: argument '-fbasic-block-sections=labels' is deprecated, use '-fbasic-block-address-map' instead [-Wdeprecated]
+I was just looking at Sebastian's new debugging documentation:
 
-https://github.com/llvm/llvm-project/commit/7b7747dc1d3da1a829503ea9505b4cecce4f5bda
+  https://lore.kernel.org/all/20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com/
 
-Sorry that I missed this during testing, as I was only using clang-19 at
-the time.
+... so my immediate thought is that this documentation should be
+coherent and together, rather than scattered though the docs.  Maybe
+move this to process/debugging and integrate it with his work?
 
-I think you can send a fixup on top of Masahiro's branch:
+Thanks,
 
-https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/log/?h=kbuild
-
-> +# Propeller requires debug information to embed module names in the profiles.
-> +# If CONFIG_DEBUG_INFO is not enabled, set -gmlt option. Skip this for AutoFDO,
-> +# as the option should already be set.
-> +ifndef CONFIG_DEBUG_INFO
-> +  ifndef CONFIG_AUTOFDO_CLANG
-> +    CFLAGS_PROPELLER_CLANG += -gmlt
-> +  endif
-> +endif
-> +
-> +ifdef CONFIG_LTO_CLANG_THIN
-> +  ifdef CLANG_PROPELLER_PROFILE_PREFIX
-> +    KBUILD_LDFLAGS += --lto-basic-block-sections=$(CLANG_PROPELLER_PROFILE_PREFIX)_cc_profile.txt
-> +  else
-> +    KBUILD_LDFLAGS += --lto-basic-block-sections=labels
-
-I think this might have a similar problem but I have not tested.
-
-> +  endif
-> +endif
-> +
-> +export CFLAGS_PROPELLER_CLANG
-
-Cheers,
-Nathan
+jon
