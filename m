@@ -1,84 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE071F1303;
-	Thu,  7 Nov 2024 11:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C881F76AE;
+	Thu,  7 Nov 2024 11:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730978627; cv=none; b=cVDyk6/z86Utp+Egy/hFuK9KyJ8C3CD1xdYbW/Cx5glC5Dt2Pc8EwEQtBjNlZGE70zrt8hvcRtxwVqup+z1i3BPLh8TRhaMkRUhwOQBeBlG6FkEprA6iYPmBKPaah7x4Ir8W9zZ8O0lk766D6eXvkdc5T+AKe/ELnEScRC/mQAQ=
+	t=1730978998; cv=none; b=sJVj8CqvxQFXBi9a6YQ8G594w0Cfn5s/btfFnL2fkTFGdQx+2+OegIsDSbuwHdpRnUSMF11vDZ075PtjGszge1wO6tSA4cn4WE/cD1qun8NhvhhzhNIUPVcpgf9Y3a16q0Mh2JT4wgNLAPI99ThCKpavVzVzKqPP5Mv9YXeuPIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730978627; c=relaxed/simple;
-	bh=MUNQt2WiP43XCisLz5w3jz9Og/Z3eLleYi+/Fcb3MAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gW60UQ36yB2+SmbSj1g6uQGTNM5dywh8VQ0y2JW8HMbqLgkLTHFG9NNN8zoar9iMS1qhkuIPTNfTKGDbbRJ5Sar03CE3NyoDm/QAu+fKccU8M7eFpbZ1MVa9T+oVUix9/E8YGl3EQoWx4SnRFfigOhgY50ilXoPNQw2umFnvO6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y92h3ii6; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y92h3ii6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 313DCC4CECC;
-	Thu,  7 Nov 2024 11:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730978627;
-	bh=MUNQt2WiP43XCisLz5w3jz9Og/Z3eLleYi+/Fcb3MAI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y92h3ii6oGokXu2n4lw42RvveqBc7Cq7IMssxN2S5Vtn7ogV5Q8KPmqQJS4ctgNQr
-	 pA7vfT4ivEutt3fvkIVr/517biLqO73JG1rHHeYAdEmWT1CAx8jBq2kt4aP2V0CY56
-	 cF1yMYd/Aqh6V9l0nWY6wMHY1zJxzHa36WfbTC7V4JL66J58FWA4fetqxfvHXTHC50
-	 BUnLqNLIt9m4j160hi6z9OU/5DViHIJlM0/cvUoVXPw1BfMoyTtyIShxggpINJ6JF5
-	 2CLKzJEsfdhC4SZJQh/vuwynZfqbN+bXoH23KAnY5SOCBCtl45UpT2liT48YqPeE7B
-	 YfP0ffiWbQMJw==
-Date: Thu, 7 Nov 2024 13:23:39 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Sanman Pradhan <sanman.p211993@gmail.com>
-Cc: netdev@vger.kernel.org, alexanderduyck@fb.com, kuba@kernel.org,
-	kernel-team@meta.com, davem@davemloft.net, edumazet@google.com,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	mohsin.bashr@gmail.com, sanmanpradhan@meta.com,
-	andrew+netdev@lunn.ch, vadim.fedorenko@linux.dev,
-	jdamato@fastly.com, sdf@fomichev.me, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH net-next v2] eth: fbnic: Add PCIe hardware statistics
-Message-ID: <20241107112339.GJ5006@unreal>
-References: <20241107020555.321245-1-sanman.p211993@gmail.com>
+	s=arc-20240116; t=1730978998; c=relaxed/simple;
+	bh=xj7Kavv7JMaQJGhBu/e09GscaMomEYRc0o8Oyg59+TM=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WxdWYIVX4c5zsUHCRGAr1LO3WPkx10BWXA1GaJuZcnxgInyLx5Q7i5gHgmNj+4+qaO9ofQWh32ECaM/HKTjdDIbk3o+blI8to/oMTOopmKNJIhHE7b/nVWhERh5FbgAs1Uwlp0hXfzpDCIOzkN6ECC8MmaBfJ7xiTUqwVf/W3oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XkfxS5PTcz6LD8b;
+	Thu,  7 Nov 2024 19:29:48 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9D3F81400DD;
+	Thu,  7 Nov 2024 19:29:52 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 7 Nov
+ 2024 12:29:51 +0100
+Date: Thu, 7 Nov 2024 11:29:50 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Navneet
+ Singh" <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, "Alison Schofield"
+	<alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 20/27] cxl/extent: Process DCD events and realize
+ region extents
+Message-ID: <20241107112950.00000384@Huawei.com>
+In-Reply-To: <20241105-dcd-type2-upstream-v6-20-85c7fa2140fe@intel.com>
+References: <20241105-dcd-type2-upstream-v6-0-85c7fa2140fe@intel.com>
+	<20241105-dcd-type2-upstream-v6-20-85c7fa2140fe@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241107020555.321245-1-sanman.p211993@gmail.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500011.china.huawei.com (7.191.174.215) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Wed, Nov 06, 2024 at 06:05:55PM -0800, Sanman Pradhan wrote:
-> Add PCIe hardware statistics support to the fbnic driver. These stats
-> provide insight into PCIe transaction performance and error conditions.
+On Tue, 05 Nov 2024 12:38:42 -0600
+ira.weiny@intel.com wrote:
+
+> From: Navneet Singh <navneet.singh@intel.com>
 > 
-> Which includes, read/write and completion TLP counts and DWORD counts and
-> debug counters for tag, completion credit and NP credit exhaustion
+> A dynamic capacity device (DCD) sends events to signal the host for
+> changes in the availability of Dynamic Capacity (DC) memory.  These
+> events contain extents describing a DPA range and meta data for memory
+> to be added or removed.  Events may be sent from the device at any time.
 > 
-> The stats are exposed via ethtool and can be used to monitor PCIe
-> performance and debug PCIe issues.
+> Three types of events can be signaled, Add, Release, and Force Release.
 > 
-> Signed-off-by: Sanman Pradhan <sanman.p211993@gmail.com>
-> ---
-> v1:
-> 	- https://patchwork.kernel.org/project/netdevbpf/patch/20241106002625.1857904-1-sanman.p211993@gmail.com/
-> 	- Removed unnecessary code blocks
-> 	- Rephrased the commit message
-> ---
->  .../device_drivers/ethernet/meta/fbnic.rst    |  27 +++++
->  drivers/net/ethernet/meta/fbnic/fbnic_csr.h   |  39 ++++++
->  .../net/ethernet/meta/fbnic/fbnic_ethtool.c   |  77 +++++++++++-
->  .../net/ethernet/meta/fbnic/fbnic_hw_stats.c  | 114 ++++++++++++++++++
->  .../net/ethernet/meta/fbnic/fbnic_hw_stats.h  |  12 ++
->  .../net/ethernet/meta/fbnic/fbnic_netdev.c    |   3 +
->  drivers/net/ethernet/meta/fbnic/fbnic_pci.c   |   2 +
->  7 files changed, 272 insertions(+), 2 deletions(-)
+> On add, the host may accept or reject the memory being offered.  If no
+> region exists, or the extent is invalid, the extent should be rejected.
+> Add extent events may be grouped by a 'more' bit which indicates those
+> extents should be processed as a group.
+> 
+> On remove, the host can delay the response until the host is safely not
+> using the memory.  If no region exists the release can be sent
+> immediately.  The host may also release extents (or partial extents) at
+> any time.  Thus the 'more' bit grouping of release events is of less
+> value and can be ignored in favor of sending multiple release capacity
+> responses for groups of release events.
+> 
+> Force removal is intended as a mechanism between the FM and the device
+> and intended only when the host is unresponsive, out of sync, or
+> otherwise broken.  Purposely ignore force removal events.
+> 
+> Regions are made up of one or more devices which may be surfacing memory
+> to the host.  Once all devices in a region have surfaced an extent the
+> region can expose a corresponding extent for the user to consume.
+> Without interleaving a device extent forms a 1:1 relationship with the
+> region extent.  Immediately surface a region extent upon getting a
+> device extent.
+> 
+> Per the specification the device is allowed to offer or remove extents
+> at any time.  However, anticipated use cases can expect extents to be
+> offered, accepted, and removed in well defined chunks.
+> 
+> Simplify extent tracking with the following restrictions.
+> 
+> 	1) Flag for removal any extent which overlaps a requested
+> 	   release range.
+> 	2) Refuse the offer of extents which overlap already accepted
+> 	   memory ranges.
+> 	3) Accept again a range which has already been accepted by the
+> 	   host.  Eating duplicates serves three purposes.  First, this
+> 	   simplifies the code if the device should get out of sync with
+> 	   the host.  And it should be safe to acknowledge the extent
+> 	   again.  Second, this simplifies the code to process existing
+> 	   extents if the extent list should change while the extent
+> 	   list is being read.  Third, duplicates for a given region
+> 	   which are seen during a race between the hardware surfacing
+> 	   an extent and the cxl dax driver scanning for existing
+> 	   extents will be ignored.
+> 
+> 	   NOTE: Processing existing extents is done in a later patch.
+> 
+> Management of the region extent devices must be synchronized with
+> potential uses of the memory within the DAX layer.  Create region extent
+> devices as children of the cxl_dax_region device such that the DAX
+> region driver can co-drive them and synchronize with the DAX layer.
+> Synchronization and management is handled in a subsequent patch.
+> 
+> Tag support within the DAX layer is not yet supported.  To maintain
+> compatibility legacy DAX/region processing only tags with a value of 0
+> are allowed.  This defines existing DAX devices as having a 0 tag which
+> makes the most logical sense as a default.
+> 
+> Process DCD events and create region devices.
+> 
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> 
+I gave this on v5, but meh here it is again (obviously subject to
+Li Ming's fix which maybe can just get rolled in whilst applying)
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 
-You completely ignored discussion and participants in v1 about
-providing general solution which is applicable to all PCI devices
-in the world.
-
-Thanks
