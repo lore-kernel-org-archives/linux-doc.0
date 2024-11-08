@@ -1,148 +1,168 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E33E5B1FB
-	for <linux-doc@vger.kernel.org>; Fri,  8 Nov 2024 16:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDA6192B71;
+	Fri,  8 Nov 2024 16:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731083453; cv=none; b=gx5nC7likyu8hxz8rPp7wVrcRuPAOIy/8Zq7tyZMvoiJBvxV4udHEToE2BL64jI8aJVD7QMyqesU7lVwjP0tX19ds3wQkO9aHQt7fKquj1gsKXEbL337sSqrnfGL/LSJjo7GKyRfe/CELo2xL2qI4JGNSvhsfICWGbReImn+W9E=
+	t=1731084051; cv=none; b=beaDfX7Z0HfYfCZ3lNo6ojU1Tii2Nxhfv1KRLCzW/fdHYuyjXN3yw6Daqq9Mr9rXxL/HNASqJDPK92tS0QmhLH7UfGbDdv9RkqojhF4tz6wSE5+dKZv51ONwgc/fHDaPFNHAH0e/GKDnTGL8XuEQLentn5+Pz8x7YFh47RtGKq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731083453; c=relaxed/simple;
-	bh=uWID+45xH0j3gSLyRb3WLQy5ZqamfWQLeD4vIDwrNXQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l3qazRayZv7dcm4XGrinvITbpm7yfpmalf+zJYfC+E7hUpBTWzhQwLgFYi2buFlac7t8hAuCqLhZPI5UX2rWuStU3MmgACgIHM+BG4S62eaPuVuo1+ATWnftmtiQvZab77zBMAaTyEA8CKzg50tZPXgQChJLWhSGYioAkaUxB9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IoF9xQX1; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731084051; c=relaxed/simple;
+	bh=sFLDH2l4Koq2m3fdj1cHechzpW8ROQuPZQUInJ3DuKU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Q+mqtXmawKrROYCiW45ZeAbRFDY70QSKtP4U0KvdJUYhmkjm/1eQRMhx6+jyNrUHiO2uo5MdrVxOH5JeU1oW+XX6ax37Ynu1dP0oSatZ3GiwMoRT8YQRN5BRttvac2LtJmtbPfvjj2kqwZlSZmyPR8A4VKiFyCCWYP6M3TNkwQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cZ7ifg6U; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IoF9xQX1"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-460b295b9eeso191761cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 08 Nov 2024 08:30:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731083451; x=1731688251; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=apfan5NQTxJyT2HEbuhCbL5fWKPBXY9r2Roz8GqQn9Q=;
-        b=IoF9xQX1wHR8otQUSEZxKK6O5MrlE9e+JgteeAk+3eg5MBTv5dfmajJNlVPSer7qF+
-         fBUirI4om6TiQDmztpRZ734Yrb4TxivJAjt713kmIGZp9xDPm/8BPWej7zvfosHTc9nl
-         C8oMP4rY/bwDMss6RR53yugkIbV+k4cgKY7Z9RIICVkavgyptAUeHtdMt4S21SDZfO9i
-         2sqgfn0ePSos1KSoyFpyzCTuix3PbsdoT8FYutTvrPMOMdfgQQ3/qRzO1ez7PIPbo88l
-         ev4iFXxL8oOW0W7wtiY0aummuuBs8vNmuo+g2YRdBd370I9JpPen0OemWsazEfp4T0oZ
-         u5+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731083451; x=1731688251;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=apfan5NQTxJyT2HEbuhCbL5fWKPBXY9r2Roz8GqQn9Q=;
-        b=mkJbM+7e4af8oFzq+bKJWIMmbuiVMl4pu5tfEaKp5DxVuZz+5nyiz2/8yjka0jrAxk
-         7GNkRvEIryBjX9EjQ81PYDUaWHfIKP2SJD5UFIdFscL6C+e0prtHE81/kGFgZJWSJmdp
-         10nVQcUKtZYnOm20y6yNZ8CrorGqyxsF/q2CSARsQaMGsAoCmIHoebzCRJADMC5r8y/h
-         ZyvrPdBUFCXqgis9fQd1RzErobfNUxfUFI1P2aJTzHwIFhcYfZv5rt4XIbz+NzYpKRP1
-         6t5cDfD6IWKSPDltLOjOqX4NI3RclR2Mc0YOpNk3skU2V/RKu+Y/atKd0vY8wb4BGssy
-         ON6w==
-X-Forwarded-Encrypted: i=1; AJvYcCXg9nGvvmJuMsXCHdaDK4T1H7V7I4gDbJmR6GxBHewKUUVCHQzh06fGS3RNf41tvkq5w3agL6Jb6LA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGt9kotYCtDU0Pz2k16HOb1oUM9BYeA+r3DhkiNixa16TjbeVe
-	CrguOVJaGrbXnuYXFYq0wjQLzIbU3EyeoQ8AUQPIka55ljNEOY+3izd2PfeyglPuGyppdLIo6sM
-	4Mgu/Yw9Icp4PyzHQRTGqs1fZEzEng/m8/3XD
-X-Gm-Gg: ASbGnctVMPRoIpI6sYVzuLKirQ1QeeGQxoMk4aFWc2uQ/ggPdbre6z/UMxzwZmwktA8
-	ZfUtdNYT9Bdf+r9j2f86Kjj9XeZXWqSU=
-X-Google-Smtp-Source: AGHT+IHQe3obsowMXi5ubFteLQTT0V2g4gNYn47erjDWIwR0iVkHYGeKW044SVgLD/kZ3JMsWc1ePeD3hoKtZbE4YBU=
-X-Received: by 2002:ac8:7e87:0:b0:460:491e:d2a2 with SMTP id
- d75a77b69052e-462fa5a9599mr8635201cf.17.1731083450710; Fri, 08 Nov 2024
- 08:30:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cZ7ifg6U"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 59E1442C17
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1731084048; bh=hFaZzjAtq1siX2fucQlExiIONnxQ6s/0W735xx5RO9g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=cZ7ifg6UUzcIqOHlRLnlEAnSf0cvIiz/POcpWlV03vc9zVytI8xvb6ZeEM+6lGOsc
+	 rBq1Z6bBaGnlon/lm5L31Saf4ntsvlZURWanCwAdceBtqpZrUXR7YKFg+4aQg5lujI
+	 PqvfBxMoS3gbnPBbMCB0ipzlCg/DEyAZyks/25mAjSO/uMRjQ1+ZcKHscrwlpIdbrA
+	 2QW40a6JUDO4dAz4Gu4jykg5ihWbEZUrHJDv+Ot/sq513xlgdK2omPssWs2zhDK4re
+	 DnqNYdOFtYB6a8S0+V6rSu8roAuZQfmnTqETih9z5/VHnyeY7ZZr06SAsfZDH8T5TS
+	 ZXDahd5SY8AAA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 59E1442C17;
+	Fri,  8 Nov 2024 16:40:48 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
+ mauro.chehab@linux.intel.com, kernel@collabora.com,
+ bob.beckett@collabora.com, nicolas.dufresne@collabora.com
+Subject: Re: [PATCH 1/2] docs: Add guides section for debugging
+In-Reply-To: <20241108081315.ln5ltvw3ssldonui@basti-XPS-13-9310>
+References: <20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com>
+ <20241028-media_docs_improve_v3-v1-1-2b1b486c223e@collabora.com>
+ <87ldxu235z.fsf@trenco.lwn.net>
+ <20241108081315.ln5ltvw3ssldonui@basti-XPS-13-9310>
+Date: Fri, 08 Nov 2024 09:40:47 -0700
+Message-ID: <87o72py8z4.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241107210331.3044434-1-almasrymina@google.com>
- <20241107210331.3044434-2-almasrymina@google.com> <Zy1priZk_LjbJwVV@mini-arch>
- <CAHS8izOJSd2-hkOBkL0Cy40xt-=1k8YdvkKS98rp2yeys_eGzg@mail.gmail.com> <Zy1_IG9v1KK8u2X4@mini-arch>
-In-Reply-To: <Zy1_IG9v1KK8u2X4@mini-arch>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 8 Nov 2024 08:30:38 -0800
-Message-ID: <CAHS8izP8UoGZXoFCEshYrL=o2+T6o4g-PDdgDG=Cfc0X=EXyVQ@mail.gmail.com>
-Subject: Re: [PATCH net v2 2/2] net: clarify SO_DEVMEM_DONTNEED behavior in documentation
-To: Stanislav Fomichev <stfomichev@gmail.com>
-Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
-	Eric Dumazet <edumazet@google.com>, Willem de Bruijn <willemb@google.com>, 
-	"David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Yi Lai <yi1.lai@linux.intel.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Thu, Nov 7, 2024 at 7:01=E2=80=AFPM Stanislav Fomichev <stfomichev@gmail=
-.com> wrote:
+Sebastian Fricke <sebastian.fricke@collabora.com> writes:
+
+> Hey Jonathan,
 >
-> On 11/07, Mina Almasry wrote:
-> > On Thu, Nov 7, 2024 at 5:30=E2=80=AFPM Stanislav Fomichev <stfomichev@g=
-mail.com> wrote:
-> > >
-> > > On 11/07, Mina Almasry wrote:
-> > > > Document new behavior when the number of frags passed is too big.
-> > > >
-> > > > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> > > > ---
-> > > >  Documentation/networking/devmem.rst | 9 +++++++++
-> > > >  1 file changed, 9 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/networking/devmem.rst b/Documentation/ne=
-tworking/devmem.rst
-> > > > index a55bf21f671c..d95363645331 100644
-> > > > --- a/Documentation/networking/devmem.rst
-> > > > +++ b/Documentation/networking/devmem.rst
-> > > > @@ -225,6 +225,15 @@ The user must ensure the tokens are returned t=
-o the kernel in a timely manner.
-> > > >  Failure to do so will exhaust the limited dmabuf that is bound to =
-the RX queue
-> > > >  and will lead to packet drops.
-> > > >
-> > > > +The user must pass no more than 128 tokens, with no more than 1024=
- total frags
-> > > > +among the token->token_count across all the tokens. If the user pr=
-ovides more
-> > > > +than 1024 frags, the kernel will free up to 1024 frags and return =
-early.
-> > > > +
-> > > > +The kernel returns the number of actual frags freed. The number of=
- frags freed
-> > > > +can be less than the tokens provided by the user in case of:
-> > > > +
-> > >
-> > > [..]
-> > >
-> > > > +(a) an internal kernel leak bug.
-> > >
-> > > If you're gonna respin, might be worth mentioning that the dmesg
-> > > will contain a warning in case of a leak?
-> >
-> > We will not actually warn in the likely cases of leak.
-> >
-> > We warn when we find an entry in the xarray that is not a net_iov, or
-> > if napi_pp_put_page fails on that net_iov. Both are very unlikely to
-> > happen honestly.
-> >
-> > The likely 'leaks' are when we don't find the frag_id in the xarray.
-> > We do not warn on that because the user can intentionally trigger the
-> > warning with invalid input. If the user is actually giving valid input
-> > and the warn still happens, likely a kernel bug like I mentioned in
-> > another thread, but we still don't warn.
+> On 07.11.2024 13:35, Jonathan Corbet wrote:
+>>Please, let's not add this to the top-level page.  I've been through a
+>>multi-year struggle trying to trim that page down to the point where it
+>>is possible to actually find something of interest there.  Everybody
+>>wants their stuff up front, but please link this from the process guide
+>>instead.
 >
-> In this case, maybe don't mention the leaks at all? If it's not
-> actionable, not sure how it helps?
+> Hmmm ... we are talking about a page for newbies here, when it is under
+> process the person will have to figure out first that one has to click
+> on All development-process docs and then find that document under the
+> abundance of others. Could we atleast generate a top level page called
+> Beginner intro or something similar, where you are guided through the
+> documentation tree from the perspective of a beginner?
 
-It's good to explain what the return code of the setsockopt means, and
-when it would be less than the number of passed in tokens.
+By the time somebody needs this document, they should be at least
+wrist-deep in kernel development and should be able to find it.
 
-Also it's not really 'not actionable'. I expect serious users of
-devmem tcp to log such leaks in metrics and try to root cause the
-userspace or kernel bug causing them if they happen.
+Now, as per the discussion with Randy, if we decide we want to separate
+"how to work on kernel code" from "how to work with the kernel
+community", we can do that.  We're talking about a bigger organizational
+issue at this point, though.
 
---=20
-Thanks,
-Mina
+Meanwhile, more introductory documentation is always a good thing :)
+
+>>When referencing the function, say printk() - that's the convention we
+>>use.
+>
+> Ah even in the title? Can do. (Even though it makes the titles look less
+> uniform..)
+
+That would be my preference, yes.
+
+>>That is anything but full documentation of lockdep; it's really only
+>>about RCU.  I wish (hint :) that we had proper documentation for lockdep
+>>that we could link here.  For the purposes of a reader who needs this
+>>level of guide, though, linking deep into RCU is not likely to be
+>>helpful.
+>
+> Yep I struggled finiding something useful for this topic in the docs.
+> I'd say I skip adding a link for now and we can create another MR later
+> to add a proper documentation + link in the documentation.
+
+Sounds like a good plan to me.
+
+>>> diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
+>>> new file mode 100644
+>>> index 000000000000..c200ede7c955
+>>> --- /dev/null
+>>> +++ b/Documentation/process/debugging/index.rst
+>>> @@ -0,0 +1,21 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +============================================
+>>> +Debugging advice for Linux Kernel developers
+>>> +============================================
+>>> +
+>>
+>>This file needs an introductory paragraph (at least) saying what it is
+>>about.  A simple directory listing is not hugely useful.
+>>
+>>An alternative might be to turn your "general advice" document into the
+>>index.rst file.
+>
+> Well that is what I had in the previous iteration and Bagas Sanjaya told me:
+>>Please split general debugging advice into its own doc (e.g. at
+>>general-advice.rst). Most other docs have index.rst only for toctree
+>>listing.
+>
+> So, shall I revert that or should I add a intro sentence to the index
+> file?
+
+Bagas is fond of giving bad but authoritative-sounding advice to
+documentation contributors despite repeated requests to stop.
+Unfortunately, I don't have the time to chase him around all the time
+and set things straight.
+
+My preference would be to go back to what you had, but if you prefer to
+just add an intro paragraph at this point we can certainly live with it. 
+
+>>> +  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
+>>> +  $ ddcmd '-p; file v4l2-h264.c +p'
+>>
+>>It seems to me that the alias just obfuscates things, why bother?
+>
+> Well because the Linux Kernel documentation suggests that :P
+> https://docs.kernel.org/admin-guide/dynamic-debug-howto.html#controlling-dynamic-debug-behaviour
+>
+> If you don't like that, then I think I should send a MR for that file as
+> well.
+
+Up to you, this is just something that caught my eye as I was going by. 
+
+>>> +  To analyse the crash dump please use `Kdump` & `Kexec`.
+>>
+>>Those will not *analyze* a crash dump.
+>
+> Well yes they will capture the crash dump, which can then be used to
+> analyse the crash. Maybe a better wording is:
+>
+> To capture the crash dump please use `Kdump` & `Kexec`. Below you can
+> find some advice for analysing the data.
+>
+> better?
+
+Yes, thanks.
+
+jon
