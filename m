@@ -1,115 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5087A17A5BE;
-	Fri,  8 Nov 2024 20:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47E81C1F08;
+	Fri,  8 Nov 2024 20:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731096243; cv=none; b=ClMP36uP3rnC9GFQM2Kw7H6Ado9S/cBupkhQbEp3kgqSJZgh71gh/qTHMXV9+reRjWMFFhQlFYx1I690jy/9QjSWHJwfky33CmUzwXX/nCPYvM/oeNlRweDU7SMqrYHNPL6guKB2CogQibxTJzEU3OBt4Gd8PyC9rpbews8M6ok=
+	t=1731096518; cv=none; b=PJZA/w2oNNSc6eBtM7QgcJRNHcUWJol3MtdFFncn8BtgIN2sWE4OtHpUmgj4UQ/v5Q/55CDOKHJzvHeAK3azyTVUeaOxVISwpAQ/c9WiJY/u9WUgSXMzm0Y9qw4JXHv08Mon4U02kHleYBu1aO9HcUep6vnttGHLRQlsOFS2heY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731096243; c=relaxed/simple;
-	bh=j8/ZMD+Bu1h+adtk4kPnyTobfWGqg8JYd1SKbmkjXD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZIo3l6yvA5D7syKNvAwORPbFe580gcxQN/aAKxRmXVHhUtCL4thCTJS3+22B+wFEfWYgCATvLhSRSyqfraCPjqEu1hntqTRJFb7vYGHA7V7Cx7V0Lo3Evx3tpHG+lEE6oBkMX4Sb56hBrxPZd7SlZIA1QSHch6yL9AfmYaW8VeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MMRxE4R5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731096518; c=relaxed/simple;
+	bh=BAtIgroBAlsvoKNehcDGJXbrxqEbn0HAAWSSvFkJwWg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V74unjROtoJe/S0j+hNA5g9aQ6g6ixq8h3UzC5oRqv3ntaqKmbj9cdu2pgQrSRn9Dq0xE2Huyh4B24frqy9iGqcFwsoOXZyFiNtk3aaCWITBhdEBjubOGQtYdP/2zGQEzZxjexTlBQzP+WNv9/3at8bF7XIBDwCTELhDmd7CWX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WPii5cto; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MMRxE4R5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E88D7C4CECD;
-	Fri,  8 Nov 2024 20:04:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731096242;
-	bh=j8/ZMD+Bu1h+adtk4kPnyTobfWGqg8JYd1SKbmkjXD8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MMRxE4R5dWVG/OvIS2VimVBlKeyDxFEF2K9D6swzKr75NtaOQPu3u1HzWpTwu+lSo
-	 85SYMuWjDivh9mgJoWRmt7qwMovoZY3cNUlErSjiFU7xfzhO3L0mkCgYRIYpsXvOde
-	 6bLpgXaPXrxvzY26yN0MVKUAc8tmb6/1to+m2Nu5CHHjLY2bKaY0s9yo80iAgyhCBS
-	 kpsv+ejCFSu6JJBaNiBYzlklGoRr29zyiIOS6p6yBFIJGxlp5B+VEhP9FbUdyO7D/F
-	 /3dZB82/joZZJZEPux6XkULpk+j2C6IsM2ZaXvYGa+K33lGdnm6E5zYBcY73gUMPBa
-	 AdQERFF7Kq6pg==
-Date: Fri, 8 Nov 2024 22:03:55 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
-Message-ID: <20241108200355.GC189042@unreal>
-References: <cover.1730298502.git.leon@kernel.org>
- <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
- <87ttchwmde.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WPii5cto"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=/ek8CdD57enc0HssxhsqMq6TsdAatE+3OGsK8sqC6bc=; b=WPii5ctojURmzr6uwYdS8rCYAk
+	JluRwP6YHU8SDiadXuPFkUCVIaRspsijUapWPDn5uUivOv4CYU3Lkz8gDicjbYH4mVCH796zx8ijh
+	FbVj8hIJtGIeWzqhcr56QHCMDVCrSroJ5JuEf/cXgzf6ardsjBuZpe9pI9T0Ce8gFbPcmcP3c+m1D
+	clWz5Y3Zqm0INiYHewIRBvm9j3UWlVBF19Bx+xwqQUc8b+hGctj12m1C91SvX6VL25+9n1iq+wJzL
+	v4g4jv1z7uu5Mmva6/bk45xHqzBNPD654WP00nhqynISpzAK39RyMNvkZxTfddX7XV16t25dWqBeU
+	XEQjancw==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t9VHL-00000009GU9-0wga;
+	Fri, 08 Nov 2024 20:08:24 +0000
+Message-ID: <2b1f6b86-0d56-445e-bed0-1e33b9882d48@infradead.org>
+Date: Fri, 8 Nov 2024 12:08:17 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ttchwmde.fsf@trenco.lwn.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for unacceptable
+ behaviors
+To: Shuah Khan <skhan@linuxfoundation.org>, gregkh@linuxfoundation.org,
+ corbet@lwn.net
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Linus Torvalds
+ <torvalds@linux-foundation.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Dan Williams <dan.j.williams@intel.com>
+References: <20241108161853.12325-1-skhan@linuxfoundation.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20241108161853.12325-1-skhan@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 08, 2024 at 12:34:21PM -0700, Jonathan Corbet wrote:
-> Leon Romanovsky <leon@kernel.org> writes:
-> 
-> > From: Christoph Hellwig <hch@lst.de>
-> >
-> > Add an explanation of the newly added IOVA-based mapping API.
-> >
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  Documentation/core-api/dma-api.rst | 70 ++++++++++++++++++++++++++++++
-> >  1 file changed, 70 insertions(+)
-> >
-> > diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-> > index 8e3cce3d0a23..6095696a65a7 100644
-> > --- a/Documentation/core-api/dma-api.rst
-> > +++ b/Documentation/core-api/dma-api.rst
-> > @@ -530,6 +530,76 @@ routines, e.g.:::
-> >  		....
-> >  	}
-> >  
-> > +Part Ie - IOVA-based DMA mappings
-> > +---------------------------------
-> > +
-> > +These APIs allow a very efficient mapping when using an IOMMU.  They are an
-> > +optional path that requires extra code and are only recommended for drivers
-> > +where DMA mapping performance, or the space usage for storing the DMA addresses
-> > +matter.  All the consideration from the previous section apply here as well.
-> > +
-> > +::
-> > +
-> > +    bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
-> > +		phys_addr_t phys, size_t size);
-> > +
-> > +Is used to try to allocate IOVA space for mapping operation.  If it returns
-> > +false this API can't be used for the given device and the normal streaming
-> > +DMA mapping API should be used.  The ``struct dma_iova_state`` is allocated
-> > +by the driver and must be kept around until unmap time.
-> 
-> So, I see that you have nice kernel-doc comments for these; why not just
-> pull them in here with a kernel-doc directive rather than duplicating
-> the information?
+Hi--
 
-Can I you please point me to commit/lore link/documentation with example
-of such directive and I will do it?
-
-Thanks
-
+On 11/8/24 8:18 AM, Shuah Khan wrote:
+> The Code of Conduct committee's goal first and foremost is to bring about
+> change to ensure our community continues to foster respectful discussions.
 > 
-> Thanks,
+> In the interest of transparency, the CoC enforcement policy is formalized
+> for unacceptable behaviors.
 > 
-> jon
+> Update the Code of Conduct Interpretation document with the enforcement
+> information.
+> 
+> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+>  .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+> 
+> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+> index 66b07f14714c..21dd1cd871d2 100644
+> --- a/Documentation/process/code-of-conduct-interpretation.rst
+> +++ b/Documentation/process/code-of-conduct-interpretation.rst
+> @@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
+>  Because how we interpret and enforce the Code of Conduct will evolve over
+>  time, this document will be updated when necessary to reflect any
+>  changes.
+> +
+> +Enforcement for Unacceptable Behavior Code of Conduct Violations
+> +----------------------------------------------------------------
+> +
+> +The Code of Conduct committee works to ensure that our community continues
+> +to be inclusive and fosters diverse discussions and viewpoints, and works
+> +to improve those characteristics over time. The Code of Conduct committee
+> +takes measures to restore productive and respectful collaboration when an
+> +unacceptable behavior has negatively impacted that relationship.
+> +
+> +Seek public apology for the violation
+> +*************************************
+> +
+
+According to Documentation/doc-guide/sphinx.rst, kernel documentation tries to
+use "~~~~~~~~~~~~~~~~~~~" for subsections (not "******************").
+
+This is not enforced -- it's more of a guideline.
+
+Thanks.
+
+-- 
+~Randy
+
