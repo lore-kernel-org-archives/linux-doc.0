@@ -1,144 +1,217 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpcmd0756.aruba.it (smtpcmd0756.aruba.it [62.149.156.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9048F1CF5C8;
-	Fri,  8 Nov 2024 05:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05DF1D1731
+	for <linux-doc@vger.kernel.org>; Fri,  8 Nov 2024 07:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731045120; cv=none; b=QiMQnF15C0qKIfHJt5GihvdwYpzIjAWZFY/ctTDtFUbNRSGxc5LUKqNHs/YcRI8wl27Ph5db6ITqYbRaHAA0E1KWiPqOnEFMnVKGHGTAJPbITbPovFJcz9s/i4l5srDbBMmhLWW3CIqSJEyIknChzxC78vnPrqLJZpbIzIZRWMQ=
+	t=1731051519; cv=none; b=fDqOBoFEOd7Stum+JjQ4PHBQrmB56yuWhzDNISSnFIvGEE0Rza5rCC9LSUBocwvsSGJnIRWkqLXzZTO7cG1y57CzCxb4MYTLchusskcgmBzCDN9pSDDerrmKtrQCvutMYCvwPsk7OPR3ofIFimm2yqdcxGcVdqxR0CDjPtehiEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731045120; c=relaxed/simple;
-	bh=FldH5ezVCKzA4ilhWwESkXoEsqQSxz+NQnJCrsnSmDo=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=AQ+O2oTe9fn+Y7cKCAwahkd/hS5+lsubLpdJdnziHdYIc03Xouw8Q35Lvk+CL+nnL3xnfj4agdAyAhnMJ0TT3KFySJC9p1glhP7VcYXMCfEegOAdlVh4OwDtY/z06W5j4QEKDgL0nrqjnKhbHPlDV8P+uwUBw6gqGryOifEv/kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imDMGRyR; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731051519; c=relaxed/simple;
+	bh=pQYFTTHPv/l0SrEO6jpxHSYFgOBdIorOzOvP6SylBrw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=SEhKsYgFVme6Tk+hiWMrVcXtTmwWG1mgaQPi/gSKnXkDfm79DKzThexiUjffqgHW4slwjY+YfXiHmdgTBHEBGxgDSYXms2OlwsGKXEYto5DxM/61yTRmc1Q6z6673hNRqDm4keDzX7ryYSn3mx3dgcM+S8i18Dh+OJ3vONhRyNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=temperror (0-bit key) header.d=aruba.it header.i=@aruba.it header.b=WaffGECr; arc=none smtp.client-ip=62.149.156.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imDMGRyR"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-288661760d3so935197fac.3;
-        Thu, 07 Nov 2024 21:51:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731045117; x=1731649917; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OqQKVoQIIB/alco7tDnCa7tsUMIzxx7+4InKayAOpSw=;
-        b=imDMGRyRqwhaM7xaIuhA8vIf7aO3Uv7G2chzV4oPGqJDRvUFoqCtCJ4ah0oixEBcH/
-         5cYdkjDuy0+JFcLzduPfqMdcI6lD2wCTOZyD1DeYBakFOssH6BelvRrC9iiCzLZ5cYAh
-         wD5dqHRscZKWGQSLai4isgYpSstR2ftfxJpP2T/xx2TGtfFukBMbtjSWk1HR+F+mt06u
-         hPTeJ2Tcu296eiik7O0QXLZ5yVvE3KV2mIsA+lET6rVZ3ru6Brhozn8+vDMdUIsKn8IO
-         eFi+hty103KE8F05g4DZK/tVHer7dj3zgOceo1Qlsju2ny210jrzs9zDpM+DNRvNEaPw
-         U4ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731045117; x=1731649917;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OqQKVoQIIB/alco7tDnCa7tsUMIzxx7+4InKayAOpSw=;
-        b=IfFDqdttZ6P3pxfVUn4mdwSQ2/+NvkEu7uc50Qbh4j5KkclorBUCnKUeH9fCgwV0Ya
-         R6MiiY7T2JTSDoglW5dAduPwN5Lo1lhpCCoOvmmKHvuhS+mNT6ERAS8rYdfc9DqTiq4A
-         xBX9PPQmErPxRcJph+mY5VwVDOviYYoRZHO6Fc0hzygWFwYR2TkAoargKugLxujRGYCb
-         iOnpmWxVpkX4HwJHhByGw4FPS0n2YFWNTmpuWgmAO0ZmFns6t+S/kI9vC8BAj/HcisHW
-         3lVQDpPz00l7gQVPzcHDLfbxzEi64bamSndG/yr02DdYRFcNfhK4GU/ibHODJxq7SX38
-         cPRA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6MhxjwRCVTCVaCk7oq6D7QZHyHczF0rrSlQClZjypGsl98F2qjqsoxM9B1xG2rahaUFAyGEQ6ZgHCo56H@vger.kernel.org, AJvYcCWHCoCTHeQMgF2gNimVKZSvTxgzQe9KG5SMitXo4TwbmyUmpEy3IMNzK81bDd8y4wRhcL37pjZMG4Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzyxr58X9BEBPKXqYi/sf+eblEeqyqV8wx70rKs2EUDfFgpkkiS
-	xQ4htwgBfVSaMG74CxYGM9MtTjwY7n3Z6X95Wqdil+LUwET0J1ki
-X-Google-Smtp-Source: AGHT+IFkZaTZJxaNXXPpZuSOVEsTRJR2nEjo5hkiRAfTbYsTwu37oqi4krQ0l4Ej1anGCJLRJlEz4A==
-X-Received: by 2002:a05:6870:5e53:b0:27b:55af:ca2b with SMTP id 586e51a60fabf-295600c5b27mr1930081fac.11.1731045117421;
-        Thu, 07 Nov 2024 21:51:57 -0800 (PST)
-Received: from 1337 (ms-studentunix-nat0.cs.ucalgary.ca. [136.159.16.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078a7ec7sm2752918b3a.55.2024.11.07.21.51.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 21:51:56 -0800 (PST)
-References: <20241107063042.106228-1-xandfury@gmail.com>
- <464b1628-957a-485b-87d9-47636491de22@infradead.org>
-User-agent: mu4e 1.6.10; emacs 28.1
-From: Abhinav Saxena <xandfury@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>, Matthew Wilcox <willy@infradead.org>, Zhihao Cheng
- <chengzhihao1@huawei.com>, Richard Weinberger <richard@nod.at>
-Subject: Re: [PATCH 1/2] Documentation/mm: Fix spelling in hwpoison.rst
-Date: Thu, 07 Nov 2024 22:50:46 -0700
-In-reply-to: <464b1628-957a-485b-87d9-47636491de22@infradead.org>
-Message-ID: <87ed3me0j3.fsf@gmail.com>
+	dkim=temperror (0-bit key) header.d=aruba.it header.i=@aruba.it header.b="WaffGECr"
+Received: from polimar.everex.local ([79.0.204.227])
+	by Aruba Outgoing Smtp  with ESMTPSA
+	id 9JSetHUHi6epj9JSitjpeG; Fri, 08 Nov 2024 08:31:20 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1731051080; bh=pQYFTTHPv/l0SrEO6jpxHSYFgOBdIorOzOvP6SylBrw=;
+	h=From:To:Subject:Date:MIME-Version;
+	b=WaffGECrfFtwt4TIBv+GqP51RJHcYWGCdF7PDARnRRZxEYj2hBosJOTbM9WDh8P1d
+	 PsBQB5f3Ck50XBmS3JIy5OxF4BhN7AtzZIxeymLuqzZSFziVkiDk5LKNN/rYNrjYHv
+	 XAsBpWwoL9At4hV/h4tnhA7TY98nnIDomCUlRT5PxekL2omiAzMeNiIpaXntrUYncC
+	 9HKANOVMLHn8byfkxcB3UKqlnPBIipohXCRiDe/bLXxmKrMU6j6402tTUGnG2jpk1F
+	 WqjzyiIriySkRYdgdSZa7CNSH15T3tukPutxNBurZI2JSUDenf68tayAMrPzOuCW/R
+	 SyIcvWLCUW7VQ==
+From: Rodolfo Giometti <giometti@enneenne.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Greg KH <greg@kroah.com>,
+	corbet@lwn.net,
+	Hall Christopher S <christopher.s.hall@intel.com>,
+	Mohan Subramanian <subramanian.mohan@intel.com>,
+	tglx@linutronix.de,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Dong Eddie <eddie.dong@intel.com>,
+	N Pandith <pandith.n@intel.com>,
+	T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
+	Zage David <david.zage@intel.com>,
+	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Rodolfo Giometti <giometti@enneenne.com>
+Subject: [V3 2/4] drivers pps/generators: add dummy PPS generator
+Date: Fri,  8 Nov 2024 08:31:13 +0100
+Message-Id: <20241108073115.759039-3-giometti@enneenne.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241108073115.759039-1-giometti@enneenne.com>
+References: <20241108073115.759039-1-giometti@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfByL/ulLdeMvtM5pRvsMn3uqQHLcEzSgHMHHx1ZPNoq3K1tx8qXTnz7zlvmaug499Umh7L+GGGTThclnIlsQpTGPAsNa6UpVcNKglabfe4ZN0rrvelRS
+ FzdzP1a3dVjnjHE9OK+h8skrDWSgfXcWnZ0+L6W93YQxjd/U7+Dfa1rSw/nVMH3a40d0ggZ6NQmUx8V+N1MLnbu3RAnC5vqGeV2zTaW3KF11MQyJMa9tS+MD
+ JAMNmyKE8ozZQir2yaZX/RIUVV6gX87jK+rfEyIyoWdnU+OJVBki2kUdXS/eBSZaMhldbrMCpMrpFQczF82G/bddamuWOtoTDnf5MEKdG8TmbBqyJ4I/WEs9
+ A/sq5zUqsrm5z/69yJBZXnnopJL6ItshSzDj9Ru4CT3kBj3rKvSjDaPmk36GGNqcf2ZjInB/Q9B9ndYRroZydtDHARCP4OT4d/SdGMkXJBxkkweePMoNOKJR
+ ID9K14Bl55fOpXydhMp0mLvqEEgSXUp+2dF+1HDdlGthg7/7gAppExL6y2mFg6p6eo2e9NsEk2Kp6kxKuIfNqqTB7twt8y1yqRVRsETy+/OCTvOYtB50iCs0
+ QjgOrtCPpXqmDuYWa434ib4ZAiOvlxY7umQBn2OkJDw9TYE77IXsTYnHFa6pG7D9JuqL9U7c/l+Z8TlR2cgFcRCAsSBjb5jf+08kncvT4Zva2giQV10MCTu4
+ rniCDRebhQF354X1bscNHb78ZbexATptWl2ljhYrJx5D+pOSy/mSjPN6AxbRMgDETnnBtU73aB0=
 
+This dummy PPS generator can be used for debugging and documentation
+purposes.
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
+---
+ drivers/pps/generators/Kconfig         |  9 +++
+ drivers/pps/generators/Makefile        |  1 +
+ drivers/pps/generators/pps_gen-dummy.c | 96 ++++++++++++++++++++++++++
+ 3 files changed, 106 insertions(+)
+ create mode 100644 drivers/pps/generators/pps_gen-dummy.c
 
-> On 11/6/24 10:30 PM, Abhinav Saxena wrote:
->> Fix spelling of "focusses" to "focuses" to follow standard English usage.
->>=20
->
-> We accept British spellings.
->
-> internet says:
-> "Both spellings are acceptable in American and British English."
+diff --git a/drivers/pps/generators/Kconfig b/drivers/pps/generators/Kconfig
+index b34e483eff21..cd94bf3bfaf2 100644
+--- a/drivers/pps/generators/Kconfig
++++ b/drivers/pps/generators/Kconfig
+@@ -14,6 +14,15 @@ menuconfig PPS_GENERATOR
+ 
+ if PPS_GENERATOR
+ 
++config PPS_GENERATOR_DUMMY
++        tristate "Dummy PPS generator (Testing generator, use for debug)"
++        help
++          If you say yes here you get support for a PPS debugging generator
++          (which generates no PPS signal at all).
++
++          This driver can also be built as a module.  If so, the module
++          will be called pps_gen-dummy.
++
+ config PPS_GENERATOR_PARPORT
+ 	tristate "Parallel port PPS signal generator"
+ 	depends on PARPORT && BROKEN
+diff --git a/drivers/pps/generators/Makefile b/drivers/pps/generators/Makefile
+index 034a78edfa26..dc1aa5a4688b 100644
+--- a/drivers/pps/generators/Makefile
++++ b/drivers/pps/generators/Makefile
+@@ -6,6 +6,7 @@
+ pps_gen_core-y			:= pps_gen.o sysfs.o
+ obj-$(CONFIG_PPS_GENERATOR)	:= pps_gen_core.o
+ 
++obj-$(CONFIG_PPS_GENERATOR_DUMMY)   += pps_gen-dummy.o
+ obj-$(CONFIG_PPS_GENERATOR_PARPORT) += pps_gen_parport.o
+ 
+ ccflags-$(CONFIG_PPS_DEBUG) := -DDEBUG
+diff --git a/drivers/pps/generators/pps_gen-dummy.c b/drivers/pps/generators/pps_gen-dummy.c
+new file mode 100644
+index 000000000000..b284c200cbe5
+--- /dev/null
++++ b/drivers/pps/generators/pps_gen-dummy.c
+@@ -0,0 +1,96 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * PPS dummy generator
++ *
++ * Copyright (C) 2024 Rodolfo Giometti <giometti@enneenne.com>
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/time.h>
++#include <linux/timer.h>
++#include <linux/random.h>
++#include <linux/pps_gen_kernel.h>
++
++static struct pps_gen_device *pps_gen;
++static struct timer_list ktimer;
++
++static unsigned int get_random_delay(void)
++{
++	unsigned int delay = get_random_u8() & 0x0f;
++
++	return (delay + 1) * HZ;
++}
++
++/*
++ * The kernel timer
++ */
++
++static void pps_gen_ktimer_event(struct timer_list *unused)
++{
++	pps_gen_event(pps_gen, PPS_GEN_EVENT_MISSEDPULSE, NULL);
++}
++
++/*
++ * PPS Generator methods
++ */
++
++static int pps_gen_dummy_get_time(struct pps_gen_device *pps_gen,
++					struct timespec64 *time)
++{
++	struct system_time_snapshot snap;
++
++	ktime_get_snapshot(&snap);
++	*time = ktime_to_timespec64(snap.real);
++
++	return 0;
++}
++
++static int pps_gen_dummy_enable(struct pps_gen_device *pps_gen, bool enable)
++{
++	if (enable)
++		mod_timer(&ktimer, jiffies + get_random_delay());
++	else
++		del_timer_sync(&ktimer);
++
++	return 0;
++}
++
++/*
++ * The PPS info struct
++ */
++
++static struct pps_gen_source_info pps_gen_dummy_info = {
++	.use_system_clock	= true,
++	.get_time		= pps_gen_dummy_get_time,
++	.enable			= pps_gen_dummy_enable,
++};
++
++/*
++ * Module staff
++ */
++
++static void __exit pps_gen_dummy_exit(void)
++{
++	del_timer_sync(&ktimer);
++	pps_gen_unregister_source(pps_gen);
++}
++
++static int __init pps_gen_dummy_init(void)
++{
++	pps_gen = pps_gen_register_source(&pps_gen_dummy_info);
++	if (IS_ERR(pps_gen))
++		return PTR_ERR(pps_gen);
++
++	timer_setup(&ktimer, pps_gen_ktimer_event, 0);
++
++	return 0;
++}
++
++module_init(pps_gen_dummy_init);
++module_exit(pps_gen_dummy_exit);
++
++MODULE_AUTHOR("Rodolfo Giometti <giometti@enneenne.com>");
++MODULE_DESCRIPTION("LinuxPPS dummy generator");
++MODULE_LICENSE("GPL");
+-- 
+2.34.1
 
-Ah. I should've checked contributing.rst[1] first. checkpatch.pl flagged it
-for me. I did not look more into it.
-
-Thanks for the detailed reply!
-
-[1] - Documentation/doc-guide/contributing.rst
-
->
-> "Focused" is the past tense of the verb "focus" and can also be used as a=
-n adjective to mean clear. For example, "She had a focused approach in trai=
-ning".=20
-> The plural of the noun "focus" can be either "foci" or "focuses".=20
->
->     FOCUS definition and meaning | Collins English Dictionary
->     ), plural, 3rd person singular present tense focuses , focusing , pas=
-t tense, past participle focused language note: The spellings...
->     Collins Dictionary
->
-> Focussed vs Focused | Spelling, Explanation & Examples - QuillBot
-> Sep 10, 2024 =E2=80=94 Published on September 10, 2024 by Trevor Marshall=
-, MSc. Revised on October 29, 2024. Both focussed and focused are ac...
-> QuillBot
-> Spelling Tips: Focused or Focussed? | Australia's Best Writing Tips
-> May 7, 2020 =E2=80=94 Summary: Focused or Focussed? 'Focused' and 'focuss=
-ed' are two spellings of the same word: Focused (one 's') is the sta...
-> getproofed.com.au
->
->     Show all
->
-> "
->> Checkpatch.pl reported this issue.
->>=20
->> Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
->> ---
->>  Documentation/mm/hwpoison.rst | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.r=
-st
->> index 483b72aa7c11..dd02fae484dc 100644
->> --- a/Documentation/mm/hwpoison.rst
->> +++ b/Documentation/mm/hwpoison.rst
->> @@ -17,7 +17,7 @@ To quote the overview comment::
->>  	hardware as being corrupted usually due to a 2bit ECC memory or cache
->>  	failure.
->>=20=20
->> -	This focusses on pages detected as corrupted in the background.
->> +	This focuses on pages detected as corrupted in the background.
->>  	When the current CPU tries to consume corruption the currently
->>  	running process can just be killed directly instead. This implies
->>  	that if the error cannot be handled for some reason it's safe to
-
-
---=20
---=20
-Abhinav Saxena
