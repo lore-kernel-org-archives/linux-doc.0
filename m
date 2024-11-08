@@ -1,161 +1,96 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21C1EC0
-	for <linux-doc@vger.kernel.org>; Thu,  7 Nov 2024 22:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06B17462;
+	Fri,  8 Nov 2024 00:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731018755; cv=none; b=qUFsiJbg6gxQrz0+HBJHDdVvc8z3hkVczWjOGNNKAZD20Riu8v9K/fk9Nz9jetyLKuZI6HbLREwJ7/2t9a1qzC52CfVAyI8+T00uwkoOUGmS3d5iGgvEaby/AV9zH04ehGJKcoxlRDcVvm0lPc0ODwju1zQ8X7zuPmFAKaJfPi8=
+	t=1731027138; cv=none; b=EeUfi0bWeyNqjrNCNtNNSI14l/vKqlvAz3hfXtZ+EMzUYg53JxK1leU0b2MJAp721+okcgfs3CxZ1F8wlWF/R+AXRo2xF5NQVLStDh5sOY6axbpnP72Q0htC/wby5AYDK3ElG3f+1glrsGhY3nXEBEhUIpo4mUkw+OGCKrGYbPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731018755; c=relaxed/simple;
-	bh=hgceEYWbNgenk5ztiLvob2RCbb5hxkvrKWHpbPAKSGM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=RPMRGv3AjBcmsBIxOn+uJjfiUp2+4yQkey0XfvpFGPd62dGR6w0EZxRul4vfmQITN7M7hCPW4X4VLvQYhyQ3ssyS/w9J6CFgEinCxyhj4eGceFFhl94dvJwZCyyCxkp5nRI2GkdnrQwBhJJc4fpW0p+q4g5xbaz5FBVHQpnjIbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C1AeZmiI; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1731027138; c=relaxed/simple;
+	bh=RvxY4a3WCb96CrFLRYIXYbqrR9Gkr0oINd/naqKrMBY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tob13h4+oxZ/cUWnedDKgXO9/nkjZh1zVf32XzkZ0il8s7aSMZwKVnzMpXroDilJM86IwllY5svLgizoTncp1qyw0ex2F6HssIycKtTD5fULvkehTyniSbirGUmqf7JsBkcHUp2FEWd5SZ8bYJB62loWffBngTXROy3q/KtZOLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRP0eL9r; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C1AeZmiI"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e29135d1d0cso2482327276.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 Nov 2024 14:32:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRP0eL9r"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7ea68af2f62so1310217a12.3;
+        Thu, 07 Nov 2024 16:52:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731018753; x=1731623553; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1731027136; x=1731631936; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=e4vY0bI5vuWGCkQbYf92s3szBV/rAuFWIqfr4MnYBjM=;
-        b=C1AeZmiIHxc5zKxBaW3bdqvGU6Tciltj4FFfq6AfeAih2gLa5ehOqdbIVqHkf5qPZ6
-         noeMeBWfM+vIS6x5mcWAbSFY85XuEY1QmRNE+xfECnQuV+khanPlAC26GwRzA2KxAn3J
-         Lc3iYNYM9iSI0AEoE8e7lVxyDH/h+M3VNB0gv7Vq+kj0nnNZ9W5qT/xz48zKaQ28yrT/
-         FmSJyALzkhPwEaZiLtjxRlddAR3oLGnODLynOiHIPvBsjQ3qadwwZIJaHcZkugx7G0yB
-         Lvk/lnEBuS/GD9qnflpyuh5zNDadY0MorZzdUcSp5GM79LuJgkXHBEO46I3NgZ6BiEhV
-         OPVw==
+        bh=/vmX3lXsTDc4GilAspkSHux0yJlii6bjqc6VWWGKkGY=;
+        b=HRP0eL9r5oyOzWGpxFSNrMnbYIH17qIs77u3fqfc5AHs2o27xR76pP+eoW5Kpja2Qt
+         azQCIJh6l890s6OnifyPpS8c+Ml5pvEJkDZt9I+osX/ing5MqjY8QQaYCHijTRA7WPMx
+         thrkqGRfp2sOqM3+EBEWRl57Q8n6uuHUMtFw91cjhDh8Za7bLZbkTIHGnl3QLXvFagMk
+         EpD+KPx4CNQKZjrrMoS1w9IPkCQZ3GMfZCMEvvSByj7t+z4B5yHn0+3gaXvofEnqAqN5
+         yH4ceyl/Gqn5pxDuw6mUIZ30v0utdFUifk+KQH8FasTb0Twp+1MxYFVddLNRZhaVRdzt
+         A7YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731018753; x=1731623553;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=e4vY0bI5vuWGCkQbYf92s3szBV/rAuFWIqfr4MnYBjM=;
-        b=hR4Beg7hdRhMVtkSRpYQv0ddZ96LYtI0f4b3Ys6ljYEdojB+dsMJyoOKbnXsvsE+F7
-         i9GCZGesWQjxyfotiWZEi/s7bIKDyIycNiZzobtVE7jVa7TY09ajy8fOq8CNYpZqHNse
-         zp8ymXWjcuXAcQTjai6YOd1lD6tfGXETbBAf+znqKvfdoIVknTZYmU/uEivxXghH7PAQ
-         4xcXTH75OP6jCSCcuF5IjplMwTKJNv9/jl9Fsg9SvtBLzRGhQOegFlWN5EP466Gj/2zt
-         tKC3x4YrS8lzYXdwABitD9f1eMT9hd2ADCosWVDCotNmXa6SvIetG7jIemIg0yJ4D5JT
-         br+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVKwZg2RJ1X/xotYQ/Q/uZ6wZeXxz0vAOEAesl1jxvPZD4Fr+uua2pQyGaKibElCGkSWkOo1vFl1Ss=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHvO31GG0J62vp2TWsdYYZ+A+4Z1Kx/4QZELgXDysSP7II41Dc
-	2mNSsPDB9Xjy6t4lb11n5xodWIbUh9MbmfdZgODoSQBX6UA+bsEHvY2FsrmvAxSqB007NmX688U
-	NTw==
-X-Google-Smtp-Source: AGHT+IGKXmE1nSEKaGpFn0x/nPSLRIPy2ki8n3MOo4lOfbtlHCujpBbzF9Ro6Y+PO/jXSoxIoMz6Wfh67BY=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
- (user=seanjc job=sendgmr) by 2002:a25:86c4:0:b0:e30:c741:ab06 with SMTP id
- 3f1490d57ef6-e337f8ca272mr571276.5.1731018752699; Thu, 07 Nov 2024 14:32:32
- -0800 (PST)
-Date: Thu, 7 Nov 2024 14:32:31 -0800
-In-Reply-To: <CABQX2QMR=Nsn23zojFdhemR7tvGUz6_UM8Rgf6WLsxwDqoFtxg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1731027136; x=1731631936;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/vmX3lXsTDc4GilAspkSHux0yJlii6bjqc6VWWGKkGY=;
+        b=LlXwunXQKE24R8cCuBTnz54ZHwts+w+74bfMNt5Sgq01FTun4RJrNJhKFs/2WmKaDh
+         41FxZE/d4iAbcEcxwFkYY5k6o8GjEcZVfcShW33lQUpZf2T3rrZEiP6kWoIZl71sXMMT
+         +hu/7jho8ezYEY5F+aWnhfGd3ppOz9SeLVEHQk+LOVe5dm14UxrkysslUjFioBEWLfZp
+         TZavH0C7SqmC0DTjWpEoJfrOp992Rvy69d2O602nEzk4L8+HlyEFmV+GIK2kVXnz6VKD
+         QHHuDHeroM3YVIeaPuK7+S56bSEmJP4g36S4K95G5TMK8Aw2nRBjfpzHaZWR44wlxNOy
+         d5mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/B0etPVQmBGlt1yN3AKz7WYKdkalZyI+gFOpPz0IMUOn78ID1gGsgzeG10kv0dYdy+E9QHzR/QqY=@vger.kernel.org, AJvYcCVWeXaUUaTT+jsy6PEWZa7taqj5YpcoKeoLRkvuRG6jB+K3oTg8/panoujQNFchy1teNQKcULdiHfgFKJU=@vger.kernel.org, AJvYcCXxHuRPMLHjAFkp25rJYtye1Zha1Reaa0aY2jmhUIdcgpB8VQii47t5TGcMdTXELNo9EIQcR27cPhWNmrSF@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJWfjYCsJUTrU1P/eUQo6kIBzCgBSAmJlJJWjDawxdiNhas00p
+	I4uRzwLpcigGD5XF14FS7I4OBJr1UB4u9RVoDom/gs/Fxq+xoOOf
+X-Google-Smtp-Source: AGHT+IHZukLAtGIpoxOU6vQP3kwwzNCueeorSKv/5xKNmHlTvDCD0P3IMlLzdm6raX4gDbGTWLEinw==
+X-Received: by 2002:a05:6a20:7fa8:b0:1db:ec07:3436 with SMTP id adf61e73a8af0-1dc228930fcmr1458163637.9.1731027136133;
+        Thu, 07 Nov 2024 16:52:16 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724079a403fsm2447659b3a.105.2024.11.07.16.52.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2024 16:52:15 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 7 Nov 2024 16:52:14 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Abhinav Saxena <xandfury@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] hwmon: Documentation: Fix grammar in fan speed trip
+ points explanation
+Message-ID: <07b90400-7f6b-478d-80af-c7e71ac205de@roeck-us.net>
+References: <20241107013849.47833-1-xandfury@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241030033514.1728937-1-zack.rusin@broadcom.com>
- <20241030033514.1728937-3-zack.rusin@broadcom.com> <CABgObfaRP6zKNhrO8_atGDLcHs=uvE0aT8cPKnt_vNHHM+8Nxg@mail.gmail.com>
- <CABQX2QMR=Nsn23zojFdhemR7tvGUz6_UM8Rgf6WLsxwDqoFtxg@mail.gmail.com>
-Message-ID: <Zy0__5YB9F5d0eZn@google.com>
-Subject: Re: [PATCH 2/3] KVM: x86: Add support for VMware guest specific hypercalls
-From: Sean Christopherson <seanjc@google.com>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	Doug Covelli <doug.covelli@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@redhat.com>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Joel Stanley <joel@jms.id.au>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241107013849.47833-1-xandfury@gmail.com>
 
-On Mon, Nov 04, 2024, Zack Rusin wrote:
-> On Mon, Nov 4, 2024 at 5:13=E2=80=AFPM Paolo Bonzini <pbonzini@redhat.com=
-> wrote:
-> >
-> > On Wed, Oct 30, 2024 at 4:35=E2=80=AFAM Zack Rusin <zack.rusin@broadcom=
-.com> wrote:
-> > >
-> > > VMware products handle hypercalls in userspace. Give KVM the ability
-> > > to run VMware guests unmodified by fowarding all hypercalls to the
-> > > userspace.
-> > >
-> > > Enabling of the KVM_CAP_X86_VMWARE_HYPERCALL_ENABLE capability turns
-> > > the feature on - it's off by default. This allows vmx's built on top
-> > > of KVM to support VMware specific hypercalls.
-> >
-> > Hi Zack,
->=20
-> Hi, Paolo.
->=20
-> Thank you for looking at this.
->=20
-> > is there a spec of the hypercalls that are supported by userspace? I
-> > would like to understand if there's anything that's best handled in
-> > the kernel.
->=20
-> There's no spec but we have open headers listing the hypercalls.
-> There's about a 100 of them (a few were deprecated), the full
-> list starts here:
-> https://github.com/vmware/open-vm-tools/blob/739c5a2f4bfd4cdda491e6a6f686=
-9d88c0bd6972/open-vm-tools/lib/include/backdoor_def.h#L97
-> They're not well documented, but the names are pretty self-explenatory.
+On Wed, Nov 06, 2024 at 06:38:49PM -0700, Abhinav Saxena wrote:
+> Fix several grammatical issues in the fan speed trip points documentation:
+> - Replace awkward "which % the fan should run at at" construction with
+>  clearer "that specify the percentage at which"
+> - Fix incorrect "is chip depended" to "are chip dependent" for correct
+>  verb agreement and adjective form
+> - Improve readability by reorganizing first sentence and separating the
+>  complex explanation into simpler parts
+> - Add hyphen before "see" to improve readability
+> - Remove redundant "at" in temperature description
+> 
+> No functional changes, documentation only.
+> 
+> Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
 
-At a quick glance, this one needs to be handled in KVM:
+Applied, after fixing the subject (which needs to include the affected
+driver).
 
-  BDOOR_CMD_VCPU_MMIO_HONORS_PAT
-
-and these probably should be in KVM:
-
-  BDOOR_CMD_GETTIME
-  BDOOR_CMD_SIDT
-  BDOOR_CMD_SGDT
-  BDOOR_CMD_SLDT_STR
-  BDOOR_CMD_GETTIMEFULL
-  BDOOR_CMD_VCPU_LEGACY_X2APIC_OK
-  BDOOR_CMD_STEALCLOCK
-
-and these maybe? (it's not clear what they do, from the name alone)
-
-  BDOOR_CMD_GET_VCPU_INFO
-  BDOOR_CMD_VCPU_RESERVED
-
-> > If we allow forwarding _all_ hypercalls to userspace, then people will
-> > use it for things other than VMware and there goes all hope of
-> > accelerating stuff in the kernel in the future.
-
-To some extent, that ship has sailed, no?  E.g. do KVM_XEN_HVM_CONFIG with
-KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL set, and userspace can intercept pretty =
-much
-all hypercalls with very few side effects.
-
-> > So even having _some_ checks in the kernel before going out to
-> > userspace would keep that door open, or at least try.
->=20
-> Doug just looked at this and I think I might have an idea on how to
-> limit the scope at least a bit: if you think it would help we could
-> limit forwarding of hypercalls to userspace only to those that that
-> come with a BDOOR_MAGIC (which is 0x564D5868) in eax. Would that help?
-
-I don't think it addresses Paolo's concern (if I understood Paolo's concern
-correctly), but it would help from the perspective of allowing KVM to suppo=
-rt
-VMware hypercalls and Xen/Hyper-V/KVM hypercalls in the same VM.
-
-I also think we should add CONFIG_KVM_VMWARE from the get-go, and if we're =
-feeling
-lucky, maybe even retroactively bury KVM_CAP_X86_VMWARE_BACKDOOR behind tha=
-t
-Kconfig.  That would allow limiting the exposure to VMware specific code, e=
-.g. if
-KVM does end up handling hypercalls in-kernel.  And it might deter abuse to=
- some
-extent.
+Thanks,
+Guenter
