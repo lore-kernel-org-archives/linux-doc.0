@@ -1,51 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D406F1803A;
-	Fri,  8 Nov 2024 14:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E161C36;
+	Fri,  8 Nov 2024 14:47:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731077137; cv=none; b=orIVzTruHIjuCllXP/+MlH80mST3g8yqqM2d+lnKBcrBorb7+sZaMP46dsGeyO78HGcAnOA5Fqb3nGfJHT57KbA2OY1d/af4zMBw0czcGWcmup0/DZKb27LxvsZMC5K89pjsyVNIVRHTlhye8+neaLSI5S25rIZarbs7gnxjAz0=
+	t=1731077264; cv=none; b=V+11bYisa3SxEqaUjDeLypmdAxaLeZDAGBO1WTR6Dzx6QSgY3hBdKSi44g/VTnhjvWglymO+Z+1qIK1kZz/CBWlP+3MwdcRQ4ls1McK5A02DdRXIi0srq+9CDYWIu6eiudlT4rH1vvv1iFqxMBHKm+RpDMzqpRFUPVVhOlv7wXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731077137; c=relaxed/simple;
-	bh=tIIQbhQUlbE30HHafhnF0uYqozpc/bIGR9GRN46szTk=;
+	s=arc-20240116; t=1731077264; c=relaxed/simple;
+	bh=psk2SXAMVFALWyaUCQ5Qwa0zmam/waSHXaep5VLw+yw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=G/24LZuZ5tAgR/sjJfUdFqCe3FcriIJauVnOP0fzdqIHTFP5NscThWzqL6AexImASJso8Rc7rUhaozcBzJyFkzzt9AZ9f38v0co2nxxHCOfjsZJtiu0/VFPJsYb2dDu+9sbUYodEq4e6o3g37E6LF3QvXCIPgJUvV091PdpWwSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=omu41Uax; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=dfihIv7KJ95N22kudkK6QRb+2GmOBN1RhbVdzvAUj7fMMO2BJ+q+rMUv8Pd2VAZGB4qAByada/2tYEUvhIYnfcvLDquAf/pyeYUPaB2s45szszRf0EUKfVxkSZrX8RHGWQaHkDau/Oz8PqrXciM1mvrhDVdke6ePx5/YyLzvDtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=M6YlWERe; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="omu41Uax"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7880042C17
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="M6YlWERe"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3213B42C30
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1731077134; bh=YpgSjiK1hGER4rJOGI69k1cw9XtNWold06xtprBx7+Q=;
+	t=1731077262; bh=rq9VOMz9/peUZMvh/KM8km5YSnndXAwqgCDSM2t1QC8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=omu41UaxRayKigrbHXLgZ0+avo6ASbsAViADXGb+DHiw6CsUSn8VLLwU9Jm5Z1jS/
-	 Zc5E3K9oPVZE/PiTu8XQp/veR3bZEN2N/zXDxmYxntEBRHtqALoQ5TwPzhYXHAqIle
-	 bD/+ZJG9kVjY2sOM1OGHET4cxldg0MBdgASlJM7EARuSmihs0lR5JhXbv7i4oVb0cT
-	 1yl6qrQR8X67dSTe9iHarA6EyYgDH8U6dcoq6hv8SmYWt5qGvuGyNhLfxu4PDTxy+z
-	 py0okf/R4c5b5KO4Yl4Nlect26dvNz92FGdzGm8Av1XgDNDCS6sIwyHy5YTQGjV03R
-	 dCsB8kSAlRbUQ==
+	b=M6YlWEResp29Gy7g1mPYewvyhdWA9qDHR++WtqKhkIIwRUkbhdXbjo5HFJBT4ZGfO
+	 CODGhGqmigqah0eyWYqj2lNUfibGPbpmHkfxs+rSmlOJFiWaoALdZXtW6mBnmtTnSj
+	 dH/xkp2BJfjJZjpz+5drjFSuUtNFaoGIlZILorJdm5TGoF3P/xhukStSEmmodVTjK6
+	 A/PPnqDEoqemPN6QS1uocqDIPZnranyCAnFbQJapGOFI5KWKWQ2i+qRntc/Ta+3Cct
+	 Pva5Wnw6qJOu23goVlNbC5SFAY+LrjBRk6D05itbUTYFOffPTTgTqWL5JBr57qjalO
+	 6mpfJDXaljFBg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7880042C17;
-	Fri,  8 Nov 2024 14:45:34 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3213B42C30;
+	Fri,  8 Nov 2024 14:47:42 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
- mauro.chehab@linux.intel.com, kernel@collabora.com,
- bob.beckett@collabora.com, nicolas.dufresne@collabora.com
-Subject: Re: [PATCH 0/2] Documentation: Debugging guide
-In-Reply-To: <20241108082416.u6vvdmmhadfqtiau@basti-XPS-13-9310>
-References: <20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com>
- <87ttcj0z8x.fsf@trenco.lwn.net>
- <20241108082416.u6vvdmmhadfqtiau@basti-XPS-13-9310>
-Date: Fri, 08 Nov 2024 07:45:33 -0700
-Message-ID: <875xoxzsvm.fsf@trenco.lwn.net>
+To: anish kumar <yesanishhere@gmail.com>, myungjoo.ham@samsung.com,
+ cw00.choi@samsung.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: extcon: add documentation for Extcon
+ subsystem
+In-Reply-To: <CABCoZhANKY5wjc=NqAd64Fhmdjx1k-x=zVkU+ySRDRvK0Gj2iw@mail.gmail.com>
+References: <20241103025436.69196-1-yesanishhere@gmail.com>
+ <CABCoZhANKY5wjc=NqAd64Fhmdjx1k-x=zVkU+ySRDRvK0Gj2iw@mail.gmail.com>
+Date: Fri, 08 Nov 2024 07:47:41 -0700
+Message-ID: <871pzlzss2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,22 +51,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Sebastian Fricke <sebastian.fricke@collabora.com> writes:
+anish kumar <yesanishhere@gmail.com> writes:
 
-> Hmmm my Google-Fu is not strong enough, I can't find a docs-next
-> anywhere neither in https://git.kernel.org/ nor in the Linux Kernel
-> documentation, can you point me to the tree?
+> Hello Myungjoo/Chanwoo,
+>
+> Wondering if you have any comments?
 
-That's what the MAINTAINERS file is for:
+Anish: I'll say again: be more patient.  Never ping a maintainer in less
+than a week's time.
 
-> DOCUMENTATION
-> M:	Jonathan Corbet <corbet@lwn.net>
-> L:	linux-doc@vger.kernel.org
-> S:	Maintained
-> P:	Documentation/doc-guide/maintainer-profile.rst
-> T:	git git://git.lwn.net/linux.git docs-next
-> F:	Documentation/
-> ...
+I'll also add my voice to the chorus of people asking you to stop top
+posting.
 
 Thanks,
 
