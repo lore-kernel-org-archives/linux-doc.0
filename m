@@ -1,96 +1,78 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FB721A700
-	for <linux-doc@vger.kernel.org>; Fri,  8 Nov 2024 15:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C85196C7C
+	for <linux-doc@vger.kernel.org>; Fri,  8 Nov 2024 16:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731080330; cv=none; b=BUqQ13eksGqGFI96LvDK/SDxrGo9zwXMoVy2IA0CTXrztm2VM1Wz+Ahy8RClfNRliz5ayurSpFlsAkXQPqwszoONCICWTLUTUs90OfdEw/nnnzeY8nZwkWMyPxCOUDsJXpkSjb7j1aa0j4ftzGZiXaz+hO7Pxvpi2QoiaVokhYg=
+	t=1731081783; cv=none; b=UeRL0jw3rhcZIS2LN9ezEpr+UyS3EOmQgNIwJrk3HDi4LuhPnhKzcwoYfFWFxa9wrj9V/hn/zmgz9rGqbo7K6ONyqtCcNEWlh/SkWGEICC3r/CHK/CTOBkMVmJX6RhJjBPxL9lCzSzZJhEBA4KzAwhBxweKp2WO5HVM7tg2uAko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731080330; c=relaxed/simple;
-	bh=OaBx3Fh/Km3ELqbio7v031NeuRfzJ9+4kTiWipNjW34=;
+	s=arc-20240116; t=1731081783; c=relaxed/simple;
+	bh=Dkl1ieEc1BAg1ZDaYT7VtIs7itFlvZ0wDVhM9n7ovBY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PDT/TYddYnpiUsz+FE/ykWlkYRcra4SQAjUaPIQWVWsB6pCPWsszwxVTYADEKT5p4cdNx8WkXxClmPclNSiTHwod497QiISQiMSg5KRmOF49Zm4JoR9/+5Dle3LODNwA4cTHhTCmfc4iJ+3QgJzzRC3CWwR4C48bcZZp9ReaS0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=aexEmqOU; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=MR0oI9XjVdx1TDi9tTvHZ4uQXRI+aZSnhBUii6d9LTFgY3sbVC1a/IknzuGtfbmWYEPWnU7+H3j9ejH6WkhfjY+ksl5bTMM54pDdjjehHJ3W/SizOkh/dRVNED/mP4o80/LYiX54g3j17o7XWRXMdkS13N96Wvsz6kpJkAp9SQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bLSZ3bGR; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="aexEmqOU"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7b15d330ce1so154657185a.1
-        for <linux-doc@vger.kernel.org>; Fri, 08 Nov 2024 07:38:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1731080328; x=1731685128; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7sMW5Kuv5sIzIjhBbBygI9fJdJpSk6eqM7+xgs0I9dY=;
-        b=aexEmqOUtoWo0nIxpp53mWmhgcdamtlMoWnc7v23Dq2R4nF+XhtjhKeEQukniU5tde
-         Vce5KIwE2ZP9zCpfoy/YAiCAgwmM+QhLn3FHxZhCVqcMcnaWCLkDNsKSdaR7TEYQYQny
-         I7V8/zeoQnhPgNDMziuf1jeRFibRMTmxh1Jfgd73c+9VMrzfs8b59x9r8L0WM1bTzHZG
-         X4YyruWQtaCHeiW6iXjx8oFUyTMzlhRe6kIpwqDXRLz/HFKrM3zjhj7yegME3+gB8JUw
-         w3XqR9e5cqtLx9oPgONMCEZKywjVgwCbdxTX4YQWSbGgXCYWTAg8upYA74ViTR7IznHA
-         v2dA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bLSZ3bGR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731081780;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KodwbNUeuehD+z2uf2ly+jd4Lxh5FbYEBZu9aS+ypso=;
+	b=bLSZ3bGRt4cxNvVICOghx4IilkwPXaLOlFGpTxrz4bO3xRmB3NE+c06rJThdnwG4yg+9D1
+	o1e041V8cl1hiVd6fyvReMcYxwfiLxjnNRyl3JYYvahjwHMaIisB5j6YTU3rsWrsFZ4lmT
+	3S+rtsN1nGII2dl7YQuKFeOJLtcDhvU=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-183-Owgr6vZCOOuWo1UCplIdrg-1; Fri, 08 Nov 2024 11:02:59 -0500
+X-MC-Unique: Owgr6vZCOOuWo1UCplIdrg-1
+X-Mimecast-MFC-AGG-ID: Owgr6vZCOOuWo1UCplIdrg
+Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-539fdef0040so1956251e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 Nov 2024 08:02:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731080328; x=1731685128;
+        d=1e100.net; s=20230601; t=1731081777; x=1731686577;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7sMW5Kuv5sIzIjhBbBygI9fJdJpSk6eqM7+xgs0I9dY=;
-        b=W08KM1XPgT8GV+1cSffsRBLECn/kE/ArOdKyar3fGx5FMrnC9vLMzePw8oz4DMmvAY
-         02A8o5VAQWiGa9hXxiaKNbahjNPmYbgJvk9uAXzzyzequw6T4+4NDEWShf5NYS5HLs6j
-         xw2n48Dhp9ps3xLRNcBdFOhFacnbjETlyp79bK9RKAkbKoqgeJ0/j5W7A62YG8eOCWyY
-         i8MMCAH8lRuNaum/k1PHyITWE+kLJtHGWyRwjn38SNUHegN7apHFKb9e0cVtyte5Z0mk
-         mCdUv51Eomb5Nswa7SFKzc8rQyUIM2Hp5CupyfEYJeCxT6gII36OMWLuMyusBtSz/E0h
-         pHKw==
-X-Forwarded-Encrypted: i=1; AJvYcCXY8QNB0a0udKMwPwEYzOSTKuHs6E3bDdVPfNzb4YddWxiiiMV1cLe8m3NpY8mKC7ATbovu5jZZjEg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZ11XzyxlFGKMRQDLh4AwF+Ln7x0cBFuRQ9qQs7kH0j+CgzyK8
-	sWUdL+NskX3QjlYLBk2amy4qRbWx8r8LX4ojUu8QB51431EMdfgKT73Wggw3RdA=
-X-Google-Smtp-Source: AGHT+IHfTg/iLCK5GxrqZ9aoCzAZ7JH1FinF3HAR4KRwwnugOPp1CtA3KrYQyOs3W/lc98NgBjpBFQ==
-X-Received: by 2002:a05:620a:1a21:b0:7ac:bb00:cd42 with SMTP id af79cd13be357-7b331dd2d55mr406755285a.27.1731080327649;
-        Fri, 08 Nov 2024 07:38:47 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b32ac2dd1fsm170869085a.15.2024.11.08.07.38.46
+        bh=KodwbNUeuehD+z2uf2ly+jd4Lxh5FbYEBZu9aS+ypso=;
+        b=OcFHZpRNQiwjKCAYr66R5Qg0cJoe6ztc2BKSOW6aslePM4CNZhC8XMgD0gBRFIWAwu
+         vhbT0qObOPjzY9JNbawDWPe3oIF+n6NOQ+DgrxoE8qlmawP9XsiiCOETIObywEY1vmuC
+         ibNcWShqthRNoe/6XRtELqhpOdwTmj6OB3nP5F4dprmQhgVMP1ZrbalP1Tk07Mv7I0CO
+         bgXCju/5oTpWD8VwLdih/zvyDFCnTeW/vNqb9eqhHqRh8Gj4/niitm39r6gLvsx5kSj/
+         JCZ6h8yYDfkvEptJv1/piJp9QJ6hT3rm0Z3eD1yv6eskP6lUuy/r84CQnGr80bb6cC/E
+         WBDA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXrg/Mj0pluCJREJ/6KKPsmP2niSObKQ7jVKx28RyRakH5SxKLDxcZqh5I5LyaqZn0eG+rlGxEYtw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyzupgrk9ZQJTaG3i5wCE4zZFNeukMnu96yt3C/30woWyNgRsE3
+	UmGaBbSiskupy+u9E9DTtD6JyTYiUrokVes+pOZu/aC9uq2QACwiaFNx3uj+MtA8pwLwQiRpu9F
+	wLO50iacWx4T2gnOSwPZSfBo1XrR/4UkDQLEuVkktt6cqCj+oQzwkgiSBDw==
+X-Received: by 2002:a05:6512:3d0f:b0:53d:8274:a300 with SMTP id 2adb3069b0e04-53d862c5bbfmr1437114e87.34.1731081777247;
+        Fri, 08 Nov 2024 08:02:57 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHXUwhruY1WxPZM2lD15BwhIP8JhX3dp+oHUK/E9prDaGfWq7Kte9cKFc1RP7RvGorjuU5tSQ==
+X-Received: by 2002:a05:6512:3d0f:b0:53d:8274:a300 with SMTP id 2adb3069b0e04-53d862c5bbfmr1437063e87.34.1731081776647;
+        Fri, 08 Nov 2024 08:02:56 -0800 (PST)
+Received: from debian (2a01cb058d23d60039a5c1e29a817dbe.ipv6.abo.wanadoo.fr. [2a01:cb05:8d23:d600:39a5:c1e2:9a81:7dbe])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432b054b3fesm72642485e9.17.2024.11.08.08.02.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 07:38:47 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1t9R4Q-00000002a9N-29Xq;
-	Fri, 08 Nov 2024 11:38:46 -0400
-Date: Fri, 8 Nov 2024 11:38:46 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Robin Murphy <robin.murphy@arm.com>, Leon Romanovsky <leon@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Fri, 08 Nov 2024 08:02:56 -0800 (PST)
+Date: Fri, 8 Nov 2024 17:02:53 +0100
+From: Guillaume Nault <gnault@redhat.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Akinobu Mita <akinobu.mita@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org, matthew.brost@intel.com,
-	Thomas.Hellstrom@linux.intel.com, brian.welty@intel.com,
-	himal.prasad.ghimiray@intel.com, krishnaiah.bommu@intel.com,
-	niranjana.vishwanathapura@intel.com
-Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
-Message-ID: <20241108153846.GO35848@ziepe.ca>
-References: <3567312e-5942-4037-93dc-587f25f0778c@arm.com>
- <20241104095831.GA28751@lst.de>
- <20241105195357.GI35848@ziepe.ca>
- <20241107083256.GA9071@lst.de>
- <20241107132808.GK35848@ziepe.ca>
- <20241107135025.GA14996@lst.de>
- <20241108150226.GM35848@ziepe.ca>
- <20241108150500.GA10102@lst.de>
- <20241108152537.GN35848@ziepe.ca>
- <20241108152956.GA12130@lst.de>
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v6] net: Implement fault injection forcing skb
+ reallocation
+Message-ID: <Zy42LfWaiWHJ12Nw@debian>
+References: <20241107-fault_v6-v6-1-1b82cb6ecacd@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -99,50 +81,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241108152956.GA12130@lst.de>
+In-Reply-To: <20241107-fault_v6-v6-1-1b82cb6ecacd@debian.org>
 
-On Fri, Nov 08, 2024 at 04:29:56PM +0100, Christoph Hellwig wrote:
-> On Fri, Nov 08, 2024 at 11:25:37AM -0400, Jason Gunthorpe wrote:
-> > I'm asking how it will work if you change the struct page argument to
-> > physical, because today dma_direct_map_page() has:
-> > 
-> > 		if (is_pci_p2pdma_page(page))
-> > 			return DMA_MAPPING_ERROR;
-> > 
-> > Which is exactly the sorts of things I'm looking at when when I say to
-> > get rid of struct page.
-> 
-> It will have to look up the page from the physical address obviously.
-> But at least only in the error path.
+On Thu, Nov 07, 2024 at 08:11:44AM -0800, Breno Leitao wrote:
+> Introduce a fault injection mechanism to force skb reallocation. The
+> primary goal is to catch bugs related to pointer invalidation after
+> potential skb reallocation.
 
-I'm thinking we can largely avoid searching on physical, or at least
-we can optimize this so there is only one search on physical at the
-start of the DMA mapping. (since we are now saying all pages are the
-same type)
+Nice to see this kind of debug option being worked on!
 
-> > What I'm thinking about is replacing code like the above with something like:
-> > 
-> > 		if (p2p_provider)
-> > 			return DMA_MAPPING_ERROR;
-> > 
-> > And the caller is the one that would have done is_pci_p2pdma_page()
-> > and either passes p2p_provider=NULL or page->pgmap->p2p_provider.
-> 
-> And where do you get that one from?
+> +static bool should_fail_net_realloc_skb(struct sk_buff *skb)
+> +{
+> +	struct net_device *net = skb->dev;
 
-Which one?
+It's confusing to see a variable called "net" pointing to a struct
+net_device. "net" generally refers to struct net.
 
-The caller must know the p2p properties of what it is doing because it
-is driving all the P2P logic around what APIs to call.
+In case v7 is needed, it'd be nice to call this variable "dev".
 
-Either because it is already working with struct page and gets it out
-of the pgmap.
+Looks good to me otherwise.
 
-Or it is working with non-struct page memory and has a (MMIO address,
-p2p_provider) tuple that it got from the original driver that gave it
-the MMIO address.
+Acked-by: Guillaume Nault <gnault@redhat.com>
 
-Or it really does have a naked phys_addr_t and it did the search on
-physical, but only once.
-
-Jason
