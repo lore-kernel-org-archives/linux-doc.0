@@ -1,168 +1,368 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDA6192B71;
-	Fri,  8 Nov 2024 16:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D316415B0F7;
+	Fri,  8 Nov 2024 17:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731084051; cv=none; b=beaDfX7Z0HfYfCZ3lNo6ojU1Tii2Nxhfv1KRLCzW/fdHYuyjXN3yw6Daqq9Mr9rXxL/HNASqJDPK92tS0QmhLH7UfGbDdv9RkqojhF4tz6wSE5+dKZv51ONwgc/fHDaPFNHAH0e/GKDnTGL8XuEQLentn5+Pz8x7YFh47RtGKq0=
+	t=1731086854; cv=none; b=FeGd0cZ+LNzBqMlQjq2SEiINvxrg7yRbwgT4WmdMxoNNx1P+bUESSDBnk04u3i+UJj/Rlli19preQaKSMokl3Wd7FiORJYf9wT3Awq7oiCJQrMpY8einJfg+CRn/aI7M0geiN61dJLMIpPSI4RwWKe6XhWqHuo172G6Y8aDRpnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731084051; c=relaxed/simple;
-	bh=sFLDH2l4Koq2m3fdj1cHechzpW8ROQuPZQUInJ3DuKU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Q+mqtXmawKrROYCiW45ZeAbRFDY70QSKtP4U0KvdJUYhmkjm/1eQRMhx6+jyNrUHiO2uo5MdrVxOH5JeU1oW+XX6ax37Ynu1dP0oSatZ3GiwMoRT8YQRN5BRttvac2LtJmtbPfvjj2kqwZlSZmyPR8A4VKiFyCCWYP6M3TNkwQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cZ7ifg6U; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1731086854; c=relaxed/simple;
+	bh=f4PJaVljdIJ/oBBjOmHGAG8o+kWjkBTU3psAdpIWRAE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BorDpuAy3aTKZoOKGId8C1YiYieI+tjVOEOdSr8Nm8bx1otEpuX+tHcY34Y8YGMOamGAT7e+W6KRy+E4yTklAo6fXCU42ap+UiKOGWqEG+qd+G7JaIziqSZr2/MQr84vcjn0j0tSUVBBVw4aiVvpqD2bzpKJelbtTZi84dNEfMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IIPCquhp; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cZ7ifg6U"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 59E1442C17
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1731084048; bh=hFaZzjAtq1siX2fucQlExiIONnxQ6s/0W735xx5RO9g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cZ7ifg6UUzcIqOHlRLnlEAnSf0cvIiz/POcpWlV03vc9zVytI8xvb6ZeEM+6lGOsc
-	 rBq1Z6bBaGnlon/lm5L31Saf4ntsvlZURWanCwAdceBtqpZrUXR7YKFg+4aQg5lujI
-	 PqvfBxMoS3gbnPBbMCB0ipzlCg/DEyAZyks/25mAjSO/uMRjQ1+ZcKHscrwlpIdbrA
-	 2QW40a6JUDO4dAz4Gu4jykg5ihWbEZUrHJDv+Ot/sq513xlgdK2omPssWs2zhDK4re
-	 DnqNYdOFtYB6a8S0+V6rSu8roAuZQfmnTqETih9z5/VHnyeY7ZZr06SAsfZDH8T5TS
-	 ZXDahd5SY8AAA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 59E1442C17;
-	Fri,  8 Nov 2024 16:40:48 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
- mauro.chehab@linux.intel.com, kernel@collabora.com,
- bob.beckett@collabora.com, nicolas.dufresne@collabora.com
-Subject: Re: [PATCH 1/2] docs: Add guides section for debugging
-In-Reply-To: <20241108081315.ln5ltvw3ssldonui@basti-XPS-13-9310>
-References: <20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com>
- <20241028-media_docs_improve_v3-v1-1-2b1b486c223e@collabora.com>
- <87ldxu235z.fsf@trenco.lwn.net>
- <20241108081315.ln5ltvw3ssldonui@basti-XPS-13-9310>
-Date: Fri, 08 Nov 2024 09:40:47 -0700
-Message-ID: <87o72py8z4.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIPCquhp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731086852; x=1762622852;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=f4PJaVljdIJ/oBBjOmHGAG8o+kWjkBTU3psAdpIWRAE=;
+  b=IIPCquhps4SSIIQDJoGhZPU2ksv2JyNOP+HAody799j5xSDG5foLE6LT
+   YjKlTUYwEXJOuvWmcP8dqKKWOkonuB995EAeQ1wC56xechYhY263+bw6+
+   997VHVcGSVKzWt2Bpcsy1zGaZcLIkykjPkqeKt7P6MKiUKMBC0FXFX1G4
+   OEelosQPEVXeoWYbHE7z5NGbxY7mvsv0gAjL3TqTB687HD+6LkotjuQAE
+   BsScM2DnPA3gRuv+lKideSbM2JZMds8U61YUlphw5Pp5lbUygQ6+2s3UT
+   20Kl1iJ+G+Le8x/6uM1tAZe7c+0CdqOygUbtdFsYabiqpJi38f9CKm/MB
+   g==;
+X-CSE-ConnectionGUID: BMxLxN3JTmW2sypEp+MSjw==
+X-CSE-MsgGUID: ZV4WMbujStaqywsOSW6g5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30937563"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30937563"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 09:27:30 -0800
+X-CSE-ConnectionGUID: haoDRfOqRGaNcx230Kdacg==
+X-CSE-MsgGUID: 19cBg4iPRZqh0P8i3L1N0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
+   d="scan'208";a="123176009"
+Received: from ldmartin-desk2.corp.intel.com (HELO [10.125.110.245]) ([10.125.110.245])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 09:27:29 -0800
+Message-ID: <d02f217d-ae4f-476c-a20b-2b449cff73c0@intel.com>
+Date: Fri, 8 Nov 2024 10:27:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 00/27] DCD: Add support for Dynamic Capacity Devices
+ (DCD)
+To: Ira Weiny <ira.weiny@intel.com>, Fan Ni <fan.ni@samsung.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Navneet Singh <navneet.singh@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, linux-cxl@vger.kernel.org,
+ linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+ linux-btrfs@vger.kernel.org, Johannes Thumshirn
+ <johannes.thumshirn@wdc.com>, Robert Moore <robert.moore@intel.com>,
+ Len Brown <lenb@kernel.org>, "Rafael J. Wysocki"
+ <rafael.j.wysocki@intel.com>, linux-acpi@vger.kernel.org,
+ acpica-devel@lists.linux.dev, Li Ming <ming4.li@intel.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hardening@vger.kernel.org
+References: <20241107-dcd-type2-upstream-v7-0-56a84e66bc36@intel.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20241107-dcd-type2-upstream-v7-0-56a84e66bc36@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Sebastian Fricke <sebastian.fricke@collabora.com> writes:
 
-> Hey Jonathan,
->
-> On 07.11.2024 13:35, Jonathan Corbet wrote:
->>Please, let's not add this to the top-level page.  I've been through a
->>multi-year struggle trying to trim that page down to the point where it
->>is possible to actually find something of interest there.  Everybody
->>wants their stuff up front, but please link this from the process guide
->>instead.
->
-> Hmmm ... we are talking about a page for newbies here, when it is under
-> process the person will have to figure out first that one has to click
-> on All development-process docs and then find that document under the
-> abundance of others. Could we atleast generate a top level page called
-> Beginner intro or something similar, where you are guided through the
-> documentation tree from the perspective of a beginner?
 
-By the time somebody needs this document, they should be at least
-wrist-deep in kernel development and should be able to find it.
+On 11/7/24 1:58 PM, Ira Weiny wrote:
+> A git tree of this series can be found here:
+> 
+> 	https://github.com/weiny2/linux-kernel/tree/dcd-v4-2024-11-07
+> 
+> This is a quick spin with minor clean ups Dave was going to apply as
+> well as a couple of clean ups I had slated for after V4 landed.
 
-Now, as per the discussion with Randy, if we decide we want to separate
-"how to work on kernel code" from "how to work with the kernel
-community", we can do that.  We're talking about a bigger organizational
-issue at this point, though.
+Top 6 patches (for DCD preparation) applied to cxl/next for 6.13 merge window. 
 
-Meanwhile, more introductory documentation is always a good thing :)
+> 
+> Series info
+> ===========
+> 
+> This series has 4 parts:
+> 
+> Patch 1: Add core range_overlaps() function
+> Patch 2-6: CXL clean up/prelim patches
+> Patch 7-25: Core DCD support
+> Patch 26-27: cxl_test support
+> 
+> Patches 1-6 have received a lot of review and can be applied to cxl-next
+> straight away.  While 7-27 may need to wait for Dan review.
+> 
+> Background
+> ==========
+> 
+> A Dynamic Capacity Device (DCD) (CXL 3.1 sec 9.13.3) is a CXL memory
+> device that allows memory capacity within a region to change
+> dynamically without the need for resetting the device, reconfiguring
+> HDM decoders, or reconfiguring software DAX regions.
+> 
+> One of the biggest use cases for Dynamic Capacity is to allow hosts to
+> share memory dynamically within a data center without increasing the
+> per-host attached memory.
+> 
+> The general flow for the addition or removal of memory is to have an
+> orchestrator coordinate the use of the memory.  Generally there are 5
+> actors in such a system, the Orchestrator, Fabric Manager, the Logical
+> device, the Host Kernel, and a Host User.
+> 
+> Typical work flows are shown below.
+> 
+> Orchestrator      FM         Device       Host Kernel    Host User
+> 
+>     |             |           |            |              |
+>     |-------------- Create region ----------------------->|
+>     |             |           |            |              |
+>     |             |           |            |<-- Create ---|
+>     |             |           |            |    Region    |
+>     |<------------- Signal done --------------------------|
+>     |             |           |            |              |
+>     |-- Add ----->|-- Add --->|--- Add --->|              |
+>     |  Capacity   |  Extent   |   Extent   |              |
+>     |             |           |            |              |
+>     |             |<- Accept -|<- Accept  -|              |
+>     |             |   Extent  |   Extent   |              |
+>     |             |           |            |<- Create --->|
+>     |             |           |            |   DAX dev    |-- Use memory
+>     |             |           |            |              |   |
+>     |             |           |            |              |   |
+>     |             |           |            |<- Release ---| <-+
+>     |             |           |            |   DAX dev    |
+>     |             |           |            |              |
+>     |<------------- Signal done --------------------------|
+>     |             |           |            |              |
+>     |-- Remove -->|- Release->|- Release ->|              |
+>     |  Capacity   |  Extent   |   Extent   |              |
+>     |             |           |            |              |
+>     |             |<- Release-|<- Release -|              |
+>     |             |   Extent  |   Extent   |              |
+>     |             |           |            |              |
+>     |-- Add ----->|-- Add --->|--- Add --->|              |
+>     |  Capacity   |  Extent   |   Extent   |              |
+>     |             |           |            |              |
+>     |             |<- Accept -|<- Accept  -|              |
+>     |             |   Extent  |   Extent   |              |
+>     |             |           |            |<- Create ----|
+>     |             |           |            |   DAX dev    |-- Use memory
+>     |             |           |            |              |   |
+>     |             |           |            |<- Release ---| <-+
+>     |             |           |            |   DAX dev    |
+>     |<------------- Signal done --------------------------|
+>     |             |           |            |              |
+>     |-- Remove -->|- Release->|- Release ->|              |
+>     |  Capacity   |  Extent   |   Extent   |              |
+>     |             |           |            |              |
+>     |             |<- Release-|<- Release -|              |
+>     |             |   Extent  |   Extent   |              |
+>     |             |           |            |              |
+>     |-- Add ----->|-- Add --->|--- Add --->|              |
+>     |  Capacity   |  Extent   |   Extent   |              |
+>     |             |           |            |<- Create ----|
+>     |             |           |            |   DAX dev    |-- Use memory
+>     |             |           |            |              |   |
+>     |-- Remove -->|- Release->|- Release ->|              |   |
+>     |  Capacity   |  Extent   |   Extent   |              |   |
+>     |             |           |            |              |   |
+>     |             |           |     (Release Ignored)     |   |
+>     |             |           |            |              |   |
+>     |             |           |            |<- Release ---| <-+
+>     |             |           |            |   DAX dev    |
+>     |<------------- Signal done --------------------------|
+>     |             |           |            |              |
+>     |             |- Release->|- Release ->|              |
+>     |             |  Extent   |   Extent   |              |
+>     |             |           |            |              |
+>     |             |<- Release-|<- Release -|              |
+>     |             |   Extent  |   Extent   |              |
+>     |             |           |            |<- Destroy ---|
+>     |             |           |            |   Region     |
+>     |             |           |            |              |
+> 
+> Implementation
+> ==============
+> 
+> The series still requires the creation of regions and DAX devices to be
+> closely synchronized with the Orchestrator and Fabric Manager.  The host
+> kernel will reject extents if a region is not yet created.  It also
+> ignores extent release if memory is in use (DAX device created).  These
+> synchronizations are not anticipated to be an issue with real
+> applications.
+> 
+> In order to allow for capacity to be added and removed a new concept of
+> a sparse DAX region is introduced.  A sparse DAX region may have 0 or
+> more bytes of available space.  The total space depends on the number
+> and size of the extents which have been added.
+> 
+> Initially it is anticipated that users of the memory will carefully
+> coordinate the surfacing of additional capacity with the creation of DAX
+> devices which use that capacity.  Therefore, the allocation of the
+> memory to DAX devices does not allow for specific associations between
+> DAX device and extent.  This keeps allocations very similar to existing
+> DAX region behavior.
+> 
+> To keep the DAX memory allocation aligned with the existing DAX devices
+> which do not have tags extents are not allowed to have tags.  Future
+> support for tags is planned.
+> 
+> Great care was taken to keep the extent tracking simple.  Some xarray's
+> needed to be added but extra software objects were kept to a minimum.
+> 
+> Region extents continue to be tracked as sub-devices of the DAX region.
+> This ensures that region destruction cleans up all extent allocations
+> properly.
+> 
+> Some review tags were kept if a patch did not change.
+> 
+> The major functionality of this series includes:
+> 
+> - Getting the dynamic capacity (DC) configuration information from cxl
+>   devices
+> 
+> - Configuring the DC partitions reported by hardware
+> 
+> - Enhancing the CXL and DAX regions for dynamic capacity support
+> 	a. Maintain a logical separation between hardware extents and
+> 	   software managed region extents.  This provides an
+> 	   abstraction between the layers and should allow for
+> 	   interleaving in the future
+> 
+> - Get hardware extent lists for endpoint decoders upon
+>   region creation.
+> 
+> - Adjust extent/region memory available on the following events.
+>         a. Add capacity Events
+> 	b. Release capacity events
+> 
+> - Host response for add capacity
+> 	a. do not accept the extent if:
+> 		If the region does not exist
+> 		or an error occurs realizing the extent
+> 	b. If the region does exist
+> 		realize a DAX region extent with 1:1 mapping (no
+> 		interleave yet)
+> 	c. Support the event more bit by processing a list of extents
+> 	   marked with the more bit together before setting up a
+> 	   response.
+> 
+> - Host response for remove capacity
+> 	a. If no DAX device references the extent; release the extent
+> 	b. If a reference does exist, ignore the request.
+> 	   (Require FM to issue release again.)
+> 
+> - Modify DAX device creation/resize to account for extents within a
+>   sparse DAX region
+> 
+> - Trace Dynamic Capacity events for debugging
+> 
+> - Add cxl-test infrastructure to allow for faster unit testing
+>   (See new ndctl branch for cxl-dcd.sh test[1])
+> 
+> - Only support 0 value extent tags
+> 
+> Fan Ni's upstream of Qemu DCD was used for testing.
+> 
+> Remaining work:
+> 
+> 	1) Allow mapping to specific extents (perhaps based on
+> 	   label/tag)
+> 	   1a) devise region size reporting based on tags
+> 	2) Interleave support
+> 
+> Possible additional work depending on requirements:
+> 
+> 	1) Accept a new extent which extends (but overlaps) an existing
+> 	   extent(s)
+> 	2) Release extents when DAX devices are released if a release
+> 	   was previously seen from the device
+> 	3) Rework DAX device interfaces, memfd has been explored a bit
+> 
+> [1] https://github.com/weiny2/ndctl/tree/dcd-region2-2024-10-01
+> 
+> ---
+> Changes in v7:
+> - Pick up review tags
+> - Ming: Fix setting the more flag
+> - Link to v6: https://patch.msgid.link/20241105-dcd-type2-upstream-v6-0-85c7fa2140fe@intel.com
+> 
+> ---
+> Ira Weiny (13):
+>       range: Add range_overlaps()
+>       ACPI/CDAT: Add CDAT/DSMAS shared and read only flag values
+>       dax: Document struct dev_dax_range
+>       cxl/pci: Delay event buffer allocation
+>       cxl/hdm: Use guard() in cxl_dpa_set_mode()
+>       cxl/region: Refactor common create region code
+>       cxl/cdat: Gather DSMAS data for DCD regions
+>       cxl/events: Split event msgnum configuration from irq setup
+>       cxl/pci: Factor out interrupt policy check
+>       cxl/core: Return endpoint decoder information from region search
+>       dax/bus: Factor out dev dax resize logic
+>       tools/testing/cxl: Make event logs dynamic
+>       tools/testing/cxl: Add DC Regions to mock mem data
+> 
+> Navneet Singh (14):
+>       cxl/mbox: Flag support for Dynamic Capacity Devices (DCD)
+>       cxl/mem: Read dynamic capacity configuration from the device
+>       cxl/core: Separate region mode from decoder mode
+>       cxl/region: Add dynamic capacity decoder and region modes
+>       cxl/hdm: Add dynamic capacity size support to endpoint decoders
+>       cxl/mem: Expose DCD partition capabilities in sysfs
+>       cxl/port: Add endpoint decoder DC mode support to sysfs
+>       cxl/region: Add sparse DAX region support
+>       cxl/mem: Configure dynamic capacity interrupts
+>       cxl/extent: Process DCD events and realize region extents
+>       cxl/region/extent: Expose region extent information in sysfs
+>       dax/region: Create resources on sparse DAX regions
+>       cxl/region: Read existing extents on region creation
+>       cxl/mem: Trace Dynamic capacity Event Record
+> 
+>  Documentation/ABI/testing/sysfs-bus-cxl |  125 +++-
+>  drivers/cxl/core/Makefile               |    2 +-
+>  drivers/cxl/core/cdat.c                 |   45 +-
+>  drivers/cxl/core/core.h                 |   34 +-
+>  drivers/cxl/core/extent.c               |  502 +++++++++++++++
+>  drivers/cxl/core/hdm.c                  |  231 ++++++-
+>  drivers/cxl/core/mbox.c                 |  610 +++++++++++++++++-
+>  drivers/cxl/core/memdev.c               |  128 +++-
+>  drivers/cxl/core/port.c                 |   19 +-
+>  drivers/cxl/core/region.c               |  185 ++++--
+>  drivers/cxl/core/trace.h                |   65 ++
+>  drivers/cxl/cxl.h                       |  122 +++-
+>  drivers/cxl/cxlmem.h                    |  132 +++-
+>  drivers/cxl/pci.c                       |  122 +++-
+>  drivers/dax/bus.c                       |  356 +++++++++--
+>  drivers/dax/bus.h                       |    4 +-
+>  drivers/dax/cxl.c                       |   71 ++-
+>  drivers/dax/dax-private.h               |   66 +-
+>  drivers/dax/hmem/hmem.c                 |    2 +-
+>  drivers/dax/pmem.c                      |    2 +-
+>  fs/btrfs/ordered-data.c                 |   10 +-
+>  include/acpi/actbl1.h                   |    2 +
+>  include/cxl/event.h                     |   32 +
+>  include/linux/ioport.h                  |    3 +
+>  include/linux/range.h                   |    8 +
+>  tools/testing/cxl/Kbuild                |    3 +-
+>  tools/testing/cxl/test/mem.c            | 1019 +++++++++++++++++++++++++++----
+>  27 files changed, 3568 insertions(+), 332 deletions(-)
+> ---
+> base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
+> change-id: 20230604-dcd-type2-upstream-0cd15f6216fd
+> 
+> Best regards,
 
->>When referencing the function, say printk() - that's the convention we
->>use.
->
-> Ah even in the title? Can do. (Even though it makes the titles look less
-> uniform..)
-
-That would be my preference, yes.
-
->>That is anything but full documentation of lockdep; it's really only
->>about RCU.  I wish (hint :) that we had proper documentation for lockdep
->>that we could link here.  For the purposes of a reader who needs this
->>level of guide, though, linking deep into RCU is not likely to be
->>helpful.
->
-> Yep I struggled finiding something useful for this topic in the docs.
-> I'd say I skip adding a link for now and we can create another MR later
-> to add a proper documentation + link in the documentation.
-
-Sounds like a good plan to me.
-
->>> diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
->>> new file mode 100644
->>> index 000000000000..c200ede7c955
->>> --- /dev/null
->>> +++ b/Documentation/process/debugging/index.rst
->>> @@ -0,0 +1,21 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +
->>> +============================================
->>> +Debugging advice for Linux Kernel developers
->>> +============================================
->>> +
->>
->>This file needs an introductory paragraph (at least) saying what it is
->>about.  A simple directory listing is not hugely useful.
->>
->>An alternative might be to turn your "general advice" document into the
->>index.rst file.
->
-> Well that is what I had in the previous iteration and Bagas Sanjaya told me:
->>Please split general debugging advice into its own doc (e.g. at
->>general-advice.rst). Most other docs have index.rst only for toctree
->>listing.
->
-> So, shall I revert that or should I add a intro sentence to the index
-> file?
-
-Bagas is fond of giving bad but authoritative-sounding advice to
-documentation contributors despite repeated requests to stop.
-Unfortunately, I don't have the time to chase him around all the time
-and set things straight.
-
-My preference would be to go back to what you had, but if you prefer to
-just add an intro paragraph at this point we can certainly live with it. 
-
->>> +  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
->>> +  $ ddcmd '-p; file v4l2-h264.c +p'
->>
->>It seems to me that the alias just obfuscates things, why bother?
->
-> Well because the Linux Kernel documentation suggests that :P
-> https://docs.kernel.org/admin-guide/dynamic-debug-howto.html#controlling-dynamic-debug-behaviour
->
-> If you don't like that, then I think I should send a MR for that file as
-> well.
-
-Up to you, this is just something that caught my eye as I was going by. 
-
->>> +  To analyse the crash dump please use `Kdump` & `Kexec`.
->>
->>Those will not *analyze* a crash dump.
->
-> Well yes they will capture the crash dump, which can then be used to
-> analyse the crash. Maybe a better wording is:
->
-> To capture the crash dump please use `Kdump` & `Kexec`. Below you can
-> find some advice for analysing the data.
->
-> better?
-
-Yes, thanks.
-
-jon
