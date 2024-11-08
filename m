@@ -1,122 +1,164 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167C01E25E1;
-	Fri,  8 Nov 2024 10:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731060789; cv=pass; b=Bts/TZMI+cs9nNI7p8jLzmJnX4VumECdpcMK6xAOgQGWa5u9k7FIU+uM01rGtAkVbV+r7fSD7X/1mkEpoCGecjUjuTnRK48UKL2O2SApdDjb9en1/oZsW+FKTC1Pv83PZKTikeQt0b9OshWzb1R1qwh0dy3oqfNRxzSZtxCS9NA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731060789; c=relaxed/simple;
-	bh=URH1dV2Y67ZlZ25QwrpXrKUcR2Au3hsHHxbNoHitl5g=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F165C19259F;
+	Fri,  8 Nov 2024 10:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731061492; cv=none; b=reiZZzluI0JsXtmnEys3qZqy8OIK9EhNHwQp35sOapMcoq8e2yJO1CvvuucJMJvvz8LUGfIAA4tqzyyPf/o86NGOPoxHKHGGiXhyiPU/auYyxNtqoNZ+xApmqvVjsJXP3uFqQRRHsCJDd//L+pipHXjE0adECuGagJbbywaVcoM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731061492; c=relaxed/simple;
+	bh=LMXpH5Z7TKp2QaLRCa69s7TXn/ETV9R/IgCBThdgOtc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rw+DH+KXKbKWUBxeGEWpsqOCktWw8ZDeeTM9JQYOnpv4szP0ijRw0LfhL9dj275Ga+V2lA4dj8uWbQs6D89S3yefNb/Pm3QLPQ+I1enjUZgG41Ag37KWD8RCFwSzsWClNalHjJY1FgxrCtA1On9GiBeVwnrAAB6HPf+ncW8MNOo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=BPQwY5Gw; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=pUnhpzIZ7YUeoqBdBZqpviHUZA0ee8bdhuJ0bDyGwATh0KdvjgEBiUdiU1jtK+USrh/aIpVvOn3lilpqrUQb1c5s0WF/9ccE8stCMJiUzI5d7y60Y4DwJVSX2mmGv1XEaqxCazyJR0nFTf/Qz4EqoXofEIUtJavbYE01UcvMuBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ahuu6m0P; arc=none smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="BPQwY5Gw"
-ARC-Seal: i=1; a=rsa-sha256; t=1731060769; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=bsTNZJF2lyVfM6jm/zNhBscpTcTbxERiukwEibUzKBAlLk6AWP5EltOu87KOLnhFb6bHOBdnH67Bo/PNOFD6LZs8R8W0ADeMNYjmtQoJaP8VOA4UFqNnl+Q6sxPZ4+QKHT6tlaOypC9GuT1+JHMnECu/WO7pKMQyiNXY2kp0VwI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1731060769; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=AQ8tMbexbiQsHm/pOBHSP+wB02qPYz2EI2G2y4054mc=; 
-	b=KkTYWDOLSe6g4fhHeszj3/B1q4N44NibjkEWr9/ti4atKoVMBO6MlXlCcjeTWe5yLOGEZ7IGWAy0Grdu/tl9jcDooJbp5cEWoe+r5agSCLSNclVI/izwAqGFL4iS/5Kx0PLrkhvTKD0+8sn/+CjDcyfxU7c7CoOoEF32uPRF8vg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731060769;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=AQ8tMbexbiQsHm/pOBHSP+wB02qPYz2EI2G2y4054mc=;
-	b=BPQwY5GwF52fDh9KKJmhMao0LMnWAgeEDqohE7vP/5n9fJlZiTvusiM3vKVhf6M1
-	qjqX6z6aM6j34d3xZ0vRMLzySBYobzxL/G3DFM3ieVRPc+FD108sATzfBSyYjQ1VYbV
-	BOXTPJzHU1WSByAJ2DkQn40PPBB2eAfVCkQeE9ms=
-Received: by mx.zohomail.com with SMTPS id 1731060767699104.95062302155475;
-	Fri, 8 Nov 2024 02:12:47 -0800 (PST)
-Date: Fri, 8 Nov 2024 11:12:43 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-	mauro.chehab@linux.intel.com, kernel@collabora.com,
-	bob.beckett@collabora.com, nicolas.dufresne@collabora.com
-Subject: Re: [PATCH 2/2] docs: media: Debugging guide for the media subsystem
-Message-ID: <20241108101243.a6rxed2lx55hwcmj@basti-XPS-13-9310>
-References: <20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com>
- <20241028-media_docs_improve_v3-v1-2-2b1b486c223e@collabora.com>
- <87h68i22ww.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahuu6m0P"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3e6005781c0so1196712b6e.3;
+        Fri, 08 Nov 2024 02:24:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731061490; x=1731666290; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7rLgU6rNBJeLkV3w0NfWYz8NMRiSmMvEm4NpmBIUz18=;
+        b=ahuu6m0P4GeMdNWHMNhiW0NL/zJjEo+0c3FG+9QcgwoKrms3+Jjy88Hn6ZzjBPb0UZ
+         a6LJPa+51NB458aB5hwjzXUEmmn9g9+to7LBOkVgDjGzDwtCrQPR4FxPiOLaN82OsEmK
+         xFMf2BP6BAx7fcBgSdsGhY8JczkEtRC3rw/whhb0Qxi6y1NshsTpHnBo3Ds6sF0Wj01E
+         upr52Ye/GAAD//EpTn7WZcoGx9e+gAFxARWBBVF179kKVPgglIZvGmoqPHqrF0I7rb+a
+         1ZPRtQ0PfqzY7BOE/AGGlvPBx5XfOV3Oc91clmSKaDTAKuZzL4iUDnMTPbX5uag2XCj+
+         isyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731061490; x=1731666290;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7rLgU6rNBJeLkV3w0NfWYz8NMRiSmMvEm4NpmBIUz18=;
+        b=Wkxowbm8Hu4ml3zZWVDhcjts655xjUp2d0SSTmdT8K7jp8TMEhxBBFWyzwQ3cPwycB
+         Nw7H8JF584zdHCveFr4+ESIHavZtThCWUg9zfHzAKQc73+pZ9vYib3fTVJ/2om3FCDIL
+         uEbE4a/e/LyniRV0M/XSLrkPaHF0mdSyZMqYySQR5MVThrt2475HCQMNBbFC2xvg0Ivl
+         suHKcQ8qQm4dSf2zpz2zdLkVNgF/e2Tal/dNBbOLJryrbEwErHpY4ptYi5L5gMWwZdtl
+         Zm4esuSa2aU5jpwab2bCgug1FmxGZsSURPM3adKlGrVtu/sj6ZoDj5atoSjKnaySvIlD
+         ve2g==
+X-Forwarded-Encrypted: i=1; AJvYcCUqep04zC1BsJp24J3DSW/OgErU3ggPfd7+mk8Sdf43CptU5iEgmC05FJCqQHVq38EZttrMFTNLeoU=@vger.kernel.org, AJvYcCVxEwpDAvVLrbNe/Gohk9ajij/jUXrQa3Fvw3nGdCpfaHGMOoiKsaQ1QdKpSn1nSStoYCXvRCMHy/ISHnoS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxn7AY5BerPpecndDt+CCP+mkmtxeKjNEaAxEGp/x46pZkO4E1/
+	AklZBk4GG2htbOSV1Gg2IT4U2Dfh/rnOECS/B7JaZyk8jPZBhX/Y
+X-Google-Smtp-Source: AGHT+IEbImmFikWK6uKWuDU7+7VuM1/bsHT2tUEjNx7c5mvBVCf1pss2FnLdoAhimGqpHuyGLG9YwA==
+X-Received: by 2002:a05:6808:15a8:b0:3e5:f534:ddc4 with SMTP id 5614622812f47-3e79458571fmr2618809b6e.13.1731061489886;
+        Fri, 08 Nov 2024 02:24:49 -0800 (PST)
+Received: from archie.me ([103.124.138.82])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f643a60sm3054318a12.56.2024.11.08.02.24.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 02:24:49 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id F2ECA41AD6C8; Fri, 08 Nov 2024 17:24:46 +0700 (WIB)
+Date: Fri, 8 Nov 2024 17:24:46 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Rodolfo Giometti <giometti@enneenne.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>, Greg KH <greg@kroah.com>,
+	corbet@lwn.net, Hall Christopher S <christopher.s.hall@intel.com>,
+	Mohan Subramanian <subramanian.mohan@intel.com>, tglx@linutronix.de,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Dong Eddie <eddie.dong@intel.com>, N Pandith <pandith.n@intel.com>,
+	T R Thejesh Reddy <thejesh.reddy.t.r@intel.com>,
+	Zage David <david.zage@intel.com>,
+	Chinnadurai Srinivasan <srinivasan.chinnadurai@intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [V3 3/4] Documentation pps.rst: add PPS generators documentation
+Message-ID: <Zy3m7qO81OP4DHAF@archie.me>
+References: <20241108073115.759039-1-giometti@enneenne.com>
+ <20241108073115.759039-4-giometti@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Xojr/a/GWq5da8gW"
 Content-Disposition: inline
-In-Reply-To: <87h68i22ww.fsf@trenco.lwn.net>
-X-ZohoMailClient: External
+In-Reply-To: <20241108073115.759039-4-giometti@enneenne.com>
 
-Hey Jon,
 
-On 07.11.2024 13:40, Jonathan Corbet wrote:
->Sebastian Fricke <sebastian.fricke@collabora.com> writes:
->
->> Provide a guide for developers on how to debug code with a focus on the
->> media subsystem. This document aims to provide a rough overview over the
->> possibilities and a rational to help choosing the right tool for the
->> given circumstances.
->>
->> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->> ---
->>  Documentation/process/debugging/index.rst          |   1 +
->>  .../debugging/media_specific_debugging_guide.rst   | 178 +++++++++++++++++++++
->>  2 files changed, 179 insertions(+)
->
->Mostly overall comments here
->
->- much of what's here seems redundant with your other new documents; you
->  seem to be going over the same list of tools?  Why not just talk about
->  the ones that are unique to the media subsystem?
+--Xojr/a/GWq5da8gW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I choosed the minimum duplication path because of the perspective that I
-envisioned of the reader.
-The reader reads that there is a debugging guide for the media
-subsystem, which to my ears sounds like:
-"Everything you need to know to get started debugging in this subsystem,
-with recommendations for useful tools"
-and not
-"Some specific media bits that expect you to have read every other
-debugging documentation and judge yourself which of these tools might be
-useful for your debugging".
+On Fri, Nov 08, 2024 at 08:31:14AM +0100, Rodolfo Giometti wrote:
+> diff --git a/Documentation/driver-api/pps.rst b/Documentation/driver-api/=
+pps.rst
+> index 78dded03e5d8..71ad04c82d6c 100644
+> --- a/Documentation/driver-api/pps.rst
+> +++ b/Documentation/driver-api/pps.rst
+> @@ -202,6 +202,46 @@ Sometimes one needs to be able not only to catch PPS=
+ signals but to produce
+>  them also. For example, running a distributed simulation, which requires
+>  computers' clock to be synchronized very tightly.
+> =20
+> +To do so the class pps-gen has been added. PPS generators can be
+> +registered in the kernel by defining a struct pps_gen_source_info as
+> +follows::
+> +
+> +    static struct pps_gen_source_info pps_gen_dummy_info =3D {
+> +            .name                   =3D "dummy",
+> +            .use_system_clock       =3D true,
+> +            .get_time               =3D pps_gen_dummy_get_time,
+> +            .enable                 =3D pps_gen_dummy_enable,
+> +    };
+> +
+> +Where the use_system_clock states if the generator uses the system
+> +clock to generate its pulses, or they are from a peripheral device
+> +clock. Method get_time() is used to query the time stored into the
+> +generator clock, while the method enable() is used to enable or
+> +disable the PPS pulse generation.
+> +
+> +Then calling the function pps_gen_register_source() in your
+> +initialization routine as follows creates a new generator in the
+> +system::
+> +
+> +    pps_gen =3D pps_gen_register_source(&pps_gen_dummy_info);
+> +
+> +Generators SYSFS support
+> +------------------------
+> +
+> +If the SYSFS filesystem is enabled in the kernel it provides a new class=
+::
+> +
+> +    $ ls /sys/class/pps-gen/
+> +    pps-gen0/  pps-gen1/  pps-gen2/
+> +
+> +Every directory is the ID of a PPS generator defined in the system and
+> +inside of it you find several files::
+> +
+> +    $ ls -F /sys/class/pps-gen/pps-gen0/
+> +    dev  enable  name  power/  subsystem@  system  time  uevent
+> +
+> +To enable the PPS signal generation you can use the command below::
+> +
+> +    $ echo 1 > /sys/class/pps-gen/pps-gen0/enable
+> =20
+>  Parallel port generator
+>  ------------------------
 
-I look at that specifically from a perspective that the general
-debugging guides are probably going to be extended in the future with
-more general debugging tools which might not be as useful for the media
-subsystem.
+Looks good, thanks!
 
->
->- Please use the function() convention throughout.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Ack. I assume you also mean the titles as well.
+--=20
+An old man doll... just what I always wanted! - Clara
 
->
->- Back in the ancient past when I was writing V4L2 drivers, one of my
->  biggest problems was figuring out why applications weren't getting
->  what they expected.  The vivi driver was most useful for finding
->  subtle differences...  One would use vivid now, but I suspect the
->  utility remains.
+--Xojr/a/GWq5da8gW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Okay I'll look into that.
+-----BEGIN PGP SIGNATURE-----
 
->
->Thanks,
->
->jon
->
-Regards,
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZy3m6QAKCRD2uYlJVVFO
+o42FAQCW1M7kbLqla/5wXv9zm6wxsPB773y4MN9enemWiRCK2wD+MqMRDBhRRuoW
+59dqwDUTxUcIJXHz2EfGuppAysUdFw0=
+=tNUA
+-----END PGP SIGNATURE-----
 
-Sebastian Fricke
+--Xojr/a/GWq5da8gW--
