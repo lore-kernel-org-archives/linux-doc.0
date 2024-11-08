@@ -1,94 +1,117 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7791E0E0F;
-	Fri,  8 Nov 2024 11:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76ECE1E765D;
+	Fri,  8 Nov 2024 12:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731064709; cv=none; b=NTGK1U6mQAQpOJ8S90eMlhTt6NcA0yJX4azFYUI9ReiN/Gc+dze2NVKLCfcQC+fBPkZ8r8nQ9gt5wR3RGyNSQnBfthCL6mrwCQJ1CL6oeiY9u88za/QtG2atUmQghhOnxHiqBYO3/DwZzaIXn5vn/imUHlg/9ZU/bIblmIJCsFo=
+	t=1731068744; cv=none; b=PlE1PgNpLZ6mB6ZNhA2p0MKiduzjpwY9xThtCYUh0VornYeLmPHmbdOjMI1I5fhTHw46GGkTocYDVP18ZPJoG90KNEf5aoI/XLwzuNmdHzG3MtTAglKsIKMf7RQ1TFKqwj5Jty7wCH8eGdgPK4BfM49rC6JEPtXSq2IHlVYd2FY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731064709; c=relaxed/simple;
-	bh=guJsLc5dAARKcdQDnA/WRwLWyWXntz3Gs11FY/3kw3E=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D3oF1MtFgw4/uRUKlm1BODUx11S2V7PgVzvRkrs/xR3iObdQB7Oe+l6OHMy5MctLIvJvXIkZ2pNiTABRDF7TzckZbKH7V3MtQ9c2ZdmFcJFrD4IJOC/Sj6Bh3fL2VmI68j6aIrxOiXvXRrImIXqEVfYgRKGFcfctlBqQhd8NbwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XlGbs2nJYz6K5pN;
-	Fri,  8 Nov 2024 19:16:41 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2CCDE140B73;
-	Fri,  8 Nov 2024 19:18:24 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 8 Nov
- 2024 12:18:23 +0100
-Date: Fri, 8 Nov 2024 11:18:22 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Jonathan Cameron <jic23@kernel.org>, <linux-iio@vger.kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] iio: Move __private marking before struct element priv
- in struct iio_dev
-Message-ID: <20241108111822.0000389c@huawei.com>
-In-Reply-To: <20241108111451.00005fd0@huawei.com>
-References: <20241107185746.138146-1-jic23@kernel.org>
-	<Zy3Ongpc0vdGxKsX@smile.fi.intel.com>
-	<20241108111451.00005fd0@huawei.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1731068744; c=relaxed/simple;
+	bh=98fO9xQB8CvgioBDPij7kcJTdEqb0xwMJhO0xcW8HFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sM/nO7Te3jdurRvd+2RpOGy3acMNLFWz3e0DK/XvvrEU8WFu8MRIAAyZOdGzFh4GI4Aiw1JRuddEqr4vBeTrAyN59UZf8UcA1CHr8ccxcdnqJXspIeDkxQ4VcMfqkeYqjdSyWjr4wumXhmeb2mIW9k2ZJMIooG5I2LzmxMqGH50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y2eopDYR; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y2eopDYR"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20c767a9c50so21276895ad.1;
+        Fri, 08 Nov 2024 04:25:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731068743; x=1731673543; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fOmvvKhJbEZ8J+lBfNZjxAZ1KpCrP3dOe3+qAGNbpVU=;
+        b=Y2eopDYRaAWG8ITORhH0XBee5w25082Nx8zXZLxQNYHObGRAuLTf8CIV3enyWnyiZ1
+         bWUEiz5c+lYXCkmYsUBlotf2bBQzjebRgmA0QC2z4NGkWw6t3PvBCaT1wX0qo4Y5DF4p
+         /ZN44XWLOOP+cEUCeok2eiGG2VyWXQbJIiYcBP255GzNzxZHMj/UzL7Mc0ACr6xa0Nzs
+         4Y368i+5AqoKUCIvWcU8kIIP1eS4GcpU11ZTbaoi2Y0dZXF1C+zc2XEV7YmHzZMFc1Jg
+         FgCj2xShGYRHw6qeV29g7wPuUeZewSIACJ8NViJFUoHY3TJnRNTjR023fWS1pLrCy34e
+         EeQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731068743; x=1731673543;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fOmvvKhJbEZ8J+lBfNZjxAZ1KpCrP3dOe3+qAGNbpVU=;
+        b=Jgid95m0zIDuHopbhKXQbMFHQy7WtnglcK5QtkNcRenAXmr6ZHypVw8w7b38dEVOWp
+         WJDEFc6xnHY+TrUZ6PxlQIMHp4XpxoBSWDR2MvKeJrVPG0/jJhDsigm++EXH6Ica+/z6
+         K1KHUXerw8cyat1niOVZU9rAH7/v/m3tjqb8zGYyqJFyFSPUEZpdZ1TyLg5ZYJr+bbpj
+         LDzfYtDrLglCdxNv/pLfFhHrAXAF5PIG59T9f1lA6TqL9UnDVYXwtS2bDAYSy1zPL0CI
+         JTMoEgVczUT+bswn8MVdYFpR6L7ocVrdknPa1Bn8nix5bKGUp9qXQ0gi1WM3D6V7u98O
+         LbVA==
+X-Forwarded-Encrypted: i=1; AJvYcCWu0cy7XGtyU4kt/kHU8JxzZewg5C+hbvslFq0uWwrCD8PueXBCdzF6mLrcB6+l/p2BYuFWx0PfRkXyqbDO@vger.kernel.org, AJvYcCXbHVxkev0HEMvqaQuYOStKniXjfO4W9WLvWsDMQPuYXON7y/AcqhRDwxF5pBsZJRMNShx8Zj60+n4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwR20pF3zICx6KZV4PixP/DQvF3G5UygzATNtr+lNfRGDr5keQX
+	z+b6F0H6bsv8F60uwTUxh+t9kcCac3Syj0eGCYmVpOiHoA+/49Eg
+X-Google-Smtp-Source: AGHT+IHJ5/cQ9rbRvukjTnPNpTp4++CL+48QStdopubqXyhfVkP8jV4apmehVMsZ0ui4hRbniSZJMQ==
+X-Received: by 2002:a17:902:c949:b0:20b:8bd0:7387 with SMTP id d9443c01a7336-21183d7cc6cmr29256495ad.52.1731068742350;
+        Fri, 08 Nov 2024 04:25:42 -0800 (PST)
+Received: from archie.me ([103.124.138.82])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177dc9073sm28931265ad.1.2024.11.08.04.25.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 04:25:41 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 44A6741AD6C8; Fri, 08 Nov 2024 19:25:38 +0700 (WIB)
+Date: Fri, 8 Nov 2024 19:25:38 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Suren Baghdasaryan <surenb@google.com>,
+	Hillf Danton <hdanton@sina.com>,
+	Qi Zheng <zhengqi.arch@bytedance.com>,
+	SeongJae Park <sj@kernel.org>
+Subject: Re: [PATCH] docs/mm: add VMA locks documentation
+Message-ID: <Zy4DQmWHpC_QMGTP@archie.me>
+References: <20241107190137.58000-1-lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MO04lssU+mkApaAr"
+Content-Disposition: inline
+In-Reply-To: <20241107190137.58000-1-lorenzo.stoakes@oracle.com>
 
-On Fri, 8 Nov 2024 11:14:51 +0000
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
 
-> On Fri, 8 Nov 2024 10:41:02 +0200
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> 
-> > On Thu, Nov 07, 2024 at 06:57:46PM +0000, Jonathan Cameron wrote:
-> > > From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > 
-> > > This is to avoid tripping up kernel-doc which filters it out before
-> > > but not after the name.
-> > > 
-> > > Fixes:
-> > > ./include/linux/iio/iio.h:628: warning: Function parameter or struct member '__private' not described in 'iio_dev'
-> > > ./include/linux/iio/iio.h:628: warning: Excess struct member 'priv' description in 'iio_dev'  
-> > 
-> > ...
-> > 
-> > > -	void				*priv __private;
-> > > +	void				__private *priv;
-> > >  };  
-> > 
-> > This is still inconsistent from the position perspective (while may still
-> > work). I specifically placed it there, otherwise what you need is to have
-> > 
-> > 	void * __private priv;
-> > 
-> > to be fully consistent.
-> > 
-> > That said, either you need to carefully reindent all the affected members,
-> > or fix the kernel-doc, or both.
-> Doh. Indeed. The marking was wrong and sparse tripped on it.
-> 
-> I'll switch to void * __private priv; hideous though that is and not worry about indenting.
-> 
-> We can then decide next cycle whether to tidy up better.
-Style wise I decided this was least hideous
+--MO04lssU+mkApaAr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-void				*__private priv;
+On Thu, Nov 07, 2024 at 07:01:37PM +0000, Lorenzo Stoakes wrote:
+> +.. note:: In instances where the architecture supports fewer page tables=
+ than
+> +   five the kernel cleverly 'folds' page table levels, that is skips the=
+m within
+> +   the logic, regardless we can act as if there were always five.
 
-> 
-> > 
-> 
+What are being skipped if e.g. we only have 3 or 4 page tables?
 
+Confused...
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--MO04lssU+mkApaAr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZy4DPQAKCRD2uYlJVVFO
+o3s+AP0aUDqcRJ0rPGFSjziXj9/+tetBw9hi8dExw5A9cdVnQAEAyESYXfMxc9wq
+44VY1iUrCTd6+/4QbgicjMDx/9xQ1wM=
+=4GGZ
+-----END PGP SIGNATURE-----
+
+--MO04lssU+mkApaAr--
