@@ -1,190 +1,122 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C2C1CFEC0;
-	Fri,  8 Nov 2024 09:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731056475; cv=none; b=p8Fkzp38drZLAGiZkogkwpVtGkATVsg5V/WGCaWxGHJhfLIQsxruF4IreSczqs8ta9otmI9Yq+WX7Jit0aYkMXH9SElcykdjQdlDTslFL03Fch9eeT35w5/YDi7D6XLRQv0xqvQcSsR3uisogVqEZx5inqNS7Z7IEeHWH1ZSBrM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731056475; c=relaxed/simple;
-	bh=r7dhSFhEQTew+9UGW/kckZn/abgjeJ3S6PdMpu3oaMQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167C01E25E1;
+	Fri,  8 Nov 2024 10:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731060789; cv=pass; b=Bts/TZMI+cs9nNI7p8jLzmJnX4VumECdpcMK6xAOgQGWa5u9k7FIU+uM01rGtAkVbV+r7fSD7X/1mkEpoCGecjUjuTnRK48UKL2O2SApdDjb9en1/oZsW+FKTC1Pv83PZKTikeQt0b9OshWzb1R1qwh0dy3oqfNRxzSZtxCS9NA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731060789; c=relaxed/simple;
+	bh=URH1dV2Y67ZlZ25QwrpXrKUcR2Au3hsHHxbNoHitl5g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lX8Fd6nkACaq1myDaMjze7HKa9iZ7g6QAld68W4D+o2DWBUy3cHQhtaWp2YkQPw83yXtNFOmLFaelwfRpPx2ONEjJZ7wrzcL58Jvkh6aFVlLH+gbNziKSr/5R3C4Sy8xz+lwd+yqpAj8yKqdbavyWLRokoOJzPhfdXZmR/MnHT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rlysotjo; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rw+DH+KXKbKWUBxeGEWpsqOCktWw8ZDeeTM9JQYOnpv4szP0ijRw0LfhL9dj275Ga+V2lA4dj8uWbQs6D89S3yefNb/Pm3QLPQ+I1enjUZgG41Ag37KWD8RCFwSzsWClNalHjJY1FgxrCtA1On9GiBeVwnrAAB6HPf+ncW8MNOo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=BPQwY5Gw; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rlysotjo"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cd76c513cso17959285ad.3;
-        Fri, 08 Nov 2024 01:01:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731056473; x=1731661273; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=B6cfQLZyY3ukfMaKhn8AcRbL5Ti2ytAzkKnIriORiIs=;
-        b=Rlysotjoj6eHIsovMngZ6xkAvzX7h/i4Rmd2dEiyt2JC9avqPq82dDml8cGmEpLFwR
-         opn1i+GxlRPjrdaVYo4J9tQq3zgvRx74ghBmi8l2Ds1tf6UY5462cjTp58YsNuRa/wxU
-         B0IbVCg4P9TStPGv+IncMrllC/mmBmBEmyU3GLe85wio4Z+ddsbFCmm0D0P6OKbmdFb0
-         4ryKUA544HN5LsTXaJy1AN/YOgMi6hABjIybgN7g4LUaoSaDygBz8qmqI/6dnS6m5P61
-         GH0rDodchf7SHUdMixsUo7zyRC1jB9b9eKg4wYKzroo2k8P9ERbVbDtwTbYHBdVovnCv
-         M6Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731056473; x=1731661273;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B6cfQLZyY3ukfMaKhn8AcRbL5Ti2ytAzkKnIriORiIs=;
-        b=EyK58+2v6fZHDrJsG19kzWJkE4r1WtOdb6fyq7yOOK3QMKzHjucYeTfVzsvYFG0cdm
-         kXW3MR7f0ztXkdzcL9WmekhPhWmOdD1v7q6tv7NBAacrXDc2687pRQvJxTIky+e6jRlA
-         0ItMCxAWeNOgrRaR7Hy+jIGXAk2PTYR+gjPaco1iBLp0MbFjxZEhQqbLcLkQ1Q3Fo5HN
-         //kcKh4mnmO50JCQlbAbkGutEvCtjqTFCqHW6dRteurPACTgUWBoFsiSqmMr/U5DTJS1
-         Lh96wYmriRQBPQJpP0b/GMVnLA0sBj84w6fuNPl12LfCAOcQkh4DAnCECntcdUjDYgr6
-         xtgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+hbD+WYFeOPWSWQsxQslC7ut7Zz3NPMjwdRKkUTEfWsSpiGgzez/I3uHNE5MFeBEZ9PjAkwljvC4=@vger.kernel.org, AJvYcCUD+zVYkM29b3pu/uaSB4h9ukz7tlOqAgN+Y+mu5/Q2d1N7ZQkLjT1dVS35+kFDPrjqxRFh4IXY75VAwuSz@vger.kernel.org, AJvYcCV/cLkshYUSkOGTrVbdSS5kcQ5HHhMp/0gG9Z+t1pU1kyRjxTGF6wt/lg8SYJzHQR+l/yfMM0oJAtU6hudAptBV@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdNyqoyKNtbbNBsSMKOe1n0c+CeqgTtrmAnT7ylkM0YxskvlQv
-	cp3eWijwD8EFsdEPBgirvhqmL+DvZHLWMmFYP4VBEs3FAbSLIZXQ
-X-Google-Smtp-Source: AGHT+IFAKsAR11eiAB06tJVCWRmKkiTYy+qwV59/n1Yu3J0B6yv38u/J2j1MdEsTHqkgJx1Aehln/A==
-X-Received: by 2002:a17:903:298c:b0:20c:ee32:759f with SMTP id d9443c01a7336-211835d8bc0mr26836995ad.39.1731056473362;
-        Fri, 08 Nov 2024 01:01:13 -0800 (PST)
-Received: from archie.me ([103.124.138.82])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177ddf0f5sm25712355ad.79.2024.11.08.01.01.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 01:01:12 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 63F6841E4B82; Fri, 08 Nov 2024 16:01:10 +0700 (WIB)
-Date: Fri, 8 Nov 2024 16:01:10 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, joro@8bytes.org,
-	suravee.suthikulpanit@amd.com, will@kernel.org,
-	robin.murphy@arm.com, dwmw2@infradead.org, shuah@kernel.org,
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	baolu.lu@linux.intel.com, eric.auger@redhat.com,
-	jean-philippe@linaro.org, mdf@kernel.org, mshavit@google.com,
-	shameerali.kolothum.thodi@huawei.com, smostafa@google.com,
-	yi.l.liu@intel.com, aik@amd.com, zhangfei.gao@linaro.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v7 13/13] Documentation: userspace-api: iommufd: Update
- vIOMMU
-Message-ID: <Zy3TVlLKAg8QM9yP@archie.me>
-References: <cover.1730836219.git.nicolinc@nvidia.com>
- <7e4302064e0d02137c1b1e139342affc0485ed3f.1730836219.git.nicolinc@nvidia.com>
- <ZywQP3_TpdttuCy8@archie.me>
- <ZywZcSidYCWkJgrw@Asurada-Nvidia>
- <ZywyEUmL4HvM8B9v@archie.me>
- <Zyw8OUTLrG3Yx+Yx@Asurada-Nvidia>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="BPQwY5Gw"
+ARC-Seal: i=1; a=rsa-sha256; t=1731060769; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=bsTNZJF2lyVfM6jm/zNhBscpTcTbxERiukwEibUzKBAlLk6AWP5EltOu87KOLnhFb6bHOBdnH67Bo/PNOFD6LZs8R8W0ADeMNYjmtQoJaP8VOA4UFqNnl+Q6sxPZ4+QKHT6tlaOypC9GuT1+JHMnECu/WO7pKMQyiNXY2kp0VwI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1731060769; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=AQ8tMbexbiQsHm/pOBHSP+wB02qPYz2EI2G2y4054mc=; 
+	b=KkTYWDOLSe6g4fhHeszj3/B1q4N44NibjkEWr9/ti4atKoVMBO6MlXlCcjeTWe5yLOGEZ7IGWAy0Grdu/tl9jcDooJbp5cEWoe+r5agSCLSNclVI/izwAqGFL4iS/5Kx0PLrkhvTKD0+8sn/+CjDcyfxU7c7CoOoEF32uPRF8vg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731060769;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=AQ8tMbexbiQsHm/pOBHSP+wB02qPYz2EI2G2y4054mc=;
+	b=BPQwY5GwF52fDh9KKJmhMao0LMnWAgeEDqohE7vP/5n9fJlZiTvusiM3vKVhf6M1
+	qjqX6z6aM6j34d3xZ0vRMLzySBYobzxL/G3DFM3ieVRPc+FD108sATzfBSyYjQ1VYbV
+	BOXTPJzHU1WSByAJ2DkQn40PPBB2eAfVCkQeE9ms=
+Received: by mx.zohomail.com with SMTPS id 1731060767699104.95062302155475;
+	Fri, 8 Nov 2024 02:12:47 -0800 (PST)
+Date: Fri, 8 Nov 2024 11:12:43 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
+	mauro.chehab@linux.intel.com, kernel@collabora.com,
+	bob.beckett@collabora.com, nicolas.dufresne@collabora.com
+Subject: Re: [PATCH 2/2] docs: media: Debugging guide for the media subsystem
+Message-ID: <20241108101243.a6rxed2lx55hwcmj@basti-XPS-13-9310>
+References: <20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com>
+ <20241028-media_docs_improve_v3-v1-2-2b1b486c223e@collabora.com>
+ <87h68i22ww.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1FskY10utNP/LXKg"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <Zyw8OUTLrG3Yx+Yx@Asurada-Nvidia>
+In-Reply-To: <87h68i22ww.fsf@trenco.lwn.net>
+X-ZohoMailClient: External
 
+Hey Jon,
 
---1FskY10utNP/LXKg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 07.11.2024 13:40, Jonathan Corbet wrote:
+>Sebastian Fricke <sebastian.fricke@collabora.com> writes:
+>
+>> Provide a guide for developers on how to debug code with a focus on the
+>> media subsystem. This document aims to provide a rough overview over the
+>> possibilities and a rational to help choosing the right tool for the
+>> given circumstances.
+>>
+>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>> ---
+>>  Documentation/process/debugging/index.rst          |   1 +
+>>  .../debugging/media_specific_debugging_guide.rst   | 178 +++++++++++++++++++++
+>>  2 files changed, 179 insertions(+)
+>
+>Mostly overall comments here
+>
+>- much of what's here seems redundant with your other new documents; you
+>  seem to be going over the same list of tools?  Why not just talk about
+>  the ones that are unique to the media subsystem?
 
-On Wed, Nov 06, 2024 at 08:04:09PM -0800, Nicolin Chen wrote:
-> On Thu, Nov 07, 2024 at 10:20:49AM +0700, Bagas Sanjaya wrote:
-> > On Wed, Nov 06, 2024 at 05:35:45PM -0800, Nicolin Chen wrote:
-> > > On Thu, Nov 07, 2024 at 07:56:31AM +0700, Bagas Sanjaya wrote:
-> > > > On Tue, Nov 05, 2024 at 12:04:29PM -0800, Nicolin Chen wrote:
-> > > > > With the introduction of the new object and its infrastructure, u=
-pdate the
-> > > > > doc to reflect that and add a new graph.
-> > > > >=20
-> > > > > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > > > Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> > > > > Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> > > > > ---
-> > > > >  Documentation/userspace-api/iommufd.rst | 69 +++++++++++++++++++=
-+++++-
-> > > > >  1 file changed, 68 insertions(+), 1 deletion(-)
-> > > > >=20
-> > > > > diff --git a/Documentation/userspace-api/iommufd.rst b/Documentat=
-ion/userspace-api/iommufd.rst
-> > > > > index 2deba93bf159..a8b7766c2849 100644
-> > > > > --- a/Documentation/userspace-api/iommufd.rst
-> > > > > +++ b/Documentation/userspace-api/iommufd.rst
-> > > > > @@ -63,6 +63,37 @@ Following IOMMUFD objects are exposed to users=
-pace:
-> > > > >    space usually has mappings from guest-level I/O virtual addres=
-ses to guest-
-> > > > >    level physical addresses.
-> > > > > =20
-> > > > > +- IOMMUFD_OBJ_VIOMMU, representing a slice of the physical IOMMU=
- instance,
-> > > > > +  passed to or shared with a VM. It may be some HW-accelerated v=
-irtualization
-> > > > > +  features and some SW resources used by the VM. For examples:
-> > > > > +  * Security namespace for guest owned ID, e.g. guest-controlled=
- cache tags
-> > > > > +  * Non-device-affiliated event reporting, e.g. invalidation que=
-ue errors
-> > > > > +  * Access to a sharable nesting parent pagetable across physica=
-l IOMMUs
-> > > > > +  * Virtualization of various platforms IDs, e.g. RIDs and others
-> > > > > +  * Delivery of paravirtualized invalidation
-> > > > > +  * Direct assigned invalidation queues
-> > > > > +  * Direct assigned interrupts
-> > > >=20
-> > > > The bullet list above is outputted in htmldocs build as long-runnin=
-g paragraph
-> > > > instead.
-> > >=20
-> > > Oh, I overlooked this list.
-> > >=20
-> > > Would the following change be okay?
-> > >=20
-> > > -------------------------------------------------
-> > > diff --git a/Documentation/userspace-api/iommufd.rst b/Documentation/=
-userspace-api/iommufd.rst
-> > > index 0ef22b3ca30b..011cbc71b6f5 100644
-> > > --- a/Documentation/userspace-api/iommufd.rst
-> > > +++ b/Documentation/userspace-api/iommufd.rst
-> > > @@ -68,2 +68,3 @@ Following IOMMUFD objects are exposed to userspace:
-> > >    features and some SW resources used by the VM. For examples:
-> > > +
-> > >    * Security namespace for guest owned ID, e.g. guest-controlled cac=
-he tags
-> > > @@ -75,2 +76,3 @@ Following IOMMUFD objects are exposed to userspace:
-> > >    * Direct assigned interrupts
-> > > +
-> > >    Such a vIOMMU object generally has the access to a nesting parent =
-pagetable
-> > > -------------------------------------------------
-> > >=20
-> > > The outputted html is showing a list with this.
-> >=20
-> > Yup, that's right!
->=20
-> Thank you! Would it be possible for you to give a Reviewed-by,
-> given the condition of squashing this diff?
+I choosed the minimum duplication path because of the perspective that I
+envisioned of the reader.
+The reader reads that there is a debugging guide for the media
+subsystem, which to my ears sounds like:
+"Everything you need to know to get started debugging in this subsystem,
+with recommendations for useful tools"
+and not
+"Some specific media bits that expect you to have read every other
+debugging documentation and judge yourself which of these tools might be
+useful for your debugging".
 
-Alright, here it goes...
+I look at that specifically from a perspective that the general
+debugging guides are probably going to be extended in the future with
+more general debugging tools which might not be as useful for the media
+subsystem.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>
+>- Please use the function() convention throughout.
 
---=20
-An old man doll... just what I always wanted! - Clara
+Ack. I assume you also mean the titles as well.
 
---1FskY10utNP/LXKg
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+>- Back in the ancient past when I was writing V4L2 drivers, one of my
+>  biggest problems was figuring out why applications weren't getting
+>  what they expected.  The vivi driver was most useful for finding
+>  subtle differences...  One would use vivid now, but I suspect the
+>  utility remains.
 
------BEGIN PGP SIGNATURE-----
+Okay I'll look into that.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZy3TVgAKCRD2uYlJVVFO
-owxHAQDaL5k6OGmeg6OIUkQWv58q/7TdrLW4R+pXT2qiFeOTVgEAxgUGl1Wm834W
-z966YlZs2fScS9LRewetFnpFHRzY7gU=
-=wjrM
------END PGP SIGNATURE-----
+>
+>Thanks,
+>
+>jon
+>
+Regards,
 
---1FskY10utNP/LXKg--
+Sebastian Fricke
