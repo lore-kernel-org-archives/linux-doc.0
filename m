@@ -1,88 +1,140 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572851E0B67;
-	Fri,  8 Nov 2024 22:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAA01E231C;
+	Fri,  8 Nov 2024 23:57:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731105485; cv=none; b=kyynE7mpT6M5hxMutcex9zXyAHsA3vhIaRFYqUbfvRBsHEBt9lLJcEyE6YRYi7XOexo5g8bl+x6in77g01J52NmzbdBWqdwKq6VXqWayGJ31oRXeUcfz2Zyvt3qQbQFbByMoal4AFdt/OwL8FIR1r/6xq4/kWgeUf3reSmxezp8=
+	t=1731110270; cv=none; b=ZBTVSLP4nispGVLhg1omJcUObKaIgseb7o2EqiEwqA3nLkzw/NqxhmWmVFMa1Y7AFt81ujcLG5+//Fr5QZgSBrQbkSOe0N9gprpGZHesMDqaUuQ41JIxGefW5wWPinldTplEgvCfqrbM/Ps08zmYehqyU0jD3Yswb4CDotY1DQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731105485; c=relaxed/simple;
-	bh=HG/Z4aeyO39LhZI4pi8ETl903UTWXgOSj7cXHjFbK7M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FKlPlAbHF15VSwlZZotbI/adOwnvv+Ml2MWkiewGhmqIIwzQk90yjkZRzmC0j0Gcx4rnhNiCGKuIgr6kTPLZBhLaNPA2PGMsYJFYQOJl0cgpfY7TBGJ3AGJCmsI0RjejqFhR/r37AfG+Hg542l1e/52SjHSegjtmZSlfd6SVz6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YC8fqG/R; arc=none smtp.client-ip=209.85.161.48
+	s=arc-20240116; t=1731110270; c=relaxed/simple;
+	bh=5MygCCliXOQIPYExnAgpq36Qgh4XXuyOqtJQoNoZ5Eo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o2qZiFqPatsEMmD2UM+fIr+dj75KJN6sgZgXaSWkyTphNgAhOpzvHx1AdI/2rTXEPRG80vWrwhZz90Eq2q0RL0ksWm9YxokRnKU45d4ZXDcyfeDXFW+9Eoz3Q5JY2dpHtjBTsrrmZmL4FwJ9Iu08cp2wicRZ8oJ6RE67Af4cqSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZkvKrRtG; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YC8fqG/R"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5ee53b30470so974026eaf.3;
-        Fri, 08 Nov 2024 14:38:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZkvKrRtG"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20caccadbeeso29927055ad.2;
+        Fri, 08 Nov 2024 15:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731105482; x=1731710282; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ef+nuKAweoLnQLtJWrC9nc5IytkziH8wSsoYPVks8Jo=;
-        b=YC8fqG/RtWfMD81sz7B6jIlUv81M+5V9zaW4Ch+/3tL3DGvjNIrtVDq+hx+A0FdwhW
-         uFfJU6LfUWRfQofDBH6IzEwX78q/vy6h06eLQ+J/l6ZrulDWCAOYqPY5iWcz4A0hQxfV
-         39ku1V6moK1WJPdu0AqpxcVPC46UYeaPzkYDYrppuTgv3KLfeTh/9a2jN8J05sqMnCA+
-         EyrV5eAEvR9F/oU8ymEhn/a4/Hc7kDcKorttYGxRXkM00mv+Pf84Vg+vkzXit/moWUE/
-         EusId5y+IY8NQ4UZ/t9HrYRQZJ5RxGED+5MSb32TftQO+82CQHL3DAqg/zPEMI3BwrJJ
-         cY0Q==
+        d=gmail.com; s=20230601; t=1731110268; x=1731715068; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uq/HleutbBsgjDYtAH2w9gnQgvSfXJu8kVx54tjEWPs=;
+        b=ZkvKrRtGkyy7CdSlZYZTZd6D5xvfiRvAJp2hHIgoGNVSGXT+DX9shbMqJej8FG7cEs
+         0QcCPv5Y+JznhwLt89zZGiLRVvrNiw0jo9BbyuWwbd9kcfyFaorUjEIPtu7cSpCX5B0s
+         l4VSBDsJDwGYFHbiXRbxZs2NxaRLapjfn3eaHQOi/9ZAGNtRGBw/pzYbf0JxM9dYIbWq
+         24w6xJcLUetFJTo/a4MlZRfu7wyMf/ion/ceLZU4c0wIxC95uXNcOo7TtKErGbKcPMGk
+         dYjhkRfPeI/4YkOR8cjX5dxQIjLwe4okRlWbftJT9xO3yvuyXKMDVx8oiugk62vWr/cv
+         +big==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731105482; x=1731710282;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ef+nuKAweoLnQLtJWrC9nc5IytkziH8wSsoYPVks8Jo=;
-        b=p4g5bkZOM+t7bGi71374dNpQ176RbgJMO5YSyf/3FYXthk0dLDeJVuiJbLjlvn58WI
-         PUhzCVfTuzc8hslwjxQ/aDfNLSPaxIJx50UnFNYZm1k/xa2cVVDTmfK3pMFPVKSd6TQx
-         b1mWRw/btDNwnJAiq1rqnx01avqZNeIXgLiEWaJOJKDu8Jr9Vh3cdmyUPhLwXBSUDWu2
-         uIsYh2DtcU3Jn+mM4CbLDb0qoD1AfBmN4NfKx2cYv06gbuQYZAqlD7wQQXUz1sSjNEbA
-         Ebtz1x5cVUZDWyjQ1nNmxB5PlJsl0aYx3Gj+aVsiZdu018dfIW2W7DM9I5k9Y6n60po/
-         ZcqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU7B+XNfuRd3Y1Ae7Mz4O3smf9TRpz2wM2Zg5IOdTIMf8EB02iWtPmG0y+k9Jkky8uQSr9NcEnA8HHz2y7G@vger.kernel.org, AJvYcCX8zjL7og2RKMpZtXNuOdkIT2ylPPX5gMYlORMe5F++WZKB/X9YTE+HNqhNuPjXjG4eOwpN1eiaAok=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwI7oEeM/I8pm5l39XJTNKopn3YVnWkDhmc6rWjoBsGHMa6VXJj
-	+lFv74s2OhX1kzq1hMcCW3xwaSVOgvHpo6HdJsQ3GrFT+223sCDyS1+DlEk6t9baoOhdefdsk5d
-	C9/NCWhy8nvaVLTxXz35zhKgJRA8=
-X-Google-Smtp-Source: AGHT+IFw6L6MwIPVpm5m/vqu5nv3hx0uQ5SgPG1RClTH3XyEoMn2m2/XX0pYOfOXJO+8xyxYfL3hQETyezKTEt3DEME=
-X-Received: by 2002:a05:6820:1e85:b0:5e1:d741:6f04 with SMTP id
- 006d021491bc7-5ee57cbee48mr4056662eaf.3.1731105482352; Fri, 08 Nov 2024
- 14:38:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731110268; x=1731715068;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uq/HleutbBsgjDYtAH2w9gnQgvSfXJu8kVx54tjEWPs=;
+        b=C+Aobu2+2sc1/52Zx9wFsUnVEI9t5QsnTW6Xp9BpfKQYKK0qPaMcVjS+Sw9Fk/G7ZU
+         VZd+AsdlRUA+82J7ITIds7fGu3h7NrRH/Lo0vlaS2qmj5eRFvvqril4Ak+b70xBy38uO
+         jV8dO7GgYBVnNj8n5p2b9FzhLJaVPqk6ICeO+3qbqxe9S18WAbkLk1MfiTbtmMOZFpba
+         9CIjLaSLOPXTv4xR/rND5lG2KBLtrIAKrgGmckp71wjCnekrg+qYkL6T8vJHjuDdUvyC
+         heF26s/QQuE8TNQ048iqQnvFjFmAIqkx/2pN/ts6vXUVEhpOu7WVeOyLrbrjjeweHF0I
+         lnDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVrCp9dwydWG63H4Nypob98x2aOF7HhX4fqc7JIqTfnoB4QLh7MUitcBK2XFp5i7VSSIy3oao44Cm4=@vger.kernel.org, AJvYcCWaWBbz9OTIJ3WEgbNKl7kBfQ0WvogcaFuMypgxw48MEHEVVJRSMFDMvP9/ZGuENQA7Le2RoBnpVZa8ltc=@vger.kernel.org, AJvYcCWpvFGAMPa8hqdStKTY8NFQ27gSnoYMsDiWO7XLgBogZwUCkuhvMosAddfex/ym8pJZUNEKVDBZMd6kFDcH@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZHH+UL6BWDFvBIvKhmDHFXFLB+xkuMo7XYKO9YycQkR17FADz
+	voM5YI4yG6l9/Ani/2RCYmzmfmXtiZ5GxcoazQYItPIx9nT71M0y
+X-Google-Smtp-Source: AGHT+IHsqYMoJaZR7DEU7+RH7csowchtdMKT8eN0fEPfCSshXzgwgvSMaWsCEdbws5SrloYWRHxKNA==
+X-Received: by 2002:a17:902:db0a:b0:20b:70b4:69d8 with SMTP id d9443c01a7336-2118359ae3cmr54561975ad.37.1731110267757;
+        Fri, 08 Nov 2024 15:57:47 -0800 (PST)
+Received: from archie.me ([103.124.138.82])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e6938csm36445735ad.229.2024.11.08.15.57.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 15:57:45 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id CDD1541F52F8; Sat, 09 Nov 2024 06:57:40 +0700 (WIB)
+Date: Sat, 9 Nov 2024 06:57:40 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Abhinav Saxena <xandfury@gmail.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] docs: hwmon: Fix typos in sch5627 and max31827
+Message-ID: <Zy6ldOPnnl5ocf6V@archie.me>
+References: <20241108212201.144482-1-xandfury@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241107020555.321245-1-sanman.p211993@gmail.com> <20241107102044.4e5ba38f@kernel.org>
-In-Reply-To: <20241107102044.4e5ba38f@kernel.org>
-From: Sanman Pradhan <sanman.p211993@gmail.com>
-Date: Fri, 8 Nov 2024 14:37:26 -0800
-Message-ID: <CAG4C-OmPAqNe2RHwgBZ9+1MBq48bOOLgDdFnPiRyPz6Duy15nQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v2] eth: fbnic: Add PCIe hardware statistics
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, alexanderduyck@fb.com, kernel-team@meta.com, 
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com, horms@kernel.org, 
-	corbet@lwn.net, mohsin.bashr@gmail.com, sanmanpradhan@meta.com, 
-	andrew+netdev@lunn.ch, vadim.fedorenko@linux.dev, jdamato@fastly.com, 
-	sdf@fomichev.me, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8KwVmF4c1EsaXBVK"
+Content-Disposition: inline
+In-Reply-To: <20241108212201.144482-1-xandfury@gmail.com>
 
-On Thu, 7 Nov 2024 at 10:20, Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Wed,  6 Nov 2024 18:05:55 -0800 Sanman Pradhan wrote:
-> > +     FBNIC_HW_STAT("pcie_ob_rd_tlp", pcie.ob_rd_tlp),
-> > +     FBNIC_HW_STAT("pcie_ob_rd_dword", pcie.ob_rd_dword),
-> > +     FBNIC_HW_STAT("pcie_ob_wr_tlp", pcie.ob_wr_tlp),
-> > +     FBNIC_HW_STAT("pcie_ob_wr_dword", pcie.ob_wr_dword),
-> > +     FBNIC_HW_STAT("pcie_ob_cpl_tlp", pcie.ob_cpl_tlp),
-> > +     FBNIC_HW_STAT("pcie_ob_cpl_dword", pcie.ob_cpl_dword),
-> > +     FBNIC_HW_STAT("pcie_ob_rd_no_tag", pcie.ob_rd_no_tag),
-> > +     FBNIC_HW_STAT("pcie_ob_rd_no_cpl_cred", pcie.ob_rd_no_cpl_cred),
-> > +     FBNIC_HW_STAT("pcie_ob_rd_no_np_cred", pcie.ob_rd_no_np_cred),
->
-> Having thought about this a bit longer I think Andrew's point is valid.
-> Let's move these to a debugfs file. Sorry for the flip flop.
 
-Thanks for the review, I have submitted v3 with the necessary changes.
+--8KwVmF4c1EsaXBVK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 08, 2024 at 02:22:01PM -0700, Abhinav Saxena wrote:
+> diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31=
+827.rst
+> index 9c11a9518c67..6cc5088b26b7 100644
+> --- a/Documentation/hwmon/max31827.rst
+> +++ b/Documentation/hwmon/max31827.rst
+> @@ -136,7 +136,7 @@ PEC Support
+> =20
+>  When reading a register value, the PEC byte is computed and sent by the =
+chip.
+> =20
+> -PEC on word data transaction respresents a signifcant increase in bandwi=
+tdh
+> +PEC on word data transaction represents a significant increase in bandwi=
+dth
+>  usage (+33% for both write and reads) in normal conditions.
+> =20
+>  Since this operation implies there will be an extra delay to each
+> diff --git a/Documentation/hwmon/sch5627.rst b/Documentation/hwmon/sch562=
+7.rst
+> index 8639dff234fc..5f521c6e90ab 100644
+> --- a/Documentation/hwmon/sch5627.rst
+> +++ b/Documentation/hwmon/sch5627.rst
+> @@ -39,7 +39,7 @@ Controlling fan speed
+>  ---------------------
+> =20
+>  The SCH5627 allows for partially controlling the fan speed. If a tempera=
+ture
+> -channel excedes tempX_max, all fans are forced to maximum speed. The sam=
+e is not
+> +channel exceeds tempX_max, all fans are forced to maximum speed. The sam=
+e is not
+>  true for tempX_crit, presumably some other measures to cool down the sys=
+tem are
+>  take in this case.
+>  In which way the value of fanX_min affects the fan speed is currently un=
+known.
+
+Looks OK, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--8KwVmF4c1EsaXBVK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZy6lcAAKCRD2uYlJVVFO
+oyqwAQDDPN2bC6IWGqOVlsjF9FqVbpegaenlIOkDCdTywIVMVAD/aLzSDrWOH9PV
+Mnp0H17MyQPDx5DN+4UDoroJMn27LQE=
+=i2CI
+-----END PGP SIGNATURE-----
+
+--8KwVmF4c1EsaXBVK--
