@@ -1,97 +1,108 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909251AA1C1;
-	Fri,  8 Nov 2024 19:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A786233D79;
+	Fri,  8 Nov 2024 19:34:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731094163; cv=none; b=Ertx6IGQO5kdLxPtnCCOFP4VHenJUXLUZznVTaNAcm+r6B9Fb9mdPFuX1ndKqv8uPSmYTDSQedJ9KJ+FU0b18h+8pJTpjZtCQyZPElEf3TSWU0GbpVQnGVY2rChkxtDvMoJg37CXatQF6qd8nRdHBcktu6S6zkLyW6VWxonu888=
+	t=1731094464; cv=none; b=i/+n+UOmpYgHvq0ZprUE369CeVOoxJiLHPFhlSIWN5CHcalR7Vj2RgIgKh1KZ8qxBEWwYUFE08fLKJMCEG2ktsELhOEsHsNVbLMGMwNiC1ZSmAutjAx+WfOvzbIl+0wDnKfz8oI8G2MciDZPr5v/dIsxOyODGu8bhVxbFw2robM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731094163; c=relaxed/simple;
-	bh=XyZ4ZGRN+Py46R/0cjYeN0vqeqyTjSVAKF/G+KnROCM=;
+	s=arc-20240116; t=1731094464; c=relaxed/simple;
+	bh=C3uvS5ZTq0aLuBTlnvNbPqplUhDEa0uq5Q6Z92WD/yE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FU8Ojd5mV0+2MGdIgKA/956hYrOg44gbMU9ZRzN6y4nXdE7wusOjkV7470sih0j7IdN2u8xq0RiK/7vH/wjX9cocPDhVqS6e3tWymTvMwDaJANRLXIYv8A+EO9yYkoIPdipcTVL0LcggNJf5rlpnHFaE3tNeF6PMwL+Y/wbgn74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UfmSEFF5; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=h8nLlObSDSThwHelbvAKc0PmG72n10fPLiscQ2eIik98h9NVF9YplOpjleGb1XLq/desXZVGIuab4ri2KFjmftdiL2ynsIJ/Xy++W2+dIJqqhh1m3065pTvIyotaCf0I6H8ufVCOmeYyxsaGROQJIVwzq64bMP0QzdgBU3LYzy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dnsz5YfG; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UfmSEFF5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0F63C42C17
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dnsz5YfG"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 443C842C17
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1731094155; bh=P0P5GPcQkcecjTf1uOnWpmVXIS/NJ6iYMMu4Zo1O3yY=;
+	t=1731094462; bh=2mf7KL6RauZLJCGVMslddkfvUkwUMRQBSzo8JS8PbOo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UfmSEFF5VGnFVadDgo9jI0cdfetpsZtxdYhv8gTFXD02CwG2yC7npdXZHEFuKGQsb
-	 NuUE9FgL7h8VTbNvo9S4Q/lgxpWIUkcdcw3f7D7HdFR5IhL9ovsB9+rGYOoNhJXv01
-	 eT2srmyU+jX+X4PwHSnF4kvk/isjKgIkiMaO3epzphcGongE3vru305qHZ5zosyzcd
-	 BR5bKjki+csMGoeKmZFLIBHxysZIRWSRtizTdsngaqAbAIH0jEG12oYlbK7EQqkKKh
-	 /4KQ1PkmlXr//Mc2YiEk2hvwhAKREGQ2BR7eJhcoExdtI9EKAZYhpuZ25GVI2ErA0O
-	 iHzKdPjwUaCSg==
+	b=dnsz5YfGWANp6sFnIUKjORH9aQENZDGixeRFgCKU+EHYtfew50seKAGvAytaFY9oj
+	 05nxCVWbEfcD++04BAkjYS67T71ZQKhzyu6q3WZ8JM+Nq5axZuGUldvxslQ6IDBgXj
+	 4TWkgRvZmPQDP4+rVCptcrXwBOfBXoMDeUZRH8Wp3ugkYqZvGKmWHOgN92MEiBDxr5
+	 9u5STRUt+O2euSBwkgcMhfsaH0RnwMEO/iN2P0oM2sZd22f5AUcPoAVVdjXDvknK/o
+	 T3zwqzKkVrYA3KBU7u+ycHZvQ7dYicPF4vGfmge7fq9Ntn0IbVNJL2+Ng+Nux9U4bj
+	 j2d2WZj3WBcbQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0F63C42C17;
-	Fri,  8 Nov 2024 19:29:15 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 443C842C17;
+	Fri,  8 Nov 2024 19:34:22 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: anish kumar <yesanishhere@gmail.com>, lgirdwood@gmail.com,
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org, anish kumar <yesanishhere@gmail.com>
-Subject: Re: [PATCH V2] ALSA: machine: update documentation
-In-Reply-To: <20241108192413.10751-1-yesanishhere@gmail.com>
-References: <20241108192413.10751-1-yesanishhere@gmail.com>
-Date: Fri, 08 Nov 2024 12:29:14 -0700
-Message-ID: <87y11twmlx.fsf@trenco.lwn.net>
+To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>, Joerg
+ Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Christoph Hellwig
+ <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, Kevin Tian
+ <kevin.tian@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, =?utf-8?B?SsOpcsO0bWU=?=
+ Glisse
+ <jglisse@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
+In-Reply-To: <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
+References: <cover.1730298502.git.leon@kernel.org>
+ <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
+Date: Fri, 08 Nov 2024 12:34:21 -0700
+Message-ID: <87ttchwmde.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-anish kumar <yesanishhere@gmail.com> writes:
+Leon Romanovsky <leon@kernel.org> writes:
 
-> 1. Added clocking details.
-> 2. Updated ways to register the dai's
-> 3. Bit more detail about card registration details.
+> From: Christoph Hellwig <hch@lst.de>
 >
-> Signed-off-by: anish kumar <yesanishhere@gmail.com>
+> Add an explanation of the newly added IOVA-based mapping API.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 > ---
-> V2:
->   took care of comments from bagas related to underline
->   and making macro as literal code block
+>  Documentation/core-api/dma-api.rst | 70 ++++++++++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
 >
->  Documentation/sound/soc/machine.rst | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
->
-> diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/so=
-c/machine.rst
-> index 515c9444deaf..9c8e006b1e50 100644
-> --- a/Documentation/sound/soc/machine.rst
-> +++ b/Documentation/sound/soc/machine.rst
-> @@ -71,6 +71,18 @@ struct snd_soc_dai_link is used to set up each DAI in =
-your machine. e.g.
->  	.ops =3D &corgi_ops,
->    };
->=20=20
-> +In the above struct, dai=E2=80=99s are registered using names but you ca=
-n pass
-> +either dai name or device tree node but not both. Also, names used here
-> +for cpu/codec/platform dais should be globally unique.
+> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+> index 8e3cce3d0a23..6095696a65a7 100644
+> --- a/Documentation/core-api/dma-api.rst
+> +++ b/Documentation/core-api/dma-api.rst
+> @@ -530,6 +530,76 @@ routines, e.g.:::
+>  		....
+>  	}
+>  
+> +Part Ie - IOVA-based DMA mappings
+> +---------------------------------
 > +
-> +Additionaly below example macro can be used to register cpu, codec and
-> +platform dai::
+> +These APIs allow a very efficient mapping when using an IOMMU.  They are an
+> +optional path that requires extra code and are only recommended for drivers
+> +where DMA mapping performance, or the space usage for storing the DMA addresses
+> +matter.  All the consideration from the previous section apply here as well.
 > +
-> +SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-> +	DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
-> +	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
-> +	DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
+> +::
 > +
+> +    bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
+> +		phys_addr_t phys, size_t size);
+> +
+> +Is used to try to allocate IOVA space for mapping operation.  If it returns
+> +false this API can't be used for the given device and the normal streaming
+> +DMA mapping API should be used.  The ``struct dma_iova_state`` is allocated
+> +by the driver and must be kept around until unmap time.
 
-This will not give you the literal block you were hoping for.  Please
-actually build the docs after making changes and look at the results.
+So, I see that you have nice kernel-doc comments for these; why not just
+pull them in here with a kernel-doc directive rather than duplicating
+the information?
 
 Thanks,
 
