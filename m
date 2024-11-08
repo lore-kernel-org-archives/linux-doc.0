@@ -1,101 +1,124 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538E51F26C9;
-	Fri,  8 Nov 2024 22:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA67A233D89;
+	Fri,  8 Nov 2024 22:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731104976; cv=none; b=YTUu9xqXniz6at/iwAgVJMcH65Imm1ECkkVcvA6FJW+mp8VTLb1QW7Np9E1O5/d3QyrBknl4FVYzo4PmZ30rBiElrm1MRpxRKkCrr3Yt23xdwGyYh+PE6i4BPWaaSgbmxM3TAC6945+32HQZx8OODKgcs3yiC32Lr5kdAHi/Ktc=
+	t=1731105207; cv=none; b=IpL2O5YhPmVgV+edNnjXzw+dv9ZXFansDzn9U3M5NuBEpn4Mbn+FnuI7VjlXpWT7KMREVienv8qw4XjVNfoE4En3dGpjtlZgUMJvOgrh2csoMYhpegRXrlmaw3DN5fDm0O+4aO1Ztxb3Gf9E1gj2P/XODL0BGhlHlzAd6oRwbwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731104976; c=relaxed/simple;
-	bh=qJjCe1x/+zqlWuKc7d+aXQgxzYOBvB4ApAoxF5HeEwo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RraB3DZzqHja91gRxkzcM7WavzFXss7IZKHEkej4rdP5a79eV2F3IIe6OmuI4YvzUQwx4lAn6ISjQIftvcXMWxqV9F/xrIryEfLPoXjtGVoJSkyPBQ5+JyM3N/xRgo9q4sWryU0lfbFnfOuR5Li/DsvS+3Q+tSk5O0uMH6n/bok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=D0l9cm3A; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1731105207; c=relaxed/simple;
+	bh=+LF7CsJ7/io270zqeQKsXvXgBShIfl+NXbOKX6jVzM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GEv8HUBiabPCysnhVbUMN67e7bDbnbTNbOkhKdn8GN6+ir0tJeYn29PAV//9YZA/ms1nM8grco2NJkT8wa2CPlaweaKypY8eqQJZlGhzTRxrvghJPOeJ4l5jbZoYCQqll9qwtkE/1jFqi6D8T0pT7SGneMyQeCDl9DrktQXyskI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DgqwLv0T; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="D0l9cm3A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=vyXWLdY22mbau7qfmkpZcxZ0TUXHpJ4OrztVMYMMO3w=; b=D0l9cm3Ar1Lv9+3q4mlHfKdV6X
-	runW4UHkA0IjIyBpEzIN1Yvw3dy4aGac2aq11Gtkg8PvUXnRsIRtA7kwNBumbPms/CO2QoRe/G6oF
-	TGNACtbN6UuuYPydxGmq6O+2xbVV3Of6qKfNGMe/JwSvDzauKd+Sd+F7cFYckZMdc+9+mzpw+FxSO
-	sv76iw9U+U7IFO2VPe3pCqFidKD+wEK6FhB20SC4UDzhm30/LqvQBSSggR6Bps+Xz7+xjNvyNX8bf
-	bz1kiX7OBbuBsqK+WoM8HKss/fGae7kkB3MtZ52NeuCUSUEhzmZDa139fzEw/z0pr//mKz+69Rsy0
-	ZwxcQ60w==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9XTt-00000009Nig-05OW;
-	Fri, 08 Nov 2024 22:29:30 +0000
-Message-ID: <4ec3e311-fc25-4732-9b93-5b8f0332cb82@infradead.org>
-Date: Fri, 8 Nov 2024 14:29:23 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DgqwLv0T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731105206; x=1762641206;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+LF7CsJ7/io270zqeQKsXvXgBShIfl+NXbOKX6jVzM4=;
+  b=DgqwLv0T9pPicR6S1TQsJkz/8RW9iWhzNzdz3abrEN7af1r7MYjUFKlA
+   LXKwKK0Ox/kbg0EqnMufscSbAPNkaotm9UHqL5Ig62ZawXg82SVHwRWof
+   bXxBip7/udTm11VpO9UQDoYo0eWdOXSLX5VTChA/RSfs/01dsGX4HNOKc
+   hQ/qIBZEHGNHV8Gk5Ajh4cTZpT1t/V4dezcCsFxWvseu86QNRd1EawnJh
+   2W6Q7XhuWKv7G4AUOp8aNvQJclqEufxAzp7GFy5nrXgortBJ4d0p4Z2+D
+   Qb4U34jazjI431m4xuny3XjbpQQYQpk3uhMTwFKIFYkeftQ+9y7UDxGXu
+   g==;
+X-CSE-ConnectionGUID: ivD9u5uHQ4efH0JvPrZ5SA==
+X-CSE-MsgGUID: NEqYNUdxRoSzdoolNSbTXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="30417942"
+X-IronPort-AV: E=Sophos;i="6.12,139,1728975600"; 
+   d="scan'208";a="30417942"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 14:33:25 -0800
+X-CSE-ConnectionGUID: sJHMUEGrSS6OVqSv/oK2bw==
+X-CSE-MsgGUID: MBjI+FrtT1iEbSuKCrdJWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,139,1728975600"; 
+   d="scan'208";a="90867165"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 08 Nov 2024 14:33:21 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9XXb-000rqk-0O;
+	Fri, 08 Nov 2024 22:33:19 +0000
+Date: Sat, 9 Nov 2024 06:33:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yoshihiro Furudera <fj5100bi@fujitsu.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
+Message-ID: <202411090610.oPYJJG00-lkp@intel.com>
+References: <20241108054006.2550856-3-fj5100bi@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: hwmon: Fix typos in sch5627 and max31827
-To: Abhinav Saxena <xandfury@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Jonathan Corbet <corbet@lwn.net>
-References: <20241108212201.144482-1-xandfury@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241108212201.144482-1-xandfury@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241108054006.2550856-3-fj5100bi@fujitsu.com>
+
+Hi Yoshihiro,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/smp/core]
+[also build test WARNING on linus/master v6.12-rc6]
+[cannot apply to arm64/for-next/core arm-perf/for-next/perf next-20241108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Furudera/perf-Fujitsu-Add-the-Uncore-MAC-PMU-driver/20241108-134245
+base:   tip/smp/core
+patch link:    https://lore.kernel.org/r/20241108054006.2550856-3-fj5100bi%40fujitsu.com
+patch subject: [PATCH 2/2] perf: Fujitsu: Add the Uncore PCI PMU driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241109/202411090610.oPYJJG00-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090610.oPYJJG00-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411090610.oPYJJG00-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/perf/fujitsu_pci_pmu.c:584:36: warning: 'fujitsu_pci_pmu_acpi_match' defined but not used [-Wunused-const-variable=]
+     584 | static const struct acpi_device_id fujitsu_pci_pmu_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+vim +/fujitsu_pci_pmu_acpi_match +584 drivers/perf/fujitsu_pci_pmu.c
 
-On 11/8/24 1:22 PM, Abhinav Saxena wrote:
-> Fix some typos in hwmon/sch5627 and hwmon/max31827 reported by
-> checkpatch.pl. These changes are purely documentation cleanup with no
-> functional modifications.
-> 
-> Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/hwmon/max31827.rst | 2 +-
->  Documentation/hwmon/sch5627.rst  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
-> index 9c11a9518c67..6cc5088b26b7 100644
-> --- a/Documentation/hwmon/max31827.rst
-> +++ b/Documentation/hwmon/max31827.rst
-> @@ -136,7 +136,7 @@ PEC Support
->  
->  When reading a register value, the PEC byte is computed and sent by the chip.
->  
-> -PEC on word data transaction respresents a signifcant increase in bandwitdh
-> +PEC on word data transaction represents a significant increase in bandwidth
->  usage (+33% for both write and reads) in normal conditions.
->  
->  Since this operation implies there will be an extra delay to each
-> diff --git a/Documentation/hwmon/sch5627.rst b/Documentation/hwmon/sch5627.rst
-> index 8639dff234fc..5f521c6e90ab 100644
-> --- a/Documentation/hwmon/sch5627.rst
-> +++ b/Documentation/hwmon/sch5627.rst
-> @@ -39,7 +39,7 @@ Controlling fan speed
->  ---------------------
->  
->  The SCH5627 allows for partially controlling the fan speed. If a temperature
-> -channel excedes tempX_max, all fans are forced to maximum speed. The same is not
-> +channel exceeds tempX_max, all fans are forced to maximum speed. The same is not
->  true for tempX_crit, presumably some other measures to cool down the system are
->  take in this case.
->  In which way the value of fanX_min affects the fan speed is currently unknown.
+   583	
+ > 584	static const struct acpi_device_id fujitsu_pci_pmu_acpi_match[] = {
+   585		{ "FUJI200D", },
+   586		{ }
+   587	};
+   588	MODULE_DEVICE_TABLE(acpi, fujitsu_pci_pmu_acpi_match);
+   589	
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
