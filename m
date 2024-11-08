@@ -1,687 +1,193 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C63C1DEFC2;
-	Fri,  8 Nov 2024 14:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2A9192B95;
+	Fri,  8 Nov 2024 14:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731075560; cv=none; b=PbQmNNaQzuXoNc6gGJ/JQeSMuGdf1auoPCb7qUO7ZPvM2oQEG+TuQqvMI019ehHJ5IqOLjALjwuH+b1e6lylVHjaTSetTsJxD11fLTwrQ0rFXy5SFa9BkaNO+EFFBeItAv7wVxOnoMS44aoG9SUcyH5h/gk+wdl5n5TdpfnJEYU=
+	t=1731076278; cv=none; b=ctWiNF5Sz3X1nH5Edhufnpjsuy85fKYyqcZwp33DBBNEO/xYzgpYp1Lh3oehXoDp1eR05G2hkEtko5ZkmfawNdkzaFbS79aVH/p2BsqRyj7g7bCguFow1nYc98Qc2pT2ApKAsu90rQUQx/o2PgsOd58y2TkLqPxP1SGN9SvtEGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731075560; c=relaxed/simple;
-	bh=5M1fp1zETuKtZNvmJBiQWx1YKtpxHEQQHL300eSnzEE=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iHktISpmIbLo7jp5Jk1Aqa6j2GnFTjrTn6oXwWar5AZ4Ie79nJK0UV0e3NohLqTusjIZtWHh5LcjM2S2jfTb+2Skbgb0g6FD18lBErKr4JtChVILPP2VB8+CYgHbm2ktMlqsCltK+LQnnnlvQgCzeDjR/2SEMKEDgYQXfMhabMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XlLb80r2wz6J7BR;
-	Fri,  8 Nov 2024 22:16:20 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id E85A41401F4;
-	Fri,  8 Nov 2024 22:19:13 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 8 Nov
- 2024 15:19:13 +0100
-Date: Fri, 8 Nov 2024 14:19:11 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Yoshihiro Furudera <fj5100bi@fujitsu.com>
-CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Catalin Marinas <catalin.marinas@arm.com>,
-	<linux-arm-kernel@lists.infradead.org>, "Bjorn Andersson"
-	<quic_bjorande@quicinc.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>, Konrad Dybcio <konradybcio@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, Arnd Bergmann <arnd@arndb.de>, "
- =?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>, Thomas
- Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
-Message-ID: <20241108141911.00003e14@huawei.com>
-In-Reply-To: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
-References: <20241108054006.2550856-1-fj5100bi@fujitsu.com>
-	<20241108054006.2550856-2-fj5100bi@fujitsu.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1731076278; c=relaxed/simple;
+	bh=prGBn97B5Be4zo4X5v0514bV7f/nDC54PVHDF3VDcQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z+yLP5q5Year28+VpEuQRfP0NN1DsoNMm492Plazf5ag651Vd3yN4EfggYC0aificW+ZdjixLDwKRRTFLe+O1FHiaZXIav8KF2kqzGKjRCXG8hJtE5bUeVPfNye415PlL/PLlmEpDTk0FVL+2S+MWMSvoa8uL8zrR0tJIc8ebd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HGgR5Gri; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HGgR5Gri"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2e2eb9dde40so1774547a91.0;
+        Fri, 08 Nov 2024 06:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731076276; x=1731681076; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jn3SiAgzI6AioBPH9bVjAZEwx2ghOtXqF4SLZHNkKLE=;
+        b=HGgR5GritE1CY3woxMYWRRk/unxu+0OTmQTe3+GXRA9GdAMTdhQycPI6heecrmYB+/
+         WKuFWLl3XdGQ9cW72ty27SI+30kGbcCPPlAmiYL91UI5dJ86rnfbhBbRnEVbLtPrndjc
+         XwFoddEdnOaf+/0qB7al7/4gW9XVGrzbLoK3TxiUXXa5YTl5VX+MOeFmxuB/YLtSdMcj
+         G9PhRgDlHf44GhhFjW1KxTiiVeK+npJaW96e1j2eVLWLy2fSPyFHWTDdxiwi5pGqtmD8
+         X1dx5nN9Llf0px9GbZLZodJs6J5YUdR+2R3WhqAvUR67wuzjoDOwOEgAwxrrX+KV8Mv6
+         Eq1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731076276; x=1731681076;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jn3SiAgzI6AioBPH9bVjAZEwx2ghOtXqF4SLZHNkKLE=;
+        b=oBAdMn66SRMfFQ3fBzjYU/9EIFMqZ+ueHPRrmjEggBUABTULbimj4ZeoPTGzUowd8u
+         jnMA8LdCGoArEkJVMsNksWFN08aSlF+v+E69bD0a45aXKrMUuWRq1XVJgVoinpbSVkpg
+         nazTRKAjDgoI13hnxdGKbBPBI0CiXn/br6eydYAeIvo7aVatSVHixqD99y0fCi6Cpmec
+         fnjRfYKCVgpcL0AyNO2vuFwMX2mijlFWgnR/2hm6DmAuNKDyG3dgYnSqiaz5PKtKeOgl
+         Jb5yep91QAbAVWKs1VqnCMJH7/PR8WfQ/ZboZdfqz517K2izA5Le8Slsug/exL/6R5DR
+         8iWA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhqIcgWJjj0jrCthVsl2WPx5dqE9Ig/hUKq55yxCQNwYF8r2y/sjgLG3fwo3m+K1fp/4jvfoYk45RD1H8=@vger.kernel.org, AJvYcCW9pG12IHA5CE3S4K8mQbSyMtcQIykFJHeH3ImoIXgSzE2ahYPewhvEyiynNxLlMpXEYplqAAbpZQNyXsE+@vger.kernel.org, AJvYcCX8PKlUDNMqg9WpbUva/kCIAgqUonCLOPPsCqJDkukVq99rhe56FJYu9E6OvHv9h60I1CHXec8zffB7@vger.kernel.org, AJvYcCXIuNQhrfd3hLxyDLlvE/jTAYbqnwFVTvsBmJCZyzvKvRnJPxwFgM/gFUuqGxSjrVOoaRpMwk+8NaPG@vger.kernel.org, AJvYcCXiXjCpYIr/oAW5mY+6bLbzlsgeBpPHSq8ZeAN2lwhG36D/oTv9ZyWYjSVygDNWXjyxc0zKSZPtrfHb@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLHRDzKIhCKNr5ESihqbdqn6UJv5aHnptF1J4KGSeqGFg5s05N
+	HjRjQSKXivHJBryKwx2ItLGKZ5fjCfAZkns+l5ZLqPWYnwSM1ijm
+X-Google-Smtp-Source: AGHT+IGZM7BORZHYd1ECKtWCNiUq7cTPyLDkw7XowYaKmlJagEZq7YOHxzvkuB6FtCwSBT04tUY6iw==
+X-Received: by 2002:a17:90b:1649:b0:2e2:bad3:e393 with SMTP id 98e67ed59e1d1-2e9b165642amr3718946a91.3.1731076275479;
+        Fri, 08 Nov 2024 06:31:15 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e6a388sm30683975ad.245.2024.11.08.06.31.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Nov 2024 06:31:14 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <c6b1718a-1a16-4670-b9b6-d8d9bebad4f0@roeck-us.net>
+Date: Fri, 8 Nov 2024 06:31:12 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- frapeml500008.china.huawei.com (7.182.85.71)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] hwmon: pmbus: add driver for ltp8800-1a,
+ ltp8800-4a, and ltp8800-2
+To: "Encarnacion, Cedric justine" <Cedricjustine.Encarnacion@analog.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Peter Yin <peteryin.openbmc@gmail.com>,
+ Noah Wang <noahwang.wang@outlook.com>, Marek Vasut <marex@denx.de>,
+ Lukas Wunner <lukas@wunner.de>
+References: <20241106030918.24849-1-cedricjustine.encarnacion@analog.com>
+ <20241106030918.24849-3-cedricjustine.encarnacion@analog.com>
+ <697a9596-f5aa-48d0-ad26-ebe06b831ee8@roeck-us.net>
+ <PH0PR03MB693869F52D961845C8388D258E5D2@PH0PR03MB6938.namprd03.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <PH0PR03MB693869F52D961845C8388D258E5D2@PH0PR03MB6938.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri,  8 Nov 2024 05:40:04 +0000
-Yoshihiro Furudera <fj5100bi@fujitsu.com> wrote:
-
-> This adds a new dynamic PMU to the Perf Events framework to program and
-> control the Uncore MAC PMUs in Fujitsu chips.
+On 11/7/24 23:44, Encarnacion, Cedric justine wrote:
+>> -----Original Message-----
+>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+>> Sent: Thursday, November 7, 2024 9:45 AM
+>> To: Encarnacion, Cedric justine <Cedricjustine.Encarnacion@analog.com>;
+>> devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+>> i2c@vger.kernel.org; linux-doc@vger.kernel.org; linux-
+>> hwmon@vger.kernel.org
+>> Cc: Jean Delvare <jdelvare@suse.com>; Jonathan Corbet <corbet@lwn.net>;
+>> Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>; Rob Herring
+>> <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+>> <conor+dt@kernel.org>; Peter Yin <peteryin.openbmc@gmail.com>; Noah
+>> Wang <noahwang.wang@outlook.com>; Marek Vasut <marex@denx.de>;
+>> Lukas Wunner <lukas@wunner.de>
+>> Subject: Re: [PATCH v2 2/2] hwmon: pmbus: add driver for ltp8800-1a,
+>> ltp8800-4a, and ltp8800-2
+>>
+>> [External]
+>>
+>> On 11/5/24 19:09, Cedric Encarnacion wrote:
+>>> LTP8800-1A 54V, 150A DC/DC µModule Regulator with PMBus Interface
+>>> LTP8800-4A 54V, 200A DC/DC µModule Regulator with PMBus Interface
+>>> LTP8800-2 54V, 135A DC/DC μModule Regulator with PMBus Interface
+>>>
+>>> The LTP8800 is a family of step-down μModule regulators that provides
+>>> microprocessor core voltage from 54V power distribution architecture. It
+>>> features telemetry monitoring of input/output voltage, input current,
+>>> output power, and temperature over PMBus.
+>>>
+>>> Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+>>
+>> Looking closer into the datasheets, I found that the PMBus commands are
+>> identical
+>> to those of ADP1055, and an extension of the ADP1050 driver to support
+>> ADP1055
+>> has been submitted.
+>>
+>> With this in mind, please explain why this series warrants a new driver instead
+>> of just extending the existing driver to support LTP8800.
 > 
-> This driver was created with reference to drivers/perf/qcom_l3_pmu.c.
+> It also appears that the LTP8800-1A regulator makes use of
+> factory-programmed ADP1055 but this is not explicitly stated for other
+> variants. Initially, I thought a new client driver would be reasonable
+> since this device is intended as a regulator while ADP1050/ADP1055 is a
+> more customizable digital controller, and both have their own multiple
+
+We use the same driver for many variants of ltc2978. We should do the same here.
+
+> variants. Indeed, it may be more reasonable to extend existing driver since
+> they are exposing the same feature. In this case, can this be done in
+> succeeding version/s of this series?
 > 
-> This driver exports formatting and event information to sysfs so it can
-> be used by the perf user space tools with the syntaxes:
-> 
-> perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
-> perf stat -e mac_iod0_mac0_ch0/event=0x80/ ls
-> 
-> FUJITSU-MONAKA Specification URL:
-> https://github.com/fujitsu/FUJITSU-MONAKA
-> 
-> Signed-off-by: Yoshihiro Furudera <fj5100bi@fujitsu.com>
-Hi.
 
-A quick drive by review. I haven't looked at the details so this
-is a little superficial at this stage.
+Succeeding version, but please synchronize with the engineer adding support
+for adp1055 to the adp1050 driver. Another option would be to make adding support
+for adp1051/adp1055 and adding support for ltp880X chips a patch series. The
+introductory patch could then reference the original patch series.
 
-Jonathan
-
-> ---
->  .../admin-guide/perf/fujitsu_mac_pmu.rst      |  20 +
->  arch/arm64/configs/defconfig                  |   1 +
->  drivers/perf/Kconfig                          |   9 +
->  drivers/perf/Makefile                         |   1 +
->  drivers/perf/fujitsu_mac_pmu.c                | 633 ++++++++++++++++++
->  include/linux/cpuhotplug.h                    |   1 +
->  6 files changed, 665 insertions(+)
->  create mode 100644 Documentation/admin-guide/perf/fujitsu_mac_pmu.rst
->  create mode 100644 drivers/perf/fujitsu_mac_pmu.c
-> 
-> diff --git a/Documentation/admin-guide/perf/fujitsu_mac_pmu.rst b/Documentation/admin-guide/perf/fujitsu_mac_pmu.rst
-> new file mode 100644
-> index 000000000000..ddb3dcff3c61
-> --- /dev/null
-> +++ b/Documentation/admin-guide/perf/fujitsu_mac_pmu.rst
-
-Add this to the index file.
-
-> @@ -0,0 +1,20 @@
-> +===========================================================================
-> +Fujitsu Uncore MAC Performance Monitoring Unit (PMU)
-> +===========================================================================
-> +
-> +This driver supports the Uncore MAC PMUs found in Fujitsu chips.
-> +Each MAC PMU on these chips is exposed as a uncore perf PMU with device name
-> +mac_iod<iod>_mac<mac>_ch<ch>.
-> +
-> +The driver provides a description of its available events and configuration
-> +options in sysfs, see /sys/bus/event_sources/devices/mac_iod<iod>_mac<mac>_ch<ch>/.
-> +Given that these are uncore PMUs the driver also exposes a "cpumask" sysfs
-> +attribute which contains a mask consisting of one CPU which will be used to
-> +handle all the PMU events.
-> +
-> +Examples for use with perf::
-> +
-> +  perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
-> +
-> +Given that these are uncore PMUs the driver does not support sampling, therefore
-> +"perf record" will not work. Per-task perf sessions are not supported.
-
-
-Nice to give an idea of what the events are. EA in particularly isn't an immediately
-obvious acronym.
-
-...
-
-> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> index bab8ba64162f..4705c605e286 100644
-> --- a/drivers/perf/Kconfig
-> +++ b/drivers/perf/Kconfig
-> @@ -178,6 +178,15 @@ config FSL_IMX9_DDR_PMU
->  	 can give information about memory throughput and other related
->  	 events.
->  
-> +config FUJITSU_MAC_PMU
-> +	bool "Fujitsu Uncore MAC PMU"
-> +	depends on (ARM64 && ACPI) || (COMPILE_TEST && 64BIT)
-> +	help
-> +		Provides support for the Uncore MAC performance monitor unit (PMU)
-> +		in Fujitsu processors.
-> +		Adds the Uncore MAC PMU into the perf events subsystem for
-> +		monitoring Uncore MAC events.
-
-Unusual indent. Match the rest of the file.
-
-> +
-
-> diff --git a/drivers/perf/fujitsu_mac_pmu.c b/drivers/perf/fujitsu_mac_pmu.c
-> new file mode 100644
-> index 000000000000..ee92ef5691dd
-> --- /dev/null
-> +++ b/drivers/perf/fujitsu_mac_pmu.c
-> @@ -0,0 +1,633 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Driver for the Uncore MAC PMUs in Fujitsu chips.
-> + *
-> + * See Documentation/admin-guide/perf/fujitsu_mac_pmu.rst for more details.
-> + *
-> + * This driver is based on drivers/perf/qcom_l3_pmu.c
-> + * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2024 Fujitsu. All rights reserved.
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/bitops.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/list.h>
-> +#include <linux/module.h>
-> +#include <linux/perf_event.h>
-> +#include <linux/platform_device.h>
-> +
-> +/*
-> + * General constants
-> + */
-> +
-> +/* Number of counters on each PMU */
-> +#define MAC_NUM_COUNTERS  8
-> +/* Mask for the event type field within perf_event_attr.config and EVTYPE reg */
-> +#define MAC_EVTYPE_MASK   0xFF
-> +
-> +/*
-> + * Register offsets
-> + */
-> +
-> +/* Perfmon registers */
-> +#define MAC_PM_EVCNTR(__cntr) (0x000 + ((__cntr) & 0x7) * 8)
-Perhaps a macro to extra the offset part from __cntr?
-However there only seem to be 8 counters, so why is the masking needed?
-
-
-> +#define MAC_PM_CNTCTL(__cntr) (0x100 + ((__cntr) & 0x7) * 8)
-> +#define MAC_PM_EVTYPE(__cntr) (0x200 + ((__cntr) & 0x7) * 8)
-> +#define MAC_PM_CR         0x400
-> +#define MAC_PM_CNTENSET   0x410
-> +#define MAC_PM_CNTENCLR   0x418
-> +#define MAC_PM_INTENSET   0x420
-> +#define MAC_PM_INTENCLR   0x428
-> +#define MAC_PM_OVSR       0x440
-> +
-> +/*
-> + * Bit field definitions
-> + */
-> +
-> +/* MAC_PM_CNTCTLx */
-> +#define PMCNT_RESET           (0)
-> +
-> +/* MAC_PM_EVTYPEx */
-> +#define EVSEL(__val)          ((__val) & MAC_EVTYPE_MASK)
-> +
-> +/* MAC_PM_CR */
-> +#define PM_RESET              (1UL << 1)
-> +#define PM_ENABLE             (1UL << 0)
-> +
-> +/* MAC_PM_CNTENSET */
-> +#define PMCNTENSET(__cntr)    (1UL << ((__cntr) & 0x7))
-> +
-> +/* MAC_PM_CNTENCLR */
-> +#define PMCNTENCLR(__cntr)    (1UL << ((__cntr) & 0x7))
-> +#define PM_CNTENCLR_RESET     (0xFF)
-> +
-> +/* MAC_PM_INTENSET */
-> +#define PMINTENSET(__cntr)    (1UL << ((__cntr) & 0x7))
-> +
-> +/* MAC_PM_INTENCLR */
-> +#define PMINTENCLR(__cntr)    (1UL << ((__cntr) & 0x7))
-> +#define PM_INTENCLR_RESET     (0xFF)
-> +
-> +/* MAC_PM_OVSR */
-> +#define PMOVSRCLR(__cntr)     (1UL << ((__cntr) & 0x7))
-> +#define PMOVSRCLR_RESET       (0xFF)
-No brackets for single value.
-
-Can you rename these so that the register is obvious.
-MAC_PM_OVSR_CLR(_) etc. Though you'd also want to add _REG
-or similar to the register definitions so it is obvious those are
-the addresses.
-
-
-> +
-> +static inline void fujitsu_mac__init(struct mac_pmu *macpmu)
-> +{
-> +	int i;
-> +
-> +	writeq_relaxed(PM_RESET, macpmu->regs + MAC_PM_CR);
-> +
-> +	writeq_relaxed(PM_CNTENCLR_RESET, macpmu->regs + MAC_PM_CNTENCLR);
-> +	writeq_relaxed(PM_INTENCLR_RESET, macpmu->regs + MAC_PM_INTENCLR);
-> +	writeq_relaxed(PMOVSRCLR_RESET, macpmu->regs + MAC_PM_OVSR);
-> +
-> +	for (i = 0; i < MAC_NUM_COUNTERS; ++i) {
-> +		writeq_relaxed(PMCNT_RESET, macpmu->regs + MAC_PM_CNTCTL(i));
-> +		writeq_relaxed(EVSEL(0), macpmu->regs + MAC_PM_EVTYPE(i));
-> +	}
-> +
-> +	/*
-> +	 * Use writeq here to ensure all programming commands are done
-> +	 *  before proceeding
-Odd indenting. Looks like an extra space before before.
-> +	 */
-> +	writeq(PM_ENABLE, macpmu->regs + MAC_PM_CR);
-> +}
-
-> +
-> +static void fujitsu_mac__pmu_enable(struct pmu *pmu)
-> +{
-> +	struct mac_pmu *macpmu = to_mac_pmu(pmu);
-> +
-> +	/* Ensure the other programming commands are observed before enabling */
-> +	wmb();
-Unusual to do it this way rather than after the things you want to have finished.
-I guess it's not wrong, but it does prevent use of writeq() 
-> +
-> +	writeq_relaxed(PM_ENABLE, macpmu->regs + MAC_PM_CR);
-> +}
-> +
-> +static void fujitsu_mac__pmu_disable(struct pmu *pmu)
-> +{
-> +	struct mac_pmu *macpmu = to_mac_pmu(pmu);
-> +
-> +	writeq_relaxed(0, macpmu->regs + MAC_PM_CR);
-> +
-> +	/* Ensure the basic counter unit is stopped before proceeding */
-> +	wmb();
-
-Maybe just use writeq()?
-
-> +}
-> +
-> +/*
-> + * We must NOT create groups containing events from multiple hardware PMUs,
-> + * although mixing different software and hardware PMUs is allowed.
-> + */
-> +static bool fujitsu_mac__validate_event_group(struct perf_event *event)
-> +{
-> +	struct perf_event *leader = event->group_leader;
-> +	struct perf_event *sibling;
-> +	int counters = 0;
-> +
-> +	if (leader->pmu != event->pmu && !is_software_event(leader))
-> +		return false;
-> +
-> +	/* The sum of the counters used by the event and its leader event */
-> +	counters = 2;
-> +
-> +	for_each_sibling_event(sibling, leader) {
-> +		if (is_software_event(sibling))
-> +			continue;
-> +		if (sibling->pmu != event->pmu)
-> +			return false;
-> +		counters += 1;
-> +	}
-> +
-> +	/*
-> +	 * If the group requires more counters than the HW has, it
-> +	 * cannot ever be scheduled.
-> +	 */
-> +	return counters <= MAC_NUM_COUNTERS;
-> +}
-> +
-> +static int fujitsu_mac__event_init(struct perf_event *event)
-> +{
-> +	struct mac_pmu *macpmu = to_mac_pmu(event->pmu);
-> +	struct hw_perf_event *hwc = &event->hw;
-> +
-> +	/*
-> +	 * Is the event for this PMU?
-Single line comment syntax.
-> +	 */
-> +	if (event->attr.type != event->pmu->type)
-> +		return -ENOENT;
-> +
-> +	/*
-> +	 * Sampling not supported since these events are not core-attributable.
-Probably also single line syntax (it's a bit long, so maybe multiline is appropriate here).
-> +	 */
-> +	if (hwc->sample_period)
-> +		return -EINVAL;
-
-> +
-> +static int fujitsu_mac__event_add(struct perf_event *event, int flags)
-> +{
-> +	struct mac_pmu *macpmu = to_mac_pmu(event->pmu);
-> +	struct hw_perf_event *hwc = &event->hw;
-> +	int idx;
-> +
-> +	/*
-> +	 * Try to allocate a counter.
-Single line comment syntax.
-
-> +	 */
-> +	idx = bitmap_find_free_region(macpmu->used_mask, MAC_NUM_COUNTERS, 0);
-> +	if (idx < 0)
-> +		/* The counters are all in use. */
-> +		return -EAGAIN;
-> +
-> +	hwc->idx = idx;
-> +	hwc->state = PERF_HES_STOPPED | PERF_HES_UPTODATE;
-> +	macpmu->events[idx] = event;
-> +
-> +	if (flags & PERF_EF_START)
-> +		fujitsu_mac__event_start(event, 0);
-> +
-> +	/* Propagate changes to the userspace mapping. */
-> +	perf_event_update_userpage(event);
-> +
-> +	return 0;
-> +}
-> +
-
-> +
-> +/*
-> + * Add sysfs attributes
-Code makes this obvious and it is standard PMU driver stuff. I'd drop this comment.
-The details belong in the documentation, not here.
-
-> + *
-> + * We export:
-> + * - formats, used by perf user space and other tools to configure events
-> + * - events, used by perf user space and other tools to create events
-> + *   symbolically, e.g.:
-> + *     perf stat -a -e mac_iod0_mac0_ch0/event=0x21/ ls
-> + * - cpumask, used by perf user space and other tools to know on which CPUs
-> + *   to open the events
-> + */
-> +
-> +/* formats */
-> +
-> +#define MAC_PMU_FORMAT_ATTR(_name, _config)				      \
-> +	(&((struct dev_ext_attribute[]) {				      \
-> +		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),      \
-> +		  .var = (void *) _config, }				      \
-> +	})[0].attr.attr)
-> +
-> +static struct attribute *fujitsu_mac_pmu_formats[] = {
-> +	MAC_PMU_FORMAT_ATTR(event, "config:0-7"),
-> +	NULL,
-> +};
-> +
-> +static const struct attribute_group fujitsu_mac_pmu_format_group = {
-> +	.name = "format",
-> +	.attrs = fujitsu_mac_pmu_formats,
-> +};
-> +
-> +/* events */
-Drop comment as adds little to my eyes. Same for all similar comments.
-Your code is easy to read, so they are unnecessary noise.
-
-> +
-> +static ssize_t mac_pmu_event_show(struct device *dev,
-> +				     struct device_attribute *attr, char *page)
-> +{
-> +	struct perf_pmu_events_attr *pmu_attr;
-> +
-> +	pmu_attr = container_of(attr, struct perf_pmu_events_attr, attr);
-> +	return sysfs_emit(page, "event=0x%02llx\n", pmu_attr->id);
-> +}
-> +
-> +#define MAC_EVENT_ATTR(_name, _id)					     \
-> +	PMU_EVENT_ATTR_ID(_name, mac_pmu_event_show, _id)
-> +
-> +static struct attribute *fujitsu_mac_pmu_events[] = {
-> +	MAC_EVENT_ATTR(cycles, MAC_EVENT_CYCLES),
-> +	MAC_EVENT_ATTR(read-count, MAC_EVENT_READ_COUNT),
-> +	MAC_EVENT_ATTR(read-count-request, MAC_EVENT_READ_COUNT_REQUEST),
-> +	MAC_EVENT_ATTR(read-count-return, MAC_EVENT_READ_COUNT_RETURN),
-> +	MAC_EVENT_ATTR(read-count-request-pftgt, MAC_EVENT_READ_COUNT_REQUEST_PFTGT),
-> +	MAC_EVENT_ATTR(read-count-request-normal, MAC_EVENT_READ_COUNT_REQUEST_NORMAL),
-> +	MAC_EVENT_ATTR(read-count-return-pftgt-hit, MAC_EVENT_READ_COUNT_RETURN_PFTGT_HIT),
-> +	MAC_EVENT_ATTR(read-count-return-pftgt-miss, MAC_EVENT_READ_COUNT_RETURN_PFTGT_MISS),
-> +	MAC_EVENT_ATTR(read-wait, MAC_EVENT_READ_WAIT),
-> +	MAC_EVENT_ATTR(write-count, MAC_EVENT_WRITE_COUNT),
-> +	MAC_EVENT_ATTR(write-count-write, MAC_EVENT_WRITE_COUNT_WRITE),
-> +	MAC_EVENT_ATTR(write-count-pwrite, MAC_EVENT_WRITE_COUNT_PWRITE),
-> +	MAC_EVENT_ATTR(memory-read-count, MAC_EVENT_MEMORY_READ_COUNT),
-> +	MAC_EVENT_ATTR(memory-write-count, MAC_EVENT_MEMORY_WRITE_COUNT),
-> +	MAC_EVENT_ATTR(memory-pwrite-count, MAC_EVENT_MEMORY_PWRITE_COUNT),
-> +	MAC_EVENT_ATTR(ea-mac, MAC_EVENT_EA_MAC),
-> +	MAC_EVENT_ATTR(ea-memory, MAC_EVENT_EA_MEMORY),
-> +	MAC_EVENT_ATTR(ea-memory-mac-read, MAC_EVENT_EA_MEMORY_MAC_READ),
-> +	MAC_EVENT_ATTR(ea-memory-mac-write, MAC_EVENT_EA_MEMORY_MAC_WRITE),
-> +	MAC_EVENT_ATTR(ea-memory-mac-pwrite, MAC_EVENT_EA_MEMORY_MAC_PWRITE),
-> +	MAC_EVENT_ATTR(ea-ha, MAC_EVENT_EA_HA),
-> +	NULL
-> +};
-> +
-> +static const struct attribute_group fujitsu_mac_pmu_events_group = {
-> +	.name = "events",
-> +	.attrs = fujitsu_mac_pmu_events,
-> +};
-> +
-> +/* cpumask */
-Comment is obvious, so drop it in favor of brevity.
-> +
-> +static ssize_t cpumask_show(struct device *dev,
-> +			    struct device_attribute *attr, char *buf)
-> +{
-> +	struct mac_pmu *macpmu = to_mac_pmu(dev_get_drvdata(dev));
-> +
-> +	return cpumap_print_to_pagebuf(true, buf, &macpmu->cpumask);
-> +}
-> +
-> +static DEVICE_ATTR_RO(cpumask);
-> +
-> +static struct attribute *fujitsu_mac_pmu_cpumask_attrs[] = {
-> +	&dev_attr_cpumask.attr,
-> +	NULL,
-No comma needed on null terminators as we will never add anything after them.
-> +};
-> +
-> +static const struct attribute_group fujitsu_mac_pmu_cpumask_attr_group = {
-> +	.attrs = fujitsu_mac_pmu_cpumask_attrs,
-> +};
-> +
-> +/*
-> + * Per PMU device attribute groups
-> + */
-> +static const struct attribute_group *fujitsu_mac_pmu_attr_grps[] = {
-> +	&fujitsu_mac_pmu_format_group,
-> +	&fujitsu_mac_pmu_events_group,
-> +	&fujitsu_mac_pmu_cpumask_attr_group,
-> +	NULL,
-No comma needed on null terminators.
-> +};
-> +
-> +/*
-> + * Probing functions and data.
-> + */
-Structural comments like this rarely bring real value and tend to end up
-wrong as code evolves. I'd drop them all now the code is written.
-
-> +
-> +static int fujitsu_mac_pmu_online_cpu(unsigned int cpu, struct hlist_node *node)
-> +{
-> +	struct mac_pmu *macpmu = hlist_entry_safe(node, struct mac_pmu, node);
-> +
-> +	/* If there is not a CPU/PMU association pick this CPU */
-> +	if (cpumask_empty(&macpmu->cpumask))
-> +		cpumask_set_cpu(cpu, &macpmu->cpumask);
-> +
-> +	return 0;
-> +}
-> +
-> +static int fujitsu_mac_pmu_offline_cpu(unsigned int cpu, struct hlist_node *node)
-> +{
-> +	struct mac_pmu *macpmu = hlist_entry_safe(node, struct mac_pmu, node);
-> +	unsigned int target;
-> +
-> +	if (!cpumask_test_and_clear_cpu(cpu, &macpmu->cpumask))
-> +		return 0;
-blank line - to help readability a little.
-> +	target = cpumask_any_but(cpu_online_mask, cpu);
-> +	if (target >= nr_cpu_ids)
-> +		return 0;
-blank line
-> +	perf_pmu_migrate_context(&macpmu->pmu, cpu, target);
-> +	cpumask_set_cpu(target, &macpmu->cpumask);
-blank line.
-
-> +	return 0;
-> +}
-> +
-> +static int fujitsu_mac_pmu_probe(struct platform_device *pdev)
-> +{
-> +	struct mac_pmu *macpmu;
-> +	struct acpi_device *acpi_dev;
-> +	struct resource *memrc;
-> +	int ret;
-> +	char *name;
-> +	u64 uid;
-I'd pick an ordering and use it consistently.
-Perhaps reverse xmas tree.
-
-> +
-> +	/* Initialize the PMU data structures */
-
-This comment is a bit vague and not clearly associated with the
-code I would drop it as adding insufficient value.
-
-> +
-> +	acpi_dev = ACPI_COMPANION(&pdev->dev);
-> +	if (!acpi_dev)
-> +		return -ENODEV;
-> +
-> +	ret = acpi_dev_uid_to_integer(acpi_dev, &uid);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "unable to read ACPI uid\n");
-
-Probably nicer to use
-		return dev_err_probe(&pdev->dev, ret, "....)
-Consider a local
-	struct device *dev = &pdev->dev;
-as reasonable number of users in here.
-
-
-> +		return ret;
-> +	}
-> +
-> +	macpmu = devm_kzalloc(&pdev->dev, sizeof(*macpmu), GFP_KERNEL);
-> +	name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "mac_iod%llu_mac%llu_ch%llu",
-> +			  (uid >> 8) & 0xF, (uid >> 4) & 0xF, uid & 0xF);
-> +	if (!macpmu || !name)
-> +		return -ENOMEM;
-
-Whilst valid, it is neater to just do two separate checks. Also makes
-the code more resilient to future reorganizations introducing bugs.
-
-
-> +
-> +	macpmu->pmu = (struct pmu) {
-> +		.parent		= &pdev->dev,
-> +		.task_ctx_nr	= perf_invalid_context,
-> +
-> +		.pmu_enable	= fujitsu_mac__pmu_enable,
-> +		.pmu_disable	= fujitsu_mac__pmu_disable,
-> +		.event_init	= fujitsu_mac__event_init,
-> +		.add		= fujitsu_mac__event_add,
-> +		.del		= fujitsu_mac__event_del,
-> +		.start		= fujitsu_mac__event_start,
-> +		.stop		= fujitsu_mac__event_stop,
-> +		.read		= fujitsu_mac__event_read,
-> +
-> +		.attr_groups	= fujitsu_mac_pmu_attr_grps,
-> +		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
-> +	};
-> +
-> +	macpmu->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &memrc);
-> +	if (IS_ERR(macpmu->regs))
-> +		return PTR_ERR(macpmu->regs);
-> +
-> +	fujitsu_mac__init(macpmu);
-
-Why the double underscore?  That is fairly unusual syntax.
-
-
-> +
-> +	ret = platform_get_irq(pdev, 0);
-> +	if (ret <= 0)
-> +		return ret;
-> +
-> +	ret = devm_request_irq(&pdev->dev, ret, fujitsu_mac__handle_irq, 0,
-> +			       name, macpmu);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Request for IRQ failed for slice @%pa\n",
-> +			&memrc->start);
-> +		return ret;
-reutrn dev_err_probe() 
-> +	}
-> +
-> +	/* Add this instance to the list used by the offline callback */
-> +	ret = cpuhp_state_add_instance(CPUHP_AP_PERF_ARM_FUJITSU_MAC_ONLINE, &macpmu->node);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Error %d registering hotplug", ret);
-> +		return ret;
-return dev_err_probe()
-
-> +	}
-> +
-> +	ret = perf_pmu_register(&macpmu->pmu, name, -1);
-> +	if (ret < 0) {
-> +		dev_err(&pdev->dev, "Failed to register MAC PMU (%d)\n", ret);
-return dev_err_probe()
-> +		return ret;
-> +	}
-> +
-> +	dev_info(&pdev->dev, "Registered %s, type: %d\n", name, macpmu->pmu.type);
-Too noisy for the kernel log when this can be easily established anyway.
-dev_dbg() at most.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
-> +	{ "FUJI200C", },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(acpi, fujitsu_mac_pmu_acpi_match);
-> +
-> +static struct platform_driver fujitsu_mac_pmu_driver = {
-> +	.driver = {
-> +		.name = "fujitsu-mac-pmu",
-> +		.acpi_match_table = ACPI_PTR(fujitsu_mac_pmu_acpi_match),
-
-Drop the ACPI_PTR()  It saves very little space and
-if you do use it you should guard the relevant data with ifdefs
-
-> +		.suppress_bind_attrs = true,
-> +	},
-> +	.probe = fujitsu_mac_pmu_probe,
-> +};
-> +
-> +static int __init register_fujitsu_mac_pmu_driver(void)
-> +{
-> +	int ret;
-> +
-> +	/* Install a hook to update the reader CPU in case it goes offline */
-> +	ret = cpuhp_setup_state_multi(CPUHP_AP_PERF_ARM_FUJITSU_MAC_ONLINE,
-> +				      "perf/fujitsu/mac:online",
-> +				      fujitsu_mac_pmu_online_cpu,
-> +				      fujitsu_mac_pmu_offline_cpu);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return platform_driver_register(&fujitsu_mac_pmu_driver);
-> +}
-> +device_initcall(register_fujitsu_mac_pmu_driver);
-> diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
-> index 2361ed4d2b15..e6e49e09488a 100644
-> --- a/include/linux/cpuhotplug.h
-> +++ b/include/linux/cpuhotplug.h
-> @@ -227,6 +227,7 @@ enum cpuhp_state {
->  	CPUHP_AP_PERF_ARM_APM_XGENE_ONLINE,
->  	CPUHP_AP_PERF_ARM_CAVIUM_TX2_UNCORE_ONLINE,
->  	CPUHP_AP_PERF_ARM_MARVELL_CN10K_DDR_ONLINE,
-> +	CPUHP_AP_PERF_ARM_FUJITSU_MAC_ONLINE,
-
-Can this use CPU_AP_ONLINE_DYN
-or are there some ordering contraints?
-
->  	CPUHP_AP_PERF_POWERPC_NEST_IMC_ONLINE,
->  	CPUHP_AP_PERF_POWERPC_CORE_IMC_ONLINE,
->  	CPUHP_AP_PERF_POWERPC_THREAD_IMC_ONLINE,
+Thanks,
+Guenter
 
