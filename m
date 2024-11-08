@@ -1,69 +1,70 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FFCBA4A
-	for <linux-doc@vger.kernel.org>; Fri,  8 Nov 2024 01:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2D1DDC3
+	for <linux-doc@vger.kernel.org>; Fri,  8 Nov 2024 01:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731029630; cv=none; b=VM2wpfZ0GEBGcdE7V60oS5C9im0TRv8JaHXJofOub7sc5LcO1rLxNgO5XKUVutkrEyXslBmATiS6u1VCct7TmPEEy/RrKMxQniwFRZHA80UbHiOHf5hf5N/C9um5PT5Uo60iTqaZh//o9xO2yimAvDMKEpKTRgFPNbamwaxBitE=
+	t=1731030026; cv=none; b=QBXoc7QirUXh9VdOilYTeXazdZ4MzhGVy0QvZ2QEOFyC8kTge5d9QlXCRKIx2EmM7QfW7FnEGtIvKpPQC7/9V44Ut2LmI9RePXZU7HdyE0sFE/JsTF/L0Hg5l6ovrGXJLC9KP2GiB6UiTxiaikf1F8SnZ8ysuJb53BVzBoddvQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731029630; c=relaxed/simple;
-	bh=0CIxROtxo9lkntRR5/pEgOmD4bfh0hD4R2SzeU4lydE=;
+	s=arc-20240116; t=1731030026; c=relaxed/simple;
+	bh=MzkymF9uy3YM4gdOXq5UOtYl3r3kQj8vdqgmku5EyP8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lHze7ibdD20uCmmVSfVPGRjcZ8xfdTPEmXjPn6v8vcfBsxXWcHhO3qmxUFD7PuZci5qQY1E2WwTI+QOPR3WZfflFeCJ/jJmReBcAKp4pN8nBZc09yI1PX3gyHY5SpYEU5V7HgEr5h+V503bZeyczYFC79YpoZl9pcTLED8lGoAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pklwxi4j; arc=none smtp.client-ip=209.85.160.176
+	 To:Cc:Content-Type; b=CPBtSTqjvJDZKrezBhICGW/X/SSll5R+N/s49bSDsi1KtFVQS1aZZbUc4TT3yurCag/K9m3qhgg428U1Nwmfv1GEKENSWlSvNe7VfkZ7SqE8J1qoe8VvU9Xye/unMOVmA1MPIorLjeVmYW3tGTj8ncN/pLHWcyt4Bwk6E+lEzC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=23cqamfg; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pklwxi4j"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-460a8d1a9b7so68911cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 Nov 2024 17:33:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="23cqamfg"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-460a8d1a9b7so69971cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 Nov 2024 17:40:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731029627; x=1731634427; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1731030024; x=1731634824; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bzVdoP6OciidGt4pR8gTvT8j2Y8JEz3d7rgCHYOZPoQ=;
-        b=pklwxi4jsIMY1E/BkMrQ0VlH/Cvp5i6LwAnUQgrMi5OvrSjLXv2ugB1ZqahVhI8MKz
-         r56bgOrjawpH/0WOqzgB+OM19QIGyvc2RDpFo5RogTRajb0JrMpBJ4n/V35f+uHUWZft
-         haDAfvWn1OmAjdWiRA0SjHB0v8xaPjsXacO337aG3jbvELJIvLxMk1BzhUVhFAfDERDj
-         all7eNRqeFUpT27Na9vT+JH1wbLgZf303Z3OCuRvCroBeKrQ9oyvnrLhRiFuVaS68L3v
-         EkfWU5XrIlM9XLjvfkeKDY9/W44UNwMMjT7MzSt71fDq8ykwtabgkwvzXcLqYJa3LC98
-         2ZbQ==
+        bh=ukymtuU99EA2ZHEawF4ZEDVUahugSnJbAfUv5oZityQ=;
+        b=23cqamfg6ap991dAANMAcLt2+df+oQS2rCre8xevjKgU5R9Uo0MF+DW+vMPBw7PGcs
+         UvZVjcfWC1o9k1+7QBhrjThIafXlQ/gyaiZ7bV+QbJWRBPYH1um8AeKgabwFNUFlSQyg
+         dBjZZO2hJzLiQTH8B59UlZ1MEVbo41wPCT6tSOCyeli6l13frV6fUnzF9PUf6PwYbASC
+         tZIW1ikd95Sy+ruKdsbIWKzE6bgPWUrSvstJ6403/cUDtVJ5wMHmfjEKkDEn3IdwYpVT
+         CFts67o1mI5hOAJtGbrG9f0xSgkI3IY07b1gG87tCKhz0+xxYRaxdkEsbRpgvkadPuxN
+         kebA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731029627; x=1731634427;
+        d=1e100.net; s=20230601; t=1731030024; x=1731634824;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bzVdoP6OciidGt4pR8gTvT8j2Y8JEz3d7rgCHYOZPoQ=;
-        b=f0tcgW//03Zdi7WzPkc+HWDmcfu93xXip0pHhffVgqnRvoeNe5tihYSrVz91O2YOAQ
-         1ngyjUlibvQVCFdK2ZYVmlehPo8A2D8RM6mUOpo8QTiNMs7IFSOuCJ2/Omu2sq6jyZ1X
-         fbytyRtWxGvotXYQNuZgNynjqaWMuSWwtpdiAHfmeaKyh8x46Wu+SkrqllDjcWDzF/eM
-         KkwSnmfeayYGRPuCXDjmMDviWoXO3GN/nFq24jlnRE0vZOO75Q2+UYGzz0binuMz7zmN
-         5X81Abipyok6dJh/7y4oCIwG0kjhLy5nRNkupizBRCaFCg0tUEejGWKmsoKKFiZIi2eE
-         yh+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW125ZBwHBk8BAD1i/DMWQc6GvHuNmObVckMXSpX5uXZy5cQ4LeoB1eSEvjXBqdn4OKX7S0Ed42IjM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOX8ahIKB6oXrhjeNQAF2VswXXCPx4/7RoDkvtY2NYE77MpFW8
-	mnp6bdKpIb/ivFd5rqeSpnGI5tnycFb6rhXx0ylctzUthI2enKuBaOQYWw0vfU+ykO8n5234Md9
-	zWHSwe4aNhQIUtsXMXMZg8UtuPyBoNcPP7eT2
-X-Gm-Gg: ASbGncuVNEx5pNUDBfDdNHJGJLEw6iaMwxMerYHjgC+/E1L6ksjDeygm80ebNNT5BL9
-	zKAsDvygpFIa0uiqQrBmOKHzKL6/2Sgs=
-X-Google-Smtp-Source: AGHT+IEvBJEp2/ytC5Ldt3ehz7w6UWY37/JOusDhlfa4YH7TdJ+scsvMtHFHwCI6X3S8loz7o4qaaWsBGgUSO4qjXec=
-X-Received: by 2002:a05:622a:54c:b0:461:685d:324 with SMTP id
- d75a77b69052e-462fa59ee98mr7010221cf.16.1731029627085; Thu, 07 Nov 2024
- 17:33:47 -0800 (PST)
+        bh=ukymtuU99EA2ZHEawF4ZEDVUahugSnJbAfUv5oZityQ=;
+        b=kR7Ey/0QSorVybXsBirgPFgm9xq0bFXJbeo8SK3mq6h0IgkkPFfsaBvQOCqmOtTa/P
+         hDMFT1Uo35Pgn0AQhxBbGAd8LrnsvC6gphANel350DVznhRo+ogIlqGs5xW2BYTvjx1b
+         lt/r3H0pAVhaN/6kh+283E0pV6kzVDXAufEG/T+D6jfCRQegBQfLGWDlPNRwT2CAId0R
+         KBAQlpxq51EEQchqQT9eyhsydkxrVa5ssDmABSTzTzs6gi7t+yKTcXheaF8PuHudpD8e
+         5d8Rb4lh626LlJx3lRAcvgfpIQL0y7ZUkwzbFxNH7HJQWHVrNl8Fgw0Pjm2V/UhQxcq+
+         BAyg==
+X-Forwarded-Encrypted: i=1; AJvYcCWPbln/D1fR7ezHywWco71RReN2EnJoejCzqDmY4hrYRixu8OSviEq05InFUlKVtF572ZKr0fyRaw8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkqYMVNdP8jP0tBzbI81+7US9/VX5ltmcPHeNN9QWJgKz04mAK
+	ec1D5zdB03aI8IOTbLpNojqMpJ4MxKwbur1g4RpCiy1UyqXwFpM88nOAlFIH3d3c4lv1apMkQAL
+	i36XTqwZtHGLvpVrk3Pgjbrjxws46bgWX36pY
+X-Gm-Gg: ASbGncsUFjh+eXNBRnvYbc9ru8tLehDLQXMNSd3GSar/7LLb6yP5KLAUvN8Gxx5jh+2
+	WZ9PVefiK0E/FT6YoTXfoygc8YASs6mw=
+X-Google-Smtp-Source: AGHT+IGicJxLT38a1Pwdnr2fwM9wKrNXdQUwB1Ovyl7XPTZCRjnJPDh/mYMXzzY5yXepQD/gUW3HdeL2v3WemoBDuoc=
+X-Received: by 2002:a05:622a:5b96:b0:460:b4e3:49e with SMTP id
+ d75a77b69052e-462fa582ef8mr6840651cf.9.1731030023625; Thu, 07 Nov 2024
+ 17:40:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241107210331.3044434-1-almasrymina@google.com> <Zy1pT_VcNpFoGjq-@mini-arch>
-In-Reply-To: <Zy1pT_VcNpFoGjq-@mini-arch>
+References: <20241107210331.3044434-1-almasrymina@google.com>
+ <20241107210331.3044434-2-almasrymina@google.com> <Zy1priZk_LjbJwVV@mini-arch>
+In-Reply-To: <Zy1priZk_LjbJwVV@mini-arch>
 From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 7 Nov 2024 17:33:35 -0800
-Message-ID: <CAHS8izMOtG4UVJNO2Dd-Zcn3aRL_LZFBzTRXn+xa+W_DGzju4Q@mail.gmail.com>
-Subject: Re: [PATCH net v2 1/2] net: fix SO_DEVMEM_DONTNEED looping too long
+Date: Thu, 7 Nov 2024 17:40:10 -0800
+Message-ID: <CAHS8izOJSd2-hkOBkL0Cy40xt-=1k8YdvkKS98rp2yeys_eGzg@mail.gmail.com>
+Subject: Re: [PATCH net v2 2/2] net: clarify SO_DEVMEM_DONTNEED behavior in documentation
 To: Stanislav Fomichev <stfomichev@gmail.com>
 Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
 	Eric Dumazet <edumazet@google.com>, Willem de Bruijn <willemb@google.com>, 
@@ -74,118 +75,58 @@ Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 7, 2024 at 5:28=E2=80=AFPM Stanislav Fomichev <stfomichev@gmail=
+On Thu, Nov 7, 2024 at 5:30=E2=80=AFPM Stanislav Fomichev <stfomichev@gmail=
 .com> wrote:
 >
 > On 11/07, Mina Almasry wrote:
-> > Exit early if we're freeing more than 1024 frags, to prevent
-> > looping too long.
+> > Document new behavior when the number of frags passed is too big.
 > >
-> > Also minor code cleanups:
-> > - Flip checks to reduce indentation.
-> > - Use sizeof(*tokens) everywhere for consistentcy.
-> >
-> > Cc: Yi Lai <yi1.lai@linux.intel.com>
-> > Cc: Stanislav Fomichev <sdf@fomichev.me>
 > > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >
 > > ---
+> >  Documentation/networking/devmem.rst | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
 > >
-> > v2:
-> > - Retain token check to prevent allocation of too much memory.
-> > - Exit early instead of pre-checking in a loop so that we don't penaliz=
-e
-> >   well behaved applications (sdf)
+> > diff --git a/Documentation/networking/devmem.rst b/Documentation/networ=
+king/devmem.rst
+> > index a55bf21f671c..d95363645331 100644
+> > --- a/Documentation/networking/devmem.rst
+> > +++ b/Documentation/networking/devmem.rst
+> > @@ -225,6 +225,15 @@ The user must ensure the tokens are returned to th=
+e kernel in a timely manner.
+> >  Failure to do so will exhaust the limited dmabuf that is bound to the =
+RX queue
+> >  and will lead to packet drops.
 > >
-> > ---
-> >  net/core/sock.c | 42 ++++++++++++++++++++++++------------------
-> >  1 file changed, 24 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/net/core/sock.c b/net/core/sock.c
-> > index 039be95c40cf..da50df485090 100644
-> > --- a/net/core/sock.c
-> > +++ b/net/core/sock.c
-> > @@ -1052,32 +1052,34 @@ static int sock_reserve_memory(struct sock *sk,=
- int bytes)
-> >
-> >  #ifdef CONFIG_PAGE_POOL
-> >
-> > -/* This is the number of tokens that the user can SO_DEVMEM_DONTNEED i=
-n
-> > - * 1 syscall. The limit exists to limit the amount of memory the kerne=
-l
-> > - * allocates to copy these tokens.
-> > +/* This is the number of tokens and frags that the user can SO_DEVMEM_=
-DONTNEED
-> > + * in 1 syscall. The limit exists to limit the amount of memory the ke=
-rnel
-> > + * allocates to copy these tokens, and to prevent looping over the fra=
-gs for
-> > + * too long.
-> >   */
-> >  #define MAX_DONTNEED_TOKENS 128
-> > +#define MAX_DONTNEED_FRAGS 1024
-> >
-> >  static noinline_for_stack int
-> >  sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int o=
-ptlen)
-> >  {
-> >       unsigned int num_tokens, i, j, k, netmem_num =3D 0;
-> >       struct dmabuf_token *tokens;
-> > +     int ret =3D 0, num_frags =3D 0;
-> >       netmem_ref netmems[16];
-> > -     int ret =3D 0;
-> >
-> >       if (!sk_is_tcp(sk))
-> >               return -EBADF;
-> >
-> > -     if (optlen % sizeof(struct dmabuf_token) ||
-> > +     if (optlen % sizeof(*tokens) ||
-> >           optlen > sizeof(*tokens) * MAX_DONTNEED_TOKENS)
-> >               return -EINVAL;
-> >
->
-> [..]
->
-> > -     tokens =3D kvmalloc_array(optlen, sizeof(*tokens), GFP_KERNEL);
->
-> Oh, so we currently allocate optlen*8? This is a sneaky fix :-p
->
-> > +     num_tokens =3D optlen / sizeof(*tokens);
-> > +     tokens =3D kvmalloc_array(num_tokens, sizeof(*tokens), GFP_KERNEL=
-);
-> >       if (!tokens)
-> >               return -ENOMEM;
-> >
-> > -     num_tokens =3D optlen / sizeof(struct dmabuf_token);
-> >       if (copy_from_sockptr(tokens, optval, optlen)) {
-> >               kvfree(tokens);
-> >               return -EFAULT;
-> > @@ -1086,24 +1088,28 @@ sock_devmem_dontneed(struct sock *sk, sockptr_t=
- optval, unsigned int optlen)
-> >       xa_lock_bh(&sk->sk_user_frags);
-> >       for (i =3D 0; i < num_tokens; i++) {
-> >               for (j =3D 0; j < tokens[i].token_count; j++) {
->
-> [..]
->
-> > +                     if (++num_frags > MAX_DONTNEED_FRAGS)
-> > +                             goto frag_limit_reached;
+> > +The user must pass no more than 128 tokens, with no more than 1024 tot=
+al frags
+> > +among the token->token_count across all the tokens. If the user provid=
+es more
+> > +than 1024 frags, the kernel will free up to 1024 frags and return earl=
+y.
+> > +
+> > +The kernel returns the number of actual frags freed. The number of fra=
+gs freed
+> > +can be less than the tokens provided by the user in case of:
 > > +
 >
-> nit: maybe reuse existing ret (and rename it to num_frags) instead of
-> introducing new num_frags? Both variables now seem to track the same
-> number.
+> [..]
+>
+> > +(a) an internal kernel leak bug.
+>
+> If you're gonna respin, might be worth mentioning that the dmesg
+> will contain a warning in case of a leak?
 
-I almost sent it this way, but I think that would be wrong.
+We will not actually warn in the likely cases of leak.
 
-num_frags is all the frags inspected.
-ret is all the frags freed.
+We warn when we find an entry in the xarray that is not a net_iov, or
+if napi_pp_put_page fails on that net_iov. Both are very unlikely to
+happen honestly.
 
-The difference is subtle but critical. We want to exit when we've
-inspected 1024 frags, not when we've freed 1024 frags, because the
-user may make us loop forever if they ask us to free 10000000 frags of
-which none exist.
+The likely 'leaks' are when we don't find the frag_id in the xarray.
+We do not warn on that because the user can intentionally trigger the
+warning with invalid input. If the user is actually giving valid input
+and the warn still happens, likely a kernel bug like I mentioned in
+another thread, but we still don't warn.
 
 --=20
 Thanks,
