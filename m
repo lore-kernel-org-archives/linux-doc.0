@@ -1,92 +1,124 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565641C1F0E;
-	Fri,  8 Nov 2024 20:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03801C1F0B;
+	Fri,  8 Nov 2024 20:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731096810; cv=none; b=MVcWI0cZIV0J1Lce4ToC2TrWtIJjcFARp/SBVM8ME1gz0cB8/7Sh92gxQ1Kb55Ye3rNPtrxWzWOk3c3X0kgWwBAJZ4KiQW7uBDW/PrDA1EIqjpgAKxLKx285ee1yfk0sCcqumekyfuqb2gjuvbEiyKSWVuJn8nNopRqhB8t5Q/w=
+	t=1731097224; cv=none; b=mDfFuOgDhrFdcWKlZ+gmGF4xmuj7QzznwzwEDJ0VMT2qEM8mwNg9idJ8V61D9D7hjWjyFFtnUS2Z8qX1G+BGZyPZF/GNx/u7ORC3doafQCb3Y4mlbfegCazXbCg057w9MGKrWJqY/5fygXN8ptLBwbKbHXDW0hiYiCI1bSEKpUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731096810; c=relaxed/simple;
-	bh=Mjx2T+tJQq8AXBQuf6hhh98vDiAkZyRq4BVYSn8ScZU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fXWffeO2xhytDaaOLFURsGNGxLe9ca4tma0AAUYfX4fmplnzwylmAIykS0tyaYZvZwWQzH18jSaw4S8XUxLGx19628GgipJptSPPMxGfx1P5BWZh+qLMoO36rgZ3cvCUj6fA6BBBbT2VG/0BVXcuGSUE4K01+agESzEAEnk+st0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SGj7NgT5; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1731097224; c=relaxed/simple;
+	bh=Cex5OFKLdepISNlr/zMsoMKZr4c1wz925xujO/RtmjM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UCCLB2ZfBv2gCpg2ED7qVL9rsyAHyv5IZ4iFT7my7rr8Kuhgg3wTM96yOdk38PGhHTxaxu3LXIOXI0ofbgSqCj22Qi1h28qtyK5vyBlWBWBxHFJTcAIkbOnLrQKqryhc6NTlCHHl63IzKJgSppYZ9HrwKjEaDMufTqcanqQqANQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YIfSu7OZ; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SGj7NgT5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5DC3F42C17
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1731096808; bh=SdL8Q8EQQQJJ8xM8160z/ZDZmIkZmULZbC6xpHvhB2g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=SGj7NgT5pCq9qMZMXNJKG2UgQ/lP9zZE4YbKvUXqgPrUznXNr6/HcfYciET1a180c
-	 4CQEBIeK0nih1ZtSbGeYgYPx/hYb6yPDREd8OyH5nekdazyQhbd0FntwwvCDHijkAQ
-	 AiRe9/OS3QLp/eLystk6jgqxf76GfzScZi/3peY4z6raTJ/W27faMyuX0o0Qblo8bn
-	 kulpZfzb4/cWAHAGIm0JQYi2CeCfIdC74UulY5RY8yhiiQV9VTsz3uVWHk/HuMjiz7
-	 crwtMtMpBsv4BAZjxgb2arxdBkDSSgw/l0R41+5urv/u4+CiW8A60jFzuPQy7tWs5l
-	 BT3AAiFW7pn8Q==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5DC3F42C17;
-	Fri,  8 Nov 2024 20:13:28 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>, Robin
- Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
- <will@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
- <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas
- <yishaih@nvidia.com>, Shameer Kolothum
- <shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, =?utf-8?B?SsOpcsO0bWU=?= Glisse
- <jglisse@redhat.com>, Andrew
- Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
-In-Reply-To: <20241108200355.GC189042@unreal>
-References: <cover.1730298502.git.leon@kernel.org>
- <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
- <87ttchwmde.fsf@trenco.lwn.net> <20241108200355.GC189042@unreal>
-Date: Fri, 08 Nov 2024 13:13:27 -0700
-Message-ID: <87h68hwkk8.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YIfSu7OZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731097222; x=1762633222;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Cex5OFKLdepISNlr/zMsoMKZr4c1wz925xujO/RtmjM=;
+  b=YIfSu7OZlO0S5pIz0+o6DcB5cBXet2ETi1kIEf6ZEaMeHuhHrPG4fZ3u
+   EWicq8pafqNLZZSJCqKuCKKcRVIHQXOwa7mmlkf+yWWkCJWF2q/gij2Hd
+   qP8bzGJ/qEBX+piki0impNfyyp6SHpd3xawE/TgYfOG9q//mnOQ1sUYGn
+   wF3+Jn+qSjyhfVRRqDeZauPPEU71cXKmMjfYQYIy5WjN4RFBIkK3TLNeM
+   uyxd94ayyJO+dQ7UcyTgeVZYw99tIMOY7j7DZaOgma6405KZw38ZHOeAX
+   6Nz7sLq0pa8lzSuXWM/G/wvIzfPVvzBph2iEbfoysXSTlzQRDPO8A67Ac
+   A==;
+X-CSE-ConnectionGUID: xczEsJKSSFanVlUJGMjgsA==
+X-CSE-MsgGUID: QHkkMecFS9Wm/niKD+UYNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="34780330"
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
+   d="scan'208";a="34780330"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 12:20:21 -0800
+X-CSE-ConnectionGUID: z9jpa/nIQaS3xVbzK89FJg==
+X-CSE-MsgGUID: RntjX9eYQR62U2yHDkNiXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
+   d="scan'208";a="90835236"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 08 Nov 2024 12:20:17 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9VSo-000rlS-2Y;
+	Fri, 08 Nov 2024 20:20:14 +0000
+Date: Sat, 9 Nov 2024 04:19:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yoshihiro Furudera <fj5100bi@fujitsu.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+Message-ID: <202411090451.quuiocP9-lkp@intel.com>
+References: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
 
-Leon Romanovsky <leon@kernel.org> writes:
+Hi Yoshihiro,
 
->> So, I see that you have nice kernel-doc comments for these; why not just
->> pull them in here with a kernel-doc directive rather than duplicating
->> the information?
->
-> Can I you please point me to commit/lore link/documentation with example
-> of such directive and I will do it?
+kernel test robot noticed the following build warnings:
 
-Documentation/doc-guide/kernel-doc.rst has all the information you need.
-It could be as simple as replacing your inline descriptions with:
+[auto build test WARNING on tip/smp/core]
+[also build test WARNING on linus/master v6.12-rc6]
+[cannot apply to arm64/for-next/core arm-perf/for-next/perf next-20241108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  .. kernel-doc:: drivers/iommu/dma-iommu.c
-     :export:
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Furudera/perf-Fujitsu-Add-the-Uncore-MAC-PMU-driver/20241108-134245
+base:   tip/smp/core
+patch link:    https://lore.kernel.org/r/20241108054006.2550856-2-fj5100bi%40fujitsu.com
+patch subject: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241109/202411090451.quuiocP9-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090451.quuiocP9-lkp@intel.com/reproduce)
 
-That will pull in documentation for other, unrelated functions, though;
-assuming you don't want those, something like:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411090451.quuiocP9-lkp@intel.com/
 
-  .. kernel-doc:: drivers/iommu/dma-iommu.c
-     :identifiers: dma_iova_try_alloc dma_iova_free ...
+All warnings (new ones prefixed by >>):
 
-Then do a docs build and see the nice results you get :)
+>> drivers/perf/fujitsu_mac_pmu.c:604:36: warning: 'fujitsu_mac_pmu_acpi_match' defined but not used [-Wunused-const-variable=]
+     604 | static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Thanks,
 
-jon
+vim +/fujitsu_mac_pmu_acpi_match +604 drivers/perf/fujitsu_mac_pmu.c
+
+   603	
+ > 604	static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
+   605		{ "FUJI200C", },
+   606		{ }
+   607	};
+   608	MODULE_DEVICE_TABLE(acpi, fujitsu_mac_pmu_acpi_match);
+   609	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
