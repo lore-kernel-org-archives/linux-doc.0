@@ -1,124 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03801C1F0B;
-	Fri,  8 Nov 2024 20:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28701EABA2;
+	Fri,  8 Nov 2024 20:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731097224; cv=none; b=mDfFuOgDhrFdcWKlZ+gmGF4xmuj7QzznwzwEDJ0VMT2qEM8mwNg9idJ8V61D9D7hjWjyFFtnUS2Z8qX1G+BGZyPZF/GNx/u7ORC3doafQCb3Y4mlbfegCazXbCg057w9MGKrWJqY/5fygXN8ptLBwbKbHXDW0hiYiCI1bSEKpUo=
+	t=1731097556; cv=none; b=hQcs8E+OFVil9I7Q+wIj7SoTKhC2WtcqB3jVjU6aBgSM7HJRA6HoEdDmDwyo1jv9ooF08XqHMEuEpPRxhxwlT3SADdz4ddhZSY74xpxP5U3PvZ9c6zXGFfMxfOPCxvsh7CEvTw59DQAh0gOHhmyXV+hNuIpgB1dNrXLCZApXA+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731097224; c=relaxed/simple;
-	bh=Cex5OFKLdepISNlr/zMsoMKZr4c1wz925xujO/RtmjM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UCCLB2ZfBv2gCpg2ED7qVL9rsyAHyv5IZ4iFT7my7rr8Kuhgg3wTM96yOdk38PGhHTxaxu3LXIOXI0ofbgSqCj22Qi1h28qtyK5vyBlWBWBxHFJTcAIkbOnLrQKqryhc6NTlCHHl63IzKJgSppYZ9HrwKjEaDMufTqcanqQqANQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YIfSu7OZ; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731097556; c=relaxed/simple;
+	bh=SW9sqs7q/nfSn6SZFdJrxHOxVhgt7idMNp23czW+ZzU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=TeVJjBsQl2P3YfsKemC8BUZiolAYqdQU/pmFTWcHEm9BiiBN5g7C5AY9yyjVGJZtEuPxQCzVYtAF/sNPSYbD/OaiWkSnywDA2BxT09WH1OJGd9rYNBGTpGSrnYRf9FXaVU1RBzBioVqWmYHB/iTGT9GocdVv3IW/lTHD3KA9xcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M7eN4L2e; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YIfSu7OZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731097222; x=1762633222;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Cex5OFKLdepISNlr/zMsoMKZr4c1wz925xujO/RtmjM=;
-  b=YIfSu7OZlO0S5pIz0+o6DcB5cBXet2ETi1kIEf6ZEaMeHuhHrPG4fZ3u
-   EWicq8pafqNLZZSJCqKuCKKcRVIHQXOwa7mmlkf+yWWkCJWF2q/gij2Hd
-   qP8bzGJ/qEBX+piki0impNfyyp6SHpd3xawE/TgYfOG9q//mnOQ1sUYGn
-   wF3+Jn+qSjyhfVRRqDeZauPPEU71cXKmMjfYQYIy5WjN4RFBIkK3TLNeM
-   uyxd94ayyJO+dQ7UcyTgeVZYw99tIMOY7j7DZaOgma6405KZw38ZHOeAX
-   6Nz7sLq0pa8lzSuXWM/G/wvIzfPVvzBph2iEbfoysXSTlzQRDPO8A67Ac
-   A==;
-X-CSE-ConnectionGUID: xczEsJKSSFanVlUJGMjgsA==
-X-CSE-MsgGUID: QHkkMecFS9Wm/niKD+UYNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="34780330"
-X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="34780330"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 12:20:21 -0800
-X-CSE-ConnectionGUID: z9jpa/nIQaS3xVbzK89FJg==
-X-CSE-MsgGUID: RntjX9eYQR62U2yHDkNiXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="90835236"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Nov 2024 12:20:17 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9VSo-000rlS-2Y;
-	Fri, 08 Nov 2024 20:20:14 +0000
-Date: Sat, 9 Nov 2024 04:19:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yoshihiro Furudera <fj5100bi@fujitsu.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M7eN4L2e"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-71e61b47c6cso2251387b3a.2;
+        Fri, 08 Nov 2024 12:25:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731097553; x=1731702353; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HjsnjJkvFk70FIP+kt5SypebIuFSVyDViD7ncvBNOtM=;
+        b=M7eN4L2eJeuC8o38PBsuXGz2kfy2AYKYacVZBPrUrLWS3bzHsdjAW5UAbM3Hd8b6iw
+         37n4jS1Hmlc7qnGEEsABgkeNZVrOuqIChJIZ/smFVzIJ7RKaONHeddyw9qNp/DOkbPag
+         PM22QnCbVQunQJTZIjQxX2uTLm2peSW41Zvwopo7rV+auvp122SSl6YX2BTAXcBKh1vB
+         RRpptjyEcoWyc4KCuv5SZTp2tMr0OCEteM4455vVkRRRPb00lgvW6di4mpYDC8RHk9Xc
+         fBTGLqb6zBWu8g1FUZx6MlBDsoEJ2UJShgrOpbzwJvYfJwwgmQx+Tb/PSKLkFnoQouTA
+         C5JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731097553; x=1731702353;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HjsnjJkvFk70FIP+kt5SypebIuFSVyDViD7ncvBNOtM=;
+        b=MSRZ6bn/0cmmcZJYbWR0vf2DPDi5aE3n+11OnpuVbAJty/miBUNMYIBTb1Ziy83WKo
+         y2gRrMYfmY2xcLdiCjvUHm6FwMsZeHDfFYz7I54DSwZIz2fZR4Rc6uwlVezkQrxULxij
+         OuirL8/qAYkeNSP2smFffa9k84fNd0zECZm+ywxwiYZngJoo76ttHXemygzIxtwzL0kH
+         aaDRNhzPLwDgkvHywOiYYvNW6rW9tIemvM7vQ72niYd/XW1bu7p6Sxfu+QN+mFBCm1A5
+         eEPfQGVkKRaYnemM+D43R/rWmG4Yl7HLoayw2xVUbmKP/37ulJV8cMQDpsK8/qTCcW+B
+         a+uQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUSkdJJ72VhSDlYDOZoq0dzEfq646CCXmLou1LaP2FAi/w9pGHvMtjNlcc58ku+K/YyNI58nigkuGI=@vger.kernel.org, AJvYcCVJjqpFDy6oG4MhYOtkz+hDrn914DGEN11UKCdNWe9NXTiaB7FXcjV2yM+hB9QjaKRPo2vhyHaWzUqo0zgR@vger.kernel.org, AJvYcCWiVHRZLFe+Ap5An8r8MJwcmpguOsew3k43HHOCXOVumMc59RZu88ucerz/fsaWiRxO1EMaXdwpFq8LvA==@vger.kernel.org, AJvYcCX38ph0e6aWdiVyd8qM/0WpOEUUSSoEoji/X3q5Y0dqXHg02fC+pFQv97L8a9Y7n0aEM8opUPfj@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHOYOG/zVGbAh1trsYUL18PuWyGeSlwyi8+RGosGxIXRymNOd9
+	A5Dpl6ZYrMr7ZnE47RFxOH7DlV8gdZExeiyVcVZLJAvQ4fEzT7nD
+X-Google-Smtp-Source: AGHT+IEqu6hYITG3CTRQf4ojcYGFShTgO4TAJ9wD/3E0BVbXGMBR2cq9fgn6Jmxx9FvlAPL57EqxTg==
+X-Received: by 2002:a05:6a00:2388:b0:714:2069:d90e with SMTP id d2e1a72fcca58-724133966b8mr4742841b3a.26.1731097553013;
+        Fri, 08 Nov 2024 12:25:53 -0800 (PST)
+Received: from 1337.tail8aa098.ts.net (ms-studentunix-nat0.cs.ucalgary.ca. [136.159.16.20])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078a7ef5sm4342095b3a.63.2024.11.08.12.25.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 12:25:52 -0800 (PST)
+From: Abhinav Saxena <xandfury@gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org,
+	intel-wired-lan@lists.osuosl.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	rds-devel@oss.oracle.com
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
-Message-ID: <202411090451.quuiocP9-lkp@intel.com>
-References: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Dragos Tatulea <dtatulea@nvidia.com>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Abhinav Saxena <xandfury@gmail.com>
+Subject: [PATCH 1/2] docs: net: Fix text in eth/intel, mlx5 and switchdev docs
+Date: Fri,  8 Nov 2024 13:25:47 -0700
+Message-Id: <20241108202548.140511-1-xandfury@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Yoshihiro,
+Fix various issues across networking documentation: remove duplicate word
+in drivers/ethernet/intel/iavf, fix quote formatting in mlx5/counters,
+correct typo in rds.rst and improve wording in switchdev topology doc.
+These changes are purely documentation cleanup.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
+---
+ Documentation/networking/device_drivers/ethernet/intel/iavf.rst | 2 +-
+ .../device_drivers/ethernet/mellanox/mlx5/counters.rst          | 2 +-
+ Documentation/networking/rds.rst                                | 2 +-
+ Documentation/networking/switchdev.rst                          | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-[auto build test WARNING on tip/smp/core]
-[also build test WARNING on linus/master v6.12-rc6]
-[cannot apply to arm64/for-next/core arm-perf/for-next/perf next-20241108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Furudera/perf-Fujitsu-Add-the-Uncore-MAC-PMU-driver/20241108-134245
-base:   tip/smp/core
-patch link:    https://lore.kernel.org/r/20241108054006.2550856-2-fj5100bi%40fujitsu.com
-patch subject: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241109/202411090451.quuiocP9-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090451.quuiocP9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411090451.quuiocP9-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/perf/fujitsu_mac_pmu.c:604:36: warning: 'fujitsu_mac_pmu_acpi_match' defined but not used [-Wunused-const-variable=]
-     604 | static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/fujitsu_mac_pmu_acpi_match +604 drivers/perf/fujitsu_mac_pmu.c
-
-   603	
- > 604	static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
-   605		{ "FUJI200C", },
-   606		{ }
-   607	};
-   608	MODULE_DEVICE_TABLE(acpi, fujitsu_mac_pmu_acpi_match);
-   609	
-
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
+index eb926c3bd4cd..73ce04c05071 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/iavf.rst
+@@ -171,7 +171,7 @@ queues: for each tc, <num queues>@<offset> (e.g. queues 16@0 16@16 assigns
+ 16 queues to tc0 at offset 0 and 16 queues to tc1 at offset 16. Max total
+ number of queues for all tcs is 64 or number of cores, whichever is lower.)
+ 
+-hw 1 mode channel: ‘channel’ with ‘hw’ set to 1 is a new new hardware
++hw 1 mode channel: 'channel' with 'hw' set to 1 is a new hardware
+ offload mode in mqprio that makes full use of the mqprio options, the
+ TCs, the queue configurations, and the QoS parameters.
+ 
+diff --git a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/counters.rst b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/counters.rst
+index 99d95be4d159..b23f36a2d28c 100644
+--- a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/counters.rst
++++ b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/counters.rst
+@@ -1135,7 +1135,7 @@ like flow control, FEC and more.
+      - Informative
+ 
+    * - `rx_pcs_symbol_err_phy`
+-     - This counter counts the number of symbol errors that wasn’t corrected by
++     - This counter counts the number of symbol errors that wasn't corrected by
+        FEC correction algorithm or that FEC algorithm was not active on this
+        interface. If this counter is increasing, it implies that the link
+        between the NIC and the network is suffering from high BER, and that
+diff --git a/Documentation/networking/rds.rst b/Documentation/networking/rds.rst
+index 498395f5fbcb..955afe0567aa 100644
+--- a/Documentation/networking/rds.rst
++++ b/Documentation/networking/rds.rst
+@@ -339,7 +339,7 @@ The send path
+   rds_sendmsg()
+     - struct rds_message built from incoming data
+     - CMSGs parsed (e.g. RDMA ops)
+-    - transport connection alloced and connected if not already
++    - transport connection allocated and connected if not already
+     - rds_message placed on send queue
+     - send worker awoken
+ 
+diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
+index f355f0166f1b..df4b4c4a15d5 100644
+--- a/Documentation/networking/switchdev.rst
++++ b/Documentation/networking/switchdev.rst
+@@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
+ monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
+ bond will see its upper master change.  If that bond is moved into a bridge,
+ the bond's upper master will change.  And so on.  The driver will track such
+-movements to know what position a port is in in the overall topology by
++movements to know what position a port is in the overall topology by
+ registering for netdevice events and acting on NETDEV_CHANGEUPPER.
+ 
+ L2 Forwarding Offload
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
