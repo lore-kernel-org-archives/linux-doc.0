@@ -1,101 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE2F1401B;
-	Fri,  8 Nov 2024 08:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBF31DE88C
+	for <linux-doc@vger.kernel.org>; Fri,  8 Nov 2024 08:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731055268; cv=none; b=pHcfdCGpRLhQd0w1676xxVZYLXmTzlh+FOhXodV7XAF9A7Pcp06WbL09eV+ffhQ26mvjeEMGvGidjP7ddcNnd48YoWHisDfIzZIHbHApk64dixDF2XQvf1MQbRtXL9P58PJL1GGIRMu2J7C2uc3yHeuCdt+eqJp8b1MeX2E1CFM=
+	t=1731055661; cv=none; b=mTMTk0NEBwYdepCnMMsP2WioG5ABhaoJYJhUm69CDm777cKcdWc4LUmtHPNP1Ur10lsIeooMB+/5Y04Eun+9bgTeY4umLHSlD2PoyTKKaRW7XoorkcqcSmLCoeU38oPQpsWpsO+MBlj5tbzCoN7rPDmYMa3l8gyhXqV08PtwSc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731055268; c=relaxed/simple;
-	bh=KvRs+aIHTd7p22IrO4Srco2xTOlfwvP2qMjZYsawVME=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=plWeLe48109pWF4skScu0l4tPd8zk4E1/7nudQHjxiV8VRhB2fl0vX3kEC2rPDXksHgJurGmknnK8+SGvK3gczFWhBvSgO7zzDb+odtmrB86lWBFjW2MyuaQR94HP3Z/tV+oYq4NlhI0nKb4tnee0FSp/DZZuxViLbdQiO7Qf58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RPz3KSbU; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1731055661; c=relaxed/simple;
+	bh=Kw5vsWimu0DEEJoOvAz3DPc5YUBq+0ME6wv92iHkafY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=k2GLdm1xGX+rtyAc1ZRlf+RBhaboSi3BbB/PXlYdfAQJOIHQAiZOduRmWEiBVug6qQgkoFyalfksa/cNmg4Zf+9rmS0lDi9FHYLIkomFqqQDKDos0Cz2ManMNMgaQeVH4HmgpNKSyKyC6REbAPWHosd9LYVagAwuY7x0H5gq48g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=uuGbqETA; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPz3KSbU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731055267; x=1762591267;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KvRs+aIHTd7p22IrO4Srco2xTOlfwvP2qMjZYsawVME=;
-  b=RPz3KSbUetNLK9ikaYZgW0hhbcZFmpOt2NFhWcAwunS/6F9Jof99j8c9
-   yENmg0Ea6KIuDlb/V8iF7mQGc99s8dUx9u3ZT55WlUG7ErN9YMBDphe8y
-   4SzJ6dJybdA34nuPzCPo4/kluYBKqOsDHaNkRgAisTg3QDxz2gWPv3I1H
-   p8Ag4dmhyIlPYfWSBw8qq0cLMw2lDK8HQRn2QUMLRS8dxo1I+I9jtse4/
-   FKwWK8oI9icsuj/VmnRwXcZDQgQviee7ddhtYw5bkZlWh56WxfDYHfgh9
-   SuHSPe2c6aQUTiGMIHox9FoJCMK13g1h+ykz/sSszbQ6Jqu85DxN2FAPo
-   g==;
-X-CSE-ConnectionGUID: 3qIJ2Qy1TNm3qI8/4lbRzg==
-X-CSE-MsgGUID: RbJ7bVgPTnWZHXFBTVo7MA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="41546617"
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="41546617"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 00:41:06 -0800
-X-CSE-ConnectionGUID: rvI/tnizTrGe+CxWG8aXSg==
-X-CSE-MsgGUID: XIqvika3TxatnXwnLHWLng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="85680596"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 00:41:05 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t9KYA-0000000CXTd-2QZs;
-	Fri, 08 Nov 2024 10:41:02 +0200
-Date: Fri, 8 Nov 2024 10:41:02 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH] iio: Move __private marking before struct element priv
- in struct iio_dev
-Message-ID: <Zy3Ongpc0vdGxKsX@smile.fi.intel.com>
-References: <20241107185746.138146-1-jic23@kernel.org>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="uuGbqETA"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d51055097so1224231f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 08 Nov 2024 00:47:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731055658; x=1731660458; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A9AD8kCT+nT+KZ2MXqSRYTX2q6sk9d7vkvCTtFjV2TU=;
+        b=uuGbqETA371S6SHpohC0xK3YcB5FlvBkXXCwMnvgs2IxyBSKc/dM2wgbrbxhtSV745
+         +SdrlLisixi8yis2r3mmxfRxlTNeGxNnAvyvorKa21ue2p0IvieF2sKG3EAeJxxwsNLX
+         uD9kRGbXKAXIcu9qenHA/4xF+CMmWHIQsuWbJ52fkDZU7+PkXcKtfCtvdAohO7dV8lZM
+         vJOKw2sLHfp/Pdj827FjGwckhAL1Y0s/NMbYMfMMjS15rfIMwUmoAn2efOLku/vGf/ZO
+         3i7yM7aVOQNbBGTt8yImhG2/ueR/jeGgiFhPPn2nW80LrY7NOU8IW5vSDByrXiVBFtd3
+         ngJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731055658; x=1731660458;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A9AD8kCT+nT+KZ2MXqSRYTX2q6sk9d7vkvCTtFjV2TU=;
+        b=H0kemBBqEx/j6Y9Ch3iDYIseCzAG9ztdVQ6oZ1BSqSk1A9c/S/VwQKRqmUCktCvkr2
+         V6PnrQmiJfkXP6r8vhskKXJyiar2EM0A7SD+6QjYCVZrwzMyENkbshZM30JZ4QkJFTyl
+         J5hxefphDS5mw09IIl5PDy2POPTMuqf+3FlA7p2Pq+R0F0AwVYrnp6GS38MYXBukh0xX
+         t9qP4crycOIKfh+4DbFrUOo3e2mQJsguVShBs6txZMwe3Jiwnt22HZO1Wn+VjOvfWgEq
+         yRpa5XJL3JQitazr65qfnXJGmeGveNx+QFbZoy0aqizyfNaB1X1+tmH3HzD780NCP/3p
+         H80A==
+X-Forwarded-Encrypted: i=1; AJvYcCX2IeoU9tjj7DhHORV6RYV0lTx9gY2UMM1hD8ukIBk6PnikRjuL2iKmY1APtxn+sgzlSYiS0tTljlw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoDwwPYFiTQl9dK+MtmZGNYEpSu4Kct7oDnpt2kU/NSpmECh/8
+	BFQFwzYzxKiF6Q0wMkKtR1ludyXknPfk/ViwuEzej7XYcDshXrVc+xgmR+G2gFY=
+X-Google-Smtp-Source: AGHT+IEGxCmPOWLzM0bzj/TXKrnSrKDuB1/okZ3cbyLHE4zCDXwSir+KcCmZbuM3Pt/+K5DFnkIxNg==
+X-Received: by 2002:a05:6000:2aa:b0:37e:f1ed:67e8 with SMTP id ffacd0b85a97d-381f186dd5cmr1454470f8f.35.1731055658002;
+        Fri, 08 Nov 2024 00:47:38 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:ecfd:9f8d:62a3:6ba8])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed970e23sm3930442f8f.18.2024.11.08.00.47.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 00:47:37 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>,  Jonathan Corbet <corbet@lwn.net>,
+  Patrick Rudolph <patrick.rudolph@9elements.com>,  Naresh Solanki
+ <naresh.solanki@9elements.com>,  Rob Herring <robh@kernel.org>,  Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
+  Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+  linux-hwmon@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  devicetree@vger.kernel.org,
+  linux-i2c@vger.kernel.org,  Vaishnav Achath <vaishnav.a@ti.com>
+Subject: Re: [PATCH v4 7/7] hwmon: (pmbus/tps25990): add initial support
+In-Reply-To: <df0db75a-b5e1-4bd8-8a59-de85b0a77fa5@roeck-us.net> (Guenter
+	Roeck's message of "Wed, 6 Nov 2024 10:59:11 -0800")
+References: <20241105-tps25990-v4-0-0e312ac70b62@baylibre.com>
+	<20241105-tps25990-v4-7-0e312ac70b62@baylibre.com>
+	<df0db75a-b5e1-4bd8-8a59-de85b0a77fa5@roeck-us.net>
+Date: Fri, 08 Nov 2024 09:47:36 +0100
+Message-ID: <1jpln62jtj.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241107185746.138146-1-jic23@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 
-On Thu, Nov 07, 2024 at 06:57:46PM +0000, Jonathan Cameron wrote:
-> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> 
-> This is to avoid tripping up kernel-doc which filters it out before
-> but not after the name.
-> 
-> Fixes:
-> ./include/linux/iio/iio.h:628: warning: Function parameter or struct member '__private' not described in 'iio_dev'
-> ./include/linux/iio/iio.h:628: warning: Excess struct member 'priv' description in 'iio_dev'
+On Wed 06 Nov 2024 at 10:59, Guenter Roeck <linux@roeck-us.net> wrote:
 
-...
+>> +
+>> +static int tps25990_mfr_write_protect_set(struct i2c_client *client,
+>> +					  u8 protect)
+>> +{
+>> +	/*
+>> +	 * The chip has a single protection mode, set it regardless of
+>> +	 * the specific protection requested
+>> +	 */
+>> +	return pmbus_write_byte_data(client, -1, TPS25990_MFR_WRITE_PROTECT,
+>> +				     protect ? 0x0 : 0xa2);
+>
+> After some thought, I think it would be better to reject all protect values
+> other than 0 (no write protection) and PB_WP_ALL because that is what the chip
+> supports. Something like
 
-> -	void				*priv __private;
-> +	void				__private *priv;
->  };
+Since operation would not be allowed, it's maps the closest indeed.
 
-This is still inconsistent from the position perspective (while may still
-work). I specifically placed it there, otherwise what you need is to have
+>
+> 	if (protect & ~PB_WP_ALL)
+> 		return -ENXIO;		// or -EINVAL ? Not really sure.
 
-	void * __private priv;
+The command is supported but the argument would not be, so -EINVAL seems
+appropriate to me.
 
-to be fully consistent.
-
-That said, either you need to carefully reindent all the affected members,
-or fix the kernel-doc, or both.
+>
+> Thanks,
+> Guenter
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jerome
