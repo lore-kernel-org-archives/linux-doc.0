@@ -1,160 +1,187 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBE7233D64;
-	Fri,  8 Nov 2024 18:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C0419259B
+	for <linux-doc@vger.kernel.org>; Fri,  8 Nov 2024 18:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731089263; cv=none; b=Oh3Qr/MPIs9KBir/vKBGBib4FZUiar6UpiYREfkwk14pkFyPdHX7skkU3gMDngSLsysNAvtcEotqMfe/gTvUTURtdXWbjJ3OQln6UkteMyrE6UrRIwH4qTEZdmR/w9QfIWQwmvYTP6m9UxA7qMFZTxHvD7D4o7KkgQ3Xp4uC5dQ=
+	t=1731091523; cv=none; b=VtGijth0AyYsJuG0AtaT/YE1ri5Qum3pEj9meQyOUo3e+4NkM0W67abeUXrKXmXdCuUBys9ppsOBnEXqtGslDiv6epuLEUKxINgB+6r2sYLunwAmyfsvDSI7mQ68XeKn1pKDgE1AzZ7BxcNhEZUzXSvHpUjA8rUSLRNBgBsVwUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731089263; c=relaxed/simple;
-	bh=XdUEhrjiBr8GA3ZORbMFZtmKhtOKS6QBlaBZ1x6dEas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XifB42aaAtrm6j/W/InaDCRi9dPsFpfharYvd/5pBan4A2DgUuvplHlg4SCiws+VprAi4kmaDQPkyIIaDqvjEw75vjZuMMg5dXu0TowZe+frmZxX8BqxREtH1AzMYWsdoMp4G7p0Gue9f2PxwzwX9BNlV4bVNmW+qUDFZtscMxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V569nbY8; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731091523; c=relaxed/simple;
+	bh=lcqVxarSnIw0Wfqck48GyQe2gVWyEkUqvNLjJFQRkik=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bcn2aChaMhGTqFMFD+3kGWxLkcQDJwu8LjPVOlqWfGbJYqQmlL6tSP8+CBs4mpm6Uo+7R7Wiv6DRDwSekgZMwHIF2mBDxnD0CokJQRJfKcHhNojzpI1zxjSyQarzaWKltjRAwejN4oWwgIDsFMIA7912gB2WgibranZ9TNR9Coo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zmGUJLZ+; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V569nbY8"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2e2b549799eso2060714a91.3;
-        Fri, 08 Nov 2024 10:07:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zmGUJLZ+"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-460b295b9eeso16671cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 Nov 2024 10:45:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731089261; x=1731694061; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iWG253LXGIdckUNp7GPNkeMy7DZwES9JtBx+EINqA7g=;
-        b=V569nbY8EBxvMxbptzSfzHOBoFQgYnV+fhz4b25K01KRLaC+n7MyyWAbq5OzISP6GL
-         vfQb3hZ9EsmaxmSsLHF+CoD1/1b3dyvAdQmV5jnDqxgpbiyqsZCnX6LPv4hbQDOV+eAl
-         oI0aMeMRz91jBdOn6HOIOINaTOpd9cWwJmc3yqcxr1rGWSanwldGWtCEcwJVBbGhulDr
-         JQRr2IRrplZrTrlRXWW6vHa9cAmEMxbb2inmu3zA9E2l3Fnl1C55evbouglDK7zQFEJG
-         AIqbqt2BGp3y6bJX30ltBnyihQIsb/BeMVpmP8JjXC0sYy/BtYxy1klHXBUEjyJ0HbNs
-         JHCw==
+        d=google.com; s=20230601; t=1731091520; x=1731696320; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dQWXX3Y2NemA0Bkmo9oa5lzAWU2FAVxuxVlJNZmkK0g=;
+        b=zmGUJLZ+pcVZAPYmE5NQNZ1QyU+AVEmoHit7jYqG/Te+gUl8cPqXR+OqeVAJjyXem2
+         QS3vOswWcTAxLs2Ql/uZUJtNip1uB3dJLYOgT75dQJqgRAQutB2/8NQCctZQK8+ejFvM
+         WVXE/LD0fN2dbzV4LbY4ra8VsD8WXBjG0BEhlxTHfiCD5o/ZXeOlm0fGMDSCSlqxh5rH
+         h6/0Wu2e0n5q5M+it4GZUfqrh6nbsrGQG+Eje4VBy1Mj+pGK8ZkTi39aUBy236+DJTna
+         47T1FQ7OBTSKZ3yLslb8K1CPY4YrchjGXwWZszR6633+G0UNDoKRBhZVqOcV2c31sJC5
+         q80g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731089261; x=1731694061;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iWG253LXGIdckUNp7GPNkeMy7DZwES9JtBx+EINqA7g=;
-        b=kb1Ft7PGvHo1HyVilyOnDNBKBJ2qT2Hsbuj1HSxD1Ad98Re9PvoGnn1F7badfO9hNv
-         dSkfsIs0gajkGvCoXs7VlPN/hbxwceJ539sgnbZyp9mHLbOnvodCSJrLkiO1tonrP2SG
-         SlDzsWvYm76+t+8r+yDoYYJfFWlpfwZFLQqzlZzrlBlaEYdjOCVyI/EqVQXJzq7grqi8
-         1p1jAzj4m9xO3gPPrqd6oLQ908sQXcy/a52Hr26i9bDbND+UE7tdJnGJGiB2dIwKfVfh
-         4OlinpQYlwmxBMlPwQWJxNp9X8+EULc2X32o4JXAgEpPZV+fCJRqFGjAx4EcOFHjEd/q
-         M5Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNADDD/jBe4PcGBKPQYk4wnSggTIIvtIVvX1JX/Ud+dE/LwxtR812PfCLst6hjuwfXtPFZSNFO23AvLxVJ@vger.kernel.org, AJvYcCXuC6Gu/oF+xb1MDsvAOyIeIGm/VASEDjHhkyqLou+f4OW3YkyJ5FUWavrSPYkFNPQXVJ4fjXV3KaU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYmv4ZD9lq/ChRUjR8nIrba9J/hcnG9Gn7qs1bzn2+04DjaQI1
-	l9R6SCcx1RFhb8dnHiSnkeHqSbcxSDF82nP0rgEJUd4XThxeieo=
-X-Google-Smtp-Source: AGHT+IGciwzK4siVd7UDmayJfNQ+szleBk1cUJkTGmipLn0sYGF96zPfDNcIcZst4NK7X7km5tCHvw==
-X-Received: by 2002:a17:90b:180d:b0:2e2:effb:618b with SMTP id 98e67ed59e1d1-2e9b1709a5emr5061658a91.13.1731089261140;
-        Fri, 08 Nov 2024 10:07:41 -0800 (PST)
-Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e99a55bf2asm5877152a91.31.2024.11.08.10.07.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 10:07:40 -0800 (PST)
-Date: Fri, 8 Nov 2024 10:07:39 -0800
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	"David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Yi Lai <yi1.lai@linux.intel.com>,
-	Stanislav Fomichev <sdf@fomichev.me>
-Subject: Re: [PATCH net v2 2/2] net: clarify SO_DEVMEM_DONTNEED behavior in
- documentation
-Message-ID: <Zy5Ta-M868VvBme2@mini-arch>
-References: <20241107210331.3044434-1-almasrymina@google.com>
- <20241107210331.3044434-2-almasrymina@google.com>
- <Zy1priZk_LjbJwVV@mini-arch>
- <CAHS8izOJSd2-hkOBkL0Cy40xt-=1k8YdvkKS98rp2yeys_eGzg@mail.gmail.com>
- <Zy1_IG9v1KK8u2X4@mini-arch>
- <CAHS8izP8UoGZXoFCEshYrL=o2+T6o4g-PDdgDG=Cfc0X=EXyVQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1731091520; x=1731696320;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dQWXX3Y2NemA0Bkmo9oa5lzAWU2FAVxuxVlJNZmkK0g=;
+        b=OJjEulAM0AXv2WibWdODaAPlcHZdG+RJl9hfv2JL5uhaxKDQXU7oapmxmmaLDHJDW7
+         hhe4AQWRuoHmwUr5SWR9mSROhtUvNKD0olhTi1FDavVrUs+LvVu1pUJv6os1c8Q/Z5M+
+         2G6I52lTeWzIa8YZdOkLVBNuPP0ZvMKkcZtCJJvHLCF2Ci1aMctr4ctWSszq+Fvn2txB
+         7PvpKt39N8v0mvz2d1AEgrfABwoFj+EUcfGu+lGJYASDQOYRCtU2l6+8SxVxUAIsFYC9
+         pia6EhtjkM1mtB4nTCrM6d7HDGU+dMwkeaOBjR6HeA9NgyEQitoNYkZjJyxeKegoU5DN
+         xOcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUHqWkM+YJlKoA5dj1eH8+OSuqe76yAcMgvUsCmjAxk/JjXylYysjnLiKq0Yf+net1SMnSBgFbE7rA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/g6ylkVtM5KcbBh/4+XIWq1reRFO/ozvJelNAyAQf6QbeW1Tj
+	G7FwZyXCouzwvKXR6u93jQWUiQJ11Ly0pr4wTzVVs6nHWtQCp0Hzq+xxo4ft8sMBRX1q9XjJ4Xk
+	lYS+gI40wqzbAVfdrzFbGM5rlYzj88qvQ3jBy
+X-Gm-Gg: ASbGncsNiWin5N5EIUTHMgG6KpGxSsLyNU7a+ovxGmvmTWlWTdu851r+Fzy+vYUBRgd
+	nHZHrnQcuN/jylJIptvRRHf8i+YnlYzs=
+X-Google-Smtp-Source: AGHT+IGvwPp9TjQSnwda6uC40OLtKbAEUpz4aO9CgT19b5ZFDtcU/z04H3hO5fbFjqfA/TFF1ZaKphANpOjVSAC2lfA=
+X-Received: by 2002:a05:622a:548a:b0:462:c4fe:ec19 with SMTP id
+ d75a77b69052e-462fa619d7dmr8710451cf.21.1731091520108; Fri, 08 Nov 2024
+ 10:45:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHS8izP8UoGZXoFCEshYrL=o2+T6o4g-PDdgDG=Cfc0X=EXyVQ@mail.gmail.com>
+References: <20241107210331.3044434-1-almasrymina@google.com>
+ <20241107210331.3044434-2-almasrymina@google.com> <Zy1priZk_LjbJwVV@mini-arch>
+ <CAHS8izOJSd2-hkOBkL0Cy40xt-=1k8YdvkKS98rp2yeys_eGzg@mail.gmail.com>
+ <Zy1_IG9v1KK8u2X4@mini-arch> <CAHS8izP8UoGZXoFCEshYrL=o2+T6o4g-PDdgDG=Cfc0X=EXyVQ@mail.gmail.com>
+ <Zy5Ta-M868VvBme2@mini-arch>
+In-Reply-To: <Zy5Ta-M868VvBme2@mini-arch>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 8 Nov 2024 10:45:07 -0800
+Message-ID: <CAHS8izNK6xJHDB+W80iCr2CEwbo=OecG-1UW5dB9X_0aowo8Bw@mail.gmail.com>
+Subject: Re: [PATCH net v2 2/2] net: clarify SO_DEVMEM_DONTNEED behavior in documentation
+To: Stanislav Fomichev <stfomichev@gmail.com>
+Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
+	Eric Dumazet <edumazet@google.com>, Willem de Bruijn <willemb@google.com>, 
+	"David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Yi Lai <yi1.lai@linux.intel.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/08, Mina Almasry wrote:
-> On Thu, Nov 7, 2024 at 7:01 PM Stanislav Fomichev <stfomichev@gmail.com> wrote:
+On Fri, Nov 8, 2024 at 10:07=E2=80=AFAM Stanislav Fomichev <stfomichev@gmai=
+l.com> wrote:
+>
+> On 11/08, Mina Almasry wrote:
+> > On Thu, Nov 7, 2024 at 7:01=E2=80=AFPM Stanislav Fomichev <stfomichev@g=
+mail.com> wrote:
+> > >
+> > > On 11/07, Mina Almasry wrote:
+> > > > On Thu, Nov 7, 2024 at 5:30=E2=80=AFPM Stanislav Fomichev <stfomich=
+ev@gmail.com> wrote:
+> > > > >
+> > > > > On 11/07, Mina Almasry wrote:
+> > > > > > Document new behavior when the number of frags passed is too bi=
+g.
+> > > > > >
+> > > > > > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> > > > > > ---
+> > > > > >  Documentation/networking/devmem.rst | 9 +++++++++
+> > > > > >  1 file changed, 9 insertions(+)
+> > > > > >
+> > > > > > diff --git a/Documentation/networking/devmem.rst b/Documentatio=
+n/networking/devmem.rst
+> > > > > > index a55bf21f671c..d95363645331 100644
+> > > > > > --- a/Documentation/networking/devmem.rst
+> > > > > > +++ b/Documentation/networking/devmem.rst
+> > > > > > @@ -225,6 +225,15 @@ The user must ensure the tokens are return=
+ed to the kernel in a timely manner.
+> > > > > >  Failure to do so will exhaust the limited dmabuf that is bound=
+ to the RX queue
+> > > > > >  and will lead to packet drops.
+> > > > > >
+> > > > > > +The user must pass no more than 128 tokens, with no more than =
+1024 total frags
+> > > > > > +among the token->token_count across all the tokens. If the use=
+r provides more
+> > > > > > +than 1024 frags, the kernel will free up to 1024 frags and ret=
+urn early.
+> > > > > > +
+> > > > > > +The kernel returns the number of actual frags freed. The numbe=
+r of frags freed
+> > > > > > +can be less than the tokens provided by the user in case of:
+> > > > > > +
+> > > > >
+> > > > > [..]
+> > > > >
+> > > > > > +(a) an internal kernel leak bug.
+> > > > >
+> > > > > If you're gonna respin, might be worth mentioning that the dmesg
+> > > > > will contain a warning in case of a leak?
+> > > >
+> > > > We will not actually warn in the likely cases of leak.
+> > > >
+> > > > We warn when we find an entry in the xarray that is not a net_iov, =
+or
+> > > > if napi_pp_put_page fails on that net_iov. Both are very unlikely t=
+o
+> > > > happen honestly.
+> > > >
+> > > > The likely 'leaks' are when we don't find the frag_id in the xarray=
+.
+> > > > We do not warn on that because the user can intentionally trigger t=
+he
+> > > > warning with invalid input. If the user is actually giving valid in=
+put
+> > > > and the warn still happens, likely a kernel bug like I mentioned in
+> > > > another thread, but we still don't warn.
+> > >
+> > > In this case, maybe don't mention the leaks at all? If it's not
+> > > actionable, not sure how it helps?
 > >
-> > On 11/07, Mina Almasry wrote:
-> > > On Thu, Nov 7, 2024 at 5:30 PM Stanislav Fomichev <stfomichev@gmail.com> wrote:
-> > > >
-> > > > On 11/07, Mina Almasry wrote:
-> > > > > Document new behavior when the number of frags passed is too big.
-> > > > >
-> > > > > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> > > > > ---
-> > > > >  Documentation/networking/devmem.rst | 9 +++++++++
-> > > > >  1 file changed, 9 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
-> > > > > index a55bf21f671c..d95363645331 100644
-> > > > > --- a/Documentation/networking/devmem.rst
-> > > > > +++ b/Documentation/networking/devmem.rst
-> > > > > @@ -225,6 +225,15 @@ The user must ensure the tokens are returned to the kernel in a timely manner.
-> > > > >  Failure to do so will exhaust the limited dmabuf that is bound to the RX queue
-> > > > >  and will lead to packet drops.
-> > > > >
-> > > > > +The user must pass no more than 128 tokens, with no more than 1024 total frags
-> > > > > +among the token->token_count across all the tokens. If the user provides more
-> > > > > +than 1024 frags, the kernel will free up to 1024 frags and return early.
-> > > > > +
-> > > > > +The kernel returns the number of actual frags freed. The number of frags freed
-> > > > > +can be less than the tokens provided by the user in case of:
-> > > > > +
-> > > >
-> > > > [..]
-> > > >
-> > > > > +(a) an internal kernel leak bug.
-> > > >
-> > > > If you're gonna respin, might be worth mentioning that the dmesg
-> > > > will contain a warning in case of a leak?
-> > >
-> > > We will not actually warn in the likely cases of leak.
-> > >
-> > > We warn when we find an entry in the xarray that is not a net_iov, or
-> > > if napi_pp_put_page fails on that net_iov. Both are very unlikely to
-> > > happen honestly.
-> > >
-> > > The likely 'leaks' are when we don't find the frag_id in the xarray.
-> > > We do not warn on that because the user can intentionally trigger the
-> > > warning with invalid input. If the user is actually giving valid input
-> > > and the warn still happens, likely a kernel bug like I mentioned in
-> > > another thread, but we still don't warn.
+> > It's good to explain what the return code of the setsockopt means, and
+> > when it would be less than the number of passed in tokens.
 > >
-> > In this case, maybe don't mention the leaks at all? If it's not
-> > actionable, not sure how it helps?
-> 
-> It's good to explain what the return code of the setsockopt means, and
-> when it would be less than the number of passed in tokens.
-> 
-> Also it's not really 'not actionable'. I expect serious users of
-> devmem tcp to log such leaks in metrics and try to root cause the
-> userspace or kernel bug causing them if they happen.
+> > Also it's not really 'not actionable'. I expect serious users of
+> > devmem tcp to log such leaks in metrics and try to root cause the
+> > userspace or kernel bug causing them if they happen.
+>
+> Right now it reads like both (a) and (b) have a similar probability. Mayb=
+e
+> even (a) is more probable because you mention it first? In theory, any sy=
+scall
+> can have a bug in it where it returns something bogus, so maybe at least
+> downplay the 'leak' part a bit? "In the extremely rare cases, kernel
+> might free less frags than requested .... "
+>
+> Imagine a situation where the user inadvertently tries to free the same t=
+oken
+> twice or something and gets the unexpected return value. Why? Might be
+> the kernel leak, right?
+>
+> From the POW of the kernel, the most probable cases where we return
+> less tokens are:
+> 1. user gave us more than 1024
+> 2. user gave us incorrect tokens
+> ...
+> 99. kernel is full of bugs and we lost the frag
 
-Right now it reads like both (a) and (b) have a similar probability. Maybe
-even (a) is more probable because you mention it first? In theory, any syscall
-can have a bug in it where it returns something bogus, so maybe at least
-downplay the 'leak' part a bit? "In the extremely rare cases, kernel
-might free less frags than requested .... "
+The current wording doesn't make any comment about probability. More
+information is better than less. I don't see a strong reason to omit
+information. I think the docs are better now and will be improved
+further in the future. Lets not bike shed too much on docs wording.
+It's painfully obvious invalid input is more likely not subtle kernel
+bugs IMO without calling out.
 
-Imagine a situation where the user inadvertently tries to free the same token
-twice or something and gets the unexpected return value. Why? Might be
-the kernel leak, right?
-
-From the POW of the kernel, the most probable cases where we return
-less tokens are:
-1. user gave us more than 1024
-2. user gave us incorrect tokens
-...
-99. kernel is full of bugs and we lost the frag
+--=20
+Thanks,
+Mina
