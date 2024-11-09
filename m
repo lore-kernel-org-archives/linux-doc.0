@@ -1,134 +1,277 @@
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F7619D087
-	for <linux-doc@vger.kernel.org>; Sat,  9 Nov 2024 20:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AAB19F13B
+	for <linux-doc@vger.kernel.org>; Sat,  9 Nov 2024 21:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731184599; cv=none; b=YzoOCrhwp6yxBfU9Nolurdm7WHdIPS13cED2eddnwLbtp8RjFmor5GBGGxGMbOiudU6E0DE9dWhCW23p8JNJxYr/NlicZR0uQZJVGMj9ysOMqPrqNDxDFJlxKXUJ60oZDqMhOiThGtmxaZMa5w9cIushpwiMVKWoGF1qzn3FHRA=
+	t=1731186711; cv=none; b=Bo5fEqXxE2zaXDEUa1WH5kOEpREmq22a8XWfc4qI2DO62uWlow930ZPZt9oM7B9tt/oLQjUHoklv5Iq6Mh2gRCyebN9n9lPR2GJ4jN9tCkRqy0uVJDGkWh8vyhFT3QSRg+L7rSKorY9qKCdhoEDfIlZzvn88FCrpV8G0Zzo3Ycs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731184599; c=relaxed/simple;
-	bh=JZuC3IGJHoxss3Fyk7+3X35/rQifW+9qGA+YusgzH3Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b7QMLoks8adblbsQZQOYp6wCF5ZZKFawPoXx3PYRa0TfKO5pLq5OIepUYGW1eNWe+MZHOZbb6wL1RilCWajIJ021jlxtlcVNHm5oaCyrnXRmIPfYQa5FtA8RVsaNA7lqE/KPGKnjfLO40gscUeJXrBnCRJvaoJjIsd6pJiAafOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=cGS8EnKR; arc=none smtp.client-ip=185.125.188.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1731186711; c=relaxed/simple;
+	bh=ABgMM+icK5ddNiMD+2j3K13rmHK3dfBaOBo3S2H0nVA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZZKFCD7LsMv6Plrew2WqJKNUaKU1dOhJKnK6UzILG3zStBwLfpvA5QJ1sP37IAN2M/2RvQMa9nWN/whazt6wIUAjBQI+4hO2OPXJSTZp0aJIDJtO7+8/S0BUk2QhJ6YOLoW9xr/ziJQvrycsL0o6rnFpMp/de8DNXfTs/QV/9RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Epr4fNIs; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="cGS8EnKR"
-Received: from [192.168.192.84] (unknown [50.39.104.138])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id D08AC3F22F;
-	Sat,  9 Nov 2024 20:36:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1731184593;
-	bh=XEOnqhlDB8bcmYLWWFWvIIS5NSpp9LRHJqcqmSolwys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type;
-	b=cGS8EnKR7FVA434WcJAV2PS6rsGzmnTrDQYLGXX9ydMvKpV43oJHYwgO0vdv4lJGV
-	 qdvqMpiQzGOGLojA8dKaQ+RBrbAUS3yvVLBR8zk7zXkIPvFzYS15Kn0ioU50qfeFOQ
-	 doNqvo0XVHqWd5PLc64PRnZcQgiprUd9rUjDScIYacoXXsnvB0U79dUqU5gM7/Mlal
-	 pA5WE2HHAAGx72IhsmDXH+xACuiwZVKPhjtGGkvJ0jq6Ob32z1VJmBGoophvfPVB+2
-	 X440/S++GrIDva07XXr8+GyNy8bJyh51QoDxK9XKJBH0LWdswWduSRvrYUmW/McC1z
-	 v9lsyKWOT5SHQ==
-Message-ID: <7989c006-abc6-446c-8b2c-dcb9acb9732f@canonical.com>
-Date: Sat, 9 Nov 2024 12:36:30 -0800
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Epr4fNIs"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7aa086b077so451259766b.0
+        for <linux-doc@vger.kernel.org>; Sat, 09 Nov 2024 13:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1731186708; x=1731791508; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dzaEFRktAkP/klNBiZ+4cVbDvhXpkICC/aLo7wIIblk=;
+        b=Epr4fNIsLr/Q9A6X3OKNfK8yFo+m/Y7wl0fw6/tY2f01yP2pkpodl1OcCHHueGTN5B
+         xPt69W1enLtqw+iTDE0v4F9zk7AY8RteyJnfQX2Ux0nOYqWIa5cc97YDBwGZK5wncQvE
+         phZOz+iR1X5Z9GrS6ITFoSy44N2Jb6vroIGSQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731186708; x=1731791508;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dzaEFRktAkP/klNBiZ+4cVbDvhXpkICC/aLo7wIIblk=;
+        b=WzsZfI3klkQVOxzpBV5SfabqV1JkRTgGsRgPQcu6HHQLwEjOMOq/gF50YaeuGV/tSZ
+         IjVmErx5+P5yvq5Pf+ghJCwcKIufEKuBtSicFOA1uSgIbl/vjnqK/3me1gTO3NaZMvpz
+         NUqTp4hnwbzjwvyCvx0uTYAqE1m/mLtL69792TSD4ya72H6qV6tYlQDMxH/nLGdF/ent
+         ATTZnb7l9KoW49WDqpgYdz4Hafo+ehY/8Y4/3SGUYyA0ASotNvex4ZxsFv3kQDiJqMIb
+         xx7ae1sO+Q+0CxC7GChnpbBzYVfKd2bCbduPNcWDXJMcQWvETSDsmj9Wigb46v7cwwJ3
+         KMcg==
+X-Forwarded-Encrypted: i=1; AJvYcCVdIstH9Vd4SeTnJ8hz1R3k7V2bv1KOx9OlmRPH3jothjJPNX/qxikB6oohGsFuPkf2o4UY1eAKGMU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8urQYG88ugXN6TbRicbvY0FxQZavi2b8i8s7jF0Z1IXhtDNLT
+	IS0L+Uh4To1069Ig1zi+xbOaoOzYRtfmUbCr+oytONPcy/Nn9IUnYmaRQzjr/Jw3ItiDY7ZsU8v
+	5WC/gPysfqdoqTeGZnO55wTis7X+8MFypGJvlbCuFSjn9wm9GVNXBLwtqtyrmHxVcfFM12ylWvn
+	Hr0sItTPky2qk7HytpqgFT8Q5uWX4J5H4CbTI=
+X-Google-Smtp-Source: AGHT+IFPcoJr8nElnRzhiZR4oQp1IJiFbpTh6X8yXbkRXn/08dHID1yw3BffYyZCmclFQvK6f6wwrWN6dDpKgJ1VYG8=
+X-Received: by 2002:a17:907:8693:b0:a9a:1b32:5aa8 with SMTP id
+ a640c23a62f3a-a9eefebd42dmr758229066b.4.1731186707577; Sat, 09 Nov 2024
+ 13:11:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 RESEND] Docs: Update LSM/apparmor.rst
-To: Siddharth Menon <simeddon@gmail.com>, linux-doc@vger.kernel.org,
- corbet@lwn.net
-Cc: shuah@kernel.org, apparmor@lists.ubuntu.com
-References: <20241002094940.55644-1-simeddon@gmail.com>
-Content-Language: en-US
-From: John Johansen <john.johansen@canonical.com>
-Autocrypt: addr=john.johansen@canonical.com; keydata=
- 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 lT9Q
-Organization: Canonical
-In-Reply-To: <20241002094940.55644-1-simeddon@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241030033514.1728937-1-zack.rusin@broadcom.com>
+ <20241030033514.1728937-3-zack.rusin@broadcom.com> <CABgObfaRP6zKNhrO8_atGDLcHs=uvE0aT8cPKnt_vNHHM+8Nxg@mail.gmail.com>
+ <CABQX2QMR=Nsn23zojFdhemR7tvGUz6_UM8Rgf6WLsxwDqoFtxg@mail.gmail.com>
+ <Zy0__5YB9F5d0eZn@google.com> <CABQX2QNxFDhH1frsGpSQjSs3AWSdTibkxPrjq1QC7FGZC8Go-Q@mail.gmail.com>
+ <e3f943a7-a40a-45cb-b0d9-e3ed58344d8b@redhat.com>
+In-Reply-To: <e3f943a7-a40a-45cb-b0d9-e3ed58344d8b@redhat.com>
+From: Doug Covelli <doug.covelli@broadcom.com>
+Date: Sat, 9 Nov 2024 16:11:36 -0500
+Message-ID: <CADH9ctD1uf_yBA3NXNQu7TJa_TPhLRN=0YZ3j2gGhgmaFRdCFg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] KVM: x86: Add support for VMware guest specific hypercalls
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Zack Rusin <zack.rusin@broadcom.com>, Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@redhat.com>, Isaku Yamahata <isaku.yamahata@intel.com>, 
+	Joel Stanley <joel@jms.id.au>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/2/24 02:49, Siddharth Menon wrote:
-> After the deprecation of CONFIG_DEFAULT_SECURITY, it is no longer used
-> to enable and configure AppArmor. Since kernel 5.0,
-> `CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE` is not used either.
-> Instead, the CONFIG_LSM parameter manages the order and selection of LSMs.
-> 
-> Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+On Sat, Nov 9, 2024 at 1:20=E2=80=AFPM Paolo Bonzini <pbonzini@redhat.com> =
+wrote:
+>
+> On 11/8/24 06:03, Zack Rusin wrote:
+> >>> There's no spec but we have open headers listing the hypercalls.
+> >>> There's about a 100 of them (a few were deprecated), the full
+> >>> list starts here:
+> >>> https://github.com/vmware/open-vm-tools/blob/739c5a2f4bfd4cdda491e6a6=
+f6869d88c0bd6972/open-vm-tools/lib/include/backdoor_def.h#L97
+> >>> They're not well documented, but the names are pretty self-explenator=
+y.
+> >>
+> >> At a quick glance, this one needs to be handled in KVM:
+> >>
+> >>    BDOOR_CMD_VCPU_MMIO_HONORS_PAT
+> >>
+> >> and these probably should be in KVM:
+> >>
+> >>    BDOOR_CMD_GETTIME
+> >>    BDOOR_CMD_SIDT
+> >>    BDOOR_CMD_SGDT
+> >>    BDOOR_CMD_SLDT_STR
+> >>    BDOOR_CMD_GETTIMEFULL
+> >>    BDOOR_CMD_VCPU_LEGACY_X2APIC_OK
+> >>    BDOOR_CMD_STEALCLOCK
+> >
+> > I'm not sure if there's any value in implementing a few of them.
+>
+> The value is that some of these depend on what the hypervisor does, not
+> on what userspace does.  For Hypervisor.framework you have a lot of
+> leeway, for KVM and Hyper-V less so.
+>
+> Please understand that adding support for a closed spec is already a bit
+> of a tall ask.  We can meet in the middle and make up for the
+> closedness, but the way to do it is not technical; it's essentially
+> trust.  You are the guys that know the spec and the userspace code best,
+> so we trust you to make choices that make technical sense for both KVM
+> and VMware.  But without a spec we even have to trust you on what makes
+> sense or not to have in the kernel, so we ask you to be... honest about
+> that.
+>
+> One important point is that from the KVM maintainers' point of view, the
+> feature you're adding might be used by others and not just VMware
+> Workstation.  Microsoft and Apple might see things differently (Apple in
+> particular has a much thinner wrapper around the processor's
+> virtualization capbilities).
+>
+> > iirc
+> > there's 101 of them (as I mentioned a lot have been deprecated but
+> > that's for userspace, on the host we still have to do something for
+> > old guests using them) and, if out of those 101 we implement 100 in
+> > the kernel then, as far as this patch is concerned, it's no different
+> > than if we had 0 out of 101 because we're still going to have to exit
+> > to userspace to handle that 1 remaining.
+> >
+> > Unless you're saying that those would be useful to you. In which case
+> > I'd be glad to implement them for you, but I'd put them behind some
+> > kind of a cap or a kernel config because we wouldn't be using them -
+>
+> Actually we'd ask you to _not_ put them behind a cap, and live with the
+> kernel implementation.  Obviously that's not a requirement for all the
+> 100+ hypercalls, only for those where it makes sense.
+>
+> > besides what Doug mentioned - we already maintain the shared code for
+> > them that's used on Windows, MacOS, ESX and Linux so even if we had
+> > them in the Linux kernel it would still make more sense to use the
+> > code that's shared with the other OSes to lessen the maintenance
+> > burden (so that changing anything within that code consistently
+> > changes across all the OSes).
+>
+> If some of them can have shared code across all OSes, then that's a good
+> sign that they do not belong in the kernel.  On the other hand, if the
+> code is specific to Windows/macOS/ESX/Linux, and maybe it even calls
+> into low-level Hypervisor.framework APIs on macOS, then it's possible or
+> even likely that the best implementation for Linux is "just assume that
+> KVM will do it" and assert(0).
+>
+> In yet other cases (maybe those SGDT/SLDT/STR/SIDT ones??), if the code
+> that you have for Linux is "just do this KVM ioctl to do it", it may
+> provide better performance if you save the roundtrip to userspace and
+> back.  If KVM is the best performing hypervisor for VMware Workstation,
+> then we're happy, :) and if you have some performance issue we want to
+> help you too.
 
-Acked-by: John Johansen <john.johansen@canonical.com>
+Appreciate the concern about performance however I don't think it is
+something we should worry about.  Even with our existing VMM, which
+runs at CPL0, all of these backdoor calls are handled by userspace
+which means they are very slow (~28K cycles overhead on my Zen2) and
+are not used in any perf critical code (if they were we would have
+handled them at CPL0). Running on KVM the overhead is significantly
+less.
 
-I have pulled this into my tree
+As for the SGDT/SLDT/STR/SIDT backdoor calls these were added > 20
+years ago for SW that used these instructions from CPL3 which did not
+work well before VT/SVM were introduced.  These are really of no use
+on modern CPUs and will be blocked if the guest OS has enabled UMIP.
+Adding support for these to the KVM code would be a bit of a waste
+IMHO  I have no objection to adding support for handling some backdoor
+calls in the kernel if we find ones where it would be advantageous to
+do so I'm just not aware of any where this would be the caase..
 
-> ---
->   V1 -> V2: Removed historical information and addressed review comments
->   Documentation/admin-guide/LSM/apparmor.rst | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/LSM/apparmor.rst b/Documentation/admin-guide/LSM/apparmor.rst
-> index 6cf81bbd7ce8..47939ee89d74 100644
-> --- a/Documentation/admin-guide/LSM/apparmor.rst
-> +++ b/Documentation/admin-guide/LSM/apparmor.rst
-> @@ -18,8 +18,11 @@ set ``CONFIG_SECURITY_APPARMOR=y``
->   
->   If AppArmor should be selected as the default security module then set::
->   
-> -   CONFIG_DEFAULT_SECURITY="apparmor"
-> -   CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
-> +   CONFIG_DEFAULT_SECURITY_APPARMOR=y
-> +
-> +The CONFIG_LSM parameter manages the order and selection of LSMs.
-> +Specify apparmor as the first "major" module (e.g. AppArmor, SELinux, Smack)
-> +in the list.
->   
->   Build the kernel
->   
+> A related topic is that a good implementation, equivalent to what the
+> proprietary hypervisor implemented, might require adding a ioctl to
+> query something that KVM currently does not provide (maybe the current
+> steal clock? IIRC it's only available via a Xen ioctl, not a generic
+> one).  In that case you'd need to contribute that extra API.  Doing that
+> now is easier for both you guys and the KVM maintainers, so that's
+> another reason to go through the list and share your findings.
 
+For stolen time the backdoor call is used to enable the functionality
+not to get/set the stolen time.  I agree that we would probably want
+to do something KVM specific for this one however this is currently
+really only supported by ESX (and only currently used by Photon OS) so
+I don't think adding that support to KVM is critical.
+
+> Anyway, one question apart from this: is the API the same for the I/O
+> port and hypercall backdoors?
+
+Yeah the calls and arguments are the same.  The hypercall based
+interface is an attempt to modernize the backdoor since as you pointed
+out the I/O based interface is kind of hacky as it bypasses the normal
+checks for an I/O port access at CPL3.  It would be nice to get rid of
+it but unfortunately I don't think that will happen in the foreseeable
+future as there are a lot of existing VMs out there with older SW that
+still uses this interface.
+
+> >> I don't think it addresses Paolo's concern (if I understood Paolo's co=
+ncern
+> >> correctly), but it would help from the perspective of allowing KVM to =
+support
+> >> VMware hypercalls and Xen/Hyper-V/KVM hypercalls in the same VM.
+> >
+> > Yea, I just don't think there's any realistic way we could handle all
+> > of those hypercalls in the kernel so I'm trying to offer some ideas on
+> > how to lessen the scope to make it as painless as possible. Unless you
+> > think we could somehow parlay my piercing blue eyes into getting those
+> > patches in as is, in which case let's do that ;)
+>
+> Unlikely :) but it's not in bad shape at all!  The main remaining
+> discussion point is the subset of hypercalls that need support in the
+> kernel (either as a kernel implementation, or as a new ioctl).
+> Hopefully the above guidelines will help you.
+>
+> >> I also think we should add CONFIG_KVM_VMWARE from the get-go, and if w=
+e're feeling
+> >> lucky, maybe even retroactively bury KVM_CAP_X86_VMWARE_BACKDOOR behin=
+d that
+> >> Kconfig.  That would allow limiting the exposure to VMware specific co=
+de, e.g. if
+> >> KVM does end up handling hypercalls in-kernel.  And it might deter abu=
+se to some
+> >> extent.
+> >
+> > I thought about that too. I was worried that even if we make it on by
+> > default it will require quite a bit of handholding to make sure all
+> > the distros include it, or otherwise on desktops Workstation still
+> > wouldn't work with KVM by default, I also felt a little silly trying
+> > to add a kernel config for those few lines that would be on pretty
+> > much everywhere and since we didn't implement the vmware backdoor
+> > functionality I didn't want to presume and try to shield a feature
+> > that might be in production by others with a new kernel config.
+> We don't have a huge number of such knobs but based on experience I
+> expect that it will be turned off only by cloud providers or appliance
+> manufacturers that want to reduce the attack surface.  If it's enabled
+> by default, distros will generally leave it on.  You can also add "If
+> unsure, say Y" to the help message as we already do in several cases.(*)
+>
+> In fact, if someone wants to turn it off, they will send the patch
+> themselves to add CONFIG_KVM_VMWARE and it will be accepted.  So we
+> might as well ask for it from the start. :)
+>
+> Thanks,
+>
+> Paolo
+>
+> (*) In fact I am wondering if we should flip the default for Xen, in the
+> beginning it was just an Amazon thing but since then David has
+> contributed support in QEMU and CI.  To be clear, I am *not* asking
+> VMware for anything but selftests to make CONFIG_KVM_VMWARE default to
+> enabled.
+>
+
+--=20
+This electronic communication and the information and any files transmitted=
+=20
+with it, or attached to it, are confidential and are intended solely for=20
+the use of the individual or entity to whom it is addressed and may contain=
+=20
+information that is confidential, legally privileged, protected by privacy=
+=20
+laws, or otherwise restricted from disclosure to anyone else. If you are=20
+not the intended recipient or the person responsible for delivering the=20
+e-mail to the intended recipient, you are hereby notified that any use,=20
+copying, distributing, dissemination, forwarding, printing, or copying of=
+=20
+this e-mail is strictly prohibited. If you received this e-mail in error,=
+=20
+please return the e-mail to the sender, delete it from your computer, and=
+=20
+destroy any printed copy of it.
