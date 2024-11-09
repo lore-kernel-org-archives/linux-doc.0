@@ -1,210 +1,271 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C3217C9B;
-	Sat,  9 Nov 2024 00:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A18818037
+	for <linux-doc@vger.kernel.org>; Sat,  9 Nov 2024 01:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731112592; cv=none; b=mF/CSid5MOUJcSa5oYn4DK3k9BzYlaTiaZm5vOzNbvKRtY4SSffuMmW1PxO4foNCmlfy1o4LpPzvFnH9AqhVJvRE6osL67a3uW74EfCGMGBDSASfHJz4b+NYC5+/COf2cPAN4g+DacVdAVyBDiDahou+owcb9M+JnXSerKWjA38=
+	t=1731116623; cv=none; b=E2SO4SbkEan3EVSCh/rFQyKh+xYWiNanVKxsOU2nDAmBbn/ufSGIRkn23Yrnv2A/zudI+7aQ4ftjsifnTihyrHqFo6kXwaFKNO6WDvPTjyrHuvFYY2YHqxdSdAbgn/oKUVPGmcdrkMhETUQOwA0iRa9q8PEiryu1dE5tlpWY1SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731112592; c=relaxed/simple;
-	bh=/v4nOKMZqjRDKHeSccKn/6TRtfkIXuzKK2o/IGgxuG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W7AYVv99vBifQNwPRa9yqxcCj5lxHX8NjIlbEDI7N/D8h46G9Rr5aFzwQvhy8MxTKk11jB9HD7cnruDuDvdMIGQq6Qj5XGt4b5REcecFJrmzRGUsYEf6EvjMRdu/AdRAMg6IoBPyEEBaIVlGlC9/TZ0tyV9d6/CCp2741wcwzZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mCfxFIXX; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731116623; c=relaxed/simple;
+	bh=mepBhE3QmCYYwE8gAVm0Jk8Zx28/5Z4vGXsLLl7XKnY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pAX6HxsEPmKMAsvQtAIK4BPSJNZUjJZB5RdlWV42oauqX4JZcMnMUiJ8U1+gnkxZwX5c8ufkP6a1Ory2+gKaeJkwN9DdjDaZkvORytPiMM6GoqgLR3xROWVEFhf5Jqhf6pVjfUW3C2nvLDq9378kAQ/+V0Josw875Nfz3+dh3M4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=A+TufE6w; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mCfxFIXX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731112590; x=1762648590;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/v4nOKMZqjRDKHeSccKn/6TRtfkIXuzKK2o/IGgxuG0=;
-  b=mCfxFIXX65FV1yF/ManTwvqbIAVGvXqvYT2EfXH0iSeAKCAQPdKcP0UF
-   5007lV9Zp67fqLm2VsGopLGx/ThZd9ldV3EdTW6wdPDhSYZFvOAqUL+8N
-   B/bbLghr6JNpEcXX5bkkeJMcbPW4klvylQLVyPJMEL/3agmz6ntjjvbI4
-   48lK+RCPKDJRRVtdnmPEeCpWct/Ofjyv5IChW7JFcv1nS3EzvFAY1Clzx
-   sn2o52klWmlNb2D+Gdv20wG8+p469F9L891QOSO3c34UWdvDhZLrg6Vnb
-   UkcNHHdDVw9JcdU7wKFNG+Qdelq0FeY3oyZvMfL+g6Bm0fnFU541s0CR6
-   A==;
-X-CSE-ConnectionGUID: hnNvSN2ES9i4vWdL2BY9MA==
-X-CSE-MsgGUID: ykHbf34KSt6ZkQnuIfPoBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34697184"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34697184"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 16:36:29 -0800
-X-CSE-ConnectionGUID: GzuMQ6EmShiR9JfRGqiapQ==
-X-CSE-MsgGUID: O5rcz93TTtGnX69xmuZJlA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,139,1728975600"; 
-   d="scan'208";a="85866781"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Nov 2024 16:36:24 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9ZSg-000rvI-0L;
-	Sat, 09 Nov 2024 00:36:22 +0000
-Date: Sat, 9 Nov 2024 08:36:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yoshihiro Furudera <fj5100bi@fujitsu.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
-Message-ID: <202411090817.15n7hhOv-lkp@intel.com>
-References: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="A+TufE6w"
+Message-ID: <955dde4b-b4ba-439f-b7d4-f64d90c58d55@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1731116617;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u4FAc6Pkq+6FU2hrV3MhybCMa3MxiYPHACi+H+viGfc=;
+	b=A+TufE6wrdG/LbPUcsCkbV9Ak152iUtqi5gOoPEgJbLbRhJ61vGQFsp/2aBwneQwGzrmlU
+	Bx7xjU8q1EF9lUk3aicKMhYiy2r+KGji1N5lpa1iPPOUj3K8P33ftMvHqH7lNqfJc97EC3
+	KusIBxM/n5NQ/gvK8aeSLcuOmuKgNiQ=
+Date: Sat, 9 Nov 2024 01:43:30 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
+Subject: Re: [PATCH net-next v19 09/10] net: ethtool: Add support for tsconfig
+ command to get/set hwtstamp config
+To: Kory Maincent <kory.maincent@bootlin.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
+ Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+ Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com,
+ Simon Horman <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>,
+ donald.hunter@gmail.com, danieller@nvidia.com, ecree.xilinx@gmail.com,
+ Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Willem de Bruijn <willemb@google.com>,
+ Shannon Nelson <shannon.nelson@amd.com>,
+ Alexandra Winter <wintera@linux.ibm.com>
+References: <20241030-feature_ptp_netnext-v19-0-94f8aadc9d5c@bootlin.com>
+ <20241030-feature_ptp_netnext-v19-9-94f8aadc9d5c@bootlin.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20241030-feature_ptp_netnext-v19-9-94f8aadc9d5c@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Yoshihiro,
+On 30/10/2024 13:54, Kory Maincent wrote:
+> Introduce support for ETHTOOL_MSG_TSCONFIG_GET/SET ethtool netlink socket
+> to read and configure hwtstamp configuration of a PHC provider. Note that
+> simultaneous hwtstamp isn't supported; configuring a new one disables the
+> previous setting.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-kernel test robot noticed the following build warnings:
+[ ... ]
 
-[auto build test WARNING on tip/smp/core]
-[also build test WARNING on linus/master v6.12-rc6]
-[cannot apply to arm64/for-next/core arm-perf/for-next/perf next-20241108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> +static int ethnl_set_tsconfig(struct ethnl_req_info *req_base,
+> +			      struct genl_info *info)
+> +{
+> +	struct kernel_hwtstamp_config hwtst_config = {0}, _hwtst_config = {0};
+> +	unsigned long mask = 0, req_rx_filter, req_tx_type;
+> +	struct hwtstamp_provider *hwtstamp = NULL;
+> +	struct net_device *dev = req_base->dev;
+> +	struct nlattr **tb = info->attrs;
+> +	bool mod = false;
+> +	int ret;
+> +
+> +	BUILD_BUG_ON(__HWTSTAMP_TX_CNT > 32);
+> +	BUILD_BUG_ON(__HWTSTAMP_FILTER_CNT > 32);
+> +
+> +	if (!netif_device_present(dev))
+> +		return -ENODEV;
+> +
+> +	if (tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_PROVIDER]) {
+> +		struct hwtst_provider __hwtst = {.index = -1};
+> +		struct hwtstamp_provider *__hwtstamp;
+> +
+> +		__hwtstamp = rtnl_dereference(dev->hwtstamp);
+> +		if (__hwtstamp) {
+> +			__hwtst.index = ptp_clock_index(__hwtstamp->ptp);
+> +			__hwtst.qualifier = __hwtstamp->qualifier;
+> +		}
+> +
+> +		ret = ts_parse_hwtst_provider(tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_PROVIDER],
+> +					      &__hwtst, info->extack,
+> +					      &mod);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		if (mod) {
+> +			hwtstamp = kzalloc(sizeof(*hwtstamp), GFP_KERNEL);
+> +			if (!hwtstamp)
+> +				return -ENOMEM;
+> +
+> +			hwtstamp->ptp = ptp_clock_get_by_index(&dev->dev,
+> +							       __hwtst.index);
+> +			if (!hwtstamp->ptp) {
+> +				NL_SET_ERR_MSG_ATTR(info->extack,
+> +						    tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_PROVIDER],
+> +						    "no phc at such index");
+> +				ret = -ENODEV;
+> +				goto err_free_hwtstamp;
+> +			}
+> +			hwtstamp->qualifier = __hwtst.qualifier;
+> +			hwtstamp->dev = &dev->dev;
+> +
+> +			/* Does the hwtstamp supported in the netdev topology */
+> +			if (!netdev_support_hwtstamp(dev, hwtstamp)) {
+> +				NL_SET_ERR_MSG_ATTR(info->extack,
+> +						    tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_PROVIDER],
+> +						    "phc not in this net device topology");
+> +				ret = -ENODEV;
+> +				goto err_clock_put;
+> +			}
+> +		}
+> +	}
+> +
+> +	/* Get the hwtstamp config from netlink */
+> +	if (tb[ETHTOOL_A_TSCONFIG_TX_TYPES]) {
+> +		ret = ethnl_parse_bitset(&req_tx_type, &mask,
+> +					 __HWTSTAMP_TX_CNT,
+> +					 tb[ETHTOOL_A_TSCONFIG_TX_TYPES],
+> +					 ts_tx_type_names, info->extack);
+> +		if (ret < 0)
+> +			goto err_clock_put;
+> +
+> +		/* Select only one tx type at a time */
+> +		if (ffs(req_tx_type) != fls(req_tx_type)) {
+> +			ret = -EINVAL;
+> +			goto err_clock_put;
+> +		}
+> +
+> +		hwtst_config.tx_type = ffs(req_tx_type) - 1;
+> +	}
+> +	if (tb[ETHTOOL_A_TSCONFIG_RX_FILTERS]) {
+> +		ret = ethnl_parse_bitset(&req_rx_filter, &mask,
+> +					 __HWTSTAMP_FILTER_CNT,
+> +					 tb[ETHTOOL_A_TSCONFIG_RX_FILTERS],
+> +					 ts_rx_filter_names, info->extack);
+> +		if (ret < 0)
+> +			goto err_clock_put;
+> +
+> +		/* Select only one rx filter at a time */
+> +		if (ffs(req_rx_filter) != fls(req_rx_filter)) {
+> +			ret = -EINVAL;
+> +			goto err_clock_put;
+> +		}
+> +
+> +		hwtst_config.rx_filter = ffs(req_rx_filter) - 1;
+> +	}
+> +	if (tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_FLAGS]) {
+> +		ret = nla_get_u32(tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_FLAGS]);
+> +		if (ret < 0)
+> +			goto err_clock_put;
+> +		hwtst_config.flags = ret;
+> +	}
+> +
+> +	ret = net_hwtstamp_validate(&hwtst_config);
+> +	if (ret)
+> +		goto err_clock_put;
+> +
+> +	if (mod) {
+> +		struct kernel_hwtstamp_config zero_config = {0};
+> +		struct hwtstamp_provider *__hwtstamp;
+> +
+> +		/* Disable current time stamping if we try to enable
+> +		 * another one
+> +		 */
+> +		ret = dev_set_hwtstamp_phylib(dev, &zero_config, info->extack);
+		
+_hwtst_config is still inited to 0 here, maybe it can be used to avoid
+another stack allocation?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Furudera/perf-Fujitsu-Add-the-Uncore-MAC-PMU-driver/20241108-134245
-base:   tip/smp/core
-patch link:    https://lore.kernel.org/r/20241108054006.2550856-2-fj5100bi%40fujitsu.com
-patch subject: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241109/202411090817.15n7hhOv-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090817.15n7hhOv-lkp@intel.com/reproduce)
+> +		if (ret < 0)
+> +			goto err_clock_put;
+> +
+> +		/* Change the selected hwtstamp source */
+> +		__hwtstamp = rcu_replace_pointer_rtnl(dev->hwtstamp, hwtstamp);
+> +		if (__hwtstamp)
+> +			call_rcu(&__hwtstamp->rcu_head,
+> +				 remove_hwtstamp_provider);
+> +	} else {
+> +		/* Get current hwtstamp config if we are not changing the
+> +		 * hwtstamp source
+> +		 */
+> +		ret = dev_get_hwtstamp_phylib(dev, &_hwtst_config);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411090817.15n7hhOv-lkp@intel.com/
+This may be tricky whithout ifr set properly. But it should force
+drivers to be converted.
 
-All warnings (new ones prefixed by >>):
+> +		if (ret < 0 && ret != -EOPNOTSUPP)
+> +			goto err_clock_put;
+> +	}
+> +
+> +	if (memcmp(&hwtst_config, &_hwtst_config, sizeof(hwtst_config))) {
 
-   In file included from drivers/perf/fujitsu_mac_pmu.c:12:
-   In file included from include/linux/acpi.h:14:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2232:
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     511 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     524 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/perf/fujitsu_mac_pmu.c:15:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/perf/fujitsu_mac_pmu.c:15:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/perf/fujitsu_mac_pmu.c:15:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/perf/fujitsu_mac_pmu.c:604:36: warning: unused variable 'fujitsu_mac_pmu_acpi_match' [-Wunused-const-variable]
-     604 | static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   17 warnings generated.
+better to use kernel_hwtstamp_config_changed() helper here
 
+> +		ret = dev_set_hwtstamp_phylib(dev, &hwtst_config,
+> +					      info->extack);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		ret = tsconfig_send_reply(dev, info);
+> +		if (ret && ret != -EOPNOTSUPP) {
+> +			NL_SET_ERR_MSG(info->extack,
+> +				       "error while reading the new configuration set");
+> +			return ret;
+> +		}
+> +
+> +		return 1;
+> +	}
+> +
+> +	if (mod)
+> +		return 1;
+> +
+> +	return 0;
+> +
+> +err_clock_put:
+> +	if (hwtstamp)
+> +		ptp_clock_put(&dev->dev, hwtstamp->ptp);
+> +err_free_hwtstamp:
+> +	kfree(hwtstamp);
+> +
+> +	return ret;
+> +}
+> +
+> +const struct ethnl_request_ops ethnl_tsconfig_request_ops = {
+> +	.request_cmd		= ETHTOOL_MSG_TSCONFIG_GET,
+> +	.reply_cmd		= ETHTOOL_MSG_TSCONFIG_GET_REPLY,
+> +	.hdr_attr		= ETHTOOL_A_TSCONFIG_HEADER,
+> +	.req_info_size		= sizeof(struct tsconfig_req_info),
+> +	.reply_data_size	= sizeof(struct tsconfig_reply_data),
+> +
+> +	.prepare_data		= tsconfig_prepare_data,
+> +	.reply_size		= tsconfig_reply_size,
+> +	.fill_reply		= tsconfig_fill_reply,
+> +
+> +	.set_validate		= ethnl_set_tsconfig_validate,
+> +	.set			= ethnl_set_tsconfig,
+> +	.set_ntf_cmd		= ETHTOOL_MSG_TSCONFIG_NTF,
+> +};
+> 
 
-vim +/fujitsu_mac_pmu_acpi_match +604 drivers/perf/fujitsu_mac_pmu.c
-
-   603	
- > 604	static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
-   605		{ "FUJI200C", },
-   606		{ }
-   607	};
-   608	MODULE_DEVICE_TABLE(acpi, fujitsu_mac_pmu_acpi_match);
-   609	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
