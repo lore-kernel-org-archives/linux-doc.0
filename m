@@ -1,97 +1,77 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55331DFD1;
-	Sat,  9 Nov 2024 09:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC6E1547E2;
+	Sat,  9 Nov 2024 11:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731144135; cv=none; b=l44iT3a3I3ReIDpmwAZvUtkj54l1ZJm0QYmBcK8OTYYvbDG5Sp8T/O22klknVPNNXxVdvtH9iq0sAEP9sQDFYYY80cftA1c1i0hE+7a4NxH5SZqL4r/VEXw2ZnBpTzjorMpWFZsemSBdNZxOm0KyRkDusbyBGICkkTW8xqtASio=
+	t=1731151342; cv=none; b=kEEFMye+1JOWXw/x7672JT9HKutegu4TfY0stP46R/e94/dHgGcbaWnf3sw65FIBt2W7t6t+6TRsyX3ArbrR314ZQivWU+P9DIoRnb3GUwwhV6WaAK8fJVrq32WPLk9JkroDb+umwdARmNVCrvOwCoXs/D8F6ywve2qedA0AjS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731144135; c=relaxed/simple;
-	bh=JnSRpSy4Y0dEjyg11F30uP2wLMuAkz3qQk/p3ugmvaI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z9DYa0zQTs0wkH2JLCn5mbMjDWeXRS4YstbEyV7M0kO/iMxi3vWRQQi0VG4zTvn++Fu4RZRRZ6QXz5+F/a+93kIBzvxhst9dfkz+S/KmsO3U7qDnyFPqYcHVeClZhcelQMbo7Cj1uJjj01gWgmy8ew7sjezFXezyLz+2jMC3hhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 17021ba69e7c11efa216b1d71e6e1362-20241109
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38,REQID:e45ddae5-ffbd-47ae-b380-f8425b9c0cf3,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:82c5f88,CLOUDID:bb0a940dd6dc7d1943b6e6fdaf5ba797,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,URL:0
-	,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-	NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 17021ba69e7c11efa216b1d71e6e1362-20241109
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1099126974; Sat, 09 Nov 2024 17:22:07 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id E45B0E0080FF;
-	Sat,  9 Nov 2024 17:22:06 +0800 (CST)
-X-ns-mid: postfix-672F29BE-15679110
-Received: from kylin-pc.. (unknown [172.25.130.133])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 2FC3BE0080FF;
-	Sat,  9 Nov 2024 17:22:03 +0800 (CST)
-From: zhangheng <zhangheng@kylinos.cn>
-To: corbet@lwn.net,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	zhangheng <zhangheng@kylinos.cn>
-Subject: [PATCH 4/4] docs: driver-api: firmware_loader: Convert to platform remove callback returning void
-Date: Sat,  9 Nov 2024 17:22:02 +0800
-Message-ID: <20241109092202.4040669-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1731151342; c=relaxed/simple;
+	bh=On7OLyIbvHvdcY/4ueFsMOMwkor9DkHgs48QxTfn8oI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PKpvzZkjLwpGhdTDIgM68VGK39s6rGl6BQW+Yq/1cnZUbVWJx+Ud82iw/5Tr9MBScZGUqDnn7K0bPM4uU+huM6NGTE908d9V5eFVRsIlQNthcg36YXfZM1YGcY2ynkNn+d2pRm7nyM1VWnB3gFXa4JPFlEXLLgPtQarElpPJFNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbDND7ON; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbDND7ON"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF36BC4CECE;
+	Sat,  9 Nov 2024 11:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731151342;
+	bh=On7OLyIbvHvdcY/4ueFsMOMwkor9DkHgs48QxTfn8oI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kbDND7ONngLyyE/aBO6g+6F1pzNe0ik9jXNDu4WdDYEsqYhIr9o8L3F1ymkBaRffF
+	 t+EioGaU9G7YLZBbosNnf5yToiinNDgBbXJjAC8vW36lkJ4k8rCkDe9AAVzAbxtzxH
+	 A1B+Nx1agq/yqaYhwFLaDwgH4UrP5O8svNIS1aHgpWFiLSU0nbKOyxFGEobSbVfo2q
+	 XaQF096genfWS5g2y34zwImd+qxwRfGkUZVeoLbczeC/gsmaMCGr37qFD+6VAS/ena
+	 ggKM/A5houZLYQ5z1a7bGQMWSNeQPBBB7JeflYA8ECZO7tAuXKootlsWiqpMbGwJMW
+	 oW33QvK4rexOw==
+Date: Sat, 9 Nov 2024 11:22:12 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Darius Berghe <darius.berghe@analog.com>
+Cc: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+ <corbet@lwn.net>, <alexandru.tachici@analog.com>, <lars@metafoo.de>,
+ <Michael.Hennerich@analog.com>, <linux-iio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 0/3] iio: imu: add devices to adis16480 driver
+Message-ID: <20241109112212.437a4a96@jic23-huawei>
+In-Reply-To: <20241108125814.3097213-1-darius.berghe@analog.com>
+References: <20241108125814.3097213-1-darius.berghe@analog.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void.
+On Fri, 8 Nov 2024 14:58:11 +0200
+Darius Berghe <darius.berghe@analog.com> wrote:
 
-Trivially convert the mediatek drm drivers from always returning zero in
-the remove callback to the void returning variant.
+> Changes in v3:
+>  - resend v2 using get_maintainers.pl script, hopefully everyone is in
+>    the email list now
+>  - edited the dt-bindings patch to use oneOf
+> 
+> Darius Berghe (3):
+>   iio: imu: adis16480: add devices to adis16480 driver
+>   iio: imu: adis16480: add devices to adis16480 - docs
+>   dt-bindings: iio: adis16480: add devices to adis16480
+> 
+>  .../bindings/iio/imu/adi,adis16480.yaml       | 42 ++++++-----
+>  Documentation/iio/adis16480.rst               |  3 +
+>  drivers/iio/imu/adis16480.c                   | 75 +++++++++++++++++++
+>  3 files changed, 102 insertions(+), 18 deletions(-)
+> 
 
-Signed-off-by: zhangheng <zhangheng@kylinos.cn>
----
- Documentation/driver-api/firmware/fw_upload.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Applied to the testing branch of iio.git
+Note that I'll be rebasing this on 6.13-rc1 once available so
+it won't be picked up by linux-next until after that (when I'll
+push it out as togreg).
 
-diff --git a/Documentation/driver-api/firmware/fw_upload.rst b/Documentat=
-ion/driver-api/firmware/fw_upload.rst
-index edf1d0c5e7c3..b339265655ee 100644
---- a/Documentation/driver-api/firmware/fw_upload.rst
-+++ b/Documentation/driver-api/firmware/fw_upload.rst
-@@ -69,13 +69,12 @@ function calls firmware_upload_unregister() such as::
- 		return 0;
- 	}
-=20
--	static int m10bmc_sec_remove(struct platform_device *pdev)
-+	static void m10bmc_sec_remove(struct platform_device *pdev)
- 	{
- 		struct m10bmc_sec *sec =3D dev_get_drvdata(&pdev->dev);
-=20
- 		firmware_upload_unregister(sec->fwl);
- 		kfree(sec->fw_name);
--		return 0;
- 	}
-=20
- firmware_upload_register
---=20
-2.45.2
+In the meantime, 0-day can have a first look at this.
 
+Jonathan
