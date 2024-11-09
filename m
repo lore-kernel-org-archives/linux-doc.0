@@ -1,75 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F3F139D;
-	Sat,  9 Nov 2024 03:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7564745BE3
+	for <linux-doc@vger.kernel.org>; Sat,  9 Nov 2024 03:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731124659; cv=none; b=d7JzCssApzryrWwLyurba4jleUl3+iim7OIzq7e1Y+N0HfYNYoDd8Rfma2+xs3ItmgsqOF2N8IkH853fbwnDa6BeP2hjbwV+LCH5gJvJADsMrFGrP2vBoEAODEubjoOrS6YWWb3zdzhUxKpC7bOlog4q/wVf5AGP7Jt7/KbBgUE=
+	t=1731124763; cv=none; b=Ia9E6mx/kLLz+iYpuQJ+3Vs0q1ZX3JgP8UnrGay/VCWzvUdH5EmTQGLnl6yGEBIpPRV3D1ZJlNfTNae0xYXide85lt8EzHhlbnTU7DUlS6sbBHz/Ts7IMTlN9pFYZoXG4eZtLB35uEBQL9m9lxqKi4gaDCeZKXcWWzJrpsd/6/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731124659; c=relaxed/simple;
-	bh=tkV6VvnHEJejojLw8G956yRUq8BcwODyK/FjCQ9qsyM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S+1BT+wssv5GpGPuq/NiEi8zKEbwYwJkyId6KIUcKZC57bTlH4Vof01P+LZCXfhzvtxrUAyfc+Db68I1tQG0dEkAJywgCmFjkqCEJfGTsLqv7WQPGR9P9xQNvvoO9+YIdYZO3ow4uQLZjQogV3CkuvgzVfJ0YWR7RRsfVLJG2X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gtylh00V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731124763; c=relaxed/simple;
+	bh=MuUHmXGr8JXXU11U0zA3AH5ebUBQtLudPHAX4pJOYAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k6gMWRBI9tflwR6zUhvfjqDQt4ZmQjrvm8U9+J4+fja7W0pgTTxlSpMKCPqlJf3LSx3MKmhfdkcM+52s69erCF+TCxXjJIyWufcOOZQ3EgOueI5sqHvCpjmlhlCCvIp1AaIWhRSAr4TFZWPwyzpUGEUPnNtcJg4IVwaF+WiZLtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=VU0/KTrC; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gtylh00V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C677AC4CEC6;
-	Sat,  9 Nov 2024 03:57:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731124658;
-	bh=tkV6VvnHEJejojLw8G956yRUq8BcwODyK/FjCQ9qsyM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gtylh00VJy/3ou2soflLCaqQK7xkt5ZkRTST4CmQwenNqysV/Kb1aSRGYh9Uvqpin
-	 8oyMKKGaTL6ChG2z+9BPy3SC8DtUalHFMmY6V9I9gW74+fpS+pJeBIy6ihDBNMzcE3
-	 goHbubYnCa3DpuDgoGWmaPgzehsec8U3ZttV33jIuf3Y9sj7PG2fsyejSjxsjnS4y7
-	 zBI7B8ap7cSssrUOmqBjmQXctAtguXmLLS6lv6sYsZ4OPTaezwVv94rSd7L7AZ8cSf
-	 yJQaBvdE7S9JzTNh/Lned+fqtLslXLr3x92N9pYnOTdz+F+CGMxzGY3gCvamW+uVnc
-	 492apWg1AP+0Q==
-Date: Fri, 8 Nov 2024 19:57:36 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Sanman Pradhan <sanman.p211993@gmail.com>
-Cc: netdev@vger.kernel.org, alexanderduyck@fb.com, kernel-team@meta.com,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- horms@kernel.org, corbet@lwn.net, mohsin.bashr@gmail.com,
- sanmanpradhan@meta.com, andrew+netdev@lunn.ch, vadim.fedorenko@linux.dev,
- jdamato@fastly.com, sdf@fomichev.me, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v4] eth: fbnic: Add PCIe hardware statistics
-Message-ID: <20241108195736.7b189843@kernel.org>
-In-Reply-To: <20241109025905.1531196-1-sanman.p211993@gmail.com>
-References: <20241109025905.1531196-1-sanman.p211993@gmail.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="VU0/KTrC"
+Received: from cwcc.thunk.org (pool-173-48-82-224.bstnma.fios.verizon.net [173.48.82.224])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 4A93x4wg010849
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 8 Nov 2024 22:59:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1731124747; bh=816N1sk5E3DW7glLrjhiANpEjK5lmhpur2scZjvvw/I=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=VU0/KTrCBOp+nuWiJj1E9sqmkR0ZfOEGE6f6m6D58SBbLNewrwuRv2+1KwAeEn6Zq
+	 LLH9AhjSrtYS1GFaaWXCAESDw3pEmr9Af1qx3tAZZX9SPjuwoWWTfAQIBF/d7xNwHX
+	 X/0Kh73JTSOcwy7Bm2QzVESF5FLXGtKwAbGs94dnP9zrVb89kDWUyWwPwQrqCMxK8z
+	 iEsmiLgr/LxFvE2HySe2RLyi+snopc+CZcVhuHRHchtReMSkpg7lDIVp9g/GgWiahg
+	 2KZNh6XQlDnoCf0PqSRlTJWkyzMqPMKkH/sN8Wz2pUaJ5wcZLeoiES5Zr0b12aSD6U
+	 DaRs6EFti7r/Q==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+	id 10E0315C02BF; Fri, 08 Nov 2024 22:59:04 -0500 (EST)
+Date: Fri, 8 Nov 2024 22:59:04 -0500
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for
+ unacceptable behaviors
+Message-ID: <20241109035904.GA21941@mit.edu>
+References: <20241108161853.12325-1-skhan@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241108161853.12325-1-skhan@linuxfoundation.org>
 
-On Fri,  8 Nov 2024 18:59:05 -0800 Sanman Pradhan wrote:
-> v4:
-> 	- Fix indentations
-> 	- Adding missing updates for previous versions
+On Fri, Nov 08, 2024 at 09:18:53AM -0700, Shuah Khan wrote:
+> The Code of Conduct committee's goal first and foremost is to bring about
+> change to ensure our community continues to foster respectful discussions.
+> 
+> In the interest of transparency, the CoC enforcement policy is formalized
+> for unacceptable behaviors.
+> 
+> Update the Code of Conduct Interpretation document with the enforcement
+> information.
+> 
+> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Please don't post multiple versions a day, per:
-https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#tl-dr
+Acked-by: Theodore Ts'o <tytso@mit.edu>
 
->  .../device_drivers/ethernet/meta/fbnic.rst    |  26 ++++
->  drivers/net/ethernet/meta/fbnic/fbnic_csr.h   |  37 ++++++
->  .../net/ethernet/meta/fbnic/fbnic_debugfs.c   |  54 +++++++++
->  .../net/ethernet/meta/fbnic/fbnic_hw_stats.c  | 114 ++++++++++++++++++
->  .../net/ethernet/meta/fbnic/fbnic_hw_stats.h  |  12 ++
->  .../net/ethernet/meta/fbnic/fbnic_netdev.c    |   3 +
->  6 files changed, 246 insertions(+)
->  create mode 100644 drivers/net/ethernet/meta/fbnic/fbnic_debugfs.c
-
-I just realized that you couldn't have tested this patch properly
-because you added a file, did not include it in the Makefile, and
-yet the build doesn't break. So you must be calling neither
-fbnic_dbg_init() nor fbnic_dbg_exit().
-
-Not great.
--- 
-pw-bot: cr
