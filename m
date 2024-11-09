@@ -1,187 +1,97 @@
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDE234CDE
-	for <linux-doc@vger.kernel.org>; Sat,  9 Nov 2024 05:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55331DFD1;
+	Sat,  9 Nov 2024 09:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731129564; cv=none; b=mfbyHBpbuzRcdtnh58b7JOJneAB3n/X7dB2e+uHkjPJ1BDjDZhHIiV3K7mOBBcYGUDj+BZFnXIeCU+pSjFVnD+1EdJZJdI+5I/+l0enaffmYh3VuR8VLnqlANLCwSZpK2ZCNpLvrmCh92d/a+yvxmEcHrtuoEmEhrX8w3OYZ+CE=
+	t=1731144135; cv=none; b=l44iT3a3I3ReIDpmwAZvUtkj54l1ZJm0QYmBcK8OTYYvbDG5Sp8T/O22klknVPNNXxVdvtH9iq0sAEP9sQDFYYY80cftA1c1i0hE+7a4NxH5SZqL4r/VEXw2ZnBpTzjorMpWFZsemSBdNZxOm0KyRkDusbyBGICkkTW8xqtASio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731129564; c=relaxed/simple;
-	bh=TYAlJTztRqhYn8SXuLaO7NDHyXzC17QYoE7epJOD+Wo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QPPVLS4+evIOPhSjW83nKsffWx53zr+4N8cwYAz1l3ehVAHDpVoH6l19Sx6sSKrCY2sytnYkP2b17N+PpC+0yoceCf1rvRuhEjVK/Km2KfRtozcvGL5DcqECP2ye3RJb4VncTIQDR9lR4lP3ve9MjzzrsRAvwV4fdYDMVgb76Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E2wFcTVl; arc=none smtp.client-ip=209.85.166.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E2wFcTVl"
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-83aba237c03so117801139f.3
-        for <linux-doc@vger.kernel.org>; Fri, 08 Nov 2024 21:19:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731129562; x=1731734362; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uaoCa2kajayKeqDx0XObIYIV3AvCdrG6QdriEJc3qXg=;
-        b=E2wFcTVlunDzVh/A+o67VbeCkBnlZ31gJ+huZT6YIYvI0MHVPb8S6OpcnFP7ng0kq+
-         9ig+EIf4HVyRlDc1xwbXQHYvNfXHir8YH9sUh7fGu2GG8MWMyNhg1M0pbWUoF53oo5vV
-         AUcQr4ywXO+CNcFydZHRXZITAaCVL3KJfJ2SjamOZJDDXkQAE5+iiAfFNlE1i6tgXe6l
-         vxa9LUzwDbbOCo2OKhjJy/h/oHjtFLcNhcQMKUazY1k5++p/jh3RA6VqcdZAK8o3gBoX
-         uwk6Nix24fhjlL83b3plBXFyi7ufTk1LSAlioHp2riq/rZyaUUXjJsHJJldstFOpKlsh
-         FOFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731129562; x=1731734362;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uaoCa2kajayKeqDx0XObIYIV3AvCdrG6QdriEJc3qXg=;
-        b=oBDRdj2qM/qjRPjdkzr9aU99jiAbVLHTse90JU3q36ZNJfxh9HkjCudFC80Rbq1VIP
-         qjfvuRqEU9glt8an7lCKTjkswnu6Kv0fE29K6huDhFfmG7bR7KgRzAshXbqOr1Or7bXV
-         5jsieo/33RWtMgnsonVYADd6jjIftBQQAC1bRiBIFbs1HMDx8s3wjoKi+2OxrMkTSuzV
-         V0Fzo50rq3BIbPOdqyUMtTYmGg2wo5AAAGR4D4Q001A/ydqaTC1M5BNgAJPcDdkD0RvI
-         4l/qZv+MADNtDeZvzGW8CupzDsb/YlQn5axY4VtjgTaJ5vmIqX/L1nZg1JHoObgI4G0B
-         I1Xw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkbvVpdk1ga+4dr6NuKvqB+xOLcDwvvEmC6jgnupEUMaBeoHd+6Zs45q1ZlpoRdgxIVZ3+qAhR/ts=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEBZod1VBOXRAeQ71ELrWvoX4vCvAAJaH+o8WWVnhH6aZNcq/u
-	1nIgjrtyMPmcx6OnTyFKosd36579GTTQ1VNCDp1SVz8nbZRa4AGWQu8H3A==
-X-Google-Smtp-Source: AGHT+IHwhowoDnTPR3uXcOuIvardXdE53MLC6Yb7MGW2HIUxMmRnEzwXdRsvJTosc4vqqf4v5qmCRQ==
-X-Received: by 2002:a05:6602:29c7:b0:803:5e55:ecb2 with SMTP id ca18e2360f4ac-83e03068fe6mr746040239f.0.1731129562243;
-        Fri, 08 Nov 2024 21:19:22 -0800 (PST)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id ca18e2360f4ac-83e13558b00sm15607439f.42.2024.11.08.21.19.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 21:19:21 -0800 (PST)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: intel-gfx-trybot@lists.freedesktop.org
-Cc: Jim Cromie <jim.cromie@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 29/63] dyndbg-doc: add classmap info to howto
-Date: Fri,  8 Nov 2024 22:18:07 -0700
-Message-ID: <20241109051841.468715-30-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241109051841.468715-1-jim.cromie@gmail.com>
-References: <20241109051841.468715-1-jim.cromie@gmail.com>
+	s=arc-20240116; t=1731144135; c=relaxed/simple;
+	bh=JnSRpSy4Y0dEjyg11F30uP2wLMuAkz3qQk/p3ugmvaI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z9DYa0zQTs0wkH2JLCn5mbMjDWeXRS4YstbEyV7M0kO/iMxi3vWRQQi0VG4zTvn++Fu4RZRRZ6QXz5+F/a+93kIBzvxhst9dfkz+S/KmsO3U7qDnyFPqYcHVeClZhcelQMbo7Cj1uJjj01gWgmy8ew7sjezFXezyLz+2jMC3hhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 17021ba69e7c11efa216b1d71e6e1362-20241109
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38,REQID:e45ddae5-ffbd-47ae-b380-f8425b9c0cf3,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:82c5f88,CLOUDID:bb0a940dd6dc7d1943b6e6fdaf5ba797,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,URL:0
+	,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+	NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 17021ba69e7c11efa216b1d71e6e1362-20241109
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1099126974; Sat, 09 Nov 2024 17:22:07 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id E45B0E0080FF;
+	Sat,  9 Nov 2024 17:22:06 +0800 (CST)
+X-ns-mid: postfix-672F29BE-15679110
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 2FC3BE0080FF;
+	Sat,  9 Nov 2024 17:22:03 +0800 (CST)
+From: zhangheng <zhangheng@kylinos.cn>
+To: corbet@lwn.net,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	zhangheng <zhangheng@kylinos.cn>
+Subject: [PATCH 4/4] docs: driver-api: firmware_loader: Convert to platform remove callback returning void
+Date: Sat,  9 Nov 2024 17:22:02 +0800
+Message-ID: <20241109092202.4040669-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-Describe the 3 API macros providing dynamic_debug's classmaps
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void.
 
-DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
-DYNDBG_CLASSMAP_USE    - refer to exported map
-DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+Trivially convert the mediatek drm drivers from always returning zero in
+the remove callback to the void returning variant.
 
-cc: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+Signed-off-by: zhangheng <zhangheng@kylinos.cn>
 ---
-v5 adjustments per Randy Dunlap
-v7 checkpatch fixes
-v8 more
-v9 rewords
----
- .../admin-guide/dynamic-debug-howto.rst       | 79 ++++++++++++++++++-
- 1 file changed, 78 insertions(+), 1 deletion(-)
+ Documentation/driver-api/firmware/fw_upload.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 691e0f7d4de1..391e40a510c9 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -230,7 +230,6 @@ the ``p`` flag has meaning, other flags are ignored.
- Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-fslmpt``.
- 
--
- Debug messages during Boot Process
- ==================================
- 
-@@ -380,3 +379,81 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+Dynamic Debug classmaps
-+=======================
-+
-+The "class" keyword selects prdbgs based on author supplied,
-+domain-oriented names.  This complements the nested-scope keywords:
-+module, file, function, line.
-+
-+The main difference from the others: class'd prdbgs must be named to
-+be changed.  This protects them from generic overwrite:
-+
-+  # IOW this cannot undo any DRM.debug settings
-+  :#> ddcmd -p
-+
-+So each class must be enabled individually (no wildcards):
-+
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+Or the legacy/normal (more convenient) way:
-+
-+  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DRM.debug is built upon:
-+  ~23 macros, all passing a DRM_UT_* constant as arg-1.
-+  ~5000 calls to them, across drivers/gpu/drm/*
-+  bits in /sys/module/drm/parameters/debug control all DRM_UT_* together
-+
-+The const short ints are good for optimizing compilers; a classmaps
-+design goal was to keep that.  So basically .classid === category.
-+
-+And since prdbgs are cataloged with just a DRM_UT_* to identify them,
-+the "class" keyword maps known classnames to those reserved IDs, and
-+by explicitly requiring "class FOO" in queries, we protect FOO class'd
-+debugs from overwrite by generic queries.
-+
-+Its expected that other classmap users will also provide debug-macros
-+using an enum-defined categorization scheme like DRM's, and dyndbg can
-+be adapted under them similarly.
-+
-+DYNDBG_CLASSMAP_DEFINE(var,type,_base,classnames) - this maps
-+classnames onto class-ids starting at _base, it also maps the
-+names onto CLASSMAP_PARAM bits 0..N.
-+
-+DYNDBG_CLASSMAP_USE(var) - modules call this to refer to the var
-+_DEFINEd elsewhere (and exported).
-+
-+Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-+dyndbg to update those classes.  "class FOO" queries are validated
-+against the classes, this finds the classid to alter; classes are not
-+directly selectable by their classid.
-+
-+There are 2 types of classmaps:
-+
-+ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-+ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
-+DEFINEd classmap, and associates it to the param's data-store.  This
-+state is then applied to DEFINEr and USEr modules when they're modprobed.
-+
-+The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself; there is no implied meaning in names like "V4".
-+
-+Modules or module-groups (drm & drivers) can define multiple
-+classmaps, as long as they share the limited 0..62 per-module-group
-+_class_id range, without overlap.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.47.0
+diff --git a/Documentation/driver-api/firmware/fw_upload.rst b/Documentat=
+ion/driver-api/firmware/fw_upload.rst
+index edf1d0c5e7c3..b339265655ee 100644
+--- a/Documentation/driver-api/firmware/fw_upload.rst
++++ b/Documentation/driver-api/firmware/fw_upload.rst
+@@ -69,13 +69,12 @@ function calls firmware_upload_unregister() such as::
+ 		return 0;
+ 	}
+=20
+-	static int m10bmc_sec_remove(struct platform_device *pdev)
++	static void m10bmc_sec_remove(struct platform_device *pdev)
+ 	{
+ 		struct m10bmc_sec *sec =3D dev_get_drvdata(&pdev->dev);
+=20
+ 		firmware_upload_unregister(sec->fwl);
+ 		kfree(sec->fw_name);
+-		return 0;
+ 	}
+=20
+ firmware_upload_register
+--=20
+2.45.2
 
