@@ -1,102 +1,107 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE863EA83
-	for <linux-doc@vger.kernel.org>; Sun, 10 Nov 2024 02:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D367142E7C;
+	Sun, 10 Nov 2024 10:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731205172; cv=none; b=Mpsb2cpDG54KKePLKUrlbVRjE30PG+orNvQtGsL6OU26o6wT1EobZ2Ap+uAwqccd5Rvf7sSKd1bKTO5R7wU+Cq6EUzERfP+NdDHrXjzlF6+DbIM4mVJ2XhPfPUzGvytQpdefId/EiRU/XhyIHqeIhnAGPS/fgPKgz60Op0YVKi0=
+	t=1731235298; cv=none; b=TZnUl+2jMH5+ry0rhEY8QcMtRNsMd2mYwDslnS8SlQCgY3/YwGGmsF+MsCPD8g4DHkmjCXrU1c3W71kXJckTmOEjS/KLvDUzkw+mZriIVkZ/LGNy1dS2EUBfww7RN3tm+WSONcrvbluncK+qx1QkXqZzsIfI5tC4aqimg8W5PMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731205172; c=relaxed/simple;
-	bh=+pD7XKkk7a2kvnad7+CqzCvmXc+hzqXdXdhSGLuRglg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=RWOb+eFrkf0Gv51geWP8BDEax5Xem/qA09SmhjKAFRPMxELnfWrTtSUyYfbMLeD4HjqIPvLC1bHoHdjs04rG4xLSRC1cG0OWXSmGPvOxxSRvVm1wOKgKTIBFs5yLlcpBccDPnN1EFlRCgek/jMqdzQSlq2PzWzth4wS+vEpW1HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PGDvkbDT; arc=none smtp.client-ip=209.85.166.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731235298; c=relaxed/simple;
+	bh=KJTVz52sJu2oQj0BOPzh46r/ng+VWSz4cJfy6f2DTow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rrjRRUscW6sF9gtF1X9gjp6Q+I7nc8kjMLZPgBtFLcGwpGfE8Gg+IIfTLigpkDs5F2KTOB91TKSKiDoD+3A1Y1fK707EhgsjdWVJhI70O49Kgen0CTfg8PgSYluf9kDtxqCo16iNqbpsl9SF52gNTfxTzwt7cv3Iw7FFM698Gnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JW8duPR4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PGDvkbDT"
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3a3b28ac9a1so158785ab.1
-        for <linux-doc@vger.kernel.org>; Sat, 09 Nov 2024 18:19:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731205170; x=1731809970; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wtYxf79bGu9AQ23SIiIULXTG3CqHwpSP3g6NHEutdz0=;
-        b=PGDvkbDTUZlrFV0XwDHfKC/xqpV7eA2G5OVVtsbdZSHm/t3LzHM/x47NcuJfvVeFIw
-         UO3o+QlH1OLiyFP85fCnohJTGdGJju3UA7vZZsu9NpJn+AKJLmXPUsz9oT2rp3xr/f+m
-         HkhQBVS63X+LvPLcZzJxdP0dCGohfC71COwGYs5lIWTbg0TORDekM8/Ua2FkhXh3a+JV
-         DvB6f2SgDwJ54fEuiZ3I1jaUIGp6EEPrTAx22pNWbhY3QxM2xfT4Dx45fk/Zl4jfvyS5
-         rr+425fqBgZM2AMe1MYPYaFiGRftZT6FuzzQ9aX3PtTkUoQshkWtkVLoXdkCjCsaINc2
-         Qf4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731205170; x=1731809970;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wtYxf79bGu9AQ23SIiIULXTG3CqHwpSP3g6NHEutdz0=;
-        b=tKwpPlNFzoDYxKAKh9FK52Lb0iDJX3JkP0flqEZizbgbHx3eA2dfvGNG/L4bVFF4S2
-         mzhhG+Mk2yluvFCSmp4j7c3IOBgt1q/0x70BgliMTm3y3XdMTbJ8Wl6ivXqVGvwBdJmy
-         a781on9zESlVgUfdkgIpHKtNyfCtkKAA5yOVycvCtKDTSYDX3r5Dc0kt5CWV+Ow5cYKe
-         psuVuX5F2+vV1gpqmTjJlS28a1/ZPEvq38AxNuezTQmN1Z01ISN+K/0IV5UNgWLJSY3+
-         H4ZSYJWfJtu7VHBBqLb6ljh3zFKQ5kbgtxNwDHHLYkIEy+Zxa5n7o9vslOUYnkHea/vX
-         ed0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVQAvFAQXXJkiLfEhy63lGhT3w8a6V2hdqCQfSgIAyJRbzcd6/ricE/jqbUg0j136bVznj4r1skrQ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0sF51n9kYUYrTwllA3ZLZWu+JU3HlkKIR69JQDaUeFTlhpEVo
-	dNEfBGg47pRK0gJDE/yRIgZ1UdNpzhvOdrEyb6DqFwhuJ5smDVMZv8/YFJfmzA==
-X-Gm-Gg: ASbGnctOOtniCsT/mnho7TmvttwZReZ9ishUOT0B1MqHrOp2CAEPgQnSVBObmsEn2R3
-	slcuUqORwvN7JNK95T7iKKywNy7NO7go6wHDXZyMOYcE0byPgIDzuuoyvm+wxXU3LCIfofJJMa9
-	73c0F9Jr1Xt1E7z4/J62zfVg15XOLnCIKu8/SxOE7x6ZxyZwYGxszgrjNewC+OcufruPCrpnb/W
-	8jY6KMuOAG51XPEqQRFj98mnyW0eVI+Q4hPSuEYs8r4RKMLJdq7b+MkhPrS76uRJCoHFkgK/O11
-	21uk
-X-Google-Smtp-Source: AGHT+IGOlRHUbzZ277/dq/Etm+M1ZnIxeb6x0lBP5+1k9gAuZMD69+G3KnUOpKIiYz3VJ0FVMcaicg==
-X-Received: by 2002:a05:6e02:1946:b0:3a0:a224:eb2c with SMTP id e9e14a558f8ab-3a6f9564132mr2137955ab.25.1731205170261;
-        Sat, 09 Nov 2024 18:19:30 -0800 (PST)
-Received: from [2620:0:1008:15:c964:b0b2:aab1:6944] ([2620:0:1008:15:c964:b0b2:aab1:6944])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f5f048esm5013642a12.50.2024.11.09.18.19.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Nov 2024 18:19:29 -0800 (PST)
-Date: Sat, 9 Nov 2024 18:19:28 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-cc: akpm@linux-foundation.org, hannes@cmpxchg.org, nphamcs@gmail.com, 
-    shakeel.butt@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-    chris@chrisdown.name, tj@kernel.org, lizefan.x@bytedance.com, 
-    mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, cgroups@vger.kernel.org, 
-    linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
-In-Reply-To: <20241101204402.1885383-1-joshua.hahnjy@gmail.com>
-Message-ID: <72688d81-24db-70ba-e260-bd5c74066d27@google.com>
-References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JW8duPR4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A12DC4CECD;
+	Sun, 10 Nov 2024 10:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731235297;
+	bh=KJTVz52sJu2oQj0BOPzh46r/ng+VWSz4cJfy6f2DTow=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JW8duPR4zgtshHYsGnyTHtlzUbI9C7VSu6DKWCkFGrApkoWJWSxhGLCw5xgUraK37
+	 KyNCPb36UhLBki49PXkqcD2sBnsPb3pSEYoDPi+P4LFHLRa96gSHPosI6C7dqbYMip
+	 vIVxA0qXAzTZEbJq1b7ufQuqLIfu45BQHuHyL9EX1PQY+YtgJ833g0BRQjd7iEAg3m
+	 WndbNLaXlStjkG2lTw6sbX+1iBBO11XE41go4jd7Z15Ik1RN38Prs+eyzYb42sG812
+	 MOTUu7mg3HBNZVbtRKgzK0VBiDj1HOzE5fnpSg4ms0Wa3VJ7O+NYsKsaWDPF/fo35+
+	 lxhrXIwkV8nJA==
+Date: Sun, 10 Nov 2024 12:41:30 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
+Message-ID: <20241110104130.GA19265@unreal>
+References: <cover.1730298502.git.leon@kernel.org>
+ <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
+ <87ttchwmde.fsf@trenco.lwn.net>
+ <20241108200355.GC189042@unreal>
+ <87h68hwkk8.fsf@trenco.lwn.net>
+ <20241108202736.GD189042@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241108202736.GD189042@unreal>
 
-On Fri, 1 Nov 2024, Joshua Hahn wrote:
+On Fri, Nov 08, 2024 at 10:27:36PM +0200, Leon Romanovsky wrote:
+> On Fri, Nov 08, 2024 at 01:13:27PM -0700, Jonathan Corbet wrote:
+> > Leon Romanovsky <leon@kernel.org> writes:
+> > 
+> > >> So, I see that you have nice kernel-doc comments for these; why not just
+> > >> pull them in here with a kernel-doc directive rather than duplicating
+> > >> the information?
+> > >
+> > > Can I you please point me to commit/lore link/documentation with example
+> > > of such directive and I will do it?
+> > 
+> > Documentation/doc-guide/kernel-doc.rst has all the information you need.
+> > It could be as simple as replacing your inline descriptions with:
+> > 
+> >   .. kernel-doc:: drivers/iommu/dma-iommu.c
+> >      :export:
+> > 
+> > That will pull in documentation for other, unrelated functions, though;
+> > assuming you don't want those, something like:
+> > 
+> >   .. kernel-doc:: drivers/iommu/dma-iommu.c
+> >      :identifiers: dma_iova_try_alloc dma_iova_free ...
+> > 
+> > Then do a docs build and see the nice results you get :)
+> 
+> Thanks for the explanation, will change it.
 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 69af2173555f..bd7e81c2aa2b 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1646,6 +1646,11 @@ The following nested keys are defined.
->  	  pgdemote_khugepaged
->  		Number of pages demoted by khugepaged.
->  
-> +	  hugetlb
-> +		Amount of memory used by hugetlb pages. This metric only shows
-> +		up if hugetlb usage is accounted for in memory.current (i.e.
-> +		cgroup is mounted with the memory_hugetlb_accounting option).
-> +
->    memory.numa_stat
->  	A read-only nested-keyed file which exists on non-root cgroups.
->  
+Jonathan,
 
-Definitely makes sense to include this.
+I tried this today and the output (HTML) in the new section looks
+so different from the rest of dma-api.rst that I lean to leave
+the current doc implementation as is.
 
-Any reason to not account different hugetlb page sizes separately in this 
-stat, however?  IOW, should there be separate hugetlb_2048kB and 
-hugetlb_1048576kB stats on x86?
+Thanks
+
+> 
+> > 
+> > Thanks,
+> > 
+> > jon
+> 
