@@ -1,554 +1,235 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2067.outbound.protection.outlook.com [40.107.212.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5EA1A2C04;
-	Mon, 11 Nov 2024 19:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731355039; cv=none; b=tQuDqE9YlgcM4yhMRpQD4XmC4BuLiiWG1U7ZA2Ey5FxJ+hX0CcBDnKxUTfXx6p/NEOSRxono7vwt+Ruon/7O6zvfUJTKjo2K9YfBUNDphSo2Vz9hMExx6mCdDikpimCWWw8E9pwhg/TDzz+0F2MVnygYZnhUuolIdH7QRuF9htQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731355039; c=relaxed/simple;
-	bh=ixQfwqIBV23CnIVmQgrR5STGTXQmFG2tnheOZ29q8xk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LjC89u23fpHfBnpZ7nWmzSjRy9+1PKV9vpWgo8ShTq62bOpwz4mwdMNi9CmD9/U2JyNnM0Lgfu3Q1fgGZNQwbjVE9HYJodqEtYPdF9A5vd+joVHRa5GUMC1q8TznzwsVi/AxdTqdA4mQZZ2OloLoCOGyAIxb/5XHv2Unuf1JsBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SHNwONFP; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCAB132103;
+	Mon, 11 Nov 2024 19:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731355088; cv=fail; b=icv2ZJytgOBPMhvwSM8C7g1R2yvS7Bti3e+21zshahB6+aeaXrRSMlqOwazgNrvZ8DvJ2jAR1n6CLa7WfU59q69zIKaY/u8/WUYBMvPL17Ifjhp8LaaotCL2Khi7e07NZeTYDxy1KaVSjtsA4n/Y0yzQYoRWouA/NfBljHaOb/Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731355088; c=relaxed/simple;
+	bh=QAipBYCAVHXa+BO8c2K3yoCFsQ4+6Fa8p5sBdC5XK4U=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=FGXWJbKzuYddcC8RHYTLq+80WyeZaOl9aR6gs2ddBfQgpPFFmbXcFNxgNQgc0MgpyyfO5TCr7g7hz0B0X3x+iZY0zqBrMZXKe/e2e02PHDaIfGk0QRtbQoBa9VttTCsDsaRp1UCXDZDW8g/j3CqEm+6iBQaQKwRAPL6NZ9gELhk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pnRSZXIN; arc=fail smtp.client-ip=40.107.212.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SHNwONFP"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20cb7139d9dso44906365ad.1;
-        Mon, 11 Nov 2024 11:57:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731355036; x=1731959836; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=On/yC3RUvFS85378pjUf+gJ5SwNriK0XjwcZ/D8nm/Y=;
-        b=SHNwONFPDvj3vSh4NzJJfdDebFElzUqkIsA7OEuPf4+RcptFnTXt/48w0mGIdvnwig
-         rZn3/rXxNtesncrknVvDUqhHxq+sGgBbIcapeByYHcN+05QlcfKBs2f3I9npsWR0zL/Y
-         iKT+5Adr6AfDvdvTILiYRMPovL4F3yt6jtvahE9z0CBzRCOKghY1KJAsDrQX6kTFT48Y
-         x060vaUDxBwGARvo/PAPfD6VQsFxoIKrcl3GHRuMl+gQ5HAyZ/D1uPA78qhXLl9sFOIE
-         DtoLFAvBFbtOfz656ZKN30L4MzZveC8k9Ovpa3gMdLtzUyFGVVEN9/NuYZ8As70FwbBs
-         JRLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731355036; x=1731959836;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=On/yC3RUvFS85378pjUf+gJ5SwNriK0XjwcZ/D8nm/Y=;
-        b=SvyOtOPEjGBH0Uv0jpan7qo0i2zS0WerSMWLji2GtCaXYETq+vftxtanqGhTg+GgJy
-         l/14hJ3YMM8jyevaPGph4fnnq8mMawSOPehtYlImtaAu/FWsT7k05RmY7cHUZ3v6b2v3
-         HLHc+mA9gDdl1G71J2Hg45r5N1cadSjQhFb6gPkLvFenLyOJ5pwflcu/L1L/vMD8sPp2
-         hpS3HUCjrRMwbu1FL1uWkzAQ1L0TJzyzVVIO21SGbZxamkZileaX3CcEKAGmPE8JS8vG
-         9VvZnt5RolzzpzKqv8w4BxUlURXd6xF35mv3zkTUilrCmP5rJXqVVP66UROQZdk86Uo0
-         EM8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUfpVNkYg9tWPDUjBhjKhsqKnbpMwp1AHwOGIWi8nIan2g+NUU6bU9qCUFUss7VlMVg+gsgrQBG5V0=@vger.kernel.org, AJvYcCV/Cyox0vGBjq3TJGJzaEKd5aY+JIAJhuAPjirrFG/pMijAXNWZmHk8k1NxKocsQfCQ6uCmQgltbJVyqlcR@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtfilCnnt70ixIKuwBtA5iANTsUBXOLz2d4zU1Ot6nqym9Fj2y
-	hkP8jzCEDz6+IZBFM+AQlHNT+Se1uMuJVPpxRzUHnLAAoimBDCLJAwtLlbsn
-X-Google-Smtp-Source: AGHT+IGGyPvLh3RuqqeajCfbQCH7BeDaGoGOhy62xRTTQ+UVI4EE4CtYQ5wYfDox+aRpl7XvXYF5kw==
-X-Received: by 2002:a17:902:e803:b0:20b:fa34:7325 with SMTP id d9443c01a7336-21183e0dc58mr179820445ad.43.1731355036308;
-        Mon, 11 Nov 2024 11:57:16 -0800 (PST)
-Received: from localhost (fwdproxy-prn-000.fbsv.net. [2a03:2880:ff::face:b00c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e41884sm79697705ad.119.2024.11.11.11.57.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 11:57:15 -0800 (PST)
-From: Sanman Pradhan <sanman.p211993@gmail.com>
-To: netdev@vger.kernel.org
-Cc: alexanderduyck@fb.com,
-	kuba@kernel.org,
-	kernel-team@meta.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	mohsin.bashr@gmail.com,
-	sanmanpradhan@meta.com,
-	andrew+netdev@lunn.ch,
-	vadim.fedorenko@linux.dev,
-	jdamato@fastly.com,
-	sdf@fomichev.me,
-	sanman.p211993@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v5] eth: fbnic: Add PCIe hardware statistics
-Date: Mon, 11 Nov 2024 11:57:15 -0800
-Message-ID: <20241111195715.1619855-1-sanman.p211993@gmail.com>
-X-Mailer: git-send-email 2.43.5
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pnRSZXIN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jBFmX/vOxbn2yaKVpZOxQiEGAVvvZNlzNXk0ez5/li2h5Kw7VdZq+pAUU+nUgtPPRZ3LtnHxPiAN1YbEQjEyF6x8bWdJJNAt+pPmCDRccfqNjIegDRvzd0/odH3BmGCVYosu55Hu3MeFfYFpCOWm8lmu66QnBv/ucLtrsENFGYdzVnKB321nSA/H+sbHnLd/SQYBkZnjkR9hY+/NTsx0afO6B9vHPLMBIloW5xPN7YIlbE8OstTDIUpo/5bvZc+jdocpxwls04oD5ITWeQyy8sdsqqGtsnNk84IeD12D8+60kRtNAOAqNuevCKqABfW8hPSJ5QrztpcKbYrK1lhfqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QAipBYCAVHXa+BO8c2K3yoCFsQ4+6Fa8p5sBdC5XK4U=;
+ b=ngRJNxV3UTNczgA3gvsquIur+6eSd17vqRJPC5PGgb7QTrDU6WA84aKl3qlS3iwia4DRL1mg1BtpO/V42uhp3ZwMEQQcIUiV9/5ryObMEaX+m18youxQHSFpnLUMfX1Jgkevotv/SzWRyJLdDJiIgxPgZ3YSO7Z/zuSgbsu05RV13V7Hb5/MvKBBj9O1A4u33dTAk9fdJWBb5zFbviu8qR/Lat0EA4JAwNRKKn+S8JoDCnrWXmxNsvxUHdKOxLUac2oTkoJ6mW2RvprIvhZM0fCgLDaJWB+YHZqi09dR4W+RlFkLkjNdC/gH+hR8HQoIpunjwrf8ad3dVQXuFVeKpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QAipBYCAVHXa+BO8c2K3yoCFsQ4+6Fa8p5sBdC5XK4U=;
+ b=pnRSZXIN8GKb/3ZXXL9x0ioqyBNH45/V1jhs+7M7W0AKfdPeM4Me4GCN7DF/nFTwS7/u5RmNUToD224p1kRQ1y0khmQ0MAtrxPamSmCUNqDEXVaCkz0jxVFC6Y2PO8CC6eYmMpHI7pogyeBWztfxW+sOzXvYlwqSYlX9o/TSiPI=
+Received: from LV3PR12MB9265.namprd12.prod.outlook.com (2603:10b6:408:215::14)
+ by DM4PR12MB5820.namprd12.prod.outlook.com (2603:10b6:8:64::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8137.28; Mon, 11 Nov 2024 19:58:03 +0000
+Received: from LV3PR12MB9265.namprd12.prod.outlook.com
+ ([fe80::cf78:fbc:4475:b427]) by LV3PR12MB9265.namprd12.prod.outlook.com
+ ([fe80::cf78:fbc:4475:b427%6]) with mapi id 15.20.8137.027; Mon, 11 Nov 2024
+ 19:58:03 +0000
+From: "Kaplan, David" <David.Kaplan@amd.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>, Amit Shah <amit@kernel.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "x86@kernel.org"
+	<x86@kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"Shah, Amit" <Amit.Shah@amd.com>, "Lendacky, Thomas"
+	<Thomas.Lendacky@amd.com>, "bp@alien8.de" <bp@alien8.de>,
+	"tglx@linutronix.de" <tglx@linutronix.de>, "peterz@infradead.org"
+	<peterz@infradead.org>, "pawan.kumar.gupta@linux.intel.com"
+	<pawan.kumar.gupta@linux.intel.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"mingo@redhat.com" <mingo@redhat.com>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "hpa@zytor.com" <hpa@zytor.com>,
+	"seanjc@google.com" <seanjc@google.com>, "pbonzini@redhat.com"
+	<pbonzini@redhat.com>, "daniel.sneddon@linux.intel.com"
+	<daniel.sneddon@linux.intel.com>, "kai.huang@intel.com"
+	<kai.huang@intel.com>, "Das1, Sandipan" <Sandipan.Das@amd.com>,
+	"boris.ostrovsky@oracle.com" <boris.ostrovsky@oracle.com>, "Moger, Babu"
+	<Babu.Moger@amd.com>, "dwmw@amazon.co.uk" <dwmw@amazon.co.uk>,
+	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>
+Subject: RE: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Thread-Topic: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Thread-Index: AQHbNFhQEwe18XGdBky6ffKbqr/GHrKyeFwAgAAEphA=
+Date: Mon, 11 Nov 2024 19:58:03 +0000
+Message-ID:
+ <LV3PR12MB9265A6B2030DAE155E7B560B94582@LV3PR12MB9265.namprd12.prod.outlook.com>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+In-Reply-To: <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ActionId=6481b90d-dae7-4e70-bbf6-bca7b5d84c6c;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=0;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=true;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
+ Internal Distribution
+ Only;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2024-11-11T19:49:42Z;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9265:EE_|DM4PR12MB5820:EE_
+x-ms-office365-filtering-correlation-id: c8e3a65e-52fb-4edc-c822-08dd028b2742
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|366016|1800799024|7416014|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?MEF5cm8wanE5MzdOMVIwOU13ZWdCZDlha0NiMy84bUZZaHVNRHFZREk0ZTJM?=
+ =?utf-8?B?U1ltZnBPZktPRlJyRzQ0dmVPbk1qTkkvUlFTVWd2aXpLenQ0RW9HcTlITC95?=
+ =?utf-8?B?NWhTdzRvNWxrR3BqNUxWUHpTWDkvQlA4Mnl0Z1JiSnNMM0N4eVp6TW95RWgv?=
+ =?utf-8?B?MThMU3JyVlova1BiR0xRZElsVHdiUGhHZldmNmRWWTdLZWI0QzRvODJIeUox?=
+ =?utf-8?B?ZStQN1hMaklVdzdjMG5pNHlsdWcrMmNqcGkrekI5Z0VCNHp3UmQrMzJNRzVz?=
+ =?utf-8?B?cGErazRSVitRL01xWnpxWFczSnNSMmJxK3VHakllUUduOUFwNkMwZmZ6SGI4?=
+ =?utf-8?B?cFdKT0RScWo5TTFGNHIrbmRXRlpNN2VjMlFxbXlHVnBJRlpMS1lSSCs4bmtr?=
+ =?utf-8?B?a3FkUmZ0eUROdzYrMm1IcjZRNzNCRnJKSFdLTDAxNGtUNjhGVlFzblI2Wnpj?=
+ =?utf-8?B?NHBEK3BMT0FmNUdIN3VoVGxoSk95YnRKRWlzNDU2L2Uraytid3lMdEVlQkVY?=
+ =?utf-8?B?NWJTRWk1ajZ6NTJTa25SN2drM01lWkFvVGxDdzdRZi9PKzg5UFkvQWU0MXlO?=
+ =?utf-8?B?RndSR212NHJiUEFpVy95RUpHTmM2SHZYTFV4Vy9jS2t4UkVnNGRLekVsUnhu?=
+ =?utf-8?B?enZ1aUtSN0tJZDcwRTRzdEtxWTFUbUgwWjN5ZmVaT3U1ZkpTK2xDWkFoKzdu?=
+ =?utf-8?B?a2ZoSEJxclByWGEvejI5bU1aRE5qRGNYR21OZXdkemFJSVFzb0Nkczd4YzE2?=
+ =?utf-8?B?MEVWWTYzWVNzUGpIK3VMSFVBYVB0N3F5dTk2TU0rL0lKUFFTMFlaYjZIVWdh?=
+ =?utf-8?B?cmxXajQ1MDZrNGU0TG1GNnQwd05WZ0Y4ZC9MY0pWZ2hJVkdGRitJVXJVcVVn?=
+ =?utf-8?B?OHVJd3p0dU8zaDUvODFvc2p5TEVJcllZVEcrZWhoMWNtVW1lc1MxSk9JWlVt?=
+ =?utf-8?B?REE1Yldkem9SdUVGMG1FdmZ5RzNteVc4Wk9BZ00zQWlXSWgyYVRZYUVaYVZC?=
+ =?utf-8?B?M0VqV2JOTGZwdHpSSVpTU0RnS3RsZmNBWCtCUm1tTXZvdzZWOWxUNmVIK2w5?=
+ =?utf-8?B?N3VBWDZodTh3TEJDUkhXcjZGMkIyemw2NndnVXhKVDZpVFVSUUREVnh4UmR1?=
+ =?utf-8?B?ZjljUFNPRlY1ZDM5VTVaOUlFWld4T0UwcndEU254eWRYd011Y1cxQ2pDdTBQ?=
+ =?utf-8?B?UjdXSlhJSFRZRnppcEFZYisrOG1tT1ZZUi9KUVRlTkpMaDNCbTRrREJ4U3J4?=
+ =?utf-8?B?Z1NHajZtTGgvMWlCYWtzRCtXNk81aEpEZnoyMzBOVE5aUFFLb09vVG12Z0lG?=
+ =?utf-8?B?ZnJsamxPM3BBYldSRGJKb0hVTE9HaWR6T0RyZVljdnNPK3RqL0ROUmtDdFJy?=
+ =?utf-8?B?elY2TmRIN0VEYjFmOTBMRWlQMVlvekNadWxIbzRPbzM5SERiSGNKQTVDK3Rw?=
+ =?utf-8?B?TjZFNGJCYk1sRG5XS0EyTHkwelNYd2lxWmUzUHRvSi9VQzRTQVNCZDJyU3pu?=
+ =?utf-8?B?RHgydEkxelRjWEdlTU56cnNoQmx4SWZmajJtT2pibWRHRkEyUUNnRzJ3RHRP?=
+ =?utf-8?B?eDR1R3ZRejdwcThkeDNxTmlCS2U4b2w1bmlLK0w5Wi93U01Eamhucld4a2hp?=
+ =?utf-8?B?MG5MWnFZa1pEOEJ5VnNIZDBFaExId2JmWlladzNCY1dQbGQ2SkZJM1lEclU1?=
+ =?utf-8?B?NDFDT1BPaUpBUUlIT1ZoRk9QT2xSK0tKbHdQVXRRajRQZTFieWk3N25XcTZM?=
+ =?utf-8?B?ODVxbktrbmdFT1R3MFE0b3NCU0lsYTJvWGxCeG9BSkY2dERHUzM4OTZPS01p?=
+ =?utf-8?Q?2jm9baXbzI2z4q2dARaBa6ZiBkuaZTKifJI7I=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9265.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?cjFadXNaQUk3SXRCNlBLNWZnMEFLcnB2UDZqd0k1Q01wOEhPVTdGQXNvSHND?=
+ =?utf-8?B?NFhZdHVsRStuVDJrcjNHQnlvKzNXMm42YjR3emJpN01DdzdTVVZ6d1hleTNw?=
+ =?utf-8?B?NVlrRWxQYm4ycXd5UWdKdXVSYU1qSlgxSmdsVHpIcnpVeFAzRlVPQ3hzRTQz?=
+ =?utf-8?B?b3ZRMWhRRmJta0djVVVTZS9JUFVIUzd2VlJsQ3RNaXBSdlRKS3I1TmRGRjNj?=
+ =?utf-8?B?RFZ1Y2VwYWNGNEZuSlRTcjRaVVlKdzFtRlh6ZVRueUxzUDJhbGhTT29NS2kv?=
+ =?utf-8?B?Vi9oYkRjRlAzNjFURXhlTEFEOS9MNzlQaThBdUMvSlY4WE1tcHc0Sk9pNVNL?=
+ =?utf-8?B?cW1LYjAwYjZueUxoUEJQZHpOblRVY3gxcE13cFF2Y0pVOHNMZFVkbE83SnhG?=
+ =?utf-8?B?d0dzWHR4TDVHL0xhOUNZenBpU2dPMXg5Q2tRWm9maHpsdVJZQlNUZmcvSys3?=
+ =?utf-8?B?NUVscWZXMHhNOWQ5WDJhbURSdjlJa2x4ei9ONktBRFZ1YXdBUUVrOWs3ZUU5?=
+ =?utf-8?B?dkkrNEtCbVRSZDdKc1ZWcEVITFd0MlpacUJNTFV2WlAvT2JTdkpsMVVlOENP?=
+ =?utf-8?B?RzFtUXM4TmIrdDJkTm9PS3BnK1RyQzBsdXphTVJDR0NHaEQwVDNXN05ScjNq?=
+ =?utf-8?B?bW13d0NFRnVvcE5JWFBWckpQbSsybENvcEplZm9QNGg4UkNGbFdDZWJUZUJN?=
+ =?utf-8?B?SmEvZjMxQVVBVFNSdzl2Mi9RYVgvMmlraU1BZnFkN3MwbkhITldWOUU1UjYx?=
+ =?utf-8?B?bThUWVAwWDB3c2JYN1JJWGExWFRKYkpTbnpqaDB1Q21WTGk1SExVRlZFZFpu?=
+ =?utf-8?B?VDR1dmlKcURWWjVnOUIwdU9qdVZFUDVZcStlL1hIRmlYVExnTm5PZFExVlg1?=
+ =?utf-8?B?WDMyTXlZMXdUeVdjY2thV0hGQ2dsMUhobHloWTBiVUNyeGdGS215eWVYaGxn?=
+ =?utf-8?B?d3A5NGVJd2tkVDJzeEpnOS81OEFmY2UvRExoNEFiOGlXRGE5ejNXUHM2NmhW?=
+ =?utf-8?B?TnlicXN4TkUyU1pRQU4zM1JXbGl5cTM4c2dnYVJNOWxBdFlZdVcwQTFSSG90?=
+ =?utf-8?B?bE14STVwTm1VNzh6SU5RMHFuWks2MmNBbVR0Y2N0YUlZRGNpbWNTUm04bE5W?=
+ =?utf-8?B?dFlLRUFHV1NOY0gxRTlFK0Vqc3FtaDhGWVNySzNDTXFodWlSZ3VERUYzT2Z5?=
+ =?utf-8?B?YWE4SXpRRkFqNnd1VmpwempmMTZlQkhLa2pRaEV5MVQ2TzJuY1Bxc1NMSzZG?=
+ =?utf-8?B?eE52ZUpYc2s1MlFyYno1Y3lDV3hJVHArVGJjM2p3K3JUZm93NHAwZzhJL1Zq?=
+ =?utf-8?B?MXNrZUdJdEp0TjVqd01VUFYxbG11RzVNZDBpMVp5cjNwYmtVeXN0bFcyczRU?=
+ =?utf-8?B?WWQ1QWF6YWNkRHdPckFRdjBQQVp5QklGTUl5cVJvb2dsRjJ6QUFFRlhZTi80?=
+ =?utf-8?B?MmlWdG1wWnhJWDd2MHZmeVdXdlRIaytPeWw5NDcvV3BFOFhmR25xMEszQ2Zy?=
+ =?utf-8?B?dlZWM0JqdCtmVzRnUk15Z2NiQlFLSExrSU02dzVQSzlTc0w1VUhaS3ZTQVdB?=
+ =?utf-8?B?dTZBNEUzbzdocXh5UlFnZGdVOVRSdWtGbXMzTnZOVlZhMEU3b3JjRGhDeWd4?=
+ =?utf-8?B?U1ZJWm9UdStDdTdRb2FYOXg2U2wvYkY5OXZUQzJFRUhuY3BNZXJrY2FLZDE4?=
+ =?utf-8?B?Vi9UbTBPV2JQZlpEY2s3YlFSM3J3QWtzL0YweEpRbU0vV0JIblJ4d1RGclB1?=
+ =?utf-8?B?L3Y3V2dTTWZ3WUpzc0d2TzRoeDVLZVZqL2xUazVROGluUWFibG85bkJYc1hu?=
+ =?utf-8?B?QVRmcWo5TGc4QWY3c2ZqMU9yZCtuc0NvM2NEYktqUjlJbTlEYWZ3VE5hOGVL?=
+ =?utf-8?B?ZS9Yb0hHYTQ0Y3NPbGM2Mmx1cmJXSTlEZVlBT1NxVHdZNlZORDBkMUlVemp4?=
+ =?utf-8?B?UkZHOGxIZ0JoOEc5SmlRSk9yRkFkZ201akNkaXdZb0lDcHFseXhvdEM0M1RN?=
+ =?utf-8?B?Rm1SRW1wekxlNzZQZ3hpaUtXNFFNY3lIak9EMHc4dkcxclBxTFkzSjVmYTIz?=
+ =?utf-8?B?UmNqMWptdVg1UGZjTzFMMkE4Z3JUeEhlRXVZc3krN0Ztb2ZzcjVVblFTUms1?=
+ =?utf-8?Q?ZzDc=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9265.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8e3a65e-52fb-4edc-c822-08dd028b2742
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2024 19:58:03.8842
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: L5oSCXkjZuFZmBrCeO6XHA6arjejZ+Z9HDkvMoSQGytBGMMQKwPYyXzFD8+q4FYd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5820
 
-Add PCIe hardware statistics support to the fbnic driver. These stats
-provide insight into PCIe transaction performance and error conditions.
-
-Which includes, read/write and completion TLP counts and DWORD counts and
-debug counters for tag, completion credit and NP credit exhaustion
-
-The stats are exposed via debugfs and can be used to monitor PCIe
-performance and debug PCIe issues.
-
-Signed-off-by: Sanman Pradhan <sanman.p211993@gmail.com>
----
-v5:
-	- Add missing fbnic_dbg_init, fbnic_dbg_exit, fbnic_dbg_fbd_init and fbnic_dbg_fbd_exit functions
-	- Add missing entry in fbnic.h
-	- Tested on 1-NIC 2-Host system
-		- Test Logs:
-				Without ping <remote_host>
-					# cat /sys/kernel/debug/fbnic/0000\:01\:00.0/pcie_stats
-					ob_rd_tlp: 88724
-					ob_rd_dword: 1363273
-					ob_wr_tlp: 980410
-					ob_wr_dword: 105006453
-					ob_cpl_tlp: 98665
-					ob_cpl_dword: 1363273
-					ob_rd_no_tag: 0
-					ob_rd_no_cpl_cred: 0
-					ob_rd_no_np_cred: 0
-				With ping <remote_host>
-					# cat /sys/kernel/debug/fbnic/0000\:01\:00.0/pcie_stats
-					ob_rd_tlp: 114081
-					ob_rd_dword: 1902295
-					ob_wr_tlp: 1098457
-					ob_wr_dword: 112936622
-					ob_cpl_tlp: 128409
-					ob_cpl_dword: 1902295
-					ob_rd_no_tag: 0
-					ob_rd_no_cpl_cred: 0
-					ob_rd_no_np_cred: 0
-v4:
-	- https://patchwork.kernel.org/project/netdevbpf/patch/20241109025905.1531196-1-sanman.p211993@gmail.com/
-	- Fix indentations
-	- Adding missing updates for previous versions
-v3:
-	- https://patchwork.kernel.org/project/netdevbpf/patch/20241108204640.3165724-1-sanman.p211993@gmail.com/
-	- Moved PCIe stats to debugfs
-v2:
-	- https://patchwork.kernel.org/project/netdevbpf/patch/20241107020555.321245-1-sanman.p211993@gmail.com/
-	- Removed unnecessary code blocks
-	- Rephrased the commit message
-v1:
-	- https://patchwork.kernel.org/project/netdevbpf/patch/20241106002625.1857904-1-sanman.p211993@gmail.com/
----
- .../device_drivers/ethernet/meta/fbnic.rst    |  26 ++++
- drivers/net/ethernet/meta/fbnic/Makefile      |   1 +
- drivers/net/ethernet/meta/fbnic/fbnic.h       |   6 +
- drivers/net/ethernet/meta/fbnic/fbnic_csr.h   |  37 ++++++
- .../net/ethernet/meta/fbnic/fbnic_debugfs.c   |  68 +++++++++++
- .../net/ethernet/meta/fbnic/fbnic_devlink.c   |   4 +
- .../net/ethernet/meta/fbnic/fbnic_hw_stats.c  | 114 ++++++++++++++++++
- .../net/ethernet/meta/fbnic/fbnic_hw_stats.h  |  12 ++
- .../net/ethernet/meta/fbnic/fbnic_netdev.c    |   3 +
- drivers/net/ethernet/meta/fbnic/fbnic_pci.c   |   8 +-
- 10 files changed, 278 insertions(+), 1 deletion(-)
- create mode 100644 drivers/net/ethernet/meta/fbnic/fbnic_debugfs.c
-
-diff --git a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-index 32ff114f5c26..13ebcdbb5f22 100644
---- a/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-+++ b/Documentation/networking/device_drivers/ethernet/meta/fbnic.rst
-@@ -27,3 +27,29 @@ driver takes over.
- devlink dev info provides version information for all three components. In
- addition to the version the hg commit hash of the build is included as a
- separate entry.
-+
-+PCIe Statistics
-+---------------
-+
-+The fbnic driver exposes PCIe hardware performance statistics through debugfs
-+(``pcie_stats``). These statistics provide insights into PCIe transaction
-+behavior and potential performance bottlenecks.
-+
-+Statistics Categories
-+
-+1. PCIe Transaction Counters:
-+
-+   These counters track PCIe transaction activity:
-+        - pcie_ob_rd_tlp: Outbound read Transaction Layer Packets count
-+        - pcie_ob_rd_dword: DWORDs transferred in outbound read transactions
-+        - pcie_ob_wr_tlp: Outbound write Transaction Layer Packets count
-+        - pcie_ob_wr_dword: DWORDs transferred in outbound write transactions
-+        - pcie_ob_cpl_tlp: Outbound completion TLP count
-+        - pcie_ob_cpl_dword: DWORDs transferred in outbound completion TLPs
-+
-+2. PCIe Resource Monitoring:
-+
-+   These counters indicate PCIe resource exhaustion events:
-+        - pcie_ob_rd_no_tag: Read requests dropped due to tag unavailability
-+        - pcie_ob_rd_no_cpl_cred: Read requests dropped due to completion credit exhaustion
-+        - pcie_ob_rd_no_np_cred: Read requests dropped due to non-posted credit exhaustion
-diff --git a/drivers/net/ethernet/meta/fbnic/Makefile b/drivers/net/ethernet/meta/fbnic/Makefile
-index 425e8b801265..7109d6390b0d 100644
---- a/drivers/net/ethernet/meta/fbnic/Makefile
-+++ b/drivers/net/ethernet/meta/fbnic/Makefile
-@@ -9,6 +9,7 @@ obj-$(CONFIG_FBNIC) += fbnic.o
-
- fbnic-y := fbnic_csr.o \
- 	   fbnic_devlink.o \
-+	   fbnic_debugfs.o \
- 	   fbnic_ethtool.o \
- 	   fbnic_fw.o \
- 	   fbnic_hw_stats.o \
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic.h b/drivers/net/ethernet/meta/fbnic/fbnic.h
-index 7d5efbf32408..f2c641174f63 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic.h
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic.h
-@@ -19,6 +19,7 @@
- struct fbnic_dev {
- 	struct device *dev;
- 	struct net_device *netdev;
-+	struct dentry *dbg_fbd;
- 	struct device *hwmon;
-
- 	u32 __iomem *uc_addr0;
-@@ -158,6 +159,11 @@ void fbnic_get_fw_ver_commit_str(struct fbnic_dev *fbd, char *fw_version,
- void fbnic_csr_get_regs(struct fbnic_dev *fbd, u32 *data, u32 *regs_version);
- int fbnic_csr_regs_len(struct fbnic_dev *fbd);
-
-+void fbnic_dbg_fbd_init(struct fbnic_dev *fbd);
-+void fbnic_dbg_fbd_exit(struct fbnic_dev *fbd);
-+void fbnic_dbg_init(void);
-+void fbnic_dbg_exit(void);
-+
- enum fbnic_boards {
- 	fbnic_board_asic
- };
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_csr.h b/drivers/net/ethernet/meta/fbnic/fbnic_csr.h
-index e78745332d82..463fd5d54d35 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_csr.h
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_csr.h
-@@ -917,6 +917,43 @@ enum {
- #define FBNIC_MAX_QUEUES		128
- #define FBNIC_CSR_END_QUEUE	(0x40000 + 0x400 * FBNIC_MAX_QUEUES - 1)
-
-+/* PUL User Registers*/
-+#define FBNIC_PUL_USER_OB_RD_TLP_CNT_31_0 \
-+					0x3106e		/* 0xc41b8 */
-+#define FBNIC_PUL_USER_OB_RD_DWORD_CNT_31_0 \
-+					0x31070		/* 0xc41c0 */
-+#define FBNIC_PUL_USER_OB_RD_DWORD_CNT_63_32 \
-+					0x31071		/* 0xc41c4 */
-+#define FBNIC_PUL_USER_OB_WR_TLP_CNT_31_0 \
-+					0x31072		/* 0xc41c8 */
-+#define FBNIC_PUL_USER_OB_WR_TLP_CNT_63_32 \
-+					0x31073		/* 0xc41cc */
-+#define FBNIC_PUL_USER_OB_WR_DWORD_CNT_31_0 \
-+					0x31074		/* 0xc41d0 */
-+#define FBNIC_PUL_USER_OB_WR_DWORD_CNT_63_32 \
-+					0x31075		/* 0xc41d4 */
-+#define FBNIC_PUL_USER_OB_CPL_TLP_CNT_31_0 \
-+					0x31076		/* 0xc41d8 */
-+#define FBNIC_PUL_USER_OB_CPL_TLP_CNT_63_32 \
-+					0x31077		/* 0xc41dc */
-+#define FBNIC_PUL_USER_OB_CPL_DWORD_CNT_31_0 \
-+					0x31078		/* 0xc41e0 */
-+#define FBNIC_PUL_USER_OB_CPL_DWORD_CNT_63_32 \
-+					0x31079		/* 0xc41e4 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_CPL_CRED_31_0 \
-+					0x3107a		/* 0xc41e8 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_CPL_CRED_63_32 \
-+					0x3107b		/* 0xc41ec */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_TAG_31_0 \
-+					0x3107c		/* 0xc41f0 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_TAG_63_32 \
-+					0x3107d		/* 0xc41f4 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_NP_CRED_31_0 \
-+					0x3107e		/* 0xc41f8 */
-+#define FBNIC_PUL_USER_OB_RD_DBG_CNT_NP_CRED_63_32 \
-+					0x3107f		/* 0xc41fc */
-+#define FBNIC_CSR_END_PUL_USER	0x31080	/* CSR section delimiter */
-+
- /* BAR 4 CSRs */
-
- /* The IPC mailbox consists of 32 mailboxes, with each mailbox consisting
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_debugfs.c b/drivers/net/ethernet/meta/fbnic/fbnic_debugfs.c
-new file mode 100644
-index 000000000000..a2f424124a86
---- /dev/null
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_debugfs.c
-@@ -0,0 +1,68 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) Meta Platforms, Inc. and affiliates. */
-+
-+#include <linux/debugfs.h>
-+#include <linux/pci.h>
-+#include <linux/rtnetlink.h>
-+#include <linux/seq_file.h>
-+#include "fbnic.h"
-+
-+static struct dentry *fbnic_dbg_root;
-+
-+static int fbnic_dbg_pcie_stats_show(struct seq_file *s, void *v)
-+{
-+	struct fbnic_dev *fbd = s->private;
-+
-+	rtnl_lock();
-+
-+	fbnic_get_hw_stats(fbd);
-+
-+	seq_printf(s, "ob_rd_tlp: %llu\n", fbd->hw_stats.pcie.ob_rd_tlp.value);
-+	seq_printf(s, "ob_rd_dword: %llu\n",
-+		   fbd->hw_stats.pcie.ob_rd_dword.value);
-+	seq_printf(s, "ob_wr_tlp: %llu\n", fbd->hw_stats.pcie.ob_wr_tlp.value);
-+	seq_printf(s, "ob_wr_dword: %llu\n",
-+		   fbd->hw_stats.pcie.ob_wr_dword.value);
-+	seq_printf(s, "ob_cpl_tlp: %llu\n",
-+		   fbd->hw_stats.pcie.ob_cpl_tlp.value);
-+	seq_printf(s, "ob_cpl_dword: %llu\n",
-+		   fbd->hw_stats.pcie.ob_cpl_dword.value);
-+	seq_printf(s, "ob_rd_no_tag: %llu\n",
-+		   fbd->hw_stats.pcie.ob_rd_no_tag.value);
-+	seq_printf(s, "ob_rd_no_cpl_cred: %llu\n",
-+		   fbd->hw_stats.pcie.ob_rd_no_cpl_cred.value);
-+	seq_printf(s, "ob_rd_no_np_cred: %llu\n",
-+		   fbd->hw_stats.pcie.ob_rd_no_np_cred.value);
-+
-+	rtnl_unlock();
-+	return 0;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(fbnic_dbg_pcie_stats);
-+
-+void fbnic_dbg_fbd_init(struct fbnic_dev *fbd)
-+{
-+	struct pci_dev *pdev = to_pci_dev(fbd->dev);
-+	const char *name = pci_name(pdev);
-+
-+	fbd->dbg_fbd = debugfs_create_dir(name, fbnic_dbg_root);
-+	debugfs_create_file("pcie_stats", 0400, fbd->dbg_fbd, fbd,
-+			    &fbnic_dbg_pcie_stats_fops);
-+}
-+
-+void fbnic_dbg_fbd_exit(struct fbnic_dev *fbd)
-+{
-+	debugfs_remove_recursive(fbd->dbg_fbd);
-+	fbd->dbg_fbd = NULL;
-+}
-+
-+void fbnic_dbg_init(void)
-+{
-+	fbnic_dbg_root = debugfs_create_dir(fbnic_driver_name, NULL);
-+}
-+
-+void fbnic_dbg_exit(void)
-+{
-+	debugfs_remove_recursive(fbnic_dbg_root);
-+	fbnic_dbg_root = NULL;
-+}
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-index 0072d612215e..10b27fd07069 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_devlink.c
-@@ -117,6 +117,8 @@ void fbnic_devlink_free(struct fbnic_dev *fbd)
- {
- 	struct devlink *devlink = priv_to_devlink(fbd);
-
-+	fbnic_dbg_fbd_exit(fbd);
-+
- 	devlink_free(devlink);
- }
-
-@@ -145,6 +147,8 @@ struct fbnic_dev *fbnic_devlink_alloc(struct pci_dev *pdev)
-
- 	fbd->mac_addr_boundary = FBNIC_RPC_TCAM_MACDA_DEFAULT_BOUNDARY;
-
-+	fbnic_dbg_fbd_init(fbd);
-+
- 	return fbd;
- }
-
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.c b/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.c
-index a0acc7606aa1..eb19b49fe306 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.c
-@@ -25,3 +25,117 @@ u64 fbnic_stat_rd64(struct fbnic_dev *fbd, u32 reg, u32 offset)
- 	 */
- 	return ((u64)upper << 32);
- }
-+
-+static void fbnic_hw_stat_rst64(struct fbnic_dev *fbd, u32 reg, s32 offset,
-+				struct fbnic_stat_counter *stat)
-+{
-+	/* Record initial counter values and compute deltas from there to ensure
-+	 * stats start at 0 after reboot/reset. This avoids exposing absolute
-+	 * hardware counter values to userspace.
-+	 */
-+	stat->u.old_reg_value_64 = fbnic_stat_rd64(fbd, reg, offset);
-+}
-+
-+static void fbnic_hw_stat_rd64(struct fbnic_dev *fbd, u32 reg, s32 offset,
-+			       struct fbnic_stat_counter *stat)
-+{
-+	u64 new_reg_value;
-+
-+	new_reg_value = fbnic_stat_rd64(fbd, reg, offset);
-+	stat->value += new_reg_value - stat->u.old_reg_value_64;
-+	stat->u.old_reg_value_64 = new_reg_value;
-+}
-+
-+static void fbnic_reset_pcie_stats_asic(struct fbnic_dev *fbd,
-+					struct fbnic_pcie_stats *pcie)
-+{
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_TLP_CNT_31_0,
-+			    1,
-+			    &pcie->ob_rd_tlp);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_DWORD_CNT_31_0,
-+			    1,
-+			    &pcie->ob_rd_dword);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_CPL_TLP_CNT_31_0,
-+			    1,
-+			    &pcie->ob_cpl_tlp);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_CPL_DWORD_CNT_31_0,
-+			    1,
-+			    &pcie->ob_cpl_dword);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_WR_TLP_CNT_31_0,
-+			    1,
-+			    &pcie->ob_wr_tlp);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_WR_DWORD_CNT_31_0,
-+			    1,
-+			    &pcie->ob_wr_dword);
-+
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_DBG_CNT_TAG_31_0,
-+			    1,
-+			    &pcie->ob_rd_no_tag);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_DBG_CNT_CPL_CRED_31_0,
-+			    1,
-+			    &pcie->ob_rd_no_cpl_cred);
-+	fbnic_hw_stat_rst64(fbd,
-+			    FBNIC_PUL_USER_OB_RD_DBG_CNT_NP_CRED_31_0,
-+			    1,
-+			    &pcie->ob_rd_no_np_cred);
-+}
-+
-+static void fbnic_get_pcie_stats_asic64(struct fbnic_dev *fbd,
-+					struct fbnic_pcie_stats *pcie)
-+{
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_TLP_CNT_31_0,
-+			   1,
-+			   &pcie->ob_rd_tlp);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_DWORD_CNT_31_0,
-+			   1,
-+			   &pcie->ob_rd_dword);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_WR_TLP_CNT_31_0,
-+			   1,
-+			   &pcie->ob_wr_tlp);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_WR_DWORD_CNT_31_0,
-+			   1,
-+			   &pcie->ob_wr_dword);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_CPL_TLP_CNT_31_0,
-+			   1,
-+			   &pcie->ob_cpl_tlp);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_CPL_DWORD_CNT_31_0,
-+			   1,
-+			   &pcie->ob_cpl_dword);
-+
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_DBG_CNT_TAG_31_0,
-+			   1,
-+			   &pcie->ob_rd_no_tag);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_DBG_CNT_CPL_CRED_31_0,
-+			   1,
-+			   &pcie->ob_rd_no_cpl_cred);
-+	fbnic_hw_stat_rd64(fbd,
-+			   FBNIC_PUL_USER_OB_RD_DBG_CNT_NP_CRED_31_0,
-+			   1,
-+			   &pcie->ob_rd_no_np_cred);
-+}
-+
-+void fbnic_reset_hw_stats(struct fbnic_dev *fbd)
-+{
-+	fbnic_reset_pcie_stats_asic(fbd, &fbd->hw_stats.pcie);
-+}
-+
-+void fbnic_get_hw_stats(struct fbnic_dev *fbd)
-+{
-+	fbnic_get_pcie_stats_asic64(fbd, &fbd->hw_stats.pcie);
-+}
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.h b/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.h
-index 30348904b510..036cc065a857 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.h
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_hw_stats.h
-@@ -31,10 +31,22 @@ struct fbnic_mac_stats {
- 	struct fbnic_eth_mac_stats eth_mac;
- };
-
-+struct fbnic_pcie_stats {
-+	struct fbnic_stat_counter ob_rd_tlp, ob_rd_dword;
-+	struct fbnic_stat_counter ob_wr_tlp, ob_wr_dword;
-+	struct fbnic_stat_counter ob_cpl_tlp, ob_cpl_dword;
-+
-+	struct fbnic_stat_counter ob_rd_no_tag;
-+	struct fbnic_stat_counter ob_rd_no_cpl_cred;
-+	struct fbnic_stat_counter ob_rd_no_np_cred;
-+};
-+
- struct fbnic_hw_stats {
- 	struct fbnic_mac_stats mac;
-+	struct fbnic_pcie_stats pcie;
- };
-
- u64 fbnic_stat_rd64(struct fbnic_dev *fbd, u32 reg, u32 offset);
-
-+void fbnic_reset_hw_stats(struct fbnic_dev *fbd);
- void fbnic_get_hw_stats(struct fbnic_dev *fbd);
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-index fc7d80db5fa6..04077649161b 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-@@ -628,6 +628,9 @@ struct net_device *fbnic_netdev_alloc(struct fbnic_dev *fbd)
-
- 	fbnic_reset_queues(fbn, default_queues, default_queues);
-
-+	/* Capture snapshot of hardware stats so netdev can calculate delta */
-+	fbnic_reset_hw_stats(fbd);
-+
- 	fbnic_reset_indir_tbl(fbn);
- 	fbnic_rss_key_fill(fbn->rss_key);
- 	fbnic_rss_init_en_mask(fbn);
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_pci.c b/drivers/net/ethernet/meta/fbnic/fbnic_pci.c
-index 2de5a6fde7e8..5c485e9f3469 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_pci.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_pci.c
-@@ -552,9 +552,13 @@ static int __init fbnic_init_module(void)
- {
- 	int err;
-
-+	fbnic_dbg_init();
-+
- 	err = pci_register_driver(&fbnic_driver);
--	if (err)
-+	if (err) {
-+		fbnic_dbg_exit();
- 		goto out;
-+	}
-
- 	pr_info(DRV_SUMMARY " (%s)", fbnic_driver.name);
- out:
-@@ -570,5 +574,7 @@ module_init(fbnic_init_module);
- static void __exit fbnic_exit_module(void)
- {
- 	pci_unregister_driver(&fbnic_driver);
-+
-+	fbnic_dbg_exit();
- }
- module_exit(fbnic_exit_module);
---
-2.43.5
+W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEFNRCBJbnRlcm5hbCBEaXN0cmlidXRpb24gT25seV0N
+Cg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKb3NoIFBvaW1ib2V1ZiA8
+anBvaW1ib2VAa2VybmVsLm9yZz4NCj4gU2VudDogTW9uZGF5LCBOb3ZlbWJlciAxMSwgMjAyNCAx
+OjMzIFBNDQo+IFRvOiBBbWl0IFNoYWggPGFtaXRAa2VybmVsLm9yZz4NCj4gQ2M6IGxpbnV4LWtl
+cm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGt2bUB2Z2VyLmtlcm5lbC5vcmc7IHg4NkBrZXJuZWwub3Jn
+OyBsaW51eC0NCj4gZG9jQHZnZXIua2VybmVsLm9yZzsgU2hhaCwgQW1pdCA8QW1pdC5TaGFoQGFt
+ZC5jb20+OyBMZW5kYWNreSwgVGhvbWFzDQo+IDxUaG9tYXMuTGVuZGFja3lAYW1kLmNvbT47IGJw
+QGFsaWVuOC5kZTsgdGdseEBsaW51dHJvbml4LmRlOw0KPiBwZXRlcnpAaW5mcmFkZWFkLm9yZzsg
+cGF3YW4ua3VtYXIuZ3VwdGFAbGludXguaW50ZWwuY29tOyBjb3JiZXRAbHduLm5ldDsNCj4gbWlu
+Z29AcmVkaGF0LmNvbTsgZGF2ZS5oYW5zZW5AbGludXguaW50ZWwuY29tOyBocGFAenl0b3IuY29t
+Ow0KPiBzZWFuamNAZ29vZ2xlLmNvbTsgcGJvbnppbmlAcmVkaGF0LmNvbTsgZGFuaWVsLnNuZWRk
+b25AbGludXguaW50ZWwuY29tOw0KPiBrYWkuaHVhbmdAaW50ZWwuY29tOyBEYXMxLCBTYW5kaXBh
+biA8U2FuZGlwYW4uRGFzQGFtZC5jb20+Ow0KPiBib3Jpcy5vc3Ryb3Zza3lAb3JhY2xlLmNvbTsg
+TW9nZXIsIEJhYnUgPEJhYnUuTW9nZXJAYW1kLmNvbT47IEthcGxhbiwNCj4gRGF2aWQgPERhdmlk
+LkthcGxhbkBhbWQuY29tPjsgZHdtd0BhbWF6b24uY28udWs7DQo+IGFuZHJldy5jb29wZXIzQGNp
+dHJpeC5jb20NCj4gU3ViamVjdDogUmU6IFtSRkMgUEFUQ0ggdjIgMS8zXSB4ODY6IGNwdS9idWdz
+OiB1cGRhdGUgU3BlY3RyZVJTQiBjb21tZW50cw0KPiBmb3IgQU1EDQo+DQo+IENhdXRpb246IFRo
+aXMgbWVzc2FnZSBvcmlnaW5hdGVkIGZyb20gYW4gRXh0ZXJuYWwgU291cmNlLiBVc2UgcHJvcGVy
+IGNhdXRpb24NCj4gd2hlbiBvcGVuaW5nIGF0dGFjaG1lbnRzLCBjbGlja2luZyBsaW5rcywgb3Ig
+cmVzcG9uZGluZy4NCj4NCj4NCj4gT24gTW9uLCBOb3YgMTEsIDIwMjQgYXQgMDU6Mzk6MTFQTSAr
+MDEwMCwgQW1pdCBTaGFoIHdyb3RlOg0KPiA+IEZyb206IEFtaXQgU2hhaCA8YW1pdC5zaGFoQGFt
+ZC5jb20+DQo+ID4NCj4gPiBBTUQgQ1BVcyBkbyBub3QgZmFsbCBiYWNrIHRvIHRoZSBCVEIgd2hl
+biB0aGUgUlNCIHVuZGVyZmxvd3MgZm9yIFJFVA0KPiA+IGFkZHJlc3Mgc3BlY3VsYXRpb24uICBB
+TUQgQ1BVcyBoYXZlIG5vdCBuZWVkZWQgdG8gc3R1ZmYgdGhlIFJTQiBmb3INCj4gPiB1bmRlcmZs
+b3cgY29uZGl0aW9ucy4NCj4gPg0KPiA+IFRoZSBSU0IgcG9pc29uaW5nIGNhc2UgaXMgYWRkcmVz
+c2VkIGJ5IFJTQiBmaWxsaW5nIC0gY2xlYW4gdXAgdGhlDQo+ID4gRklYTUUgY29tbWVudCBhYm91
+dCBpdC4NCj4NCj4gSSdtIHRoaW5raW5nIHRoZSBjb21tZW50cyBuZWVkIG1vcmUgY2xhcmlmaWNh
+dGlvbiBpbiBsaWdodCBvZiBCVEMgYW5kIFNSU08uDQo+DQo+IFRoaXM6DQo+DQo+ID4gLSAgICAg
+ICogICAgQU1EIGhhcyBpdCBldmVuIHdvcnNlOiAqYWxsKiByZXR1cm5zIGFyZSBzcGVjdWxhdGVk
+IGZyb20gdGhlIEJUQiwNCj4gPiAtICAgICAgKiAgICByZWdhcmRsZXNzIG9mIHRoZSBzdGF0ZSBv
+ZiB0aGUgUlNCLg0KPg0KPiBpcyBzdGlsbCB0cnVlIChtb3N0bHk6ICJhbGwiIHNob3VsZCBiZSAi
+c29tZSIpLCB0aG91Z2ggaXQgZG9lc24ndCBiZWxvbmcgaW4gdGhlICJSU0INCj4gdW5kZXJmbG93
+IiBzZWN0aW9uLg0KPg0KPiBBbHNvIHRoZSBSU0Igc3R1ZmZpbmcgbm90IG9ubHkgbWl0aWdhdGVz
+IFJFVCwgaXQgbWl0aWdhdGVzIGFueSBvdGhlciBpbnN0cnVjdGlvbg0KPiB3aGljaCBoYXBwZW4g
+dG8gYmUgcHJlZGljdGVkIGFzIGEgUkVULiAgV2hpY2ggaXMgcHJlc3VtYWJseSB3aHkgaXQncyBz
+dGlsbCBuZWVkZWQNCj4gZXZlbiB3aGVuIFNSU08gaXMgZW5hYmxlZC4NCj4NCg0KV2hpbGUgdGhh
+dCdzIHBhcnRseSB0cnVlLCBJJ20gbm90IHN1cmUgSSdtIHVuZGVyc3RhbmRpbmcgd2hpY2ggc2Nl
+bmFyaW8geW91J3JlIGNvbmNlcm5lZCB3aXRoLiAgQXMgbm90ZWQgaW4gdGhlIEFNRCBCVEMgd2hp
+dGVwYXBlciwgdGhlcmUgYXJlIHZhcmlvdXMgdHlwZXMgb2YgcG90ZW50aWFsIG1pcy1zcGVjdWxh
+dGlvbiBkZXBlbmRpbmcgb24gd2hhdCB0aGUgYWN0dWFsIGJyYW5jaCBpcy4gVGhlICdsYXRlIHJl
+ZGlyZWN0JyBvbmVzIGFyZSB0aGUgbW9zdCBjb25jZXJuaW5nIHNpbmNlIHRob3NlIGhhdmUgZW5v
+dWdoIG9mIGEgc3BlY3VsYXRpb24gd2luZG93IHRvIGJlIGFibGUgdG8gZG8gYSBsb2FkLW9wLWxv
+YWQgZ2FkZ2V0LiAgVGhlIG9ubHkgJ2xhdGUgcmVkaXJlY3QnIGNhc2UgaW52b2x2aW5nIGFuIGlu
+c3RydWN0aW9uIGJlaW5nIGluY29ycmVjdGx5IHByZWRpY3RlZCBhcyBhIFJFVCBpcyB3aGVuIHRo
+ZSBhY3R1YWwgaW5zdHJ1Y3Rpb24gaXMgYW4gaW5kaXJlY3QgSk1QL0NBTEwuICBCdXQgdGhvc2Ug
+aW5zdHJ1Y3Rpb25zIGFyZSBlaXRoZXIgcmVtb3ZlZCBlbnRpcmVseSAoZHVlIHRvIHJldHBvbGlu
+ZSkgb3IgYmVpbmcgcHJvdGVjdGVkIHdpdGggSUJSUy4gIFRoZSBjYXNlcyBvZiBvdGhlciBpbnN0
+cnVjdGlvbnMgKGxpa2UgSmNjKSBiZWluZyBwcmVkaWN0ZWQgYXMgYSBSRVQgYXJlIHN1YmplY3Qg
+dG8gdGhlICdlYXJseSByZWRpcmVjdCcgYmVoYXZpb3Igd2hpY2ggaXMgbXVjaCBtb3JlIGxpbWl0
+ZWQgKGFuZCBub3RlIHRoYXQgdGhlc2UgY2FuIGFsc28gYmUgcHJlZGljdGVkIGFzIGluZGlyZWN0
+IGJyYW5jaGVzIGZvciB3aGljaCB0aGVyZSBpcyBubyBzcGVjaWFsIHByb3RlY3Rpb24pLiAgU28g
+SSdtIG5vdCBzdXJlIHdoeSBCVEMgc3BlY2lmaWNhbGx5IHdvdWxkIG5lY2Vzc2l0YXRlIG5lZWRp
+bmcgdG8gc3R1ZmYgdGhlIFJTQiBoZXJlLg0KDQpBbHNvLCBCVEMgb25seSBhZmZlY3RzIHNvbWUg
+QU1EIHBhcnRzIChub3QgRmFtaWx5IDE5aCBhbmQgbGF0ZXIgZm9yIGluc3RhbmNlKS4NCg0KLS1E
+YXZpZCBLYXBsYW4NCg==
