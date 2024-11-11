@@ -1,154 +1,123 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0887479CD;
-	Mon, 11 Nov 2024 03:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D6113665B;
+	Mon, 11 Nov 2024 03:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731294840; cv=none; b=HkcUb/1uTXOkBCECACb0IQxmc3nw+xK04rweRRvgezHAaWmO8RdDqKGaOfkaQyQWz6k629N11QOXlIktyO0ZH/VzekkMwdU23FrQEvnI0w7d+aW1HXgmxTIbwcr82/z1hB/TwVPXftqxzGfCtHZZJBvyS91Ag/JxqpMRRlY/8uk=
+	t=1731296290; cv=none; b=qfaYPSaSI55IS5w3ILuX/hBOuNFVwvaFxcSPLlFWVZluVcwf3OLtjb1Z0vS+r4XvENpin1/ywntEKYqiT0uI2igtjJQcgdrV6HEWJ31L87n8KjVKIcBNFpzrzfMxGNXf/U7ZbVrfZYC2bxOlBO+gP3vp4U3FsEMw5ducomEEDHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731294840; c=relaxed/simple;
-	bh=QwxtcQnSjGzd8NANYWxEDGJdZi4pTtnLGIQe9sj9+lE=;
+	s=arc-20240116; t=1731296290; c=relaxed/simple;
+	bh=ZA8OHg3+Q+KSRXretnApCX6ve8goJNJnnOgbzaePsMs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JPgQ7SRpqzi5lrhf+4BjFz1BHIJ4WedSBZhFqcqKgciRBdoo8VW+jl0CRyMd2882G5q3sKzk4/oHJro01+5sWxaQgMfB5nY4/2bnesEdYTaPwKxpPfgluepFy/0en6iCrE4AC2ku23nNCvpcDDI5zoK248PM3yFe8SQUuwYm7/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gbdoptPE; arc=none smtp.client-ip=209.85.167.47
+	 To:Cc:Content-Type; b=Zsw1FHqmLdso+oATDp766P3fGk/M7zsGHbDdffw8ssq1DyfXJtVlnSRMGMSlhWr2pChobmVe0UewKqiFfh16dZcXrzpVdmVPBUrgpGNfDjxFFxwkO47W9AeHx7eFIi/+9sz4DcXvPMXwML9gTIrl/sJxvWJynHsLpCBLEvC3SPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YORleJyk; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gbdoptPE"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539f72c8fc1so6735886e87.1;
-        Sun, 10 Nov 2024 19:13:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YORleJyk"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539f58c68c5so6686643e87.3;
+        Sun, 10 Nov 2024 19:38:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731294837; x=1731899637; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731296287; x=1731901087; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AszquRm3rEcjTNQTd7uRs0tgE9n1Q/miIDo52S90X0w=;
-        b=gbdoptPEkfYHS4YLCTaT7aRUAKM2P5ihDUlT5XDl6GnCefeTMnjfwK8WSM/ejCM1qw
-         0sr54Y0Jjw0r2xicLBic9UXXwKsZXRhtpOYhuAdPrZkLhGE3kUcNzwFxuDbKYjiRugKn
-         EH5/CHLs7NqysRl30d7/qQuDRb/u9uJgtwi/Z/uj/LxzW9W36BWDv/eL5llOc7hBZnzK
-         mgoi+NEPDgleZvRHwNEXRqLIzcLkSDCzdU3xoKkY2IvXTwenwvF+v9GRzRdj+NcPWcWA
-         gY71sPJbb/xLIsbn6PnxzZfP05+hIwupb3XSfAoYXix7HGbHfqDYYVMK2wHvd52tF6Iw
-         zGng==
+        bh=oC4JPLCLRDYMO1RPUeNNnfQJv+4YzjVh9J6kx0DE+o4=;
+        b=YORleJyklPfMfbSVi4Y4qrwHt1YwvDc9akTiDSwcsLswec1si3Fp3tB+XuigwDvcur
+         PL1sL5Fs6rVTiQKI/i0Af6ztZ/c2E1kZdkrkHeRZmmmUZ5UJFjUaw5uUcNxoZeiS/oMY
+         CnLE47XS0s4azvQPllSyRIsNBifblpunB+VwGKM1Pbyz6kVc7P+pBnQMDe2yHnnmqV6q
+         fA2oKwjGqrRVDLHSd3Izfb2z4+96S+NCwKa4EOWEW4ul9VO2t0YsBihAsN4l5msE0+34
+         0VDo8pop1FzSl4c80npfk6SZFbEaQZR7wKK8QZoCl70Gcn9b3/zVPqYvrmRIXj/YjRZ4
+         M7XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731294837; x=1731899637;
+        d=1e100.net; s=20230601; t=1731296287; x=1731901087;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AszquRm3rEcjTNQTd7uRs0tgE9n1Q/miIDo52S90X0w=;
-        b=JI5WMMYgSl0QmzP6zB7vktdnCjGHNkeF/ucLZiH07TSbsEuMgcG3IytMK9n2oKOr9D
-         /oMpFGDLGtjntPsfGSKRpNuMNrvgj03zK9TummR9FAVDM1EAnt4YC+Cv98xrelJg1dr0
-         eS8nHNMGuYWCiq4vx53gPFZSwyXIX8DVm9q7NRY0Ar8G2wxE6HoAb3cxFDYMqO0IELbk
-         RcLliN4ueNHa9QQQ2vt3/l+1dsQ+tKQ02BTfuv89GmloaUehPf4L1GH4KR4tSxepaF1K
-         Xy3FhR+D14Zz9FDPfKibpkmbskwGavUazFRBmirbnnaDh8PodtK04c1+1GYJfED/ORul
-         EYQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUGqjEfCFtxJTT9WNrquuvQk1CSCpR7qhbaurmaE6BsU0Xkrpa4mfPDGLKPctE8/kZ2DBmPLKXseU6J5p0=@vger.kernel.org, AJvYcCUGt4CVhfRym3dGKHEHp2JwXEl6Hz2lZLg832KgcGGcfQmdWVgCvOmxsgBx17PaisjVr05iHbMJG3QV@vger.kernel.org, AJvYcCVM8p6wLEqYBww0dLyNXYtyEXKVVvyftoW6DNcb0fugU9LjQFFla/gNg2mKwhG/9EODM7fvW/0g5o5Q@vger.kernel.org, AJvYcCVR7urlYVTn+IJ5lKuiH5pIpIG0h5aese3827643V1w8XmkOXS9EswU+b33ZhZt2HKH1541E33FYap7dVOQ@vger.kernel.org, AJvYcCXBJBJ37nE9p2k7317mo5pSXxuGK/VLn0Ski+fY4I10nr+9PHdCyVaUl9l7J2/uRgCC7S/tUjgiudrTrw==@vger.kernel.org, AJvYcCXeVv3l2xWoQOj5Z2h1Wwrp2ltwUVDftBMPm13OgRKgdrJsLG6IJQZRmNaUjz+nCKgfPtg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ6qxqyy0laAk7us5SC031A1zPw+q/lRBGsoQZ3YlYzUzRfoYW
-	XbBILwrSiIlTUAJ1PCjkmxQTpo2+c6L8Ezqjsfub3UzayBF2hagXyM2Xa9NqOT7ibFqPvOv9Skq
-	GTzlYhXIZ5hxmmvbcL1NCKkz7ess=
-X-Google-Smtp-Source: AGHT+IGCJWVGSDxh88mmV8TfpUkds1GTcb/SQfLMvdY+xjmMgOtiWhJjm3URTLzGgKvmaZLyg2QvEHBS9bNI0FtRaqQ=
-X-Received: by 2002:a05:651c:881:b0:2fb:6465:3183 with SMTP id
- 38308e7fff4ca-2ff201e7398mr46022501fa.3.1731294836895; Sun, 10 Nov 2024
- 19:13:56 -0800 (PST)
+        bh=oC4JPLCLRDYMO1RPUeNNnfQJv+4YzjVh9J6kx0DE+o4=;
+        b=V44truBaYLJfWpAR/WxYj3HEQPDQcIe9Ef317HMWlADCBOzsK9+5xtj85si6OZBbyd
+         l7sJ7xw4HK7R/YiEqUapPZR4nUKUNhMsR9zCtWN/0hR2+0Ml1pQTKrB+99nEKy9ifUTz
+         Ph++eAZa4VCcPEJnbmV2qrkPbFV5jls2vLaUmoWTk4tXmNJTZc/iP8wvRz0OQvNwmqMf
+         QXwOdig3BJJYLmmULmE1GqzYNrsJ4ol3+5EXtzHMlqm7RzCivWEpofqa48gKpe3/WStF
+         oCJWIqftrdZqvsugaeJpb5K9yl1B9all24Q15Eu+Rpr6XAXSAae35W8qv7LI2DXhjrjz
+         xlUA==
+X-Forwarded-Encrypted: i=1; AJvYcCUpLtI8ewQLBaQLJeiAJT1LCZRhW8LZEk+q/g5117LyiXknxK/fooZ/hoEb42y+5aa8LWjAGjLKi2jksGA=@vger.kernel.org, AJvYcCWRUf7Lq32DW8eBkHmpnT+K6SLR52Crjwoqn0ovvRUardWnVdOX5iU5sCc29E5wfR1ep+Y7AwvqsDM=@vger.kernel.org, AJvYcCXANLECdg13hyS6eg23bjXfuU6iDuBJKRfOC5bqWuo5DH1u7iZ4H5lKmax1jXsApA9CBAr5RDukU5/jvxt8@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8ZwpStq+4pwyM4FT0LJ+qp/0ueUxb94RCL5Rmz31nu6Fwrt6C
+	C73re7C8xDS0M8TcVhKIis2YIKCM4+gKnUegKhZ2UVcSDlAd/h0jSe2G6Ti6sacgAmCKWGIazqA
+	2L1ZEU0YcmaTo7is+BX2xf66djwg=
+X-Google-Smtp-Source: AGHT+IHBFDY1PibMOh+vdFnoFYfzQQKDW6n7kSjEqQSavh8wTx91d7/tUPpxAtMEp4os/dNOKl0FhhhSUSR75eZdqPM=
+X-Received: by 2002:a2e:9a0a:0:b0:2f0:27da:6864 with SMTP id
+ 38308e7fff4ca-2ff201bc4a3mr56913731fa.17.1731296286894; Sun, 10 Nov 2024
+ 19:38:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1731244445.git.leon@kernel.org> <dca3aecdeeaa962c7842bc488378cdf069201d65.1731244445.git.leon@kernel.org>
- <CABCoZhAN-eeu=E5r+ZbZGTNwQta5yUw86sy8e_Je+Yri-+iuoQ@mail.gmail.com> <875xouv5lt.fsf@trenco.lwn.net>
-In-Reply-To: <875xouv5lt.fsf@trenco.lwn.net>
+References: <20241107200835.3033-1-yesanishhere@gmail.com> <87cyj622oc.fsf@trenco.lwn.net>
+ <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org> <874j4i205j.fsf@trenco.lwn.net>
+ <70a27fe2-cc85-4f35-b24a-8e3425e447d0@infradead.org> <87v7wyznow.fsf@trenco.lwn.net>
+ <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org>
+In-Reply-To: <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org>
 From: anish kumar <yesanishhere@gmail.com>
-Date: Sun, 10 Nov 2024 19:13:45 -0800
-Message-ID: <CABCoZhDpdU0cGu8Ru5Jj+YmnS07cO4k_nbOFT+HkdFkpVo1NYQ@mail.gmail.com>
-Subject: Re: [PATCH v3 09/17] docs: core-api: document the IOVA-based API
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, 
-	Yishai Hadas <yishaih@nvidia.com>, 
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>, 
-	Alex Williamson <alex.williamson@redhat.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	=?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-mm@kvack.org, Randy Dunlap <rdunlap@infradead.org>
+Date: Sun, 10 Nov 2024 19:37:55 -0800
+Message-ID: <CABCoZhAaAhUhm5pvc_FgOY6LP0eS+tUUrE-tPnO3k+Xqa7GWBA@mail.gmail.com>
+Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, 
+	tiwai@suse.com, Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 10, 2024 at 6:58=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
+On Thu, Nov 7, 2024 at 8:53=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
 >
-> anish kumar <yesanishhere@gmail.com> writes:
 >
-> > On Sun, Nov 10, 2024 at 5:50=E2=80=AFAM Leon Romanovsky <leon@kernel.or=
-g> wrote:
-> >>
-> >> From: Christoph Hellwig <hch@lst.de>
-> >>
-> >> Add an explanation of the newly added IOVA-based mapping API.
-> >>
-> >> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> >> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> >> ---
-> >>  Documentation/core-api/dma-api.rst | 70 +++++++++++++++++++++++++++++=
-+
-> >>  1 file changed, 70 insertions(+)
-> >>
-> >> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-a=
-pi/dma-api.rst
-> >> index 8e3cce3d0a23..61d6f4fe3d88 100644
-> >> --- a/Documentation/core-api/dma-api.rst
-> >> +++ b/Documentation/core-api/dma-api.rst
-> >> @@ -530,6 +530,76 @@ routines, e.g.:::
-> >>                 ....
-> >>         }
-> >>
-> >> +Part Ie - IOVA-based DMA mappings
-> >> +---------------------------------
-> >> +
-> >> +These APIs allow a very efficient mapping when using an IOMMU.  They =
-are an
+>
+> On 11/7/24 2:25 PM, Jonathan Corbet wrote:
+> > Randy Dunlap <rdunlap@infradead.org> writes:
 > >
-> > "They" doesn't sound nice.
-> >> +optional path that requires extra code and are only recommended for d=
-rivers
-> >> +where DMA mapping performance, or the space usage for storing the DMA=
- addresses
-> >> +matter.  All the considerations from the previous section apply here =
-as well.
+> >> I see a few possibilities, none perfect:
+> >>
+> >> a. in Documentation/driver-api/debug/  [not quite driver-api though]
 > >
-> > These APIs provide an efficient mapping when using an IOMMU. However, t=
-hey
-> > are optional and require additional code. They are recommended primaril=
-y for
-> > drivers where performance in DMA mapping or the storage space for DMA
-> > addresses are critical. All the considerations discussed in the previou=
-s section
-> > also apply in this case.
+> > No, it's not API stuff, and not limited to drivers.
 > >
-> > You can disregard this comment, as anyone reading this paragraph will
-> > understand the intended message.
+> >> b. in Documentation/core-api/ along with debugging-via-ohci1394.rst
+> >> [maybe in a new /debug/ subdir]
+> >
+> > Again, not really API stuff.
+> >
+> >> c. in (new) Documentation/debug/ and invite the kernel debugging
+> >> community to add some of their docs here as well.
+> >
+> > If we really want to separate the mechanics of kernel development from
+> > the associated process information - not always an easy separation, IMO
+> > - we could make a top-level "development" directory, put a lot of the
+> > other relevant stuff there, and include the debugging stuff.  It seems
+> > really weird to put debugging by itself, though; it's only part of the
+> > picture.
 >
-> I don't understand the comment, honestly.  You say "they" doesn't "sound
-> nice", whatever that means, but your suggestion retains the "they"...?
+> I could go with that.
 >
-> I'm all for reviews that improve our documentation, but it is
-> *incredibly* easy to fall into the trivial bikeshed mode.  I've
-> certainly done it myself.  The end result is less documentation as
-> people decide, understandably, that it's not worth the pain.  Hopefully
-> we can all try to do a bit less of that.
+> >
+> > Why is Documentation/process so bad?
 >
-> FWIW, I think the paragraph is fine as written.
+> Documentation/process/ is meta-documentation about kernel social "standar=
+ds"
+> among other things. It is "soft" documentation, whereas debugging (IMHO) =
+is
+> "hard" documentation.
+>
+> But hey, it's all your baby. Do whatever pleases you. :)
 
-I completely agree, and that's why I suggested feeling free to disregard
-the comment. When I read it, I felt it could be improved, but I
-agree=E2=80=94there's no point in overanalyzing it.
+Jonathan, wondering if you want to me to go ahead with your suggestion
+of merging on top of Sebastian patch?
 >
-> Thanks,
+> --
+> ~Randy
 >
-> jon
