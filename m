@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920E21AE014;
-	Mon, 11 Nov 2024 20:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A991B5827;
+	Mon, 11 Nov 2024 20:40:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731357549; cv=none; b=DvU0YKvX1IZueMKHaeUR6jy6lKnM2pI2NzS8HWs115bD2bFDSQmyzByiElf88l1SqEY5ajqFihNmO/k4sFLMAaTHM1oN+Byv5/UhgrnwiFJLtoVf6MhxZ6PvY6pKrMMNKjCgcyiaylmwc6bkXP0zCvBkqERCM+VgrHygcwhQ+bM=
+	t=1731357641; cv=none; b=DyRHtvHVDunvOFJgwX/HjMgzRLxjjqc9H9Jq52bSXcsCwYrjrBKTpc0kT9qAYV1DJTnMbpkEQe9zlmUqncf43kRTd/aRyZLhQRwUQz2U1sCPLtir2BdYt9ONBs+SMkE6L/LxQ7utDiBjOFAvIxMJpcxxa+0+rB7OVhfLuW1aN9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731357549; c=relaxed/simple;
-	bh=RskXYQD5wDxn7QTheUTZ7haO83xm9MxhhQdS2pfNkCM=;
+	s=arc-20240116; t=1731357641; c=relaxed/simple;
+	bh=HyFMaRXITnzt3qjNKojKuR0TkanFbUkPSq/dln3OrRU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LzXbLWzamtaYLWJG+/yZrZzM/ffBNY/KY7SUKkNKe9Pf5dox2U/7z+JTScKLLsmWRZMuFGBHTmOFXXEo7FTIlo9V7yf/JkGSPKjQMWdD9Bm/2M7tis/iVwf99E4makrrgZQKOQdUzuDMxvqZ816iTNYj5e208YpJNVPDYL+/DLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ad02di1u; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CYoqTYY7QXNEmMUfhZj7GxGb1Wmxh9EP7PrSzOTVMlMIIESrgEOh8JiT69eqyNrn1xbn8KFt7cyvTfhP8EYarhURAZNGL2Z3CRUlAmGLXQpW/XF3ICzZX7AomUP/rp2dt312fkfc6Lym5kf/E5ftQKESpoNS9siGLe8/MWRVbqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHu05cTb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ad02di1u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58896C4CECF;
-	Mon, 11 Nov 2024 20:39:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHu05cTb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 470DAC4CECF;
+	Mon, 11 Nov 2024 20:40:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731357549;
-	bh=RskXYQD5wDxn7QTheUTZ7haO83xm9MxhhQdS2pfNkCM=;
+	s=k20201202; t=1731357641;
+	bh=HyFMaRXITnzt3qjNKojKuR0TkanFbUkPSq/dln3OrRU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ad02di1uRK6TijSYu3ChQ2iIEsTtsd+Is3e43hvt265ilw6K9fbfaI76jJHnUd+ql
-	 SKuI+iE8TuVRKINajCyo28tttGdcLlqgdcDB8n2RIlkz/IBSBn8zI3/NqkMf2EVZV0
-	 A9c81jNwcDSYozpMU379FrEn6vhQxTDsWx3OVrAorWaahb8FbdOJ4RMNrmUE7evUav
-	 MUULkAM24LbdMZHNKoAmbpbTIME9GViIr4kciB3WbmHiSnw0U2OtG1MSmYOT0Z3I+2
-	 Yqc17b9w0lvhiQ41izyiQaGj/prRWcmPghnPQhxIZP1Ztakh2VeepMw1GiZSJi/9sO
-	 eMHXl0VnBb8Ig==
-Date: Mon, 11 Nov 2024 12:39:06 -0800
+	b=jHu05cTbLuzCMXfu/EO0asvCTvczfjZetFhAHLh0V4kK9q6DflN9ElW/ljISjezhZ
+	 7EZa6FmPUOABOVp7aIzf5RNIi2dorW0d9qRQnHqkIxWouF7R+1+VjAaYoQOTt7mNuB
+	 c+7zft/c82ac8mhE00YQZVqn5t2ZQrFwPH2+8XKNIxea+aRi8GWLsgTRiZVdbzG5n0
+	 1ayZwIVlTyDJu9VJ59Uk0UOKhwvCCTrSl6tvh7XGrLvV0k5T1orjv04vRwLGtVHndJ
+	 +NHrVy2UVGQMZ34BAtbanNgP0C14JwuNvggRlFT8yJEOuEtipWIBt4Ie3hl+wOBC4h
+	 aHr9Xw3t0x6CA==
+Date: Mon, 11 Nov 2024 12:40:38 -0800
 From: Josh Poimboeuf <jpoimboe@kernel.org>
 To: "Kaplan, David" <David.Kaplan@amd.com>
 Cc: Amit Shah <amit@kernel.org>,
@@ -55,11 +55,12 @@ Cc: Amit Shah <amit@kernel.org>,
 	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>
 Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
  AMD
-Message-ID: <20241111203906.a2y55qoi767hcmht@jpoimboe>
+Message-ID: <20241111204038.63ny4i74irngw2si@jpoimboe>
 References: <20241111163913.36139-1-amit@kernel.org>
  <20241111163913.36139-2-amit@kernel.org>
  <20241111193304.fjysuttl6lypb6ng@jpoimboe>
  <LV3PR12MB9265A6B2030DAE155E7B560B94582@LV3PR12MB9265.namprd12.prod.outlook.com>
+ <20241111203906.a2y55qoi767hcmht@jpoimboe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,52 +69,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <LV3PR12MB9265A6B2030DAE155E7B560B94582@LV3PR12MB9265.namprd12.prod.outlook.com>
+In-Reply-To: <20241111203906.a2y55qoi767hcmht@jpoimboe>
 
-On Mon, Nov 11, 2024 at 07:58:03PM +0000, Kaplan, David wrote:
-> > I'm thinking the comments need more clarification in light of BTC and SRSO.
-> >
-> > This:
-> >
-> > > -      *    AMD has it even worse: *all* returns are speculated from the BTB,
-> > > -      *    regardless of the state of the RSB.
-> >
-> > is still true (mostly: "all" should be "some"), though it doesn't belong in the "RSB
-> > underflow" section.
-> >
-> > Also the RSB stuffing not only mitigates RET, it mitigates any other instruction
-> > which happen to be predicted as a RET.  Which is presumably why it's still needed
-> > even when SRSO is enabled.
-> >
+On Mon, Nov 11, 2024 at 12:39:09PM -0800, Josh Poimboeuf wrote:
+> This is why it's important to spell out all the different cases in the
+> comments.  I was attempting to document the justifications for the
+> existing behavior.
 > 
-> While that's partly true, I'm not sure I'm understanding which
-> scenario you're concerned with.  As noted in the AMD BTC whitepaper,
-> there are various types of potential mis-speculation depending on what
-> the actual branch is. The 'late redirect' ones are the most concerning
-> since those have enough of a speculation window to be able to do a
-> load-op-load gadget.  The only 'late redirect' case involving an
-> instruction being incorrectly predicted as a RET is when the actual
-> instruction is an indirect JMP/CALL.  But those instructions are
-> either removed entirely (due to retpoline) or being protected with
-> IBRS.  The cases of other instructions (like Jcc) being predicted as a
-> RET are subject to the 'early redirect' behavior which is much more
-> limited (and note that these can also be predicted as indirect
-> branches for which there is no special protection).  So I'm not sure
-> why BTC specifically would necessitate needing to stuff the RSB here.
+> You make some good points, though backing up a bit, I realize my comment
+> was flawed for another reason: the return thunks only protect the
+> kernel, but RSB filling on context switch is meant to protect user
+> space.
 > 
-> Also, BTC only affects some AMD parts (not Family 19h and later for
-> instance).
+> So, never mind...
 
-This is why it's important to spell out all the different cases in the
-comments.  I was attempting to document the justifications for the
-existing behavior.
-
-You make some good points, though backing up a bit, I realize my comment
-was flawed for another reason: the return thunks only protect the
-kernel, but RSB filling on context switch is meant to protect user
-space.
-
-So, never mind...
+That said, I still think the comments need an update.  I'll try to come
+up with something later.
 
 -- 
 Josh
