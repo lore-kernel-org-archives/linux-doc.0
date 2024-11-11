@@ -1,93 +1,130 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD2B1E481;
-	Mon, 11 Nov 2024 14:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64C725777;
+	Mon, 11 Nov 2024 15:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731337169; cv=none; b=MtwU2kB5x4wUnF5zREa89UWPM4AlGiKzSef9HxYRmj/9wdAJ6Z/KOGLEO0TSMO68UoqDOISjUqFyxZMEkl6iJqB3BYBmWPoHZ2/wDsJyyR8vMHn+nDfyXpCvOtImR419J1TSw1vujD9hhTd7vgQkCLF6nz40gVMfVT0bemjpwaI=
+	t=1731340727; cv=none; b=t4Mmz9aR0LGZH/LDpd87KPCqhknOG/+VtVEwCGGcUhjwNSbPOn3LwBxaszo/LqkpEoMuJXGeBMefhn68B4/2vdrMzd5XCJIUUek9BiKUGKH4NfyTh/6lAU2WCYN/uU4sE06tV/wesoBMaxmAXtq6/qgTvSHw+LPNEc90jpFRr3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731337169; c=relaxed/simple;
-	bh=gg3nV1iKgs4bbxPK/uru5pPDw51yAhWHVenuhfd8RSY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=E1hbJAEALqlb5yL56DaF3Qdv35CRbOZUjo41njnTAapQEJ0PfjTeAMJlktQn6zFocYAD5AcntSDzEzxG0egw/joVNiqqGP+s2PtjzedHUpp4kPCeNPoPiPCIlkzq6cGu7gK+PF8oeOV3JldOMHb+qdPl62rL7Yt8XyMFS58xoNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=U7Qof0wu; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1731340727; c=relaxed/simple;
+	bh=D/YpkEfpManBPaAEXxiNweHwj+pGzqn0/nquf2ubY1c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IaSNZJPH+BbzURgX7ppdKVqautqQRVIOwnKmkvp2iA9KOck3uoFJ28ETukJYMSKjne7L8Xn/py5vkC7hF7NxkVzQQRF3slTJGfRfWaIc1Wxe1zglR5PAxzkUAYzP2503HzdcAWTeZEKtX6EMILbwmRNlU8PQUEjlAq9m1NGeTvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NYtpCZ2y; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U7Qof0wu"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 45E36403F1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1731337167; bh=GwVTmx4eIglWLWGHYmk31OoK5pzNvXaKVe73vYEWSTk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=U7Qof0wuVnJGcnP06ChHK+MJPNdREQXE7RLUzC2W70ULBaY9a9VnJ9vQEtqDAf9Ah
-	 A3HwpVCu8PJVyEMghvrqu/hNDOC8sGYBt3mN173rM33gAFqU2dKpLTqp9ac4bjnapP
-	 A1UN+AgpzI588tU7KIuantdLBUeWBgXdiFu11n7kGDH4ZxFGW1T97qYFC9t3FAzyYo
-	 fgA7YQdK+SYmrHtsukzfx/wT5vFef/DoXSOK38XKAVdsxtI+fq2uPWuv8CV5NUKrxx
-	 iQj4S70o2yK54j7jT8p8fewkBThJBXMBi2CZoLIkGaK5OJDLnfOOJSXDckk3X1rExZ
-	 HhL9BYc+PyPqw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 45E36403F1;
-	Mon, 11 Nov 2024 14:59:27 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: anish kumar <yesanishhere@gmail.com>, Christoph Hellwig <hch@lst.de>
-Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>, Joerg
- Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Sagi Grimberg
- <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas
- <yishaih@nvidia.com>, Shameer Kolothum
- <shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, =?utf-8?B?SsOpcsO0bWU=?= Glisse
- <jglisse@redhat.com>, Andrew
- Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
-In-Reply-To: <CABCoZhBVWY=aUQtQ5b=mF8hXqpgJw21_jAPf9YvEvdgPf_GALA@mail.gmail.com>
-References: <cover.1730298502.git.leon@kernel.org>
- <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
- <87ttchwmde.fsf@trenco.lwn.net> <20241108200355.GC189042@unreal>
- <87h68hwkk8.fsf@trenco.lwn.net> <20241108202736.GD189042@unreal>
- <20241110104130.GA19265@unreal> <20241111063847.GB23992@lst.de>
- <CABCoZhBVWY=aUQtQ5b=mF8hXqpgJw21_jAPf9YvEvdgPf_GALA@mail.gmail.com>
-Date: Mon, 11 Nov 2024 07:59:26 -0700
-Message-ID: <87o72lu88h.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NYtpCZ2y"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a9f1c590ecdso232087166b.1;
+        Mon, 11 Nov 2024 07:58:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731340724; x=1731945524; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dl9j2ZhDxQQ2YzSVFeZKFe/F9Df3fYpRcMcBflMuxFU=;
+        b=NYtpCZ2y6Ys3uY522f+gEFPS+WW3piplkMJ5eoPuCGBRpKET7deGctsbcTrXiZDYX6
+         IYvwgx3yd0Obk6sHOksNVkO+AthAFcjWVztO60ea3DMI/K1G35g5dAKMPNn9B4o9gNCo
+         /xyCr60AW5Q+D1tbiXT7E/utyejGrEfRmcJ6Zyk5Nv5GH7A6L5XxuLIJE4ptKyLm5mDK
+         rzVXnVgT3qy53dyxC8OUsy8ycwDAZNnDShrV6KD0UdZKNL/jEmw4ZkV1ZhvfNgRwmC8n
+         GCNESaqhykzEKe3lnw6Rj2Gaa/3Mbyh2y+3d03Y8glpsGnUXsjRb0EeEkbmbV8SPlyxD
+         N0YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731340724; x=1731945524;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dl9j2ZhDxQQ2YzSVFeZKFe/F9Df3fYpRcMcBflMuxFU=;
+        b=wIFHcQQSipSc9Uv4aFLJW8rWKxHjdvOgGbF3tfdhcRmQPnYKS4rtV0jpg4FqbuvyEm
+         ExoJJe8AquAw/4C8TPDddqiJwQECv8K4ikZU2hX7eFJdy/KYnaF0qY2dilj0YEwVMb0D
+         J33iicLAb0W4E9Q5HYJkQGdOJBJ8oxl7L9/p7o3HDNt+a1ZdjP/L/zHZXVPiOl/MwIoz
+         LIrrhoTGy1/C4ENrQW0m9tVKjpzDsrkr9IQabDyzbtzEKylbbijbm2hW8ZX3diWHI0x6
+         6i0+oQ2bUYMNM5wo6aWg2HpxyKi/Z2bIN2Hes1jHJ1w1FWmp6pIKCv1gPiljIAEVmLhC
+         TCrw==
+X-Forwarded-Encrypted: i=1; AJvYcCUqPA+LvBBHDDfOMInHPAanEPdeyPMgXxdWhv+3MxfkgPDd1ygZpDgmbxqvaourmDV+1JQxUiDHDowT@vger.kernel.org, AJvYcCVsP/f2b97FT4TMmbSLC4hnF4i9C7o6ZpoC9LRkdADXVejGz8IY1rwIdr/K2KEnCaTIkLuE2+JM@vger.kernel.org, AJvYcCWyx8kss0IweeKEbGWsasnrcJVkieAGRu2dENocIAjwTUC9+zBVSOXWCNrKGsgB6BQdHEW8hRF2ITSIcqmR@vger.kernel.org
+X-Gm-Message-State: AOJu0YybMpb7aVKWZJvw9J8Np+btNxED9McqbYNPd0pH4O43D1T0wOx0
+	0oF2itThCskH3d8Z3OMxNingH/0SHg/5fGH1lIMc/iZygOlJNjwzcid+hgNYhKNeiYWshZlOort
+	YmMHGN1sKpWTLOWZl9O1k1wkM7kQ=
+X-Google-Smtp-Source: AGHT+IFVWWt4lX8khmDtVZ2kVgUASNxC6iDiSfAVTyuaUSBaXtk0CtGDqWPITCIxLKL9+nMWHqxJWPrBH1EgnkwxP4s=
+X-Received: by 2002:a17:907:84a:b0:a99:f887:ec1d with SMTP id
+ a640c23a62f3a-a9ef001b40emr1312010466b.49.1731340723945; Mon, 11 Nov 2024
+ 07:58:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com> <72688d81-24db-70ba-e260-bd5c74066d27@google.com>
+In-Reply-To: <72688d81-24db-70ba-e260-bd5c74066d27@google.com>
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+Date: Mon, 11 Nov 2024 10:58:32 -0500
+Message-ID: <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
+To: David Rientjes <rientjes@google.com>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, nphamcs@gmail.com, 
+	shakeel.butt@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
+	chris@chrisdown.name, tj@kernel.org, lizefan.x@bytedance.com, 
+	mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-anish kumar <yesanishhere@gmail.com> writes:
-
-> On Sun, Nov 10, 2024 at 10:39=E2=80=AFPM Christoph Hellwig <hch@lst.de> w=
-rote:
->>
->> On Sun, Nov 10, 2024 at 12:41:30PM +0200, Leon Romanovsky wrote:
->> > I tried this today and the output (HTML) in the new section looks
->> > so different from the rest of dma-api.rst that I lean to leave
->> > the current doc implementation as is.
->>
->> Yeah.  The whole DMA API documentation shows it's age and could use
->> a major revamp, but for now I'd prefer to stick to the way it is done.
->>
->> If we have any volunteers for bringing it up to standards I'd be glad
->> to help with input and review.
+On Sat, Nov 9, 2024 at 9:19=E2=80=AFPM David Rientjes <rientjes@google.com>=
+ wrote:
 >
-> Jonathan, if you agree, I can take this up?
+> On Fri, 1 Nov 2024, Joshua Hahn wrote:
+>
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/ad=
+min-guide/cgroup-v2.rst
+> > index 69af2173555f..bd7e81c2aa2b 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -1646,6 +1646,11 @@ The following nested keys are defined.
+> >         pgdemote_khugepaged
+> >               Number of pages demoted by khugepaged.
+> >
+> > +       hugetlb
+> > +             Amount of memory used by hugetlb pages. This metric only =
+shows
+> > +             up if hugetlb usage is accounted for in memory.current (i=
+.e.
+> > +             cgroup is mounted with the memory_hugetlb_accounting opti=
+on).
+> > +
+> >    memory.numa_stat
+> >       A read-only nested-keyed file which exists on non-root cgroups.
+> >
+>
+> Definitely makes sense to include this.
+>
+> Any reason to not account different hugetlb page sizes separately in this
+> stat, however?  IOW, should there be separate hugetlb_2048kB and
+> hugetlb_1048576kB stats on x86?
 
-I am happy to see help with the documentation, but agreement from the
-authors and maintainers of the DMA-mapping documentation is rather more
-important than agreement from me.
+Hello David, Thank you for reviewing my patch!
 
-jon
+The reason that I opted not to include a breakdown of each hugetlb
+size in memory.stat is only because I wanted to keep the addition that
+this patch makes as minimal as possible, while still addressing
+the goal of bridging the gap between memory.stat and memory.current.
+Users who are curious about this breakdown can see how much memory
+is used by each hugetlb size by enabling the hugetlb controller as well.
+
+It's true that this is the case as well for total hugeltb usage, but
+I felt that not including hugetlb memory usage in memory.stat when it
+is accounted by memory.current would cause confusion for the users
+not being able to see that memory.current =3D sum of memory.stat. On the
+other hand, seeing the breakdown of how much each hugetlb size felt more
+like an optimization, and not a solution that bridges a confusion.
+
+I have not had a scenario where I had to look at the breakdown of the
+hugetlb sizes (without the hugetlb controller), or a scenario where not
+knowing this causes some sort of confusion. If others have had this
+problem, I would love to hear about it, and perhaps work on a solution
+that can address this point as well!
+
+I hope you have a great day!
+Joshua
