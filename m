@@ -1,205 +1,208 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A86455C29;
-	Mon, 11 Nov 2024 12:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93828F77;
+	Mon, 11 Nov 2024 12:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731327152; cv=none; b=k/Po21RM3F6k3+z5ISgRQdxfZctsctoBHXi1obmQnqQTCJkCNBDVLsbcZ7yAoGkGpNbvNe4Jx3H2Y36y8g6N/jqgnqBZU76BSElTdWKWFdu4VV7g3TZUEaA1SlNxNwGmnaJoS1xipeOA1aSg43rjTcz3Oj/JGcZAParR6Z6lGsQ=
+	t=1731329294; cv=none; b=GSuFwLealHtJxNt4lvbSsiaDZJx+0uomf/1xgIEJkmJsdfxlFc1sMjizO8/H0ZfBdrnVUjWE7li+x/03cLzAYy+v4L716qs5UEBcONX5A8pUMEzQC6B4ifp5UnAf4PF3HTAsC8rVQRzaEJU0yp3d2Bn0nJgyt1S3ISltHwm6Bw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731327152; c=relaxed/simple;
-	bh=C5a3WgYas6C+NlJraY++KxxfeUbEzRoYnh50hG/Xvxc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s3XWs3FAqGafmYjDlbyWrXTcSrj9aNme/X7yQ5mWrmxDKdVbwkktbn48wuBr7J3VhnHnbvDcBsz5d/9CxF4kuHKqen5DTWMLWGESeE0nyNCGcQTwiWh4QLY3mtLvcpp8Db5XVNtRjI77d7q1ohiF8U3CRe5q/SdVIwvilnrQOAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ok8U02Fv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=j2QD2NXf; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ok8U02Fv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=j2QD2NXf; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1731329294; c=relaxed/simple;
+	bh=aOJ5KHVRY5ZeFq8rxeCwQHQFcxb3ze8at/Gp5mkpZj8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z5fg6TfQa2wH+/Kd+mP98oGuvNPn85Ih6x5SwAtNFGlb/KykU3ncLMDR/vffwEgP5hzI0sAX352FyjB6TvSsgdxaaIDKjfU1Rv3LpjOQPXcBUiywT0W9HuKdhYO+ZShzw2xrawVhmi1ymoK0QeoIjGBYVNveeE3Rt7IDQFqNl1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=HUggambr; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ok8U02Fv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="j2QD2NXf";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ok8U02Fv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="j2QD2NXf"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 00DAA219A1;
-	Mon, 11 Nov 2024 12:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1731327148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iANPCmTdrG0dfddLD/86nECIn88ibsqSoXP4uV8W0vU=;
-	b=Ok8U02Fvt0EU9i9W5t0LJJfjpgxj3N3vYS/lMurPRF+CO64VmWLVaQh52hGZ5/bxJ77RVi
-	ZUJGYmyk7rmeRok10pV6QqnDmHvUlTDYXZorzD1Ntw96EBRRYDHaQGlLYFcHIPulUrHdK5
-	HAA6nPdMD0ZmsbSRhl/QliSqO2u8lEs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1731327148;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iANPCmTdrG0dfddLD/86nECIn88ibsqSoXP4uV8W0vU=;
-	b=j2QD2NXf9iM6A3lDT0znetsKbwYNYmvFMFBtxvge+XwxrwBvEJ5ESvs6RQp1PCXkHb/5U7
-	2okHicBRuUxbSHBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Ok8U02Fv;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=j2QD2NXf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1731327148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iANPCmTdrG0dfddLD/86nECIn88ibsqSoXP4uV8W0vU=;
-	b=Ok8U02Fvt0EU9i9W5t0LJJfjpgxj3N3vYS/lMurPRF+CO64VmWLVaQh52hGZ5/bxJ77RVi
-	ZUJGYmyk7rmeRok10pV6QqnDmHvUlTDYXZorzD1Ntw96EBRRYDHaQGlLYFcHIPulUrHdK5
-	HAA6nPdMD0ZmsbSRhl/QliSqO2u8lEs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1731327148;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iANPCmTdrG0dfddLD/86nECIn88ibsqSoXP4uV8W0vU=;
-	b=j2QD2NXf9iM6A3lDT0znetsKbwYNYmvFMFBtxvge+XwxrwBvEJ5ESvs6RQp1PCXkHb/5U7
-	2okHicBRuUxbSHBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95C9B13301;
-	Mon, 11 Nov 2024 12:12:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zH8/JKv0MWdjOgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 11 Nov 2024 12:12:27 +0000
-Message-ID: <440b2682-dbfb-4a5c-927c-2397413a7f9c@suse.cz>
-Date: Mon, 11 Nov 2024 13:12:27 +0100
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="HUggambr"
+Received: from pps.filterd (m0431383.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ABCEwcq030976;
+	Mon, 11 Nov 2024 04:47:58 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pfpt0220; bh=/dZXX6cXhLQs1S8aVcJyXdT
+	yEsRgJq2rjEjW3RafsgQ=; b=HUggambrkZbaNegBGaUAjf9++RRsHZqh8z4j3FZ
+	0H+S89OKKBphM21EOMF1n6OeAm1iZFLvr8ZfaUyYu1yVfHjdmeuCE1WuZD0lwd9Z
+	p6BMq7zRQf0Y1bYcXziGV61r8duwJ1wBAug50IiOPOShUf5Q0dDkfw0PK9REgjRe
+	FiZesaqq+De6o9MgDi1vpStuy3UkD9F4zl/y6ccliygay5k4teffCaV0EeleUQwk
+	qe+y0jEC+ARff/HppFvU+i2eVp5h81hoeS6keBM3VeEbghOR+e6bCZjZtVUSzDOT
+	yJ7mLDPDEsu/kfw03VrwXzRjGkiT2zSU+RPHYOmiixtgBvQ==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 42uhrrg1bk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Nov 2024 04:47:58 -0800 (PST)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Mon, 11 Nov 2024 04:47:58 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Mon, 11 Nov 2024 04:47:57 -0800
+Received: from virtx40.. (unknown [10.28.34.196])
+	by maili.marvell.com (Postfix) with ESMTP id 0EACF3F70AE;
+	Mon, 11 Nov 2024 04:47:52 -0800 (PST)
+From: Linu Cherian <lcherian@marvell.com>
+To: <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <james.clark@arm.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <coresight@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <devicetree@vger.kernel.org>, <sgoutham@marvell.com>,
+        <gcherian@marvell.com>, Linu Cherian <lcherian@marvell.com>
+Subject: [PATCH v11 0/8] Coresight for Kernel panic and watchdog reset
+Date: Mon, 11 Nov 2024 18:17:38 +0530
+Message-ID: <20241111124746.2210378-1-lcherian@marvell.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 1/6] arch: introduce set_direct_map_valid_noflush()
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, Patrick Roy <roypat@amazon.co.uk>,
- tabba@google.com, quic_eberman@quicinc.com, seanjc@google.com,
- pbonzini@redhat.com, jthoughton@google.com, ackerleytng@google.com,
- vannapurve@google.com, rppt@kernel.org
-Cc: graf@amazon.com, jgowans@amazon.com, derekmn@amazon.com,
- kalyazin@amazon.com, xmarcalx@amazon.com, linux-mm@kvack.org,
- corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
- chenhuacai@kernel.org, kernel@xen0n.name, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com,
- gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
- svens@linux.ibm.com, gerald.schaefer@linux.ibm.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- hpa@zytor.com, luto@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, shuah@kernel.org,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20241030134912.515725-1-roypat@amazon.co.uk>
- <20241030134912.515725-2-roypat@amazon.co.uk>
- <a774e13e-0616-4d96-bb51-bac0fcb2cb9b@redhat.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <a774e13e-0616-4d96-bb51-bac0fcb2cb9b@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 00DAA219A1
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLisu716frudqkg98kczdd9eac)];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[51];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: AUBVls4F4PdgGNZHrJD0a0CJR_jgXIj9
+X-Proofpoint-ORIG-GUID: AUBVls4F4PdgGNZHrJD0a0CJR_jgXIj9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
+ definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
 
-On 10/31/24 10:57, David Hildenbrand wrote:
-> On 30.10.24 14:49, Patrick Roy wrote:
->> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
->> 
->> From: Mike Rapoport (Microsoft) <rppt@kernel.org>
->> 
->> Add an API that will allow updates of the direct/linear map for a set of
->> physically contiguous pages.
->> 
->> It will be used in the following patches.
->> 
->> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
->> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
-> 
-> 
-> [...]
-> 
->>   #ifdef CONFIG_DEBUG_PAGEALLOC
->>   void __kernel_map_pages(struct page *page, int numpages, int enable)
->>   {
->> diff --git a/include/linux/set_memory.h b/include/linux/set_memory.h
->> index e7aec20fb44f1..3030d9245f5ac 100644
->> --- a/include/linux/set_memory.h
->> +++ b/include/linux/set_memory.h
->> @@ -34,6 +34,12 @@ static inline int set_direct_map_default_noflush(struct page *page)
->>   	return 0;
->>   }
->>   
->> +static inline int set_direct_map_valid_noflush(struct page *page,
->> +					       unsigned nr, bool valid)
-> 
-> I recall that "unsigned" is frowned upon; "unsigned int".
-> 
->> +{
->> +	return 0;
->> +}
-> 
-> Can we add some kernel doc for this?
-> 
-> In particular
-> 
-> (a) What does it mean when we return 0? That it worked? Then, this
+This patch series is rebased on coresight-next-v6.12.rc4
 
-Seems so.
+* Patches 1 & 2 adds support for allocation of trace buffer pages from reserved RAM
+* Patches 3 & 4 adds support for saving metadata at the time of kernel panic 
+* Patch 5 adds support for reading trace data captured at the time of panic
+* Patches 6 & 7 adds support for disabling coresight blocks at the time of panic
+* Patch 8: Gives the full description about this feature as part of documentation 
 
->      dummy function looks wrong. Or this it return the
+V10 is posted here,
+https://lore.kernel.org/linux-arm-kernel/20240916103437.226816-1-lcherian@marvell.com/
 
-That's !CONFIG_ARCH_HAS_SET_DIRECT_MAP and other functions around do it the
-same way. Looks like the current callers can only exist with the CONFIG_
-enabled in the first place.
+Changelog from v10:
+* Converted all csdev_access_* to readl functions in tmc_panic_sync_*
+* Added "tmc" prefix for register snapshots in struct tmc_crash_metadata
+* Converted dev_info to dev_dbg in panic handlers 
+* Converted dsb to dmb in panic handlers 
+* Fixed marking metadata as invalid when a user is trying to use the
+  reserved buffer. Earlier this was wrongly set at the time of reading
+  reserved trace buffer.
+* Moved common validation checks to is_tmc_crashdata_valid and minor
+  code rearrangements for efficiency
+* Got rid of sink specific prepare/unprepare invocations  
+* Got rid of full from struct tmc_resrv_buf
+* While reading crashdata, size is now calculated from metdata instead 
+  of relying on reserved buffer size populated by dtb 
+* Minor documenation fixes
 
->      number of processed entries? Then we'd have a possible "int" vs.
->      "unsigned int" inconsistency.
-> 
-> (b) What are the semantics when we fail halfway through the operation
->      when processing nr > 1? Is it "all or nothing"?
+Changelog from v9:
+* Add common helper function of_tmc_get_reserved_resource_by_name
+  for better code reuse
+* Reserved buffer validity and crashdata validity has been separated to
+  avoid interdependence
+* New fields added to crash metadata: version, ffcr, ffsr, mode
+* Version checks added for metadata validation
+* Special file /dev/crash_tmc_xxx would be available only when
+  crash metadata is valid
+* Removed READ_CRASHDATA mode meant for special casing crashdata reads.
+  Instead, dedicated read function added for crashdata reads from reserved
+  buffer which is common for both ETR and ETF sinks as well.
+* Documentation added to Documentation/tracing/coresight/panic.rst
 
-Looking at x86 implementation it seems like it can just bail out in the
-middle, but then I'm not sure if it can really fail in the middle, hmm...
+Changelog from v8:
+* Added missing exit path on error in __tmc_probe.
+* Few whitespace fixes, checkpatch fixes.
+* With perf sessions honouring stop_on_flush sysfs attribute, 
+  removed redundant variable stop_on_flush_en. 
 
+Changelog from v7:
+* Fixed breakage on perf test -vvvv  "arm coresight".
+  No issues seen with and without "resrv" buffer mode
+* Moved the crashdev registration into a separate function.
+* Removed redundant variable in tmc_etr_setup_crashdata_buf
+* Avoided a redundant memcpy in tmc_panic_sync_etf.
+* Tested kernel panic with trace session started uisng perf.   
+  Please see the title "Perf based testing" below for details.
+  For this, stop_on_flush sysfs attribute is taken into 
+  consideration while starting perf sessions as well. 
+
+Changelog from v6:
+* Added special device files for reading crashdata, so that
+  read_prevboot mode flag is removed. 
+* Added new sysfs TMC device attribute, stop_on_flush.
+  Stop on flush trigger event is disabled by default. 
+  User need to explicitly enable this from sysfs for panic stop
+  to work.
+* Address parameter for panicstop ETM configuration is   
+  chosen as kernel "panic" address by default.
+* Added missing tmc_wait_for_tmcready during panic handling
+* Few other misc code rearrangements. 
+
+Changelog from v5:
+* Fixed issues reported by CONFIG_DEBUG_ATOMIC_SLEEP
+* Fixed a memory leak while reading data from /dev/tmc_etrx in
+  READ_PREVBOOT mode
+* Tested reading trace data from crashdump kernel
+
+Changelog from v4:
+* Device tree binding
+  - Description is made more explicit on the usage of reserved memory
+    region
+  - Mismatch in memory region names in dts binding and driver fixed
+  - Removed "mem" suffix from the memory region names
+* Rename "struct tmc_register_snapshot" ->  "struct tmc_crash_metadata",
+  since it contains more than register snapshot.
+  Related variables are named accordingly.
+* Rename struct tmc_drvdata members
+   resrv_buf -> crash_tbuf
+   metadata  -> crash_mdata
+* Size field in metadata refers to RSZ register and hence indicates the
+  size in 32 bit words. ETR metadata follows this convention, the same
+  has been extended to ETF metadata as well.
+* Added crc32 for more robust metadata and tracedata validation.
+* Added/modified dev_dbg messages during metadata validation
+* Fixed a typo in patch 5 commit description
+
+Changelog from v3:
+* Converted the Coresight ETM driver change to a named configuration.
+  RFC tag has been removed with this change.
+* Fixed yaml issues reported by "make dt_binding_check"
+* Added names for reserved memory regions 0 and 1
+* Added prevalidation checks for metadata processing
+* Fixed a regression introduced in RFC v3
+  - TMC Status register was getting saved wrongly
+* Reverted memremap attribute changes from _WB to _WC to match
+  with the dma map attributes
+* Introduced reserved buffer mode specific .sync op.
+  This fixes a possible crash when reserved buffer mode was used in
+  normal trace capture, due to unwanted dma maintenance operations.
+
+
+
+Linu Cherian (8):
+  dt-bindings: arm: coresight-tmc: Add "memory-region" property
+  coresight: tmc-etr: Add support to use reserved trace memory
+  coresight: core: Add provision for panic callbacks
+  coresight: tmc: Enable panic sync handling
+  coresight: tmc: Add support for reading crash data
+  coresight: tmc: Stop trace capture on FlIn
+  coresight: config: Add preloaded configuration
+  Documentation: coresight: Panic support
+
+ .../bindings/arm/arm,coresight-tmc.yaml       |  26 ++
+ Documentation/trace/coresight/panic.rst       | 356 ++++++++++++++++++
+ drivers/hwtracing/coresight/Makefile          |   2 +-
+ .../coresight/coresight-cfg-preload.c         |   2 +
+ .../coresight/coresight-cfg-preload.h         |   2 +
+ .../hwtracing/coresight/coresight-cfg-pstop.c |  83 ++++
+ drivers/hwtracing/coresight/coresight-core.c  |  42 +++
+ .../hwtracing/coresight/coresight-tmc-core.c  | 326 +++++++++++++++-
+ .../hwtracing/coresight/coresight-tmc-etf.c   |  92 ++++-
+ .../hwtracing/coresight/coresight-tmc-etr.c   | 181 ++++++++-
+ drivers/hwtracing/coresight/coresight-tmc.h   | 104 +++++
+ include/linux/coresight.h                     |  12 +
+ 12 files changed, 1216 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/trace/coresight/panic.rst
+ create mode 100644 drivers/hwtracing/coresight/coresight-cfg-pstop.c
+
+-- 
+2.34.1
 
