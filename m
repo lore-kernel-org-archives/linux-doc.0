@@ -1,130 +1,141 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64C725777;
-	Mon, 11 Nov 2024 15:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC20F39ACC;
+	Mon, 11 Nov 2024 16:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731340727; cv=none; b=t4Mmz9aR0LGZH/LDpd87KPCqhknOG/+VtVEwCGGcUhjwNSbPOn3LwBxaszo/LqkpEoMuJXGeBMefhn68B4/2vdrMzd5XCJIUUek9BiKUGKH4NfyTh/6lAU2WCYN/uU4sE06tV/wesoBMaxmAXtq6/qgTvSHw+LPNEc90jpFRr3U=
+	t=1731343046; cv=none; b=A5t081pyFHw5RNpM4d7+Ekd9bALyovGWrrIkMTUpwyf8v1SqZs8uJZkSkXWMB+ME/1BJp0ESV/vwk5Q8CB/gaglIj9Mbdc2luopOXrc64wewoAmVS+fmPKHdwJfF1CcyZvL8ga2d+V0UROw456etst51T65UIkJFSKMIajPzogc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731340727; c=relaxed/simple;
-	bh=D/YpkEfpManBPaAEXxiNweHwj+pGzqn0/nquf2ubY1c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IaSNZJPH+BbzURgX7ppdKVqautqQRVIOwnKmkvp2iA9KOck3uoFJ28ETukJYMSKjne7L8Xn/py5vkC7hF7NxkVzQQRF3slTJGfRfWaIc1Wxe1zglR5PAxzkUAYzP2503HzdcAWTeZEKtX6EMILbwmRNlU8PQUEjlAq9m1NGeTvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NYtpCZ2y; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731343046; c=relaxed/simple;
+	bh=oHwjeeaU61MO6gUa1vCGM9RwoOm9d2EsLQhDBWf6xKc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hDBjMJSaYubSp/EZvEkbfrHlAcQiR/73HYCgYbDONkuWGCxKqpH3rALzuBObuAgQpf6bIA8sHsqh6gj/fMDM1jXyUYI9WucC7lACeVRueylLC+2iUyQXj6mtVkbH+Oe7KreclcO7tpkYtyGUJoODcorrA3TWx2peKpg6r0kj8W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HP5Y7Res; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NYtpCZ2y"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a9f1c590ecdso232087166b.1;
-        Mon, 11 Nov 2024 07:58:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731340724; x=1731945524; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dl9j2ZhDxQQ2YzSVFeZKFe/F9Df3fYpRcMcBflMuxFU=;
-        b=NYtpCZ2y6Ys3uY522f+gEFPS+WW3piplkMJ5eoPuCGBRpKET7deGctsbcTrXiZDYX6
-         IYvwgx3yd0Obk6sHOksNVkO+AthAFcjWVztO60ea3DMI/K1G35g5dAKMPNn9B4o9gNCo
-         /xyCr60AW5Q+D1tbiXT7E/utyejGrEfRmcJ6Zyk5Nv5GH7A6L5XxuLIJE4ptKyLm5mDK
-         rzVXnVgT3qy53dyxC8OUsy8ycwDAZNnDShrV6KD0UdZKNL/jEmw4ZkV1ZhvfNgRwmC8n
-         GCNESaqhykzEKe3lnw6Rj2Gaa/3Mbyh2y+3d03Y8glpsGnUXsjRb0EeEkbmbV8SPlyxD
-         N0YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731340724; x=1731945524;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dl9j2ZhDxQQ2YzSVFeZKFe/F9Df3fYpRcMcBflMuxFU=;
-        b=wIFHcQQSipSc9Uv4aFLJW8rWKxHjdvOgGbF3tfdhcRmQPnYKS4rtV0jpg4FqbuvyEm
-         ExoJJe8AquAw/4C8TPDddqiJwQECv8K4ikZU2hX7eFJdy/KYnaF0qY2dilj0YEwVMb0D
-         J33iicLAb0W4E9Q5HYJkQGdOJBJ8oxl7L9/p7o3HDNt+a1ZdjP/L/zHZXVPiOl/MwIoz
-         LIrrhoTGy1/C4ENrQW0m9tVKjpzDsrkr9IQabDyzbtzEKylbbijbm2hW8ZX3diWHI0x6
-         6i0+oQ2bUYMNM5wo6aWg2HpxyKi/Z2bIN2Hes1jHJ1w1FWmp6pIKCv1gPiljIAEVmLhC
-         TCrw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqPA+LvBBHDDfOMInHPAanEPdeyPMgXxdWhv+3MxfkgPDd1ygZpDgmbxqvaourmDV+1JQxUiDHDowT@vger.kernel.org, AJvYcCVsP/f2b97FT4TMmbSLC4hnF4i9C7o6ZpoC9LRkdADXVejGz8IY1rwIdr/K2KEnCaTIkLuE2+JM@vger.kernel.org, AJvYcCWyx8kss0IweeKEbGWsasnrcJVkieAGRu2dENocIAjwTUC9+zBVSOXWCNrKGsgB6BQdHEW8hRF2ITSIcqmR@vger.kernel.org
-X-Gm-Message-State: AOJu0YybMpb7aVKWZJvw9J8Np+btNxED9McqbYNPd0pH4O43D1T0wOx0
-	0oF2itThCskH3d8Z3OMxNingH/0SHg/5fGH1lIMc/iZygOlJNjwzcid+hgNYhKNeiYWshZlOort
-	YmMHGN1sKpWTLOWZl9O1k1wkM7kQ=
-X-Google-Smtp-Source: AGHT+IFVWWt4lX8khmDtVZ2kVgUASNxC6iDiSfAVTyuaUSBaXtk0CtGDqWPITCIxLKL9+nMWHqxJWPrBH1EgnkwxP4s=
-X-Received: by 2002:a17:907:84a:b0:a99:f887:ec1d with SMTP id
- a640c23a62f3a-a9ef001b40emr1312010466b.49.1731340723945; Mon, 11 Nov 2024
- 07:58:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HP5Y7Res"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF6FCC4CECF;
+	Mon, 11 Nov 2024 16:37:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731343045;
+	bh=oHwjeeaU61MO6gUa1vCGM9RwoOm9d2EsLQhDBWf6xKc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HP5Y7ResNnnEPiNt/6jP56EmwDMIW/uCtoiPK0otJxUYD221O2A3UuON+rTc9dLsR
+	 RzyeUHfDCjGt4ROBictnxcOir1bpiCQjfjN56NTcABrUZY6qe5e94/fNNgYcxIBfxA
+	 nBCwC1dgjxWMfo/YihoIU/f2xEpAIj0iBstZL/xs=
+From: Shuah Khan <skhan@linuxfoundation.org>
+To: gregkh@linuxfoundation.org,
+	corbet@lwn.net
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	workflows@vger.kernel.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Theodore Ts'o <tytso@mit.edu>
+Subject: [PATCH v2] Documentation/CoC: spell out enforcement for unacceptable behaviors
+Date: Mon, 11 Nov 2024 09:37:23 -0700
+Message-Id: <20241111163723.9002-1-skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com> <72688d81-24db-70ba-e260-bd5c74066d27@google.com>
-In-Reply-To: <72688d81-24db-70ba-e260-bd5c74066d27@google.com>
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-Date: Mon, 11 Nov 2024 10:58:32 -0500
-Message-ID: <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
-To: David Rientjes <rientjes@google.com>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, nphamcs@gmail.com, 
-	shakeel.butt@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	chris@chrisdown.name, tj@kernel.org, lizefan.x@bytedance.com, 
-	mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 9, 2024 at 9:19=E2=80=AFPM David Rientjes <rientjes@google.com>=
- wrote:
->
-> On Fri, 1 Nov 2024, Joshua Hahn wrote:
->
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/ad=
-min-guide/cgroup-v2.rst
-> > index 69af2173555f..bd7e81c2aa2b 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -1646,6 +1646,11 @@ The following nested keys are defined.
-> >         pgdemote_khugepaged
-> >               Number of pages demoted by khugepaged.
-> >
-> > +       hugetlb
-> > +             Amount of memory used by hugetlb pages. This metric only =
-shows
-> > +             up if hugetlb usage is accounted for in memory.current (i=
-.e.
-> > +             cgroup is mounted with the memory_hugetlb_accounting opti=
-on).
-> > +
-> >    memory.numa_stat
-> >       A read-only nested-keyed file which exists on non-root cgroups.
-> >
->
-> Definitely makes sense to include this.
->
-> Any reason to not account different hugetlb page sizes separately in this
-> stat, however?  IOW, should there be separate hugetlb_2048kB and
-> hugetlb_1048576kB stats on x86?
+The Code of Conduct committee's goal first and foremost is to bring about
+change to ensure our community continues to foster respectful discussions.
 
-Hello David, Thank you for reviewing my patch!
+In the interest of transparency, the CoC enforcement policy is formalized
+for unacceptable behaviors.
 
-The reason that I opted not to include a breakdown of each hugetlb
-size in memory.stat is only because I wanted to keep the addition that
-this patch makes as minimal as possible, while still addressing
-the goal of bridging the gap between memory.stat and memory.current.
-Users who are curious about this breakdown can see how much memory
-is used by each hugetlb size by enabling the hugetlb controller as well.
+Update the Code of Conduct Interpretation document with the enforcement
+information.
 
-It's true that this is the case as well for total hugeltb usage, but
-I felt that not including hugetlb memory usage in memory.stat when it
-is accounted by memory.current would cause confusion for the users
-not being able to see that memory.current =3D sum of memory.stat. On the
-other hand, seeing the breakdown of how much each hugetlb size felt more
-like an optimization, and not a solution that bridges a confusion.
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+Acked-by: Jonathan Corbet <corbet@lwn.net>
+Acked-by: Steven Rostedt <rostedt@goodmis.org>
+Acked-by: Dan Williams <dan.j.williams@intel.com>
+Acked-by: Theodore Ts'o <tytso@mit.edu>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
 
-I have not had a scenario where I had to look at the breakdown of the
-hugetlb sizes (without the hugetlb controller), or a scenario where not
-knowing this causes some sort of confusion. If others have had this
-problem, I would love to hear about it, and perhaps work on a solution
-that can address this point as well!
+Changes since v1:
+- Updates Acks with Ted's ack.
+- Fixes subsection formatting as per Randy's suggestion.
+- Fixes a spelling error.
 
-I hope you have a great day!
-Joshua
+ .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+
+diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+index 66b07f14714c..ebddf218341d 100644
+--- a/Documentation/process/code-of-conduct-interpretation.rst
++++ b/Documentation/process/code-of-conduct-interpretation.rst
+@@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
+ Because how we interpret and enforce the Code of Conduct will evolve over
+ time, this document will be updated when necessary to reflect any
+ changes.
++
++Enforcement for Unacceptable Behavior Code of Conduct Violations
++----------------------------------------------------------------
++
++The Code of Conduct committee works to ensure that our community continues
++to be inclusive and fosters diverse discussions and viewpoints, and works
++to improve those characteristics over time. The Code of Conduct committee
++takes measures to restore productive and respectful collaboration when an
++unacceptable behavior has negatively impacted that relationship.
++
++Seek public apology for the violation
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The Code of Conduct Committee publicly calls out the behavior in the
++setting in which the violation has taken place, seeking public apology
++for the violation.
++
++A public apology for the violation is the first step towards rebuilding
++the trust. Trust is essential for the continued success and health of the
++community which operates on trust and respect.
++
++Remedial measures if there is no public apology for the violation
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The Code of Conduct Committee determines the next course of action
++to restore the healthy collaboration by recommending remedial measure(s)
++to the TAB for approval.
++
++- Ban violator from participating in the kernel development process for
++  a period of up to a full kernel development cycle. The Code of Conduct
++  Committee could require public apology as a condition for lifting the
++  ban.
++
++The scope of the ban for a period of time could include:
++
++    a. denying patch contributions and pull requests
++    b. pausing collaboration with the violator by ignoring their
++       contributions and/or blocking their email account(s)
++    c. blocking their access to kernel.org accounts and mailing lists
++
++Once the TAB approves one or more of the measures outlined in the scope of
++the ban by a two-thirds vote, the Code of Conduct Committee will enforce
++the TAB approved measure(s) in collaboration with the community, maintainers,
++sub-maintainers, and kernel.org administrators.
++
++The effectiveness of the remedial measure(s) approved by the TAB depends
++on the trust and cooperation from the community, maintainers, sub-maintainers,
++and kernel.org administrators in enforcing them.
++
++The Code of Conduct Committee sincerely hopes that unacceptable behaviors
++that require seeking public apologies continue to be exceedingly rare
++occurrences in the future.
+-- 
+2.40.1
+
