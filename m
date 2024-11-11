@@ -1,110 +1,208 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403231AA788;
-	Mon, 11 Nov 2024 18:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B741AC420
+	for <linux-doc@vger.kernel.org>; Mon, 11 Nov 2024 18:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731348632; cv=none; b=BtZAxbX5hseh9xJ78P03WDh+KzCoPp2JoUoyArZwD74s3gztPZ4it6sO7SdKB3/iRT3FmCumFbHAVWyasr8p2NTUpaJcC5FRtFndLVPA5HsGOZL0LlZlj42fIoMniXH2nD50tVAy2vKBrP72UQEEaXhlmBef4W14Wz09Qq/LCVw=
+	t=1731350977; cv=none; b=h9OYshOtbDRh7+OliUoWXyPamnOrQX0AVhpeKvvnuD4r6i345sDeML9UqjnWTT0/NwB1cyq4dHP/kTtClULUVtu9v8eOxG5sxbcpHws8ttrIOI4aLH+iD/wVTv/gjZmWwW+B/rObUtK0I9wkW4tRlxBaSt73lWVCKxwi5mE9M5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731348632; c=relaxed/simple;
-	bh=MI2iFMI5An6EgbYmS5WZjVZcL7OiZNeX5hsm8wgEhfQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ubXRdL46hV9oxJ507IfSXBkmfScyzvRLT+iyC3qeptwXgk5K3NfN08FrC/A3HsFkvuK84iXSSLgW4rmAtdVS+iQUZH49O0aYEruOydH/VmNzCkK4pJBkw83ln1Me1tnW5hrv+++DALyChUlOI+QPrM9iCAICqSxXHvpizbyPbiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=bpYaCKR/; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1731350977; c=relaxed/simple;
+	bh=vmqvMMlYZbRYRYpVz0+HMgCuMUW6n5MeHUAax6tFUdU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ERBk35UoYG52I/K2p1zZtP79bFNl2GI+1y6is+BDboV0ngXsyoFN1CPYtWcAefTvi6f5vCIprssiwSaYohDplVZMEpvnhptvhMnr9b0JUTRepHlNTwlW5frp++a0qPLoN8QfsDhgXIjDK+x3YFiLaS0J7mVow9siA/BFTg+pid8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QIBs8QBY; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="bpYaCKR/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1731348626;
-	bh=MI2iFMI5An6EgbYmS5WZjVZcL7OiZNeX5hsm8wgEhfQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=bpYaCKR/ti753hGae9vVGVXskE4lgZBY59QptDMTD37pYrEVMb7p1XqF5x7vnENoI
-	 f9YPeaDEWLOEeLcP/HRl3kJz7aWaqOwlLSMkDvPD6ynQ5Oy2yIESvgODKLaP2hCJBz
-	 H60sBkaz8fugZYjKSzVIzPz9XoC+uWpNafXgEL4Y=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 11 Nov 2024 19:09:38 +0100
-Subject: [PATCH v7 4/4] drm: panel-backlight-quirks: Add Framework 13
- glossy and 2.8k panels
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QIBs8QBY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731350973;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=sRgpTcRh/sWqL8fC18qdS0cRcwsz13IiRQs+/0nN2yA=;
+	b=QIBs8QBYHqbtsrLa1RuO4YcBJNYfX65cdgcjPQ3b0awwfNr0VMQKzcU+ClbME3hnlWl4m4
+	MkvgSQdPneyXRQdM2ckOcfx8mTB98B+MsT3tT1ZQUjYMrkFZ+V7E0SrXVREQ8o6L8HI1Wg
+	jyTDEiJ981FE+B+JhcCSNVimhREuxfU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-612-j988piUuM8WzY_wP_QUAaw-1; Mon, 11 Nov 2024 13:49:32 -0500
+X-MC-Unique: j988piUuM8WzY_wP_QUAaw-1
+X-Mimecast-MFC-AGG-ID: j988piUuM8WzY_wP_QUAaw
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a9a23eada74so387173366b.3
+        for <linux-doc@vger.kernel.org>; Mon, 11 Nov 2024 10:49:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731350971; x=1731955771;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sRgpTcRh/sWqL8fC18qdS0cRcwsz13IiRQs+/0nN2yA=;
+        b=Rc6VZUKz5DxVbPuFHgcDwolpNQDfl9qkmzL+DnNFWeedyDCMWApU/Nd54dLKrBAKPi
+         nn85AJHH4+aEI2KiK/Jr8w+4s2MRmynmq/m5nR8mSXGTRI6ROrY0aJU2kLjIuHNO6vv6
+         KI07TP0THhdU3vMxwuDbwvFiierpp6vonvxlsUx0quZWUmRIWkmq8jIwJiQcvS2oNIcK
+         dNKc+J0D+y9RpV+JixZWeQqLVYvP4dj8LXx4kRLkz0c7G/agw8zq6zI7xbKDQJhirLxu
+         HJE3TUx5ie7T3fGqOvtaX0NMBarzRzZhjnHuTI89PL8Qxhc4D6KPpKMeUGEPWJ12vFRI
+         /RiA==
+X-Forwarded-Encrypted: i=1; AJvYcCV1G5Ng0ECtmPNVViTnVqs+W3tVV4hsyw8nii0QvlxHC8msNr1AaXNtQ5T+W2mJdhSllflwMXYz6mM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIfCppJcKlLI7m34Giqx7G7MV3UrBD70CC83r+2pv9u4LohSFl
+	Xk5a1iG2dujNRjKuPG4twERDEwXUt8aJIrgpVzSzk8qe7Rl94WdRXw2z7JIxT3Tgf2lc70RGYS1
+	EN0uMWVS1Fx5lNlHIqd03fe2qCcehffsPFQzyADmK5RnTSMIA+97cUcSO3A==
+X-Received: by 2002:a17:907:86a9:b0:a9a:183a:b84e with SMTP id a640c23a62f3a-a9eeffe9e07mr1366625966b.40.1731350970739;
+        Mon, 11 Nov 2024 10:49:30 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFRB5mUKwnTh/Ish/I5bDvt5zkTOW/ynBhRbC+M/vMDzXxCphKshJrwxBicGk5x8P73OyHB+A==
+X-Received: by 2002:a17:907:86a9:b0:a9a:183a:b84e with SMTP id a640c23a62f3a-a9eeffe9e07mr1366622266b.40.1731350970249;
+        Mon, 11 Nov 2024 10:49:30 -0800 (PST)
+Received: from [192.168.10.47] ([151.49.84.243])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a9ee0a43967sm615792366b.44.2024.11.11.10.49.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Nov 2024 10:49:29 -0800 (PST)
+Message-ID: <c3026876-8061-4ab2-9321-97cc05bad510@redhat.com>
+Date: Mon, 11 Nov 2024 19:49:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] KVM: x86: Add support for VMware guest specific
+ hypercalls
+To: Doug Covelli <doug.covelli@broadcom.com>
+Cc: Zack Rusin <zack.rusin@broadcom.com>,
+ Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>,
+ Arnaldo Carvalho de Melo <acme@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@intel.com>, Joel Stanley <joel@jms.id.au>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20241030033514.1728937-1-zack.rusin@broadcom.com>
+ <20241030033514.1728937-3-zack.rusin@broadcom.com>
+ <CABgObfaRP6zKNhrO8_atGDLcHs=uvE0aT8cPKnt_vNHHM+8Nxg@mail.gmail.com>
+ <CABQX2QMR=Nsn23zojFdhemR7tvGUz6_UM8Rgf6WLsxwDqoFtxg@mail.gmail.com>
+ <Zy0__5YB9F5d0eZn@google.com>
+ <CABQX2QNxFDhH1frsGpSQjSs3AWSdTibkxPrjq1QC7FGZC8Go-Q@mail.gmail.com>
+ <e3f943a7-a40a-45cb-b0d9-e3ed58344d8b@redhat.com>
+ <CADH9ctD1uf_yBA3NXNQu7TJa_TPhLRN=0YZ3j2gGhgmaFRdCFg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=pbonzini@redhat.com; keydata=
+ xsEhBFRCcBIBDqDGsz4K0zZun3jh+U6Z9wNGLKQ0kSFyjN38gMqU1SfP+TUNQepFHb/Gc0E2
+ CxXPkIBTvYY+ZPkoTh5xF9oS1jqI8iRLzouzF8yXs3QjQIZ2SfuCxSVwlV65jotcjD2FTN04
+ hVopm9llFijNZpVIOGUTqzM4U55sdsCcZUluWM6x4HSOdw5F5Utxfp1wOjD/v92Lrax0hjiX
+ DResHSt48q+8FrZzY+AUbkUS+Jm34qjswdrgsC5uxeVcLkBgWLmov2kMaMROT0YmFY6A3m1S
+ P/kXmHDXxhe23gKb3dgwxUTpENDBGcfEzrzilWueOeUWiOcWuFOed/C3SyijBx3Av/lbCsHU
+ Vx6pMycNTdzU1BuAroB+Y3mNEuW56Yd44jlInzG2UOwt9XjjdKkJZ1g0P9dwptwLEgTEd3Fo
+ UdhAQyRXGYO8oROiuh+RZ1lXp6AQ4ZjoyH8WLfTLf5g1EKCTc4C1sy1vQSdzIRu3rBIjAvnC
+ tGZADei1IExLqB3uzXKzZ1BZ+Z8hnt2og9hb7H0y8diYfEk2w3R7wEr+Ehk5NQsT2MPI2QBd
+ wEv1/Aj1DgUHZAHzG1QN9S8wNWQ6K9DqHZTBnI1hUlkp22zCSHK/6FwUCuYp1zcAEQEAAc0j
+ UGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT7CwU0EEwECACMFAlRCcBICGwMH
+ CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRB+FRAMzTZpsbceDp9IIN6BIA0Ol7MoB15E
+ 11kRz/ewzryFY54tQlMnd4xxfH8MTQ/mm9I482YoSwPMdcWFAKnUX6Yo30tbLiNB8hzaHeRj
+ jx12K+ptqYbg+cevgOtbLAlL9kNgLLcsGqC2829jBCUTVeMSZDrzS97ole/YEez2qFpPnTV0
+ VrRWClWVfYh+JfzpXmgyhbkuwUxNFk421s4Ajp3d8nPPFUGgBG5HOxzkAm7xb1cjAuJ+oi/K
+ CHfkuN+fLZl/u3E/fw7vvOESApLU5o0icVXeakfSz0LsygEnekDbxPnE5af/9FEkXJD5EoYG
+ SEahaEtgNrR4qsyxyAGYgZlS70vkSSYJ+iT2rrwEiDlo31MzRo6Ba2FfHBSJ7lcYdPT7bbk9
+ AO3hlNMhNdUhoQv7M5HsnqZ6unvSHOKmReNaS9egAGdRN0/GPDWr9wroyJ65ZNQsHl9nXBqE
+ AukZNr5oJO5vxrYiAuuTSd6UI/xFkjtkzltG3mw5ao2bBpk/V/YuePrJsnPFHG7NhizrxttB
+ nTuOSCMo45pfHQ+XYd5K1+Cv/NzZFNWscm5htJ0HznY+oOsZvHTyGz3v91pn51dkRYN0otqr
+ bQ4tlFFuVjArBZcapSIe6NV8C4cEiSTOwE0EVEJx7gEIAMeHcVzuv2bp9HlWDp6+RkZe+vtl
+ KwAHplb/WH59j2wyG8V6i33+6MlSSJMOFnYUCCL77bucx9uImI5nX24PIlqT+zasVEEVGSRF
+ m8dgkcJDB7Tps0IkNrUi4yof3B3shR+vMY3i3Ip0e41zKx0CvlAhMOo6otaHmcxr35sWq1Jk
+ tLkbn3wG+fPQCVudJJECvVQ//UAthSSEklA50QtD2sBkmQ14ZryEyTHQ+E42K3j2IUmOLriF
+ dNr9NvE1QGmGyIcbw2NIVEBOK/GWxkS5+dmxM2iD4Jdaf2nSn3jlHjEXoPwpMs0KZsgdU0pP
+ JQzMUMwmB1wM8JxovFlPYrhNT9MAEQEAAcLBMwQYAQIACQUCVEJx7gIbDAAKCRB+FRAMzTZp
+ sadRDqCctLmYICZu4GSnie4lKXl+HqlLanpVMOoFNnWs9oRP47MbE2wv8OaYh5pNR9VVgyhD
+ OG0AU7oidG36OeUlrFDTfnPYYSF/mPCxHttosyt8O5kabxnIPv2URuAxDByz+iVbL+RjKaGM
+ GDph56ZTswlx75nZVtIukqzLAQ5fa8OALSGum0cFi4ptZUOhDNz1onz61klD6z3MODi0sBZN
+ Aj6guB2L/+2ZwElZEeRBERRd/uommlYuToAXfNRdUwrwl9gRMiA0WSyTb190zneRRDfpSK5d
+ usXnM/O+kr3Dm+Ui+UioPf6wgbn3T0o6I5BhVhs4h4hWmIW7iNhPjX1iybXfmb1gAFfjtHfL
+ xRUr64svXpyfJMScIQtBAm0ihWPltXkyITA92ngCmPdHa6M1hMh4RDX+Jf1fiWubzp1voAg0
+ JBrdmNZSQDz0iKmSrx8xkoXYfA3bgtFN8WJH2xgFL28XnqY4M6dLhJwV3z08tPSRqYFm4NMP
+ dRsn0/7oymhneL8RthIvjDDQ5ktUjMe8LtHr70OZE/TT88qvEdhiIVUogHdo4qBrk41+gGQh
+ b906Dudw5YhTJFU3nC6bbF2nrLlB4C/XSiH76ZvqzV0Z/cAMBo5NF/w=
+In-Reply-To: <CADH9ctD1uf_yBA3NXNQu7TJa_TPhLRN=0YZ3j2gGhgmaFRdCFg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241111-amdgpu-min-backlight-quirk-v7-4-f662851fda69@weissschuh.net>
-References: <20241111-amdgpu-min-backlight-quirk-v7-0-f662851fda69@weissschuh.net>
-In-Reply-To: <20241111-amdgpu-min-backlight-quirk-v7-0-f662851fda69@weissschuh.net>
-To: Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
- Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731348626; l=1550;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=C5Ys8GE15MeKqVacQaK1KCVt6nQBigVpuprfdOPO5K4=;
- b=/YkPFAPlCsFMyBCs1GWM9MsNLQIinCIm6SZTJTQwCilQi7+QWSO8uGcuabC+6CPLmdKmhyR2S
- IjHqYHneHjkDPsk0E5X3ac6LzlZsjOZdVwgRlJWAog/h/H+EfQ6h4Z9
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-From: "Dustin L. Howett" <dustin@howett.net>
+On 11/9/24 22:11, Doug Covelli wrote:
+> On Sat, Nov 9, 2024 at 1:20 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>> On 11/8/24 06:03, Zack Rusin wrote:
+>>>>> There's no spec but we have open headers listing the hypercalls.
+>>>>> There's about a 100 of them (a few were deprecated), the full
+>>>>> list starts here:
+>>>>> https://github.com/vmware/open-vm-tools/blob/739c5a2f4bfd4cdda491e6a6f6869d88c0bd6972/open-vm-tools/lib/include/backdoor_def.h#L97
+>>>>> They're not well documented, but the names are pretty self-explenatory.
+>>>>
+>>>> At a quick glance, this one needs to be handled in KVM:
+>>>>
+>>>>     BDOOR_CMD_VCPU_MMIO_HONORS_PAT
+>>>>
+>>>> and these probably should be in KVM:
+>>>>
+>>>>     BDOOR_CMD_GETTIME
+>>>>     BDOOR_CMD_SIDT
+>>>>     BDOOR_CMD_SGDT
+>>>>     BDOOR_CMD_SLDT_STR
+>>>>     BDOOR_CMD_GETTIMEFULL
+>>>>     BDOOR_CMD_VCPU_LEGACY_X2APIC_OK
+>>>>     BDOOR_CMD_STEALCLOCK
+>>>
+>>> I'm not sure if there's any value in implementing a few of them.
+>>
+>> The value is that some of these depend on what the hypervisor does, not
+>> on what userspace does.  For Hypervisor.framework you have a lot of
+>> leeway, for KVM and Hyper-V less so. [..] From the KVM maintainers'
+>> point of view, the feature you're adding might be used by others and
+>> not just VMware Workstation.  Microsoft and Apple might see things
+>> differently (Apple in particular has a much thinner wrapper around
+>> the processor's virtualization capbilities).
+> 
+> [...]
+>
+> the SGDT/SLDT/STR/SIDT backdoor calls these were added > 20
+> years ago for SW that used these instructions from CPL3 which did not
+> work well before VT/SVM were introduced.  These are really of no use
+> on modern CPUs and will be blocked if the guest OS has enabled UMIP.
+> [...]
+> 
+> For stolen time the backdoor call is [...] currently
+> really only supported by ESX (and only currently used by Photon OS) so
+> I don't think adding that support to KVM is critical.
 
-I have tested these panels on the Framework Laptop 13 AMD with firmware
-revision 3.05 (latest at time of submission).
+Sounds good.  All I want is ensuring that someone with access to the 
+spec did the exercise.
 
-Signed-off-by: Dustin L. Howett <dustin@howett.net>
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
----
- drivers/gpu/drm/drm_panel_backlight_quirks.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Still guessing, but for MMIO_HONORS_PAT we probably want to add a 
+separate KVM_CHECK_EXTENSION capability.
 
-diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
-index f2aefff618ddbb6c2170db5c9f535f3b6a465d1d..c477d98ade2b41314d4218281ced7d3c4d087769 100644
---- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
-@@ -25,6 +25,22 @@ static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks
- 		.ident.name = "NE135FBM-N41",
- 		.min_brightness = 0,
- 	},
-+	/* 13 inch glossy panel */
-+	{
-+		.dmi_match.field = DMI_BOARD_VENDOR,
-+		.dmi_match.value = "Framework",
-+		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x095f),
-+		.ident.name = "NE135FBM-N41",
-+		.min_brightness = 0,
-+	},
-+	/* 13 inch 2.8k panel */
-+	{
-+		.dmi_match.field = DMI_BOARD_VENDOR,
-+		.dmi_match.value = "Framework",
-+		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x0cb4),
-+		.ident.name = "NE135A1M-NY1",
-+		.min_brightness = 0,
-+	},
- };
- 
- static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel_min_backlight_quirk *quirk,
+Is BDOOR_CMD_VCPU_LEGACY_X2APIC_OK something where you can just return a 
+constant?
 
--- 
-2.47.0
+This leaves just GETTIME and GETTIMEFULL.  If four hypercalls require 
+some care in the hypervisor (which may or may not be an in-kernel 
+implementation), that's not bad.  Can you share a bit more about these four?
+
+>> Anyway, one question apart from this: is the API the same for the I/O
+>> port and hypercall backdoors?
+> 
+> Yeah the calls and arguments are the same.  The hypercall based
+> interface is an attempt to modernize the backdoor since as you pointed
+> out the I/O based interface is kind of hacky as it bypasses the normal
+> checks for an I/O port access at CPL3.  It would be nice to get rid of
+> it but unfortunately I don't think that will happen in the foreseeable
+> future as there are a lot of existing VMs out there with older SW that
+> still uses this interface.
+
+Yeah, but I think it still justifies that the KVM_ENABLE_CAP API can 
+enable the hypercall but not the I/O port.
+
+Paolo
 
