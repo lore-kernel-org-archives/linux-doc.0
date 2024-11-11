@@ -1,157 +1,205 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6556F15B554;
-	Mon, 11 Nov 2024 10:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A86455C29;
+	Mon, 11 Nov 2024 12:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731322585; cv=none; b=JTBczxgyLbL8GMQ9vJP2isJ7j/v1RcJgB4dslk/Kpr1MiA53PfRijdb40sfvpbaVpNWuPkaowvycLG+nGLumNYyM9pPLaIrnl+7E53sFTZWgZnz185Fl9ClfqCEpjLjwKSHi1mqw5XhJC64yPlkLe1QsZrTCERgkmLrG0Y5xZeQ=
+	t=1731327152; cv=none; b=k/Po21RM3F6k3+z5ISgRQdxfZctsctoBHXi1obmQnqQTCJkCNBDVLsbcZ7yAoGkGpNbvNe4Jx3H2Y36y8g6N/jqgnqBZU76BSElTdWKWFdu4VV7g3TZUEaA1SlNxNwGmnaJoS1xipeOA1aSg43rjTcz3Oj/JGcZAParR6Z6lGsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731322585; c=relaxed/simple;
-	bh=BwQ9j2GDl/1hCk5TWbxqiCBINu0rl8yOHNuJrRUeed8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=alPST/3fLvxfai7UKoowMlA/63PAd2eHWxoeorYgapC7DK0/3XdCgGpqtN8asQIS0hl24kuHlnokKcss/6Cjw/jmbLYkcOGFJmy38eI7x6+PS5iTjGrfJjf1zN++LI/uNw0/V1kg2B8j7fX01oiyOoArqusNHQGr1g842LdKvgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLDSqv/m; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731327152; c=relaxed/simple;
+	bh=C5a3WgYas6C+NlJraY++KxxfeUbEzRoYnh50hG/Xvxc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s3XWs3FAqGafmYjDlbyWrXTcSrj9aNme/X7yQ5mWrmxDKdVbwkktbn48wuBr7J3VhnHnbvDcBsz5d/9CxF4kuHKqen5DTWMLWGESeE0nyNCGcQTwiWh4QLY3mtLvcpp8Db5XVNtRjI77d7q1ohiF8U3CRe5q/SdVIwvilnrQOAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ok8U02Fv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=j2QD2NXf; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ok8U02Fv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=j2QD2NXf; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLDSqv/m"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20c803787abso35290155ad.0;
-        Mon, 11 Nov 2024 02:56:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731322583; x=1731927383; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sd9tR5Govy2G9ckfvVxyx3zB2jsN18XRDCx2eel1ir8=;
-        b=OLDSqv/mqVPXEgeUwvi6HoLVVHrPUtbIj/2GWgW9p9XbbDs9rgHt5hWUBt2nsuHSO4
-         DZlGf7v6A5vIU4rXWTvu85E9p2W+hPX6za5IOZ2KCqnfVhMjbHJ/S8biNUfl8QGCL2M7
-         cnx53+ssTSFwNIusVrTCbTdtCQj89pFtWI9/RdZKCJ63UGjrrAVKlONtou686YhdJBfF
-         TCZRDRLGTiVIFl/47r96mlXAKVBTerK39hAOC5YuHvYEDFcJXmurDjtp6BQbytSiwf8O
-         MRepjJE735lpq/KtANdtuWagvojLWaQuY+oRBnI7BpsJNfmEQ1X1ssmuVU4XBNZRggde
-         Dyqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731322583; x=1731927383;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sd9tR5Govy2G9ckfvVxyx3zB2jsN18XRDCx2eel1ir8=;
-        b=a7YN9VM6jXVhM3cZoy/3oDE5ENjwIPK+9g+laszpH5Pdc1RkLfDDvOgCjs0cLI01un
-         UypKAgKg5Mp6qIZ520mjA/RepK2z9j+qIBYvZ3K3CCPolSTbCY+yYhB2quOj5h52k8O3
-         8YUNOvfgLWNwqOF2FxjNWCNYFjeF8RmDCsksOEuxZofdSdiP+4X13DCHZRhJr+wLYF5n
-         4P0UYrpNw7UG/uk1RriTjnLwQrHaffG8gIIAckfkAPM5lJDVGOo6Pv//ugIvMpTn8fAn
-         nFIG1O3OcHdr3XMW2zc4QHMLfqVlC9IytWNZeM97i3KpLyt2C1nU6tTfwnDkNNL9Uz+N
-         ymSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0GPR6ZZj4oGEn44bpByb28LOAasWLVwZ8XU3Qk8t25F86BL6td69OcSL0SmbJ0WksD/4HolnaIX4QkGg=@vger.kernel.org, AJvYcCXmZiO+bpPqXU4mFslNP4gzmcBC5khuJv12uBKRngKkwNx3VdTzgJ5xZX6e+G42Eh9LFGLkxzNwl4o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyL52JmX3NOTZBVTw69UR4DbqASYKjkROlMzBovrXO9iBQK5LRJ
-	8i4ysLjY1XyjBFg/Pjmwa2nwwdI2lsbNXsWqKHekaHSBRiGHej03
-X-Google-Smtp-Source: AGHT+IGBeF2/30b+ICRW7AMbuJJyB2s6thTc7CDi93f23isHluxZwIzPAZiF08YXCRIYoC1mB2c2oQ==
-X-Received: by 2002:a17:903:1c2:b0:205:7007:84fa with SMTP id d9443c01a7336-211837c3ddemr204820355ad.28.1731322582419;
-        Mon, 11 Nov 2024 02:56:22 -0800 (PST)
-Received: from archie.me ([103.124.138.80])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e6c12csm74206375ad.251.2024.11.11.02.56.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 02:56:21 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7376D4231EB7; Mon, 11 Nov 2024 17:56:16 +0700 (WIB)
-Date: Mon, 11 Nov 2024 17:56:16 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: anish kumar <yesanishhere@gmail.com>, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com, corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH V3] ALSA: machine: update documentation
-Message-ID: <ZzHi0BaxIEStMsY2@archie.me>
-References: <20241109192231.11623-1-yesanishhere@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ok8U02Fv";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="j2QD2NXf";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ok8U02Fv";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="j2QD2NXf"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 00DAA219A1;
+	Mon, 11 Nov 2024 12:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1731327148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iANPCmTdrG0dfddLD/86nECIn88ibsqSoXP4uV8W0vU=;
+	b=Ok8U02Fvt0EU9i9W5t0LJJfjpgxj3N3vYS/lMurPRF+CO64VmWLVaQh52hGZ5/bxJ77RVi
+	ZUJGYmyk7rmeRok10pV6QqnDmHvUlTDYXZorzD1Ntw96EBRRYDHaQGlLYFcHIPulUrHdK5
+	HAA6nPdMD0ZmsbSRhl/QliSqO2u8lEs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1731327148;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iANPCmTdrG0dfddLD/86nECIn88ibsqSoXP4uV8W0vU=;
+	b=j2QD2NXf9iM6A3lDT0znetsKbwYNYmvFMFBtxvge+XwxrwBvEJ5ESvs6RQp1PCXkHb/5U7
+	2okHicBRuUxbSHBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Ok8U02Fv;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=j2QD2NXf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1731327148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iANPCmTdrG0dfddLD/86nECIn88ibsqSoXP4uV8W0vU=;
+	b=Ok8U02Fvt0EU9i9W5t0LJJfjpgxj3N3vYS/lMurPRF+CO64VmWLVaQh52hGZ5/bxJ77RVi
+	ZUJGYmyk7rmeRok10pV6QqnDmHvUlTDYXZorzD1Ntw96EBRRYDHaQGlLYFcHIPulUrHdK5
+	HAA6nPdMD0ZmsbSRhl/QliSqO2u8lEs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1731327148;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iANPCmTdrG0dfddLD/86nECIn88ibsqSoXP4uV8W0vU=;
+	b=j2QD2NXf9iM6A3lDT0znetsKbwYNYmvFMFBtxvge+XwxrwBvEJ5ESvs6RQp1PCXkHb/5U7
+	2okHicBRuUxbSHBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95C9B13301;
+	Mon, 11 Nov 2024 12:12:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zH8/JKv0MWdjOgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 11 Nov 2024 12:12:27 +0000
+Message-ID: <440b2682-dbfb-4a5c-927c-2397413a7f9c@suse.cz>
+Date: Mon, 11 Nov 2024 13:12:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DOSrT3liDLmmX29u"
-Content-Disposition: inline
-In-Reply-To: <20241109192231.11623-1-yesanishhere@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 1/6] arch: introduce set_direct_map_valid_noflush()
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, Patrick Roy <roypat@amazon.co.uk>,
+ tabba@google.com, quic_eberman@quicinc.com, seanjc@google.com,
+ pbonzini@redhat.com, jthoughton@google.com, ackerleytng@google.com,
+ vannapurve@google.com, rppt@kernel.org
+Cc: graf@amazon.com, jgowans@amazon.com, derekmn@amazon.com,
+ kalyazin@amazon.com, xmarcalx@amazon.com, linux-mm@kvack.org,
+ corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+ chenhuacai@kernel.org, kernel@xen0n.name, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com,
+ gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+ svens@linux.ibm.com, gerald.schaefer@linux.ibm.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ hpa@zytor.com, luto@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com, shuah@kernel.org,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20241030134912.515725-1-roypat@amazon.co.uk>
+ <20241030134912.515725-2-roypat@amazon.co.uk>
+ <a774e13e-0616-4d96-bb51-bac0fcb2cb9b@redhat.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <a774e13e-0616-4d96-bb51-bac0fcb2cb9b@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 00DAA219A1
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLisu716frudqkg98kczdd9eac)];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[51];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
+
+On 10/31/24 10:57, David Hildenbrand wrote:
+> On 30.10.24 14:49, Patrick Roy wrote:
+>> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>> 
+>> From: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>> 
+>> Add an API that will allow updates of the direct/linear map for a set of
+>> physically contiguous pages.
+>> 
+>> It will be used in the following patches.
+>> 
+>> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
+> 
+> 
+> [...]
+> 
+>>   #ifdef CONFIG_DEBUG_PAGEALLOC
+>>   void __kernel_map_pages(struct page *page, int numpages, int enable)
+>>   {
+>> diff --git a/include/linux/set_memory.h b/include/linux/set_memory.h
+>> index e7aec20fb44f1..3030d9245f5ac 100644
+>> --- a/include/linux/set_memory.h
+>> +++ b/include/linux/set_memory.h
+>> @@ -34,6 +34,12 @@ static inline int set_direct_map_default_noflush(struct page *page)
+>>   	return 0;
+>>   }
+>>   
+>> +static inline int set_direct_map_valid_noflush(struct page *page,
+>> +					       unsigned nr, bool valid)
+> 
+> I recall that "unsigned" is frowned upon; "unsigned int".
+> 
+>> +{
+>> +	return 0;
+>> +}
+> 
+> Can we add some kernel doc for this?
+> 
+> In particular
+> 
+> (a) What does it mean when we return 0? That it worked? Then, this
+
+Seems so.
+
+>      dummy function looks wrong. Or this it return the
+
+That's !CONFIG_ARCH_HAS_SET_DIRECT_MAP and other functions around do it the
+same way. Looks like the current callers can only exist with the CONFIG_
+enabled in the first place.
+
+>      number of processed entries? Then we'd have a possible "int" vs.
+>      "unsigned int" inconsistency.
+> 
+> (b) What are the semantics when we fail halfway through the operation
+>      when processing nr > 1? Is it "all or nothing"?
+
+Looking at x86 implementation it seems like it can just bail out in the
+middle, but then I'm not sure if it can really fail in the middle, hmm...
 
 
---DOSrT3liDLmmX29u
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Nov 09, 2024 at 11:22:31AM -0800, anish kumar wrote:
-> diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/so=
-c/machine.rst
-> index 515c9444deaf..9db132bc0070 100644
-> --- a/Documentation/sound/soc/machine.rst
-> +++ b/Documentation/sound/soc/machine.rst
-> @@ -71,6 +71,18 @@ struct snd_soc_dai_link is used to set up each DAI in =
-your machine. e.g.
->  	.ops =3D &corgi_ops,
->    };
-> =20
-> +In the above struct, dai=E2=80=99s are registered using names but you ca=
-n pass
-> +either dai name or device tree node but not both. Also, names used here
-> +for cpu/codec/platform dais should be globally unique.
-> +
-> +Additionaly below example macro can be used to register cpu, codec and
-> +platform dai::
-> +
-> +  SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-> +	DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
-> +	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
-> +	DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
-> +
->  struct snd_soc_card then sets up the machine with its DAIs. e.g.
->  ::
-> =20
-> @@ -81,6 +93,10 @@ struct snd_soc_card then sets up the machine with its =
-DAIs. e.g.
->  	.num_links =3D 1,
->    };
-> =20
-> +Following this, ``devm_snd_soc_register_card`` can be used to register
-> +the sound card. During the registration, the individual components
-> +such as the codec, CPU, and platform are probed. If all these components
-> +are successfully probed, the sound card gets registered.
-> =20
->  Machine Power Map
->  -----------------
-> @@ -95,3 +111,13 @@ Machine Controls
->  ----------------
-> =20
->  Machine specific audio mixer controls can be added in the DAI init funct=
-ion.
-> +
-> +
-> +Clocking Controls
-> +-----------------
-> +
-> +As previously noted, clock configuration is handled within the machine d=
-river.
-> +For details on the clock APIs that the machine driver can utilize for
-> +setup, please refer to Documentation/sound/soc/clocking.rst. However, the
-> +callback needs to be registered by the CPU/Codec/Platform drivers to con=
-figure
-> +the clocks that is needed for the corresponding device operation.
-
-Looks good, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---DOSrT3liDLmmX29u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZzHiywAKCRD2uYlJVVFO
-owsdAP96V6UP1EBcRZGyLlEKuYOhwUs2JOWKbveshD8rM2nxzwEA6D4/9xF27TC1
-PUIGCApEI003/4kuCecnkqov6/T8rAI=
-=6FkS
------END PGP SIGNATURE-----
-
---DOSrT3liDLmmX29u--
