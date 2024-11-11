@@ -1,141 +1,132 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803EA19C575
-	for <linux-doc@vger.kernel.org>; Mon, 11 Nov 2024 17:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843B21AA1C4;
+	Mon, 11 Nov 2024 18:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731346871; cv=none; b=Ft7o2ylfVtiO+3HNYstvOzTje3+gDQDCYWt4SsGS9Az6gtiOk9yfMZT8xuh/on1aVSYEb7V9uV1P7sK+9n2Ivryewab9dCZufYzXAeT1T2oIg+ucCHe7SWAReY4aIiGYPEH10BkscJ2qESJ/uOenYY+/psEHzs+2OM36Z7W7gAI=
+	t=1731348631; cv=none; b=beJ4DSL4nSJ1Wg9bI3G65/0CItQQGv/uWIspXGpSgxcQAs0naJgpksOQ6tVLoX+t8tFEiyhHKu4N8YaOnswQtXf7M7lNHH5bZZXrIa2SoXPg+pZcFcohwVjnQvs/vtKqGXP+fFfbqAlCtK+q6Hej+mfra8oKSxhrlYbgWnIaKD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731346871; c=relaxed/simple;
-	bh=WE626Jhme0ym7/q8fggm9jaQXx4lOcP4ZRcFhn00/PU=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Ld3IfWy0mAIuxJrR+oN7gV75JwmYpqalxkPU40cfXPjzLawvi3LUA3t+58aAMV0QqjsMCbPU+DfLS2IG7uUfLRw841ELwZjkgAUGgenl5dIr4p/ehxX0+t3wNO6Do8lnjQVYtbc3u99PbnoVg4IizIZXFEb4ZD28pBWrFgQoil4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q1MnQIPV; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731348631; c=relaxed/simple;
+	bh=Ij7WrOwbX4+J8efDi9hsvP8ax5mhRWdjQ6nHoo28gzE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=EGsbo9kDdbD8mnnTawCvipdDtda2zOcjtzLHBe8pGBHdlCNR8e8O1boyDfjUiL6ENLXZCSlUuXghtq1SCB+hN8VZz7AtLzJyV6mAexdb9T3GjQcU+nTJodYnsPQZbBwtgpQAqbOTdvVhb1Ali+crOYQQLdO7+RHLpsBw+HoYuWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=CetmhQNd; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q1MnQIPV"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20ca4877690so291705ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 Nov 2024 09:41:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731346870; x=1731951670; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=spB5wl1urQkI+7B+IPtWDDKj9S/WJUklG9CxIStging=;
-        b=Q1MnQIPVS7F2oJA4F+M/9PKEYdh3yaA+H+cHuer6HOalSuZKrsURYy03ic8CEvwwGK
-         DvJnIgEAnFAiqZVehHNuJ3OEe+4qnqeGpJPhb/eQ1G+7EfVLyXK52aooe+DqgaUnkhtn
-         dmaNQLWFZ7Pmsf8jB2USj9mdu4LyYZoAm42VRYFFazT/tEvPsW6+6kg6zDTJt+NgKWS0
-         wG5axKeZ1InEXeVTmxT5AcMMKJE2EdfFv6ZHUwKuj4AHahBRlPj53RzhLFL9CtLLuV/m
-         FrYjnLcE9nY1jVEV4BlHHWYteIccUrKRTUSUu5i26ELmwtcuClivdNQE2cxALe8eCUwa
-         +Qsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731346870; x=1731951670;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=spB5wl1urQkI+7B+IPtWDDKj9S/WJUklG9CxIStging=;
-        b=Zxo1syZubU6D7KgjwDNv0EZ6RKWQf73IXw8ponE/4qjqvg2J3YvaL1kuovCwxwMm0y
-         EhiAVimo2Vtc6xlUPKhvIu1gC/AuBNOSMjId0+VpmNBP47o9iSsUSnRJ8js0j8087uCA
-         9Pk9Ukb0Hxmqi7z6yFd8Et+ugk/6gSkOdOVFBf2hUTkXrBLLFICdQ5EsEBm33Lw6DykC
-         21LeNXc3njUgCpuJYf39zgMVR+nr2w35Nh3ZUdVaFuxRM5I3J6a7IykjGlDEVAoSF/4B
-         geXgmekCpCmRWjVb80x8pmvzQQGOsTNQVbelO261D/4sWXBROK0J6CO2bqked54XRXLT
-         9yfg==
-X-Forwarded-Encrypted: i=1; AJvYcCV7vMhgEa3ISsh2UPO+d+SKhZXafHG28xgcZzXcpZdxzrT1VKxNCfqqIREOV3oHtms0Nfl2tNf8EQ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzG6aGfBxriHummnhOK5927bg7fPLQskB8GJ84o+c6F8hOHxhL
-	+03DRR/e+55UikkhWfyw5bzRt+mfNVG+9m+IxdvNzeGkGzFnuFkQ9gbtxP25Mg==
-X-Gm-Gg: ASbGncthURK0CSKzFLwhQtTKWsBrhgVqrQjUdJahfPuPQd0CHRkOytBSq99Wjc0a3bk
-	vgJVCixYssgLEdb0rQs3eYSNHji5lDfThWzsDXpoXZjPxcxl+q0xY40+PGxwzYr24RhzOdytrI2
-	8tK4RL90MH0NrVuvoxQgUQKMKzdcmGd6RaPRY6US74HzQ+OZiqhxcPTcIUmHzngKluJBq8YzONR
-	BOzQLOCekrIAOYrvVVYt8O5skfiX8T2KnSUCQYiXIbRjQlxHoT0aLXOukrKzZy+Ro3SsngTEyPR
-	kMDx
-X-Google-Smtp-Source: AGHT+IHi97GLH/TqT3OzZu+s1FpiP4ABTo0w4bQUtXQTxsCqbBljDo6Rmx3Z4cy0o9PUG5WKfE9Bkg==
-X-Received: by 2002:a17:902:db0a:b0:20b:13a8:9f86 with SMTP id d9443c01a7336-2118df842dfmr4318285ad.28.1731346869501;
-        Mon, 11 Nov 2024 09:41:09 -0800 (PST)
-Received: from [2620:0:1008:15:ae3b:d774:6c29:d63c] ([2620:0:1008:15:ae3b:d774:6c29:d63c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e4196asm78754925ad.162.2024.11.11.09.41.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 09:41:09 -0800 (PST)
-Date: Mon, 11 Nov 2024 09:41:08 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-cc: akpm@linux-foundation.org, hannes@cmpxchg.org, nphamcs@gmail.com, 
-    shakeel.butt@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-    chris@chrisdown.name, tj@kernel.org, lizefan.x@bytedance.com, 
-    mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, cgroups@vger.kernel.org, 
-    linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
-In-Reply-To: <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com>
-Message-ID: <eb4aada0-f519-02b5-c3c2-e6c26d468d7d@google.com>
-References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com> <72688d81-24db-70ba-e260-bd5c74066d27@google.com> <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="CetmhQNd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1731348626;
+	bh=Ij7WrOwbX4+J8efDi9hsvP8ax5mhRWdjQ6nHoo28gzE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=CetmhQNdsZECXWJrRT/UoPheFvOur/9Vb+BD4Vk/ZxTtiwaXo7wkg4Sn1rBQvHcaG
+	 FXEBDXt/YLFu7KbP4Fw4sUXeNrv227Bgc6rg4++9+WsvTe/T+/tXHbXQ3u2o0qiBlF
+	 +7Yi7UbT8QJLs9P0aj3ZRNEDZb2uDmZZKksrM73c=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Mon, 11 Nov 2024 19:09:36 +0100
+Subject: [PATCH v7 2/4] drm/amd/display: Add support for minimum backlight
+ quirk
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241111-amdgpu-min-backlight-quirk-v7-2-f662851fda69@weissschuh.net>
+References: <20241111-amdgpu-min-backlight-quirk-v7-0-f662851fda69@weissschuh.net>
+In-Reply-To: <20241111-amdgpu-min-backlight-quirk-v7-0-f662851fda69@weissschuh.net>
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ Matt Hartley <matt.hartley@gmail.com>, Kieran Levin <ktl@framework.net>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Xinhui Pan <Xinhui.Pan@amd.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>, 
+ linux-doc@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731348626; l=2774;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=Ij7WrOwbX4+J8efDi9hsvP8ax5mhRWdjQ6nHoo28gzE=;
+ b=N1/hwP+f25Iyb2hUfrGmymSai8h22mMgwriToXROom+skaWGq3S8XP6usBZvkb547mrEu517Q
+ 2T55qArHRzVAgP6MuWidTheLHzcR3k7VuDE67Ml3CsEn/grMqQvB5jg
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Mon, 11 Nov 2024, Joshua Hahn wrote:
+Not all platforms provide the full range of PWM backlight capabilities
+supported by the hardware through ATIF.
+Use the generic drm panel minimum backlight quirk infrastructure to
+override the capabilities where necessary.
 
-> > > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> > > index 69af2173555f..bd7e81c2aa2b 100644
-> > > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > > @@ -1646,6 +1646,11 @@ The following nested keys are defined.
-> > >         pgdemote_khugepaged
-> > >               Number of pages demoted by khugepaged.
-> > >
-> > > +       hugetlb
-> > > +             Amount of memory used by hugetlb pages. This metric only shows
-> > > +             up if hugetlb usage is accounted for in memory.current (i.e.
-> > > +             cgroup is mounted with the memory_hugetlb_accounting option).
-> > > +
-> > >    memory.numa_stat
-> > >       A read-only nested-keyed file which exists on non-root cgroups.
-> > >
-> >
-> > Definitely makes sense to include this.
-> >
-> > Any reason to not account different hugetlb page sizes separately in this
-> > stat, however?  IOW, should there be separate hugetlb_2048kB and
-> > hugetlb_1048576kB stats on x86?
-> 
-> Hello David, Thank you for reviewing my patch!
-> 
-> The reason that I opted not to include a breakdown of each hugetlb
-> size in memory.stat is only because I wanted to keep the addition that
-> this patch makes as minimal as possible, while still addressing
-> the goal of bridging the gap between memory.stat and memory.current.
-> Users who are curious about this breakdown can see how much memory
-> is used by each hugetlb size by enabling the hugetlb controller as well.
-> 
+Testing the backlight quirk together with the "panel_power_savings"
+sysfs file has not shown any negative impact.
+One quirk seems to be that 0% at panel_power_savings=0 seems to be
+slightly darker than at panel_power_savings=4.
 
-While the patch may be minimal, this is solidifying a kernel API that 
-users will start to count on.  Users who may be interested in their 
-hugetlb usage may not have control over the configuration of their kernel?
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Tested-by: Dustin L. Howett <dustin@howett.net>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/Kconfig                | 1 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-Does it make sense to provide a breakdown in memory.stat so that users can 
-differentiate between mapping one 1GB hugetlb page and 512 2MB hugetlb 
-pages, which are different global resources?
+diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
+index 41fa3377d9cf566294c6f86eedd8b31a22c77510..1a11cab741aca4483673f8e7794b4d3022d269e6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/Kconfig
++++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+@@ -26,6 +26,7 @@ config DRM_AMDGPU
+ 	select DRM_BUDDY
+ 	select DRM_SUBALLOC_HELPER
+ 	select DRM_EXEC
++	select DRM_PANEL_BACKLIGHT_QUIRKS
+ 	# amdgpu depends on ACPI_VIDEO when ACPI is enabled, for select to work
+ 	# ACPI_VIDEO's dependencies must also be selected.
+ 	select INPUT if ACPI
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index f0a6816709ca7dad6415d16f9806f18065026cf7..19a58630e774029767bf2a27eb4ddf17e3c21129 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -93,6 +93,7 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_eld.h>
++#include <drm/drm_utils.h>
+ #include <drm/drm_vblank.h>
+ #include <drm/drm_audio_component.h>
+ #include <drm/drm_gem_atomic_helper.h>
+@@ -3457,6 +3458,7 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+ 	struct drm_connector *conn_base;
+ 	struct amdgpu_device *adev;
+ 	struct drm_luminance_range_info *luminance_range;
++	int min_input_signal_override;
+ 
+ 	if (aconnector->bl_idx == -1 ||
+ 	    aconnector->dc_link->connector_signal != SIGNAL_TYPE_EDP)
+@@ -3491,6 +3493,10 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+ 		caps->aux_min_input_signal = 0;
+ 		caps->aux_max_input_signal = 512;
+ 	}
++
++	min_input_signal_override = drm_get_panel_min_brightness_quirk(aconnector->drm_edid);
++	if (min_input_signal_override >= 0)
++		caps->min_input_signal = min_input_signal_override;
+ }
+ 
+ void amdgpu_dm_update_connector_after_detect(
 
-> It's true that this is the case as well for total hugeltb usage, but
-> I felt that not including hugetlb memory usage in memory.stat when it
-> is accounted by memory.current would cause confusion for the users
-> not being able to see that memory.current = sum of memory.stat. On the
-> other hand, seeing the breakdown of how much each hugetlb size felt more
-> like an optimization, and not a solution that bridges a confusion.
-> 
+-- 
+2.47.0
 
-If broken down into hugetlb_2048kB and hugetlb_1048576kB on x86, for 
-example, users could still do sum of memory.stat, no?>
-
-> I have not had a scenario where I had to look at the breakdown of the
-> hugetlb sizes (without the hugetlb controller), or a scenario where not
-> knowing this causes some sort of confusion. If others have had this
-> problem, I would love to hear about it, and perhaps work on a solution
-> that can address this point as well!
-> 
-> I hope you have a great day!
-
-You too!
