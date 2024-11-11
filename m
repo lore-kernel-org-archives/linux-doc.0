@@ -1,123 +1,455 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from trager.us (trager.us [52.5.81.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D6113665B;
-	Mon, 11 Nov 2024 03:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B11EC5;
+	Mon, 11 Nov 2024 04:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.5.81.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731296290; cv=none; b=qfaYPSaSI55IS5w3ILuX/hBOuNFVwvaFxcSPLlFWVZluVcwf3OLtjb1Z0vS+r4XvENpin1/ywntEKYqiT0uI2igtjJQcgdrV6HEWJ31L87n8KjVKIcBNFpzrzfMxGNXf/U7ZbVrfZYC2bxOlBO+gP3vp4U3FsEMw5ducomEEDHU=
+	t=1731299547; cv=none; b=AD3E56Pl9uKso8iC4aOehuBxjHpKO4NVB5rdcNZXGAa9nG9tpIlcWba7pBYoPTPZOMrz8QYQ75tW2Y8YQwfKQqlHfjzK/qs7/8tHWTOqcyBm/J0xvEztWz5L/RL84mIzDtxnIqcTXwfbBwZ5f2qPIbJh8x9ghotmCSttpd2I3a8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731296290; c=relaxed/simple;
-	bh=ZA8OHg3+Q+KSRXretnApCX6ve8goJNJnnOgbzaePsMs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zsw1FHqmLdso+oATDp766P3fGk/M7zsGHbDdffw8ssq1DyfXJtVlnSRMGMSlhWr2pChobmVe0UewKqiFfh16dZcXrzpVdmVPBUrgpGNfDjxFFxwkO47W9AeHx7eFIi/+9sz4DcXvPMXwML9gTIrl/sJxvWJynHsLpCBLEvC3SPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YORleJyk; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YORleJyk"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539f58c68c5so6686643e87.3;
-        Sun, 10 Nov 2024 19:38:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731296287; x=1731901087; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oC4JPLCLRDYMO1RPUeNNnfQJv+4YzjVh9J6kx0DE+o4=;
-        b=YORleJyklPfMfbSVi4Y4qrwHt1YwvDc9akTiDSwcsLswec1si3Fp3tB+XuigwDvcur
-         PL1sL5Fs6rVTiQKI/i0Af6ztZ/c2E1kZdkrkHeRZmmmUZ5UJFjUaw5uUcNxoZeiS/oMY
-         CnLE47XS0s4azvQPllSyRIsNBifblpunB+VwGKM1Pbyz6kVc7P+pBnQMDe2yHnnmqV6q
-         fA2oKwjGqrRVDLHSd3Izfb2z4+96S+NCwKa4EOWEW4ul9VO2t0YsBihAsN4l5msE0+34
-         0VDo8pop1FzSl4c80npfk6SZFbEaQZR7wKK8QZoCl70Gcn9b3/zVPqYvrmRIXj/YjRZ4
-         M7XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731296287; x=1731901087;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oC4JPLCLRDYMO1RPUeNNnfQJv+4YzjVh9J6kx0DE+o4=;
-        b=V44truBaYLJfWpAR/WxYj3HEQPDQcIe9Ef317HMWlADCBOzsK9+5xtj85si6OZBbyd
-         l7sJ7xw4HK7R/YiEqUapPZR4nUKUNhMsR9zCtWN/0hR2+0Ml1pQTKrB+99nEKy9ifUTz
-         Ph++eAZa4VCcPEJnbmV2qrkPbFV5jls2vLaUmoWTk4tXmNJTZc/iP8wvRz0OQvNwmqMf
-         QXwOdig3BJJYLmmULmE1GqzYNrsJ4ol3+5EXtzHMlqm7RzCivWEpofqa48gKpe3/WStF
-         oCJWIqftrdZqvsugaeJpb5K9yl1B9all24Q15Eu+Rpr6XAXSAae35W8qv7LI2DXhjrjz
-         xlUA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpLtI8ewQLBaQLJeiAJT1LCZRhW8LZEk+q/g5117LyiXknxK/fooZ/hoEb42y+5aa8LWjAGjLKi2jksGA=@vger.kernel.org, AJvYcCWRUf7Lq32DW8eBkHmpnT+K6SLR52Crjwoqn0ovvRUardWnVdOX5iU5sCc29E5wfR1ep+Y7AwvqsDM=@vger.kernel.org, AJvYcCXANLECdg13hyS6eg23bjXfuU6iDuBJKRfOC5bqWuo5DH1u7iZ4H5lKmax1jXsApA9CBAr5RDukU5/jvxt8@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8ZwpStq+4pwyM4FT0LJ+qp/0ueUxb94RCL5Rmz31nu6Fwrt6C
-	C73re7C8xDS0M8TcVhKIis2YIKCM4+gKnUegKhZ2UVcSDlAd/h0jSe2G6Ti6sacgAmCKWGIazqA
-	2L1ZEU0YcmaTo7is+BX2xf66djwg=
-X-Google-Smtp-Source: AGHT+IHBFDY1PibMOh+vdFnoFYfzQQKDW6n7kSjEqQSavh8wTx91d7/tUPpxAtMEp4os/dNOKl0FhhhSUSR75eZdqPM=
-X-Received: by 2002:a2e:9a0a:0:b0:2f0:27da:6864 with SMTP id
- 38308e7fff4ca-2ff201bc4a3mr56913731fa.17.1731296286894; Sun, 10 Nov 2024
- 19:38:06 -0800 (PST)
+	s=arc-20240116; t=1731299547; c=relaxed/simple;
+	bh=+bEwcUGfC3Kt5K5pJyllFNbCpdJvsEcyVMhOF7XqMTE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hpxi/vHJKl7suTjp4GGQc3yfWk0AWr6wZtc7+cWVdzMqgVBXYuEWBH6A8S4pGnG7T2aIyB9NLyCOLbBtIQlXzCyhBYyXQmZOiIlAmJ+enUbEUv4+hcljVzybyp/59rkyR8dPRu7ewrI3wahy/bh65qTEFmMyeyA1iPs1gdqBL68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us; spf=pass smtp.mailfrom=trager.us; arc=none smtp.client-ip=52.5.81.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trager.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trager.us
+Received: from c-76-104-255-50.hsd1.wa.comcast.net ([76.104.255.50] helo=localhost)
+	by trager.us with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92.3)
+	(envelope-from <lee@trager.us>)
+	id 1tAM67-0003Kg-7X; Mon, 11 Nov 2024 04:32:19 +0000
+From: Lee Trager <lee@trager.us>
+To: Alexander Duyck <alexanderduyck@fb.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	kernel-team@meta.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Lee Trager <lee@trager.us>,
+	Sanman Pradhan <sanmanpradhan@meta.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Mohsin Bashir <mohsin.bashr@gmail.com>
+Cc: Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v3 1/2] eth: fbnic: Add mailbox support for PLDM updates
+Date: Sun, 10 Nov 2024 20:28:41 -0800
+Message-ID: <20241111043058.1251632-2-lee@trager.us>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20241111043058.1251632-1-lee@trager.us>
+References: <20241111043058.1251632-1-lee@trager.us>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241107200835.3033-1-yesanishhere@gmail.com> <87cyj622oc.fsf@trenco.lwn.net>
- <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org> <874j4i205j.fsf@trenco.lwn.net>
- <70a27fe2-cc85-4f35-b24a-8e3425e447d0@infradead.org> <87v7wyznow.fsf@trenco.lwn.net>
- <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org>
-In-Reply-To: <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Sun, 10 Nov 2024 19:37:55 -0800
-Message-ID: <CABCoZhAaAhUhm5pvc_FgOY6LP0eS+tUUrE-tPnO3k+Xqa7GWBA@mail.gmail.com>
-Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, 
-	tiwai@suse.com, Sebastian Fricke <sebastian.fricke@collabora.com>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 7, 2024 at 8:53=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
->
->
->
-> On 11/7/24 2:25 PM, Jonathan Corbet wrote:
-> > Randy Dunlap <rdunlap@infradead.org> writes:
-> >
-> >> I see a few possibilities, none perfect:
-> >>
-> >> a. in Documentation/driver-api/debug/  [not quite driver-api though]
-> >
-> > No, it's not API stuff, and not limited to drivers.
-> >
-> >> b. in Documentation/core-api/ along with debugging-via-ohci1394.rst
-> >> [maybe in a new /debug/ subdir]
-> >
-> > Again, not really API stuff.
-> >
-> >> c. in (new) Documentation/debug/ and invite the kernel debugging
-> >> community to add some of their docs here as well.
-> >
-> > If we really want to separate the mechanics of kernel development from
-> > the associated process information - not always an easy separation, IMO
-> > - we could make a top-level "development" directory, put a lot of the
-> > other relevant stuff there, and include the debugging stuff.  It seems
-> > really weird to put debugging by itself, though; it's only part of the
-> > picture.
->
-> I could go with that.
->
-> >
-> > Why is Documentation/process so bad?
->
-> Documentation/process/ is meta-documentation about kernel social "standar=
-ds"
-> among other things. It is "soft" documentation, whereas debugging (IMHO) =
-is
-> "hard" documentation.
->
-> But hey, it's all your baby. Do whatever pleases you. :)
+This adds driver support to utilize the kernel completion API. This allows
+the driver to block on a response from firmware. Initially
+fbnic_fw_completion only has support for updates, future patches will add
+additional features.
 
-Jonathan, wondering if you want to me to go ahead with your suggestion
-of merging on top of Sebastian patch?
->
-> --
-> ~Randy
->
+Signed-off-by: Lee Trager <lee@trager.us>
+---
+ drivers/net/ethernet/meta/fbnic/fbnic_fw.c | 263 +++++++++++++++++++++
+ drivers/net/ethernet/meta/fbnic/fbnic_fw.h |  64 ++++-
+ 2 files changed, 323 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_fw.c b/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
+index 8f7a2a19ddf8..d46afc38b4a5 100644
+--- a/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
++++ b/drivers/net/ethernet/meta/fbnic/fbnic_fw.c
+@@ -207,6 +207,38 @@ static int fbnic_mbx_map_tlv_msg(struct fbnic_dev *fbd,
+ 	return err;
+ }
+
++static int fbnic_mbx_map_req_w_cmpl(struct fbnic_dev *fbd,
++				    struct fbnic_tlv_msg *msg,
++				    struct fbnic_fw_completion *cmpl_data)
++{
++	unsigned long flags;
++	int err;
++
++	spin_lock_irqsave(&fbd->fw_tx_lock, flags);
++
++	/* If we are already waiting on a completion then abort */
++	if (cmpl_data && fbd->cmpl_data) {
++		err = -EBUSY;
++		goto unlock_mbx;
++	}
++
++	/* Record completion location and submit request */
++	if (cmpl_data)
++		fbd->cmpl_data = cmpl_data;
++
++	err = fbnic_mbx_map_msg(fbd, FBNIC_IPC_MBX_TX_IDX, msg,
++				le16_to_cpu(msg->hdr.len) * sizeof(u32), 1);
++
++	/* If msg failed then clear completion data for next caller */
++	if (err && cmpl_data)
++		fbd->cmpl_data = NULL;
++
++unlock_mbx:
++	spin_unlock_irqrestore(&fbd->fw_tx_lock, flags);
++
++	return err;
++}
++
+ static void fbnic_mbx_process_tx_msgs(struct fbnic_dev *fbd)
+ {
+ 	struct fbnic_fw_mbx *tx_mbx = &fbd->mbx[FBNIC_IPC_MBX_TX_IDX];
+@@ -651,6 +683,225 @@ void fbnic_fw_check_heartbeat(struct fbnic_dev *fbd)
+ 		dev_warn(fbd->dev, "Failed to send heartbeat message\n");
+ }
+
++/**
++ * fbnic_fw_xmit_fw_start_upgrade - Create and transmit a start update message
++ * @fbd: FBNIC device structure
++ * @cmpl_data: Completion data for upgrade process
++ * @id: Component ID
++ * @len: Length of FW update package data
++ *
++ * Return: zero on success, negative value on failure
++ *
++ * Asks the FW to prepare for starting a firmware upgrade
++ */
++int fbnic_fw_xmit_fw_start_upgrade(struct fbnic_dev *fbd,
++				   struct fbnic_fw_completion *cmpl_data,
++				   unsigned int id, unsigned int len)
++{
++	struct fbnic_tlv_msg *msg;
++	int err;
++
++	if (!len)
++		return -EINVAL;
++
++	msg = fbnic_tlv_msg_alloc(FBNIC_TLV_MSG_ID_FW_START_UPGRADE_REQ);
++	if (!msg)
++		return -ENOMEM;
++
++	err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_START_UPGRADE_SECTION, id);
++	if (err)
++		goto free_message;
++
++	err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_START_UPGRADE_IMAGE_LENGTH,
++				     len);
++	if (err)
++		goto free_message;
++
++	err = fbnic_mbx_map_req_w_cmpl(fbd, msg, cmpl_data);
++	if (err)
++		goto free_message;
++
++	return 0;
++
++free_message:
++	free_page((unsigned long)msg);
++	return err;
++}
++
++static const struct fbnic_tlv_index fbnic_fw_start_upgrade_resp_index[] = {
++	FBNIC_TLV_ATTR_S32(FBNIC_FW_START_UPGRADE_ERROR),
++	FBNIC_TLV_ATTR_LAST
++};
++
++static int fbnic_fw_parse_fw_start_upgrade_resp(void *opaque,
++						struct fbnic_tlv_msg **results)
++{
++	struct fbnic_fw_completion *cmpl_data;
++	struct fbnic_dev *fbd = opaque;
++	int err = 0;
++
++	/* Verify we have a completion pointer */
++	cmpl_data = READ_ONCE(fbd->cmpl_data);
++	if (!cmpl_data ||
++	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ)
++		return -ENOSPC;
++
++	/* Check for errors */
++	get_signed_result(FBNIC_FW_START_UPGRADE_ERROR, err);
++
++	cmpl_data->result = err;
++	complete(&cmpl_data->done);
++
++	return 0;
++}
++
++static const struct fbnic_tlv_index fbnic_fw_write_chunk_req_index[] = {
++	FBNIC_TLV_ATTR_U32(FBNIC_FW_WRITE_CHUNK_OFFSET),
++	FBNIC_TLV_ATTR_U32(FBNIC_FW_WRITE_CHUNK_LENGTH),
++	FBNIC_TLV_ATTR_LAST
++};
++
++static int fbnic_fw_parse_fw_write_chunk_req(void *opaque,
++					     struct fbnic_tlv_msg **results)
++{
++	struct fbnic_fw_completion *cmpl_data;
++	struct fbnic_dev *fbd = opaque;
++	u32 length = 0, offset = 0;
++	struct fbnic_tlv_msg *msg;
++	int err;
++
++	/* Start by attempting to allocate a response to the message */
++	msg = fbnic_tlv_msg_alloc(FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_RESP);
++	if (!msg)
++		return -ENOMEM;
++
++	/* Verify we have a completion pointer */
++	cmpl_data = READ_ONCE(fbd->cmpl_data);
++	if (!cmpl_data ||
++	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ) {
++		err = -ENOSPC;
++		goto msg_err;
++	}
++
++	/* Notify FW if the data link has been severed */
++	if (!cmpl_data->fw_update.data) {
++		err = -ECANCELED;
++		goto msg_err;
++	}
++
++	/* Pull length/offset pair and mark it as complete */
++	get_unsigned_result(FBNIC_FW_WRITE_CHUNK_OFFSET, offset);
++	get_unsigned_result(FBNIC_FW_WRITE_CHUNK_LENGTH, length);
++
++	/* Record offset and length for the response */
++	if (offset) {
++		err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_WRITE_CHUNK_OFFSET,
++					     offset);
++		if (err)
++			goto msg_err;
++	}
++
++	err = fbnic_tlv_attr_put_int(msg, FBNIC_FW_WRITE_CHUNK_LENGTH,
++				     length);
++	if (err)
++		goto msg_err;
++
++	/* Verify length */
++	if (!length || length > TLV_MAX_DATA) {
++		err = -EINVAL;
++		goto msg_err;
++	}
++
++	/* Verify offset and length are within bounds */
++	if (offset >= cmpl_data->fw_update.size ||
++	    offset + length > cmpl_data->fw_update.size) {
++		err = -EFAULT;
++		goto msg_err;
++	}
++
++	/* Add outbound data to message */
++	err = fbnic_tlv_attr_put_value(msg, FBNIC_FW_WRITE_CHUNK_DATA,
++				       cmpl_data->fw_update.data + offset,
++				       length);
++
++	/* Notify the waiting thread that we processed a message */
++	if (!err)
++		cmpl_data->fw_update.last_offset = offset;
++
++	cmpl_data->result = err;
++	complete(&cmpl_data->done);
++
++msg_err:
++	/* Report error to FW if one occurred */
++	if (err)
++		fbnic_tlv_attr_put_int(msg, FBNIC_FW_WRITE_CHUNK_ERROR, err);
++
++	/* Map and send the response */
++	err = fbnic_mbx_map_tlv_msg(fbd, msg);
++	if (err)
++		free_page((unsigned long)msg);
++
++	return err;
++}
++
++static const struct fbnic_tlv_index fbnic_fw_verify_image_resp_index[] = {
++	FBNIC_TLV_ATTR_S32(FBNIC_FW_VERIFY_IMAGE_ERROR),
++	FBNIC_TLV_ATTR_LAST
++};
++
++static int fbnic_fw_parse_fw_verify_image_resp(void *opaque,
++					       struct fbnic_tlv_msg **results)
++{
++	struct fbnic_fw_completion *cmpl_data;
++	struct fbnic_dev *fbd = opaque;
++	int err = 0;
++
++	/* Verify we have a completion pointer */
++	cmpl_data = READ_ONCE(fbd->cmpl_data);
++	if (!cmpl_data ||
++	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_VERIFY_IMAGE_RESP)
++		return -ENOSPC;
++
++	/* Check for errors */
++	get_signed_result(FBNIC_FW_VERIFY_IMAGE_ERROR, err);
++
++	cmpl_data->result = err;
++	complete(&cmpl_data->done);
++
++	return err;
++}
++
++static const struct fbnic_tlv_index fbnic_fw_finish_upgrade_req_index[] = {
++	FBNIC_TLV_ATTR_S32(FBNIC_FW_FINISH_UPGRADE_ERROR),
++	FBNIC_TLV_ATTR_LAST
++};
++
++static int fbnic_fw_parse_fw_finish_upgrade_req(void *opaque,
++						struct fbnic_tlv_msg **results)
++{
++	struct fbnic_fw_completion *cmpl_data;
++	struct fbnic_dev *fbd = opaque;
++	int err = 0;
++
++	/* Verify we have a completion pointer */
++	cmpl_data = READ_ONCE(fbd->cmpl_data);
++	if (!cmpl_data ||
++	    cmpl_data->msg_type != FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ)
++		return -ENOSPC;
++
++	/* Check for errors */
++	get_signed_result(FBNIC_FW_FINISH_UPGRADE_ERROR, err);
++
++	/* Close out update by clearing data pointer */
++	cmpl_data->fw_update.last_offset = cmpl_data->fw_update.size;
++	cmpl_data->fw_update.data = NULL;
++
++	cmpl_data->result = err;
++	complete(&cmpl_data->done);
++
++	return 0;
++}
++
+ static const struct fbnic_tlv_parser fbnic_fw_tlv_parser[] = {
+ 	FBNIC_TLV_PARSER(FW_CAP_RESP, fbnic_fw_cap_resp_index,
+ 			 fbnic_fw_parse_cap_resp),
+@@ -658,6 +909,18 @@ static const struct fbnic_tlv_parser fbnic_fw_tlv_parser[] = {
+ 			 fbnic_fw_parse_ownership_resp),
+ 	FBNIC_TLV_PARSER(HEARTBEAT_RESP, fbnic_heartbeat_resp_index,
+ 			 fbnic_fw_parse_heartbeat_resp),
++	FBNIC_TLV_PARSER(FW_START_UPGRADE_RESP,
++			 fbnic_fw_start_upgrade_resp_index,
++			 fbnic_fw_parse_fw_start_upgrade_resp),
++	FBNIC_TLV_PARSER(FW_WRITE_CHUNK_REQ,
++			 fbnic_fw_write_chunk_req_index,
++			 fbnic_fw_parse_fw_write_chunk_req),
++	FBNIC_TLV_PARSER(FW_VERIFY_IMAGE_RESP,
++			 fbnic_fw_verify_image_resp_index,
++			 fbnic_fw_parse_fw_verify_image_resp),
++	FBNIC_TLV_PARSER(FW_FINISH_UPGRADE_REQ,
++			 fbnic_fw_finish_upgrade_req_index,
++			 fbnic_fw_parse_fw_finish_upgrade_req),
+ 	FBNIC_TLV_MSG_ERROR
+ };
+
+diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_fw.h b/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
+index 7cd8841920e4..347e60fee551 100644
+--- a/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
++++ b/drivers/net/ethernet/meta/fbnic/fbnic_fw.h
+@@ -45,10 +45,20 @@ struct fbnic_fw_cap {
+ };
+
+ struct fbnic_fw_completion {
+-	struct {
+-		s32 millivolts;
+-		s32 millidegrees;
+-	} tsene;
++	u32 msg_type;
++	struct completion done;
++	int result;
++	union {
++		struct {
++			u32 size;
++			u32 last_offset;
++			const u8 *data;
++		} fw_update;
++		struct {
++			s32 millivolts;
++			s32 millidegrees;
++		} tsene;
++	};
+ };
+
+ void fbnic_mbx_init(struct fbnic_dev *fbd);
+@@ -59,6 +69,9 @@ void fbnic_mbx_flush_tx(struct fbnic_dev *fbd);
+ int fbnic_fw_xmit_ownership_msg(struct fbnic_dev *fbd, bool take_ownership);
+ int fbnic_fw_init_heartbeat(struct fbnic_dev *fbd, bool poll);
+ void fbnic_fw_check_heartbeat(struct fbnic_dev *fbd);
++int fbnic_fw_xmit_fw_start_upgrade(struct fbnic_dev *fbd,
++				   struct fbnic_fw_completion *cmpl_data,
++				   unsigned int id, unsigned int len);
+
+ #define fbnic_mk_full_fw_ver_str(_rev_id, _delim, _commit, _str, _str_sz) \
+ do {									\
+@@ -74,6 +87,15 @@ do {									\
+ #define fbnic_mk_fw_ver_str(_rev_id, _str) \
+ 	fbnic_mk_full_fw_ver_str(_rev_id, "", "", _str, sizeof(_str))
+
++enum {
++	QSPI_SECTION_CMRT			= 0,
++	QSPI_SECTION_CONTROL_FW			= 1,
++	QSPI_SECTION_UCODE			= 2,
++	QSPI_SECTION_OPTION_ROM			= 3,
++	QSPI_SECTION_USER			= 4,
++	QSPI_SECTION_INVALID,
++};
++
+ #define FW_HEARTBEAT_PERIOD		(10 * HZ)
+
+ enum {
+@@ -83,6 +105,14 @@ enum {
+ 	FBNIC_TLV_MSG_ID_OWNERSHIP_RESP			= 0x13,
+ 	FBNIC_TLV_MSG_ID_HEARTBEAT_REQ			= 0x14,
+ 	FBNIC_TLV_MSG_ID_HEARTBEAT_RESP			= 0x15,
++	FBNIC_TLV_MSG_ID_FW_START_UPGRADE_REQ		= 0x22,
++	FBNIC_TLV_MSG_ID_FW_START_UPGRADE_RESP		= 0x23,
++	FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_REQ		= 0x24,
++	FBNIC_TLV_MSG_ID_FW_WRITE_CHUNK_RESP		= 0x25,
++	FBNIC_TLV_MSG_ID_FW_VERIFY_IMAGE_REQ		= 0x26,
++	FBNIC_TLV_MSG_ID_FW_VERIFY_IMAGE_RESP		= 0x27,
++	FBNIC_TLV_MSG_ID_FW_FINISH_UPGRADE_REQ		= 0x28,
++	FBNIC_TLV_MSG_ID_FW_FINISH_UPGRADE_RESP		= 0x29,
+ };
+
+ #define FBNIC_FW_CAP_RESP_VERSION_MAJOR		CSR_GENMASK(31, 24)
+@@ -128,4 +158,30 @@ enum {
+ 	FBNIC_FW_OWNERSHIP_FLAG			= 0x0,
+ 	FBNIC_FW_OWNERSHIP_MSG_MAX
+ };
++
++enum {
++	FBNIC_FW_START_UPGRADE_ERROR		= 0x0,
++	FBNIC_FW_START_UPGRADE_SECTION		= 0x1,
++	FBNIC_FW_START_UPGRADE_IMAGE_LENGTH	= 0x2,
++	FBNIC_FW_START_UPGRADE_MSG_MAX
++};
++
++enum {
++	FBNIC_FW_WRITE_CHUNK_OFFSET		= 0x0,
++	FBNIC_FW_WRITE_CHUNK_LENGTH		= 0x1,
++	FBNIC_FW_WRITE_CHUNK_DATA		= 0x2,
++	FBNIC_FW_WRITE_CHUNK_ERROR		= 0x3,
++	FBNIC_FW_WRITE_CHUNK_MSG_MAX
++};
++
++enum {
++	FBNIC_FW_VERIFY_IMAGE_ERROR		= 0x0,
++	FBNIC_FW_VERIFY_IMAGE_MSG_MAX
++};
++
++enum {
++	FBNIC_FW_FINISH_UPGRADE_ERROR		= 0x0,
++	FBNIC_FW_FINISH_UPGRADE_MSG_MAX
++};
++
+ #endif /* _FBNIC_FW_H_ */
+--
+2.43.5
