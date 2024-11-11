@@ -1,149 +1,119 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185DE1EB36
-	for <linux-doc@vger.kernel.org>; Mon, 11 Nov 2024 20:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920E21AE014;
+	Mon, 11 Nov 2024 20:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731356758; cv=none; b=Wmc/C+oX3lQ3KFHVeXd1wuFZ2Pd+xkoH9uPaXzmixyHmhKD/c4M6QncLsmdTzxvi/yjE8ZT7r3y8Le3AnTMOBOGkWiAbGx0Pw+iqTReIX/qEGenQ6mgjqcPJAd23ku84c1NG0NvCCfS3zSQbU9z0DhPLBZYxHz5XVSDcyWYGPrw=
+	t=1731357549; cv=none; b=DvU0YKvX1IZueMKHaeUR6jy6lKnM2pI2NzS8HWs115bD2bFDSQmyzByiElf88l1SqEY5ajqFihNmO/k4sFLMAaTHM1oN+Byv5/UhgrnwiFJLtoVf6MhxZ6PvY6pKrMMNKjCgcyiaylmwc6bkXP0zCvBkqERCM+VgrHygcwhQ+bM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731356758; c=relaxed/simple;
-	bh=2w5AOiqqlQUI7ff1yMnJ4pyBjIIdEcmBrtd1H9hIT58=;
+	s=arc-20240116; t=1731357549; c=relaxed/simple;
+	bh=RskXYQD5wDxn7QTheUTZ7haO83xm9MxhhQdS2pfNkCM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HMdEbhe9utWoKBSrjVLELc/lunmncCXaQH23ihCz7rHVi8fE53XeiSyVZQP8eQsyeiM/a6pvNUdpI7+ow95lsch3cfHFglCZNgbppwEjoAdqwy/0jFRJHTpZ4IfLtbbpDfI6rCBD//NApVFW5u68md7DouYF4+P2UmmU44aIDHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=lo1J19ZG; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LzXbLWzamtaYLWJG+/yZrZzM/ffBNY/KY7SUKkNKe9Pf5dox2U/7z+JTScKLLsmWRZMuFGBHTmOFXXEo7FTIlo9V7yf/JkGSPKjQMWdD9Bm/2M7tis/iVwf99E4makrrgZQKOQdUzuDMxvqZ816iTNYj5e208YpJNVPDYL+/DLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ad02di1u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="lo1J19ZG"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7ede6803585so4263122a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 Nov 2024 12:25:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1731356755; x=1731961555; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZedqqjyJeumj8+2BRCMIUVijoRFqC01LDMvINlLK7gQ=;
-        b=lo1J19ZGSgA495tA2c6mV5GqbRO74mxxvWhVuWWvlrgoywSQL0AqvOssfzc/I0vABN
-         hsKoRixtiL+VDzSKe/nzUdhdyQ9PFtgpn3PmUXv0T5DUKvFpiH45zCkaGMOcaikycVDJ
-         MF8cyvBO33Bd5VfV1N/54oqUQFPl/OnhTYZvM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731356755; x=1731961555;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZedqqjyJeumj8+2BRCMIUVijoRFqC01LDMvINlLK7gQ=;
-        b=FtdbIGqk8xuNeW1wCUoL/qo43PauIWXoSJb1VfUBxedWszHLzB99QwyTWdYNYNfN60
-         byA+Wh6Fu6tB+9SwZ3pkatHr9mBaHlD0wAWcui2laLBcHxufourwNWqrke38Aqzl1gZp
-         rq3ET7TFb+9ijx5NaC9Skl48ID7el7s2tLzN9clSWrPCDScyhMRK7WXwD7epWcsKgR4Q
-         RNytAzGhttGx38ulFdE12YNeP4vBN3Kn0Of+kPcuEN7VVolVVyHK2z5tTj8wsMmdXNuo
-         rsOWLztLnTu+hWtgfLOhTrNmnUulFHEFsAR+Di/7olQd2aEV06NDfD0u6o/6PP0icd21
-         igew==
-X-Forwarded-Encrypted: i=1; AJvYcCU66aOT4qLqNfZkL2tRtx4rINVQEIUrdFpojnfeIHtRellU+GXzkJ9p1ebE5vZbudAMKyAPh5fzMTA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyh+o0Lk0M58XlwW0iYVaOCQV6J7l91ZNkiUeAd28tEsWV3iZrD
-	oEKN73TNcXqlwRpnxc7du1wWYVrZ5YthxgLu70NjYyUoLzP/2tcoa6v5FAh0DYs=
-X-Google-Smtp-Source: AGHT+IF2Ru2h4ZQi9WWUaGkF59QU53pPfGyKW8tnYpPW+BjO0RHI3kunAeHAUy1Qepm/XqDiyw7M7g==
-X-Received: by 2002:a17:90b:33cf:b0:2e0:7e80:2011 with SMTP id 98e67ed59e1d1-2e9b0b381efmr19863855a91.16.1731356755368;
-        Mon, 11 Nov 2024 12:25:55 -0800 (PST)
-Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177dc7f3esm79470755ad.24.2024.11.11.12.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 12:25:54 -0800 (PST)
-Date: Mon, 11 Nov 2024 12:25:51 -0800
-From: Joe Damato <jdamato@fastly.com>
-To: Sanman Pradhan <sanman.p211993@gmail.com>
-Cc: netdev@vger.kernel.org, alexanderduyck@fb.com, kuba@kernel.org,
-	kernel-team@meta.com, davem@davemloft.net, edumazet@google.com,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	mohsin.bashr@gmail.com, sanmanpradhan@meta.com,
-	andrew+netdev@lunn.ch, vadim.fedorenko@linux.dev, sdf@fomichev.me,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5] eth: fbnic: Add PCIe hardware statistics
-Message-ID: <ZzJoT-YLUHuvK1wk@LQ3V64L9R2>
-Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
-	Sanman Pradhan <sanman.p211993@gmail.com>, netdev@vger.kernel.org,
-	alexanderduyck@fb.com, kuba@kernel.org, kernel-team@meta.com,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	horms@kernel.org, corbet@lwn.net, mohsin.bashr@gmail.com,
-	sanmanpradhan@meta.com, andrew+netdev@lunn.ch,
-	vadim.fedorenko@linux.dev, sdf@fomichev.me,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241111195715.1619855-1-sanman.p211993@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ad02di1u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58896C4CECF;
+	Mon, 11 Nov 2024 20:39:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731357549;
+	bh=RskXYQD5wDxn7QTheUTZ7haO83xm9MxhhQdS2pfNkCM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ad02di1uRK6TijSYu3ChQ2iIEsTtsd+Is3e43hvt265ilw6K9fbfaI76jJHnUd+ql
+	 SKuI+iE8TuVRKINajCyo28tttGdcLlqgdcDB8n2RIlkz/IBSBn8zI3/NqkMf2EVZV0
+	 A9c81jNwcDSYozpMU379FrEn6vhQxTDsWx3OVrAorWaahb8FbdOJ4RMNrmUE7evUav
+	 MUULkAM24LbdMZHNKoAmbpbTIME9GViIr4kciB3WbmHiSnw0U2OtG1MSmYOT0Z3I+2
+	 Yqc17b9w0lvhiQ41izyiQaGj/prRWcmPghnPQhxIZP1Ztakh2VeepMw1GiZSJi/9sO
+	 eMHXl0VnBb8Ig==
+Date: Mon, 11 Nov 2024 12:39:06 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: "Kaplan, David" <David.Kaplan@amd.com>
+Cc: Amit Shah <amit@kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"Shah, Amit" <Amit.Shah@amd.com>,
+	"Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"hpa@zytor.com" <hpa@zytor.com>,
+	"seanjc@google.com" <seanjc@google.com>,
+	"pbonzini@redhat.com" <pbonzini@redhat.com>,
+	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+	"kai.huang@intel.com" <kai.huang@intel.com>,
+	"Das1, Sandipan" <Sandipan.Das@amd.com>,
+	"boris.ostrovsky@oracle.com" <boris.ostrovsky@oracle.com>,
+	"Moger, Babu" <Babu.Moger@amd.com>,
+	"dwmw@amazon.co.uk" <dwmw@amazon.co.uk>,
+	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <20241111203906.a2y55qoi767hcmht@jpoimboe>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <LV3PR12MB9265A6B2030DAE155E7B560B94582@LV3PR12MB9265.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241111195715.1619855-1-sanman.p211993@gmail.com>
+In-Reply-To: <LV3PR12MB9265A6B2030DAE155E7B560B94582@LV3PR12MB9265.namprd12.prod.outlook.com>
 
-On Mon, Nov 11, 2024 at 11:57:15AM -0800, Sanman Pradhan wrote:
-> Add PCIe hardware statistics support to the fbnic driver. These stats
-> provide insight into PCIe transaction performance and error conditions.
+On Mon, Nov 11, 2024 at 07:58:03PM +0000, Kaplan, David wrote:
+> > I'm thinking the comments need more clarification in light of BTC and SRSO.
+> >
+> > This:
+> >
+> > > -      *    AMD has it even worse: *all* returns are speculated from the BTB,
+> > > -      *    regardless of the state of the RSB.
+> >
+> > is still true (mostly: "all" should be "some"), though it doesn't belong in the "RSB
+> > underflow" section.
+> >
+> > Also the RSB stuffing not only mitigates RET, it mitigates any other instruction
+> > which happen to be predicted as a RET.  Which is presumably why it's still needed
+> > even when SRSO is enabled.
+> >
 > 
-> Which includes, read/write and completion TLP counts and DWORD counts and
-> debug counters for tag, completion credit and NP credit exhaustion
+> While that's partly true, I'm not sure I'm understanding which
+> scenario you're concerned with.  As noted in the AMD BTC whitepaper,
+> there are various types of potential mis-speculation depending on what
+> the actual branch is. The 'late redirect' ones are the most concerning
+> since those have enough of a speculation window to be able to do a
+> load-op-load gadget.  The only 'late redirect' case involving an
+> instruction being incorrectly predicted as a RET is when the actual
+> instruction is an indirect JMP/CALL.  But those instructions are
+> either removed entirely (due to retpoline) or being protected with
+> IBRS.  The cases of other instructions (like Jcc) being predicted as a
+> RET are subject to the 'early redirect' behavior which is much more
+> limited (and note that these can also be predicted as indirect
+> branches for which there is no special protection).  So I'm not sure
+> why BTC specifically would necessitate needing to stuff the RSB here.
 > 
-> The stats are exposed via debugfs and can be used to monitor PCIe
-> performance and debug PCIe issues.
-> 
-> Signed-off-by: Sanman Pradhan <sanman.p211993@gmail.com>
-> ---
-> v5:
-> 	- Add missing fbnic_dbg_init, fbnic_dbg_exit, fbnic_dbg_fbd_init and fbnic_dbg_fbd_exit functions
-> 	- Add missing entry in fbnic.h
-> 	- Tested on 1-NIC 2-Host system
-> 		- Test Logs:
-> 				Without ping <remote_host>
-> 					# cat /sys/kernel/debug/fbnic/0000\:01\:00.0/pcie_stats
-> 					ob_rd_tlp: 88724
-> 					ob_rd_dword: 1363273
-> 					ob_wr_tlp: 980410
-> 					ob_wr_dword: 105006453
-> 					ob_cpl_tlp: 98665
-> 					ob_cpl_dword: 1363273
-> 					ob_rd_no_tag: 0
-> 					ob_rd_no_cpl_cred: 0
-> 					ob_rd_no_np_cred: 0
-> 				With ping <remote_host>
-> 					# cat /sys/kernel/debug/fbnic/0000\:01\:00.0/pcie_stats
-> 					ob_rd_tlp: 114081
-> 					ob_rd_dword: 1902295
-> 					ob_wr_tlp: 1098457
-> 					ob_wr_dword: 112936622
-> 					ob_cpl_tlp: 128409
-> 					ob_cpl_dword: 1902295
-> 					ob_rd_no_tag: 0
-> 					ob_rd_no_cpl_cred: 0
-> 					ob_rd_no_np_cred: 0
-> v4:
-> 	- https://patchwork.kernel.org/project/netdevbpf/patch/20241109025905.1531196-1-sanman.p211993@gmail.com/
-> 	- Fix indentations
-> 	- Adding missing updates for previous versions
-> v3:
-> 	- https://patchwork.kernel.org/project/netdevbpf/patch/20241108204640.3165724-1-sanman.p211993@gmail.com/
-> 	- Moved PCIe stats to debugfs
-> v2:
-> 	- https://patchwork.kernel.org/project/netdevbpf/patch/20241107020555.321245-1-sanman.p211993@gmail.com/
-> 	- Removed unnecessary code blocks
-> 	- Rephrased the commit message
-> v1:
-> 	- https://patchwork.kernel.org/project/netdevbpf/patch/20241106002625.1857904-1-sanman.p211993@gmail.com/
-> ---
->  .../device_drivers/ethernet/meta/fbnic.rst    |  26 ++++
->  drivers/net/ethernet/meta/fbnic/Makefile      |   1 +
->  drivers/net/ethernet/meta/fbnic/fbnic.h       |   6 +
->  drivers/net/ethernet/meta/fbnic/fbnic_csr.h   |  37 ++++++
->  .../net/ethernet/meta/fbnic/fbnic_debugfs.c   |  68 +++++++++++
->  .../net/ethernet/meta/fbnic/fbnic_devlink.c   |   4 +
->  .../net/ethernet/meta/fbnic/fbnic_hw_stats.c  | 114 ++++++++++++++++++
->  .../net/ethernet/meta/fbnic/fbnic_hw_stats.h  |  12 ++
->  .../net/ethernet/meta/fbnic/fbnic_netdev.c    |   3 +
->  drivers/net/ethernet/meta/fbnic/fbnic_pci.c   |   8 +-
->  10 files changed, 278 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/net/ethernet/meta/fbnic/fbnic_debugfs.c
+> Also, BTC only affects some AMD parts (not Family 19h and later for
+> instance).
 
-Just FYI this patch does not seem to apply to net-next/main. Did you
-rebase?
+This is why it's important to spell out all the different cases in the
+comments.  I was attempting to document the justifications for the
+existing behavior.
+
+You make some good points, though backing up a bit, I realize my comment
+was flawed for another reason: the return thunks only protect the
+kernel, but RSB filling on context switch is meant to protect user
+space.
+
+So, never mind...
+
+-- 
+Josh
