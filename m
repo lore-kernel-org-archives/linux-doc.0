@@ -1,81 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE542139DB;
-	Tue, 12 Nov 2024 11:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E7F1BCA11;
+	Tue, 12 Nov 2024 11:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731410420; cv=none; b=HsdQD15AmoRaoLC0gCvem2cbwJQ0xc/8xTE0L7F0hiyr6cxPGNfSqaVb7wWjy0Yt4Op4aH1+97joKEFrhqcYWmwUgzNx2cZJbk8oAIH4TgD8ep29YahyDW5bawlOdokcAX+f30b1u9q9qYbBgZ2lZ8iZHwihrUEWTmerPLErONs=
+	t=1731412736; cv=none; b=Qbo6G8k8npuF2xUOrDVU3Do+0cMtvGbQKF6OlBiovuSk7vzDY894PqDHGvVukeMT1GtlOA6GCBswk5L4Lg/24ilRRGBSyY5AuKovfG6BJoI9xvNNoSy4ZeZr9QpSm5cmyjTDCt0qjJlv8xuYuA+StGj6JRnJ3IcpW4HLiMJ8QpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731410420; c=relaxed/simple;
-	bh=fKs2r75/cAl/ZrCU2zDlJuBSedEVT9EwM2Fl5D3rmxs=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=daUJGp/MkLE5EXGySokF6DHKuWO2iZBONnMYduUWw63vsqs7JhE+EFjyfd/5AuiHu1k8NRGcUyWJ3D8RJWYRVEsRmto1Y5DxPd396k/lkFWcNvxU9t2UVtB1tqg2FJ21YwIKf+oX1yScR0++0vVRQiYRYtjkHib63rOC5koXeok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=midmylww; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731412736; c=relaxed/simple;
+	bh=TUNmIAPn6+pKk5nzKQZ1OjgyCLxgxK7kaAVkQhXghrw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uHCDUQlNftbl/GL43xtYnfDSKYlmra4qSAF6j9K32//FRfl1SaBEg8bCtwE6hkJ6KGZqGsHywR07PVWToWCjza0oKrE/YWffO5/Lb4N6gkpLGKcc8Pbx3v3u9yDABdJZtbjnm4iy0hWnYQ9qHR07FQMJB+KOA62WeshA7Ula7MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=NW0Cnhro; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="midmylww"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3535C4CECD;
-	Tue, 12 Nov 2024 11:20:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731410419;
-	bh=fKs2r75/cAl/ZrCU2zDlJuBSedEVT9EwM2Fl5D3rmxs=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=midmylww6kqSVSfN6Sc0NJrjqgzXCKnImjERTHhY71vXDGcGZBUDX8UvAclmTb54L
-	 2050ATlVZtSycPuXyD1BgQR6RIEx2+4XAZguqVwEpWMQzU7Ha9g6rNjZpl1mhuaQLb
-	 PBY5aFWftkbB66rjYSe2LqMPsGbQP1LADKBYx/sVomVUyVb69R3OXsTQ/9ewEanZl2
-	 xmm+FyZYZUBZd5auzmS2lbxDMFGn+KacPvMk/KQ1Meq3t1lRMwbv/6vaqjC7Wgmmpq
-	 JqaNPByqbDqi9RohW0uFuuEjK1YLMDiubkxLF0lKyvKtu8kG7rtqo3WB/Dch2EKAdK
-	 G2UJaeJUzgkjQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33F313809A80;
-	Tue, 12 Nov 2024 11:20:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="NW0Cnhro"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3B28440E0219;
+	Tue, 12 Nov 2024 11:58:50 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id K0mb3qn6eQ2E; Tue, 12 Nov 2024 11:58:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1731412724; bh=pUkUnh5KepZX+fycGuZ0Jah4PiIPhoLoA1x5Uf4hXQk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NW0CnhroUylwEPqyeQXOXk8N75MoxkYs5HX51aINwz3/N/Sc7QvF6fhvnOXKzoZRf
+	 xHSLAW//IkLuS48CV8o11VTS6McVekMZAMwpamDs4YVLPhQDNmf64ZEaxxus0GGAh1
+	 qSm0zujyK+5Aa3NjLrR3izo2/Fax5WjEvrBPKKyOJlpU30V3d45abZlL1dz5IgzPRx
+	 GXYmy23QGxIHNOEK1PhwMAAO87iixqGjQNabWLH+NZbhIaRq+QqJpHr/7VqLypeI2m
+	 ScUs8D9oodqzw53BS8LofG4633bSXF0nx64RDWGHc8Ia/zrNSdtEYHGYo8tFxRfGdh
+	 4FspwmabVVWm0tBOtytantZjshy+wSmwCh5zk9kS0vs3PHtgq0xZk6hPsVqUN8TGMe
+	 Ehd0UMrKfLP0EW6Kvj5FMTGqr49PWzuOI+XzN4N4RnPJ9CSv9Kx0lE5HavG8Oet23k
+	 40HNeBNrEPuBeq0ifurBg2yRkYUwIjnx1YzxQ6dFQr47sTeKYNVE08/QY6aZWncPwu
+	 LSFoR6is7HANMt4McbKCzKnrpbjq0T2OSV79cnZD4yOSD8iw7LludXMY0cYHfsbLr2
+	 oLGPqeuAjK/Vnit3Shi4DXwmAxSwAC2+k9HHEtponuRrHhnTgrI+L79/9oN18K7WEk
+	 B77eLJ7GBNfM7YBGD/6uFgVc=
+Received: from zn.tnic (p200300ea973a31e1329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:973a:31e1:329c:23ff:fea6:a903])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 42A8D40E019C;
+	Tue, 12 Nov 2024 11:58:19 +0000 (UTC)
+Date: Tue, 12 Nov 2024 12:58:11 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, tglx@linutronix.de, peterz@infradead.org,
+	pawan.kumar.gupta@linux.intel.com, corbet@lwn.net, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
+	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com, sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
+	david.kaplan@amd.com, dwmw@amazon.co.uk
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <20241112115811.GAZzNC08WU5h8bLFcf@fat_crate.local>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
+ <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v6] net: Implement fault injection forcing skb
- reallocation
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173141043002.488443.17713500872713771818.git-patchwork-notify@kernel.org>
-Date: Tue, 12 Nov 2024 11:20:30 +0000
-References: <20241107-fault_v6-v6-1-1b82cb6ecacd@debian.org>
-In-Reply-To: <20241107-fault_v6-v6-1-1b82cb6ecacd@debian.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: corbet@lwn.net, akinobu.mita@gmail.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- akpm@linux-foundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
 
-Hello:
+On Mon, Nov 11, 2024 at 05:46:44PM -0800, Josh Poimboeuf wrote:
+> Subject: [PATCH] x86/bugs: Update insanely long comment about RSB attacks
 
-This patch was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+Why don't you stick this insanely long comment in
+Documentation/admin-guide/hw-vuln/ while at it?
 
-On Thu, 07 Nov 2024 08:11:44 -0800 you wrote:
-> Introduce a fault injection mechanism to force skb reallocation. The
-> primary goal is to catch bugs related to pointer invalidation after
-> potential skb reallocation.
-> 
-> The fault injection mechanism aims to identify scenarios where callers
-> retain pointers to various headers in the skb but fail to reload these
-> pointers after calling a function that may reallocate the data. This
-> type of bug can lead to memory corruption or crashes if the old,
-> now-invalid pointers are used.
-> 
-> [...]
+Its place is hardly in the code. You can point to it from the code tho...
 
-Here is the summary with links:
-  - [net-next,v6] net: Implement fault injection forcing skb reallocation
-    https://git.kernel.org/netdev/net-next/c/12079a59ce52
-
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Regards/Gruss,
+    Boris.
 
-
+https://people.kernel.org/tglx/notes-about-netiquette
