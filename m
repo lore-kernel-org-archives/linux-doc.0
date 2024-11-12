@@ -1,143 +1,241 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684332010E3;
-	Tue, 12 Nov 2024 01:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367CB157A59;
+	Tue, 12 Nov 2024 01:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731374294; cv=none; b=F1nIZb2374LtZyFMWGrLM0oZoXHfLtWsy0d2MQ2uhFU46GS78kNX6CScUXA6IZrilE6cHA1D4q/o1eJFskiKHM6Q/yDyCnqC9/xSBs+oHaEsXwj1mepIowSHCRGCalUGXeSci1D6z+DN9YRAEINHTGA5UI+YvaNXccFsz/i1HwQ=
+	t=1731376007; cv=none; b=fRZD1j57Vc51muolv7Hw4Jt8xNSpJd5hxug6UQ9XeuofUNo9AdgtGBKG6f0Chhcwka8McZtbNJNff2zGBKX7DqWwPt5VmF+AMm+aZ4xwAovcfQ96MP5fSMb3KQqPjn/vqsc61872bIg9HWMvE7p8JqDYbhHAsc5HcFHwHRWcxTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731374294; c=relaxed/simple;
-	bh=t13VTO4fFyiMFGbz+q+sUUKDddqPat8+PPWtPUpS8M0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UwiW+3+OuVgDNTK/0Nmopf2ZO3fbBQ94wo8gkRgZbM1i7oVQURLmQKTFJp8hafsOJbYSmJRCwj0u7mZjPQu0Cvl4X7aHaWbBwUo/fH9aeEww6SuIocd/Dbveu+zJolFCXZaKhjKwhnaXysns00CAxzjusOg2tFUC+WDbsH1vd18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGjE8eYm; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731376007; c=relaxed/simple;
+	bh=t4DRispja/rBIeZTUS8EcXZ3J1ffNNE/f2oEAh9MOBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=efvf7Qd4BfZUvq2pTjukveHFGyLczVpopra3S5tbzr6KTv3kY86rQTCbDaW0l0SY6HsZoZpKVQkU5tnDSXe/fMNxbLr7Pr3QbZ0dtBXXXZHK0K74JjTyF1qv1/4WDEPQjiuA9yp5NVIwzMx3kUvVwPabe73AlpoyZOSTJ3C+fH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VdDtksdk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGjE8eYm"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fb4ec17f5cso37288261fa.3;
-        Mon, 11 Nov 2024 17:18:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731374290; x=1731979090; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B3x1XD5BHJdM36ghcfeo4S6goN5EOgmQYPBVkMxbxS4=;
-        b=KGjE8eYmlE/R0ReGAiYZX3vZmZdur+ZXhGiZITMz8A1VyM3Z2/esQen/KMRHKLAby5
-         FnRqrRZqY1MY8gbp6JxVeoSkJi576O4vHXW9A8l7HflqlNPbujkEbTjhTmtCG3yDRXHn
-         18VL+PteHKzBpyUnHcMmaBEf3mn9jNf6XWXmI6NjFwI0SXpUG6B5eSlNEhBo4Iy1cwAY
-         X+3V6v75eScNbfgjaOZrKtuDWHBoq4Is1SumtHdhdqqNKTjWgwAZ0tHVTcPG57QKONXk
-         6r8WlCRhTs8Km9jCQ2PCMwAdy/FTRIMNm2qfrKA67aG9nNTyQH/Ka10q+Z+H5fncSPu7
-         fZkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731374290; x=1731979090;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B3x1XD5BHJdM36ghcfeo4S6goN5EOgmQYPBVkMxbxS4=;
-        b=e+6QEFQmN54mcCzaQozujfRdHfTQ5Ym/HmOEKGi1HlK0TC4ALNDQK/UalSnHJ8iUDO
-         jEaofRCLlmVSGaUhqBGDEZx8cwjJ2wcFd65VCtmOvamWkndCLSYPDw/P3IgAMiVSe6xv
-         ZyFi8+LIZF3qqXB0UkhlH4WFYrUChePUglc9Q1mP/wXBp4KPSxTPIDpN7nK17l3H2Rjb
-         8LhuEJsOi8r7lFCYXx+hekdBWBreFwFrNAw/AhXwQ8mm3GiAnIOOaDExKXkuGOn/Fc20
-         HzzW5mSRXP5ZUhdJFYXVgx4cuaN/KOQioA1Ri9InciXIA8/ANI0nIdak9c6yp1Zx9lxX
-         0IMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUD0P31gb1f0jZubB/5+qF/RqSd96w7pAN7DcIzdFzJG0g+TVAlpaRGfKdJocI30wUR22B9xOTRwgjMtLXg@vger.kernel.org, AJvYcCUaz9L9dEJKp3iDyitOg57aPAfoFPy8b5x3Yip2l2G34MV2BNuhrL03guGMw/jHDL63Oj6bwJsIHPY=@vger.kernel.org, AJvYcCUykP+u9Gb/tYYce/2VTDz3oAeypCDo1xVPCL+4MJgMd/4c8NUqHrnLU49rsNe7ASgn7/lyXlU2aesvcdM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJHSY29EqUJQclqz8R5u8lbqgeuUVpWUkm8Eo4VgAmf7w1iCf6
-	HrG0v98cx0AR1h7aPFPJ/D4mAOWyYWWjgvlo8/6mrpEyqO/HKZgmj/uwnx2hHDqrEgfCi/41KPA
-	HplebkE9UcfmtvmA63Q8V6yxpEWsVAaIeZZ0=
-X-Google-Smtp-Source: AGHT+IEwmboXLYvo02CMnnfmlr/DRNkR3zFp3GjNXL5pQnbWlS6gXAv2UwZYAn/D0Ru9vsEvZRK1Oo4bidFSWEiW98I=
-X-Received: by 2002:a05:651c:88a:b0:2fb:5014:c939 with SMTP id
- 38308e7fff4ca-2ff42750f6bmr3074981fa.41.1731374290279; Mon, 11 Nov 2024
- 17:18:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VdDtksdk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2075C4CECF;
+	Tue, 12 Nov 2024 01:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731376006;
+	bh=t4DRispja/rBIeZTUS8EcXZ3J1ffNNE/f2oEAh9MOBU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VdDtksdkWsJewWFnWeWj1DgQh0hTYxkIOHwakEVcfa1Ey2YiItPT+ygm3HtXsaHG/
+	 WEvobcWb0jJ4V9MVgp+u/otQt9aOYZahk8UZe2AvnUxwE/rM8b/MnSUYforQkBBD2X
+	 d2jHPs5RRDB6j0wzWuKa5nTRlxPPiyDO5Ub3Y/QxIZ4RbZiaaPoy3FLV6DICWvKm6w
+	 GW2o8gzgeoqxLMgKOEbwvu9AUCzN/K0JIHOHZODnpOleV6q0V97eWszH9NQfb+2zs/
+	 NxnsC5UUuiV9Jkv+n0yFITPrWXMGhvj5g1Uys2Rvr8hGFNHa0xsWpT6ZiMT2pdBQ1X
+	 +XSGKxJdgJX1Q==
+Date: Mon, 11 Nov 2024 17:46:44 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Amit Shah <amit@kernel.org>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	amit.shah@amd.com, thomas.lendacky@amd.com, bp@alien8.de,
+	tglx@linutronix.de, peterz@infradead.org,
+	pawan.kumar.gupta@linux.intel.com, corbet@lwn.net, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
+	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com, sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
+	david.kaplan@amd.com, dwmw@amazon.co.uk
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241031211411.58726-1-yesanishhere@gmail.com>
- <ZyQ5OJM8k1rGog2R@archie.me> <CABCoZhCapQBCj=UJ78XWtzier5m34zX+bwSo4bPxEVkOdZSxRA@mail.gmail.com>
- <ZzKnMLe-L7bOe9Tw@archie.me>
-In-Reply-To: <ZzKnMLe-L7bOe9Tw@archie.me>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Mon, 11 Nov 2024 17:17:58 -0800
-Message-ID: <CABCoZhC5w-uUgmsqb_m2t98NF5oftuoDTThvthoRK8m97bM+MA@mail.gmail.com>
-Subject: Re: [PATCH V4] Docs/sound: Update codec-to-codec documentation
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
 
-On Mon, Nov 11, 2024 at 4:54=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
-> On Sun, Nov 10, 2024 at 01:30:12PM -0800, anish kumar wrote:
-> > On Thu, Oct 31, 2024 at 7:13=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail=
-.com> wrote:
-> > >
-> > > On Thu, Oct 31, 2024 at 02:14:11PM -0700, anish kumar wrote:
-> > > > Updated documentation to provide more details
-> > > > for codec-to-codec connection especially around
-> > > > the scenarios and DAPM core details for C2C
-> > > > creation.
-> > > "Describe in more detail codec-to-codec connection, especially on
-> > > use cases and DAPM core details for C2C creation."
-> >
-> > Sorry, I like the way it is written.
->
-> What do you mean?
->
-> > > > +An ALSA-based audio system typically involves playback and capture
-> > > > +functionality, where users may require audio file playback through
-> > > > +speakers or recording from microphones. However, certain systems
-> > > > +necessitate audio data routing directly between components, such a=
-s FM
-> > > > +radio to speakers, without CPU involvement. For such scenarios, AS=
-oC(
-> > > > +ALSA system on chip) provides a mechanism known as codec-to-codec =
-(C2C)
-> > > "For such scenarios, ASoC (ALSA system on chip) ..."
-> > > > +connections, leveraging the Dynamic Audio Power Management (DAPM)
-> > > > +framework to facilitate direct data transfers between codecs.
-> > > > <snipped>...
-> > > > +To better understand the configuration inspired by the setup found=
- in
-> > > > +``sound/soc/samsung/speyside.c``, here are several key points:
-> > > > +
-> > > > +1. The presence of ``c2c_params`` informs the DAPM core that the D=
-AI link
-> > > > +   represents a C2C connection.
-> > > > +
-> > > > +2. ``c2c_params`` can be an array, and ``num_c2c_params`` defines =
-the size
-> > > > +   of this array.
-> > > > +
-> > > > +3. If ``num_c2c_params`` is 1:
-> > > > +
-> > > > +   - The C2C DAI is configured with the provided ``snd_soc_pcm_str=
-eam``
-> > > > +     parameters.
-> > > > +
-> > > > +4. If ``num_c2c_params`` is greater than 1:
-> > > > +
-> > > > +   - A kcontrol is created, allowing the user to select the index =
-of the
-> > > > +     ``c2c_params`` array to be used.
-> > >
-> > > I guess #3 and #4 can be combined, i.e. "If ``num_c2c_params`` is 1, =
-...;
-> > > otherwise if ``num_c2c_params`` is greater than 1, ...".
-> >
-> > I like it this way.
->
-> Sorry again but what do you mean? Keep it as-is?
+On Tue, Nov 12, 2024 at 12:29:28AM +0000, Andrew Cooper wrote:
+> This is my take.  On AMD CPUs, there are two unrelated issues to take
+> into account:
+> 
+> 1) SRSO
+> 
+> Affects anything which doesn't enumerate SRSO_NO, which is all parts to
+> date including Zen5.
+> 
+> SRSO ends up overflowing the RAS with arbitrary BTB targets, such that a
+> subsequent genuine RET follows a prediction which never came from a real
+> CALL instruction.
+> 
+> Mitigations for SRSO are either safe-ret, or IBPB-on-entry.  Parts
+> without IBPB_RET using IBPB-on-entry need to manually flush the RAS.
+> 
+> Importantly, SMEP does not protection you against SRSO across the
+> user->kernel boundary, because the bad RAS entries are arbitrary.  New
+> in Zen5 is the SRSO_U/S_NO bit which says this case can't occur any
+> more.  So on Zen5, you can in principle get away without a RAS flush on
+> entry.
 
-Yes it is more developer friendly.
->
-> Confused...
->
-> --
-> An old man doll... just what I always wanted! - Clara
+Updated to mention SRSO:
+
+	/*
+	 * In general there are two types of RSB attacks:
+	 *
+	 * 1) RSB underflow ("Intel Retbleed")
+	 *
+	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
+	 *    speculated return targets may come from the branch predictor,
+	 *    which could have a user-poisoned BTB or BHB entry.
+	 *
+	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack is
+	 *    mitigated by the IBRS branch prediction isolation properties, so
+	 *    the RSB buffer filling wouldn't be necessary to protect against
+	 *    this type of attack.
+	 *
+	 *    The "user -> user" attack is mitigated by RSB filling on context
+	 *    switch.
+	 *
+	 *    The "guest -> host" attack is mitigated by IBRS or eIBRS.
+	 *
+	 * 2) Poisoned RSB entry
+	 *
+	 *    If the 'next' in-kernel return stack is shorter than 'prev',
+	 *    'next' could be tricked into speculating with a user-poisoned RSB
+	 *    entry.  Poisoned RSB entries can also be created by Branch Type
+	 *    Confusion ("AMD retbleed") or SRSO.
+	 *
+	 *    The "user -> kernel" attack is mitigated by SMEP and eIBRS.  AMD
+	 *    without SRSO_NO also needs the SRSO mitigation.
+	 *
+	 *    The "user -> user" attack, also known as SpectreBHB, requires RSB
+	 *    clearing.
+	 *
+	 *    The "guest -> host" attack is mitigated by either eIBRS (not
+	 *    IBRS!) or RSB clearing on vmexit.  Note that eIBRS
+	 *    implementations with X86_BUG_EIBRS_PBRSB still need "lite" RSB
+	 *    clearing which retires a single CALL before the first RET.
+	 */
+
+
+---8<---
+
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+Subject: [PATCH] x86/bugs: Update insanely long comment about RSB attacks
+
+The long comment above the setting of X86_FEATURE_RSB_CTXSW is a bit
+confusing.  It starts out being about context switching specifically,
+but then goes on to describe "user -> kernel" mitigations, which aren't
+necessarily limited to context switches.
+
+Clarify that it's about *all* RSB attacks and their mitigations.
+
+For consistency, add the "guest -> host" mitigations as well.  Then the
+comment above spectre_v2_determine_rsb_fill_type_at_vmexit() can be
+removed and the overall line count is reduced.
+
+Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
+---
+ arch/x86/kernel/cpu/bugs.c | 60 +++++++++++++-------------------------
+ 1 file changed, 20 insertions(+), 40 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 47a01d4028f6..3dd1e504d706 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -1581,26 +1581,6 @@ static void __init spec_ctrl_disable_kernel_rrsba(void)
+ 
+ static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_mitigation mode)
+ {
+-	/*
+-	 * Similar to context switches, there are two types of RSB attacks
+-	 * after VM exit:
+-	 *
+-	 * 1) RSB underflow
+-	 *
+-	 * 2) Poisoned RSB entry
+-	 *
+-	 * When retpoline is enabled, both are mitigated by filling/clearing
+-	 * the RSB.
+-	 *
+-	 * When IBRS is enabled, while #1 would be mitigated by the IBRS branch
+-	 * prediction isolation protections, RSB still needs to be cleared
+-	 * because of #2.  Note that SMEP provides no protection here, unlike
+-	 * user-space-poisoned RSB entries.
+-	 *
+-	 * eIBRS should protect against RSB poisoning, but if the EIBRS_PBRSB
+-	 * bug is present then a LITE version of RSB protection is required,
+-	 * just a single call needs to retire before a RET is executed.
+-	 */
+ 	switch (mode) {
+ 	case SPECTRE_V2_NONE:
+ 		return;
+@@ -1818,43 +1798,43 @@ static void __init spectre_v2_select_mitigation(void)
+ 	pr_info("%s\n", spectre_v2_strings[mode]);
+ 
+ 	/*
+-	 * If Spectre v2 protection has been enabled, fill the RSB during a
+-	 * context switch.  In general there are two types of RSB attacks
+-	 * across context switches, for which the CALLs/RETs may be unbalanced.
++	 * In general there are two types of RSB attacks:
+ 	 *
+-	 * 1) RSB underflow
++	 * 1) RSB underflow ("Intel Retbleed")
+ 	 *
+ 	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
+ 	 *    speculated return targets may come from the branch predictor,
+ 	 *    which could have a user-poisoned BTB or BHB entry.
+ 	 *
+-	 *    AMD has it even worse: *all* returns are speculated from the BTB,
+-	 *    regardless of the state of the RSB.
++	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack is
++	 *    mitigated by the IBRS branch prediction isolation properties, so
++	 *    the RSB buffer filling wouldn't be necessary to protect against
++	 *    this type of attack.
+ 	 *
+-	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack
+-	 *    scenario is mitigated by the IBRS branch prediction isolation
+-	 *    properties, so the RSB buffer filling wouldn't be necessary to
+-	 *    protect against this type of attack.
++	 *    The "user -> user" attack is mitigated by RSB filling on context
++	 *    switch.
+ 	 *
+-	 *    The "user -> user" attack scenario is mitigated by RSB filling.
++	 *    The "guest -> host" attack is mitigated by IBRS or eIBRS.
+ 	 *
+ 	 * 2) Poisoned RSB entry
+ 	 *
+ 	 *    If the 'next' in-kernel return stack is shorter than 'prev',
+ 	 *    'next' could be tricked into speculating with a user-poisoned RSB
+-	 *    entry.
++	 *    entry.  Poisoned RSB entries can also be created by Branch Type
++	 *    Confusion ("AMD retbleed") or SRSO.
+ 	 *
+-	 *    The "user -> kernel" attack scenario is mitigated by SMEP and
+-	 *    eIBRS.
++	 *    The "user -> kernel" attack is mitigated by SMEP and eIBRS.  AMD
++	 *    without SRSO_NO also needs the SRSO mitigation.
+ 	 *
+-	 *    The "user -> user" scenario, also known as SpectreBHB, requires
+-	 *    RSB clearing.
++	 *    The "user -> user" attack, also known as SpectreBHB, requires RSB
++	 *    clearing.
+ 	 *
+-	 * So to mitigate all cases, unconditionally fill RSB on context
+-	 * switches.
+-	 *
+-	 * FIXME: Is this pointless for retbleed-affected AMD?
++	 *    The "guest -> host" attack is mitigated by either eIBRS (not
++	 *    IBRS!) or RSB clearing on vmexit.  Note that eIBRS
++	 *    implementations with X86_BUG_EIBRS_PBRSB still need "lite" RSB
++	 *    clearing which retires a single CALL before the first RET.
+ 	 */
++
+ 	setup_force_cpu_cap(X86_FEATURE_RSB_CTXSW);
+ 	pr_info("Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch\n");
+ 
+-- 
+2.47.0
+
