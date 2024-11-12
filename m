@@ -1,163 +1,154 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED9320B212
-	for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 08:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95EF1A256C;
+	Tue, 12 Nov 2024 10:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731401758; cv=none; b=IApKRXdvAJdo9YmNhtb9z39cUqIbb8aKCF2j7VYP7zST9+c+nFu9kxiTC3l76f5K3SkaE7JfJunSsWMxDhUx8aV7L+eHkSGMEQzPYZlAWZ3fdZn9RXhsuxk9TyuTfnF51o785PLtEbVVSqWD6Lwk7N9uic7/YzWIJjSOGMZFfvc=
+	t=1731406360; cv=none; b=mPqrdB5FTpwuPf00iNM5ydtA9gFmWnaJuLBNMk+hNziA+awoE0ZZke8uVLXIvbXDkmFj+SFvgUqur9vUBRcHJ2ACS39+AfCxoXgo/S6Ur5OTU2WvDWvxcrGoH5kwpv0rowDiV5AM/eAktGFaXKV7j5rP1jmzS3yyhrhwpazK3kU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731401758; c=relaxed/simple;
-	bh=O5cVEpVXtZFfq8PCUWtOOx1mqbt+t42g3fS9z83E5kU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZJ0AI9U1B1PTlIiVa/ByQ71sv/t37HH1y2OfeT6z/HmolltrdJm0bY4g9yg6sn/AxypKu371c1wznb4xNMDml923FenyDiIhH1fkiHx1BOU/XzoFTionNQjD/WkckLJMxqeYdGVQ4FZxa08wxjcgmtZzbOEhSlS+cUKOLW9J83c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4XngFL1Mlyz2DgtV;
-	Tue, 12 Nov 2024 16:53:58 +0800 (CST)
-Received: from kwepemd200012.china.huawei.com (unknown [7.221.188.145])
-	by mail.maildlp.com (Postfix) with ESMTPS id CA1D2180042;
-	Tue, 12 Nov 2024 16:55:46 +0800 (CST)
-Received: from huawei.com (10.145.6.51) by kwepemd200012.china.huawei.com
- (7.221.188.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Tue, 12 Nov
- 2024 16:55:45 +0800
-From: Zhou Wang <wangzhou1@hisilicon.com>
-To: <maz@kernel.org>, <tglx@linutronix.de>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<wangwudi@hisilicon.com>, Zhou Wang <wangzhou1@hisilicon.com>, Nianyao Tang
-	<tangnianyao@huawei.com>
-Subject: [PATCH v2] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
-Date: Tue, 12 Nov 2024 17:04:26 +0800
-Message-ID: <20241112090426.1876148-1-wangzhou1@hisilicon.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1731406360; c=relaxed/simple;
+	bh=10Vohnv0zoyoiQfJYw14Zr7DLSul2HBIMs87Qfknm0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fOW11d+oPUzcpnabDtyZrS4OVVUDj4bPWjjlIOK1GHaOjKdJpKhdBUkPGcvsitS5kqW0QJM0Oi+PCRC90I8BlSnwaGdiIApmNvc98Pw3e7YOKyVb9YHX0xax/PzG34Nh8O5jkcQEVhB7TmzLQ9dIyCe7+a0iel9UG6R5er49zWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HjlcHIwc; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HjlcHIwc"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2BB89E0008;
+	Tue, 12 Nov 2024 10:12:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1731406356;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BfZKRXZxR++lyRy1azbMldOQBrgpbj6acG83Qn22+g4=;
+	b=HjlcHIwcSXIt5eP+c7DKoz7xXiQIL5UUSMNhPCw2ksAJBF/yqWMqI9Q97zAQl1cZz/HD+V
+	lOcqojQQdH7J4OL+eBF7XCZcUPt5VZzX0gp9XAV11+8drcphQo2rM4/hF4M3Yl69VrJaTw
+	RFGNjndrOA4a0CxBcVnQxvDAa/w2gryISher10lChmLvuu/qDkCvR2uaq0TzKDOPv++YbQ
+	0zyj1Cp/TweI5jCJlvc3D6QQYFrWHkoAyLibTJujri2mJ/0Fm31jHCynHN8WnSUrDDhO6w
+	dfuwGkjQg+mLAr3+I5NQiukXWPgDkI8a0YJPWT1SbBNIoPbJ9V7ZitprBIQ/dQ==
+Date: Tue, 12 Nov 2024 11:12:32 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, donald.hunter@gmail.com,
+ danieller@nvidia.com, ecree.xilinx@gmail.com, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Willem de Bruijn <willemb@google.com>, Shannon Nelson
+ <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>, Jacob
+ Keller <jacob.e.keller@intel.com>
+Subject: Re: [PATCH net-next v19 03/10] ptp: Add phc source and helpers to
+ register specific PTP clock or get information
+Message-ID: <20241112111232.1637f814@kmaincent-XPS-13-7390>
+In-Reply-To: <20241111150609.2b0425f6@kernel.org>
+References: <20241030-feature_ptp_netnext-v19-0-94f8aadc9d5c@bootlin.com>
+	<20241030-feature_ptp_netnext-v19-3-94f8aadc9d5c@bootlin.com>
+	<20241111150609.2b0425f6@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemd200012.china.huawei.com (7.221.188.145)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-during unmapping operation, which will cause some vSGIs lost.
+On Mon, 11 Nov 2024 15:06:09 -0800
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-To fix the issue, it needs to send VINVALL command after VMOVP.
+> On Wed, 30 Oct 2024 14:54:45 +0100 Kory Maincent wrote:
+> > @@ -41,6 +43,11 @@ struct ptp_clock {
+> >  	struct ptp_clock_info *info;
+> >  	dev_t devid;
+> >  	int index; /* index into clocks.map */
+> > +	enum hwtstamp_source phc_source;
+> > +	union { /* Pointer of the phc_source device */
+> > +		struct net_device *netdev;
+> > +		struct phy_device *phydev;
+> > +	}; =20
+>=20
+> Storing the info about the "user" (netdev, phydev) in the "provider"
+> (PHC) feels too much like a layering violation. Why do you need this?
 
-Signed-off-by: Nianyao Tang <tangnianyao@huawei.com>
-Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
----
- Documentation/arch/arm64/silicon-errata.rst |  2 ++
- arch/arm64/Kconfig                          | 10 +++++++
- drivers/irqchip/irq-gic-v3-its.c            | 29 +++++++++++++++++++++
- 3 files changed, 41 insertions(+)
+The things is that, the way to manage the phc depends on the "user".
+ndo_hwtstamp_set for netdev and phy_hwtstamp_set for phydev.
+https://elixir.bootlin.com/linux/v6.11.6/source/net/core/dev_ioctl.c#L323
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 65bfab1b1861..77db10e944f0 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -258,6 +258,8 @@ stable kernels.
- | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
- |                | ,11} SMMU PMCG  |                 |                             |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 70d7f4f20225..d41cf6bf1458 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1232,6 +1232,16 @@ config HISILICON_ERRATUM_161600802
- 
- 	  If unsure, say Y.
- 
-+config HISILICON_ERRATUM_162100801
-+	bool "Hip09 162100801 erratum support"
-+	default y
-+	help
-+	  When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-+	  during unmapping operation, which will cause some vSGIs lost.
-+	  So fix it by sending VINVALL command after VMOVP.
-+
-+	  If unsure, say Y.
-+
- config QCOM_FALKOR_ERRATUM_1003
- 	bool "Falkor E1003: Incorrect translation due to ASID change"
- 	default y
-diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-index 52f625e07658..e98d13d0adf9 100644
---- a/drivers/irqchip/irq-gic-v3-its.c
-+++ b/drivers/irqchip/irq-gic-v3-its.c
-@@ -44,6 +44,7 @@
- #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
- #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
- #define ITS_FLAGS_FORCE_NON_SHAREABLE		(1ULL << 3)
-+#define ITS_FLAGS_WORKAROUND_HISILICON_162100801	(1ULL << 4)
- 
- #define RD_LOCAL_LPI_ENABLED                    BIT(0)
- #define RD_LOCAL_PENDTABLE_PREALLOCATED         BIT(1)
-@@ -3804,6 +3805,7 @@ static int its_vpe_set_affinity(struct irq_data *d,
- 	struct its_vpe *vpe = irq_data_get_irq_chip_data(d);
- 	unsigned int from, cpu = nr_cpu_ids;
- 	struct cpumask *table_mask;
-+	struct its_node *its;
- 	unsigned long flags;
- 
- 	/*
-@@ -3866,6 +3868,17 @@ static int its_vpe_set_affinity(struct irq_data *d,
- 	vpe->col_idx = cpu;
- 
- 	its_send_vmovp(vpe);
-+
-+	/*
-+	 * Version of ITS is same in one system. As there is no cache in ITS,
-+	 * and only cache in related GICR should be clean, so one VINVALL is
-+	 * enough here.
-+	 */
-+	its = list_first_entry(&its_nodes, struct its_node, entry);
-+	if ((its->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801) &&
-+	    is_v4_1(its))
-+		its_send_vinvall(its, vpe);
-+
- 	its_vpe_db_proxy_move(vpe, from, cpu);
- 
- out:
-@@ -4781,6 +4794,14 @@ static bool its_set_non_coherent(void *data)
- 	return true;
- }
- 
-+static bool __maybe_unused its_enable_quirk_hip09_162100801(void *data)
-+{
-+	struct its_node *its = data;
-+
-+	its->flags |= ITS_FLAGS_WORKAROUND_HISILICON_162100801;
-+	return true;
-+}
-+
- static const struct gic_quirk its_quirks[] = {
- #ifdef CONFIG_CAVIUM_ERRATUM_22375
- 	{
-@@ -4827,6 +4848,14 @@ static const struct gic_quirk its_quirks[] = {
- 		.init	= its_enable_quirk_hip07_161600802,
- 	},
- #endif
-+#ifdef CONFIG_HISILICON_ERRATUM_162100801
-+	{
-+		.desc	= "ITS: Hip09 erratum 162100801",
-+		.iidr	= 0x00051736,
-+		.mask	= 0xffffffff,
-+		.init	= its_enable_quirk_hip09_162100801,
-+	},
-+#endif
- #ifdef CONFIG_ROCKCHIP_ERRATUM_3588001
- 	{
- 		.desc   = "ITS: Rockchip erratum RK3588001",
--- 
-2.34.1
+Before PHC was managed by the driver "user" so there was no need for this
+information as the core only gives the task to the single "user". This didn=
+'t
+really works when there is more than one user possible on the net topology.
 
+> In general I can't shake the feeling that we're trying to configure=20
+> the "default" PHC for a narrow use case, while the goal should be=20
+> to let the user pick the PHC per socket.
+
+Indeed PHC per socket would be neat but it would need a lot more work and I=
+ am
+even not sure how it should be done. Maybe with a new cmsg structure contai=
+ning
+the information of the PHC provider?
+In any case the new ETHTOOL UAPI is ready to support multiple PHC at the sa=
+me
+time when it will be supported.
+This patch series is something in the middle, being able to enable all the =
+PHC
+on a net topology but only one at a time.
+
+> > +/**
+> > + * netdev_ptp_clock_register() - Register a PTP hardware clock driver =
+for
+> > + *				 a net device
+> > + *
+> > + * @info: Structure describing the new clock.
+> > + * @dev:  Pointer of the net device. =20
+>=20
+> > +/**
+> > + * ptp_clock_from_netdev() - Does the PTP clock comes from netdev
+> > + *
+> > + * @ptp:  The clock obtained from net/phy_ptp_clock_register().
+> > + *
+> > + * Return: True if the PTP clock comes from netdev, false otherwise. =
+=20
+>=20
+> > +/**
+> > + * ptp_clock_netdev() - Obtain the net_device reference of PTP clock =
+=20
+>=20
+> nit: pick one way to spell netdev ?
+
+Yup indeed.
+=20
+> > +	ret =3D ptp_clock_get(dev, ptp);
+> > +	if (ret)
+> > +		return ERR_PTR(ret); =20
+>=20
+> why do you take references on the ptp device?
+
+Because we only select one PHC at a time on the net topology.
+We need to avoid the selected PTP pointer being freed.
+
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
