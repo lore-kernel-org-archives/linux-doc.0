@@ -1,275 +1,72 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69819219C8D;
-	Tue, 12 Nov 2024 20:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246891A76D2;
+	Tue, 12 Nov 2024 20:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731442212; cv=none; b=KlQn3XjePOmh4FZeLTmPOyc8HLoX2xH59WXz/z6F0k8M4aW/MG+juCETNA6ZIslZSEAPp7wOyW291hqGt4cH/PdcvTcbL/WeZT972xKi/ShbiAi6FJFxWMKHJxbrDW+bfM6CXa2gF3gAQp6HT9iTWLU/Sn/RLAGTS2wl1TvDoek=
+	t=1731442330; cv=none; b=VDKkIrXz+IyoLoHks583Mp61zmhirDgBzsVpzs9M0+70gqmdNj3udXIZSaZ8BiFvIoDfoKVI57GMGnqnSXGHZJJ/Yb409NeWjkztgHXYuRdNiKAdwKLVLXcs1dXcb6bmcw4N4RsZtEU/jZcf9E2NqD8kVwgI0tjcP2nx53xhqf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731442212; c=relaxed/simple;
-	bh=Ft4reouLgmooGNp1IzuEgObU1EGpzYrvBVstwPJi/I4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pkdJEKDr6lx5A4cHvJRuIYutoXlocLJ5MZzmVo1blUWQvXF5qGRL0oBaYgynAYuiTh/pxJI6Uw19RgjPOG3rE/ToQyMk9i31TZwXKh5Ivrm/CRD2AfCacicAKceCVYouR76ohAaSVt2qNldzcIebHQwGgjYEbsfryQ2ocGu2CC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8quB+Ph; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731442330; c=relaxed/simple;
+	bh=Fu/1Rg21Fzm0n9/O98bf05emGXukx/vTkSyf0y3r0qo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ligNinFzZ68m2uzQSnk9LjcqLa0snDX2D/q+gABxSz1DsdmbN+1D6Pn3ISL/4RFOjouMGUZN/uQX5/yxYabsDaBTmWNKleSdQ9Q+IlD404FN7W+kz6GDkzpeWB39N3KeSC1EVmwXSCNnBhwxo6TxAk34mmNf8F5O7kGDWqdfmRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=r0ia7Rf7; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8quB+Ph"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3e604425aa0so3543129b6e.0;
-        Tue, 12 Nov 2024 12:10:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731442209; x=1732047009; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8gaVCPXgww8S01oVPq24IM08aAIF+M/sEyh1exT53yE=;
-        b=h8quB+PhAoBh2WGKBX4B8XjswMrgMZYRS9WBDulzGU9XEzIHqb84ThaK6vFupekTcS
-         6mGfhqubq06IEJFL0iaaktbMv5l0r/M9YQ3grE/vce5l6C1bJaGP7rWTLSrpnQWzQ/SS
-         KZ2XtvbVjz6BDCRlwPTf+2UcQ1uccg22+577ai2AQeC5YyHfv8zBdC1oo7ouc2FsBM9x
-         S3WGDL1E/buWW9HqO5gJktrcBrLrSH0OL7mgORFqHDU2ZUjN/Dz8cLOXgiO2QgIR9t2S
-         pArtJAhDnX3dJsh8DSm6NKH+Z0yH9g00V7ItMi+IzL80qk/ro7RP1EniMXVISzY9NVi7
-         JOLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731442209; x=1732047009;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8gaVCPXgww8S01oVPq24IM08aAIF+M/sEyh1exT53yE=;
-        b=T20ZSW+P5TqcaXA3hxm9bnuWRp9dREWo/rV2nXWKxnlKesRbB8u9sVXmrmoTQEBzff
-         tdwrghBMpnMplcqQc1nW1W7X4jAUa1fdhEhOcroY/gISe1rQhIxtr+ObGIfz+EbwaRl/
-         tPZrTF6ulbPoaL6hscy517OHzqtE/cb44wTZBl0sO+hpI2VWkeAfA9RLbKXjO/ufrpTE
-         hrr7ZlTMaiFlOl6mggjvlxZCoiVA95jsUdK9Phw5C6U4QCNM1Q8uymJidCABJQOOEnMR
-         XzRRMjiNpOV0g+69lPBgCCzuKzzWO/89UNTTNS0Mwebn/wz6ykEkXqDurLOVfM4md9aT
-         cPPw==
-X-Forwarded-Encrypted: i=1; AJvYcCU93nq77alP5ogLE9hhsvJjjPSxToenCh/KVFlv/Vzd9VUqT3dcMBnmCrpIE0Ae4jHKn1gGxWSPidk69pA=@vger.kernel.org, AJvYcCWOqr6vxk2iOSPElTEr5k9y08F8pW6Ex3cBg1dGwNM4FX0YWQiICr1x6/FajOPT6Yggk/ZdJquPKiF4@vger.kernel.org, AJvYcCWij9fOJ9En79RgIWJss1ImaqfO3CnT3W3PbTtbMOjBF6HfAlNxxL8y18b9Hbr8h+D/AIJlN13Lvz1C@vger.kernel.org
-X-Gm-Message-State: AOJu0YzL2c466OU/KItYXqWLT2VVK0bWdSRg88bVnbtVQffeqKJh0MKI
-	O4gqeDZE92SWDjonP/24y8ugLrLbZiw6dduE+Tne6Gp2DEjhGMaG
-X-Google-Smtp-Source: AGHT+IHHe3B1JqqFy8F72j5meLToyh+TFOncLelRarysE4VBAHZgBlb5vFh8P2CQ8ScXCIgpB3hI2g==
-X-Received: by 2002:a05:6870:5a6:b0:288:865e:1864 with SMTP id 586e51a60fabf-2955fc63dd2mr15035475fac.0.1731442208545;
-        Tue, 12 Nov 2024 12:10:08 -0800 (PST)
-Received: from raspberrypi ([2600:1700:90:4c80::3b])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-295e8eb8c83sm60791fac.4.2024.11.12.12.10.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 12:10:07 -0800 (PST)
-Date: Tue, 12 Nov 2024 14:10:06 -0600
-From: Grant Peltier <grantpeltier93@gmail.com>
-To: robh@kernel.org, linux@roeck-us.net, geert+renesas@glider.be,
-	magnus.damm@gmail.com
-Cc: grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v7 2/2] dt-bindings: hwmon: isl68137: add bindings to support
- voltage dividers
-Message-ID: <f7ac200e982961ff733de27a5c4505c04d68b6f3.1731439797.git.grantpeltier93@gmail.com>
-References: <cover.1731439797.git.grantpeltier93@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="r0ia7Rf7"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2FB50403E4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1731442328; bh=Fu/1Rg21Fzm0n9/O98bf05emGXukx/vTkSyf0y3r0qo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=r0ia7Rf7FAZyI4nJFwj77F2Pqf3jumnN6ehnVylqM7eNlhsKlNwfSdkp+7n+I7TrG
+	 m7zrey0jzQOzZOxGoC1DuF5qb5jkEoj6jDCAIINek3nvSeGL6tAS3tR4IBfox+53xJ
+	 IN2A9n6HtEYbrEya4CrdFf9QYoUzQFKDkjaZl9kpRraj3pHoV+41S6jYE0TmJbguQc
+	 yAQgMNthoKRywfKPC2jilolx6/T/qBtDTFN3WWg3yG/v0nH6ixDh+BRT6zE/l4D/IC
+	 tIehhc0KjrYR/SyWk4DbxE/q4fTniIf27E0j04y1lYXAL+gUNfgqjPM7zq/peJC+SY
+	 24ufMcXZi4bIQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2FB50403E4;
+	Tue, 12 Nov 2024 20:12:08 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: David Lechner <dlechner@baylibre.com>, anish kumar
+ <yesanishhere@gmail.com>, broonie@kernel.org,
+ u.kleine-koenig@pengutronix.de, Jonathan.Cameron@huawei.com,
+ pstanner@redhat.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] Documentation: devres: add missing mailbox helpers
+In-Reply-To: <8dee409f-4b38-4168-9316-1fd15c97fc89@baylibre.com>
+References: <20241106235217.94718-1-yesanishhere@gmail.com>
+ <8dee409f-4b38-4168-9316-1fd15c97fc89@baylibre.com>
+Date: Tue, 12 Nov 2024 13:12:07 -0700
+Message-ID: <87ikssqkiw.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1731439797.git.grantpeltier93@gmail.com>
+Content-Type: text/plain
 
-Add devicetree bindings to support declaring optional voltage dividers to
-the rail outputs of supported digital multiphase regulators. Some
-applications require Vout to exceed the voltage range that the Vsense pin
-can detect. This binding definition allows users to define the
-characteristics of a voltage divider placed between Vout and the Vsense
-pin for any rail powered by the device.
+David Lechner <dlechner@baylibre.com> writes:
 
-These bindings copy the vout-voltage-divider property defined in the
-maxim,max20730 bindings schema since it is the best fit for the use case
-of scaling hwmon PMBus telemetry. The generic voltage-divider property
-used by many iio drivers was determined to be a poor fit because that
-schema is tied directly to iio for the purpose of scaling io-channel
-voltages and the isl68137 driver is not an iio driver.
+> On 11/6/24 5:52 PM, anish kumar wrote:
+>> mailbox api's were missing from the devres documentation.
+>> This patch adds them.
+>
+> I've been wondering... Is it really that useful to have all
+> of the devn_ functions listed in the documentation?
 
-New schema file named isil,isl68137.yaml to align with the corresponding
-driver name and pre-existing bindings ported from trivial bindings.
-However, all new device bindings use renesas as the vendor prefix
-since Renesas acquired Intersil and now maintains all documentation
-for the devices.
+Not particularly, no.
 
-Signed-off-by: Grant Peltier <grantpeltier93@gmail.com>
----
- .../bindings/hwmon/pmbus/isil,isl68137.yaml   | 148 ++++++++++++++++++
- .../devicetree/bindings/trivial-devices.yaml  |   6 -
- 2 files changed, 148 insertions(+), 6 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
+Far better would be to use the docs build system to bring in the
+kerneldoc comments that are there for at least a good subset of those
+functions.
 
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
-new file mode 100644
-index 000000000000..bac5f8e352aa
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
-@@ -0,0 +1,148 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+
-+$id: http://devicetree.org/schemas/hwmon/pmbus/isil,isl68137.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas Digital Multiphase Voltage Regulators with PMBus
-+
-+maintainers:
-+  - Grant Peltier <grant.peltier.jg@renesas.com>
-+
-+description: |
-+  Renesas digital multiphase voltage regulators with PMBus.
-+  https://www.renesas.com/en/products/power-management/multiphase-power/multiphase-dcdc-switching-controllers
-+
-+properties:
-+  compatible:
-+    enum:
-+      - isil,isl68137
-+      - renesas,isl68220
-+      - renesas,isl68221
-+      - renesas,isl68222
-+      - renesas,isl68223
-+      - renesas,isl68224
-+      - renesas,isl68225
-+      - renesas,isl68226
-+      - renesas,isl68227
-+      - renesas,isl68229
-+      - renesas,isl68233
-+      - renesas,isl68239
-+      - renesas,isl69222
-+      - renesas,isl69223
-+      - renesas,isl69224
-+      - renesas,isl69225
-+      - renesas,isl69227
-+      - renesas,isl69228
-+      - renesas,isl69234
-+      - renesas,isl69236
-+      - renesas,isl69239
-+      - renesas,isl69242
-+      - renesas,isl69243
-+      - renesas,isl69247
-+      - renesas,isl69248
-+      - renesas,isl69254
-+      - renesas,isl69255
-+      - renesas,isl69256
-+      - renesas,isl69259
-+      - isil,isl69260
-+      - renesas,isl69268
-+      - isil,isl69269
-+      - renesas,isl69298
-+      - renesas,raa228000
-+      - renesas,raa228004
-+      - renesas,raa228006
-+      - renesas,raa228228
-+      - renesas,raa229001
-+      - renesas,raa229004
-+
-+  reg:
-+    maxItems: 1
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+patternProperties:
-+  "^channel@([0-3])$":
-+    type: object
-+    description:
-+      Container for properties specific to a particular channel (rail).
-+
-+    properties:
-+      reg:
-+        description: The channel (rail) index.
-+        items:
-+          minimum: 0
-+          maximum: 3
-+
-+      vout-voltage-divider:
-+        description: |
-+          Resistances of a voltage divider placed between Vout and the voltage
-+          sense (Vsense) pin for the given channel (rail). It has two numbers
-+          representing the resistances of the voltage divider provided as
-+          <Rout Rtotal> which yields an adjusted Vout as
-+          Vout_adj = Vout * Rtotal / Rout given the original Vout as reported
-+          by the Vsense pin. Given a circuit configuration similar to the one
-+          below, Rtotal = R1 + Rout.
-+
-+            Vout ----.
-+                     |
-+                  .-----.
-+                  | R1  |
-+                  '-----'
-+                     |
-+                     +---- Vsense
-+                     |
-+                  .-----.
-+                  | Rout|
-+                  '-----'
-+                     |
-+                    GND
-+
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        minItems: 2
-+        maxItems: 2
-+
-+    required:
-+      - reg
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      isl68239@60 {
-+        compatible = "isil,isl68137";
-+        reg = <0x60>;
-+      };
-+    };
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      isl68239@60 {
-+        compatible = "renesas,isl68239";
-+        reg = <0x60>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        channel@0 {
-+          reg = <0>;
-+          vout-voltage-divider = <1000 2000>;  // Reported Vout/Pout would be scaled by 2
-+        };
-+      };
-+    };
-diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-index 0108d7507215..5afe09026938 100644
---- a/Documentation/devicetree/bindings/trivial-devices.yaml
-+++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-@@ -155,12 +155,6 @@ properties:
-           - isil,isl29028
-             # Intersil ISL29030 Ambient Light and Proximity Sensor
-           - isil,isl29030
--            # Intersil ISL68137 Digital Output Configurable PWM Controller
--          - isil,isl68137
--            # Intersil ISL69260 PMBus Voltage Regulator
--          - isil,isl69260
--            # Intersil ISL69269 PMBus Voltage Regulator
--          - isil,isl69269
-             # Intersil ISL76682 Ambient Light Sensor
-           - isil,isl76682
-             # JEDEC JESD300 (SPD5118) Hub and Serial Presence Detect
--- 
-2.39.5
+Thanks,
 
+jon
