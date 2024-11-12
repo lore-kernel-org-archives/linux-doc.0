@@ -1,131 +1,103 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C9B43AA1;
-	Tue, 12 Nov 2024 21:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64F743AA1;
+	Tue, 12 Nov 2024 21:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731447693; cv=none; b=ERJO6f5PhUL5lpBoQz8FeqzbQCURXIB7jte/pRiBp00CEPrcNQH48wEMEC8xv9Jwa9AJZCNS90flyoKK0ixTJ2vBIxSVP6QT4guFnMnaR3Vdsna1W4rP9AinlJm9SfGMMULr8GHYuGQc2OGjZPsI0s5KRmAHII3O3zSJ/GZCBfk=
+	t=1731447855; cv=none; b=BcJMk4PE+6XYbXYnKylR3+aP4jdJpeDsCVgVu+/6IXhHA/vCd5LOCNVLxdsk3YW7juaRK3brc6qAfK/Hae6g1BGjGt+YVV3Z3NZeUhCvMzz6+1HR+g2BdMlQRy6upfYe1i7AJbmClMyizf1bh5Q7DPgH80ZBSCIWwdbAu2S9cNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731447693; c=relaxed/simple;
-	bh=KtnVxQVsskG1USUpb1Ic8P4L+45XhIprxg4BVAU8c3k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WZ6r7AdX0p+0qLKKwQpWn/dYn0wdDOgNrBX1HCtF8Sat1Ww4pQGt8x1h1bRcnv3KeES2yXy1142ZkncyZXqzc5KS1ZX7J6Jo84GkD1IffKL6Uv0Qrd4ZR7tiZELjKnaVgU68FHLOZffeAWMl3kR1CzBHyF6yA3Fw79pLLCuZFdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvM+mkfU; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731447855; c=relaxed/simple;
+	bh=A7B3sLUFPVOwvWzKLuaKlJTuWFPFoeCThHlOCtBbVZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BgRVLYPxbd/I7IZgi4Ss3YfLQA+6R77g5PzXRjrD3Oc6buPhEkO1US6YMyXp7/TuffYVEN0zgsMI6fk9TL2yuiJPybMrQbU0q5xetw8QDR8F1DMAPp6yxR51OyjRevSUeyBXRLg2mgdgpmZv5otk6Fk9DpSbCTYVV7GbmBRzGlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJIz7DUy; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MvM+mkfU"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb5be4381dso53999921fa.2;
-        Tue, 12 Nov 2024 13:41:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731447689; x=1732052489; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FRngAeELuwQJtRBB1/POe1L4vH51gEWaywFmKgXDLzY=;
-        b=MvM+mkfUfmBwJzfAMkLSa3XGs6lXiHnOIIR6xTHCsGFUT8sGFrqTZBn1Zm7B7Z9JJu
-         Y5W6UBxhRTEAduNFoFI1nXB+3xiGuALc6iTrF9I8Kedkzliabc0bgLUDxFmeePkTBy7L
-         Nklto2iVJbctyTWNsuJuLpbO+swpvmhUn+kGyLZkAvjJcvv+aQuAZd/BkUQPGyIU1iCT
-         AfjOE1GAKivSnTWL/5dGXVPmnrn/9KOMl6y14RPBybCFpdtU9KzDxMYmDnWz+HwOkSoU
-         7AjJCiiOLmONILXMwka4eWWEqfUplQVkhaGxPF8PnEtIIk00g77rzg2t0kOPgHe9el8L
-         Pqpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731447689; x=1732052489;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FRngAeELuwQJtRBB1/POe1L4vH51gEWaywFmKgXDLzY=;
-        b=AEgXiuGh1uwtXhfjX2MDm4bX1nFov1cUwdLojcGnSwMDSwBJ+NDERTEoph83iZdRts
-         wpyCz5uvGIPCffaeLB5rj7gpRuJcmnZT83grxqUd1V7zcPbhvjor/jWEkKiUBDgUyS9x
-         qAMwAHxShk4gIMHH82amgn6X6wzn3VGwuisXKtz3sHcQIgxUAhcd1i/uHH/nGGPFSEyJ
-         XTIcHmhkYFA262HKohVpAY5xCrpJgSCxAedvlKu6dRYddFlleZ+m5LeUEzyRIpKgePEv
-         T8lkbJUrnIFwkD7E8flOmnXeOrHe7cwljmeEO4OjgWshMTRln2XgTMntuRTYGMEqKfFf
-         UAsA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6ghQmNIswJe4/byy4b3z2mu9TeAoCCxdarSxU4D1PhmiLqq8iMslvEy1aCklZoGnqpoEFpl5yaiyOhssJ@vger.kernel.org, AJvYcCXNsBANpi55icXDmy7dD904wKRfqXTP8yYIQFFvd+90Bm6ls0XT+XOehfBCl/KKYoBbndcABGGKpkc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUqW7ie/SF+zxmjqz8MN1zQBQYELy7GRVQ+yrN0RgftrLf8nvt
-	nJc4/P6OwxRJ1zeAQsHaCM3S0FDrDg56Wrf81DZkgDVLs95SsA8LHhTVS/rV/23PaQ88fUcfLry
-	YAD2IMVGCwUpTTYScyESXLHXEboE=
-X-Google-Smtp-Source: AGHT+IENMuhrw0g7Zkg4wFiRcXgNlRLJsvSoukbMIIkcwCcSQPJJsJGcIAvElPiN+4GE5DtJiF7wnZaxIyJiN/egH/k=
-X-Received: by 2002:a05:6512:1386:b0:53b:1526:3a48 with SMTP id
- 2adb3069b0e04-53d862c57cdmr7890107e87.14.1731447689288; Tue, 12 Nov 2024
- 13:41:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJIz7DUy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731447853; x=1762983853;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A7B3sLUFPVOwvWzKLuaKlJTuWFPFoeCThHlOCtBbVZA=;
+  b=aJIz7DUyhBSoDMvy5kHDghklgOeI2gUoVqw2hTDZCK+GtiNagmG//pZ3
+   Eg2T17ijmkNElZM0Tt5aCZqgs7O4e+qmTZDM+KsASYw/KSJXwPWCjWyUO
+   u22qP6qk+s2nND5xM2auOqO6ak/N3Xb5MKPQfpJWIybiEtFiBhzS4MFuH
+   qKvSvJiwXAEHqkBy3vfHiYafoBi4y6uk5XheEOZW96txnB1T7SdXOhQqr
+   w6v+7s+TdDSt3kcpaLlfXKdDqEv8k/tDhzw9+nBIb/53xH01rrfdBwqyI
+   2jczHXwzZKsC+8TDYn/zvqQvLv6EEvCVwu4Sx2K9awzO77JfBZ7jTlqR0
+   Q==;
+X-CSE-ConnectionGUID: NtvsC4c5TgmH+oIG0BkA2A==
+X-CSE-MsgGUID: H4mJydZHQ9G+Kn6Bp8iXfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41873427"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="41873427"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 13:44:12 -0800
+X-CSE-ConnectionGUID: Ra3NatL0QYa+hh7ULACDQQ==
+X-CSE-MsgGUID: GoTOa4UxTGyaPCzOwuZJCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="92587877"
+Received: from ahpasha-mobl4.amr.corp.intel.com (HELO desk) ([10.125.147.30])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 13:44:11 -0800
+Date: Tue, 12 Nov 2024 13:43:48 -0800
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
+	peterz@infradead.org, corbet@lwn.net, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
+	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com, sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
+	david.kaplan@amd.com, dwmw@amazon.co.uk
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <20241112214241.fzqq6sqszqd454ei@desk>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
+ <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241107033303.97509-1-yesanishhere@gmail.com> <87a5e4qk7p.fsf@trenco.lwn.net>
-In-Reply-To: <87a5e4qk7p.fsf@trenco.lwn.net>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Tue, 12 Nov 2024 13:41:17 -0800
-Message-ID: <CABCoZhCp0oCTXFx911ftkUhHzkg5wwTVJyNQ1yKMWsocuwJM9A@mail.gmail.com>
-Subject: Re: [PATCH] docs: driver-model: generate kernel-doc for driver model
- using script
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: broonie@kernel.org, dlechner@baylibre.com, u.kleine-koenig@pengutronix.de, 
-	Jonathan.Cameron@huawei.com, pstanner@redhat.com, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
 
-On Tue, Nov 12, 2024 at 12:18=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
-rote:
->
-> anish kumar <yesanishhere@gmail.com> writes:
->
-> > In commit 63dc355 ("remove the driver-model structures from the
-> > documentation"), the kernel-doc text was removed, and users were
-> > instructed to read the documentation directly from the source code.
-> > However, using the kernel-doc script to extract and generate the
-> > documentation is a better approach, as it ensures the documentation
-> > remains in sync with the code. Additionally, it provides users with
-> > a more convenient way to access the documentation without needing to
-> > refer directly to the source code.
-> >
-> > This patch adds kernel-doc annotations for the driver model to
-> > facilitate the use of the kernel-doc script.
-> >
-> > Signed-off-by: anish kumar <yesanishhere@gmail.com>
-> > ---
-> >  Documentation/driver-api/driver-model/bus.rst    | 4 +++-
-> >  Documentation/driver-api/driver-model/device.rst | 4 ++--
-> >  Documentation/driver-api/driver-model/driver.rst | 3 ++-
-> >  3 files changed, 7 insertions(+), 4 deletions(-)
->
-> This does not work very well...
->
-> Documentation/driver-api/driver-model/bus:8: ./include/linux/device/bus.h=
-:3: WARNING: Duplicate C declaration, also defined at driver-api/infrastruc=
-ture:3.
-> Declaration is '.. c:struct:: bus_type'.
-> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-ver=
-sion 7.2.6 -function struct -function device ./include/linux/device/device.=
-h' failed with return code 1
-> Documentation/driver-api/driver-model/driver:5: ./include/linux/device/dr=
-iver.h:3: WARNING: Duplicate C declaration, also defined at driver-api/infr=
-astructure:48.
-> Declaration is '.. c:struct:: device_driver'.
->
-> Please actually perform a documentation build and look at the results
-> before sending patches.
+On Mon, Nov 11, 2024 at 05:46:44PM -0800, Josh Poimboeuf wrote:
+> +	 * 1) RSB underflow ("Intel Retbleed")
+>  	 *
+>  	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
+>  	 *    speculated return targets may come from the branch predictor,
+>  	 *    which could have a user-poisoned BTB or BHB entry.
+>  	 *
+> -	 *    AMD has it even worse: *all* returns are speculated from the BTB,
+> -	 *    regardless of the state of the RSB.
+> +	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack is
+> +	 *    mitigated by the IBRS branch prediction isolation properties, so
+> +	 *    the RSB buffer filling wouldn't be necessary to protect against
+> +	 *    this type of attack.
+>  	 *
+> -	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack
+> -	 *    scenario is mitigated by the IBRS branch prediction isolation
+> -	 *    properties, so the RSB buffer filling wouldn't be necessary to
+> -	 *    protect against this type of attack.
+> +	 *    The "user -> user" attack is mitigated by RSB filling on context
+> +	 *    switch.
 
-I followed the steps, but unfortunately, the warning did not appear
-in older kernels. I also couldn't find any mention of where to
-download the source code for the patches in this directory.
-It doesn't seem to be listed in the MAINTAINERS file. I think I can
-use the latest mainline kernel for sending patches for this directory
-where I can clearly see these warnings.
+user->user SpectreRSB is also mitigated by IBPB, so RSB filling is
+unnecessary when IBPB is issued. Also, when an appication does not opted-in
+for IBPB at context switch, spectre-v2 for that app is not mitigated,
+filling RSB is only a half measure in that case.
 
-Additionally, I noticed that this api already appears in infrastructure.rst=
-.
-Given that, do you think it makes sense to continue pursuing this patch,
-or should I modify it to reference the infrastructure.rst file instead?
-Or, would it be better to drop the patch altogether?
-
-Thanks for your guidance.
->
-> Thanks,
->
-> jon
+Is RSB filling really serving any purpose for userspace?
