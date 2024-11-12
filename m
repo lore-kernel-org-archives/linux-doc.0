@@ -1,147 +1,117 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D250217F27
-	for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 19:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E501A76D2;
+	Tue, 12 Nov 2024 20:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731441121; cv=none; b=bgzNJ8nFmbAZkx3KqkXg5YEyEf5R6BuPpsIY1CyXLOvDk/WszSU+vHohPDnhw4MaD1m/X4pMn0fzvTX6PPT28+OL9MjfcOWh2Pz3yDMuftR74runU8oNKdce5lEihmkLFtPR94GZvLq0lZeX1rrjzqlgQ9bqJ/rSLkaVKlXm8Lk=
+	t=1731441666; cv=none; b=G5i5rhoVeeS6oNs+LWp7tSfwySo5b3WYGQvXPxeKUitA7UXykyhLskXBC421X7dDKT07ClZ1nwpkcq9zR0/7wCTUtK2S6dZ4K30n8H4LkjNcjS0bpvkfyY4hr56TQI6cFRqQdkabvjV3bNSo9AUtXGW8d+oXaAihjtYFiLc6cfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731441121; c=relaxed/simple;
-	bh=cuSl46Z9K48sQguDicGT99gG9ngGrsn9DoXLZYO3cKc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fcns7VnL5W8KlJOFjrw6E/gflTiNF1rbGEs5Lx/K5mVgY4maDtu4oGRLdPJd/i4WmlssU8+WeBLHxxCCi2Nw8k/jQPA2x5xcUke/mSZZgmxH9Mm0AG+qRTqZVRud55y7NIBNzQJbsNdhR42BinhTVLHL3D018kOb8YXA1n3ti7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=K6akB4o2; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731441666; c=relaxed/simple;
+	bh=RXwZmyHbDcELcc1EhrddiOHZqNAKbFxq8U7X31wbOAE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=D4LZ3YVyYr+nBol354LmkDj4BTumA5nflUCtAMsq/hyNhabnRc0eQPUcgSDIHDIojHjM8VVQi2OX5L/EARqwIfAeKVlYadR6D6vDz5q2B4ZmwkVtoUX90lN00stsl7e7Zuj4CDx5aMXWY9+LQNnd7hmM17jRrDFNiA9gs4XSHW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=gydRKv/b; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="K6akB4o2"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-460a8d1a9b7so37921cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 11:52:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731441119; x=1732045919; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gDNBm/U0yVHZV8qUr/3jUbrM8ULh8NcvU59R50o8V1g=;
-        b=K6akB4o2mvio+bQETnxGG4IGjWeSO0Rwt3FRnvQEv350ZUujQgCdCIWnEnzeHNeKKY
-         d5Kqai/hd+0qw8yroJOW4kcNHWeAeNlgW3eYUT5U7FJ0HdbmVDSsCPjaZ3H8zdu5ylPH
-         mUxNo9YU2Iv0vNdltj1C5yuBZxiTASQfzO95ZKytpiL7atFyDEKlKxv1m4CSkk0t4tyd
-         +6tWGlajqrSvNRx6RDzSPQPKueLzSZshk4ljemP+jOfvKkULFw6lV8+Y4K3l55FDhE28
-         D5+rhPkTrCjtxcHlWFU+7hUPKbUr/qJ4pzqSO/ZJlp22NlDrScZSBQGdpd2PNsoswkt0
-         oDpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731441119; x=1732045919;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gDNBm/U0yVHZV8qUr/3jUbrM8ULh8NcvU59R50o8V1g=;
-        b=SBZaBeaI1zVL2+6cWOsHuCpm12TAhvxzMigunVWaQAGQOJt/OBOeH10Loz7Q1xszYT
-         CjDLPK1c2NRGAQbBnnqt56VWmHYd+dydaCPbh/33Ma/PByID+v9swZYrOCho3Oust8fp
-         KyLMGVGPr8PgcEQRMF4LVVNau6gYV426ONf03qsJrnEfxX7hDxm0+Nz/FM/Z3zuZJYoQ
-         at7kAWnMRWZ+ya7WurEx+JxX2YeCC98Ha3iBSWQq8+HhrsMf0hF3Y6Mxirtji9hDp/lp
-         pWTFrHMk4SpYAvGUAW18KaAgyYj4IxONfHRPOhj1Xb/UPsQfnxERm9gTThRG3iD+pWXk
-         UUAw==
-X-Forwarded-Encrypted: i=1; AJvYcCWRFIutTQw+r05xBqRAx7bGoFpXkPk+1OyJbV2kLtwjhN1NBtXC19nHYCN4Ia/ejwY0wU0iz+ijzGI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUYAQaTpr1pl+qsZhl0PgOvHwezIc4i1SGIdMSfDf+MFwF9opz
-	PEDczKalOzNV9CsXadlHoIywTiNW2FJJrKbdeEXr8YCDV8Tou/itAUCtXc6XWg7biCfF+QUWLEG
-	Zk228wwj2kMEADgWc/sq/PKSSr2CEvkb7aFmW
-X-Gm-Gg: ASbGncs4ChVVFHkmpqUj42l9SWePxYDHoPdQTy995nwtDzp7JbuB61tKSF3R0HYPFzB
-	08K0IFCLqRDjwOge3EOn6431+cOcNEmG2zGZCFgNdwmtZ6uPwZztliu5KMOX+xQ==
-X-Google-Smtp-Source: AGHT+IG02KzRz0I4R7IHawM0fVL6bMMsHycSuvnA+0xsEOeEU7+UlfzUSrWR2D5DsFWXSW6GCTA5mbmd8oPsAM4avhk=
-X-Received: by 2002:a05:622a:2a94:b0:461:3e03:7388 with SMTP id
- d75a77b69052e-4634be3aa39mr101821cf.25.1731441118826; Tue, 12 Nov 2024
- 11:51:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="gydRKv/b"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ACJe5oA018239;
+	Tue, 12 Nov 2024 20:00:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=hbhBz1
+	Oy+jKfbQqQt1BOFteePij3tic9j7u6NDmqbSE=; b=gydRKv/bl1JXnA+Sr18U47
+	VgT1tad+1a0+t4+ElPb5Pk13SX5CgXmxqiu2C2w5s/BO6F6kiYr5aQnY9AQbGIJ0
+	ERJV0eLPznDa1CKYM7mwAoVUQTuP4Np9i0rE+DatzGEBSPB0D3xiBvHKByh5W6+s
+	akYUR35F4FPw5vxaqFoGebU4qREtUqp003vT2yLjzS9q6MY3synIJajiZO3C+jGh
+	IygVhaN1LaCPE6CxlQNms0xoIBqdbhBPmYsHtOzYJWxF6OS0PixVwhemaLc6P9gS
+	aIJwLwAO6IzNvVwsZTubcqkc81GDVJLQTvUvmh+4xy7vCgs1cBszCVNBYxwktFhw
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42vdcer2kf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 20:00:40 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4ACK0eRb026341;
+	Tue, 12 Nov 2024 20:00:40 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42vdcer2kb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 20:00:40 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4ACJ6a5b029721;
+	Tue, 12 Nov 2024 20:00:39 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42tkjkvn0k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 20:00:39 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4ACK0dUk44761372
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 12 Nov 2024 20:00:39 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1786258052;
+	Tue, 12 Nov 2024 20:00:39 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 89AE258056;
+	Tue, 12 Nov 2024 20:00:38 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.31.103.152])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 12 Nov 2024 20:00:38 +0000 (GMT)
+Message-ID: <6679269b50c54bc9796fa4093ff8bbdbced26148.camel@linux.ibm.com>
+Subject: Re: [PATCH v2] tpm: Opt-in in disable PCR integrity protection
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>,
+        James Bottomley
+ <James.Bottomley@HansenPartnership.com>,
+        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Peter Huewe <peterhuewe@gmx.de>, Jason
+ Gunthorpe <jgg@ziepe.ca>
+Cc: Roberto Sassu <roberto.sassu@huawei.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date: Tue, 12 Nov 2024 15:00:38 -0500
+In-Reply-To: <D5KE7X6LMR5Z.AA8PPWDBPQP7@kernel.org>
+References: <20241107095138.78209-1-jarkko@kernel.org>
+	 <76d9ae11c339b589a8ec94f010e7439b7ce7d283.camel@HansenPartnership.com>
+	 <D5FZT0QPHL0O.231WD6VUHC48X@kernel.org>
+	 <10296fd8b0fcbf1d813577ef41738ffea12b70d1.camel@HansenPartnership.com>
+	 <dd51366e50de86e8a6002f2f53801c53a9b770f3.camel@linux.ibm.com>
+	 <D5KE7X6LMR5Z.AA8PPWDBPQP7@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241112194635.444146-1-surenb@google.com> <20241112194635.444146-6-surenb@google.com>
-In-Reply-To: <20241112194635.444146-6-surenb@google.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 12 Nov 2024 11:51:47 -0800
-Message-ID: <CAJuCfpHuPfkq4Js02gvAPy=g4mB+55hR9VhXsiTa6bv8uXXNCw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] docs/mm: document latest changes to vm_lock
-To: akpm@linux-foundation.org
-Cc: willy@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, 
-	oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com, 
-	peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, 
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	minchan@google.com, jannh@google.com, shakeel.butt@linux.dev, 
-	souravpanda@google.com, pasha.tatashin@soleen.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kernel-team@android.com, 
-	Jonathan Corbet <corbet@lwn.net>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: BSxIN89-wLj06R1EaXcmpdmF9rfiGIG-
+X-Proofpoint-ORIG-GUID: HMTXxOC6vnppCo9_9Vox7GchxXXu5dm1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
+ spamscore=0 clxscore=1015 malwarescore=0 mlxlogscore=534
+ priorityscore=1501 bulkscore=0 mlxscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411120157
 
-On Tue, Nov 12, 2024 at 11:47=E2=80=AFAM Suren Baghdasaryan <surenb@google.=
-com> wrote:
->
-> Change the documentation to reflect that vm_lock is integrated into vma.
-> Document newly introduced vma_start_read_locked{_nested} functions.
->
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+On Tue, 2024-11-12 at 19:57 +0200, Jarkko Sakkinen wrote:
+> On Mon Nov 11, 2024 at 9:53 PM EET, Mimi Zohar wrote:
+> > > The original open coded the empty auth append with struct
+> > > tpm2_null_auth since it's the only user.  However, since we do have
+> > > another user in trusted keys, it might make sense to consolidate.
+> >=20
+> > Instead of delaying the current patch from being upstreamed, perhaps th=
+is change
+> > can be deferred?
+>=20
+> Yes.
 
-Sorry, forgot to CC Mr. Corbet and linux-doc@vger. Added now.
+Thanks.  As soon as you repost the patch, I'll re-test.
 
-> ---
->  Documentation/mm/process_addrs.rst | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/proces=
-s_addrs.rst
-> index ed74685ffbf2..c8935509173e 100644
-> --- a/Documentation/mm/process_addrs.rst
-> +++ b/Documentation/mm/process_addrs.rst
-> @@ -675,7 +675,11 @@ RCU critical section, then attempts to VMA lock it v=
-ia
->  :c:func:`!vma_start_read`, before releasing the RCU lock via
->  :c:func:`!rcu_read_unlock`.
->
-> -VMA read locks hold the read lock on the :c:member:`!vma->vm_lock` semap=
-hore for
-> +In cases when the user already holds mmap read lock, :c:func:`!vma_start=
-_read_locked`
-> +and :c:func:`!vma_start_read_locked_nested` can be used. These functions=
- always
-> +succeed in acquiring VMA read lock.
-> +
-> +VMA read locks hold the read lock on the :c:member:`!vma.vm_lock` semaph=
-ore for
->  their duration and the caller of :c:func:`!lock_vma_under_rcu` must rele=
-ase it
->  via :c:func:`!vma_end_read`.
->
-> @@ -739,7 +743,7 @@ keep VMAs locked across entirely separate write opera=
-tions. It also maintains
->  correct lock ordering.
->
->  Each time a VMA read lock is acquired, we acquire a read lock on the
-> -:c:member:`!vma->vm_lock` read/write semaphore and hold it, while checki=
-ng that
-> +:c:member:`!vma.vm_lock` read/write semaphore and hold it, while checkin=
-g that
->  the sequence count of the VMA does not match that of the mm.
->
->  If it does, the read lock fails. If it does not, we hold the lock, exclu=
-ding
-> @@ -749,7 +753,7 @@ Importantly, maple tree operations performed in :c:fu=
-nc:`!lock_vma_under_rcu`
->  are also RCU safe, so the whole read lock operation is guaranteed to fun=
-ction
->  correctly.
->
-> -On the write side, we acquire a write lock on the :c:member:`!vma->vm_lo=
-ck`
-> +On the write side, we acquire a write lock on the :c:member:`!vma.vm_loc=
-k`
->  read/write semaphore, before setting the VMA's sequence number under thi=
-s lock,
->  also simultaneously holding the mmap write lock.
->
-> --
-> 2.47.0.277.g8800431eea-goog
->
+Mimi
