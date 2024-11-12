@@ -1,242 +1,221 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D4E218335;
-	Tue, 12 Nov 2024 22:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731450335; cv=fail; b=O1Acf0fOUCFqZDfjCa25I1l/yKIy5gxo2kNxHXfHKqEnqC6C7VgT8LGEhxNrsMFEKoNiJgSzlFhcTynHAzN+yljH99fxhKD49Oev+baFOIg8igU0hikVATPWo0qJ6JT8szRZ+2ct+YSZ7ecuXGKOpn7ShqI0Q+Ag5n/dLK7u8po=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731450335; c=relaxed/simple;
-	bh=dDio8vbbhaTuzUkdxJklRLF+UzVyboSUwbU3YYj9SkE=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cEHpG5q9Kjle4o2i3J1XirUB1OALLdS4ywCySTZtPu/UbfT8G/2nu45w+l67ixgyf2Xee8Nof3JsFopH53InzU4gaIFyaa0HQKhSBs2j3wOl52lllQbrDbf5mcfCkBwDC7nvrsqb1bxgHfIDkQizG5IfTIZlsIuZoaDkaRY80Fs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1EqC7bY; arc=fail smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD41481AF
+	for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 22:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731450769; cv=none; b=FFMns7kfFXEgg1RNL4/5RVF2gPQN2QH0JlWO+tJrBPNKa2sHkcBwgTkQfCshu4GuRoZC8RqfZajN5w4fC8ue2iMmXXVdufWNU6Nf/b58GZg2mzdB4zRIXlyiHdUPIQKJ+U+tUj3cjf3fSPa8dg0NcuhZbPTUWhW5af2+2AkIomc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731450769; c=relaxed/simple;
+	bh=mJc35foEwAPboPsY5krIFy7+u0SbnhLTgFGpw9XK0X0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZMg4JjIpeZI28dAZYhhOdQ9kw6YHIoQnvSu0AC20SwK2LN1PIvU54ktvErzYWCAjG/Tn/Hxc95XTwiPYbv5/6E8rI5pBDfZO5C6KZZFDjslG6sDtjqi8fmZa/ej067U9xzT4o+s4jFOsAAkH9vM6Bfd1f2rL+fDM6YUVi7K6Zhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JSmven7a; arc=none smtp.client-ip=209.85.166.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1EqC7bY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731450333; x=1762986333;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=dDio8vbbhaTuzUkdxJklRLF+UzVyboSUwbU3YYj9SkE=;
-  b=U1EqC7bYIu7TGr2cFJ3GKfEQuk96hssZri6vbpHEa7zwpMe7FXpc40cN
-   8tdTe3wznKnn3DyDnqziBp79YKLm/TqlIPd2IRHV3DL/5MZLLgKmd0DA6
-   AJpQEbWRVRF7sdMMQjiDXSlmB3NZ6xm7CLGlNwgsg3VdTJRTo3tGtX92S
-   FutiC9iRL8isUjC1mHXUJ02x1iHIR8or0CSWvqeVpD+Yt5mr+JD2TXQy4
-   tZGju5AHinNRazETG8Fjbda08sr7v1ApzbNXd55eOK+vP+YS3fhhxyShi
-   6dwSC9/UL9k/N7yX5NBY0+GdgH5iDaHtEN5vOmo+xsdRjSvzfpJ4nC44p
-   A==;
-X-CSE-ConnectionGUID: +CqrROc0Tkah9wCDfXHpzw==
-X-CSE-MsgGUID: H9hlEDJKTOuCOwC+ey2ECQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="30717884"
-X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="30717884"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 14:25:32 -0800
-X-CSE-ConnectionGUID: 8W5naNK1T8qutqyj2xSc6g==
-X-CSE-MsgGUID: hK9tGQxuRgOi06DsFBeivA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="87416852"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Nov 2024 14:25:26 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 12 Nov 2024 14:25:23 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 12 Nov 2024 14:25:23 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.175)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 12 Nov 2024 14:25:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pz5s8Bth4uDIv/9y3Q4X2lpwdltmscDwYfGDv7FbPgJbaIBoHu03iEaA5GXzHFn3rN4/EW2BqU2hqT6Z6jEIN2UA2ba9gYxYxILj2rmKt3esg/V+C5CXHlXSJF7ZG71Uk7TcgohigbyMi0+jRtg6+rTyAqPKgbvtaF6Y3AVBX2Q5ElzHbK9mQ6FzRjxSyKagttM9XgP96D3k+l0E6L7p3ESfahAz4CQh22rNoQL2kVLxOAfITycBw5qDiN68kklK3Tpu81prgrD9lvUKWAhVCMSn7N5PT6LkZY0VM6hMF/AlPVkvdirCtjyRRgD9lmn5Zo4o8c9T2HN/9NYWWfjhpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v81zssh42pUTrmacoxKZt+DoS7qdw+un0VI6vZuNo/U=;
- b=vUU96N7m1403tHKBE+RZgw1SDQmuRpRrpDOtkigKOIOdAK6duipT9+uLseLq7+IxS7IKFXnLxatVOvkRUWzcKJVIldVy8lWP0YlEPaev54npDiXE/FLsK3MOodPPbZ4LLnE1dyQp99q9WivfngCOBXLIl2O7JMEJfesKpHCRGNbOxeosgkXM30pGIz2Q4U1Wc+hbFL/UCIf5jvgeQpqUfbSldw2vDhY9J3CR5Ljkur0Ip4pIsNXbk68vLsCFwWZUzJ/VImy2+1Dyf4c7eEeIeTxBGLbJnxdRdGqa1ZDjRbVGNQoi4qqE4Ehmst3bAPZQnHN3qNp+0VHhEG+YktJvkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DM4PR11MB7351.namprd11.prod.outlook.com (2603:10b6:8:104::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.28; Tue, 12 Nov
- 2024 22:25:20 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8137.027; Tue, 12 Nov 2024
- 22:25:20 +0000
-Message-ID: <6e614ae5-b7ee-44bf-8d33-93bd9a92aae2@intel.com>
-Date: Tue, 12 Nov 2024 14:25:18 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 7/7] x86/resctrl: Document the new "mba_MBps_event"
- file
-To: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>, "Peter
- Newman" <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, <x86@kernel.org>
-CC: James Morse <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
-	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<patches@lists.linux.dev>
-References: <20241029172832.93963-1-tony.luck@intel.com>
- <20241029172832.93963-8-tony.luck@intel.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <20241029172832.93963-8-tony.luck@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4P223CA0023.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:303:80::28) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JSmven7a"
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3a5e0a3ac48so27023285ab.1
+        for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 14:32:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1731450765; x=1732055565; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ASczx2jknW39BdU+iF4bvWFRKkWfgG1bJTYZq7CVguY=;
+        b=JSmven7aIsB+Ms0/WedOSek67WgXEp0o6CQ/FQOpAzY437SfcxYgryLYsAv629+hPn
+         IVeaSpYAX9PueqD6RndbZ4YY9k1OfwLdLrIVvPlPOyyzoimztKpFIdUITateOq/aVQHo
+         kJkiGx5T6mphcrLrApR7wnHjvaRmozqy2FkHI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731450765; x=1732055565;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ASczx2jknW39BdU+iF4bvWFRKkWfgG1bJTYZq7CVguY=;
+        b=FCmdbobTm/p8iHhrJCzhdf3PHrOVsMCV+QT8vVXjzNacT9Pc65Nln6kNpkMjiEhB8T
+         I/BiYaJtt9dIpyJ/gUQEt0h9kRlyWiK92nmN7qUJioXVdv+NdlOLnrBta9+hP9ezx+VT
+         4lqnN0vUAyLiznaCODz4nN17t0o4ZEQ2+9BDr6ybsHUgbKMp/n+KD86DqXdVxSTn3Q39
+         XRV/dECbeNuCSx0oDMhlBPnJXi1rOqJ0dw5uYTfp88wXytJc1XDXvDpKlgtCkRnUdsMU
+         nA01tB2wjs5L1Jfx+m1nmAJ0aPUQzAkoatIY4ySYNakNSh0ImRh8gE9lldFQ9wuS7xrX
+         VBpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVugtuad+HdQMZiEADwBS9jp5O8EbzBYMTW6lPsos4xxSjn/Wuduy+/tVKvSk0oB/K/g2WD2xILvAw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJ3pBowP1wTHaBgFwItFH2v7jn40i6JBNsfCZmb9Fdk5UoeRJX
+	8EzEjftbUh+7+ZsEATfyR79EA7r2pPNDSQ29cyXL+AUe/DMuWtkCQV4oUhqkGTM=
+X-Google-Smtp-Source: AGHT+IEJcaQRbdb5iXSUbFFTFd5Dx5u5dU4+Z4N8yBGL4k/7OMu5AD0NgVT0ltSdZPiVS9E8vuQf2A==
+X-Received: by 2002:a05:6e02:180c:b0:3a6:ad61:7ffc with SMTP id e9e14a558f8ab-3a6f1a6441amr217814515ab.17.1731450765379;
+        Tue, 12 Nov 2024 14:32:45 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a6f982101csm24740125ab.9.2024.11.12.14.32.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Nov 2024 14:32:44 -0800 (PST)
+Message-ID: <f0afe22e-60c4-4389-8bd2-ff79d65f002c@linuxfoundation.org>
+Date: Tue, 12 Nov 2024 15:32:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DM4PR11MB7351:EE_
-X-MS-Office365-Filtering-Correlation-Id: bcca9b26-3dab-4a1e-1664-08dd0368e488
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bW5ESGQ1N0FxYnNJMDJZV2JtS2tOMVdHNERKck1hVjNiK3NHNDN0bnVBZkNT?=
- =?utf-8?B?RHBkakp2MDVrOTdrK09hSWJKczdxMjI5R3VVaHZXMW55Q2RrVFRJNm9SQUJM?=
- =?utf-8?B?TkVVZTlITVlLNWRSZWlCUjdGZHlwMUpvQ1ZoT0pHUW1HMlhTUFNyQVRmMXRv?=
- =?utf-8?B?RW51NWhobkhMMGxVSUVSMW9GNVdhVEJCUXNiV3V6Zk1IMmhXN3JqSnpHQ2Zx?=
- =?utf-8?B?SWJnSjV2cUI2aDNPVXZ4eTRQZjcxN0srOWVXNFVYclpEYzZiRlNFS0o3N3lu?=
- =?utf-8?B?QlRpMll2SzFKTE0wT3FrRzB4Q0lMcFJmWGpxUHRTU04xQU8vV2RXVTdJOUZU?=
- =?utf-8?B?ZyswaDRDbnc1R1pqWUtmVUxFbHY5dTNUYnA2cnpvMjRLbWR5SnkyaDhJZEpa?=
- =?utf-8?B?TmVJTTc2Nm9VdFpCaUk3cVk5d2dDRVhVWDBwaXphQ2pJR3E5SHQ3RlFsd0dr?=
- =?utf-8?B?Tk50UGVqSnhOaEo5dWtFY1Y1Ri9Zc2MyM3ozTTNOK3FxNkczUm90aFNXc1NS?=
- =?utf-8?B?bTFuTklTeXNtRmlwNlRUbllLWFk5MzFYbHQ2dEhKeE5EWDYyQmFMTFhtRmJ0?=
- =?utf-8?B?N3R6anhsU3kvbERiYStXQ1dDbTgzeTVYdTMwaGUya2JpN2VFM1BVaGpsTE5p?=
- =?utf-8?B?VVIyYTFlL2FPbDhKMEp0eldJbXoveldpbTUwaXQxVDkvb3cvVE1ZSE5ra0Jq?=
- =?utf-8?B?T2JoRWxzZlEweFdPSFRQOVIxYkloMWxHdjVTNTROYlA5ekJOaHlTMUVyOHI0?=
- =?utf-8?B?d1hpR1U2akJIOWhTTWVyLzlwMU0yblQvRHZZMVpkSkpWYW1COE9jMEhDWnBk?=
- =?utf-8?B?RTFYVDYvOWkrR0x4d1VWbWt5Ty9IV1RmOXhXN0JWQU5MNk1rdzR5NHJkU1N4?=
- =?utf-8?B?K3o2eEJRWDBybFVIRWl2STkwQ0Q2a2dOdnNoWmVFS21jbFNnd3RNeW1ENUdW?=
- =?utf-8?B?WW44eEQzSm82TFFNSG1IQ1NtNzdBZERVNUlRM05CeE84YTN4cHJMWmJITGgy?=
- =?utf-8?B?anVaWnJkcERjUzlkNlBjd1V6dUZieEV0bVdqYzI1NFNRNEpSRU91N0o0VTh2?=
- =?utf-8?B?a2xmL1pTT1FxLzdxelY5R25EZTc1TThZUVdnaWVyYXdMQ2ZHR0o1dmdrNGtV?=
- =?utf-8?B?RlNjc3I2MWVZZDRiT3JPNVExd0cwekFwQTdOTk11b3lzNEdaYU4xaVJrWS9l?=
- =?utf-8?B?bE5MNHk0UDF2a2hMTno1RkpNSy9kVGtrLzdXU3JKUFByMlhXRHV1R29sZnVz?=
- =?utf-8?B?dUtCbWd1STdpTFBZNWR2S2txaGI4dE1wYmJCUXRPNWM3S2Z6VWxBUnoyUml3?=
- =?utf-8?B?ZmNxVldmZXJodk43dWhOWGViZVEvcDVtOVp3VzJ6ekN5TnQ2cExBWGh0RnZ2?=
- =?utf-8?B?Vy90bXFKdnkyQ1ZzOE4wNGxkVG13QjA2dDc3MHhUUkxDTTU2MUhOWGg4aGNE?=
- =?utf-8?B?K3lhS1hnRVBGMUhINlF5WWRPZXJUQVJ5VnhKVlNPbDB6cUFkSTJRaGdJR0Uw?=
- =?utf-8?B?c04waGZwMWFhekVFa3JpSGlQV3dPa0FoQ1FmcVhsVjA5cWZ6ZnRHdndhVW9C?=
- =?utf-8?B?ZDR2b1A3ZXVNZXhYSEQ0aURHOXk1MzcwemtjczJNdXAzV2FkZEJ1aE1MeU5F?=
- =?utf-8?B?a0ZxT0VJdVo1RS9DYzlUN2pic29wbHF2djBxMVkzSHc2WlFtbEZUY0ZrWi9r?=
- =?utf-8?B?L2phbTFiSVc5cmFlK1lMNjA3WHRGTG9BMjJJTnREeWVvZ1VJaVo1N3hVNCsz?=
- =?utf-8?Q?eke87mjN+L7s1hpCM3BhxgeaiC6IFp1HWSpt0ES?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUJpUjQ2Z282VmxLSDRFTXB6UHdBZG1mNE5KQnFCQ3ZiNU54a2N5WUlrejJj?=
- =?utf-8?B?bG56czJHK3dXZ05MVE9SSjNBSGYwVFZITFJJbVVIZmNvbnhmb3VEM2hSS2N1?=
- =?utf-8?B?ZTI4VW55QXpPMnRLNy9IQWZ4RzBTVjJ1MDN4NXhnUCtPckxERXpEOENnMGl5?=
- =?utf-8?B?VkJOdmFUaUprcXZQMHR0ektjSHVDUk9FUlhGTzdTVDRwck8zK3M1MU5ybysv?=
- =?utf-8?B?MFF3RUxFYStoNnA4S25CbWFDL0g2NlFMM3Q0Q3YyTmZsUVZrVmlWU1pmdlc5?=
- =?utf-8?B?YXkwNkQ5ek9RanhHOGxVMDRnQk1vNVBRSW1oTisvdXpmVFIrWWZIbEs2bkRR?=
- =?utf-8?B?dEgvOHBmUUdEQXVPNzVrZXFZU0pFbnYvY2NYUnF3TG8yMDZwVzhtN1ZTK2lP?=
- =?utf-8?B?cko1UlZYQ0dYRHJHbGR0dDF4bGZZSFFMSFNkNDRsYXpXcnV0b1plSkNDMG9P?=
- =?utf-8?B?V2M5Uk5BaWV6R2owL2FvNldTYWg2SHhwTVZaZ0J5eDlNcE5RS0lpVUFveU43?=
- =?utf-8?B?ZmVRa0FQb2o3M1FEc2g5MGZYTUwzL2s0TnZBb0c3Vk0ySSt6eEd6cURPd3gr?=
- =?utf-8?B?UkZrQ0xHdEpsb0luR3Foc1JzT3hvOFdkWUtwMmNzUGtveTN1aVRrYUlOTWVx?=
- =?utf-8?B?WlNaakh5aFZGSVA2cy8vS1NSSExkbjYrVzZBS29HdlFJcXlNUHJDbU5wT1JO?=
- =?utf-8?B?YkQwM2M0STdXWXZxTXJ2WUxzZkJ4WGtjbTNZMFk2YUJ2NWd1VlNXOHRPanQ2?=
- =?utf-8?B?U3RmVDBnK2xtTEtEVmVXUmJnemFiNmFJMkc0SDNZNEtGQTFMcnFtMXlWUFZh?=
- =?utf-8?B?WUR3c2ZFRTZwV3M0dG4wQlJpR0dubVhJR21YT3BSL1UwTEZiZUJJVlBVRmZW?=
- =?utf-8?B?TldsOFUveDdGMm5OYU1ySEVuVFNkZ0d5dldzeFEzejdpalBaMmNBdWlkM00w?=
- =?utf-8?B?M3hRYVBWR3U5eEwvbFZTMjBHaklna01mOXdWUFpnWVAzVVM3dFlFRTV6UEI1?=
- =?utf-8?B?UXJFZGhWbHZkc3VYYTF5WlNEUjNZdkRsQ29nWUluSnY5YlpjWmY3YkEwOXFK?=
- =?utf-8?B?dDJFTzhTVGhIa0huNGlZYjdlcjF1ZmYwY1lWUGZYYncrT2lPWVRTKzRMYjZS?=
- =?utf-8?B?Q2ZyWkVHdjNjK3NoZTBpRm5oUUxmUmlHK2N4eFUvZEFhT2NqcE5vQk85NmdZ?=
- =?utf-8?B?UzRZQmw2RXdaVnl4YkhYUDNGOTBSczBkNUZobG00RTlHNkFaQ0FuRTg4Lzlt?=
- =?utf-8?B?T0RJa092UGRBeDZ5aDdKMmYvbnpVSkZueEppaktIaTVMcjZ6OTRMYkI0bVVY?=
- =?utf-8?B?SERwaDJubFhqSDRuOW5BaHFGWjh5WUVxc3JYeWNKbEdrMmtyVUpJb1p6WmlU?=
- =?utf-8?B?T2FQSFJwVnBLTEw4WmltZloxYjlLVkJYS3YzZDRFU1FPWGxuUTRXaTVBRmwy?=
- =?utf-8?B?a2ZDUmY0Nmwxb0JIT2JPL3RIUWs4Tnl2cE82ZVQwNmpuTVF6SkdJRGtiODJn?=
- =?utf-8?B?OXRvZVM5YTNnWXM2MWx4TjhobUdKaTgrb3B5bGpDQXR5V1A0bm5CVVJnU2E5?=
- =?utf-8?B?MFg5MURRQzRWZXFtWDJQM3ZsY0JrUncrQXUyaFRYYlpiMmI2dzVZT1pSbVZK?=
- =?utf-8?B?U2ZBN0MvL0NxZVRNQ1BUL1Bzb0dLc080ZTlvdGV3TVlnazVBVmVwSktrbFM5?=
- =?utf-8?B?ZkNMeWptbk5PSVNWQk1uK0IyMEM3ZndsblNNTDZFV1IySVJkbXEyd01odThU?=
- =?utf-8?B?K1J6ckYxaDJ3NlQzbGxNVHhPcFNlcUFvZGZXUUNCYWo0clNYbWxLYXE3NFZP?=
- =?utf-8?B?M2U2VVhsVG9aYTUrTlEyblhla3NaS1phUzNvNzhzUE5oS3duK0VvMzFEandm?=
- =?utf-8?B?WHMvR2pESGJ0akdTdEZoYTVOQis4WHkzUWtOUkFId2ZscXhtSmV3M2pOUlJk?=
- =?utf-8?B?WkJuNG1iOTMzR3dvSlo2SXY4Y3lDR1hmK1ZsUGlpUUQ2UmQyQmx0VlRsU0Mv?=
- =?utf-8?B?VGdoVnhPZnk3VmJSOU5ueFRqZXhOekR6ZWgwUkhFTi9WYzBKaE5meitXb3RC?=
- =?utf-8?B?S0NFS1RoRituVzU1bnprTFQyVmFLdFdzSVBhRktsODMrUFEzMkg2UzhIYkhO?=
- =?utf-8?B?WHVMQWxHckFGUzFsYlRMSFZaVXJXQWIxWHBOS3dScldlUnhWc2wxQ3p2YnN6?=
- =?utf-8?B?Umc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcca9b26-3dab-4a1e-1664-08dd0368e488
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2024 22:25:20.3305
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FhfMArvlEPtl1P31aym5+0itPSTz1mq/fYeXtd2MCFkZeD++3KdowBiGwJB2aqRX0pwX59s40KpKYqsaJHC7NyxL08IkfIfXuFXukE6HuJw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7351
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation/CoC: spell out enforcement for
+ unacceptable behaviors
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
+ rdunlap@infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Linus Torvalds
+ <torvalds@linux-foundation.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Dan Williams
+ <dan.j.williams@intel.com>, Theodore Ts'o <tytso@mit.edu>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20241111163723.9002-1-skhan@linuxfoundation.org>
+ <CAKMK7uGS3FJVp690She5d+XbQV5x7yQFPozta4cfnzga-BYAOQ@mail.gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <CAKMK7uGS3FJVp690She5d+XbQV5x7yQFPozta4cfnzga-BYAOQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Tony,
-
-On 10/29/24 10:28 AM, Tony Luck wrote:
-> New read/write file to show/set the memory bandwidth event used
-> to control bandwidth used by each ctrl_mon group.
-
-I expected at least a verb to summarize what this patch does.
-
+On 11/12/24 12:21, Daniel Vetter wrote:
+> On Mon, 11 Nov 2024 at 17:39, Shuah Khan <skhan@linuxfoundation.org> wrote:
+>> The Code of Conduct committee's goal first and foremost is to bring about
+>> change to ensure our community continues to foster respectful discussions.
+>>
+>> In the interest of transparency, the CoC enforcement policy is formalized
+>> for unacceptable behaviors.
+>>
+>> Update the Code of Conduct Interpretation document with the enforcement
+>> information.
+>>
+>> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+>> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+>> Acked-by: Jonathan Corbet <corbet@lwn.net>
+>> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+>> Acked-by: Dan Williams <dan.j.williams@intel.com>
+>> Acked-by: Theodore Ts'o <tytso@mit.edu>
+>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+>> ---
+>>
+>> Changes since v1:
+>> - Updates Acks with Ted's ack.
+>> - Fixes subsection formatting as per Randy's suggestion.
+>> - Fixes a spelling error.
+>>
+>>   .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
+>>   1 file changed, 52 insertions(+)
+>>
+>> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+>> index 66b07f14714c..ebddf218341d 100644
+>> --- a/Documentation/process/code-of-conduct-interpretation.rst
+>> +++ b/Documentation/process/code-of-conduct-interpretation.rst
+>> @@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
+>>   Because how we interpret and enforce the Code of Conduct will evolve over
+>>   time, this document will be updated when necessary to reflect any
+>>   changes.
+>> +
+>> +Enforcement for Unacceptable Behavior Code of Conduct Violations
+>> +----------------------------------------------------------------
+>> +
+>> +The Code of Conduct committee works to ensure that our community continues
+>> +to be inclusive and fosters diverse discussions and viewpoints, and works
+>> +to improve those characteristics over time. The Code of Conduct committee
+>> +takes measures to restore productive and respectful collaboration when an
+>> +unacceptable behavior has negatively impacted that relationship.
+>> +
+>> +Seek public apology for the violation
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +The Code of Conduct Committee publicly calls out the behavior in the
+>> +setting in which the violation has taken place, seeking public apology
+>> +for the violation.
+>> +
+>> +A public apology for the violation is the first step towards rebuilding
+>> +the trust. Trust is essential for the continued success and health of the
+>> +community which operates on trust and respect.
+>> +
+>> +Remedial measures if there is no public apology for the violation
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +The Code of Conduct Committee determines the next course of action
+>> +to restore the healthy collaboration by recommending remedial measure(s)
+>> +to the TAB for approval.
+>> +
+>> +- Ban violator from participating in the kernel development process for
+>> +  a period of up to a full kernel development cycle. The Code of Conduct
+>> +  Committee could require public apology as a condition for lifting the
+>> +  ban.
+>> +
+>> +The scope of the ban for a period of time could include:
+>> +
+>> +    a. denying patch contributions and pull requests
+>> +    b. pausing collaboration with the violator by ignoring their
+>> +       contributions and/or blocking their email account(s)
+>> +    c. blocking their access to kernel.org accounts and mailing lists
+>> +
+>> +Once the TAB approves one or more of the measures outlined in the scope of
+>> +the ban by a two-thirds vote, the Code of Conduct Committee will enforce
+>> +the TAB approved measure(s) in collaboration with the community, maintainers,
+>> +sub-maintainers, and kernel.org administrators.
 > 
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> ---
->  Documentation/arch/x86/resctrl.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+> This is a detail I missed at first, but I think it's a very important
+> one and needs to be highlighted.
+
+The paragraph after this one clears these questions and concerns.
 > 
-> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-> index a824affd741d..d86081e76bbf 100644
-> --- a/Documentation/arch/x86/resctrl.rst
-> +++ b/Documentation/arch/x86/resctrl.rst
-> @@ -384,6 +384,16 @@ When monitoring is enabled all MON groups will also contain:
->  	Available only with debug option. The identifier used by hardware
->  	for the monitor group. On x86 this is the RMID.
->  
-> +When the "mba_MBps" mount option is used all CTRL_MON groups will also contain:
-> +
-> +"mba_MBps_event":
-> +	Reading this file shows which memory bandwidth event is used
-> +	as input to a software feedback loop to keep memory bandwidth
+> Years ago when the kernel CoC was put in plae, there was a very long
+> discussion around whether maintainers are required to enforce the CoC,
+> or not. The rather strong consensus was that they are not responsible,
+> but help is appreciated, as documented in this patch: c1d1ba844f01
+> ("Code of conduct: Fix wording around maintainers enforcing the code
+> of conduct")
+> 
+> This was also acknowledged once more in a patch merged two years ago
+> with c1d1ba844f01 ("Code of conduct: Fix wording around maintainers
+> enforcing the code of conduct") by changing "decisions by the
+> committee" into "decisions regarding enforcement recommendations", to
+> make it very explicit that they're just recommendations to the TAB and
+> maintainers and that the CoC team does not have independent
+> enforcement powers.
+> 
+> The approval by the TAB is still here, but maintainers don't seem to
+> get a say anymore. Is this the intention, because it seems to be a
+> really substantial change? From our experience on the fd.o side, there
+> is a subset of maintainers who do not appreciate this responsibility
+> at all and very much would not like to have it. Given that, and the
+> kernel's strong consensus a few years ago against this I don't think
+> enlisting maintainers for enforcement without a wide agreement is
+> going to be well received - even when personally I think it's the
+> right approach to CoC enforcement, I did not put an ack on that patch
+> for clear reasons.
+> 
+> Also, if a maintainer refuses to implement an enforcement decision,
+> will they be sanctioned too? Since this is all an entirely new section
+> and does not touch any of the existing sections I'm also not clear on
+> when one or the other rules apply, and how they interact.
+> 
+> This part looks confusing to me, and a bit in a scary way.
+> 
+> Cheers, Sima
+> 
+> 
+>> +
+>> +The effectiveness of the remedial measure(s) approved by the TAB depends
+>> +on the trust and cooperation from the community, maintainers, sub-maintainers,
+>> +and kernel.org administrators in enforcing them.
 
-Since there is only one "software feedback loop" it could be specific:
+This paragraph clearly indicates the scope. The key work is "cooperation".
+It isn't the intent to force maintainers to enforce it. On the contrary,
+the Code of Conduct Committee's ability to enforce a ban relies on the
+cooperation from the community.
 
-	" ... input to the software feedback loop that keeps memory bandwidth ..."
+There are several checks and balances for bans can be approved, such as
+the CoC Committee has to agree on the ban, the TAB has to agree on it
+and vote on it.
 
-> +	below the value specified in the schemata file. Writing the
-> +	name of one of the supported memory bandwidth events found in
-> +	/sys/fs/resctrl/info/L3_MON/monfeatures will change the input
+This document makes that very clear.
 
-"monfeatures" -> "mon_features"
-"will change the input event" -> "changes the input event"
-
-(changes to document expectations wrt timing to be included)
-
-> +	event.
-> +
->  Resource allocation rules
->  -------------------------
->  
-
-Reinette
+thanks,
+-- Shuah
