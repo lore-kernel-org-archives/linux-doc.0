@@ -1,130 +1,121 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA84217472;
-	Tue, 12 Nov 2024 20:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2114D218D7C
+	for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 20:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731442069; cv=none; b=k2dOoVks1Rl5K+KzMEfyn2bvuBmtMMqXKn4MXgyUp8eq5rEMZf1i8HrNNo6iCtw4JzoGfI+dRdUe1YKkeb9pfmKx2QKYO+CPloaNHTZaD1+uwa2KBGSIlliuVxlJnHESzWon0Ul5YbDnaCkIv+bcG0qEAHpruaS2KbFmb3IefYA=
+	t=1731442085; cv=none; b=CMXnRv4eEWYOrxOm3cToUnK12B7oQt+UESAkDpYlpXdwjtMGFrf3wvJdz2q85O7EpqiGEGyT2gIYq6DU9L9SqFKwaE3mxs4CC+KfXd9PYnfixCOFgm8qDLXGlRI9rR2ZSd0XhSkAGUdQPKL6uSXJEVS93/+gR3tbb2QQdNVa67g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731442069; c=relaxed/simple;
-	bh=rSLmyqeNHuTdR9sMp7gy4kwBp7eWQTFOdqTGs/7XKRk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kOQYIYPljgW/dtJcmtsGagzuGdofk8mBkUGSpXSycwvSTGkYE8mES4vvlunes6tkrXhlYKiSSb6wVH3QZL5SWNirk9Q3eJO8dy6J793l7cqK6atnXQjeTIrxJBz0m1urEALWj8pIlLa+SbilWgjHDa7V6cQ0a3zfWLcB19wergE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SUPUz02Y; arc=none smtp.client-ip=209.85.210.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731442085; c=relaxed/simple;
+	bh=RHZ3bzWQ32ir8dvykH3nttL8q/pnHAH4dgFUQF3xSZc=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=W5fjudWoTsyX0ZPKJtLmp0yKR9vKQsLbWgbNP3c69f2KaKkzc2tCicBT1cAKQFPvl3sB/XclQLJ9/vSdf4KCO2pAKe6iJMYqCcf/Zbffp2Of+5M+3r8AGHqHf5FLRFpkMCPmqYYBq9wmSlUwkOfJqhJ7yMfD2dBL6Ot3jgy7Q8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rmoar.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=R6Jsvxhs; arc=none smtp.client-ip=209.85.219.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rmoar.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SUPUz02Y"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-71822fabf4fso3426995a34.2;
-        Tue, 12 Nov 2024 12:07:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R6Jsvxhs"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e02fff66a83so9529025276.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 12:08:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731442067; x=1732046867; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TqXKsycxkRwYLgMO1MGNkvOKvK0HlTP2D8dyd7IQy+s=;
-        b=SUPUz02YfAaiZ+a2uXLdPalwhVqEl4eTnLpkGFQwEt9zHV+CBPL++yoHIlJcjFY016
-         A3QMq6m9ay+j6fLVMXiG41/mQNG3I6a/wV6pSvSCa50Ue26Af70dW9SqAbDAJPaXvPB5
-         HSEbC+YXehzyOHCs/VqJfPgeo9dmvu9YXl5eU4GNR/6Aku77Qwx8MZoAMa+tW37ckZ8D
-         8rvy7c7R03ijh9jBbNEOaJOj5zr4TpMJgha5w53zBhYDao+qibfaaxiMWK/XNiJj4QAD
-         LfyAqRuLDBRr9wZsdT/x6NpKTj7A0pdHPmWIA4Vjj+bkp6isinN2NI7c4jsIzLWH5OxQ
-         QBpA==
+        d=google.com; s=20230601; t=1731442083; x=1732046883; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=TNJMf/dEdEXGOQzVC+DsIsgZe/E51V+ULiXsqRjRICw=;
+        b=R6Jsvxhs4K7870mi+/AOrewXYL5We9lpDjFQYs1fUicKEGk9ReOwxhnAJxgd1BgEOS
+         PNkV2JzLsJm+IbMrFbKL9XJ9VMd2g8SahE1Qec5NYM4dW/BBkVXiT/yF71twc3ldOOye
+         lS6aKRrHW0JXE+d3NgS1dHQLvALI7v+2zjMz/7eWJf6biIxC6PROPEIrsteycmOTXdbc
+         gb+Fx36wKGlTNpEiiYe/otl3Ra/F457Y4S0IaVd0XeW4UVIp2HhrZyUSKjYxlKWTJ9zg
+         /Hzy0BBoIzNS2qv1Ol8m3W3rXeSbgfTS+WtGXOwVIPW3E/K5ygsu444yTxlRq3FmhEEV
+         QmRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731442067; x=1732046867;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TqXKsycxkRwYLgMO1MGNkvOKvK0HlTP2D8dyd7IQy+s=;
-        b=j0UYowbPC+/qDMEqvVhlWa9mUWRMVInMu3rRIv1BRDWvdpZCLqPNWRgEn6i7ZgYrYd
-         EGnpz/XfG8qBgKTIJbs2YQpfbCWBmsAvW7DqHRpFOiaHGEh00+odNiU1wuw4lYcARVYo
-         +5yHXxVFWOj6Sb+C9cgbVAhsGVsMMJ3Qu2pq3SPjkeiH72Y/f+p9Hdz4EsMRLtwiJUca
-         NH3S8JHQa4OC31Ameo0Q+WXAnBJ223sYTsrSK8rydNKvtO8IHixImVlTQBrqzQLmwa5/
-         QdGsAB/ZHLej3qydqFPK5ewihiDdlzotxpJYn5jWKYLDSJYfnLbA/nIuyGW+aT7l6j+E
-         fc0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVH0gZO4rhDqkIJr5yDm5UMvOfDt1J1OryDTgIPWsAu/dp3XlwLPFjklZa5jV7a3ipU+9flXVYgCFRQ@vger.kernel.org, AJvYcCW438sfO81mCaxG+rRcrlVnvB0zAoKHX77n1fTYv/K3D/1fgFyotALrWSRIbcXrpn6SNhKqCrBZvkW2t2s=@vger.kernel.org, AJvYcCWBZ50bX5drHfFL9iu5UpSZF/qRUkGBRRUNXCTFU1YkOE6UUATt3VtdsDWbzzhuPUyrD7QgyhTC+Ybm@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCz0/3eS47ZvIftEe/PMm259cx5IBgkLNvvZYir+4Ob1p9ihqx
-	O7tWwurwBgAttgwMFjNPO+0CvsOUdUoFOoToZLWxeVegmiooZ2/r
-X-Google-Smtp-Source: AGHT+IGVOU35a+o8MM/vu1VdrdX4QPNA111CfAaQTQQWc5KsdScfPbulyFDV0vtpP2txz/UtR45DNQ==
-X-Received: by 2002:a05:6830:2105:b0:710:ea11:3d34 with SMTP id 46e09a7af769-71a1c1e0cf1mr15784192a34.12.1731442067175;
-        Tue, 12 Nov 2024 12:07:47 -0800 (PST)
-Received: from raspberrypi ([2600:1700:90:4c80::3b])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71a5ffacc08sm45453a34.36.2024.11.12.12.07.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 12:07:46 -0800 (PST)
-Date: Tue, 12 Nov 2024 14:07:44 -0600
-From: Grant Peltier <grantpeltier93@gmail.com>
-To: robh@kernel.org, linux@roeck-us.net, geert+renesas@glider.be,
-	magnus.damm@gmail.com
-Cc: grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v7 0/2] dt-bindings: hwmon: pmbus: add bindings for isl68137
-Message-ID: <cover.1731439797.git.grantpeltier93@gmail.com>
+        d=1e100.net; s=20230601; t=1731442083; x=1732046883;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TNJMf/dEdEXGOQzVC+DsIsgZe/E51V+ULiXsqRjRICw=;
+        b=cXwc9BGJbfMtoW5jblR9ec0ZfDqgibnNdcsbvVXlgEsT0FiltieKiYgErtnNx3oLmB
+         5VwuXX7ywqyxnF4XNudDbMTZVPyHS5PVLGnWniJnKERF7EFkC2SeJ57XxvuCLSsr9qSU
+         /XQhjmPAUCnuc9IfqzJ7B77A0SGuX419lVgYICZtog6Ehn+9MqFBH8OO7zlYHwcv/Vzi
+         mcn+lDEIwXp3xbbiOlkT0jd67zeHU2GcNzycpfaYNVU1ZTiJbk7VS38u0/9p3ZRcsRm/
+         NRsLD5cYWhhy+shQwo7NxZvTg/ZxN8yAViP7eGE/rmrZuE8jjOLeKjdTyTDiaLrHRlXd
+         M4FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4X597YB6y6yVro3sr1XjtLKN0XNItIfluAJ1Lj9ILpaP3nFdiDfkP8WHHNLH846Bfd6VFiH0slIA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkSxCU237FptMro+ufo6b7EZ+jciMtDmgPopH2t1UcqBtTBSRZ
+	zo0PSSIfwcMUczNk3ngK96ao5mhavqGnPMSc5qO3n5ss5PYKFCNStIephhypRrSgDh4OS4lnCQ=
+	=
+X-Google-Smtp-Source: AGHT+IGWbxSkKKXBUo0jXvLY76zHqclSM/Sk5GYrZs492hudc1yUtPuCSAnoXDL51XUAfvEFlt5QUI6Nfw==
+X-Received: from rmoar-specialist.c.googlers.com ([fda3:e722:ac3:cc00:d3:4d64:ac12:6a5d])
+ (user=rmoar job=sendgmr) by 2002:a25:ef03:0:b0:e30:be64:f7e6 with SMTP id
+ 3f1490d57ef6-e35ecdea920mr175276.3.1731442082279; Tue, 12 Nov 2024 12:08:02
+ -0800 (PST)
+Date: Tue, 12 Nov 2024 20:07:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.277.g8800431eea-goog
+Message-ID: <20241112200748.791828-1-rmoar@google.com>
+Subject: [PATCH 0/5] release of KTAP version 2
+From: Rae Moar <rmoar@google.com>
+To: frowand.list@gmail.com, davidgow@google.com, keescook@chromium.org, 
+	Tim.Bird@sony.com, shuah@kernel.org, brendanhiggins@google.com
+Cc: tytso@google.com, gustavo.padovan@collabora.com, 
+	ricardo.canuelo@collabora.com, corbet@lwn.net, kernelci@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Rae Moar <rmoar@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Renesas digital multiphase voltage regulators are capable of regulating
-output voltages that exceed the range that their Vsense pins can detect.
-In such applications, users may place a voltage divider between Vout and
-the Vsense pin for a given rail. However, the driver currently has no
-way of knowing if a voltage divider is being used which results in
-erroneous telemetry being reported over hwmon.
+This patch series represents the final release of KTAP version 2.
 
-This patch set defines a devicetree bindings schema for Renesas digital
-multiphase voltage regulators that are supported by the isl68137 driver
-to allow users to add voltage divider definitions for any rail powered
-by the device. This patch set also includes the required changes to the
-isl68137 driver to enable scaling Vout/Pout telemetry for rails with a
-defined voltage divider.
+There have been having open discussions on version 2 for just over 2
+years. This patch series marks the end of KTAP version 2 development
+and beginning of the KTAP version 3 development.
 
-v7:
-- Port existing device bindings from trivial-bindings.yaml
-- Rename new bindings file to isil,isl68137.yaml to match pre-existing
-  bindings
-- Style fixes for issues reported by checkpatch --strict
+The largest component of KTAP version 2 release is the addition of test
+metadata to the specification. KTAP metadata could include any test
+information that is pertinent for user interaction before or after the
+running of the test. For example, the test file path or the test speed.
 
-v6:
-- Amend patch commit messages to explain why the vout-voltage-divider
-  property was copied from the max20730 instead of using the iio
-  voltage-divider property
+Example of KTAP Metadata:
 
-v5:
-- Fix clang compilation errors related to C23 syntax
+ KTAP version 2
+ #:ktap_test: main
+ #:ktap_arch: uml
+ 1..1
+     KTAP version 2
+     #:ktap_test: suite_1
+     #:ktap_subsystem: example
+     #:ktap_test_file: lib/test.c
+     1..2
+     ok 1 test_1
+     #:ktap_test: test_2
+     #:ktap_speed: very_slow
+     # test_2 has begun
+     #:custom_is_flaky: true
+     ok 2 test_2
+ # suite_1 has passed
+ ok 1 suite_1
 
-v4:
-- Revert devicetree property name to "vout-voltage-divider" and refactor
-  property description and driver implementation to match existing
-  vout-voltage-divider implementation in max20730 as no suitable generic
-  voltage divider schema exists.
-- Minor fixes based on Guenter's review of v2.
-- Initialize voltage dividers for all channels to defaults that simplify
-  logic in PMBus word read/write functions.
+The release also includes some formatting fixes and changes to update
+the specification to version 2.
 
-v3:
-- Report and return errors reading the vout-voltage-divider property from
-  the devicetree when the property is defined
-- Change u64 division/rounding operations to use explicit math64 macros
+Frank Rowand (2):
+  ktap_v2: change version to 2-rc in KTAP specification
+  ktap_v2: change "version 1" to "version 2" in examples
 
-v2:
-- Fix devicetree bindings schema errors
-- Add "renesas," vendor prefix to "vout-voltage-divider" property
-- Rebase patch series on v6.12-rc1
+Rae Moar (3):
+  ktap_v2: add test metadata
+  ktap_v2: formatting fixes to ktap spec
+  ktap_v2: change version to 2 in KTAP specification
 
-Grant Peltier (2):
-  hwmon: (pmbus/isl68137) add support for voltage divider on Vout
-  dt-bindings: hwmon: isl68137: add bindings to support voltage dividers
+ Documentation/dev-tools/ktap.rst | 276 +++++++++++++++++++++++++++++--
+ 1 file changed, 260 insertions(+), 16 deletions(-)
 
- .../bindings/hwmon/pmbus/isil,isl68137.yaml   | 148 ++++++++++++
- .../devicetree/bindings/trivial-devices.yaml  |   6 -
- drivers/hwmon/pmbus/isl68137.c                | 210 +++++++++++++++++-
- 3 files changed, 353 insertions(+), 11 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
 
+base-commit: 2d5404caa8c7bb5c4e0435f94b28834ae5456623
 -- 
-2.39.5
+2.47.0.277.g8800431eea-goog
 
