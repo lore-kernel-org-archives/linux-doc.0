@@ -1,140 +1,102 @@
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259284C66;
-	Tue, 12 Nov 2024 07:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D81A83A14;
+	Tue, 12 Nov 2024 07:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731395758; cv=none; b=SkiLS4JxYr3Ekt1jGQnXDv18ryRmNkougZP1o6kw2YNlvvrhsfNdPbqwRjdqc/f5+1kd/WbL03BCXAusGwncZdrc1NrlHZywKo7uHzV/9O2p4Q+7WZgxMFp1pZKDkWMce7ybBT42cdxf/Q0waXLDCoFzl9P8gbSSVbbaeV585pk=
+	t=1731396047; cv=none; b=WMvQMHYDY+eko0GGrrCR9VcX3kl/M62cKGUTuLJt9E2vD541N+O3Lw9D4Vo65eGUlZylLaKGUy2gwfhiF+kybUbQ+idnZs8vyo4C5Kc4HPNInlpkLdRz/u9UJTiS/+CcvzCFDJQkN29eNOUg/3DZcdDB7hKfnv9UbZ/t+dyyllY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731395758; c=relaxed/simple;
-	bh=liliEvd9ddHo2X14IIvSZ1Kn2E1WmCo2dfpJ2tBnXXg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YRVNqAzsK6JgtQKMklBWC1Keik9O7jfj7+J/eInd9wgoRjLHxgjUHaIWhJRcjHJODDO/tJvQCfgnxZreZ4HkFHAiEnHxJDMvRmXV3q3X6lznZqRK1mxbvGJpQ1uU87+3nMjlrFSbo7Tc8vTF5xq4WVKjtXEk0mumZ5XqZ1GZnRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=cQhDfvj+; arc=none smtp.client-ip=185.125.188.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1731396047; c=relaxed/simple;
+	bh=iebmt1JJ4nc2KqO33nu0BylpM0uwrbfzxJxK70i+S/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DpEsODAwdz8M2xm+mUqQhNdBY8eiomYMqwm3lZKBREcg34xcePz9aF2KHH7CvZfrBu+01bWj0tFsFeHExaH4chAPrstMoq1OzQqBaCaboM0mPXpa5OEB4mwci/inrBQ5zj8f+fMk0LCcqzByHxH/h8IqsgmIYLHm6LrIEM+lSXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVmzKoMM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="cQhDfvj+"
-Received: from [10.106.0.15] (unknown [103.155.100.14])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id AFA8B3F136;
-	Tue, 12 Nov 2024 07:15:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1731395752;
-	bh=zLx7YEby17Ysu5FXkGYZBmRyjc793eGzAB0RXrS6JJM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type;
-	b=cQhDfvj+QH1Xp3HFKyLefv6GUEyQIWuSZ/81Q74Ms4rNarHcaRfM9vBim2kpJTQUh
-	 CY9HJXS9asGRlc/DWWWcv4K7jr6wR8L9zwGw+MYI4drinIS82jkm8VfGXzeAXStvCX
-	 A6qTUsVX94gPIuACe2LIC0ZvkntMWKFcHOTwl2ULogSsAQl3OIYpY1L6l5Y1xfL+wm
-	 8fiYCZvU5SxMz4FZFI7Um94rCjCr7zq7hBadKB3rPNA7y+1nN00Qm4DV2zIAwo3n+k
-	 xa2vzAlwCsUFiGh3Db9VFIvA/ND9GSfQy+DDmE03f3DRw3k3bO2EokSVeYC9z4gIPm
-	 Z4Q4+fZLNcQPg==
-Message-ID: <53ed1dd8-2949-4f05-a180-39c12fbe2597@canonical.com>
-Date: Tue, 12 Nov 2024 15:15:42 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVmzKoMM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A7FFC4CED6;
+	Tue, 12 Nov 2024 07:20:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731396047;
+	bh=iebmt1JJ4nc2KqO33nu0BylpM0uwrbfzxJxK70i+S/0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dVmzKoMMLI1p5lld2AzbKA0OKhkaVTgahMbznY+ch5wqmWfYCEBoHJ5ZIQ8i4OEW7
+	 y0SB4PSstnJw8hURXljSVh3nG8HHVe3dC7gqHVMQQXmgFoRfx3x8hsZ36yggo7YlVq
+	 2q0lrQ8rdvyycCXVFgnX8tvivhS3iXRbVyFR1p3rkwOgGKPIQ2kftduBV0NwjkeMS6
+	 +NoAmsvdHq/cRMRpCO7yQhqTp7kgXfnEETQD/OipD9b2Ni66FEyjDAneYRjzAw6sNL
+	 U2vmfYx6TwAoyvedmOw9NUrF5kwpsNBTikX0r/vBN3EeyzUVC53eAjFgH0BRIJSoUB
+	 HtyTui/+hEy9g==
+Date: Tue, 12 Nov 2024 09:20:40 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Joerg Roedel <joro@8bytes.org>, ill Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241112072040.GG71181@unreal>
+References: <cover.1731244445.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH v1 04/22] HID: intel-thc-hid: intel-thc: Add THC PIO
- operation APIs
-To: "Xu, Even" <even.xu@intel.com>
-Cc: "bentiss@kernel.org" <bentiss@kernel.org>, "corbet@lwn.net"
- <corbet@lwn.net>, "jikos@kernel.org" <jikos@kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "Zhang, Rui1" <rui1.zhang@intel.com>,
- "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>,
- "Sun, Xinpeng" <xinpeng.sun@intel.com>
-References: <20241024081023.1468951-5-even.xu@intel.com>
- <da650a93-6d21-444b-adb7-045566f53d5a@canonical.com>
- <IA1PR11MB6098D581A332E576528FD30DF4582@IA1PR11MB6098.namprd11.prod.outlook.com>
- <1a8f80ab-135e-4e57-b9b7-1940e4bfb4f3@canonical.com>
- <IA1PR11MB6098DE17D19343A9C077F248F4582@IA1PR11MB6098.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: Aaron Ma <aaron.ma@canonical.com>
-In-Reply-To: <IA1PR11MB6098DE17D19343A9C077F248F4582@IA1PR11MB6098.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1731244445.git.leon@kernel.org>
 
-Hi Even,
+On Sun, Nov 10, 2024 at 03:46:47PM +0200, Leon Romanovsky wrote:
 
-After tested on 8086:a848, the multitouch doesn't work like 4 finger 
-touch, rotation and zoom.
+<...>
 
-Could help check if those features can be supported?
+> ----------------------------------------------------------------------------
+> The code can be downloaded from:
+> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git tag:dma-split-nov-09
 
-Regards,
-Aaron
+<...>
 
+> 
+> Christoph Hellwig (6):
+>   PCI/P2PDMA: Refactor the p2pdma mapping helpers
+>   dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+>   iommu: generalize the batched sync after map interface
+>   iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+>   dma-mapping: add a dma_need_unmap helper
+>   docs: core-api: document the IOVA-based API
+> 
+> Leon Romanovsky (11):
+>   dma-mapping: Add check if IOVA can be used
+>   dma: Provide an interface to allow allocate IOVA
+>   dma-mapping: Implement link/unlink ranges API
+>   mm/hmm: let users to tag specific PFN with DMA mapped bit
+>   mm/hmm: provide generic DMA managing logic
+>   RDMA/umem: Store ODP access mask information in PFN
+>   RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+>     linkage
+>   RDMA/umem: Separate implicit ODP initialization from explicit ODP
+>   vfio/mlx5: Explicitly use number of pages instead of allocated length
+>   vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+>   vfio/mlx5: Enable the DMA link API
 
-On 11/11/24 3:10 PM, Xu, Even wrote:
-> Hi, Aaron,
->
-> That's OK. Glad to know it works.
-> Thanks for testing!
->
-> Best Regards,
-> Even Xu
->
->> -----Original Message-----
->> From: Aaron Ma <aaron.ma@canonical.com>
->> Sent: Monday, November 11, 2024 3:08 PM
->> To: Xu, Even <even.xu@intel.com>
->> Cc: bentiss@kernel.org; corbet@lwn.net; jikos@kernel.org; linux-
->> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Zhang, Rui1
->> <rui1.zhang@intel.com>; srinivas.pandruvada@linux.intel.com; Sun, Xinpeng
->> <xinpeng.sun@intel.com>
->> Subject: Re: [PATCH v1 04/22] HID: intel-thc-hid: intel-thc: Add THC PIO operation
->> APIs
->>
->> Hi Even,
->>
->> Sorry, my fault.
->>
->> The patchset is applied on 6.12-rc7.
->> Building, will let you know the test result.
->>
->> Thanks.
->> Aaron
->>
->> On 11/11/24 2:31 PM, Xu, Even wrote:
->>> Hi, Aaron,
->>>
->>> Thanks for the information.
->>> The file "intel-thc-hw.h" should be there, it was added by "[PATCH v1 03/22]
->> HID: intel-thc-hid: intel-thc: Add THC registers definition".
->>> I tested it on v6.11.
->>> Anyway, let me double check what's wrong and come back to you.
->>> Thanks!
->>>
->>> Best Regards,
->>> Even Xu
->>>
->>>> -----Original Message-----
->>>> From: Aaron Ma <aaron.ma@canonical.com>
->>>> Sent: Monday, November 11, 2024 2:19 PM
->>>> To: Xu, Even <even.xu@intel.com>
->>>> Cc: bentiss@kernel.org; corbet@lwn.net; jikos@kernel.org; linux-
->>>> doc@vger.kernel.org; linux-input@vger.kernel.or;
->>>> linux-kernel@vger.kernel.org; Zhang, Rui1 <rui1.zhang@intel.com>;
->>>> srinivas.pandruvada@linux.intel.com; Sun, Xinpeng
->>>> <xinpeng.sun@intel.com>
->>>> Subject: Re: [PATCH v1 04/22] HID: intel-thc-hid: intel-thc: Add THC
->>>> PIO operation APIs
->>>>
->>>> Hi Even,
->>>>
->>>> It fails to be applied on v6.12-rc7.
->>>>
->>>> There is no file intel-thc-hw.h.
->>>>
->>>> Regards,
->>>> Aaron
+Robin,
 
+All technical concerns were handled and this series is ready to be merged.
+
+Robin, can you please Ack the dma-iommu patches?
+
+Thanks
