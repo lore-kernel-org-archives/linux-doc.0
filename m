@@ -1,84 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0612C19DF62;
-	Tue, 12 Nov 2024 03:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8F31B6525;
+	Tue, 12 Nov 2024 03:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731380639; cv=none; b=VYhly20WWf1NpBe4jqsKG4VU4tH521DgMMHHpbmlCVWVnZH9kU4Tt27/xIh26SoRk+t9A4MZccHRr1bLTyoiW/v4Vez38KbvZx1dk9OrHIQvTPcOe2RM3aDRjjfH0aIQaXP947nVJxjUhy7HkuoV6/5Bzr7y2kCnIPEkcseagC4=
+	t=1731380930; cv=none; b=do1zuumwYZvyzc+RDAmGFeP+ch/JYWHhIE/4f+NjdynkGZk1SO3Yrn2oF/XIE1IpIPyuqgjmN+R+9W0PU90mqNwwr5h/rr+JrhbZKTS5wZlcXWpMkmLPFnWA+H8h1Eq0q4v88E8r73Y2S3eCK6koPpfDK7pUhZ1ubxb6U08jLAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731380639; c=relaxed/simple;
-	bh=zEuVEOYuXvXUfujcZ5GqwkoABFSLMXkGDWxAsMEEFyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KPQ4PKEAcpwzd/38+TCK7clpdu9L2MA3WOG5O6wH8rVAkDSQoG3L0KqNDymsBH8QA5AEHquIOCHv071jFh1PopvEXVmV+X0xoS9oi/YPDud7c0Sw2FztD8pG+Zv+HE0Z/YmyK5GHfiahmVYk6r6ZmJyTX+2Cmw16XTaT3dd16dA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mv8wTLYb; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mv8wTLYb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E022C4CECF;
-	Tue, 12 Nov 2024 03:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731380638;
-	bh=zEuVEOYuXvXUfujcZ5GqwkoABFSLMXkGDWxAsMEEFyE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Mv8wTLYbB0/mepIUwLysLWZSQHKkWGgpvMXFU6/G85HdVDVTKuOTFLGFdZ8lHm1PN
-	 gjzljxT8jQfbK2oQi4AwJfeNeMe6gcl8LWLwDttcFpDTEysNKxnpOAGAWVp89XLm8R
-	 eVuH4Tpzdj1asuMS0pcb8r/DNNY59gjMasG1ZAHzYiJpjDjWdhHOpORXc+gqQEu2Vw
-	 3BMkcFunnkZfW232l3DHw+y90hFNBw8+tOiaRSbMHJhrFUcLnijjpLF7Ab+Ul3HN7U
-	 AnYMdTA1ZyLFxpPSlf5Ht5f686gvLoH1V0TnzUGdNtZ4cWa4Pp+jOkiMpo1mBq1cMn
-	 PDgDB910rl6Bg==
-Date: Mon, 11 Nov 2024 19:03:56 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Abhinav Saxena <xandfury@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, rds-devel@oss.oracle.com, Tony Nguyen
- <anthony.l.nguyen@intel.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
- <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq Toukan
- <tariqt@nvidia.com>, Allison Henderson <allison.henderson@oracle.com>,
- Russell King <linux@armlinux.org.uk>, Dragos Tatulea <dtatulea@nvidia.com>,
- Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH 1/2] docs: net: Fix text in eth/intel, mlx5 and
- switchdev docs
-Message-ID: <20241111190356.0aefe1b9@kernel.org>
-In-Reply-To: <20241108202548.140511-1-xandfury@gmail.com>
-References: <20241108202548.140511-1-xandfury@gmail.com>
+	s=arc-20240116; t=1731380930; c=relaxed/simple;
+	bh=C57Eg147c9BHu8+LFHpTE8LpIa4Dq+f0HtSO3R0n6xQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c/qGK+poFwrAEjCjeiHnBguLKVY78OGL93X4F1J6BpxgavEo2PYOELqTf5Kb946+cRuH3L+pz1sHv01cBo+PBWCiTtVK3Dq0Roc4N3446fMiMNF7L7ORTiQ/+wFwcf0vIukRZSNp82Dkppei/EyLt2qI9c3tFsd42pMgL3a2Uwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XnWZW624vz4f3jXn;
+	Tue, 12 Nov 2024 11:08:19 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 09F831A0196;
+	Tue, 12 Nov 2024 11:08:38 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.67.174.26])
+	by APP4 (Coremail) with SMTP id gCh0CgDnwoa0xjJnvTEqBg--.2387S2;
+	Tue, 12 Nov 2024 11:08:37 +0800 (CST)
+From: Xiu Jianfeng <xiujianfeng@huaweicloud.com>
+To: peterz@infradead.org,
+	mingo@redhat.com,
+	will@kernel.org,
+	longman@redhat.com,
+	boqun.feng@gmail.com,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH -next] docs/locking: Fix grammar in percpu-rw-semaphore.rst
+Date: Tue, 12 Nov 2024 02:57:24 +0000
+Message-Id: <20241112025724.474881-1-xiujianfeng@huaweicloud.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgDnwoa0xjJnvTEqBg--.2387S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrurykWr48Aw1rurWUXF4UXFb_yoWkGFgEya
+	4Yqay5Xr4rXws7KFyUCF10qasYkr1Utr4F9343tFsxX340ya98J3Z7CF15Zr4UWF4a9rZ8
+	uFZ8uFWa9w17WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbzkYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x02
+	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij
+	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
+	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+	7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UK2NtUUUUU=
+X-CM-SenderInfo: x0lxyxpdqiv03j6k3tpzhluzxrxghudrp/
 
-On Fri,  8 Nov 2024 13:25:47 -0700 Abhinav Saxena wrote:
-> diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
-> index f355f0166f1b..df4b4c4a15d5 100644
-> --- a/Documentation/networking/switchdev.rst
-> +++ b/Documentation/networking/switchdev.rst
-> @@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
->  monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
->  bond will see its upper master change.  If that bond is moved into a bridge,
->  the bond's upper master will change.  And so on.  The driver will track such
-> -movements to know what position a port is in in the overall topology by
-> +movements to know what position a port is in the overall topology by
+From: Xiu Jianfeng <xiujianfeng@huawei.com>
 
-Are you sure? The first 'in' is for position, the second for topology.
-Equivalent to:
+s/'is initialized'/'is initialized with'
 
- movements to know in what position a port is in the overall topology by
-                   ^^                         ^^
+Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+---
+ Documentation/locking/percpu-rw-semaphore.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-We can rephrase to avoid the double in:
-
-  The driver will track such movements to know the position of a port
-  within the overall topology by registering for netdevice events and
-  acting on NETDEV_CHANGEUPPER.
-
->  registering for netdevice events and acting on NETDEV_CHANGEUPPER.
+diff --git a/Documentation/locking/percpu-rw-semaphore.rst b/Documentation/locking/percpu-rw-semaphore.rst
+index 247de6410855..a105bf2dd812 100644
+--- a/Documentation/locking/percpu-rw-semaphore.rst
++++ b/Documentation/locking/percpu-rw-semaphore.rst
+@@ -16,8 +16,8 @@ writing is very expensive, it calls synchronize_rcu() that can take
+ hundreds of milliseconds.
+ 
+ The lock is declared with "struct percpu_rw_semaphore" type.
+-The lock is initialized percpu_init_rwsem, it returns 0 on success and
+--ENOMEM on allocation failure.
++The lock is initialized with percpu_init_rwsem, it returns 0 on success
++and -ENOMEM on allocation failure.
+ The lock must be freed with percpu_free_rwsem to avoid memory leak.
+ 
+ The lock is locked for read with percpu_down_read, percpu_up_read and
 -- 
-pw-bot: cr
+2.34.1
+
