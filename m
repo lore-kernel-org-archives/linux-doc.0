@@ -1,198 +1,66 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9144212F05;
-	Tue, 12 Nov 2024 17:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D0021442E;
+	Tue, 12 Nov 2024 17:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731433772; cv=none; b=ae8TAf7nzNt7TPAXnE7TYnXp2o8pMEhjviZsEfbI/V0aXGNJxk2WiwXR6+Llut24uqHuC6NVmgEvca2KyS8M3DOUia8B+YOor8lNiU7Miz+5kA0kch/ndrPSIudlaDNYBX5hoNvEujFRwkasGdhaSYttnjRRxBNYFkSkZ3fiOHM=
+	t=1731434262; cv=none; b=bvPVplfK3iVuoIyUjfLA2hxZp3w7giB+4f+2rb97V6b1ZNXBv50vd65YFWd8PbywXkH93aGZxoqOX1Zleh5LrSFxhlMRwiPv5ch110SP6Bldc+0lJn5q5vYy/tMSrNpL2GEZDcmYTrZ5luGekphidcSVBcIEwetfk+wBs6nom9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731433772; c=relaxed/simple;
-	bh=c1v17xoFfsCerNNjyrz6CSJxETYPE5z1Uz4Gqvbilig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZoRlYVtT1rwQyo2gQnSbfmG0JuH4hYyrPkT4h1U79ETMCOrD8kc09iblAeYey4gnTVcVDoZVuAp2wShM2pw7dtcrPoKFKxmBiaqwTixge9sxAoxDGVVodH3mHGh+BlcO4nbuz8EviXptt1BymzQtbTxhxo5RY6EjLlcD7L8YJAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wf6PSpPg; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1731434262; c=relaxed/simple;
+	bh=1URpfIrCXwUDp20J+85VGQv7B1uElnbl53FjCZonyuU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=tghjhhlh79DypIZNxH7EvsYIR1eyA4EwQvMEdKb6FpBHS6eYX7PCWLFxYEbyqPSeWXd975/JmHg2Ccvouv7hPAOVBiBKvsQT3tlHh4maVJeF7ufVVVD84jX2l+Lre9fmrZZpebKq3ZswBQg0PjppzaILA7p5yD5tle6rL+1wbRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uzp8TFWI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wf6PSpPg"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77252710;
-	Tue, 12 Nov 2024 18:49:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731433750;
-	bh=c1v17xoFfsCerNNjyrz6CSJxETYPE5z1Uz4Gqvbilig=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wf6PSpPgqTAzDQNQcMPSOV3o4/3GGt4UjA9e3DMNxpgaLQ+Zurp12bU0TfsN4IwhJ
-	 ZlJuyeL7bTStOrwcC5MhItCasBQSxQkkO3grLYBzFzB0QRwHYBb/iPncgVLqotja8o
-	 /2MM5+GGyB2QhRD8cq5gs5/DCsPHicr0wlczS99c=
-Date: Tue, 12 Nov 2024 19:49:15 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Airlie <airlied@gmail.com>,
-	DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for
- unacceptable behaviors
-Message-ID: <20241112174915.GB806@pendragon.ideasonboard.com>
-References: <20241108161853.12325-1-skhan@linuxfoundation.org>
- <ZzJkAJEjKidV8Fiz@phenom.ffwll.local>
- <ba3d5492-e774-452f-9fe0-e68b743c6b0d@linuxfoundation.org>
- <20241111223538.GD17916@pendragon.ideasonboard.com>
- <7d14de47-119a-42e4-a911-f8accae4abf1@linuxfoundation.org>
- <20241112051836.GF17916@pendragon.ideasonboard.com>
- <ec850949-7987-41ec-ba1f-a0c90b465661@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uzp8TFWI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B00DC4CECD;
+	Tue, 12 Nov 2024 17:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731434262;
+	bh=1URpfIrCXwUDp20J+85VGQv7B1uElnbl53FjCZonyuU=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=uzp8TFWIFln5YzU8/cX9CtUrWs5/n5PMJb84/N0vbWt9G2svGTOsIS6sPvrWSf3aU
+	 NRzhnS9uXgiQJpr6qWxBRSt+i0qynR4FxOg6xKI+wZDs2bTEsU3RAp9IcopSU/OCan
+	 Ej97IxAi+iT1N1J/5O0tjEcTzj0cCvyh2cT5RfcKV5s60VDlMtm+/vJTJkGn3k2GUb
+	 5MuuIlMe8zAxOIllEesaN1NwDjEeySr7nZovPNksQUKp4now4Bazi1ffDLtpUA2aw4
+	 hjX8lqRp2oo5M8ptdAJhIcG6AxznFK96TR938ddqFz1f1W93x02NI9gg9+AIq49gF7
+	 IdCmW06ypgxQQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ec850949-7987-41ec-ba1f-a0c90b465661@linuxfoundation.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 12 Nov 2024 19:57:37 +0200
+Message-Id: <D5KE7X6LMR5Z.AA8PPWDBPQP7@kernel.org>
+Cc: "Roberto Sassu" <roberto.sassu@huawei.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] tpm: Opt-in in disable PCR integrity protection
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Mimi Zohar" <zohar@linux.ibm.com>, "James Bottomley"
+ <James.Bottomley@HansenPartnership.com>, <linux-integrity@vger.kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Peter Huewe" <peterhuewe@gmx.de>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>
+X-Mailer: aerc 0.18.2
+References: <20241107095138.78209-1-jarkko@kernel.org>
+ <76d9ae11c339b589a8ec94f010e7439b7ce7d283.camel@HansenPartnership.com>
+ <D5FZT0QPHL0O.231WD6VUHC48X@kernel.org>
+ <10296fd8b0fcbf1d813577ef41738ffea12b70d1.camel@HansenPartnership.com>
+ <dd51366e50de86e8a6002f2f53801c53a9b770f3.camel@linux.ibm.com>
+In-Reply-To: <dd51366e50de86e8a6002f2f53801c53a9b770f3.camel@linux.ibm.com>
 
-On Tue, Nov 12, 2024 at 10:44:29AM -0700, Shuah Khan wrote:
-> On 11/11/24 22:18, Laurent Pinchart wrote:
-> > On Mon, Nov 11, 2024 at 05:35:11PM -0700, Shuah Khan wrote:
-> >> On 11/11/24 15:35, Laurent Pinchart wrote:
-> >>> On Mon, Nov 11, 2024 at 02:50:45PM -0700, Shuah Khan wrote:
-> >>>> On 11/11/24 13:07, Simona Vetter wrote:
-> >>>>> On Fri, Nov 08, 2024 at 09:18:53AM -0700, Shuah Khan wrote:
-> >>>>>> The Code of Conduct committee's goal first and foremost is to bring about
-> >>>>>> change to ensure our community continues to foster respectful discussions.
-> >>>>>>
-> >>>>>> In the interest of transparency, the CoC enforcement policy is formalized
-> >>>>>> for unacceptable behaviors.
-> >>>>>>
-> >>>>>> Update the Code of Conduct Interpretation document with the enforcement
-> >>>>>> information.
-> >>>>>>
-> >>>>>> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
-> >>>>>> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >>>>>> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> >>>>>> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
-> >>>>>> Acked-by: Jonathan Corbet <corbet@lwn.net>
-> >>>>>> Acked-by: Steven Rostedt <rostedt@goodmis.org>
-> >>>>>> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> >>>>>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-> >>>>>
-> >>>>> I think it's really good to document these details. The freedesktop coc
-> >>>>> team is going through the same process, we've also done a talk at XDC
-> >>>>> about all these changes, and I think this helps a lot in transparency and
-> >>>>> accountability in practice. With that, some thoughts below.
-> >>>
-> >>> I've been thinking about replying to this patch for a few days now. I
-> >>> think I managed to sleep over it enough to make that possible.
-> >>>
-> >>> I share Sima's opinion here. There is FUD around the CoC and its
-> >>> enforcement process due to lack of transparency, so I believe
-> >>> documenting the goals and means is important and will help.
-> >>
-> >> Thank you for your feedback.
-> >>
-> >>>> Thank you Simona for your review and feedback.
-> >>>>
-> >>>>>> ---
-> >>>>>>     .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
-> >>>>>>     1 file changed, 52 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
-> >>>>>> index 66b07f14714c..21dd1cd871d2 100644
-> >>>>>> --- a/Documentation/process/code-of-conduct-interpretation.rst
-> >>>>>> +++ b/Documentation/process/code-of-conduct-interpretation.rst
-> >>>>>> @@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
-> >>>>>>     Because how we interpret and enforce the Code of Conduct will evolve over
-> >>>>>>     time, this document will be updated when necessary to reflect any
-> >>>>>>     changes.
-> >>>>>> +
-> >>>>>> +Enforcement for Unacceptable Behavior Code of Conduct Violations
-> >>>>>> +----------------------------------------------------------------
-> >>>>>> +
-> >>>>>> +The Code of Conduct committee works to ensure that our community continues
-> >>>>>> +to be inclusive and fosters diverse discussions and viewpoints, and works
-> >>>>>> +to improve those characteristics over time. The Code of Conduct committee
-> >>>>>> +takes measures to restore productive and respectful collaboration when an
-> >>>>>> +unacceptable behavior has negatively impacted that relationship.
-> >>>>>> +
-> >>>>>> +Seek public apology for the violation
-> >>>>>> +*************************************
-> >>>>>> +
-> >>>>>> +The Code of Conduct Committee publicly calls out the behavior in the
-> >>>>>> +setting in which the violation has taken place, seeking public apology
-> >>>>>> +for the violation.
-> >>>>>> +
-> >>>>>> +A public apology for the violation is the first step towards rebuilding
-> >>>>>> +the trust. Trust is essential for the continued success and health of the
-> >>>>>> +community which operates on trust and respect.
-> >>>>>
-> >>>>> Personal take, but I think a forced public apology as the primary or at
-> >>>>> least initial coc enforcement approach is one of the worst.
-> >>>>
-> >>>> Seeking public apology is in response to unacceptable behaviors which are
-> >>>> serious in nature. These incidents are exceedingly rare. When these incidents
-> >>>> happen, they usually resolve when another developer/community member points
-> >>>> out the behavior. The individual responds with a voluntary apology to
-> >>>> mend fences and repair harm.
-> >>>>
-> >>>> The CoC  gets involved only when it receives a report which is the case
-> >>>> when normal paths such as peers pointing out the behavior to repair the
-> >>>> harm haven't been successful.
-> >>>>
-> >>>> This document isn't intended to be a complete summary of all actions the
-> >>>> CoC takes in response to reports. There is a lot of back and forth with
-> >>>> the individuals to bring about change before the CoC asks for an apology.
-> >>
-> >> See below clarification on above use of "actions"
-> >>
-> >>>> The CoC seeks public apology only when it is essential to repair the harm.
-> >>>
-> >>> Limiting the CoC committee to seeking public apology, due to what it
-> >>> means in terms of both process and goal, would deprive the committee
-> >>> from many useful courses of action. I was expecting you were not limited
-> >>> to this, and I appreciate that you are stating it clearly here. It is
-> >>> not however clear from this patch, and I believe it would benefit the
-> >>> whole community if this was explained better in the document. A more
-> >>> detailed description of the different means of action and outcomes would
-> >>> help balance the fact that the proceedings of the CoC committe are not
-> >>> public.
-> >>
-> >> The actions CoC takes prior asking for a public apology are working
-> >> with the individual to bring about change in their understanding the
-> >> importance to repair damage caused by the behavior.
-> >>
-> >> Since these are measures to bring about change, the document doesn't
-> >> go into the details about the logistics.
-> > 
-> > I think that's where it falls short. The private proceedings policy that
-> > governs the CoC committee (I'm not interested here to debate whether
-> > that is good or not, the question is out of scope) needs in my opinion
-> > to be offset by more transparency in the procedures documentation to
-> > avoid the "secret court" image that many attach to the CoC committee. I
-> > do understand this is not a trivial exercise, as any policy documented
-> > in writing can have a limiting impact on the actions the CoC committee
-> > can take, but I believe that this patch, as it stands, gives a wrong and
-> > possibly damaging impression of the committee's work.
-> 
-> Thank you Laurent.
-> 
-> Bulk of the Code of Conduct Committee work involves listening, talking,
-> and discussing the best outcomes for all involved parties.
-> 
-> I will add more content to the document distilling the discussion on
-> this thread in the interest of transparency.
+On Mon Nov 11, 2024 at 9:53 PM EET, Mimi Zohar wrote:
+> > The original open coded the empty auth append with struct
+> > tpm2_null_auth since it's the only user.  However, since we do have
+> > another user in trusted keys, it might make sense to consolidate.
+>
+> Instead of delaying the current patch from being upstreamed, perhaps this=
+ change
+> can be deferred?
 
-Thank you, much appreciated. I think that will be very helpful to
-maximize trust in the process and in the pleasureless but important work
-the committee is doing.
+Yes.
 
--- 
-Regards,
-
-Laurent Pinchart
+BR, Jarkko
