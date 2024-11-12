@@ -1,211 +1,272 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79ADF1F26EB;
-	Tue, 12 Nov 2024 00:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A74A1F7556
+	for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 00:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731371418; cv=none; b=kv1IZNqhsiNJNk+uxP1UEOTIhjbw/VAsxvTlaVa4Dm2EK/XQ9ZeuAP8ywe1Z4x79CVvS2xLlGdNnPVr/wvwT/nKODSaymeJYS+t6bW4g/Gxq36ZLUwtqHt5eUeMiWgtW8UyACoRd+ipyR8l3OvCfx3KjY8E9KZ2FMajPKGH1w70=
+	t=1731371721; cv=none; b=BgphL4d+xIyXfqqggUmI8HNmpMeqes23M2Brji6QEN0+OvXzrxik7R17VTPputIDf435ovOYIU8VwzOZuXCojcmmsPS8CJcOtLc34r97SfkcSAOiePKv6PQtKM61oDI5LAwAj2Rkt9btVLKlavCWGIw0qtqCg48kM/KcFu0gpUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731371418; c=relaxed/simple;
-	bh=V83T9rsRDVwJq3z6X/c7c2hPEWoKo7exrEVZtV2JS9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kg8NP0nXQAOMthgfqhZf8XZv7t7+9kTewQTqUNNyl2VoxwwT2z7bMkPfq+H60R0YSA3tg/plfr8Nq/jHfRdkxcjpn/OOy+JJ0K4iKKLYQbucuqifCAD6X2UvJsT3PsHt31CXdhQcXC0/4LT7lSXqnmD/cfAkXa9pl3oGQeHHxns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1zsDvua; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731371721; c=relaxed/simple;
+	bh=swpKj3a+UsuANQ/ZoLKZ5n+KlEUivKzsAu8q6b6fVlE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q9bXmVMok6zBY8/AOqvqqbLWxE9KeXvNluZDPGGDa1ugcLYmhYG1msMhGuN191v6X1znRvO6o8uIlx2MIctps0vW2T3rzTCFaZdI0g0SypEbbeL4HZM2j/D3IGXmbTipsyJyew1tZN/EFRWkmyjg566jRdWVw1OZmnxmdF0PTgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Hr+eRubx; arc=none smtp.client-ip=209.85.166.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1zsDvua"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11249C4CECF;
-	Tue, 12 Nov 2024 00:30:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731371418;
-	bh=V83T9rsRDVwJq3z6X/c7c2hPEWoKo7exrEVZtV2JS9A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I1zsDvuaZksUyu6y9UYrQFBxj+6jCdWhhth1eDt54E14FFcLgLOIeq15b99kdx8PX
-	 9WZb6FmbNrIAaOQTkTn73bI9nspntd/CfoAFqzEYohO+wFMhJVrDMHnXy3AEMZyKsh
-	 NTFHpfLrO/GoH/RoZRi0D8n18IS46b8hzmQvuxH4Gzrs9c+fEFM4RS+B+lYaIxVsnV
-	 UzJ0E1D0/GOMZaCLC55h88FhLml8fZfObleEJF5lUlV2xjO3NYxX0rgKZZ0DT/sM+Z
-	 PxCuFdnsW+lqUwSaa2P2sxUt9DsL2MziCm2Z6PKWt+uEFhBHRD5+xoXKG8E1vDobI2
-	 GBMuXNDnmDmDg==
-Date: Mon, 11 Nov 2024 16:30:15 -0800
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: "Kaplan, David" <David.Kaplan@amd.com>
-Cc: Amit Shah <amit@kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"Shah, Amit" <Amit.Shah@amd.com>,
-	"Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>,
-	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-	"kai.huang@intel.com" <kai.huang@intel.com>,
-	"Das1, Sandipan" <Sandipan.Das@amd.com>,
-	"boris.ostrovsky@oracle.com" <boris.ostrovsky@oracle.com>,
-	"Moger, Babu" <Babu.Moger@amd.com>,
-	"dwmw@amazon.co.uk" <dwmw@amazon.co.uk>,
-	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>
-Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
- AMD
-Message-ID: <20241112003015.qxuufx6jrfeoqfak@jpoimboe>
-References: <20241111163913.36139-1-amit@kernel.org>
- <20241111163913.36139-2-amit@kernel.org>
- <20241111193304.fjysuttl6lypb6ng@jpoimboe>
- <LV3PR12MB9265A6B2030DAE155E7B560B94582@LV3PR12MB9265.namprd12.prod.outlook.com>
- <20241111203906.a2y55qoi767hcmht@jpoimboe>
- <20241111204038.63ny4i74irngw2si@jpoimboe>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Hr+eRubx"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3a6e960fb5dso18607555ab.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 Nov 2024 16:35:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1731371719; x=1731976519; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h2RamCiRbvufmYpTkLSPafjrY96FSeVA6M3qaZiwKq0=;
+        b=Hr+eRubxLASl+09M+89B0vUptX0MMk0iKEyqfmUJoueXmLWPQCxUJomDRjG4oqSwye
+         UVbaNuiV4BusJB1yxUYRM5PnaWEjhugv6LFDhqQ0qGFXGlcJmGRMyMhzzrxfPgHXps+p
+         oJqqQ7a6Lw5DO3NsfbOU32BfyTWyWDbarbNqU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731371719; x=1731976519;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h2RamCiRbvufmYpTkLSPafjrY96FSeVA6M3qaZiwKq0=;
+        b=dYHNd89MTU98j+U8jvuUf2digrUGhpW+4JfzBN9TW14oNjWZ+/ehD/C7dZGNyFLKp/
+         P7o76E19TM/2fFlMIIYQU1LTglChlENAikIMwTTe3hm8kKDZZmagMfB3TXZ3XqIXAw2L
+         Q0BH/7MlZUh3LRqRl7gh/W03RgwGe4VfVJtQGbEv3bVrMR6AVYN/tibO0oU1WUlTNMSa
+         5iIwZPr6avON5l23EsxIoPthdlI23w/Nj5erlsfPStXF4DLJAWbLMihQm919+9P9e0ak
+         vwCveMFLLQbjvc1qPr/7GQ+uxYHgVQmhQ3fL4Oj+w19Yf9bXqZfB44cCJDbyg9av7uj4
+         CgRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWpwLyEsem86OolZGZCO34v3BhqTVdSB9ngYblPUteSV6MkIMjzwSVGkIvcU/AOe+y+qecJOAQ/FxA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuMt3Q+es2uP7Wss7tcBj0GCgSeXMoTxkC8BQvz2uWXXaxFL3j
+	r/5VIvcDxDBnSTJK2DBii1XJVR2DR3Dq6voP5YB8y8syCWXMw/T+32FbqQHUyew=
+X-Google-Smtp-Source: AGHT+IFIiVIb9rMN+B8i2xWtzWDjGjPrTfribRqLKwNimYLO6WRm7F0fCfgf+WS8c5Kw/Wf51x0d9A==
+X-Received: by 2002:a05:6e02:1686:b0:3a6:aee2:1693 with SMTP id e9e14a558f8ab-3a6f19adc0fmr165181785ab.6.1731371718701;
+        Mon, 11 Nov 2024 16:35:18 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a6f9890d2esm17379085ab.72.2024.11.11.16.35.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Nov 2024 16:35:18 -0800 (PST)
+Message-ID: <7d14de47-119a-42e4-a911-f8accae4abf1@linuxfoundation.org>
+Date: Mon, 11 Nov 2024 17:35:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241111204038.63ny4i74irngw2si@jpoimboe>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for unacceptable
+ behaviors
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Dan Williams
+ <dan.j.williams@intel.com>, Dave Airlie <airlied@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20241108161853.12325-1-skhan@linuxfoundation.org>
+ <ZzJkAJEjKidV8Fiz@phenom.ffwll.local>
+ <ba3d5492-e774-452f-9fe0-e68b743c6b0d@linuxfoundation.org>
+ <20241111223538.GD17916@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20241111223538.GD17916@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 11, 2024 at 12:40:41PM -0800, Josh Poimboeuf wrote:
-> On Mon, Nov 11, 2024 at 12:39:09PM -0800, Josh Poimboeuf wrote:
-> > This is why it's important to spell out all the different cases in the
-> > comments.  I was attempting to document the justifications for the
-> > existing behavior.
-> > 
-> > You make some good points, though backing up a bit, I realize my comment
-> > was flawed for another reason: the return thunks only protect the
-> > kernel, but RSB filling on context switch is meant to protect user
-> > space.
-> > 
-> > So, never mind...
+On 11/11/24 15:35, Laurent Pinchart wrote:
+> Hi Shuah,
 > 
-> That said, I still think the comments need an update.  I'll try to come
-> up with something later.
+> On Mon, Nov 11, 2024 at 02:50:45PM -0700, Shuah Khan wrote:
+>> On 11/11/24 13:07, Simona Vetter wrote:
+>>> On Fri, Nov 08, 2024 at 09:18:53AM -0700, Shuah Khan wrote:
+>>>> The Code of Conduct committee's goal first and foremost is to bring about
+>>>> change to ensure our community continues to foster respectful discussions.
+>>>>
+>>>> In the interest of transparency, the CoC enforcement policy is formalized
+>>>> for unacceptable behaviors.
+>>>>
+>>>> Update the Code of Conduct Interpretation document with the enforcement
+>>>> information.
+>>>>
+>>>> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+>>>> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>>> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>>>> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+>>>> Acked-by: Jonathan Corbet <corbet@lwn.net>
+>>>> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+>>>> Acked-by: Dan Williams <dan.j.williams@intel.com>
+>>>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+>>>
+>>> I think it's really good to document these details. The freedesktop coc
+>>> team is going through the same process, we've also done a talk at XDC
+>>> about all these changes, and I think this helps a lot in transparency and
+>>> accountability in practice. With that, some thoughts below.
+> 
+> I've been thinking about replying to this patch for a few days now. I
+> think I managed to sleep over it enough to make that possible.
+> 
+> I share Sima's opinion here. There is FUD around the CoC and its
+> enforcement process due to lack of transparency, so I believe
+> documenting the goals and means is important and will help.
+> 
 
-Here are some clarifications to the comments.  Amit, feel free to
-include this in your next revision.
+Thank you for your feedback.
 
-----8<----
+>> Thank you Simona for your review and feedback.
+>>
+>>>> ---
+>>>>    .../code-of-conduct-interpretation.rst        | 52 +++++++++++++++++++
+>>>>    1 file changed, 52 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+>>>> index 66b07f14714c..21dd1cd871d2 100644
+>>>> --- a/Documentation/process/code-of-conduct-interpretation.rst
+>>>> +++ b/Documentation/process/code-of-conduct-interpretation.rst
+>>>> @@ -156,3 +156,55 @@ overridden decisions including complete and identifiable voting details.
+>>>>    Because how we interpret and enforce the Code of Conduct will evolve over
+>>>>    time, this document will be updated when necessary to reflect any
+>>>>    changes.
+>>>> +
+>>>> +Enforcement for Unacceptable Behavior Code of Conduct Violations
+>>>> +----------------------------------------------------------------
+>>>> +
+>>>> +The Code of Conduct committee works to ensure that our community continues
+>>>> +to be inclusive and fosters diverse discussions and viewpoints, and works
+>>>> +to improve those characteristics over time. The Code of Conduct committee
+>>>> +takes measures to restore productive and respectful collaboration when an
+>>>> +unacceptable behavior has negatively impacted that relationship.
+>>>> +
+>>>> +Seek public apology for the violation
+>>>> +*************************************
+>>>> +
+>>>> +The Code of Conduct Committee publicly calls out the behavior in the
+>>>> +setting in which the violation has taken place, seeking public apology
+>>>> +for the violation.
+>>>> +
+>>>> +A public apology for the violation is the first step towards rebuilding
+>>>> +the trust. Trust is essential for the continued success and health of the
+>>>> +community which operates on trust and respect.
+>>>
+>>> Personal take, but I think a forced public apology as the primary or at
+>>> least initial coc enforcement approach is one of the worst.
+>>
+>> Seeking public apology is in response to unacceptable behaviors which are
+>> serious in nature. These incidents are exceedingly rare. When these incidents
+>> happen, they usually resolve when another developer/community member points
+>> out the behavior. The individual responds with a voluntary apology to
+>> mend fences and repair harm.
+>>
+>> The CoC  gets involved only when it receives a report which is the case
+>> when normal paths such as peers pointing out the behavior to repair the
+>> harm haven't been successful.
+>>
+>> This document isn't intended to be a complete summary of all actions the
+>> CoC takes in response to reports. There is a lot of back and forth with
+>> the individuals to bring about change before the CoC asks for an apology.
+>>
 
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-Subject: [PATCH] x86/bugs: Update insanely long comment about RSB attacks
+See below clarification on above use of "actions"
 
-The long comment above the setting of X86_FEATURE_RSB_CTXSW is a bit
-confusing.  It starts out being about context switching specifically,
-but then goes on to describe "user -> kernel" mitigations, which aren't
-necessarily limited to context switches.
+>> The CoC seeks public apology only when it is essential to repair the harm.
+> 
+> Limiting the CoC committee to seeking public apology, due to what it
+> means in terms of both process and goal, would deprive the committee
+> from many useful courses of action. I was expecting you were not limited
+> to this, and I appreciate that you are stating it clearly here. It is
+> not however clear from this patch, and I believe it would benefit the
+> whole community if this was explained better in the document. A more
+> detailed description of the different means of action and outcomes would
+> help balance the fact that the proceedings of the CoC committe are not
+> public.
+The actions CoC takes prior asking for a public apology are working
+with the individual to bring about change in their understanding the
+importance to repair damage caused by the behavior.
 
-Clarify that it's about *all* RSB attacks and their mitigations.
+Since these are measures to bring about change, the document doesn't
+go into the details about the logistics.
 
-For consistency, add the "guest -> host" mitigations as well.  Then the
-comment above spectre_v2_determine_rsb_fill_type_at_vmexit() can be
-removed and the overall line count is reduced.
+If you have other possible courses of action in mind, please do state
+them.
+  
+> 
+> I would like to add that I appreciate the emphasis on rebuilding trust
+> as a goal, as I also believe trust and respect are essential. This
+> includes trust that victims will receive the support and protection they
+> need, trust that authors of behaviour deemed unfit by the community will
+> be treated fairly, and trust that the community will continuously work
+> on improving inclusiveness. All three aspects are needed to avoid
+> driving current and prospective community members away.
+> 
+>>> First, a ban or temporary suspension seems too mechanical and not in
+>>> proportion with the offence of failing to apologize. In my enforcement
+>>> thus far as maintainer and now also freedesktop.org CoC member we only use
+>>> punishment if behavior has failed to change _and_ we need to protect the
+>>> community from further harm. Usually it takes years to get to that point,
+>>> unless in extremely severe cases (like public harrassment campaigns) or
+>>> when the person stated that they refuse to even consider changing behavior
+>>> at all.
+>>
+>> Please see above. Public apology is necessary to repair and restore the
+>> health of the community in these rare cases when an individual doesn't
+>> understand that their behavior could cause harm. The CoC tries to get
+>> the individual to realize that offering a public apology is necessary
+>> to repair the harm and resume respectful and productive discussions.
+>>
+>>> Public means you're amping up the stakes and massively increase the odds
+>>> of people being afraid of their reputation and losing face. In my
+>>> experience people are a lot more reasonable when you discuss their
+>>> behavior and what needs to change in private. This even includes the case
+>>> where a temporary suspension had to be put in place already first, to
+>>> protect others.
+>>
+>> Please see above. The CoC works with the individual prior to taking the step
+>> of asking for an apology. It is a balancing act between repairing
+>> the harm caused to the individuals at the receiving end of the public
+>> unacceptable behavior and working with the individual to understand the
+>> harm done by such a behavior.
+>>
+>> The CoC is mindful of the negative impact of seeking public apology and
+>> instituting ban could have on individuals.
+> 
+> It could also be worth adding that, as Sima pointed out below, public
+> apology is sometimes not the best option for the victim.
 
-Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
----
- arch/x86/kernel/cpu/bugs.c | 59 ++++++++++++--------------------------
- 1 file changed, 19 insertions(+), 40 deletions(-)
+The CoC takes these into consideration during the investigation,
+before determining the best course of action.
 
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index 47a01d4028f6..fbdfa151b7a9 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -1581,26 +1581,6 @@ static void __init spec_ctrl_disable_kernel_rrsba(void)
- 
- static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_mitigation mode)
- {
--	/*
--	 * Similar to context switches, there are two types of RSB attacks
--	 * after VM exit:
--	 *
--	 * 1) RSB underflow
--	 *
--	 * 2) Poisoned RSB entry
--	 *
--	 * When retpoline is enabled, both are mitigated by filling/clearing
--	 * the RSB.
--	 *
--	 * When IBRS is enabled, while #1 would be mitigated by the IBRS branch
--	 * prediction isolation protections, RSB still needs to be cleared
--	 * because of #2.  Note that SMEP provides no protection here, unlike
--	 * user-space-poisoned RSB entries.
--	 *
--	 * eIBRS should protect against RSB poisoning, but if the EIBRS_PBRSB
--	 * bug is present then a LITE version of RSB protection is required,
--	 * just a single call needs to retire before a RET is executed.
--	 */
- 	switch (mode) {
- 	case SPECTRE_V2_NONE:
- 		return;
-@@ -1818,43 +1798,42 @@ static void __init spectre_v2_select_mitigation(void)
- 	pr_info("%s\n", spectre_v2_strings[mode]);
- 
- 	/*
--	 * If Spectre v2 protection has been enabled, fill the RSB during a
--	 * context switch.  In general there are two types of RSB attacks
--	 * across context switches, for which the CALLs/RETs may be unbalanced.
-+	 * In general there are two types of RSB attacks:
- 	 *
--	 * 1) RSB underflow
-+	 * 1) RSB underflow ("Intel Retbleed")
- 	 *
- 	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
- 	 *    speculated return targets may come from the branch predictor,
- 	 *    which could have a user-poisoned BTB or BHB entry.
- 	 *
--	 *    AMD has it even worse: *all* returns are speculated from the BTB,
--	 *    regardless of the state of the RSB.
-+	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack is
-+	 *    mitigated by the IBRS branch prediction isolation properties, so
-+	 *    the RSB buffer filling wouldn't be necessary to protect against
-+	 *    this type of attack.
- 	 *
--	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack
--	 *    scenario is mitigated by the IBRS branch prediction isolation
--	 *    properties, so the RSB buffer filling wouldn't be necessary to
--	 *    protect against this type of attack.
-+	 *    The "user -> user" attack is mitigated by RSB filling on context
-+	 *    switch.
- 	 *
--	 *    The "user -> user" attack scenario is mitigated by RSB filling.
-+	 *    The "guest -> host" attack is mitigated by IBRS or eIBRS.
- 	 *
- 	 * 2) Poisoned RSB entry
- 	 *
- 	 *    If the 'next' in-kernel return stack is shorter than 'prev',
- 	 *    'next' could be tricked into speculating with a user-poisoned RSB
--	 *    entry.
-+	 *    entry.  Speculative Type Confusion ("AMD retbleed") can also
-+	 *    create poisoned RSB entries.
- 	 *
--	 *    The "user -> kernel" attack scenario is mitigated by SMEP and
--	 *    eIBRS.
-+	 *    The "user -> kernel" attack is mitigated by SMEP and eIBRS.
- 	 *
--	 *    The "user -> user" scenario, also known as SpectreBHB, requires
--	 *    RSB clearing.
-+	 *    The "user -> user" attack, also known as SpectreBHB, requires RSB
-+	 *    clearing.
- 	 *
--	 * So to mitigate all cases, unconditionally fill RSB on context
--	 * switches.
--	 *
--	 * FIXME: Is this pointless for retbleed-affected AMD?
-+	 *    The "guest -> host" attack is mitigated by eIBRS (not IBRS!) or
-+	 *    RSB clearing on vmexit.  Note that eIBRS implementations with
-+	 *    X86_BUG_EIBRS_PBRSB still need "lite" RSB clearing which retires
-+	 *    a single CALL before the first RET.
- 	 */
-+
- 	setup_force_cpu_cap(X86_FEATURE_RSB_CTXSW);
- 	pr_info("Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch\n");
- 
--- 
-2.47.0
+Some people may
+> be afraid to report bad behaviours if they thought that the story would
+> be made public by a requirement to apologize publicly. I have total
+> confidence that the CoC committee will consult with the victim to
+> determine the best course of action, and that is worth documenting
+> explicitly.
+> 
+
+Thank you for your confidence in the CoC.
+
+Please note that the CoC has the obligation to keep the reports
+and individual information private. This public apology is specific
+to a public violation that has taken place on a public email list.
+The information and details are already public.
+
+The CoC could receive reports from a community member who could be
+an observer and not the victim. The CoC has the responsibility to
+investigate all such public violations.
+
+The CoC has the obligation to keep the reports privates. The public
+part is where the individual who violated the agreed upon Code of
+Conduct is asked to apologize to in response to the thread in which
+the violation has taken place.
+
+thanks,
+-- Shuah
+
+
+
 
