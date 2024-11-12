@@ -1,222 +1,131 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AE9219E39
-	for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 20:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C9B43AA1;
+	Tue, 12 Nov 2024 21:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731444265; cv=none; b=Q9xvsxFh3xyel3q/88diehpDhcUFUmGCaqrKiS22iuz5vBJRfOtEXaiUUGKD0ZVZ9ccAgo2SPnjG6Fwo+ztQ3MvhVokeNnDu7NYLb8PxO48CaE1gXAsnrkr5DwJO74ioEYhodmfb51TYG5M/DcBaU/RmgvQG6VZL5FnCI3TeN0w=
+	t=1731447693; cv=none; b=ERJO6f5PhUL5lpBoQz8FeqzbQCURXIB7jte/pRiBp00CEPrcNQH48wEMEC8xv9Jwa9AJZCNS90flyoKK0ixTJ2vBIxSVP6QT4guFnMnaR3Vdsna1W4rP9AinlJm9SfGMMULr8GHYuGQc2OGjZPsI0s5KRmAHII3O3zSJ/GZCBfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731444265; c=relaxed/simple;
-	bh=el0r2bRkdPPBOR4oInIoihU80U4XbTLMYSnoHJA5iSo=;
+	s=arc-20240116; t=1731447693; c=relaxed/simple;
+	bh=KtnVxQVsskG1USUpb1Ic8P4L+45XhIprxg4BVAU8c3k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Roedcx/DkbXlsazhyU8r/ubKSQNXBMQxzAL9Z5nEhLeo5SSqVoJUp5Y2U0CKOtVaXyXYH/41ejsuO0qqgWYWWMfVX51S6eLezoq1odPHsIHZrXyEDaMeKUPRu6q6dDn/4Tne7JEroBNXDhZOzYLh9OxN1BpUkY2xbeMKd3C/7pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=TTnoRsf6; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	 To:Cc:Content-Type; b=WZ6r7AdX0p+0qLKKwQpWn/dYn0wdDOgNrBX1HCtF8Sat1Ww4pQGt8x1h1bRcnv3KeES2yXy1142ZkncyZXqzc5KS1ZX7J6Jo84GkD1IffKL6Uv0Qrd4ZR7tiZELjKnaVgU68FHLOZffeAWMl3kR1CzBHyF6yA3Fw79pLLCuZFdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvM+mkfU; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="TTnoRsf6"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a9e44654ae3so853851966b.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 12:44:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MvM+mkfU"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb5be4381dso53999921fa.2;
+        Tue, 12 Nov 2024 13:41:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1731444262; x=1732049062; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731447689; x=1732052489; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ci3AOpKOMh+qQE+IxW9xvHQ5UYC3MnDiR3fLpgFFWsw=;
-        b=TTnoRsf6X1BY6CnHKXgJ/LclxkBauOXAkypLruREgbk9JxKJpbK0LVh1B1nOh5W97y
-         IkMoAfsaOFWWdBmGpDshaRqfhE9ZFlam8aFdk03J/3lRlPwzbZu+1U9yqjpE9t3NP/5S
-         yGzJM6uF8alxMRZNeJFmMKvexmtsWkYKigwg8=
+        bh=FRngAeELuwQJtRBB1/POe1L4vH51gEWaywFmKgXDLzY=;
+        b=MvM+mkfUfmBwJzfAMkLSa3XGs6lXiHnOIIR6xTHCsGFUT8sGFrqTZBn1Zm7B7Z9JJu
+         Y5W6UBxhRTEAduNFoFI1nXB+3xiGuALc6iTrF9I8Kedkzliabc0bgLUDxFmeePkTBy7L
+         Nklto2iVJbctyTWNsuJuLpbO+swpvmhUn+kGyLZkAvjJcvv+aQuAZd/BkUQPGyIU1iCT
+         AfjOE1GAKivSnTWL/5dGXVPmnrn/9KOMl6y14RPBybCFpdtU9KzDxMYmDnWz+HwOkSoU
+         7AjJCiiOLmONILXMwka4eWWEqfUplQVkhaGxPF8PnEtIIk00g77rzg2t0kOPgHe9el8L
+         Pqpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731444262; x=1732049062;
+        d=1e100.net; s=20230601; t=1731447689; x=1732052489;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ci3AOpKOMh+qQE+IxW9xvHQ5UYC3MnDiR3fLpgFFWsw=;
-        b=FfT1ZkkBw9r7SootaW1Hj+m083FWouKiSPEjRKqHyGcTZJqWi3FORSGXNsQj5HXClL
-         wAaeFJdbJN0Nf0xYUaLQ2GscCPVgZfSPq+GEyIHtNxxtcqa5h/oMPHefaMBskN0PDmiA
-         aZ7IV/pg3c6Jeqzf1b11Hd6HACVKFow15VWGpZXeriIUmywC2EGT0BLMiFpndNu9bVDr
-         P3YxarE/TgS0cXbECpr6E1R92JC8nfZlZqMRhySQj3skumpc0dSzj8MdQoU8CHkoMTjw
-         RD5IGUO+4zLyEXeL0w0welYaua9nU9qoZwuvM2Hwr0ehRkFre8+6t44m87dlIk5lrE/e
-         wy5A==
-X-Forwarded-Encrypted: i=1; AJvYcCXS+6Hh0QTbLcOBG9MlAwnG2ZeShX7MNKycx7yHfITTkiq2YPzx9Uhm022+53NrE7iiKv0XD+oOghY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKo2TdZfDMxwLqaoaedMOqp5OSYPdtmzyvTJCfQM77KjKtYz9c
-	QCiZDHBRIVC04WGvSE1lUEclaUU3xdrPf0Tm4cT0brvnKuqU/SIqPGfhWiSjN8JClhogpccmbVy
-	jUkmu9grUWj2xsPT19UyFNMYCVWyPPTo/8yl1wVT7oyeSdAvChF2sw8cj1wBvSFE5rWVCS1tnfe
-	mUkoC6bahXMZMRscnPuvEDSw==
-X-Google-Smtp-Source: AGHT+IG740NFxkx0vp+a1R5LySlw7AKNXAm4MBS09Ocb5RmGWJM/vc/T05dI8LgZ/LVvJavNohmip80HjcmCjvFy7Hk=
-X-Received: by 2002:a17:906:c14e:b0:a9a:5d15:26c2 with SMTP id
- a640c23a62f3a-aa1f80f60d7mr30502366b.45.1731444262225; Tue, 12 Nov 2024
- 12:44:22 -0800 (PST)
+        bh=FRngAeELuwQJtRBB1/POe1L4vH51gEWaywFmKgXDLzY=;
+        b=AEgXiuGh1uwtXhfjX2MDm4bX1nFov1cUwdLojcGnSwMDSwBJ+NDERTEoph83iZdRts
+         wpyCz5uvGIPCffaeLB5rj7gpRuJcmnZT83grxqUd1V7zcPbhvjor/jWEkKiUBDgUyS9x
+         qAMwAHxShk4gIMHH82amgn6X6wzn3VGwuisXKtz3sHcQIgxUAhcd1i/uHH/nGGPFSEyJ
+         XTIcHmhkYFA262HKohVpAY5xCrpJgSCxAedvlKu6dRYddFlleZ+m5LeUEzyRIpKgePEv
+         T8lkbJUrnIFwkD7E8flOmnXeOrHe7cwljmeEO4OjgWshMTRln2XgTMntuRTYGMEqKfFf
+         UAsA==
+X-Forwarded-Encrypted: i=1; AJvYcCV6ghQmNIswJe4/byy4b3z2mu9TeAoCCxdarSxU4D1PhmiLqq8iMslvEy1aCklZoGnqpoEFpl5yaiyOhssJ@vger.kernel.org, AJvYcCXNsBANpi55icXDmy7dD904wKRfqXTP8yYIQFFvd+90Bm6ls0XT+XOehfBCl/KKYoBbndcABGGKpkc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUqW7ie/SF+zxmjqz8MN1zQBQYELy7GRVQ+yrN0RgftrLf8nvt
+	nJc4/P6OwxRJ1zeAQsHaCM3S0FDrDg56Wrf81DZkgDVLs95SsA8LHhTVS/rV/23PaQ88fUcfLry
+	YAD2IMVGCwUpTTYScyESXLHXEboE=
+X-Google-Smtp-Source: AGHT+IENMuhrw0g7Zkg4wFiRcXgNlRLJsvSoukbMIIkcwCcSQPJJsJGcIAvElPiN+4GE5DtJiF7wnZaxIyJiN/egH/k=
+X-Received: by 2002:a05:6512:1386:b0:53b:1526:3a48 with SMTP id
+ 2adb3069b0e04-53d862c57cdmr7890107e87.14.1731447689288; Tue, 12 Nov 2024
+ 13:41:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241030033514.1728937-1-zack.rusin@broadcom.com>
- <20241030033514.1728937-3-zack.rusin@broadcom.com> <CABgObfaRP6zKNhrO8_atGDLcHs=uvE0aT8cPKnt_vNHHM+8Nxg@mail.gmail.com>
- <CABQX2QMR=Nsn23zojFdhemR7tvGUz6_UM8Rgf6WLsxwDqoFtxg@mail.gmail.com>
- <Zy0__5YB9F5d0eZn@google.com> <CABQX2QNxFDhH1frsGpSQjSs3AWSdTibkxPrjq1QC7FGZC8Go-Q@mail.gmail.com>
- <e3f943a7-a40a-45cb-b0d9-e3ed58344d8b@redhat.com> <CADH9ctD1uf_yBA3NXNQu7TJa_TPhLRN=0YZ3j2gGhgmaFRdCFg@mail.gmail.com>
- <c3026876-8061-4ab2-9321-97cc05bad510@redhat.com> <CADH9ctBivnvP1tNcatLKzd8EDz8Oo6X65660j8ccxYzk3aFzCA@mail.gmail.com>
- <CABgObfZEyCQMiq6CKBOE7pAVzUDkWjqT2cgfbwjW-RseH8VkLw@mail.gmail.com>
-In-Reply-To: <CABgObfZEyCQMiq6CKBOE7pAVzUDkWjqT2cgfbwjW-RseH8VkLw@mail.gmail.com>
-From: Doug Covelli <doug.covelli@broadcom.com>
-Date: Tue, 12 Nov 2024 15:44:11 -0500
-Message-ID: <CADH9ctA_C1dAOus1K+wOH_SOKTb=-X1sVawt5R=dkH1iGt8QUg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] KVM: x86: Add support for VMware guest specific hypercalls
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Zack Rusin <zack.rusin@broadcom.com>, Sean Christopherson <seanjc@google.com>, 
-	kvm <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@redhat.com>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Joel Stanley <joel@jms.id.au>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	"Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>, 
-	linux-kselftest <linux-kselftest@vger.kernel.org>
+References: <20241107033303.97509-1-yesanishhere@gmail.com> <87a5e4qk7p.fsf@trenco.lwn.net>
+In-Reply-To: <87a5e4qk7p.fsf@trenco.lwn.net>
+From: anish kumar <yesanishhere@gmail.com>
+Date: Tue, 12 Nov 2024 13:41:17 -0800
+Message-ID: <CABCoZhCp0oCTXFx911ftkUhHzkg5wwTVJyNQ1yKMWsocuwJM9A@mail.gmail.com>
+Subject: Re: [PATCH] docs: driver-model: generate kernel-doc for driver model
+ using script
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: broonie@kernel.org, dlechner@baylibre.com, u.kleine-koenig@pengutronix.de, 
+	Jonathan.Cameron@huawei.com, pstanner@redhat.com, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 12, 2024 at 12:44=E2=80=AFPM Paolo Bonzini <pbonzini@redhat.com=
-> wrote:
+On Tue, Nov 12, 2024 at 12:18=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
+rote:
 >
-> Il lun 11 nov 2024, 21:55 Doug Covelli <doug.covelli@broadcom.com> ha scr=
-itto:
+> anish kumar <yesanishhere@gmail.com> writes:
+>
+> > In commit 63dc355 ("remove the driver-model structures from the
+> > documentation"), the kernel-doc text was removed, and users were
+> > instructed to read the documentation directly from the source code.
+> > However, using the kernel-doc script to extract and generate the
+> > documentation is a better approach, as it ensures the documentation
+> > remains in sync with the code. Additionally, it provides users with
+> > a more convenient way to access the documentation without needing to
+> > refer directly to the source code.
 > >
-> > BDOOR_CMD_VCPU_MMIO_HONORS_PAT and BDOOR_CMD_VCPU_LEGACY_X2APIC_OK are =
-not
-> > actually backdoor calls - they are flags returned by BDOOR_CMD_GET_VCPU=
-_INFO.
+> > This patch adds kernel-doc annotations for the driver model to
+> > facilitate the use of the kernel-doc script.
 > >
-> > BDOOR_CMD_VCPU_MMIO_HONORS_PAT is only ever set to 1 on ESX as it is on=
-ly
-> > relevant for PCI passthru which is not supported on Linux/Windows/macOS=
-.  IIRC
-> > this was added over 10 years ago for some Infiniband device vendor to u=
-se in
-> > their driver although I'm not sure that ever materialized.
+> > Signed-off-by: anish kumar <yesanishhere@gmail.com>
+> > ---
+> >  Documentation/driver-api/driver-model/bus.rst    | 4 +++-
+> >  Documentation/driver-api/driver-model/device.rst | 4 ++--
+> >  Documentation/driver-api/driver-model/driver.rst | 3 ++-
+> >  3 files changed, 7 insertions(+), 4 deletions(-)
 >
-> Ok. So I guess false is safe.
+> This does not work very well...
 >
-> > BDOOR_CMD_VCPU_LEGACY_X2APIC_OK indicates if it is OK to use x2APIC w/o
-> > interrupt remapping (e.g a virtual IOMMU).  I'm not sure if KVM support=
-s this
-> > but I think this one can be set to TRUE unconditionally as we have no p=
-lans to
-> > use KVM_CREATE_IRQCHIP - if anything we would use KVM_CAP_SPLIT_IRQCHIP=
- although
-> > my preference would be to handle all APIC/IOAPIC/PIC emulation ourselve=
-s
-> > provided we can avoid CR8 exits but that is another discussion.
+> Documentation/driver-api/driver-model/bus:8: ./include/linux/device/bus.h=
+:3: WARNING: Duplicate C declaration, also defined at driver-api/infrastruc=
+ture:3.
+> Declaration is '.. c:struct:: bus_type'.
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-ver=
+sion 7.2.6 -function struct -function device ./include/linux/device/device.=
+h' failed with return code 1
+> Documentation/driver-api/driver-model/driver:5: ./include/linux/device/dr=
+iver.h:3: WARNING: Duplicate C declaration, also defined at driver-api/infr=
+astructure:48.
+> Declaration is '.. c:struct:: device_driver'.
 >
-> Split irqchip should be the best tradeoff. Without it, moves from cr8
-> stay in the kernel, but moves to cr8 always go to userspace with a
-> KVM_EXIT_SET_TPR exit. You also won't be able to use Intel
-> flexpriority (in-processor accelerated TPR) because KVM does not know
-> which bits are set in IRR. So it will be *really* every move to cr8
-> that goes to userspace.
+> Please actually perform a documentation build and look at the results
+> before sending patches.
 
-Sorry to hijack this thread but is there a technical reason not to allow CR=
-8
-based accesses to the TPR (not MMIO accesses) when the in-kernel local APIC=
- is
-not in use?  Both MSFT's WHP and Apple's hypervisor framework allow this an=
-d it
-seems like it would be generally useful for any Hypervisor that does not wa=
-nt to
-use the in-kernel APIC but still want to run Windows guests with decent
-performance.
+I followed the steps, but unfortunately, the warning did not appear
+in older kernels. I also couldn't find any mention of where to
+download the source code for the patches in this directory.
+It doesn't seem to be listed in the MAINTAINERS file. I think I can
+use the latest mainline kernel for sending patches for this directory
+where I can clearly see these warnings.
 
-When we switched to WHP the biggest source of problems by far was from tryi=
-ng
-to integrate our monitor with MSFT's APIC emulation code.  Even if we do wa=
-nt
-to use the KVM in-kernel APIC at some point in the future it is still nice =
-to
-be able to fall back on our own APIC emulation code if necessary.
+Additionally, I noticed that this api already appears in infrastructure.rst=
+.
+Given that, do you think it makes sense to continue pursuing this patch,
+or should I modify it to reference the infrastructure.rst file instead?
+Or, would it be better to drop the patch altogether?
 
-Also I could not find these documented anywhere but with MSFT's APIC our mo=
-nitor
-relies on extensions for trapping certain events such as INIT/SIPI plus LIN=
-T0
-and SVR writes:
-
-UINT64 X64ApicInitSipiExitTrap    : 1; // WHvRunVpExitReasonX64ApicInitSipi=
-Trap
-UINT64 X64ApicWriteLint0ExitTrap  : 1; // WHvRunVpExitReasonX64ApicWriteTra=
-p
-UINT64 X64ApicWriteLint1ExitTrap  : 1; // WHvRunVpExitReasonX64ApicWriteTra=
-p
-UINT64 X64ApicWriteSvrExitTrap    : 1; // WHvRunVpExitReasonX64ApicWriteTra=
-p
-
-I did not see any similar functionality for KVM.  Does anything like that e=
-xist?
-In any case we would be happy to add support for handling CR8 accesses w/o
-exiting w/o the in-kernel APIC along with some sort of a way to configure t=
-he
-TPR threshold if folks are not opposed to that.
-
-Doug
-
-> > For now I think it makes sense to handle BDOOR_CMD_GET_VCPU_INFO at use=
-rlevel
-> > like we do on Windows and macOS.
-> >
-> > BDOOR_CMD_GETTIME/BDOOR_CMD_GETTIMEFULL are similar with the former bei=
-ng
-> > deprecated in favor of the latter.  Both do essentially the same thing =
-which is
-> > to return the host OS's time - on Linux this is obtained via gettimeofd=
-ay.  I
-> > believe this is mainly used by tools to fix up the VM's time when resum=
-ing from
-> > suspend.  I think it is fine to continue handling these at userlevel.
+Thanks for your guidance.
 >
-> As long as the TSC is not involved it should be okay.
+> Thanks,
 >
-> Paolo
->
-> > > >> Anyway, one question apart from this: is the API the same for the =
-I/O
-> > > >> port and hypercall backdoors?
-> > > >
-> > > > Yeah the calls and arguments are the same.  The hypercall based
-> > > > interface is an attempt to modernize the backdoor since as you poin=
-ted
-> > > > out the I/O based interface is kind of hacky as it bypasses the nor=
-mal
-> > > > checks for an I/O port access at CPL3.  It would be nice to get rid=
- of
-> > > > it but unfortunately I don't think that will happen in the foreseea=
-ble
-> > > > future as there are a lot of existing VMs out there with older SW t=
-hat
-> > > > still uses this interface.
-> > >
-> > > Yeah, but I think it still justifies that the KVM_ENABLE_CAP API can
-> > > enable the hypercall but not the I/O port.
-> > >
-> > > Paolo
->
-
---=20
-This electronic communication and the information and any files transmitted=
-=20
-with it, or attached to it, are confidential and are intended solely for=20
-the use of the individual or entity to whom it is addressed and may contain=
-=20
-information that is confidential, legally privileged, protected by privacy=
-=20
-laws, or otherwise restricted from disclosure to anyone else. If you are=20
-not the intended recipient or the person responsible for delivering the=20
-e-mail to the intended recipient, you are hereby notified that any use,=20
-copying, distributing, dissemination, forwarding, printing, or copying of=
-=20
-this e-mail is strictly prohibited. If you received this e-mail in error,=
-=20
-please return the e-mail to the sender, delete it from your computer, and=
-=20
-destroy any printed copy of it.
+> jon
