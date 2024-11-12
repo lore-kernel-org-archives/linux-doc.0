@@ -1,67 +1,54 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4FC20A5FE;
-	Tue, 12 Nov 2024 10:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A082185B3;
+	Tue, 12 Nov 2024 10:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731406606; cv=none; b=A8dp/A2X7Y2Tt9IIkFWxXRUqhvhbN6zwxXpHWllP/yt6TrrQMCvbD0un4sr68yZuzezTPyEBOpKQCa+DNIp2mpUPezaMuZfUcCCk8FqdxdLZgodPyEALccou7JNHsNOxfuDjZVEug5l/P35zKvBFMq8TYtFmjaHmjC41m/q0+5w=
+	t=1731407781; cv=none; b=Gykd4aZFNrJIcyxP+SC12GwYDjkqW4yRsS0JLXa+IgnXAXmORFkw+LTUwcGb68G2zQtYupNJsatd5Ow+/AY2wwYegEfjzkPtMHiUKC4GdONhsPF1KJ5YnIzUQE+S0YTs4Gg+fw2hxYsfs0xI8QF5cZxrXvv3h3azHQPdqAoJbo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731406606; c=relaxed/simple;
-	bh=C/BP9FVcPJ1uezwVLOwwlYDX1qvfG5XzghUAvz0KXaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZC1ULCLCFNg1y8CsGsmNZM2FHZxyaIvJYPaL77pncYLnt7y1jfXAJ4wzyOdAqFfi4KxVA7tjDBVwGFlgetVPNtIQEwtzVVnd9mZnP7iUZ2HWp7mnjwlka9kydu/S8A2h4w2Z0W/+m5QGIO4iBEX7ihcgpzNi/skKp+iQXGJ+YGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=l+BejFZe; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1731407781; c=relaxed/simple;
+	bh=mKHfPw49S/UjlwDth40dYQc6804kuiAi0oR24zuo3jU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GMATVCu1oF3QGlD2PW83VfIzcxTs5YCk3zTv+SF3/+JRDvc0Ja2hKxRjpu5sW/r6lfNYFOx5EA4SiVCrvY9/RQI9zelch60NJx/uGWtgdi5B4j4+hDDukGt9QS2h83dT5aDJuzbdMR4+r6xIst0N3BQJTkeLx88JeqEmh4L5w8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uuitetAc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="l+BejFZe"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F15A3E0005;
-	Tue, 12 Nov 2024 10:16:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1731406601;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QWhd/u5s3s71+O5VjXaZ+pcPf116rHmE/Ep6H484160=;
-	b=l+BejFZeIVc+7HYLOrj+Xc2sUzOC4LJBDtFiRfKihLiEmtGfjJ76JuT/rcBynIU3hOTOKM
-	Qvo5UuWQHIxgFMukSzazjyuv+kXC81xRTN8r+kbvY8hyIB3Jls/AWgmyt3KP1bVOMCKv7O
-	3tYkS+RRckNrhGSIXi7xBxv2za58F3LsJYNXuOO2q8VU4vR6E7V6ejWHJXafbJ8EjBXmIQ
-	wAWHltNP6B/umXy4uzlGmIdlQ3RuNUDwfK9P64sANy0E4xk9ZBotIB6S0a+vPcQujYmyAD
-	JncZbpa7CGss0Jic41O+Wo2E0Y9tJoZBk+JHnqDbFHrnudi6FL5e+GzXWldj6w==
-Date: Tue, 12 Nov 2024 11:16:39 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu
- Pirea <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh
- <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, donald.hunter@gmail.com,
- danieller@nvidia.com, ecree.xilinx@gmail.com, Andrew Lunn
- <andrew+netdev@lunn.ch>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
- Willem de Bruijn <willemb@google.com>, Shannon Nelson
- <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>
-Subject: Re: [PATCH net-next v19 09/10] net: ethtool: Add support for
- tsconfig command to get/set hwtstamp config
-Message-ID: <20241112111639.5261b3cf@kmaincent-XPS-13-7390>
-In-Reply-To: <955dde4b-b4ba-439f-b7d4-f64d90c58d55@linux.dev>
-References: <20241030-feature_ptp_netnext-v19-0-94f8aadc9d5c@bootlin.com>
-	<20241030-feature_ptp_netnext-v19-9-94f8aadc9d5c@bootlin.com>
-	<955dde4b-b4ba-439f-b7d4-f64d90c58d55@linux.dev>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uuitetAc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCDC5C4CED6;
+	Tue, 12 Nov 2024 10:36:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731407781;
+	bh=mKHfPw49S/UjlwDth40dYQc6804kuiAi0oR24zuo3jU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=uuitetAcfKakqE4Ejx/T2nMnuPKTF2I+J9yj0KFhMPNapi0IFt1TMJrQ3/C/6lvJQ
+	 ssE2g7ukz3aj0wBI/koODWiB7JaBjBeDzYfp9NDEKWOyRrKRf9mP4S1rFYsMvunsAd
+	 wAfR8tWrFH3j6QSbq/LRd+tmEuThDZ+k3FxlzDpPTieOHixSa1vJu1RP9iGBGFlz8e
+	 d3oBfgAdIm7PoFCoUNu0X8ts3FCee8yf4oNOYbQlSZMcR/Bl91Fhzs1cqXraVVQM6S
+	 KkKxQ1Fz/86JdeZpFq1cuUtNoeCA6zlUa8f3yLfAF5GUYHedhGjRS00bE8T6eEhYK7
+	 SOeg468SEvZ6w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: =?UTF-8?q?Alexander=20H=C3=B6lzl?= <alexander.hoelzl@gmx.net>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Sasha Levin <sashal@kernel.org>,
+	robin@protonic.nl,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	corbet@lwn.net,
+	linux-can@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.11 09/16] can: j1939: fix error in J1939 documentation.
+Date: Tue, 12 Nov 2024 05:35:51 -0500
+Message-ID: <20241112103605.1652910-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241112103605.1652910-1-sashal@kernel.org>
+References: <20241112103605.1652910-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,67 +56,40 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.11.7
+Content-Transfer-Encoding: 8bit
 
-On Sat, 9 Nov 2024 01:43:30 +0000
-Vadim Fedorenko <vadim.fedorenko@linux.dev> wrote:
+From: Alexander Hölzl <alexander.hoelzl@gmx.net>
 
-> > +	ret =3D net_hwtstamp_validate(&hwtst_config);
-> > +	if (ret)
-> > +		goto err_clock_put;
-> > +
-> > +	if (mod) {
-> > +		struct kernel_hwtstamp_config zero_config =3D {0};
-> > +		struct hwtstamp_provider *__hwtstamp;
-> > +
-> > +		/* Disable current time stamping if we try to enable
-> > +		 * another one
-> > +		 */
-> > +		ret =3D dev_set_hwtstamp_phylib(dev, &zero_config,
-> > info->extack); =20
-> 	=09
-> _hwtst_config is still inited to 0 here, maybe it can be used to avoid
-> another stack allocation?
+[ Upstream commit b6ec62e01aa4229bc9d3861d1073806767ea7838 ]
 
-You are right, thanks!
+The description of PDU1 format usage mistakenly referred to PDU2 format.
 
->=20
-> > +		if (ret < 0)
-> > +			goto err_clock_put;
-> > +
-> > +		/* Change the selected hwtstamp source */
-> > +		__hwtstamp =3D rcu_replace_pointer_rtnl(dev->hwtstamp,
-> > hwtstamp);
-> > +		if (__hwtstamp)
-> > +			call_rcu(&__hwtstamp->rcu_head,
-> > +				 remove_hwtstamp_provider);
-> > +	} else {
-> > +		/* Get current hwtstamp config if we are not changing the
-> > +		 * hwtstamp source
-> > +		 */
-> > +		ret =3D dev_get_hwtstamp_phylib(dev, &_hwtst_config); =20
->=20
-> This may be tricky whithout ifr set properly. But it should force
-> drivers to be converted.
+Signed-off-by: Alexander Hölzl <alexander.hoelzl@gmx.net>
+Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Acked-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Link: https://patch.msgid.link/20241023145257.82709-1-alexander.hoelzl@gmx.net
+Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/networking/j1939.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It is the point, it even return not supported error if ndo_hwtstamp_set/get=
- are
-not defined.
-=20
-> > +		if (ret < 0 && ret !=3D -EOPNOTSUPP)
-> > +			goto err_clock_put;
-> > +	}
-> > +
-> > +	if (memcmp(&hwtst_config, &_hwtst_config, sizeof(hwtst_config))) {
-> > =20
->=20
-> better to use kernel_hwtstamp_config_changed() helper here
+diff --git a/Documentation/networking/j1939.rst b/Documentation/networking/j1939.rst
+index e4bd7aa1f5aa9..544bad175aae2 100644
+--- a/Documentation/networking/j1939.rst
++++ b/Documentation/networking/j1939.rst
+@@ -121,7 +121,7 @@ format, the Group Extension is set in the PS-field.
+ 
+ On the other hand, when using PDU1 format, the PS-field contains a so-called
+ Destination Address, which is _not_ part of the PGN. When communicating a PGN
+-from user space to kernel (or vice versa) and PDU2 format is used, the PS-field
++from user space to kernel (or vice versa) and PDU1 format is used, the PS-field
+ of the PGN shall be set to zero. The Destination Address shall be set
+ elsewhere.
+ 
+-- 
+2.43.0
 
-Oh yes, thanks for pointing it out.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
