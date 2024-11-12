@@ -1,130 +1,91 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024D2219CB2;
-	Tue, 12 Nov 2024 20:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6F8219E2F;
+	Tue, 12 Nov 2024 20:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731443173; cv=none; b=OrvaJ7f0yk94f7RoYnDhOom3B2pX8hYz5MzHKVdbXckuGoxbvmn7eRzUUWmxfEPTqeQyLM5fziqUCSOI1l3ngwfSr9R4To63AVvRZ8/Ym02kkQGiIR9GLGi4s2rQLvAisP7dib66NGfIJVXMeZUB46q0rfuZoGz1BfLRtq6+Yts=
+	t=1731443196; cv=none; b=JJBzW0aAkzSqVp5WclL/gkXqDrJBL45oBB/6ekjC6vzWmySPOOsV+MJtMIutrIy1mYUJVAHgUTaJuUc0G9GGeBF4olpMkm2QYYEPL+8eqgE4d4xxMF9Z87NNlh2ljLiW/SvAJb2+zo2IsQtV77F4Lajqqg2MhvSU1tDx0LMLH1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731443173; c=relaxed/simple;
-	bh=V3OkAFsxYbVBbmhzE2X3EXG4muf5JyI5ukKdSjG9AD0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kamq98GOLYNaka4cXFZWVWEwPTk5AVyV5FlY5o4lTyM0g79OEUduoTGOZin+22eZnudcnedyzifcwRZExuUSoHKrjonuns9njoFH4nqLezzxiJOUMeQ6HwiEC/DC/t2N6h20j3uZ/FijO9Ogj7pnnlt2w3GvfdSoPYHDzbNKx6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ss2WasX8; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731443196; c=relaxed/simple;
+	bh=2b/fokZMHb0mMRwj4SG4B6zOQZ3sRC9O4uIs5na1X/s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qghxgY0WIv8jvXXbCfLOMIyZwh2Ey8UOG6nZMEP45Q4XR6uTOQ9bSa3n/1pdN/esYGCu8Lo5A9tbtUb4+DJPFZJEG+wO3AxCsmBIdG5KLFqIlhiShSjeQxbRqWtqE4ajyY62SOuaNQlAlsJKbIP05nz2ETFrF/9X/02HvPkvqRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=b7LqUr8G; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ss2WasX8"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fb4fa17044so64653241fa.3;
-        Tue, 12 Nov 2024 12:26:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731443170; x=1732047970; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XQWs6oDLhqhN+YcZsnW1nwP0EE615D1OAGENrXVm4Lk=;
-        b=Ss2WasX8Osrv+F3yu2xmb9dd8etg/9ikoYSHFs/FD+qyJNyrbUTPjNj7cwIGSq4vLh
-         dPvKPJx12HSi6I1TXIJkXNSV6wVN/X4cPljlcWm6rSApHwbj0CQ1oeta6pdU8Y8z7En+
-         W0OAHWmcoS9w0wfZ+Xwprrt1AITBErZpwd8PVNss9v2sQaeQSVRrN993LHM9KmEk7hff
-         Qqi1x4C+wZRpxr2fC8AAZQH5XLIqp3SDFYEPZjyq0OsppbOIHt3eR2MRTboUYoYX4G/n
-         MPa/9SfteAKyMxjCK53BUYQ4pCjmScDTHe41qCMZiMv3Lo6iap7xSw9hnKquo8K0/XdG
-         lkGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731443170; x=1732047970;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XQWs6oDLhqhN+YcZsnW1nwP0EE615D1OAGENrXVm4Lk=;
-        b=ZRlfB/MVfidBEqQrS/pJmI99yfZfXiJafhKR0IOaaVko65TLYp8jxQLVeWaqAYgx8M
-         pC+zyNlEFh8tqBlU6XCmdm3Liiyzekh+C2vsXQ88QzJrCfQ8tQZWlrdX3is6C6AcQaLZ
-         EBCjJ1ZDoJFXm752kj5BXtY5ToCN5xk4zkFZR9Q+nrMjA2BCWIdvKRCC1/6DDpKliBdp
-         69zHO12kU/vn9iajxR+t31KErzsuzN7R2vYe/5gS8QINTeM7yXpzr+siBIb4sAR/cc/U
-         gw/x+qaOt+ohjABty6zXeaHlWcj5JBucEAfrT4gqUDaUMQ2fJiWSmpXQgH+RwKyaqwnL
-         enSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDqno1ffDFjIW6DgxHsSw3yr1FtiFGg3HjJPAyy5FeCRjEfYYsR6qWb2qNzXus4HZuUuOwd9F+C3A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvkMzGz6kWA9I8WPiAXaKK89eu2Qr2hSU4G/lWkke/cZY1MAk1
-	U5Zu79SChbboPxzsgahdNX51xYoOPHF2HPjIJiK/UC2jqP42XowepW/qlQJ1X4oUxjT53xc/7y7
-	70VUT7k3O7+re80CQHlqa0ihYjrONzHLDzgA=
-X-Google-Smtp-Source: AGHT+IGhFEyZsGdDiKAEB7l4LMDTpccrTrNYfH0j0Yt1GQB8YtQF7Yd4YMwqHKeXrwKyQjtiZblxCO0PehHo8Ynuuz4=
-X-Received: by 2002:a05:651c:1542:b0:2f1:a30c:cd15 with SMTP id
- 38308e7fff4ca-2ff202ad40fmr91194841fa.36.1731443169732; Tue, 12 Nov 2024
- 12:26:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="b7LqUr8G"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AE5E9403F4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1731443192; bh=FSCC1rF49xJWet6H9Ph1rCvq7uKxif/+mtVyYE/+3ps=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=b7LqUr8GNVq9pqlGrDabNR5cP5M93hDJc5aQw4NKHgCjwKa7BVM/p5GwHeK/yv45d
+	 zY8GSIx8xKR1zDv+zXZPOkZGmICvdLGF/S2S4c4ETXRFgEiv6lViHGt0TFPZu8PjAc
+	 W2ozqL10aNKrukcTFUIK2Ed4GEYVnukrk7GxuUFDdEPzRTdKWcldgziQsyOH4+A4oX
+	 kITDDuNUH5I0DGDlcIYcBrWeyzG3rWnadW0Zc0KwldKyLX41h4H3xTeWIySQ8n6LfO
+	 sUnYbIumMb52h7fv8L/Cphmt7WEoDdAqdoGqBU05rnFkRkOkh1OeFHM9EYHzeFLheq
+	 G7/lGeZX95H1g==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id AE5E9403F4;
+	Tue, 12 Nov 2024 20:26:32 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, anish kumar
+ <yesanishhere@gmail.com>, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, Sebastian Fricke
+ <sebastian.fricke@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
+In-Reply-To: <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org>
+References: <20241107200835.3033-1-yesanishhere@gmail.com>
+ <87cyj622oc.fsf@trenco.lwn.net>
+ <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org>
+ <874j4i205j.fsf@trenco.lwn.net>
+ <70a27fe2-cc85-4f35-b24a-8e3425e447d0@infradead.org>
+ <87v7wyznow.fsf@trenco.lwn.net>
+ <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org>
+Date: Tue, 12 Nov 2024 13:26:31 -0700
+Message-ID: <87wmh8p5ag.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241105045535.84071-1-yesanishhere@gmail.com> <875xosqk3u.fsf@trenco.lwn.net>
-In-Reply-To: <875xosqk3u.fsf@trenco.lwn.net>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Tue, 12 Nov 2024 12:25:57 -0800
-Message-ID: <CABCoZhDb4u=Gj=CPrjH+6tS+W8YENu9Oa2ymNhAegdhEM=ZHww@mail.gmail.com>
-Subject: Re: [PATCH] drivers: core: Clarify EPROBE_DEFER retry mechanism
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Nov 12, 2024 at 12:21=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
-rote:
->
-> anish kumar <yesanishhere@gmail.com> writes:
->
-> > The existing documentation for EPROBE_DEFER explains its purpose
-> > and usage, but does not specify when deferred probes are retried.
-> > This patch adds information about the retry mechanism to provide
-> > a more complete explanation of how EPROBE_DEFER works.
-> >
-> > Specifically, it clarifies that:
-> >
-> > 1. Deferred probes are added to a pending list
-> > 2. A successful probe of any device triggers moving all devices
-> >    from the pending list to an active list
-> > 3. A workqueue processes the active list to retry deferred probes
-> >
-> > This additional context helps developers better understand the
-> > behavior and implications of using EPROBE_DEFER in their drivers.
-> >
-> > Signed-off-by: anish kumar <yesanishhere@gmail.com>
-> > ---
-> >  Documentation/driver-api/driver-model/driver.rst | 11 +++++++----
-> >  1 file changed, 7 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/Documentation/driver-api/driver-model/driver.rst b/Documen=
-tation/driver-api/driver-model/driver.rst
-> > index 06f818b1d622..c86b948d0dfe 100644
-> > --- a/Documentation/driver-api/driver-model/driver.rst
-> > +++ b/Documentation/driver-api/driver-model/driver.rst
-> > @@ -171,10 +171,13 @@ released all resources it allocated.
-> >  Optionally, probe() may return -EPROBE_DEFER if the driver depends on
-> >  resources that are not yet available (e.g., supplied by a driver that
-> >  hasn't initialized yet).  The driver core will put the device onto the
-> > -deferred probe list and will try to call it again later. If a driver
-> > -must defer, it should return -EPROBE_DEFER as early as possible to
-> > -reduce the amount of time spent on setup work that will need to be
-> > -unwound and reexecuted at a later time.
-> > +deferred probe list and will retry again as and when a device or drive=
-r
-> > +gets added to the system. A successful probe of any device will trigge=
-r
-> > +moving all devices from pending list to active list. A workqueue proce=
-sses
-> > +the active list to retry deferred probes. If a driver must defer, it
-> > +should return -EPROBE_DEFER as early as possible to reduce the amount
-> > +of time spent on setup work that will need to be unwound and reexecute=
-d
-> > +at a later time.
->
-> Honestly, I don't see how this improves the situation?  How does this
-> improve a driver developer's work?
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-It talks about when the retry mechanism executes. In my workplace we
-had the discussion about this and some of the developers were assuming
-EPROBE_DEFER gets called a fixed number of times which is not the case.
-This explains when EPROBE_DEFER gets called and the mechanism for the
-same.
+> On 11/7/24 2:25 PM, Jonathan Corbet wrote:
 
+>> If we really want to separate the mechanics of kernel development from
+>> the associated process information - not always an easy separation, IMO
+>> - we could make a top-level "development" directory, put a lot of the
+>> other relevant stuff there, and include the debugging stuff.  It seems
+>> really weird to put debugging by itself, though; it's only part of the
+>> picture.
 >
-> jon
+> I could go with that.
+>
+>> 
+>> Why is Documentation/process so bad?
+>
+> Documentation/process/ is meta-documentation about kernel social "standards"
+> among other things. It is "soft" documentation, whereas debugging (IMHO) is
+> "hard" documentation.
+>
+> But hey, it's all your baby. Do whatever pleases you. :)
+
+Hopefully not all mine...:)
+
+My suggestion is to put it under process for now just to not block
+forward progress on this work.  We can surely relocate it if we want to
+make a proper development-processes top-level directory in the future.
+
+Thanks,
+
+jon
