@@ -1,254 +1,278 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365C6136358;
-	Tue, 12 Nov 2024 13:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731417037; cv=fail; b=Mic3ZEDnhf869c2VFC76k6caQXKWrDHu35X76nUm4YadXBK8hrq8qcq2VR9HKTqUYmi/I0JnnDjM3D+4MBjFlPTPN3d+xFFgfF04mxao/wH6jZAfbjbkJ5RaMUDrcN61QJCHEG8fylEtH4SV5VBoRcGoKI1VJ3MuphxNTbi0CsM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731417037; c=relaxed/simple;
-	bh=NcNrG8rmcLFBTs1HZq+Ww+oXf07b8AfxzyeXcgbzjko=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=sEWquj8EEcIFsNVjFwPmIcjstVoj1pd3zuFEGTuGhVf0wL/KLpNaQ/Te/eERi6TJVDBydkGeLcfwIGLNZ3dC8rz3+LZlBsZ+oTEi2AaF1nVqg2Fkm+vHUSw4c2UnTrw316xjIX7MWLpiLhInXjLffVuDmPvFn7L7ecJSdgMDMTU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=msYB+OHY; arc=fail smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3EF41FF5EB;
+	Tue, 12 Nov 2024 14:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.218
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731422452; cv=none; b=HpnvSyYZOMmjmwAHr3FUAaijoKmn6SfvQN2Fay0xWeCaCrgM4V8fht6PESIXRH1OBsUevy+Wpvj6c6UHwHMj7SCzVeWdTU16utGtkAU/CxW4WQ8bN6mMRpTwVsKiA8rmhkITEaJlPj3vKuuRQw1Pe6MrpRyZHtJM3142wqn3kqA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731422452; c=relaxed/simple;
+	bh=86/oEwhJaaqF1ro8RpdbRVewta890HkENWKQJqjYIk0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=R8jLu/Sbt1v0KU78vRRhiPM6zGuRj7XRI08f81VSZJF7mqKAmf3xUCjcwmPo7r8SkWyiWIGu75V+1NKvNsKW1hkN2siV3ZpSWc6p+0PPss4LlR/B0WxgcIk1EL6R6ID5rcLTXtkmZZtgNdwk9qcxCXwluveRj9jHGrntq04Aofk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=jlJP+DXD; arc=none smtp.client-ip=99.78.197.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="msYB+OHY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731417036; x=1762953036;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=NcNrG8rmcLFBTs1HZq+Ww+oXf07b8AfxzyeXcgbzjko=;
-  b=msYB+OHYyvczD9AT9BpZfqpt4gfp5VlmMqzvTkMpDn7x2TrM3XlE6Vlq
-   AKjI43NA7c/IpL4uh9n3vRk60xgBF8DB7GB9krqvJJafkivVbLPLzZ8rU
-   bmAWPuSS3/2iS/qKA9z939EBBCIneIy18kFIrhGsZZwMUbptRrxvb1XK4
-   liwpb9cP29nDsrni8yLVx3GQPHiryuc+NaslcxwOBqTjZkyjfAofnDSmg
-   DGYVtiW52qncxb10YS8lrVWFS0vdffEAN2IfW4FUD7oUn2VyzMkS2W7xn
-   I8TsOIUSjcLX0GQfRh4gtb0KQVQF+QzeX+JVKDsUWgiP1auB75DFrooLQ
-   Q==;
-X-CSE-ConnectionGUID: nUL9nqQhRl2e88km1CQ+Dg==
-X-CSE-MsgGUID: izXEsmkhT8mSyDHRltJ41w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="35181213"
-X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
-   d="scan'208";a="35181213"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 05:10:33 -0800
-X-CSE-ConnectionGUID: zZBcXR/qQOieJpHggFqbwA==
-X-CSE-MsgGUID: qkvldZOjRQyJdHlZ8OPmQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
-   d="scan'208";a="92532550"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Nov 2024 05:10:33 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 12 Nov 2024 05:10:32 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 12 Nov 2024 05:10:32 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.171)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 12 Nov 2024 05:10:31 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TZLNTi+JJRIrXXjOd/yYja9Mp6IGbT3qypMwUXd1urbsXV8mO480tnS3fzTtmjK2LS69AItWQJhB0KyPvIw3Dq+cEp1Hyc0xwmJ32N+Zu1J1X68R76z5Wv6e2gYKQim3PE5H8Wgr56uQtf7ZcXFLgGU16GRtZTU3NwJFe0S0MqDi3glu9Ad+XdxkkS6QWLqLrG5y6LOBmtIuYCbiacNvJT8OldTp0dJu+CMN5aXt1A+I9FXuE1DPB//emLbPZcQ6mtPs/C6cztqjQCFmYCwcuNpZbsZEOx8aVnPOA49VL6aPk1F+FipiRmSmveRItXOtgS9Uz0CeolAkGxruAuJkSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mfapXwFotbGhMxBIhosnly+1H023C1qFrYjJhPCKJkQ=;
- b=ZKs5dfnI8JjSAmNWMUUd51PSW6uO9sIZ6Iw07hBFrLimw3MuXxVS43sXjNC2eVinmooguia8cR/L/Db49tbyh8CkP6pBpSqlWNwhBVJdVOLFTX4Z2t7tV70xh5w0docPe+yrmXxRh9eprbQdkXALZYCEryL0OAobAxNjovIh23IHECEur8OGQSviuQOl3pTJjTsTpexmOB3zkBpTfdP8COSEsyCoWAhojsbKq6o3YnaKx/SgEhfP4rgrrf/+lw1xoxOjVvohuyy1wx3qO3tuK4W2C96j4o6d84mtx0A5mgiMcwmuSIJc8v/aEaMhzk1oPeZEZlNlUWor+wowZisuxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7529.namprd11.prod.outlook.com (2603:10b6:8:141::20)
- by SA1PR11MB7699.namprd11.prod.outlook.com (2603:10b6:806:338::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17; Tue, 12 Nov
- 2024 13:10:29 +0000
-Received: from DS0PR11MB7529.namprd11.prod.outlook.com
- ([fe80::d244:15cd:1060:941a]) by DS0PR11MB7529.namprd11.prod.outlook.com
- ([fe80::d244:15cd:1060:941a%5]) with mapi id 15.20.8158.013; Tue, 12 Nov 2024
- 13:10:29 +0000
-Message-ID: <f0c45d5b-b8cd-4f75-a9d7-21808f18583d@intel.com>
-Date: Tue, 12 Nov 2024 21:15:02 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 13/13] Documentation: userspace-api: iommufd: Update
- vIOMMU
-To: Nicolin Chen <nicolinc@nvidia.com>, <jgg@nvidia.com>,
-	<kevin.tian@intel.com>, <corbet@lwn.net>
-CC: <joro@8bytes.org>, <suravee.suthikulpanit@amd.com>, <will@kernel.org>,
-	<robin.murphy@arm.com>, <dwmw2@infradead.org>, <shuah@kernel.org>,
-	<iommu@lists.linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<baolu.lu@linux.intel.com>, <eric.auger@redhat.com>,
-	<jean-philippe@linaro.org>, <mdf@kernel.org>, <mshavit@google.com>,
-	<shameerali.kolothum.thodi@huawei.com>, <smostafa@google.com>, <aik@amd.com>,
-	<zhangfei.gao@linaro.org>, <patches@lists.linux.dev>
-References: <cover.1730836219.git.nicolinc@nvidia.com>
- <7e4302064e0d02137c1b1e139342affc0485ed3f.1730836219.git.nicolinc@nvidia.com>
-Content-Language: en-US
-From: Yi Liu <yi.l.liu@intel.com>
-In-Reply-To: <7e4302064e0d02137c1b1e139342affc0485ed3f.1730836219.git.nicolinc@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR02CA0083.apcprd02.prod.outlook.com
- (2603:1096:4:90::23) To DS0PR11MB7529.namprd11.prod.outlook.com
- (2603:10b6:8:141::20)
+	dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="jlJP+DXD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazon201209; t=1731422451; x=1762958451;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=nb3ZPMcPqSuSW35JdPXTP3uJnDnzKc6cTb8i3ccTWUQ=;
+  b=jlJP+DXDxawhnMCz2rxBBhLvKEs2pL4wyDrbwO8p9evpBLc48cv8QQog
+   2dOdxfob4ni6rVgBoHbWksvILH9BeUPpLpLwlyWwVLxC7lWSUGdjnlVdY
+   jhngP3Ql/Bnf10JX3Y28Va+/auv1YbZGMjqcrHpl0tzVpN2PCy+tMvBMC
+   g=;
+X-IronPort-AV: E=Sophos;i="6.12,148,1728950400"; 
+   d="scan'208";a="351640181"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 14:40:48 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [10.0.7.35:63790]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.22.163:2525] with esmtp (Farcaster)
+ id 26affe4d-b14b-4016-968a-2de60122a39b; Tue, 12 Nov 2024 14:40:47 +0000 (UTC)
+X-Farcaster-Flow-ID: 26affe4d-b14b-4016-968a-2de60122a39b
+Received: from EX19D003UWB002.ant.amazon.com (10.13.138.11) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Tue, 12 Nov 2024 14:40:41 +0000
+Received: from EX19MTAUWC002.ant.amazon.com (10.250.64.143) by
+ EX19D003UWB002.ant.amazon.com (10.13.138.11) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
+ Tue, 12 Nov 2024 14:40:40 +0000
+Received: from email-imr-corp-prod-pdx-all-2b-a57195ef.us-west-2.amazon.com
+ (10.25.36.210) by mail-relay.amazon.com (10.250.64.149) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1258.34 via Frontend Transport; Tue, 12 Nov 2024 14:40:40 +0000
+Received: from [127.0.0.1] (dev-dsk-roypat-1c-dbe2a224.eu-west-1.amazon.com [172.19.88.180])
+	by email-imr-corp-prod-pdx-all-2b-a57195ef.us-west-2.amazon.com (Postfix) with ESMTPS id 53DF2A0219;
+	Tue, 12 Nov 2024 14:40:33 +0000 (UTC)
+Message-ID: <02f77d32-e2a1-431b-bb67-33d36c06acd3@amazon.co.uk>
+Date: Tue, 12 Nov 2024 14:40:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7529:EE_|SA1PR11MB7699:EE_
-X-MS-Office365-Filtering-Correlation-Id: e94bb2b7-7080-4b21-a2be-08dd031b6116
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RjI5ZnpGc3VDM2hYdGk1NmJlWTUvVVBpeTAwY1R6bVZML2NFUktBenVQUkZD?=
- =?utf-8?B?RHJ1WWNaemxPckg1ZlF5SVBnU1h6Q2x5aXJkNUE1K0JZdzd3b0JXbjhTaFNk?=
- =?utf-8?B?dDJQbUVBeW1kMmN5d0psQjZlZm42SzNiREozdm94LzdzQUNLM2kyV0dLK0RR?=
- =?utf-8?B?RjcrUnBEZkJ3R3NUU2ZPczlIcFQ0ZGtiYUYwM3pHS3NNc012cDhxUjdHQkxU?=
- =?utf-8?B?OEdhaHhnVGZNMFUvdUNOQ0NZVURMU0trbXp6V2tKRURPRFB6MndqMGRCWmdx?=
- =?utf-8?B?WHpudTZ3WXg2d1l5ZUF5UXhsOXg0REZhdWczSXJHV1JrTStHYjVYTEN5R1VK?=
- =?utf-8?B?NFhoVXNpck1wWmgzWEszTXRzeGhDYUt5OVJlZFhtTE5kbXdjamVXRFV4Sks1?=
- =?utf-8?B?dHppdWVlSmY4UEFDQ2haVWlvVzFlSExYODlIRVBYdldRRTVUMEc1bSticGdl?=
- =?utf-8?B?L0gvcG1tZ2JoQW41V3pCUmx3eW5XT2h3SWlhOEtlbjF2a3RBbEI3MDFadFFY?=
- =?utf-8?B?MVovbHN2VHVEMnp5Z3EyMURnanlQeXZDQzAzN2t4N2xjQmQ1ODAxNGNkQlNj?=
- =?utf-8?B?aDRGNERZMjdVVFp3bll4ckFXbkZXOHdUbEFOWCtaazlkZVFOVDJta1BCVDNv?=
- =?utf-8?B?U25DQ0pQSXE4UGhWR0pEalpQWVE1R2pxTE5Hbnc5MEExQXl3Y1dUUHZ4SlVL?=
- =?utf-8?B?UDZKb05YclFUd1NhaTIrVWs4NndRKzVkVzM4Q3FaZUxhRnA1Q0VObERNZXVD?=
- =?utf-8?B?RGwxRldGZmJEdHFPQmxVSkkzNGVyMXVvOStYODlaN1kyc0Q0b0E1ejU4SlU2?=
- =?utf-8?B?UlJOOFFQaGNlOE1hWVYwQmtRdnk4VlhkK2hCSWN1RVhVM1VyenFFelUxb25F?=
- =?utf-8?B?MXlRc2JwUHJKV2gyZ3ZxYTUyYVV3dURFMDBURTlRTUs5N2hjbVJGdTdGM3lZ?=
- =?utf-8?B?dHBXVGdWL1FHUzI5WmM2R0Y3QU9pQlppam5aWWJyMGE0RmxvYlduTFNhTWRj?=
- =?utf-8?B?R0pveEl0dEkwb1haLzZJT1VSbFVBK3haa3BZUEI2UmJ0M3NKZGM3azBud2lO?=
- =?utf-8?B?RGxKcU9VMjB3VGo5dStxMzZNNEpYempGOGJZZy90cDNsWGd0UDlkblpGMWFR?=
- =?utf-8?B?eExQR0xuR3JXS1FxNkFocEhLM1RLbW1sYzBYOGZ1dVNOR2l0d0tUdXZ1ZnRH?=
- =?utf-8?B?eEwwZ2ZNV1VTY2VCUUluWS9HU0hHbzJsTDN6eVRoeGNhM2RKdVN4SXlJZmw4?=
- =?utf-8?B?eXo0UWlWck1FdDFWNmhuRG82eHQzUFVUWHFtbk41MVVFZmN2K0w5Yi9iR1V3?=
- =?utf-8?B?OERUUkEzc1Y0MUp2R2k0QklDb0NUN1VHWkovdERkclFMdit3ZkYrT1VncWN3?=
- =?utf-8?B?R2NKei9UUmpHRlk0ck81WGZCK1JzeEFoRnE4WmNoUEU0azVyL0FtOHp3RGZC?=
- =?utf-8?B?OWhpRkxzQkZqa3NvNmh3Rk5LR2JKMDAwMmxweVkyNjFCdWFRYUZrS3U0NzZi?=
- =?utf-8?B?SnA1c29IazBtRVlvYitFYkRDaFJtUDFFdVVhRGt3dE5nQUMrVGgvclRWZmhC?=
- =?utf-8?B?U2tZQXVyLzk2U2pZUnUrZ2djWFBXeHNLQi9sQmZiNDhYaXVxSzB0SFFSa1JE?=
- =?utf-8?B?OXVKWjRJUkZyRzlzRHRhL0tFWEh4VXBuVGJhelArdXF3WVhiN3ZianRBWmNm?=
- =?utf-8?B?OWFIYlMzNjRPWUZWTWRUMlRUaU5aZmlSMXI2d3A4bW45R05pT21rWTFKRnkw?=
- =?utf-8?Q?2/icYIsqqLZgZz//j0kQXESR3XuxTn2q8OceY8e?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7529.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjRoL0dXZHowZXZjTFJnOVJIZFRhcGpPK0ZrOGxSRW9sYzJtNmdVUVJCci9u?=
- =?utf-8?B?d0tmSW5XeUNIMUZlOTFvcnpsYXB5TXNsNkw2TE5pdUw1LzN1UmIyOUs0TkR2?=
- =?utf-8?B?N0ZsR1Y0aDFwcUdEdmhYU0JoUnFJVmhLUEsrSjhsTTEwaWtlcEdrVGUrc3Jr?=
- =?utf-8?B?L29iYk8wM0pYdGJUR05WMm5iejUyQlh4UkluNG0yWUJsOXZKTkhDdnNVb0ts?=
- =?utf-8?B?dzZaRkdSNHd4dzNmZlRuT05RZXFmOXR0WWxCeGlONFdKNWt6d1N1N3pVellT?=
- =?utf-8?B?NzNXRzl1YTZ3R0Z4ZDMzV0p5MzVoek9EV3FkZVZ5Tklaa3lRVzBLaXdZSW11?=
- =?utf-8?B?M1BuWXRwU3ZBVGFhNUhNSmxXdGxIZXM0bHVJSFBlQWNwTW9BSUQzKzhHazJp?=
- =?utf-8?B?cE4xeEw5Rk5oWnExRHZqZmpJNHI5a2laZnl3dVNpeUJzaGdOWG1ibURWN1ZP?=
- =?utf-8?B?NmNVbHd3eEZucGtERmdQYzFSd1Fia3ZNZzFRekQ5NHllU1lFSlE4VkQ3eTVO?=
- =?utf-8?B?dmd3WkdTMWpZQ0V0N2o0SUh0UldhaGpaVVlpVTl4L0tkT1hrY2xwa2xnNW5E?=
- =?utf-8?B?cTM2VDVjOUlaT0dYU3NaUy9XQTNIU2o0WjFVME03ZGtTcmZ2N05IRGlNcXRv?=
- =?utf-8?B?SFZLZ1A5VjFCWjQyeEhySXJpRDdPU0ZDNDEzKzZZdkt2QnNRRGhCcjdydzNq?=
- =?utf-8?B?MDAzUEhkT1I2TGlObm43MWNLMnVSbjVlMmJZdUY2YjV0aTZDSWRnSERBdU94?=
- =?utf-8?B?Tm5NUjcrWmtYa3RrOGRGVGNxb3pTN0prSzQvK1krODYwdFVjL3VzdDZacXcx?=
- =?utf-8?B?MVZRSjd5bmdGWEoxUXdwWGczekFYYkNTejNvejRKRFNjRTRldEFZTVhPcVFF?=
- =?utf-8?B?SGFld3hSV0F3Zk5Ob2JncGRSems4cExoY0ZvTmNZNW1idm1FNy9vbCsvczFl?=
- =?utf-8?B?UC9sMTExOUdMc2U3SDl6Rk5LQ09xVkFvQVRWbHRKVFQ1a2JpRDlacnprRzhz?=
- =?utf-8?B?cGI4L2ZXR1djblBTQno4WnZRdC9KY0NPckx1dU5lSm4wNXVvM0xGNjU1UmtZ?=
- =?utf-8?B?WWhTUjNKaGZZTlFRcVNpRUsza3ZBemw4Mi9ncVFuK2hMSlVUdE9zUnl0NWRk?=
- =?utf-8?B?eDQvbWQzay8rcEZRMG1zdVNjcWk2RG1kUCsyaGJCWnE3dVVnYlo3bFB1Nk5T?=
- =?utf-8?B?UmVqa1BFdEMzMzVSRWsxZ2d1dzVTYzNxNnlZT3k4VHBJOVdXN2cwWFZrMUlS?=
- =?utf-8?B?NjNObDJ1cVR0cEhtRkhEMytXVFJrOWliVXIyckVSTGtCQ29jWjRXUzFaR1lL?=
- =?utf-8?B?bjVBMVFnVDZRbitDam9tNW54WkNjd2c4cC9FUUxMOTE4K3VMdjQxSW85cFNp?=
- =?utf-8?B?R1l2bFJKNVhSUytCOVVKTE1mWnVYM2FSQytNMW9LMkxTbTBUMElESnFERTB1?=
- =?utf-8?B?bGMxaDN4RVVIUjFWbUtVL2F5WER6TUtpZmlpR0IvSytUbHJadm15WjJMRzBI?=
- =?utf-8?B?NGhFTzlQenhqVllXUlJkK3pxMEowZnJNMEY1TlM0WHJTbjJSbHE0d1RjbmJq?=
- =?utf-8?B?NEF1d0RRN1ltL3IrRVVialB4VWdtcnpmTy8xYk1ReTB2SkwyNW85eXdQMGdK?=
- =?utf-8?B?YnJrVTZzcTFTVGo3d1NBYmFFR2Z3QmJUMGdWRVd6VXNoMzFYTlYzMllhQUli?=
- =?utf-8?B?TUJDcFA0N3U5MVVmeHVVVkVHK3dLZ21jb1c2WE4wc0hrUHQrRG5vVGtuOC9R?=
- =?utf-8?B?UXdyNzZPQ1hvQjJWeGhmZ0trd3M4dVlUWHh6cmptY3ZyOE5VZHF3K3FaUTlx?=
- =?utf-8?B?aVdZaGlaSXJvaGFQb0V5bHJaY0cxTEZTSnhrTGtoYVZQR0hFRjNabkkwcGhx?=
- =?utf-8?B?UW5GamZhSm1malkzQmFCS2JNeDNMT0h6V0hFODlKWUJQbzFrOWtJclREZW9m?=
- =?utf-8?B?QlBFeWJPWmRsUGZMbVFQL0lOZTh3TFBRd3VGckdFbHNTRHJpWE9oZTBjZVpm?=
- =?utf-8?B?ZXBZanRYR2xWaDZjZTNydDFzR2VJazNneTBEb0N2RTQ3c0FSc3QwRno2TXho?=
- =?utf-8?B?akRmYzlzV1Z2L210eGVhOHlMQXlpNnpRTkZPM0I4WkpRY2g1SklwSy9wS2tq?=
- =?utf-8?Q?qbNwOEC8jlxM+tnvVU4XAMXWi?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e94bb2b7-7080-4b21-a2be-08dd031b6116
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7529.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2024 13:10:29.1990
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OOmhJjMGbNW+aRWyV85+s5yOXVFsvML4uw4DoQXZr7N2w7QQAaXCRjwqiFwKUf3cscJdnW25iQ0k6h80+w3c8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7699
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
+To: David Hildenbrand <david@redhat.com>, <tabba@google.com>,
+	<quic_eberman@quicinc.com>, <seanjc@google.com>, <pbonzini@redhat.com>,
+	<jthoughton@google.com>, <ackerleytng@google.com>, <vannapurve@google.com>,
+	<rppt@kernel.org>
+CC: <graf@amazon.com>, <jgowans@amazon.com>, <derekmn@amazon.com>,
+	<kalyazin@amazon.com>, <xmarcalx@amazon.com>, <linux-mm@kvack.org>,
+	<corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <paul.walmsley@sifive.com>,
+	<palmer@dabbelt.com>, <aou@eecs.berkeley.edu>, <hca@linux.ibm.com>,
+	<gor@linux.ibm.com>, <agordeev@linux.ibm.com>, <borntraeger@linux.ibm.com>,
+	<svens@linux.ibm.com>, <gerald.schaefer@linux.ibm.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<x86@kernel.org>, <hpa@zytor.com>, <luto@kernel.org>, <peterz@infradead.org>,
+	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <shuah@kernel.org>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
+	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<faresx@amazon.com>
+References: <20241030134912.515725-1-roypat@amazon.co.uk>
+ <4aa0ccf4-ebbe-4244-bc85-8bc8dcd14e74@redhat.com>
+ <27646c08-f724-49f7-9f45-d03bad500219@amazon.co.uk>
+ <d1a69eb7-85d5-4ffa-88e2-f4841713c1d7@redhat.com>
+ <90c9d8c0-814e-4c86-86ef-439cb5552cb6@amazon.co.uk>
+ <10e4d078-3cdb-4d1c-a1a3-80e91b247217@redhat.com>
+From: Patrick Roy <roypat@amazon.co.uk>
+Content-Language: en-US
+Autocrypt: addr=roypat@amazon.co.uk; keydata=
+ xjMEY0UgYhYJKwYBBAHaRw8BAQdA7lj+ADr5b96qBcdINFVJSOg8RGtKthL5x77F2ABMh4PN
+ NVBhdHJpY2sgUm95IChHaXRodWIga2V5IGFtYXpvbikgPHJveXBhdEBhbWF6b24uY28udWs+
+ wpMEExYKADsWIQQ5DAcjaM+IvmZPLohVg4tqeAbEAgUCY0UgYgIbAwULCQgHAgIiAgYVCgkI
+ CwIEFgIDAQIeBwIXgAAKCRBVg4tqeAbEAmQKAQC1jMl/KT9pQHEdALF7SA1iJ9tpA5ppl1J9
+ AOIP7Nr9SwD/fvIWkq0QDnq69eK7HqW14CA7AToCF6NBqZ8r7ksi+QLOOARjRSBiEgorBgEE
+ AZdVAQUBAQdAqoMhGmiXJ3DMGeXrlaDA+v/aF/ah7ARbFV4ukHyz+CkDAQgHwngEGBYKACAW
+ IQQ5DAcjaM+IvmZPLohVg4tqeAbEAgUCY0UgYgIbDAAKCRBVg4tqeAbEAtjHAQDkh5jZRIsZ
+ 7JMNkPMSCd5PuSy0/Gdx8LGgsxxPMZwePgEAn5Tnh4fVbf00esnoK588bYQgJBioXtuXhtom
+ 8hlxFQM=
+In-Reply-To: <10e4d078-3cdb-4d1c-a1a3-80e91b247217@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2024/11/6 04:04, Nicolin Chen wrote:
->   
->   The diagrams below show relationships between user-visible objects and kernel
-> @@ -101,6 +132,28 @@ creating the objects and links::
->              |------------>|iommu_domain|<----|iommu_domain|<----|device|
->                            |____________|     |____________|     |______|
->   
-> +  _______________________________________________________________________
-> + |                      iommufd (with vIOMMU)                            |
-> + |                                                                       |
-> + |                             [5]                                       |
-> + |                        _____________                                  |
-> + |                       |             |                                 |
-> + |      |----------------|    vIOMMU   |                                 |
-> + |      |                |             |                                 |
-> + |      |                |             |                                 |
-> + |      |      [1]       |             |          [4]             [2]    |
-> + |      |     ______     |             |     _____________     ________  |
-> + |      |    |      |    |     [3]     |    |             |   |        | |
-> + |      |    | IOAS |<---|(HWPT_PAGING)|<---| HWPT_NESTED |<--| DEVICE | |
-> + |      |    |______|    |_____________|    |_____________|   |________| |
-> + |      |        |              |                  |               |     |
-> + |______|________|______________|__________________|_______________|_____|
-> +        |        |              |                  |               |
-> +  ______v_____   |        ______v_____       ______v_____       ___v__
-> + |   struct   |  |  PFN  |  (paging)  |     |  (nested)  |     |struct|
-> + |iommu_device|  |------>|iommu_domain|<----|iommu_domain|<----|device|
-> + |____________|   storage|____________|     |____________|     |______|
-> +
->   1. IOMMUFD_OBJ_IOAS is created via the IOMMU_IOAS_ALLOC uAPI. An iommufd can
->      hold multiple IOAS objects. IOAS is the most generic object and does not
->      expose interfaces that are specific to single IOMMU drivers. All operations
-> @@ -132,7 +185,8 @@ creating the objects and links::
->        flag is set.
->   
->   4. IOMMUFD_OBJ_HWPT_NESTED can be only manually created via the IOMMU_HWPT_ALLOC
-> -   uAPI, provided an hwpt_id via @pt_id to associate the new HWPT_NESTED object
-> +   uAPI, provided an hwpt_id or a viommu_id of a vIOMMU object encapsulating a
-> +   nesting parent HWPT_PAGING via @pt_id to associate the new HWPT_NESTED object
->      to the corresponding HWPT_PAGING object. The associating HWPT_PAGING object
->      must be a nesting parent manually allocated via the same uAPI previously with
->      an IOMMU_HWPT_ALLOC_NEST_PARENT flag, otherwise the allocation will fail. The
-> @@ -149,6 +203,18 @@ creating the objects and links::
->         created via the same IOMMU_HWPT_ALLOC uAPI. The difference is at the type
->         of the object passed in via the @pt_id field of struct iommufd_hwpt_alloc.
->   
-> +5. IOMMUFD_OBJ_VIOMMU can be only manually created via the IOMMU_VIOMMU_ALLOC
-> +   uAPI, provided a dev_id (for the device's physical IOMMU to back the vIOMMU)
-> +   and an hwpt_id (to associate the vIOMMU to a nesting parent HWPT_PAGING). The
-> +   iommufd core will link the vIOMMU object to the struct iommu_device that the
-> +   struct device is behind. 
 
-It looks to be reasonable to share the viommu_obj between devices behind 
-the same physical IOMMU. This design seems no enforcement for it. So it's
-all up to userspace from what I got. :)
+Hi David, 
 
--- 
-Regards,
-Yi Liu
+sorry for the late response, I ended up catching the flu last week and
+was out of commission for a while :(
+
+On Mon, 2024-11-04 at 21:30 +0000, David Hildenbrand wrote:
+>>> We talked about shared (faultable) vs. private (unfaultable), and how it
+>>> would interact with the directmap patches here.
+>>>
+>>> As discussed, having private (unfaultable) memory with the direct-map
+>>> removed and shared (faultable) memory with the direct-mapping can make
+>>> sense for non-TDX/AMD-SEV/... non-CoCo use cases. Not sure about CoCo,
+>>> the discussion here seems to indicate that it might currently not be
+>>> required.
+>>>
+>>> So one thing we could do is that shared (faultable) will have a direct
+>>> mapping and be gup-able and private (unfaultable) memory will not have a
+>>> direct mapping and is, by design, not gup-able.>
+>>> Maybe it could make sense to not have a direct map for all guest_memfd
+>>> memory, making it behave like secretmem (and it would be easy to
+>>> implement)? But I'm not sure if that is really desirable in VM context.
+>>
+>> This would work for us (in this scenario, the swiotlb areas would be
+>> "traditional" memory, e.g. set to shared via mem attributes instead of
+>> "shared" inside KVM), it's kinda what I had prototyped in my v1 of this
+>> series (well, we'd need to figure out how to get the mappings of gmem
+>> back into KVM, since in this setup, short-circuiting it into
+>> userspace_addr wouldn't work, unless we banish swiotlb into a different
+>> memslot altogether somehow).
+> 
+> Right.
+
+"right" as in, "yes we could do that"? :p
+
+>> But I don't think it'd work for pKVM, iirc
+>> they need GUP on gmem, and also want direct map removal (... but maybe,
+>> the gmem VMA for non-CoCo usecase and the gmem VMA for pKVM could be
+>> behave differently?  non-CoCo gets essentially memfd_secret, pKVM gets
+>> GUP+no faults of private mem).
+> 
+> Good question. So far my perception was that the directmap removal on
+> "private/unfaultable" would be sufficient.
+> 
+>>
+>>> Having a mixture of "has directmap" and "has no directmap" for shared
+>>> (faultable) memory should not be done. Similarly, private memory really
+>>> should stay "unfaultable".
+>>
+>> You've convinced me that having both GUP-able and non GUP-able
+>> memory in the same VMA will be tricky. However, I'm less convinced on
+>> why private memory should stay unfaultable; only that it shouldn't be
+>> faultable into a VMA that also allows GUP. Can we have two VMAs? One
+>> that disallows GUP, but allows userspace access to shared and private,
+>> and one that allows GUP, but disallows accessing private memory? Maybe
+>> via some `PROT_NOGUP` flag to `mmap`? I guess this is a slightly
+>> different spin of the above idea.
+> 
+> What we are trying to achieve is making guest_memfd not behave
+> completely different on that level for different "types" of VMs. So one
+> of the goals should be to try to unify it as much as possible.
+> 
+> shared -> faultable: GUP-able
+> private -> unfaultable: unGUP-able
+> 
+> 
+> And it makes sense, because a lot of future work will rely on some
+> important properties: for example, if private memory cannot be faulted
+> in + GUPed, core-MM will never have obtained valid references to such a
+> page. There is no need to split large folios into smaller ones for
+> tracking purposes; there is no need to maintain per-page refcounts and
+> pincounts ...
+> 
+> It doesn't mean that we cannot consider it if really required, but there
+> really has to be a strong case for it, because it will all get really messy.
+> 
+> For example, one issue is that a folio only has a single mapping
+> (folio->mapping), and that is used in the GUP-fast path (no VMA) to
+> determine whether GUP-fast is allowed or not.
+> 
+> So you'd have to force everything through GUP-slow, where you could
+> consider VMA properties :( It sounds quite suboptimal.
+> 
+> I don't think multiple VMAs are what we really want. See below.
+
+Ah, okay, I see. Thanks for explaining, this all makes a lot of sense to
+me now!
+
+>>
+>>> I think one of the points raised during the bi-weekly call was that
+>>> using a viommu/swiotlb might be the right call, such that all memory can
+>>> be considered private (unfaultable) that is not explicitly
+>>> shared/expected to be modified by the hypervisor (-> faultable, ->
+>>> GUP-able).
+>>>
+>>> Further, I think Sean had some good points why we should explore that
+>>> direction, but I recall that there were some issue to be sorted out
+>>> (interpreted instructions requiring direct map when accessing "private"
+>>> memory?), not sure if that is already working/can be made working in KVM.
+>>
+>> Yeah, the big one is MMIO instruction emulation on x86, which does guest
+>> page table walks and instruction fetch (and particularly the latter
+>> cannot be known ahead-of-time by the guest, aka cannot be explicitly
+>> "shared"). That's what the majority of my v2 series was about. For
+>> traditional memslots, KVM handles these via get_user and friends, but if
+>> we don't have a VMA that allows faulting all of gmem, then that's
+>> impossible, and we're in "temporarily restore direct map" land. Which
+>> comes with significantly performance penalties due to TLB flushes.
+> 
+> Agreed.
+> 
+>> >> What's your opinion after the call and the next step for use cases
+> like
+>>> you have in mind (IIRC firecracker, which wants to not have the
+>>> direct-map for guest memory where it can be avoided)?
+>>
+>> Yea, the usecase is for Firecracker to not have direct map entries for
+>> guest memory, unless needed for I/O (-> swiotlb).
+>>
+>> As for next steps, let's determine once and for all if we can do the
+>> KVM-internal guest memory accesses for MMIO emulation through userspace
+>> mappings (although if we can't I'll have some serious soul-searching to
+>> do, because all other solutions we talked about so far also have fairly
+>> big drawbacks; on-demand direct map reinsertion has terrible
+>> performance
+> So IIUC, KVM would have to access "unfaultable" guest_memfd memory using
+> fd+offset, and that's problematic because "no-directmap".
+> 
+> So you'd have to map+unmap the directmap repeatedly, and still expose it
+> temporarily in the direct map to others. I see how that is undesirable,
+> even when trying to cache hotspots (partly destroying the purpose of the
+> directmap removal).
+> 
+> 
+> Would a per-MM kernel mapping of these pages work, so KVM can access them?
+> 
+> It sounds a bit like what is required for clean per-MM allocations [1]:
+> establish a per-MM kernel mapping of (selected?) pages. Not necessarily
+> all of them.
+> 
+> Yes, we'd be avoiding VMAs, GUP, mapcounts, pincounts and everything
+> involved with ordinary user mappings for these private/unfaultable
+> thingies. Just like as discussed in, and similar to [1].
+> 
+> Just throwing it out there, maybe we really want to avoid the directmap
+> (keep it unmapped) and maintain a per-mm mapping for a bunch of folios
+> that can be easily removed when required by guest_memfd (ftruncate,
+> conversion private->shared) on request.
+
+I remember talking to someone at some point about whether we could reuse
+the proc-local stuff for guest memory, but I cannot remember the outcome
+of that discussion... (or maybe I just wanted to have a discussion about
+it, but forgot to follow up on that thought?).  I guess we wouldn't use
+proc-local _allocations_, but rather just set up proc-local mappings of
+the gmem allocations that have been removed from the direct map.
+
+I'm wondering, where exactly would be the differences to Sean's idea
+about messing with the CR3 register inside KVM to temporarily install
+page tables that contain all the gmem stuff, conceptually? Wouldn't we
+run into the same interrupt problems that Sean foresaw for the CR3
+stuff? (which, admittedly, I still don't quite follow what these are :(
+).
+
+(I've cc'd Fares Mehanna as well)
+
+> [1] https://lore.kernel.org/all/20240911143421.85612-1-faresx@amazon.de/T/#u
+> 
+> -- 
+> Cheers,
+> 
+> David / dhildenb
+> 
+
+Best,
+Patrick
