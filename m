@@ -1,89 +1,97 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8F31B6525;
-	Tue, 12 Nov 2024 03:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1C120821D;
+	Tue, 12 Nov 2024 03:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731380930; cv=none; b=do1zuumwYZvyzc+RDAmGFeP+ch/JYWHhIE/4f+NjdynkGZk1SO3Yrn2oF/XIE1IpIPyuqgjmN+R+9W0PU90mqNwwr5h/rr+JrhbZKTS5wZlcXWpMkmLPFnWA+H8h1Eq0q4v88E8r73Y2S3eCK6koPpfDK7pUhZ1ubxb6U08jLAU=
+	t=1731381573; cv=none; b=HAiOPB+KEd7qSwDb7hxjtXggcEXuScqTar0W8ejA/uvYxPATKMtrG6y9Hulg+kW+YsCut3c5Qr8uz9hxhWHHj27xDks848Lys5Vknoi82Wjl9BArmTYqBkv/UwYGHr5rk4H/nR48XsyJ4m6x5OnIDxiRs5nr9q27MxeuBkAI7Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731380930; c=relaxed/simple;
-	bh=C57Eg147c9BHu8+LFHpTE8LpIa4Dq+f0HtSO3R0n6xQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c/qGK+poFwrAEjCjeiHnBguLKVY78OGL93X4F1J6BpxgavEo2PYOELqTf5Kb946+cRuH3L+pz1sHv01cBo+PBWCiTtVK3Dq0Roc4N3446fMiMNF7L7ORTiQ/+wFwcf0vIukRZSNp82Dkppei/EyLt2qI9c3tFsd42pMgL3a2Uwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XnWZW624vz4f3jXn;
-	Tue, 12 Nov 2024 11:08:19 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 09F831A0196;
-	Tue, 12 Nov 2024 11:08:38 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.67.174.26])
-	by APP4 (Coremail) with SMTP id gCh0CgDnwoa0xjJnvTEqBg--.2387S2;
-	Tue, 12 Nov 2024 11:08:37 +0800 (CST)
-From: Xiu Jianfeng <xiujianfeng@huaweicloud.com>
-To: peterz@infradead.org,
-	mingo@redhat.com,
-	will@kernel.org,
-	longman@redhat.com,
-	boqun.feng@gmail.com,
-	corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH -next] docs/locking: Fix grammar in percpu-rw-semaphore.rst
-Date: Tue, 12 Nov 2024 02:57:24 +0000
-Message-Id: <20241112025724.474881-1-xiujianfeng@huaweicloud.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1731381573; c=relaxed/simple;
+	bh=9yuWzaclr6QDV5gbBphLoP+z39ogdab4mruCBMVTZoY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eJCg+5+cvAiGeach+sHhQMt54MkNYlu0/gRy+4wfckpKHJkozV/bSzq5fm0ruGydPWT/liHSR1dCUanO6+vN81O7Q6ol9dW0NzEOFR2Pu0kn0T4kIC4FmlkvNAv2BUQAK5hLrzbpJMc2DUfsiNj1BxtrTYiwhpWFOFaBEJdVyTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=svfoViJA; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="svfoViJA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E5C4C4CED0;
+	Tue, 12 Nov 2024 03:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731381572;
+	bh=9yuWzaclr6QDV5gbBphLoP+z39ogdab4mruCBMVTZoY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=svfoViJAm7VCYxZSyXieIfhm5nwTGGwgDpuUxb/Dz7qENNCCk+JZXD3L21tvANUcg
+	 zENeVCLguuLoYKMSZAKtSpbE2jeZCKOxqIB0JxVZldP45Z3ktdRJZQ8r0BlxInE5C0
+	 KDgdUytLqpDJIzJcbYlKmox+ZH4rPaiRWEg1IxSsCYieiExffA0gbDzhx+uWKWul+O
+	 tBKC5UIzocEDC4JBgxSHIqqlbtf7gz/VsEI4Zz14Xa5ct59hQrc97pMECeFNKgkPNl
+	 z619O7nFH25aCVMWicLPyYnNq4AufIiDswFwwu5kh3ysMK3lmgMrp5pEd68LNHDQPQ
+	 J+wsWvz3tsZmw==
+Date: Mon, 11 Nov 2024 19:19:31 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Lee Trager <lee@trager.us>
+Cc: Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Sanman Pradhan
+ <sanmanpradhan@meta.com>, Al Viro <viro@zeniv.linux.org.uk>, Mohsin Bashir
+ <mohsin.bashr@gmail.com>, Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v3 2/2] eth: fbnic: Add devlink dev flash
+ support
+Message-ID: <20241111191931.284b1be4@kernel.org>
+In-Reply-To: <20241111043058.1251632-3-lee@trager.us>
+References: <20241111043058.1251632-1-lee@trager.us>
+	<20241111043058.1251632-3-lee@trager.us>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgDnwoa0xjJnvTEqBg--.2387S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrurykWr48Aw1rurWUXF4UXFb_yoWkGFgEya
-	4Yqay5Xr4rXws7KFyUCF10qasYkr1Utr4F9343tFsxX340ya98J3Z7CF15Zr4UWF4a9rZ8
-	uFZ8uFWa9w17WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbzkYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
-	7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UK2NtUUUUU=
-X-CM-SenderInfo: x0lxyxpdqiv03j6k3tpzhluzxrxghudrp/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Xiu Jianfeng <xiujianfeng@huawei.com>
+Please drop Al Viro from the CC (!?) and CC the maintainer of the pldm
+library (Jake).
 
-s/'is initialized'/'is initialized with'
+On Sun, 10 Nov 2024 20:28:42 -0800 Lee Trager wrote:
+> +/**
+> + * fbnic_send_package_data - Send record package data to firmware
+> + * @context: PLDM FW update structure
+> + * @data: pointer to the package data
+> + * @length: length of the package data
+> + *
+> + * Send a copy of the package data associated with the PLDM record matching
+> + * this device to the firmware.
+> + *
+> + * Return: zero on success
+> + *	    negative error code on failure
+> + */
 
-Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
----
- Documentation/locking/percpu-rw-semaphore.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+can we drop these kdocs please? In the bast case they just repeat 
+the function name ("send package data") 3 times, in the worst case they
+are misleading. This function sends absolutely nothing to the firmware.
 
-diff --git a/Documentation/locking/percpu-rw-semaphore.rst b/Documentation/locking/percpu-rw-semaphore.rst
-index 247de6410855..a105bf2dd812 100644
---- a/Documentation/locking/percpu-rw-semaphore.rst
-+++ b/Documentation/locking/percpu-rw-semaphore.rst
-@@ -16,8 +16,8 @@ writing is very expensive, it calls synchronize_rcu() that can take
- hundreds of milliseconds.
- 
- The lock is declared with "struct percpu_rw_semaphore" type.
--The lock is initialized percpu_init_rwsem, it returns 0 on success and
---ENOMEM on allocation failure.
-+The lock is initialized with percpu_init_rwsem, it returns 0 on success
-+and -ENOMEM on allocation failure.
- The lock must be freed with percpu_free_rwsem to avoid memory leak.
- 
- The lock is locked for read with percpu_down_read, percpu_up_read and
+> +static int fbnic_send_package_data(struct pldmfw *context, const u8 *data,
+> +				   u16 length)
+> +{
+> +	struct device *dev = context->dev;
+> +
+> +	/* Temp placeholder required by devlink */
+
+Do you mean that the pldm lib requires this callback to exist?
+If yes then make it not require it if it's not necessary?
+
+> +	dev_info(dev,
+> +		 "Sending %u bytes of PLDM record package data to firmware\n",
+> +		 length);
+
+Please drop all the dev_*() prints. If something is important enough to
+be reported it should be reported via the devlink info channel, to the
+user. Not to system logs.
+
+> +	return 0;
+> +}
 -- 
-2.34.1
-
+pw-bot: cr
