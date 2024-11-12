@@ -1,69 +1,80 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A5D200121;
-	Tue, 12 Nov 2024 00:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A605234;
+	Tue, 12 Nov 2024 01:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731372856; cv=none; b=sqJhuZDLmzLE6HnLsqOByCVkoFBTUjcX+7s9mpMfBMR7QzXVemwtxtOVJAI8bIqtmCseRZtITPw6bUU/jNSjjXU1Xc24seEdBQBwRFy31JuXESxeaonhKBvOPM5XUyst8+7qLCDqqESEMRNFT7LHmnA3warSzFbjIBRejPh/IAQ=
+	t=1731373979; cv=none; b=gRMMrK0Af7V9BMR32mDLU75K3zcF+1DjFVIqhKIg3QYuxw78aheXrk7goybd9/vTtI8YuM0ecqOzwI/UXTjNM9hQR7Mu2qLY5SBHNTPUi1QVn6nbjkxYnGpe6BingadlGiv6vdECDSq6jkYy47KPJ3bGrCwtDXm45oV/LCXLbUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731372856; c=relaxed/simple;
-	bh=Hu4dBsJ5xP62QvmuRPaX4UIwMs8WvQh2ETQ5nwFhdYg=;
+	s=arc-20240116; t=1731373979; c=relaxed/simple;
+	bh=ftmn0imYn37BRWPPROC0VBNKjMLbbrW8+cDXcgpP2SE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q8kgmDzk6B2jGKYJaLfwUa1c81Ip9lrEeZPv+/H/2yYe156YA60WN18wLR3u8FoZvdLnM75KjFpKxxbaewnACcqijeSsyznqRU/uYPTuyCf/Cv671l9bhm3j3bvSw+nK/Wm1HhRu5isIjb6XdVKyipPldxCh/ASaEWh/foZFvC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m70/qMAx; arc=none smtp.client-ip=209.85.214.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=qsHNtLdxQUkQDXt4SlG++gJzeWpxRgtgV3Q6C9+lTIgBToYllo+9L3SMVYMfA83Loyb6tFg43FWABq8lRMt3y9mUUV8Ewf200t8sAIANQXtEyxaYyoBa9TfqZimK6xP3LTTcCR26DHUMcXeNMRK35uebpettzl5SHvJiOKZ/uiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IaxTe/nb; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m70/qMAx"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20c77459558so46204515ad.0;
-        Mon, 11 Nov 2024 16:54:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IaxTe/nb"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7f3da2c2cb5so3571904a12.2;
+        Mon, 11 Nov 2024 17:12:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731372854; x=1731977654; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731373977; x=1731978777; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GMJJU2vS4YE3uBb6HCAG4zKl0VOV5PsAT/leQ4TNxnY=;
-        b=m70/qMAxN0pqAqEZpsR6aywgqvwGAQPRLLdjUS2Msv26EsHRCv5g7EjgqxCXmLArWI
-         5X1ZEJTSI5js5ceJCv+fNTvupAjcsHMWEjNwx4v6U7QyojsWwGNI/ErzJMLH04GWuLbp
-         XHUokfuFB594b1Fb0JaEFUqw/tZVEm/GV9QTspb8hvmRxsLDz62ZkHTt9elbiJlqGCiz
-         WKaX9w8a6uhy6K46bA0sJevwMQMlW2Z5oWxtvVo3YSvqwuy2P/qbSA+IhpZympint2hU
-         QPIHOQ0QlVXtwtB5OfPf8DbehNcmRGFRFZrYwu1pchJVfwVdVdHl02hfDycpaRsNhY/f
-         6c0g==
+        bh=HeFGGUGpEi1sr9HlTgC6+whcNglqJKLIMlkMEduoEoI=;
+        b=IaxTe/nbP2rLpcYIFD1Dhcq2i5L3sB11Y83ZDbpfUCRIGwcy9C1PMLM0J2AwPu1lMG
+         wT/0TY8FKVOFmdnq5AvQNQb/8BkurdJl+xqA9v92X/ZWYIOKeU7fvoWZQcV7peGfQuiu
+         5otGo1WhfEKNEulvzzMqGjmZYGtmH67bT7nJ6fkeuBFJ0ckCa8nKAtGPGAW+mGbwyVGh
+         EP4WFpxBaCkeoDEaODru/X/rXJ83JmtA+wAagwkHmhcW/wjkbyRnS/chEXXT5tIlDn9U
+         nRxY6mt+S1GQLDW+QS3/9Rw7ZsoeV5z1fWQNzd/2xMRg4EN8zKa8ZwCtykKBYpl7KVdE
+         N1Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731372854; x=1731977654;
+        d=1e100.net; s=20230601; t=1731373977; x=1731978777;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GMJJU2vS4YE3uBb6HCAG4zKl0VOV5PsAT/leQ4TNxnY=;
-        b=nndm32mdoc2+FoXRwHKkmua42GKktI+11QC3uwrRqukcfjGSETsmz36FWi1WK1ZnGi
-         TR/lXYHnr/vLI67J1AuzP3UaROhovGNmmTbLiFNAQIrzAtJmgxvS6WAJSzgyad51jDEi
-         0X0xeFFdK7GpDRHj1YaH+/UiIOH4/8+kNBpPa64/Dz0VrAKJEXbWlBsycJt6TW7EgrHq
-         hb523S/aYALGlhWIVRbsCP0+G9vhrX18W7ZmWFzO0tCH9QrPic73Ns1It/wZoUMKZfmg
-         A/Hmx+F+urm91Fx02xoCQZA21iEVTRn76t9L/Be7omfgndkh12XI00aVey/j83uF0Yyv
-         IQdg==
-X-Forwarded-Encrypted: i=1; AJvYcCUSHxE0YHzKxgc3bdpN/5e8tZye/uquOKuFxY8fezhqc8W5WGCzBWv3xVjn0rkU/0el7wH4Z2k2qB6ZFmVC@vger.kernel.org, AJvYcCUvdgMmPuXQy9kngrl7YbeahZXnQu/fi0vYbJ2N7hHcmk0B3lOctPCZiK8I3tP3KpKTKffTtOMpjtI=@vger.kernel.org, AJvYcCWeDQJFA3a+abZ6CxQZbtIUcpG/4Nd4Vt6iubuIjKwBhtfF0QHR8CU/vOkkMOVtEyMOj3JT08Hl0epveqI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxTPiAGkSTC5Mz/Qh4c6fN6KXcsef9EWhTAyK9c2AcuYRulUm7
-	xZUpx/0+5fzDrzL5lwjMYSFQP9lm+YqG025djF+E9F1PLyt/eJ8eWgmMDg==
-X-Google-Smtp-Source: AGHT+IHwtTvUJoENTDvZnyT0YawUxXABmQ2LbUhLkDiDiIxOPrZJWzce2wnxYA2YuPw/FDUuB20eJQ==
-X-Received: by 2002:a17:903:1d1:b0:211:18bf:e91d with SMTP id d9443c01a7336-211ab967356mr9016955ad.27.1731372853243;
-        Mon, 11 Nov 2024 16:54:13 -0800 (PST)
+        bh=HeFGGUGpEi1sr9HlTgC6+whcNglqJKLIMlkMEduoEoI=;
+        b=hpJEW53v9tUScURS4FuG9JQbYkoKoVaKtIxQuxt7sytUSzVjI0InQ570DVlLJDcPqX
+         2YW/N35hlcn97G8uPTd/iXjuY+gMevDEbeiIa0tgnhPkksH5eGPqig0WRUJV4nxEn+4Q
+         ZsIahGQfbUH8pBv+6RSmWNQ+jaHf05FZhg1EvtJNPqZp6GdFgcsC54nkRm/20BoF+TWW
+         A7yg3XJ9xUy4KqdDxHIhon0ypJt91KM0nY+gGcPAyX+kTnC7JxeAU6jRD5r48DqIWgL3
+         k3WZ49aB/UjrXtOH0qRvGfhl6wQrgPFEAlIEskOmffkqRFWxoyqcWpzPvsd+22V42u3x
+         nN4A==
+X-Forwarded-Encrypted: i=1; AJvYcCVJ6KKZ/d/fozxnL7HxGfbWJS5H+CkJiuZNot7hNX9WauRGkutgUtzFbHM3GnQdStAW8TizAycu2F8uUF+Q@vger.kernel.org, AJvYcCWh4E+lhiUknZ4QVG2zb1E/GeXych6De6vem/uG67tOHtdrU1S5ucqUMicAWPEJcNfu/I70AY1BWfg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHkDlA8ZJ59KldtEU+0De+1hXOmRfc2GIAzO+XF+pp9c/6zAam
+	h4nJyNRMk754PuwsqUQotNU5+0yiEJNSaYd/gjBY8pb6qk/5ZNoq
+X-Google-Smtp-Source: AGHT+IHV65Fyb7uDakHlevNL5cpnf3GAtcrRB1pAKYFi4Ty++DVmIHYNNPVEBBb8riwugg9HJnK1ug==
+X-Received: by 2002:a17:90b:3811:b0:2e2:bf7f:3369 with SMTP id 98e67ed59e1d1-2e9b16eb57bmr19784671a91.5.1731373977187;
+        Mon, 11 Nov 2024 17:12:57 -0800 (PST)
 Received: from archie.me ([103.124.138.80])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e85419sm81493685ad.273.2024.11.11.16.54.11
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e99a5fd329sm11378008a91.37.2024.11.11.17.12.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 16:54:12 -0800 (PST)
+        Mon, 11 Nov 2024 17:12:56 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 889B24209E61; Tue, 12 Nov 2024 07:54:08 +0700 (WIB)
-Date: Tue, 12 Nov 2024 07:54:08 +0700
+	id A0CDE4209E61; Tue, 12 Nov 2024 08:12:52 +0700 (WIB)
+Date: Tue, 12 Nov 2024 08:12:52 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: anish kumar <yesanishhere@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	corbet@lwn.net, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V4] Docs/sound: Update codec-to-codec documentation
-Message-ID: <ZzKnMLe-L7bOe9Tw@archie.me>
-References: <20241031211411.58726-1-yesanishhere@gmail.com>
- <ZyQ5OJM8k1rGog2R@archie.me>
- <CABCoZhCapQBCj=UJ78XWtzier5m34zX+bwSo4bPxEVkOdZSxRA@mail.gmail.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Suren Baghdasaryan <surenb@google.com>,
+	Hillf Danton <hdanton@sina.com>,
+	Qi Zheng <zhengqi.arch@bytedance.com>,
+	SeongJae Park <sj@kernel.org>
+Subject: Re: [PATCH] docs/mm: add VMA locks documentation
+Message-ID: <ZzKrlEAjzZ80M0ik@archie.me>
+References: <20241107190137.58000-1-lorenzo.stoakes@oracle.com>
+ <Zy4DQmWHpC_QMGTP@archie.me>
+ <b81e4cc2-fc86-4ed2-996a-ad78a3524f31@lucifer.local>
+ <0d540192-3372-48ff-99fc-e8bfb960e3bf@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,89 +82,57 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YERgxwYtdic5yVS3"
+	protocol="application/pgp-signature"; boundary="+Gp0QloTQ6LSDedi"
 Content-Disposition: inline
-In-Reply-To: <CABCoZhCapQBCj=UJ78XWtzier5m34zX+bwSo4bPxEVkOdZSxRA@mail.gmail.com>
+In-Reply-To: <0d540192-3372-48ff-99fc-e8bfb960e3bf@lucifer.local>
 
 
---YERgxwYtdic5yVS3
+--+Gp0QloTQ6LSDedi
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 10, 2024 at 01:30:12PM -0800, anish kumar wrote:
-> On Thu, Oct 31, 2024 at 7:13=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.c=
-om> wrote:
+On Fri, Nov 08, 2024 at 12:34:23PM +0000, Lorenzo Stoakes wrote:
+> On Fri, Nov 08, 2024 at 12:29:15PM +0000, Lorenzo Stoakes wrote:
+> > On Fri, Nov 08, 2024 at 07:25:38PM +0700, Bagas Sanjaya wrote:
+> > > On Thu, Nov 07, 2024 at 07:01:37PM +0000, Lorenzo Stoakes wrote:
+> > > > +.. note:: In instances where the architecture supports fewer page =
+tables than
+> > > > +   five the kernel cleverly 'folds' page table levels, that is ski=
+ps them within
+> > > > +   the logic, regardless we can act as if there were always five.
+> > >
+> > > What are being skipped if e.g. we only have 3 or 4 page tables?
+> > >
+> > > Confused...
 > >
-> > On Thu, Oct 31, 2024 at 02:14:11PM -0700, anish kumar wrote:
-> > > Updated documentation to provide more details
-> > > for codec-to-codec connection especially around
-> > > the scenarios and DAPM core details for C2C
-> > > creation.
-> > "Describe in more detail codec-to-codec connection, especially on
-> > use cases and DAPM core details for C2C creation."
->=20
-> Sorry, I like the way it is written.
-
-What do you mean?
-
-> > > +An ALSA-based audio system typically involves playback and capture
-> > > +functionality, where users may require audio file playback through
-> > > +speakers or recording from microphones. However, certain systems
-> > > +necessitate audio data routing directly between components, such as =
-FM
-> > > +radio to speakers, without CPU involvement. For such scenarios, ASoC(
-> > > +ALSA system on chip) provides a mechanism known as codec-to-codec (C=
-2C)
-> > "For such scenarios, ASoC (ALSA system on chip) ..."
-> > > +connections, leveraging the Dynamic Audio Power Management (DAPM)
-> > > +framework to facilitate direct data transfers between codecs.
-> > > <snipped>...
-> > > +To better understand the configuration inspired by the setup found in
-> > > +``sound/soc/samsung/speyside.c``, here are several key points:
-> > > +
-> > > +1. The presence of ``c2c_params`` informs the DAPM core that the DAI=
- link
-> > > +   represents a C2C connection.
-> > > +
-> > > +2. ``c2c_params`` can be an array, and ``num_c2c_params`` defines th=
-e size
-> > > +   of this array.
-> > > +
-> > > +3. If ``num_c2c_params`` is 1:
-> > > +
-> > > +   - The C2C DAI is configured with the provided ``snd_soc_pcm_strea=
-m``
-> > > +     parameters.
-> > > +
-> > > +4. If ``num_c2c_params`` is greater than 1:
-> > > +
-> > > +   - A kcontrol is created, allowing the user to select the index of=
- the
-> > > +     ``c2c_params`` array to be used.
+> > Page table levels, see [0].
 > >
-> > I guess #3 and #4 can be combined, i.e. "If ``num_c2c_params`` is 1, ..=
-=2E;
-> > otherwise if ``num_c2c_params`` is greater than 1, ...".
+> > Typically achieved through stubbing functions out, etc. So in the code =
+you
+> > actually write and _conceptually_ there are five levels, only in the fi=
+nal
+> > compile you might have things like p4d_present(), p4d_clear() etc. squa=
+shed by
+> > the compiler into nothing.
 >=20
-> I like it this way.
+> I have updated this note to be a little clearer and to explicitly state
+> this. Thanks!
 
-Sorry again but what do you mean? Keep it as-is?
-
-Confused...
+Thanks for clarifying.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---YERgxwYtdic5yVS3
+--+Gp0QloTQ6LSDedi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZzKnMAAKCRD2uYlJVVFO
-ox3aAP42LvxWgRueGN8dNrW4CyiGCTgJNqK0jlQeeYTNMWepiAEAg5Ft2kRDOEdo
-D1PFBi3pkEiC/uYoFYMnH34xevlqDA0=
-=YQyH
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZzKrkAAKCRD2uYlJVVFO
+o+QEAQC3UUEVhh8+C8OxopbfJxfhQ2VLPMXNmz8Pj5PI6SrwiwEAyWHohtsNEZLZ
+noRnYz2AfUf9iN/zzJYJsrQcPjyjxAI=
+=BwYe
 -----END PGP SIGNATURE-----
 
---YERgxwYtdic5yVS3--
+--+Gp0QloTQ6LSDedi--
