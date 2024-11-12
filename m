@@ -1,102 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com [207.171.190.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716121FC7FC;
-	Tue, 12 Nov 2024 14:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F039F1632E9;
+	Tue, 12 Nov 2024 14:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.190.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731422633; cv=none; b=qFkHaOaHWMEUvBuTPitWkoCL61Tm/pknbkfxq6xU6cISpUl2aku5tB0tnEIAqTm3Dx3PCyADUigklrjH+hloCAdzHXhesiZJAUFmvBOrstOADeRBeGp99jU9cZiMf2Dl3Ao1ts+T7tXWBrz49m/cwioayLvoV1ZGzQUHm9wc3do=
+	t=1731422952; cv=none; b=djSOUH/QVAEw5g8US+FliKC1P79dLi8CKqYsR4jU3A3hKLt6qzTp7RuQex4twYY3CRuClcKPBGlUFumvcHH2L9IZalunCT/hzHkLxjizESbVMvJwD07880KJ/cXC8EfBKg+eyVLCguT23w/4Dleu3OdoIwnLDqjhCRZW1fkRISw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731422633; c=relaxed/simple;
-	bh=kw9PSI7QedEulYVI11SbsxMgAcTXzcxHyTmZr0prhlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vb6gfLF/JIDNpDRPl03jZbSNGhPla2jx1S5qr/AhPgTn/dmOQorQ+hp1YnLteEohS46DXospQbD70TfLHstTyY6romJ8zlwuRJz1Uy42ohtYbD9sfD/b2XuJnanzc/MmV0Aix6KZeYqW0BdGEo1WBQZryKUEoiomQp0byrArCpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DC7CQaQg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731422952; c=relaxed/simple;
+	bh=m0eo4X3kqJSUHkhXYkHQiXzeJnIdCYY/2I64fubKglY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=blO+0VSQYubZ2x5AWDh3o1vCXuGK1O9Dz0xUyBJh8E1XTeUKZmanqjeQeZEU4aQYTRW29MLoJR+jFN8iBz7Etlf8AYxR6UStytItOgl31PKgvojLrbYuH83khSQ/eLzuozpF4RRCUDosJz5QRVIWtxKeM0vgI6qzFRrda8ONfdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=UXrVeWYI; arc=none smtp.client-ip=207.171.190.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DC7CQaQg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B8E8C4CECD;
-	Tue, 12 Nov 2024 14:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731422632;
-	bh=kw9PSI7QedEulYVI11SbsxMgAcTXzcxHyTmZr0prhlw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DC7CQaQgDa/xmq6/Dp004RKRisUHFKn+DWD0nrQoaF2vMnNE92V4Kuc6JNbgC3ikw
-	 7QaXm+DX/lMjZ80+rCopcbcH63J9vlOaWPHcWUUwfNaVmM/Cr1VYSrVT1XaaqPl7N9
-	 RIhzN6nRgs6jGiTfzJEnTUES/Ig9UE19L5Tb/JrYX7p6B1pG8O4eEOd4IhTj8qluyk
-	 2UBmQcMLDSnnslUYriREzN8Xdv0E/iAnYFx+LhM7jhcSQfKy9Y+74ByqczV+OaW973
-	 3xRGXKiJ32ViTI/yknpFnME5wgEETVzXieOwc+HyA0Rk2Mto1V6YDVpcBGNmMZe3Q4
-	 3IXrBkyhwva+w==
-Date: Tue, 12 Nov 2024 14:43:49 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Airlie <airlied@gmail.com>,
-	DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] Documentation/CoC: spell out enforcement for
- unacceptable behaviors
-Message-ID: <ZzNppQIQm6O6lnfW@finisterre.sirena.org.uk>
-References: <20241108161853.12325-1-skhan@linuxfoundation.org>
- <ZzJkAJEjKidV8Fiz@phenom.ffwll.local>
- <ba3d5492-e774-452f-9fe0-e68b743c6b0d@linuxfoundation.org>
+	dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="UXrVeWYI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazon201209; t=1731422952; x=1762958952;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jmAWYVWTItYY6sYiriVLXoFyHZtABKNORDlLDv0YA8o=;
+  b=UXrVeWYInzuGE/UWjF5JE2ASMqWuu2B1GqdN2+KVdccPWrmiIvRdvtDP
+   KQUIOXbCs+k38n1wQwKKf7+Gnh934HP2+T7wBs9BiGIpJr5FHgUs9VgbR
+   SnNiFeEU8uMFNMB7bq76hx1Z2IgJfKuqIT/fhBnFHSm6E8FwtCT8Jp2iG
+   4=;
+X-IronPort-AV: E=Sophos;i="6.12,148,1728950400"; 
+   d="scan'208";a="384565955"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-33001.sea14.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 14:49:07 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [10.0.10.100:13328]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.18.131:2525] with esmtp (Farcaster)
+ id 10c75058-a729-46eb-ac89-a0cf40349664; Tue, 12 Nov 2024 14:49:05 +0000 (UTC)
+X-Farcaster-Flow-ID: 10c75058-a729-46eb-ac89-a0cf40349664
+Received: from EX19D030EUC001.ant.amazon.com (10.252.61.228) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.79) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Tue, 12 Nov 2024 14:48:58 +0000
+Received: from EX19MTAUEB002.ant.amazon.com (10.252.135.47) by
+ EX19D030EUC001.ant.amazon.com (10.252.61.228) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Tue, 12 Nov 2024 14:48:58 +0000
+Received: from email-imr-corp-prod-pdx-all-2c-619df93b.us-west-2.amazon.com
+ (10.124.125.2) by mail-relay.amazon.com (10.252.135.97) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1258.34 via Frontend Transport; Tue, 12 Nov 2024 14:48:57 +0000
+Received: from [127.0.0.1] (dev-dsk-roypat-1c-dbe2a224.eu-west-1.amazon.com [172.19.88.180])
+	by email-imr-corp-prod-pdx-all-2c-619df93b.us-west-2.amazon.com (Postfix) with ESMTPS id 842D1402F3;
+	Tue, 12 Nov 2024 14:48:49 +0000 (UTC)
+Message-ID: <bb534fec-b45d-4ff8-aa55-7201766936b5@amazon.co.uk>
+Date: Tue, 12 Nov 2024 14:48:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oEgx+arnr/c9/sI3"
-Content-Disposition: inline
-In-Reply-To: <ba3d5492-e774-452f-9fe0-e68b743c6b0d@linuxfoundation.org>
-X-Cookie: Editing is a rewording activity.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 1/6] arch: introduce set_direct_map_valid_noflush()
+To: Vlastimil Babka <vbabka@suse.cz>, David Hildenbrand <david@redhat.com>,
+	<tabba@google.com>, <quic_eberman@quicinc.com>, <seanjc@google.com>,
+	<pbonzini@redhat.com>, <jthoughton@google.com>, <ackerleytng@google.com>,
+	<vannapurve@google.com>, <rppt@kernel.org>
+CC: <graf@amazon.com>, <jgowans@amazon.com>, <derekmn@amazon.com>,
+	<kalyazin@amazon.com>, <xmarcalx@amazon.com>, <linux-mm@kvack.org>,
+	<corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <paul.walmsley@sifive.com>,
+	<palmer@dabbelt.com>, <aou@eecs.berkeley.edu>, <hca@linux.ibm.com>,
+	<gor@linux.ibm.com>, <agordeev@linux.ibm.com>, <borntraeger@linux.ibm.com>,
+	<svens@linux.ibm.com>, <gerald.schaefer@linux.ibm.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<x86@kernel.org>, <hpa@zytor.com>, <luto@kernel.org>, <peterz@infradead.org>,
+	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <shuah@kernel.org>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
+	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+References: <20241030134912.515725-1-roypat@amazon.co.uk>
+ <20241030134912.515725-2-roypat@amazon.co.uk>
+ <a774e13e-0616-4d96-bb51-bac0fcb2cb9b@redhat.com>
+ <440b2682-dbfb-4a5c-927c-2397413a7f9c@suse.cz>
+From: Patrick Roy <roypat@amazon.co.uk>
+Content-Language: en-US
+Autocrypt: addr=roypat@amazon.co.uk; keydata=
+ xjMEY0UgYhYJKwYBBAHaRw8BAQdA7lj+ADr5b96qBcdINFVJSOg8RGtKthL5x77F2ABMh4PN
+ NVBhdHJpY2sgUm95IChHaXRodWIga2V5IGFtYXpvbikgPHJveXBhdEBhbWF6b24uY28udWs+
+ wpMEExYKADsWIQQ5DAcjaM+IvmZPLohVg4tqeAbEAgUCY0UgYgIbAwULCQgHAgIiAgYVCgkI
+ CwIEFgIDAQIeBwIXgAAKCRBVg4tqeAbEAmQKAQC1jMl/KT9pQHEdALF7SA1iJ9tpA5ppl1J9
+ AOIP7Nr9SwD/fvIWkq0QDnq69eK7HqW14CA7AToCF6NBqZ8r7ksi+QLOOARjRSBiEgorBgEE
+ AZdVAQUBAQdAqoMhGmiXJ3DMGeXrlaDA+v/aF/ah7ARbFV4ukHyz+CkDAQgHwngEGBYKACAW
+ IQQ5DAcjaM+IvmZPLohVg4tqeAbEAgUCY0UgYgIbDAAKCRBVg4tqeAbEAtjHAQDkh5jZRIsZ
+ 7JMNkPMSCd5PuSy0/Gdx8LGgsxxPMZwePgEAn5Tnh4fVbf00esnoK588bYQgJBioXtuXhtom
+ 8hlxFQM=
+In-Reply-To: <440b2682-dbfb-4a5c-927c-2397413a7f9c@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
 
---oEgx+arnr/c9/sI3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 11, 2024 at 02:50:45PM -0700, Shuah Khan wrote:
-> On 11/11/24 13:07, Simona Vetter wrote:
+On Mon, 2024-11-11 at 12:12 +0000, Vlastimil Babka wrote:
+> On 10/31/24 10:57, David Hildenbrand wrote:
+>> On 30.10.24 14:49, Patrick Roy wrote:
+>>> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>>>
+>>> From: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>>>
+>>> Add an API that will allow updates of the direct/linear map for a set of
+>>> physically contiguous pages.
+>>>
+>>> It will be used in the following patches.
+>>>
+>>> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>>> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
+>>
+>>
+>> [...]
+>>
+>>>   #ifdef CONFIG_DEBUG_PAGEALLOC
+>>>   void __kernel_map_pages(struct page *page, int numpages, int enable)
+>>>   {
+>>> diff --git a/include/linux/set_memory.h b/include/linux/set_memory.h
+>>> index e7aec20fb44f1..3030d9245f5ac 100644
+>>> --- a/include/linux/set_memory.h
+>>> +++ b/include/linux/set_memory.h
+>>> @@ -34,6 +34,12 @@ static inline int set_direct_map_default_noflush(struct page *page)
+>>>      return 0;
+>>>   }
+>>>
+>>> +static inline int set_direct_map_valid_noflush(struct page *page,
+>>> +                                           unsigned nr, bool valid)
+>>
+>> I recall that "unsigned" is frowned upon; "unsigned int".
+>>
+>>> +{
+>>> +    return 0;
+>>> +}
+>>
+>> Can we add some kernel doc for this?
+>>
+>> In particular
+>>
+>> (a) What does it mean when we return 0? That it worked? Then, this
+> 
+> Seems so.
+> 
+>>      dummy function looks wrong. Or this it return the
+> 
+> That's !CONFIG_ARCH_HAS_SET_DIRECT_MAP and other functions around do it the
+> same way. Looks like the current callers can only exist with the CONFIG_
+> enabled in the first place.
 
-> > Personal take, but I think a forced public apology as the primary or at
-> > least initial coc enforcement approach is one of the worst.
+Yeah, it looks a bit weird, but these functions seem to generally return
+0 if the operation is not supported. ARM specifically has 
 
-=2E..
+	if (!can_set_direct_map())
+		return 0;
 
-> This document isn't intended to be a complete summary of all actions the
-> CoC takes in response to reports. There is a lot of back and forth with
-> the individuals to bring about change before the CoC asks for an apology.
+inside `set_direct_map_invalid_{noflush,default}`. Documenting this
+definitely cannot hurt, I'll keep it on my todo list for the next
+iteration :)
 
-I guess it would be good to explicitly call out (possibly in an
-incremental change on top of this one) that the specific enforcement
-steps here are examples, and are mainly for cases where a more
-mediation/education based approach fails or extreme cases where they're
-inappropriate?  Neither the existing document nor the current change
-make that explicit (at least to my reading), it's clear from for example
-the reports that are sent that the existing practice is to try to use
-those approaches first but I'm not sure that people would realise that
-=66rom this document alone.
+>>      number of processed entries? Then we'd have a possible "int" vs.
+>>      "unsigned int" inconsistency.
+>>
+>> (b) What are the semantics when we fail halfway through the operation
+>>      when processing nr > 1? Is it "all or nothing"?
+> 
+> Looking at x86 implementation it seems like it can just bail out in the
+> middle, but then I'm not sure if it can really fail in the middle, hmm...
 
---oEgx+arnr/c9/sI3
-Content-Type: application/pgp-signature; name="signature.asc"
+If I understood Mike correctly when talking about this at LPC, then it
+can only fail if during break-up of huge mappings, it fails to allocate
+page tables to hold the lower-granularity mappings (which happens before
+any present bits are modified).
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmczaaUACgkQJNaLcl1U
-h9BMOQf/TKO41Kx6ClF6btlwqUwS6HBy07xNmbEeSwkwwc9CzqCOcpVMRQQUYnWC
-gFfzcPDfom0WWMuaL9nQ7A6+XXtCY/+1XRdaZSsYL81Hfz8d4KSSwHG61QogC0zO
-SNr4eLv9QcwiZO/9qOGAxe5dZvyYKLo20uC6FBP124WDYfTrBEzp9A2sdLR9VWxn
-cUxhiYhU9u6maX5UPiZFGlMN1Bco5LGg1ozWyuq+/LCYIFqhMKrsCq9JEoXcgDz2
-NiYuNU/z6m3uGBY3DnKGILQ4SOEwVcEP0LIBEo7+FBWAlmGMLr0DoztAehQ81ANk
-WljNMC8ltIc08UlAayo1m6SsafUM5w==
-=CSNu
------END PGP SIGNATURE-----
-
---oEgx+arnr/c9/sI3--
+Best,
+Patrick
