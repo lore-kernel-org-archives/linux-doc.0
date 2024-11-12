@@ -1,229 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2048.outbound.protection.outlook.com [40.107.100.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B665A1FDF9D
-	for <linux-doc@vger.kernel.org>; Tue, 12 Nov 2024 15:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731425355; cv=none; b=cSs6qOz6ZjsAMGpJtkuI4cRhQTYCuziWjtmlyuaOyXnlHwRc6YMP7kCe1c4JpOLyZcN/d6Gp94gj9f7dKDq3dzypr8I1hnaV2bIBQPY9ts/vaXmV/zn/TGI3ngMTc3UfjFFn2zqQrnduhZOGvUGhcXnmRZUxK2mZ0O39CS4ZYB8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731425355; c=relaxed/simple;
-	bh=xwgEyeereLU4eiO1WkIlcVdeRvYjV3004d2zQyIr3OQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K7quBBoZhq/0WHHVbEftryRRZ6X49EFZna2ef13ADhe6jARMKrMn0dsvD/53KPOl/vRPxSLSskJNPW/RYh+yqZnAKj5qTrUnl7T8oiMYZWoRHOiUfUdQ/DPmOJ6d+L1PYL82XdB8Mg/+jcdx4VMM/cIl4mWJZ/Ax4tEIJSGKWE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Miuy4Ur8; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5482003D1;
+	Tue, 12 Nov 2024 15:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731426367; cv=fail; b=V9qjnaRHH3JU4h27ATiIvsKBgLrTe8sKRAWClPVVcWeAsENULiG8lMg0O0yY/5UQ7OtGflNoKgdZXo73j8z5XcDDFYRNUM0Az9pSp/uwxPm0xbKh3DX2VWxLHcoAdf32eOFRznm64vUNAukf2gO7Qp+dY8zLlHsKjyakWCw8QWU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731426367; c=relaxed/simple;
+	bh=o5HiOfm88phVx0Qz8JS95rEKdf0pu8SN7tD1BxiB68U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=kLiCKwrdddVi0JCBZEf/FgeSEX9idg6esukmjH71th1fanJCEEp4pHLaKT3zweImuDyR6H1FH7wCdRf/F1et91Up0Oqh2Q/6NAcpsc/3KHIHCDBy7dH5x8a44N5l28z+2aUwcx1gXjs+kuvTg2C4DJUKHcmy591ZJHnhOXs8PP8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ISu8rXWG; arc=fail smtp.client-ip=40.107.100.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Miuy4Ur8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31D90C4CECD;
-	Tue, 12 Nov 2024 15:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731425355;
-	bh=xwgEyeereLU4eiO1WkIlcVdeRvYjV3004d2zQyIr3OQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Miuy4Ur8bq6SMpilsrXijAo0zoGQlC1vL70M9+h4qq4ZIGomHyvH2ZinCi4UW71N+
-	 kmCU8/+0iSQNVyFl61inpirRPq0eS3RrH88gAQshzUVERFcRk5tdI5g+Idc3GZnLh0
-	 p2NSObNzWJ5rUuLeodCSdwCg+MGZelPQ1Iv15dn9zyN5mvzLAC7ZPBuCJYtxizjHdz
-	 0ajxtNmwx59i5gKRxyX+IIUii3rfKIgfqdEMFd3/0UNrUt18oZEOfgOKLsmGUqqPIB
-	 bNrLc+oWNiEIJcN5tFPT1Wz3AzZ15vZDsDQvOKsZQvwC6Odq973AHn+k2/Mb+nXN1N
-	 A5MtnTcznVDnQ==
-Received: from [104.132.45.109] (helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tAspN-00CEd7-2v;
-	Tue, 12 Nov 2024 15:29:13 +0000
-Date: Tue, 12 Nov 2024 15:29:12 +0000
-Message-ID: <874j4ctqrb.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Zhou Wang <wangzhou1@hisilicon.com>
-Cc: <tglx@linutronix.de>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>,
-	<wangwudi@hisilicon.com>,
-	Nianyao Tang
-	<tangnianyao@huawei.com>
-Subject: Re: [PATCH v2] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
-In-Reply-To: <20241112090426.1876148-1-wangzhou1@hisilicon.com>
-References: <20241112090426.1876148-1-wangzhou1@hisilicon.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ISu8rXWG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LFRawjATwbt8v4TkwynINihlItIf3ZI7U8xgaUxA1MwPv45x8OJidcpkrj0k6Rn2LfvcHTB7Ihi6HDg1OkScYwbx+kiu+BNAGIE+lWgR9qJMJIvF+Ae6s6u2nhwgEjmU1KOrmWA2DOYYsWzxe9YGLMIakXPmtCK0qkzaNFndf5eLxRpKAvDyZdWtbIyeJWrsTPgodH8vzHd7HjYBMCBKz1D4plzYAjUdDClVmWFv/VrC694yPacf7E5kCHtNGY+T3EMhlHhwTpLNzX0An8Cq7nplVBeVR2uJzTq68F8z9unhGhrgrEtWcDCkH0di0A0hxx92+6JOaCEVoVRDOiZOYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jaPGy7f7qwAkFHdXRZDR1TWf1Lu4RCFWWeJfEYpR3hc=;
+ b=sBZON5y2eJxVxUTui0Yq0htiw6SN7GLEpWTfELu120jovMfnLx3MpwajkQdNyNxLHBvFtIXoMrNoTEKX8NRjlm1tiP5vVZyNr44xc60hrlnz7QCA9QsUv0zJ7HnT5QMwX+09pzl+qrisr8jHEQQEsqvE/nZGUbYrCkQuOGnW+TRJtK70U9iVkUj33fb+U+Fg5zTwdRNBCItkZX93azb3ETZtHr8kGM1mA3LHYJQlMG73/Y53VCJVPhzNFKBRIgnZQQh+hFe4WdzSiLDvPW/23qlvIxMVuKriz+rwW8BSAG12PKJqiUKvs7chXhCPOrBHk/S8QI/Md0jFW3x1MyEOvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jaPGy7f7qwAkFHdXRZDR1TWf1Lu4RCFWWeJfEYpR3hc=;
+ b=ISu8rXWGIebSJADOmml3UzKTFn2Y4f1DsmgibrsELqtAwUmfYSG3YDh/yVjJcjSLM5W1MtgnocqoNF70KP9kpQ57WFD8A4f6LgQ3CYqRGyNFh0Oc6lGwsbKD6oHpR5asjAWMK8QOkxTXuqq/PnAivJrBYtr1DvzidIr7Fkf/qTm9bPtEciZ2JDjhdbE0KsZowzQ8yiztwjdKvbO2wMeEr1p7OLmUCIYav9cO4cfpoQTX9zcFgFsvl8OqcWriBc9lsSQJzCrG9YOJ4WIfI45ggkGp+drHlYgWZBierBqdrGdGlJr2xKRVsHgulR9L8JnNgUTjLYagl+n+HnY/MgWv7g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by CYYPR12MB8891.namprd12.prod.outlook.com (2603:10b6:930:c0::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.27; Tue, 12 Nov
+ 2024 15:45:54 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8137.027; Tue, 12 Nov 2024
+ 15:45:52 +0000
+Date: Tue, 12 Nov 2024 11:45:51 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: kevin.tian@intel.com, corbet@lwn.net, joro@8bytes.org,
+	suravee.suthikulpanit@amd.com, will@kernel.org,
+	robin.murphy@arm.com, dwmw2@infradead.org, shuah@kernel.org,
+	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	baolu.lu@linux.intel.com, eric.auger@redhat.com,
+	jean-philippe@linaro.org, mdf@kernel.org, mshavit@google.com,
+	shameerali.kolothum.thodi@huawei.com, smostafa@google.com,
+	yi.l.liu@intel.com, aik@amd.com, zhangfei.gao@linaro.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v7 02/13] iommufd: Move _iommufd_object_alloc helper to a
+ sharable file
+Message-ID: <20241112154551.GA50895@nvidia.com>
+References: <cover.1730836219.git.nicolinc@nvidia.com>
+ <2f4f6e116dc49ffb67ff6c5e8a7a8e789ab9e98e.1730836219.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2f4f6e116dc49ffb67ff6c5e8a7a8e789ab9e98e.1730836219.git.nicolinc@nvidia.com>
+X-ClientProxiedBy: BLAPR03CA0030.namprd03.prod.outlook.com
+ (2603:10b6:208:32b::35) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 104.132.45.109
-X-SA-Exim-Rcpt-To: wangzhou1@hisilicon.com, tglx@linutronix.de, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, wangwudi@hisilicon.com, tangnianyao@huawei.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CYYPR12MB8891:EE_
+X-MS-Office365-Filtering-Correlation-Id: d85ae96e-3b16-4e03-d040-08dd033116a5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?qkIw4VvTrRWV03h9nf6xNNHWrswKYguDxxDvOULcjWu4FxQ4rUS2YpFhkPOG?=
+ =?us-ascii?Q?QCJJ/FTwwYbqQ7RbvSkYaB+COrDxiZGacQenzbuZzwGL/D69FOFUGJzyChb2?=
+ =?us-ascii?Q?F6QpPkc1QGIVUry23wlwxM8RXKCmW9KltRCAUVwxJk2DG/YfJHIqWEW5guw8?=
+ =?us-ascii?Q?lV0iLAOH2YZzUfuWFn16u3jvx4qx2KO3DlfZFIf6fzNT9im6X8Wh23FVPGgO?=
+ =?us-ascii?Q?Dxnxvcdq28qgAaQLllv2L24oTdmJyWDus94sQqYpQqFsVYLwKfUY2CLEuQqd?=
+ =?us-ascii?Q?qsDyg2RBk02p/lS8cVsu56GCTaipRsLEj5GWVcYArumfhjBNY7JTfvqxY8Gz?=
+ =?us-ascii?Q?85fADo37r1o5yxhvP7EOgr7YPW8P4Y1yh86uHBymQJJ4lkXxRW/TA0FNUM8H?=
+ =?us-ascii?Q?jz75RJW4Zp442ck1XBJ2xXstu//d4PvAFg7Go8eK3MdiAZxBaZqxOO7+vr3D?=
+ =?us-ascii?Q?oBLosyETHxm2dik4XqECbb/0IdjsddIzY7DVBCBkY14O0PnbUvJrmjF/LekR?=
+ =?us-ascii?Q?ZNdfUh2hgbkepmAiViTUPVErhsKhuT7mB7rbARXhh5sx9xCxnPFsW77ySPJU?=
+ =?us-ascii?Q?nyO+E3DYxF8FSJ7lDzS3vj68k/Iu1Lfz5AeFlOvBuCtpMjWGA9IkeojCYSA5?=
+ =?us-ascii?Q?eZmgKsVAnNHWpXasPud36psdOBxk8MF8Vp34Z/gpLMuA8+Qr6H9Ybbmd5mP/?=
+ =?us-ascii?Q?qi+vr3Z/HhSFxO8kLtAQGKmzmfqMNB+mEBFqcgn4KhGwl+/oKk0wjF1Bg8IH?=
+ =?us-ascii?Q?cdmSEMZ/lzSHJfIT6UCgHKc6D3QleIbCYHCWvexPWyWaoGU9N5gDYqIxWpm/?=
+ =?us-ascii?Q?+ogHRAh9cckrjcqGfsUGcWN7B9/HryuplzXHU1dvdeiIVhAyVo2CYi8JvBlT?=
+ =?us-ascii?Q?7l12Sjw6svSFxmXzaIGaPUxmsM5j6j3YE47Cz3jZRGzhWsh17cLa+rfCz0Na?=
+ =?us-ascii?Q?ec7ZtHvkfkupnGY6lxaat9FAlkwx+Sb3ybhJclvppqxxNH4Q3oIJJVj0rXpi?=
+ =?us-ascii?Q?6eaBgEIfue87wUCVUnW4GQIJhRye87uEED7RCwHxS+jOlby68K/2Ft+zrZvA?=
+ =?us-ascii?Q?r5qJjcZxMDY4qi+y89AUkdb5Qu2unepi+aTO7zr+q51xOatdmnWtsOQo2Z4v?=
+ =?us-ascii?Q?xZ8Nz5ywVPMNW3Jmfhn8EchVJxu53xWTgU4dG0p5X7H6af2msqfXCEC0XnKd?=
+ =?us-ascii?Q?kJSlYFDBAP3tIKgVflu04WG/RqqP6jf+01He7OZD87Ki3JApv4cfogtPUXve?=
+ =?us-ascii?Q?Qi1IuZPGY5ryyjz09cgBemUiFyX9oCy7L0CaiblGaH7OQLaj+UlchqrL2+35?=
+ =?us-ascii?Q?8wiJZ//K2P2rEtLjbHWsrxE2?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?yN4AIhOuXxeAXDoeE81wAjbRLZ/9TKpb93BCFswNP9isWdSy+O2NUndYQZ9J?=
+ =?us-ascii?Q?1GAvs7lRwQysapL5FomSTUzrr/wzVXVKFuMUIrtamOCEj0TNCtWxcarAaPZ2?=
+ =?us-ascii?Q?Ifb5iNiqNPexSDlft8Qz+nE6QihjpfSabWwxXRRQP33ERBzAhwfi+UEfOneY?=
+ =?us-ascii?Q?ku/kE3lao8IITtNMJHd3MOJw/Cxsdvx00aDAmJA0R46zwHo/GzfjfQVe2MGJ?=
+ =?us-ascii?Q?Kk/4h0nW1nwtkw/Ku9Uhtew1sh/1ng2+DX01eDwNjA4a90Hq1avuGoj2hPxi?=
+ =?us-ascii?Q?E4dDUFyDPVjWdW42QbZZRj9GeC0u8iivzqlLCKGUwliQ4Cu9SoqBr5RM7vv1?=
+ =?us-ascii?Q?eh8YKedlJGA5G4Hggd+6UhbsiQ9C/ZSWDZqstCXXTSNEkehs/Eon/f5OyvV+?=
+ =?us-ascii?Q?Dk5pYLVyvFf2ozXHrt8LW3OxwjpK+KTe6XQgY/2PziMW/0Mi0UNrs+u4Hr7h?=
+ =?us-ascii?Q?qLHKh4Jua4d4i0R6MBC4GSnFOmKX0wnfmTgTWByJyf2NPfiG2XFcUzE+M7p4?=
+ =?us-ascii?Q?WmzltLN+UlIZz8uhYl+S6gBLR7/dTtDi3NIPfiNtRJ2Q/UtXpfyY/77AwJhc?=
+ =?us-ascii?Q?JBZdfhWVLlj8DgNGngmttdqnnULhJfXU2+1wx0hsEji/hiZEE6D0RiGph12d?=
+ =?us-ascii?Q?bAiez5dMzr/EPzKy+WrCPrzUgu4Ag3IACQ8fUeFs3J0A2zUH8VZWkOGQre/s?=
+ =?us-ascii?Q?7+RWIPG5cYgCCqmokVKxGePfqdwKsyzQSlJ8baYTPr+RvBh4nYu9mQEyooGf?=
+ =?us-ascii?Q?Z0FSiEsnKZfgQMFe62vsntp1i3XQhZzs5XIlgktHC8MihhgVu59cWjd+YpQf?=
+ =?us-ascii?Q?zB8kTCQF55jf44mTxgbIuLfddEFYfy2w46Nl16hDP2Rv2Snke0bDeRCL8SFj?=
+ =?us-ascii?Q?o1xCk4fIEI7zXJLNad3yJ1nC6CG8mWEYQxN828GscxNxSb9MXBz3/QvdOmov?=
+ =?us-ascii?Q?Ya6gLMgRY4NMNx+Vnnx+Pry6cmlIKjCbCIYpoeqTueGX0Ivotfz43oAdh0yv?=
+ =?us-ascii?Q?ynGw50qQo7nfd5chEY2w1cK8GjcumUhfbrR03WysWr+veL/atTcpwbWDPpBF?=
+ =?us-ascii?Q?DxAeo3E/mzy9lQ7r7DR14hDncCfjnYNGf5ZqfpY3pam2gymuxnfHvkjL4lzE?=
+ =?us-ascii?Q?wYgjJMNloCuPAb1kPikl/ZAHM2dBEFL4N9LOyEX48xqdpyN0RBS6t28TsFJ6?=
+ =?us-ascii?Q?F2DXSSKu74pgSl26cmvj452f556G7ih7nkkVkTVxWPzcNxKxrtAF//Nl7uj0?=
+ =?us-ascii?Q?2exNTKxDZMQqwrEhX7tnNmxfPr4GCLFzwnyQLfbf7kkvsbfO3RPkksNqkhUv?=
+ =?us-ascii?Q?3+qh/6Xy0R8XixAttp5b4x/Vz3T4OmRfGUUlss+0e7WceOA3imFL2unTO36w?=
+ =?us-ascii?Q?aVRkM4iT2BGbMECvfiDMd1VjDonaQ/bfYP1x1UJzsqUrn1ylJtAN+UFZxuGR?=
+ =?us-ascii?Q?4lRVPnrkMDf7A2BOi54cBXOwFsOoMTZIbagIObUjnMcpTBnAVjkQsThfBJaL?=
+ =?us-ascii?Q?wZCknnTOdkrvk7mW+AtWhfrAWWukv0NAzvhDmdVVWPhwfC7nimNFp7ftqeIF?=
+ =?us-ascii?Q?62eHTcqvuAY81tFnFKc59jLgcolPjlkkauNzCFEh?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d85ae96e-3b16-4e03-d040-08dd033116a5
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2024 15:45:52.7006
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2lnAs15rRVIe/faQCGQEAaqXVGWUFegDk5zHz2ynWRIaJADWNB8EtIkOMhD0oKgE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8891
 
-On Tue, 12 Nov 2024 09:04:26 +0000,
-Zhou Wang <wangzhou1@hisilicon.com> wrote:
-> 
-> When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-> during unmapping operation, which will cause some vSGIs lost.
-> 
-> To fix the issue, it needs to send VINVALL command after VMOVP.
-> 
-> Signed-off-by: Nianyao Tang <tangnianyao@huawei.com>
-> Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
-> ---
->  Documentation/arch/arm64/silicon-errata.rst |  2 ++
->  arch/arm64/Kconfig                          | 10 +++++++
->  drivers/irqchip/irq-gic-v3-its.c            | 29 +++++++++++++++++++++
->  3 files changed, 41 insertions(+)
-> 
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index 65bfab1b1861..77db10e944f0 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -258,6 +258,8 @@ stable kernels.
->  | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
->  |                | ,11} SMMU PMCG  |                 |                             |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  +----------------+-----------------+-----------------+-----------------------------+
->  | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
->  +----------------+-----------------+-----------------+-----------------------------+
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 70d7f4f20225..d41cf6bf1458 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1232,6 +1232,16 @@ config HISILICON_ERRATUM_161600802
->  
->  	  If unsure, say Y.
->  
-> +config HISILICON_ERRATUM_162100801
-> +	bool "Hip09 162100801 erratum support"
-> +	default y
-> +	help
-> +	  When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-> +	  during unmapping operation, which will cause some vSGIs lost.
-> +	  So fix it by sending VINVALL command after VMOVP.
-> +
-> +	  If unsure, say Y.
-> +
->  config QCOM_FALKOR_ERRATUM_1003
->  	bool "Falkor E1003: Incorrect translation due to ASID change"
->  	default y
-> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-> index 52f625e07658..e98d13d0adf9 100644
-> --- a/drivers/irqchip/irq-gic-v3-its.c
-> +++ b/drivers/irqchip/irq-gic-v3-its.c
-> @@ -44,6 +44,7 @@
->  #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
->  #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
->  #define ITS_FLAGS_FORCE_NON_SHAREABLE		(1ULL << 3)
-> +#define ITS_FLAGS_WORKAROUND_HISILICON_162100801	(1ULL << 4)
->  
->  #define RD_LOCAL_LPI_ENABLED                    BIT(0)
->  #define RD_LOCAL_PENDTABLE_PREALLOCATED         BIT(1)
-> @@ -3804,6 +3805,7 @@ static int its_vpe_set_affinity(struct irq_data *d,
->  	struct its_vpe *vpe = irq_data_get_irq_chip_data(d);
->  	unsigned int from, cpu = nr_cpu_ids;
->  	struct cpumask *table_mask;
-> +	struct its_node *its;
->  	unsigned long flags;
->  
->  	/*
-> @@ -3866,6 +3868,17 @@ static int its_vpe_set_affinity(struct irq_data *d,
->  	vpe->col_idx = cpu;
->  
->  	its_send_vmovp(vpe);
-> +
-> +	/*
-> +	 * Version of ITS is same in one system. As there is no cache in ITS,
-> +	 * and only cache in related GICR should be clean, so one VINVALL is
-> +	 * enough here.
-> +	 */
-> +	its = list_first_entry(&its_nodes, struct its_node, entry);
-> +	if ((its->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801) &&
-> +	    is_v4_1(its))
-> +		its_send_vinvall(its, vpe);
+On Tue, Nov 05, 2024 at 12:04:18PM -0800, Nicolin Chen wrote:
 
-Can this be done using the GICR_INVALLR register instead? I would
-expect it to be a bit better performance wise, as it doesn't require
-to take a global lock. Something like the hack below (untested).
+> --- a/drivers/iommu/iommufd/Makefile
+> +++ b/drivers/iommu/iommufd/Makefile
+> @@ -13,3 +13,4 @@ iommufd-$(CONFIG_IOMMUFD_TEST) += selftest.o
+>  
+>  obj-$(CONFIG_IOMMUFD) += iommufd.o
+>  obj-$(CONFIG_IOMMUFD_DRIVER) += iova_bitmap.o
+> +obj-$(CONFIG_IOMMUFD_DRIVER_CORE) += driver.o
+
+This gives a wonky module name of "driver.ko", I'm going to adjust it
+to this:
+
+-obj-$(CONFIG_IOMMUFD_DRIVER_CORE) += driver.o
++
++iommufd_driver-y := driver.o
++obj-$(CONFIG_IOMMUFD_DRIVER_CORE) += iommufd_driver.o
 
 Thanks,
-
-	M.
-
-diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-index fdec478ba5e7..d30d6ee727c1 100644
---- a/drivers/irqchip/irq-gic-v3-its.c
-+++ b/drivers/irqchip/irq-gic-v3-its.c
-@@ -62,6 +62,8 @@ static u32 lpi_id_bits;
- 
- static u8 __ro_after_init lpi_prop_prio;
- 
-+static struct its_node *find_4_1_its(void);
-+
- /*
-  * Collection structure - just an ID, and a redistributor address to
-  * ping. We use one per CPU as a bag of interrupts assigned to this
-@@ -3797,6 +3799,22 @@ static void its_vpe_db_proxy_move(struct its_vpe *vpe, int from, int to)
- 	raw_spin_unlock_irqrestore(&vpe_proxy.lock, flags);
- }
- 
-+static void its_vpe_4_1_invall_locked(int cpu, struct its_vpe *vpe)
-+{
-+	void __iomem *rdbase;
-+	u64 val;
-+
-+	val  = GICR_INVALLR_V;
-+	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
-+
-+	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
-+	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
-+	gic_write_lpir(val, rdbase + GICR_INVALLR);
-+
-+	wait_for_syncr(rdbase);
-+	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
-+}
-+
- static int its_vpe_set_affinity(struct irq_data *d,
- 				const struct cpumask *mask_val,
- 				bool force)
-@@ -3849,6 +3867,10 @@ static int its_vpe_set_affinity(struct irq_data *d,
- 	vpe->col_idx = cpu;
- 
- 	its_send_vmovp(vpe);
-+
-+	if (find_4_1_its()->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801)
-+		its_vpe_4_1_invall_locked(cpu, vpe);
-+
- 	its_vpe_db_proxy_move(vpe, from, cpu);
- 
- out:
-@@ -4156,22 +4178,12 @@ static void its_vpe_4_1_deschedule(struct its_vpe *vpe,
- 
- static void its_vpe_4_1_invall(struct its_vpe *vpe)
- {
--	void __iomem *rdbase;
- 	unsigned long flags;
--	u64 val;
- 	int cpu;
- 
--	val  = GICR_INVALLR_V;
--	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
--
- 	/* Target the redistributor this vPE is currently known on */
- 	cpu = vpe_to_cpuid_lock(vpe, &flags);
--	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
--	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
--	gic_write_lpir(val, rdbase + GICR_INVALLR);
--
--	wait_for_syncr(rdbase);
--	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
-+	its_vpe_4_1_invall_locked(cpu, vpe);
- 	vpe_to_cpuid_unlock(vpe, flags);
- }
- 
-
--- 
-Without deviation from the norm, progress is not possible.
+Jason
