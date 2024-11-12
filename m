@@ -1,95 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB6521E103;
-	Tue, 12 Nov 2024 10:38:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE542139DB;
+	Tue, 12 Nov 2024 11:20:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731407889; cv=none; b=u5lRsjx/FU5OGZl9dnwiXij2Jg16IL5FLzvS6Wkh65hfuFAud400lw/Ee9K3QUaGi9Fbk20mfAe6QUyIYRpXD/IdBQhPAiEr+Xq/4RQkcqZ9nO4gdKKxO9wHKIqEX4vU0uIwWNY/cV0agaQ9m+/Rvxfa0yomRYhiz+wX56TChKc=
+	t=1731410420; cv=none; b=HsdQD15AmoRaoLC0gCvem2cbwJQ0xc/8xTE0L7F0hiyr6cxPGNfSqaVb7wWjy0Yt4Op4aH1+97joKEFrhqcYWmwUgzNx2cZJbk8oAIH4TgD8ep29YahyDW5bawlOdokcAX+f30b1u9q9qYbBgZ2lZ8iZHwihrUEWTmerPLErONs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731407889; c=relaxed/simple;
-	bh=SCRBbqa7yEeu9vl/EFKHr1yv2U8iV/5Sj1IyFgS1c1s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=anwWnqv8IkN3pzcQP5aWQ8klwiqyvuZ02+d2A2zV95OSPWeITBPwZPuK/jRCrJlPjoozEb1lspa2NCQWM9SsBsauWJNVub3o3aHlsg/K56ylm0ojGssKIbh1CK/am4aADQb8Pmck7fvs5aBzNhpW+S+8yK2r7YfaZ5X+iFSj9mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FNSKWWaY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731410420; c=relaxed/simple;
+	bh=fKs2r75/cAl/ZrCU2zDlJuBSedEVT9EwM2Fl5D3rmxs=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=daUJGp/MkLE5EXGySokF6DHKuWO2iZBONnMYduUWw63vsqs7JhE+EFjyfd/5AuiHu1k8NRGcUyWJ3D8RJWYRVEsRmto1Y5DxPd396k/lkFWcNvxU9t2UVtB1tqg2FJ21YwIKf+oX1yScR0++0vVRQiYRYtjkHib63rOC5koXeok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=midmylww; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FNSKWWaY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80A9AC4AF09;
-	Tue, 12 Nov 2024 10:38:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="midmylww"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3535C4CECD;
+	Tue, 12 Nov 2024 11:20:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731407889;
-	bh=SCRBbqa7yEeu9vl/EFKHr1yv2U8iV/5Sj1IyFgS1c1s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FNSKWWaYMfAdV4qfitBzlOjthQns1RFASELzCcNeJnGSW0eleb4Ud6gdcyZ0fjRB6
-	 5t8ohQ94S6WZ5DU5bSwApmmlej7wyruyZwChfc6pVtCvFmwrUnjbSCVfwdYiGtAHx+
-	 /2nlEdLBf2mKXNL0US4S6tFfCI4jvYnG+ZYkcbOjUD1w/j40jIEfFsOqbp1TYYBnOs
-	 0eoToesvSkb2f7wYl17FmG48II9Frk/JhptpEqixhnGYQjyZLVDqGlZoea95a4Lb1j
-	 tOfYZC4+/EdatEy8QrwafIDWRBlOK04UUz9v/1CJ3Xx+/hGed6weoNIHtv+Ixpxn7C
-	 OkRvbJhHmYULw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Alexander=20H=C3=B6lzl?= <alexander.hoelzl@gmx.net>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Sasha Levin <sashal@kernel.org>,
-	robin@protonic.nl,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	corbet@lwn.net,
-	linux-can@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 3/6] can: j1939: fix error in J1939 documentation.
-Date: Tue, 12 Nov 2024 05:37:58 -0500
-Message-ID: <20241112103803.1654174-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241112103803.1654174-1-sashal@kernel.org>
-References: <20241112103803.1654174-1-sashal@kernel.org>
+	s=k20201202; t=1731410419;
+	bh=fKs2r75/cAl/ZrCU2zDlJuBSedEVT9EwM2Fl5D3rmxs=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=midmylww6kqSVSfN6Sc0NJrjqgzXCKnImjERTHhY71vXDGcGZBUDX8UvAclmTb54L
+	 2050ATlVZtSycPuXyD1BgQR6RIEx2+4XAZguqVwEpWMQzU7Ha9g6rNjZpl1mhuaQLb
+	 PBY5aFWftkbB66rjYSe2LqMPsGbQP1LADKBYx/sVomVUyVb69R3OXsTQ/9ewEanZl2
+	 xmm+FyZYZUBZd5auzmS2lbxDMFGn+KacPvMk/KQ1Meq3t1lRMwbv/6vaqjC7Wgmmpq
+	 JqaNPByqbDqi9RohW0uFuuEjK1YLMDiubkxLF0lKyvKtu8kG7rtqo3WB/Dch2EKAdK
+	 G2UJaeJUzgkjQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33F313809A80;
+	Tue, 12 Nov 2024 11:20:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.229
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v6] net: Implement fault injection forcing skb
+ reallocation
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173141043002.488443.17713500872713771818.git-patchwork-notify@kernel.org>
+Date: Tue, 12 Nov 2024 11:20:30 +0000
+References: <20241107-fault_v6-v6-1-1b82cb6ecacd@debian.org>
+In-Reply-To: <20241107-fault_v6-v6-1-1b82cb6ecacd@debian.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: corbet@lwn.net, akinobu.mita@gmail.com, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org
 
-From: Alexander Hölzl <alexander.hoelzl@gmx.net>
+Hello:
 
-[ Upstream commit b6ec62e01aa4229bc9d3861d1073806767ea7838 ]
+This patch was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-The description of PDU1 format usage mistakenly referred to PDU2 format.
+On Thu, 07 Nov 2024 08:11:44 -0800 you wrote:
+> Introduce a fault injection mechanism to force skb reallocation. The
+> primary goal is to catch bugs related to pointer invalidation after
+> potential skb reallocation.
+> 
+> The fault injection mechanism aims to identify scenarios where callers
+> retain pointers to various headers in the skb but fail to reload these
+> pointers after calling a function that may reallocate the data. This
+> type of bug can lead to memory corruption or crashes if the old,
+> now-invalid pointers are used.
+> 
+> [...]
 
-Signed-off-by: Alexander Hölzl <alexander.hoelzl@gmx.net>
-Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Acked-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Link: https://patch.msgid.link/20241023145257.82709-1-alexander.hoelzl@gmx.net
-Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/networking/j1939.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Here is the summary with links:
+  - [net-next,v6] net: Implement fault injection forcing skb reallocation
+    https://git.kernel.org/netdev/net-next/c/12079a59ce52
 
-diff --git a/Documentation/networking/j1939.rst b/Documentation/networking/j1939.rst
-index 0a4b73b03b997..59f81ba411608 100644
---- a/Documentation/networking/j1939.rst
-+++ b/Documentation/networking/j1939.rst
-@@ -83,7 +83,7 @@ format, the Group Extension is set in the PS-field.
- 
- On the other hand, when using PDU1 format, the PS-field contains a so-called
- Destination Address, which is _not_ part of the PGN. When communicating a PGN
--from user space to kernel (or vice versa) and PDU2 format is used, the PS-field
-+from user space to kernel (or vice versa) and PDU1 format is used, the PS-field
- of the PGN shall be set to zero. The Destination Address shall be set
- elsewhere.
- 
+You are awesome, thank you!
 -- 
-2.43.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
