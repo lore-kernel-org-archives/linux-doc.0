@@ -1,60 +1,60 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C14B16B38B
-	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 16:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12F61E1A28
+	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 16:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731516930; cv=none; b=lHLwq5wvaGEsJcN4Ta8kK/6Lugt5p+hIctH4PB4LjD/yB83EBY9FUewSEyibYHSylZMhp0orQXSM7Cs8delU2YH0A6VUneJNH3LeoaVe+6X6s9LVLHZbaBinGcK/YbbIA0x6KNQMq6BMOEyrhIreKMmoLsjXTfhl64aRLTJp1lQ=
+	t=1731516932; cv=none; b=EFrJW4th8t36Spf83YjYUQcKQeKwNytv+IV6UY8xinIXWtTdHUGL9wzFnsGu5RvUhCQaQm7B6wwnAGMpjioEdpVIBNJM4NFw1Oi5q8Q4eECsQrKwr06PPE44NCSVFEwbOLKTTeFxSGeZZ7ToUZLr31FDG1X4dSnlEMlyhQRWofY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731516930; c=relaxed/simple;
-	bh=FcOHKxBF8nl/v4SIQ/tCUbE1JuAOflWFIy3yGdifeC8=;
+	s=arc-20240116; t=1731516932; c=relaxed/simple;
+	bh=tJhHuhEOPc+XxXPxuHFH6d3Rhg17ntIx28rsYimScsg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YyqXehjYm9Hc7dI8GWK3z/Yx/wnkbvuobSRnt7lNm0u4jya4qXVxGg/adr4gauNAUeY1NrVPIYYP+aX2zKp8OCFzqtsrADnijG39OY76Khd98fEDQvYXO0OVKB3DtSMw0O9awdJxSIHo91tIaGHE5lpap2RJucsnymUl48VaipA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ACviE16K; arc=none smtp.client-ip=209.85.160.51
+	 In-Reply-To:To:Cc; b=RuN6BSE73CN2PTRJo8kjerjg6tsJCMZ6l02rChiSOR7nAmXEAMRO8RbkmC++hRmYLJN8EP1aLd92yqcnBC4WxYPuqJ6ZXIjx+Rnrzr7D7QhH8upXbGM6hnJPMMBNZ/3ZgNObTJ4XHvIuplPEgLY3g7TCTyejtybDXxTpgdRhQ2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=E5GH72FM; arc=none smtp.client-ip=209.85.160.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ACviE16K"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-28c7f207806so3043917fac.3
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 08:55:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="E5GH72FM"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2887326be3dso3211629fac.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 08:55:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731516927; x=1732121727; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731516930; x=1732121730; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TSikvYecjE5L7Fz7wq5gaGm5AXMewltD4jATzudM75s=;
-        b=ACviE16KCe48ui6sPB9i/aKwNKj4q6sNYx4AMD3mL1kPjU7SEBvkAee/GmI4fkg6/Z
-         h6b0oP++hm4lTeUzO0P/0fdGPhMJogi2zr4SXPJfG4ajPRsbq+/MG0nxArtZ/CjBThk9
-         a4WJYaXcMQPsYG8t24OP+brte6kju7LTJO4yLsFKSwMJi15THpqEFn8iAFr9mR+PCvZX
-         hQSclRmJW9IsxaDdtOJZj2q6J4O9JZT6Ykq/cPqWaJ15aJUT2OYWoiGZP01gng5GPzhA
-         T0VRxfV//QAeyVSBw8XJISsEVhsqv+YyvTc5ZZ2f+Ke/+ALnteQHeH4e50Dt05pwKMar
-         UjRA==
+        bh=AGwF3u8hl2KH+X74wkxGcK2CGFXP/y9NLjPy/zZ23Ks=;
+        b=E5GH72FMwSBf79vOmhp5MNcWPDDifDOHlOVkhV1ZOyd+Cg35Bxp99bu9/4+I4QYBPT
+         WbQ7wmBVsSGQKOdGcIJf9UhXvrgRj6ujEH5ZZxsRRkpSNxsThkbgAqEn0GYtfHFyiiMy
+         Ero9POUp86nDo2XkMfKwzYlx9IlGhALFhZHgX0d3AISauaSMg0jMpXQIqI5htRj3bMtt
+         L/wihcMC8tRPIkbkB97CY1CYy8sKhTCBUgqNCl+PhaOkogxAdtw8xC0UeJ+lTHU5KxNj
+         aN+n8suf8v8MpcycaoeTUZgsAI2scq7AA7teXl85qa0z9+mIABqelX+h6DRblp/uY6ES
+         UP5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731516927; x=1732121727;
+        d=1e100.net; s=20230601; t=1731516930; x=1732121730;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TSikvYecjE5L7Fz7wq5gaGm5AXMewltD4jATzudM75s=;
-        b=h8rx6+6J1Y/JkNR3dEkJ6USvOURZd3PJ6Kx0YZwEKTQc8IQOL/1Z4kWIZvERjHq1qX
-         2vBpGmXlUz/CxxyN8TUyIZUZaDaInx7MDize/ppLBP4zcEoths6ei39D/rRgl0PYhGYz
-         c9/sN2F+eUKfvs4d78B3vAhmyT0vJQqtWjTaxYXeQI+RQ3iNV8Ia+TJrAT/jCmVgZt5a
-         aBeFvLYyjSoA5zj2PIkTnx8q5r0BDS2SJr40JSRZhISzQtZWf1dxRMqd1GbOjj4PIGEU
-         5CI8eDuF+4PWsS/YAQT+j1+GIOCx9TJO2MtbxFqoIwN7DWmmJ8dELEe0I0eAAx4u6Rzx
-         /1Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCWUO2af1fC+xCtwPptUmz98wVlk/IkmseqqGDtI2qctqqlWQ/YJSKaEO5TKkk1K4jEePPAvLxaKjpk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFCuVNzjtiI1LS20780Y/MhZTRx2ua4KOMcF5qYidjH+LZZo8F
-	zUs0ObuvQVl7RTP2KbfXMk43sJua2xHiwkXi2PPKM8RYu++2yxlMEVj75dnRUvY=
-X-Google-Smtp-Source: AGHT+IFJpZjge+IOMpaNgashhcck+YSg0qirNU1tLokH+1+ASRcY+i1i7QixDL8eiYp4UVv+7gSOuw==
-X-Received: by 2002:a05:6870:899d:b0:284:ff51:58ad with SMTP id 586e51a60fabf-295cd216d11mr7802349fac.27.1731516927381;
-        Wed, 13 Nov 2024 08:55:27 -0800 (PST)
+        bh=AGwF3u8hl2KH+X74wkxGcK2CGFXP/y9NLjPy/zZ23Ks=;
+        b=gYObPgVNOoozzVm0leUV2dhZuAguin3bxI68gQ6yTPOfjAuSNargLFxDW7jzaPIW7J
+         NN1uphPvK/3lPpAMk2Vfb0XoQ2ypBnms0c0jZGtPC6K78xGA+yOYo4DLthr0v4vH+zCy
+         sLq5nrV4Ddxuq8r2b6Zk5JzDKyZhcpxZuZ8T5dz+K2Yt0cdpBZ0QN8Z8wHn5Vvpz617Y
+         w3b34uXDu7nzIGV+V2iG5QDBKyoARDpfMQY6QePCg/qXulH7vUNi0b486O0SYMX993W0
+         snQMKoBWeXdodq5wddR6zkgFEtcUu28O7D+yqP2VhgmjuBpD3igpmRDVhoV7t0pnakOf
+         Bsgg==
+X-Forwarded-Encrypted: i=1; AJvYcCXx+yomccRypVA0upjAEZt/yI8gYmKU0Wu7JetDWrP7RMJAANnCnDtouAoEJeqm/jopAs/+yKUpZe0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPLX1M8z9R4T4IPYQKBynr2Z5pRWT+QNRvvu7Q8xZnVr2iqY6q
+	sxfaXesf+03rX+nB7vetsApjJZSyL8CxIUKp4uzh5bGZ2fbOaCrlU4IDEhpI6O4=
+X-Google-Smtp-Source: AGHT+IGZTsB2S8+H3+Yo8Y32ji6Fa9pcSs0trVZgwEr27F+OXOgWiSX2di5TeK5mA1VMRkRfPOioLQ==
+X-Received: by 2002:a05:6870:9e0c:b0:288:e7f2:e9f9 with SMTP id 586e51a60fabf-295e8d516a4mr3417291fac.11.1731516930191;
+        Wed, 13 Nov 2024 08:55:30 -0800 (PST)
 Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-295e8fe5c61sm873432fac.23.2024.11.13.08.55.24
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-295e8fe5c61sm873432fac.23.2024.11.13.08.55.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 08:55:26 -0800 (PST)
+        Wed, 13 Nov 2024 08:55:28 -0800 (PST)
 From: David Lechner <dlechner@baylibre.com>
-Date: Wed, 13 Nov 2024 10:55:19 -0600
-Subject: [PATCH 1/2] iio: adc: ad4695: move dt-bindings header
+Date: Wed, 13 Nov 2024 10:55:20 -0600
+Subject: [PATCH 2/2] dt-bindings: iio: adc: adi,ad4695: change include path
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241113-iio-adc-ad4695-move-dt-bindings-header-v1-1-aba1f0f9b628@baylibre.com>
+Message-Id: <20241113-iio-adc-ad4695-move-dt-bindings-header-v1-2-aba1f0f9b628@baylibre.com>
 References: <20241113-iio-adc-ad4695-move-dt-bindings-header-v1-0-aba1f0f9b628@baylibre.com>
 In-Reply-To: <20241113-iio-adc-ad4695-move-dt-bindings-header-v1-0-aba1f0f9b628@baylibre.com>
 To: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -76,62 +76,39 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
  devicetree@vger.kernel.org, David Lechner <dlechner@baylibre.com>
 X-Mailer: b4 0.14.1
 
-Move the dt-bindings header file to the include/dt-bindings/iio/adc/
-directory. ad4695 is an ADC driver, so it should be in the adc/
-subdirectory for better organization. Previously, it was in the iio/
-subdirectory.
+Change the include path for the adi,ad4695.h header since it has been
+moved to the include/dt-bindings/iio/adc/ directory.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- Documentation/iio/ad4695.rst                   | 2 +-
- MAINTAINERS                                    | 2 +-
- drivers/iio/adc/ad4695.c                       | 2 +-
- include/dt-bindings/iio/{ => adc}/adi,ad4695.h | 0
- 4 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/iio/ad4695.rst b/Documentation/iio/ad4695.rst
-index 33ed29b7c98a..9ec8bf466c15 100644
---- a/Documentation/iio/ad4695.rst
-+++ b/Documentation/iio/ad4695.rst
-@@ -101,7 +101,7 @@ The macro comes from:
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
+index 310f046e139f..7d2229dee444 100644
+--- a/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
+@@ -134,8 +134,9 @@ patternProperties:
+         description:
+           Describes the common mode channel for single channels. 0xFF is REFGND
+           and OxFE is COM. Macros are available for these values in
+-          dt-bindings/iio/adi,ad4695.h. Values 1 to 15 correspond to INx inputs.
+-          Only odd numbered INx inputs can be used as common mode channels.
++          dt-bindings/iio/adc/adi,ad4695.h. Values 1 to 15 correspond to INx
++          inputs. Only odd numbered INx inputs can be used as common mode
++          channels.
+         enum: [1, 3, 5, 7, 9, 11, 13, 15, 0xFE, 0xFF]
+         default: 0xFF
  
- .. code-block::
- 
+@@ -209,7 +210,7 @@ unevaluatedProperties: false
+ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
 -    #include <dt-bindings/iio/adi,ad4695.h>
 +    #include <dt-bindings/iio/adc/adi,ad4695.h>
  
- Pairing two INx pins
- ^^^^^^^^^^^^^^^^^^^^
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e69d1632c382..3fd398d6e64f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1268,7 +1268,7 @@ W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
- F:	Documentation/iio/ad4695.rst
- F:	drivers/iio/adc/ad4695.c
--F:	include/dt-bindings/iio/adi,ad4695.h
-+F:	include/dt-bindings/iio/adc/adi,ad4695.h
- 
- ANALOG DEVICES INC AD7091R DRIVER
- M:	Marcelo Schmitt <marcelo.schmitt@analog.com>
-diff --git a/drivers/iio/adc/ad4695.c b/drivers/iio/adc/ad4695.c
-index 595ec4158e73..3c2c01289fda 100644
---- a/drivers/iio/adc/ad4695.c
-+++ b/drivers/iio/adc/ad4695.c
-@@ -30,7 +30,7 @@
- #include <linux/spi/spi.h>
- #include <linux/units.h>
- 
--#include <dt-bindings/iio/adi,ad4695.h>
-+#include <dt-bindings/iio/adc/adi,ad4695.h>
- 
- /* AD4695 registers */
- #define AD4695_REG_SPI_CONFIG_A				0x0000
-diff --git a/include/dt-bindings/iio/adi,ad4695.h b/include/dt-bindings/iio/adc/adi,ad4695.h
-similarity index 100%
-rename from include/dt-bindings/iio/adi,ad4695.h
-rename to include/dt-bindings/iio/adc/adi,ad4695.h
+     spi {
+         #address-cells = <1>;
 
 -- 
 2.43.0
