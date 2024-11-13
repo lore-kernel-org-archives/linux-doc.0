@@ -1,115 +1,161 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12F61E1A28
-	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 16:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4341F80BB
+	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 17:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731516932; cv=none; b=EFrJW4th8t36Spf83YjYUQcKQeKwNytv+IV6UY8xinIXWtTdHUGL9wzFnsGu5RvUhCQaQm7B6wwnAGMpjioEdpVIBNJM4NFw1Oi5q8Q4eECsQrKwr06PPE44NCSVFEwbOLKTTeFxSGeZZ7ToUZLr31FDG1X4dSnlEMlyhQRWofY=
+	t=1731518001; cv=none; b=nEguuft67HYs9Tl8RBwcVwQYmMior3QNy/bBkVux5ZJdftBYYmLdT405c0OPxxp/BD13xtWblfD9H1FXP50hCyVlN3TWYu7+DCpUxIhwwKhSq6DuicQ/VtfruSyYxSuayoqnzI8t4Iff9vNsLjhdGdBBcmv7mSWjqTZ0czkJzVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731516932; c=relaxed/simple;
-	bh=tJhHuhEOPc+XxXPxuHFH6d3Rhg17ntIx28rsYimScsg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RuN6BSE73CN2PTRJo8kjerjg6tsJCMZ6l02rChiSOR7nAmXEAMRO8RbkmC++hRmYLJN8EP1aLd92yqcnBC4WxYPuqJ6ZXIjx+Rnrzr7D7QhH8upXbGM6hnJPMMBNZ/3ZgNObTJ4XHvIuplPEgLY3g7TCTyejtybDXxTpgdRhQ2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=E5GH72FM; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1731518001; c=relaxed/simple;
+	bh=P5LV97zKsjwbvc8pKFqu/eBd7S75Qg86hvnx5B/heBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YjwunrZrMAkGKZKt21i+Htz5n4ixd8lAIq+FIVWry1tI+EcI1UZDVwUjlw4oYVRXE96jxDmyQmEUdke6PvZjFqQkeFS0Ty8ZDjiUFSwN4dDOeGeHsa17Acsi4drXfntoYevzt2ZHpeQ42afCdPYMmWXCgc0UdikmiuOPZoVQKVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bCI6g6B8; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="E5GH72FM"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2887326be3dso3211629fac.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 08:55:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bCI6g6B8"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-720b2d8bb8dso5261645b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 09:13:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731516930; x=1732121730; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AGwF3u8hl2KH+X74wkxGcK2CGFXP/y9NLjPy/zZ23Ks=;
-        b=E5GH72FMwSBf79vOmhp5MNcWPDDifDOHlOVkhV1ZOyd+Cg35Bxp99bu9/4+I4QYBPT
-         WbQ7wmBVsSGQKOdGcIJf9UhXvrgRj6ujEH5ZZxsRRkpSNxsThkbgAqEn0GYtfHFyiiMy
-         Ero9POUp86nDo2XkMfKwzYlx9IlGhALFhZHgX0d3AISauaSMg0jMpXQIqI5htRj3bMtt
-         L/wihcMC8tRPIkbkB97CY1CYy8sKhTCBUgqNCl+PhaOkogxAdtw8xC0UeJ+lTHU5KxNj
-         aN+n8suf8v8MpcycaoeTUZgsAI2scq7AA7teXl85qa0z9+mIABqelX+h6DRblp/uY6ES
-         UP5Q==
+        d=linaro.org; s=google; t=1731517996; x=1732122796; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ifvUbRomJOM9ONw4x5k/S8xJ/QeZBsF+nhD23qyoV9U=;
+        b=bCI6g6B8fhBjG+1zPQgjTq0GcuA5XQMmy6Cm7G0HInY+hloNZUq9aEZzkD7YABiDvK
+         PxLd6ikGadIkoU65ldATGxvyfKYmQ9/0sk2qt73OlCybI/iqNsFFbaIHMvjk0GVk+iOT
+         oxsMuu+hlFXM/9W4OhDWdNiLMu7g7GMte/TXxwdzDcYn/HN6ljhFIQWke0v/EivcYmsw
+         F5/RDFGg/5caipm+Jv6quRKhMDEELp+smHKid/CamYHFWQas0a+9lp1jq4r9yfsAphC6
+         K5vvxfT0DDNBMtZXZfKNJHX3z2L6mt1bt6K5xQwguQ/zPcbgm1a9ITwxSlDCgYozWRxm
+         GI/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731516930; x=1732121730;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AGwF3u8hl2KH+X74wkxGcK2CGFXP/y9NLjPy/zZ23Ks=;
-        b=gYObPgVNOoozzVm0leUV2dhZuAguin3bxI68gQ6yTPOfjAuSNargLFxDW7jzaPIW7J
-         NN1uphPvK/3lPpAMk2Vfb0XoQ2ypBnms0c0jZGtPC6K78xGA+yOYo4DLthr0v4vH+zCy
-         sLq5nrV4Ddxuq8r2b6Zk5JzDKyZhcpxZuZ8T5dz+K2Yt0cdpBZ0QN8Z8wHn5Vvpz617Y
-         w3b34uXDu7nzIGV+V2iG5QDBKyoARDpfMQY6QePCg/qXulH7vUNi0b486O0SYMX993W0
-         snQMKoBWeXdodq5wddR6zkgFEtcUu28O7D+yqP2VhgmjuBpD3igpmRDVhoV7t0pnakOf
-         Bsgg==
-X-Forwarded-Encrypted: i=1; AJvYcCXx+yomccRypVA0upjAEZt/yI8gYmKU0Wu7JetDWrP7RMJAANnCnDtouAoEJeqm/jopAs/+yKUpZe0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPLX1M8z9R4T4IPYQKBynr2Z5pRWT+QNRvvu7Q8xZnVr2iqY6q
-	sxfaXesf+03rX+nB7vetsApjJZSyL8CxIUKp4uzh5bGZ2fbOaCrlU4IDEhpI6O4=
-X-Google-Smtp-Source: AGHT+IGZTsB2S8+H3+Yo8Y32ji6Fa9pcSs0trVZgwEr27F+OXOgWiSX2di5TeK5mA1VMRkRfPOioLQ==
-X-Received: by 2002:a05:6870:9e0c:b0:288:e7f2:e9f9 with SMTP id 586e51a60fabf-295e8d516a4mr3417291fac.11.1731516930191;
-        Wed, 13 Nov 2024 08:55:30 -0800 (PST)
-Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-295e8fe5c61sm873432fac.23.2024.11.13.08.55.27
+        d=1e100.net; s=20230601; t=1731517996; x=1732122796;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ifvUbRomJOM9ONw4x5k/S8xJ/QeZBsF+nhD23qyoV9U=;
+        b=Q4qQyMJEO8v7TGA+P0dVm51o09VlfbFtsds0SrBtlekrXtfogzqx3Zl8dYiitxvYes
+         UXGQbqgSVLsUBfEgyzWpkxzObM9g3NtUDl9Y/o/7wJck0kbTMBx5baEAmoi73wa9texV
+         0zO87TQ3AubmcjyECkBEjsYfbrfuMDFc1K2wYH1CR3UWdIMSytmApE23cBfdvqBZRSbo
+         wOWOA6p2rKd/HX3oVgKhmMg1NnIfVvOtMQIuxkbyhgkhkgLQPLbV/TY/eJ0qwIIc0Ygr
+         ch0voNbwmmFQMQzLyGi6G9uFWhBu3Ob8T4Psgziw6tGcrNkgCwbXvGAU5/rItT7bUG88
+         UHLw==
+X-Forwarded-Encrypted: i=1; AJvYcCUruHhAy0tBrjG2J9eCLw3DIC1gDJgOac5w+yd1ZytvnB32KywxGhjnngcpJdy6l/V1+iPrKy7pox4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzOMrb9geiOZ0hgPNjsHjey+mmFoUF2wvf3i8DcUi3lFYOBqY+
+	NiLr0hUYxjsbuMGIE9F/9h8jjEffWqAjVtWLSe1aZHdyNuMDkzytW2Qkm3mLHNM=
+X-Google-Smtp-Source: AGHT+IHA5WiA7MiqyH8efQNCAK7Lo6QO+3s/96CcV1jpasTbglmJ9Zdpo8EFQj71/9GwdyTBs800kA==
+X-Received: by 2002:aa7:888c:0:b0:71e:4e2a:38bf with SMTP id d2e1a72fcca58-724133632a1mr27813959b3a.18.1731517996303;
+        Wed, 13 Nov 2024 09:13:16 -0800 (PST)
+Received: from p14s ([2604:3d09:148c:c800:fd79:a2fb:87a9:f18])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72407a50493sm13427196b3a.172.2024.11.13.09.13.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 08:55:28 -0800 (PST)
-From: David Lechner <dlechner@baylibre.com>
-Date: Wed, 13 Nov 2024 10:55:20 -0600
-Subject: [PATCH 2/2] dt-bindings: iio: adc: adi,ad4695: change include path
+        Wed, 13 Nov 2024 09:13:15 -0800 (PST)
+Date: Wed, 13 Nov 2024 10:13:13 -0700
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: anish kumar <yesanishhere@gmail.com>
+Cc: andersson@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Subject: Re: [RESEND PATCH V6 2/3] Documentation: remoteproc: add overview
+ section
+Message-ID: <ZzTeKTieC8YHC1Pv@p14s>
+References: <20241106051016.89113-1-yesanishhere@gmail.com>
+ <20241106051016.89113-3-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241113-iio-adc-ad4695-move-dt-bindings-header-v1-2-aba1f0f9b628@baylibre.com>
-References: <20241113-iio-adc-ad4695-move-dt-bindings-header-v1-0-aba1f0f9b628@baylibre.com>
-In-Reply-To: <20241113-iio-adc-ad4695-move-dt-bindings-header-v1-0-aba1f0f9b628@baylibre.com>
-To: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: Michael Hennerich <michael.hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, David Lechner <dlechner@baylibre.com>
-X-Mailer: b4 0.14.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241106051016.89113-3-yesanishhere@gmail.com>
 
-Change the include path for the adi,ad4695.h header since it has been
-moved to the include/dt-bindings/iio/adc/ directory.
+On Tue, Nov 05, 2024 at 09:10:15PM -0800, anish kumar wrote:
+> Added overview section which details
+> how the remote processor framework works and
+> how it handles crashes.
+> 
+> Signed-off-by: anish kumar <yesanishhere@gmail.com>
+> ---
+>  Documentation/staging/remoteproc.rst | 43 ++++++++++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+> 
+> diff --git a/Documentation/staging/remoteproc.rst b/Documentation/staging/remoteproc.rst
+> index eeebbeca71de..e0bf68ceade8 100644
+> --- a/Documentation/staging/remoteproc.rst
+> +++ b/Documentation/staging/remoteproc.rst
+> @@ -46,6 +46,49 @@ of several key components:
+>  - **Virtio Support**: Facilitates interaction with the virtio and
+>    rpmsg bus.
+>  
+> +Overview
+> +========
+> +
+> +The framework begins by gathering information about the firmware file
+> +to be downloaded through the request_firmware function. It supports
+> +the ELF format and parses the firmware image to identify the physical
+> +addresses that need to be populated from the corresponding ELF sections.
+> +Once this information is obtained from the driver, the framework transfers
+> +the data to the specified addresses and starts the remote processor,
+> +along with subdevices.
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
----
- Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Here again, some information is inaccurate and some is incomplete.
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
-index 310f046e139f..7d2229dee444 100644
---- a/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
-@@ -134,8 +134,9 @@ patternProperties:
-         description:
-           Describes the common mode channel for single channels. 0xFF is REFGND
-           and OxFE is COM. Macros are available for these values in
--          dt-bindings/iio/adi,ad4695.h. Values 1 to 15 correspond to INx inputs.
--          Only odd numbered INx inputs can be used as common mode channels.
-+          dt-bindings/iio/adc/adi,ad4695.h. Values 1 to 15 correspond to INx
-+          inputs. Only odd numbered INx inputs can be used as common mode
-+          channels.
-         enum: [1, 3, 5, 7, 9, 11, 13, 15, 0xFE, 0xFF]
-         default: 0xFF
- 
-@@ -209,7 +210,7 @@ unevaluatedProperties: false
- examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
--    #include <dt-bindings/iio/adi,ad4695.h>
-+    #include <dt-bindings/iio/adc/adi,ad4695.h>
- 
-     spi {
-         #address-cells = <1>;
+> +
+> +Dependent devices, referred to as `subdevices` within the framework,
+> +are also managed post-registration by their respective drivers.
+> +Subdevices can register themselves using `rproc_(add/remove)_subdev`.
+> +Non-remoteproc drivers can use subdevices as a way to logically connect
+> +to remote and get lifecycle notifications of the remote.
 
--- 
-2.43.0
+All of the above is pretty much inaccurate.
 
+I do not see a way forward for this revision and as such will stop here.
+
+As I suggested before, I advise you to take time to read the documentation for
+other subsystems.  You will find that narrating what the code does, as you
+are conveying in this work, is not a common practice.  The code speaks for
+itself, there is no need for duplication.
+
+You are obviously able to read and understand code, have you thought about
+fixing kernel problems?  Buy a development board, boot a kernel on it, follow
+the patches people are sending for that specific SoC and start testing them.
+You will find more problems to fix that you can handle, and it's a lot of fun.
+
+Regards,
+Mathieu
+
+> +
+> +The framework oversees the lifecycle of the remote and
+> +provides the `rproc_report_crash` function, which the driver invokes
+> +upon receiving a crash notification from the remote. The
+> +notification method can differ based on the design of the remote
+> +processor and its communication with the application processor. For
+> +instance, if the remote is a DSP equipped with a watchdog,
+> +unresponsive behavior triggers the watchdog, generating an interrupt
+> +that routes to the application processor, allowing it to call
+> +`rproc_report_crash` in the driver's interrupt context.
+> +
+> +During crash handling, the framework performs the following actions:
+> +
+> +a. Sends a request to stop the remote and any connected or
+> +   dependent subdevices.
+> +b. Generates a coredump, dumping all `resources` requested by the
+> +   remote alongside relevant debugging information. Resources are
+> +   explained below.
+> +c. Reloads the firmware and restarts the remote processor.
+> +
+> +If the `RPROC_FEAT_ATTACH_ON_RECOVERY` flag is set, the detach and
+> +attach callbacks of the driver are invoked without reloading the
+> +firmware. This is useful when the remote requires no
+> +assistance for recovery, or when the application processor can restart
+> +independently. After recovery, the application processor can reattach
+> +to the remote.
+> +
+>  User API
+>  ========
+>  
+> -- 
+> 2.39.3 (Apple Git-146)
+> 
