@@ -1,308 +1,306 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD5A5680;
-	Wed, 13 Nov 2024 00:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731457462; cv=none; b=iETuJL5J9qaIWBJXjH4UFvW2DoNA9ggL9/34PTVpYSiTuraXjGxyQjGkF2WEqUsI/6wHsi7dW75a4nqExkyJIzsDxI1+09QryyQ2RDvXIFlLjKUMd3K65eHdTF6RO1ckGcpT2KjSNe4liBpyGs+bg2tKpdNi8KdPSwAwEVV48vk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731457462; c=relaxed/simple;
-	bh=zPGDDofFmfmk/Ba1bQlRmIX92zLydbyjQuQhjINhw2M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nXf2bVW0Ve4SdUHXEJyzhYi3XgT1Ii55X2kU78S0dRG7Sc/W/vIxdwHguNeezeNNacVmczZU7Mzju+sHIzXwLIOnMR5qWaFSMsK2Wgl6rYPu4yxQzb9AntR4r0EFzo+E1Y79ruUJCt4RnwHhZ4GAbRylJ+4gmwgcPg3pjsI1nRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mdKiHvRJ; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DAEAD24;
+	Wed, 13 Nov 2024 00:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731458436; cv=fail; b=iYDAIEr4SIgM8FMzIrnXfAQVu6ahUJV2hGB1evA0G2urQavOcP/x+QZ9ScwmsJtqQ9Mb/OIRsDqO/7HjbOsO+yYP4BbtdeAcPU85qAHfU965Mdu8X0xPh5opSjAj5n0nT0VjPew41cLxTxp583JwZVWXPQ7+qrCC9OB1XY1kA2U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731458436; c=relaxed/simple;
+	bh=x+tiVyt7jvdo1mI4hDx35llzEEGJqV2s3/aXmqr2MSg=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cigOKZUa4HBars0FUcGq1SzTpEDGFQhnPHiVTn8rMMOg5kdojBUrTYOPf4/uHzZnq8ocauHzWrKXWan8MvVN2Eldy0S46vkRLRxFR33fbD1keF/z7jODYjZYoGSd8nXleGMrp+b68g38QIiPXZIKXbV/kXbNmriWBELkdlF50hU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kB4Fksog; arc=fail smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mdKiHvRJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30645C4CECD;
-	Wed, 13 Nov 2024 00:24:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731457460;
-	bh=zPGDDofFmfmk/Ba1bQlRmIX92zLydbyjQuQhjINhw2M=;
-	h=From:To:Cc:Subject:Date:From;
-	b=mdKiHvRJq5u0OLwL50GIUPj+y26VWhpo4WpGbHP1iZx+6JYgjiFseTMhAbsL/B85w
-	 Al3lYewk5r8oZtDkSfHmqRVmPLQtfApLyIfQYy5HU85kAEQaKPpodh23xdW6UHP1or
-	 3pEkYZfCtz9u7zzQs2Fs9xivQ2SLgFsgfbrmwYpAuXk+JYkmfamZxO+1CEgdU+5JwN
-	 16Z1GOlUAeaEJyHtyj4rTmlpVESKskSDS3gjMI4G63o+yJxUUt8ntsTjyzKeAu39LY
-	 hkOoE1lZ+pCverSHMJhaW7kAxdaEwYfmJ4vMPlZVsox1r3HdkCF3Vc/Ji4/AnkCbHt
-	 eJPkx/W6KHePQ==
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-integrity@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc: Roberto Sassu <roberto.sassu@huawei.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	David Howells <dhowells@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Thomas Huth <thuth@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Stefan Berger <stefanb@linux.ibm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	keyrings@vger.kernel.org (open list:KEYS-TRUSTED),
-	linux-security-module@vger.kernel.org (open list:SECURITY SUBSYSTEM),
-	Josh Poimboeuf <jpoimboe@kernel.org>
-Subject: [PATCH v3] tpm: Opt-in in disable PCR integrity protection
-Date: Wed, 13 Nov 2024 02:24:07 +0200
-Message-ID: <20241113002414.609168-1-jarkko@kernel.org>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kB4Fksog"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731458435; x=1762994435;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=x+tiVyt7jvdo1mI4hDx35llzEEGJqV2s3/aXmqr2MSg=;
+  b=kB4FksogC/WKxNRCaleAeqTEi2I110jvLA2ePzh0Q3AxqSr2T8s8PDvo
+   QtUoE30kNvJSTcOmMpx5zHXClckCfjuITxZhqw52wIjKS5eNzB4aUhYsB
+   ZfSSthQx/6z1l6EPOui2YxhZmJ6/qz5787qX4FwUx+5F7wHzxNZzViVua
+   uGNMJk4p2nZf3XaJyEMiZeDlcT418qrFc/W6YzeBk+oKwedBZ1ZNa24gb
+   DdpgK9oQKh+k9YF5jMqISWrwJ3GejqUDfm47BYPlUe+c+4Gf22XKSs2Ar
+   rwcZpIYYGiPrkS7hOZ/Fk31RvDNoWm+AdvKsLi6u6EjfCy3hdZ9q+LBAe
+   A==;
+X-CSE-ConnectionGUID: IWFRZa7mS1aO7ZB7o0VS7w==
+X-CSE-MsgGUID: F6ut5AZUQXOPTloDVpz9qg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31416376"
+X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
+   d="scan'208";a="31416376"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 16:40:34 -0800
+X-CSE-ConnectionGUID: rpeu7/jtTtenaPLHuiiA+A==
+X-CSE-MsgGUID: hFw36IR1Rjel1RLsUmFp2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
+   d="scan'208";a="92652191"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Nov 2024 16:40:33 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 12 Nov 2024 16:40:32 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 12 Nov 2024 16:40:32 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 12 Nov 2024 16:40:28 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n7l6A53ooPHRgczKW57Nxh8eIn86ZhFZOUaEyXPOYRNwrt01cOyldMEEvRwFIDsk+OwZ6UOjblK7xTOnGJbRZfF9lhot1Ce/eHERhwr0zHRC3g19jCgLyRst7FZFsu7GNpC3xzrvAB2Rs2dlghLKaufqUBJNGX15V3h+6WXqqiSaxsx0o1bbQ4SVI+wOggHChEFapqoMqqgu1Fa8Yhu6oENQRtka1heWugTKukhPTx/Qd/LrF9Hjju/xhu/xo3bZj/D8ss1YpPLa6RuHZ2MaF+Z9esO7QWEnB27te7/VOPEihD7d/t9rFlGGpSj1q97bhPrphBW+l8zHxuPlrqXBQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=invTa5LcpjYAw/Edx0tBupj2PxlVwWeLG86H/W7cjtY=;
+ b=EAxZymZUQ+BNsUJ50HHFU8tHzcPy7qBRuYKhZs+v/OwahRH38Pg8lzpw0Fjq/chqqunKEB4OAEJaoKC8EHtVW9tYlMgbglp+YJmd+1XPXWWnS6kBjwNy43RS0rJ/quR4UJvJloaDGoBT9xGBK5Jlt6k3zwRavUWrlAOlvkHZ3WWMpk7e7Qec2JIGK/hMee/oVm+V8XjQqXzLdwyhZAg9yQKGcwXr6AlCLg1q3XmxxPBB7G+6wlWJKu9h6O2UtykWmuTAbgXI35RskfckLH53lXm2U3owDX5q4IPzAjjQD2kl9kxnPNNR8Ttnh4X0Mr6a6/JN7uh2mn07ePThCXR63w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by CY8PR11MB7363.namprd11.prod.outlook.com (2603:10b6:930:86::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17; Wed, 13 Nov
+ 2024 00:40:18 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8137.027; Wed, 13 Nov 2024
+ 00:40:18 +0000
+Message-ID: <4ca1fe26-5166-40cc-ade1-67d76a89ec42@intel.com>
+Date: Tue, 12 Nov 2024 16:40:15 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 6/7] x86/resctrl: Add write option to "mba_MBps_event"
+ file
+To: "Luck, Tony" <tony.luck@intel.com>, "Yu, Fenghua" <fenghua.yu@intel.com>,
+	Peter Newman <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, "x86@kernel.org" <x86@kernel.org>
+CC: James Morse <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
+	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>
+References: <20241029172832.93963-1-tony.luck@intel.com>
+ <20241029172832.93963-7-tony.luck@intel.com>
+ <6a677a4b-7163-cc2d-a615-6b8c499eb281@intel.com>
+ <SJ1PR11MB60833197C3FCC0B3CF9AA290FC562@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <7f5f1f66-df3e-bebd-4786-7fe8a8115f05@intel.com>
+ <71eb17c7-acca-412c-bd59-17ee5aa0aa07@intel.com>
+ <SJ1PR11MB60839C385657E16FA5B84381FC592@SJ1PR11MB6083.namprd11.prod.outlook.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <SJ1PR11MB60839C385657E16FA5B84381FC592@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0372.namprd04.prod.outlook.com
+ (2603:10b6:303:81::17) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CY8PR11MB7363:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15ad190b-a932-46bd-5b3b-08dd037bbf0c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L0x1Uzk2clM2OXRjVXlaUGdKTFlLanc1eVpWK09EUmp3QkRDTllCQkZaTzVR?=
+ =?utf-8?B?dmRhbjg3UXd0cFVOU0NIYUlVMDBLQnVuRnE5UEFXaWV1WkFHWXRrWk9oMVRj?=
+ =?utf-8?B?N0ozalJ5THNNVHdXeW5FQVJzWXJ4VUwyNGFBeE1kZEdmekRkZ2xNaDdsa3lQ?=
+ =?utf-8?B?Ymk3MG1PYnVRMDk1dVg4VUtKWlRLSXRPSldnWWUvK0lRSU83N2tqQ3Zsdi9L?=
+ =?utf-8?B?c1dQSnZmQ25XT0ZOcWFkV3ozV3RmU2ZjalVTMnNnVGNIR3BjcXQ2cFB0SGlQ?=
+ =?utf-8?B?L1ZiYnJCQ3BpK2VqQmZVSlpLNmVBR3dBTldZMlc3dm8xTXdVaVBQZVFyNEE4?=
+ =?utf-8?B?V1VYK2RSUDBPWndkUjhFVFJQS1UzcDZ6Wmd0Yko2VmpkWkJWOVhKVm51T0Zo?=
+ =?utf-8?B?VTluSDJ0QUJuaUNzZm9meDVuZDhPekoxVXhURGpqUjJWT0VXVTNZNjVjMkE5?=
+ =?utf-8?B?c1R3M1lZblJiakNDVldwYjBzVzhteTUrZHN3SFdWa2RRcXErR0s2S2xoS01a?=
+ =?utf-8?B?V1ZBVXcxdUlQVzh2c242UWtqb2FsNWxhOVh2ZUozbVJUbDA5UXBLRTlxYU9Q?=
+ =?utf-8?B?aWNOWnIxQ1VhdkFGOC9pTFphRjd2YWdIWlBuc3kxeWVXTGV3WWR6aU53aUNm?=
+ =?utf-8?B?aklUTVlXZ0hUMXNtYkx2L2IreUJGVTRZNWpiTEpsUTJjNGxBYmpEUE5Jb1JJ?=
+ =?utf-8?B?WHVlZ3pRTzRxOHo2WHczT1k4MkVqb2FrT2hUckVBNmFjOHdlVGc2TUZQUmw3?=
+ =?utf-8?B?eWJMVVU5aGc0cVlPdXUzL1hCOU1xODk0NXlNZzR3QzZscW52NG5rN2NPTVhn?=
+ =?utf-8?B?Q2ZTczVXVXRESWRrN2JVemFQUThWK3hudnpGdy8xUCtrWjhVVUJ3bzRkUmIy?=
+ =?utf-8?B?WjFubDZ3TjAxdXI4eGZSaXAzTlJzd1pXeC9FaWxrNk1RUi9CamJCOXN2Zits?=
+ =?utf-8?B?ZFE3RWhwL2VXazFGRUtIeXJDa2Y2OHNkUktoc0RaL3NmQlB6VjIwVkQ1dE84?=
+ =?utf-8?B?R21mZU1wUmhEM0NOV2pRNC9ldlNwOFQ1UCtBdnArS0ZzY1BUU3grZ1FBOXdX?=
+ =?utf-8?B?L2pIMzl1TTlNbk51emptcENkVnQxRHpocGlETDVMdXZneENBMWR0SFpqMEV6?=
+ =?utf-8?B?VWRobldtTThYaXh6Wmw1a1FsSlhTbWtuUjN6VFYyVU4zUVpHdzdTTnZPaEpI?=
+ =?utf-8?B?THZ1dEpNcEpEeXZybThFcXd0VTQ2SjcxN09lamExaTBZM05MRTQrK3RmdWpr?=
+ =?utf-8?B?ZVVCS01iTTFZdzZHQVZqd0pxekxSb1dzZ3Jxb0hXcGltNDRnY2ZFU2U5c0Nj?=
+ =?utf-8?B?NkM0QTZzVmdRZ2ZYRnA4aEdyQ0pySEhGNFNKWnZPbzl3TnN2dkRCZ3NyVUkr?=
+ =?utf-8?B?K0llaWN6QzlieGEwMVRDdlBrNzhjaVM2dUU4SVhLRGxITkV4MjYvUHpJdzVm?=
+ =?utf-8?B?UktxbDVmSWYrck12aGtSRStHVjdnbmYwcTNmaGZ4U0NIVzhNcExzUnpPKzB3?=
+ =?utf-8?B?UkpkMk5UVEd5d2xrbC8vUEc1VGRvTCtTeDZkcVpxYnYxMHpSZURMdnpobnJN?=
+ =?utf-8?B?bmppQThHcTlHdCtGcHp0L3RyMVNIc0E5a2IxejViL2QrdGdyYmFaUGpDM2FX?=
+ =?utf-8?B?L1IwK25BSWlGbFNJMDZlanlCU0s5TzJxMjBrVEJWNlRnckR2YlZTbDFNWmFu?=
+ =?utf-8?B?T3c1RFNVQlZGMEtES2FBSG1ROGwxcytSYkJhY0E4WnhrTi9SalZJTlUrRE85?=
+ =?utf-8?Q?wUAX1Px5M1dKfo44OJRs7PMQopcY2ljhn52vKT2?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHVXYUVEeHE1NW5pM3preDlBVmx6eG1DNVd1RFlSSnVld1I0eTE4QlhkZWdE?=
+ =?utf-8?B?Y1h0R0M2QmJHWG9uQnFKQ3puYnpBMEZrZTBtaWF1UDdPT2VhV2lYaThwYWow?=
+ =?utf-8?B?N1pYMUhmeUNwSG9YSnBSY0dhODhRcDhpbXN5QjFsL1pKOHRVZXgrb0ZnVjNz?=
+ =?utf-8?B?TnAyZ2JvTks3VktTZ0l0S3dMWmJkWkpVcnRRSFJ5NlFhS0psNytnVTJlZ3M5?=
+ =?utf-8?B?ek9kWFFhNkZBQi9NcjBpblgvMVVydjI3RVF3QTVCSWdCbmE5RXBVNE94Wmhv?=
+ =?utf-8?B?YWw4d012aHBaOXZUb3FQd054aVlrTWtOeFJnQmhoN2dTc25uNmJ5cWN3RVMw?=
+ =?utf-8?B?ancyWmtQWndSd1d6SkIwKzlaMHM3d1h0eWZRY0ljZkkyL1JhL1J3clBOYmtZ?=
+ =?utf-8?B?alRaRDNVVjRQUC94WVQ3Q3BDWVo2amFGcVgraitwNVZnVnFRaDUvWlF1MXpW?=
+ =?utf-8?B?ZDBpRUJCc2RIemVJMEFxb2YwbS9nN1ZGdVFMbDZON2VObldiTitXazJPeWdv?=
+ =?utf-8?B?T09kNDVXTktDckQxNG1sUEF2eVAzSTV0SDQzUFZTS053NG9xQWF0QzA3dXZT?=
+ =?utf-8?B?a1NxREgwRUJxWmU1VElOYm9iT0VrcDRTMnBxWHJoNU1nUzdvQnNSRmd4ejcr?=
+ =?utf-8?B?eVFoTmw5eng3WHVlbU41V05oaWxCUnVRSjBsVlNMbWZybkdObU9VcnczTGZq?=
+ =?utf-8?B?UUM5V3ErYjlkMDZLay9PWktVYmZEVEdyUEVKZ3ljMnJLVmJQLzJBMGJTQkYv?=
+ =?utf-8?B?WFNHTGUzc0VJdDRmTDBoRmlMYzUrSFkra21yb3BPQjUrbE15NVJHRXFHMlV4?=
+ =?utf-8?B?VTFwYjhsTXBxOGExSnF4cmxRK0ZmUWkzQlZ6Uk5MTlFuQzZiSy9GTjh2RzZE?=
+ =?utf-8?B?TUhRMWhMTVpjQWpzUHpOWUFEaTJMdi9UK1NscCtGVDdGYTRFZ0p6R2RMSjc5?=
+ =?utf-8?B?SG8rWkluNW45QmV6OTNiSnZPQjFwNjBrc1drcGNrRnZxUEl3Y1QxcTN2RXh1?=
+ =?utf-8?B?dkdyNG84ZEtwVDA1enlTS3hUV3BqYjJ6OFU1VEpEcGd1a0NUelE1cWRyRlRS?=
+ =?utf-8?B?emg3anpOa3dBaFE5NjJ0Ukk2MFdudjZqZW9sRzgzUFBWdGpuUEs1UTdxNUVG?=
+ =?utf-8?B?cWMyMHBCRHYyOVVycVEvNG04UDVXbVJla240UnJFM1JZVEdJYW9rRHFSM0JZ?=
+ =?utf-8?B?d1l4MHd2MWpPcDNwb214L1M0ejZkVU0wb0doVTcwcXhjYVhvTUsyTXpONytK?=
+ =?utf-8?B?OFMrMU1lKy9sRjd1N2o2b1BwRTlBM29tUkdxVlhINFVDZFZ3bHRhU2U4YjhO?=
+ =?utf-8?B?TkM2aGx6aGVSaUUrazgzcDZyOFNzR3NrTC9abUQ3S0ZOamVTT3hrbi9jeEU4?=
+ =?utf-8?B?bUw0UFQ4TS9kTTZ1YndmcmVXNUhNS0J3M28rL2tIblhoN0MrdXRQa3ZRcWx3?=
+ =?utf-8?B?WFozaUpRSGI0VGE1RnF1a3FWWGJqWHJYNG80MHArZ0VVcnAyVm5hcFdIbE1w?=
+ =?utf-8?B?bm9VMGlnWitoTjRXR1MvdXlZWEFodjRlY09ydDJ2SWlxTmpyUGNUYVJ4MW9m?=
+ =?utf-8?B?YTc0dHNvM202M0czYnRQTmRreCtScENLM0phV1pReWJySEErU01zZlVVc2xQ?=
+ =?utf-8?B?ZGJueUkvT25NN2I4WWc4R3BnVVVzMVlhejlNeFVNMitueWdaUXBSV2dVQVRH?=
+ =?utf-8?B?M0NMZDdxY0hDbnFpdVE2ZmFtb2pFWi81Z1ZjRmNEREVKTzBQRjJXZ3dOTVhw?=
+ =?utf-8?B?WGZmRWZCRXczS3ozV29BQmFTa2xtSVpOTFRoTDZyblJPME0ydFJQRVRkcFk5?=
+ =?utf-8?B?WnNDOVdxejdhOXJmbGtOR1VDeGh2bTRnb2huS2QwaVpjWkxWOVEyKzVxOXJj?=
+ =?utf-8?B?MGxYTXY4WVFsMFVFM2NJb0x2MHpCY1h0a2RoeGkxblNtanQvOWh2dDYwWkFV?=
+ =?utf-8?B?bGhiTDRTNGkwOEtjRG0xUDhESjdKaGUvaWxkVysyM1FTYktoSm85cWhCMzFT?=
+ =?utf-8?B?OWlCVGhxOEI3R3dpL0tqMTZ2NHNoR0dKQ2Q1UWFESVgxMUZjb2wvUWt1YWR1?=
+ =?utf-8?B?ZHR0WS92a2lNY2xySmNIWURZZGk2NVpnVENRa0ZJaE9RblZmTTVoNE4wNzdF?=
+ =?utf-8?B?Q3JPb3djUG5FRHhmSk1KZlkyblhDQTAzeVN4R0F4Z3VWMkpWZ1pmdGZUVUpr?=
+ =?utf-8?B?NWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15ad190b-a932-46bd-5b3b-08dd037bbf0c
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2024 00:40:17.9232
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qYZswE4sYBcYn6BX+Ne5tVmX28ceLV1RYPgvH+DXzU1FRBANNBHMHeCxgOAuCKulfud8ig670zk/Vb9AXGXH4Q6t9f5LPxZ9Xp0+HzOF0qA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7363
+X-OriginatorOrg: intel.com
 
-The initial HMAC session feature added TPM bus encryption and/or integrity
-protection to various in-kernel TPM operations. This can cause performance
-bottlenecks with IMA, as it heavily utilizes PCR extend operations.
+Hi Tony,
 
-In order to mitigate this performance issue, introduce a kernel
-command-line parameter to the TPM driver for disabling the integrity
-protection for PCR extend operations (i.e. TPM2_PCR_Extend).
+On 11/12/24 3:57 PM, Luck, Tony wrote:
+>>>>>> +   if (!strcmp(buf, "mbm_local_bytes")) {
+>>>>>> +           if (is_mbm_local_enabled())
+>>>>>> +                   rdtgrp->mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
+>>>>>> +           else
+>>>>>> +                   ret = -ENXIO;
+>>>>>> +   } else if (!strcmp(buf, "mbm_total_bytes")) {
+>>>>>> +           if (is_mbm_total_enabled())
+>>>>>> +                   rdtgrp->mba_mbps_event = QOS_L3_MBM_TOTAL_EVENT_ID;
+>>>>>
+>>>>>
+>>>>> User may think each time toggling the local/total event will effect MBA.
+>>>>> And they may create usage case like frequently changing the events to
+>>>>> maintain/adjust both total and local within bw boundary.
+>>>>>
+>>>>> But toggling mba_mbps_event faster than 1sec doesn't have any effect on
+>>>>> MBA SC because MBA SC is called every one second.
+>>>>>
+>>>>> Maybe need to add a ratelimit of 1 second on calling this function? And
+>>>>> adding info in the document that toggling speed should be slower than 1
+>>>>> second?
+>>>>
+>>>> The limit would need to be per ctrl_mon group, not on calls to this function.
+>>>> It's perfectly ok to switch multiple groups in a short interval.
+>>>
+>>> Agree.
+>>>
+>>>>
+>>>> I'm not sure how to rate limit here. I could add a delay so that the write()
+>>>> call blocks until enough time passes before making the change. But
+>>>> what should I do if a user submits more writes to the file? Queue them
+>>>> all and apply at one second intervals?
+>>>
+>>> Maybe define "mba_mbps_last_time" in rdtgroup. Then
+>>>
+>>> if (time_before(jiffies, rdtgrp->mba_mbps_last_time + HZ) {
+>>>     rdt_last_cmd_printf("Too fast (>1/s) mba_MBps event change)\n");
+>>>         rdtgroup_kn_unlock(of->kn);
+>>>     return -EAGAIN;
+>>> }
+>>> rdtgrp->mba_mbps_last_time = jiffies;
+>>
+>> This seems like enforcing an unnecessary limitation. For example, this would mean
+>> that user space needs to wait for a second to undo a change to the monitoring event
+>> in case there was a mistake. This seems like an unnecessary restriction to me.
+>>
+>> I am also afraid that there may be some corner cases where a write to the file and
+>> the actual run of the overflow handler  (on every domain) may not be exactly HZ apart.
+>>
+>> Bandwidth allocation remains to be adjusted in either direction with at most the bandwidth
+>> granularity. A user attempting to toggle bandwidth event cannot expecting large
+>> changes in allocated bandwidth even if the events differ significantly.
+>>
+>> Surely we can explore more if we learn about a specific use case.
+> 
+> Note that the kernel generally doesn't prevent the user from doing inane things
+> that do not cause damage.  E.g. a user can already abuse the legacy memory
+> percentage bandwidth controls with
+> 
+> while :
+> do
+> 	echo "MB:0=100;1=10" > schemata
+> 	sleep 0.1
+> 	echo "MB:0=10;1=100" > schemata
+> 	sleep 0.1
+> done
+> 
+> Similar abuse of the percentage mode is also possible.
 
-Cc: James Bottomley <James.Bottomley@HansenPartnership.com>
-Link: https://lore.kernel.org/linux-integrity/20241015193916.59964-1-zohar@linux.ibm.com/
-Fixes: 6519fea6fd37 ("tpm: add hmac checks to tpm2_pcr_extend()")
-Co-developed-by: Roberto Sassu <roberto.sassu@huawei.com>
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-Co-developed-by: Mimi Zohar <zohar@linux.ibm.com>
-Signed-off-by: Mimi Zohar <zohar@linux.ibm.com>
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
-v3:
-- Please test this too ;-) I did quick testing only.
-- Fixed the reported glitches and mistakes.
-v2:
-- Followed Mimi's suggestions.
----
- .../admin-guide/kernel-parameters.txt         |  9 ++++
- drivers/char/tpm/tpm-buf.c                    | 20 ++++++++
- drivers/char/tpm/tpm2-cmd.c                   | 30 ++++++++---
- drivers/char/tpm/tpm2-sessions.c              | 51 ++++++++++---------
- include/linux/tpm.h                           |  3 ++
- 5 files changed, 82 insertions(+), 31 deletions(-)
+Good point.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1666576acc0e..7107ad322b2e 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6727,6 +6727,15 @@
- 	torture.verbose_sleep_duration= [KNL]
- 			Duration of each verbose-printk() sleep in jiffies.
- 
-+	tpm.disable_pcr_integrity_protection= [HW,TPM]
-+			Do not protect PCR registers from unintended physical
-+			access, or interposers in the bus by the means of
-+			having an integrity protected session wrapped around
-+			TPM2_PCR_Extend command. Consider this in a situation
-+			where TPM is heavily utilized by IMA, thus protection
-+			causing a major performance hit, and the space where
-+			machines are deployed is by other means guarded.
-+
- 	tpm_suspend_pcr=[HW,TPM]
- 			Format: integer pcr id
- 			Specify that at suspend time, the tpm driver
-diff --git a/drivers/char/tpm/tpm-buf.c b/drivers/char/tpm/tpm-buf.c
-index cad0048bcc3c..e49a19fea3bd 100644
---- a/drivers/char/tpm/tpm-buf.c
-+++ b/drivers/char/tpm/tpm-buf.c
-@@ -146,6 +146,26 @@ void tpm_buf_append_u32(struct tpm_buf *buf, const u32 value)
- }
- EXPORT_SYMBOL_GPL(tpm_buf_append_u32);
- 
-+/**
-+ * tpm_buf_append_handle() - Add a handle
-+ * @chip:	&tpm_chip instance
-+ * @buf:	&tpm_buf instance
-+ * @handle:	a TPM object handle
-+ *
-+ * Add a handle to the buffer, and increase the count tracking the number of
-+ * handles in the command buffer. Works only for command buffers.
-+ */
-+void tpm_buf_append_handle(struct tpm_chip *chip, struct tpm_buf *buf, u32 handle)
-+{
-+	if (buf->flags & TPM_BUF_TPM2B) {
-+		dev_err(&chip->dev, "Invalid buffer type (TPM2B)\n");
-+		return;
-+	}
-+
-+	tpm_buf_append_u32(buf, handle);
-+	buf->handles++;
-+}
-+
- /**
-  * tpm_buf_read() - Read from a TPM buffer
-  * @buf:	&tpm_buf instance
-diff --git a/drivers/char/tpm/tpm2-cmd.c b/drivers/char/tpm/tpm2-cmd.c
-index 1e856259219e..dfdcbd009720 100644
---- a/drivers/char/tpm/tpm2-cmd.c
-+++ b/drivers/char/tpm/tpm2-cmd.c
-@@ -14,6 +14,10 @@
- #include "tpm.h"
- #include <crypto/hash_info.h>
- 
-+static bool disable_pcr_integrity;
-+module_param(disable_pcr_integrity, bool, 0444);
-+MODULE_PARM_DESC(disable_pcr_integrity, "Disable integrity protection of TPM2_PCR_Extend");
-+
- static struct tpm2_hash tpm2_hash_map[] = {
- 	{HASH_ALGO_SHA1, TPM_ALG_SHA1},
- 	{HASH_ALGO_SHA256, TPM_ALG_SHA256},
-@@ -232,18 +236,26 @@ int tpm2_pcr_extend(struct tpm_chip *chip, u32 pcr_idx,
- 	int rc;
- 	int i;
- 
--	rc = tpm2_start_auth_session(chip);
--	if (rc)
--		return rc;
-+	if (!disable_pcr_integrity) {
-+		rc = tpm2_start_auth_session(chip);
-+		if (rc)
-+			return rc;
-+	}
- 
- 	rc = tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_PCR_EXTEND);
- 	if (rc) {
--		tpm2_end_auth_session(chip);
-+		if (!disable_pcr_integrity)
-+			tpm2_end_auth_session(chip);
- 		return rc;
- 	}
- 
--	tpm_buf_append_name(chip, &buf, pcr_idx, NULL);
--	tpm_buf_append_hmac_session(chip, &buf, 0, NULL, 0);
-+	if (!disable_pcr_integrity) {
-+		tpm_buf_append_name(chip, &buf, pcr_idx, NULL);
-+		tpm_buf_append_hmac_session(chip, &buf, 0, NULL, 0);
-+	} else {
-+		tpm_buf_append_handle(chip, &buf, pcr_idx);
-+		tpm_buf_append_auth(chip, &buf, 0, NULL, 0);
-+	}
- 
- 	tpm_buf_append_u32(&buf, chip->nr_allocated_banks);
- 
-@@ -253,9 +265,11 @@ int tpm2_pcr_extend(struct tpm_chip *chip, u32 pcr_idx,
- 			       chip->allocated_banks[i].digest_size);
- 	}
- 
--	tpm_buf_fill_hmac_session(chip, &buf);
-+	if (!disable_pcr_integrity)
-+		tpm_buf_fill_hmac_session(chip, &buf);
- 	rc = tpm_transmit_cmd(chip, &buf, 0, "attempting extend a PCR value");
--	rc = tpm_buf_check_hmac_response(chip, &buf, rc);
-+	if (!disable_pcr_integrity)
-+		rc = tpm_buf_check_hmac_response(chip, &buf, rc);
- 
- 	tpm_buf_destroy(&buf);
- 
-diff --git a/drivers/char/tpm/tpm2-sessions.c b/drivers/char/tpm/tpm2-sessions.c
-index 42df980168b6..a7c1b162251b 100644
---- a/drivers/char/tpm/tpm2-sessions.c
-+++ b/drivers/char/tpm/tpm2-sessions.c
-@@ -237,9 +237,7 @@ void tpm_buf_append_name(struct tpm_chip *chip, struct tpm_buf *buf,
- #endif
- 
- 	if (!tpm2_chip_auth(chip)) {
--		tpm_buf_append_u32(buf, handle);
--		/* count the number of handles in the upper bits of flags */
--		buf->handles++;
-+		tpm_buf_append_handle(chip, buf, handle);
- 		return;
- 	}
- 
-@@ -272,6 +270,31 @@ void tpm_buf_append_name(struct tpm_chip *chip, struct tpm_buf *buf,
- }
- EXPORT_SYMBOL_GPL(tpm_buf_append_name);
- 
-+void tpm_buf_append_auth(struct tpm_chip *chip, struct tpm_buf *buf,
-+			 u8 attributes, u8 *passphrase, int passphrase_len)
-+{
-+	/* offset tells us where the sessions area begins */
-+	int offset = buf->handles * 4 + TPM_HEADER_SIZE;
-+	u32 len = 9 + passphrase_len;
-+
-+	if (tpm_buf_length(buf) != offset) {
-+		/* not the first session so update the existing length */
-+		len += get_unaligned_be32(&buf->data[offset]);
-+		put_unaligned_be32(len, &buf->data[offset]);
-+	} else {
-+		tpm_buf_append_u32(buf, len);
-+	}
-+	/* auth handle */
-+	tpm_buf_append_u32(buf, TPM2_RS_PW);
-+	/* nonce */
-+	tpm_buf_append_u16(buf, 0);
-+	/* attributes */
-+	tpm_buf_append_u8(buf, 0);
-+	/* passphrase */
-+	tpm_buf_append_u16(buf, passphrase_len);
-+	tpm_buf_append(buf, passphrase, passphrase_len);
-+}
-+
- /**
-  * tpm_buf_append_hmac_session() - Append a TPM session element
-  * @chip: the TPM chip structure
-@@ -309,26 +332,8 @@ void tpm_buf_append_hmac_session(struct tpm_chip *chip, struct tpm_buf *buf,
- #endif
- 
- 	if (!tpm2_chip_auth(chip)) {
--		/* offset tells us where the sessions area begins */
--		int offset = buf->handles * 4 + TPM_HEADER_SIZE;
--		u32 len = 9 + passphrase_len;
--
--		if (tpm_buf_length(buf) != offset) {
--			/* not the first session so update the existing length */
--			len += get_unaligned_be32(&buf->data[offset]);
--			put_unaligned_be32(len, &buf->data[offset]);
--		} else {
--			tpm_buf_append_u32(buf, len);
--		}
--		/* auth handle */
--		tpm_buf_append_u32(buf, TPM2_RS_PW);
--		/* nonce */
--		tpm_buf_append_u16(buf, 0);
--		/* attributes */
--		tpm_buf_append_u8(buf, 0);
--		/* passphrase */
--		tpm_buf_append_u16(buf, passphrase_len);
--		tpm_buf_append(buf, passphrase, passphrase_len);
-+		tpm_buf_append_auth(chip, buf, attributes, passphrase,
-+				    passphrase_len);
- 		return;
- 	}
- 
-diff --git a/include/linux/tpm.h b/include/linux/tpm.h
-index 587b96b4418e..20a40ade8030 100644
---- a/include/linux/tpm.h
-+++ b/include/linux/tpm.h
-@@ -421,6 +421,7 @@ void tpm_buf_append_u32(struct tpm_buf *buf, const u32 value);
- u8 tpm_buf_read_u8(struct tpm_buf *buf, off_t *offset);
- u16 tpm_buf_read_u16(struct tpm_buf *buf, off_t *offset);
- u32 tpm_buf_read_u32(struct tpm_buf *buf, off_t *offset);
-+void tpm_buf_append_handle(struct tpm_chip *chip, struct tpm_buf *buf, u32 handle);
- 
- /*
-  * Check if TPM device is in the firmware upgrade mode.
-@@ -505,6 +506,8 @@ void tpm_buf_append_name(struct tpm_chip *chip, struct tpm_buf *buf,
- void tpm_buf_append_hmac_session(struct tpm_chip *chip, struct tpm_buf *buf,
- 				 u8 attributes, u8 *passphrase,
- 				 int passphraselen);
-+void tpm_buf_append_auth(struct tpm_chip *chip, struct tpm_buf *buf,
-+			 u8 attributes, u8 *passphrase, int passphraselen);
- static inline void tpm_buf_append_hmac_session_opt(struct tpm_chip *chip,
- 						   struct tpm_buf *buf,
- 						   u8 attributes,
--- 
-2.47.0
+At least with the percentage modes the MBA allocation is promptly written to
+hardware.
+
+Related to issue at hand the user is also already able to quickly switch the MBps
+value via quick successive writes to the schemata and those changes are already
+invisible to the software controller that only consumes user's MBps once per second.
+
+>>>> Maybe it would be better to just to add some additional text to the
+>>>> documentation pointing out that resctrl only checks bandwidth once
+>>>> per second to make throttling adjustments. So changes to the event
+>>>> will only have effect after some seconds have passed?
+>>>
+>>>
+>>> Add additional text would be great.
+>>
+>>
+>> Agreed.
+> 
+> We hadn't previously documented the rate at which mba_sc measured and adjusted
+> the memory bandwidth allocation controls. Once per second is currently an implementation
+> detail that in theory could be changed in the future.
+> 
+> I'm reluctant to carve that value into the stone of resctrl.rst, But without a specific
+> value "don't change the values too rapidly" is meaningless.
+
+I agree that one second should not be part of documentation, a higher level generic "interval"
+can be used instead. But ... since you pointed out that writing to schemata also has this
+caveat any documentation should ideally address that also. With existing documentation seemingly
+sufficient in that regard I'll also be ok with keeping it as high level with this new event
+support.
+
+Reinette
 
