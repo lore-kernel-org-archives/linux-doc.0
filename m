@@ -1,37 +1,71 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6651BBA34
-	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 06:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0226F1714BC;
+	Wed, 13 Nov 2024 06:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731478774; cv=none; b=Olho/eNXgKAEvKhcCbpRle9QYtIUkTR9qwfiIm56c5Q4lHzalAPw6WRkgioNOWHudTf1i4h31kk7cEUXE/a9gWYm2QohfYxIKfw9VAe5B9CKhtgNkWTf/LkHiDoxGE8e2781L92pgNMkN51fUIq1nGPqbb5FvONv96p/LeaOFsA=
+	t=1731479671; cv=none; b=Fp/jdAE6VGeHG44D8vo36nESqAXVyKi1FaF+iFt07+y3anB17l824JEsv6K5oGLonoy0D0F5Oy8Ckpd8zm9d8FiZ0lh1Sn9Y2ysCYcivHirGw2tbgd2G9DRF7zLzXYWEWu3YHVypJ5bwCh1k5PjciVjmxEPzoV6bpH+YWaDpTMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731478774; c=relaxed/simple;
-	bh=jYYrHs2/EWTSDL/8+mxZLxnpVnujhXbA7ZOz56tBxHc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=c6S3XjgIPLHPNsAMGJ2tarf3J80SnodM44+FiNn+jrt520k0U0O1GQ/qsDBJqkYH40wcBH2uP4bOMXKbqBnaM9+1B4YAiaJ6KoiBFquE8eTvRotUf9i392QwgTHJMyCdnOcFnhaSOBXllJuGkvUCxdrtfEVNfqbZniqRGzlDSEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XpCjL50MvzDqk2;
-	Wed, 13 Nov 2024 14:16:38 +0800 (CST)
-Received: from kwepemd200012.china.huawei.com (unknown [7.221.188.145])
-	by mail.maildlp.com (Postfix) with ESMTPS id B3DB3180115;
-	Wed, 13 Nov 2024 14:19:18 +0800 (CST)
-Received: from huawei.com (10.145.6.51) by kwepemd200012.china.huawei.com
- (7.221.188.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Wed, 13 Nov
- 2024 14:19:16 +0800
-From: Zhou Wang <wangzhou1@hisilicon.com>
-To: <maz@kernel.org>, <tglx@linutronix.de>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<wangwudi@hisilicon.com>, <prime.zeng@hisilicon.com>, Zhou Wang
-	<wangzhou1@hisilicon.com>, Nianyao Tang <tangnianyao@huawei.com>
-Subject: [PATCH v3] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
-Date: Wed, 13 Nov 2024 14:27:59 +0800
-Message-ID: <20241113062759.1042187-1-wangzhou1@hisilicon.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1731479671; c=relaxed/simple;
+	bh=iZGahcGw/ip8xIrXTDzim9l5DJiCEWJ7MHrj5I+Yseg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j97gbjo7uM3FtehazVyFdE1yxjwgMyHsBXrbLd0eQ1WDNVp2cXqVlJazPdcLw2RbRLVYGf+y2AyGlLhU7CofQ3moClEgap1FrpO64Fc9oL/8c8qLZBAZR5OpDw3y41wnm0ZntWh9izKun6j8S6l8HhwWWvMXzpJ/wJ3TC8RD7AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=juskjPfW; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="juskjPfW"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-723f37dd76cso6758051b3a.0;
+        Tue, 12 Nov 2024 22:34:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731479669; x=1732084469; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dvjRZrGcOUQW5mqy7FIUkoTS+9pLckU9+BVxZZoa7DQ=;
+        b=juskjPfWcOVzjOslTwpfSKqwDi3PxCSU+VDt24v7LnIaAyN4jo4yK+KVhVqtHAe8Lg
+         o1NyAAZlbfwNhqtcnAad2bJOntwNx067XiUsaWd07vseAkr2HpUwpTvDmXHZlUCwZbXC
+         EOblpt6G0hmWe9+9JMVo4sK+Vn8Y/LIHqmybJAAavsnDNCNLtC19I3N72Mlo9wSftz0Q
+         aoiGLHUZQQQ1mSkMJtCE1jaN9MernRpq76EuQF0m+Xyqz5n+Mf64MCtHsQ+YphB3qDDq
+         KQ/3DSrKSOUlPDavzudkDEPccecnRR2KyudiIcQs9ZmmclnJFdvdnImXXRDoFXpcBUDD
+         RaiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731479669; x=1732084469;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dvjRZrGcOUQW5mqy7FIUkoTS+9pLckU9+BVxZZoa7DQ=;
+        b=imSQfm/xqVOCIFUOYZfeJksGU4nGsn+oR504Hj75JkSkdIgAhMDbuylOlZ4Id/oJew
+         I6lB7sC82nuhqwt+98jAsXSXqhKkOUoc1asywmxLWbvLM3pl7KpJXtikxAwMV6N/szrd
+         dDhTfPpDyHGRPHYl+6EKU64MhHPeB9eWRgfs6p1/vBPgwGqPsUl3qN6lZIlVVHP7jMbD
+         U/I8E+Zd1DK2Fw0tJLDEg9rzD7h4BNfbjRqj/6uDS4hD7qz4MroqSHfNW01d5dYxozym
+         MmIt4N5JKzCaXdo5z7FQ5W5l9omIOgOmIQHodNRjjpfJe4gNepOJQUEiYZdvCgHn/NFQ
+         x+Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLsdBMih/Szq/AkcgmtpupSbaSghHMzwhHZsRTRBIgBg0KABv9pUkq8+UNfQulGwkhgIqpzjqF0lJbpLMs@vger.kernel.org, AJvYcCXPaP6hq9QD9+kz9PsyMJb48o7+CxM6zMpkXUkKFOswsH6CP/FbKXUFxBRZBmKcEmmP9L6VSn5o3vc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyEMtX5EX1RuU5K+UMBY1BrWQheVEFov+lACM74EQxHW9GFVml
+	IuAqpKSMzT1VY67865DdMmeJVgwKWT6g5zKPsddoTklMHlwpirwU
+X-Google-Smtp-Source: AGHT+IFPbQXqIv2ar+QII0hQpgBjXdJgL30cR+0I35z0Qeg/jgs8gSfyzyoSkqCRaIGNFonNZHvndA==
+X-Received: by 2002:a05:6a00:10d2:b0:71e:6f32:df07 with SMTP id d2e1a72fcca58-7245796a213mr2177372b3a.1.1731479669057;
+        Tue, 12 Nov 2024 22:34:29 -0800 (PST)
+Received: from localhost.localdomain ([2600:1700:3bdc:8c10:a:e04f:e712:3f95])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72458bab30asm747572b3a.190.2024.11.12.22.34.27
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 12 Nov 2024 22:34:28 -0800 (PST)
+From: anish kumar <yesanishhere@gmail.com>
+To: corbet@lwn.net,
+	tj@kernel.org,
+	akpm@linux-foundation.org,
+	ptesarik@suse.com,
+	xavier_qy@163.com,
+	vbabka@suse.cz,
+	tintinm2017@gmail.com
+Cc: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	anish kumar <yesanishhere@gmail.com>
+Subject: [RFC PATCH 0/2] modernize DMA api documentation
+Date: Tue, 12 Nov 2024 22:34:23 -0800
+Message-Id: <20241113063425.21042-1-yesanishhere@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,174 +73,59 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemd200012.china.huawei.com (7.221.188.145)
 
-When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-during unmapping operation, which will cause some vSGIs lost.
+Dear maintainers,
 
-To fix the issue, invalidate related vPE cache through GICR_INVALLR
-after VMOVP.
+This patch series is inspired by the ongoing discussion in the following thread:
+https://lore.kernel.org/lkml/20241111063847.GB23992@lst.de/
 
-Suggested-by: Marc Zyngier <maz@kernel.org>
-Signed-off-by: Nianyao Tang <tangnianyao@huawei.com>
-Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
----
- Documentation/arch/arm64/silicon-errata.rst |  2 +
- arch/arm64/Kconfig                          | 11 ++++
- drivers/irqchip/irq-gic-v3-its.c            | 56 +++++++++++++++++----
- 3 files changed, 58 insertions(+), 11 deletions(-)
+As part of an effort to modernize the documentation, the first patch in
+this series converts the relevant document to use kernel-doc comments directly
+within the source code, replacing the previous method of manually adding
+documentation. This change will help streamline the documentation workflow and
+ensure it remains synchronized with the code.
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 65bfab1b1861..77db10e944f0 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -258,6 +258,8 @@ stable kernels.
- | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
- |                | ,11} SMMU PMCG  |                 |                             |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 70d7f4f20225..0ea9c599681d 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1232,6 +1232,17 @@ config HISILICON_ERRATUM_161600802
- 
- 	  If unsure, say Y.
- 
-+config HISILICON_ERRATUM_162100801
-+	bool "Hip09 162100801 erratum support"
-+	default y
-+	help
-+	  When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-+	  during unmapping operation, which will cause some vSGIs lost.
-+	  To fix the issue, invalidate related vPE cache through GICR_INVALLR
-+	  after VMOVP.
-+
-+	  If unsure, say Y.
-+
- config QCOM_FALKOR_ERRATUM_1003
- 	bool "Falkor E1003: Incorrect translation due to ASID change"
- 	default y
-diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-index 52f625e07658..2cd1826b4bbd 100644
---- a/drivers/irqchip/irq-gic-v3-its.c
-+++ b/drivers/irqchip/irq-gic-v3-its.c
-@@ -44,6 +44,7 @@
- #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
- #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
- #define ITS_FLAGS_FORCE_NON_SHAREABLE		(1ULL << 3)
-+#define ITS_FLAGS_WORKAROUND_HISILICON_162100801	(1ULL << 4)
- 
- #define RD_LOCAL_LPI_ENABLED                    BIT(0)
- #define RD_LOCAL_PENDTABLE_PREALLOCATED         BIT(1)
-@@ -61,6 +62,7 @@ static u32 lpi_id_bits;
- #define LPI_PENDBASE_SZ		ALIGN(BIT(LPI_NRBITS) / 8, SZ_64K)
- 
- static u8 __ro_after_init lpi_prop_prio;
-+static struct its_node *find_4_1_its(void);
- 
- /*
-  * Collection structure - just an ID, and a redistributor address to
-@@ -3797,6 +3799,22 @@ static void its_vpe_db_proxy_move(struct its_vpe *vpe, int from, int to)
- 	raw_spin_unlock_irqrestore(&vpe_proxy.lock, flags);
- }
- 
-+static void its_vpe_4_1_invall_locked(int cpu, struct its_vpe *vpe)
-+{
-+	void __iomem *rdbase;
-+	u64 val;
-+
-+	val  = GICR_INVALLR_V;
-+	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
-+
-+	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
-+	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
-+	gic_write_lpir(val, rdbase + GICR_INVALLR);
-+
-+	wait_for_syncr(rdbase);
-+	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
-+}
-+
- static int its_vpe_set_affinity(struct irq_data *d,
- 				const struct cpumask *mask_val,
- 				bool force)
-@@ -3866,6 +3884,16 @@ static int its_vpe_set_affinity(struct irq_data *d,
- 	vpe->col_idx = cpu;
- 
- 	its_send_vmovp(vpe);
-+
-+	/*
-+	 * Version of ITS is same in one system. As there is no cache in ITS,
-+	 * and only cache in related GICR should be clean, directly use
-+	 * GICR_INVALLR to clean cache, which will get a better performance
-+	 * here.
-+	 */
-+	if (find_4_1_its()->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801)
-+		its_vpe_4_1_invall_locked(cpu, vpe);
-+
- 	its_vpe_db_proxy_move(vpe, from, cpu);
- 
- out:
-@@ -4173,22 +4201,12 @@ static void its_vpe_4_1_deschedule(struct its_vpe *vpe,
- 
- static void its_vpe_4_1_invall(struct its_vpe *vpe)
- {
--	void __iomem *rdbase;
- 	unsigned long flags;
--	u64 val;
- 	int cpu;
- 
--	val  = GICR_INVALLR_V;
--	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
--
- 	/* Target the redistributor this vPE is currently known on */
- 	cpu = vpe_to_cpuid_lock(vpe, &flags);
--	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
--	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
--	gic_write_lpir(val, rdbase + GICR_INVALLR);
--
--	wait_for_syncr(rdbase);
--	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
-+	its_vpe_4_1_invall_locked(cpu, vpe);
- 	vpe_to_cpuid_unlock(vpe, flags);
- }
- 
-@@ -4781,6 +4799,14 @@ static bool its_set_non_coherent(void *data)
- 	return true;
- }
- 
-+static bool __maybe_unused its_enable_quirk_hip09_162100801(void *data)
-+{
-+	struct its_node *its = data;
-+
-+	its->flags |= ITS_FLAGS_WORKAROUND_HISILICON_162100801;
-+	return true;
-+}
-+
- static const struct gic_quirk its_quirks[] = {
- #ifdef CONFIG_CAVIUM_ERRATUM_22375
- 	{
-@@ -4827,6 +4853,14 @@ static const struct gic_quirk its_quirks[] = {
- 		.init	= its_enable_quirk_hip07_161600802,
- 	},
- #endif
-+#ifdef CONFIG_HISILICON_ERRATUM_162100801
-+	{
-+		.desc	= "ITS: Hip09 erratum 162100801",
-+		.iidr	= 0x00051736,
-+		.mask	= 0xffffffff,
-+		.init	= its_enable_quirk_hip09_162100801,
-+	},
-+#endif
- #ifdef CONFIG_ROCKCHIP_ERRATUM_3588001
- 	{
- 		.desc   = "ITS: Rockchip erratum RK3588001",
+I am still getting below errors and wondering if there is a better
+way to write this patch.
+
+/home/ANT.AMAZON.COM/anishkmr/Downloads/linux/Documentation/core-api/dma-api:89:  
+    ./mm/dmapool.c:229: WARNING: Duplicate C declaration, also defined at  
+    core-api/mm-api:224. Declaration is:  
+    '.. c:function:: struct dma_pool *dma_pool_create (const char *name,  
+    struct device *dev, size_t size, size_t align, size_t boundary)'.
+
+/home/ANT.AMAZON.COM/anishkmr/Downloads/linux/Documentation/core-api/dma-api:92:  
+    ./mm/dmapool.c:420: WARNING: Duplicate C declaration, also defined at  
+    core-api/mm-api:404. Declaration is:  
+    '.. c:function:: void *dma_pool_alloc (struct dma_pool *pool, gfp_t mem_flags,  
+    dma_addr_t *handle)'.
+
+/home/ANT.AMAZON.COM/anishkmr/Downloads/linux/Documentation/core-api/dma-api:98:  
+    ./mm/dmapool.c:229: WARNING: Duplicate C declaration, also defined at  
+    core-api/mm-api:224. Declaration is:  
+    '.. c:function:: struct dma_pool *dma_pool_create (const char *name,  
+    struct device *dev, size_t size, size_t align, size_t boundary)'.
+
+/home/ANT.AMAZON.COM/anishkmr/Downloads/linux/Documentation/core-api/dma-api:101:  
+    ./mm/dmapool.c:466: WARNING: Duplicate C declaration, also defined at  
+    core-api/mm-api:450. Declaration is:  
+    '.. c:function:: void dma_pool_free (struct dma_pool *pool, void *vaddr,  
+    dma_addr_t dma)'.
+
+/home/ANT.AMAZON.COM/anishkmr/Downloads/linux/Documentation/core-api/dma-api:104:  
+    ./mm/dmapool.c:366: WARNING: Duplicate C declaration, also defined at  
+    core-api/mm-api:360.
+
+Thank you for considering this patch. I look forward to your feedback.
+
+anish kumar (2):
+  dmapool: Improve dma api kernel-doc comments
+  dmapool: Documentation: use the kernel-doc comment
+
+ Documentation/core-api/dma-api.rst | 66 ++++++------------------------
+ mm/dmapool.c                       | 40 ++++++++++++------
+ 2 files changed, 40 insertions(+), 66 deletions(-)
+
 -- 
-2.34.1
+2.39.5 (Apple Git-154)
 
