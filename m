@@ -1,261 +1,105 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A7214D718
-	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 19:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3248206040;
+	Wed, 13 Nov 2024 20:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731527240; cv=none; b=daLQsSTmte518XnP2epEpc1x4ZDUTCp9j8Y2IrL4vnM1jKmii+rNbZQTv+UKxACcuGrsBIb43MK5vntq57NAwt7Bu7xSlYkcZOaJ1IZjHGTDlpCwueZ+atfklrsmFMRBSIKLlKCFov7P8YXX68MFmaZ2RAuxApYi0xg/nU4fPn4=
+	t=1731528475; cv=none; b=Xq0R17ciYJOpmrAMyhU+Gh5Vsfwb039hq6ZhEpApeChwlae8bUr56uAMsUdpRFB8t8tKhK6Z6vrLbnwEZuxxYDfPlAHkBVOgv1AX4RirsWzhu7KUXC8F2/B9MEqqKVbr0uTrpwFiZZPcBRf/rM/d51Kyy1oEGHWEoDzLsNN6bj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731527240; c=relaxed/simple;
-	bh=D13vdmCI3PcgmX5HqYWjeJV0/SwB4g2qZNjfWujodGI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z0Z0dUo0TGcBAYWFsU7JJdzxp8jY3fECJPbr3RmbFmD48b8qjRbAlmLsjAQ4GZhx2CtH0EXIAuof7G9pPRDDGLBu869PojFdFuKU3JgH+nk8rv2XEWiopGXqIZ/iEH52ullKNj0uoySFPL3iU6B5CAJzPcyd5tH+weH44ZHlDE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wmsk67xa; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731528475; c=relaxed/simple;
+	bh=W2wLfm9TAFNqf6cHkoLkrjTWBslIgZ7B9w9GL8icBFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nv+9sdG7vAzwZ4UQfubYHK7EpQRlyAFJX8Wfgh0Rx7Isqeo3YTyLuBvGrtIBNQkeIhU0Y1gEBmS8CJNU49Pr5eR0RRSVcmIWgR37sAYuV7+SRuid7ArQy7AfadTRuaPwrFpeVRvZSV5EruDyTk/yjinrlii3+annUovNjPm65Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WpyheLxO; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wmsk67xa"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539e66ba398so1927e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 11:47:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpyheLxO"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2e5a0177531so5813934a91.2;
+        Wed, 13 Nov 2024 12:07:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731527237; x=1732132037; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pSJWU8y6bHQxtW/mJOGtqf8Fg9KxuncXsLFp1xbzR6g=;
-        b=wmsk67xaLzJQGn1pC20NFsdKRCrtcNkg9SNIT80HoZNXEhQoTi834VY/qXbufEp3I7
-         QgivKdi6cYfGaQziDGbSrUFixd1h6NDQbnuYX7/WnTNwLFpy8O6VeKnaGplzKtnB9+bE
-         HBALfcXCTfHRzrQw8OELoGCX+ZUP/KomvPsQDQgMVXTk6q992SrZr1GNpZR/Wx/4MWGO
-         CnoCVTcWPWcymFxCRDhV9txszB5EcJC0b19uqfLOnDOYYDuIr04hVe7IIXy77rYS8YL/
-         jWLmeVykI6+1ws3xE71n5W3P12XW8cPah0SKFWZkOXJvBHa4pwtODHKapmenbo0IhPEA
-         2C+Q==
+        d=gmail.com; s=20230601; t=1731528473; x=1732133273; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y4j1vJGFRxVrpDPuAyXQWtm8jyY2k87uymDRiXPcMJE=;
+        b=WpyheLxOGoQPXzmU0e7eziLizE1Yu/Q5h3eNSLT93B8Y3FK1Oy7cWmMpqREfYC0q5i
+         2sVcaw2urNwaGD7+1I6GNOzJ9jY03C8CwFTUh07HpEjy6i3Y0s/nE+6v0NFH0PNCpnLV
+         RgSRJk3cIWoI0goMBnkOCV77Padde//AfswjmE+YaHqgUjLA+DWUcAC2eDfN783Skc+B
+         a6Is/WGZPuCpgW7IRUBspYx71zqQhdkMhv2EOlgkcCjnrw8VmjZGKji1XOqPKEy/rzQt
+         swJL04OsqmVLpVaIm7agxLznFp67jxqn9Spfj0t1SQKJxlhVxz2u8lW7jnk0218Ne23M
+         VqOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731527237; x=1732132037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1731528473; x=1732133273;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pSJWU8y6bHQxtW/mJOGtqf8Fg9KxuncXsLFp1xbzR6g=;
-        b=Z7RNkw3sowBJ0s5AlzPqKmpE6LTkS8m7woNJ/GR/8uwjaOLzEi4CaeUe+vAaZjGT7A
-         qo5/ll19qhBFi9Ylc808reE/ANVA91FrsUql7w51MOco51MSXxx9UztFrTYNnuQ7S2HC
-         W0XO+lSC5nkHdayUvXu6zW9bB+liBWXi3+Dn4igqiLPH/bTfzq6bl3jfWsDlvB2IIp/X
-         r3eC/EeFu+5nNEPX0poRm0pS2GZPhMmylVFnxiMN557hPmlfMn6WW3kXwXKN+bMqWrEu
-         VK5so0xAv767Y8uD7KTfdtaDdxAdZxFm9XIEihP6kURZ4CoY45JwFLn9VqbCvjH0XLy4
-         hW+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ3eGPCA2equL0EUk0rvwlnjXTgm1YQ0uvr285f2I2Z2JBsmlINB+sswa0WHS/PQqGb0BVGUGCf/s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxf4MtJSZp020BFhSNytN0nA6GT3f4pUl+9K7qAX6V6sX/cJYx/
-	uE2mNfp6kqtGEQ8uoiCJVtvvrJ6laB58uBA5B7nQoIOyga/rHUlnfoSSBHT+DvYGs3leg0YyzMi
-	9SbQDrl2jwg/G0q0FehKJiypJ1LjZKG4rWXMA
-X-Gm-Gg: ASbGncuN2s256wSnoP2F5kTgKiUfzmqu/PcrdO88jM4an6VFyHw7GF9fdZgVS51JgDX
-	k6C5Y/6V4jotus1AJc0l0eF0CQjPIcOqaqzXU8VAAD6H7OvFHsanFwGJA8T66
-X-Google-Smtp-Source: AGHT+IE3ppARTnzlYrCDB5JZuDPBOlh5drJ+grQRZjPODoYVls/AM2IZL036eqnlrknFAL86fkQryAkCrlIkacqzw7I=
-X-Received: by 2002:ac2:5213:0:b0:530:ae18:810e with SMTP id
- 2adb3069b0e04-53da4f492dfmr33731e87.5.1731527236243; Wed, 13 Nov 2024
- 11:47:16 -0800 (PST)
+        bh=Y4j1vJGFRxVrpDPuAyXQWtm8jyY2k87uymDRiXPcMJE=;
+        b=e7zf+TlhMRkgGg3H+ZWO+SIMAsYFReT3zmN7LYvF1xmRZrdw3DF6OveZo/1n8QTE3k
+         y83hZwToxEVhvEgBCW+2KflVWFnSF4FLsu/utW6JGT6/9f6MqA/ZeUWoeYMg/2lyEvNJ
+         rzj3OUBnJvyBYMuBgyQ0dW+lrcq8r5CrFoTsDVzXa6RCFFD5rbkbSJlrC46jDOtfxo8d
+         QspnNL5FIptXrCumTZewvQ+wU1s5Wp83hbWhqDKfPAqgPtF1t9RLEI9S0IWEPjpe9i2l
+         xxwimrJJ8YAZ2Uy2ibJKMCRZjIyavbja3nQN9yNNyE6Z9Dpl52xpTRmotL/hAa0Jaa/r
+         5m6g==
+X-Forwarded-Encrypted: i=1; AJvYcCVIHEdybrwAYxFxo8y4IaODOfok3Qj5CpuaBsOzsM2GBvaMiiYRyY4nSPX/eOPVzdYgFWBfQsvE6SNjVDc=@vger.kernel.org, AJvYcCWUXQeF+zOkVDAU8ebQAPVq5FAVzmCuUXxVPBX8auGQoYAnbDMWPybnxheXZpe05+m/iBV0T10mZ1gH@vger.kernel.org, AJvYcCWs1hoGwttatner82GooI0++tZSjWeH3KgTgFD7bJa8B4kuUXmH2NxDKXDFTWy8/Bd9emFKRB8Qstcs@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGX6IZHV4DLS+tnb0UcldfoR9E1hnobNjB9/SQbBBqxcyoMK29
+	xNYlN+u1L7V3CfExaK2ah5y9HxngxMERKnCBLvwlVBL8b7jUkh4Q
+X-Google-Smtp-Source: AGHT+IHztoxmba7AYF4jfx70m7aN3IyXMskiky85+dy1DFP1JIKL4oEy4WkNQfoCK1+rHATeDQkn0g==
+X-Received: by 2002:a17:90b:1f81:b0:2e2:d821:1b77 with SMTP id 98e67ed59e1d1-2e9b1780c38mr27849736a91.24.1731528473255;
+        Wed, 13 Nov 2024 12:07:53 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ea00464f00sm17129a91.18.2024.11.13.12.07.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 12:07:52 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 13 Nov 2024 12:07:51 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Grant Peltier <grantpeltier93@gmail.com>
+Cc: robh@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
+	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] dt-bindings: hwmon: isl68137: add bindings to
+ support voltage dividers
+Message-ID: <6c546fdb-4511-4942-9171-287687bca32d@roeck-us.net>
+References: <cover.1731439797.git.grantpeltier93@gmail.com>
+ <f7ac200e982961ff733de27a5c4505c04d68b6f3.1731439797.git.grantpeltier93@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241108135708.48567-1-lorenzo.stoakes@oracle.com>
-In-Reply-To: <20241108135708.48567-1-lorenzo.stoakes@oracle.com>
-From: Jann Horn <jannh@google.com>
-Date: Wed, 13 Nov 2024 20:46:39 +0100
-Message-ID: <CAG48ez2=oP15_X_MqtDG22P6TZYpTr07-TZBk3Z_DvuwB6nJFQ@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/mm: add VMA locks documentation
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Alice Ryhl <aliceryhl@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Matthew Wilcox <willy@infradead.org>, Mike Rapoport <rppt@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Suren Baghdasaryan <surenb@google.com>, Hillf Danton <hdanton@sina.com>, 
-	Qi Zheng <zhengqi.arch@bytedance.com>, SeongJae Park <sj@kernel.org>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f7ac200e982961ff733de27a5c4505c04d68b6f3.1731439797.git.grantpeltier93@gmail.com>
 
-On Fri, Nov 8, 2024 at 2:57=E2=80=AFPM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
-> Locking around VMAs is complicated and confusing. While we have a number =
-of
-> disparate comments scattered around the place, we seem to be reaching a
-> level of complexity that justifies a serious effort at clearly documentin=
-g
-> how locks are expected to be used when it comes to interacting with
-> mm_struct and vm_area_struct objects.
->
-> This is especially pertinent as regards the efforts to find sensible
-> abstractions for these fundamental objects in kernel rust code whose
-> compiler strictly requires some means of expressing these rules (and
-> through this expression, self-document these requirements as well as
-> enforce them).
->
-> The document limits scope to mmap and VMA locks and those that are
-> immediately adjacent and relevant to them - so additionally covers page
-> table locking as this is so very closely tied to VMA operations (and reli=
-es
-> upon us handling these correctly).
->
-> The document tries to cover some of the nastier and more confusing edge
-> cases and concerns especially around lock ordering and page table teardow=
-n.
->
-> The document is split between generally useful information for users of m=
-m
-> interfaces, and separately a section intended for mm kernel developers
-> providing a discussion around internal implementation details.
->
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+On Tue, Nov 12, 2024 at 02:10:06PM -0600, Grant Peltier wrote:
+> Add devicetree bindings to support declaring optional voltage dividers to
+> the rail outputs of supported digital multiphase regulators. Some
+> applications require Vout to exceed the voltage range that the Vsense pin
+> can detect. This binding definition allows users to define the
+> characteristics of a voltage divider placed between Vout and the Vsense
+> pin for any rail powered by the device.
+> 
+> These bindings copy the vout-voltage-divider property defined in the
+> maxim,max20730 bindings schema since it is the best fit for the use case
+> of scaling hwmon PMBus telemetry. The generic voltage-divider property
+> used by many iio drivers was determined to be a poor fit because that
+> schema is tied directly to iio for the purpose of scaling io-channel
+> voltages and the isl68137 driver is not an iio driver.
+> 
+> New schema file named isil,isl68137.yaml to align with the corresponding
+> driver name and pre-existing bindings ported from trivial bindings.
+> However, all new device bindings use renesas as the vendor prefix
+> since Renesas acquired Intersil and now maintains all documentation
+> for the devices.
+> 
+> Signed-off-by: Grant Peltier <grantpeltier93@gmail.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Reviewed-by: Jann Horn <jannh@google.com>
+Applied.
 
-except some typos and one inaccuracy:
-
-> +* **mmap locks** - Each MM has a read/write semaphore :c:member:`!mmap_l=
-ock`
-> +  which locks at a process address space granularity which can be acquir=
-ed via
-> +  :c:func:`!mmap_read_lock`, :c:func:`!mmap_write_lock` and variants.
-> +* **VMA locks** - The VMA lock is at VMA granularity (of course) which b=
-ehaves
-> +  as a read/write semaphore in practice. A VMA read lock is obtained via
-> +  :c:func:`!lock_vma_under_rcu` (and unlocked via :c:func:`!vma_end_read=
-`) and a
-> +  write lock via :c:func:`!vma_start_write` (all VMA write locks are unl=
-ocked
-> +  automatically when the mmap write lock is released). To take a VMA wri=
-te lock
-> +  you **must** have already acquired an :c:func:`!mmap_write_lock`.
-> +* **rmap locks** - When trying to access VMAs through the reverse mappin=
-g via a
-> +  :c:struct:`!struct address_space` or :c:struct:`!struct anon_vma` obje=
-ct
-> +  (reachable from a folio via :c:member:`!folio->mapping`) VMAs must be =
-stabilised via
-
-missing dot between sentences?
-
-> +These fields describes the size, start and end of the VMA, and as such c=
-annot be
-> +modified without first being hidden from the reverse mapping since these=
- fields
-> +are used to locate VMAs within the reverse mapping interval trees.
-
-still a typo here, "these fields describes"
-
-> +.. note:: In instances where the architecture supports fewer page tables=
- than
-> +         five the kernel cleverly 'folds' page table levels, that is stu=
-bbing
-> +         out functions related to the skipped levels. This allows us to
-> +         conceptually act is if there were always five levels, even if t=
-he
-
-typo: s/is if/as if/
-
-> +1. **Traversing** page tables - Simply reading page tables in order to t=
-raverse
-> +   them. This only requires that the VMA is kept stable, so a lock which
-> +   establishes this suffices for traversal (there are also lockless vari=
-ants
-> +   which eliminate even this requirement, such as :c:func:`!gup_fast`).
-> +2. **Installing** page table mappings - Whether creating a new mapping o=
-r
-> +   modifying an existing one. This requires that the VMA is kept stable =
-via an
-> +   mmap or VMA lock (explicitly not rmap locks).
-
-Arguably clearing A/D bits through the rmap, and switching PTEs
-between present entries and migration entries, counts as "modifying an
-existing one", but the locking for that is like for zapping/unmapping
-(both page_idle_clear_pte_refs and try_to_migrate go through the
-rmap). So "modifying an existing one" either needs more caveats or
-more likely should just be moved to point three.
-
-> +3. **Zapping/unmapping** page table entries - This is what the kernel ca=
-lls
-> +   clearing page table mappings at the leaf level only, whilst leaving a=
-ll page
-> +   tables in place. This is a very common operation in the kernel perfor=
-med on
-> +   file truncation, the :c:macro:`!MADV_DONTNEED` operation via
-> +   :c:func:`!madvise`, and others. This is performed by a number of func=
-tions
-> +   including :c:func:`!unmap_mapping_range` and :c:func:`!unmap_mapping_=
-pages`
-> +   among others. The VMA need only be kept stable for this operation.
-> +4. **Freeing** page tables - When finally the kernel removes page tables=
- from a
-> +   userland process (typically via :c:func:`!free_pgtables`) extreme car=
-e must
-> +   be taken to ensure this is done safely, as this logic finally frees a=
-ll page
-> +   tables in the specified range, ignoring existing leaf entries (it ass=
-umes the
-> +   caller has both zapped the range and prevented any further faults or
-> +   modifications within it).
-> +
-> +**Traversing** and **zapping** ranges can be performed holding any one o=
-f the
-> +locks described in the terminology section above - that is the mmap lock=
-, the
-> +VMA lock or either of the reverse mapping locks.
-> +
-> +That is - as long as you keep the relevant VMA **stable** - you are good=
- to go
-> +ahead and perform these operations on page tables (though internally, ke=
-rnel
-> +operations that perform writes also acquire internal page table locks to
-> +serialise - see the page table implementation detail section for more de=
-tails).
-> +
-> +When **installing** page table entries, the mmap or VMA lock mut be held=
- to keep
-
-typo: "must be held"
-
-> +When performing a page table traversal and keeping the VMA stable, wheth=
-er a
-> +read must be performed once and only once or not depends on the architec=
-ture
-> +(for instance x86-64 does not require any special precautions).
-
-Nitpick: In theory that'd still be a data race with other threads
-concurrently installing page tables, though in practice compilers
-don't seem to do anything bad with stuff like that.
-
-> +A typical pattern taken when traversing page table entries to install a =
-new
-> +mapping is to optimistically determine whether the page table entry in t=
-he table
-> +above is empty, if so, only then acquiring the page table lock and check=
-ing
-> +again to see if it was allocated underneath is.
-
-s/ is// ?
-
-> +This is why :c:func:`!__pte_offset_map_lock` locklessly retrieves the PM=
-D entry
-> +for the PTE, carefully checking it is as expected, before acquiring the
-> +PTE-specific lock, and then *again* checking that the PMD lock is as exp=
-ected.
-
-s/PMD lock is/PMD entry is/ ?
-
-> +In these instances, it is required that **all** locks are taken, that is
-> +the mmap lock, the VMA lock and the relevant rmap lock.
-
-s/rmap lock/rmap locks/
-
-> +VMA read locking is entirely optimistic - if the lock is contended or a =
-competing
-> +write has started, then we do not obtain a read lock.
-> +
-> +A VMA **read** lock is obtained by :c:func:`!lock_vma_under_rcu` functio=
-n, which
-
-"is obtained by lock_vma_under_rcu function" sounds weird, maybe
-either "is obtained by lock_vma_under_rcu" or "is obtained by the
-lock_vma_under_rcu function"?
+Thanks,
+Guenter
