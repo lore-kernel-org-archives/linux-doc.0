@@ -1,755 +1,259 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCB31F80AF;
-	Wed, 13 Nov 2024 11:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039201FF5E5;
+	Wed, 13 Nov 2024 11:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731497173; cv=pass; b=S8ZIl/FhNIYkXuEtkLIrl38ZsEnq8zF9O61k8YzkZf3jZCPm4zedOH3NlDiUP6Mzwxzcbw4KqREGVe2VTpzVvjNPhhyZE+3Nd2GQKkncBTrNUF4v4+ezWF8+pI/RtsSSZaQZCZ2d5ybd3XpzbbNvrnu5r++qFvvZ4RCsuW4jjIA=
+	t=1731497481; cv=fail; b=cH8KB5n9/+gZt/ONjwq/kynzG1pS7zeKuoVwYyuN8jb9GItjo/gIZbJiLp8eAz4K0vilMCqoah/hrbYYXWz6gd9ikL7zRnj4XLbdZDhSAkvKGGa1F3r/BYcnEOE5oqni6XH+KUhYo1u1TRGnm7LdJMl/VsoX+vsGnOZh5QXqWHE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731497173; c=relaxed/simple;
-	bh=/MDMMHvnfzrRN4VnXVVwOrTCp0Akujmd9RTY74kqoy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fPAdH+J2QdgY0ZvXVyaE+RVW5LsjSYxhItKubDQzTYJZwHoLy5GOT0fWA0TElYsDI+Hf+2j8PUK6aIJxpbnQSywMXDm/Z4/A7fNLkRISVJ2FO9cOUSuhSsJlrV+METjgP/siKK7LwmrrhM5t8UHvn5g/z/PjAwL4O11G89TbQp4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=GqpR5kub; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1731497481; c=relaxed/simple;
+	bh=5SOBVHVsrJVEBIa4fmUk7Yv2e4fRtthQuRl8M6ABQgc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=EtHfKXo5/nqBdle5tFJPK52saaPCDxayhGsSQXn5/+pEqGomBii1r3FfZmK5PWcXmJKlls71khyOzNiO3AaA/pYcXlp6nyQ5s6c6XzWWg7PbeVkxpO3dSl4w3KScttKRctvozVHwv8TSYXCrtFoQN/Kr0PgiIxYkbGT8KH6sO0c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNKPUhKO; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="GqpR5kub"
-ARC-Seal: i=1; a=rsa-sha256; t=1731497148; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=BDFEJf9GIyc4RHxJc8XYPSIMPBRTPpS63EDM4lQT1P/iFJBtXJQ8SnrvkX/SVWPBKzJwFc4I4TViVIcQGIA+FAqmp2bVMATDrGbRTojf4LufHlbc3+D7MO+czPwEg/+dT53cDi5eTVO/T2TJHkihgetXdyM0+ZwBzWFWjxZhbA0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1731497148; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=so4J+9LwW3+lm6S1phPy5Hzfwcdrtp8EKkXN9WNrtks=; 
-	b=MQptmNTYW+Ujjk/h0UqHjk+7D6tsLTGfxawRc/KG7JwPpkWB7lI0FZEVcgFfhM3sHDac7xk6Saft98qxT6XK9gpt8dZpgu3UAcg3DdXLtC6yOCv3tjQUGB5sYG+0NFCE9HR6PC209Hx9PLeU3QBNUqPbyCE3N1d6wvlUNi5a0iQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731497148;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=so4J+9LwW3+lm6S1phPy5Hzfwcdrtp8EKkXN9WNrtks=;
-	b=GqpR5kubUHm5LQj0FzFBMAqfBFFeAwi4UhHVzMrdXibRYptHktRotDv34YxX30Qd
-	UnvR5UkM174CkQLFYXprpoUL7VmRT3REWpxhTALUpc7UOrqV8jpwEMbbLsow054/HoS
-	HMxVvtLlck+VPkk2k0YtqgOO56duPDf3pr8w6cZA=
-Received: by mx.zohomail.com with SMTPS id 1731497137493340.80122145821576;
-	Wed, 13 Nov 2024 03:25:37 -0800 (PST)
-Date: Wed, 13 Nov 2024 12:25:33 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: bagasdotme@gmail.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-	mchehab@kernel.org, kernel@collabora.com, bob.beckett@collabora.com,
-	nicolas.dufresne@collabora.com
-Subject: Re: [PATCH v2 1/2] docs: Add debugging section to process
-Message-ID: <20241113112533.eph4c63exgjqsgh7@basti-XPS-13-9310>
-References: <20241028-media_docs_improve_v3-v2-0-f350f98e1870@collabora.com>
- <20241028-media_docs_improve_v3-v2-1-f350f98e1870@collabora.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNKPUhKO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731497479; x=1763033479;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=5SOBVHVsrJVEBIa4fmUk7Yv2e4fRtthQuRl8M6ABQgc=;
+  b=SNKPUhKOz2gXJWTAwwyqtNVGQ7A/k5bP4cPKAKpQbQ+atK3cHXP70SI9
+   boisi4kE6thEPWlpl+UUy80bKwkBvMisZa7lgOSnqY2Fa4+nXfU9Tcs4E
+   IRXXvzTEHl0CH2N2kG7aaTRlVQfm6iwHGzvmhJJ5kl2CgRnFMDG66TqlG
+   jqn39cqcn729dflPKGzfObE+YSQiMx7d7Jew/pN1xxnvWPnVLjGAE8Y5G
+   kyTZkYGGHgCrCTiiaJ8EQ0p3aGWrd4K8MxZRYMJyWKG50sL4jvO16BjRl
+   8ctjY0YB3PuU/bxhEMoM9KTsBW6tVvd6nr5ebKFUUkZwVCFQ/HAgbl2f/
+   g==;
+X-CSE-ConnectionGUID: AtjbUcbBQKCJEEsCmgNQzQ==
+X-CSE-MsgGUID: fD3mBJfhTumulJcWLorIsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="42000647"
+X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
+   d="scan'208";a="42000647"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 03:31:18 -0800
+X-CSE-ConnectionGUID: 9/GV9bqtRLCzsoKa20+wDg==
+X-CSE-MsgGUID: JnsStBflS0aRXG0vkNxX/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="92780183"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 Nov 2024 03:31:17 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 13 Nov 2024 03:31:17 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 13 Nov 2024 03:31:17 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.176)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 13 Nov 2024 03:31:17 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=grNvc8YGZ6PvXHAi6rZx7MrOCvYwFgtJ+kuLhPWBoA15FAAIvW1/BOM4TabStDnMWLzT5U9iGFFkrf/nsqsFaAkx16FTg3HUXQ513eAeKwYczyc15qFRBDWPxOAmpeIOuLPQwXjT6A1WXpfGvQz/fYhgKLa5i10HjK5SWw/eRMNlUpGQZUcDHmEtyrsHYATR2SoaONMriMChRUX8Ln/SwoVlJT87BLq7Iq/MAknwSQi/pXCpdEpO24WfLUJd61OzwKtPuX4mE3BOchSxbRU/glGaNRU/caY5US4M8yd+L9HGirc9DcZpLv0c9GxHwUv7eG3OlS3xeq48aYDS7Mtfww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=teA6/cT37zKzvqA8GhQnzDmWLZyaF7c7R23EYoDt9dI=;
+ b=U3vbUhvJwP8msMDAfUUyN0KMX75119v94fFVWe4SVF9CSy5uXeZgVKwWzGcoYzwPjqKDacbVhTFCdUDGwLVgaE0k+Hq9uaADsQeMMdc7ZREIZF4vAHKQEiq/vBU5QWrxDh1k20QqgZ6v42m0YEjHblS5reGF1/bfdHFi85u7kGmwJlbeqT/iUra00ePrRMbKWBJORXebz5SwzIZPSvA0ZfIbsZJxqPTWKDEN3aPg+ZX41FdhiejCWz593jhD6C0Ecu3sMVtkwoYQpCXbf+zOMsMVGdp5GX7ZMZTneKKIH6hMm5sC76GnVlejWX4eqm+UiiSs5y3gUS2WDf6hnP6JfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
+ by CYXPR11MB8709.namprd11.prod.outlook.com (2603:10b6:930:dd::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.29; Wed, 13 Nov
+ 2024 11:31:15 +0000
+Received: from CH3PR11MB8660.namprd11.prod.outlook.com
+ ([fe80::cfad:add4:daad:fb9b]) by CH3PR11MB8660.namprd11.prod.outlook.com
+ ([fe80::cfad:add4:daad:fb9b%3]) with mapi id 15.20.8158.013; Wed, 13 Nov 2024
+ 11:31:15 +0000
+Date: Wed, 13 Nov 2024 19:31:03 +0800
+From: Chao Gao <chao.gao@intel.com>
+To: "Xin Li (Intel)" <xin@zytor.com>
+CC: <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <seanjc@google.com>, <pbonzini@redhat.com>,
+	<corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<luto@kernel.org>, <peterz@infradead.org>, <andrew.cooper3@citrix.com>
+Subject: Re: [PATCH v3 10/27] KVM: VMX: Set FRED MSR interception
+Message-ID: <ZzSN90cBy2eIlu2u@intel.com>
+References: <20241001050110.3643764-1-xin@zytor.com>
+ <20241001050110.3643764-11-xin@zytor.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241001050110.3643764-11-xin@zytor.com>
+X-ClientProxiedBy: SGBP274CA0023.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::35)
+ To CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="6zqfebw3lp2d5uji"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241028-media_docs_improve_v3-v2-1-f350f98e1870@collabora.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.3.1/231.456.83
-X-ZohoMailClient: External
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|CYXPR11MB8709:EE_
+X-MS-Office365-Filtering-Correlation-Id: aeecbb4e-707a-4878-4237-08dd03d6aed0
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?MkuEFR6dMkYzA8UbCuEgXcvgsPr8FmpgbZYvv67VIoM91yS0LK5j//JB2jP9?=
+ =?us-ascii?Q?y6hnUKjZwSYKYaeOmicvNV8GuUPLGUHHnc00hQLbsnsG6I33k1yYs6HZ5a4q?=
+ =?us-ascii?Q?TM6OSSnacroXKBNjiQB7z1MqpFuoEMfC6mZwknYfAsqO0Qdgup1nbxxOtbMU?=
+ =?us-ascii?Q?OXvzSj2XMPpRndeICUJ2V7y7XX++aPvt1vUPV/E6rTzbgwGQF6Wo/VBWKkC+?=
+ =?us-ascii?Q?pmaQn2RfaaEEsuG9Kqzx2bJrJ2vN2iWIG+Se1CQlsoCEhJZ7fwk+AAY5fdc7?=
+ =?us-ascii?Q?538y3lERdvFqo9RV2CVLUafPl1H6bXBUQFaSczTvYvFkvtBRrn/get5pDAVS?=
+ =?us-ascii?Q?+rfCAPAlKG1jKA3YvKBGlPZuTsO8t+tVxPTqjPLICZs2XnHckvn5CFMFrlud?=
+ =?us-ascii?Q?S/TQjnTgTstE9DDxFF5wF4E3cnLnXYLYZ/csalnZJVj6vAjTj3GysUYWbNMU?=
+ =?us-ascii?Q?cV+ctSWj5cOLRMuBAImjVfgbMKoYPl7ZfnLj5Qj3ssls9pcf2LjyOEnaoGAP?=
+ =?us-ascii?Q?kV5r5ukDpT+wESr0JDJLTzyYJSjw9hjVj2kRtVz2WEoGmpCQvTxkD8XJHLW3?=
+ =?us-ascii?Q?XTWQh5cV6k1tx7PS225iXaZu+Yujn+AeEpvnSb9W9WBV2QiOOsA0Gvvcvays?=
+ =?us-ascii?Q?ltF8TRrUB0MjTHBPKuE3KqsbDkyeDYLbXYp2A6tYqBHHhqCTDgTrJuj0VUkf?=
+ =?us-ascii?Q?m5eNV3W/ipguiK8HcxI9/l5vKTnk9M/8qOHp5iuUl+QExARtqmDbnzfEA86/?=
+ =?us-ascii?Q?4J7Ks82AAUE8EN2aabSoGScyGQJ7wE5HlhgWnJsWErZCUKDhq/aSOkZeK+TW?=
+ =?us-ascii?Q?h5fYfhsADsM5uc83yvH7sbZpE1E3dIloXL+JzByycad2SO44oSu4mybV0L4j?=
+ =?us-ascii?Q?RK7L5b8GiG84LDRd9xGg/5s/tfuWzmn0ubygITDJz2OMqEIDKKuketZz1Uhl?=
+ =?us-ascii?Q?wX6EYAJcG3sEOhLFaJDJBLkU23HJJPSM2yneLMD3v4JfMuvm40hqokHP0rJa?=
+ =?us-ascii?Q?9pW4L7t3n8oe8l8XljSnOSkthFtXtea95V9OreE676uA04e9y5Dn/gqBlI8+?=
+ =?us-ascii?Q?HEeXPN6/E2T2GzWYknunZIVU556wKabiVaniJSmZhifxkjSTYp703+oIjwW7?=
+ =?us-ascii?Q?GzNQyhjKFMPS2/hnMHOVSWYrzmCoFRSymMYVBNUWRl02lqhDSFDP74TmYbRx?=
+ =?us-ascii?Q?57Dovy/wUIw7giQnm5oJH+nSo8gyIsv4/KGPRMgNRiH/8xvLUlrPAk80ygTX?=
+ =?us-ascii?Q?yn3aANdhCgH0hg8IMumZ?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?p6OOfJVPTl+EZE2u9AyIvB+3q7k3e2ZCvHk0PWWxj0j4SOhEvXFY6D4ILMdT?=
+ =?us-ascii?Q?RgrOYFl3rkHhHmF9iQHFztumD/gppJcd+3aVe1/wPm2TL7Gr5gB5gmpMz5jK?=
+ =?us-ascii?Q?RULmZWY3Iy3SfgaiKkrWFO9+zoIQiyFjcBwvXCMSPp3g1y1UvSlbPq9de0VI?=
+ =?us-ascii?Q?142/UNCcHCVjEA4dT0yxMEBX4gJiGZKe4zIT7AQfj21PGacGa1apW3W1v7U1?=
+ =?us-ascii?Q?GIci3ZgkCECQ+zfTEHbV+hnXCGdG5dfP3Mh0rDmDDocJkGxiXpiZi1iH/f38?=
+ =?us-ascii?Q?07ZoTJd/zVmJJFCS3Nq9LgcE8ee3SMG04VWVgWGNgTyh73qQ7ccFHZgjM8Sm?=
+ =?us-ascii?Q?Jj93AB/vM3r+Qpt0MOSGPbLBUb6JOjXd2unmq1ADbrz/n2Z25AL+LC7tcuk8?=
+ =?us-ascii?Q?aA0jU7Zg64039Ix/dS93Hf/1ZDduuIjXgaYowswNbr/ZItyZHcb6eQ7FG4sD?=
+ =?us-ascii?Q?DTY9u1OdD7glYqsY52xfgMNkLFg7Xom8q7x5KkykiLzLBLQPvLiEqN+SSGLW?=
+ =?us-ascii?Q?zE8GmJomJ0Huv1WKMs6eJaZwQA8z2haRDogkvfyBZpnc3cksuFHioM1/wwSS?=
+ =?us-ascii?Q?zLVYgeMu+Wv19J4tl/wVChVb92MoAmNxeV5PDF036ab9QCelEEu8Lnl8bLGQ?=
+ =?us-ascii?Q?oZsefN6uBMzfJsFHmr0GuQTgkpa+3JUZc1m8SW0RuokNCvontOiQwDQ32Wc2?=
+ =?us-ascii?Q?1rsIrSCEQwTkFkc0WiLjh+gK5Tp868pVUVH4a+3xP+2qQtifQN/62JoZywGX?=
+ =?us-ascii?Q?mrZc1rngYGaJt18jl6aDk5nj727zcIhMfKcRgMtCBWnBMZAeLHSAv3OUeMzr?=
+ =?us-ascii?Q?1KHagp8Xn+aLI03x6XzZQ8OeNFGmBkXQCzWayd4sUeMw0pg/4zZG/qitslTp?=
+ =?us-ascii?Q?YvTKQwNC/kVxNDye+Y7fx6BjdsfKnJ4arE+1HMYAqIFXPsH16d7UIox67m9K?=
+ =?us-ascii?Q?b7HCjipWpulkaF8gHL6BQk7e2UE9Y0pTJvZgceZfNxWTEUWyVEoEUsYLc28K?=
+ =?us-ascii?Q?YZsYg0LgWGPoQwcT8EAe1tJj7dqxnuaI1ij9q7C+L6UoLVw1huSSn6Ce/VJQ?=
+ =?us-ascii?Q?/eRfvzw2/j1gYWIgcBeke0hBCAwfYeaKEPQjtq58O+xUlpq1CklwQeGrD+TL?=
+ =?us-ascii?Q?6ksxlxSwGPl26gBJbChyAG2/5JfKc6XZjjp9kttUvI1YOa+TwLjqn876kZmQ?=
+ =?us-ascii?Q?TXELMMEgylbm1O77Lx5G5fWFnzEgKM2NsWgbojRFInzT2U01hpf9DVcXh/Tn?=
+ =?us-ascii?Q?uEYVnvUDp6nMFAFTu4aT/DZMLiHojLDicQgP2PdrSJEHEl4ppyztTi55O2W9?=
+ =?us-ascii?Q?nMWyuKBwTaU4TyDVwVaThDaZBF5graqW69owxwY2m2Nt8+uCkCoFV8iu/XeL?=
+ =?us-ascii?Q?MF5AaGCV5czC/f/F5tWajRn9B5DRCTKvsInBMfthNAbnIm8QbB0XufLrrCwP?=
+ =?us-ascii?Q?F/QANhG+Shfg8A5PX+rTEpGPOnhp64wBbAp3yijFrrDK+rvyrUkq9Fagaj8q?=
+ =?us-ascii?Q?D3x9WanOBd6sp0OdlsakIUm1ubZ1ck6MIOJ8Md+qvF5k/CMUMZUVt7ajPgHW?=
+ =?us-ascii?Q?cRHQdaIQ6hoyDhTiEgmpFnTw//Y8EImWt37/3uDm?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: aeecbb4e-707a-4878-4237-08dd03d6aed0
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2024 11:31:15.1116
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PvI+UFvLoEaGwyrXfmJJK2Qd82FGAQuwRBDPWJ9fWyYpJQ0hraeqbIukySUbpuX/Lu0bzYZT/8R9lhgVhEd8/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8709
+X-OriginatorOrg: intel.com
 
-
---6zqfebw3lp2d5uji
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-Hey Jonathan,
-
-right after sending I noticed two lines that I didn't shrink to 80 chars
-... see below ...
-
-On 13.11.2024 12:15, Sebastian Fricke wrote:
->This idea was formed after noticing that new developers experience
->certain difficulty to navigate within the multitude of different
->debugging options in the Kernel and while there often is good
->documentation for the tools, the developer has to know first that they
->exist and where to find them.
->Add a general debugging section to the Kernel documentation, as an
->easily locatable entry point to other documentation and as a general
->guideline for the topic.
+On Mon, Sep 30, 2024 at 10:00:53PM -0700, Xin Li (Intel) wrote:
+>From: Xin Li <xin3.li@intel.com>
 >
->Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>Add FRED MSRs to the VMX passthrough MSR list and set FRED MSRs
+>interception.
+>
+>8 FRED MSRs, i.e., MSR_IA32_FRED_RSP[123], MSR_IA32_FRED_STKLVLS,
+>MSR_IA32_FRED_SSP[123] and MSR_IA32_FRED_CONFIG, are all safe to be
+>passthrough, because they all have a pair of corresponding host and
+>guest VMCS fields.
+>
+>Both MSR_IA32_FRED_RSP0 and MSR_IA32_FRED_SSP0 are dedicated for user
+>level event delivery only, IOW they are NOT used in any kernel event
+>delivery and the execution of ERETS.  Thus KVM can run safely with
+>guest values in the 2 MSRs.  As a result, save and restore of their
+>guest values are postponed until vCPU context switching and their host
+>values are restored on returning to userspace.
+>
+>Save/restore of MSR_IA32_FRED_RSP0 is done in the next patch.
+>
+>Note, as MSR_IA32_FRED_SSP0 is an alias of MSR_IA32_PL0_SSP, its save
+>and restore is done through the CET supervisor context management.
+
+But CET may be not supported by either the host or the guest. How will
+MSR_IA32_FRED_SSP0 be switched in this case? I think that's part of the reason
+why Sean suggested [*] intercepting the MSR when CET isn't exposed to the
+guest.
+
+[*]: https://lore.kernel.org/kvm/ZvQaNRhrsSJTYji3@google.com/#t
+
+>
+>Signed-off-by: Xin Li <xin3.li@intel.com>
+>Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+>Tested-by: Shan Kang <shan.kang@intel.com>
 >---
-> .../driver_development_debugging_guide.rst         | 214 ++++++++++++++++
-> Documentation/process/debugging/index.rst          |  65 +++++
-> .../debugging/userspace_debugging_guide.rst        | 278 +++++++++++++++++++++
-> Documentation/process/index.rst                    |   8 +-
-> 4 files changed, 562 insertions(+), 3 deletions(-)
+> arch/x86/kvm/vmx/vmx.c | 34 ++++++++++++++++++++++++++++++++++
+> 1 file changed, 34 insertions(+)
 >
->diff --git a/Documentation/process/debugging/driver_development_debugging_guide.rst b/Documentation/process/debugging/driver_development_debugging_guide.rst
->new file mode 100644
->index 000000000000..bfeefb242b03
->--- /dev/null
->+++ b/Documentation/process/debugging/driver_development_debugging_guide.rst
->@@ -0,0 +1,214 @@
->+.. SPDX-License-Identifier: GPL-2.0
->+
->+========================================
->+Debugging advice for driver development
->+========================================
->+
->+This document serves as a general starting point and lookup for debugging device
->+drivers.
->+While this guide focuses on debugging that requires re-compiling the
->+module/kernel, the :doc:`userspace debugging guide
->+</process/debugging/userspace_debugging_guide>` will guide
->+you through tools like dynamic debug, ftrace and other tools useful for
->+debugging issues and behavior.
->+For general debugging advice, see the :doc:`general advice document
->+</process/debugging/index>`.
->+
->+.. contents::
->+    :depth: 3
->+
->+The following sections show you the available tools.
->+
->+printk() & friends
->+------------------
->+
->+These are derivatives of printf() with varying destinations and support for
->+being dynamically turned on or off, or lack thereof.
->+
->+Simple printk()
->+~~~~~~~~~~~~~~~
->+
->+The classic, can be used to great effect for quick and dirty development
->+of new modules or to extract arbitrary necessary data for troubleshooting.
->+
->+Prerequisite: ``CONFIG_PRINTK`` (usually enabled by default)
->+
->+**Pros**:
->+
->+- No need to learn anything, simple to use
->+- Easy to modify exactly to your needs (formatting of the data (See:
->+  :doc:`/core-api/printk-formats`), visibility in the log)
->+- Can cause delays in the execution of the code (beneficial to confirm whether
->+  timing is a factor)
->+
->+**Cons**:
->+
->+- Requires rebuilding the kernel/module
->+- Can cause delays in the execution of the code (which can cause issues to be
->+  not reproducible)
->+
->+For the full documentation see :doc:`/core-api/printk-basics`
->+
->+Trace_printk
->+~~~~~~~~~~~~
->+
->+Prerequisite: ``CONFIG_DYNAMIC_FTRACE`` & ``#include <linux/ftrace.h>``
->+
->+It is a tiny bit less comfortable to use than printk(), because you will have
->+to read the messages from the trace file (See: :ref:`read_ftrace_log`
->+instead of from the kernel log, but very useful when printk() adds unwanted
->+delays into the code execution, causing issues to be flaky or hidden.)
->+
->+If the processing of this still causes timing issues then you can try
->+trace_puts().
->+
->+For the full Documentation see trace_printk()
->+
->+dev_dbg
->+~~~~~~~
->+
->+Print statement, which can be targeted by
->+:ref:`process/debugging/userspace_debugging_guide:dynamic debug` that contains
->+additional information about the device used within the context.
->+
->+**When is it appropriate to leave a debug print in the code?**
->+
->+Permanent debug statements have to be useful for a developer to troubleshoot
->+driver misbehavior. Judging that is a bit more of an art than a science, but
->+some guidelines are in the :ref:`Coding style guidelines
->+<process/coding-style:13) printing kernel messages>`. In almost all cases the
->+debug statements shouldn't be upstreamed, as a working driver is supposed to be
->+silent.
->+
->+Custom printk
->+~~~~~~~~~~~~~
->+
->+Example::
->+
->+  #define core_dbg(fmt, arg...) do { \
->+	  if (core_debug) \
->+		  printk(KERN_DEBUG pr_fmt("core: " fmt), ## arg); \
->+	  } while (0)
->+
->+**When should you do this?**
->+
->+It is better to just use a pr_debug(), which can later be turned on/off with
->+dynamic debug. Additionally, a lot of drivers activate these prints via a
->+variable like ``core_debug`` set by a module parameter. However, Module
->+parameters `are not recommended anymore
->+<https://lore.kernel.org/all/2024032757-surcharge-grime-d3dd@gregkh>`_.
->+
->+Ftrace
->+------
->+
->+Creating a custom Ftrace tracepoint
->+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->+
->+A tracepoint adds a hook into your code that will be called and logged when the
->+tracepoint is enabled. This can be used, for example, to trace hitting a
->+conditional branch or to dump the internal state at specific points of the code
->+flow during a debugging session.
->+
->+Here is a basic description of :ref:`how to implement new tracepoints
->+<trace/tracepoints:usage>`.
->+
->+For the full event tracing documentation see :doc:`/trace/events`
->+
->+For the full Ftrace documentation see :doc:`/trace/ftrace`
->+
->+DebugFS
->+-------
->+
->+Prerequisite: ``CONFIG_DEBUG_FS` & `#include <linux/debugfs.h>``
->+
->+DebugFS differs from the other approaches of debugging, as it doesn't write
->+messages to the kernel log nor add traces to the code. Instead it allows the
->+developer to handle a set of files.
->+With these files you can either store values of variables or make
->+register/memory dumps or you can make these files writable and modify
->+values/settings in the driver.
->+
->+Possible use-cases among others:
->+
->+- Store register values
->+- Keep track of variables
->+- Store errors
->+- Store settings
->+- Toggle a setting like debug on/off
->+- Error injection
->+
->+This is especially useful, when the size of a data dump would be hard to digest
->+as part of the general kernel log (for example when dumping raw bitstream data)
->+or when you are not interested in all the values all the time, but with the
->+possibility to inspect them.
->+
->+The general idea is:
->+
->+- Create a directory during probe (``struct dentry *parent =
->+  debugfs_create_dir("my_driver", NULL);``)
->+- Create a file (``debugfs_create_u32("my_value", 444, parent, &my_variable);``)
->+
->+  - In this example the file is found in ``/sys/kernel/debug/my_driver/my_value``
->+    (with read permissions for user/group/all)
->+  - any read of the file will return the current contents of the variable
->+    ``my_variable``
->+
->+- Clean up the folder when removing the device
->+  (``debugfs_remove_recursive(parent);``)
->+
->+For the full documentation see :doc:`/filesystems/debugfs`.
->+
->+KASAN, UBSAN, lockdep and other error checkers
->+----------------------------------------------
->+
->+KASAN (Kernel Address Sanitizer)
->+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->+
->+Prerequisite: ``CONFIG_KASAN``
->+
->+KASAN is a dynamic memory error detector that helps to find use-after-free and
->+out-of-bounds bugs. It uses compile-time instrumentation to check every memory
->+access.
->+
->+For the full documentation see :doc:`/dev-tools/kasan`.
->+
->+UBSAN (Undefined Behavior Sanitizer)
->+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->+
->+Prerequisite: ``CONFIG_UBSAN``
->+
->+UBSAN relies on compiler instrumentation and runtime checks to detect undefined
->+behavior. It is designed to find a variety of issues, including signed integer
->+overflow, array index out of bounds, and more.
->+
->+For the full documentation see :doc:`/dev-tools/ubsan`
->+
->+lockdep (Lock Dependency Validator)
->+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->+
->+Prerequisite: ``CONFIG_DEBUG_LOCKDEP``
->+
->+lockdep is a runtime lock dependency validator that detects potential deadlocks
->+and other locking-related issues in the kernel.
->+It tracks lock acquisitions and releases, building a dependency graph that is
->+analyzed for potential deadlocks.
->+lockdep is especially useful for validating the correctness of lock ordering in
->+the kernel.
->+
->+device coredump
->+---------------
->+
->+Prerequisite: ``#include <linux/devcoredump.h>``
->+
->+Provides the infrastructure for a driver to provide arbitrary data to userland.
->+It is most often used in conjunction with udev or similar userland application
->+to listen for kernel uevents, which indicate that the dump is ready. Udev has
->+rules to copy that file somewhere for long-term storage and analysis, as by
->+default, the data for the dump is automatically cleaned up after 5 minutes.
->+That data is analyzed with driver-specific tools or GDB.
->+
->+You can find an example implementation at:
->+`drivers/media/platform/qcom/venus/core.c
->+<https://elixir.bootlin.com/linux/v6.11.6/source/drivers/media/platform/qcom/venus/core.c#L30>`__
->+
->+**Copyright** ©2024 : Collabora
->diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
->new file mode 100644
->index 000000000000..77ec17d1c119
->--- /dev/null
->+++ b/Documentation/process/debugging/index.rst
->@@ -0,0 +1,65 @@
->+.. SPDX-License-Identifier: GPL-2.0
->+
->+============================================
->+Debugging advice for Linux Kernel developers
->+============================================
->+
->+.. toctree::
->+   :maxdepth: 1
->+
->+   driver_development_debugging_guide
->+   userspace_debugging_guide
->+
->+.. only::  subproject and html
->+
->+   Indices
->+   =======
->+
->+   * :ref:`genindex`
->+
->+General debugging advice
->+========================
->+
->+Depending on the issue, a different set of tools is available to track down the
->+problem or even to realize whether there is one in the first place.
->+
->+As a first step you have to figure out what kind of issue you want to debug.
->+Depending on the answer, your methodology and choice of tools may vary.
->+
->+Do I need to debug with limited access?
->+---------------------------------------
->+
->+Do you have limited access to the machine or are you unable to stop the running
->+execution?
->+
->+In this case your debugging capability depends on built-in debugging support of
->+provided distro kernel.
->+The :doc:`/process/debugging/userspace_debugging_guide` provides a brief
->+overview over range of possible debugging tools in that situation. You can
->+check the capability of your kernel, in most cases, by looking into config file
->+within the /boot folder.
->+
->+Do I have root access to the system?
->+------------------------------------
->+
->+Are you easily able to replace the module in question or to install a new
->+kernel?
->+
->+In that case your range of available tools is a lot bigger, you can find the
->+tools in the :doc:`/process/debugging/driver_development_debugging_guide`.
->+
->+Is timing a factor?
->+-------------------
->+
->+It is important to understand if the problem you want to debug manifests itself
->+consistently (i.e. given a set of inputs you always get the same, incorrect
->+output), or inconsistently. If it manifests itself inconsistently, some timing
->+factor might be at play. If inserting delays into the code does change the
->+behavior, then quite likely timing is a factor.
->+
->+When timing does alter the outcome of the code execution using a simple
->+printk() for debugging purposes may not work, a similar alternative is to use
->+trace_printk() , which logs the debug messages to the trace file instead of the
->+kernel log.
->+
->+**Copyright** ©2024 : Collabora
->diff --git a/Documentation/process/debugging/userspace_debugging_guide.rst b/Documentation/process/debugging/userspace_debugging_guide.rst
->new file mode 100644
->index 000000000000..a7c94407bcae
->--- /dev/null
->+++ b/Documentation/process/debugging/userspace_debugging_guide.rst
->@@ -0,0 +1,278 @@
->+.. SPDX-License-Identifier: GPL-2.0
->+
->+==========================
->+Userspace debugging advice
->+==========================
->+
->+A brief overview of common tools to debug the Linux Kernel from userspace.
->+For debugging advice aimed at driver developer go :doc:`here
->+</process/debugging/driver_development_debugging_guide>`.
->+For general debugging advice, see :doc:`general advice document
->+</process/debugging/index>`.
->+
->+.. contents::
->+    :depth: 3
->+
->+The following sections show you the available tools.
->+
->+Dynamic debug
->+-------------
->+
->+Mechanism to filter what ends up in the kernel log by dis-/en-abling log
->+messages.
->+
->+Prerequisite: ``CONFIG_DYNAMIC_DEBUG``
->+
->+Dynamic debug is only able to target:
->+
->+- pr_debug()
->+- dev_dbg()
->+- print_hex_dump_debug()
->+- print_hex_dump_bytes()
->+
->+Therefore the usability of this tool is, as of now, quite limited as there is
->+no uniform rule for adding debug prints to the codebase, resulting in a variety
->+of ways these prints are implemented.
->+
->+Also, note that most debug statements are implemented as a variation of
->+dprintk(), which have to be activated via a parameter in respective module,
->+dynamic debug is unable to do that step for you.
->+
->+Here is one example, that enables all available pr_debug() 's within the file::
->+
->+  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
->+  $ ddcmd '-p; file v4l2-h264.c +p'
->+  $ grep =p /proc/dynamic_debug/control
->+   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =p
->+   "ref_pic_list_b%u (cur_poc %u%c) %s"
->+   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =p
->+   "ref_pic_list_p (cur_poc %u%c) %s\n"
->+
->+**When should you use this over Ftrace ?**
->+
->+- When the code contains one of the valid print statements (see above) or when
->+  you have added multiple pr_debug() statements during development
->+- When timing is not an issue, meaning if multiple pr_debug() statements in
->+  the code won't cause delays
->+- When you care more about receiving specific log messages than tracing the
->+  pattern of how a function is called
->+
->+For the full documentation see :doc:`/admin-guide/dynamic-debug-howto`
->+
->+Ftrace
->+------
->+
->+Prerequisite: ``CONFIG_DYNAMIC_FTRACE``
->+
->+This tool uses the tracefs file system for the control files and output files,
->+that file system will be mounted as a ``tracing`` folder, which can be found in
->+either ``/sys/kernel/`` or ``/sys/debug/kernel/``.
->+
->+Some of the most important operations for debugging are:
->+
->+- You can perform a function trace by adding a function name to the
->+  ``set_ftrace_filter`` file (which accepts any function name found within the
->+  ``available_filter_functions`` file) or you can specifically disable certain
->+  functions by adding their names to the ``set_ftrace_notrace`` file (More info
->+  at: :ref:`trace/ftrace:dynamic ftrace`).
->+- In order to find out where the calls originates from you can activate the
->+  ``func_stack_trace`` option under ``options/func_stack_trace``.
->+- Tracing the children of a function call and showing the return values is
->+  possible by adding the desired function in the ``set_graph_function`` file
->+  (requires config ``FUNCTION_GRAPH_RETVAL``) more info at
->+  :ref:`trace/ftrace:dynamic ftrace with the function graph tracer`.
->+
->+For the full Ftrace documentation see :doc:`/trace/ftrace`
->+
->+Or you could also trace for specific events by :ref:`using event tracing
->+<trace/events:2. using event tracing>`, which can be defined as described here:
->+:ref:`Creating a custom Ftrace tracepoint
->+<process/debugging/driver_development_debugging_guide:ftrace>`.
->+
->+For the full Ftrace event tracing documentation see :doc:`/trace/events`
->+
->+.. _read_ftrace_log:
->+
->+Reading the ftrace log
->+~~~~~~~~~~~~~~~~~~~~~~
->+
->+The ``trace`` file can be read just like any other file (``cat``, ``tail``, ``head``,
->+``vim``, etc.), the size of the file is limited by the ``buffer_size_kb`` (``echo
->+1000 > buffer_size_kb``). The :ref:`trace/ftrace:trace_pipe` will behave
->+similar to the ``trace`` file, but whenever you read from the file the content is
->+consumed.
->+
->+Kernelshark
->+~~~~~~~~~~~
->+
->+A GUI interface to visualize the traces as a graph and list view from the
->+output of the `trace-cmd
->+<https://git.kernel.org/pub/scm/utils/trace-cmd/trace-cmd.git/>`__ application.
->+
->+For the full documentation see `<https://kernelshark.org/Documentation.html>`__
->+
->+Perf & alternatives
->+-------------------
->+
->+The tools mentioned above provide ways to inspect kernel code, results, variable values, etc.
+>diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+>index 28cf89c97bda..c10c955722a3 100644
+>--- a/arch/x86/kvm/vmx/vmx.c
+>+++ b/arch/x86/kvm/vmx/vmx.c
+>@@ -176,6 +176,16 @@ static u32 vmx_possible_passthrough_msrs[] = {
+> 	MSR_FS_BASE,
+> 	MSR_GS_BASE,
+> 	MSR_KERNEL_GS_BASE,
+>+	MSR_IA32_FRED_RSP0,
+>+	MSR_IA32_FRED_RSP1,
+>+	MSR_IA32_FRED_RSP2,
+>+	MSR_IA32_FRED_RSP3,
+>+	MSR_IA32_FRED_STKLVLS,
+>+	MSR_IA32_FRED_SSP1,
+>+	MSR_IA32_FRED_SSP2,
+>+	MSR_IA32_FRED_SSP3,
+>+	MSR_IA32_FRED_CONFIG,
+>+	MSR_IA32_FRED_SSP0,		/* Should be added through CET */
+> 	MSR_IA32_XFD,
+> 	MSR_IA32_XFD_ERR,
+> #endif
+>@@ -7880,6 +7890,28 @@ static void update_intel_pt_cfg(struct kvm_vcpu *vcpu)
+> 		vmx->pt_desc.ctl_bitmask &= ~(0xfULL << (32 + i * 4));
+> }
+> 
+>+static void vmx_set_intercept_for_fred_msr(struct kvm_vcpu *vcpu)
+>+{
+>+	bool flag = !guest_can_use(vcpu, X86_FEATURE_FRED);
+>+
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP0, MSR_TYPE_RW, flag);
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP1, MSR_TYPE_RW, flag);
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP2, MSR_TYPE_RW, flag);
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP3, MSR_TYPE_RW, flag);
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_STKLVLS, MSR_TYPE_RW, flag);
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP1, MSR_TYPE_RW, flag);
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP2, MSR_TYPE_RW, flag);
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP3, MSR_TYPE_RW, flag);
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_CONFIG, MSR_TYPE_RW, flag);
+>+
+>+	/*
+>+	 * flag = !(CET.SUPERVISOR_SHADOW_STACK || FRED)
+>+	 *
+>+	 * A possible optimization is to intercept SSPs when FRED && !CET.SUPERVISOR_SHADOW_STACK.
+>+	 */
+>+	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP0, MSR_TYPE_RW, flag);
 
-Ah ... I missed that one ...
-
->+Sometimes you have to find out first where to look and for those cases, a box of
->+performance tracking tools can help you to frame the issue.
->+
->+Why should you do a performance analysis?
->+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->+
->+A performance analysis is a good first step when among other reasons:
->+
->+- you cannot define the issue
->+- you do not know where it occurs
->+- the running system should not be interrupted or it is a remote system, where
->+  you cannot install a new module/kernel
->+
->+How to do a simple analysis with linux tools?
->+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->+
->+For the start of a performance analysis, you can start with the usual tools
->+like:
->+
->+- ``top`` / ``htop`` / ``atop`` (*get an overview of the system load, see spikes on
->+  specific processes*)
-
-.. and that line got a bit longer by changing `..` to ``..`` ...
-
-but I think that should be the last issue that I missed, could you fix
-that while applying? I have provided the fixup patch as attachment.
-
-Regards,
-Sebastian
-
->+- ``mpstat -P ALL`` (*look at the load distribution among CPUs*)
->+- ``iostat -x`` (*observe input and output devices utilization and performance*)
->+- ``vmstat`` (*overview of memory usage on the system*)
->+- ``pidstat`` (*similar to* ``vmstat`` *but per process, to dial it down to the
->+  target*)
->+- ``strace -tp $PID`` (*once you know the process, you can figure out how it
->+  communicates with the Kernel*)
->+
->+These should help to narrow down the areas to look at sufficiently.
->+
->+Diving deeper with perf
->+~~~~~~~~~~~~~~~~~~~~~~~
->+
->+The **perf** tool provides a series of metrics and events to further dial down
->+on issues.
->+
->+Prerequisite: build or install perf on your system
->+
->+Gather statistics data for finding all files starting with ``gcc`` in ``/usr``::
->+
->+  # perf stat -d find /usr -name 'gcc*' | wc -l
->+
->+   Performance counter stats for 'find /usr -name gcc*':
->+
->+     1277.81 msec    task-clock             #    0.997 CPUs utilized
->+     9               context-switches       #    7.043 /sec
->+     1               cpu-migrations         #    0.783 /sec
->+     704             page-faults            #  550.943 /sec
->+     766548897       cycles                 #    0.600 GHz                         (97.15%)
->+     798285467       instructions           #    1.04  insn per cycle              (97.15%)
->+     57582731        branches               #   45.064 M/sec                       (2.85%)
->+     3842573         branch-misses          #    6.67% of all branches             (97.15%)
->+     281616097       L1-dcache-loads        #  220.390 M/sec                       (97.15%)
->+     4220975         L1-dcache-load-misses  #    1.50% of all L1-dcache accesses   (97.15%)
->+     <not supported> LLC-loads
->+     <not supported> LLC-load-misses
->+
->+   1.281746009 seconds time elapsed
->+
->+   0.508796000 seconds user
->+   0.773209000 seconds sys
->+
->+
->+  52
->+
->+The availability of events and metrics depends on the system you are running.
->+
->+For the full documentation see
->+`<https://perf.wiki.kernel.org/index.php/Main_Page>`__
->+
->+Perfetto
->+~~~~~~~~
->+
->+A set of tools to measure and analyze how well applications and systems perform.
->+You can use it to:
->+
->+* identify bottlenecks
->+* optimize code
->+* make software run faster and more efficiently.
->+
->+**What is the difference between perfetto and perf?**
->+
->+* perf is tool as part of and specialized for the Linux Kernel and has CLI user
->+  interface.
->+* perfetto cross-platform performance analysis stack, has extended
->+  functionality into userspace and provides a WEB user interface.
->+
->+For the full documentation see `<https://perfetto.dev/docs/>`__
->+
->+Kernel panic analysis tools
->+---------------------------
->+
->+  To capture the crash dump please use ``Kdump`` & ``Kexec``. Below you can find
->+  some advice for analysing the data.
->+
->+  For the full documentation see the :doc:`/admin-guide/kdump/kdump`
->+
->+  In order to find the corresponding line in the code you can use `faddr2line
->+  <https://elixir.bootlin.com/linux/v6.11.6/source/scripts/faddr2line>`__, note
->+  that you need to enable ``CONFIG_DEBUG_INFO`` for that to work.
->+
->+  An alternative to using ``faddr2line`` is the use of ``objdump`` (and it's
->+  derivatives for the different platforms like ``aarch64-linux-gnu-objdump``),
->+  take this line as an example:
->+
->+  ``[  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]``.
->+
->+  We can find the corresponding line of code by executing::
->+
->+    aarch64-linux-gnu-objdump -dS drivers/staging/media/rkvdec/rockchip-vdec.ko | grep rkvdec_device_run\>: -A 40
->+    0000000000000ac8 <rkvdec_device_run>:
->+     ac8:	d503201f 	nop
->+     acc:	d503201f 	nop
->+    {
->+     ad0:	d503233f 	paciasp
->+     ad4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
->+     ad8:	910003fd 	mov	x29, sp
->+     adc:	a90153f3 	stp	x19, x20, [sp, #16]
->+     ae0:	a9025bf5 	stp	x21, x22, [sp, #32]
->+        const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->+     ae4:	f9411814 	ldr	x20, [x0, #560]
->+        struct rkvdec_dev *rkvdec = ctx->dev;
->+     ae8:	f9418015 	ldr	x21, [x0, #768]
->+        if (WARN_ON(!desc))
->+     aec:	b4000654 	cbz	x20, bb4 <rkvdec_device_run+0xec>
->+        ret = pm_runtime_resume_and_get(rkvdec->dev);
->+     af0:	f943d2b6 	ldr	x22, [x21, #1952]
->+        ret = __pm_runtime_resume(dev, RPM_GET_PUT);
->+     af4:	aa0003f3 	mov	x19, x0
->+     af8:	52800081 	mov	w1, #0x4                   	// #4
->+     afc:	aa1603e0 	mov	x0, x22
->+     b00:	94000000 	bl	0 <__pm_runtime_resume>
->+        if (ret < 0) {
->+     b04:	37f80340 	tbnz	w0, #31, b6c <rkvdec_device_run+0xa4>
->+        dev_warn(rkvdec->dev, "Not good\n");
->+     b08:	f943d2a0 	ldr	x0, [x21, #1952]
->+     b0c:	90000001 	adrp	x1, 0 <rkvdec_try_ctrl-0x8>
->+     b10:	91000021 	add	x1, x1, #0x0
->+     b14:	94000000 	bl	0 <_dev_warn>
->+        *bad = 1;
->+     b18:	d2800001 	mov	x1, #0x0                   	// #0
->+     ...
->+
->+  Meaning, in this line from the crash dump::
->+
->+    [  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]
->+
->+  I can take the ``0x50`` as offset, which I have to add to the base address
->+  of the corresponding function, which I find in this line::
->+
->+    0000000000000ac8 <rkvdec_device_run>:
->+
->+  The result of ``0xac8 + 0x50 = 0xb18``
->+  And when I search for that address within the function I get the
->+  following line::
->+
->+    *bad = 1;
->+    b18:      d2800001        mov     x1, #0x0
->+
->+**Copyright** ©2024 : Collabora
->diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
->index 6455eba3ef0c..aa12f2660194 100644
->--- a/Documentation/process/index.rst
->+++ b/Documentation/process/index.rst
->@@ -72,13 +72,15 @@ beyond).
-> Dealing with bugs
-> -----------------
->
->-Bugs are a fact of life; it is important that we handle them properly.
->-The documents below describe our policies around the handling of a couple
->-of special classes of bugs: regressions and security problems.
->+Bugs are a fact of life; it is important that we handle them properly. The
->+documents below provide general advice about debugging and describe our
->+policies around the handling of a couple of special classes of bugs:
->+regressions and security problems.
->
-> .. toctree::
->    :maxdepth: 1
->
->+   debugging/index
->    handling-regressions
->    security-bugs
->    cve
->
->-- 
->2.25.1
-
---6zqfebw3lp2d5uji
-Content-Type: text/x-diff; charset=utf-8
-Content-Disposition: attachment;
-	filename="0001-fixup-docs-Add-debugging-section-to-process.patch"
-
-From dd1658eb423fa2b6f1c4dc0e759e885743a16659 Mon Sep 17 00:00:00 2001
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-Date: Wed, 13 Nov 2024 12:22:56 +0100
-Subject: [PATCH] fixup! docs: Add debugging section to process
-
----
- .../process/debugging/userspace_debugging_guide.rst   | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/process/debugging/userspace_debugging_guide.rst b/Documentation/process/debugging/userspace_debugging_guide.rst
-index a7c94407bcae..61d7ee968687 100644
---- a/Documentation/process/debugging/userspace_debugging_guide.rst
-+++ b/Documentation/process/debugging/userspace_debugging_guide.rst
-@@ -114,9 +114,10 @@ For the full documentation see `<https://kernelshark.org/Documentation.html>`__
- Perf & alternatives
- -------------------
- 
--The tools mentioned above provide ways to inspect kernel code, results, variable values, etc.
--Sometimes you have to find out first where to look and for those cases, a box of
--performance tracking tools can help you to frame the issue.
-+The tools mentioned above provide ways to inspect kernel code, results,
-+variable values, etc. Sometimes you have to find out first where to look and
-+for those cases, a box of performance tracking tools can help you to frame the
-+issue.
- 
- Why should you do a performance analysis?
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -134,8 +135,8 @@ How to do a simple analysis with linux tools?
- For the start of a performance analysis, you can start with the usual tools
- like:
- 
--- ``top`` / ``htop`` / ``atop`` (*get an overview of the system load, see spikes on
--  specific processes*)
-+- ``top`` / ``htop`` / ``atop`` (*get an overview of the system load, see
-+  spikes on specific processes*)
- - ``mpstat -P ALL`` (*look at the load distribution among CPUs*)
- - ``iostat -x`` (*observe input and output devices utilization and performance*)
- - ``vmstat`` (*overview of memory usage on the system*)
--- 
-2.25.1
-
-
---6zqfebw3lp2d5uji--
+To implement the "optimization", you can simply remove this line. Then the CET
+series will take care of the interception of this MSR. And please leave a
+comment here to explain why this MSR is treated differently from other FRED
+MSRs.
