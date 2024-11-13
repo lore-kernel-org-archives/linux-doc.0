@@ -1,118 +1,100 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FBE14F114
-	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 16:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946341DFE06
+	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 16:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731516604; cv=none; b=H9OvqG873zY0L+Wzz9ZHvkwUjtuYl/creQetfyw33pamY1HyBQapb1vfyXC05gmtuLtwG1/dI9qP2muHG6NGAEnch3xjUY2t0nht4BBYluMPCmE9o+FvjZitZfxOR5O9+Foy2d6nJoFarHp+VFShaP0563RSctowFlbPRF+utN8=
+	t=1731516927; cv=none; b=lzmdn+2nJ8YLtPOs2b7RhLYQGuLa2UvLcGNbfPW0r9GKx1KaiJ1lPio9UF+OXAohxCa+cay6GBmcwxqUCZskHq0TajFP2Ap0FYyNPVV5tj6j99kIgvX/PpI3pfO5f37wfYD1N9i3IuZmLEehA6xfgGc1LLH3MlT+m49U+KQDdiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731516604; c=relaxed/simple;
-	bh=EZya+FJMrje5mV8wSDU3bo/PA6cVGmfWmw2e1OFYPnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bTMthDjIl3jl5x1D+EkDlN9yybdVFlLRLNPrlEzKIVSI2I/bo4JLtj6Vofh3wKmoGYs36ySC0gbreLk3/CQR6W0EH+AJZTK6QTX53ltosrTKXM9/CkpRxw+omfcjJ6jVvDxcCrekViiCqrqjUBJZfzedYevcqGSokcwmjUnZt7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VRS6yRTO; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1731516927; c=relaxed/simple;
+	bh=/Tjor6KKk4xz4p2UNnx1L3Hj+WRdCr3/2Kvmk9fys44=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Hr70DdAUSBjfaaPi1o/HaJJFS7bm9Snjw3yij601QCzwYne5WB9lPrAiHaJldy64qjjpY9r4G/vJ4/dSTNYcPYHarnRfFm6k+N6LnCbKgC0+sOMPz8AHkEPIh2SJMN7gtI9NnQ2Z5X3gORkxB1dW6gd6aQckQmjz9Br/zoE8kXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=EBHpjLZQ; arc=none smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VRS6yRTO"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-71e953f4e7cso5510979b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 08:50:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="EBHpjLZQ"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3e604425aa0so4107902b6e.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 08:55:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731516602; x=1732121402; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RVxECdTcqAbi+Rrk8wDv8FKnY/+NvKNnZGAccXEI/84=;
-        b=VRS6yRTOKKKmkCPADA6N48gQitMwWjVbjugs+dRErpfGetHEIuyCbZWnzXchAPFonW
-         8N69dhIa2qg3NsoLXFEIueFUE+f0rGCf6oQfdrxLFZp5mgoHWp6ALMU4lcAsLQYgfgK0
-         NHFW6M9BUMaz9fM1IW5ROhBMYckR6cRAi7Q7Sb6LxTyB5j065FEMlX4Ob8emLazEtmnn
-         BaYfsYSSKY7lcO5QNx8uR1Wy0YC04aj6hMADtH16CydD/1/WLtc5Vp1xelS5sJuI9TOp
-         wyXI5u+O6l2OSeRPkNCdLW7ML4oDYw3sqxbHMZUrkvjLT/rlLxRA+M99/6D3odn+PWYx
-         8ugg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731516924; x=1732121724; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=x1zaQxPIwogRJjHGN9609O4s9HbrZpDwx8BCPdVZsJE=;
+        b=EBHpjLZQXj+/e9GYrmZ4S9I0jW3osiycHkIQghrBVC7gZamF8+BeHKvn6J/5pWoV6p
+         Ex7mFXp15e6Wnm7A680mbc0sv6oZB0yTP79m1S0YCEdVfhR+v8w6Bt79hTgTReYfGdWY
+         s2QcizovsOdJTuyyQBiwau1UTV4fFkHhpCNu4snMETQtlVRX+/dYJpVuMHx1pQcbWhMf
+         NNKOhaDDN+Vl6tB5XOnhUC00NZiwV/2Qo/s7qTLjsa+nipMDhigjeuVE5CuPqWYo3J+1
+         T6Pua4rviHOwKCPWkWNvxLSIhKUyJGSGZggJW1NldJ1/BpUtsRtmCu7F6cHqSZw9Ovg5
+         JCvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731516602; x=1732121402;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RVxECdTcqAbi+Rrk8wDv8FKnY/+NvKNnZGAccXEI/84=;
-        b=kWmNY4VYwoCNvqI8kJF6xP5sr/pCtX5KH6//xaXLHc/V82mnwpw2rmqYOlKSF/jDcH
-         9XYW2MQRrDddoadz9OnSl8sY6lvvszDeccjT5fzhTe5hkku0HDA9Ndrw3xRjibS0gPKw
-         ZzSb/UsI1vhFfk8oaM2oJJCkazGo+FxIlzCym945gOIWx5vqtYhJI6fGXa5CSNez1/k2
-         0RijEPnFudHGncRYwKB8NGaCYaTyvsL7TVdZ+iHtc/UOORm5hKOMxZDAxbA3qF8P5chF
-         ltLo1agIqxhlFNfrEZXsj87L96ZzCPG0/qKWw/f/pdF/+69AZOazUPFTGMQd21uvC+Gd
-         PvNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzXHpgSsfofYoNs4x84EPT6yHAb9DZYp9vq9UQuwaiXUC4g42TugoqOMVV7JOcTlW2n8sTgSnN6bE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+GD63vjkNzU5kELk0fTkIggScZa14EQ830C2GfFBcwpq+a/e0
-	WzSD2p7DtsT1GG+UR5usqPg9CuERoKaflKmYxXAfOMJmKkzaJvQh8YAT4wYazDI=
-X-Google-Smtp-Source: AGHT+IEJlVgaPrBBscQLqLbr/yoapzGNIccPwbYP5hzO2WPEIQAkd9edjzqTVN9xB76kHN3i3HKHAA==
-X-Received: by 2002:a05:6a00:1744:b0:71d:f64d:ec60 with SMTP id d2e1a72fcca58-72413297242mr29057380b3a.7.1731516602100;
-        Wed, 13 Nov 2024 08:50:02 -0800 (PST)
-Received: from p14s ([2604:3d09:148c:c800:fd79:a2fb:87a9:f18])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7240799bb0dsm13912298b3a.120.2024.11.13.08.50.00
+        d=1e100.net; s=20230601; t=1731516924; x=1732121724;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x1zaQxPIwogRJjHGN9609O4s9HbrZpDwx8BCPdVZsJE=;
+        b=FMrjbebxlqAeWQbjWkh+G/EsNz3RBeYwW8KPBCzfg8jNXk8oXLGOlxphlalR57Uy/W
+         j5IrZF6hfKWC9q0et3K1SeFWJPtxvb9kZ7bCN8FgMoD63oWvQ3pka8d5PkdpeK6kPZDO
+         WG6K/To41ObJfHE8BOqgaajcI+c/qEHCvq8QbeJNLPoR5MDxmzJ33E4VvdJxTZkY/VNV
+         R5r5TUmDNGG3746bPl/Ren/So/tpyRuRCkC/X0040rt66WSgWTFyfVmot4Dh9gYmx09v
+         k/SeZxjhNcGK+iQagSldjyzdf1ktNDU699qvztnjGNXeAcJLYPzgqH7+9LmKbX32ap7/
+         avYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVI0iP/C4ob8vyD4mJxfv7FfPq5ZLKdIPgBMmWoFl93EkdjidUPV9MVrO4gp6OpdiiD4j60OEb2/IM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEZsIon+lUndLwLbWXwO0PeZYC9ApHUjNF3p8RC0dLBKYEHuFK
+	0U4QbW9RMjLMtGxRTZJmRg7jJwmtj+7cS3WTbgSdxOFGoUSWrhYu8lX+T3Ov4F4=
+X-Google-Smtp-Source: AGHT+IE1xuqZj09odVIcRE3lFsD/PKcU5+G/h9X7w5dwUoGWic8F3HSh6Ho0wCSYo0NNczzVP7u5Hg==
+X-Received: by 2002:a05:6870:6107:b0:287:c014:c979 with SMTP id 586e51a60fabf-295600989c8mr17393653fac.13.1731516924484;
+        Wed, 13 Nov 2024 08:55:24 -0800 (PST)
+Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-295e8fe5c61sm873432fac.23.2024.11.13.08.55.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 08:50:01 -0800 (PST)
-Date: Wed, 13 Nov 2024 09:49:58 -0700
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: anish kumar <yesanishhere@gmail.com>
-Cc: andersson@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [RESEND PATCH V6 1/3] Documentation: remoteproc: update
- introduction section
-Message-ID: <ZzTYtn5jple+dbMU@p14s>
-References: <20241106051016.89113-1-yesanishhere@gmail.com>
- <20241106051016.89113-2-yesanishhere@gmail.com>
+        Wed, 13 Nov 2024 08:55:24 -0800 (PST)
+From: David Lechner <dlechner@baylibre.com>
+Subject: [PATCH 0/2] iio: adc: ad4695: move dt-bindings header
+Date: Wed, 13 Nov 2024 10:55:18 -0600
+Message-Id: <20241113-iio-adc-ad4695-move-dt-bindings-header-v1-0-aba1f0f9b628@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241106051016.89113-2-yesanishhere@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPbZNGcC/x2NwQqDMBAFf0X23IVuTBX7K6WH6K76DiYlKVIQ/
+ 73BwxzmMnNQsQwr9GwOyrajIMUqcmtoWkNcjKHVyd2dF5GWgcRBp4rvhgdvaTfWL4+IirgUXi2
+ oZdZucM7mXqX1VGOfbDN+1+j1Ps8/vhsUhngAAAA=
+To: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, David Lechner <dlechner@baylibre.com>
+X-Mailer: b4 0.14.1
 
-On Tue, Nov 05, 2024 at 09:10:14PM -0800, anish kumar wrote:
-> Update the intrduction section to add key components
-> provided by remote processor framework.
-> 
-> Signed-off-by: anish kumar <yesanishhere@gmail.com>
-> ---
->  Documentation/staging/remoteproc.rst | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/Documentation/staging/remoteproc.rst b/Documentation/staging/remoteproc.rst
-> index 348ee7e508ac..eeebbeca71de 100644
-> --- a/Documentation/staging/remoteproc.rst
-> +++ b/Documentation/staging/remoteproc.rst
-> @@ -29,6 +29,23 @@ remoteproc will add those devices. This makes it possible to reuse the
->  existing virtio drivers with remote processor backends at a minimal development
->  cost.
->  
-> +The primary purpose of the remoteproc framework is to download firmware
-> +for remote processors and manage their lifecycle. The framework consists
-> +of several key components:
-> +
-> +- **Character Driver**: Provides userspace access to control the remote
-> +  processor.
-> +- **ELF Utility**: Offers functions for handling ELF files and managing
-> +  resources requested by the remote processor.
-> +- **Remoteproc Core**: Manages firmware downloads and recovery actions
-> +  in case of a remote processor crash.
-> +- **Coredump**: Provides facilities for coredumping and tracing from
-> +  the remote processor in the event of a crash.
-> +- **Userspace Interaction**: Uses sysfs and debugfs to manage the
-> +  lifecycle and status of the remote processor.
-> +- **Virtio Support**: Facilitates interaction with the virtio and
-> +  rpmsg bus.
+During review, no one caught that the dt-bindings header was not in the
+preferred location when the bindings were created. Move the header to
+the correct location.
 
-Some of the above is either inaccurate or incomplete.  It would be fairly time
-consuming for me to point out where the problems are, especially since I don't
-see a lot of value in adding this section.
+---
+David Lechner (2):
+      iio: adc: ad4695: move dt-bindings header
+      dt-bindings: iio: adc: adi,ad4695: change include path
 
-> +
->  User API
->  ========
->  
-> -- 
-> 2.39.3 (Apple Git-146)
-> 
+ Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml | 7 ++++---
+ Documentation/iio/ad4695.rst                              | 2 +-
+ MAINTAINERS                                               | 2 +-
+ drivers/iio/adc/ad4695.c                                  | 2 +-
+ include/dt-bindings/iio/{ => adc}/adi,ad4695.h            | 0
+ 5 files changed, 7 insertions(+), 6 deletions(-)
+---
+base-commit: 9dd2270ca0b38ee16094817f4a53e7ba78e31567
+change-id: 20241113-iio-adc-ad4695-move-dt-bindings-header-d6922ef7d134
+
+Best regards,
+-- 
+David Lechner <dlechner@baylibre.com>
+
