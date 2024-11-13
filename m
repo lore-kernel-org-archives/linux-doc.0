@@ -1,110 +1,155 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA66C33CFC
-	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 22:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECB618C326;
+	Wed, 13 Nov 2024 22:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731537752; cv=none; b=Epv12MB01dDmDLzhUza4qwQx0PobwhveU/y7BjsOYhCR0NSQyyXDTQBd0HEvnVCCGREF+g3WyXxh7PXA0lQt8ZTpvJMMuvrxp9/J+Qz6NjnTugr2JtNj98Dg8v2UhcSZHEwpVwJJkHlGePpbM/MwZXfBKqUNVQ6Eu4KaVms+0hI=
+	t=1731538704; cv=none; b=qkpsbnv4hxyJt3fEPEcrHXOyz7/Yu2yg39bazGLWR6Nu8OrSNuMjZbzSPKGyTp7pWS6v0KPAcwpbMv4/D0zh+6JIxDT/cYDELd4Eqvsh3NTrgF2dZRODPtmkyf7DgKiKIfv/8zjPkiB+KINVYOPAotQJ19IlxllVv16/57m7dVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731537752; c=relaxed/simple;
-	bh=9pNOROf7TWR2JtIXPLrhkgnISjLpTD0sYz1c27sb9UA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=qUABcjZhwYcUV719HVXqbLK5FtsfI39mLkPbRspN77+QPWSqDCVRxYFC8b+POPE/E6gyihRM228J7MaG4vI658N2YoCpurfpsph0cZZHnkp9xP1YNV9JOhU6LbVfkWS+87btuEtREgc/443GwjCTd7G0cqazR9yo/NQd9tpYJ/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=r0BRTHVH; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731538704; c=relaxed/simple;
+	bh=GPzpJG2PUmVXqNohmD8igEt8vsvKY0MkCptWiPFpVQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GIcJ/7b8iRKHBgHwj76uVLDimH7Ndzgixp/Os+TqreZeihhZNkwG5f/FIcauH+NvSxsCH/wdKNaxzG1sbbEDlaPRPUZe3N8yiPWBdLVmFVbs1QOPhIcy4epeh3W9nuI+o2DEcq2kfoQfisUvRf9XqjVTTIzY65S27UBb8m4YlAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MS2ifE49; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="r0BRTHVH"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20c87b0332cso7205ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 14:42:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731537750; x=1732142550; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ieehf+E6LMEA4ReJKxyD53FpolrCogZOFJkea/91AC4=;
-        b=r0BRTHVHu02TqFQJqMnM+Lp6+CmD4WMpnWf53BBgInVK8eT6ZTYA8dHAKEJcwn9d1O
-         BvacqPRgFhppIAfv2aZIe2DAoQ382H2d5b3sIwRlNLWETbBxM39WVaaboCv7VUJtrYor
-         EPawi+T6kqzzT3Dhl8kmOj6Hu1AJArMcyV+mq04lxuyPnF+7Q6yyALN7QEIEq3N121yP
-         Ukip6eVMO2+OjQUduGztBiPTSja4wHqbs95vAKrMRVcl5f+mFAvc4twFNwenKPNedg+Y
-         ZDptKrHOTvCAJcMYb70X1LwOAlymme5zz3L0LUNBv20FRZL7+41Po7bHNstY6EFnwpmG
-         3XTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731537750; x=1732142550;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ieehf+E6LMEA4ReJKxyD53FpolrCogZOFJkea/91AC4=;
-        b=A6x6a9Pk5EZhw7JBVq15RgoF1I9NEr8vJRMYMuXJwdRqwjuANMeQcg+pYN1YXmMScZ
-         +53dy1Rp0U/rpevh8Rl7y/yUtLQ42GNYZk4F9sHWmjRLJleILw8Oo5UAQEFVzUBIfuYj
-         TvJXgRJRhMDTM2NMHnbuysD/uB37sL9O60BKsk8iyFwTkSmOPi9vnzu+QAz7Di2J/U5Z
-         mWfvawVlwFQpQjDgOcTf72/vDxUlkPXftO5tZiit2Avs0Jed8o+elnt6tSuTpfBjIeDS
-         /Xgaiwa6oFt1+5a8bH4lPYKfxxI4unUr6TO53NZoofDlmjU++5K/fmeh/WbKz8Olv//U
-         cKJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhL4Zwb4g1sXvBCb1lFdHRQ441Ec7xWkQ5JRJxw3FzEi+DXTrQ16NC340cgF2IcnFMcPZ5OwrOqxE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbeqTNlNxWGej/tj+0hYW+2IwGONwzAB4Hrh/lJOttuiGtzpV5
-	xHSOqGc9uFPWUELU2qGcuiJ0Hs/V8i/KB9NadgONssyojPHXW/l205wCremwPA==
-X-Gm-Gg: ASbGncsDOW3FCSIs/4nVCFGs7CfuBkijuNVPXFevMyxwmQmNOYUi10wFl1peV/7K5B8
-	8EVa/ixrZ9+/VCqI/20Dr2JjqUEAP3JlC2BltuDjjdj4fnEP3FdMO+jiuGxh1z6+jIMXNbZaYGv
-	izpcLfs5yZnKtzi1VL+OwXILQV+siPPaNciAdtIx5beUmUe287Faf68nkrFMjTjaGFxjk3+C7GY
-	VLuu9uYltz3Z64hJaIipbpyjPBCyvhCW1X2sXxRZlqpIC94/V/QZBpgI+yqqvUdz0Sx+9GlpqDd
-	dLyD
-X-Google-Smtp-Source: AGHT+IEEnqKMwGy+6M5UqJv9rrrpl3mUiwwjrWvoQVOQqROaho6ADPFiiCjrnLC1sQ4UdZv0xFkCzA==
-X-Received: by 2002:a17:902:ea10:b0:20b:6c3c:d495 with SMTP id d9443c01a7336-211c369658amr254265ad.25.1731537750084;
-        Wed, 13 Nov 2024 14:42:30 -0800 (PST)
-Received: from [2620:0:1008:15:93ad:2d94:6e99:1a3c] ([2620:0:1008:15:93ad:2d94:6e99:1a3c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72407a18f51sm13753218b3a.155.2024.11.13.14.42.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 14:42:29 -0800 (PST)
-Date: Wed, 13 Nov 2024 14:42:29 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: Joshua Hahn <joshua.hahnjy@gmail.com>
-cc: akpm@linux-foundation.org, hannes@cmpxchg.org, nphamcs@gmail.com, 
-    shakeel.butt@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-    chris@chrisdown.name, tj@kernel.org, lizefan.x@bytedance.com, 
-    mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, cgroups@vger.kernel.org, 
-    linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
-In-Reply-To: <eb4aada0-f519-02b5-c3c2-e6c26d468d7d@google.com>
-Message-ID: <c41adcce-473d-c1a7-57a1-0c44ea572679@google.com>
-References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com> <72688d81-24db-70ba-e260-bd5c74066d27@google.com> <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com> <eb4aada0-f519-02b5-c3c2-e6c26d468d7d@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MS2ifE49"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731538702; x=1763074702;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GPzpJG2PUmVXqNohmD8igEt8vsvKY0MkCptWiPFpVQY=;
+  b=MS2ifE499a2tz4Pna/EeiL7FrZ+Ud6FCJPjybUGkHI96eKgs1f1Elv0X
+   ukhaZjtIRewZGTWaI2SQ0AE0M6Q/Kmuo1Fjylw1HQuUGvvlDIZ+evu0rC
+   nQDEF/hc2M6PqIXBHvVR8HKhoq2KFJVjkr2f0bxDG79yFbhGXWfdNphal
+   qnGbattctNYeY8J1Lu4W8E3yo9uzm5pCbUboKbYYSt6puM9FDf2oapNiI
+   FBk8+kFPOtILvlOSbcLDqukDxR+tdwSfMkP7oDH0hQoFO3zYLDpJ/aT3i
+   eH/pnU9xCQSK3EFpvKOJRmdFvpVyf0TwRkWAvxRuiwhjw6MVcvNI5DANB
+   Q==;
+X-CSE-ConnectionGUID: QLMww2iSRJe1Mg18A5cUsw==
+X-CSE-MsgGUID: 8n6nhg5OS7a64zJP9CMSzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="30863181"
+X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
+   d="scan'208";a="30863181"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 14:58:12 -0800
+X-CSE-ConnectionGUID: ZG15JIMjS+eTLWEYfhKByg==
+X-CSE-MsgGUID: lsFdZ0AyTvGSn5SYqHu26Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
+   d="scan'208";a="111324806"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.70])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 14:58:13 -0800
+Date: Wed, 13 Nov 2024 14:58:11 -0800
+From: Tony Luck <tony.luck@intel.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v8 3/7] x86/resctrl: Refactor mbm_update()
+Message-ID: <ZzUvA2XE01U25A38@agluck-desk3>
+References: <20241029172832.93963-1-tony.luck@intel.com>
+ <20241029172832.93963-4-tony.luck@intel.com>
+ <f4845fee-3f91-4e78-a186-a7bdc58f7873@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f4845fee-3f91-4e78-a186-a7bdc58f7873@intel.com>
 
-On Mon, 11 Nov 2024, David Rientjes wrote:
-
-> > The reason that I opted not to include a breakdown of each hugetlb
-> > size in memory.stat is only because I wanted to keep the addition that
-> > this patch makes as minimal as possible, while still addressing
-> > the goal of bridging the gap between memory.stat and memory.current.
-> > Users who are curious about this breakdown can see how much memory
-> > is used by each hugetlb size by enabling the hugetlb controller as well.
+On Wed, Nov 13, 2024 at 02:25:53PM -0800, Reinette Chatre wrote:
+> Hi Tony,
+> 
+> On 10/29/24 10:28 AM, Tony Luck wrote:
+> > Computing memory bandwidth for all enabled events resulted in
+> > identical code blocks for total and local bandwidth in mbm_update().
 > > 
-> 
-> While the patch may be minimal, this is solidifying a kernel API that 
-> users will start to count on.  Users who may be interested in their 
-> hugetlb usage may not have control over the configuration of their kernel?
-> 
-> Does it make sense to provide a breakdown in memory.stat so that users can 
-> differentiate between mapping one 1GB hugetlb page and 512 2MB hugetlb 
-> pages, which are different global resources?
-> 
-> > It's true that this is the case as well for total hugeltb usage, but
-> > I felt that not including hugetlb memory usage in memory.stat when it
-> > is accounted by memory.current would cause confusion for the users
-> > not being able to see that memory.current = sum of memory.stat. On the
-> > other hand, seeing the breakdown of how much each hugetlb size felt more
-> > like an optimization, and not a solution that bridges a confusion.
+> > Refactor with a helper function to eliminate code duplication.
 > > 
+> > No functional change.
+> > 
+> > Signed-off-by: Tony Luck <tony.luck@intel.com>
+> > ---
+> >  arch/x86/kernel/cpu/resctrl/monitor.c | 69 ++++++++++-----------------
+> >  1 file changed, 24 insertions(+), 45 deletions(-)
+> > 
+> > diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+> > index 3ef339e405c2..1b6cb3bbc008 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+> > @@ -829,62 +829,41 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_mon_domain *dom_mbm)
+> >  	resctrl_arch_update_one(r_mba, dom_mba, closid, CDP_NONE, new_msr_val);
+> >  }
+> >  
+> > -static void mbm_update(struct rdt_resource *r, struct rdt_mon_domain *d,
+> > -		       u32 closid, u32 rmid)
+> > +static void mbm_update_one_event(struct rdt_resource *r, struct rdt_mon_domain *d,
+> > +				 u32 closid, u32 rmid, enum resctrl_event_id evtid)
+> >  {
+> >  	struct rmid_read rr = {0};
+> >  
+> >  	rr.r = r;
+> >  	rr.d = d;
+> > +	rr.evtid = evtid;
+> > +	rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
+> > +	if (IS_ERR(rr.arch_mon_ctx)) {
+> > +		pr_warn_ratelimited("Failed to allocate monitor context: %ld",
+> > +				    PTR_ERR(rr.arch_mon_ctx));
+> > +		return;
+> > +	}
+> > +
+> > +	__mon_event_count(closid, rmid, &rr);
+> > +
+> > +	if (is_mba_sc(NULL))
+> > +		mbm_bw_count(closid, rmid, &rr);
+> > +
 > 
-> If broken down into hugetlb_2048kB and hugetlb_1048576kB on x86, for 
-> example, users could still do sum of memory.stat, no?>
+> As I am staring at this more there seems to be an existing issue here ... note how
+> __mon_event_count()'s return value is not checked before mbm_bw_count() is called.
+> This means that mbm_bw_count() may run with rr.val of 0 that results in wraparound
+> inside it resulting in some unexpected bandwidth numbers. Since a counter read can fail
+> with a "Unavailable"/"Error" from hardware it is not deterministic how frequently this
+> issue can be encountered.
 > 
+> Skipping mbm_bw_count() if rr.val is 0 is one option ... that would keep the bandwidth
+> measurement static at whatever was the last successful read and thus not cause dramatic
+> changes by the software controller ... setting bandwidth to 0 if rr.val is 0 is another
+> option to reflect that bandwidth data is unavailable, but then the software controller should
+> perhaps get signal to not make adjustments? I expect there are better options? What do
+> you think?
 
-Friendly ping on this, would there be any objections to splitting the 
-memory.stat metrics out to be per hugepage size?
+Skipping mbm_bw_count() is also undesirable. If some later
+__mon_event_count() does succeed the bandwidth will be computed
+based on the last and current values as if they were one second
+apart, when actually some longer interval elapsed.
+
+I don't think this is a big issue for current Intel CPU RDT
+implementations because I don't think they will return the
+bit 62 unavailable value in the IA32_QM_CTR MSR. I'll ask
+around to check.
+
+But it does mean that implementing the "summary bandwidth"
+file discussed in the other e-mail thread[1] may be more
+complex on systems that can return that a counter is
+unavailable. We'd have to keep track that two succesful
+counter reads occured, with a measure of the interval
+between them before reporting a value in the summary file.
+
+-Tony
+
+[1] https://lore.kernel.org/all/CALPaoCjCWZ4ZYfwooFEzMn15jJM7s9Rfq83YhorOGUD=1GdSyw@mail.gmail.com/
