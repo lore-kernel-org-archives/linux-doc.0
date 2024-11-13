@@ -1,114 +1,311 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F66D200CB6
-	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 17:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913C6205ABD
+	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 17:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731519878; cv=none; b=jyOHMdda3Zvg0snuCsoZsfiDO2dA63xKG0pvQoHySE9FJbAicI8YrjK0DvgGT1QkSTPwhdMHe+nB4Ic+Tczr5FSciBEtTJhnFHEhN3/VRRMAfy1Mxy4qYIFjQIbt9ZpMUCBBWHlmj/ISemJyibFhGqw+CHuBM0ZW6WCUgO3IKQM=
+	t=1731520802; cv=none; b=piSo59jRHqEcQpFW6hfZdSpGoVoelJkwJjEeN7UoVs4VAfqsaHr7V/eeDeIPXksUOpUw1EbNMcntpp32KYxLZ1es2BfjMOAMPDoH9xGQSmsHdCa4FBe18ik9q/Qlme57OruEcuydSruAGw5xKOpU5z6Ic4NqY2qQBr/wEp27/fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731519878; c=relaxed/simple;
-	bh=TcvEUkeKFVgGLTt37+MUAGAHziBUQjifnkJdXdV9wRI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cYHvljiTExMIbNktP+uzC8RpERs4KluVr2fa1jutu/VEihtsW83C83NKXTYierQV9zeHcQKFck+6S9SaGVd41NdmuOhSGi9jWLCNADw8TDxYm5q64UaqLYg8pc8la5I+4Ce3Y9ifVgYMs+I+uA14NnXxWv9pkn1cGVxmjmIYcP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2NzEQ1SL; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731520802; c=relaxed/simple;
+	bh=pKjj2+Cv5RVya63su3M8gauw10wpOz6WwG+RdfrjUP0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gms995qM5DAsAjFD1PfCcxaV4kAfHNDEmDO6xB/seCKAS+3s9p+oTWGBeFe3YrjLp8wBYaF9wi5BoQgpiAYCuzdNaCoVniBLekTLnrdhosvgHpb0mJFTYO+6L9fDqoWRxTmFuBY6BEDyjC9eEkccqOtYrfU2yKrTSfj/chcevC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dWr5Tj6B; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2NzEQ1SL"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539e66ba398so10628e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 09:44:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731519875; x=1732124675; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Di+iKJ5akzTFP1IjKCqjyy6r9Jqh1xsxmJVtI0c5XMw=;
-        b=2NzEQ1SLUDr16WIa7I5O1+BRSVbZidtehWFMcTahBxQf/FeuOKzO4HoWE4ylhzdqvW
-         YxpHiS89GXeVubNcWbBHRibxjf5rlSxG5cR1hl6PuBJw9rdtRbfCV7T8mIBBBfV3b11T
-         iFjGBudQh1vMf59kI70/LzO3PFGvjSNYYnpdGiHeqXYK58S0FctI2ElBHDAgDdUUw/8l
-         8AL0Ow27S4pS1Kw/tFsNYMokBD8rkJf0e/rwf8tb2hDYTYpXdk3FWakeiwkeHDibi0bb
-         mQDorCtGBjMdOf4DbeSOa624IIK6VO7BlQzkVvAvootbhEvEULlkWvASE6lQDdSkXpOm
-         jYUA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dWr5Tj6B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731520798;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=dblJkbxFu+E1XmXn1xUYxXtUULG/yL/Mmf7WkR1K4ew=;
+	b=dWr5Tj6BkmbO7SPqOnwkMQV/Tiw0EbCDOUmv5Tjc8wMWIpfnY7vfIFeirqRtZp+oozsLG9
+	cWfZjJmRjXyvpMXhSWxOGDPZWmbBq45cNeCjfesvABMjUAH7nv437fLNg794YwTsBtWHSp
+	gDKlrnBvEm4cAQxSbUJPsr4Dkc253nc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-226-xIzcKaB2MECXBYX3NQC49w-1; Wed, 13 Nov 2024 12:59:57 -0500
+X-MC-Unique: xIzcKaB2MECXBYX3NQC49w-1
+X-Mimecast-MFC-AGG-ID: xIzcKaB2MECXBYX3NQC49w
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4315c1b5befso49542925e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 09:59:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731519875; x=1732124675;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Di+iKJ5akzTFP1IjKCqjyy6r9Jqh1xsxmJVtI0c5XMw=;
-        b=YJYb+CHc7iQf25wFeGuE4asTRTZzdx755f2sbHhbLDAiuSlQtA/tlA+bX5XquayEhq
-         lrPPdTUS097nCDQTBp4kqbbA1vlhACgbeLsfEWbkRXgUEkY6ks+TvEUarOz0uDL2UgQt
-         /DwNtMSggLwvIVNab0lB332/YsW05SDpM67rBc6e8oj2KuKkvs9e3n0K2EY8fbd5f8G9
-         4Y/ijKvR/cq11qJBVg3sgVFEP+NpUqJvCZIgPndijtfBNWjm6+XKvhNRzuDsJTJXbtkf
-         mf1yUOAmvoEEsZEA2zAZlFFGUyk3n9caGsb4lVQr0JTqYIBnDFz1h/ti6hcVSF/J7MJI
-         /pMw==
-X-Forwarded-Encrypted: i=1; AJvYcCWm5cOMGJqm/A0rs6wBxx4B4wRiE17+9fxmvRbIlIUnFa6PvDIrZpc6oagnTDxv8DqSPRr04DeVTP8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3XsJh2EIAUWGFmcf1Q62cCEeDPEhE0HdPG4zZZJB6warNyYh6
-	aX8HnYupco9CBbx2WrH5eaYO62B+oTGoFMYnQp0HGl95WZ/ndkB5ExQb4Fqn2Gvqu8+CCTpIBTe
-	y2tCaEVuN7lkJKusOJF4Ic/J+QDrUnpDh6AoL
-X-Gm-Gg: ASbGncubKtciI5cwlfOKw61O+Pgd7nYz5aX0np5MDVP5/ctf6Hr/kP2cg5lHzhmMrCw
-	0qVJAT58ONdHe92V1kQG7iJVZqLu0f3KB53Qaku7bPi3Ph7BSuku3IsIIcLoQ
-X-Google-Smtp-Source: AGHT+IEBiRX+iakj03mwhRodl8EB4ddlvW0A0JNFLYItqjRlt/va0erAr2MtetPxwlyJPF24ToOICU0mFNtQbJtF85E=
-X-Received: by 2002:ac2:4438:0:b0:539:d0c4:5b53 with SMTP id
- 2adb3069b0e04-53da0736535mr143602e87.4.1731519874758; Wed, 13 Nov 2024
- 09:44:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731520796; x=1732125596;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dblJkbxFu+E1XmXn1xUYxXtUULG/yL/Mmf7WkR1K4ew=;
+        b=Aq8pYtKclcSlRyTJUKuzLpLP2SMFhL7EgalFV9/bRDIi/fz5jLtuB18u6P3W4l/WVO
+         pYIhcg/ehVoyOlCWa3NZIpk/SWu1s2w8Qw9n+C9G/xhgvm7j2STIjo9ImJS6X8auFeJP
+         EkRMkimFV7e6cSNQw/Tqb0i5F5S1ceABO6Ft6r1PQ0h/RaS3NKybn45+J/2nHE83TJAC
+         WYSCJlXpeYy7N9f+/o5CIJObYHAhHGxfTuAsPJLgQvolN3g/J6ZVMlwW9yr95B/UyBUk
+         l4s3KiPYRjS8nOQ3195HIDOEcSfuALPYakEWPTZ7cNiYXOCUalAyoJ3myX5qHMBxfY7f
+         jvQg==
+X-Forwarded-Encrypted: i=1; AJvYcCWV7NudhNtW/g2oD5wsNuGSAaqdzVWazebR/Zmv4KuX8cdySukILcshW4uFvgfRFPvpQo3mkLpEWuU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdwVjfiVwgpt/fqCLhPxcuyCRmjGzP1doloQZaK0XW9pMTVSr5
+	9ti8huJnfm5Bvhb92v1XixirIM+k9/P0Gd3OLQ5IDoW114h7ksD7vFfznTDzQs/Qxgkb2TmJxnc
+	DQXuXEaQrwn7MjRxZY3fmCoAEDAjGpC4ee1Lw8Sxb7YqUYNSJVeyfxbGjoQ==
+X-Received: by 2002:a05:600c:1e89:b0:426:60b8:d8ba with SMTP id 5b1f17b1804b1-432b751dc3cmr162297295e9.28.1731520796103;
+        Wed, 13 Nov 2024 09:59:56 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEmAdVNv4lE+G0uFJYG3tpSf03OwGRFjpW25aIwlVpY7CYnWL5GPLCuFsbc38AS7YrClVheUA==
+X-Received: by 2002:a05:600c:1e89:b0:426:60b8:d8ba with SMTP id 5b1f17b1804b1-432b751dc3cmr162297245e9.28.1731520795740;
+        Wed, 13 Nov 2024 09:59:55 -0800 (PST)
+Received: from [192.168.10.47] ([151.49.84.243])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-432d550412csm31975525e9.19.2024.11.13.09.59.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Nov 2024 09:59:54 -0800 (PST)
+Message-ID: <b1ddb439-9e28-4a58-ba86-0395bfc081e0@redhat.com>
+Date: Wed, 13 Nov 2024 18:59:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241108135708.48567-1-lorenzo.stoakes@oracle.com>
- <le3ykvrau2lbncrjsqll7z6ck43bf3shon4g5ohchxcvcs4fuy@h3pq646xgoz6> <3593f7ab-c37d-4c1d-bf2f-e47c30bb5d2b@lucifer.local>
-In-Reply-To: <3593f7ab-c37d-4c1d-bf2f-e47c30bb5d2b@lucifer.local>
-From: Jann Horn <jannh@google.com>
-Date: Wed, 13 Nov 2024 18:43:57 +0100
-Message-ID: <CAG48ez3Ap0XWr+3UmQeW6O82PU_Fh85pCuwOpC9n6J+kxtPVRA@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/mm: add VMA locks documentation
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Vlastimil Babka <vbabka@suse.cz>, Alice Ryhl <aliceryhl@google.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Matthew Wilcox <willy@infradead.org>, 
-	Mike Rapoport <rppt@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>, 
-	Hillf Danton <hdanton@sina.com>, Qi Zheng <zhengqi.arch@bytedance.com>, 
-	SeongJae Park <sj@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] KVM: x86: Add support for VMware guest specific
+ hypercalls
+To: Doug Covelli <doug.covelli@broadcom.com>
+Cc: Zack Rusin <zack.rusin@broadcom.com>,
+ Sean Christopherson <seanjc@google.com>, kvm <kvm@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ the arch/x86 maintainers <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Shuah Khan <shuah@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Arnaldo Carvalho de Melo <acme@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@intel.com>, Joel Stanley <joel@jms.id.au>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ "Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>,
+ linux-kselftest <linux-kselftest@vger.kernel.org>
+References: <20241030033514.1728937-1-zack.rusin@broadcom.com>
+ <20241030033514.1728937-3-zack.rusin@broadcom.com>
+ <CABgObfaRP6zKNhrO8_atGDLcHs=uvE0aT8cPKnt_vNHHM+8Nxg@mail.gmail.com>
+ <CABQX2QMR=Nsn23zojFdhemR7tvGUz6_UM8Rgf6WLsxwDqoFtxg@mail.gmail.com>
+ <Zy0__5YB9F5d0eZn@google.com>
+ <CABQX2QNxFDhH1frsGpSQjSs3AWSdTibkxPrjq1QC7FGZC8Go-Q@mail.gmail.com>
+ <e3f943a7-a40a-45cb-b0d9-e3ed58344d8b@redhat.com>
+ <CADH9ctD1uf_yBA3NXNQu7TJa_TPhLRN=0YZ3j2gGhgmaFRdCFg@mail.gmail.com>
+ <c3026876-8061-4ab2-9321-97cc05bad510@redhat.com>
+ <CADH9ctBivnvP1tNcatLKzd8EDz8Oo6X65660j8ccxYzk3aFzCA@mail.gmail.com>
+ <CABgObfZEyCQMiq6CKBOE7pAVzUDkWjqT2cgfbwjW-RseH8VkLw@mail.gmail.com>
+ <CADH9ctA_C1dAOus1K+wOH_SOKTb=-X1sVawt5R=dkH1iGt8QUg@mail.gmail.com>
+ <CABgObfZrTyft-3vqMz5w0ZiAhp-v6c32brgftynZGJO8OafrdA@mail.gmail.com>
+ <CADH9ctBYp-LMbW4hm3+QwNoXvAc5ryVeB0L1jLY0uDWSe3vbag@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=pbonzini@redhat.com; keydata=
+ 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
+In-Reply-To: <CADH9ctBYp-LMbW4hm3+QwNoXvAc5ryVeB0L1jLY0uDWSe3vbag@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 13, 2024 at 4:44=E2=80=AFPM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
-> On Tue, Nov 12, 2024 at 10:15:44AM -0500, Liam R. Howlett wrote:
-> > * Lorenzo Stoakes <lorenzo.stoakes@oracle.com> [241108 08:57]:
-> [snip]
-> > > +Each mm object contains a maple tree data structure which describes =
-all VMAs
-> > > +within the virtual address space.
-> > > +
-> > > +.. note:: An exception to this is the 'gate' VMA which is provided b=
-y
-> > > +          architectures which use :c:struct:`!vsyscall` and is a glo=
-bal static
-> > > +          object which does not belong to any specific mm.
-> >
-> > vvars too?
->
-> I'm not sure if that's the case? For instance for x86-64 we have:
->
-> /*
->  * A pseudo VMA to allow ptrace access for the vsyscall page.  This only
->  * covers the 64bit vsyscall page now. 32bit has a real VMA now and does
->  * not need special handling anymore:
->  */
-> static const char *gate_vma_name(struct vm_area_struct *vma)
-> {
->         return "[vsyscall]";
-> }
->
-> With no reference to vvar. Also vsyscall exists in a kernel range, and vv=
-ar
-> in a userland mapping (along with the vdso).
+On 11/13/24 17:24, Doug Covelli wrote:
+>> No worries, you're not hijacking :) The only reason is that it would
+>> be more code for a seldom used feature and anyway with worse performance.
+>> (To be clear, CR8 based accesses are allowed, but stores cause an exit
+>> in order to check the new TPR against IRR. That's because KVM's API
+>> does not have an equivalent of the TPR threshold as you point out below).
+> 
+> I have not really looked at the code but it seems like it could also
+> simplify things as CR8 would be handled more uniformly regardless of
+> who is virtualizing the local APIC.
 
-Yeah, there are different gate VMA types depending on architecture
-(arm has "vectors page", x86 has "vsyscall", ...), but vvar and vdso
-are just normal VMAs set up at some point in execve().
+Not much because CR8 basically does not exist at all (it's just a byte
+in memory) with userspace APIC.  So it's not easy to make it simpler, even
+though it's less uniform.
+
+That said, there is an optimization: you only get KVM_EXIT_SET_TPR if
+CR8 decreases.
+
+>>> Also I could not find these documented anywhere but with MSFT's APIC our monitor
+>>> relies on extensions for trapping certain events such as INIT/SIPI plus LINT0
+>>> and SVR writes:
+>>>
+>>> UINT64 X64ApicInitSipiExitTrap    : 1; // WHvRunVpExitReasonX64ApicInitSipiTrap
+>>> UINT64 X64ApicWriteLint0ExitTrap  : 1; // WHvRunVpExitReasonX64ApicWriteTrap
+>>> UINT64 X64ApicWriteLint1ExitTrap  : 1; // WHvRunVpExitReasonX64ApicWriteTrap
+>>> UINT64 X64ApicWriteSvrExitTrap    : 1; // WHvRunVpExitReasonX64ApicWriteTrap
+>>
+>> There's no need for this in KVM's in-kernel APIC model. INIT and
+>> SIPI are handled in the hypervisor and you can get the current
+>> state of APs via KVM_GET_MPSTATE. LINT0 and LINT1 are injected
+>> with KVM_INTERRUPT and KVM_NMI respectively, and they obey IF/PPR
+>> and NMI blocking respectively, plus the interrupt shadow; so
+>> there's no need for userspace to know when LINT0/LINT1 themselves
+>> change. The spurious interrupt vector register is also handled
+>> completely in kernel.
+> 
+> I realize that KVM can handle LINT0/SVR updates themselves but our
+> interrupt subsystem relies on knowing the current values of these
+> registers even when not virtualizing the local APIC.  I suppose we
+> could use KVM_GET_LAPIC to sync things up on demand but that seems
+> like it might nor be great from a performance point of view.
+
+Ah no, you're right---you want to track the CPU that has ExtINT enabled
+and send KVM_INTERRUPT to that one, I guess?  And you need the spurious
+vector registers because writes can set the mask bit in LINTx, but
+essentially you want to trap LINT0 changes.
+
+Something like this (missing the KVM_ENABLE_CAP and KVM_CHECK_EXTENSION
+code) is good, feel free to include it in your v2 (Co-developed-by
+and Signed-off-by me):
+
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 5fb29ca3263b..b7dd89c99613 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -122,6 +122,7 @@
+  #define KVM_REQ_HV_TLB_FLUSH \
+  	KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+  #define KVM_REQ_UPDATE_PROTECTED_GUEST_STATE	KVM_ARCH_REQ(34)
++#define KVM_REQ_REPORT_LINT0_ACCESS	KVM_ARCH_REQ(35)
+  
+  #define CR0_RESERVED_BITS                                               \
+  	(~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
+@@ -775,6 +776,7 @@ struct kvm_vcpu_arch {
+  	u64 smi_count;
+  	bool at_instruction_boundary;
+  	bool tpr_access_reporting;
++	bool lint0_access_reporting;
+  	bool xfd_no_write_intercept;
+  	u64 ia32_xss;
+  	u64 microcode_version;
+diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
+index 88dc43660d23..0e070f447aa2 100644
+--- a/arch/x86/kvm/lapic.c
++++ b/arch/x86/kvm/lapic.c
+@@ -1561,6 +1561,21 @@ static u32 apic_get_tmcct(struct kvm_lapic *apic)
+  			      apic->divide_count));
+  }
+  
++static void __report_lint0_access(struct kvm_lapic *apic, u32 value)
++{
++	struct kvm_vcpu *vcpu = apic->vcpu;
++	struct kvm_run *run = vcpu->run;
++
++	kvm_make_request(KVM_REQ_REPORT_LINT0_ACCESS, vcpu);
++	run->lint0_access.value = value;
++}
++
++static inline void report_lint0_access(struct kvm_lapic *apic, u32 value)
++{
++	if (apic->vcpu->arch.lint0_access_reporting)
++		__report_lint0_access(apic, value);
++}
++
+  static void __report_tpr_access(struct kvm_lapic *apic, bool write)
+  {
+  	struct kvm_vcpu *vcpu = apic->vcpu;
+@@ -2312,8 +2327,10 @@ static int kvm_lapic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
+  			int i;
+  
+  			for (i = 0; i < apic->nr_lvt_entries; i++) {
+-				kvm_lapic_set_reg(apic, APIC_LVTx(i),
+-					kvm_lapic_get_reg(apic, APIC_LVTx(i)) | APIC_LVT_MASKED);
++				u32 old = kvm_lapic_get_reg(apic, APIC_LVTx(i));
++				kvm_lapic_set_reg(apic, APIC_LVTx(i), old | APIC_LVT_MASKED);
++				if (i == 0 && !(old & APIC_LVT_MASKED))
++					report_lint0_access(apic, old | APIC_LVT_MASKED);
+  			}
+  			apic_update_lvtt(apic);
+  			atomic_set(&apic->lapic_timer.pending, 0);
+@@ -2352,6 +2369,8 @@ static int kvm_lapic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
+  		if (!kvm_apic_sw_enabled(apic))
+  			val |= APIC_LVT_MASKED;
+  		val &= apic_lvt_mask[index];
++		if (index == 0 && val != kvm_lapic_get_reg(apic, reg))
++			report_lint0_access(apic, val);
+  		kvm_lapic_set_reg(apic, reg, val);
+  		break;
+  	}
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index d0d3dc3b7ef6..2b039b372c3f 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -10879,6 +10879,11 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+  			kvm_vcpu_flush_tlb_guest(vcpu);
+  #endif
+  
++		if (kvm_check_request(KVM_REQ_REPORT_LINT0_ACCESS, vcpu)) {
++			vcpu->run->exit_reason = KVM_EXIT_LINT0_ACCESS;
++			r = 0;
++			goto out;
++		}
+  		if (kvm_check_request(KVM_REQ_REPORT_TPR_ACCESS, vcpu)) {
+  			vcpu->run->exit_reason = KVM_EXIT_TPR_ACCESS;
+  			r = 0;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 637efc055145..ec97727f9de4 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -178,6 +178,7 @@ struct kvm_xen_exit {
+  #define KVM_EXIT_NOTIFY           37
+  #define KVM_EXIT_LOONGARCH_IOCSR  38
+  #define KVM_EXIT_MEMORY_FAULT     39
++#define KVM_EXIT_LINT0_ACCESS     40
+  
+  /* For KVM_EXIT_INTERNAL_ERROR */
+  /* Emulate instruction failed. */
+@@ -283,6 +284,10 @@ struct kvm_run {
+  				__u64 flags;
+  			};
+  		} hypercall;
++		/* KVM_EXIT_LINT0_ACCESS */
++		struct {
++			__u32 value;
++		} lint0_access;
+  		/* KVM_EXIT_TPR_ACCESS */
+  		struct {
+  			__u64 rip;
+
+
+For LINT1, it should be less performance critical; if it's possible
+to just go through all vCPUs, and do KVM_GET_LAPIC to check who you
+should send a KVM_NMI to, then I'd do that.  I'd also accept a patch
+that adds a VM-wide KVM_NMI ioctl that does the same in the hypervisor
+if it's useful for you.
+
+And since I've been proven wrong already, what do you need INIT/SIPI for?
+
+Paolo
+
