@@ -1,186 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A894A4C6C
-	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 12:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52DA20111A;
+	Wed, 13 Nov 2024 12:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731501069; cv=none; b=bVyBywV1hx0M9B1Xljgv3EmKMVqy5hCtL62XlNGOABZSzgoGrGnu+soboJRSo+uPokd2NTc3d0WREk5/mFB+UagsGZlyR9dt+0EA94fUN9wmFEOmDmJyMHG5D6dpHoV0JXD/XF99ftJxJjAtYxA97vtgSD+WHd/4nOKbVC0nTpM=
+	t=1731501761; cv=none; b=B9J9wiIANvixfmvg5CbpNnsvFQAQHG8gv2hKzgizFqcAsjTWstJNq/4XScE+VVpe91Llw18EB9VFAV4NLu2UjvSdD83gTEAi6XsbDdgswfsiT6tmqQepJsHtmMrLm/ui/xY6HePcqvxf8kJ4A8MNrNUk3i+jQeL3uXXywT41OHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731501069; c=relaxed/simple;
-	bh=ncYZGcwx/3TAZXD29CS4gICiU4uEOyKNClVDiIXWyrQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=heEn/WvW4JT0mc68sfaJiGhY8lryTICcAqLba49waTm6tzCHh8kwxtXmP2RNlgabZ6hBDFPW4CWdToYIwHYVBtdgcSf7CIoVb7dxpm1cSqckGhbEZiCcx9Wu/m4EP4t7a2Lvde2JBmgqejyqDZz8KeAfWrzT4JZvtHSq3mie4ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dK9FbbSF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731501761; c=relaxed/simple;
+	bh=4Hz00pKai+P1TZ4oJ4+z8K3c6n8vVIWDUtAaiouqPEE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pVmF62GpCsLFUBurbcYBbSWZflUDOdrqo4zfwTkPZQFNOxHt11YCjogQXytwXO5t+wZtSZVOYA6xrr+Bvb2MY1uNp7MpxjDkypT36VFyZnYZmiUBxzJAg/qKyuW7eqXp3oDObO4oYfJmjwP8w14USCuGPkX1uwxOxzz95ieqolM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=WEy0+trl; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dK9FbbSF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1EBC4CECD;
-	Wed, 13 Nov 2024 12:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731501069;
-	bh=ncYZGcwx/3TAZXD29CS4gICiU4uEOyKNClVDiIXWyrQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dK9FbbSFdVexks0CaUF/jsc3+A7q8N0MG0UVemYdqCUxO0Rf75KJUx9DiWSbldoxC
-	 aEwPNbl1dh824THUd44lcqXeL/pdiJ59wDl6J3bFqU3a4R+aFQicwjwqqeR5/CahdL
-	 +9EAUNtUalQzv+CwfvdHHlLEZZMT3HTZAuHAq4xr8AnlGbS0vl2ycwfQ47kYBKgi/E
-	 FnOfen3Zww8zkRDoBVsTCvl1JCOw55qI4zzdZvJ7us1fQhuucj3Pvp+qgh9J8xu0RO
-	 jpAmBJ1ePXtOossEzXVjtn776TN81CidYL4hccPCPleTOaXllVY4k6/RWvcZQEYjhw
-	 ce2xkxS10yZjA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tBCWY-00CVWF-Uw;
-	Wed, 13 Nov 2024 12:31:07 +0000
-Date: Wed, 13 Nov 2024 12:31:05 +0000
-Message-ID: <86h68bz56e.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Zhou Wang <wangzhou1@hisilicon.com>
-Cc: <tglx@linutronix.de>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>,
-	<wangwudi@hisilicon.com>,
-	<prime.zeng@hisilicon.com>,
-	Nianyao Tang <tangnianyao@huawei.com>
-Subject: Re: [PATCH v3] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
-In-Reply-To: <20241113062759.1042187-1-wangzhou1@hisilicon.com>
-References: <20241113062759.1042187-1-wangzhou1@hisilicon.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="WEy0+trl"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ADAYCN1013095;
+	Wed, 13 Nov 2024 12:42:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=4Hz00p
+	Kai+P1TZ4oJ4+z8K3c6n8vVIWDUtAaiouqPEE=; b=WEy0+trltJD8N+mNcVym4S
+	hTkxXIRmSn1c3oXWIcqc6qb4cQyApwtYvqVMGa/ituAR3OERVceJ7zcpu3n3NtQL
+	1Q22Lwzpz2BvR9t/tAhz3SVQPXQFB4TLJQC1HcCtIiBt02aLbAtGUYRU0S5sxt0R
+	OZ+XliHSTJRTFfnx4LwMZzkZ5U7fOTs8VQ+YGbWF1gqVXLiMYgpJ+An38lo2Kb3F
+	vLysPYX/YDdVhjvZfJlAPWGPWvxzrhzJqtpfDRXE24AQDQTpemFPfnMwSy1MZ7b6
+	gNwOHwaz9QVCQV8UmiJTxnv57dUcxaR3smMcppjnAgg2xg42jQ8nhf1gcelCSlFQ
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42vdceubhb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Nov 2024 12:42:14 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4ADCdGmv007724;
+	Wed, 13 Nov 2024 12:42:13 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42vdceubha-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Nov 2024 12:42:13 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4AD3kg4Z017481;
+	Wed, 13 Nov 2024 12:42:12 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42tk2mx7fj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Nov 2024 12:42:12 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4ADCgB2j52822512
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 13 Nov 2024 12:42:12 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E5C2A58065;
+	Wed, 13 Nov 2024 12:42:11 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AF80D58052;
+	Wed, 13 Nov 2024 12:42:10 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.108.198])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 13 Nov 2024 12:42:10 +0000 (GMT)
+Message-ID: <ea75a417d4218dfb86b6061567059bdf3dec54ec.camel@linux.ibm.com>
+Subject: Re: [PATCH v3] tpm: Opt-in in disable PCR integrity protection
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>, linux-integrity@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, Peter Huewe <peterhuewe@gmx.de>,
+        Jason
+ Gunthorpe <jgg@ziepe.ca>,
+        James Bottomley
+ <James.Bottomley@HansenPartnership.com>
+Cc: Roberto Sassu <roberto.sassu@huawei.com>,
+        David Howells
+ <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>,
+        James Morris
+ <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, Thomas Huth
+ <thuth@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Paul E.
+ McKenney" <paulmck@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Xiongwei Song <xiongwei.song@windriver.com>,
+        Stefan Berger
+ <stefanb@linux.ibm.com>,
+        Ard Biesheuvel <ardb@kernel.org>, Al Viro
+ <viro@zeniv.linux.org.uk>,
+        "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:KEYS-TRUSTED" <keyrings@vger.kernel.org>,
+        "open list:SECURITY
+ SUBSYSTEM" <linux-security-module@vger.kernel.org>,
+        Josh Poimboeuf
+ <jpoimboe@kernel.org>
+Date: Wed, 13 Nov 2024 07:42:10 -0500
+In-Reply-To: <D5KTIBJRLLZO.393Y9M060YHWG@kernel.org>
+References: <20241113002414.609168-1-jarkko@kernel.org>
+	 <9649cec7710241dc359c7c1a715b2cef36ebce15.camel@linux.ibm.com>
+	 <D5KTIBJRLLZO.393Y9M060YHWG@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: yT6ooz69NEwuzhEGBZYVrrFEixZUyC-l
+X-Proofpoint-ORIG-GUID: 6CMqFR4PEhDVdZm6gZvDqpqUPr_WM3_1
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: wangzhou1@hisilicon.com, tglx@linutronix.de, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, wangwudi@hisilicon.com, prime.zeng@hisilicon.com, tangnianyao@huawei.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
+ spamscore=0 clxscore=1015 malwarescore=0 mlxlogscore=616
+ priorityscore=1501 bulkscore=0 mlxscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411130107
 
-On Wed, 13 Nov 2024 06:27:59 +0000,
-Zhou Wang <wangzhou1@hisilicon.com> wrote:
-> 
-> When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-> during unmapping operation, which will cause some vSGIs lost.
-> 
-> To fix the issue, invalidate related vPE cache through GICR_INVALLR
-> after VMOVP.
-> 
-> Suggested-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Nianyao Tang <tangnianyao@huawei.com>
-> Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
-> ---
->  Documentation/arch/arm64/silicon-errata.rst |  2 +
->  arch/arm64/Kconfig                          | 11 ++++
->  drivers/irqchip/irq-gic-v3-its.c            | 56 +++++++++++++++++----
->  3 files changed, 58 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index 65bfab1b1861..77db10e944f0 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -258,6 +258,8 @@ stable kernels.
->  | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
->  |                | ,11} SMMU PMCG  |                 |                             |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  +----------------+-----------------+-----------------+-----------------------------+
->  | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
->  +----------------+-----------------+-----------------+-----------------------------+
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 70d7f4f20225..0ea9c599681d 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1232,6 +1232,17 @@ config HISILICON_ERRATUM_161600802
->  
->  	  If unsure, say Y.
->  
-> +config HISILICON_ERRATUM_162100801
-> +	bool "Hip09 162100801 erratum support"
-> +	default y
-> +	help
-> +	  When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-> +	  during unmapping operation, which will cause some vSGIs lost.
-> +	  To fix the issue, invalidate related vPE cache through GICR_INVALLR
-> +	  after VMOVP.
-> +
-> +	  If unsure, say Y.
-> +
->  config QCOM_FALKOR_ERRATUM_1003
->  	bool "Falkor E1003: Incorrect translation due to ASID change"
->  	default y
-> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-> index 52f625e07658..2cd1826b4bbd 100644
-> --- a/drivers/irqchip/irq-gic-v3-its.c
-> +++ b/drivers/irqchip/irq-gic-v3-its.c
-> @@ -44,6 +44,7 @@
->  #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
->  #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
->  #define ITS_FLAGS_FORCE_NON_SHAREABLE		(1ULL << 3)
-> +#define ITS_FLAGS_WORKAROUND_HISILICON_162100801	(1ULL << 4)
->  
->  #define RD_LOCAL_LPI_ENABLED                    BIT(0)
->  #define RD_LOCAL_PENDTABLE_PREALLOCATED         BIT(1)
-> @@ -61,6 +62,7 @@ static u32 lpi_id_bits;
->  #define LPI_PENDBASE_SZ		ALIGN(BIT(LPI_NRBITS) / 8, SZ_64K)
->  
->  static u8 __ro_after_init lpi_prop_prio;
-> +static struct its_node *find_4_1_its(void);
->  
->  /*
->   * Collection structure - just an ID, and a redistributor address to
-> @@ -3797,6 +3799,22 @@ static void its_vpe_db_proxy_move(struct its_vpe *vpe, int from, int to)
->  	raw_spin_unlock_irqrestore(&vpe_proxy.lock, flags);
->  }
->  
-> +static void its_vpe_4_1_invall_locked(int cpu, struct its_vpe *vpe)
-> +{
-> +	void __iomem *rdbase;
-> +	u64 val;
-> +
-> +	val  = GICR_INVALLR_V;
-> +	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
-> +
-> +	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
-> +	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
-> +	gic_write_lpir(val, rdbase + GICR_INVALLR);
-> +
-> +	wait_for_syncr(rdbase);
-> +	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
-> +}
-> +
->  static int its_vpe_set_affinity(struct irq_data *d,
->  				const struct cpumask *mask_val,
->  				bool force)
-> @@ -3866,6 +3884,16 @@ static int its_vpe_set_affinity(struct irq_data *d,
->  	vpe->col_idx = cpu;
->  
->  	its_send_vmovp(vpe);
-> +
-> +	/*
-> +	 * Version of ITS is same in one system. As there is no cache in ITS,
-> +	 * and only cache in related GICR should be clean, directly use
-> +	 * GICR_INVALLR to clean cache, which will get a better performance
-> +	 * here.
-> +	 */
+On Wed, 2024-11-13 at 07:56 +0200, Jarkko Sakkinen wrote:
+> On Wed Nov 13, 2024 at 6:34 AM EET, Mimi Zohar wrote:
+> > The module_param variable documentation needs to be updated to reflect =
+the
+> > actual module_param variable 'disable_pcr_integrity'.
+> >=20
+> > Otherwise,
+> > Tested-by: Mimi Zohar <zohar@linux.ibm.com>
+>=20
+> Thanks for catching that glitch. Here's updated version:
+>=20
+> https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/co=
+mmit/?id=3D8f22b3ed4d200ae0c575791e069316c633ed5c39
 
-I don't think this comment brings much. Maybe better to just drop it.
+Looks good.
 
-> +	if (find_4_1_its()->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801)
-> +		its_vpe_4_1_invall_locked(cpu, vpe);
-> +
+thanks,
 
-Hold on, this is buggy. On a v4.0 implementation, this is obviously
-going to explode. You need to check the return value of find_4_1_its()
-for NULL.
-
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Mimi
