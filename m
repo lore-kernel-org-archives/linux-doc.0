@@ -1,100 +1,103 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C06204F66;
-	Wed, 13 Nov 2024 20:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222AC206514;
+	Wed, 13 Nov 2024 20:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731528512; cv=none; b=ECqyM6F2T5oEGEeLnfFt6b76O3c7EDOgbR3IMmkv3I6dVcpdsTREGPdRAG0AD1I+zc+T/RsBVvXyaN9/5muPkUDsPu7dvt4SN+J8JH/mfZxCFA9/4e8fLT+XL3179vhkYtB4Tkh1L69e7vI0Ia1/d8MqJBQayVyFdj0ec6VcMEs=
+	t=1731529268; cv=none; b=DudytTrIAWetTKwrROwM6AbgmVwjzOiMuqFwRtZSNgoDIhf1/ezjdmMtqkEdmEjSdrJqG8Ov9+MCRfqMV7Gg5CEvaAJrIWGq3Ayy0nY2XWsYeKmWgtsz+tmzoIC7KHb7Mdeopcvgo27xdFg78xkkmo1tjgsWdf97ZundD6aaNVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731528512; c=relaxed/simple;
-	bh=cjaxfP3K2+vqhGLJnlRta9XnHUBsBBTtsoQobxaWEc0=;
+	s=arc-20240116; t=1731529268; c=relaxed/simple;
+	bh=pZVSg10VOkAIcP4WSJXbuoBHHguSGDKtxN8ujJVyPL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hnlzUXxCdOnIhtGek0opJ36wnlZYDjfBf5b52SiNsO1J9NOJi6d8NXLfBnITTVhLSFw0LPeU55t14/us/TFx2t0+zcHEHSf3J2b2aUdLSxp19atxxVhAKsPzaqq4m4IHJgKFO+UjMYYQUiY1uZ9oHdxx8aWdQHjyjKeryIxRTpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QmhbD5yf; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HPf0pFS+/OgrpKvYORjY5/UkL2yBRyHnrHgSOZt/oV/lGMxTbXWswDm78G+LPNRQL6HnsRT1XKAsLFvYFw0t+ZrxGTxXdTxrhGQgfYfoom3OecPOjCw8fH7od6drMJMhWjbjgLPvmSI3LUJHIo+0hNbRagBB/6TuwATB8UsqQsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=huT2mo7x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QmhbD5yf"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20c714cd9c8so76044725ad.0;
-        Wed, 13 Nov 2024 12:08:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731528510; x=1732133310; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KjULDMvD6L6UJTTrMaZgXK2gf1klZ78cKDDqW9QajSs=;
-        b=QmhbD5yfW6LmivcoflPleNDpJFX4voL7J8PnVG6hU7yJ/RCAkzgWkpV1HJyEzBWmZT
-         eXgOyQixquS0ln2EmSrGJj6eVcu0fAIrV62HQoAkpkPgJc3ebQXUNo7HRVDxqnyzo1uj
-         sCsgai/64sXTu7DO1+aKN/OUsWQbdmA5W1rOozuf/WsD42VAE+oE07kQAi+yxlFsKWdZ
-         KMPfZ1yDk6X+HV2Sw5X6x0mqYjtO71xpBxRO1J00QsXV5Fen6r0hH2Cjs+WjGv9a24Jg
-         mvOywEvc7czjBq//oqfWqXQCUJwMs8Z2aC5LO38sO0E/kbzJh0hRuL55ww4bx8xejqC4
-         likQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731528510; x=1732133310;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KjULDMvD6L6UJTTrMaZgXK2gf1klZ78cKDDqW9QajSs=;
-        b=QH/ClTwuReLF93hA1Cr3+ljOs73A9+8td9FtblYQlnZRiZ8l+ZTMRYOBeGgX4HrXwE
-         vig2FJog93C15al2TvZ91H7IsQSGJLE5FOKOBTw0DW21ESIn7bUDkMLLAB9D6qpTJDoR
-         pK7Wf0H4tE46BYX3tJEDWfSkT4gI+D4jay8LNxgExwB3WkOWxfxevghCAAgmrZdhocwK
-         YGYK+Yqe9eTSXITj004GKhZ3xUyODTqwdIN5exbMqW+iZOAPOLqxaxx4g+J8k52NP8h4
-         cxDJcEZPibVtw6FIaOo+kK+iVq8WL4UmdLsJdDzMjW7T+YnLSidX47HprOi+ubhvetFd
-         X2xg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNvm0YntEXAU/Fm3T1Z/4Jz72VBuKFlyI4iY8Zl5cj7qOllqAz1iM5GkWJai2bRCYaKgywXkOw5nJJ@vger.kernel.org, AJvYcCV2FIvkAeKU3EYzdCJr4qwH5KNFLJxlpwVRxMTopunEMLIcMyhZcNJthdO285S0WPEP6REB2RHkp3nUADY=@vger.kernel.org, AJvYcCWbC7cEeo5qkFrtinLMPGVgcPIyZ7mgH/xQ382S7rEIsAVCVTRMm1xXY5U+IBCVeLf8iwlv4+oyoPTk@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNrPcVgux/MKm56Ebs1od2NoosIJT79NA5zxpW2nXzMIn+TDVN
-	/iPFMBhWoPm7bCuxhLdKKSCALIGKnSgjFIHOdf70l94sJ961yRpx4KzEZw==
-X-Google-Smtp-Source: AGHT+IEfX/6VXsH/46gb2dd20hEXeNyda1cJCDwfObzPE/fL4S9iczScSXbGw2hTHJZIJB2sjoVf5g==
-X-Received: by 2002:a17:903:1d2:b0:20c:c15c:96ab with SMTP id d9443c01a7336-21183e4a120mr299032685ad.48.1731528510245;
-        Wed, 13 Nov 2024 12:08:30 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177ddd62csm113419915ad.59.2024.11.13.12.08.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 12:08:29 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 13 Nov 2024 12:08:28 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Grant Peltier <grantpeltier93@gmail.com>
-Cc: robh@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com,
-	grant.peltier.jg@renesas.com, brandon.howell.jg@renesas.com,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] hwmon: (pmbus/isl68137) add support for voltage
- divider on Vout
-Message-ID: <0ccfb361-0c20-41f2-b5b7-3c37c5226110@roeck-us.net>
-References: <cover.1731439797.git.grantpeltier93@gmail.com>
- <8c2d048f87282bcf66313afbf5e923d8fc17b4d7.1731439797.git.grantpeltier93@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="huT2mo7x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D08D1C4CEC3;
+	Wed, 13 Nov 2024 20:21:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731529267;
+	bh=pZVSg10VOkAIcP4WSJXbuoBHHguSGDKtxN8ujJVyPL0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=huT2mo7x4OmzlsvVK19hzvAn7IYqv/MA1eomnyxHSXqOTZ9MuDgMENsms/RLmGTjH
+	 Wtw8T78/ZVp3nTtWEhdM3KFQVJmiJVR7BwH2LlmLT6V3qwurJs3gZognIkwJsvZZ40
+	 LtxKLJFxIo0eiyWp1AAqOOmiYc3zNvBYZxvAH1Ja4I8OmqPyz5ATZ401mYWNCjpj5f
+	 XPMnuh6SOG/i4N4WXKubi4BzaXge+PMrZAnJY1rwt7KybQbdJtBaQweJjze+jykGhA
+	 bCW137YurCA3FgzWSaCNyvQYTltv2Q3vSgs1uEFIfJJTrSzK/hJPpGMFYMI5pgIQo0
+	 V6CA2D7kE2YNg==
+Date: Wed, 13 Nov 2024 12:21:05 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
+	peterz@infradead.org, corbet@lwn.net, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
+	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com, sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
+	david.kaplan@amd.com, dwmw@amazon.co.uk
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <20241113202105.py5imjdy7pctccqi@jpoimboe>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
+ <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
+ <20241112214241.fzqq6sqszqd454ei@desk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8c2d048f87282bcf66313afbf5e923d8fc17b4d7.1731439797.git.grantpeltier93@gmail.com>
+In-Reply-To: <20241112214241.fzqq6sqszqd454ei@desk>
 
-On Tue, Nov 12, 2024 at 02:09:28PM -0600, Grant Peltier wrote:
-> Some applications require Vout to be higher than the detectable voltage
-> range of the Vsense pin for a given rail. In such applications, a voltage
-> divider may be placed between Vout and the Vsense pin, but this results
-> in erroneous telemetry being read back from the part. This change adds
-> support for a voltage divider to be defined in the devicetree for a (or
-> multiple) specific rail(s) for a supported digital multiphase device and
-> for the applicable Vout telemetry to be scaled based on the voltage
-> divider configuration.
+On Tue, Nov 12, 2024 at 01:43:48PM -0800, Pawan Gupta wrote:
+> On Mon, Nov 11, 2024 at 05:46:44PM -0800, Josh Poimboeuf wrote:
+> > +	 * 1) RSB underflow ("Intel Retbleed")
+> >  	 *
+> >  	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
+> >  	 *    speculated return targets may come from the branch predictor,
+> >  	 *    which could have a user-poisoned BTB or BHB entry.
+> >  	 *
+> > -	 *    AMD has it even worse: *all* returns are speculated from the BTB,
+> > -	 *    regardless of the state of the RSB.
+> > +	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack is
+> > +	 *    mitigated by the IBRS branch prediction isolation properties, so
+> > +	 *    the RSB buffer filling wouldn't be necessary to protect against
+> > +	 *    this type of attack.
+> >  	 *
+> > -	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack
+> > -	 *    scenario is mitigated by the IBRS branch prediction isolation
+> > -	 *    properties, so the RSB buffer filling wouldn't be necessary to
+> > -	 *    protect against this type of attack.
+> > +	 *    The "user -> user" attack is mitigated by RSB filling on context
+> > +	 *    switch.
 > 
-> This change copies the implementation of the vout-voltage-divider
-> devicetree property defined in the maxim,max20730 bindings schema since
-> it is the best fit for the use case of scaling hwmon PMBus telemetry. The
-> generic voltage-divider property used by many iio drivers was determined
-> to be a poor fit because that schema is tied directly to iio and the
-> isl68137 driver is not an iio driver.
+> user->user SpectreRSB is also mitigated by IBPB, so RSB filling is
+> unnecessary when IBPB is issued. Also, when an appication does not opted-in
+> for IBPB at context switch, spectre-v2 for that app is not mitigated,
+> filling RSB is only a half measure in that case.
 > 
-> Signed-off-by: Grant Peltier <grantpeltier93@gmail.com>
+> Is RSB filling really serving any purpose for userspace?
 
-Applied.
+Indeed...
 
-Thanks,
-Guenter
+If we don't need to flush RSB for user->user, we'd only need to worry
+about protecting the kernel.  Something like so?
+
+  - eIBRS+!PBRSB:	no flush
+  - eIBRS+PBRSB:	lite flush
+  - everything else:	full flush
+
+i.e., same logic as spectre_v2_determine_rsb_fill_type_at_vmexit(), but
+also for context switches.
+
+-- 
+Josh
