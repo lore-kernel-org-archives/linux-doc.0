@@ -1,118 +1,186 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034074DA04;
-	Wed, 13 Nov 2024 11:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A894A4C6C
+	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 12:31:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731498017; cv=none; b=HXZwwSnP56/5VeMFO5yu4oMeqI4uh0TEYaUQ/wInrpQ+AS8xYDGOUDJyjBIk2JsjwOVnP7XVoD51h+yu8R9vbvJWUbcveXuWcE33IIhY5iyGoDtzyfFTftBLBvFNsTTSLLIvbNHmurWzmH6mvR8/hTfU5UWE6AJNlgwjNElonaE=
+	t=1731501069; cv=none; b=bVyBywV1hx0M9B1Xljgv3EmKMVqy5hCtL62XlNGOABZSzgoGrGnu+soboJRSo+uPokd2NTc3d0WREk5/mFB+UagsGZlyR9dt+0EA94fUN9wmFEOmDmJyMHG5D6dpHoV0JXD/XF99ftJxJjAtYxA97vtgSD+WHd/4nOKbVC0nTpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731498017; c=relaxed/simple;
-	bh=pH/drVezZjQoNO7PGRj8CNyoPiRUnDsx5whFrgim2qM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MCCWLFN03gdOCjkqKyK90enXHhTtMSKFHna+YgI82k/b0Q/7flGKzvReauXp4RikFTF0JvoVsfrMJEj6qDFZxOW+o28pArpYAfxxHYVpcC0gy+CwCBtmLYlnKvqonIauEac4zovz0/cldQmTKgAvRZctHI0hoQc0P8Ch5g6FTjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f73l2Dsa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731501069; c=relaxed/simple;
+	bh=ncYZGcwx/3TAZXD29CS4gICiU4uEOyKNClVDiIXWyrQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=heEn/WvW4JT0mc68sfaJiGhY8lryTICcAqLba49waTm6tzCHh8kwxtXmP2RNlgabZ6hBDFPW4CWdToYIwHYVBtdgcSf7CIoVb7dxpm1cSqckGhbEZiCcx9Wu/m4EP4t7a2Lvde2JBmgqejyqDZz8KeAfWrzT4JZvtHSq3mie4ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dK9FbbSF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f73l2Dsa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DADB0C4CECD;
-	Wed, 13 Nov 2024 11:40:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dK9FbbSF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1EBC4CECD;
+	Wed, 13 Nov 2024 12:31:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731498016;
-	bh=pH/drVezZjQoNO7PGRj8CNyoPiRUnDsx5whFrgim2qM=;
+	s=k20201202; t=1731501069;
+	bh=ncYZGcwx/3TAZXD29CS4gICiU4uEOyKNClVDiIXWyrQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=f73l2DsaHFlFCg+vhwK6wQQGIxbfM/odVdFrAYPJDVq5ORCmLk7iAJboZ+NUM/awb
-	 WAnCoSywzazRUdsa233qJeiBw3BmGQLI53sLKLiErkFqy9KOIDRrGBpSZn1Dx895d6
-	 nnOmehKY1ujDoukyneQlxU0mP1wlFeQUs91B7vnQVypZYNtN7t0Wn129TNBO25ZSCp
-	 GK9QOjzvElvo1EEJSsZbJ5XE8yOTAncUHZI3+WzUbM5rpcZEpmRpHPS5B25RtxOcmV
-	 eNGQr1iY9InOjMzLi8wKwQyy0X0vq3ZzF9Ob+d8M+QD0Vatb4JASUNUavaJvhCfo4A
-	 Vw3wwglvM0Guw==
-Date: Wed, 13 Nov 2024 12:40:10 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Jonathan Corbet <corbet@lwn.net>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] docs: reminder to not expose potentially private
- email addresses
-Message-ID: <20241113124010.7e7edaa1@foz.lan>
-In-Reply-To: <CAKMK7uGwK0OYu+cVJnUVd5nMZRG8jJBXJUuo0xFXdyrubJFW4g@mail.gmail.com>
-References: <f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info>
-	<20241113102619.GC29944@pendragon.ideasonboard.com>
-	<b160f728-b34f-433d-8cc4-677605990936@leemhuis.info>
-	<CAKMK7uGwK0OYu+cVJnUVd5nMZRG8jJBXJUuo0xFXdyrubJFW4g@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	b=dK9FbbSFdVexks0CaUF/jsc3+A7q8N0MG0UVemYdqCUxO0Rf75KJUx9DiWSbldoxC
+	 aEwPNbl1dh824THUd44lcqXeL/pdiJ59wDl6J3bFqU3a4R+aFQicwjwqqeR5/CahdL
+	 +9EAUNtUalQzv+CwfvdHHlLEZZMT3HTZAuHAq4xr8AnlGbS0vl2ycwfQ47kYBKgi/E
+	 FnOfen3Zww8zkRDoBVsTCvl1JCOw55qI4zzdZvJ7us1fQhuucj3Pvp+qgh9J8xu0RO
+	 jpAmBJ1ePXtOossEzXVjtn776TN81CidYL4hccPCPleTOaXllVY4k6/RWvcZQEYjhw
+	 ce2xkxS10yZjA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tBCWY-00CVWF-Uw;
+	Wed, 13 Nov 2024 12:31:07 +0000
+Date: Wed, 13 Nov 2024 12:31:05 +0000
+Message-ID: <86h68bz56e.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Zhou Wang <wangzhou1@hisilicon.com>
+Cc: <tglx@linutronix.de>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>,
+	<wangwudi@hisilicon.com>,
+	<prime.zeng@hisilicon.com>,
+	Nianyao Tang <tangnianyao@huawei.com>
+Subject: Re: [PATCH v3] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
+In-Reply-To: <20241113062759.1042187-1-wangzhou1@hisilicon.com>
+References: <20241113062759.1042187-1-wangzhou1@hisilicon.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: wangzhou1@hisilicon.com, tglx@linutronix.de, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, wangwudi@hisilicon.com, prime.zeng@hisilicon.com, tangnianyao@huawei.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Em Wed, 13 Nov 2024 11:59:39 +0100
-Simona Vetter <simona.vetter@ffwll.ch> escreveu:
+On Wed, 13 Nov 2024 06:27:59 +0000,
+Zhou Wang <wangzhou1@hisilicon.com> wrote:
+> 
+> When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
+> during unmapping operation, which will cause some vSGIs lost.
+> 
+> To fix the issue, invalidate related vPE cache through GICR_INVALLR
+> after VMOVP.
+> 
+> Suggested-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Nianyao Tang <tangnianyao@huawei.com>
+> Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
+> ---
+>  Documentation/arch/arm64/silicon-errata.rst |  2 +
+>  arch/arm64/Kconfig                          | 11 ++++
+>  drivers/irqchip/irq-gic-v3-its.c            | 56 +++++++++++++++++----
+>  3 files changed, 58 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> index 65bfab1b1861..77db10e944f0 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -258,6 +258,8 @@ stable kernels.
+>  | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
+>  |                | ,11} SMMU PMCG  |                 |                             |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> +| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
+> ++----------------+-----------------+-----------------+-----------------------------+
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 70d7f4f20225..0ea9c599681d 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -1232,6 +1232,17 @@ config HISILICON_ERRATUM_161600802
+>  
+>  	  If unsure, say Y.
+>  
+> +config HISILICON_ERRATUM_162100801
+> +	bool "Hip09 162100801 erratum support"
+> +	default y
+> +	help
+> +	  When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
+> +	  during unmapping operation, which will cause some vSGIs lost.
+> +	  To fix the issue, invalidate related vPE cache through GICR_INVALLR
+> +	  after VMOVP.
+> +
+> +	  If unsure, say Y.
+> +
+>  config QCOM_FALKOR_ERRATUM_1003
+>  	bool "Falkor E1003: Incorrect translation due to ASID change"
+>  	default y
+> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+> index 52f625e07658..2cd1826b4bbd 100644
+> --- a/drivers/irqchip/irq-gic-v3-its.c
+> +++ b/drivers/irqchip/irq-gic-v3-its.c
+> @@ -44,6 +44,7 @@
+>  #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
+>  #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
+>  #define ITS_FLAGS_FORCE_NON_SHAREABLE		(1ULL << 3)
+> +#define ITS_FLAGS_WORKAROUND_HISILICON_162100801	(1ULL << 4)
+>  
+>  #define RD_LOCAL_LPI_ENABLED                    BIT(0)
+>  #define RD_LOCAL_PENDTABLE_PREALLOCATED         BIT(1)
+> @@ -61,6 +62,7 @@ static u32 lpi_id_bits;
+>  #define LPI_PENDBASE_SZ		ALIGN(BIT(LPI_NRBITS) / 8, SZ_64K)
+>  
+>  static u8 __ro_after_init lpi_prop_prio;
+> +static struct its_node *find_4_1_its(void);
+>  
+>  /*
+>   * Collection structure - just an ID, and a redistributor address to
+> @@ -3797,6 +3799,22 @@ static void its_vpe_db_proxy_move(struct its_vpe *vpe, int from, int to)
+>  	raw_spin_unlock_irqrestore(&vpe_proxy.lock, flags);
+>  }
+>  
+> +static void its_vpe_4_1_invall_locked(int cpu, struct its_vpe *vpe)
+> +{
+> +	void __iomem *rdbase;
+> +	u64 val;
+> +
+> +	val  = GICR_INVALLR_V;
+> +	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
+> +
+> +	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
+> +	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
+> +	gic_write_lpir(val, rdbase + GICR_INVALLR);
+> +
+> +	wait_for_syncr(rdbase);
+> +	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
+> +}
+> +
+>  static int its_vpe_set_affinity(struct irq_data *d,
+>  				const struct cpumask *mask_val,
+>  				bool force)
+> @@ -3866,6 +3884,16 @@ static int its_vpe_set_affinity(struct irq_data *d,
+>  	vpe->col_idx = cpu;
+>  
+>  	its_send_vmovp(vpe);
+> +
+> +	/*
+> +	 * Version of ITS is same in one system. As there is no cache in ITS,
+> +	 * and only cache in related GICR should be clean, directly use
+> +	 * GICR_INVALLR to clean cache, which will get a better performance
+> +	 * here.
+> +	 */
 
-> On Wed, 13 Nov 2024 at 11:55, Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> >
-> > On 13.11.24 11:26, Laurent Pinchart wrote:  
-> > > On Wed, Nov 13, 2024 at 09:35:03AM +0100, Thorsten Leemhuis wrote:  
-> > >> Remind developers to not expose private email addresses, as some people
-> > >> become upset if their addresses end up in the lore archives or the Linux
-> > >> git tree.
-> > >>
-> > >> While at it, explicitly mention the dangers of our bugzilla instance
-> > >> here, as it makes it easy to forget that email addresses visible there
-> > >> are only shown to logged-in users.
-> > >>
-> > >> These are not a theoretical issues, as one maintainer mentioned that
-> > >> his employer received a EU GDPR (general data protection regulation)
-> > >> complaint after exposuring a email address used in bugzilla through a
-> > >> tag in a patch description.
-> > >>
-> > >> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> > >> ---
-> > >> Note: this triggers a few checkpatch.pl complaints that are irrelevant
-> > >> when when ti comes to changes like this.
-> > >>
-> > >> v1:
-> > >> - initial version
-> > >> ---
-> > >>  Documentation/process/5.Posting.rst          | 17 +++++++++---
-> > >>  Documentation/process/submitting-patches.rst | 27 +++++++++++++++++---
-> > >>  2 files changed, 36 insertions(+), 8 deletions(-)
-> > >>
-> > >> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-> > >> index b3eff03ea2491c..1f6942948db349 100644
-> > >> --- a/Documentation/process/5.Posting.rst
-> > >> +++ b/Documentation/process/5.Posting.rst
-> > >> @@ -264,10 +264,19 @@ The tags in common use are:
-> > >>   - Cc: the named person received a copy of the patch and had the
-> > >>     opportunity to comment on it.
-> > >>
-> > >> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
-> > >> -for addition without the explicit permission of the person named; using
-> > >> -Reported-by: is fine most of the time as well, but ask for permission if
-> > >> -the bug was reported in private.
-> > >> +Note, remember to respect other people's privacy when adding these tags:
-> > >> +
-> > >> + - Only specify email addresses, if owners explicitly permitted their use or
-> > >> +   are fine with exposing them to the public based on previous actions found in
-> > >> +   the lore archives. 
+I don't think this comment brings much. Maybe better to just drop it.
 
-There is no comma between "addresses" and "if".
+> +	if (find_4_1_its()->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801)
+> +		its_vpe_4_1_invall_locked(cpu, vpe);
+> +
 
-"previous actions" sounds a little to vague. Also, the text doesn't cover
-everything, as lore archives may contain gaps.  I would, instead be clear:
-
-	 - Only specify email addresses if owners explicitly permitted their use or
-	   if such e-mail was previously used publicly for Linux contributions, which
-	   can be checked by looking at the lore archives and at the git log. 
-
-I added "git log there" because, in practice, nobody has the time to double-check
-what e-mails are public: developers rely that scripts/checkpatch.pl will
-check git log when creating the Cc: list.
+Hold on, this is buggy. On a v4.0 implementation, this is obviously
+going to explode. You need to check the return value of find_4_1_its()
+for NULL.
 
 Thanks,
-Mauro
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
