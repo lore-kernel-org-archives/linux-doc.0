@@ -1,259 +1,118 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C32B166F06
-	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 16:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FBE14F114
+	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 16:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731515111; cv=none; b=ZL7nmkqG/Pfs29BArG+wgrwJtmJs/qf/IcoogiHSwV2aWmI1CRuzUB3r1623CAIZ9x3vZ0aDHmOEI3dtyrubnW2FDPHztRhAktuIoX6V+729/428ERBXe+QSvPGmgnFL34bGp4bexZ2Vgk4iIVVyNslYAVkjr48NeR5KDpbflew=
+	t=1731516604; cv=none; b=H9OvqG873zY0L+Wzz9ZHvkwUjtuYl/creQetfyw33pamY1HyBQapb1vfyXC05gmtuLtwG1/dI9qP2muHG6NGAEnch3xjUY2t0nht4BBYluMPCmE9o+FvjZitZfxOR5O9+Foy2d6nJoFarHp+VFShaP0563RSctowFlbPRF+utN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731515111; c=relaxed/simple;
-	bh=y6i/0qTRyMh9lETN4Ye9twvdg8Wxz7dPA6jY3yicqOY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=afyrGDHF6J+C1n9mOydSWeiu2/ogcYm/Xqxh+9ZnSR/8dERcO/YhPjjmVkM1kJH+hc56aidyMx0H63k2bsMf3TRve5yHdDIG0Qzo/g5P7BWN83lsfeVRvwPZNYZOkYDj29w8LM9No96TTA+DoQCS/tN7B8dVDBJnQTUe3t9daJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=hP0YXEQQ; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1731516604; c=relaxed/simple;
+	bh=EZya+FJMrje5mV8wSDU3bo/PA6cVGmfWmw2e1OFYPnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bTMthDjIl3jl5x1D+EkDlN9yybdVFlLRLNPrlEzKIVSI2I/bo4JLtj6Vofh3wKmoGYs36ySC0gbreLk3/CQR6W0EH+AJZTK6QTX53ltosrTKXM9/CkpRxw+omfcjJ6jVvDxcCrekViiCqrqjUBJZfzedYevcqGSokcwmjUnZt7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VRS6yRTO; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="hP0YXEQQ"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a9a0c7abaa6so915254966b.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 08:25:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VRS6yRTO"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-71e953f4e7cso5510979b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 08:50:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1731515108; x=1732119908; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/M858qlW5NS4hrCv+aGxwOeEcSMA57ZDM8mnHjjY7bM=;
-        b=hP0YXEQQC2alHZPIHxUwUMPypr1vE8AimujO96rOxvPDnhPEcQiMyaEiKq63yfpT7n
-         zpbSzB/J7mPIAVLeQWMwXciCRwufXQm9HdX5qqtRT8n2YmyMHwZuapsV3LnZGKtj3xE/
-         vDJTySZ35AuUqsLOiuy7bFT2zsDnEpm0OU1sk=
+        d=linaro.org; s=google; t=1731516602; x=1732121402; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RVxECdTcqAbi+Rrk8wDv8FKnY/+NvKNnZGAccXEI/84=;
+        b=VRS6yRTOKKKmkCPADA6N48gQitMwWjVbjugs+dRErpfGetHEIuyCbZWnzXchAPFonW
+         8N69dhIa2qg3NsoLXFEIueFUE+f0rGCf6oQfdrxLFZp5mgoHWp6ALMU4lcAsLQYgfgK0
+         NHFW6M9BUMaz9fM1IW5ROhBMYckR6cRAi7Q7Sb6LxTyB5j065FEMlX4Ob8emLazEtmnn
+         BaYfsYSSKY7lcO5QNx8uR1Wy0YC04aj6hMADtH16CydD/1/WLtc5Vp1xelS5sJuI9TOp
+         wyXI5u+O6l2OSeRPkNCdLW7ML4oDYw3sqxbHMZUrkvjLT/rlLxRA+M99/6D3odn+PWYx
+         8ugg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731515108; x=1732119908;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/M858qlW5NS4hrCv+aGxwOeEcSMA57ZDM8mnHjjY7bM=;
-        b=QeGnbSCc8kcjQWo70OV8gbNQ860RH6iKDNBPyip+W5g/DtDVoboUm5fVD0NA0DtApp
-         /2kybEAClJv8pzZOvy/zPHBhH3QxHwmqM+QqN7edPmJebzh1m7TTqFnpjU0akcTavVwp
-         shKjj8xkqS26ryTdn1gE79Y284ozTe/8Zqs/OTrLclDeaaZoPIaF9jntH+Lvs8KH9zfb
-         PkNC8GpX7Lns+dV4uiJp7wGUcWOj4WUzOzNclttFrb77dKhk8326vDeoIzOb6FNOOz4j
-         jWSaTVyZwWAYruTCnYHgjkSKr/T0YcVxExvhbuqAkx/6XjFZQy+H9PH94ukJ4gnnwc7y
-         c1UA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvyV7r8WN3dkmBD5hV/n6oUtkLPVVA35+y7xt97G4ag/rS8KP6gEbEXhILoNhAAGbDAQJ/e3AVLvY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzmp9IvZ3iJQuAtwMJcww9Ccecn+CEqiiGG+ElYBG/k7gfteQZM
-	N+Ie5gPZeuRgYpOcs4CYaQZaMt/E42fd5koEWfk/e5Qrml3N2QF8SerbM5RC4KX7hwiXksm+yAn
-	Fm9Ix/hRxmGQEtzHNo29aCCSMWpQWB7nl7gjY4ptFrbtJ6IWpUeIhFvToPlr4qG5VEfhHn8IjBS
-	isPx8Pwr/KsN7M2bRoCRGkvQ==
-X-Google-Smtp-Source: AGHT+IHaAsaeYf+CcicKi8+yeSIi5vRKMwifnXXjechN4O8b9oL83Zb7pR8yiHDzcnNh1KI8zX6aMZietLLLD0DRe3E=
-X-Received: by 2002:a17:907:94cc:b0:a99:e619:260e with SMTP id
- a640c23a62f3a-a9eeff3775cmr2185139166b.28.1731515107870; Wed, 13 Nov 2024
- 08:25:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731516602; x=1732121402;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RVxECdTcqAbi+Rrk8wDv8FKnY/+NvKNnZGAccXEI/84=;
+        b=kWmNY4VYwoCNvqI8kJF6xP5sr/pCtX5KH6//xaXLHc/V82mnwpw2rmqYOlKSF/jDcH
+         9XYW2MQRrDddoadz9OnSl8sY6lvvszDeccjT5fzhTe5hkku0HDA9Ndrw3xRjibS0gPKw
+         ZzSb/UsI1vhFfk8oaM2oJJCkazGo+FxIlzCym945gOIWx5vqtYhJI6fGXa5CSNez1/k2
+         0RijEPnFudHGncRYwKB8NGaCYaTyvsL7TVdZ+iHtc/UOORm5hKOMxZDAxbA3qF8P5chF
+         ltLo1agIqxhlFNfrEZXsj87L96ZzCPG0/qKWw/f/pdF/+69AZOazUPFTGMQd21uvC+Gd
+         PvNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUzXHpgSsfofYoNs4x84EPT6yHAb9DZYp9vq9UQuwaiXUC4g42TugoqOMVV7JOcTlW2n8sTgSnN6bE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+GD63vjkNzU5kELk0fTkIggScZa14EQ830C2GfFBcwpq+a/e0
+	WzSD2p7DtsT1GG+UR5usqPg9CuERoKaflKmYxXAfOMJmKkzaJvQh8YAT4wYazDI=
+X-Google-Smtp-Source: AGHT+IEJlVgaPrBBscQLqLbr/yoapzGNIccPwbYP5hzO2WPEIQAkd9edjzqTVN9xB76kHN3i3HKHAA==
+X-Received: by 2002:a05:6a00:1744:b0:71d:f64d:ec60 with SMTP id d2e1a72fcca58-72413297242mr29057380b3a.7.1731516602100;
+        Wed, 13 Nov 2024 08:50:02 -0800 (PST)
+Received: from p14s ([2604:3d09:148c:c800:fd79:a2fb:87a9:f18])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7240799bb0dsm13912298b3a.120.2024.11.13.08.50.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 08:50:01 -0800 (PST)
+Date: Wed, 13 Nov 2024 09:49:58 -0700
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: anish kumar <yesanishhere@gmail.com>
+Cc: andersson@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Subject: Re: [RESEND PATCH V6 1/3] Documentation: remoteproc: update
+ introduction section
+Message-ID: <ZzTYtn5jple+dbMU@p14s>
+References: <20241106051016.89113-1-yesanishhere@gmail.com>
+ <20241106051016.89113-2-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241030033514.1728937-1-zack.rusin@broadcom.com>
- <20241030033514.1728937-3-zack.rusin@broadcom.com> <CABgObfaRP6zKNhrO8_atGDLcHs=uvE0aT8cPKnt_vNHHM+8Nxg@mail.gmail.com>
- <CABQX2QMR=Nsn23zojFdhemR7tvGUz6_UM8Rgf6WLsxwDqoFtxg@mail.gmail.com>
- <Zy0__5YB9F5d0eZn@google.com> <CABQX2QNxFDhH1frsGpSQjSs3AWSdTibkxPrjq1QC7FGZC8Go-Q@mail.gmail.com>
- <e3f943a7-a40a-45cb-b0d9-e3ed58344d8b@redhat.com> <CADH9ctD1uf_yBA3NXNQu7TJa_TPhLRN=0YZ3j2gGhgmaFRdCFg@mail.gmail.com>
- <c3026876-8061-4ab2-9321-97cc05bad510@redhat.com> <CADH9ctBivnvP1tNcatLKzd8EDz8Oo6X65660j8ccxYzk3aFzCA@mail.gmail.com>
- <CABgObfZEyCQMiq6CKBOE7pAVzUDkWjqT2cgfbwjW-RseH8VkLw@mail.gmail.com>
- <CADH9ctA_C1dAOus1K+wOH_SOKTb=-X1sVawt5R=dkH1iGt8QUg@mail.gmail.com> <CABgObfZrTyft-3vqMz5w0ZiAhp-v6c32brgftynZGJO8OafrdA@mail.gmail.com>
-In-Reply-To: <CABgObfZrTyft-3vqMz5w0ZiAhp-v6c32brgftynZGJO8OafrdA@mail.gmail.com>
-From: Doug Covelli <doug.covelli@broadcom.com>
-Date: Wed, 13 Nov 2024 11:24:56 -0500
-Message-ID: <CADH9ctBYp-LMbW4hm3+QwNoXvAc5ryVeB0L1jLY0uDWSe3vbag@mail.gmail.com>
-Subject: Re: [PATCH 2/3] KVM: x86: Add support for VMware guest specific hypercalls
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Zack Rusin <zack.rusin@broadcom.com>, Sean Christopherson <seanjc@google.com>, 
-	kvm <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@redhat.com>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Joel Stanley <joel@jms.id.au>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	"Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>, 
-	linux-kselftest <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241106051016.89113-2-yesanishhere@gmail.com>
 
-On Wed, Nov 13, 2024 at 2:31=E2=80=AFAM Paolo Bonzini <pbonzini@redhat.com>=
- wrote:
->
->
->
-> Il mar 12 nov 2024, 21:44 Doug Covelli <doug.covelli@broadcom.com> ha scr=
-itto:
->>
->> > Split irqchip should be the best tradeoff. Without it, moves from cr8
->> > stay in the kernel, but moves to cr8 always go to userspace with a
->> > KVM_EXIT_SET_TPR exit. You also won't be able to use Intel
->> > flexpriority (in-processor accelerated TPR) because KVM does not know
->> > which bits are set in IRR. So it will be *really* every move to cr8
->> > that goes to userspace.
->>
->> Sorry to hijack this thread but is there a technical reason not to allow=
- CR8
->> based accesses to the TPR (not MMIO accesses) when the in-kernel local A=
-PIC is
->> not in use?
->
->
-> No worries, you're not hijacking :) The only reason is that it would be m=
-ore code for a seldom used feature and anyway with worse performance. (To b=
-e clear, CR8 based accesses are allowed, but stores cause an exit in order =
-to check the new TPR against IRR. That's because KVM's API does not have an=
- equivalent of the TPR threshold as you point out below).
+On Tue, Nov 05, 2024 at 09:10:14PM -0800, anish kumar wrote:
+> Update the intrduction section to add key components
+> provided by remote processor framework.
+> 
+> Signed-off-by: anish kumar <yesanishhere@gmail.com>
+> ---
+>  Documentation/staging/remoteproc.rst | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/Documentation/staging/remoteproc.rst b/Documentation/staging/remoteproc.rst
+> index 348ee7e508ac..eeebbeca71de 100644
+> --- a/Documentation/staging/remoteproc.rst
+> +++ b/Documentation/staging/remoteproc.rst
+> @@ -29,6 +29,23 @@ remoteproc will add those devices. This makes it possible to reuse the
+>  existing virtio drivers with remote processor backends at a minimal development
+>  cost.
+>  
+> +The primary purpose of the remoteproc framework is to download firmware
+> +for remote processors and manage their lifecycle. The framework consists
+> +of several key components:
+> +
+> +- **Character Driver**: Provides userspace access to control the remote
+> +  processor.
+> +- **ELF Utility**: Offers functions for handling ELF files and managing
+> +  resources requested by the remote processor.
+> +- **Remoteproc Core**: Manages firmware downloads and recovery actions
+> +  in case of a remote processor crash.
+> +- **Coredump**: Provides facilities for coredumping and tracing from
+> +  the remote processor in the event of a crash.
+> +- **Userspace Interaction**: Uses sysfs and debugfs to manage the
+> +  lifecycle and status of the remote processor.
+> +- **Virtio Support**: Facilitates interaction with the virtio and
+> +  rpmsg bus.
 
-I have not really looked at the code but it seems like it could also
-simplify things as CR8 would be handled more uniformly regardless of
-who is virtualizing the local APIC.
+Some of the above is either inaccurate or incomplete.  It would be fairly time
+consuming for me to point out where the problems are, especially since I don't
+see a lot of value in adding this section.
 
->> Also I could not find these documented anywhere but with MSFT's APIC our=
- monitor
->> relies on extensions for trapping certain events such as INIT/SIPI plus =
-LINT0
->> and SVR writes:
->>
->> UINT64 X64ApicInitSipiExitTrap    : 1; // WHvRunVpExitReasonX64ApicInitS=
-ipiTrap
->> UINT64 X64ApicWriteLint0ExitTrap  : 1; // WHvRunVpExitReasonX64ApicWrite=
-Trap
->> UINT64 X64ApicWriteLint1ExitTrap  : 1; // WHvRunVpExitReasonX64ApicWrite=
-Trap
->> UINT64 X64ApicWriteSvrExitTrap    : 1; // WHvRunVpExitReasonX64ApicWrite=
-Trap
->
->
-> There's no need for this in KVM's in-kernel APIC model. INIT and SIPI are=
- handled in the hypervisor and you can get the current state of APs via KVM=
-_GET_MPSTATE. LINT0 and LINT1 are injected with KVM_INTERRUPT and KVM_NMI r=
-espectively, and they obey IF/PPR and NMI blocking respectively, plus the i=
-nterrupt shadow; so there's no need for userspace to know when LINT0/LINT1 =
-themselves change. The spurious interrupt vector register is also handled c=
-ompletely in kernel.
-
-I realize that KVM can handle LINT0/SVR updates themselves but our
-interrupt subsystem relies on knowing the current values of these
-registers even when not virtualizing the local APIC.  I suppose we
-could use KVM_GET_LAPIC to sync things up on demand but that seems
-like it might nor be great from a performance point of view.
-
->> I did not see any similar functionality for KVM.  Does anything like tha=
-t exist?
->> In any case we would be happy to add support for handling CR8 accesses w=
-/o
->> exiting w/o the in-kernel APIC along with some sort of a way to configur=
-e the
->> TPR threshold if folks are not opposed to that.
->
->
-> As far I know everybody who's using KVM (whether proprietary or open sour=
-ce) has had no need for that, so I don't think it's a good idea to make the=
- API more complex. Performance of Windows guests is going to be bad anyway =
-with userspace APIC.
-
-From what I have seen the exit cost with KVM is significantly lower
-than with WHP/Hyper-V.  I don't think performance of Windows guests
-with userspace APIC emulation would be bad if CR8 exits could be
-avoided (Linux guests perf isn't bad from what I have observed and the
-main difference is the astronomical number of CR8 exits).  It seems
-like it would be pretty decent although I agree if you want the
-absolute best performance then you would want to use the in kernel
-APIC to speed up handling of ICR/EOI writes but those are relatively
-infrequent compared to CR8 accesses .
-
-Anyway I just saw Sean's response while writing this and it seems he
-is not in favor of avoiding CR8 exits w/o the in kernel APIC either so
-I suppose we will have to look into making use of the in kernel APIC.
-
-Doug
-
-> Paolo
->
->> Doug
->>
->> > > For now I think it makes sense to handle BDOOR_CMD_GET_VCPU_INFO at =
-userlevel
->> > > like we do on Windows and macOS.
->> > >
->> > > BDOOR_CMD_GETTIME/BDOOR_CMD_GETTIMEFULL are similar with the former =
-being
->> > > deprecated in favor of the latter.  Both do essentially the same thi=
-ng which is
->> > > to return the host OS's time - on Linux this is obtained via gettime=
-ofday.  I
->> > > believe this is mainly used by tools to fix up the VM's time when re=
-suming from
->> > > suspend.  I think it is fine to continue handling these at userlevel=
-.
->> >
->> > As long as the TSC is not involved it should be okay.
->> >
->> > Paolo
->> >
->> > > > >> Anyway, one question apart from this: is the API the same for t=
-he I/O
->> > > > >> port and hypercall backdoors?
->> > > > >
->> > > > > Yeah the calls and arguments are the same.  The hypercall based
->> > > > > interface is an attempt to modernize the backdoor since as you p=
-ointed
->> > > > > out the I/O based interface is kind of hacky as it bypasses the =
-normal
->> > > > > checks for an I/O port access at CPL3.  It would be nice to get =
-rid of
->> > > > > it but unfortunately I don't think that will happen in the fores=
-eeable
->> > > > > future as there are a lot of existing VMs out there with older S=
-W that
->> > > > > still uses this interface.
->> > > >
->> > > > Yeah, but I think it still justifies that the KVM_ENABLE_CAP API c=
-an
->> > > > enable the hypercall but not the I/O port.
->> > > >
->> > > > Paolo
->> >
->>
->> --
->> This electronic communication and the information and any files transmit=
-ted
->> with it, or attached to it, are confidential and are intended solely for
->> the use of the individual or entity to whom it is addressed and may cont=
-ain
->> information that is confidential, legally privileged, protected by priva=
-cy
->> laws, or otherwise restricted from disclosure to anyone else. If you are
->> not the intended recipient or the person responsible for delivering the
->> e-mail to the intended recipient, you are hereby notified that any use,
->> copying, distributing, dissemination, forwarding, printing, or copying o=
-f
->> this e-mail is strictly prohibited. If you received this e-mail in error=
-,
->> please return the e-mail to the sender, delete it from your computer, an=
-d
->> destroy any printed copy of it.
->>
-
---=20
-This electronic communication and the information and any files transmitted=
-=20
-with it, or attached to it, are confidential and are intended solely for=20
-the use of the individual or entity to whom it is addressed and may contain=
-=20
-information that is confidential, legally privileged, protected by privacy=
-=20
-laws, or otherwise restricted from disclosure to anyone else. If you are=20
-not the intended recipient or the person responsible for delivering the=20
-e-mail to the intended recipient, you are hereby notified that any use,=20
-copying, distributing, dissemination, forwarding, printing, or copying of=
-=20
-this e-mail is strictly prohibited. If you received this e-mail in error,=
-=20
-please return the e-mail to the sender, delete it from your computer, and=
-=20
-destroy any printed copy of it.
+> +
+>  User API
+>  ========
+>  
+> -- 
+> 2.39.3 (Apple Git-146)
+> 
