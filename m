@@ -1,128 +1,229 @@
-Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD4D2231C;
-	Wed, 13 Nov 2024 03:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=72.21.196.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBF11C32
+	for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 03:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731468705; cv=none; b=DZ8f8KGaALAN3qmtkMDO1D7d9obK5CjUgfQ1XjIeqi4AEd9UxHK2vmYI91tZkInWYpTP0gNniq27snI+xL1378mc6HvZ6zESK7sID/BQDF5npU/gjIKnSjwK3vXvDXfFdqsiljJYKm/CukaGwI8ciLpuZbtnSacPCklDiLpo2MM=
+	t=1731469061; cv=none; b=ZPBe6ab/lkoYGzroOL1s0MRp1RYx4Y1rKSHDP4CSpdmIWhpv5b3Mwcfo8JSyKfcRjoaJm0XgHRA4OR0iQoIVoxD1z4yqRdwH1n69pVNaTM8CRqT3h6CXv++oiwEggG0meWioXjHg4XswmO59w9s2mC+//TwRwlJG1XZnOHbICAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731468705; c=relaxed/simple;
-	bh=/bYsay7vg1weqenJRpb4pqt79mASw+nrIHAtGk1mYk0=;
-	h=Message-ID:Date:MIME-Version:To:CC:References:Subject:From:
-	 In-Reply-To:Content-Type; b=mZbLYxWyIoDj+Txve+6wv7kbAkLR9pgH7cxHe110BpJ7aDSbSZm+wRnatiymdB1B4ya2hua1oYLEVsHUU6z9zEZ+TpZ5mWdKLNkNehlAARKXTRDGKCI3jz2YZ/Gzq/7/haeGSrG/74wJLAKsMVlLKstE48q5C6py2tiUET7Qyb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=p2FyNdhI; arc=none smtp.client-ip=72.21.196.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="p2FyNdhI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1731468703; x=1763004703;
-  h=message-id:date:mime-version:to:cc:references:subject:
-   from:in-reply-to:content-transfer-encoding;
-  bh=/bYsay7vg1weqenJRpb4pqt79mASw+nrIHAtGk1mYk0=;
-  b=p2FyNdhIAi+6xoWhb29VwwL4rYVU/pPGGnyai28akMRJ0vFNwFs/T6Vj
-   eiueWOUGu4dnJNH5Hny1h8CHvZzYocsG0h16E+FlLNBRa8F3JcaIdqmrJ
-   KCD5NNrIGc573cvqyJrNOyw+0LzZnLf/WD6iGQCHkldT9dIQ+7S1M071M
-   M=;
-X-IronPort-AV: E=Sophos;i="6.12,149,1728950400"; 
-   d="scan'208";a="442195777"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.6])
-  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 03:31:38 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [10.0.21.151:35392]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.13.112:2525] with esmtp (Farcaster)
- id 1975e212-552a-4756-aa4f-791440302fe9; Wed, 13 Nov 2024 03:31:37 +0000 (UTC)
-X-Farcaster-Flow-ID: 1975e212-552a-4756-aa4f-791440302fe9
-Received: from EX19D003UWC002.ant.amazon.com (10.13.138.169) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 13 Nov 2024 03:31:37 +0000
-Received: from [192.168.205.1] (10.106.101.35) by
- EX19D003UWC002.ant.amazon.com (10.13.138.169) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
- Wed, 13 Nov 2024 03:31:34 +0000
-Message-ID: <96c24397-b081-4570-adb2-8d4443f3359c@amazon.com>
-Date: Tue, 12 Nov 2024 20:31:29 -0700
+	s=arc-20240116; t=1731469061; c=relaxed/simple;
+	bh=8/pfwue93sea5G+mK6+uJWpKpVjDvmtdwx3z6d748/Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=n6rD/JQy6CkG0jZnLpdsAGmmh0yiMb0th8yOrY/YHHPSajZtH5fRpBPOBmAo6rp6T3JLdwke1V4S/T9rpE3131VURq0uGRhosWJgU+ZigI08WegumNuHPy+Ho2cjYgtD3C8QduosLpZq0jMOXDFAn/SrxaPOknwfkIDFc1P8wGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=45.249.212.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Xp87Z63DWz1SGPx;
+	Wed, 13 Nov 2024 11:35:38 +0800 (CST)
+Received: from kwepemd200012.china.huawei.com (unknown [7.221.188.145])
+	by mail.maildlp.com (Postfix) with ESMTPS id 102AA180042;
+	Wed, 13 Nov 2024 11:37:29 +0800 (CST)
+Received: from [10.67.121.115] (10.67.121.115) by
+ kwepemd200012.china.huawei.com (7.221.188.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Wed, 13 Nov 2024 11:37:28 +0800
+Message-ID: <fa65b60a-9277-685c-0bcd-4ee1f9f69fff@hisilicon.com>
+Date: Wed, 13 Nov 2024 11:37:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: <elena.reshetova@intel.com>
-CC: <ackerleytng@google.com>, <agordeev@linux.ibm.com>,
-	<aou@eecs.berkeley.edu>, <borntraeger@linux.ibm.com>, <bp@alien8.de>,
-	<canellac@amazon.at>, <catalin.marinas@arm.com>, <chenhuacai@kernel.org>,
-	<corbet@lwn.net>, <dave.hansen@intel.com>, <dave.hansen@linux.intel.com>,
-	<david@redhat.com>, <derekmn@amazon.com>, <gerald.schaefer@linux.ibm.com>,
-	<gor@linux.ibm.com>, <graf@amazon.com>, <hca@linux.ibm.com>, <hpa@zytor.com>,
-	<jgowans@amazon.com>, <jthoughton@google.com>, <kalyazin@amazon.com>,
-	<kernel@xen0n.name>, <kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
-	<linux-s390@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<loongarch@lists.linux.dev>, <luto@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <mhiramat@kernel.org>, <mingo@redhat.com>,
-	<mlipp@amazon.at>, <palmer@dabbelt.com>, <paul.walmsley@sifive.com>,
-	<pbonzini@redhat.com>, <peterz@infradead.org>, <quic_eberman@quicinc.com>,
-	<rostedt@goodmis.org>, <roypat@amazon.co.uk>, <rppt@kernel.org>,
-	<seanjc@google.com>, <shuah@kernel.org>, <svens@linux.ibm.com>,
-	<tabba@google.com>, <tglx@linutronix.de>, <vannapurve@google.com>,
-	<will@kernel.org>, <x86@kernel.org>, <xmarcalx@amazon.com>
-References: <DM8PR11MB57505F62D149EF153F89B8BAE75D2@DM8PR11MB5750.namprd11.prod.outlook.com>
-Subject: RE: [RFC PATCH v3 0/6] Direct Map Removal for guest_memfd
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2] irqchip/gicv3-its: Add workaround for hip09 ITS
+ erratum 162100801
 Content-Language: en-US
-From: "Manwaring, Derek" <derekmn@amazon.com>
-In-Reply-To: <DM8PR11MB57505F62D149EF153F89B8BAE75D2@DM8PR11MB5750.namprd11.prod.outlook.com>
+To: Marc Zyngier <maz@kernel.org>
+CC: <tglx@linutronix.de>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <wangwudi@hisilicon.com>, Nianyao Tang
+	<tangnianyao@huawei.com>
+References: <20241112090426.1876148-1-wangzhou1@hisilicon.com>
+ <874j4ctqrb.wl-maz@kernel.org>
+From: Zhou Wang <wangzhou1@hisilicon.com>
+In-Reply-To: <874j4ctqrb.wl-maz@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D038UWB003.ant.amazon.com (10.13.139.157) To
- EX19D003UWC002.ant.amazon.com (10.13.138.169)
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemd200012.china.huawei.com (7.221.188.145)
 
-On 2024-11-08 at 10:36, Elena Reshetova wrote:
-> On 2024-11-06 at 17:04, Derek Manwaring wrote:
-> > On 2024-11-04 at 08:33+0000, Elena Reshetova wrote:
-> > > This statement *is* for integrity section. We have a separate TDX guidance
-> > > on side-channels (including speculative) [3] and some speculative attacks
-> > > that affect confidentiality (for example spectre v1) are listed as not covered
-> > > by TDX but remaining SW responsibility (as they are now).
-> >
-> > Thanks for the additional info, Elena. Given that clarification, I
-> > definitely see direct map removal and TDX as complementary.
->
-> Jus to clarify to make sure my comment is not misunderstood.
-> What I meant is that we cannot generally assume that confidentiality
-> leaks from CoCo guests to host/VMM via speculative channels
-> are completely impossible. Spectre V1 is a prime example of such a
-> possible leak. Dave also elaborated on other potential vectors earlier.
->
-> The usefulness of direct map removal for CoCo guests as a concrete
-> mitigation for certain types of memory attacks must be precisely
-> evaluated per each attack vector, attack vector direction (host -> guest,
-> guest ->host, etc) and per each countermeasure that CoCo vendors
-> provide for each such case. I don't know if there is any existing study
-> that examines this for major CoCo vendors. I think this is what must
-> be done for this work in order to have a strong reasoning for its usefulness.
+On 2024/11/12 23:29, Marc Zyngier wrote:
+> On Tue, 12 Nov 2024 09:04:26 +0000,
+> Zhou Wang <wangzhou1@hisilicon.com> wrote:
+>>
+>> When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
+>> during unmapping operation, which will cause some vSGIs lost.
+>>
+>> To fix the issue, it needs to send VINVALL command after VMOVP.
+>>
+>> Signed-off-by: Nianyao Tang <tangnianyao@huawei.com>
+>> Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
+>> ---
+>>  Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>>  arch/arm64/Kconfig                          | 10 +++++++
+>>  drivers/irqchip/irq-gic-v3-its.c            | 29 +++++++++++++++++++++
+>>  3 files changed, 41 insertions(+)
+>>
+>> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+>> index 65bfab1b1861..77db10e944f0 100644
+>> --- a/Documentation/arch/arm64/silicon-errata.rst
+>> +++ b/Documentation/arch/arm64/silicon-errata.rst
+>> @@ -258,6 +258,8 @@ stable kernels.
+>>  | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
+>>  |                | ,11} SMMU PMCG  |                 |                             |
+>>  +----------------+-----------------+-----------------+-----------------------------+
+>> +| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
+>> ++----------------+-----------------+-----------------+-----------------------------+
+>>  +----------------+-----------------+-----------------+-----------------------------+
+>>  | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
+>>  +----------------+-----------------+-----------------+-----------------------------+
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>> index 70d7f4f20225..d41cf6bf1458 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -1232,6 +1232,16 @@ config HISILICON_ERRATUM_161600802
+>>  
+>>  	  If unsure, say Y.
+>>  
+>> +config HISILICON_ERRATUM_162100801
+>> +	bool "Hip09 162100801 erratum support"
+>> +	default y
+>> +	help
+>> +	  When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
+>> +	  during unmapping operation, which will cause some vSGIs lost.
+>> +	  So fix it by sending VINVALL command after VMOVP.
+>> +
+>> +	  If unsure, say Y.
+>> +
+>>  config QCOM_FALKOR_ERRATUM_1003
+>>  	bool "Falkor E1003: Incorrect translation due to ASID change"
+>>  	default y
+>> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+>> index 52f625e07658..e98d13d0adf9 100644
+>> --- a/drivers/irqchip/irq-gic-v3-its.c
+>> +++ b/drivers/irqchip/irq-gic-v3-its.c
+>> @@ -44,6 +44,7 @@
+>>  #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
+>>  #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
+>>  #define ITS_FLAGS_FORCE_NON_SHAREABLE		(1ULL << 3)
+>> +#define ITS_FLAGS_WORKAROUND_HISILICON_162100801	(1ULL << 4)
+>>  
+>>  #define RD_LOCAL_LPI_ENABLED                    BIT(0)
+>>  #define RD_LOCAL_PENDTABLE_PREALLOCATED         BIT(1)
+>> @@ -3804,6 +3805,7 @@ static int its_vpe_set_affinity(struct irq_data *d,
+>>  	struct its_vpe *vpe = irq_data_get_irq_chip_data(d);
+>>  	unsigned int from, cpu = nr_cpu_ids;
+>>  	struct cpumask *table_mask;
+>> +	struct its_node *its;
+>>  	unsigned long flags;
+>>  
+>>  	/*
+>> @@ -3866,6 +3868,17 @@ static int its_vpe_set_affinity(struct irq_data *d,
+>>  	vpe->col_idx = cpu;
+>>  
+>>  	its_send_vmovp(vpe);
+>> +
+>> +	/*
+>> +	 * Version of ITS is same in one system. As there is no cache in ITS,
+>> +	 * and only cache in related GICR should be clean, so one VINVALL is
+>> +	 * enough here.
+>> +	 */
+>> +	its = list_first_entry(&its_nodes, struct its_node, entry);
+>> +	if ((its->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801) &&
+>> +	    is_v4_1(its))
+>> +		its_send_vinvall(its, vpe);
+> 
+> Can this be done using the GICR_INVALLR register instead? I would
+> expect it to be a bit better performance wise, as it doesn't require
+> to take a global lock. Something like the hack below (untested).
+> 
+> Thanks,
+> 
+> 	M.
 
-Thanks, that makes sense. I'm a little hyperfocused on guest->host which
-is the opposite direction of what is generally used for the CoCo threat
-model. I think what both cases care about though is guest->guest. For
-me, guest->host matters because it's a route for guest->guest (at least
-in the non-CoCo world). There's some good discussion on this in David's
-series on attack vector controls [1].
+Hi Marc,
 
-Like you mention, beyond direction it matters which CoCo countermeasures
-are at play and how far they go during transient execution. That part is
-not clear to me for the host->guest direction involving the direct map,
-but agree any countermeasures like direct map removal should be
-evaluated based on a better understanding of what those existing
-countermeasures already cover and what attack is intended to be
-mitigated.
+Many thanks for your suggestion! It is OK in theory and it works fine in test
+as well.
 
-Derek
+I will send V3 soon.
 
+Best,
+Zhou
 
-[1] https://lore.kernel.org/lkml/LV3PR12MB92658EA6CCF18F90DAAA168394532@LV3PR12MB9265.namprd12.prod.outlook.com/
+> 
+> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+> index fdec478ba5e7..d30d6ee727c1 100644
+> --- a/drivers/irqchip/irq-gic-v3-its.c
+> +++ b/drivers/irqchip/irq-gic-v3-its.c
+> @@ -62,6 +62,8 @@ static u32 lpi_id_bits;
+>  
+>  static u8 __ro_after_init lpi_prop_prio;
+>  
+> +static struct its_node *find_4_1_its(void);
+> +
+>  /*
+>   * Collection structure - just an ID, and a redistributor address to
+>   * ping. We use one per CPU as a bag of interrupts assigned to this
+> @@ -3797,6 +3799,22 @@ static void its_vpe_db_proxy_move(struct its_vpe *vpe, int from, int to)
+>  	raw_spin_unlock_irqrestore(&vpe_proxy.lock, flags);
+>  }
+>  
+> +static void its_vpe_4_1_invall_locked(int cpu, struct its_vpe *vpe)
+> +{
+> +	void __iomem *rdbase;
+> +	u64 val;
+> +
+> +	val  = GICR_INVALLR_V;
+> +	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
+> +
+> +	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
+> +	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
+> +	gic_write_lpir(val, rdbase + GICR_INVALLR);
+> +
+> +	wait_for_syncr(rdbase);
+> +	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
+> +}
+> +
+>  static int its_vpe_set_affinity(struct irq_data *d,
+>  				const struct cpumask *mask_val,
+>  				bool force)
+> @@ -3849,6 +3867,10 @@ static int its_vpe_set_affinity(struct irq_data *d,
+>  	vpe->col_idx = cpu;
+>  
+>  	its_send_vmovp(vpe);
+> +
+> +	if (find_4_1_its()->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801)
+> +		its_vpe_4_1_invall_locked(cpu, vpe);
+> +
+>  	its_vpe_db_proxy_move(vpe, from, cpu);
+>  
+>  out:
+> @@ -4156,22 +4178,12 @@ static void its_vpe_4_1_deschedule(struct its_vpe *vpe,
+>  
+>  static void its_vpe_4_1_invall(struct its_vpe *vpe)
+>  {
+> -	void __iomem *rdbase;
+>  	unsigned long flags;
+> -	u64 val;
+>  	int cpu;
+>  
+> -	val  = GICR_INVALLR_V;
+> -	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
+> -
+>  	/* Target the redistributor this vPE is currently known on */
+>  	cpu = vpe_to_cpuid_lock(vpe, &flags);
+> -	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
+> -	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
+> -	gic_write_lpir(val, rdbase + GICR_INVALLR);
+> -
+> -	wait_for_syncr(rdbase);
+> -	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
+> +	its_vpe_4_1_invall_locked(cpu, vpe);
+>  	vpe_to_cpuid_unlock(vpe, flags);
+>  }
+>  
+> 
