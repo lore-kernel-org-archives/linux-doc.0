@@ -1,215 +1,96 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EB81E9089
-	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 08:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092EA1632F2;
+	Thu, 14 Nov 2024 09:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731572384; cv=none; b=W2O+0jD9KXCHDepVrHx8Hntiev3PhW8m06NIIK8z0o6aHV/7FURbwIR3oDjmC62HBSPGLw+FCXkXFex4013UYX4mA/ErTbcIwbH+BMl0PGxPNNtKLthAmJs/Zs0fQPp+6Hmy0FDyy2jhiy2nnqAJGGfZxLB9TJXp1lVwtRDmEx0=
+	t=1731577653; cv=none; b=HxBuCNdD+CoRtV6ubI6qHo3DJJQGqK3lahNMZjMy1UQz41MFxHpx6MqWXnOCV1fNCo0368VnZST7FoRptbeq0AulZd6b0x3uJsmvsbJCOfknxM8G5VUAFKE1nwce+tDJY3JN+0p4zL0VgKinW27v3vG6xH9EAceQQjxcmOu9Z34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731572384; c=relaxed/simple;
-	bh=kg5iottiqSkziPPR+3lCHz1LS3KnxB1mD9eBSmV73eE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dTmE+PQBBc/O2VQSU032qY/HFui6wz7IS/hM9b5E7EhepO8EWi8x7u5rB2Yb/qsCz3ZALbReDdjfoLu9LM+sGbx7ZYb3nEYkOhYHbZAugfXjMnloMkGID5+Fo757m2uxlU72Ke+5AYqRofLP7TWnxI9wpPCEn6fOAKvYgyBMT+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4XptKq44Qsz10RlQ;
-	Thu, 14 Nov 2024 16:17:03 +0800 (CST)
-Received: from kwepemd200012.china.huawei.com (unknown [7.221.188.145])
-	by mail.maildlp.com (Postfix) with ESMTPS id 242C81800A6;
-	Thu, 14 Nov 2024 16:19:34 +0800 (CST)
-Received: from huawei.com (10.145.6.51) by kwepemd200012.china.huawei.com
- (7.221.188.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Thu, 14 Nov
- 2024 16:19:32 +0800
-From: Zhou Wang <wangzhou1@hisilicon.com>
-To: <maz@kernel.org>, <tglx@linutronix.de>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<wangwudi@hisilicon.com>, <prime.zeng@hisilicon.com>, Zhou Wang
-	<wangzhou1@hisilicon.com>, Nianyao Tang <tangnianyao@huawei.com>
-Subject: [PATCH v4] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
-Date: Thu, 14 Nov 2024 16:28:13 +0800
-Message-ID: <20241114082813.3865466-1-wangzhou1@hisilicon.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1731577653; c=relaxed/simple;
+	bh=jGIxwE9bbYBj8San2bjvt6eXM5MNiT9cmXr1rAfLAAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aoH+oNHHNmnZLDUfQc5XcmOFPnfkIFvuy8njanNToa3etu2L4XtqN1vCTosaFYckVsuUSnvlhQyESdQYJW+rWIZfex10ldYppyEE8G6AfFPz54Z/omyLLJwBhbsNUAdcazibfnCIMvKat/Yy1G6/11kExdDJ10ct+TsBgdFAbSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DOQfL1Tn; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DOQfL1Tn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D47D7C4CECD;
+	Thu, 14 Nov 2024 09:47:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731577652;
+	bh=jGIxwE9bbYBj8San2bjvt6eXM5MNiT9cmXr1rAfLAAY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DOQfL1TnZYVAdUjpohgvIdr+VpMU+dB87EYR12Pf30D1DXmtchMZplhvSvbp7zMtW
+	 itzBsdFHV6EUVhO5DhHkGVnaLLpO9seoHiHokqTTUQ5lrTbOXiFJsj3cnzxrIIbFkJ
+	 ozpu8RzcEX1a7D7gTnH1aZAxedbvpXssPfMc+2E4Y9nEJGThpsPaN56xYewARr6caB
+	 yBsLypi2RtxLlni/U2+BPMglXC6qY9G1ikU48DtvbFvEpcvNZ5wfnYGMm16mIN3cj7
+	 LLo1BiSv+UPKFuk+s0SMoxCKX2A8sYGLnpZHtoDgrMZWmSQDVZ5XvsIZ7+0/ZV0t5O
+	 8njUNrn0lrmEw==
+Date: Thu, 14 Nov 2024 10:47:23 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Amit Shah <amit@kernel.org>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	amit.shah@amd.com, thomas.lendacky@amd.com, tglx@linutronix.de,
+	peterz@infradead.org, pawan.kumar.gupta@linux.intel.com,
+	corbet@lwn.net, mingo@redhat.com, dave.hansen@linux.intel.com,
+	hpa@zytor.com, seanjc@google.com, pbonzini@redhat.com,
+	daniel.sneddon@linux.intel.com, kai.huang@intel.com,
+	sandipan.das@amd.com, boris.ostrovsky@oracle.com,
+	Babu.Moger@amd.com, david.kaplan@amd.com, dwmw@amazon.co.uk
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <ZzXHK1O9E1sQ8mBt@gmail.com>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
+ <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
+ <20241112115811.GAZzNC08WU5h8bLFcf@fat_crate.local>
+ <20241113212440.slbdllbdvbnk37hu@jpoimboe>
+ <20241113213724.GJZzUcFKUHCiqGLRqp@fat_crate.local>
+ <20241114004358.3l7jxymrtykuryyd@jpoimboe>
+ <20241114074733.GAZzWrFTZM7HZxMXP5@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemd200012.china.huawei.com (7.221.188.145)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241114074733.GAZzWrFTZM7HZxMXP5@fat_crate.local>
 
-When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-during unmapping operation, which will cause some vSGIs lost.
 
-To fix the issue, invalidate related vPE cache through GICR_INVALLR
-after VMOVP.
+* Borislav Petkov <bp@alien8.de> wrote:
 
-Suggested-by: Marc Zyngier <maz@kernel.org>
-Signed-off-by: Nianyao Tang <tangnianyao@huawei.com>
-Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
----
- Documentation/arch/arm64/silicon-errata.rst |  2 +
- arch/arm64/Kconfig                          | 11 +++++
- drivers/irqchip/irq-gic-v3-its.c            | 52 ++++++++++++++++-----
- 3 files changed, 54 insertions(+), 11 deletions(-)
+> On Wed, Nov 13, 2024 at 04:43:58PM -0800, Josh Poimboeuf wrote:
+> > This comment relates to the "why" for the code itself (and its poor
+> > confused developers), taking all the RSB-related vulnerabilities into
+> > account.
+> 
+> So use Documentation/arch/x86/.
+> 
+> This is exactly the reason why we need more "why" documentation - because
+> everytime we have to swap the whole bugs.c horror back in, we're poor confused
+> developers. And we have the "why" spread out across commit messages and other
+> folklore which means everytime we have to change stuff, the git archeology
+> starts. :-\ "err, do you remember why we're doing this?!" And so on
+> converstaions on IRC.
+> 
+> So having an implementation document explaining clearly why we did things is
+> long overdue.
+> 
+> But it's fine - I can move it later when the dust settles here.
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 65bfab1b1861..77db10e944f0 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -258,6 +258,8 @@ stable kernels.
- | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
- |                | ,11} SMMU PMCG  |                 |                             |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 70d7f4f20225..0ea9c599681d 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1232,6 +1232,17 @@ config HISILICON_ERRATUM_161600802
- 
- 	  If unsure, say Y.
- 
-+config HISILICON_ERRATUM_162100801
-+	bool "Hip09 162100801 erratum support"
-+	default y
-+	help
-+	  When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
-+	  during unmapping operation, which will cause some vSGIs lost.
-+	  To fix the issue, invalidate related vPE cache through GICR_INVALLR
-+	  after VMOVP.
-+
-+	  If unsure, say Y.
-+
- config QCOM_FALKOR_ERRATUM_1003
- 	bool "Falkor E1003: Incorrect translation due to ASID change"
- 	default y
-diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-index 52f625e07658..fb2a96e376cc 100644
---- a/drivers/irqchip/irq-gic-v3-its.c
-+++ b/drivers/irqchip/irq-gic-v3-its.c
-@@ -44,6 +44,7 @@
- #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
- #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
- #define ITS_FLAGS_FORCE_NON_SHAREABLE		(1ULL << 3)
-+#define ITS_FLAGS_WORKAROUND_HISILICON_162100801	(1ULL << 4)
- 
- #define RD_LOCAL_LPI_ENABLED                    BIT(0)
- #define RD_LOCAL_PENDTABLE_PREALLOCATED         BIT(1)
-@@ -61,6 +62,7 @@ static u32 lpi_id_bits;
- #define LPI_PENDBASE_SZ		ALIGN(BIT(LPI_NRBITS) / 8, SZ_64K)
- 
- static u8 __ro_after_init lpi_prop_prio;
-+static struct its_node *find_4_1_its(void);
- 
- /*
-  * Collection structure - just an ID, and a redistributor address to
-@@ -3797,6 +3799,22 @@ static void its_vpe_db_proxy_move(struct its_vpe *vpe, int from, int to)
- 	raw_spin_unlock_irqrestore(&vpe_proxy.lock, flags);
- }
- 
-+static void its_vpe_4_1_invall_locked(int cpu, struct its_vpe *vpe)
-+{
-+	void __iomem *rdbase;
-+	u64 val;
-+
-+	val  = GICR_INVALLR_V;
-+	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
-+
-+	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
-+	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
-+	gic_write_lpir(val, rdbase + GICR_INVALLR);
-+
-+	wait_for_syncr(rdbase);
-+	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
-+}
-+
- static int its_vpe_set_affinity(struct irq_data *d,
- 				const struct cpumask *mask_val,
- 				bool force)
-@@ -3804,6 +3822,7 @@ static int its_vpe_set_affinity(struct irq_data *d,
- 	struct its_vpe *vpe = irq_data_get_irq_chip_data(d);
- 	unsigned int from, cpu = nr_cpu_ids;
- 	struct cpumask *table_mask;
-+	struct its_node *its;
- 	unsigned long flags;
- 
- 	/*
-@@ -3866,6 +3885,11 @@ static int its_vpe_set_affinity(struct irq_data *d,
- 	vpe->col_idx = cpu;
- 
- 	its_send_vmovp(vpe);
-+
-+	its = find_4_1_its();
-+	if (its && its->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801)
-+		its_vpe_4_1_invall_locked(cpu, vpe);
-+
- 	its_vpe_db_proxy_move(vpe, from, cpu);
- 
- out:
-@@ -4173,22 +4197,12 @@ static void its_vpe_4_1_deschedule(struct its_vpe *vpe,
- 
- static void its_vpe_4_1_invall(struct its_vpe *vpe)
- {
--	void __iomem *rdbase;
- 	unsigned long flags;
--	u64 val;
- 	int cpu;
- 
--	val  = GICR_INVALLR_V;
--	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
--
- 	/* Target the redistributor this vPE is currently known on */
- 	cpu = vpe_to_cpuid_lock(vpe, &flags);
--	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
--	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
--	gic_write_lpir(val, rdbase + GICR_INVALLR);
--
--	wait_for_syncr(rdbase);
--	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
-+	its_vpe_4_1_invall_locked(cpu, vpe);
- 	vpe_to_cpuid_unlock(vpe, flags);
- }
- 
-@@ -4781,6 +4795,14 @@ static bool its_set_non_coherent(void *data)
- 	return true;
- }
- 
-+static bool __maybe_unused its_enable_quirk_hip09_162100801(void *data)
-+{
-+	struct its_node *its = data;
-+
-+	its->flags |= ITS_FLAGS_WORKAROUND_HISILICON_162100801;
-+	return true;
-+}
-+
- static const struct gic_quirk its_quirks[] = {
- #ifdef CONFIG_CAVIUM_ERRATUM_22375
- 	{
-@@ -4827,6 +4849,14 @@ static const struct gic_quirk its_quirks[] = {
- 		.init	= its_enable_quirk_hip07_161600802,
- 	},
- #endif
-+#ifdef CONFIG_HISILICON_ERRATUM_162100801
-+	{
-+		.desc	= "ITS: Hip09 erratum 162100801",
-+		.iidr	= 0x00051736,
-+		.mask	= 0xffffffff,
-+		.init	= its_enable_quirk_hip09_162100801,
-+	},
-+#endif
- #ifdef CONFIG_ROCKCHIP_ERRATUM_3588001
- 	{
- 		.desc   = "ITS: Rockchip erratum RK3588001",
--- 
-2.34.1
+I think in-line documentation is better in this case: the primary defense
+against mistakes and misunderstandings is in the source code itself.
 
+And "it's too long" is an argument *against* moving it out into some obscure
+place 99% of developers aren't even aware of...
+
+Thanks,
+
+	Ingo
