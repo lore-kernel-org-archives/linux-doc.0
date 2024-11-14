@@ -1,134 +1,111 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3DB11F26CA
-	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 10:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703301F80CC;
+	Thu, 14 Nov 2024 10:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731580430; cv=none; b=TZ6Un2N+n+e+M/8QDSUn54uhrzP8KkkN9Vbei2Ky2ZB8C+Y5tOKpi7ILD+9NABvJRoowsLbK75cLKIAknksRQbaHLQyKsArDAUeLFaTyi2ZMFdcNGCLM+JM4Z0tr8SO7PS7JqTCOzLoQ+3FVL0/opjusH45yo/UuaDTOuGTnuEQ=
+	t=1731581185; cv=none; b=agVouWp4ZJdAqRJ86Xk+7X72p3kmUeOq/xOh5+37LTdHMVZAmL/TvfErfDdPV/AVU9JgBszo7ObBVPJrRHEodZRzQJidHvxVbQ54XpZRoti+Ev+vjr6EkDixmSIl+htZQnX7bjUVXycPbzK7zRf6/kTdOMishBZKHAiOTfNTaN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731580430; c=relaxed/simple;
-	bh=X2NeQPMnpek12M1llh7mAvPwsYyUlv1ectRkJWKV740=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ghW8Szwn2jzB1Q8P/esuc9GYUmYConbIrNZ4iNqHM/PDAZrY7mRzSPfOzTZYZE4KPLTAsZCW6EoT+N7dcTsmcm+dF1SbbETgoDLj0Ou+UjhULl7HKtBB561CcdVQFiKTbqbnc/vEa3ro0fRFccjVXwjkyb6BY2+oqXLGKu4jieA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AAs8zC3U; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1731581185; c=relaxed/simple;
+	bh=6GmTVh0328DG3z1UVIJJzkv4fJ3qqsmJH7jtABAW+Mw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FK22sqOzOAEg6T9eRk53hBHg8wjzP3Ul7/RT0J4vL5iMNmjtoUYXqxHwn91WM4VYCo7EB2JctNyz0Vby85HUPLzM32VfqZjlMECfjqPHM55Sfx70l01F6MnhiLMSFQoR4YcWG48D9XD7HvApBsyPYIqSJot7f7N4qh9FrfyQmtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jxDE5vdp; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AAs8zC3U"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5cef772621eso582299a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 02:33:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1731580427; x=1732185227; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VBPApLFtlaOK3f4z4ZSIcdYWTPe1i7pEMSXlEit2OcA=;
-        b=AAs8zC3U9/6SbpbpwBiWKyWmA5quBsvv3R21SQIVM4IqoNuUexPs4u6B+7GWgEgm1s
-         IPKRkiEqmTudD03Vfnjmqwvmn/c+HHa80J3/QtFabELuV7aEc0B33M89PTG7fVSFoSBf
-         +xaNMgyJwhtH+dVTMJs5zJSVyAuwdl+6XZvzQQXYn8BPi7u0vOZ98JeIfFo05zLRe5T8
-         hynahSv32BiDGxPlWMJohbRhUMXSZAwmEGL/eBp0cFrtwBVBhpZwhv1SC1UDyZ1ML3rD
-         CrIHr0NRYBeK3nazVLE44MssbDKWpUFtxMmU7pRaR8Sa0QuJCX+MsJ9apn1CcFRB0ACM
-         tn2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731580427; x=1732185227;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VBPApLFtlaOK3f4z4ZSIcdYWTPe1i7pEMSXlEit2OcA=;
-        b=XHxnyDedPpBEv/XLqw7RhW2vzCQ2YI1JO7A91/D3eMVDlUoMkHYu5gedyp1RODg+km
-         1T5FriWuO9+xqw8UNSHpgEeH3a0NSISsMH9c9yebPn04aydPziywb0lpMfZaKU7qfmi+
-         UzYNaBpjDYkGSGvF/dWWxJiz2YPqBJpu6ncwv/+43lJ5E/3xgMB74yPRUxzgzljtxnxX
-         18pBOe1CvXnmuKFcrfHu9yAr2RoAIdvlHBegH42itseRhgDI+rDMr1utPo0jn0HvxaCg
-         4bCvU6LlQ3ibysrqxz1yTkyMnI09nIo/wUuALvpFME/OmxZq18cz4ZxpS3ly8J8lHYfo
-         my3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUnmi33hGmyNwMGaEUPpSG4wxeX73IAzUW6kBxHDwfqLersfffeGpJMgpwqJv3qx2tBxsYYF3Gau44=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3NGT3zGLvFdsqdes6ZCLee4ROSj8SezAbRFDXkIlbLBq4L+Au
-	xMQXgC5XwDG7gcs/hhnWuPlEUXpS8rkNpdK7zvbU4axfnvpKlcRiwWzE5egmygI=
-X-Google-Smtp-Source: AGHT+IEmLsdovsIKeaEEvZwYSPZlHx1HJdNmxwuq2BlsvFnUk5lcIWWhA0cQDnKQAWDSm08XlzLyuw==
-X-Received: by 2002:a17:906:c150:b0:a9a:f0e:cd4 with SMTP id a640c23a62f3a-aa1f813b746mr585216666b.55.1731580426995;
-        Thu, 14 Nov 2024 02:33:46 -0800 (PST)
-Received: from localhost (109-81-88-120.rct.o2.cz. [109.81.88.120])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20df1b642sm47126766b.40.2024.11.14.02.33.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 02:33:46 -0800 (PST)
-Date: Thu, 14 Nov 2024 11:33:45 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: David Rientjes <rientjes@google.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, akpm@linux-foundation.org,
-	nphamcs@gmail.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
-	muchun.song@linux.dev, chris@chrisdown.name, tj@kernel.org,
-	lizefan.x@bytedance.com, mkoutny@suse.com, corbet@lwn.net,
-	lnyng@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
-Message-ID: <ZzXSCSBcPobCpmG8@tiehlicka>
-References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com>
- <72688d81-24db-70ba-e260-bd5c74066d27@google.com>
- <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com>
- <eb4aada0-f519-02b5-c3c2-e6c26d468d7d@google.com>
- <c41adcce-473d-c1a7-57a1-0c44ea572679@google.com>
- <20241114052624.GD1564047@cmpxchg.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jxDE5vdp"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 628354000C;
+	Thu, 14 Nov 2024 10:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1731581174;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZXjkCtqX7WBxDao3IE3a8VvAAIvFEnT0KiRXJWPUYP8=;
+	b=jxDE5vdpag5h+2dL8KSGTV+QohJenpgiJERIiclWddgnRxschtdWzrEFI1tPPTw8mG7fOU
+	6LXy4C15Ci7lbsnfUipqFT5amaRmK+jEMin7ZIDL1+XQQdaChBqOqDnd2vGGikRnSrBQTA
+	p1nq+tTh4fj68pJnKY9ZvIVgOi52FmSuf6MbhybW8DOUSKjvRhf7HHHPYxxBzD56d4S+F7
+	z3jCQmkbfvQfB2qgj2se+8ftLTW2rU8LOMoDvV4oVfiBcRlRV9jvdrZQW9GMracvfMFaFD
+	SYM3xOaqFDOTHHEnYolg8l7TFFsYqCzxSfbqjvwwfTIPfWEtFZ0WbHICBVl2Tw==
+Date: Thu, 14 Nov 2024 11:46:10 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, donald.hunter@gmail.com,
+ danieller@nvidia.com, ecree.xilinx@gmail.com, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Willem de Bruijn <willemb@google.com>, Shannon Nelson
+ <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>, Jacob
+ Keller <jacob.e.keller@intel.com>
+Subject: Re: [PATCH net-next v19 03/10] ptp: Add phc source and helpers to
+ register specific PTP clock or get information
+Message-ID: <20241114114610.1eb4a5da@kmaincent-XPS-13-7390>
+In-Reply-To: <20241113163925.7b3bd3d9@kernel.org>
+References: <20241030-feature_ptp_netnext-v19-0-94f8aadc9d5c@bootlin.com>
+ <20241030-feature_ptp_netnext-v19-3-94f8aadc9d5c@bootlin.com>
+ <20241111150609.2b0425f6@kernel.org>
+ <20241112111232.1637f814@kmaincent-XPS-13-7390>
+ <20241112182226.2a6c8bab@kernel.org>
+ <20241113113808.4f8c5a0b@kmaincent-XPS-13-7390>
+ <20241113163925.7b3bd3d9@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241114052624.GD1564047@cmpxchg.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Thu 14-11-24 00:26:24, Johannes Weiner wrote:
-> On Wed, Nov 13, 2024 at 02:42:29PM -0800, David Rientjes wrote:
-> > On Mon, 11 Nov 2024, David Rientjes wrote:
-> > 
-> > > > The reason that I opted not to include a breakdown of each hugetlb
-> > > > size in memory.stat is only because I wanted to keep the addition that
-> > > > this patch makes as minimal as possible, while still addressing
-> > > > the goal of bridging the gap between memory.stat and memory.current.
-> > > > Users who are curious about this breakdown can see how much memory
-> > > > is used by each hugetlb size by enabling the hugetlb controller as well.
-> > > > 
-> > > 
-> > > While the patch may be minimal, this is solidifying a kernel API that 
-> > > users will start to count on.  Users who may be interested in their 
-> > > hugetlb usage may not have control over the configuration of their kernel?
-> > > 
-> > > Does it make sense to provide a breakdown in memory.stat so that users can 
-> > > differentiate between mapping one 1GB hugetlb page and 512 2MB hugetlb 
-> > > pages, which are different global resources?
-> > > 
-> > > > It's true that this is the case as well for total hugeltb usage, but
-> > > > I felt that not including hugetlb memory usage in memory.stat when it
-> > > > is accounted by memory.current would cause confusion for the users
-> > > > not being able to see that memory.current = sum of memory.stat. On the
-> > > > other hand, seeing the breakdown of how much each hugetlb size felt more
-> > > > like an optimization, and not a solution that bridges a confusion.
-> > > > 
-> > > 
-> > > If broken down into hugetlb_2048kB and hugetlb_1048576kB on x86, for 
-> > > example, users could still do sum of memory.stat, no?>
-> > > 
-> > 
-> > Friendly ping on this, would there be any objections to splitting the 
-> > memory.stat metrics out to be per hugepage size?
-> 
-> I don't think it has to be either/or. We can add the total here, and a
-> per-size breakdown in a separate patch (with its own changelog)?
-> 
-> That said, a per-size breakdown might make more sense in the hugetlb
-> cgroup controller. You're mentioning separate global resources, which
-> suggests this is about more explicitly controlled hugetlb use.
-> 
-> >From a memcg POV, all hugetlb is the same. It's just (non-swappable)
-> memory consumed by the cgroup.
+On Wed, 13 Nov 2024 16:39:25 -0800
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-Completely agreed. From the memcg POV there is no way to control hugetlb
-pages or manage per size charging/pools. In a sense this is not much
-different from slab accounting. We do print overall SLAB accounted
-memory and do not break down each slab consumer in the stat file.
--- 
-Michal Hocko
-SUSE Labs
+> On Wed, 13 Nov 2024 11:38:08 +0100 Kory Maincent wrote:
+> > > IOW I'm struggling to connect the dots how the code you're adding now
+> > > will be built _upon_ rather than _on the side_ of when socket PHC
+> > > selection is in place.   =20
+> >=20
+> > I see what you mean! It is not something easy to think of as I don't re=
+ally
+> > know how it would be implemented.
+> > Do you think adding simply the PHC source and the phydev pointer or ind=
+ex
+> > would fit?  =20
+>=20
+> In net_device? Yes, I think so.
+=20
+Also as the "user" is not described in the ptp_clock structure the only way=
+ to
+find it is to roll through all the PTP of the concerned net device topology.
+This find ptp loop will not be in the hotpath but only when getting the tsi=
+nfo
+of a PHC or changing the current PHC. Is it ok for you?
+
+I am at v20 so I ask for confirmation before changing the full patch series=
+! ;)
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
