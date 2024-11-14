@@ -1,112 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869518F62;
-	Thu, 14 Nov 2024 13:30:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1347210FB;
+	Thu, 14 Nov 2024 14:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731591021; cv=none; b=tdaOEieY9S2AEUkDVe4S2ZBkXzZlIDUWohT8pCYD7uWaW3szyt9HJxb1t68SL+/ASYYsoVE7tetrwnqZuvBZXMdVIjNNYPLGwtsGwz2j+JRfSL7/cegUWH/4nLlMg070DUEdRTNYAKIvZT3URhMpr8f1/BEan4HPqUjMY5ntdoY=
+	t=1731595084; cv=none; b=gz98iih16oOube/+iknuWICSg5tN98OUDs7fjKQbo544+23NK9n2tLhrdLqHz1S9yM7Dx6H7CPNNw+NMr2caZbePBcK/vt0XMcdEL7hLQMBk46R1EEJ2Idbeu/W5r2LEtB5pYkoSVKFSt6r+BO2OeGNkfV/3egXUpN5opcY7xcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731591021; c=relaxed/simple;
-	bh=9WziBDbWuCJavDfebCiGijovNr2dEkFb5dOslEqLDxA=;
+	s=arc-20240116; t=1731595084; c=relaxed/simple;
+	bh=RGNh4jzl+kH1ih7bBrAZ7eWM/S4wEjjd0r+yjtwML7w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=igL1OHI8dEBaKhskqo37kH25c3yEKTWH9Bcsb/7O/owj1gNPiTxqADyB7J0gyv48Q4Sraa+R2+2eiSliAYG2zGAU6mvwS3u8jDhnTrdbAXrZ89cDLzgwNEPwjZDiEbvjGIdJK9DgZuNLTXfKWbL+5RDxBc50qjlwF73bVydKVus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lrph4l+r; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=m7Hx2EcZ4ca61lJj5N1Mji3dRC6pM6gmhGulyyYLRESkvTqtY/iRztkOBz5QiuzyX4s/AW08gKvi8njzyfl9tF6frmcLUIGR3Ech6BgwJqqoXentHg1ertBZaWIyQ3DOoNJZ/vtJXHMZfKV8Oj0sgJQHhv90xMgCQNdx05ws+nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jIDKPgaJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lrph4l+r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3201DC4CED4;
-	Thu, 14 Nov 2024 13:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731591020;
-	bh=9WziBDbWuCJavDfebCiGijovNr2dEkFb5dOslEqLDxA=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jIDKPgaJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2935FC4CECD;
+	Thu, 14 Nov 2024 14:38:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731595083;
+	bh=RGNh4jzl+kH1ih7bBrAZ7eWM/S4wEjjd0r+yjtwML7w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lrph4l+r9SSW6Ri0yQO/ArvA5mrKpwgqxbiicodwQYX0FHUkW5FS5KI2v/78sx87r
-	 p73mV8BzATegMAtr83CJrFyMrRrUdKqASvhJn+r/yI9rHIO/4m6KxV76EsYSPZym8j
-	 VCUAgoN110ZQL9l00tP/BN7Gz6BdDwpinKAfJ5LBDL4OFafqxyWJ/CbeoUse2vhBTY
-	 7r9HCx2mL1JQWljOWXFrKyW5/bkepvwmWx/DOITJk+lWy0E+U9MdlrCzr5QlTRbtNH
-	 cX9+7de7U+/FfUqKiffWcA7DkZOnNhx55wm/AhHYvudtAa9MVpYv9xmRDGbaVy8rhH
-	 0cpO1PSEk8NLA==
-Date: Thu, 14 Nov 2024 15:30:11 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Joerg Roedel <joro@8bytes.org>, ill Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3 00/17] Provide a new two step DMA mapping API
-Message-ID: <20241114133011.GA606631@unreal>
-References: <cover.1731244445.git.leon@kernel.org>
- <20241112072040.GG71181@unreal>
+	b=jIDKPgaJcd/74rP03ZBqkobbvO5GYyXyTJCLw6PtM2Cfz4dgXu8GhaFXJzpy1xX4H
+	 KeawxI4O8NTJ8i5NYOWe2b2SsWozQ3wuK7vaE7r3WjqhvrJh/08HaBEL6YbL5Z/fZg
+	 ydcDqgNtWE6w2DB7EMnZCVU/JBoFYh7+WQ0fSeto=
+Date: Thu, 14 Nov 2024 09:38:00 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, rdunlap@infradead.org, 
+	daniel@ffwll.ch, laurent.pinchart@ideasonboard.com, broonie@kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Dan Williams <dan.j.williams@intel.com>, Theodore Ts'o <tytso@mit.edu>
+Subject: Re: [PATCH v3] Documentation/CoC: spell out enforcement for
+ unacceptable behaviors
+Message-ID: <5rkn65qu2i3kz72hxbmcg25mrq5ehmb4y6xia2p3k4naiogi44@rcaoz3xnqlcf>
+References: <20241113232557.29854-1-skhan@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241112072040.GG71181@unreal>
+In-Reply-To: <20241113232557.29854-1-skhan@linuxfoundation.org>
 
-On Tue, Nov 12, 2024 at 09:20:40AM +0200, Leon Romanovsky wrote:
-> On Sun, Nov 10, 2024 at 03:46:47PM +0200, Leon Romanovsky wrote:
-> 
-> <...>
-> 
-> > ----------------------------------------------------------------------------
-> > The code can be downloaded from:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git tag:dma-split-nov-09
-> 
-> <...>
-> 
-> > 
-> > Christoph Hellwig (6):
-> >   PCI/P2PDMA: Refactor the p2pdma mapping helpers
-> >   dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
-> >   iommu: generalize the batched sync after map interface
-> >   iommu/dma: Factor out a iommu_dma_map_swiotlb helper
-> >   dma-mapping: add a dma_need_unmap helper
-> >   docs: core-api: document the IOVA-based API
-> > 
-> > Leon Romanovsky (11):
-> >   dma-mapping: Add check if IOVA can be used
-> >   dma: Provide an interface to allow allocate IOVA
-> >   dma-mapping: Implement link/unlink ranges API
-> >   mm/hmm: let users to tag specific PFN with DMA mapped bit
-> >   mm/hmm: provide generic DMA managing logic
-> >   RDMA/umem: Store ODP access mask information in PFN
-> >   RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
-> >     linkage
-> >   RDMA/umem: Separate implicit ODP initialization from explicit ODP
-> >   vfio/mlx5: Explicitly use number of pages instead of allocated length
-> >   vfio/mlx5: Rewrite create mkey flow to allow better code reuse
-> >   vfio/mlx5: Enable the DMA link API
-> 
-> Robin,
-> 
-> All technical concerns were handled and this series is ready to be merged.
-> 
-> Robin, can you please Ack the dma-iommu patches?
+On Wed, Nov 13, 2024 at 04:25:57PM -0700, Shuah Khan wrote:
+> +The scope of the ban for a period of time could include:
+> +
+> +    a. denying patch contributions and pull requests
+> +    b. pausing collaboration with the violator by ignoring their
+> +       contributions and/or blocking their email account(s)
+> +    c. blocking their access to kernel.org accounts and mailing lists
 
-I don't see any response, so my assumption is that this series is ready
-to be merged. Let's do it this cycle and save from us the burden of
-having dependencies between subsystems.
+Can we change this to:
 
-Thanks
+    c. restricting their ability to communicate via kernel.org platforms,
+       such as mailing lists and social media sites
 
-> 
-> Thanks
-> 
+It makes more sense to phrase it this way, because it's really the
+communication that is the focus of this policy, not general access like git,
+patchwork, etc.
+
+-K
