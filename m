@@ -1,108 +1,116 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C3F13C8F9
-	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 16:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0627F17BB25;
+	Thu, 14 Nov 2024 16:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731602199; cv=none; b=R+n94OxZ5/k6zlurexF7I1jyVK6jciSlBXsiPqimv9xDy7rpKdO6JbWHJ7O4lWOPM8KPJf5/YdsmOQ4YijBj/osiH1jc9fX3n5h3b6dsSvaz/+38QKQICjOlakh0cl/j1Zts8B6z9RcfUrGpcfCQNFEX27TcY5hN4OceDZDLuJI=
+	t=1731602493; cv=none; b=F3f6BljiReWtOArY1mRcOFSpkytVSxss0S4btdylwWzow4KH4i++psrEq0ioLA5Y7oi/dwrYPyFYuAXefqTHlMl7txWIvzo71lhUSfbdYMuex1wgDb8EYJC3GDITnwZhzhpb41zXwekNZR0k63WqyAWwFlJ8pmXukPT5nmrjgVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731602199; c=relaxed/simple;
-	bh=Mqb4B5PP2gj2jgKl2pBH6/2Mvv5aone4vE1svJche7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aCgPZT2Y5ZFOT9aAaCpa1p0t0KW5mJA3duhq0TMTqGWT8xfFrxnJmJbS64f0MpB/87wCXIT4d85HXLSa3GiYU2EYPfE8hke+ButVafrvGl14+pCXYJE9Ey3NPPWXN5veECPu0pE72AK3h2tKXeZp+mYUyUGoaFJySvfOnynB0FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cxCzKR6q; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1731602493; c=relaxed/simple;
+	bh=7RU4vCIjsk0niKUMhRyi0En6cKsUi29+xzahzLiLwRM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OlRQe+O2btsXp9KVFyr0IWykeYYXbxPq71F6DAhABmM23PkCtQuVXbVuTw22gSDspMLrXLaLJk+TibfY97/JDkKuCbObuIGSn7Rm+wMf3rKfcympSORhBYHhaiWQO6U0qog5CqopJVYaJTZuqkE29C+Vaakz5ehhKBIw84UX9Lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqYh0PYl; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cxCzKR6q"
-Date: Thu, 14 Nov 2024 16:36:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1731602196;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vup4/bVsV8OYHJC5w1hijbOlf10IE8njUoT5stNuyaQ=;
-	b=cxCzKR6qu2fmZZHZi0xd9UwRhtEz6Uh5DSVlrqUq5NE5ncuW6eARUNpYNthIMAUxWN2Tf2
-	sKGasxz49LX254Zx0AJyCarnxPJi1ipeXLr6HwD8ftCxsf/iYBsT9z1dlxnA5yZ8u6cfeP
-	OobwuVlz+TdlSzfU8iUaG3PYbltV7yk=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: David Rientjes <rientjes@google.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, akpm@linux-foundation.org,
-	nphamcs@gmail.com, shakeel.butt@linux.dev, muchun.song@linux.dev,
-	chris@chrisdown.name, tj@kernel.org, lizefan.x@bytedance.com,
-	mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com,
-	cgroups@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
-Message-ID: <ZzYnDPzOKdEOfrTM@google.com>
-References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com>
- <72688d81-24db-70ba-e260-bd5c74066d27@google.com>
- <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com>
- <eb4aada0-f519-02b5-c3c2-e6c26d468d7d@google.com>
- <c41adcce-473d-c1a7-57a1-0c44ea572679@google.com>
- <20241114052624.GD1564047@cmpxchg.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqYh0PYl"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20e6981ca77so10651545ad.2;
+        Thu, 14 Nov 2024 08:41:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731602491; x=1732207291; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cZNvgc9cduMfc71Hg8t7p1gO2W7FC1n294bvwhBmrT4=;
+        b=dqYh0PYlYaz90iITkeTftJ2eaBSzsP0wiru3C01oc62gB+X7fJrQi4wsMg8HHRhxSD
+         MJVf4o6oIYOiVVBXXgMLa0mL9LMnuneN192QQlY6LZLUHAd5ePo6O6bsXMLvrMF9unB5
+         UUMi50QNz7DCR2vgXOlV4kXKcsgO+fwXpIB2H0i3Nvdvzz4HhpXIWVys8iExwSWNtrC/
+         8FUxP2az+2D9w47LkSq8CvqiYPA4tnMkRFhlI8gSxKNnDniGb7uF2WyUrUbzyyTynGlI
+         HK7F1oA7QTV0qToetavbHP84CQQgmgckHzwrcUI8z9v8KQ4A8aZuB61IX87mpYe1mTf0
+         btjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731602491; x=1732207291;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cZNvgc9cduMfc71Hg8t7p1gO2W7FC1n294bvwhBmrT4=;
+        b=AK21sg0deWPl4TPvydQMkowyy1ttuyULni8kXm600hrreFKjXTl9NBjAAluQFa/XAy
+         MgfzMnQwEu6v8O7k5BYUpxU2oEz9HLIyuj5ckBLcXabC42oKT2q9z8toY5ALSuNAnut3
+         l2bs+T63ESuHQ0zOL/bRKVwD2XK3MtaGPJ5uen7ifv0+QYLLNrwTmb1yMl28EGERI1of
+         vgmIdWI3ASkxXFftornRyNSX58gyDMMmrMVrLP7MKbWuC5mm4VT3j/m5tFTp0PEAfTde
+         ws8FsBeoFnABggh5jDkrycIkiFIbOKJS3yIaWJglxQcGv7b380YCOUrjA0OT+FF3CK3n
+         MEAg==
+X-Forwarded-Encrypted: i=1; AJvYcCUvRAu0L/ld6Cl2oVixqSPyS9mjBV/YVRjcoydtcmWxOp+SMpooGZEKCXMnqZAsimZhdvNBZBX4Ysx5w7s3@vger.kernel.org, AJvYcCVs5wR6PyWbZ0wjtr1xdncQ3z0vK2oZ3rzSV+bhJ5RTxdeY/8+6gNb4SPWTx6qI+95YLEOQNAWOdyY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNIqu7XjPni74gwiNQmzPMKqwL72KLIs+l7TGPy/OYgFtXWO6x
+	a3niFP3J4OPsFkSgbEOiZDUC/F4PUmkulkNq8ywmImBRsQSEUfFT
+X-Google-Smtp-Source: AGHT+IGQzHMdpQzoS8TEk9TYuGHbxuPk45n8PEcKTkCpa51mPZHhJGi1iHg1oyC1H4ofSlZBuvaxBw==
+X-Received: by 2002:a17:903:1ca:b0:20c:ce1f:13bd with SMTP id d9443c01a7336-211b5c3f07cmr81020015ad.18.1731602491171;
+        Thu, 14 Nov 2024 08:41:31 -0800 (PST)
+Received: from [10.113.16.67] ([123.63.2.2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211c7d24a00sm12844915ad.244.2024.11.14.08.41.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2024 08:41:30 -0800 (PST)
+From: Hridesh MG <hridesh699@gmail.com>
+Subject: [PATCH 0/2] Fix headset mic on Acer Nitro 5
+Date: Thu, 14 Nov 2024 22:11:18 +0530
+Message-Id: <20241114-alc287-nitro5-v1-0-72e5bf2275c3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241114052624.GD1564047@cmpxchg.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC4oNmcC/x3MQQqAIBBA0avErBtwxEi7SrQQnWogLDQiiO6et
+ HyL/x8onIULDM0DmS8psqcKahsIq08Lo8Rq0EobIjLot6Btj0nOvHfolLUqkgvROqjNkXmW+/+
+ N0/t+favK7l8AAAA=
+X-Change-ID: 20241114-alc287-nitro5-90880d19cd89
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Stefan Binding <sbinding@opensource.cirrus.com>, 
+ Kailang Yang <kailang@realtek.com>, 
+ Simon Trimmer <simont@opensource.cirrus.com>, 
+ Joshua Grisham <josh@joshuagrisham.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Hridesh MG <hridesh699@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731602485; l=1134;
+ i=hridesh699@gmail.com; s=20241114; h=from:subject:message-id;
+ bh=7RU4vCIjsk0niKUMhRyi0En6cKsUi29+xzahzLiLwRM=;
+ b=mvoBDywM+2Q6QoDzKmWR4ADQjK5hleodPeGtJWz4Q712Cv20wZ1lwhN8uUoH7z+VHzel/G6y+
+ e2cTHwU4cX9Dd77ZqOaPjuQrQ5XW0Kw2rnjQ1Yn/Pe9E0EqqT8YOJ8m
+X-Developer-Key: i=hridesh699@gmail.com; a=ed25519;
+ pk=otVQutD5ZTsEpajsGv/haM3pQj0yofkuYrdNcaX5AUE=
 
-On Thu, Nov 14, 2024 at 12:26:24AM -0500, Johannes Weiner wrote:
-> On Wed, Nov 13, 2024 at 02:42:29PM -0800, David Rientjes wrote:
-> > On Mon, 11 Nov 2024, David Rientjes wrote:
-> > 
-> > > > The reason that I opted not to include a breakdown of each hugetlb
-> > > > size in memory.stat is only because I wanted to keep the addition that
-> > > > this patch makes as minimal as possible, while still addressing
-> > > > the goal of bridging the gap between memory.stat and memory.current.
-> > > > Users who are curious about this breakdown can see how much memory
-> > > > is used by each hugetlb size by enabling the hugetlb controller as well.
-> > > > 
-> > > 
-> > > While the patch may be minimal, this is solidifying a kernel API that 
-> > > users will start to count on.  Users who may be interested in their 
-> > > hugetlb usage may not have control over the configuration of their kernel?
-> > > 
-> > > Does it make sense to provide a breakdown in memory.stat so that users can 
-> > > differentiate between mapping one 1GB hugetlb page and 512 2MB hugetlb 
-> > > pages, which are different global resources?
-> > > 
-> > > > It's true that this is the case as well for total hugeltb usage, but
-> > > > I felt that not including hugetlb memory usage in memory.stat when it
-> > > > is accounted by memory.current would cause confusion for the users
-> > > > not being able to see that memory.current = sum of memory.stat. On the
-> > > > other hand, seeing the breakdown of how much each hugetlb size felt more
-> > > > like an optimization, and not a solution that bridges a confusion.
-> > > > 
-> > > 
-> > > If broken down into hugetlb_2048kB and hugetlb_1048576kB on x86, for 
-> > > example, users could still do sum of memory.stat, no?>
-> > > 
-> > 
-> > Friendly ping on this, would there be any objections to splitting the 
-> > memory.stat metrics out to be per hugepage size?
-> 
-> I don't think it has to be either/or. We can add the total here, and a
-> per-size breakdown in a separate patch (with its own changelog)?
-> 
-> That said, a per-size breakdown might make more sense in the hugetlb
-> cgroup controller. You're mentioning separate global resources, which
-> suggests this is about more explicitly controlled hugetlb use.
+The headphone jack on the Acer Nitro 5 AN515-58 laptop with the 
+realtek ALC287 codec does not pick up any input from the mic,
+this has been documented in multiple forum posts[1][2].
 
-+1
+This patch adds a new fixup model and a PCI quirk which adds the
+required pin configs and verbs necessary for microphone input.
 
-> From a memcg POV, all hugetlb is the same. It's just (non-swappable)
-> memory consumed by the cgroup.
+The pin config and verbs were obtained by reverse engineering
+the windows driver using RtHD dump.
 
-And here too.
+[1]: https://community.acer.com/en/discussion/708528/installed-fedora-linux-40-in-nitro-5-an515-58-when-i-plug-in-my-headset-microphone-doesnt-work
+[2]: https://forums.linuxmint.com/viewtopic.php?t=419160
 
-Thanks!
+Signed-off-by: Hridesh MG <hridesh699@gmail.com>
+---
+Hridesh MG (2):
+      ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
+      docs: sound: Add a new hd-audio fixup model
+
+ Documentation/sound/hd-audio/models.rst |  2 ++
+ sound/pci/hda/patch_realtek.c           | 21 +++++++++++++++++++++
+ 2 files changed, 23 insertions(+)
+---
+base-commit: 2d5404caa8c7bb5c4e0435f94b28834ae5456623
+change-id: 20241114-alc287-nitro5-90880d19cd89
+
+Best regards,
+-- 
+Hridesh MG <hridesh699@gmail.com>
+
