@@ -1,219 +1,126 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD9C1E379C
-	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 01:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E1728382;
+	Thu, 14 Nov 2024 01:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731547506; cv=none; b=CPluK8NPJ/DADhdMXGwjqtB1m27Pjpm7/b4QQWtMOqvi3OIP36dM6yi2vqj/JHDumm9E3dtIUyYLQSbNE+FAejIuQAEDX7pfXC5f8HWU8v+GG98biZdxIboVRFtCJpaf8FVFnY9zYQ3nMK8oSFIuh/a5nm9gQLQQpJ1OjXNdHBg=
+	t=1731549309; cv=none; b=DFFE9smx0fwlGJJDpit4GyN0JRDC0hcoSVXg2go6c6x+Yr5nRti9ZfaNVLCIi0BgPnqwn4Je/n+35JTzG8uqlnbyzRwJzHbkFfAtMhlP2twX8TZpPLItD3a5IO9aLT9hlGY6DFuyrdEDwZi6Kj+x5ymEGG9OFrW66ABnoM8RFWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731547506; c=relaxed/simple;
-	bh=KuTm9w2zxcDezkdUUDDcRZEA8jG2I3LDnWFoZ2iSzow=;
+	s=arc-20240116; t=1731549309; c=relaxed/simple;
+	bh=vmkVDPTg1NL7GHsswzT3gPIjKiH4WwiCxEbuAvS3TZ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L2CGdB/GIQULlICzQsss3aGOHtNY7I9Caj58GWFkYEbVOfaENvC4SY3Al1laevaoJau1F/QjQgyi5+Vk5nuNKTijFGhRjtr/h+Gt6vSb/9ZPTb2/KFxWxG8JBmGKmsCIidMa166XOURlroK1BNm7c5cL62IHozcC9qzWsEylFJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=kc3Pr9L4; arc=none smtp.client-ip=209.85.167.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HNG+B3qVF47nOOLk2LpYZw44iT6PXBzS5t2trk6MVGMV0s76UtWMrtD1Q8piDBCMtDlB8C2BT1lbFFLklqpqem4Pnewipw3Tq2DSMVcXspflxVtR0P10JFbwm59m1D4vShv+8hgY8FFtOe2gipaJbluHZDjWx7Y5r6pSVc0L5Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dYsn8M7J; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="kc3Pr9L4"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3e60d3adecbso37456b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 17:25:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1731547504; x=1732152304; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7tgZBsjLXLWa/QitrFWyk7TGNAjpHhq1mYxI46BDfkY=;
-        b=kc3Pr9L4U/mCNeeKgyr1pVx7bTPwK/iiUuB3bCqSVPR8yQnGmxnNcSzGBXynbBOKJI
-         rIs2ETYzVDryfh2Vnngj+AEUu+H+TEucLsxmMWEpzw9GjdV48lOu/cxU1SDBIoUGhvzG
-         kjtS9dLIU6PslaSlg771p3hgjgGCFYXtBElCzn0OxVpzed4M8W5WgNg6Wn5x0/K9d5sW
-         Diz8zOtxP3F+Xwk3AG8YTKXk/K149yBDUO+pTa7Qv7UQ1pJtZ1ncPCkAUI/nV/oZEt4s
-         aoUcUgxvJtncGsen981ef/fzcM40I/hlTCfUOfEQPvfHI9OigpQ3h5W3cIYQEKsV95X7
-         gGvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731547504; x=1732152304;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7tgZBsjLXLWa/QitrFWyk7TGNAjpHhq1mYxI46BDfkY=;
-        b=uyJt7ISrTg2Ot1tDLswJErWN3vQNkeaY4Ev7X693I95OPSIeweNR9mSUmLl6FEJU9A
-         C4AoD8djaRe65MLRm4SZWIU2WnahXmhQp09Gv/MF1ItVdtm14LwhL9H4O/PJhfz7I53h
-         /q8vh7TUVZ7sO2nasW8GDEy2rum95DxSzDLvd7/4dkgTQmQPOaZD6baqnNq4niYcxS7M
-         YiKQHzK8gdcmPX4PcwQtWgs+wYLfVLjugYkdD62YDTabd9Mr6nbARkXu30RDwRLva/Pv
-         Y3MGTpbQPZqsLaFOhuDi6zGhW+PF4IXN44HAlpc19LsKpByQkMnnCZ3aL8RLJNVChsDi
-         CuJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXwVbNAWdMgEjXXFxpr2RcdsW1oRgI3FcCmeTn7rSrAH4ckFme5Tuyk+2GDK2HJDX7PEAjMi3tJ8S0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBkkSrXVnv0N2XZDtd+I1pJBLAWQQT6AGHj8GVL/0hElmgaF2q
-	HnXas/eB40rfCCsL5Yg96qMe74T3W+S+DugRlgDUyiqDG/kaNhgFFAO9kxzYQzI=
-X-Google-Smtp-Source: AGHT+IFYV+lyD6AUZ64wWkmaKdb2jE8s1l+YlxE25IyFaRji6Gg+al5X5KNPM0lWiRmirmHIFmzF1w==
-X-Received: by 2002:a05:6808:2222:b0:3e6:22f:ea48 with SMTP id 5614622812f47-3e7b7bdede7mr481448b6e.28.1731547504098;
-        Wed, 13 Nov 2024 17:25:04 -0800 (PST)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f5bcad0sm11125410a12.32.2024.11.13.17.25.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 17:25:03 -0800 (PST)
-Date: Wed, 13 Nov 2024 17:25:00 -0800
-From: Deepak Gupta <debug@rivosinc.com>
-To: Nick Hu <nick.hu@sifive.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com
-Subject: Re: [PATCH v8 24/29] riscv: enable kernel access to shadow stack
- memory via FWFT sbi call
-Message-ID: <ZzVRbCZP9N4Os8Bj@debug.ba.rivosinc.com>
-References: <20241111-v5_user_cfi_series-v8-0-dce14aa30207@rivosinc.com>
- <20241111-v5_user_cfi_series-v8-24-dce14aa30207@rivosinc.com>
- <CAKddAkCCVjNHUinPWtOiK8Ki_ZkdoUCawfv1-+0B69J_1aJv5Q@mail.gmail.com>
- <ZzVNKvCu4MOs7O5z@debug.ba.rivosinc.com>
- <CAKddAkDbGYeONaksq6fzLzx47BHZo3Ar7Sog3MOgf7Y+Birovw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dYsn8M7J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731549308; x=1763085308;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vmkVDPTg1NL7GHsswzT3gPIjKiH4WwiCxEbuAvS3TZ4=;
+  b=dYsn8M7J8sjXkPOZNLs0DHTfi7eZZDUvPFKWTKN6W8z4cDZWzA1qbNfK
+   XyXfZ0jzt9T8a9VtAmNUMUj1hH7ffbQV1U+hV2aUL95tgIsjR1lOZtfCm
+   hTTLNF+Udj2HaFvNeQN2dzvqaVTf3WEG7lnTiIlyYLfXrjJcw8nfntMz7
+   pD+5nXQt/uSXxxN3QAbGMHekye5m7SIu712FJg4mqNdtE09O/nSkR5+k5
+   5TSDa/qWk2IYyuh1JkUfQ9Ii0kCijm7EOf9/wwvfj8jd1szNeYiYmWvF4
+   4P9w8JnCEqIKJtj++zOtothRd60i8aJaZOk8ZP/QGvdpbj7LjcnsGB4Hg
+   w==;
+X-CSE-ConnectionGUID: 226cERTES7GNxkuJ7I+eQA==
+X-CSE-MsgGUID: 9qJQHh+ZTV6X3hXVb+m3Mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31242014"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31242014"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 17:55:08 -0800
+X-CSE-ConnectionGUID: IKsPaOP9QLKWB3iu2y5sKA==
+X-CSE-MsgGUID: 9poty6BCRiuqgQNzYasy+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
+   d="scan'208";a="88473321"
+Received: from beginmax-mobl.amr.corp.intel.com (HELO desk) ([10.125.147.24])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 17:55:05 -0800
+Date: Wed, 13 Nov 2024 17:55:05 -0800
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
+	peterz@infradead.org, corbet@lwn.net, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
+	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com, sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
+	david.kaplan@amd.com, dwmw@amazon.co.uk
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <20241114015505.6kghgq33i4m6jrm4@desk>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
+ <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
+ <20241112214241.fzqq6sqszqd454ei@desk>
+ <20241113202105.py5imjdy7pctccqi@jpoimboe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKddAkDbGYeONaksq6fzLzx47BHZo3Ar7Sog3MOgf7Y+Birovw@mail.gmail.com>
+In-Reply-To: <20241113202105.py5imjdy7pctccqi@jpoimboe>
 
-On Thu, Nov 14, 2024 at 09:20:14AM +0800, Nick Hu wrote:
->Hi Deepak
->
->On Thu, Nov 14, 2024 at 9:06 AM Deepak Gupta <debug@rivosinc.com> wrote:
->>
->> On Thu, Nov 14, 2024 at 12:13:38AM +0800, Nick Hu wrote:
->> >Hi Deepak
->> >
->> >On Tue, Nov 12, 2024 at 5:08 AM Deepak Gupta <debug@rivosinc.com> wrote:
->> >>
->> >> Kernel will have to perform shadow stack operations on user shadow stack.
->> >> Like during signal delivery and sigreturn, shadow stack token must be
->> >> created and validated respectively. Thus shadow stack access for kernel
->> >> must be enabled.
->> >>
->> >> In future when kernel shadow stacks are enabled for linux kernel, it must
->> >> be enabled as early as possible for better coverage and prevent imbalance
->> >> between regular stack and shadow stack. After `relocate_enable_mmu` has
->> >> been done, this is as early as possible it can enabled.
->> >>
->> >> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> >> ---
->> >>  arch/riscv/kernel/asm-offsets.c |  4 ++++
->> >>  arch/riscv/kernel/head.S        | 12 ++++++++++++
->> >>  2 files changed, 16 insertions(+)
->> >>
->> >> diff --git a/arch/riscv/kernel/asm-offsets.c b/arch/riscv/kernel/asm-offsets.c
->> >> index 766bd33f10cb..a22ab8a41672 100644
->> >> --- a/arch/riscv/kernel/asm-offsets.c
->> >> +++ b/arch/riscv/kernel/asm-offsets.c
->> >> @@ -517,4 +517,8 @@ void asm_offsets(void)
->> >>         DEFINE(FREGS_A6,            offsetof(struct ftrace_regs, a6));
->> >>         DEFINE(FREGS_A7,            offsetof(struct ftrace_regs, a7));
->> >>  #endif
->> >> +       DEFINE(SBI_EXT_FWFT, SBI_EXT_FWFT);
->> >> +       DEFINE(SBI_EXT_FWFT_SET, SBI_EXT_FWFT_SET);
->> >> +       DEFINE(SBI_FWFT_SHADOW_STACK, SBI_FWFT_SHADOW_STACK);
->> >> +       DEFINE(SBI_FWFT_SET_FLAG_LOCK, SBI_FWFT_SET_FLAG_LOCK);
->> >>  }
->> >> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
->> >> index 356d5397b2a2..6244408ca917 100644
->> >> --- a/arch/riscv/kernel/head.S
->> >> +++ b/arch/riscv/kernel/head.S
->> >> @@ -164,6 +164,12 @@ secondary_start_sbi:
->> >>         call relocate_enable_mmu
->> >>  #endif
->> >>         call .Lsetup_trap_vector
->> >> +       li a7, SBI_EXT_FWFT
->> >> +       li a6, SBI_EXT_FWFT_SET
->> >> +       li a0, SBI_FWFT_SHADOW_STACK
->> >> +       li a1, 1 /* enable supervisor to access shadow stack access */
->> >> +       li a2, SBI_FWFT_SET_FLAG_LOCK
->> >> +       ecall
->> >>         scs_load_current
->> >>         call smp_callin
->> >>  #endif /* CONFIG_SMP */
->> >> @@ -320,6 +326,12 @@ SYM_CODE_START(_start_kernel)
->> >>         la tp, init_task
->> >>         la sp, init_thread_union + THREAD_SIZE
->> >>         addi sp, sp, -PT_SIZE_ON_STACK
->> >> +       li a7, SBI_EXT_FWFT
->> >> +       li a6, SBI_EXT_FWFT_SET
->> >> +       li a0, SBI_FWFT_SHADOW_STACK
->> >> +       li a1, 1 /* enable supervisor to access shadow stack access */
->> >> +       li a2, SBI_FWFT_SET_FLAG_LOCK
->> >> +       ecall
->> >>         scs_load_current
->> >>
->> >>  #ifdef CONFIG_KASAN
->> >>
->> >> --
->> >> 2.45.0
->> >>
->> >Should we clear the SBI_FWFT_SET_FLAG_LOCK before the cpu hotplug
->> >otherwise the menvcfg.sse won't be set by the fwft set sbi call when
->> >the hotplug cpu back to kernel?
->>
->> Hmm...
->>
->> An incoming hotplug CPU has no features setup on it.
->> I see that `sbi_cpu_start` will supply `secondary_start_sbi` as start
->> up code for incoming CPU. `secondary_start_sbi` is in head.S which converges
->> in `.Lsecondary_start_common`. And thus hotplugged CPU should be
->> issuing shadow stack set FWFT sbi as well.
->>
->> Am I missing something ?
->>
->This is the correct flow. However the opensbi will deny it due to the
->SBI_FWFT_SET_FLAG_LOCK already being set.
->So the menvcfg.sse will not set by this flow.
->
->if (conf->flags & SBI_FWFT_SET_FLAG_LOCK)
->                return SBI_EDENIED;
->
+On Wed, Nov 13, 2024 at 12:21:05PM -0800, Josh Poimboeuf wrote:
+> On Tue, Nov 12, 2024 at 01:43:48PM -0800, Pawan Gupta wrote:
+> > On Mon, Nov 11, 2024 at 05:46:44PM -0800, Josh Poimboeuf wrote:
+> > > +	 * 1) RSB underflow ("Intel Retbleed")
+> > >  	 *
+> > >  	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
+> > >  	 *    speculated return targets may come from the branch predictor,
+> > >  	 *    which could have a user-poisoned BTB or BHB entry.
+> > >  	 *
+> > > -	 *    AMD has it even worse: *all* returns are speculated from the BTB,
+> > > -	 *    regardless of the state of the RSB.
+> > > +	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack is
+> > > +	 *    mitigated by the IBRS branch prediction isolation properties, so
+> > > +	 *    the RSB buffer filling wouldn't be necessary to protect against
+> > > +	 *    this type of attack.
+> > >  	 *
+> > > -	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack
+> > > -	 *    scenario is mitigated by the IBRS branch prediction isolation
+> > > -	 *    properties, so the RSB buffer filling wouldn't be necessary to
+> > > -	 *    protect against this type of attack.
+> > > +	 *    The "user -> user" attack is mitigated by RSB filling on context
+> > > +	 *    switch.
+> > 
+> > user->user SpectreRSB is also mitigated by IBPB, so RSB filling is
+> > unnecessary when IBPB is issued. Also, when an appication does not opted-in
+> > for IBPB at context switch, spectre-v2 for that app is not mitigated,
+> > filling RSB is only a half measure in that case.
+> > 
+> > Is RSB filling really serving any purpose for userspace?
+> 
+> Indeed...
+> 
+> If we don't need to flush RSB for user->user, we'd only need to worry
+> about protecting the kernel.  Something like so?
+> 
+>   - eIBRS+!PBRSB:	no flush
+>   - eIBRS+PBRSB:	lite flush
 
-hmm... Why?
+Yes for VMexit, but not at kernel entry. PBRSB requires an unbalanced RET,
+and it is only a problem until the first retired CALL. At VMexit we do have
+unbalanced RET but not at kernel entry.
 
-`conf` is pointing to per-hart state in firmware.
+>   - everything else:	full flush
 
-On this incoming cpu, opensbi (or equivalent) firmware must have
-ensured that this per-hart state doesn't have lock set.
+> i.e., same logic as spectre_v2_determine_rsb_fill_type_at_vmexit(), but
+> also for context switches.
 
-Am I missing something?
-
->Regards,
->Nick
->> >
->> >Regards,
->> >Nick
->> >>
->> >> _______________________________________________
->> >> linux-riscv mailing list
->> >> linux-riscv@lists.infradead.org
->> >> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Yes, assuming you mean user->kernel switch, and not process context switch.
