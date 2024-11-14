@@ -1,83 +1,55 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9501F26F9
-	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 02:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F79182C5;
+	Thu, 14 Nov 2024 02:31:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731551091; cv=none; b=bujRwK1DQveJxlFnW2lq5KUYzye3wNzpiiBEPvfiMjjYgleMifkPABsEX2y++VroGjNIvh+9vKHkCzUYTKL4pdPpK1+1K1EV25E8LVEhOu6xGItGBv1+a1Ai2EWQs/xSLMOuY8HPz2agpGFovgQtvaWCYY6lTsdZzIgFs5yQNhg=
+	t=1731551504; cv=none; b=Q26rChrfBFTEvYUguUpGnoNVKA7SWeA0oHAgDtwJyMiRCiMZ9rlCiWqYa8shnl0+lsJANs0E8Iu5HSKzV6CLBcSQnrDiQ2iRxw12exzsfXy2mFHFwL23K+fJOAedtdZWRgDWw0pYqPq1dW8sP3c3/vwgje1s7S9G2CaVMTam8tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731551091; c=relaxed/simple;
-	bh=04s8nDoCSLpivX7fgLAtuIRzvTm1jQi5mR5RZ+R6pjI=;
+	s=arc-20240116; t=1731551504; c=relaxed/simple;
+	bh=ZXlkiAu/T3aJ2qHWeASAGx84yAnWg2sjO+0ha25J8Ms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K4a6mqgT1tqb4u8GVEe9GKrRPYiGse6hOB3I0UsUat9OtVV7rseaFpHImU8ITHgwy/mjin0+JVQieOFbpvb7Hc60CAJ/11dYxHYTw412IJFkhHAn3oAq4sHIfT2VH1ijydDaOpbpXLZ2qW+qqwDQ9b1Xbo8LbypglCzEPJPbByY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=21nS5M3y; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jfHrzr4VzP0vyBXbBVW58pCFG1VPQ7W88b3lV2i34yVTXxVkYCm6XA43IugQEP7H2oDcRymwKp+Yze8/bFlugP3RIX2oGlflsYeGCCs1NN7JQEcCA1gYbNce0NpY1mo4a0hkzLcqcdmdVXML6olKOX8LNTOadk8psufRGhsykKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Det6Mgmh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="21nS5M3y"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20c693b68f5so862075ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 18:24:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1731551089; x=1732155889; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bOcIjTHmkKYE/MldB59+Mp7THVJA1dMXMhLp3+u7Zpk=;
-        b=21nS5M3yK54DmA6u12c/sYhRVsS3FkR5a8Z4vLDh4l8dUJekGhoLQnnwzu7jo59W5k
-         EvH2nCnZFEHImJHRh6rtVhXHAYEW889rgpkqGpz2feN5brv9hbWxbMohk25IjerzyBpx
-         q3jWzut7bOvJR7YHyLdtICzvbB3I/oQDIIZ1GRmNYk9XR9aTGfEHFBlKkkHfLZ1a29Ps
-         sl7Yd+bGquFs5lGpYGLLvhuR9F3rOmNX9gV8EYe1tjEJjUvlyA1C1txcW+RHim9tm3ID
-         t/y+vvl17Xn7aF5ssGFW5YkfM4lZXJ2YFKSwVuPGN8fRQQus5aqIv5YBl2mWikuSlvSZ
-         RXiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731551089; x=1732155889;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bOcIjTHmkKYE/MldB59+Mp7THVJA1dMXMhLp3+u7Zpk=;
-        b=BCV0sMGb7wgXo4luDDt5BVW/xoyWkTv1HKBhWde/mc6SXlvpqXNllz+7w2HGy6oixe
-         AZRWRi7C4odCJx6VCE8cEpNRRZx4g5431XvpeI5k6zeq8oKVV3bbcfTxji4KU94wTZtG
-         kmCzm1T+hXLanlcFEmZBQMCiY55VZFXir7Q1Ea0IbET0EvIdF/wYuOIwgAb9odrp5sAX
-         f7D9qOgc1NkSEqrVUcuaQ1V2RAftnc1prIoWrCB0vu+QmsUqvC776O997HT+UG66ul8H
-         tN2sNLCjblxnYk/N/PxkZsHJ5rG2xV7JGuSMx9i12qH1yHiW9H/mGekEeyY3/jcLef6c
-         twzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBiWmLRxitJLZgl6H5nFHi5BZWJ6/VEUEZyItgiSDAd7536+RPZfbs/+y/Xz2BNC90+0Ivmq96Nrk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHRmXkOeH4yeBPFiLVtWexmIJpE6RXSG3NFD++zG/PNDz3LY4z
-	TflOY/Un+31tInDFMhtRsYTCgyqUXG45oxtQBQgFaTlZuYamx8I32VhXcfaaX7U=
-X-Google-Smtp-Source: AGHT+IFIy/N8ljrKihYLsmstk+E2hofbr+iVsyyNJcXN7lh1fccE1mzDgwapJOQoIdXEKN3f21A9eg==
-X-Received: by 2002:a17:903:2a8e:b0:20b:6d71:4140 with SMTP id d9443c01a7336-211b5d2a3b4mr74048485ad.44.1731551089470;
-        Wed, 13 Nov 2024 18:24:49 -0800 (PST)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211c7c2d520sm439875ad.29.2024.11.13.18.24.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 18:24:48 -0800 (PST)
-Date: Wed, 13 Nov 2024 18:24:45 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v10 05/14] riscv: vector: Use vlenb from DT for thead
-Message-ID: <ZzVfbS8-NizjKkst@ghost>
-References: <20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com>
- <20240911-xtheadvector-v10-5-8d3930091246@rivosinc.com>
- <tencent_2EF88DF37C4B82B2DA0B8E49B85C312E2108@qq.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Det6Mgmh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46AD1C4CEC3;
+	Thu, 14 Nov 2024 02:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731551504;
+	bh=ZXlkiAu/T3aJ2qHWeASAGx84yAnWg2sjO+0ha25J8Ms=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Det6MgmhQjVbbEdyroCfzXhJDhajlshlqAxJ9nl1/q7wInpgFYu5zG93tqhT1DJrq
+	 LEkoJqZRVE3QlBbpOwwnsBtQ2xAyo5XN/xSIE1v8Bm+I+/kLkULjnDxDemrn3i2237
+	 peAd/17m/l0LFm3Q4UuUIBKSHwSFROpCjJ0vw/TPwr6Xkh8T2+/zdCxH2gCaFT4zv7
+	 Dze6XaS4UhGYx1Bf1mwTfb4cmVTUTKLUeHIch8hoAIH5TMIMkWy7scXjTr7Ht0pEsq
+	 XAl5j61HazXUItW77dE6SnNUUM1GdswzY8Fv0BsqfgnLQqHXAvQ5php4jQOi0clAmi
+	 gu9PI5MTH+T2A==
+Date: Wed, 13 Nov 2024 18:31:41 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
+	peterz@infradead.org, corbet@lwn.net, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
+	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com, sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
+	david.kaplan@amd.com, dwmw@amazon.co.uk
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <20241114023141.n4n3zl7622gzsf75@jpoimboe>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
+ <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
+ <20241112214241.fzqq6sqszqd454ei@desk>
+ <20241113202105.py5imjdy7pctccqi@jpoimboe>
+ <20241114015505.6kghgq33i4m6jrm4@desk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,122 +58,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <tencent_2EF88DF37C4B82B2DA0B8E49B85C312E2108@qq.com>
+In-Reply-To: <20241114015505.6kghgq33i4m6jrm4@desk>
 
-On Sun, Nov 10, 2024 at 03:34:54AM +0800, Yangyu Chen wrote:
-> Hi Charlie,
+On Wed, Nov 13, 2024 at 05:55:05PM -0800, Pawan Gupta wrote:
+> > > user->user SpectreRSB is also mitigated by IBPB, so RSB filling is
+> > > unnecessary when IBPB is issued. Also, when an appication does not opted-in
+> > > for IBPB at context switch, spectre-v2 for that app is not mitigated,
+> > > filling RSB is only a half measure in that case.
+> > > 
+> > > Is RSB filling really serving any purpose for userspace?
+> > 
+> > Indeed...
+> > 
+> > If we don't need to flush RSB for user->user, we'd only need to worry
+> > about protecting the kernel.  Something like so?
+> > 
+> >   - eIBRS+!PBRSB:	no flush
+> >   - eIBRS+PBRSB:	lite flush
 > 
-> I have tested this patchset with ghostwrite rebased to linux commit da4373fbcf ("Merge tag 'thermal-6.12-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm") [1] on my D1 Nezha board, with defconfig + CONFIG_ERRATA_THEAD_GHOSTWRITE=n, I got this message during boot:
+> Yes for VMexit, but not at kernel entry. PBRSB requires an unbalanced RET,
+> and it is only a problem until the first retired CALL. At VMexit we do have
+> unbalanced RET but not at kernel entry.
 > 
-> [    0.027584] Kernel panic - not syncing: __kmem_cache_create_args: Failed to create slab 'riscv_vector_ctx'. Error -22
-> [    0.038057] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.12.0-rc6-00310-gb276cf69df24-dirty #11
-> [    0.047240] Hardware name: Allwinner D1 Nezha (DT)
-> [    0.052007] Call Trace:
-> [    0.054434] [<ffffffff80007172>] dump_backtrace+0x1c/0x24
-> [    0.059806] [<ffffffff809f6834>] show_stack+0x2c/0x38
-> [    0.064833] [<ffffffff80a040f0>] dump_stack_lvl+0x52/0x74
-> [    0.070206] [<ffffffff80a04126>] dump_stack+0x14/0x1c
-> [    0.075233] [<ffffffff809f6db6>] panic+0x10c/0x300
-> [    0.080000] [<ffffffff8017b5a0>] __kmem_cache_create_args+0x24a/0x2b6
-> [    0.086413] [<ffffffff80c04c68>] riscv_v_setup_ctx_cache+0x56/0x84
-> [    0.092566] [<ffffffff80c04288>] arch_task_cache_init+0x10/0x1c
-> [    0.098460] [<ffffffff80c07d02>] fork_init+0x68/0x1a8
-> [    0.103486] [<ffffffff80c00ed2>] start_kernel+0x77e/0x822
-> [    0.108870] ---[ end Kernel panic - not syncing: __kmem_cache_create_args: Failed to create slab 'riscv_vector_ctx'. Error -22 ]---
+> >   - everything else:	full flush
 > 
-> [1] https://github.com/cyyself/linux/tree/xtheadvector_20241110
+> > i.e., same logic as spectre_v2_determine_rsb_fill_type_at_vmexit(), but
+> > also for context switches.
 > 
-> On 9/12/24 13:55, Charlie Jenkins wrote:
-> >  diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-> > index 682b3feee451..9775d6a9c8ee 100644
-> > --- a/arch/riscv/kernel/vector.c
-> > +++ b/arch/riscv/kernel/vector.c
-> > @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
-> >  {
-> >  	unsigned long this_vsize;
-> >  -	/* There are 32 vector registers with vlenb length. */
-> > +	/*
-> > +	 * There are 32 vector registers with vlenb length.
-> > +	 *
-> > +	 * If the thead,vlenb property was provided by the firmware, use that
-> > +	 * instead of probing the CSRs.
-> > +	 */
-> > +	if (thead_vlenb_of) {
-> > +		this_vsize = thead_vlenb_of * 32;
-> 
-> Then, I patched here which replaces "this_vsize" with "riscv_v_vsize". The kernel boots normally and I can see “xtheadvector" in /proc/cpuinfo.
-> 
-> However, when I try to run the "v_exec_initval_nolibc" test, the kernel panics with these outputs:
-> 
-> [  978.788878] Oops - illegal instruction [#1]
-> [  978.788897] Modules linked in:
-> [  978.788908] CPU: 0 UID: 1000 PID: 461 Comm: v_exec_initval_ Not tainted 6.12.0-rc6-00310-gb276cf69df24-dirty #12
-> [  978.788924] Hardware name: Allwinner D1 Nezha (DT)
-> [  978.788929] epc : do_trap_ecall_u+0x56/0x20a
-> [  978.788956]  ra : _new_vmalloc_restore_context_a0+0xc2/0xce
-> [  978.788974] epc : ffffffff80a04afe ra : ffffffff80a0e742 sp : ffffffc6003fbeb0
-> [  978.788983]  gp : ffffffff81717080 tp : ffffffd60723b300 t0 : ffffffff81001268
-> [  978.788991]  t1 : ffffffff80a04aa8 t2 : ffffffff810012a8 s0 : ffffffc6003fbee0
-> [  978.789000]  s1 : ffffffc6003fbee0 a0 : ffffffc6003fbee0 a1 : 000000000000005d
-> [  978.789007]  a2 : 0000000000000000 a3 : ffffffffffffffda a4 : 0000000000000003
-> [  978.789015]  a5 : 0000000000000000 a6 : 0000000002adb5fe a7 : 000000000000005d
-> [  978.789022]  s2 : 00000000000108a8 s3 : 0000000000000000 s4 : 0000000000000008
-> [  978.789030]  s5 : 0000003fb42ab780 s6 : 0000002adb5fe420 s7 : 0000002adb5fb9e0
-> [  978.789038]  s8 : 0000002adb5fe440 s9 : 0000002adb5fe420 s10: 0000002adb572ad4
-> [  978.789046]  s11: 0000002adb572ad0 t3 : 0000003fb43c5e3c t4 : 622f7273752f3d5f
-> [  978.789053]  t5 : 0000002adb5fd5a1 t6 : 0000000002adb5ff
-> [  978.789060] status: 8000000201800100 badaddr: 000000005e0fb057 cause: 0000000000000002
-> [  978.789069] [<ffffffff80a04afe>] do_trap_ecall_u+0x56/0x20a
-> [  978.789086] [<ffffffff80a0e742>] _new_vmalloc_restore_context_a0+0xc2/0xce
-> [  978.789113] Code: a073 1007 006f 1a60 7057 0c30 57fd 17fe 77d7 0c30 (b057) 5e0f
-> [  978.789123] ---[ end trace 0000000000000000 ]---
-> [  978.789131] Kernel panic - not syncing: Fatal exception in interrupt
-> [  978.937158] ---[ end Kernel panic - not syncing: Fatal exception in interrupt ]---
-> 
-> Is something wrong with my setup?
+> Yes, assuming you mean user->kernel switch, and not process context switch.
 
-Thanks for reporting this! I just sent out a new version with the fix.
-Something went wrong with the __riscv_v_vstate_discard() and was
-triggering this failure. I have tested that this new version is able to
-pass the testcase.
+Actually I did mean context switch.  AFAIK we don't need to flush RSB at
+kernel entry.
 
-https://lore.kernel.org/linux-riscv/20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com/T/#t
+If user->user RSB is already mitigated by IBPB, then at context switch
+we only have to worry about user->kernel.  e.g., if 'next' has more (in
+kernel) RETs then 'prev' had (in kernel) CALLs, the user could trigger
+RSB underflow or corruption inside the kernel after the context switch.
 
-- Charlie
+Doesn't eIBRS already protect against that?
 
-> 
-> Thanks,
-> Yangyu Chen
-> 
-> > +		return 0;
-> > +	}
-> > +
-> >  	riscv_v_enable();
-> >  	this_vsize = csr_read(CSR_VLENB) * 32;
-> >  	riscv_v_disable();
-> > diff --git a/arch/riscv/kernel/vendor_extensions/thead.c b/arch/riscv/kernel/vendor_extensions/thead.c
-> > index 0f27baf8d245..519dbf70710a 100644
-> > --- a/arch/riscv/kernel/vendor_extensions/thead.c
-> > +++ b/arch/riscv/kernel/vendor_extensions/thead.c
-> > @@ -5,6 +5,7 @@
-> >  #include <asm/vendor_extensions/thead.h>
-> >    #include <linux/array_size.h>
-> > +#include <linux/cpumask.h>
-> >  #include <linux/types.h>
-> >    /* All T-Head vendor extensions supported in Linux */
-> > @@ -16,3 +17,13 @@ struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_list_thead = {
-> >  	.ext_data_count = ARRAY_SIZE(riscv_isa_vendor_ext_thead),
-> >  	.ext_data = riscv_isa_vendor_ext_thead,
-> >  };
-> > +
-> > +void disable_xtheadvector(void)
-> > +{
-> > +	int cpu;
-> > +
-> > +	for_each_possible_cpu(cpu)
-> > +		clear_bit(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR, riscv_isa_vendor_ext_list_thead.per_hart_isa_bitmap[cpu].isa);
-> > +
-> > +	clear_bit(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR, riscv_isa_vendor_ext_list_thead.all_harts_isa_bitmap.isa);
-> > +}
-> 
+For PBRSB, I guess we don't need to worry about that since there would
+be at least one kernel CALL before context switch.
+
+-- 
+Josh
