@@ -1,111 +1,85 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703301F80CC;
-	Thu, 14 Nov 2024 10:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BC81F9EAE;
+	Thu, 14 Nov 2024 12:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731581185; cv=none; b=agVouWp4ZJdAqRJ86Xk+7X72p3kmUeOq/xOh5+37LTdHMVZAmL/TvfErfDdPV/AVU9JgBszo7ObBVPJrRHEodZRzQJidHvxVbQ54XpZRoti+Ev+vjr6EkDixmSIl+htZQnX7bjUVXycPbzK7zRf6/kTdOMishBZKHAiOTfNTaN0=
+	t=1731586054; cv=none; b=nb3/t5MAAJA/ol7UW1P5HKKXd9FJLQiFOCSpx4hmxZyiRFpxdOZIbKeQq/vU96SvCqg1CUCMu8HlHWdoHktxE8MMmIMcZSq8bLiFctKLSrOfH2OkMqDF80Pr/LUvr1Jdn29/r0gaA3Qha0kseUEsjkkyG2iGXjOxmW8h4mPeMtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731581185; c=relaxed/simple;
-	bh=6GmTVh0328DG3z1UVIJJzkv4fJ3qqsmJH7jtABAW+Mw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FK22sqOzOAEg6T9eRk53hBHg8wjzP3Ul7/RT0J4vL5iMNmjtoUYXqxHwn91WM4VYCo7EB2JctNyz0Vby85HUPLzM32VfqZjlMECfjqPHM55Sfx70l01F6MnhiLMSFQoR4YcWG48D9XD7HvApBsyPYIqSJot7f7N4qh9FrfyQmtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jxDE5vdp; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jxDE5vdp"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 628354000C;
-	Thu, 14 Nov 2024 10:46:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1731581174;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZXjkCtqX7WBxDao3IE3a8VvAAIvFEnT0KiRXJWPUYP8=;
-	b=jxDE5vdpag5h+2dL8KSGTV+QohJenpgiJERIiclWddgnRxschtdWzrEFI1tPPTw8mG7fOU
-	6LXy4C15Ci7lbsnfUipqFT5amaRmK+jEMin7ZIDL1+XQQdaChBqOqDnd2vGGikRnSrBQTA
-	p1nq+tTh4fj68pJnKY9ZvIVgOi52FmSuf6MbhybW8DOUSKjvRhf7HHHPYxxBzD56d4S+F7
-	z3jCQmkbfvQfB2qgj2se+8ftLTW2rU8LOMoDvV4oVfiBcRlRV9jvdrZQW9GMracvfMFaFD
-	SYM3xOaqFDOTHHEnYolg8l7TFFsYqCzxSfbqjvwwfTIPfWEtFZ0WbHICBVl2Tw==
-Date: Thu, 14 Nov 2024 11:46:10 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, donald.hunter@gmail.com,
- danieller@nvidia.com, ecree.xilinx@gmail.com, Andrew Lunn
- <andrew+netdev@lunn.ch>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
- Willem de Bruijn <willemb@google.com>, Shannon Nelson
- <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>, Jacob
- Keller <jacob.e.keller@intel.com>
-Subject: Re: [PATCH net-next v19 03/10] ptp: Add phc source and helpers to
- register specific PTP clock or get information
-Message-ID: <20241114114610.1eb4a5da@kmaincent-XPS-13-7390>
-In-Reply-To: <20241113163925.7b3bd3d9@kernel.org>
-References: <20241030-feature_ptp_netnext-v19-0-94f8aadc9d5c@bootlin.com>
- <20241030-feature_ptp_netnext-v19-3-94f8aadc9d5c@bootlin.com>
- <20241111150609.2b0425f6@kernel.org>
- <20241112111232.1637f814@kmaincent-XPS-13-7390>
- <20241112182226.2a6c8bab@kernel.org>
- <20241113113808.4f8c5a0b@kmaincent-XPS-13-7390>
- <20241113163925.7b3bd3d9@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1731586054; c=relaxed/simple;
+	bh=LOd6GxO4tMJcV2o7TjI7n8wU2/+etepq1GwxCfsRtyc=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=pv57YEcPToZzgspW3bDJSaqn4S/GGAbuqylQlc3VIyT75KeI6nxTjMqSOgYRQ7CgQ7UCckihLXuZIPx+4Ly/A0YkwGwthJP88wC9FeY/DkOqtpdaWdUQ4Z2TuO1+cM/V+0Bh0gR3EIMtEVIKBZsP1VM20lRLlrxGwkXdDIajcm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4XpzRb5Bvxz50FXN;
+	Thu, 14 Nov 2024 20:07:23 +0800 (CST)
+Received: from njy2app02.zte.com.cn ([10.40.13.116])
+	by mse-fl1.zte.com.cn with SMTP id 4AEC67Ud016915;
+	Thu, 14 Nov 2024 20:06:07 +0800 (+08)
+	(envelope-from jiang.kun2@zte.com.cn)
+Received: from mapi (njb2app06[null])
+	by mapi (Zmail) with MAPI id mid204;
+	Thu, 14 Nov 2024 20:06:11 +0800 (CST)
+Date: Thu, 14 Nov 2024 20:06:11 +0800 (CST)
+X-Zmail-TransId: 2afe6735e7b3032-b8ad8
+X-Mailer: Zmail v1.0
+Message-ID: <20241114200611368_vpMExu265JwdZuArEo_D@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Mime-Version: 1.0
+From: <jiang.kun2@zte.com.cn>
+To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
+        <jmaloy@redhat.com>, <lucien.xin@gmail.com>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Cc: <tu.qiang35@zte.com.cn>, <jiang.kun2@zte.com.cn>, <xu.xin16@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdIERvY3VtZW50YXRpb246IHRpY3A6IGZpeCBmb3JtYXR0aW5nIGlzc3VlIGluIHRpcGMucnN0?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 4AEC67Ud016915
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6735E7FB.000/4XpzRb5Bvxz50FXN
 
-On Wed, 13 Nov 2024 16:39:25 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
+From: tuqiang <tu.qiang35@zte.com.cn>
 
-> On Wed, 13 Nov 2024 11:38:08 +0100 Kory Maincent wrote:
-> > > IOW I'm struggling to connect the dots how the code you're adding now
-> > > will be built _upon_ rather than _on the side_ of when socket PHC
-> > > selection is in place.   =20
-> >=20
-> > I see what you mean! It is not something easy to think of as I don't re=
-ally
-> > know how it would be implemented.
-> > Do you think adding simply the PHC source and the phydev pointer or ind=
-ex
-> > would fit?  =20
->=20
-> In net_device? Yes, I think so.
-=20
-Also as the "user" is not described in the ptp_clock structure the only way=
- to
-find it is to roll through all the PTP of the concerned net device topology.
-This find ptp loop will not be in the hotpath but only when getting the tsi=
-nfo
-of a PHC or changing the current PHC. Is it ok for you?
+The hyphen is removed to have the same style as the others.
 
-I am at v20 so I ask for confirmation before changing the full patch series=
-! ;)
+Fixes: 09ef17863f37 ("Documentation: add more details in tipc.rst")
+Signed-off-by: tuqiang <tu.qiang35@zte.com.cn>
+Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+Cc: xu xin <xu.xin16@zte.com.cn>
+Cc: David S. Miller <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jon Maloy <jmaloy@redhat.com>
+Cc: Xin Long <lucien.xin@gmail.com>
+---
+ Documentation/networking/tipc.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+diff --git a/Documentation/networking/tipc.rst b/Documentation/networking/tipc.rst
+index ab63d298cca2..9b375b9b9981 100644
+--- a/Documentation/networking/tipc.rst
++++ b/Documentation/networking/tipc.rst
+@@ -112,7 +112,7 @@ More Information
+
+ - How to contribute to TIPC:
+
+-- http://tipc.io/contacts.html
++  http://tipc.io/contacts.html
+
+ - More details about TIPC specification:
+
+-- 
+2.18.4
