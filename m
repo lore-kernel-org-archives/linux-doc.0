@@ -1,82 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D6223BE;
-	Thu, 14 Nov 2024 00:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533BA1C3F28
+	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 01:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731545041; cv=none; b=oszIR2Xd6DD/Ne/ZZyUAxfEJGsS9xVQt4XPHZ0b70GpPDTA8mgWqsjatGgi/VSKsa0m6cgmjKjB2dzrW/9/rVfoz00URTcxpHXCIA/Y6Ju3LgeotifP9TGLSl1a+a61Rvg2xNmL+gpl3ocl8QV9DU+HxphwLyqZndjuvcTbu13w=
+	t=1731546418; cv=none; b=KefSJITRgXO9psJWPKEAJhXKkdIfpRcbDNxtekwh3J2spbS+39uSCtreoRwnxvgprrY6BsqueNM4J6gZBDe3ARtKz53ASa9s0Id35ciZ5VDbZnw1hCTgvUz42NjT/gON4TcG4wfBOM/S3MjvlcIpskctzEN4zQkyU9JY6m/3Gok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731545041; c=relaxed/simple;
-	bh=8IaEo0YJd0KfTU3+MR/SWm8SxKZ/uphzeYSqSdmUWyU=;
+	s=arc-20240116; t=1731546418; c=relaxed/simple;
+	bh=qBuDfnrWjJVjq7psCPaKKe9MZ9ehfUXbn+HJ87+O3ng=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m9A3SBbIGAfZx2Q1SheoNBJVJZY6sgnpTMO6liRDcGi3GxQVFU/a8ojKgCq9xi0IAVK81WhB4EPxq9eeO3QA5uqFHtxEUpXom5Ot7tUXek8givjayXjs/99BXerd4ci42kBOjui5tn+027DlBo+eoye5G5684lJTPZtyl0fSnmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arX30a25; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=n/2qFEXOnqJlEbxqvdxsvvoGJ9+zoZNw+8t3RNrpW4gh1rg5OcEejaUKofXJeuITolIoEEDfge1lWm2oSXqnRXuRYUO1AxdLw3QWOCC1GukdLlFhSKUhYTEgodbZnihMzQs+qvX1jd1QLuxcfbIsZgnOoym6bze/TMPFQNnFnII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=nBgRs0+A; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arX30a25"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 502E1C4CEC3;
-	Thu, 14 Nov 2024 00:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731545041;
-	bh=8IaEo0YJd0KfTU3+MR/SWm8SxKZ/uphzeYSqSdmUWyU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=arX30a25jj6EIPSUrZ88Ebun2igjpJwHwGtakbmkw/Tf1CSq9GcHYsqQwBzqE7LdK
-	 FD3eUtv/0/JV4Lj6FIxE2MPKJvjMdjIwvCQ5zZO9Vg4VDznEZnwUkYdlnfsTBmkrCR
-	 nRLW4JeifjTWd3+GGIv5PEErjgtHfxY4rgqDBSmotFJSrdHKkQLvGxxIDnmLdgzWoZ
-	 wfdcQp7iOdBeH4oTvJPg7uLQp21jtydi4+qe3mMfOE/OYTKIirM6NqbfnngM2dwCdP
-	 adhO7VwQq5gNmva6CVcDDLGjtLSI8gbmWQMCrwQR6SoXrt0Ji1R92IO7VA4cicDVmr
-	 RNVoVceGoP4pg==
-Date: Wed, 13 Nov 2024 16:43:58 -0800
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
-	linux-doc@vger.kernel.org, amit.shah@amd.com,
-	thomas.lendacky@amd.com, tglx@linutronix.de, peterz@infradead.org,
-	pawan.kumar.gupta@linux.intel.com, corbet@lwn.net, mingo@redhat.com,
-	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
-	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
-	kai.huang@intel.com, sandipan.das@amd.com,
-	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
-	david.kaplan@amd.com, dwmw@amazon.co.uk
-Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
- AMD
-Message-ID: <20241114004358.3l7jxymrtykuryyd@jpoimboe>
-References: <20241111163913.36139-1-amit@kernel.org>
- <20241111163913.36139-2-amit@kernel.org>
- <20241111193304.fjysuttl6lypb6ng@jpoimboe>
- <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
- <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
- <20241112115811.GAZzNC08WU5h8bLFcf@fat_crate.local>
- <20241113212440.slbdllbdvbnk37hu@jpoimboe>
- <20241113213724.GJZzUcFKUHCiqGLRqp@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="nBgRs0+A"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-720c2db824eso42971b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 17:06:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1731546414; x=1732151214; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=V6zYfn0VZRfW6uGvMs5S79Lwbgkv1rCFmk8b72kjuag=;
+        b=nBgRs0+Av2U3Z2uwG1tLbt4cFvuXdSuWpoYnAUtB0yqa53YznjHiKLDJAW3bQdEgtL
+         r8e/7g8R+rv7bKKhvcLHrRyyUSSqyWL7EksujX7DB2tI7NV6tmSPAXmozqaXfgCKyl3s
+         RO0Lhr7OtT9yEbcD7R44FZLuYunb8hMrQkMZKQfTCQ847jxVxietCO6l95NlyZK7Spwe
+         zxeAWGExHnUt9OnLTyKGpj133H9F/X7HTSPOU+hgH4OShDmmKe/rs7KjXbtJeXiMzcgJ
+         xQK0uKDOK4suL7f1bFVRH6EkNhzlbwH+IWj4jZYIP4ozHvnKHL2kyYS6sDFip9D9ecIe
+         W0yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731546414; x=1732151214;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V6zYfn0VZRfW6uGvMs5S79Lwbgkv1rCFmk8b72kjuag=;
+        b=rWhalA4zHxhdVKEdwgcSUKxS/J/ySkSntW96rcvCy3GmqFkAkapBfsXfz93D2Y91bd
+         mEa2s97MkckbVNvyOMviPDuHx/xKUm99yqATJlwnZLULXF3OdF2cS6frXTHD7sJ42mmV
+         KMCojw8XP61LY/vubZVBYAVxuANeaLVK/fVusHcRuluGycLJ5c/ig8XfMfCFi2GfNzIq
+         3m1Ob2DJ3vAzKLwcMAexnaHsem7vLAZPynCQEwmbhd8zJaSZYuSGRXDaNO2bYufu3FDj
+         Wu4RgG92pVZcWMxIxq0xuC+XI341RwjNDOwtpMbrbdiiGhvT2VnB3OaJO3r24nan5WQx
+         qT/g==
+X-Forwarded-Encrypted: i=1; AJvYcCV1iAb4bW75TFLDWYSx7BdNnKbqwTdYFAoibyzkdMnE2wf2hNyA4mR1CpB24aBzsi9RoDgue1DWpOA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywcp1cjJyWVvhP9/E2XQ1DOriBbRaj7wEV/cpTEmMxxJfws2V+2
+	N1Ybm4eG7a8gAw05kvJxtbjZSy8EX6a8ehQpjhLKWprrC+s5ApzmfzIu3+Sj4nw=
+X-Google-Smtp-Source: AGHT+IHKuTOxiGEAgkHaDhIBBJNYiWEQLb5FEseKdlvV0/9ks9/baTVKfCi8JKR7Lgz6EKvk8XnoGA==
+X-Received: by 2002:a05:6a00:23c4:b0:724:603f:1f9c with SMTP id d2e1a72fcca58-724603f20abmr3387327b3a.16.1731546414360;
+        Wed, 13 Nov 2024 17:06:54 -0800 (PST)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7246a6e9cddsm58312b3a.74.2024.11.13.17.06.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 17:06:53 -0800 (PST)
+Date: Wed, 13 Nov 2024 17:06:50 -0800
+From: Deepak Gupta <debug@rivosinc.com>
+To: Nick Hu <nick.hu@sifive.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com
+Subject: Re: [PATCH v8 24/29] riscv: enable kernel access to shadow stack
+ memory via FWFT sbi call
+Message-ID: <ZzVNKvCu4MOs7O5z@debug.ba.rivosinc.com>
+References: <20241111-v5_user_cfi_series-v8-0-dce14aa30207@rivosinc.com>
+ <20241111-v5_user_cfi_series-v8-24-dce14aa30207@rivosinc.com>
+ <CAKddAkCCVjNHUinPWtOiK8Ki_ZkdoUCawfv1-+0B69J_1aJv5Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20241113213724.GJZzUcFKUHCiqGLRqp@fat_crate.local>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKddAkCCVjNHUinPWtOiK8Ki_ZkdoUCawfv1-+0B69J_1aJv5Q@mail.gmail.com>
 
-On Wed, Nov 13, 2024 at 10:37:24PM +0100, Borislav Petkov wrote:
-> On Wed, Nov 13, 2024 at 01:24:40PM -0800, Josh Poimboeuf wrote:
-> > There are a lot of subtle details to this $#!tstorm, and IMO we probably
-> > wouldn't be having these discussions in the first place if the comment
-> > lived in the docs, as most people seem to ignore them...
-> 
-> That's why I'm saying point to the docs from the code. You can't have a big
-> fat comment in the code about this but everything else in the hw-vuln docs.
+On Thu, Nov 14, 2024 at 12:13:38AM +0800, Nick Hu wrote:
+>Hi Deepak
+>
+>On Tue, Nov 12, 2024 at 5:08 AM Deepak Gupta <debug@rivosinc.com> wrote:
+>>
+>> Kernel will have to perform shadow stack operations on user shadow stack.
+>> Like during signal delivery and sigreturn, shadow stack token must be
+>> created and validated respectively. Thus shadow stack access for kernel
+>> must be enabled.
+>>
+>> In future when kernel shadow stacks are enabled for linux kernel, it must
+>> be enabled as early as possible for better coverage and prevent imbalance
+>> between regular stack and shadow stack. After `relocate_enable_mmu` has
+>> been done, this is as early as possible it can enabled.
+>>
+>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> ---
+>>  arch/riscv/kernel/asm-offsets.c |  4 ++++
+>>  arch/riscv/kernel/head.S        | 12 ++++++++++++
+>>  2 files changed, 16 insertions(+)
+>>
+>> diff --git a/arch/riscv/kernel/asm-offsets.c b/arch/riscv/kernel/asm-offsets.c
+>> index 766bd33f10cb..a22ab8a41672 100644
+>> --- a/arch/riscv/kernel/asm-offsets.c
+>> +++ b/arch/riscv/kernel/asm-offsets.c
+>> @@ -517,4 +517,8 @@ void asm_offsets(void)
+>>         DEFINE(FREGS_A6,            offsetof(struct ftrace_regs, a6));
+>>         DEFINE(FREGS_A7,            offsetof(struct ftrace_regs, a7));
+>>  #endif
+>> +       DEFINE(SBI_EXT_FWFT, SBI_EXT_FWFT);
+>> +       DEFINE(SBI_EXT_FWFT_SET, SBI_EXT_FWFT_SET);
+>> +       DEFINE(SBI_FWFT_SHADOW_STACK, SBI_FWFT_SHADOW_STACK);
+>> +       DEFINE(SBI_FWFT_SET_FLAG_LOCK, SBI_FWFT_SET_FLAG_LOCK);
+>>  }
+>> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+>> index 356d5397b2a2..6244408ca917 100644
+>> --- a/arch/riscv/kernel/head.S
+>> +++ b/arch/riscv/kernel/head.S
+>> @@ -164,6 +164,12 @@ secondary_start_sbi:
+>>         call relocate_enable_mmu
+>>  #endif
+>>         call .Lsetup_trap_vector
+>> +       li a7, SBI_EXT_FWFT
+>> +       li a6, SBI_EXT_FWFT_SET
+>> +       li a0, SBI_FWFT_SHADOW_STACK
+>> +       li a1, 1 /* enable supervisor to access shadow stack access */
+>> +       li a2, SBI_FWFT_SET_FLAG_LOCK
+>> +       ecall
+>>         scs_load_current
+>>         call smp_callin
+>>  #endif /* CONFIG_SMP */
+>> @@ -320,6 +326,12 @@ SYM_CODE_START(_start_kernel)
+>>         la tp, init_task
+>>         la sp, init_thread_union + THREAD_SIZE
+>>         addi sp, sp, -PT_SIZE_ON_STACK
+>> +       li a7, SBI_EXT_FWFT
+>> +       li a6, SBI_EXT_FWFT_SET
+>> +       li a0, SBI_FWFT_SHADOW_STACK
+>> +       li a1, 1 /* enable supervisor to access shadow stack access */
+>> +       li a2, SBI_FWFT_SET_FLAG_LOCK
+>> +       ecall
+>>         scs_load_current
+>>
+>>  #ifdef CONFIG_KASAN
+>>
+>> --
+>> 2.45.0
+>>
+>Should we clear the SBI_FWFT_SET_FLAG_LOCK before the cpu hotplug
+>otherwise the menvcfg.sse won't be set by the fwft set sbi call when
+>the hotplug cpu back to kernel?
 
-But those docs are user facing, describing the "what" for each
-vulnerability individually.  They're basically historical documents
-which don't evolve over time unless we tweak an interface or add a new
-mitigation.
+Hmm...
 
-This comment relates to the "why" for the code itself (and its poor
-confused developers), taking all the RSB-related vulnerabilities into
-account.
+An incoming hotplug CPU has no features setup on it.
+I see that `sbi_cpu_start` will supply `secondary_start_sbi` as start
+up code for incoming CPU. `secondary_start_sbi` is in head.S which converges
+in `.Lsecondary_start_common`. And thus hotplugged CPU should be
+issuing shadow stack set FWFT sbi as well.
 
--- 
-Josh
+Am I missing something ?
+
+>
+>Regards,
+>Nick
+>>
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
