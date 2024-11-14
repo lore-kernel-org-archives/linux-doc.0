@@ -1,84 +1,73 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED711885B4
-	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 04:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B776801
+	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 05:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731559580; cv=none; b=QuxBPQNlSi572/4nMRZA08cm5OeFtyAnQhGM1CNl93vcXLKlbpIe/39G+V0drfNTahdjHeF4zKdGPAGY27Y30m5CIemSImkRML2OMsycBC1xTDhMfkbr1dnA+KS1L1jr5PZBq44lJKNncbfe8W1ynXz9McK7wcOR7oYetGPvGEk=
+	t=1731561993; cv=none; b=VDPmve1PrmNEdH+WaWvwSLgrgsVe8UMH7vDOr33F7+8N9kNQ1+KcCkCDe7a9+B3IiFru10MDH/+x6Yrx9Pc4TZBm4uqI4rq9DCGyMkKBUI4sB9kbYsh1yDm1/lwGmUZKL/C0xA6EHqGU2hxxO76DK29HBNL3J5jh1dpmFyGLCuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731559580; c=relaxed/simple;
-	bh=Ls63W1NkqHjf52ZrqyGJlw3Lda8aWU1ZVvnWQTTJ3tA=;
+	s=arc-20240116; t=1731561993; c=relaxed/simple;
+	bh=odCtyuGSP4U+xEd+Bqh5yu6A9Sz2dMhnPQQcNOnq0gA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UVcI/xd8aUlzLN7uSCg1kNt8MCJWDYYAi95I11OJF/4rXdW6CoSYXAHg7aiPZiABoTjxqD5HZv4c8jo/jDMcoeiOdqR1HQ/IaePGFkJs/+hrcNaAAHymjcidAj8lAPhaCNBeguP/O/cwMjPgxy9qMqB60FWvYSPIBmPxpi6B1eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=JuY82Ulg; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=s49nBEY9pGW8Zyi+sOX/jPArlnJwczxjUGsxMCb0oc+8Jlil9vhm7TzKkSqPItXi5krb6CwD9SqQS39EXkgb61uZKiEEruk4Obg3tH04iMeYy7vUdyI16GqHx1lv2qwkRkR2V25Ls9aO4gU6vIOSf9xOD136R4SHDMYxndIlHdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=3Wlcm78j; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="JuY82Ulg"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2d1858cdfso181000a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 20:46:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="3Wlcm78j"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-460b04e4b1cso1393221cf.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Nov 2024 21:26:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1731559577; x=1732164377; darn=vger.kernel.org;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1731561990; x=1732166790; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ciPpdd8xZxgVXtxncNlZsl62adjxx/9Ixp3cayb9PO8=;
-        b=JuY82Ulg/Nw0fTFdudRW9ha863Sbrz/exH9eyccdCEWmuUWMsG4a1vHIdA38SJV7Lv
-         FG2ZVg5Od18dsWHz54cDhGstFwMBS4p0tk1DQ/jKBJQdh4ZJoTu+0oiaWh2Zos+LOF/p
-         SweFDeTV6JQNQMbJr3oVPaeH5ncKwqvpNqecl5+SaoynDbXyc/Ire5daaYNJUCzIQjPg
-         rzMoUnt4FmEQ6FfNBSdnam4JGLN7O97j1RO9JXMfEzFVhpGwcR/K84qP8Faq/ZZ5KW9B
-         NlgrR0lkyHhMRYhfsE18nTHZ/mK1HpblbYIOFMaZW8nG3cgRqb/W03sgLpwMOhhHztDQ
-         eNwQ==
+        bh=ct2KdI9H+NQ3tYLhkxmYVmA9Qvc093HJhW861qh5z9M=;
+        b=3Wlcm78j6MK1r8uuUGzwe0e0n9qgxWTumA2MbwKn7XSmjgPoXPNxAtZffyDQKFBxNk
+         q9SI1UzDM/qKg5BGsSFTEkDlz9ysT1kx74B+/Mhl1S9KhjkKccCpECjcv0uYVXmzvSqO
+         qlRNJ+fOy67yl7lZ9De+pjgw0Z7PAEAwVkW1WAsy9eEFaVzUZ2t8c7QIQrAr3uKP4afS
+         2nXaZrwxRTleY9K7xBjqwAgHrsRtCda5VCqXUhVUNvpDReZoTzJz2hsHSFUQh3ODwb3X
+         7WPCpvXTCseMW1Y+hd8vR+f8hMWpxpsK6RrppCeWSnGgP7tOX6OlY4TWsq5Ols4gdYZZ
+         N8lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731559577; x=1732164377;
+        d=1e100.net; s=20230601; t=1731561990; x=1732166790;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ciPpdd8xZxgVXtxncNlZsl62adjxx/9Ixp3cayb9PO8=;
-        b=l404fkr989YbR398Vx4XHar1f965+lgIRMd1QD0Bn8px0ZFyNABJIegBW63q0nL7We
-         e78bng2u/PFpIJegiIq7LF5RX/0t3/EdZXJ2YiF4X5BLNkEZ0dotC+lrwqMq478Wp0Sg
-         xt0rd2OEwciX1wdLdjKzcX/4Col0anBHlhh4aJ7yi2J/5Mfm6INrlHeoIho3EUXCI05N
-         xFsdQyuDmrueV5b+rVSNZqWtEwgdaWlsl5IlUR4jY5w9wwtsIV7QNNLPQJZ48xQzGoRY
-         qnHJIgRAFqDHY1Qo1q/vsMMxtArxji7Mrfi+kYs+llYqtjFI4kadHGYcsYua+hlUYAnJ
-         +cQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUA+OtAx8z0ZoSNtVs9Q3tQeZS7ZKIFegLNehZgqnYQhZRRVrc+mh4LwSKAmOgzVz8fsKfCtbCbbQ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziY7lnnSTpLYprduOof2FwdEEgTfUt7iP/AtIFCNDEGuuJXYKN
-	RTwkShMvRsUif+ONiL3oLvUz6iBn4XNPmMgzdb6bNkqBYhYWYfR+WD0XfdjSABY=
-X-Google-Smtp-Source: AGHT+IHwmfiSpNRYwoKTDlPVlAYVWz1iKVKE6iuP2huEnhh9oY77ssSAXAPaqGmYjbMQgR+sM8uIAQ==
-X-Received: by 2002:a17:90b:37cf:b0:2e5:8392:afe7 with SMTP id 98e67ed59e1d1-2e9b14dc341mr30805661a91.0.1731559576254;
-        Wed, 13 Nov 2024 20:46:16 -0800 (PST)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ea06f1b17asm264488a91.15.2024.11.13.20.46.14
+        bh=ct2KdI9H+NQ3tYLhkxmYVmA9Qvc093HJhW861qh5z9M=;
+        b=IIsTZ5Wo/BYtjFC3tUEUHXHyP/6jl8tdDK7gM77gTKATN4WlV5Grv5AQY43C4hehNW
+         RVr9Lg86GKIYIDPV5qnD+gbfCJ21ldZF0SpYZbiiMZvT09n9xBN0fGgm4cFyJO8gVqHl
+         6Ysy5A2x3WUpd/j6trbG8FHJFFVykQiZ5gDN2jounGWKkQmUDnjYRusTR3LssxdUFBxC
+         tjHrjtPKrk8p1vwQJWZu4NpR5L1V8l9Or1zpoZpWxT3iIURHXYavs28/1Q328WJnwvwT
+         n8TM7A49D6vA+BYiQya3tP3YPhNBVXToMnut+mfus6KO0gU4Ph6b0FLoTGWyEK89h+7L
+         aHLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXetBkzgjatIz0R8oZQZGSsvUOEqDmG9G1FneqQ+6076Fn/Xpsu3O1TlHeh9rXfZmWnnxqs6pJl0xg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzghXL4bwWQACCSyGX+6q3ilqNfOqPpB3o82UddCy0gS6WfTdEC
+	3gOuqK97qAHAZgfIIhmiUxj/orHPXWjHC4DVCcoVcSfQpBf0LHzprXzCw13QwvY=
+X-Google-Smtp-Source: AGHT+IG0/Yi9jDXoMe4SbQutAeX4TmKNmVpk+ce0gjUbWlJ8vwuEqUnLIYyO1WfPbeVRkHQmWS0XzQ==
+X-Received: by 2002:a05:6214:54c4:b0:6d3:5265:608c with SMTP id 6a1803df08f44-6d39e1077e3mr287671706d6.3.1731561990274;
+        Wed, 13 Nov 2024 21:26:30 -0800 (PST)
+Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d3ee773212sm1858856d6.2.2024.11.13.21.26.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 20:46:15 -0800 (PST)
-Date: Wed, 13 Nov 2024 20:46:12 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Andy Chiu <andybnac@gmail.com>, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v11 10/14] riscv: hwprobe: Add thead vendor extension
- probing
-Message-ID: <ZzWAlJm1ShgsZr4m@ghost>
-References: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
- <20241113-xtheadvector-v11-10-236c22791ef9@rivosinc.com>
- <tencent_5B500856E30E1FB920B6B68D6315EE70CC06@qq.com>
- <ZzVoQi6D0U30p9sg@ghost>
- <tencent_6A95637042401AD5F8BE05C7B4F11CAD7009@qq.com>
+        Wed, 13 Nov 2024 21:26:29 -0800 (PST)
+Date: Thu, 14 Nov 2024 00:26:24 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: David Rientjes <rientjes@google.com>
+Cc: Joshua Hahn <joshua.hahnjy@gmail.com>, akpm@linux-foundation.org,
+	nphamcs@gmail.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+	muchun.song@linux.dev, chris@chrisdown.name, tj@kernel.org,
+	lizefan.x@bytedance.com, mkoutny@suse.com, corbet@lwn.net,
+	lnyng@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
+Message-ID: <20241114052624.GD1564047@cmpxchg.org>
+References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com>
+ <72688d81-24db-70ba-e260-bd5c74066d27@google.com>
+ <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com>
+ <eb4aada0-f519-02b5-c3c2-e6c26d468d7d@google.com>
+ <c41adcce-473d-c1a7-57a1-0c44ea572679@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,104 +76,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_6A95637042401AD5F8BE05C7B4F11CAD7009@qq.com>
+In-Reply-To: <c41adcce-473d-c1a7-57a1-0c44ea572679@google.com>
 
-On Thu, Nov 14, 2024 at 11:26:47AM +0800, Yangyu Chen wrote:
+On Wed, Nov 13, 2024 at 02:42:29PM -0800, David Rientjes wrote:
+> On Mon, 11 Nov 2024, David Rientjes wrote:
 > 
-> 
-> On 11/14/24 11:02, Charlie Jenkins wrote:
-> > On Thu, Nov 14, 2024 at 10:44:37AM +0800, Yangyu Chen wrote:
+> > > The reason that I opted not to include a breakdown of each hugetlb
+> > > size in memory.stat is only because I wanted to keep the addition that
+> > > this patch makes as minimal as possible, while still addressing
+> > > the goal of bridging the gap between memory.stat and memory.current.
+> > > Users who are curious about this breakdown can see how much memory
+> > > is used by each hugetlb size by enabling the hugetlb controller as well.
 > > > 
-> > > 
-> > > On 11/14/24 10:21, Charlie Jenkins wrote:
-> > > > Add a new hwprobe key "RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0" which
-> > > > allows userspace to probe for the new RISCV_ISA_VENDOR_EXT_XTHEADVECTOR
-> > > > vendor extension.
-> > > > 
-> > > 
-> > > Hi Charlie,
-> > > 
-> > > How about changing the name of the key from
-> > > "RISCV_ISA_VENDOR_EXT_XTHEADVECTOR" to "RISCV_HWPROBE_KEY_VENDOR_EXT_0" and
-> > > use marchid to identify what the vendor is, each vendor will have its own
-> > > bit definition in this value. So we can avoid adding so many hwprobe keys
-> > > for each vendor in the future.
-> > > 
-> > > I proposed a commit here: https://github.com/cyyself/linux/commit/36390645d85d1ac75dd71172f167719df4297f59
 > > 
-> > I actually originally had this in one of my first versions of this
-> > series but was convinced by Conor to change it. The problem with it was
-> > that tying vendor extensions to mvendorid means that it is enforced by
-> > the kernel that vendors cannot share vendor extensions. It is possible
-> > for vendor A to purchase IP that contains a vendor extension from vendor
-> > B. This vendor extension should work on platforms created by vendor A
-> > and vendor B. However, vendor A and vendor B have different mvendorids,
-> > so the kernel can't support this if it is tied to mvendorid.  It could
-> > be solved by duplicating every extension that vendors have, but then
-> > userspace software would have to keep in mind the mvendorid they are
-> > running on and check the different extensions for the different vendors
-> > even though the implementation of the extension is the same.
+> > While the patch may be minimal, this is solidifying a kernel API that 
+> > users will start to count on.  Users who may be interested in their 
+> > hugetlb usage may not have control over the configuration of their kernel?
 > > 
-> > The original conversation where Conor and I agreed that it was better to
-> > have vendor extensions not rely on mvendorid:
+> > Does it make sense to provide a breakdown in memory.stat so that users can 
+> > differentiate between mapping one 1GB hugetlb page and 512 2MB hugetlb 
+> > pages, which are different global resources?
 > > 
-> > https://lore.kernel.org/linux-riscv/20240416-husband-flavored-96c1dad58b6e@wendy/
+> > > It's true that this is the case as well for total hugeltb usage, but
+> > > I felt that not including hugetlb memory usage in memory.stat when it
+> > > is accounted by memory.current would cause confusion for the users
+> > > not being able to see that memory.current = sum of memory.stat. On the
+> > > other hand, seeing the breakdown of how much each hugetlb size felt more
+> > > like an optimization, and not a solution that bridges a confusion.
+> > > 
+> > 
+> > If broken down into hugetlb_2048kB and hugetlb_1048576kB on x86, for 
+> > example, users could still do sum of memory.stat, no?>
 > > 
 > 
-> Thanks for your explanation. I will strongly agree with Conor's opinion if
-> the feature bitmask does not exist in RISC-V C-ABI.
-> 
-> However, as the feature mask defined in RISC-V C-ABI[1] uses the design
-> depending on marchid currently, should we reconsider this key for its use
-> case? The current target_clones and taget_version implemented in GCC[2] and
-> LLVM[3] also use the bitmask defined in C-ABI. I think if we use this key
-> depending on marchid, to make a key shared with all vendors will make this
-> cleaner.
+> Friendly ping on this, would there be any objections to splitting the 
+> memory.stat metrics out to be per hugepage size?
 
-Changing this will break linux userspace API. It is a non-workable
-solution for the kernel to associate extensions with marchid/mvendorid
-for the reasons provided. I fail to see why this ABI would require the
-kernel to behave in this manner. The ABI provides the marchid to be used
-by function multi-versioning and applications are free to use the
-marchid to change which function they want to compile. However, if they
-want to know if an extension is supported, then they need to use
-hwprobe. If they want to check if xtheadvector is supported, then they
-call hwprobe with the xtheadvector key. This is true no matter what the
-mvendorid of the system is. This does not add any complexity, "clean"
-code can equally be written following this scheme or following a scheme
-that relies on mvendorid. Ditching the reliance on mvendorid in the
-kernel allows the kernel to be as generic as possible, and allow
-whatever ABIs or hardware that exist to have a resiliant way of
-communicating with the kernel.
+I don't think it has to be either/or. We can add the total here, and a
+per-size breakdown in a separate patch (with its own changelog)?
 
-- CHarlie
+That said, a per-size breakdown might make more sense in the hugetlb
+cgroup controller. You're mentioning separate global resources, which
+suggests this is about more explicitly controlled hugetlb use.
 
-> 
-> [1] https://github.com/riscv-non-isa/riscv-c-api-doc/blob/main/src/c-api.adoc#function-multi-version
-> [2] https://github.com/gcc-mirror/gcc/blob/8564d0948c72df0a66d7eb47e15c6ab43e9b25ce/gcc/config/riscv/riscv.cc#L13016
-> [3] https://github.com/llvm/llvm-project/blob/f407dff50cdcbcfee9dd92397d3792627c3ac708/clang/lib/CodeGen/CGBuiltin.cpp#L14627
-> 
-> > > 
-> > > > This new key will allow userspace code to probe for which thead vendor
-> > > > extensions are supported. This API is modeled to be consistent with
-> > > > RISCV_HWPROBE_KEY_IMA_EXT_0. The bitmask returned will have each bit
-> > > > corresponding to a supported thead vendor extension of the cpumask set.
-> > > > Just like RISCV_HWPROBE_KEY_IMA_EXT_0, this allows a userspace program
-> > > > to determine all of the supported thead vendor extensions in one call.
-> > > > 
-> > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > > Reviewed-by: Evan Green <evan@rivosinc.com>
-> > > > ---
-> > > >    arch/riscv/include/asm/hwprobe.h                   |  3 +-
-> > > >    .../include/asm/vendor_extensions/thead_hwprobe.h  | 19 +++++++++++
-> > > >    .../include/asm/vendor_extensions/vendor_hwprobe.h | 37 ++++++++++++++++++++++
-> > > >    arch/riscv/include/uapi/asm/hwprobe.h              |  3 +-
-> > > >    arch/riscv/include/uapi/asm/vendor/thead.h         |  3 ++
-> > > >    arch/riscv/kernel/sys_hwprobe.c                    |  5 +++
-> > > >    arch/riscv/kernel/vendor_extensions/Makefile       |  1 +
-> > > >    .../riscv/kernel/vendor_extensions/thead_hwprobe.c | 19 +++++++++++
-> > > >    8 files changed, 88 insertions(+), 2 deletions(-)
-> > > > 
-> > > 
-> 
-> 
+From a memcg POV, all hugetlb is the same. It's just (non-swappable)
+memory consumed by the cgroup.
