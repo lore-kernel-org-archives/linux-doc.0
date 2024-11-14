@@ -1,185 +1,134 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56101F891B
-	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 10:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3DB11F26CA
+	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 10:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731580299; cv=none; b=CcsJmZ79IFweTo2OV/Xs8rNzFQ6x95CRb/vsOnDvybdG6nhuMN0SNv21vnCrgClok83dw9+HVSHK3sduHViN20W4u9+GZomO7rfmL0bTZ52JiYwTW/o6nGLpJwzhA8C10GBjs9GqgpfrVhLTdPPEtGraE3V4GNU3H+Is8yqOmqA=
+	t=1731580430; cv=none; b=TZ6Un2N+n+e+M/8QDSUn54uhrzP8KkkN9Vbei2Ky2ZB8C+Y5tOKpi7ILD+9NABvJRoowsLbK75cLKIAknksRQbaHLQyKsArDAUeLFaTyi2ZMFdcNGCLM+JM4Z0tr8SO7PS7JqTCOzLoQ+3FVL0/opjusH45yo/UuaDTOuGTnuEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731580299; c=relaxed/simple;
-	bh=1HMteR7GeWi+aLLIBziHVSG/j/GJwhJ4tatT18md6O8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rvc3j8lTbcmyDZc69eO6+YcdSdQTSxN+DSqnizhBgyJUj27svFvMclbgWG5yPXd0ueafgvZcklWa25LUYNPdA1/DOLPk0aYx5JYeFrgKGTZthytV7p2uWNYJJQ9YMRVPheGraUmGwgHEUAKXOBvduEA1f/AOAS4pxHwESIuSiFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zuHOBEY1; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731580430; c=relaxed/simple;
+	bh=X2NeQPMnpek12M1llh7mAvPwsYyUlv1ectRkJWKV740=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ghW8Szwn2jzB1Q8P/esuc9GYUmYConbIrNZ4iNqHM/PDAZrY7mRzSPfOzTZYZE4KPLTAsZCW6EoT+N7dcTsmcm+dF1SbbETgoDLj0Ou+UjhULl7HKtBB561CcdVQFiKTbqbnc/vEa3ro0fRFccjVXwjkyb6BY2+oqXLGKu4jieA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AAs8zC3U; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zuHOBEY1"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a9a0ef5179dso78101466b.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 02:31:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AAs8zC3U"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5cef772621eso582299a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 02:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731580296; x=1732185096; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=330+bk+cS3icGrLIMivP9QZx02A0SNk2s2BiDL/dZNI=;
-        b=zuHOBEY1poMH707/Im3WFRZi5LAi3cYfFPomInUZ2BovLGctqetjtRiIUiB2wIJhrH
-         TNz3txrLzioiaNpHcwv7QHaT9hECmopRyWIpZExg10QrPihapHAbWwq7Xdolywm/J3Ov
-         t/qmuVD46hLVpp+8ZdQ9H1sfsdJmTOVBff9ujtOPBOvUarxI/cwU3HJ2c2X2II1jDjo/
-         F0YkGT72WDnnTTtgYLqjjaPysCrZcEta6bF2DDTeqoEBGAUvinvPdn445uVT14A+ws5M
-         2kn+mYLyW/lH2leFyK68APE+v8R3hjlrzqZmhtVCnNH/ZuMzKrhsUD6SKlxVNM4wyAhS
-         iv0Q==
+        d=suse.com; s=google; t=1731580427; x=1732185227; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VBPApLFtlaOK3f4z4ZSIcdYWTPe1i7pEMSXlEit2OcA=;
+        b=AAs8zC3U9/6SbpbpwBiWKyWmA5quBsvv3R21SQIVM4IqoNuUexPs4u6B+7GWgEgm1s
+         IPKRkiEqmTudD03Vfnjmqwvmn/c+HHa80J3/QtFabELuV7aEc0B33M89PTG7fVSFoSBf
+         +xaNMgyJwhtH+dVTMJs5zJSVyAuwdl+6XZvzQQXYn8BPi7u0vOZ98JeIfFo05zLRe5T8
+         hynahSv32BiDGxPlWMJohbRhUMXSZAwmEGL/eBp0cFrtwBVBhpZwhv1SC1UDyZ1ML3rD
+         CrIHr0NRYBeK3nazVLE44MssbDKWpUFtxMmU7pRaR8Sa0QuJCX+MsJ9apn1CcFRB0ACM
+         tn2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731580296; x=1732185096;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=330+bk+cS3icGrLIMivP9QZx02A0SNk2s2BiDL/dZNI=;
-        b=dxTaa70rdAOopjHqIPETXbsBjTlgMxes07M5f2PU1SaEuzlaMCr4pFMix7TCiCQ/tZ
-         WM7bb2r7aUZbJQ0hFX4c6LJ7ARDDJKsIsTFGOW63iNS2vDjC9/McAa3VamE+gd3LqBb7
-         J53qChAiplid6PurnSt7xXLB1UpUOcEx8AnPRTXi+c7HlaVj7XufQ4OnRGhlne4km5w5
-         wbkcjQYEjhp0RGBBuFShzJTT+ipHMouHcES57YpyT86j+PfIkmq3HV3Cl/YovJ8VCaVU
-         15otjNaT3yvwuv23ySppTogNEfbkkJHlXreQonDpjZeIfLcepe/eLiXwgBBdBrR5MCbU
-         mnFw==
-X-Forwarded-Encrypted: i=1; AJvYcCUuE3sRXQS7CKL/g+FKLJq3hquaAw9uNNSh5by8m8ec5z4HMSvIUtw4YJAGO/Z+rwOWfz6rpJ9WdzM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOSATdcNZQAXZoeFIitrCC5NE1FNRXeC8ee31hDfCLEHirlZZL
-	9QNeixahKWddIJK2XG6D4pn5l1tsXoA98JF9f/m+gwTu5g+ysLGzyfAJR6cWqNLRKXLJk4Cjnfh
-	JVV9iVzOicnROl91kY3hFUUyaDrBz5nhLGNzj
-X-Google-Smtp-Source: AGHT+IFqjZNothSKY3NQ7z6Ssb06hcvdumgEbAL12tHf57bGbqlxiboD7hH6ovHLn0T5dGBaodALGFZhMKIIJi3hdzo=
-X-Received: by 2002:a17:907:3e1d:b0:a99:4aa7:4d6f with SMTP id
- a640c23a62f3a-a9eefebc409mr2436865566b.12.1731580295828; Thu, 14 Nov 2024
- 02:31:35 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731580427; x=1732185227;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VBPApLFtlaOK3f4z4ZSIcdYWTPe1i7pEMSXlEit2OcA=;
+        b=XHxnyDedPpBEv/XLqw7RhW2vzCQ2YI1JO7A91/D3eMVDlUoMkHYu5gedyp1RODg+km
+         1T5FriWuO9+xqw8UNSHpgEeH3a0NSISsMH9c9yebPn04aydPziywb0lpMfZaKU7qfmi+
+         UzYNaBpjDYkGSGvF/dWWxJiz2YPqBJpu6ncwv/+43lJ5E/3xgMB74yPRUxzgzljtxnxX
+         18pBOe1CvXnmuKFcrfHu9yAr2RoAIdvlHBegH42itseRhgDI+rDMr1utPo0jn0HvxaCg
+         4bCvU6LlQ3ibysrqxz1yTkyMnI09nIo/wUuALvpFME/OmxZq18cz4ZxpS3ly8J8lHYfo
+         my3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUnmi33hGmyNwMGaEUPpSG4wxeX73IAzUW6kBxHDwfqLersfffeGpJMgpwqJv3qx2tBxsYYF3Gau44=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3NGT3zGLvFdsqdes6ZCLee4ROSj8SezAbRFDXkIlbLBq4L+Au
+	xMQXgC5XwDG7gcs/hhnWuPlEUXpS8rkNpdK7zvbU4axfnvpKlcRiwWzE5egmygI=
+X-Google-Smtp-Source: AGHT+IEmLsdovsIKeaEEvZwYSPZlHx1HJdNmxwuq2BlsvFnUk5lcIWWhA0cQDnKQAWDSm08XlzLyuw==
+X-Received: by 2002:a17:906:c150:b0:a9a:f0e:cd4 with SMTP id a640c23a62f3a-aa1f813b746mr585216666b.55.1731580426995;
+        Thu, 14 Nov 2024 02:33:46 -0800 (PST)
+Received: from localhost (109-81-88-120.rct.o2.cz. [109.81.88.120])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20df1b642sm47126766b.40.2024.11.14.02.33.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2024 02:33:46 -0800 (PST)
+Date: Thu, 14 Nov 2024 11:33:45 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: David Rientjes <rientjes@google.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, akpm@linux-foundation.org,
+	nphamcs@gmail.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+	muchun.song@linux.dev, chris@chrisdown.name, tj@kernel.org,
+	lizefan.x@bytedance.com, mkoutny@suse.com, corbet@lwn.net,
+	lnyng@meta.com, cgroups@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
+Message-ID: <ZzXSCSBcPobCpmG8@tiehlicka>
+References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com>
+ <72688d81-24db-70ba-e260-bd5c74066d27@google.com>
+ <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com>
+ <eb4aada0-f519-02b5-c3c2-e6c26d468d7d@google.com>
+ <c41adcce-473d-c1a7-57a1-0c44ea572679@google.com>
+ <20241114052624.GD1564047@cmpxchg.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241029172832.93963-1-tony.luck@intel.com> <20241029172832.93963-4-tony.luck@intel.com>
- <f4845fee-3f91-4e78-a186-a7bdc58f7873@intel.com> <ZzUvA2XE01U25A38@agluck-desk3>
-In-Reply-To: <ZzUvA2XE01U25A38@agluck-desk3>
-From: Peter Newman <peternewman@google.com>
-Date: Thu, 14 Nov 2024 11:31:25 +0100
-Message-ID: <CALPaoCi94amaO4ALGhLPn=zWEJ3STJWyYid4L+kMjXYf9wKqAQ@mail.gmail.com>
-Subject: Re: [PATCH v8 3/7] x86/resctrl: Refactor mbm_update()
-To: Tony Luck <tony.luck@intel.com>
-Cc: Reinette Chatre <reinette.chatre@intel.com>, Fenghua Yu <fenghua.yu@intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org, 
-	James Morse <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, 
-	Babu Moger <babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241114052624.GD1564047@cmpxchg.org>
 
-Hi Tony,
+On Thu 14-11-24 00:26:24, Johannes Weiner wrote:
+> On Wed, Nov 13, 2024 at 02:42:29PM -0800, David Rientjes wrote:
+> > On Mon, 11 Nov 2024, David Rientjes wrote:
+> > 
+> > > > The reason that I opted not to include a breakdown of each hugetlb
+> > > > size in memory.stat is only because I wanted to keep the addition that
+> > > > this patch makes as minimal as possible, while still addressing
+> > > > the goal of bridging the gap between memory.stat and memory.current.
+> > > > Users who are curious about this breakdown can see how much memory
+> > > > is used by each hugetlb size by enabling the hugetlb controller as well.
+> > > > 
+> > > 
+> > > While the patch may be minimal, this is solidifying a kernel API that 
+> > > users will start to count on.  Users who may be interested in their 
+> > > hugetlb usage may not have control over the configuration of their kernel?
+> > > 
+> > > Does it make sense to provide a breakdown in memory.stat so that users can 
+> > > differentiate between mapping one 1GB hugetlb page and 512 2MB hugetlb 
+> > > pages, which are different global resources?
+> > > 
+> > > > It's true that this is the case as well for total hugeltb usage, but
+> > > > I felt that not including hugetlb memory usage in memory.stat when it
+> > > > is accounted by memory.current would cause confusion for the users
+> > > > not being able to see that memory.current = sum of memory.stat. On the
+> > > > other hand, seeing the breakdown of how much each hugetlb size felt more
+> > > > like an optimization, and not a solution that bridges a confusion.
+> > > > 
+> > > 
+> > > If broken down into hugetlb_2048kB and hugetlb_1048576kB on x86, for 
+> > > example, users could still do sum of memory.stat, no?>
+> > > 
+> > 
+> > Friendly ping on this, would there be any objections to splitting the 
+> > memory.stat metrics out to be per hugepage size?
+> 
+> I don't think it has to be either/or. We can add the total here, and a
+> per-size breakdown in a separate patch (with its own changelog)?
+> 
+> That said, a per-size breakdown might make more sense in the hugetlb
+> cgroup controller. You're mentioning separate global resources, which
+> suggests this is about more explicitly controlled hugetlb use.
+> 
+> >From a memcg POV, all hugetlb is the same. It's just (non-swappable)
+> memory consumed by the cgroup.
 
-On Wed, Nov 13, 2024 at 11:58=E2=80=AFPM Tony Luck <tony.luck@intel.com> wr=
-ote:
->
-> On Wed, Nov 13, 2024 at 02:25:53PM -0800, Reinette Chatre wrote:
-> > Hi Tony,
-> >
-> > On 10/29/24 10:28 AM, Tony Luck wrote:
-> > > Computing memory bandwidth for all enabled events resulted in
-> > > identical code blocks for total and local bandwidth in mbm_update().
-> > >
-> > > Refactor with a helper function to eliminate code duplication.
-> > >
-> > > No functional change.
-> > >
-> > > Signed-off-by: Tony Luck <tony.luck@intel.com>
-> > > ---
-> > >  arch/x86/kernel/cpu/resctrl/monitor.c | 69 ++++++++++---------------=
---
-> > >  1 file changed, 24 insertions(+), 45 deletions(-)
-> > >
-> > > diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/=
-cpu/resctrl/monitor.c
-> > > index 3ef339e405c2..1b6cb3bbc008 100644
-> > > --- a/arch/x86/kernel/cpu/resctrl/monitor.c
-> > > +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-> > > @@ -829,62 +829,41 @@ static void update_mba_bw(struct rdtgroup *rgrp=
-, struct rdt_mon_domain *dom_mbm)
-> > >     resctrl_arch_update_one(r_mba, dom_mba, closid, CDP_NONE, new_msr=
-_val);
-> > >  }
-> > >
-> > > -static void mbm_update(struct rdt_resource *r, struct rdt_mon_domain=
- *d,
-> > > -                  u32 closid, u32 rmid)
-> > > +static void mbm_update_one_event(struct rdt_resource *r, struct rdt_=
-mon_domain *d,
-> > > +                            u32 closid, u32 rmid, enum resctrl_event=
-_id evtid)
-> > >  {
-> > >     struct rmid_read rr =3D {0};
-> > >
-> > >     rr.r =3D r;
-> > >     rr.d =3D d;
-> > > +   rr.evtid =3D evtid;
-> > > +   rr.arch_mon_ctx =3D resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
-> > > +   if (IS_ERR(rr.arch_mon_ctx)) {
-> > > +           pr_warn_ratelimited("Failed to allocate monitor context: =
-%ld",
-> > > +                               PTR_ERR(rr.arch_mon_ctx));
-> > > +           return;
-> > > +   }
-> > > +
-> > > +   __mon_event_count(closid, rmid, &rr);
-> > > +
-> > > +   if (is_mba_sc(NULL))
-> > > +           mbm_bw_count(closid, rmid, &rr);
-> > > +
-> >
-> > As I am staring at this more there seems to be an existing issue here .=
-.. note how
-> > __mon_event_count()'s return value is not checked before mbm_bw_count()=
- is called.
-> > This means that mbm_bw_count() may run with rr.val of 0 that results in=
- wraparound
-> > inside it resulting in some unexpected bandwidth numbers. Since a count=
-er read can fail
-> > with a "Unavailable"/"Error" from hardware it is not deterministic how =
-frequently this
-> > issue can be encountered.
-> >
-> > Skipping mbm_bw_count() if rr.val is 0 is one option ... that would kee=
-p the bandwidth
-> > measurement static at whatever was the last successful read and thus no=
-t cause dramatic
-> > changes by the software controller ... setting bandwidth to 0 if rr.val=
- is 0 is another
-> > option to reflect that bandwidth data is unavailable, but then the soft=
-ware controller should
-> > perhaps get signal to not make adjustments? I expect there are better o=
-ptions? What do
-> > you think?
->
-> Skipping mbm_bw_count() is also undesirable. If some later
-> __mon_event_count() does succeed the bandwidth will be computed
-> based on the last and current values as if they were one second
-> apart, when actually some longer interval elapsed.
->
-> I don't think this is a big issue for current Intel CPU RDT
-> implementations because I don't think they will return the
-> bit 62 unavailable value in the IA32_QM_CTR MSR. I'll ask
-> around to check.
->
-> But it does mean that implementing the "summary bandwidth"
-> file discussed in the other e-mail thread[1] may be more
-> complex on systems that can return that a counter is
-> unavailable. We'd have to keep track that two succesful
-> counter reads occured, with a measure of the interval
-> between them before reporting a value in the summary file.
-
-At least for the purposes of reporting the mbps rate to userspace, my
-users will record from the files one per second, so it would be fine
-to just report Unavailable (or Unassigned when it's clear that the
-error is because counter wasn't unassigned) whenever either the
-current or previous reading was not successful. Then they can assume
-the value or error reported always refers to the most
-recently-completed one-second window.
-
--Peter
+Completely agreed. From the memcg POV there is no way to control hugetlb
+pages or manage per size charging/pools. In a sense this is not much
+different from slab accounting. We do print overall SLAB accounted
+memory and do not break down each slab consumer in the stat file.
+-- 
+Michal Hocko
+SUSE Labs
