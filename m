@@ -1,129 +1,215 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0746B1EBFF2;
-	Thu, 14 Nov 2024 08:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EB81E9089
+	for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 08:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731571282; cv=none; b=q8n1Hn3EXYe55cjXPJI8Ao2JDqFf3ur1oM6T8DmLg0PP4+VGrtD5fHMbe97oHmApXM6IPPJ1Ub5e0FkU8ctSPFlpODJDH2OoWm/VCWZ/SmelZkeeOzx+2n3sP5gLVPatM5FsCYOkWaEwCl+wBNpyhPjkCPcbUbv8zEgPD4A2+S8=
+	t=1731572384; cv=none; b=W2O+0jD9KXCHDepVrHx8Hntiev3PhW8m06NIIK8z0o6aHV/7FURbwIR3oDjmC62HBSPGLw+FCXkXFex4013UYX4mA/ErTbcIwbH+BMl0PGxPNNtKLthAmJs/Zs0fQPp+6Hmy0FDyy2jhiy2nnqAJGGfZxLB9TJXp1lVwtRDmEx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731571282; c=relaxed/simple;
-	bh=9rI4sdRn+Ppp70uZBrM1rPa1ZmMTrZpqNCDttih3ltY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g7vSIxl6jzHFJR7t9EBydPjGYbcp4w0/DR7DHfkppRtn5qGiva5/AnRZK8y0JNwwicHWuuEhA1ojNR2uR1ccVZ6MI6ugf4LwXbnFQHT19nA5/ZQgo5DKZQnYj3FANJNhXdFPBkUOW9rIlZgS6cP5BGHwodUMrViIvXMRmebs2ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8iepwEM; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8iepwEM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731571282; x=1763107282;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9rI4sdRn+Ppp70uZBrM1rPa1ZmMTrZpqNCDttih3ltY=;
-  b=I8iepwEMyBES4ssTYI8bvhZDHZcQcp3rIIp/c5D1VUgWtvrjhnzIbvYh
-   4Dv6k9raIHeTN82Bt/tQHYL/suWBDFIq9XdD7Q9/ExGeEenrILrfBYFo3
-   iCuHErs/hPB175sg2HlC5MoNQZSLt+y/EXd/pDZVPLWR3rvkfIgGXmzyq
-   l7Te3N9BfktFrNtdMXDcyiebKGBnP9uRJvVziRw0nMM0bomtkZn7GMIE7
-   EpVlJ3+MIaddrdLzttsr624jBSNE5QWvLOzbIaV6O5ghsrpHIyhM6Shc9
-   Z6nqtSJVVDohStx3cUzIYYulZOvs3QM+hhrpvOhe/XXSiKye4rc6KZT07
-   g==;
-X-CSE-ConnectionGUID: bVmjvFdISHGTpWYrJow5Fg==
-X-CSE-MsgGUID: DIo60f5eQFauMXfRt2Oh9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="54035678"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="54035678"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 00:01:17 -0800
-X-CSE-ConnectionGUID: QfC/dlgRTdSOre6kYgo2gQ==
-X-CSE-MsgGUID: t/azFh5WTbWggIEy4Yu3wA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
-   d="scan'208";a="92176869"
-Received: from beginmax-mobl.amr.corp.intel.com (HELO desk) ([10.125.147.24])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 00:01:15 -0800
-Date: Thu, 14 Nov 2024 00:01:16 -0800
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
-	linux-doc@vger.kernel.org, amit.shah@amd.com,
-	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
-	peterz@infradead.org, corbet@lwn.net, mingo@redhat.com,
-	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
-	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
-	kai.huang@intel.com, sandipan.das@amd.com,
-	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
-	david.kaplan@amd.com, dwmw@amazon.co.uk
-Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
- AMD
-Message-ID: <20241114075403.7wxou7g5udaljprv@desk>
-References: <20241111163913.36139-1-amit@kernel.org>
- <20241111163913.36139-2-amit@kernel.org>
- <20241111193304.fjysuttl6lypb6ng@jpoimboe>
- <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
- <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
- <20241112214241.fzqq6sqszqd454ei@desk>
- <20241113202105.py5imjdy7pctccqi@jpoimboe>
- <20241114015505.6kghgq33i4m6jrm4@desk>
- <20241114023141.n4n3zl7622gzsf75@jpoimboe>
+	s=arc-20240116; t=1731572384; c=relaxed/simple;
+	bh=kg5iottiqSkziPPR+3lCHz1LS3KnxB1mD9eBSmV73eE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dTmE+PQBBc/O2VQSU032qY/HFui6wz7IS/hM9b5E7EhepO8EWi8x7u5rB2Yb/qsCz3ZALbReDdjfoLu9LM+sGbx7ZYb3nEYkOhYHbZAugfXjMnloMkGID5+Fo757m2uxlU72Ke+5AYqRofLP7TWnxI9wpPCEn6fOAKvYgyBMT+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4XptKq44Qsz10RlQ;
+	Thu, 14 Nov 2024 16:17:03 +0800 (CST)
+Received: from kwepemd200012.china.huawei.com (unknown [7.221.188.145])
+	by mail.maildlp.com (Postfix) with ESMTPS id 242C81800A6;
+	Thu, 14 Nov 2024 16:19:34 +0800 (CST)
+Received: from huawei.com (10.145.6.51) by kwepemd200012.china.huawei.com
+ (7.221.188.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Thu, 14 Nov
+ 2024 16:19:32 +0800
+From: Zhou Wang <wangzhou1@hisilicon.com>
+To: <maz@kernel.org>, <tglx@linutronix.de>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<wangwudi@hisilicon.com>, <prime.zeng@hisilicon.com>, Zhou Wang
+	<wangzhou1@hisilicon.com>, Nianyao Tang <tangnianyao@huawei.com>
+Subject: [PATCH v4] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
+Date: Thu, 14 Nov 2024 16:28:13 +0800
+Message-ID: <20241114082813.3865466-1-wangzhou1@hisilicon.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241114023141.n4n3zl7622gzsf75@jpoimboe>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemd200012.china.huawei.com (7.221.188.145)
 
-On Wed, Nov 13, 2024 at 06:31:41PM -0800, Josh Poimboeuf wrote:
-> On Wed, Nov 13, 2024 at 05:55:05PM -0800, Pawan Gupta wrote:
-> > > > user->user SpectreRSB is also mitigated by IBPB, so RSB filling is
-> > > > unnecessary when IBPB is issued. Also, when an appication does not opted-in
-> > > > for IBPB at context switch, spectre-v2 for that app is not mitigated,
-> > > > filling RSB is only a half measure in that case.
-> > > > 
-> > > > Is RSB filling really serving any purpose for userspace?
-> > > 
-> > > Indeed...
-> > > 
-> > > If we don't need to flush RSB for user->user, we'd only need to worry
-> > > about protecting the kernel.  Something like so?
-> > > 
-> > >   - eIBRS+!PBRSB:	no flush
-> > >   - eIBRS+PBRSB:	lite flush
-> > 
-> > Yes for VMexit, but not at kernel entry. PBRSB requires an unbalanced RET,
-> > and it is only a problem until the first retired CALL. At VMexit we do have
-> > unbalanced RET but not at kernel entry.
-> > 
-> > >   - everything else:	full flush
-> > 
-> > > i.e., same logic as spectre_v2_determine_rsb_fill_type_at_vmexit(), but
-> > > also for context switches.
-> > 
-> > Yes, assuming you mean user->kernel switch, and not process context switch.
-> 
-> Actually I did mean context switch.  AFAIK we don't need to flush RSB at
-> kernel entry.
-> 
-> If user->user RSB is already mitigated by IBPB, then at context switch
-> we only have to worry about user->kernel.  e.g., if 'next' has more (in
-> kernel) RETs then 'prev' had (in kernel) CALLs, the user could trigger
-> RSB underflow or corruption inside the kernel after the context switch.
+When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
+during unmapping operation, which will cause some vSGIs lost.
 
-Yes, this condition can cause RSB underflow, but that is not enough. More
-importantly an attacker also needs to control the target of RET.
+To fix the issue, invalidate related vPE cache through GICR_INVALLR
+after VMOVP.
 
-> Doesn't eIBRS already protect against that?
+Suggested-by: Marc Zyngier <maz@kernel.org>
+Signed-off-by: Nianyao Tang <tangnianyao@huawei.com>
+Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
+---
+ Documentation/arch/arm64/silicon-errata.rst |  2 +
+ arch/arm64/Kconfig                          | 11 +++++
+ drivers/irqchip/irq-gic-v3-its.c            | 52 ++++++++++++++++-----
+ 3 files changed, 54 insertions(+), 11 deletions(-)
 
-Yes, eIBRS does protect against that, because the alternate predictor (TA)
-is isolated by eIBRS from user influence.
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index 65bfab1b1861..77db10e944f0 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -258,6 +258,8 @@ stable kernels.
+ | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
+ |                | ,11} SMMU PMCG  |                 |                             |
+ +----------------+-----------------+-----------------+-----------------------------+
++| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
+++----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 70d7f4f20225..0ea9c599681d 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1232,6 +1232,17 @@ config HISILICON_ERRATUM_161600802
+ 
+ 	  If unsure, say Y.
+ 
++config HISILICON_ERRATUM_162100801
++	bool "Hip09 162100801 erratum support"
++	default y
++	help
++	  When enabling GICv4.1 in hip09, VMAPP will fail to clear some caches
++	  during unmapping operation, which will cause some vSGIs lost.
++	  To fix the issue, invalidate related vPE cache through GICR_INVALLR
++	  after VMOVP.
++
++	  If unsure, say Y.
++
+ config QCOM_FALKOR_ERRATUM_1003
+ 	bool "Falkor E1003: Incorrect translation due to ASID change"
+ 	default y
+diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+index 52f625e07658..fb2a96e376cc 100644
+--- a/drivers/irqchip/irq-gic-v3-its.c
++++ b/drivers/irqchip/irq-gic-v3-its.c
+@@ -44,6 +44,7 @@
+ #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
+ #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
+ #define ITS_FLAGS_FORCE_NON_SHAREABLE		(1ULL << 3)
++#define ITS_FLAGS_WORKAROUND_HISILICON_162100801	(1ULL << 4)
+ 
+ #define RD_LOCAL_LPI_ENABLED                    BIT(0)
+ #define RD_LOCAL_PENDTABLE_PREALLOCATED         BIT(1)
+@@ -61,6 +62,7 @@ static u32 lpi_id_bits;
+ #define LPI_PENDBASE_SZ		ALIGN(BIT(LPI_NRBITS) / 8, SZ_64K)
+ 
+ static u8 __ro_after_init lpi_prop_prio;
++static struct its_node *find_4_1_its(void);
+ 
+ /*
+  * Collection structure - just an ID, and a redistributor address to
+@@ -3797,6 +3799,22 @@ static void its_vpe_db_proxy_move(struct its_vpe *vpe, int from, int to)
+ 	raw_spin_unlock_irqrestore(&vpe_proxy.lock, flags);
+ }
+ 
++static void its_vpe_4_1_invall_locked(int cpu, struct its_vpe *vpe)
++{
++	void __iomem *rdbase;
++	u64 val;
++
++	val  = GICR_INVALLR_V;
++	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
++
++	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
++	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
++	gic_write_lpir(val, rdbase + GICR_INVALLR);
++
++	wait_for_syncr(rdbase);
++	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
++}
++
+ static int its_vpe_set_affinity(struct irq_data *d,
+ 				const struct cpumask *mask_val,
+ 				bool force)
+@@ -3804,6 +3822,7 @@ static int its_vpe_set_affinity(struct irq_data *d,
+ 	struct its_vpe *vpe = irq_data_get_irq_chip_data(d);
+ 	unsigned int from, cpu = nr_cpu_ids;
+ 	struct cpumask *table_mask;
++	struct its_node *its;
+ 	unsigned long flags;
+ 
+ 	/*
+@@ -3866,6 +3885,11 @@ static int its_vpe_set_affinity(struct irq_data *d,
+ 	vpe->col_idx = cpu;
+ 
+ 	its_send_vmovp(vpe);
++
++	its = find_4_1_its();
++	if (its && its->flags & ITS_FLAGS_WORKAROUND_HISILICON_162100801)
++		its_vpe_4_1_invall_locked(cpu, vpe);
++
+ 	its_vpe_db_proxy_move(vpe, from, cpu);
+ 
+ out:
+@@ -4173,22 +4197,12 @@ static void its_vpe_4_1_deschedule(struct its_vpe *vpe,
+ 
+ static void its_vpe_4_1_invall(struct its_vpe *vpe)
+ {
+-	void __iomem *rdbase;
+ 	unsigned long flags;
+-	u64 val;
+ 	int cpu;
+ 
+-	val  = GICR_INVALLR_V;
+-	val |= FIELD_PREP(GICR_INVALLR_VPEID, vpe->vpe_id);
+-
+ 	/* Target the redistributor this vPE is currently known on */
+ 	cpu = vpe_to_cpuid_lock(vpe, &flags);
+-	raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
+-	rdbase = per_cpu_ptr(gic_rdists->rdist, cpu)->rd_base;
+-	gic_write_lpir(val, rdbase + GICR_INVALLR);
+-
+-	wait_for_syncr(rdbase);
+-	raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
++	its_vpe_4_1_invall_locked(cpu, vpe);
+ 	vpe_to_cpuid_unlock(vpe, flags);
+ }
+ 
+@@ -4781,6 +4795,14 @@ static bool its_set_non_coherent(void *data)
+ 	return true;
+ }
+ 
++static bool __maybe_unused its_enable_quirk_hip09_162100801(void *data)
++{
++	struct its_node *its = data;
++
++	its->flags |= ITS_FLAGS_WORKAROUND_HISILICON_162100801;
++	return true;
++}
++
+ static const struct gic_quirk its_quirks[] = {
+ #ifdef CONFIG_CAVIUM_ERRATUM_22375
+ 	{
+@@ -4827,6 +4849,14 @@ static const struct gic_quirk its_quirks[] = {
+ 		.init	= its_enable_quirk_hip07_161600802,
+ 	},
+ #endif
++#ifdef CONFIG_HISILICON_ERRATUM_162100801
++	{
++		.desc	= "ITS: Hip09 erratum 162100801",
++		.iidr	= 0x00051736,
++		.mask	= 0xffffffff,
++		.init	= its_enable_quirk_hip09_162100801,
++	},
++#endif
+ #ifdef CONFIG_ROCKCHIP_ERRATUM_3588001
+ 	{
+ 		.desc   = "ITS: Rockchip erratum RK3588001",
+-- 
+2.34.1
 
-> For PBRSB, I guess we don't need to worry about that since there would
-> be at least one kernel CALL before context switch.
-
-Right. So the case where we need RSB filling at context switch is
-retpoline+CDT mitigation.
