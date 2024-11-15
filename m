@@ -1,115 +1,99 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CDA1D5CD4;
-	Fri, 15 Nov 2024 18:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219021D63D8;
+	Fri, 15 Nov 2024 18:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731693948; cv=none; b=mjXJEisiP9YDa3RWj1v1tmO/g9h15zXl1Rq5GKbQKWXUUJCIN4fYTiETPP2dXHCjaX2a1gQTEyXLp0DBnCrDzgznWRf+Q30HfFOrgzkHkUZ823045L2yK/P2hniEJRR0EIGg7PK6buJw2Az3fBhGGjZ2nIC29ctYnT288493+DQ=
+	t=1731694208; cv=none; b=OpK7qxw3N99en9vqHbxCC41YtagbHPz2SQYXxVx4v0kZ7Rk+mEOHjt1aoVZ5NevWTZ+YN8HdiCMg41w/iLTV9a4LVFJ9PH2Ihru7zcTL0h7zPdT7H2hXGOnbTooHcx3lSPYVwWFsAULEuwnVQG4pipETU6M//haJ1DQzRzQ1XnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731693948; c=relaxed/simple;
-	bh=v+CYDKmSiATr2GvrAIRyc2ehUQtag0okb8Z47fVWIGE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l/lwBKZFgcEWrW4MaPLlONUj7cdHwR8nxw0yMGey+6AmmGs16KCyD3IsQ5vECavIfcRt23YYbpRDOyrGXKgun3EOTs+wKt/3k1IfnCOlA8NIE5kEEgo5nwJ3+nPMsLOzA1WXgKBBHT9jlYm3x5nScwkslRmU1VgCnCJ56GugNqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3aWY8wm; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731694208; c=relaxed/simple;
+	bh=YgDWh7MuRJtreRCSinehYy17Xkaqrqv27zLpvuYPGZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RACB35NUwrdfQ1EVOtP8AwpgQAjOsx0+5x3sCGRJx0tOZaROu8UXU2uMnkhBS24l4htEYmKQ2iAw4PV5loPxb6Km9SRO+or1f4gFU7c8Zsglt8BuVRSGRAw3savC9AB2ZAin3xPYZ6cj9Jz6md+HCKvlFGbmCiw7CAQ5wYQWmwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k38b0/Zm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3aWY8wm"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a9e44654ae3so150940566b.1;
-        Fri, 15 Nov 2024 10:05:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731693945; x=1732298745; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IGFiUKAozU3ZYlaKNxg6TSLdRyFWb+v2eqMgR2BUfeE=;
-        b=A3aWY8wmkKvyyemZpSNR5MKuPFvpoWLz4rw/Qsoe+mlfBbvKqshbi3y/k2ZV8zycjD
-         Ab5I3b4/Sx24/9OEjejR6r+p8gCIsP6l6+nu5clzOdFadh9CIPFTgNPKk3J0Z38YYPo2
-         +p7Q0OJ04xgJ+L4mfmXES+6P6Qp6svgVzl9lMrD7iu2xGbyqIwu1SGCZqe00ecvhHh/h
-         6/H1FBYuyjxLY+MjXZOAZqupFMSvIuDa6C3ZVPxtBSs/AOcc+2NxSfbuz+oFUdVmQV6Y
-         Mfl99eqNj/RGtjlQyh2gcTxUz9H2c4A7iqNUO6cg1HKIBBUd8qst3S7qlpBSEtxCGXxY
-         BCEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731693945; x=1732298745;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IGFiUKAozU3ZYlaKNxg6TSLdRyFWb+v2eqMgR2BUfeE=;
-        b=GrWwnteNxrnWXkTKH3bq0q9mfdkbGS4hEPLTQUlD7kuUvomBnJR1BtEjPaj1w0lBu+
-         EovtUhQ47eTBE2Ytoc6DEAlX6IMiZwZWuKVkqvy76EfDIT9b735AK/CbM6JRelVtSMJA
-         9OiiLCd+KcBbEDBd0r6Maepk3LgtoFG9mJmswVEa8Sky9r+gjWC3a9miZLpGtCTbv/DB
-         W9ER80OzgmepbVEOmFcxq4yh6gKDcDvtLxvHm8cL1YCr85olS2YbvJHWTK6mUsWqSQb3
-         mdnhLoDl+OU46OLmZ/Et7cULs/Cy1oIG4GbReWAGyhWMdkKhuQoASkIq8hRKcMKHL0P0
-         Qybw==
-X-Forwarded-Encrypted: i=1; AJvYcCVnjAvV7XoeXtQ65gIOeXizyF9K7VjH5o6hJZmL7Z9t8FAsAZ+8W3ej4C7tu0MO+ctj59rJ4osQCPk=@vger.kernel.org, AJvYcCWeukouvgIFtlZfhiJ4fvgy/+wQek3hswSRIefA3Ivzwx8hBBWhn0lUNA5FIZBecC+sZPQxWTI5@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdV+Owbr4ZM6yBXLBn6/zXS1zY+mNoMqPfq+ZajJBYrzonDskP
-	z5dyNhcLiDfVkNlH8Py4oyzy3cPVSuz3FeRRoQQrQKGpj/CzIYxwPIBp6bkveFrEItGz1TzzSZb
-	ca9a8qcnrVi8Y3kNzJjMgbNOo9A4=
-X-Google-Smtp-Source: AGHT+IE0ELMRJoD8b88E6USCNqZxFEvmarsYK+xwQeoNpZLTLS8F4nzoLeT08JdWHj7IDYI/xS4MSYOmbQASqiGIF5o=
-X-Received: by 2002:a17:907:3e1f:b0:a99:d782:2e2b with SMTP id
- a640c23a62f3a-aa4834543e4mr260647866b.30.1731693944679; Fri, 15 Nov 2024
- 10:05:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k38b0/Zm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0880C4CECF;
+	Fri, 15 Nov 2024 18:10:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731694207;
+	bh=YgDWh7MuRJtreRCSinehYy17Xkaqrqv27zLpvuYPGZY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k38b0/ZmWxERO66g5HXAEdXIc+zOPIaOdzsFdis2xGnymjnKpTPKTyJRtcAREAG/r
+	 p7J69wCgMMtYlC5G/Wz2CffKTn9W0wPpcNOhxvZxATbwqy4Y/bB3Xydzk1YIfN6klJ
+	 rV3Faa8hurhsSfFL++/to3cukwlNiP/ZM4jyJHB7ybS0xnTpERsGGOcCQC5KRWvC4v
+	 hIWUxV+3YrrIdQKqAUeIQCHB0+ge7kEvFpWqckqpDre+3hVdR8/SiaTzuZcBmLgjBc
+	 pLOXrzJFQTiBmm0nmaV5CWbSKyeslozweQFlQM8KUGmDhwiMwxUfcPLjONCFVQDbCc
+	 4M9mBMhDDeedg==
+Date: Fri, 15 Nov 2024 10:10:05 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
+	peterz@infradead.org, corbet@lwn.net, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
+	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com, sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
+	david.kaplan@amd.com, dwmw@amazon.co.uk
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <20241115181005.xxlebbykksmimgqj@jpoimboe>
+References: <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
+ <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
+ <20241112214241.fzqq6sqszqd454ei@desk>
+ <20241113202105.py5imjdy7pctccqi@jpoimboe>
+ <20241114015505.6kghgq33i4m6jrm4@desk>
+ <20241114023141.n4n3zl7622gzsf75@jpoimboe>
+ <20241114075403.7wxou7g5udaljprv@desk>
+ <20241115054836.oubgh4jbyvjum4tk@jpoimboe>
+ <20241115175047.bszpeakeodajczav@desk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241113173222.372128-1-ap420073@gmail.com> <20241113173222.372128-5-ap420073@gmail.com>
- <20241114202409.3f4f2611@kernel.org>
-In-Reply-To: <20241114202409.3f4f2611@kernel.org>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Sat, 16 Nov 2024 03:05:33 +0900
-Message-ID: <CAMArcTUfGp0SEm=w3dg=GHd52w4zw2kG7mGLsaP4b9NjTYMTrw@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 4/7] net: ethtool: add support for configuring header-data-split-thresh
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
-	almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
-	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
-	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
-	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241115175047.bszpeakeodajczav@desk>
 
-On Fri, Nov 15, 2024 at 1:24=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
+On Fri, Nov 15, 2024 at 09:50:47AM -0800, Pawan Gupta wrote:
+> This LGTM.
+> 
+> I think SPECTRE_V2_EIBRS_RETPOLINE is placed in the wrong leg, it
+> doesn't need RSB filling on context switch, and only needs VMEXIT_LITE.
+> Does below change on top of your patch look okay?
 
-Hi Jakub,
-Thanks a lot for the review!
+Yeah, I was wondering about that too.  Since it changes existing
+VMEXIT_LITE behavior I'll make it a separate patch.  And I'll probably
+do the comment changes in a separate patch as well.
 
-> On Wed, 13 Nov 2024 17:32:18 +0000 Taehee Yoo wrote:
-> > +  ``ETHTOOL_A_RINGS_HEADER_DATA_SPLIT_THRESH``      u32     threshold =
-of
-> > +                                                            header / d=
-ata split
-> > +  ``ETHTOOL_A_RINGS_HEADER_DATA_SPLIT_THRESH_MAX``  u32     max thresh=
-old of
->
-> nit: s/_HEADER_DATA_SPLIT_/_HDS_/ ;)
->
-> We can explain in the text that HDS stands for header data split.
-> Let's not bloat the code with 40+ character names...
+> ---
+> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+> index 7b9c0a21e478..d3b9a0d7a2b5 100644
+> --- a/arch/x86/kernel/cpu/bugs.c
+> +++ b/arch/x86/kernel/cpu/bugs.c
+> @@ -1622,6 +1622,7 @@ static void __init spectre_v2_mitigate_rsb(enum spectre_v2_mitigation mode)
+>  	case SPECTRE_V2_NONE:
+>  		return;
+>  
+> +	case SPECTRE_V2_EIBRS_RETPOLINE:
+>  	case SPECTRE_V2_EIBRS_LFENCE:
+>  	case SPECTRE_V2_EIBRS:
+>  		if (boot_cpu_has_bug(X86_BUG_EIBRS_PBRSB)) {
+> @@ -1630,7 +1631,6 @@ static void __init spectre_v2_mitigate_rsb(enum spectre_v2_mitigation mode)
+>  		}
+>  		return;
+>  
+> -	case SPECTRE_V2_EIBRS_RETPOLINE:
+>  	case SPECTRE_V2_RETPOLINE:
+>  	case SPECTRE_V2_LFENCE:
+>  	case SPECTRE_V2_IBRS:
 
-I'm not familiar with the ynl, but I think there are some dependencies
-between Documentation/netlink/spec/ethtool.yaml.
-Because It seems to generate ethtool-user.c code automatically based
-on ethtool.yaml spec. I think If we change this name to HDS, it need to
-change ethtool spec form "header-data-split-thresh" to "hds-thresh" too.
-
-However, I agree with changing ethtool option name from
-"header-data-split-thresh" to "hds-thresh". So, If I understand correctly,
-what about changing ethtool option name from "header-data-split-thresh"
-to "hds-thresh"?
-
-Thanks a lot!
-Taehee Yoo
+-- 
+Josh
