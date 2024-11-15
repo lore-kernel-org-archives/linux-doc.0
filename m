@@ -1,135 +1,109 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583791FB75A
-	for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2024 21:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8C31FAC44;
+	Fri, 15 Nov 2024 21:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731706913; cv=none; b=u9lSJsziDGfefDNW3X4L5zBRc8WEzi4zkitL7U4ZxbppDApsAN0UQqCwLmQHADhBiPkddusYfSyv9ySWm6azIZJWbKw1XWbCbyQZn20K/AxpclgvZZ9qO/OIoCxEsobw2Xxf90CF5bvHzeGeqGqApH0+JLg9bAgEQORLkB4RZGk=
+	t=1731707685; cv=none; b=pEMPk6I9teoDKwEEz44BnrRhTCNWHiWWbGYnaPdxjKeHRTj/9lD8aB14KBJfuQdxTnIWR/cNA81KoW9BU2x6SdaijOguG4IWm8rWoPfl7ARfpzwvzW+NJUL34bsSBoUbdqM/bc5+0aDEVvbYVUwMpr1jtVbQUSy3Cdzg3d2Hqas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731706913; c=relaxed/simple;
-	bh=3AdlVmFJUuneDLJZeDQyF43GBDnUKRUtuu8/HNdav2s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BwZg/VZZpuRCB6+WB9pQL5jhCnR+TZNAtQVVSsjruNFICDHme6Xq4PX781sDuM+ZvszOj9IibYc0REAQHZN2FWWBcr07sTw8szWHqwnCJ5MMqq7pnKbrW0r+p65cnEpVVky8bA3MyvwFNx7kGT0ePYDBHkVZGpZjBYu/IIYzb2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YYU9YCGc; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1731707685; c=relaxed/simple;
+	bh=PZUFopZFW011mgMW9hqK5D/QiGvWyJ859zbDEt+6aK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KmbY2ZPIDA5kpgVM0W2dL/LP1hRHRQhrF3Qd3Jn0rs9xzSyXQINOTlxatad+lgHpLfqTQKVMRq1i2TA11FQceg6GzY/5QDSvGIz2Wfk1vY49rJLKLMzpaBYZFDfJDI47U9qyNdcLhB6PnOFlvk9S4c6jvGIGXmt+WaLHCUBDCLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vcjs3LLs; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YYU9YCGc"
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3a7222089aaso5964035ab.1
-        for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2024 13:41:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vcjs3LLs"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7eb0bc007edso680942a12.3;
+        Fri, 15 Nov 2024 13:54:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1731706910; x=1732311710; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zYd8+G0gFG4tJ6lfJzgfGTDl5TfBDB+oV8M0OhnzDMo=;
-        b=YYU9YCGcDr8BVlrCzNiUMlHBWh3aRwr9gs1nx7UbfyX692ugZWG5jOh/mmsnNfUg9P
-         k1ff40IxOa452VErD820Cp1vxABTC2cc98UW7YS7rDNOqYQROPoKYzCD5xutv6x0Nmdh
-         0zsNLhgmdMZH7k2mIqG/S8D92jIfrIK1+QN9s=
+        d=gmail.com; s=20230601; t=1731707683; x=1732312483; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Ih3rsYrxbacXhs22/ceJtwa19H77jl+ddUaN6SDc00=;
+        b=Vcjs3LLsTZUq27S99r+6sSUGeObutbVbOaDSu0bAMDxg3+60cq4Z5S/IzctJQbJZ6e
+         h4km42sUNanBi1XNSOneWoOSasVIwgLv/XqXBxEXRiAM28MDOuq84oiBowaFWNKNmpa2
+         doekIpKYL4M+lnuhNyUjtRibixiE4lEkds9old/hcVFzkWbSa6MOV+mQ07G9XuxESdMv
+         OxRr4gmSg+tO2uv8tmlRsYlCiaIsg9grFxarzMdCgcXrQVkbYeuOaUeMbM6HPr4uZVj2
+         0htc5QSm5O94wsDvHQutyI/55XaY5s6sLfFcQg2mv+7sqpMAUCyl9YX3HIzIzxxHKZHH
+         +nZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731706910; x=1732311710;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zYd8+G0gFG4tJ6lfJzgfGTDl5TfBDB+oV8M0OhnzDMo=;
-        b=v1LjuBYOIQ3cJojlrnKdvOUPnIFMnstJK/rCjToCWUN9B34RNpaOLhLegGIpvFAXpW
-         RN8k20XmoYMgA4MHCFIyV75gwjtkwbOA6Q3LXl9Hbj3YBzlrhGMSrNtlWTBW9QepLC4E
-         SWwn52E0U8zapx6FRFx+vCIStnZL0T4Wjwq8/XJGMoThdM/WsYr92ymzY7To2l06oow7
-         8k+lpZAZOqAn378ygO5C3R8Crpm4dzMLLVrQsyFskcTT3WLesaojB6YC+J6tD+a2uAIc
-         OTVnOxePuFHSlZ9AYpoXH9atpyyDO1s0T1qtFzAEWLg+7W1SDHu0OyGy62ICVeGJuLQf
-         fEQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUO+WrXaz4dKUi1T0gDm7SzcHeYu87Pj54Sw4/rZXn6933qiryNA8n8DEgwRoOp0/a2GuACuAo2Swk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzPecQv+pF9vDLQl8Cm4DgdbiwXE49IzkF6XJzTw7YaaN9oRv+
-	fGwajyT/SLWLXvs0tykiwjLOIuvdaoN75PlhMYg3myx2fw4+aJsImD1hdppyV+8=
-X-Google-Smtp-Source: AGHT+IFgerhBT8HV5d04ucMvvgI/7pziUFkn2Ra+h2/ivSKmVoAJ6ZljYPTJZCWr5Epz7Pfq5Rv9bw==
-X-Received: by 2002:a05:6e02:3890:b0:3a7:1f23:1a46 with SMTP id e9e14a558f8ab-3a746ae37e9mr49252445ab.0.1731706910327;
-        Fri, 15 Nov 2024 13:41:50 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a74807f0f7sm5235255ab.23.2024.11.15.13.41.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Nov 2024 13:41:49 -0800 (PST)
-Message-ID: <0868e182-aa37-48c7-9dd0-ae4f6819c71a@linuxfoundation.org>
-Date: Fri, 15 Nov 2024 14:41:48 -0700
+        d=1e100.net; s=20230601; t=1731707683; x=1732312483;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7Ih3rsYrxbacXhs22/ceJtwa19H77jl+ddUaN6SDc00=;
+        b=Ex1GYsbBtFAGWTy/9VpMVh5lxwiTwXlWxfDleH5wOlYfzaaZB6B8iIZVFo4KBsuSZP
+         nbEtafHwZh9Z7Gt5rMwgtbTth33Umk2dqEqfSTu5dJhn2tv/Yf48SdMbkbko6i2b5a+I
+         3NU7YmVoFKIAcbCkOAYC9tknzMPnf2G5ClhMzvnkhrXRkzLiWQZMyotjaSmNZRgkPHjz
+         5x1KQOF9kqyWBqdLBmT7xF1KbndDgpZaRY8zKfffZ8V+/qu1C50T4zLw/JWtY4CE2nV7
+         eTfKR8kSZgINPpm9lMWpgdK4vEbNKI2z61FCKe3H/YB/4WmWIIRPpsZE8lSWjs/yxGXR
+         p+GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUX8yTXducF5z8CoqQ7LqBzvmQJciOthSevacBxOVJoMJKF1nH+MaNzgHSR+/H5l+EwgYDhDAfG+y6heb3O@vger.kernel.org, AJvYcCVb+ReUG+68HW4ci9ewPpSd5jXM+d/X5hH9blqCEySY79CwY7qqGG5BFchCF3Riw+2GiMX9m40R@vger.kernel.org, AJvYcCXPbI5D87AcyYr78eQ18YYQh+vnqsMQVGpN3JGvoyR1spwIAgPb7Ky22aLlzcKxbFkOsYRr642PyNk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyONFUlmDKRmoVfPTyV4L/IbKTA+19ziMwrKFU8f7pC8DQ0EXpW
+	T+WH8thcArIjn31O1YthHx0eSnVwNh+TgeUowpFugsV3G5+glMA=
+X-Google-Smtp-Source: AGHT+IEPQV9zwJoJlonYiQ4GuwJ0b3EHPHZ8jqkjsJ+ToR78Cl1m4Q7iPUEqcqWSzT4lX3EDev04eg==
+X-Received: by 2002:a17:90b:350e:b0:2ea:14c4:7b8c with SMTP id 98e67ed59e1d1-2ea154cd16amr5207631a91.5.1731707683460;
+        Fri, 15 Nov 2024 13:54:43 -0800 (PST)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ea06fbc909sm3320819a91.53.2024.11.15.13.54.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Nov 2024 13:54:43 -0800 (PST)
+Date: Fri, 15 Nov 2024 13:54:42 -0800
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	donald.hunter@gmail.com, horms@kernel.org, corbet@lwn.net,
+	andrew+netdev@lunn.ch, kory.maincent@bootlin.com
+Subject: Re: [PATCH net-next v2 7/8] ethtool: remove the comments that are
+ not gonna be generated
+Message-ID: <ZzfDIjiVxUbHsIUg@mini-arch>
+References: <20241115193646.1340825-1-sdf@fomichev.me>
+ <20241115193646.1340825-8-sdf@fomichev.me>
+ <20241115134023.6b451c18@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] Documentation/CoC: spell out enforcement for
- unacceptable behaviors
-To: Jonathan Corbet <corbet@lwn.net>, gregkh@linuxfoundation.org
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rdunlap@infradead.org, daniel@ffwll.ch,
- laurent.pinchart@ideasonboard.com, broonie@kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>,
- Steven Rostedt <rostedt@goodmis.org>, Dan Williams
- <dan.j.williams@intel.com>, Theodore Ts'o <tytso@mit.edu>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20241114205649.44179-1-skhan@linuxfoundation.org>
- <87ttc8ji84.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <87ttc8ji84.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241115134023.6b451c18@kernel.org>
 
-On 11/15/24 14:32, Jonathan Corbet wrote:
-> Shuah Khan <skhan@linuxfoundation.org> writes:
+On 11/15, Jakub Kicinski wrote:
+> On Fri, 15 Nov 2024 11:36:45 -0800 Stanislav Fomichev wrote:
+> > -/* MAC Merge (802.3) */
+> > -
+> >  enum {
+> >  	ETHTOOL_A_MM_STAT_UNSPEC,
+> >  	ETHTOOL_A_MM_STAT_PAD,
+> > +	ETHTOOL_A_MM_STAT_REASSEMBLY_ERRORS,
+> > +	ETHTOOL_A_MM_STAT_SMD_ERRORS,
+> > +	ETHTOOL_A_MM_STAT_REASSEMBLY_OK,
+> > +	ETHTOOL_A_MM_STAT_RX_FRAG_COUNT,
+> > +	ETHTOOL_A_MM_STAT_TX_FRAG_COUNT,
+> > +	ETHTOOL_A_MM_STAT_HOLD_COUNT,
+> >  
+> > -	/* aMACMergeFrameAssErrorCount */
+> > -	ETHTOOL_A_MM_STAT_REASSEMBLY_ERRORS,	/* u64 */
+> > -	/* aMACMergeFrameSmdErrorCount */
+> > -	ETHTOOL_A_MM_STAT_SMD_ERRORS,		/* u64 */
+> > -	/* aMACMergeFrameAssOkCount */
+> > -	ETHTOOL_A_MM_STAT_REASSEMBLY_OK,	/* u64 */
+> > -	/* aMACMergeFragCountRx */
+> > -	ETHTOOL_A_MM_STAT_RX_FRAG_COUNT,	/* u64 */
+> > -	/* aMACMergeFragCountTx */
+> > -	ETHTOOL_A_MM_STAT_TX_FRAG_COUNT,	/* u64 */
+> > -	/* aMACMergeHoldCount */
+> > -	ETHTOOL_A_MM_STAT_HOLD_COUNT,		/* u64 */
 > 
->> The Code of Conduct committee's goal first and foremost is to bring about
->> change to ensure our community continues to foster respectful discussions.
->>
->> In the interest of transparency, the CoC enforcement policy is formalized
->> for unacceptable behaviors.
->>
->> Update the Code of Conduct Interpretation document with the enforcement
->> information.
->>
->> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
->> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Acked-by: Miguel Ojeda <ojeda@kernel.org>
->> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
->> Acked-by: Jonathan Corbet <corbet@lwn.net>
->> Acked-by: Steven Rostedt <rostedt@goodmis.org>
->> Acked-by: Dan Williams <dan.j.williams@intel.com>
->> Acked-by: Theodore Ts'o <tytso@mit.edu>
->> Acked-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
->> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
->> ---
->>
->> Changes since v3:
->> - Modifies kernel.org actions as per Konstantin's comments
->> - Adds Konstantin's Ack
->>
->> Changes since v2:
->> - Adds details on the process leading up to the proposed
->>    measures to seek public apology and bans for serious
->>    unacceptable behaviors.
->>
->> - Hope this addresses your comments, Daniel Vetter,
->>    Laurent Pinchart, and Mark Brown.
->>
->> - Would like to get this into 6.12 if at all possible.
->>
->> Changes since v1:
->> - Updates Acks with Ted's ack.
->> - Fixes subsection formatting as per Randy's suggestion.
->> - Fixes a spelling error.
->>
->>   .../code-of-conduct-interpretation.rst        | 87 +++++++++++++++++++
->>   1 file changed, 87 insertions(+)
-> 
-> We seem to have reached a conclusion on this, so I have applied it.
-> 
-> Thanks,
-> 
+> These comments could be useful to cross reference with the IEEE spec.
+> Can we add them as doc: ?
 
-Thank you Jon.
-
--- Shuah
-
+Absolutely, I did port these (and the rest of the comments that I removed)
+over as doc: (see patch 4).
