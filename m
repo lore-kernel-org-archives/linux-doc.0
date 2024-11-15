@@ -1,134 +1,217 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47432F26
-	for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2024 05:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421C916F851;
+	Fri, 15 Nov 2024 05:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731647479; cv=none; b=PN5AXJM88PEjQbnmO6b6e8RxOZHUSR2hbQNCVQZ+S7rpycWjCvmlX/3EL7wXJlX/aWLcZuK1jKprh4je7sw4mCvCoh7ZasR3YXporNtAWr4rOfABrKY/REAC5Fb3lommzvvIF0GSbwgaCBeItp+RBOpHyxZVBlsR3pZF76SRDi0=
+	t=1731649719; cv=none; b=lzzBUOUmEH7zCqD7gePAhaElwTSGThVS4hr5DWBxBdolgXiQ5cSYGmpcHqtGLP40IoVJ6uII4iwtHfmwYlAszPQ90iT/HXA2WZ0CfWd4ez5W8r8SiNxSZSWSNp1i17F4Rw045rXU7kGVcgt61yGfrCoNoYRNeajFjXR/yAQAK6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731647479; c=relaxed/simple;
-	bh=t0NFyPDJ5iY3sgDsKD5D8OzIdcHNaj0YG+OyWJPZUuQ=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=DPnmtx1wsl3RKQIklSHAIhAgrlliBLp2bJxIKDY0PND+HRhXxHzkaQx9KrEp22D4JlIwZOQTYFu1N7eJ9ZUI1UUwZzY5F3TWRFC43UqcTti6cTLguqqmOpBpYHEUl1CWgPsJ7ZKuMfzf9SgaC0mtgC1pIhEO+mtW3DOCqY/V38w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--yabinc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uLh4zNRs; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--yabinc.bounces.google.com
+	s=arc-20240116; t=1731649719; c=relaxed/simple;
+	bh=bBL3zb3Let5QttcUOTfx807iAfRBBBRv6dEt/KJuaOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TWnP+5snGk+NTqpG3btJP6wdP52Q1TN2plXpxa+E6eZcpH6apjrModEoQ5eOiT55wLd48lcjqTCcIXKwG0ajr1PXMz2gaw4sLEaJ7ECDdUyBLSROrt7L1azyPdNipn6wwY6TQi/wx56slCQ+GYOV4rCIL861AKw2kEkQJCiSYic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MSK1b2XH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uLh4zNRs"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6e59dc7df64so15616927b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 21:11:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731647477; x=1732252277; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1wwGpDZ5iudS5LM+KuL+hNLzM54ZC3CXNotEma4ON0U=;
-        b=uLh4zNRsXRCu/pbEHWn6YBuXRABeLHl+6oCscmklt9JQoFateBmx/zHpQlFQjqWrsN
-         jr/b3Xp6RmldzbNtowaK4NRuUQ2rSDwwLESIDwj2GKaJeMOHFKRWI9IJvVT67QWTAcSS
-         WXbpxLRgpxWm5Og8EHFoMHZXNRQbqz6XsT7gPL/LwjXVTdJcizjRtbt2vke8gibJU8UT
-         rxR68PbSu7vJM6AORka+5W+Me6Zv0u/+FqlHEMuOHsZYSFoVOI+UDutwr210+c1GoCAO
-         PLghGn+WFijWNsNFR5Tsh2llUQzVktx+a4wgWr8ApTNjFp7rN4m6h6uHfmQ16MBTgzYI
-         RLlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731647477; x=1732252277;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1wwGpDZ5iudS5LM+KuL+hNLzM54ZC3CXNotEma4ON0U=;
-        b=j4dFlNtxj5f7O2/LVLtcRRFYu9ztc69hR+IMwDQuApL/cBscYjloO7KuBejjbzig0m
-         xL5872nQoczMpubcq1QrXQQZmnaeQxdaeUsx5qrPFv2Njp7TGjgmDA6uR4rqOdAPXbeq
-         4qdQCRI0hcuzNuKXpXCS2sDSP7HpFLBkYKtCDvpFD5R9i7MXa7i587t2BFIs+A766d9k
-         7o7EW0y/V8RKrWgQoK2wvznwGejhBeRKsaF7A8gyYDErniqZj9P6+2PnkkW8QQpy2XNP
-         dulB36JphTs2DmESMOhHLjtWyH4FpzqsLzZK+Kl+O+OBE74SVP1ar8iS00jdCWUUGZ+m
-         xSMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXsgg0v3POINlrcFrQe3LYiTaj/sDiXEh6zZos7Vi6ESLVbR83JBBxQRW1cjTFcV6fntZg8g63bLLY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbcX1XuFtwyjPCur46t/POI6eVB6/QxXNj8asV4tWGbp56BoOs
-	ByjiWwn6HX4P1LI1e9onQPghkZsezDzNbSVsJJ9iLnozHSr0yV8lIMC9KfXjEPXSD1qed5kle5l
-	n
-X-Google-Smtp-Source: AGHT+IGz3q4DCIJt57K3asfgvwzEbv+NGkaDrw/vPNLXCsgnnxFJTN6ZZqOGNQ9YDpPKAjLF646BkA9aZ54=
-X-Received: from yabinc-desktop.mtv.corp.google.com ([2a00:79e0:2e3f:8:5172:b594:baa2:7cb2])
- (user=yabinc job=sendgmr) by 2002:a05:690c:4348:b0:6e3:c4cb:689b with SMTP id
- 00721157ae682-6ee3d6eac31mr497447b3.4.1731647476326; Thu, 14 Nov 2024
- 21:11:16 -0800 (PST)
-Date: Thu, 14 Nov 2024 21:11:06 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MSK1b2XH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E105EC4CECF;
+	Fri, 15 Nov 2024 05:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731649718;
+	bh=bBL3zb3Let5QttcUOTfx807iAfRBBBRv6dEt/KJuaOY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MSK1b2XH8JTDBKlaxUpi2kbzlJrRv6r9TTtG0SYGwaVwDx4gZHN/m6hHuuRUB1s0i
+	 lS7ha6Zx7kNsZc6WRqMOQfztIi+yXnUQn6ZtMSL+Up76svu8fbDUqJpWzn/IxtR0u8
+	 7s6qS0PIzydk3RBNs8Xikm0odm8esOan6W8g9IOb3oE5/cN4lV+e17E9te0hemuVRf
+	 W6qklY+hTmjC3R+r7W8DoIVm1/Xk0UuBP3kA92o33NFHhQr3ZXto5E+g8umCOH/fDY
+	 JZSKS72wWlYIV8HsbZ49yIpUgci4fqWLOCE/ZieLRmjlLbE09Esd9JE0iBxa81CqbD
+	 sL3At0ekPAlxg==
+Date: Thu, 14 Nov 2024 21:48:36 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
+	linux-doc@vger.kernel.org, amit.shah@amd.com,
+	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
+	peterz@infradead.org, corbet@lwn.net, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
+	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com, sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
+	david.kaplan@amd.com, dwmw@amazon.co.uk
+Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
+ AMD
+Message-ID: <20241115054836.oubgh4jbyvjum4tk@jpoimboe>
+References: <20241111163913.36139-1-amit@kernel.org>
+ <20241111163913.36139-2-amit@kernel.org>
+ <20241111193304.fjysuttl6lypb6ng@jpoimboe>
+ <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
+ <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
+ <20241112214241.fzqq6sqszqd454ei@desk>
+ <20241113202105.py5imjdy7pctccqi@jpoimboe>
+ <20241114015505.6kghgq33i4m6jrm4@desk>
+ <20241114023141.n4n3zl7622gzsf75@jpoimboe>
+ <20241114075403.7wxou7g5udaljprv@desk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241115051107.3374417-1-yabinc@google.com>
-Subject: [PATCH] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
-From: Yabin Cui <yabinc@google.com>
-To: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Cc: Yabin Cui <yabinc@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241114075403.7wxou7g5udaljprv@desk>
 
-Select ARCH_SUPPORTS_AUTOFDO_CLANG to allow AUTOFDO_CLANG to be
-selected.
+On Thu, Nov 14, 2024 at 12:01:16AM -0800, Pawan Gupta wrote:
+> > For PBRSB, I guess we don't need to worry about that since there would
+> > be at least one kernel CALL before context switch.
+> 
+> Right. So the case where we need RSB filling at context switch is
+> retpoline+CDT mitigation.
 
-On ARM64, ETM traces can be recorded and converted to AutoFDO profiles.
-Experiments on Android show 4% improvement in cold app startup time
-and 13% improvement in binder benchmarks.
+According to the docs, classic IBRS also needs RSB filling at context
+switch to protect against corrupt RSB entries (as opposed to RSB
+underflow).
 
-Signed-off-by: Yabin Cui <yabinc@google.com>
----
- Documentation/dev-tools/autofdo.rst | 18 +++++++++++++++++-
- arch/arm64/Kconfig                  |  1 +
- 2 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tools/autofdo.rst
-index 1f0a451e9ccd..f0952e3e8490 100644
---- a/Documentation/dev-tools/autofdo.rst
-+++ b/Documentation/dev-tools/autofdo.rst
-@@ -55,7 +55,7 @@ process consists of the following steps:
-    workload to gather execution frequency data. This data is
-    collected using hardware sampling, via perf. AutoFDO is most
-    effective on platforms supporting advanced PMU features like
--   LBR on Intel machines.
-+   LBR on Intel machines, ETM traces on ARM machines.
+Something like so...
+
+
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 47a01d4028f6..7b9c0a21e478 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -1579,27 +1579,44 @@ static void __init spec_ctrl_disable_kernel_rrsba(void)
+ 	rrsba_disabled = true;
+ }
  
- #. AutoFDO profile generation: Perf output file is converted to
-    the AutoFDO profile via offline tools.
-@@ -141,6 +141,22 @@ Here is an example workflow for AutoFDO kernel:
+-static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_mitigation mode)
++static void __init spectre_v2_mitigate_rsb(enum spectre_v2_mitigation mode)
+ {
+ 	/*
+-	 * Similar to context switches, there are two types of RSB attacks
+-	 * after VM exit:
++	 * In general there are two types of RSB attacks:
+ 	 *
+-	 * 1) RSB underflow
++	 * 1) RSB underflow ("Intel Retbleed")
++	 *
++	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
++	 *    speculated return targets may come from the branch predictor,
++	 *    which could have a user-poisoned BTB or BHB entry.
++	 *
++	 *    user->user attacks are mitigated by IBPB on context switch.
++	 *
++	 *    user->kernel attacks via context switch are mitigated by IBRS,
++	 *    eIBRS, or RSB filling.
++	 *
++	 *    user->kernel attacks via kernel entry are mitigated by IBRS,
++	 *    eIBRS, or call depth tracking.
++	 *
++	 *    On VMEXIT, guest->host attacks are mitigated by IBRS, eIBRS, or
++	 *    RSB filling.
+ 	 *
+ 	 * 2) Poisoned RSB entry
+ 	 *
+-	 * When retpoline is enabled, both are mitigated by filling/clearing
+-	 * the RSB.
++	 *    On a context switch, the previous task can poison RSB entries
++	 *    used by the next task, controlling its speculative return
++	 *    targets.  Poisoned RSB entries can also be created by "AMD
++	 *    Retbleed" or SRSO.
+ 	 *
+-	 * When IBRS is enabled, while #1 would be mitigated by the IBRS branch
+-	 * prediction isolation protections, RSB still needs to be cleared
+-	 * because of #2.  Note that SMEP provides no protection here, unlike
+-	 * user-space-poisoned RSB entries.
++	 *    user->user attacks are mitigated by IBPB on context switch.
+ 	 *
+-	 * eIBRS should protect against RSB poisoning, but if the EIBRS_PBRSB
+-	 * bug is present then a LITE version of RSB protection is required,
+-	 * just a single call needs to retire before a RET is executed.
++	 *    user->kernel attacks via context switch are prevented by
++	 *    SMEP+eIBRS+SRSO mitigations, or RSB clearing.
++	 *
++	 *    guest->host attacks are mitigated by eIBRS or RSB clearing on
++	 *    VMEXIT.  eIBRS implementations with X86_BUG_EIBRS_PBRSB still
++	 *    need "lite" RSB filling which retires a CALL before the first
++	 *    RET.
+ 	 */
+ 	switch (mode) {
+ 	case SPECTRE_V2_NONE:
+@@ -1608,8 +1625,8 @@ static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_
+ 	case SPECTRE_V2_EIBRS_LFENCE:
+ 	case SPECTRE_V2_EIBRS:
+ 		if (boot_cpu_has_bug(X86_BUG_EIBRS_PBRSB)) {
+-			setup_force_cpu_cap(X86_FEATURE_RSB_VMEXIT_LITE);
+ 			pr_info("Spectre v2 / PBRSB-eIBRS: Retire a single CALL on VMEXIT\n");
++			setup_force_cpu_cap(X86_FEATURE_RSB_VMEXIT_LITE);
+ 		}
+ 		return;
  
-       $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a -N -b -c <count> -o <perf_file> -- <loadtest>
+@@ -1617,12 +1634,13 @@ static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_
+ 	case SPECTRE_V2_RETPOLINE:
+ 	case SPECTRE_V2_LFENCE:
+ 	case SPECTRE_V2_IBRS:
++		pr_info("Spectre v2 / SpectreRSB : Filling RSB on context switch and VMEXIT\n");
++		setup_force_cpu_cap(X86_FEATURE_RSB_CTXSW);
+ 		setup_force_cpu_cap(X86_FEATURE_RSB_VMEXIT);
+-		pr_info("Spectre v2 / SpectreRSB : Filling RSB on VMEXIT\n");
+ 		return;
+ 	}
  
-+   - For ARM platforms:
-+
-+     Follow the instructions in the `Linaro OpenCSD document
-+     https://github.com/Linaro/OpenCSD/blob/master/decoder/tests/auto-fdo/autofdo.md`_
-+     to record ETM traces for AutoFDO::
-+
-+      $ perf record -e cs_etm/@tmc_etr0/k -a -o <etm_perf_file> -- <loadtest>
-+      $ perf inject -i <etm_perf_file> -o <perf_file> --itrace=i500009il
-+
-+     For ARM platforms running Android, follow the instructions in the
-+     `Android simpleperf document
-+     <https://android.googlesource.com/platform/system/extras/+/main/simpleperf/doc/collect_etm_data_for_autofdo.md>`_
-+     to record ETM traces for AutoFDO::
-+
-+      $ simpleperf record -e cs-etm:k -a -o <perf_file> -- <loadtest>
-+
- 4) (Optional) Download the raw perf file to the host machine.
+-	pr_warn_once("Unknown Spectre v2 mode, disabling RSB mitigation at VM exit");
++	pr_warn_once("Unknown Spectre v2 mode, disabling RSB mitigation\n");
+ 	dump_stack();
+ }
  
- 5) To generate an AutoFDO profile, two offline tools are available:
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index fd9df6dcc593..c3814df5e391 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -103,6 +103,7 @@ config ARM64
- 	select ARCH_SUPPORTS_PER_VMA_LOCK
- 	select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
- 	select ARCH_SUPPORTS_RT
-+	select ARCH_SUPPORTS_AUTOFDO_CLANG
- 	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
- 	select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
- 	select ARCH_WANT_DEFAULT_BPF_JIT
--- 
-2.47.0.338.g60cca15819-goog
-
+@@ -1817,48 +1835,7 @@ static void __init spectre_v2_select_mitigation(void)
+ 	spectre_v2_enabled = mode;
+ 	pr_info("%s\n", spectre_v2_strings[mode]);
+ 
+-	/*
+-	 * If Spectre v2 protection has been enabled, fill the RSB during a
+-	 * context switch.  In general there are two types of RSB attacks
+-	 * across context switches, for which the CALLs/RETs may be unbalanced.
+-	 *
+-	 * 1) RSB underflow
+-	 *
+-	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
+-	 *    speculated return targets may come from the branch predictor,
+-	 *    which could have a user-poisoned BTB or BHB entry.
+-	 *
+-	 *    AMD has it even worse: *all* returns are speculated from the BTB,
+-	 *    regardless of the state of the RSB.
+-	 *
+-	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack
+-	 *    scenario is mitigated by the IBRS branch prediction isolation
+-	 *    properties, so the RSB buffer filling wouldn't be necessary to
+-	 *    protect against this type of attack.
+-	 *
+-	 *    The "user -> user" attack scenario is mitigated by RSB filling.
+-	 *
+-	 * 2) Poisoned RSB entry
+-	 *
+-	 *    If the 'next' in-kernel return stack is shorter than 'prev',
+-	 *    'next' could be tricked into speculating with a user-poisoned RSB
+-	 *    entry.
+-	 *
+-	 *    The "user -> kernel" attack scenario is mitigated by SMEP and
+-	 *    eIBRS.
+-	 *
+-	 *    The "user -> user" scenario, also known as SpectreBHB, requires
+-	 *    RSB clearing.
+-	 *
+-	 * So to mitigate all cases, unconditionally fill RSB on context
+-	 * switches.
+-	 *
+-	 * FIXME: Is this pointless for retbleed-affected AMD?
+-	 */
+-	setup_force_cpu_cap(X86_FEATURE_RSB_CTXSW);
+-	pr_info("Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch\n");
+-
+-	spectre_v2_determine_rsb_fill_type_at_vmexit(mode);
++	spectre_v2_mitigate_rsb(mode);
+ 
+ 	/*
+ 	 * Retpoline protects the kernel, but doesn't protect firmware.  IBRS
