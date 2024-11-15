@@ -1,257 +1,305 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C066F1D5ABF;
-	Fri, 15 Nov 2024 17:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731693062; cv=none; b=cFCmabh5cOirWszsD1vhJ5iTeLmgILkeLnxxoBH6Ae4/t0kwUsaU9IcUGOQIMpRpbweRbssPcVRbLTt/yzQJnDBtxExC492iEs2E6mfhdzfGxoszoZig3U0/SlmWUAnkpudUN3Ws8pPBBLxDDbQhbrN/7beNSOhQdeKV09FipTE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731693062; c=relaxed/simple;
-	bh=eOClkgrOVtMDm45l3c+YNZVXOx9yYAT8GkXLpLBSVLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XwXfsiU9KRg0OHN6txgZ8h3DeijFI0ebkeyL6dz5stxdscyQ6AH7eEBaaKd4xajnXrilgcoYg3DUZWmp8z7FtpnsCVteTR92vx8ANzfjVjuIWTs9QgD6b5/LNgoW5X0pv9YBGigDGrGZyBeY24n4c05RNE0Q1BsNc+9l6Jfk5/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lHzpx8F+; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869611D5CD4;
+	Fri, 15 Nov 2024 18:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731693807; cv=fail; b=TUTzS6ydtLOypwL0ExWRB5uUO04lBzONSZiWR45EkCmkTb8kfQXVfCn9CjI/XLVtiBHuD7Df3x8cdWMkiLBAq/xqormugo0Pi+iScLfidBM9KrmQSXy1RHEq9IZjqYqOFv9HNJp0+pEptEEAHh60ZR1OZuf9j4Yh1KQEhYhHCLE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731693807; c=relaxed/simple;
+	bh=EUTQ9GY5F5gYOL4p3sUPwj7Rdmoybsni3tOlPzGRb3E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=pZpz215HFY9HLJ4t+c1B5gE2n5H1KiE6eUFyTUYp6Bsu1EGLAYthLDQIFKcT81BKBczfhFcJFSqYE6yOcNuQ3um4NTAogziRg62TKDdo4h0vhGwMGD5E9oCw8lBaSLi1OoaKubUM41BK9F5a/glnptuQ2Ov7sjiriDHhKnNki+0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=kw6lSqBH; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=vhhw+0St; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lHzpx8F+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731693061; x=1763229061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eOClkgrOVtMDm45l3c+YNZVXOx9yYAT8GkXLpLBSVLk=;
-  b=lHzpx8F+nIml8OxrDKnd/kRvm7MR6lax+XpWrVyQ2d5Byf06klZHWOdQ
-   U+IgTdyPKYPhWpm1ZapKNBbAdAD7seOWtpmo7MAo4asQcKidYe4Hk5jAB
-   S4eplyZLVqf6TpoA7vdB/ukx+wMIcrnW2qDjbOmHPmkNUQgtN9Q6Z+KiQ
-   oyCqglXV48F70KGM4Qzi27hKZk7mvnkIgTSXOFoZnDUcJIAK2YKwM3Yzz
-   32QeQJfad6i90o1EFHyO2z/qLsaSWE7LbVOGyKDZ9NT6KinD0vyELZMzn
-   7llkPuOInnyObSk1JXXkLp0mCBQdZQ08gaeBmmo1MthWDtYo18auMxO0M
-   w==;
-X-CSE-ConnectionGUID: fT3isI6dT9C2KXelWCsUNA==
-X-CSE-MsgGUID: 8+Fyc/vlQXKKjX7plPlPPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11257"; a="31552189"
-X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; 
-   d="scan'208";a="31552189"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2024 09:51:00 -0800
-X-CSE-ConnectionGUID: /PICrEOzSBOkM4HFyehSMw==
-X-CSE-MsgGUID: s1Pp92IeQPyEIC0WsvzYXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,157,1728975600"; 
-   d="scan'208";a="88386465"
-Received: from howardworkpc.ccr.corp.intel.com (HELO desk) ([10.125.145.119])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2024 09:50:58 -0800
-Date: Fri, 15 Nov 2024 09:50:47 -0800
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
-	linux-doc@vger.kernel.org, amit.shah@amd.com,
-	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
-	peterz@infradead.org, corbet@lwn.net, mingo@redhat.com,
-	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
-	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
-	kai.huang@intel.com, sandipan.das@amd.com,
-	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
-	david.kaplan@amd.com, dwmw@amazon.co.uk
-Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
- AMD
-Message-ID: <20241115175047.bszpeakeodajczav@desk>
-References: <20241111163913.36139-2-amit@kernel.org>
- <20241111193304.fjysuttl6lypb6ng@jpoimboe>
- <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
- <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
- <20241112214241.fzqq6sqszqd454ei@desk>
- <20241113202105.py5imjdy7pctccqi@jpoimboe>
- <20241114015505.6kghgq33i4m6jrm4@desk>
- <20241114023141.n4n3zl7622gzsf75@jpoimboe>
- <20241114075403.7wxou7g5udaljprv@desk>
- <20241115054836.oubgh4jbyvjum4tk@jpoimboe>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="kw6lSqBH";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="vhhw+0St"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AFGN48F006019;
+	Fri, 15 Nov 2024 18:02:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2023-11-20; bh=ar+l9ipffKcHysJhSg
+	tAhYi68TuGG2m/4y/jUIVxZp4=; b=kw6lSqBHXun53CsQgNaHKNAsn9+PM5cTg4
+	eW1CYz7A4xG9686NIweiwXXiQCmUfAS4/a6AF/SbUfoitRkpBvvFXpnyrtSqEJ1+
+	+Vb5GhKbIL3E3BNeYsJ4N5Sbx+/q4x3ogk4ANUc55Np7vuE+yvD2DgtlkQ6+hV+M
+	FRPSeAaiEGr9XVNMFqpcY1kot7eSQk2g3uDtT2pDSgRAiXwInV2VQixuDtkzUqHb
+	4/9kTPtQ4zEJ8yuNfxJkaTQWrnHHG0rT+uf9IE1yznzt/2xcrLyzEloYrWupjhJH
+	pFgscda/h1l/+VxTQ0xdGOypR34RuXkuLUwulTR45oWXll4WZveQ==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42t0k5kstn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 15 Nov 2024 18:02:48 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AFHSHAk001149;
+	Fri, 15 Nov 2024 18:02:47 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2041.outbound.protection.outlook.com [104.47.58.41])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42sx6cvx0m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 15 Nov 2024 18:02:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=d9s70N+zKYJjPT/E04Cc559LUxKNpfobarFc4z3kFHgxOLGzchBLVVoaH3nBU5HTVLOJPalPTMuvYvoXRT28tBQAiczns8lOYog8B5VXnWxbR1EwVlCP0DZCJQhbSzaSZZB+TNLnm3iA61De5uXPoDHk2jrpu42Upv1QCkVmK8Iqz69ezCTvQFEjHKRFuSEvNyU45EmmccDnnGxNAzTLYM12XX02c9SiY3hq7qTUHZXFNLtwHqRYt2YU+KESjE8LQmwJpkjgBT+RILAfP4gmV0KY2IXxv00ngUe7yzYJjSLWCL12/WgU6Uy7uworr45q8ssrE7PAmYfrl6iCYZ0frQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ar+l9ipffKcHysJhSgtAhYi68TuGG2m/4y/jUIVxZp4=;
+ b=MFHKbfGY2vKUORcDwl2o5j2BMpj5Q2esu4KZEKzV9TBWCloWnmlf0S4Er22bPLUd05OEEEUfI9Wfnhn6k22uUspyAdzS0EsZqClPSC6rcyP3ogl2UDuKKn+s/dAZof0CS2hDAQzsJUKte7wusnxb7MhYtJjV6WKAgLPaWtrBTL2UXJ484awcyPR6pb60l5GR6rg815EIcnickQueFFyl3wXXX6D9DvFhezd60QzMcpFE5KyYplxgdt48uX/b41xs0hKSREqPlX8882YeLylpDHkTdBhHh5dPj7xPCHKodXGX7U5Nu5wH7ERkYbdDhEPyjzaDO3mibUJcVZ7nVvvhzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ar+l9ipffKcHysJhSgtAhYi68TuGG2m/4y/jUIVxZp4=;
+ b=vhhw+0StpHo7zkJfQfE/tYMCmvuoz9jMw1xnrNw5cWjl2kDWXECdj8iz+hhO0G8ewMCreNUf+1/u9TOR4Im/JPDXdtdXPVh5fN8pJgDcDBThsH9iHLTHfJMaMFqJJ5aOuLybZ96xJKRKlcVsMtxZy0lRw/FNYfBOpitNwNUvUVg=
+Received: from MN2PR10MB3374.namprd10.prod.outlook.com (2603:10b6:208:12b::29)
+ by MN6PR10MB8048.namprd10.prod.outlook.com (2603:10b6:208:4f4::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.18; Fri, 15 Nov
+ 2024 18:02:44 +0000
+Received: from MN2PR10MB3374.namprd10.prod.outlook.com
+ ([fe80::eab5:3c8c:1b35:4348]) by MN2PR10MB3374.namprd10.prod.outlook.com
+ ([fe80::eab5:3c8c:1b35:4348%3]) with mapi id 15.20.8158.013; Fri, 15 Nov 2024
+ 18:02:43 +0000
+Date: Fri, 15 Nov 2024 18:02:39 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Jann Horn <jannh@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Alice Ryhl <aliceryhl@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Hillf Danton <hdanton@sina.com>, Qi Zheng <zhengqi.arch@bytedance.com>,
+        SeongJae Park <sj@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Matteo Rizzo <matteorizzo@google.com>
+Subject: Re: [PATCH] docs/mm: add more warnings around page table access
+Message-ID: <61f84216-75fa-477b-a9df-6f24476ecd8d@lucifer.local>
+References: <20241114-vma-docs-addition1-onv3-v1-1-ff177a0a2994@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241114-vma-docs-addition1-onv3-v1-1-ff177a0a2994@google.com>
+X-ClientProxiedBy: LO4P265CA0181.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:311::8) To MN2PR10MB3374.namprd10.prod.outlook.com
+ (2603:10b6:208:12b::29)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241115054836.oubgh4jbyvjum4tk@jpoimboe>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR10MB3374:EE_|MN6PR10MB8048:EE_
+X-MS-Office365-Filtering-Correlation-Id: c862d196-ba74-4291-380d-08dd059fb3e2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?c0uc/k+530RGhwnC816LTe5ONqvETVjr+/U5S3PluUHenaTI0Uh3Nb+PndkU?=
+ =?us-ascii?Q?XIrEk8qz8o3v3D/XyEUuW3GbflkqvFtBWt3uveRVPA0xEooyR95JE6tWC4KS?=
+ =?us-ascii?Q?7LPFWhzmIIIpfxyjNigWFfZbElXyNkXRXy6PSiAZZzSaXwCYKZl5uCpP5W56?=
+ =?us-ascii?Q?UU9i7K/LxqT0axRutJPGVy1Lkcs8b51Xr/vaOLJaHTmN9mEgw0QrO1R8oWtT?=
+ =?us-ascii?Q?vjBMwaS48ecy6OI4WtyyjRnjf7k0haCkUnQkY7Il8VnAAWxGxHQX6+Mwu+qu?=
+ =?us-ascii?Q?pHfc2BO3iTyFGFVOgWPlAtF9vlvCwGZmBwpTeHFPBjLkDego1uiHnh36c3Ej?=
+ =?us-ascii?Q?a1SecMhy2cNwbyYcCjM81Nufk338dLf5mTMcPeaW1boyChF5rxjAsFSLaeOi?=
+ =?us-ascii?Q?On8C9n9YSt3ygbPCc3XA2bUvUVomukGrj65ww3ijHMqxtXide3ujWmMutKiH?=
+ =?us-ascii?Q?D0sc9Q0ato+UZZjeXZeB9dKVg7wpqlS3DXzG52w+K3J9IaMyO353MorQy8Cn?=
+ =?us-ascii?Q?zRoTqyeTzwl6jxRJctPwr7QDk27ZKRcMM9vtGOpA3WuH0Sv6Z7ch0u3ikFIX?=
+ =?us-ascii?Q?WGCea+cKSoxrXSQikYmiawXBvnrkGHzlbknUo8flC4Z6h4Y3u4xv2d8YYESx?=
+ =?us-ascii?Q?g1G7ySZ0/ibUplQSNv7iI29KyeKvSCrzeTnuPXenDMjjOPnoI7/07Ltgv0Zi?=
+ =?us-ascii?Q?H09kOPt9icXfFU5wijT/QB1rxbqjwSITP2SinvnCSE558kyLZnwiTXJlNKLy?=
+ =?us-ascii?Q?O0hT/8vXIO1FgURg8EiWYxRQMLlo+V2j//SBez2EW+Z5/mrRfvlIp+RrgP44?=
+ =?us-ascii?Q?qUQMYlW/pHUnJppvPH9Ud4e+9JUNVdFxWUTSoBwRu/5QHYM9zKAhRotEy2ON?=
+ =?us-ascii?Q?i0unPIXLMpE3QKe/4ndjFWp/PaYb+1pA2gghG9MnEVAb2n1yN03grYP8A6xF?=
+ =?us-ascii?Q?Lip/4vgmqlDmuKcLNvqgEpMWgyDtxYrSeeQH9X3Tr3deZgpi5Udqhokky4tB?=
+ =?us-ascii?Q?hFLEhBfRUzRrKfz4cgxE/6Pg7gPCXuwqVBKsLBZIqh49Wl2lu2YALbTvVO3W?=
+ =?us-ascii?Q?4aI5Z/fB5cyRjxz/wZGlbiK0XLVPmWXxvSu4TCXWqSyth0bjMurpSl9RBfv8?=
+ =?us-ascii?Q?nN7i+BRWxw2R1gJ+Wn04xijwFzmY1Xy9oj8CgrZR/kInNpmwdpKPsjJEoWvH?=
+ =?us-ascii?Q?asc0umyTBsPjcUYK9i5G03zgG8Vbyklb58pmEvpq0GNIyopY3KbmlOkhP26P?=
+ =?us-ascii?Q?AUENPDGOUllBi1coV7BZcBUGoiIHD9wDlXxPZQFSz5CL9YYsH/faOXhPNE2s?=
+ =?us-ascii?Q?8VI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3374.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xyx2My+LMoH43cVM/Ypwx5XHqkNFTM2lUdFLspKtORTVEMxaODR89CUrNwR3?=
+ =?us-ascii?Q?HsjjMVfw0sQncZ4usQW92FVgNZYA/TLyw2m24Zcj73EYDv83eniH3US+b8XJ?=
+ =?us-ascii?Q?FcaCOlcx+19OH/nBNqvVAraocJxQi8R4371ajnVmlQNuVMGVQr/QYvF5xkik?=
+ =?us-ascii?Q?3Xmj/S2Z73cT8dcLPIR4TZ0TS81205RqBVSQNj55aZhzLQVD4fKjgL68Tvpc?=
+ =?us-ascii?Q?VP2YObYLc+ubuuEB1nXHONERWZW/aiJyxkDcLUo7FMmO6XoeJ275yVSc0Yep?=
+ =?us-ascii?Q?OiqGYPb5seTWJbnHFkbvuFPlV5VL2wvNA+bvUL1d/xT5+F6JMNYHt0m8k5+A?=
+ =?us-ascii?Q?sDnJr60hr6wA63QtUjA4UEneZ4+FhMrVbHTFdJgyyCvcODqXFTljof5jd7qf?=
+ =?us-ascii?Q?urkwXEpuSqcGO9+3QrnMJVsMs529pJoBr236k4ArR1I2mQZQGYYglK2AZhnZ?=
+ =?us-ascii?Q?NLzpIfu451jU4cqFZNz2UkDMU2mHHelwHhaJQ8DaBi719rl7xtAKHeakhNAZ?=
+ =?us-ascii?Q?Rp7Hx7RmZudYSJSU5SQ4cbOgS82dS99Q1wZnY1V/pp8uOobhRawX4o48nt51?=
+ =?us-ascii?Q?K0ZApr/RvedVIc7EJNcR3xwkkvivFj8hLdxlcRU0M9ZG5gx/GTh6pZxj9lfv?=
+ =?us-ascii?Q?g002V9wCpln3An1gEEjNHEqhWRh8/j9cfcLLTCaTh8Ulienb7+rX1O9K0ib4?=
+ =?us-ascii?Q?8tsIboUyUjZsR87Xjc1LS75hNHZHZHM6cERxI4z0Z8g6GIW6ZW7Uj4B+NZNR?=
+ =?us-ascii?Q?bwY0BtKDfH9mRIEk4KpEAC8Ew6FUJm/g3f9eaY35EOsaOUP+Tx27vdqup/X2?=
+ =?us-ascii?Q?lmYeE5xPZ4sVLLTuThTHuQPWYNdZ2C9QUTF0oPjgTdN1BuWWPT4po7RYC3BM?=
+ =?us-ascii?Q?lWeUxfvywkucdAGOKn6yuQpBejwVRurKG2/XTYePxu4zQUUeHlDKgy8XOlG5?=
+ =?us-ascii?Q?MnzrOpi0kFB8l8Z4B4tpvZnfUHgjc/aijf7uSFc2mpZFkTrwdxVR6mdpNs56?=
+ =?us-ascii?Q?2dTme93pkQIGAAQ+6mLGCPnscH5rMWWrbxueHVRm78kUiMW+JU3/21Dsvlq6?=
+ =?us-ascii?Q?TdyASgr6SKc2kZk1b3k0nhh1ALmEsJtLwuytxwtHARwr/+h/nmkj4b66WqtM?=
+ =?us-ascii?Q?8eItnJVliusM50YP5lEeCf/ssH6SjtCbLozjN/wSuJrLscIGRNSKCJndcxcu?=
+ =?us-ascii?Q?0v+srjMwEvMydHdatjq4f/KAmdFuyb1krhGMa539GUSEw+La9L7NUtKE4zJO?=
+ =?us-ascii?Q?QgQcb+0c/9bhNX+QnWOMW11dqZbe1zFglof9BEJVVIOo28rtmLDhcmmBjT2c?=
+ =?us-ascii?Q?tP//3W44hsU0NfPSW7qib2ONpX0aIYm9PibNMnGEWxlsorvYD4mPpGIVHXQ7?=
+ =?us-ascii?Q?fyzqTirueE/dKeLLM74cW0WhuwAR56Rg0rLBkCZbmH0WRu9bxW+pslrpC3RW?=
+ =?us-ascii?Q?8NoJKW3OM3vcHE7/L1Ikn1BYWTjbAH40t2lc7WoaH6gnF4gYv6pBaFmkcExd?=
+ =?us-ascii?Q?Q1hwa4SYACnxgmAOagy7WfzrMrpOJJWCTxFc8sdoswcATBq7afFXsoC5OXxf?=
+ =?us-ascii?Q?BwLuhC6By0krHfjY2IRJGDcqnEvOOdqkkLSw3EBAF4iOjYrOh4QnSuepiIF6?=
+ =?us-ascii?Q?BQ=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	IY3FzoAJQIBcRRZnHdAEoUq9mvkgJP/Bv6WZSQPhK2nYezT40HVemUZKyGW7kVMpw2shuHmlOFzwHKV6YwrgpsGyg+LVf5E7A8f7KRV0OAb4RnIOctMRkv4Y6WAPbjZt+ATrN8WuTfRsQcSEC8ziwgd8FVhlBWWQ4AAxag4jzgVeK7axroDqJ9Ya2dkgjtgS75xysCG8Swcn1aCLehXwjC3mCCdJedPx9aOmNQukZ93cizkhMoGeMHY+wMBLqYgIqOk3A6N/ks7CqDe73eEPvjE4HU7rkjs0xfC5AFVzIVme66V0FW5zF8748dNbLL6575b4DDkd66Of1AyX1iGKZNxXLwGJa/VX4lwaspfFHgqLTdJJ2Iv+THxry65I/K4Drs8YBa/6KRqxq4ObODEWgRjnXvJetVxoLdWLejAEqgM5PhqDCXizCmMT5Ah6uVK3qVP8ZDzD+a8WtQJWr19cPDKhgGtfXr5+U3mXTV/XsVY38U04kqwgEBMoh++6d5StCVyb0Pvq+NrJXkJbAYqUB3Xr91SaTfrgXEMJ3imSBnEpofPvEkl8/W9GsOp0MZJmMYsluvoOyrd6Z9ec4S7U7HkX5zGdpaR4qka+GAp6ApA=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c862d196-ba74-4291-380d-08dd059fb3e2
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB3374.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2024 18:02:43.6080
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PcjLe5/MBzdJwxDEwoQXW8UqSjP9yuUdlRlvsJpekSFISLM6M67YWWGa/pk+q+tnWaER202l5OPj2kC9EOXzHz0GCNTEa9qhzFnVQUQdJrk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR10MB8048
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-15_04,2024-11-14_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ adultscore=0 phishscore=0 bulkscore=0 suspectscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2409260000 definitions=main-2411150152
+X-Proofpoint-ORIG-GUID: ueQJPJLpJZaQxKpp1LN0tpASyCZxmILS
+X-Proofpoint-GUID: ueQJPJLpJZaQxKpp1LN0tpASyCZxmILS
 
-On Thu, Nov 14, 2024 at 09:48:36PM -0800, Josh Poimboeuf wrote:
-> According to the docs, classic IBRS also needs RSB filling at context
-> switch to protect against corrupt RSB entries (as opposed to RSB
-> underflow).
+On Thu, Nov 14, 2024 at 10:12:00PM +0100, Jann Horn wrote:
+> Make it clearer that holding the mmap lock in read mode is not enough
+> to traverse page tables, and that just having a stable VMA is not enough
+> to read PTEs.
+>
+> Suggested-by: Matteo Rizzo <matteorizzo@google.com>
+> Signed-off-by: Jann Horn <jannh@google.com>
 
-Correct.
+Have some queries before we move forward so would like a little more
+clarification/perhaps putting some extra meat on the bones first.
 
-> Something like so...
-> 
-> 
-> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-> index 47a01d4028f6..7b9c0a21e478 100644
-> --- a/arch/x86/kernel/cpu/bugs.c
-> +++ b/arch/x86/kernel/cpu/bugs.c
-> @@ -1579,27 +1579,44 @@ static void __init spec_ctrl_disable_kernel_rrsba(void)
->  	rrsba_disabled = true;
->  }
->  
-> -static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_mitigation mode)
-> +static void __init spectre_v2_mitigate_rsb(enum spectre_v2_mitigation mode)
->  {
->  	/*
-> -	 * Similar to context switches, there are two types of RSB attacks
-> -	 * after VM exit:
-> +	 * In general there are two types of RSB attacks:
->  	 *
-> -	 * 1) RSB underflow
-> +	 * 1) RSB underflow ("Intel Retbleed")
-> +	 *
-> +	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
-> +	 *    speculated return targets may come from the branch predictor,
-> +	 *    which could have a user-poisoned BTB or BHB entry.
-> +	 *
-> +	 *    user->user attacks are mitigated by IBPB on context switch.
-> +	 *
-> +	 *    user->kernel attacks via context switch are mitigated by IBRS,
-> +	 *    eIBRS, or RSB filling.
-> +	 *
-> +	 *    user->kernel attacks via kernel entry are mitigated by IBRS,
-> +	 *    eIBRS, or call depth tracking.
-> +	 *
-> +	 *    On VMEXIT, guest->host attacks are mitigated by IBRS, eIBRS, or
-> +	 *    RSB filling.
->  	 *
->  	 * 2) Poisoned RSB entry
->  	 *
-> -	 * When retpoline is enabled, both are mitigated by filling/clearing
-> -	 * the RSB.
-> +	 *    On a context switch, the previous task can poison RSB entries
-> +	 *    used by the next task, controlling its speculative return
-> +	 *    targets.  Poisoned RSB entries can also be created by "AMD
-> +	 *    Retbleed" or SRSO.
->  	 *
-> -	 * When IBRS is enabled, while #1 would be mitigated by the IBRS branch
-> -	 * prediction isolation protections, RSB still needs to be cleared
-> -	 * because of #2.  Note that SMEP provides no protection here, unlike
-> -	 * user-space-poisoned RSB entries.
-> +	 *    user->user attacks are mitigated by IBPB on context switch.
->  	 *
-> -	 * eIBRS should protect against RSB poisoning, but if the EIBRS_PBRSB
-> -	 * bug is present then a LITE version of RSB protection is required,
-> -	 * just a single call needs to retire before a RET is executed.
-> +	 *    user->kernel attacks via context switch are prevented by
-> +	 *    SMEP+eIBRS+SRSO mitigations, or RSB clearing.
-> +	 *
-> +	 *    guest->host attacks are mitigated by eIBRS or RSB clearing on
-> +	 *    VMEXIT.  eIBRS implementations with X86_BUG_EIBRS_PBRSB still
-> +	 *    need "lite" RSB filling which retires a CALL before the first
-> +	 *    RET.
->  	 */
->  	switch (mode) {
->  	case SPECTRE_V2_NONE:
-> @@ -1608,8 +1625,8 @@ static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_
->  	case SPECTRE_V2_EIBRS_LFENCE:
->  	case SPECTRE_V2_EIBRS:
->  		if (boot_cpu_has_bug(X86_BUG_EIBRS_PBRSB)) {
-> -			setup_force_cpu_cap(X86_FEATURE_RSB_VMEXIT_LITE);
->  			pr_info("Spectre v2 / PBRSB-eIBRS: Retire a single CALL on VMEXIT\n");
-> +			setup_force_cpu_cap(X86_FEATURE_RSB_VMEXIT_LITE);
->  		}
->  		return;
->  
-> @@ -1617,12 +1634,13 @@ static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_
->  	case SPECTRE_V2_RETPOLINE:
->  	case SPECTRE_V2_LFENCE:
->  	case SPECTRE_V2_IBRS:
-> +		pr_info("Spectre v2 / SpectreRSB : Filling RSB on context switch and VMEXIT\n");
-> +		setup_force_cpu_cap(X86_FEATURE_RSB_CTXSW);
->  		setup_force_cpu_cap(X86_FEATURE_RSB_VMEXIT);
-> -		pr_info("Spectre v2 / SpectreRSB : Filling RSB on VMEXIT\n");
->  		return;
->  	}
->  
-> -	pr_warn_once("Unknown Spectre v2 mode, disabling RSB mitigation at VM exit");
-> +	pr_warn_once("Unknown Spectre v2 mode, disabling RSB mitigation\n");
->  	dump_stack();
->  }
->  
-> @@ -1817,48 +1835,7 @@ static void __init spectre_v2_select_mitigation(void)
->  	spectre_v2_enabled = mode;
->  	pr_info("%s\n", spectre_v2_strings[mode]);
->  
-> -	/*
-> -	 * If Spectre v2 protection has been enabled, fill the RSB during a
-> -	 * context switch.  In general there are two types of RSB attacks
-> -	 * across context switches, for which the CALLs/RETs may be unbalanced.
-> -	 *
-> -	 * 1) RSB underflow
-> -	 *
-> -	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
-> -	 *    speculated return targets may come from the branch predictor,
-> -	 *    which could have a user-poisoned BTB or BHB entry.
-> -	 *
-> -	 *    AMD has it even worse: *all* returns are speculated from the BTB,
-> -	 *    regardless of the state of the RSB.
-> -	 *
-> -	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack
-> -	 *    scenario is mitigated by the IBRS branch prediction isolation
-> -	 *    properties, so the RSB buffer filling wouldn't be necessary to
-> -	 *    protect against this type of attack.
-> -	 *
-> -	 *    The "user -> user" attack scenario is mitigated by RSB filling.
-> -	 *
-> -	 * 2) Poisoned RSB entry
-> -	 *
-> -	 *    If the 'next' in-kernel return stack is shorter than 'prev',
-> -	 *    'next' could be tricked into speculating with a user-poisoned RSB
-> -	 *    entry.
-> -	 *
-> -	 *    The "user -> kernel" attack scenario is mitigated by SMEP and
-> -	 *    eIBRS.
-> -	 *
-> -	 *    The "user -> user" scenario, also known as SpectreBHB, requires
-> -	 *    RSB clearing.
-> -	 *
-> -	 * So to mitigate all cases, unconditionally fill RSB on context
-> -	 * switches.
-> -	 *
-> -	 * FIXME: Is this pointless for retbleed-affected AMD?
-> -	 */
-> -	setup_force_cpu_cap(X86_FEATURE_RSB_CTXSW);
-> -	pr_info("Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch\n");
-> -
-> -	spectre_v2_determine_rsb_fill_type_at_vmexit(mode);
-> +	spectre_v2_mitigate_rsb(mode);
->  
->  	/*
->  	 * Retpoline protects the kernel, but doesn't protect firmware.  IBRS
+Broadly very glad you have done this however so it's just sorting details
+first! :>)
 
-This LGTM.
+> ---
+> @akpm: Please don't put this in your tree before Lorenzo has replied.
+>
+> @Lorenzo:
+> This is intended to go on top of your documentation patch.
+> If you think this is a sensible change, do you prefer to squash it into
+> your patch or do you prefer having akpm take this as a separate patch?
+> IDK what works better...
 
-I think SPECTRE_V2_EIBRS_RETPOLINE is placed in the wrong leg, it
-doesn't need RSB filling on context switch, and only needs VMEXIT_LITE.
-Does below change on top of your patch look okay?
+I think a new patch is better, as I'd like the original to settle down now
+and the whole point of this doc is that it's a living thing that many
+people can contribute to, update, etc.
 
----
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index 7b9c0a21e478..d3b9a0d7a2b5 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -1622,6 +1622,7 @@ static void __init spectre_v2_mitigate_rsb(enum spectre_v2_mitigation mode)
- 	case SPECTRE_V2_NONE:
- 		return;
- 
-+	case SPECTRE_V2_EIBRS_RETPOLINE:
- 	case SPECTRE_V2_EIBRS_LFENCE:
- 	case SPECTRE_V2_EIBRS:
- 		if (boot_cpu_has_bug(X86_BUG_EIBRS_PBRSB)) {
-@@ -1630,7 +1631,6 @@ static void __init spectre_v2_mitigate_rsb(enum spectre_v2_mitigation mode)
- 		}
- 		return;
- 
--	case SPECTRE_V2_EIBRS_RETPOLINE:
- 	case SPECTRE_V2_RETPOLINE:
- 	case SPECTRE_V2_LFENCE:
- 	case SPECTRE_V2_IBRS:
+For instance, Suren is updating as part of one of his series to correct
+things that he changes in that series, which is really nice.
+
+> ---
+>  Documentation/mm/process_addrs.rst | 21 +++++++++++++++++++--
+>  1 file changed, 19 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
+> index 1bf7ad010fc063d003bb857bb3b695a3eafa0b55..9bdf073d0c3ebea1707812508a309aa4a6163660 100644
+> --- a/Documentation/mm/process_addrs.rst
+> +++ b/Documentation/mm/process_addrs.rst
+> @@ -339,6 +339,16 @@ When **installing** page table entries, the mmap or VMA lock must be held to
+>  keep the VMA stable. We explore why this is in the page table locking details
+>  section below.
+>
+> +.. warning:: Taking the mmap lock in read mode **is not sufficient** for
+> +             traversing page tables; you must also ensure that a VMA exists that
+> +             covers the range being accessed.
+
+Hm, but we say later we don't need _any_ locks for traversal, and here we
+say we need mmap read lock. Do you mean installing page table entries?
+
+Or do you mean to say, that if you don't span a VMA, you must acquire a
+write lock at least to preclude this?
+
+This seems quite unclear.
+
+I kind of didn't want to touch on the horrors of fiddling about without a
+VMA, so I'd rather this very clearly say something like 'it is unusual to
+manipulate page tables wihch are not spanned by a VMA, and there are
+special requirements for this operation' etc. et.c otherwise this just adds
+more noise and confusion I think.
+
+> +             This ensures you can't race with concurrent page table removal
+> +             which happens with the mmap lock in read mode, in regions whose
+> +             VMAs are no longer present in the VMA tree.
+> +
+> +             (Alternatively, the mmap lock can be taken in write mode, but that
+> +             is heavy-handed and almost never the right choice.)
+
+You kind of need to expand on why that is I think!
+
+> +
+>  **Freeing** page tables is an entirely internal memory management operation and
+>  has special requirements (see the page freeing section below for more details).
+>
+> @@ -450,6 +460,9 @@ the time of writing of this document.
+>  Locking Implementation Details
+>  ------------------------------
+>
+> +.. warning:: Locking rules for PTE-level page tables are very different from
+> +             locking rules for page tables at other levels.
+> +
+>  Page table locking details
+>  --------------------------
+>
+> @@ -470,8 +483,12 @@ additional locks dedicated to page tables:
+>  These locks represent the minimum required to interact with each page table
+>  level, but there are further requirements.
+>
+> -Importantly, note that on a **traversal** of page tables, no such locks are
+> -taken. Whether care is taken on reading the page table entries depends on the
+> +Importantly, note that on a **traversal** of page tables, sometimes no such
+> +locks are taken. However, at the PTE level, at least concurrent page table
+> +deletion must be prevented (using RCU) and the page table must be mapped into
+> +high memory, see below.
+
+Ugh I really do hate that we have to think about high memory. I'd like to
+sort of deny it exists. But I suppose that's not an option.
+
+As for the RCU thing, I guess this is why pte_offset_map_lock() is taking
+it? Maybe worth mentioning something there or updating that 'interestingly'
+block... :>)
+
+Or am I mistaken? I wasn't aware of this requirement, is this sort of
+implied by the gup_fast() IRQ disabling stuff?
+
+Please expand :)
+
+> +
+> +Whether care is taken on reading the page table entries depends on the
+>  architecture, see the section on atomicity below.
+>
+>  Locking rules
+>
+> ---
+> base-commit: 1e96a63d3022403e06cdda0213c7849b05973cd5
+> change-id: 20241114-vma-docs-addition1-onv3-32df4e6dffcf
+>
+> --
+> Jann Horn <jannh@google.com>
+>
+
+Thanks for this, your input is hugely appreciated both in the review and
+now this, you're a gem!
+
+Cheers, Lorenzo
