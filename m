@@ -1,69 +1,69 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6081D54FA;
-	Fri, 15 Nov 2024 17:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08ADF1D5AAD;
+	Fri, 15 Nov 2024 17:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731690753; cv=none; b=ILN4aLjCgGwBG0gCxcJZsb0XQ/JsCH06nDyTO7G8gf8oZwjGKX6wFjuwcs2hCgRWe9Ft+efD5cLKiExCCHvMUulyUMGYHNSb7qa+ARP2x8ZSEcEVV7C5NwyQwJ3Z2VMR47an+KwLG9dpKkL0a6Z9mgiRAfjfR3GM/v4faTE/z5g=
+	t=1731691090; cv=none; b=hN2D1/oBvL4gjn05JWi92EzUKZ5z0kTH3rqcYGtTg6cjRM6XjzAWw/asGRr7mkuQ8Sjs+ixbIZudNZvQXAO7fPCzay/4c/p4DI+NKjAy+OuCmMYs6EcAPPSXVPBE+wot6NDE33y9lmU/dfM4M6WDCLFhOYh1qIz1cdpmwoJyz/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731690753; c=relaxed/simple;
-	bh=bhB0gzg7ULcR6uels+MV/k4I/DvKzdJ2mBUQeZLSbjw=;
+	s=arc-20240116; t=1731691090; c=relaxed/simple;
+	bh=01OzKZ3LnQHQWiVFVS4IIK5959v6MIymChZSpGosESU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S9Ok79LFIN0X6MMH2YWOu5yGIJ0aHFJDK/8zz7CG4+BKfgGM5WMrtO+/o9AQzReG5si+iG3YxhXr0ayOMVvuN8QPhOQj9ZBc1HSqHV/ANILI+grLVXB4HT7sGqEEjriKREVifCpO5NVtjipvxLwwQYNtm1KRHVZXe4kY5zBe07M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqsH5gTV; arc=none smtp.client-ip=209.85.208.51
+	 To:Cc:Content-Type; b=FgU5hHlsb9d9mhpzhnVUROikXkwATaASiuR1CXKmW5DkWX53yMWxklUkoRRnUu0yyF1dloJIZ/rb72HpX5F5LjxIINXMD8vKeQGn8JQDgxrMub2Txkf0cpii6BScvO0RmGKMguXQuujKH0qM8ZzcN3l/Egyr7Mv3YR5S09tV8K0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IGZONgCG; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqsH5gTV"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5cb6ca2a776so3377290a12.0;
-        Fri, 15 Nov 2024 09:12:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IGZONgCG"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5cb6ca2a776so3386129a12.0;
+        Fri, 15 Nov 2024 09:18:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731690750; x=1732295550; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731691087; x=1732295887; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bhB0gzg7ULcR6uels+MV/k4I/DvKzdJ2mBUQeZLSbjw=;
-        b=GqsH5gTVn6yJG5A5kmAXPChmPtowGIHck1UBUvyqYnyxCyJvh6G4abiM/lbpoDRPlR
-         lmYZO8hJqD5y3NrSp+WiwLLj7UJzJDVlvsBNlbUGsxQguEUi8dMw8pBYIgApcATbxv4A
-         8sDB2E+589J2rmZEnE+rSboQNAqlxoBQ7M7Hx899eLXe0aInrq2q6i2fNWS6Op5uweai
-         zPic6tjD4JsbUhChXgLaVm8JMhkCDcD0GwMCu7dRG1wzayMPLsAYxmJmuI6BXBrosdXR
-         AeehMZrUpt5FcpkuFvn0axgi7QFGOn+OP1bCCuhsYF3YH9EMCY6nitSYibECBP5pflPu
-         tRzA==
+        bh=fkt3Ff7sDNJlH1kI+wf1tL1jV62LWopLZpgKDe6O4nI=;
+        b=IGZONgCGoA+xMT0Ij0iNDUDJikfA1WAHlU97+NsUKqSz8hZ0TVWFm2hNUCpriNmo98
+         KIaD3FKFTBxvGzGpFWYUWtmu9Qrs19N5yQndgbLg9dIpU7Y8gcGvyxUUjEJ6qtTrD1bd
+         v98ow5nOL0buklAoHcFUlosbOJgnmAveblhycEK+ZPCOEJJtjyLp/4bwX0U63xl7xjYi
+         H7Me2NzjpWg0/7jrby04edlLzmOJavPCYQhJNtN5hxKLoctw6+s43OPt8H+ZhfOrG2te
+         e0Rla3odlUldICHeolgtsYI8bHKHQdE34jBs9Sxnb3GfvZmvgCJy7GKUvKZoj9nUyHzV
+         Ac7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731690750; x=1732295550;
+        d=1e100.net; s=20230601; t=1731691087; x=1732295887;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bhB0gzg7ULcR6uels+MV/k4I/DvKzdJ2mBUQeZLSbjw=;
-        b=q5tvM+Q5M8DUKj6chx1ctW236G6/R2GcXP6axK4pf68O1VaiW59RdSuj1SojBlr3n/
-         ac9tqueD5bKdLfJcr8sg+97cOdnZ20dHVGMQY1FrtI09nkvRIATC6Lb2XBMMX2feRxLs
-         yvRvEPXhblBOpm4pTpeMPK2/hWqyUz0JpocBSB+mbxG2JHpeAfytk1e+92jHk+FgnF5P
-         d3egLw8sTfVkWjrFpVgODqQrYZZjdduZ79A0NdPGlPfBh07GZcsMGXAOipCF767mHSHn
-         O1j82jpa5nNniwdxGyuMo0m3/eJBntL+xPds0i/8nwGeE3BNmt+nD9EL+bQczAIFlo5U
-         rHFA==
-X-Forwarded-Encrypted: i=1; AJvYcCXegcTgjVOj5tDJYR9Qqg04Qkz3GyCWbDepw3Y2jr/2BSYHcpaCkQ8kOSb/FCY9gMNXY9qVr+wlHWk=@vger.kernel.org, AJvYcCXtx4Lz6w/kWXOdpWfplMW8u1pI6Nt8ab/kk8MiDoPnI89jvIISB8tWVdm7ZyJiYGwoztph17ik@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgHm8RxVLBFiwKidG4CtzDn4qLXkcYYTHFiCPU8UOxBnh8mMwg
-	EWlLbcWXJ/T3ZU5q8//3UP7OnID8GLXxhwL3L53noH7ZFN2mFPeBNCEdJlp+8uAQ4FmkSFT+Zi9
-	I55QnKKsca8gsAXi2+datv0aVkI0=
-X-Google-Smtp-Source: AGHT+IGeQO9JrkrdGz9qSWb0eysHt0WKJLPy+8e2aMyIG/zcrHg2ZdPgrY8XJzyo6tnNEBbGGetATPKg9ON+TfTyF+U=
-X-Received: by 2002:a05:6402:2807:b0:5cf:8449:e757 with SMTP id
- 4fb4d7f45d1cf-5cf8fc8b6d8mr2585660a12.13.1731690749470; Fri, 15 Nov 2024
- 09:12:29 -0800 (PST)
+        bh=fkt3Ff7sDNJlH1kI+wf1tL1jV62LWopLZpgKDe6O4nI=;
+        b=CAHxn3tQCqyGM/jVqb44NpDDvKP115MaGey9DeqTPPeT63eykQ6ZfIU+uCoi4RpHg7
+         LGisZMRZYETyRDvVVUqigSQVFtT9+ffrw3Oubw942kdFayJ7qljikfZ+LTRLWp2v02bj
+         8/a0aRbLp+GCnL148zt92h5ndf16LycYLgcTfhXi40DR/3GlfsOsrAndJjZ3rIC9eeKI
+         FekSEeHoH9k3+uf8b0r4GiTeLvbJh5HLDirkcjABvz344KxtocDP9uCALyOIC/F81X8P
+         KT+TYOlfDEC3RVUCm1yyeIm2Aq0r7JobWMvkYILE4QQtTP3hylAoAXQk7Pt7NiEToGw2
+         I5Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCnkz4kvkcraLbw6Wd8UH8hOadm9Tepss7docv72W4xNRfsgJxl7niK4UtzW7wqsQYhDcg+sKlypA=@vger.kernel.org, AJvYcCXHY0XaD+gRHxfo4/PyJmN/m0o+BYY4lXPVHzGBmijP4XHjTa2G29NnFLfi4VnJVRWCPScmw69f@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWE/Y8ZaUTtTfadu1agPyTJpJHZe2BzSloJggaC06La0xuAwjk
+	gVDO1G7It/V8KQs1HPzW7+tPnglzi95/Dl6DnA+si/JIX7l34mCbnrX8DxfU7JherUDbHb++grK
+	0/t5HzLp+8KlKCjQ6HyDnZdTaRnw=
+X-Google-Smtp-Source: AGHT+IG9oNJIdClgmumB2FTMFaScUZiI/6EZcPFulFPZfR0THxcuyrrWoCMzBLfKXl9vXJIfILUiejdUBSvZsyhAmLw=
+X-Received: by 2002:a05:6402:1e93:b0:5ce:dfbc:7fa5 with SMTP id
+ 4fb4d7f45d1cf-5cf8fd300d3mr2822962a12.25.1731691086837; Fri, 15 Nov 2024
+ 09:18:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241113173222.372128-1-ap420073@gmail.com> <20241113173222.372128-4-ap420073@gmail.com>
- <20241114201529.32f9f1ab@kernel.org>
-In-Reply-To: <20241114201529.32f9f1ab@kernel.org>
+References: <20241113173222.372128-1-ap420073@gmail.com> <20241113173222.372128-3-ap420073@gmail.com>
+ <20241114202239.3c80ef6a@kernel.org>
+In-Reply-To: <20241114202239.3c80ef6a@kernel.org>
 From: Taehee Yoo <ap420073@gmail.com>
-Date: Sat, 16 Nov 2024 02:12:18 +0900
-Message-ID: <CAMArcTXP0PWw0DEXzW5u7to8S9rUbcyc5dLOR_ZSE1H2VzBXFA@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 3/7] bnxt_en: add support for tcp-data-split
- ethtool command
+Date: Sat, 16 Nov 2024 02:17:55 +0900
+Message-ID: <CAMArcTWfxiKWghy3cFEL4rj7=VKku_Sm4W9pVWk39TEae1fyAw@mail.gmail.com>
+Subject: Re: [PATCH net-next v5 2/7] net: ethtool: add tcp_data_split_mod
+ member in kernel_ethtool_ringparam
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
 	almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
@@ -81,56 +81,60 @@ Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 15, 2024 at 1:15=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+On Fri, Nov 15, 2024 at 1:22=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
 ote:
 >
-
-Hi Jakub,
-Thank you so much for the review!
-
-> On Wed, 13 Nov 2024 17:32:17 +0000 Taehee Yoo wrote:
-> > NICs that uses bnxt_en driver supports tcp-data-split feature by the
-> > name of HDS(header-data-split).
-> > But there is no implementation for the HDS to enable by ethtool.
-> > Only getting the current HDS status is implemented and The HDS is just
-> > automatically enabled only when either LRO, HW-GRO, or JUMBO is enabled=
-.
-> > The hds_threshold follows rx-copybreak value. and it was unchangeable.
+> On Wed, 13 Nov 2024 17:32:16 +0000 Taehee Yoo wrote:
+> > When tcp-data-split is UNKNOWN mode, drivers arbitrarily handle it.
+> > For example, bnxt_en driver automatically enables if at least one of
+> > LRO/GRO/JUMBO is enabled.
+> > If tcp-data-split is UNKNOWN and LRO is enabled, a driver returns
+> > ENABLES of tcp-data-split, not UNKNOWN.
+> > So, `ethtool -g eth0` shows tcp-data-split is enabled.
 > >
-> > This implements `ethtool -G <interface name> tcp-data-split <value>`
-> > command option.
-> > The value can be <on> and <auto>.
-> > The value is <auto> and one of LRO/GRO/JUMBO is enabled, HDS is
-> > automatically enabled and all LRO/GRO/JUMBO are disabled, HDS is
-> > automatically disabled.
+> > The problem is in the setting situation.
+> > In the ethnl_set_rings(), it first calls get_ringparam() to get the
+> > current driver's config.
+> > At that moment, if driver's tcp-data-split config is UNKNOWN, it return=
+s
+> > ENABLE if LRO/GRO/JUMBO is enabled.
+> > Then, it sets values from the user and driver's current config to
+> > kernel_ethtool_ringparam.
+> > Last it calls .set_ringparam().
+> > The driver, especially bnxt_en driver receives
+> > ETHTOOL_TCP_DATA_SPLIT_ENABLED.
+> > But it can't distinguish whether it is set by the user or just the
+> > current config.
 > >
-> > HDS feature relies on the aggregation ring.
-> > So, if HDS is enabled, the bnxt_en driver initializes the aggregation r=
-ing.
-> > This is the reason why BNXT_FLAG_AGG_RINGS contains HDS condition.
+> > The new tcp_data_split_mod member indicates the tcp-data-split value is
+> > explicitly set by the user.
+> > So the driver can handle ETHTOOL_TCP_DATA_SPLIT_ENABLED properly.
 >
-> I may be missing some existing check but doesn't enabling XDP force
-> page_mode which in turn clears BNXT_FLAG_AGG_RINGS, including HDS ?
-> If user specifically requested HDS we should refuse to install XDP
-> in non-multibuf mode.
-
-Sorry, I missed adding this check.
-I added a check to reject setting HDS when XDP is attached.
-But, I didn't add a check to reject attaching XDP when HDS is enabled.
-
-bnxt driver doesn't allow setting HDS if XDP is attached even if it's
-multibuffer XDP. So, I will reject installing singlebuffer and
-multibuffer XDP if HDS is enabled.
-
+> I think this can work, but it isn't exactly what I had in mind.
 >
-> TBH a selftest under tools/testing/drivers/net would go a long way
-> to make it clear we caught all cases. You can add a dummy netdevsim
-> implementation for testing without bnxt present (some of the existing
-> python tests can work with real drivers and netdevsim):
-> https://github.com/linux-netdev/nipa/wiki/Running-driver-tests
+> I was thinking we'd simply add u8 hds_config to
+> struct ethtool_netdev_state (which is stored inside netdev).
+> And update it there if user request via ethnl_set_rings() succeeds.
+>
+> That gives the driver and the core quick and easy access to checking if
+> the user forced the setting to ENABLED or DISABLED, or didn't (UNKNOWN).
+>
+> As far as the parameter passed to ->set_ringparam() goes we could do
+> (assuming the new fields in ethtool_netdev state is called hds):
+>
+>         kernel_ringparam.tcp_data_split =3D
+>                 nla_get_u32_default(tb[ETHTOOL_A_RINGS_TCP_DATA_SPLIT],
+>                                     dev->ethtool->hds);
+>
+> If the driver see UNKNOWN it means user doesn't care.
+> If the driver sees ENABLED/DISABLE it must comply, doesn't matter if
+> the user requested it in current netlink call, or previous and hasn't
+> reset it, yet.
+>
+> Hope this makes sense...
 
-Thanks for that, I will try to use this selftest.
-I will add a dummy HDS feature for testing on the netdevsim.
+Thank you so much for the details!
+I will try to use ethtool_netdev_state instead of this approach.
 
 Thanks a lot!
 Taehee Yoo
