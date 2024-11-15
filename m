@@ -1,217 +1,471 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421C916F851;
-	Fri, 15 Nov 2024 05:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731649719; cv=none; b=lzzBUOUmEH7zCqD7gePAhaElwTSGThVS4hr5DWBxBdolgXiQ5cSYGmpcHqtGLP40IoVJ6uII4iwtHfmwYlAszPQ90iT/HXA2WZ0CfWd4ez5W8r8SiNxSZSWSNp1i17F4Rw045rXU7kGVcgt61yGfrCoNoYRNeajFjXR/yAQAK6U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731649719; c=relaxed/simple;
-	bh=bBL3zb3Let5QttcUOTfx807iAfRBBBRv6dEt/KJuaOY=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03015188A18;
+	Fri, 15 Nov 2024 06:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731650779; cv=pass; b=GmSXNRvTxD6SPyF6ewms4d+8l6dsOeeUD4ZaFmfSFjGkB3//q555DWdOlNqDqWX9AoCpOkG8VuqgFLwatzruvcpMT9uodhrD1UH21VHATs8u4l9Pwpbm+/z7hzSHPVECLOm0/BGOgqU2fFgG3HaDxaTZ/rUUuiGYDMPM3CqoGoU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731650779; c=relaxed/simple;
+	bh=P0ygTUGVyVPNHtCiHrlral38W1tXHpKIT5bHGUmYCqM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TWnP+5snGk+NTqpG3btJP6wdP52Q1TN2plXpxa+E6eZcpH6apjrModEoQ5eOiT55wLd48lcjqTCcIXKwG0ajr1PXMz2gaw4sLEaJ7ECDdUyBLSROrt7L1azyPdNipn6wwY6TQi/wx56slCQ+GYOV4rCIL861AKw2kEkQJCiSYic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MSK1b2XH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rZsgHUxRKxv8gS8Wo6YiaV+KTVaXpbfjGSg14JADdXXdw60WXERCbhJMpSYT2lFcR4zbVbouPIVsxrzsoEtYp+ULbag6bw6kh9WQQa6AZT9zuO3+8CTO6P5jO3zDP7rF5ydKZIETopLrPM4v8AN7AhGZfYyCdAGResjIU6ZRx8U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=MxDd/8yX; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MSK1b2XH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E105EC4CECF;
-	Fri, 15 Nov 2024 05:48:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731649718;
-	bh=bBL3zb3Let5QttcUOTfx807iAfRBBBRv6dEt/KJuaOY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MSK1b2XH8JTDBKlaxUpi2kbzlJrRv6r9TTtG0SYGwaVwDx4gZHN/m6hHuuRUB1s0i
-	 lS7ha6Zx7kNsZc6WRqMOQfztIi+yXnUQn6ZtMSL+Up76svu8fbDUqJpWzn/IxtR0u8
-	 7s6qS0PIzydk3RBNs8Xikm0odm8esOan6W8g9IOb3oE5/cN4lV+e17E9te0hemuVRf
-	 W6qklY+hTmjC3R+r7W8DoIVm1/Xk0UuBP3kA92o33NFHhQr3ZXto5E+g8umCOH/fDY
-	 JZSKS72wWlYIV8HsbZ49yIpUgci4fqWLOCE/ZieLRmjlLbE09Esd9JE0iBxa81CqbD
-	 sL3At0ekPAlxg==
-Date: Thu, 14 Nov 2024 21:48:36 -0800
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>, Amit Shah <amit@kernel.org>,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, x86@kernel.org,
-	linux-doc@vger.kernel.org, amit.shah@amd.com,
-	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de,
-	peterz@infradead.org, corbet@lwn.net, mingo@redhat.com,
-	dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
-	pbonzini@redhat.com, daniel.sneddon@linux.intel.com,
-	kai.huang@intel.com, sandipan.das@amd.com,
-	boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
-	david.kaplan@amd.com, dwmw@amazon.co.uk
-Subject: Re: [RFC PATCH v2 1/3] x86: cpu/bugs: update SpectreRSB comments for
- AMD
-Message-ID: <20241115054836.oubgh4jbyvjum4tk@jpoimboe>
-References: <20241111163913.36139-1-amit@kernel.org>
- <20241111163913.36139-2-amit@kernel.org>
- <20241111193304.fjysuttl6lypb6ng@jpoimboe>
- <564a19e6-963d-4cd5-9144-2323bdb4f4e8@citrix.com>
- <20241112014644.3p2a6te3sbh5x55c@jpoimboe>
- <20241112214241.fzqq6sqszqd454ei@desk>
- <20241113202105.py5imjdy7pctccqi@jpoimboe>
- <20241114015505.6kghgq33i4m6jrm4@desk>
- <20241114023141.n4n3zl7622gzsf75@jpoimboe>
- <20241114075403.7wxou7g5udaljprv@desk>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="MxDd/8yX"
+ARC-Seal: i=1; a=rsa-sha256; t=1731650750; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=iOe2oVdi/X+GztdL4TcxZ0BfoWeT4ndbm0nzL5WQngrg4Q27AtfT5AwupEDpbUuh5iBG0aicrgUAv6NL/20Gm2OpxqXv/yLn6lL7B+5OeH93+4SkxQZk7cBxhJyczLgMCg4Tz3rYjJBO9soQhlmVxsM+WFb+snUxwGujheNweXk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1731650750; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=3hqFZpHdoQWPteI6Jb15B49LbkKY+BIIsCoCbFoj5zI=; 
+	b=dF+vx4o6XCSTZ9iEC2PID5BOjJ6O8/AXXwIJZNr64/XJUxTo+ECJkDr43UpR9FgAhXC8Mtc3Ous69eFJ5jZb/dPKQf3B+JXKrkotNAfiZosW0QbtO5TLjvVvxTFJOF7967HtG5zIJMkqcsSJ0H3c9GpeG7Y/RKuWa3UkNntH83I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731650750;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=3hqFZpHdoQWPteI6Jb15B49LbkKY+BIIsCoCbFoj5zI=;
+	b=MxDd/8yXKNKBokG2Ja+/xGFWdskDVxNUtHwz81Keren+MZrwNW6oMrgGd+/W5lp2
+	oasncVtZ7hIMKJuLwvIzewTg9wqzXIWzTI3aTa9Dfwa5bp9u3lrH5K1f6v5J3lG/6Il
+	8hwnxML6vorTWhBoJwJGUWEpiKd/ANffqb8oDXdk=
+Received: by mx.zohomail.com with SMTPS id 1731650747642823.5839323402794;
+	Thu, 14 Nov 2024 22:05:47 -0800 (PST)
+Date: Fri, 15 Nov 2024 07:05:42 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, bagasdotme@gmail.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	hverkuil-cisco@xs4all.nl, mchehab@kernel.org, kernel@collabora.com,
+	bob.beckett@collabora.com, nicolas.dufresne@collabora.com
+Subject: Re: [PATCH v2 1/2] docs: Add debugging section to process
+Message-ID: <20241115060542.lqpu3sdqnsxass6q@basti-XPS-13-9310>
+References: <20241028-media_docs_improve_v3-v2-0-f1960ae22c5d@collabora.com>
+ <20241028-media_docs_improve_v3-v2-1-f1960ae22c5d@collabora.com>
+ <5dbe1671-e5bd-44e1-b2cf-21ad30339024@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20241114075403.7wxou7g5udaljprv@desk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5dbe1671-e5bd-44e1-b2cf-21ad30339024@infradead.org>
+X-ZohoMailClient: External
 
-On Thu, Nov 14, 2024 at 12:01:16AM -0800, Pawan Gupta wrote:
-> > For PBRSB, I guess we don't need to worry about that since there would
-> > be at least one kernel CALL before context switch.
-> 
-> Right. So the case where we need RSB filling at context switch is
-> retpoline+CDT mitigation.
+Hey Randy,
 
-According to the docs, classic IBRS also needs RSB filling at context
-switch to protect against corrupt RSB entries (as opposed to RSB
-underflow).
+Thank you for the review, I'll apply these changes, I just found one
+advice below not terribly helpful maybe you can clarify ...
 
+On 14.11.2024 21:06, Randy Dunlap wrote:
+>
+>
+>On 11/13/24 3:17 AM, Sebastian Fricke wrote:
+>> This idea was formed after noticing that new developers experience
+>> certain difficulty to navigate within the multitude of different
+>> debugging options in the Kernel and while there often is good
+>> documentation for the tools, the developer has to know first that they
+>> exist and where to find them.
+>> Add a general debugging section to the Kernel documentation, as an
+>> easily locatable entry point to other documentation and as a general
+>> guideline for the topic.
+>>
+>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>> ---
+>>  .../driver_development_debugging_guide.rst         | 214 ++++++++++++++++
+>>  Documentation/process/debugging/index.rst          |  65 +++++
+>>  .../debugging/userspace_debugging_guide.rst        | 278 +++++++++++++++++++++
+>>  Documentation/process/index.rst                    |   8 +-
+>>  4 files changed, 562 insertions(+), 3 deletions(-)
+>>
+>
+>
+>> diff --git a/Documentation/process/debugging/userspace_debugging_guide.rst b/Documentation/process/debugging/userspace_debugging_guide.rst
+>> new file mode 100644
+>> index 000000000000..a7c94407bcae
+>> --- /dev/null
+>> +++ b/Documentation/process/debugging/userspace_debugging_guide.rst
+>> @@ -0,0 +1,278 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +==========================
+>> +Userspace debugging advice
+>> +==========================
+>> +
+>> +A brief overview of common tools to debug the Linux Kernel from userspace.
+>
+>Make that a sentence?
 
-Something like so...
+Can you clarify this?
 
+This could either mean:
+- What you even bother to make a sentence out of that?
+- Please make a proper sentence out of this because it is hard to
+   understand
+- Please go into more detail because this is too brief
 
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index 47a01d4028f6..7b9c0a21e478 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -1579,27 +1579,44 @@ static void __init spec_ctrl_disable_kernel_rrsba(void)
- 	rrsba_disabled = true;
- }
- 
--static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_mitigation mode)
-+static void __init spectre_v2_mitigate_rsb(enum spectre_v2_mitigation mode)
- {
- 	/*
--	 * Similar to context switches, there are two types of RSB attacks
--	 * after VM exit:
-+	 * In general there are two types of RSB attacks:
- 	 *
--	 * 1) RSB underflow
-+	 * 1) RSB underflow ("Intel Retbleed")
-+	 *
-+	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
-+	 *    speculated return targets may come from the branch predictor,
-+	 *    which could have a user-poisoned BTB or BHB entry.
-+	 *
-+	 *    user->user attacks are mitigated by IBPB on context switch.
-+	 *
-+	 *    user->kernel attacks via context switch are mitigated by IBRS,
-+	 *    eIBRS, or RSB filling.
-+	 *
-+	 *    user->kernel attacks via kernel entry are mitigated by IBRS,
-+	 *    eIBRS, or call depth tracking.
-+	 *
-+	 *    On VMEXIT, guest->host attacks are mitigated by IBRS, eIBRS, or
-+	 *    RSB filling.
- 	 *
- 	 * 2) Poisoned RSB entry
- 	 *
--	 * When retpoline is enabled, both are mitigated by filling/clearing
--	 * the RSB.
-+	 *    On a context switch, the previous task can poison RSB entries
-+	 *    used by the next task, controlling its speculative return
-+	 *    targets.  Poisoned RSB entries can also be created by "AMD
-+	 *    Retbleed" or SRSO.
- 	 *
--	 * When IBRS is enabled, while #1 would be mitigated by the IBRS branch
--	 * prediction isolation protections, RSB still needs to be cleared
--	 * because of #2.  Note that SMEP provides no protection here, unlike
--	 * user-space-poisoned RSB entries.
-+	 *    user->user attacks are mitigated by IBPB on context switch.
- 	 *
--	 * eIBRS should protect against RSB poisoning, but if the EIBRS_PBRSB
--	 * bug is present then a LITE version of RSB protection is required,
--	 * just a single call needs to retire before a RET is executed.
-+	 *    user->kernel attacks via context switch are prevented by
-+	 *    SMEP+eIBRS+SRSO mitigations, or RSB clearing.
-+	 *
-+	 *    guest->host attacks are mitigated by eIBRS or RSB clearing on
-+	 *    VMEXIT.  eIBRS implementations with X86_BUG_EIBRS_PBRSB still
-+	 *    need "lite" RSB filling which retires a CALL before the first
-+	 *    RET.
- 	 */
- 	switch (mode) {
- 	case SPECTRE_V2_NONE:
-@@ -1608,8 +1625,8 @@ static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_
- 	case SPECTRE_V2_EIBRS_LFENCE:
- 	case SPECTRE_V2_EIBRS:
- 		if (boot_cpu_has_bug(X86_BUG_EIBRS_PBRSB)) {
--			setup_force_cpu_cap(X86_FEATURE_RSB_VMEXIT_LITE);
- 			pr_info("Spectre v2 / PBRSB-eIBRS: Retire a single CALL on VMEXIT\n");
-+			setup_force_cpu_cap(X86_FEATURE_RSB_VMEXIT_LITE);
- 		}
- 		return;
- 
-@@ -1617,12 +1634,13 @@ static void __init spectre_v2_determine_rsb_fill_type_at_vmexit(enum spectre_v2_
- 	case SPECTRE_V2_RETPOLINE:
- 	case SPECTRE_V2_LFENCE:
- 	case SPECTRE_V2_IBRS:
-+		pr_info("Spectre v2 / SpectreRSB : Filling RSB on context switch and VMEXIT\n");
-+		setup_force_cpu_cap(X86_FEATURE_RSB_CTXSW);
- 		setup_force_cpu_cap(X86_FEATURE_RSB_VMEXIT);
--		pr_info("Spectre v2 / SpectreRSB : Filling RSB on VMEXIT\n");
- 		return;
- 	}
- 
--	pr_warn_once("Unknown Spectre v2 mode, disabling RSB mitigation at VM exit");
-+	pr_warn_once("Unknown Spectre v2 mode, disabling RSB mitigation\n");
- 	dump_stack();
- }
- 
-@@ -1817,48 +1835,7 @@ static void __init spectre_v2_select_mitigation(void)
- 	spectre_v2_enabled = mode;
- 	pr_info("%s\n", spectre_v2_strings[mode]);
- 
--	/*
--	 * If Spectre v2 protection has been enabled, fill the RSB during a
--	 * context switch.  In general there are two types of RSB attacks
--	 * across context switches, for which the CALLs/RETs may be unbalanced.
--	 *
--	 * 1) RSB underflow
--	 *
--	 *    Some Intel parts have "bottomless RSB".  When the RSB is empty,
--	 *    speculated return targets may come from the branch predictor,
--	 *    which could have a user-poisoned BTB or BHB entry.
--	 *
--	 *    AMD has it even worse: *all* returns are speculated from the BTB,
--	 *    regardless of the state of the RSB.
--	 *
--	 *    When IBRS or eIBRS is enabled, the "user -> kernel" attack
--	 *    scenario is mitigated by the IBRS branch prediction isolation
--	 *    properties, so the RSB buffer filling wouldn't be necessary to
--	 *    protect against this type of attack.
--	 *
--	 *    The "user -> user" attack scenario is mitigated by RSB filling.
--	 *
--	 * 2) Poisoned RSB entry
--	 *
--	 *    If the 'next' in-kernel return stack is shorter than 'prev',
--	 *    'next' could be tricked into speculating with a user-poisoned RSB
--	 *    entry.
--	 *
--	 *    The "user -> kernel" attack scenario is mitigated by SMEP and
--	 *    eIBRS.
--	 *
--	 *    The "user -> user" scenario, also known as SpectreBHB, requires
--	 *    RSB clearing.
--	 *
--	 * So to mitigate all cases, unconditionally fill RSB on context
--	 * switches.
--	 *
--	 * FIXME: Is this pointless for retbleed-affected AMD?
--	 */
--	setup_force_cpu_cap(X86_FEATURE_RSB_CTXSW);
--	pr_info("Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch\n");
--
--	spectre_v2_determine_rsb_fill_type_at_vmexit(mode);
-+	spectre_v2_mitigate_rsb(mode);
- 
- 	/*
- 	 * Retpoline protects the kernel, but doesn't protect firmware.  IBRS
+Or maybe something completely different :)
+
+Regards,
+Sebastian
+
+>
+>> +For debugging advice aimed at driver developer go :doc:`here
+>> +</process/debugging/driver_development_debugging_guide>`.
+>> +For general debugging advice, see :doc:`general advice document
+>> +</process/debugging/index>`.
+>> +
+>> +.. contents::
+>> +    :depth: 3
+>> +
+>> +The following sections show you the available tools.
+>> +
+>> +Dynamic debug
+>> +-------------
+>> +
+>> +Mechanism to filter what ends up in the kernel log by dis-/en-abling log
+>> +messages.
+>> +
+>> +Prerequisite: ``CONFIG_DYNAMIC_DEBUG``
+>> +
+>> +Dynamic debug is only able to target:
+>> +
+>> +- pr_debug()
+>> +- dev_dbg()
+>> +- print_hex_dump_debug()
+>> +- print_hex_dump_bytes()
+>> +
+>> +Therefore the usability of this tool is, as of now, quite limited as there is
+>> +no uniform rule for adding debug prints to the codebase, resulting in a variety
+>> +of ways these prints are implemented.
+>> +
+>> +Also, note that most debug statements are implemented as a variation of
+>> +dprintk(), which have to be activated via a parameter in respective module,
+>
+>                                                         in the respective module;
+>
+>> +dynamic debug is unable to do that step for you.
+>> +
+>> +Here is one example, that enables all available pr_debug() 's within the file::
+>
+>                                                    no space ^
+>
+>> +
+>> +  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
+>> +  $ ddcmd '-p; file v4l2-h264.c +p'
+>> +  $ grep =p /proc/dynamic_debug/control
+>> +   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =p
+>> +   "ref_pic_list_b%u (cur_poc %u%c) %s"
+>> +   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =p
+>> +   "ref_pic_list_p (cur_poc %u%c) %s\n"
+>> +
+>> +**When should you use this over Ftrace ?**
+>> +
+>> +- When the code contains one of the valid print statements (see above) or when
+>> +  you have added multiple pr_debug() statements during development
+>> +- When timing is not an issue, meaning if multiple pr_debug() statements in
+>> +  the code won't cause delays
+>> +- When you care more about receiving specific log messages than tracing the
+>> +  pattern of how a function is called
+>> +
+>> +For the full documentation see :doc:`/admin-guide/dynamic-debug-howto`
+>> +
+>> +Ftrace
+>> +------
+>> +
+>> +Prerequisite: ``CONFIG_DYNAMIC_FTRACE``
+>> +
+>> +This tool uses the tracefs file system for the control files and output files,
+>
+>                                                                           files.
+>
+>> +that file system will be mounted as a ``tracing`` folder, which can be found in
+>
+>   That
+>
+>> +either ``/sys/kernel/`` or ``/sys/debug/kernel/``.
+>> +
+>> +Some of the most important operations for debugging are:
+>> +
+>> +- You can perform a function trace by adding a function name to the
+>> +  ``set_ftrace_filter`` file (which accepts any function name found within the
+>> +  ``available_filter_functions`` file) or you can specifically disable certain
+>> +  functions by adding their names to the ``set_ftrace_notrace`` file (More info
+>
+>                                                                         more
+>
+>> +  at: :ref:`trace/ftrace:dynamic ftrace`).
+>> +- In order to find out where the calls originates from you can activate the
+>
+>                          where calls originate from
+>
+>> +  ``func_stack_trace`` option under ``options/func_stack_trace``.
+>> +- Tracing the children of a function call and showing the return values is
+>
+>                                                                           are
+>
+>> +  possible by adding the desired function in the ``set_graph_function`` file
+>> +  (requires config ``FUNCTION_GRAPH_RETVAL``) more info at
+>
+>                                               );
+>
+>> +  :ref:`trace/ftrace:dynamic ftrace with the function graph tracer`.
+>> +
+>> +For the full Ftrace documentation see :doc:`/trace/ftrace`
+>> +
+>> +Or you could also trace for specific events by :ref:`using event tracing
+>> +<trace/events:2. using event tracing>`, which can be defined as described here:
+>> +:ref:`Creating a custom Ftrace tracepoint
+>> +<process/debugging/driver_development_debugging_guide:ftrace>`.
+>> +
+>> +For the full Ftrace event tracing documentation see :doc:`/trace/events`
+>> +
+>> +.. _read_ftrace_log:
+>> +
+>> +Reading the ftrace log
+>> +~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +The ``trace`` file can be read just like any other file (``cat``, ``tail``, ``head``,
+>> +``vim``, etc.), the size of the file is limited by the ``buffer_size_kb`` (``echo
+>> +1000 > buffer_size_kb``). The :ref:`trace/ftrace:trace_pipe` will behave
+>> +similar to the ``trace`` file, but whenever you read from the file the content is
+>
+>   similarly
+>IMO but not a big deal.
+>
+>> +consumed.
+>> +
+>> +Kernelshark
+>> +~~~~~~~~~~~
+>> +
+>> +A GUI interface to visualize the traces as a graph and list view from the
+>> +output of the `trace-cmd
+>> +<https://git.kernel.org/pub/scm/utils/trace-cmd/trace-cmd.git/>`__ application.
+>> +
+>> +For the full documentation see `<https://kernelshark.org/Documentation.html>`__
+>> +
+>> +Perf & alternatives
+>> +-------------------
+>> +
+>> +The tools mentioned above provide ways to inspect kernel code, results, variable values, etc.
+>> +Sometimes you have to find out first where to look and for those cases, a box of
+>> +performance tracking tools can help you to frame the issue.
+>> +
+>> +Why should you do a performance analysis?
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +A performance analysis is a good first step when among other reasons:
+>> +
+>> +- you cannot define the issue
+>> +- you do not know where it occurs
+>> +- the running system should not be interrupted or it is a remote system, where
+>> +  you cannot install a new module/kernel
+>> +
+>> +How to do a simple analysis with linux tools?
+>
+>                                    Linux
+>
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +For the start of a performance analysis, you can start with the usual tools
+>> +like:
+>> +
+>> +- ``top`` / ``htop`` / ``atop`` (*get an overview of the system load, see spikes on
+>> +  specific processes*)
+>> +- ``mpstat -P ALL`` (*look at the load distribution among CPUs*)
+>> +- ``iostat -x`` (*observe input and output devices utilization and performance*)
+>> +- ``vmstat`` (*overview of memory usage on the system*)
+>> +- ``pidstat`` (*similar to* ``vmstat`` *but per process, to dial it down to the
+>> +  target*)
+>> +- ``strace -tp $PID`` (*once you know the process, you can figure out how it
+>> +  communicates with the Kernel*)
+>> +
+>> +These should help to narrow down the areas to look at sufficiently.
+>> +
+>> +Diving deeper with perf
+>> +~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +The **perf** tool provides a series of metrics and events to further dial down
+>> +on issues.
+>> +
+>> +Prerequisite: build or install perf on your system
+>> +
+>> +Gather statistics data for finding all files starting with ``gcc`` in ``/usr``::
+>> +
+>> +  # perf stat -d find /usr -name 'gcc*' | wc -l
+>> +
+>> +   Performance counter stats for 'find /usr -name gcc*':
+>> +
+>> +     1277.81 msec    task-clock             #    0.997 CPUs utilized
+>> +     9               context-switches       #    7.043 /sec
+>> +     1               cpu-migrations         #    0.783 /sec
+>> +     704             page-faults            #  550.943 /sec
+>> +     766548897       cycles                 #    0.600 GHz                         (97.15%)
+>> +     798285467       instructions           #    1.04  insn per cycle              (97.15%)
+>> +     57582731        branches               #   45.064 M/sec                       (2.85%)
+>> +     3842573         branch-misses          #    6.67% of all branches             (97.15%)
+>> +     281616097       L1-dcache-loads        #  220.390 M/sec                       (97.15%)
+>> +     4220975         L1-dcache-load-misses  #    1.50% of all L1-dcache accesses   (97.15%)
+>> +     <not supported> LLC-loads
+>> +     <not supported> LLC-load-misses
+>> +
+>> +   1.281746009 seconds time elapsed
+>> +
+>> +   0.508796000 seconds user
+>> +   0.773209000 seconds sys
+>> +
+>> +
+>> +  52
+>> +
+>> +The availability of events and metrics depends on the system you are running.
+>> +
+>> +For the full documentation see
+>> +`<https://perf.wiki.kernel.org/index.php/Main_Page>`__
+>> +
+>> +Perfetto
+>> +~~~~~~~~
+>> +
+>> +A set of tools to measure and analyze how well applications and systems perform.
+>> +You can use it to:
+>> +
+>> +* identify bottlenecks
+>> +* optimize code
+>> +* make software run faster and more efficiently.
+>> +
+>> +**What is the difference between perfetto and perf?**
+>> +
+>> +* perf is tool as part of and specialized for the Linux Kernel and has CLI user
+>> +  interface.
+>> +* perfetto cross-platform performance analysis stack, has extended
+>> +  functionality into userspace and provides a WEB user interface.
+>> +
+>> +For the full documentation see `<https://perfetto.dev/docs/>`__
+>
+>config PSI
+>	bool "Pressure stall information tracking"
+>might also be useful here.
+>
+>> +
+>> +Kernel panic analysis tools
+>> +---------------------------
+>> +
+>> +  To capture the crash dump please use ``Kdump`` & ``Kexec``. Below you can find
+>> +  some advice for analysing the data.
+>> +
+>> +  For the full documentation see the :doc:`/admin-guide/kdump/kdump`
+>> +
+>> +  In order to find the corresponding line in the code you can use `faddr2line
+>> +  <https://elixir.bootlin.com/linux/v6.11.6/source/scripts/faddr2line>`__, note
+>
+>                                                                            ; note
+>
+>> +  that you need to enable ``CONFIG_DEBUG_INFO`` for that to work.
+>> +
+>> +  An alternative to using ``faddr2line`` is the use of ``objdump`` (and it's
+>
+>                                                                           its
+>
+>> +  derivatives for the different platforms like ``aarch64-linux-gnu-objdump``),
+>
+>                                                                               ).
+>
+>> +  take this line as an example:
+>
+>     Take
+>
+>> +
+>> +  ``[  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]``.
+>> +
+>> +  We can find the corresponding line of code by executing::
+>> +
+>> +    aarch64-linux-gnu-objdump -dS drivers/staging/media/rkvdec/rockchip-vdec.ko | grep rkvdec_device_run\>: -A 40
+>> +    0000000000000ac8 <rkvdec_device_run>:
+>> +     ac8:	d503201f 	nop
+>> +     acc:	d503201f 	nop
+>> +    {
+>> +     ad0:	d503233f 	paciasp
+>> +     ad4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+>> +     ad8:	910003fd 	mov	x29, sp
+>> +     adc:	a90153f3 	stp	x19, x20, [sp, #16]
+>> +     ae0:	a9025bf5 	stp	x21, x22, [sp, #32]
+>> +        const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>> +     ae4:	f9411814 	ldr	x20, [x0, #560]
+>> +        struct rkvdec_dev *rkvdec = ctx->dev;
+>> +     ae8:	f9418015 	ldr	x21, [x0, #768]
+>> +        if (WARN_ON(!desc))
+>> +     aec:	b4000654 	cbz	x20, bb4 <rkvdec_device_run+0xec>
+>> +        ret = pm_runtime_resume_and_get(rkvdec->dev);
+>> +     af0:	f943d2b6 	ldr	x22, [x21, #1952]
+>> +        ret = __pm_runtime_resume(dev, RPM_GET_PUT);
+>> +     af4:	aa0003f3 	mov	x19, x0
+>> +     af8:	52800081 	mov	w1, #0x4                   	// #4
+>> +     afc:	aa1603e0 	mov	x0, x22
+>> +     b00:	94000000 	bl	0 <__pm_runtime_resume>
+>> +        if (ret < 0) {
+>> +     b04:	37f80340 	tbnz	w0, #31, b6c <rkvdec_device_run+0xa4>
+>> +        dev_warn(rkvdec->dev, "Not good\n");
+>> +     b08:	f943d2a0 	ldr	x0, [x21, #1952]
+>> +     b0c:	90000001 	adrp	x1, 0 <rkvdec_try_ctrl-0x8>
+>> +     b10:	91000021 	add	x1, x1, #0x0
+>> +     b14:	94000000 	bl	0 <_dev_warn>
+>> +        *bad = 1;
+>> +     b18:	d2800001 	mov	x1, #0x0                   	// #0
+>> +     ...
+>> +
+>> +  Meaning, in this line from the crash dump::
+>> +
+>> +    [  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]
+>> +
+>> +  I can take the ``0x50`` as offset, which I have to add to the base address
+>> +  of the corresponding function, which I find in this line::
+>> +
+>> +    0000000000000ac8 <rkvdec_device_run>:
+>> +
+>> +  The result of ``0xac8 + 0x50 = 0xb18``
+>> +  And when I search for that address within the function I get the
+>> +  following line::
+>> +
+>> +    *bad = 1;
+>> +    b18:      d2800001        mov     x1, #0x0
+>> +
+>> +**Copyright** ©2024 : Collabora
+>> diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+>> index 6455eba3ef0c..aa12f2660194 100644
+>> --- a/Documentation/process/index.rst
+>> +++ b/Documentation/process/index.rst
+>> @@ -72,13 +72,15 @@ beyond).
+>>  Dealing with bugs
+>>  -----------------
+>>
+>> -Bugs are a fact of life; it is important that we handle them properly.
+>> -The documents below describe our policies around the handling of a couple
+>> -of special classes of bugs: regressions and security problems.
+>> +Bugs are a fact of life; it is important that we handle them properly. The
+>> +documents below provide general advice about debugging and describe our
+>> +policies around the handling of a couple of special classes of bugs:
+>> +regressions and security problems.
+>>
+>>  .. toctree::
+>>     :maxdepth: 1
+>>
+>> +   debugging/index
+>>     handling-regressions
+>>     security-bugs
+>>     cve
+>>
+>
+>Thanks.
+>
+>-- 
+>~Randy
+>
+>
