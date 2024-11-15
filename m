@@ -1,178 +1,109 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9662F1DFFD
-	for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2024 07:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C36188CD8;
+	Fri, 15 Nov 2024 09:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731654170; cv=none; b=hVClMv/xAyyCpiN8UYpZmYbU/IFM8Q2u1ilvfx7ND1qYpBDodFuKJJ6YawcGsNV5WilGjKp+su11aQz3if0iQyiZ6bAnYIXNERzUKAcmGIHOIAyK6sO8ciA/4U1jk7l0Cz+fIj6fj3UkRxafxclCfN0rQcw8oicZSDyS7WbDSF0=
+	t=1731661986; cv=none; b=e13/q+dbS2JqazEIBhghxj+ESdzOCpLJx3I8Jgv0CdHM9CR4DpWH7jVlo1oSywwzb+u9CiUgOahLOGRiYZIPbe0mSY+k62+vXYMI9xu+qwwLj+B1oTo3PVibeT1aIlNnY69gmSwBCFV/XbhI/cGE89bTRYzqsO1PyJXZUOAHOdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731654170; c=relaxed/simple;
-	bh=ucRdI4zZiJOb3gsW2929kn/SeFGdDlj7BOd7CP512xk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AJVwVXqvmCHd4X9Z/xGvpCrhKZKS/v6u2Ym55p8YIiPUWR1HDi538d8hFglvuPrIvSai8jr5t9WuTow4iB72/3o83HypOXEBTlLyzxszKMeTEVoRZuK/JMftEmkHUoys18OR9GEpgVH+saRpelY2y4qDpvms10vYFe83boPuJ20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=geka36FB; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731661986; c=relaxed/simple;
+	bh=QsI/3Ha5rhxQCj1sLq7ej0Wjb7E9/WTx/ofKg1hjq/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dNFbQSI5nyEiE/F6ZFbJDTPOuVP4rK8r3+E/R41tBH0MxyJ564iVPUBLxFMqSjVJNLH9VlZbo9J0xjUcdRB0cz1ZqVwVfcJr3doIWshh9vf71la67h3pXI2C8/4o4U9/rpBk4jPWAxXdTeJm4DRKfOZoC51wlV+2up/ay2UMyqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=APVQaXVj; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="geka36FB"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4635b03a3cdso98961cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 23:02:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731654167; x=1732258967; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qdhHbTzTKc3SMetmKy+wNf6PkpzJgq0XFpQInOkKr7k=;
-        b=geka36FBVdjkQkOTpftKAenFdiw65FRCEsmWPdlmgqzGFvGcZ3yTBRMc9gw9svZwNo
-         b6PNE1yrjYVvBLCWxtsCMoeOU8+elTiQGsKAgcYWQZpxJKjURXqZMJJNSfsbr/3dHaPl
-         JK6nNLjHwlXhy91w0FVMfeTgsWO13E6EneYqWb260asFykoKZwuBehhBNpH1fp03cOuE
-         8b95l5KjIQe2XMQ2BFF1MgViYDuLzhDCYs2uGfD10OIEqOlm5LOlbJGn7EKuBIWODMGd
-         Q11AI5VtqisqiKCVBzvoIKH3yEyHORahexlYPwdYI5YpGdAn+W6cslhVPQw3o5NYsV8N
-         nkxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731654167; x=1732258967;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qdhHbTzTKc3SMetmKy+wNf6PkpzJgq0XFpQInOkKr7k=;
-        b=goXfucP7JAus6LKX2kqYU11LojRJtJfO+vtm2O6q7vriqoVv/YOyBDwyKfdhhvdvAR
-         uyJnwzlzbu+eg2rzVlPvHketr2I0fzFlrOT6bvtXeaNfpP1rx3l0eZ3upV0+44T+8Oc6
-         3egs8w2xt7BDw4kbFun21zn+HpjpJup1vaGrcfhSePgL7kD8SVFUyHv89XP/sjdTKtb+
-         2C16iXcMSafXjKDIMkKquzTHDGzWi+DZ8fn+jz9M/KsO5P/DXZyMmtTqEFtccpUS5zUv
-         mw956/idMCtGCJjzeqE4ugo0AyeZGY9vzM22oaxBtAPuqdIiXyzOc9HqN3C60Tgytpjl
-         Arrg==
-X-Forwarded-Encrypted: i=1; AJvYcCVKFVO5BpsXX4ER3xs6eqyjFFtz+8m0z7ZF15d06Rj9VFbM7fSXLK/m/Ja4twWLuBwwK5VzaIRRbio=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxERNgjqItyW6GLCf55lkPLJ2Ub1azEqZ4miR08qjnHtAM2lUpC
-	X2vF1tR9MkxqvRzdKMyDOY64sZVkW8DiT7gssx7LLdbszkiLxFHHBxqhh+Udds0B/cIAla83ezP
-	o/4/5H5jIG94ctkVLY37HcmuQla4VDCE0BAaW
-X-Gm-Gg: ASbGncsijoGRRZpfkyETCeYLey94Hcc4Ju9VRnDw19UyiX3BT4YnroLHSTewau0rfBX
-	Ex7SpskgJo3h6QfYt+FVzjwdf9PihAA==
-X-Google-Smtp-Source: AGHT+IEZQumBx9rAByuSeR05qYBdTIlqZ++eXdNrS2altRO43l1pCrcUxa66OFIF831o8TKPmzacL49GHPpAP9FS1l8=
-X-Received: by 2002:a05:622a:47ce:b0:461:32e9:c5f1 with SMTP id
- d75a77b69052e-463637282c0mr2202191cf.10.1731654167227; Thu, 14 Nov 2024
- 23:02:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="APVQaXVj"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EBB591C000A;
+	Fri, 15 Nov 2024 09:12:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1731661981;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1tCKgsw5mO3MHwzTtn95V8anwpIV8qQqwPzP1acmtXQ=;
+	b=APVQaXVjo/LSYd4+xRqmFl1A9WBWKDlAY1a9/agm4vbBS3KaoxD8ikVoIpRrwIwTmy80n7
+	ThId5bX78yYvD9yD90A+O05zV77U96jV22rR+KShYZPADaddte5vpti6H5IYBvORI/8nCF
+	Z8z37D0FGNraVvBCiThYmrk9T1Woyk99cKt7kbQicq+J2xjJguh93vt3BvZRdi9EfKOI+O
+	2WqO7clzSL+zUnAtzS9S+AVjDXPDIeChP29wy3pZCesTXL0oxssPvpXizjVzI8EzhK2kg1
+	KFFuXx8fwk8Kmw4MRzM8Gkkh2W/9/T4uY3GyGHpt5RjC/etOSdtS6Zlz44+EGg==
+Date: Fri, 15 Nov 2024 10:12:56 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, donald.hunter@gmail.com,
+ danieller@nvidia.com, ecree.xilinx@gmail.com, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Willem de Bruijn <willemb@google.com>, Shannon Nelson
+ <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>, Jacob
+ Keller <jacob.e.keller@intel.com>
+Subject: Re: [PATCH net-next v19 03/10] ptp: Add phc source and helpers to
+ register specific PTP clock or get information
+Message-ID: <20241115101256.34300900@kmaincent-XPS-13-7390>
+In-Reply-To: <20241114173906.71e9e6fb@kernel.org>
+References: <20241030-feature_ptp_netnext-v19-0-94f8aadc9d5c@bootlin.com>
+	<20241030-feature_ptp_netnext-v19-3-94f8aadc9d5c@bootlin.com>
+	<20241111150609.2b0425f6@kernel.org>
+	<20241112111232.1637f814@kmaincent-XPS-13-7390>
+	<20241112182226.2a6c8bab@kernel.org>
+	<20241113113808.4f8c5a0b@kmaincent-XPS-13-7390>
+	<20241113163925.7b3bd3d9@kernel.org>
+	<20241114114610.1eb4a5da@kmaincent-XPS-13-7390>
+	<20241114173906.71e9e6fb@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241115051107.3374417-1-yabinc@google.com>
-In-Reply-To: <20241115051107.3374417-1-yabinc@google.com>
-From: Rong Xu <xur@google.com>
-Date: Thu, 14 Nov 2024 23:02:35 -0800
-Message-ID: <CAF1bQ=R=481iZu1Zp8p42zvGd_oLrU-K9UHtSe9TbZUDkS8Qkw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
-To: Yabin Cui <yabinc@google.com>
-Cc: Han Shen <shenhan@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi Yabin,
+On Thu, 14 Nov 2024 17:39:06 -0800
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-Thanks for working to enable this on ARM64 and test the performance on Andr=
-oid!
-Please see my comments below.
+> On Thu, 14 Nov 2024 11:46:10 +0100 Kory Maincent wrote:
+>  [...] =20
+> > >=20
+> > > In net_device? Yes, I think so.   =20
+> > =20
+> > Also as the "user" is not described in the ptp_clock structure the only=
+ way
+> > to find it is to roll through all the PTP of the concerned net device
+> > topology. This find ptp loop will not be in the hotpath but only when
+> > getting the tsinfo of a PHC or changing the current PHC. Is it ok for y=
+ou? =20
+>=20
+> I think so :) We need to be able to figure out if it's the MAC PHC
+> quickly, because MAC timestamping can be high rate. But IIUC PHY
+> timestamping will usually involve async work and slow buses, so
+> walking all PHYs of a netdev should be fine. Especially that 99%
+> of the time there will only be one. Hope I understood the question..
 
-Thanks,
+Yes, thanks for the confirmation.=20
 
--Rong
-
-On Thu, Nov 14, 2024 at 9:11=E2=80=AFPM Yabin Cui <yabinc@google.com> wrote=
-:
->
-> Select ARCH_SUPPORTS_AUTOFDO_CLANG to allow AUTOFDO_CLANG to be
-> selected.
->
-> On ARM64, ETM traces can be recorded and converted to AutoFDO profiles.
-> Experiments on Android show 4% improvement in cold app startup time
-> and 13% improvement in binder benchmarks.
->
-> Signed-off-by: Yabin Cui <yabinc@google.com>
-> ---
->  Documentation/dev-tools/autofdo.rst | 18 +++++++++++++++++-
->  arch/arm64/Kconfig                  |  1 +
->  2 files changed, 18 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tool=
-s/autofdo.rst
-> index 1f0a451e9ccd..f0952e3e8490 100644
-> --- a/Documentation/dev-tools/autofdo.rst
-> +++ b/Documentation/dev-tools/autofdo.rst
-> @@ -55,7 +55,7 @@ process consists of the following steps:
->     workload to gather execution frequency data. This data is
->     collected using hardware sampling, via perf. AutoFDO is most
->     effective on platforms supporting advanced PMU features like
-> -   LBR on Intel machines.
-> +   LBR on Intel machines, ETM traces on ARM machines.
->
->  #. AutoFDO profile generation: Perf output file is converted to
->     the AutoFDO profile via offline tools.
-> @@ -141,6 +141,22 @@ Here is an example workflow for AutoFDO kernel:
->
->        $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a =
--N -b -c <count> -o <perf_file> -- <loadtest>
->
-> +   - For ARM platforms:
-
-The instructions for SPE might be different. Can we change to "- For
-ARM platforms with ETM trace:"
-
-> +
-> +     Follow the instructions in the `Linaro OpenCSD document
-> +     https://github.com/Linaro/OpenCSD/blob/master/decoder/tests/auto-fd=
-o/autofdo.md`_
-> +     to record ETM traces for AutoFDO::
-> +
-> +      $ perf record -e cs_etm/@tmc_etr0/k -a -o <etm_perf_file> -- <load=
-test>
-> +      $ perf inject -i <etm_perf_file> -o <perf_file> --itrace=3Di500009=
-il
-> +
-> +     For ARM platforms running Android, follow the instructions in the
-> +     `Android simpleperf document
-> +     <https://android.googlesource.com/platform/system/extras/+/main/sim=
-pleperf/doc/collect_etm_data_for_autofdo.md>`_
-> +     to record ETM traces for AutoFDO::
-
-The instructions in "Step 3: Convert ETM data to AutoFDO profile"
-currently use create_llvm_prof to generate
- a "binary" profile format. This is incompatible with the default
-FSAFDO format used for the kernel, which
- requires an "extbinary" format.
-
-To correct this, please update the instructions to include the flag
-"-format extbinary" in the
-create_llvm_prof command.
-
-Using a non-FSAFDO profile with FSAFDO can negatively impact performance.
-Therefore, I recommend rerunning the test with the updated flag to
-potentially achieve better results.
-
-> +
-> +      $ simpleperf record -e cs-etm:k -a -o <perf_file> -- <loadtest>
-> +
->  4) (Optional) Download the raw perf file to the host machine.
->
->  5) To generate an AutoFDO profile, two offline tools are available:
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index fd9df6dcc593..c3814df5e391 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -103,6 +103,7 @@ config ARM64
->         select ARCH_SUPPORTS_PER_VMA_LOCK
->         select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
->         select ARCH_SUPPORTS_RT
-> +       select ARCH_SUPPORTS_AUTOFDO_CLANG
->         select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
->         select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
->         select ARCH_WANT_DEFAULT_BPF_JIT
-> --
-> 2.47.0.338.g60cca15819-goog
->
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
