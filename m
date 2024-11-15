@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834EE1F893A;
-	Fri, 15 Nov 2024 21:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3921E1C07;
+	Fri, 15 Nov 2024 21:32:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731706120; cv=none; b=I7iUi2ivFyU8tRV1mhSUVoB/VnLbCCjW46IeAhAvZCXJi3WNmsQ0LGZYzQ84qylh59nHBou9AIbQTCCrbd100Km6dCId5mobrfiS7yLUvgrdlUJ05+xJQ07gJybLPvL7QrQbTiE4pAjewXLqGNnt3+lDPSg8jTMa4hKotNuZ0Ow=
+	t=1731706366; cv=none; b=G0E4mbPKP74Ucs9u5VyNm3U2BAq+1/In+pkJw2TYs5wAo6d308jCHka0KP81L68Nz/t7SshdRWcjyfc77OTOnQfjSsAU2cwMJjh9xsrg+B0YrJC1KFbJgoYcy7srZ9S9XI0xW1q2w5Dmktpb1M9mSkAITLDHYU8lrjdR9rQKvFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731706120; c=relaxed/simple;
-	bh=k0g3XUmKfL/FbjKfmQsN2e0noC2xG7BjO+ZZ6ZxxaYU=;
+	s=arc-20240116; t=1731706366; c=relaxed/simple;
+	bh=sD2Vh6S7t1SuSC0zfoPnJDz1etOCITqvTKlSzS+QQe0=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uaeF/yhvb7M/5WYGJtbIjJqKh7ZxpH22+feKFCzG0ZiiwtkhZTPq3BDZBYsP6SrOEAtj/4dNXR0ZJS/Ait6xcSBx8m0Q1fYNmDL2wLltjleDyjKdiq36EASY37BnNGhY4SL/EnvKtkO8qbZ2U+ufQklGqeBMbtd8facjY22rpqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eSAMZih3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Rr93qlBjD4uXlKfPdLxIk5Ix0lcUXGft0H6OCaORJYVw9RlEy5PMkIXJQ7LuMCUaMZDt5BWyHJXRHL+AuqbwdmeyF8nbnDT+pQp2q1q6bmQtn63YPXFANEhQ8raw6i2unNdZOIvp5K9WiFRoDqbNqbODoV6QBJlgp5F6sgM112E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WO7Lkb9L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eSAMZih3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1546C4CECF;
-	Fri, 15 Nov 2024 21:28:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WO7Lkb9L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56A40C4CECF;
+	Fri, 15 Nov 2024 21:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731706120;
-	bh=k0g3XUmKfL/FbjKfmQsN2e0noC2xG7BjO+ZZ6ZxxaYU=;
+	s=k20201202; t=1731706365;
+	bh=sD2Vh6S7t1SuSC0zfoPnJDz1etOCITqvTKlSzS+QQe0=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eSAMZih3WrbJDKa91wE1x0mTR4CJb93inDYru65VHrV4YpQAVeh2ZMsA5ngJWvmxV
-	 jP422dsvR25DkDoLrgqOoS29e+Cb3pBIU7pBlC8MvVQVneS9GJCZDvbQlQUVB3HWe0
-	 fayaL9ASXWPIzY41p3wrJhZxHxJWcDc3RnhbKyyi4Dq0Q6HS7qKctqFCE13aj4kTqa
-	 Cu0Ja9ap37zG2e8nUHhvqXQNAnpvxSCxIihBpLNMCdj9LCkrihaBkyQ88WtIOydJOd
-	 FoPg/ZIlw5rwQRp8ixB217bfcIYfle2VOIVV58oL6NVa4TP+lbPcJ0zfgBorj2LGva
-	 6cbxOxWGGKSqg==
-Date: Fri, 15 Nov 2024 13:28:38 -0800
+	b=WO7Lkb9Lf7wQ4SBYfCz1zb3P/nb0se8O9npT3qT4k3D98brdsiexu/oI74vnP+Sbk
+	 uPXZ1q/ZSyO1vY2Akj2E//PtHJ6Jrced0eL9kkwbgDkOJS/FrQaySr0dq6hZgXH6Am
+	 t9pKyHnA3JcD3QVNC3R2pEICuWtkD1HPO9Monz6Uwtt9Tr7yt5ml2RZM0A8WjttZlH
+	 5nQAig3OzYD98SaOCLdMLDOmBMphvotYF0RPajuXnsxKwG1XBwTJSjDOncR5Ytj6nV
+	 EjZKfqBTx1EE2ckJn5qI4144g+kiDLSXTHDsHMaAps3bMz4XXyfY8N+slAqrUSG0gB
+	 3zAHj5UVKUKhg==
+Date: Fri, 15 Nov 2024 13:32:44 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Stanislav Fomichev <sdf@fomichev.me>
 Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
  pabeni@redhat.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  donald.hunter@gmail.com, horms@kernel.org, corbet@lwn.net,
  andrew+netdev@lunn.ch, kory.maincent@bootlin.com
-Subject: Re: [PATCH net-next v2 8/8] ethtool: regenerate uapi header from
- the spec
-Message-ID: <20241115132838.1d13557c@kernel.org>
-In-Reply-To: <20241115193646.1340825-9-sdf@fomichev.me>
+Subject: Re: [PATCH net-next v2 3/8] ynl: support directional specs in
+ ynl-gen-c.py
+Message-ID: <20241115133244.6e144520@kernel.org>
+In-Reply-To: <20241115193646.1340825-4-sdf@fomichev.me>
 References: <20241115193646.1340825-1-sdf@fomichev.me>
-	<20241115193646.1340825-9-sdf@fomichev.me>
+	<20241115193646.1340825-4-sdf@fomichev.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,15 +48,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 15 Nov 2024 11:36:46 -0800 Stanislav Fomichev wrote:
-> +/**
-> + * enum ethtool_header_flags
-> + * @ETHTOOL_FLAG_COMPACT_BITSETS: use compact bitsets in reply
-> + * @ETHTOOL_FLAG_OMIT_REPLY: provide optional reply for SET or ACT requests
-> + * @ETHTOOL_FLAG_STATS: request statistics, if supported by the driver
-> + */
+On Fri, 15 Nov 2024 11:36:41 -0800 Stanislav Fomichev wrote:
+> The intent is to generate ethtool uapi headers. For now, some of the
+> things are hard-coded:
+> - <FAMILY>_MSG_{USER,KERNEL}_MAX
+> - the split between USER and KERNEL messages
 
-Looks like we need a doc on the enum itself here:
+Maybe toss in a TODO: comment or some such on top of
+render_uapi_directional(), to make it clear that the code needs 
+more love before it can be reasonably reused.
 
-include/uapi/linux/ethtool_netlink_generated.h:23: warning: missing initial short description on line:
- * enum ethtool_header_flags
+nit: possibly split into two commits for ease of review
+
+> +    if family.msg_id_model == 'unified':
+> +        render_uapi_unified(family, cw, max_by_define, separate_ntf)
+> +    elif family.msg_id_model == 'directional':
+> +        render_uapi_directional(family, cw, max_by_define)
+> +    else:
+> +        raise Exception(f'Unsupported enum-model {family.msg_id_model}')
+
+You gotta say "Message enum-model", enum-mode alone sounds like we're
+doing something with how enums are processed, rather than message IDs.
