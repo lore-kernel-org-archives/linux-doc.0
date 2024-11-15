@@ -1,210 +1,212 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D9314A627
-	for <linux-doc@vger.kernel.org>; Fri, 15 Nov 2024 03:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6221D70825;
+	Fri, 15 Nov 2024 04:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731640793; cv=none; b=G/u12usF3Kd3rMCuoWasubfasSxlBd4E+v4Eqic7T/keSCtWuDM3RWPoTSK1QGRMTjth2Mo0mcgFp2a1ox9rRASsWs0waMjQPNskdZmui6v8NrudTYrDY9a2+mGYbpRZzToor0U+QyfgDVOBxAxfApsup26gaIDkS6hrrhRrwY4=
+	t=1731643463; cv=none; b=pccg+g7Wa9Idpd6+uQ+4wGrUvXyNKS/Kh6aEYZan1tsxlD3yZ4dN9YnEYWWaCo2igCDhqITaZZU/5JzWkYNM77pO72KTgvFp82Ik/TtN9qAR+0sYzuhLUL2Sm1LhglkT9Mjt0JFOGWlAAcLE6E8TIU9vB3OtCa4WKR6VKMMbfqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731640793; c=relaxed/simple;
-	bh=TPjSJdHo1IX+pvaoqYIQxKWoTfyMnTl7yQ1a19nbTAc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=geyHnYQLMk57hUSEirnzCoOYMEuO6EAKRWPFnhHidpSxCvJ1KECY8A7gnVucF7jE4A5QAlOlh+ibCQPA3CW88IDgd4BfwZzuouGn6id/pzPC5MDKPF2eUoORVmxdvOxampjxNEfhmNoKgqNouhU5RKNujrWpJPGOT2sBKNdkDRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=CmfODcf7; arc=none smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1731643463; c=relaxed/simple;
+	bh=NizCT+tSnidLGl3lX3u1R9GPfILFYC10IVWM6EiqJzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ASLzXnh9g5KkNk1mcSDuJJX4bA43p8uNr/3eo5ljCZp704+ssvlpvE1enk8mlBfZR0t9eemEX7eiZg3k8LnkmdtYzu74tLksFN7TvC3+1SSs3pQztiL2Zl1cWMh1fIUJcet+TIyHGNk41lqpCY37M8/7MR9N9pTTNZoKdQocJ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ad9RttXd; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="CmfODcf7"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5ee9e209bb6so698566eaf.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 Nov 2024 19:19:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ad9RttXd"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3e606cba08eso732336b6e.0;
+        Thu, 14 Nov 2024 20:04:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1731640790; x=1732245590; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8wHT7UOLhFt9tb7tI16LMGdFlLAI81aR1dzrwfzW0EI=;
-        b=CmfODcf7Y62W+Bc19rBr9jFlEYF9XxADhKpNQWjgp6c6WvzLkOAAUev0WABsNS/XGQ
-         RJR+w+9w4u8H9jjcuD6qsPwL1VFpQN3f4YP9ow5QAv4duxuDL/e30i+8ezcDWbTH7sHv
-         fMCpxtRXrRCZsEnNs9zCYFMdREzdykXbXd4dh0RgPWGEIl2oOpWtRl9DtfqFcfMOMFwC
-         eagYSB4rc5BxsG45wPe0sP+fTHtYt1+uAs29PET1zRQAXQ5BTAKohpywKVN5/lCSTx1D
-         oW08ApGDPdyvgJ1gCvAtZwFYLbcAdhIyImrSKxyduwJKYPkBvE7PGLVMHc6AX2xJXRV+
-         wyBg==
+        d=gmail.com; s=20230601; t=1731643461; x=1732248261; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=emojFDyC5THYctRB8h2dNWU9LntN4EFXJ8X/4es3IsY=;
+        b=ad9RttXduwLl7gxSG/BeJKVI4T+vW9E/sncXkqr65DwzSwZ4doQ0O2vICSPjq5S8ox
+         kmH/5nLAxNfzl2DtFkRYntyDMr3MY6qXx4R5TvUegFvn3lHgB4Abya17iHXnXZXX+Kxu
+         2A9izUSTkrIGvk8Vj2mJKd5nfg00XS74vqgAgWTqUSAmEEHPQsWL0BJRREnAbyuUO4eu
+         dIwYqgogxTSSs3q2KXB0xGr2uXmvsbxiEyDakmCE2y5++/7/L3qbsvD0JRmixXvXgW+R
+         FiLupRzfFCygz9HwXbV5dxR9WVlUkPoghYiEIrxT4HkNoY0y66DFviKHExf5E42igQWM
+         bDZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731640790; x=1732245590;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8wHT7UOLhFt9tb7tI16LMGdFlLAI81aR1dzrwfzW0EI=;
-        b=Z8Dcdv5Cw4FYfFgxaXjX7UdycSSLoEXxBNvM/6EaNESB8OVO3Dn+VVipfoOmsUhOw2
-         A4/6XEVRfMRutSpJnF93hQuqBpPaXfM062LsD0etKVbRVvQ93xGz0N/D/7sfpCJ/db5J
-         uAohDFfza2Q8aagR8JtZdr24ku9CRAF2GTLoaG+kpvB1Vc4QVlgwclDgOscTQahzRgQb
-         rpjEzzbSYonHOEboq8RhyE598OVcIBhuKM86bZpZzfWWSeQDYxbreTfpoIDwFVTjpaVR
-         utMSFzGPlKZo+T4EgjgnwJ49hBjIfMI1EdQSMTuBAofgtcEIPcxAtx44PWSAslaGwolK
-         LJQA==
-X-Forwarded-Encrypted: i=1; AJvYcCWbBfpA02NsVAS/VantYuiTfcpnB+qjACOiQcyjdxV3F8zUkOQ8nOv9AE7D71PUQi9ryW0fYJVvbwU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsT/uqnGyABbBFJ0T+oqtruptO8hnAE0BRv1Mfdw1SAMHPMSRM
-	j7UWuZhYkeke1916g+9iDOLPYtvDTcl/K0dbp0DLgnMIvnE8ijLAEI68AZrPovecgppvmyqICvu
-	fg+2vDcc/nS5FL8KIQ8rBoAtOU4obM4f1jaN7QA==
-X-Google-Smtp-Source: AGHT+IHz3zxPQbbbUsepKHUF1uUsADOynrdvoPD0uimJS+ZQZoflzX/TbG/ec+1dOiYfpEXSQ93zscANzNpMS8LAAoQ=
-X-Received: by 2002:a05:6870:4d1a:b0:261:b48:3c99 with SMTP id
- 586e51a60fabf-2962dddcaa4mr1182864fac.23.1731640790020; Thu, 14 Nov 2024
- 19:19:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731643461; x=1732248261;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=emojFDyC5THYctRB8h2dNWU9LntN4EFXJ8X/4es3IsY=;
+        b=N0rDxJEUB+WCAVgPeRx3dLajSobEiojcH+VY2uc5jqmpJixkap2x1/FtBPcF1rZ22y
+         Avm0Z01lN8ZJKJaiYxr0Ui1losEjSnLLOqNJWQja48b27PRBvxshH1zToAtIwEfFHI26
+         yS8WY0RWscrAumI+HaGeA8FNYI6IybMYQTtJFWAWczzwGrLLmOVg6DpBE8isw89Vz0Cf
+         54KpAHD851ZDmJ6pn1zUeRUotBQAzNBoJdpZWxpMg2MdaPeQOEGAWrX5tsoY2+fx+WY7
+         1fUU4QOmCqpLGCrhrG3cT/sHB0YLKP79bv3Wsykkc6GInOUI0ZOvqtg/PVcbvEeGJRCp
+         klBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUqh2/VyB85oOhfA9Q09Zst78EF7Im0dwXy4ZY06tTpQKmKbjRV2ibOYBKMvjFK/fkcRELeyVmJKPyOA1y+@vger.kernel.org, AJvYcCWw6IzetQxzAjY3i+eRh28j49WuWoDDm7jk8phXfUHvLctgTN6Sg6FwpJa83n2ShajbnnlO1L0wAWg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0bVwjY1OEJq5Lmm1AIvvgzmF+DoZlymVpDCQGAN++NSI29VrQ
+	3eORw/h73/nf6KtxKMSCvmybri4WrhPLseds4jWkwKhZX0OOJ9RI
+X-Google-Smtp-Source: AGHT+IHuBFjOb5Kq/9DaxbneOjXofrfO3qrUevNBS60m3FabPhPkgQzYrXh5l6Dd6Jyq+3fV27DtpQ==
+X-Received: by 2002:a05:6870:1d1:b0:278:3de:c8de with SMTP id 586e51a60fabf-2962deabde2mr1107297fac.24.1731643461270;
+        Thu, 14 Nov 2024 20:04:21 -0800 (PST)
+Received: from archie.me ([103.124.138.80])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1dade0esm399915a12.66.2024.11.14.20.04.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2024 20:04:19 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id E5F9644D87F4; Fri, 15 Nov 2024 11:04:15 +0700 (WIB)
+Date: Fri, 15 Nov 2024 11:04:15 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Even Xu <even.xu@intel.com>, jikos@kernel.org, bentiss@kernel.org,
+	corbet@lwn.net, aaron.ma@canonical.com
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Sun Xinpeng <xinpeng.sun@intel.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: Re: [PATCH v2 01/22] HID: THC: Add documentation
+Message-ID: <ZzbIP7tOEns0Fy-U@archie.me>
+References: <20241114053416.4085715-1-even.xu@intel.com>
+ <20241114053416.4085715-2-even.xu@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241111-v5_user_cfi_series-v8-0-dce14aa30207@rivosinc.com>
- <20241111-v5_user_cfi_series-v8-24-dce14aa30207@rivosinc.com>
- <CAKddAkCCVjNHUinPWtOiK8Ki_ZkdoUCawfv1-+0B69J_1aJv5Q@mail.gmail.com>
- <ZzVNKvCu4MOs7O5z@debug.ba.rivosinc.com> <CAKddAkDbGYeONaksq6fzLzx47BHZo3Ar7Sog3MOgf7Y+Birovw@mail.gmail.com>
- <ZzVRbCZP9N4Os8Bj@debug.ba.rivosinc.com> <CAKddAkBCByf570PXfz798FtBbeGQWe2LJpdzxkE+jv3Zd3ZV1w@mail.gmail.com>
- <ZzYcVW/4M0jab1T4@debug.ba.rivosinc.com>
-In-Reply-To: <ZzYcVW/4M0jab1T4@debug.ba.rivosinc.com>
-From: Nick Hu <nick.hu@sifive.com>
-Date: Fri, 15 Nov 2024 11:19:39 +0800
-Message-ID: <CAKddAkA7X7WeT8Fn6BdEij8sfHvd9cAJWf+8vJAQ95jn70F1Ug@mail.gmail.com>
-Subject: Re: [PATCH v8 24/29] riscv: enable kernel access to shadow stack
- memory via FWFT sbi call
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="piiGGXBvEqKZuoLP"
+Content-Disposition: inline
+In-Reply-To: <20241114053416.4085715-2-even.xu@intel.com>
+
+
+--piiGGXBvEqKZuoLP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Deepak
+On Thu, Nov 14, 2024 at 01:33:55PM +0800, Even Xu wrote:
+> +Touch Host Controller is the name of the IP block in PCH that interface =
+with Touch Devices (ex:
+> +touchscreen, touchpad etc.). It is comprised of 3 key functional blocks:
+> +- A natively half-duplex Quad I/O capable SPI master
+> +- Low latency I2C interface to support HIDI2C compliant devices
+> +- A HW sequencer with RW DMA capability to system memory
 
-On Thu, Nov 14, 2024 at 11:50=E2=80=AFPM Deepak Gupta <debug@rivosinc.com> =
-wrote:
->
->
-> Hi Nick,
->
-> Thanks for reviewing and helping.
->
-> On Thu, Nov 14, 2024 at 02:17:30PM +0800, Nick Hu wrote:
-> >Hi Deepak
-> >
-> >On Thu, Nov 14, 2024 at 9:25=E2=80=AFAM Deepak Gupta <debug@rivosinc.com=
-> wrote:
-> >>
-> >> On Thu, Nov 14, 2024 at 09:20:14AM +0800, Nick Hu wrote:
-> >> >Hi Deepak
-> >> >
-> >> >On Thu, Nov 14, 2024 at 9:06=E2=80=AFAM Deepak Gupta <debug@rivosinc.=
-com> wrote:
-> >> >> >> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
-> >> >> >> index 356d5397b2a2..6244408ca917 100644
-> >> >> >> --- a/arch/riscv/kernel/head.S
-> >> >> >> +++ b/arch/riscv/kernel/head.S
-> >> >> >> @@ -164,6 +164,12 @@ secondary_start_sbi:
-> >> >> >>         call relocate_enable_mmu
-> >> >> >>  #endif
-> >> >> >>         call .Lsetup_trap_vector
-> >> >> >> +       li a7, SBI_EXT_FWFT
-> >> >> >> +       li a6, SBI_EXT_FWFT_SET
-> >> >> >> +       li a0, SBI_FWFT_SHADOW_STACK
-> >> >> >> +       li a1, 1 /* enable supervisor to access shadow stack acc=
-ess */
-> >> >> >> +       li a2, SBI_FWFT_SET_FLAG_LOCK
-> >> >> >> +       ecall
-> >> >> >>         scs_load_current
-> >> >> >>         call smp_callin
-> >> >> >>  #endif /* CONFIG_SMP */
-> >> >> >> @@ -320,6 +326,12 @@ SYM_CODE_START(_start_kernel)
-> >> >> >>         la tp, init_task
-> >> >> >>         la sp, init_thread_union + THREAD_SIZE
-> >> >> >>         addi sp, sp, -PT_SIZE_ON_STACK
-> >> >> >> +       li a7, SBI_EXT_FWFT
-> >> >> >> +       li a6, SBI_EXT_FWFT_SET
-> >> >> >> +       li a0, SBI_FWFT_SHADOW_STACK
-> >> >> >> +       li a1, 1 /* enable supervisor to access shadow stack acc=
-ess */
-> >> >> >> +       li a2, SBI_FWFT_SET_FLAG_LOCK
-> >> >> >> +       ecall
-> >> >> >>         scs_load_current
-> >> >> >>
-> >> >> >>  #ifdef CONFIG_KASAN
-> >> >> >>
-> >> >> >> --
-> >> >> >> 2.45.0
-> >> >> >>
-> >> >> >Should we clear the SBI_FWFT_SET_FLAG_LOCK before the cpu hotplug
-> >> >> >otherwise the menvcfg.sse won't be set by the fwft set sbi call wh=
-en
-> >> >> >the hotplug cpu back to kernel?
-> >> >>
-> >> >> Hmm...
-> >> >>
-> >> >> An incoming hotplug CPU has no features setup on it.
-> >> >> I see that `sbi_cpu_start` will supply `secondary_start_sbi` as sta=
-rt
-> >> >> up code for incoming CPU. `secondary_start_sbi` is in head.S which =
-converges
-> >> >> in `.Lsecondary_start_common`. And thus hotplugged CPU should be
-> >> >> issuing shadow stack set FWFT sbi as well.
-> >> >>
-> >> >> Am I missing something ?
-> >> >>
-> >> >This is the correct flow. However the opensbi will deny it due to the
-> >> >SBI_FWFT_SET_FLAG_LOCK already being set.
-> >> >So the menvcfg.sse will not set by this flow.
-> >> >
-> >> >if (conf->flags & SBI_FWFT_SET_FLAG_LOCK)
-> >> >                return SBI_EDENIED;
-> >> >
-> >>
-> >> hmm... Why?
-> >>
-> >> `conf` is pointing to per-hart state in firmware.
-> >>
-> >> On this incoming cpu, opensbi (or equivalent) firmware must have
-> >> ensured that this per-hart state doesn't have lock set.
-> >>
-> >> Am I missing something?
-> >>
-> >Current OpenSBI doesn't clear the lock in the warm init of the hotplug p=
-ath.
-> >It seems like we need a patch to address it.
->
-> Got it thanks.
-> Since you already know what's the problem, can you send a patch to opensb=
-i.
-> If you want rather have me do it, let me know. Thanks.
->
-No problem. I'll send a patch to opensbi.
+I see in my htmldocs output that the list above is long running paragraph
+instead.
 
-Regards,
-Nick
-> >
-> >Regards,
-> >Nick
-> >> >Regards,
-> >> >Nick
-> >> >> >
-> >> >> >Regards,
-> >> >> >Nick
-> >> >> >>
-> >> >> >> _______________________________________________
-> >> >> >> linux-riscv mailing list
-> >> >> >> linux-riscv@lists.infradead.org
-> >> >> >> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> +When THC is configured to SPI mode, opcodes are used for determining the=
+ read/write IO mode.
+> +There are some OPCode examples for SPI IO mode::
+> +
+> + +--------+---------------------------------+
+> + | opcode |  Corresponding SPI command      |
+> + +=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> + |  0x0B  | Read Single I/O                 |
+> + +--------+---------------------------------+
+> + |  0x02  | Write Single I/O                |
+> + +--------+---------------------------------+
+> + |  0xBB  | Read Dual I/O                   |
+> + +--------+---------------------------------+
+> + |  0xB2  | Write Dual I/O                  |
+> + +--------+---------------------------------+
+> + |  0xEB  | Read Quad I/O                   |
+> + +--------+---------------------------------+
+> + |  0xE2  | Write Quad I/O                  |
+> + +--------+---------------------------------+
+> +
+> <snipped>...
+> +When THC is working in I2C mode, opcodes are used to tell THC what's the=
+ next PIO type:
+> +I2C SubIP APB register read, I2C SubIP APB register write, I2C touch IC =
+device read,
+> +I2C touch IC device write, I2C touch IC device write followed by read.
+> +
+> +Here are the THC pre-defined opcodes for I2C mode::
+> +
+> + +--------+-------------------------------------------+----------+
+> + | opcode |       Corresponding I2C command           | Address  |
+> + +=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> + |  0x12  | Read I2C SubIP APB internal registers     | 0h - FFh |
+> + +--------+-------------------------------------------+----------+
+> + |  0x13  | Write I2C SubIP APB internal registers    | 0h - FFh |
+> + +--------+-------------------------------------------+----------+
+> + |  0x14  | Read external Touch IC through I2C bus    | N/A      |
+> + +--------+-------------------------------------------+----------+
+> + |  0x18  | Write external Touch IC through I2C bus   | N/A      |
+> + +--------+-------------------------------------------+----------+
+> + |  0x1C  | Write then read external Touch IC through | N/A      |
+> + |        | I2C bus                                   |          |
+> + +--------+-------------------------------------------+----------+
+> +
+> <snipped>...
+> +Intel THC uses PRD entry descriptor for every PRD entry. Every PRD entry=
+ descriptor occupies
+> +128 bits memories::
+> +
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | struct field      | bit(s)  | description                            =
+        |
+> + +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D+
+> + | dest_addr         | 53..0   | destination memory address, as every en=
+try     |
+> + |                   |         | is 4KB, ignore lowest 10 bits of addres=
+s.      |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | reserved1         | 54..62  | reserved                               =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | int_on_completion | 63      | completion interrupt enable bit, if thi=
+s bit   |
+> + |                   |         | set it means THC will trigger a complet=
+ion     |
+> + |                   |         | interrupt. This bit is set by SW driver=
+=2E       |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | len               | 87..64  | how many bytes of data in this entry.  =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | end_of_prd        | 88      | end of PRD table bit, if this bit is se=
+t,      |
+> + |                   |         | it means this entry is last entry in th=
+is PRD  |
+> + |                   |         | table. This bit is set by SW driver.   =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | hw_status         | 90..89  | HW status bits                         =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+> + | reserved2         | 127..91 | reserved                               =
+        |
+> + +-------------------+---------+----------------------------------------=
+--------+
+
+Shouldn't these tables be formatted as tables?
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--piiGGXBvEqKZuoLP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZzbIOgAKCRD2uYlJVVFO
+oz6LAP99VEDsehlAPR+X9zgwEkcCE1Mko2zX3n4bSOBlpayWiAEA/hRSe5+cRDaQ
+lkGYtBq5mXgsRyz54qqxWBPELSNZNA0=
+=thPG
+-----END PGP SIGNATURE-----
+
+--piiGGXBvEqKZuoLP--
