@@ -1,57 +1,57 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE117346D;
-	Fri, 15 Nov 2024 23:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805FE1991C3;
+	Fri, 15 Nov 2024 23:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731711833; cv=none; b=iWpTc56pEq9RA5n1cIxO03VE3venp/pCFLTTAmoS1F6TNBv06AAMcT/c1bY+5kO35nEX94f4faBnU3j3bgKpk//FQBPkWFWqLskT0wKuYco1P7RUvFVcSC7M8rN3nU7qlNzAkTOWka25MrSgMeHSpLJ9Wds0HpiuR7EmGHo64yQ=
+	t=1731711966; cv=none; b=BZ37oWUff0l4INkQm5fGjSCWyfYNaBFaXgrt/wYd8ytuElHKp3rxeC4w1Fff/tOHfdjz72t5Iiz51qVT2YYUiAv/nxwuS+593yWOkHBlBSX6OdxU6YNyixuZq2XD6fiSOhmPBJX6lPVJQzLuYCGCBwCHc5R8Y4J6UAhRHQgTi44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731711833; c=relaxed/simple;
-	bh=mKauW6I9W5hXQp9GKKv7JxGvn5sX2MlqE+6rp+gg28k=;
+	s=arc-20240116; t=1731711966; c=relaxed/simple;
+	bh=Jo+ofuLLw/UUI6bS3MNSWdAiZ8dq2amF42VzCm3M9fc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xo/pHNlpe3pPBxNu6IEBnoNAUD9ni1D9+FvfYjQkKXR4iLc4GuiVzHn/QML4ge69JlOFyqPmnAV3KX6jh5F5LUZ6efUDJjoDci5X+13zJDkQHzgWLsm3B8e/kl9PkCHpsItbbG/N63aqOoAxyodNuUkajc1u5vrza1XIicmqdFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ESlDSHG7; arc=none smtp.client-ip=209.85.214.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=CJo73DApnQAEsOGeLr4FwpdtSMA04sS2vnFlPp3D1F61Q/MXrNXb0DjDAeyAVv6XbV8I+N+otRpVTdcL7jHWLjF1psIikE0OemG+u5NMZkHQpiWLAuuPP7rOk57AkeYCvy2xgq/B+QHeVewjf9BIvni+260U0p7X+gQeBT2XPm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQbL+pJ9; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ESlDSHG7"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20c7ee8fe6bso25467525ad.2;
-        Fri, 15 Nov 2024 15:03:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQbL+pJ9"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-71e4e481692so140137b3a.1;
+        Fri, 15 Nov 2024 15:06:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731711831; x=1732316631; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1731711965; x=1732316765; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b3OW4gCL3xqbXKByl6ZGthQm542cJqRb+Ure72guVWk=;
-        b=ESlDSHG7PQo6ERJYovsatHIlL50lga4XO13YU6d1SgPXIIpqFYlPaWFuXnQpPKF7nZ
-         dCreq3rLy5qdYfiWQYT5hsDgK2mxXADZzRmUzN8MVH/pCUktHJAWOO0hpJsI1Mm5ZzdR
-         /erpyZHFVyeVrhc9XJ6Dg7crcR30yWrhtEfRVBmMgd7oX9X+D0iiP0dB1gmntkeg62Ow
-         EERqdUbj264S7R23+2KvbCLIxsxZ1/gnf93Om9PObaqY4ofVbj/TMRLKN0UQZYU8+ZS1
-         sC6+WThaABZahJP3xk9iTYVXpQ1JMNyHphscezxe4a0DGupb08CQ22YlHc9hEEEU2F3l
-         xocA==
+        bh=n5P3ajlDLkS73EkMFkGbhTcSlZNQnkDoYtyzH8+TAfo=;
+        b=kQbL+pJ9TfjTaBVrQaCUPDHMJhOR6ImmIqWSH3aAiNYrQkX66CGTnmcAZb0AYUTKqV
+         rgLTMDbNmLt5fXJGYvZJSngVd8QvR01lZTsXl/TuWn0f5e0cYRdUdvUkW7PuVSN6hUre
+         +l8VPVSQsEEpnESh3U9aewxkr/BJ1GbbPswMxjgPAZoRNoVJcgsLF60tSRRn69BzPDUV
+         Sqhfx0t1oTdcen2BGo4b1OYj4Cy14ODL6Js7WmAUBESE9aJOFNkivm5RtZ0E+xg7V/sS
+         1cCy2+9DWDnKId8clP1YSbfJ9IaKz1HBEe763wcOvh+KOfLqekLCsk5eIxRHLMcKmC2M
+         gvVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731711831; x=1732316631;
+        d=1e100.net; s=20230601; t=1731711965; x=1732316765;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b3OW4gCL3xqbXKByl6ZGthQm542cJqRb+Ure72guVWk=;
-        b=LJ6RDCdJVqn2uKAwvS3HPw+eZNo4mCACJyaLjV4P6orrArBrdW9wEWiss0/uoarWiV
-         5nWHY8ZEvvy6mQp1OQl+MkQ/h7498c686Xlyv/Br3jZbF2ydIZ+g7od0ietZyiiIT9Zg
-         NcX2ief34ZTMuBdUBHhmzCAw+RrKOW9DYAkrkshTZhOASG1G/954uVpO8AEtWWz+wu0R
-         Jx0mFP6N2KDlStuW4C3KKHoUxpLu2QVh2uMPPchJ79Zu4cnyfomShLbrZ65OO3xd5iL9
-         0nP0PX+CHdDuDdE/9MstbstRnoUd5g7C/7UZ90ljO2Ez6hqYbmkD6AI9TqHquNM+1nbk
-         LxUg==
-X-Forwarded-Encrypted: i=1; AJvYcCV8fqvBF+RIlN1UByi3a3DMoNlMc8rocD5c+TYuYxF/tsN0MfZoV4OlIzEqB0r3D7zkZz5qWUxSFBSv0vf1@vger.kernel.org, AJvYcCW2uKuFWbJgwGsyxEulC0F4CGeivYadMEbr2PlBChxJCGRNu51gKGMBAYI6pCGSdO2xjZLlJNPm@vger.kernel.org, AJvYcCWQwAVEQLL2o+IGfTFiH8rm8ld50wKacdSgbFlymtUXh1EuBvfIDxIhXzcBUy4HsxReYX7kx7yCB4w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpCyBqy0NHGPAPoxBotB8n3+ygzBrhqSXW4HrmvwjgzihIEfN/
-	GeXj/mQri4bGlPOicpEkQ3t1ZvlsU557oSgsDtGHY/J9mICD4/g=
-X-Google-Smtp-Source: AGHT+IHHQQkW59lk9OH1q6uJpBQ5U6EHIqckyzQ1f/8CnHrnQQqeRO7peGgHstXcdZf+ez63hO6u1g==
-X-Received: by 2002:a17:902:c944:b0:211:9316:da12 with SMTP id d9443c01a7336-211d0d73f7amr66041385ad.22.1731711831335;
-        Fri, 15 Nov 2024 15:03:51 -0800 (PST)
+        bh=n5P3ajlDLkS73EkMFkGbhTcSlZNQnkDoYtyzH8+TAfo=;
+        b=ECsWbdG6VnHiVnhps/vYTg6nQnvWl8Foqm1mBhuKqx1GJWY0W4ozYofIfitVguKsOQ
+         9Srbkq5MZsnjg2BB2l8saH7agoAF03vsVCFh7BpqZVDOPGWvluoZakuVrq98JfmWE8aD
+         wDY/O/5IO3u2HZzv+5R0V8cHY/PCAuDY1v6tTf4wNjtkdPlKwtVP3JdkQhor4QBI8VvC
+         rfxmNHNoPjqW1sGuvyDEMXl0n3O5nBIiG89dwQKigTgkqU/oqaOBbG6TJfbFjRj4LbQd
+         jxcxwELCdzCEb0g2r5R5Md9Hek+coQi8T7IVrxraNSWbVTyDB1Qa/JZVrThjfctS//Tw
+         nN3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU5yBt82Cu3A4W/6ctS4sNb2kF8rVcgGXZLThUX7wh33xCtUTGxB6FzF7QbC2cut3BpO9k5x90z@vger.kernel.org, AJvYcCUNpjXYlESDcLSAlYWMso3li7KuH9FaYemYqhLk/Oh83iXwPMMtKtQpwaaWOHgnMqQIlbf6BwViDc4NGOJp@vger.kernel.org, AJvYcCV8L6kMR3zCQ3Al3WGB2o/BRWHG2qlCacwqxnQ0aLsBzlzsZrqsD1Ewky3OBYeEg/laNP2WeoeqY1U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS50YdpQM08Ztd9Z0DYgLVC92lizUqDf6Y3j1++gZQ7Z2mQcnu
+	yfGkPP++QAZJTA1qaIbnpeJz6+53bTteVf1zWCJcIjx6F0SAX4gmFUWJmcc=
+X-Google-Smtp-Source: AGHT+IFrVuN9D+SAR11xTnlfT9gEOCWakgArlLgW/amJEoyo+QN261soMAWMVTe8ex0XB7scFixS0A==
+X-Received: by 2002:a17:90a:c10b:b0:2ea:193a:37fe with SMTP id 98e67ed59e1d1-2ea193a38bcmr4487748a91.16.1731711964768;
+        Fri, 15 Nov 2024 15:06:04 -0800 (PST)
 Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724771c0ab1sm1911535b3a.97.2024.11.15.15.03.50
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ea024eae85sm3507688a91.44.2024.11.15.15.06.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Nov 2024 15:03:50 -0800 (PST)
-Date: Fri, 15 Nov 2024 15:03:50 -0800
+        Fri, 15 Nov 2024 15:06:04 -0800 (PST)
+Date: Fri, 15 Nov 2024 15:06:03 -0800
 From: Stanislav Fomichev <stfomichev@gmail.com>
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
@@ -59,14 +59,14 @@ Cc: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
 	donald.hunter@gmail.com, horms@kernel.org, corbet@lwn.net,
 	andrew+netdev@lunn.ch, kory.maincent@bootlin.com
-Subject: Re: [PATCH net-next v2 7/8] ethtool: remove the comments that are
- not gonna be generated
-Message-ID: <ZzfTVtxjgXR-L8my@mini-arch>
+Subject: Re: [PATCH net-next v2 8/8] ethtool: regenerate uapi header from the
+ spec
+Message-ID: <ZzfT22EfTHlT1TCQ@mini-arch>
 References: <20241115193646.1340825-1-sdf@fomichev.me>
- <20241115193646.1340825-8-sdf@fomichev.me>
- <20241115134023.6b451c18@kernel.org>
- <ZzfDIjiVxUbHsIUg@mini-arch>
- <20241115143759.4915be82@kernel.org>
+ <20241115193646.1340825-9-sdf@fomichev.me>
+ <20241115132838.1d13557c@kernel.org>
+ <ZzfDnLG_U85X_pOd@mini-arch>
+ <20241115150125.77c1edf8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,17 +75,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241115143759.4915be82@kernel.org>
+In-Reply-To: <20241115150125.77c1edf8@kernel.org>
 
 On 11/15, Jakub Kicinski wrote:
-> On Fri, 15 Nov 2024 13:54:42 -0800 Stanislav Fomichev wrote:
-> > > These comments could be useful to cross reference with the IEEE spec.
-> > > Can we add them as doc: ?  
+> On Fri, 15 Nov 2024 13:56:44 -0800 Stanislav Fomichev wrote:
+> > > Looks like we need a doc on the enum itself here:
+> > > 
+> > > include/uapi/linux/ethtool_netlink_generated.h:23: warning: missing initial short description on line:
+> > >  * enum ethtool_header_flags  
 > > 
-> > Absolutely, I did port these (and the rest of the comments that I removed)
-> > over as doc: (see patch 4).
+> > "Assorted ethtool flags" as placeholder? Any better ideas? These don't seem
+> > to have a good common purpose :-(
 > 
-> Ah, I was looking for them re-appearing in patch 8. All good then.
+> "common ethtool header flags" ?
+> 
+> These are "ethtool level" as in they are request independent / 
+> do the same thing for all requests (as applicable).
 
-AFAICT, only enum docs are rendered. We don't have support for the rest.
-I can try to follow up separately..
+SG!
