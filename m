@@ -1,83 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977C21BF311;
-	Fri, 15 Nov 2024 20:44:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834EE1F893A;
+	Fri, 15 Nov 2024 21:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731703464; cv=none; b=K2ouHBjWsUKySuSsVUvoVM3Al9gHJEOBo1LIClI51s73wYFwsVxXVCFhIne+8R6lgdlH+Ca5SiP35whbaKtHfIualfoXegzmwJA46RE3SMnLEQtIKc4vaL5KUz0qtHLUAZHQq11u3eOt82i+Pjeaoa58m9K8lJwmBYlC5gXtDSE=
+	t=1731706120; cv=none; b=I7iUi2ivFyU8tRV1mhSUVoB/VnLbCCjW46IeAhAvZCXJi3WNmsQ0LGZYzQ84qylh59nHBou9AIbQTCCrbd100Km6dCId5mobrfiS7yLUvgrdlUJ05+xJQ07gJybLPvL7QrQbTiE4pAjewXLqGNnt3+lDPSg8jTMa4hKotNuZ0Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731703464; c=relaxed/simple;
-	bh=YKv8qlR50k2LC5KO7h2NGGsnEnAHMHmkAu5g9BMeZww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lb2fqzPiD12iSTuLzmpEK+mYvN0fG/NJrxmTHO0rE1DaPIl5PoZaVxitH4VYrcJ2OvhXDP+aPow9qGt97mWXqw1PNsFk6lbBJ7Hf1C/hYPiBzBT81B/smFGEzMVm4oAyYh+3povrR8Z68Ry/c/ZlFyqekD578sZvrzq7n0sNqAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IDo2lpXH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731706120; c=relaxed/simple;
+	bh=k0g3XUmKfL/FbjKfmQsN2e0noC2xG7BjO+ZZ6ZxxaYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uaeF/yhvb7M/5WYGJtbIjJqKh7ZxpH22+feKFCzG0ZiiwtkhZTPq3BDZBYsP6SrOEAtj/4dNXR0ZJS/Ait6xcSBx8m0Q1fYNmDL2wLltjleDyjKdiq36EASY37BnNGhY4SL/EnvKtkO8qbZ2U+ufQklGqeBMbtd8facjY22rpqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eSAMZih3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IDo2lpXH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FC4EC4CECF;
-	Fri, 15 Nov 2024 20:44:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eSAMZih3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1546C4CECF;
+	Fri, 15 Nov 2024 21:28:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731703464;
-	bh=YKv8qlR50k2LC5KO7h2NGGsnEnAHMHmkAu5g9BMeZww=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IDo2lpXHwzAlFdbUb+A9UooiqxzmOF6PwauIWM6BDnkuNPLs0UUH9jjoGWx54/nwK
-	 pcB/9x2oYASh5C7VxwhyTUfs6Lxd3GU7/3ytLHdoIvk+vkjhalBd4va7EWTVfTdt+9
-	 CvFtZUSXtKGyPdnjUoQl2rFtCCSFypcEKUKMZjaDGsiA7g6MUboKOI7+EaG4h8O//u
-	 Zr9KC/RuXbpIH3Wx+y3HMZqan2++JP7MW3cFAkBgFfSr1udnGHU4iUYb9ZPenQvSqG
-	 1tbyQNuSkoFZnKsogs9WVbb1MCyxujp1YTbGnE1R2uCHUCUI52Kft7SeiYClfihJzd
-	 rEQiDvaj22PCw==
-Date: Fri, 15 Nov 2024 12:44:20 -0800
-From: Kees Cook <kees@kernel.org>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org, daniel@ffwll.ch,
-	laurent.pinchart@ideasonboard.com, broonie@kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: [PATCH v4] Documentation/CoC: spell out enforcement for
- unacceptable behaviors
-Message-ID: <202411151244.CD2F8AC9A@keescook>
-References: <20241114205649.44179-1-skhan@linuxfoundation.org>
+	s=k20201202; t=1731706120;
+	bh=k0g3XUmKfL/FbjKfmQsN2e0noC2xG7BjO+ZZ6ZxxaYU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eSAMZih3WrbJDKa91wE1x0mTR4CJb93inDYru65VHrV4YpQAVeh2ZMsA5ngJWvmxV
+	 jP422dsvR25DkDoLrgqOoS29e+Cb3pBIU7pBlC8MvVQVneS9GJCZDvbQlQUVB3HWe0
+	 fayaL9ASXWPIzY41p3wrJhZxHxJWcDc3RnhbKyyi4Dq0Q6HS7qKctqFCE13aj4kTqa
+	 Cu0Ja9ap37zG2e8nUHhvqXQNAnpvxSCxIihBpLNMCdj9LCkrihaBkyQ88WtIOydJOd
+	 FoPg/ZIlw5rwQRp8ixB217bfcIYfle2VOIVV58oL6NVa4TP+lbPcJ0zfgBorj2LGva
+	 6cbxOxWGGKSqg==
+Date: Fri, 15 Nov 2024 13:28:38 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Stanislav Fomichev <sdf@fomichev.me>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ donald.hunter@gmail.com, horms@kernel.org, corbet@lwn.net,
+ andrew+netdev@lunn.ch, kory.maincent@bootlin.com
+Subject: Re: [PATCH net-next v2 8/8] ethtool: regenerate uapi header from
+ the spec
+Message-ID: <20241115132838.1d13557c@kernel.org>
+In-Reply-To: <20241115193646.1340825-9-sdf@fomichev.me>
+References: <20241115193646.1340825-1-sdf@fomichev.me>
+	<20241115193646.1340825-9-sdf@fomichev.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241114205649.44179-1-skhan@linuxfoundation.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 14, 2024 at 01:56:49PM -0700, Shuah Khan wrote:
-> The Code of Conduct committee's goal first and foremost is to bring about
-> change to ensure our community continues to foster respectful discussions.
-> 
-> In the interest of transparency, the CoC enforcement policy is formalized
-> for unacceptable behaviors.
-> 
-> Update the Code of Conduct Interpretation document with the enforcement
-> information.
-> 
-> Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Acked-by: Jonathan Corbet <corbet@lwn.net>
-> Acked-by: Steven Rostedt <rostedt@goodmis.org>
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Acked-by: Theodore Ts'o <tytso@mit.edu>
-> Acked-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+On Fri, 15 Nov 2024 11:36:46 -0800 Stanislav Fomichev wrote:
+> +/**
+> + * enum ethtool_header_flags
+> + * @ETHTOOL_FLAG_COMPACT_BITSETS: use compact bitsets in reply
+> + * @ETHTOOL_FLAG_OMIT_REPLY: provide optional reply for SET or ACT requests
+> + * @ETHTOOL_FLAG_STATS: request statistics, if supported by the driver
+> + */
 
-Thanks for working on this!
+Looks like we need a doc on the enum itself here:
 
-Acked-by: Kees Cook <kees@kernel.org>
-
--- 
-Kees Cook
+include/uapi/linux/ethtool_netlink_generated.h:23: warning: missing initial short description on line:
+ * enum ethtool_header_flags
