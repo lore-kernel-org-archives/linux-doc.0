@@ -1,180 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB388161;
-	Sat, 16 Nov 2024 13:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4765518F2F8
+	for <linux-doc@vger.kernel.org>; Sat, 16 Nov 2024 17:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731763006; cv=none; b=bp1++7NLxAJV5V0N+XQAIhJUdO1GwuGOZ+sD8xL9syD2yyqHO5v1Y1zAfD61ZTp/c+2x3gHP5trRWiXaq2sa6hqG85V+uepkufymFqx5k8mudUT2aI5anq9/eTk7GekCWgP2xPBQyPAm8zh0om/OM7zM5G7Dt5bFoWp6lLX0GCQ=
+	t=1731779969; cv=none; b=DkV5FabEMrESmcmDgXR+1xZjgLraX4zkdJ43qefRQ4rYl5t7jleUJrlRM/SZyI7jdzywXhCnQK9L+UXYjggRmWqcZOEIfStzYQSIo+7WQL21xciEvko6uxBdssU3lWzL/IF0SlPALPHDTigiOKlQVGeJD/Gl+bARUD4j0w3Sjpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731763006; c=relaxed/simple;
-	bh=XNgAawX6XLOa4/demc/OpYXjlzmHxNtnjOdaMjMRKCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AsT7XT7cXvQcD1rtX7e9YCQnvfqgycanyRthauADv5RYyGTXZ6UGcLH7cmtBZ/KRMc56OA67u25GevzXu+0KOmHzS+hOC/dAyBOXVTA418BZNWytOq48X9CUffFE77gMJjiTBmRii98VSSvGdd7l4LzjgfaaSaLxVSJVXTfmGpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEnk3WvF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731779969; c=relaxed/simple;
+	bh=k6WhVuILcWU/thSQ+0eV73cWf0Sp/tBXO+i+GiCbh04=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=br6oOjaozeYcAwoMS3aTAFh/BQB/bu3SXSHUpV8K3oS4t0FcOWCHKDfOV/A6jEIYGdmVIycwoIlgMKHFN4aaSxoTjbH23oVaEmH1W59bb7oIo6PaCxHuqKVt1P6SBN4P+pu2jU5C/AdSvhm6eFQPiSFuB47uu8v4sThbKSTr+SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=qx/57Eoq; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEnk3WvF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D78C4CEC3;
-	Sat, 16 Nov 2024 13:16:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731763006;
-	bh=XNgAawX6XLOa4/demc/OpYXjlzmHxNtnjOdaMjMRKCM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UEnk3WvFJhwIzB5jN/zko4f6MTzOl0oeR+O281JOQE/TRtTGnrtf43PAjTSygnRnZ
-	 Gsx2vsi5s+vwy0EUpMEhomzM3oWohQpLU5BlAKJ2DC+g+Pb76yNiHbcJrg5JP1KDek
-	 KLwA/Pmrz9UN/KMSIOEu3+8jrBbgPtNesauRe/aPcSX+BtLikw/bYL4N6aHe0q+Ygt
-	 yOWJH0Hs3dUGYo01JQlT6+wWiEQW6xN07167UNstQII7NT+8cbfP5eue9ya4famEEc
-	 6QmsOYjR1WhSPydvpGp57CDU8HPgXwdfCC0EcuX/VeFbRVJzPZqV7SUaC+0doU/M0t
-	 bJUJBUqBJ2D0A==
-Date: Sat, 16 Nov 2024 14:16:39 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 2/2] docs: clarify rules wrt tagging other people
-Message-ID: <20241116141639.5adb4a95@foz.lan>
-In-Reply-To: <7491b60c-3e46-4425-aef5-63021538c33d@leemhuis.info>
-References: <cover.1731749544.git.linux@leemhuis.info>
-	<b7dce8b22a391c2f8f0d5a47bf23bc852eca4e71.1731749544.git.linux@leemhuis.info>
-	<2024111651-slather-blabber-857f@gregkh>
-	<20241116125003.43bf305c@foz.lan>
-	<7491b60c-3e46-4425-aef5-63021538c33d@leemhuis.info>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="qx/57Eoq"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6d40e69577dso4709896d6.3
+        for <linux-doc@vger.kernel.org>; Sat, 16 Nov 2024 09:59:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1731779966; x=1732384766; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9/2cx8m5V2KkB1LkibOPMizZ7amfyQzK5oG3Ev3ZaAc=;
+        b=qx/57Eoqde1LS1pnJFix7xy2vrCYFAhCETHHEv354y8jVjbNnBS94qtSP0hcVMjrS8
+         YVJ2l9x7LBpecEW+FgB49wrL3hBmGVvkdUjf1i9hnQxlz5q41bd40280Je/UM3IE4zub
+         pKLg2nQti26xmpVQwdg2nMk0mgYwwz0LY4Px4QucV13NfbYDRjhyYGNxLVwYkN5r8eH1
+         fVupHzsxp4lJlH5PiozAyL79eRlO+sw5D2WdsA11bLuiNycTYl06/CKNqZrIIViT4hrm
+         4SdzRfEw8xM51yIanZXoJZQ2choH9wki063AMog66QN7CBO2+qANxk8CmoEDfS6nLzYx
+         +Isg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731779966; x=1732384766;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9/2cx8m5V2KkB1LkibOPMizZ7amfyQzK5oG3Ev3ZaAc=;
+        b=MHdF+iYuegFCuDOm0Sy5Pocno/pg45c6/rIRKJYBTPwEp/C7Hv/9S5j6BdG/nfXPq8
+         iMkMmo2rp5egxM1Aoo55BvJD3ggji4aIXaXrIWfd4idFkY3gMoK2VwHC9PzIzAyI8tAw
+         UsssobogaMO3Fpu2PY+FDzilFrtS2Zl1LXGwKR4jclAh5baKYI/y07LV5DAGJV4YjaEO
+         P+mNTtUhKFU4Y1mrAvTpb2Y8cJJJPstdqlz9UQMKt9H60KhWZJhDJB0CtXxUCKLqIgWG
+         Lh9Z3+4iVgfq7chUBHbKcBXt+rP9RilRPMs07uQ0WqlcOW+Nz/QTxij0tKBPRA+/u1lM
+         3J7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWZ9Ig3c5i0VjjZ2Fzr8fjYSvjtwCLsvPfqg4+/NuF4U5qsU8cw0VWbsUGCKQncPMy/b85yu97U7I0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFCDd4631bj9N14NFrGe4VdEOybAGM+LAxlGuIwCvc6Vqw8e25
+	YxAI1BY3EWTfIMTQCgaAqHOoh8P9N/LxWtFbLJSC9nkQx/LjKlcy+31IxXyrE6c=
+X-Google-Smtp-Source: AGHT+IG9khClVQZaK5gJiOlSuiW+HiW7mbHelDE5mIQzNETjqXaEChD5Y6UapjcY1u5FRRsYiVlDuQ==
+X-Received: by 2002:ad4:5c4d:0:b0:6d4:1a42:8efa with SMTP id 6a1803df08f44-6d41a4295admr9228036d6.0.1731779966175;
+        Sat, 16 Nov 2024 09:59:26 -0800 (PST)
+Received: from soleen.c.googlers.com.com (51.57.86.34.bc.googleusercontent.com. [34.86.57.51])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b35ca309d6sm280530085a.94.2024.11.16.09.59.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Nov 2024 09:59:25 -0800 (PST)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: pasha.tatashin@soleen.com,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	derek.kiernan@amd.com,
+	dragan.cvetic@amd.com,
+	arnd@arndb.de,
+	gregkh@linuxfoundation.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	muchun.song@linux.dev,
+	Liam.Howlett@oracle.com,
+	lorenzo.stoakes@oracle.com,
+	vbabka@suse.cz,
+	jannh@google.com,
+	shuah@kernel.org,
+	vegard.nossum@oracle.com,
+	vattunuru@marvell.com,
+	schalla@marvell.com,
+	david@redhat.com,
+	willy@infradead.org,
+	osalvador@suse.de,
+	usama.anjum@collabora.com,
+	andrii@kernel.org,
+	ryan.roberts@arm.com,
+	peterx@redhat.com,
+	oleg@redhat.com,
+	tandersen@netflix.com,
+	rientjes@google.com,
+	gthelen@google.com
+Subject: [RFCv1 0/6] Page Detective
+Date: Sat, 16 Nov 2024 17:59:16 +0000
+Message-ID: <20241116175922.3265872-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Sat, 16 Nov 2024 13:27:44 +0100
-Thorsten Leemhuis <linux@leemhuis.info> escreveu:
+Page Detective is a new kernel debugging tool that provides detailed
+information about the usage and mapping of physical memory pages.
 
-> On 16.11.24 12:50, Mauro Carvalho Chehab wrote:
-> > Em Sat, 16 Nov 2024 11:42:06 +0100
-> > Greg KH <gregkh@linuxfoundation.org> escreveu:  
-> >> On Sat, Nov 16, 2024 at 10:33:59AM +0100, Thorsten Leemhuis wrote:  
-> >>> Point out that explicit permission is usually needed to tag other people
-> >>> in changes, but mention that implicit permission can be sufficient in
-> >>> certain cases. This fixes slight inconsistencies between Reported-by:
-> >>> and Suggested-by: and makes the usage more intuitive.
-> >>>
-> >>> While at it, explicitly mention the dangers of our bugzilla instance, as
-> >>> it makes it easy to forget that email addresses visible there are only
-> >>> shown to logged-in users.
-> >>>
-> >>> The latter is not a theoretical issue, as one maintainer mentioned that
-> >>> his employer received a EU GDPR (general data protection regulation)
-> >>> complaint after exposing a email address used in bugzilla through a tag
-> >>> in a patch description.
-> >>>
-> >>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>> Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> >>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> >>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> >>> ---
-> >>> Note: this triggers a few checkpatch.pl complaints that are irrelevant
-> >>> when when to comes to changes like this.
-> >>>
-> >>> v2:
-> >>> - Retry differently. This slightly hardens the rule for Reported-by:
-> >>>   while slightly lessening it for Suggested-by:. Those in the end are
-> >>>   quite similar, so it does not make much sense to apply different ones.
-> >>>   I considered using an approach along the lines of "if you reported it
-> >>>   in pubic by mail, implicit permission to use in a tag is granted"; but
-> >>>   I abstained from it, as I assume there are good reasons for the
-> >>>   existing approach regarding Suggested-by:.
-> >>> - CC all the people that provided feedback on the text changes in v1
-> >>>
-> >>> v1: https://lore.kernel.org/all/f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info/
-> >>> - initial version
-> >>> ---
-> >>>  Documentation/process/5.Posting.rst          | 17 ++++++--
-> >>>  Documentation/process/submitting-patches.rst | 44 ++++++++++++++------
-> >>>  2 files changed, 45 insertions(+), 16 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-> >>> index dbb763a8de901d..b45c4f6d65ca95 100644
-> >>> --- a/Documentation/process/5.Posting.rst
-> >>> +++ b/Documentation/process/5.Posting.rst
-> >>> @@ -268,10 +268,19 @@ The tags in common use are:
-> >>>   - Cc: the named person received a copy of the patch and had the
-> >>>     opportunity to comment on it.
-> >>>  
-> >>> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
-> >>> -for addition without the explicit permission of the person named; using
-> >>> -Reported-by: is fine most of the time as well, but ask for permission if
-> >>> -the bug was reported in private.
-> >>> +Be careful in the addition of tags to your patches, as nearly all of them need
-> >>> +explicit permission of the person named.
-> >>> +
-> >>> +The only exceptions are Cc:, Reported-by:, and Suggested-by:, as for them    
-> >>
-> >> I don't understand what you mean by "only exceptions" here.  Exceptions
-> >> to what?
-> >>  
-> >>> +implicit permission is sufficient under the following circumstances: when the
-> >>> +person named according to the lore archives or the commit history regularly
-> >>> +contributes to the Linux kernel using that name and email address --   
-> > 
-> > Note that get_maintainer.pl doesn't use a concept of "regularly", and it
-> > doesn't really matter if one has just one or dozens of patches, once it 
-> > has a patch merged with his address, it is now public, as git log will
-> > keep it forever.
-> > 
-> > Also, if a patch authored by "John Doe <john@doe>" causes a regression, 
-> > a patch fixing the regression should be Cc: to him, even it it was his
-> > first contribution.
-> > 
-> > So, having a single patch accepted is enough to have other patches
-> > with meta-tag pointing to a name/email.
-> > 
-> > So, this would be better:
-> > 
-> > 	... or the git commit history contains that name and email address  
-> 
-> Good point. But we are getting closer and closer to areas where I feel
-> out of my league as IANAL without any backing from company lawyers if
-> this leads to problems down the road.
-> 
-> To still feel comfortable, I would change this to something like:
-> """
-> ... or a commit with a 'Signed-off-by' tag containing that name and
-> email address.
-> """
+It is often known that a particular page is corrupted, but it is hard to
+extract more information about such a page from live system. Examples
+are:
 
-You should also cover commit authorship, as SOB e-mail might be
-different. Currently, -next catches it as warnings, but still
-there are cases where maintainer might opt to keep as is, for
-instance when the SOB has name+company@e.mail and the author
-may have just name@e.mail - or vice-versa.
+- Checksum failure during live migration
+- Filesystem journal failure
+- dump_page warnings on the console log
+- Unexcpected segfaults
 
-What about:
+Page Detective helps to extract more information from the kernel, so it
+can be used by developers to root cause the associated problem.
 
-"""
-commit with a 'Signed-off-by' tag or patch(es) authored or committed by 
-that name and email address.
-"""
+It operates through the Linux debugfs interface, with two files: "virt"
+and "phys".
 
-> Because one accidental expose of a name and email address (say in a CC:
-> tag) by a some other developer should not be enough to allow other
-> developers to expose it again. Highly unlikely corner case, yes, but I
-> feel better that way. And in the end it should not make much of a
-> difference.
+The "virt" file takes a virtual address and PID and outputs information
+about the corresponding page.
 
-IANAL either, but, once someone else exposes a secret publicly, it is
-not a secret anymore. You can't be blamed to mention a previously
-"secret email" that was now public.
+The "phys" file takes a physical address and outputs information about
+that page.
 
-> 
-> Ciao, Thorsten
-> 
+The output is presented via kernel log messages (can be accessed with
+dmesg), and includes information such as the page's reference count,
+mapping, flags, and memory cgroup. It also shows whether the page is
+mapped in the kernel page table, and if so, how many times.
 
+Pasha Tatashin (6):
+  mm: Make get_vma_name() function public
+  pagewalk: Add a page table walker for init_mm page table
+  mm: Add a dump_page variant that accept log level argument
+  misc/page_detective: Introduce Page Detective
+  misc/page_detective: enable loadable module
+  selftests/page_detective: Introduce self tests for Page Detective
 
+ Documentation/misc-devices/index.rst          |   1 +
+ Documentation/misc-devices/page_detective.rst |  78 ++
+ MAINTAINERS                                   |   8 +
+ drivers/misc/Kconfig                          |  11 +
+ drivers/misc/Makefile                         |   1 +
+ drivers/misc/page_detective.c                 | 808 ++++++++++++++++++
+ fs/inode.c                                    |  18 +-
+ fs/kernfs/dir.c                               |   1 +
+ fs/proc/task_mmu.c                            |  61 --
+ include/linux/fs.h                            |   5 +-
+ include/linux/mmdebug.h                       |   1 +
+ include/linux/pagewalk.h                      |   2 +
+ kernel/pid.c                                  |   1 +
+ mm/debug.c                                    |  53 +-
+ mm/memcontrol.c                               |   1 +
+ mm/oom_kill.c                                 |   1 +
+ mm/pagewalk.c                                 |  32 +
+ mm/vma.c                                      |  60 ++
+ tools/testing/selftests/Makefile              |   1 +
+ .../selftests/page_detective/.gitignore       |   1 +
+ .../testing/selftests/page_detective/Makefile |   7 +
+ tools/testing/selftests/page_detective/config |   4 +
+ .../page_detective/page_detective_test.c      | 727 ++++++++++++++++
+ 23 files changed, 1787 insertions(+), 96 deletions(-)
+ create mode 100644 Documentation/misc-devices/page_detective.rst
+ create mode 100644 drivers/misc/page_detective.c
+ create mode 100644 tools/testing/selftests/page_detective/.gitignore
+ create mode 100644 tools/testing/selftests/page_detective/Makefile
+ create mode 100644 tools/testing/selftests/page_detective/config
+ create mode 100644 tools/testing/selftests/page_detective/page_detective_test.c
 
-Thanks,
-Mauro
+-- 
+2.47.0.338.g60cca15819-goog
+
