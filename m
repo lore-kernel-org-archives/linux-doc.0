@@ -1,102 +1,180 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BE4A47;
-	Sat, 16 Nov 2024 12:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB388161;
+	Sat, 16 Nov 2024 13:16:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731761410; cv=none; b=JhWOABDzccdHrUWc7ZkvRcoHUEI0lqRvWSsuwtMC7B/V1MaLr2yBSYCnQ49VnUuQ70lhbelbDCQPEluOdrCsxQoxAEauiqdjNlObFNSW9Ltso8eH84HpM6Yo9i9q3JTeciYd7RfGD/n7vm8VQTNaRImq0a3g1nFKvkfxNN1BZyg=
+	t=1731763006; cv=none; b=bp1++7NLxAJV5V0N+XQAIhJUdO1GwuGOZ+sD8xL9syD2yyqHO5v1Y1zAfD61ZTp/c+2x3gHP5trRWiXaq2sa6hqG85V+uepkufymFqx5k8mudUT2aI5anq9/eTk7GekCWgP2xPBQyPAm8zh0om/OM7zM5G7Dt5bFoWp6lLX0GCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731761410; c=relaxed/simple;
-	bh=E6MpeJzVxLTr+NAkI0w9ZkI+NtxlH214f4+b9ktNEAE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gzpXF7wFZzKZ3Bj+NJj8K78JImxXfGJtWw2MTP+K2lmaNNiAZzP+E1ibKJ94feX8Ea76m9Hc319d2qt94HZxpsXVOYzo1c1laK3Kv3PZdop7/CFWig7OJAHY5sTd8uwDAJBAVuQRCH7EedMVdV4J8VRA1EuG1xFKgg3s26+E77s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Of1VpLjD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731763006; c=relaxed/simple;
+	bh=XNgAawX6XLOa4/demc/OpYXjlzmHxNtnjOdaMjMRKCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AsT7XT7cXvQcD1rtX7e9YCQnvfqgycanyRthauADv5RYyGTXZ6UGcLH7cmtBZ/KRMc56OA67u25GevzXu+0KOmHzS+hOC/dAyBOXVTA418BZNWytOq48X9CUffFE77gMJjiTBmRii98VSSvGdd7l4LzjgfaaSaLxVSJVXTfmGpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEnk3WvF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Of1VpLjD"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8E49DC4CEC3;
-	Sat, 16 Nov 2024 12:50:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEnk3WvF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D78C4CEC3;
+	Sat, 16 Nov 2024 13:16:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731761409;
-	bh=E6MpeJzVxLTr+NAkI0w9ZkI+NtxlH214f4+b9ktNEAE=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Of1VpLjDAu85lx4law7cuJWVz9WVH1lxU/i2hJTTKC8LTxFW24v2N4CV/78NJzxvk
-	 iiF90SUx1FZRA+3dSR66lC1f6HrNgjMh7GFOjXn5WSvuUASzmv3fKGd+N/EGm0QHTT
-	 04rPfLlAQOaq5glidDUQ2UFc/eq9evtJBocTXte0F0AM4I+FDZKGiI+tFm8NyPjnOn
-	 zGcimi+faoQ1nBusWYbmwKrtjzC3sYJfuicSmHpD2zeEZASZl7EUUmKzbyjjv+Q2J3
-	 YC/4FVc5NhOVjqb4kcZvimFzUEr2NYFEcpxQc2kKLVKzFxLyyJ8v03y6zYDjuc2hrX
-	 VThma5OoTI27Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80DE5D68BC9;
-	Sat, 16 Nov 2024 12:50:09 +0000 (UTC)
-From: Maud Spierings via B4 Relay <devnull+maud_spierings.hotmail.com@kernel.org>
-Date: Sat, 16 Nov 2024 13:49:36 +0100
-Subject: [PATCH v2] input: Documentation: Fix the input_event struct
- documentation
+	s=k20201202; t=1731763006;
+	bh=XNgAawX6XLOa4/demc/OpYXjlzmHxNtnjOdaMjMRKCM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UEnk3WvFJhwIzB5jN/zko4f6MTzOl0oeR+O281JOQE/TRtTGnrtf43PAjTSygnRnZ
+	 Gsx2vsi5s+vwy0EUpMEhomzM3oWohQpLU5BlAKJ2DC+g+Pb76yNiHbcJrg5JP1KDek
+	 KLwA/Pmrz9UN/KMSIOEu3+8jrBbgPtNesauRe/aPcSX+BtLikw/bYL4N6aHe0q+Ygt
+	 yOWJH0Hs3dUGYo01JQlT6+wWiEQW6xN07167UNstQII7NT+8cbfP5eue9ya4famEEc
+	 6QmsOYjR1WhSPydvpGp57CDU8HPgXwdfCC0EcuX/VeFbRVJzPZqV7SUaC+0doU/M0t
+	 bJUJBUqBJ2D0A==
+Date: Sat, 16 Nov 2024 14:16:39 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 2/2] docs: clarify rules wrt tagging other people
+Message-ID: <20241116141639.5adb4a95@foz.lan>
+In-Reply-To: <7491b60c-3e46-4425-aef5-63021538c33d@leemhuis.info>
+References: <cover.1731749544.git.linux@leemhuis.info>
+	<b7dce8b22a391c2f8f0d5a47bf23bc852eca4e71.1731749544.git.linux@leemhuis.info>
+	<2024111651-slather-blabber-857f@gregkh>
+	<20241116125003.43bf305c@foz.lan>
+	<7491b60c-3e46-4425-aef5-63021538c33d@leemhuis.info>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241116-fix_input_doc-v2-1-133dad7ae928@hotmail.com>
-X-B4-Tracking: v=1; b=H4sIAN+UOGcC/3WMQQ6CMBBFr0JmbU2HgIgr7mEIgXZqJ5GWtEg0p
- He3snf5fv57O0QKTBFuxQ6BNo7sXYbyVICyo3uQYJ0ZSllWiCiF4ffAbnmtg/ZKoKbJNJPSrao
- hO0ugfDh69z6z5bj68DnyG/7Wf6UNBYqmqnVtWnmlC3bWr/PIz7PyM/QppS/S7GqQrAAAAA==
-X-Change-ID: 20241110-fix_input_doc-1debf7bcd9c5
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Maud Spierings <maud_spierings@hotmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731761407; l=1144;
- i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
- bh=aJIAHE62NFe2v1AZvK2w1bKfLBVXM8fqWYWzZ+CLOFQ=;
- b=56Cb4rSIgy+NvQOd/PHdf+aL2L6cfyu5NJvfKmowENuxGlYLjVLJhFsk5KGXwN/FpGqFmp0Bb
- yNMdzsDKyOVCYrl0STxX5krtgAMOKBBq99Bw5ZnFDAkmpE6SaNiRy8S
-X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
- pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
-X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
- with auth_id=273
-X-Original-From: Maud Spierings <maud_spierings@hotmail.com>
-Reply-To: maud_spierings@hotmail.com
 
-From: Maud Spierings <maud_spierings@hotmail.com>
+Em Sat, 16 Nov 2024 13:27:44 +0100
+Thorsten Leemhuis <linux@leemhuis.info> escreveu:
 
-Fix the datatype of the value field of the input_event struct which is
-signed instead of unsigned.
-See include/uapi/linux/input.h
+> On 16.11.24 12:50, Mauro Carvalho Chehab wrote:
+> > Em Sat, 16 Nov 2024 11:42:06 +0100
+> > Greg KH <gregkh@linuxfoundation.org> escreveu:  
+> >> On Sat, Nov 16, 2024 at 10:33:59AM +0100, Thorsten Leemhuis wrote:  
+> >>> Point out that explicit permission is usually needed to tag other people
+> >>> in changes, but mention that implicit permission can be sufficient in
+> >>> certain cases. This fixes slight inconsistencies between Reported-by:
+> >>> and Suggested-by: and makes the usage more intuitive.
+> >>>
+> >>> While at it, explicitly mention the dangers of our bugzilla instance, as
+> >>> it makes it easy to forget that email addresses visible there are only
+> >>> shown to logged-in users.
+> >>>
+> >>> The latter is not a theoretical issue, as one maintainer mentioned that
+> >>> his employer received a EU GDPR (general data protection regulation)
+> >>> complaint after exposing a email address used in bugzilla through a tag
+> >>> in a patch description.
+> >>>
+> >>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> >>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> >>> ---
+> >>> Note: this triggers a few checkpatch.pl complaints that are irrelevant
+> >>> when when to comes to changes like this.
+> >>>
+> >>> v2:
+> >>> - Retry differently. This slightly hardens the rule for Reported-by:
+> >>>   while slightly lessening it for Suggested-by:. Those in the end are
+> >>>   quite similar, so it does not make much sense to apply different ones.
+> >>>   I considered using an approach along the lines of "if you reported it
+> >>>   in pubic by mail, implicit permission to use in a tag is granted"; but
+> >>>   I abstained from it, as I assume there are good reasons for the
+> >>>   existing approach regarding Suggested-by:.
+> >>> - CC all the people that provided feedback on the text changes in v1
+> >>>
+> >>> v1: https://lore.kernel.org/all/f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info/
+> >>> - initial version
+> >>> ---
+> >>>  Documentation/process/5.Posting.rst          | 17 ++++++--
+> >>>  Documentation/process/submitting-patches.rst | 44 ++++++++++++++------
+> >>>  2 files changed, 45 insertions(+), 16 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> >>> index dbb763a8de901d..b45c4f6d65ca95 100644
+> >>> --- a/Documentation/process/5.Posting.rst
+> >>> +++ b/Documentation/process/5.Posting.rst
+> >>> @@ -268,10 +268,19 @@ The tags in common use are:
+> >>>   - Cc: the named person received a copy of the patch and had the
+> >>>     opportunity to comment on it.
+> >>>  
+> >>> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
+> >>> -for addition without the explicit permission of the person named; using
+> >>> -Reported-by: is fine most of the time as well, but ask for permission if
+> >>> -the bug was reported in private.
+> >>> +Be careful in the addition of tags to your patches, as nearly all of them need
+> >>> +explicit permission of the person named.
+> >>> +
+> >>> +The only exceptions are Cc:, Reported-by:, and Suggested-by:, as for them    
+> >>
+> >> I don't understand what you mean by "only exceptions" here.  Exceptions
+> >> to what?
+> >>  
+> >>> +implicit permission is sufficient under the following circumstances: when the
+> >>> +person named according to the lore archives or the commit history regularly
+> >>> +contributes to the Linux kernel using that name and email address --   
+> > 
+> > Note that get_maintainer.pl doesn't use a concept of "regularly", and it
+> > doesn't really matter if one has just one or dozens of patches, once it 
+> > has a patch merged with his address, it is now public, as git log will
+> > keep it forever.
+> > 
+> > Also, if a patch authored by "John Doe <john@doe>" causes a regression, 
+> > a patch fixing the regression should be Cc: to him, even it it was his
+> > first contribution.
+> > 
+> > So, having a single patch accepted is enough to have other patches
+> > with meta-tag pointing to a name/email.
+> > 
+> > So, this would be better:
+> > 
+> > 	... or the git commit history contains that name and email address  
+> 
+> Good point. But we are getting closer and closer to areas where I feel
+> out of my league as IANAL without any backing from company lawyers if
+> this leads to problems down the road.
+> 
+> To still feel comfortable, I would change this to something like:
+> """
+> ... or a commit with a 'Signed-off-by' tag containing that name and
+> email address.
+> """
 
-Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
----
-Changes in v2:
-- Fixed the tags in the commit message
-- Link to v1: https://lore.kernel.org/r/20241110-fix_input_doc-v1-1-745d5f908e61@hotmail.com
----
- Documentation/input/input.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You should also cover commit authorship, as SOB e-mail might be
+different. Currently, -next catches it as warnings, but still
+there are cases where maintainer might opt to keep as is, for
+instance when the SOB has name+company@e.mail and the author
+may have just name@e.mail - or vice-versa.
 
-diff --git a/Documentation/input/input.rst b/Documentation/input/input.rst
-index 2c67fa904adcf902cebf8e7137c0a1609d879a50..d9a6de87d02de5301500b392191ab67e7db431ed 100644
---- a/Documentation/input/input.rst
-+++ b/Documentation/input/input.rst
-@@ -264,7 +264,7 @@ events on a read. Their layout is::
- 	    struct timeval time;
- 	    unsigned short type;
- 	    unsigned short code;
--	    unsigned int value;
-+	    int value;
-     };
- 
- ``time`` is the timestamp, it returns the time at which the event happened.
+What about:
 
----
-base-commit: de2f378f2b771b39594c04695feee86476743a69
-change-id: 20241110-fix_input_doc-1debf7bcd9c5
+"""
+commit with a 'Signed-off-by' tag or patch(es) authored or committed by 
+that name and email address.
+"""
 
-Best regards,
--- 
-Maud Spierings <maud_spierings@hotmail.com>
+> Because one accidental expose of a name and email address (say in a CC:
+> tag) by a some other developer should not be enough to allow other
+> developers to expose it again. Highly unlikely corner case, yes, but I
+> feel better that way. And in the end it should not make much of a
+> difference.
+
+IANAL either, but, once someone else exposes a secret publicly, it is
+not a secret anymore. You can't be blamed to mention a previously
+"secret email" that was now public.
+
+> 
+> Ciao, Thorsten
+> 
 
 
+
+Thanks,
+Mauro
