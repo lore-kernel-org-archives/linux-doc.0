@@ -1,119 +1,77 @@
-Received: from smtp-out3.simply.com (smtp-out3.simply.com [94.231.106.210])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE71663C;
-	Sat, 16 Nov 2024 08:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.231.106.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89485193079;
+	Sat, 16 Nov 2024 09:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731745883; cv=none; b=rXykVP13oHdX5TGRLr8ntB6XEbzinmc74wuoGgSKzo+QAa0MwCh6Qlql6cXvmsUvHtj3baNoedFuIChHvesEQ2/N8rBwJBqGnwJ7Tv/fJTLHC+z3Bs01EMw8ZOiIysCkEP7hSzX0G+W7GGnIUb47djqf3LiAyuqMsl9ecqpRA0s=
+	t=1731749653; cv=none; b=FGYKvR2Al1eX3RLAHjYdgcsYli9NEcG7NBWFT5eawXn2M2jk2glWKbOngDuDAVPvg/73Ol3vLB00SCP5P3wW/K5SjdoDaoRvXbOzk82jO3xOmNUjFWbNdPq41+XvNDuc2yWcsxfxpoGcjLglLOi4YkSKcRKNVqT65m2mkb2pOBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731745883; c=relaxed/simple;
-	bh=Iyuhl/jr6P9w67XtFsNYU6bXtOQwPW74TNT609bIAtc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NOCf0M0zjEkiCHZGd0cRgMkVyiYwN1M0m+JRg61zF4CAfRpeyoBywZsuCgG0QEc4Ql9EdWAGMG7xfFAybQXucvZM1HwDzMUnVKjmxjTje5VGHM9zCsLIO8hbfFa+TmkfIqT/Zrf342Z/Owm8pBjXzeUtS2mIvyNz1oN54wGn0Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com; spf=pass smtp.mailfrom=gaisler.com; dkim=pass (1024-bit key) header.d=gaisler.com header.i=@gaisler.com header.b=h6bntngO; arc=none smtp.client-ip=94.231.106.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gaisler.com
+	s=arc-20240116; t=1731749653; c=relaxed/simple;
+	bh=eoTB7BZYrZWM7Gl6BS3klFfm+UZ1S4B7t1Lr4Isf4M0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MqEOCHPSQPZL6ICrBkBSxPhlPLljfQgIkKhCM5H9REc0RYzJV1KC4YRCmiS0ZZzaQx1wkipBZRGVfNtocQqde9VLE2Dq+IPSqsQ/u6qwqNGTtI21ZHrrUbrDfERg/E1+Mfq7DLBqVyr0XGp8nIpngxhMZvm+w/MERDleceB3h9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=wRmvFl/+; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gaisler.com header.i=@gaisler.com header.b="h6bntngO"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.simply.com (Simply.com) with ESMTP id 4Xr6YK3TmBz1DHcg;
-	Sat, 16 Nov 2024 09:31:17 +0100 (CET)
-Received: from [10.10.15.6] (h-98-128-223-123.NA.cust.bahnhof.se [98.128.223.123])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by smtp.simply.com (Simply.com) with ESMTPSA id 4Xr6YJ6SB1z1DDrT;
-	Sat, 16 Nov 2024 09:31:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
-	s=unoeuro; t=1731745877;
-	bh=6ZbV4+IoJk8L+0GgX4YxbWtM3elPBL8i/qWEAd1wwdk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=h6bntngONbblphvXdMJKIwxW0vSHrrQe1DWKjc+cmiB+YDDpyk7QfIgoKFwYR+myg
-	 Nysfk+LUFefGh5TcrVY0SoX5HMocliC6/hilK/RFyaYE2vE94+/JPNhyOQNDXrZNQh
-	 SMfTzeqwuT4hB2sn1BnauSe9X4KMSveLro46JTxQ=
-Message-ID: <cfc033a8-a7de-469b-8afa-0069593c5c6f@gaisler.com>
-Date: Sat, 16 Nov 2024 09:31:16 +0100
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="wRmvFl/+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=bxC//Yl3wCklAz+DoIJKymAZfLtnvQ+I7hppBHxivSI=; t=1731749651; x=1732181651;
+	 b=wRmvFl/+JYEMgFX1yTB5CgjXD8T0AohXah/Bdh5Cmhxy/q48304fT2NH91la7lVgEPs1XVoik2
+	OLiA+5K8LCOtnEaspqGMK6iPws02l66O1kMHcW6YuVgtyLfyNqHJOO7S1PqGTYVVD+KHWnRIjt+2Q
+	SMjy4CF4Rtmc0ExyEUoBXBiH5YuQicqvHeE65RbeLcOe8TPfvmOLLGvDU7qIJ2ON6duZu8v5ea4s2
+	juY6TmVSZ4MLV4R8xnc8b+ltTFCiRjZ0ModWTaURzYt04467kGk59jUohxG4rsXrrWbVLpd7Tqqzl
+	Qp20Mm7ETfO6aw+ajhDZeMVBjC5IjKRuQAo6Q==;
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	id 1tCFBo-0000BI-H8; Sat, 16 Nov 2024 10:34:00 +0100
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] docs: reminder to not expose potentially private email addresses
+Date: Sat, 16 Nov 2024 10:33:57 +0100
+Message-ID: <cover.1731749544.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] sparc/build: Rework CFLAGS for clang compatibility
-To: koachan@protonmail.com, "David S. Miller" <davem@davemloft.net>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- glaubitz@physik.fu-berlin.de, Masahiro Yamada <masahiroy@kernel.org>,
- Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>
-Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com>
-Content-Language: en-US
-From: Andreas Larsson <andreas@gaisler.com>
-In-Reply-To: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1731749651;fe049c94;
+X-HE-SMSGID: 1tCFBo-0000BI-H8
 
-On 2024-10-29 15:49, Koakuma via B4 Relay wrote:
-> Hello~
-> 
-> This changes the CFLAGS for building the SPARC kernel so that it can be
-> built with clang, as a follow up from the discussion in this thread:
-> 
-> https://lore.kernel.org/lkml/JAYB7uS-EdLABTR4iWZdtFOVa5MvlKosIrD_cKTzgeozCOGRM7lhxeLigFB1g3exX445I_W5VKB-tAzl2_G1zCVJRQjp67ODfsSqiZWOZ9o=@protonmail.com/T/#u
-> 
-> The changes are removal of various `-fcall-used-*` flags, and adding
-> clang target flags for SPARC:
-> 
-> - `-fcall-used-*` flags is gated behind cc-option as it is
->   not supported in clang. It should be safe; clang won't use the registers
->   specified as temporaries, but it is a safe change wrt. the ABI.
->   Assembly code can still use those registers as needed.
->   A cursory look at the assembly generated by GCC 13.2 shows that
->   the compiler was able to reallocate uses of those registers into
->   other temporary registers without adding extra spills, so there
->   should be no change in performance.
-> 
-> - More trivial is to add CLANG_TARGET_FLAGS for SPARC target.
-> 
-> Building with these changes still result in a working kernel,
-> at least for Sun T5120, Oracle T4-1, and qemu virtual machines.
-> 
-> On the LLVM side, the effort for building Linux/SPARC is tracked here:
-> https://github.com/llvm/llvm-project/issues/40792
-> 
-> Signed-off-by: Koakuma <koachan@protonmail.com>
-> ---
-> Changes in v3:
-> - Use cc-option to allow GCC to still use -fcall-used-* flags.
-> - Add documentation on building on SPARC, along with required LLVM version.
-> - Link to v2: https://lore.kernel.org/r/20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com
-> 
-> Changes in v2:
-> - Remove the -mv8plus change; it will be handled on clang side:
->   https://github.com/llvm/llvm-project/pull/98713
-> - Add CLANG_TARGET_FLAGS as suggested in v1 review.
-> - Link to v1: https://lore.kernel.org/r/20240620-sparc-cflags-v1-1-bba7d0ff7d42@protonmail.com
-> 
-> ---
-> Koakuma (2):
->       sparc/build: Put usage of -fcall-used* flags behind cc-option
->       sparc/build: Add SPARC target flags for compiling with clang
-> 
->  Documentation/kbuild/llvm.rst | 3 +++
->  arch/sparc/Makefile           | 4 ++--
->  arch/sparc/vdso/Makefile      | 2 +-
->  scripts/Makefile.clang        | 1 +
->  4 files changed, 7 insertions(+), 3 deletions(-)
-> ---
-> base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
-> change-id: 20240620-sparc-cflags-e7f2dbbd4b9d
-Reviewed-by: Andreas Larsson <andreas@gaisler.com>
+Remind developers to not expose private email addresses, as some people
+become upset if their addresses end up in the lore archives or the Linux
+git tree -- especially when it comes to bugzilla.kernel.org.
 
-I see no pressing need for a v4. Picking the series up to my for-next.
+This fixes a few issues along the way that came up during preparation or
+review of the change.
 
-Thanks,
-Andreas
+Ciao, Thorsten
+
+---
+v2:
+- Intial version starting with "2", as the second patch was posted
+  before.
+
+Thorsten Leemhuis (2):
+  docs: 5.Posting: mentioned Suggested-by: tag
+  docs: clarify rules wrt tagging other people
+
+ Documentation/process/5.Posting.rst          | 21 ++++++++--
+ Documentation/process/submitting-patches.rst | 44 ++++++++++++++------
+ 2 files changed, 49 insertions(+), 16 deletions(-)
+
+
+base-commit: 623e5747c680d3854b6b9882d9907096bc63580d
+-- 
+2.45.0
+
