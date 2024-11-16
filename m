@@ -1,111 +1,119 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04BC238382;
-	Sat, 16 Nov 2024 08:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+Received: from smtp-out3.simply.com (smtp-out3.simply.com [94.231.106.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE71663C;
+	Sat, 16 Nov 2024 08:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.231.106.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731745373; cv=none; b=XFTEBsAODa0LmhA3LQfiV9mjnnqMBzUnHR8M9s0BwPila7xDVfPIFtGLErvprK12PO5dp9cBr4TpOngnSio1hHR6PBAyYl0e6griwLVIlXyNjEI7DaqHz9i+aPr4yzBvj5XL8MYlWosxuAIml57bFbcu9a/0vNuw92DN1jXfbgk=
+	t=1731745883; cv=none; b=rXykVP13oHdX5TGRLr8ntB6XEbzinmc74wuoGgSKzo+QAa0MwCh6Qlql6cXvmsUvHtj3baNoedFuIChHvesEQ2/N8rBwJBqGnwJ7Tv/fJTLHC+z3Bs01EMw8ZOiIysCkEP7hSzX0G+W7GGnIUb47djqf3LiAyuqMsl9ecqpRA0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731745373; c=relaxed/simple;
-	bh=LuDcn+RHguKWaiqobwicYIMlL673APuvhJZ9OzNXM/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=obC62vL0Q6kK7eJQqutCwajAVd8TaekRUiF09KWRqP3WNjhJBjFYEuU4MHkfxRL0OPHSdeQzEsxz/jxjQfoNRZS9CZKNDy1yxdpHV9vcggX3zmvCBEY3KK4lMe4GKkM0WWs4rFLKcKFr2WSKKrs200KFxdj/RKlCPoOyGJ+rz70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=cHhR8YQI; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	s=arc-20240116; t=1731745883; c=relaxed/simple;
+	bh=Iyuhl/jr6P9w67XtFsNYU6bXtOQwPW74TNT609bIAtc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NOCf0M0zjEkiCHZGd0cRgMkVyiYwN1M0m+JRg61zF4CAfRpeyoBywZsuCgG0QEc4Ql9EdWAGMG7xfFAybQXucvZM1HwDzMUnVKjmxjTje5VGHM9zCsLIO8hbfFa+TmkfIqT/Zrf342Z/Owm8pBjXzeUtS2mIvyNz1oN54wGn0Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com; spf=pass smtp.mailfrom=gaisler.com; dkim=pass (1024-bit key) header.d=gaisler.com header.i=@gaisler.com header.b=h6bntngO; arc=none smtp.client-ip=94.231.106.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gaisler.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="cHhR8YQI"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id D3A6914C1E1;
-	Sat, 16 Nov 2024 09:22:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1731745368;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M8LkjK7OJAgL/T02i6vFtgd+OiEHmfvwmO7csCxkIwE=;
-	b=cHhR8YQIsj09AmJOtyuWMsmjBQjV48y1gKTpkUsCHj6RxyTDxpx83Rc6AQqekGJ0C6RCnv
-	0RCV3GRNsRzO7TmNILFVIW4wXnYAIqceNlN88ajVzA1WGitO3+1fIal6Pmvk2tDMQTDpB3
-	HYnMnDXDAsPl4qqcJIBw5pnTP5kqts6L35iE1zjse/oTDMLT7in1HlSv38lb2KJammJzFa
-	PeNaSDfxYpaDHHp6rUjf3p7IQev7nHhONV71lbY4Zkj2axbeQUACR4ME9Mv2VQSRDPnHhB
-	9hpLfG7bpvLMJk+NAq/7AzlHSkbaHlE4N6HwoY8pmBvFJZCcLDITKCJkyxg1xg==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 74a3c321;
-	Sat, 16 Nov 2024 08:22:43 +0000 (UTC)
-Date: Sat, 16 Nov 2024 17:22:28 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH v12 2/3] net/9p/usbg: Add new usb gadget function
- transport
-Message-ID: <ZzhWRPDNwu225NWz@codewreck.org>
-References: <20240116-ml-topic-u9p-v12-0-9a27de5160e0@pengutronix.de>
- <20240116-ml-topic-u9p-v12-2-9a27de5160e0@pengutronix.de>
+	dkim=pass (1024-bit key) header.d=gaisler.com header.i=@gaisler.com header.b="h6bntngO"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.simply.com (Simply.com) with ESMTP id 4Xr6YK3TmBz1DHcg;
+	Sat, 16 Nov 2024 09:31:17 +0100 (CET)
+Received: from [10.10.15.6] (h-98-128-223-123.NA.cust.bahnhof.se [98.128.223.123])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by smtp.simply.com (Simply.com) with ESMTPSA id 4Xr6YJ6SB1z1DDrT;
+	Sat, 16 Nov 2024 09:31:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
+	s=unoeuro; t=1731745877;
+	bh=6ZbV4+IoJk8L+0GgX4YxbWtM3elPBL8i/qWEAd1wwdk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=h6bntngONbblphvXdMJKIwxW0vSHrrQe1DWKjc+cmiB+YDDpyk7QfIgoKFwYR+myg
+	 Nysfk+LUFefGh5TcrVY0SoX5HMocliC6/hilK/RFyaYE2vE94+/JPNhyOQNDXrZNQh
+	 SMfTzeqwuT4hB2sn1BnauSe9X4KMSveLro46JTxQ=
+Message-ID: <cfc033a8-a7de-469b-8afa-0069593c5c6f@gaisler.com>
+Date: Sat, 16 Nov 2024 09:31:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240116-ml-topic-u9p-v12-2-9a27de5160e0@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] sparc/build: Rework CFLAGS for clang compatibility
+To: koachan@protonmail.com, "David S. Miller" <davem@davemloft.net>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ glaubitz@physik.fu-berlin.de, Masahiro Yamada <masahiroy@kernel.org>,
+ Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>
+Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com>
+Content-Language: en-US
+From: Andreas Larsson <andreas@gaisler.com>
+In-Reply-To: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Michael Grzeschik wrote on Sun, Sep 01, 2024 at 09:11:17PM +0200:
-> diff --git a/net/9p/Kconfig b/net/9p/Kconfig
-> index bcdab9c23b402..2d7e596e22c3f 100644
-> --- a/net/9p/Kconfig
-> +++ b/net/9p/Kconfig
-> @@ -40,6 +40,12 @@ config NET_9P_XEN
->  	  This builds support for a transport for 9pfs between
->  	  two Xen domains.
->  
-> +config NET_9P_USBG
-> +	bool "9P USB Gadget Transport"
+On 2024-10-29 15:49, Koakuma via B4 Relay wrote:
+> Hello~
+> 
+> This changes the CFLAGS for building the SPARC kernel so that it can be
+> built with clang, as a follow up from the discussion in this thread:
+> 
+> https://lore.kernel.org/lkml/JAYB7uS-EdLABTR4iWZdtFOVa5MvlKosIrD_cKTzgeozCOGRM7lhxeLigFB1g3exX445I_W5VKB-tAzl2_G1zCVJRQjp67ODfsSqiZWOZ9o=@protonmail.com/T/#u
+> 
+> The changes are removal of various `-fcall-used-*` flags, and adding
+> clang target flags for SPARC:
+> 
+> - `-fcall-used-*` flags is gated behind cc-option as it is
+>   not supported in clang. It should be safe; clang won't use the registers
+>   specified as temporaries, but it is a safe change wrt. the ABI.
+>   Assembly code can still use those registers as needed.
+>   A cursory look at the assembly generated by GCC 13.2 shows that
+>   the compiler was able to reallocate uses of those registers into
+>   other temporary registers without adding extra spills, so there
+>   should be no change in performance.
+> 
+> - More trivial is to add CLANG_TARGET_FLAGS for SPARC target.
+> 
+> Building with these changes still result in a working kernel,
+> at least for Sun T5120, Oracle T4-1, and qemu virtual machines.
+> 
+> On the LLVM side, the effort for building Linux/SPARC is tracked here:
+> https://github.com/llvm/llvm-project/issues/40792
+> 
+> Signed-off-by: Koakuma <koachan@protonmail.com>
+> ---
+> Changes in v3:
+> - Use cc-option to allow GCC to still use -fcall-used-* flags.
+> - Add documentation on building on SPARC, along with required LLVM version.
+> - Link to v2: https://lore.kernel.org/r/20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com
+> 
+> Changes in v2:
+> - Remove the -mv8plus change; it will be handled on clang side:
+>   https://github.com/llvm/llvm-project/pull/98713
+> - Add CLANG_TARGET_FLAGS as suggested in v1 review.
+> - Link to v1: https://lore.kernel.org/r/20240620-sparc-cflags-v1-1-bba7d0ff7d42@protonmail.com
+> 
+> ---
+> Koakuma (2):
+>       sparc/build: Put usage of -fcall-used* flags behind cc-option
+>       sparc/build: Add SPARC target flags for compiling with clang
+> 
+>  Documentation/kbuild/llvm.rst | 3 +++
+>  arch/sparc/Makefile           | 4 ++--
+>  arch/sparc/vdso/Makefile      | 2 +-
+>  scripts/Makefile.clang        | 1 +
+>  4 files changed, 7 insertions(+), 3 deletions(-)
+> ---
+> base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
+> change-id: 20240620-sparc-cflags-e7f2dbbd4b9d
+Reviewed-by: Andreas Larsson <andreas@gaisler.com>
 
-
-It's been a while since this got in, but I figured I'd at least start by
-getting this built since we got a minor fix recently, and this being a
-bool is a bit weird -- any reaosn this wasn't made tristate?
-
-(If NET_9P=m then setting NET_9P_USBG=y doesn't seem to do anything?
-while it should be buildable as module, whether NET_9P is m or y)
-
-
-From the code there's a module_init and MODULE_ALIAS_9P is set so I
-don't see why it wouldn't just work, but I still haven't taken the time
-to figure out how to run this in qemu so I can't test this trivial diff:
-----
-diff --git a/net/9p/Kconfig b/net/9p/Kconfig
-index ee967fd25312..97546a6a3475 100644
---- a/net/9p/Kconfig
-+++ b/net/9p/Kconfig
-@@ -41,7 +41,7 @@ config NET_9P_XEN
-          two Xen domains.
- 
- config NET_9P_USBG
--       bool "9P USB Gadget Transport"
-+       tristate "9P USB Gadget Transport"
-        depends on USB_GADGET=y || USB_GADGET=NET_9P
-        select CONFIGFS_FS
-        select USB_LIBCOMPOSITE
-
-----
-
-Thoughts?
-In particular the depends might need adjusting, it's already in an `if
-NET_9P` block so just depends on USB_GADGET is probably enough, but I
-don't understand the rationale behind USB_GADGET=NET_9P either (can't
-have NET_9P=y and USB_GADGET=m ?)
-
+I see no pressing need for a v4. Picking the series up to my for-next.
 
 Thanks,
--- 
-Dominique
+Andreas
