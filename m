@@ -1,129 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F7426ACD;
-	Sun, 17 Nov 2024 07:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D3D28FF
+	for <linux-doc@vger.kernel.org>; Sun, 17 Nov 2024 08:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731828256; cv=none; b=YqyisRiGk7CHmV0oOlWFUjk/Pxx1oBqEX9weiOvV7kf4iZMm9q/MgFybD+hdhvrM1eUkrbPBNPVd2HUgZEuNIfrR4kBEhlyzocaOR2hNt7jXz1p5JKFfzEiZgk/OifEZaGivsStc9p3bVsqvYhXbSF77sOmp0nVB4JjklPrMPs0=
+	t=1731830977; cv=none; b=uh0jY4tRb0Gv/d0pBFwYG51qvYqMrpBQKYV0CZma4AMvPpEKaQVOlpCPU3qGb/3yKoarSdfNfWKRolOh8OXdaYNkACmewUxzkxKxfEBXz852ITBdkjEeifZ0pol1hlWDiLxX3D9Xi5usHazchcYg+WB7SlIp2H01PnlWxKaJTOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731828256; c=relaxed/simple;
-	bh=PIpxrPsJhzncZLir5a0JaLLfnHxWYWwe2urMxNiGP8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mbR4A/ZGrfCjaMZ1LodjnVKI1RmLB8FXGFI/+ik+Natr2hwSvrsJq27IoOySgVhS9XhmvzB9CZTS4uJ6eXHaFXx5HgmkD+bz55bWFh6VClXTHHsllpPqdxpZ8QUEXPix0BANY8wjLZI+khJML5FD8y62fqJAb6bhtKXtE6MVAt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ftWKNMzF; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731830977; c=relaxed/simple;
+	bh=JVjdxIAOylzI3vGfYIYWj1s1Lcucv/izfPzPJ3GkXSw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=fEh6FS/t/6bs+bZqrAZb/5axtR5KmuoDIlNrOAapgc2LaCbic8CTHPoFIIX703ZD0S0KLBLg0mP3L/uy69lnjajYNXE5WRvOHrfk9avfIGc2ZyDn2WoZgHggBLU4b1lX9mibKfajXDGbR571CzWe4jiqKoieYZc5ec5qTl2reSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FuMc62CH; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ftWKNMzF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731828255; x=1763364255;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PIpxrPsJhzncZLir5a0JaLLfnHxWYWwe2urMxNiGP8Q=;
-  b=ftWKNMzFGee6zTPu1wDKYzIUw0V2qVkIyeGrp0txQVfRWwSnCbfugCzs
-   llxSAXRPH+mIFMqAmrR2Qf4G7Ao47Gs5sW8DLtztDJHeKG0yY0QEinBKX
-   0tRe/c8JwZs8HZK8aEtODDnuHuZdlWd/Nerp3LMpOb3pQ4FhYNCT3s9q/
-   kBiGPpGF/bz3uX/K6lnwoYrAg4oyy37UVu+NRZrgqTclkMoefgDYaKV54
-   tQWHTndMUnBXg+SROVHdk4uaOi1g0NZhKYSFY/Qef+i+DVaFHnQwF2Sr1
-   88c9Eh+vvsU6saNiOT+zK3zVGa1QD16WAAvOgTkByxdsvLN91TUPNnLn+
-   g==;
-X-CSE-ConnectionGUID: aL+A60hkSfihFte19PENsw==
-X-CSE-MsgGUID: Te/0ccHPSEmXQpA7lrnPuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42321238"
-X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="42321238"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 23:24:13 -0800
-X-CSE-ConnectionGUID: qYG51FVbSaKTOja1pCCeKw==
-X-CSE-MsgGUID: 6bMcVYbNTWGGkV9IsAVA0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="88834652"
-Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Nov 2024 23:24:07 -0800
-Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tCZdc-0001cn-1t;
-	Sun, 17 Nov 2024 07:24:04 +0000
-Date: Sun, 17 Nov 2024 15:23:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Li Li <dualli@chromium.org>, dualli@google.com, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, donald.hunter@gmail.com,
-	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
-	maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
-	cmllamas@google.com, surenb@google.com, arnd@arndb.de,
-	masahiroy@kernel.org, bagasdotme@gmail.com, horms@kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, hridya@google.com, smoreland@google.com
-Cc: oe-kbuild-all@lists.linux.dev, kernel-team@android.com
-Subject: Re: [PATCH net-next v8 2/2] binder: report txn errors via generic
- netlink
-Message-ID: <202411171514.Vfp0RaLK-lkp@intel.com>
-References: <20241113193239.2113577-3-dualli@chromium.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FuMc62CH"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e35e0e88973so3948906276.0
+        for <linux-doc@vger.kernel.org>; Sun, 17 Nov 2024 00:09:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731830975; x=1732435775; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=T+OFugD+gETNb7vhEAsrG1OgRlzuAtkUoQYa8geci98=;
+        b=FuMc62CHWH2n6AMlI4TWeTzwGtn8Xp2faxrIy6gbhrRLF4oW2+GoTdaCS2jFxeuve1
+         SjNjVLbjvjQ6jAs5V6HyywwQKdGPFzk0aOxD/CtyAysljHOHu21qI2HakG+zLTR4nFmS
+         ROJviCNJcIp3wyBX9PyBXv5A1Wqw+4aIyel5kRpC4s/la6l8DvGiOPHnA4S6B0ZqnCbP
+         TtjaN2NVAE9LULduSFcLWQ6qadFAZp50MUZMxFISGmYKJTWh1a6jbfS5Js3o95kf3UTY
+         Ii0wIYEUtWQCLdoraSa/ohimj+mTf2V3iD8Q74UBa5CjVn6g2x6lKTJ631lBh2ATFV8m
+         xXPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731830975; x=1732435775;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T+OFugD+gETNb7vhEAsrG1OgRlzuAtkUoQYa8geci98=;
+        b=qno7gnW1Ji2DJNMiFdDtoqgxa6G3m4s7LqadQzEBYtbuYTTGkK9tioSkbK1yk9MJ0T
+         Sg+P91xkKQS3gQjguC+SGSWcIz+dC3LXzMA3miyDTr9+4IBQGbu5/yDpyppga2DN2pzJ
+         zLMH0zQXZbPeobk+CJY18JmqRrk8GfnNifwXEKxTKhFuTHoPEJa9henZG5cQja+xcM6Y
+         SiE8UGZUb07MRLsZ98LqkE4HERGwK7FVgsi5b8dO8XaS9ZYKD53iOddXD4RIOgTV+tYA
+         hPo65QOx3u/+m8l0h1Fx7l5q/9ctaPNUq1euDKrWi1hxE+n8JrjvNhYCZ+N3KL7PctcB
+         RHMg==
+X-Forwarded-Encrypted: i=1; AJvYcCUbYaK+8TR+900/L9+G6tTBnM/XG4Vx4di0MN9EIlOdhxZx2J5+vKql5agG4eHj4sqiyCv63UKCFk4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9efPwdMR8r7o1MW577tKHN8OSwEojLXEKflkxPRGeluWnDtca
+	BRQSaUijGBwB8ODdXpa8Dr74mOcdoPdVUP+4NL3VqrQ+KlMqW8PR/GvPcejrSKWePfTozGhJjtR
+	GWw==
+X-Google-Smtp-Source: AGHT+IG4dmb/uQ+GXi1P4l9n6RvmmZk+SVBQpXYBunsXvRdr7iFW+KRUCnhiMQ1KfmEq7maeTeWIGGpGl/E=
+X-Received: from surenb-desktop.mtv.corp.google.com ([2a00:79e0:2e3f:8:bafc:6633:f766:6415])
+ (user=surenb job=sendgmr) by 2002:a05:6902:2808:b0:e26:3788:9ea2 with SMTP id
+ 3f1490d57ef6-e3824775f45mr228432276.0.1731830974816; Sun, 17 Nov 2024
+ 00:09:34 -0800 (PST)
+Date: Sun, 17 Nov 2024 00:09:26 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241113193239.2113577-3-dualli@chromium.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241117080931.600731-1-surenb@google.com>
+Subject: [PATCH v3 0/5] move per-vma lock into vm_area_struct
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: willy@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, 
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, 
+	oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com, 
+	peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, 
+	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	minchan@google.com, jannh@google.com, shakeel.butt@linux.dev, 
+	souravpanda@google.com, pasha.tatashin@soleen.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com, surenb@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Li,
+Back when per-vma locks were introduces, vm_lock was moved out of
+vm_area_struct in [1] because of the performance regression caused by
+false cacheline sharing. Recent investigation [2] revealed that the
+regressions is limited to a rather old Broadwell microarchitecture and
+even there it can be mitigated by disabling adjacent cacheline
+prefetching, see [3].
+Splitting single logical structure into multiple ones leads to more
+complicated management, extra pointer dereferences and overall less
+maintainable code. When that split-away part is a lock, it complicates
+things even further. With no performance benefits, there are no reasons
+for this split. Merging the vm_lock back into vm_area_struct also allows
+vm_area_struct to use SLAB_TYPESAFE_BY_RCU later in this patchset.
+This patchset:
+1. moves vm_lock back into vm_area_struct, aligning it at the cacheline
+boundary and changing the cache to be cacheline-aligned to minimize
+cacheline sharing;
+2. changes vm_area_struct initialization to mark new vma as detached until
+it is inserted into vma tree;
+3. changes vm_area_struct cache to SLAB_TYPESAFE_BY_RCU to allow for their
+reuse and to minimize call_rcu() calls.
+Pagefault microbenchmarks do not show noticeable performance change.
 
-kernel test robot noticed the following build warnings:
+Changes since v2 [4]
+- Updated vma_start_read_locked and vma_start_read_locked_nested comments,
+per Lorenzo Stoakes;
+- Undated patch 2 description to include motivation for moving vm_lock
+into vm_area_struct, per Lorenzo Stoakes, Vlastimil Babka, Mateusz Guzik;
+- Undated description to include a note about memory overhead dependency
+on kernel config options, per Lorenzo Stoakes and Vlastimil Babka;
+- Updated vma tests;
+- Introduced vma_mark_attached();
+- Moved vma_mark_attached() calls into vma_iter_store{_gfp},
+per Lorenzo Stoakes
+- Moved vma_lock_init() into vm_area_cachep constructor, per Hugh Dickins;
+- Ensure vm_lock is preserved when clearing or copying vm_area_struct;
+- Pass mm to vma_start_read() to avoid use of vma->vm_mm, which might be
+changed by a racing vma_init() if the vma gets reused;
+- Added vma write-locking in vma_mark_attached() to prevent races with
+vma->detached check in lock_vma_under_rcu().
 
-[auto build test WARNING on 31a1f8752f7df7e3d8122054fbef02a9a8bff38f]
+Patch applies over mm-unstable
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Li/tools-ynl-gen-allow-uapi-headers-in-sub-dirs/20241114-033521
-base:   31a1f8752f7df7e3d8122054fbef02a9a8bff38f
-patch link:    https://lore.kernel.org/r/20241113193239.2113577-3-dualli%40chromium.org
-patch subject: [PATCH net-next v8 2/2] binder: report txn errors via generic netlink
-config: arc-randconfig-001-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171514.Vfp0RaLK-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171514.Vfp0RaLK-lkp@intel.com/reproduce)
+[1] https://lore.kernel.org/all/20230227173632.3292573-34-surenb@google.com/
+[2] https://lore.kernel.org/all/ZsQyI%2F087V34JoIt@xsang-OptiPlex-9020/
+[3] https://lore.kernel.org/all/CAJuCfpEisU8Lfe96AYJDZ+OM4NoPmnw9bP53cT_kbfP_pR+-2g@mail.gmail.com/
+[4] https://lore.kernel.org/all/20241112194635.444146-1-surenb@google.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171514.Vfp0RaLK-lkp@intel.com/
+Suren Baghdasaryan (5):
+  mm: introduce vma_start_read_locked{_nested} helpers
+  mm: move per-vma lock into vm_area_struct
+  mm: mark vma as detached until it's added into vma tree
+  mm: make vma cache SLAB_TYPESAFE_BY_RCU
+  docs/mm: document latest changes to vm_lock
 
-All warnings (new ones prefixed by >>):
-
-   drivers/android/binder.c:1977: warning: Function parameter or struct member 'file' not described in 'binder_task_work_cb'
-   drivers/android/binder.c:1977: warning: Excess struct member 'fd' description in 'binder_task_work_cb'
-   drivers/android/binder.c:2428: warning: Function parameter or struct member 'offset' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2428: warning: Function parameter or struct member 'skip_size' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2428: warning: Function parameter or struct member 'fixup_data' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2428: warning: Function parameter or struct member 'node' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2448: warning: Function parameter or struct member 'offset' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2448: warning: Function parameter or struct member 'sender_uaddr' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2448: warning: Function parameter or struct member 'length' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2448: warning: Function parameter or struct member 'node' not described in 'binder_sg_copy'
-   drivers/android/binder.c:4180: warning: Function parameter or struct member 'thread' not described in 'binder_free_buf'
->> drivers/android/binder.c:7161: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Add a binder device to binder_devices
+ Documentation/mm/process_addrs.rst |  10 ++-
+ include/linux/mm.h                 | 121 +++++++++++++++++++++++------
+ include/linux/mm_types.h           |  19 ++---
+ kernel/fork.c                      |  88 ++++++++-------------
+ mm/memory.c                        |   9 ++-
+ mm/userfaultfd.c                   |  22 ++----
+ mm/vma.c                           |   8 +-
+ mm/vma.h                           |   2 +
+ tools/testing/vma/vma_internal.h   |  55 ++++++-------
+ 9 files changed, 183 insertions(+), 151 deletions(-)
 
 
-vim +7161 drivers/android/binder.c
-
-  7159	
-  7160	/**
-> 7161	 * Add a binder device to binder_devices
-  7162	 * @device: the new binder device to add to the global list
-  7163	 *
-  7164	 * Not reentrant as the list is not protected by any locks
-  7165	 */
-  7166	void binder_add_device(struct binder_device *device)
-  7167	{
-  7168		hlist_add_head(&device->hlist, &binder_devices);
-  7169	}
-  7170	
-
+base-commit: 84f7f75fda11c147979984755011c6e2b71e97e1
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.0.338.g60cca15819-goog
+
