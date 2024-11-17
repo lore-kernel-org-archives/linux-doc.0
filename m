@@ -1,92 +1,128 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A0D19004A;
-	Sat, 16 Nov 2024 22:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0675828EB
+	for <linux-doc@vger.kernel.org>; Sun, 17 Nov 2024 03:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731795627; cv=none; b=MBMNSnIJ0x3P5C5pempr0IZiRts2A0YiXqLhKMRPXdLvd0vuZmdSVed5b1VOzZ6aeoM7DuJTLDIf1skTF8LdWSf5TgKNNreRx0DmrBJhwRGsgCQvUqAfXT3je+Ls6asR28ielnHIyMHSOnzv8P2yGtUpAMheQDYND3Pjf+ifSWQ=
+	t=1731814448; cv=none; b=FI37MQpjS6t5OIxst9ZV1x6m6/vgEeUH8fdvpi/gocI8Dy3GAqFT5aiwYN5Jqw5hc72h+eMnFvEhNs8+wsovIDGIE56y+yrsPKyJgJ3abczRc9IuANIJXohZ0n3zHOxUliLtlZ8XN3+2POQYc6x1GP7dMrxKkuxUyO8717+p6Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731795627; c=relaxed/simple;
-	bh=zG3lsvkchGGddMCV5F5tTsLTAmiTZzRvR7QUvDg8d8k=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Mic/bQOoNaNjsaYjV+FBNAlX9brL6zmnhtAF2GAiUfjEgE++OxarKZJv7V0wuL9gJaOVuswtTwxu5KiwjTcI6trE6p2eikPNtJAF2bujMxd+iyVpQMlrii/7xVFrV7W4RSNnFGC9D4lLX4SoUQwZiyCvIdJWrFYalnIon7ptJkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YXg7K+7D; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1731814448; c=relaxed/simple;
+	bh=00gvliQUwWimef4ct/EIE/b0rvbUFcdW8YQEp7o6rus=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=pckZhGptYcKOGVTthYO3qISbUV51Jn6ETLwIywZvqkmltO2Xuyas9Iv30Uajzi2ZLcBwXDqA3KrQ7nlVioifkXzd6JDijLiEulij40ZcSEO8nz2vMrJr4H0klg6WwuyO9J6CBR5ipt8iYpKnWlcPqcWOif5Tgc0rstTEz0cuqj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QhlGPQMb; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YXg7K+7D"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B33FC403E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1731795616; bh=rnLOFZZDEy+qyRI0xpVNtGzIX3qjRaGSTJ7RXKfL49w=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=YXg7K+7Dg2WW9s8rfxbke9ShI3MTXLbJgwgFGQ0ixdkgISr5G6wmLhBLpp4gnnDRl
-	 snWsKiwKEIpdUwQx3j7bQOxFCg9O6nGdYOpRChB4wuHYXwNfd7hFCPIf8GJiJWCU5E
-	 a7ADoN90g4dF0sJ3RGaCZOepnzfbPtrz/qmB7TZmvTwOXYx9EvxXS5wSMXVrvGOTTh
-	 NprtpKcOtYKJlkrgsojbACxTrYsDbHHLpNyqKR+QUZmxLaOodWx0kN6x516Tz6k5TU
-	 z2VNLpsc53uhCPyHbFlAzBJxmCH9qpP65iclUbYVTba+ouCIWOEY/xn257LjhU8KTs
-	 VhUHSQ4i9BHWA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B33FC403E5;
-	Sat, 16 Nov 2024 22:20:16 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>, pasha.tatashin@soleen.com,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org,
- akpm@linux-foundation.org, derek.kiernan@amd.com, dragan.cvetic@amd.com,
- arnd@arndb.de, gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk,
- brauner@kernel.org, jack@suse.cz, tj@kernel.org, hannes@cmpxchg.org,
- mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- muchun.song@linux.dev, Liam.Howlett@oracle.com,
- lorenzo.stoakes@oracle.com, vbabka@suse.cz, jannh@google.com,
- shuah@kernel.org, vegard.nossum@oracle.com, vattunuru@marvell.com,
- schalla@marvell.com, david@redhat.com, willy@infradead.org,
- osalvador@suse.de, usama.anjum@collabora.com, andrii@kernel.org,
- ryan.roberts@arm.com, peterx@redhat.com, oleg@redhat.com,
- tandersen@netflix.com, rientjes@google.com, gthelen@google.com
-Subject: Re: [RFCv1 4/6] misc/page_detective: Introduce Page Detective
-In-Reply-To: <20241116175922.3265872-5-pasha.tatashin@soleen.com>
-References: <20241116175922.3265872-1-pasha.tatashin@soleen.com>
- <20241116175922.3265872-5-pasha.tatashin@soleen.com>
-Date: Sat, 16 Nov 2024 15:20:15 -0700
-Message-ID: <87cyiukehs.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QhlGPQMb"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-211f1b2bf2bso90025ad.1
+        for <linux-doc@vger.kernel.org>; Sat, 16 Nov 2024 19:34:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731814446; x=1732419246; darn=vger.kernel.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AOX3KyXD/eJJAjnkxJqzzYE8mS/sgEW7Z5FSy4P93gk=;
+        b=QhlGPQMbKRvBYzmloIxsv/d988bLuPTHfjMtPB1DEt29MV+96wbMwrYb2x4H59axn3
+         AE5SRrNAJqHrgNIamdFh7Jq97Jt80bGGwu9dAQKcWLOCfgEbid6JTWx3Jt++KWLxrIDk
+         ZZa4entqWTDN5sot8bSi0GMqPDrDz5C+83Q9gLtW5v4JFGjcNZJCy8kktWDUUaCYd5Ls
+         ZpoESqyVP7c7nf+r6dFVWWcsZBnfvwK8y5v/5OjPEkOAydgESAlSWqYr+5GG4sUMp/6h
+         FEsktXQeGjhGJo1+DooFjg4NgpUQPIr4GmLTUR+qpmlHdVxVjO5oT1kC7Osm8TyWbmXD
+         XYdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731814446; x=1732419246;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AOX3KyXD/eJJAjnkxJqzzYE8mS/sgEW7Z5FSy4P93gk=;
+        b=gG6Db/ZO1l0cfC9P97qEMcn3vkjB+4aMnf2VhkxLEfwHuOSuYgn9zaBn3nJq9TrXBZ
+         3ceIDvG4HrYpnAmhhIXm6QtFJIf5RVmO6/ySTty4+EBRQMvFtIIEz5KdN62HYPBX8HDb
+         WLCblzdXL4iq9ZN86iBi7JVSa9scS0GAiLhtlutjBg4VJSKNPBO4Y/XOV2vE1lzpUTOv
+         l6fsC9FAfTkW6wetzOy6pSUVx1HTj2E7FFda77IIIA2GGq+3u6xgQxSd62jILnn07m/W
+         rWyhi3tKn6Ni3AQR+fZLmk7jTvDlIL2H0T2AbWMa2Fn8Yflc/jizY1IIhudrhTgy+c5a
+         qu7g==
+X-Forwarded-Encrypted: i=1; AJvYcCU12Zv4/HJExXjSBhEHXNJ6bJ1upsNUFFNBBb0Bt4tVsy2jfiWPuCEbT5AkpQIpH96a4r8kECtjy7I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhaiHa6nNFBBERsUxpwdMbdydanwBqCG/0It7HTd0E5H2nn3ae
+	IIxfjFX5EKEqXx3gtQJDmiKO9bE91fFgandBlWvYW3IWxf/Z8arpxYcz+NSuBA==
+X-Gm-Gg: ASbGnctdTYNCTPlmqphY9CSWhXjosNVHE5v6QFysO2PVkykiLa/HPOeHDyhVAWk8HbQ
+	S4trQqTyovw9jhZA/H9hNbWODoPSPtArKzJX8ycXMVdOmE9UiLeF5JrNG00bXPm9HKM90zhJR2q
+	vkKhpac2O+qViMJ7JSax+D+XTlRgD3Y1CaJ3YwBAsEL4aXyURwPPIOZT7MmSQ86TjTi+U4XE1fq
+	f1xKLemVB3D20pt2Ugg0djkJlsAxuZVsnkYkcNbTH01FhMAkIHg/YucyzWwLxYnv8QQefMZ8Gbs
+	2g==
+X-Google-Smtp-Source: AGHT+IGPoixMjPOc/jgNWCvbrikf5QKqxsGFrmaEsXlgsR6JtxYUwWpc2eNtXOXeVrmypR6sxs71JQ==
+X-Received: by 2002:a17:902:c94b:b0:20b:bf5a:c8 with SMTP id d9443c01a7336-211ecf6145cmr1959885ad.10.1731814446065;
+        Sat, 16 Nov 2024 19:34:06 -0800 (PST)
+Received: from [2620:0:1008:15:c1e1:2e4:c82d:76a6] ([2620:0:1008:15:c1e1:2e4:c82d:76a6])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2120dfab3c5sm3500375ad.22.2024.11.16.19.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Nov 2024 19:34:05 -0800 (PST)
+Date: Sat, 16 Nov 2024 19:34:04 -0800 (PST)
+From: David Rientjes <rientjes@google.com>
+To: Johannes Weiner <hannes@cmpxchg.org>
+cc: Joshua Hahn <joshua.hahnjy@gmail.com>, akpm@linux-foundation.org, 
+    nphamcs@gmail.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
+    muchun.song@linux.dev, chris@chrisdown.name, tj@kernel.org, 
+    lizefan.x@bytedance.com, mkoutny@suse.com, corbet@lwn.net, lnyng@meta.com, 
+    cgroups@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v4 1/1] memcg/hugetlb: Add hugeTLB counters to memcg
+In-Reply-To: <20241114052624.GD1564047@cmpxchg.org>
+Message-ID: <f179500f-5c58-d559-ff88-0d7bb8f9fa2c@google.com>
+References: <20241101204402.1885383-1-joshua.hahnjy@gmail.com> <72688d81-24db-70ba-e260-bd5c74066d27@google.com> <CAN+CAwPSCiAuyO2o7z20NmVUeAUHsNQacV1JvdoLeyNB4LADsw@mail.gmail.com> <eb4aada0-f519-02b5-c3c2-e6c26d468d7d@google.com>
+ <c41adcce-473d-c1a7-57a1-0c44ea572679@google.com> <20241114052624.GD1564047@cmpxchg.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 
-Pasha Tatashin <pasha.tatashin@soleen.com> writes:
+On Thu, 14 Nov 2024, Johannes Weiner wrote:
 
-> Page Detective is a kernel debugging tool that provides detailed
-> information about the usage and mapping of physical memory pages.
->
-> It operates through the Linux debugfs interface, providing access
-> to both virtual and physical address inquiries. The output, presented
-> via kernel log messages (accessible with dmesg), will help
-> administrators and developers understand how specific pages are
-> utilized by the system.
->
-> This tool can be used to investigate various memory-related issues,
-> such as checksum failures during live migration, filesystem journal
-> failures, general segfaults, or other corruptions.
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
->  Documentation/misc-devices/index.rst          |   1 +
->  Documentation/misc-devices/page_detective.rst |  78 ++
+> > > > The reason that I opted not to include a breakdown of each hugetlb
+> > > > size in memory.stat is only because I wanted to keep the addition that
+> > > > this patch makes as minimal as possible, while still addressing
+> > > > the goal of bridging the gap between memory.stat and memory.current.
+> > > > Users who are curious about this breakdown can see how much memory
+> > > > is used by each hugetlb size by enabling the hugetlb controller as well.
+> > > > 
+> > > 
+> > > While the patch may be minimal, this is solidifying a kernel API that 
+> > > users will start to count on.  Users who may be interested in their 
+> > > hugetlb usage may not have control over the configuration of their kernel?
+> > > 
+> > > Does it make sense to provide a breakdown in memory.stat so that users can 
+> > > differentiate between mapping one 1GB hugetlb page and 512 2MB hugetlb 
+> > > pages, which are different global resources?
+> > > 
+> > > > It's true that this is the case as well for total hugeltb usage, but
+> > > > I felt that not including hugetlb memory usage in memory.stat when it
+> > > > is accounted by memory.current would cause confusion for the users
+> > > > not being able to see that memory.current = sum of memory.stat. On the
+> > > > other hand, seeing the breakdown of how much each hugetlb size felt more
+> > > > like an optimization, and not a solution that bridges a confusion.
+> > > > 
+> > > 
+> > > If broken down into hugetlb_2048kB and hugetlb_1048576kB on x86, for 
+> > > example, users could still do sum of memory.stat, no?>
+> > > 
+> > 
+> > Friendly ping on this, would there be any objections to splitting the 
+> > memory.stat metrics out to be per hugepage size?
+> 
+> I don't think it has to be either/or. We can add the total here, and a
+> per-size breakdown in a separate patch (with its own changelog)?
+> 
+> That said, a per-size breakdown might make more sense in the hugetlb
+> cgroup controller. You're mentioning separate global resources, which
+> suggests this is about more explicitly controlled hugetlb use.
+> 
+> From a memcg POV, all hugetlb is the same. It's just (non-swappable)
+> memory consumed by the cgroup.
+> 
 
-This seems like a strange place to bury this document - who will look
-for it here?  Even if it is truly implemented as a misc device (I didn't
-look), the documentation would belong either in the admin guide or with
-the MM docs, it seems to me...?
-
-Thanks,
-
-jon
+Ok, that's fair.  We have a local patch that tracks hugetlb usage, 
+admittedly for all hugetlb sizes, in struct mem_cgroup_per_node so that we 
+can provide a breakdown in memory.numa_stat because we can't get the 
+per-node breakdown from hugetlb_cgroup.  If there is interest in that 
+breakdown, we could easily propose the patch.
