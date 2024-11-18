@@ -1,307 +1,377 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2071.outbound.protection.outlook.com [40.107.101.71])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB69A1ADFF9;
-	Mon, 18 Nov 2024 17:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731951896; cv=fail; b=psEYwRnGnDuLFwsFCdceepDj3imos74vnbrGjixVG7nZYFz2xsO6Li7BqYEiIBp5ENzLPfscFs2jEApoMK+RiPTOz/jakh7/rGoFUzZUMf/g/J76BJXrMGfyrH6/bwy6eWjf7L8ZLyJVQLHYjBg+8xhooEL9o4akYB04RWiIIqk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731951896; c=relaxed/simple;
-	bh=rHQ8HYKek8i0BSZ5yEXxIpZmad5iXg+B59bRcI3Mw0I=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OBx8An3nr0fHQJimYCWGy+rmM0TmhSULrv8m9PJqMVtOBGqJSgyPasm/y3r1acryha/qTfgVyyxOW8O931mAfhkGuBnBMGpq9HfOxFaFI68CrWPJVjyDq5xf6LE/kD/IsmO/iobJ4AlSvvdIyUDXq2eUnVo65XjC85dl9VVxjQs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QvIe6v2s; arc=fail smtp.client-ip=40.107.101.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276B82E3EB;
+	Mon, 18 Nov 2024 18:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731954512; cv=none; b=Vlbxe1qlBBi2oPONBo4tMf2yLBaq2mT+0Q6qsIckTB/cFMtRUjxvWFAj4Mk2vEyNlEx3xeOEHw+ApFwi4HTbFBDTEwxCgZMGp6hfGQrfBKY8BHHg2el3iQXkKmADrxT0dm7VO9Hj3AdbWX411iXIXNlSiBa7KGo/26JrUcobue0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731954512; c=relaxed/simple;
+	bh=L+ke1HKheZrVabiaIrosaybXGyZZ2n8s1WZwjU6XN3w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YVklbHSZdjI5yQutVvLvgbQM8zAI9qSJwuFfkFu9Mr8YAi/Du6pcwehHhRHs6MKUdku6WmslroDONuqurf1ESYRoZ/r5T5afc116FlWcvpP7b6SnrcveaN0XMvepS7nD4gCRI4LGLditvv7FlpMoqr/SI4HyD2bFXdsZLJEcRc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=h9kCS5T1; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QvIe6v2s"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vfocEd8Jq+OBPoJUjietFua1QohqMJl6SSGEtF2BzBsSalODY5km+Mpl8cddIfxXuZp7USKgoCbEK0r6XgBqPY9/WfRRj9nwY5koh8wsPg7Jlm4ssnyHRXPBYuq9XkPSoJvfrABJW3iuVsxPgZ17A5CM8Hy+P1Et0wgr8zDsKxBNBJzXpghVj0qG3ESqE6BwqS9hoeHvSWRzl4D0xHLgD6HmAjZGrzI8hF1NnX12rWe0gfNSLrDNq0Gy5mnBD8PHvacnYR1EM7ihGfEJ0sxDuUAp/aI/0gMKAsrklVXmvPLq6e3wRKRU+KOkB83Ait7Cx2AfWoRp6aExIQGUHUuG7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/YHjraGttgm723XtLiG4xQqjXFODWIGCddQ+9n7dGHI=;
- b=jVnFwdeeRjZhE3leyOF+i9332BJ/aAstiCdoDn9cOn7W8tiNCwkt2nQ/UEeL+EltLChPzFEanXPWLeJ3t4uj28h7A/BcUBTn+sgdKaK2/6JqnrWU/elfYVG9jAIOGX4cy1RXkkziTcmfyF3lCzo1YyTgNQvbxdQUFx34uExBIW+omYbvcm3Eewm8OmgpMVuU4mNZoJTMb/QrjC22aiIfjVDRWaN/pC3e06IXBR2C2cfn2TqGjjW01aoOGqR0UctRyQQiK5LEfi58zYnUUHP1J5BJxPWSgAozaa9yAPr/7iUNchYJbSNnvVDIBOcvAR0IURX8HiCqjwKnLkWSGn2lcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/YHjraGttgm723XtLiG4xQqjXFODWIGCddQ+9n7dGHI=;
- b=QvIe6v2s6r2Xq7YlPFLUNGIPQK7JOjC7SfnRYwX2Ig63CBTBVjvPmpYR8UGFUUuPqeKw2+LFSSj/yLXfwUf+u/jghynXLEGTBAc7YtPIgCk8+nMpxDKdWi2BwZsNIL6N1T1p4YfD28IwRmD7fpXgiVVXa2U+Jq5ZHoLzo/uWHLQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SA0PR12MB4448.namprd12.prod.outlook.com (2603:10b6:806:94::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.23; Mon, 18 Nov
- 2024 17:44:52 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8158.023; Mon, 18 Nov 2024
- 17:44:52 +0000
-Message-ID: <02e304e5-597d-48f6-b61e-24f366f60fda@amd.com>
-Date: Mon, 18 Nov 2024 11:44:44 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v9 01/26] x86/resctrl: Add __init attribute for the
- functions called in resctrl_late_init
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com, thuth@redhat.com,
- paulmck@kernel.org, rostedt@goodmis.org, akpm@linux-foundation.org,
- xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
- daniel.sneddon@linux.intel.com, perry.yuan@amd.com, sandipan.das@amd.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
- jithu.joseph@intel.com, brijesh.singh@amd.com, xin3.li@intel.com,
- ebiggers@google.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com,
- james.morse@arm.com, tan.shaopeng@fujitsu.com, tony.luck@intel.com,
- vikas.shivappa@linux.intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, peternewman@google.com,
- maciej.wieczor-retman@intel.com, eranian@google.com, jpoimboe@kernel.org,
- thomas.lendacky@amd.com
-References: <cover.1730244116.git.babu.moger@amd.com>
- <2372314c135882d233eb8dba69af7c245efdcc8d.1730244116.git.babu.moger@amd.com>
- <55bd64e3-50ff-423c-ac75-e25f2e1c9ffe@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <55bd64e3-50ff-423c-ac75-e25f2e1c9ffe@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR05CA0033.namprd05.prod.outlook.com
- (2603:10b6:805:de::46) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="h9kCS5T1"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C982AE0004;
+	Mon, 18 Nov 2024 18:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1731954506;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=N8n8DeNXLJc3zxJEIGoUtBbHbVCDWJoELktVPpI0ii0=;
+	b=h9kCS5T1Qz/KhfTzr7tyWgBvB9l3sWpgrUo8K9o0+fXxAZPff5Z/5BJZ6ZEp5Z67lpjryt
+	ALklG6DcKUd4ZZoI8NGrKdovmqUsazG07kje4fWrCORgUp3qMZsXac+y9CUGwGpXgj3NF/
+	I5tHZdZmxJla1a7u9amja52PBezmtpuUnt1C/fd7lTazROVAPyqCckDja0XlUPjHdFGh4B
+	m4MPY7xZ1CUb2A/SIQkEBq48EpfvKEkiMTiuZEorAmMHfRGWohn4gOt6PvhpQSG4ZtTzh/
+	MIEZ+dQSJ9LQy7sxcMTOHI0SFZ48wDUALf8cnkGS7ZdfTEFRNw/luQoFhfqNrg==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v14 0/9] drm/vkms: Reimplement line-per-line pixel
+ conversion for plane reading
+Date: Mon, 18 Nov 2024 19:28:15 +0100
+Message-Id: <20241118-yuv-v14-0-2dbc2f1e222c@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA0PR12MB4448:EE_
-X-MS-Office365-Filtering-Correlation-Id: c13a9832-bf85-4c7a-d28e-08dd07f8b496
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?c0F5Z1QwTzEvK2tZSWNHVGhiZ0dHYmZiTlk5Z1Z2ZHVZWXQwS0loY0pTWDQ4?=
- =?utf-8?B?WHdEZkd2V2RHTkk5YUZFenU0RWR6T0Y0M3BHR2l1N25DeWZ4Uk14d3h2RU9y?=
- =?utf-8?B?dEpvQXhSVmNPWnNQWVhpUVExUHc0WTNBNXczU1B5RVExRXpQWU5ySzYwN0pT?=
- =?utf-8?B?UDcwUVg5TlZPRDJLNU44ekNIT1RKSWxtZmdKSjAyRGRObkZIVC9TTThKNGpH?=
- =?utf-8?B?OERVWmlpQmo5Z3VvSVlzaWE4U1dmaGRXYTVJenNQcGZDWDNSWno5MEdidExs?=
- =?utf-8?B?bktyZGJTd3RaN2ZnY0M0cnNYWEdiVUI0b2RpdXY4cVJpMlRINFBaSjNtYkFS?=
- =?utf-8?B?RlBtK1VqV1N2TGRNZkQzeGJjakxlbHlpN3lZekVOcERiSGw3YllqUjFDUlBu?=
- =?utf-8?B?NUI2L01ucXVndi9iTzBXbkJBenhuL0NLcGdUdGxpeXB6MHRTbXk2T1RONTkr?=
- =?utf-8?B?TTNpNnQxdlRkYVFuT1hhOHpzSFE4QUxRQXBkQlY2eTdTU3VqMjJFMytjU1pk?=
- =?utf-8?B?NkNGZVdRaDBSNjlnZGJIZjc3T2d6dkUzcFEyRkFRamw0V2t5cHFoS0QrOUpu?=
- =?utf-8?B?QzlnMFZQUi9CdHZ3REU3WUI1UDNEWmdNZTBNcHlLRzQ2aW80Ynp0UERJNHZn?=
- =?utf-8?B?UThLeWRONlJGRFN3WVMrK1NoUDFrMU03bFpTWmp6d0E1NDE1OGtmcXBvYVlY?=
- =?utf-8?B?Wm9yT3NMY21TbitNSHNYR2pyeWd2Q043S3hYckRUczhjRGZIbUJKTkdUZGZp?=
- =?utf-8?B?RFpRT1A4K0RaczlsL21oUk1kNWpqTFRFdU9lMEM2dWxwYnhRa0d4M0lkZUNB?=
- =?utf-8?B?ZjdkMVRnckRteUl4ZEtiWVpKSngrMWZsSGkzakl3a1lZMTFSWU1qME5Jczdz?=
- =?utf-8?B?UGRjbmJFeHdyVEtQWjlDUEdOZklGWTE3UHdiU1QrNGszZjllMXpqSlBpazRS?=
- =?utf-8?B?TTBuQ2d1UHY0Q2hzR3VFVnA0bksvOGIxV1RDaGphWlB3S1k5dE1oNjIyOXR1?=
- =?utf-8?B?U3hsM0FDaEhOR0NiOFNGQzdtcEIrc3NrNXk3MTF6ZERvZ2FxNEZnVm00bklW?=
- =?utf-8?B?NDJHOUNDdk4vd1QvUHVPemlQbVFFaE4rVk14RzRRT3M5algyT2VrNUtpWWxM?=
- =?utf-8?B?am1rYWtEN2c1SFFzVXp2bmFMV09CUU52S0RvV0FFREpyWVk0dnN6K1A0V3hn?=
- =?utf-8?B?dElBNGZQUXhFVm0wK3dYNWhQbGsvREZJRms3UURSTkdTd2J6TnVPY2FKWUIx?=
- =?utf-8?B?Znp2ZWh4VXJUNHNhOEZhY2JKVUxTVWxVMmhFRnlZOWNNamRaQ2dmVVdMSElY?=
- =?utf-8?B?OTJ6ZEFXOVpZY1NlWTNJZUNsdWxWcENXWDZCcUNDRUxFRksrM2J6OEJMaTQx?=
- =?utf-8?B?dk9oSDlqbE13Mks3RzlXTHhaNXYxbmpVTWJsTnU1bHNSOTFiLzA4ZUswYkZD?=
- =?utf-8?B?VndoU2YzRXdja0QxTG91OXFUaVFzNjhLVlNubEUydk0ydHU2V1VDSkxlUmVr?=
- =?utf-8?B?S3JRcmE5MWwxQmpqa0FwakRQZTFZRnVyeTNjNHAxWW9zcm1iUzdOL01KQ0s0?=
- =?utf-8?B?VnpvUHBuNVdqTTBtVUpMUzZ5VE9mSFRWTWJ4K1FRL1c5dnJXRTlZMGFyUGY5?=
- =?utf-8?B?RUFoZzhpNjd5S3E4c3QvbWZiWk5RMFg0dTlqZFhYVUZrR0IrNzRGQlJDSmcz?=
- =?utf-8?B?THFEeDc0TThDOHdrVHFJTkdVUzlBZktEc2luU3J6RGtVbDNmRnFnbE5laFVy?=
- =?utf-8?Q?Mzeu5zzVgeR1VoN7sNZ1tseaX4Xz5mxb5k+fmyt?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?M1Vid0xWU3ZzVVRscVpIcXFXN09tS0J5T2ZvZ1dLRjdRQzBqcklkYzF3Z0t2?=
- =?utf-8?B?b0ZuUVJqRkFsaHZ1cnV2OTlPSllwTkE0YkUyazRFbExCbEVvVHVFdC80MDBT?=
- =?utf-8?B?Ky9iRGh2cHgyUHhkblVOWGdwMWh5aEE4OTk2MFp5WmE0N1I4dTFWTlpLd1B1?=
- =?utf-8?B?c3ZQcXZuRHNta3Y5T0FtZE5qSEFvTy90cmFsY0hNMnNYVGZ0ZmowanhSNmZC?=
- =?utf-8?B?aklZWDY2VEwwTHpaeUY4NjExR0JMV2VUZDFyQ2pWdzI1RWNEc0lnVlZEa2pB?=
- =?utf-8?B?Y0l3a0pFOS9MTjR3L0ZJaHdUV2QxZTRodEpoWlQ2cnBZNkZQSWZMQVM3T2Zm?=
- =?utf-8?B?b25XWlNuRVQyUmFTMnQ2MllNZGxvVnNLRjBkdTB2VDVmZVdRdVVxVnJJRWF4?=
- =?utf-8?B?aW1rS0ZvNUQxM1ptTVZoU1locG91bnppSklZY0ZMb05wc0llYzE2SmtLSmRV?=
- =?utf-8?B?bEZIbU12U011VVgxUGxHSjJSQlMyM0I4NkdEZWJ2bWp0TnAvenpuUEV3dlll?=
- =?utf-8?B?MFBNUHk5cWVsbVROeHdxQU1hdGNheE96MjkrSjhmMFlld25VRVppbjhTbmlG?=
- =?utf-8?B?Z3VycUFVNmhMM3QyYkJiYjdLK3BDZEt3Q3VMK1V1em0xaExvY1ZNRlAzQkF5?=
- =?utf-8?B?WU9uZENRcXhNbVpZTThQbmtTZXpKM3pkV3hzM3RyY3E5N2w2d3JMVkFrMGlm?=
- =?utf-8?B?VWVDSkFuZ2E2c0pxQmFYVjVDWHBEOHkvenN1ckYySWVaUk9wZlBoUGcvajdv?=
- =?utf-8?B?VmtpVDlzVEhYSHhncHdiQUMxRytaaUg2L24rVk9PL3BsQm1Va3hLZWdTaUx1?=
- =?utf-8?B?TkV4SHRwS1BLT1QyL0l6cGhsMGNYZ3RLUzlpcHRqL21NbWRBZ1ZHaXhWUFor?=
- =?utf-8?B?NnYzOXVqLzRXTkkzZGgvbTMzcEx2cm1icGp6MUZoNE9jL0Jxdm9PS1piTUd0?=
- =?utf-8?B?bGVOMlRvNXFoY0RGYVY2T1cyRHlsWW12MUJVVTZXVUpNNHZYZFJlWUR1M0xK?=
- =?utf-8?B?VzluQXpIMC91bFI0elBncjRhTnlLaC9JRXZJRlV4SiswdXFUZE5ZRHNUTHRk?=
- =?utf-8?B?SlBTTXVQcDNBQ09EczhQbEU0VEg4WDUrbytQeHh5VUpHQXBPcEc0WHcyb1hX?=
- =?utf-8?B?Qk1USXZLaDFYVE5PdXZONGUxQVRmbzJ4K05hc2VpY1NBWm8yMXp2VWpBUlFw?=
- =?utf-8?B?SVBiT1JiRjJuOHRWS2tyVlRKOXpudkhJcnlMaTA2cnRNNEI1QkxPY3ZoaWlj?=
- =?utf-8?B?YTRXc09wdkZGbVJLaWY4Q0lqN2pKT29RN1pabWFUWUo4eGl5YURKSmlvaE9L?=
- =?utf-8?B?L25JbUM0QnRjYXVvR2IvQjFnUkJjams5RnJzYXRzd1V6Z21Pc0pKMUJnSm5w?=
- =?utf-8?B?eVlIb0oyYlVlaUwwWmhMSHRxcnBNS3d0RWk3RTFkRHNhN3N3QjF1TUJ5WjhL?=
- =?utf-8?B?eCtRWE1sbVprK0xnNmlqMkE5am0wcUlxWEVMeFltSmxydlRLWGlsL3dpMmFM?=
- =?utf-8?B?eHJnVXVNZ0t5aElqczUzLzlERkc0SytBL0Q1THQ4Sk5qR09sUXkxbVZocGZW?=
- =?utf-8?B?OW41QnBzdnM3b2d4c2RzeWlETmhla3BtelZCcUpCUzg1VGFGVTJ0UWFheHlo?=
- =?utf-8?B?bk9URWtHYzNFUjJDWXRZbDluUDdkSlB0SmVGVFFZcHhhdE9IN1pUaS9aVzNY?=
- =?utf-8?B?SG1NT3dVSk1ud0tKR0ZQb1RkUVhoeW5nWTQ2UVQ5OFJiOFdOLzZBd1FRR3dS?=
- =?utf-8?B?U2hkbVd4L1dpMmw4TFBzNlNjQnh1VTBjcFZITXR0YnRBUFV5WWIwOGxxNUlS?=
- =?utf-8?B?ZzNQSmRhTWV6WjZrUnBtT0FTa3BPV3NJSk9SdEVoV0JQU1dTYmlQNzAxVS9t?=
- =?utf-8?B?QlI4R2ZwbnVIeGVRckVNb1BaZ01mZTE2a3dvamFZN1BaOGNpWEd3cTB3a01o?=
- =?utf-8?B?bTFSeUpBelpmVkVtZXZTTk9EQU5XZ3BqTHVBcUVibi9lUnU1aE5OU1Y4M0lF?=
- =?utf-8?B?SXk0RjV4eG9JV0NUT2NabXdLcjZpWXlCd1BveGtFTjlRK3ZBaGh2eitxbnBJ?=
- =?utf-8?B?VjlBL0tqelZjY1hpT1dIT0d5SlVleHQyTDdtUjdLb2s1M3A4T21ZVmUzNU5B?=
- =?utf-8?Q?A9v4=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c13a9832-bf85-4c7a-d28e-08dd07f8b496
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2024 17:44:52.1974
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WdlH+jAppxnx9A7BCvOgUwMaPz82bDh2cWQ4Lr9C+dtKLL10apG1No7Kr75CZmMR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4448
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAD+HO2cC/23T246bMBAG4FeJuC7tjA9je6/6HlUvfGyQEmiBo
+ F2t9t07BCKIyB028/Ebe/xZDblv8lC9nT6rPk/N0HQtD1B9O1Xx7Ns/uW4ST1QChAIBWH/cphq
+ lNMlBctpQxZXBD7kOvW/jmWvb2+XCk3/7XJr3+7d//ebxuRnGrv+4R004zz5/dMIaahm9NFSEI
+ Sl+hq4bL037PXbXOeVerZGWasvVsdhExZKSkJ+q57xJ7DKEXJRg5T2FLKwwIZijknu1ZklWpRC
+ JAs6pFI5KbUqCWpRiZTjKR5udcfKo9E7hukLNKhNCDAlk0eKoaFMK3KKIVcoYtRG2JANHZTalH
+ 1lm3nEL2ZWSo4YXWW5TFsSiHCuw3gARuYx0VAh7ti4RWdXoTTSkkKi82HvctYWTsLq5L1RALyj
+ EEt2rvO2oEcCsbj5rwIg+eeL/sy+c3Dn5aMP5tEPSiiQKKt4/u6+ltfv878a3ZVz6e7kB/P7aj
+ G+n1F/razPEH4+Hus3vI9Ov/xdDPWpwAwAA
+X-Change-ID: 20240201-yuv-1337d90d9576
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, Simona Vetter <simona@ffwll.ch>, 
+ Helen Koike <helen.koike@collabora.com>, rdunlap@infradead.org, 
+ arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13848;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=L+ke1HKheZrVabiaIrosaybXGyZZ2n8s1WZwjU6XN3w=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnO4dEny8RNKvELZmOoakAVhYsC5tkN0nNoWnso
+ C7+Ko9G4BSJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZzuHRAAKCRAgrS7GWxAs
+ 4gOWD/406lkoHWbuZTtNAoZjVVrfDSEfLnP2fRW8bQnxb/pbF3vjBIRz+RolvTnHnLFeMQjFaMj
+ et+WcXex89p/Slb81nxmnwb/XaAygFPVV/gwVtA9T2iHvk7JTn/hWeWjj/ugdL0xo16JRqH5BsP
+ 6DERJjXctx5GfjfMfYV0Qm4e/19fNH+O9OiZ/ZZrYk/pAUOJavArXvqKeV3U1vgJzS7r59GFFEN
+ pl/0lDa+jL76ppeJB6EbI5zqtnHMFNEFam4HRr/I3rhe8BpIb9Uw07DRCXYGAmYTaukUS2Jlml8
+ z2Ro4Q27Q2sn44zZoU/2oh2rlcUqkTMtS+wYyJy7GpAHSJuzh3/uvTAzIRiNVboklKLN+Olg6gh
+ EEV+n7U/cX8FkIzstoToFYkQdepAwv/SrIep5LEbTpVVd7VWBT6P2hDHco0z08MY9FwxoIf9V2z
+ 1Xs8tWmqBWih+HwNhhiY/+L7bI1EHrnTM+7y6q6BJpa1NbKrwqp3PG2SYdnzywEOlvdl3to9lkO
+ AK420L6P3nDpJUQA1/OqdxsY6WzfBDfdAGhP0x4ZdpunzTHTLOQLbIJg+I4LR4aise3SbeMK8jW
+ FAfqQlIpSMSu/aOXtKHAJGyardsHFlyQAOOqFce12iM2v8OrpLPpLfWxCqyZpNXTUukDcTCCGR0
+ 8d9GBjLW4YR5n8Q==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-Hi Reinette,
+This patchset is the second version of [1]. It is almost a complete
+rewrite to use a line-by-line algorithm for the composition.
 
-On 11/15/24 17:21, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> In subject please use () to indicate a function, writing resctrl_late_init()
+It can be divided in multiple parts:
+- PATCH 1 to 3: no functional change is intended, only some formatting and
+  documenting (PATCH 2 is taken from [2])
+- PATCH 4 to 7: Some preparation work not directly related to the
+  line-by-line algorithm
+- PATCH 8: main patch for this series, it reintroduce the
+  line-by-line algorithm
+- PATCH 9: Remove useless drm_simplify_rotation
+- Rest of the series: moved to a new series to merge this one, see the new 
+  series "Add YUV ad R1..8 formats support to VKMS"
 
-Will change it to
+The PATCH 8 aims to restore the line-by-line pixel reading algorithm. It
+was introduced in 8ba1648567e2 ("drm: vkms: Refactor the plane composer to
+accept new formats") but removed in 8ba1648567e2 ("drm: vkms: Refactor the
+plane composer to accept new formats") in a over-simplification effort.
+At this time, nobody noticed the performance impact of this commit. After
+the first iteration of my series, poeple notice performance impact, and it
+was the case. Pekka suggested to reimplement the line-by-line algorithm.
 
-x86/resctrl: Add __init attribute for all the call sequences in
-resctrl_late_init()
+Expiriments on my side shown great improvement for the line-by-line
+algorithm, and the performances are the same as the original line-by-line
+algorithm. I targeted my effort to make the code working for all the
+rotations and translations. The usage of helpers from drm_rect_* avoid
+reimplementing existing logic.
 
-> 
-> On 10/29/24 4:21 PM, Babu Moger wrote:
->> The function resctrl_late_init() has the __init attribute, but some
-> 
-> No need to say "The function" when using ().
-> 
->> functions it calls do not. Add the __init attribute to all the functions
-> 
-> None of the functions changed are actually called by resctrl_late_init(). If this
-> is indeed the goal then I think cache_alloc_hsw_probe() was missed.
+The only "complex" part remaining is the clipping of the coordinate to
+avoid reading/writing outside of src/dst. Thus I added a lot of comments
+to help when someone will want to add some features (framebuffer resizing
+for example).
 
-Will change the function to.
+I did not changed any expected test results as VKMS seems to have some 
+existing issue:
+https://gitlab.freedesktop.org/jim.cromie/kernel-drm-next-dd/-/jobs/61484201
+https://gitlab.freedesktop.org/jim.cromie/kernel-drm-next-dd/-/jobs/61803193
+https://gitlab.freedesktop.org/louischauvet/kernel/-/jobs/65944002
 
-static inline __init void cache_alloc_hsw_probe(void)
+To properly test the rotation algorithm, I had to implement a new IGT
+test [8]. This helped to found one issue in the YUV rotation algortihm.
 
-How about this description?
+My series was mainly tested with:
+- kms_plane (for color conversions)
+- kms_rotation_crc (for a subset of rotation and formats)
+- kms_rotation (to test all rotation and formats combinations) [8]
+- kms_cursor_crc (for translations)
+The benchmark used to measure the improvment was done with
+kms_fb_stress [10] with some modifications:
+- Fixing the writeback format to XRGB8888
+- Using a primary plane with odd dimension to avoid failures due to YUV
+  alignment
+The KMS structure was:
+	CRTC:
+		rectangle: 4096x2160+0+0
+	primary:
+		format: ABGR16161616
+		rectangle: 3640x2160+101+0
+	writeback:
+		format: XRGB8888
+		rectangle: 4096x2160+0+0
+Results (on my computer):
 
-"resctrl_late_init() has the __init attribute, but some of the call
-sequences of it do not have the __init attribute.
+8356b9790650: drm/test: Add test cases for drm_rect_rotate_inv() (before any regression)
+322d716a3e8a: drm/vkms: isolate pixel conversion functionality (first regression)
+cc4fd2934d41: drm/vkms: Isolate writeback pixel conversion functions (second regression)
+2c3d1bd284c5: drm/panel: simple: Add Microtips Technology MF-103HIEB0GA0 panel (current drm-misc-next)
 
-Add the __init attribute to all the functions in the call sequences to
-maintain consistency throughout."
+ Used format  | This series | 2c3d1bd284c5 | cc4fd2934d41 | 322d716a3e8a | 8356b9790650 |
+--------------+-------------+--------------+--------------+--------------+--------------+
+ XRGB8888     |  13.261666s |   14.289582s |   10.731272s |    9.480001s |    9.277507s |
+ XRGB16161616 |  13.282479s |   13.918926s |   10.712616s |    9.776903s |    9.291766s |
+ RGB565       | 136.154163s |  141.646489s |  101.744050s |  103.712164s |   87.860923s |
 
-> 
->> to maintain consistency throughout the call sequence.
->>
->> Fixes: 6a445edce657 ("x86/intel_rdt/cqm: Add RDT monitoring initialization")
->> Fixes: def10853930a ("x86/intel_rdt: Add two new resources for L2 Code and Data Prioritization (CDP)")
->> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to rdt_get_mon_l3_config()")
->> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->> v9: Moved the patch to the begining of the series.
->>     Fixed all the call sequences. Added additional Fixed tags.
->>
->> v8: New patch.
->> ---
->>  arch/x86/kernel/cpu/resctrl/core.c     | 8 ++++----
->>  arch/x86/kernel/cpu/resctrl/internal.h | 2 +-
->>  arch/x86/kernel/cpu/resctrl/monitor.c  | 4 ++--
->>  3 files changed, 7 insertions(+), 7 deletions(-)
->>
->> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
->> index b681c2e07dbf..f845d0590429 100644
->> --- a/arch/x86/kernel/cpu/resctrl/core.c
->> +++ b/arch/x86/kernel/cpu/resctrl/core.c
->> @@ -275,7 +275,7 @@ static __init bool __rdt_get_mem_config_amd(struct rdt_resource *r)
->>  	return true;
->>  }
->>  
->> -static void rdt_get_cache_alloc_cfg(int idx, struct rdt_resource *r)
->> +static __init void rdt_get_cache_alloc_cfg(int idx, struct rdt_resource *r)
->>  {
->>  	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
->>  	union cpuid_0x10_1_eax eax;
->> @@ -294,7 +294,7 @@ static void rdt_get_cache_alloc_cfg(int idx, struct rdt_resource *r)
->>  	r->alloc_capable = true;
->>  }
->>  
->> -static void rdt_get_cdp_config(int level)
->> +static __init void rdt_get_cdp_config(int level)
->>  {
->>  	/*
->>  	 * By default, CDP is disabled. CDP can be enabled by mount parameter
->> @@ -304,12 +304,12 @@ static void rdt_get_cdp_config(int level)
->>  	rdt_resources_all[level].r_resctrl.cdp_capable = true;
->>  }
->>  
->> -static void rdt_get_cdp_l3_config(void)
->> +static __init void rdt_get_cdp_l3_config(void)
->>  {
->>  	rdt_get_cdp_config(RDT_RESOURCE_L3);
->>  }
->>  
->> -static void rdt_get_cdp_l2_config(void)
->> +static __init void rdt_get_cdp_l2_config(void)
->>  {
->>  	rdt_get_cdp_config(RDT_RESOURCE_L2);
->>  }
->> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
->> index 955999aecfca..16181b90159a 100644
->> --- a/arch/x86/kernel/cpu/resctrl/internal.h
->> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
->> @@ -627,7 +627,7 @@ int closids_supported(void);
->>  void closid_free(int closid);
->>  int alloc_rmid(u32 closid);
->>  void free_rmid(u32 closid, u32 rmid);
->> -int rdt_get_mon_l3_config(struct rdt_resource *r);
->> +int __init rdt_get_mon_l3_config(struct rdt_resource *r);
->>  void __exit rdt_put_mon_l3_config(void);
->>  bool __init rdt_cpu_has(int flag);
->>  void mon_event_count(void *info);
->> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
->> index 851b561850e0..17790f92ef51 100644
->> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
->> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
->> @@ -983,7 +983,7 @@ void mbm_setup_overflow_handler(struct rdt_mon_domain *dom, unsigned long delay_
->>  		schedule_delayed_work_on(cpu, &dom->mbm_over, delay);
->>  }
->>  
->> -static int dom_data_init(struct rdt_resource *r)
->> +static __init int dom_data_init(struct rdt_resource *r)
->>  {
->>  	u32 idx_limit = resctrl_arch_system_num_rmid_idx();
->>  	u32 num_closid = resctrl_arch_get_num_closid(r);
->> @@ -1081,7 +1081,7 @@ static struct mon_evt mbm_local_event = {
->>   * because as per the SDM the total and local memory bandwidth
->>   * are enumerated as part of L3 monitoring.
->>   */
->> -static void l3_mon_evt_init(struct rdt_resource *r)
->> +static void __init l3_mon_evt_init(struct rdt_resource *r)
-> 
-> This change follows a different order from the other changes in this patch. "Function prototypes"
-> in Documentation/process/coding-style.rst indicates the preferred order is storage class
-> before return type. I acknowledge that resctrl is not consistent in this regard but we can
-> work towards the preferred order while keeping this patch consistent?
+This is a 5-10% improvment of the performance. More work need to be done
+on the writeback to gain more.
 
-Sure. Will change it to.
+[1]: https://lore.kernel.org/all/20240201-yuv-v1-0-3ca376f27632@bootlin.com
+[2]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/
+[3]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-3-952fcaa5a193@riseup.net/
+[4]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-5-952fcaa5a193@riseup.net/
+[5]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-6-952fcaa5a193@riseup.net/
+[6]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-7-952fcaa5a193@riseup.net/
+[8]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
+[9]: https://lore.kernel.org/dri-devel/20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net/
+[10]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
 
-static __init void l3_mon_evt_init(struct rdt_resource *r)
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To: Melissa Wen <melissa.srw@gmail.com>
+To: Maíra Canal <mairacanal@riseup.net>
+To: Haneen Mohammed <hamohammed.sa@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: rdunlap@infradead.org
+To: arthurgrillo@riseup.net
+To: Jonathan Corbet <corbet@lwn.net>
+To: pekka.paalanen@haloniitty.fi
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: jeremie.dautheribes@bootlin.com
+Cc: miquel.raynal@bootlin.com
+Cc: thomas.petazzoni@bootlin.com
+Cc: seanpaul@google.com
+Cc: marcheu@google.com
+Cc: nicolejadeyee@google.com
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
+Changes in v14:
+- Rebased on drm-misc-next... Sorry for the quick iteration, next time I 
+  will push patches before sending a new iteration... I kept the Acked-by 
+  from Pekka as it is a minor fix.
+- Nitpicks from José
+- The only minor change is in PATCH 8/9, replacing 
+    vkms_state->base->crtc->mode
+  by
+    vkms_state->base->mode
+  as suggested by Ville Syrjälä ([11])
+  [11]:https://lore.kernel.org/all/Zv8IPRKcPqYXgL2B@intel.com/
+- Link to v13: https://lore.kernel.org/r/20241031-yuv-v13-0-bd5463126faa@bootlin.com
+Changes in v13:
+- Removed the YUV part to prepare the merge
+- Add Acked-by from Maíra
+- Link to v12: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+Changes in v12:
+- Fix documentation issues as suggested by Randy
+- Link to v11: https://lore.kernel.org/r/20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com
+Changes in v11:
+- Remove documentation patch (already merged)
+- Fix sparse warning about documentation
+- Link to v10: https://lore.kernel.org/r/20240809-yuv-v10-0-1a7c764166f7@bootlin.com
+Changes in v10:
+- Properly remove the patch introducing dummy read/write functions
+- PATCH 8/16: Format fixups
+- PATCH 9/16: Format fixups
+- PATCH 11/16: Format fixups
+- PATCH 14/16: Fix test compilation, add module description
+- Link to v9: https://lore.kernel.org/r/20240802-yuv-v9-0-08a706669e16@bootlin.com
+Changes in v9:
+- PATCH 3/17: Fix docs as Maíra suggested
+- PATCH 4,6,10,12,15,17/17: Fix sparse warning about __le16 casting
+- Link to v8: https://lore.kernel.org/all/20240516-yuv-v8-0-cf8d6f86430e@bootlin.com/
+Changes in v8:
+- PATCH 7/17: Update pitch access to use the proper value for block
+  formats
+- PATCH 9/17: Update pitch access to use the proper value for block
+  formats
+- Link to v7: https://lore.kernel.org/r/20240513-yuv-v7-0-380e9ffec502@bootlin.com
+Changes in v7:
+- Some typos and indent fixes
+- Add Review-By, Acked-By
+- PATCH 3/17: Clarify src/dst unit
+- PATCH 9/17: Clarify documentation
+- PATCH 9/17: Restrict conditions for direction
+- PATCH 9/17: Rename get_block_step_byte to get_block_step_bytes
+- PATCH 10/17: Clarify kernel doc for clamp_line_coordinates, blend_line,
+  pixel_read_line_t
+- PATCH 10/17: Fix the case when src_*_start >= fb->width/height
+- PATCH 10/17: Change y in blend to be an int
+- PATCH 10/17: Clarify documentation for read functions
+- PATCH 12/17: Fix the type of rgb variables in argb_u16_from_yuv888
+- PATCH 12/17: Move comments at the right place, remove useless ones
+- PATCH 12/17: Add missing const
+- PATCH 17/17: Use drm_format_info_bpp and computation to avoid hard-coded
+  values
+- Link to v6: https://lore.kernel.org/r/20240409-yuv-v6-0-de1c5728fd70@bootlin.com
+Changes in v6:
+- Add Randy
+- Add Review-By and Acked-By
+- PATCH 2/17: Remove useless newline
+- PATCH 3/17: Fix kernel doc
+- PATCH 4/17: Fix typo in git commit
+- PATCH 4/17: Fix kernel doc and simplify brief description of typedef
+- PATCH 5/17: Change black default color to Magenta
+- PATCH 5/17: Fix wording in comment
+- PATCH 7/17: Fix typo in packed_pixel_offset
+- PATCH 7/17: Add WARN_ON for currently not supported formats
+- PATCH 8/17: Rename x_limit to pixel_count
+- PATCH 8/17: Clarify kernel doc for pre_mul_alpha_blend
+- PATCH 9/17: Rename get_step_next_block to get_block_step_bytes
+- PATCH 9/17: Change kernel doc order
+- PATCH 9/17: Rework the direction_for_rotation function to use drm
+  helpers
+- PATCH 9/17: Add a warn in direction_for_rotation if the result is not
+  expected
+- PATCH 10/17: Reword the comment of pixel color conversion functions
+- PATCH 10/17: Refactor the blending function to extract functions
+- PATCH 11/17: Remove useless drm_rotation_simplify
+- PATCH 12/17: Fix typo in comments
+- PATCH 12/17: Remove useless define
+- PATCH 12/17: Fix some comments typo and kernel doc
+- PATCH 12/17: Add a comma at the end of the vkms_formats list
+- PATCH 12/17: Use copy of matrix instead of pointers
+- PATCH 12/17: Use 16 bit range for yuv conversion
+- PATCH 17/17: Add a comma at the end of the vkms_formats list
+- PATCH 17/17: Add assertions
+- PATCH 17/17: Fix color conversion... Next time I will read the doc
+  twice...
+- Link to v5: https://lore.kernel.org/r/20240313-yuv-v5-0-e610cbd03f52@bootlin.com
+Changes in v5:
+- All patches: fix some formatting issues
+- PATCH 4/16: Use the correct formatter for 4cc code
+- PATCH 7/16: Update the pixel accessors to also return the pixel position
+  inside a block.
+- PATCH 8/16: Fix a temporary bug
+- PATCH 9/16: Update the get_step_1x1 to get_step_next_block and update
+  the documentation
+- PATCH 10/16: Update to uses the new pixel accessors
+- PATCH 10/16: Reword some comments
+- PATCH 11/16: Update to use the new pixel accessors
+- PATCH 11/16: Fix a bug in the subsampling offset for inverted reading
+  (right to left/bottom to top). Found by [8].
+- PATCH 11/16: Apply Arthur's modifications (comments, algorithm
+  clarification)
+- PATCH 11/16: Use the correct formatter for 4cc code
+- PATCH 11/16: Update to use the new get_step_next_block
+- PATCH 14/16: Apply Arthur's modification (comments, compilation issue)
+- PATCH 15/16: Add Arthur's patch to explain the kunit tests
+- PATCH 16/16: Introduce DRM_FORMAT_R* support.
+- Link to v4: https://lore.kernel.org/r/20240304-yuv-v4-0-76beac8e9793@bootlin.com
+Changes in v4:
+- PATCH 3/14: Update comments for get_pixel_* functions
+- PATCH 4/14: Add WARN when trying to get unsupported pixel_* functions
+- PATCH 5/14: Create dummy pixel reader/writer to avoid NULL
+  function pointers and kernel OOPS
+- PATCH 6/14: Added the usage of const pointers when needed
+- PATCH 7/14: Extraction of pixel accessors modification
+- PATCH 8/14: Extraction of the blending function modification
+- PATCH 9/14: Extraction of the pixel_read_direction enum
+- PATCH 10/14: Update direction_for_rotation documentation
+- PATCH 10/14: Rename conversion functions to be explicit
+- PATCH 10/14: Replace while(count) by while(out_pixel<end) in read_line
+  callbacks. It avoid a new variable+addition in the composition hot path.
+- PATCH 11/14: Rename conversion functions to be explicit
+- PATCH 11/14: Update the documentation for get_subsampling_offset
+- PATCH 11/14: Add the matrix_conversion structure to remove a test from
+  the hot path.
+- PATCH 11/14: Upadate matrix values to use 32.32 fixed floats for
+  conversion
+- PATCH 12/14: Update commit message
+- PATCH 14/14: Change kunit expected value
+- Link to v3: https://lore.kernel.org/r/20240226-yuv-v3-0-ff662f0994db@bootlin.com
+Changes in v3:
+- Correction of remaining git-rebase artefacts
+- Added Pekka in copy of this patch
+- Link to v2: https://lore.kernel.org/r/20240223-yuv-v2-0-aa6be2827bb7@bootlin.com
+Changes in v2:
+- Rebased the series on top of drm-misc/drm-misc-net
+- Extract the typedef for pixel_read/pixel_write
+- Introduce the line-by-line algorithm per pixel format
+- Add some documentation for existing and new code
+- Port the series [1] to use line-by-line algorithm
+- Link to v1: https://lore.kernel.org/r/20240201-yuv-v1-0-3ca376f27632@bootlin.com
 
+---
+Arthur Grillo (1):
+      drm/vkms: Use drm_frame directly
+
+Louis Chauvet (8):
+      drm/vkms: Code formatting
+      drm/vkms: Add typedef and documentation for pixel_read and pixel_write functions
+      drm/vkms: Use const for input pointers in pixel_read an pixel_write functions
+      drm/vkms: Update pixels accessor to support packed and multi-plane formats.
+      drm/vkms: Avoid computing blending limits inside pre_mul_alpha_blend
+      drm/vkms: Introduce pixel_read_direction enum
+      drm/vkms: Re-introduce line-per-line composition algorithm
+      drm/vkms: Remove useless drm_rotation_simplify
+
+ drivers/gpu/drm/vkms/vkms_composer.c  | 312 ++++++++++++++++++++------
+ drivers/gpu/drm/vkms/vkms_crtc.c      |   6 +-
+ drivers/gpu/drm/vkms/vkms_drv.c       |   3 +-
+ drivers/gpu/drm/vkms/vkms_drv.h       |  55 ++++-
+ drivers/gpu/drm/vkms/vkms_formats.c   | 409 ++++++++++++++++++++++++----------
+ drivers/gpu/drm/vkms/vkms_formats.h   |   4 +-
+ drivers/gpu/drm/vkms/vkms_plane.c     |  17 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c |   5 -
+ 8 files changed, 588 insertions(+), 223 deletions(-)
+---
+base-commit: 7d2faa8dbb7055a115fe0cd6068d7090094a573d
+change-id: 20240201-yuv-1337d90d9576
+
+Best regards,
 -- 
-Thanks
-Babu Moger
+Louis Chauvet <louis.chauvet@bootlin.com>
+
