@@ -1,55 +1,55 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4602B1E5732
-	for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 20:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1743413E8AE
+	for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 20:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731962571; cv=none; b=YTm/hcQTII3UEX6L4DiPOf3a0aeQcpjfP4n6X4biD2QVJ6zP3wv2gHgH4y6rpbDVMvZAhGuNw2QPiNdfodQDYLWBHcNR8qeC3ExlS1V8SLnk2FOAOWUtMzmCw0Pv6XK4zbJrlXfwjTwRpssAROQT02j9OxM9/XC071c4PYJrZZc=
+	t=1731962629; cv=none; b=kzZhcY8/wfIlSsa8qDHJrZQ4AqR7IvkrNrQqoSvB5eUbrNG1AQhfcmaARUWl8bRI9e4V22UAyrt1TAqqyDdFpRS+1H0tHglQKL9bFQrxy2AmRmou10eXbDf3s9CPb3c8Us1Mjq1TdMXzgiSC33HQNXlJRHAaYWHu7AH41gxGbY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731962571; c=relaxed/simple;
-	bh=dxabNGakL9NrepH5do7y1wnleH+dNche06QzIaELHEQ=;
+	s=arc-20240116; t=1731962629; c=relaxed/simple;
+	bh=2L0jUsFxTDaCzEDTuhMc0l5SEQuiyx34/3gYStPf1dA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SUNVDumcVyxnkPQxfrv0539B+nzuQZGGjQ5tLJdQ6Nz3frJ6cRYO77DK2pmnMXeWitwY5MfpGQo7j3H4aBLiJ7Ks8HEq+1qOeP9+jFMXTCVb42mTFsEhz9Np1kqddYceOPXEYDhZsMyHKo0+cUVBZDr4fegF9vXtcKHX1kxIc5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=FUJHfMNK; arc=none smtp.client-ip=209.85.161.47
+	 To:Cc:Content-Type; b=naNHjfCDRD8IPf3hRCBeB5/g3oX4qHOT0zcj22i/ER+38Jgbk1c42nT88AMA0cR32kpKft2M9eEgwh8sLGQI5h9sRFnXxWNGQWa83DGJKTEjT15hATpExH42LLpM5k2wDtRB/dav4CRL3ONjIsYwF13vjWFgRja3L26pBOwgM5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=s8haaCrq; arc=none smtp.client-ip=209.85.161.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="FUJHfMNK"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5ebc0dbc566so76661eaf.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 12:42:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="s8haaCrq"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5ebc349204cso997467eaf.3
+        for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 12:43:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1731962569; x=1732567369; darn=vger.kernel.org;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1731962626; x=1732567426; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Az3Sp8d9covPjAGoeraghsVludZNEdQZrTadq9s3zg4=;
-        b=FUJHfMNKRviJrGBdZmSorm9HK+yxWtkfXbWyRmPRefXg96VxXIpgXCvg99Dc0fDMFV
-         WtUANSnAESrftl1nHDR8rfAMRXefAT6MLW+2v1wo5bU0F3O63e0MquGb1VAFyRK3JFZ1
-         tXQRR32/lhFpiRQQ9c5wJSsWEa8r7Xyg47PaRRm2dajgn4sje9XjLkGZtIWLEsDgwnkv
-         5EkDQMI0vW+MmYojcBo39EC3uZNx1x5AKrQts//GeRadpZpE4+Fejt5/46oLXVKI8UuF
-         uncYQYieqpP2hhpWXFLIoR48ICLuf7IGkuRHC8CcqHDYsM/emmmQ81nuOZoGDW2Q13FM
-         LT7A==
+        bh=AKE5WXVcANzplYCvLukBM8ucFIajNbuRun8q9IwLc70=;
+        b=s8haaCrq0qPwt68vIa4jhFK22RoKOpm+map77XBWVkvhhCDUNKVNcYMnJ9FklWNW40
+         O35htGCSqYGpQoYgfePOrah+Rqs/jlwRzcGvOj3C1OZDydl929NX34V2Jc+AKA4igj+i
+         9zGICDFS9+JXpa1AtunKOlkvewS4NuNXjfpdVbGM7xkIYHah3Yg5Pyvr0mzqr1JTYNY3
+         5UsOVhj6VztuyKaUbh0jeodDJeq/RE6M9Q2Q6J5qtqcFJcut5Ln589w9Giq8ghx3rcjo
+         0xQZPqPwbeY+woInSQ0o+YqUsVR13mOrjKejNMzXdPFjovXsq4Bj0QlLXN7/sq+dZK1F
+         UKMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731962569; x=1732567369;
+        d=1e100.net; s=20230601; t=1731962626; x=1732567426;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Az3Sp8d9covPjAGoeraghsVludZNEdQZrTadq9s3zg4=;
-        b=SbWOXDO8u8vmA1LNxj1R+pxVioThHpew+3ELrtCrjH3k13b1OhHUxU9kyO7fsGAj+S
-         L9xYZZAfsJMMDGGUDSnqRTnm8fSIP5HCo2GdNp5ux3uNhFRXgz4qx8oOHbPwH37AaSib
-         tqgqXORf7imiXUn5OV+EUSlhUczT5zUQf7eBig5ZT00yo/sI6t/r6QLL+XVu/tFfT8wQ
-         xYzwnNiqA51jTGQM9eDhjyIepPevJGmwZoP74X5L13iFZok0e1+Y6LyyxDt9skzQD/Zh
-         qWJbg4vKGPpxd9iGifup/qaV5/kfDbGJgF2wcpuOYAvE/GP6x6fcnQfhvN9XF9rAB3f0
-         rgvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5cgg4sXJhKqJkycATjjpWDtWj1pG4izi/mVIYdkZ/F49fNxSChPQKo/POLtamNp5LwS8JbHB6pRg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqKXDuymn7/WH5vgD18SjXQuYoatQ6bUvuaDQCqvVG7CCIPnE5
-	J2ju03/A7tY7bxJ+qAGj6h4S24Tf/BSQ4bOtOn3JjcyyRu2zgSDAeK6bpGcQXHQaBGsSYSTNbxX
-	KP+QHWohMmoZdtev3eIj5tteDDqOlkmdmKo0tKQ==
-X-Google-Smtp-Source: AGHT+IHttxr2eFNSFhV8PpJus1DCBKmx1o7nfN6x9M9fk44cvRJr2moQ/A4XKlnUEVw6YKcIvYheu82B5igacrHaq1Y=
-X-Received: by 2002:a05:6358:170b:b0:1c5:e2ea:8992 with SMTP id
- e5c5f4694b2df-1c6cd22c1e4mr505681155d.11.1731962569411; Mon, 18 Nov 2024
- 12:42:49 -0800 (PST)
+        bh=AKE5WXVcANzplYCvLukBM8ucFIajNbuRun8q9IwLc70=;
+        b=oYEJ3ZtE2tb8atafEQKTj+czdqw4hR9lGcXI4SeD1KXnETKNiSbvKbNKfKNfvVSUfG
+         ZFOkp0Kv64Xq+EcBvl4aMAmxjXflZ1FO2em5OysVkA3NIMgsjIudBxFIiTjauszRRJ3I
+         +Uv6P8u7WR+OFH8IrGERrDR4zyh79SiSyCo03epGoxX6myyS8RETxDCi5PTPtCC9o0a7
+         N635ocrAHnjtUVB526ok9g/yCp/4UJLsBUUwukY/XDcAYnJZ9TuEJU9RPdYFgH+N+o1J
+         iUZbxpPKHOvxrnjDZ/mSScqGLtRvzh0n30vLBt7uLi/kdYGOlojFk8i/lfxxnggF7an3
+         uS2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWHHVhVbiYvfq/hXbgIXxDp57lgDs8fdiD1OJ7L4BQmECcinxj9UNYikifn4qawVAx3N00XGqmV+O0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYfEeJGc5/5iWB4/at0qKjsfTUGP6xEzpwmMdxFIX/KVawgfNF
+	Qj/tOigBhPfDkrP+jQIHh3GqPyHowH+aTNvPYxekFV+9t3DC8halV+Tm0whxAfgiD1gTNBP4uma
+	Hprk6PNa9rtcREY/bmOQxbbl5aFmRAUH3RnekiA==
+X-Google-Smtp-Source: AGHT+IEf5Ob7EXtqd8iWcFGFwDUCq53TzMogOqE3dzw3L/nuaDYAwShT+BhejHjdqP1p2ni0LVReVdAVYfYCT0xWwgo=
+X-Received: by 2002:a05:6358:2743:b0:1c3:94bf:643e with SMTP id
+ e5c5f4694b2df-1c6cd14a63bmr595917955d.16.1731962626353; Mon, 18 Nov 2024
+ 12:43:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,48 +57,59 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241116175922.3265872-1-pasha.tatashin@soleen.com>
- <20241116175922.3265872-3-pasha.tatashin@soleen.com> <ZzrjYtoC3G0Yl8pM@infradead.org>
-In-Reply-To: <ZzrjYtoC3G0Yl8pM@infradead.org>
+ <20241116175922.3265872-5-pasha.tatashin@soleen.com> <87cyiukehs.fsf@trenco.lwn.net>
+In-Reply-To: <87cyiukehs.fsf@trenco.lwn.net>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 18 Nov 2024 15:42:12 -0500
-Message-ID: <CA+CK2bDp9A+ZzEwm60vDW8m_3U7u3FM0iUdM1N59VjdwM4_j5g@mail.gmail.com>
-Subject: Re: [RFCv1 2/6] pagewalk: Add a page table walker for init_mm page table
-To: Christoph Hellwig <hch@infradead.org>
+Date: Mon, 18 Nov 2024 15:43:09 -0500
+Message-ID: <CA+CK2bCFNPpzKr8wfpTwFAMnO-e5-AbC4siU4b+ESu2GVeMuyw@mail.gmail.com>
+Subject: Re: [RFCv1 4/6] misc/page_detective: Introduce Page Detective
+To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
 	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	akpm@linux-foundation.org, corbet@lwn.net, derek.kiernan@amd.com, 
-	dragan.cvetic@amd.com, arnd@arndb.de, gregkh@linuxfoundation.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, tj@kernel.org, 
-	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeel.butt@linux.dev, muchun.song@linux.dev, Liam.Howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, vbabka@suse.cz, jannh@google.com, 
-	shuah@kernel.org, vegard.nossum@oracle.com, vattunuru@marvell.com, 
-	schalla@marvell.com, david@redhat.com, willy@infradead.org, osalvador@suse.de, 
-	usama.anjum@collabora.com, andrii@kernel.org, ryan.roberts@arm.com, 
-	peterx@redhat.com, oleg@redhat.com, tandersen@netflix.com, 
-	rientjes@google.com, gthelen@google.com
+	akpm@linux-foundation.org, derek.kiernan@amd.com, dragan.cvetic@amd.com, 
+	arnd@arndb.de, gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, jack@suse.cz, tj@kernel.org, hannes@cmpxchg.org, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
+	muchun.song@linux.dev, Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com, 
+	vbabka@suse.cz, jannh@google.com, shuah@kernel.org, vegard.nossum@oracle.com, 
+	vattunuru@marvell.com, schalla@marvell.com, david@redhat.com, 
+	willy@infradead.org, osalvador@suse.de, usama.anjum@collabora.com, 
+	andrii@kernel.org, ryan.roberts@arm.com, peterx@redhat.com, oleg@redhat.com, 
+	tandersen@netflix.com, rientjes@google.com, gthelen@google.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 18, 2024 at 1:49=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
-g> wrote:
+On Sat, Nov 16, 2024 at 5:20=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
 >
-> On Sat, Nov 16, 2024 at 05:59:18PM +0000, Pasha Tatashin wrote:
-> >       } while (start =3D next, start < end);
-> >       return err;
-> >  }
-> > +EXPORT_SYMBOL_GPL(walk_page_range);
+> Pasha Tatashin <pasha.tatashin@soleen.com> writes:
 >
-> Umm, no.  We really should not expose all these page table detail
-> to modules.
+> > Page Detective is a kernel debugging tool that provides detailed
+> > information about the usage and mapping of physical memory pages.
+> >
+> > It operates through the Linux debugfs interface, providing access
+> > to both virtual and physical address inquiries. The output, presented
+> > via kernel log messages (accessible with dmesg), will help
+> > administrators and developers understand how specific pages are
+> > utilized by the system.
+> >
+> > This tool can be used to investigate various memory-related issues,
+> > such as checksum failures during live migration, filesystem journal
+> > failures, general segfaults, or other corruptions.
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > ---
+> >  Documentation/misc-devices/index.rst          |   1 +
+> >  Documentation/misc-devices/page_detective.rst |  78 ++
 >
-> > +EXPORT_SYMBOL_GPL(walk_page_range_kernel);
->
-> Even more so here.
+> This seems like a strange place to bury this document - who will look
+> for it here?  Even if it is truly implemented as a misc device (I didn't
+> look), the documentation would belong either in the admin guide or with
+> the MM docs, it seems to me...?
 
-I will remove these exports in the next version, as I am going to
-convert Page Detective to be part of core mm instead of misc device.
+I will put it under MM docs in the next version, as I will also
+convert Page Detective to be part of core mm.
 
-Thanks,
+Thank you,
 Pasha
