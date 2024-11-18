@@ -1,189 +1,142 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B13913DBBE
-	for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 22:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12271BD9FB
+	for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 22:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731968682; cv=none; b=G09aoSsHYjWtgMV+KBBDDHxgo8WPida5HfknXwFa9yJteXb7We8C2VD6n8YqOz3b3lFuj79DupJtl8f9Mpg87WKz4YYTROL4o3w8cy1UXsSagtPAerCm2QhpA3vZ/ZKxGna1Kc4ZXWWEUSSjufEixPPySKi645R2CpsVGBqMSwQ=
+	t=1731968748; cv=none; b=M9wXDFKEV1+0Mmfv7SCHHAMcdOZQXqC8YHem3G59P8S76I3cPbKz8Ivj4JDl4OTocngYRo3nj9HzaJMhN/eNVbda66xWmt4K9H+1dDhLWvEOswBDlSb8F1TJGr2SHZYB0D6gssdZ0NM+t2oE9APj+4ivhvNY3W05zGNX/tJWLZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731968682; c=relaxed/simple;
-	bh=mr6iDGZX6WZlOIa/AqtWy4H1dbsMF9ugeMcnS6HxJNE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DkfNdci4X5US0YzjjtbvIFr2toTmD66OVIlnJ/Yr/iNG5oCki8fPQfKWdnEC6kHpnBeGSV8NAwIWG59KB9yDZO+ZsWvoS0dpwxXpuRXUnuCzVMTlQGAcaJo21WinGTVjtmQAD1Oj8Y++3FdMWlpEpfcBAJTJpi6FmK6wVguoBDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=FASkpsrj; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1731968748; c=relaxed/simple;
+	bh=gP4UrWxmVwADGYWCtmu+TyIRa/S+bnajwdjRKoNwMvg=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=eimWUhyEUuF0VDyxY6UaDKXeDlknCD/nwVzLt0tA1a/HEC0pMABbxRvm8rV8rbR5VfZeg55CSt9fNnrE6AD47gtqmLsWsRjGJ26y51UD7wsdaoIoZ2W4IY/WDRZIQKF6egZ8uoNVVJSRhRUNu3daPOtYEZF8J1Z9KoJncwvQjpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--yabinc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wSMucEB5; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--yabinc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="FASkpsrj"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-46097806aaeso19437081cf.2
-        for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 14:24:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wSMucEB5"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6eea70c89cbso7400567b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 14:25:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1731968679; x=1732573479; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mr6iDGZX6WZlOIa/AqtWy4H1dbsMF9ugeMcnS6HxJNE=;
-        b=FASkpsrjoGaamnWrNHj3IJ7LmrVMskP3FHdBcUEZrPq0ROkT0wa2q39WszDCA3pTtt
-         KXo0YU1awi84gbfNj1SOJtJ3m3zXvfvsLPlk96vY00XY8IWYgW7QNRsq/6mAWB618SsJ
-         HbmNCRv4rx7YyflaUhTZ7Q0nmAEo4HTxJlffte36/nfNiZWeS8tjOJlCSgFOpfGl0mij
-         QEm309m0hARE5w7s4HdYnzo/OVPaTqYaOzDbAgNxAIX+r+v7MFVZf11yA+aB6BR3MG17
-         VyHcrgx2tUhI0t3pNh72BTxRiQ0JsYwD5mDYhaQ0r6dIJqhn9Wv/hFG6SiYwSgMa1Vnz
-         4PwA==
+        d=google.com; s=20230601; t=1731968745; x=1732573545; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=14OsMhdGfdcpS80IHQ9XNfdJp63ZxqrrUOpqJIR6RjE=;
+        b=wSMucEB54wQK64K2/YAfcjNw4fzLmbmujoJNfeIn2j2dwFyxEmkkFWZeiQKOAb7k22
+         IVkNF8bNFzTFTolD2GPCsrpr2kQdXsz8+3lUO5c+m+kan0mHROxyYmx+EcbZ3RzxM+n0
+         TZLTdA/WHU0tl7SzaFpkYkzRXtBGX44Y3NiMVvCGOD17vDQFp0hk0aiyo0Kq0YN+58ln
+         rRZtKVkkLr3Qijf6zI07056XgjDrx+t2qV8cwFLYhwSiXifbeEIRUmb9ml6ESXBZ3xT+
+         8hZVrFnjhOYK4E0yWdYLMetBc39smYIoniHaXC9r0+t63ixqjrwPwKSFVntzpk9kL0pN
+         G0Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731968679; x=1732573479;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mr6iDGZX6WZlOIa/AqtWy4H1dbsMF9ugeMcnS6HxJNE=;
-        b=gyfTovRPQJ+aHUxxLyM9v6FrdTorqJ2DqLNCw8dN9jP3DvOkSBMxca496SdqFSYTYX
-         wlh7HM++4I4+hWeSd8ulzNG52MK1KrWNqjRixIpjUOb2BQSwZZAkxtBTIh4AWv2W1xTk
-         bj4FHiB7A7vfOeMLljn7hR1DSE7gadAq0b9PB4AlyL6wQq2wwG6JnYtszVbTwM734GfL
-         bUMexDG6mXg0nhoG5GHnpsm5xbwtquXBRNDlNUcpKHwLJraf/2IaOruSYdU5e9ytlndO
-         KSghRiIz+z6ALGYaZbfH7cbZ8/ZVj9INL4wyxhJKkeB5vDBTvLm44YJXOg0ISlQxTqG1
-         0faQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV5yWgFoEcC/YckeoZqsIfIk0YQ+pGSyG4ixml7Tmtf1tjOx1FWIRSVhmwcYNIPqZf548iv5wIvIM8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxH080FZWjbgIoWZ2rWofmwtIKBX//ckTAji+gKvtBWEK+eebtw
-	Dp5ILjPVJAyIxzYwCK8VDgStgla5uIus72DFBODYHlMcjt+347ei/Q97Ic5mU5mrFTwRCEAtTPe
-	TZFXC8IbFGe8THQfi6NfoTWy/snRxoHfUK6L8hA==
-X-Google-Smtp-Source: AGHT+IFJn12BEIzoEKgSqnP8cIUM9l+AVMCmmrovlugeE4ncddPOm9spXZtngGYQPZw7li3y2om6vXnU1SKoOL9vTX0=
-X-Received: by 2002:ac8:45c8:0:b0:463:788e:7912 with SMTP id
- d75a77b69052e-463788e81b9mr128943351cf.56.1731968679432; Mon, 18 Nov 2024
- 14:24:39 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731968745; x=1732573545;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=14OsMhdGfdcpS80IHQ9XNfdJp63ZxqrrUOpqJIR6RjE=;
+        b=g9uY5kAitFO2UrHbSrKpCMVVvS1vHq89sHwe7GIGDwS3ArnYioNGcD9HNgrmKIJSwq
+         3npT7KSQ6oY5tMqYdUPTH8hLecd6hpwNprOHbtqcVa+foJJzUjK9OF78cwIi9E/1lJc6
+         3bna6krL3aQbeECEYz/7m4xCRNnErYJOBxnWVqNQO0gUvi963hAL187xtnU+gqwmOk6f
+         z62jPbmi0nB3auX/OF9kCcFx0gmhy8JmYVX4XqqMtYgOiRDOQyzLnjbvQUFdlcPKh69D
+         cnwCiZO36WQ3mHahjGGN4hFtko2bUeM/f/TMif+LGmw07v7bUr8rNu9638fz8zbUeN7t
+         9CSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJfQ7W1PFFIh85fErPb4yUOSZ5QSn72vivixLtAoe0IRuVuOnEyoFtcZVDu2ZDm60dp0KN8QIxmLg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhSI1j3pxJlLChJrd62dPYG5OTgzkHx9QRpVUXlwDNJtucHg74
+	cvY2lYWUcawKHBFmtnmlrBLZ9IvWxJkZiPlRfDk4NPvQa97G5gIvBfTSU9DmOnwP3bxB9LsZtgy
+	x
+X-Google-Smtp-Source: AGHT+IHaqSLX7qNc1UhlL7DMMonDFnZRihYI5SIMh0lBI+T2x10S5W6DAGbzQyiEudeWnrky5v96GHNZfoI=
+X-Received: from yabinc-desktop.mtv.corp.google.com ([2a00:79e0:2e3f:8:bc56:3202:f6e1:c119])
+ (user=yabinc job=sendgmr) by 2002:a05:690c:2e08:b0:6ee:9a08:7686 with SMTP id
+ 00721157ae682-6eeaa3a3e90mr127907b3.4.1731968744961; Mon, 18 Nov 2024
+ 14:25:44 -0800 (PST)
+Date: Mon, 18 Nov 2024 14:25:40 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241116175922.3265872-1-pasha.tatashin@soleen.com>
- <a0372f7f-9a85-4d3e-ba20-b5911a8189e3@lucifer.local> <CAG48ez2vG0tr=H8csGes7HN_5HPQAh4WZU8U1G945K1GKfABPg@mail.gmail.com>
-In-Reply-To: <CAG48ez2vG0tr=H8csGes7HN_5HPQAh4WZU8U1G945K1GKfABPg@mail.gmail.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 18 Nov 2024 17:24:02 -0500
-Message-ID: <CA+CK2bB0w=i1z78AJbr2gZE9ybYki4Vz_s53=8URrxwyPvvB+A@mail.gmail.com>
-Subject: Re: [RFCv1 0/6] Page Detective
-To: Jann Horn <jannh@google.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	akpm@linux-foundation.org, corbet@lwn.net, derek.kiernan@amd.com, 
-	dragan.cvetic@amd.com, arnd@arndb.de, gregkh@linuxfoundation.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, tj@kernel.org, 
-	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeel.butt@linux.dev, muchun.song@linux.dev, Liam.Howlett@oracle.com, 
-	vbabka@suse.cz, shuah@kernel.org, vegard.nossum@oracle.com, 
-	vattunuru@marvell.com, schalla@marvell.com, david@redhat.com, 
-	willy@infradead.org, osalvador@suse.de, usama.anjum@collabora.com, 
-	andrii@kernel.org, ryan.roberts@arm.com, peterx@redhat.com, oleg@redhat.com, 
-	tandersen@netflix.com, rientjes@google.com, gthelen@google.com, 
-	linux-hardening@vger.kernel.org, 
-	Kernel Hardening <kernel-hardening@lists.openwall.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241118222540.27495-1-yabinc@google.com>
+Subject: [PATCH v2] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
+From: Yabin Cui <yabinc@google.com>
+To: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Cc: Yabin Cui <yabinc@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 18, 2024 at 7:54=E2=80=AFAM Jann Horn <jannh@google.com> wrote:
->
-> On Mon, Nov 18, 2024 at 12:17=E2=80=AFPM Lorenzo Stoakes
-> <lorenzo.stoakes@oracle.com> wrote:
-> > On Sat, Nov 16, 2024 at 05:59:16PM +0000, Pasha Tatashin wrote:
-> > > It operates through the Linux debugfs interface, with two files: "vir=
-t"
-> > > and "phys".
-> > >
-> > > The "virt" file takes a virtual address and PID and outputs informati=
-on
-> > > about the corresponding page.
-> > >
-> > > The "phys" file takes a physical address and outputs information abou=
-t
-> > > that page.
-> > >
-> > > The output is presented via kernel log messages (can be accessed with
-> > > dmesg), and includes information such as the page's reference count,
-> > > mapping, flags, and memory cgroup. It also shows whether the page is
-> > > mapped in the kernel page table, and if so, how many times.
-> >
-> > I mean, even though I'm not a huge fan of kernel pointer hashing etc. t=
-his
-> > is obviously leaking as much information as you might want about kernel
-> > internal state to the point of maybe making the whole kernel pointer
-> > hashing thing moot.
-> >
-> > I know this requires CAP_SYS_ADMIN, but there are things that also requ=
-ire
-> > that which _still_ obscure kernel pointers.
-> >
-> > And you're outputting it all to dmesg.
-> >
-> > So yeah, a security person (Jann?) would be better placed to comment on
-> > this than me, but are we sure we want to do this when not in a
-> > CONFIG_DEBUG_VM* kernel?
->
-> I guess there are two parts to this - what root is allowed to do, and
-> what information we're fine with exposing to dmesg.
->
-> If the lockdown LSM is not set to LOCKDOWN_CONFIDENTIALITY_MAX, the
-> kernel allows root to read kernel memory through some interfaces - in
-> particular, BPF allows reading arbitrary kernel memory, and perf
-> allows reading at least some stuff (like kernel register states). With
-> lockdown in the most restrictive mode, the kernel tries to prevent
-> root from reading arbitrary kernel memory, but we don't really change
-> how much information goes into dmesg. (And I imagine you could
-> probably still get kernel pointers out of BPF somehow even in the most
-> restrictive lockdown mode, but that's probably not relevant.)
->
-> The main issue with dmesg is that some systems make its contents
-> available to code that is not running with root privileges; and I
-> think it is also sometimes stored persistently in unencrypted form
-> (like in EFI pstore) even when everything else on the system is
-> encrypted.
-> So on one hand, we definitely shouldn't print the contents of random
-> chunks of memory into dmesg without a good reason; on the other hand,
-> for example we do already print kernel register state on WARN() (which
-> often includes kernel pointers and could theoretically include more
-> sensitive data too).
->
-> So I think showing page metadata to root when requested is probably
-> okay as a tradeoff? And dumping that data into dmesg is maybe not
-> great, but acceptable as long as only root can actually trigger this?
->
-> I don't really have a strong opinion on this...
->
->
-> To me, a bigger issue is that dump_page() looks like it might be racy,
-> which is maybe not terrible in debugging code that only runs when
-> something has already gone wrong, but bad if it is in code that root
-> can trigger on demand?
+Select ARCH_SUPPORTS_AUTOFDO_CLANG to allow AUTOFDO_CLANG to be
+selected.
 
-Hi Jann, thank you for reviewing this proposal.
+On ARM64, ETM traces can be recorded and converted to AutoFDO profiles.
+Experiments on Android show 4% improvement in cold app startup time
+and 13% improvement in binder benchmarks.
 
-Presumably, the interface should be used only when something has gone
-wrong but has not been noticed by the kernel. That something is
-usually checksums failures that are outside of the kernel: i.e. during
-live migration, snapshotting, filesystem journaling, etc. We already
-have interfaces that provide data from the live kernel that could be
-racy, i.e. crash utility.
+Signed-off-by: Yabin Cui <yabinc@google.com>
+---
 
-> __dump_page() copies the given page with
-> memcpy(), which I don't think guarantees enough atomicity with
-> concurrent updates of page->mapping or such, so dump_mapping() could
-> probably run on a bogus pointer. Even without torn pointers, I think
-> there could be a UAF if the page's mapping is destroyed while we're
-> going through dump_page(), since the page might not be locked. And in
-> dump_mapping(), the strncpy_from_kernel_nofault() also doesn't guard
-> against concurrent renaming of the dentry, which I think again would
-> probably result in UAF.
+Change-Logs in V2:
 
-Since we are holding a reference on the page at the time of
-dump_page(), the identity of the page should not really change, but
-dentry can be renamed.
+1. Use "For ARM platforms with ETM trace" in autofdo.rst.
+2. Create an issue and a change to use extbinary format in instructions:
+   https://github.com/Linaro/OpenCSD/issues/65
+   https://android-review.googlesource.com/c/platform/system/extras/+/3362107
 
-> So I think dump_page() in its current form is not something we should
-> expose to a userspace-reachable API.
+ Documentation/dev-tools/autofdo.rst | 18 +++++++++++++++++-
+ arch/arm64/Kconfig                  |  1 +
+ 2 files changed, 18 insertions(+), 1 deletion(-)
 
-We use dump_page() all over WARN_ONs in MM code where pages might not
-be locked, but this is a good point, that while even the existing
-usage might be racy, providing a user-reachable API potentially makes
-it worse. I will see if I could add some locking before dump_page(),
-or make a dump_page variant that does not do dump_mapping().
+diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tools/autofdo.rst
+index 1f0a451e9ccd..a890e84a2fdd 100644
+--- a/Documentation/dev-tools/autofdo.rst
++++ b/Documentation/dev-tools/autofdo.rst
+@@ -55,7 +55,7 @@ process consists of the following steps:
+    workload to gather execution frequency data. This data is
+    collected using hardware sampling, via perf. AutoFDO is most
+    effective on platforms supporting advanced PMU features like
+-   LBR on Intel machines.
++   LBR on Intel machines, ETM traces on ARM machines.
+ 
+ #. AutoFDO profile generation: Perf output file is converted to
+    the AutoFDO profile via offline tools.
+@@ -141,6 +141,22 @@ Here is an example workflow for AutoFDO kernel:
+ 
+       $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a -N -b -c <count> -o <perf_file> -- <loadtest>
+ 
++   - For ARM platforms with ETM trace:
++
++     Follow the instructions in the `Linaro OpenCSD document
++     https://github.com/Linaro/OpenCSD/blob/master/decoder/tests/auto-fdo/autofdo.md`_
++     to record ETM traces for AutoFDO::
++
++      $ perf record -e cs_etm/@tmc_etr0/k -a -o <etm_perf_file> -- <loadtest>
++      $ perf inject -i <etm_perf_file> -o <perf_file> --itrace=i500009il
++
++     For ARM platforms running Android, follow the instructions in the
++     `Android simpleperf document
++     <https://android.googlesource.com/platform/system/extras/+/main/simpleperf/doc/collect_etm_data_for_autofdo.md>`_
++     to record ETM traces for AutoFDO::
++
++      $ simpleperf record -e cs-etm:k -a -o <perf_file> -- <loadtest>
++
+ 4) (Optional) Download the raw perf file to the host machine.
+ 
+ 5) To generate an AutoFDO profile, two offline tools are available:
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index fd9df6dcc593..c3814df5e391 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -103,6 +103,7 @@ config ARM64
+ 	select ARCH_SUPPORTS_PER_VMA_LOCK
+ 	select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
+ 	select ARCH_SUPPORTS_RT
++	select ARCH_SUPPORTS_AUTOFDO_CLANG
+ 	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+ 	select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+ 	select ARCH_WANT_DEFAULT_BPF_JIT
+-- 
+2.47.0.338.g60cca15819-goog
+
