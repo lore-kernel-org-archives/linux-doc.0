@@ -1,196 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6680213DBBE;
-	Mon, 18 Nov 2024 23:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7455313DBBE
+	for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 23:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731973658; cv=none; b=eveGgMMRgInh6RoRb5Ou70rmlEZ95Xns+NViiZqDBvh5UDQJOS9PwZ2FAq462nVF+Lyy32CNzQjJwqQwgUS1DyC60+iaztlivweQVWtBubHylHqTeBFsfaEnvsDhK59a0vqNFbJFfWlWCyvthe1RdhxnTEu4QA3d2LSTRrKJenc=
+	t=1731973791; cv=none; b=MVz/BQi7TcnnBKp76qCNemMrBX6nzgPIHHePXsn2CJ1HCMAvpBUlNaR4SRxiAYe5E3TeG3meBq8NsFGe+LShEq5qh9ED6Prw9P5EYy5gmf53BO/e95aMD0rKextMYh9EeVVya9zGnJbYdAgiRNDMzY6i9l7sIRVaROe/bTKgnNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731973658; c=relaxed/simple;
-	bh=BKtms7LWLD9J7tF7zaMFMdbLndSiQegnvW/JfKrXOpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W2ZNR1erVLBF9Va53a0lJZukV2OapZiRsFhTstHd7Yozgx7eUkujAI+LeSgXJY0ok1fU6PqZiHlCgi/L3HNnx8Wt0luOzOh9RuNAFkyyBRe3q3nONPvB0dgmlqORT4/ssZ58GunD45ISiGzvyG/nrYQPN8Lo0aHvUJ4IcWMyOqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dzygH5iy; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731973791; c=relaxed/simple;
+	bh=5KhDUPPzU93GbFnSsCpuzV6Iz+SPNky6RTbpDz23aII=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WNzonBrnO4DyoPmC0JuJypAbq4J9FP+B2rz4A+72JUiwESeov0UTb6zlLHceXTzBh51fOx+CoF+Y1N/g8kuUYshW2aPACIQdGg4iqDCbE7UvGW4firltuxis6FUmqrEKemSuqOFVzj8quKtkyMk4GwoVYmxxdsN5SVJQjSMjsQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NOfPtLdL; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dzygH5iy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731973656; x=1763509656;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BKtms7LWLD9J7tF7zaMFMdbLndSiQegnvW/JfKrXOpE=;
-  b=dzygH5iy9z6B5Ziwpeku2FXEEIuIARl8N4DqvnjJFZYbmHor2PEfwtJd
-   /sq+Fu2OczyCAqzwcxuCXXCSnMujTbFLJKCqyi//oTDuFmMuTholU1ZKw
-   RDLpeIftHVQQAy1u6G2TpvKDupXMakDT/hTw66rNm53EkKohngbgh0ZS+
-   bzQf5tWx5zgd2t87eg9kz2+uatOR1ZgFqtWMTQo8t83uwiPdvKkfHe0vq
-   RqpEK4maXUHifV8hlXealPCZg1oGNvV61WdzXOiTV3UVaUbNLKpRRcjsV
-   yzJl07puPxnbQaAtmykteelFXgLW7Y/8EsOqdidEQ8AcTSqK7GFg75VnU
-   g==;
-X-CSE-ConnectionGUID: jW+De2UmTc6FmrViF4xRrA==
-X-CSE-MsgGUID: E76IjazyT6Oj09j2GJu7Rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="35859166"
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="35859166"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 15:47:36 -0800
-X-CSE-ConnectionGUID: xsTE/DjiR06FrUJO0bw6NA==
-X-CSE-MsgGUID: TXvML7jURQGRPVZ9XUPe5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="120317076"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.70])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 15:47:36 -0800
-Date: Mon, 18 Nov 2024 15:47:34 -0800
-From: "Luck, Tony" <tony.luck@intel.com>
-To: babu.moger@amd.com
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v9 2/9] x86/resctrl: Prepare for per-ctrl_mon group
- mba_MBps control
-Message-ID: <ZzvSFm-dcZwdK9cO@agluck-desk3>
-References: <20241114001712.80315-1-tony.luck@intel.com>
- <20241114001712.80315-3-tony.luck@intel.com>
- <8b040e1a-2af8-9d9f-4697-dee96eb65b00@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NOfPtLdL"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4608dddaa35so128251cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 15:49:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731973787; x=1732578587; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lK6bzE8aI/V2pC6nlWjgg4fvEcS2VY0hiKfSVmi168k=;
+        b=NOfPtLdL/BaN6W7Z3TmBfuuHoIgeEsK1ByyQWo1odZjjk+vESJarwAWezxkNua8xlZ
+         5YRZyYF7eKGMUCh0/6pAIbpEIIBs4uEgii460SAxYkm7t505SIJN1VXhTydrSBZT2D3i
+         le7O+yV/kF5GPzYgesA8/Jq++nKcZQnkVXlq5UjSTF5rn/m6fWz/IH0hnz+AGcm0yFzO
+         smFSRPhd26MxpE8DVSq8pyqPAgSIG6CpGCFhlzkpLz9QHhv/lo79l0KCydTHm/NRg3F9
+         mtCXTvQmqTqSPAQtIIsMuAvwJQrqLJ9zOkcUQY8xG2BwN0axAp4EGzZxZFCGvAG6oGwA
+         deuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731973787; x=1732578587;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lK6bzE8aI/V2pC6nlWjgg4fvEcS2VY0hiKfSVmi168k=;
+        b=iYHmiUXaKOPxecN++IuoNX7fOXmtCDb6e07du0EzcRj5XyHrxuMIbw3jOnDxatnOvl
+         rG4/90YxqnBSqVR5nFzbPfk3z1mpqnRd5T6wICkVBifyS+DAvnk7IoFrJWH+fILkSn6Q
+         WWxky5diU+j5mLcPVDMBGvRIbZoeS2an0Bddbxe11XP6S/8gl5c+E8PZdnqmwrA3Vt5U
+         W8KDCb4kVNR9iFoqAg1y8u4wpFz1Zu2A+tcKE/9TOnBg3KtCA8jImQVLANlohj1yAkzo
+         v605XgdqxuE0rFGZhsmmOqJcNIM9ryhUoNJce5U3nP3gwiOSo4G+UUf8xBh/Lf3r4PFb
+         4cVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrbNZWq7MP0/Nev/y7TmKbRGtAyXItfTh0UNqVwacy3jBUmKi4PvAVo9WIxQePes1UQRWo1CkA3iE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRJbSBODxTeFo9AVhyi3kbv9cJ7hxGc+HpNSxVfHFxTCbhKeeG
+	Cyz0sjtplOVLstBrphSuYfGTiE0UvigNuRS9v6sVLXEEK/p/KqtQT/zCTnvlmBuvWfDzyraQwxM
+	JPqupDTcXB7F2cUXYHUD5tsmoZDcwhkpFnOUr
+X-Gm-Gg: ASbGncsLczfyvg8GzFaL3eoHGNUus7GfBFEXTRjZpFvXiVljuhY5drRBsiPN47FBHq/
+	IVEIhfMOf/rIyNTN5yW8J27TZFLGpe8c1WFxuAzswbnoDw30nmay7gicssD7jxg==
+X-Google-Smtp-Source: AGHT+IFZwt76OGyj44JQnW6JI/5s2J93C6DIK6J7wzakmW8yqQSea3vMGSHEwAzZUnUOrt5xqan1wN37RWPJqIC6h2Q=
+X-Received: by 2002:ac8:59d0:0:b0:460:463d:78dd with SMTP id
+ d75a77b69052e-463937a8f55mr1170181cf.4.1731973787136; Mon, 18 Nov 2024
+ 15:49:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8b040e1a-2af8-9d9f-4697-dee96eb65b00@amd.com>
+References: <20241118222540.27495-1-yabinc@google.com>
+In-Reply-To: <20241118222540.27495-1-yabinc@google.com>
+From: Rong Xu <xur@google.com>
+Date: Mon, 18 Nov 2024 15:49:35 -0800
+Message-ID: <CAF1bQ=SwtGDpOJeQwhbnO6Md=kFbcmkM4iVgXUgjzNXu+d8cEA@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
+To: Yabin Cui <yabinc@google.com>
+Cc: Han Shen <shenhan@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 15, 2024 at 10:20:34AM -0600, Moger, Babu wrote:
+This patch looks good to me.
 
-Thanks for looking. Comments below.
+I assume the profile format change in the Android doc will be submitted soo=
+n.
+Since "extbinary" is a superset of "binary", using the "extbinary"
+format profile
+in Android shouldn't cause any compatibility issues.
 
-> Hi Tony,
-> 
-> On 11/13/2024 6:17 PM, Tony Luck wrote:
-> > Resctrl uses local memory bandwidth event as input to the feedback
-> > loop when the mba_MBps mount option is used. This means that this
-> > mount option cannot be used on systems that only support monitoring
-> > of total bandwidth.
-> > 
-> > Prepare to allow users to choose the input event independently for
-> > each ctrl_mon group.
-> 
-> How about this?
-> 
-> Provide users with the ability to select the input event independently for
-> each ctrl_mon group.
+Reviewed-by: Rong Xu <xur.google.com>
 
-That's a description for the series as a whole. This patch doesn't
-do all the things in that sentence.
+-Rong
 
-> 
-> > 
-> > Signed-off-by: Tony Luck <tony.luck@intel.com>
-> > ---
-> >   include/linux/resctrl.h                | 2 ++
-> >   arch/x86/kernel/cpu/resctrl/internal.h | 2 ++
-> >   arch/x86/kernel/cpu/resctrl/core.c     | 3 +++
-> >   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 6 ++++++
-> >   4 files changed, 13 insertions(+)
-> > 
-> > diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-> > index d94abba1c716..fd05b937e2f4 100644
-> > --- a/include/linux/resctrl.h
-> > +++ b/include/linux/resctrl.h
-> > @@ -49,6 +49,8 @@ enum resctrl_event_id {
-> >   	QOS_L3_MBM_LOCAL_EVENT_ID	= 0x03,
-> >   };
-> > +extern enum resctrl_event_id mba_mbps_default_event;
-> > +
-> >   /**
-> >    * struct resctrl_staged_config - parsed configuration to be applied
-> >    * @new_ctrl:		new ctrl value to be loaded
-> > diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-> > index faaff9d64102..485800055a7d 100644
-> > --- a/arch/x86/kernel/cpu/resctrl/internal.h
-> > +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-> > @@ -283,6 +283,7 @@ struct pseudo_lock_region {
-> >    *				monitor only or ctrl_mon group
-> >    * @mon:			mongroup related data
-> >    * @mode:			mode of resource group
-> > + * @mba_mbps_event:		input monitoring event id when mba_sc is enabled
-> >    * @plr:			pseudo-locked region
-> >    */
-> >   struct rdtgroup {
-> > @@ -295,6 +296,7 @@ struct rdtgroup {
-> >   	enum rdt_group_type		type;
-> >   	struct mongroup			mon;
-> >   	enum rdtgrp_mode		mode;
-> > +	enum resctrl_event_id		mba_mbps_event;
-> >   	struct pseudo_lock_region	*plr;
-> >   };
-> > diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-> > index f3ee5859b69d..94bf559966d6 100644
-> > --- a/arch/x86/kernel/cpu/resctrl/core.c
-> > +++ b/arch/x86/kernel/cpu/resctrl/core.c
-> > @@ -963,6 +963,9 @@ static __init bool get_rdt_mon_resources(void)
-> >   	if (!rdt_mon_features)
-> >   		return false;
-> > +	if (is_mbm_local_enabled())
-> > +		mba_mbps_default_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-> 
-> 
-> Any reason to separate this patch and patch 8?  I feel it can be combined.
-
-patch 8 will set mba_mbps_default_event to QOS_L3_MBM_TOTAL_EVENT_ID
-on systems witout support for local memory bandwidth monitoring.
-
-The rest of the code isn't ready for that until midway through this
-series when other code has been updated to handle total bandwidth
-correctly.
-
-I may have gone to extremes moving that part out all the way to patch
-8. It could potentially happen earlier in the series.
-
-> 
-> > +
-> >   	return !rdt_get_mon_l3_config(r);
-> >   }
-> > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > index 2b198ef95e1e..a8022bddf9f7 100644
-> > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > @@ -65,6 +65,8 @@ static void rdtgroup_destroy_root(void);
-> >   struct dentry *debugfs_resctrl;
-> > +enum resctrl_event_id mba_mbps_default_event;
-> > +
-> >   static bool resctrl_debug;
-> >   void rdt_last_cmd_clear(void)
-> > @@ -3611,6 +3613,8 @@ static int rdtgroup_mkdir_ctrl_mon(struct kernfs_node *parent_kn,
-> >   			rdt_last_cmd_puts("kernfs subdir error\n");
-> >   			goto out_del_list;
-> >   		}
-> > +		if (is_mba_sc(NULL))
-> > +			rdtgrp->mba_mbps_event = mba_mbps_default_event;
-> >   	}
-> >   	goto out_unlock;
-> > @@ -3970,6 +3974,8 @@ static void __init rdtgroup_setup_default(void)
-> >   	rdtgroup_default.closid = RESCTRL_RESERVED_CLOSID;
-> >   	rdtgroup_default.mon.rmid = RESCTRL_RESERVED_RMID;
-> >   	rdtgroup_default.type = RDTCTRL_GROUP;
-> > +	if (supports_mba_mbps())
-> > +		rdtgroup_default.mba_mbps_event = mba_mbps_default_event;
-> >   	INIT_LIST_HEAD(&rdtgroup_default.mon.crdtgrp_list);
-> >   	list_add(&rdtgroup_default.rdtgroup_list, &rdt_all_groups);
-> 
-> -- 
-> - Babu Moger
-
--Tony
+On Mon, Nov 18, 2024 at 2:25=E2=80=AFPM Yabin Cui <yabinc@google.com> wrote=
+:
+>
+> Select ARCH_SUPPORTS_AUTOFDO_CLANG to allow AUTOFDO_CLANG to be
+> selected.
+>
+> On ARM64, ETM traces can be recorded and converted to AutoFDO profiles.
+> Experiments on Android show 4% improvement in cold app startup time
+> and 13% improvement in binder benchmarks.
+>
+> Signed-off-by: Yabin Cui <yabinc@google.com>
+> ---
+>
+> Change-Logs in V2:
+>
+> 1. Use "For ARM platforms with ETM trace" in autofdo.rst.
+> 2. Create an issue and a change to use extbinary format in instructions:
+>    https://github.com/Linaro/OpenCSD/issues/65
+>    https://android-review.googlesource.com/c/platform/system/extras/+/336=
+2107
+>
+>  Documentation/dev-tools/autofdo.rst | 18 +++++++++++++++++-
+>  arch/arm64/Kconfig                  |  1 +
+>  2 files changed, 18 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tool=
+s/autofdo.rst
+> index 1f0a451e9ccd..a890e84a2fdd 100644
+> --- a/Documentation/dev-tools/autofdo.rst
+> +++ b/Documentation/dev-tools/autofdo.rst
+> @@ -55,7 +55,7 @@ process consists of the following steps:
+>     workload to gather execution frequency data. This data is
+>     collected using hardware sampling, via perf. AutoFDO is most
+>     effective on platforms supporting advanced PMU features like
+> -   LBR on Intel machines.
+> +   LBR on Intel machines, ETM traces on ARM machines.
+>
+>  #. AutoFDO profile generation: Perf output file is converted to
+>     the AutoFDO profile via offline tools.
+> @@ -141,6 +141,22 @@ Here is an example workflow for AutoFDO kernel:
+>
+>        $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a =
+-N -b -c <count> -o <perf_file> -- <loadtest>
+>
+> +   - For ARM platforms with ETM trace:
+> +
+> +     Follow the instructions in the `Linaro OpenCSD document
+> +     https://github.com/Linaro/OpenCSD/blob/master/decoder/tests/auto-fd=
+o/autofdo.md`_
+> +     to record ETM traces for AutoFDO::
+> +
+> +      $ perf record -e cs_etm/@tmc_etr0/k -a -o <etm_perf_file> -- <load=
+test>
+> +      $ perf inject -i <etm_perf_file> -o <perf_file> --itrace=3Di500009=
+il
+> +
+> +     For ARM platforms running Android, follow the instructions in the
+> +     `Android simpleperf document
+> +     <https://android.googlesource.com/platform/system/extras/+/main/sim=
+pleperf/doc/collect_etm_data_for_autofdo.md>`_
+> +     to record ETM traces for AutoFDO::
+> +
+> +      $ simpleperf record -e cs-etm:k -a -o <perf_file> -- <loadtest>
+> +
+>  4) (Optional) Download the raw perf file to the host machine.
+>
+>  5) To generate an AutoFDO profile, two offline tools are available:
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index fd9df6dcc593..c3814df5e391 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -103,6 +103,7 @@ config ARM64
+>         select ARCH_SUPPORTS_PER_VMA_LOCK
+>         select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
+>         select ARCH_SUPPORTS_RT
+> +       select ARCH_SUPPORTS_AUTOFDO_CLANG
+>         select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+>         select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+>         select ARCH_WANT_DEFAULT_BPF_JIT
+> --
+> 2.47.0.338.g60cca15819-goog
+>
