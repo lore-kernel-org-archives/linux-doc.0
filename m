@@ -1,429 +1,859 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48EF198E99;
-	Mon, 18 Nov 2024 17:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731950311; cv=fail; b=FBLjURGyS8IYkIFWC/vokIdtnV5elQuEJJEPv5hJbIT4G89Z/jvdbNszyqCrZOh22CMYvvPQCGgAAk/2UhW75WJenoG1X+cdGKAneEnu8BL2Df6IQzmdOX9nNH4Xu7uEG66RVdgyU7CGLLd4JlKLtcrVnOh86erCf5QRXx3Z3xg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731950311; c=relaxed/simple;
-	bh=wyJwQjebxGHLC1AgFT3cyqpQ+myctDUOumJ+s8AmC80=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=VGdcrhU7f8UBWsrKUH8ZLVmwIzFtTDDV2RwplUiT8kB3ymL0MvsEhu8EP5YdPOzEP2ISYDJrfRY+vGIuIf0CnFvBm54N7860r8sl39HQ9eoSHEQZZRa6RB60bTe4gEGdA1uW8dtxWsoAqpjBtrMd504b6n3lN8ih0OOReQ7LhwY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjrMVKQe; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649F1198E99;
+	Mon, 18 Nov 2024 17:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731950402; cv=none; b=VusGOWvxALrpOTUYsFZ+Ljh50VIZI0GBAb4q6XXYLyKFXhwqbX+Lv6kvB8dzyEB2kd6PUfhyxUxf3Oo9uOovG1ps7dRIAho+9dhDh8ePVNXIp/KhNCUF/p3wDgwBI/cQiyoKxxcqKEyUryLhwjsg3InqfErAVw9ZYx+O168byS4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731950402; c=relaxed/simple;
+	bh=re4/5JhtfIzUSicCjesiC23lF4YTXiPmgIFpjuUdvL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AJQK7lNsR6L8o4PnsQEAfH1NDLY0DFWo2uI6b2FIoM9IcJqwZHwX1yyLVG5F6Ukd75Woo0Hut/sDLMibmdFGJdRW46TEmDgOV52DZdl0MaeB9aIZjIIjkH0d1n335p/QNxKYBBiEZRAH9GU75V4/Q+X/KATgCi+i/jb3ZJgNLAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YlWBdgf7; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjrMVKQe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731950308; x=1763486308;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=wyJwQjebxGHLC1AgFT3cyqpQ+myctDUOumJ+s8AmC80=;
-  b=JjrMVKQeUIHHJR2ATP2nxGWgk144riPMiGxNs2/i3wmOH3zRfKxoMoJN
-   P5MVuNpAeNppWyyH+zLBjuUN5aPjVYULdJBv8GLHNYi3CbAMoOxPCyvGH
-   Qe4U6xNnwrgxkRzFFF33BjK1f4zIqS/Nr3JvmwQ1/kwqihwtVGr8J7Q9n
-   ngskD8OOzbLiN0k349mV089M5tAPpBtXktq2nsxQ5K4vLlGvkXLRKEuYj
-   9IQEYCu/HRo8BWK4wcwbADDMIJnrJLmoBcWkyydT7QeJdZC1hGtaZPV+c
-   t8Kt8BJLyyZQwJ9GJjCmLhivUkbiTHUGOGK9Gl+HNJZ8KkD6AM5NUVBnr
-   w==;
-X-CSE-ConnectionGUID: p33KY/SnQPm4ypPC0/SrSQ==
-X-CSE-MsgGUID: TLxmwsbvS2CsH20bEAl6Zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="34781578"
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="34781578"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 09:18:27 -0800
-X-CSE-ConnectionGUID: G2ZshF+US0iXvjIm1HTbXw==
-X-CSE-MsgGUID: UVXMNB0PT5aIqkW46XwxQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="89679876"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Nov 2024 09:18:28 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 18 Nov 2024 09:18:27 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 18 Nov 2024 09:18:27 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 18 Nov 2024 09:18:26 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C59nueNxm4xS4tOgaPwM5nbCzWPhtJRCLHSTom+I/GPMoFWC5AfJ0vkXTyu6n+a9V5fSvUdj+B85OHNLl8l0aeqLx7Q5dJs6RD2olMLW+0bKIyy4de+mfn0eSt/8Hx8EW2WgDnQNZcrfBYKwvMEarc1HdaCT7SdTlepQU3xZ1GUyXiM+PzQ7rLrMLmfBzu9yf/rGgvURls4oQfIX4O0SkzReoYSMq6SWLiQoV3rGX9xitFP3nI+jFamhjAdcE0Muv8yLaL4edJmj6ZEU8VcF2V6FnMl2il+b1Lg27e4rJTH5zzoDLuAT7Lh9HffNDbl+Y81A8Nhs+IOnRnnnrSvvXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NtW/7s5+sfuNB/W9X9ZWlYt66Dd7DXRz+xrVaEleJ80=;
- b=cHfjXq0dzw013neA7ElomwNVcojdSF6+lWwynj28MvkS6VUOAO1D0I3oCFDU3lP6CgSLdKHu+gpZOoVGofMgDB+FWd5r+LUg2VDoExLJ1Kxc3NWvOySZTkNA6mObvcTOCyqcb5fD2jdjnuNvOSXzyoXLVYW7C/yhOoWfwQkvfPiAgUFK3rO0slaRYjcGUc+d+mdLKKfiTGHcfAIiiyEC0jx46XitRbWNHxoIha4QaceYJGbu7JBXSTxV3Q7cMNKBdn9pNNl5KJYvEMEDXgwmvSP6GQkqRoYEhWqNTnBYdpSGcPVxp5YdZ78rZ1ql53kr0TbT+KxN3jiUxGWLp6ilIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by IA1PR11MB8786.namprd11.prod.outlook.com (2603:10b6:208:59b::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.23; Mon, 18 Nov
- 2024 17:18:22 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8158.019; Mon, 18 Nov 2024
- 17:18:21 +0000
-Message-ID: <79b8049a-b213-4d86-a021-cfd9f7389f5b@intel.com>
-Date: Mon, 18 Nov 2024 09:18:17 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 20/26] x86/resctrl: Auto assign/unassign counters when
- mbm_cntr_assign is enabled
-To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
-CC: <fenghua.yu@intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<thuth@redhat.com>, <paulmck@kernel.org>, <rostedt@goodmis.org>,
-	<akpm@linux-foundation.org>, <xiongwei.song@windriver.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <daniel.sneddon@linux.intel.com>,
-	<perry.yuan@amd.com>, <sandipan.das@amd.com>, <kai.huang@intel.com>,
-	<xiaoyao.li@intel.com>, <seanjc@google.com>, <jithu.joseph@intel.com>,
-	<brijesh.singh@amd.com>, <xin3.li@intel.com>, <ebiggers@google.com>,
-	<andrew.cooper3@citrix.com>, <mario.limonciello@amd.com>,
-	<james.morse@arm.com>, <tan.shaopeng@fujitsu.com>, <tony.luck@intel.com>,
-	<vikas.shivappa@linux.intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <peternewman@google.com>,
-	<maciej.wieczor-retman@intel.com>, <eranian@google.com>,
-	<jpoimboe@kernel.org>, <thomas.lendacky@amd.com>
-References: <cover.1730244116.git.babu.moger@amd.com>
- <4ec00fe60cd42c1f22c98c9f5c2f5d3ceb9f8d58.1730244116.git.babu.moger@amd.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <4ec00fe60cd42c1f22c98c9f5c2f5d3ceb9f8d58.1730244116.git.babu.moger@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW3PR05CA0003.namprd05.prod.outlook.com
- (2603:10b6:303:2b::8) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YlWBdgf7"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7D4751BF203;
+	Mon, 18 Nov 2024 17:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1731950397;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=75hlvyBaYbHDoUPO0i9uKzarwiONhSL2obMmIHo2+J4=;
+	b=YlWBdgf71jjyKbdwk29JBArnQHB4jzAcP1k3ciYaJA41bofmNLer0WTJtOTJ8b5eo3NulD
+	tYg1065uKr1ipUlABjzSiLYcC7a9IAZ8N8AGr88t4REku4OFKdJId5S5ZNgKlg7d0YMRaa
+	NuDYZ94MmReRDoGcNvx7rdmjncHKdQo5vrQcuJEWj/yYzqRI3a5vh2jBzbdff7dofo8Zhp
+	xbhwVm8cUrFx6xp5OzJ1yC3X3lPgsPMb3Dg0hukHsbywPXi/06MtERkPr0If8VxAKn/G39
+	1TctoIrz+/n9Jhkaa1SzHNtfRJXUFDYLDjRovBbmfHPYwV7/uqnPF3+izlkfcQ==
+Date: Mon, 18 Nov 2024 18:19:55 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
+	dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+	helen.koike@collabora.com, jeremie.dautheribes@bootlin.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+	marcheu@google.com, melissa.srw@gmail.com,
+	miquel.raynal@bootlin.com, mripard@kernel.org,
+	nicolejadeyee@google.com, pekka.paalanen@collabora.com,
+	pekka.paalanen@haloniitty.fi, rdunlap@infradead.org,
+	rodrigosiqueiramelo@gmail.com, seanpaul@google.com,
+	simona.vetter@ffwll.ch, simona@ffwll.ch,
+	thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+Subject: Re: [PATCH v13 8/9] drm/vkms: Re-introduce line-per-line composition
+ algorithm
+Message-ID: <Zzt3O_hy5AgxYd81@louis-chauvet-laptop>
+Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+	airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
+	dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+	helen.koike@collabora.com, jeremie.dautheribes@bootlin.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+	marcheu@google.com, melissa.srw@gmail.com,
+	miquel.raynal@bootlin.com, mripard@kernel.org,
+	nicolejadeyee@google.com, pekka.paalanen@collabora.com,
+	pekka.paalanen@haloniitty.fi, rdunlap@infradead.org,
+	rodrigosiqueiramelo@gmail.com, seanpaul@google.com,
+	simona.vetter@ffwll.ch, simona@ffwll.ch,
+	thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+References: <20241031-yuv-v13-8-bd5463126faa@bootlin.com>
+ <20241118171055.2875-1-jose.exposito89@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA1PR11MB8786:EE_
-X-MS-Office365-Filtering-Correlation-Id: aea57c80-c7b5-43fd-4b54-08dd07f5003b
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cWNiU3lRNU1VemQ2cUEzdkR6Ykkzb090eGozLzF5KzBVam10eWNuWDNETGl6?=
- =?utf-8?B?MXdPbm5UZ24zQjRlMEVTcVFHdGNiVEhIeUh0d3BhOUdndzV1YW10SmdBakIv?=
- =?utf-8?B?SDRycjJIeTBBekpiVW1Xd2xKMGRpcVU2enlpMzVHa2F4YUI4cWlWbE9sUzYv?=
- =?utf-8?B?eVhyWXZNQzJtV3pzeDdReGg1UEFoQ3oyVURDVGFMWVoyOU1WSEhzYVRvNVJ0?=
- =?utf-8?B?ekk4SVVVZ2t0cXFsb01PODI4VHAxVkdQdVJrUnhvLzNwRXBBajF5eUswekVO?=
- =?utf-8?B?cWptUGFzUkpad3k2N3IyR1dWT0hGRTBWZUVYQzZkTFoxNVhCbE14Q2lHdEtV?=
- =?utf-8?B?SlFHWVhGeE52djdNWWpKcW1nV3QrTGRac0dUMUxsbFIwbmtWbENYK0NkSWRh?=
- =?utf-8?B?dHpDTk9EeEgrL1UvbHZ4b0JJNTIwU25iL3Ztc1prYUY3NUV3aXhoVCtnNytK?=
- =?utf-8?B?eHdHVExMWWpwajJYa1UrdDlHZXVhZTg0dHJoa1lzTC9RMjBBLy9sNjF2cXBR?=
- =?utf-8?B?d0JxYU4wZDU5RHM3NWxxYnQyYzZZdFhGUllUc21Qbk1jT1VxcW1PRWozUTZ1?=
- =?utf-8?B?TzRJc1Z4OVh5WVRkRGJqT2FZWHk5eWluVWdXU0loTEsxckliQ01UcW10MDk3?=
- =?utf-8?B?NUZzZER3empRa09xQXlBQTdNSTRJM2RvVGcrc2ZiRitrTi92MHpnWjgzSE5W?=
- =?utf-8?B?UHZMbExxZU5rRGd6OWRnL1ROd29OT0N1K0N5SUR2eXE1VFoxTmJpNVIrNU93?=
- =?utf-8?B?R3pzb2EydWp6ZlhEc284ZDNZam1MSldNSTY3ZURIZDFzOW1sMXV6a1IvdzJz?=
- =?utf-8?B?c29vcGNaSzVBNmFkK3FyU1F6YjJRd1hZYzlpWVduMHhiNHdzQmJUbVJiTGkw?=
- =?utf-8?B?bVlsTXRMcjg4L1BYZjZjTjFKeTAvb3AyVW9EYTM5Rm9zVmRKVWc3OHc5Y3Fk?=
- =?utf-8?B?UWprRmVRNnkyMWpXeDZYb1MwKzBNc1pockEwYlVSZWRhVDB1T0JoMGFYQTM0?=
- =?utf-8?B?bFhSYnNLS3YwOHdqQ1pBYjhTcXBubnZzT3VvbjhhQ2ZHbnA1TGoyaHNidHpm?=
- =?utf-8?B?cnVuN3Vmam03TDh4bUNNRTdKMXRWQmE1WlJwRnd0Z3NraVd3QVpRYy82dW9L?=
- =?utf-8?B?aXJrbk5lQ1JHY0NINEdXL01hUWhaZlJhR0ZEbzhveUZIVHJIZm9YMEZWeWJ5?=
- =?utf-8?B?NXgyQzBDNEM1S3YwZ0R6UUpzaWNUV1pENlpMdWhyVk13dGdZUzVhbjRLZkE5?=
- =?utf-8?B?am9tTjZPNnNHKzBYb3orVkUrY3hETHozbEd0YmhSclBLS0dXNG1lM2JmcEtr?=
- =?utf-8?B?WTNyVjVTMFdVNkUwcGp2a0RqMjBSckZhRmNwNDZxVnpYRkYxZEJpa0dDQzY3?=
- =?utf-8?B?cm15aU03a2dma2JORnFobEJtR2RpUTRtVjZOL1ZuMGw4bC9LWWhKejM4c3FC?=
- =?utf-8?B?RlRCenF2SW0rQklTb1FsOFczWVVzT2JQcXhERmt5THBqMkVVM0E0Tm5NMFNZ?=
- =?utf-8?B?MUlkN0ZMUGRuMDF6bktBV3B5T20xTXlWNkk1L2tyZ21wejVCc3NDNHluREdo?=
- =?utf-8?B?NkJqT29EYjZBSmlmWW1LeEhVVEc3M05LcU5XWkFMTllXMTBVOUd1MFNWbkV2?=
- =?utf-8?B?dGlhbjBUaTZxS0NlZjViamZzS0d2b2dzUXo3YmJ5RkFDSTFMUHhFRTkwNFNX?=
- =?utf-8?B?UFczREZMbnZTaW1vektJdy80TnZBVEl2aTdlVUkwYVRzTTBXblJBcGpYRUEz?=
- =?utf-8?Q?eVbgRazXUWu4xD0Au3qsMM2MOYFjbA24/AD9ZRI?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N2ZSc0Z0c3MxVzkrWW5VdmtKdWtYUVRxa2pZZVVuTEx3SWRSaWFtaldwMzgz?=
- =?utf-8?B?WnFiZjZjZmF6Mzd5SnMzT056UEVyUDlHYjhRZDRPRkIyS2V1czdFdUNtZk1V?=
- =?utf-8?B?RTYwWkszQ2RMN0JDK1pOYVdEeXJuWFVLck5Qd1NjYmhvQ1p1L1pUTFRyMDlI?=
- =?utf-8?B?ZDRyUHlOYTZJRFlMclFIbW81cWZxeGI3a3gzMXBzeSszNXhYVnQ1eTRNYXMz?=
- =?utf-8?B?OUtteHpCRFJYUFZqbHltdkJsdHdoQmVuZ1MyYnBWRFJOb3VlUE5zRlp1NFg2?=
- =?utf-8?B?cTBKN2t0ZlJldFhtb0dseVZQc2gxcEJNdUNibjZPUHkyeDlMWmw4VExEZkFy?=
- =?utf-8?B?N0NObDdCWUNzVWh6LzhIdloyN3VTWmsydkoyZTdqUEJUNXJzM25FMDdtS3E4?=
- =?utf-8?B?dXdjdmkybWlIUHBRR3NibFFWZ09veURKTVhicXcySWhGbXZOeVFZMTRBaXRx?=
- =?utf-8?B?Qm1VcWxkMzQ0QzZ1L3RVOFJUNWI3NS9QWUkzVEhtSnovUXI0YXQ0NXdBdW9s?=
- =?utf-8?B?VGZkcEFpRURoRHFNM2prTVlKandtcFIwcUhHZTBjdU5jclRRRmVNeVNOZmhS?=
- =?utf-8?B?bElsTTlNQW12R2RnV2N5a0ZrWjJnNHZ4UEl2ZHpMVE5jRVZ1UzB2UFYyY0py?=
- =?utf-8?B?K1lISmdsM2hmUklNd3RLTDUrK2hhY1UyM3B0c280Q2x4TzN2VFJGak94bE9N?=
- =?utf-8?B?MUlBNjdqUjZuN08xVDN6SGt4dzVQVzlFbnRpWm0wOUhwQytZSVFmcmhFV09j?=
- =?utf-8?B?czY2Rk1YQnJVZ1VxdXRMZjVZZFlUY256S0Y3YW5LYlF0WVBscVZCbDl2OXRP?=
- =?utf-8?B?bm9DVU9NR3dxVUlNQTIwdmhucFV0SkVSbmlaZHNJWXMzc1d1Q1kvSGJGQzJ5?=
- =?utf-8?B?akxTUUhsTGErbHUyV0xYVEZGUHZlOWNHSkVuWXo5T3NrSnFGNHllWVFYbUV4?=
- =?utf-8?B?b3NVSFlCQWhldXF3SkNydWRiOVZXRVhFSTFjU3ZaR3B0Y1FscDdGRnplbGQr?=
- =?utf-8?B?Tmk4V1R3VCtPcnBrdzdFd0VuakhNTEVXQnlIUCt4dUFjQ1pUOHd3NmcxQXNM?=
- =?utf-8?B?cE1CeGR6WDROY3Z6d2RWcG9pQ0krYlVrUnJPNUZvWThqMGJmdWFscW5Pb2I5?=
- =?utf-8?B?LzJZZFB6ZUZNa1hTNGhOZkt4Z0JEZ09nMHhLcW01aWhPUUJIRUpiZDZMVk95?=
- =?utf-8?B?bFl1azNrZGkxZURXenVBaFhTa2lFd2MyeG1mZktNNWpoN29UWU5SMkRzQnNI?=
- =?utf-8?B?cml6MHBsT0FmY0E5dXJUbmNycmRtb1hSN1AzbjI0QnY3Tng0QnhSYlFVUHZx?=
- =?utf-8?B?RWdscVdWNllDWnVzcU53eDRzK2haUjZ2YTZYTFB4Wkovdi9QV0tKRnlPVWJI?=
- =?utf-8?B?a0pQUDNtMWdhanZWT3l3Z20rZG9meXYxaXRxRElWM3pHQnhWc1NwVFRQbEtU?=
- =?utf-8?B?MU44Um9tY3cvWnpLMDBIMS8rcmZPZTR6QlR4L1JMcG1FWmd1bW1Kb1pLd1RE?=
- =?utf-8?B?VXdTSkIvUlEzQ2RtVURJczNkME9WNHlaeCtUbE1vRVU1dksvNDkyODRtT1Nx?=
- =?utf-8?B?emU5MDJVcHpjcCtZQmlmdWhaL1hRMzZZYjJNalAzVHlZcnZQOTBQT2JlWWRZ?=
- =?utf-8?B?ZlJYZ0Q1TmZyc2x6NXN5R1ZiQVY1UVdncWRndW9nM0F4KzBpWEpKOU9reGV0?=
- =?utf-8?B?YU9TSmJUNEF6N2hzcVNFek1oMEk2cXZ2R3BSZUNKSUh1S3dZZTVRbHBFVERU?=
- =?utf-8?B?bkNmNFFRYjh3WUFlNlpWSDFjdUhHSEZiZ3hMclkwTnkxMGZyNUo2Nzl2MWl1?=
- =?utf-8?B?UmpmWWRCRG9IMGxoR2xROFFTaE5vUWxuV21RTlZaMW5Ua2wrZHJSL2ZQZFg4?=
- =?utf-8?B?MUxGU0JMK1ljMUJsbFc5VWp6SDdXSU5mN0lmMEkrSFczU3d4dStRbWZ1MGl0?=
- =?utf-8?B?YlEzRnY3cDJEeURXLzlvaTNSa0RweUNwU2lZYnBoSzdocUFlWlY0UzdOZWlH?=
- =?utf-8?B?R2xzZUFEVmpyb0g4ZDlDNG4xRzV1Qi9RSnlKSUxtOTJZWUlGSDFtWTJTVDhj?=
- =?utf-8?B?Z09RY2c1WUdIZTZUK28zT2pvOTl5SU9mVUJVT2RXakJwOFVTOGJleEpsM1hp?=
- =?utf-8?B?Y2M0cVRQdEoyYWc0dUVKZi9yaXc4Zm55bW1JcDBkejhqaVlSbUNlUGFqZmRu?=
- =?utf-8?B?UEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: aea57c80-c7b5-43fd-4b54-08dd07f5003b
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2024 17:18:21.0751
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L+79Kld6up36xD9PHuGb0X52foWs7g++GE6dHMykhAgQdY9OHokIHmMHb3WxmY+MEeDe9vSSaa+1UgCownYppfnBiWbX0DlcG8UoMp8wVmI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8786
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241118171055.2875-1-jose.exposito89@gmail.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-Hi Babu,
-
-On 10/29/24 4:21 PM, Babu Moger wrote:
-> Assign/unassign counters on resctrl group creation/deletion. Two counters
-> are required per group, one for MBM total event and one for MBM local
-> event.
+On 18/11/24 - 18:10, José Expósito wrote:
+> > Re-introduce a line-by-line composition algorithm for each pixel format.
+> > This allows more performance by not requiring an indirection per pixel
+> > read. This patch is focused on readability of the code.
+> > 
+> > Line-by-line composition was introduced by [1] but rewritten back to
+> > pixel-by-pixel algorithm in [2]. At this time, nobody noticed the impact
+> > on performance, and it was merged.
+> > 
+> > This patch is almost a revert of [2], but in addition efforts have been
+> > made to increase readability and maintainability of the rotation handling.
+> > The blend function is now divided in two parts:
+> > - Transformation of coordinates from the output referential to the source
+> > referential
+> > - Line conversion and blending
+> > 
+> > Most of the complexity of the rotation management is avoided by using
+> > drm_rect_* helpers. The remaining complexity is around the clipping, to
+> > avoid reading/writing outside source/destination buffers.
+> > 
+> > The pixel conversion is now done line-by-line, so the read_pixel_t was
+> > replaced with read_pixel_line_t callback. This way the indirection is only
+> > required once per line and per plane, instead of once per pixel and per
+> > plane.
+> > 
+> > The read_line_t callbacks are very similar for most pixel format, but it
+> > is required to avoid performance impact. Some helpers for color
+> > conversion were introduced to avoid code repetition:
+> > - *_to_argb_u16: perform colors conversion. They should be inlined by the
+> >   compiler, and they are used to avoid repetition between multiple variants
+> >   of the same format (argb/xrgb and maybe in the future for formats like
+> >   bgr formats).
+> > 
+> > This new algorithm was tested with:
+> > - kms_plane (for color conversions)
+> > - kms_rotation_crc (for rotations of planes)
+> > - kms_cursor_crc (for translations of planes)
+> > - kms_rotation (for all rotations and formats combinations) [3]
+> > The performance gain was mesured with kms_fb_stress [4] with some
+> > modification to fix the writeback format.
+> > 
+> > The performance improvement is around 5 to 10%.
+> > 
+> > [1]: commit 8ba1648567e2 ("drm: vkms: Refactor the plane composer to accept
+> >      new formats")
+> >      https://lore.kernel.org/all/20220905190811.25024-7-igormtorrente@gmail.com/
+> > [2]: commit 322d716a3e8a ("drm/vkms: isolate pixel conversion
+> >      functionality")
+> >      https://lore.kernel.org/all/20230418130525.128733-2-mcanal@igalia.com/
+> > [3]: https://lore.kernel.org/igt-dev/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com/
+> > [4]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
+> > 
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > 
+> > # Conflicts:
+> > #	drivers/gpu/drm/vkms/vkms_composer.c
+> > 
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 > 
-> There are a limited number of counters available for assignment. If these
-> counters are exhausted, the kernel will display the error message: "Out of
-> MBM assignable counters". However, it is not necessary to fail the
-> creation of a group due to assignment failures. Users have the flexibility
-> to modify the assignments at a later time.
+> checkpatch will complaint about this duplicated signature.
+
+An other reason for a v14 :-)
+I saw it when I tried to commit this series, thanks
+ 
+> > ---
+> >  drivers/gpu/drm/vkms/vkms_composer.c | 234 ++++++++++++++++++++++++++++-------
+> >  drivers/gpu/drm/vkms/vkms_drv.h      |  28 +++--
+> >  drivers/gpu/drm/vkms/vkms_formats.c  | 224 ++++++++++++++++++++-------------
+> >  drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
+> >  drivers/gpu/drm/vkms/vkms_plane.c    |   5 +-
+> >  5 files changed, 344 insertions(+), 149 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> > index 601e33431b45..7a3e47b895a7 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> > @@ -29,8 +29,8 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+> >   * @x_start: The start offset
+> >   * @pixel_count: The number of pixels to blend
+> >   *
+> > - * The pixels [0;@pixel_count) in stage_buffer are blended at [@x_start;@x_start+@pixel_count) in
+> > - * output_buffer.
+> > + * The pixels [@x_start;@x_start+@pixel_count) in stage_buffer are blended at
+> > + * [@x_start;@x_start+@pixel_count) in output_buffer.
+> >   *
+> >   * The current DRM assumption is that pixel color values have been already
+> >   * pre-multiplied with the alpha channel values. See more
+> > @@ -41,7 +41,7 @@ static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
+> >  				struct line_buffer *output_buffer, int x_start, int pixel_count)
+> >  {
+> >  	struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
+> > -	const struct pixel_argb_u16 *in = stage_buffer->pixels;
+> > +	const struct pixel_argb_u16 *in = &stage_buffer->pixels[x_start];
+> >  
+> >  	for (int i = 0; i < pixel_count; i++) {
+> >  		out[i].a = (u16)0xffff;
+> > @@ -51,33 +51,6 @@ static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
+> >  	}
+> >  }
+> >  
+> > -static int get_y_pos(struct vkms_frame_info *frame_info, int y)
+> > -{
+> > -	if (frame_info->rotation & DRM_MODE_REFLECT_Y)
+> > -		return drm_rect_height(&frame_info->rotated) - y - 1;
+> > -
+> > -	switch (frame_info->rotation & DRM_MODE_ROTATE_MASK) {
+> > -	case DRM_MODE_ROTATE_90:
+> > -		return frame_info->rotated.x2 - y - 1;
+> > -	case DRM_MODE_ROTATE_270:
+> > -		return y + frame_info->rotated.x1;
+> > -	default:
+> > -		return y;
+> > -	}
+> > -}
+> > -
+> > -static bool check_limit(struct vkms_frame_info *frame_info, int pos)
+> > -{
+> > -	if (drm_rotation_90_or_270(frame_info->rotation)) {
+> > -		if (pos >= 0 && pos < drm_rect_width(&frame_info->rotated))
+> > -			return true;
+> > -	} else {
+> > -		if (pos >= frame_info->rotated.y1 && pos < frame_info->rotated.y2)
+> > -			return true;
+> > -	}
+> > -
+> > -	return false;
+> > -}
+> >  
+> >  static void fill_background(const struct pixel_argb_u16 *background_color,
+> >  			    struct line_buffer *output_buffer)
+> > @@ -203,6 +176,182 @@ static enum pixel_read_direction direction_for_rotation(unsigned int rotation)
+> >  	return READ_LEFT_TO_RIGHT;
+> >  }
+> >  
+> > +/**
+> > + * clamp_line_coordinates() - Compute and clamp the coordinate to read and write during the blend
+> > + * process.
+> > + *
+> > + * @direction: direction of the reading
+> > + * @current_plane: current plane blended
+> > + * @src_line: source line of the reading. Only the top-left coordinate is used. This rectangle
+> > + * must be rotated and have a shape of 1*pixel_count if @direction is vertical and a shape of
+> > + * pixel_count*1 if @direction is horizontal.
+> > + * @src_x_start: x start coordinate for the line reading
+> > + * @src_y_start: y start coordinate for the line reading
+> > + * @dst_x_start: x coordinate to blend the read line
+> > + * @pixel_count: number of pixels to blend
+> > + *
+> > + * This function is mainly a safety net to avoid reading outside the source buffer. As the
+> > + * userspace should never ask to read outside the source plane, all the cases covered here should
+> > + * be dead code.
+> > + */
+> > +static void clamp_line_coordinates(enum pixel_read_direction direction,
+> > +				   const struct vkms_plane_state *current_plane,
+> > +				   const struct drm_rect *src_line, int *src_x_start,
+> > +				   int *src_y_start, int *dst_x_start, int *pixel_count)
+> > +{
+> > +	/* By default the start points are correct */
+> > +	*src_x_start = src_line->x1;
+> > +	*src_y_start = src_line->y1;
+> > +	*dst_x_start = current_plane->frame_info->dst.x1;
+> > +
+> > +	/* Get the correct number of pixel to blend, it depends of the direction */
+> > +	switch (direction) {
+> > +	case READ_LEFT_TO_RIGHT:
+> > +	case READ_RIGHT_TO_LEFT:
+> > +		*pixel_count = drm_rect_width(src_line);
+> > +		break;
+> > +	case READ_BOTTOM_TO_TOP:
+> > +	case READ_TOP_TO_BOTTOM:
+> > +		*pixel_count = drm_rect_height(src_line);
+> > +		break;
+> > +	}
+> > +
+> > +	/*
+> > +	 * Clamp the coordinates to avoid reading outside the buffer
+> > +	 *
+> > +	 * This is mainly a security check to avoid reading outside the buffer, the userspace
+> > +	 * should never request to read outside the source buffer.
+> > +	 */
+> > +	switch (direction) {
+> > +	case READ_LEFT_TO_RIGHT:
+> > +	case READ_RIGHT_TO_LEFT:
+> > +		if (*src_x_start < 0) {
+> > +			*pixel_count += *src_x_start;
+> > +			*dst_x_start -= *src_x_start;
+> > +			*src_x_start = 0;
+> > +		}
+> > +		if (*src_x_start + *pixel_count > current_plane->frame_info->fb->width)
+> > +			*pixel_count = max(0, (int)current_plane->frame_info->fb->width -
+> > +				*src_x_start);
+> > +		break;
+> > +	case READ_BOTTOM_TO_TOP:
+> > +	case READ_TOP_TO_BOTTOM:
+> > +		if (*src_y_start < 0) {
+> > +			*pixel_count += *src_y_start;
+> > +			*dst_x_start -= *src_y_start;
+> > +			*src_y_start = 0;
+> > +		}
+> > +		if (*src_y_start + *pixel_count > current_plane->frame_info->fb->height)
+> > +			*pixel_count = max(0, (int)current_plane->frame_info->fb->height -
+> > +				*src_y_start);
+> > +		break;
+> > +	}
+> > +}
+> > +
+> > +/**
+> > + * blend_line() - Blend a line from a plane to the output buffer
+> > + *
+> > + * @current_plane: current plane to work on
+> > + * @y: line to write in the output buffer
+> > + * @crtc_x_limit: width of the output buffer
+> > + * @stage_buffer: temporary buffer to convert the pixel line from the source buffer
+> > + * @output_buffer: buffer to blend the read line into.
+> > + */
+> > +static void blend_line(struct vkms_plane_state *current_plane, int y,
+> > +		       int crtc_x_limit, struct line_buffer *stage_buffer,
+> > +		       struct line_buffer *output_buffer)
+> > +{
+> > +	int src_x_start, src_y_start, dst_x_start, pixel_count;
+> > +	struct drm_rect dst_line, tmp_src, src_line;
+> > +
+> > +	/* Avoid rendering useless lines */
+> > +	if (y < current_plane->frame_info->dst.y1 ||
+> > +	    y >= current_plane->frame_info->dst.y2)
+> > +		return;
+> > +
+> > +	/*
+> > +	 * dst_line is the line to copy. The initial coordinates are inside the
+> > +	 * destination framebuffer, and then drm_rect_* helpers are used to
+> > +	 * compute the correct position into the source framebuffer.
+> > +	 */
+> > +	dst_line = DRM_RECT_INIT(current_plane->frame_info->dst.x1, y,
+> > +				 drm_rect_width(&current_plane->frame_info->dst),
+> > +				 1);
+> > +
+> > +	drm_rect_fp_to_int(&tmp_src, &current_plane->frame_info->src);
+> > +
+> > +	/*
+> > +	 * [1]: Clamping src_line to the crtc_x_limit to avoid writing outside of
+> > +	 * the destination buffer
+> > +	 */
+> > +	dst_line.x1 = max_t(int, dst_line.x1, 0);
+> > +	dst_line.x2 = min_t(int, dst_line.x2, crtc_x_limit);
+> > +	/* The destination is completely outside of the crtc. */
+> > +	if (dst_line.x2 <= dst_line.x1)
+> > +		return;
+> > +
+> > +	src_line = dst_line;
+> > +
+> > +	/*
+> > +	 * Transform the coordinate x/y from the crtc to coordinates into
+> > +	 * coordinates for the src buffer.
+> > +	 *
+> > +	 * - Cancel the offset of the dst buffer.
+> > +	 * - Invert the rotation. This assumes that
+> > +	 *   dst = drm_rect_rotate(src, rotation) (dst and src have the
+> > +	 *   same size, but can be rotated).
+> > +	 * - Apply the offset of the source rectangle to the coordinate.
+> > +	 */
+> > +	drm_rect_translate(&src_line, -current_plane->frame_info->dst.x1,
+> > +			   -current_plane->frame_info->dst.y1);
+> > +	drm_rect_rotate_inv(&src_line, drm_rect_width(&tmp_src),
+> > +			    drm_rect_height(&tmp_src),
+> > +			    current_plane->frame_info->rotation);
+> > +	drm_rect_translate(&src_line, tmp_src.x1, tmp_src.y1);
+> > +
+> > +	/* Get the correct reading direction in the source buffer. */
+> > +
+> > +	enum pixel_read_direction direction =
+> > +		direction_for_rotation(current_plane->frame_info->rotation);
+> > +
+> > +	/* [2]: Compute and clamp the number of pixel to read */
+> > +	clamp_line_coordinates(direction, current_plane, &src_line, &src_x_start, &src_y_start,
+> > +			       &dst_x_start, &pixel_count);
+> > +
+> > +	if (pixel_count <= 0) {
+> > +		/* Nothing to read, so avoid multiple function calls */
+> > +		return;
+> > +	}
+> > +
+> > +	/*
+> > +	 * Modify the starting point to take in account the rotation
+> > +	 *
+> > +	 * src_line is the top-left corner, so when reading READ_RIGHT_TO_LEFT or
+> > +	 * READ_BOTTOM_TO_TOP, it must be changed to the top-right/bottom-left
+> > +	 * corner.
+> > +	 */
+> > +	if (direction == READ_RIGHT_TO_LEFT) {
+> > +		// src_x_start is now the right point
+> > +		src_x_start += pixel_count - 1;
+> > +	} else if (direction == READ_BOTTOM_TO_TOP) {
+> > +		// src_y_start is now the bottom point
+> > +		src_y_start += pixel_count - 1;
+> > +	}
+> > +
+> > +	/*
+> > +	 * Perform the conversion and the blending
+> > +	 *
+> > +	 * Here we know that the read line (x_start, y_start, pixel_count) is
+> > +	 * inside the source buffer [2] and we don't write outside the stage
+> > +	 * buffer [1].
+> > +	 */
+> > +	current_plane->pixel_read_line(current_plane, src_x_start, src_y_start, direction,
+> > +				       pixel_count, &stage_buffer->pixels[dst_x_start]);
+> > +
+> > +	pre_mul_alpha_blend(stage_buffer, output_buffer,
+> > +			    dst_x_start, pixel_count);
+> > +}
+> > +
+> >  /**
+> >   * blend - blend the pixels from all planes and compute crc
+> >   * @wb: The writeback frame buffer metadata
+> > @@ -223,34 +372,25 @@ static void blend(struct vkms_writeback_job *wb,
+> >  {
+> >  	struct vkms_plane_state **plane = crtc_state->active_planes;
+> >  	u32 n_active_planes = crtc_state->num_active_planes;
+> > -	int y_pos, x_dst, pixel_count;
+> >  
+> >  	const struct pixel_argb_u16 background_color = { .a = 0xffff };
+> >  
+> > -	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
+> > +	int crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
+> > +	int crtc_x_limit = crtc_state->base.crtc->mode.hdisplay;
 > 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
-> v9: Changed rdtgroup_assign_cntrs() and rdtgroup_unassign_cntrs() to return void.
->     Updated couple of rdtgroup_unassign_cntrs() calls properly.
->     Updated function comments.
+> I'm sure you are already aware of the tiny conflict with:
+> https://lore.kernel.org/all/20241003-remove-legacy-v1-1-0b7db1f1a1a6@bootlin.com/
 > 
-> v8: Renamed rdtgroup_assign_grp to rdtgroup_assign_cntrs.
->     Renamed rdtgroup_unassign_grp to rdtgroup_unassign_cntrs.
->     Fixed the problem with unassigning the child MON groups of CTRL_MON group.
+> This is now:
+> -	size_t crtc_y_limit = crtc_state->base.mode.vdisplay;
+> +	int crtc_y_limit = crtc_state->base.mode.vdisplay;
+> +	int crtc_x_limit = crtc_state->base.mode.hdisplay;
 > 
-> v7: Reworded the commit message.
->     Removed the reference of ABMC with mbm_cntr_assign.
->     Renamed the function rdtgroup_assign_cntrs to rdtgroup_assign_grp.
-> 
-> v6: Removed the redundant comments on all the calls of
->     rdtgroup_assign_cntrs. Updated the commit message.
->     Dropped printing error message on every call of rdtgroup_assign_cntrs.
-> 
-> v5: Removed the code to enable/disable ABMC during the mount.
->     That will be another patch.
->     Added arch callers to get the arch specific data.
->     Renamed fuctions to match the other abmc function.
->     Added code comments for assignment failures.
-> 
-> v4: Few name changes based on the upstream discussion.
->     Commit message update.
-> 
-> v3: This is a new patch. Patch addresses the upstream comment to enable
->     ABMC feature by default if the feature is available.
-> ---
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 61 +++++++++++++++++++++++++-
->  1 file changed, 60 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index b0cce3dfd062..a8d21b0b2054 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -2932,6 +2932,46 @@ static void schemata_list_destroy(void)
->  	}
->  }
->  
-> +/*
-> + * Called when a new group is created. If "mbm_cntr_assign" mode is enabled,
-> + * counters are automatically assigned. Each group can accommodate two counters:
-> + * one for the total event and one for the local event. Assignments may fail
-> + * due to the limited number of counters. However, it is not necessary to fail
-> + * the group creation and thus no failure is returned. Users have the option
-> + * to modify the counter assignments after the group has been created.
-> + */
-> +static void rdtgroup_assign_cntrs(struct rdtgroup *rdtgrp)
-> +{
-> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-> +
-> +	if (!resctrl_arch_mbm_cntr_assign_enabled(r))
-> +		return;
-> +
-> +	if (is_mbm_total_enabled())
-> +		rdtgroup_assign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_TOTAL_EVENT_ID);
-> +
-> +	if (is_mbm_local_enabled())
-> +		rdtgroup_assign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_LOCAL_EVENT_ID);
-> +}
-> +
-> +/*
-> + * Called when a group is deleted. Counters are unassigned if it was in
-> + * assigned state.
-> + */
-> +static void rdtgroup_unassign_cntrs(struct rdtgroup *rdtgrp)
-> +{
-> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-> +
-> +	if (!resctrl_arch_mbm_cntr_assign_enabled(r))
-> +		return;
-> +
-> +	if (is_mbm_total_enabled())
-> +		rdtgroup_unassign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_TOTAL_EVENT_ID);
-> +
-> +	if (is_mbm_local_enabled())
-> +		rdtgroup_unassign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_LOCAL_EVENT_ID);
-> +}
-> +
->  static int rdt_get_tree(struct fs_context *fc)
->  {
->  	struct rdt_fs_context *ctx = rdt_fc2context(fc);
-> @@ -2991,6 +3031,8 @@ static int rdt_get_tree(struct fs_context *fc)
->  		if (ret < 0)
->  			goto out_mongrp;
->  		rdtgroup_default.mon.mon_data_kn = kn_mondata;
-> +
-> +		rdtgroup_assign_cntrs(&rdtgroup_default);
 
-I think counters should be assigned *before* the files exposing them
-are added to resctrl.
+Yes, this is the main reason for v14... I was dumb and sent the v13 before 
+commiting the remove-legacy series... Next time I will commit and then 
+rebase, not the oposite :-)
 
->  	}
->  
->  	ret = rdt_pseudo_lock_init();
-> @@ -3021,8 +3063,10 @@ static int rdt_get_tree(struct fs_context *fc)
->  out_psl:
->  	rdt_pseudo_lock_release();
->  out_mondata:
-> -	if (resctrl_arch_mon_capable())
-> +	if (resctrl_arch_mon_capable()) {
-> +		rdtgroup_unassign_cntrs(&rdtgroup_default);
->  		kernfs_remove(kn_mondata);
-
-... and here remove the files before taking away the data exposed by them.
-
-> +	}
->  out_mongrp:
->  	if (resctrl_arch_mon_capable())
->  		kernfs_remove(kn_mongrp);
-> @@ -3201,6 +3245,7 @@ static void free_all_child_rdtgrp(struct rdtgroup *rdtgrp)
->  
->  	head = &rdtgrp->mon.crdtgrp_list;
->  	list_for_each_entry_safe(sentry, stmp, head, mon.crdtgrp_list) {
-> +		rdtgroup_unassign_cntrs(sentry);
->  		free_rmid(sentry->closid, sentry->mon.rmid);
->  		list_del(&sentry->mon.crdtgrp_list);
->  
-> @@ -3241,6 +3286,8 @@ static void rmdir_all_sub(void)
->  		cpumask_or(&rdtgroup_default.cpu_mask,
->  			   &rdtgroup_default.cpu_mask, &rdtgrp->cpu_mask);
->  
-> +		rdtgroup_unassign_cntrs(rdtgrp);
-> +
->  		free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
->  
->  		kernfs_remove(rdtgrp->kn);
-> @@ -3272,6 +3319,7 @@ static void rdt_kill_sb(struct super_block *sb)
->  	for_each_alloc_capable_rdt_resource(r)
->  		reset_all_ctrls(r);
->  	rmdir_all_sub();
-> +	rdtgroup_unassign_cntrs(&rdtgroup_default);
->  	rdt_pseudo_lock_release();
->  	rdtgroup_default.mode = RDT_MODE_SHAREABLE;
->  	schemata_list_destroy();
-> @@ -3280,6 +3328,7 @@ static void rdt_kill_sb(struct super_block *sb)
->  		resctrl_arch_disable_alloc();
->  	if (resctrl_arch_mon_capable())
->  		resctrl_arch_disable_mon();
-> +
->  	resctrl_mounted = false;
->  	kernfs_kill_sb(sb);
->  	mutex_unlock(&rdtgroup_mutex);
-
-Unnecessary hunk.
-
-> @@ -3871,6 +3920,8 @@ static int rdtgroup_mkdir_mon(struct kernfs_node *parent_kn,
->  		goto out_unlock;
->  	}
->  
-> +	rdtgroup_assign_cntrs(rdtgrp);
-> +
->  	kernfs_activate(rdtgrp->kn);
->  
->  	/*
-> @@ -3915,6 +3966,8 @@ static int rdtgroup_mkdir_ctrl_mon(struct kernfs_node *parent_kn,
->  	if (ret)
->  		goto out_closid_free;
->  
-> +	rdtgroup_assign_cntrs(rdtgrp);
-> +
->  	kernfs_activate(rdtgrp->kn);
->  
->  	ret = rdtgroup_init_alloc(rdtgrp);
-
-Please compare the above two hunks with earlier "x86/resctrl: Introduce cntr_id in mongroup for assignments".
-Earlier patch initializes the counters within mkdir_rdt_prepare_rmid_alloc() while the above
-hunk assigns the counters after mkdir_rdt_prepare_rmid_alloc() is called. Could this fragmentation be avoided
-with init done once within mkdir_rdt_prepare_rmid_alloc()?
-
-> @@ -3940,6 +3993,7 @@ static int rdtgroup_mkdir_ctrl_mon(struct kernfs_node *parent_kn,
->  out_del_list:
->  	list_del(&rdtgrp->rdtgroup_list);
->  out_rmid_free:
-> +	rdtgroup_unassign_cntrs(rdtgrp);
->  	mkdir_rdt_prepare_rmid_free(rdtgrp);
->  out_closid_free:
->  	closid_free(closid);
-> @@ -4010,6 +4064,9 @@ static int rdtgroup_rmdir_mon(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
->  	update_closid_rmid(tmpmask, NULL);
->  
->  	rdtgrp->flags = RDT_DELETED;
-> +
-> +	rdtgroup_unassign_cntrs(rdtgrp);
-> +
->  	free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
->  
->  	/*
-> @@ -4056,6 +4113,8 @@ static int rdtgroup_rmdir_ctrl(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
->  	cpumask_or(tmpmask, tmpmask, &rdtgrp->cpu_mask);
->  	update_closid_rmid(tmpmask, NULL);
->  
-> +	rdtgroup_unassign_cntrs(rdtgrp);
-> +
->  	free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
->  	closid_free(rdtgrp->closid);
->  
-
-There is a potential problem here. rdtgroup_unassign_cntrs() attempts to remove counter from 
-all domains associated with the resource group. This may fail in any of the domains that results
-in the counter not being marked as free in the global map and not reset the counter in the
-resource group ... but the resource group is removed right after calling rdtgroup_unassign_cntrs().
-In this scenario there is thus a counter that is considered to be in use but not assigned to any
-resource group.
-
-From what I can tell there is a difference here between default resource group and the others:
-on remount of resctrl the default resource group will maintain knowledge of the counter that could
-not be unassigned. This means that unmount/remount of resctrl does not provide a real "clean slate"
-when it comes to counter assignment. Is this intended?
-
-Reinette
-
+> >  
+> >  	/*
+> >  	 * The planes are composed line-by-line to avoid heavy memory usage. It is a necessary
+> >  	 * complexity to avoid poor blending performance.
+> >  	 *
+> > -	 * The function vkms_compose_row() is used to read a line, pixel-by-pixel, into the staging
+> > -	 * buffer.
+> > +	 * The function pixel_read_line callback is used to read a line, using an efficient
+> > +	 * algorithm for a specific format, into the staging buffer.
+> >  	 */
+> > -	for (size_t y = 0; y < crtc_y_limit; y++) {
+> > +	for (int y = 0; y < crtc_y_limit; y++) {
+> >  		fill_background(&background_color, output_buffer);
+> >  
+> >  		/* The active planes are composed associatively in z-order. */
+> >  		for (size_t i = 0; i < n_active_planes; i++) {
+> > -			x_dst = plane[i]->frame_info->dst.x1;
+> > -			pixel_count = min_t(int, drm_rect_width(&plane[i]->frame_info->dst),
+> > -					    (int)stage_buffer->n_pixels);
+> > -			y_pos = get_y_pos(plane[i]->frame_info, y);
+> > -
+> > -			if (!check_limit(plane[i]->frame_info, y_pos))
+> > -				continue;
+> > -
+> > -			vkms_compose_row(stage_buffer, plane[i], y_pos);
+> > -			pre_mul_alpha_blend(stage_buffer, output_buffer, x_dst, pixel_count);
+> > +			blend_line(plane[i], y, crtc_x_limit, stage_buffer, output_buffer);
+> >  		}
+> >  
+> >  		apply_lut(crtc_state, output_buffer);
+> > @@ -258,7 +398,7 @@ static void blend(struct vkms_writeback_job *wb,
+> >  		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
+> >  
+> >  		if (wb)
+> > -			vkms_writeback_row(wb, output_buffer, y_pos);
+> > +			vkms_writeback_row(wb, output_buffer, y);
+> >  	}
+> >  }
+> >  
+> > @@ -269,7 +409,7 @@ static int check_format_funcs(struct vkms_crtc_state *crtc_state,
+> >  	u32 n_active_planes = crtc_state->num_active_planes;
+> >  
+> >  	for (size_t i = 0; i < n_active_planes; i++)
+> > -		if (!planes[i]->pixel_read)
+> > +		if (!planes[i]->pixel_read_line)
+> >  			return -1;
+> >  
+> >  	if (active_wb && !active_wb->pixel_write)
+> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> > index 777b7bd91f27..067a4797f7a0 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> > @@ -39,7 +39,6 @@
+> >  struct vkms_frame_info {
+> >  	struct drm_framebuffer *fb;
+> >  	struct drm_rect src, dst;
+> > -	struct drm_rect rotated;
+> >  	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+> >  	unsigned int rotation;
+> >  };
+> > @@ -80,26 +79,38 @@ enum pixel_read_direction {
+> >  	READ_LEFT_TO_RIGHT
+> >  };
+> >  
+> > +struct vkms_plane_state;
+> > +
+> >  /**
+> > - * typedef pixel_read_t - These functions are used to read a pixel in the source frame,
+> > + * typedef pixel_read_line_t - These functions are used to read a pixel line in the source frame,
+> >   * convert it to `struct pixel_argb_u16` and write it to @out_pixel.
+> >   *
+> > - * @in_pixel: pointer to the pixel to read
+> > - * @out_pixel: pointer to write the converted pixel
+> > + * @plane: plane used as source for the pixel value
+> > + * @x_start: X (width) coordinate of the first pixel to copy. The caller must ensure that x_start
+> > + * is non-negative and smaller than @plane->frame_info->fb->width.
+> > + * @y_start: Y (height) coordinate of the first pixel to copy. The caller must ensure that y_start
+> > + * is non-negative and smaller than @plane->frame_info->fb->height.
+> > + * @direction: direction to use for the copy, starting at @x_start/@y_start
+> > + * @count: number of pixels to copy
+> > + * @out_pixel: pointer where to write the pixel values. They will be written from @out_pixel[0]
+> > + * (included) to @out_pixel[@count] (excluded). The caller must ensure that out_pixel have a
+> > + * length of at least @count.
+> >   */
+> > -typedef void (*pixel_read_t)(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel);
+> > +typedef void (*pixel_read_line_t)(const struct vkms_plane_state *plane, int x_start,
+> > +				  int y_start, enum pixel_read_direction direction, int count,
+> > +				  struct pixel_argb_u16 out_pixel[]);
+> >  
+> >  /**
+> >   * struct vkms_plane_state - Driver specific plane state
+> >   * @base: base plane state
+> >   * @frame_info: data required for composing computation
+> > - * @pixel_read: function to read a pixel in this plane. The creator of a struct vkms_plane_state
+> > - *	        must ensure that this pointer is valid
+> > + * @pixel_read_line: function to read a pixel line in this plane. The creator of a
+> > + *		     struct vkms_plane_state must ensure that this pointer is valid
+> >   */
+> >  struct vkms_plane_state {
+> >  	struct drm_shadow_plane_state base;
+> >  	struct vkms_frame_info *frame_info;
+> > -	pixel_read_t pixel_read;
+> > +	pixel_read_line_t pixel_read_line;
+> >  };
+> >  
+> >  struct vkms_plane {
+> > @@ -265,7 +276,6 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
+> >  /* Composer Support */
+> >  void vkms_composer_worker(struct work_struct *work);
+> >  void vkms_set_composer(struct vkms_output *out, bool enabled);
+> > -void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
+> >  void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer *src_buffer, int y);
+> >  
+> >  /* Writeback */
+> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> > index d0e7dfc1f0d3..0f6678420a11 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> > @@ -140,83 +140,51 @@ static void packed_pixels_addr_1x1(const struct vkms_frame_info *frame_info,
+> >  	*addr = (u8 *)frame_info->map[0].vaddr + offset;
+> >  }
+> >  
+> > -static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y,
+> > -				 int plane_index)
+> > -{
+> > -	int x_src = frame_info->src.x1 >> 16;
+> > -	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
+> > -	u8 *addr;
+> > -	int rem_x, rem_y;
+> > -
+> > -	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format, plane_index) != 1,
+> > -		  "%s() only support formats with block_w == 1", __func__);
+> > -	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format, plane_index) != 1,
+> > -		  "%s() only support formats with block_h == 1", __func__);
+> > -
+> > -	packed_pixels_addr(frame_info, x_src, y_src, plane_index, &addr, &rem_x, &rem_y);
+> > -
+> > -	return addr;
+> > -}
+> > -
+> > -static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
+> > -{
+> > -	if (frame_info->rotation & (DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_270))
+> > -		return limit - x - 1;
+> > -	return x;
+> > -}
+> > -
+> >  /*
+> > - * The following functions take pixel data from the buffer and convert them to the format
+> > - * ARGB16161616 in @out_pixel.
+> > + * The following functions take pixel data (a, r, g, b, pixel, ...) and convert them to
+> > + * &struct pixel_argb_u16
+> >   *
+> > - * They are used in the vkms_compose_row() function to handle multiple formats.
+> > + * They are used in the `read_line`s functions to avoid duplicate work for some pixel formats.
+> >   */
+> >  
+> > -static void ARGB8888_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+> > +static struct pixel_argb_u16 argb_u16_from_u8888(u8 a, u8 r, u8 g, u8 b)
+> >  {
+> > +	struct pixel_argb_u16 out_pixel;
+> >  	/*
+> >  	 * The 257 is the "conversion ratio". This number is obtained by the
+> >  	 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
+> >  	 * the best color value in a pixel format with more possibilities.
+> >  	 * A similar idea applies to others RGB color conversions.
+> >  	 */
+> > -	out_pixel->a = (u16)in_pixel[3] * 257;
+> > -	out_pixel->r = (u16)in_pixel[2] * 257;
+> > -	out_pixel->g = (u16)in_pixel[1] * 257;
+> > -	out_pixel->b = (u16)in_pixel[0] * 257;
+> > -}
+> > +	out_pixel.a = (u16)a * 257;
+> > +	out_pixel.r = (u16)r * 257;
+> > +	out_pixel.g = (u16)g * 257;
+> > +	out_pixel.b = (u16)b * 257;
+> >  
+> > -static void XRGB8888_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+> > -{
+> > -	out_pixel->a = (u16)0xffff;
+> > -	out_pixel->r = (u16)in_pixel[2] * 257;
+> > -	out_pixel->g = (u16)in_pixel[1] * 257;
+> > -	out_pixel->b = (u16)in_pixel[0] * 257;
+> > +	return out_pixel;
+> >  }
+> >  
+> > -static void ARGB16161616_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+> > +static struct pixel_argb_u16 argb_u16_from_u16161616(u16 a, u16 r, u16 g, u16 b)
+> >  {
+> > -	__le16 *pixel = (__le16 *)in_pixel;
+> > +	struct pixel_argb_u16 out_pixel;
+> > +
+> > +	out_pixel.a = a;
+> > +	out_pixel.r = r;
+> > +	out_pixel.g = g;
+> > +	out_pixel.b = b;
+> >  
+> > -	out_pixel->a = le16_to_cpu(pixel[3]);
+> > -	out_pixel->r = le16_to_cpu(pixel[2]);
+> > -	out_pixel->g = le16_to_cpu(pixel[1]);
+> > -	out_pixel->b = le16_to_cpu(pixel[0]);
+> > +	return out_pixel;
+> >  }
+> >  
+> > -static void XRGB16161616_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+> > +static struct pixel_argb_u16 argb_u16_from_le16161616(__le16 a, __le16 r, __le16 g, __le16 b)
+> >  {
+> > -	__le16 *pixel = (__le16 *)in_pixel;
+> > -
+> > -	out_pixel->a = (u16)0xffff;
+> > -	out_pixel->r = le16_to_cpu(pixel[2]);
+> > -	out_pixel->g = le16_to_cpu(pixel[1]);
+> > -	out_pixel->b = le16_to_cpu(pixel[0]);
+> > +	return argb_u16_from_u16161616(le16_to_cpu(a), le16_to_cpu(r), le16_to_cpu(g),
+> > +				       le16_to_cpu(b));
+> >  }
+> >  
+> > -static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+> > +static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
+> >  {
+> > -	__le16 *pixel = (__le16 *)in_pixel;
+> > +	struct pixel_argb_u16 out_pixel;
+> >  
+> >  	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+> >  	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+> > @@ -226,40 +194,120 @@ static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pi
+> >  	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+> >  	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+> >  
+> > -	out_pixel->a = (u16)0xffff;
+> > -	out_pixel->r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+> > -	out_pixel->g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+> > -	out_pixel->b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+> > +	out_pixel.a = (u16)0xffff;
+> > +	out_pixel.r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+> > +	out_pixel.g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+> > +	out_pixel.b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+> > +
+> > +	return out_pixel;
+> >  }
+> >  
+> > -/**
+> > - * vkms_compose_row - compose a single row of a plane
+> > - * @stage_buffer: output line with the composed pixels
+> > - * @plane: state of the plane that is being composed
+> > - * @y: y coordinate of the row
+> > +/*
+> > + * The following functions are read_line function for each pixel format supported by VKMS.
+> > + *
+> > + * They read a line starting at the point @x_start,@y_start following the @direction. The result
+> > + * is stored in @out_pixel and in the format ARGB16161616.
+> > + *
+> > + * These functions are very repetitive, but the innermost pixel loops must be kept inside these
+> > + * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
+> > + * loop factored out of these functions showed a slowdown by a factor of three.
+> >   *
+> > - * This function composes a single row of a plane. It gets the source pixels
+> > - * through the y coordinate (see get_packed_src_addr()) and goes linearly
+> > - * through the source pixel, reading the pixels and converting it to
+> > - * ARGB16161616 (see the pixel_read() callback). For rotate-90 and rotate-270,
+> > - * the source pixels are not traversed linearly. The source pixels are queried
+> > - * on each iteration in order to traverse the pixels vertically.
+> > + * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
+> >   */
+> > -void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
+> > +
+> > +static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
+> > +			       enum pixel_read_direction direction, int count,
+> > +			       struct pixel_argb_u16 out_pixel[])
+> >  {
+> > -	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+> > -	struct vkms_frame_info *frame_info = plane->frame_info;
+> > -	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
+> > -	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
+> > +
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+> > +
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> > +
+> > +	while (out_pixel < end) {
+> > +		u8 *px = (u8 *)src_pixels;
+> > +		*out_pixel = argb_u16_from_u8888(px[3], px[2], px[1], px[0]);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
+> > +	}
+> > +}
+> > +
+> > +static void XRGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
+> > +			       enum pixel_read_direction direction, int count,
+> > +			       struct pixel_argb_u16 out_pixel[])
+> > +{
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
+> > +
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+> > +
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> > +
+> > +	while (out_pixel < end) {
+> > +		u8 *px = (u8 *)src_pixels;
+> > +		*out_pixel = argb_u16_from_u8888(255, px[2], px[1], px[0]);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
+> > +	}
+> > +}
+> > +
+> > +static void ARGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
+> > +				   int y_start, enum pixel_read_direction direction, int count,
+> > +				   struct pixel_argb_u16 out_pixel[])
+> > +{
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
+> > +
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+> > +
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> > +
+> > +	while (out_pixel < end) {
+> > +		u16 *px = (u16 *)src_pixels;
+> > +		*out_pixel = argb_u16_from_u16161616(px[3], px[2], px[1], px[0]);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
+> > +	}
+> > +}
+> > +
+> > +static void XRGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
+> > +				   int y_start, enum pixel_read_direction direction, int count,
+> > +				   struct pixel_argb_u16 out_pixel[])
+> > +{
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
+> > +
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+> > +
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> > +
+> > +	while (out_pixel < end) {
+> > +		__le16 *px = (__le16 *)src_pixels;
+> > +		*out_pixel = argb_u16_from_le16161616(cpu_to_le16(0xFFFF), px[2], px[1], px[0]);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
+> > +	}
+> > +}
+> > +
+> > +static void RGB565_read_line(const struct vkms_plane_state *plane, int x_start,
+> > +			     int y_start, enum pixel_read_direction direction, int count,
+> > +			     struct pixel_argb_u16 out_pixel[])
+> > +{
+> > +	struct pixel_argb_u16 *end = out_pixel + count;
+> > +	u8 *src_pixels;
+> > +
+> > +	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
+> >  
+> > -	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+> > -		int x_pos = get_x_position(frame_info, limit, x);
+> > +	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
+> >  
+> > -		if (drm_rotation_90_or_270(frame_info->rotation))
+> > -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
+> > -				+ frame_info->fb->format->cpp[0] * y;
+> > +	while (out_pixel < end) {
+> > +		__le16 *px = (__le16 *)src_pixels;
+> >  
+> > -		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
+> > +		*out_pixel = argb_u16_from_RGB565(px);
+> > +		out_pixel += 1;
+> > +		src_pixels += step;
+> >  	}
+> >  }
+> >  
+> > @@ -359,25 +407,25 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+> >  }
+> >  
+> >  /**
+> > - * get_pixel_read_function() - Retrieve the correct read_pixel function for a specific
+> > + * get_pixel_read_line_function() - Retrieve the correct read_line function for a specific
+> >   * format. The returned pointer is NULL for unsupported pixel formats. The caller must ensure that
+> >   * the pointer is valid before using it in a vkms_plane_state.
+> >   *
+> >   * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+> >   */
+> > -pixel_read_t get_pixel_read_function(u32 format)
+> > +pixel_read_line_t get_pixel_read_line_function(u32 format)
+> >  {
+> >  	switch (format) {
+> >  	case DRM_FORMAT_ARGB8888:
+> > -		return &ARGB8888_to_argb_u16;
+> > +		return &ARGB8888_read_line;
+> >  	case DRM_FORMAT_XRGB8888:
+> > -		return &XRGB8888_to_argb_u16;
+> > +		return &XRGB8888_read_line;
+> >  	case DRM_FORMAT_ARGB16161616:
+> > -		return &ARGB16161616_to_argb_u16;
+> > +		return &ARGB16161616_read_line;
+> >  	case DRM_FORMAT_XRGB16161616:
+> > -		return &XRGB16161616_to_argb_u16;
+> > +		return &XRGB16161616_read_line;
+> >  	case DRM_FORMAT_RGB565:
+> > -		return &RGB565_to_argb_u16;
+> > +		return &RGB565_read_line;
+> >  	default:
+> >  		/*
+> >  		 * This is a bug in vkms_plane_atomic_check(). All the supported
+> > diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+> > index 3ecea4563254..8d2bef95ff79 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_formats.h
+> > +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+> > @@ -5,7 +5,7 @@
+> >  
+> >  #include "vkms_drv.h"
+> >  
+> > -pixel_read_t get_pixel_read_function(u32 format);
+> > +pixel_read_line_t get_pixel_read_line_function(u32 format);
+> >  
+> >  pixel_write_t get_pixel_write_function(u32 format);
+> >  
+> > diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> > index 10e9b23dab28..8875bed76410 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> > @@ -112,7 +112,6 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+> >  	frame_info = vkms_plane_state->frame_info;
+> >  	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
+> >  	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
+> > -	memcpy(&frame_info->rotated, &new_state->dst, sizeof(struct drm_rect));
+> >  	frame_info->fb = fb;
+> >  	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+> >  	drm_framebuffer_get(frame_info->fb);
+> > @@ -122,10 +121,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+> >  									  DRM_MODE_REFLECT_X |
+> >  									  DRM_MODE_REFLECT_Y);
+> >  
+> > -	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+> > -			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+> >  
+> > -	vkms_plane_state->pixel_read = get_pixel_read_function(fmt);
+> > +	vkms_plane_state->pixel_read_line = get_pixel_read_line_function(fmt);
+> >  }
+> >  
+> >  static int vkms_plane_atomic_check(struct drm_plane *plane,
+> > 
