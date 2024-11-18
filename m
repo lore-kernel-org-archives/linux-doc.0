@@ -1,192 +1,327 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591061DEFD0
-	for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 20:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF5C1E5015;
+	Mon, 18 Nov 2024 20:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731960149; cv=none; b=fHVEQZbM2fqBCKIF1+Sc6hXn35Wpy5v1POB56veDwF2+1xGAazjmycA/XgBS+oB/bZ2hFAZjwVYlA3QsIjDcoo01nRFOKPyIA3mJKgyK9HOg970wCSRNSj/Q878CxFo83JhkKXJVMF6WhmKkkM1tFjINS4hobAK4zNE+uwl40UU=
+	t=1731960826; cv=none; b=uDCNmkej8yY9mFATXC9sCVnBhY+s2K8VQnNN9ucokY+KXTBJaQ3hF5r+8ApnR7eBiNQ8BXHzjA/YfmdsJFHNiCteqkyfYhO3pUbAjFuM4m/nDYU4X7777aFQyEMvOtUZhquiV+qZ/VM6rEdVbbI2y/QD/sDOvebrPJpJ2XbsHuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731960149; c=relaxed/simple;
-	bh=E+LBwBRF8DHoVawLtfgdfdbwEfo68/6NPCRK+oRI+No=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A2uPedJ29pvDZlwAnQeZ8N01woMSFMiHF3Jqw4luxf+Yp5VpVviYo6t/5Yae7cOcJyG+SoSoVHFCGepSW2nNOq1mEVvzV3LtSBLod+b5LeEohApPTC4P/I6qs6HCNNUpSJW3RXi6KfDjsdBwKv+y6XD+g7OplDUVOr5rhquBuCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=M5Vg+RuI; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	s=arc-20240116; t=1731960826; c=relaxed/simple;
+	bh=Dh0wnBmgR7c7ubz52tHRu7AUlLQhDPnpJj8qC34OR0g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=NHdZyuoDuM01HYOUVqIse0Us5MEw+IHO1aYvW46If7hA4M5ry+GF2gwH9KIERrYgVZ2+xo2BbXj0W6gxDifx4aT36Scyq6Aiwj8SNa+VUcrIQhG0K4QDare0WHwQfWVElQNeAzbsOpAf0a/Zkv0dffwcgP/MXx2rwSOlshVJhOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=JiEyUIA8; arc=none smtp.client-ip=80.12.242.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="M5Vg+RuI"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5c96b2a10e1so185976a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 12:02:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1731960144; x=1732564944; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F56XnCiPK1ucbtbbIcuwS+1n5yBs1+kTrZwft20AGGo=;
-        b=M5Vg+RuIEJo5nRlwRuJBceZfl7J/tp7FoRljht/aHjwm80g8gaL4PAKFGneLmac5UA
-         huSPyBi/fanJIwXS8dXkMJtp5Dcx3N2CmMWu53Bymxf5xKqPzMmeKxXpYP3E3puqyzpu
-         J/fmz+9M9Lb8KyShD9HYNb5A3p3pXfkLMkT8blTdBWRJh+YFA8PXqWFG521vWbmES848
-         tBRvstqL/iJJmmUzW7WrS2wLG1qlQpCf3f0Y5Kf1h9bG/eG2KTis3yxBjjtyrGqchec0
-         T0jjenqN5ThrFV3h6Exs7LALNdLFKzDyh/vSdyUauzmqodePjGToGNrMUUTo4FUvxQwg
-         4wpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731960144; x=1732564944;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F56XnCiPK1ucbtbbIcuwS+1n5yBs1+kTrZwft20AGGo=;
-        b=sU2CodPVlBw/2Xwwf1iAz2Ful4kH8zKBVkBustA67K+ce4Qp3u2eKt+pMaENvUi+J6
-         UB7icY0mOnH37igECfAysImv3+qfERr2++7VGMSgMzNt32S99X8TbOq0QO/tcZq0PKUF
-         sUL4eqGJ3GQjc6ZyGHiE05qTFFO8ggrrocYDBSv2BWfO+lmTwJEL8nGOwuWA8aH/xZQt
-         yWlvuKiGf5BYQJ4tExk4CvZu0xgEo9SBSz82PELMQ/gOrP7VHEhgHFmnFIvNT6zirC+o
-         c1c/ztu1BEZ2Yot8lWlgFqVqVJhUOw+E4HR4AOxaopJf2Q0J7yaIeAXNXdowXPQGn869
-         Nmzg==
-X-Forwarded-Encrypted: i=1; AJvYcCWLQvPWKG4oXm49dsoLC/toJ0CV0hBTeX3yPr/R7gQ43jWn7MwKElbPFFTEV1Ic7C7GUrHSmpsI++Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywcly6yXymmhHHzTu8ut8e5mFJbaQo3sHS1ok7zMdMStjJ+r8yA
-	oIW4X7zs76HsSBiSYVQ2J7vGGwUPaAsnm6KyWDn+lJmyLH+r1qvkXCV7JKnOGEAgR49LgW9RWPv
-	k20uwAAllL/vizBnbVO8TZKVjB6uUKEW0Z5ON
-X-Google-Smtp-Source: AGHT+IFoQ/M1Rp3ASKc7+vFPOEp+9oiYAQ8ueOL2fLtrqLS19jm7uOri1Atv932nS8Gcqo/IWYlS3CoMIuiDqjl4zlU=
-X-Received: by 2002:a17:907:9412:b0:a9e:d7e3:ccae with SMTP id
- a640c23a62f3a-aa483427760mr1375196366b.16.1731960144547; Mon, 18 Nov 2024
- 12:02:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="JiEyUIA8"
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id D87ptiy5f8AEMD87ptNDjZ; Mon, 18 Nov 2024 21:13:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1731960816;
+	bh=0Uj4XXK/rJmkMPiNnKi8CwHd/oqNDiQqKVDY5wwCyhc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=JiEyUIA8OSNZzjh+pPHfk2GPR941xjrXW2Z2VEl9zZFFKkj8vOgJDOjZ05Aht+oo8
+	 lKlse8Om9CwQYKAw/gkEZPvOjdTzVD11twDv85VbwbYaAmofoDdUve4OnmGsMyHj0d
+	 p1Sk+bBu/5GEYuAcIe8a6kYexueERB7Q6SzQpx7+jtRZyw5/oU5hjwWNdkqNfRc8VW
+	 FJehlPXfPKfr21HyUDcM3s4zJ9TKUFFcSGti89a2B91PUVLBE+7MzKU5qz63WjPQnN
+	 Kkf7bBjdcs/uyCptc7o0ZTrh+9EMadSyLf2VHpvie5fQyiHteeO3V0Cc26JvKsvaeZ
+	 8T2x2hR+V+LEQ==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Mon, 18 Nov 2024 21:13:36 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <f6620b99-aabe-4b76-8a60-deae0a9042ae@wanadoo.fr>
+Date: Mon, 18 Nov 2024 21:13:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-7-ross.philipson@oracle.com> <20240531021656.GA1502@sol.localdomain>
- <874jaegk8i.fsf@email.froward.int.ebiederm.org> <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
- <87ttflli09.ffs@tglx> <CALCETrXQ7rChWLDqTG0+KY7rsfajSPguMnHO1G4VJi_mgwN9Zw@mail.gmail.com>
- <1a1f0c41-70de-4f46-b91d-6dc7176893ee@apertussolutions.com>
- <8a0b59a4-a5a2-42ae-bc1c-1ddc8f2aad16@apertussolutions.com>
- <CALCETrX8caT5qvCUu24hQfxUF_wUC2XdGpS2YFP6SR++7FiM3Q@mail.gmail.com>
- <c466ed57-35a8-41c0-9647-c70e588ad1d3@apertussolutions.com>
- <CALCETrW9WNNGh1dEPKfQoeU+m5q6_m97d0_bzRkZsv2LxqB_ew@mail.gmail.com>
- <ff0c8eed-8981-48c4-81d9-56b040ef1c7b@apertussolutions.com>
- <446cf9c70184885e4cec6dd4514ae8daf7accdcb.camel@HansenPartnership.com>
- <5d1e41d6-b467-4013-a0d0-45f9511c15c6@apertussolutions.com>
- <CALCETrW6vMYZo-b7N9ojVSeZLVxhZjLBjnMHsULMGP6TaVYRHA@mail.gmail.com> <9c80e779b6268fde33c93ed3765ff93b1d6d007b.camel@HansenPartnership.com>
-In-Reply-To: <9c80e779b6268fde33c93ed3765ff93b1d6d007b.camel@HansenPartnership.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Mon, 18 Nov 2024 12:02:13 -0800
-Message-ID: <CALCETrX4vHnVorqWjPEOP0XLaA0uUWkKikDcCXWtbs2a7EBuiA@mail.gmail.com>
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: "Daniel P. Smith" <dpsmith@apertussolutions.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	"Eric W. Biederman" <ebiederm@xmission.com>, Eric Biggers <ebiggers@kernel.org>, 
-	Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org, mingo@redhat.com, 
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org, 
-	mjg59@srcf.ucam.org, peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, 
-	nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net, 
-	corbet@lwn.net, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
-	kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com, 
-	trenchboot-devel@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/3] leds: Add LED1202 I2C driver
+To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20241118145449.7370-1-vicentiu.galanopulo@remote-tech.co.uk>
+ <20241118145449.7370-4-vicentiu.galanopulo@remote-tech.co.uk>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20241118145449.7370-4-vicentiu.galanopulo@remote-tech.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 18, 2024 at 11:12=E2=80=AFAM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
->
-> On Mon, 2024-11-18 at 10:43 -0800, Andy Lutomirski wrote:
-> > Linux should not use TPM2_PCR_Extend *at all*.  Instead, Linux should
-> > exclusively use TPM2_PCR_Event.  I would expect that passing, say,
-> > the entire kernel image to TPM2_PCR_Event would be a big mistake, so
-> > instead Linux should hash the relevant data with a reasonable
-> > suggestion of hashes (which includes, mandatorily, SHA-384 and *does
-> > not* include SHA-1, and may or may not be configurable at build time
-> > to include things like SM3), concatenate them, and pass that to
-> > TPM2_PCR_Event.  And Linux should make the value that it passed to
-> > TPM2_PCR_Event readily accessible to software using it, and should
-> > also include some straightforward tooling to calculate it from a
-> > given input so that software that wants to figure out what value to
-> > expect in a PCR can easily do so.
->
-> Just for clarity, this is about how the agile log format works.  Each
-> event entry in the log contains a list of bank hashes and the extends
-> occur in log event order, so replaying a log should get you to exactly
-> the head PCR value of each bank.  If a log doesn't understand a format,
-> like SM3, then an entry for it doesn't appear in the log and a replay
-> says nothing about the PCR value.
+Le 18/11/2024 à 15:54, Vicentiu Galanopulo a écrit :
+> The output current can be adjusted separately for each channel by 8-bit
+> analog (current sink input) and 12-bit digital (PWM) dimming control. The
+> LED1202 implements 12 low-side current generators with independent dimming
+> control.
+> Internal volatile memory allows the user to store up to 8 different patterns,
+> each pattern is a particular output configuration in terms of PWM
+> duty-cycle (on 4096 steps). Analog dimming (on 256 steps) is per channel but
+> common to all patterns. Each device tree LED node will have a corresponding
+> entry in /sys/class/leds with the label name. The brightness property
+> corresponds to the per channel analog dimming, while the patterns[1-8] to the
+> PWM dimming control.
+> 
+> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+...
 
-I have no idea what the "agile log format" is or what all the formats
-in existence are.  I found section 4.2.4 here:
+> +static int st1202_write_reg(struct st1202_chip *chip, int reg, uint8_t val)
+> +{
+> +	return i2c_smbus_write_byte_data(chip->client, reg, val);
+> +}
 
-https://trustedcomputinggroup.org/wp-content/uploads/TCG_IWG_CEL_v1_r0p41_p=
-ub.pdf
+Many duplicated message could be saved if errors where logged directly 
+in st1202_write_reg() and st1202_read_reg()
 
-It says:
+This would simplify a lot the callers that would only need to return 
+directly.
 
-This field contains the list of the digest values Extended. The Extend
-method varies with TPM command, so there is
-no uniform meaning of TPM Extend in this instance, and separate
-descriptions are unavoidable. If using the
-TPM2_PCR_Extend command, this field is the data sent to the TPM (i.e.,
-not the resulting value of the PCR after the
-TPM2_PCR_Extend command completes). If using the TPM2_PCR_Event
-command, this field contains the digest
-structure returned by the TPM2_PCR_Event command (that contains the
-digest(s) submitted to each PCR bank as
-the internal Extend operation). This field SHALL contain the
-information from the TPML_DIGEST_VALUES used in
-the Extend operation.
+> +
+> +static uint8_t st1202_prescalar_to_miliseconds(unsigned int value)
+> +{
+> +	return value/ST1202_MILLIS_PATTERN_DUR_MIN - 1;
 
-So we're logging the values with which we extend the PCRs.  Once upon
-a time, someone decided it was okay to skip extending a PCR bank:
+Can value be 0?
+If yes, should the return value be clamped?
 
-https://google.github.io/security-research/pocs/bios/tpm-carte-blanche/writ=
-eup.html
+> +}
 
-and it was not a great idea.
+...
 
-There seem to be six (!) currently defined hashes: SHA1, SHA256,
-SHA384, SHA512, SM2 and SM3.  I haven't spotted anything promising not
-to add more.  It seems to be that Linux really really ought to:
+> +static int st1202_dt_init(struct st1202_chip *chip)
+> +{
+> +	struct device *dev = &chip->client->dev;
+> +	struct st1202_led *led;
+> +	int err, reg;
+> +
+> +	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+> +		struct led_init_data init_data = {};
+> +
+> +		err = of_property_read_u32(child, "reg", &reg);
+> +		if (err) {
+> +			of_node_put(child);
 
-(a) extend all banks.  Not all banks that the maintainers like, and
-not all banks that the maintainers knew about when having this
-discussion.  *All* banks.  That means TPM2_PCR_Event().  (Or we refuse
-to boot if there's a bank we don't like.)
+The _scoped version of the iterator is used, so I think that this 
+of_node_put() is not needed.
 
-(b) Make a best effort to notice if something is wrong with the TPM
-and/or someone is MITMing us and messing with us.  That means
-computing the hash algorithms we actually support and checking whether
-TPM2_PCR_Event() returns the right thing.  I'm not seeing a specific
-attack that seems likely that this prevents, but it does seem like
-decent defense in depth, and if someone chooses to provision a machine
-by reading its event log and then subsequently getting an attestation
-that a future event log matches what was read, then avoiding letting
-an attacker who temporarily controls the TPM connection from
-corrupting the results seems wise.  And I don't see anything at all
-that we gain by removing a check that (TPM's reported SHA1 =3D=3D what we
-calculated) in the name of "not supporting SHA1") other than a few
-hundred bytes of object code.  (And yes, SHA1 is much more likely to
-be supported than SM3, so it's not absurd to implement SHA1 and not
-implement SM3.)
+> +			return dev_err_probe(dev, err, "Invalid register, error: %d\n", err);
 
->
-> For some events, the hash is actually the hash of the event entry
-> itself and for others, the entry is just a hint and the hash is of
-> something else.
->
-> I think part of the confusion stems from the twofold issues of PCRs: at
-> their simplest they were expected to provide the end policy values
-> (this turns out to be problematic because there are quite a few ways,
-> that will produce different end PCR values, that a system could get to
-> the same state).  If you don't trust a bank (or don't know about it),
-> you don't code it into a required policy statement and its value
-> becomes irrelevant.
+No need to duplicate err. dev_err_probe() already prints it, in a human 
+readble form.
 
-I think that "you" refers to multiple entities, and this is a problem.
+> +		}
+> +
+> +		led = &chip->leds[reg];
+> +		led->is_active = true;
+> +		led->fwnode = of_fwnode_handle(child);
+> +
+> +		led->led_cdev.max_brightness = U8_MAX;
+> +		led->led_cdev.brightness_set_blocking = st1202_led_set;
+> +		led->led_cdev.pattern_set = st1202_led_pattern_set;
+> +		led->led_cdev.pattern_clear = st1202_led_pattern_clear;
+> +		led->led_cdev.default_trigger = "pattern";
+> +
+> +		init_data.fwnode = led->fwnode;
+> +		init_data.devicename = "st1202";
+> +		init_data.default_label = ":";
+> +		err = devm_led_classdev_register_ext(dev,
+> +					&led->led_cdev, &init_data);
+> +		if (err < 0) {
+> +			dev_err_probe(dev, err,
+> +				"Failed to register LED class dev, error: %d\n", err);
 
-If the vendor of an attestation-dependent thing trusts SM3 but *Linux*
-does not like SM3, then the vendor's software should not become wildly
-insecure because Linux does not like SM3.  And, as that 2004 CVE
-shows, even two groups that are nominally associated with Microsoft
-can disagree on which banks they like, causing a vulnerability.
+No need to duplicate err. dev_err_probe() already prints it, in a human 
+readble form.
+
+Also return dev_err_probe() would save a few lines.
+
+> +			return err;
+> +		}
+> +		led->led_cdev.brightness_set = st1202_brightness_set;
+> +		led->led_cdev.brightness_get = st1202_brightness_get;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int st1202_setup(struct st1202_chip *chip)
+> +{
+> +	int ret;
+> +
+> +	mutex_lock(&chip->lock);
+
+if guard(mutex)(&chip->lock); was used you could return directly in all 
+error paths below.
+
+Same applies in several functions above.
+
+> +	/*
+> +	 * Once the supply voltage is applied, the LED1202 executes some internal checks,
+> +	 * afterwords it stops the oscillator and puts the internal LDO in quiescent mode.
+> +	 * To start the device, EN bit must be set inside the “Device Enable” register at
+> +	 * address 01h. As soon as EN is set, the LED1202 loads the adjustment parameters
+> +	 * from the internal non-volatile memory and performs an auto-calibration procedure
+> +	 * in order to increase the output current precision.
+> +	 * Such initialization lasts about 6.5 ms.
+> +	 */
+> +
+> +	/* Reset the chip during setup */
+> +	ret = st1202_write_reg(chip, ST1202_DEV_ENABLE, ST1202_DEV_ENABLE_RESET);
+> +	if (ret < 0) {
+> +		dev_err_probe(&chip->client->dev, -EIO,
+> +				"Failed to write to register [0x%x], error: %d\n",
+> +				ST1202_DEV_ENABLE, ret);
+
+Why return -EIO if you have an error code in ret?
+If you return ret, the ", error: %d\n", ret" part can be removed
+
+Same everywhere in this function
+
+> +		goto exit;
+> +	}
+> +
+> +	/* Enable phase-shift delay feature */
+> +	ret = st1202_write_reg(chip, ST1202_CONFIG_REG, ST1202_CONFIG_REG_SHFT);
+> +	if (ret < 0) {
+> +		dev_err_probe(&chip->client->dev, -EIO,
+> +				"Failed to write to register [0x%x], error: %d\n",
+> +				ST1202_CONFIG_REG, ret);
+> +		goto exit;
+> +	}
+> +
+> +	/* Enable the device */
+> +	ret = st1202_write_reg(chip, ST1202_DEV_ENABLE, ST1202_DEV_ENABLE_ON);
+> +	if (ret < 0) {
+> +		dev_err_probe(&chip->client->dev, -EIO,
+> +				"Failed to write to register [0x%x], error: %d\n",
+> +				ST1202_DEV_ENABLE, ret);
+> +		goto exit;
+> +	}
+> +
+> +	/* Duration of initialization */
+> +	usleep_range(6500, 10000);
+> +
+> +	/* Deactivate all LEDS (channels) and activate only the ones found in Device Tree */
+> +	ret = st1202_write_reg(chip, ST1202_CHAN_ENABLE_LOW, ST1202_CHAN_DISABLE_ALL);
+> +	if (ret < 0) {
+> +		dev_err_probe(&chip->client->dev, -EIO,
+> +				"Failed writing to register [0x%x], error: %d\n",
+> +				ST1202_CHAN_ENABLE_LOW, ret);
+> +		goto exit;
+> +	}
+> +
+> +	ret = st1202_write_reg(chip, ST1202_CHAN_ENABLE_HIGH, ST1202_CHAN_DISABLE_ALL);
+> +	if (ret < 0) {
+> +		dev_err_probe(&chip->client->dev, -EIO,
+> +				"Failed writing to register [0x%x], error: %d\n",
+> +				ST1202_CHAN_ENABLE_HIGH, ret);
+> +		goto exit;
+> +	}
+> +
+> +	ret = st1202_write_reg(chip, ST1202_CONFIG_REG,
+> +				ST1202_CONFIG_REG_PATS | ST1202_CONFIG_REG_PATSR);
+> +	if (ret < 0) {
+> +		dev_err_probe(&chip->client->dev, -EIO,
+> +				"Failed writing to register [0x%lx], error: %d\n",
+> +				ST1202_CONFIG_REG_PATS | ST1202_CONFIG_REG_PATSR, ret);
+> +		goto exit;
+> +	}
+> +
+> +exit:
+> +	mutex_unlock(&chip->lock);
+> +	return ret;
+> +}
+> +
+> +static int st1202_probe(struct i2c_client *client)
+> +{
+> +	struct st1202_chip *chip;
+> +	struct st1202_led *led;
+> +	int ret;
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+> +		return dev_err_probe(&client->dev, -EIO, "SMBUS Byte Data not Supported\n");
+> +
+> +	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
+> +	if (!chip)
+> +		return -ENOMEM;
+> +
+> +	i2c_set_clientdata(client, chip);
+
+Is it needed?
+(There is no i2c_get_clientdata())
+
+> +
+> +	devm_mutex_init(&client->dev, &chip->lock);
+> +	chip->client = client;
+> +
+> +	ret = st1202_dt_init(chip);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = st1202_setup(chip);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	for (int i = 0; i < ST1202_MAX_LEDS; i++) {
+> +		led = &chip->leds[i];
+> +		led->chip = chip;
+> +		led->led_num = i;
+> +
+> +		if (led->is_active) {
+> +			ret = st1202_channel_set(led->chip, led->led_num, true);
+> +			if (ret < 0) {
+> +				return dev_err_probe(&client->dev, -EIO,
+> +					"Failed to activate LED channel, error: %d\n", ret);
+> +			}
+
+Why return -EIO if you have an error code in ret?
+If you return ret, the ", error: %d\n", ret" part can be removed
+
+Also some { } could be removed.
+
+> +
+> +			ret = st1202_led_pattern_clear(&led->led_cdev);
+> +			if (ret < 0) {
+> +				return dev_err_probe(&client->dev, -EIO,
+> +					"Failed to clear LED pattern, error: %d\n", ret);
+
+Why return -EIO if you have an error code in ret?
+If you return ret, the ", error: %d\n", ret" part can be removed
+
+Also some { } could be removed.
+
+> +			}
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct i2c_device_id st1202_id[] = {
+> +	{ "st1202-i2c" },
+> +	{ /* sentinel */ },
+
+Nitpick: no need for ending comma after a terminator
+
+> +};
+> +MODULE_DEVICE_TABLE(i2c, st1202_id);
+> +
+> +static const struct of_device_id st1202_dt_ids[] = {
+> +	{ .compatible = "st,led1202", },
+> +	{ /* sentinel */ },
+
+Nitpick: no need for ending comma after a terminator
+
+> +};
+> +MODULE_DEVICE_TABLE(of, st1202_dt_ids);
+...
+
+CJ
