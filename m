@@ -1,66 +1,110 @@
-Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 821731BC3F;
-	Mon, 18 Nov 2024 02:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90AB13A89B
+	for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 05:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731898114; cv=none; b=USeHhDQD783wmjNg2dN0IuHdw3ymz1OkktJvInp5pzpikBYuH04WtzjCsyX9ommaxgsqDhNB+SY9VMdQ9pqG8iTYPO+uK28mJgIoTikNhKFQgu0wqym7RpYVHL9xkD7zjVJ9lcPWkCLbVmzit64r+x+xoUi846viH/Z2T0Arsyc=
+	t=1731907330; cv=none; b=b/1nwCtk4z6uUZZRpaLALV9nZp7Vr9EG49OIK6qYJUV6WhE2kuFnWP3+X5L5Emtu3J4KWnvKIhPxckJ2TguBM1cPmmRuhQBS/MRHxW5m3IgGW/0/IaMjH13UtDhmupMolbvCGkJPaJ1tx7GhFh+ZR4BJq71CfUFAbt+cPG4Tj9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731898114; c=relaxed/simple;
-	bh=6b2QM9tQXlO3MVw1sCoo3AlSE4Yz2dUla0SqscY7Dl0=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=a5Ymh7oYbggPMM1HNL4gEEhUaG5pYJhOYA48vfsbiC+ic4gRrDtTDZx+Y+JBJHYxtnwIoO+nhgRUT8RT4GCsDTSn3HD0iFCv581LQdAvUb6ON/My+LPUHGVhvzCzEK3PmYVI5sljPUSmkrboNOv6UDFL+a8urmRWqjcS4kiRQ4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee7673aaaf4086-3c0a3;
-	Mon, 18 Nov 2024 10:48:20 +0800 (CST)
-X-RM-TRANSID:2ee7673aaaf4086-3c0a3
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from ubuntu.localdomain (unknown[10.55.1.70])
-	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee1673aaaf3ab5-a7bab;
-	Mon, 18 Nov 2024 10:48:20 +0800 (CST)
-X-RM-TRANSID:2ee1673aaaf3ab5-a7bab
-From: Zhu Jun <zhujun2@cmss.chinamobile.com>
-To: corbet@lwn.net
-Cc: andrea.righi@linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zhujun2@cmss.chinamobile.com
-Subject: [PATCH] sched_ext: Documentation: Fix typo in sched-ext.rst
-Date: Sun, 17 Nov 2024 18:48:18 -0800
-Message-Id: <20241118024818.11590-1-zhujun2@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1731907330; c=relaxed/simple;
+	bh=oDRCCmOJ6l3Qo4x7rZ5IXmovcEpVy7mgLlkhICA0kTA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=O5xq4qKzpO/rdqQGZPC1pYVQcvlqzgcy1XZmhSgbyUoCx34sXHpKQLqPHEZCpJ5unBewH0d3IivPp+Bv11y8TPWO6sW5tAIb8WKqliUK672COMYiXIuMG8kRoeODo8oHOjvDGvINf1f3GsQjVgy5DOJXWxs729rI/7JTJvy75g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxIwP9SN; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxIwP9SN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731907328; x=1763443328;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oDRCCmOJ6l3Qo4x7rZ5IXmovcEpVy7mgLlkhICA0kTA=;
+  b=RxIwP9SN0d/ykBTGDqOTlfzofNNX6S4fmFtcnQJ+FKeTv4mzJ1Vq445o
+   +xDT0rBNJt/mDpSzkEpw6oO/FwZCaoeeWz5IwTIAIJMdTs3fdE4PSkLe9
+   T1zBkpRHm2lMeaYddSyBnZI2UV1/tC+GeBhM408PwJjzioF5G32HK7ZPd
+   1+HrximAWtdOozkEGLTDTFufA8U2TIVLaBwGMuICV8sgwivRjo3KnKDkJ
+   GgQqqflo0e6Eh3wPWshkpUx1KQSTMcaEvnhCOBLL1HgudEcHRWMbKwZ3F
+   rAJNrbIG4CeXGCOR+L461qvNFAQmVYBW1ed8eK/e6CQZcBGvsLNx7Qda0
+   A==;
+X-CSE-ConnectionGUID: qmIbrMe7SuuXBOAjN7ipuA==
+X-CSE-MsgGUID: 09k+KpGgSQKwwBpC2FW9Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="19457272"
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
+   d="scan'208";a="19457272"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 21:22:07 -0800
+X-CSE-ConnectionGUID: AdmJPbzNSDicUTKlsCdhtQ==
+X-CSE-MsgGUID: /xZ+WN3QSOumGFuMgqqC1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
+   d="scan'208";a="89244496"
+Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 17 Nov 2024 21:22:06 -0800
+Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tCuD5-0002HP-2a;
+	Mon, 18 Nov 2024 05:22:03 +0000
+Date: Mon, 18 Nov 2024 13:21:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
+	linux-doc@vger.kernel.org
+Subject: [asahilinux:bits/090-spi-hid 13/28]
+ drivers/hid/hid-magicmouse.c:578: warning: This comment starts with '/**',
+ but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202411181319.N9xtkvNz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The word 'tranfers' is wrong, so fix it.
+tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
+head:   501868c5f377ff4155041d111e0bea3c499b97a8
+commit: 10730e65908dcaf173cc12a45e6186fc7f275cf9 [13/28] hid: magicmouse: Add MTP multi-touch device support
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241118/202411181319.N9xtkvNz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411181319.N9xtkvNz-lkp@intel.com/reproduce)
 
-Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
----
- Documentation/scheduler/sched-ext.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411181319.N9xtkvNz-lkp@intel.com/
 
-diff --git a/Documentation/scheduler/sched-ext.rst b/Documentation/scheduler/sched-ext.rst
-index 7b59bbd2e564..aff1304d2637 100644
---- a/Documentation/scheduler/sched-ext.rst
-+++ b/Documentation/scheduler/sched-ext.rst
-@@ -265,7 +265,7 @@ The following briefly shows how a waking task is scheduled and executed.
-      rather than performing them immediately. There can be up to
-      ``ops.dispatch_max_batch`` pending tasks.
- 
--   * ``scx_bpf_consume()`` tranfers a task from the specified non-local DSQ
-+   * ``scx_bpf_consume()`` transfer a task from the specified non-local DSQ
-      to the dispatching DSQ. This function cannot be called with any BPF
-      locks held. ``scx_bpf_consume()`` flushes the pending dispatched tasks
-      before trying to consume the specified DSQ.
+All warnings (new ones prefixed by >>):
+
+   drivers/hid/hid-magicmouse.c:174: warning: Function parameter or struct member 'pos' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:174: warning: Function parameter or struct member 'input_ops' not described in 'magicmouse_sc'
+   drivers/hid/hid-magicmouse.c:575: warning: Excess struct member 'crc16' description in 'tp_finger'
+>> drivers/hid/hid-magicmouse.c:578: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * vendor trackpad report
+   drivers/hid/hid-magicmouse.c:592: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * standard HID mouse report
+
+
+vim +578 drivers/hid/hid-magicmouse.c
+
+   576	
+   577	/**
+ > 578	 * vendor trackpad report
+   579	 *
+   580	 * @num_fingers:	the number of fingers being reported in @fingers
+   581	 * @buttons:		same as HID buttons
+   582	 */
+   583	struct tp_header {
+   584		// HID vendor part, up to 1751 bytes
+   585		u8 unknown[22];
+   586		u8 num_fingers;
+   587		u8 buttons;
+   588		u8 unknown3[14];
+   589	};
+   590	
+
 -- 
-2.17.1
-
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
