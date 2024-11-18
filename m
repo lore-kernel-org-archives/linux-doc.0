@@ -1,305 +1,260 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ABBEC2;
-	Mon, 18 Nov 2024 17:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731951338; cv=none; b=odOVz4UW5HGTdrYWnSZOCiVpK6DLLws4cShwGr3uO50/jjsRa40Wb3UXAT27ZzNqkWrbJTR3Q3AsiH32ctCpI3/+ddqn/8ZTqSQFcERV3tIsL4lRJxjoM9c3lFCYs0zQxizAIHBNwz3MD4asRSifBm3AIQ+zfunYBBZMlSKOp/Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731951338; c=relaxed/simple;
-	bh=Q2RuPx8UQo1w532mxg/vF48W0Iu40UmosQQrvgHqAlU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ExXvwSwJhtG8RtDctaWv0wlq0B+fDxszss9f3db5PVkjNYH3SBMCAMLyeXFIctV0azXEje4j9rbrC186bdi1WaxxQaN0q/UlVMq0MYV42fJMlZ/Bp91/TwyTNtfMQC8c68J5TufoE+yNfVbw75kuS+/JRMVdJo0M4d9wBEjPN5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ilkZyPOr; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC2FEC2;
+	Mon, 18 Nov 2024 17:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731951595; cv=fail; b=SpZ/Ml4FzfVlXJAcoEnDmn1l1K5BHhc7AMuf9kz3EXiXhrE6rbQ47V1mLgq+MXJUU0X33VxnK/ARo2t7O1tNG18h5N+EsMz3+pn6fbVm9ygiBkfZ++nt6hMJKLNmBz6bh8ZHWA3KVax09VvEKRdOO+O+82U1XsaMWur6ynBLmfg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731951595; c=relaxed/simple;
+	bh=mMIkUN3L4OlvVv+SSBiG7bga4EFbOseEer692Mab0dU=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=VY4UNY8WiynqIe+aeTJqLnHPJ0rroO892rfNQ5mXjceDFH4TVYC9X03MExzzi3mwwFQ8hahj+Zo+Yg8jX3I9KK/ZdKhS7IXyL15vUaZ1WPBExwlx7ozQx8VbkWXPUlMztu/WwVn0oTYHccWATGt8ynxjHT6uDe5ArNGvYQhi5rw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i4E1/GCg; arc=fail smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ilkZyPOr"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D806F40002;
-	Mon, 18 Nov 2024 17:35:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1731951333;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CpDsnfl1bWmwv9wbs3nf/7NwpkHZ9sy9amJmIl9hmAs=;
-	b=ilkZyPOrbxoE+PNYUd5X7OykRFkCBXQlQgpUaICkhsczDR6sPXExQsSIDkBcW4Vag4kN9J
-	Ho/0lPmV71fl+cn2VB/6cp0Q7qN7lywRyi77gqsHKOMCNsT+CAB3gMwUt4uNrGepvvVfMu
-	3gn3dZyY9VNehRtdPOebLcYohl8pf3esoCqMJev3jZvu8BsOi7jVQh64DzoRcPQASIYXx4
-	sfqGqigp104OQPBFBgYN6X++zgliNg5+i73vP/wMaVOvJuX7IlCEt0hNoQRoAp2L6cQZIz
-	CMKU52yIUUETpSNY9zEGeQ3a1H+d3TDUSh58C4vH1J5FYwthVyugcbB7kXZanQ==
-Date: Mon, 18 Nov 2024 18:35:30 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
-	dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
-	helen.koike@collabora.com, jeremie.dautheribes@bootlin.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
-	marcheu@google.com, melissa.srw@gmail.com,
-	miquel.raynal@bootlin.com, mripard@kernel.org,
-	nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
-	rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com,
-	seanpaul@google.com, simona.vetter@ffwll.ch, simona@ffwll.ch,
-	thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: Re: [PATCH v13 5/9] drm/vkms: Update pixels accessor to support
- packed and multi-plane formats.
-Message-ID: <Zzt64tbs3TZ-7nUo@louis-chauvet-laptop>
-Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-	airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
-	dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
-	helen.koike@collabora.com, jeremie.dautheribes@bootlin.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
-	marcheu@google.com, melissa.srw@gmail.com,
-	miquel.raynal@bootlin.com, mripard@kernel.org,
-	nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
-	rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com,
-	seanpaul@google.com, simona.vetter@ffwll.ch, simona@ffwll.ch,
-	thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-References: <20241031-yuv-v13-5-bd5463126faa@bootlin.com>
- <20241118171037.2847-1-jose.exposito89@gmail.com>
- <Zzt2l0hZpKp4mniY@louis-chauvet-laptop>
- <Zzt4PiTRqwmikMnm@fedora>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i4E1/GCg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731951594; x=1763487594;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=mMIkUN3L4OlvVv+SSBiG7bga4EFbOseEer692Mab0dU=;
+  b=i4E1/GCg/8B49xdQFCL3c5XYn89Xm2zrck2dE2h0oqM6hgFYErRp3HvN
+   Hbz2xJ+zVyxC2wXASMhIT2yyYO25kXoFpQbMXjEL7mjUXEHc7ggc80BxV
+   DDQBqYM33NCwok973Yp0XSIH2sDfd/EfB9LkiZzjwqjog/Ke6Cw5dOFdq
+   clM2W6FrUsqJ2wpjRLnXy8w6L///B5s2RHRbu6F0tjv0U/9tTnD4GOSZE
+   EoVRiOoEW6mzuKBWGPQn6GdQiwCEkbuZMwQH8p0hyVheSdsWDnrI63Fzq
+   IJfTF+YxMOeXIWnebP2qhtwK9RJ8HfRQaGDZEbBrm49rJufksDgg2XCFX
+   Q==;
+X-CSE-ConnectionGUID: oArOD6qTTPONRf5NdZY6UQ==
+X-CSE-MsgGUID: bTBcLZF0QP6hOhv4pLthdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="49458640"
+X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
+   d="scan'208";a="49458640"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 09:39:53 -0800
+X-CSE-ConnectionGUID: 31LQcXDVRHi7LnBv+HQvyg==
+X-CSE-MsgGUID: 0ap4XG9JT46ec0hrzA6MZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
+   d="scan'208";a="93358657"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Nov 2024 09:39:52 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 18 Nov 2024 09:39:51 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 18 Nov 2024 09:39:51 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.42) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 18 Nov 2024 09:39:50 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DY7RWCBIyRtvYtoFHiCRKiTCWlCfUq5CebOs9ddWTv/wNNKFngO5Dw5hM+uiI/wCX7z84ZVrn2BGA7SeXg6Z62Pffe/IPFyyF06Ys/LrvkMC2/Ij7VOoUPcHxT3xkI3PIP/RJPAhYN+ojbXgKx+Pni/GHXPpRk6zmxGYKDFGXhMKV+WJodSFeJ8uC5WOyyNA1wDjjHnktznBvuHCafnKvXLjLSmo/cFTqIIXl1xbkxhIDU1WpO7rwNjY1Q76pPN6vdFgyKRofigYYYOKraUQfpWFNWuUi76W7a1oaW4pqiqjxs3Vq3Gqj0Wg7smH95Q55DYQz/bSM9pdQAu6jKKBng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yVbu03EPRrfU1hPscr4WlcqsJfPn7lfcKUxSaQhBiUQ=;
+ b=yuBQms6riSTTnqD58vXz2jVIzLN+D8BojYICDU0etnP9OpJ4Z0vptNKSzG8xZmXuoGnsBdNIRlni/o9ONWcC41+untGTAM8u3Ir26USFnfkBWCaODSn+NYWWlM8zbSEzQFkYbnKKSWVJaz+48sQfTK2W44wDFPzz1XZ+/mwGDOy5yfKG7A7+pJxCzkCDbMcJrMqC/kcnS/aEUHK6seE6H9BvAXdDng4rBAB5EM20xfniAyQs+TCF8w9h/IfAd9CH9TwtD7HXHNH39HRf053rh4lyR3GkjonjtKh2jJjoOclCNcaB8hRDLzxcjTBmEQtpLbDAKZfUje/v7Hi7QRvRRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by LV3PR11MB8696.namprd11.prod.outlook.com (2603:10b6:408:216::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.23; Mon, 18 Nov
+ 2024 17:39:36 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8158.019; Mon, 18 Nov 2024
+ 17:39:36 +0000
+Message-ID: <ae12f5d7-2f38-4f38-ab19-0875bd393443@intel.com>
+Date: Mon, 18 Nov 2024 09:39:32 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 21/26] x86/resctrl: Report "Unassigned" for MBM events
+ in mbm_cntr_assign mode
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <fenghua.yu@intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<thuth@redhat.com>, <paulmck@kernel.org>, <rostedt@goodmis.org>,
+	<akpm@linux-foundation.org>, <xiongwei.song@windriver.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <daniel.sneddon@linux.intel.com>,
+	<perry.yuan@amd.com>, <sandipan.das@amd.com>, <kai.huang@intel.com>,
+	<xiaoyao.li@intel.com>, <seanjc@google.com>, <jithu.joseph@intel.com>,
+	<brijesh.singh@amd.com>, <xin3.li@intel.com>, <ebiggers@google.com>,
+	<andrew.cooper3@citrix.com>, <mario.limonciello@amd.com>,
+	<james.morse@arm.com>, <tan.shaopeng@fujitsu.com>, <tony.luck@intel.com>,
+	<vikas.shivappa@linux.intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <peternewman@google.com>,
+	<maciej.wieczor-retman@intel.com>, <eranian@google.com>,
+	<jpoimboe@kernel.org>, <thomas.lendacky@amd.com>
+References: <cover.1730244116.git.babu.moger@amd.com>
+ <fcc0d1cc4e0f60626417b0c3bffe7638d6de9071.1730244116.git.babu.moger@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <fcc0d1cc4e0f60626417b0c3bffe7638d6de9071.1730244116.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW3PR05CA0007.namprd05.prod.outlook.com
+ (2603:10b6:303:2b::12) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zzt4PiTRqwmikMnm@fedora>
-X-GND-Sasl: louis.chauvet@bootlin.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|LV3PR11MB8696:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b29c20f-dd1f-45d7-b802-08dd07f7f7ed
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UEQ4NVlyOHNNK2Q2UytmakVNaTZDMDd6dExONXMrNGhaN0lVSzR6aEVRQ2NJ?=
+ =?utf-8?B?WkpvNlg5NmFQMHIyakxYWkl2S1lCbElwdTRER3FMSGI0VWh1Z0N2R3VPUUt0?=
+ =?utf-8?B?elRvQ3BNeFVKYWhCTHNsOVE4Q2N4OGx4Y1FiMkZ4Ry84QXljaEVyckV3RjVy?=
+ =?utf-8?B?VnNRbnVlZ2lmTVB5elVRRU9sRXBlbU1ZZG5PTExRSWp6cU5yQm9md1F3VlBN?=
+ =?utf-8?B?WGlsd2tEdWNjU3VnclhpMFM5TFVBRTRaRktRRzY4RDBYakJpRWdiTFh0VS95?=
+ =?utf-8?B?T3d0Q2E2czhCelA2dXNmM1JnQ284SUkvQWpuRUVvb3grNHRWaTRzNnN0a2Qx?=
+ =?utf-8?B?aW1VT1VyN1ZmZzR1bllxd01sRlJKQlhiYXJqYW9GUmt0YURNWlluanptdnE5?=
+ =?utf-8?B?WVR5U3FNcW5QbE5CSnpkbCt1SmhsTDgwK3dUNmtzWW9iZEdGQS91UHczNDR1?=
+ =?utf-8?B?V3dxcFRMY0J5TXAvY3dveVZhVGpJRzYyNC9OWUVNbk41alFVNUN4Q1ptcm1p?=
+ =?utf-8?B?YTRUQ2hURnZ5a1lsQ0IvWHMxMUdYaFp1K1Nzd1pEVUVLN09sclRORHZmcjJ0?=
+ =?utf-8?B?b0N4MVZMcWVUcWVMbGRBK0drdHg0VkIvWGdyb2thbmgraVV0UGlPTkUreFJK?=
+ =?utf-8?B?eUZVQVF6R2NLbTd3a1MrT21QalBJQ0ZFeWZKNHhMKzZQU0pUWk9EWTdWM2VY?=
+ =?utf-8?B?T01MRWZCLzRyN09VaTFiL01TZDZNWXlDMCtqbFM3RmhQODd0UGVMeGlrQUlV?=
+ =?utf-8?B?Y2RYalltVjE1by9qcmJjRzV5UjBWZU5zQkF0Y2NIVWVycUczMjA2Y0lJL1du?=
+ =?utf-8?B?YXpKR3RYSVBmTHVxUHYyV04wcWxHQVo3WjlUcjl3aDFyVUdqc1RjUFZwWktU?=
+ =?utf-8?B?UWIxWTM5N2d3andEY2N3ZUs4OTNleHVKUFBtRDNISTJWajd3dXV4eU45cFda?=
+ =?utf-8?B?TTk2ZHJ1T1BkUWQzN1ZidkZVSWorRGtBV3ZIZUxJSGpFN3hkK3JldU9acGlj?=
+ =?utf-8?B?NFI4bWpuZXRZc1ZYMmRBYVo5NXlpWGJBNzMvNEhLYTFMdi81Mjl0akRBMVl2?=
+ =?utf-8?B?RkVBYUltYmpOT3RmNHMwN21SeGxyMFVRL1J6VzQyWGczb2Nybmg0WXA4eXpF?=
+ =?utf-8?B?b1Vzcml2V3FqbmtGNFVFQi95aHk0a1Nla1dzNi90aFhhR1lrS3dyQWhPTVY2?=
+ =?utf-8?B?cXMreFYvaVFFOS9zODBMbWM4TWJ4SGdsRm9sRWRGb0lOTE9WQUFLdGdvR2xn?=
+ =?utf-8?B?YXp3V2c3aEZtc1pCSG9xQ0hOSVVyZW5qRHh4SDJ3Q0J1b0hYOEEyNXlGR2Zk?=
+ =?utf-8?B?bERybFpKQmNraDdEZDBiSDJlUExKSUs5K3JTL3BNMXJsVkEzWjVCZGRiTTVW?=
+ =?utf-8?B?Nld0dE5sSUJodUhhaktSTkZFQUZlcGpqVzBTLzNuYWtqa1VoYnFtUmh6N1dX?=
+ =?utf-8?B?cTRKZ1pTaE9QMFQrcXNSS2t5Y2lRYXZnamFwYXA1U0NKbnlBV3ZscnpUSXQy?=
+ =?utf-8?B?NnB2MGoraUpqQ3ROZXo0aXZIL1dXcVh4Rkp5bjlXZjBDenNGUDV3NFlTYnJD?=
+ =?utf-8?B?S1MyekVWekZmUGgxc25oellvbVJyY0ZIK2dnQndjVFFkOVJZejdIUkEvLzB5?=
+ =?utf-8?B?dXFWRzkyQ3RIM2dBdUpKdXhIamovS1BVMlVMMkNFS1BxdExpcjdGVXhTSitq?=
+ =?utf-8?B?MHJVbVk1cXZ3Z2R0d1E5RE82OExsWlBRcHhHY081OHFVVkhOL2VGWFBQSlBF?=
+ =?utf-8?Q?zkOUNXqqakxfeZ2K+PFzQMmvTJPA7w7aPIu3hPu?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDRwUFNNRVR3N3R1aWgvUmtUY05hbkdyMkIrSHBuNXljcTREWHZSSlRlTTV1?=
+ =?utf-8?B?YS9ZUy80NzYwYlVqTWg4L3l3QlhGUG9OWWJsVnRrQUZTSkxOTjJEb1ZsM0tD?=
+ =?utf-8?B?ckVGaUU0dm81SFFhZDZyRERWdTZuME5nUEFlQ2pFMXE0MDZDVWNvVW5JUkF0?=
+ =?utf-8?B?ZmVZS2lwcDQyTk1LNm9iU1J0blRTQjI1TVlRQ1o0dDMxWWtYYUdKbFQzR0Er?=
+ =?utf-8?B?a0lmVyt2NTdjbXZQUHhkWFY5SGs2T3NTMFpLaXh6WS9rTEttZCtBS2FMVEhM?=
+ =?utf-8?B?N1kyWGszSWQ1V3ZaOFZGN3hhQ3RVUk5uS0RxT3FCSmFvWFBGU2E0bEIxbyto?=
+ =?utf-8?B?T3lNTEpnZCs1dWl0SFd5U3VLb2dTT0tHTFVIMWZxdzQvVEpOSzFoekpSUkgr?=
+ =?utf-8?B?NUZYY0JsYjZOaFpJUzVpSmVMZWxFdkpuQW9KVDlacmF4a3ZIbGV5YXVHQWh0?=
+ =?utf-8?B?YnUvUytWbHNZNkcvUytXQ1FsWEFhM21RNm1lYWo5UVJxU0RQNDVacWdUT1Jr?=
+ =?utf-8?B?SERxMExwRFJ2ZllJY2pCVlpabE05NkhvcTFSSlhDQk5YZ0dwYUNuSnVUTnJO?=
+ =?utf-8?B?ZDdncDdBNHh2bEhNK3RDVXAvclhCVUVzZ2xPNHVyS0dUY284ZDRLazA3YmVB?=
+ =?utf-8?B?WUFTUElBTGV1TCs3SU9MRTFJOVNYRHVXdmIrTHlLUGR0aEpoZU9QRUV4VnR1?=
+ =?utf-8?B?T2dkdUhjaS8xNHRkbDljVnZWS3dRS0dRMFNRb2hxNXVCQ2FmN0NiT3d0ZmM0?=
+ =?utf-8?B?SjZpUmN1b2YyNUFpSW9KZHRSdlBHaHVxUEJPUXJIQ3U5Tkp0RkpOcG5BTHNu?=
+ =?utf-8?B?N3ZNVE00L3M5bXlKL0xOQmp0ZzJmZGRBNzRkbjRQQmdEaWNOOWJ4Snc3Z3RR?=
+ =?utf-8?B?bm5nbjZLSVUwWFZyU3ZRQ2ZXZHFvRW53WjRsNFZMdGZoS0lia29qZlphZG1E?=
+ =?utf-8?B?NXlVa0hoZGYrS3BPc2lXSnBEOTBadEptaVRibDdGWG92M2ZmNHc0K2V5ZFNz?=
+ =?utf-8?B?d2FNNWdOS01JVXdLWWczS1Y5NkpCbys3UDkxc1p6U1hiN3NFTDZjOVJlRG9a?=
+ =?utf-8?B?WXB2aGwrS0ZKSm13RVp2R2hRRGVIUkU5RTNnaVh3aiszckQvalBaVFNsbEo0?=
+ =?utf-8?B?NkR0YzlnaGNZbnFMeDZkSnRGMEE5d0xBcDZld3hacTZ0VmZTeFBJN1dBQ1Q0?=
+ =?utf-8?B?MksyTTREUVVteE41aVFPdWZXTmp4V3ZWaW5pMjdOcWR1eUg3a0s3YTgwZjZx?=
+ =?utf-8?B?UzFlcjhsSWpWVmF1VldibGY2bTdTckVCbm5mZ3M5WnRPR2NoaE9nOVhzYXdN?=
+ =?utf-8?B?QTUwRkNha3BBNHlqN0xCVDJiMVc2bVpKTXg1ZGhUSnF1UnRXemZxVm5PNklI?=
+ =?utf-8?B?VnY2ekZERHpZb3Vpd2RJUVhwSFl1Q3l6YlA3RTVoV0FsU3YwOEFOZUhha1d3?=
+ =?utf-8?B?NEpxdHhvMCs3VmFTU0pTcWpyZkJLU3FlcUdxc2JkTlBBcHhaRi93L1piWEpw?=
+ =?utf-8?B?cEo0R2lqaCtWRjBlQUIzeFdJVE1oYVhZRWY2VEJkNnluWVdBTlJaNHNJcmhl?=
+ =?utf-8?B?MnphQWpsc3RJTG5DZU5rdjVXQUw2TEF3dXhiajNuSXBzMGRrSUJSaEtya1hz?=
+ =?utf-8?B?VTRuVW1MTkRBMy8zckhtWGpsQis4WHVKMzJSZ3pxNUFuOGFBcGZYSWRHNmVO?=
+ =?utf-8?B?YlNHOGc2aUl0K3NlVkZ5RWlSelhWYnNPSFVTSGdqS0QrdFRsakdTMkdIZHJ2?=
+ =?utf-8?B?MXpoeW1wNjk0WWRvMU5QQTRuQStDZUh6bFlWMDlRZHBlN3laU2R3djM3bVNK?=
+ =?utf-8?B?SDZDcEZGNmpCZkNZWnpJbzVWVEVhZjJ1cVdSZzEwSmFjU05ON1Y4NXRBZmwv?=
+ =?utf-8?B?M2plei8zYXMyMVNtMWdOck5YWUwySDRPSGVoZjVGRlJ0a0ZyNTBvdlRvNGJM?=
+ =?utf-8?B?SXYxeUNxeW5NR3lYOHMzWU1KckJNb3Q2QU10cWorb0tqaVJOamkyYzRiRmIr?=
+ =?utf-8?B?ek92RFNqeUQyUndmd2tGVnV0R0JSaEt6OUtOcHoyem92ajVEVTdXSDZYeVJj?=
+ =?utf-8?B?OTJuSWE4V3V0WDQ5TmxaYkpWN1ZNYWxGdFJvN2xyR3hSTTVzbmI5RlZFODNs?=
+ =?utf-8?B?RzRTNTZnN0ErTW02V25WUkhScC93Wm9CMXRjQ0pHNEo3ODVyRm1DN05EcTQ4?=
+ =?utf-8?B?OXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b29c20f-dd1f-45d7-b802-08dd07f7f7ed
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2024 17:39:36.3298
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +E0tvEPn4GjBT4qqCgXjt6geqgomH0+eoza8xNwAHdLrZDXBXhlyGgyAN6+o1KovRJH4HY/MgWN/SDnhuI2pHZXyZkIj4HHtWkmgt8A9DA0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8696
+X-OriginatorOrg: intel.com
 
-On 18/11/24 - 18:24, José Expósito wrote:
-> On Mon, Nov 18, 2024 at 06:17:11PM +0100, Louis Chauvet wrote:
-> > On 18/11/24 - 18:10, José Expósito wrote:
-> > > > Introduce the usage of block_h/block_w to compute the offset and the
-> > > > pointer of a pixel. The previous implementation was specialized for
-> > > > planes with block_h == block_w == 1. To avoid confusion and allow easier
-> > > > implementation of tiled formats. It also remove the usage of the
-> > > > deprecated format field `cpp`.
-> > > > 
-> > > > Introduce the plane_index parameter to get an offset/pointer on a
-> > > > different plane.
-> > > > 
-> > > > Acked-by: Maíra Canal <mairacanal@riseup.net>
-> > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > ---
-> > > >  drivers/gpu/drm/vkms/vkms_formats.c | 114 ++++++++++++++++++++++++++++--------
-> > > >  1 file changed, 91 insertions(+), 23 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> > > > index 06aef5162529..7f932d42394d 100644
-> > > > --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> > > > +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> > > > @@ -10,22 +10,46 @@
-> > > >  #include "vkms_formats.h"
-> > > >  
-> > > >  /**
-> > > > - * pixel_offset() - Get the offset of the pixel at coordinates x/y in the first plane
-> > > > + * packed_pixels_offset() - Get the offset of the block containing the pixel at coordinates x/y
-> > > >   *
-> > > >   * @frame_info: Buffer metadata
-> > > >   * @x: The x coordinate of the wanted pixel in the buffer
-> > > >   * @y: The y coordinate of the wanted pixel in the buffer
-> > > > + * @plane_index: The index of the plane to use
-> > > > + * @offset: The returned offset inside the buffer of the block
-> > > 
-> > > The previous function (pixel_offset) returned a size_t for the offset rather
-> > > than an int. Do you know if we are safe using an int in this case?
-> > 
-> > I think I used int everywhere because it may avoid strange issues with 
-> > implicit casting and negative number. I don't remember exactly where, but 
-> > Pekka suggested it.
-> 
-> Ah! Good to know. For the record, I ran locally the IGT tests and
-> perform some manual testing and I found no issues.
-> 
-> > > > + * @rem_x: The returned X coordinate of the requested pixel in the block
-> > > > + * @rem_y: The returned Y coordinate of the requested pixel in the block
-> > > >   *
-> > > > - * The caller must ensure that the framebuffer associated with this request uses a pixel format
-> > > > - * where block_h == block_w == 1.
-> > > > - * If this requirement is not fulfilled, the resulting offset can point to an other pixel or
-> > > > - * outside of the buffer.
-> > > > + * As some pixel formats store multiple pixels in a block (DRM_FORMAT_R* for example), some
-> > > > + * pixels are not individually addressable. This function return 3 values: the offset of the
-> > > > + * whole block, and the coordinate of the requested pixel inside this block.
-> > > > + * For example, if the format is DRM_FORMAT_R1 and the requested coordinate is 13,5, the offset
-> > > > + * will point to the byte 5*pitches + 13/8 (second byte of the 5th line), and the rem_x/rem_y
-> > > > + * coordinates will be (13 % 8, 5 % 1) = (5, 0)
-> > > > + *
-> > > > + * With this function, the caller just have to extract the correct pixel from the block.
-> > > >   */
-> > > > -static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
-> > > > +static void packed_pixels_offset(const struct vkms_frame_info *frame_info, int x, int y,
-> > > > +				 int plane_index, int *offset, int *rem_x, int *rem_y)
-> > > >  {
-> > > >  	struct drm_framebuffer *fb = frame_info->fb;
-> > > > +	const struct drm_format_info *format = frame_info->fb->format;
-> > > > +	/* Directly using x and y to multiply pitches and format->ccp is not sufficient because
-> > > > +	 * in some formats a block can represent multiple pixels.
-> > > > +	 *
-> > > > +	 * Dividing x and y by the block size allows to extract the correct offset of the block
-> > > > +	 * containing the pixel.
-> > > > +	 */
-> > > >  
-> > > > -	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp[0]);
-> > > > +	int block_x = x / drm_format_info_block_width(format, plane_index);
-> > > > +	int block_y = y / drm_format_info_block_height(format, plane_index);
-> > > > +	int block_pitch = fb->pitches[plane_index] * drm_format_info_block_height(format,
-> > > > +										  plane_index);
-> > > > +	*rem_x = x % drm_format_info_block_width(format, plane_index);
-> > > > +	*rem_y = y % drm_format_info_block_height(format, plane_index);
-> > > > +	*offset = fb->offsets[plane_index] +
-> > > > +		  block_y * block_pitch +
-> > > > +		  block_x * format->char_per_block[plane_index];
-> > > >  }
-> > > >  
-> > > >  /**
-> > > > @@ -35,30 +59,71 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
-> > > >   * @frame_info: Buffer metadata
-> > > >   * @x: The x (width) coordinate inside the plane
-> > > >   * @y: The y (height) coordinate inside the plane
-> > > > + * @plane_index: The index of the plane
-> > > > + * @addr: The returned pointer
-> > > > + * @rem_x: The returned X coordinate of the requested pixel in the block
-> > > > + * @rem_y: The returned Y coordinate of the requested pixel in the block
-> > > >   *
-> > > > - * Takes the information stored in the frame_info, a pair of coordinates, and
-> > > > - * returns the address of the first color channel.
-> > > > - * This function assumes the channels are packed together, i.e. a color channel
-> > > > - * comes immediately after another in the memory. And therefore, this function
-> > > > - * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
-> > > > + * Takes the information stored in the frame_info, a pair of coordinates, and returns the address
-> > > > + * of the block containing this pixel and the pixel position inside this block.
-> > > >   *
-> > > > - * The caller must ensure that the framebuffer associated with this request uses a pixel format
-> > > > - * where block_h == block_w == 1, otherwise the returned pointer can be outside the buffer.
-> > > > + * See @packed_pixel_offset for details about rem_x/rem_y behavior.
-> > > 
-> > > Missing "s" in the name of the function. Should read "@packed_pixels_offset".
-> > 
-> > Thanks!
-> > 
-> > > >   */
-> > > > -static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
-> > > > -				int x, int y)
-> > > > +static void packed_pixels_addr(const struct vkms_frame_info *frame_info,
-> > > > +			       int x, int y, int plane_index, u8 **addr, int *rem_x,
-> > > > +			       int *rem_y)
-> > > >  {
-> > > > -	size_t offset = pixel_offset(frame_info, x, y);
-> > > > +	int offset;
-> > > >  
-> > > > -	return (u8 *)frame_info->map[0].vaddr + offset;
-> > > > +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, rem_x, rem_y);
-> > > > +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
-> > > >  }
-> > > >  
-> > > > -static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y)
-> > > > +/**
-> > > > + * packed_pixels_addr_1x1() - Get the pointer to the block containing the pixel at the given
-> > > > + * coordinates
-> > > > + *
-> > > > + * @frame_info: Buffer metadata
-> > > > + * @x: The x (width) coordinate inside the plane
-> > > > + * @y: The y (height) coordinate inside the plane
-> > > > + * @plane_index: The index of the plane
-> > > > + * @addr: The returned pointer
-> > > > + *
-> > > > + * This function can only be used with format where block_h == block_w == 1.
-> > > > + */
-> > > > +static void packed_pixels_addr_1x1(const struct vkms_frame_info *frame_info,
-> > > > +				   int x, int y, int plane_index, u8 **addr)
-> > > > +{
-> > > > +	int offset, rem_x, rem_y;
-> > > 
-> > > Nitpick, but it'd be nice if packed_pixels_offset() could take NULLs in
-> > > the output values so we avoid declaring unused variables here and when
-> > > calling packed_pixels_addr().
-> > 
-> > It is not a trivial change, and as I want this series to be merged I will 
-> > send the v14 without it. But if I have the time I will send a new 
-> > patch/series with this cleanup, thanks for the suggestion.
-> 
-> That works for me, we can always fix it in a follow up... Specially since
-> 2 other series depend on this one :)
+Hi Babu,
 
-As the series is completly reviewed/acked, how long do I need to 
-wait after the v14 before commiting on drm-misc-next? I plan to send the 
-v14 today/tomorrow morning with your changes.
-
-Thanks,
-Louis Chauvet
- 
-> Jose
+On 10/29/24 4:21 PM, Babu Moger wrote:
+> In mbm_cntr_assign mode, the hardware counter should be assigned to read
+> the MBM events.
+> 
+> Report "Unassigned" in case the user attempts to read the events without
+> assigning the counter.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+> v9: Used is_mbm_event() to check the event type.
+>     Minor user documentation update.
+> 
+> v8: Used MBM_EVENT_ARRAY_INDEX to get the index for the MBM event.
+>     Documentation update to make the text generic.
+> 
+> v7: Moved the documentation under "mon_data".
+>     Updated the text little bit.
+> 
+> v6: Added more explaination in the resctrl.rst
+>     Added checks to detect "Unassigned" before reading RMID.
+> 
+> v5: New patch.
+> ---
+>  Documentation/arch/x86/resctrl.rst        | 10 ++++++++++
+>  arch/x86/kernel/cpu/resctrl/ctrlmondata.c | 12 +++++++++++-
+>  2 files changed, 21 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+> index 2bc58d974934..864fc004d646 100644
+> --- a/Documentation/arch/x86/resctrl.rst
+> +++ b/Documentation/arch/x86/resctrl.rst
+> @@ -430,6 +430,16 @@ When monitoring is enabled all MON groups will also contain:
+>  	for the L3 cache they occupy). These are named "mon_sub_L3_YY"
+>  	where "YY" is the node number.
 >  
-> > > > +
-> > > > +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format,
-> > > > +					      plane_index) != 1,
-> > > > +		"%s() only support formats with block_w == 1", __func__);
-> > > > +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format,
-> > > > +					       plane_index) != 1,
-> > > > +		"%s() only support formats with block_h == 1", __func__);
-> > > > +
-> > > > +	packed_pixels_offset(frame_info, x, y, plane_index, &offset, &rem_x,
-> > > > +			     &rem_y);
-> > > > +	*addr = (u8 *)frame_info->map[0].vaddr + offset;
-> > > > +}
-> > > > +
-> > > > +static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y,
-> > > > +				 int plane_index)
-> > > >  {
-> > > >  	int x_src = frame_info->src.x1 >> 16;
-> > > >  	int y_src = y - frame_info->rotated.y1 + (frame_info->src.y1 >> 16);
-> > > > +	u8 *addr;
-> > > > +	int rem_x, rem_y;
-> > > > +
-> > > > +	WARN_ONCE(drm_format_info_block_width(frame_info->fb->format, plane_index) != 1,
-> > > > +		  "%s() only support formats with block_w == 1", __func__);
-> > > > +	WARN_ONCE(drm_format_info_block_height(frame_info->fb->format, plane_index) != 1,
-> > > > +		  "%s() only support formats with block_h == 1", __func__);
-> > > >  
-> > > > -	return packed_pixels_addr(frame_info, x_src, y_src);
-> > > > +	packed_pixels_addr(frame_info, x_src, y_src, plane_index, &addr, &rem_x, &rem_y);
-> > > > +
-> > > > +	return addr;
-> > > >  }
-> > > >  
-> > > >  static int get_x_position(const struct vkms_frame_info *frame_info, int limit, int x)
-> > > > @@ -152,14 +217,14 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
-> > > >  {
-> > > >  	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
-> > > >  	struct vkms_frame_info *frame_info = plane->frame_info;
-> > > > -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
-> > > > +	u8 *src_pixels = get_packed_src_addr(frame_info, y, 0);
-> > > >  	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
-> > > >  
-> > > >  	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
-> > > >  		int x_pos = get_x_position(frame_info, limit, x);
-> > > >  
-> > > >  		if (drm_rotation_90_or_270(frame_info->rotation))
-> > > > -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
-> > > > +			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1, 0)
-> > > >  				+ frame_info->fb->format->cpp[0] * y;
-> > > >  
-> > > >  		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
-> > > > @@ -250,7 +315,10 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
-> > > >  {
-> > > >  	struct vkms_frame_info *frame_info = &wb->wb_frame_info;
-> > > >  	int x_dst = frame_info->dst.x1;
-> > > > -	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
-> > > > +	u8 *dst_pixels;
-> > > > +	int rem_x, rem_y;
-> > > > +
-> > > > +	packed_pixels_addr(frame_info, x_dst, y, 0, &dst_pixels, &rem_x, &rem_y);
-> > > >  	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
-> > > >  	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
-> > > >  
-> > > > 
+> +	When supported the 'mbm_cntr_assign' mode allows users to assign a
+
+Could you please do through the documentation changes and make all the quote
+usage consistent with existing styles? For example, in this series "mbm_cntr_assign"
+is used in doc in various ways ... within double quotes, within single quotes, as
+well as without any quotes.
+
+> +	counter to mon_hw_id, event pair enabling bandwidth monitoring for
+> +	as long as the counter remains assigned. The hardware will continue
+> +	tracking the assigned mon_hw_id until the user manually unassigns
+> +	it, ensuring that counters are not reset during this period. With
+> +	a limited number of counters, the system may run out of assignable
+> +	counters. In that case, MBM event counters will return "Unassigned"
+
+Please review style for all quote usage, for example, "Unassigned" above is
+also not consistent.
+
+> +	when the event is read. Users must manually assign a counter to read
+> +	the events.
+> +
+Reinette
