@@ -1,230 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCC113D518;
-	Mon, 18 Nov 2024 14:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781531AC885
+	for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 15:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731941979; cv=none; b=EuAyZcZ5COrNDoEhNt7hNIYs5PobeNgvmGhYRqLWtTqArK73dpcGwbvJ5pSL8gx9HKYQFY+Jj8AtT29D9cms6IH6TWDuoyLizyb0d8Ywj4I2uE/wypGjv/ok1XrBZmy6e3QEAx2u9oF5G9V3blh1GfopHMGDNeMFzUUWtmPweGg=
+	t=1731942774; cv=none; b=i7b/Hs+wd5YoE0fBFseZ5MeaQihiYcHdK+Lf+wk8n9j5lwHv7cjYS8XwFVIwPFYKvcwSTChCFNgZ6oaQNGIHi9PO5/ZzDI4krjezZLPrHoDIIr1aMTPQn7Ok1A2S3IM1tB3s3oqmAssQymgDwM2AW7Lf6DkAEj/MJDmIQo7zIew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731941979; c=relaxed/simple;
-	bh=B8pGggj3ynn83Ub48krJi7CHfczmBiFlV+ZzKagAU8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C/d9wvR+6XtDC8PYFYizEURs90zApDyiYz26Im3mnMH3wSYtg71gf9TQyALRTpxQj3eaeyRS5U8dAIQggiuMXO8z6s8D1kbPAFs6sj1bssleTroQg3LqOT9Kj7Pz9J9lCvCkmVvZBoHp2t5ydTd8MF9Grbt030Lp4j1eF5hXbuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G6Bg2k8C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731942774; c=relaxed/simple;
+	bh=abhX0e8c7pOXK+VqgphQUVBQ5sBLa4mph2cyW0j392o=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=dhiZYL9EhhOXNNUUMCYDQFgVFgiK6uey8tLX2s9Qm4B2nel3vVs/IosNlfXKErWLTNfrN+50nSaZKQJ/+n7gpe8HdT2szI6Q5O5j2oh17JTUC1ufel5+0bUgcsMV7HIQkEvZSKZ9SdqWR4O6uq+LHGvoh1mNPC5AdT8rQIUbKU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=YfUeZ2P5; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G6Bg2k8C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD6BEC4CECC;
-	Mon, 18 Nov 2024 14:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731941978;
-	bh=B8pGggj3ynn83Ub48krJi7CHfczmBiFlV+ZzKagAU8c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G6Bg2k8CB4cyv7GvpsoK3J+5RLs/2u5H29iEyh4i6ZqGoXct/Mu22+XNHflmRvT6s
-	 KZe6NXydVtOw41QSE4Mu0hI142rjcw2NGNoa3hORXv8QPudQ2LNbI7CL1PQllBv1zJ
-	 PVg5OIMdYI/sifgmlsljRU/Jxm7UY+Ka84poM2U08EXGlKgrcyVUOBN2rs8H4k42SQ
-	 UuahBUOxDy3vM9OoqFVolfL209f3W00Ro+weBEcZGMM2MXHHmc4mlPpCvaZhG6b4ib
-	 avxefeiazL/Eyx8Z0HkLX7S1VbKRCfbXLdz1veV0FzQoJ7m9izmVY5DPnmgs81YoQr
-	 LHwDUV8zWxLxA==
-Date: Mon, 18 Nov 2024 14:59:30 +0000
-From: Will Deacon <will@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3 07/17] dma-mapping: Implement link/unlink ranges API
-Message-ID: <20241118145929.GB27795@willie-the-truck>
-References: <cover.1731244445.git.leon@kernel.org>
- <f8c7f160c9ae97fef4ccd355f9979727552c7374.1731244445.git.leon@kernel.org>
+	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="YfUeZ2P5"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a9f1c590ecdso580601866b.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 Nov 2024 07:12:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1731942770; x=1732547570; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bv4wgISV7HkP4RZ5WKLIykwWASiXxKHjaIhIuwDJQRM=;
+        b=YfUeZ2P5ucb1jQGZw2n1Js5S95flnPM3kKiwvB+5+1yaSafH2k3P9zB1LGroO/lHeR
+         Cbd/12Ldkyp2k4+uExiHmxTkEtUqcA5iNRbBMPpe9BiMfUXw12Mce82EoviFao2/Gggj
+         TS02UTglSBOiZnbIJwELiy4UGdcLIhNyFCVeb98Q41Q4hz4No0n+k6OU3/VHlEJICF2G
+         GAA+wRX2f75e0YwOjKpN6ILTNYtSuCV9RxudEfVNZhuqQJGNoAzMm1vM0KfXVYfH/Ts5
+         VN0TiKz9xdvCBct85PdWwbnKlWAg4lCj3QJtXSzjprpYYo/Xe1CyteZi0EtCrk0CdAP5
+         xf1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731942770; x=1732547570;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bv4wgISV7HkP4RZ5WKLIykwWASiXxKHjaIhIuwDJQRM=;
+        b=ZkTj5V8s6hYtaXVY3Gczzm0WCgZ3kc823gSoznaAwTPwMh+1iWSjTve43r8yHzFac7
+         IU/0KCFcxaqeHnMiJqdLr5AHSYVLSih6zeTsXIWMt+uwyrE+Egy/nFTNAh2ndZ3XSUHC
+         9cUd1ycYbzClPE42vNihcJww4ATtjc8teCMNESxJIWBEzKyCY08ftEhGgw0D7H0wBIKU
+         AZ/Cyca0cXVmhqxrv/yh02Jams9A4q5y/HgDmnQPqD1pt5IjGwcqVfb5j12UMangLuKn
+         OsDmePENW9qmpgRNJnGHDMetsktWyfNDMxcHS4NGrAvxOE/oQRzcrC0e5t2jwXmRZRv4
+         W1fA==
+X-Forwarded-Encrypted: i=1; AJvYcCX4RpSjkauIwUFAYT95fvM9V7GbAYl4/ORCfiRVAxGXLGYNd54g4RKN7b5ieXhk7fgcnyZXqjecQDA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz93ch0JfuICcRyF++9NxBsUBt8jwI5kOxScv9B74jgLdI497by
+	dR2I1xW/pMLLolcSJJr6c7GcqjSzlvdz+hsdwNZygIgUFRIx5MH9XCX8p7meaflHMkBCvV+Cv76
+	AHHvQppQl/x0wHKfuZslmlEF9fd0NW48zoC/qoeVPq/7zs8+ETR2CSsromVWQoP18Yd57FCG56d
+	VpSDZSK0hGB+rDsqF1i5AMCdE=
+X-Google-Smtp-Source: AGHT+IF6Rm8MuxsPIjT0zsN40PTQnBeCMXAycI3c/kSxHlnk0GoDUdvZkXlmrMv+2NqSQA5xVb14Pw==
+X-Received: by 2002:a17:907:3f04:b0:a9e:e1a9:8ddf with SMTP id a640c23a62f3a-aa483476164mr1190902366b.29.1731942769788;
+        Mon, 18 Nov 2024 07:12:49 -0800 (PST)
+Received: from localhost.localdomain ([178.27.36.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20dffd7e7sm548980366b.119.2024.11.18.07.12.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2024 07:12:48 -0800 (PST)
+From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v8 0/3] Add LED1202 LED Controller
+Date: Mon, 18 Nov 2024 15:12:40 +0000
+Message-Id: <20241118151246.7471-1-vicentiu.galanopulo@remote-tech.co.uk>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8c7f160c9ae97fef4ccd355f9979727552c7374.1731244445.git.leon@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 10, 2024 at 03:46:54PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Introduce new DMA APIs to perform DMA linkage of buffers
-> in layers higher than DMA.
-> 
-> In proposed API, the callers will perform the following steps.
-> In map path:
-> 	if (dma_can_use_iova(...))
-> 	    dma_iova_alloc()
-> 	    for (page in range)
-> 	       dma_iova_link_next(...)
-> 	    dma_iova_sync(...)
-> 	else
-> 	     /* Fallback to legacy map pages */
->              for (all pages)
-> 	       dma_map_page(...)
-> 
-> In unmap path:
-> 	if (dma_can_use_iova(...))
-> 	     dma_iova_destroy()
-> 	else
-> 	     for (all pages)
-> 		dma_unmap_page(...)
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/iommu/dma-iommu.c   | 259 ++++++++++++++++++++++++++++++++++++
->  include/linux/dma-mapping.h |  32 +++++
->  2 files changed, 291 insertions(+)
+The LED1202 is a 12-channel low quiescent current LED driver with:
+  * Supply range from 2.6 V to 5 V
+  * 20 mA current capability per channel
+  * 1.8 V compatible I2C control interface
+  * 8-bit analog dimming individual control
+  * 12-bit local PWM resolution
+  * 8 programmable patterns
 
-[...]
+Internal volatile memory allows the user to store up to 8 different patterns,
+each pattern is a particular output configuration in terms of PWM
+duty-cycle (on 4096 steps). Analog dimming (on 256 steps) is per channel but
+common to all patterns. Each device tree LED node will have a corresponding
+entry in /sys/class/leds with the label name. The brightness property
+corresponds to the per channel analog dimming, while the patterns[1-8] to the
+PWM dimming control.  
 
-> +/**
-> + * dma_iova_link - Link a range of IOVA space
-> + * @dev: DMA device
-> + * @state: IOVA state
-> + * @phys: physical address to link
-> + * @offset: offset into the IOVA state to map into
-> + * @size: size of the buffer
-> + * @dir: DMA direction
-> + * @attrs: attributes of mapping properties
-> + *
-> + * Link a range of IOVA space for the given IOVA state without IOTLB sync.
-> + * This function is used to link multiple physical addresses in contigueous
-> + * IOVA space without performing costly IOTLB sync.
-> + *
-> + * The caller is responsible to call to dma_iova_sync() to sync IOTLB at
-> + * the end of linkage.
-> + */
-> +int dma_iova_link(struct device *dev, struct dma_iova_state *state,
-> +		phys_addr_t phys, size_t offset, size_t size,
-> +		enum dma_data_direction dir, unsigned long attrs)
-> +{
-> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-> +	struct iova_domain *iovad = &cookie->iovad;
-> +	size_t iova_start_pad = iova_offset(iovad, phys);
-> +
-> +	if (WARN_ON_ONCE(iova_start_pad && offset > 0))
-> +		return -EIO;
-> +
-> +	if (dev_use_swiotlb(dev, size, dir) && iova_offset(iovad, phys | size))
-> +		return iommu_dma_iova_link_swiotlb(dev, state, phys, offset,
-> +				size, dir, attrs);
-> +
-> +	return __dma_iova_link(dev, state->addr + offset - iova_start_pad,
-> +			phys - iova_start_pad,
-> +			iova_align(iovad, size + iova_start_pad), dir, attrs);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_iova_link);
-> +
-> +/**
-> + * dma_iova_sync - Sync IOTLB
-> + * @dev: DMA device
-> + * @state: IOVA state
-> + * @offset: offset into the IOVA state to sync
-> + * @size: size of the buffer
-> + *
-> + * Sync IOTLB for the given IOVA state. This function should be called on
-> + * the IOVA-contigous range created by one ore more dma_iova_link() calls
-> + * to sync the IOTLB.
-> + */
-> +int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
-> +		size_t offset, size_t size)
-> +{
-> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-> +	struct iova_domain *iovad = &cookie->iovad;
-> +	dma_addr_t addr = state->addr + offset;
-> +	size_t iova_start_pad = iova_offset(iovad, addr);
-> +
-> +	return iommu_sync_map(domain, addr - iova_start_pad,
-> +		      iova_align(iovad, size + iova_start_pad));
-> +}
-> +EXPORT_SYMBOL_GPL(dma_iova_sync);
-> +
-> +static void iommu_dma_iova_unlink_range_slow(struct device *dev,
-> +		dma_addr_t addr, size_t size, enum dma_data_direction dir,
-> +		unsigned long attrs)
-> +{
-> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-> +	struct iova_domain *iovad = &cookie->iovad;
-> +	size_t iova_start_pad = iova_offset(iovad, addr);
-> +	dma_addr_t end = addr + size;
-> +
-> +	do {
-> +		phys_addr_t phys;
-> +		size_t len;
-> +
-> +		phys = iommu_iova_to_phys(domain, addr);
-> +		if (WARN_ON(!phys))
-> +			continue;
-> +		len = min_t(size_t,
-> +			end - addr, iovad->granule - iova_start_pad);
-> +
-> +		if (!dev_is_dma_coherent(dev) &&
-> +		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-> +			arch_sync_dma_for_cpu(phys, len, dir);
-> +
-> +		swiotlb_tbl_unmap_single(dev, phys, len, dir, attrs);
-> +
-> +		addr += len;
-> +		iova_start_pad = 0;
-> +	} while (addr < end);
-> +}
-> +
-> +static void __iommu_dma_iova_unlink(struct device *dev,
-> +		struct dma_iova_state *state, size_t offset, size_t size,
-> +		enum dma_data_direction dir, unsigned long attrs,
-> +		bool free_iova)
-> +{
-> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-> +	struct iova_domain *iovad = &cookie->iovad;
-> +	dma_addr_t addr = state->addr + offset;
-> +	size_t iova_start_pad = iova_offset(iovad, addr);
-> +	struct iommu_iotlb_gather iotlb_gather;
-> +	size_t unmapped;
-> +
-> +	if ((state->__size & DMA_IOVA_USE_SWIOTLB) ||
-> +	    (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC)))
-> +		iommu_dma_iova_unlink_range_slow(dev, addr, size, dir, attrs);
-> +
-> +	iommu_iotlb_gather_init(&iotlb_gather);
-> +	iotlb_gather.queued = free_iova && READ_ONCE(cookie->fq_domain);
-> +
-> +	size = iova_align(iovad, size + iova_start_pad);
-> +	addr -= iova_start_pad;
-> +	unmapped = iommu_unmap_fast(domain, addr, size, &iotlb_gather);
-> +	WARN_ON(unmapped != size);
+Vicentiu Galanopulo (3):
+  Documentation:leds: Add leds-st1202.rst
+  dt-bindings: leds: Add LED1202 LED Controller
+  leds: Add LED1202 I2C driver
 
-Does the new API require that the 'size' passed to dma_iova_unlink()
-exactly match the 'size' passed to the corresponding call to
-dma_iova_link()? I ask because the IOMMU page-table code is built around
-the assumption that partial unmap() operations never occur (i.e.
-operations which could require splitting a huge mapping). We just
-removed [1] that code from the Arm IO page-table implementations, so it
-would be good to avoid adding it back for this.
+ .../devicetree/bindings/leds/st,led1202.yaml  | 132 +++++
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/leds-st1202.rst            |  36 ++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-st1202.c                    | 510 ++++++++++++++++++
+ 6 files changed, 691 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/st,led1202.yaml
+ create mode 100644 Documentation/leds/leds-st1202.rst
+ create mode 100644 drivers/leds/leds-st1202.c
 
-Will
+--
+Changes in v8:
+  - Add change version history for patches
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git/commit/?h=arm/smmu&id=33729a5fc0caf7a97d20507acbeee6b012e7e519
+2.39.3 (Apple Git-145)
+
