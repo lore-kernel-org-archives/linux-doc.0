@@ -1,157 +1,102 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13AB31CF2B6
-	for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2024 15:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEE71D0967;
+	Tue, 19 Nov 2024 16:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.95.49.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732031630; cv=none; b=HpfKr0HSgIAQvLH7VlSa9JNiN82C5W2PuszpEkBjW7dZZKlyRWeVfQV179KopbQpBBr4Pi+k4gx8wL+SKHiLFjcoG+NneBdfWECixEwZ/+wAhuiVk+Le/i65/1NdSwDeTlQmp8MHf2lx8lp2ynNpt8OIVFvwBJpqZjH8LoB+2v4=
+	t=1732033204; cv=none; b=eGCOwACNg5uyjRUAdrhxKMGm0YyJlWzitVYV2z7YWy/5Nc7qQzNIg5ArLCVH1l+Z97tvwIbfYtz0FVfGhB9cZJ2jXkZ2v6GR4IgCd8Xy8JQXkKo4uXio8F5KQDkzkXqPOGgcMHGMjdrxzpi9TXSryPr+2NthcnctbonFr/6lP7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732031630; c=relaxed/simple;
-	bh=oZBz6My2fl2cEQ/H4m7spItLuifNL3YkZ0yddOy41YQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=INuzgWwdV6KYwcl7U+MMcZcwJs7mom4AbSV0/O2dFbnGtpfZR7i8Yw61cG4ETcjG1Conm03OnxZw3yvEVUo+iiw7qtM08zpBk7MDi5/miAv7Q+KRpQQgG0zh6m9+g7mU7qL9ZQWOGvkHfb7nAT38tgwjBedPuRUELwcbSHujrBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oeA1y6+1; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1732033204; c=relaxed/simple;
+	bh=1ip0Amki48ZUc+FTWHVwEq2OzWoXBKQ0f1kyhG4JNmk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=uOlsHjw3RISayPA4txLu8wR8f05/M5xN0cOxzYwwkXFjHS+DdxDAz3DycQQ4kR1RrKpgu6hSFeP4Y2qJO04CUnjD0oWJKljaOwZ91unoR2TUxoTNRHjSXcl5jWs7ulI0jow26EmM21Wo6VArtspu+ayZgVmjm2bj1I7o5yYxYuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=GbEenRCu; arc=none smtp.client-ip=52.95.49.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oeA1y6+1"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5cfc18d5259so9013a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2024 07:53:48 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="GbEenRCu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732031627; x=1732636427; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oZBz6My2fl2cEQ/H4m7spItLuifNL3YkZ0yddOy41YQ=;
-        b=oeA1y6+1eIa+KuXOu9qX7nu6h0bMz7NENQrNnJI47zwqpW6+yDIEi9QRdmjSgnaIlF
-         k/RYgwEKxtf6zHr6my7/5bGrZq3tgO7I+ucxLpTd8W5zSJn3Li/1SXONWmkZlkDCQ+kP
-         u6S6gbOFJLE3Yh2GTLsTZl5A06hCVjr5W5QMbMd0aYChC3jhaZuyHjCvmsgyZUx9uyUX
-         b3SE0BGt53TC5G9A2i25OLm5rBsDdSCt+5r7JV8s4+ApK57hz38jpa/6CBXvr1zyP4nS
-         uXNeMGxAn5LjJ+oaoSJ02f9gnaKTPk0kkRfForcsHfNuf2h/4jX9e/H1czJNFFLxMzBt
-         NrGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732031627; x=1732636427;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oZBz6My2fl2cEQ/H4m7spItLuifNL3YkZ0yddOy41YQ=;
-        b=I6G2UW5fuu049z9uzKyKRidxtiBpOom7yszFzNd8OY7A1f4ohHnwlVKd5p6vYa1fr6
-         608TnN52SG3jYrCfyzju+XmeCvJuf3VkG4lSLRJfWJrxXK/vOSrVcx8jVbQYoH2kSxFu
-         GCFBfYEzoGVa/t7o2q+/uETEi0WyiHZmMBgtEMlU4GlHqXsbD3HNEYia4y+yjP1I7zj+
-         erAyo0DLz9sdMBWXx9ZaKR36MV38b5UDI8tKqbaP2eHGjY8ytbeBiG53fq/DRA8bPX4p
-         8DWMv7rkLG9tpQ0an8j/4DdDOIm4bjlFR/SDp2njbzhqYbqcBdxvQhO06PXIu9vLt1Kl
-         8pyg==
-X-Forwarded-Encrypted: i=1; AJvYcCUyjSJUMfSSqxrqelHpXLzBdILcZZzJXSTfJBWLP685xbUtrJgXFVgAIOJ7mhdis19PiqE66GEsZaM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaVm8TjbpjlBrUC/COQPw0lkw7+IaNMc+0HQoL6Eb9qke+N6Sx
-	QafYvIpswGUmeeKvnVlnLe0XKITAy35JI4YlgHD6CGQsOWx/6tDLmn+RVRD25x0X5cB0SoJBynz
-	pI/ewoxW9XhGfuF3n1APPVNCWPFdqnAYDZPaG
-X-Gm-Gg: ASbGncvb83JqSEm4oz6wU5VYRALUy5oHNtn76UQ3II83LumuN0FAU6LSBo+2stRUsjy
-	JXUxOjcWDju2uITqXOUdaoVo5cSPMm+VP3l9S5R0xU+KHiyD8J4LQf+PLlZE=
-X-Google-Smtp-Source: AGHT+IGNsuMEPDGgLQcJBGgUTcQNAXs25llr0/NFfx7zpUAdIJ2qG87STQ6ogH4Jn3C0zEhl2cmBRbcH53+WD7m9EI4=
-X-Received: by 2002:aa7:c251:0:b0:5cf:f20c:bdf0 with SMTP id
- 4fb4d7f45d1cf-5cff20cbec4mr2276a12.4.1732031626961; Tue, 19 Nov 2024 07:53:46
- -0800 (PST)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1732033203; x=1763569203;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=7owaQx9KVUDC/9VUYWCxSJ3gDhP5jQwK7SSWCjNNDGo=;
+  b=GbEenRCufXTIlOyODuGCyJTGqBYiROkAhtwkmsSah1+KOlXNUwJWjO3m
+   p5/ZSqOdf3TBAUEjFajWtN80SdZMAOxSxlFnl6b4yhaAUvMC6eHd2KJYU
+   t29m04E4depTVQGLu9kxWSFYUFCjk6tASkwPUjwv0lM0QKjJEUvN8Y3b/
+   8=;
+X-IronPort-AV: E=Sophos;i="6.12,166,1728950400"; 
+   d="scan'208";a="450253566"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.124.125.6])
+  by smtp-border-fw-6002.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2024 16:19:59 +0000
+Received: from EX19MTAEUA001.ant.amazon.com [10.0.43.254:1239]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.34.163:2525] with esmtp (Farcaster)
+ id b1ae407d-191f-4a89-b1d6-ae5ac8895921; Tue, 19 Nov 2024 16:19:58 +0000 (UTC)
+X-Farcaster-Flow-ID: b1ae407d-191f-4a89-b1d6-ae5ac8895921
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUA001.ant.amazon.com (10.252.50.192) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Tue, 19 Nov 2024 16:19:57 +0000
+Received: from [192.168.2.250] (10.106.83.27) by EX19D022EUC002.ant.amazon.com
+ (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Tue, 19 Nov 2024
+ 16:19:56 +0000
+Message-ID: <159265fb-d2fb-4d93-b41a-59c25e2db0da@amazon.com>
+Date: Tue, 19 Nov 2024 16:19:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241116175922.3265872-1-pasha.tatashin@soleen.com>
- <a0372f7f-9a85-4d3e-ba20-b5911a8189e3@lucifer.local> <CAG48ez2vG0tr=H8csGes7HN_5HPQAh4WZU8U1G945K1GKfABPg@mail.gmail.com>
- <CA+CK2bB0w=i1z78AJbr2gZE9ybYki4Vz_s53=8URrxwyPvvB+A@mail.gmail.com>
- <CAG48ez1KFFXzy5qcYVZLnUEztaZxDGY2+4GvwYq7Hb=Y=3FBxQ@mail.gmail.com>
- <CA+CK2bCBwZFomepG-Pp6oiAwHQiKdsTLe3rYtE3hFSQ5spEDww@mail.gmail.com>
- <CAG48ez0NzMbwnbvMO7KbUROZq5ne7fhiau49v7oyxwPrYL=P6Q@mail.gmail.com> <CA+CK2bByXtm8sLyFzDDzm5xC6xb=DEutaRUeujGJdwf-kmK1gA@mail.gmail.com>
-In-Reply-To: <CA+CK2bByXtm8sLyFzDDzm5xC6xb=DEutaRUeujGJdwf-kmK1gA@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Tue, 19 Nov 2024 16:53:10 +0100
-Message-ID: <CAG48ez3zNWJY=3EcuS1n1cFyujUO7CXAYe7=H48Ja_WmdL_PYw@mail.gmail.com>
-Subject: Re: [RFCv1 0/6] Page Detective
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	akpm@linux-foundation.org, corbet@lwn.net, derek.kiernan@amd.com, 
-	dragan.cvetic@amd.com, arnd@arndb.de, gregkh@linuxfoundation.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, tj@kernel.org, 
-	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeel.butt@linux.dev, muchun.song@linux.dev, Liam.Howlett@oracle.com, 
-	vbabka@suse.cz, shuah@kernel.org, vegard.nossum@oracle.com, 
-	vattunuru@marvell.com, schalla@marvell.com, david@redhat.com, 
-	willy@infradead.org, osalvador@suse.de, usama.anjum@collabora.com, 
-	andrii@kernel.org, ryan.roberts@arm.com, peterx@redhat.com, oleg@redhat.com, 
-	tandersen@netflix.com, rientjes@google.com, gthelen@google.com, 
-	linux-hardening@vger.kernel.org, 
-	Kernel Hardening <kernel-hardening@lists.openwall.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
+To: James Houghton <jthoughton@google.com>
+CC: <pbonzini@redhat.com>, <seanjc@google.com>, <corbet@lwn.net>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <rostedt@goodmis.org>,
+	<mhiramat@kernel.org>, <mathieu.desnoyers@efficios.com>,
+	<kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<david@redhat.com>, <peterx@redhat.com>, <oleg@redhat.com>,
+	<vkuznets@redhat.com>, <gshan@redhat.com>, <graf@amazon.de>,
+	<jgowans@amazon.com>, <roypat@amazon.co.uk>, <derekmn@amazon.com>,
+	<nsaenz@amazon.es>, <xmarcalx@amazon.com>
+References: <20241118123948.4796-1-kalyazin@amazon.com>
+ <CADrL8HXikDsda6CmG8E2KpNekp8xaQyd8wgZoskkR=p2LvkPQg@mail.gmail.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
+ ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
+ abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
+In-Reply-To: <CADrL8HXikDsda6CmG8E2KpNekp8xaQyd8wgZoskkR=p2LvkPQg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D011EUB001.ant.amazon.com (10.252.51.7) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-On Tue, Nov 19, 2024 at 4:14=E2=80=AFPM Pasha Tatashin
-<pasha.tatashin@soleen.com> wrote:
-> On Tue, Nov 19, 2024 at 7:52=E2=80=AFAM Jann Horn <jannh@google.com> wrot=
-e:
-> > On Tue, Nov 19, 2024 at 2:30=E2=80=AFAM Pasha Tatashin
-> > <pasha.tatashin@soleen.com> wrote:
-> > > > Can you point me to where a refcounted reference to the page comes
-> > > > from when page_detective_metadata() calls dump_page_lvl()?
-> > >
-> > > I am sorry, I remembered incorrectly, we are getting reference right
-> > > after dump_page_lvl() in page_detective_memcg() -> folio_try_get(); I
-> > > will move the folio_try_get() to before dump_page_lvl().
-> > >
-> > > > > > So I think dump_page() in its current form is not something we =
-should
-> > > > > > expose to a userspace-reachable API.
-> > > > >
-> > > > > We use dump_page() all over WARN_ONs in MM code where pages might=
- not
-> > > > > be locked, but this is a good point, that while even the existing
-> > > > > usage might be racy, providing a user-reachable API potentially m=
-akes
-> > > > > it worse. I will see if I could add some locking before dump_page=
-(),
-> > > > > or make a dump_page variant that does not do dump_mapping().
-> > > >
-> > > > To be clear, I am not that strongly opposed to racily reading data
-> > > > such that the data may not be internally consistent or such; but th=
-is
-> > > > is a case of racy use-after-free reads that might end up dumping
-> > > > entirely unrelated memory contents into dmesg. I think we should
-> > > > properly protect against that in an API that userspace can invoke.
-> > > > Otherwise, if we race, we might end up writing random memory conten=
-ts
-> > > > into dmesg; and if we are particularly unlucky, those random memory
-> > > > contents could be PII or authentication tokens or such.
-> > > >
-> > > > I'm not entirely sure what the right approach is here; I guess it
-> > > > makes sense that when the kernel internally detects corruption,
-> > > > dump_page doesn't take references on pages it accesses to avoid
-> > > > corrupting things further. If you are looking at a page based on a
-> > > > userspace request, I guess you could access the page with the
-> > > > necessary locking to access its properties under the normal locking
-> > > > rules?
-> > >
-> > > I will take reference, as we already do that for memcg purpose, but
-> > > have not included dump_page().
-> >
-> > Note that taking a reference on the page does not make all of
-> > dump_page() fine; in particular, my understanding is that
-> > folio_mapping() requires that the page is locked in order to return a
-> > stable pointer, and some of the code in dump_mapping() would probably
-> > also require some other locks - probably at least on the inode and
-> > maybe also on the dentry, I think? Otherwise the inode's dentry list
-> > can probably change concurrently, and the dentry's name pointer can
-> > change too.
->
-> Agreed, once reference is taken, the page identity cannot change (i.e.
-> if it is a named page it will stay a named page), but dentry can be
-> renamed. I will look into what can be done to guarantee consistency in
-> the next version. There is also a fallback if locking cannot be
-> reliably resolved (i.e. for performance reasons) where we can make
-> dump_mapping() optionally disabled from dump_page_lvl() with a new
-> argument flag.
 
-Yeah, I think if you don't need the details that dump_mapping() shows,
-skipping that for user-requested dumps might be a reasonable option.
+
+On 19/11/2024 01:26, James Houghton wrote:
+>> Please note that this series is applied on top of the VM-exit-based
+>> stage-2 fault handling RFC [2].
+> 
+> Thanks, Nikita! I'll post a new version of [2] very soon. The new
+> version contains the simplifications we talked about at LPC but is
+> conceptually the same (so this async PF series is motivated the same
+> way), and it shouldn't have many/any conflicts with the main bits of
+> this series.
+
+Great news, looking forward to seeing it!
+
+> 
+>> [2] https://lore.kernel.org/kvm/CADrL8HUHRMwUPhr7jLLBgD9YLFAnVHc=N-C=8er-x6GUtV97pQ@mail.gmail.com/T/
+
