@@ -1,177 +1,157 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9378D1D1F78
-	for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2024 15:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13AB31CF2B6
+	for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2024 15:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732030803; cv=none; b=RJrWlatYEB4BHJt8nhurwvCnILQwH+d5UkmeeHgjKLEi0DevK/ynUMqX+VD/6WR5lqN/NvjMvA4juhrKLPILwRdWuGNmRkonDWkIFA9rSCTkQH7XtmElhIruVaKQkHjShELhmeFLfHddtFmewkiuLsrNF5j97jkOc9cwj2Yc58c=
+	t=1732031630; cv=none; b=HpfKr0HSgIAQvLH7VlSa9JNiN82C5W2PuszpEkBjW7dZZKlyRWeVfQV179KopbQpBBr4Pi+k4gx8wL+SKHiLFjcoG+NneBdfWECixEwZ/+wAhuiVk+Le/i65/1NdSwDeTlQmp8MHf2lx8lp2ynNpt8OIVFvwBJpqZjH8LoB+2v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732030803; c=relaxed/simple;
-	bh=FDSvP1EhYqYkFNY54ZUxRHJZiVHOU5zN9wYGjv6JRq4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D5qMhMpuygtyRGpZoeRUSTy1284cUbu1/qaAwduEvakgS6WDHTrJOzS5/gMUJVPJACjgS5yug4Y0LZi2MCkvBxHxksx5ikcdOaOCKzay7F705FNZ8LPI6xSTZbFOAm0X7j1XHYpDzEZ91XnsGcsMu+kT9b96qDhFahuc8PDE3fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OICJEgQh; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1732031630; c=relaxed/simple;
+	bh=oZBz6My2fl2cEQ/H4m7spItLuifNL3YkZ0yddOy41YQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=INuzgWwdV6KYwcl7U+MMcZcwJs7mom4AbSV0/O2dFbnGtpfZR7i8Yw61cG4ETcjG1Conm03OnxZw3yvEVUo+iiw7qtM08zpBk7MDi5/miAv7Q+KRpQQgG0zh6m9+g7mU7qL9ZQWOGvkHfb7nAT38tgwjBedPuRUELwcbSHujrBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oeA1y6+1; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OICJEgQh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732030800;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F1GnqQSFPr8VITMqjCT6H9sq2glpq77hQWm9Vj7AfgE=;
-	b=OICJEgQhlqvRogHx92dhLfq7JCpGGCfyKI3RpuKIR+izFdYESAGX/yxLUD5U1ZLxF/Qn8w
-	A5LXOPhn61tKr4vgY/9/WXMRuAZJ3caT5gtZIh9dSHzOh7kofZWyGP7UB12G8UOzfbsV6D
-	00OI6vt0P0V0mw8NqYdbdR5CuH1RHcY=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-207-92ypQAdDPJmP9uLfkEuaoA-1; Tue,
- 19 Nov 2024 10:39:57 -0500
-X-MC-Unique: 92ypQAdDPJmP9uLfkEuaoA-1
-X-Mimecast-MFC-AGG-ID: 92ypQAdDPJmP9uLfkEuaoA
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 15EC119541A0;
-	Tue, 19 Nov 2024 15:39:52 +0000 (UTC)
-Received: from vschneid-thinkpadt14sgen2i.remote.csb (unknown [10.39.194.94])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 63E1730001A0;
-	Tue, 19 Nov 2024 15:39:37 +0000 (UTC)
-From: Valentin Schneider <vschneid@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org,
-	bpf@vger.kernel.org,
-	x86@kernel.org,
-	rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>,
-	Kees Cook <keescook@chromium.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Juerg Haefliger <juerg.haefliger@canonical.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Nadav Amit <namit@vmware.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Chuang Wang <nashuiliang@gmail.com>,
-	Yang Jihong <yangjihong1@huawei.com>,
-	Petr Mladek <pmladek@suse.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Song Liu <song@kernel.org>,
-	Julian Pidancet <julian.pidancet@oracle.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Dionna Glaze <dionnaglaze@google.com>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Yair Podemsky <ypodemsk@redhat.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Petr Tesarik <ptesarik@suse.com>
-Subject: [RFC PATCH v3 15/15] context-tracking: Add a Kconfig to enable IPI deferral for NO_HZ_IDLE
-Date: Tue, 19 Nov 2024 16:35:02 +0100
-Message-ID: <20241119153502.41361-16-vschneid@redhat.com>
-In-Reply-To: <20241119153502.41361-1-vschneid@redhat.com>
-References: <20241119153502.41361-1-vschneid@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oeA1y6+1"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5cfc18d5259so9013a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2024 07:53:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732031627; x=1732636427; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oZBz6My2fl2cEQ/H4m7spItLuifNL3YkZ0yddOy41YQ=;
+        b=oeA1y6+1eIa+KuXOu9qX7nu6h0bMz7NENQrNnJI47zwqpW6+yDIEi9QRdmjSgnaIlF
+         k/RYgwEKxtf6zHr6my7/5bGrZq3tgO7I+ucxLpTd8W5zSJn3Li/1SXONWmkZlkDCQ+kP
+         u6S6gbOFJLE3Yh2GTLsTZl5A06hCVjr5W5QMbMd0aYChC3jhaZuyHjCvmsgyZUx9uyUX
+         b3SE0BGt53TC5G9A2i25OLm5rBsDdSCt+5r7JV8s4+ApK57hz38jpa/6CBXvr1zyP4nS
+         uXNeMGxAn5LjJ+oaoSJ02f9gnaKTPk0kkRfForcsHfNuf2h/4jX9e/H1czJNFFLxMzBt
+         NrGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732031627; x=1732636427;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oZBz6My2fl2cEQ/H4m7spItLuifNL3YkZ0yddOy41YQ=;
+        b=I6G2UW5fuu049z9uzKyKRidxtiBpOom7yszFzNd8OY7A1f4ohHnwlVKd5p6vYa1fr6
+         608TnN52SG3jYrCfyzju+XmeCvJuf3VkG4lSLRJfWJrxXK/vOSrVcx8jVbQYoH2kSxFu
+         GCFBfYEzoGVa/t7o2q+/uETEi0WyiHZmMBgtEMlU4GlHqXsbD3HNEYia4y+yjP1I7zj+
+         erAyo0DLz9sdMBWXx9ZaKR36MV38b5UDI8tKqbaP2eHGjY8ytbeBiG53fq/DRA8bPX4p
+         8DWMv7rkLG9tpQ0an8j/4DdDOIm4bjlFR/SDp2njbzhqYbqcBdxvQhO06PXIu9vLt1Kl
+         8pyg==
+X-Forwarded-Encrypted: i=1; AJvYcCUyjSJUMfSSqxrqelHpXLzBdILcZZzJXSTfJBWLP685xbUtrJgXFVgAIOJ7mhdis19PiqE66GEsZaM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaVm8TjbpjlBrUC/COQPw0lkw7+IaNMc+0HQoL6Eb9qke+N6Sx
+	QafYvIpswGUmeeKvnVlnLe0XKITAy35JI4YlgHD6CGQsOWx/6tDLmn+RVRD25x0X5cB0SoJBynz
+	pI/ewoxW9XhGfuF3n1APPVNCWPFdqnAYDZPaG
+X-Gm-Gg: ASbGncvb83JqSEm4oz6wU5VYRALUy5oHNtn76UQ3II83LumuN0FAU6LSBo+2stRUsjy
+	JXUxOjcWDju2uITqXOUdaoVo5cSPMm+VP3l9S5R0xU+KHiyD8J4LQf+PLlZE=
+X-Google-Smtp-Source: AGHT+IGNsuMEPDGgLQcJBGgUTcQNAXs25llr0/NFfx7zpUAdIJ2qG87STQ6ogH4Jn3C0zEhl2cmBRbcH53+WD7m9EI4=
+X-Received: by 2002:aa7:c251:0:b0:5cf:f20c:bdf0 with SMTP id
+ 4fb4d7f45d1cf-5cff20cbec4mr2276a12.4.1732031626961; Tue, 19 Nov 2024 07:53:46
+ -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+References: <20241116175922.3265872-1-pasha.tatashin@soleen.com>
+ <a0372f7f-9a85-4d3e-ba20-b5911a8189e3@lucifer.local> <CAG48ez2vG0tr=H8csGes7HN_5HPQAh4WZU8U1G945K1GKfABPg@mail.gmail.com>
+ <CA+CK2bB0w=i1z78AJbr2gZE9ybYki4Vz_s53=8URrxwyPvvB+A@mail.gmail.com>
+ <CAG48ez1KFFXzy5qcYVZLnUEztaZxDGY2+4GvwYq7Hb=Y=3FBxQ@mail.gmail.com>
+ <CA+CK2bCBwZFomepG-Pp6oiAwHQiKdsTLe3rYtE3hFSQ5spEDww@mail.gmail.com>
+ <CAG48ez0NzMbwnbvMO7KbUROZq5ne7fhiau49v7oyxwPrYL=P6Q@mail.gmail.com> <CA+CK2bByXtm8sLyFzDDzm5xC6xb=DEutaRUeujGJdwf-kmK1gA@mail.gmail.com>
+In-Reply-To: <CA+CK2bByXtm8sLyFzDDzm5xC6xb=DEutaRUeujGJdwf-kmK1gA@mail.gmail.com>
+From: Jann Horn <jannh@google.com>
+Date: Tue, 19 Nov 2024 16:53:10 +0100
+Message-ID: <CAG48ez3zNWJY=3EcuS1n1cFyujUO7CXAYe7=H48Ja_WmdL_PYw@mail.gmail.com>
+Subject: Re: [RFCv1 0/6] Page Detective
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	akpm@linux-foundation.org, corbet@lwn.net, derek.kiernan@amd.com, 
+	dragan.cvetic@amd.com, arnd@arndb.de, gregkh@linuxfoundation.org, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, tj@kernel.org, 
+	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeel.butt@linux.dev, muchun.song@linux.dev, Liam.Howlett@oracle.com, 
+	vbabka@suse.cz, shuah@kernel.org, vegard.nossum@oracle.com, 
+	vattunuru@marvell.com, schalla@marvell.com, david@redhat.com, 
+	willy@infradead.org, osalvador@suse.de, usama.anjum@collabora.com, 
+	andrii@kernel.org, ryan.roberts@arm.com, peterx@redhat.com, oleg@redhat.com, 
+	tandersen@netflix.com, rientjes@google.com, gthelen@google.com, 
+	linux-hardening@vger.kernel.org, 
+	Kernel Hardening <kernel-hardening@lists.openwall.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With NO_HZ_IDLE, we get CONTEXT_TRACKING_IDLE, so we get these
-transitions:
+On Tue, Nov 19, 2024 at 4:14=E2=80=AFPM Pasha Tatashin
+<pasha.tatashin@soleen.com> wrote:
+> On Tue, Nov 19, 2024 at 7:52=E2=80=AFAM Jann Horn <jannh@google.com> wrot=
+e:
+> > On Tue, Nov 19, 2024 at 2:30=E2=80=AFAM Pasha Tatashin
+> > <pasha.tatashin@soleen.com> wrote:
+> > > > Can you point me to where a refcounted reference to the page comes
+> > > > from when page_detective_metadata() calls dump_page_lvl()?
+> > >
+> > > I am sorry, I remembered incorrectly, we are getting reference right
+> > > after dump_page_lvl() in page_detective_memcg() -> folio_try_get(); I
+> > > will move the folio_try_get() to before dump_page_lvl().
+> > >
+> > > > > > So I think dump_page() in its current form is not something we =
+should
+> > > > > > expose to a userspace-reachable API.
+> > > > >
+> > > > > We use dump_page() all over WARN_ONs in MM code where pages might=
+ not
+> > > > > be locked, but this is a good point, that while even the existing
+> > > > > usage might be racy, providing a user-reachable API potentially m=
+akes
+> > > > > it worse. I will see if I could add some locking before dump_page=
+(),
+> > > > > or make a dump_page variant that does not do dump_mapping().
+> > > >
+> > > > To be clear, I am not that strongly opposed to racily reading data
+> > > > such that the data may not be internally consistent or such; but th=
+is
+> > > > is a case of racy use-after-free reads that might end up dumping
+> > > > entirely unrelated memory contents into dmesg. I think we should
+> > > > properly protect against that in an API that userspace can invoke.
+> > > > Otherwise, if we race, we might end up writing random memory conten=
+ts
+> > > > into dmesg; and if we are particularly unlucky, those random memory
+> > > > contents could be PII or authentication tokens or such.
+> > > >
+> > > > I'm not entirely sure what the right approach is here; I guess it
+> > > > makes sense that when the kernel internally detects corruption,
+> > > > dump_page doesn't take references on pages it accesses to avoid
+> > > > corrupting things further. If you are looking at a page based on a
+> > > > userspace request, I guess you could access the page with the
+> > > > necessary locking to access its properties under the normal locking
+> > > > rules?
+> > >
+> > > I will take reference, as we already do that for memcg purpose, but
+> > > have not included dump_page().
+> >
+> > Note that taking a reference on the page does not make all of
+> > dump_page() fine; in particular, my understanding is that
+> > folio_mapping() requires that the page is locked in order to return a
+> > stable pointer, and some of the code in dump_mapping() would probably
+> > also require some other locks - probably at least on the inode and
+> > maybe also on the dentry, I think? Otherwise the inode's dentry list
+> > can probably change concurrently, and the dentry's name pointer can
+> > change too.
+>
+> Agreed, once reference is taken, the page identity cannot change (i.e.
+> if it is a named page it will stay a named page), but dentry can be
+> renamed. I will look into what can be done to guarantee consistency in
+> the next version. There is also a fallback if locking cannot be
+> reliably resolved (i.e. for performance reasons) where we can make
+> dump_mapping() optionally disabled from dump_page_lvl() with a new
+> argument flag.
 
-  ct_idle_enter()
-    ct_kernel_exit()
-      ct_state_inc_clear_work()
-
-  ct_idle_exit()
-    ct_kernel_enter()
-      ct_work_flush()
-
-With just CONTEXT_TRACKING_IDLE, ct_state_inc_clear_work() is just
-ct_state_inc() and ct_work_flush() is a no-op. However, making them be
-functional as if under CONTEXT_TRACKING_WORK would allow NO_HZ_IDLE to
-leverage IPI deferral to keep idle CPUs idle longer.
-
-Having this enabled for NO_HZ_IDLE is a different argument than for having
-it for NO_HZ_FULL (power savings vs latency/performance), but the backing
-mechanism is identical.
-
-Add a default-no option to enable IPI deferral with NO_HZ_IDLE.
-
-Signed-off-by: Valentin Schneider <vschneid@redhat.com>
----
- kernel/time/Kconfig | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/kernel/time/Kconfig b/kernel/time/Kconfig
-index 04efc2b605823..a3cb903a4e022 100644
---- a/kernel/time/Kconfig
-+++ b/kernel/time/Kconfig
-@@ -188,9 +188,23 @@ config CONTEXT_TRACKING_USER_FORCE
- 
- config CONTEXT_TRACKING_WORK
- 	bool
--	depends on HAVE_CONTEXT_TRACKING_WORK && CONTEXT_TRACKING_USER
-+	depends on HAVE_CONTEXT_TRACKING_WORK && (CONTEXT_TRACKING_USER || CONTEXT_TRACKING_WORK_IDLE)
- 	default y
- 
-+config CONTEXT_TRACKING_WORK_IDLE
-+       bool
-+       depends on HAVE_CONTEXT_TRACKING_WORK && CONTEXT_TRACKING_IDLE && !CONTEXT_TRACKING_USER
-+       default n
-+       help
-+	 This option enables deferral of some IPIs when they are targeted at CPUs
-+	 that are idle. This can help keep CPUs idle longer, but induces some
-+	 extra overhead to idle <-> kernel transitions and to IPI sending.
-+
-+	 Say Y if the power improvements are worth more to you than the added
-+	 overheads.
-+
-+	 Say N otherwise.
-+
- config NO_HZ
- 	bool "Old Idle dynticks config"
- 	help
--- 
-2.43.0
-
+Yeah, I think if you don't need the details that dump_mapping() shows,
+skipping that for user-requested dumps might be a reasonable option.
