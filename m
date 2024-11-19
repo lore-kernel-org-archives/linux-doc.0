@@ -1,61 +1,90 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6448714A639;
-	Tue, 19 Nov 2024 17:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3740E1D221A
+	for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2024 17:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732036072; cv=none; b=llS9Pz2Qxa5Qi7kzfLj42cfhokELK1g4Cqmgqbv7czpxGvKnIyfY+/AwwDxVtoHOiJCMHWL3rceKc1SMTys3+oBs6OEQoFXMR4ZEMasriVdsD9qRYtzdGYLNEvN2avWvXXgH3lDaAGwwBnuwgJMT9vv0aTd9QPJJWlqTjLvH9Ic=
+	t=1732037409; cv=none; b=dYq3r/B0tbViYuJrRWZYHvOXOeCg3ZWVCRe//VV82nwEBhXnb5TFwzLPhPNx7epMeQQgysfSJ1YumE2xnFfkXfx0dc8z/Md5iJWtQqIrrvZzpUcxS75Z0448t7nIxEBRo/4rUcGXyucQePydjgkA6SwdG/30UP/JyCKmm/JXyl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732036072; c=relaxed/simple;
-	bh=/eMefCL6Nmke9tyGIDIOTzluMSRQ6dN1d/wEhqhLEHo=;
+	s=arc-20240116; t=1732037409; c=relaxed/simple;
+	bh=iJAspBGFRcgVzY4bKp3lb6zrw26/GFw5AyKc0Z0Pg6Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g9xL6eVv42ZTtbZJciTT9DkNJWKRoNhnO8dARyTneztRy1raefHEz43ImP6Req89f/83BqBGtTEw/LAo4JOMaTat/b4Xlsh5iL2q6hBz9Ijsur0PbVljkM/a/YnpWy5FjS97rayAYnj3WiPP0QReUVoTjSNQJUOzUfeWYyue6KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5ced377447bso8170302a12.1;
-        Tue, 19 Nov 2024 09:07:50 -0800 (PST)
+	 Content-Type:Content-Disposition:In-Reply-To; b=LP93c4aTrYNf3WoVNQfk704fTF1Hn9zGPPU9Eisfwo7bzBGMprp0XYPa46YqsCFRZHk5kie0sM3kNYKSn1AbL88dh5Y7RnD62R4EQc67qDdW4gQ/i6WOxHuhk32OvhGcJqZvypI7X6qVt1EDB68K+rH8p2Rahwxu9NpkvA7Hym4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=FvkC43Ya; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="FvkC43Ya"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7b154f71885so295894085a.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2024 09:30:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1732037406; x=1732642206; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P2RZbmw8j/hv2SNzaAYY1BO4WuVS0Sj8NBeQ9Pxkopo=;
+        b=FvkC43YaD8+d6wNMNRd0+xw8SRuKxj9GtQEGGF9P4KwpEodRvUMCA1HZXIoQL8VmPk
+         y/A4iJxrqhwVDiMjkrWRyeqHbxv+/THdnXD9cfmcG6BF976poH2j9CJdt0H9yXd/8Rb8
+         FvPe0yIRumaJnmPcKRf5m7PVS1x3I9hZCfNlTBiWmXGE5QXlMdUqxD5egVFA7vjSBIr0
+         Ifu0kR7lYX8bJgRBspWaUZxC+qfs97R8LkA8AqtGzK6Q4a7rew6zcyR1Fn1No8IMZ40q
+         CHs07ac33zopJjrM/fp8vmfldfQscuxNJIjOLwSuoXpWCexhcNQWuSK+GTy9X9jYUsQN
+         0K4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732036069; x=1732640869;
+        d=1e100.net; s=20230601; t=1732037406; x=1732642206;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CO3DmDyk2Ke5HC3Rep1JIDjgJE+KxbTNcrUJlPMJpRU=;
-        b=OcBvouMUqjDnpm3May41R50Cq4do95jQnvlgig776CTUT7l1s9TB4mAl4VMD3DyT8F
-         i+ZHsnV8929lZGkQG3k3lvXD3IvPyO3qeCbZUJNee+Zl/9/MpKypKY2s7oVvdKLzFswh
-         pf9o8f4y1oCnmd44yq6U/eCLQzpj83FxwpOrAju59ya6JQ6iJqVU7rD4UPsqCCmENXJo
-         VwpQWvACeXW3NNfKYGcAN/yQvCmFZmflHNPjdbZHLsl+UbNewm+IK4X5rIr3vv03I7Tw
-         TJn0Av1tD1nnmYmzzIwhA44vaMOClNsvxV+VNkHdZ+lEVz/YYJJ00n20yjofJna35zji
-         DA8g==
-X-Forwarded-Encrypted: i=1; AJvYcCV5bZgL1lt/wU1l1MNlGuBlGWaJWwkkJWqHRbgOH5aKsY+zeAZud1K9UBcHJXnJOM/IzJ9gNM0+@vger.kernel.org, AJvYcCVi6jHOlDB7mOGNP0cOlh5wr6AygwGfIyG5E+lB+/tcyksR9ITrvddf6M8cXH0MhriQMUV4Z6UJGAY=@vger.kernel.org, AJvYcCWBETCUFHJzHM7Tuo20qEEhsqRIl01JvB4lVBVG2z5ib91EpmPiu0k6xmbGfonTT/SVSS5T40SH/vWx3cvs@vger.kernel.org, AJvYcCWef5tEbOY8FY2ZGx/yD3Wo+f7Iv3XkrPTrjppNTahQWQVvZBMzMmh5XUYcksu9ldywocP1x+3CAQpx4/VjIfQW@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQx/AyuJGpb4Q8dN1hTgcgUu0E+AcvZkkuG0grWG7IrcVzE0aD
-	6dy4ZPaSjc40CaGJETYuAQdIQOCcY5o7q0HUpLNChWp4cW0iRKa/
-X-Google-Smtp-Source: AGHT+IGrdjBEX3xCb7oVm3Do1Lo3MG9PQDXDyZjN11EqcOgR1O7iu5WnoajOMZ/Jh2txK9eYMNPVWQ==
-X-Received: by 2002:a17:907:3f8d:b0:a9e:b471:8006 with SMTP id a640c23a62f3a-aa483508ae4mr1527245266b.43.1732036068486;
-        Tue, 19 Nov 2024 09:07:48 -0800 (PST)
-Received: from gmail.com (fwdproxy-lla-007.fbsv.net. [2a03:2880:30ff:7::face:b00c])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20df52adasm668235966b.81.2024.11.19.09.07.47
+        bh=P2RZbmw8j/hv2SNzaAYY1BO4WuVS0Sj8NBeQ9Pxkopo=;
+        b=ZiLJqR6pzptr4vdUFmy6VU6MA0Wl7YdfwajDCKqxydk/WJBWZ3Skb0M678qeFXFLMj
+         T/14HUNtrPr90ahmZ0iBVrAkpx1Jd70AeGlW1KfDimdlitSdx3Nu5GNPHmfQXH+CPPtb
+         8JdOoMi7N1uzpesjTW4mvpAnXx7T6SZ/pIsCxnGx6VfPK5mu6B/N3bwtsjLETMAuAyr3
+         sfLFO8UHJlSfH1729797vba7Z30Lpm5EdttM2XrNhD4Fmlg5pS8HCnHMrxuxSesdygZb
+         aNZbEh12q9Wyz2cL7ajsD8UBArpGlewMiBN4wjMTqVmvwqqNcrcKxkgaraYNqXCdglol
+         0Q6w==
+X-Forwarded-Encrypted: i=1; AJvYcCXBL506xp7gtCpdXjXrLWFqeK+EK9QwpPpWZE9LIuJ8nYKxCr9DFFB6n0/vTaF3yy8dwQzRCtN8YYA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuOd1jMdrAo36sisYnqXJn8QAp1xVsQL0sLL0FLCXc2lVok7oS
+	Ev3rsKxh/nj+QK4SAysCfC27H/e21L4cjAMogIn6UBrv8j1JE+1vM2cmWsyT4QI=
+X-Google-Smtp-Source: AGHT+IEw2hhta4tF97+ZTqDEn97k4/qPKPWIxcDYewixCIGPDLkcCaqZGpK5GII/9x88g1PJnE+WXg==
+X-Received: by 2002:a05:620a:1992:b0:7b1:4330:634f with SMTP id af79cd13be357-7b362384ee1mr2344165985a.61.1732037405973;
+        Tue, 19 Nov 2024 09:30:05 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b37a866319sm113013385a.69.2024.11.19.09.30.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2024 09:07:48 -0800 (PST)
-Date: Tue, 19 Nov 2024 09:07:45 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, max@kutsevol.com,
-	thepacketgeek@gmail.com, vlad.wing@gmail.com,
-	davej@codemonkey.org.uk
-Subject: Re: [PATCH net-next 2/4] netconsole: Add option to auto-populate CPU
- number in userdata
-Message-ID: <20241119-talented-strong-grouse-1f02fd@leitao>
-References: <20241113-netcon_cpu-v1-0-d187bf7c0321@debian.org>
- <20241113-netcon_cpu-v1-2-d187bf7c0321@debian.org>
- <20241118183336.34e42b01@kernel.org>
+        Tue, 19 Nov 2024 09:30:04 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1tDS3A-00000003GSP-14at;
+	Tue, 19 Nov 2024 13:30:04 -0400
+Date: Tue, 19 Nov 2024 13:30:04 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 07/17] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20241119173004.GA773835@ziepe.ca>
+References: <cover.1731244445.git.leon@kernel.org>
+ <f8c7f160c9ae97fef4ccd355f9979727552c7374.1731244445.git.leon@kernel.org>
+ <20241118145929.GB27795@willie-the-truck>
+ <20241118185533.GA24154@unreal>
+ <20241119090507.GB28466@willie-the-truck>
+ <20241119135743.GB26101@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,147 +93,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241118183336.34e42b01@kernel.org>
+In-Reply-To: <20241119135743.GB26101@unreal>
 
-Hello Jakub,
+On Tue, Nov 19, 2024 at 03:57:43PM +0200, Leon Romanovsky wrote:
 
-On Mon, Nov 18, 2024 at 06:33:36PM -0800, Jakub Kicinski wrote:
-> Sorry for the late review, I think this will miss v6.13 :(
-
-That is fine, there is no rush for this change.
-
-> On Wed, 13 Nov 2024 07:10:53 -0800 Breno Leitao wrote:
-> >  /**
-> >   * struct netconsole_target - Represents a configured netconsole target.
-> >   * @list:	Links this target into the target_list.
-> > @@ -97,6 +105,7 @@ static struct console netconsole_ext;
-> >   * @userdata_group:	Links to the userdata configfs hierarchy
-> >   * @userdata_complete:	Cached, formatted string of append
-> >   * @userdata_length:	String length of userdata_complete
-> > + * @userdata_auto:	Kernel auto-populated bitwise fields in userdata.
-> >   * @enabled:	On / off knob to enable / disable target.
-> >   *		Visible from userspace (read-write).
-> >   *		We maintain a strict 1:1 correspondence between this and
-> > @@ -123,6 +132,7 @@ struct netconsole_target {
-> >  	struct config_group	userdata_group;
-> >  	char userdata_complete[MAX_USERDATA_ENTRY_LENGTH * MAX_USERDATA_ITEMS];
-> >  	size_t			userdata_length;
-> > +	enum userdata_auto	userdata_auto;
+> > > dma_iova_link/dma_iova_unlink() don't have any assumptions in addition
+> > > to already existing for dma_map_sg/dma_unmap_sg(). In reality, it means
+> > > that all calls to unlink will have same size as for link.
+> > 
+> > Ok, great. Any chance you could call that out in the documentation patch,
+> > please?
 > 
-> If you want to set multiple bits here type should probably be unsigned
-> long. Otherwise the enum will contain combination of its values, which
-> are in themselves not valid enum values ... if that makes sense.
+> Can you suggest what should I add there, as it is not specific to new
+> API, but general note applicable to all __iommu_unmap() callers?
 
-Yes, it does make sense. I had the feeling that something was off as
-well, but I was unclear if using something different than `enum
-userdata_auto` would be better. I will change to `unsigned long`
-> 
-> >  #endif
-> >  	bool			enabled;
-> >  	bool			extended;
-> 
-> > +	/* Check if CPU NR should be populated, and append it to the user
-> > +	 * dictionary.
-> > +	 */
-> > +	if (child_count < MAX_USERDATA_ITEMS && nt->userdata_auto & AUTO_CPU_NR)
-> > +		scnprintf(&nt->userdata_complete[complete_idx],
-> > +			  MAX_USERDATA_ENTRY_LENGTH, " cpu=%u\n",
-> > +			  raw_smp_processor_id());
-> 
-> I guess it may be tricky for backward compat, but shouldn't we return
-> an error rather than silently skip?
+This is what I wrote:
 
-yes, this should be easy to do, in fact. Probably return -E2BIG to
-userspace when trying to update the entry. I thought about something as
-the following patch, and piggy-back into it.
++/**
++ * iommu_unmap() - Remove mappings from a range of IOVA
++ * @domain: Domain to manipulate
++ * @iova: IO virtual address to start
++ * @size: Length of the range starting from @iova
++ *
++ * iommu_unmap() will remove a translation created by iommu_map(). It cannot
++ * subdivide a mapping created by iommu_map(), so it should be called with IOVA
++ * ranges that match what was passed to iommu_map(). The range can aggregate
++ * contiguous iommu_map() calls so long as no individual range is split.
++ *
++ * Returns: Number of bytes of IOVA unmapped. iova + res will be the point
++ * unmapping stopped.
++ */
 
-   Author: Breno Leitao <leitao@debian.org>
-   Date:   Tue Nov 19 04:32:56 2024 -0800
-   
-       netconsole: Enforce userdata entry limit
-   
-       Currently, attempting to add more than MAX_USERDATA_ITEMS to the userdata
-       dictionary silently fails. This patch modifies the code to return -E2BIG
-       when the number of elements exceeds the preallocated limit, providing clear
-       feedback to userspace about the failure.
-   
-       Suggested-by: Jakub Kicinski <kuba@kernel.org>
-       Signed-off-by: Breno Leitao <leitao@debian.org>
-   
-   diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-   index 4ea44a2f48f7b..41cff8c8e8f42 100644
-   --- a/drivers/net/netconsole.c
-   +++ b/drivers/net/netconsole.c
-   @@ -692,10 +692,11 @@ static ssize_t userdatum_value_show(struct config_item *item, char *buf)
-    	return sysfs_emit(buf, "%s\n", &(to_userdatum(item)->value[0]));
-    }
-   
-   -static void update_userdata(struct netconsole_target *nt)
-   +static int update_userdata(struct netconsole_target *nt)
-    {
-    	int complete_idx = 0, child_count = 0;
-    	struct list_head *entry;
-   +	int ret = 0;
-   
-    	/* Clear the current string in case the last userdatum was deleted */
-    	nt->userdata_length = 0;
-   @@ -705,8 +706,10 @@ static void update_userdata(struct netconsole_target *nt)
-    		struct userdatum *udm_item;
-    		struct config_item *item;
-   
-   -		if (child_count >= MAX_USERDATA_ITEMS)
-   +		if (child_count >= MAX_USERDATA_ITEMS) {
-   +			ret = -E2BIG;
-    			break;
-   +		}
-    		child_count++;
-   
-    		item = container_of(entry, struct config_item, ci_entry);
-   @@ -726,6 +729,7 @@ static void update_userdata(struct netconsole_target *nt)
-    	}
-    	nt->userdata_length = strnlen(nt->userdata_complete,
-    				      sizeof(nt->userdata_complete));
-   +	return ret;
-    }
-   
-    static ssize_t userdatum_value_store(struct config_item *item, const char *buf,
-   @@ -748,8 +752,9 @@ static ssize_t userdatum_value_store(struct config_item *item, const char *buf,
-   
-    	ud = to_userdata(item->ci_parent);
-    	nt = userdata_to_target(ud);
-   -	update_userdata(nt);
-   -	ret = count;
-   +	ret = update_userdata(nt);
-   +	if (!ret)
-   +		ret = count;
-    out_unlock:
-    	mutex_unlock(&dynamic_netconsole_mutex);
-    	return ret;
-   
-
-> 
-> >  	nt->userdata_length = strnlen(nt->userdata_complete,
-> >  				      sizeof(nt->userdata_complete));
-> >  }
-> > @@ -757,7 +788,36 @@ static ssize_t userdatum_value_store(struct config_item *item, const char *buf,
-> >  	return ret;
-> >  }
-> >  
-> > +static ssize_t populate_cpu_nr_store(struct config_item *item, const char *buf,
-> > +				     size_t count)
-> > +{
-> > +	struct netconsole_target *nt = to_target(item->ci_parent);
-> > +	bool cpu_nr_enabled;
-> > +	ssize_t ret;
-> > +
-> > +	if (!nt)
-> > +		return -EINVAL;
-> 
-> Can this happen? Only if function gets called with a NULL @item
-> which would be pretty nutty.
-
-Probably not. It is just me being chicken here. I will remove it for the
-next version.
-
-Thanks for the review,
---breno
+Jason
