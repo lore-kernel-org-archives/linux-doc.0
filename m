@@ -1,99 +1,192 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BB514AD3D;
-	Wed, 20 Nov 2024 15:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61A9145B10;
+	Wed, 20 Nov 2024 15:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732118163; cv=none; b=Mt96DHERUJXmTxlWd53xs7kqUq3w3zInccOg/iQamOdfhTLRRb/XKsT7pWsGTN4pTf5FyvaZ6AL7l7/jRtuwZ2E89OwK+Hn0LJoHUkBjLCuqP2lvrrf0d9K2qRofnh5m++sTW2ZOfo1G2bTHL+Thq1+Q0gg2Bf8m7iTqorrMMmc=
+	t=1732118317; cv=none; b=HGVO8ji/ukGl0ljtSJaMPkQj2u8eYYZ0UNYGjMefbu0q4cf86iQmNL0uyDYb0a/BLmy/N9TGjbrx8fPHIBAfwNxWXket8KQkeCS3w71pIfIZaz/eX2uUBTs3XhlkOk2TZDMz6/TSp51s5kVBkXiNfVHq/1uXsKc9XalSZ+eeus0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732118163; c=relaxed/simple;
-	bh=Ou//29Ar9qWIEg2uWs4icTwUqoiHtGhD2hyQZSTq5Ps=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PY/MjSHPgiETA/Fk7ndOr4SGAGITjxbTikWkIWvwQqZLK3ox5uBAIpnTUekEef6DGwQOtzIOobMVWPqeJbTwbAIZsESNXSpz9ByEvgLka4yS21v26vwry5dwRFIERWjgU+ijwM+7sIVtJCUpDjrF9SIlb4PXob60wK/0NBSLgKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SBfsEzMw; arc=none smtp.client-ip=209.85.210.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732118317; c=relaxed/simple;
+	bh=QUCP/F2MW152qu6dweDXIAy8zsQV0D5nzigkKZ7Shn8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=q/hg0/O7S4EAyVt6OTEsTKuWX9C7WVOGB4l7SqgK68na+fHMYNM/UVcS8VWhWC0sunBAPGAh4uJcSCva0w1H27mUIqqDjtUZCIRoIKOsfwengnxusewqMf+eIAqEwRz3lWXFzlaSGRly6fiTa0E5xlNsBsa2eFCq+PPl0SSexVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=nKBXymSs; arc=none smtp.client-ip=99.78.197.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SBfsEzMw"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7181eb9ad46so1265636a34.1;
-        Wed, 20 Nov 2024 07:56:01 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="nKBXymSs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732118161; x=1732722961; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xUjcMIPq9FUNVmO7WhCAuDNGDpLobM76UY/aeCnpGLE=;
-        b=SBfsEzMwDGdQp8C5HjQIa0wd/9MVOTKt5Tb7QvGYXoSFFl5DfQ3UE0R19VA71Kb3lH
-         AV0yx+f42mX9Sj20xuojWs22bDzpLkncCHetzZ5eP27dWWAtWpFbZyUsjRs02yaLwpvK
-         QFYyQyuYVQawavjfqEv1XeijXwEhkbC+yaL/Tm1+0VznV6JsPA0Pwq3CS98SqmdSNiPm
-         WKaapuVtw6HanqwNveVAZYE7Zb/k/RiXsAvPNsvGzewfZpMxr58DqQuOPT11LNonSHqO
-         qv1uxKOvB+8p2T8/NDsXdzq1cROFsQ9KxIcFPu3XAcTUXbtZ+2O4la4RoCfGu0NneOpb
-         LyAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732118161; x=1732722961;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xUjcMIPq9FUNVmO7WhCAuDNGDpLobM76UY/aeCnpGLE=;
-        b=cTslLx5rB1TG/+X/o1xUZp33ShXni0GuFrD/R8xv0O6BofX+QpvDOrTdpgOPNvAndf
-         2UukcGAWj4WbEyX33ttsHZmZidHmhkFZvgc7c3qQBX6vaMTk+H3HtYUBE7HOA15zO6u6
-         K4dQFwSZhixsyGcuyZE2DA/S3w7JmI1lwyeUCNCYN3HRoV/xglPsOyG63VB8M8RZud4l
-         mkwSKWyMsQo2FA6y5phY7x7uIvidnbir97jtcOkT/fIubkLU+IQoSQXFb3aiyv9GBeLM
-         RSFk1oyK12KHEsHXenSRtdC32s8ptzmauv3Pd12Kxpg0WdBnJUp5UaVgVsKYQ1Lb8pg4
-         kzBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVH2hOcwY//HkY6riF0WMn3kcEzl7Dd71GSYM2ZUh+apdHRCk6q13hZphIAU7AKdHiQXOB2uLrd+E8=@vger.kernel.org, AJvYcCWl0ZBPQqZLnhYhM/R8O/cUs7269xnKZvSpS7k1qTzouwgWx1pm2/eDvVz64Fu9sCtCBGb1GV9OIGgb4CO2@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeeJ2h/eAxX5cSl7CVrbasRdh9kiJWxyCNRt2HVQPNX750SPde
-	2pX7jITZXgpKgQVqBmxaac9luHihr9ZikdIH7zZCBK/TyCTewAYX7Ys3xDHmye4=
-X-Google-Smtp-Source: AGHT+IHcKZrbaTU2tT7qkMh4am5/XKechOdGa9HHi0r8HWAUblV0ghefdWN5br52HmalYy6jvHJHuw==
-X-Received: by 2002:a05:6830:e10:b0:718:6cc:b5a2 with SMTP id 46e09a7af769-71ab31f993emr2699568a34.20.1732118160932;
-        Wed, 20 Nov 2024 07:56:00 -0800 (PST)
-Received: from Hridesh-ArchLinux.am.students.amrita.edu ([175.184.253.10])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1c13354sm9691844a12.10.2024.11.20.07.55.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 07:56:00 -0800 (PST)
-From: Hridesh MG <hridesh699@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Abhinav Saxena <xandfury@gmail.com>,
-	Hridesh MG <hridesh699@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: docs: fix dead hyperlink to Intel HD-Audio spec
-Date: Wed, 20 Nov 2024 21:25:51 +0530
-Message-ID: <20241120155553.21099-1-hridesh699@gmail.com>
-X-Mailer: git-send-email 2.47.0
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1732118316; x=1763654316;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=pSZsUFc2pO+H1LRn5VA2nkGQrkmW6bpxo1bRSlx8hok=;
+  b=nKBXymSslzz7JdNVM3DEMOasxtjimeKlQDXacfEYu70zWB9myuJf8lsq
+   l0qy6j5cEJPj3RU2H5oyAHrulQbRuEo2MTF5OxRLHqCR7FJSQf5SJA6ot
+   +YOue2BYfwe3IftXPA6+hyz5b5av9o0Ib7Dozkbxor4S9Js4GZOBC5Rj3
+   A=;
+X-IronPort-AV: E=Sophos;i="6.12,170,1728950400"; 
+   d="scan'208";a="354185361"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 15:58:34 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [10.0.10.100:53225]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.10.207:2525] with esmtp (Farcaster)
+ id 5ec6092c-67cf-4bc6-a64f-e617283997e7; Wed, 20 Nov 2024 15:58:32 +0000 (UTC)
+X-Farcaster-Flow-ID: 5ec6092c-67cf-4bc6-a64f-e617283997e7
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Wed, 20 Nov 2024 15:58:31 +0000
+Received: from [192.168.4.239] (10.106.82.23) by EX19D022EUC002.ant.amazon.com
+ (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Wed, 20 Nov 2024
+ 15:58:30 +0000
+Message-ID: <55b6b3ec-eaa8-494b-9bc7-741fe0c3bc63@amazon.com>
+Date: Wed, 20 Nov 2024 15:58:29 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [RFC PATCH 0/4] KVM: ioctl for populating guest_memfd
+To: David Hildenbrand <david@redhat.com>, <pbonzini@redhat.com>,
+	<corbet@lwn.net>, <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <jthoughton@google.com>, <brijesh.singh@amd.com>, <michael.roth@amd.com>,
+	<graf@amazon.de>, <jgowans@amazon.com>, <roypat@amazon.co.uk>,
+	<derekmn@amazon.com>, <nsaenz@amazon.es>, <xmarcalx@amazon.com>, "Sean
+ Christopherson" <seanjc@google.com>, <linux-mm@kvack.org>
+References: <20241024095429.54052-1-kalyazin@amazon.com>
+ <08aeaf6e-dc89-413a-86a6-b9772c9b2faf@amazon.com>
+ <01b0a528-bec0-41d7-80f6-8afe213bd56b@redhat.com>
+ <efe6acf5-8e08-46cd-88e4-ad85d3af2688@redhat.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
+ ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
+ abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
+In-Reply-To: <efe6acf5-8e08-46cd-88e4-ad85d3af2688@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D014EUA003.ant.amazon.com (10.252.50.119) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-Update the hyperlink as it currently redirects to a generic site
-instead of the actual specification.
 
-Signed-off-by: Hridesh MG <hridesh699@gmail.com>
----
-I encountered the outdated link while debugging a codec issue and
-thought it might be useful to update.
----
- Documentation/sound/hd-audio/notes.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
-index e199131bf5ab..f81e94d8f145 100644
---- a/Documentation/sound/hd-audio/notes.rst
-+++ b/Documentation/sound/hd-audio/notes.rst
-@@ -42,7 +42,7 @@ If you are interested in the deep debugging of HD-audio, read the
- HD-audio specification at first.  The specification is found on
- Intel's web page, for example:
- 
--* https://www.intel.com/standards/hdaudio/
-+* https://www.intel.com/content/www/us/en/standards/high-definition-audio-specification.html
- 
- 
- HD-Audio Controller
--- 
-2.47.0
+On 20/11/2024 15:13, David Hildenbrand wrote:
+ > Hi!
+
+Hi! :)
+
+ >> Results:
+ >>    - MAP_PRIVATE: 968 ms
+ >>    - MAP_SHARED: 1646 ms
+ >
+ > At least here it is expected to some degree: as soon as the page cache
+ > is involved map/unmap gets slower, because we are effectively
+ > maintaining two datastructures (page tables + page cache) instead of
+ > only a single one (page cache)
+ >
+ > Can you make sure that THP/large folios don't interfere in your
+ > experiments (e.g., madvise(MADV_NOHUGEPAGE))?
+
+I was using transparent_hugepage=never command line argument in my testing.
+
+$ cat /sys/kernel/mm/transparent_hugepage/enabled
+always madvise [never]
+
+Is that sufficient to exclude the THP/large folio factor?
+
+ >> While this logic is intuitive, its performance effect is more
+ >> significant that I would expect.
+ >
+ > Yes. How much of the performance difference would remain if you hack out
+ > the atomic op just to play with it? I suspect there will still be some
+ > difference.
+
+I have tried that, but could not see any noticeable difference in the 
+overall results.
+
+It looks like a big portion of the bottleneck has moved from 
+shmem_get_folio_gfp/folio_mark_uptodate to 
+finish_fault/__pte_offset_map_lock somehow.  I have no good explanation 
+for why:
+
+Orig:
+                   - 69.62% do_fault
+                      + 44.61% __do_fault
+                      + 20.26% filemap_map_pages
+                      + 3.48% finish_fault
+Hacked:
+                   - 67.39% do_fault
+                      + 32.45% __do_fault
+                      + 21.87% filemap_map_pages
+                      + 11.97% finish_fault
+
+Orig:
+                      - 3.48% finish_fault
+                         - 1.28% set_pte_range
+                              0.96% folio_add_file_rmap_ptes
+                         - 0.91% __pte_offset_map_lock
+                              0.54% _raw_spin_lock
+Hacked:
+                      - 11.97% finish_fault
+                         - 8.59% __pte_offset_map_lock
+                            - 6.27% _raw_spin_lock
+                                 preempt_count_add
+                              1.00% __pte_offset_map
+                         - 1.28% set_pte_range
+                            - folio_add_file_rmap_ptes
+                                 __mod_node_page_state
+
+ > Note that we might improve allocation times with guest_memfd when
+ > allocating larger folios.
+
+I suppose it may not always be an option depending on requirements to 
+consistency of the allocation latency.  Eg if a large folio isn't 
+available at the time, the performance would degrade to the base case 
+(please correct me if I'm missing something).
+
+> Heh, now I spot that your comment was as reply to a series.
+
+Yeah, sorry if it wasn't obvious.
+
+> If your ioctl is supposed to to more than "allocating memory" like
+> MAP_POPULATE/MADV_POPULATE+* ... then POPULATE is a suboptimal choice.
+> Because for allocating memory, we would want to use fallocate() instead.
+> I assume you want to "allocate+copy"?
+
+Yes, the ultimate use case is "allocate+copy".
+
+> I'll note that, as we're moving into the direction of moving
+> guest_memfd.c into mm/guestmem.c, we'll likely want to avoid "KVM_*"
+> ioctls, and think about something generic.
+
+Good point, thanks.  Are we at the stage where some concrete API has 
+been proposed yet? I might have missed that.
+
+> Any clue how your new ioctl will interact with the WIP to have shared
+> memory as part of guest_memfd? For example, could it be reasonable to
+> "populate" the shared memory first (via VMA) and then convert that
+> "allocated+filled" memory to private?
+
+No, I can't immediately see why it shouldn't work.  My main concern 
+would probably still be about the latency of the population stage as I 
+can't see why it would improve compared to what we have now, because my 
+feeling is this is linked with the sharedness property of guest_memfd.
+
+> Cheers,
+> 
+> David / dhildenb
+
+
