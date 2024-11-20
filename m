@@ -1,492 +1,219 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53110442F
-	for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 00:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732061740; cv=none; b=IbFg3olGn3azKwqa8IZWPzl547p/UeJLwNtDvUdE2HBcbyZimU4LvENclEl9aHOzeIy5+9Q6nwkV9aE+w8BN51covVjdoYn05v2qX21AJZMty7erQ8c2weMBbjS42j3GvMo1vRp5w4+15LKTCCMBbwORwKpFt/yWyLAZBiIBkoU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732061740; c=relaxed/simple;
-	bh=iNg+MoFDKYb32Kvo2Y/vAsMLNaNthld5W+JgZj/yZjE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=claZWDAFBcimc0i9Fl9Z+UsPTEv+mPo/mugEO8rfnzfrxDALmtcUUIRLRQ9jmnqeH/7XrjWTCmcRWgnNTwl74Q9uiYslYDRNSiFpTJo9aOEULmCfn253eQXfGDng3wFsg51YAPWIYy1Lci8QfaKmIQa+sNsUPQ4cir2/Zguc7+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LK8uBvy6; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B956E749A;
+	Wed, 20 Nov 2024 00:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732063104; cv=fail; b=kSrqFMWiia2t3odjmWYYsEeg5WLoT8MiEl+66g/XjDLEK9midKivghS1BxGmEX4AveM7vVyL2yjH3xtJM6OZub5wd2EfB8qmMyuKS5FNST3h1+ohImJOa51H0+NWSrMJPDOOih5ZFDhUorGYzKVvnbJxpDfRxzdtl/vI4Xlr26Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732063104; c=relaxed/simple;
+	bh=DKy4KENS2Tf2G47hyqzGA2dGJv1KA15rOIQ193oee+U=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=AgS3csRBMEXXU3LSNw1t3PFOuPWzalGvuSRG4yINDie5Qxp7aj7gPY1W7Ofmf9bI4MIMzerr5Ott13wLtr4Hv9s3ezrmVShur/RnNsWRPC6egg0V9dWHZ4k+jxM32qTpSrclt7vo0gXgvj5cdh+aLel0hruwHuQq5O8OKGCgIiM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BH9cbQ0x; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LK8uBvy6"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-460969c49f2so455171cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 Nov 2024 16:15:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732061737; x=1732666537; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EbhFRyyebCUnAOR3Xv/FUjko83tRSa2XAF3cHrcxf/s=;
-        b=LK8uBvy6dtMCSulZQbqnvK13h9Mfm7MDnI62BCWmgv4+kTXxA8Ff5qz3uRhLoyczOy
-         lhgs8Q7htXojMGg2rW4ncn8ViQmECAfOdCwofnrOBxiTE7TjN+6AEErjhW2Fym0ZFr9c
-         htUWYbj6DoaJPI8HqDW+NZrhW0wuxKpTt1N5jlwr54XQouGasKzrIsNFeP0/Vxa6SsJa
-         zuHKJsOgbIaqwsXv37k5CLiGDEGoQtsboJJwGQEMFx4/2xQEkfocL75M2LzHdyUJXYmZ
-         wLzZxU7W60aE5bFQBr42/7gnudzLlJUniaD5+cZ3GeKfG+AYF0jRpdOA2lyVTwg226wd
-         CeoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732061737; x=1732666537;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EbhFRyyebCUnAOR3Xv/FUjko83tRSa2XAF3cHrcxf/s=;
-        b=Tkvb1ykxJf3nvJJK+m4gQKB8RK95U97wbrDFu2452++MqmjKiioMrkZQPl1CLxl416
-         R9Ub6+4iXIpoY8BD+mxjoa5JAnQHcOOcleSv2km934Uh+jecwwgfPGU1wh3OTD7jrMaQ
-         tEeHFJKln6jhxG75yQgmKIBN/2a3S1++UfeYHLKGMLlx5+oQa2vset1GiHy5RX9I5SlE
-         kW6PSlC9yuDXfNAwJ+T0h9quJeecQzRjeB2oJ/BLmkvHI52IvTIHQSJqzsWPwTQC7IxT
-         iWhDo8I4gmD5ytDuTBzZq4NNIZbIfx+ZT4xJmBtQ2WAsHRPXDVKzeOGUdrdvnkoPN45r
-         4QeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCViGAYAgbyPCcCXhzLjc9nVEzvracfwWszDyG9fENcGo1LCmUWoQ8tOTVtspxw+G6DpHprPZi8DVj0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtGQ+hKVlq2VhRfQpa1XP+oUMeRFdpdjpUW4Ys+gDQbOjS0/SO
-	YrZO3Q0cuPsoY1l2jGUKWCwdVoRZKFqa2ZZ2HNKEzCiztAnoihbNbUTcpXwmMfvRh29UI0O8GFa
-	BTK4/55SAg5pCwV+ZqN8DrLWN3Flxsi9kcDyX
-X-Gm-Gg: ASbGncu2HHSqtI9iaWwur9oYzgf8tq1En8BwhscfPB826AXPgbI35mcE5oYVestzp4T
-	oH2ceNrdD2cvUgBUD/8l6Z+uVjuVqiew=
-X-Google-Smtp-Source: AGHT+IHEJ49PvdCfC8gx4Pol29F4jTF1554i0deQCFYUZItkqkh1/ChXCGRNAppkYZSkbobWuJIfroYmh8OaOFZ4HfY=
-X-Received: by 2002:ac8:5887:0:b0:461:6bb5:99b7 with SMTP id
- d75a77b69052e-464d19b9d74mr372801cf.1.1732061736698; Tue, 19 Nov 2024
- 16:15:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BH9cbQ0x"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732063102; x=1763599102;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=DKy4KENS2Tf2G47hyqzGA2dGJv1KA15rOIQ193oee+U=;
+  b=BH9cbQ0x1Oe9R0Yrt8v8cSoqNbUZlUb/3SL+SjsN7km7fVRo/uXjsSpK
+   3exkUSLJCUkb8BPkOvKcxN3rADUC/DaS7eqybb1bPCZfwvCovsN9yDdWL
+   SAtz+LnCkpSETRMQmNICxOPo6+nYe24RMx1GrL80FTbbof3UiCNrZDgYX
+   BFS2ba5/cq4tlBGnwmcl6rxCwO7FEQpNmsmD4mR+E+uAEfXeH+FLxZgwu
+   Km+yTRLRjeOrbK/DWEGGQFHvyK3wqmjhoff6JyBkvb0YglHuvNsWsByzV
+   OfPWU7wY3Idt5d4SJs4+A/N8GiWKLlhRibFCAH+hBqdlyP/CMbxojDsqy
+   g==;
+X-CSE-ConnectionGUID: EDVrEBcKSKCSV6LGEz8cmA==
+X-CSE-MsgGUID: uRIIVqQhQ4iOv4lvv8OwxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="57504038"
+X-IronPort-AV: E=Sophos;i="6.12,168,1728975600"; 
+   d="scan'208";a="57504038"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2024 16:38:22 -0800
+X-CSE-ConnectionGUID: VeNtQqOYTkq0m8OGkCTlYg==
+X-CSE-MsgGUID: r3crC6L7SeGAZPbmr8kBOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,168,1728975600"; 
+   d="scan'208";a="89682929"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Nov 2024 16:38:22 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 19 Nov 2024 16:38:21 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 19 Nov 2024 16:38:21 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.176)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 19 Nov 2024 16:38:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ae1Nv67pmBsAYLDti2CGlAD4YH5Ms6zZ/QEAQ+OwGkbubJqcSFyOTzFHw6f2rIbUZqI31N1O4CHx8dHXy2o+Bev9b5CJBl2/4puDjwRX8aEWCJUKIjOOOKpfajSuyxoUsk9kKDLwwVB3f6gZ+x2gkMfUWWGGghvbb4zr0/f2MCci/pIE9YLUJ7kl53omrniWqUZMo1m4kxuu14vKp1ebaqHxG/4oN4tOu1CNu5FbaPjFnrQur25Px2SVXtGthqm9K7LL7DBsoZEs3cfkIPHymFW3Kr4o/mMroTMq1JRi2XaUPL9pqkn+DO8RpetiCeD2U+mpE7ZgO8pL3GInPua1Tg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s5fBb3AERaTZrTLYyygc05ZHkVuIMgzzyB3sarnvfbc=;
+ b=kcilsj9Atg46FVfOIjavRICLLvPlUrI8bN16sVhSdVYZsS+yQWPUNl7iao/V2m7ristgDJYtkjcHJqMcOtxzYe1ULPSJoNSgLNUDN10DMFmAcS75zodCnPEZ1c9fnbkqtA4Xt8xFb3w8opiaNSzm4JIAs+0Eapta11TvhEMqgzoa8Rwp1zGzEUMVRTPDEzG5/z7SjQcEmOeP6IVP0Br5AUhFt0MU4y8ZtXAybvAMUh2HEmeanHL5J6AY12de+FmLaUO35vqEO6BcjGD9AxdLLPLETJVebH82EF2UBPs7kiGtzK/ONyzMTMR05gABu23Cse3mG4WNLaGYrjnqoYemrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by PH8PR11MB6732.namprd11.prod.outlook.com (2603:10b6:510:1c8::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.22; Wed, 20 Nov
+ 2024 00:38:18 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8158.019; Wed, 20 Nov 2024
+ 00:38:18 +0000
+Message-ID: <dd1d284f-2138-4e63-8bc5-2e55ff9f0a2d@intel.com>
+Date: Tue, 19 Nov 2024 16:38:15 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 1/9] x86/resctrl: Introduce resctrl_file_fflags_init()
+ to initialize fflags
+To: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>, "Peter
+ Newman" <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	<x86@kernel.org>
+CC: James Morse <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
+	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<patches@lists.linux.dev>
+References: <20241114001712.80315-1-tony.luck@intel.com>
+ <20241114001712.80315-2-tony.luck@intel.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <20241114001712.80315-2-tony.luck@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0074.namprd03.prod.outlook.com
+ (2603:10b6:303:b6::19) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241117080931.600731-1-surenb@google.com> <20241117080931.600731-4-surenb@google.com>
- <8e651b4d-ecdf-4b73-9ca9-c3537da63122@lucifer.local> <CAJuCfpEndxOkTZ0r+MdQWv05tb5koC1KnUWfVszZi2L8FUZh6Q@mail.gmail.com>
-In-Reply-To: <CAJuCfpEndxOkTZ0r+MdQWv05tb5koC1KnUWfVszZi2L8FUZh6Q@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 19 Nov 2024 16:15:25 -0800
-Message-ID: <CAJuCfpH0LXjm1qxaziLDqT4+nhxooJv+PC=1vEQXcW=BrdwuMQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] mm: mark vma as detached until it's added into vma tree
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, 
-	oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com, 
-	peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, 
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	minchan@google.com, jannh@google.com, shakeel.butt@linux.dev, 
-	souravpanda@google.com, pasha.tatashin@soleen.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH8PR11MB6732:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11fa23e3-7a62-417e-f371-08dd08fba080
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OUoyaURvMU5kbHkrN1dFWHNjUUEycUQ1VGVxNk9UQW9rc2U3L1FKQUdNOFZs?=
+ =?utf-8?B?SFdDalRPdndaeHMzT3FBU2lqSE1zM3U1anhlRW1HSUpUWFg0dEpQeTRDd3FO?=
+ =?utf-8?B?Y2IydWFLM280SGVoSER6U0hEWE52Ty9lR01RUXBZZUplK0FIbHkweDNwQVha?=
+ =?utf-8?B?OEZaL29nSGE5TkMwdTlRYVdjdDBFMUtmV2dQSjBaRk9pUkFWMVNnbDZTaFlZ?=
+ =?utf-8?B?ZTZybGR1c0ErdS9Mc1pjT1JiV3VYUkREYmFFSW43ZkU4cC9vWFk3UDNXdHZ1?=
+ =?utf-8?B?ZUQrUDJXbFlxTTVPSHdvOGtWRktzRjUvZkpLZ1NZem92Si9rdTVTV2NMejNG?=
+ =?utf-8?B?N0RvaitMaWxzc25ueGlKbE94QTZMRWd2bG9GbHhLT3hSY0RsMHVyRUtOYmdD?=
+ =?utf-8?B?akNWOU5GdW42QWIwMW10aGdnWndZcGJ0TE5DNUNDUDhncGYyb0U5OUdqMGtB?=
+ =?utf-8?B?dWdiK1JRcUJmbC9oSzF4a3Y5bjZPbDd0YS8xMnk4SkN4RkQ0REg1OGQycnFZ?=
+ =?utf-8?B?NU53dldxYVZ3OTA0b2dJMmp6ZXlrZnhOWGROTXZNZnZMdnVqelliMXZ4OTVn?=
+ =?utf-8?B?K0JwV1N0RFZkREpYc1RqWnN0WERwVWlzQnd2T3B1YlBOeDlsZXZVNXdkVmpJ?=
+ =?utf-8?B?YlVUWEpLTC90QXBBRDBSeEtXR0s5SEs4dXQ3NkluTTNsS215eVd0bmJVcmdW?=
+ =?utf-8?B?NEpKemNnS1FSYnJTWmxHVmcxeld0dml2Z2F3eDd6QkVaZ1EzalhwbUVVTnZh?=
+ =?utf-8?B?bGhRT2lrZ00xWkZCOXVjRWdzUzRMMUxJNy9JWkcrQ1U0SkdLZ1JPS0J6ZWxJ?=
+ =?utf-8?B?MTF1Zk9tYWRESG1SdVVKL1VPZUhxUjQyMEx5cWtIUUZqTS9KVzhGN3FJMGIw?=
+ =?utf-8?B?c3E1MjIxeURhcTVaU2NmMWFudWhJNUIyK3hvaFdEZFpLL2JZbkdMK29hWnZY?=
+ =?utf-8?B?SkZpNE51Vy9FMlpEVVFCUHd4WVBxRDdsdzNSM0FkdlRSbHFleE9wL3JEQmx0?=
+ =?utf-8?B?a1l5RVhlcFFZNXdTNXlpaXI5RWJVQnEzZFlKZnpETzd0cE5heUhQQWVCRjg1?=
+ =?utf-8?B?Q3gyd09tZFBoTnRFZlBjVG14VmkzTzJmSTZ0eDFaaVBnY2M1a05kUUMxbS9O?=
+ =?utf-8?B?VEV1cUNWMzVDai82MGE4MGJ2eTgxWml3VUFPeEVybHNsaFNGby9VQ2xJc0Vu?=
+ =?utf-8?B?TTIwSGV5UWhHTHJkeUdaWUlCRTQzV2lkZ3RjNlczTElVYmoxWlVhU2p0TGZs?=
+ =?utf-8?B?VS91RUJCVDkvS0tBOXA1ZEdMaDFab3czWjJ4K2VnVEI5QXdVaStUWVdTK0h4?=
+ =?utf-8?B?OFhGQUJsc0E4VmQ2TGd4ZCtGakJqSVNXMzZRZlN1UFk4ZTZiWXgyT0c5cGU3?=
+ =?utf-8?B?L3hIM2lQbzhjRUlMUjBLWEkvYzYyVW5Db2IrVU5zbDFwbVQ1WitnTDFJVDV6?=
+ =?utf-8?B?UVJPSXlqbmYwTTBRYnJDa3B0Nk1jUFJ6S3VlUTBWWWh0OXVZSWVuem1zQUdk?=
+ =?utf-8?B?NlJGOXV3S3ZhcWp2aEErbUphZnhmR2dUOUNXdFlRdE5pb0RZZ1ZaY01wdUp3?=
+ =?utf-8?B?cG9QVXl0dERnMnNyWkJUSThaQXQvZ3lPZEJSRG1oYlFpcEdMdGFBcDQ3c09k?=
+ =?utf-8?B?eGRIeWRtYmNKcThuTjY1TmtybzZBTWJMdytIQThGdkpyM3RWREJDV3RqMlZu?=
+ =?utf-8?B?YWQzOVR5M3lwR01rc3ExdHczb3ljbUlWUnJIWTFWVFBBQnNNU3h4Zkp2Rk0z?=
+ =?utf-8?Q?mR6AoPsPAZ05q/Mhns5qEn5lPG2Ld3Vvq89WvV7?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjJOVUY2Rk9NSjY3YVdsMldlUEM4SDlCQUlZRitzemwrVHhkTmZTWW5YSzQ4?=
+ =?utf-8?B?bWh5ZS9DbTBSRjlTMTYrU1k2RmR6ek02NGRBVEJXMWt6Z2x0cWNKUjZmcE5l?=
+ =?utf-8?B?S1RPTUJzd1l0Rk5QTW1TNEE4bE1UMkZzdUszTHhXblpObUZ4ZmV5QkJER2Jn?=
+ =?utf-8?B?MmtZK0JYaEZOc29naWE4K0NQaWVzYjBIY2tCZjV6Z1RMd0xqcXc0Z0xVNG5C?=
+ =?utf-8?B?Q2RkcExYSitzeEJzVXphaVorTSsrUStrVVQ2eUlhaU40U3FIMjdDY0FONVZt?=
+ =?utf-8?B?T2lrdjFzUHVSMHhzaExHU1l3elRxQnJEZ2tvNjhEalVaOGF3bmJrelVZRUMx?=
+ =?utf-8?B?SWZoNmNGNjlhR2djckVCSndVYmZEdDV5YkM0ZzFyMW9KY2VXekY0MUo1cjc3?=
+ =?utf-8?B?b1pnL1EyOGhYa1gvaDkwYnY3Y1NSc2M2cUZMd1BGZDQvTkxaRG9TN2trSVQz?=
+ =?utf-8?B?V0ptS3FoNmFsYWtMZC9JZWs1OXpnSk5Sa3k1QnRMNVBOcEV0TWRFam9nVFgz?=
+ =?utf-8?B?dkQyY29nTTZaUDFBS3I5bThlMTdjaStWTUZvMFZnL1ExYnY1T3dmNFgvWG1n?=
+ =?utf-8?B?UExtNFR5YzJFME1lR2VSL3BGVWliT3Bob0pIK3FXdnBLWDRrK2xRVU1sYjRI?=
+ =?utf-8?B?YXJFeSs2elRUZWI4bWduc2lxOUYwdlpId21OUWFDd1JnZ0JkRU5SV09oZlZ3?=
+ =?utf-8?B?eHpNU2xjWWF2UUxLWW9BYWFOaTZwbytrYUFYR2l3anNkblovNUFBeXFXd0pR?=
+ =?utf-8?B?UEhCOW1FaFNWQURyTlVZQkd2cldzczgzL1NSQitzRnFBWWwwejNRa0c1cklx?=
+ =?utf-8?B?d1p1aU9xTFQzTUlKV0h0WXd3cENISmx2Zm5xTmZSNHBsdUJreFZpaEg0YWpV?=
+ =?utf-8?B?VWQ3SzZnTUdCeThIZDB5ODhXMWxZMXg2bnhlVG81K0hnODFxS0tjdnhvY0w1?=
+ =?utf-8?B?Z2I1UmtNSE9SRHVZYXZaZ1hHcmI2RlNOSEg4aC94SEl4L09yc28zdXFVOHRr?=
+ =?utf-8?B?bHpxYmZCdTc4YXhBNnpGZmNUNmdWc3JBSW1xdjJGRjFoSlR4RkFVdXV5VzVM?=
+ =?utf-8?B?aFRaTm1vNkd6VUJ3N1JTdGg1M3JLeDdjU0RmcDBBNzhNZklZMTJLbXFkblp1?=
+ =?utf-8?B?UXV3L2piTFd6bXFGK2JKcE8wMnduTlhkMUhEdXk3b1NqUDhFVjNEbHVySnJL?=
+ =?utf-8?B?dXBHMks3VFl2bW9vQWdpOGNiNEJHZ1E3T2xURHExVEJkcnhoL1I0UHJVTDFU?=
+ =?utf-8?B?UXZvaUlQeEhvQ2JUekZLbmdjQUt4LzRrcjE5MGFFZXFzajFyNE1xYVZWUGRC?=
+ =?utf-8?B?KzFLWDkra0IvOUVCVjd1SldRQTk0QmhDOTNvK1JQTmVIQ1hILzBMeE52OWI4?=
+ =?utf-8?B?cEUyRTgzOG5XM0I5djlXbWNYZkdJeE1qYTRYaHcwL2lzMlNBZlZLNDFSd241?=
+ =?utf-8?B?SmRGa1BHNHhQQ3JYTTRsVFZlS0orTEJKOTVVYnVxQzZWdEh3djVWTHRPQ2N2?=
+ =?utf-8?B?YkFjbzFpNHpEcXp2STJQZkRGNURPRmxxZkxocUdTZUd2NkM5bHFPWUF1RHov?=
+ =?utf-8?B?QjRRdnREcGV3bHVERllodzhtU0RtRzdnRjM4UHhsMHNGM2xJc3JnOFBBZzV5?=
+ =?utf-8?B?QVZwc0x6WkR6NE81QUZReEdTd3FsSHdXZzVEM041OTVUZW9ZQW81V09VNEZz?=
+ =?utf-8?B?alNnYU05M1VtVXFKR2hhVWdSdmZWTHVZSnJSU0pEN1A2VHowbWV4S2w1VlpS?=
+ =?utf-8?B?SUU5ZGZvKzJ6RWdhNmhhVEk0SkZhRlpqeTJGNmJNZlp6Y2dMcktOMGw3M1BY?=
+ =?utf-8?B?Ri8rNVJzVDBJV0k4aERMV3RGR1VpdU50c3ZuOEh2Q1JFV1I4SUlyc3QrdG56?=
+ =?utf-8?B?T09UUm1zSVowMXhKTGNDRE1TL2dFS2xodGc2TVBQTlNFN3R4SjVibC9IOWQ3?=
+ =?utf-8?B?VHNIOERVYWlxcDkvVGpCcEhaV3lDK3Y0dng1ZWN5c0xtWGZ5WngrRU53MEE1?=
+ =?utf-8?B?Rkg0TUNVMjlQcmM0T2RjdmZNT1VsaHFUZmdPOFlMdU1kd0pWTHdYcmF2S2N2?=
+ =?utf-8?B?bVJxaVUyY2VIQy9TNG4wRXVnNnVGUkVzdGI3WUlKaFBmbTB5SmsvTEF2dlJx?=
+ =?utf-8?B?aVhINlhQdnZFOVR2K0xycWJDNUZQNGRjRCtDSnR6N3FEQStGQzVScGRUdmVO?=
+ =?utf-8?B?Z3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11fa23e3-7a62-417e-f371-08dd08fba080
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2024 00:38:18.0903
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5rSLtrsdiUrRl2+T4D4JpXpz5WvSPijwtvGK+qzp3WDMx6jPesEpnEjeGNeMWAzceYCxJ3taFe9sWq8e3JWkbqh+SxyiuK6Xdzz+hgVPv1Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6732
+X-OriginatorOrg: intel.com
 
-On Mon, Nov 18, 2024 at 8:23=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
->
-> On Mon, Nov 18, 2024 at 6:10=E2=80=AFAM Lorenzo Stoakes
-> <lorenzo.stoakes@oracle.com> wrote:
-> >
-> > So, this causes VMAs which are already attached to be marked attached
-> > again, and when the check added in "mm: make vma cache
-> > SLAB_TYPESAFE_BY_RCU", which is:
-> >
-> > static inline void vma_mark_attached(struct vm_area_struct *vma)
-> > {
-> >         /* vma shoudn't be already attached */
-> >         VM_BUG_ON_VMA(!vma->detached, vma); <-------- here
-> >
-> >         ...
-> > }
-> >
-> > Is executed, it fails and asserts on boot, as per the below (I ran
-> > addr2line and identified this as the cause).
-> >
-> > [    0.615256] vma ffff88810086e000 start 00007ffedf98e000 end 00007fff=
-fffff000 mm ffff888101bf0000
-> > [    0.615256] prot 8000000000000025 anon_vma ffff88810026c000 vm_ops 0=
-000000000000000
-> > [    0.615256] pgoff 7fffffffe file 0000000000000000 private_data 00000=
-00000000000
-> > [    0.615256] flags: 0x118173(read|write|mayread|maywrite|mayexec|grow=
-sdown|seqread|randread|account)
-> > [    0.616232] Oops: invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-> > [    0.616416] CPU: 3 UID: 0 PID: 1 Comm: init Not tainted 6.12.0-rc6+ =
-#9
-> > [    0.616618] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), B=
-IOS Arch Linux 1.16.3-1-1 04/01/2014
-> > [    0.616914] RIP: 0010:commit_merge+0x361/0x390
-> > [    0.617059] Code: 28 e9 58 fd ff ff 49 39 44 24 10 72 c7 e9 81 fe ff=
- ff 48 39 57 10 0f 82 1d ff ff ff e9 1c ff ff ff 48 89 c7 e8 70 0
-> > [    0.617609] RSP: 0018:ffffc90000013a48 EFLAGS: 00010292
-> > [    0.617778] RAX: 0000000000000138 RBX: ffffc90000013b68 RCX: 0000000=
-000000000
-> > [    0.617995] RDX: 0000000000000003 RSI: ffffc900000138d0 RDI: 0000000=
-000000001
-> > [    0.618209] RBP: 0000000000000000 R08: 00000000ffffdfff R09: fffffff=
-f82b089a8
-> > [    0.618429] R10: 0000000000000003 R11: 30203a7367616c66 R12: 0000000=
-000000000
-> > [    0.618653] R13: 0000000000000001 R14: 0000000000000000 R15: ffffc90=
-000013a58
-> > [    0.618846] FS:  0000000000000000(0000) GS:ffff888263d80000(0000) kn=
-lGS:0000000000000000
-> > [    0.619041] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [    0.619186] CR2: 0000000000000000 CR3: 0000000101c74000 CR4: 0000000=
-000750ef0
-> > [    0.619357] PKRU: 55555554
-> > [    0.619425] Call Trace:
-> > [    0.619491]  <TASK>
-> > [    0.619546]  ? __die_body.cold+0x19/0x2a
-> > [    0.619644]  ? die+0x29/0x50
-> > [    0.619719]  ? do_trap+0xc5/0x110
-> > [    0.619808]  ? do_error_trap+0x60/0x80
-> > [    0.619901]  ? commit_merge+0x361/0x390
-> > [    0.619995]  ? exc_invalid_op+0x51/0x70
-> > [    0.620092]  ? commit_merge+0x361/0x390
-> > [    0.620185]  ? asm_exc_invalid_op+0x1a/0x20
-> > [    0.620288]  ? commit_merge+0x361/0x390
-> > [    0.620383]  ? commit_merge+0x360/0x390
-> > [    0.620478]  vma_expand+0xd0/0x1a0
-> > [    0.620563]  relocate_vma_down+0xe8/0x1e0
-> > [    0.620664]  setup_arg_pages+0x1f6/0x360
-> > [    0.620783]  load_elf_binary+0x37b/0x1720
-> > [    0.620912]  ? __kernel_read+0x187/0x2e0
-> > [    0.621038]  ? load_misc_binary+0x225/0x2f0
-> > [    0.621173]  bprm_execve+0x22e/0x5b0
-> > [    0.621288]  kernel_execve+0x10b/0x140
-> > [    0.621406]  try_to_run_init_process+0xa/0x2e
-> > [    0.621545]  ? __pfx_kernel_init+0x10/0x10
-> > [    0.621675]  kernel_init+0xde/0x130
-> > [    0.621796]  ret_from_fork+0x2c/0x50
-> > [    0.621914]  ? __pfx_kernel_init+0x10/0x10
-> > [    0.622046]  ret_from_fork_asm+0x1a/0x30
-> > [    0.622174]  </TASK>
-> > [    0.622248] Modules linked in:
-> > [    0.622356] ---[ end trace 0000000000000000 ]---
-> > [    0.622502] RIP: 0010:commit_merge+0x361/0x390
-> > [    0.622643] Code: 28 e9 58 fd ff ff 49 39 44 24 10 72 c7 e9 81 fe ff=
- ff 48 39 57 10 0f 82 1d ff ff ff e9 1c ff ff ff 48 89 c7 e8 70 0
-> > [    0.623213] RSP: 0018:ffffc90000013a48 EFLAGS: 00010292
-> > [    0.623381] RAX: 0000000000000138 RBX: ffffc90000013b68 RCX: 0000000=
-000000000
-> > [    0.623596] RDX: 0000000000000003 RSI: ffffc900000138d0 RDI: 0000000=
-000000001
-> > [    0.623825] RBP: 0000000000000000 R08: 00000000ffffdfff R09: fffffff=
-f82b089a8
-> > [    0.624045] R10: 0000000000000003 R11: 30203a7367616c66 R12: 0000000=
-000000000
-> > [    0.624268] R13: 0000000000000001 R14: 0000000000000000 R15: ffffc90=
-000013a58
-> > [    0.624484] FS:  0000000000000000(0000) GS:ffff888263d80000(0000) kn=
-lGS:0000000000000000
-> > [    0.624746] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [    0.624926] CR2: 0000000000000000 CR3: 0000000101c74000 CR4: 0000000=
-000750ef0
-> > [    0.625149] PKRU: 55555554
-> > [    0.625244] Kernel panic - not syncing: Attempted to kill init! exit=
-code=3D0x0000000b
-> > [    0.625545] Kernel Offset: disabled
-> > [    0.625658] ---[ end Kernel panic - not syncing: Attempted to kill i=
-nit! exitcode=3D0x0000000b ]---
-> >
-> > If I add code to detach first in relocate_vma_down(), then
-> > expand_downwards() has the same issue. It seems this code doesn't accou=
-nt
-> > for such cases.
-> >
-> > If I add code to fix _this_ then a VMA merge triggers it and... I think
-> > this is just fundamentally broken...
-> >
-> > There are cases where we change the size of an existing VMA and overwri=
-te
-> > stuff in the maple tree, this is normal, and we do it to an attached VM=
-A.
-> >
-> > So actually perhaps... we should just drop this check altogether?
-> >
-> > My workarounds are essentially to mark detached immediately prior to
-> > vma_iter_store() which seems to defeat the purpose :P
->
-> I realized that this assertion was added at a later stage of the patch
-> and I tested it using the same config that I use for performance
-> testing, which did not have CONFIG_DEBUG_VM enabled. Sorry about that.
-> I didn't realize we are modifying and reinserting the vma without
-> marking it detached, however these cases are not an issue for vma
-> reuse because we do not free the vma in the process. I think the
-> following should work fine:
->
-> static inline void vma_mark_attached(struct vm_area_struct *vma)
-> {
->         /* If vma is write-locked then it's already attached */
->         if (down_write_trylock(&vma->vm_lock.lock)) {
->                 vma->detached =3D false;
->                 up_write(&vma->vm_lock.lock);
->         }
-> }
->
-> I'll think some more about edge cases and will post the new patchset
-> with the fix.
+Hi Tony,
 
-I posted v4 with a different approach here to avoid write-locking the
-vma. All we need here is a strict access ordering between
-vma->detached and vm_mm/vm_start/vm_and:
-When attaching a vma, vm_mm/vm_start/vm_end should be set before vma
-is marked attached;
-When lock_vma_under_rcu() is validating a vma, vma->detached should be
-checked before vm_mm/vm_start/vm_end.
-It's implemented and explained in more details at
-https://lore.kernel.org/all/20241120000826.335387-5-surenb@google.com/
+On 11/13/24 4:17 PM, Tony Luck wrote:
+> From: Babu Moger <babu.moger@amd.com>
+> 
+> thread_throttle_mode_init() and mbm_config_rftype_init() both initialize
+> fflags for resctrl files.
+> 
+> Adding new files will involve adding another function to initialize
+> the fflags. This can be simplified by adding a new function
+> resctrl_file_fflags_init() and passing the file name and flags
+> to be initialized.
+> 
+> Consolidate fflags initialization into resctrl_file_fflags_init() and
+> remove thread_throttle_mode_init() and mbm_config_rftype_init().
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+> Signed-off-by: Tony Luck <tony.luck@intel.com>
 
-> Thanks for reviewing and testing, Lorenzo!
-> Suren.
->
-> >
-> > On Sun, Nov 17, 2024 at 12:09:29AM -0800, Suren Baghdasaryan wrote:
-> > > Current implementation does not set detached flag when a VMA is first
-> > > allocated. This does not represent the real state of the VMA, which i=
-s
-> > > detached until it is added into mm's VMA tree. Fix this by marking ne=
-w
-> > > VMAs as detached and resetting detached flag only after VMA is added
-> > > into a tree.
-> > > Introduce vma_mark_attached() to make the API more readable and to
-> > > simplify possible future cleanup when vma->vm_mm might be used to
-> > > indicate detached vma and vma_mark_attached() will need an additional
-> > > mm parameter.
-> > >
-> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > > ---
-> > >  include/linux/mm.h               | 27 ++++++++++++++++++++-------
-> > >  kernel/fork.c                    |  4 ++++
-> > >  mm/memory.c                      |  2 +-
-> > >  mm/vma.c                         |  6 +++---
-> > >  mm/vma.h                         |  2 ++
-> > >  tools/testing/vma/vma_internal.h | 17 ++++++++++++-----
-> > >  6 files changed, 42 insertions(+), 16 deletions(-)
-> > >
-> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > > index 737c003b0a1e..dd1b6190df28 100644
-> > > --- a/include/linux/mm.h
-> > > +++ b/include/linux/mm.h
-> > > @@ -808,12 +808,21 @@ static inline void vma_assert_locked(struct vm_=
-area_struct *vma)
-> > >               vma_assert_write_locked(vma);
-> > >  }
-> > >
-> > > -static inline void vma_mark_detached(struct vm_area_struct *vma, boo=
-l detached)
-> > > +static inline void vma_mark_attached(struct vm_area_struct *vma)
-> > > +{
-> > > +     vma->detached =3D false;
-> > > +}
-> >
-> > We should definitely add the
-> >
-> >         VM_BUG_ON_VMA(!vma->detached, vma);
-> >
-> > Check that is added in "mm: make vma cache SLAB_TYPESAFE_BY_RCU" here
-> > instead, if we want it.
-> >
-> > But as per above I'm not sure we do...
-> >
-> > > +
-> > > +static inline void vma_mark_detached(struct vm_area_struct *vma)
-> > >  {
-> > >       /* When detaching vma should be write-locked */
-> > > -     if (detached)
-> > > -             vma_assert_write_locked(vma);
-> > > -     vma->detached =3D detached;
-> > > +     vma_assert_write_locked(vma);
-> > > +     vma->detached =3D true;
-> > > +}
-> >
-> > Do we want to assert it was attached before? Then again given the attac=
-hed
-> > assert probably not :>)
-> >
-> > > +
-> > > +static inline bool is_vma_detached(struct vm_area_struct *vma)
-> > > +{
-> > > +     return vma->detached;
-> > >  }
-> > >
-> > >  static inline void release_fault_lock(struct vm_fault *vmf)
-> > > @@ -844,8 +853,8 @@ static inline void vma_end_read(struct vm_area_st=
-ruct *vma) {}
-> > >  static inline void vma_start_write(struct vm_area_struct *vma) {}
-> > >  static inline void vma_assert_write_locked(struct vm_area_struct *vm=
-a)
-> > >               { mmap_assert_write_locked(vma->vm_mm); }
-> > > -static inline void vma_mark_detached(struct vm_area_struct *vma,
-> > > -                                  bool detached) {}
-> > > +static inline void vma_mark_attached(struct vm_area_struct *vma) {}
-> > > +static inline void vma_mark_detached(struct vm_area_struct *vma) {}
-> > >
-> > >  static inline struct vm_area_struct *lock_vma_under_rcu(struct mm_st=
-ruct *mm,
-> > >               unsigned long address)
-> > > @@ -878,7 +887,10 @@ static inline void vma_init(struct vm_area_struc=
-t *vma, struct mm_struct *mm)
-> > >       vma->vm_mm =3D mm;
-> > >       vma->vm_ops =3D &vma_dummy_vm_ops;
-> > >       INIT_LIST_HEAD(&vma->anon_vma_chain);
-> > > -     vma_mark_detached(vma, false);
-> > > +#ifdef CONFIG_PER_VMA_LOCK
-> > > +     /* vma is not locked, can't use vma_mark_detached() */
-> > > +     vma->detached =3D true;
-> > > +#endif
-> > >       vma_numab_state_init(vma);
-> > >       vma_lock_init(vma);
-> > >  }
-> > > @@ -1073,6 +1085,7 @@ static inline int vma_iter_bulk_store(struct vm=
-a_iterator *vmi,
-> > >       if (unlikely(mas_is_err(&vmi->mas)))
-> > >               return -ENOMEM;
-> > >
-> > > +     vma_mark_attached(vma);
-> > >       return 0;
-> > >  }
-> > >
-> > > diff --git a/kernel/fork.c b/kernel/fork.c
-> > > index 7823797e31d2..f0cec673583c 100644
-> > > --- a/kernel/fork.c
-> > > +++ b/kernel/fork.c
-> > > @@ -465,6 +465,10 @@ struct vm_area_struct *vm_area_dup(struct vm_are=
-a_struct *orig)
-> > >       data_race(memcpy(new, orig, sizeof(*new)));
-> > >       vma_lock_init(new);
-> > >       INIT_LIST_HEAD(&new->anon_vma_chain);
-> > > +#ifdef CONFIG_PER_VMA_LOCK
-> > > +     /* vma is not locked, can't use vma_mark_detached() */
-> > > +     new->detached =3D true;
-> > > +#endif
-> > >       vma_numab_state_init(new);
-> > >       dup_anon_vma_name(orig, new);
-> > >
-> > > diff --git a/mm/memory.c b/mm/memory.c
-> > > index 209885a4134f..d0197a0c0996 100644
-> > > --- a/mm/memory.c
-> > > +++ b/mm/memory.c
-> > > @@ -6279,7 +6279,7 @@ struct vm_area_struct *lock_vma_under_rcu(struc=
-t mm_struct *mm,
-> > >               goto inval;
-> > >
-> > >       /* Check if the VMA got isolated after we found it */
-> > > -     if (vma->detached) {
-> > > +     if (is_vma_detached(vma)) {
-> > >               vma_end_read(vma);
-> > >               count_vm_vma_lock_event(VMA_LOCK_MISS);
-> > >               /* The area was replaced with another one */
-> > > diff --git a/mm/vma.c b/mm/vma.c
-> > > index 8a454a7bbc80..73104d434567 100644
-> > > --- a/mm/vma.c
-> > > +++ b/mm/vma.c
-> > > @@ -295,7 +295,7 @@ static void vma_complete(struct vma_prepare *vp, =
-struct vma_iterator *vmi,
-> > >
-> > >       if (vp->remove) {
-> > >  again:
-> > > -             vma_mark_detached(vp->remove, true);
-> > > +             vma_mark_detached(vp->remove);
-> > >               if (vp->file) {
-> > >                       uprobe_munmap(vp->remove, vp->remove->vm_start,
-> > >                                     vp->remove->vm_end);
-> > > @@ -1220,7 +1220,7 @@ static void reattach_vmas(struct ma_state *mas_=
-detach)
-> > >
-> > >       mas_set(mas_detach, 0);
-> > >       mas_for_each(mas_detach, vma, ULONG_MAX)
-> > > -             vma_mark_detached(vma, false);
-> > > +             vma_mark_attached(vma);
-> > >
-> > >       __mt_destroy(mas_detach->tree);
-> > >  }
-> >
-> > This is on a subtle error handling code path, we should definitely do s=
-ome
-> > careful checking of this (it might be nice to add some to the vma.c
-> > userland tests...)
-> >
-> > > @@ -1295,7 +1295,7 @@ static int vms_gather_munmap_vmas(struct vma_mu=
-nmap_struct *vms,
-> > >               if (error)
-> > >                       goto munmap_gather_failed;
-> > >
-> > > -             vma_mark_detached(next, true);
-> > > +             vma_mark_detached(next);
-> > >               nrpages =3D vma_pages(next);
-> > >
-> > >               vms->nr_pages +=3D nrpages;
-> > > diff --git a/mm/vma.h b/mm/vma.h
-> > > index 388d34748674..2e680f357ace 100644
-> > > --- a/mm/vma.h
-> > > +++ b/mm/vma.h
-> > > @@ -162,6 +162,7 @@ static inline int vma_iter_store_gfp(struct vma_i=
-terator *vmi,
-> > >       if (unlikely(mas_is_err(&vmi->mas)))
-> > >               return -ENOMEM;
-> > >
-> > > +     vma_mark_attached(vma);
-> > >       return 0;
-> > >  }
-> > >
-> > > @@ -385,6 +386,7 @@ static inline void vma_iter_store(struct vma_iter=
-ator *vmi,
-> > >
-> > >       __mas_set_range(&vmi->mas, vma->vm_start, vma->vm_end - 1);
-> > >       mas_store_prealloc(&vmi->mas, vma);
-> > > +     vma_mark_attached(vma);
-> > >  }
-> > >
-> > >  static inline unsigned long vma_iter_addr(struct vma_iterator *vmi)
-> > > diff --git a/tools/testing/vma/vma_internal.h b/tools/testing/vma/vma=
-_internal.h
-> > > index 11c2c38ca4e8..2fed366d20ef 100644
-> > > --- a/tools/testing/vma/vma_internal.h
-> > > +++ b/tools/testing/vma/vma_internal.h
-> > > @@ -414,13 +414,17 @@ static inline void vma_lock_init(struct vm_area=
-_struct *vma)
-> > >       vma->vm_lock_seq =3D UINT_MAX;
-> > >  }
-> > >
-> > > +static inline void vma_mark_attached(struct vm_area_struct *vma)
-> > > +{
-> > > +     vma->detached =3D false;
-> > > +}
-> > > +
-> > >  static inline void vma_assert_write_locked(struct vm_area_struct *);
-> > > -static inline void vma_mark_detached(struct vm_area_struct *vma, boo=
-l detached)
-> > > +static inline void vma_mark_detached(struct vm_area_struct *vma)
-> > >  {
-> > >       /* When detaching vma should be write-locked */
-> > > -     if (detached)
-> > > -             vma_assert_write_locked(vma);
-> > > -     vma->detached =3D detached;
-> > > +     vma_assert_write_locked(vma);
-> > > +     vma->detached =3D true;
-> > >  }
-> > >
-> > >  extern const struct vm_operations_struct vma_dummy_vm_ops;
-> > > @@ -431,7 +435,8 @@ static inline void vma_init(struct vm_area_struct=
- *vma, struct mm_struct *mm)
-> > >       vma->vm_mm =3D mm;
-> > >       vma->vm_ops =3D &vma_dummy_vm_ops;
-> > >       INIT_LIST_HEAD(&vma->anon_vma_chain);
-> > > -     vma_mark_detached(vma, false);
-> > > +     /* vma is not locked, can't use vma_mark_detached() */
-> > > +     vma->detached =3D true;
-> > >       vma_lock_init(vma);
-> > >  }
-> > >
-> > > @@ -457,6 +462,8 @@ static inline struct vm_area_struct *vm_area_dup(=
-struct vm_area_struct *orig)
-> > >       memcpy(new, orig, sizeof(*new));
-> > >       vma_lock_init(new);
-> > >       INIT_LIST_HEAD(&new->anon_vma_chain);
-> > > +     /* vma is not locked, can't use vma_mark_detached() */
-> > > +     new->detached =3D true;
-> > >
-> > >       return new;
-> > >  }
-> > > --
-> > > 2.47.0.338.g60cca15819-goog
-> > >
+Please place "Signed-off-by" tag before "Reviewed-by" tag. For reference,
+"Ordering of commit tags" in Documentation/process/maintainer-tip.rst
+
+Reinette
+
