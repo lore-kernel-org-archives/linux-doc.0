@@ -1,154 +1,134 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5EA1420DD
-	for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 16:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92C4153BF8
+	for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 16:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732119258; cv=none; b=PkILv+QauNVi08OS6tsJFQIrCNgqvPOfdxl3TaVjboLiFT+aodr10pS5WC+Sxk04pOEgg1WUc0KnqWp5fCCmo71iONaPMdlD9g4eFSAEzeUSDNcLlIz7ewIjEnouqshuL6So29iWgnGGBeu5qYF7xVib/RJ5RY2HDQCyIK6kMEI=
+	t=1732119335; cv=none; b=Uq+U5UNmOCEZGnxfiXjmy6ssMeV6CITf0tLKmA11JNGLcVWw//k5hakdfkwaI9DF+ZMDTrqJjqtt07oN4adFHP7kxuE9DNsFaT2IJHfyE9kM6PAoqvVc6nVB2yuk2bBtfZn5D+ql6JpnTCV+b8t8ac4T0gsO3UKQU0TY2zsL7KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732119258; c=relaxed/simple;
-	bh=g7QfRcSQn+gmJxBWhXW/TDF3sI8DjgoFIAHLcTGc4so=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XUSugQTlvVAlYLmH5o4hCrekyTkLnwD9jb0c85I4IJc3WoSD7gMbjX6Y+bCa3qLHh5EVHSh23MLYmZzQdB9mDcrw0hFv8CDW2oHUVuzp8vGMGY9VbYKXVjwdPBwnRc1FSQYUg8sefrjY4qHTozTSO7JC/9XieEdZkAH6gxHXMZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=cdtUej7x; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1732119335; c=relaxed/simple;
+	bh=VNWYPyllDhn6wyHA8vHCBZcrdTpypW9KdBxrUGgTSiU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dnjJaJ7eXR7W7GVymDQaW006lxiQ8VnJYUBPzkV5ojqcNAlQYRMGAF8nRFujZtcXYiZg2EvHwxyLg8VUg8lNks6f3Jt5WsB3J9nrPRgkXneLH2rsJStiQQCcKXizkbLCsKtPzbodq3z2JQA9g6u8SIEiFbEsKD8kIUA3AgzNJMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S+hTe9iz; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="cdtUej7x"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4613162181dso32377971cf.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 08:14:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1732119255; x=1732724055; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=36mHAHuOoczvUZMevzRpdY4PbCa8tx9CNRg6h+RZgJg=;
-        b=cdtUej7x3IYT7y9XJ5WDfNS9BQ4CEugaJF8mLkReIuZbp5SQ/cK64/1lRDqsOpxXJh
-         Y8Ff8MiwLAO1wHoXCjkhaDeld6ozrWthThzAp+so1nL2OdjduAekmqw8OsIqhh41Jzai
-         ibnhz7uY0+tDvht+9a/2BttZjOLFPQ1avZApk899yvcXXedUBE3p7pVbDOtCsw6s/+Iz
-         duWxuy8NdbUiBfYvGo0HhnYCvH6vB9vyAu4HLJ7JbfePlXAaf+09m/GzcmXv7mXA9nLi
-         b03CrcZYUWBWHkCZr04GHkHYIfBBzxX0kbGb1aANjN16nwSLG/eN6ARZF9GZaeL/hVlY
-         SLnw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S+hTe9iz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732119330;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s9neiNV5Ecw1Rm63FFkLc6Zp+LPvspTbTCjcardEBqA=;
+	b=S+hTe9izdKeycP41NI7EqHuLsq4riQ2r3ilYqj5AWmPl3pbFNfbGvKpw3Y4YhTWVa+hgZX
+	LkFOHKfWJ3YY0JeIF6BecxJlFaSsa19PMdk9FYBZlBvNKV5VB080E0HFJi4A5u0v35mqCk
+	EfTHoPeEgYFbs3i631saifvvfh+1BWk=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-606-cEtoSP3LPWawDeCfRCKcXA-1; Wed, 20 Nov 2024 11:15:25 -0500
+X-MC-Unique: cEtoSP3LPWawDeCfRCKcXA-1
+X-Mimecast-MFC-AGG-ID: cEtoSP3LPWawDeCfRCKcXA
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6d4189482d8so32440406d6.1
+        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 08:15:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732119255; x=1732724055;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=36mHAHuOoczvUZMevzRpdY4PbCa8tx9CNRg6h+RZgJg=;
-        b=O8Q4CohNSPcninIbt72RZtm69szre/u6dATVE1cFJY2DOJ5ercV5/kO+3NX2+wMnEW
-         Ia7YKrEtSsi0yQ+cDEzisTujHYFwRV2Zd95avwh0+SSBIf/0IkLlDcaIQ565VcNBBoVZ
-         SQDtn+JF+NKvlY/4WZ5YCyfq6Lagn1FsRm8aQzgEwwnQ6TXKEnbus7k9ThSAJtlfe5vM
-         EnLJoPaq9lZyn2BKT1x6nkNThsYniIqWLv8IojldVbRAuhxXMAcl1SwqeDBUWAwQdv7d
-         Nq3Rho3HgwN/jnayXPUqao2CT172O0gskaDQZnMxG5EiBWr4T46yB22AhVj5FYUp5mb6
-         A6ig==
-X-Forwarded-Encrypted: i=1; AJvYcCU/Tq4MPj9J7Ywe4D5IrUwN7A+r0vBBf86y9LsBnTaa0TcfGFf47vJncSayLscisK/ISAuIrdx0Iuk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYOOnYRVy7dzuN0MaxQcUg9uPj2cS5kDmiqslTtTL6aOG2QNOp
-	nJoCIM0j+FeRn/nA8LU3AnScHuBHC2X6aAgLOT5uChGCenV8b6GJKrigqnoB8nvLUs0YSgCGzKu
-	WRzLvjPpxSVWytJlSBVkJjM9Cte+ozHkhAtDBtA==
-X-Google-Smtp-Source: AGHT+IFt7Yq3qdxAOZPq5rfspDx9bBIP2Xc48nqDhvTlFobjMOD2awIarz0pB2lJFk6Gsup7XNJxHXCOtbCvhDGq3MA=
-X-Received: by 2002:a05:622a:14d2:b0:458:5ed8:628 with SMTP id
- d75a77b69052e-464777e2232mr41870841cf.2.1732119255280; Wed, 20 Nov 2024
- 08:14:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732119324; x=1732724124;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s9neiNV5Ecw1Rm63FFkLc6Zp+LPvspTbTCjcardEBqA=;
+        b=Ilag1K8sacS2wRmnqws1JsXkmyIinlEo1GS5IrOhnFt81JloFcfM0faQ1NEqjjz8Kj
+         1tEbapk4lp3VTl7u7qhfXVBs9dj+/0Uig/vJAzOYCq8B7S0+sGJazfFEue2QOsD2lzP/
+         qKVsmtevfsrTAfyXz87swCHa/a8LtA2Zh2xTU63LC5lgIqESb5/r9hSjw9CkVgwjDEJk
+         /n9HKWIFn/rEcSGE8p10rDFkFRfkmsF3jQ4W8AEkSbDR0nle/YIrg4ibwzdF1X+s6oHT
+         vnrBka/FJDmPrtRNTO1v5OazLwsO8MvIeJbWey9ctrO4ltCtzSbFkq5Odd7YwFWM+7oC
+         2wIg==
+X-Forwarded-Encrypted: i=1; AJvYcCW5mlC0gDaLcxCpc5bJh3dtchyskeFtWgO9EuzLpg9QJuo1neJ7m7mBe2a1X3gnugZDpJf3i6Vmz+Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7CYclGk0KzI4LJA6fg5mfk9CWXoB1uIeIW1kdrcWKWGCg3vep
+	2XtEiAAa8kbZXZdC84UzhKB1On6UG+jeJcs1V5QE6ZiFT936zicLCFgDzR3kpGK0tKL2l3E49F+
+	nwHc9v05rmazkrwqyAk2X8LxH732flUDgY9vy1mxofisnaX1wy3yEqtPglA==
+X-Gm-Gg: ASbGncsadvEzYRw15XdvIrCi20/71Fbl2imaBdREBeqBNAa8btVZFWdxMfDy4vvSWwm
+	iSQYx0MZOc5OtGBCbN5JZatp62rWSjX1tXdIgGBuJSlRuAQlobmQJnHFnnsJwf7U/ZN9vr3xyKI
+	KgNmeQ45cVIX1LCMHq/hzyQ+BmB0ELovS4OneN4DDtaQAwW44bZZ+vXAWiIVoBIuFmrPj/RIKDB
+	tH0vs0pr/MYNC5EMfD5SEhsq5Iocd3MKGDmBAoZ25uhR+d63FUSvz0BOTG+QcpxIa+Y63/O4X+d
+	65xtvbj1ZfQcfKoO3qgDVNzj3jFaIRWenI0=
+X-Received: by 2002:a05:6214:2aa7:b0:6d4:1f86:b1f2 with SMTP id 6a1803df08f44-6d4377bd8bcmr43340616d6.11.1732119324063;
+        Wed, 20 Nov 2024 08:15:24 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IErytLY/ydBtG/c68cV9sB/Rs0q2MHssCkf2mLl/ZoHSY4DaUVm1Hfo6p7yhhfkcknSTmK2WQ==
+X-Received: by 2002:a05:6214:2aa7:b0:6d4:1f86:b1f2 with SMTP id 6a1803df08f44-6d4377bd8bcmr43339716d6.11.1732119323729;
+        Wed, 20 Nov 2024 08:15:23 -0800 (PST)
+Received: from vschneid-thinkpadt14sgen2i.remote.csb (213-44-141-166.abo.bbox.fr. [213.44.141.166])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d43812ab67sm12352206d6.88.2024.11.20.08.15.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2024 08:15:22 -0800 (PST)
+From: Valentin Schneider <vschneid@redhat.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
+ x86@kernel.org, rcu@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ "Paul E . McKenney" <paulmck@kernel.org>, Steven Rostedt
+ <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Vitaly
+ Kuznetsov <vkuznets@redhat.com>, Andy Lutomirski <luto@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay
+ <quic_neeraju@quicinc.com>, Joel Fernandes <joel@joelfernandes.org>, Josh
+ Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan
+ <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>, Andrew
+ Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>,
+ Christoph Hellwig <hch@infradead.org>, Lorenzo Stoakes
+ <lstoakes@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron
+ <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>, Sami Tolvanen
+ <samitolvanen@google.com>, Ard Biesheuvel <ardb@kernel.org>, Nicholas
+ Piggin <npiggin@gmail.com>, Juerg Haefliger
+ <juerg.haefliger@canonical.com>, Nicolas Saenz Julienne
+ <nsaenz@kernel.org>, "Kirill A. Shutemov"
+ <kirill.shutemov@linux.intel.com>, Nadav Amit <namit@vmware.com>, Dan
+ Carpenter <error27@gmail.com>, Chuang Wang <nashuiliang@gmail.com>, Yang
+ Jihong <yangjihong1@huawei.com>, Petr Mladek <pmladek@suse.com>, "Jason A.
+ Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>, Julian Pidancet
+ <julian.pidancet@oracle.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Dionna Glaze <dionnaglaze@google.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>, Juri Lelli <juri.lelli@redhat.com>, Marcelo
+ Tosatti <mtosatti@redhat.com>, Yair Podemsky <ypodemsk@redhat.com>, Daniel
+ Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
+Subject: Re: [RFC PATCH v3 04/15] rcu: Add a small-width RCU watching
+ counter debug option
+In-Reply-To: <20241120145049.GI19989@noisy.programming.kicks-ass.net>
+References: <20241119153502.41361-1-vschneid@redhat.com>
+ <20241119153502.41361-5-vschneid@redhat.com>
+ <20241120145049.GI19989@noisy.programming.kicks-ass.net>
+Date: Wed, 20 Nov 2024 17:15:14 +0100
+Message-ID: <xhsmh1pz5j2zx.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241116175922.3265872-1-pasha.tatashin@soleen.com>
- <ZzuRSZc8HX9Zu0dE@google.com> <CA+CK2bAAigxUv=HGpxoV-PruN_AhisKW675SxuG_yVi+vNmfSQ@mail.gmail.com>
- <2024111938-anointer-kooky-d4f9@gregkh> <CA+CK2bD88y4wmmvzMCC5Zkp4DX5ZrxL+XEOX2v4UhBxet6nwSA@mail.gmail.com>
- <ZzzXqXGRlAwk-H2m@google.com> <CA+CK2bD4zcXVATVhcUHBsA7Adtmh9LzCStWRDQyo_DsXxTOahA@mail.gmail.com>
- <CAJD7tkZDSZ4QjLhkWQ3RV_vEwzTfCMtFcWX_Fx8mj-q0Zg2cOw@mail.gmail.com>
-In-Reply-To: <CAJD7tkZDSZ4QjLhkWQ3RV_vEwzTfCMtFcWX_Fx8mj-q0Zg2cOw@mail.gmail.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 20 Nov 2024 11:13:37 -0500
-Message-ID: <CA+CK2bC-jNxUgp9JB=H9GsMu1FrxyqXxCe_v1G-43A1-eed0VA@mail.gmail.com>
-Subject: Re: [RFCv1 0/6] Page Detective
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, Greg KH <gregkh@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	derek.kiernan@amd.com, dragan.cvetic@amd.com, arnd@arndb.de, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, tj@kernel.org, 
-	hannes@cmpxchg.org, mhocko@kernel.org, shakeel.butt@linux.dev, 
-	muchun.song@linux.dev, Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com, 
-	vbabka@suse.cz, jannh@google.com, shuah@kernel.org, vegard.nossum@oracle.com, 
-	vattunuru@marvell.com, schalla@marvell.com, david@redhat.com, 
-	willy@infradead.org, osalvador@suse.de, usama.anjum@collabora.com, 
-	andrii@kernel.org, ryan.roberts@arm.com, peterx@redhat.com, oleg@redhat.com, 
-	tandersen@netflix.com, rientjes@google.com, gthelen@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Nov 19, 2024 at 2:36=E2=80=AFPM Yosry Ahmed <yosryahmed@google.com>=
- wrote:
+On 20/11/24 15:50, Peter Zijlstra wrote:
+> On Tue, Nov 19, 2024 at 04:34:51PM +0100, Valentin Schneider wrote:
+>> A later commit will reduce the size of the RCU watching counter to free up
+>> some bits for another purpose. Paul suggested adding a config option to
+>> test the extreme case where the counter is reduced to its minimum usable
+>> width for rcutorture to poke at, so do that.
+>> 
+>> Make it only configurable under RCU_EXPERT. While at it, add a comment to
+>> explain the layout of context_tracking->state.
 >
-> On Tue, Nov 19, 2024 at 11:30=E2=80=AFAM Pasha Tatashin
-> <pasha.tatashin@soleen.com> wrote:
-> >
-> > On Tue, Nov 19, 2024 at 1:23=E2=80=AFPM Roman Gushchin <roman.gushchin@=
-linux.dev> wrote:
-> > >
-> > > On Tue, Nov 19, 2024 at 10:08:36AM -0500, Pasha Tatashin wrote:
-> > > > On Mon, Nov 18, 2024 at 8:09=E2=80=AFPM Greg KH <gregkh@linuxfounda=
-tion.org> wrote:
-> > > > >
-> > > > > On Mon, Nov 18, 2024 at 05:08:42PM -0500, Pasha Tatashin wrote:
-> > > > > > Additionally, using crash/drgn is not feasible for us at this t=
-ime, it
-> > > > > > requires keeping external tools on our hosts, also it requires
-> > > > > > approval and a security review for each script before deploymen=
-t in
-> > > > > > our fleet.
-> > > > >
-> > > > > So it's ok to add a totally insecure kernel feature to your fleet
-> > > > > instead?  You might want to reconsider that policy decision :)
-> > > >
-> > > > Hi Greg,
-> > > >
-> > > > While some risk is inherent, we believe the potential for abuse her=
-e
-> > > > is limited, especially given the existing  CAP_SYS_ADMIN requiremen=
-t.
-> > > > But, even with root access compromised, this tool presents a smalle=
-r
-> > > > attack surface than alternatives like crash/drgn. It exposes less
-> > > > sensitive information, unlike crash/drgn, which could potentially
-> > > > allow reading all of kernel memory.
-> > >
-> > > The problem here is with using dmesg for output. No security-sensitiv=
-e
-> > > information should go there. Even exposing raw kernel pointers is not
-> > > considered safe.
-> >
-> > I am OK in writing the output to a debugfs file in the next version,
-> > the only concern I have is that implies that dump_page() would need to
-> > be basically duplicated, as it now outputs everything via printk's.
+> Note that this means it will get selected by allyesconfig and the like,
+> is that desired?
 >
-> Perhaps you can refactor the code in dump_page() to use a seq_buf,
-> then have dump_page() printk that seq_buf using seq_buf_do_printk(),
-> and have page detective output that seq_buf to the debugfs file?
 
-Good idea, I will look into modifying it this way.
+I would say no
 
-> We do something very similar with memory_stat_format(). We use the
+> If no, depends on !COMPILE_TEST can help here.
 
-void mem_cgroup_print_oom_meminfo(struct mem_cgroup *memcg)
-{
-        /* Use static buffer, for the caller is holding oom_lock. */
-        static char buf[PAGE_SIZE];
-        ....
-        seq_buf_init(&s, buf, sizeof(buf));
-        memory_stat_format(memcg, &s);
-        seq_buf_do_printk(&s, KERN_INFO);
-}
+Noted, thank you!
 
-This is a callosal stack allocation, given that our fleet only has 8K
-stacks. :-)
-
-> same function to generate the memcg stats in a seq_buf, then we use
-> that seq_buf to output the stats to memory.stat as well as the OOM
-> log.
