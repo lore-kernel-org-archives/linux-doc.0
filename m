@@ -1,87 +1,120 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A680F1876;
-	Wed, 20 Nov 2024 04:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BB65FEED;
+	Wed, 20 Nov 2024 05:00:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732077410; cv=none; b=mC/cB5QCVLnlvAQAxwKITRGrBkjbUbsjXAnbK4KbivOwJdP5TSVLIMV89DMmZeqv0IHI+ye+8UPVk4lHG9YGvZgB/fhCWhsAkT258Ycx+DeclJquJmUVRN2AaUuEI0LqyUiiWQeC4r5ZZxmLIB6D+GPcBhHm1ZIta7uW4WNjJug=
+	t=1732078842; cv=none; b=BazphJ4pk19HW91lrHVIy5b1ZA81uKm58LMi8ZQD5OdLBAVKIrVpxf800VZjg3g6+4ebZh8Zw8/tzae1tQJqgHVawXAdfurT0pqsydDo4OTUaJKDBbyvG0B5t+HvD5HOpegZt9dheqK+WBenpnEqomq5yN0ZI0mw1NVlz4ouBos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732077410; c=relaxed/simple;
-	bh=u3cJ+kTAplTiPagMEGJTEea7cri1tk2vilCSJ3kTZ+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dDq1m0pIzE/iwa6IqabVCyxnSOF753kTA/9Ou2iYuVe3QUJWJxAGkh1kRZQ5E3ETZRBFezptbwLzuiKSHA5JGWR/ZyPY67sb++skIrDvtrsFUM1CpAQn/KV6UgvcrK7qALIJbKLvBRKr9CTwqCm9R8j6Okbr0g+Vmg32gmmTlIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rTcFiBon; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1732078842; c=relaxed/simple;
+	bh=cpB/HiPM61bYoDnwrQFvb5I0hNgSN7kTddtVTfqJjFU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nJKCQ8attUQM2w8cAqWl78N4tA/lI5Crw5UCIM5ZhHbxSdE6ulZS+e8CczdSm3NY1bPo7eeOKd565xA6jjrmLoUHDRQGpX+/s6d9Ba14DtG9NqTxAbelR749JswujTQp12i2C89vIZVODYs475lWI+vmk5nlBijDW7VkkxkRY3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tXWLlk/Y; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rTcFiBon"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tXWLlk/Y"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=g8h0TAWx5uACRJYvqYwby+uO/66kiFRWyXgXzvRwZ2s=; b=rTcFiBongOBU8vmtfzD6jJDW6b
-	58a5fNuCWm+VBgCEIaEEWj8KFQDt1Jk+wXKZbSoE1h0CLR+I2hdzW0AO2bZ3PkhnclKAXwLSk13Uu
-	A6qKGMRdZme1QXT6SX0W6wfHDoRrRz/w7jmwG8lmqwfPFajDp4yeLBJoR4vjgSLOhiHJimZ+5bC3M
-	UznvVLOP162zMY3O0dZteKO0WrE7xMvmRhFHq8nORWnMgO/TWHTDMl3PZOl3eCHVduscDA+6Zucwe
-	fetBzUUwVcEitRSY5e+XR1+U8nu9lqYy201yVZ/8oLep68nhm6xeVz0qtNGjTSq5htWAQhc89eS18
-	7AYQGYOw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDcRz-00000004quV-3R4t;
-	Wed, 20 Nov 2024 04:36:23 +0000
-Date: Wed, 20 Nov 2024 04:36:23 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, minchan@google.com, jannh@google.com,
-	shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v4 4/5] mm: make vma cache SLAB_TYPESAFE_BY_RCU
-Message-ID: <Zz1nRyMnIaCa0TL5@casper.infradead.org>
-References: <20241120000826.335387-1-surenb@google.com>
- <20241120000826.335387-5-surenb@google.com>
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=0oKKLy8kcx0TjraGVG5CIBrJeagZ8oxgqvK4ygkW7fQ=; b=tXWLlk/Y8qBI6tq7hVro9DwHC4
+	We33B1zjto9P7bAJ6UU62fKaC5gXElieYUMt+lUX1DzO5X1VFTHQeyjdVINo91ZGZFq5raEh8f5YG
+	dMbgK5wm1wQT00Shkw9AH4m0a7wyDg2lAG7b/fgiGK4EOmS0P+qBzCz5CCsGjaG6ceoGFkIBTb33f
+	nFKLOlAzg9wTDVwTEGVn4PG4c+9P1ivvaCiA8zrXt8a9o4H10GRCU18rdf8MHBnA+0MTXETQLKWEE
+	tREZGqzbMTHnkzPzjEPexzTQQU68UIokA6dyvtoai9FN4V/HXImuUzupVT/YfpxtQirfitKmPUPhs
+	pEhPc6xQ==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tDcpP-00000004rvn-1JXv;
+	Wed, 20 Nov 2024 05:00:36 +0000
+Message-ID: <4c13b4dc-da2c-4548-910a-cf4138d8422a@infradead.org>
+Date: Tue, 19 Nov 2024 21:00:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241120000826.335387-5-surenb@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051,
+ adp1055 and ltp8800
+To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Radu Sabau <radu.sabau@analog.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20241120035826.3920-1-cedricjustine.encarnacion@analog.com>
+ <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 19, 2024 at 04:08:25PM -0800, Suren Baghdasaryan wrote:
-> +static inline void vma_clear(struct vm_area_struct *vma)
-> +{
-> +	/* Preserve vma->vm_lock */
-> +	memset(vma, 0, VMA_BEFORE_LOCK);
-> +	memset(VMA_LOCK_END(vma), 0, VMA_AFTER_LOCK);
-> +}
 
-This isn't how you're supposed to handle constructors.  You've fixed
-the immediate problem rather than writing the code in the intended style.
 
-> +static void vm_area_ctor(void *data)
-> +{
-> +	vma_lock_init(data);
-> +}
+On 11/19/24 7:58 PM, Cedric Encarnacion wrote:
+>     ADP1051: 6 PWM for I/O Voltage, I/O Current, Temperature
+>     ADP1055: 6 PWM for I/O Voltage, I/O Current, Power, Temperature
+>     LTP8800-1A/-2/-4A: 150A/135A/200A DC/DC µModule Regulator
+> 
+> The LTP8800 is a family of step-down μModule regulators that provides
+> microprocessor core voltage from 54V power distribution architecture.
+> LTP8800 features telemetry monitoring of input/output voltage, input
+> current, output power, and temperature over PMBus.
+> 
+> Co-developed-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+> ---
+>  Documentation/hwmon/adp1050.rst | 63 +++++++++++++++++++++++++++--
+>  drivers/hwmon/pmbus/Kconfig     |  9 +++++
+>  drivers/hwmon/pmbus/adp1050.c   | 72 +++++++++++++++++++++++++++++++--
+>  3 files changed, 137 insertions(+), 7 deletions(-)
+> 
 
-After the ctor has run, the object should be in the same state as
-it is after it's freed.  If you want to memset the entire thing
-then you can do it in the ctor.  But there should be no need to
-do it in vma_init().
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index f6d352841953..5d03a307824e 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -67,6 +67,15 @@ config SENSORS_ADP1050
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called adp1050.
+>  
+> +config SENSORS_ADP1050_REGULATOR
+> +	bool "Regulator support for ADP1050 and compatibles"
+> +	depends on SENSORS_ADP1050 && REGULATOR
+> +	help
+> +	  If you say yes here you get regulator support for Analog Devices
+> +	  LTP8800-1A, LTP8800-4A, and LTP8800-2. LTP8800 is a family of DC/DC
+> +	  µModule regulators that can provide microprocessor power from 54V
+> +	  power distribution architecture.
+> +
+>  config SENSORS_BEL_PFE
+>  	tristate "Bel PFE Compatible Power Supplies"
+>  	help
 
-And there's lots of things you can move from vma_init() to the ctor.
-For example, at free time, anon_vma_chain should be an empty list.
-So if you init it in the ctor, you can avoid doing it in vma_init().
-I'd suggest that vma_numab_state_free() should be the place which
-sets vma->numab_state to NULL and we can delete vma_numab_state_init()
-entirely.
+FYI:
+
+The 'micro' symbol displays as a blank space in 'menuconfig' or 'nconfig'.
+(It shows up correctly in gconfig and xconfig.)
+
+This problem is not unique to this driver entry.
+See https://lore.kernel.org/all/20231006202942.GA865945@bhelgaas/ from 2023.
+
+AFAIK no one is working on this issue.
+Feel free to change the help text or leave it...
+
+-- 
+~Randy
 
