@@ -1,180 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1893D1AAE38;
-	Wed, 20 Nov 2024 13:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01301AB53F;
+	Wed, 20 Nov 2024 13:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732110750; cv=none; b=Wo8aZ/NdCE9sn6vUpPgN0k2iWtN0IT9XmC/YQ+7ul5DR1qL0S3SlI2eHmezS6oaibIJYTR2+w8ILWrZNZ56KKoWeqj0XDD/kg6xnoSzY9N/CkOOCnCYw3KbBcXEng7YO5epZ8lZumH8EIM1xVrl0Z7A8EzXP/P9S6HF7CAPlhOA=
+	t=1732110773; cv=none; b=CxAIakwxMeJabIneus0r8ec/HTHwJak6w+cYOif3e1K4ZINzvnnH8tVv/HSLLO0V47JAoSbZ+AVKFtTMpNp2lLfxdFIFSjbD56WssXpUxLQVQ952c4NE9FsIHyasdpZj/iiEjCwP9ZC+vTq753HidV2PNBBytoyljJeHDy9Ynlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732110750; c=relaxed/simple;
-	bh=PQrcyJYdhYqVRHp1hFJ6nsEgP+ywNZS0Nb4DS9YUiyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oKVDZc3lj/7NI6INANoBGyhSKONNlx6odZxoXRgxvktamTXyciL7cAqpbDBGS6OE/7DJu6bFESFrQP65lr23BYq/7maOYGJSJkbzLQEekX8F3MV1LaBeVppqhECQxXC4oz6mnUKvElZTqgXNOrZbT9cChPFGLk4it+8c8M+ipGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4v0JyRq; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1732110773; c=relaxed/simple;
+	bh=i7qRZuNcWTSiRas3p8j2IWgtJskY82Y1dAnmsyj+57g=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AiTGj8kD1yPAEzHvR9+VscPo278pAiQdpfdItid/ed4J5o0iM4c0FTattKc+dAkL4IUQIflow7ktBziw08KSMVEzt5O8E8hbdqj2sf+VQtwZQ/k2h84lXVwaWlCQGKSA5TDhyC7oXem9WY10fxoXuEBwkfez/CYp3Zh331h60r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=A5JSmcLZ; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4v0JyRq"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="A5JSmcLZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732110749; x=1763646749;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=PQrcyJYdhYqVRHp1hFJ6nsEgP+ywNZS0Nb4DS9YUiyk=;
-  b=d4v0JyRqzVOpyXBXV6plXgeKV4TLLnAnPIDumP626OEQcFXv58HhQ2na
-   rjZfj4mpxcpjwU+Kv8EDBCP8D2GIs2DDlIU9LI9ept6WjkYej9G8buDht
-   a/QHEOtTcvsCmMLXzMqmN+nPNgXkzobpfmgWByshyIhdZDan2HOLIDsCc
-   WvkW/snUIk5Gr9clGbXQ7//94WMkwHluSp6ZWuWJyua1S1dXK2FTo9bkt
-   3e7GO3cR4Lza9qiG/5797w8bqDte/OSROl0qNMq0p/70Uc4YMfCG1QR7C
-   SVvkNbX4h/5sCh3s4YZ5AxJPfygnKhm3Kj7K7gvLSl2tVMpMkP/2aZWf/
-   w==;
-X-CSE-ConnectionGUID: wzH90gTlTYG4/mhsXQ9elA==
-X-CSE-MsgGUID: FbB2pMccRpm8dhRi8nYrPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="35950582"
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1732110771; x=1763646771;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=i7qRZuNcWTSiRas3p8j2IWgtJskY82Y1dAnmsyj+57g=;
+  b=A5JSmcLZHw7tOwu9rNr47aF+qEQTfzfEbYcckzYa2sasKDMdlddJBcSV
+   hc4NdrcGVXFzlp+5hqE5THbnSVudXkEGBiBsgsgIu8sZRP21t2bAHfVOv
+   jP7Q326B6+T4qvAz8jRJGRBmwZSPS+R59Lsf+WuXQkNTXO6Ic/vRueL1X
+   N0hTyC0HNqTzq6UTnNMd0Z6vYzKNUfmIM3EgCuVc8PR+B7CA9FJzPT3CM
+   +bVjS+WqfsuQRtCjRrLupAZSfiItSvnaUT9ulDBnszQd0VDGVdVYvgi1X
+   GQ5IfvN/6lBsH7ggfFDL8O1OAzCcHihfUfEhuXN+Vq4piJAl9+vK+MogL
+   g==;
+X-CSE-ConnectionGUID: NYHd7BvaR3u+JsyGy7qN4A==
+X-CSE-MsgGUID: /tgqWmmYS22xq3wZC6F1lA==
 X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
-   d="scan'208";a="35950582"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 05:52:29 -0800
-X-CSE-ConnectionGUID: ewyTpNRjTmiV5Njm8LNmjg==
-X-CSE-MsgGUID: gcsYJZEzQxOLfSRDFTU9kQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
-   d="scan'208";a="94378389"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 05:52:25 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tDl82-0000000Gj02-0ORK;
-	Wed, 20 Nov 2024 15:52:22 +0200
-Date: Wed, 20 Nov 2024 15:52:21 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radu Sabau <radu.sabau@analog.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Subject: Re: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051,
- adp1055 and ltp8800
-Message-ID: <Zz3plZOyMcxn54_h@smile.fi.intel.com>
-References: <20241120035826.3920-1-cedricjustine.encarnacion@analog.com>
- <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
+   d="scan'208";a="265723883"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 20 Nov 2024 06:52:50 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 20 Nov 2024 06:52:17 -0700
+Received: from che-ll-i17164.microchip.com (10.10.85.11) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Wed, 20 Nov 2024 06:52:07 -0700
+From: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
+To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
+	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <andrew@lunn.ch>, <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+	<devicetree@vger.kernel.org>, <horatiu.vultur@microchip.com>,
+	<ruanjinjie@huawei.com>, <steen.hegelund@microchip.com>,
+	<vladimir.oltean@nxp.com>
+CC: <parthiban.veerasooran@microchip.com>, <masahiroy@kernel.org>,
+	<alexanderduyck@fb.com>, <krzk+dt@kernel.org>, <robh@kernel.org>,
+	<rdunlap@infradead.org>, <hkallweit1@gmail.com>, <linux@armlinux.org.uk>,
+	<UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>,
+	<Pier.Beruto@onsemi.com>, <Selvamani.Rajagopal@onsemi.com>,
+	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
+	<linux@bigler.io>, <markku.vorne@kempower.com>
+Subject: [PATCH net 2/2] net: ethernet: oa_tc6: fix tx skb race condition between reference pointers
+Date: Wed, 20 Nov 2024 19:21:42 +0530
+Message-ID: <20241120135142.586845-3-parthiban.veerasooran@microchip.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241120135142.586845-1-parthiban.veerasooran@microchip.com>
+References: <20241120135142.586845-1-parthiban.veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 
-On Wed, Nov 20, 2024 at 11:58:26AM +0800, Cedric Encarnacion wrote:
+There are two skb pointers to manage tx skb's enqueued from n/w stack.
+waiting_tx_skb pointer points to the tx skb which needs to be processed
+and ongoing_tx_skb pointer points to the tx skb which is being processed.
 
-I would start the commit message with the plain English sentence that describes
-the list given below. E.g., "Introduce support for the following components:".
+SPI thread prepares the tx data chunks from the tx skb pointed by the
+ongoing_tx_skb pointer. When the tx skb pointed by the ongoing_tx_skb is
+processed, the tx skb pointed by the waiting_tx_skb is assigned to
+ongoing_tx_skb and the waiting_tx_skb pointer is assigned with NULL.
+Whenever there is a new tx skb from n/w stack, it will be assigned to
+waiting_tx_skb pointer if it is NULL. Enqueuing and processing of a tx skb
+handled in two different threads.
 
->     ADP1051: 6 PWM for I/O Voltage, I/O Current, Temperature
->     ADP1055: 6 PWM for I/O Voltage, I/O Current, Power, Temperature
->     LTP8800-1A/-2/-4A: 150A/135A/200A DC/DC µModule Regulator
-> 
-> The LTP8800 is a family of step-down μModule regulators that provides
-> microprocessor core voltage from 54V power distribution architecture.
-> LTP8800 features telemetry monitoring of input/output voltage, input
-> current, output power, and temperature over PMBus.
+Consider a scenario where the SPI thread processed an ongoing_tx_skb and
+it assigns next tx skb from waiting_tx_skb pointer to ongoing_tx_skb
+pointer without doing any NULL check. At this time, if the waiting_tx_skb
+pointer is NULL then ongoing_tx_skb pointer is also assigned with NULL.
+After that, if a new tx skb is assigned to waiting_tx_skb pointer by the
+n/w stack and there is a chance to overwrite the tx skb pointer with NULL
+in the SPI thread. Finally one of the tx skb will be left as unhandled,
+resulting packet missing and memory leak.
 
-...
+To overcome the above issue, check waiting_tx_skb pointer is not NULL
+along with ongoing_tx_skb pointer's NULL check before proceeding to assign
+the tx skb from waiting_tx_skb pointer to ongoing_tx_skb pointer.
 
->    - Radu Sabau <radu.sabau@analog.com>
->  
-> -
->  Description
->  -----------
+Fixes: 53fbde8ab21e ("net: ethernet: oa_tc6: implement transmit path to transfer tx ethernet frames")
+Signed-off-by: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
+---
+ drivers/net/ethernet/oa_tc6.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Stray change.
-
-...
-
-> -This driver supprts hardware monitoring for Analog Devices ADP1050 Digital
-> -Controller for Isolated Power Supply with PMBus interface.
-> +This driver supports hardware monitoring for Analog Devices ADP1050, ADP1051, and
-> +ADP1055 Digital Controller for Isolated Power Supply with PMBus interface.
->  
-> -The ADP1050 is an advanced digital controller with a PMBus™
-> +The ADP105X is an advanced digital controller with a PMBus™
-
-Can we use small x to make it more visible that it's _not_ the part of the
-name, but a glob-like placeholder?
-
->  interface targeting high density, high efficiency dc-to-dc power
->  conversion used to monitor system temperatures, voltages and currents.
-
-...
-
-> +#if IS_ENABLED(CONFIG_SENSORS_ADP1050_REGULATOR)
-
-Why? Is the data type undefined without this?
-
-> +static const struct regulator_desc adp1050_reg_desc[] = {
-> +	PMBUS_REGULATOR_ONE("vout"),
-> +};
-> +#endif /* CONFIG_SENSORS_ADP1050_REGULATOR */
-
-Note, this can be dropped anyway in order to use PTR_IF() below, if required.
-
-...
-
-> +#if IS_ENABLED(CONFIG_SENSORS_ADP1050_REGULATOR)
-> +	.num_regulators = 1,
-> +	.reg_desc = adp1050_reg_desc,
-> +#endif
-
-Ditto, are the fields not defined without the symbol?
-
-...
-
->  static int adp1050_probe(struct i2c_client *client)
->  {
-> -	return pmbus_do_probe(client, &adp1050_info);
-> +	const struct pmbus_driver_info *info;
-> +
-> +	info = device_get_match_data(&client->dev);
-
-Why not i2c_get_match_data()?
-
-> +	if (!info)
-> +		return -ENODEV;
-> +
-> +	return pmbus_do_probe(client, info);
->  }
-
-...
-
->  static const struct i2c_device_id adp1050_id[] = {
-> -	{"adp1050"},
-> +	{ .name = "adp1050", .driver_data = (kernel_ulong_t)&adp1050_info},
-
-Please, split this patch to at least two:
-1) Introduce chip_info;
-2) add new devices.
-
-> +	{ .name = "adp1051", .driver_data = (kernel_ulong_t)&adp1051_info},
-> +	{ .name = "adp1055", .driver_data = (kernel_ulong_t)&adp1055_info},
-> +	{ .name = "ltp8800", .driver_data = (kernel_ulong_t)&ltp8800_info},
->  	{}
->  };
-
+diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
+index 4c8b0ca922b7..e1e7c6e07966 100644
+--- a/drivers/net/ethernet/oa_tc6.c
++++ b/drivers/net/ethernet/oa_tc6.c
+@@ -1003,7 +1003,7 @@ static u16 oa_tc6_prepare_spi_tx_buf_for_tx_skbs(struct oa_tc6 *tc6)
+ 	 */
+ 	for (used_tx_credits = 0; used_tx_credits < tc6->tx_credits;
+ 	     used_tx_credits++) {
+-		if (!tc6->ongoing_tx_skb) {
++		if (!tc6->ongoing_tx_skb && tc6->waiting_tx_skb) {
+ 			tc6->ongoing_tx_skb = tc6->waiting_tx_skb;
+ 			tc6->waiting_tx_skb = NULL;
+ 		}
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
