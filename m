@@ -1,159 +1,129 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F26013B58A
-	for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 17:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79AD5588F;
+	Wed, 20 Nov 2024 17:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732124039; cv=none; b=eujnbYCaItutk4NVqMQIX58v02B6g3ARn5gcXmuwMbUG/5Aq6Y/HlyV0qWv1+P/OX5iZE93ZkTfnA2tkqxjEKcnyF8vNhXCjxzUxea3IOXu1FerSGXjOD8x6us3MGjjkOcYekoYAIoHjRNmDg0S9vvsaIVZ21Vxeo1f+V8lNxis=
+	t=1732124140; cv=none; b=J/0aSU51gQ4TMlAQ2jvvONzj55DrMWaeGBsP3WCVfpzvPoZwcZesq97bhf87NKHOZfrbLmzDO09D04CXeHaAZfFAozoASxS/OiYyTXXWkJFAA53dDIb9tNHMhus8bTfO5hp3/TgOIQN6KxonGvOQ38+V/BOQbNEPdoxHbDLRKKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732124039; c=relaxed/simple;
-	bh=Qpu/AFEa2uG9HdS1pBVJ6cUxEzFgxChSm6OIAK9vj0U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AnmgltBpLqUqMRqGbJPaF76sXuomrUmIx5LJyy4eGXP5fZn1Xo+gMBb8LQR0m7rNjaLz6apQ6AvSYdpa9Hd7fbT6CuxVhESaKw+gnEdbnwjmzuO5bB+3r85bRDckIvVGFRJPRkc/ky0IuPt7tVkpk4jDSOjmi/cVFfKX1TLesFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=obHVI5SC; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1732124140; c=relaxed/simple;
+	bh=CSuqCML4kJmQA6Wrl3wxaPZHEjyIHabwVgxjyIttfkU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BLIFXieV1eqOf3KDbTlnzq4Xb8R7zsQKMkYnRdx04VbiD46Tqa8h1o303Y7DjIXMqTlb/g9/kJnD7f58IiaGEIRfATbf63/X3p16GM6MuvXhmacIh19b2jdu5jfRErlkC5fJiUr4BC+jX3hgqWpOZmwVJsTm3p5QwNa1gJAVGOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZBKxiblv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="obHVI5SC"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6eeca160f14so4374177b3.2
-        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 09:33:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732124036; x=1732728836; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tYCCxRwoo4/e9pvHHukibz0lUEYL/K5Rpqldo2LsKi0=;
-        b=obHVI5SC7ryDI3ZPz/Lt1cMnmqG1LNQ1B39f1RAePE4ygf1p8k76SIv2MQe3G5bY77
-         vwZTERRU592Rt/qpSDFw0+GD/nvAc5TWGbN9Vwv6KQmyB70SYqhxGyRjJ3uqihyhsCX4
-         /e69eLbgEGx2FBIX8D4uDBWuFrBQ1Sdwu/IwBydDNV1C0nRoMlcO8OTnBmrcUPvtEKS+
-         a/Acmeh7QV3orGYhTO1ySwVo47Pchsc7+T/7McZD5JW//ry0YfMpiqraa1QyRk476SFe
-         Avbzkk0VN3wxBsYSgEikCHlUED/MUyncXLk6OIRB/HOAb4inj8qsWpU6wlkIw62ZihF4
-         h12A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732124036; x=1732728836;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tYCCxRwoo4/e9pvHHukibz0lUEYL/K5Rpqldo2LsKi0=;
-        b=onyWK3Yo6UiQBw7oJ5gmKUxYIWlOh5I9m0dcSPqgQdQanD8Rq2GdZj9AnXgYI++C0R
-         x159YVgVSEW9FqRtHs6GxaorpIJh+bh8/R1JSNLJgiJMvnttXpJxeWW15nQpK4ky4fVv
-         hOq3+lzDegFo4FB9R4PV4qFBxaKpm+CMO0dMbFHoanI0JJ/VCXtJDyzSgXqwXGv84xhT
-         fW6HYxuPYuOjHX2F5hEAqDpFSl4tvSI/5nmES/kCl0VOs69YYpQKdzATMZkIonkYe94v
-         W8WM4zR+9x8I0IzWMk5YxLTOfN8bUrGQ+PAkynGcLOaMSJ4h3jXJUEY4idMH5fcCfeGL
-         e7Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCXYnv4BAIJQ5TyD/K54dJ2KbwN1x+jksKr/oNWKCDwmHIf4/6v0Ozt8/C3+VyqtbRiQuDx/0pE84ws=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys4eFT538jkvWKHKv4HJMWqZLbA6GtMIctifN34vZ8OUgLhp38
-	G6Jbztcyk2mdC8AOjtXK8S8obhfs5tY4GfoxMkt1rJUw+dqsCC3f0SWTMWGOUQkhqa0kGNWv/Ca
-	RYE8nuCeiTwZ5GBbJcyFT2/rVALlvL7Q52iDF
-X-Google-Smtp-Source: AGHT+IHXzlZzV1HDFKFSLMAjhmGRty1hJSXHMpkrUSLDMTXo54lPb8SEMTegLCJ8chntFke9JfMyqGqm2lxUKSFEZ3Y=
-X-Received: by 2002:a05:690c:4911:b0:6ea:5da9:34cc with SMTP id
- 00721157ae682-6eebd141ed6mr33197707b3.7.1732124034964; Wed, 20 Nov 2024
- 09:33:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZBKxiblv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2AD5C4CECD;
+	Wed, 20 Nov 2024 17:35:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732124140;
+	bh=CSuqCML4kJmQA6Wrl3wxaPZHEjyIHabwVgxjyIttfkU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZBKxiblveyb5QtKCQg5H5ei2JDTv4SPUEUiNI45CeHkE4D1Ut14z5L1Zolgex3tP3
+	 4Am6K6zrZ0ruLDuISVjkgWrc05ROAkV0VBRrO4zckhh5XQhSt1fakBymVC0rQPyFLG
+	 raNZ+3ugQwAtnZFrilVmejn1YLLc0PhsirLLll8U0Dgn9YNY4dnzAlfy5o8WEdPSrc
+	 QPM5eS0JxNCkGAvCNVvquCi9Im6dkZZ9BdVdUQlBA3vww2Sg9Pufx6UZatlnFXlui/
+	 mjoUYfQs0KAzJudIwWklHCo46vXLrjYXCINXb6m6sHRhKYE/PApTbg6VrWGQrCW7V6
+	 bwGKnBr/bvfEg==
+Message-ID: <dfe8e47e-6c31-4b11-b733-38e5bd0e49d3@kernel.org>
+Date: Wed, 20 Nov 2024 18:35:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241116175922.3265872-1-pasha.tatashin@soleen.com>
- <ZzuRSZc8HX9Zu0dE@google.com> <CA+CK2bAAigxUv=HGpxoV-PruN_AhisKW675SxuG_yVi+vNmfSQ@mail.gmail.com>
- <2024111938-anointer-kooky-d4f9@gregkh> <CA+CK2bD88y4wmmvzMCC5Zkp4DX5ZrxL+XEOX2v4UhBxet6nwSA@mail.gmail.com>
- <ZzzXqXGRlAwk-H2m@google.com> <CA+CK2bD4zcXVATVhcUHBsA7Adtmh9LzCStWRDQyo_DsXxTOahA@mail.gmail.com>
- <CAJD7tkZDSZ4QjLhkWQ3RV_vEwzTfCMtFcWX_Fx8mj-q0Zg2cOw@mail.gmail.com> <CA+CK2bC-jNxUgp9JB=H9GsMu1FrxyqXxCe_v1G-43A1-eed0VA@mail.gmail.com>
-In-Reply-To: <CA+CK2bC-jNxUgp9JB=H9GsMu1FrxyqXxCe_v1G-43A1-eed0VA@mail.gmail.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Wed, 20 Nov 2024 09:33:18 -0800
-Message-ID: <CAJD7tkaYuJpxijOp6se+mWHO6djaz_7KaoXjf=Rdo6nJubwB2w@mail.gmail.com>
-Subject: Re: [RFCv1 0/6] Page Detective
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, Greg KH <gregkh@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	derek.kiernan@amd.com, dragan.cvetic@amd.com, arnd@arndb.de, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, tj@kernel.org, 
-	hannes@cmpxchg.org, mhocko@kernel.org, shakeel.butt@linux.dev, 
-	muchun.song@linux.dev, Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com, 
-	vbabka@suse.cz, jannh@google.com, shuah@kernel.org, vegard.nossum@oracle.com, 
-	vattunuru@marvell.com, schalla@marvell.com, david@redhat.com, 
-	willy@infradead.org, osalvador@suse.de, usama.anjum@collabora.com, 
-	andrii@kernel.org, ryan.roberts@arm.com, peterx@redhat.com, oleg@redhat.com, 
-	tandersen@netflix.com, rientjes@google.com, gthelen@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: (pmbus/adp1050): Add bindings for
+ adp1051, adp1055 and ltp8800
+To: Conor Dooley <conor@kernel.org>,
+ Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+ Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Radu Sabau <radu.sabau@analog.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20241120035826.3920-1-cedricjustine.encarnacion@analog.com>
+ <20241120035826.3920-2-cedricjustine.encarnacion@analog.com>
+ <20241120-process-hulk-ecedcbf088f7@spud>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241120-process-hulk-ecedcbf088f7@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 20, 2024 at 8:14=E2=80=AFAM Pasha Tatashin
-<pasha.tatashin@soleen.com> wrote:
->
-> On Tue, Nov 19, 2024 at 2:36=E2=80=AFPM Yosry Ahmed <yosryahmed@google.co=
-m> wrote:
-> >
-> > On Tue, Nov 19, 2024 at 11:30=E2=80=AFAM Pasha Tatashin
-> > <pasha.tatashin@soleen.com> wrote:
-> > >
-> > > On Tue, Nov 19, 2024 at 1:23=E2=80=AFPM Roman Gushchin <roman.gushchi=
-n@linux.dev> wrote:
-> > > >
-> > > > On Tue, Nov 19, 2024 at 10:08:36AM -0500, Pasha Tatashin wrote:
-> > > > > On Mon, Nov 18, 2024 at 8:09=E2=80=AFPM Greg KH <gregkh@linuxfoun=
-dation.org> wrote:
-> > > > > >
-> > > > > > On Mon, Nov 18, 2024 at 05:08:42PM -0500, Pasha Tatashin wrote:
-> > > > > > > Additionally, using crash/drgn is not feasible for us at this=
- time, it
-> > > > > > > requires keeping external tools on our hosts, also it require=
-s
-> > > > > > > approval and a security review for each script before deploym=
-ent in
-> > > > > > > our fleet.
-> > > > > >
-> > > > > > So it's ok to add a totally insecure kernel feature to your fle=
-et
-> > > > > > instead?  You might want to reconsider that policy decision :)
-> > > > >
-> > > > > Hi Greg,
-> > > > >
-> > > > > While some risk is inherent, we believe the potential for abuse h=
-ere
-> > > > > is limited, especially given the existing  CAP_SYS_ADMIN requirem=
-ent.
-> > > > > But, even with root access compromised, this tool presents a smal=
-ler
-> > > > > attack surface than alternatives like crash/drgn. It exposes less
-> > > > > sensitive information, unlike crash/drgn, which could potentially
-> > > > > allow reading all of kernel memory.
-> > > >
-> > > > The problem here is with using dmesg for output. No security-sensit=
-ive
-> > > > information should go there. Even exposing raw kernel pointers is n=
-ot
-> > > > considered safe.
-> > >
-> > > I am OK in writing the output to a debugfs file in the next version,
-> > > the only concern I have is that implies that dump_page() would need t=
-o
-> > > be basically duplicated, as it now outputs everything via printk's.
-> >
-> > Perhaps you can refactor the code in dump_page() to use a seq_buf,
-> > then have dump_page() printk that seq_buf using seq_buf_do_printk(),
-> > and have page detective output that seq_buf to the debugfs file?
->
-> Good idea, I will look into modifying it this way.
->
-> > We do something very similar with memory_stat_format(). We use the
->
-> void mem_cgroup_print_oom_meminfo(struct mem_cgroup *memcg)
-> {
->         /* Use static buffer, for the caller is holding oom_lock. */
->         static char buf[PAGE_SIZE];
->         ....
->         seq_buf_init(&s, buf, sizeof(buf));
->         memory_stat_format(memcg, &s);
->         seq_buf_do_printk(&s, KERN_INFO);
-> }
->
-> This is a callosal stack allocation, given that our fleet only has 8K
-> stacks. :-)
+On 20/11/2024 18:11, Conor Dooley wrote:
+> On Wed, Nov 20, 2024 at 11:58:25AM +0800, Cedric Encarnacion wrote:
+>> add dt-bindings for adp1051, adp1055, and ltp8800 pmbus.
+>>     ADP1051: 6 PWM for I/O Voltage, I/O Current, Temperature
+>>     ADP1055: 6 PWM for I/O Voltage, I/O Current, Power, Temperature
+>>     LTP8800-1A/-2/-4A: 150A/135A/200A DC/DC µModule Regulator
+>>
+>> Co-developed-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+>> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+>> Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+> 
+> Why did you drop my ack?
+> https://lore.kernel.org/all/20241106-linoleum-kebab-decf14f54f76@spud/
+So that's a v2? Or v3? Then should be marked correctly. Please start
+using b4. I already asked analog.com for this in few cases. Feel free
+not to use b4 if you send correct patches, but this is not the case here.
 
-That's a static allocation though :)
+A nit, subject: drop second/last, redundant "bindings for". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
+
+
+Best regards,
+Krzysztof
