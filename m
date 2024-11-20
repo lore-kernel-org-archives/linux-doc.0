@@ -1,91 +1,87 @@
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196181876;
-	Wed, 20 Nov 2024 04:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A680F1876;
+	Wed, 20 Nov 2024 04:36:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732077296; cv=none; b=V/p+reep/N0GkbhXEenrfhoinUzE5YhTJctaKLP3Q+JgiTvI2JeJmprLPc7Isu1oLD0XFmi960kADn6I/Qker+N4FooXAfVVXCzAEpVSw3E485s2eKduuPyyuG9ckCQsthTS8pONcl2TBzSyiyx/ZhZ6OFAQhEA98pJfBjlAa8Q=
+	t=1732077410; cv=none; b=mC/cB5QCVLnlvAQAxwKITRGrBkjbUbsjXAnbK4KbivOwJdP5TSVLIMV89DMmZeqv0IHI+ye+8UPVk4lHG9YGvZgB/fhCWhsAkT258Ycx+DeclJquJmUVRN2AaUuEI0LqyUiiWQeC4r5ZZxmLIB6D+GPcBhHm1ZIta7uW4WNjJug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732077296; c=relaxed/simple;
-	bh=9wCqL94QV2W0zgMyjrtj3hoZ3K1kai7uFZGPeiZJUhY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T6IBAV8ehSE3Vay6ITKos/ISFPaKoUPD2RZ8oh3EHrzTGay/RjroFuDm28tvTJr1jpR2Wc0bosMqPcDGCUuW6BlpwyRrzapPO+N7lLr6TQqowDSpWSNrki/TG6VbxFyMelQFu59zpzgfOTjcfMLHfXgDU0Ib9oMe8w0Z5HMqxm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LevWA8xf; arc=none smtp.client-ip=209.85.166.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732077410; c=relaxed/simple;
+	bh=u3cJ+kTAplTiPagMEGJTEea7cri1tk2vilCSJ3kTZ+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dDq1m0pIzE/iwa6IqabVCyxnSOF753kTA/9Ou2iYuVe3QUJWJxAGkh1kRZQ5E3ETZRBFezptbwLzuiKSHA5JGWR/ZyPY67sb++skIrDvtrsFUM1CpAQn/KV6UgvcrK7qALIJbKLvBRKr9CTwqCm9R8j6Okbr0g+Vmg32gmmTlIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rTcFiBon; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LevWA8xf"
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3a789d422bcso559035ab.1;
-        Tue, 19 Nov 2024 20:34:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732077294; x=1732682094; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+jBJ1TYKbV4zN+jYWbN7guI3voUYIaz3agm8n04fwCE=;
-        b=LevWA8xfBOrFTzEaa2Yrkdt0Qf2rlmsdLttcofAqQmQWxk21FtyLfxMVfbefjmUjiH
-         QjT0dZiQYM7ovMfVZRgtnx71ti8grJDPojQ1VlLj4Qj1ZzzOov8qEWWBgGjmWXuFYgPV
-         RMfOBdpElVeiU5O8ozi2OffufZHu7Or9N4AZLDVh1bBr2STNWFHdWeWvN55HPhLDRSHH
-         0Y+5lle7cedoVYz1IXK3Oa1X3kXoDZBwXeJTdfHKIPQRnnFe37cWtwYhyaThGpQKuL0H
-         c4veTlo9L+bR9FG2fyNU9zSsrzCXgqc8f/a4plcY9J9iRwCeXOlLh5cT98pscTmi6DSJ
-         pjIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732077294; x=1732682094;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+jBJ1TYKbV4zN+jYWbN7guI3voUYIaz3agm8n04fwCE=;
-        b=S+O56njIa8ppcP+uSdUoSVd8deFgS8mQGxX3LGBqAaTy0jSvMwNEDt/rSe83O1IwiJ
-         VxjqkfCdb17g+mSLiUsB/W6jchvdwzb2FioYk+cUWkh/7ObOliq1L2U3Vvv5vP7Uqrug
-         1Emp0swUjVTzjFO9hYiE1CX2K7OzSls8F+OtNFHFF0rzPe89pSuZ9zHt8fSDYmOpLaym
-         jBwGCP8aL7uW1NU02cl7FM0oo884VlX/w3AeV3JzFjia9Qku95bp+rhmDtK5hMH19i5l
-         bAGgS5yJ20gUDZuymZJUE3jrLYOuQq6BZUDjNdq88B/YrEngUrAGpMG5hkrMUX1e+BUp
-         v2SQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdtOD6B1SN4YRdbSIunzlEs3seNFnc18Wly0d1dj6VuKwaJ/91UtrK8r/FDBRk2OHHZqmnBwrqrwdk0J6M@vger.kernel.org, AJvYcCXjca8Fa+gDMF4nZEkq74Jv/qCe2aHLqWibSBsv2bg3Apo1PmKCFxKzHfyluEF7LWMD40VXNC6MJrg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoQpEsOLq0MVmKFl4GlRLMvI+vd/OGHmQL/Gb+MoIG7l+At+W0
-	b53zUBpEa4we4/QiuEclwlcECYCgBxQue4Bu15NkOgaSVWSWfvXre6VqTg==
-X-Google-Smtp-Source: AGHT+IHn6wEKXryAmMdOQtowc9nRrXQ2sQDm8qS4PUVPfvJ11yc7lE8TSDVWjLDAAVAGWH1WjU/KEQ==
-X-Received: by 2002:a05:6e02:20e6:b0:3a7:4e3e:d03a with SMTP id e9e14a558f8ab-3a7865a8914mr12588235ab.22.1732077294102;
-        Tue, 19 Nov 2024 20:34:54 -0800 (PST)
-Received: from localhost.localdomain ([175.112.156.113])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1dac1e3sm8499383a12.57.2024.11.19.20.34.52
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 19 Nov 2024 20:34:53 -0800 (PST)
-From: Ruffalo Lavoisier <ruffalolavoisier@gmail.com>
-X-Google-Original-From: Ruffalo Lavoisier <RuffaloLavoisier@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Ruffalo Lavoisier <RuffaloLavoisier@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: remove duplicate word
-Date: Wed, 20 Nov 2024 13:34:13 +0900
-Message-ID: <20241120043414.78811-1-RuffaloLavoisier@gmail.com>
-X-Mailer: git-send-email 2.46.1
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rTcFiBon"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=g8h0TAWx5uACRJYvqYwby+uO/66kiFRWyXgXzvRwZ2s=; b=rTcFiBongOBU8vmtfzD6jJDW6b
+	58a5fNuCWm+VBgCEIaEEWj8KFQDt1Jk+wXKZbSoE1h0CLR+I2hdzW0AO2bZ3PkhnclKAXwLSk13Uu
+	A6qKGMRdZme1QXT6SX0W6wfHDoRrRz/w7jmwG8lmqwfPFajDp4yeLBJoR4vjgSLOhiHJimZ+5bC3M
+	UznvVLOP162zMY3O0dZteKO0WrE7xMvmRhFHq8nORWnMgO/TWHTDMl3PZOl3eCHVduscDA+6Zucwe
+	fetBzUUwVcEitRSY5e+XR1+U8nu9lqYy201yVZ/8oLep68nhm6xeVz0qtNGjTSq5htWAQhc89eS18
+	7AYQGYOw==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tDcRz-00000004quV-3R4t;
+	Wed, 20 Nov 2024 04:36:23 +0000
+Date: Wed, 20 Nov 2024 04:36:23 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, liam.howlett@oracle.com,
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
+	hughd@google.com, minchan@google.com, jannh@google.com,
+	shakeel.butt@linux.dev, souravpanda@google.com,
+	pasha.tatashin@soleen.com, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v4 4/5] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+Message-ID: <Zz1nRyMnIaCa0TL5@casper.infradead.org>
+References: <20241120000826.335387-1-surenb@google.com>
+ <20241120000826.335387-5-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241120000826.335387-5-surenb@google.com>
 
-- Remove duplicate word, 'to'.
----
- Documentation/admin-guide/sysctl/fs.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Nov 19, 2024 at 04:08:25PM -0800, Suren Baghdasaryan wrote:
+> +static inline void vma_clear(struct vm_area_struct *vma)
+> +{
+> +	/* Preserve vma->vm_lock */
+> +	memset(vma, 0, VMA_BEFORE_LOCK);
+> +	memset(VMA_LOCK_END(vma), 0, VMA_AFTER_LOCK);
+> +}
 
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index 30c61474dec5..43b128c0225b 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -41,7 +41,7 @@ pre-allocation or re-sizing of any kernel data structures.
- dentry-negative
- ----------------------------
- 
--Policy for negative dentries. Set to 1 to to always delete the dentry when a
-+Policy for negative dentries. Set to 1 to always delete the dentry when a
- file is removed, and 0 to disable it. By default, this behavior is disabled.
- 
- dentry-state
--- 
-2.46.1
+This isn't how you're supposed to handle constructors.  You've fixed
+the immediate problem rather than writing the code in the intended style.
+
+> +static void vm_area_ctor(void *data)
+> +{
+> +	vma_lock_init(data);
+> +}
+
+After the ctor has run, the object should be in the same state as
+it is after it's freed.  If you want to memset the entire thing
+then you can do it in the ctor.  But there should be no need to
+do it in vma_init().
+
+And there's lots of things you can move from vma_init() to the ctor.
+For example, at free time, anon_vma_chain should be an empty list.
+So if you init it in the ctor, you can avoid doing it in vma_init().
+I'd suggest that vma_numab_state_free() should be the place which
+sets vma->numab_state to NULL and we can delete vma_numab_state_init()
+entirely.
 
