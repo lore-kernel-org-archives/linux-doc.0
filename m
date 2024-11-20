@@ -1,119 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-52005.amazon.com (smtp-fw-52005.amazon.com [52.119.213.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777F924B28;
-	Wed, 20 Nov 2024 17:13:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CE614831E;
+	Wed, 20 Nov 2024 17:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732122808; cv=none; b=kim9MTD8L4XTKsagwPeTFRXLT6254tnQvBapFHAby5cNfmH5zOUaksS+c6o9FW7yMvtU2duBqoVBXRMr6r/IqGi2ZAuNmQNE5k/5sEiIvTya/BVacXvcGhp31XLg+nvbRzDc0Uf4GP0NfNx4lE8UjJR7cQdK9U6XTxv81/pr4EE=
+	t=1732123306; cv=none; b=PTL2m9+RIb6je55SDrUwKAX5aVexXl8GWXDY2qgMJ62Pc36uF05sxx6v8YgatFYQHNa+pB/iT6vf7ZHSPGNgcw8+yHZvVbqiVLxAm1HkI/Aqtk8gDA5Pk0H8Fut7LaWTCiokDM2MsrIzrdXfoiXRE+yCKqgc1zoJciT7tnUo8kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732122808; c=relaxed/simple;
-	bh=jz3HdoluyP/zpxZDP2VMKKAfsXgettCvfGsGqVKKJpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lpMZSqjeZFuVU87Qxz4a5ZY7GhzH8++b7o0zsZBxmfc++moNGH3zg7P38sT0Hmb6AekR3VJfoh3REVHJH8cDcQQd2EO2SbZclrJ/2WaXLPMJREdVPMuwk8r2jToR0yXg7qcr+bHukADxrKKRNEfRaXRPlK1E25CLRe7ceQAgnZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFEAEC4CECD;
-	Wed, 20 Nov 2024 17:13:25 +0000 (UTC)
-Date: Wed, 20 Nov 2024 09:13:24 -0800
-From: Josh Poimboeuf <jpoimboe@redhat.com>
-To: Valentin Schneider <vschneid@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
-	x86@kernel.org, rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	Jason Baron <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Juerg Haefliger <juerg.haefliger@canonical.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Nadav Amit <namit@vmware.com>, Dan Carpenter <error27@gmail.com>,
-	Chuang Wang <nashuiliang@gmail.com>,
-	Yang Jihong <yangjihong1@huawei.com>,
-	Petr Mladek <pmladek@suse.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-	Julian Pidancet <julian.pidancet@oracle.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Dionna Glaze <dionnaglaze@google.com>,
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Yair Podemsky <ypodemsk@redhat.com>,
-	Daniel Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
-Subject: Re: [RFC PATCH v3 09/15] objtool: Warn about non __ro_after_init
- static key usage in .noinstr
-Message-ID: <20241120171324.a4yteg2mhkdeyymf@jpoimboe>
-References: <20241119153502.41361-1-vschneid@redhat.com>
- <20241119153502.41361-10-vschneid@redhat.com>
+	s=arc-20240116; t=1732123306; c=relaxed/simple;
+	bh=NTciS5uR2bAcpu7nQc7zBidMJaiWZix4ilhuKQ1/pP4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Jfd0kQU14X0eN/dKkGZatSHuHQeFYU+G+XdtUiOjjY+w7DbpCeWLAOU5U2EvS8QJ6rJhwoYfrVOy+S9S33O3uj1vuR0oXPJUzykGTn2N0J3/L0xTWY4suExzIxkSnsdxlygT4Hne0/hwFjd0xA3drsvmCZAYyTJcKDl2upjVeD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=imE9zBIP; arc=none smtp.client-ip=52.119.213.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="imE9zBIP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1732123304; x=1763659304;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=3/fY0iM7juE2IxcKaSuL8G4jyBXYD27Dqt66/gwlyWk=;
+  b=imE9zBIPFC/1fqFeuRonDRUTShDe5OvvLrzOG2VDEZ3qaqK9vM1J9Z3k
+   p7DQqDwkUgUaFKoil60ELSxIs0MM4hkyWFBsWRveSqNp/tF+kMODMU4Qq
+   CInbnE9fHmA/p8Vz828xvcJf/7uPJ21al5ISi5kadkTmasxRSymO0qvEs
+   o=;
+X-IronPort-AV: E=Sophos;i="6.12,170,1728950400"; 
+   d="scan'208";a="696763459"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.6])
+  by smtp-border-fw-52005.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 17:21:39 +0000
+Received: from EX19MTAEUA001.ant.amazon.com [10.0.17.79:22431]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.34.163:2525] with esmtp (Farcaster)
+ id fa3a87a2-973e-4cfe-b2e3-5253ed2bf86d; Wed, 20 Nov 2024 17:21:38 +0000 (UTC)
+X-Farcaster-Flow-ID: fa3a87a2-973e-4cfe-b2e3-5253ed2bf86d
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUA001.ant.amazon.com (10.252.50.50) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Wed, 20 Nov 2024 17:21:38 +0000
+Received: from [192.168.4.239] (10.106.82.23) by EX19D022EUC002.ant.amazon.com
+ (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Wed, 20 Nov 2024
+ 17:21:37 +0000
+Message-ID: <03a12598-74aa-4202-a79a-668b45dbcc47@amazon.com>
+Date: Wed, 20 Nov 2024 17:21:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241119153502.41361-10-vschneid@redhat.com>
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [RFC PATCH 0/4] KVM: ioctl for populating guest_memfd
+To: David Hildenbrand <david@redhat.com>, <pbonzini@redhat.com>,
+	<corbet@lwn.net>, <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <jthoughton@google.com>, <brijesh.singh@amd.com>, <michael.roth@amd.com>,
+	<graf@amazon.de>, <jgowans@amazon.com>, <roypat@amazon.co.uk>,
+	<derekmn@amazon.com>, <nsaenz@amazon.es>, <xmarcalx@amazon.com>, "Sean
+ Christopherson" <seanjc@google.com>, <linux-mm@kvack.org>
+References: <20241024095429.54052-1-kalyazin@amazon.com>
+ <08aeaf6e-dc89-413a-86a6-b9772c9b2faf@amazon.com>
+ <01b0a528-bec0-41d7-80f6-8afe213bd56b@redhat.com>
+ <efe6acf5-8e08-46cd-88e4-ad85d3af2688@redhat.com>
+ <55b6b3ec-eaa8-494b-9bc7-741fe0c3bc63@amazon.com>
+ <9286da7a-9923-4a3b-a769-590e8824fa10@redhat.com>
+ <f55d56d7-0ab9-495f-96bf-9bf642a9762d@redhat.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
+ ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
+ abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
+In-Reply-To: <f55d56d7-0ab9-495f-96bf-9bf642a9762d@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D005EUB002.ant.amazon.com (10.252.51.103) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-On Tue, Nov 19, 2024 at 04:34:56PM +0100, Valentin Schneider wrote:
-> Later commits will disallow runtime-mutable text in .noinstr sections in
-> order to safely defer instruction patching IPIs.
+
+
+On 20/11/2024 16:44, David Hildenbrand wrote:
+>> If the problem is the "pagecache" overhead, then yes, it will be a
+>> harder nut to crack. But maybe there are some low-hanging fruits to
+>> optimize? Finding the main cause for the added overhead would be
+>> interesting.
+
+Agreed, knowing the exact root cause would be really nice.
+
+> Can you compare uffdio_copy() when using anonymous memory vs. shmem?
+> That's likely the best we could currently achieve with guest_memfd.
+
+Yeah, I was doing that too. It was about ~28% slower in my setup, while 
+with guest_memfd it was ~34% slower.  The variance of the data was quite 
+high so the difference may well be just noise.  In other words, I'd be 
+much happier if we could bring guest_memfd (or even shmem) performance 
+closer to the anon/private than if we just equalised guest_memfd with 
+shmem (which are probably already pretty close).
+
+> There is the tools/testing/selftests/mm/uffd-stress benchmark, not sure
+> if that is of any help; it SEGFAULTS for me right now with a (likely)
+> division by 0.
+
+Thanks for the pointer, will take a look!
+
+> Cheers,
 > 
-> All static keys used in .noinstr sections have now been checked as being
-> either flagged as __ro_after_init, or as forceful static keys. Any
-> occurrence of this new warning would be the result of a code change that
-> will need looking at.
+> David / dhildenb
 > 
-> Suggested-by: Josh Poimboeuf <jpoimboe@redhat.com>
-> Signed-off-by: Valentin Schneider <vschneid@redhat.com>
-> ---
-> offset_of(static_key.type) and JUMP_TYPE_FORCEFUL would need to be shoved
-> into a somewhat standalone header file that could be included by objtool
-> itself.
 
-static_key and JUMP_TYPE_* can be moved to jump_label_types.h which can
-be included by jump_label.h and also synced to tools/include/linux for
-objtool to access.  I guess objtool would have to "#define
-CONFIG_JUMP_LABEL" before including it to get the full definition.
-
-> @@ -3605,6 +3608,41 @@ static int validate_return(struct symbol *func, struct instruction *insn, struct
->  	return 0;
->  }
->  
-> +static bool static_key_is_forceful(struct symbol *key)
-> +{
-> +	if (!strcmp(key->sec->name, ".data")) {
-
-There are some configs (and more coming in the future) which compile
-with the kernel with -fdata-sections.  So this may need to be something
-like
-	if (strstarts(key->sec->name, ".data"))
-
--- 
-Josh
