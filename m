@@ -1,158 +1,180 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB9E1E489;
-	Wed, 20 Nov 2024 18:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425F31E515;
+	Wed, 20 Nov 2024 18:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732126049; cv=none; b=TtXpd1lHDypP6leDszhoDvXpoUTDRhLxHUJdAUkrugUXvw4p9df64yCTAg9T2UW5cJjiIokS8lOwazRL+aXzzUOcfP+k/qegPy4jNoKXW5OvMKy8oZke/SHoSEgw7u5f9L3BgbvoouiDHF6pbykzf3p6qyJRtRUFmICua3jq6Mw=
+	t=1732126364; cv=none; b=rBntKq8+JdrBC7LnLyuTbVOTVTiJsAi53RB/K7gQDS72NSVcbPn/x2Q1e/I/DzE+E4WDtVlBwAPovsNsziCKZxT9w9ERqawMwo5vG9L4ca+SaUCq0DEMcYhBuCfmSP9Kj4lGN45VwFjNUErz+TGo+p4RSc9cQC9mU7xyY+3toe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732126049; c=relaxed/simple;
-	bh=fC0a0dcffjP8d0yxp5ThNzmgwtjg0ZK+4idfGdgNdcQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C/9k9kvMIuL2MB8Il3NMFDyexB1HLaiQHh2SM+3v+Sj/5r4YUIs1wXpLs8tV6uewBbDtq+QCELTu3dFfGjvIAd/sC4yJCyUihEP42kAsZE/9In+UsDC6ZhnaLNZEHFQKCQrQK3YmYANYoKQdMBaBGn+fyat8+9C1LtcAqjoKr2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RhBjjdQt; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732126364; c=relaxed/simple;
+	bh=+GIAMTVbJ1ixJStHsEbMHlliDpePtNm2e3H3BFBrBvg=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=BuBSytoEYYHrYO3fRfb8D8YZal6q9fIDOzf+LHY+2I6ewvAGseGfUokJwkQYI1bggVPPgpo0AvJbktfdp4QspT+VgFMDo7HK3oTYWrHuEfZq3eFvtZtmKADey0MHOig36lOK3BB3JH4qqV5x878+0YymFLDlUw/LQyxhdYGiWDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lFiAVJA/; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RhBjjdQt"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-212581a0b33so21955605ad.0;
-        Wed, 20 Nov 2024 10:07:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732126047; x=1732730847; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=oCD9jqN15ZFMZzQekYM10Jocq9g8TJDb85MimZfpYhQ=;
-        b=RhBjjdQtmCoFFGXeJHUrJFAmAtGPCyTcCYf0ksghPmvuqRN6v07f2gS2MJEzyIwzRJ
-         FX7GuIk5X798Cg5MW7wBjKWTprN6Cx1h8duCjRxEPfgef6gDOQhA7yR1IvEBfJgC72LE
-         rWEOzxfyK1FQHNeI+1dIS5L6gEEBueULWajrdSf8f1AJeysTLp9frUVN8aoL3kYRUX19
-         49TaG9HWDO/PSsUBOS3CTrYPC8gNhLhQnpCJcZN0rgcozEqTwElryWCnnNxJ8DmFeYyj
-         XaHDnOqbfR1sf08V8FB+fN0hZ41ySEh+aHPtaJAiOT7W5g8k0pPYIPcUSVXha9YTo4MN
-         g3Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732126047; x=1732730847;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oCD9jqN15ZFMZzQekYM10Jocq9g8TJDb85MimZfpYhQ=;
-        b=UcmRR/BU4hfJSNeykuKcN0SDDvnXdjwtOyTAcTYkMDV63d9OEoYrGUv7DLFHbWHp6g
-         blZ74BdokqfM1GPYTxk1zue7mOWagQxOfv9GFG3HJzmp+FBEHduBC0MjtOBsMLtykdj0
-         TUKQwlQSvrLC6RgpS1bUn3hdN0NPlMAXG2C7wGfhgxxi0Nbn7vp6INwncEb/qhkiseLo
-         DtTHcX24sROtTWPr3VuPHYVUYTTLm5JlfQJv+/WAlMGnJjpAsgeyHWLIyc5MMhpn+6Hf
-         gq1Gte87NXJo0/KcpSg7opJG+JujOJPwC0WNuosfXb18xVJ3cA8D+dlyrRZOMAekkPMX
-         rD9g==
-X-Forwarded-Encrypted: i=1; AJvYcCUNfmQpzC4GYpVrx62SoNZ0i3nC7g+yMMZ9lgqLo7x6fctrfDXiTMoHTI7aWQ/VBrp2wV0BAX0rKrrc/YU=@vger.kernel.org, AJvYcCVUp/k0rSuv4k/XrP/RXZJleiSFx1LhVP0dsuFAqOF2zFIDOkkihT5PzsbU2EzmVpIiU4Dzxu14mp85@vger.kernel.org, AJvYcCVeTZnt6ie6nYo4q7VfORVPe7VS3hFJF7pJgpDyLIQ6oYJs1d7dnypZR0my0OrygY9hKSRzOsRAiTcy1Yyz@vger.kernel.org, AJvYcCXhgMs+80sxfTJzgnPCowF0kMVuv7AOEO4uDLD/2LNJJYzQdF/mxrLcnieE6vGEMOmKIyCf9t2HTlY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3wJZhr+O7suE37UmnPcXthTEabi7j4Xn7FI0ImV9r6WR4+E5I
-	yur06TxFRHb/oJAdJTPXZ7FTrOFU23r6ygE7CBy7JFKqEv/Eywl5
-X-Google-Smtp-Source: AGHT+IEwiDtnSAxEOk/AeSg1QOgAISxDY3a8s/vd75HOZF7OG4Cyqd/uUg4tGRHsf0HmRkc2OfjoXQ==
-X-Received: by 2002:a17:902:d2cf:b0:212:6187:6a76 with SMTP id d9443c01a7336-2126a3a43e4mr41756665ad.14.1732126047311;
-        Wed, 20 Nov 2024 10:07:27 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724beeb83easm1961536b3a.16.2024.11.20.10.07.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Nov 2024 10:07:26 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <7e55a403-eb1c-4369-8180-1639b50cc9b1@roeck-us.net>
-Date: Wed, 20 Nov 2024 10:07:24 -0800
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lFiAVJA/"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AK9GWxj025929;
+	Wed, 20 Nov 2024 18:12:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=EhNaM1mzvIH9f+QEUvvyQ1
+	l0k56DBuV7rXs6Bl8yZT4=; b=lFiAVJA/Rqalps64p2UfO3u40nM1FzbsFDrJ1D
+	THUltmdgjEBUEcKlBvuxBT2L8RhqW72MgoEeiz98N0J6C8mPYg8cR6IJf0+f5a1E
+	tn5mRsV5pKw/Bh3OUJMieLY5YCiKa/a5ncxVEE55gFxUjhDWgXayN3LR4jWourMR
+	NOrvqJV5nOCv8tx1a1G1Hyz7dVFc1p2B6uHYR0W+dcbkNKEaN+lXs278Ps71Leps
+	93blNZDTZU8rDEECrj3D+MQXgIZYzyG1UKLcCs4FCuIWrWKFtk2uEvj88dHGcWNs
+	vy9XkecfWSUdp49K2mX+KB1yhH6RzQ6rXArt9iwmDgJk8Q6Q==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 431byjhkpj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Nov 2024 18:12:15 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AKICEkM001246
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Nov 2024 18:12:14 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 20 Nov 2024 10:12:13 -0800
+From: Elliot Berman <quic_eberman@quicinc.com>
+Subject: [PATCH v4 0/2] mm: Refactor KVM guest_memfd to introduce guestmem
+ library
+Date: Wed, 20 Nov 2024 10:12:06 -0800
+Message-ID: <20241120-guestmem-library-v4-0-0c597f733909@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: (pmbus/adp1050): Add bindings for
- adp1051, adp1055 and ltp8800
-To: Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor@kernel.org>,
- Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Radu Sabau <radu.sabau@analog.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20241120035826.3920-1-cedricjustine.encarnacion@analog.com>
- <20241120035826.3920-2-cedricjustine.encarnacion@analog.com>
- <20241120-process-hulk-ecedcbf088f7@spud>
- <dfe8e47e-6c31-4b11-b733-38e5bd0e49d3@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <dfe8e47e-6c31-4b11-b733-38e5bd0e49d3@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHcmPmcC/2WNwQ6CMBAFf4Xs2RraYqme/A/DgZYFNrGALTQSw
+ r9bSTx5nEnevA0CesIAt2wDj5ECjUOC4pSB7euhQ0ZNYhC5KDjngnULhtmhY08yvvYrU1oqaY2
+ 4cq0gzSaPLb2P5KNK3FOYR78eD1F+7S8m/2NRspyVvG0Q9UWVytxfC1ka7NmODqp93z+32UyVs
+ gAAAA==
+X-Change-ID: 20241112-guestmem-library-68363cb29186
+To: Paolo Bonzini <pbonzini@redhat.com>,
+        Andrew Morton
+	<akpm@linux-foundation.org>,
+        Sean Christopherson <seanjc@google.com>,
+        "Fuad
+ Tabba" <tabba@google.com>,
+        Ackerley Tng <ackerleytng@google.com>,
+        "Mike
+ Rapoport" <rppt@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        "H. Peter
+ Anvin" <hpa@zytor.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, Trond Myklebust <trondmy@kernel.org>,
+        "Anna
+ Schumaker" <anna@kernel.org>,
+        Mike Marshall <hubcap@omnibond.com>,
+        "Martin
+ Brandenburg" <martin@omnibond.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+CC: James Gowans <jgowans@amazon.com>, Mike Day <michael.day@amd.com>,
+        <linux-fsdevel@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <linux-coco@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
+        <devel@lists.orangefs.org>, <linux-arm-kernel@lists.infradead.org>,
+        "Elliot
+ Berman" <quic_eberman@quicinc.com>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: nd43uozb7EZ_SXIRUmbmgsxDVz64o2Pc
+X-Proofpoint-ORIG-GUID: nd43uozb7EZ_SXIRUmbmgsxDVz64o2Pc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1011
+ suspectscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
+ malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=954
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411200125
 
-On 11/20/24 09:35, Krzysztof Kozlowski wrote:
-> On 20/11/2024 18:11, Conor Dooley wrote:
->> On Wed, Nov 20, 2024 at 11:58:25AM +0800, Cedric Encarnacion wrote:
->>> add dt-bindings for adp1051, adp1055, and ltp8800 pmbus.
->>>      ADP1051: 6 PWM for I/O Voltage, I/O Current, Temperature
->>>      ADP1055: 6 PWM for I/O Voltage, I/O Current, Power, Temperature
->>>      LTP8800-1A/-2/-4A: 150A/135A/200A DC/DC µModule Regulator
->>>
->>> Co-developed-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
->>> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
->>> Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
->>
->> Why did you drop my ack?
->> https://lore.kernel.org/all/20241106-linoleum-kebab-decf14f54f76@spud/
-> So that's a v2? Or v3? Then should be marked correctly. Please start
-> using b4. I already asked analog.com for this in few cases. Feel free
-> not to use b4 if you send correct patches, but this is not the case here.
-> 
+In preparation for adding more features to KVM's guest_memfd, refactor
+and introduce a library which abtracts some of the core-mm decisions
+about managing folios associated with guest memory. The goal of the
+refactor serves two purposes:
 
-In general I agree, but this is a combination of two patch series, as mentioned
-in the summary. I am not sure how to use versioning in such situations. Is it
-v2 of one series or v3 of the other ?
+1. Provide an easier way to reason about memory in guest_memfd. KVM
+   needs to support multiple confidentiality models (TDX, SEV, pKVM, Arm
+   CCA). These models support different semantics for when the host
+   can(not) access guest memory. An abstraction for the allocator and
+   managing the state of pages will make it eaiser to reason about the
+   state of folios within the guest_memfd.
 
-Thanks,
-Guenter
+2. Provide a common implementation for other users such as Gunyah [1] and
+   guestmemfs [2].
+
+In this initial series, I'm seeking comments for the line I'm drawing
+between library and user (KVM). I've not introduced new functionality in
+this series; the first new feature will probably be Fuad's mappability
+patches [3].
+
+I've decided to only bring out the address_space from guest_memfd as it
+seemed the simplest approach. In the current iteration, KVM "attaches"
+the guestmem to the inode. I expect we'll want to provide some helpers
+for inode, file, and vm operations when it's relevant to
+mappability/accessiblity/faultability.
+
+I'd appreciate any feedback, especially on how much we should pull into
+the guestmem library.
+
+[1]: https://lore.kernel.org/lkml/20240222-gunyah-v17-0-1e9da6763d38@quicinc.com/
+[2]: https://lore.kernel.org/all/20240805093245.889357-1-jgowans@amazon.com/
+[3]: https://lore.kernel.org/all/20241010085930.1546800-3-tabba@google.com/
+
+Changes in v4:
+- Update folio_free() to add address_space mapping instead of
+  invalidate_folio/free_folio path.
+- Link to v3: https://lore.kernel.org/r/20241113-guestmem-library-v3-0-71fdee85676b@quicinc.com
+
+Changes in v3:
+ - Refactor/extract only the address_space
+ - Link to v2: https://lore.kernel.org/all/20240829-guest-memfd-lib-v2-0-b9afc1ff3656@quicinc.com/
+
+Changes in v2:
+- Significantly reworked to introduce "accessible" and "safe" reference
+  counters
+- Link to v1: https://lore.kernel.org/r/20240805-guest-memfd-lib-v1-0-e5a29a4ff5d7@quicinc.com
+
+Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+---
+Elliot Berman (2):
+      filemap: Pass address_space mapping to ->free_folio()
+      mm: guestmem: Convert address_space operations to guestmem library
+
+ Documentation/filesystems/locking.rst |   2 +-
+ MAINTAINERS                           |   2 +
+ fs/nfs/dir.c                          |  11 +-
+ fs/orangefs/inode.c                   |   3 +-
+ include/linux/fs.h                    |   2 +-
+ include/linux/guestmem.h              |  33 ++++++
+ mm/Kconfig                            |   3 +
+ mm/Makefile                           |   1 +
+ mm/filemap.c                          |   9 +-
+ mm/guestmem.c                         | 196 ++++++++++++++++++++++++++++++++++
+ mm/secretmem.c                        |   3 +-
+ mm/vmscan.c                           |   4 +-
+ virt/kvm/Kconfig                      |   1 +
+ virt/kvm/guest_memfd.c                |  97 +++++------------
+ 14 files changed, 283 insertions(+), 84 deletions(-)
+---
+base-commit: 5cb1659f412041e4780f2e8ee49b2e03728a2ba6
+change-id: 20241112-guestmem-library-68363cb29186
+
+Best regards,
+-- 
+Elliot Berman <quic_eberman@quicinc.com>
 
