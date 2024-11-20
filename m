@@ -1,132 +1,189 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1583B1A2;
-	Wed, 20 Nov 2024 15:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9098A146A79
+	for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 15:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732116745; cv=none; b=p62xVBrjUGa3zZ7eHnwcGGKmM0qQKQOC/FfqVsAPT0ND3Xb1+6e5y1nGY130ua760HuvkPTVoInyJ2bkYubzbf2YNT5Bgxr/M1PCsy4CG7O0pwY2uOPZblqL7x4d6TTn/8HRvj2Nc6Va/KdYS7INoQYsZJjzzYUCa4oeh7dCviY=
+	t=1732118071; cv=none; b=NnS8Q8D/UBJW7avjLY6IGQnKnc8bnOtYLk5oMZTzxgmuS0r+8yim9H101QKQAi86vwujWturjyjPEBTRn7WqVTvdWFgfqfL1h3D7bn6EJIe+3bplgMfY3HRrHl5vj4WFWa1kIWF8YEiVRVJJGpscsYP9ucoq4idOZJgZqOvmwHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732116745; c=relaxed/simple;
-	bh=Eryi4OYXCbHpDEV284F8kC8uQ7m7+bl5Uw0oCZKqmXk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZaOXR2VS/wc6C2NeIEEOlaaj2Vtm+XFuO+famPsPcqNO4FP1gzYCjpgwJVdjLbZIl6kFaPcp3TsWIsVuOR5jJmGft7XhiKLY286AnPzMvb5198OL8+Fm5iJv7r2p4Lp+eemFv5/xtG4E1eBbSUFCsOuDMzvzNYGvtu3qPk0ywCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FgaVkoEG; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1732118071; c=relaxed/simple;
+	bh=bhRppJgkks3jfVd6iSx55ByppbUZk1/Ld6IMmnvx0FU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=urRFOlvizZHxDKyzhZTvTHQ+m3h98WpoqwcWdcMZwfTPcBSArO13ZBpIFAruuWnw7gznDph/wL5QdaugUHvityWW97zLpevNipAzpWDUlfy09nFWzxZ6XSMIlRArVeCpj7bulAj6XD0UgTHx/aepmvX+mbLDAhqDZOdSL2/nxrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BlrHt/Hl; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FgaVkoEG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=tcTMY8ya7ymb7xaXseOqMs9+4oRXdKR5XJcZuGIQGZ4=; b=FgaVkoEG00IplUMFhm2q9bJDcn
-	f6lPIFe1mjGu/mzL0QDHreJek22LGkhbkX5aNB+qoQoIiolzWlB1o1Ar51QCtm/bbtkdagk50nH3y
-	WiTSE9pgIau4cnAnW/HSBZPgC8VowGKtyI6rMugABbcUVqm00Qf2G39vFqnu3hPJhWqhyGmH/6Hvn
-	16Q88vjI7HzOKfej71txLNGyXjGPPRvkuWPEd6mq0x1yM93Q8prU08tfjSrjyHNmBJUG4Aj6nXnHE
-	nwFv4JzxtdPHumBy8wrQx8vNyTDlDUvdVQO2sGNjcUu6kpr7uiOs553P3EE+P3n3wld+ZY47zcNu+
-	0tmqHdKQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDmgn-00000000U1t-2qD3;
-	Wed, 20 Nov 2024 15:32:21 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 4B01A300446; Wed, 20 Nov 2024 16:32:21 +0100 (CET)
-Date: Wed, 20 Nov 2024 16:32:21 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Valentin Schneider <vschneid@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
-	x86@kernel.org, rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Juerg Haefliger <juerg.haefliger@canonical.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Nadav Amit <namit@vmware.com>, Dan Carpenter <error27@gmail.com>,
-	Chuang Wang <nashuiliang@gmail.com>,
-	Yang Jihong <yangjihong1@huawei.com>,
-	Petr Mladek <pmladek@suse.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-	Julian Pidancet <julian.pidancet@oracle.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Dionna Glaze <dionnaglaze@google.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Yair Podemsky <ypodemsk@redhat.com>,
-	Daniel Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
-Subject: Re: [RFC PATCH v3 13/15] context_tracking,x86: Add infrastructure to
- defer kernel TLBI
-Message-ID: <20241120153221.GM38972@noisy.programming.kicks-ass.net>
-References: <20241119153502.41361-1-vschneid@redhat.com>
- <20241119153502.41361-14-vschneid@redhat.com>
- <20241120152216.GM19989@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BlrHt/Hl"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4608dddaa35so807851cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 07:54:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732118067; x=1732722867; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7aS8lSIRxg0WP9jRTUfXo3i0w6S60egDeEb+mK1HEyI=;
+        b=BlrHt/Hl/Ddkn0Gjm0uuAI/5M1mLdiHLWzzznvUTFOd1r500yRK8R5s85JgmU9uTdw
+         mZLQyUeZSRl/+89J8zxPlItJunP0IPcVa3a/vwq6pAd9sxPTqiLEoIOnyY89NyFFTjyo
+         UzRTALAmate6ZKDAFGWPOyP7KTzd43g4atMkR+KJDZOOcU2U9gP/5BZRBB+YEiSoBtf0
+         0i1G8MD44IQswqwwsk/eW5rsCntfars9n4N3a3UsZF+U2563ThxL/G623VUVbnDwZ6Pw
+         ziS1yLVKe7bpnbHL0tgTRLByS+ry5QXMRy4Kh3js2pGJfbNYqpCBXONPRlD9kBmmVhzL
+         pdJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732118067; x=1732722867;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7aS8lSIRxg0WP9jRTUfXo3i0w6S60egDeEb+mK1HEyI=;
+        b=gMt1x9GSVpt0LzNa8KRKaqYh0Dz1eCo7sWu2h6DjYr1OJ4j0iGwgRd9amLoVFx+Leh
+         +osHx5S1Z0ZhmX+BRxCalY0+Ejv9SUaZtlwebFUhOkE0cfajeEg6/pbi5/1Tcze84zUN
+         5aOUxDjvVsUyzRaATX5Mp8hauVW9zcI7JbOJz8/QfR29NtO3vedgV7b6cr73kb1FZORs
+         r7Cjb7ZrQbJNP0nv9+MGLh/WH3Q/B3gKfbO5MmebBc4o9ayD34sOrczuz+TTnHtzxAJm
+         d/m2rgFr5NKZL8AFbiLdSa7BfkZ7IV7Wto1Z+Ds3lLRSVSqw5jSBK7qpFJh6mi73xKLs
+         rEkw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTktdNE0sedo1brhRJzjRwTwWqjzZA583YhQOHIhRMd2Wg2+1ANEldaBGO6v6f8gBDrPt42s1bFWQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuUE8i81n/spn6F7PC7Y2PHvpYWlO5shgE4aIFXLpyr7aad3hl
+	Td1We5XRfvyGz3OwZAvV3eoWzfjPVIh6ew+qOxx3K80A2T1T/PyME4YRGIUcHLjFYPz2E/0WbGR
+	6b3kYSYj+u9sw5XycedenBKaU3baaoPN8JzV1
+X-Gm-Gg: ASbGncszJ6HGVK/pyASe6CyQvQ4O+B9N4hTqXhf7XBYqEa70TMag1ZcV0Ndbonb9Ksd
+	sxLfG91F9kJSKk0UMz73wa4g4aM9yHVKnJLJmjrj+a7M0mBeM4oG4H/7SWKgE5A==
+X-Google-Smtp-Source: AGHT+IHjkarCx+F0hcYKxhgZhANOrHBhOqvAWG4Bxw406DhR0f2zkhheZsfKiSDdM6g4dVF7Q5o38nXkwWZlAmq4Kt4=
+X-Received: by 2002:a05:622a:1823:b0:461:4898:8614 with SMTP id
+ d75a77b69052e-464d36ed8f0mr3163811cf.27.1732118067061; Wed, 20 Nov 2024
+ 07:54:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241120152216.GM19989@noisy.programming.kicks-ass.net>
+References: <20241120000826.335387-1-surenb@google.com> <20241120000826.335387-5-surenb@google.com>
+ <d3e5cb3a-9c58-477f-a7f7-c96f7e856a9f@suse.cz>
+In-Reply-To: <d3e5cb3a-9c58-477f-a7f7-c96f7e856a9f@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 20 Nov 2024 07:54:16 -0800
+Message-ID: <CAJuCfpFLgO5E23xcXMVF=ADz9aNJ-OowHSsC48iF+y+P5fMoVQ@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, hannes@cmpxchg.org, 
+	mjguzik@gmail.com, oliver.sang@intel.com, mgorman@techsingularity.net, 
+	david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, 
+	paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, 
+	hughd@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 20, 2024 at 04:22:16PM +0100, Peter Zijlstra wrote:
-> On Tue, Nov 19, 2024 at 04:35:00PM +0100, Valentin Schneider wrote:
-> 
-> > +void noinstr __flush_tlb_all_noinstr(void)
+On Wed, Nov 20, 2024 at 2:16=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> On 11/20/24 01:08, Suren Baghdasaryan wrote:
+> > To enable SLAB_TYPESAFE_BY_RCU for vma cache we need to ensure that
+> > object reuse before RCU grace period is over will be detected inside
+> > lock_vma_under_rcu().
+> > lock_vma_under_rcu() enters RCU read section, finds the vma at the
+> > given address, locks the vma and checks if it got detached or remapped
+> > to cover a different address range. These last checks are there
+> > to ensure that the vma was not modified after we found it but before
+> > locking it.
+> > vma reuse introduces several new possibilities:
+> > 1. vma can be reused after it was found but before it is locked;
+> > 2. vma can be reused and reinitialized (including changing its vm_mm)
+> > while being locked in vma_start_read();
+> > 3. vma can be reused and reinitialized after it was found but before
+> > it is locked, then attached at a new address or to a new mm while being
+> > read-locked;
+> > For case #1 current checks will help detecting cases when:
+> > - vma was reused but not yet added into the tree (detached check)
+> > - vma was reused at a different address range (address check);
+> > We are missing the check for vm_mm to ensure the reused vma was not
+> > attached to a different mm. This patch adds the missing check.
+> > For case #2, we pass mm to vma_start_read() to prevent access to
+> > unstable vma->vm_mm.
+>
+> So we may now be looking at different mm's mm_lock_seq.sequence and retur=
+n a
+> false unlocked result, right? I guess the mm validation in
+> lock_vma_under_rcu() handles that, but maybe the comment of vma_start_rea=
+d()
+> needs updating.
+
+Correct. I'll add a comment about this.
+
+>
+> > For case #3, we ensure the order in which vma->detached flag and
+> > vm_start/vm_end/vm_mm are set and checked. vma gets attached after
+> > vm_start/vm_end/vm_mm were set and lock_vma_under_rcu() should check
+> > vma->detached before checking vm_start/vm_end/vm_mm. This is required
+> > because attaching vma happens without vma write-lock, as opposed to
+> > vma detaching, which requires vma write-lock. This patch adds memory
+> > barriers inside is_vma_detached() and vma_mark_attached() needed to
+> > order reads and writes to vma->detached vs vm_start/vm_end/vm_mm.
+> > After these provisions, SLAB_TYPESAFE_BY_RCU is added to vm_area_cachep=
+.
+> > This will facilitate vm_area_struct reuse and will minimize the number
+> > of call_rcu() calls.
+> > Adding a freeptr_t into vm_area_struct (unioned with vm_start/vm_end)
+> > could be used to avoids bloating the structure, however currently
+> > custom free pointers are not supported in combination with a ctor
+> > (see the comment for kmem_cache_args.freeptr_offset).
+>
+> I think there's nothing fundamental preventing to support that, there was
+> just no user of it. We can do it later.
+
+Oh, ok. I can add it back so that we have one user and then when the
+mechanism is implemented it can be used for testing. Adding freeptr_t
+has no negative effects and will reduce later churn.
+
+>
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > --- a/kernel/fork.c
+> > +++ b/kernel/fork.c
+> > @@ -436,6 +436,11 @@ static struct kmem_cache *vm_area_cachep;
+> >  /* SLAB cache for mm_struct structures (tsk->mm) */
+> >  static struct kmem_cache *mm_cachep;
+> >
+> > +static void vm_area_ctor(void *data)
 > > +{
-> > +	/*
-> > +	 * This is for invocation in early entry code that cannot be
-> > +	 * instrumented. A RMW to CR4 works for most cases, but relies on
-> > +	 * being able to flip either of the PGE or PCIDE bits. Flipping CR4.PCID
-> > +	 * would require also resetting CR3.PCID, so just try with CR4.PGE, else
-> > +	 * do the CR3 write.
-> > +	 *
-> > +	 * XXX: this gives paravirt the finger.
-> > +	 */
-> > +	if (cpu_feature_enabled(X86_FEATURE_PGE))
-> > +		__native_tlb_flush_global_noinstr(this_cpu_read(cpu_tlbstate.cr4));
-> > +	else
-> > +		native_flush_tlb_local_noinstr();
+> > +     vma_lock_init(data);
 > > +}
-> 
-> Urgh, so that's a lot of ugleh, and cr4 has that pinning stuff and gah.
-> 
-> Why not always just do the CR3 write and call it a day? That should also
-> work for paravirt, no? Just make the whole write_cr3 thing noinstr and
-> voila.
+> > +
+> >  struct vm_area_struct *vm_area_alloc(struct mm_struct *mm)
+> >  {
+> >       struct vm_area_struct *vma;
+> > @@ -462,8 +467,7 @@ struct vm_area_struct *vm_area_dup(struct vm_area_s=
+truct *orig)
+> >        * orig->shared.rb may be modified concurrently, but the clone
+> >        * will be reinitialized.
+> >        */
+> > -     data_race(memcpy(new, orig, sizeof(*new)));
+> > -     vma_lock_init(new);
+> > +     vma_copy(new, orig);
+> >       INIT_LIST_HEAD(&new->anon_vma_chain);
+> >  #ifdef CONFIG_PER_VMA_LOCK
+> >       /* vma is not locked, can't use vma_mark_detached() */
+>
+> Here we mark it detached but we might have already copied it as attached =
+and
+> confused a reader?
 
-Oh gawd, just having looked at xen_write_cr3() this might not be
-entirely trivial to mark noinstr :/
+Very true. Thanks for catching this one!
 
+>
+> I think this will be covered by what you said in reply to willy:
+> "vma_copy() will have to also copy vma members individually."
 
+Yes, I think so. vma_copy() will need to copy most but not all
+members. vma->detached will be among those not copied.
+Thanks!
+
+>
+> > @@ -475,32 +479,37 @@ struct vm_area_struct *vm_area_dup(struct vm_area=
+_struct *orig)
+> >       return new;
+> >  }
+> >
