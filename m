@@ -1,58 +1,46 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79001E545;
-	Wed, 20 Nov 2024 05:52:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0729156F3B;
+	Wed, 20 Nov 2024 06:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732081975; cv=none; b=nqpk5RxZQVffSYbFEi8yMSwcekAIV/UffMxRfdiDTMVZ55chwCXcJcMorUygl6ZETIL2+AUzej4sP93Vs4PJAXoCKemBPpOdPEQD9FxFuwdyiA0ELiOuwwmlOa/XfQQFTkcttB/xmZFBzajNSJt114oFIWayrVjOoi15ZuDwKlo=
+	t=1732082834; cv=none; b=GhJwR3Yg8qAGLdHQBxzyC/414QBHFbbQTu3XAABwNoMIKurM8OpsUckOGu0BbJ1n6SLCyAmw6FHwGo//ztngcUDidQ92b82wKXUVhbs4l0tNdFu96w6gFMjapxnOXATg02wsUUhyRQWhbSVBjhoH6ddCEAYytf4ZGMRlXSQ7oEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732081975; c=relaxed/simple;
-	bh=HhjLfZzAV2GlW3VZGQfySWZBZmERQ56RLr3tlOdBncI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KCjMiE4LoFVAZbOpaMSWZmKbi7cZP2h8wzHNZ+9/YUGYxckNtd5g/5sO6J4800t3mjYpAy8n+n1+lWQU7ufFd24qWl2MZB+hCSQ6UYkTqVnJMzQL7XUb2g8pWHbOhYlwFIRGiMBvWbOiwnXL+U96ce9x0LkdZQ3Szugn3RS4200=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kh7ZVabP; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1732082834; c=relaxed/simple;
+	bh=4cJTCxsXY62cB6J/+hqc9xCi6TO4Z3RkavknfpO2fHs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xm9F9D6cLMvrNFgrHrXq0rPx93zDZdQn05q0dQ5lZVV77sikyihu3rnNSk7pnTMbs9IilUWXicMLjj0umm1uYCno1uwA4yrPcU2V9jkYaBc2whdBvbuy/xhpx66ONnp3zXZJuAhSuqVdTI3jPxykuylp+E2Z2NhFKmXfJNAoJqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Xeqo0yeq; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kh7ZVabP"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Xeqo0yeq"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
 	Content-ID:Content-Description:In-Reply-To:References;
-	bh=jr9WLGkJrrZOa98eYcd077ebF/TWB7trxnSnvwKlbOA=; b=kh7ZVabPW5MmiXgGZnnRsh4lkh
-	Gg1CIt2l7b5iHBPiouaBLfNYV01fDd0h5SqmXhjsLrZ8dDFYnxnSfrortlmqNYXMq1X4BrNkbLTkQ
-	ppa4U+c5/YOt5Si1+Lv53bfvTktL4UckV7fCMB0+55GUs/s9S/iQ5iEPsfMnMIJGEjmMTehHroyf1
-	kAPqZYhMI9Gy4xW6nJAKx/Ky91oKFFuIQpp4TPDlVCzMReUs01J/vLUUAm1G+nXn6tEM+YGY2PnXs
-	+XQMNjd7a9gnA3KfsMSVxUxVdXe0FesnCvQQg42PSKg7V+ofsoBMio1mkTctA03W6o1F9kHnsN7ur
-	ZSLQ/mkQ==;
+	bh=ce54rqK/J86f7QozBZMKMORdeVk/86bdPT1aNkQxOQg=; b=Xeqo0yeqS2o7RcsKA4M/96mx4F
+	1rk5cr9C2VsLlre4eEoU6w6tC04w1m/Na+gaYW4Su9nZwl1Py4D0xfuh3Gp01xAFrRzmbtbDBf1ea
+	a+gYnU+vFBNtW0l3v0fuFDwiCvHHjbBts33hqWj9VzAVTZjqevHeBXdvzVKqDi/FlUWKWSjqdl8qm
+	wlwgZkKF6qYCqqRbhC4WTAsiYWVCJIVylQKnn5b2usrV+v14rRys2mbYwScsL4f/oS6XK5LBx0913
+	LsXSdP5Mca3lHSmeJNic9tdVbRLAT/NbASjptK1CWbaJA+EWRykRmt/j7v4hnGtDkkxYwqMgATcFT
+	13G1SICw==;
 Received: from [50.53.2.24] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDddx-0000000ESJw-0Ma0;
-	Wed, 20 Nov 2024 05:52:49 +0000
+	id 1tDdrr-0000000ETXK-2nVV;
+	Wed, 20 Nov 2024 06:07:11 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Ian Kent <raven@themaw.net>,
-	autofs@vger.kernel.org,
-	Alexander Aring <aahringo@redhat.com>,
-	David Teigland <teigland@redhat.com>,
-	gfs2@lists.linux.dev,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	fsverity@lists.linux.dev,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	ocfs2-devel@lists.linux.dev
-Subject: [PATCH] Documentation: filesystems: update filename extensions
-Date: Tue, 19 Nov 2024 21:52:46 -0800
-Message-ID: <20241120055246.158368-1-rdunlap@infradead.org>
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] Documentation: core-api: add generic parser docbook
+Date: Tue, 19 Nov 2024 22:07:11 -0800
+Message-ID: <20241120060711.159783-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -62,98 +50,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update references to most txt files to rst files.
-Update one reference to an md file to a rst file.
-Update one file path to its current location.
+Add the simple generic parser to the core-api docbook.
+It can be used for parsing all sorts of options throughout the kernel.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
 Cc: linux-fsdevel@vger.kernel.org
-Cc: Ian Kent <raven@themaw.net>
-Cc: autofs@vger.kernel.org
-Cc: Alexander Aring <aahringo@redhat.com>
-Cc: David Teigland <teigland@redhat.com>
-Cc: gfs2@lists.linux.dev
-Cc: Eric Biggers <ebiggers@kernel.org>
-Cc: Theodore Y. Ts'o <tytso@mit.edu>
-Cc: fsverity@lists.linux.dev
-Cc: Mark Fasheh <mark@fasheh.com>
-Cc: Joel Becker <jlbec@evilplan.org>
-Cc: Joseph Qi <joseph.qi@linux.alibaba.com>
-Cc: ocfs2-devel@lists.linux.dev
 ---
- Documentation/filesystems/autofs.rst                 |    2 +-
- Documentation/filesystems/dlmfs.rst                  |    2 +-
- Documentation/filesystems/fsverity.rst               |    2 +-
- Documentation/filesystems/path-lookup.rst            |    2 +-
- Documentation/filesystems/path-lookup.txt            |    2 +-
- Documentation/filesystems/ramfs-rootfs-initramfs.rst |    2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ Documentation/core-api/index.rst  |    1 +
+ Documentation/core-api/parser.rst |   17 +++++++++++++++++
+ lib/parser.c                      |    5 +++--
+ 3 files changed, 21 insertions(+), 2 deletions(-)
 
---- linux-next-20241119.orig/Documentation/filesystems/autofs.rst
-+++ linux-next-20241119/Documentation/filesystems/autofs.rst
-@@ -442,7 +442,7 @@ which can be used to communicate directl
- It requires CAP_SYS_ADMIN for access.
+--- linux-next-20241118.orig/Documentation/core-api/index.rst
++++ linux-next-20241118/Documentation/core-api/index.rst
+@@ -53,6 +53,7 @@ Library functionality that is used throu
+    floating-point
+    union_find
+    min_heap
++   parser
  
- The 'ioctl's that can be used on this device are described in a separate
--document `autofs-mount-control.txt`, and are summarised briefly here.
-+document `autofs-mount-control.rst`, and are summarised briefly here.
- Each ioctl is passed a pointer to an `autofs_dev_ioctl` structure::
- 
-         struct autofs_dev_ioctl {
---- linux-next-20241119.orig/Documentation/filesystems/dlmfs.rst
-+++ linux-next-20241119/Documentation/filesystems/dlmfs.rst
-@@ -36,7 +36,7 @@ None
- Usage
- =====
- 
--If you're just interested in OCFS2, then please see ocfs2.txt. The
-+If you're just interested in OCFS2, then please see ocfs2.rst. The
- rest of this document will be geared towards those who want to use
- dlmfs for easy to setup and easy to use clustered locking in
- userspace.
---- linux-next-20241119.orig/Documentation/filesystems/fsverity.rst
-+++ linux-next-20241119/Documentation/filesystems/fsverity.rst
-@@ -16,7 +16,7 @@ btrfs filesystems.  Like fscrypt, not to
- code is needed to support fs-verity.
- 
- fs-verity is similar to `dm-verity
--<https://www.kernel.org/doc/Documentation/device-mapper/verity.txt>`_
-+<https://www.kernel.org/doc/Documentation/admin-guide/device-mapper/verity.rst>`_
- but works on files rather than block devices.  On regular files on
- filesystems supporting fs-verity, userspace can execute an ioctl that
- causes the filesystem to build a Merkle tree for the file and persist
---- linux-next-20241119.orig/Documentation/filesystems/path-lookup.rst
-+++ linux-next-20241119/Documentation/filesystems/path-lookup.rst
-@@ -531,7 +531,7 @@ this retry process in the next article.
- Automount points are locations in the filesystem where an attempt to
- lookup a name can trigger changes to how that lookup should be
- handled, in particular by mounting a filesystem there.  These are
--covered in greater detail in autofs.txt in the Linux documentation
-+covered in greater detail in autofs.rst in the Linux documentation
- tree, but a few notes specifically related to path lookup are in order
- here.
- 
---- linux-next-20241119.orig/Documentation/filesystems/ramfs-rootfs-initramfs.rst
-+++ linux-next-20241119/Documentation/filesystems/ramfs-rootfs-initramfs.rst
-@@ -315,7 +315,7 @@ the above threads) is:
- 2) The cpio archive format chosen by the kernel is simpler and cleaner (and
-    thus easier to create and parse) than any of the (literally dozens of)
-    various tar archive formats.  The complete initramfs archive format is
--   explained in buffer-format.txt, created in usr/gen_init_cpio.c, and
-+   explained in buffer-format.rst, created in usr/gen_init_cpio.c, and
-    extracted in init/initramfs.c.  All three together come to less than 26k
-    total of human-readable text.
- 
---- linux-next-20241119.orig/Documentation/filesystems/path-lookup.txt
-+++ linux-next-20241119/Documentation/filesystems/path-lookup.txt
-@@ -379,4 +379,4 @@ Papers and other documentation on dcache
- 
- 2. http://lse.sourceforge.net/locking/dcache/dcache.html
- 
--3. path-lookup.md in this directory.
-+3. path-lookup.rst in this directory.
+ Low level entry and exit
+ ========================
+--- /dev/null
++++ linux-next-20241118/Documentation/core-api/parser.rst
+@@ -0,0 +1,17 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
++==============
++Generic parser
++==============
++
++Overview
++========
++
++The generic parser is a simple parser for parsing mount options,
++filesystem options, driver options, subsystem options, etc.
++
++Parser API
++==========
++
++.. kernel-doc:: lib/parser.c
++   :export:
+--- linux-next-20241118.orig/lib/parser.c
++++ linux-next-20241118/lib/parser.c
+@@ -275,8 +275,9 @@ EXPORT_SYMBOL(match_hex);
+  *
+  * Description: Parse the string @str to check if matches wildcard
+  * pattern @pattern. The pattern may contain two types of wildcards:
+- *   '*' - matches zero or more characters
+- *   '?' - matches one character
++ *
++ * * '*' - matches zero or more characters
++ * * '?' - matches one character
+  *
+  * Return: If the @str matches the @pattern, return true, else return false.
+  */
