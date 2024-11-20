@@ -1,83 +1,70 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF23214037F;
-	Wed, 20 Nov 2024 21:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A141013C3D3;
+	Wed, 20 Nov 2024 22:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732137339; cv=none; b=PamgR9ozJ0tQ3lRngS9BheQNZ4sfzqmR+jaIsN0b7taD7jsZynXEh+qCudrtNfuPYOsRCc/bOnu2FEiQLjBBhtWO1xet4QyD4IRFtD+EUFAjksJtvb6p3N/emcR3/AJiVEDLcOpQJkAq9zV6VS18H+E9AaHqq2t7JkBS21FKd5k=
+	t=1732140658; cv=none; b=fKS0mbbZAOYc2Kg0P1Gs7s8LzEDmVoVTXyXU8ksziKDECGDtrQWuhn+x63FXBBT8iqaOfLFXJio6KDqUfzVCBjDPudk3hQTs20L6J35NmV7XSsh73quhxjP/yMsb7q6wY0c8kxwrwHgX6ITeWZ2SJvuX0HkGd5lYEUq2QH8BQ8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732137339; c=relaxed/simple;
-	bh=BsPWBjDlIHldk9u6ExGHBAxKRO6gfIMDbEFMPn/tqzs=;
+	s=arc-20240116; t=1732140658; c=relaxed/simple;
+	bh=8cs8VVTVD+23VdT89LFoH5HWxtkWRny1Wmf3NO7BV6A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rtk/99MMYBWO6/tXHfmQ+7+PZz/C8ckqlkBbpPPaIvjg5wLrgcqXGkrPaYTJExKdCq2K+NztA/9NSJevEZR5dX4jflBbBapO1K92ilfg76I29iaLfpS/QENx0FintaLoQA7omdtjicMESXYB1JLxXFJZQyHXOnFM8GyDcQk4DME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=AFpzmrLY; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=ISMnfgncf5h4OfxwAkRwFLan4b2fz8qY09wJZ8Y1Q4a4XyGCQGumMZ1623YjQnu98EC6FQhlQXRR5pEIyPkzWudt+m8PvAilRptrFl/E0z0AhILu83q2O9ovOhyX3B7IBx5BCWRopkYop2keNMtxUfLh0WztU86oujYEz+158DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mBDa0v6w; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="AFpzmrLY"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EDE0440E015F;
-	Wed, 20 Nov 2024 21:15:35 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id T75JQP4pBQGS; Wed, 20 Nov 2024 21:15:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1732137332; bh=T0vlX15pz2NJblllAODXy8/ru5NjDSIgys3eZddA52k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AFpzmrLYCdBMjSEeY383FHkJVOM/8Hkn5O/g0lcXj2gaNDHVbAySt9X5TKDHXvhUw
-	 f5T9hXkblLGh0xZo97GWpYs77j10+On6uJa0aVS+CBwlCNw4nlQYcpuCvA9Tdw+7bN
-	 JLvppyRqFXKGTeb+nNu4BvNKbgaceczUxWTNyP1Rc3nIHruqMBZoG5epBzYxsObtro
-	 QbaLKS01bwZrnm5WAOADvonqyu9vVJW2W+Gqc6ISXnBkVOj/3dIMKtqZAHsETwIIeJ
-	 mWKNr96c6x0O27dAhEBr7ZHgHBE/2cFYyrE4nbmutxHdbKDnuuAU1fsLTxBkP7jpYl
-	 EjdWnj5UWAgz0m2l2WYnRXQBHcXh81Xg8vB8Ns/k9a443UUfIrAZDXpJON8Gbuekwt
-	 a6lANWMO5nKILSPfi0XP9r0nKGDt4hJSegjZh1Pp8O2lItpmt6JH8fLbOyt7CXRjRJ
-	 ytqjl4ovNkHySEC6HmF96OaGdpH558c3Y6SgZrImLIVFisLA6zwnWxGOVOM1ebULWk
-	 g554CWvL/jiEWxRQPVrcAkI8xv2FtLxdiOhCyfeNfypst7aHLMN/bCMyfZRmG0uhWv
-	 NIp4NRsyU474JH9KKrAsVD4HXkS/JbiXVT3TshBr/OhPO8P8MGSLBeFyx61uDAekGb
-	 y6iyFJWZMvG23A3A0KZ3cLJ8=
-Received: from zn.tnic (p200300ea9736a1e2329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9736:a1e2:329c:23ff:fea6:a903])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id CFFEF40E021C;
-	Wed, 20 Nov 2024 21:15:26 +0000 (UTC)
-Date: Wed, 20 Nov 2024 22:15:25 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: Borislav Petkov <bp@kernel.org>, linux-doc@vger.kernel.org,
-	X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] Documentation: Merge x86-specific boot options doc
- into kernel-parameters.txt
-Message-ID: <20241120211525.GEZz5RbZEtEExSz3h6@fat_crate.local>
-References: <20241120163033.12829-1-bp@kernel.org>
- <1932ef4f-b797-49b8-ab86-b687210c8778@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mBDa0v6w"
+Date: Wed, 20 Nov 2024 14:10:44 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1732140653;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8cs8VVTVD+23VdT89LFoH5HWxtkWRny1Wmf3NO7BV6A=;
+	b=mBDa0v6w+ZIILU3a23i0M+A8JQuPtLJWfVTPZjgdv5rq8qzG4fwppkr1qRs55/Rh4dJt51
+	w4a/539L3vnXx9bYqmyjTem4s2XJiZ9dl01PHx33ofw2v8YW4cVbihM8uMjgUbbBoPSnu2
+	j/iVy02qFkKjCg0Xn15RNiUw7102Aw4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, oleg@redhat.com, 
+	dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com, 
+	hdanton@sina.com, hughd@google.com, minchan@google.com, jannh@google.com, 
+	souravpanda@google.com, pasha.tatashin@soleen.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com
+Subject: Re: [PATCH v4 0/5] move per-vma lock into vm_area_struct
+Message-ID: <hdvig2tptf3hi6nmszafarzqb6j56abfbebppqmruvpihlf435@46b57hyw2pfc>
+References: <20241120000826.335387-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1932ef4f-b797-49b8-ab86-b687210c8778@intel.com>
+In-Reply-To: <20241120000826.335387-1-surenb@google.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Nov 20, 2024 at 11:46:22AM -0800, Sohil Mehta wrote:
-> Remove it from the index too?
+On Tue, Nov 19, 2024 at 04:08:21PM -0800, Suren Baghdasaryan wrote:
+> Back when per-vma locks were introduces, vm_lock was moved out of
+> vm_area_struct in [1] because of the performance regression caused by
+> false cacheline sharing. Recent investigation [2] revealed that the
+> regressions is limited to a rather old Broadwell microarchitecture and
+> even there it can be mitigated by disabling adjacent cacheline
+> prefetching, see [3].
 
-...
+If 'struct vm_area_struct' is prone to performance issues due to
+cacheline misalignments then we should do something about the
+__randomize_layout tag for it. I imagine we can identify the fields
+which might be performance critical to be on same cacheline or different
+cacheline due to false sharing then we can divide the fields into
+different cacheline groups and fields can be __randomize_layout within
+the group. WDYT?
 
-> Whitespace error here: space before tab in indent
-
-Both fixed.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
