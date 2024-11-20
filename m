@@ -1,248 +1,222 @@
-Received: from smtp-fw-52002.amazon.com (smtp-fw-52002.amazon.com [52.119.213.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661B419AA72;
-	Wed, 20 Nov 2024 12:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1B21A2860;
+	Wed, 20 Nov 2024 12:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732104556; cv=none; b=qskq3bz5U7mpMYd3UNBVX1pXWUJsTJjkMFxMZV7x3ihZXY1jupCsipuUs3bakqLDp2QL4bBRlD8Y+2ytXFF6VYRhpRlHIRQRh1uYDhupZE7OaKNhwmaUNRF3Ek775kmALvFXclo1ebG20KFIFMdnPafpNMXgEFiAZN3I/Z0TAPY=
+	t=1732104749; cv=none; b=NrMscFeIdzipSBt6O/snnf7hAgMSY3m59dRv/hf2SYQ0zTm0YTP/W0lA4wsdbSJWU7D7vROmdYsxBBISjs06Cqgx5sfaxC4fb70i1rz3mR5+7j/yIchy59UcvEOH5yx/AswUxzq36Obtqz/SV01s7Zd9mkpKlVqmJ9HGib9af8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732104556; c=relaxed/simple;
-	bh=uxYi+9MYgq+j31VFzROUqasPd1biXohFMxIY5WcgAwg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=L0JHeqNw7QPJPd6Gmv5Mzuzyi2l6sUkvNXG9A8rUnjZh6WjFVFSLSLCTw6uzKa3A4rmE42LyX3TaVgfr2kU7+WMvYpx8p9miQghZBHt3SiK0AehFL6/dIDsNvaPKTVN+uOzDZGHACxYKnavdqwu10tknqaSzPZtM7ggIzcm357o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=o/ganW5D; arc=none smtp.client-ip=52.119.213.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1732104749; c=relaxed/simple;
+	bh=CtyKnT+o7kJjavwuHvYqtJpTZbv+JH0QKqxclaLtMWU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TmjxyTKkGTIJEHZMMmaSr87XM82/8D9ocexI+o0GDqRokpoXF2kHfGIeFJxyBz5b5HaJN1PZCIVk1EbSIVhsgfwviyOjnVyrxtMf6/3Wt13CHkCQlC1emCGOo+QClhldo6BPttypAK0UYudFgZh/0L8ac+n9qXJjs2Ais/+VU2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hf6U86dD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lHmQJVBp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hf6U86dD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lHmQJVBp; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="o/ganW5D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1732104554; x=1763640554;
-  h=message-id:date:mime-version:reply-to:subject:to:cc:
-   references:from:in-reply-to:content-transfer-encoding;
-  bh=Dd57kkU9EzxVIZThbOiKXUHsIvhkPWTCNKEy2o4B7xM=;
-  b=o/ganW5Dc4q8z8DGGGy5Nxc5bj/ybDl8+V8w8y22PeqAiPqykRMil8g8
-   T3lypfA/FyiTEm/ySLwLXZR6j9xLB4q3tke6tUb2ePXQ98chZ9OGFDHpw
-   Utg2cdrqOWMfc5stP9PU0fp5OO4aBAueqoT0G1/TFaH8gF+/9cPswSbBn
-   E=;
-X-IronPort-AV: E=Sophos;i="6.12,169,1728950400"; 
-   d="scan'208";a="675113447"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.6])
-  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 12:09:10 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [10.0.10.100:19497]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.32.206:2525] with esmtp (Farcaster)
- id afaffc34-8f44-4106-9e35-671ee5b1f179; Wed, 20 Nov 2024 12:09:08 +0000 (UTC)
-X-Farcaster-Flow-ID: afaffc34-8f44-4106-9e35-671ee5b1f179
-Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.79) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 20 Nov 2024 12:09:07 +0000
-Received: from [192.168.4.32] (10.106.83.27) by EX19D022EUC002.ant.amazon.com
- (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Wed, 20 Nov 2024
- 12:09:06 +0000
-Message-ID: <08aeaf6e-dc89-413a-86a6-b9772c9b2faf@amazon.com>
-Date: Wed, 20 Nov 2024 12:09:05 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hf6U86dD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lHmQJVBp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hf6U86dD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lHmQJVBp"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A9B922129F;
+	Wed, 20 Nov 2024 12:12:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732104744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=270pIDz0vudLZWI+24aPJWabWowll6BUVQLqj24BdFo=;
+	b=Hf6U86dDKl7gD6CTCq9esCidXSgktKUKg8Jl1ISOYpMqwk1toNMA6uZWU9Rn5vJckM7ppr
+	soGa+c75ya41+ccTMdss85I08cKD4Gc6eYBElLiZYkDHa8+pQKsO98gvofn6q79xpqVx9F
+	pKMHktrSQW19GhVtQCJqW5XeKo1m3FU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732104744;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=270pIDz0vudLZWI+24aPJWabWowll6BUVQLqj24BdFo=;
+	b=lHmQJVBpfVOsrSk9xTGEC7iFBQVRvz3ifqacYJBVBMm8t7M+atEhZeRlEmcDJM46oCPcGw
+	NrVR+5VnpCxUd4Dg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Hf6U86dD;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lHmQJVBp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732104744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=270pIDz0vudLZWI+24aPJWabWowll6BUVQLqj24BdFo=;
+	b=Hf6U86dDKl7gD6CTCq9esCidXSgktKUKg8Jl1ISOYpMqwk1toNMA6uZWU9Rn5vJckM7ppr
+	soGa+c75ya41+ccTMdss85I08cKD4Gc6eYBElLiZYkDHa8+pQKsO98gvofn6q79xpqVx9F
+	pKMHktrSQW19GhVtQCJqW5XeKo1m3FU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732104744;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=270pIDz0vudLZWI+24aPJWabWowll6BUVQLqj24BdFo=;
+	b=lHmQJVBpfVOsrSk9xTGEC7iFBQVRvz3ifqacYJBVBMm8t7M+atEhZeRlEmcDJM46oCPcGw
+	NrVR+5VnpCxUd4Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CDCE6137CF;
+	Wed, 20 Nov 2024 12:12:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4W2hMSfSPWfKBwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 20 Nov 2024 12:12:23 +0000
+Date: Wed, 20 Nov 2024 13:12:19 +0100
+Message-ID: <87bjya3xzw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: <srinivas.kandagatla@linaro.org>,
+	<mathias.nyman@intel.com>,
+	<perex@perex.cz>,
+	<conor+dt@kernel.org>,
+	<dmitry.torokhov@gmail.com>,
+	<corbet@lwn.net>,
+	<broonie@kernel.org>,
+	<lgirdwood@gmail.com>,
+	<krzk+dt@kernel.org>,
+	<pierre-louis.bossart@linux.intel.com>,
+	<Thinh.Nguyen@synopsys.com>,
+	<tiwai@suse.com>,
+	<robh@kernel.org>,
+	<gregkh@linuxfoundation.org>,
+	<linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>,
+	<linux-input@vger.kernel.org>,
+	<linux-arm-msm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
+In-Reply-To: <20241106193413.1730413-29-quic_wcheng@quicinc.com>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+	<20241106193413.1730413-29-quic_wcheng@quicinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: <kalyazin@amazon.com>
-Subject: Re: [RFC PATCH 0/4] KVM: ioctl for populating guest_memfd
-To: <pbonzini@redhat.com>, <corbet@lwn.net>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <jthoughton@google.com>, <brijesh.singh@amd.com>, <michael.roth@amd.com>,
-	<graf@amazon.de>, <jgowans@amazon.com>, <roypat@amazon.co.uk>,
-	<derekmn@amazon.com>, <nsaenz@amazon.es>, <xmarcalx@amazon.com>, "David
- Hildenbrand" <david@redhat.com>, Sean Christopherson <seanjc@google.com>,
-	<linux-mm@kvack.org>
-References: <20241024095429.54052-1-kalyazin@amazon.com>
-Content-Language: en-US
-From: Nikita Kalyazin <kalyazin@amazon.com>
-Autocrypt: addr=kalyazin@amazon.com; keydata=
- xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
- JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
- BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
- IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
- ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
- ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
- ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
- abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
-In-Reply-To: <20241024095429.54052-1-kalyazin@amazon.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D008EUC002.ant.amazon.com (10.252.51.146) To
- EX19D022EUC002.ant.amazon.com (10.252.51.137)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: A9B922129F
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,gmail.com,lwn.net,linux.intel.com,synopsys.com,suse.com,linuxfoundation.org,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,quicinc.com:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dt];
+	DKIM_TRACE(0.00)[suse.de:+];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
 
-On 24/10/2024 10:54, Nikita Kalyazin wrote:
-> [2] proposes an alternative to
-> UserfaultFD for intercepting stage-2 faults, while this series
-> conceptually compliments it with the ability to populate guest memory
-> backed by guest_memfd for `KVM_X86_SW_PROTECTED_VM` VMs.
+On Wed, 06 Nov 2024 20:34:11 +0100,
+Wesley Cheng wrote:
+> 
+> In order to allow userspace/applications know about USB offloading status,
+> expose a sound kcontrol that fetches information about which sound card
+> and PCM index the USB device is mapped to for supporting offloading.  In
+> the USB audio offloading framework, the ASoC BE DAI link is the entity
+> responsible for registering to the SOC USB layer.
+> 
+> It is expected for the USB SND offloading driver to add the kcontrol to the
+> sound card associated with the USB audio device.  An example output would
+> look like:
+> 
+> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
+> -1, -1 (range -1->255)
+> 
+> This example signifies that there is no mapped ASoC path available for the
+> USB SND device.
+> 
+> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
+> 0, 0 (range -1->255)
+> 
+> This example signifies that the offload path is available over ASoC sound
+> card index#0 and PCM device#0.
+> 
+> The USB offload kcontrol will be added in addition to the existing
+> kcontrols identified by the USB SND mixer.  The kcontrols used to modify
+> the USB audio device specific parameters are still valid and expected to be
+> used.  These parameters are not mirrored to the ASoC subsystem.
+> 
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 
-+David
-+Sean
-+mm
+IIRC, this representation of kcontrol was one argued issue; Pierre
+expressed the concern about the complexity of the kcontrol.
+I didn't follow exactly, but did we get consensus?
 
-While measuring memory population performance of guest_memfd using this 
-series, I noticed that guest_memfd population takes longer than my 
-baseline, which is filling anonymous private memory via UFFDIO_COPY.
+Apart from that: the Kconfig defition below ...
 
-I am using x86_64 for my measurements and 3 GiB memory region:
-  - anon/private UFFDIO_COPY:  940 ms
-  - guest_memfd:              1371 ms (+46%)
+> +config SND_USB_OFFLOAD_MIXER
+> +	tristate "USB Audio Offload mixer control"
+> +	help
+> +	 Say Y to enable the USB audio offloading mixer controls.  This
+> +	 exposes an USB offload capable kcontrol to signal to applications
+> +	 about which platform sound card can support USB audio offload.
+> +	 The returning values specify the mapped ASoC card and PCM device
+> +	 the USB audio device is associated to.
 
-It turns out that the effect is observable not only for guest_memfd, but 
-also for any type of shared memory, eg memfd or anonymous memory mapped 
-as shared.
+... and Makefile addition below ...
 
-Below are measurements of a plain mmap(MAP_POPULATE) operation:
+> --- a/sound/usb/Makefile
+> +++ b/sound/usb/Makefile
+> @@ -36,3 +36,5 @@ obj-$(CONFIG_SND_USB_US122L) += snd-usbmidi-lib.o
+>  
+>  obj-$(CONFIG_SND) += misc/ usx2y/ caiaq/ 6fire/ hiface/ bcd2000/ qcom/
+>  obj-$(CONFIG_SND_USB_LINE6)	+= line6/
+> +
+> +obj-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
 
-mmap(NULL, 3ll * (1 << 30), PROT_READ | PROT_WRITE, MAP_PRIVATE | 
-MAP_ANONYMOUS | MAP_POPULATE, -1, 0);
-  vs
-mmap(NULL, 3ll * (1 << 30), PROT_READ | PROT_WRITE, MAP_SHARED | 
-MAP_ANONYMOUS | MAP_POPULATE, -1, 0);
+... indicates that this code will be an individual module, although
+it's solely used from snd-usb-audio-qmi driver.  This should be rather
+a boolean and moved to sound/usb/qcom/, and linked to
+snd-usb-audio-qmi driver itself, e.g.
 
-Results:
-  - MAP_PRIVATE: 968 ms
-  - MAP_SHARED: 1646 ms
+--- a/sound/usb/qcom/Makefile
++++ b/sound/usb/qcom/Makefile
+@@ -1,2 +1,3 @@
+ snd-usb-audio-qmi-objs := usb_audio_qmi_v01.o qc_audio_offload.o
++snd-usb-audio-qmi-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
+ obj-$(CONFIG_SND_USB_AUDIO_QMI) += snd-usb-audio-qmi.o
 
-I am seeing this effect on a range of kernels. The oldest I used was 
-5.10, the newest is the current kvm-next (for-linus-2590-gd96c77bd4eeb).
-
-When profiling with perf, I observe the following hottest operations 
-(kvm-next). Attaching full distributions at the end of the email.
-
-MAP_PRIVATE:
-- 19.72% clear_page_erms, rep stos %al,%es:(%rdi)
-
-MAP_SHARED:
-- 43.94% shmem_get_folio_gfp, lock orb $0x8,(%rdi), which is atomic 
-setting of the PG_uptodate bit
-- 10.98% clear_page_erms, rep stos %al,%es:(%rdi)
-
-Note that MAP_PRIVATE/do_anonymous_page calls __folio_mark_uptodate that 
-sets the PG_uptodate bit regularly.
-, while MAP_SHARED/shmem_get_folio_gfp calls folio_mark_uptodate that 
-sets the PG_uptodate bit atomically.
-
-While this logic is intuitive, its performance effect is more 
-significant that I would expect.
-
-The questions are:
-  - Is this a well-known behaviour?
-  - Is there a way to mitigate that, ie make shared memory (including 
-guest_memfd) population faster/comparable to private memory?
-
-Nikita
+Then you can drop EXPORT_SYMBOL_GPL(), too.
 
 
-Appendix: full call tree obtained via perf
+thanks,
 
-MAP_RPIVATE:
-
-       - 87.97% __mmap
-            entry_SYSCALL_64_after_hwframe
-            do_syscall_64
-            vm_mmap_pgoff
-            __mm_populate
-            populate_vma_page_range
-          - __get_user_pages
-             - 77.94% handle_mm_fault
-                - 76.90% __handle_mm_fault
-                   - 72.70% do_anonymous_page
-                      - 31.92% vma_alloc_folio_noprof
-                         - 30.74% alloc_pages_mpol_noprof
-                            - 29.60% __alloc_pages_noprof
-                               - 28.40% get_page_from_freelist
-                                    19.72% clear_page_erms
-                                  - 3.00% __rmqueue_pcplist
-                                       __mod_zone_page_state
-                                    1.18% _raw_spin_trylock
-                      - 20.03% __pte_offset_map_lock
-                         - 15.96% _raw_spin_lock
-                              1.50% preempt_count_add
-                         - 2.27% __pte_offset_map
-                              __rcu_read_lock
-                      - 7.22% __folio_batch_add_and_move
-                         - 4.68% folio_batch_move_lru
-                            - 3.77% lru_add
-                               + 0.95% __mod_zone_page_state
-                                 0.86% __mod_node_page_state
-                           0.84% folios_put_refs
-                           0.55% check_preemption_disabled
-                      - 2.85% folio_add_new_anon_rmap
-                         - __folio_mod_stat
-                              __mod_node_page_state
-                   - 1.15% pte_offset_map_nolock
-                        __pte_offset_map
-             - 7.59% follow_page_pte
-                - 4.56% __pte_offset_map_lock
-                   - 2.27% _raw_spin_lock
-                        preempt_count_add
-                     1.13% __pte_offset_map
-                  0.75% folio_mark_accessed
-
-MAP_SHARED:
-
-       - 77.89% __mmap
-            entry_SYSCALL_64_after_hwframe
-            do_syscall_64
-            vm_mmap_pgoff
-            __mm_populate
-            populate_vma_page_range
-          - __get_user_pages
-             - 72.11% handle_mm_fault
-                - 71.67% __handle_mm_fault
-                   - 69.62% do_fault
-                      - 44.61% __do_fault
-                         - shmem_fault
-                            - 43.94% shmem_get_folio_gfp
-                               - 17.20% 
-shmem_alloc_and_add_folio.constprop.0
-                                  - 5.10% shmem_alloc_folio
-                                     - 4.58% folio_alloc_mpol_noprof
-                                        - alloc_pages_mpol_noprof
-                                           - 4.00% __alloc_pages_noprof
-                                              - 3.31% get_page_from_freelist
-                                                   1.24% __rmqueue_pcplist
-                                  - 5.07% shmem_add_to_page_cache
-                                     - 1.44% __mod_node_page_state
-                                          0.61% check_preemption_disabled
-                                       0.78% xas_store
-                                       0.74% xas_find_conflict
-                                       0.66% _raw_spin_lock_irq
-                                  - 3.96% __folio_batch_add_and_move
-                                     - 2.41% folio_batch_move_lru
-                                          1.88% lru_add
-                                  - 1.56% shmem_inode_acct_blocks
-                                     - 1.24% __dquot_alloc_space
-                                        - 0.77% inode_add_bytes
-                                             _raw_spin_lock
-                                  - 0.77% shmem_recalc_inode
-                                       _raw_spin_lock
-                                 10.98% clear_page_erms
-                               - 1.17% filemap_get_entry
-                                    0.78% xas_load
-                      - 20.26% filemap_map_pages
-                         - 12.23% next_uptodate_folio
-                            - 1.27% xas_find
-                                 xas_load
-                         - 1.16% __pte_offset_map_lock
-                              0.59% _raw_spin_lock
-                      - 3.48% finish_fault
-                         - 1.28% set_pte_range
-                              0.96% folio_add_file_rmap_ptes
-                         - 0.91% __pte_offset_map_lock
-                              0.54% _raw_spin_lock
-                     0.57% pte_offset_map_nolock
-             - 4.11% follow_page_pte
-                - 2.36% __pte_offset_map_lock
-                   - 1.32% _raw_spin_lock
-                        preempt_count_add
-                     0.54% __pte_offset_map
+Takashi
