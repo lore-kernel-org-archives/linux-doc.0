@@ -1,123 +1,100 @@
-Received: from smtp-fw-52002.amazon.com (smtp-fw-52002.amazon.com [52.119.213.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5688146593;
-	Wed, 20 Nov 2024 17:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1A119F43A
+	for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 17:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732124500; cv=none; b=MrVNvWh1nr155BZcO7tNyaW2bbrdr38CeVSlAuGGkRcKsTZsoDAmx0Ap7o0OimaZB+A2VibKkLJj7YVKN5S21kQyjfQGaDU7Wc8BuYC7E6J6Yg7a5co1FLmekjSITuSE2ZSphLN3diGWBUCAgGbKWFkb2P8Eu2j0UVRzSGhSurE=
+	t=1732124857; cv=none; b=TxP8KJDb7MV+sUuQVEQ8gLcKzVQ5orAJ1fnIHyNwZSYBpOZiCsT88wn1f/PBAOqPIGgyDcXm97POqmcZ0cxzxdR2FsC3YpRxmb7h5JedsmJxpav933XwK4NnT3XpDyZuGDLiFzfrZ6aCddLYjzIiKWIUMss9x2GZuNFlmcCeY/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732124500; c=relaxed/simple;
-	bh=77l5BUdA3wUh+Ds92rI4XZsS4TQVkqTZf3ifB+JsiZs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JSH+UBx8ijlsYDb6y7YMUBDJ0+Iu8PxWrROZrYiy8jJm0o1mRI53kRBUQAmGt1bQ8m+GcqMLFM+0Agm1xSc2AwT9IKe5EFaRu5gLp263Uves7IqXrwdLKdK1x0HteUdAefzK8LeiisinCEwUFJYg9+Ml5CmQqiMUl2hhmSDErpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=si/5NTgs; arc=none smtp.client-ip=52.119.213.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1732124857; c=relaxed/simple;
+	bh=u99IqIWwuXfqqVllQi6t586j+rI6T6G2LFrOGmNlgvM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oh2bMQB+TNWsg69GsNCc9n/823OB4CkVnHoiYdnF5F2BCVrTvOFH3t0ySudNUcGSY6loScOt0Jv/DJTfWR6YISUcA37tcrSDgOKxwpHdDfS8Be0TwiCRes7uuon3atdajyMo/ppCRKY5IPUV76kkKATNl/nol60iCbqFDMjNZp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=yQ66ORCi; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="si/5NTgs"
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="yQ66ORCi"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4609b968452so128781cf.3
+        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 09:47:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1732124499; x=1763660499;
-  h=message-id:date:mime-version:reply-to:subject:to:cc:
-   references:from:in-reply-to:content-transfer-encoding;
-  bh=dMxU76y/coq4MPw428ZOn69UQJ/3wc1UFFgfd5jLDwU=;
-  b=si/5NTgs7XV7aY21yqdGmgLYq4FVJuQNyE81zKwp2/1F/SvamY2cLBhg
-   pcR6qJn7M2797HxaGMHikbFvEyMQlcfj7uWuSnaiHJT/NVF4XuncIIwfc
-   qWx6sXtW5wNb2P/Uc+desJJq8PRfgYal10aHU2kR/VAm/6rR1n1g63vnp
-   k=;
-X-IronPort-AV: E=Sophos;i="6.12,170,1728950400"; 
-   d="scan'208";a="675210391"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.124.125.6])
-  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 17:41:36 +0000
-Received: from EX19MTAEUC001.ant.amazon.com [10.0.10.100:29938]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.32.84:2525] with esmtp (Farcaster)
- id afdc4bc4-bba2-498f-afae-82f05c096ff1; Wed, 20 Nov 2024 17:41:34 +0000 (UTC)
-X-Farcaster-Flow-ID: afdc4bc4-bba2-498f-afae-82f05c096ff1
-Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
- EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 20 Nov 2024 17:41:34 +0000
-Received: from [192.168.4.239] (10.106.82.23) by EX19D022EUC002.ant.amazon.com
- (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Wed, 20 Nov 2024
- 17:41:33 +0000
-Message-ID: <acdfa273-5da0-48dd-b506-e1064eea2726@amazon.com>
-Date: Wed, 20 Nov 2024 17:41:31 +0000
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1732124855; x=1732729655; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UaFYnoy6vIIc+NNFw3dXMBs61SIsGb7xxVzTfcYyYis=;
+        b=yQ66ORCidijal9Md6ogoyqmn3A3Oo02nTqw9YZoP1pMTj67QBkOagb/7QIwqVq/FDl
+         MTGYXWOYMINrjMsrCaGEcKSSVb9iHwZCSYLpByfDPoX6TAsL87/Qu8axmWRQ9hzx4v+u
+         71413HHBBRPeaALZVrrEi+iny+36Go0ea47b42TdwgFN0fJ81kUmJ59z0Lw23WIAGqUZ
+         d/o8oapSH39LwlOlHCBmv9h3ONJ7lbQJTjsj4kA7hCYxmFGcGlfcai3ROa1yyjSouf0y
+         bHbKuL9+ANMzFi+1lzqDObF4WQfKQwAh7hgMiW2DJdKyYHNNJcpD8wHceRLhbdyJxNpd
+         QKxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732124855; x=1732729655;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UaFYnoy6vIIc+NNFw3dXMBs61SIsGb7xxVzTfcYyYis=;
+        b=lZJBfrtxh2OPzmWPm4CQGITIfAA1HM8J/WYRjbdnYHfLB4jeNDT/bgP0cMdTG5HA5t
+         n/cx6iMo08g2Sb3o/iXfuHs/rRB03J4TeHWKzZXkYHzVkCC7aDxYehmXrPIR/3MkqLm3
+         yAPrB5Ts/2gTzBPFeQPgmcsBOoQQr67IGxlMUiOxXoS1WAWuBq80B8A6eE/ppcr78Ch4
+         6ZyCjqA7m6HeE3qx5eL5rXJQM9ota9W367IHo5NV4OnJt9w2WKfponVCveEFWw04McQR
+         G/nqqNJzaS8gRndESIGqtTCSRKETdM6pbgNtFgIhAzKFnPSyew38yj3q6NteQndUEYTr
+         3cYw==
+X-Forwarded-Encrypted: i=1; AJvYcCWYllkleGurQnrK5bI13PPKi2X/4+8LJV2RvSh4WeSxrL14XCc4XQer9S3gXqFgcBKxPf0nX+vmxuU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGujXSY613qb+9Xtz30aQndcrKuSI2QWhevJRq2QyVCRYlpL/+
+	vPxBSBZd23QCFB32HJ5B4k23oHNQ/ZBLoj5ogDPWQaIIarefc4ylNf1tzFklOjI9pY3Ct+QcMY4
+	6IwDYrk32cRodZMqIAY5c1mSOnJVkWdDNlZSFvw==
+X-Google-Smtp-Source: AGHT+IETZYeQkb0s7u5Wf9yV4Cku4EiSNu5qCpIOez8ZpXMAHom6F/sK07PgTzdhYiGYrI8j7GVXlIMLnKbJrLP6RZU=
+X-Received: by 2002:a05:622a:2d5:b0:460:ebb5:5fe5 with SMTP id
+ d75a77b69052e-464782a740bmr36717931cf.10.1732124854779; Wed, 20 Nov 2024
+ 09:47:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: <kalyazin@amazon.com>
-Subject: Re: [RFC PATCH 0/4] KVM: ioctl for populating guest_memfd
-To: Paolo Bonzini <pbonzini@redhat.com>, <corbet@lwn.net>,
-	<kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <jthoughton@google.com>, <brijesh.singh@amd.com>, <michael.roth@amd.com>,
-	<graf@amazon.de>, <jgowans@amazon.com>, <roypat@amazon.co.uk>,
-	<derekmn@amazon.com>, <nsaenz@amazon.es>, <xmarcalx@amazon.com>
-References: <20241024095429.54052-1-kalyazin@amazon.com>
- <86811253-a310-4474-8d0a-dad453630a2d@redhat.com>
-Content-Language: en-US
-From: Nikita Kalyazin <kalyazin@amazon.com>
-Autocrypt: addr=kalyazin@amazon.com; keydata=
- xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
- JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
- BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
- IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
- ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
- ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
- ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
- abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
-In-Reply-To: <86811253-a310-4474-8d0a-dad453630a2d@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EX19D005EUA002.ant.amazon.com (10.252.50.11) To
- EX19D022EUC002.ant.amazon.com (10.252.51.137)
+References: <20241116175922.3265872-1-pasha.tatashin@soleen.com>
+ <ZzuRSZc8HX9Zu0dE@google.com> <CA+CK2bAAigxUv=HGpxoV-PruN_AhisKW675SxuG_yVi+vNmfSQ@mail.gmail.com>
+ <2024111938-anointer-kooky-d4f9@gregkh> <CA+CK2bD88y4wmmvzMCC5Zkp4DX5ZrxL+XEOX2v4UhBxet6nwSA@mail.gmail.com>
+ <ZzzXqXGRlAwk-H2m@google.com> <CA+CK2bD4zcXVATVhcUHBsA7Adtmh9LzCStWRDQyo_DsXxTOahA@mail.gmail.com>
+ <CAJD7tkZDSZ4QjLhkWQ3RV_vEwzTfCMtFcWX_Fx8mj-q0Zg2cOw@mail.gmail.com>
+ <CA+CK2bC-jNxUgp9JB=H9GsMu1FrxyqXxCe_v1G-43A1-eed0VA@mail.gmail.com> <CAJD7tkaYuJpxijOp6se+mWHO6djaz_7KaoXjf=Rdo6nJubwB2w@mail.gmail.com>
+In-Reply-To: <CAJD7tkaYuJpxijOp6se+mWHO6djaz_7KaoXjf=Rdo6nJubwB2w@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 20 Nov 2024 12:46:57 -0500
+Message-ID: <CA+CK2bB9P0gVFVETh_zBfhnShYTJK8EX-vNfVjFY7QEKi_Gpmg@mail.gmail.com>
+Subject: Re: [RFCv1 0/6] Page Detective
+To: Yosry Ahmed <yosryahmed@google.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>, Greg KH <gregkh@linuxfoundation.org>, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
+	derek.kiernan@amd.com, dragan.cvetic@amd.com, arnd@arndb.de, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, tj@kernel.org, 
+	hannes@cmpxchg.org, mhocko@kernel.org, shakeel.butt@linux.dev, 
+	muchun.song@linux.dev, Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com, 
+	vbabka@suse.cz, jannh@google.com, shuah@kernel.org, vegard.nossum@oracle.com, 
+	vattunuru@marvell.com, schalla@marvell.com, david@redhat.com, 
+	willy@infradead.org, osalvador@suse.de, usama.anjum@collabora.com, 
+	andrii@kernel.org, ryan.roberts@arm.com, peterx@redhat.com, oleg@redhat.com, 
+	tandersen@netflix.com, rientjes@google.com, gthelen@google.com
+Content-Type: text/plain; charset="UTF-8"
 
+> >         /* Use static buffer, for the caller is holding oom_lock. */
+> >         static char buf[PAGE_SIZE];
+> >         ....
+> >         seq_buf_init(&s, buf, sizeof(buf));
+> >         memory_stat_format(memcg, &s);
+> >         seq_buf_do_printk(&s, KERN_INFO);
+> > }
+> >
+> > This is a callosal stack allocation, given that our fleet only has 8K
+> > stacks. :-)
+>
+> That's a static allocation though :)
 
+Ah right, did not notice it was static (and ignored the comment)
 
-On 20/11/2024 13:55, Paolo Bonzini wrote:
->> Patch 4 allows to call the ioctl from a separate (non-VMM) process.  It
->> has been prohibited by [3], but I have not been able to locate the exact
->> justification for the requirement.
-> 
-> The justification is that the "struct kvm" has a long-lived tie to a
-> host process's address space.
-> 
-> Invoking ioctls like KVM_SET_USER_MEMORY_REGION and KVM_RUN from
-> different processes would make things very messy, because it is not
-> clear which mm you are working with: the MMU notifier is registered for
-> kvm->mm, but some functions such as get_user_pages do not take an mm for
-> example and always operate on current->mm.
-
-That's fair, thanks for the explanation.
-
-> In your case, it should be enough to add a ioctl on the guestmemfd
-> instead?
-
-That's right. That would be sufficient indeed.  Is that something that 
-could be considered?  Would that be some non-KVM API, with guest_memfd 
-moving to an mm library?
-
- > But the real question is, what are you using
- > KVM_X86_SW_PROTECTED_VM for?
-
-The concrete use case is VM restoration from a snapshot in Firecracker 
-[1].  In the current setup, the VMM registers a UFFD against the guest 
-memory and sends the UFFD handle to an external process that knows how 
-to obtain the snapshotted memory.  We would like to preserve the 
-semantics, but also remove the guest memory from the direct map [2]. 
-Mimicing this with guest_memfd would be sending some form of a 
-guest_memfd handle to that process that would be using it to populate 
-guest_memfd.
-
-[1]: 
-https://github.com/firecracker-microvm/firecracker/blob/main/docs/snapshotting/handling-page-faults-on-snapshot-resume.md#userfaultfd
-[2]: 
-https://lore.kernel.org/kvm/20241030134912.515725-1-roypat@amazon.co.uk/T/
-
-> Paolo
+Pasha
