@@ -1,68 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE8D15B551;
-	Wed, 20 Nov 2024 07:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A9D170A1A
+	for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 08:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732089339; cv=none; b=cTAk8Kk2ibitNIPhS0jGIWgoyniAZgxfD8yPplJctLi6xwLKYxTlzXwrDa58mDPncCgUEFQ48EtFHwnGkRZ/2/kDRpGwiJ5ASYUiaPSejB4LDdC5b4PAeS0dfBfWmThYnq4x8mEpWHAfx8O1CilvRe+NGfw9oGq2sNequmU0Sok=
+	t=1732091650; cv=none; b=aoVA5E4eebtq6TbPjHHwpSGVTNsK3o8KrZHqtAlcrMrCaBlOhKgXecLOJjVmwAoYEmbuCrlToPXESyTrZi5oor+DCu6hyFXfRs6dyg1RH6yqC7G6+ejAa2PhdgbOSq85/oHAMGSP6bbxNsAWlofteIo4TQsumfv6bAvOqwYsbsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732089339; c=relaxed/simple;
-	bh=raeV6DEnj9l1hDSOdgLKalbTNUVTi99NZdmvLIgjCeA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O4T1oEtZKKis7U3HZgBwxikP0hJOmNGKs1Qb83YnEO4x6m/9Uor1LdPiBh7sBspEBALPRP6NCgGa6EAyfhMwDmjfZRGolkrayGVGmN0RIrSyF9nTAXwIYuw8ywLoPWEoEuRVtx9P0CPoEt70U0zGywbb9BNjHR1ft7HNIeRwnJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eH2seDIJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732091650; c=relaxed/simple;
+	bh=WuCP0M1dHStcIFRNKwqkyFgGsOO3Du2JbcI1QHtgN4E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oiiwh+xIrKoFBa/4paPesXQWdvuOke1ZQ1vCz85Br5ATZe3bb0w8RokMrWVpIQoaYq0PZdnYdHKkVJkYpG9BhSI298FoD9Te6oGm++LbEnHVHMNV6KkJCwKdgsC9hagpXzV0HDQ2Ll/oOzspeevs4s+gn8tArlnfhxlj8KkSbwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SzAG57bH; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eH2seDIJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF763C4CECD;
-	Wed, 20 Nov 2024 07:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732089337;
-	bh=raeV6DEnj9l1hDSOdgLKalbTNUVTi99NZdmvLIgjCeA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eH2seDIJ3qYZXqqY1veyusE4m/aCrTRY5GZH6NBW2rpEywusid0IJ39Xwp0PFplOg
-	 T40QngD3t/uBs/PCdLfpti8Jg12Wkue3oPD8Ug+AY4XszaekITbQV+QnRr7qSW1F/7
-	 OAH3ZcENGcTBhPG4XvwJtLRKgAwvFLDzWUo6dROu0t6AztTVAvJdQaE29aBhEu7E31
-	 BjGDvcstcA8ph9Kj6xQIbFCzg/PjQdrTBzk5RtzgSdj9QrE1ItIoITTRIZEeiQQK7C
-	 1eM6JE0rVfiJNuOioYPKjHBU/+hS/18BgzXjvcxdjAVTaDooOZMbmPzq6J+S4c2DPp
-	 CqXCYmX7qdMFA==
-Date: Wed, 20 Nov 2024 08:55:34 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 2/3] dt-bindings: leds: Add LED1202 LED Controller
-Message-ID: <po4rxi6spypwg5rd7fsubn3rohvgeach7uynverd6nuxsppquf@5kszzlvk6ics>
-References: <20241118151246.7471-1-vicentiu.galanopulo@remote-tech.co.uk>
- <20241118151246.7471-3-vicentiu.galanopulo@remote-tech.co.uk>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SzAG57bH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=bSvA3Ft/1Xn2xU
+	rvibm//aTPuGCDXkouCuQ6AQ+gaXI=; b=SzAG57bHtR3z9U/nr6KqxexFGuff+y
+	GGYcRy54iDZMV5PT5LnlVDkvL2+W1IBgnUwYXHu7hkT6BNw0utOu0yXO++ocJX1+
+	DfVaJTn/lkfy1TP2T4Onf3HtFXvvfWT5TlTt1zNUnJGT33HdYJAsctQZVVjKJwBN
+	ToQK68Pcm8WLychsLtA9J3AtHR24h3ts1kJVR2wM7U76f92WuYQJ5AZmz1TL0M/A
+	ZOgYqpdGr/+XbMRwCyUDow3N6VxJeS7d1JGFoU/XbemJQsLMBove7l7CawUSkown
+	fo0PPK94tZyLPog6J2f63ii0LUpYZQdZ7EJCb8L3kzA1LzG7FyNw/QoQ==
+Received: (qmail 832200 invoked from network); 20 Nov 2024 09:34:02 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Nov 2024 09:34:02 +0100
+X-UD-Smtp-Session: l3s3148p1@NN8UA1QnsLIgAwDPXxznANR4Jedc6XSv
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	=?UTF-8?q?Carsten=20Spie=C3=9F?= <mail@carsten-spiess.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>
+Subject: [PATCH 0/3] hwmon: (isl28022) doc fixes and minor code cleanup
+Date: Wed, 20 Nov 2024 09:33:49 +0100
+Message-ID: <20241120083349.22226-5-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241118151246.7471-3-vicentiu.galanopulo@remote-tech.co.uk>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 18, 2024 at 03:12:42PM +0000, Vicentiu Galanopulo wrote:
-> The LED1202 is a 12-channel low quiescent current LED driver with:
->   * Supply range from 2.6 V to 5 V
->   * 20 mA current capability per channel
->   * 1.8 V compatible I2C control interface
->   * 8-bit analog dimming individual control
->   * 12-bit local PWM resolution
->   * 8 programmable patterns
-> 
-> If the led node is present in the controller then the channel is
-> set to active.
-> 
-> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+When enabling this new driver (Thanks!) for one of our boards, I found
+some issues and came up with these patches. Let me know what you think.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Best regards,
-Krzysztof
+Wolfram Sang (3):
+  hwmon: (isl28022) use proper path for DT bindings
+  hwmon: (isl28022) document shunt voltage channel
+  hwmon: (isl28022) apply coding style to module init/exit
+
+ Documentation/hwmon/isl28022.rst | 3 ++-
+ drivers/hwmon/isl28022.c         | 9 +++------
+ 2 files changed, 5 insertions(+), 7 deletions(-)
+
+-- 
+2.45.2
 
