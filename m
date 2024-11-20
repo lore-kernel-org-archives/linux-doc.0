@@ -1,94 +1,71 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F66B1C75E4;
-	Wed, 20 Nov 2024 14:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB8E1BDA83;
+	Wed, 20 Nov 2024 15:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732114750; cv=none; b=GQrwG1rtKtaU8zoIVYpr7kRpp3H3M1gGh79MRZlsysnfew6OmFG5hb6j3MR1xdrZwfit+GoTczjU9s8qowCuiLCig2QO2i1BrUZtuaD6B+otOx45W4xgLKzLUtNQ9gu4XAbiVcLAraxP5Fl7Cvjc04s8ojVyj0zVxe54mtXF6FA=
+	t=1732114938; cv=none; b=MnYcAO4/2baR38e7EFRTd7VHBLD0yJxRUYt/uGW76kZ6BvFKTt+sXvwPh2uWJHzbva23SpRlYOuedonzUh8dk0ljhjIEjjndNEnV5WnzymYoL1jMagRqls4FXgbgMsItb474Belg7C8xfkO6or44A4EVj2DeS3z+SwJa+oUB5OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732114750; c=relaxed/simple;
-	bh=mgj4bvZ/X9lF9Afs6hkeLwqdCb98lX1871WUaw0D2YA=;
+	s=arc-20240116; t=1732114938; c=relaxed/simple;
+	bh=e169Z8ry/GwrEMLXyVG67E5LLXjDI63cOPTbVzZR0LE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lR9z8/eFuwg1UW2ePQRwhG0ltELJBe8h+TRmGaRTlARm5oVwT7vZT2ehMRj9Il+mwlkke8UP42tBVAMjqKe4wP7s1GhKdE3pxEtv9DXDbzbY0qpISnA8Cc7EtzfrtKw3h+G0wwD4VUsZwiJ+qsXsmt3VhJDKrIS0KJUUvAGz/ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ew7HvsRk; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=SWcANa/Pknkquwy9MGYUpdH+IxIGz8lwCsq1vbTtlti+zF9KBCEW7vu69KWb3US0oQh8RWmWKiiM05uVBcV90Dv1jlR6aaCtx8yV1Uy8k4St1i7tLQgwLgyn0IjCQNmBInN/Bcgb79H+4PrptxW842GMQe/iXMZMSMvQyGWx9dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ABtokfVS; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ew7HvsRk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=RkowXip/85xKsOA9eS4V3TnfVFLeWlFM6e9qis0TUFo=; b=ew7HvsRkHFTom5sTnUqzSG0oAO
-	ph2CPqO/ygxJ/UPM1WUb+pYR0aHrsOxLuya8BpPk6cbQe7m4o8R6UyxrT56fisaJpI/vFiYU6Bxds
-	9kG361m6Pt6bVUEHKciM9MNv6n0DeDnr3UoPQ1HATq0bL/rvVgpKHO/CPebxjZHz2SGumyNYakGU8
-	gLKwJSCZ55FiCvjyNICyvPDS/wqrke6fPTkuii22vWFlAQRkd2AK+ZRfhifvacNWLsUjG2bXsE/p7
-	Wwtsy0LReGjbKYrASQ0vbBFba1zyTDzJKYiUZiSs1m4+1RHu4gw19DuBmdh21X/FztxkFnivc9Z6I
-	zfyYJrNA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDmAb-00000000TrW-1QgA;
-	Wed, 20 Nov 2024 14:59:05 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 025EF3006AB; Wed, 20 Nov 2024 15:59:05 +0100 (CET)
-Date: Wed, 20 Nov 2024 15:59:04 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Valentin Schneider <vschneid@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
-	x86@kernel.org, rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Juerg Haefliger <juerg.haefliger@canonical.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Nadav Amit <namit@vmware.com>, Dan Carpenter <error27@gmail.com>,
-	Chuang Wang <nashuiliang@gmail.com>,
-	Yang Jihong <yangjihong1@huawei.com>,
-	Petr Mladek <pmladek@suse.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-	Julian Pidancet <julian.pidancet@oracle.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Dionna Glaze <dionnaglaze@google.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Yair Podemsky <ypodemsk@redhat.com>,
-	Daniel Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
-Subject: Re: [RFC PATCH v3 08/15] sched/clock, x86: Make __sched_clock_stable
- forceful
-Message-ID: <20241120145904.GK19989@noisy.programming.kicks-ass.net>
-References: <20241119153502.41361-1-vschneid@redhat.com>
- <20241119153502.41361-9-vschneid@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ABtokfVS"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2120f9ec28eso7240985ad.1;
+        Wed, 20 Nov 2024 07:02:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732114935; x=1732719735; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sIuf4De+b07P480C7gFEpK//F0NU2hICpmOwIZMHJng=;
+        b=ABtokfVS1FsLlv6eMWO0pvNminX4aZSwgd9a8xoW7U57dxP3T6FvKMP9f1pb3wEBbM
+         wf0OjEcgPrGZ2d1yZDlqYabhKsiZBxQSWfiSfqrWSRzKq/3PBb8UOFTIHJMSFASkFetF
+         ivk/3rsH2Bon1upswHRaSGyJhsaYrrxWUzg2dxBPdpbhiM6I7Dz6IMoodrKMRAptqt9Q
+         SmHUgwVwthNRUV0+SRuH4f9rgemhiz0N+rYqqLEaAswiqBLImQHArlJxBpjweomRovkC
+         2suuBnCLT7IM+qc5tfRe/LT24Vysei06v8Ftjj2rQ/yzogugZWru/fG5Ey0BN193yh+D
+         hsAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732114935; x=1732719735;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sIuf4De+b07P480C7gFEpK//F0NU2hICpmOwIZMHJng=;
+        b=it5fuKBE/Jhw+VlsK2wvBMZxp59bEbZv8opLx5ua0G0hhYQ9oAkm87NmTYB4ftRBES
+         25NQfnvCD0jpGZb6cV4u2qsZ43cBFEmqw8+nS9lNRfqQZJswCIJk5HcPrjTjzj3aPEke
+         vQqFxXi390JV2BVfdlynXq37oVPQNY2Yy7Xh5Chbkg1LVWw72beXr2NGahi0n8Uwd+EV
+         h+eVURBRrm65iRUH8EZ6JoGPY+U9/+b4+yw19U4vGz2jC+PsUFNQJBzTKyySqEaxRsTn
+         3yUPBOWWLoeecfQ01xr2k5YUU20Btt28xxfgVIQfr61n5i/P8YroQj++OGpyGhFVgdA+
+         rWqw==
+X-Forwarded-Encrypted: i=1; AJvYcCUuJTqpkWmo3p2UgZyaMA6vAP5ZTkmZSHGm3fQ+xL9T6+rPlba3n4JytMDa4SBsoncs2lJYvXJkSM4=@vger.kernel.org, AJvYcCXFMG0WF8n+J7idY1WVKtA2KhgzehdSMmWarOYuMvjp/5/ho1e0klHJ9Nf/50nON3Whf65r8t3Gf4OH3VE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxelkwIcDpeZVKnDR7N5rqiG3Yoxg9ROfAnG2owiXmBWJFNcGE
+	GEtGXZVQhWBwM7sehKHakz0kh9onPZz+J0bXJ1HE9ZVe1p8SggzrFjCwGw==
+X-Google-Smtp-Source: AGHT+IERhs9+m6W3Zfin0JKrSsHnHHZHTuAp8qyAl4qIU//tNBR5dMZG86deJhdSgU9czAdEooAhsw==
+X-Received: by 2002:a17:902:d4c5:b0:20f:c225:f2a5 with SMTP id d9443c01a7336-2124cfb307bmr110599445ad.10.1732114933790;
+        Wed, 20 Nov 2024 07:02:13 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724bef8da9asm1755639b3a.128.2024.11.20.07.02.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2024 07:02:13 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 20 Nov 2024 07:02:12 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] hwmon: (isl28022) use proper path for DT bindings
+Message-ID: <777b122d-b346-411d-8a2f-f3e095530cd7@roeck-us.net>
+References: <20241120083349.22226-5-wsa+renesas@sang-engineering.com>
+ <20241120083349.22226-6-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -97,14 +74,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241119153502.41361-9-vschneid@redhat.com>
+In-Reply-To: <20241120083349.22226-6-wsa+renesas@sang-engineering.com>
 
-On Tue, Nov 19, 2024 at 04:34:55PM +0100, Valentin Schneider wrote:
-> Later commits will cause objtool to warn about non __ro_after_init static
-> keys being used in .noinstr sections in order to safely defer instruction
-> patching IPIs targeted at NOHZ_FULL CPUs.
+On Wed, Nov 20, 2024 at 09:33:50AM +0100, Wolfram Sang wrote:
+> Vendor is "Renesas" not "ISL".
 > 
-> __sched_clock_stable is used in .noinstr code, and can be modified at
-> runtime (e.g. KVM module loading). Suppressing the text_poke_sync() IPI has
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Wait, what !? loading KVM causes the TSC to be marked unstable?
+Applied.
+
+Thanks,
+Guenter
