@@ -1,69 +1,95 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4551AAE19;
-	Wed, 20 Nov 2024 15:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF282B9A9;
+	Wed, 20 Nov 2024 15:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732114967; cv=none; b=ucSA1mTfqqK1pgoiKmOn1db6LE4nvszjaKk/rRcc3xRwGLXh8D+Kb3rL8Zj5fXh/SipG42ZK2rw/jci4561HNTs7eA2Vfbouj/HTSXJwZ7+o21QpGuXreSQRKBH2+f1/mm0FAoRprfvAplpamV4iPKqC7ij4+DU3ErKOR5lvBws=
+	t=1732115591; cv=none; b=UH3WbdAjnYxTqVUnnHtZq0/lZ823HjRoM3aiVj4bznls3oCjxBqIJaapKOfB8owTsXiD1c1AwF4ZoL33UJZW0HVD8TqkzVmYgEil3QJdQtu8wreHL/crqfWnuIslHW22R9k1YojXuUuwsLnZffLj1T9B+8pQ1GtsB1yiDUHTOU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732114967; c=relaxed/simple;
-	bh=gewwdbDdfBuYDPfjSejtHBmpDvC/bHH3uNTgzoPQulQ=;
+	s=arc-20240116; t=1732115591; c=relaxed/simple;
+	bh=/ICbzWM/m9Ey+tjFGLTbiKkd6MhG4IyhhGiknGWoNjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1/j3cJ9Nx7YdXnS3CldikfTKSjjHka+qa57GDhj0BdGHZ8aEfGkafx1/25Z7YEtRjvk1/pZlhzCPyZMGHA16jZi4T27tS8zXr/n6JFg1lApKO7SCIoJ3XN2XZHCoCDZNKH/zV9GlXqVikhuL3jKVN0fz5DYNf78eNqDHqETiKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gu6DDrAs; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=RkOVkuNFbApEuRRvETfjTSw6AiJMFFfS6nUXLxon/6ZbOuKxcILVdNAjMEitzzgzshs6OS7GIiwZ7Bl9SxYPw2gOpmVPhA1ygFrNYWnJ97PonlOOiohIW17yr+y7j6l8zcxWthyQiVFS4ONFSjRfj8Y9/bDYnmOItUyMCeI464k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hHQQtivy; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gu6DDrAs"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20cdbe608b3so68153485ad.1;
-        Wed, 20 Nov 2024 07:02:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732114965; x=1732719765; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f8t1tKsC5QCE0EfWLBsQoRMZ7UvNk3oOZOvBBNTReCA=;
-        b=gu6DDrAshYAMtpsAoa2ByFIkJkzqfGWf0fXFXXQOWNcdWQhhSuJv3xQ4ErIxpdwKRG
-         IW3g4JponHwaa+pvj7/wKP/X0yoFom5aizThVaBq+1DJsUsphQmd/LLt9ZeHlm1JIBXR
-         82T0UKM5stFGjP+XvIO6R5V6DQZ80DMep+cCRQKwVJshsnmQxkKMhTZ/A36JRq0mr6br
-         9RBt0Pz3PORyuj9i3zsUDaswEOyPbOoRraEUR90+KsVDUkGqycA6Za7cLHZ9suWC8mPM
-         33uGkcmsnyW7GxLaIY7cnZ1lq53ul7TguICISpO1saX/NW/4RyQVXVH+G/A+3TNKcbNu
-         hGrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732114965; x=1732719765;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f8t1tKsC5QCE0EfWLBsQoRMZ7UvNk3oOZOvBBNTReCA=;
-        b=bU1z3P1yEMfnPR4O+T7WcaPNF+JzVoTdLzyoGO6ZNCTlAMfL+va45djPT42PTjQt5A
-         fkpDCXbnNpGjivHdgm2GxBsKXKoE5b3REKOqUKqzLTigr/0Sx1dGkJ2W5rorT996km2I
-         IbEAdPBB7STgyzArkmy2wCp6ldoKqXH+b+oOLaM3M+2QzDAl+rhO+tLcAbAgbtPdjIW4
-         rIk1OUwF8IJ8LMyCV2O2Ve5UYzTM3hd2+ve3WdpdETBylWnr3uRtXzS52qt+lr9dOV+2
-         L0C1dgMSXwYzT+/XET40ZMpVrAx34s2rBdsxyvCmB7vPh+lhaEM3/uRbebnHxNe09xoF
-         rfug==
-X-Forwarded-Encrypted: i=1; AJvYcCUKxnrYpg8rTcXC5BeAQdk/4u768eED08nN5NYKEJlFh/+dFMgzHTx4PCO0UJE242FQ+odd0eBqbempjVQ=@vger.kernel.org, AJvYcCXlGgVwG0oiI9LJektbdZp/MWp61cSlpab+7fp/qKGYr/EMb12osQHpsdFHYBuL2aZNhcub/JphU1E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxH7T++xQ9NsgwmNTqqj6N14By3gEKJWMNTKQygUYFiOYBvxLbh
-	hkr5EcFySGAvYXtrBJbxOyMT2ILY9TbnKl2u3ouMiJL0VUSAerlE
-X-Google-Smtp-Source: AGHT+IGBcaGnrhtol4rWglZty8fa0xROVuWqIkth4C1sGIA1lnw5bkE2kpwjFVYO0qkyNxMyuEN2tA==
-X-Received: by 2002:a17:902:f64e:b0:20c:a19b:8ddd with SMTP id d9443c01a7336-2126cb3c32emr28707515ad.51.1732114965069;
-        Wed, 20 Nov 2024 07:02:45 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21270d53ab1sm12387545ad.258.2024.11.20.07.02.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 07:02:44 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 20 Nov 2024 07:02:43 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Carsten =?iso-8859-1?Q?Spie=DF?= <mail@carsten-spiess.de>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/3] hwmon: (isl28022) document shunt voltage channel
-Message-ID: <37e7ca90-50e7-44e5-97f3-bbd34a3b23dc@roeck-us.net>
-References: <20241120083349.22226-5-wsa+renesas@sang-engineering.com>
- <20241120083349.22226-7-wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hHQQtivy"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=AAZRDzlSytBcEeYbJd2bXyGg47+8MrAXJx0XsTo+ZCk=; b=hHQQtivypT3ptz/3Ng1DE0HYYc
+	ui45zM/vkkkWmkIkMIkjF8WnrBlzDbQ/bMF/zf4Sy2NSFsZu+/jaZ2HccJy8QPhMdwzOD7xB2vxP0
+	SP/Xhg12scFjjWG65KN1giIEGj498w3S1FHEULPi6tzNACfQ0apQ2otQK9ArVd9G1++V8UvkKGXUF
+	O4wb+v87ZdqqKtS9Vmj/jKu2YxhRA7hp4E/eKutXXMDhBsjK2RyWf3kYuoQ+xcd4Pyh4tzfoZelFT
+	53b8s43+VeviRTcjem3wSYAvSX+Kad1JoN35MMtbbawjNxeDNPSx06aRS0jG1T0WRY6aZf5eloTsl
+	F6cXyBwA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tDmOB-00000005NpY-0kTk;
+	Wed, 20 Nov 2024 15:13:08 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 0D62E300446; Wed, 20 Nov 2024 16:13:08 +0100 (CET)
+Date: Wed, 20 Nov 2024 16:13:08 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Valentin Schneider <vschneid@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
+	x86@kernel.org, rcu@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Nicolas Saenz Julienne <nsaenzju@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Wanpeng Li <wanpengli@tencent.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Lorenzo Stoakes <lstoakes@gmail.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jason Baron <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Juerg Haefliger <juerg.haefliger@canonical.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Nadav Amit <namit@vmware.com>, Dan Carpenter <error27@gmail.com>,
+	Chuang Wang <nashuiliang@gmail.com>,
+	Yang Jihong <yangjihong1@huawei.com>,
+	Petr Mladek <pmladek@suse.com>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+	Julian Pidancet <julian.pidancet@oracle.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Dionna Glaze <dionnaglaze@google.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Yair Podemsky <ypodemsk@redhat.com>,
+	Daniel Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
+Subject: Re: [RFC PATCH v3 12/15] context_tracking,x86: Defer kernel text
+ patching IPIs
+Message-ID: <20241120151308.GL19989@noisy.programming.kicks-ass.net>
+References: <20241119153502.41361-1-vschneid@redhat.com>
+ <20241119153502.41361-13-vschneid@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,15 +98,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241120083349.22226-7-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20241119153502.41361-13-vschneid@redhat.com>
 
-On Wed, Nov 20, 2024 at 09:33:51AM +0100, Wolfram Sang wrote:
-> During the upstreaming process, the driver has been extended to report
-> the shunt voltage as well. Document that.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On Tue, Nov 19, 2024 at 04:34:59PM +0100, Valentin Schneider wrote:
 
-Applied.
+> +static void __text_poke_sync(smp_cond_func_t cond_func)
+> +{
+> +	on_each_cpu_cond(cond_func, do_sync_core, NULL, 1);
+> +}
+> +
+>  void text_poke_sync(void)
+>  {
+> -	on_each_cpu(do_sync_core, NULL, 1);
+> +	__text_poke_sync(NULL);
+> +}
+> +
+> +void text_poke_sync_deferrable(void)
+> +{
+> +	__text_poke_sync(do_sync_core_defer_cond);
+>  }
 
-Thanks,
-Guenter
+How about we unwrap some of that like so:
+
+>  /*
+> @@ -2257,6 +2273,8 @@ static int tp_vec_nr;
+>  static void text_poke_bp_batch(struct text_poke_loc *tp, unsigned int nr_entries)
+>  {
+>  	unsigned char int3 = INT3_INSN_OPCODE;
+> +	bool force_ipi = false;
+> +	void (*sync_fn)(void);
+
+	smp_cond_func_t cond = do_sync_core_defer_cond;
+
+>  	unsigned int i;
+>  	int do_sync;
+>  
+> @@ -2291,11 +2309,18 @@ static void text_poke_bp_batch(struct text_poke_loc *tp, unsigned int nr_entries
+>  	 * First step: add a int3 trap to the address that will be patched.
+>  	 */
+>  	for (i = 0; i < nr_entries; i++) {
+> +		/*
+> +		 * Record that we need to send the IPI if at least one location
+> +		 * in the batch requires it.
+> +		 */
+> +		force_ipi |= tp[i].force_ipi;
+
+		if (tp[i].force_ipi)
+			cond = NULL;
+
+>  		tp[i].old = *(u8 *)text_poke_addr(&tp[i]);
+>  		text_poke(text_poke_addr(&tp[i]), &int3, INT3_INSN_SIZE);
+>  	}
+>  
+> -	text_poke_sync();
+> +	sync_fn = force_ipi ? text_poke_sync : text_poke_sync_deferrable;
+> +
+> +	sync_fn();
+
+	__text_poke_sync(cond);
