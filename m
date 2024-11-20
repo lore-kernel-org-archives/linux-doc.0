@@ -1,146 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBE9487BE;
-	Wed, 20 Nov 2024 17:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D113487BE;
+	Wed, 20 Nov 2024 17:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732123821; cv=none; b=kSMpxYOH1zh+7Y3NgAM+M6pOU8ng3FPz1EaO1VV8IXcL763pdnljRpFO/W8LJFC6Q3i8Q3+jA536WYJkz6qsTOSWCdnXrbmjty1KdOdqTRDF9BWxKuCtRun93JtsUlMWWI+hEW5hQuoTLgCHTPw/dBFwmGSxltpbQ+F09kmCKhU=
+	t=1732123972; cv=none; b=gIB4JYtaIchGW4+BKdCbgIrlKtuE8c2yyN+I3pof/bgnZs8CxQ9pFvr75TeFZhn7bNR9sYQIxwkFdyquV/zuSoZxyN4+My+h1LovDNL6KeDa4yyC0C7NbZ8z5rtZ7A/y85i4N7lqsgOo1Y+rhgIQpf7yH9VTeltFJLDPtbgzeJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732123821; c=relaxed/simple;
-	bh=PFA7J969PABg1BMHj5bUVkB7wuVSRSb1IQcjJeE4WLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gcwn+hQQKNGRbLZdO8uCz1fFesc5gsFP4cOShAsrom6ApGjhp4syIdVNNIpRSuVOwyqo3xqnBhfYAm5z44oWMLCVk2nv+V35CsnmBXElzUPry/N4nDipBjHT5pACImX2fTYBpRG5ScLit8gZEJWwMyuVR/eXiuRUCL1T1LV85bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kf3Dyd2C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732123972; c=relaxed/simple;
+	bh=Ydm7LuOScxlb4wHp+uTbMha1SN4b3rRxDoJYfVZYrLo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h9JEUhqIBYdMDD+pNmG8Dr8xUzDDoeabQfSH2utjmCenNJCx11MrC8trQH4LK9ukBV4W3JQgYQ29dJ2zKxOUcNpoaPg4Lw3ulBUNboqdDSEN4//53uWS/RQhGOJI21DMUq56a9vHpr8SNovk2ib5C8CiUo3I7VeYmK1lDxaVE1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RwksfhdM; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kf3Dyd2C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD605C4CECD;
-	Wed, 20 Nov 2024 17:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732123820;
-	bh=PFA7J969PABg1BMHj5bUVkB7wuVSRSb1IQcjJeE4WLw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kf3Dyd2CKUZa3tMlA5c9d+2ELCZPrv6chpFxvCS+UiOnBey7DGXhhzWANw/Gp+cVf
-	 9ekUEtoHku9jwPT9QXn/R2VMK+633Zwv3F8SW/w65Og7YAa79XArf9PDSYf46Yny/f
-	 CrYCCnTD0bWSCkL5fF9NGkrNb77XNSWjrPupERZ/bTBF5I2Jc5S3xRmc9IDdaoFlod
-	 GylypmxLKgFB8l61QEhIJKuBcBziS7S2je/uwRmgBZtYP0rWwBCTQiHaso7+9c9Aeo
-	 QatfyLQ2wrkudg0oAe0ccQENxnmONZH9eFt1AMIDeWXdmNfFX87/aC3WxZnfDlQGNL
-	 8lnRD6NSI6heA==
-Date: Wed, 20 Nov 2024 18:30:17 +0100
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Valentin Schneider <vschneid@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
-	x86@kernel.org, rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Nicolas Saenz Julienne <nsaenzju@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Juerg Haefliger <juerg.haefliger@canonical.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Nadav Amit <namit@vmware.com>, Dan Carpenter <error27@gmail.com>,
-	Chuang Wang <nashuiliang@gmail.com>,
-	Yang Jihong <yangjihong1@huawei.com>,
-	Petr Mladek <pmladek@suse.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-	Julian Pidancet <julian.pidancet@oracle.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Dionna Glaze <dionnaglaze@google.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Yair Podemsky <ypodemsk@redhat.com>,
-	Daniel Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
-Subject: Re: [RFC PATCH v3 11/15] context-tracking: Introduce work deferral
- infrastructure
-Message-ID: <Zz4cqfVfyb1enxql@localhost.localdomain>
-References: <20241119153502.41361-1-vschneid@redhat.com>
- <20241119153502.41361-12-vschneid@redhat.com>
- <Zz2_7MbxvfjKsz08@pavilion.home>
- <Zz3w0o_3wZDgJn0K@localhost.localdomain>
- <xhsmho729hlv0.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RwksfhdM"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2e56750bb0dso44104a91.0;
+        Wed, 20 Nov 2024 09:32:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732123971; x=1732728771; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=G/2Lytn1vm/IYW/jhQDWAPmSMmgq3z2ocN64hCXLvjs=;
+        b=RwksfhdM98kf5mm83DW4JWdg+ol+pnFgrbQBE6EXT4RPSlmIA+lvnCnM5zyo9nKzrN
+         QLhHusoJbesFQmnBAeYXEzb0LXaAQb1+1101m0xWLThh0cOe2iZrLdFwPNB9d8Gagjun
+         hpVmQJ1re9aOeQQvy1pM/f7OtCS8IvEKgQx4foPFm83fOJXUaaX3aen4LY8ESIcWOLz5
+         s0bV+qzjcpA0tznvfiNfXZDL6HhKdB4qMC8y1dD+8mrBCHg7eYnUOTK48xE/LWXbB8Pv
+         BqQdyxgy13VmV+zQ6fuucYXNu1dL2/M4RLt1aIZh5ri0bMQw32YuZrUeBfWJXYN9YyZm
+         2zFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732123971; x=1732728771;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G/2Lytn1vm/IYW/jhQDWAPmSMmgq3z2ocN64hCXLvjs=;
+        b=IAnqPyiVHU2u7QQBNgGXQgftygoLjB7sVe6YxwOkfJZF/fV9mK7yAwnab8t2bR4zxl
+         4U60jljgDNELxmAEvwX2+Kgrmdzf/+YaQjV26Rk+5t4XH/VBz7b+HuJl+rQJp6rkf71J
+         c3rxPCq+2u0WbzwtYg4sn+KTGDFQVuygC17xwneoaXwNVHidi2Q4iPhkjepu8Jemw6Ns
+         Jm1krMT4STPM34ooJbB2Vm6bnxdOu3S4T4314Gt+P36X+Ug2K6dA634OnQyEf4U4zk7l
+         3eXezCgNXCA9ZoqqusUxVYjpYwPBoVqMzBMwDL7cgVNWyk3505h5pZ2iox00/nV2KzPu
+         FwJw==
+X-Forwarded-Encrypted: i=1; AJvYcCVOQyIVWFuWSFojKc3o6XblqVaOQifxsxFsJ5UCNp71qKssSjGV0+mIHMqS4m2MWIU430p6WmbZU59qjTqk@vger.kernel.org, AJvYcCVhoGdTsmBAg/u8hJUhZMR9780wRveqD7yySFk+huXbpZiHinxbMD2uULufpmzvHDmL4MERdmGYYvhNcJ8=@vger.kernel.org, AJvYcCXp0VjBa9r3l0SFeaHrtIlq3ywLjpp76r3ZHS/agSnuhLuef+BMnPM2brvif/XUCs+xIb5HswM5ess=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6NHai9rzCqj2qE0b+O+bVo3Qg1ZsNenUbGqqK8CFXsZ1SYPrJ
+	aLxo/AAKhqqo9psNPMPR5cO8jWRwEa/QKgQvZuL72k1cV/dplZWSwqSiu9r0SjyceftCOw264Tx
+	owWhclgO77SBiQt+FRyHcPsCwJDU=
+X-Google-Smtp-Source: AGHT+IHerz1Iuc8dyH4PpuZqIVt7KpLCTN71uXCQnZYztGGh+ZSbOJc6m8Z9MNLoR0+cjQLmDOeC84yAM1gSlvybWL0=
+X-Received: by 2002:a17:90b:4d88:b0:2ea:6f19:1804 with SMTP id
+ 98e67ed59e1d1-2eaca7d0bedmr3911138a91.25.1732123970570; Wed, 20 Nov 2024
+ 09:32:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <xhsmho729hlv0.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+References: <20241114-alc287-nitro5-v1-0-72e5bf2275c3@gmail.com>
+ <20241114-alc287-nitro5-v1-1-72e5bf2275c3@gmail.com> <87iksmq8ho.wl-tiwai@suse.de>
+ <CALiyAo=5aLbYEyRWWw7QscTk6cXy5qckHToiPL6h4fKM9=skLg@mail.gmail.com> <87ed387ioq.wl-tiwai@suse.de>
+In-Reply-To: <87ed387ioq.wl-tiwai@suse.de>
+From: Hridesh MG <hridesh699@gmail.com>
+Date: Wed, 20 Nov 2024 23:02:13 +0530
+Message-ID: <CALiyAo=awTsGQnGH5UPB7dF5QsZ2AFkKv5LcJkJRXV9sv51iqQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Stefan Binding <sbinding@opensource.cirrus.com>, Kailang Yang <kailang@realtek.com>, 
+	Simon Trimmer <simont@opensource.cirrus.com>, Joshua Grisham <josh@joshuagrisham.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Le Wed, Nov 20, 2024 at 06:10:43PM +0100, Valentin Schneider a écrit :
-> On 20/11/24 15:23, Frederic Weisbecker wrote:
-> 
-> > Ah but there is CT_STATE_GUEST and I see the last patch also applies that to
-> > CT_STATE_IDLE.
-> >
-> > So that could be:
-> >
-> > bool ct_set_cpu_work(unsigned int cpu, unsigned int work)
-> > {
-> > 	struct context_tracking *ct = per_cpu_ptr(&context_tracking, cpu);
-> > 	unsigned int old;
-> > 	bool ret = false;
-> >
-> > 	preempt_disable();
-> >
-> > 	old = atomic_read(&ct->state);
-> >
-> > 	/* CT_STATE_IDLE can be added to last patch here */
-> > 	if (!(old & (CT_STATE_USER | CT_STATE_GUEST))) {
-> > 		old &= ~CT_STATE_MASK;
-> > 		old |= CT_STATE_USER;
-> > 	}
-> 
-> Hmph, so that lets us leverage the cmpxchg for a !CT_STATE_KERNEL check,
-> but we get an extra loop if the target CPU exits kernelspace not to
-> userspace (e.g. vcpu or idle) in the meantime - not great, not terrible.
+> Is alc_fixup_headset_mode() called by the quirk chain?
+> When this is set up via quirks, alc_update_headset_mode() gets called
+> at initialization and this should detect the headset type.  At that
+> point, alc_headset_mode_ctia() would be called if the proper type gets
+> detected.
 
-The thing is, what you read with atomic_read() should be close to reality.
-If it already is != CT_STATE_KERNEL then you're good (minus racy changes).
-If it is CT_STATE_KERNEL then you still must do a failing cmpxchg() in any case,
-at least to make sure you didn't miss a context tracking change. So the best
-you can do is a bet.
+Thanks for pointing me in the right direction, I believe I've managed
+to find the root problem. I've set it up via quirks to call
+alc_update_headset_mode(), when I plug in any earphone,
+alc_determine_headset_type() incorrectly determines that the type is
+OMTP despite it being CTIA (I've confirmed this on a friend's laptop).
+Adding my codec to a case in alc_determine_headset_type() for my codec
+seems to fix this issue.
+After the headset is detected as CTIA, I also had to add my codec to a
+case in alc_headset_mode_ctia() to set the process coefficient to
+0xD689 (as written in my original patch) to finally pick up the mic
+input.
 
-> 
-> At the cost of one extra bit for the CT_STATE area, with CT_STATE_KERNEL=1
-> we could do: 
-> 
->   old = atomic_read(&ct->state);
->   old &= ~CT_STATE_KERNEL;
-
-And perhaps also old |= CT_STATE_IDLE (I'm seeing the last patch now),
-so you at least get a chance of making it right (only ~CT_STATE_KERNEL
-will always fail) and CPUs usually spend most of their time idle.
-
-Thanks.
+I hope this is a satisfactory approach, if it is not, please let me
+know. I'll make an attempt to understand the cases and process
+coefficients before sending v2.
