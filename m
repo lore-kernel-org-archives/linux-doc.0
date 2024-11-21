@@ -1,143 +1,130 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281636CDAF
-	for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 17:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F24414A0AA;
+	Thu, 21 Nov 2024 17:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732210737; cv=none; b=OFXFF2lQX5n/zPQFa/3/Z1OaZnchOWP5LCtUgMyEnyT6hfdogdBP45T7ghK0fswlBEPYUgsbR4GtW5pQjhi33pR2FVkV+siIWUeiA0k6DDyiUl/2ZOTYNUGYLWtGH11QjuUJ36oFRsdvLN0MhgnDNlHnF7UUXl+GMOx7qpijI88=
+	t=1732210776; cv=none; b=up5cPXNLBxHX/tduYx/jGmMN+xvriRHqfG0Wu4ZffNx91TPH4bP1xJjSFmyWKtPkqolH24VrpRBeAqrrqgM9oSubXpS5Ynn9GUG2HnBfsc6xNNArU9FNL6HowoaSQ0vUMakhqr9WzV9L6HyDlEMra3aLLbAMRjRYW7kInJWUWPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732210737; c=relaxed/simple;
-	bh=S/y5ZyYozL2J9WdTeutnmyNj6lkYDklgSKjBzODuq5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=iBSTiRZXRB2/8D/jJt4MevjdI0gs6DpNpKXTeEbOEmo+mPsfBPGG1FZ/6rA3CptpR0T3jxdTuxdjx3qeJHv62OH7OXBBn4cR4DtHY152gdLTQWiaBSt3Zqz54wVr3CBw19UUbPMrnExpM3rjgrmbLr4IgpPqjnzUGeWAQ1ld0fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=h8evHUOz; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1732210776; c=relaxed/simple;
+	bh=uT1Nv9OIO5LpSBXoquolSqcEzlSL841t1zuKuEVmULI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TfC1bWFjWJLRm3A0vp9h8cj5d50sxuiQNT20Z0ar/jlXs2snZ/vsV6iLgp/1sNblWNquTBsw3VMYoVoVMOwAvoTUEmAvdGnHw+hCI5piPxDlruisdVnU9tnPFF/z9kKC8elU2+6HaYnkw2kRCIQncD1iCGYCT7V9AFLbx+l0ZzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UHPYmaaD; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h8evHUOz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
-	Reply-To:Cc:Content-ID:Content-Description;
-	bh=9/Fvc5ORfLBUp92+5Ys5y+uUoLMk7GsogvOAb+TM/24=; b=h8evHUOzh6Gk6wHxxK/t77G2fk
-	KmbTt3xgWlTcD3oWD2Z6pRtQBQm+na+sWeG2a4hwF+fNwML3h9VHpfXs/izhVnl0HFj5cGOvBY0Bo
-	/k/xMzKhi2ht+fGwmZjjVYu4k1uYAi5JsKkv6VVPtRMg8TmpwpMhcOkegyhdd/D9zrk378/mORBhc
-	VtAelK2TxFkpgdthVXWf7tXM+Fxuwz7XdoVZy0YjHQ5UDiv+1PglrsdRWqOA/LG1CcZWvZ4Bphpx2
-	LiohnjKuTCvU8HkZkg7U38i8251mCCn+lg7jwe+dTEpFsZPJGXtmwdWA4QID3InxQsHJM+JnjUd7S
-	JZqi3Luw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEB8m-00000000bi1-0Rbd;
-	Thu, 21 Nov 2024 17:38:52 +0000
-Message-ID: <9b7a43f5-5d04-4917-906b-707581b5a39e@infradead.org>
-Date: Thu, 21 Nov 2024 09:38:47 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UHPYmaaD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732210774; x=1763746774;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uT1Nv9OIO5LpSBXoquolSqcEzlSL841t1zuKuEVmULI=;
+  b=UHPYmaaDU1Pw0wldrUnAxVGpHCxpJrW0bE/h0JhpdRTHV/4Pdmv8IXdk
+   qAhuwpiL2uAkxVYMj6+qVYPHuo1BySRWMdv8ItLqW6jnt+EMkKxk7d2LR
+   F4fWIG75fS6RCqnVZnEjOZlj33owLPP1gZiYC6uXdaFeMzFPf0T5rkmOE
+   xY9406TqpmifxYOd4wis0nS8cXDWl9aXG5I1G2ftfUQmZiPoN9QqfcuAz
+   GwT2Szz+G6FxIY8wlh2Q3NNaz+cEfI5L9SVhXLlykbQjM5M2ydE7J0Sdp
+   T6NiSFMbKzs0YU5rYkNl4Fyjz0ZKi/N4yXDS03MOArCCJmKkzTYc+5ZqP
+   Q==;
+X-CSE-ConnectionGUID: brZz3M6/TlyaXMGdtmJLgQ==
+X-CSE-MsgGUID: aL+mhyecQjSo6CfYvE0K3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32271162"
+X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
+   d="scan'208";a="32271162"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 09:39:34 -0800
+X-CSE-ConnectionGUID: JM42aBx2T0edIsgjq5qWGw==
+X-CSE-MsgGUID: IrQ8vYMxTw6INmJ++BcMGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
+   d="scan'208";a="90739796"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.70])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 09:39:34 -0800
+Date: Thu, 21 Nov 2024 09:39:32 -0800
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v9 5/9] x86/resctrl: Relax checks for mba_MBps mount
+ option
+Message-ID: <Zz9wVHIzbgL9ob21@agluck-desk3>
+References: <20241114001712.80315-1-tony.luck@intel.com>
+ <20241114001712.80315-6-tony.luck@intel.com>
+ <a87640c0-0cd5-42be-83fc-bd12385bf69f@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: typedef output question/issue?
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <e9d714fd-d034-4176-a2b7-50a72f80c8ad@infradead.org>
- <877c8w25sn.fsf@intel.com> <874j4025rq.fsf@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <874j4025rq.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a87640c0-0cd5-42be-83fc-bd12385bf69f@intel.com>
 
-
-
-On 11/21/24 3:19 AM, Jani Nikula wrote:
-> On Thu, 21 Nov 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
->> On Wed, 20 Nov 2024, Randy Dunlap <rdunlap@infradead.org> wrote:
->>> Hi,
->>>
->>> If I print a typedef in html (make htmldocs) from a .rst file,
->>> I see:
->>>
->>> type dma_cookie_t
->>>     an opaque DMA cookie
->>>
->>> Description
->>>
->>> if dma_cookie_t is >0 it’s a DMA request cookie, <0 it’s an error code
->>>
->>> ~~~~~~~~~~~~~~~~~~~
->>>
->>> If I print the same typedef in man format, it says 'typedef' instead of
->>> 'type', which is what I expect to see.
->>
->> I'm sorry, it's unambigous to me which one you expect.
+On Tue, Nov 19, 2024 at 07:54:10PM -0800, Reinette Chatre wrote:
+> Hi Tony,
 > 
-> *ambiguous, obvs!
-
-Sorry about that. I would like to see 'typedef' instead of 'type'.
-
-Thanks.
-
+> On 11/13/24 4:17 PM, Tony Luck wrote:
+> > This option may be used with any memory bandwidth monitoring event.
 > 
->>
->>> man formatted output:
->>>
->>> Kernel API(9)                     API Manual                     Kernel API(9)
->>>
->>> NAME
->>>        typedef dma_cookie_t - an opaque DMA cookie
->>>
->>> Description
->>>        if dma_cookie_t is >0 it's a DMA request cookie, <0 it's an error code
->>>
->>> November 2024                    dma_cookie_t                    Kernel API(9)
->>
->> How do you generate the man pages?
+> Needs a changelog.
 
-One function or identifier (struct, union, enum, or typedef) at a time.
-Just for testing.
+Added one.
 
-$ scripts/kernel-doc -man -function function_or_identifier file | nroff -man | less
-
-e.g.:
-$ scripts/kernel-doc  -man -function dma_cookie_t  include/linux/dmaengine.h  | nroff -man  | less
-
->>
->>> I am using python311-Sphinx 8.0.2-1.2-noarch from openSUSE.
->>>
->>> [internet search ...]
->>>
->>> The $internet says that one option is to install and use:
->>> Add 'sphinx_autodoc_typehints' to the extensions list in your conf.py file.
->>> I tried that but now I get:
->>> Extension error:
->>> Unknown event name: autodoc-process-signature
->>
->> The kernel-doc thing is not hooked up in the Sphinx autodoc processing,
->> which is more geared towards Python. I presume sphinx_autodoc_typehints
->> uses autodoc-process-signature which isn't there because the autodoc
->> Sphinx extension isn't loaded, and even if it were, would not be called
->> on kernel-doc handling.
->>
-
-OK, thanks. I'll just try to ignore it. :(
-
->>
->> BR,
->> Jani.
->>
->>
->>>
->>> Another option is to try a different theme so I reverted to
->>> sphinx_rtd_theme but that didn't help either.
->>>
->>> Does anyone know a good solution to this?
->>>
->>> thanks.
+> > 
+> > Signed-off-by: Tony Luck <tony.luck@intel.com>
+> > ---
+> >  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > index a8022bddf9f7..3a89516e6f56 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > @@ -2334,7 +2334,7 @@ static bool supports_mba_mbps(void)
+> >  	struct rdt_resource *rmbm = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+> >  	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
+> >  
+> > -	return (is_mbm_local_enabled() &&
+> > +	return (is_mbm_enabled() &&
+> >  		r->alloc_capable && is_mba_linear() &&
+> >  		r->ctrl_scope == rmbm->mon_scope);
+> >  }
 > 
+> I *thought* I had a handle on things with the understanding that rdtgroup.mba_mbps_event
+> is only valid when mba_sc is enabled. This understanding falls apart with this change since
+> at this point in series if a system only supports total MBM then mba_sc may be true
+> but rdtgroup.mba_mbps_event will be zero.
+> 
+> The expectation is that patches build on each other to create a solution but this series
+> does not respect this making it difficult to reason about this work.  I think this series
+> will be easier to understand if "x86/resctrl: Make mba_sc use total bandwidth if local
+> is not supported" is moved before this change.
 
--- 
-~Randy
+Rather than moving that patch before this one, I've merged it into this
+patch since both are small and intimately connected.
 
+> > @@ -2759,7 +2759,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
+> >  		ctx->enable_cdpl2 = true;
+> >  		return 0;
+> >  	case Opt_mba_mbps:
+> > -		msg = "mba_MBps requires local MBM and linear scale MBA at L3 scope";
+> > +		msg = "mba_MBps requires MBM and linear scale MBA at L3 scope";
+> >  		if (!supports_mba_mbps())
+> >  			return invalfc(fc, msg);
+> >  		ctx->enable_mba_mbps = true;
+> 
+> Reinette
+
+-Tony
