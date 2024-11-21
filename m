@@ -1,134 +1,120 @@
-Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A337874C08;
-	Thu, 21 Nov 2024 16:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCB91AB51E
+	for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 16:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732207627; cv=none; b=olrh3mApSuZRGl/lM1pY54x0eNjpKxsA6XwwhvBSyy0yL8NfS8S8AKXSqlAOecK9ltldnD83rOIjmB+xQDILTHboacse39VTmt6b1J5IsZoZ+7Ek0bsvjUJnEvpknmQHyJD6ZV0Bfv0tqhEVEzjliWUa2AhVzHfYhhgY8Wjy+YE=
+	t=1732208318; cv=none; b=FnSmgmZpuJg6Kr0iw6ciJa9dtPxJ/KMiSI5Ir4guAeAIKN/t5yXcR+jq+Inre+L7NvBDLZ37+rGTvPeBgaHB4QpB7HNWBpygXy228S7Sg7bEY+UxxMWHHrcpn+2ZKKodvbmsSeYsVOBMK0glX/Tc7v/fFbj6olBVWHVlFwWn98I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732207627; c=relaxed/simple;
-	bh=sCB9dkVcUaWIcMEgrF4mHxRVyYpDcDGowhkhLz/S/mg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=m3p/lEtBVJzaJD0eOtq1ylnb2kS/ivw1I8S4M/JVhhg3EIAmaY7ZFvBdzsmq72Q4x2YNLw0lqhE+gHkgPHX2dhFGQ/XUG9Bs68s+V1dE8P5q6bVFWDWYpa3sfJ2HpgbHyf9QHeQJRquqXdWA1SKK/xtUovkHdIPcCuSe0Jji1fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=Wfo0huLF; arc=none smtp.client-ip=99.78.197.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1732208318; c=relaxed/simple;
+	bh=abhX0e8c7pOXK+VqgphQUVBQ5sBLa4mph2cyW0j392o=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=ueU9cVOzmP2L3SNrY2+fy4BASj08R0Vhntr2btbSEP6AMXqb7q3CdvBFHwADn9elapcwxQYi1rf4czF0vj/zBGB9qVCGCCh5r9qbfMSr8zekfHCc5NlSGCHdgTgJ7qzcHoBUlBfgj+6mtvjsXS2e22gTBeDcNU3g8Q1bpdVH++Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=LNZ+IUTU; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Wfo0huLF"
+	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="LNZ+IUTU"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aa1e51ce601so229368266b.3
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 08:58:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1732207626; x=1763743626;
-  h=message-id:date:mime-version:reply-to:subject:to:cc:
-   references:from:in-reply-to:content-transfer-encoding;
-  bh=3rYcatr6xn14OakYphLU6gjqCUo8BfUaPtrhEVfRA6s=;
-  b=Wfo0huLFBzg6G9wcgDdl5WeQ5/i7GGsDpsnlBmkXHrELNQ6Vhp0HfMk0
-   2DeCtMbpze+SBJYRclu4xC4IiX1v0PcgTNDGQYxUMHLrP61qRZ7SRFvVK
-   PLwjKYgjsm8gBAImml9xmW+tpT5S3Kn9YpG0LyTKIVCwrFVS75fBRW57n
-   w=;
-X-IronPort-AV: E=Sophos;i="6.12,173,1728950400"; 
-   d="scan'208";a="354610907"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 16:47:03 +0000
-Received: from EX19MTAEUA001.ant.amazon.com [10.0.43.254:42989]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.9.62:2525] with esmtp (Farcaster)
- id 84b57715-564e-4b10-a824-6b676d02ad0e; Thu, 21 Nov 2024 16:47:01 +0000 (UTC)
-X-Farcaster-Flow-ID: 84b57715-564e-4b10-a824-6b676d02ad0e
-Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
- EX19MTAEUA001.ant.amazon.com (10.252.50.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Thu, 21 Nov 2024 16:47:01 +0000
-Received: from [192.168.3.109] (10.106.83.32) by EX19D022EUC002.ant.amazon.com
- (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Thu, 21 Nov 2024
- 16:47:00 +0000
-Message-ID: <8ac0e3e6-5af3-4841-b3ba-ab0458ab355b@amazon.com>
-Date: Thu, 21 Nov 2024 16:46:55 +0000
+        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1732208314; x=1732813114; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bv4wgISV7HkP4RZ5WKLIykwWASiXxKHjaIhIuwDJQRM=;
+        b=LNZ+IUTUmCoCGKr065Iy/UutFnhkel56puHGON44iSiDL6obq9SkM30Hq8Tww20FHW
+         QWcMELGfb2gi0QWuxbF98nChXWWgHG7zzNgtOXcWe9OxSdLJ02QiQeNX/50bRK4Y8UND
+         al4kJP8YZgwVhqVGp237WW4ZqA5KOW/wbfX5reixyeYa2q5LkkRhqlw19L6Yrbkoj9Ij
+         HWOQkqi3XAN0AEjmij4xid14kXpTw0ILDwXl72Zk9eBBLkt17iqbgfDe5mW4svpZj7DU
+         Ax+7eDIhC1HP4dc+Mcj8aavXFdU/pfxZHM6OsoaUsJYRTFs7zymUuILlCl/dxtksMwx2
+         PuwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732208314; x=1732813114;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bv4wgISV7HkP4RZ5WKLIykwWASiXxKHjaIhIuwDJQRM=;
+        b=IdKqEhQjTbH1fksDi/cpfqtBQRpW6FSPOLwurgwnF9jKIpt4JPjafzlFZ67ucD/jbO
+         QT1iPJjg0DeFLjm1W1WA52EQTZr9ryUt440MT32B/04Hjh/6nXVWGOrBDJJpwrQAF20e
+         kg4fpk8q7aezCyeVuh/iwS6wXDPEJCcLc4VSJAZINkQ85jkSIe2unWhJ1sTSmjD4LNR0
+         aOFuo4m+qcpu8Nmx0sFU8s5dJ3StC48FnJk0oSrlff6ZSgSnrnur/3Uggk/zJhn+hs0B
+         9DeE4vQ+ldI/tihO2bvm9EkcbM0JKh1CpynNcFqxSIH557IQZpssuMkJ6m/w030nkgdV
+         ul+w==
+X-Forwarded-Encrypted: i=1; AJvYcCVfamgcJaBeYzxNiDNOLzY+sVDS9FtK3ZNbhD1CAZEMuwP7juwLYyLnZRsFGBhv3swb7XWr+5fjC70=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjiJXh1Dtu2QFBDhZ8NfRDx1NPv/n5ehBbeWewtCz5Z0eEWIE3
+	HSsfdExwej9AndwCum0JPM3KxApOEkWnv0LGS1B+dRRUPDnmR3dMmmgSghDZH1MwK6l7MACqlJs
+	3MN812I3NFvw6C4J+hX9lXIjTLPK25aFOnzKg7/7VR1CquWF4kJkV0D1v5KcAugwzrzTgOjoWZQ
+	hOmOSd1rEiAt/dBAtUc6on734=
+X-Gm-Gg: ASbGncuxe1TwE9k8QiqNVH3OjIJUbJWCwqU2ok/+n69xAWqhJJwlZj9kUFgrPW9sA3J
+	5/+/SkdHdo7g+dZ7YLdW/2Vn/zzQJt8rTFtL66Q/2+uiE0XJWNYdIYSlSc5lCf2xYBb7veCJAVW
+	mZOgT78USJ5vCSqyl+gcfJio3Q3FdGZrwpm+o/fPS3czXjq+6TuZejMtFZEKJRPQjALGSJomwbT
+	aCpCLgwcAv+cqYfHktozyoNd5jHulltvj/HUjXd69rLYutezhYrCcrhyChdpWbhv7GgwLsN3KMT
+	8012FIo6TFiKzNKQRcK2
+X-Google-Smtp-Source: AGHT+IG8qI4Ldy/CPpK41Muah+dnkVTCgnCKbuDjqWU0JiNZ4vuj5vyaOAZBfib8+IrwqlaHQZFVtA==
+X-Received: by 2002:a17:906:6a08:b0:aa4:9ab1:1982 with SMTP id a640c23a62f3a-aa4dd548167mr672887466b.4.1732208314370;
+        Thu, 21 Nov 2024 08:58:34 -0800 (PST)
+Received: from localhost.localdomain ([178.27.36.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa4f41536d3sm101502766b.24.2024.11.21.08.58.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Nov 2024 08:58:33 -0800 (PST)
+From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v9 0/3] Add LED1202 LED Controller
+Date: Thu, 21 Nov 2024 16:58:22 +0000
+Message-Id: <20241121165829.8210-1-vicentiu.galanopulo@remote-tech.co.uk>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: <kalyazin@amazon.com>
-Subject: Re: [RFC PATCH 0/4] KVM: ioctl for populating guest_memfd
-To: David Hildenbrand <david@redhat.com>, <pbonzini@redhat.com>,
-	<corbet@lwn.net>, <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <jthoughton@google.com>, <brijesh.singh@amd.com>, <michael.roth@amd.com>,
-	<graf@amazon.de>, <jgowans@amazon.com>, <roypat@amazon.co.uk>,
-	<derekmn@amazon.com>, <nsaenz@amazon.es>, <xmarcalx@amazon.com>, "Sean
- Christopherson" <seanjc@google.com>, <linux-mm@kvack.org>
-References: <20241024095429.54052-1-kalyazin@amazon.com>
- <08aeaf6e-dc89-413a-86a6-b9772c9b2faf@amazon.com>
- <01b0a528-bec0-41d7-80f6-8afe213bd56b@redhat.com>
- <efe6acf5-8e08-46cd-88e4-ad85d3af2688@redhat.com>
- <55b6b3ec-eaa8-494b-9bc7-741fe0c3bc63@amazon.com>
- <9286da7a-9923-4a3b-a769-590e8824fa10@redhat.com>
- <f55d56d7-0ab9-495f-96bf-9bf642a9762d@redhat.com>
- <03a12598-74aa-4202-a79a-668b45dbcc47@amazon.com>
- <74cbda4a-7820-45a9-a1b2-139da9dae593@redhat.com>
-Content-Language: en-US
-From: Nikita Kalyazin <kalyazin@amazon.com>
-Autocrypt: addr=kalyazin@amazon.com; keydata=
- xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
- JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
- BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
- IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
- ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
- ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
- ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
- abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
-In-Reply-To: <74cbda4a-7820-45a9-a1b2-139da9dae593@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D003EUB003.ant.amazon.com (10.252.51.36) To
- EX19D022EUC002.ant.amazon.com (10.252.51.137)
+Content-Transfer-Encoding: 8bit
 
+The LED1202 is a 12-channel low quiescent current LED driver with:
+  * Supply range from 2.6 V to 5 V
+  * 20 mA current capability per channel
+  * 1.8 V compatible I2C control interface
+  * 8-bit analog dimming individual control
+  * 12-bit local PWM resolution
+  * 8 programmable patterns
 
+Internal volatile memory allows the user to store up to 8 different patterns,
+each pattern is a particular output configuration in terms of PWM
+duty-cycle (on 4096 steps). Analog dimming (on 256 steps) is per channel but
+common to all patterns. Each device tree LED node will have a corresponding
+entry in /sys/class/leds with the label name. The brightness property
+corresponds to the per channel analog dimming, while the patterns[1-8] to the
+PWM dimming control.  
 
-On 20/11/2024 18:29, David Hildenbrand wrote:
- > Any clue how your new ioctl will interact with the WIP to have shared
- > memory as part of guest_memfd? For example, could it be reasonable to
- > "populate" the shared memory first (via VMA) and then convert that
- > "allocated+filled" memory to private?
+Vicentiu Galanopulo (3):
+  Documentation:leds: Add leds-st1202.rst
+  dt-bindings: leds: Add LED1202 LED Controller
+  leds: Add LED1202 I2C driver
 
-Patrick and I synced internally on this.  What may actually work for 
-guest_memfd population is the following.
+ .../devicetree/bindings/leds/st,led1202.yaml  | 132 +++++
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/leds-st1202.rst            |  36 ++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-st1202.c                    | 510 ++++++++++++++++++
+ 6 files changed, 691 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/st,led1202.yaml
+ create mode 100644 Documentation/leds/leds-st1202.rst
+ create mode 100644 drivers/leds/leds-st1202.c
 
-Non-CoCo use case:
-  - fallocate syscall to fill the page cache, no page content 
-initialisation (like it is now)
-  - pwrite syscall to initialise the content + mark up-to-date (mark 
-prepared), no specific preparation logic is required
+--
+Changes in v8:
+  - Add change version history for patches
 
-The pwrite will have "once" semantics until a subsequent 
-fallocate(FALLOC_FL_PUNCH_HOLE), ie the next pwrite call will "see" the 
-page is already prepared and return EIO/ENOSPC or something.
-
-SEV-SNP use case (no changes):
-  - fallocate as above
-  - KVM_SEV_SNP_LAUNCH_UPDATE to initialise/prepare
-
-We don't think fallocate/pwrite have dependencies on current->mm 
-assumptions that Paolo mentioned in [1], so they should be safe to be 
-called on guest_memfd from a non-VMM process.
-
-[1]: 
-https://lore.kernel.org/kvm/20241024095429.54052-1-kalyazin@amazon.com/T/#m57498f8e2fde577ad1da948ec74dd2225cd2056c
-
- > Makes sense. Best we can do is:
- >
- > anon: work only on page tables
- > shmem/guest_memfd: work only on pageacache
- >
- > So at least "only one treelike structure to update".
-
-This seems to hold with the above reasoning.
-
- > --
-> Cheers,
-> 
-> David / dhildenb 
+2.39.3 (Apple Git-145)
 
