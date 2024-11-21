@@ -1,73 +1,68 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23C123098E;
-	Thu, 21 Nov 2024 22:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391B31DDC26;
+	Thu, 21 Nov 2024 22:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732229183; cv=none; b=AcJknMn+KPkIOrgt/KkqcS9YCh4+1HJFUTH8f5SRG1V7aZVStuhecSZ0zbKOMmZjutdU7PUw/g2l8u8HYeE8fZAcyRAAdTPDJc2W6xWy/cevYsgz+hRquJthn6eB+L9iM7OsCX2heIKDivmmXog7xgQJ4A0V0gi08equ/xO63i4=
+	t=1732229324; cv=none; b=J33iYlyRy2pnfGSiSzw/RAKZO2Xjn+GsT/zq0jHAOYbN5m6u22LttAk2LUjH0N+g5p0BpCNw5YnRPCH9GMNPgP3/qBItEm9p4CHr0UAoMq4THY/wGed5lDrUl7NBkzNiwDHjvMaQZ53+Pxz9uO+AarxJdTAGV7WuUjAC8xpgHP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732229183; c=relaxed/simple;
-	bh=B8qDvfPULVWvMgZkxlUWxZQtkkngTTpNRPkD7iLA/eU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W12tvZuA7VRyd/nv91jTNtCD69LB4PSkwzlsOYGIOP7cvUkX7F7XJs72oEcBX2GAIxaScX8fgKu/lWnCIwTlMlsLrhyixmEquKbYScWRYJrscHRzIko67hul6Ljv9A5Uut8Ru+knOPjsuHgvNykfJ94CqzBpCrBqy8NUhW63ErY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hhi5quU/; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1732229324; c=relaxed/simple;
+	bh=DwdlUxpukKZkwXyn+QCfutFIDPcY/3c2VtfjLZ6kMGI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jwGcxjyLk8DWVkbMlLu7Z1qODodycU9pR0rut4wPQvT3vuHs0nJHr+GJ6A6q2MYsm9Njj/fetHLum1r88+FayTlTs9WyhNOqcxRWPUcYzxPMLh1RFMII5LJnc1s1o+LAGUNMrOevnSqVKRyUlrkCpevgN66xQ13cBp944vGe650=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXd/FNxM; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hhi5quU/"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21288402a26so14344055ad.0;
-        Thu, 21 Nov 2024 14:46:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXd/FNxM"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-720d01caa66so1449135b3a.2;
+        Thu, 21 Nov 2024 14:48:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732229181; x=1732833981; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1732229322; x=1732834122; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dz00sH94+EWwFPuEsmTdejC/s0s5/Fjq48pe4/Lh2Cs=;
-        b=Hhi5quU/1i8U8YNK7WikSRsaqGaMT4xVyQJC43ycztwCAVIlfssABbCIrWMa4n/h/8
-         5JZ+wF/SbBXyVesnd6gBUEqp0Ssk/8wAUTV5BGsNxhNY2Las0dhERNJs0daPz4nalCqL
-         ZiU8g5RlGhBmoj6C+ipaHIQ1nMlZTvdrdLLXbkGuHq632WaIXg1p2y2yJoHljhI2QaSK
-         f9a0NBVtzkGnPKGvxRqBofDw2nHhXeJ9Sd5nW2G+GjeKkN1Q3dBj8/m7MMOoi4KTt9lU
-         0OtsRTRiEiz2G1B8z5wTfcFUx2Ocfe7b0dELnD0tPdgwaiEvn+qX0TqwcjfNtAZlsteN
-         +mBg==
+        bh=tng0iyvmtAeQDH4O6wrIeK+ASsO/thRJgM2H3Zm+p88=;
+        b=SXd/FNxMicay09aPMFUnVUp4jJrXftlgMPYOK3VdGt5174NqFDMACARm4P6Q5iaom6
+         HQE+cxtnL6v4fYEO5Hh3r3gVG6ZUtLvrGKR57x61E8e4SFzHGqgLU61Fg7SMcstoaSUK
+         Ua5eSAEMUR7S7olgK/iPFi2SHGb1O/P5ZWg7Crm+bK6LnG70koa8MCGhFXjqy1XapsUH
+         qA6rWJhleW8sBhDGY+i+0jzPxwbYydqaY8zBXdbPsAPG4FceAa+efcVwAaVhlm2XUJjc
+         e/+NqqwFqwSK9GMPnR6ARReStW0xx4hIsxDiI/LjShbH6BmzPv/On6ACvzlFSVUOVmcK
+         yQ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732229181; x=1732833981;
+        d=1e100.net; s=20230601; t=1732229322; x=1732834122;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Dz00sH94+EWwFPuEsmTdejC/s0s5/Fjq48pe4/Lh2Cs=;
-        b=nqIVYqbeZtsThLxPZ+B1K1XZlvtQYauKcWetS8UwvgBXL4QpobFQoaEHMX4Nsollgt
-         t6j3IYp7Kctstk45eKrsf2igbZpxLRE1LsbkH/YXLLf2QcgDY7KhUL2YhTcA+kXSl057
-         jNB+Zpc/eDoE5Z3/Pn1x59pF46oSQYbOyyPzAcg2Yg+jso3Gelk5dvN/wmSXfw4L/xIF
-         dMsmGxGFGRdz+2d+cVPS31vL3MHXoUIL4lF5OUqDVCAwNxp4F/TbbOUm1Wa1MtBFIhcF
-         jBXDrAohQSrYMPQuLM4S1bj69fsL/qJ0oJI5miCkeCQK5036YMVdRT0kbhmYVAXCoQ4I
-         RIxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMepCXB+4Z+Z7o844OULyqi231WNhWY7V/igqDLmVKVCLO2iw3DBCCJXoqgBnyhUcsHLVSUDs6w2o=@vger.kernel.org, AJvYcCVrw/MMLp481zrxq4O6ceUBis5dadKIYq2bTjZwALW7r6R76crubNgAXU3yHAEC/wi+G1wTweMFxNC/qKA9@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuwVH+i/YcDhohK/KgvKoJ8IEBJt9TCNgJcth6bb3xBVBQ0mn9
-	dsmmSsAdoFhoO4j1etfnM8rANRoCTfic+bU8i66i77DccreMSuo=
-X-Gm-Gg: ASbGncuho190bOSafHoXCIqetOaBEMlZHtGOY6Mt0thtJyVFe4CsddmRp5W1JReLEAB
-	iHOlBHPxkJ2hFjd+NkbL+y52OlPMzkqpeTQjI8gg8vPEx6Kt5rMJiy9wrjiJKLOxs2jJfz5DHPR
-	1cE80/1lnxBxUZBJ7xbOhgnqVPSNLVXIQre87HBmWa7u29MPs0dnQfN7vAIGM3/xp3XaFDj0dA9
-	FpZPUlAhbFsGhH6U8la/6xxoJpgbK9H0DmtYGhDaenf6yn/252Ax8X2q1w7ExBm9NXuoHqjE6I=
-X-Google-Smtp-Source: AGHT+IFjRI1i6uSTwsAPegQoHq3JoUEKY1x5RTEXDctgnlWzpbgDhhm9fmHuaQl4nvuurvM3efYaow==
-X-Received: by 2002:a17:902:f711:b0:20c:dbff:b9d8 with SMTP id d9443c01a7336-2129f28a632mr11817765ad.37.1732229180892;
-        Thu, 21 Nov 2024 14:46:20 -0800 (PST)
+        bh=tng0iyvmtAeQDH4O6wrIeK+ASsO/thRJgM2H3Zm+p88=;
+        b=uv4Uc5KzW6kebdCbhZE6FG9E7nZJUHuR7FQeAAjRwEPK0EoUqRvqQaOs2LWwIgZznn
+         b7ncLmFBHQ2mZlHqN5pqnXth57tootRe0iEgoe22sxhW2P7zA+91Xg7fp5a5gT3bsqPA
+         5bjlDz8jpgMeo/nzZaebO9NNYmPJM+WBufKOkNL6faKGmgP27IdGwJUzY2yU518vt0B6
+         9QfqLoOHg3zzGW2XiapbC5yn19p3xu6O0VeegDf2gR0b6mHOVk63n1J8X8Be4yQ4gfK3
+         Z+ieas7dvwcm9tcoorazQ2OeCVf4QnXwAhskEchZXYXphH4ILZhsnQPJseFjmzxWMTV4
+         R12A==
+X-Forwarded-Encrypted: i=1; AJvYcCW9MsQqoqEESNyO0EUCFw9qFYF0vfK+DD4ufzjKRBWLOtpjMHKd+Uq48EyjWmTgQiYpmshrlkApdUo=@vger.kernel.org, AJvYcCWch3uE3HIN0h+4K2+kZAX4aMecj/v/LpnRPLEUo9jwZ7M5AKNBB29zGjEHW7HE3GXsDRRphuOf@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrMcaGZZfcqlLWDgq1ZoRUaHoczXWBMkOoBVpqsUS+jOuDdxGW
+	pmZswjluGeLPtFDnXak2vnl4f0sloXDRZWiCUfo8F+X5Q5R46f4=
+X-Gm-Gg: ASbGncvK2NSMXVtmrIpsDuPvNSg6sRc9Syj/j74PNXr0k6gArDrIAg92alWxJssFlHc
+	VPaZcYVV6dSRNw7M5YJzdk8EIcoSQtiMYdIA9uOs9BSFTjw7rl27Ew5ZOtLK6PUV+tm0ADfmdoS
+	mB38QAFeH3Qrm6W8vY84lEEM7pA2CKfDasAvlU7pZ/fZLrGmSOqGKhq52zfT+vGcpTNxqaLgxfO
+	ClduIFeSfuBYtW2fLmrSEodiHwkPcQ0xmMaRwE5Q9r0xVixWEYP1bPnn1hKPLRGO/WnP6jP9Fs=
+X-Google-Smtp-Source: AGHT+IFQ0B/JiKGabPfJYNbf/Q86LIo1DT+f0On/aEakqwc0UWc3jxR7+ecwcL6C7VQK7xXfgLtVAQ==
+X-Received: by 2002:a17:90b:1dc3:b0:2ea:696d:7330 with SMTP id 98e67ed59e1d1-2eb0e234d1bmr713339a91.14.1732229322356;
+        Thu, 21 Nov 2024 14:48:42 -0800 (PST)
 Received: from localhost.localdomain ([117.250.157.213])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129db8c760sm3502945ad.30.2024.11.21.14.46.16
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2eb0d048654sm248188a91.39.2024.11.21.14.48.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2024 14:46:20 -0800 (PST)
+        Thu, 21 Nov 2024 14:48:41 -0800 (PST)
 From: Vyshnav Ajith <puthen1977@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net
-Cc: netdev@vger.kernel.org,
+To: corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
 	Vyshnav Ajith <puthen1977@gmail.com>
-Subject: Slight improvement in readability
-Date: Fri, 22 Nov 2024 04:16:04 +0530
-Message-ID: <20241121224604.12071-1-puthen1977@gmail.com>
+Subject: Fix spelling and grammar mistake - bareudp.rst
+Date: Fri, 22 Nov 2024 04:18:27 +0530
+Message-ID: <20241121224827.12293-1-puthen1977@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -77,38 +72,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removed few extra spaces and changed from "a" to "an ISP"
+The BareUDP documentation had several grammar and spelling mistakes,
+making it harder to read. This patch fixes those errors to improve
+clarity and readability for developers.
 
 Signed-off-by: Vyshnav Ajith <puthen1977@gmail.com>
 ---
- Documentation/networking/eql.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/networking/bareudp.rst | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/networking/eql.rst b/Documentation/networking/eql.rst
-index a628c4c81166..4f47121323c9 100644
---- a/Documentation/networking/eql.rst
-+++ b/Documentation/networking/eql.rst
-@@ -23,9 +23,9 @@ EQL Driver: Serial IP Load Balancing HOWTO
+diff --git a/Documentation/networking/bareudp.rst b/Documentation/networking/bareudp.rst
+index b9d04ee6dac1..ce885caf24d3 100644
+--- a/Documentation/networking/bareudp.rst
++++ b/Documentation/networking/bareudp.rst
+@@ -6,16 +6,17 @@ Bare UDP Tunnelling Module Documentation
  
-   Which is worse? A huge fee for a 56K leased line or two phone lines?
-   It's probably the former.  If you find yourself craving more bandwidth,
--  and have a ISP that is flexible, it is now possible to bind modems
-+  and have an ISP that is flexible, it is now possible to bind modems
-   together to work as one point-to-point link to increase your
--  bandwidth.  All without having to have a special black box on either
-+  bandwidth. All without having to have a special black box on either
-   side.
+ There are various L3 encapsulation standards using UDP being discussed to
+ leverage the UDP based load balancing capability of different networks.
+-MPLSoUDP (__ https://tools.ietf.org/html/rfc7510) is one among them.
++MPLSoUDP (https://tools.ietf.org/html/rfc7510) is one among them.
  
+ The Bareudp tunnel module provides a generic L3 encapsulation support for
+ tunnelling different L3 protocols like MPLS, IP, NSH etc. inside a UDP tunnel.
  
-@@ -288,7 +288,7 @@ EQL Driver: Serial IP Load Balancing HOWTO
-   the load across two or more Cirrus chips.
+ Special Handling
+ ----------------
++
+ The bareudp device supports special handling for MPLS & IP as they can have
+ multiple ethertypes.
+-MPLS procotcol can have ethertypes ETH_P_MPLS_UC  (unicast) & ETH_P_MPLS_MC (multicast).
++The MPLS protocol can have ethertypes ETH_P_MPLS_UC  (unicast) & ETH_P_MPLS_MC (multicast).
+ IP protocol can have ethertypes ETH_P_IP (v4) & ETH_P_IPV6 (v6).
+ This special handling can be enabled only for ethertypes ETH_P_IP & ETH_P_MPLS_UC
+ with a flag called multiproto mode.
+@@ -52,7 +53,7 @@ be enabled explicitly with the "multiproto" flag.
+ 3) Device Usage
  
-   The good news is that one gets nearly the full advantage of the
--  second, third, and fourth line's bandwidth.  (The bad news is
-+  second, third, and fourth line's bandwidth. (The bad news is
-   that the connection establishment seemed fragile for the higher
-   speeds.  Once established, the connection seemed robust enough.)
- 
+ The bareudp device could be used along with OVS or flower filter in TC.
+-The OVS or TC flower layer must set the tunnel information in SKB dst field before
+-sending packet buffer to the bareudp device for transmission. On reception the
+-bareudp device extracts and stores the tunnel information in SKB dst field before
++The OVS or TC flower layer must set the tunnel information in the SKB dst field before
++sending the packet buffer to the bareudp device for transmission. On reception, the
++bareUDP device extracts and stores the tunnel information in the SKB dst field before
+ passing the packet buffer to the network stack.
 -- 
 2.43.0
 
