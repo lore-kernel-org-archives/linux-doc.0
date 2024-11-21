@@ -1,83 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0512623099D;
-	Thu, 21 Nov 2024 09:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C793A1CC88D;
+	Thu, 21 Nov 2024 11:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732182456; cv=none; b=en+OJLw7qU7nhvhMblSBrBqPL7oXmwTId8YLa91dxPReQyyDsl6gsISVMxhKKNky3LK61bItUuLUCDwC8YkCCpslaExcQHIf4LembraokIDv3WjatJLPVGmHl/4juBSBcVR9yUD4FBYXxPXqgfT92q+jIK1ez0dB29IDktNJyfE=
+	t=1732186832; cv=none; b=AQC8XXosU6910MXuQCuC5BQbrgypl4u40amRPeZxbO7IPcxh8MUZzh/ZeWbwDzSgEESUt1A6saJfe4Hi1Y5JB7FTrh+I51puby2h0tX5MABRXenMtVmv3bV/QVYoQMqGB9acYRuzW1MwIcxFohLO0RBUclwB1SDzaHcRLkC8uKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732182456; c=relaxed/simple;
-	bh=PbLurLVA/+bf9CYkiO8ePmZYryCDHBh3Dv96wVaozQk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sMwc+C54Sx1y0q93sODJWbZSvKxtZFFnZLmKRNG1Y5wZWbTxBGKEBVg5E+FfnGXe5MH5bwK7B6atgloItl5w8RRmrfsZ6MinSB0iWsB88iz5yrYNC3ShqjECvQ0scb+T6fVBQh1CrLmyqLM9zqy0AXVb+WIQQ6dcBGL7KQF4OyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FYMNF25s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732186832; c=relaxed/simple;
+	bh=9gfsOjXUGyFwnFr59dC+u4M0J91DcAOQbqnLQalZcxU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A00AQ33AVVtRyYGqhJML98gNYFCLGtxbWaLqi+Ip2DCYAT+0iSKiq5hHicx5oaE9Y+HaaZzD8BjgijBTSxf7mLRgXqXo0q9V7w/Ikk4CTdFv1bJlDNHs1fr8kp/Ziw+8iLAlAqPI0V614DvgaXCM0v+cs4x93ugENccqMMbOGV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aGfumQ4J; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FYMNF25s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070D8C4CECE;
-	Thu, 21 Nov 2024 09:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732182455;
-	bh=PbLurLVA/+bf9CYkiO8ePmZYryCDHBh3Dv96wVaozQk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FYMNF25sMECw9192l5xrhE5w/aLu6TgiUIVJxe2QIFuSejiZ73Gcy/fLov55cVBS+
-	 YSEb44dSsHlTzQDSmy12P4btUKNkSSFB4XSwQ4iQKf0t8Js7mOdczmIfSDpyc2j1vr
-	 nN3uIcUxY7hqolHXaXLcvdJEhydIb7c4mFzF7Rvg+qCrcC4il+oWVI+d5Gi2gM+M4G
-	 E8RrmaGBCmafSLKvWuwHmZd2oYGxNuR79HPz22orWQI6j7oJRU0JJWZW8Ed35V6cm4
-	 nVIDnozmPQdlLM4inraRcf07AE2S37tVPn68HINPKji0z0HsAPKsde1Y/pbpdI2mDZ
-	 42SVs8X8RsT5w==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aGfumQ4J"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=/4UY6ooFSZbuurvbSSxwnqyBmiXRU+RN7sWd/ZeHliw=; b=aGfumQ4JkaRWnYeAD+H/67VZah
+	vYz0LMQIP45v3VwBZKvVWDMqLirOmn6oWsQjYIgwz13/QVVo4P7x6kVsqdCp2NSs/LWBA3X+Hzgbe
+	uGH6g5kKTrVQ2NKdOtNQZvDqva01ydSWpXjvNPB+1zgOPTYAIevJFZIMJZYYFNPFL1Ifbv3PKnJZv
+	OrwEY2eJ4EsvDdm0qUegKwZMVis4ARGSOAgFYvCfKVXYZcaxuES3LHkjrjuAr/MHrhw/5FzBU9PlF
+	5qrPQbLKjpWsCQb1aYz5GmVU03v13aN65v2SlUcMnIeL21n/K2hMk8I4crChD6KYZLtY4/0wo5Ris
+	TqUAjfTw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tE4v7-00000000ZU8-1far;
+	Thu, 21 Nov 2024 11:00:21 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 0365F30068B; Thu, 21 Nov 2024 12:00:21 +0100 (CET)
+Date: Thu, 21 Nov 2024 12:00:20 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Valentin Schneider <vschneid@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+	bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v2] fiemap: use kernel-doc includes in fiemap docbook
-Date: Thu, 21 Nov 2024 10:47:25 +0100
-Message-ID: <20241121-abblitzen-einfordern-2f3ec7a87d41@brauner>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241121011352.201907-1-rdunlap@infradead.org>
-References: <20241121011352.201907-1-rdunlap@infradead.org>
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Wanpeng Li <wanpengli@tencent.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Lorenzo Stoakes <lstoakes@gmail.com>,
+	Jason Baron <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Juerg Haefliger <juerg.haefliger@canonical.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Nadav Amit <namit@vmware.com>, Dan Carpenter <error27@gmail.com>,
+	Chuang Wang <nashuiliang@gmail.com>,
+	Yang Jihong <yangjihong1@huawei.com>,
+	Petr Mladek <pmladek@suse.com>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+	Julian Pidancet <julian.pidancet@oracle.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Dionna Glaze <dionnaglaze@google.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Yair Podemsky <ypodemsk@redhat.com>,
+	Daniel Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
+Subject: Re: [RFC PATCH v3 06/15] jump_label: Add forceful jump label type
+Message-ID: <20241121110020.GC24774@noisy.programming.kicks-ass.net>
+References: <20241119153502.41361-1-vschneid@redhat.com>
+ <20241119153502.41361-7-vschneid@redhat.com>
+ <20241119233902.kierxzg2aywpevqx@jpoimboe>
+ <20241120145649.GJ19989@noisy.programming.kicks-ass.net>
+ <20241120145746.GL38972@noisy.programming.kicks-ass.net>
+ <20241120165515.qx4qyenlb5guvmfe@jpoimboe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1226; i=brauner@kernel.org; h=from:subject:message-id; bh=PbLurLVA/+bf9CYkiO8ePmZYryCDHBh3Dv96wVaozQk=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTbM66/G/J44/adlp/DpoqFF0RpnlheF/5jkoln1MPul wpO/xb7dpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkxlOGn4ysJrrXnljufm1p c5Rb+nt89vlPDMsqFNpmsVYeqNntVsnwT6+k+MTT6msqajJP+CqFOmUYzF35T7xaOIk5mn/lhPz FnAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241120165515.qx4qyenlb5guvmfe@jpoimboe>
 
-On Wed, 20 Nov 2024 17:13:52 -0800, Randy Dunlap wrote:
-> Add some kernel-doc notation to structs in fiemap header files
-> then pull that into Documentation/filesystems/fiemap.rst
-> instead of duplicating the header file structs in fiemap.rst.
-> This helps to future-proof fiemap.rst against struct changes.
+On Wed, Nov 20, 2024 at 08:55:15AM -0800, Josh Poimboeuf wrote:
+> On Wed, Nov 20, 2024 at 03:57:46PM +0100, Peter Zijlstra wrote:
+> > On Wed, Nov 20, 2024 at 03:56:49PM +0100, Peter Zijlstra wrote:
+> > 
+> > > But I think we can make the fall-back safer, we can simply force the IPI
+> > > when we poke at noinstr code -- then NOHZ_FULL gets to keep the pieces,
+> > > but at least we don't violate any correctness constraints.
+> > 
+> > I should have read more; that's what is being proposed.
 > 
-> Add missing flags documentation from header files into fiemap.rst
-> for FIEMAP_FLAG_CACHE and FIEMAP_EXTENT_SHARED.
-> 
-> [...]
+> Hm, now I'm wondering what you read, as I only see the text poke IPIs
+> being forced when the caller sets force_ipi, rather than the text poke
+> code itself detecting a write to .noinstr.
 
-Applied to the vfs-6.14.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-6.14.misc branch should appear in linux-next soon.
+Right, so I had much confusion and my initial thought was that it would
+do something dangerous. Then upon reading more I see it forces the IPI
+for these special keys -- with that force_ipi thing.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Now, there's only two keys marked special, and both have a noinstr
+presence -- the entire reason they get marked.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+So effectively we force the IPI when patching noinstr, no?
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+But yeah, this is not quite the same as not marking anything and simply
+forcing the IPI when the target address is noinstr.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-6.14.misc
+And having written all that; perhaps that is the better solution, it
+sticks the logic in text_poke and ensure it automagically work for all
+its users, obviating the need for special marking.
 
-[1/1] fiemap: use kernel-doc includes in fiemap docbook
-      https://git.kernel.org/vfs/vfs/c/07537da4e219
+Is that what you were thinking?
