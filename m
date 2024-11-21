@@ -1,180 +1,172 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2805695;
-	Thu, 21 Nov 2024 22:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDF714387B
+	for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 22:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732228364; cv=none; b=HRRQlJWSzobYtnxoXMOsnLwDPyPBsUs52dwsyyzcUyNT9oX2ZPnYrPYlZ7OqJCa6K9in81egXy9UXfnhUQgiwWrnaXedMPk4/gEgDMDlfZN4OLSinRS4IH+N95NZhEvsIl+3zNFSzzm0dZpltieIGpFf+E1gkdD3fedQ+h5YCZM=
+	t=1732228968; cv=none; b=VGIkN+yVUhhLpJLNAEdQE1GLnx/iiBokhAdrQNJFdPwViykobDfNb5Jzx3UIfD30Hg4r9UukJVZyoAruPCVPHtAFiewGiw6Xn9vPfp4BNJM9UIoCJFnVtkpP3/IfTR2D1Dg96c8VPuGxI3y4E9gHgqpK008L+SwscSVS3aNYwqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732228364; c=relaxed/simple;
-	bh=MWEu9cfHsGXDOOV+9gWbv6oRO8BAoH5LyyrcIXWo1DY=;
+	s=arc-20240116; t=1732228968; c=relaxed/simple;
+	bh=M8DVUXQGR6NcXFE188QjZG7fKBPLaNmu+KGvMT6oh00=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IcKnlhRmrtD9ijj0sd62Vad7QqilBZNs+S+4peLBrcvh2yjgRYvHpieDTzeWs9U8WM3aRP7mgJHBg25LWAN/4B2q9Ase3QyDdC7pZuJdQObHvBH19GoE4+RnJvXXzrm4BDT1UwXetggyLTtQnA6Nd7SJIIOCQ83C42nZnVfT8+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bfplOAE2; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Yzf/ajVom/OEfMw07CHg53z1nKxTYESeiniQZEBIbgMp8nVPUZuJmDQLhyl4QbI/LakeI6y2vTmMjrH+yq2kcQa8xwXQG0Fi0yi7hms1ddVsJxCmE9QXd3Lch0J0QrDLmWKMSfABaY10Ltl3RCyGpGExQvQwHs3HOnMI3wAexII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=wR4ErVwr; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bfplOAE2"
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-856ec390e30so535001241.0;
-        Thu, 21 Nov 2024 14:32:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="wR4ErVwr"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9aa8895facso252956366b.2
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 14:42:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732228360; x=1732833160; darn=vger.kernel.org;
+        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1732228965; x=1732833765; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fecMMpAR9aqzU6pxDcgMObsjfCOyyy7qj+VlEzyRjtk=;
-        b=bfplOAE2EUYbEN8MDTAhhWArb2WChQnHqJ92vDTRo3hZz2yn2OyO2csfz7Yo1KckDg
-         7hXxBsUXZvryRNNz9xRyYOuX+43OmKOcOKiqbks/QW7sg8YNZb1U97mqKMBtcJqXb4NF
-         /HUQYJAuuuXzSsTA9va2JS02SkYpa3eF3Yz4BE9Qv97TdiSNRFh3xT1Zx6ygpve0aYUz
-         DKR2zhC58ZaWkKoy7/gdK7LonjmYPAI7Pmr5FdQW60c2MQzfplTOmFrsdNFEfK1sCCme
-         EJYoIqPXqfqKQv1nUWseTg7/8RCs41kXwdpXnDikbFgitRp4ohnChtTfbhwRH2kBLwqQ
-         YnfA==
+        bh=lpl29WxoyNcOaT5g0KSW5/agiiklTO12tp7HkumeaXI=;
+        b=wR4ErVwrSZWHysH/me/V8xUKSiEUW8QhCEer658KLg6ybrKfZHFhCRIbz4MYbRlHO/
+         Z/D3nBq8/lvFIH4TeF5JyVtqekD10nV988figyGVaE8qia5dcuf7x3i0ENm1pUedtQ7y
+         T8IVEORocf63jwbuPomdk/tSrYyIkREpU5CaugTZiEw3DXrhQji3dVE0fwk826TJ16Rs
+         K+8RQxVpy4XMqhZ9eJqeQGIwVi7+ab7wKdO2zjlNZbqmwEjpPUNU98/nluefp+uLuFr2
+         YnGuB3a4jUziDDuhitZX8cMKlyAi+pKaGySaHE5rmo39/9/8wPBgxFKhRV5Xe0U72P3n
+         5afA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732228360; x=1732833160;
+        d=1e100.net; s=20230601; t=1732228965; x=1732833765;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fecMMpAR9aqzU6pxDcgMObsjfCOyyy7qj+VlEzyRjtk=;
-        b=P/2ahm+qXSxWbTfJrmLvIz7Pvh5NhTmXHc9NBca1Eb3EkVKf/vjwT4cFzDD2fn5AKJ
-         4NFiG0KcxNHX0A7OHjfoiysXPRrAkOF7ns6PZX2PHViHfFSeOQOq2J0tWyxSSJUyUv6+
-         Ztsea2PQzthBQBl8HhtDwBNbh+8iGGjz5p4Nfepu31SU2hLQ05kV467WN8nUTJeGhLwe
-         GNgBzGP9pNZ6F1jdNrVhgYl8CkYp4vs5kxWEO2PaXyg6mH4jkSaTGCP8JjDDcTZfXRzN
-         PHEJJSjim/zo6BpYu+AIaNhCvPTNimQQWhPXS3FzrBWLzl+y0zK6+phB63mdbAe9VeoA
-         +N5A==
-X-Forwarded-Encrypted: i=1; AJvYcCU7vbekv5w+Sl8+aJfy8gYMeeEvxGXkRBjht508SrF7uPUe1X7O3NH6KKY8XguxscRWLjwgxCX1gY+BMPCo@vger.kernel.org, AJvYcCXI/uDgA7uhCOnjJdJHKHElUhj4s631iPicEVWBr9U+tOXQ1EazzJSS6Gs/0aYnh5OEQsTIzyL9kKc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFYsZYEFZe2dpm71ed+f4U+zeR3Qd+6ATr1iDw3nUBeUyE8DaB
-	TozKq0/9ET9na16PmR7FYqWoJ4bxt/JcYi8K2RqDwK0iFXUW3Mbq2lpFSsozII4WSH1mUFlKoGl
-	3N/r0Ff1GUwMsfVTkIb4CCl+YI8s=
-X-Gm-Gg: ASbGncsvL8Spb+aYDHy2AtAmbRY0Cq2TG4EtdDC/ZMhAy/7UrYGnmweCQfk4HwMo/Hh
-	WfAiR21Fr1cjfWYx/gQGr1LHwfAT9NVVpcpjiHXWrpuREMTWDCXiim9KHttmVUWXrOg==
-X-Google-Smtp-Source: AGHT+IGgunDBgS+MIXIJS8JIq4LltSSNvVyN5cWRKL8zjPcJ8TkEBGYXARRTDgIkpQoqzFsDekilngXfYGJ4SmNAiPs=
-X-Received: by 2002:a05:6122:4b1a:b0:50d:66e1:826c with SMTP id
- 71dfb90a1353d-51500ae1095mr632049e0c.11.1732228360131; Thu, 21 Nov 2024
- 14:32:40 -0800 (PST)
+        bh=lpl29WxoyNcOaT5g0KSW5/agiiklTO12tp7HkumeaXI=;
+        b=xNcPFXFMPemYu5Z8Fq6+J0KZDr/K0EHV9AnR+28TeYMsuS/+KVnVV7hQw4dl+wIslX
+         6Ix5zW1AGtsyZeG4qPnqMkjj/RcgS9i1ln1Z1zkGJYh0vkTIVxmpPif2zbLWj8YmYu26
+         z0nww3B0XbzLxlhhvE/1EZy8rAx2BrfYbY4Oy6YEF32BHSkEHF7/P0ulti/vDlVC18hp
+         uWlkh9lxDHwvT4W9v+A4kM6M9kw0SmsId+ftLngqxpvPZ4QuE7Njtv9nBj+8KJ+5p4Kv
+         sIXBzgFhxh/ucrxdiyGOHxNGB1XZTF6wwEgaZuF8EDQeoxBGBVs+OKE3D3ZPkLlPyDqg
+         AMCg==
+X-Forwarded-Encrypted: i=1; AJvYcCVgo9QuBQlO/AtWsCcasoeqLzF3vSfXGLgrooMdefqagzzu2nOxXufEJPwZvfPQARlnC6wWXdzi8pA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz37IgEF+5OO9duvvCqcSJKldXrIABRKZEBLUIjT0rfMkoOPMcW
+	uZgi1iHOL+5gzvpViVBSuNvueJjZgkoCGoIVOvkY01Q/Z3W/B/dTL+n1GKo7OnL2NhH8H82iKBz
+	P7Eg9MmqGBJZuZluz2zMzKgB6jSaZLDQjJjLV
+X-Gm-Gg: ASbGncvJ6dOzSdm+yK/DFFSj6sSv6Ybd7P5fxku2P8qHWhFXHx7JS/wy1CCvoXq5MVm
+	17a+1aMqP+Z/ZnZDZyWId6UPa+mHd4g==
+X-Google-Smtp-Source: AGHT+IEJBb9KISPdLeRNueM+M6hMlDiEZBnKX/0BK3HOiT007/scaGSB3LtwJa2rfHw9qXCKhSH2k1VVwUmlKXIZfpk=
+X-Received: by 2002:a17:907:1dd7:b0:a9a:8a4:e090 with SMTP id
+ a640c23a62f3a-aa509bca598mr60753666b.50.1732228964782; Thu, 21 Nov 2024
+ 14:42:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241121162735.9558-1-haowenchao22@gmail.com>
-In-Reply-To: <20241121162735.9558-1-haowenchao22@gmail.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Fri, 22 Nov 2024 11:32:29 +1300
-Message-ID: <CAGsJ_4yA-jaeUG-4i7eWwnrv1=P7ujivYq37btOFg8LwnhQAmw@mail.gmail.com>
-Subject: Re: [PATCH] mm: add per-order mTHP swap-in fallback counters
-To: Wenchao Hao <haowenchao22@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Usama Arif <usamaarif642@gmail.com>, 
-	Lance Yang <ioworker0@gmail.com>, Matthew Wilcox <willy@infradead.org>, Peter Xu <peterx@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	Chuanhua Han <hanchuanhua@oppo.com>
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
+ <874jaegk8i.fsf@email.froward.int.ebiederm.org> <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
+ <87ttflli09.ffs@tglx> <CALCETrXQ7rChWLDqTG0+KY7rsfajSPguMnHO1G4VJi_mgwN9Zw@mail.gmail.com>
+ <1a1f0c41-70de-4f46-b91d-6dc7176893ee@apertussolutions.com>
+ <8a0b59a4-a5a2-42ae-bc1c-1ddc8f2aad16@apertussolutions.com>
+ <CALCETrX8caT5qvCUu24hQfxUF_wUC2XdGpS2YFP6SR++7FiM3Q@mail.gmail.com>
+ <c466ed57-35a8-41c0-9647-c70e588ad1d3@apertussolutions.com>
+ <CALCETrW9WNNGh1dEPKfQoeU+m5q6_m97d0_bzRkZsv2LxqB_ew@mail.gmail.com>
+ <ff0c8eed-8981-48c4-81d9-56b040ef1c7b@apertussolutions.com>
+ <446cf9c70184885e4cec6dd4514ae8daf7accdcb.camel@HansenPartnership.com>
+ <5d1e41d6-b467-4013-a0d0-45f9511c15c6@apertussolutions.com>
+ <CALCETrW6vMYZo-b7N9ojVSeZLVxhZjLBjnMHsULMGP6TaVYRHA@mail.gmail.com>
+ <9c80e779b6268fde33c93ed3765ff93b1d6d007b.camel@HansenPartnership.com>
+ <CALCETrX4vHnVorqWjPEOP0XLaA0uUWkKikDcCXWtbs2a7EBuiA@mail.gmail.com>
+ <66fabe21-7d0d-4978-806e-9a4af3e9257a@oracle.com> <CALCETrXXsta0OdgXb5Ti87psaty7gp5WRr-w8vTuEhOLuoGyXg@mail.gmail.com>
+In-Reply-To: <CALCETrXXsta0OdgXb5Ti87psaty7gp5WRr-w8vTuEhOLuoGyXg@mail.gmail.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Thu, 21 Nov 2024 14:42:32 -0800
+Message-ID: <CALCETrV=PSLvDn4K6o1qoQLwTQtaPU6ESVPZTwRBJF5Pj_XJwg@mail.gmail.com>
+Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
+ early measurements
+To: ross.philipson@oracle.com
+Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, 
+	"Daniel P. Smith" <dpsmith@apertussolutions.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	"Eric W. Biederman" <ebiederm@xmission.com>, Eric Biggers <ebiggers@kernel.org>, 
+	linux-kernel@vger.kernel.org, x86@kernel.org, linux-integrity@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-efi@vger.kernel.org, 
+	iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de, 
+	hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org, 
+	mjg59@srcf.ucam.org, peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, 
+	nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net, 
+	corbet@lwn.net, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
+	kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com, 
+	trenchboot-devel@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 22, 2024 at 5:28=E2=80=AFAM Wenchao Hao <haowenchao22@gmail.com=
-> wrote:
+On Thu, Nov 21, 2024 at 12:54=E2=80=AFPM Andy Lutomirski <luto@amacapital.n=
+et> wrote:
 >
-> Now large folio swap-in is supported, but we do not have a method
-> to analyze the success ratio of large folio swap-ins. Similar to
-> anon_fault_fallback, we add a per-order mTHP swpin_fallback to help
-> calculate the success ratio. The new counter is located at:
+> On Thu, Nov 21, 2024 at 12:11=E2=80=AFPM <ross.philipson@oracle.com> wrot=
+e:
+> >
+> > On 11/18/24 12:02 PM, Andy Lutomirski wrote:
 >
-> /sys/kernel/mm/transparent_hugepage/hugepages-<size>/stats/swpin_fallback
+> > > If the vendor of an attestation-dependent thing trusts SM3 but *Linux=
+*
+> > > does not like SM3, then the vendor's software should not become wildl=
+y
+> > > insecure because Linux does not like SM3.  And, as that 2004 CVE
+> > > shows, even two groups that are nominally associated with Microsoft
+> > > can disagree on which banks they like, causing a vulnerability.
+> >
+> > Thanks everyone for all the feedback and discussions on this. I
+> > understand it is important and perhaps the Linux TPM code should be
+> > modified to do the extend operations differently but this seems like it
+> > is outside the scope of our Secure Launch feature patch set.
+>
+> It's absolutely not outside the scope.  Look, this is quoted verbatim
+> from your patchset (v11, but I don't think this has materially
+> changed):
 
-Well,  this could be useful for profiling, but why not also add
-MTHP_STAT_SWPIN_FALLBACK_CHARGE ?
+
+... I apologize -- I've misread the code.  That code is still wrong, I
+think, but for an entirely different reason:
 
 >
-> Signed-off-by: Wenchao Hao <haowenchao22@gmail.com>
-> CC: Chuanhua Han <hanchuanhua@oppo.com>
-> ---
->  Documentation/admin-guide/mm/transhuge.rst | 5 +++++
->  include/linux/huge_mm.h                    | 1 +
->  mm/huge_memory.c                           | 3 +++
->  mm/memory.c                                | 1 +
->  4 files changed, 10 insertions(+)
->
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/a=
-dmin-guide/mm/transhuge.rst
-> index 5034915f4e8e..f5c775457913 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -561,6 +561,11 @@ swpin
->         is incremented every time a huge page is swapped in from a non-zs=
-wap
->         swap device in one piece.
->
-> +swpin_fallback
-> +       is incremented if a huge page swapin fails to allocate a huge pag=
-e
-> +       and instead falls back to using huge pages with lower orders or
-> +       small pages.
+> +       /* Early SL code ensured there was a max count of 2 digests */
+> +       for (i =3D 0; i < event->count; i++) {
+> +               dptr =3D (u8 *)alg_id_field + sizeof(u16);
 > +
->  swpout
->         is incremented every time a huge page is swapped out to a non-zsw=
-ap
->         swap device in one piece without splitting.
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index b94c2e8ee918..dcf08f8fdf52 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -121,6 +121,7 @@ enum mthp_stat_item {
->         MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE,
->         MTHP_STAT_ZSWPOUT,
->         MTHP_STAT_SWPIN,
-> +       MTHP_STAT_SWPIN_FALLBACK,
->         MTHP_STAT_SWPOUT,
->         MTHP_STAT_SWPOUT_FALLBACK,
->         MTHP_STAT_SHMEM_ALLOC,
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index ee335d96fc39..6b089a41acef 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -617,6 +617,7 @@ DEFINE_MTHP_STAT_ATTR(anon_fault_fallback, MTHP_STAT_=
-ANON_FAULT_FALLBACK);
->  DEFINE_MTHP_STAT_ATTR(anon_fault_fallback_charge, MTHP_STAT_ANON_FAULT_F=
-ALLBACK_CHARGE);
->  DEFINE_MTHP_STAT_ATTR(zswpout, MTHP_STAT_ZSWPOUT);
->  DEFINE_MTHP_STAT_ATTR(swpin, MTHP_STAT_SWPIN);
-> +DEFINE_MTHP_STAT_ATTR(swpin_fallback, MTHP_STAT_SWPIN_FALLBACK);
->  DEFINE_MTHP_STAT_ATTR(swpout, MTHP_STAT_SWPOUT);
->  DEFINE_MTHP_STAT_ATTR(swpout_fallback, MTHP_STAT_SWPOUT_FALLBACK);
->  #ifdef CONFIG_SHMEM
-> @@ -637,6 +638,7 @@ static struct attribute *anon_stats_attrs[] =3D {
->  #ifndef CONFIG_SHMEM
->         &zswpout_attr.attr,
->         &swpin_attr.attr,
-> +       &swpin_fallback_attr.attr,
->         &swpout_attr.attr,
->         &swpout_fallback_attr.attr,
->  #endif
-> @@ -669,6 +671,7 @@ static struct attribute *any_stats_attrs[] =3D {
->  #ifdef CONFIG_SHMEM
->         &zswpout_attr.attr,
->         &swpin_attr.attr,
-> +       &swpin_fallback_attr.attr,
->         &swpout_attr.attr,
->         &swpout_fallback_attr.attr,
->  #endif
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 209885a4134f..7cda8b65e0c9 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -4191,6 +4191,7 @@ static struct folio *alloc_swap_folio(struct vm_fau=
-lt *vmf)
->                                 return folio;
->                         folio_put(folio);
->                 }
-> +               count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
->                 order =3D next_order(&orders, order);
->         }
+> +               for (j =3D 0; j < tpm->nr_allocated_banks; j++) {
+> +                       if (digests[j].alg_id !=3D *alg_id_field)
+> +                               continue;
 >
-> --
-> 2.45.0
+> ^^^^^^^^^^^^^^^^^^^^^ excuse me?
 >
+> +
+> +                       switch (digests[j].alg_id) {
+> +                       case TPM_ALG_SHA256:
+> +                               memcpy(&digests[j].digest[0], dptr,
+> +                                      SHA256_DIGEST_SIZE);
+> +                               alg_id_field =3D (u16 *)((u8 *)alg_id_fie=
+ld +
+> +                                       SHA256_DIGEST_SIZE + sizeof(u16))=
+;
+> +                               break;
+> +                       case TPM_ALG_SHA1:
+> +                               memcpy(&digests[j].digest[0], dptr,
+> +                                      SHA1_DIGEST_SIZE);
+> +                               alg_id_field =3D (u16 *)((u8 *)alg_id_fie=
+ld +
+> +                                       SHA1_DIGEST_SIZE + sizeof(u16));
+> +                               break;
+> +                       default:
+> +                               break;
+> +                       }
+> +               }
+> +       }
 
-Thanks
-Barry
+If we fall off the end of the loop, we never increase alg_id_field,
+and subsequent iterations will malfunction.  But we apparently will
+write zeros (or fail?) if we have an unsupported algorithm, because we
+are asking to extend all allocated banks.  I think.  This code is
+gross.  It's plausible that this whole sequence is impossible unless
+something malicious is going on.
+
+Also, and I'm sort of replying to the wrong patch here, how
+trustworthy is the data that's used to populate tpm_algs in the stub?
+I don't think the results will be very pretty if tpm_algs ends up
+being incorrect.
