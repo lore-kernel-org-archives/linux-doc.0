@@ -1,268 +1,326 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168414C66;
-	Thu, 21 Nov 2024 01:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89811FB3;
+	Thu, 21 Nov 2024 01:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732151641; cv=none; b=lJqEwZSSwRPUpfYjHRXb6GjuLE0X/QpKz20fJ2isOEzMjpOQs/OyU8hpuQjLszdHRTDuLJ8qLEEQBV0WqyRWxXCxS+aQb5WTjQwSJW1YGsRLBwggo/t5W54EzdRH9/M3XF2dGTy5Jekl8RKBV/5tiQtoKbNOi/34OHtpg9gfvbo=
+	t=1732152866; cv=none; b=T1yytGpLB5aqN2k6bDGFNgIk/IScEQw6k/YvysgO0dBTS4XW9wbOut3FbYnUExsXdctvqdjgFBM/0elaS5NZovS80QTfGcMglkY5jaG8VO7IGYq7UA90Xpo/YdVJOWzCX09e9qLYetKjrGK5kED3WDI7ABDlAULX4JtwuAkdt8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732151641; c=relaxed/simple;
-	bh=l4FDzqr+e6/1dGF1MfQAFNMR+lWKMS7bW/hnMtn1YZ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lfi5/3XbDru2bfN1QIZt/LZrDyB7Ub6OXqjDokkCNDFKosUZ5Ah+YSfC3NcNQhVpMSI6ciO3p/i1uUrzEiE7AefaA2G/69ijQErIYciy1rTHgZCNI3+NomKjENbbNLdXN+FBOucjJL2MVgDuQA1pYpplxqg56+3YwC41kZidHMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YnCnmsQr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1732152866; c=relaxed/simple;
+	bh=oo5ihjA0mkroWWKL3Kd/8ULLcQ1FBQ0PJk4VQaf4NG4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JtrDEKfkbPAultc3rwdXYa/QpLmhdfiouV1PdITVUDHst8uP1GtDvqSZ1LkD/MJL0hy5S4OVbFsR0h/lDLWanXPtuS44PN6ptz94zjMG05TkMW0Kafk4UvEAtPd5ly6vndJxGNpgZ4TEJKrrc5RI4ZaCavxKGHYMKN9VGGdvDZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Z6P0SMTd; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YnCnmsQr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=2Fl5ltEnbJlMG+sVSMC7bWYoVQrbhsNI48omXw8gVVA=; b=YnCnmsQrlp2TLhDkLcuOJoQLPZ
-	x8+6Ugg+jb53HWy34bttBIiAbGDFY+goQ4d37uk5W5mSWNM3nkJuyKj1W0shpzQdvsWzBCQBusn+c
-	ItQaCGS4NF5dRC8xky8XI5jkF3I6+cUuCNLEJD6QQTN93UoOEmMRwuS5jx2uQ9yBR6vh+tR30Jurd
-	8wrpooC6HJAqhlUPxguybmKZwDwOJr/jhprjayNd8Ou//je0BHx+9WI0CpYQqjHnQ3z98vUJo1azg
-	PdJgY7Uv6GdLNXVDdEnzgOzF8pfIQfUiI5930XIqVVhM9iZ4HlC+oDRRUZg+pxGlIODVQ8C9P3i8g
-	D9Tp9dLw==;
-Received: from [50.53.2.24] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDvlb-0000000GWPT-1Zye;
-	Thu, 21 Nov 2024 01:13:55 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v2] fiemap: use kernel-doc includes in fiemap docbook
-Date: Wed, 20 Nov 2024 17:13:52 -0800
-Message-ID: <20241121011352.201907-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Z6P0SMTd"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AKKaRf7014434;
+	Thu, 21 Nov 2024 01:34:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	oo5ihjA0mkroWWKL3Kd/8ULLcQ1FBQ0PJk4VQaf4NG4=; b=Z6P0SMTd7gHyXC7D
+	MzkccYvzYug8Q2O6Z2wfhefS12BGE88bIfPVFGsE3uvi2ANVqRLWV5/EUXxmd1ZV
+	P6EYbgKa9uspINdXvdXB6NuOpXHa5vzofIQPJW0/YiMCO/9V1sKps8uZ8OcjSfWJ
+	nqlRaX70cASjfUCe5FLj/06F1O80PjFMOIRKZQB1sn3YYld2szu1OVIVCjIpDqMP
+	oLkLq5uOuW/1ed9xQnZq9UkTS4spmwa17IwPAlyfGClKcOmz7XhzRO9UBrzDFVhX
+	uRkQwkdosuPI13H9O6IF2Gt1H6rgfU3P2N7A1EjetxXheXjfo0n2p/gxCL52PR23
+	odLfCA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4308y97hw6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Nov 2024 01:34:06 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AL1Y5be024059
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Nov 2024 01:34:05 GMT
+Received: from [10.110.30.192] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 20 Nov
+ 2024 17:34:04 -0800
+Message-ID: <2384956c-7aae-4890-8dca-f12e9874709f@quicinc.com>
+Date: Wed, 20 Nov 2024 17:34:04 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v30 02/30] xhci: sec-intr: add initial api to register a
+ secondary interrupter entity
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <20241106193413.1730413-3-quic_wcheng@quicinc.com>
+ <9b86a2c9-de7f-46b7-b63d-451ebc9c87dd@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <9b86a2c9-de7f-46b7-b63d-451ebc9c87dd@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Um56wrbbRJO-4cfL0SR0z8zTyK4gqwQe
+X-Proofpoint-ORIG-GUID: Um56wrbbRJO-4cfL0SR0z8zTyK4gqwQe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 adultscore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2411210011
 
-Add some kernel-doc notation to structs in fiemap header files
-then pull that into Documentation/filesystems/fiemap.rst
-instead of duplicating the header file structs in fiemap.rst.
-This helps to future-proof fiemap.rst against struct changes.
+Hi Mathias,
 
-Add missing flags documentation from header files into fiemap.rst
-for FIEMAP_FLAG_CACHE and FIEMAP_EXTENT_SHARED.
+On 11/20/2024 6:36 AM, Mathias Nyman wrote:
+> On 6.11.2024 21.33, Wesley Cheng wrote:
+>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>
+>> Introduce XHCI sec intr, which manages the USB endpoints being requested by
+>> a client driver.  This is used for when client drivers are attempting to
+>> offload USB endpoints to another entity for handling USB transfers.  XHCI
+>> sec intr will allow for drivers to fetch the required information about the
+>> transfer ring, so the user can submit transfers independently.  Expose the
+>> required APIs for drivers to register and request for a USB endpoint and to
+>> manage XHCI secondary interrupters.
+>>
+>> Driver renaming, multiple ring segment page linking, proper endpoint clean
+>> up, and allowing module compilation added by Wesley Cheng to complete
+>> original concept code by Mathias Nyman.
+>>
+>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>> Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>   drivers/usb/host/Kconfig          |  11 +
+>>   drivers/usb/host/Makefile         |   2 +
+>>   drivers/usb/host/xhci-sec-intr.c  | 438 ++++++++++++++++++++++++++++++
+>>   drivers/usb/host/xhci.h           |   4 +
+>>   include/linux/usb/xhci-sec-intr.h |  70 +++++
+>>   5 files changed, 525 insertions(+)
+>>   create mode 100644 drivers/usb/host/xhci-sec-intr.c
+>>   create mode 100644 include/linux/usb/xhci-sec-intr.h
+>>
+>> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+>> index d011d6c753ed..a2d549e3e076 100644
+>> --- a/drivers/usb/host/Kconfig
+>> +++ b/drivers/usb/host/Kconfig
+>> @@ -104,6 +104,17 @@ config USB_XHCI_RZV2M
+>>         Say 'Y' to enable the support for the xHCI host controller
+>>         found in Renesas RZ/V2M SoC.
+>>   +config USB_XHCI_SEC_INTR
+>> +    tristate "xHCI support for secondary interrupter management"
+>> +    help
+>> +      Say 'Y' to enable the support for the xHCI secondary management.
+>> +      Provide a mechanism for a sideband datapath for payload associated
+>> +      with audio class endpoints. This allows for an audio DSP to use
+>> +      xHCI USB endpoints directly, allowing CPU to sleep while playing
+>> +      audio.  This is not the same feature as the audio sideband
+>> +      capability mentioned within the xHCI specification, and continues
+>> +      to utilize main system memory for data transfers.
+>
+> This same API should be used for the hardware xHCI sideband capability.
+> We should add a function that checks which types of xHC sideband capability xHC
+> hardware can support, and pick and pass a type to xhci xhci_sec_intr_register()
+> when registering a sideband/sec_intr
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Matthew Wilcox <willy@infradead.org>
----
-v2: Use Willy's parameter description changes.
-    Change some 2-line parameter comments to one line.
+Just to make sure we're on the same page, when you mention the term sideband capability, are you referring to section 7.9 xHCI Audio Sideband Capability in the xHCI spec?  If so, I'm not entirely sure if that capability relies much on secondary interrupters.  From reading the material, it just seems like its a way to map audio endpoints directly to another USB device connected to the controller? (I might be wrong, couldn't find much about potential use cases)
 
-    I have not converted the flag constants from macros to enums
-    even though that would help with future-proofing the documentation.
-    If Christoph says that he would like to see that, I can work on it.
+>
+>> +
+>>   config USB_XHCI_TEGRA
+>>       tristate "xHCI support for NVIDIA Tegra SoCs"
+>>       depends on PHY_TEGRA_XUSB
+>> diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
+>> index be4e5245c52f..d4b127f48cf9 100644
+>> --- a/drivers/usb/host/Makefile
+>> +++ b/drivers/usb/host/Makefile
+>> @@ -32,6 +32,8 @@ endif
+>>   xhci-rcar-hcd-y                += xhci-rcar.o
+>>   xhci-rcar-hcd-$(CONFIG_USB_XHCI_RZV2M)    += xhci-rzv2m.o
+>>   +obj-$(CONFIG_USB_XHCI_SEC_INTR) += xhci-sec-intr.o
+>> +
+>>   obj-$(CONFIG_USB_PCI)    += pci-quirks.o
+>>     obj-$(CONFIG_USB_EHCI_HCD)    += ehci-hcd.o
+>> diff --git a/drivers/usb/host/xhci-sec-intr.c b/drivers/usb/host/xhci-sec-intr.c
+>> new file mode 100644
+>> index 000000000000..b112c3388368
+>> --- /dev/null
+>> +++ b/drivers/usb/host/xhci-sec-intr.c
+>> @@ -0,0 +1,438 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +/*
+>> + * xHCI host controller secondary interrupter management
+>> + *
+>> + * Provides logic for client drivers that support utilizing xHCI secondary
+>> + * interrupters.
+>> + *
+>> + * Copyright (c) 2023-2024, Intel Corporation.
+>> + *
+>> + * Author: Mathias Nyman
+>> + */
+>> +
+>> +#include <linux/usb/xhci-sec-intr.h>
+>> +#include <linux/dma-direct.h>
+>> +
+>> +#include "xhci.h"
+>> +
+>> +/* internal helpers */
+>> +static struct sg_table *
+>> +xhci_ring_to_sgtable(struct xhci_sec_intr *si, struct xhci_ring *ring)
+>> +{
+>> +    struct xhci_segment *seg;
+>> +    struct sg_table    *sgt;
+>> +    unsigned int n_pages;
+>> +    struct page **pages;
+>> +    struct device *dev;
+>> +    size_t sz;
+>> +    int i;
+>> +
+>> +    dev = xhci_to_hcd(si->xhci)->self.sysdev;
+>> +    sz = ring->num_segs * TRB_SEGMENT_SIZE;
+>> +    n_pages = PAGE_ALIGN(sz) >> PAGE_SHIFT;
+>> +    pages = kvmalloc_array(n_pages, sizeof(struct page *), GFP_KERNEL);
+>> +    if (!pages)
+>> +        return NULL;
+>> +
+>> +    sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+>> +    if (!sgt) {
+>> +        kvfree(pages);
+>> +        return NULL;
+>> +    }
+>> +
+>> +    seg = ring->first_seg;
+>> +    if (!seg)
+>> +        goto err;
+>> +    /*
+>> +     * Rings can potentially have multiple segments, create an array that
+>> +     * carries page references to allocated segments.  Utilize the
+>> +     * sg_alloc_table_from_pages() to create the sg table, and to ensure
+>> +     * that page links are created.
+>> +     */
+>> +    for (i = 0; i < ring->num_segs; i++) {
+>> +        dma_get_sgtable(dev, sgt, seg->trbs, seg->dma,
+>> +                TRB_SEGMENT_SIZE);
+>> +        pages[i] = sg_page(sgt->sgl);
+>> +        sg_free_table(sgt);
+>> +        seg = seg->next;
+>> +    }
+>> +
+>> +    if (sg_alloc_table_from_pages(sgt, pages, n_pages, 0, sz, GFP_KERNEL))
+>> +        goto err;
+>> +
+>> +    /*
+>> +     * Save first segment dma address to sg dma_address field for the sideband
+>> +     * client to have access to the IOVA of the ring.
+>> +     */
+>> +    sg_dma_address(sgt->sgl) = ring->first_seg->dma;
+>> +
+>> +    return sgt;
+>> +
+>> +err:
+>> +    kvfree(pages);
+>> +    kfree(sgt);
+>> +
+>> +    return NULL;
+>> +}
+>> +
+>> +static void
+>> +__xhci_sec_intr_remove_endpoint(struct xhci_sec_intr *si, struct xhci_virt_ep *ep)
+>> +{
+>> +    /*
+>> +     * Issue a stop endpoint command when an endpoint is removed.
+>> +     * The stop ep cmd handler will handle the ring cleanup.
+>> +     */
+>> +    xhci_stop_endpoint_sync(si->xhci, ep, 0, GFP_KERNEL);
+>> +
+>> +    ep->sec = NULL;
+>> +    si->eps[ep->ep_index] = NULL;
+>> +}
+>> +
+>> +/* endpoint api functions */
+>> +
+>> +/**
+>> + * xhci_sec_intr_add_endpoint - add endpoint to access list
+>> + * @si: secondary interrupter instance for this usb device
+>> + * @host_ep: usb host endpoint
+>> + *
+>> + * Adds an endpoint to the list of endpoints utilizing secondary interrupters
+>> + * for this usb device.
+>> + * After an endpoint is added the client can get the endpoint transfer ring
+>> + * buffer by calling xhci_sec_intr_get_endpoint_buffer()
+>> + *
+>> + * Return: 0 on success, negative error otherwise.
+>> + */
+>> +int
+>> +xhci_sec_intr_add_endpoint(struct xhci_sec_intr *si,
+>> +               struct usb_host_endpoint *host_ep)
+>> +{
+>> +    struct xhci_virt_ep *ep;
+>> +    unsigned int ep_index;
+>> +
+>> +    mutex_lock(&si->mutex);
+>> +    ep_index = xhci_get_endpoint_index(&host_ep->desc);
+>> +    ep = &si->vdev->eps[ep_index];
+>> +
+>> +    if (ep->ep_state & EP_HAS_STREAMS) {
+>> +        mutex_unlock(&si->mutex);
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    /*
+>> +     * Note, we don't know the DMA mask of the audio DSP device, if its
+>> +     * smaller than for xhci it won't be able to access the endpoint ring
+>> +     * buffer. This could be solved by not allowing the audio class driver
+>> +     * to add the endpoint the normal way, but instead offload it immediately,
+>> +     * and let this function add the endpoint and allocate the ring buffer
+>> +     * with the smallest common DMA mask
+>> +     */
+>> +    if (si->eps[ep_index] || ep->sec) {
+>> +        mutex_unlock(&si->mutex);
+>> +        return -EBUSY;
+>> +    }
+>> +
+>> +    ep->sec = si;
+>> +    si->eps[ep_index] = ep;
+>> +    mutex_unlock(&si->mutex);
+>
+> We should probably check in xhci-mem.c if ep->sec is set before freeing the
+> endpoint ring.
+> We don't want the sideband client driver to touch freed rings.
+> Maybe we even need a way for xhci driver to notify this sideband/sec_intr client
+> in case a offloaded device or endpoint is being freed.
+>
+Coincidentally, we did see a corner case where there was a situation where the hub driver utilized the xhci_discover_or_reset_device() path, which the class driver is not notified on.  This is why I added some extra NULL checks on some of the XHCI sec intr API when fetching the endpoint ring address.  However, I do agree that it might not fully cover all the scenarios, because we need to ensure the audio DSP stops all transfers before the transfer ring is freed, in case the audio DSP is busy executing audio transfers.
 
-Cc: linux-fsdevel@vger.kernel.org
+I think we'd need a way to notify the client (either through some registered callback or notifier block), so that the offload path can be stopped before the ring is freed.  I'll write up some changes to do so and submit on the next revision.
 
- Documentation/filesystems/fiemap.rst |   45 ++++++-----------------
- include/linux/fiemap.h               |   16 +++++---
- include/uapi/linux/fiemap.h          |   47 +++++++++++++++++--------
- 3 files changed, 57 insertions(+), 51 deletions(-)
+Thanks
 
---- linux-next-20241120.orig/include/uapi/linux/fiemap.h
-+++ linux-next-20241120/include/uapi/linux/fiemap.h
-@@ -14,37 +14,56 @@
- 
- #include <linux/types.h>
- 
-+/**
-+ * struct fiemap_extent - description of one fiemap extent
-+ * @fe_logical: byte offset of the extent in the file
-+ * @fe_physical: byte offset of extent on disk
-+ * @fe_length: length in bytes for this extent
-+ * @fe_flags: FIEMAP_EXTENT_* flags for this extent
-+ */
- struct fiemap_extent {
--	__u64 fe_logical;  /* logical offset in bytes for the start of
--			    * the extent from the beginning of the file */
--	__u64 fe_physical; /* physical offset in bytes for the start
--			    * of the extent from the beginning of the disk */
--	__u64 fe_length;   /* length in bytes for this extent */
-+	__u64 fe_logical;
-+	__u64 fe_physical;
-+	__u64 fe_length;
-+	/* private: */
- 	__u64 fe_reserved64[2];
--	__u32 fe_flags;    /* FIEMAP_EXTENT_* flags for this extent */
-+	/* public: */
-+	__u32 fe_flags;
-+	/* private: */
- 	__u32 fe_reserved[3];
- };
- 
-+/**
-+ * struct fiemap - file extent mappings
-+ * @fm_start: byte offset (inclusive) at which to start mapping (in)
-+ * @fm_length: logical length of mapping which userspace wants (in)
-+ * @fm_flags: FIEMAP_FLAG_* flags for request (in/out)
-+ * @fm_mapped_extents: number of extents that were mapped (out)
-+ * @fm_extent_count: size of fm_extents array (in)
-+ * @fm_extents: array of mapped extents (out)
-+ */
- struct fiemap {
--	__u64 fm_start;		/* logical offset (inclusive) at
--				 * which to start mapping (in) */
--	__u64 fm_length;	/* logical length of mapping which
--				 * userspace wants (in) */
--	__u32 fm_flags;		/* FIEMAP_FLAG_* flags for request (in/out) */
--	__u32 fm_mapped_extents;/* number of extents that were mapped (out) */
--	__u32 fm_extent_count;  /* size of fm_extents array (in) */
-+	__u64 fm_start;
-+	__u64 fm_length;
-+	__u32 fm_flags;
-+	__u32 fm_mapped_extents;
-+	__u32 fm_extent_count;
-+	/* private: */
- 	__u32 fm_reserved;
--	struct fiemap_extent fm_extents[]; /* array of mapped extents (out) */
-+	/* public: */
-+	struct fiemap_extent fm_extents[];
- };
- 
- #define FIEMAP_MAX_OFFSET	(~0ULL)
- 
-+/* flags used in fm_flags: */
- #define FIEMAP_FLAG_SYNC	0x00000001 /* sync file data before map */
- #define FIEMAP_FLAG_XATTR	0x00000002 /* map extended attribute tree */
- #define FIEMAP_FLAG_CACHE	0x00000004 /* request caching of the extents */
- 
- #define FIEMAP_FLAGS_COMPAT	(FIEMAP_FLAG_SYNC | FIEMAP_FLAG_XATTR)
- 
-+/* flags used in fe_flags: */
- #define FIEMAP_EXTENT_LAST		0x00000001 /* Last extent in file. */
- #define FIEMAP_EXTENT_UNKNOWN		0x00000002 /* Data location unknown. */
- #define FIEMAP_EXTENT_DELALLOC		0x00000004 /* Location still pending.
---- linux-next-20241120.orig/Documentation/filesystems/fiemap.rst
-+++ linux-next-20241120/Documentation/filesystems/fiemap.rst
-@@ -12,21 +12,10 @@ returns a list of extents.
- Request Basics
- --------------
- 
--A fiemap request is encoded within struct fiemap::
--
--  struct fiemap {
--	__u64	fm_start;	 /* logical offset (inclusive) at
--				  * which to start mapping (in) */
--	__u64	fm_length;	 /* logical length of mapping which
--				  * userspace cares about (in) */
--	__u32	fm_flags;	 /* FIEMAP_FLAG_* flags for request (in/out) */
--	__u32	fm_mapped_extents; /* number of extents that were
--				    * mapped (out) */
--	__u32	fm_extent_count; /* size of fm_extents array (in) */
--	__u32	fm_reserved;
--	struct fiemap_extent fm_extents[0]; /* array of mapped extents (out) */
--  };
-+A fiemap request is encoded within struct fiemap:
- 
-+.. kernel-doc:: include/uapi/linux/fiemap.h
-+   :identifiers: fiemap
- 
- fm_start, and fm_length specify the logical range within the file
- which the process would like mappings for. Extents returned mirror
-@@ -60,6 +49,8 @@ FIEMAP_FLAG_XATTR
-   If this flag is set, the extents returned will describe the inodes
-   extended attribute lookup tree, instead of its data tree.
- 
-+FIEMAP_FLAG_CACHE
-+  This flag requests caching of the extents.
- 
- Extent Mapping
- --------------
-@@ -77,18 +68,10 @@ complete the requested range and will no
- flag set (see the next section on extent flags).
- 
- Each extent is described by a single fiemap_extent structure as
--returned in fm_extents::
-+returned in fm_extents:
- 
--    struct fiemap_extent {
--	    __u64	fe_logical;  /* logical offset in bytes for the start of
--				* the extent */
--	    __u64	fe_physical; /* physical offset in bytes for the start
--				* of the extent */
--	    __u64	fe_length;   /* length in bytes for the extent */
--	    __u64	fe_reserved64[2];
--	    __u32	fe_flags;    /* FIEMAP_EXTENT_* flags for this extent */
--	    __u32	fe_reserved[3];
--    };
-+.. kernel-doc:: include/uapi/linux/fiemap.h
-+    :identifiers: fiemap_extent
- 
- All offsets and lengths are in bytes and mirror those on disk.  It is valid
- for an extents logical offset to start before the request or its logical
-@@ -175,6 +158,8 @@ FIEMAP_EXTENT_MERGED
-   userspace would be highly inefficient, the kernel will try to merge most
-   adjacent blocks into 'extents'.
- 
-+FIEMAP_EXTENT_SHARED
-+  This flag is set to request that space be shared with other files.
- 
- VFS -> File System Implementation
- ---------------------------------
-@@ -191,14 +176,10 @@ each discovered extent::
-                      u64 len);
- 
- ->fiemap is passed struct fiemap_extent_info which describes the
--fiemap request::
-+fiemap request:
- 
--  struct fiemap_extent_info {
--	unsigned int fi_flags;		/* Flags as passed from user */
--	unsigned int fi_extents_mapped;	/* Number of mapped extents */
--	unsigned int fi_extents_max;	/* Size of fiemap_extent array */
--	struct fiemap_extent *fi_extents_start;	/* Start of fiemap_extent array */
--  };
-+.. kernel-doc:: include/linux/fiemap.h
-+    :identifiers: fiemap_extent_info
- 
- It is intended that the file system should not need to access any of this
- structure directly. Filesystem handlers should be tolerant to signals and return
---- linux-next-20241120.orig/include/linux/fiemap.h
-+++ linux-next-20241120/include/linux/fiemap.h
-@@ -5,12 +5,18 @@
- #include <uapi/linux/fiemap.h>
- #include <linux/fs.h>
- 
-+/**
-+ * struct fiemap_extent_info - fiemap request to a filesystem
-+ * @fi_flags:		Flags as passed from user
-+ * @fi_extents_mapped:	Number of mapped extents
-+ * @fi_extents_max:	Size of fiemap_extent array
-+ * @fi_extents_start:	Start of fiemap_extent array
-+ */
- struct fiemap_extent_info {
--	unsigned int fi_flags;		/* Flags as passed from user */
--	unsigned int fi_extents_mapped;	/* Number of mapped extents */
--	unsigned int fi_extents_max;	/* Size of fiemap_extent array */
--	struct fiemap_extent __user *fi_extents_start; /* Start of
--							fiemap_extent array */
-+	unsigned int fi_flags;
-+	unsigned int fi_extents_mapped;
-+	unsigned int fi_extents_max;
-+	struct fiemap_extent __user *fi_extents_start;
- };
- 
- int fiemap_prep(struct inode *inode, struct fiemap_extent_info *fieinfo,
+Wesley Cheng
+
+> I guess usb core in most cases ensures class drivers are properly removed,
+> and thus this sideband/sec_interrupt should be unregistered before xhci starts
+> freeing endpoints, but I'm not sure sure this is true in all corner cases.
+> This is the first time we share endpoint ring addresses.
+>
+> Thanks
+> Mathias
+>
