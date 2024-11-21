@@ -1,105 +1,83 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175C5482EF
-	for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 07:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0512623099D;
+	Thu, 21 Nov 2024 09:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732172536; cv=none; b=MkF3L2bEJFtJNf4UDp/wxhLxWh1/kPLLQCU7mAG9SU6TQBe5v2z5fB0n2Y1C5p9bNSDFKU/JqtHgVOuiiwyJmH7A70LWEEiICccaC2P1xz8rv5I1r2iRb9+C4ufnGAQIugAn4ORyLL53gcT6wamEyi9w6zpufmTRiaDW4tUqcA4=
+	t=1732182456; cv=none; b=en+OJLw7qU7nhvhMblSBrBqPL7oXmwTId8YLa91dxPReQyyDsl6gsISVMxhKKNky3LK61bItUuLUCDwC8YkCCpslaExcQHIf4LembraokIDv3WjatJLPVGmHl/4juBSBcVR9yUD4FBYXxPXqgfT92q+jIK1ez0dB29IDktNJyfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732172536; c=relaxed/simple;
-	bh=HSGqSmZvl8yCfsKbNauklbaTlgvSrCw877t+oc1o+sA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ORwdihXiHHAdqCWcB2x0FJbWYCtvUSP/bVjONGFw5x3Lg6KO42V69QWrvlgXS+9Pqq4H6EdeSf3Po2rZzdr7I2ceSyi6+0SrdYgk0u/W90gVAxGNx9gWKt5MxjPgvHk3jmlALqP0awr4eDYTbHwOGOjsFhGarOZoHi54aEzvUmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lBZcsgJa; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1732182456; c=relaxed/simple;
+	bh=PbLurLVA/+bf9CYkiO8ePmZYryCDHBh3Dv96wVaozQk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sMwc+C54Sx1y0q93sODJWbZSvKxtZFFnZLmKRNG1Y5wZWbTxBGKEBVg5E+FfnGXe5MH5bwK7B6atgloItl5w8RRmrfsZ6MinSB0iWsB88iz5yrYNC3ShqjECvQ0scb+T6fVBQh1CrLmyqLM9zqy0AXVb+WIQQ6dcBGL7KQF4OyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FYMNF25s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lBZcsgJa"
-Date: Wed, 20 Nov 2024 23:01:55 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1732172523;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ap95Q1nsWIhzVEIGy3SKI0y8bEU8NHJzB+owS7s7oFk=;
-	b=lBZcsgJaHZ1iWQ8HkxNDrrNGu46xUgydVslYoZefgOefdLNNgQXSiMrR3U4kGlmy6XN5aC
-	Qq76DHM997dZqvp4ODH3lmWODeOLVfPBVgKaot6jk1xdzcT3t/uVsvtI/V00eIvM82Zo3n
-	Fe6dQhbXnC6OTbsfivkffvcSJA2Gp3c=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, willy@infradead.org, 
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, oleg@redhat.com, 
-	dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com, 
-	hdanton@sina.com, hughd@google.com, minchan@google.com, jannh@google.com, 
-	souravpanda@google.com, pasha.tatashin@soleen.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
-Subject: Re: [PATCH v4 2/5] mm: move per-vma lock into vm_area_struct
-Message-ID: <iw34akksaz6wjlygwuztlkvto3aiduekrhw6rjlqq4lr7vzmug@tprkddvgrj3e>
-References: <20241120000826.335387-1-surenb@google.com>
- <20241120000826.335387-3-surenb@google.com>
- <zfd7xdkr5dkvvx3caqao3oorh2pxxifhdhwsw2iyxcuzbevo3n@sobu7xhw24vv>
- <CAJuCfpFAh-gw_BVCaEB4+saedVC6aPB7HfyPikvTujyGRLXPwQ@mail.gmail.com>
- <wnwfgk32wyvx7tzd522ajwk5uixls7iayksrtho6c3dkvgdpek@25yqv3ohljzc>
- <CAJuCfpGx6LCd7qCOsLc6hm-qMGtyM3ceitYbRdx1yKPHFHT-jQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FYMNF25s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070D8C4CECE;
+	Thu, 21 Nov 2024 09:47:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732182455;
+	bh=PbLurLVA/+bf9CYkiO8ePmZYryCDHBh3Dv96wVaozQk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=FYMNF25sMECw9192l5xrhE5w/aLu6TgiUIVJxe2QIFuSejiZ73Gcy/fLov55cVBS+
+	 YSEb44dSsHlTzQDSmy12P4btUKNkSSFB4XSwQ4iQKf0t8Js7mOdczmIfSDpyc2j1vr
+	 nN3uIcUxY7hqolHXaXLcvdJEhydIb7c4mFzF7Rvg+qCrcC4il+oWVI+d5Gi2gM+M4G
+	 E8RrmaGBCmafSLKvWuwHmZd2oYGxNuR79HPz22orWQI6j7oJRU0JJWZW8Ed35V6cm4
+	 nVIDnozmPQdlLM4inraRcf07AE2S37tVPn68HINPKji0z0HsAPKsde1Y/pbpdI2mDZ
+	 42SVs8X8RsT5w==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2] fiemap: use kernel-doc includes in fiemap docbook
+Date: Thu, 21 Nov 2024 10:47:25 +0100
+Message-ID: <20241121-abblitzen-einfordern-2f3ec7a87d41@brauner>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241121011352.201907-1-rdunlap@infradead.org>
+References: <20241121011352.201907-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpGx6LCd7qCOsLc6hm-qMGtyM3ceitYbRdx1yKPHFHT-jQ@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1226; i=brauner@kernel.org; h=from:subject:message-id; bh=PbLurLVA/+bf9CYkiO8ePmZYryCDHBh3Dv96wVaozQk=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTbM66/G/J44/adlp/DpoqFF0RpnlheF/5jkoln1MPul wpO/xb7dpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkxlOGn4ysJrrXnljufm1p c5Rb+nt89vlPDMsqFNpmsVYeqNntVsnwT6+k+MTT6msqajJP+CqFOmUYzF35T7xaOIk5mn/lhPz FnAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 20, 2024 at 04:33:37PM -0800, Suren Baghdasaryan wrote:
-[...]
-> > > >
-> > > > Do we just want 'struct vm_area_struct' to be cacheline aligned or do we
-> > > > want 'struct vma_lock vm_lock' to be on a separate cacheline as well?
-> > >
-> > > We want both to minimize cacheline sharing.
-> > >
-> >
-> > For later, you will need to add a pad after vm_lock as well, so any
-> > future addition will not share the cacheline with vm_lock. I would do
-> > something like below. This is a nit and can be done later.
-> >
-> > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> > index 7654c766cbe2..5cc4fff163a0 100644
-> > --- a/include/linux/mm_types.h
-> > +++ b/include/linux/mm_types.h
-> > @@ -751,10 +751,12 @@ struct vm_area_struct {
-> >  #endif
-> >         struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
-> >  #ifdef CONFIG_PER_VMA_LOCK
-> > +       CACHELINE_PADDING(__pad1__);
-> >         /* Unstable RCU readers are allowed to read this. */
-> > -       struct vma_lock vm_lock ____cacheline_aligned_in_smp;
-> > +       struct vma_lock vm_lock;
-> > +       CACHELINE_PADDING(__pad2__);
-> >  #endif
-> > -} __randomize_layout;
-> > +} __randomize_layout ____cacheline_aligned_in_smp;
+On Wed, 20 Nov 2024 17:13:52 -0800, Randy Dunlap wrote:
+> Add some kernel-doc notation to structs in fiemap header files
+> then pull that into Documentation/filesystems/fiemap.rst
+> instead of duplicating the header file structs in fiemap.rst.
+> This helps to future-proof fiemap.rst against struct changes.
 > 
-> I thought SLAB_HWCACHE_ALIGN for vm_area_cachep added in this patch
-> would have the same result, no?
+> Add missing flags documentation from header files into fiemap.rst
+> for FIEMAP_FLAG_CACHE and FIEMAP_EXTENT_SHARED.
 > 
+> [...]
 
-SLAB_HWCACHE_ALIGN is more about the slub allocator allocating cache
-aligned memory. It does not say anything about the internals of the
-struct for which the kmem_cache is being created. The
-____cacheline_aligned_in_smp tag in your patch made sure that the field
-vm_lock will be put in a new cacheline and there can be a hole between
-vm_lock and the previous field if the previous field is not ending at
-the cacheline boundary. Please note that if you add a new field after
-vm_lock (without cacheline alignment tag), it will be on the same
-cacheline as vm_lock. So, your code is achieving the vm_lock on its own
-cacheline goal but vm_lock being the only field on that cacheline is not
-being achieved.
+Applied to the vfs-6.14.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-6.14.misc branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.14.misc
+
+[1/1] fiemap: use kernel-doc includes in fiemap docbook
+      https://git.kernel.org/vfs/vfs/c/07537da4e219
