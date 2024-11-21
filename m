@@ -1,222 +1,268 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33912F3B
-	for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 00:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168414C66;
+	Thu, 21 Nov 2024 01:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732149232; cv=none; b=uONdyjnaZ5d1/yTlRUjtklj8G0ZA4FzbuTcq23psXTRmFVdIf/AH8sWg7QPJOkE6YR4x+3f/pK5VRoecfg4MVth7TRGb+G1nipeubCCDrzXjdtEpdkpsr6DkG4FTM7/y6UL50npMhzQxT0VdGs50R7aScw1NvajnD8ioEgk005M=
+	t=1732151641; cv=none; b=lJqEwZSSwRPUpfYjHRXb6GjuLE0X/QpKz20fJ2isOEzMjpOQs/OyU8hpuQjLszdHRTDuLJ8qLEEQBV0WqyRWxXCxS+aQb5WTjQwSJW1YGsRLBwggo/t5W54EzdRH9/M3XF2dGTy5Jekl8RKBV/5tiQtoKbNOi/34OHtpg9gfvbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732149232; c=relaxed/simple;
-	bh=2hIBDyppP+989TTRPQ9tHS6PzGNn5GnwulBsDMjTvLo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ScYvLm35YD/I03PHHN1gm3B7ErIJdE2V9YhoaxwoMmgKntqNbNL61qoHnbszu9Ft3DTF+TARNybZhJZE3I5l73Y4kT/lbXgdj6T7B1qiEAf8Zu8OB/5y+3sJjF9RO+wdNePuE9pVgDlMWdmLDRL/FeYfrKVu5F2r8MlYyB12sec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OzzDboaO; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1732151641; c=relaxed/simple;
+	bh=l4FDzqr+e6/1dGF1MfQAFNMR+lWKMS7bW/hnMtn1YZ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lfi5/3XbDru2bfN1QIZt/LZrDyB7Ub6OXqjDokkCNDFKosUZ5Ah+YSfC3NcNQhVpMSI6ciO3p/i1uUrzEiE7AefaA2G/69ijQErIYciy1rTHgZCNI3+NomKjENbbNLdXN+FBOucjJL2MVgDuQA1pYpplxqg56+3YwC41kZidHMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YnCnmsQr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OzzDboaO"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4608dddaa35so161381cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 20 Nov 2024 16:33:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732149228; x=1732754028; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UlniKgym+Q90GvuHd3GoZB7/NP0pryZ3yXdMK0RESg4=;
-        b=OzzDboaOJORqBWXpsaT6tus7RJbQSemghgiV3WNGr08tHtJNggF6Gj3pmeQdWvHGxn
-         4gIQfz9ubVgk3IqnpM4noiEpyEeBBvXpoYmyOZ1LxF9iSd29V3iaNPXc8vCUaxMYznh2
-         FWH0GhjLShSZz4PRuvVM0yHOMk5erQV7GJ3lO+iWUUE5JunEawjgMdcsXuEM1hgieWs1
-         YWu4b2gM+Z4RVc1wqjkzx0LQqZiNks2MsIVBeIXmS6g9mX6bGeBbV6PMtA9nw2qHAiab
-         wWmpaWYB+L6Lw1WweIsXAb43YYenUylq3dnvyD0aPfbqVdzdt5YKN8fNxj7donJ9kvGh
-         O+zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732149228; x=1732754028;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UlniKgym+Q90GvuHd3GoZB7/NP0pryZ3yXdMK0RESg4=;
-        b=HBmscShfEkL0u+HvTpC3hctqssF3jKcw6bJmPmXpEzb6JTq+qjyCv/j5/gOvOB9qw2
-         FSkgdRPiZvwqOaoJW9Yae9M4QBjj+GHAIgjPMbxazxP6scJFI8fIuHFImme0LbZ/alRM
-         Iz6YyyCBTqiYjKankgjpQ/81GN4kRN3edTUWbkIyRMees/czVpRrAswgTaVW4R/VRhyR
-         ALChKruHvuJA/Qn75jege+WdPoM6NbCEowpb/XStKzp5vIomj66wjYer/eAkeZJQdDOS
-         5H+M7yVsH2NWo1WB5KSJG8yRDNHcfr48A3EqwrmzxHbPpvsZuIZt1d7ScWdNKN9RFncv
-         8gEw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhyVwASNo8sRrSfBHnaxrIC3xPXpiSG/PMGTn6Mp6/1bHfY4katPsxsmn5wbxKprp95VCpbWHdRtI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMtclaEoAXWzk6MbNqS0FPn/8YByPUrbssUuKoSxYp0ByzPdus
-	9TpPTDwnRKoa/gBq4L8iL54qTtKp+HHaZXHn8Rdml/5OoW9t8tKXg9ishCmchZ8TVaBLRbgHNeV
-	jLV83HnzXVftrMydjjuLY9d63jkYJTRLIC74W
-X-Gm-Gg: ASbGncuo1zAoXImtELAkHJFPYUAns9xCY3yAB9N85tR6zUWJWlFAXABUYFz0fyHpClh
-	h5DIZShoh37ge4BZzSijdrBRiscc/ajQ=
-X-Google-Smtp-Source: AGHT+IFQ/4vehjWSFCMPc5HZk4dt8N+0X4OiwXr6PNMh/c4OX08XmHwTEq8nAVQsyDRLqHOEJlqtef+ZYaSBMLoAvgU=
-X-Received: by 2002:ac8:5811:0:b0:461:66ea:ea70 with SMTP id
- d75a77b69052e-465318e24c8mr659041cf.15.1732149228248; Wed, 20 Nov 2024
- 16:33:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YnCnmsQr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=2Fl5ltEnbJlMG+sVSMC7bWYoVQrbhsNI48omXw8gVVA=; b=YnCnmsQrlp2TLhDkLcuOJoQLPZ
+	x8+6Ugg+jb53HWy34bttBIiAbGDFY+goQ4d37uk5W5mSWNM3nkJuyKj1W0shpzQdvsWzBCQBusn+c
+	ItQaCGS4NF5dRC8xky8XI5jkF3I6+cUuCNLEJD6QQTN93UoOEmMRwuS5jx2uQ9yBR6vh+tR30Jurd
+	8wrpooC6HJAqhlUPxguybmKZwDwOJr/jhprjayNd8Ou//je0BHx+9WI0CpYQqjHnQ3z98vUJo1azg
+	PdJgY7Uv6GdLNXVDdEnzgOzF8pfIQfUiI5930XIqVVhM9iZ4HlC+oDRRUZg+pxGlIODVQ8C9P3i8g
+	D9Tp9dLw==;
+Received: from [50.53.2.24] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tDvlb-0000000GWPT-1Zye;
+	Thu, 21 Nov 2024 01:13:55 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v2] fiemap: use kernel-doc includes in fiemap docbook
+Date: Wed, 20 Nov 2024 17:13:52 -0800
+Message-ID: <20241121011352.201907-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241120000826.335387-1-surenb@google.com> <20241120000826.335387-3-surenb@google.com>
- <zfd7xdkr5dkvvx3caqao3oorh2pxxifhdhwsw2iyxcuzbevo3n@sobu7xhw24vv>
- <CAJuCfpFAh-gw_BVCaEB4+saedVC6aPB7HfyPikvTujyGRLXPwQ@mail.gmail.com> <wnwfgk32wyvx7tzd522ajwk5uixls7iayksrtho6c3dkvgdpek@25yqv3ohljzc>
-In-Reply-To: <wnwfgk32wyvx7tzd522ajwk5uixls7iayksrtho6c3dkvgdpek@25yqv3ohljzc>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 20 Nov 2024 16:33:37 -0800
-Message-ID: <CAJuCfpGx6LCd7qCOsLc6hm-qMGtyM3ceitYbRdx1yKPHFHT-jQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/5] mm: move per-vma lock into vm_area_struct
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, minchan@google.com, 
-	jannh@google.com, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 20, 2024 at 4:05=E2=80=AFPM Shakeel Butt <shakeel.butt@linux.de=
-v> wrote:
->
-> On Wed, Nov 20, 2024 at 03:44:29PM -0800, Suren Baghdasaryan wrote:
-> > On Wed, Nov 20, 2024 at 3:33=E2=80=AFPM Shakeel Butt <shakeel.butt@linu=
-x.dev> wrote:
-> > >
-> > > On Tue, Nov 19, 2024 at 04:08:23PM -0800, Suren Baghdasaryan wrote:
-> > > > Back when per-vma locks were introduces, vm_lock was moved out of
-> > > > vm_area_struct in [1] because of the performance regression caused =
-by
-> > > > false cacheline sharing. Recent investigation [2] revealed that the
-> > > > regressions is limited to a rather old Broadwell microarchitecture =
-and
-> > > > even there it can be mitigated by disabling adjacent cacheline
-> > > > prefetching, see [3].
-> > > > Splitting single logical structure into multiple ones leads to more
-> > > > complicated management, extra pointer dereferences and overall less
-> > > > maintainable code. When that split-away part is a lock, it complica=
-tes
-> > > > things even further. With no performance benefits, there are no rea=
-sons
-> > > > for this split. Merging the vm_lock back into vm_area_struct also a=
-llows
-> > > > vm_area_struct to use SLAB_TYPESAFE_BY_RCU later in this patchset.
-> > > > Move vm_lock back into vm_area_struct, aligning it at the cacheline
-> > > > boundary and changing the cache to be cacheline-aligned as well.
-> > > > With kernel compiled using defconfig, this causes VMA memory consum=
-ption
-> > > > to grow from 160 (vm_area_struct) + 40 (vm_lock) bytes to 256 bytes=
-:
-> > > >
-> > > >     slabinfo before:
-> > > >      <name>           ... <objsize> <objperslab> <pagesperslab> : .=
-..
-> > > >      vma_lock         ...     40  102    1 : ...
-> > > >      vm_area_struct   ...    160   51    2 : ...
-> > > >
-> > > >     slabinfo after moving vm_lock:
-> > > >      <name>           ... <objsize> <objperslab> <pagesperslab> : .=
-..
-> > > >      vm_area_struct   ...    256   32    2 : ...
-> > > >
-> > > > Aggregate VMA memory consumption per 1000 VMAs grows from 50 to 64 =
-pages,
-> > > > which is 5.5MB per 100000 VMAs. Note that the size of this structur=
-e is
-> > > > dependent on the kernel configuration and typically the original si=
-ze is
-> > > > higher than 160 bytes. Therefore these calculations are close to th=
-e
-> > > > worst case scenario. A more realistic vm_area_struct usage before t=
-his
-> > > > change is:
-> > > >
-> > > >      <name>           ... <objsize> <objperslab> <pagesperslab> : .=
-..
-> > > >      vma_lock         ...     40  102    1 : ...
-> > > >      vm_area_struct   ...    176   46    2 : ...
-> > > >
-> > > > Aggregate VMA memory consumption per 1000 VMAs grows from 54 to 64 =
-pages,
-> > > > which is 3.9MB per 100000 VMAs.
-> > > > This memory consumption growth can be addressed later by optimizing=
- the
-> > > > vm_lock.
-> > > >
-> > > > [1] https://lore.kernel.org/all/20230227173632.3292573-34-surenb@go=
-ogle.com/
-> > > > [2] https://lore.kernel.org/all/ZsQyI%2F087V34JoIt@xsang-OptiPlex-9=
-020/
-> > > > [3] https://lore.kernel.org/all/CAJuCfpEisU8Lfe96AYJDZ+OM4NoPmnw9bP=
-53cT_kbfP_pR+-2g@mail.gmail.com/
-> > > >
-> > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > > > Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > >
-> > > Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
-> >
-> > Thanks!
-> >
-> > >
-> > >
-> > > One question below.
-> > >
-> > > > --- a/include/linux/mm_types.h
-> > > > +++ b/include/linux/mm_types.h
-> > > > @@ -716,8 +716,6 @@ struct vm_area_struct {
-> > > >        * slowpath.
-> > > >        */
-> > > >       unsigned int vm_lock_seq;
-> > > > -     /* Unstable RCU readers are allowed to read this. */
-> > > > -     struct vma_lock *vm_lock;
-> > > >  #endif
-> > > >
-> > > >       /*
-> > > > @@ -770,6 +768,10 @@ struct vm_area_struct {
-> > > >       struct vma_numab_state *numab_state;    /* NUMA Balancing sta=
-te */
-> > > >  #endif
-> > > >       struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
-> > > > +#ifdef CONFIG_PER_VMA_LOCK
-> > > > +     /* Unstable RCU readers are allowed to read this. */
-> > > > +     struct vma_lock vm_lock ____cacheline_aligned_in_smp;
-> > > > +#endif
-> > > >  } __randomize_layout;
-> > >
-> > > Do we just want 'struct vm_area_struct' to be cacheline aligned or do=
- we
-> > > want 'struct vma_lock vm_lock' to be on a separate cacheline as well?
-> >
-> > We want both to minimize cacheline sharing.
-> >
->
-> For later, you will need to add a pad after vm_lock as well, so any
-> future addition will not share the cacheline with vm_lock. I would do
-> something like below. This is a nit and can be done later.
->
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 7654c766cbe2..5cc4fff163a0 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -751,10 +751,12 @@ struct vm_area_struct {
->  #endif
->         struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
->  #ifdef CONFIG_PER_VMA_LOCK
-> +       CACHELINE_PADDING(__pad1__);
->         /* Unstable RCU readers are allowed to read this. */
-> -       struct vma_lock vm_lock ____cacheline_aligned_in_smp;
-> +       struct vma_lock vm_lock;
-> +       CACHELINE_PADDING(__pad2__);
->  #endif
-> -} __randomize_layout;
-> +} __randomize_layout ____cacheline_aligned_in_smp;
+Add some kernel-doc notation to structs in fiemap header files
+then pull that into Documentation/filesystems/fiemap.rst
+instead of duplicating the header file structs in fiemap.rst.
+This helps to future-proof fiemap.rst against struct changes.
 
-I thought SLAB_HWCACHE_ALIGN for vm_area_cachep added in this patch
-would have the same result, no?
+Add missing flags documentation from header files into fiemap.rst
+for FIEMAP_FLAG_CACHE and FIEMAP_EXTENT_SHARED.
 
->
->  #ifdef CONFIG_NUMA
->  #define vma_policy(vma) ((vma)->vm_policy)
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Matthew Wilcox <willy@infradead.org>
+---
+v2: Use Willy's parameter description changes.
+    Change some 2-line parameter comments to one line.
+
+    I have not converted the flag constants from macros to enums
+    even though that would help with future-proofing the documentation.
+    If Christoph says that he would like to see that, I can work on it.
+
+Cc: linux-fsdevel@vger.kernel.org
+
+ Documentation/filesystems/fiemap.rst |   45 ++++++-----------------
+ include/linux/fiemap.h               |   16 +++++---
+ include/uapi/linux/fiemap.h          |   47 +++++++++++++++++--------
+ 3 files changed, 57 insertions(+), 51 deletions(-)
+
+--- linux-next-20241120.orig/include/uapi/linux/fiemap.h
++++ linux-next-20241120/include/uapi/linux/fiemap.h
+@@ -14,37 +14,56 @@
+ 
+ #include <linux/types.h>
+ 
++/**
++ * struct fiemap_extent - description of one fiemap extent
++ * @fe_logical: byte offset of the extent in the file
++ * @fe_physical: byte offset of extent on disk
++ * @fe_length: length in bytes for this extent
++ * @fe_flags: FIEMAP_EXTENT_* flags for this extent
++ */
+ struct fiemap_extent {
+-	__u64 fe_logical;  /* logical offset in bytes for the start of
+-			    * the extent from the beginning of the file */
+-	__u64 fe_physical; /* physical offset in bytes for the start
+-			    * of the extent from the beginning of the disk */
+-	__u64 fe_length;   /* length in bytes for this extent */
++	__u64 fe_logical;
++	__u64 fe_physical;
++	__u64 fe_length;
++	/* private: */
+ 	__u64 fe_reserved64[2];
+-	__u32 fe_flags;    /* FIEMAP_EXTENT_* flags for this extent */
++	/* public: */
++	__u32 fe_flags;
++	/* private: */
+ 	__u32 fe_reserved[3];
+ };
+ 
++/**
++ * struct fiemap - file extent mappings
++ * @fm_start: byte offset (inclusive) at which to start mapping (in)
++ * @fm_length: logical length of mapping which userspace wants (in)
++ * @fm_flags: FIEMAP_FLAG_* flags for request (in/out)
++ * @fm_mapped_extents: number of extents that were mapped (out)
++ * @fm_extent_count: size of fm_extents array (in)
++ * @fm_extents: array of mapped extents (out)
++ */
+ struct fiemap {
+-	__u64 fm_start;		/* logical offset (inclusive) at
+-				 * which to start mapping (in) */
+-	__u64 fm_length;	/* logical length of mapping which
+-				 * userspace wants (in) */
+-	__u32 fm_flags;		/* FIEMAP_FLAG_* flags for request (in/out) */
+-	__u32 fm_mapped_extents;/* number of extents that were mapped (out) */
+-	__u32 fm_extent_count;  /* size of fm_extents array (in) */
++	__u64 fm_start;
++	__u64 fm_length;
++	__u32 fm_flags;
++	__u32 fm_mapped_extents;
++	__u32 fm_extent_count;
++	/* private: */
+ 	__u32 fm_reserved;
+-	struct fiemap_extent fm_extents[]; /* array of mapped extents (out) */
++	/* public: */
++	struct fiemap_extent fm_extents[];
+ };
+ 
+ #define FIEMAP_MAX_OFFSET	(~0ULL)
+ 
++/* flags used in fm_flags: */
+ #define FIEMAP_FLAG_SYNC	0x00000001 /* sync file data before map */
+ #define FIEMAP_FLAG_XATTR	0x00000002 /* map extended attribute tree */
+ #define FIEMAP_FLAG_CACHE	0x00000004 /* request caching of the extents */
+ 
+ #define FIEMAP_FLAGS_COMPAT	(FIEMAP_FLAG_SYNC | FIEMAP_FLAG_XATTR)
+ 
++/* flags used in fe_flags: */
+ #define FIEMAP_EXTENT_LAST		0x00000001 /* Last extent in file. */
+ #define FIEMAP_EXTENT_UNKNOWN		0x00000002 /* Data location unknown. */
+ #define FIEMAP_EXTENT_DELALLOC		0x00000004 /* Location still pending.
+--- linux-next-20241120.orig/Documentation/filesystems/fiemap.rst
++++ linux-next-20241120/Documentation/filesystems/fiemap.rst
+@@ -12,21 +12,10 @@ returns a list of extents.
+ Request Basics
+ --------------
+ 
+-A fiemap request is encoded within struct fiemap::
+-
+-  struct fiemap {
+-	__u64	fm_start;	 /* logical offset (inclusive) at
+-				  * which to start mapping (in) */
+-	__u64	fm_length;	 /* logical length of mapping which
+-				  * userspace cares about (in) */
+-	__u32	fm_flags;	 /* FIEMAP_FLAG_* flags for request (in/out) */
+-	__u32	fm_mapped_extents; /* number of extents that were
+-				    * mapped (out) */
+-	__u32	fm_extent_count; /* size of fm_extents array (in) */
+-	__u32	fm_reserved;
+-	struct fiemap_extent fm_extents[0]; /* array of mapped extents (out) */
+-  };
++A fiemap request is encoded within struct fiemap:
+ 
++.. kernel-doc:: include/uapi/linux/fiemap.h
++   :identifiers: fiemap
+ 
+ fm_start, and fm_length specify the logical range within the file
+ which the process would like mappings for. Extents returned mirror
+@@ -60,6 +49,8 @@ FIEMAP_FLAG_XATTR
+   If this flag is set, the extents returned will describe the inodes
+   extended attribute lookup tree, instead of its data tree.
+ 
++FIEMAP_FLAG_CACHE
++  This flag requests caching of the extents.
+ 
+ Extent Mapping
+ --------------
+@@ -77,18 +68,10 @@ complete the requested range and will no
+ flag set (see the next section on extent flags).
+ 
+ Each extent is described by a single fiemap_extent structure as
+-returned in fm_extents::
++returned in fm_extents:
+ 
+-    struct fiemap_extent {
+-	    __u64	fe_logical;  /* logical offset in bytes for the start of
+-				* the extent */
+-	    __u64	fe_physical; /* physical offset in bytes for the start
+-				* of the extent */
+-	    __u64	fe_length;   /* length in bytes for the extent */
+-	    __u64	fe_reserved64[2];
+-	    __u32	fe_flags;    /* FIEMAP_EXTENT_* flags for this extent */
+-	    __u32	fe_reserved[3];
+-    };
++.. kernel-doc:: include/uapi/linux/fiemap.h
++    :identifiers: fiemap_extent
+ 
+ All offsets and lengths are in bytes and mirror those on disk.  It is valid
+ for an extents logical offset to start before the request or its logical
+@@ -175,6 +158,8 @@ FIEMAP_EXTENT_MERGED
+   userspace would be highly inefficient, the kernel will try to merge most
+   adjacent blocks into 'extents'.
+ 
++FIEMAP_EXTENT_SHARED
++  This flag is set to request that space be shared with other files.
+ 
+ VFS -> File System Implementation
+ ---------------------------------
+@@ -191,14 +176,10 @@ each discovered extent::
+                      u64 len);
+ 
+ ->fiemap is passed struct fiemap_extent_info which describes the
+-fiemap request::
++fiemap request:
+ 
+-  struct fiemap_extent_info {
+-	unsigned int fi_flags;		/* Flags as passed from user */
+-	unsigned int fi_extents_mapped;	/* Number of mapped extents */
+-	unsigned int fi_extents_max;	/* Size of fiemap_extent array */
+-	struct fiemap_extent *fi_extents_start;	/* Start of fiemap_extent array */
+-  };
++.. kernel-doc:: include/linux/fiemap.h
++    :identifiers: fiemap_extent_info
+ 
+ It is intended that the file system should not need to access any of this
+ structure directly. Filesystem handlers should be tolerant to signals and return
+--- linux-next-20241120.orig/include/linux/fiemap.h
++++ linux-next-20241120/include/linux/fiemap.h
+@@ -5,12 +5,18 @@
+ #include <uapi/linux/fiemap.h>
+ #include <linux/fs.h>
+ 
++/**
++ * struct fiemap_extent_info - fiemap request to a filesystem
++ * @fi_flags:		Flags as passed from user
++ * @fi_extents_mapped:	Number of mapped extents
++ * @fi_extents_max:	Size of fiemap_extent array
++ * @fi_extents_start:	Start of fiemap_extent array
++ */
+ struct fiemap_extent_info {
+-	unsigned int fi_flags;		/* Flags as passed from user */
+-	unsigned int fi_extents_mapped;	/* Number of mapped extents */
+-	unsigned int fi_extents_max;	/* Size of fiemap_extent array */
+-	struct fiemap_extent __user *fi_extents_start; /* Start of
+-							fiemap_extent array */
++	unsigned int fi_flags;
++	unsigned int fi_extents_mapped;
++	unsigned int fi_extents_max;
++	struct fiemap_extent __user *fi_extents_start;
+ };
+ 
+ int fiemap_prep(struct inode *inode, struct fiemap_extent_info *fieinfo,
