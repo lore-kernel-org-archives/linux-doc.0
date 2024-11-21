@@ -1,213 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2926CDAF;
-	Thu, 21 Nov 2024 17:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281636CDAF
+	for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 17:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732210597; cv=none; b=FRP2T1sUDOfBH7Wz6r2SaJ9xOUQAHzeRZ9XJJR/AslZRLJfyKEcFYUw/NzhruIfNXFXShuUffLjlDIRXcJKozyV3z7KK/hKSXoxONm0x12THDT+3zvP27wzAGmFxOw/RfwwbFUhqjKWas3a7lmisqcnPwh0gZ23iT4q7sWswao8=
+	t=1732210737; cv=none; b=OFXFF2lQX5n/zPQFa/3/Z1OaZnchOWP5LCtUgMyEnyT6hfdogdBP45T7ghK0fswlBEPYUgsbR4GtW5pQjhi33pR2FVkV+siIWUeiA0k6DDyiUl/2ZOTYNUGYLWtGH11QjuUJ36oFRsdvLN0MhgnDNlHnF7UUXl+GMOx7qpijI88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732210597; c=relaxed/simple;
-	bh=yX1zhmwlvBuriodeGff27vo3wKuh7ROaK4e8d4UaQBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wcw64iWdBoTL0NjdvlUYNcXaUY4N4OGRcsXS/mN/0P8hJ7GngD+eS15LyF1MvE4obIgHhRVvJwnQSKZ+asAbewq/lbrUUwRwvJqq0MHxQ4CV1hejHSBueSPPiqnXIU9sXQeyLMhKAv6JHOs+s780DuB/75c1iEfeFW1PHMFTzCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dQ3RjuHA; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1732210737; c=relaxed/simple;
+	bh=S/y5ZyYozL2J9WdTeutnmyNj6lkYDklgSKjBzODuq5k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=iBSTiRZXRB2/8D/jJt4MevjdI0gs6DpNpKXTeEbOEmo+mPsfBPGG1FZ/6rA3CptpR0T3jxdTuxdjx3qeJHv62OH7OXBBn4cR4DtHY152gdLTQWiaBSt3Zqz54wVr3CBw19UUbPMrnExpM3rjgrmbLr4IgpPqjnzUGeWAQ1ld0fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=h8evHUOz; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dQ3RjuHA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732210595; x=1763746595;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yX1zhmwlvBuriodeGff27vo3wKuh7ROaK4e8d4UaQBs=;
-  b=dQ3RjuHA410h1hMWneJ5AjoVHl91pMX2OvB76fl1wAPq8oTO9lY8e/PS
-   fMEp4abSr97NTxWzoPL76FENVwJu+1UdjnZW+461SZqsc4AcTFPkWEQIE
-   REuJ58i32Iduu9dVr9LEdGWns2C5+LPYMKPj30EjGzlpiPQg6QN3Gy02c
-   f+pcZQdFc4sjSWXOPwyGjZBRDfSDXWjYlVK4YFGxg+WBMHX1HZFrMpsJR
-   cguisNjoWMiUNFjGVlFZAoa5KtsPjV0JYPGhFVUfR/f9Cdk8ee5fBTrW9
-   YEqDBqZGnIo+cd532TR8jQJw7MgOC/uV7kGQWf0FdcG6dFItfs07E5v5J
-   g==;
-X-CSE-ConnectionGUID: iECULC0dQYyUDdvmqdQ/0A==
-X-CSE-MsgGUID: PLxMvEJHQySfXZSFdWu1Zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32270579"
-X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="32270579"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 09:36:28 -0800
-X-CSE-ConnectionGUID: CKXB3Rt+Sp+eYwhCjNcFzw==
-X-CSE-MsgGUID: jFMliDHIQHen4cnwNuIPXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="95274569"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.70])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 09:36:28 -0800
-Date: Thu, 21 Nov 2024 09:36:26 -0800
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v9 4/9] x86/resctrl: Compute memory bandwidth for all
- supported events
-Message-ID: <Zz9vmuv6JoyYKSwo@agluck-desk3>
-References: <20241114001712.80315-1-tony.luck@intel.com>
- <20241114001712.80315-5-tony.luck@intel.com>
- <6fada5bb-7ca2-4f6b-9174-109c429e8d68@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h8evHUOz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+	Reply-To:Cc:Content-ID:Content-Description;
+	bh=9/Fvc5ORfLBUp92+5Ys5y+uUoLMk7GsogvOAb+TM/24=; b=h8evHUOzh6Gk6wHxxK/t77G2fk
+	KmbTt3xgWlTcD3oWD2Z6pRtQBQm+na+sWeG2a4hwF+fNwML3h9VHpfXs/izhVnl0HFj5cGOvBY0Bo
+	/k/xMzKhi2ht+fGwmZjjVYu4k1uYAi5JsKkv6VVPtRMg8TmpwpMhcOkegyhdd/D9zrk378/mORBhc
+	VtAelK2TxFkpgdthVXWf7tXM+Fxuwz7XdoVZy0YjHQ5UDiv+1PglrsdRWqOA/LG1CcZWvZ4Bphpx2
+	LiohnjKuTCvU8HkZkg7U38i8251mCCn+lg7jwe+dTEpFsZPJGXtmwdWA4QID3InxQsHJM+JnjUd7S
+	JZqi3Luw==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tEB8m-00000000bi1-0Rbd;
+	Thu, 21 Nov 2024 17:38:52 +0000
+Message-ID: <9b7a43f5-5d04-4917-906b-707581b5a39e@infradead.org>
+Date: Thu, 21 Nov 2024 09:38:47 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6fada5bb-7ca2-4f6b-9174-109c429e8d68@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: typedef output question/issue?
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <e9d714fd-d034-4176-a2b7-50a72f80c8ad@infradead.org>
+ <877c8w25sn.fsf@intel.com> <874j4025rq.fsf@intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <874j4025rq.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 19, 2024 at 07:45:01PM -0800, Reinette Chatre wrote:
-> Hi Tony,
-> 
-> On 11/13/24 4:17 PM, Tony Luck wrote:
-> > Computing the bandwidth for an event is cheap, and only done once
-> > per second. Doing so simplifies switching between events and allows
-> > choosing different events per ctrl_mon group.
-> 
-> This just reads like some a general statement. There surely can be
-> some context, problem and *some* description about how this patch goes
-> about addressing the problem?
 
-I've rewritten this in the problem ... solution format.
 
-> > 
-> > Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-> > Signed-off-by: Tony Luck <tony.luck@intel.com>
-> > ---
-> >  arch/x86/kernel/cpu/resctrl/monitor.c | 72 ++++++++++++---------------
-> >  1 file changed, 33 insertions(+), 39 deletions(-)
-> > 
-> > diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-> > index 2176e355e864..da4ae21350c8 100644
-> > --- a/arch/x86/kernel/cpu/resctrl/monitor.c
-> > +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-> > @@ -663,9 +663,12 @@ static int __mon_event_count(u32 closid, u32 rmid, struct rmid_read *rr)
-> >   */
-> >  static void mbm_bw_count(u32 closid, u32 rmid, struct rmid_read *rr)
-> >  {
-> > -	u32 idx = resctrl_arch_rmid_idx_encode(closid, rmid);
-> > -	struct mbm_state *m = &rr->d->mbm_local[idx];
-> >  	u64 cur_bw, bytes, cur_bytes;
-> > +	struct mbm_state *m;
-> > +
-> > +	m = get_mbm_state(rr->d, closid, rmid, rr->evtid);
-> > +	if (WARN_ON_ONCE(!m))
-> > +		return;
-> >  
-> >  	cur_bytes = rr->val;
-> >  	bytes = cur_bytes - m->prev_bw_bytes;
-> > @@ -826,54 +829,45 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_mon_domain *dom_mbm)
-> >  	resctrl_arch_update_one(r_mba, dom_mba, closid, CDP_NONE, new_msr_val);
-> >  }
-> >  
-> > -static void mbm_update(struct rdt_resource *r, struct rdt_mon_domain *d,
-> > -		       u32 closid, u32 rmid)
-> > +static void mbm_update_one_event(struct rdt_resource *r, struct rdt_mon_domain *d,
-> > +				 u32 closid, u32 rmid, enum resctrl_event_id evtid)
-> >  {
-> >  	struct rmid_read rr = {0};
-> >  
-> >  	rr.r = r;
-> >  	rr.d = d;
-> > +	rr.evtid = evtid;
-> > +	rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
-> > +	if (IS_ERR(rr.arch_mon_ctx)) {
-> > +		pr_warn_ratelimited("Failed to allocate monitor context: %ld",
-> > +				    PTR_ERR(rr.arch_mon_ctx));
-> > +		return;
-> > +	}
-> > +
-> > +	__mon_event_count(closid, rmid, &rr);
-> >  
-> >  	/*
-> > -	 * This is protected from concurrent reads from user
-> > -	 * as both the user and we hold the global mutex.
-> > +	 * If the software controller is enabled, compute the
-> > +	 * bandwidth for this event id.
-> >  	 */
-> > -	if (is_mbm_total_enabled()) {
-> > -		rr.evtid = QOS_L3_MBM_TOTAL_EVENT_ID;
-> > -		rr.val = 0;
-> > -		rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
-> > -		if (IS_ERR(rr.arch_mon_ctx)) {
-> > -			pr_warn_ratelimited("Failed to allocate monitor context: %ld",
-> > -					    PTR_ERR(rr.arch_mon_ctx));
-> > -			return;
-> > -		}
-> > -
-> > -		__mon_event_count(closid, rmid, &rr);
-> > +	if (is_mba_sc(NULL))
-> > +		mbm_bw_count(closid, rmid, &rr);
-> >  
-> > -		resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
-> > -	}
-> > -	if (is_mbm_local_enabled()) {
-> > -		rr.evtid = QOS_L3_MBM_LOCAL_EVENT_ID;
-> > -		rr.val = 0;
-> > -		rr.arch_mon_ctx = resctrl_arch_mon_ctx_alloc(rr.r, rr.evtid);
-> > -		if (IS_ERR(rr.arch_mon_ctx)) {
-> > -			pr_warn_ratelimited("Failed to allocate monitor context: %ld",
-> > -					    PTR_ERR(rr.arch_mon_ctx));
-> > -			return;
-> > -		}
-> > -
-> > -		__mon_event_count(closid, rmid, &rr);
-> > +	resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
-> > +}
-> >  
-> > -		/*
-> > -		 * Call the MBA software controller only for the
-> > -		 * control groups and when user has enabled
-> > -		 * the software controller explicitly.
-> > -		 */
-> > -		if (is_mba_sc(NULL))
-> > -			mbm_bw_count(closid, rmid, &rr);
-> > +static void mbm_update(struct rdt_resource *r, struct rdt_mon_domain *d,
-> > +		       u32 closid, u32 rmid)
-> > +{
-> > +	/*
-> > +	 * This is protected from concurrent reads from user
-> > +	 * as both the user and we hold the global mutex.
+On 11/21/24 3:19 AM, Jani Nikula wrote:
+> On Thu, 21 Nov 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>> On Wed, 20 Nov 2024, Randy Dunlap <rdunlap@infradead.org> wrote:
+>>> Hi,
+>>>
+>>> If I print a typedef in html (make htmldocs) from a .rst file,
+>>> I see:
+>>>
+>>> type dma_cookie_t
+>>>     an opaque DMA cookie
+>>>
+>>> Description
+>>>
+>>> if dma_cookie_t is >0 it’s a DMA request cookie, <0 it’s an error code
+>>>
+>>> ~~~~~~~~~~~~~~~~~~~
+>>>
+>>> If I print the same typedef in man format, it says 'typedef' instead of
+>>> 'type', which is what I expect to see.
+>>
+>> I'm sorry, it's unambigous to me which one you expect.
 > 
-> I understand that you are just copy&pasting a comment here but could you please
-> help to avoid any obstacles by removing the code impersonation? Perhaps something like:
-> 
-> 	 * This is protected from concurrent reads from user
-> 	 * as both the user and overflow handler hold the global mutex.
-> 
-> (please feel free to improve)
+> *ambiguous, obvs!
 
-No improvement to the text needed. But I did move some words from 2nd
-line to the first to look better (IMHO).
+Sorry about that. I would like to see 'typedef' instead of 'type'.
 
-> > +	 */
-> > +	if (is_mbm_total_enabled())
-> > +		mbm_update_one_event(r, d, closid, rmid, QOS_L3_MBM_TOTAL_EVENT_ID);
-> >  
-> > -		resctrl_arch_mon_ctx_free(rr.r, rr.evtid, rr.arch_mon_ctx);
-> > -	}
-> > +	if (is_mbm_local_enabled())
-> > +		mbm_update_one_event(r, d, closid, rmid, QOS_L3_MBM_LOCAL_EVENT_ID);
-> >  }
-> >  
-> >  /*
+Thanks.
+
 > 
-> Reinette
+>>
+>>> man formatted output:
+>>>
+>>> Kernel API(9)                     API Manual                     Kernel API(9)
+>>>
+>>> NAME
+>>>        typedef dma_cookie_t - an opaque DMA cookie
+>>>
+>>> Description
+>>>        if dma_cookie_t is >0 it's a DMA request cookie, <0 it's an error code
+>>>
+>>> November 2024                    dma_cookie_t                    Kernel API(9)
+>>
+>> How do you generate the man pages?
 
--Tony
+One function or identifier (struct, union, enum, or typedef) at a time.
+Just for testing.
+
+$ scripts/kernel-doc -man -function function_or_identifier file | nroff -man | less
+
+e.g.:
+$ scripts/kernel-doc  -man -function dma_cookie_t  include/linux/dmaengine.h  | nroff -man  | less
+
+>>
+>>> I am using python311-Sphinx 8.0.2-1.2-noarch from openSUSE.
+>>>
+>>> [internet search ...]
+>>>
+>>> The $internet says that one option is to install and use:
+>>> Add 'sphinx_autodoc_typehints' to the extensions list in your conf.py file.
+>>> I tried that but now I get:
+>>> Extension error:
+>>> Unknown event name: autodoc-process-signature
+>>
+>> The kernel-doc thing is not hooked up in the Sphinx autodoc processing,
+>> which is more geared towards Python. I presume sphinx_autodoc_typehints
+>> uses autodoc-process-signature which isn't there because the autodoc
+>> Sphinx extension isn't loaded, and even if it were, would not be called
+>> on kernel-doc handling.
+>>
+
+OK, thanks. I'll just try to ignore it. :(
+
+>>
+>> BR,
+>> Jani.
+>>
+>>
+>>>
+>>> Another option is to try a different theme so I reverted to
+>>> sphinx_rtd_theme but that didn't help either.
+>>>
+>>> Does anyone know a good solution to this?
+>>>
+>>> thanks.
+> 
+
+-- 
+~Randy
+
