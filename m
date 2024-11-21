@@ -1,609 +1,144 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8817C1C8FB4
-	for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 16:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77CC14A4FB
+	for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 17:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732208330; cv=none; b=k59qIoMDz7/4zkTI/ERHS1MerznmBgfK6b7B4RYR0jr3i9gl58KlpvADr1jUv0T5y8D22opU4TrBtc8EZwwfAF6Z9UJH4WfOpp7esKldLqgIeWzz0jScuBclW0p1bHqxu/7MhTbr1yndH4wmw4mFFo/XnQU26fKw4bpaVrAlz7o=
+	t=1732208735; cv=none; b=arHpLRF+PQbTAnZsKGDT6gK9xE0X0pzv/kF4gB3B3oF6NM0FYiznNGMMky8h0WYPw6VN8Og+Lg8XTF0sGLvrOF5aU2y9YPll07wnoqkvXOyE68hjZvJJyGEdEVLz+vvP9xziPdOfzGU0twkZIp6EKAbieLWYVTpyxSSAdgKm7To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732208330; c=relaxed/simple;
-	bh=/NNrvb+PD9zGRD0wBIHPqWITm1PpZYsfThMBECA1goA=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mw0cAwnStoUtQZvIh50+ZXTgm3SNTFTBBFkKTwZhKmmBlC8G/8qUnroKwPSF117dDX0/Ht7K3RgnqQSh46zpPUPOFbmTmr1HgPQZVsxFDJ++rmIcBstptBhMS6v9KnoVAtNU3aXsSHUf+VF6lSZ7tJ3eieoWa0Lf/OMEkmycs0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=XFQGpFxz; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
+	s=arc-20240116; t=1732208735; c=relaxed/simple;
+	bh=CbaenAERdzcCNRG1oChBWu9T6RdVY5QgrQue3cb2CBs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QZPlYA4zW3iYzA+ZyWQcWGy61XK5QLKJm/yoitYbZFx+yu4GgcffXHgHTxToHmZZ8yP8RKU2sSt+GA/JF2F18newB7oPfupK9T/usKvP4GnaM6ycImt/PWevhX3SmHxnXaaE0Yta7Jx7PXoIw8qiruMnC/vxJ+pXUwBJf4iLOes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H69m0zDy; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="XFQGpFxz"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5cfcb7183deso3963358a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 08:58:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H69m0zDy"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-460a8d1a9b7so289421cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 21 Nov 2024 09:05:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1732208327; x=1732813127; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ydoLVXEDXvJRCedYc8280jsDjevAcd+mQM5b8Syno1A=;
-        b=XFQGpFxzgMd5Pw8mySLDak3mMby1hL3+44B3RyGL2X+ang57TJea5kw1n7/zb4X7Cs
-         ZpSm/vNK41TRWNDB/mRLpLcpdGmLRUVRrgWxLv/WMOZ8yihQjVTMTURKs16WlyT9XMN6
-         PT1hp5HFQU93Y+6b9K+gK/aFd34cmplYzmEF+irghby3kDGPXVyCq3382yKf4gSkb/er
-         8YTtnDQ/pcR8TqaHRCrxwTqh2tn4w4lZRjsjPO3pWjecdI2YCB6wY9izN+n0HKHikIv/
-         /OcHX4dZXCOvks5YUcgG5EkTz+/h3HXyTXKRPGPBeCtOniXjDVJiVWOUDfomP/iGFt73
-         prng==
+        d=google.com; s=20230601; t=1732208733; x=1732813533; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FbzeelOTslR/KHrOgwW0t93Zwe+09I3fmH31n/QNlAQ=;
+        b=H69m0zDyUKmfNutXbdGIMgnbwAqgFkxSMG0GX+wgG1zWhSD+uvNG96debh34q29zmJ
+         +HDNZnMqxltDyNUiLwEZUswOyFViOJECZjI2lHgOkMom5j31jJposAJqkXIFS59KTSxp
+         SCJksGHvyqwAJC3rzA+5fJ6KCXKf9gGpn/eJ/p4ufuYLsm1MB8wPS0/h/wsaHTBjOtgX
+         QES9eBqDX7F699OizeaYf8PAmUtJPY2UiidG7Bx2PiXulszHItc75lwZx59U9i67D3Tw
+         5p0ZS070wNlvsf1XN5renfXEBhcmFUOh2+gyv0iRysijWh/2QXJ/bd9s8qjDwGV6trID
+         Yycg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732208327; x=1732813127;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1732208733; x=1732813533;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ydoLVXEDXvJRCedYc8280jsDjevAcd+mQM5b8Syno1A=;
-        b=ktkvmFjoYwO3KJWpyhQn8ijjYZRzdeNOtpswPjbbEBxidig/IVfGrwOoNurxnECaCP
-         UgWVwFDnRvpbhYLFt8rnJwD01tFXxS/xqGH+2ZKUGSR1WH0LgfDIkBzojxyBeDMcgEZR
-         4akSjtgWeUJHMzVlo6Ugxzg0q55ukCLk2Jip6PDi/iRvogedNphuORB9aN0PiwvchL3z
-         IFieNJxJb/vKRFlTekoXU4OEiXP24lqNgA6XUKtEKIflBcRMpcdcTuo0MKjbvq8u4QQu
-         2R3Q8AfVfGJbihHEIeAqK6QpS3c6ggtsrH3NCHIOE+/kV88JWDdXZYH4CIao9XC/E/Mj
-         H2QA==
-X-Forwarded-Encrypted: i=1; AJvYcCWYgd7o2z5AFbnAT2EGw7GQX1SQkfFwYlGC+aT6w5F0lLIwPdU/5m1BKWqS3Vst860pyDokVpU+Q08=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsscNeyjrScidKO9npBdFATbX6MHeFuq8Z38zDjJvkA3oMBWZN
-	6fQsL59Uo89y0NEa6m7Pymu1ItumEtlR7/0MmWljuQLgO53ttyMIsWTNPi5Q7EX5FXZn6JNmUYa
-	VnfUSRWoCUtuu5q/R3DM+zdk/CBspRHYJE1MP3Oz1bCZ0Q0Yl08UWI3eRyWjffISNYkl9UcPFup
-	Xx8v+Z+YNKwSi+p1tV5SZpX1w=
-X-Gm-Gg: ASbGnctOwSTgl+09b1stWM6xvZpVED4+FbWLI6wwYiHE2sHjthWZMuHsvqEWNjQXjoI
-	WFDfRVtu0BSkNgm3l2mCYP02pWG3VLJzjyBaW5rQdbneBZ2MyM/XijsLXa9Y8DYRN2JDUZGGlWj
-	bWLHeqHTSN1yVXjN5g69HhklOrM8q8ixuCsIiHUvcyF4Dz1BaPVwjbCEGPfNiD96NWNKODboiZN
-	/Kwnv0rTIFerCUQKiBLDIIZvmBmVGO2WOG1wAWa2sIPaMcHnu+RuL4jKiiNiTy8IZSmFl/Zt2KQ
-	fI5PWnpme3Jt3AL+iRYA
-X-Google-Smtp-Source: AGHT+IHcKk45K85Mx3wQwkzo0V3zDJZGTTZch2rgrzwaMeUMDu6YrvkIzEDN5xpPbT/dytiom4/ZeQ==
-X-Received: by 2002:a17:906:4fd4:b0:a9e:65a1:fdac with SMTP id a640c23a62f3a-aa4ef96ba56mr392540666b.7.1732208326772;
-        Thu, 21 Nov 2024 08:58:46 -0800 (PST)
-Received: from localhost.localdomain ([178.27.36.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa4f41536d3sm101502766b.24.2024.11.21.08.58.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2024 08:58:46 -0800 (PST)
-From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-To: Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v9] leds: Add LED1202 I2C driver
-Date: Thu, 21 Nov 2024 16:58:25 +0000
-Message-Id: <20241121165829.8210-4-vicentiu.galanopulo@remote-tech.co.uk>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241121165829.8210-1-vicentiu.galanopulo@remote-tech.co.uk>
-References: <20241121165829.8210-1-vicentiu.galanopulo@remote-tech.co.uk>
+        bh=FbzeelOTslR/KHrOgwW0t93Zwe+09I3fmH31n/QNlAQ=;
+        b=FCHnfhKeR/+CHwXMpzpVvf/p+7spGyAgezwc/3+/HoyiEJARhTTVJy/2X6u/u4xSNi
+         xzpEc6ML74ue+5FvVnnNKllfB7wPG/VBdqjMf73vhVn2NCx0+bCAE8OlxIZeBS3ed9uM
+         C22mlVYnJPv3itHuls4bzaZSJYYedxntqpIY995FMK9CToHnUdo4BpSIbhuKgz7nYnJn
+         eyNyu1CVlYzJMtaz/WK3fZjx07XWd9TS/qXT2Df/maK6+Nq68jpjcewkQQfWLd4oSGCe
+         6Wb02MjOLX9oQ08HQidW0MLbHTvCPMtKIP6DbcZAKz7HNjsVWgS60gP+C+SV36GKox+k
+         wMqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV4zB8daTu81BL3/bVhLiYGFlpCt3o5k39vMufDyxTkgFD0BAanfNaT2YRhtGl1BTmm/SJrKBc+xQk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0XyUgAwHpXmtU0sj8jwQF4yMB3oDQt/1HHgXfd77NxWseMnem
+	3B8En0+Zw60SlW8QhMsLTtmqd7IAHizuF3MiJdKR5OH9uQ3mOcwa7KPOjyiIT0Pp2I5KG1udtOM
+	5hzM31PakD7o/uOgQiGv4gHqnGKevFEEtiKdX
+X-Gm-Gg: ASbGncvi1n+IpciI0eCm4lulw3zmYAf4ywOoRhq1T8vv50l6ygf6lwYpnNZpXdpONKd
+	sacCYxyHonxV5t3atFfxMlmw+tVMa7jIVIIJmPA28VHJvtQYEMvN0r1eu83aq
+X-Google-Smtp-Source: AGHT+IEmxC31siYh0URWSvBOXH/D6mpJAtcWIEuMEukulOsxIf+33rCEYQo9mERxz5BBpt3yaGO4a9w2aMpXBv0P0VU=
+X-Received: by 2002:a05:622a:30b:b0:461:6832:8805 with SMTP id
+ d75a77b69052e-4653bcdcf41mr342011cf.12.1732208732479; Thu, 21 Nov 2024
+ 09:05:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241120000826.335387-1-surenb@google.com> <20241120000826.335387-3-surenb@google.com>
+ <zfd7xdkr5dkvvx3caqao3oorh2pxxifhdhwsw2iyxcuzbevo3n@sobu7xhw24vv>
+ <CAJuCfpFAh-gw_BVCaEB4+saedVC6aPB7HfyPikvTujyGRLXPwQ@mail.gmail.com>
+ <wnwfgk32wyvx7tzd522ajwk5uixls7iayksrtho6c3dkvgdpek@25yqv3ohljzc>
+ <CAJuCfpGx6LCd7qCOsLc6hm-qMGtyM3ceitYbRdx1yKPHFHT-jQ@mail.gmail.com> <iw34akksaz6wjlygwuztlkvto3aiduekrhw6rjlqq4lr7vzmug@tprkddvgrj3e>
+In-Reply-To: <iw34akksaz6wjlygwuztlkvto3aiduekrhw6rjlqq4lr7vzmug@tprkddvgrj3e>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 21 Nov 2024 09:05:21 -0800
+Message-ID: <CAJuCfpHVQyVGR9sPtKLYt4a7rQUUopX0cBfk53=3RqpYK4=V8w@mail.gmail.com>
+Subject: Re: [PATCH v4 2/5] mm: move per-vma lock into vm_area_struct
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, minchan@google.com, 
+	jannh@google.com, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The output current can be adjusted separately for each channel by 8-bit
-analog (current sink input) and 12-bit digital (PWM) dimming control. The
-LED1202 implements 12 low-side current generators with independent dimming
-control.
-Internal volatile memory allows the user to store up to 8 different patterns,
-each pattern is a particular output configuration in terms of PWM
-duty-cycle (on 4096 steps). Analog dimming (on 256 steps) is per channel but
-common to all patterns. Each device tree LED node will have a corresponding
-entry in /sys/class/leds with the label name. The brightness property
-corresponds to the per channel analog dimming, while the patterns[1-8] to the
-PWM dimming control.
+On Wed, Nov 20, 2024 at 11:02=E2=80=AFPM Shakeel Butt <shakeel.butt@linux.d=
+ev> wrote:
+>
+> On Wed, Nov 20, 2024 at 04:33:37PM -0800, Suren Baghdasaryan wrote:
+> [...]
+> > > > >
+> > > > > Do we just want 'struct vm_area_struct' to be cacheline aligned o=
+r do we
+> > > > > want 'struct vma_lock vm_lock' to be on a separate cacheline as w=
+ell?
+> > > >
+> > > > We want both to minimize cacheline sharing.
+> > > >
+> > >
+> > > For later, you will need to add a pad after vm_lock as well, so any
+> > > future addition will not share the cacheline with vm_lock. I would do
+> > > something like below. This is a nit and can be done later.
+> > >
+> > > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> > > index 7654c766cbe2..5cc4fff163a0 100644
+> > > --- a/include/linux/mm_types.h
+> > > +++ b/include/linux/mm_types.h
+> > > @@ -751,10 +751,12 @@ struct vm_area_struct {
+> > >  #endif
+> > >         struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
+> > >  #ifdef CONFIG_PER_VMA_LOCK
+> > > +       CACHELINE_PADDING(__pad1__);
+> > >         /* Unstable RCU readers are allowed to read this. */
+> > > -       struct vma_lock vm_lock ____cacheline_aligned_in_smp;
+> > > +       struct vma_lock vm_lock;
+> > > +       CACHELINE_PADDING(__pad2__);
+> > >  #endif
+> > > -} __randomize_layout;
+> > > +} __randomize_layout ____cacheline_aligned_in_smp;
+> >
+> > I thought SLAB_HWCACHE_ALIGN for vm_area_cachep added in this patch
+> > would have the same result, no?
+> >
+>
+> SLAB_HWCACHE_ALIGN is more about the slub allocator allocating cache
+> aligned memory. It does not say anything about the internals of the
+> struct for which the kmem_cache is being created. The
+> ____cacheline_aligned_in_smp tag in your patch made sure that the field
+> vm_lock will be put in a new cacheline and there can be a hole between
+> vm_lock and the previous field if the previous field is not ending at
+> the cacheline boundary. Please note that if you add a new field after
+> vm_lock (without cacheline alignment tag), it will be on the same
+> cacheline as vm_lock. So, your code is achieving the vm_lock on its own
+> cacheline goal but vm_lock being the only field on that cacheline is not
+> being achieved.
 
-Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
----
-Changes in v9:
-  - log errors directly in st1202_write_reg and st1202_read_reg
-  - use mutex guards instead of lock/unlock
-  - remove i2c_set_clientdata
-Changes in v7:
-  - fix st1202_brightness_get() error: uninitialized symbol 'value'
-Changes in v6:
-  - fix build error
-Changes in v5:
-  - remove unused macros
-  - switch to using devm_led_classdev_register_ext (struct st1202_led update)
-  - add prescalar_to_milliseconds (convert [22..5660]ms to [0..255] reg value)
-  - remove register range check in dt_init (range protected by yaml)
-  - address all review comments in v4
-Changes in v4:
-  - Remove attributes/extended attributes implementation
-  - Use /sys/class/leds/<led>/hw_pattern (Pavel suggestion)
-  - Implement review findings of Christophe JAILLET
-Changes in v3:
-  - Rename all ll1202 to st1202, including driver file name
-  - Convert all magic numbers to defines
-  - Refactor the show/store callbacks as per Lee's and Thomas's review
-  - Remove ll1202_get_channel and use dev_ext_attributes instead
-  - Log all error values for all the functions
-  - Use sysfs_emit for show callbacks
-Changes in v2:
-  - Fix build error for device_attribute modes
- drivers/leds/Kconfig       |  11 +
- drivers/leds/Makefile      |   1 +
- drivers/leds/leds-st1202.c | 431 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 443 insertions(+)
- create mode 100644 drivers/leds/leds-st1202.c
+Sorry, I should have been more clear. It's ok if some fields which are
+rarely accessed in the pagefault path are placed in the same cacheling
+with vm_lock. In fact I've done that to pack them better in the
+previous version of this patchset here:
+https://lore.kernel.org/all/20241111205506.3404479-5-surenb@google.com/
+(removed for now based on the feedback). So, vm_lock being the only
+field on the cacheline is not my goal. After this patchset I'm
+planning to try packing the members better and save some memory.
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index b784bb74a837..c4fdacc00066 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -931,6 +931,17 @@ config LEDS_LM36274
- 	  Say Y to enable the LM36274 LED driver for TI LMU devices.
- 	  This supports the LED device LM36274.
- 
-+config LEDS_ST1202
-+	tristate "LED Support for STMicroelectronics LED1202 I2C chips"
-+	depends on LEDS_CLASS
-+	depends on I2C
-+	depends on OF
-+	select LEDS_TRIGGERS
-+	help
-+	  Say Y to enable support for LEDs connected to LED1202
-+	  LED driver chips accessed via the I2C bus.
-+	  Supported devices include LED1202.
-+
- config LEDS_TPS6105X
- 	tristate "LED support for TI TPS6105X"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 18afbb5a23ee..e8b39ef760cc 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -81,6 +81,7 @@ obj-$(CONFIG_LEDS_POWERNV)		+= leds-powernv.o
- obj-$(CONFIG_LEDS_PWM)			+= leds-pwm.o
- obj-$(CONFIG_LEDS_REGULATOR)		+= leds-regulator.o
- obj-$(CONFIG_LEDS_SC27XX_BLTC)		+= leds-sc27xx-bltc.o
-+obj-$(CONFIG_LEDS_ST1202)		+= leds-st1202.o
- obj-$(CONFIG_LEDS_SUN50I_A100)		+= leds-sun50i-a100.o
- obj-$(CONFIG_LEDS_SUNFIRE)		+= leds-sunfire.o
- obj-$(CONFIG_LEDS_SYSCON)		+= leds-syscon.o
-diff --git a/drivers/leds/leds-st1202.c b/drivers/leds/leds-st1202.c
-new file mode 100644
-index 000000000000..963e2b11758f
---- /dev/null
-+++ b/drivers/leds/leds-st1202.c
-@@ -0,0 +1,431 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * LED driver for STMicroelectronics LED1202 chip
-+ *
-+ * Copyright (C) 2024 Remote-Tech Ltd. UK
-+ */
-+
-+#include <linux/cleanup.h>
-+#include <linux/ctype.h>
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/gpio.h>
-+#include <linux/i2c.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+
-+#define ST1202_CHAN_DISABLE_ALL            0x00
-+#define ST1202_CHAN_ENABLE_HIGH            0x03
-+#define ST1202_CHAN_ENABLE_LOW             0x02
-+#define ST1202_CONFIG_REG                  0x04
-+/* PATS: Pattern sequence feature enable */
-+#define ST1202_CONFIG_REG_PATS             BIT(7)
-+/* PATSR: Pattern sequence runs (self-clear when sequence is finished) */
-+#define ST1202_CONFIG_REG_PATSR            BIT(6)
-+#define ST1202_CONFIG_REG_SHFT             BIT(3)
-+#define ST1202_DEV_ENABLE                  0x01
-+#define ST1202_DEV_ENABLE_ON               BIT(0)
-+#define ST1202_DEV_ENABLE_RESET            BIT(7)
-+#define ST1202_DEVICE_ID                   0x00
-+#define ST1202_ILED_REG0                   0x09
-+#define ST1202_MAX_LEDS                    12
-+#define ST1202_MAX_PATTERNS                8
-+#define ST1202_MILLIS_PATTERN_DUR_MAX      5660
-+#define ST1202_MILLIS_PATTERN_DUR_MIN      22
-+#define ST1202_PATTERN_DUR                 0x16
-+#define ST1202_PATTERN_PWM                 0x1E
-+#define ST1202_PATTERN_REP                 0x15
-+
-+struct st1202_led {
-+	struct fwnode_handle *fwnode;
-+	struct led_classdev led_cdev;
-+	struct st1202_chip *chip;
-+	bool is_active;
-+	int led_num;
-+};
-+
-+struct st1202_chip {
-+	struct i2c_client *client;
-+	struct mutex lock;
-+	struct st1202_led leds[ST1202_MAX_LEDS];
-+};
-+
-+static struct st1202_led *cdev_to_st1202_led(struct led_classdev *cdev)
-+{
-+	return container_of(cdev, struct st1202_led, led_cdev);
-+}
-+
-+static int st1202_read_reg(struct st1202_chip *chip, int reg, uint8_t *val)
-+{
-+	struct device *dev;
-+	int ret;
-+
-+	dev = &chip->client->dev;
-+
-+	ret = i2c_smbus_read_byte_data(chip->client, reg);
-+	if (ret < 0) {
-+		dev_err(&chip->client->dev, "Reading register [0x%x] failed, error: %d\n",
-+				reg, ret);
-+		return ret;
-+	}
-+
-+	*val = (uint8_t)ret;
-+	return 0;
-+}
-+
-+static int st1202_write_reg(struct st1202_chip *chip, int reg, uint8_t val)
-+{
-+	struct device *dev;
-+	int ret;
-+
-+	dev = &chip->client->dev;
-+
-+	ret = i2c_smbus_write_byte_data(chip->client, reg, val);
-+	if (ret != 0)
-+		dev_err(dev, "Failed writing value %d to register [0x%x], error: %d\n",
-+				val, reg, ret);
-+
-+	return ret;
-+}
-+
-+static uint8_t st1202_prescalar_to_miliseconds(unsigned int value)
-+{
-+	return value/ST1202_MILLIS_PATTERN_DUR_MIN - 1;
-+}
-+
-+static int st1202_pwm_pattern_write(struct st1202_chip *chip, int led_num,
-+				int pattern, unsigned int value)
-+{
-+	u8 value_l, value_h;
-+	int ret;
-+
-+	value_l = (u8)value;
-+	value_h = (u8)(value >> 8);
-+
-+	/*
-+	 *  Datasheet: Register address low = 1Eh + 2*(xh) + 18h*(yh),
-+	 *  where x is the channel number (led number) in hexadecimal (x = 00h .. 0Bh)
-+	 *  and y is the pattern number in hexadecimal (y = 00h .. 07h)
-+	 */
-+	ret = st1202_write_reg(chip, (ST1202_PATTERN_PWM + (led_num * 2) + 0x18 * pattern),
-+				value_l);
-+	if (ret != 0)
-+		return ret;
-+
-+	/*
-+	 * Datasheet: Register address high = 1Eh + 01h + 2(xh) +18h*(yh),
-+	 * where x is the channel number in hexadecimal (x = 00h .. 0Bh)
-+	 * and y is the pattern number in hexadecimal (y = 00h .. 07h)
-+	 */
-+	ret = st1202_write_reg(chip, (ST1202_PATTERN_PWM + 0x1 + (led_num * 2) + 0x18 * pattern),
-+				value_h);
-+	if (ret != 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int st1202_duration_pattern_write(struct st1202_chip *chip, int pattern,
-+					unsigned int value)
-+{
-+	return st1202_write_reg(chip, (ST1202_PATTERN_DUR + pattern),
-+				st1202_prescalar_to_miliseconds(value));
-+}
-+
-+static void st1202_brightness_set(struct led_classdev *led_cdev,
-+				enum led_brightness value)
-+{
-+	struct st1202_led *led;
-+	struct st1202_chip *chip;
-+
-+	led = cdev_to_st1202_led(led_cdev);
-+	chip = led->chip;
-+
-+	guard(mutex)(&chip->lock);
-+	st1202_write_reg(chip, ST1202_ILED_REG0 + led->led_num, value);
-+}
-+
-+static enum led_brightness st1202_brightness_get(struct led_classdev *led_cdev)
-+{
-+	struct st1202_led *led;
-+	struct st1202_chip *chip;
-+	u8 value = 0;
-+
-+	led = cdev_to_st1202_led(led_cdev);
-+	chip = led->chip;
-+
-+	guard(mutex)(&chip->lock);
-+	st1202_read_reg(chip, ST1202_ILED_REG0 + led->led_num, &value);
-+	return value;
-+}
-+
-+static int st1202_channel_set(struct st1202_chip *chip, int led_num, bool active)
-+{
-+	u8 chan_low, chan_high;
-+	int ret;
-+
-+	guard(mutex)(&chip->lock);
-+
-+	if (led_num <= 7) {
-+		ret = st1202_read_reg(chip, ST1202_CHAN_ENABLE_LOW, &chan_low);
-+		if (ret < 0)
-+			return ret;
-+
-+		chan_low = active ? chan_low | BIT(led_num) : chan_low & ~BIT(led_num);
-+
-+		ret = st1202_write_reg(chip, ST1202_CHAN_ENABLE_LOW, chan_low);
-+		if (ret < 0)
-+			return ret;
-+
-+	} else {
-+		ret = st1202_read_reg(chip, ST1202_CHAN_ENABLE_HIGH, &chan_high);
-+		if (ret < 0)
-+			return ret;
-+
-+		chan_high = active ? chan_high | (BIT(led_num) >> 8) :
-+					chan_high & ~(BIT(led_num) >> 8);
-+
-+		ret = st1202_write_reg(chip, ST1202_CHAN_ENABLE_HIGH, chan_high);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int st1202_led_set(struct led_classdev *ldev, enum led_brightness value)
-+{
-+	struct st1202_led *led;
-+	struct st1202_chip *chip;
-+
-+	led = cdev_to_st1202_led(ldev);
-+	chip = led->chip;
-+
-+	return st1202_channel_set(chip, led->led_num, value == LED_OFF ? false : true);
-+}
-+
-+static int st1202_led_pattern_clear(struct led_classdev *ldev)
-+{
-+	struct st1202_led *led;
-+	struct st1202_chip *chip;
-+	int ret;
-+
-+	led = cdev_to_st1202_led(ldev);
-+	chip = led->chip;
-+
-+	guard(mutex)(&chip->lock);
-+
-+	for (int patt = 0; patt < ST1202_MAX_PATTERNS; patt++) {
-+		ret = st1202_pwm_pattern_write(chip, led->led_num, patt, LED_OFF);
-+		if (ret != 0)
-+			return ret;
-+
-+		ret = st1202_duration_pattern_write(chip, patt, ST1202_MILLIS_PATTERN_DUR_MIN);
-+		if (ret != 0)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int st1202_led_pattern_set(struct led_classdev *ldev,
-+				struct led_pattern *pattern,
-+				u32 len, int repeat)
-+{
-+	struct st1202_led *led;
-+	struct st1202_chip *chip;
-+	int ret;
-+
-+	led = cdev_to_st1202_led(ldev);
-+	chip = led->chip;
-+
-+	if (len > ST1202_MAX_PATTERNS)
-+		return -EINVAL;
-+
-+	guard(mutex)(&chip->lock);
-+
-+	for (int patt = 0; patt < len; patt++) {
-+		if (pattern[patt].delta_t < ST1202_MILLIS_PATTERN_DUR_MIN ||
-+				pattern[patt].delta_t > ST1202_MILLIS_PATTERN_DUR_MAX)
-+			return -EINVAL;
-+
-+		ret = st1202_pwm_pattern_write(chip, led->led_num, patt, pattern[patt].brightness);
-+		if (ret != 0)
-+			return ret;
-+
-+		ret = st1202_duration_pattern_write(chip, patt, pattern[patt].delta_t);
-+		if (ret != 0)
-+			return ret;
-+	}
-+
-+	ret = st1202_write_reg(chip, ST1202_PATTERN_REP, repeat);
-+	if (ret != 0)
-+		return ret;
-+
-+	ret = st1202_write_reg(chip, ST1202_CONFIG_REG, (ST1202_CONFIG_REG_PATSR |
-+				ST1202_CONFIG_REG_PATS | ST1202_CONFIG_REG_SHFT));
-+	if (ret != 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int st1202_dt_init(struct st1202_chip *chip)
-+{
-+	struct device *dev = &chip->client->dev;
-+	struct st1202_led *led;
-+	int err, reg;
-+
-+	for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
-+		struct led_init_data init_data = {};
-+
-+		err = of_property_read_u32(child, "reg", &reg);
-+		if (err)
-+			return dev_err_probe(dev, err, "Invalid register\n");
-+
-+		led = &chip->leds[reg];
-+		led->is_active = true;
-+		led->fwnode = of_fwnode_handle(child);
-+
-+		led->led_cdev.max_brightness = U8_MAX;
-+		led->led_cdev.brightness_set_blocking = st1202_led_set;
-+		led->led_cdev.pattern_set = st1202_led_pattern_set;
-+		led->led_cdev.pattern_clear = st1202_led_pattern_clear;
-+		led->led_cdev.default_trigger = "pattern";
-+
-+		init_data.fwnode = led->fwnode;
-+		init_data.devicename = "st1202";
-+		init_data.default_label = ":";
-+		err = devm_led_classdev_register_ext(dev, &led->led_cdev, &init_data);
-+		if (err < 0)
-+			return dev_err_probe(dev, err, "Failed to register LED class device\n");
-+
-+		led->led_cdev.brightness_set = st1202_brightness_set;
-+		led->led_cdev.brightness_get = st1202_brightness_get;
-+	}
-+
-+	return 0;
-+}
-+
-+static int st1202_setup(struct st1202_chip *chip)
-+{
-+	int ret;
-+
-+	guard(mutex)(&chip->lock);
-+	/*
-+	 * Once the supply voltage is applied, the LED1202 executes some internal checks,
-+	 * afterwords it stops the oscillator and puts the internal LDO in quiescent mode.
-+	 * To start the device, EN bit must be set inside the “Device Enable” register at
-+	 * address 01h. As soon as EN is set, the LED1202 loads the adjustment parameters
-+	 * from the internal non-volatile memory and performs an auto-calibration procedure
-+	 * in order to increase the output current precision.
-+	 * Such initialization lasts about 6.5 ms.
-+	 */
-+
-+	/* Reset the chip during setup */
-+	ret = st1202_write_reg(chip, ST1202_DEV_ENABLE, ST1202_DEV_ENABLE_RESET);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Enable phase-shift delay feature */
-+	ret = st1202_write_reg(chip, ST1202_CONFIG_REG, ST1202_CONFIG_REG_SHFT);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Enable the device */
-+	ret = st1202_write_reg(chip, ST1202_DEV_ENABLE, ST1202_DEV_ENABLE_ON);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Duration of initialization */
-+	usleep_range(6500, 10000);
-+
-+	/* Deactivate all LEDS (channels) and activate only the ones found in Device Tree */
-+	ret = st1202_write_reg(chip, ST1202_CHAN_ENABLE_LOW, ST1202_CHAN_DISABLE_ALL);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = st1202_write_reg(chip, ST1202_CHAN_ENABLE_HIGH, ST1202_CHAN_DISABLE_ALL);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = st1202_write_reg(chip, ST1202_CONFIG_REG,
-+				ST1202_CONFIG_REG_PATS | ST1202_CONFIG_REG_PATSR);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int st1202_probe(struct i2c_client *client)
-+{
-+	struct st1202_chip *chip;
-+	struct st1202_led *led;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
-+		return dev_err_probe(&client->dev, -EIO, "SMBUS Byte Data not Supported\n");
-+
-+	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
-+	if (!chip)
-+		return -ENOMEM;
-+
-+	devm_mutex_init(&client->dev, &chip->lock);
-+	chip->client = client;
-+
-+	ret = st1202_dt_init(chip);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = st1202_setup(chip);
-+	if (ret < 0)
-+		return ret;
-+
-+	for (int i = 0; i < ST1202_MAX_LEDS; i++) {
-+		led = &chip->leds[i];
-+		led->chip = chip;
-+		led->led_num = i;
-+
-+		if (led->is_active) {
-+			ret = st1202_channel_set(led->chip, led->led_num, true);
-+			if (ret < 0)
-+				return dev_err_probe(&client->dev, ret,
-+						"Failed to activate LED channel\n");
-+
-+			ret = st1202_led_pattern_clear(&led->led_cdev);
-+			if (ret < 0)
-+				return dev_err_probe(&client->dev, ret,
-+						"Failed to clear LED pattern\n");
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id st1202_id[] = {
-+	{ "st1202-i2c" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(i2c, st1202_id);
-+
-+static const struct of_device_id st1202_dt_ids[] = {
-+	{ .compatible = "st,led1202" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, st1202_dt_ids);
-+
-+static struct i2c_driver st1202_driver = {
-+	.driver = {
-+		.name = "leds-st1202",
-+		.of_match_table = of_match_ptr(st1202_dt_ids),
-+	},
-+	.probe = st1202_probe,
-+	.id_table = st1202_id,
-+};
-+module_i2c_driver(st1202_driver);
-+
-+MODULE_AUTHOR("Remote Tech LTD");
-+MODULE_DESCRIPTION("STMicroelectronics LED1202 : 12-channel constant current LED driver");
-+MODULE_LICENSE("GPL");
--- 
-2.39.3 (Apple Git-145)
-
+>
