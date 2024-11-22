@@ -1,185 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329C12AF12
-	for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 14:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCC515A8
+	for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 15:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732287433; cv=none; b=BNyIvnn8GudH50D+cA+05bW78dGRB09msvixW8M1X4IYjvnkPqqRJa4JxnTJc5+OnKATf7iISn2QNn9SwwSvgHOWODbAkLHbh+i40p79ShsEbWSa9XCBYJQ5Uj96uXe/xVL21BMy8qljoHFw2c97H8ZmwNE4bPEhs7ZpPIAkw3w=
+	t=1732288023; cv=none; b=pm7hl0aUnF2wYojE/kCGLZ1amQ4/Q5YKuRJWlJeChBW2EyQUdOW0R4SoEfTXVD5GxLI1JSbmv6IdnWcFSCKZvLeJkBt32MhM9DoLrIIAbL+j6jBgNzo0/y7DyDDPx6uYRKS93VlRwHP2K7FD4bmkWXlQFN5Huj8vfhiNvmjYhE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732287433; c=relaxed/simple;
-	bh=tqqa48xgvR9pXkWvcyLzXe0k1qdpgquZatajbiXvd10=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=O1x+88Q5qgt+ZvYANvmapiMrls9buVMTziCvLBcXBShJ2IF+STd6FXIgI8DrQEK1hQFGZMluPZbQPtUuq+SHFEJX2Up0vyojKBHETBw9Lq1Jcjav75+SwdpLYI6UU9ii8c2JS4Ue4uH1jm6nIHKsqaHM0mJWzVJd4iaVhuFjxPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UDAgDFlG; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1732288023; c=relaxed/simple;
+	bh=ZIE0TbJ33bF99CurhWw5u3B+7prsO8eQjAo6CzhabKs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i84sbes/xo+C/kR3MLsdCeLvc1088UHcuR6wpEzXFKPsSw/ly5YWctrPL874HM0zGmGcWUStJfo1VvEA14moQ/WZHOOcY2KMsBXnR6s7elV5btKpgUkw9tXcw45yl+tmCLk/wkfkLzVPT2odWob2Atdbq+ub+nsrEgcCg0H/RZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qyl7+Ywf; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UDAgDFlG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732287431;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Sptth2+J7xYYlvrpOuYTMVo9n+vm/HkHIiB9PfWHJ6k=;
-	b=UDAgDFlG8XED7/CIpXsjVmEqeunIT4eXDsw31icDRspjRg3A11iQwsvIpuAOxtoL29DUwL
-	eT/DwuAgXRLT+KTr0P+lwaE3cS7GnSAAZP3UwmtcpkN75aRXZD4Hmm5XiHAWoewCkFpq5R
-	EUCb9iKMcoJFJ/01SZ1vSlSlNStYTe8=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-84-Np4JsRqrPtiQqS8OSRanVg-1; Fri, 22 Nov 2024 09:57:10 -0500
-X-MC-Unique: Np4JsRqrPtiQqS8OSRanVg-1
-X-Mimecast-MFC-AGG-ID: Np4JsRqrPtiQqS8OSRanVg
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7b31ccf23ebso253459685a.1
-        for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 06:57:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qyl7+Ywf"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-460969c49f2so285821cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 07:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732288021; x=1732892821; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZIE0TbJ33bF99CurhWw5u3B+7prsO8eQjAo6CzhabKs=;
+        b=qyl7+YwfC//aNtK92nfBalz/X/Sl83rQdTtFc5ViBCXFbszeFSwpl24wfVsj/HfIeH
+         5v4/fCo4l6YeMyt7rXIrgrqMRxj0gTBj1WIcAzzwd+K30c/j311OJMbDCp9hG7Hqe/UM
+         RM1IKyAyHjodfqEG7up5nsgH1w0QV/OU3VHUBFaQTlGLL3TF5hp2j81J5OgP/kdBLnKR
+         mZ44+UrCJhL9D28GWmrL8g1xo+BnZmgXs7lxvMifZp4FLCl2P0pauy7giKqc0a4I1UBt
+         Nwjw3dJ5vMFcDuqXWOcYpGwLZSBQ7CUn5sxVOVe/wjgBrIPxAI6xBtiNflpQrhBr7T87
+         S5jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732287429; x=1732892229;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1732288021; x=1732892821;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Sptth2+J7xYYlvrpOuYTMVo9n+vm/HkHIiB9PfWHJ6k=;
-        b=ZkN8b6OmygIEybQiFWpFF9BUWenRh2ztMM7BSw61oZbYmhetdcozfd3Ws7HUUBDLFb
-         w5x5RrrRzPeT4CKm/QYU2hwtqvMMcgFEYrJmc2mPREfUyoEntQHX4g3wG488Go9Oy9lF
-         hR9xZxb/7CZOF1R539JBvDFoAJs4/8tchnvvRjqBPi1yDYx0uaMZdCgcXv5EAOJtTjF7
-         s5tu4u/jYe6iXOGMor1gq14o/jvYsmkLT5Y45k+2I51xghkQXxzs5A4hhM/jrp4yLuI0
-         qsVoESnLwkIuuNzyhr0VsGUj502xOGMKbRYfsEq21gP91iWD1pKAfzWPaGTwFQng9UXL
-         Q3/A==
-X-Forwarded-Encrypted: i=1; AJvYcCX+4TPFAwRq/DLoKR/papgqSQFGq4PRYuv9KbIFxl6kkAWIzA7TMn6hJswZTRYr/alxG1k17abGLvw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwV+3Axt3ThNEfbnrubH47nYnV9NXq2HD+e8MThJTUvSayWd4PL
-	WeH6Q94N8gKDyOPe26FQc47h+vnLja+9VaJm+kRw4aFKlJ+wf+m4vfJcPW6xYtxU/pLKzSSuSKG
-	7HDsl5m7DUnSmc+dLndQiR+N8qKo1jyEnD0yviywXnssN/OjH5TYRdUPxqQ==
-X-Gm-Gg: ASbGnctJNoeKOwcQH8UUREIYVW6cjmtdoipNgHGbiVf+KK921AYwH+ksB9GW6Ddo61W
-	RLtuxXmPGzf2HiJrMRtpRAAX9Vgdc0s4OChR/mU7e03pgv/vcuKFXF6hOGjW15VpbOYaynnGvCq
-	AMW3QXpJ588QYooLjJ0Pi+/q71hPtJ11PfFrs+QMb4EcfgKDA6NRcjV2t7NnqlMKRwlGl5KviDO
-	W6jRF90xlXRHWM4KqsX/JZ9OeIpPxPSh3ZIWTvfbUMyUgJRowPNzenNC6cDBgVg8nOY7vgnTR2j
-	x6Olr1YdPL1vF2KbXsb/c90Jd+FtAXMM+bQ=
-X-Received: by 2002:a05:620a:4551:b0:7b1:522a:b05 with SMTP id af79cd13be357-7b514488166mr373605085a.7.1732287429602;
-        Fri, 22 Nov 2024 06:57:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHo66xOB/q1z1C9fiLdA8QOFwiL4+kiR9reyJMdimFadi7v3LEk57578pB7zv1XQEy4GyU/yA==
-X-Received: by 2002:a05:620a:4551:b0:7b1:522a:b05 with SMTP id af79cd13be357-7b514488166mr373597785a.7.1732287429065;
-        Fri, 22 Nov 2024 06:57:09 -0800 (PST)
-Received: from vschneid-thinkpadt14sgen2i.remote.csb (213-44-141-166.abo.bbox.fr. [213.44.141.166])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b513faf57dsm93769985a.48.2024.11.22.06.57.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 06:57:08 -0800 (PST)
-From: Valentin Schneider <vschneid@redhat.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
- x86@kernel.org, rcu@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Nicolas Saenz Julienne <nsaenzju@redhat.com>, Steven Rostedt
- <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Vitaly
- Kuznetsov <vkuznets@redhat.com>, Andy Lutomirski <luto@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <quic_neeraju@quicinc.com>, Joel Fernandes
- <joel@joelfernandes.org>, Josh Triplett <josh@joshtriplett.org>, Boqun
- Feng <boqun.feng@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Zqiang <qiang.zhang1211@gmail.com>, Andrew Morton
- <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>,
- Christoph Hellwig <hch@infradead.org>, Lorenzo Stoakes
- <lstoakes@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron
- <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>, Sami Tolvanen
- <samitolvanen@google.com>, Ard Biesheuvel <ardb@kernel.org>, Nicholas
- Piggin <npiggin@gmail.com>, Juerg Haefliger
- <juerg.haefliger@canonical.com>, Nicolas Saenz Julienne
- <nsaenz@kernel.org>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Nadav Amit <namit@vmware.com>, Dan
- Carpenter <error27@gmail.com>, Chuang Wang <nashuiliang@gmail.com>, Yang
- Jihong <yangjihong1@huawei.com>, Petr Mladek <pmladek@suse.com>, "Jason A.
- Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>, Julian Pidancet
- <julian.pidancet@oracle.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Dionna Glaze <dionnaglaze@google.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
- <linux@weissschuh.net>, Juri Lelli <juri.lelli@redhat.com>, Marcelo
- Tosatti <mtosatti@redhat.com>, Yair Podemsky <ypodemsk@redhat.com>, Daniel
- Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
-Subject: Re: [RFC PATCH v3 11/15] context-tracking: Introduce work deferral
- infrastructure
-In-Reply-To: <Zz4cqfVfyb1enxql@localhost.localdomain>
-References: <20241119153502.41361-1-vschneid@redhat.com>
- <20241119153502.41361-12-vschneid@redhat.com>
- <Zz2_7MbxvfjKsz08@pavilion.home> <Zz3w0o_3wZDgJn0K@localhost.localdomain>
- <xhsmho729hlv0.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
- <Zz4cqfVfyb1enxql@localhost.localdomain>
-Date: Fri, 22 Nov 2024 15:56:59 +0100
-Message-ID: <xhsmh1pz39v0k.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+        bh=ZIE0TbJ33bF99CurhWw5u3B+7prsO8eQjAo6CzhabKs=;
+        b=dDcjY+v+EGLKwM+QFigug6R0SRoOtjeuqMxQFwkDEiT1mzMVOpnn3YEYEhSGpgarkU
+         CkZ5ciRrtZn/51jF5hsEM0GDiR4RISkE4Uu+HG37Uv6/A1+ABqZXS1KUP15yriO4u3XR
+         RII7iVlf7EqvpzSrsBg1RZ1Pu9Frw84WAOwfcjnJo4a9gWsShxe7r3s44D0QOMK3BqT/
+         LjZeqF4l2VFcidObsCvouk0DB4ntTaM5WzJjQ4dGsXBHtFa1nqT44GaOXU5LvY0wvGLw
+         5oexUrFwM1QsgcSASOiK285a0/b9scilAByljtLbcUUtbaC9P/1Nqp2tySXrJOz9E4sS
+         +6Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCWwuQ8upEp2649wIYuYLXdp+eJ1b4hlOHBQuvLolGaI25xSS1KDq5BAw3eBaQHHfq9mv0tHaC5QGB8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRjHt11LZoPY1kpxB4FDzxJ3eizJvWsNPDpxguJLYuT+hNs6eh
+	04F9QPPiqUiR90KRBSCtDaaq5RLpn1OaGvrh0Ctu4xtYNSFcd5TUpgvfWvQQFgI9IgtIlUq3w+y
+	oDMCXrT9iVVXWy4l5zC+3f+MTXnPmkgXa9Z09
+X-Gm-Gg: ASbGncuRoYvVyXIR14y4uJ5wVTDjzXc1TbPaiw4CNnr6Vp3fO9lfn9SosGv/1s3KL+u
+	84cALIhZA3K9FmJRVSyUuencIQB2shPM=
+X-Google-Smtp-Source: AGHT+IE3NFWMPB84awBTKVHQKpIkIzfpP6rj90b+t0wNWbJd2/ytMK3K3Pnfa7aAXQadq08IftnKIN2x22mbUHavO30=
+X-Received: by 2002:a05:622a:54:b0:465:18f3:79c8 with SMTP id
+ d75a77b69052e-4658aadae39mr3213131cf.13.1732288020964; Fri, 22 Nov 2024
+ 07:07:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20241120000826.335387-1-surenb@google.com> <hdvig2tptf3hi6nmszafarzqb6j56abfbebppqmruvpihlf435@46b57hyw2pfc>
+ <Zz6UTvERgg9ubRu4@casper.infradead.org> <e71408ff-b088-48e6-8b18-bb846a60cc1e@lucifer.local>
+In-Reply-To: <e71408ff-b088-48e6-8b18-bb846a60cc1e@lucifer.local>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 22 Nov 2024 07:06:49 -0800
+Message-ID: <CAJuCfpHZH5MHVPeV_EgNb8cMR6hqq5p=Y76tgRCZK6mXL4LG=A@mail.gmail.com>
+Subject: Re: [PATCH v4 0/5] move per-vma lock into vm_area_struct
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	akpm@linux-foundation.org, liam.howlett@oracle.com, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, minchan@google.com, 
+	jannh@google.com, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 20/11/24 18:30, Frederic Weisbecker wrote:
-> Le Wed, Nov 20, 2024 at 06:10:43PM +0100, Valentin Schneider a =C3=A9crit=
- :
->> On 20/11/24 15:23, Frederic Weisbecker wrote:
->>
->> > Ah but there is CT_STATE_GUEST and I see the last patch also applies t=
-hat to
->> > CT_STATE_IDLE.
->> >
->> > So that could be:
->> >
->> > bool ct_set_cpu_work(unsigned int cpu, unsigned int work)
->> > {
->> >    struct context_tracking *ct =3D per_cpu_ptr(&context_tracking, cpu);
->> >    unsigned int old;
->> >    bool ret =3D false;
->> >
->> >    preempt_disable();
->> >
->> >    old =3D atomic_read(&ct->state);
->> >
->> >    /* CT_STATE_IDLE can be added to last patch here */
->> >    if (!(old & (CT_STATE_USER | CT_STATE_GUEST))) {
->> >            old &=3D ~CT_STATE_MASK;
->> >            old |=3D CT_STATE_USER;
->> >    }
->>
->> Hmph, so that lets us leverage the cmpxchg for a !CT_STATE_KERNEL check,
->> but we get an extra loop if the target CPU exits kernelspace not to
->> userspace (e.g. vcpu or idle) in the meantime - not great, not terrible.
+On Fri, Nov 22, 2024 at 3:57=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
 >
-> The thing is, what you read with atomic_read() should be close to reality.
-> If it already is !=3D CT_STATE_KERNEL then you're good (minus racy change=
-s).
-> If it is CT_STATE_KERNEL then you still must do a failing cmpxchg() in an=
-y case,
-> at least to make sure you didn't miss a context tracking change. So the b=
-est
-> you can do is a bet.
+> On Thu, Nov 21, 2024 at 02:00:46AM +0000, Matthew Wilcox wrote:
+> > On Wed, Nov 20, 2024 at 02:10:44PM -0800, Shakeel Butt wrote:
+> > > If 'struct vm_area_struct' is prone to performance issues due to
+> > > cacheline misalignments then we should do something about the
+> > > __randomize_layout tag for it. I imagine we can identify the fields
+> > > which might be performance critical to be on same cacheline or differ=
+ent
+> > > cacheline due to false sharing then we can divide the fields into
+> > > different cacheline groups and fields can be __randomize_layout withi=
+n
+> > > the group. WDYT?
+> >
+> > Pretty sure the people who think security is more important than
+> > performance are the only ones who randomize structs.
 >
->>
->> At the cost of one extra bit for the CT_STATE area, with CT_STATE_KERNEL=
-=3D1
->> we could do:
->>
->>   old =3D atomic_read(&ct->state);
->>   old &=3D ~CT_STATE_KERNEL;
+> I agree that I don't think we need concern ourselves with users of this
+> setting for precisely this reason.
 >
-> And perhaps also old |=3D CT_STATE_IDLE (I'm seeing the last patch now),
-> so you at least get a chance of making it right (only ~CT_STATE_KERNEL
-> will always fail) and CPUs usually spend most of their time idle.
->
+> I wouldn't want supporting this to cause difficulty for users who do not
+> enable this when those who do aren't really concerned about the perf issu=
+es
+> as Matthew says.
 
-I'm thinking with:
-
-        CT_STATE_IDLE		=3D 0,
-        CT_STATE_USER		=3D 1,
-        CT_STATE_GUEST		=3D 2,
-        CT_STATE_KERNEL		=3D 4, /* Keep that as a standalone bit */
-
-we can stick with old &=3D ~CT_STATE_KERNEL; and that'll let the cmpxchg
-succeed for any of IDLE/USER/GUEST.
-
-> Thanks.
-
+Ack. Will keep it as is. Thanks!
