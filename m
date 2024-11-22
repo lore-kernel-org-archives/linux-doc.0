@@ -1,117 +1,124 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C7718C03C;
-	Fri, 22 Nov 2024 08:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9651D3576;
+	Fri, 22 Nov 2024 09:20:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732264943; cv=none; b=HwsvWH8TgoT94DrlMfOASiF7RmzFtK7GQmhbYG1kolzC5NRqwUUZKevQ5QfxMedgncrIWwlQjfHj0IkXQLZVQKLGuzxWGdjhghS2F1hqKALC2NW0SUAuCC13kFhcd6U7QOJhg2AxV9py8dnWGFT4WjPBeZDlQmkwqSmU6H+9OAg=
+	t=1732267249; cv=none; b=AG6XcNOoJXkjmPCerprowgvuZWIPFb3g7TtPn4dnIjjqBd2v30ebGDUpF7mFVs6JjmQ1GRb50WcCzWBOxvON5B20mQ6CQEHE2zAgBe0AXP1hUpdrBRWpctfM+qv/pGhIaauWjzGpUgZP+30uvhbIYVHFwKDFmdVYsrdj5URjLys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732264943; c=relaxed/simple;
-	bh=c1Ts82AiyusAlYWb8emaHpqALdupvrkvlzytzMzD5Ok=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TvWKXEfvaoI0NZGasREMbMcQnNnowzeF11xH0VsRFYnj60Fum6dFq+EtjQr6iphpV17zW3AAI9Jgd25PbegOJVgYqHoVBLKVZuCalacxHySNvBVDdoiEPpr0FymemtEL+0QHC3fXdiXQHWeABrYNPrE1U619PYHH5krrIZEX3a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=l/6sXL+h; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1732267249; c=relaxed/simple;
+	bh=RzWob2uuA2L/sau1p2E3rPDSaYEypLpnLchHthWg6KU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ODZppedQ6GoSW3NfBJasvpLn3+VaWOoIrGPsvHhjNxAIa57MlIo5IABuqffQY70iSzB86HHJokCAE6sWkW6qMWu1ldwXEaVSQMTtYJxZnJWD7dtrFdXvavwCYiJkKB0+w4RodhquLCTGZjJkUlbqVUTkAOqjqnSnlLcJmbWo5LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jFizMOgE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="l/6sXL+h"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 94C4820009;
-	Fri, 22 Nov 2024 08:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1732264936;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0eBNAIQube8A2Bu+Kj23Enb+yOdyC1OAUgr86oyx5kY=;
-	b=l/6sXL+h2vPwryDFM4PjAURn7ho/eOFEQOR/ch1FCknNwiyLugAlL6ogwsSvFT1mKxWaln
-	hmcG3Gi00vdBLIneggouZsxZ4pLOZ/sPT4m8bdVvIlVWGSR5+8gVB135eb1mXtXq9Pafvp
-	XlzxeUgHW/8ztHwoip08hYvf+qRegQkQCZjR4iRGU96h4TpmH8DpmkMJ1OzF8LMVDyXmfJ
-	CkOgXfi9KG8HDjPi53Eq/THEf+iu9SR+LgJU0TNsgS4XtSuVQ1saNC0hyHqYeS6KfiU3h7
-	BIWRBYYE5iPLSeZbLTwAswHYOtIX98uOH9+bn0tWJevxHd6cIC6YEBfzVkk07Q==
-Date: Fri, 22 Nov 2024 09:42:10 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v3 25/27] dt-bindings: net: pse-pd:
- microchip,pd692x0: Add manager regulator supply
-Message-ID: <20241122094210.5e643c1d@kmaincent-XPS-13-7390>
-In-Reply-To: <32695cf7-01d4-4180-b7f0-230ad8a0e1a4@kernel.org>
-References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
-	<20241121-feature_poe_port_prio-v3-25-83299fa6967c@bootlin.com>
-	<32695cf7-01d4-4180-b7f0-230ad8a0e1a4@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jFizMOgE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA2E0C4CED0;
+	Fri, 22 Nov 2024 09:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732267249;
+	bh=RzWob2uuA2L/sau1p2E3rPDSaYEypLpnLchHthWg6KU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jFizMOgEgyhi6JmVvnPRNTrdtTNtQUf0NPSPVeqL0QHSTs2jT1/C6lftgZbVtlQeq
+	 MLjaAzeEWhf94gPJNLqcDZReZ6FJqoDueAxV2jbC42ENLmCG3/hjNdGKSRsJtu0yFp
+	 gCgvLrw2cKi3/Md5+MU/UeP1byfHJwDekEEVVts96tEUbsImL55gtaQEw208FT0XgD
+	 9RO4ffaiIhI9K8SHHJQ9AqgySsG+LCxxxIqt7ZlK3C6Kdqh//+Z+li+pYCfLHGdnOq
+	 JbdiywBy+KaVO7d6Zq9Yw6Cz3O/Na3WwZdwK90uQ+Y6N1slsZvaO48XhWfANWfYN+o
+	 HYLh2gcPoCPNg==
+Message-ID: <1c895758-02e0-4a84-a023-7317a7608c6a@kernel.org>
+Date: Fri, 22 Nov 2024 10:20:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC net-next v3 25/27] dt-bindings: net: pse-pd:
+ microchip,pd692x0: Add manager regulator supply
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>,
+ Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Simon Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>
+References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
+ <20241121-feature_poe_port_prio-v3-25-83299fa6967c@bootlin.com>
+ <32695cf7-01d4-4180-b7f0-230ad8a0e1a4@kernel.org>
+ <20241122094210.5e643c1d@kmaincent-XPS-13-7390>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241122094210.5e643c1d@kmaincent-XPS-13-7390>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 7bit
 
-Hello Krzysztof,
+On 22/11/2024 09:42, Kory Maincent wrote:
+>> You missed at least devicetree list (maybe more), so this won't be
+>> tested by automated tooling. Performing review on untested code might be
+>> a waste of time.
+>>
+>> Please kindly resend and include all necessary To/Cc entries.
+>> </form letter>
+>>
+>> ... unless you do not expect review.
+> 
+> Indeed I didn't expected binding reviews on this series that's why I did not add
+> you and devicetree mailing list to the CC. I would like to confirm the core PSE
+> design choices before that.
+> Maybe I should have notify it somewhere to avoid you these emails, sorry.
+No worries, I just never know whether this is intentional.
 
-On Fri, 22 Nov 2024 07:58:26 +0100
-Krzysztof Kozlowski <krzk@kernel.org> wrote:
-
-> On 21/11/2024 15:42, Kory Maincent wrote:
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> >=20
-> > This patch adds the regulator supply parameter of the managers.
-> > It updates also the example as the regulator supply of the PSE PIs
-> > should be the managers itself and not an external regulator.
-> >=20
-> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> > ---
-> >  =20
->=20
->=20
-> <form letter>
-> Please use scripts/get_maintainers.pl to get a list of necessary people
-> and lists to CC. It might happen, that command when run on an older
-> kernel, gives you outdated entries. Therefore please be sure you base
-> your patches on recent Linux kernel.
->=20
-> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-> people, so fix your workflow. Tools might also fail if you work on some
-> ancient tree (don't, instead use mainline) or work on fork of kernel
-> (don't, instead use mainline). Just use b4 and everything should be
-> fine, although remember about `b4 prep --auto-to-cc` if you added new
-> patches to the patchset.
->=20
-> You missed at least devicetree list (maybe more), so this won't be
-> tested by automated tooling. Performing review on untested code might be
-> a waste of time.
->=20
-> Please kindly resend and include all necessary To/Cc entries.
-> </form letter>
->=20
-> ... unless you do not expect review.
-
-Indeed I didn't expected binding reviews on this series that's why I did no=
-t add
-you and devicetree mailing list to the CC. I would like to confirm the core=
- PSE
-design choices before that.
-Maybe I should have notify it somewhere to avoid you these emails, sorry.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Best regards,
+Krzysztof
