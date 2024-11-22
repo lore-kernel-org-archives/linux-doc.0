@@ -1,143 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF05223741;
-	Fri, 22 Nov 2024 13:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8026A009
+	for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 13:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732283257; cv=none; b=tFtEi1JW4fUr4b8jtQl+5sVF4CcjJjERPAcxmanWrNwbLLngXkkOXTVhiISdW8gI5EpfD23QdYO2wgDqm/Mqg/nYWtV0EqzEkazGV+fI0Vp7MpErSN7Zm2mSPJMI8tVmOX0HEF2Q+TiRXsVESe3Fh8HNJme2qE3N5WFqanXsi7I=
+	t=1732283802; cv=none; b=nU35zQ+HPHXI/YGczqyjD3ESco9FdwmgY7H+vAfIRJ4wttr+4P7AlGaM5LiLBvYoGLvQUy9/70PIdVMWR3Gl8AwpZQW3xEF2ohJvGTURLkuMCDCAPdPkalO2jKkOo2ylsAiKrfsS2pXpAtrkdW0Zo1L+Jh2SWoFgCla0n7rFwdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732283257; c=relaxed/simple;
-	bh=EVVq2Cqaf1z5IkK+BzTRksvS9eOhQkxJl5rsZKtwTe0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dbrrUiO6EuBRT95x83O2wMkroUWBkSwfcRhZ4llLgpCnSSBDTpCnny3AvkLjIsuyger8uTaSn9rC34xwnwCxWnxtpCIe+qBWlL2WIGNfYeIYloaTpYfBW67IIlkvFEr2hEGm5cmCLaBJ0ZFB+kIwbX7YaxU9OhEiGMOYro0G8Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFG5ZbX0; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1732283802; c=relaxed/simple;
+	bh=8WMrdbry8cYbb3PwBwFzfa4t8XIIPzo0aJN5xmp6Bzw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=AVcko5PEVaeKJ0WRVocb5Vgmxrs4pqYRaKSEgKrT+OBxFbcWOx35kWe5dCH1steaIfqkti9KlgV3q7ePBO9r5o2pQwzw8+7ipJh4JG+M77hrA3oisAO3fxd7n6uVTLyLMCS/Ez0bZUwUTf7tb+VB+y/Idh4sz+Gv6N8eNweGhNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JT21EBqH; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFG5ZbX0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732283256; x=1763819256;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EVVq2Cqaf1z5IkK+BzTRksvS9eOhQkxJl5rsZKtwTe0=;
-  b=VFG5ZbX0W+eyb5ml1cAwtBwYYuPnmL7jTUlQWFMk8cMlPslmj08EquTu
-   UUQVH1d1oPxh87XcLG5phXvbyvJJaR+37kLwV4Dv2EhSE6WKV9irRSjzn
-   mhKNcP9CDwoBQpMyfc/INDvaJlIN8q2j29ZAwPRl55rXFGH+DEJnanG2G
-   lYFco28kjvSItxaKirjITwJRAyn5N/CHPBJLnnFz+rgUykQnyViNkmww/
-   44TeLCExSqVJLGPhzHq/JooIvMA7DO59Hyt1YyM6D78tmjD4lmlzkI0BO
-   cSbAjlw2kCQRvFLucnX0nAohmEjOG3m7OmxGQdYW+5CItUUUMNpTAF4+y
-   g==;
-X-CSE-ConnectionGUID: fkbdgRaMR1KAeUpPk89NDw==
-X-CSE-MsgGUID: A9U5P6ACSk+wx/gLXAPTlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="35297349"
-X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
-   d="scan'208";a="35297349"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 05:47:35 -0800
-X-CSE-ConnectionGUID: gwJu5Cn3S7648obOxWUOhw==
-X-CSE-MsgGUID: V/Vy3jg+TcSJXsIE9BfUCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
-   d="scan'208";a="90994961"
-Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Nov 2024 05:47:30 -0800
-Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tEU0O-0003x1-1Y;
-	Fri, 22 Nov 2024 13:47:28 +0000
-Date: Fri, 22 Nov 2024 21:46:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radu Sabau <radu.sabau@analog.com>,
-	Uwe =?unknown-8bit?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051,
- adp1055 and ltp8800
-Message-ID: <202411222109.6PmpUvSa-lkp@intel.com>
-References: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JT21EBqH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732283800;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SsHaI1ei1IfQPr0KsTU1Bgjr9RwL5hBLdlpSc5oHDTU=;
+	b=JT21EBqHCsSyPl3ffxSYLitOS3ro9JY0IAUhMjt9E36t6a+G6X/H/tySP9VReojvYaO77b
+	6IGOJhOGa70iW84GramlQRpeVRMH6U22TFnURm2+dF89PZ3SaG9KetU82JAEVLekpAqBe1
+	AumAMroVV+cpwlFwA82P7JIRuEyxAVs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-46-lzpH3dJhPP-4UD2Eo4-9Lw-1; Fri, 22 Nov 2024 08:56:39 -0500
+X-MC-Unique: lzpH3dJhPP-4UD2Eo4-9Lw-1
+X-Mimecast-MFC-AGG-ID: lzpH3dJhPP-4UD2Eo4-9Lw
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-381d0582ad3so1508539f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 05:56:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732283798; x=1732888598;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SsHaI1ei1IfQPr0KsTU1Bgjr9RwL5hBLdlpSc5oHDTU=;
+        b=NKPGEMwjI/CryRde+AuSpff+rzHkDhZdltmo20HMxTzXVRTGV6c4TqkVo2eF5/PfsS
+         rY3clPt32Jv5azrbcClfsAO80/UIVu9ezZG6h3A0e3McfX2BNGxw/jDNlvifIfz2DANc
+         1iAnaeuxTWtVJI7HPfen6qPQ5qFipl/umP+aBRRgGT9mQTMVe0riD0Ae8UV7cZr89Mqk
+         ucRz6341wAZ4EeHbGJ/E2thA5ih5L4+gJfs5dplio/eKSkqmGu9Wzn1FoXQfNoeDsAma
+         ZB1p2qMFcBoAW2tNy19c7G7oTaWMly83r3IIG7QsDpzp+BIOWsnSl2OeysKPAdX4UK1u
+         z2KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ+IHXErjJ/hm9t03p7Vn/O2YfMqJawsiEpGwlbSCPULgnMi0WMUQgfKb4MdkXoqnQjmzNJvBbHLY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsXfUzGetHwasghkpSz/OfiJTws1tMFZpB3/x+cdG8l3pVw71G
+	KbIME/7kdZS3f/pBx+xhRReQQs6rmS7XWoS/c9q/ETooZBT/d6ZDSB0dVnzd1VVDRTuMzOjBcc9
+	DH8VPmn1ytl2k4CzJDuzuU+pF/EBdQRIrncOB7aq5wPo4oNsTCoUx2p8UCw==
+X-Gm-Gg: ASbGncssmVvx87a0NbX8Q9R1JbqrbeUuMM/waRkRTEw+Q9HFr1nxDrCXWh0SzO2MYrA
+	YzfzzIKFvAdKij6D/1Wazfl7RH3aJg27yfRRHHkcMj8PLg3znrPx55XVA1tZ26ud/McXx3DVjv3
+	GGZ7nytcwU5ERaG4qH7u5HuBRw5vxS5FbBwmNxLZEtedSbh35ziNvRWtrVO8DCbgbA6u8Qu0/HQ
+	opaz3yE8h9dCmZ+2X9oDrH38DrvewvoqC1+AaND0h3NEI/kUFxByqXTvhagHLQFwZ5a9bKlGTwW
+	iygpZJ1iLpCnYtE3EgvAdJGsB8fN2SNUtCs=
+X-Received: by 2002:a5d:64a9:0:b0:382:4fa4:e544 with SMTP id ffacd0b85a97d-38260b3caf5mr2941904f8f.6.1732283797790;
+        Fri, 22 Nov 2024 05:56:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGiRi9yMi/lEmTBvU6LjIZoyT2mo/EJzfL6hLaHeWfXh/dSLFhhXDExODAa08mxumRLkt9jSw==
+X-Received: by 2002:a5d:64a9:0:b0:382:4fa4:e544 with SMTP id ffacd0b85a97d-38260b3caf5mr2941848f8f.6.1732283797392;
+        Fri, 22 Nov 2024 05:56:37 -0800 (PST)
+Received: from vschneid-thinkpadt14sgen2i.remote.csb (213-44-141-166.abo.bbox.fr. [213.44.141.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fbedf40sm2418281f8f.98.2024.11.22.05.56.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 05:56:36 -0800 (PST)
+From: Valentin Schneider <vschneid@redhat.com>
+To: paulmck@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
+ x86@kernel.org, rcu@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter
+ Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>, Wanpeng Li
+ <wanpengli@tencent.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Andy
+ Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay
+ <quic_neeraju@quicinc.com>, Joel Fernandes <joel@joelfernandes.org>, Josh
+ Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan
+ <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>, Andrew
+ Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>,
+ Christoph Hellwig <hch@infradead.org>, Lorenzo Stoakes
+ <lstoakes@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron
+ <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>, Sami Tolvanen
+ <samitolvanen@google.com>, Ard Biesheuvel <ardb@kernel.org>, Nicholas
+ Piggin <npiggin@gmail.com>, Juerg Haefliger
+ <juerg.haefliger@canonical.com>, Nicolas Saenz Julienne
+ <nsaenz@kernel.org>, "Kirill A. Shutemov"
+ <kirill.shutemov@linux.intel.com>, Nadav Amit <namit@vmware.com>, Dan
+ Carpenter <error27@gmail.com>, Chuang Wang <nashuiliang@gmail.com>, Yang
+ Jihong <yangjihong1@huawei.com>, Petr Mladek <pmladek@suse.com>, "Jason A.
+ Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>, Julian Pidancet
+ <julian.pidancet@oracle.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Dionna Glaze <dionnaglaze@google.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>, Juri Lelli <juri.lelli@redhat.com>, Marcelo
+ Tosatti <mtosatti@redhat.com>, Yair Podemsky <ypodemsk@redhat.com>, Daniel
+ Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
+Subject: Re: [RFC PATCH v3 04/15] rcu: Add a small-width RCU watching
+ counter debug option
+In-Reply-To: <f85c0f84-7ae3-4fb5-889a-d9b83f9603fe@paulmck-laptop>
+References: <20241119153502.41361-1-vschneid@redhat.com>
+ <20241119153502.41361-5-vschneid@redhat.com>
+ <f85c0f84-7ae3-4fb5-889a-d9b83f9603fe@paulmck-laptop>
+Date: Fri, 22 Nov 2024 14:56:34 +0100
+Message-ID: <xhsmh7c8v9xt9.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
+Content-Type: text/plain
 
-Hi Cedric,
+On 22/11/24 04:53, Paul E. McKenney wrote:
+> On Tue, Nov 19, 2024 at 04:34:51PM +0100, Valentin Schneider wrote:
+>> +config RCU_DYNTICKS_TORTURE
+>> +	bool "Minimize RCU dynticks counter size"
+>> +	depends on RCU_EXPERT
+>> +	default n
+>> +	help
+>> +	  This option controls the width of the dynticks counter.
+>> +
+>> +	  Lower values will make overflows more frequent, which will increase
+>> +	  the likelihood of extending grace-periods. This option sets the width
+>> +	  to its minimum usable value.
+>
+> The second sentence ("Lower values ...") sounds at first reading like
+> this Kconfig option directly controls the width.  The third sentence sets
+> things straight, but the reader might well be irretrievably confused by
+> that point.  How about something like this instead?
+>
+>       help
+>         This option sets the width of the dynticks counter to its
+>         minimum usable value.  This minimum width greatly increases
+>         the probability of flushing out bugs involving counter wrap,
+>         but it also increases the probability of extending grace period
+>         durations.  This Kconfig option should therefore be avoided in
+>         production due to the consequent increased probability of OOMs.
+>
+>         This has no value for production and is only for testing.
+>
 
-kernel test robot noticed the following build errors:
+Much better, I'll take that, thank you!
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.12 next-20241122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>  endmenu # "RCU Debugging"
+>> --
+>> 2.43.0
+>>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-hwmon-pmbus-adp1050-Add-bindings-for-adp1051-adp1055-and-ltp8800/20241121-144856
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20241120035826.3920-3-cedricjustine.encarnacion%40analog.com
-patch subject: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051, adp1055 and ltp8800
-config: i386-buildonly-randconfig-003-20241122 (https://download.01.org/0day-ci/archive/20241122/202411222109.6PmpUvSa-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411222109.6PmpUvSa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411222109.6PmpUvSa-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/hwmon/pmbus/adp1050.c:8:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/hwmon/pmbus/adp1050.c:88:32: error: passing 'const struct pmbus_driver_info *' to parameter of type 'struct pmbus_driver_info *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-      88 |         return pmbus_do_probe(client, info);
-         |                                       ^~~~
-   drivers/hwmon/pmbus/pmbus.h:541:73: note: passing argument to parameter 'info' here
-     541 | int pmbus_do_probe(struct i2c_client *client, struct pmbus_driver_info *info);
-         |                                                                         ^
-   1 warning and 1 error generated.
-
-
-vim +88 drivers/hwmon/pmbus/adp1050.c
-
-    79	
-    80	static int adp1050_probe(struct i2c_client *client)
-    81	{
-    82		const struct pmbus_driver_info *info;
-    83	
-    84		info = device_get_match_data(&client->dev);
-    85		if (!info)
-    86			return -ENODEV;
-    87	
-  > 88		return pmbus_do_probe(client, info);
-    89	}
-    90	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
