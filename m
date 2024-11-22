@@ -1,45 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8B514C588
-	for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 17:37:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927A11DF260
+	for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 17:41:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732297072; cv=none; b=ugpo2K/8nyqxnFZwrkOZ8wDvK9PEO9gHhkwhj+ncXAeGhexXP2LScz+7SRh0GXgd0+iRtLRBRMH/MsfzYpt+wyhGOl3NCV4CSfznmUAF7Cj+8rSiW0LL4sfDJeR4lp7hcCSm2Xx87D+4rmzlCUnKCjtCQtycFTZBi1p+OskccM4=
+	t=1732297283; cv=none; b=BSSdB3MRgywaggyuSfw6EhtvrH+0+/yjmBgwYNz7BN07vFWmcE0yciZdhC7FB4FCQUuvhW76z1BYTYY7ELbjNcUHYg7Vykekl3/XQv4PxJEBo5D5CMS6FZogSo0eaQkJO2ri3oUfpsy9hObh5r/HU8uwwNIBt0DLvuxJ2T9rnSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732297072; c=relaxed/simple;
-	bh=LkZb1tK7x3oRNiiGggdtEfgKlwgURZJ1YDK1cO5QrfQ=;
+	s=arc-20240116; t=1732297283; c=relaxed/simple;
+	bh=SkEhJ1KEUvDE33jZsTK0+xiopaHguI3yVBQ0LphGqbs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=V2rbYsR39qSdKrHpln1CZ8qhLP4EpaoZ4PiX6GswUa4+Fhtrtb1APP8rCyZAgV76SHwB3Po+u9iC33F0nM7sLz+9xqfbvetKGSnL1wWzPwnu+NPURO4wKkoib2a99lZkpx3qJHoYI9C3vEkobPZ5eQ4v2x7xEWDiFD0bpHN6RF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=if5oKBvA; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=rbXhgdEU5s/rLoxolA+rMRaJSA5ZsXmVOppIrf3PBoNtKZdFjVrsm1oDnLGIbcptqQBYtfuMifFlNn9FYngQnxbYz7kFm0TgQuDhi6k0kSSqy1QrrwUSNjwkEZAnn6xHcbJT3tQbYFT4DfQHlhnwOE5la4evgxj/A3+Yr9vKHYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UbSOUFmR; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="if5oKBvA"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1036C403E9
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UbSOUFmR"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BCFAF403E5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1732297070; bh=lF7ayOZ+zbKfPF9ZjedqR53rwTPlwZsxVbqKF5+vV0Q=;
+	t=1732297278; bh=di+fosPUQPhK6QWbXycUFq2i2ZLJkvImTJZsfaL5vz4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=if5oKBvAS0QzG8Awe7Rg6mnbfafgjLZC+rCPTYARpJMw+mTXOR2OFfkPP8MXxuAd0
-	 la9JwZ6kk1mwiuQNgyFBouaQEiJlmMywkGqfP4zOg4P8apZCJg1xImV+VSaKtLb1Cd
-	 DDqdPtxSSpWufTObXL6xT9ijDl/F9TA2fqbZse3TEPOwXjsby9owInxF5Pq6SNntJg
-	 p6Wg7lDMCU62BvHdc430s7DqEWlDBowAccdedtp9s8wXSZREyGXOTs8+Rd3cf7Tmhx
-	 t6vu68HBLcvIJBTJZFbeyNMiWV8WltYvgG0deFJ8ClPvhR1OLdtr1dxUZTGExoJRfV
-	 7mhyIPdkzsTsw==
+	b=UbSOUFmRHckpB/PQ2fc/v17MHE0xUCcFDhHVnfO15N0cvFj5zGz2nlMeqNjXkmJ/t
+	 W+EKJMlzJLvlPono79Zuu//3CU0StzY2E/DtHujjmVmlSNDG2Va5CAGNiPDhBJiMov
+	 rhSXc5qI4MMm1tVpTgKQk2vCw6EAbL+iPWdOC6XyKWole6u+7a4HM4d32kWnURzX7Y
+	 nsKrM5Y0bTUyp6W4Q8tPWI7aLastPfAOfvcWQJkLgWRlZurKq8qSqFi1ZJlejF6048
+	 5I966EMmT/R2fK+ZKmVhYZ4nh+2D1s6u5xP4L3mEv9dUR4SOPBr6O+OJjD0r7Sj4PN
+	 A2ETddNbCyBqw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1036C403E9;
-	Fri, 22 Nov 2024 17:37:50 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BCFAF403E5;
+	Fri, 22 Nov 2024 17:41:18 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc: patches@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] Documentation: kernel-doc: enumerate identifier *type*s
-In-Reply-To: <20241119203201.110953-1-rdunlap@infradead.org>
-References: <20241119203201.110953-1-rdunlap@infradead.org>
-Date: Fri, 22 Nov 2024 10:37:49 -0700
-Message-ID: <87v7wf2mqa.fsf@trenco.lwn.net>
+To: Thorsten Scherer <t.scherer@eckelmann.de>, linux-doc@vger.kernel.org
+Cc: Thorsten Scherer <t.scherer@eckelmann.de>, Daniel Borkmann
+ <daniel@iogearbox.net>
+Subject: Re: [PATCH] bpf, docs: Fix tcpdump option
+In-Reply-To: <20241119094958.50574-1-t.scherer@eckelmann.de>
+References: <20241119094958.50574-1-t.scherer@eckelmann.de>
+Date: Fri, 22 Nov 2024 10:41:18 -0700
+Message-ID: <87r0732mkh.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,25 +49,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Thorsten Scherer <t.scherer@eckelmann.de> writes:
 
-> Explain that a kernel-doc :identifiers: line can refer to a struct,
-> union, enum, or typedef as well as functions.
+> From tcpdump(8):
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
+>         -dd    Dump packet-matching code as a C program fragment.
+>
+> Fixes: 7924cd5e0b3a ("filter: doc: improve BPF documentation")
+> Signed-off-by: Thorsten Scherer <t.scherer@eckelmann.de>
 > ---
->  Documentation/doc-guide/kernel-doc.rst |    1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/networking/filter.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> --- linux-next-20241118.orig/Documentation/doc-guide/kernel-doc.rst
-> +++ linux-next-20241118/Documentation/doc-guide/kernel-doc.rst
-> @@ -533,6 +533,7 @@ identifiers: *[ function/type ...]*
->    Include documentation for each *function* and *type* in *source*.
->    If no *function* is specified, the documentation for all functions
->    and types in the *source* will be included.
-> +  *type* can be a struct, union, enum, or typedef identifier.
+> diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+> index 8eb9a5d40f31..06e244094f49 100644
+> --- a/Documentation/networking/filter.rst
+> +++ b/Documentation/networking/filter.rst
+> @@ -49,7 +49,7 @@ assured that the filter will be kept until the socket is closed.
+>  The biggest user of this construct might be libpcap. Issuing a high-level
+>  filter command like `tcpdump -i em1 port 22` passes through the libpcap
+>  internal compiler that generates a structure that can eventually be loaded
+> -via SO_ATTACH_FILTER to the kernel. `tcpdump -i em1 port 22 -ddd`
+> +via SO_ATTACH_FILTER to the kernel. `tcpdump -i em1 port 22 -dd`
+>  displays what is being placed into this structure.
 
-Applied, thanks.
+So I suspect you may be right, but both are legal options.  When you
+apply a Fixes tag to a patch, it's generally a good idea to copy the
+author of the patch you claim to be fixing.  Let's do that now and see
+what Daniel has to say...?
+
+Thanks,
 
 jon
