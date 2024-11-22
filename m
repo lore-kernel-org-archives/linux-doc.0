@@ -1,187 +1,108 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DF52D638;
-	Fri, 22 Nov 2024 16:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF35D7E792;
+	Fri, 22 Nov 2024 16:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732292094; cv=none; b=qHNXBk+4YZqvWPrceul/XUE74JN78PT+z7x6j3mHdBmgLbX76wYrGD4PLTt5L5eHS+q6XPZ/FPaiu6I6IVNjcO/JZ/vrD0lGRcClXABEFx0mhzrKaZp01EL37GhvFNr2xntoAR8TDld6WfSxAJbcr19vVfkk61ZeYvY5weer3sY=
+	t=1732293574; cv=none; b=DC3rE9Dw5BuwWUJCGfjIr9SZu63RlfxrsPAIlZ/2zB0TRTfUNPK69t0+joTyntWbhp13FWAB0ZUCkeZg5HaKclxwi/TJYMxsrUpFicLeX0x6pFf7OjBvpQ2xs7+F1cevbrci+/DIquyRBSaiU4I2SPqMKB/ngf0KHLBtbm0TgpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732292094; c=relaxed/simple;
-	bh=IwjuWNGh2uZEpdw8TpxMZNPOF/Uq4KjiwIC6pMF8CfY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IKZOuWENtcI/aLgMfbpnGk4kLTHu4sKFhweuZYXLcaoGBzb8aVicfXFHKbCYipgNo+FNLTSACbDdAx3EHVEL2fD5K1aDHVGqtnspmVHpoPn/8R0g3FT+Te1oIMWT+VkVq/ywWVdGVK5MXRWoysVAtp5uWXivtnVHrt4DUGbeobg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqErJRCb; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732293574; c=relaxed/simple;
+	bh=bVfmMZd++g9VWmMX2EizjlOyv67G/BQQFuNfEa0NLiE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lxyLvIDBWwGNTVVCmjotk45B6BevuNnRiYotr1SS3e8nMclnJYsqx0kqmKrBeHFWViuXHrdvGEiwhGPr6nTXfpMCuJ6sCil1u5SRUXAqvCu2jrM94S+9GZwWcTP//iKBmDMVe2+hp28PeZ4TFPFyG//EML41bzaaV0NK66KrFFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JXlH+ds6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqErJRCb"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-72483f6e2fbso2077330b3a.2;
-        Fri, 22 Nov 2024 08:14:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732292092; x=1732896892; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lrbSK43NLfB2e4wOG+aqQWdM/1SYnnFodbzmkkuii34=;
-        b=jqErJRCbAkfnBoQCX0Catfk2NO1PbouOGwpOIrfC0HzTI9owza7eHRhleL9RWWPZ60
-         0iP6ZafksChd8MJqwlu3sKJiX06LiVEbzM1YIq0nWV9rcJXDHh6wZI0OXstazpQWRaRi
-         MtvIlsMWQeFKpYTFW4VOrJB3sBvBwMZCkd5Z4Sqfzb8Bm2OP1WtuTvjJlq9SYJ88QSZj
-         MlOrTdBhcfDN3aREv3KAe3DCRkGCYZq/uKCag5e7s2QJD+7G3CkRRBAYWfpeWD3qHsAc
-         XPa2elorMZkxzmEGSiI1p/xxC6aN7cf5FICu6uBM/IEFVTWP47N3egHgPUHOwhtoLWjt
-         07WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732292092; x=1732896892;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lrbSK43NLfB2e4wOG+aqQWdM/1SYnnFodbzmkkuii34=;
-        b=GXzt820r2ozUlSMO3lIzXwrBIlrfRNv+jNgj8ejc1ZY1KBzHUen5pfsIoFbvrwG95L
-         +9BJOQkMeTw03xfqOx+Tw1rlmtc6b/kHL0+h3C/6XFL9Tx6o85MKAHGb4ZuH+WsFovsS
-         NQuyT6cJpZoM7m0iymubOL2LWuX3VyxlNtZc08kYHe1Swxvnu8Bn9uJ42AekAO3AmQ/8
-         BkyKNyct9b1y9hW51MsTktgxeDMGdWaUAJcJ6FxZUnXaG2f/37LttOOXiQt4vfNxiqeP
-         X++X6oTepfJcQvRpOxTgqN/Ahyufjkyct4Mf4shmg0cgflmV1NkOC0B0gt3pz5GOuYa9
-         Tb4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV2EXespqrWKDA4xLpZHWKc0C7nCvzDfWV7LMhgyyMbmvISg/2x07AfBjl8pnZu4HLUjxhOzQKFJP0djm+i@vger.kernel.org, AJvYcCWZp8TVLDO8rkU4JXOAqjfjsszbKshqyIpqh1NyLIGtwQwhjfjdDYwol5YvoxEfHPoUBAo4jdeDYjo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWKZ8/cLGP7TIqmX53MaWczhMYR61laZPxyiwk3+pncnCtczrM
-	Aowwenk9POFaVqtJ/JwJe7rwwszaPI5vLrEcN7wzO6SXD0tN8/ed
-X-Gm-Gg: ASbGncutG8BXXPs2yg6XfR7/NHjtD2laeGn7Dgoz/yCbEWD5G+Pzk80o8MCpLPT/oIP
-	w6UzfCfFH7hGkQS7sD5+Y/7LRveVp3k16XFhEev88OFaWx0aQ9f8r4fB/lBqVMNd2ESrj7AQkGM
-	FMxnyIAjzt+HYgAzskU2leTsGRWlRmK3rd7j7WTawivrVCZSEKIM7QZEOO0iBz6Y5b7wRsM57VK
-	mdTgdF6XNZ5zQbm0fjSX7NnJ4r/oPkoTzgaC8I13HLA+3ZWAcrLvebtUyyzZ6xZPI6lbEBtvI4=
-X-Google-Smtp-Source: AGHT+IHZBKaTxzynLBARfL0nD6HFNiUz9zQkGuzJbrgfSWXqatNsBKAMj0e4czJDygoyIwHBq0V3Zg==
-X-Received: by 2002:a17:903:230e:b0:20e:95c9:4ed5 with SMTP id d9443c01a7336-2129f5c3b21mr46128455ad.7.1732292091863;
-        Fri, 22 Nov 2024 08:14:51 -0800 (PST)
-Received: from localhost.localdomain ([112.2.230.32])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dc22009sm17890195ad.264.2024.11.22.08.14.48
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 22 Nov 2024 08:14:51 -0800 (PST)
-From: Wenchao Hao <haowenchao22@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Lance Yang <ioworker0@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Peter Xu <peterx@redhat.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: Wenchao Hao <haowenchao22@gmail.com>
-Subject: [PATCH v2] mm: add per-order mTHP swap-in fallback/fallback_charge counters
-Date: Sat, 23 Nov 2024 00:14:43 +0800
-Message-Id: <20241122161443.34667-1-haowenchao22@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JXlH+ds6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1623C4CECE;
+	Fri, 22 Nov 2024 16:39:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732293573;
+	bh=bVfmMZd++g9VWmMX2EizjlOyv67G/BQQFuNfEa0NLiE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JXlH+ds6Bu4vcaxouVy9GHIJMQYhksn+5FEcsZbKwO1qG5QNztSK6Ejo6PzyTPdbl
+	 xPzR6GS/0CyoCC+O6m9Iq0iQl/W+6OHNKSUaxTMFB4aGA6OzTukQDHqlflA0NXysPe
+	 PAQI/8kjW+/XtNdbjEipZhEbBzuK3JoBGhZnOU3C+jWNHonND/cgmJunlqLeXnsaxT
+	 U7+onLtWXO9aMMcX3wJkkj+AmPt5zYAO3b3b0SW9M4rvHHlBs+DsBCC8erIs3gTlTJ
+	 oPI0TPO6JtfDzyFKtoMtWVESP9iQRt5PMh4J+3eHluJnyXJqyLhyAHHNQdwpwUWKWb
+	 na+zzTSqnxuKA==
+Date: Fri, 22 Nov 2024 17:39:30 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Guillaume Stols <gstols@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, aardelean@baylibre.com, 
+	dlechner@baylibre.com, jstephan@baylibre.com, nuno.sa@analog.com, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v5 7/8] iio: adc: ad7606: Add iio-backend support
+Message-ID: <gmv5tncy7xwgbc64na7ib42hdthojsfrusauk4hez5zmc6hh2k@4jfk74vt2gcb>
+References: <20241015-ad7606_add_iio_backend_support-v5-0-654faf1ae08c@baylibre.com>
+ <20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="g6qhxoz5xykc4ajk"
+Content-Disposition: inline
+In-Reply-To: <20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c@baylibre.com>
 
-Currently, large folio swap-in is supported, but we lack a method to
-analyze their success ratio. Similar to anon_fault_fallback, we introduce
-per-order mTHP swpin_fallback and swpin_fallback_charge counters for
-calculating their success ratio. The new counters are located at:
 
-/sys/kernel/mm/transparent_hugepage/hugepages-<size>/stats/
-	swpin_fallback
-	swpin_fallback_charge
+--g6qhxoz5xykc4ajk
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 7/8] iio: adc: ad7606: Add iio-backend support
+MIME-Version: 1.0
 
-Signed-off-by: Wenchao Hao <haowenchao22@gmail.com>
----
-V2:
- Introduce swapin_fallback_charge, which increments if it fails to
- charge a huge page to memory despite successful allocation.
+On Tue, Oct 15, 2024 at 01:56:20PM +0000, Guillaume Stols wrote:
+> @@ -640,6 +665,14 @@ static int ad7606_read_raw(struct iio_dev *indio_dev,
+>  	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+>  		*val =3D st->oversampling;
+>  		return IIO_VAL_INT;
+> +	case IIO_CHAN_INFO_SAMP_FREQ:
+> +		/*
+> +		 * TODO: return the real frequency intead of the requested one once
+> +		 * pwm_get_state_hw comes upstream.
+> +		 */
+> +		pwm_get_state(st->cnvst_pwm, &cnvst_pwm_state);
+> +		*val =3D DIV_ROUND_CLOSEST_ULL(NSEC_PER_SEC, cnvst_pwm_state.period);
+> +		return IIO_VAL_INT;
+>  	}
+>  	return -EINVAL;
+>  }
 
- Documentation/admin-guide/mm/transhuge.rst | 10 ++++++++++
- include/linux/huge_mm.h                    |  2 ++
- mm/huge_memory.c                           |  6 ++++++
- mm/memory.c                                |  2 ++
- 4 files changed, 20 insertions(+)
+Being late to the party as the patch is already applied:
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index 5034915f4e8e..9c07612281b5 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -561,6 +561,16 @@ swpin
- 	is incremented every time a huge page is swapped in from a non-zswap
- 	swap device in one piece.
- 
-+swpin_fallback
-+	is incremented if a huge page swapin fails to allocate or charge
-+	a huge page and instead falls back to using huge pages with
-+	lower orders or small pages.
-+
-+swpin_fallback_charge
-+	is incremented if a page swapin fails to charge a huge page and
-+	instead falls back to using huge pages with lower orders or
-+	small pages even though the allocation was successful.
-+
- swpout
- 	is incremented every time a huge page is swapped out to a non-zswap
- 	swap device in one piece without splitting.
-diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-index b94c2e8ee918..93e509b6c00e 100644
---- a/include/linux/huge_mm.h
-+++ b/include/linux/huge_mm.h
-@@ -121,6 +121,8 @@ enum mthp_stat_item {
- 	MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE,
- 	MTHP_STAT_ZSWPOUT,
- 	MTHP_STAT_SWPIN,
-+	MTHP_STAT_SWPIN_FALLBACK,
-+	MTHP_STAT_SWPIN_FALLBACK_CHARGE,
- 	MTHP_STAT_SWPOUT,
- 	MTHP_STAT_SWPOUT_FALLBACK,
- 	MTHP_STAT_SHMEM_ALLOC,
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index ee335d96fc39..46749dded1c9 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -617,6 +617,8 @@ DEFINE_MTHP_STAT_ATTR(anon_fault_fallback, MTHP_STAT_ANON_FAULT_FALLBACK);
- DEFINE_MTHP_STAT_ATTR(anon_fault_fallback_charge, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
- DEFINE_MTHP_STAT_ATTR(zswpout, MTHP_STAT_ZSWPOUT);
- DEFINE_MTHP_STAT_ATTR(swpin, MTHP_STAT_SWPIN);
-+DEFINE_MTHP_STAT_ATTR(swpin_fallback, MTHP_STAT_SWPIN_FALLBACK);
-+DEFINE_MTHP_STAT_ATTR(swpin_fallback_charge, MTHP_STAT_SWPIN_FALLBACK_CHARGE);
- DEFINE_MTHP_STAT_ATTR(swpout, MTHP_STAT_SWPOUT);
- DEFINE_MTHP_STAT_ATTR(swpout_fallback, MTHP_STAT_SWPOUT_FALLBACK);
- #ifdef CONFIG_SHMEM
-@@ -637,6 +639,8 @@ static struct attribute *anon_stats_attrs[] = {
- #ifndef CONFIG_SHMEM
- 	&zswpout_attr.attr,
- 	&swpin_attr.attr,
-+	&swpin_fallback_attr.attr,
-+	&swpin_fallback_charge_attr.attr,
- 	&swpout_attr.attr,
- 	&swpout_fallback_attr.attr,
- #endif
-@@ -669,6 +673,8 @@ static struct attribute *any_stats_attrs[] = {
- #ifdef CONFIG_SHMEM
- 	&zswpout_attr.attr,
- 	&swpin_attr.attr,
-+	&swpin_fallback_attr.attr,
-+	&swpin_fallback_charge_attr.attr,
- 	&swpout_attr.attr,
- 	&swpout_fallback_attr.attr,
- #endif
-diff --git a/mm/memory.c b/mm/memory.c
-index 209885a4134f..774dfd309cfe 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -4189,8 +4189,10 @@ static struct folio *alloc_swap_folio(struct vm_fault *vmf)
- 			if (!mem_cgroup_swapin_charge_folio(folio, vma->vm_mm,
- 							    gfp, entry))
- 				return folio;
-+			count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK_CHARGE);
- 			folio_put(folio);
- 		}
-+		count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
- 		order = next_order(&orders, order);
- 	}
- 
--- 
-2.45.0
+ad7606_set_sampling_freq() uses DIV_ROUND_UP_ULL to determine the period
+=66rom freq. So I guess you should a down-rounding div here to calculate
+freq from period.
 
+Having said that, pwm_get_state_hw() is in mainline and will be included
+in v6.13-rc1.
+
+Best regards
+Uwe
+
+--g6qhxoz5xykc4ajk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdAs78ACgkQj4D7WH0S
+/k5jlAgAirnhx9PpmZaNqFxVmISvdk94dasdcSLa7jDqkiXnNJ0oxpyUVc8lm0N6
+NNMqQZbz66q+mmza4KXN1Oz+TPgQqZApnnp58F6ECUpurA6vgB4anXwBqiN0v8PZ
+/zklo+JiCsfLuu3fkM9raKXBxRQh4xJm7PM7WTK15vzsfJCeMANwixBroV6qYtij
+qj2TqzB1yhXmvt7jk4Wk6saLFPB03OHxEbY1QFFOorBXvx6vatRfTaRKTRf2HT9i
+FAjJsluo4KiVaHYhHJwNebI0BiVzIeYKGcda4qTKoDabKW9Xu6Ikt/v2nOcAvuC9
+z5qCVuQ/q08owpk8L41RdCHFLS5W1g==
+=Cj6w
+-----END PGP SIGNATURE-----
+
+--g6qhxoz5xykc4ajk--
