@@ -1,379 +1,143 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D5A1C9DD8;
-	Fri, 22 Nov 2024 13:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF05223741;
+	Fri, 22 Nov 2024 13:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732281236; cv=none; b=pjSVe81enRzap6K4PsC+TbJRSopF9KBa6AtmLVlfy7ZLCJAR4lPvSwNBfMVSmHxmMao8VE5s1z17bFhs/igM68VhaCuWZhK/wIeloJGZGVhAONOxmIqCtNs0dW3NVjZq3On6pdKgRtfubpEpah5+SI+GS9TPJVp3gWRaERNNmdE=
+	t=1732283257; cv=none; b=tFtEi1JW4fUr4b8jtQl+5sVF4CcjJjERPAcxmanWrNwbLLngXkkOXTVhiISdW8gI5EpfD23QdYO2wgDqm/Mqg/nYWtV0EqzEkazGV+fI0Vp7MpErSN7Zm2mSPJMI8tVmOX0HEF2Q+TiRXsVESe3Fh8HNJme2qE3N5WFqanXsi7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732281236; c=relaxed/simple;
-	bh=pwpLnR5C0OS+vGiXXEC/bJofMRpnebiyfwWUHJO+1aM=;
+	s=arc-20240116; t=1732283257; c=relaxed/simple;
+	bh=EVVq2Cqaf1z5IkK+BzTRksvS9eOhQkxJl5rsZKtwTe0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T0IbPD/eSXP7HwHwiwRVqXAplr9D7ITD6LOj7PFt7J36YjNGf0Rh6qeIaRaRCxgtip6ECuY2Pz1TfF5qSmSLXoLbY/3D4JVPXxG44AogsTF3MFjFGEWO3W1BuOjAtKU34gi9Wa9NCXe+gTjGu0YO62UjDb4NKgViN7C8+QMIwv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GpsxC0tO; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dbrrUiO6EuBRT95x83O2wMkroUWBkSwfcRhZ4llLgpCnSSBDTpCnny3AvkLjIsuyger8uTaSn9rC34xwnwCxWnxtpCIe+qBWlL2WIGNfYeIYloaTpYfBW67IIlkvFEr2hEGm5cmCLaBJ0ZFB+kIwbX7YaxU9OhEiGMOYro0G8Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFG5ZbX0; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GpsxC0tO"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 11493240008;
-	Fri, 22 Nov 2024 13:13:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1732281224;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RpjcytXARFHgg+G4vhzFoyRdY+y49Eg38xChPTFQdN0=;
-	b=GpsxC0tO6+7F7hSEbWnc3JaT4++AIDxsur6L66pw1g30v4iq8NnF2RmBpbgPf/UscfH+ir
-	h4dBsaZ1bJwE6ugV+tZwg1jqRDnJopnLERP2po4r8qjnvshpV6Kys5MTiqvn4skIyMwxUm
-	PUE57DE5Gur/rfVR938af/Kg9AJ8EKy2Qe8okGGBXpAD5AZw0EsfHUM4nY8DQyQ1blR/DQ
-	04kje1USkKrazK5QbpMct+dIbj7/p5ExdEzMTPMiECOdUSSaCqUqqP4cFRFfBdONdX/54/
-	pW5z7N7wLAoDoa/6y+bKiDs6EVj1HnACBK1aZM8Eo+vVmdGnmvduoPA+fNgGCQ==
-Date: Fri, 22 Nov 2024 14:13:40 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Simona Vetter <simona@ffwll.ch>,
-	Helen Koike <helen.koike@collabora.com>, rdunlap@infradead.org,
-	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
-	Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	=?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH v14 0/9] drm/vkms: Reimplement line-per-line pixel
- conversion for plane reading
-Message-ID: <Z0CDhPvxHxqR9JSo@louis-chauvet-laptop>
-Mail-Followup-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Simona Vetter <simona@ffwll.ch>,
-	Helen Koike <helen.koike@collabora.com>, rdunlap@infradead.org,
-	arthurgrillo@riseup.net, pekka.paalanen@haloniitty.fi,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	=?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-References: <20241118-yuv-v14-0-2dbc2f1e222c@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFG5ZbX0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732283256; x=1763819256;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EVVq2Cqaf1z5IkK+BzTRksvS9eOhQkxJl5rsZKtwTe0=;
+  b=VFG5ZbX0W+eyb5ml1cAwtBwYYuPnmL7jTUlQWFMk8cMlPslmj08EquTu
+   UUQVH1d1oPxh87XcLG5phXvbyvJJaR+37kLwV4Dv2EhSE6WKV9irRSjzn
+   mhKNcP9CDwoBQpMyfc/INDvaJlIN8q2j29ZAwPRl55rXFGH+DEJnanG2G
+   lYFco28kjvSItxaKirjITwJRAyn5N/CHPBJLnnFz+rgUykQnyViNkmww/
+   44TeLCExSqVJLGPhzHq/JooIvMA7DO59Hyt1YyM6D78tmjD4lmlzkI0BO
+   cSbAjlw2kCQRvFLucnX0nAohmEjOG3m7OmxGQdYW+5CItUUUMNpTAF4+y
+   g==;
+X-CSE-ConnectionGUID: fkbdgRaMR1KAeUpPk89NDw==
+X-CSE-MsgGUID: A9U5P6ACSk+wx/gLXAPTlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="35297349"
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="35297349"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 05:47:35 -0800
+X-CSE-ConnectionGUID: gwJu5Cn3S7648obOxWUOhw==
+X-CSE-MsgGUID: V/Vy3jg+TcSJXsIE9BfUCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="90994961"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 22 Nov 2024 05:47:30 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tEU0O-0003x1-1Y;
+	Fri, 22 Nov 2024 13:47:28 +0000
+Date: Fri, 22 Nov 2024 21:46:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Radu Sabau <radu.sabau@analog.com>,
+	Uwe =?unknown-8bit?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051,
+ adp1055 and ltp8800
+Message-ID: <202411222109.6PmpUvSa-lkp@intel.com>
+References: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241118-yuv-v14-0-2dbc2f1e222c@bootlin.com>
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
 
-On 18/11/24 - 19:28, Louis Chauvet wrote:
-> This patchset is the second version of [1]. It is almost a complete
-> rewrite to use a line-by-line algorithm for the composition.
-> 
-> It can be divided in multiple parts:
-> - PATCH 1 to 3: no functional change is intended, only some formatting and
->   documenting (PATCH 2 is taken from [2])
-> - PATCH 4 to 7: Some preparation work not directly related to the
->   line-by-line algorithm
-> - PATCH 8: main patch for this series, it reintroduce the
->   line-by-line algorithm
-> - PATCH 9: Remove useless drm_simplify_rotation
-> - Rest of the series: moved to a new series to merge this one, see the new 
->   series "Add YUV ad R1..8 formats support to VKMS"
-> 
-> The PATCH 8 aims to restore the line-by-line pixel reading algorithm. It
-> was introduced in 8ba1648567e2 ("drm: vkms: Refactor the plane composer to
-> accept new formats") but removed in 8ba1648567e2 ("drm: vkms: Refactor the
-> plane composer to accept new formats") in a over-simplification effort.
-> At this time, nobody noticed the performance impact of this commit. After
-> the first iteration of my series, poeple notice performance impact, and it
-> was the case. Pekka suggested to reimplement the line-by-line algorithm.
-> 
-> Expiriments on my side shown great improvement for the line-by-line
-> algorithm, and the performances are the same as the original line-by-line
-> algorithm. I targeted my effort to make the code working for all the
-> rotations and translations. The usage of helpers from drm_rect_* avoid
-> reimplementing existing logic.
-> 
-> The only "complex" part remaining is the clipping of the coordinate to
-> avoid reading/writing outside of src/dst. Thus I added a lot of comments
-> to help when someone will want to add some features (framebuffer resizing
-> for example).
-> 
-> I did not changed any expected test results as VKMS seems to have some 
-> existing issue:
-> https://gitlab.freedesktop.org/jim.cromie/kernel-drm-next-dd/-/jobs/61484201
-> https://gitlab.freedesktop.org/jim.cromie/kernel-drm-next-dd/-/jobs/61803193
-> https://gitlab.freedesktop.org/louischauvet/kernel/-/jobs/65944002
-> 
-> To properly test the rotation algorithm, I had to implement a new IGT
-> test [8]. This helped to found one issue in the YUV rotation algortihm.
-> 
-> My series was mainly tested with:
-> - kms_plane (for color conversions)
-> - kms_rotation_crc (for a subset of rotation and formats)
-> - kms_rotation (to test all rotation and formats combinations) [8]
-> - kms_cursor_crc (for translations)
-> The benchmark used to measure the improvment was done with
-> kms_fb_stress [10] with some modifications:
-> - Fixing the writeback format to XRGB8888
-> - Using a primary plane with odd dimension to avoid failures due to YUV
->   alignment
-> The KMS structure was:
-> 	CRTC:
-> 		rectangle: 4096x2160+0+0
-> 	primary:
-> 		format: ABGR16161616
-> 		rectangle: 3640x2160+101+0
-> 	writeback:
-> 		format: XRGB8888
-> 		rectangle: 4096x2160+0+0
-> Results (on my computer):
-> 
-> 8356b9790650: drm/test: Add test cases for drm_rect_rotate_inv() (before any regression)
-> 322d716a3e8a: drm/vkms: isolate pixel conversion functionality (first regression)
-> cc4fd2934d41: drm/vkms: Isolate writeback pixel conversion functions (second regression)
-> 2c3d1bd284c5: drm/panel: simple: Add Microtips Technology MF-103HIEB0GA0 panel (current drm-misc-next)
-> 
->  Used format  | This series | 2c3d1bd284c5 | cc4fd2934d41 | 322d716a3e8a | 8356b9790650 |
-> --------------+-------------+--------------+--------------+--------------+--------------+
->  XRGB8888     |  13.261666s |   14.289582s |   10.731272s |    9.480001s |    9.277507s |
->  XRGB16161616 |  13.282479s |   13.918926s |   10.712616s |    9.776903s |    9.291766s |
->  RGB565       | 136.154163s |  141.646489s |  101.744050s |  103.712164s |   87.860923s |
-> 
-> This is a 5-10% improvment of the performance. More work need to be done
-> on the writeback to gain more.
-> 
-> [1]: https://lore.kernel.org/all/20240201-yuv-v1-0-3ca376f27632@bootlin.com
-> [2]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net/
-> [3]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-3-952fcaa5a193@riseup.net/
-> [4]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-5-952fcaa5a193@riseup.net/
-> [5]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-6-952fcaa5a193@riseup.net/
-> [6]: https://lore.kernel.org/all/20240110-vkms-yuv-v2-7-952fcaa5a193@riseup.net/
-> [8]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
-> [9]: https://lore.kernel.org/dri-devel/20240306-louis-vkms-conv-v1-1-5bfe7d129fdd@riseup.net/
-> [10]: https://lore.kernel.org/all/20240422-kms_fb_stress-dev-v5-0-0c577163dc88@riseup.net/
-> 
-> To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> To: Melissa Wen <melissa.srw@gmail.com>
-> To: Maíra Canal <mairacanal@riseup.net>
-> To: Haneen Mohammed <hamohammed.sa@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: rdunlap@infradead.org
-> To: arthurgrillo@riseup.net
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: pekka.paalanen@haloniitty.fi
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: jeremie.dautheribes@bootlin.com
-> Cc: miquel.raynal@bootlin.com
-> Cc: thomas.petazzoni@bootlin.com
-> Cc: seanpaul@google.com
-> Cc: marcheu@google.com
-> Cc: nicolejadeyee@google.com
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Hi Cedric,
 
-Applied on drm-misc-next:
-https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/22f16c50beb6b7c4e2744eb7ea998dae0d2cdbdc
+kernel test robot noticed the following build errors:
 
-> Changes in v14:
-> - Rebased on drm-misc-next... Sorry for the quick iteration, next time I 
->   will push patches before sending a new iteration... I kept the Acked-by 
->   from Pekka as it is a minor fix.
-> - Nitpicks from José
-> - The only minor change is in PATCH 8/9, replacing 
->     vkms_state->base->crtc->mode
->   by
->     vkms_state->base->mode
->   as suggested by Ville Syrjälä ([11])
->   [11]:https://lore.kernel.org/all/Zv8IPRKcPqYXgL2B@intel.com/
-> - Link to v13: https://lore.kernel.org/r/20241031-yuv-v13-0-bd5463126faa@bootlin.com
-> Changes in v13:
-> - Removed the YUV part to prepare the merge
-> - Add Acked-by from Maíra
-> - Link to v12: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
-> Changes in v12:
-> - Fix documentation issues as suggested by Randy
-> - Link to v11: https://lore.kernel.org/r/20240930-yuv-v11-0-4b1a26bcfc96@bootlin.com
-> Changes in v11:
-> - Remove documentation patch (already merged)
-> - Fix sparse warning about documentation
-> - Link to v10: https://lore.kernel.org/r/20240809-yuv-v10-0-1a7c764166f7@bootlin.com
-> Changes in v10:
-> - Properly remove the patch introducing dummy read/write functions
-> - PATCH 8/16: Format fixups
-> - PATCH 9/16: Format fixups
-> - PATCH 11/16: Format fixups
-> - PATCH 14/16: Fix test compilation, add module description
-> - Link to v9: https://lore.kernel.org/r/20240802-yuv-v9-0-08a706669e16@bootlin.com
-> Changes in v9:
-> - PATCH 3/17: Fix docs as Maíra suggested
-> - PATCH 4,6,10,12,15,17/17: Fix sparse warning about __le16 casting
-> - Link to v8: https://lore.kernel.org/all/20240516-yuv-v8-0-cf8d6f86430e@bootlin.com/
-> Changes in v8:
-> - PATCH 7/17: Update pitch access to use the proper value for block
->   formats
-> - PATCH 9/17: Update pitch access to use the proper value for block
->   formats
-> - Link to v7: https://lore.kernel.org/r/20240513-yuv-v7-0-380e9ffec502@bootlin.com
-> Changes in v7:
-> - Some typos and indent fixes
-> - Add Review-By, Acked-By
-> - PATCH 3/17: Clarify src/dst unit
-> - PATCH 9/17: Clarify documentation
-> - PATCH 9/17: Restrict conditions for direction
-> - PATCH 9/17: Rename get_block_step_byte to get_block_step_bytes
-> - PATCH 10/17: Clarify kernel doc for clamp_line_coordinates, blend_line,
->   pixel_read_line_t
-> - PATCH 10/17: Fix the case when src_*_start >= fb->width/height
-> - PATCH 10/17: Change y in blend to be an int
-> - PATCH 10/17: Clarify documentation for read functions
-> - PATCH 12/17: Fix the type of rgb variables in argb_u16_from_yuv888
-> - PATCH 12/17: Move comments at the right place, remove useless ones
-> - PATCH 12/17: Add missing const
-> - PATCH 17/17: Use drm_format_info_bpp and computation to avoid hard-coded
->   values
-> - Link to v6: https://lore.kernel.org/r/20240409-yuv-v6-0-de1c5728fd70@bootlin.com
-> Changes in v6:
-> - Add Randy
-> - Add Review-By and Acked-By
-> - PATCH 2/17: Remove useless newline
-> - PATCH 3/17: Fix kernel doc
-> - PATCH 4/17: Fix typo in git commit
-> - PATCH 4/17: Fix kernel doc and simplify brief description of typedef
-> - PATCH 5/17: Change black default color to Magenta
-> - PATCH 5/17: Fix wording in comment
-> - PATCH 7/17: Fix typo in packed_pixel_offset
-> - PATCH 7/17: Add WARN_ON for currently not supported formats
-> - PATCH 8/17: Rename x_limit to pixel_count
-> - PATCH 8/17: Clarify kernel doc for pre_mul_alpha_blend
-> - PATCH 9/17: Rename get_step_next_block to get_block_step_bytes
-> - PATCH 9/17: Change kernel doc order
-> - PATCH 9/17: Rework the direction_for_rotation function to use drm
->   helpers
-> - PATCH 9/17: Add a warn in direction_for_rotation if the result is not
->   expected
-> - PATCH 10/17: Reword the comment of pixel color conversion functions
-> - PATCH 10/17: Refactor the blending function to extract functions
-> - PATCH 11/17: Remove useless drm_rotation_simplify
-> - PATCH 12/17: Fix typo in comments
-> - PATCH 12/17: Remove useless define
-> - PATCH 12/17: Fix some comments typo and kernel doc
-> - PATCH 12/17: Add a comma at the end of the vkms_formats list
-> - PATCH 12/17: Use copy of matrix instead of pointers
-> - PATCH 12/17: Use 16 bit range for yuv conversion
-> - PATCH 17/17: Add a comma at the end of the vkms_formats list
-> - PATCH 17/17: Add assertions
-> - PATCH 17/17: Fix color conversion... Next time I will read the doc
->   twice...
-> - Link to v5: https://lore.kernel.org/r/20240313-yuv-v5-0-e610cbd03f52@bootlin.com
-> Changes in v5:
-> - All patches: fix some formatting issues
-> - PATCH 4/16: Use the correct formatter for 4cc code
-> - PATCH 7/16: Update the pixel accessors to also return the pixel position
->   inside a block.
-> - PATCH 8/16: Fix a temporary bug
-> - PATCH 9/16: Update the get_step_1x1 to get_step_next_block and update
->   the documentation
-> - PATCH 10/16: Update to uses the new pixel accessors
-> - PATCH 10/16: Reword some comments
-> - PATCH 11/16: Update to use the new pixel accessors
-> - PATCH 11/16: Fix a bug in the subsampling offset for inverted reading
->   (right to left/bottom to top). Found by [8].
-> - PATCH 11/16: Apply Arthur's modifications (comments, algorithm
->   clarification)
-> - PATCH 11/16: Use the correct formatter for 4cc code
-> - PATCH 11/16: Update to use the new get_step_next_block
-> - PATCH 14/16: Apply Arthur's modification (comments, compilation issue)
-> - PATCH 15/16: Add Arthur's patch to explain the kunit tests
-> - PATCH 16/16: Introduce DRM_FORMAT_R* support.
-> - Link to v4: https://lore.kernel.org/r/20240304-yuv-v4-0-76beac8e9793@bootlin.com
-> Changes in v4:
-> - PATCH 3/14: Update comments for get_pixel_* functions
-> - PATCH 4/14: Add WARN when trying to get unsupported pixel_* functions
-> - PATCH 5/14: Create dummy pixel reader/writer to avoid NULL
->   function pointers and kernel OOPS
-> - PATCH 6/14: Added the usage of const pointers when needed
-> - PATCH 7/14: Extraction of pixel accessors modification
-> - PATCH 8/14: Extraction of the blending function modification
-> - PATCH 9/14: Extraction of the pixel_read_direction enum
-> - PATCH 10/14: Update direction_for_rotation documentation
-> - PATCH 10/14: Rename conversion functions to be explicit
-> - PATCH 10/14: Replace while(count) by while(out_pixel<end) in read_line
->   callbacks. It avoid a new variable+addition in the composition hot path.
-> - PATCH 11/14: Rename conversion functions to be explicit
-> - PATCH 11/14: Update the documentation for get_subsampling_offset
-> - PATCH 11/14: Add the matrix_conversion structure to remove a test from
->   the hot path.
-> - PATCH 11/14: Upadate matrix values to use 32.32 fixed floats for
->   conversion
-> - PATCH 12/14: Update commit message
-> - PATCH 14/14: Change kunit expected value
-> - Link to v3: https://lore.kernel.org/r/20240226-yuv-v3-0-ff662f0994db@bootlin.com
-> Changes in v3:
-> - Correction of remaining git-rebase artefacts
-> - Added Pekka in copy of this patch
-> - Link to v2: https://lore.kernel.org/r/20240223-yuv-v2-0-aa6be2827bb7@bootlin.com
-> Changes in v2:
-> - Rebased the series on top of drm-misc/drm-misc-net
-> - Extract the typedef for pixel_read/pixel_write
-> - Introduce the line-by-line algorithm per pixel format
-> - Add some documentation for existing and new code
-> - Port the series [1] to use line-by-line algorithm
-> - Link to v1: https://lore.kernel.org/r/20240201-yuv-v1-0-3ca376f27632@bootlin.com
-> 
-> ---
-> Arthur Grillo (1):
->       drm/vkms: Use drm_frame directly
-> 
-> Louis Chauvet (8):
->       drm/vkms: Code formatting
->       drm/vkms: Add typedef and documentation for pixel_read and pixel_write functions
->       drm/vkms: Use const for input pointers in pixel_read an pixel_write functions
->       drm/vkms: Update pixels accessor to support packed and multi-plane formats.
->       drm/vkms: Avoid computing blending limits inside pre_mul_alpha_blend
->       drm/vkms: Introduce pixel_read_direction enum
->       drm/vkms: Re-introduce line-per-line composition algorithm
->       drm/vkms: Remove useless drm_rotation_simplify
-> 
->  drivers/gpu/drm/vkms/vkms_composer.c  | 312 ++++++++++++++++++++------
->  drivers/gpu/drm/vkms/vkms_crtc.c      |   6 +-
->  drivers/gpu/drm/vkms/vkms_drv.c       |   3 +-
->  drivers/gpu/drm/vkms/vkms_drv.h       |  55 ++++-
->  drivers/gpu/drm/vkms/vkms_formats.c   | 409 ++++++++++++++++++++++++----------
->  drivers/gpu/drm/vkms/vkms_formats.h   |   4 +-
->  drivers/gpu/drm/vkms/vkms_plane.c     |  17 +-
->  drivers/gpu/drm/vkms/vkms_writeback.c |   5 -
->  8 files changed, 588 insertions(+), 223 deletions(-)
-> ---
-> base-commit: 7d2faa8dbb7055a115fe0cd6068d7090094a573d
-> change-id: 20240201-yuv-1337d90d9576
-> 
-> Best regards,
-> -- 
-> Louis Chauvet <louis.chauvet@bootlin.com>
-> 
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.12 next-20241122]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-hwmon-pmbus-adp1050-Add-bindings-for-adp1051-adp1055-and-ltp8800/20241121-144856
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20241120035826.3920-3-cedricjustine.encarnacion%40analog.com
+patch subject: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051, adp1055 and ltp8800
+config: i386-buildonly-randconfig-003-20241122 (https://download.01.org/0day-ci/archive/20241122/202411222109.6PmpUvSa-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411222109.6PmpUvSa-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411222109.6PmpUvSa-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/hwmon/pmbus/adp1050.c:8:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/pmbus/adp1050.c:88:32: error: passing 'const struct pmbus_driver_info *' to parameter of type 'struct pmbus_driver_info *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+      88 |         return pmbus_do_probe(client, info);
+         |                                       ^~~~
+   drivers/hwmon/pmbus/pmbus.h:541:73: note: passing argument to parameter 'info' here
+     541 | int pmbus_do_probe(struct i2c_client *client, struct pmbus_driver_info *info);
+         |                                                                         ^
+   1 warning and 1 error generated.
+
+
+vim +88 drivers/hwmon/pmbus/adp1050.c
+
+    79	
+    80	static int adp1050_probe(struct i2c_client *client)
+    81	{
+    82		const struct pmbus_driver_info *info;
+    83	
+    84		info = device_get_match_data(&client->dev);
+    85		if (!info)
+    86			return -ENODEV;
+    87	
+  > 88		return pmbus_do_probe(client, info);
+    89	}
+    90	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
