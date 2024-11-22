@@ -1,54 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6431C9DD8;
-	Fri, 22 Nov 2024 17:34:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953C81DF250;
+	Fri, 22 Nov 2024 17:37:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732296845; cv=none; b=pu5paN+J5r73CHZqbsQbyP32SLUqrXnYiQQ0PqTWsau+oqiMjOrcE2cooyD3/gutLvOAye48DRtACV1TtU6EJxqDE8uC8QrcZFdKdgbmQLeU+N66z0NKXHxwGZRraa8biCReNxmBaWgDw5ciE09sqAIgr8IvilwGvbt6qlhVEas=
+	t=1732297034; cv=none; b=GTLV5kz1pd7oNjBz3J6QaVsmuhXNqUKco0GuxV0YYsu9tkSh59VDPqx/tsgMgWo/2c4hs2i09EE/vxK+qK5TUGQZDmtwKmGTupW9JRe5nlvvCEZv5Ge5pUOIJte3IAM6NcZosHF3a44vXNd00mI8JXPS2lbg6ZzDuWf9PvBiZfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732296845; c=relaxed/simple;
-	bh=2sHi/a+0wuB3fqVGPacRh7HtzqPdmGXg+wZjiwrdo48=;
+	s=arc-20240116; t=1732297034; c=relaxed/simple;
+	bh=Q1YnYcM8loX9qqAfgjT2l9gRvOlv8b4zcm1FtFvDxyU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=H8dnZqHRoecrnuoD1E6VjqkqJ+uzhtgv9HjQpPd5XWNvot1T/u/R2HleacFArLtaOvYkLniWQP1gJkhz1lwgPS7GkHxr3sc0ric0EjY6Mm1om8kb/WJWNheGFDlYTqMqkVLHE2Sn7XdsEhsVfRZCM2zW46SHS0Mws+9RvXVf7JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CzKMkrcE; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=iLdUACPF/7fDtPHMTwzj4rQzSYzVTIqmggVfSnGIjr1Wj55j5gIOk+VoJj3+TBP6nLbSyelDh6OKgJD3inDN0ya8hZv5rB9pFgHo4zaU876HzHl1hXYzduHc8Xih04o/YNKueAdOo+Jtji750snKqPmgVxT656czPLoCttAG5HU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gCg1Jfy+; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CzKMkrcE"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EAE50403E9
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gCg1Jfy+"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BDEE3403E9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1732296842; bh=mGnMSq8J7sgcF7jpZFZz2wdJr2vNucWms4i6GJBNlr4=;
+	t=1732297031; bh=+9dG1RLUPPes0X3wuWZjFH472Bkwm1K2mxlu8XAabek=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CzKMkrcEB78tvbB+uNDHs6JKg5GQNVTEx1w2hx/9rV/OF9s318qZQFEzh5gEJ1i9J
-	 xeeISVRGAI/t9weGAbhP0Ih4vdiWsI3OQNtbv0PkabR36nFYYTZ3min3X8noudj0er
-	 E6wUPzaqmsNXvCisyLpCCgBExaBQ5BE6+X9TRVCF1ni2m5m3VD4HepkXeIfPZKagFu
-	 m4o+GWOf7ONpauAy6knmowpDQ/PF/cpFzMTK1GSnykkxdAe0kD2J4iS2vkLZWOoDFR
-	 eS1M66WYy2smr9XGJe+QJTZsrtUuHRsM8vMPeWwOBngiBaD9BgG+/2AStIeM1oC8tk
-	 4KHMwCrcC+tKg==
+	b=gCg1Jfy+VxYxEiEeK5ovYvkvHnq+BUHL1tZayu1kFtl4EaOUB5CiisHIPKBtht2Wx
+	 E6SSALm1bd3SFNglkC6iV/y79C4QxCEkmCxtL54iOv/vzVAMHVqiIDJ2yymohVcMHn
+	 Q9Wf/TyQuiKVOlL0s0EolHnmCwMGT1PWbRz3bA4OrDtVWHf468GYpbY6kdSE7JKCc/
+	 coa64lt4vxNCghN2aBnebMmYA/txMGuVw2INz5un0KBqPB/PwLaVXX6zCWLBrAk2aJ
+	 /C/xam30UJlgN8OSS0OevMh70JYs+VpFcHjdy8tEGs591Wfl7ovz9G9ZETo/s+MfZK
+	 d6RBEoleGSULA==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EAE50403E9;
-	Fri, 22 Nov 2024 17:34:01 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BDEE3403E9;
+	Fri, 22 Nov 2024 17:37:11 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Ian Kent <raven@themaw.net>,
- autofs@vger.kernel.org, Alexander Aring <aahringo@redhat.com>, David
- Teigland <teigland@redhat.com>, gfs2@lists.linux.dev, Eric Biggers
- <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- fsverity@lists.linux.dev, Mark Fasheh <mark@fasheh.com>, Joel Becker
- <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
- ocfs2-devel@lists.linux.dev
-Subject: Re: [PATCH] Documentation: filesystems: update filename extensions
-In-Reply-To: <20241120055246.158368-1-rdunlap@infradead.org>
-References: <20241120055246.158368-1-rdunlap@infradead.org>
-Date: Fri, 22 Nov 2024 10:34:01 -0700
-Message-ID: <874j3z41h2.fsf@trenco.lwn.net>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>, Bartosz Golaszewski
+ <brgl@bgdev.pl>
+Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Javier Carrasco
+ <javier.carrasco.cruz@gmail.com>
+Subject: Re: [PATCH] Documentation: pwrseq: Fix trivial misspellings
+In-Reply-To: <20241120-pwrseq-doc-trivial-fixes-v1-1-19a70f4dd156@gmail.com>
+References: <20241120-pwrseq-doc-trivial-fixes-v1-1-19a70f4dd156@gmail.com>
+Date: Fri, 22 Nov 2024 10:37:10 -0700
+Message-ID: <87zflr2mrd.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,39 +51,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Javier Carrasco <javier.carrasco.cruz@gmail.com> writes:
 
-> Update references to most txt files to rst files.
-> Update one reference to an md file to a rst file.
-> Update one file path to its current location.
+> Use proper spelling for 'discrete'. When at it, capitalize 'Linux',
+> which is common practice in the documentation.
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: Ian Kent <raven@themaw.net>
-> Cc: autofs@vger.kernel.org
-> Cc: Alexander Aring <aahringo@redhat.com>
-> Cc: David Teigland <teigland@redhat.com>
-> Cc: gfs2@lists.linux.dev
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Cc: Theodore Y. Ts'o <tytso@mit.edu>
-> Cc: fsverity@lists.linux.dev
-> Cc: Mark Fasheh <mark@fasheh.com>
-> Cc: Joel Becker <jlbec@evilplan.org>
-> Cc: Joseph Qi <joseph.qi@linux.alibaba.com>
-> Cc: ocfs2-devel@lists.linux.dev
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 > ---
->  Documentation/filesystems/autofs.rst                 |    2 +-
->  Documentation/filesystems/dlmfs.rst                  |    2 +-
->  Documentation/filesystems/fsverity.rst               |    2 +-
->  Documentation/filesystems/path-lookup.rst            |    2 +-
->  Documentation/filesystems/path-lookup.txt            |    2 +-
->  Documentation/filesystems/ramfs-rootfs-initramfs.rst |    2 +-
->  6 files changed, 6 insertions(+), 6 deletions(-)
+>  Documentation/driver-api/pwrseq.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
 Applied, thanks.
 
