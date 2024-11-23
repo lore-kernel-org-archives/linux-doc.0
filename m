@@ -1,233 +1,222 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2071.outbound.protection.outlook.com [40.107.101.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFB48F6B;
-	Sat, 23 Nov 2024 00:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732320932; cv=fail; b=AxsduVtb2n8tMQEB/qncd1yWexgExfoch76cON7oJeidKy6BI2QtD0YoAWHAmdD8gaDw33kK/T91BwqqQUPs+jEEXhzuPqmSF/87x2LLazML4MT5oYKMk9/KaffjryLPLaIBoiYVrKe1H5khQ4vR03CgmkyVFfGYtPp5SdfyvQ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732320932; c=relaxed/simple;
-	bh=vEmKCTKEKJRHyuV0/GYcg60UWSc8e4Iy/WHa63D65A8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=icNaRGaHzLyCo+6pjos4jpaNcWXtwCpktCPHxG/YM7XDshRNO/LNf7o39RMf+W+H72ZvQKurab/Cx1THQK+Bb1c3C8igjrG0tR++vcsRnKl/SwXptIepeRP8kkeTtTGl64hOGWKd7FaeHff9wdr6enhIyf4yBH5dvbTTkyT5iSQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=41GOfozj; arc=fail smtp.client-ip=40.107.101.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99ACA17583
+	for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2024 00:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732321160; cv=none; b=SDugLjF1WTZcMALCvGomRF0OmhQvVeTHuMfibcX1oOEe+enIwrsrPOLH2KR/AMBRN/tKa1NzGrTHvwLJ+mv1sY4jX/WZEwVYVCQ6nM+n1xoZFuoaXTy+ernlz6MvSGDjHbBnV81IiKW6612r7OwYIi/BR6hHNmGnX7VijGb+Bgk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732321160; c=relaxed/simple;
+	bh=AHCdX8/xinJ6RwqG4IEXhJMejLQ5bAM2pfpvjXgd0xQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=EJGgAAMqtJ1Tl/cOEqTnnwwQm3xNjNDGIkOeHCuD//Aom43nSiikG2v7ZBV0ujOlHIROnbC+Ays9w9155CJuTUXwT4uXr3VC38UEFq9w18+oYrCTDL0hDAqvOTqDygU+L32Ub+/wFYxFDOeaXRB+PW4hzrFESlwCKCY4V3OD+Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=u05keqOz; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="41GOfozj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Nwn0PTNFt31cTKQ6IJa15H4ClSuMXoQMjxq3cwISCLZ8OxWRH8cNw4UKC4TapIoPm2rC2XliGooZNKYCubZ8W1uQYrbFAuvAVkJoNW2Op0M5JtaeRRlEl8WY4i+c3lVUZky3RYSVuLDynLLRbPDHu4sK5HRCfSUBHFHo5HHeZHkTmiDFtG4DmoKfGTG06iyj9sdPXjBS0KbMiFxRfZPzthzZsiKBkCjp9ATv3mB0Lr4BDBz0dvck7y7OkKcE9XsX3H/5nkkZ7CI40yViXN2wf/yLYAytbUhMzSDV/H+1lz7ykeTETs+e5Q8hU7rZCfczuqhooZlUP4eiPxCRsmt7dA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RCL6+mfvZmuOXFrco9q+CCO94NfWkmlCTVilnzeKv4A=;
- b=wgqxYcr28SetF+eK4k1Wx/cQhIRJr/wCKJ8H8fwQcdOqgXz4e9IO9oKz4Z9oZWfGXLFGjaDGy+2R8/LpB0wv9y3vrMl94wQYtgYY8jSeHLC1pAGf9Tp5DTajjdgk+iBw5f6RJOjxtujiJjtJwpHY15J6FiNMuiuaMacek5gCyrDYEtKjVPUMtstlAeMYVbDFXZzsrXTPkuEIL7SAaOziFhEWxEKsudfyC5dbcvnbl3Jh7N1oNJfeekktaVaQqq/P67hq2PDxxpKcoJcqp3ZFh88zbIJCJGFmg7yWlOEawS5sOk7fY+ODfEKtoNZ7yLvyXUcbRmhj/LYiZF3H5fRbrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RCL6+mfvZmuOXFrco9q+CCO94NfWkmlCTVilnzeKv4A=;
- b=41GOfozjULm8QDY0Xmn8i/9NufSVAC7hpJOXuMoy/vk4r61dDTqbCJfsGtQ6Qj9oddYEuVG7I+SeOrN4WYkvmlwhLlvvSE+4gfPmojKN6p8jM8U03zXeMav/+LvN2iek1QUSMuXJ7ou/fnkYIwIevFEyiKs/WatpPPUla3xrPC0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CH3PR12MB9122.namprd12.prod.outlook.com (2603:10b6:610:196::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.18; Sat, 23 Nov
- 2024 00:15:28 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8158.024; Sat, 23 Nov 2024
- 00:15:28 +0000
-Message-ID: <8ad51d26-fe26-4fa7-9d20-7e83a9009941@amd.com>
-Date: Fri, 22 Nov 2024 18:15:22 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v9 17/26] x86/resctrl: Implement
- resctrl_arch_config_cntr() to assign a counter with ABMC
-To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
- corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com, thuth@redhat.com,
- paulmck@kernel.org, rostedt@goodmis.org, akpm@linux-foundation.org,
- xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
- daniel.sneddon@linux.intel.com, perry.yuan@amd.com, sandipan.das@amd.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
- jithu.joseph@intel.com, brijesh.singh@amd.com, xin3.li@intel.com,
- ebiggers@google.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com,
- james.morse@arm.com, tan.shaopeng@fujitsu.com, tony.luck@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, maciej.wieczor-retman@intel.com, eranian@google.com,
- jpoimboe@kernel.org, thomas.lendacky@amd.com
-References: <cover.1730244116.git.babu.moger@amd.com>
- <a3c2bdf2153882cc955b80b7d0fcdf7af3d09eb3.1730244116.git.babu.moger@amd.com>
- <5a7d8ff1-91c7-4e75-9730-3aa0703274a6@intel.com>
- <e108846f-930b-4afd-90c6-2266af96816f@amd.com>
- <a1417f89-7d07-4e9c-ace4-1248fb2f668b@intel.com>
- <d7bbc624-75f0-4110-b459-e69dafd9577a@amd.com>
- <9b510a12-b0de-4143-806b-493c29f4ff00@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <9b510a12-b0de-4143-806b-493c29f4ff00@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1PR04CA0009.namprd04.prod.outlook.com
- (2603:10b6:806:2ce::25) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="u05keqOz"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6ee6a218044so50062787b3.3
+        for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 16:19:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732321157; x=1732925957; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PzyWd1Ozzz3SQNuZyfgRru/W6uNkQPbCi35gmVjFow4=;
+        b=u05keqOz5nlqphgC8jXMohDEaw+eqrUgoaqerbVWzKTGIkyZYNa+o1jTqD+exgm0KQ
+         Z047FbK22c+g0m1FuKURu2q0HrvB0vbG/aynHk5QUfU6b5WRKg3qWnhIlb7Y9iET8yjC
+         gisswr+PmEMYdIW/PttApi4Gm7ZyQKSvqPEoO1XhJkQ4cYxMQ05odph7G+hQ1fyOP0sK
+         xWG+5QEB8O4dvqhH7zgE7XCLUO5DGKbF6BD4FSzP/zfbo+gouQIy6smg75/u3bPehvYB
+         FEMqOz41Rj362LN4IykLjQN+B30SEJm9xPKYv9a6hgDNQ7DPavCLfQ5pJuvjWozhBz9L
+         hjag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732321157; x=1732925957;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PzyWd1Ozzz3SQNuZyfgRru/W6uNkQPbCi35gmVjFow4=;
+        b=Vv9Z1st/ZhQarKpyx/EFaqoym5faQ15e4rNfvY18VwREUW9e05DQ6S9Neh37TUiNp8
+         YPm2HzWL62i++T3Pud9JoiS1ihem2HcIaRlZee79voF9u0JsarNKI8A9NU2JHwBkoFVm
+         mOLSnvWAh7AJJPmEn55rRsFixOylw/0yziG3Eve3IwqgcGbQEWhWca72vWHu5mbaMJWN
+         dT888bM3D+CfJLKgu7ZIJgyi4tDYSm5l/wGdtjcEO0xCom+dup8f3PdxL97hqS2dDCYS
+         DSuMNN4DxZ4UXWX3ZinSg1sy3vrvPvO6QT/nNpno84HkVjIYTb4Oo/lnsIXGZHvsdQC9
+         PgkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVif2aZ2mAuXiudDHsiq5D5oJsFH6KIhcEh7qIWgHmjtNgPi6gsiwb0XJQpMCxDJO/IzgXFB7qF2Hc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8HkFQG2MjYJBhumcJghxN3b5gd76A8FK2USQ1MguT2C+mQyLR
+	6RfXhANj2d2jpOpYmtk0a4bSx9F2IBFcF6hAb1l651EkhGRfF9JMmbu6wZ0j+Hu/YDwKbOsUSOY
+	BVM9T7g==
+X-Google-Smtp-Source: AGHT+IGaHsvNgSBBFeb1KNK1VHScVmnycGaGvWkQd+Oy8DpEaKXryKh9jKUOlebIrijGejNroleRwAK5Bosy
+X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
+ (user=mmaurer job=sendgmr) by 2002:a81:8d0a:0:b0:6ec:aa45:a975 with SMTP id
+ 00721157ae682-6eee08a975fmr29537b3.1.1732321157317; Fri, 22 Nov 2024 16:19:17
+ -0800 (PST)
+Date: Sat, 23 Nov 2024 00:18:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH3PR12MB9122:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3551c073-aec8-4952-7fc0-08dd0b53ef2b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RUNFT0RYaFlFWlQ0STk4NG80VUxZN1lURUlHdWhCOHN0RWJ6RlBVMklTOHVC?=
- =?utf-8?B?TUV3US9vVENYR1lGc3hHeHNrZ3dubHEwNXluNm84NlRzcEtCTUtTVGxkNi9q?=
- =?utf-8?B?cjNYa1d1OEdKL3R4dVcyM3MvRTVYQVVqOHNnRFZIU0VZL1l2TVRFUldQeFJG?=
- =?utf-8?B?SnVOLytSaHJqMjYvQmRoRkgzVy9Pdm9lSGoxYWdBVHpJVnl1K0REVVNOcVBV?=
- =?utf-8?B?Y1NvQTlFUHl2RnlHTk14UytaQ1c1RXRjeU9NWk1nTys2WXBVTWhzemxaZmxN?=
- =?utf-8?B?ZzlBdkVwbGtNcG4wQjdOOUVoWCtteFVkUVNRY2xJRGNYMitndmp4S3NaaFEy?=
- =?utf-8?B?cXA4Sm9BZFlCNTN5ajZscnNvZElPQXV4Y0o5VTk3emxmNkpVbE9JSkNjcDY5?=
- =?utf-8?B?TkM4ODFKTk1ZTHAveVlmMjFZRFZNREdIdTZDR3pxNkpHUi9Cd2k2a25XZWlU?=
- =?utf-8?B?R3drRC93M2VlVXlneGNiRFhhVU01cGFEa3dWOG5wVXRIRUl1NVZwUXRwbDlD?=
- =?utf-8?B?V3diMzVIdTQ4Z0xsc3BVNjRVeHora0lrZzZUSk1MZi9aVnA1bVY3aFRwcXAw?=
- =?utf-8?B?bzRkSEd4NUhSbE9heUdmL2hFaUhhYzlWRkdUalJyaTNvdEh3dVNwQnYrOEJh?=
- =?utf-8?B?TGZ4YnVsemVGTXRRRFFzNHJtRThKaGlFRFMxaDNEOWYxUEt3TXV3TXcrcnhs?=
- =?utf-8?B?MGhTaTZuV2JJZExtaWI4WHR4L3QwWkUrSXllWWYwRmNSQUcyNWJPM01iYitV?=
- =?utf-8?B?UlI0RG1Xckc0VWt6M24xWE5mbUJTbjQ2cFgxTHZhWThrVVo4VlJjWjZKVEEv?=
- =?utf-8?B?RHVSNTRSQ0podWFUUk01RldYeDcwcDJYMXNZZVNJRGRtVmNLMkVvVnE2R1lv?=
- =?utf-8?B?ZVRjN2RsL2tGdGpueFB1ZFJkSm1CMWZkcGtmS043WllNb2NSZzZsc1YrVklE?=
- =?utf-8?B?V2NHdTUreEtqMk1PeG5DV0lmOHl5WXB0VWdOb0RlbVhoUDJxMmNydlFhTjNW?=
- =?utf-8?B?UGZpRTFUZE9razVkQzNSb3lFRk5QdkZOOHNDU3JmN0FiaXdaM1MzUmNIcWJW?=
- =?utf-8?B?RTIzUGtwWmFrMjRHS3QwVmh2RkN5WVFUakpRekE4ZFV0UUQ2NzZXWW5Bd1J4?=
- =?utf-8?B?d2ZUazkyb0c2VzNyaFpjZ29kaFpka3R0Vld6bGFMN3ZTdlBZSVlxRVBzNExD?=
- =?utf-8?B?L0JuVENZL2RDNGkvcHR5QWxGcE5PbWdWOEJua3dyR3JwM3BoZ2JwNnZtUnhv?=
- =?utf-8?B?OWJVa3p4SHRKWXpSTVRDZFY4cEdBNFNSYTB5OS9kNU5aVWZEM0ZoOHZYN2o4?=
- =?utf-8?B?RzJ4Ui9JNnJOS08xMGRhLzVOQmhxUEU4SjRwTnl2SHNhSmZWQW5iMDlINWoy?=
- =?utf-8?B?ZCttVWwvY3hEdDFEMUJ1VWxRcjRXb1o5VnQzTHZ4MWZTWEFmRFRlOUVXMCth?=
- =?utf-8?B?bHBTSi9mQmxMODRBTk5jTEtoeUU1Z09tTkxXUVhUT2FGaUlDN0thSTJxYW9l?=
- =?utf-8?B?R1FGbXgwOGluZ21zVlIraW5iMTdFeFRjL0lpdXZTTFZ5N3orM1pRQ3VWUnBX?=
- =?utf-8?B?M1l6T1ZJRE9GRmRYclAvT3NTRXhVc3hEbkhzVktnWjZ1M3lUajRNbmU4Z0tZ?=
- =?utf-8?B?OUpTcmZGaW1vVjh1Q1pMSi9YTDdBRkhXalBOeklKTXkrVm8ySlFsL2t4V003?=
- =?utf-8?B?SmlpOXNQZVZuSUFrMVlOM2RyWXBrS3RSVFBDT0c4SktYZXdYUGdGbzYwVXBD?=
- =?utf-8?Q?ZkWVC/Y1C19ph7FRHbdo6uyZvCfGCLpL50JGsjs?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WEkyakhCVURhWXgvYWdoYVk5VUF3aEIrTHRzWnpTRFdXUHpSY1hCSER0c3Rn?=
- =?utf-8?B?ckxOZUZBVmlXWGhSemd0ejZjVjA5TmFDQ3BINHk4SFFNMlJKV3ZheG9BM3N6?=
- =?utf-8?B?UC9WQ0toNHZ4M0xQU21Lb2diWlliY0dvTE53L2tXS1g2ZEpVcExDRmk0UG8r?=
- =?utf-8?B?ZDBGZzdxK01mNDg4d3BHemR5RTMrWDdaTWJEWngvQTAvVHA5UW5WaStVN1lh?=
- =?utf-8?B?WkxtTDRHak5CS055Z0RqUzFNSWdTQ3EzejI1bytCRGZKa2RJQjNqL3JNRU41?=
- =?utf-8?B?cTFSZFR3T1d3aU1oeTJndU4zaU4ydnd4T0R6Rm5hdGFmdFR6eUNmL0IxVXZP?=
- =?utf-8?B?SXltRFR1Tm1hTTlqRk8wbW5vVE9Id3JJdnVQaGdpbEtrMDRnODRZU1grQjJz?=
- =?utf-8?B?d0YrS3dIV1I3QUNBQ2VlaVdSOTR1NExEa1dFQzJGYWxSS1FsdmtISjUvN3hp?=
- =?utf-8?B?R0RlZlArSWcvRE1DclJBZjdhaDFUU0haYjBwUjVwck9RemZvblVZL25MMDYv?=
- =?utf-8?B?SmM2MlRtcDVsT3dUQ3U0cXhOeEI1VlR4T2JqSmpPRXZvR1F0UGoyOTZUdUh2?=
- =?utf-8?B?dXFOSkgyNlRCUis3SDQxaGpWY1BJWkkxai9sWWNuek10TG9JWlpMVXErQWov?=
- =?utf-8?B?Q2ZHaGxwbjIrRFYyNis1SloyVEd6dWlvV2J0K2FJTmJyK3V2TUNXeW8zb0hz?=
- =?utf-8?B?UEJNcmV6OVR5d2drM0toMXBhQVdqTDNpa3FwbG9JbTZqeDd4bExvaE1mQThU?=
- =?utf-8?B?Q0JEbEtnN2hMU2dVcUp4cnFmOXJSbkdyMzZVOWVBdG41T1RUR1V6MmZhd0Fj?=
- =?utf-8?B?UUV0RmFuRGlIT1ZNR2RNOTdQVWN0RHR6eE1FeXQwRmtIY3dXclE4SkVUTWh4?=
- =?utf-8?B?d0RTR1U5dDFHcm5iY3ZoQXkwRzJ1bmJlUzdRcU8rYndrMkxmTldxZGJINEV6?=
- =?utf-8?B?Yk9jMUR4VUd1Y09ZQ0hHcm9Fb0p3dnEzckprd0dlZVBTU1AyQzhocU1YRUh4?=
- =?utf-8?B?aUZjSGFCNmxoNUZxeW82RVIyM0xVY3JNWmI4OUt6QnpwRlU5ZnV0UkRjTTNE?=
- =?utf-8?B?UXNtT1JaRHVEY1J2NDJ2OE9xUFVRZVlJUGdjSjdibE1QZTBqRVdBRTJ4NWRj?=
- =?utf-8?B?M1ZCTjFOcUpWK3I5K2k3dW8zRmtsSXcrdHNWWE5RT3R6ZzBsMDZmTXF5RytU?=
- =?utf-8?B?U3VwYnJRem5mYUZMeTY5b09Xb1N6eUxPMndXZTlieCt6RUlhVE1BSktVQVVu?=
- =?utf-8?B?WDBrekltc2piYnBYb0VRNDRUeWtoeXdoQ3J5UE9obWJFTkZhdzlheHVybmFW?=
- =?utf-8?B?Ynl3NmFDb0V2MTQ3UnArOFFQQTJuanF3R0FLMzgxS2NiL0xOcDNvbjdKYnlY?=
- =?utf-8?B?ZDJYbTA5ZjZFK25SUFYwR0RzTXBhdENRUjdKaHJseDhkTXFIeEVBMkVCNFll?=
- =?utf-8?B?SG1FMGF4cW5SS3FzRzdqdjcyQjlvMjlMK0l1bExWMGNqMHJPOS9STVVyWDBF?=
- =?utf-8?B?N0pQellYUjYxVG9KdnFRbGYvSzdUcDFlWTR3RHB4K294eWRlT1RvT25KNkxq?=
- =?utf-8?B?Zm9wZFhDRCtBTGk0akRITWVBWWxsdXorSzdkM2VUT2JMUXhGMHlNYmZFMXJC?=
- =?utf-8?B?NEJQVXE1ZGVLNlQzRlljSzk1cjJBMkJOVUZwT240U2d6S2cwUERZVk10cHNp?=
- =?utf-8?B?ZmVTODFJOVl3OTM5UXNsYjZtbmNYRHZweGhkSE1haVNpYmttcVRnSVBzYTRS?=
- =?utf-8?B?ZUZicmI2a1V3RzJBZHBOdWRFUmlWQTRoSkEvMnBUSTdEVjVieXdiNmY4RDdh?=
- =?utf-8?B?Vk45VFpvVlI5RUdhTDlmbEJxK1JXbjI5UHg2M2RlaXV3UFhiblZPdHJhZGs3?=
- =?utf-8?B?c0hibWVOeUtFaFVaa0FrdkNkN3FwNVlDaXMvaDAzS1RUWHpEVjVsVUI2Tjl6?=
- =?utf-8?B?WkgvQTJMUDJPMEdPc2hNNTF0ekhidmQwTDFhc25KekhpTW11OW5CbmhqZXcr?=
- =?utf-8?B?SXBjbTVMTnpXM2lHK2Q3UE15RTNZZHowWW0wU1V0d3M4Y1hLZmVzdmpkSFc2?=
- =?utf-8?B?Y1g5a2RyMmxUR2czTE0xcWRGMGZTWlpwUmVhd2hqbnRXKy80SmpFbFZMenIz?=
- =?utf-8?Q?Jsic=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3551c073-aec8-4952-7fc0-08dd0b53ef2b
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2024 00:15:28.1458
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W+KhJbaOODmVeewxg0Qg/IXD2euHz01sLa+HPWsq2vXZQE2GTxnlOswXtYS6pQ/V
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9122
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAHEfQWcC/23QwW6EIBAG4FcxnDsGBq1omqbv0fSAOijJIltwz
+ TYb371oPdhkj38yfMz8DxYpWIqsyR4s0GKj9VMK9UvGulFPA4HtU2bIsRAcEeg+09RTD873C4V
+ tPoKu2qLoTWuMESw9vQYy9r6zn18pm+AdzGMgfcJEiVLUWOZSlQVKDgKc07dA4WPwfrhQ3nl3a
+ IG+b2m3+Y9kjmLU+25N9rZrAgXyApHnKCsllADkELWzs78seqLpZL5vaKsjQQpposmmdBUcDrJ
+ t49HG2YefvZel2j89KpDPK1gq4CBlXanUhZSVPB+xiYs6Kena54pKSi1115N5xY7UP2Vd11/W8 irAsQEAAA==
+X-Change-Id: 20241022-extended-modversions-a7b44dfbfff1
+X-Mailer: b4 0.15-dev
+Message-ID: <20241123-extended-modversions-v9-0-bc0403f054bf@google.com>
+Subject: [PATCH v9 0/5] Extended MODVERSIONS Support
+From: Matthew Maurer <mmaurer@google.com>
+To: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Matthew Maurer <mmaurer@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-Hi Reinette,
+This patch series is intended for use alongside the Implement DWARF
+modversions series [1] to enable RUST and MODVERSIONS at the same
+time.
 
-On 11/22/2024 3:52 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 11/22/24 10:54 AM, Moger, Babu wrote:
->> Hi Reinette,
->>
->> On 11/21/2024 2:18 PM, Reinette Chatre wrote:
->>> Hi Babu,
->>>
->>> On 11/19/24 12:12 PM, Moger, Babu wrote:
->>>> Hi Reinette,
->>>>
->>>> On 11/15/24 18:44, Reinette Chatre wrote:
->>>>> Hi Babu,
->>>>>
->>>>> On 10/29/24 4:21 PM, Babu Moger wrote:
->>>>>> The ABMC feature provides an option to the user to assign a hardware
->>>>>> counter to an RMID, event pair and monitor the bandwidth as long as it is
->>>>>> assigned. The assigned RMID will be tracked by the hardware until the user
->>>>>> unassigns it manually.
->>>>>>
->>>>>> Counters are configured by writing to L3_QOS_ABMC_CFG MSR and
->>>>>> specifying the counter id, bandwidth source, and bandwidth types.
->>>>>
->>>>> needs imperative tone
->>>>
->>>> How about this?
->>>>
->>>> Configure the counters by writing to the L3_QOS_ABMC_CFG MSR and
->>>> specifying the counter ID, bandwidth source, and bandwidth types.
->>>>
->>>
->>> ok with me. Exactly what ChatGPT suggests.
->>
->> Hmm. ):
->>
->>>
->>> Please do note that that first paragraph informs reader that
->>> a counter is assigned by user to "an RMID, event pair" while the hardware is configured with
->>> "the counter ID, bandwidth source, and bandwidth types". There thus does not seem
->>> to be a clear connection between what user assigns and what is programmed to hardware.
->>>
->>
->> Adding RMID in the text might help.
->>
->> Configure the counters by writing to the L3_QOS_ABMC_CFG MSR and specifying the counter ID, RMID, bandwidth source, and bandwidth types.
->>
-> 
-> Isn't the bandwidth source and the RMID the same thing? How about something like:
-> "Configure the counters by writing to the L3_QOS_ABMC_CFG MSR and specifying
->   the counter ID, bandwidth source (RMID), and bandwidth event configuration."
-> 
-> Please feel free to improve.
+Elsewhere, we've seen a desire for long symbol name support for LTO
+symbol names [2], and the previous series came up [3] as a possible
+solution rather than hashing, which some have objected [4] to.
 
-Looks good. Thanks
+This series adds a MODVERSIONS format which uses a section per column.
+This avoids userspace tools breaking if we need to make a similar change
+to the format in the future - we would do so by adding a new section,
+rather than editing the struct definition. In the new format, the name
+section is formatted as a concatenated sequence of NUL-terminated
+strings, which allows for arbitrary length names.
+
+Emitting the extended format is guarded by CONFIG_EXTENDED_MODVERSIONS,
+but the kernel always knows how to validate both the original and
+extended formats.
+
+Emitting the existing format is now guarded by CONFIG_BASIC_MODVERSIONS,
+but it is enabled by default when MODVERSIONS is enabled and must be
+explicitly disabled by the user.
+
+Disabling CONFIG_BASIC_MODVERSIONS may cause some userspace tools to be
+unable to retrieve CRCs until they are patched to understand the new
+location. Even with CONFIG_BASIC_MODVERSIONS enabled, those tools will
+be unable to read the CRCs for long symbols until they are updated to
+read the new format. This is not expected to interfere with normal
+operation, as the primary use for CRCs embedded in the module is
+load-time verification by the kernel. Recording and monitoring of CRCs
+is typically done through Module.symvers.
+
+Selecting RUST and MODVERSIONS is now possible if GENDWARFKSYMS is
+selected, and will implicitly select EXTENDED_MODVERSIONS.
+
+This series depends upon the module verification refactor patches [5]
+that were split off of v5 (now in modules-next)
+and DWARF-based versions [1].
+
+[1] https://lore.kernel.org/all/20241121204220.2378181-20-samitolvanen@google.com/	
+[2] https://lore.kernel.org/lkml/20240605032120.3179157-1-song@kernel.org/
+[3] https://lore.kernel.org/lkml/ZoxbEEsK40ASi1cY@bombadil.infradead.org/
+[4] https://lore.kernel.org/lkml/0b2697fd-7ab4-469f-83a6-ec9ebc701ba0@suse.com/
+[5] https://lore.kernel.org/linux-modules/20241015231651.3851138-1-mmaurer@google.com/T/#t
+
+Changes in v9:
+- Rebased onto the latest version of Sami's series, on top of linux-next
+- Added BASIC_MODVERSIONS to allow using *only* EXTENDED_MODVERSIONS
+- Documented where symbol data is stored and format limitations
+
+v8: https://lore.kernel.org/r/20241030-extended-modversions-v8-0-93acdef62ce8@google.com
+- Rebased onto latest version of Sami's series, on top of v6.12-rc5
+- Pass --stable when KBUILD_GENDWARFKSYMS_STABLE is set.
+- Flipped MODVERSIONS/GENDWARFKSYMS order in deps for CONFIG_RUST
+- Picked up trailers
+
+v7: https://lore.kernel.org/r/20241023-extended-modversions-v7-0-339787b43373@google.com
+- Fix modpost to detect EXTENDED_MODVERSIONS based on a flag
+- Drop patches to fix export_report.pl
+- Switch from conditional compilation in .mod.c to conditional emission
+  in modpost
+- Factored extended modversion emission into its own function
+- Allow RUST + MODVERSIONS if GENDWARFKSYMS is enabled by selecting
+  EXTENDED_MODVERSIONS
+
+v6: https://lore.kernel.org/lkml/20241015231925.3854230-1-mmaurer@google.com/
+- Splits verification refactor Luis requested out to a separate change
+- Clarifies commits around export_report.pl repairs
+- Add CONFIG_EXTENDED_MODVERSIONS to control whether extended
+  information is included in the module, per Luis's request.
+
+v5: https://lore.kernel.org/all/20240925233854.90072-1-mmaurer@google.com/
+- Addresses Sami's comments from v3 that I missed in v4 (missing early
+  return, extra parens)
+
+v4: https://lore.kernel.org/asahi/20240924212024.540574-1-mmaurer@google.com/
+- Fix incorrect dot munging in PPC
+
+v3: https://lore.kernel.org/lkml/87le0w2hop.fsf@mail.lhotse/T/
+- Split up the module verification refactor into smaller patches, per
+  Greg K-H's suggestion.
+
+v2: https://lore.kernel.org/all/20231118025748.2778044-1-mmaurer@google.com/
+- Add loading/verification refactor before modifying, per Luis's request
+
+v1: https://lore.kernel.org/rust-for-linux/20231115185858.2110875-1-mmaurer@google.com/
+
+--
+2.47.0.rc1.288.g06298d1525-goog
+
+---
+Matthew Maurer (4):
+      modules: Support extended MODVERSIONS info
+      modpost: Produce extended MODVERSIONS information
+      modules: Allow extended modversions without basic MODVERSIONS
+      Documentation/kbuild: Document storage of symbol information
+
+Sami Tolvanen (1):
+      rust: Use gendwarfksyms + extended modversions for CONFIG_MODVERSIONS
+
+ Documentation/kbuild/modules.rst | 20 +++++++++
+ arch/powerpc/kernel/module_64.c  | 24 ++++++++++-
+ init/Kconfig                     |  3 +-
+ kernel/module/Kconfig            | 25 +++++++++++
+ kernel/module/internal.h         | 11 +++++
+ kernel/module/main.c             | 92 ++++++++++++++++++++++++++++++++++++----
+ kernel/module/version.c          | 45 ++++++++++++++++++++
+ rust/Makefile                    | 34 ++++++++++++++-
+ scripts/Makefile.modpost         |  2 +
+ scripts/mod/modpost.c            | 70 +++++++++++++++++++++++++++---
+ 10 files changed, 308 insertions(+), 18 deletions(-)
+---
+base-commit: 96ba0247d78ef4078e1de58b7e73715b93ee2c0b
+change-id: 20241022-extended-modversions-a7b44dfbfff1
+prerequisite-message-id: <20241121204220.2378181-20-samitolvanen@google.com>
+prerequisite-patch-id: 43f1286f3e4b991fda2aa093539631a01fadf5fb
+prerequisite-patch-id: 32a05b89083cfed15e5b877664b0c8138c40d09b
+prerequisite-patch-id: e192e2a692c40d96cba919e3baae68c441ab25e4
+prerequisite-patch-id: 50e884d28c720e90f201aae7801590d19736541b
+prerequisite-patch-id: 4d6a826429c519b581d01215e1d9c7373fdfd8c6
+prerequisite-patch-id: 0dcd84187b222adf52696dbcab303d683d087dd2
+prerequisite-patch-id: 0abe8634eb844a85e8dc51c1cd3970cf96cc494a
+prerequisite-patch-id: 5fabb630792f9304f200b5996314f3c2ae4c83ae
+prerequisite-patch-id: ff82b9794147dc28504e46a0170cd269623e73bf
+prerequisite-patch-id: a5cf20d27871bf63be64ac79cc81e5eb9d117b89
+prerequisite-patch-id: 2a317596a3288f9b8e06d73df53737bbfafb1d16
+prerequisite-patch-id: cac33b6e6672cf3f9f7f798a928ce7b147db271d
+prerequisite-patch-id: 62664c468be8afff72a3edaf2c1bcd2f4936a1b2
+prerequisite-patch-id: 5157d0421200858de3cc449bf39b3513efba3b24
+prerequisite-patch-id: 5a190c60e140cdf33caf4f4da03186a2bd75a531
+prerequisite-patch-id: 57d2fe708769154a6494fb1fece56911dea00687
+prerequisite-patch-id: 25255d6bc70d3ba38e45fb6a2c13038df293bd9e
+prerequisite-patch-id: 91c6131ab67a6f0fd8cf8bc95fa45144a868f095
+
+Best regards,
 -- 
-- Babu Moger
+Matthew Maurer <mmaurer@google.com>
 
