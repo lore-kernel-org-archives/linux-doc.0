@@ -1,43 +1,57 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937FA17084F;
-	Sat, 23 Nov 2024 10:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71139187342;
+	Sat, 23 Nov 2024 10:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732357570; cv=none; b=cV+9QzmTEr0HqWVDSgppaaogJTFP3NwrUES4F61uyDUfKOq15BUId9/EBY20zpeg2dr5JCfbKqhe2HKoh/sntpya68v/u485OLIDCjLMgp7QKWW4KgNT755RYM+RQ5zlWokNBCvU2UG1vmYkdPS0XiucM370z/4/1ASOP2K38r4=
+	t=1732357664; cv=none; b=cnDmoNaC5fxgcAa9QOglY4arz5nyFnx7J4MdVS9O9sZ9N6+fwe7OjH9gabynzVIuSUQ1cQe9Us/cdkxYUXmxB8oFhyiyu48ZpT6dBIVJfg2yOpiwuNUzOD/itecZhcTayd+QKUVL4woJNe2JidhUInTmAJrF+YNngqrlboDPrJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732357570; c=relaxed/simple;
-	bh=MYse441jOikI1onDBXLQyLshzo26VxR/1BRptl2uHck=;
+	s=arc-20240116; t=1732357664; c=relaxed/simple;
+	bh=ZdW4OMHSn6JOtvfo2KgWViiFGcrRptSBaLiLnJ3pAIc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OlqBCnbXHq4dYMkQKAp/ka0dEDDFiuri75Es00oVIRjHi5QbDPID2hOYremB9+B7U/p+oSOmI+1JraZPXmQBY2FeR4x0Wg7Kyo5C5jwn1vgxaov2uXMZBilWL0LIcR761QX/OcqH4BX4P+Wn7rr2j5FifXewriVn3nXwhPskJew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+	 To:Cc:Content-Type; b=Tjn9uVWNGgsh+uW9dlIsxycmSXqLFDZGYD46qZ3p9S1QTy8Njwi0i6YI0W2x/St4cnxG3wAKYkjZ4UtjYlB522X1vAaPTJgpyjzqTCYGcqLP2DYH0V32cUKQ4YLmhM9D8j09WFEDF+FeYWVsK/rzUpgmO/JLGCty2nu/qBFiKnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iCW148zs; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-514c3c41bafso884991e0c.2;
-        Sat, 23 Nov 2024 02:26:08 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iCW148zs"
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4af0e05b6a0so14817137.2;
+        Sat, 23 Nov 2024 02:27:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732357661; x=1732962461; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=er+B/vMbUNBHjwLGeOqjfngDnFXhQWZvKB9zekZc58w=;
+        b=iCW148zsH0VaDTVzqViWHsNyWEsN6v581dPwoC/Od98LrPuGne1Bv/zBGEXo9b3SDk
+         NXIcNSibN34vJEfOG2OiouSwPINEMjt/D1wbjVoShbjnEgM5BKRIJv3miV1vfJrFy48q
+         wwp6ZoavKeeZxERWmNMiFReb3haGPVFxwVdl/v2D+veyJasdwJhzEVH36FBYsBBZORqJ
+         uqDLAV1WbtyUsSIKkMQiF0apRn/gEKDEeTmW3apXM41QJAjT/fztQb30mE3PobcWWq0X
+         xk3rr8B3AxFZN+PbMuyEY7zHC0dfy08j+j2WVX4/LbnoaG4CbcoK9ALxeSkg9izw/BZw
+         f3KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732357567; x=1732962367;
+        d=1e100.net; s=20230601; t=1732357661; x=1732962461;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HWUfXqOrZo2/I4JzB9FKdD4EUvZ7gqdQ6KPKW0PSx94=;
-        b=ZRFAQ3blfkJBhMUEa4W59X5gFvkj4YZ61WEcz9Lda+UH93/4/rSd+XABafiSi+rcPk
-         RbV4hQD+GO3lOtO3vbL6fFdq/j5DCSzqiXZJ9oZZz47PxxbeybeoSU7Yc59LArjvEW1C
-         8ySCvHd8W1DjL4Dkw9zKMD7nEQx5q9h179ToKXYDsvhH/hJLmdGif3a07llmmji219pA
-         5eOHX1+AWLzYyXMnnSS8o3jGT+XTt7yk6zcvvYvyKrZmJAa0dXjCpZEp6nYZx8/eEzaG
-         bpfZT31n+ecMljDqCWT7IoTX69j7OuQhmWfk3ioNtadSDpjb7V+b0o/288zxMABQd+pf
-         SznQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULbln3yiERU6uEHz5LyiSiCMiLs5ndlTfRIzAwBwW/wbPnif1Fmcf2RzXBtWr9YgzKdYIWwO1VO+RSBwBS@vger.kernel.org, AJvYcCVcr+1r+jjZiJhoQXA11XQXROgZEmOFCgxWK1G3PdhHT+pb7r24dUgSGcelySXt+EtJD6Jt/2llYEI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3+2cs/4+R23dGeL2c/QPUm7V/2JFLU05l12lTzAplD+4a1adV
-	XTmJdvUkR9Jupvb38RN8WG6GyLfzLsFhNVpLRSxDR8G5VpF9lGTfO/cGZDvzwz45YEHVj+9BZz6
-	dX6dcTzJlf/Xf3GHI5GBeb0DtTvY=
-X-Gm-Gg: ASbGnctBVz9dVRaiI6ynvU9rRWJnkReflj/l+2xBZ3tzFDa+91qnSz0sQf2+8ZQ2FDR
-	YHNXLqSGFv0Ywu4RyJLIjr2KrrnUqnFoMHcNeC17d0+K5UBJ2MFjpROH4JJ9HEs3EQA==
-X-Google-Smtp-Source: AGHT+IEJzdZzyU/zaYBfMHxaG78xR9zWpUSwUDkfhOQ63vKtC6AXbm4seazdiWm8jn8eO3JJ3GN533F0XKPgFPSOWe0=
-X-Received: by 2002:a05:6122:2687:b0:50d:35d9:ad60 with SMTP id
- 71dfb90a1353d-515007edcc6mr6450173e0c.5.1732357567428; Sat, 23 Nov 2024
- 02:26:07 -0800 (PST)
+        bh=er+B/vMbUNBHjwLGeOqjfngDnFXhQWZvKB9zekZc58w=;
+        b=Kqf+Ps8d0ePQr2rLWS4VM21JF+y8XqmrdeN0l5LtypZfEVlpowwYnFkS/No6x9Bx/U
+         N2DgYLECjPIS4ugkCgrEQwCKQzWUxmx+yNF2W/DZP+nVzyVJ3fEXslD77MLe/i8T/93I
+         zEAfbzsUFMO0b5CsWoSHV+ygs8sfMt1wZvAeVk1HLgLoNKQL9YxiU7vbO8N9ySxXxlml
+         bWeJ6qTx6m39XtWAPlN0Eh1LkuKN7R64tC7vttZSOsGMCfBBEZ16bzPU5Dw3JigVJteP
+         HeAGth2GCj8m25ityNmZd+wKV6ktqqxONsHzlq16eMOedakev+7lbfUGh2kYnkf7d0i+
+         HUqw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4FFMM/7/WVmkCF7vcr5wXjTkRJe6XbxdAv3B6G6rdglZtvarF4uqtCGnck1pi+FhEYKqNi4nr5mY=@vger.kernel.org, AJvYcCVjc0t+Elgi3hznctpeef0LhTCuSynB5/PQnahoFc1ZCMb3l61W8dZLcL/oqwFQnqcWzdT9G71sJ8QK+j2R@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9XUGaGbHEVF/Ug8+pkIgxecDY2v2ITrIaWs6xX+awSlH5aiwu
+	7kE442LlWcifc2+XNMIS3a5W0Iq1bYj671Fs92CwbWgYYbXxp6k29+a/bReM6xMj7tm13bD0G1p
+	rnu4qWXUoqCpzItVJjPAAq04kFmI=
+X-Gm-Gg: ASbGncuL9M1ePv+bbPq1kpAQc0Kui8EaeBDzTQnw6ucBgioTN/OorLpRCnKILtMqGgU
+	/0ZTBUhLXlklZ9gM/mR9e93vQ3WFvyu6ATGsNvQtoBTT69kFiES/9L3OpAHLEur2iew==
+X-Google-Smtp-Source: AGHT+IFucNPYZs/JNZpVyYFVmUJCqsmAS7paUSqzbxQSqVTYDACoKrU0a/ZTmz7MiJHAOkmfRzsp7pOWzUEEuUANTcA=
+X-Received: by 2002:a05:6102:942:b0:4ad:635b:8a38 with SMTP id
+ ada2fe7eead31-4addcbefa07mr6585253137.14.1732357661052; Sat, 23 Nov 2024
+ 02:27:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,9 +60,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241122161443.34667-1-haowenchao22@gmail.com> <CAK1f24k6n1ngSicrSCv5jX+xa75t-7a3zZB4A95fUvDhteshEQ@mail.gmail.com>
 In-Reply-To: <CAK1f24k6n1ngSicrSCv5jX+xa75t-7a3zZB4A95fUvDhteshEQ@mail.gmail.com>
-From: Barry Song <baohua@kernel.org>
-Date: Sat, 23 Nov 2024 18:25:53 +0800
-Message-ID: <CAGsJ_4zDXPzKp8Gynig8LasEmRkf6i5RxQL81Seb6cZVXfs2CQ@mail.gmail.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Sat, 23 Nov 2024 18:27:28 +0800
+Message-ID: <CAGsJ_4w-u703LbrmnsgkNVzpFwFwY7tO9mFoo1RXGk3rb_r3mw@mail.gmail.com>
 Subject: Re: [PATCH v2] mm: add per-order mTHP swap-in fallback/fallback_charge
  counters
 To: Lance Yang <ioworker0@gmail.com>
@@ -115,7 +129,7 @@ ad
 > +       successful.
 
 much better, but it is better to align with "huge pages with
-lower orders or small pages."
+lower orders or small pages", not necessarily small pages:
 
 anon_fault_fallback
 is incremented if a page fault fails to allocate or charge
@@ -126,7 +140,6 @@ anon_fault_fallback_charge
 is incremented if a page fault fails to charge a huge page and
 instead falls back to using huge pages with lower orders or
 small pages even though the allocation was successful.
-
 
 >
 > Thanks,
