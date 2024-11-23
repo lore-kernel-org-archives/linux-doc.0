@@ -1,210 +1,227 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873A4817;
-	Sat, 23 Nov 2024 02:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E65B2D057
+	for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2024 02:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732329409; cv=none; b=NdyexMot8AhWF07xD4ju76fUVw/fbVM976hlvlwx17TfzT0488p/g/1Z3WSs7ZRj3lmP/RE9Ev0ixZLvLIOCyhvf8xe5Ttz+5hmWRm0zP74kKS5CpUv0NvfgJhhoVrkxdv0DV7w0W0N3Z1kvgM+Vm+PNhhkrH2t83amqhflgj/c=
+	t=1732329742; cv=none; b=MmvMzjV/TvkRkgO9M+ox+J1O39/d8DSkgLw1pcZJGOXz3lI9BpKXriZVTVoGzYHizeOcY2I8L7PcoCPoKAVGHXcKI2/Kk+uGOWnlpi0A72Z0man5BrBcpPBysN6BTlXdSHmraCFzkEovAmnMQAPrI5tEUrBx+JiitY4cOjeuZ/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732329409; c=relaxed/simple;
-	bh=7z2Q203ERLjoNfDcHGfqDcgsWzc//gbfXlLWU2WPLRY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rzNCavLeHHLCpvkYfnt9OQL1bKZTXs/dRTbML9TDjdHVSIrRzXQFJJVGPG3V2iSEl3KxelTV/eo7zGqPjMlhqq5gUDezBzUehDoageOvA642ZykLDShsyHZ2Cg+3Neyq+F+iCDrm0gEargpQ6QABKMWxMS9hq0JwQfjr/GYRa40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XIz4p1Pc; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732329742; c=relaxed/simple;
+	bh=tiuVMoJVl9iIcfkunBRqigJ/o5Br1JocmVkYy3ouOGU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=eoUPeFtRYCUrWISG9jMaGc/IPCz/8QWYyT4jypa2YSFgzic5V9yr+N9yRF2pd8cDnwBnUxiYl+0vauEK+vLSRuduSAuw2YonHXeEkbETbRok21KfWGYRFgOiEwKxL66zuMfprZaiOjREbP1asV3jIox5+U7KE+Cp2Oahev7kM1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4CinfWNH; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XIz4p1Pc"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5cedf5fe237so3016046a12.3;
-        Fri, 22 Nov 2024 18:36:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4CinfWNH"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6ee86f21b2cso50126467b3.0
+        for <linux-doc@vger.kernel.org>; Fri, 22 Nov 2024 18:42:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732329406; x=1732934206; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gwAIYJiCi7vkj35O92N4pBX1EN9ewd8Gkt1H/zhirm8=;
-        b=XIz4p1PcvS7R5zQB/35Wr+K1BSbzPRbR31IObT2OMOssvB+v4nLOkkEdFGS1cnei5T
-         7Rf9sN0oArA98ezh//agvKQi0huBuUJ+EHu6Y2bNwoVbpL3LNbQBvCVv0SRvHi/kQtf7
-         uMJmerTn+XAwIzV0WwV2HXZKqG+7rW7betNET48xx7xLVfoOXD58Ae5xxHJPm2YuKg6A
-         hM59hFgq7MkwqWaWJn0vqk7WfBNLGY6+ClgKCI54XWCK/CJLbrqI8naIZL7Zy5qxlZ3q
-         0FJ54Air014YShlwOwQuLJ4KhhTdO469Soth0qtzMdumaBCEh2FlaLe6UDRUcRbaUGsN
-         l80w==
+        d=google.com; s=20230601; t=1732329738; x=1732934538; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=p7xX/47Vl0a27UdyPMbMgcO/jFPicE3KTPvW/80RrhM=;
+        b=4CinfWNHk6pCcLJq8zPesnHPQLwtSVk/NBXYp7XYu1jSWZsG15WRYLXRjdOv1peHnx
+         iQYiz3WSbLBQlNFn+9/KyfzdwoGwTx4Zeji4nrTRwhK4+oD4jigBUPq3ltrlMwFq+IbJ
+         Yk1sNXb8WvwlAzGJyDC0jRyKon6DOLI6nu/Dx5Gn0P3M5SpreIgs9tLgwL+t2siSgBHb
+         MNZPA9p4R92RB0aWOOq1BLR2v8ocjdx6lkgyCNF69I20Dok4WClR1TW9P8rFs5lj5kLS
+         mMIL/xfKdF8fXQmcNEcb2gfe0de17z8qY4qJ4OcSfV2dHxJgAiuF2f8pv8r0cMCfd0Y0
+         mw4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732329406; x=1732934206;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gwAIYJiCi7vkj35O92N4pBX1EN9ewd8Gkt1H/zhirm8=;
-        b=OaimXI45xRV1vnZMgpb6PKNO0F60iKYdf8Pm0nz88Xg8St3IwkKzi+sxbGutdnzCot
-         WwYqhMKsFDqUGmsHyLB4A/vSRj2jvO3a8w5k/rQR8BlEtyW0IqRutJMixOTO7hFYsci2
-         Yg9xKC8E39pJKIYZRohUit8jgTLneRaFjtaPq6/O7JYilUsR1KnUmMAOULeOTO2Gc/ER
-         sqeI+ndP40lREQMhWJGJvw3NenGlLmoJ2g9VaBDOZyG6jO99QD5kUszj1tzrl3H25P3U
-         ybfJtSIukVaxSbAi6GtKthIArbEXF4DSs8ok7XjdjjTTlc5tOMXn+oZM1Naypc+wpfnd
-         Kx2g==
-X-Forwarded-Encrypted: i=1; AJvYcCVhTk1PW8DwGiMYjogdMRbiwxp74LWRmP8XLnRY3KHPl3RiC2Eex1areeoG49IIuDcc/dMszwRFgCs=@vger.kernel.org, AJvYcCW0wkk3buqf+IZ8IsqQ63Lsb8DBshfzcpdAcG+C5DUI2JkOiArQmzmbYhZ19NOXaFOTMzsiOCC7hjHFjeiY@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUnSVVhbZzas4hbZsnKjk+lEpdRk/gxxIhXBr5U9gyvxzOk8eu
-	IJixmM4vM061yp1rYOeAjr8LQWESOkwPPaiMHPhbIJCTDFaIQGrQLWBZ4Ej5rY8JyUECgnaCq/X
-	7LCLHOC7YfiN9qGrSHroiQDX0XbQ=
-X-Gm-Gg: ASbGnctAK9Lym4mRzblXyJTYByA7GW58Bf1aSy1UAWMZBp3Nf0bmJWKr88xUhVNOawD
-	IkfEHYTqGFHN+H6YZg58qQWxaVlPXBYM=
-X-Google-Smtp-Source: AGHT+IGbwtMLT9zLGAmt+b/YRisjA1ks3t80ako207ZcbbrXuRR2QLaW8MTHtUvTwQkNtV8pOJqEdcuIc1XqbTKt+kc=
-X-Received: by 2002:a05:6402:270e:b0:5c2:6d16:ad5e with SMTP id
- 4fb4d7f45d1cf-5d020629874mr3416136a12.19.1732329405487; Fri, 22 Nov 2024
- 18:36:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732329738; x=1732934538;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=p7xX/47Vl0a27UdyPMbMgcO/jFPicE3KTPvW/80RrhM=;
+        b=pwHV1OjMr/aYR4BiLqirpvBsk6pxETHWtEt1ba9MKX1LkyOZxlrygyLuEI5bGIyzag
+         TvG/OXUzIYrDkfU2NAppM//QlZzEt7AuiUPS7QZzmZB5nqVlxylqVXVcSO1fRXbuwQLu
+         F0QmbBjOzMg2C5HNngSm3ba+fSucOK2IrJkECoI6JgOf96kIvtdZCgMtNmaB/Qlkabnt
+         mj429uVv2UoGoMV5C7xgjIltTMaezP0/aOw5ZXPQDYkE2vR1ycXj+zyXDQCg0KEx8vp+
+         +v69MRM9arpiR9DH9TPE1ZgsgFtYN7Bkb/2hJeMKv+2YZOyJSN3HCm2MHtydM3D0FXMB
+         dlXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVggLsySDpB1z+OVWJqzeR0JEUiE/OlgXZLNSVfy7ByvmdP6E+xDoL6PEuhqDa6axKWEjkXlDA+d8Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6FXC+fVMKhIG5zYmpEFVM0CcumnEd2iw74WZzmAWUxyFZ9uX2
+	5GN93X3nIK9tB9cth8kEX37NoHSuMB661bbp7Dqcu4qBTNE3sXHw0EEtX2N6QNeQeQa9TZ9HxM8
+	cOYTcCw==
+X-Google-Smtp-Source: AGHT+IF1odZohGo0x5FmKnqA49SMz0WdtMATqtl5lIeEom9DctKrWPpJ8V6oI2GJwQjn5JiiVICykStr2Ivh
+X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
+ (user=mmaurer job=sendgmr) by 2002:a05:690c:7089:b0:6eb:ac7:b4bc with SMTP id
+ 00721157ae682-6eee08aa74fmr44677b3.2.1732329738069; Fri, 22 Nov 2024 18:42:18
+ -0800 (PST)
+Date: Sat, 23 Nov 2024 02:42:14 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241122161443.34667-1-haowenchao22@gmail.com>
-In-Reply-To: <20241122161443.34667-1-haowenchao22@gmail.com>
-From: Lance Yang <ioworker0@gmail.com>
-Date: Sat, 23 Nov 2024 10:36:09 +0800
-Message-ID: <CAK1f24k6n1ngSicrSCv5jX+xa75t-7a3zZB4A95fUvDhteshEQ@mail.gmail.com>
-Subject: Re: [PATCH v2] mm: add per-order mTHP swap-in fallback/fallback_charge
- counters
-To: Wenchao Hao <haowenchao22@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Usama Arif <usamaarif642@gmail.com>, Matthew Wilcox <willy@infradead.org>, 
-	Peter Xu <peterx@redhat.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAAZBQWcC/3XQ0U7EIBAF0F9peHY2MFBLG2P8D+MDbYcuyVIUu
+ s2azf67tDaxxvVxCBzu3CtLFB0l1hRXFml2yYUxD4I/FKw7mnEgcH0+YMhRCY4IdJlo7KkHH/q
+ Z4vIggalapXrbWmsFy0/fI1l3Wd3XtzzbGDxMx0hmh4kSpaixPEhdKpQcBHhvzpHiyxDCcKJDF
+ /ymRfo453DTN8k8pWTWbE3xtGoCBXKFyA8oKy20AOSQjHdTOM1mpHFnPi9oaxJBHvKNphjzVrA
+ 5yJbER5emED/XYuZq/XSrQN6vYK6Ag5R1pXMXUlZyv8Qiznqn5G3vKzortTRdT/YRO9J/lPpHE f9mqbPSdlxxaXmpWvtLud1uX7n+fg/4AQAA
+X-Change-Id: 20241022-extended-modversions-a7b44dfbfff1
+X-Mailer: b4 0.15-dev
+Message-ID: <20241123-extended-modversions-v10-0-0fa754ffdee3@google.com>
+Subject: [PATCH v10 0/5] Extended MODVERSIONS Support
+From: Matthew Maurer <mmaurer@google.com>
+To: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Matthew Maurer <mmaurer@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-Hi Wenchao,
+This patch series is intended for use alongside the Implement DWARF
+modversions series [1] to enable RUST and MODVERSIONS at the same
+time.
 
-On Sat, Nov 23, 2024 at 12:14=E2=80=AFAM Wenchao Hao <haowenchao22@gmail.co=
-m> wrote:
->
-> Currently, large folio swap-in is supported, but we lack a method to
-> analyze their success ratio. Similar to anon_fault_fallback, we introduce
-> per-order mTHP swpin_fallback and swpin_fallback_charge counters for
-> calculating their success ratio. The new counters are located at:
->
-> /sys/kernel/mm/transparent_hugepage/hugepages-<size>/stats/
->         swpin_fallback
->         swpin_fallback_charge
->
-> Signed-off-by: Wenchao Hao <haowenchao22@gmail.com>
-> ---
-> V2:
->  Introduce swapin_fallback_charge, which increments if it fails to
->  charge a huge page to memory despite successful allocation.
->
->  Documentation/admin-guide/mm/transhuge.rst | 10 ++++++++++
->  include/linux/huge_mm.h                    |  2 ++
->  mm/huge_memory.c                           |  6 ++++++
->  mm/memory.c                                |  2 ++
->  4 files changed, 20 insertions(+)
->
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/a=
-dmin-guide/mm/transhuge.rst
-> index 5034915f4e8e..9c07612281b5 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -561,6 +561,16 @@ swpin
->         is incremented every time a huge page is swapped in from a non-zs=
-wap
->         swap device in one piece.
->
+Elsewhere, we've seen a desire for long symbol name support for LTO
+symbol names [2], and the previous series came up [3] as a possible
+solution rather than hashing, which some have objected [4] to.
 
-Would the following be better?
+This series adds a MODVERSIONS format which uses a section per column.
+This avoids userspace tools breaking if we need to make a similar change
+to the format in the future - we would do so by adding a new section,
+rather than editing the struct definition. In the new format, the name
+section is formatted as a concatenated sequence of NUL-terminated
+strings, which allows for arbitrary length names.
 
-+swpin_fallback
-+       is incremented if a huge page swapin fails to allocate or charge
-+       it and instead falls back to using small pages.
+Emitting the extended format is guarded by CONFIG_EXTENDED_MODVERSIONS,
+but the kernel always knows how to validate both the original and
+extended formats.
 
-+swpin_fallback_charge
-+       is incremented if a huge page swapin fails to charge it and instead
-+       falls back to using small pages even though the allocation was
-+       successful.
+Emitting the existing format is now guarded by CONFIG_BASIC_MODVERSIONS,
+but it is enabled by default when MODVERSIONS is enabled and must be
+explicitly disabled by the user.
 
-Thanks,
-Lance
+Disabling CONFIG_BASIC_MODVERSIONS may cause some userspace tools to be
+unable to retrieve CRCs until they are patched to understand the new
+location. Even with CONFIG_BASIC_MODVERSIONS enabled, those tools will
+be unable to read the CRCs for long symbols until they are updated to
+read the new format. This is not expected to interfere with normal
+operation, as the primary use for CRCs embedded in the module is
+load-time verification by the kernel. Recording and monitoring of CRCs
+is typically done through Module.symvers.
 
-> +swpin_fallback
-> +       is incremented if a huge page swapin fails to allocate or charge
-> +       a huge page and instead falls back to using huge pages with
-> +       lower orders or small pages.
-> +
-> +swpin_fallback_charge
-> +       is incremented if a page swapin fails to charge a huge page and
-> +       instead falls back to using huge pages with lower orders or
-> +       small pages even though the allocation was successful.
-> +
->  swpout
->         is incremented every time a huge page is swapped out to a non-zsw=
-ap
->         swap device in one piece without splitting.
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index b94c2e8ee918..93e509b6c00e 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -121,6 +121,8 @@ enum mthp_stat_item {
->         MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE,
->         MTHP_STAT_ZSWPOUT,
->         MTHP_STAT_SWPIN,
-> +       MTHP_STAT_SWPIN_FALLBACK,
-> +       MTHP_STAT_SWPIN_FALLBACK_CHARGE,
->         MTHP_STAT_SWPOUT,
->         MTHP_STAT_SWPOUT_FALLBACK,
->         MTHP_STAT_SHMEM_ALLOC,
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index ee335d96fc39..46749dded1c9 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -617,6 +617,8 @@ DEFINE_MTHP_STAT_ATTR(anon_fault_fallback, MTHP_STAT_=
-ANON_FAULT_FALLBACK);
->  DEFINE_MTHP_STAT_ATTR(anon_fault_fallback_charge, MTHP_STAT_ANON_FAULT_F=
-ALLBACK_CHARGE);
->  DEFINE_MTHP_STAT_ATTR(zswpout, MTHP_STAT_ZSWPOUT);
->  DEFINE_MTHP_STAT_ATTR(swpin, MTHP_STAT_SWPIN);
-> +DEFINE_MTHP_STAT_ATTR(swpin_fallback, MTHP_STAT_SWPIN_FALLBACK);
-> +DEFINE_MTHP_STAT_ATTR(swpin_fallback_charge, MTHP_STAT_SWPIN_FALLBACK_CH=
-ARGE);
->  DEFINE_MTHP_STAT_ATTR(swpout, MTHP_STAT_SWPOUT);
->  DEFINE_MTHP_STAT_ATTR(swpout_fallback, MTHP_STAT_SWPOUT_FALLBACK);
->  #ifdef CONFIG_SHMEM
-> @@ -637,6 +639,8 @@ static struct attribute *anon_stats_attrs[] =3D {
->  #ifndef CONFIG_SHMEM
->         &zswpout_attr.attr,
->         &swpin_attr.attr,
-> +       &swpin_fallback_attr.attr,
-> +       &swpin_fallback_charge_attr.attr,
->         &swpout_attr.attr,
->         &swpout_fallback_attr.attr,
->  #endif
-> @@ -669,6 +673,8 @@ static struct attribute *any_stats_attrs[] =3D {
->  #ifdef CONFIG_SHMEM
->         &zswpout_attr.attr,
->         &swpin_attr.attr,
-> +       &swpin_fallback_attr.attr,
-> +       &swpin_fallback_charge_attr.attr,
->         &swpout_attr.attr,
->         &swpout_fallback_attr.attr,
->  #endif
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 209885a4134f..774dfd309cfe 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -4189,8 +4189,10 @@ static struct folio *alloc_swap_folio(struct vm_fa=
-ult *vmf)
->                         if (!mem_cgroup_swapin_charge_folio(folio, vma->v=
-m_mm,
->                                                             gfp, entry))
->                                 return folio;
-> +                       count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK_C=
-HARGE);
->                         folio_put(folio);
->                 }
-> +               count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
->                 order =3D next_order(&orders, order);
->         }
->
-> --
-> 2.45.0
->
+Selecting RUST and MODVERSIONS is now possible if GENDWARFKSYMS is
+selected, and will implicitly select EXTENDED_MODVERSIONS.
+
+This series depends upon the module verification refactor patches [5]
+that were split off of v5 (now in modules-next)
+and DWARF-based versions [1].
+
+[1] https://lore.kernel.org/all/20241121204220.2378181-20-samitolvanen@google.com/	
+[2] https://lore.kernel.org/lkml/20240605032120.3179157-1-song@kernel.org/
+[3] https://lore.kernel.org/lkml/ZoxbEEsK40ASi1cY@bombadil.infradead.org/
+[4] https://lore.kernel.org/lkml/0b2697fd-7ab4-469f-83a6-ec9ebc701ba0@suse.com/
+[5] https://lore.kernel.org/linux-modules/20241015231651.3851138-1-mmaurer@google.com/T/#t
+
+Changes in v10:
+- Fixed accidental selects / default confusion in previous patch
+- Re-ran tests (check for section presence in Y/Y, Y/N, N/Y, N/N, check
+  all module kinds load)
+
+v9: https://lore.kernel.org/r/20241123-extended-modversions-v9-0-bc0403f054bf@google.com
+- Rebased onto the latest version of Sami's series, on top of linux-next
+- Added BASIC_MODVERSIONS to allow using *only* EXTENDED_MODVERSIONS
+- Documented where symbol data is stored and format limitations
+
+v8: https://lore.kernel.org/r/20241030-extended-modversions-v8-0-93acdef62ce8@google.com
+- Rebased onto latest version of Sami's series, on top of v6.12-rc5
+- Pass --stable when KBUILD_GENDWARFKSYMS_STABLE is set.
+- Flipped MODVERSIONS/GENDWARFKSYMS order in deps for CONFIG_RUST
+- Picked up trailers
+
+v7: https://lore.kernel.org/r/20241023-extended-modversions-v7-0-339787b43373@google.com
+- Fix modpost to detect EXTENDED_MODVERSIONS based on a flag
+- Drop patches to fix export_report.pl
+- Switch from conditional compilation in .mod.c to conditional emission
+  in modpost
+- Factored extended modversion emission into its own function
+- Allow RUST + MODVERSIONS if GENDWARFKSYMS is enabled by selecting
+  EXTENDED_MODVERSIONS
+
+v6: https://lore.kernel.org/lkml/20241015231925.3854230-1-mmaurer@google.com/
+- Splits verification refactor Luis requested out to a separate change
+- Clarifies commits around export_report.pl repairs
+- Add CONFIG_EXTENDED_MODVERSIONS to control whether extended
+  information is included in the module, per Luis's request.
+
+v5: https://lore.kernel.org/all/20240925233854.90072-1-mmaurer@google.com/
+- Addresses Sami's comments from v3 that I missed in v4 (missing early
+  return, extra parens)
+
+v4: https://lore.kernel.org/asahi/20240924212024.540574-1-mmaurer@google.com/
+- Fix incorrect dot munging in PPC
+
+v3: https://lore.kernel.org/lkml/87le0w2hop.fsf@mail.lhotse/T/
+- Split up the module verification refactor into smaller patches, per
+  Greg K-H's suggestion.
+
+v2: https://lore.kernel.org/all/20231118025748.2778044-1-mmaurer@google.com/
+- Add loading/verification refactor before modifying, per Luis's request
+
+v1: https://lore.kernel.org/rust-for-linux/20231115185858.2110875-1-mmaurer@google.com/
+
+--
+2.47.0.rc1.288.g06298d1525-goog
+
+---
+Matthew Maurer (4):
+      modules: Support extended MODVERSIONS info
+      modpost: Produce extended MODVERSIONS information
+      modules: Allow extended modversions without basic MODVERSIONS
+      Documentation/kbuild: Document storage of symbol information
+
+Sami Tolvanen (1):
+      rust: Use gendwarfksyms + extended modversions for CONFIG_MODVERSIONS
+
+ Documentation/kbuild/modules.rst | 20 +++++++++
+ arch/powerpc/kernel/module_64.c  | 24 ++++++++++-
+ init/Kconfig                     |  3 +-
+ kernel/module/Kconfig            | 25 +++++++++++
+ kernel/module/internal.h         | 11 +++++
+ kernel/module/main.c             | 92 ++++++++++++++++++++++++++++++++++++----
+ kernel/module/version.c          | 45 ++++++++++++++++++++
+ rust/Makefile                    | 34 ++++++++++++++-
+ scripts/Makefile.modpost         |  2 +
+ scripts/mod/modpost.c            | 70 +++++++++++++++++++++++++++---
+ 10 files changed, 308 insertions(+), 18 deletions(-)
+---
+base-commit: 96ba0247d78ef4078e1de58b7e73715b93ee2c0b
+change-id: 20241022-extended-modversions-a7b44dfbfff1
+prerequisite-message-id: <20241121204220.2378181-20-samitolvanen@google.com>
+prerequisite-patch-id: 43f1286f3e4b991fda2aa093539631a01fadf5fb
+prerequisite-patch-id: 32a05b89083cfed15e5b877664b0c8138c40d09b
+prerequisite-patch-id: e192e2a692c40d96cba919e3baae68c441ab25e4
+prerequisite-patch-id: 50e884d28c720e90f201aae7801590d19736541b
+prerequisite-patch-id: 4d6a826429c519b581d01215e1d9c7373fdfd8c6
+prerequisite-patch-id: 0dcd84187b222adf52696dbcab303d683d087dd2
+prerequisite-patch-id: 0abe8634eb844a85e8dc51c1cd3970cf96cc494a
+prerequisite-patch-id: 5fabb630792f9304f200b5996314f3c2ae4c83ae
+prerequisite-patch-id: ff82b9794147dc28504e46a0170cd269623e73bf
+prerequisite-patch-id: a5cf20d27871bf63be64ac79cc81e5eb9d117b89
+prerequisite-patch-id: 2a317596a3288f9b8e06d73df53737bbfafb1d16
+prerequisite-patch-id: cac33b6e6672cf3f9f7f798a928ce7b147db271d
+prerequisite-patch-id: 62664c468be8afff72a3edaf2c1bcd2f4936a1b2
+prerequisite-patch-id: 5157d0421200858de3cc449bf39b3513efba3b24
+prerequisite-patch-id: 5a190c60e140cdf33caf4f4da03186a2bd75a531
+prerequisite-patch-id: 57d2fe708769154a6494fb1fece56911dea00687
+prerequisite-patch-id: 25255d6bc70d3ba38e45fb6a2c13038df293bd9e
+prerequisite-patch-id: 91c6131ab67a6f0fd8cf8bc95fa45144a868f095
+
+Best regards,
+-- 
+Matthew Maurer <mmaurer@google.com>
+
