@@ -1,126 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAD62AE90;
-	Sat, 23 Nov 2024 03:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290A717E8E2
+	for <linux-doc@vger.kernel.org>; Sat, 23 Nov 2024 06:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732331523; cv=none; b=k676LCLp+YzHcZ3jrY0iMqHpbn7CQx09qiF9Fj9bNLjUoPM6zv6dCCY6W5Cxq7epm3XG0/+mM2V7bFw47/6+3FGM1J/PAoj9EiTBgOj6T0ZOANHk6hJP9hKybysuxIGgvh0x/1elA8mt4w+r9gNey9xGH+KDf130R7gkwie6u7U=
+	t=1732343414; cv=none; b=Sv2I7D39VsWkkBeOk1YYnoWcsGuH031UWxcLfHW46H+cA/nRWOTE+SCkabJ7sqszLKu99rPE68STbYoq4+SlKzZmwdoRxag+RpT3XHqEJdvxf/Oz0s4JsYDCIbaiOG1ue1uqqBBXclIY+3vPJbeSSpftEah2Kn8O4WJqWW56+qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732331523; c=relaxed/simple;
-	bh=my0sdPbCbL8tbsUq7oPzvstqctD2sVWOdIYw0qX9VXU=;
+	s=arc-20240116; t=1732343414; c=relaxed/simple;
+	bh=ZFSqsP1ToYIdl2SVy8ukEWvyI5D3U02Lmf2RdX5RNxk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YcLTWo0WKv9W72YoUsXtq9fF2z2mYuvBk5gsndDYQrajdhHwwqPUIYaZJFwoHBwueVmIUwOrKMP4rTkj2seuD8q//o/763TsX+qLkj4GKEM7641AYDiaIT8Ovwk7hp8sVSRE8qH00gS1sbLt9kmuu67CvTOWX2qYPUwRzLVh+Hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tt25ql+B; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tt25ql+B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732331522; x=1763867522;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=my0sdPbCbL8tbsUq7oPzvstqctD2sVWOdIYw0qX9VXU=;
-  b=Tt25ql+BhzWDl7qTYott/MMd+OFjQEThIkT0gddFu8kjnqybNJsqBsho
-   H5M7sG97b1Com2fXOk0ILip2JgofiI3PCM4mQny009oAcNutjBahCSi29
-   aBdVFIjB1t+ub7FB27lbrr7dB6hy1ZZLKp9JPxPuO3cRdAs0jqadxXQ2e
-   2P7Mg2vI0TXw1ofZQIlK7zkBxxTKIMbhaU3vcan0hoCzf1MNFgOceIi8c
-   UwA8AVkNr5d6AhQzFQHjDzA5eWH7x5RKnx7j6d1k0bLY31oXVLETSyCXd
-   NOFJTNiliaMbG+nf/mUDKgxZ/qM6hja1bJ3ZThjPi8XIB9yHINagpdXrw
-   w==;
-X-CSE-ConnectionGUID: xLNfb9EdTASG4GCo6hlfXg==
-X-CSE-MsgGUID: 9py0CTYlQp2axVX8xqCnWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="50015387"
-X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="50015387"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 19:12:01 -0800
-X-CSE-ConnectionGUID: x0paM7rRQPiyVYKCEYUY0w==
-X-CSE-MsgGUID: WgtPotOpRRyTBS+VLlxiJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="95804544"
-Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Nov 2024 19:11:57 -0800
-Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tEgYs-0004NL-28;
-	Sat, 23 Nov 2024 03:11:54 +0000
-Date: Sat, 23 Nov 2024 11:11:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radu Sabau <radu.sabau@analog.com>,
-	Uwe =?unknown-8bit?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051,
- adp1055 and ltp8800
-Message-ID: <202411231030.hhgCtzrl-lkp@intel.com>
-References: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NWAJELIATraXJzYa5ll5ATk9p4s9NIhiJcO1eUFrg3znSIdvpg6QjJsRBwTX0JiQhLGSKHeJYasydYu269q7BY34ULqAIWfoG2ckhjpAD3FW+JSZxHtT1elgFbCFEc4frPWbJxlGJAgrE4jqrllzJf+vCUDpqbpyjoe/w/9OPtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tEjeB-00076W-J9; Sat, 23 Nov 2024 07:29:35 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tEje5-002C31-2A;
+	Sat, 23 Nov 2024 07:29:29 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tEje5-00Aoon-1l;
+	Sat, 23 Nov 2024 07:29:29 +0100
+Date: Sat, 23 Nov 2024 07:29:29 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v3 03/27] net: pse-pd: Avoid setting max_uA
+ in regulator constraints
+Message-ID: <Z0F2SVsBOR-EOQJ-@pengutronix.de>
+References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
+ <20241121-feature_poe_port_prio-v3-3-83299fa6967c@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
+In-Reply-To: <20241121-feature_poe_port_prio-v3-3-83299fa6967c@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Hi Cedric,
+Hi Kory,
 
-kernel test robot noticed the following build warnings:
+On Thu, Nov 21, 2024 at 03:42:29PM +0100, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> Setting the max_uA constraint in the regulator API imposes a current
+> limit during the regulator registration process. This behavior conflicts
+> with preserving the maximum PI power budget configuration across reboots.
+> 
+> Instead, compare the desired current limit to MAX_PI_CURRENT in the
+> pse_pi_set_current_limit() function to ensure proper handling of the
+> power budget.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.12 next-20241122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Not enough coffee :) I still didn't correctly understood the problem.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-hwmon-pmbus-adp1050-Add-bindings-for-adp1051-adp1055-and-ltp8800/20241121-144856
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20241120035826.3920-3-cedricjustine.encarnacion%40analog.com
-patch subject: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051, adp1055 and ltp8800
-config: loongarch-randconfig-r111-20241122 (https://download.01.org/0day-ci/archive/20241123/202411231030.hhgCtzrl-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241123/202411231030.hhgCtzrl-lkp@intel.com/reproduce)
+MAX_PI_CURRENT is the hard limit according to the standard, so it is the
+intial limit anyway. Why it is bad to set it on registration? It feels
+still better compared to have no limit on init. Or do i'm missing
+things?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411231030.hhgCtzrl-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/pmbus/adp1050.c:88:39: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected struct pmbus_driver_info *info @@     got struct pmbus_driver_info const *[assigned] info @@
-   drivers/hwmon/pmbus/adp1050.c:88:39: sparse:     expected struct pmbus_driver_info *info
-   drivers/hwmon/pmbus/adp1050.c:88:39: sparse:     got struct pmbus_driver_info const *[assigned] info
-
-vim +88 drivers/hwmon/pmbus/adp1050.c
-
-    79	
-    80	static int adp1050_probe(struct i2c_client *client)
-    81	{
-    82		const struct pmbus_driver_info *info;
-    83	
-    84		info = device_get_match_data(&client->dev);
-    85		if (!info)
-    86			return -ENODEV;
-    87	
-  > 88		return pmbus_do_probe(client, info);
-    89	}
-    90	
-
+Regards,
+Oleksij
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
