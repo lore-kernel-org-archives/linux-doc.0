@@ -1,96 +1,94 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC471898E8
-	for <linux-doc@vger.kernel.org>; Sun, 24 Nov 2024 10:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82ED73FBB3
+	for <linux-doc@vger.kernel.org>; Sun, 24 Nov 2024 10:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732443879; cv=none; b=tHrfz6HLivPntw63+OWmkVovmEaGKRJmjJrCrcRqR/DmhIRCn81/ZAuhHgA7eb6BHIV3LOCnGpjpCJhoj4YAth2Rjon2pfnp0y5NIatKiNtJkY+IjIjxIPY/O3X2SXf7bOHoUDab0oa64wG2lxCP+fESz0LHWcxyTem4n20rmDs=
+	t=1732444226; cv=none; b=pjD3/L5KfMvoQ/bbW21PJV5ZQUg0Tvc50JNv2qw+B7KOSjThW08vRq5irrA9JmIHpUNXny4xrgXBENNWYqS126tLlUiYLFavSImQ2zkVeLc7VyABZQLekXDvl3Z2piv4moMTKrjcHUJtejcuQgPCaRqMenTr9W9+0VN0APCCuCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732443879; c=relaxed/simple;
-	bh=uf5IMhSqn6yvjTpj4CRHIuywlzYIt8ixAs+d7q+wJ78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iCb5myzdcm3VmwPkiez2wLPmmI4/4BYg4renpleA8JprhxI9cb6TlyUmXrbWtaA+h1TyTzRQwRID5epiiEGy8S9u7v0wPOnONZREF/5ojaCp21+8uVG1QHtsPyTmlaMLzctp3Eu0gDQV4EtdSxkYEdfpMRf7LtqCTTPyvWPW2GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tF9mu-0006vn-M5; Sun, 24 Nov 2024 11:24:20 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tF9mt-002NVo-1w;
-	Sun, 24 Nov 2024 11:24:19 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tF9mt-00CgvG-1Y;
-	Sun, 24 Nov 2024 11:24:19 +0100
-Date: Sun, 24 Nov 2024 11:24:19 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v3 19/27] net: pse-pd: Add support for PSE
- power domains
-Message-ID: <Z0L-06j0nUIHdYnK@pengutronix.de>
-References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
- <20241121-feature_poe_port_prio-v3-19-83299fa6967c@bootlin.com>
+	s=arc-20240116; t=1732444226; c=relaxed/simple;
+	bh=4SrUiyxlIelnYHG/hYDrd3ixYb6F8NuMXUpQ/Wn69/0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KUwM7Lt2D0+5V8DpNcQoXRb1Y4FhnMwBrpBaDDty6/xUbq5hJSLKVB4L/hdqPsObBapxFuWOVyRasNRwbqYN6/eTmRA6xGG1fwS7AA/WE+KklD5cw1Iwdk4fMzIUp7ENZ8qMv5Jm65wdIoIJfI/gqlnsGBGRoaW1gpRxvlGdeFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=SyIBlu/K; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="SyIBlu/K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1732444216;
+	bh=sPRD00FdoMbZ/n35hTaA/kSHOm/Dnrk51VP0TcINavI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SyIBlu/K3E9e7MBmBl3Bc8hsEcZEQ0ecvwznME+fEsLhCt2AMkcldJqVd7S3d0S7f
+	 twPiJY3/zvuAOepK0xtcrdCzC2EOy74kR2nCM6/Ksh6PbKcQ3LWEPBYu/JcIiVVa35
+	 te7mZ521WFEXEGHt8DVPpThFNp17Az0c3GPfDzlrhPJ2U7+TNHT833GOOV10FAuMVZ
+	 0zdK7Tf4T4o0wwxQPIdpNf8eWACz+oW6F+ziRrV+BBg83pV3taRfLaeEC3Vdd0YEKx
+	 ik2qj/DRSudLY3XZ3JSilm3WmG1o9CkShxYWWcpLhvr7gH1Qq3hW7rm0W42pRR+taH
+	 PZSueYG05pJIA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Xx4pw59YTz4w2L;
+	Sun, 24 Nov 2024 21:30:16 +1100 (AEDT)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: <linuxppc-dev@lists.ozlabs.org>
+Cc: kjain@linux.ibm.com,
+	<linux-doc@vger.kernel.org>
+Subject: [PATCH] docs: ABI: sysfs-bus-event_source-devices-vpa-pmu: Fix htmldocs errors
+Date: Sun, 24 Nov 2024 21:30:06 +1100
+Message-ID: <20241124103006.2236073-1-mpe@ellerman.id.au>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241121-feature_poe_port_prio-v3-19-83299fa6967c@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 21, 2024 at 03:42:45PM +0100, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> 
-> Introduce PSE power domain support as groundwork for upcoming port
-> priority features. Multiple PSE PIs can now be grouped under a single
-> PSE power domain, enabling future enhancements like defining available
-> power budgets, port priority modes, and disconnection policies. This
-> setup will allow the system to assess whether activating a port would
-> exceed the available power budget, preventing over-budget states
-> proactively.
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+Fix errors during `make htmldocs`, eg:
 
-Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
+  Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu:2: ERROR: Unexpected indentation.
 
-Thank you!
+Fixes: 4ae0b32ecee7 ("docs: ABI: sysfs-bus-event_source-devices-vpa-pmu: Document sysfs event format entries for vpa_pmu")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/all/20241120171302.2053439c@canb.auug.org.au/
+Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+---
+ .../sysfs-bus-event_source-devices-vpa-pmu        | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
+diff --git a/Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu b/Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu
+index 8285263ff78d..a116aee9709a 100644
+--- a/Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu
++++ b/Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu
+@@ -8,17 +8,18 @@ Description:    Read-only. Attribute group to describe the magic bits
+                 Each attribute under this group defines a bit range of the
+                 perf_event_attr.config. Supported attribute are listed
+                 below::
+-			event = "config:0-31" - event ID
+ 
+-		For example::
++                  event = "config:0-31" - event ID
+ 
+-		  l1_to_l2_lat = "event=0x1"
++                For example::
++
++                  l1_to_l2_lat = "event=0x1"
+ 
+ What:           /sys/bus/event_source/devices/vpa_pmu/events
+ Date:           November 2024
+ Contact:        Linux on PowerPC Developer List <linuxppc-dev@lists.ozlabs.org>
+-Description:	Read-only. Attribute group to describe performance monitoring
++Description:    Read-only. Attribute group to describe performance monitoring
+                 events for the Virtual Processor Area events. Each attribute
+-		in this group describes a single performance monitoring event
+-		supported by vpa_pmu. The name of the file is the name of
+-		the event (See ABI/testing/sysfs-bus-event_source-devices-events).
++                in this group describes a single performance monitoring event
++                supported by vpa_pmu. The name of the file is the name of
++                the event (See ABI/testing/sysfs-bus-event_source-devices-events).
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.47.0
+
