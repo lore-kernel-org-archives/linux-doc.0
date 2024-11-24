@@ -1,94 +1,121 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82ED73FBB3
-	for <linux-doc@vger.kernel.org>; Sun, 24 Nov 2024 10:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B8E3BB24;
+	Sun, 24 Nov 2024 11:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732444226; cv=none; b=pjD3/L5KfMvoQ/bbW21PJV5ZQUg0Tvc50JNv2qw+B7KOSjThW08vRq5irrA9JmIHpUNXny4xrgXBENNWYqS126tLlUiYLFavSImQ2zkVeLc7VyABZQLekXDvl3Z2piv4moMTKrjcHUJtejcuQgPCaRqMenTr9W9+0VN0APCCuCo=
+	t=1732448891; cv=none; b=pEITZ5DoUB/7rK+259kQV7qotVvkY2DBnwkpErGSvmC2eO2W+v/dbiiWgqg3O8Ej5AAUdvoYRfZrh7GbeazWyRBSHuheUYxZD62DxHavj5ax5jLTrxwBQBqzL1JOGfNPFW5dTf0i4Yoki9OZYcrMgGaNlMnXffA7n6a3azcOOhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732444226; c=relaxed/simple;
-	bh=4SrUiyxlIelnYHG/hYDrd3ixYb6F8NuMXUpQ/Wn69/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KUwM7Lt2D0+5V8DpNcQoXRb1Y4FhnMwBrpBaDDty6/xUbq5hJSLKVB4L/hdqPsObBapxFuWOVyRasNRwbqYN6/eTmRA6xGG1fwS7AA/WE+KklD5cw1Iwdk4fMzIUp7ENZ8qMv5Jm65wdIoIJfI/gqlnsGBGRoaW1gpRxvlGdeFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=SyIBlu/K; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+	s=arc-20240116; t=1732448891; c=relaxed/simple;
+	bh=HEkvAW2uXzYYGNQB348wpthueAicu5dMe/S9f8kW4gg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hWjvGpoPQyKYecawZCMeohqTOOWRrz7aY0EwvakIlHz9GxdSlCUp6mp5RhUFBP2prkS+384ysXjmw/OVYaKzFi8+DMZzN91S79HC4BopXqZ2kt9rC/uHjdQMDiLN6elvSZHNjmH24bdcT/rEMbwq/wKmxS5YoNLyZrTOB9Objn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eWMUMG72; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="SyIBlu/K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1732444216;
-	bh=sPRD00FdoMbZ/n35hTaA/kSHOm/Dnrk51VP0TcINavI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=SyIBlu/K3E9e7MBmBl3Bc8hsEcZEQ0ecvwznME+fEsLhCt2AMkcldJqVd7S3d0S7f
-	 twPiJY3/zvuAOepK0xtcrdCzC2EOy74kR2nCM6/Ksh6PbKcQ3LWEPBYu/JcIiVVa35
-	 te7mZ521WFEXEGHt8DVPpThFNp17Az0c3GPfDzlrhPJ2U7+TNHT833GOOV10FAuMVZ
-	 0zdK7Tf4T4o0wwxQPIdpNf8eWACz+oW6F+ziRrV+BBg83pV3taRfLaeEC3Vdd0YEKx
-	 ik2qj/DRSudLY3XZ3JSilm3WmG1o9CkShxYWWcpLhvr7gH1Qq3hW7rm0W42pRR+taH
-	 PZSueYG05pJIA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Xx4pw59YTz4w2L;
-	Sun, 24 Nov 2024 21:30:16 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: <linuxppc-dev@lists.ozlabs.org>
-Cc: kjain@linux.ibm.com,
-	<linux-doc@vger.kernel.org>
-Subject: [PATCH] docs: ABI: sysfs-bus-event_source-devices-vpa-pmu: Fix htmldocs errors
-Date: Sun, 24 Nov 2024 21:30:06 +1100
-Message-ID: <20241124103006.2236073-1-mpe@ellerman.id.au>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eWMUMG72"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2549E240003;
+	Sun, 24 Nov 2024 11:47:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1732448880;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oi1vwQlwjx5nx2feXQ31yCzJSrxxT7L8l/BotDlHXuU=;
+	b=eWMUMG72VQ+252L5CR7PQ++DETQ4f/PvArlH0SNYLQL2nhHQqSIeexCqVjuOAnj0wB31Sn
+	EuUChFtTxHm4XceLF0hdTsdhK6yNPrgW323KFHAa2+O6EByCaw1v2j9alYv0zsVO2PkiQs
+	NysVP6yPeEu6C0mQvpG8sqxGxaXDqhgFo5iIhM9fVNuiT160LfXHFteOxtoc/1owQkI72q
+	0z5yQoZEiiiMQvotHQEHjUR1t1o+5wa4mb/bGJ3FDlUufaZlRzWruSHWxEDZFOl4+9GDxa
+	qDbRBqKLDhm4lyZt1HgzvEPoor9GQfph1x3ObClGy523JPrWMd94dJOCM3pB+A==
+Date: Sun, 24 Nov 2024 12:47:56 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
+ <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
+ kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v3 03/27] net: pse-pd: Avoid setting max_uA
+ in regulator constraints
+Message-ID: <20241124124756.2e54d2e8@kmaincent-XPS-13-7390>
+In-Reply-To: <Z0F2SVsBOR-EOQJ-@pengutronix.de>
+References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
+	<20241121-feature_poe_port_prio-v3-3-83299fa6967c@bootlin.com>
+	<Z0F2SVsBOR-EOQJ-@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Fix errors during `make htmldocs`, eg:
+Hello Oleksij,
 
-  Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu:2: ERROR: Unexpected indentation.
+On Sat, 23 Nov 2024 07:29:29 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-Fixes: 4ae0b32ecee7 ("docs: ABI: sysfs-bus-event_source-devices-vpa-pmu: Document sysfs event format entries for vpa_pmu")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/all/20241120171302.2053439c@canb.auug.org.au/
-Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
----
- .../sysfs-bus-event_source-devices-vpa-pmu        | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+> Hi Kory,
+>=20
+> On Thu, Nov 21, 2024 at 03:42:29PM +0100, Kory Maincent wrote:
+> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> >=20
+> > Setting the max_uA constraint in the regulator API imposes a current
+> > limit during the regulator registration process. This behavior conflicts
+> > with preserving the maximum PI power budget configuration across reboot=
+s.
+> >=20
+> > Instead, compare the desired current limit to MAX_PI_CURRENT in the
+> > pse_pi_set_current_limit() function to ensure proper handling of the
+> > power budget. =20
+>=20
+> Not enough coffee :) I still didn't correctly understood the problem.
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu b/Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu
-index 8285263ff78d..a116aee9709a 100644
---- a/Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu
-+++ b/Documentation/ABI/testing/sysfs-bus-event_source-devices-vpa-pmu
-@@ -8,17 +8,18 @@ Description:    Read-only. Attribute group to describe the magic bits
-                 Each attribute under this group defines a bit range of the
-                 perf_event_attr.config. Supported attribute are listed
-                 below::
--			event = "config:0-31" - event ID
- 
--		For example::
-+                  event = "config:0-31" - event ID
- 
--		  l1_to_l2_lat = "event=0x1"
-+                For example::
-+
-+                  l1_to_l2_lat = "event=0x1"
- 
- What:           /sys/bus/event_source/devices/vpa_pmu/events
- Date:           November 2024
- Contact:        Linux on PowerPC Developer List <linuxppc-dev@lists.ozlabs.org>
--Description:	Read-only. Attribute group to describe performance monitoring
-+Description:    Read-only. Attribute group to describe performance monitoring
-                 events for the Virtual Processor Area events. Each attribute
--		in this group describes a single performance monitoring event
--		supported by vpa_pmu. The name of the file is the name of
--		the event (See ABI/testing/sysfs-bus-event_source-devices-events).
-+                in this group describes a single performance monitoring event
-+                supported by vpa_pmu. The name of the file is the name of
-+                the event (See ABI/testing/sysfs-bus-event_source-devices-events).
--- 
-2.47.0
+Don't worry, if you don't understand as a PSE Maintainer no one will. The c=
+ause
+is the commit message.
+=20
+> MAX_PI_CURRENT is the hard limit according to the standard, so it is the
+> intial limit anyway. Why it is bad to set it on registration? It feels
+> still better compared to have no limit on init. Or do i'm missing
+> things?
 
+Using constraints.max_uA to set the max current limit will cause regulator =
+core
+to call the set_current_limit callback when registering a regulator. This c=
+all
+will be done using MAX_PI_CURRENT (1,92A) limit.
+
+Is see two issues to this:
+- There is a chance the power budget of the supply will be not sufficient f=
+or
+  all the PIs configured to MAX_PI_CURRENT. On that case the power budget of
+  the supply is exceeded and the next PI of the PSE power domain can't probe
+  with success. It will have -ERANGE error returned from
+  devm_regulator_register() call. So the PSE driver can't probe with succes=
+s.
+- The PI current limit is reset at each boot. The next patch series will ta=
+ckle
+  permanent configuration feature of the PD692x0. This will conflict as
+  we want to keep the PI current limit saved.
+
+Another solution would be to add a no_apply_max_uA_constraint flag.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
