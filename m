@@ -1,139 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DD31D357A;
-	Sun, 24 Nov 2024 13:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBC1227BAA;
+	Sun, 24 Nov 2024 13:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732455762; cv=none; b=nY9RUiXTGWY2UKR2OCICHr3WYaR1GsnNtp+ecglS9DBJM+Hb0M4Chn5WQMh4je4mNWdieJh56sykuekEU6Y6r/BCQpcpakcmgUIaQjgL0Mfg0jQYY2/tVZV0/xuYvPece2WSFspCJOt2/jCQ8t29pNvpU+0C7KDJ1C9KCNKGgP8=
+	t=1732456020; cv=none; b=Xu2y+OJl/z7nJ8HfW7p6/lfJwj/jiUZdQJ5eGu0wDEGe4XF6whewf3tFEutSvY0pu0KINaKp1tplZHkaAtnHHVFFZzRU98YHGvIv/pj3DhvUSnWfmS7ynC1ABMWi40jMjm5Zh2F2HWVMNETxF+VpjTE8pqBgqyQj5whzk3njJXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732455762; c=relaxed/simple;
-	bh=s+OAzGTHxef1Z14wQ9FkruNi4WHFXo3WVWtCL0MRYjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k0Ek36AI9KYSwRQ6TPuDz2N/feZx7nx6wZspWv9PVlDmgR0MOLD0kmEw2St89/wO41heD60xCR2uap3eMr0uwyE7Ws5CI6coRHI2lfeboHBwgmfdcS2STce1bn9SqBlfrNxvZrxqScey3HALfAPBdnL7kvOSYmGq9JIO8vW1w9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RNoJzJfp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732456020; c=relaxed/simple;
+	bh=UQhQa+Yg/KYAh3eKhISv+/YlBTMTOqZ6aaA1ihQ7TcM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nBshi7NKlXi2grJ+XNfA3Cl1CrCMHJhkVCL3WdnrWXup8u8RiqBBz7PAo9G1Ij9Nh2b/OlMIXwztqiQO+qYD86dHwHzQnm7BqO5DEaHxwLD8UMToCkXi5fTWxLr2MA4vliGIBvriUbIkD9CW7400+UoMeen+8AlH9IHjMhj/p8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gtx3U4h8; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RNoJzJfp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F0DCC4CED3;
-	Sun, 24 Nov 2024 13:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732455762;
-	bh=s+OAzGTHxef1Z14wQ9FkruNi4WHFXo3WVWtCL0MRYjY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RNoJzJfpDBTUTuoqtJQPc8sn7nWK9j0dQuSGY3UxB/3jkFJYkfTtxL0PeUcurNWdB
-	 9yfOVi89lT2i6wLXjhFgo/R7MKojv4CowwVfX4QZNCXOdPjT8sKcdKTjVIoR8CJy6P
-	 KI4izTlr3kwQ/VoiMRWUZo/a0hoGAhiPzi+cQhqvAkIvRL+ojKzG+HwDZYoNipTR1g
-	 rxFvKijYbkXrgvk4J+1r88wX/Ln+viE9mGj4uYOMVaI6taaID2dzvNfCnjKGVhdIWt
-	 W1dW6M4GiN6YP/XdrxWF03E+9kthZQqbo5OHcKhC7HnOz0ncprzM+7Di1EUGcezmGl
-	 EVa7UW3FC3NRg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Troy Hanson <quic_thanson@quicinc.com>,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-	Sasha Levin <sashal@kernel.org>,
-	ogabbay@kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gtx3U4h8"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21145812538so28573805ad.0;
+        Sun, 24 Nov 2024 05:46:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732456018; x=1733060818; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZmISgBoq2URn/hDyR4q7MEAA7ngEur9IZlkoC4zkGCQ=;
+        b=gtx3U4h8AEP7BKrJW1wfnCow+pM+kUp3kwkUKndsXgL3uRsQ+ubQFGfDkSSRS0SH18
+         SzXLrESBp/LynHc9vLC+ZaL+CgQ+2VjoShWpQzyfEK9YMvqeoI5ZfYtv0MiwEq+WUsWV
+         Xritu0IafGQqFNhuzJpCIcdVgubGrKzew9e/76cs0gEK2CZ/DOLaB+nNLXjeyrlkJ0x1
+         V215fE+wZisQoaFITIZ/gHb3CFMu1il8DQ2jOqmr2k2sNMKTQ862nMtNwyZVlRrZ06cn
+         cpZRRK5J61vAkn3z+MVRSZQZTJEwZi1OT1rSrfsEZeFG2cq1TggN4BRLnMyvbV7Id9CZ
+         eeGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732456018; x=1733060818;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZmISgBoq2URn/hDyR4q7MEAA7ngEur9IZlkoC4zkGCQ=;
+        b=aBMdhBwv8psc+K7qFJ8GiiX94UX5kTv7qQicHjwe9WKkCLRQxDXiTSIa4+/gZT3JE6
+         c4+LCxluX9S4O0Q7a95/nilPMuB64JDMtv7m2XD8bpoWek0Cr6UaD02mfRy/cYd7aPLt
+         mgD893+4UnKDAnpwX07koYmw0FKtHj+k4aqdqrss6BntNTTW5zdfUOIh3CaGrmzv/BWw
+         6Cimq9Dd/+bYUOyTCQJlAIxxWdE6EYiN6DMpf4Syfh6MCa3PsvebZQ7mzZ+xfUZe/Pte
+         GjkVQPC0KmTPVLFnpL8dqka/uuY3bQIFEhZpzFAc3RgBM8+y5C41xZR5iM9GEhrNMWhF
+         3FwA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPaGBvxs17sHy3zfco/3YG1B04QjDKgBH0y6pG5Y1w28bjr5rxJWjFqvLi8trcS+xXQIrwpODgET7Pkf7X@vger.kernel.org, AJvYcCXLeG3auBRZWigk+OMRqVL+5xHQ9IcEGDv+P5XGv6xEyF8aM7fGVJlKwlBR2pamlbMGjCkqPdEZF98=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyznJALfz24lfEDQDht6rKIXF3O36+LHUlhixKHXtNc4HqYCuMs
+	m3dC+0bN6kKyLnfr2L3IcQyDIOOeeesd8CgGfmDZG9GfpVXIDBQ5
+X-Gm-Gg: ASbGnctYJhfmiOagHiKZcfkZGrUefzJjVagi4oNcyLBVsxQAlsdr0gOXuZeJY0qRLad
+	RbW3Jacu+xYMNxLmrHU7z2c80O714+h9WzErBalDS8I0+sLCWQCk06tYil5VFKTj4pEj/EHxd/f
+	RtDraUG5DOXQYPw9KZoFcDUjDZYzB0rGYEdcPdhGTZBU8ojUb/xTY0ohh+oMZhvOvqpwzbtxX/K
+	ZQCxxhqEMiJbw+/7QaT0MlJbtSiM/dn3AgWySsBIfPrEaWVKeNtaAeU9HGNbRovtw==
+X-Google-Smtp-Source: AGHT+IEeTHJwNLsbC33Xz4h5tJ2xj1ax/aWAICGlsuNXeujZin4eKHBeBYybX8UBaIWL39fJsXyxvA==
+X-Received: by 2002:a17:902:ccc8:b0:212:5d53:d02c with SMTP id d9443c01a7336-2129fd74093mr130141755ad.50.1732456018455;
+        Sun, 24 Nov 2024 05:46:58 -0800 (PST)
+Received: from localhost.localdomain ([49.206.113.92])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129db8c864sm46937225ad.37.2024.11.24.05.46.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Nov 2024 05:46:57 -0800 (PST)
+From: Saru2003 <sarvesh20123@gmail.com>
+To: minchan@kernel.org,
+	senozhatsky@chromium.org
+Cc: philipp.reisner@linbit.com,
+	lars.ellenberg@linbit.com,
+	christoph.boehmwalder@linbit.com,
 	corbet@lwn.net,
-	linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 27/87] accel/qaic: Add AIC080 support
-Date: Sun, 24 Nov 2024 08:38:05 -0500
-Message-ID: <20241124134102.3344326-27-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241124134102.3344326-1-sashal@kernel.org>
-References: <20241124134102.3344326-1-sashal@kernel.org>
+	terrelln@fb.com,
+	linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linbit.com,
+	linux-doc@vger.kernel.org,
+	Saru2003 <sarvesh20123@gmail.com>
+Subject: [PATCH] Corrected the spelling of dictionary in the example usage of 'algorithm_params' in the ZRAM documentation.
+Date: Sun, 24 Nov 2024 19:15:50 +0530
+Message-Id: <20241124134550.69112-1-sarvesh20123@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.10
 Content-Transfer-Encoding: 8bit
 
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-
-[ Upstream commit b8128f7815ff135f0333c1b46dcdf1543c41b860 ]
-
-Add basic support for the new AIC080 product. The PCIe Device ID is
-0xa080. AIC080 is a lower cost, lower performance SKU variant of AIC100.
-From the qaic perspective, it is the same as AIC100.
-
-Reviewed-by: Troy Hanson <quic_thanson@quicinc.com>
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241004195209.3910996-1-quic_jhugo@quicinc.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Saru2003 <sarvesh20123@gmail.com>
 ---
- Documentation/accel/qaic/aic080.rst | 14 ++++++++++++++
- Documentation/accel/qaic/index.rst  |  1 +
- drivers/accel/qaic/qaic_drv.c       |  4 +++-
- 3 files changed, 18 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/accel/qaic/aic080.rst
+ Documentation/admin-guide/blockdev/zram.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/accel/qaic/aic080.rst b/Documentation/accel/qaic/aic080.rst
-new file mode 100644
-index 0000000000000..d563771ea6ce4
---- /dev/null
-+++ b/Documentation/accel/qaic/aic080.rst
-@@ -0,0 +1,14 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+===============================
-+ Qualcomm Cloud AI 80 (AIC080)
-+===============================
-+
-+Overview
-+========
-+
-+The Qualcomm Cloud AI 80/AIC080 family of products are a derivative of AIC100.
-+The number of NSPs and clock rates are reduced to fit within resource
-+constrained solutions. The PCIe Product ID is 0xa080.
-+
-+As a derivative product, all AIC100 documentation applies.
-diff --git a/Documentation/accel/qaic/index.rst b/Documentation/accel/qaic/index.rst
-index ad19b88d1a669..967b9dd8bacea 100644
---- a/Documentation/accel/qaic/index.rst
-+++ b/Documentation/accel/qaic/index.rst
-@@ -10,4 +10,5 @@ accelerator cards.
- .. toctree::
+diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
+index 678d70d6e1c3..dbf2b4f47ec3 100644
+--- a/Documentation/admin-guide/blockdev/zram.rst
++++ b/Documentation/admin-guide/blockdev/zram.rst
+@@ -119,14 +119,14 @@ compression algorithm to use external pre-trained dictionary, pass full
+ path to the `dict` along with other parameters::
  
-    qaic
-+   aic080
-    aic100
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index 580b29ed19021..e18613e9ac3c1 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -34,6 +34,7 @@
+ 	#pass path to pre-trained zstd dictionary
+-	echo "algo=zstd dict=/etc/dictioary" > /sys/block/zram0/algorithm_params
++	echo "algo=zstd dict=/etc/dictionary" > /sys/block/zram0/algorithm_params
  
- MODULE_IMPORT_NS(DMA_BUF);
+ 	#same, but using algorithm priority
+-	echo "priority=1 dict=/etc/dictioary" > \
++	echo "priority=1 dict=/etc/dictionary" > \
+ 		/sys/block/zram0/algorithm_params
  
-+#define PCI_DEV_AIC080			0xa080
- #define PCI_DEV_AIC100			0xa100
- #define QAIC_NAME			"qaic"
- #define QAIC_DESC			"Qualcomm Cloud AI Accelerators"
-@@ -365,7 +366,7 @@ static struct qaic_device *create_qdev(struct pci_dev *pdev, const struct pci_de
- 		return NULL;
+ 	#pass path to pre-trained zstd dictionary and compression level
+-	echo "algo=zstd level=8 dict=/etc/dictioary" > \
++	echo "algo=zstd level=8 dict=/etc/dictionary" > \
+ 		/sys/block/zram0/algorithm_params
  
- 	qdev->dev_state = QAIC_OFFLINE;
--	if (id->device == PCI_DEV_AIC100) {
-+	if (id->device == PCI_DEV_AIC080 || id->device == PCI_DEV_AIC100) {
- 		qdev->num_dbc = 16;
- 		qdev->dbc = devm_kcalloc(dev, qdev->num_dbc, sizeof(*qdev->dbc), GFP_KERNEL);
- 		if (!qdev->dbc)
-@@ -609,6 +610,7 @@ static struct mhi_driver qaic_mhi_driver = {
- };
- 
- static const struct pci_device_id qaic_ids[] = {
-+	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, PCI_DEV_AIC080), },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, PCI_DEV_AIC100), },
- 	{ }
- };
+ Parameters are algorithm specific: not all algorithms support pre-trained
 -- 
-2.43.0
+2.34.1
 
