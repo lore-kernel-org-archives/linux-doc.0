@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8691885B3
-	for <linux-doc@vger.kernel.org>; Sun, 24 Nov 2024 09:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2345D8837
+	for <linux-doc@vger.kernel.org>; Sun, 24 Nov 2024 09:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732441180; cv=none; b=ZzwzjsTf7WV6eVr02DxkV2dUap7ojBVOrbeiKOc8BDfevuBXkqEla5T7Q/z9V95vLh3cs3veOg6cwOBAdFhRhCvw6rL/Wpys5RKjhzPnUPvvK4xqZ7RxTmULboYZJY5dANRGjiXARgHvEbI6Upw0PeeaCdmHhyz1j6ilJ5gcr8Y=
+	t=1732441504; cv=none; b=DFUye/Zs+x/fMZXA9HDuNsuZlSbKjmnH+361eaWAJbTryoDKp+CtOc8dAlfQo8bqW01qJTGyclTyu3C/GLiHTbDzuQ6no69VbsjLxLmW/M6anFhgXgyYf5gZXbeSh1at/XEGXrpN+NRbhAOBbzeGlD+HrnRSunq15pY3SyS7xQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732441180; c=relaxed/simple;
-	bh=8kxRd7XhCltL01GOni+S70qJmZTEC+JyuGErQY6dkYM=;
+	s=arc-20240116; t=1732441504; c=relaxed/simple;
+	bh=W9lKpGcQDa03iMBDw45v1BIhzDAXRpYx8zm2taWwOCU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ui/8DzWB2WxA42qRWfNsGObwqUblB3mugasykniLUQrbjojy4s9QdcC5RTFIJSdypdcShAnB+yPTFqyiIp4yNFdrnQuoUe1UnZF1c567MznZW+oj/+BQ7S8xwehAEX1uovfqKpKG1CYkPqQ9Uyq7dWYPEM/jSDNp/g05eiT6PhE=
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ol/SjguS8IwNnGRrLFB6E4p5SfcNVW8aPHeOqE+t2Vl4t/57IhGmu93+0BoJabRCYvY1I2dtWRs2K5ssIchlSdtWoF8bmABdx0pGc65MUamrceOmtT4vjeaQDI5o7DMsbiVXwl1xW5k3F5U52LKnjSvez0fQynp643Hd6yGJDh8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,18 +18,18 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tF95P-0005dS-Jh; Sun, 24 Nov 2024 10:39:23 +0100
+	id 1tF9Ad-0005mu-T0; Sun, 24 Nov 2024 10:44:47 +0100
 Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tF95O-002NBz-2H;
-	Sun, 24 Nov 2024 10:39:22 +0100
+	id 1tF9Ac-002NCY-2I;
+	Sun, 24 Nov 2024 10:44:46 +0100
 Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tF95O-00CgPK-1q;
-	Sun, 24 Nov 2024 10:39:22 +0100
-Date: Sun, 24 Nov 2024 10:39:22 +0100
+	id 1tF9Ac-00CgQf-1t;
+	Sun, 24 Nov 2024 10:44:46 +0100
+Date: Sun, 24 Nov 2024 10:44:46 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
@@ -51,9 +51,10 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>
 Subject: Re: [PATCH RFC net-next v3 15/27] regulator: core: Resolve supply
  using of_node from regulator_config
-Message-ID: <Z0L0SuaRysRxbtNM@pengutronix.de>
+Message-ID: <Z0L1johDfR6cAUb4@pengutronix.de>
 References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
  <20241121-feature_poe_port_prio-v3-15-83299fa6967c@bootlin.com>
+ <Z0L0SuaRysRxbtNM@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,7 +63,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241121-feature_poe_port_prio-v3-15-83299fa6967c@bootlin.com>
+In-Reply-To: <Z0L0SuaRysRxbtNM@pengutronix.de>
 X-Sent-From: Pengutronix Hildesheim
 X-URL: http://www.pengutronix.de/
 X-Accept-Language: de,en
@@ -72,96 +73,15 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, Nov 21, 2024 at 03:42:41PM +0100, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> 
-> Previously, the regulator core resolved its supply only from the parent
-> device or its children, ignoring the of_node specified in the
-> regulator_config structure.
-> This behavior causes issues in scenarios where multiple regulator devices
-> are registered for components described as children of a controller, each
-> with their own specific regulator supply.
-> 
-> For instance, in a PSE controller with multiple PIs (Power Interfaces),
-> each PI may have a distinct regulator supply. However, the regulator core
-> would incorrectly use the PSE controller node or its first child to look up
-> the regulator supply, rather than the node specified by the
-> regulator_config->of_node for the PI.
-> 
-> This update modifies the behavior to prioritize the of_node in
-> regulator_config for resolving the supply. This ensures correct resolution
-> of the power supply for each device. If no supply is found in the provided
-> of_node, the core falls back to searching within the parent device as
-> before.
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
-> It is weird that it wasn't seen before, maybe there was not any case
-> were it can't find the supply_name from the parent device.
-> 
-> Changes in v3:
-> - New patch
-> ---
->  drivers/regulator/core.c | 42 ++++++++++++++++++++++++++++++------------
->  1 file changed, 30 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-> index 2948a7eca734..b49f751893b9 100644
-> --- a/drivers/regulator/core.c
-> +++ b/drivers/regulator/core.c
-> @@ -1936,6 +1936,20 @@ static struct regulator_dev *regulator_lookup_by_name(const char *name)
->  	return dev ? dev_to_rdev(dev) : NULL;
->  }
->  
-> +static struct regulator_dev *regulator_dt_lookup(struct device *dev,
-> +						 const char *supply)
-> +{
-> +	struct regulator_dev *r = NULL;
-> +
-> +	if (dev && dev->of_node) {
-> +		r = of_regulator_dev_lookup(dev, supply);
-> +		if (PTR_ERR(r) == -ENODEV)
-> +			r = NULL;
-> +	}
-> +
-> +	return r;
-> +}
+> > diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+> > index 2948a7eca734..b49f751893b9 100644
+> > --- a/drivers/regulator/core.c
+> > +++ b/drivers/regulator/core.c
 ...
->  static int regulator_resolve_supply(struct regulator_dev *rdev)
->  {
-> -	struct regulator_dev *r;
->  	struct device *dev = rdev->dev.parent;
-> +	struct regulator_dev *r = NULL;
->  	struct ww_acquire_ctx ww_ctx;
->  	int ret = 0;
->  
-> @@ -2015,7 +2022,18 @@ static int regulator_resolve_supply(struct regulator_dev *rdev)
->  	if (rdev->supply)
->  		return 0;
->  
-> -	r = regulator_dev_lookup(dev, rdev->supply_name);
-> +	/* first do a dt based lookup on the node described in the virtual
-> +	 * device.
-> +	 */
-> +	if (rdev->dev.of_node)
+> With remove dev.of_node check:
+> Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-regulator_dt_lookup() is already doing dev.of_node check, this one can
-be removed.
-
-> +		r = regulator_dt_lookup(&rdev->dev, rdev->supply_name);
-> +
-> +	/* If regulator not found use usual search path in the parent
-> +	 * device.
-> +	 */
-> +	if (!r)
-> +		r = regulator_dev_lookup(dev, rdev->supply_name);
-> +
->  	if (IS_ERR(r)) {
->  		ret = PTR_ERR(r);
->  
-
-With remove dev.of_node check:
-Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Sorry, wrong framework :) I can do only Reviewed-by
 
 -- 
 Pengutronix e.K.                           |                             |
