@@ -1,84 +1,120 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from smtp-fw-52005.amazon.com (smtp-fw-52005.amazon.com [52.119.213.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA2A192D91;
-	Mon, 25 Nov 2024 11:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3899199EA8;
+	Mon, 25 Nov 2024 11:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732534748; cv=none; b=Awh1mrj1QXIOisju9KkeosVwJsMpRhKPt+w2ULLpuXwivIFN4FMS2IwAyHaJKidoqUlJVKvmZJIwdG244eepCFPRhAJY5CtGipobhHBve2yaVXrKh2dUm+YblydiZWIQwxHuxYYf55+1u0oy/vkLURufF06N838kbGFNzq5z8uM=
+	t=1732535209; cv=none; b=Faa2CycDtHw6r9/Zvy5h0u2wur/4aMJ/9CG2+2ymOflrJ90Ug4+k4uSaDEOOPLlvbBOrueuWbmA8GJTSgTGZHTfhtJsR/CRb5FUnQi9k7xjw6XJs8jlaTORZZcGeaE1mEKiuhjQ05PihS/gNjAm4Aw0wt3jYUbsLO9Rk+nxqL0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732534748; c=relaxed/simple;
-	bh=r25yqzzOd7GcseCY5t0dfpTuxI0xYKpyNKx4CD1udpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kgySTIVmHiQUrRje9Uk6eM/alnZtFvbapyu8Wlz+1fpvCdGDe90xGghvKXf0/mr75q9TnlzNdQnq4wnDa38de5aZ8D5HhL3NjI62kZMceKD4Ekr68H8j5MjpMJ/9spw3DfQer+EFB/5QlpO57MqQZ5PDaQSB6bynGb0ZI70W5q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ia8UlVIT; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1732535209; c=relaxed/simple;
+	bh=FHKaVj40hVdUie0T9IjlT4qkPmKzDnnfQy/AYHnP1aU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=GGvKDhAJHaW4M4IEow67q+zegbkMKvZO0/U8Oprrsm33mYihXkYj1bm34Li+yzTRipFRvNAlfnAqjogl4PQYWYigCd7ADZ3F2E/Ffi1RHqwNhyCmL70Lq+GFH0W8Khi9Op0Xh+f4aGC8tOVwHNukWCawgPt/CZ6rKEUPkIJB5W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=NNmzjnNl; arc=none smtp.client-ip=52.119.213.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ia8UlVIT"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D9111C000B;
-	Mon, 25 Nov 2024 11:39:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1732534744;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r25yqzzOd7GcseCY5t0dfpTuxI0xYKpyNKx4CD1udpA=;
-	b=ia8UlVITv+yif5FYFLWcxVy9CMkHCYM1Xm8OtGkOhFKFZ6sG9QeNKyrgMR23a9byv9GorV
-	uieFPUwHrdbTjAT+oHT/2vWmJ+flpMNaMGph9v0TVVJcR8380jUb5TC2OBgrF54kNV1jh7
-	O6qkMiszSkrrsa+DLxXz6fC+jzsEV71PPiWPgzGpYJAsL3aMdeww+vMq7wWPvRhkyuDE8m
-	2FnbKOw+U5USIJhgb4rGTb2UpdrXjRk5LJye5YONhiZ//0xOmMMdU8EDLCK0Lt3VY9tISp
-	NReQAF4pMyoGlaULHHLQV71OhjVjQBo1sPWOWyUSS+IQfK5nNJ2eJIaCFCsoRw==
-Date: Mon, 25 Nov 2024 12:39:00 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v3 14/27] net: pse-pd: tps23881: Add
- support for PSE events and interrupts
-Message-ID: <20241125123900.20157627@kmaincent-XPS-13-7390>
-In-Reply-To: <Z0LzDE8cYdbvx79o@pengutronix.de>
-References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
-	<20241121-feature_poe_port_prio-v3-14-83299fa6967c@bootlin.com>
-	<Z0LzDE8cYdbvx79o@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="NNmzjnNl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1732535208; x=1764071208;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=0p7Ckz6iXzDpwC1O2xBQwIygdPDI7wUUkWYzZKFW0BE=;
+  b=NNmzjnNlZlnD+gJWf51Uu2am4QYnK4kfAJ67MiV2xgsCNZtTMsJ32x/b
+   COuUuJeXiu0phSVrjAZx6UEgIp1jj4PG94baPwCTYEJxs/q2+e+uANonb
+   ws+OeUufxK6jkA28Wq35yhca/PeJe26YKO7X9DO5SiMZksGgFyY7CawR8
+   4=;
+X-IronPort-AV: E=Sophos;i="6.12,182,1728950400"; 
+   d="scan'208";a="698062018"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.6])
+  by smtp-border-fw-52005.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 11:46:44 +0000
+Received: from EX19MTAEUC002.ant.amazon.com [10.0.17.79:63339]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.32.206:2525] with esmtp (Farcaster)
+ id 40ec0b3e-9f12-4258-be54-cdb388d9fb84; Mon, 25 Nov 2024 11:46:43 +0000 (UTC)
+X-Farcaster-Flow-ID: 40ec0b3e-9f12-4258-be54-cdb388d9fb84
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUC002.ant.amazon.com (10.252.51.245) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Mon, 25 Nov 2024 11:46:41 +0000
+Received: from [192.168.8.103] (10.106.83.30) by EX19D022EUC002.ant.amazon.com
+ (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Mon, 25 Nov 2024
+ 11:46:40 +0000
+Message-ID: <a8d78402-6f8d-4ebf-ae8b-1a8f03d33647@amazon.com>
+Date: Mon, 25 Nov 2024 11:46:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [PATCH 1/4] KVM: guest_memfd: add generic post_populate callback
+To: <michael.day@amd.com>, <pbonzini@redhat.com>, <corbet@lwn.net>,
+	<kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <jthoughton@google.com>, <brijesh.singh@amd.com>, <michael.roth@amd.com>,
+	<graf@amazon.de>, <jgowans@amazon.com>, <roypat@amazon.co.uk>,
+	<derekmn@amazon.com>, <nsaenz@amazon.es>, <xmarcalx@amazon.com>
+References: <20241024095429.54052-1-kalyazin@amazon.com>
+ <20241024095429.54052-2-kalyazin@amazon.com>
+ <589ccb59-ae79-49db-8017-f6d28d7f6982@amd.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
+ ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
+ abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
+In-Reply-To: <589ccb59-ae79-49db-8017-f6d28d7f6982@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: EX19D005EUA002.ant.amazon.com (10.252.50.11) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-On Sun, 24 Nov 2024 10:34:04 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On 22/11/2024 18:40, Mike Day wrote:
+> On 10/24/24 04:54, Nikita Kalyazin wrote:
+>> This adds a generic implementation of the `post_populate` callback for
+>> the `kvm_gmem_populate`.  The only thing it does is populates the pages
+>> with data provided by userspace if the user pointer is not NULL,
+>> otherwise it clears the pages.
+>> This is supposed to be used by KVM_X86_SW_PROTECTED_VM VMs.
+>>
+>> Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
+>> ---
+>>   virt/kvm/guest_memfd.c | 21 +++++++++++++++++++++
+>>   1 file changed, 21 insertions(+)
+>>
+>> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+>> index 8f079a61a56d..954312fac462 100644
+>> --- a/virt/kvm/guest_memfd.c
+>> +++ b/virt/kvm/guest_memfd.c
+>> @@ -620,6 +620,27 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct 
+>> kvm_memory_slot *slot,
+>>   EXPORT_SYMBOL_GPL(kvm_gmem_get_pfn);
+>>
+>>   #ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
+> 
+> KVM_AMD_SEV can select KVM_GENERIC_PRIVATE_MEM, so to guarantee this is 
+> only for
+> software protection it might be good to use:
+> 
+> #if defined CONFIG_KVM_GENERIC_PRIVATE_MEM && !defined CONFIG_KVM_AMD_SEV
+> 
+> That could end up too verbose so there should probably be some more 
+> concise mechanism
+> to guarantee this generic callback isn't used for a hardware-protected 
+> guest.
 
-> > =20
-> > +/* Convert interrupt events to 0xff to be aligned with the chan
-> > + * number.
-> > + */
-> > +static u8 tps23881_it_export_chans_helper(u16 reg_val, u8 field_offset=
-) =20
->=20
-> What is the meaning of _it_?
+Thanks, will make a note for myself for the next iteration.
 
-Interrupt. I will change it to irq ;)=20
+> 
+> Mike
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
