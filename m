@@ -1,91 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0526F06D;
-	Mon, 25 Nov 2024 20:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC96B18130D
+	for <linux-doc@vger.kernel.org>; Mon, 25 Nov 2024 20:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732567424; cv=none; b=EgP1MAf17NakHrd0Q3CKJisU2lGbrumRl9lHCKX7b0wIwp3EscHLl+UNiOy5YjsDbCfPoHd/m1IeF62yLrdqtnV+CgP7qrJRdBXyZV6BuRjLiwqj7RyFtIStyUzgy3EJPY177lV41RjInr4tGWxru53zRo6Y/PfjK/ELIe8c3Vg=
+	t=1732568188; cv=none; b=lP5g+/420iNEN3EEgN9jCMw3eQ+VVR65aIyLO0Ccf0eeibEpLXSis4dnVdu6F98D5dngsMQllYJy8N0Xo9e4rvRCfeWWLhbsvgovxUSs9W6ZyB5bAj1jphJbl2qQ77Gk7/jqcrA7hhKnRcaBc9z4zAbd5FifFubEX13gqBX0VQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732567424; c=relaxed/simple;
-	bh=fvmkebYzUrZ0aCkkEPQAaefl3tpc2uAxgxtpEuWjDg4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vfh/nKaLsV/iOA6ti3XRWb+e4wOyzKlc2rXlnJvmqIaIMRUR8JW1IsSCvql1grHvq6yPe58yNWmIVynr27IJP/i0x5QZmP7bH2+h+ad54uTwEQN2AcuXVTvIvrsETHbuiZAgE8wkscCNhl5vE24Ix/LgMSac0Lc5n+ma89ItfhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M2roEM6E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732568188; c=relaxed/simple;
+	bh=+G+s8v3b9ivTkcUbGcjfodZZE8uSBSoWWJRLo7lVSUA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=oiyj8eB0RBHmHILQMWduMZV+AvnB3+KAPIgCMj/V1cmT1XOZ3Z3fU8tLvME8c2FsfcvLvTeHiK02qMYwL2dfo6+YV5YfdmzgpANGwF2ESl/XX5mTyOcqg6aA20AVfcqzPB4HF/ZY9KopB8lNYBI1hiat12T9Uty1pS7FOPLjR4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=RwOL0CQl; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M2roEM6E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99608C4CECE;
-	Mon, 25 Nov 2024 20:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732567423;
-	bh=fvmkebYzUrZ0aCkkEPQAaefl3tpc2uAxgxtpEuWjDg4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M2roEM6EI+EIEd6c5S5HccSFbSKBCKnTmiwPW30YWynCXtq2jIE6nbJ7DJ0i/DBCS
-	 LHui0dwH25+V93RTbp8ygQXdMsc7IQnkvddQ/Vaf67SBeDXVG/L2RPUbMW8WXREX9w
-	 Q4wWV+9Nolq50PD5+Wl34EKrwFDiah7UHXMm6081rLjg3RLFzUklCGOY3UYm6rTYFl
-	 ZbdRCz9yqW24vsHwZ3Nxc/sX0IUOj0sZiHKBhyIv5g3h852tactH8gzPawZAzMgzwQ
-	 Mt/z5O7oJxXQw6yL+qV8fwwjoP6rlOeASJrLVwK6XripXAGQqXh3YVRH4exf4JtrPn
-	 kRZqkclTOn3eA==
-Date: Mon, 25 Nov 2024 21:43:37 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	Cloud Hsu <cloudhsu@google.com>, Chris Koch <chrisko@google.com>
-Subject: Re: [PATCH v1 1/1] x86/Documentation: Update algo in init_size
- description of boot protocol
-Message-ID: <Z0TheZLKzwqnoZfE@gmail.com>
-References: <20241125083136.1540424-1-andriy.shevchenko@linux.intel.com>
- <d2dfc0a4-d9dc-4dd2-a669-097dcf3491b5@infradead.org>
- <Z0Q5MIjy0yx6jyNq@gmail.com>
- <Z0RVgdhYu17lINZz@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="RwOL0CQl"
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 4APKtSuH1198373
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Mon, 25 Nov 2024 12:55:28 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 4APKtSuH1198373
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024111601; t=1732568129;
+	bh=Csittwh1C7jblOYXjXdXpKBgKx98psQNYYT7A74PDmM=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=RwOL0CQl9aIi8ddFqF9rVhPaDR+K5q/QLzvIYiRPYi2JWSmuu/4dPpaofSDvNRK4s
+	 4Pg3ndFacM02WXEokhQSOJnSHOZIAdoT8eydS5tUUsxNPGIKlY3RSkaM+dc/FzHsUC
+	 SVEeks5UcRa4ddcOG69UKqZrVfwOQ5A1pHnYWQ5kbWmbuKts2SjqwDEUot0874ZRCM
+	 GtmRaTUaoXOG6tMKS12/NVY1tYnO/MeAHPbhVj9c53lVuLmBSs98QPcamfwHKxki+2
+	 x2mPokHvyf5oBzkZ+fXVsaQA05vJhHzNHNosx59Om9qD87sEDFEReUfzKznXU6j/nr
+	 kxCiF5XtgXxrA==
+Date: Mon, 25 Nov 2024 12:55:25 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Ingo Molnar <mingo@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, Cloud Hsu <cloudhsu@google.com>,
+        Chris Koch <chrisko@google.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v1_1/1=5D_x86/Documentation=3A_Update_?=
+ =?US-ASCII?Q?algo_in_init=5Fsize_description_of_boot_protocol?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <Z0TheZLKzwqnoZfE@gmail.com>
+References: <20241125083136.1540424-1-andriy.shevchenko@linux.intel.com> <d2dfc0a4-d9dc-4dd2-a669-097dcf3491b5@infradead.org> <Z0Q5MIjy0yx6jyNq@gmail.com> <Z0RVgdhYu17lINZz@smile.fi.intel.com> <Z0TheZLKzwqnoZfE@gmail.com>
+Message-ID: <C76B9F75-2708-4161-A130-8258981D5DF3@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z0RVgdhYu17lINZz@smile.fi.intel.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On November 25, 2024 12:43:37 PM PST, Ingo Molnar <mingo@kernel=2Eorg> wrot=
+e:
+>
+>* Andy Shevchenko <andriy=2Eshevchenko@linux=2Eintel=2Ecom> wrote:
+>
+>> On Mon, Nov 25, 2024 at 09:45:36AM +0100, Ingo Molnar wrote:
+>> > * Randy Dunlap <rdunlap@infradead=2Eorg> wrote:
+>> > > On 11/25/24 12:31 AM, Andy Shevchenko wrote:
+>>=20
+>> =2E=2E=2E
+>>=20
+>> > > > -	if (relocatable_kernel)
+>> > > > -	runtime_start =3D align_up(load_address, kernel_alignment)
+>> > > > -	else
+>> > > > -	runtime_start =3D pref_address
+>> > > > +    if ( relocatable_kernel ) {
+>> > > > +      if ( load_address < pref_address )
+>> > >=20
+>> > > What's up with the extra spaces around ( and ) =2E=2E=2E and incons=
+istent with
+>> > > the lines below?
+>>=20
+>> I can remove them=2E This file has a lot of inconsistencies it seems=2E=
+=2E=2E
+>
+>Feel free to send a followup patch that fixes up all of those other=20
+>details and harmonizes the style=2E Quality of the boot protocol=20
+>documentation demonstrably matters quite a bit in functional terms as=20
+>well =2E=2E=2E
+>
+>>=20
+>> > Also, even pseudocode should follow the kernel's coding style and use=
+=20
+>> > tabs in particular - which it already does in (some=2E=2E=2E) other p=
+laces of=20
+>> > this document, such as the 'Sample Boot Configuration' chapter=2E
+>>=20
+>> The problem is that reStructuredText syntax requires that indentation=
+=2E
+>> I may follow the rules after the rST requirements, though=2E
+>
+>That's a good solution - thank you!
+>
+>	Ingo
 
-* Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+I, too, would really appreciate help in cleaning up the document and yes, =
+the number of inconsistencies that have crept in over the years is quite fr=
+ankly embarrassing=2E In a few places I will admit to thinking "did I actua=
+lly write this?"
 
-> On Mon, Nov 25, 2024 at 09:45:36AM +0100, Ingo Molnar wrote:
-> > * Randy Dunlap <rdunlap@infradead.org> wrote:
-> > > On 11/25/24 12:31 AM, Andy Shevchenko wrote:
-> 
-> ...
-> 
-> > > > -	if (relocatable_kernel)
-> > > > -	runtime_start = align_up(load_address, kernel_alignment)
-> > > > -	else
-> > > > -	runtime_start = pref_address
-> > > > +    if ( relocatable_kernel ) {
-> > > > +      if ( load_address < pref_address )
-> > > 
-> > > What's up with the extra spaces around ( and ) ... and inconsistent with
-> > > the lines below?
-> 
-> I can remove them. This file has a lot of inconsistencies it seems...
+And as Ingo says, it matters, because experience shows that boot loader au=
+thors don't ask for clarification, they make their own interpretation and n=
+ow we are stuck with a legacy=2E=20
 
-Feel free to send a followup patch that fixes up all of those other 
-details and harmonizes the style. Quality of the boot protocol 
-documentation demonstrably matters quite a bit in functional terms as 
-well ...
+One part of the problem is that reviewing documentation changes in patch f=
+orm hides inconsistencies because you only get a few lines of context=2E
 
-> 
-> > Also, even pseudocode should follow the kernel's coding style and use 
-> > tabs in particular - which it already does in (some...) other places of 
-> > this document, such as the 'Sample Boot Configuration' chapter.
-> 
-> The problem is that reStructuredText syntax requires that indentation.
-> I may follow the rules after the rST requirements, though.
+On top of that, it would be great if the markup language could be used to =
+insert rationale and commentary into the document=2E In some cases I think =
+it would really help getting better compliance with the spec as intended, e=
+xplain why we make certain recommendations as opposed to "well it seems to =
+work", and help catch inconsistencies=2E
 
-That's a good solution - thank you!
-
-	Ingo
