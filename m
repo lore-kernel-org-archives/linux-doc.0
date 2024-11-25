@@ -1,123 +1,81 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC96B18130D
-	for <linux-doc@vger.kernel.org>; Mon, 25 Nov 2024 20:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED0D14F9CF;
+	Mon, 25 Nov 2024 21:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732568188; cv=none; b=lP5g+/420iNEN3EEgN9jCMw3eQ+VVR65aIyLO0Ccf0eeibEpLXSis4dnVdu6F98D5dngsMQllYJy8N0Xo9e4rvRCfeWWLhbsvgovxUSs9W6ZyB5bAj1jphJbl2qQ77Gk7/jqcrA7hhKnRcaBc9z4zAbd5FifFubEX13gqBX0VQw=
+	t=1732571431; cv=none; b=TZ9k9J3BsOrIRKf7TboLzRb583c07ZLYXv5e3SC5sKxxHIK3MoBe7qtDCGTIY6vDaOQB7SUVehQsegQ2VmnTdwofVvADYkg+Ug55UWjsScJjqpOWH/quyx5F6pYf3v6O1GT3qj8QGUJ7Q11Plv1P38KIeIubCv7xrPLK7PMMXZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732568188; c=relaxed/simple;
-	bh=+G+s8v3b9ivTkcUbGcjfodZZE8uSBSoWWJRLo7lVSUA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=oiyj8eB0RBHmHILQMWduMZV+AvnB3+KAPIgCMj/V1cmT1XOZ3Z3fU8tLvME8c2FsfcvLvTeHiK02qMYwL2dfo6+YV5YfdmzgpANGwF2ESl/XX5mTyOcqg6aA20AVfcqzPB4HF/ZY9KopB8lNYBI1hiat12T9Uty1pS7FOPLjR4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=RwOL0CQl; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1732571431; c=relaxed/simple;
+	bh=Ho81cwI8Sw/bUh83arJ5JE5Z1llPVi4xgJbEuPe6ju0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u1q8/PMypWImzy0Y+LhcjVyzJ6QcSGcKOhwqdy2JCf0XoCzoALYcf1V/we/UIddg0NKnoWpjlygqY8Cs97+AYNuQMQWOTfCYvw5SWuSnYV6d4VtqJSOWC7g28crrd+x2lBf3gVcMGHOtCmPD76XxNYjUnPlLqzreS3kYAfqrjIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DhWwfw4d; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="RwOL0CQl"
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 4APKtSuH1198373
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Mon, 25 Nov 2024 12:55:28 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 4APKtSuH1198373
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024111601; t=1732568129;
-	bh=Csittwh1C7jblOYXjXdXpKBgKx98psQNYYT7A74PDmM=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=RwOL0CQl9aIi8ddFqF9rVhPaDR+K5q/QLzvIYiRPYi2JWSmuu/4dPpaofSDvNRK4s
-	 4Pg3ndFacM02WXEokhQSOJnSHOZIAdoT8eydS5tUUsxNPGIKlY3RSkaM+dc/FzHsUC
-	 SVEeks5UcRa4ddcOG69UKqZrVfwOQ5A1pHnYWQ5kbWmbuKts2SjqwDEUot0874ZRCM
-	 GtmRaTUaoXOG6tMKS12/NVY1tYnO/MeAHPbhVj9c53lVuLmBSs98QPcamfwHKxki+2
-	 x2mPokHvyf5oBzkZ+fXVsaQA05vJhHzNHNosx59Om9qD87sEDFEReUfzKznXU6j/nr
-	 kxCiF5XtgXxrA==
-Date: Mon, 25 Nov 2024 12:55:25 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Ingo Molnar <mingo@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, Cloud Hsu <cloudhsu@google.com>,
-        Chris Koch <chrisko@google.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v1_1/1=5D_x86/Documentation=3A_Update_?=
- =?US-ASCII?Q?algo_in_init=5Fsize_description_of_boot_protocol?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Z0TheZLKzwqnoZfE@gmail.com>
-References: <20241125083136.1540424-1-andriy.shevchenko@linux.intel.com> <d2dfc0a4-d9dc-4dd2-a669-097dcf3491b5@infradead.org> <Z0Q5MIjy0yx6jyNq@gmail.com> <Z0RVgdhYu17lINZz@smile.fi.intel.com> <Z0TheZLKzwqnoZfE@gmail.com>
-Message-ID: <C76B9F75-2708-4161-A130-8258981D5DF3@zytor.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DhWwfw4d"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=PpZ+jkkcRHZq4GTxws+FtRb213eyx+uTZB3qAleBC50=; b=DhWwfw4dDuH6OERREKFR5Vt12Z
+	DY7CVXMxbdn99GEQ3sTapVYkVqkvCHc3bzSHMal10rN643MTGDlUHN58X68HFE1dGY4U/YiDzAsX6
+	1mDZm0LgV4w0jRMsxVjR/byo3+P8v+GUE4evwBtdy+i5F4p2G04VriGqMttEAGkr8zCfClsg4/r4M
+	BzqQjDz2IVDHiIrd47Y5WmpmGeCnpmfsJPAuSpaRNOOoXdJOP9ZwzY4Vot2rm9P39Nfug05u9RQRA
+	Q+wfI4DSE2s0kRRFHdSOtMrj8m3UeBZbRtBpQbMDpOBWE1WEulHGNUseZCDrdj5ifrGR5qQjI9b+J
+	3ZKSm3hQ==;
+Received: from [50.53.2.24] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tFgyN-000000099yI-1uQP;
+	Mon, 25 Nov 2024 21:50:23 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Eric Sandeen <sandeen@redhat.com>,
+	David Howells <dhowells@redhat.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] fs_parser: update mount_api doc to match function signature
+Date: Mon, 25 Nov 2024 13:50:21 -0800
+Message-ID: <20241125215021.231758-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On November 25, 2024 12:43:37 PM PST, Ingo Molnar <mingo@kernel=2Eorg> wrot=
-e:
->
->* Andy Shevchenko <andriy=2Eshevchenko@linux=2Eintel=2Ecom> wrote:
->
->> On Mon, Nov 25, 2024 at 09:45:36AM +0100, Ingo Molnar wrote:
->> > * Randy Dunlap <rdunlap@infradead=2Eorg> wrote:
->> > > On 11/25/24 12:31 AM, Andy Shevchenko wrote:
->>=20
->> =2E=2E=2E
->>=20
->> > > > -	if (relocatable_kernel)
->> > > > -	runtime_start =3D align_up(load_address, kernel_alignment)
->> > > > -	else
->> > > > -	runtime_start =3D pref_address
->> > > > +    if ( relocatable_kernel ) {
->> > > > +      if ( load_address < pref_address )
->> > >=20
->> > > What's up with the extra spaces around ( and ) =2E=2E=2E and incons=
-istent with
->> > > the lines below?
->>=20
->> I can remove them=2E This file has a lot of inconsistencies it seems=2E=
-=2E=2E
->
->Feel free to send a followup patch that fixes up all of those other=20
->details and harmonizes the style=2E Quality of the boot protocol=20
->documentation demonstrably matters quite a bit in functional terms as=20
->well =2E=2E=2E
->
->>=20
->> > Also, even pseudocode should follow the kernel's coding style and use=
-=20
->> > tabs in particular - which it already does in (some=2E=2E=2E) other p=
-laces of=20
->> > this document, such as the 'Sample Boot Configuration' chapter=2E
->>=20
->> The problem is that reStructuredText syntax requires that indentation=
-=2E
->> I may follow the rules after the rST requirements, though=2E
->
->That's a good solution - thank you!
->
->	Ingo
+Add the missing 'name' parameter to the mount_api documentation for
+fs_validate_description().
 
-I, too, would really appreciate help in cleaning up the document and yes, =
-the number of inconsistencies that have crept in over the years is quite fr=
-ankly embarrassing=2E In a few places I will admit to thinking "did I actua=
-lly write this?"
+Fixes: 96cafb9ccb15 ("fs_parser: remove fs_parameter_description name field")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Eric Sandeen <sandeen@redhat.com>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/filesystems/mount_api.rst |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-And as Ingo says, it matters, because experience shows that boot loader au=
-thors don't ask for clarification, they make their own interpretation and n=
-ow we are stuck with a legacy=2E=20
-
-One part of the problem is that reviewing documentation changes in patch f=
-orm hides inconsistencies because you only get a few lines of context=2E
-
-On top of that, it would be great if the markup language could be used to =
-insert rationale and commentary into the document=2E In some cases I think =
-it would really help getting better compliance with the spec as intended, e=
-xplain why we make certain recommendations as opposed to "well it seems to =
-work", and help catch inconsistencies=2E
-
+--- linux-next-20241122.orig/Documentation/filesystems/mount_api.rst
++++ linux-next-20241122/Documentation/filesystems/mount_api.rst
+@@ -770,7 +770,8 @@ process the parameters it is given.
+ 
+    * ::
+ 
+-       bool fs_validate_description(const struct fs_parameter_description *desc);
++       bool fs_validate_description(const char *name,
++                                    const struct fs_parameter_description *desc);
+ 
+      This performs some validation checks on a parameter description.  It
+      returns true if the description is good and false if it is not.  It will
