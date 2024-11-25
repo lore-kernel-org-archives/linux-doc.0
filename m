@@ -1,100 +1,105 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9123918B499;
-	Mon, 25 Nov 2024 10:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2723854765;
+	Mon, 25 Nov 2024 10:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732531357; cv=none; b=l7QLBb6LwD5N8GFcMo2BS52amJtuAFT9tgs31KWMbDsFFdrei8ZFvQPhWO1rsqjK3Qw/ULFwPSwWpSEhYVBU6pTykVvCdLo4CiyuQb1jb3sxs0miQYhT8Jy9l9Mu5xE1zlgxWfcc/83oYZvHLapEr67JO1YwOqth8zYowLmlwuU=
+	t=1732531594; cv=none; b=q8ZrJbRmdfi/1eIC5pfBdsPJHjC2k09ZqQbGcxsAReU+g6J58ATMPmEJXv38lQaqpmk7gOi7I6axu3akGeFosauJMSA4+4fgrh6bDxtPnmkLfFbf3Y/saHfmIJ0ka4Mg6aSGt0ai4fdMO3Ke99CgHL4GpRz+ALU/ilWh6gN5iTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732531357; c=relaxed/simple;
-	bh=fbpMpvjVz/B3/gOZ3/Dx6wnBM1U/va2affDskte7L20=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M5AszIvnQ0wGehb1WpynlvfjAn7Kz/wxO8G8W6fcn5VJjm6MigxVjAUqiE3IW+niMieFinL8VkUT9Z0sAZMFzYJA4jJmsagQ2X8tm4GMiBTHYb1lkHJX4wv881wZ/Sn5EuISaEOJBBVplwApPWarfVKs6FIo0e5DwtfxchtisVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=H3Jzblyl; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1732531594; c=relaxed/simple;
+	bh=7pL7utd2b3yKlneogLtRMMs1bk8tZH9UlAOre6wwcOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=otM8Y+0Luqu1yjE5Joz2ix1zMMgoT6hfPSj2o0B9czK2uBbvBPUbtPjTVIkqUAyJEmAFti3rYymox4Z+eYcDoZ56q8GSoAZeusoMZVEMFbyiEPkRzoTsz6o+5pPhD/UNlY4CbgXv1WQlVDLnFna9vwdXGEtde69R36V8OK+ifr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEtPNnXA; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="H3Jzblyl"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3682DFF805;
-	Mon, 25 Nov 2024 10:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1732531345;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uYkzOa4MnjUz4uK1cDYjGX03QHpE8p3bHHaNXeGHxgE=;
-	b=H3Jzblylc0gkjPvGQONGfpTa+TSVkNeZisD1TZWATE8JwhhlX7JJ5q5nTEDivZdkszd1k9
-	OQV8WqLKghr5THynmwU/mr0fUpEYuimQ3lid8m+DtKVcnQJENGcQ3m0RmZODQxF1Gyp6vM
-	r1AShug3FznQflssMbHzYMrgMmz9tPNxy1I0knFcPWPEUp+O8sUJB7h/bLe88W6F9c6UT6
-	KLITVZf7P/zdffeIJ5Vn8kjKiFRBkbgDaPIoZYBNwpJ/irOmrVRu7UVHxnrq9PjfMorzmi
-	POh2ggUsSJk9lRsZUTe7NMMiCZ3kdSGr/L+ZiuVVYKiSxsz3qvaQu4+WFB8BFg==
-Date: Mon, 25 Nov 2024 11:42:23 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v3 12/27] net: pse-pd: Add support for
- reporting events
-Message-ID: <20241125114223.7aa1a1de@kmaincent-XPS-13-7390>
-In-Reply-To: <Z0LxSnmQqrsCqJ-Y@pengutronix.de>
-References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
-	<20241121-feature_poe_port_prio-v3-12-83299fa6967c@bootlin.com>
-	<Z0LxSnmQqrsCqJ-Y@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEtPNnXA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732531593; x=1764067593;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7pL7utd2b3yKlneogLtRMMs1bk8tZH9UlAOre6wwcOw=;
+  b=LEtPNnXAQBLwrQJN+0dhMxQFuAyvPZCL84Q1C4R9nNNGCSu3G1Pr6I/v
+   UfGNB696KbJ8cVaZA0Sb68Esj9/mRh2a9vKWLz3Jw8NCHTbgBp7ranbmb
+   V0cfzeerPEO0TgoxzzbtrEwhra2gaCZRSdR3E9od8aX+0+LuTLC165bqs
+   Bn1yPxIdTaxM6qMxxEWJJ2KKXLPcx5LhskC/iQSjikMsjtStAKFtHt0O+
+   n8lM9hoKR+qU9GTdIwhmh9rooDjRGlIeOYF/l3DI9jrDjynQLzzcE/OAX
+   QmoPKPbB4j/yu9fGIHSjojsn/ur3+G17yWRjCzeS3+BlIAOusdJtGoXaF
+   g==;
+X-CSE-ConnectionGUID: 6Kdu9ovUS/i+QOQZRiKaZQ==
+X-CSE-MsgGUID: luCd+sz8R/WzEOCDUlOvow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="32758358"
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
+   d="scan'208";a="32758358"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 02:46:32 -0800
+X-CSE-ConnectionGUID: s9Mu0wmbQLeZWSt2JlCSpA==
+X-CSE-MsgGUID: d8nGDvvSQ/qjz7+cYy/8jQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
+   d="scan'208";a="122176338"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 02:46:29 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tFWbp-00000000ifO-3QKs;
+	Mon, 25 Nov 2024 12:46:25 +0200
+Date: Mon, 25 Nov 2024 12:46:25 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	Cloud Hsu <cloudhsu@google.com>, Chris Koch <chrisko@google.com>
+Subject: Re: [PATCH v1 1/1] x86/Documentation: Update algo in init_size
+ description of boot protocol
+Message-ID: <Z0RVgdhYu17lINZz@smile.fi.intel.com>
+References: <20241125083136.1540424-1-andriy.shevchenko@linux.intel.com>
+ <d2dfc0a4-d9dc-4dd2-a669-097dcf3491b5@infradead.org>
+ <Z0Q5MIjy0yx6jyNq@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z0Q5MIjy0yx6jyNq@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sun, 24 Nov 2024 10:26:34 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On Mon, Nov 25, 2024 at 09:45:36AM +0100, Ingo Molnar wrote:
+> * Randy Dunlap <rdunlap@infradead.org> wrote:
+> > On 11/25/24 12:31 AM, Andy Shevchenko wrote:
 
-> On Thu, Nov 21, 2024 at 03:42:38PM +0100, Kory Maincent wrote:
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> >=20
-> > Add support for devm_pse_irq_helper() to register PSE interrupts. This =
-aims
-> > to report events such as over-current or over-temperature conditions
-> > similarly to how the regulator API handles them but using a specific PSE
-> > ethtool netlink socket.
-> >=20
-> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com> =20
->=20
-> ....
->=20
-> > @@ -634,6 +752,7 @@ pse_control_get_internal(struct pse_controller_dev
-> > *pcdev, unsigned int index) psec->pcdev =3D pcdev;
-> >  	list_add(&psec->list, &pcdev->pse_control_head);
-> >  	psec->id =3D index;
-> > +	psec->attached_phydev =3D phydev; =20
->=20
-> Hm, i guess, here is missing some sort of phy_attach_pse.
-> Otherwise the phydev may be removed.
+...
 
-I don't think so as a phy_device remove call will also free the pse control
-pointer through the pse_control_put() function.
-https://elixir.bootlin.com/linux/v6.11.7/source/drivers/net/phy/phy_device.=
-c#L1045
+> > > -	if (relocatable_kernel)
+> > > -	runtime_start = align_up(load_address, kernel_alignment)
+> > > -	else
+> > > -	runtime_start = pref_address
+> > > +    if ( relocatable_kernel ) {
+> > > +      if ( load_address < pref_address )
+> > 
+> > What's up with the extra spaces around ( and ) ... and inconsistent with
+> > the lines below?
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+I can remove them. This file has a lot of inconsistencies it seems...
+
+> Also, even pseudocode should follow the kernel's coding style and use 
+> tabs in particular - which it already does in (some...) other places of 
+> this document, such as the 'Sample Boot Configuration' chapter.
+
+The problem is that reStructuredText syntax requires that indentation.
+I may follow the rules after the rST requirements, though.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
