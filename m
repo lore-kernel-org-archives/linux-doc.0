@@ -1,164 +1,115 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F359183CD6;
-	Sun, 24 Nov 2024 23:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F8636D
+	for <linux-doc@vger.kernel.org>; Mon, 25 Nov 2024 00:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732489214; cv=none; b=Xl+D73FJsDtCV+JZ6VUrGfC3bMNx1p4rM1xpVytvfpeHA5R4P+JRKIUPi2qLjyN8bCBiWswqd1yb5oeKkI0DZF74lSjn/a3Yazm+H3TrfvUWDn4EmY4vh6pHyN1/QF8C/OT8wgjE0T7C2idnS+udNBUQspuDFs+FlB3nTSSDWDc=
+	t=1732493168; cv=none; b=qwmXghrosf+Z/Yody31SL7p0g6ifwiWqSip8MkiDrz39NhGbRsjbUh8fH4woH65Ym77yZ19O8hRM0nuAkqVZiOvX30XiBzJw2FVUiNefnuuwwYBR6QjqgSrhSE8ALwHUpOfW+AIbD8q+UulQoJCLAykSMPzi+t8dTS+8O+df/RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732489214; c=relaxed/simple;
-	bh=+Xu7LpvkWORKcGzWxzrP1e3ZbJIL5wrdHr0BLgTc1xU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Xt5jKumNn9iQfNoZqeL5z8DtnP4xkBI2UgZaHupWAyxYi8eavd+XLe+Rcc9eGfZlz7ZHjWeUb20bVzFrzjTIihFkfvUisZmrDhNKm2yu2Rz6jpTiXAMQWM5VTJXK4NBsf6+SwrOlv0lbISPGiKAauQ8+baLzQKJWFNnYYSVEmaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3rgm/nG; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732493168; c=relaxed/simple;
+	bh=LTGT+GfOCgkJKYsN/bpoU9RVAU0tbnw7nVHvVhwWM3E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=I66L3dDh66k9/cPJ+ouNT9KwFFkGGPKde/IN6iarKqPTeuV3u3lDJsbesewosgMolkL4s4sKOJsXJgX3JON1WtZAdb1i+hh+x9dUAU+DaqZQiZHoPLw1fH4KduF0nolzSnU2yX4ioWpvPto5Ph0rp9zZjLbKDhbro6pXomSfLK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HG6nP7jw; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3rgm/nG"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-724e7d5d5b2so2017252b3a.2;
-        Sun, 24 Nov 2024 15:00:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732489212; x=1733094012; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mpwQAY/y3s/YiKLLW+31fL0gZz6Q1yNva27VtG1Cnnw=;
-        b=U3rgm/nGKNTqtMhU08iU7CtRvfhk+qOpPgqwPXWdvzxTtrHKW7bLorylFWdHjTvRS8
-         vaIbTqHQooX8j18h6HW1ieDbJUIgiYRytoeEJnHgjA+Hht0rQVejl5JRrxw8vKQFZ63o
-         F6mVHsP1NcfdhZ4KebMArddeUTRudj0a/OybmIQbc3FWqEjkYC5wwRItY65TdzFGWuKS
-         0K/bOCy/NBXj8o/W1SlhHUSM/PAPeil2KWU0e2nXkmIMcB5vFE1vODKdNVLQgJEZCnm/
-         corv4YvDTNQRUaOGWqzoruPH7mOGU5iQcJpLcrvs5fxSb8UX5PY1x+oOmUTmDCS9G3jA
-         YLCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732489212; x=1733094012;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mpwQAY/y3s/YiKLLW+31fL0gZz6Q1yNva27VtG1Cnnw=;
-        b=u3F/kADMJ2xzV9BZqlz1+45eQkA/5RMbpzFhj6zV9gamOlOdlbywJNca4/hbloUf7S
-         Yv/2ISrtfpx1Jxz41QiYmAlE197eJnVCPXVNYrl9yjBD2qzj21SfoO3fdXhhSWPBHWrh
-         l1U4RRChH7HdXN9GcV9S5iaTeL7PR4GItqBWWKMW4xwiW02eZLNhIEuKUX0n23J1Pzjb
-         M8EVwzrY3XsRU2dGALvUIVhuWV8xGPrya7CeIBRXiw8UtoWwyWZorlsD+Bq7n/yXVIHF
-         ZzPjoeC17NuT128Unj5zge6KRy4HFj8qP450eW141nl6xeBZmW/CCOhGpv6d0/dI4rEd
-         8Lxg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5UHzcW2MjiYZmFADJoB3w3oXNlcmipqKKrhsgoJ4aME3+fUheB1u9lK4BwBuZOycEhglz11VN9zP8BCWe@vger.kernel.org, AJvYcCW/M1TaKwgtSWuiC6sivOIV5W7j5WVkObo3W0HJjQkFm5lo0g0fcUOqJio3u2SvVgAJIkBaSEIX@vger.kernel.org, AJvYcCXimMeE5q/h1f3RM76emdJ9YdzXPGdKGi0lKiQ9uZP1o++hLAG2kbhXmE9BTqmD3HN6IBWSj7cj6qA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTkCaYGC2zQQkW2PJbE4Qw3jy8+DF4GcCpWB+2nFhSuI0o35e/
-	67Uf/fUNkiBk9TUcMN0mRXV/EQI+0h+G9OflrMM8DUQ5zXqdhKdz
-X-Gm-Gg: ASbGncsWERYHnyvAHd1glnlyW4U59XZYKRP3gZpY7F4wHnNqbAFL91v2qA1h+NM7ZFT
-	2r8w/+HzG24jHwYU9ZH5kXl1O1CDtMHlz6dcajpeDG0VqsBoKiUe/bhXAVrWDRGWvSNOch5krj+
-	NExTmHAnDti0zl8ar/468w5ijzffob8v2r66ZJub4ks7PF/EVsmofMY1BON8vfbvdicoQTsP2AS
-	ng1I2uiijBeVTS1bSMip0ZIYebc4o69O1khfPfgnwSx/6r3RPgjfxrnTbeKzPmIuw==
-X-Google-Smtp-Source: AGHT+IGUnZQWDsFadewkQbsu/0WUOmWeV3zVIZ5pQhuvrj989/R9KFsT+pSTCdbaQi5sq43QHljjEg==
-X-Received: by 2002:a05:6a00:2313:b0:71e:db72:3c87 with SMTP id d2e1a72fcca58-724df660821mr18578671b3a.20.1732489212456;
-        Sun, 24 Nov 2024 15:00:12 -0800 (PST)
-Received: from tp.hsd1.or.comcast.net ([2601:1c2:c104:170:9817:7858:9b63:8745])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de57a53asm5090028b3a.198.2024.11.24.15.00.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Nov 2024 15:00:12 -0800 (PST)
-From: Leo Stone <leocstone@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net
-Cc: Leo Stone <leocstone@gmail.com>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net] Documentation: tls_offload: fix typos and grammar
-Date: Sun, 24 Nov 2024 15:00:02 -0800
-Message-Id: <20241124230002.56058-1-leocstone@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HG6nP7jw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+	Reply-To:Cc:Content-ID:Content-Description;
+	bh=KqFg/pDxwg39F9g/SMck0MBrM7MyEvBT7kDtmjwf7+o=; b=HG6nP7jwcIv8qcp7ce5iYlRdp7
+	oNDczdDflGVOheqdUG8LJrsikrThNZSDg5BJ100J1cVKOYUxlW2OoWnZPru9p3lXTJVDFG9XaQ49U
+	VcZxDzpREMDoRr6IJIfuprp9uPGM22mk21KdArFnX9uEQFw1Y2onTx5ZdGxIcYjEOMZlQIQcK9hKQ
+	YkzYRDzm+LxDUTRQvUjC63Ac5NLmNqVJPPYqOOZW7U9oUMShixnE0XFNuV3cCxR6pI0PQcemmgRB/
+	Xhn81m6CsiUMMYFzFXgzn73tnqU575/6fyrcrhRcBaB/6M1ZLxlnjpxJNKzHAWLomrPEkFtG5kKb9
+	k0jzJeYg==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tFMc1-000000011kY-1j7b;
+	Mon, 25 Nov 2024 00:05:57 +0000
+Message-ID: <344b7402-466b-4b42-b8a4-6c1c822cc47a@infradead.org>
+Date: Sun, 24 Nov 2024 16:05:52 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: typedef output question/issue?
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <e9d714fd-d034-4176-a2b7-50a72f80c8ad@infradead.org>
+ <877c8w25sn.fsf@intel.com> <874j4025rq.fsf@intel.com>
+ <9b7a43f5-5d04-4917-906b-707581b5a39e@infradead.org>
+ <87serkz8rg.fsf@intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87serkz8rg.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix typos and grammar where it improves readability. 
+Hi Jani,
 
-Signed-off-by: Leo Stone <leocstone@gmail.com>
----
- Documentation/networking/tls-offload.rst | 29 ++++++++++++------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+On 11/21/24 11:28 AM, Jani Nikula wrote:
+> On Thu, 21 Nov 2024, Randy Dunlap <rdunlap@infradead.org> wrote:
+>> On 11/21/24 3:19 AM, Jani Nikula wrote:
+>>> On Thu, 21 Nov 2024, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>>>> On Wed, 20 Nov 2024, Randy Dunlap <rdunlap@infradead.org> wrote:
+>>>>> Hi,
+>>>>>
+>>>>> If I print a typedef in html (make htmldocs) from a .rst file,
+>>>>> I see:
+>>>>>
+>>>>> type dma_cookie_t
+>>>>>     an opaque DMA cookie
+>>>>>
+>>>>> Description
+>>>>>
+>>>>> if dma_cookie_t is >0 it’s a DMA request cookie, <0 it’s an error code
+>>>>>
+>>>>> ~~~~~~~~~~~~~~~~~~~
+>>>>>
+>>>>> If I print the same typedef in man format, it says 'typedef' instead of
+>>>>> 'type', which is what I expect to see.
+>>>>
+>>>> I'm sorry, it's unambigous to me which one you expect.
+>>>
+>>> *ambiguous, obvs!
+>>
+>> Sorry about that. I would like to see 'typedef' instead of 'type'.
+> 
+> Right, so looking into it, Sphinx actually has two forms for documenting
+> types, described at [1]:
+> 
+> .. c:type:: foo_t
+> 
+> .. c:type:: int foo_t
+> 
+> The former is simple, and becomes a generic "type" in rendered
+> documentation, while the latter can contain a "typedef-like
+> declaration", and becomes "typedef" in rendered documentation.
+> 
+> So, if you can make kernel-doc emit a proper typedef for the c:type
 
-diff --git a/Documentation/networking/tls-offload.rst b/Documentation/networking/tls-offload.rst
-index 5f0dea3d571e..7354d48cdf92 100644
---- a/Documentation/networking/tls-offload.rst
-+++ b/Documentation/networking/tls-offload.rst
-@@ -51,7 +51,7 @@ and send them to the device for encryption and transmission.
- RX
- --
- 
--On the receive side if the device handled decryption and authentication
-+On the receive side, if the device handled decryption and authentication
- successfully, the driver will set the decrypted bit in the associated
- :c:type:`struct sk_buff <sk_buff>`. The packets reach the TCP stack and
- are handled normally. ``ktls`` is informed when data is queued to the socket
-@@ -120,8 +120,9 @@ before installing the connection state in the kernel.
- RX
- --
- 
--In RX direction local networking stack has little control over the segmentation,
--so the initial records' TCP sequence number may be anywhere inside the segment.
-+In the RX direction, the local networking stack has little control over
-+segmentation, so the initial records' TCP sequence number may be anywhere
-+inside the segment.
- 
- Normal operation
- ================
-@@ -138,8 +139,8 @@ There are no guarantees on record length or record segmentation. In particular
- segments may start at any point of a record and contain any number of records.
- Assuming segments are received in order, the device should be able to perform
- crypto operations and authentication regardless of segmentation. For this
--to be possible device has to keep small amount of segment-to-segment state.
--This includes at least:
-+to be possible, the device has to keep a small amount of segment-to-segment
-+state. This includes at least:
- 
-  * partial headers (if a segment carried only a part of the TLS header)
-  * partial data block
-@@ -175,12 +176,12 @@ and packet transformation functions) the device validates the Layer 4
- checksum and performs a 5-tuple lookup to find any TLS connection the packet
- may belong to (technically a 4-tuple
- lookup is sufficient - IP addresses and TCP port numbers, as the protocol
--is always TCP). If connection is matched device confirms if the TCP sequence
--number is the expected one and proceeds to TLS handling (record delineation,
--decryption, authentication for each record in the packet). The device leaves
--the record framing unmodified, the stack takes care of record decapsulation.
--Device indicates successful handling of TLS offload in the per-packet context
--(descriptor) passed to the host.
-+is always TCP). If the packet is matched to a connection, the device confirms
-+if the TCP sequence number is the expected one and proceeds to TLS handling
-+(record delineation, decryption, authentication for each record in the packet).
-+The device leaves the record framing unmodified, the stack takes care of record
-+decapsulation. Device indicates successful handling of TLS offload in the
-+per-packet context (descriptor) passed to the host.
- 
- Upon reception of a TLS offloaded packet, the driver sets
- the :c:member:`decrypted` mark in :c:type:`struct sk_buff <sk_buff>`
-@@ -439,7 +440,7 @@ by the driver:
-  * ``rx_tls_resync_req_end`` - number of times the TLS async resync request
-     properly ended with providing the HW tracked tcp-seq.
-  * ``rx_tls_resync_req_skip`` - number of times the TLS async resync request
--    procedure was started by not properly ended.
-+    procedure was started but not properly ended.
-  * ``rx_tls_resync_res_ok`` - number of times the TLS resync response call to
-     the driver was successfully handled.
-  * ``rx_tls_resync_res_skip`` - number of times the TLS resync response call to
-@@ -507,8 +508,8 @@ in packets as seen on the wire.
- Transport layer transparency
- ----------------------------
- 
--The device should not modify any packet headers for the purpose
--of the simplifying TLS offload.
-+For the purpose of simplifying TLS offload, the device should not modify any
-+packet headers.
- 
- The device should not depend on any packet headers beyond what is strictly
- necessary for TLS offload.
+What a big "if"!  Not your problem though.
+
+What this exercise has shown me is that the scripts/kernel-doc processing of
+'typedef' is sorely lacking. I.e., "typedef [many options]" is too complex for it. ;)
+
+My test case has 3 typedefs in a row and scripts/kernel-doc sees only the first one
+as a typedef, skips the second one, and parses the third one as a macro. (!)
+
+
+> directive, the output will contain typedef, but otherwise remains just
+> type. Whether having the actual typedef declaration in the output is
+> something you also want, is a different matter.
+
+Thanks for your assistance.
+
 -- 
-2.39.5
+~Randy
 
