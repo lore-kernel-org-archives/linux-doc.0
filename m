@@ -1,99 +1,140 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A580416419;
-	Mon, 25 Nov 2024 14:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1399B1AF0A9;
+	Mon, 25 Nov 2024 15:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732545484; cv=none; b=IhyHmdZzSQinn/iqkWafdYbi9PsCB7HofAVXbDmHbs2ScSld/lMPpPbh2jenzvFHxHAzys0OjUf9U7cZrBs/WNyD6IDWl9DWXRoSCCtqeEPmuey0FcE2b8sKZKF+rsYTHcOx5HddY56iFQ7dROxBt3qtm69PKgITAayyoUEaLrY=
+	t=1732549952; cv=none; b=rHzFkRKP6ekyNPsPWHWBzdVXwsNj1k4qdjKFqWlDGO8BmDDFaAbevvZMnb3hc7qRKQ3zsEHjaKT+idLhsUeZUK9Xb1pN1ckF0XKZ2fr9fb/DUuitnu0QATiIhRBoe2pBpp4UZrhW0PnD9ycX5LP4MgqsnlwSV3JRJyXLpvJnEUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732545484; c=relaxed/simple;
-	bh=LAHssef6DoLue75QVqb4uwrLzdjY64IUlkaE8Cl0yKY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u+tOthPiBCh7ra3O+NWd98LEULGIu3hjkRlStwfhR8VggRRijrWWBcW4hFFMfx5BJ1b8oQUvDc2FW6BA7fMZnCULezakRbNmdNLZAWpIRlXoMqWqa9+bZD57UHqJ4yrbmMhrXjqGbmEsbc6q3MmkMm3KUscNZEg5zr756Nhg4G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=N5Z4I4YD; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1732549952; c=relaxed/simple;
+	bh=44XADmBY7482aBrna1Gf1jtuO1UMXA5lIwwU6HOjwtg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F2MLTSlwhuJdBEpLIJkQjm6RqTMOmwjzloeqkOUsFgkU+caD47Victaa1flQ6NBa/+irmujDUXdV9AFwnJ13vSeQhKKrdXjXJb6Ak4gSPKzXvljHTdYChWEx7K/f1baAO50IxBhGaNMmAbkI5tS2lgExd0ViK/HC0s32xKr+9ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTx1VQW2; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="N5Z4I4YD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=1J2qpV2V6Ep395c4GdNijbZbpMm+WSwMQ5mc7jMGpvU=; b=N5Z4I4YD/wNb7/Hc7lg5wLa/HW
-	u0H/P+k1qIHcJxywH9nKf8rG9X/ziIjAmhv0i0PlofX6mdlRPa5MY3wIKqD9JnbjmK11Y0+cIKWgO
-	sB5LLZzUKQ7VCaiXaGXjqMOlkZ1vh1w2dES4UqGVT7lzdG6bizAsiqkLLJWvcck+EG6dxrRRdlxzL
-	FgmTqZ0VDo6uyeRCOGtrxbKgGaPNdSeejElth4GZKvZhob6c18jM6PyqPuwkcnqT9sUlUd9aUZ0U9
-	m25OCBE0sl9LS803g8fZmXxRu7m3yhi9JsDhWV29GY1Kwx8dum9pjAwQHrt+1l0ShETUz8cE70tFH
-	mHVkXVNw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tFaDt-000000016OR-34u1;
-	Mon, 25 Nov 2024 14:37:58 +0000
-Message-ID: <1322e260-57f0-47c5-b28e-41817feae8a7@infradead.org>
-Date: Mon, 25 Nov 2024 06:37:52 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTx1VQW2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732549951; x=1764085951;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=44XADmBY7482aBrna1Gf1jtuO1UMXA5lIwwU6HOjwtg=;
+  b=WTx1VQW25AvY0EJtptsu3xTRPPqJ1SdXC3wA+IYPSM2jMJI4vuAW7c5Y
+   edd7fR2uzibRiO1R/AgGnAewWmHM1pS80Vu/UTR1ZtUjB+YoaUl5WY3d/
+   7xEWUBPwOyMYUhG7dWIY7nfD1QD3pqe91LBxAv89cza1FnrC3KE8J8D6S
+   segw7O/JFNMWmJ0HtelGub3jQKoNod5Y8N5rOOa2qHGd8HT9ODdrgFPVV
+   kqy3W5UR2REpybOduP9U3TyzUyPukzAD0TvDWuNupj/BNsVxSgepEKa5v
+   oOz8amUqy9/CJcgwJY45Xh4UXekwTq0o/KakdNHhVcNrDx1coHsb8lHjn
+   A==;
+X-CSE-ConnectionGUID: HD0av90vQm+rK5kRcBtZ3A==
+X-CSE-MsgGUID: GJWMk6EJQV6SFfTbsTBbDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="36446799"
+X-IronPort-AV: E=Sophos;i="6.12,183,1728975600"; 
+   d="scan'208";a="36446799"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 07:52:14 -0800
+X-CSE-ConnectionGUID: 23u/Xv/eTCemOL/ogk5O2w==
+X-CSE-MsgGUID: F2vfipoVSsmBDXbO0I+SIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,183,1728975600"; 
+   d="scan'208";a="128823369"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 25 Nov 2024 07:52:07 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tFbNc-0006ZF-1m;
+	Mon, 25 Nov 2024 15:52:04 +0000
+Date: Mon, 25 Nov 2024 23:51:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alistair Popple <apopple@nvidia.com>, dan.j.williams@intel.com,
+	linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, Alistair Popple <apopple@nvidia.com>,
+	lina@asahilina.net, zhang.lyra@gmail.com,
+	gerald.schaefer@linux.ibm.com, vishal.l.verma@intel.com,
+	dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com,
+	jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
+	will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+	dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org
+Subject: Re: [PATCH v3 11/25] mm: Allow compound zone device pages
+Message-ID: <202411252342.LUEKRmrY-lkp@intel.com>
+References: <f1a93b8a38e14e2ab279ece310175334e973b970.1732239628.git-series.apopple@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] x86/Documentation: Update algo in init_size
- description of boot protocol
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Jonathan Corbet <corbet@lwn.net>, Cloud Hsu <cloudhsu@google.com>,
- Chris Koch <chrisko@google.com>
-References: <20241125105005.1616154-1-andriy.shevchenko@linux.intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241125105005.1616154-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f1a93b8a38e14e2ab279ece310175334e973b970.1732239628.git-series.apopple@nvidia.com>
+
+Hi Alistair,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 81983758430957d9a5cb3333fe324fd70cf63e7e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Popple/fuse-Fix-dax-truncate-punch_hole-fault-path/20241125-094004
+base:   81983758430957d9a5cb3333fe324fd70cf63e7e
+patch link:    https://lore.kernel.org/r/f1a93b8a38e14e2ab279ece310175334e973b970.1732239628.git-series.apopple%40nvidia.com
+patch subject: [PATCH v3 11/25] mm: Allow compound zone device pages
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241125/202411252342.LUEKRmrY-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411252342.LUEKRmrY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411252342.LUEKRmrY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/mm.h:32,
+                    from arch/sh/kernel/asm-offsets.c:14:
+   include/linux/memremap.h: In function 'is_device_private_page':
+>> include/linux/memremap.h:164:17: error: implicit declaration of function 'page_pgmap' [-Wimplicit-function-declaration]
+     164 |                 page_pgmap(page)->type == MEMORY_DEVICE_PRIVATE;
+         |                 ^~~~~~~~~~
+>> include/linux/memremap.h:164:33: error: invalid type argument of '->' (have 'int')
+     164 |                 page_pgmap(page)->type == MEMORY_DEVICE_PRIVATE;
+         |                                 ^~
+   include/linux/memremap.h: In function 'is_pci_p2pdma_page':
+   include/linux/memremap.h:176:33: error: invalid type argument of '->' (have 'int')
+     176 |                 page_pgmap(page)->type == MEMORY_DEVICE_PCI_P2PDMA;
+         |                                 ^~
+   include/linux/memremap.h: In function 'is_device_coherent_page':
+   include/linux/memremap.h:182:33: error: invalid type argument of '->' (have 'int')
+     182 |                 page_pgmap(page)->type == MEMORY_DEVICE_COHERENT;
+         |                                 ^~
+   make[3]: *** [scripts/Makefile.build:102: arch/sh/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1203: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
+vim +/page_pgmap +164 include/linux/memremap.h
 
-On 11/25/24 2:49 AM, Andy Shevchenko wrote:
-> The init_size description of boot protocol has an example of the runtime
-> start address for the compressed bzImage. For non-relocatable kernel
-> it relies on the pref_address value (if not 0), but for relocatable case
-> only pays respect to the load_addres and kernel_alignment, and it is
-> inaccurate for the latter. Boot loader must consider the pref_address
-> as the Linux kernel relocates to it before being decompressed as nicely
-> described in the commit 43b1d3e68ee7 message.
-> 
-> Due to this inaccuracy some of the bootloaders (*) made a mistake in
-> the calculations and if kernel image is big enough, this may lead to
-> unbootable configurations.
-> 
-> *)
->   In particular, kexec-tools missed that and resently got a couple of
->   changes which will be part of v2.0.30 release. For the record,
->   the 43b1d3e68ee7 fixed only kernel kexec implementation and also missed
->   to update the init_size description.
-> 
-> While at it, make an example C-like looking as it's done elsewhere in
-> the document and fix indentation as presribed by the reStructuredText
-> specifications, so the syntax highliting will work properly.
-> 
-> Fixes: 43b1d3e68ee7 ("kexec: Allocate kernel above bzImage's pref_address")
-> Fixes: d297366ba692 ("x86: document new bzImage fields")
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> 
-> v2: fixed the style to follow both rST and kernel conventions (Ingo, Randy)
-> 
->  Documentation/arch/x86/boot.rst | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
-
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
+   159	
+   160	static inline bool is_device_private_page(const struct page *page)
+   161	{
+   162		return IS_ENABLED(CONFIG_DEVICE_PRIVATE) &&
+   163			is_zone_device_page(page) &&
+ > 164			page_pgmap(page)->type == MEMORY_DEVICE_PRIVATE;
+   165	}
+   166	
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
