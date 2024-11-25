@@ -1,81 +1,110 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED0D14F9CF;
-	Mon, 25 Nov 2024 21:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07702194ACA;
+	Mon, 25 Nov 2024 23:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732571431; cv=none; b=TZ9k9J3BsOrIRKf7TboLzRb583c07ZLYXv5e3SC5sKxxHIK3MoBe7qtDCGTIY6vDaOQB7SUVehQsegQ2VmnTdwofVvADYkg+Ug55UWjsScJjqpOWH/quyx5F6pYf3v6O1GT3qj8QGUJ7Q11Plv1P38KIeIubCv7xrPLK7PMMXZ8=
+	t=1732577128; cv=none; b=pd7u/uK3Juzt2htBy/TMwUKZgvZJbbRR1suFyAsg8KoLdfge74yOfCvH1uRblIH+O4zu6wUIZuxRnS4lXer7kq7Vp1iPn8SzDvrXhS5ivayWRyhlU/XGTfHojh4VDOdPPOdKF/waOevLVkbkcpNWpMbHBr6mRZ7d1ASWAMHGK+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732571431; c=relaxed/simple;
-	bh=Ho81cwI8Sw/bUh83arJ5JE5Z1llPVi4xgJbEuPe6ju0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u1q8/PMypWImzy0Y+LhcjVyzJ6QcSGcKOhwqdy2JCf0XoCzoALYcf1V/we/UIddg0NKnoWpjlygqY8Cs97+AYNuQMQWOTfCYvw5SWuSnYV6d4VtqJSOWC7g28crrd+x2lBf3gVcMGHOtCmPD76XxNYjUnPlLqzreS3kYAfqrjIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DhWwfw4d; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1732577128; c=relaxed/simple;
+	bh=Ef9YOhkT6dvq3u1nt9fT6DrzSKWjzvz3OpMEiybONBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EyMr8eI86ZtS3NBKcu+xZCwGEtPYfvM5gbzgAHfar6TYRSXNM44lsJjLOC/KRb1A/CJQ2Nh/QUph2EG4hhDyPc2lbRl935g1CeqO1bZ6eyPfpLn3em6LlFO1WaQ4EYohMcw7LYjbwEJcVI3TxU//Wq1OjF6ZfXHexVayGOzFRcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4sdpDu+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DhWwfw4d"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=PpZ+jkkcRHZq4GTxws+FtRb213eyx+uTZB3qAleBC50=; b=DhWwfw4dDuH6OERREKFR5Vt12Z
-	DY7CVXMxbdn99GEQ3sTapVYkVqkvCHc3bzSHMal10rN643MTGDlUHN58X68HFE1dGY4U/YiDzAsX6
-	1mDZm0LgV4w0jRMsxVjR/byo3+P8v+GUE4evwBtdy+i5F4p2G04VriGqMttEAGkr8zCfClsg4/r4M
-	BzqQjDz2IVDHiIrd47Y5WmpmGeCnpmfsJPAuSpaRNOOoXdJOP9ZwzY4Vot2rm9P39Nfug05u9RQRA
-	Q+wfI4DSE2s0kRRFHdSOtMrj8m3UeBZbRtBpQbMDpOBWE1WEulHGNUseZCDrdj5ifrGR5qQjI9b+J
-	3ZKSm3hQ==;
-Received: from [50.53.2.24] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tFgyN-000000099yI-1uQP;
-	Mon, 25 Nov 2024 21:50:23 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Eric Sandeen <sandeen@redhat.com>,
-	David Howells <dhowells@redhat.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4sdpDu+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94BD3C4CECE;
+	Mon, 25 Nov 2024 23:25:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732577127;
+	bh=Ef9YOhkT6dvq3u1nt9fT6DrzSKWjzvz3OpMEiybONBA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E4sdpDu+7U4uKBYbHed2GEqt4mz1AZox50i+VMTL3yOe2Vlwn6iksIGS+oaZ5zgR+
+	 T2v9pOMKQN6AWpt0pGFj+9UnkxSMvpaXHACjzfPOKYLPdl8Y7Bh0TyX40b3h6Z7oeu
+	 W6JLpiyIYTPsM2KmtkFSXDIkVfEBZrGgvBDKcn4eyj0T3MR126uvCv0Llmape3RCev
+	 exSY16RQ6sDiCHqdkLrBZQixK4WgbTjdhU0DFfwogb28Y/U2UwSflm9WbelUImPLTg
+	 YQhVnkAeNI6bGfszun5dCDdNcB2zYbqzaLNmDIuJF634mrHyIJ0hAdWGHISZAnrmP3
+	 BYT8sC13RStIg==
+Date: Mon, 25 Nov 2024 15:25:25 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Matthew Maurer <mmaurer@google.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Jonathan Corbet <corbet@lwn.net>, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH] fs_parser: update mount_api doc to match function signature
-Date: Mon, 25 Nov 2024 13:50:21 -0800
-Message-ID: <20241125215021.231758-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.47.0
+Subject: Re: [PATCH v10 0/5] Extended MODVERSIONS Support
+Message-ID: <Z0UHZQErgTDpie0y@bombadil.infradead.org>
+References: <20241123-extended-modversions-v10-0-0fa754ffdee3@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241123-extended-modversions-v10-0-0fa754ffdee3@google.com>
 
-Add the missing 'name' parameter to the mount_api documentation for
-fs_validate_description().
+On Sat, Nov 23, 2024 at 02:42:14AM +0000, Matthew Maurer wrote:
+> This patch series is intended for use alongside the Implement DWARF
+> modversions series [1] to enable RUST and MODVERSIONS at the same
+> time.
+> 
+> Elsewhere, we've seen a desire for long symbol name support for LTO
+> symbol names [2], and the previous series came up [3] as a possible
+> solution rather than hashing, which some have objected [4] to.
+> 
+> This series adds a MODVERSIONS format which uses a section per column.
+> This avoids userspace tools breaking if we need to make a similar change
+> to the format in the future - we would do so by adding a new section,
+> rather than editing the struct definition. In the new format, the name
+> section is formatted as a concatenated sequence of NUL-terminated
+> strings, which allows for arbitrary length names.
+> 
+> Emitting the extended format is guarded by CONFIG_EXTENDED_MODVERSIONS,
+> but the kernel always knows how to validate both the original and
+> extended formats.
+> 
+> Emitting the existing format is now guarded by CONFIG_BASIC_MODVERSIONS,
+> but it is enabled by default when MODVERSIONS is enabled and must be
+> explicitly disabled by the user.
+> 
+> Disabling CONFIG_BASIC_MODVERSIONS may cause some userspace tools to be
+> unable to retrieve CRCs until they are patched to understand the new
+> location. Even with CONFIG_BASIC_MODVERSIONS enabled, those tools will
+> be unable to read the CRCs for long symbols until they are updated to
+> read the new format. This is not expected to interfere with normal
+> operation, as the primary use for CRCs embedded in the module is
+> load-time verification by the kernel. Recording and monitoring of CRCs
+> is typically done through Module.symvers.
+> 
+> Selecting RUST and MODVERSIONS is now possible if GENDWARFKSYMS is
+> selected, and will implicitly select EXTENDED_MODVERSIONS.
+> 
+> This series depends upon the module verification refactor patches [5]
+> that were split off of v5 (now in modules-next)
+> and DWARF-based versions [1].
 
-Fixes: 96cafb9ccb15 ("fs_parser: remove fs_parameter_description name field")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Eric Sandeen <sandeen@redhat.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/filesystems/mount_api.rst |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thanks for doing all this.
 
---- linux-next-20241122.orig/Documentation/filesystems/mount_api.rst
-+++ linux-next-20241122/Documentation/filesystems/mount_api.rst
-@@ -770,7 +770,8 @@ process the parameters it is given.
- 
-    * ::
- 
--       bool fs_validate_description(const struct fs_parameter_description *desc);
-+       bool fs_validate_description(const char *name,
-+                                    const struct fs_parameter_description *desc);
- 
-      This performs some validation checks on a parameter description.  It
-      returns true if the description is good and false if it is not.  It will
+Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+
+ Luis
