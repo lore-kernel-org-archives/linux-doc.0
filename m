@@ -1,120 +1,71 @@
-Received: from smtp-fw-52005.amazon.com (smtp-fw-52005.amazon.com [52.119.213.156])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3899199EA8;
-	Mon, 25 Nov 2024 11:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA38F1A76B5;
+	Mon, 25 Nov 2024 13:13:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732535209; cv=none; b=Faa2CycDtHw6r9/Zvy5h0u2wur/4aMJ/9CG2+2ymOflrJ90Ug4+k4uSaDEOOPLlvbBOrueuWbmA8GJTSgTGZHTfhtJsR/CRb5FUnQi9k7xjw6XJs8jlaTORZZcGeaE1mEKiuhjQ05PihS/gNjAm4Aw0wt3jYUbsLO9Rk+nxqL0g=
+	t=1732540401; cv=none; b=MdcVSWnwbPzN0MAohXdRbbtv+7vacbaz70E1mYXGFmpCcVwWF293a2JXAb2p5Qu0J2iWksaX+iE2szOspP2kquTOR7LY0U6ekdyHHyd7LXgn0HPbpoBHyxmUIDHt2UqsC12CUetQVH7TjutRvqc1FT1fI50Tswki1DbU0SSuWuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732535209; c=relaxed/simple;
-	bh=FHKaVj40hVdUie0T9IjlT4qkPmKzDnnfQy/AYHnP1aU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GGvKDhAJHaW4M4IEow67q+zegbkMKvZO0/U8Oprrsm33mYihXkYj1bm34Li+yzTRipFRvNAlfnAqjogl4PQYWYigCd7ADZ3F2E/Ffi1RHqwNhyCmL70Lq+GFH0W8Khi9Op0Xh+f4aGC8tOVwHNukWCawgPt/CZ6rKEUPkIJB5W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=NNmzjnNl; arc=none smtp.client-ip=52.119.213.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1732540401; c=relaxed/simple;
+	bh=zoe9keCgOz8TdgaZeY2U5FChsOFwHzQn4aQ2XQc2oMk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HsjI1F4lU9xZNA7CT71MkjFklAH31Ft0/sxSBa6eGqJ1GhWWx5/rXM5GLVAAde8SXM3wonadqw86QhjGG5y7HMgsCgHXA+uLub8NJRwzryYpmReI7ceBv2HADGTNL61rHjNZLDNRgr8Oua4XvN6u3DazqzXL53EdycTsAbOzLpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HUnFiL7m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="NNmzjnNl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1732535208; x=1764071208;
-  h=message-id:date:mime-version:reply-to:subject:to:cc:
-   references:from:in-reply-to:content-transfer-encoding;
-  bh=0p7Ckz6iXzDpwC1O2xBQwIygdPDI7wUUkWYzZKFW0BE=;
-  b=NNmzjnNlZlnD+gJWf51Uu2am4QYnK4kfAJ67MiV2xgsCNZtTMsJ32x/b
-   COuUuJeXiu0phSVrjAZx6UEgIp1jj4PG94baPwCTYEJxs/q2+e+uANonb
-   ws+OeUufxK6jkA28Wq35yhca/PeJe26YKO7X9DO5SiMZksGgFyY7CawR8
-   4=;
-X-IronPort-AV: E=Sophos;i="6.12,182,1728950400"; 
-   d="scan'208";a="698062018"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.6])
-  by smtp-border-fw-52005.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 11:46:44 +0000
-Received: from EX19MTAEUC002.ant.amazon.com [10.0.17.79:63339]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.32.206:2525] with esmtp (Farcaster)
- id 40ec0b3e-9f12-4258-be54-cdb388d9fb84; Mon, 25 Nov 2024 11:46:43 +0000 (UTC)
-X-Farcaster-Flow-ID: 40ec0b3e-9f12-4258-be54-cdb388d9fb84
-Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
- EX19MTAEUC002.ant.amazon.com (10.252.51.245) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Mon, 25 Nov 2024 11:46:41 +0000
-Received: from [192.168.8.103] (10.106.83.30) by EX19D022EUC002.ant.amazon.com
- (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Mon, 25 Nov 2024
- 11:46:40 +0000
-Message-ID: <a8d78402-6f8d-4ebf-ae8b-1a8f03d33647@amazon.com>
-Date: Mon, 25 Nov 2024 11:46:40 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HUnFiL7m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3F59C4CECE;
+	Mon, 25 Nov 2024 13:13:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732540400;
+	bh=zoe9keCgOz8TdgaZeY2U5FChsOFwHzQn4aQ2XQc2oMk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=HUnFiL7mAae91KuKIjZq38fKCFSJ/xeAJC0MKHSCYoLch7XSINlDDErAkmEKfKrBl
+	 7JuTksfjNvU+Dypx8p0EI/G2Fhzu9c8FHGOHjTRsxtkA6VLNB7Gy/Tskmtr9VySjLd
+	 1/BwilXjzpT7eWAlgRWDMQVe6RXh1uSt11U6NtohY5ZZvTxLsSbPatv3SQLMVqkMnR
+	 1GVIZ9VmtROba4i4EU1fuSctCl91TePgrrkXglv5+hmJlc3o//fcw0LB9Z5o8wnSYB
+	 zY4qKyBWauQxBjUch391Y/FMHbdTpfMlXB+FVYUOR6QUhRl2qKkos6e6S6MjIiLwlQ
+	 MF/4czrgX+pWA==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Alistair Popple <apopple@nvidia.com>, dan.j.williams@intel.com,
+ linux-mm@kvack.org
+Cc: Alistair Popple <apopple@nvidia.com>, lina@asahilina.net,
+ zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+ vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+ bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
+ will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+ dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
+ djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, david@redhat.com,
+ peterx@redhat.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+ jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com,
+ linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v3 25/25] Revert "riscv: mm: Add support for ZONE_DEVICE"
+In-Reply-To: <f511de7cb9817e2e2fdd274ee842c228d699abea.1732239628.git-series.apopple@nvidia.com>
+References: <cover.e1ebdd6cab9bde0d232c1810deacf0bae25e6707.1732239628.git-series.apopple@nvidia.com>
+ <f511de7cb9817e2e2fdd274ee842c228d699abea.1732239628.git-series.apopple@nvidia.com>
+Date: Mon, 25 Nov 2024 14:13:17 +0100
+Message-ID: <878qt7zcb6.fsf@all.your.base.are.belong.to.us>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: <kalyazin@amazon.com>
-Subject: Re: [PATCH 1/4] KVM: guest_memfd: add generic post_populate callback
-To: <michael.day@amd.com>, <pbonzini@redhat.com>, <corbet@lwn.net>,
-	<kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <jthoughton@google.com>, <brijesh.singh@amd.com>, <michael.roth@amd.com>,
-	<graf@amazon.de>, <jgowans@amazon.com>, <roypat@amazon.co.uk>,
-	<derekmn@amazon.com>, <nsaenz@amazon.es>, <xmarcalx@amazon.com>
-References: <20241024095429.54052-1-kalyazin@amazon.com>
- <20241024095429.54052-2-kalyazin@amazon.com>
- <589ccb59-ae79-49db-8017-f6d28d7f6982@amd.com>
-Content-Language: en-US
-From: Nikita Kalyazin <kalyazin@amazon.com>
-Autocrypt: addr=kalyazin@amazon.com; keydata=
- xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
- JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
- BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
- IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
- ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
- ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
- ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
- abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
-In-Reply-To: <589ccb59-ae79-49db-8017-f6d28d7f6982@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EX19D005EUA002.ant.amazon.com (10.252.50.11) To
- EX19D022EUC002.ant.amazon.com (10.252.51.137)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 22/11/2024 18:40, Mike Day wrote:
-> On 10/24/24 04:54, Nikita Kalyazin wrote:
->> This adds a generic implementation of the `post_populate` callback for
->> the `kvm_gmem_populate`.  The only thing it does is populates the pages
->> with data provided by userspace if the user pointer is not NULL,
->> otherwise it clears the pages.
->> This is supposed to be used by KVM_X86_SW_PROTECTED_VM VMs.
->>
->> Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
->> ---
->>   virt/kvm/guest_memfd.c | 21 +++++++++++++++++++++
->>   1 file changed, 21 insertions(+)
->>
->> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
->> index 8f079a61a56d..954312fac462 100644
->> --- a/virt/kvm/guest_memfd.c
->> +++ b/virt/kvm/guest_memfd.c
->> @@ -620,6 +620,27 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct 
->> kvm_memory_slot *slot,
->>   EXPORT_SYMBOL_GPL(kvm_gmem_get_pfn);
->>
->>   #ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> 
-> KVM_AMD_SEV can select KVM_GENERIC_PRIVATE_MEM, so to guarantee this is 
-> only for
-> software protection it might be good to use:
-> 
-> #if defined CONFIG_KVM_GENERIC_PRIVATE_MEM && !defined CONFIG_KVM_AMD_SEV
-> 
-> That could end up too verbose so there should probably be some more 
-> concise mechanism
-> to guarantee this generic callback isn't used for a hardware-protected 
-> guest.
+Alistair Popple <apopple@nvidia.com> writes:
 
-Thanks, will make a note for myself for the next iteration.
+> DEVMAP PTEs are no longer required to support ZONE_DEVICE so remove
+> them.
+>
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> Suggested-by: Chunyan Zhang <zhang.lyra@gmail.com>
 
-> 
-> Mike
+Oh, we're getting the bit back! Thanks!
 
+Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn@rivosinc.com>
