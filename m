@@ -1,113 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03940192589;
-	Mon, 25 Nov 2024 08:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9123918B499;
+	Mon, 25 Nov 2024 10:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732524342; cv=none; b=SV023uIjOpCxpq3onO7LWiQ+MvrWw4zKZMnvbMRNFkXbNJP18s+aqaDEl3lUy+yj0nOMxODqPghNLtds8+q5IIb7fP45oO4T4f+go+ZA3wKZoXf4YnBDDyUlcjIRTUaicaEqvuHiUmF0BVsf9W4V3Kl6rYjR1xsQLSNB8QnZtg0=
+	t=1732531357; cv=none; b=l7QLBb6LwD5N8GFcMo2BS52amJtuAFT9tgs31KWMbDsFFdrei8ZFvQPhWO1rsqjK3Qw/ULFwPSwWpSEhYVBU6pTykVvCdLo4CiyuQb1jb3sxs0miQYhT8Jy9l9Mu5xE1zlgxWfcc/83oYZvHLapEr67JO1YwOqth8zYowLmlwuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732524342; c=relaxed/simple;
-	bh=MlYKTlgCk2VqWlaL2lOdbiVgFlYs7XmruCBEZzL/bRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kMaZ4q7MG6esgssO/JgAT1chofZW4oPJGO+Z9RcmmDeve+31wzSFrUc4+ih3psJvgsamquYpyd5qGABD4od4Tlag88BoWDZ9jU03ARFgteirwYZqjUjw6bkD0XfTBlPK5gcQCxZvpKHT5iVLtGiv1jetNzrcWzq+vADiJX5JiUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JjF+E8bb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732531357; c=relaxed/simple;
+	bh=fbpMpvjVz/B3/gOZ3/Dx6wnBM1U/va2affDskte7L20=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=M5AszIvnQ0wGehb1WpynlvfjAn7Kz/wxO8G8W6fcn5VJjm6MigxVjAUqiE3IW+niMieFinL8VkUT9Z0sAZMFzYJA4jJmsagQ2X8tm4GMiBTHYb1lkHJX4wv881wZ/Sn5EuISaEOJBBVplwApPWarfVKs6FIo0e5DwtfxchtisVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=H3Jzblyl; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JjF+E8bb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96ED1C4CED7;
-	Mon, 25 Nov 2024 08:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732524341;
-	bh=MlYKTlgCk2VqWlaL2lOdbiVgFlYs7XmruCBEZzL/bRs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JjF+E8bbnPUiq8PTeqpMXuBMWJBUfqcXfJfYA3cvwr5EtMQ2gbhMxkld6OohC2Hpg
-	 Yh49NchUw9qjiucYbn8j5At8tRANyf8bu5SNKGh2lEtZ/+5GNbyKNY0fMGI4Db8TkD
-	 UaOV+KWx4Wze8PZwLWeTo1pB10HaR9tRYe6fgET8ZW2C3gSzHBijo+H7WWwu9eII9A
-	 x6CdyC9N19pc4IEuBjqyrkAADAXT14bOnS8KPbxK0yqAMhYMgpEyoNO7P1OQzH1Sim
-	 JzeFOYKgl6LjwZw/RRhJB9xrMb5LuRMnAmkrA+/+JR87ET4fgDELMpqtN1Fvx2alOl
-	 y4CuLCqJAAI5Q==
-Date: Mon, 25 Nov 2024 09:45:36 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	Cloud Hsu <cloudhsu@google.com>, Chris Koch <chrisko@google.com>
-Subject: Re: [PATCH v1 1/1] x86/Documentation: Update algo in init_size
- description of boot protocol
-Message-ID: <Z0Q5MIjy0yx6jyNq@gmail.com>
-References: <20241125083136.1540424-1-andriy.shevchenko@linux.intel.com>
- <d2dfc0a4-d9dc-4dd2-a669-097dcf3491b5@infradead.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="H3Jzblyl"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3682DFF805;
+	Mon, 25 Nov 2024 10:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1732531345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uYkzOa4MnjUz4uK1cDYjGX03QHpE8p3bHHaNXeGHxgE=;
+	b=H3Jzblylc0gkjPvGQONGfpTa+TSVkNeZisD1TZWATE8JwhhlX7JJ5q5nTEDivZdkszd1k9
+	OQV8WqLKghr5THynmwU/mr0fUpEYuimQ3lid8m+DtKVcnQJENGcQ3m0RmZODQxF1Gyp6vM
+	r1AShug3FznQflssMbHzYMrgMmz9tPNxy1I0knFcPWPEUp+O8sUJB7h/bLe88W6F9c6UT6
+	KLITVZf7P/zdffeIJ5Vn8kjKiFRBkbgDaPIoZYBNwpJ/irOmrVRu7UVHxnrq9PjfMorzmi
+	POh2ggUsSJk9lRsZUTe7NMMiCZ3kdSGr/L+ZiuVVYKiSxsz3qvaQu4+WFB8BFg==
+Date: Mon, 25 Nov 2024 11:42:23 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
+ <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
+ kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v3 12/27] net: pse-pd: Add support for
+ reporting events
+Message-ID: <20241125114223.7aa1a1de@kmaincent-XPS-13-7390>
+In-Reply-To: <Z0LxSnmQqrsCqJ-Y@pengutronix.de>
+References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
+	<20241121-feature_poe_port_prio-v3-12-83299fa6967c@bootlin.com>
+	<Z0LxSnmQqrsCqJ-Y@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d2dfc0a4-d9dc-4dd2-a669-097dcf3491b5@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
+On Sun, 24 Nov 2024 10:26:34 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-* Randy Dunlap <rdunlap@infradead.org> wrote:
+> On Thu, Nov 21, 2024 at 03:42:38PM +0100, Kory Maincent wrote:
+> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> >=20
+> > Add support for devm_pse_irq_helper() to register PSE interrupts. This =
+aims
+> > to report events such as over-current or over-temperature conditions
+> > similarly to how the regulator API handles them but using a specific PSE
+> > ethtool netlink socket.
+> >=20
+> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com> =20
+>=20
+> ....
+>=20
+> > @@ -634,6 +752,7 @@ pse_control_get_internal(struct pse_controller_dev
+> > *pcdev, unsigned int index) psec->pcdev =3D pcdev;
+> >  	list_add(&psec->list, &pcdev->pse_control_head);
+> >  	psec->id =3D index;
+> > +	psec->attached_phydev =3D phydev; =20
+>=20
+> Hm, i guess, here is missing some sort of phy_attach_pse.
+> Otherwise the phydev may be removed.
 
-> Hi Andy,
-> 
-> On 11/25/24 12:31 AM, Andy Shevchenko wrote:
-> > The init_size description of boot protocol has an example of the runtime
-> > start address for the compressed bzImage. For non-relocatable kernel
-> > it relies on the pref_address value (if not 0), but for relocatable case
-> > only pays respect to the load_addres and kernel_alignment, and it is
-> > inaccurate for the latter. Boot loader must consider the pref_address
-> > as the Linux kernel relocates to it before being decompressed as nicely
-> > described in the commit 43b1d3e68ee7 message.
-> > 
-> > Due to this inaccuracy some of the bootloaders (*) made a mistake in
-> > the calculations and if kernel image is big enough, this may lead to
-> > unbootable configurations.
-> > 
-> > *)
-> >   In particular, kexec-tools missed that and resently got a couple of
-> >   changes which will be part of v2.0.30 release. For the record,
-> >   the 43b1d3e68ee7 fixed only kernel kexec implementation and also missed
-> >   to update the init_size description.
-> > 
-> > While at it, make an example C-like looking as it's done elsewhere in
-> > the document and fix indentation, so the syntax highliting will work
-> > properly in some editors (vim).
-> > 
-> > Fixes: 43b1d3e68ee7 ("kexec: Allocate kernel above bzImage's pref_address")
-> > Fixes: d297366ba692 ("x86: document new bzImage fields")
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > ---
-> >  Documentation/arch/x86/boot.rst | 17 +++++++++++++----
-> >  1 file changed, 13 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
-> > index 4fd492cb4970..01f08d94e8df 100644
-> > --- a/Documentation/arch/x86/boot.rst
-> > +++ b/Documentation/arch/x86/boot.rst
-> > @@ -896,10 +896,19 @@ Offset/size:	0x260/4
-> >  
-> >    The kernel runtime start address is determined by the following algorithm::
-> >  
-> > -	if (relocatable_kernel)
-> > -	runtime_start = align_up(load_address, kernel_alignment)
-> > -	else
-> > -	runtime_start = pref_address
-> > +    if ( relocatable_kernel ) {
-> > +      if ( load_address < pref_address )
-> 
-> What's up with the extra spaces around ( and ) ... and inconsistent with
-> the lines below?
+I don't think so as a phy_device remove call will also free the pse control
+pointer through the pse_control_put() function.
+https://elixir.bootlin.com/linux/v6.11.7/source/drivers/net/phy/phy_device.=
+c#L1045
 
-Also, even pseudocode should follow the kernel's coding style and use 
-tabs in particular - which it already does in (some...) other places of 
-this document, such as the 'Sample Boot Configuration' chapter.
-
-Thanks,
-
-	Ingo
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
