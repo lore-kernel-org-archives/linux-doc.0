@@ -1,147 +1,148 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from smtp-fw-52004.amazon.com (smtp-fw-52004.amazon.com [52.119.213.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71921D61A3;
-	Tue, 26 Nov 2024 15:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A8E3EA69;
+	Tue, 26 Nov 2024 16:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732636355; cv=none; b=cbEYWzfSGswozBy3/W2tM6MnkIz10GQiGkkW523YfDNevd8uuIEBociNkf9/VIhyM2JUGQYTpwaVBqGHCbnHdsGJRwmFqFzyTfUujH07tzjBoX+MYWVXg4bxMfgvCkIgmbc2AKAKcCPNo1Qs/lnMe/gIDEPoWveJBQhkEAz0zAg=
+	t=1732637102; cv=none; b=r7Jw0o1/HCVNR6mOxj9dCAn8fPvqmj5kneZy+VmDuPohj4Gk+7HEz7i9Huh3Vr6yaj0j/upP5brkXt5wuS9usHSXT5QozlhOPxJo0L/O8QnF15Qb1AeXd/EtT6cY68b8QfWMFnqwnbsA1JIg/EqddL4Dm3UORZRaiMbtx9LYH3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732636355; c=relaxed/simple;
-	bh=t0ByC8HXuqc41ac70t1b+57WZFJooCSmNwXA+TyXrsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mn15qo85a/m2Fl8Bc93DOYQ5jSdQ9cCRXYmr7+YYGnenTr/8LCZ52xRMkhvkx3qWpzPhfHR+uMPYyG0J5OPvdsobWFkddkUeaktBz5dsresXKnbQDc6j6g9CdjM0axmwdIOOMsjgCj14CiGwititms5G7MqYhwGE22MXKxB2Qkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=I7Zaf7A7; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1732637102; c=relaxed/simple;
+	bh=hK3Lvut46ClYBRk6BhyY0n+LHeDgPszEzIEK1PLKjzw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=oLJBZw5vMaggidtPJxLVDQdAcyy/qkCNhS7KlEhYaqi7i+pyfNIeXAV1uPhtwSKIabXE1f3F2eIGKuLA53Clveq/ZxGJExOIwogUmjN4xUlFnGrim7uq05Gt9C0oGGAglvYM89n//L1bzLbwn6+/4YnRQjV8FhOAKLdZNYR6bsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=HS/uTytg; arc=none smtp.client-ip=52.119.213.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="I7Zaf7A7"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6EB49240004;
-	Tue, 26 Nov 2024 15:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1732636351;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=32bN/U8RBJm0I9OXWdazVO9fxAeU189cDI3fFLR4z+A=;
-	b=I7Zaf7A7XX7rSAs4/EmM63eKsNcLTF8Rcp3nZ9PM//JcGn4iBZV6OsKTgcA1y5WcpWp678
-	bFKJU09NuevECzGA8s9R5IRkELU19V6VRn033JsYwJmk/HOXNiCl7vMWVmwqqy+XBoSfjO
-	UgkqExHZiz/VKwLcSb/rtW9HlDLyK+HnxUDOycNVBgaHN4kfpWItGZf/qI6FSEQipmcDPl
-	JYLZl8wgF2CBOzI2l0EfLWlwZbpJE2jXoMWThYPSoZWASkRzS0CXTDxg94MSO72KMjgSai
-	+DbdJXbKd1EDWnoRElA+NIyF+1mfQBiwlzG4XSS3t3bmHb61BVjfG1UxL8kNfA==
-Date: Tue, 26 Nov 2024 16:52:28 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v3 21/27] net: pse-pd: Add support for
- getting and setting port priority
-Message-ID: <20241126165228.4b113abb@kmaincent-XPS-13-7390>
-In-Reply-To: <20241126163155.4b7a444f@kmaincent-XPS-13-7390>
-References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
-	<20241121-feature_poe_port_prio-v3-21-83299fa6967c@bootlin.com>
-	<Z0WJAzkgq4Qr-xLU@pengutronix.de>
-	<20241126163155.4b7a444f@kmaincent-XPS-13-7390>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="HS/uTytg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1732637101; x=1764173101;
+  h=message-id:date:mime-version:reply-to:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=HRWp5MKfE6uueBU5wQW7RW/Kjbh6R68ifML8DEFIQdE=;
+  b=HS/uTytgsS8Pw2EjDxMN2CrtbZlkMZXid6pNe0bn2P2aHRaTbxkzb6lG
+   5aLKOrvzGkKo0gjE1RBIFoGaFwUFt7IW3VtiucIuOgx+I+TAjwNaMwttX
+   wXGmy4Ptc/M8ne9PwdXrNTyqtL6yQv2nuqF1FLlBeDxJzqmGifji488CM
+   w=;
+X-IronPort-AV: E=Sophos;i="6.12,186,1728950400"; 
+   d="scan'208";a="250358078"
+Received: from iad6-co-svc-p1-lb1-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.2])
+  by smtp-border-fw-52004.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 16:04:57 +0000
+Received: from EX19MTAEUA002.ant.amazon.com [10.0.43.254:39943]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.26.13:2525] with esmtp (Farcaster)
+ id 704d7f83-a641-4c17-9c05-2a8b2b7eb302; Tue, 26 Nov 2024 16:04:54 +0000 (UTC)
+X-Farcaster-Flow-ID: 704d7f83-a641-4c17-9c05-2a8b2b7eb302
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUA002.ant.amazon.com (10.252.50.126) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
+ Tue, 26 Nov 2024 16:04:54 +0000
+Received: from [192.168.5.6] (10.106.82.29) by EX19D022EUC002.ant.amazon.com
+ (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Tue, 26 Nov 2024
+ 16:04:53 +0000
+Message-ID: <b8589fbd-733d-42ae-a6a7-8683c77a4817@amazon.com>
+Date: Tue, 26 Nov 2024 16:04:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [RFC PATCH 0/4] KVM: ioctl for populating guest_memfd
+From: Nikita Kalyazin <kalyazin@amazon.com>
+To: David Hildenbrand <david@redhat.com>, <pbonzini@redhat.com>,
+	<corbet@lwn.net>, <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <jthoughton@google.com>, <brijesh.singh@amd.com>, <michael.roth@amd.com>,
+	<graf@amazon.de>, <jgowans@amazon.com>, <roypat@amazon.co.uk>,
+	<derekmn@amazon.com>, <nsaenz@amazon.es>, <xmarcalx@amazon.com>, "Sean
+ Christopherson" <seanjc@google.com>, <linux-mm@kvack.org>
+References: <20241024095429.54052-1-kalyazin@amazon.com>
+ <08aeaf6e-dc89-413a-86a6-b9772c9b2faf@amazon.com>
+ <01b0a528-bec0-41d7-80f6-8afe213bd56b@redhat.com>
+ <efe6acf5-8e08-46cd-88e4-ad85d3af2688@redhat.com>
+ <55b6b3ec-eaa8-494b-9bc7-741fe0c3bc63@amazon.com>
+ <9286da7a-9923-4a3b-a769-590e8824fa10@redhat.com>
+ <f55d56d7-0ab9-495f-96bf-9bf642a9762d@redhat.com>
+ <03a12598-74aa-4202-a79a-668b45dbcc47@amazon.com>
+ <74cbda4a-7820-45a9-a1b2-139da9dae593@redhat.com>
+ <8ac0e3e6-5af3-4841-b3ba-ab0458ab355b@amazon.com>
+Content-Language: en-US
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
+ ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
+ abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
+In-Reply-To: <8ac0e3e6-5af3-4841-b3ba-ab0458ab355b@amazon.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: EX19D003EUB002.ant.amazon.com (10.252.51.90) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-On Tue, 26 Nov 2024 16:31:55 +0100
-Kory Maincent <kory.maincent@bootlin.com> wrote:
 
-> Hello Oleksij,
->=20
-> Thanks for your quick reviews!
->=20
-> On Tue, 26 Nov 2024 09:38:27 +0100
-> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
->=20
-> > > +int pse_ethtool_set_prio_mode(struct pse_control *psec,
-> > > +			      struct netlink_ext_ack *extack,
-> > > +			      u32 prio_mode)
-> > > +{
-> > > +	struct pse_controller_dev *pcdev =3D psec->pcdev;
-> > > +	const struct pse_controller_ops *ops;
-> > > +	int ret =3D 0, i;
-> > > +
-> > > +	if (!(prio_mode & pcdev->port_prio_supp_modes)) {
-> > > +		NL_SET_ERR_MSG(extack, "priority mode not supported");
-> > > +		return -EOPNOTSUPP;
-> > > +	}
-> > > +
-> > > +	if (!pcdev->pi[psec->id].pw_d) {
-> > > +		NL_SET_ERR_MSG(extack, "no power domain attached");
-> > > +		return -EOPNOTSUPP;
-> > > +	}
-> > > +
-> > > +	/* ETHTOOL_PSE_PORT_PRIO_DISABLED can't be ORed with another mode
-> > > */
-> > > +	if (prio_mode & ETHTOOL_PSE_PORT_PRIO_DISABLED &&
-> > > +	    prio_mode & ~ETHTOOL_PSE_PORT_PRIO_DISABLED) {
-> > > +		NL_SET_ERR_MSG(extack,
-> > > +			       "port priority can't be enabled and
-> > > disabled simultaneously");
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	ops =3D psec->pcdev->ops;
-> > > +
-> > > +	/* We don't want priority mode change in the middle of an
-> > > +	 * enable/disable call
-> > > +	 */
-> > > +	mutex_lock(&pcdev->lock);
-> > > +	pcdev->pi[psec->id].pw_d->port_prio_mode =3D prio_mode;   =20
-> >=20
-> > In proposed implementation we have can set policies per port, but it
-> > will affect complete domain. This is not good. It feels like a separate
-> > challenge with extra discussion and work. I would recommend not to
-> > implement policy setting right now.
-> >=20
-> > If you will decide to implement setting of policies anyway, then we need
-> > to discuss the interface.
-> > - If the policy should be done per domain, then we will need a separate
-> >   interface to interact with domains.
-> >   Pro: seems to be easier to implement.
-> > - If we will go with policy per port, wich would make sense too, then
-> >   some rework of this patch is needed.
-> >   Pro: can combine best of both strategies: set ports with wide load
-> >   range to static strategy and use dynamic strategy on other ports.
 
-We already talked about it but a policies per port seems irrelevant to me.
-https://lore.kernel.org/netdev/ZySR75i3BEzNbjnv@pengutronix.de/
-How do we compare the priority value of ports that use different budget
-strategy? How do we manage in the same power domain two ports with
-different budget strategies or disconnection policies?
+On 21/11/2024 16:46, Nikita Kalyazin wrote:
+> 
+> 
+> On 20/11/2024 18:29, David Hildenbrand wrote:
+>  > Any clue how your new ioctl will interact with the WIP to have shared
+>  > memory as part of guest_memfd? For example, could it be reasonable to
+>  > "populate" the shared memory first (via VMA) and then convert that
+>  > "allocated+filled" memory to private?
+> 
+> Patrick and I synced internally on this.  What may actually work for 
+> guest_memfd population is the following.
+> 
+> Non-CoCo use case:
+>   - fallocate syscall to fill the page cache, no page content 
+> initialisation (like it is now)
+>   - pwrite syscall to initialise the content + mark up-to-date (mark 
+> prepared), no specific preparation logic is required
+> 
+> The pwrite will have "once" semantics until a subsequent 
+> fallocate(FALLOC_FL_PUNCH_HOLE), ie the next pwrite call will "see" the 
+> page is already prepared and return EIO/ENOSPC or something.
 
-We indeed may need a separate interface to configure the PSE power domain
-budget strategies and disconnection policies.
+I prototyped that to see if it was possible (and it was).  Actually the 
+write syscall can also do the allocation part, so no prior fallocate 
+would be required.  The only thing is there is a cap on how much IO can 
+be done in a single call (MAX_RW_COUNT) [1], but it doesn't look like a 
+significant problem.  Does it sound like an acceptable solution?
 
-I think not being able to set the budget evaluation strategy is not relevant
-for now as we don't have PSE which could support both, but being able to
-set the disconnection policies may be relevant.
-If we don't add this support to this series how do we decide which is the
-default disconnection policy supported?
+[1]: https://elixir.bootlin.com/linux/v6.12.1/source/fs/read_write.c#L507
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> 
+> SEV-SNP use case (no changes):
+>   - fallocate as above
+>   - KVM_SEV_SNP_LAUNCH_UPDATE to initialise/prepare
+> 
+> We don't think fallocate/pwrite have dependencies on current->mm 
+> assumptions that Paolo mentioned in [1], so they should be safe to be 
+> called on guest_memfd from a non-VMM process.
+> 
+> [1]: https://lore.kernel.org/kvm/20241024095429.54052-1- 
+> kalyazin@amazon.com/T/#m57498f8e2fde577ad1da948ec74dd2225cd2056c
+> 
+>  > Makes sense. Best we can do is:
+>  >
+>  > anon: work only on page tables
+>  > shmem/guest_memfd: work only on pageacache
+>  >
+>  > So at least "only one treelike structure to update".
+> 
+> This seems to hold with the above reasoning.
+> 
+>  > --
+>> Cheers,
+>>
+>> David / dhildenb 
+> 
+
