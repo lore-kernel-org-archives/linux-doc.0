@@ -1,97 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF88B18DF93;
-	Mon, 25 Nov 2024 23:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81379137E;
+	Tue, 26 Nov 2024 00:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732578809; cv=none; b=OodHxDxeRxktYjRWvfkZQj2ZARwxI0jQ4yMOXIeH34ak6z/fZv4yjHYZhHiGaVu9ckTeTftrqNbRh4PjWJoP+2q/1XrTlieyhip9dHvZ8Zs4mdPv892LZYGXrato9iX70Saxd++j5o0i9j0wOAmK/hMUNESM+2HqTlGd/ruimvQ=
+	t=1732580013; cv=none; b=f08Vcu0oV3MbhuuwbwmOkwBksp/hj2yuC9pPEha9JmB9bDCJo/blYtSBN1vm+5QJJ7hCnesQwTBY2pBB1Sv5+gPOFFGJ/U9p+x8wFCuKyegyqh0LKSRyKFrsafyoa4qkV26etNY8RnMuo+mH+bHlLSP3g0H/sLDMJmuBTdCBHgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732578809; c=relaxed/simple;
-	bh=rFUNPbzQlq88yUnuIXu1GlgkAuvdh0NSAiK2v1NpN/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y6kiGPus38XkEeFh6QBnXzBCd2D37poWMPPBp6ZlWXyc7GGqIKQRUtAbq6WLhFhxzaez1EUrc0xnaWw3S/awfgqMUc8QyC7uIEMlEViKuZkdnehqPghjOinrV3Yj0LbL9o1HMzXf34YdhvNOO7q3XTqupnarohljX+lvk+CHeuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhzcJKQc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732580013; c=relaxed/simple;
+	bh=yQtdLmoxCN2ejbSwx1WCZyGOxXnDgm8MFgZWVZCqcJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KWC9AnBYgEI9UaEVuic26nCwkUSxsqY2ENSYOgCBxINqSoq94xaNY3IxnF9NI2wedICkGuiMd1J3RajAOk8utx8AE67u5MHvQn0wizs73Tjf/MGwjiRl3UnYz7WBa9nGzqyLxW1+IH94dLCvBc2J6pnancd+6exlFCfb6wT3T9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YgY6nboN; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhzcJKQc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 553D5C4CECE;
-	Mon, 25 Nov 2024 23:53:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732578809;
-	bh=rFUNPbzQlq88yUnuIXu1GlgkAuvdh0NSAiK2v1NpN/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LhzcJKQcyFCUtosPxA+fxXKVzVwR4Vkwbo6QZyWXGiFw8yo9yb3mm94PD1VjqWv5W
-	 /OtRDdB2tST/ixbp15laVL/v2rNiInFajj2iwkx7M/NM/tTSG9DKHh8zJQYpnFmP7O
-	 SCW4o5ZMD37qIHr2rq7jVi9K4f04PWnR3Vqtg0e+ywUGH29iOmTrI/pHCiULi/YpXE
-	 esTZD4gBlY8jiGnH4ws4QeI1T3ro3CF4bi568anQt56mASop4f3LrJuqjgfVk88OAb
-	 2QoGVKi6RGtwOlbSjgza6CrRBRoMo1W+7YxTleKhIEXy1Cy2FVVOxfVePtny/I/wth
-	 HBOpG2FQSS/Pw==
-Date: Mon, 25 Nov 2024 15:53:26 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com, corbet@lwn.net, petr.pavlu@suse.com,
-	samitolvanen@google.com, da.gomez@samsung.com,
-	akpm@linux-foundation.org, paul@paul-moore.com, jmorris@namei.org,
-	serge@hallyn.com, shuah@kernel.org, mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com, linux-integrity@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, wufan@linux.microsoft.com,
-	pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,
-	mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
-	dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com,
-	ppavlu@suse.com, petr.vorel@gmail.com, mzerqung@0pointer.de,
-	kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
-Subject: Re: [PATCH v6 07/15] digest_cache: Allow registration of digest list
- parsers
-Message-ID: <Z0UN9ub0iztWvgLi@bombadil.infradead.org>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
- <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YgY6nboN"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C7D97403E4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1732579998; bh=2ASgOcXgtOTHWnJjuUAfQm8tVEk6xdvSbKgdmBIlmys=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YgY6nboNKTOKGlfVOypiz/nVQWlNqp1Eliw0wYL6vXH44i9SMSYwbSHfFu3VYlaxz
+	 ekWm+G/HDJPlxfO/5zkAcU/z5lSCrxCL0QeBJI6cToCc9KCXXQ1djMnI710NB5wR9I
+	 QYtBFAmQwIV24NAUWKowwSajnveS0Vr9r1cHrfg9BnOZFZ0JHAG4QyPfq3cqj5UXSc
+	 +r3S4f0/JDv39FsVl2SsmmkHOXaOtA0MvqaYam3TGaAR9JK+01JgGHQxlevq2T87HR
+	 XVYpIkMAeQjRVDejGFSOqRJLa6sq67S1cflc5EhD6Bk6rzIQvxiGpvum7rYlshH/Xz
+	 /wwrsDm1OE6SA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C7D97403E4;
+	Tue, 26 Nov 2024 00:13:17 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] A bit more documentation for 6.13
+Date: Mon, 25 Nov 2024 17:13:17 -0700
+Message-ID: <8734jeam3m.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 19, 2024 at 11:49:14AM +0100, Roberto Sassu wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
-> Introduce load_parser() to load a kernel module containing a
-> parser for the requested digest list format (compressed kernel modules are
-> supported). Kernel modules are searched in the
-> /lib/modules/<kernel ver>/security/integrity/digest_cache directory.
-> 
-> load_parser() calls ksys_finit_module() to load a kernel module directly
-> from the kernel. request_module() cannot be used at this point, since the
-> reference digests of modprobe and the linked libraries (required for IMA
-> appraisal) might not be yet available, resulting in modprobe execution
-> being denied.
+The following changes since commit c818d5c64c9a8cc14853d716bf7ce6674a6126d0:
 
-You are doing a full solution implementation of loading modules in-kernel.
-Appraisals of modules is just part of the boot process, some module
-loading may need firmware to loading to get some functinality to work
-for example some firmware to get a network device up or a GPU driver.
-So module loading alone is not the only thing which may require
-IMA appraisal, and this solution only addresses modules. There are other
-things which may be needed other than firmware, eBPF programs are
-another example.
+  Documentation/CoC: spell out enforcement for unacceptable behaviors (2024=
+-11-15 14:31:59 -0700)
 
-It sounds more like you want to provide or extend LSM hooks fit your
-architecture and make kernel_read_file() LSM hooks optionally use it to
-fit this model.
+are available in the Git repository at:
 
-Because this is just for a *phase* in boot, which you've caught because
-a catch-22 situaton, where you didn't have your parsers loaded. Which is
-just a reflection that you hit that snag. It doesn't prove all snags
-will be caught yet.
+  git://git.lwn.net/linux.git tags/docs-6.13-2
 
-And you only want to rely on this .. in-kernel loading solution only
-early on boot, is there a way to change this over to enable regular
-operation later?
+for you to fetch changes up to 83a474c11e8cb59e230a43365cb42fa00d3bddaa:
 
- Luis
+  docs: Add debugging guide for the media subsystem (2024-11-22 10:48:12 -0=
+700)
+
+----------------------------------------------------------------
+A few late-arriving fixes, plus two more significant changes that were
+*almost* ready at the beginning of the merge window:
+
+- A new document on debugging techniques from Sebastian Fricke
+
+- A clarification on MODULE_LICENSE terms meant to head off the sort of
+  confusion that led to the recent Tuxedo Computers mess.
+
+----------------------------------------------------------------
+Javier Carrasco (1):
+      Documentation: pwrseq: Fix trivial misspellings
+
+Pavel Tikhomirov (1):
+      docs: core-api/gfp_mask-from-fs-io: indicate that vmalloc supports GF=
+P_NOFS/GFP_NOIO
+
+Randy Dunlap (2):
+      Documentation: filesystems: update filename extensions
+      Documentation: kernel-doc: enumerate identifier *type*s
+
+Sebastian Fricke (2):
+      docs: Add debugging section to process
+      docs: Add debugging guide for the media subsystem
+
+Uwe Kleine-K=C3=B6nig (1):
+      docs/licensing: Clarify wording about "GPL" and "Proprietary"
+
+ Documentation/admin-guide/media/index.rst          |   5 +
+ Documentation/core-api/gfp_mask-from-fs-io.rst     |  20 +-
+ Documentation/doc-guide/kernel-doc.rst             |   1 +
+ Documentation/driver-api/pwrseq.rst                |   8 +-
+ Documentation/filesystems/autofs.rst               |   2 +-
+ Documentation/filesystems/dlmfs.rst                |   2 +-
+ Documentation/filesystems/fsverity.rst             |   2 +-
+ Documentation/filesystems/path-lookup.rst          |   2 +-
+ Documentation/filesystems/path-lookup.txt          |   2 +-
+ .../filesystems/ramfs-rootfs-initramfs.rst         |   2 +-
+ Documentation/kernel-hacking/hacking.rst           |   2 +-
+ .../driver_development_debugging_guide.rst         | 223 ++++++++++++++++
+ Documentation/process/debugging/index.rst          |  78 ++++++
+ .../debugging/media_specific_debugging_guide.rst   | 180 +++++++++++++
+ .../debugging/userspace_debugging_guide.rst        | 280 +++++++++++++++++=
+++++
+ Documentation/process/index.rst                    |   8 +-
+ Documentation/process/license-rules.rst            |  18 +-
+ 17 files changed, 804 insertions(+), 31 deletions(-)
+ create mode 100644 Documentation/process/debugging/driver_development_debu=
+gging_guide.rst
+ create mode 100644 Documentation/process/debugging/index.rst
+ create mode 100644 Documentation/process/debugging/media_specific_debuggin=
+g_guide.rst
+ create mode 100644 Documentation/process/debugging/userspace_debugging_gui=
+de.rst
