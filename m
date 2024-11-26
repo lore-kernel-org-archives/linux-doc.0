@@ -1,213 +1,170 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F663A268
-	for <linux-doc@vger.kernel.org>; Tue, 26 Nov 2024 09:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268A71C3F36;
+	Tue, 26 Nov 2024 10:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732614705; cv=none; b=cPDyk7eccWJXEK3HXuCNdwLHQiRIuqPC+tymJHnbQTRTtiziVxBgxHYClZPR+YHI0JckXsw6wnLBCbpOjl1Fh2Bhiu1qTDngrsMBxVtrl1uAR8LQyh5zHn2/MtQy4OQErR8NcBpGqgkQacYFAn5tBIFf3IA4Eb+HpkQzcylGnJI=
+	t=1732616744; cv=none; b=Xkro9t02LHIegy2/BLd9pfZQXIkXXQDbDj0Hr8UUddbmVtyS8F9oQt8qBuOpsCiIIvUtm2r/Hd4IvLyOcZsTJPtT6brA2QDE8kNRCP+bciwa57QxjSXc11bXn/H7/ephCGtFBKWSls1IoOyVSErWMmvDrxtD2c2XMQvdaAeWLko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732614705; c=relaxed/simple;
-	bh=QL+jsKpJlz5b4P+2bQcbr5zSIL44zoHSmizxnSBuhFo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ndLRQky3zIvy8AStDI7fzedbaaxwL8TH41F1xu4HRytmnpUf3nhD1JmoCz2QV3p0XYVbZ/btgOsw9509+xdKF189VJMhwxpJSu50DMDvecDp/7nQQrywLflW6dsKnAg/xK4IIt1LbL9CoMC6GMjI9hv9qyK99UffIcTLXGZcLtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=jSwhb/+x; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="jSwhb/+x"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38230ed9baeso3812939f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 26 Nov 2024 01:51:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1732614701; x=1733219501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UO4mSSBKzizqKXO9HWAu5xtTzjjab3K6hG1bXe5LLuo=;
-        b=jSwhb/+xJGkmRpcDV5yeW4ZHr7qKmu8gg0TsF6fQ/WyLEgCk+J6w4yJlOEpwGWfQvc
-         Px1u0FRQRU5O+EAZKwd1NtilFiUd+G83fb3urpPmz1Sihdoro1R3QyQk9bGWgI/LFMTW
-         X8rZzBLoflUoWaDYDJWGmNkEOBn9pkoZpYT3pEVLIENYrDJK2QoPoCeW6d1I8YcGs9AY
-         mSE3Nr77RVmmqbGsFIGFsoBPPlrzvEP1NzCwApCg0mvIm/tY8omeBUyZziC2QEwboZaX
-         /+a2mw77BlIUipmLafYNZhlRST/0+FOOHAHC5Ppzk8yvx8bsAKeaavzTkBchVTgjMmsP
-         vXGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732614701; x=1733219501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UO4mSSBKzizqKXO9HWAu5xtTzjjab3K6hG1bXe5LLuo=;
-        b=lfVo253qTdMTI9JXPlnfUAhkYtiFFHVl0gsC3JwqBsFxqGRAVtEr3tEpWedXtOtWEx
-         a/Wctkex7BjzwctNeXoCM0tRUHhyXpvO82aGW24bpCyejy2ViVWmtr9xNP+rg7yzbCcL
-         pW0eQ+GUvsU9limPtPCny58Rs139mZlGs0tH3EaN7ElzE5vMRxgpG4MtkX5LVI7IZZ4j
-         wbG/zBrSGyvTSoYrlmS8N2siRBcmMovZE0/sZuW+LUWWJxohpnyRCv11FzaYkmjbUV1y
-         2q+/zjNtaYoebsuc0QNt12ejw1FM/kBbvLXk5GOaNAjckvEKeiM5PhXS1tz5E8PDjmhf
-         LFfw==
-X-Gm-Message-State: AOJu0YxtrIA+QMB33YPxzuVu4MQrsKGg2bbUwL246iCDvBtJXqz1pNLN
-	/fez+pKuy9eVX/fOt0+9v2hX/Zvc1JwA+/WNAmbVdumojMxFCAISTEqKHn1SxyU=
-X-Gm-Gg: ASbGncuqcLdYjG14wrT0UQ17IdY/3zVM5NTmyH2e968Hv6POxJeu3HEacS7ceHQS4FS
-	ECvEwhr03eN7BTvrcrI/Zt2pRHeNUU4g6+RbAKwea9PTNTRdxLmVxlJzzCgqUby1Js7WboFiVAb
-	i+6ql4RqYMGoigIyotkGNN4rC/ZVTZ1rQ3oB99M2KQp+/1Ypi+tIA2gZWzMAVQXG2GRY1CSANp3
-	jcYj2mtzG2O7LPlbw8SZik292LXbH07rpSS0GIrRaei/TINqyb+obb0dGKeEJjrpBlSzYYvjY7p
-	lEY=
-X-Google-Smtp-Source: AGHT+IGy1fknfYw17Hs9F6ZticKpVJz4vkS8NC2H5qrqchJz9nfNpZvrSiMCMB7eggn/X6U7IKtd2g==
-X-Received: by 2002:a5d:64c3:0:b0:37c:cc67:8b1f with SMTP id ffacd0b85a97d-38260be3f72mr12341731f8f.48.1732614701364;
-        Tue, 26 Nov 2024 01:51:41 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fb271ffsm12745475f8f.53.2024.11.26.01.51.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 01:51:40 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: corbet@lwn.net,
-	akpm@linux-foundation.org,
-	thuth@redhat.com,
-	rostedt@goodmis.org,
-	paulmck@kernel.org,
-	xiongwei.song@windriver.com,
-	ying.huang@intel.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	claudiu.beznea@tuxon.dev,
-	geert+renesas@glider.be,
-	wsa+renesas@sang-engineering.com,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [RFC PATCH] mm: page_alloc: Add kernel parameter to select maximum PCP batch scale number
-Date: Tue, 26 Nov 2024 11:51:38 +0200
-Message-Id: <20241126095138.1832464-1-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1732616744; c=relaxed/simple;
+	bh=fs0tdLUjiZ9ilJD7V6bohMscAEWEo6Ye5zBOhSJnsXo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=go49S8vMWABrDI9oytGoA5uWk65IbhpPJaFtWWNwU+yCaIzpaXIbozhnMPrA+Ppjo4m1H46uyhRXRnmHl65EMGMV7I1nZeVuQ7iR7p83WqVUollvY5sAWJgSk5sqBn6xmWo+n+5t419WfMLlAQdUTfNgFTguA5uDaWz7P/qGtrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4XyJ8F1xc4z9v7Vg;
+	Tue, 26 Nov 2024 18:04:29 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id F337E1407AB;
+	Tue, 26 Nov 2024 18:25:30 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwCnwH8HokVnxjpVAg--.1157S2;
+	Tue, 26 Nov 2024 11:25:30 +0100 (CET)
+Message-ID: <d428a5d926d695ebec170e98463f7501a1b00793.camel@huaweicloud.com>
+Subject: Re: [PATCH v6 07/15] digest_cache: Allow registration of digest
+ list parsers
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com,  corbet@lwn.net, petr.pavlu@suse.com,
+ samitolvanen@google.com, da.gomez@samsung.com,  akpm@linux-foundation.org,
+ paul@paul-moore.com, jmorris@namei.org,  serge@hallyn.com,
+ shuah@kernel.org, mcoquelin.stm32@gmail.com,  alexandre.torgue@foss.st.com,
+ linux-integrity@vger.kernel.org,  linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-api@vger.kernel.org,
+ linux-modules@vger.kernel.org,  linux-security-module@vger.kernel.org,
+ linux-kselftest@vger.kernel.org,  wufan@linux.microsoft.com,
+ pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,  mjg59@srcf.ucam.org,
+ pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com, 
+ jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com, 
+ mzerqung@0pointer.de, kgold@linux.ibm.com, Roberto Sassu
+ <roberto.sassu@huawei.com>
+Date: Tue, 26 Nov 2024 11:25:07 +0100
+In-Reply-To: <Z0UN9ub0iztWvgLi@bombadil.infradead.org>
+References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
+	 <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
+	 <Z0UN9ub0iztWvgLi@bombadil.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:GxC2BwCnwH8HokVnxjpVAg--.1157S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGw18KrWxCr48Jw4fWF17Jrb_yoWrZF4xpF
+	4Ykw15KF4vyr1rCayxAa1I93yF9393XrW5WFn5JryrZr4Y9F4Svw1IgF43u3WUGr4DKF1a
+	grs0g343tryDZ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Wrv_ZF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4U
+	JwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	EksDUUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQATBGdFMjUCtgAAsH
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Mon, 2024-11-25 at 15:53 -0800, Luis Chamberlain wrote:
+> On Tue, Nov 19, 2024 at 11:49:14AM +0100, Roberto Sassu wrote:
+> > From: Roberto Sassu <roberto.sassu@huawei.com>
+> > Introduce load_parser() to load a kernel module containing a
+> > parser for the requested digest list format (compressed kernel modules =
+are
+> > supported). Kernel modules are searched in the
+> > /lib/modules/<kernel ver>/security/integrity/digest_cache directory.
+> >=20
+> > load_parser() calls ksys_finit_module() to load a kernel module directl=
+y
+> > from the kernel. request_module() cannot be used at this point, since t=
+he
+> > reference digests of modprobe and the linked libraries (required for IM=
+A
+> > appraisal) might not be yet available, resulting in modprobe execution
+> > being denied.
+>=20
+> You are doing a full solution implementation of loading modules in-kernel=
+.
+> Appraisals of modules is just part of the boot process, some module
+> loading may need firmware to loading to get some functinality to work
+> for example some firmware to get a network device up or a GPU driver.
+> So module loading alone is not the only thing which may require
+> IMA appraisal, and this solution only addresses modules. There are other
+> things which may be needed other than firmware, eBPF programs are
+> another example.
 
-Commit 52166607ecc9 ("mm: restrict the pcp batch scale factor to avoid
-too long latency") introduced default PCP (Per-CPU Pageset) batch size as
-a configuration flag. The configuration flag is CONFIG_PCP_BATCH_SCALE_MAX.
+Firmware, eBPF programs and so on are supposed to be verified with
+digest lists (or alternative methods, such as file signatures), once
+the required digest list parsers are loaded.
 
-The ARM64 defconfig has CONFIG_PCP_BATCH_SCALE_MAX=5. This defconfig
-is used by a high range of SoCs.
+The parser is an exceptional case, because user space cannot be
+executed at this point. Once the parsers are loaded, verification of
+everything else proceeds as normal. Fortunately, in most cases kernel
+modules are signed, so digest lists are not required to verify them.
 
-The Renesas RZ/G3S SoC is a single CPU SoC, with L1$ (I-cache 32Kbytes,
-D-cache 32 Kbytes), L3$ (256 Kbytes), but no L2$. It is currently used in
-a configuration with 1 GiB RAM size. In this configuration, starting with
-commit 52166607ecc9 ("mm: restrict the pcp batch scale factor to avoid too
-long latency") the "bonnie++ -d /mnt -u root" benchmark takes ~14 minutes
-while previously it took ~10 minutes. The /mnt directory is mounted on SD
-card. Same behavior is reproduced on similar Renesas single core devices
-(e.g., Renesas RZ/G2UL).
+> It sounds more like you want to provide or extend LSM hooks fit your
+> architecture and make kernel_read_file() LSM hooks optionally use it to
+> fit this model.
 
-Add a new kernel parameter to allow systems like Renesas RZ/G3S to
-continue have the same performance numbers with the default mainline
-ARM64 config. With pcp_batch_scale_max=5 (the default value) the bonnie++
-benchmark takes ~14 minutes while with pcp_batch_scale_max=0 it takes
-~10 minutes.
+As far as the LSM infrastructure is concerned, I'm not adding new LSM
+hooks, nor extending/modifying the existing ones. The operations the
+Integrity Digest Cache is doing match the usage expectation by LSM (net
+denying access, as discussed with Paul Moore).
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- .../admin-guide/kernel-parameters.txt         |  6 +++++
- mm/page_alloc.c                               | 26 ++++++++++++++-----
- 2 files changed, 26 insertions(+), 6 deletions(-)
+The Integrity Digest Cache is supposed to be used as a supporting tool
+for other LSMs to do regular access control based on file data and
+metadata integrity. In doing that, it still needs the LSM
+infrastructure to notify about filesystem changes, and to store
+additional information in the inode and file descriptor security blobs.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index e7bfe1bde49e..ce745ea78470 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4716,6 +4716,12 @@
- 			for debug and development, but should not be
- 			needed on a platform with proper driver support.
- 
-+	pcp_batch_scale_max=n
-+			Format: <integer>
-+			Range: 0,6 : number
-+			Default : CONFIG_PCP_BATCH_SCALE_MAX
-+			Used for setting the scale number for PCP batch scale algorithm.
-+
- 	pdcchassis=	[PARISC,HW] Disable/Enable PDC Chassis Status codes at
- 			boot time.
- 			Format: { 0 | 1 }
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index bc55d39eb372..ef1d37cefb43 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -163,6 +163,20 @@ static DEFINE_MUTEX(pcp_batch_high_lock);
- #define pcp_spin_unlock(ptr)						\
- 	pcpu_spin_unlock(lock, ptr)
- 
-+static unsigned int pcp_batch_scale_max = CONFIG_PCP_BATCH_SCALE_MAX;
-+#define MAX_PCP_BATCH	6
-+
-+static int __init setup_pcp_batch_scale_max(char *str)
-+{
-+	get_option(&str, (unsigned int *)&pcp_batch_scale_max);
-+
-+	if (pcp_batch_scale_max > MAX_PCP_BATCH)
-+		pcp_batch_scale_max = MAX_PCP_BATCH;
-+
-+	return 1;
-+}
-+__setup("pcp_batch_scale_max=", setup_pcp_batch_scale_max);
-+
- #ifdef CONFIG_USE_PERCPU_NUMA_NODE_ID
- DEFINE_PER_CPU(int, numa_node);
- EXPORT_PER_CPU_SYMBOL(numa_node);
-@@ -2362,7 +2376,7 @@ int decay_pcp_high(struct zone *zone, struct per_cpu_pages *pcp)
- 	 * control latency.  This caps pcp->high decrement too.
- 	 */
- 	if (pcp->high > high_min) {
--		pcp->high = max3(pcp->count - (batch << CONFIG_PCP_BATCH_SCALE_MAX),
-+		pcp->high = max3(pcp->count - (batch << pcp_batch_scale_max),
- 				 pcp->high - (pcp->high >> 3), high_min);
- 		if (pcp->high > high_min)
- 			todo++;
-@@ -2412,7 +2426,7 @@ static void drain_pages_zone(unsigned int cpu, struct zone *zone)
- 		count = pcp->count;
- 		if (count) {
- 			int to_drain = min(count,
--				pcp->batch << CONFIG_PCP_BATCH_SCALE_MAX);
-+				pcp->batch << pcp_batch_scale_max);
- 
- 			free_pcppages_bulk(zone, to_drain, pcp, 0);
- 			count -= to_drain;
-@@ -2540,7 +2554,7 @@ static int nr_pcp_free(struct per_cpu_pages *pcp, int batch, int high, bool free
- 
- 	/* Free as much as possible if batch freeing high-order pages. */
- 	if (unlikely(free_high))
--		return min(pcp->count, batch << CONFIG_PCP_BATCH_SCALE_MAX);
-+		return min(pcp->count, batch << pcp_batch_scale_max);
- 
- 	/* Check for PCP disabled or boot pageset */
- 	if (unlikely(high < batch))
-@@ -2572,7 +2586,7 @@ static int nr_pcp_high(struct per_cpu_pages *pcp, struct zone *zone,
- 		return 0;
- 
- 	if (unlikely(free_high)) {
--		pcp->high = max(high - (batch << CONFIG_PCP_BATCH_SCALE_MAX),
-+		pcp->high = max(high - (batch << pcp_batch_scale_max),
- 				high_min);
- 		return 0;
- 	}
-@@ -2642,7 +2656,7 @@ static void free_unref_page_commit(struct zone *zone, struct per_cpu_pages *pcp,
- 	} else if (pcp->flags & PCPF_PREV_FREE_HIGH_ORDER) {
- 		pcp->flags &= ~PCPF_PREV_FREE_HIGH_ORDER;
- 	}
--	if (pcp->free_count < (batch << CONFIG_PCP_BATCH_SCALE_MAX))
-+	if (pcp->free_count < (batch << pcp_batch_scale_max))
- 		pcp->free_count += (1 << order);
- 	high = nr_pcp_high(pcp, zone, batch, free_high);
- 	if (pcp->count >= high) {
-@@ -2984,7 +2998,7 @@ static int nr_pcp_alloc(struct per_cpu_pages *pcp, struct zone *zone, int order)
- 		 * subsequent allocation of order-0 pages without any freeing.
- 		 */
- 		if (batch <= max_nr_alloc &&
--		    pcp->alloc_factor < CONFIG_PCP_BATCH_SCALE_MAX)
-+		    pcp->alloc_factor < pcp_batch_scale_max)
- 			pcp->alloc_factor++;
- 		batch = min(batch, max_nr_alloc);
- 	}
--- 
-2.39.2
+The kernel_post_read_file LSM hook should be implemented by another LSM
+to verify the integrity of a digest list, when the Integrity Digest
+Cache calls kernel_read_file() to read that digest list. That LSM is
+also responsible to provide the result of the integrity verification to
+the Integrity Digest Cache, so that the latter can give this
+information back to whoever wants to do a digest lookup from that
+digest list and also wants to know whether or not the digest list was
+authentic.
+
+> Because this is just for a *phase* in boot, which you've caught because
+> a catch-22 situaton, where you didn't have your parsers loaded. Which is
+> just a reflection that you hit that snag. It doesn't prove all snags
+> will be caught yet.
+
+Yes, that didn't happen earlier, since all the parsers were compiled
+built-in in the kernel. The Integrity Digest Cache already has a
+deadlock avoidance mechanism for digest lists.
+
+Supporting kernel modules opened the road for new deadlocks, since one
+can ask a digest list to verify a kernel module, but that digest list
+requires the same kernel module. That is why the in-kernel mechanism is
+100% reliable, because the Integrity Digest Cache marks the file
+descriptors it opens, and can recognize them, when those file
+descriptors are passed back to it by other LSMs (e.g. through the
+kernel_post_read_file LSM hook).
+
+> And you only want to rely on this .. in-kernel loading solution only
+> early on boot, is there a way to change this over to enable regular
+> operation later?
+
+User space can voluntarily load new digest list parsers, but the
+Integrity Digest Cache cannot rely on it to be done. Also, using
+request_module() does not seem a good idea, since it wouldn't allow the
+Integrity Digest Cache to mark the file descriptor of kernel modules,
+and thus the Integrity Digest Cache could not determine whether or not
+a deadlock is happening.
+
+Thanks
+
+Roberto
 
