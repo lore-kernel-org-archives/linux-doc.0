@@ -1,241 +1,295 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2050.outbound.protection.outlook.com [40.107.212.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D2A1DA23;
-	Tue, 26 Nov 2024 23:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732663217; cv=none; b=PgHudHFcFLR6zxr4PiOlAUwXsEUjqh39482POcsuRdUpgOUW6wft1b5W8zOTqmQGljqebUbFOeoTTwuvT/O843jxD71a+DHnK7HvbBpM8KltE/WWzPFIikyJzU0o44bRwpRYg2JBsmjMIj3SlRcY8TWfFkjOFRejNQR5AYcCTH8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732663217; c=relaxed/simple;
-	bh=uYz1fIPEEUSYGIPG3S07I/kURabcIlSMz61S+iMi4fg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Fji7JU1DOCzfdoGT3luHzLCGe55iEbQaGtZOqfknFYGZ6YhdGMqNU/JiS0ZQAX+uUXDUMzDPVzt3eUS3qPlO+o238A57LiMkQsbVFYqrTDontrUdiB+TctoFxefMeyYaiTcWiDrqiofOSRuP7Xp02IHq0GRdvg/MtabDxgORjhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NwKd34f+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4380817591;
+	Tue, 26 Nov 2024 23:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732663896; cv=fail; b=Y2KtNAH616AkK2uoq25im+BTqLLg4PanbLq4scDsxam+7vOxrFENOkwEnFMYuVB03Z0tg//61Jsp8sFr4k29RRlCS5NljrpiChMFtoUmV8V9AQ2TP9JNqtToELaV3grBBXxDjXo7GZDB7O91xn4SSVyu2wt34vTo2wcWeK69zk4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732663896; c=relaxed/simple;
+	bh=F1rPV6YyY0l/eorS1rKiQWBJZLHNKeiyHIlPaY+8J7M=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=stWSoRgpbzcXp31OU0xIql+tq5PMdVVRUmWeEK6dkKHQ47b1sHANeOmjMncy8UYnb6NXdD6Skuy8H3SS34ZKA9233g2+IPEHU+oigBAWprSZ1TYhm2qpIva1Za3xutBmjKWa8d0JEidM2SoRArKLpgS8+NUnipUOFb7OCh5TO8E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HwP5N152; arc=fail smtp.client-ip=40.107.212.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NwKd34f+"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQKLKLp003917;
-	Tue, 26 Nov 2024 23:19:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JXOj1uo6qRGb0YQzjEwm+4KOBZcNIhIGsYVmiWDab6k=; b=NwKd34f+BNxW/8TT
-	6k+dBzD5ef11xfSeFzze0MoMvTTxXmyzIemzgsjfB85VroZ6inezQqOqp5gvVANn
-	7/kRbk2NmBm443erBdfdz4tTgeBdl9l1sPcd68mJRG/ck6FhZVVl47izLSLjnM4G
-	ksTILhNF77c4TgCTas8j2JK2h3bRBBVMXPgKq57hr/qkcFPB3cskrrhNHmkaDXar
-	VtERgnFMTnlOExjBkowSltYS0N8ZhhQRBRHgLj1b5k8PY8JTOe1lTraAYo1L5H3d
-	txi4+ZtE12zBPmF28EH9Wkqj0KoqnJS7LdpfSd15afuF6uG0MTtCwOX5juMKQq5E
-	5I2S3g==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 435839aqrr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Nov 2024 23:19:57 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AQNJtaX020705
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Nov 2024 23:19:56 GMT
-Received: from [10.110.73.239] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 26 Nov
- 2024 15:19:55 -0800
-Message-ID: <d4d94c91-5b40-4ed3-9895-8f8c85fd0a29@quicinc.com>
-Date: Tue, 26 Nov 2024 15:19:54 -0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HwP5N152"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wSUMJMQuwlVzsiif+WBOPhy0uiIVQ6U5su7pq1oamXikqXDOUJh9ejVMdGzFmYudn53cCbPJjKTT6mht7nKPy7NrX+qWuiNnqdVQaVMcVsiNsQtD6RIlYgh7q8zTspz4linI3zipT3+WTkRb861UrHj30rEy7bIX/2qYuaylk6F+ApTlb45SGn/BPsGD5srx2JqH67PiPeWliae5Qg/HIZVErr168tQu6JxGuWlgr74kc1Oqd3xBmS1qtgZB7APEdunm9A7rIsKEFsgtfzqggDJXWWgKwq5z4tFmIlTBh0iriOtXQBkl3BiWtaZiWJUm6ZAVxzJ6P/2fI82rVNgMsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h63KJZAJCZZZ1NG9ekzYHO2AvSFQGy5m4cG5jUoVDTM=;
+ b=yH7Sac7vfUE3gB2NfEIPDuVsSwQV+DMaIbjtmT/QwpCTzJl8q78tlBWhCjZcl7tXQzIA48pBN8PmFF4dB0zChFiaDjPV3LI851OdEEq2jh2RbbAqfV8osAWHE7WCrz/ZEcu38DhqwEJOjdPMTWMVkema3WZt49nRRlPCd+JhbHz9Y4hXJi6kGJuZDAEKQ+eZUrKn4E/W9zbnnAieHYQpfu/lp5Yfgzx4nN2yGWNvlW7ntntVX1vypcqZiHBLbVYDwHIAeVrv44yqvgiL6xNNUANGmyxyVTBVaPSQ6lPSbKdjETXgI5BZfTcj6KJY2SgzCm8x0YZc5IWLD60YsBDR2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h63KJZAJCZZZ1NG9ekzYHO2AvSFQGy5m4cG5jUoVDTM=;
+ b=HwP5N152s2jTtz6cBEUK1SKKaXgopKONLFsen7jo1nDqJhx8nGJdVek72xpwRryqZi9fy+kUD6alD6nDpCr6dD3/PDN5RzGPDL08dTqEBwOyB7/v7FTtVIWeq+B4jUKruVdwrpTEHPXEW6B4fQU5kuYgrKpIlwViB3bDHc0mMJ8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by LV3PR12MB9236.namprd12.prod.outlook.com (2603:10b6:408:1a5::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.20; Tue, 26 Nov
+ 2024 23:31:28 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8207.010; Tue, 26 Nov 2024
+ 23:31:27 +0000
+Message-ID: <20959b58-a882-4ef7-bd11-e8bb0a998945@amd.com>
+Date: Tue, 26 Nov 2024 17:31:19 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v9 14/26] x86/resctrl: Introduce interface to display
+ number of free counters
+To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
+ corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com, thuth@redhat.com,
+ paulmck@kernel.org, rostedt@goodmis.org, akpm@linux-foundation.org,
+ xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
+ daniel.sneddon@linux.intel.com, perry.yuan@amd.com, sandipan.das@amd.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
+ jithu.joseph@intel.com, brijesh.singh@amd.com, xin3.li@intel.com,
+ ebiggers@google.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com,
+ james.morse@arm.com, tan.shaopeng@fujitsu.com, tony.luck@intel.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, maciej.wieczor-retman@intel.com, eranian@google.com,
+ jpoimboe@kernel.org, thomas.lendacky@amd.com
+References: <cover.1730244116.git.babu.moger@amd.com>
+ <265f3700ac0c0d33703806fdc3d096b08c992efc.1730244116.git.babu.moger@amd.com>
+ <0dc08082-0f3f-4acc-9285-b925a4ce3b02@intel.com>
+ <5d426af4-a947-4115-b7b7-4eeecfa13fec@amd.com>
+ <c587f94a-7920-49cf-94b1-4c52140db914@intel.com>
+ <ef92f1fb-086c-4ee1-b8ec-e08ed68f963a@amd.com>
+ <e065b193-dbcc-451b-98db-68a5a69e6ae0@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <e065b193-dbcc-451b-98db-68a5a69e6ae0@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BYAPR05CA0031.namprd05.prod.outlook.com
+ (2603:10b6:a03:c0::44) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
-To: Takashi Iwai <tiwai@suse.de>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.dev>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <20241106193413.1730413-29-quic_wcheng@quicinc.com>
- <87bjya3xzw.wl-tiwai@suse.de>
- <02c20b06-34ef-459b-9cd1-2d2735eb1352@quicinc.com>
- <87zfls1t7x.wl-tiwai@suse.de>
- <8fc53dd9-0c26-410c-b1b1-3d6df7894a44@quicinc.com>
- <87cyiiaxpc.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <87cyiiaxpc.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: pZrM1Xsvu6nZrHsg37EGUg7jbpgwR8Gp
-X-Proofpoint-ORIG-GUID: pZrM1Xsvu6nZrHsg37EGUg7jbpgwR8Gp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
- phishscore=0 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411260187
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|LV3PR12MB9236:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a21fb8f-b677-4203-d486-08dd0e7272f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aC84RldROHdEUk9Ldy9GK3BDN2lWU3FMNzRERGdlaTBOa2lmdG9JOW9Oam9U?=
+ =?utf-8?B?WkRmeC84RmlHdUw1Uk9Fb013czJFQ1lCYW9sc0pKeFVySVZyUWNsb2hVYWJL?=
+ =?utf-8?B?Z2h4YUliR3NUOXNwTWkwT3VJTWlPSWE0ZUdGTDJsUTdNVlRVRi9XT081Y0Na?=
+ =?utf-8?B?Um5FZmpzTnR3dkF3enYvWmVyZmc2Z2NiTkp1YnU0QlByWS9MNkFXYVh3NXVk?=
+ =?utf-8?B?ZnlqVXBFOUw3OXY2VE14c0xhTmRmT3FCcm9aYlZGdXJOVUVDdzRKK3hvWWdM?=
+ =?utf-8?B?R2w2SzBDTmxDdE5ZYjhCamJEd1YwRTMyNUVVSGlYRFR1L0RpZ1NGbWl2VWZL?=
+ =?utf-8?B?UGl4LzQxWkJvY1U4bWh3ejFxZzBXV0I5NWRoMURXZTJpMEJEeHpmQ1RtMFRP?=
+ =?utf-8?B?emlZcmhzR091NHdiTDNTMEFFdzViSmRiK2tyVnhCMmRxeHYrN2hCakFBUFgy?=
+ =?utf-8?B?aEcrQlZTQ3diNE1rSUlYTnh5VW9Mb2ZwbHNMU1k3L0hnWEd5aWk5UCtsZlpL?=
+ =?utf-8?B?TklsWEtKbEpDdm1tTVZSQ201YWxyQ1RDaUwwaStDc3ZkMjBwY3YwTDk5Vzho?=
+ =?utf-8?B?elI4cW9EWXUwZmh5bFl0SUQvWDJKV2ZyLyt5RnRvQ2Zvd1dLbk5aSUxHUFRX?=
+ =?utf-8?B?K2lMMTZsTEJDaEdOVXZUR2NYTW1HS29OS0JvVTJ2NTVKMElZVHpPd1MrMTJK?=
+ =?utf-8?B?V1AycXI2T01WMlhjSzlCdmlHaWZtUExsNnJrc2hzeEhlSzBSbHgxaTNmS0NS?=
+ =?utf-8?B?MVVYZnZKUm5uQU9wNkV2OXZxd1A5eHB3QlYvRGRzdEUrbUREbkVIRzN6dW9m?=
+ =?utf-8?B?dlEwMWxMZnhETW0yamk0VnVzU2czeGNwVWxpZktTdm84WCtUbVQ3ZHN0MUZv?=
+ =?utf-8?B?RmUrOURVZmM2eWUxNU8rZWFQa1VPRDc0eEhzRkxjNW5PMGViWVFicDUzalFz?=
+ =?utf-8?B?b0V3RFJVTHRxRUFqRm1jYXl4M2wwMDNpTk5NQVpSbm83YTJOdG1JM08va0xt?=
+ =?utf-8?B?SHBSV2R5a0dHKzNDUmxqTHlEc1E0QU1nWGs1cGRKcXFhekhvMXhja2ZJUXNF?=
+ =?utf-8?B?VWxzb1IyRk9Rd1JUQ296RnoxakVXOFY2Mk1vQ3R6SUp4OURsRVVBRFVZaUt1?=
+ =?utf-8?B?R29rdEpBUkJHN0RUL2FWVjJCaG1VKzdoTUJRcklBSVhBSlh6S09EaE11WlRt?=
+ =?utf-8?B?am9GT2JINnQ2TnUwOHViVG4yS1pXczRRTmUydlk3eGZ3cmowTm1kdkI2cjVx?=
+ =?utf-8?B?QkgwaWpyR3dxbkVWL2t2L0hnaEh3YWtUcUlSdEd5cHZNNTFtdjZ2T2hBc256?=
+ =?utf-8?B?U3l1Uis4eEhzdHFtM3RZdTBnK0l5QXE0NFFkYVlyN0lDenVmZUpxMlhNbVZu?=
+ =?utf-8?B?d2pMblhWWkxraEp2NXNJdGZvblVZYUZGYXcxV3lrSlNkQnY0Rms2bFJJVzUw?=
+ =?utf-8?B?eXRiRU1uMXJNZ2hEY1pybE1SdGVUREQ3cUR6eWhsOXFDWUlwUEw0Q3MzVVhy?=
+ =?utf-8?B?alZsWGFpUUV6WThHVmNjMGVkMEVWWkJSVDZLL2JpL2UweEVzUmMyVUhUdk1B?=
+ =?utf-8?B?ZWg2RFAxeDZCSmRqSE9jWGZnY0pIOEVGaTlOdGhmYlVEdExtV3lBTHZLbWVQ?=
+ =?utf-8?B?amdnUXo3RUdBWHg1Y0xac2xMN3Z1VW5YV2U3cEczWHI1MjZiWG9CZUw4NXZo?=
+ =?utf-8?B?QmtTNzNzRjNOaGNEMnU5ZUdoZXVSYmhSTE8rWHZLVUc3dTFpdmNiTTN4cURX?=
+ =?utf-8?B?VlRheStwUzAybFhMSFhGbFhjSyt3cmJoYXE4cncyNHhIZFh4N21IVGhzVnpm?=
+ =?utf-8?B?SnJ4TjU3VEhmL1hxQi9MUT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QmhFaGczZ09GY1lwZ1daU3l3Q255TzNQV0J1WURlUDNhdlA2ZEZ2T2VQWWUx?=
+ =?utf-8?B?bFJwczdMajdGSFZML0xvOXp2czhkeWVmWmgxOER2N2VsV1JPQlRZMG5GT2d2?=
+ =?utf-8?B?NFhXNjhjT3JrYTJhQ1h4czd3WWhUNW5PT0VHSWsxdHhBczB5UGYrM1VLTkFx?=
+ =?utf-8?B?UXdHMm5nRFhWcGR0WHFmYXVFaXE0Q1Z1WjF3SGpLS1FweitDUnBmWEkyOTJH?=
+ =?utf-8?B?YUJLK051MlpGQkVxUU5TcUJzbUlHUjBLQi9aUVZhdFVQWnRqM0ZORjJRdE5i?=
+ =?utf-8?B?RmtUOC9md1FEWmlmbHMrVmlmS1pLRmV5YVpzV0lWOURiWllzdi96VVdFOWdk?=
+ =?utf-8?B?VXJwWEk3K1lMRTdrOXdnWnZ6K2JHR3NNZkIxbHd1eXdKYTFCcUNSU0wxeFF3?=
+ =?utf-8?B?Rks4V0h2b0piUklJK3FEeWhGNnRtbjN6THVKSENZcWVKM09YNmVnTUpQR25V?=
+ =?utf-8?B?YnA1aWdpV05rNXF1LytPUUJNV3JzLysxczNDY2R6L2pPTnFBeFhOOU1aWE5L?=
+ =?utf-8?B?STRZT3JYSGpWS2lOWHdodGJ4L1hFYkdYbmFjWHc3NXg2QldNZTlwZDVOTytr?=
+ =?utf-8?B?TlpXajBIVDY1VjI3NVZ3L1l1VWJNaHllbWlkWnFoQ1ZrQXoyb1BwWURtTnN2?=
+ =?utf-8?B?aENkZkFFOUZTQmdFM2RWbXJxOEpCVU1jWk9yellLUkNuRnB2ZVFObHNEeVlU?=
+ =?utf-8?B?Snd2NENGWjBBMm1SeTJHQzFzY2FsQXMzMDZ0Y3ZtM1lWWGhiL3BBQnpkSnUz?=
+ =?utf-8?B?eGtyV0M3cFFyRjA0SzgwS21xbjNLZHY1S0ltZ3JLVmZtT2VlcW55VGlQeXFH?=
+ =?utf-8?B?SFd4T0MvUjNHVnZpOGFzRnB0M0hCRlJ1dTgzRDNWajgyVVhrTitDb2prempD?=
+ =?utf-8?B?bjU5WlZZV2sydW04ajNPeVhEVTBIdk9QNTdNTEE4RzNJd2UyVVFKUjNubldN?=
+ =?utf-8?B?UmR2bDF6Sm8rZk9hQTE0Z2l4c0k4cHZLU2NHaXFwWjVFdXpHS3NKemVzRXdv?=
+ =?utf-8?B?OTljdmdQdXFjTWhLN3RDcFB4SWVGL3FCVm9pZ0lxSmZPM3ZyWVBqcnJwZUJi?=
+ =?utf-8?B?K1NRZDNHUGRIMzZ0TG5ZdENWM1NEclh0UE5pN2Nxa3JFdlhUYVVGVTBPUm4w?=
+ =?utf-8?B?ZTQ4dDhDTmxXOTRRTGdGTXEzVmN4WDhLb0laeG9NaytlN3FYTXJTVzBaV3dv?=
+ =?utf-8?B?NzA5aTl0VHFMZDZBdGpGT2NKWnBCWDc4NUtqZllCdmNYZ3JQNFp3YWxYNVFR?=
+ =?utf-8?B?SkJMUklKdzJ0NWIzUDYxNmQzUHF4ZUpYTjFUK01BbGIxMDUxYmltMDR1Z3Bv?=
+ =?utf-8?B?RU5xSzhQL0JnVnhsa1lxMURJbXhrZTJ2UjZTOWNiV3JQWk53SUZaN1NuRXh2?=
+ =?utf-8?B?WUZpZEZhZkVjbUdBTHlaRGZycnhpL0doWDcwTUpvZldNa2pUZkd3ZmY0T3Zn?=
+ =?utf-8?B?a3p3bkx0TXR0VExjL1lHOVNCMzdjaXh0OU1lQ3hGT0IzNmYzc3ZKWE9RRy95?=
+ =?utf-8?B?RlBGVlZCcnFldENFcVZubU5JeG1EZ2hBQ1VQQjAxZFhHdnF3K2JRdStNNWc2?=
+ =?utf-8?B?WXZzR21kVHd3TWpyUUdkeTRJOWt0UTFuQ0JvbDlIS29HVUFjeG41WmF3TlFv?=
+ =?utf-8?B?aXRPYVdCQkZTT0VqdG9yRkp6MkJUZWtmcG9aZGdESmZuakYwaWtKVnRTdmRL?=
+ =?utf-8?B?eGVlWUNpMXlOaTh6Tm1MYzdUNEthbVZtdzErSFVQWGgyWTNUS2VLdlRJZzZ3?=
+ =?utf-8?B?RFRZb3VxL2ZoRWYyN1liM0Q5Um5icWgrdkp4NStoKy9EaHhkbzZpZmpIaFZl?=
+ =?utf-8?B?REJDU2tBTHlPQXRxSitqNlJieEdjNjBuU3E5dWtEQ2diKzdRMTUrdzNxWjVX?=
+ =?utf-8?B?Q2hMU2NPUVVWZ1F2Ukw2TkZKdDJOYUlUMmpLYXg4NlFnYWhScmVSL2N1MitW?=
+ =?utf-8?B?cmp1S1ZZVW95QWJxQkVXN2o0bGNZKzcxQUt5eUtnVUVnd0xaZFAvelJ3aUlo?=
+ =?utf-8?B?b2UxeXZDSUlpRlVTSHpOb3FuV043THlrM3pEZVZDSTRBZXJXOWRXaU90eUR1?=
+ =?utf-8?B?YTZNMEluS2g4eDFtdWkyejdPa3NqM1UzL0FCRTRDZkVlY1RCTzNyeW1SZ094?=
+ =?utf-8?Q?lVQ0=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a21fb8f-b677-4203-d486-08dd0e7272f0
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2024 23:31:27.5897
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xc5qeRcsxwM4QXQuKf3L+5rK63JOMZrHBlvspDT7dSpMFeIRKJjmuZcvjyRIpn8v
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9236
 
-Hi Takashi,
+Hi Reinette,
 
-On 11/26/2024 6:14 AM, Takashi Iwai wrote:
-> On Mon, 25 Nov 2024 21:33:03 +0100,
-> Wesley Cheng wrote:
->> Hi Takashi,
+On 11/25/2024 1:00 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 11/22/24 3:36 PM, Moger, Babu wrote:
+>> Hi Reinette,
 >>
->> On 11/21/2024 7:50 AM, Takashi Iwai wrote:
->>> On Wed, 20 Nov 2024 20:13:34 +0100,
->>> Wesley Cheng wrote:
->>>> Hi Takashi,
->>>>
->>>> On 11/20/2024 4:12 AM, Takashi Iwai wrote:
->>>>> On Wed, 06 Nov 2024 20:34:11 +0100,
->>>>> Wesley Cheng wrote:
->>>>>> In order to allow userspace/applications know about USB offloading status,
->>>>>> expose a sound kcontrol that fetches information about which sound card
->>>>>> and PCM index the USB device is mapped to for supporting offloading.  In
->>>>>> the USB audio offloading framework, the ASoC BE DAI link is the entity
->>>>>> responsible for registering to the SOC USB layer.
->>>>>>
->>>>>> It is expected for the USB SND offloading driver to add the kcontrol to the
->>>>>> sound card associated with the USB audio device.  An example output would
->>>>>> look like:
->>>>>>
->>>>>> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
->>>>>> -1, -1 (range -1->255)
->>>>>>
->>>>>> This example signifies that there is no mapped ASoC path available for the
->>>>>> USB SND device.
->>>>>>
->>>>>> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
->>>>>> 0, 0 (range -1->255)
->>>>>>
->>>>>> This example signifies that the offload path is available over ASoC sound
->>>>>> card index#0 and PCM device#0.
->>>>>>
->>>>>> The USB offload kcontrol will be added in addition to the existing
->>>>>> kcontrols identified by the USB SND mixer.  The kcontrols used to modify
->>>>>> the USB audio device specific parameters are still valid and expected to be
->>>>>> used.  These parameters are not mirrored to the ASoC subsystem.
->>>>>>
->>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>>> IIRC, this representation of kcontrol was one argued issue; Pierre
->>>>> expressed the concern about the complexity of the kcontrol.
->>>>> I didn't follow exactly, but did we get consensus?
->>>> So the part that Pierre had concerns on was that previously, the
->>>>> implementation was placing offload kcontrols to the ASoC platform
->>>>> card, and had some additional controls that complicated the
->>>>> offload implementation about the offload status for each USB audio
->>>>> device.  This was discussed here:
->>>> https://lore.kernel.org/linux-usb/957b3c13-e4ba-45e3-b880-7a313e48c33f@quicinc.com/
->>>>
->>>> To summarize, I made the decision to move the offload status
->>>> kcontrols from ASoC --> USB SND and limited it to only one kcontrol
->>>> (mapped offload device).  So now, there exists a kcontrol for every
->>>> USB SND device (if the offload mixer is enabled), where it tells
->>>> userspace the mapped ASoC platform card and pcm device that handles
->>>> USB offloading, else you'll see the "-1, -1" pair, which means
->>>> offload is not possible for that USB audio device.
->>> OK, the simplification is good.  But I wonder whether the current
->>> representation is the best.  Why not just providing two controls per
->>> PCM, one for card and one for device, instead of two integer array?
->>> It would look more intuitive to me.
+>> On 11/21/2024 3:12 PM, Reinette Chatre wrote:
+>>> Hi Babu,
 >>>
->> I could separate it, but we would have to have a pair of controls
->> for each available USB PCM playback stream supported by the device.
->> However, before I get into making that change, I think the decision
->> for either two or one FE needs to be decided. Again, I think the 2
->> FE approach is much less invasive to the USB SND/ASoC core files,
->> and ensures the legacy USB SND path still works through the
->> non-offloaded data path.
-> Sure, the decision about the 2 FEs is the most significant one, and
-> those controls depend on that.
-
-
-Would like to get closure on that here... (1 vs 2 FEs)  My stance is that the 2 FE approach can be the initial one we can take as it still incorporates the significant blocks that would apply to both situations.  From the userspace perspective, since audio offloading doesn't exist yet, applications should be working off the USB SND device and the SW path.  For those, without changes to look for the offload kcontrol, they can continue to operate off the USB SND PCM devices directly.  If enhancements are made to look for the offload kcontrol, then applications would first refer to the kcontrol of the USB SND device and look for existence of the offload controls.  If present they can then open the ASoC PCM devices.
-
-If we then decided to move to the 1 FE approach in the future, this doesn't affect the userspace entities that added support during the 2 FE stages, because we are always first referring to the USB SND device to query for offload support.  The idea for the 1 FE design is that the userspace doesn't need to check for offload support, it just behaves as if it was opening the USB SND devices. (which should be the base of all applications working with USB SND)
-
-
-> So my comment assumes that, and if that applied, we need to consider
-> which kcontrol representation is better for users.  I don't mind too
-> much about that, but generally speaking, simpler representation is
-> better in the end, even if it leads to more elements.  e.g. sysfs
-> allows basically only one value per file principle, too.
->
->
->>>>> Apart from that: the Kconfig defition below ...
->>>>>
->>>>>> +config SND_USB_OFFLOAD_MIXER
->>>>>> +	tristate "USB Audio Offload mixer control"
->>>>>> +	help
->>>>>> +	 Say Y to enable the USB audio offloading mixer controls.  This
->>>>>> +	 exposes an USB offload capable kcontrol to signal to applications
->>>>>> +	 about which platform sound card can support USB audio offload.
->>>>>> +	 The returning values specify the mapped ASoC card and PCM device
->>>>>> +	 the USB audio device is associated to.
->>>>> ... and Makefile addition below ...
->>>>>
->>>>>> --- a/sound/usb/Makefile
->>>>>> +++ b/sound/usb/Makefile
->>>>>> @@ -36,3 +36,5 @@ obj-$(CONFIG_SND_USB_US122L) += snd-usbmidi-lib.o
->>>>>>  
->>>>>>  obj-$(CONFIG_SND) += misc/ usx2y/ caiaq/ 6fire/ hiface/ bcd2000/ qcom/
->>>>>>  obj-$(CONFIG_SND_USB_LINE6)	+= line6/
->>>>>> +
->>>>>> +obj-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
->>>>> ... indicates that this code will be an individual module, although
->>>>> it's solely used from snd-usb-audio-qmi driver.  This should be rather
->>>>> a boolean and moved to sound/usb/qcom/, and linked to
->>>>> snd-usb-audio-qmi driver itself, e.g.
->>>>>
->>>>> --- a/sound/usb/qcom/Makefile
->>>>> +++ b/sound/usb/qcom/Makefile
->>>>> @@ -1,2 +1,3 @@
->>>>>  snd-usb-audio-qmi-objs := usb_audio_qmi_v01.o qc_audio_offload.o
->>>>> +snd-usb-audio-qmi-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
->>>>>  obj-$(CONFIG_SND_USB_AUDIO_QMI) += snd-usb-audio-qmi.o
->>>>>
->>>>> Then you can drop EXPORT_SYMBOL_GPL(), too.
->>>> Had a discussion with Pierre on this too below.
+>>> On 11/19/24 11:20 AM, Moger, Babu wrote:
+>>>> Hi Reinette,
 >>>>
->>>> https://lore.kernel.org/linux-usb/f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com/
+>>>> On 11/15/24 18:31, Reinette Chatre wrote:
+>>>>> Hi Babu,
+>>>>>
+>>>>> On 10/29/24 4:21 PM, Babu Moger wrote:
+>>>>>> Provide the interface to display the number of free monitoring counters
+>>>>>> available for assignment in each doamin when mbm_cntr_assign is supported.
+>>>>>>
+>>>>>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>>>>>> ---
+>>>>>> v9: New patch.
+>>>>>> ---
+>>>>>>    Documentation/arch/x86/resctrl.rst     |  4 ++++
+>>>>>>    arch/x86/kernel/cpu/resctrl/monitor.c  |  1 +
+>>>>>>    arch/x86/kernel/cpu/resctrl/rdtgroup.c | 33 ++++++++++++++++++++++++++
+>>>>>>    3 files changed, 38 insertions(+)
+>>>>>>
+>>>>>> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+>>>>>> index 2f3a86278e84..2bc58d974934 100644
+>>>>>> --- a/Documentation/arch/x86/resctrl.rst
+>>>>>> +++ b/Documentation/arch/x86/resctrl.rst
+>>>>>> @@ -302,6 +302,10 @@ with the following files:
+>>>>>>        memory bandwidth tracking to a single memory bandwidth event per
+>>>>>>        monitoring group.
+>>>>>>    +"available_mbm_cntrs":
+>>>>>> +    The number of free monitoring counters available assignment in each domain
+>>>>>
+>>>>> "The number of free monitoring counters available assignment" -> "The number of monitoring
+>>>>> counters available for assignment"?
+>>>>>
+>>>>> (not taking into account how text may change after addressing Peter's feedback)
 >>>>
->>>> I remember you commenting to place it in this vendor offload module,
->>>> which is what I did on v24.
->>> I assume that my early comment was based on your old implementations,
->>> and I guess it was because the mixer part didn't belong to the qcom
->>> stuff.  Now it belongs solely to qcom, the situation changed; it makes
->>> no sense to make it an individual module at all.
+>>>> How about this?
+>>>>
+>>>> "The number of monitoring counters available for assignment in each domain
+>>>> when the architecture supports mbm_cntr_assign mode. There are a total of
+>>>> "num_mbm_cntrs" counters are available for assignment. Counters can be
+>>>> assigned or unassigned individually in each domain. A counter is available
+>>>> for new assignment if it is unassigned in all domains."
 >>>
+>>> Please consider the context of this paragraph. It follows right after the description
+>>> of "num_mbm_cntrs" that states "Up to two counters can be assigned per monitoring group".
+>>> I think it is confusing to follow that with a paragraph that states "Counters can be
+>>> assigned or unassigned individually in each domain." I wonder if it may be helpful to
+>>> use a different term ... for example a counter is *assigned* to an event of a monitoring
+>>> group but this assignment may be to specified (not yet supported) or all (this work) domains while
+>>> it is only *programmed*/*activated* to specified domains. Of course, all of this documentation
+>>> needs to remain coherent if future work decides to indeed support per-domain assignment.
 >>>
->> I guess Pierre's feedback was that he believed this should be vendor
->> agnostic, because any vendor that could potentially support USB
->> audio offload should have the same kcontrol within the USB SND
->> device.  Hence the reason for keeping it within generic code.  Since
->> QC is the only user of this now.  Do you prefer to make this part of
->> the vendor module for now, until another user comes along and
->> introduces offload support?
-> Yes, less module is preferred for now.  If the stuff is agnostic and
-> really used by multiple instances, we can factor out to an individual
-> module again.
->
+>>
+>> Little bit lost here. Please help me.
+> 
+> I think this highlights the uncertainty this interface brings. How do you expect users
+> to use this interface? At this time I think this interface can create a lot of confusion.
+> For example, consider a hypothetical system with three domains and four counters that
+> has the following state per mbm_assign_control:
+> 
+> //0=tl;1=_;2=l #default group uses counters 0 and 1 to monitor total and local MBM
+> /m1/0=_;1=t;2=t #monitor group m1 uses counter 2, just for total MBM
+> /m2/0=l;1=_;2=l #monitor group m2 uses counter 3, just for local MBM
+> /m3/0=_;1=_;2=_
+> 
+> Since, in this system there are only four counters available, and
+> they have all been assigned, then there are no new counters available for
+> assignment.
+> 
+> If I understand correctly, available_mbm_cntrs will read:
+> 0=1;1=3;2=1
 
-OK, sounds good.  I will make it as part of our package then.
+Yes. Exactly. This causes confusion to the user.
+> 
+> How is a user to interpret the above numbers? It does not reflect
+> that no counter can be assigned to m3, instead it reflects which of the
+> already assigned counters still need to be activated on domains.
+> If, for example, a user is expected to use this file to know how
+> many counters can still be assigned, should it not reflect the actual
+> available counters. In the above scenario it will then be:
+> 0=0;1=0;2=0
 
-Thanks
+We can also just print
+#cat available_mbm_cntrs
+0
 
-Wesley Cheng
+The domain specific information is not important here.
+That was my original idea. We can go back to that definition. That is 
+more clear to the user.
+
+> 
+> Of course, when doing the above the user may get impression that a counter
+> that has already been assigned, just not activated, is no longer available
+> for use.
+> 
+>   
+>> "available_mbm_cntrs":
+>> "The number of monitoring counters available for assignment in each domain when the architecture supports "mbm_cntr_assign" mode. There are a total of "num_mbm_cntrs" counters are available for assignment.
+>> A counter is assigned to an event within a monitoring group and is available for activation across all domains. Users have the flexibility to activate it selectively within specific domains."
+>>
+> 
+> Once we understand how users are to use this file the documentation should be easier
+> to create.
+> 
+> Reinette
+> 
+> 
+
+-- 
+- Babu Moger
 
