@@ -1,309 +1,253 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043D919341F
-	for <linux-doc@vger.kernel.org>; Wed, 27 Nov 2024 09:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F0B13A888;
+	Wed, 27 Nov 2024 09:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732699869; cv=none; b=X9cg8qAUIXb1E/julelrYLIs2fIHnXIpoHKY1p4GB6mPaW8krHo4EtVWKKw6izMOfI1ZzENz9bnoC2rE5Xv3eZTy344+nO8e45wFHE//cmW3chiMvPm9t7N3hchlzhaYUNv63Ajng8jJWCJaR/QedisZiuD1dS5r7GHNtZr/7y0=
+	t=1732699936; cv=none; b=fxWE1mX87/P6uu2ry1JeejwWZ36bhSWHzR2DmawKlKCLR48IyN2LjO7izNkQXwhEDvtZQn7086bs1CPXfehg5Chs5QjthVe9XHE3GYx6ZwOBH6jQ4VBDI72wYgCixYMAxr5iKbNu8Q2pQVPuzKYCKS3QVRpuVpKkOpZEk1hnsPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732699869; c=relaxed/simple;
-	bh=Z+FSG9DKa1spc5aFD37+CLnskVpJIstqdHvbrjcIuN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dvctsVCCOjE+7TVRVFnvwxxwKr938OcZR6vcViWJKtKhVoK9cxpbhBhvL0nQq4FWn42VY6zgFMGXzWqIvoqFQrFJRv5ojhFwhlqeq04YX0K1MIk2KH3JMfe0OixGSdIWneY6wdAJg9Bo0gxjuAVSDQCcmgvgjkcTWMu6gdniZro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tGENi-0002ks-7y; Wed, 27 Nov 2024 10:30:46 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tGENe-000Ozh-2i;
-	Wed, 27 Nov 2024 10:30:43 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tGENf-000ulL-1a;
-	Wed, 27 Nov 2024 10:30:43 +0100
-Date: Wed, 27 Nov 2024 10:30:43 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v3 21/27] net: pse-pd: Add support for
- getting and setting port priority
-Message-ID: <Z0bmw3wVCqWZZzXY@pengutronix.de>
-References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
- <20241121-feature_poe_port_prio-v3-21-83299fa6967c@bootlin.com>
- <Z0WJAzkgq4Qr-xLU@pengutronix.de>
- <20241126163155.4b7a444f@kmaincent-XPS-13-7390>
- <20241126165228.4b113abb@kmaincent-XPS-13-7390>
+	s=arc-20240116; t=1732699936; c=relaxed/simple;
+	bh=wxQJcGsICd3KIeU8jFxiDMX1ngCI1BT0PMSXDV81QGw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CADMc5LyGnONYb4+ZywI+JOhOHVwNvIgcFjJqNH8gfSDqPSKWBAvQMmcMoOZ7/o+HgjSbwTDCDFkb85Kf710KR9erdNW+tbEquZESxWerqx2Bry3Jvx72uwbaS425aiV5JrHRlMY36R3choHVlvhjv79YD1UYn+8LkcabPM1e38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=pass smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=WxFr0b7U; arc=none smtp.client-ip=162.62.57.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="WxFr0b7U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1732699920; bh=KQLv7DyKBvJY49Hj+E2Xd/1kZZcmGL5Ac23UKNM7GE8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=WxFr0b7Ufi+v/ewE1sYAwZeEvR2MPSNyWlUqHHiRkQfyklx0fdHPYhVF9OWkFZvHU
+	 ZUGuVNPFYrJvt764HygAqsCIgpvyFacVx24UIApo1mUnr9HDQJNxjeoRHSKwjcID3K
+	 LWhm1AqO88wIxshM/ETHampC4MCcXTxMkRAuHLB0=
+Received: from [IPV6:2408:8207:18a1:fd2f:65b1:a9d:3208:8f6d] ([2408:8207:18a1:fd2f:65b1:a9d:3208:8f6d])
+	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
+	id 5D8B8E2D; Wed, 27 Nov 2024 17:23:24 +0800
+X-QQ-mid: xmsmtpt1732699404tfvazdkak
+Message-ID: <tencent_0D44A7B1860F54D04B7BC7310AB73B863B05@qq.com>
+X-QQ-XMAILINFO: OKKHiI6c9SH3X8+nzulmDBJOKL6PRd/0sZ947R8btcoAQ5A+izGCpWVJpyVavC
+	 nhUak2ksW00DyIbOW+lIkAIVh0w7BXpbfZysTNbvmbQj/HF4BHrp+JhC5EndiiUNV60pZh4sYaYe
+	 mTi1sJEmwb4F5R7TKmeObzg6ncp5cTLGjO9qQHG6y3WLVYHKCMGlNo2ERFiYuwlhHwphaJAt6pIP
+	 W7favRjs+V61qso0o0hD8KIdv9VrvOXYOp1l2j3ceVbaMgMO0vAYNOf6gr9sFv/0je+Eck4zUD6r
+	 y+feQ2nZdfbNntOYioRinsWWlmESRhdV7Bf7ug/Lp9P83sUsP8QJHyO64kMHCmfqSY5eXdJHEkp2
+	 NJ6GkCQbLfH2D9zH0du2Nd2/1/xfDBLb8S2nCYzxnNuq4TSkoDtzwphdWEDw3Q1SNCaroihIbIua
+	 etSr9Ui5evN/YeQw7btI/sux5NC45TLjQzjrUglIs/HYmpA8hzbwracueZlxMNPvatbWBGMe1P4I
+	 PXygQlqQCKpwCy4K5gUqXdcUGNPb6Jk93LiYJHg8Eruv8/rDt4PErsYAHqrTWpGE4I4zZjMIYDmX
+	 3JjtnxKAk5WPg305DRRebKkqg0aREDn7ksnMonrs+QO0qz2/xmzftV0BHj7T4kGwmzOBm0rtWw2e
+	 b4ytMnJ/VrWCFv5kIbsgnzFb3a+HxfqFYUXPd7PCb3uh3m+mVt7+M8cjHz3jmCob3wv/hpE9Fcfj
+	 rHqjbk4B1RctF3DLvkSj98GADHONimxpIv0XIEtkh2no4r9ofviAA/5ziUfX9RxBciKVj/BSuKUF
+	 cF+X2uAQbVooUrJpy8svE6MA2XPt1Ujf8e+Y+U1sDTK60i1+4lyyZ/BTgqSIxCfMMfQpVyqgApEI
+	 X+og5QQhzh50RK8l4UuYkxxOT4jR+xSFPtSsimozLcGq1EMcWfV0omdAcQQ5KKGJG9DDQeT1tcga
+	 B340RBaBVFeycZYQ9JnIC60Y3Ikygq0g8B0/IWvSfDL2iK+5ipDQ==
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-OQ-MSGID: <91abdb28-cbd1-4ecd-9d39-67f00703deaa@cyyself.name>
+Date: Wed, 27 Nov 2024 17:23:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241126165228.4b113abb@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 00/14] riscv: Add support for xtheadvector
+To: Charlie Jenkins <charlie@rivosinc.com>, Conor Dooley <conor@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Samuel Holland <samuel.holland@sifive.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Guo Ren
+ <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
+ Jessica Clarke <jrtc27@jrtc27.com>, Andrew Jones <ajones@ventanamicro.com>,
+ Andy Chiu <andybnac@gmail.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>
+References: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
+Content-Language: en-US
+From: Yangyu Chen <cyy@cyyself.name>
+In-Reply-To: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 26, 2024 at 04:52:28PM +0100, Kory Maincent wrote:
-> On Tue, 26 Nov 2024 16:31:55 +0100
-> Kory Maincent <kory.maincent@bootlin.com> wrote:
+Tested-by: Yangyu Chen <cyy@cyyself.name>
+
+I applied and tested it on Nezha hardware, and it works fine.
+
+Cheers,
+Yangyu Chen
+
+On 11/14/24 10:21, Charlie Jenkins wrote:
+> xtheadvector is a custom extension that is based upon riscv vector
+> version 0.7.1 [1]. All of the vector routines have been modified to
+> support this alternative vector version based upon whether xtheadvector
+> was determined to be supported at boot.
 > 
-> > Hello Oleksij,
-> > 
-> > Thanks for your quick reviews!
-> > 
-> > On Tue, 26 Nov 2024 09:38:27 +0100
-> > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> > 
-> > > > +int pse_ethtool_set_prio_mode(struct pse_control *psec,
-> > > > +			      struct netlink_ext_ack *extack,
-> > > > +			      u32 prio_mode)
-> > > > +{
-> > > > +	struct pse_controller_dev *pcdev = psec->pcdev;
-> > > > +	const struct pse_controller_ops *ops;
-> > > > +	int ret = 0, i;
-> > > > +
-> > > > +	if (!(prio_mode & pcdev->port_prio_supp_modes)) {
-> > > > +		NL_SET_ERR_MSG(extack, "priority mode not supported");
-> > > > +		return -EOPNOTSUPP;
-> > > > +	}
-> > > > +
-> > > > +	if (!pcdev->pi[psec->id].pw_d) {
-> > > > +		NL_SET_ERR_MSG(extack, "no power domain attached");
-> > > > +		return -EOPNOTSUPP;
-> > > > +	}
-> > > > +
-> > > > +	/* ETHTOOL_PSE_PORT_PRIO_DISABLED can't be ORed with another mode
-> > > > */
-> > > > +	if (prio_mode & ETHTOOL_PSE_PORT_PRIO_DISABLED &&
-> > > > +	    prio_mode & ~ETHTOOL_PSE_PORT_PRIO_DISABLED) {
-> > > > +		NL_SET_ERR_MSG(extack,
-> > > > +			       "port priority can't be enabled and
-> > > > disabled simultaneously");
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	ops = psec->pcdev->ops;
-> > > > +
-> > > > +	/* We don't want priority mode change in the middle of an
-> > > > +	 * enable/disable call
-> > > > +	 */
-> > > > +	mutex_lock(&pcdev->lock);
-> > > > +	pcdev->pi[psec->id].pw_d->port_prio_mode = prio_mode;    
-> > > 
-> > > In proposed implementation we have can set policies per port, but it
-> > > will affect complete domain. This is not good. It feels like a separate
-> > > challenge with extra discussion and work. I would recommend not to
-> > > implement policy setting right now.
-> > > 
-> > > If you will decide to implement setting of policies anyway, then we need
-> > > to discuss the interface.
-> > > - If the policy should be done per domain, then we will need a separate
-> > >   interface to interact with domains.
-> > >   Pro: seems to be easier to implement.
-> > > - If we will go with policy per port, wich would make sense too, then
-> > >   some rework of this patch is needed.
-> > >   Pro: can combine best of both strategies: set ports with wide load
-> > >   range to static strategy and use dynamic strategy on other ports.
+> vlenb is not supported on the existing xtheadvector hardware, so a
+> devicetree property thead,vlenb is added to provide the vlenb to Linux.
 > 
-> We already talked about it but a policies per port seems irrelevant to me.
-> https://lore.kernel.org/netdev/ZySR75i3BEzNbjnv@pengutronix.de/
-> How do we compare the priority value of ports that use different budget
-> strategy? How do we manage in the same power domain two ports with
-> different budget strategies or disconnection policies?
+> There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+> used to request which thead vendor extensions are supported on the
+> current platform. This allows future vendors to allocate hwprobe keys
+> for their vendor.
+> 
+> Support for xtheadvector is also added to the vector kselftests.
+> 
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> 
+> [1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
+> 
+> ---
+> This series is a continuation of a different series that was fragmented
+> into two other series in an attempt to get part of it merged in the 6.10
+> merge window. The split-off series did not get merged due to a NAK on
+> the series that added the generic riscv,vlenb devicetree entry. This
+> series has converted riscv,vlenb to thead,vlenb to remedy this issue.
+> 
+> The original series is titled "riscv: Support vendor extensions and
+> xtheadvector" [3].
+> 
+> I have tested this with an Allwinner Nezha board. I used SkiffOS [1] to
+> manage building the image, but upgraded the U-Boot version to Samuel
+> Holland's more up-to-date version [2] and changed out the device tree
+> used by U-Boot with the device trees that are present in upstream linux
+> and this series. Thank you Samuel for all of the work you did to make
+> this task possible.
+> 
+> [1] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
+> [2] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
+> [3] https://lore.kernel.org/all/20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com/
+> [4] https://lore.kernel.org/lkml/20240719-support_vendor_extensions-v3-4-0af7587bbec0@rivosinc.com/T/
+> 
+> ---
+> Changes in v11:
+> - Fix an issue where the mitigation was not being properly skipped when
+>    requested
+> - Fix vstate_discard issue
+> - Fix issue when -1 was passed into
+>    __riscv_isa_vendor_extension_available()
+> - Remove some artifacts from being placed in the test directory
+> - Link to v10: https://lore.kernel.org/r/20240911-xtheadvector-v10-0-8d3930091246@rivosinc.com
+> 
+> Changes in v10:
+> - In DT probing disable vector with new function to clear vendor
+>    extension bits for xtheadvector
+> - Add ghostwrite mitigations for c9xx CPUs. This disables xtheadvector
+>    unless mitigations=off is set as a kernel boot arg
+> - Link to v9: https://lore.kernel.org/r/20240806-xtheadvector-v9-0-62a56d2da5d0@rivosinc.com
+> 
+> Changes in v9:
+> - Rebase onto palmer's for-next
+> - Fix sparse error in arch/riscv/kernel/vendor_extensions/thead.c
+> - Fix maybe-uninitialized warning in arch/riscv/include/asm/vendor_extensions/vendor_hwprobe.h
+> - Wrap some long lines
+> - Link to v8: https://lore.kernel.org/r/20240724-xtheadvector-v8-0-cf043168e137@rivosinc.com
+> 
+> Changes in v8:
+> - Rebase onto palmer's for-next
+> - Link to v7: https://lore.kernel.org/r/20240724-xtheadvector-v7-0-b741910ada3e@rivosinc.com
+> 
+> Changes in v7:
+> - Add defs for has_xtheadvector_no_alternatives() and has_xtheadvector()
+>    when vector disabled. (Palmer)
+> - Link to v6: https://lore.kernel.org/r/20240722-xtheadvector-v6-0-c9af0130fa00@rivosinc.com
+> 
+> Changes in v6:
+> - Fix return type of is_vector_supported()/is_xthead_supported() to be bool
+> - Link to v5: https://lore.kernel.org/r/20240719-xtheadvector-v5-0-4b485fc7d55f@rivosinc.com
+> 
+> Changes in v5:
+> - Rebase on for-next
+> - Link to v4: https://lore.kernel.org/r/20240702-xtheadvector-v4-0-2bad6820db11@rivosinc.com
+> 
+> Changes in v4:
+> - Replace inline asm with C (Samuel)
+> - Rename VCSRs to CSRs (Samuel)
+> - Replace .insn directives with .4byte directives
+> - Link to v3: https://lore.kernel.org/r/20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com
+> 
+> Changes in v3:
+> - Add back Heiko's signed-off-by (Conor)
+> - Mark RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 as a bitmask
+> - Link to v2: https://lore.kernel.org/r/20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com
+> 
+> Changes in v2:
+> - Removed extraneous references to "riscv,vlenb" (Jess)
+> - Moved declaration of "thead,vlenb" into cpus.yaml and added
+>    restriction that it's only applicable to thead cores (Conor)
+> - Check CONFIG_RISCV_ISA_XTHEADVECTOR instead of CONFIG_RISCV_ISA_V for
+>    thead,vlenb (Jess)
+> - Fix naming of hwprobe variables (Evan)
+> - Link to v1: https://lore.kernel.org/r/20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com
+> 
+> ---
+> Charlie Jenkins (13):
+>        dt-bindings: riscv: Add xtheadvector ISA extension description
+>        dt-bindings: cpus: add a thead vlen register length property
+>        riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+>        riscv: Add thead and xtheadvector as a vendor extension
+>        riscv: vector: Use vlenb from DT for thead
+>        riscv: csr: Add CSR encodings for CSR_VXRM/CSR_VXSAT
+>        riscv: Add xtheadvector instruction definitions
+>        riscv: vector: Support xtheadvector save/restore
+>        riscv: hwprobe: Add thead vendor extension probing
+>        riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
+>        selftests: riscv: Fix vector tests
+>        selftests: riscv: Support xtheadvector in vector tests
+>        riscv: Add ghostwrite vulnerability
+> 
+> Heiko Stuebner (1):
+>        RISC-V: define the elements of the VCSR vector CSR
+> 
+>   Documentation/arch/riscv/hwprobe.rst               |  10 +
+>   Documentation/devicetree/bindings/riscv/cpus.yaml  |  19 ++
+>   .../devicetree/bindings/riscv/extensions.yaml      |  10 +
+>   arch/riscv/Kconfig.errata                          |  11 +
+>   arch/riscv/Kconfig.vendor                          |  26 ++
+>   arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   3 +-
+>   arch/riscv/errata/thead/errata.c                   |  28 ++
+>   arch/riscv/include/asm/bugs.h                      |  22 ++
+>   arch/riscv/include/asm/cpufeature.h                |   2 +
+>   arch/riscv/include/asm/csr.h                       |  15 +
+>   arch/riscv/include/asm/errata_list.h               |   3 +-
+>   arch/riscv/include/asm/hwprobe.h                   |   3 +-
+>   arch/riscv/include/asm/switch_to.h                 |   2 +-
+>   arch/riscv/include/asm/vector.h                    | 222 +++++++++++----
+>   arch/riscv/include/asm/vendor_extensions/thead.h   |  47 ++++
+>   .../include/asm/vendor_extensions/thead_hwprobe.h  |  19 ++
+>   .../include/asm/vendor_extensions/vendor_hwprobe.h |  37 +++
+>   arch/riscv/include/uapi/asm/hwprobe.h              |   3 +-
+>   arch/riscv/include/uapi/asm/vendor/thead.h         |   3 +
+>   arch/riscv/kernel/Makefile                         |   2 +
+>   arch/riscv/kernel/bugs.c                           |  60 ++++
+>   arch/riscv/kernel/cpufeature.c                     |  59 +++-
+>   arch/riscv/kernel/kernel_mode_vector.c             |   8 +-
+>   arch/riscv/kernel/process.c                        |   4 +-
+>   arch/riscv/kernel/signal.c                         |   6 +-
+>   arch/riscv/kernel/sys_hwprobe.c                    |   5 +
+>   arch/riscv/kernel/vector.c                         |  24 +-
+>   arch/riscv/kernel/vendor_extensions.c              |  10 +
+>   arch/riscv/kernel/vendor_extensions/Makefile       |   2 +
+>   arch/riscv/kernel/vendor_extensions/thead.c        |  29 ++
+>   .../riscv/kernel/vendor_extensions/thead_hwprobe.c |  19 ++
+>   drivers/base/cpu.c                                 |   3 +
+>   include/linux/cpu.h                                |   1 +
+>   tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
+>   tools/testing/selftests/riscv/vector/Makefile      |  17 +-
+>   .../selftests/riscv/vector/v_exec_initval_nolibc.c |  94 +++++++
+>   tools/testing/selftests/riscv/vector/v_helpers.c   |  68 +++++
+>   tools/testing/selftests/riscv/vector/v_helpers.h   |   8 +
+>   tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
+>   .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
+>   .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
+>   .../testing/selftests/riscv/vector/vstate_prctl.c  | 305 +++++++++++++--------
+>   42 files changed, 1051 insertions(+), 271 deletions(-)
+> ---
+> base-commit: 0eb512779d642b21ced83778287a0f7a3ca8f2a1
+> change-id: 20240530-xtheadvector-833d3d17b423
 
-Good question :)
-
-> We indeed may need a separate interface to configure the PSE power domain
-> budget strategies and disconnection policies.
-
-And a way to upload everything in atomic way, but I see it as
-optimization and can be done separately
-
-> I think not being able to set the budget evaluation strategy is not relevant
-> for now as we don't have PSE which could support both,
-
-Both can be implemented for TI. By constantly polling the channel
-current register, it should be possible to implement dynamic strategy.
-
-> but being able to set the disconnection policies may be relevant.
-> If we don't add this support to this series how do we decide which is the
-> default disconnection policy supported?
-
-Use hard coded one ¯\_(ツ)_/¯
-
-Anyway, assuming you will decide to implement everything per port. Here
-how I assume it would work.
-
-Budget Evaluation Strategy: We have following modes for now: disabled, static, and
-dynamic.
-- Disabled: In this mode, the port is excluded from active budget evaluation. It
-  allows the port to violate the budget and is intended primarily for testing
-  purposes.
-
-- Static: The static method is the safest option and should be used by default.
-  When the static method is enabled for a port, the classification information
-  (such as power class) is used for budget evaluation.
-
-- Dynamic: If the dynamic method is used, the software will start with the
-  classification as an initial step. After that, it will begin monitoring the
-  port by polling the current information for the related channel. The system
-  will likely use the maximum detected current and a threshold to update or
-  reduce the budget allocation for the related port.
-
-Right now I'm not sure about manual mode - for the case where classification
-is not working properly.
-
-Disconnection Policy: can only be applied if the Budget Evaluation Strategy
-is not disabled.
-
-- Disabled: The port is not subject to disconnection under any circumstances.
-  This can be used for critical devices that need to remain powered at all
-  times, or for administrative purposes to avoid unexpected disconnections.
-  Possible use cases include testing, allowing user space to implement a
-  disconnection policy, or pinning certain ports as the highest priority that
-  cannot be overwritten for critical devices. Another use case could be
-  temporarily addressing misconfigured priorities: an admin could set the
-  policy to disabled, adjust the priority, and use a disconnection policy
-  resolution status interface (currently not implemented) to verify if the
-  port would be disconnected with the updated priority settings, and then set
-  the policy back to a non-disabled state.
-
-- Port Index-Based Policy: "I Know What I Do, but I Do Not Have Permission to
-  Configure Software"
-
-  Behavior: With this approach, the port index becomes the way to determine the
-  priority of connections. Users can manage priorities simply by deciding which
-  port they plug into:
-
-    Lower-Indexed Ports: These ports have higher priority, meaning devices
-    plugged into these ports are protected from disconnection until absolutely
-    necessary.  Higher-Indexed Ports: These ports are more likely to be
-    disconnected first when a power budget violation occurs.
-
-    Use Cases:
-	Structured Environment Without Full Control: Ideal for situations where
-        users understand the importance of the devices but do not have admin
-        access to configure software settings.
-
-        Mechanical Administration: Users can simply re-plug devices into
-        different ports to change their priority, using the port layout itself
-        as a mechanism for priority management. This allows an effective but
-        simple way of reassigning criticality without touching the software
-        layer.
-
-- LRC-Based Policy: "I Have No Idea About the Architecture, and I Just Enabled
-  This One Device"
-
-    Behavior: In this case, the policy targets recent user actions, assuming
-    the user has minimal context about the system's architecture. The most
-    recently connected device is likely the least critical and is therefore
-    disconnected first.
-
-    Use Cases:
-        Chaotic Environment: Suitable for environments where users do not
-        know the priority structure and are randomly plugging in devices,
-        often without understanding the power budget implications.
-
-        Immediate Feedback: If a user connects a device and it is quickly
-        disconnected, they are more likely to notice and either try connecting
-        at a different time or consult someone for guidance.
-
-- Round-Robin (RR) Policy: "I Do Not Care, but I Want You All to Suffer Equally"
-
-    Behavior: In the Round-Robin policy, all ports are treated equally without
-    any specific prioritization. The disconnection burden is distributed evenly
-    among all eligible ports, ensuring that no specific port is repeatedly
-    penalized. This policy ensures fairness by giving every port an equal
-    chance of being disconnected.
-
-    Use Cases:
-        Fair Distribution in Shared Environments: Suitable for environments
-        where all devices are of similar importance, and fairness is key. This
-        ensures that no single user or device consistently bears the impact of
-        a budget violation.
-
-	Non-Critical Setup: Ideal for situations where there are no critical
-        devices, and all ports should have an equal chance of being
-        disconnected. It provides a simple and fair mechanism for managing
-        power resources without requiring specific prioritization.
-
-Regarding the mixing of disconnection policies within one power domain, I've
-thought more about how we could implement this, particularly when we focus on
-three primary types of policies: Least Recently Connected (LRC), Port
-Index-Based (Index), and Round-Robin (RR).
-
-Defined Priority Order:
-
-To make the system straightforward and predictable, we could define a hard
-execution priority order for these policies:
-
-- LRC - Highest priority: If a port has LRC enabled, it will be considered for
-  disconnection first. This ensures that the least recently connected device is
-  always targeted first, which works well for devices that are likely temporary
-  or less critical.
-
-- Index-Based - Second priority: Once no more LRC ports are eligible for
-  disconnection, the system evaluates Index-Based ports. Ports with a higher
-  physical index will be prioritized for disconnection, allowing for some manual
-  control by re-arranging device connections.
-
-- Round-Robin (RR) - Lowest priority: Finally, Round-Robin is applied to ensure
-  fairness among the remaining eligible ports. This policy cycles through the
-  ports to distribute the disconnection burden evenly.
-
-User Configuration
-
-In terms of user configuration:
-
-Users only need to set the top allowed priority for each port. For example, if
-a port is set to LRC, it will always be considered first for disconnection
-during a budget violation. The connection order of all LRC ports should be
-preserved.
-
-If a port is set to Index, it will be preserved until all LRC ports are
-disconnected.
-
-Setting a port to RR will make it the last in line for disconnection, thus
-ensuring the fairest distribution when other more prioritized policies have
-already been applied. However, in practice, it may never be executed if all
-ports have higher priority policies.
-
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
