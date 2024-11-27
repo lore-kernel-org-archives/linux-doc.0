@@ -1,243 +1,309 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFB71272A6;
-	Wed, 27 Nov 2024 08:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043D919341F
+	for <linux-doc@vger.kernel.org>; Wed, 27 Nov 2024 09:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732694686; cv=none; b=XCcwXBs998O0TNVm2Qts8zjpWeiEo1FOKkwsGmekvUiVFbjG46Hhfubi3RwkplLc2LcXcoRupsf5hRhspO4qYRCSDxHZmE5vE3uw0ak+GmiDj/l7KcxfqKRwgVjaq8rwDqJTxW/JgtUACfqretQG/ZVd9mvSVn0+71dz77Y58Wk=
+	t=1732699869; cv=none; b=X9cg8qAUIXb1E/julelrYLIs2fIHnXIpoHKY1p4GB6mPaW8krHo4EtVWKKw6izMOfI1ZzENz9bnoC2rE5Xv3eZTy344+nO8e45wFHE//cmW3chiMvPm9t7N3hchlzhaYUNv63Ajng8jJWCJaR/QedisZiuD1dS5r7GHNtZr/7y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732694686; c=relaxed/simple;
-	bh=SXMUsolydLhLlh0RYa90/Fp6yYGJOG2VlShDRyUu/0Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WcJ/MIOEZ34py2+alGlMyqeB0vbkQNljzZwIvdRCori58LUL+3K7YW8SdC8gIe3aD5XyGab0hQEkKyIEVOsTcrQ2F+fNwUIkVlvYFM63wA/b/4X1b0EFeldclRnHhuXTXngf3Tq8HXW879w5SJRe09gSaMiVRBu8P44UzcFT02E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aa53a971480so503452866b.1;
-        Wed, 27 Nov 2024 00:04:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732694677; x=1733299477;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aJwxTYx2memGrlAcayO/d+D9wemFJ5kB8ER25ZwyFGQ=;
-        b=Fds54gQniJ4zFdwoD17IfiB5HeAV57PosFt12TKoJBM2SwgS3yJiWw4WDvKLzTAln/
-         ANs7T6jSbYlxRDw0gbCRBPoxWO0fjBRT2/A8qN+//kxuG08UFu9Tq2OqQxScEGsndBqB
-         r4jbgudanKmy6vSLY/zGsFvqas+ybPdEkLAthvv4wX3U/J1+UfT9vIe2JLYy8rHall8O
-         lfR55U5XWUx15/PSULr39AvCQrZtjObNPJNaZsJuAobl6a7bsSUnXoVP4gZ8cNdCbr3d
-         tsYzQRCkJFHeI9+yzdcar+okV7S17Xbj7a+P8uLUot0586e4gRWbyW+GRi7zEbiOzryE
-         3p4A==
-X-Forwarded-Encrypted: i=1; AJvYcCVLOWCEWY0b6S9VhvZpKalKmBB48ySO6QhKz1KeVwZ8kyMQkBRVE8jinY/1Y9g/bFR2pkUI628uYFhZwl5yd9s9dw==@vger.kernel.org, AJvYcCVvf9vOxzciEvh+X+IoTf43w7oFp2nI8t4Yvb+J6WAkQML0Brg8NIt+sfn5XB+pBXFffhCHzXxdzh9R@vger.kernel.org, AJvYcCVzPUzjClScKS29FypXvX3rERH88cDbLkwLpBHc2OlrHLGGCQucjBwwduI6QwRRO3i6gzhQjStMyYwmuIPK@vger.kernel.org, AJvYcCWZ5Bm0Vrztz/LNq4qoACPLT8nRYKThw7hKcrpSRMKh20+LtAUJvMoiwk5s0IpSoZHMguai5CNydAoYr14pFwmI@vger.kernel.org, AJvYcCWropiGdYISxAhwZJekx+qYKW20Iz6rIosM2lyz1bbhj3xgVGk135PydUjBy9VI45adpkrCyAn+f1MO/dE=@vger.kernel.org, AJvYcCXE2BAZLOwnVYKr+ZRSiH67xJE+RgixyhRTjahxisWzeQQh3/7POL5eUEtr2bgSQrhEXyoHZQPMoJaexDyAQKo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNM8Fy3c98QfADlBDO1OQP2AVpLj6olJE42rrkLmu2fLzO7g6U
-	pzHvKtQH8VYj8OOObMz7wo1ZCrNht8BxUfyWOSirrk0pPTTn/n7KRBuJGZiE3ViFMA==
-X-Gm-Gg: ASbGncuT31G6ie8xVUktNfHvS8W7eThC+medP1hb+lu6+kUhiHGEOkKXLajR9vi7+VG
-	lzg2y1fRefrZzXKGbT5BXAkQq5iGx1//N0wvIm7enX7awiWONxYEPrJOImbtpEjRKjDcaV/rx4I
-	lM6I1JEI5NmKoa7lwYMa3d6phwmNqYr/uCbtRsph8eB1bWf9eYFvQMogBuhQBbhwoxpxBGsQqDl
-	ta4UUjFDWaP6nKA6Pi57gNchrIAkkF+KBfINi0l1gJyQBpdtpqce2QR2yR2MTKZeTdtgEZyEgLY
-	RiLrtBlueaW9
-X-Google-Smtp-Source: AGHT+IH2ZFMUlwY9rPJbuBy7o4FAsS8SFcpcqgchzIerRi1sDz13OFZDxvtNt56KWdfEGWhFi5Mhww==
-X-Received: by 2002:a17:907:784d:b0:aa5:2575:e76a with SMTP id a640c23a62f3a-aa580f2bc6cmr123462866b.13.1732694676729;
-        Wed, 27 Nov 2024 00:04:36 -0800 (PST)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b3460d8sm675818566b.91.2024.11.27.00.04.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Nov 2024 00:04:34 -0800 (PST)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aa549d9dffdso493993066b.2;
-        Wed, 27 Nov 2024 00:04:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU8rpD4sSnl/IJXl0iILhGx4aLY7OWomRTxETFj3WMr6vqVvc2wNSIvk5NqayI2GojJcwNgAjPhjj1re4e3847wWQ==@vger.kernel.org, AJvYcCVgjqSgmy00mgBqAXldFIT21W8+QCLHJIjRaxGANE1TYjysN7EHgBS7XdKm1MYLJcGrFeKDotiOjQvVcKxCBIXy@vger.kernel.org, AJvYcCVw58QsomuFFXVAg9aDDd8/JFzYOJmvopYac4kK/wzyP81Etk03ZeHO9KLYqwkyEqDMPQs7Ce3zhYGOPM7FEqo=@vger.kernel.org, AJvYcCWtEk/oYoMtUysECeCO7Ad3q+CD1oPmIBjlHmVQ1Sp05iIhMMCrtGhJ7DrdrEgB9HvKhoIBDAhNJ4sF@vger.kernel.org, AJvYcCXPXwBjUCITIYIu3AdfrKM4EKE8BWdc4Qw8U2TMq3hJnbmJTSs1aGU9dhj7n6cuDZP44+JkVGu0UwkY7Zc=@vger.kernel.org, AJvYcCXlHa/yMv8pcPq49oY8eNGUAzwcaYwwAQXyTz6VCHj3+yYG9jIZ16t1ZPH0Fz8mKwNd8o0puqDPHhmHyfSs@vger.kernel.org
-X-Received: by 2002:a17:906:5a6b:b0:a99:fc3d:7c76 with SMTP id
- a640c23a62f3a-aa581057f64mr101384466b.37.1732694673930; Wed, 27 Nov 2024
- 00:04:33 -0800 (PST)
+	s=arc-20240116; t=1732699869; c=relaxed/simple;
+	bh=Z+FSG9DKa1spc5aFD37+CLnskVpJIstqdHvbrjcIuN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dvctsVCCOjE+7TVRVFnvwxxwKr938OcZR6vcViWJKtKhVoK9cxpbhBhvL0nQq4FWn42VY6zgFMGXzWqIvoqFQrFJRv5ojhFwhlqeq04YX0K1MIk2KH3JMfe0OixGSdIWneY6wdAJg9Bo0gxjuAVSDQCcmgvgjkcTWMu6gdniZro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tGENi-0002ks-7y; Wed, 27 Nov 2024 10:30:46 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tGENe-000Ozh-2i;
+	Wed, 27 Nov 2024 10:30:43 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tGENf-000ulL-1a;
+	Wed, 27 Nov 2024 10:30:43 +0100
+Date: Wed, 27 Nov 2024 10:30:43 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v3 21/27] net: pse-pd: Add support for
+ getting and setting port priority
+Message-ID: <Z0bmw3wVCqWZZzXY@pengutronix.de>
+References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
+ <20241121-feature_poe_port_prio-v3-21-83299fa6967c@bootlin.com>
+ <Z0WJAzkgq4Qr-xLU@pengutronix.de>
+ <20241126163155.4b7a444f@kmaincent-XPS-13-7390>
+ <20241126165228.4b113abb@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241020040200.939973-1-visitorckw@gmail.com> <20241020040200.939973-2-visitorckw@gmail.com>
- <CAMuHMdVO5DPuD9HYWBFqKDHphx7+0BEhreUxtVC40A=8p6VAhQ@mail.gmail.com> <Z0aLFidHu/msXbXq@visitorckw-System-Product-Name>
-In-Reply-To: <Z0aLFidHu/msXbXq@visitorckw-System-Product-Name>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 27 Nov 2024 09:04:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUVfQvA_d+ERuqRbd_aRVabUX4N=kKd+gc7RK+EArwi+w@mail.gmail.com>
-Message-ID: <CAMuHMdUVfQvA_d+ERuqRbd_aRVabUX4N=kKd+gc7RK+EArwi+w@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] lib/min_heap: Introduce non-inline versions of
- min heap API functions
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: colyli@suse.de, kent.overstreet@linux.dev, msakai@redhat.com, 
-	corbet@lwn.net, peterz@infradead.org, mingo@redhat.com, acme@kernel.org, 
-	namhyung@kernel.org, akpm@linux-foundation.org, mark.rutland@arm.com, 
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, 
-	adrian.hunter@intel.com, kan.liang@linux.intel.com, willy@infradead.org, 
-	jserv@ccns.ncku.edu.tw, linux-kernel@vger.kernel.org, 
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev, 
-	linux-bcachefs@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-doc@vger.kernel.org, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241126165228.4b113abb@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Hi Kuan-Wei,
+On Tue, Nov 26, 2024 at 04:52:28PM +0100, Kory Maincent wrote:
+> On Tue, 26 Nov 2024 16:31:55 +0100
+> Kory Maincent <kory.maincent@bootlin.com> wrote:
+> 
+> > Hello Oleksij,
+> > 
+> > Thanks for your quick reviews!
+> > 
+> > On Tue, 26 Nov 2024 09:38:27 +0100
+> > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> > 
+> > > > +int pse_ethtool_set_prio_mode(struct pse_control *psec,
+> > > > +			      struct netlink_ext_ack *extack,
+> > > > +			      u32 prio_mode)
+> > > > +{
+> > > > +	struct pse_controller_dev *pcdev = psec->pcdev;
+> > > > +	const struct pse_controller_ops *ops;
+> > > > +	int ret = 0, i;
+> > > > +
+> > > > +	if (!(prio_mode & pcdev->port_prio_supp_modes)) {
+> > > > +		NL_SET_ERR_MSG(extack, "priority mode not supported");
+> > > > +		return -EOPNOTSUPP;
+> > > > +	}
+> > > > +
+> > > > +	if (!pcdev->pi[psec->id].pw_d) {
+> > > > +		NL_SET_ERR_MSG(extack, "no power domain attached");
+> > > > +		return -EOPNOTSUPP;
+> > > > +	}
+> > > > +
+> > > > +	/* ETHTOOL_PSE_PORT_PRIO_DISABLED can't be ORed with another mode
+> > > > */
+> > > > +	if (prio_mode & ETHTOOL_PSE_PORT_PRIO_DISABLED &&
+> > > > +	    prio_mode & ~ETHTOOL_PSE_PORT_PRIO_DISABLED) {
+> > > > +		NL_SET_ERR_MSG(extack,
+> > > > +			       "port priority can't be enabled and
+> > > > disabled simultaneously");
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +
+> > > > +	ops = psec->pcdev->ops;
+> > > > +
+> > > > +	/* We don't want priority mode change in the middle of an
+> > > > +	 * enable/disable call
+> > > > +	 */
+> > > > +	mutex_lock(&pcdev->lock);
+> > > > +	pcdev->pi[psec->id].pw_d->port_prio_mode = prio_mode;    
+> > > 
+> > > In proposed implementation we have can set policies per port, but it
+> > > will affect complete domain. This is not good. It feels like a separate
+> > > challenge with extra discussion and work. I would recommend not to
+> > > implement policy setting right now.
+> > > 
+> > > If you will decide to implement setting of policies anyway, then we need
+> > > to discuss the interface.
+> > > - If the policy should be done per domain, then we will need a separate
+> > >   interface to interact with domains.
+> > >   Pro: seems to be easier to implement.
+> > > - If we will go with policy per port, wich would make sense too, then
+> > >   some rework of this patch is needed.
+> > >   Pro: can combine best of both strategies: set ports with wide load
+> > >   range to static strategy and use dynamic strategy on other ports.
+> 
+> We already talked about it but a policies per port seems irrelevant to me.
+> https://lore.kernel.org/netdev/ZySR75i3BEzNbjnv@pengutronix.de/
+> How do we compare the priority value of ports that use different budget
+> strategy? How do we manage in the same power domain two ports with
+> different budget strategies or disconnection policies?
 
-On Wed, Nov 27, 2024 at 3:59=E2=80=AFAM Kuan-Wei Chiu <visitorckw@gmail.com=
-> wrote:
-> On Tue, Nov 26, 2024 at 02:27:09PM +0100, Geert Uytterhoeven wrote:
-> > On Sun, Oct 20, 2024 at 6:02=E2=80=AFAM Kuan-Wei Chiu <visitorckw@gmail=
-.com> wrote:
-> > > All current min heap API functions are marked with '__always_inline'.
-> > > However, as the number of users increases, inlining these functions
-> > > everywhere leads to a increase in kernel size.
-> > >
-> > > In performance-critical paths, such as when perf events are enabled a=
-nd
-> > > min heap functions are called on every context switch, it is importan=
-t
-> > > to retain the inline versions for optimal performance. To balance thi=
-s,
-> > > the original inline functions are kept, and additional non-inline
-> > > versions of the functions have been added in lib/min_heap.c.
-> > >
-> > > Link: https://lore.kernel.org/20240522161048.8d8bbc7b153b4ecd92c50666=
-@linux-foundation.org
-> > > Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> >
-> > Thanks for your patch, which is now commit 92a8b224b833e82d
-> > ("lib/min_heap: introduce non-inline versions of min heap API
-> > functions") upstream.
-> >
-> > > --- a/include/linux/min_heap.h
-> > > +++ b/include/linux/min_heap.h
-> >
-> > > @@ -50,33 +50,33 @@ void __min_heap_init(min_heap_char *heap, void *d=
-ata, int size)
-> > >                 heap->data =3D heap->preallocated;
-> > >  }
-> > >
-> > > -#define min_heap_init(_heap, _data, _size)     \
-> > > -       __min_heap_init((min_heap_char *)_heap, _data, _size)
-> > > +#define min_heap_init_inline(_heap, _data, _size)      \
-> > > +       __min_heap_init_inline((min_heap_char *)_heap, _data, _size)
-> >
-> > Casting macro parameters without any further checks prevents the
-> > compiler from detecting silly mistakes.  Would it be possible to
-> > add safety-nets here and below, using e.g. container_of() or typeof()
-> > checks?
->
-> IIUC, the concern is that passing a pointer that is not of type
-> min_heap might lead to compiler errors being missed. To address this,
+Good question :)
 
-Exactly.
+> We indeed may need a separate interface to configure the PSE power domain
+> budget strategies and disconnection policies.
 
-> one possible solution could be to expand the members of struct min_heap
-> into individual parameters for the function.
->
-> diff --git a/include/linux/min_heap.h b/include/linux/min_heap.h
-> index e781727c8916..ebd577003f0b 100644
-> --- a/include/linux/min_heap.h
-> +++ b/include/linux/min_heap.h
-> @@ -207,18 +207,20 @@ static size_t parent(size_t i, unsigned int lsbit, =
-size_t size)
->
->  /* Initialize a min-heap. */
->  static __always_inline
-> -void __min_heap_init_inline(min_heap_char *heap, void *data, int size)
-> +void __min_heap_init_inline(int *heap_nr, int *heap_size, void **heap_da=
-ta,
-> +                           void *heap_preallocated, void *data, int size=
-)
->  {
+And a way to upload everything in atomic way, but I see it as
+optimization and can be done separately
 
-Which means all functions and users must be updated now, and possibly
-again in the future (when there is ever a need to change the struct).
+> I think not being able to set the budget evaluation strategy is not relevant
+> for now as we don't have PSE which could support both,
 
-> Alternatively, we could use container_of() for type safety.
->
-> diff --git a/include/linux/min_heap.h b/include/linux/min_heap.h
-> index e781727c8916..fb96b1b82fb0 100644
-> --- a/include/linux/min_heap.h
-> +++ b/include/linux/min_heap.h
-> @@ -218,7 +218,7 @@ void __min_heap_init_inline(min_heap_char *heap, void=
- *data, int size)
->  }
->
->  #define min_heap_init_inline(_heap, _data, _size)      \
-> -       __min_heap_init_inline((min_heap_char *)_heap, _data, _size)
-> +       __min_heap_init_inline(container_of(&(_heap)->nr, min_heap_char, =
-nr), _data, _size)
->
->  /* Get the minimum element from the heap. */
->  static __always_inline
->
-> The first approach has better readability, while the second minimizes
-> the changes needed. Please let me know your thoughts.
+Both can be implemented for TI. By constantly polling the channel
+current register, it should be possible to implement dynamic strategy.
 
-container_of() is a well-known idiom in the Linux kernel, so I would go
-for this solution, for min_heap_init_inline() and all other functions
-currently using such a cast.
+> but being able to set the disconnection policies may be relevant.
+> If we don't add this support to this series how do we decide which is the
+> default disconnection policy supported?
 
-> > > --- a/lib/Kconfig
-> > > +++ b/lib/Kconfig
-> > > @@ -777,3 +777,6 @@ config POLYNOMIAL
-> > >
-> > >  config FIRMWARE_TABLE
-> > >         bool
-> > > +
-> > > +config MIN_HEAP
-> > > +       bool
-> >
-> > Perhaps tristate? See also below.
-> >
-> > > --- a/lib/Kconfig.debug
-> > > +++ b/lib/Kconfig.debug
-> > > @@ -2279,6 +2279,7 @@ config TEST_LIST_SORT
-> > >  config TEST_MIN_HEAP
-> > >         tristate "Min heap test"
-> > >         depends on DEBUG_KERNEL || m
-> > > +       select MIN_HEAP
-> >
-> > Ideally, tests should not select functionality, to prevent increasing t=
-he
-> > attack vector by merely enabling (modular) tests.
-> >
-> Makes sense. Thanks for catching this.
->
-> > In this particular case, just using "depends on MIN_HEAP" is not an
-> > option, as MIN_HEAP is not user-visible, and thus cannot be enabled
-> > by the user on its own.  However, making MIN_HEAP tristate could be
-> > a first step for the modular case.
-> >
-> > The builtin case is harder to fix, as e.g.
-> >
-> >         depends on MIN_HEAP || COMPILE_TEST
-> >         select MIN_HEAP if COMPILE_TEST
-> >
-> > would still trigger a recursive dependency error.
-> >
-> > Alternatively, the test could just keep on using the inline variants,
-> > unless CONFIG_MIN_HEAP=3Dy? Or event test both for the latter?
-> >
-> I think that having min_heap_test continue using the inline variants
-> might be the simplest solution?
+Use hard coded one ¯\_(ツ)_/¯
 
-As lib/min_heap.c contains just wrappers around the inline functions,
-that would be fine for me.  If/when lib/min_heap.c gains more
-functionality, tests for that can be added to lib/test_min_heap.c
-inside an #ifdef CONFIG_MIN_HEAP/#endif block.
+Anyway, assuming you will decide to implement everything per port. Here
+how I assume it would work.
 
-Thanks!
+Budget Evaluation Strategy: We have following modes for now: disabled, static, and
+dynamic.
+- Disabled: In this mode, the port is excluded from active budget evaluation. It
+  allows the port to violate the budget and is intended primarily for testing
+  purposes.
 
-Gr{oetje,eeting}s,
+- Static: The static method is the safest option and should be used by default.
+  When the static method is enabled for a port, the classification information
+  (such as power class) is used for budget evaluation.
 
-                        Geert
+- Dynamic: If the dynamic method is used, the software will start with the
+  classification as an initial step. After that, it will begin monitoring the
+  port by polling the current information for the related channel. The system
+  will likely use the maximum detected current and a threshold to update or
+  reduce the budget allocation for the related port.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Right now I'm not sure about manual mode - for the case where classification
+is not working properly.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Disconnection Policy: can only be applied if the Budget Evaluation Strategy
+is not disabled.
+
+- Disabled: The port is not subject to disconnection under any circumstances.
+  This can be used for critical devices that need to remain powered at all
+  times, or for administrative purposes to avoid unexpected disconnections.
+  Possible use cases include testing, allowing user space to implement a
+  disconnection policy, or pinning certain ports as the highest priority that
+  cannot be overwritten for critical devices. Another use case could be
+  temporarily addressing misconfigured priorities: an admin could set the
+  policy to disabled, adjust the priority, and use a disconnection policy
+  resolution status interface (currently not implemented) to verify if the
+  port would be disconnected with the updated priority settings, and then set
+  the policy back to a non-disabled state.
+
+- Port Index-Based Policy: "I Know What I Do, but I Do Not Have Permission to
+  Configure Software"
+
+  Behavior: With this approach, the port index becomes the way to determine the
+  priority of connections. Users can manage priorities simply by deciding which
+  port they plug into:
+
+    Lower-Indexed Ports: These ports have higher priority, meaning devices
+    plugged into these ports are protected from disconnection until absolutely
+    necessary.  Higher-Indexed Ports: These ports are more likely to be
+    disconnected first when a power budget violation occurs.
+
+    Use Cases:
+	Structured Environment Without Full Control: Ideal for situations where
+        users understand the importance of the devices but do not have admin
+        access to configure software settings.
+
+        Mechanical Administration: Users can simply re-plug devices into
+        different ports to change their priority, using the port layout itself
+        as a mechanism for priority management. This allows an effective but
+        simple way of reassigning criticality without touching the software
+        layer.
+
+- LRC-Based Policy: "I Have No Idea About the Architecture, and I Just Enabled
+  This One Device"
+
+    Behavior: In this case, the policy targets recent user actions, assuming
+    the user has minimal context about the system's architecture. The most
+    recently connected device is likely the least critical and is therefore
+    disconnected first.
+
+    Use Cases:
+        Chaotic Environment: Suitable for environments where users do not
+        know the priority structure and are randomly plugging in devices,
+        often without understanding the power budget implications.
+
+        Immediate Feedback: If a user connects a device and it is quickly
+        disconnected, they are more likely to notice and either try connecting
+        at a different time or consult someone for guidance.
+
+- Round-Robin (RR) Policy: "I Do Not Care, but I Want You All to Suffer Equally"
+
+    Behavior: In the Round-Robin policy, all ports are treated equally without
+    any specific prioritization. The disconnection burden is distributed evenly
+    among all eligible ports, ensuring that no specific port is repeatedly
+    penalized. This policy ensures fairness by giving every port an equal
+    chance of being disconnected.
+
+    Use Cases:
+        Fair Distribution in Shared Environments: Suitable for environments
+        where all devices are of similar importance, and fairness is key. This
+        ensures that no single user or device consistently bears the impact of
+        a budget violation.
+
+	Non-Critical Setup: Ideal for situations where there are no critical
+        devices, and all ports should have an equal chance of being
+        disconnected. It provides a simple and fair mechanism for managing
+        power resources without requiring specific prioritization.
+
+Regarding the mixing of disconnection policies within one power domain, I've
+thought more about how we could implement this, particularly when we focus on
+three primary types of policies: Least Recently Connected (LRC), Port
+Index-Based (Index), and Round-Robin (RR).
+
+Defined Priority Order:
+
+To make the system straightforward and predictable, we could define a hard
+execution priority order for these policies:
+
+- LRC - Highest priority: If a port has LRC enabled, it will be considered for
+  disconnection first. This ensures that the least recently connected device is
+  always targeted first, which works well for devices that are likely temporary
+  or less critical.
+
+- Index-Based - Second priority: Once no more LRC ports are eligible for
+  disconnection, the system evaluates Index-Based ports. Ports with a higher
+  physical index will be prioritized for disconnection, allowing for some manual
+  control by re-arranging device connections.
+
+- Round-Robin (RR) - Lowest priority: Finally, Round-Robin is applied to ensure
+  fairness among the remaining eligible ports. This policy cycles through the
+  ports to distribute the disconnection burden evenly.
+
+User Configuration
+
+In terms of user configuration:
+
+Users only need to set the top allowed priority for each port. For example, if
+a port is set to LRC, it will always be considered first for disconnection
+during a budget violation. The connection order of all LRC ports should be
+preserved.
+
+If a port is set to Index, it will be preserved until all LRC ports are
+disconnected.
+
+Setting a port to RR will make it the last in line for disconnection, thus
+ensuring the fairest distribution when other more prioritized policies have
+already been applied. However, in practice, it may never be executed if all
+ports have higher priority policies.
+
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
