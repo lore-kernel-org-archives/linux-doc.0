@@ -1,179 +1,157 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164CA6A8D2;
-	Wed, 27 Nov 2024 19:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32A8201029;
+	Wed, 27 Nov 2024 19:40:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732735931; cv=none; b=t2gIUWEqmL7qf4ygF/FKPkEeNTyrx+ZLK9c5UtKb2iBmASreoq2lp/gLjUIT3nCU/ieC13j8RCidRw1mZRJGfvydtaXLM4bfpOH6cL8dtY3EB4oCdqxEma59EZz5WaeuXKcwqrhUJcwVYMAdk1U4YpANYyhZzd6B7i5UG3jqLck=
+	t=1732736443; cv=none; b=Y+W1I2jSqCURNE2RhdUXC2MFb3Dm+dhjHv77mPeBz6DEV705br8qL2SV1+Tvqz8nQz6smi+Ec3tQaUT9qqiyIpxEy9y8/lnMmuBj0oPXeIuHuZYwPtNPnI4dplyR2tfzidfw34+uVBrU+n3HkPp65QyEmmtF5nsGpFDKc+Ub0MU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732735931; c=relaxed/simple;
-	bh=xrciW+EMhZ5UEofbJw9NwB4YNk6WJ7ZsUg3ugalAKtY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JGydcpK62W4yA/BawQoJzSI8k5mru11GP6tVcjQiqEre9YwwCvgb4q05Lv7rmHOeb39M2OArWZoAzxTFIgP+FuOf18ToGWudbNlHuTxmBNsXSbDp0mdl1XFP4zvaEX+zKsRuSD+BB7Glk0+CbMg/qvVVr3g3FquYGbozBK3rp+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X2BtrIqN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732736443; c=relaxed/simple;
+	bh=FNpsPBymSvEX1rHGNSh2J+QjHOLtO8xKZwskRMfxD8A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ml0rorp8PFSyXPj5pByRryRAlUke8xraZGozdhQs9tRMG1ITDaOCb3i2B8OTPYPiSnMqhPxxMrUzIhgiK8tH1/vMj1QvcGdhFqbkc6FAYxBF+RcbGwZXiJsKIKZZJLQPxSVRuAiE3yAohUeietKviaq4Czyi45idcQeegAUrPVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y4OdQFkp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X2BtrIqN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD69C4CED2;
-	Wed, 27 Nov 2024 19:32:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y4OdQFkp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EF0AC4CECC;
+	Wed, 27 Nov 2024 19:40:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732735930;
-	bh=xrciW+EMhZ5UEofbJw9NwB4YNk6WJ7ZsUg3ugalAKtY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=X2BtrIqNGPOvV+49M5YnEnvMfq90m+ylhD7PzWNtlQWXRcWLiIC9o7ibIu7Z+6NCF
-	 kcXzlV4NXbHYexopnI8wyMqZtXl1aARG1Kv+1kHo2QdWtEH8r51A6kx0Z+b8YMEuGQ
-	 KkVWB5pfPFETZ3jygkOvTt1oTUJ7ox8ovqX6d1E+iA+5p2Dg3oRun7qGKNbz7lmsz9
-	 P2yGA8boYanYTYFxQR6QsePoSp98SjRizDnHD/Y6HoJ2E4HX1u+AiXq7pnGqhQjajY
-	 UFL0t9n5dlc0Yh9Rql7BGoHCScG0i7PhlQ+71XDRGrapyLXfaRB16QrJ7c3W0qJT2C
-	 zsuLVCEMA8n/A==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tGNlf-00GLsr-Kw;
-	Wed, 27 Nov 2024 19:32:07 +0000
-Date: Wed, 27 Nov 2024 19:32:06 +0000
-Message-ID: <867c8ov5ft.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
+	s=k20201202; t=1732736441;
+	bh=FNpsPBymSvEX1rHGNSh2J+QjHOLtO8xKZwskRMfxD8A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Y4OdQFkp2nt/VvgqWAzMb+U036mIXv7j2LJHKF/dpUn954h4y4SzH9pfQm5Llm4xC
+	 Xn3EHI2RFYk+gF5oK9ediPguZG96lc468mGXVKDVabS6zPzl3wbCS/MnXPq9wNWUoD
+	 88QCHf1aG6/UUPTBoYdYVcG4036FWpAv+gaqp53RLXgsDDy3Z7Nu4AVunbRKleiL8c
+	 4+D8sjtuIsIxt+phU4/VoCafcBznr1o2zDnmKGhv34cusEtthtKdEUJGBXWRWILSOo
+	 OA57OHPSkfugMlhiW2Ny9LvwIpITFIFKLXiw77pynSGgenHRCGTb3GbcimZ9kP5jMT
+	 7BPLErjejFueQ==
+From: SeongJae Park <sj@kernel.org>
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Yuanchu Xie <yuanchu@google.com>,
 	David Hildenbrand <david@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+	Khalid Aziz <khalid.aziz@oracle.com>,
+	Henry Huang <henry.hj@antgroup.com>,
+	Yu Zhao <yuzhao@google.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Gregory Price <gregory.price@memverge.com>,
+	Huang Ying <ying.huang@intel.com>,
+	Lance Yang <ioworker0@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Will Deacon <will@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	devicetree@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cxl@vger.kernel.org,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Daniel Watson <ozzloy@each.do>,
+	cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
 	linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	loongarch@lists.linux.dev,
-	nvdimm@lists.linux.dev,
-	sparclinux@vger.kernel.org,
-	x86@kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 24/26] arch_numa: switch over to numa_memblks
-In-Reply-To: <20240807064110.1003856-25-rppt@kernel.org>
-References: <20240807064110.1003856-1-rppt@kernel.org>
-	<20240807064110.1003856-25-rppt@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	linux-kselftest@vger.kernel.org,
+	damon@lists.linux.dev
+Subject: Re: [PATCH v4 0/9] mm: workingset reporting
+Date: Wed, 27 Nov 2024 11:40:38 -0800
+Message-Id: <20241127194038.84382-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241127072604.GA2501036@cmpxchg.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: rppt@kernel.org, linux-kernel@vger.kernel.org, agordeev@linux.ibm.com, andreas@gaisler.com, akpm@linux-foundation.org, arnd@arndb.de, bp@alien8.de, catalin.marinas@arm.com, christophe.leroy@csgroup.eu, dan.j.williams@intel.com, dave.hansen@linux.intel.com, david@redhat.com, davem@davemloft.net, dave@stgolabs.net, gregkh@linuxfoundation.org, hca@linux.ibm.com, chenhuacai@kernel.org, mingo@redhat.com, jiaxun.yang@flygoat.com, glaubitz@physik.fu-berlin.de, jonathan.cameron@huawei.com, corbet@lwn.net, mpe@ellerman.id.au, palmer@dabbelt.com, rafael@kernel.org, robh@kernel.org, samuel.holland@sifive.com, tsbogend@alpha.franken.de, tglx@linutronix.de, gor@linux.ibm.com, will@kernel.org, ziy@nvidia.com, devicetree@vger.kernel.org, linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, nvdimm@lists.linux.dev, sparclinux@vger.kernel.org, x86@kernel.org, Jonathan.Cameron@huawei.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Mike,
++ damon@lists.linux.dev
 
-Sorry for reviving a rather old thread.
+I haven't thoroughly read any version of this patch series due to my laziness,
+sorry.  So I may saying something completely wrong.  My apology in advance, and
+please correct me in the case.
 
-On Wed, 07 Aug 2024 07:41:08 +0100,
-Mike Rapoport <rppt@kernel.org> wrote:
+> On Tue, Nov 26, 2024 at 06:57:19PM -0800, Yuanchu Xie wrote:
+> > This patch series provides workingset reporting of user pages in
+> > lruvecs, of which coldness can be tracked by accessed bits and fd
+> > references.
+
+DAMON provides data access patterns of user pages.  It is not exactly named as
+workingset but a superset of the information.  Users can therefore get the
+workingset from DAMON-provided raw data.  So I feel I have to ask if DAMON can
+be used for, or help at achieving the purpose of this patch series.
+
+Depending on the detailed definition of workingset, of course, the workingset
+we can get from DAMON might not be technically same to what this patch series
+aim to provide, and the difference could be somewhat that makes DAMON unable to
+be used or help here.  But I cannot know if this is the case with only this
+cover letter.
+
+> > However, the concept of workingset applies generically to
+> > all types of memory, which could be kernel slab caches, discardable
+> > userspace caches (databases), or CXL.mem. Therefore, data sources might
+> > come from slab shrinkers, device drivers, or the userspace.
+> > Another interesting idea might be hugepage workingset, so that we can
+> > measure the proportion of hugepages backing cold memory. However, with
+> > architectures like arm, there may be too many hugepage sizes leading to
+> > a combinatorial explosion when exporting stats to the userspace.
+> > Nonetheless, the kernel should provide a set of workingset interfaces
+> > that is generic enough to accommodate the various use cases, and extensible
+> > to potential future use cases.
+
+This again sounds similar to what DAMON aims to provide, to me.  DAMON is
+designed to be easy to extend for vairous use cases and internal mechanisms.
+Specifically, it separates access check mechanisms and core logic into
+different layers, and provides an interface to use for implementing extending
+DAMON with new mechanisms.  DAMON's two access check mechanisms for virtual
+address spaces and the physical address space are made using the interface,
+indeed.  Also there were RFC patch series extending DAMON for NUMA-specific and
+write-only access monitoring using NUMA hinting fault and soft-dirty PTEs as
+the internal mechanisms.
+
+My humble understanding of the major difference between DAMON and workingset
+reporting is the internal mechanism.  Workingset reporting uses MGLRU as the
+access check mechanism, while current access check mechanisms for DAMON are
+using page table accessed bits checking as the major mechanism.  I think DAMON
+can be extended to use MGLRU as its another internal access check mechanism,
+but I understand that there could be many things that I overseeing.
+
+Yuanchu, I think it would help me and other reviewers better understand this
+patch series if you could share that.  And I will also be more than happy to
+help you and others better understanding what DAMON can do or not with the
+discussion.
+
 > 
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> Doesn't DAMON already provide this information?
 > 
-> Until now arch_numa was directly translating firmware NUMA information
-> to memblock.
-> 
-> Using numa_memblks as an intermediate step has a few advantages:
-> * alignment with more battle tested x86 implementation
-> * availability of NUMA emulation
-> * maintaining node information for not yet populated memory
-> 
-> Adjust a few places in numa_memblks to compile with 32-bit phys_addr_t
-> and replace current functionality related to numa_add_memblk() and
-> __node_distance() in arch_numa with the implementation based on
-> numa_memblks and add functions required by numa_emulation.
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Tested-by: Zi Yan <ziy@nvidia.com> # for x86_64 and arm64
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Tested-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> [arm64 + CXL via QEMU]
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> ---
->  drivers/base/Kconfig       |   1 +
->  drivers/base/arch_numa.c   | 201 +++++++++++--------------------------
->  include/asm-generic/numa.h |   6 +-
->  mm/numa_memblks.c          |  17 ++--
->  4 files changed, 75 insertions(+), 150 deletions(-)
->
+> CCing SJ.
+
+Thank you for adding me, Johannes :)
 
 [...]
+> It does provide more detailed insight into userspace memory behavior,
+> which could be helpful when trying to make sense of applications that
+> sit on a rich layer of libraries and complicated runtimes. But here a
+> comparison to DAMON would be helpful.
 
->  static int __init numa_register_nodes(void)
->  {
->  	int nid;
-> -	struct memblock_region *mblk;
-> -
-> -	/* Check that valid nid is set to memblks */
-> -	for_each_mem_region(mblk) {
-> -		int mblk_nid = memblock_get_region_node(mblk);
-> -		phys_addr_t start = mblk->base;
-> -		phys_addr_t end = mblk->base + mblk->size - 1;
-> -
-> -		if (mblk_nid == NUMA_NO_NODE || mblk_nid >= MAX_NUMNODES) {
-> -			pr_warn("Warning: invalid memblk node %d [mem %pap-%pap]\n",
-> -				mblk_nid, &start, &end);
-> -			return -EINVAL;
-> -		}
-> -	}
->  
+100% agree.
 
-This hunk has the unfortunate side effect of killing my ThunderX
-extremely early at boot time, as this sorry excuse for a machine
-really relies on the kernel recognising that whatever NUMA information
-the FW offers is BS.
-
-Reverting this hunk restores happiness (sort of).
-
-FWIW, I've posted a patch with such revert at [1].
 
 Thanks,
+SJ
 
-	M.
-
-[1] https://lore.kernel.org/r/20241127193000.3702637-1-maz@kernel.org
-
--- 
-Without deviation from the norm, progress is not possible.
+[...]
