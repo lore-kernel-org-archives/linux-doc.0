@@ -1,95 +1,129 @@
-Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387D620102E;
-	Wed, 27 Nov 2024 17:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.152
+Received: from wind.enjellic.com (wind.enjellic.com [76.10.64.91])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17583A41;
+	Wed, 27 Nov 2024 17:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=76.10.64.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732728457; cv=none; b=ohHFhKlAJe8Ja9xZgrzKhTs1oilQO1ZfSxjYlNuUf9pa0LpKZauPW9v2WPm/6vID8r8WlkmU8fPW5ZLVJtHKA2NqZfVafYvkrMwtWYChdaGrr/olE+uv39hqluuViSMo66zxc3HEE6B9ce9f3cFDoF5heMDpgw5iO5B2l51UTns=
+	t=1732728745; cv=none; b=AAuoRrx7IjFQaLFTsgEn54sKbAgilpsPrl6OI9atmP7YqW9St9pMvvTG55nyt5ymprDWWwTjG2U0bXN+mhghtIZaWBfzAaSahf/DifvpkPCyutwl07v5Z9X2PVHpc5DcAFBiUC/5NKWy1Ow6Ikub6D1UZ8btYsT/YiVC6alcXoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732728457; c=relaxed/simple;
-	bh=hpGMpZFbtZ71ct3nhU4Xj4uf3o+AADoog6oLOcrRNao=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=reljkdAQoUhGV3ty1WFFQX1a2CdBWXk/UZCtBeVIdsos9wTcDHeYqbND1dL6PXBIxG1rlCgAFKDHSyv60acThet+pqfOorPyT5Vq2ETMr3TvzjKlFkW9N2RocQZwrTjYmvyQKN4SYmHa3dV2fI8gP5Xv6pHF1Ph70+CN7GKTCeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=j+tKH0gN; arc=none smtp.client-ip=52.119.213.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="j+tKH0gN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1732728455; x=1764264455;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=JQ0H5XNdJiVRjtzDcrMcUYqg20cYD9pREmap3E/g000=;
-  b=j+tKH0gNfauzoSvQXD8nnlhAHBR21ADG+7NO3BJEwBf0nBuKw4SWgqut
-   qaQgXYlz/lfnNErY4E9ndwP/uV23tkcts/JGPaOYHvT5ox73mGHiXWC7P
-   k0sLJEn2TNaXZxrhx4w689/V4xrBM9xIWwL9NODJrGWMGk2hbFx2b45yZ
-   U=;
-X-IronPort-AV: E=Sophos;i="6.12,189,1728950400"; 
-   d="scan'208";a="44975132"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.6])
-  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 17:27:31 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [10.0.43.254:9102]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.26.13:2525] with esmtp (Farcaster)
- id 919d0f07-8187-4c71-9a0c-3fee9f6d1d00; Wed, 27 Nov 2024 17:27:29 +0000 (UTC)
-X-Farcaster-Flow-ID: 919d0f07-8187-4c71-9a0c-3fee9f6d1d00
-Received: from EX19D015EUB003.ant.amazon.com (10.252.51.113) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 27 Nov 2024 17:27:26 +0000
-Received: from EX19MTAUEA002.ant.amazon.com (10.252.134.9) by
- EX19D015EUB003.ant.amazon.com (10.252.51.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 27 Nov 2024 17:27:25 +0000
-Received: from email-imr-corp-prod-pdx-all-2c-475d797d.us-west-2.amazon.com
- (10.124.125.2) by mail-relay.amazon.com (10.252.134.34) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1258.34 via Frontend Transport; Wed, 27 Nov 2024 17:27:25 +0000
-Received: from dev-dsk-kalyazin-1a-a12e27e2.eu-west-1.amazon.com (dev-dsk-kalyazin-1a-a12e27e2.eu-west-1.amazon.com [172.19.103.116])
-	by email-imr-corp-prod-pdx-all-2c-475d797d.us-west-2.amazon.com (Postfix) with ESMTPS id BD6B6A056C;
-	Wed, 27 Nov 2024 17:27:22 +0000 (UTC)
-From: Nikita Kalyazin <kalyazin@amazon.com>
-To: <pbonzini@redhat.com>, <corbet@lwn.net>, <seanjc@google.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<vkuznets@redhat.com>, <xiaoyao.li@intel.com>, <kvm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-CC: <roypat@amazon.co.uk>, <xmarcalx@amazon.com>, <kalyazin@amazon.com>
-Subject: [PATCH 2/2] KVM: x86: async_pf: determine x86 user as cpl == 3
-Date: Wed, 27 Nov 2024 17:26:54 +0000
-Message-ID: <20241127172654.1024-3-kalyazin@amazon.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20241127172654.1024-1-kalyazin@amazon.com>
-References: <20241127172654.1024-1-kalyazin@amazon.com>
+	s=arc-20240116; t=1732728745; c=relaxed/simple;
+	bh=2UqC7ofISMc/ShaD/y+NPwjn/miRNC6CwUla/sbT3xE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Mime-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FgNUAVrDuM65UfODP1WYxZUOZiaZgoxTa7DwMGYEXYgpVwl3p8VY0TitANvgyWGyZwXNMABh44n6lrB4dNB0vTnVRE194ord5OegRDSSrAuPsgQztVeXnXRj8fGovCJ1cs3mOSGqtE0cbR2eBw1BTN+Zhw43FrFzkPSfm3K0l4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enjellic.com; spf=pass smtp.mailfrom=wind.enjellic.com; arc=none smtp.client-ip=76.10.64.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enjellic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wind.enjellic.com
+Received: from wind.enjellic.com (localhost [127.0.0.1])
+	by wind.enjellic.com (8.15.2/8.15.2) with ESMTP id 4ARHUrYb001848;
+	Wed, 27 Nov 2024 11:30:53 -0600
+Received: (from greg@localhost)
+	by wind.enjellic.com (8.15.2/8.15.2/Submit) id 4ARHUgi2001842;
+	Wed, 27 Nov 2024 11:30:42 -0600
+Date: Wed, 27 Nov 2024 11:30:42 -0600
+From: "Dr. Greg" <greg@enjellic.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+        corbet@lwn.net, mcgrof@kernel.org, petr.pavlu@suse.com,
+        samitolvanen@google.com, da.gomez@samsung.com,
+        akpm@linux-foundation.org, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com, shuah@kernel.org, mcoquelin.stm32@gmail.com,
+        alexandre.torgue@foss.st.com, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-modules@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
+        hch@lst.de, mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+        dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com,
+        ppavlu@suse.com, petr.vorel@gmail.com, mzerqung@0pointer.de,
+        kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
+Subject: Re: [PATCH v6 00/15] integrity: Introduce the Integrity Digest Cache
+Message-ID: <20241127173042.GA1649@wind.enjellic.com>
+Reply-To: "Dr. Greg" <greg@enjellic.com>
+References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
+User-Agent: Mutt/1.4i
+X-Greylist: Sender passed SPF test, not delayed by milter-greylist-4.2.3 (wind.enjellic.com [127.0.0.1]); Wed, 27 Nov 2024 11:30:53 -0600 (CST)
 
-Suggested-by: Sean Christopherson <seanjc@google.com>
-Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
----
- arch/x86/kvm/x86.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Nov 19, 2024 at 11:49:07AM +0100, Roberto Sassu wrote:
 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 8f784f07d423..168dcf1d4625 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -13360,7 +13360,7 @@ static bool kvm_can_deliver_async_pf(struct kvm_vcpu *vcpu)
- 	if (!kvm_pv_async_pf_enabled(vcpu))
- 		return false;
- 
--	if (kvm_x86_call(get_cpl)(vcpu) == 0)
-+	if (kvm_x86_call(get_cpl)(vcpu) != 3)
- 		return false;
- 
- 	if (is_guest_mode(vcpu)) {
--- 
-2.40.1
+Hi Roberto, I hope the week is going well for you.
 
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+> 
+> Integrity detection and protection has long been a desirable feature, to
+> reach a large user base and mitigate the risk of flaws in the software
+> and attacks.
+> 
+> However, while solutions exist, they struggle to reach a large user base,
+> due to requiring higher than desired constraints on performance,
+> flexibility and configurability, that only security conscious people are
+> willing to accept.
+> 
+> For example, IMA measurement requires the target platform to collect
+> integrity measurements, and to protect them with the TPM, which introduces
+> a noticeable overhead (up to 10x slower in a microbenchmark) on frequently
+> used system calls, like the open().
+> 
+> IMA Appraisal currently requires individual files to be signed and
+> verified, and Linux distributions to rebuild all packages to include file
+> signatures (this approach has been adopted from Fedora 39+). Like a TPM,
+> also signature verification introduces a significant overhead, especially
+> if it is used to check the integrity of many files.
+> 
+> This is where the new Integrity Digest Cache comes into play, it offers
+> additional support for new and existing integrity solutions, to make
+> them faster and easier to deploy.
+> 
+> The Integrity Digest Cache can help IMA to reduce the number of TPM
+> operations and to make them happen in a deterministic way. If IMA knows
+> that a file comes from a Linux distribution, it can measure files in a
+> different way: measure the list of digests coming from the distribution
+> (e.g. RPM package headers), and subsequently measure a file if it is not
+> found in that list.
+> 
+> The performance improvement comes at the cost of IMA not reporting which
+> files from installed packages were accessed, and in which temporal
+> sequence. This approach might not be suitable for all use cases.
+> 
+> The Integrity Digest Cache can also help IMA for appraisal. IMA can simply
+> lookup the calculated digest of an accessed file in the list of digests
+> extracted from package headers, after verifying the header signature. It is
+> sufficient to verify only one signature for all files in the package, as
+> opposed to verifying a signature for each file.
+
+Roberto, a big picture question for you, our apologies if we
+completely misunderstand your patch series.
+
+The performance benefit comes from the fact that the kernel doesn't
+have to read a file and calculate the cryptographic digest when the
+file is accessed.  The 'trusted' digest value comes from a signed list
+of digests that a packaging entity provides and the kernel validates.
+So there is an integrity guarantee that the supplied digests were the
+same as when the package was built.
+
+Is there a guarantee implemented, that we missed, that the on-disk
+file actually has the digest value that was initially generated by the
+packaging entity when the file is accessed operationally?
+
+Secondly, and in a related issue, what happens in a container
+environment when a pathname is accessed that is actually a different
+file but with the same effective pathname as a file that is in the
+vendor validated digest list?
+
+Once again, apologies, if we completely misinterpret the issues
+involved.
+
+Have a good remainder of the week.
+
+As always,
+Dr. Greg
+
+The Quixote Project - Flailing at the Travails of Cybersecurity
+              https://github.com/Quixote-Project
