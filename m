@@ -1,218 +1,150 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9B5A95E;
-	Wed, 27 Nov 2024 09:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00FD140360;
+	Wed, 27 Nov 2024 10:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732701115; cv=none; b=bjR2EJNIwInOEnnJaO/x5ZkyitvMMlVaqAWQA4K82Ep/IrjsRHEFfVvJ3VoqEMhmLBuxw/s9iwe+KsJJgXiDyJ2mvY2jrROCT0KL7aRMM932VJ04cDp0ZKcPPeHvRRyE4d301jH65yhoRvkcZgnRyLgzTt2YUZr56Jw9yUazV6o=
+	t=1732702295; cv=none; b=s104kbSoCRgLhFzCY2y8QgfjcB9wd4nKh4HNoqKjERJY4zqW9iBf1QqxTGfLlJFGfBzMDPLr837qdWwEa/Mej9DCm4epHbcaDJiRblI2+zjWGFDUIjUbVvZOIESSvl6JYRyyJkYnJD7YjZBPS5psQlueA6ZU37BnfhYwwfQVRQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732701115; c=relaxed/simple;
-	bh=AdbIqBFr2DX9C4NxpilK5N8h40ZnTWNw2PIzHja54Ws=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fm4Qt53/tyiXu7vUHUIm75TBA0VT2UervyqVmTTOVbX52ZIFwCtKXM9Kq11T3u9XdHKj/etjH9TansW++DjqJVsHnJlOUK708E5ZujvIcRTsDCIHdU0Mx8gLVn84kJFSfCF/alJfRqIxkjTO9aQGQMg2JJF/kOC+BtgaYor9I7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4XyvCX4xMtz9v7JS;
-	Wed, 27 Nov 2024 17:24:24 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id C3DE8140452;
-	Wed, 27 Nov 2024 17:51:39 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwAX1jaT60ZnO3hhAg--.24999S2;
-	Wed, 27 Nov 2024 10:51:38 +0100 (CET)
-Message-ID: <3dc25195b0362b3e5b6d6964df021ff4e7e1b226.camel@huaweicloud.com>
-Subject: Re: [PATCH v6 07/15] digest_cache: Allow registration of digest
- list parsers
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com,  corbet@lwn.net, petr.pavlu@suse.com,
- samitolvanen@google.com, da.gomez@samsung.com,  akpm@linux-foundation.org,
- paul@paul-moore.com, jmorris@namei.org,  serge@hallyn.com,
- shuah@kernel.org, mcoquelin.stm32@gmail.com,  alexandre.torgue@foss.st.com,
- linux-integrity@vger.kernel.org,  linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-api@vger.kernel.org,
- linux-modules@vger.kernel.org,  linux-security-module@vger.kernel.org,
- linux-kselftest@vger.kernel.org,  wufan@linux.microsoft.com,
- pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,  mjg59@srcf.ucam.org,
- pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com, 
- jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com, 
- mzerqung@0pointer.de, kgold@linux.ibm.com, Roberto Sassu
- <roberto.sassu@huawei.com>
-Date: Wed, 27 Nov 2024 10:51:11 +0100
-In-Reply-To: <Z0Ybvzy7ianR-Sx9@bombadil.infradead.org>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
-	 <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
-	 <Z0UN9ub0iztWvgLi@bombadil.infradead.org>
-	 <d428a5d926d695ebec170e98463f7501a1b00793.camel@huaweicloud.com>
-	 <Z0Ybvzy7ianR-Sx9@bombadil.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1732702295; c=relaxed/simple;
+	bh=EI9LR5pKa+UUa9dp/CkLwrd9muTLdk6vHx6xs9VeJOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=idqwh0Px39ncD/lO4klPjhNk1tZRY068JG4HHkidEnpDwhq+S8JjZW5MYjIhIJ+4V2a2MDbJXL3ZMvcwxJLoFFmIp3PZ49+U1/4uPjc4MoMDDt1RriGLHtoxQTdX9k3zfbHDusqC+PystZQ00wE26AawTtie2MS10s87R5BNqLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZZpbfrNs; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZZpbfrNs"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7D3BB40002;
+	Wed, 27 Nov 2024 10:11:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1732702288;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2tGVW64f437lNQnHA6t9eLRBy/yYXyMtyYXZVg4zLDE=;
+	b=ZZpbfrNs/DmyyFnfQnfHa9iDFZg9Sv1T6ulqJgXxnSf50cRBBjKDJzSa5BW6GxZgSlLi2a
+	bUWTFq5N+5F/k4ipFGnRY5dqgaehyKWZhAawOTQsFEnpENMztutew1XoqhxHB4pxsSjSXK
+	w3v/7kSIrDznRlzxeqNOuDQKSUN6pZYb9EukFAW/PDgwO3ycrVuqeZji+lIaruFxfcGQnu
+	30F2ATqBlqNjkUsYgvLSC97g9k7Kr9mk3vIwY8kGg2aNes0gFZG7VVQbapxNBIpQ9o2iUv
+	EqDlVADqv/nTmmFspO7S12ewm1ofJZcsaOyRKZNR6LSMq3rtNkPHeELyMYCuFw==
+Date: Wed, 27 Nov 2024 11:11:26 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
+ <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
+ kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v3 21/27] net: pse-pd: Add support for
+ getting and setting port priority
+Message-ID: <20241127111126.71fc31e0@kmaincent-XPS-13-7390>
+In-Reply-To: <Z0bmw3wVCqWZZzXY@pengutronix.de>
+References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
+	<20241121-feature_poe_port_prio-v3-21-83299fa6967c@bootlin.com>
+	<Z0WJAzkgq4Qr-xLU@pengutronix.de>
+	<20241126163155.4b7a444f@kmaincent-XPS-13-7390>
+	<20241126165228.4b113abb@kmaincent-XPS-13-7390>
+	<Z0bmw3wVCqWZZzXY@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:LxC2BwAX1jaT60ZnO3hhAg--.24999S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3XF48Ww47WFyfAFW7Gr1kAFb_yoWxXr1xpa
-	yakan0kF4kJr1Ik3Z7Aa1xu3yF9393X3y5Wrn5Jry3Zrn8ur1Fvr1fKa1Uua4jkrs7JF12
-	qr4Yq34ayF1DAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Wrv_ZF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4U
-	JwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	EksDUUUUU==
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAABGdGg-MCpAAAsx
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Tue, 2024-11-26 at 11:04 -0800, Luis Chamberlain wrote:
-> On Tue, Nov 26, 2024 at 11:25:07AM +0100, Roberto Sassu wrote:
-> > On Mon, 2024-11-25 at 15:53 -0800, Luis Chamberlain wrote:
+On Wed, 27 Nov 2024 10:30:43 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+
+> On Tue, Nov 26, 2024 at 04:52:28PM +0100, Kory Maincent wrote:
+> > On Tue, 26 Nov 2024 16:31:55 +0100
+> > Kory Maincent <kory.maincent@bootlin.com> wrote:
+> >  =20
+> > > Hello Oleksij,
+> > >=20
+> > > Thanks for your quick reviews!
+> > >=20
+> > > On Tue, 26 Nov 2024 09:38:27 +0100
+> > > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> > >  =20
+>  [...] =20
+>  [...] =20
 > >=20
-> > Firmware, eBPF programs and so on are supposed
+> > We already talked about it but a policies per port seems irrelevant to =
+me.
+> > https://lore.kernel.org/netdev/ZySR75i3BEzNbjnv@pengutronix.de/
+> > How do we compare the priority value of ports that use different budget
+> > strategy? How do we manage in the same power domain two ports with
+> > different budget strategies or disconnection policies? =20
 >=20
-> Keyword: "supposed".=20
-
-It depends if they are in a policy. They can also be verified with
-other methods, such as file signatures.
-
-For eBPF programs we are also in a need for a better way to
-measure/appraise them.
-
-> > As far as the LSM infrastructure is concerned, I'm not adding new LSM
-> > hooks, nor extending/modifying the existing ones. The operations the
-> > Integrity Digest Cache is doing match the usage expectation by LSM (net
-> > denying access, as discussed with Paul Moore).
+> Good question :)
 >=20
-> If modules are the only proven exception to your security model you are
-> not making the case for it clearly.
-
-The Integrity Digest Cache is not implementing any security model, this
-is demanded to other LSMs which might decide to use the Integrity
-Digest Cache based on a policy.
-
-If we want to be super picky, the ksys_finit_module() helper is not
-calling security_kernel_module_request(), which is done when using
-request_module(). On the other hand, ksys_finit_module() is not
-triggering user space, as the description of the function states
-(anyway, apologies for not bringing up this earlier).
-
-Net this, and we can discuss if it is more appropriate to call the LSM
-hook, the helper does not introduce any exception since
-security_file_open() is called when the kernel opens the file
-descriptor, and security_kernel_read_file() and
-security_kernel_post_read_file() are called in the same way regardless
-if it is user space doing insmod or the kernel calling
-ksys_finit_module().
-
-The only exception is that the Integrity Digest Cache is unable to
-verify the kernel modules containing the parsers, but I believe this is
-fine because they are verified with their appended signature.
-
-If there are any other concerns I'm missing, please let me know.
-
-> > The Integrity Digest Cache is supposed to be used as a supporting tool
-> > for other LSMs to do regular access control based on file data and
-> > metadata integrity. In doing that, it still needs the LSM
-> > infrastructure to notify about filesystem changes, and to store
-> > additional information in the inode and file descriptor security blobs.
-> >=20
-> > The kernel_post_read_file LSM hook should be implemented by another LSM
-> > to verify the integrity of a digest list, when the Integrity Digest
-> > Cache calls kernel_read_file() to read that digest list.
+> > We indeed may need a separate interface to configure the PSE power doma=
+in
+> > budget strategies and disconnection policies. =20
 >=20
-> If LSM folks *do* agree that this work is *suplementing* LSMS then sure,
-> it was not clear from the commit logs. But then you need to ensure the
-> parsers are special snowflakes which won't ever incur other additional
-> kernel_read_file() calls.
-
-The Integrity Digest Cache was originally called digest_cache LSM, but
-was renamed due to Paul's concern that it is not a proper LSM enforcing
-a security model. If you are interested, I gave a talk at LSS NA 2024:
-
-https://www.youtube.com/watch?v=3DaNwlKYSksg8
-
-Given that the Integrity Digest Cache could not be standalone and use
-the LSM infrastructure facilities, it is going to be directly
-integrated in IMA, although it is not strictly necessary.
-
-I planned to support IPE and BPF LSM as other users.
-
-Uhm, let me clarify your last sentence a bit.
-
-Let's assume that IMA is asked to verify a parser, when invoked through
-the kernel_post_read_file hook. IMA is not handling the exception, and
-is calling digest_cache_get() as usual. Normally, this would succeed,
-but because digest_cache_get() realizes that the file descriptor passed
-as argument is marked (i.e. it was opened by the Integrity Digest Cache
-itself), it returns NULL.
-
-That means that IMA falls back on another verification method, which is
-verifying the appended signature.
-
-The most important design principle that I introduced is that users of
-the Integrity Digest Cache don't need to be aware of any exception,
-everything is handled by the Integrity Digest Cache itself.
-
-The same occurs when a kernel read occurs with file ID
-READING_DIGEST_LIST (introduced in this patch set). Yes, I forbid
-specifying an IMA policy which requires the Integrity Digest Cache to
-verify digest lists, but due to the need of handling kernel modules
-I decided to handle the exceptions in the Integrity Digest Cache itself
-(this is why now I'm passing a file descriptor to digest_cache_get()
-instead of a dentry).
-
-Now, I'm trying to follow you on the additional kernel_read_file()
-calls. I agree with you, if a parser tries to open again the file that
-is being verified it would cause a deadlock in IMA (since the inode
-mutex is already locked for verifying the original file).
-
-In the Integrity Digest Cache itself, this is not going to happen,
-since the file being verified with a digest cache is known and an
-internal open of the same file fails. If it is really necessary, we can
-pass the information to the parsers so that they are aware, it is just
-an additional parameter.
-
-However, I was assuming that a parser just receives the data read by
-the Integrity Digest Cache, and just calls the Parser API to add the
-extracted digests to the new digest cache. Also this can be discussed,
-but I guess there is no immediate need.
-
-> > Supporting kernel modules opened the road for new deadlocks, since one
-> > can ask a digest list to verify a kernel module, but that digest list
-> > requires the same kernel module. That is why the in-kernel mechanism is
-> > 100% reliable,
+> And a way to upload everything in atomic way, but I see it as
+> optimization and can be done separately
 >=20
-> Are users of this infrastructure really in need of modules for these
-> parsers?
+> > I think not being able to set the budget evaluation strategy is not rel=
+evant
+> > for now as we don't have PSE which could support both, =20
+>=20
+> Both can be implemented for TI. By constantly polling the channel
+> current register, it should be possible to implement dynamic strategy.
+>=20
+> > but being able to set the disconnection policies may be relevant.
+> > If we don't add this support to this series how do we decide which is t=
+he
+> > default disconnection policy supported? =20
+>=20
+> Use hard coded one =C2=AF\_(=E3=83=84)_/=C2=AF
 
-I planned to postpone this to later, and introduced two parsers built-
-in (TLV and RPM). However, due to Linus's concern regarding the RPM
-parser, I moved it out in a kernel module.
+I think we could start with disabled disconnection policy for now.
+The user cans still play with the priority value which is really reasonable=
+ as
+there is as many priority values as PSE ports in the static strategy.
 
-Also, a parser cannot be in user space, since the trust anchor is in
-the kernel (the public keys and the signature verification mechanism),
-it is not something that can be established in the initial ram disk
-since the Integrity Digest Cache will be continously used in the
-running system (maybe more parsers will be loaded on demand depending
-on requests from user space).
+Should we still report it in the status as there is no disconnection policy?
+Maybe we could add it at the time we will support several disconnection
+policies.
 
-And finally, the parser cannot run in user space, since it would be at
-the same level of what the kernel is verifying.
+> In terms of user configuration:
+>=20
+> Users only need to set the top allowed priority for each port. For exampl=
+e, if
+> a port is set to LRC, it will always be considered first for disconnection
+> during a budget violation. The connection order of all LRC ports should be
+> preserved.
+>=20
+> If a port is set to Index, it will be preserved until all LRC ports are
+> disconnected.
+>=20
+> Setting a port to RR will make it the last in line for disconnection, thus
+> ensuring the fairest distribution when other more prioritized policies ha=
+ve
+> already been applied. However, in practice, it may never be executed if a=
+ll
+> ports have higher priority policies.
 
-Thanks
+That's a nice brainstorm! With that we will have a first idea when we would
+like to really implement the disconnection policies.
 
-Roberto
-
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
