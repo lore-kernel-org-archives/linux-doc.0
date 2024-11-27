@@ -1,66 +1,66 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9384220010A;
-	Wed, 27 Nov 2024 21:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3731537D4;
+	Wed, 27 Nov 2024 22:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732743800; cv=none; b=U0dF7Hghwdete1SXPkOvyFUhYHzyrEoVrOB/JcMIOR7M7+W7H6FrhLObULW7i+Co4CHTcSmFCm5SHJfF9yTaEIj7fv4cqbDrbMBcbOztxGmPJccIWU2KNmrZOswYbflBNHRuoQ2PIjmWunQOtwUWic2aXL0CHqye/5I39nNxSXk=
+	t=1732747691; cv=none; b=MV9F1qb6mB9BbZKS1IAC39n7QwxCds4Ql7QpIKgGW4OFuWtwmNWGebIu40t28OSg/xl0fh4fGu1zDcgmhgZrHhWUtxjz5JnSwyXXmnJ8aAgh/VbaDHyCyWUQkGeDEtfzNsvj4EmUmI4SpzIwFID0WvtQJnN8xrz56G/3RBqLXQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732743800; c=relaxed/simple;
-	bh=wXs3PUI1KJZPr4gbMINQMc7jW96/qVN8Qn6yuSuatMU=;
+	s=arc-20240116; t=1732747691; c=relaxed/simple;
+	bh=GexJXR/2dc2IBhv34q6bDcJcXTBjzVNHuP0avEFyg3Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=QmtBK5Q93JbVOvyHYjr95fiwytzFbfzpGpISdWIIs20rWh1Z9jEh7ObToICa454W7Tuu4LdmclRSzHCZrY+PYQxHDnjoGytpp8Yh8KkF6VrLBUoXbEHsR+5hLNpHxUVjh1O78WwETdC8Bk1Wn5/fwh26GjPxV1Qjx3Ey8HwgT3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z5HiKXtA; arc=none smtp.client-ip=209.85.210.180
+	 In-Reply-To:Content-Type; b=BAbaBMkkdeYO6eQhpeENFxFT3ZG0lqLhwDA9xPbWPxLaCeLiB+Tbpt0WqvvvQMgiJSV1x3pA3kVZTVdHeBh6JwsJ4rkDuwU6dwkJG7z8Pr59udZzw9Y1R+KfmjEHpgwzq8EyFUkfLIvJMclzcqFyPbaZGKWuP53zZhvVYPCi8wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGQV9ywC; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z5HiKXtA"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-723f37dd76cso206623b3a.0;
-        Wed, 27 Nov 2024 13:43:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGQV9ywC"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2ee153ec651so219273a91.0;
+        Wed, 27 Nov 2024 14:48:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732743798; x=1733348598; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1732747689; x=1733352489; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:to:subject:user-agent:mime-version:date
          :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=arhcFIZy7VahGuWTmFv2wEnktXnYief+y/QrrE2UMY4=;
-        b=Z5HiKXtApg8gbKmHWEniru8lO23C+Js4B7ScVqu4FMqZbU3I55kwE+EDHtJ+e+XTO7
-         EocP4FqrkIlU8eaqNZHsPMKxkyAtKibm8zj4F/pe9Y5sHKH90v7+6rPgZSGEBrrAYYKM
-         G2lgsWZkftFGmO1d9Y6UBXWe8KGC4uixll0vxMay0szTYdd0hvzSUdtUroRAAhRmfqmy
-         B6VSnY8drXjAU5rUebF52nsXSIA5MhuS56oRg/QWBtP5u0SCl1/Ni4f/SEoZXc6hK/Wb
-         SJGnPwImktWdAL8kbrdzxCeMTGsUfLGBcEFfXMYAhfn/dNY8hPm8WWCKywD3FqjL7MQE
-         tlUw==
+        bh=PzsIRv0dmcoh1JVhn/KYfXIXK/gFawhUd+jupZesXIM=;
+        b=RGQV9ywCV/S815EzHB3dkI4h6B1vmfD8bEoAFWtKDqEkjLsKqUW0uH7OMknMd84asn
+         k9GI1e/ZrBxoZnb/lnOJeyx2lK5GwvokJICZyaibbOxnNuqknVh+d+tICMVGoFmLLyVE
+         pKIvi8vaxCDgGhleMAh0WlhtHejf7PVVKX/cwo2NSyDqKIi33Tmh7p/bu/TQU52xVWt+
+         bOvlzzUfEVLMIFET1DgriPOchHLRIiR4Zgq0XbPC27sRWdygakXuHdNL7UXrJ5HWdrXI
+         G8w/FFoMDQR8YjxyaK/tY7BmkX9Orj69UPLWkJeU5YI8s5SuffhMEumx8mTOaVVLPxyG
+         WV8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732743798; x=1733348598;
+        d=1e100.net; s=20230601; t=1732747689; x=1733352489;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:to:subject:user-agent:mime-version:date
          :message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=arhcFIZy7VahGuWTmFv2wEnktXnYief+y/QrrE2UMY4=;
-        b=ZheczDAhmOkMeBR1s2FdYk8pnis6uqa1ciDfBdMPaVYUb/xnP2eSUy+PsZTMaeL/pk
-         v+rHmyFX+imhw2kVGMwBR8PncnfbGAesoYzn2hPyZJ5wLWDAdKPFIFj0nf2WvszHNShV
-         0sNcJ0cq0TXe4XX6epR8EFkmla/LSVgSi5OqkhiorAtPgSLJXte7H9XIPGvJtMyeMeZA
-         rd/8mXhga3Cedb1MOWEPkZ1mpdmJwfcI8/zT810syWf0xY5taREt4fH/XJWBntWaHQSS
-         ZrInK9Av8/FF2ylPlCmFQV8BAvSzKxsrFdPLDwbNhaDggF6FY1Wc8UG6nDsN5uHTCvg3
-         lQhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQtjuEyoM1LhvuT1ecVwHzZ4hXfuXw6Uy1FaZ2SGd2b/UOtC4zZ1T0UgAaD+BPHWDLeSjBzE5pg/1xSGGD@vger.kernel.org, AJvYcCUxT0jG1Dvq/6k6a4wqY+nT1kr+EQnxDCCwcidc6bdgyiU0G7KqkcbekWb9lIReu3AGJScx0btNLtM=@vger.kernel.org, AJvYcCWFgcuobWLQw2cOj5jsQuvUWuJfB0XMi8BDMjy2khh+Am8215+jXzHQvyv8mXgrVE8KNNipwBae@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiLd/V2ZTfUQ+ALsRXUw+ycmtRI7hyQBBaXaUk9/2n1uaBeVpH
-	l5SWSDHUulagD2PhC+YEk/ZhOKl9tYBIuJqN3lR/nbWyXGA9Hr60
-X-Gm-Gg: ASbGncupgAvO+qreZ3sBm//rvdB+IYnxCBAZfJhOObRwUJk7xWa13ucvXIvPvhjHl0P
-	CtgYBc+LIrJHYA+rEN2jkW96O4io/39p/hiAIc/2gQKHCCKIp1ur1h9JA+t1bkdERIoJZkS25kR
-	RzUsugs2cq6NI2HmkOFpUjVTgF42S9x6od8rcSjWmclqPTYrPOtLu1E7e9dQkw/NKVr+2+DU+Sf
-	ITOVrcC2iZwxWnjYRpzq4k8HqE3MnjsJ2S8C3ggYfPg1kbTiEew/Av2lYI6G7JX7uavZX8UGVH0
-	gUFEnwSmmQzxnNmmsNGq9Eo=
-X-Google-Smtp-Source: AGHT+IEK5Sbm+WjJDR6g2t17R+og0Bt/of1ihGcPnWxde7ZGgJvdB84cOxRI2r3c4nE0cbTdBy8Hzg==
-X-Received: by 2002:a05:6a00:b81:b0:724:fac6:35f2 with SMTP id d2e1a72fcca58-725300107f4mr5154814b3a.9.1732743797849;
-        Wed, 27 Nov 2024 13:43:17 -0800 (PST)
+        bh=PzsIRv0dmcoh1JVhn/KYfXIXK/gFawhUd+jupZesXIM=;
+        b=YT3TmJ5U57e2ego32pPwFjWrmHL8cX8RbTniwuxJuc8Eef+BYjIFQFloMewjHmrBD1
+         tKEIXSQnD0M85/eCMsbXzIudhcI3PAHnb+2vGTNEqJ72YYRM+Trsy3tvU5jwBbem4u6/
+         ziLiFYqFLibVfWEgVUK9jkqxNzQPBlZGf10akXCt6NI+Eh8Vza9aAWaADgDzqujb8Izn
+         RowWuVm+6yMsR1XlQq6+xOKyUK4pM/YazXnjHgJ+SZKMMirqilqe8V9wuRy/PYzgKW4U
+         vsBnpL+Tre5X/taPa6WZYquS+VZKBJ+q55GNljE6xEgOjiRATAxifadEnjORfsW5Q37O
+         b5og==
+X-Forwarded-Encrypted: i=1; AJvYcCWg9g+uRCBV5hDg05bcVcezDtkPalViqeQsqMwCPwULgS6NZuoDyJelFAfqWfc1nnLXeLV/72WXM840Vu/5@vger.kernel.org, AJvYcCWxXyBy0NRMmw/nOki2j0BQnvjlxZsu37Ylk45YuKufYw3+txgRoWoLA5Ikm0Nm2hyml3lG7WqIz2A=@vger.kernel.org, AJvYcCXH4bltkoq1BIk3f+8/G9saY5ToKHdQ/uxo2CQRrXcpA3XB6AmJD5bESse4OkYFQUd/roAU/FJc@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcaVfut8E36J+PE3Dbm4tE5rkln2hXZqovv3k3wAnSsJKV4MI8
+	YTUCWYT8zzFPjPXvEwb231qUrO1AJ9CUPvbtg6MnzxWioF51P41u
+X-Gm-Gg: ASbGncsQ77JmWxnoddyw79uWbYO3WMjo/bxa5AfzOGJ5y+HoUb0banuJJC0J1FxuxCX
+	mbOYzG45D5TwitdsuQduq+ZpVC08/NgpA9aHYPJBSjyhkckCxQ11i2bjS4WXNJXX5sqmWJ7bAVD
+	xzeHriwRqG8Aq9rnvgr9R9rDoUpKztCCGm+4POxmZcNA0HMI21LJ5mK0axlTHuwaYn4SutXNC+3
+	QuT3+ZlFcci9PCCRSBlHT+0RX8VggG+lqq4zUV5JGCcV04/F3QhJTIXq5gHTldqdjlGfS6IKXic
+	+rOCRXVm5CBOitskOdWq94A=
+X-Google-Smtp-Source: AGHT+IHKrye4kW+lZBmR2EtaynTda3T7K6xVD46GM8CihjQl+xc26tZC3RgoDSFItG33JLMxhEeXPA==
+X-Received: by 2002:a17:90b:3e86:b0:2ea:a9ac:eef2 with SMTP id 98e67ed59e1d1-2ee08eb1c46mr5790193a91.13.1732747689000;
+        Wed, 27 Nov 2024 14:48:09 -0800 (PST)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72541762411sm37158b3a.20.2024.11.27.13.43.15
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ee0fad0797sm2141990a91.40.2024.11.27.14.48.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Nov 2024 13:43:17 -0800 (PST)
+        Wed, 27 Nov 2024 14:48:08 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <f04406c5-f805-4de3-8a7c-abfdfd91a501@roeck-us.net>
-Date: Wed, 27 Nov 2024 13:43:14 -0800
+Message-ID: <1bdc12d6-ac23-49ff-a235-5ea54ca2ddaa@roeck-us.net>
+Date: Wed, 27 Nov 2024 14:48:06 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,7 +84,7 @@ To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org,
 References: <20241011184527.16393-1-jdamato@fastly.com>
  <20241011184527.16393-6-jdamato@fastly.com>
  <85dd4590-ea6b-427d-876a-1d8559c7ad82@roeck-us.net>
- <Z0dqJNnlcIrvLuV6@LQ3V64L9R2>
+ <Z0dqJNnlcIrvLuV6@LQ3V64L9R2> <Z0d6QlrRUig5eD_I@LQ3V64L9R2>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -130,172 +130,140 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <Z0dqJNnlcIrvLuV6@LQ3V64L9R2>
+In-Reply-To: <Z0d6QlrRUig5eD_I@LQ3V64L9R2>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/27/24 10:51, Joe Damato wrote:
-> On Wed, Nov 27, 2024 at 09:43:54AM -0800, Guenter Roeck wrote:
->> Hi,
+On 11/27/24 12:00, Joe Damato wrote:
+> On Wed, Nov 27, 2024 at 10:51:16AM -0800, Joe Damato wrote:
+>> On Wed, Nov 27, 2024 at 09:43:54AM -0800, Guenter Roeck wrote:
+>>> Hi,
+>>>
+>>> On Fri, Oct 11, 2024 at 06:45:00PM +0000, Joe Damato wrote:
+>>>> Add a persistent NAPI config area for NAPI configuration to the core.
+>>>> Drivers opt-in to setting the persistent config for a NAPI by passing an
+>>>> index when calling netif_napi_add_config.
+>>>>
+>>>> napi_config is allocated in alloc_netdev_mqs, freed in free_netdev
+>>>> (after the NAPIs are deleted).
+>>>>
+>>>> Drivers which call netif_napi_add_config will have persistent per-NAPI
+>>>> settings: NAPI IDs, gro_flush_timeout, and defer_hard_irq settings.
+>>>>
+>>>> Per-NAPI settings are saved in napi_disable and restored in napi_enable.
+>>>>
+>>>> Co-developed-by: Martin Karsten <mkarsten@uwaterloo.ca>
+>>>> Signed-off-by: Martin Karsten <mkarsten@uwaterloo.ca>
+>>>> Signed-off-by: Joe Damato <jdamato@fastly.com>
+>>>> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+>>>
+>>> This patch triggers a lock inversion message on pcnet Ethernet adapters.
 >>
->> On Fri, Oct 11, 2024 at 06:45:00PM +0000, Joe Damato wrote:
->>> Add a persistent NAPI config area for NAPI configuration to the core.
->>> Drivers opt-in to setting the persistent config for a NAPI by passing an
->>> index when calling netif_napi_add_config.
->>>
->>> napi_config is allocated in alloc_netdev_mqs, freed in free_netdev
->>> (after the NAPIs are deleted).
->>>
->>> Drivers which call netif_napi_add_config will have persistent per-NAPI
->>> settings: NAPI IDs, gro_flush_timeout, and defer_hard_irq settings.
->>>
->>> Per-NAPI settings are saved in napi_disable and restored in napi_enable.
->>>
->>> Co-developed-by: Martin Karsten <mkarsten@uwaterloo.ca>
->>> Signed-off-by: Martin Karsten <mkarsten@uwaterloo.ca>
->>> Signed-off-by: Joe Damato <jdamato@fastly.com>
->>> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+>> Thanks for the report. I am not familiar with the pcnet driver, but
+>> took some time now to read the report below and the driver code.
 >>
->> This patch triggers a lock inversion message on pcnet Ethernet adapters.
+>> I could definitely be reading the output incorrectly (if so please
+>> let me know), but it seems like the issue can be triggered in this
+>> case:
 > 
-> Thanks for the report. I am not familiar with the pcnet driver, but
-> took some time now to read the report below and the driver code.
+> Sorry, my apologies, I both:
+>    - read the report incorrectly, and
+>    - proposed a bad patch that would result in a deadlock :)
 > 
-> I could definitely be reading the output incorrectly (if so please
-> let me know), but it seems like the issue can be triggered in this
-> case:
+> After re-reading it and running this by Martin (who is CC'd), the
+> inversion is actually:
 > 
 > CPU 0:
 > pcnet32_open
 >     lock(lp->lock)
 >       napi_enable
->         napi_hash_add
+>         napi_hash_add <- before this executes, CPU 1 proceeds
 >           lock(napi_hash_lock)
->           unlock(napi_hash_lock)
->     unlock(lp->lock)
-> 
-> 
-> Meanwhile on CPU 1:
+> CPU 1:
 >    pcnet32_close
 >      napi_disable
 >        napi_hash_del
 >          lock(napi_hash_lock)
->          unlock(napi_hash_lock)
->      lock(lp->lock)
->      [... other code ...]
->      unlock(lp->lock)
->      [... other code ...]
->      lock(lp->lock)
->      [... other code ...]
->      unlock(lp->lock)
+>           < INTERRUPT >
+>              pcnet32_interrupt
+>                lock(lp->lock)
 > 
-> In other words: while the close path is holding napi_hash_lock (and
-> before it acquires lp->lock), the enable path takes lp->lock and
-> then napi_hash_lock.
+> This is now an inversion because:
 > 
-> It seems this was triggered because before the identified commit,
-> napi_enable did not call napi_hash_add (and thus did not take the
-> napi_hash_lock).
+> CPU 0: holds lp->lock and is about to take napi_hash_lock
+> CPU 1: holds napi_hashlock and an IRQ firing on CPU 1 tries to take
+>         lp->lock (which CPU 0 already holds)
 > 
-> So, I agree there is an inversion; I can't say for sure if this
-> would cause a deadlock in certain situations. It seems like
-> napi_hash_del in the close path will return, so the inversion
-> doesn't seem like it'd lead to a deadlock, but I am not an expert in
-> this and could certainly be wrong.
+> Neither side can proceed:
+>    - CPU 0 is stuck waiting for napi_hash_lock
+>    - CPU 1 is stuck waiting for lp->lock
 > 
-> I wonder if a potential fix for this would be in the driver's close
-> function?
+> I think the below explanation is still correct as to why the
+> identified commit causes the issue:
 > 
-> In pcnet32_open the order is:
->    lock(lp->lock)
->      napi_enable
->      netif_start_queue
->      mod_timer(watchdog)
->    unlock(lp->lock)
+>> It seems this was triggered because before the identified commit,
+>> napi_enable did not call napi_hash_add (and thus did not take the
+>> napi_hash_lock).
 > 
-> Perhaps pcnet32_close should be the same?
+> However, the previous patch I proposed for pcnet32 would also cause
+> a deadlock as the watchdog timer's function also needs lp->lock.
 > 
-> I've included an example patch below for pcnet32_close and I've CC'd
-> the maintainer of pcnet32 that is not currently CC'd.
+> A corrected patch for pcnet32 can be found below.
 > 
-> Guenter: Is there any change you might be able to test the proposed
-> patch below?
+> Guenter: Sorry, would you mind testing the below instead of the
+> previous patch?
 > 
-
-I moved the spinlock after del_timer_sync() because it is not a good idea
-to hold a spinlock when calling that function. That results in:
-
-[   10.646956] BUG: sleeping function called from invalid context at net/core/dev.c:6775
-[   10.647142] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 1817, name: ip
-[   10.647237] preempt_count: 1, expected: 0
-[   10.647319] 2 locks held by ip/1817:
-[   10.647383]  #0: ffffffff81ded990 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_newlink+0x22a/0x74c
-[   10.647880]  #1: ff6000000498ccb0 (&lp->lock){-.-.}-{3:3}, at: pcnet32_close+0x40/0x126
-[   10.648050] irq event stamp: 3720
-[   10.648102] hardirqs last  enabled at (3719): [<ffffffff80decaf4>] _raw_spin_unlock_irqrestore+0x54/0x62
-[   10.648204] hardirqs last disabled at (3720): [<ffffffff80dec8a2>] _raw_spin_lock_irqsave+0x5e/0x64
-[   10.648301] softirqs last  enabled at (3712): [<ffffffff8001efca>] handle_softirqs+0x3e6/0x4a2
-[   10.648396] softirqs last disabled at (3631): [<ffffffff80ded6cc>] __do_softirq+0x12/0x1a
-[   10.648666] CPU: 0 UID: 0 PID: 1817 Comm: ip Tainted: G                 N 6.12.0-10313-g7d4050728c83-dirty #1
-[   10.648828] Tainted: [N]=TEST
-[   10.648879] Hardware name: riscv-virtio,qemu (DT)
-[   10.648978] Call Trace:
-[   10.649048] [<ffffffff80006d42>] dump_backtrace+0x1c/0x24
-[   10.649117] [<ffffffff80dc8d94>] show_stack+0x2c/0x38
-[   10.649180] [<ffffffff80de00b0>] dump_stack_lvl+0x74/0xac
-[   10.649246] [<ffffffff80de00fc>] dump_stack+0x14/0x1c
-[   10.649308] [<ffffffff8004da18>] __might_resched+0x23e/0x248
-[   10.649377] [<ffffffff8004da60>] __might_sleep+0x3e/0x62
-[   10.649441] [<ffffffff80b8d370>] napi_disable+0x24/0x10c
-[   10.649506] [<ffffffff809a06fe>] pcnet32_close+0x6c/0x126
-...
-
-This is due to might_sleep() at the beginning of napi_disable(). So it doesn't
-work as intended, it just replaces one problem with another.
-
-> Don: Would you mind taking a look to see if this change is sensible?
+> Don: Let me know what you think about the below?
 > 
-> Netdev maintainers: at a higher level, I'm not sure how many other
-> drivers might have locking patterns like this that commit
-> 86e25f40aa1e ("net: napi: Add napi_config") will break in a similar
-> manner.
+> Netdev maintainers, there is an alternate locking solution I can
+> propose as an RFC that might avoid this class of problem if this
+> sort of issue is more widespread than just pcnet32:
+>    - add the NAPI to the hash in netif_napi_add_weight (instead of napi_enable)
+>    - remove the NAPI from the hash in __netif_napi_del (instead of
+>      napi_disable)
 > 
-> Do I:
->    - comb through drivers trying to identify these, and/or
-
-Coccinelle, checking for napi_enable calls under spinlock, points to:
-
-napi_enable called under spin_lock_irqsave from drivers/net/ethernet/via/via-velocity.c:2325
-napi_enable called under spin_lock_irqsave from drivers/net/can/grcan.c:1076
-napi_enable called under spin_lock from drivers/net/ethernet/marvell/mvneta.c:4388
-napi_enable called under spin_lock_irqsave from drivers/net/ethernet/amd/pcnet32.c:2104
-
-Guenter
-
->    - do we find a way to implement the identified commit with the
->      original lock ordering to avoid breaking any other driver?
-> 
-> I'd appreciate guidance/insight from the maintainers on how to best
-> proceed.
+> If changing the locking order in core is the desired route, than the
+> patch below should be unnecessary, but:
 > 
 > diff --git a/drivers/net/ethernet/amd/pcnet32.c b/drivers/net/ethernet/amd/pcnet32.c
-> index 72db9f9e7bee..ff56a308fec9 100644
+> index 72db9f9e7bee..2e0077e68883 100644
 > --- a/drivers/net/ethernet/amd/pcnet32.c
 > +++ b/drivers/net/ethernet/amd/pcnet32.c
-> @@ -2623,13 +2623,13 @@ static int pcnet32_close(struct net_device *dev)
->          struct pcnet32_private *lp = netdev_priv(dev);
->          unsigned long flags;
+> @@ -2625,11 +2625,10 @@ static int pcnet32_close(struct net_device *dev)
 > 
-> +       spin_lock_irqsave(&lp->lock, flags);
-> +
 >          del_timer_sync(&lp->watchdog_timer);
 > 
+> +       spin_lock_irqsave(&lp->lock, flags);
 >          netif_stop_queue(dev);
 >          napi_disable(&lp->napi);
 > 
-> -       spin_lock_irqsave(&lp->lock, flags);
-> -
->          dev->stats.rx_missed_errors = lp->a->read_csr(ioaddr, 112);
-> 
->          netif_printk(lp, ifdown, KERN_DEBUG, dev,
+
+That is what I did, actually. Problem with that is that napi_disable()
+wants to be able to sleep, thus the above triggers:
+
+BUG: sleeping function called from invalid context at net/core/dev.c:6775
+in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 1817, name: ip
+preempt_count: 1, expected: 0
+2 locks held by ip/1817:
+#0: ffffffff81ded990 (rtnl_mutex){+.+.}-{4:4}, at: rtnl_newlink+0x22a/0x74c
+#1: ff6000000498ccb0 (&lp->lock){-.-.}-{3:3}, at: pcnet32_close+0x40/0x126
+irq event stamp: 3720
+hardirqs last  enabled at (3719): [<ffffffff80decaf4>] _raw_spin_unlock_irqrestore+0x54/0x62
+hardirqs last disabled at (3720): [<ffffffff80dec8a2>] _raw_spin_lock_irqsave+0x5e/0x64
+softirqs last  enabled at (3712): [<ffffffff8001efca>] handle_softirqs+0x3e6/0x4a2
+softirqs last disabled at (3631): [<ffffffff80ded6cc>] __do_softirq+0x12/0x1a
+CPU: 0 UID: 0 PID: 1817 Comm: ip Tainted: G                 N 6.12.0-10313-g7d4050728c83-dirty #1
+Tainted: [N]=TEST
+Hardware name: riscv-virtio,qemu (DT)
+Call Trace:
+[<ffffffff80006d42>] dump_backtrace+0x1c/0x24
+[<ffffffff80dc8d94>] show_stack+0x2c/0x38
+[<ffffffff80de00b0>] dump_stack_lvl+0x74/0xac
+[<ffffffff80de00fc>] dump_stack+0x14/0x1c
+[<ffffffff8004da18>] __might_resched+0x23e/0x248
+[<ffffffff8004da60>] __might_sleep+0x3e/0x62
+[<ffffffff80b8d370>] napi_disable+0x24/0x10c
+[<ffffffff809a06fe>] pcnet32_close+0x6c/0x126
+
+Guenter
 
