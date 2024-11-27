@@ -1,266 +1,114 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7F314A0B3
-	for <linux-doc@vger.kernel.org>; Wed, 27 Nov 2024 07:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6988BBE46;
+	Wed, 27 Nov 2024 07:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732692380; cv=none; b=HRjpqeFOvnwi4o27GA/tf/B+ooaU8HQjXzqN+C6zzdlOzwk0FMfn3PIQKZLS3fNga33wfTw4OZI6VNvO43yY9Vkgnjl+v4XtvvnaFB8L2XrNVYPDbkoIGGQINPc82NGfCueBDUi8QAtmNgldnyZnVLaZYhQt6bATc4JBp0YCZ1I=
+	t=1732692765; cv=none; b=ZVX3LNM5kKS6XHKFCsiG01fPL6osgSzaVbSWBLeK89Qtv2qdZ1LmSJbGn3W51nnUUeJ6EF9cfWZ8Ji6MrK/Z4m4goyrVR9bw72qKQBL84K0qVxUKVQzDW6GJmGWz80Wqzkl6bkb4m/vYGP9QC2vuLfnXjLZ3MNZRUT9Pl/COYes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732692380; c=relaxed/simple;
-	bh=LaCgO/1I3Ht7VzxrqJNIKq5AGQ9WB0sRXb58RNW5hlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BpuTksv1rrfk1kheaygLNYYPaVmqDoxcbNzoNqX9hbSo6PvH9D4PXUVTsufQkF5Wm9GjUEB/YWaavHxZAIWhZjHNxNS4XD7VAy0TykS8sbDW3wZ6DoD6Qtr3oehNhBzFCsrc36a10IRXV242jyBpQw2sUbgI+u8CmTginyIOwVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=c8JE9lF0; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1732692765; c=relaxed/simple;
+	bh=y5PKOe3A/ElM8wkWM4XMgKNtPnBBd+d6Q8Bsjsnjh14=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C6RgjlwgSsp7iklyKH/f12UJeuo5z+YtCVBcXCFnnqcxu11bGzyomamHgNmWOH87fxTtJbIardeVudC/8xZR+S1bXHzQe5y3LRj+ZwyKLW2mZG5g/q+47TKYXNupmUvITb1tuLt8p3UwQk+bJj3tZFvKtId8Y9ptz9JQ9PXGSs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=bMOvlLf8; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="c8JE9lF0"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-46690cbec70so22646731cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 26 Nov 2024 23:26:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1732692375; x=1733297175; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oki+SLMP3RV96wUZX5TvrU7XbLUfwG8p5rgWcxa7qog=;
-        b=c8JE9lF0M2SJGsQUqFEkjxAJBTkoJo3zqr9I6bI5vvYl0hoh/s4Dprwa7Uj7YdG+V1
-         lz3tHUPxIrsk0wDbomc/bFM72SB5QDSG3iZJ0nRR82IZn2tWBjOC2ERyMdt+8Tbf7cpR
-         3PqiobwJiUyncnENpJuYh48JBaeLu82f7FXJnPdPuWnRUw5Jlbx7Gbjw+bOS2bONfScj
-         aaZ8fUunewONGvfnX9FTHFa8hVJkzhzfb156PgkYOQ5/4q++jo31AabxZ72ZvzrmQel4
-         sVbTWMbwA2w6j0dC5M7il/dtDhtJqUwgB2UJaGZNCHrjO5ian5qfDtDpyfYqla49xwTQ
-         yEZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732692375; x=1733297175;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Oki+SLMP3RV96wUZX5TvrU7XbLUfwG8p5rgWcxa7qog=;
-        b=QuBJSSRGl060zLYVwJLr3oVObFp+bO22YzprJVk/Vu3NVRTFIeHx9LY7qktGKs5F6u
-         X4WpUhuNDeOFKqyu/bTSDHrDgs6UBdjMBd0yycdCNapRpBmFmIAS+p5eQlmACPYjd4p1
-         c7TSNGMbtd4srGzGxKaiSMadwK32BMAl5Hl1yhlzb9BQM3TaR0cT3BDqroJg9Ddmzkli
-         WwZ+zvCKKy8BFelzxyS6UzwRHiSmtbVApA6uqosuodc623x/M4oyvN7Uqa2It2gCYWJ3
-         N/ijFu1ntfIQRCVZv+/AMB5KpaH40xD/betw3lLflbMkDUiFoKJjfOQap0MuQucm8XVn
-         9O8g==
-X-Forwarded-Encrypted: i=1; AJvYcCV+20mQBp//KWqPaunAb04g0Vr8ErISxIeTFXdOTUiNzCH5tSLxM6xi/s3bakGTR/0Cq2LPVoTv2II=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBl3UzV/peRr6gLugRSazi87wMThF1BLyunwZQ++eehBHhQws9
-	Dsp+BiP0r8GxZnxZKIuPOHL4OL1mhedggyYHMvSi0uohblAXtzL3dqRcPUFqcLw=
-X-Gm-Gg: ASbGncsenVnzCRAWXQEIUfk8PsN7j9qrJgRraeDGmOx74XDo8KnbXDMUjEAq+UmI83R
-	6MYN6rgNfE+nQsw5HlFeng236vcudM+XZw4iJ8JUsSwU9mmc85TqPYjIYRLJfaIdqMW0e/XHJ6H
-	2jwL2Bq2ufcfi/Pd1oCdNYQ5Mqe06Moc4TrBCN+O8End4+nxzNmcnSYzWq6LFYkTwwfXlgU9c6l
-	sY1Opyqzw1MzOu1H38ntxKcfDMC/EgNTAd5Lu5wcX8QhJ6k
-X-Google-Smtp-Source: AGHT+IFJX0yoGf3rx43xtnjD4i0P7b6zQwuz1COBccsUFDJEwvH0o2DEs2dB0wnhyvUHM+XIFAHoZg==
-X-Received: by 2002:a05:622a:19a2:b0:460:aa51:840a with SMTP id d75a77b69052e-466b366240emr26501991cf.45.1732692375403;
-        Tue, 26 Nov 2024 23:26:15 -0800 (PST)
-Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b666fd9999sm324018785a.23.2024.11.26.23.26.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 23:26:13 -0800 (PST)
-Date: Wed, 27 Nov 2024 02:26:04 -0500
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Yuanchu Xie <yuanchu@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-	Khalid Aziz <khalid.aziz@oracle.com>,
-	Henry Huang <henry.hj@antgroup.com>, Yu Zhao <yuzhao@google.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Gregory Price <gregory.price@memverge.com>,
-	Huang Ying <ying.huang@intel.com>, Lance Yang <ioworker0@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Daniel Watson <ozzloy@each.do>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, SeongJae Park <sj@kernel.org>
-Subject: Re: [PATCH v4 0/9] mm: workingset reporting
-Message-ID: <20241127072604.GA2501036@cmpxchg.org>
-References: <20241127025728.3689245-1-yuanchu@google.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="bMOvlLf8"
+Received: from [192.168.7.205] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 4AR7WE5O1827260
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 26 Nov 2024 23:32:14 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 4AR7WE5O1827260
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024111601; t=1732692735;
+	bh=Q+69jm4dZPx/77M/o6zw1lNWCYUcUCa6Gnxp/BFqGUo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bMOvlLf8TZEck31MTyVHXl+AkIYh0ku74K/YZ0Myta9xF9uEn/Yd+hhOXBFbKqyiy
+	 1E3jrJZBS9Q1HGcXiJt6faZoqovW/TP9DginaUVsG0AJxLD+56nGhDTkTa4SGuFuCT
+	 jTyu84+Iq9s7xcDLqkJ9e9Se6kwhMr6Y1np1L6p6/uDRPZjIMmAb7i+LK3rPuLfz0D
+	 ybe25B0eozQqjKhavasjcNePh6YxGfNHDjc77O6YuzY42cinM8p8OPgGtSzlKoSP0o
+	 eLoDMIneEolnJVh2M2vnblkARceLdWGINc/sxXuFUFyIBAwxN3hrx4CzUx8XtjKFhr
+	 jw76Pgawb9ReA==
+Message-ID: <43e47da0-1257-4e68-9669-8e3d4915fa57@zytor.com>
+Date: Tue, 26 Nov 2024 23:32:13 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241127025728.3689245-1-yuanchu@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 09/27] KVM: VMX: Do not use
+ MAX_POSSIBLE_PASSTHROUGH_MSRS in array definition
+To: Borislav Petkov <bp@alien8.de>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, seanjc@google.com, pbonzini@redhat.com,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
+References: <20241001050110.3643764-1-xin@zytor.com>
+ <20241001050110.3643764-10-xin@zytor.com>
+ <20241126180253.GAZ0YNTdXH1UGeqsu6@fat_crate.local>
+ <e7f6e7c2-272a-4527-ba50-08167564e787@zytor.com>
+ <20241126200624.GDZ0YqQF96hKZ99x_b@fat_crate.local>
+ <f2fa87d7-ade8-42e2-8b2b-dba6f050d8c2@zytor.com>
+ <20241127065510.GBZ0bCTl8hptbdph2p@fat_crate.local>
+ <a76d9b6c-5578-4384-970d-2642bff3a268@zytor.com>
+ <20241127071008.GCZ0bF0EGespFhxwlP@fat_crate.local>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <20241127071008.GCZ0bF0EGespFhxwlP@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 26, 2024 at 06:57:19PM -0800, Yuanchu Xie wrote:
-> This patch series provides workingset reporting of user pages in
-> lruvecs, of which coldness can be tracked by accessed bits and fd
-> references. However, the concept of workingset applies generically to
-> all types of memory, which could be kernel slab caches, discardable
-> userspace caches (databases), or CXL.mem. Therefore, data sources might
-> come from slab shrinkers, device drivers, or the userspace.
-> Another interesting idea might be hugepage workingset, so that we can
-> measure the proportion of hugepages backing cold memory. However, with
-> architectures like arm, there may be too many hugepage sizes leading to
-> a combinatorial explosion when exporting stats to the userspace.
-> Nonetheless, the kernel should provide a set of workingset interfaces
-> that is generic enough to accommodate the various use cases, and extensible
-> to potential future use cases.
-
-Doesn't DAMON already provide this information?
-
-CCing SJ.
-
-> Use cases
-> ==========
-> Job scheduling
-> On overcommitted hosts, workingset information improves efficiency and
-> reliability by allowing the job scheduler to have better stats on the
-> exact memory requirements of each job. This can manifest in efficiency by
-> landing more jobs on the same host or NUMA node. On the other hand, the
-> job scheduler can also ensure each node has a sufficient amount of memory
-> and does not enter direct reclaim or the kernel OOM path. With workingset
-> information and job priority, the userspace OOM killing or proactive
-> reclaim policy can kick in before the system is under memory pressure.
-> If the job shape is very different from the machine shape, knowing the
-> workingset per-node can also help inform page allocation policies.
+On 11/26/2024 11:10 PM, Borislav Petkov wrote:
+> On Tue, Nov 26, 2024 at 11:02:31PM -0800, Xin Li wrote:
+>> This is a patch that cleanup the existing code for better accommodate
+>> new VMX pass-through MSRs.  And it can be a standalone one.
 > 
-> Proactive reclaim
-> Workingset information allows the a container manager to proactively
-> reclaim memory while not impacting a job's performance. While PSI may
-> provide a reactive measure of when a proactive reclaim has reclaimed too
-> much, workingset reporting allows the policy to be more accurate and
-> flexible.
-
-I'm not sure about more accurate.
-
-Access frequency is only half the picture. Whether you need to keep
-memory with a given frequency resident depends on the speed of the
-backing device.
-
-There is memory compression; there is swap on flash; swap on crappy
-flash; swapfiles that share IOPS with co-located filesystems. There is
-zswap+writeback, where avg refault speed can vary dramatically.
-
-You can of course offload much more to a fast zswap backend than to a
-swapfile on a struggling flashdrive, with comparable app performance.
-
-So I think you'd be hard pressed to achieve a high level of accuracy
-in the usecases you list without taking the (often highly dynamic)
-cost of paging / memory transfer into account.
-
-There is a more detailed discussion of this in a paper we wrote on
-proactive reclaim/offloading - in 2.5 Hardware Heterogeneity:
-
-https://www.cs.cmu.edu/~dskarlat/publications/tmo_asplos22.pdf
-
-> Ballooning (similar to proactive reclaim)
-> The last patch of the series extends the virtio-balloon device to report
-> the guest workingset.
-> Balloon policies benefit from workingset to more precisely determine the
-> size of the memory balloon. On end-user devices where memory is scarce and
-> overcommitted, the balloon sizing in multiple VMs running on the same
-> device can be orchestrated with workingset reports from each one.
-> On the server side, workingset reporting allows the balloon controller to
-> inflate the balloon without causing too much file cache to be reclaimed in
-> the guest.
+> Well, your very *next* patch is adding more MSRs to that array. So it needs to
+> be part of this series.
 > 
-> Promotion/Demotion
-> If different mechanisms are used for promition and demotion, workingset
-> information can help connect the two and avoid pages being migrated back
-> and forth.
-> For example, given a promotion hot page threshold defined in reaccess
-> distance of N seconds (promote pages accessed more often than every N
-> seconds). The threshold N should be set so that ~80% (e.g.) of pages on
-> the fast memory node passes the threshold. This calculation can be done
-> with workingset reports.
-> To be directly useful for promotion policies, the workingset report
-> interfaces need to be extended to report hotness and gather hotness
-> information from the devices[1].
-> 
-> [1]
-> https://www.opencompute.org/documents/ocp-cms-hotness-tracking-requirements-white-paper-pdf-1
->
-> Sysfs and Cgroup Interfaces
-> ==========
-> The interfaces are detailed in the patches that introduce them. The main
-> idea here is we break down the workingset per-node per-memcg into time
-> intervals (ms), e.g.
-> 
-> 1000 anon=137368 file=24530
-> 20000 anon=34342 file=0
-> 30000 anon=353232 file=333608
-> 40000 anon=407198 file=206052
-> 9223372036854775807 anon=4925624 file=892892
->
-> Implementation
-> ==========
-> The reporting of user pages is based off of MGLRU, and therefore requires
-> CONFIG_LRU_GEN=y. We would benefit from more MGLRU generations for a more
-> fine-grained workingset report, but we can already gather a lot of data
-> with just four generations. The workingset reporting mechanism is gated
-> behind CONFIG_WORKINGSET_REPORT, and the aging thread is behind
-> CONFIG_WORKINGSET_REPORT_AGING.
-> 
-> Benchmarks
-> ==========
-> Ghait Ouled Amar Ben Cheikh has implemented a simple policy and ran Linux
-> compile and redis benchmarks from openbenchmarking.org. The policy and
-> runner is referred to as WMO (Workload Memory Optimization).
-> The results were based on v3 of the series, but v4 doesn't change the core
-> of the working set reporting and just adds the ballooning counterpart.
-> 
-> The timed Linux kernel compilation benchmark shows improvements in peak
-> memory usage with a policy of "swap out all bytes colder than 10 seconds
-> every 40 seconds". A swapfile is configured on SSD.
-> --------------------------------------------
-> peak memory usage (with WMO): 4982.61328 MiB
-> peak memory usage (control): 9569.1367 MiB
-> peak memory reduction: 47.9%
-> --------------------------------------------
-> Benchmark                                           | Experimental     |Control         | Experimental_Std_Dev | Control_Std_Dev
-> Timed Linux Kernel Compilation - allmodconfig (sec) | 708.486 (95.91%) | 679.499 (100%) | 0.6%                 | 0.1%
-> --------------------------------------------
-> Seconds, fewer is better
 
-You can do this with a recent (>2018) upstream kernel and ~100 lines
-of python [1]. It also works on both LRU implementations.
+It's self-contained.  Another approach is to send cleanup patches in a 
+separate preparation patch set.
 
-[1] https://github.com/facebookincubator/senpai
-
-We use this approach in virtually the entire Meta fleet, to offload
-unneeded memory, estimate available capacity for job scheduling, plan
-future capacity needs, and provide accurate memory usage feedback to
-application developers.
-
-It works over a wide variety of CPU and storage configurations with no
-specific tuning.
-
-The paper I referenced above provides a detailed breakdown of how it
-all works together.
-
-I would be curious to see a more in-depth comparison to the prior art
-in this space. At first glance, your proposal seems more complex and
-less robust/versatile, at least for offloading and capacity gauging.
-
-It does provide more detailed insight into userspace memory behavior,
-which could be helpful when trying to make sense of applications that
-sit on a rich layer of libraries and complicated runtimes. But here a
-comparison to DAMON would be helpful.
-
->  25 files changed, 2482 insertions(+), 9 deletions(-)
->  create mode 100644 Documentation/admin-guide/mm/workingset_report.rst
->  create mode 100644 include/linux/workingset_report.h
->  create mode 100644 mm/workingset_report.c
->  create mode 100644 mm/workingset_report_aging.c
->  create mode 100644 tools/testing/selftests/mm/workingset_report.c
->  create mode 100644 tools/testing/selftests/mm/workingset_report.h
->  create mode 100644 tools/testing/selftests/mm/workingset_report_test.c
+Thanks!
+     Xin
