@@ -1,58 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D684282D66;
-	Wed, 27 Nov 2024 19:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD067202F9A
+	for <linux-doc@vger.kernel.org>; Wed, 27 Nov 2024 20:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732737217; cv=none; b=MH/Hjt8Bkqlw/szeR7Hyi9KFZuY3RZlG88iD5JAYrlUtdCt2hHkwUQUG9nDZstebP6WaPBapqTTZfE3k50LKHfpgiHFdw7gq1rOjusBkDjVqi5RhyCZea7QqMmWNE51PpNoL6o9h85Sbqvl6zrY1tLr1TL0tNH9qnx0bLAe4ueU=
+	t=1732737608; cv=none; b=dXNRI9jLuSpw3ZxMqx6chknqVrVHKyJ9uRpojG/nv+lMsKqa9i40ns95XRFjv8zoOm+HL0GIdiM5xfOq3nYINjpDaGQEwKOFUXiR/W/Jyme3psbMR7vHNooGmOyllzH1HIT7M2uTj5yo8U2WjJbolxJPNGX4g/8wiocm7gQhCjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732737217; c=relaxed/simple;
-	bh=jM4rouWICuoJdC1FcQYqeZzWPXGne3NLukzZ69xBI1k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m9AvI/kEcukJZItug5ERR4OqjKFuSKUcdDZSvv0qF6T1wYszfiX4QWSINgEyROj8U7mQ0o5erbbXWIO4r1EuGD7QRPLgl7nwxLO5TBVWUaA71PHDSb50lLs9L0eT6/u4ad3NF2ZAtFyBR5tROEZMjUkb7RVSTeWr8+7p+ZRyKUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FgfloJGl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732737608; c=relaxed/simple;
+	bh=4kulIdpUkClMnW3bgQTIh+M2+GGa09Ku28XupppGLXw=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kNOrLJoRle41E+GsLqbqDmfK7rLTm3SO5Ec+gr4jDs4Pf0GY8XmoBB0Wvak1RiW4/AZSPBBh4Wrre9iktgRHxbiBxhnDWryWD0iokjLFrD0Be4PUXyInIapfzhe+tdypkqnF9HrVDKWwi0xdcArJIxUcnBkP2cN/rW+miSk3WUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=GRP0zwAB; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FgfloJGl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E82C4CECC;
-	Wed, 27 Nov 2024 19:53:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732737216;
-	bh=jM4rouWICuoJdC1FcQYqeZzWPXGne3NLukzZ69xBI1k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FgfloJGlWT8hstYCPeq961S8wXnz/E6O6yBhrCEUKDZ0POh+uzdvEzMQ4nfma+ktQ
-	 YC26F+wkrKoNmgLxF9AaNmKMAxwCExz/7AZNanPIKsCZK1NhNDmf3lr3sgNktwUhvq
-	 K+mPH+MrP5klOkX0WGejyobVG16BVtJeVbKnNv2mbl4OLfDCNc7x/Eywqc00D0IkWM
-	 pIbLQ2mZBduIHfGJbrU+KzEpfpGYMBbEW/mXmsROfjgocdYgZg9a+Rdi2sWTW64N64
-	 VlBPCGjsmj6O395u9hSOWvK0MbK2M8FF2Cc6+FbroiVjhrtzO+9Gg4apK6uvWCFA7H
-	 JCrkzjuWUD5QQ==
-Date: Wed, 27 Nov 2024 11:53:33 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com, corbet@lwn.net, petr.pavlu@suse.com,
-	samitolvanen@google.com, da.gomez@samsung.com,
-	akpm@linux-foundation.org, paul@paul-moore.com, jmorris@namei.org,
-	serge@hallyn.com, shuah@kernel.org, mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com, linux-integrity@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, wufan@linux.microsoft.com,
-	pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,
-	mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
-	dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com,
-	ppavlu@suse.com, petr.vorel@gmail.com, mzerqung@0pointer.de,
-	kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
-Subject: Re: [PATCH v6 07/15] digest_cache: Allow registration of digest list
- parsers
-Message-ID: <Z0d4vXuCqjTo_QW1@bombadil.infradead.org>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
- <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
- <Z0UN9ub0iztWvgLi@bombadil.infradead.org>
- <d428a5d926d695ebec170e98463f7501a1b00793.camel@huaweicloud.com>
- <Z0Ybvzy7ianR-Sx9@bombadil.infradead.org>
- <3dc25195b0362b3e5b6d6964df021ff4e7e1b226.camel@huaweicloud.com>
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="GRP0zwAB"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2eacc4c9164so140332a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 27 Nov 2024 12:00:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1732737606; x=1733342406; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SjUTXgm+hjNlrlkeiDpx8ILNw62xTbjnMxBRwDCdfK0=;
+        b=GRP0zwABVmUxP6EqpcKwcyw63nZa/Qo55iElKFAEHlti9kzOicKkAuHviL5bODN9yP
+         sXmHyeKSWzzAVOSEMrYTztiITE237f7sLwu6ZWcAVJL2/rR7lF1r2MrWihtaSdce2D69
+         8FiChVUjy0oYX/FIQLtnCIVzXRkTgxYygejUg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732737606; x=1733342406;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SjUTXgm+hjNlrlkeiDpx8ILNw62xTbjnMxBRwDCdfK0=;
+        b=pzqPQlhDJks2jaTFKg8kjZMp0NeaZAkEJyDXSV3CpNSOQPVWrz0lyUhIROh8d+1K2H
+         IQcRI1aHY2ywjZRDYyHFPVXds22HCx66FEm+Jp7+aLz41i54K4Kkh5AAFGS50CdY3b7r
+         lpEWqgZwsu5fXczOUwj4T2jNNUY/+jbqpAyE4z1M2nUupLBUlOSysfAWuhH1S9b9b87c
+         BLxptIounYsK0oBpRidjDrqSkuYPb3ab73BfepsjICfGpwarNfcRQkpgLL++4OlFaiy5
+         P92nPg/DXYoQgB7ppeHkYdAu3WOdr8TROGp3w0LRzkeWcEzo98BfMN4wwRAcwdiYATDT
+         QOXA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDG12wvi4VrH6OF46hYV+3XFwXzsBxOR9ywDz1oNp4b4HQevOII/dUQmJb9YnyuxnapuP6liGm32Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYRIKIYOCYqXaaAgdcsb9+HvvCCF+4+Wx/26PFIDLx8w3vl+ez
+	1Ia7zvW1nLq8l0TctYVQK5qy6N2IiJGBTL3afq1lq+yiYFpd/4zgatw1wwP09FHJ+4Xfc8mC5dv
+	1
+X-Gm-Gg: ASbGncvKXK1ivxvY5/iVcnVYKyTpXObzZvbJAa+zXuSpocK9Da954SO8IR8FFodOq78
+	ZJkzwhoUeRiTzHRlpNrJQRP7bAG8xZnWx66HG8529dS105JSSmL98oxcxk2U5T5/NtBYTJTMnpx
+	RtkV2uUUFdwRt2mTnqf6xP53HAb9Nx7XN5bQKgkGVB0X6JVaIaH/1KGoRO7w1GGkek6/dduMqW0
+	Vt/fblF757GWwU7X+QSZsrg9+5dOMORbRk8xX0uQxMWfjSeq+KJwTyb2TqkYgpGDZr9kOYzbwKd
+	OBLjh1BKYXm6F6Sn
+X-Google-Smtp-Source: AGHT+IHJ3VPgCBxfCXsFev5RlCwsdAg0ojCe3Aj++64ttxbNqdV4DbkkvxPl6aCAVgmuLHmfyQyUcg==
+X-Received: by 2002:a17:90b:3c12:b0:2e0:7b2b:f76 with SMTP id 98e67ed59e1d1-2ee08ecf438mr5493334a91.19.1732737605988;
+        Wed, 27 Nov 2024 12:00:05 -0800 (PST)
+Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ee0fa995d7sm1989300a91.35.2024.11.27.12.00.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Nov 2024 12:00:05 -0800 (PST)
+Date: Wed, 27 Nov 2024 12:00:02 -0800
+From: Joe Damato <jdamato@fastly.com>
+To: Guenter Roeck <linux@roeck-us.net>, netdev@vger.kernel.org,
+	mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
+	bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com, willemdebruijn.kernel@gmail.com,
+	edumazet@google.com, Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Johannes Berg <johannes.berg@intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, pcnet32@frontier.com
+Subject: Re: [net-next v6 5/9] net: napi: Add napi_config
+Message-ID: <Z0d6QlrRUig5eD_I@LQ3V64L9R2>
+References: <20241011184527.16393-1-jdamato@fastly.com>
+ <20241011184527.16393-6-jdamato@fastly.com>
+ <85dd4590-ea6b-427d-876a-1d8559c7ad82@roeck-us.net>
+ <Z0dqJNnlcIrvLuV6@LQ3V64L9R2>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,37 +83,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3dc25195b0362b3e5b6d6964df021ff4e7e1b226.camel@huaweicloud.com>
+In-Reply-To: <Z0dqJNnlcIrvLuV6@LQ3V64L9R2>
 
-On Wed, Nov 27, 2024 at 10:51:11AM +0100, Roberto Sassu wrote:
-> For eBPF programs we are also in a need for a better way to
-> measure/appraise them.
-
-I am confused now, I was under the impression this "Integrity Digest
-Cache" is just a special thing for LSMs, and so I was under the
-impression that kernel_read_file() lsm hook already would take care
-of eBPF programs.
-
-> Now, I'm trying to follow you on the additional kernel_read_file()
-> calls. I agree with you, if a parser tries to open again the file that
-> is being verified it would cause a deadlock in IMA (since the inode
-> mutex is already locked for verifying the original file).
-
-Just document this on the parser as a requirement.
-
-> > > Supporting kernel modules opened the road for new deadlocks, since one
-> > > can ask a digest list to verify a kernel module, but that digest list
-> > > requires the same kernel module. That is why the in-kernel mechanism is
-> > > 100% reliable,
+On Wed, Nov 27, 2024 at 10:51:16AM -0800, Joe Damato wrote:
+> On Wed, Nov 27, 2024 at 09:43:54AM -0800, Guenter Roeck wrote:
+> > Hi,
 > > 
-> > Are users of this infrastructure really in need of modules for these
-> > parsers?
+> > On Fri, Oct 11, 2024 at 06:45:00PM +0000, Joe Damato wrote:
+> > > Add a persistent NAPI config area for NAPI configuration to the core.
+> > > Drivers opt-in to setting the persistent config for a NAPI by passing an
+> > > index when calling netif_napi_add_config.
+> > > 
+> > > napi_config is allocated in alloc_netdev_mqs, freed in free_netdev
+> > > (after the NAPIs are deleted).
+> > > 
+> > > Drivers which call netif_napi_add_config will have persistent per-NAPI
+> > > settings: NAPI IDs, gro_flush_timeout, and defer_hard_irq settings.
+> > > 
+> > > Per-NAPI settings are saved in napi_disable and restored in napi_enable.
+> > > 
+> > > Co-developed-by: Martin Karsten <mkarsten@uwaterloo.ca>
+> > > Signed-off-by: Martin Karsten <mkarsten@uwaterloo.ca>
+> > > Signed-off-by: Joe Damato <jdamato@fastly.com>
+> > > Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+> > 
+> > This patch triggers a lock inversion message on pcnet Ethernet adapters.
 > 
-> I planned to postpone this to later, and introduced two parsers built-
-> in (TLV and RPM). However, due to Linus's concern regarding the RPM
-> parser, I moved it out in a kernel module.
+> Thanks for the report. I am not familiar with the pcnet driver, but
+> took some time now to read the report below and the driver code.
+> 
+> I could definitely be reading the output incorrectly (if so please
+> let me know), but it seems like the issue can be triggered in this
+> case:
 
-OK this should be part of the commit log, ie that it is not desirable to
-have an rpm parser in-kernel for some users.
+Sorry, my apologies, I both:
+  - read the report incorrectly, and
+  - proposed a bad patch that would result in a deadlock :)
 
-  Luis
+After re-reading it and running this by Martin (who is CC'd), the
+inversion is actually:
+
+CPU 0:
+pcnet32_open
+   lock(lp->lock)
+     napi_enable
+       napi_hash_add <- before this executes, CPU 1 proceeds
+         lock(napi_hash_lock)
+CPU 1:
+  pcnet32_close
+    napi_disable
+      napi_hash_del
+        lock(napi_hash_lock)
+         < INTERRUPT >
+            pcnet32_interrupt
+              lock(lp->lock)
+
+This is now an inversion because:
+
+CPU 0: holds lp->lock and is about to take napi_hash_lock
+CPU 1: holds napi_hashlock and an IRQ firing on CPU 1 tries to take
+       lp->lock (which CPU 0 already holds)
+
+Neither side can proceed:
+  - CPU 0 is stuck waiting for napi_hash_lock
+  - CPU 1 is stuck waiting for lp->lock
+
+I think the below explanation is still correct as to why the
+identified commit causes the issue:
+
+> It seems this was triggered because before the identified commit,
+> napi_enable did not call napi_hash_add (and thus did not take the
+> napi_hash_lock).
+
+However, the previous patch I proposed for pcnet32 would also cause
+a deadlock as the watchdog timer's function also needs lp->lock.
+
+A corrected patch for pcnet32 can be found below.
+
+Guenter: Sorry, would you mind testing the below instead of the
+previous patch?
+
+Don: Let me know what you think about the below?
+
+Netdev maintainers, there is an alternate locking solution I can
+propose as an RFC that might avoid this class of problem if this
+sort of issue is more widespread than just pcnet32:
+  - add the NAPI to the hash in netif_napi_add_weight (instead of napi_enable)
+  - remove the NAPI from the hash in __netif_napi_del (instead of
+    napi_disable)
+
+If changing the locking order in core is the desired route, than the
+patch below should be unnecessary, but:
+
+diff --git a/drivers/net/ethernet/amd/pcnet32.c b/drivers/net/ethernet/amd/pcnet32.c
+index 72db9f9e7bee..2e0077e68883 100644
+--- a/drivers/net/ethernet/amd/pcnet32.c
++++ b/drivers/net/ethernet/amd/pcnet32.c
+@@ -2625,11 +2625,10 @@ static int pcnet32_close(struct net_device *dev)
+
+        del_timer_sync(&lp->watchdog_timer);
+
++       spin_lock_irqsave(&lp->lock, flags);
+        netif_stop_queue(dev);
+        napi_disable(&lp->napi);
+
+-       spin_lock_irqsave(&lp->lock, flags);
+-
+        dev->stats.rx_missed_errors = lp->a->read_csr(ioaddr, 112);
+
+        netif_printk(lp, ifdown, KERN_DEBUG, dev,
