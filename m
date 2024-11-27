@@ -1,91 +1,166 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019EC18E0E;
-	Wed, 27 Nov 2024 04:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F35146580;
+	Wed, 27 Nov 2024 06:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732681344; cv=none; b=LX0m9rIYz8Bw460luR83bHasIgpOTZpw7InQhgORaUmd/gJlCSpHEeLowGUMgqbfOkgDvPKmbyJjM4zes06iS2NXOKdPiWlWSsf/enM8knygIrlRgPsqh+2ZEpFMuoUOd4ujxQHus7bSK0adpOyrmJkaD85KKWAEVUsZQeUCxAw=
+	t=1732690029; cv=none; b=OHgSyLC7Jmniyi4gqj/3aglKEyH3RCWxy4hqBZ9tkfzb9MNGVsvy/BLMgXrMCo+HwoRB0h2g/ygRj+tjXbwThDn/mQfFHhtEbgLkaKA7AcCdrqglcyF59vDyPOEfiOXcI9UsOrTC2U/YtKHqWdQx7q2RAcctskE5VrEIge9Zpoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732681344; c=relaxed/simple;
-	bh=o6u8e0NpNmDukk8wDUY+TU+51ndzfjh95tgvttkNYTs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KVjOSYz8kgzSnl0Y/66VxsEVjKJBtsbRuqUyKSAOoJF+ALl64U737t40ei6gNsugkBSYP82ZXI4QHzytR3wlKebYN3GgELNEnXVcCHRqitiA0gYQ5LO5jiHYceKgNb9RFvOd4BRLtQDeDEsz1GfpCu16T/7xLK9PYkHjMm05l3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vIQ/OWTz; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1732690029; c=relaxed/simple;
+	bh=IKN3uGXQpsb214rkA0SH3AIlbeF9blKRdxLBQUVz8R8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bkfUua9aAS7t4+eFL+kD3fSXZlRVj9cPSpjgiVatI6ySODPxkTCsczPPjTeyj9wiJbj0qp1sB+pnb5JkYMSVKrsTgZhS69yFfLT+1hZSwDYIw9ANeKjx7qJtygPIzybFWc87pot+mWToNPMJtfS4jlpDegCOItNrb5462m0ox+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=LoaidWcd; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vIQ/OWTz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=lsl6ovAWE+1J5VPRu7emBoNaP80Jn7k3CUy4+NuzBgo=; b=vIQ/OWTzOJMV8aZvPso4/T2Krm
-	FcXIfiRo7iY8snv8wTbCWgP3cH/xrv3DDF6C543FPlzLfkcqaXvgVMv6S278Upt10mQsfPk3z+gpu
-	oAcdtXtn4LHDRQgxG+00C29MHmBr7j68+dcjugVjBw0vH+ejTzetn+bdnZs18TZAZND+i5iv7DTXv
-	1n1R8UVlTE9vKn3awOZ4GQ6n5X0QLkTZnmWSmzazfZfdZ39NmlWyigGF4+qNfUIAWSBzgTdSRCVQe
-	2J3xAj5hn2hnlogdDDBdQr36cnSBojfyj2C2U+KrJroGFx+c4wJktJHb9+iz2my79ldVI5vUNqJZ8
-	Qpwqg4vg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tG9Yl-00000000sPD-0Ish;
-	Wed, 27 Nov 2024 04:21:51 +0000
-Date: Wed, 27 Nov 2024 04:21:50 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Yuanchu Xie <yuanchu@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-	Khalid Aziz <khalid.aziz@oracle.com>,
-	Henry Huang <henry.hj@antgroup.com>, Yu Zhao <yuzhao@google.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Gregory Price <gregory.price@memverge.com>,
-	Huang Ying <ying.huang@intel.com>, Lance Yang <ioworker0@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Daniel Watson <ozzloy@each.do>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 1/9] mm: aggregate workingset information into
- histograms
-Message-ID: <Z0aeXrpY-deSfO8v@casper.infradead.org>
-References: <20241127025728.3689245-1-yuanchu@google.com>
- <20241127025728.3689245-2-yuanchu@google.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="LoaidWcd"
+Received: from [192.168.7.205] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 4AR6kAjs1813996
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 26 Nov 2024 22:46:10 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 4AR6kAjs1813996
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024111601; t=1732689974;
+	bh=j2sJlehdvfhAuOOkuPIvmkfbbTtOCG9LBc+HSbZ/uJ4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LoaidWcdBtqK3iJHkHTC8z3f2py+0XlIgbynqtKiN16Fhv2NzF7TqEp1KnuNmlIMM
+	 ZB2oE/qmCg5TIFrmQKdPcehoA9aZAL8gb+zSyPgGGRxoowde070HfpSp2XzPb52XYN
+	 ut51pEAVqxNcE0G4QIzpl1v8a0pY7MTJV13g3Gt1tqKEwZM5fz7J+SYrKQgWkQiOmk
+	 khYn2ZO0Ihc+p6imEAgTPCWF7owZjGRGHKtaJdaEQEmPfJyo68xbp7cfBKhDmnTWTi
+	 J5EKKJVaQE0tr1D0+DV8WQjGLrWtHEml0qu7T1HQL2+fXMz5BuwdP4AZtkiXUbAdaP
+	 URB48huTi3dGA==
+Message-ID: <f2fa87d7-ade8-42e2-8b2b-dba6f050d8c2@zytor.com>
+Date: Tue, 26 Nov 2024 22:46:09 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241127025728.3689245-2-yuanchu@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 09/27] KVM: VMX: Do not use
+ MAX_POSSIBLE_PASSTHROUGH_MSRS in array definition
+To: Borislav Petkov <bp@alien8.de>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, seanjc@google.com, pbonzini@redhat.com,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
+References: <20241001050110.3643764-1-xin@zytor.com>
+ <20241001050110.3643764-10-xin@zytor.com>
+ <20241126180253.GAZ0YNTdXH1UGeqsu6@fat_crate.local>
+ <e7f6e7c2-272a-4527-ba50-08167564e787@zytor.com>
+ <20241126200624.GDZ0YqQF96hKZ99x_b@fat_crate.local>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <20241126200624.GDZ0YqQF96hKZ99x_b@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 26, 2024 at 06:57:20PM -0800, Yuanchu Xie wrote:
-> diff --git a/mm/internal.h b/mm/internal.h
-> index 64c2eb0b160e..bbd3c1501bac 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -470,9 +470,14 @@ extern unsigned long highest_memmap_pfn;
->  /*
->   * in mm/vmscan.c:
->   */
-> +struct scan_control;
-> +bool isolate_lru_page(struct page *page);
+On 11/26/2024 12:06 PM, Borislav Petkov wrote:
+> On Tue, Nov 26, 2024 at 11:22:45AM -0800, Xin Li wrote:
+>> It's still far from full in a bitmap on x86-64, but just that the
+>> existing use of MAX_POSSIBLE_PASSTHROUGH_MSRS tastes bad.
+> 
+> Far from full?
+> 
+> It is full:
+> 
+> static u32 vmx_possible_passthrough_msrs[MAX_POSSIBLE_PASSTHROUGH_MSRS] = {
+>          MSR_IA32_SPEC_CTRL,
+>          MSR_IA32_PRED_CMD,
+>          MSR_IA32_FLUSH_CMD,
+>          MSR_IA32_TSC,
+> #ifdef CONFIG_X86_64
+>          MSR_FS_BASE,
+>          MSR_GS_BASE,
+>          MSR_KERNEL_GS_BASE,
+>          MSR_IA32_XFD,
+>          MSR_IA32_XFD_ERR,
+> #endif
+>          MSR_IA32_SYSENTER_CS,
+>          MSR_IA32_SYSENTER_ESP,
+>          MSR_IA32_SYSENTER_EIP,
+>          MSR_CORE_C1_RES,
+>          MSR_CORE_C3_RESIDENCY,
+>          MSR_CORE_C6_RESIDENCY,
+>          MSR_CORE_C7_RESIDENCY,
+> };
+> 
+> I count 16 here.
+> 
+> If you need to add more, you need to increment MAX_POSSIBLE_PASSTHROUGH_MSRS.
 
-Is this a mismerge?  It doesn't exist any more.
+Yes, the most obvious approach is to simply increase
+MAX_POSSIBLE_PASSTHROUGH_MSRS by the number of MSRs to be added into the 
+array.
+
+However I hate to count it myself, especially we have ARRAY_SIZE.
+
+> 
+>> A better one?
+> 
+> Not really.
+> 
+> You're not explaining why MAX_POSSIBLE_PASSTHROUGH_MSRS becomes 64.
+> 
+>> Per the definition, a bitmap on x86-64 is an array of 'unsigned long',
+>> and is at least 64-bit long.
+>>
+>> #define DECLARE_BITMAP(name,bits) \
+>> 	unsigned long name[BITS_TO_LONGS(bits)]
+>>
+>> It's not accurate and error-prone to use a hard-coded possible size of
+>> a bitmap, Use ARRAY_SIZE with an overflow build check instead.
+> 
+> It becomes 64 because a bitmap has 64 bits?
+
+Yes, maybe better to name the macro as MAX_ALLOWED_PASSTHROUGH_MSRS?
+
+> 
+> Not because you need to add more MSRs to it and thus raise the limit?
+
+Right.  It triggered me to look at the code further, though, I think the
+existing code could be written in a better way no matter whether I need
+to add more MSRs.  And whoever wants to add more won't need to increase
+MAX_POSSIBLE_PASSTHROUGH_MSRS (ofc unless overflow 64).
+
+Thanks!
+     Xin
