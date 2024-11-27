@@ -1,148 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-52002.amazon.com (smtp-fw-52002.amazon.com [52.119.213.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F481F9EC7;
-	Wed, 27 Nov 2024 15:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525AA225D6;
+	Wed, 27 Nov 2024 17:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732720171; cv=none; b=d3rNo3hDNCDUxH/TJaKZ7eO2BNjFqidhTFPmLksIx6DyfB8VMGmOyEVPYCuevyXNKXgf7i1iQDsKhc9HaGXhvdrlVwrCE7YpkTFgqYAbqd3RdgI8+v/zl1Tki0DGvEih350GuMNIFNA1VxNrRtlerQlqxZishjY04PcRerB3Llw=
+	t=1732728426; cv=none; b=um1BGA/o0M8Rny2pZfDlU6oni3UJcbZAiNQTALAYhvxDZgL7MLofqyWpmddJeUbgA8HexWT9CXyKN7vKhR8ubgl7LTuccHx/pQGq5IeqgHJNA0FHK+96MoYiZjKVMYwOl8B4Hz5XDTzD66MOYHDaHHocHa7BWGybpt1U42s9iL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732720171; c=relaxed/simple;
-	bh=ZuWs0anHicqiJCVtddeplrti1Zr/c0pz9pCi5G7MTN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NWFGcg1VAVq3P6umXlJVmqSnR3lRudcZqDc4FuBSHILaTSCv5snhRDHz8nUA8rhFyK9usX2O3kt+bJPBC+e5KieU8VCs7HgLl8Es2ZdhhMsntuI1wnx1QzLwQBlZtq75aqhNwTJVSLOXW9bbPTprMQLpCoiItRLxQ2IaVF0ws+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k+30bC/m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732728426; c=relaxed/simple;
+	bh=trR1odbMnYfKg+y643iIq1x+oSQsAUYwbdhImqxRW9A=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PU5mOeXYC5sfRbYXq2jrMcBQv8otltawi+i42sGfHaHDOzV2KMAGS/vYNMgkyS0xVED128DWAzVXQqHja/0ZW9XMB3xleeWcQkm0Ju+MyyiQ9d0z9rRHfpFu+IDWApseaOFgRoNGYRnv+fuIQMhASGIScC11++fWdyryNAeJ12w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=vZRMDW+u; arc=none smtp.client-ip=52.119.213.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k+30bC/m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDD34C4CECC;
-	Wed, 27 Nov 2024 15:09:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732720171;
-	bh=ZuWs0anHicqiJCVtddeplrti1Zr/c0pz9pCi5G7MTN8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=k+30bC/m48b0TX3SmCnnNFny2EVvRCdnVFtcoHJkkNTam2A7lHQmGNiBz7c2iB9wl
-	 lgdWnXxvOgAozD6uFp8rcS6V5S5pTmUHH6c770rPHp1bvIrWf+YuwroXiv93ebvlig
-	 IBFyUZMP1dAWbcMV9VVeADK7HLvhoDPZ8wpJsWyPXZe7uIXaHEiQ3z+c5SBWHQeHB6
-	 XhDtFa/bOgkEZpYp5wT/tgqHyHn5T2iwsAxon1VoT9Mk/apUH/jIZoaaBqcbRVxk2x
-	 eKXYnWnN3XLEdFojzNRGCQWqhvLluzWsmBbbglOCBejKVFK1iEwTPYrUTXrhfqTnnT
-	 KKtH10GHj6b3Q==
-Date: Wed, 27 Nov 2024 16:09:23 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Hans Verkuil <hverkuil@xs4ll.nl>
-Subject: Re: [PATCH] docs: media: document media multi-committers rules and
- process
-Message-ID: <20241127160923.7eca17d1@sal.lan>
-In-Reply-To: <20241127133938.GI31095@pendragon.ideasonboard.com>
-References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
-	<20241126151930.GA5493@pendragon.ideasonboard.com>
-	<20241127103948.501b5a05@foz.lan>
-	<20241127124629.704809f1@foz.lan>
-	<20241127133938.GI31095@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="vZRMDW+u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1732728424; x=1764264424;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+LVpJO+T6cIMOLRME/58BNmXO8qIXYUov9NRO5ERaek=;
+  b=vZRMDW+u26cWl2KyAa8AdBawzBS+RtyJh0drzDaTRoqMYJAmTI4AwQ92
+   YDMJct7C9RYAmHg0mWytfLZ07+q2fHRFYypE0qXImZi6fXrevnM7uvFTv
+   zF+99Exr45xFuyPW4b95Wv0cVRN4GRkwPiwpmmcfDTrSXCpGgIfyu2YzT
+   I=;
+X-IronPort-AV: E=Sophos;i="6.12,189,1728950400"; 
+   d="scan'208";a="677204372"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.6])
+  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 17:27:01 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [10.0.43.254:44496]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.9.62:2525] with esmtp (Farcaster)
+ id 88571b37-b1fc-4a42-8fb0-e1c403c74e85; Wed, 27 Nov 2024 17:26:59 +0000 (UTC)
+X-Farcaster-Flow-ID: 88571b37-b1fc-4a42-8fb0-e1c403c74e85
+Received: from EX19D022EUA001.ant.amazon.com (10.252.50.125) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.79) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Wed, 27 Nov 2024 17:26:59 +0000
+Received: from EX19MTAUEC002.ant.amazon.com (10.252.135.146) by
+ EX19D022EUA001.ant.amazon.com (10.252.50.125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Wed, 27 Nov 2024 17:26:58 +0000
+Received: from email-imr-corp-prod-pdx-all-2c-785684ef.us-west-2.amazon.com
+ (10.124.125.6) by mail-relay.amazon.com (10.252.135.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1258.34 via Frontend Transport; Wed, 27 Nov 2024 17:26:58 +0000
+Received: from dev-dsk-kalyazin-1a-a12e27e2.eu-west-1.amazon.com (dev-dsk-kalyazin-1a-a12e27e2.eu-west-1.amazon.com [172.19.103.116])
+	by email-imr-corp-prod-pdx-all-2c-785684ef.us-west-2.amazon.com (Postfix) with ESMTPS id DB44BA037A;
+	Wed, 27 Nov 2024 17:26:55 +0000 (UTC)
+From: Nikita Kalyazin <kalyazin@amazon.com>
+To: <pbonzini@redhat.com>, <corbet@lwn.net>, <seanjc@google.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<vkuznets@redhat.com>, <xiaoyao.li@intel.com>, <kvm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC: <roypat@amazon.co.uk>, <xmarcalx@amazon.com>, <kalyazin@amazon.com>
+Subject: [PATCH 0/2] KVM_ASYNC_PF_SEND_ALWAYS
+Date: Wed, 27 Nov 2024 17:26:52 +0000
+Message-ID: <20241127172654.1024-1-kalyazin@amazon.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Em Wed, 27 Nov 2024 15:39:38 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+As was suggested in
+https://lore.kernel.org/kvm/20241118130403.23184-1-kalyazin@amazon.com/T/#ma719a9cb3e036e24ea8512abf9a625ddeaccfc96
+, remove support for KVM_ASYNC_PF_SEND_ALWAYS in KVM.
 
-> On Wed, Nov 27, 2024 at 12:54:15PM +0100, Mauro Carvalho Chehab wrote:
-> > Em Wed, 27 Nov 2024 10:39:48 +0100 Mauro Carvalho Chehab escreveu:
-> >   
-> > > > This workflow doesn't apply to patch submitters who are not allowed to
-> > > > send pull requests and who don't have direct commit access. I thought
-> > > > these submitters are the main audience of this document. In that case, I
-> > > > think moving the next section that explains the e-mail workflow before
-> > > > the "Media development workflow" section (which should likely be renamed
-> > > > to make it clear that it is about merging patches, not developing them)
-> > > > would be best. The "Review Cadence" section could also be folded in
-> > > > there, to give a full view of what a submitter can expect.
-> > > > 
-> > > > This would also have the advantage of introducing the linuvtv.org
-> > > > patchwork instance, which you reference above. Documents are more
-> > > > readable when they introduce concepts first before using them.    
-> > > 
-> > > Will try to do such change at v2.  
-> > 
-> > Actually, both workflows (a) and (b) apply to the ones that can't
-> > send pull requests or push at media-committers.git:
-> > 
-> > ---
-> > 
-> > a. Normal workflow: patches are handled by subsystem maintainers::
-> > 
-> >      +------+   +---------+   +-------+   +-----------------------+   +---------+
-> >      |e-mail|-->|patchwork|-->|pull   |-->|maintainers merge      |-->|media.git|
-> >      +------+   +---------+   |request|   |in media-committers.git|   +---------+
-> >                               +-------+   +-----------------------+
-> > 
-> >    For this workflow, pull requests can be generated by a committer,
-> >    a previous committer, subsystem maintainers or by a couple of trusted
-> >    long-time contributors. If you are not in such group, please don't submit
-> >    pull requests, as they will likely be ignored.
-> > 
-> > b. Committers' workflow: patches are handled by media committers::
-> > 
-> >      +------+   +---------+   +--------------------+   +-----------+   +---------+
-> >      |e-mail|-->|patchwork|-->|committers merge at |-->|maintainers|-->|media.git|
-> >      +------+   +---------+   |media-committers.git|   |approval   |   +---------+
-> >                               +--------------------+   +-----------+
-> > 
-> > ---
-> > 
-> > No matter who sent an e-mail, this will be picked by patchwork and either
-> > be part of a PR or a MR, depending on who picked it.  
-> 
-> Today the "normal" workflow for contributors who don't send pull
-> requests is that you or Hans will pick their patches from the list.
+Nikita Kalyazin (2):
+  KVM: x86: async_pf: remove support for KVM_ASYNC_PF_SEND_ALWAYS
+  KVM: x86: async_pf: determine x86 user as cpl == 3
 
-True, but we've been following process (b) since the last merge window: we
-are generating merges at the media-committers.git. As we're maintainers, 
-the "maintainers approval" step is also handled by us, by the one that
-submitted the MR, after checking the media-ci results.
+ Documentation/virt/kvm/x86/msr.rst   | 11 +++++------
+ arch/x86/include/asm/kvm_host.h      |  1 -
+ arch/x86/include/uapi/asm/kvm_para.h |  2 +-
+ arch/x86/kvm/x86.c                   |  4 +---
+ 4 files changed, 7 insertions(+), 11 deletions(-)
 
-> That's why I mentioned that neither of the above workflows apply there.
-> Now, if we consider that you and Hans will keep doing that for some
-> patches, and merge them using the committers workflow (where you would
-> handle both steps of merging in the shared tree and giving the
-> maintainer approval), it's true that the normal workflow would be one of
-> the two above.
 
-Yes, that's the case.
+base-commit: 1508bae37044ebffd7c7e09915f041936f338123
+-- 
+2.40.1
 
-> Looking at the pull requests sent to the list over the past twelve
-> months, we have
-> 
->      32 Sakari Ailus
->      24 Hans Verkuil
->      22 Laurent Pinchart
->      21 Sebastian Fricke
->       7 Sean Young
->       7 Hans de Goede
->       4 Stanimir Varbanov
->       1 Shuah Khan
-> 
-> I expect people in that list to get commit rights either from the very
-> beginning or very soon after. The committer workflow (if we consider it
-> as including how you and Hans will continue picking patches from the
-> list) will be the new norm. how about flipping things and listing it as
-> a), and then name b) the "Pull request workflow" instead of the "Normal
-> workflow" ? I would even go as far as proposing documenting the pull
-> request workflow as legacy.
-
-Renaming from Normal work flow to Pull request workflow makes sense.
-
-The pull request workflow won't be legacy. Even with major contributors
-using the new workflow for "normal work", pull requests will still be
-generated for API changes.
-
-Regards,
-Mauro
