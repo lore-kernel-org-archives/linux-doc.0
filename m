@@ -1,43 +1,41 @@
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5774F3232;
-	Thu, 28 Nov 2024 16:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFEC1BD9F2;
+	Thu, 28 Nov 2024 16:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732810311; cv=none; b=Sqiv6kPNrCZ/fFaXfnmBjNRAwC4DB9euiuFVlfNyIv3a8fGHqHF1KRzeMvu9RhQaXlITTaU8mSReZ665L1Ow3JHe8rG2ppVZWia2q84VJ7LOV4sYT3nIXWRvWuzGH8knfJbNggQvEuvei29vggdMRrJdl17CEq2t0AkJZoq2ZO4=
+	t=1732810430; cv=none; b=QwaeeoY6F5XGPe+7s7IQ7rRKM7ubvByC2K5nwpvX1GiR62Bx8h4CAu8+LqddWPsiQb/LOAG3nEqYVq77GEq/TEvu+8Un6tLnn+BeN8EwLMTaOa33jlU+FW0CLJ4S1272TPsC6F55y+xDI3681usfnE+wczLYnPuB7tQSDZo5RlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732810311; c=relaxed/simple;
-	bh=hk8fpGiKL3O9Sh34djHrjeiSXuSViWedgIE4zr39bXI=;
+	s=arc-20240116; t=1732810430; c=relaxed/simple;
+	bh=SMBP/C98M1fAP9PZi1q1IMPdK3JoaP7rXNK3Q1VvYOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dkbac5zC6KkK9hSJwyy09Ug+uLkrbYdBd0yxeAEEPvSubUyrgtGUIghZoUUxGwm4rexhTdVMrw1FSsQNCnLD/NhFuRxD6CrkPrMqPM+WWMM3Gya7ZPLV0iLWznNHu7dSmnfTKyU7L953qvxFLshx+Al80jCHk++9V6h+FZtgMgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=oj7sLfEs; arc=none smtp.client-ip=46.235.229.95
+	 Content-Type:Content-Disposition:In-Reply-To; b=ka0sONWT+DYINh94EjbMqsnoImcZFILrQmGEsIPrNwh89N3HLCZj+jUDNX7ezxaJsCikhGvpnh103TGtv9QxYKvFfC60u8mQXQZyxwb4fEVeJ5HJ09pjsbzOLgz0Okpsjl0dimbD6OrTI0bJdH3jjm+91LVlsM6nN6cW8mn+ruk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=YJsklB+g; arc=none smtp.client-ip=46.235.229.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="oj7sLfEs"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="YJsklB+g"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
 	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=fEbXQkB4IJYXc22/B7PWcP9nVPx5MuixvHf7IuMVJrg=; b=oj7sLfEs8oHFPkrx
-	cah6DeKryAR3itpdcsZ4mcsKq1FrI+IbxK6S1XfOrpdGu+o1Ku6YYJ3jbM+IqkW3ieeiHyVukbsYo
-	CQCIEQzhYDF8pXNI1cIZ4wHfFvbAnPRTCR65UcQ526G5b8BgNEw76d61mbeyWKSdGLVBfwx77cXp6
-	u9hgZ1VEJu96JfwVPdVQQntt8BZzC+R6uAEbvpqnFgTFPEZ4uN/bYQ3h8WN9nozX58zk+Y96n1jSO
-	/nJEBJP0v5BS/6Vz+BhjuWzlqWTOLlTg/0wYvbdoPlQjzJkKJzRnfTi/KVqDaeo1fsD1XkIYnHC46
-	oOV3bCcsFP3kKlfm6A==;
+	:Subject; bh=Xy/7ieQyoXAcJaE8+oks5XZebS8CPLjn1pLGrh8er0A=; b=YJsklB+gxKF5RKDm
+	FOMrUJ8bH7tnnClXIBZBT6LCxqQkgjCu7ZvWnmkCXZOWaoOr6BHS6LZoOaQFCroqdavU+x/KZYFiK
+	Q2xF/8fDaYaYHzMbi7ZRNHpkJPxDo4CxgxH5vTGQaOIq4+lELGEHjpbcZh3ZnDhOESvSrtNL1udjU
+	WtCda9GTvSlg500Eb1mDffYlH4thy2xpNVFfBlSzYWoR0dddgGxPSLBU7qViGpgxCCPPszpJqBTwB
+	wjI9p+hQw3qnAzE+VbEFuVn3orpQQ84i7aN2O65bkU6Ne0rHEK0TetmN4B1ZjH9OprIhV2PHxrQt0
+	vI7wFPwRfnCOC7Su7g==;
 Received: from dg by mx.treblig.org with local (Exim 4.96)
 	(envelope-from <dg@treblig.org>)
-	id 1tGh7E-002Qml-1t;
-	Thu, 28 Nov 2024 16:11:40 +0000
-Date: Thu, 28 Nov 2024 16:11:40 +0000
+	id 1tGh9B-002QnV-1n;
+	Thu, 28 Nov 2024 16:13:41 +0000
+Date: Thu, 28 Nov 2024 16:13:41 +0000
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: myungjoo.ham@samsung.com, kyungmin.park@samsung.com,
-	cw00.choi@samsung.com
-Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PM / devfreq: Remove unused
- devm_devfreq_(un)register_notifier
-Message-ID: <Z0iWPCzjv9YQ4kO_@gallifrey>
-References: <20241028021344.477984-1-linux@treblig.org>
+To: lgirdwood@gmail.com, broonie@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] regulator: devres: Remove unused
+ devm_regulator_bulk_register_supply_alias
+Message-ID: <Z0iWtV6XQKNHDqf-@gallifrey>
+References: <20241028021500.478043-1-linux@treblig.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,26 +44,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241028021344.477984-1-linux@treblig.org>
+In-Reply-To: <20241028021500.478043-1-linux@treblig.org>
 X-Chocolate: 70 percent or better cocoa solids preferably
 X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 16:11:27 up 204 days,  3:25,  1 user,  load average: 0.02, 0.03,
+X-Uptime: 16:13:29 up 204 days,  3:27,  1 user,  load average: 0.02, 0.03,
  0.00
 User-Agent: Mutt/2.2.12 (2023-09-09)
 
 * linux@treblig.org (linux@treblig.org) wrote:
 > From: "Dr. David Alan Gilbert" <linux@treblig.org>
 > 
-> devm_devfreq_register_notifier() and devm_devfreq_unregister_notifier()
-> have been unused since 2019's
-> commit 0ef7c7cce43f ("PM / devfreq: passive: Use non-devm notifiers")
+> devm_regulator_bulk_register_supply_alias() has been unused since 2014's
+> commit d137be00ee01 ("mfd: core: Don't use devres functions before device
+> is added")
 > 
-> Remove them, and the helpers they used.
-> 
-> Note, devm_devfreq_register_notifier() is still used as an example
-> in Documentation/doc-guide/contributing.rst but that's just
-> an example of an old doc bug rather than anything about the function
-> itself.
+> Remove it, and the static helpers only it used.
 > 
 > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
@@ -74,127 +67,134 @@ Ping.
 Thanks,
 
 Dave
+
 > ---
->  drivers/devfreq/devfreq.c | 67 ---------------------------------------
->  include/linux/devfreq.h   | 23 --------------
->  2 files changed, 90 deletions(-)
+>  .../driver-api/driver-model/devres.rst        |  1 -
+>  drivers/regulator/devres.c                    | 74 -------------------
+>  include/linux/regulator/consumer.h            |  6 --
+>  3 files changed, 81 deletions(-)
 > 
-> diff --git a/drivers/devfreq/devfreq.c b/drivers/devfreq/devfreq.c
-> index 98657d3b9435..6c3b241b4458 100644
-> --- a/drivers/devfreq/devfreq.c
-> +++ b/drivers/devfreq/devfreq.c
-> @@ -2224,70 +2224,3 @@ int devfreq_unregister_notifier(struct devfreq *devfreq,
->  	return ret;
->  }
->  EXPORT_SYMBOL(devfreq_unregister_notifier);
-> -
-> -struct devfreq_notifier_devres {
-> -	struct devfreq *devfreq;
-> -	struct notifier_block *nb;
-> -	unsigned int list;
-> -};
-> -
-> -static void devm_devfreq_notifier_release(struct device *dev, void *res)
+> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> index 5f2ee8d717b1..a1995a16febf 100644
+> --- a/Documentation/driver-api/driver-model/devres.rst
+> +++ b/Documentation/driver-api/driver-model/devres.rst
+> @@ -426,7 +426,6 @@ PWM
+>    devm_fwnode_pwm_get()
+>  
+>  REGULATOR
+> -  devm_regulator_bulk_register_supply_alias()
+>    devm_regulator_bulk_get()
+>    devm_regulator_bulk_get_const()
+>    devm_regulator_bulk_get_enable()
+> diff --git a/drivers/regulator/devres.c b/drivers/regulator/devres.c
+> index 1b893cdd1aad..6d6ddeb62f57 100644
+> --- a/drivers/regulator/devres.c
+> +++ b/drivers/regulator/devres.c
+> @@ -491,15 +491,6 @@ struct regulator_supply_alias_match {
+>  	const char *id;
+>  };
+>  
+> -static int devm_regulator_match_supply_alias(struct device *dev, void *res,
+> -					     void *data)
 > -{
-> -	struct devfreq_notifier_devres *this = res;
+> -	struct regulator_supply_alias_match *match = res;
+> -	struct regulator_supply_alias_match *target = data;
 > -
-> -	devfreq_unregister_notifier(this->devfreq, this->nb, this->list);
+> -	return match->dev == target->dev && strcmp(match->id, target->id) == 0;
+> -}
+> -
+>  static void devm_regulator_destroy_supply_alias(struct device *dev, void *res)
+>  {
+>  	struct regulator_supply_alias_match *match = res;
+> @@ -548,71 +539,6 @@ int devm_regulator_register_supply_alias(struct device *dev, const char *id,
+>  }
+>  EXPORT_SYMBOL_GPL(devm_regulator_register_supply_alias);
+>  
+> -static void devm_regulator_unregister_supply_alias(struct device *dev,
+> -						   const char *id)
+> -{
+> -	struct regulator_supply_alias_match match;
+> -	int rc;
+> -
+> -	match.dev = dev;
+> -	match.id = id;
+> -
+> -	rc = devres_release(dev, devm_regulator_destroy_supply_alias,
+> -			    devm_regulator_match_supply_alias, &match);
+> -	if (rc != 0)
+> -		WARN_ON(rc);
 > -}
 > -
 > -/**
-> - * devm_devfreq_register_notifier()
-> - *	- Resource-managed devfreq_register_notifier()
-> - * @dev:	The devfreq user device. (parent of devfreq)
-> - * @devfreq:	The devfreq object.
-> - * @nb:		The notifier block to be unregistered.
-> - * @list:	DEVFREQ_TRANSITION_NOTIFIER.
+> - * devm_regulator_bulk_register_supply_alias - Managed register
+> - * multiple aliases
+> - *
+> - * @dev:       device to supply
+> - * @id:        list of supply names or regulator IDs
+> - * @alias_dev: device that should be used to lookup the supply
+> - * @alias_id:  list of supply names or regulator IDs that should be used to
+> - *             lookup the supply
+> - * @num_id:    number of aliases to register
+> - *
+> - * @return 0 on success, a negative error number on failure.
+> - *
+> - * This helper function allows drivers to register several supply
+> - * aliases in one operation, the aliases will be automatically
+> - * unregisters when the source device is unbound.  If any of the
+> - * aliases cannot be registered any aliases that were registered
+> - * will be removed before returning to the caller.
 > - */
-> -int devm_devfreq_register_notifier(struct device *dev,
-> -				struct devfreq *devfreq,
-> -				struct notifier_block *nb,
-> -				unsigned int list)
+> -int devm_regulator_bulk_register_supply_alias(struct device *dev,
+> -					      const char *const *id,
+> -					      struct device *alias_dev,
+> -					      const char *const *alias_id,
+> -					      int num_id)
 > -{
-> -	struct devfreq_notifier_devres *ptr;
+> -	int i;
 > -	int ret;
 > -
-> -	ptr = devres_alloc(devm_devfreq_notifier_release, sizeof(*ptr),
-> -				GFP_KERNEL);
-> -	if (!ptr)
-> -		return -ENOMEM;
-> -
-> -	ret = devfreq_register_notifier(devfreq, nb, list);
-> -	if (ret) {
-> -		devres_free(ptr);
-> -		return ret;
+> -	for (i = 0; i < num_id; ++i) {
+> -		ret = devm_regulator_register_supply_alias(dev, id[i],
+> -							   alias_dev,
+> -							   alias_id[i]);
+> -		if (ret < 0)
+> -			goto err;
 > -	}
 > -
-> -	ptr->devfreq = devfreq;
-> -	ptr->nb = nb;
-> -	ptr->list = list;
-> -	devres_add(dev, ptr);
-> -
 > -	return 0;
-> -}
-> -EXPORT_SYMBOL(devm_devfreq_register_notifier);
 > -
-> -/**
-> - * devm_devfreq_unregister_notifier()
-> - *	- Resource-managed devfreq_unregister_notifier()
-> - * @dev:	The devfreq user device. (parent of devfreq)
-> - * @devfreq:	The devfreq object.
-> - * @nb:		The notifier block to be unregistered.
-> - * @list:	DEVFREQ_TRANSITION_NOTIFIER.
-> - */
-> -void devm_devfreq_unregister_notifier(struct device *dev,
-> -				      struct devfreq *devfreq,
-> -				      struct notifier_block *nb,
-> -				      unsigned int list)
-> -{
-> -	WARN_ON(devres_release(dev, devm_devfreq_notifier_release,
-> -			       devm_devfreq_dev_match, devfreq));
+> -err:
+> -	dev_err(dev,
+> -		"Failed to create supply alias %s,%s -> %s,%s\n",
+> -		id[i], dev_name(dev), alias_id[i], dev_name(alias_dev));
+> -
+> -	while (--i >= 0)
+> -		devm_regulator_unregister_supply_alias(dev, id[i]);
+> -
+> -	return ret;
 > -}
-> -EXPORT_SYMBOL(devm_devfreq_unregister_notifier);
-> diff --git a/include/linux/devfreq.h b/include/linux/devfreq.h
-> index d312ffbac4dd..ea161657ebc6 100644
-> --- a/include/linux/devfreq.h
-> +++ b/include/linux/devfreq.h
-> @@ -263,14 +263,6 @@ int devfreq_register_notifier(struct devfreq *devfreq,
->  int devfreq_unregister_notifier(struct devfreq *devfreq,
->  				struct notifier_block *nb,
->  				unsigned int list);
-> -int devm_devfreq_register_notifier(struct device *dev,
-> -				struct devfreq *devfreq,
-> -				struct notifier_block *nb,
-> -				unsigned int list);
-> -void devm_devfreq_unregister_notifier(struct device *dev,
-> -				struct devfreq *devfreq,
-> -				struct notifier_block *nb,
-> -				unsigned int list);
->  struct devfreq *devfreq_get_devfreq_by_node(struct device_node *node);
->  struct devfreq *devfreq_get_devfreq_by_phandle(struct device *dev,
->  				const char *phandle_name, int index);
-> @@ -420,21 +412,6 @@ static inline int devfreq_unregister_notifier(struct devfreq *devfreq,
->  	return 0;
->  }
+> -EXPORT_SYMBOL_GPL(devm_regulator_bulk_register_supply_alias);
+> -
+>  struct regulator_notifier_match {
+>  	struct regulator *regulator;
+>  	struct notifier_block *nb;
+> diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
+> index b9ce521910a0..adaacd7676b6 100644
+> --- a/include/linux/regulator/consumer.h
+> +++ b/include/linux/regulator/consumer.h
+> @@ -185,12 +185,6 @@ int devm_regulator_register_supply_alias(struct device *dev, const char *id,
+>  					 struct device *alias_dev,
+>  					 const char *alias_id);
 >  
-> -static inline int devm_devfreq_register_notifier(struct device *dev,
-> -					struct devfreq *devfreq,
-> -					struct notifier_block *nb,
-> -					unsigned int list)
-> -{
-> -	return 0;
-> -}
+> -int devm_regulator_bulk_register_supply_alias(struct device *dev,
+> -					      const char *const *id,
+> -					      struct device *alias_dev,
+> -					      const char *const *alias_id,
+> -					      int num_id);
 > -
-> -static inline void devm_devfreq_unregister_notifier(struct device *dev,
-> -					struct devfreq *devfreq,
-> -					struct notifier_block *nb,
-> -					unsigned int list)
-> -{
-> -}
-> -
->  static inline struct devfreq *devfreq_get_devfreq_by_node(struct device_node *node)
->  {
->  	return ERR_PTR(-ENODEV);
+>  /* regulator output control and status */
+>  int __must_check regulator_enable(struct regulator *regulator);
+>  int regulator_disable(struct regulator *regulator);
 > -- 
 > 2.47.0
 > 
