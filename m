@@ -1,185 +1,149 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A4117BA5;
-	Thu, 28 Nov 2024 01:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2491FAA;
+	Thu, 28 Nov 2024 06:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732757660; cv=none; b=gZaXHo7Z9SFbxobcMffgK+ha4a3u2NIxnEsdmsg/c4Yl6GP/bGapLlcOasYgR8Pexw6JDKW3e68koUn20d6t1FT5iGuizRGCozcBBKvtlf9dNJplkf9j3rsugwfRAuKJmZXa8kIatTBmk8VbA15sEvT+hX8yJ1N1sjHOtMwQ3HM=
+	t=1732774679; cv=none; b=gMO4VHO9fvZB7DNQndNWQjBXkuqdUvAbmGEvnZDTA0vw6EdYfaclnFiarX4qyd+m2YXdBSY5f5xnxxqyFDpZg7JdqGwbzBYW6bSSwdsEt7gQDVKlEr5P3yjAchCGQcoo2FbEyPdnraGmAMM/k8DFdBqmOM7dV4ApX/cP+9Oql3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732757660; c=relaxed/simple;
-	bh=U/6WQIU4a//kKrB5YNJNkG98yC8cGO7xOd3yOhJOaxM=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CwIrgM5VLi19SQYR1iInnyPDCytXw5/dBMnV8UoHucitgfEogc9QF8eCnr3W3Xq4aVQBO1CiKU6/K7opz3xdwH3x92YCjE6Pxahv/46PMFyDOqtEx+rYF3YOf5Z8ADZuHIHapaMP3UeqRttFWJn0j5DukzHkue25UyZEwwZywCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bHlcIDwZ; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1732774679; c=relaxed/simple;
+	bh=W2QYBqcJ8gQRsDuV9ugDhc03k7g4zaU68kwFBvZDArs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PNuDi/uR4TlVY8RZd+9x5SZnfYXlBaj8d4M4zIT/jlyXp4DkRB6K5yIuIxZxbkpeN7U+UHRvpEly8pchSPs12TIqbbZ+Y96IMg5FElCbT/1l9jsJWrhXmH5RcTJ7FaG2sPUuxPEp8HgEyTy2X33RIm9EV5pzI9ezGXB35/OToZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JQKWxYAf; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bHlcIDwZ"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7fbc1ca1046so254646a12.0;
-        Wed, 27 Nov 2024 17:34:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JQKWxYAf"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7fbc29b3145so1212598a12.0;
+        Wed, 27 Nov 2024 22:17:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732757656; x=1733362456; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a5Li4C3vYc2uhIimV+y7MuYAtqMbY3oqcy0i28EPpUo=;
-        b=bHlcIDwZTVCzoO7vwKVtlojxSMb4IDEAFzJtfJOOEWCgllfidDR5FV41Kx7YwBnYAQ
-         lwHYzRnqJeryam2r8HPs1QnYNI8QVxVuMmVJQckP+VDeEekUM0eskE6OKQ1nkOoAxlhW
-         n9oVtzWBr24aT5Uy+oOD2G6EiQy7kxDmdnJtMkpzcfOAaq1CcJOjYgvWgfzYVJFDlMK2
-         4g1yevc0RaUh2Qe4c90mOO79Tl4waecsN20Isg5WpAio9Y9UnZQXSO9EsGn8NSXWtwX9
-         Cen1WIEM1/jQliJbqepJEklpwpOxp6SKVvn1ETbsoTXG6IdpzfxQ0pUX4XtgvcziWI7+
-         7z8g==
+        d=gmail.com; s=20230601; t=1732774677; x=1733379477; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O7TEqs3CaJIZ8ZSMvw22hlhssJfAbI/Q1CZi5Dk7eio=;
+        b=JQKWxYAfPndNnM7yQ5A2OR8/HQxMTRs9ocZFztJHfZ+GrwwR305rc4YywCAptFEQPe
+         voiClR/YQUqTxGsHnNNNuNxFCLIr/pgup7wIsu+Uo3VdbSTo0QiKZibFIpgyp0B/DCPu
+         RNCpcKfCKlFYiJIVAs5iRQvO6KGpdgJF6S7hHH3wMiO2ZwERCa6k+6PvP2IvvJIxC+8T
+         wL04m38J7nTQt4/DgO/LMNAHy5Fsc6U/WNFlovbbJ62MZDmrdIrTz2KBbxYHSuB+hhNZ
+         KrAp70NPFoxKmVR3Hoc2lOVINu+n73SvXgQB86TXyFLIsz24WNqjPoL89jy/h0xo3h2Z
+         Qwxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732757656; x=1733362456;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:sender:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=a5Li4C3vYc2uhIimV+y7MuYAtqMbY3oqcy0i28EPpUo=;
-        b=pQc+TFWAdCCZoNDc5UWxo3hSznlwPv7qdOKoEP2PbYoKdaxCjBKVkZfTmXtT4Te0tu
-         j9mNUL4RCClYcJ0yOT9IVniupbijdR48suEViLsjoU5gsQn4ffuOwt4ep62zGk/VtK9n
-         Jcuocw46+pEjOc9YEsZWNle1muXhLtS5YuYMHpz7628jBlGetu4WR6jvdk0z40NcN7No
-         drDho20mNId1L7JTz12wpV6spq4w9tk5WTlWTZyZxAfYJZAFxewg/VONLlNbLnv5/Kzl
-         mvTBg+jvAjFtckUST0qjrSWihEAtkDZr3pLXUTItBiRESzhTKGJvf6arWNZ7U0bdHttI
-         c3xw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+mqMmmdpw5kgysPAOcePbViGr77gJ5kJrIDwbJqyYUroQW0ydmamEkJaSAIdSMTz7a6czLdiY@vger.kernel.org, AJvYcCVZBi9ICg+fUOIyXnI0pJOjVOgKGDJicToiIaHBEULFpsLMA4XyRP72559OktFReA5EIJVF7b6TDR17SeyZ@vger.kernel.org, AJvYcCW6HsEJq80277/tQxw5+LphYJG08rgbmusm6IFPf2xPL4x2s25S9SgW7pb5QsB6U0KyYmy7cZTNpeE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6kpGfO2kubWuNRwbAXFWz1BrmJsWiOklz/aYiTQqLV4VpLMBE
-	FTonAplsgbs4mewD2Ay1aCk4Mo44gw3MxiMtLSkhcKGG+6NMi7cS
-X-Gm-Gg: ASbGncvKMbWUCR+5yhpytCWxoGKtNn4/8L+ktfhWuMTQMDzbzBz++vMlarVvV2OZq/G
-	mv9Ye+cZcAQgGnMm8ONWKR8au3Dwpg5qO8cI/fItNTDYbqGphi/Ep2XG89UicAFFj6wZycLyRdB
-	bhi3qeJuWVvbCvAuXiTF5b59Evbwj5AKP4yMfdM/WdHkVnTCvRfIBaJLD9zF7R9DdNiFAvVogUA
-	yfRbjdiAjdWJ99YiFwav3r23YmJnSgc9U7blWGy2pbJaHAfzbRvz5XX8lEEggg=
-X-Google-Smtp-Source: AGHT+IH207gYbSo+xat5bkqubqV1MvEJB/cayg6nxW1RQqOBVs0WnbDqfCltA6JUpyy67naQzMmuiA==
-X-Received: by 2002:a05:6a20:734a:b0:1e0:d1f7:9437 with SMTP id adf61e73a8af0-1e0e0b80369mr6775480637.38.1732757656483;
-        Wed, 27 Nov 2024 17:34:16 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725417fbab6sm249343b3a.106.2024.11.27.17.34.15
+        d=1e100.net; s=20230601; t=1732774677; x=1733379477;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O7TEqs3CaJIZ8ZSMvw22hlhssJfAbI/Q1CZi5Dk7eio=;
+        b=c4M5p1XeehnFQYGMwPQRGBCJic4siZ2/71XABNqX+kKF2vPxaQBcauv4Ux/ofSJkFS
+         CwHsz/P7OX3+4oHAimIklpjcqWRyUJuSjVb9SSvlbHjHy5ZFuAE1uF0saECdOvpSVHNy
+         uHNSP8SxBM39jAuykKbPaGEroOVlT+yyoQocvspQG8u45Ym3+q7e9zDFieFuonO3pikz
+         wAEo6r5xZQgOo1Vpj+g/0RVyHpAvlAo8esxS2YUkgSEChgWUcXA9Q0sM3+vCW8CpjmRO
+         mZVT2BHeLXjiYQP5bRdKsbpbYX8R6awRKRMze8VvDuoAkSIntiA2uIcOH+mIUxhR/rm+
+         6jvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXLDu12myv7aBf1rWwGkgcYS5Q36oapQ3gxA6jcSrTEPq7v/CQzLY6RgYQSPMsCy1TxRveOn1UAlW0=@vger.kernel.org, AJvYcCXxHtf0IxdL05OPAUirAFZuhYy9nRiQDETrKRxs8vG966JmmoIzO2XqSNDXRHlcmwTLb55zyk6XVugm4dDJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxicI5VW9LcBvwKcO4590xbtpkOzozE2UUKwOeQygDDI7jBQVzF
+	DP3whJ9JF9hSab7a5uaDTWnCCz15fGMO+WLJmfc24KblPAXoK7ib
+X-Gm-Gg: ASbGnctO/zIPwPVI1G76Ri3cnYroNNRlX20/ydLGupIvKFIs4Hqv6IBuvsvuMEODxj1
+	U8bgxApm3Lb7PljQvQ4cl45K8xxl71Mu2LujXJ+TwukHGiY5nDEg4e0CA9tYE3zF2BKKCLOrxM+
+	LgH2vNB6WqKXaITPDGEhRcL7F0bi86Z3Z0QT4lXRJfpY2Vb6aHxnNsmu5a84x1M03lEuWbURixy
+	CLS/n/RtBZl6AeJzFdq3/3tLE6fFNT016uL8jQ3Npqh5OzY3uQFyovEMOvCZFBHqRW854Ikfw==
+X-Google-Smtp-Source: AGHT+IGpz5MlizxFyFGulh60WFsE0eWiwBGqmOGC3O2KfxUki6dboBrdAc4EaOU1dW0y9pR1y0NYVw==
+X-Received: by 2002:a05:6a21:33a6:b0:1e0:c77c:4516 with SMTP id adf61e73a8af0-1e0ec8c5237mr3609910637.17.1732774677248;
+        Wed, 27 Nov 2024 22:17:57 -0800 (PST)
+Received: from localhost.localdomain ([36.110.106.149])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2e6e79sm557720a12.25.2024.11.27.22.17.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 17:34:15 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 27 Nov 2024 17:34:14 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org,
-	mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
-	bjorn@rivosinc.com, amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com, willemdebruijn.kernel@gmail.com,
-	edumazet@google.com, Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Johannes Berg <johannes.berg@intel.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>, pcnet32@frontier.com
-Subject: Re: [net-next v6 5/9] net: napi: Add napi_config
-Message-ID: <f2cb7502-4fe7-4803-a6e6-674280120235@roeck-us.net>
-References: <20241011184527.16393-1-jdamato@fastly.com>
- <20241011184527.16393-6-jdamato@fastly.com>
- <85dd4590-ea6b-427d-876a-1d8559c7ad82@roeck-us.net>
- <Z0dqJNnlcIrvLuV6@LQ3V64L9R2>
- <f04406c5-f805-4de3-8a7c-abfdfd91a501@roeck-us.net>
- <Z0fEm2EmZ6q1c9Mu@LQ3V64L9R2>
+        Wed, 27 Nov 2024 22:17:56 -0800 (PST)
+From: Guo Weikang <guoweikang.kernel@gmail.com>
+To: brian.haley@hp.com,
+	davem@davemloft.net,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Huth <thuth@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Xiongwei Song <xiongwei.song@windriver.com>
+Cc: Guo Weikang <guoweikang.kernel@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation/ipv6: Fix missing MODULE_PARAM_PREFIX in ipv6 parameters
+Date: Thu, 28 Nov 2024 14:17:38 +0800
+Message-Id: <20241128061743.747624-1-guoweikang.kernel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z0fEm2EmZ6q1c9Mu@LQ3V64L9R2>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 27, 2024 at 05:17:15PM -0800, Joe Damato wrote:
-> 
-> Guenter: would you mind sending me your cocci script? Mostly for
-> selfish reasons; I'd like to see how you did it so I can learn more
-> :) Feel free to do so off list if you prefer.
-> 
-You mean because it is so clumsy ? :-). No worries, I attached
-it below. It is way too complicated, but it was good enough
-for a quick hack.
+The documentation for some IPv6 kernel parameters (in
+Documentation/admin-guide/kernel-parameters.txt) was missing the
+MODULE_PARAM_PREFIX. This could cause confusion during boot,
+as parameters like "disable_ipv6" would trigger warnings such as:
 
-> I tried to write my first coccinelle script (which you can find
-> below) that is probably wrong, but it attempts to detect:
->   - interrupt routines that hold locks
->   - in drivers that call napi_enable between a lock/unlock
-> 
-> I couldn't figure out how to get regexps to work in my script, so I
-> made a couple variants of the script for each of the spin_lock_*
-> variants and ran them all.
+    [    0.000000] Unknown kernel command line parameters
+    "disable_ipv6=0", will be passed to user space.
 
-I pretty much did the same, only in one script.
+This commit updates the documentation to include correct
+MODULE_PARAM_PREFIX
 
-> 
-> Only one offender was detected: pcnet32.
-> 
-
-Your script doesn't take into account that the spinlock may have been
-released before the call to napi_enable(). Other than that it should
-work just fine. I didn't try to track the interrupt handler because
-tracking that through multiple functions can be difficult.
-
-Thanks,
-Guenter
-
+Signed-off-by: Guo Weikang <guoweikang.kernel@gmail.com>
 ---
-virtual report
+ .../admin-guide/kernel-parameters.txt          | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-@f1@
-identifier flags;
-position p;
-expression e;
-@@
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index dc663c0ca670..534db0ace5dd 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -424,9 +424,6 @@
+ 			      useful so that a dump capture kernel won't be
+ 			      shot down by NMI
+ 
+-	autoconf=	[IPV6]
+-			See Documentation/networking/ipv6.rst.
+-
+ 	apm=		[APM] Advanced Power Management
+ 			See header of arch/x86/kernel/apm_32.c.
+ 
+@@ -1140,9 +1137,6 @@
+ 			can be useful when debugging issues that require an SLB
+ 			miss to occur.
+ 
+-	disable=	[IPV6]
+-			See Documentation/networking/ipv6.rst.
+-
+ 	disable_radix	[PPC,EARLY]
+ 			Disable RADIX MMU mode on POWER9
+ 
+@@ -1154,9 +1148,6 @@
+ 			Disable Dynamic DMA Window support. Use this
+ 			to workaround buggy firmware.
+ 
+-	disable_ipv6=	[IPV6]
+-			See Documentation/networking/ipv6.rst.
+-
+ 	disable_mtrr_cleanup [X86,EARLY]
+ 			The kernel tries to adjust MTRR layout from continuous
+ 			to discrete, to make X server driver able to add WB
+@@ -2387,6 +2378,15 @@
+ 			an audit event when a binary is allowed. The default
+ 			is 0.
+ 
++	ipv6.autoconf=	[IPV6]
++			See Documentation/networking/ipv6.rst.
++
++	ipv6.disable=	[IPV6]
++			See Documentation/networking/ipv6.rst.
++
++	ipv6.disable_ipv6=	[IPV6]
++			See Documentation/networking/ipv6.rst.
++
+ 	irqaffinity=	[SMP] Set the default irq affinity mask
+ 			The argument is a cpu list, as described above.
+ 
+-- 
+2.25.1
 
-<...
-    spin_lock_irqsave@p(e, flags);
-    ... when != spin_unlock_irqrestore(e, flags);
-    napi_enable(...);
-    ... when any
-    spin_unlock_irqrestore(e, flags);
-...>
-
-@f2@
-position p;
-expression e;
-@@
-
-<...
-    spin_lock_irq@p(e);
-    ... when != spin_unlock_irq(e);
-    napi_enable(...);
-    ... when any
-    spin_unlock_irq(e);
-...>
-
-@f3@
-position p;
-expression e;
-@@
-
-<...
-    spin_lock@p(e);
-    ... when != spin_unlock(e);
-    napi_enable(...);
-    ... when any
-    spin_unlock(e);
-...>
-
-@script:python@
-p << f1.p;
-@@
-
-print("napi_enable called under spin_lock_irqsave from %s:%s" % (p[0].file, p[0].line))
-
-@script:python@
-p << f2.p;
-@@
-
-print("napi_enable called under spin_lock_irq from %s:%s" % (p[0].file, p[0].line))
-
-@script:python@
-p << f3.p;
-@@
-
-print("napi_enable called under spin_lock from %s:%s" % (p[0].file, p[0].line))
