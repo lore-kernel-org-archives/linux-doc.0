@@ -1,98 +1,106 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9667B41C94;
-	Thu, 28 Nov 2024 06:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A865C148850
+	for <linux-doc@vger.kernel.org>; Thu, 28 Nov 2024 08:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732775969; cv=none; b=uhYkGg8tHjuCp5jse1+SCxTpBjmLtzfVCrbhsQpa8JUepBa6idHim4lOIdNI3Asp/idFSC398OpN4VBHSIhisz1f70+6x+SuDvxZNBrJ7rNd0+FXIxES74ijaoafuYdmVXW1G1p151ooCa5atwMhd5TQ9Izk3tsUDghl3QKcgys=
+	t=1732781316; cv=none; b=pkGbTptUJfYTulV5fzMFEHYTVc/jhUG7cQMd040JEyJ0wGvNY6Eb1TpXxCTnhcTXDh0Dz8gnfdGLrKlIOqahj7gg+6H504EjNcP8yMloiP39VIn8HQeCuwe7mGugah1m6wORGv8VIvGnBZ6odqhvemeJ3hVMKonpf1Uqa6BXboc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732775969; c=relaxed/simple;
-	bh=qLCiZnEouRsFth6Uf2kQGBslsCb+JqNpQQwhDpLIyA8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mD0K2Tz+OjONWtkXfjcF/EWZ4GDQP1bKa4r/yRN1tSxcgiilVRC2TAOcK1hNG7IVNXHbKQpGuhvdTNQQTcOaMExsHu4G3L/zthNl4OIUWMrgnYOTPt7lZqWfNox3SrtZKyyUMTuEELejvxfAAmzQlXtIk/dZigZLc4k4UKE38IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/Q/5J2E; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732781316; c=relaxed/simple;
+	bh=LqKrHC5XDSttnyGGxHHcASvJVoryjRYX4TBifEno7Ck=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BZG3W1RxawXO1vMXr81CsMdS2/BuXJDW4GXKG6wDr7OqxWcCcMIZ9RX132aaNDhll5Iz5JRjdG05iWfK6b0QQ+mqW5WJf2zaM4M4DtbLgBg71QK6Z/Xvlrt5GSgIcOolAclblXAB1pY8z5jw3H1UoYKvGGVoxHjGe8kA9rfQ2BA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FXDtxPJk; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/Q/5J2E"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21262a191a5so4163835ad.0;
-        Wed, 27 Nov 2024 22:39:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732775964; x=1733380764; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JbLdkAOQCxenw8yI9+EWMK8lRQF1ebGSP0oQfGasbLU=;
-        b=Q/Q/5J2EI6UvTEC/uNtcWbSMkbZRnyhzKkEOeW/DuD9/b3A9mt1aSU9aJlcwj9oPud
-         S2Vr6AzsOexvY5CCzQBNSagUnc+666eFwc2PShhnRXPZN9M567E30MUrvvFG/TkfRt4h
-         uHPPXigg93mo8eRKYoIBphfsjeRTVBaPYoAqcM7EZ/8MWZdphfow+6J1CAM0B4724Abc
-         rd1/wTrXHAIqNpr9FORdrS6+YPPF0E+Gj7ZBHvxbLz0XyCZ9fMW/DDL1KUuAdgVeS+mX
-         k9vSwDX2FVQ9Cv79nBHHU/8ufM5R/f0c+3xrPpn8NsLmTuKgyprCx+u6F3EeUo90TZA7
-         i9cg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FXDtxPJk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732781313;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iB3fddQT4tuu1zwH8z5Ad5r52CJZWD+J8s/aw6uP5ZM=;
+	b=FXDtxPJkG9dh6kMf11vIM/KwcDNXm4miFdG4PUFiUn53UcefDeNl8yIBWKJf2ia7cGduxD
+	HNrCa6IR8jqdkZv0iRxiIaJjOIrnCSf0wEiUoxZHtTAMN5WhZ5SxeCYlqs2aCgMwTs4+F5
+	unZJ1Tpa3qgA39YT+FiZ0LkzFRIr3DE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-518-pT2E7jYrOkeQkC00OwCq8w-1; Thu, 28 Nov 2024 03:08:30 -0500
+X-MC-Unique: pT2E7jYrOkeQkC00OwCq8w-1
+X-Mimecast-MFC-AGG-ID: pT2E7jYrOkeQkC00OwCq8w
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-434a27c9044so2577415e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 28 Nov 2024 00:08:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732775964; x=1733380764;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JbLdkAOQCxenw8yI9+EWMK8lRQF1ebGSP0oQfGasbLU=;
-        b=qzS4fu/Hbk/4OTTDbNqiftT1txf41TUgWS3CaIawRa9WA3rhS9dqsrsCfHiVg0Y5r8
-         XlJgD20vQeTIVNyhrMckHM0Tr0pZXti1yVtp46bnMLEqtkoC/NkJ9fwCiWCZOaqT7SPh
-         INEpjChtW0UlhQFytLCWQzjVkeqnwXl7XFtxs3rgpORNNAnyzCpAGrWbdXHXb8jucZ94
-         0udyitTT2DD6+19as7FS1jhsGnVYU13tlUVwBCiReQhMqwqrJ7XVlqX1gZFi0b2d6HR7
-         52QqLKQHHgDQXV3SF4g8Dt4vgUDsY4z/+73YLjouDOh1W8j8N6r8jre5rnvjiJgqUzFU
-         Tfuw==
-X-Forwarded-Encrypted: i=1; AJvYcCX5SlRX80Tl/578pXKZu8crtDwMXmOwH96eOsllw5HzHMUnmej0pXcFDSEl1YJkMYIUKL9XYkPc08U+ILE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjzFTwtOXQtmO4ysCV8D4XKD0JxXv0UFaelrvH6r5g0j5pLyh8
-	KTPowDxgwjckUpJkEdDiOCH83M+KMiU7Pxd30MdesnWlWFXOgOPd
-X-Gm-Gg: ASbGncvYTJLWm2gUs7UqkIEsJwNUiWpDaJ5Lqluj45u22/WnicKnh1bAyil12Fah0P9
-	3/VCEgspvjtiX6+KQg2NkfvbgVHoq8br9zxTnk2CEDBWnLxKJakMTVeu+iuMcTBLDs7zfGTSGRP
-	49twqwsEmkM0fWXRnoL8vOuEV7aM56rwG1tmRaotPdtzEmk6U8xcP2tCT1amQ1DWPerPl173B6J
-	baPWnbDPhPSsef+5ipAmP5fOsmjdCRCvboNcNhJwl1LNvJg/5DJGvp2w4Yy0t8Nvg==
-X-Google-Smtp-Source: AGHT+IGJKGp8KW53bYdyUvkeTvw0XG2tTj1XIqJtwXG18KSAshTARZJGCkC+72+jglSeMmstHALKXA==
-X-Received: by 2002:a17:902:d512:b0:211:ce94:866a with SMTP id d9443c01a7336-21501d58b11mr79120605ad.40.1732775963621;
-        Wed, 27 Nov 2024 22:39:23 -0800 (PST)
-Received: from localhost.localdomain ([49.206.118.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21521967714sm6131575ad.140.2024.11.27.22.39.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 22:39:23 -0800 (PST)
-From: Saru2003 <sarvesh20123@gmail.com>
-To: bsingharora@gmail.com,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Saru2003 <sarvesh20123@gmail.com>
-Subject: [PATCH] Documentation: Fix typo in 'taskstats-struct.rst'
-Date: Thu, 28 Nov 2024 12:08:57 +0530
-Message-Id: <20241128063857.7377-1-sarvesh20123@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1732781309; x=1733386109;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iB3fddQT4tuu1zwH8z5Ad5r52CJZWD+J8s/aw6uP5ZM=;
+        b=s2+uBNoHYs7B/U+ZEdK3HqP8fdqhOh10tkyALaLql3bcu7uw0ILkbs9jCVKgwTIqpr
+         UdZ5FLyVjgav/Ph9xaxE74eBHOF45NV5iUow9g7eW3qwXVSlijn0DyjUNX5K28lUu2Aa
+         PEYHdExE4GIMCU7XRmCpBGrNbYo79IB7ccN9HnnpTnbFESiq55SpjUb445PZo3C68Gwh
+         MycaluAkb7JksyAiwJywdCR+QgvZizw0x9DM28nz34SCth4yXqSTGWWqcSBmL0BY4b0/
+         JaIbR62OiWL4WoyBQd77PhT6SK8MkvHJkOWNdbjPSyMFwNIJH5MO4f05YKogwLlPWQe2
+         HQGw==
+X-Forwarded-Encrypted: i=1; AJvYcCVIHIrYeRa5M0ogNh0XH1FI8YT3jC4xcQLXJ4IcPMEg2fgDSnCWX+wHVP1PFkK1K+/2jZMjZJKZEtw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDgsolKuC/hKBE8yA7PbS7zJFC8AhUsbQQ9sSTFOpUvE5l+v4L
+	o/bET2sH4hSiXt5SjUKCYoKFTxZe6zD3Wws/wwARDegUof/TVyy/vqu9246WmTZVS5xGK+H/QTU
+	4UUrHVKTJNDyTGfe9+43PmODWf6vjuD6dNTGyT/zQ4kAzqrtXCAc8lLMOfg==
+X-Gm-Gg: ASbGncuI+qTEHxzYIDGB/FDyRs4oOeOcdvC+tE+KjAo85XwIIvKvlyUmW9NxV69VlF0
+	mHA7sFCvDpgBza2bjGVEKarSJ+Ia33OwVIi+pYP6KnaG6b7r8lbxEBhpmX1BBdn9uHEVjIhz3sM
+	+zcFTkTNXzGr8yD2QqVRwEISnjFphVOGd7WHk3vvkwNMZOatqkJm0cN5g/xOie5cDoNFZcPUIZO
+	7aBdoZOWDhJKnTtEKLf+MG/uMpQZ0tC/31f1T1jvNObd56tqYnm4+bnvIbBDcZbsVaX6sM2v5xu
+X-Received: by 2002:a05:600c:3ba6:b0:42c:ae30:fc4d with SMTP id 5b1f17b1804b1-434a9dbba7dmr54214945e9.7.1732781308911;
+        Thu, 28 Nov 2024 00:08:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGk+Ev0FiGTZ+5npTOH3uvSEBKkeXq267aYhyzXY/a73ITNd54dI3/rjALeAZ3U75RkmBZRsg==
+X-Received: by 2002:a05:600c:3ba6:b0:42c:ae30:fc4d with SMTP id 5b1f17b1804b1-434a9dbba7dmr54214665e9.7.1732781308551;
+        Thu, 28 Nov 2024 00:08:28 -0800 (PST)
+Received: from [192.168.88.24] (146-241-60-32.dyn.eolo.it. [146.241.60.32])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434b0d9bee2sm13761925e9.1.2024.11.28.00.08.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Nov 2024 00:08:27 -0800 (PST)
+Message-ID: <fc0bb8a7-8c6e-49db-83ba-f56616ebc580@redhat.com>
+Date: Thu, 28 Nov 2024 09:08:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fix spelling mistake
+To: Vyshnav Ajith <puthen1977@gmail.com>, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, horms@kernel.org, corbet@lwn.net
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241121221852.10754-1-puthen1977@gmail.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20241121221852.10754-1-puthen1977@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Corrected a typo in the 'taskstats-struct.rst' documentation. The macro name 'TAKSTATS_VERSION' was mistakenly mentioned instead of the correct 'TASKSTATS_VERSION'. The corrected line now accurately references the macro 'TASKSTATS_VERSION', which is defined in '<linux/taskstats.h>'.
+On 11/21/24 23:18, Vyshnav Ajith wrote:
+> Changed from reequires to require. A minute typo.
+> 
+> Signed-off-by: Vyshnav Ajith <puthen1977@gmail.com>
 
-Signed-off-by: Sarveshwaar SS <sarvesh20123@gmail.com>
-Signed-off-by: Saru2003 <sarvesh20123@gmail.com>
----
- Documentation/accounting/taskstats-struct.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+## Form letter - net-next-closed
 
-diff --git a/Documentation/accounting/taskstats-struct.rst b/Documentation/accounting/taskstats-struct.rst
-index ca90fd489c9a..acca51c34157 100644
---- a/Documentation/accounting/taskstats-struct.rst
-+++ b/Documentation/accounting/taskstats-struct.rst
-@@ -47,7 +47,7 @@ should not change the relative position of each field within the struct.
- 1) Common and basic accounting fields::
- 
- 	/* The version number of this struct. This field is always set to
--	 * TAKSTATS_VERSION, which is defined in <linux/taskstats.h>.
-+	 * TASKSTATS_VERSION, which is defined in <linux/taskstats.h>.
- 	 * Each time the struct is changed, the value should be incremented.
- 	 */
- 	__u16	version;
+The merge window for v6.13 has begun and net-next is closed for new drivers,
+features, code refactoring and optimizations. We are currently accepting
+bug fixes only.
+
+Please repost when net-next reopens after Dec 2nd.
+
+RFC patches sent for review only are welcome at any time.
+
+See:
+https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#development-cycle
 -- 
-2.34.1
+pw-bot: defer
 
