@@ -1,376 +1,74 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960F815E5CA
-	for <linux-doc@vger.kernel.org>; Thu, 28 Nov 2024 11:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662621946A0;
+	Thu, 28 Nov 2024 11:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732792252; cv=none; b=CAjmaNxkYdqKc7tjZLF/6OrIusz93b7RdfKal3ExIzfiXK50NfLO3J90UzD+FRJdUWzRNU+Hfud7OZqhP3AIZT8Frs+Lz4RTKVdMaD9LpFJast1F0WGxYP4HiJVQK2hcRwozylKKuVdRXE00iADREP1f40T+KirngJGAj3UeVlU=
+	t=1732792819; cv=none; b=ZcW6YZmve2L7FC+Mbf5IKpWqrfLbnpPq4tFwZP3NiGLr3yQtvM1NqhtNM+J7eDshCzHCqWj0Z2fwr+42JL2QZ/WvrSkFiaszohlCdW3fAdIUoBL+y1i+ayHqqPXyO1dKIK2sgyoCBQbbUgJEF4k9lRZzeD1BdNK6sefHDce+bSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732792252; c=relaxed/simple;
-	bh=vU4mFUiZeoJ8mNfxo9AUZOBvs+rispKvfk1czHNy4C0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CGQt9YfBrkcRcHn8kPaDOm52nWYKBPcCbmV6pBjh1XR3mS9cTSnT6nr7qqPhvxvDy/CTfV9+JA7vUUv6CSK+gj+ewMWhEihrfCpaqBY7E01mj+Ofb5N8dp6z3N2pwZxSy2IuShA/5D0K+OQ3Xs9BQxz4vewYxw3irAU0r/Ci59g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CBD90AYc; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1732792819; c=relaxed/simple;
+	bh=vxr+ZWoGJeha96CxgdJDibecbCcrxIa6s/fMYGnTqEk=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=ghIZ2RNQe2Md19qfiTeqfSTdBf9GIHH7WxTiDG5KRu6ruowJEh6gOoFEDE2jUsQ+irB5cUMZA11hAHDGkeh+QECGWR6YSH+V5xvzXVB9+5B0xHnpHXCOKNvi1PFtnx3IRmYhx1u0EyXMxEVW0l6uCSedZW4OiD1uLrLcFpNW87g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EUr8jQJ2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CBD90AYc"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f75c56f16aso7233301fa.0
-        for <linux-doc@vger.kernel.org>; Thu, 28 Nov 2024 03:10:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732792248; x=1733397048; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MyYOjc4b+Tz8R8t4zcFMUvRg8xgq4W0vy/s8KMmI1Ng=;
-        b=CBD90AYcp1vsQziI0JlarFw7BkQFC1/YP93bPmDA7Bes+W7SjrggwVJLypwK3yrg9+
-         akRCU1IwLvxteyADo2GjxJVc8eHTQNo2BlEZJDFYCpInD987PI769LeKrN5aicxeD1gr
-         TZ/kT6iEp0lMiKX7t99hccWpUM/5mCZM+oCA++CFC7jLL9G5mPtyl84e4cgfTvjpSAHO
-         LCyR/3g+mCh84egQ6OwHb4y/DGhC/Gex/zcnna8FtvL6/1Pc0qpjmC32jDz7HXmajhxf
-         XjKuuiG5RQ0UfoYk3apuFWCD5KIR12SYAWFoEErTaosrgLkVnC2NRX31JrRyGwuKlcCW
-         SvoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732792248; x=1733397048;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MyYOjc4b+Tz8R8t4zcFMUvRg8xgq4W0vy/s8KMmI1Ng=;
-        b=RSU8T+m46QteMeFtloKwSCCG/+PqH0/LfoKJt8fpZMxjPxTukq8I/vyL4hPoRFOqCO
-         fn6K8v+HIUhH92xl1tEkVpRoGP78u2jv0n1Jg/W3QZ3ik3sDYSHcTc0dWYhNUB5AOLO4
-         KZo6BnvwKyUJYsXY0xSSLQRimz2IqaP1uLCqWSCNfZ42aG2GPPV9JpZJkPP2O5edhuPM
-         RpZPs6XPG1YP7ZrNYL0Rel21ET8KtXq5cw9v27H8aRQ0gTL3XlpwQa1M43Zf5vBlJ7r5
-         NNDjIQHxE27EYxWDjFbtwzftgcJC1PPbG2hAIRftOGcYYcGAQzTgJoSROm9zsbLjifKC
-         MnSg==
-X-Forwarded-Encrypted: i=1; AJvYcCWlPUN9Qrulfj2VLqAkHEzo/eEFX6vTUCthf9yVfVzlx5y+NNtbTAhKGUVCp5kibLijSAD+IvWY45o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVw0uCoXqZjyNwx19l/eAS3AxUgE8hdhDUg+KAhR8N8P+2DWol
-	CjR7ocWy8rL8wHHboww4Q8q8fZJ9sbq6PZldaAW9YoHvckZ0/sxQ2L+jmIt4sKbKapteupT3nzo
-	5fYm2AsqbRXW+1s0gtN1+k9WTxFFXfTqs58KS
-X-Gm-Gg: ASbGncuIo9G61V6yIWzI4dI8OOFw9T8NNlfwvpjFndo5cD7mOk7WsfnPD9xRPcD/zwX
-	Ccljs2oMJ8Bp9nCTCiQdHCipB+OtfDlHhlr79yN9fbzxygjzz0ETT6rk/kgjnsw==
-X-Google-Smtp-Source: AGHT+IGPOTzi+8FuFlmB/vYskh1wEsPtLgw5bdZfIt7/L3SqV4ncD2DOKqg9nbUCNqbonjthpscVgkOuIL0ELwZSk2M=
-X-Received: by 2002:a2e:bcd1:0:b0:2fb:51a2:4f63 with SMTP id
- 38308e7fff4ca-2ffd6142a6emr45425511fa.34.1732792247460; Thu, 28 Nov 2024
- 03:10:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EUr8jQJ2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8CA2C4CECE;
+	Thu, 28 Nov 2024 11:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732792818;
+	bh=vxr+ZWoGJeha96CxgdJDibecbCcrxIa6s/fMYGnTqEk=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=EUr8jQJ2Gr6XXU5VgNrRGlv9wQDCi/v3LkXuqpeal8YFxYOb3lqfRgWslOJWJjhql
+	 czmDNGjk+PEtFFJmxeWq0/sySbr74poGs/ai9oBq2acXy8X0HxzJ6tJovtIHkjgp1Z
+	 6kQGiWBsDVRYjVFJJepf7YfbckM2BknHk2cPEPp4oIfHKg2dngssxmhC7qxBpPt82u
+	 CSkGv9D0VdWfOuEEN+cD6imDXdKjsjqeJE6Q5l6gIxxfnlnlWXWat0gJnjsply0q6H
+	 RVtDFAX5vr3QiioBHAEIETB0zlDRzilXBwwwuk/mtiTh5XistJESyiV1DFn1p6rLPZ
+	 ZRBMC7w281J2w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33E5B380A944;
+	Thu, 28 Nov 2024 11:20:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1730244116.git.babu.moger@amd.com> <265f3700ac0c0d33703806fdc3d096b08c992efc.1730244116.git.babu.moger@amd.com>
- <0dc08082-0f3f-4acc-9285-b925a4ce3b02@intel.com> <5d426af4-a947-4115-b7b7-4eeecfa13fec@amd.com>
- <c587f94a-7920-49cf-94b1-4c52140db914@intel.com> <ef92f1fb-086c-4ee1-b8ec-e08ed68f963a@amd.com>
- <e065b193-dbcc-451b-98db-68a5a69e6ae0@intel.com> <20959b58-a882-4ef7-bd11-e8bb0a998945@amd.com>
- <1a93f4e3-d3d2-4764-90d1-728b9cb70481@intel.com> <36d8fe9f-0000-4d0d-a097-efddc3881a2a@amd.com>
- <5aa7924d-b27d-4ee6-b8dd-4bae0e25267b@intel.com>
-In-Reply-To: <5aa7924d-b27d-4ee6-b8dd-4bae0e25267b@intel.com>
-From: Peter Newman <peternewman@google.com>
-Date: Thu, 28 Nov 2024 12:10:36 +0100
-Message-ID: <CALPaoCj+zWq1vkHVbXYP0znJbe6Ke3PXPWjtri5AFgD9cQDCUg@mail.gmail.com>
-Subject: Re: [PATCH v9 14/26] x86/resctrl: Introduce interface to display
- number of free counters
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: babu.moger@amd.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, fenghua.yu@intel.com, 
-	x86@kernel.org, hpa@zytor.com, thuth@redhat.com, paulmck@kernel.org, 
-	rostedt@goodmis.org, akpm@linux-foundation.org, xiongwei.song@windriver.com, 
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com, 
-	perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com, 
-	xiaoyao.li@intel.com, seanjc@google.com, jithu.joseph@intel.com, 
-	brijesh.singh@amd.com, xin3.li@intel.com, ebiggers@google.com, 
-	andrew.cooper3@citrix.com, mario.limonciello@amd.com, james.morse@arm.com, 
-	tan.shaopeng@fujitsu.com, tony.luck@intel.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com, 
-	eranian@google.com, jpoimboe@kernel.org, thomas.lendacky@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] Documentation: tls_offload: fix typos and grammar
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173279283201.1703182.10723612570278206669.git-patchwork-notify@kernel.org>
+Date: Thu, 28 Nov 2024 11:20:32 +0000
+References: <20241124230002.56058-1-leocstone@gmail.com>
+In-Reply-To: <20241124230002.56058-1-leocstone@gmail.com>
+To: Leo Stone <leocstone@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Hi Babu, Reinette,
+Hello:
 
-On Wed, Nov 27, 2024 at 8:05=E2=80=AFPM Reinette Chatre
-<reinette.chatre@intel.com> wrote:
->
-> Hi Babu,
->
-> On 11/27/24 6:57 AM, Moger, Babu wrote:
-> > Hi Reinette,
-> >
-> > On 11/26/2024 5:56 PM, Reinette Chatre wrote:
-> >> Hi Babu,
-> >>
-> >> On 11/26/24 3:31 PM, Moger, Babu wrote:
-> >>> On 11/25/2024 1:00 PM, Reinette Chatre wrote:
-> >>>> On 11/22/24 3:36 PM, Moger, Babu wrote:
-> >>>>> On 11/21/2024 3:12 PM, Reinette Chatre wrote:
-> >>>>>> On 11/19/24 11:20 AM, Moger, Babu wrote:
-> >>>>>>> On 11/15/24 18:31, Reinette Chatre wrote:
-> >>>>>>>> On 10/29/24 4:21 PM, Babu Moger wrote:
-> >>>>>>>>> Provide the interface to display the number of free monitoring =
-counters
-> >>>>>>>>> available for assignment in each doamin when mbm_cntr_assign is=
- supported.
-> >>>>>>>>>
-> >>>>>>>>> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> >>>>>>>>> ---
-> >>>>>>>>> v9: New patch.
-> >>>>>>>>> ---
-> >>>>>>>>>     Documentation/arch/x86/resctrl.rst     |  4 ++++
-> >>>>>>>>>     arch/x86/kernel/cpu/resctrl/monitor.c  |  1 +
-> >>>>>>>>>     arch/x86/kernel/cpu/resctrl/rdtgroup.c | 33 +++++++++++++++=
-+++++++++++
-> >>>>>>>>>     3 files changed, 38 insertions(+)
-> >>>>>>>>>
-> >>>>>>>>> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation=
-/arch/x86/resctrl.rst
-> >>>>>>>>> index 2f3a86278e84..2bc58d974934 100644
-> >>>>>>>>> --- a/Documentation/arch/x86/resctrl.rst
-> >>>>>>>>> +++ b/Documentation/arch/x86/resctrl.rst
-> >>>>>>>>> @@ -302,6 +302,10 @@ with the following files:
-> >>>>>>>>>         memory bandwidth tracking to a single memory bandwidth =
-event per
-> >>>>>>>>>         monitoring group.
-> >>>>>>>>>     +"available_mbm_cntrs":
-> >>>>>>>>> +    The number of free monitoring counters available assignmen=
-t in each domain
-> >>>>>>>>
-> >>>>>>>> "The number of free monitoring counters available assignment" ->=
- "The number of monitoring
-> >>>>>>>> counters available for assignment"?
-> >>>>>>>>
-> >>>>>>>> (not taking into account how text may change after addressing Pe=
-ter's feedback)
-> >>>>>>>
-> >>>>>>> How about this?
-> >>>>>>>
-> >>>>>>> "The number of monitoring counters available for assignment in ea=
-ch domain
-> >>>>>>> when the architecture supports mbm_cntr_assign mode. There are a =
-total of
-> >>>>>>> "num_mbm_cntrs" counters are available for assignment. Counters c=
-an be
-> >>>>>>> assigned or unassigned individually in each domain. A counter is =
-available
-> >>>>>>> for new assignment if it is unassigned in all domains."
-> >>>>>>
-> >>>>>> Please consider the context of this paragraph. It follows right af=
-ter the description
-> >>>>>> of "num_mbm_cntrs" that states "Up to two counters can be assigned=
- per monitoring group".
-> >>>>>> I think it is confusing to follow that with a paragraph that state=
-s "Counters can be
-> >>>>>> assigned or unassigned individually in each domain." I wonder if i=
-t may be helpful to
-> >>>>>> use a different term ... for example a counter is *assigned* to an=
- event of a monitoring
-> >>>>>> group but this assignment may be to specified (not yet supported) =
-or all (this work) domains while
-> >>>>>> it is only *programmed*/*activated* to specified domains. Of cours=
-e, all of this documentation
-> >>>>>> needs to remain coherent if future work decides to indeed support =
-per-domain assignment.
-> >>>>>>
-> >>>>>
-> >>>>> Little bit lost here. Please help me.
-> >>>>
-> >>>> I think this highlights the uncertainty this interface brings. How d=
-o you expect users
-> >>>> to use this interface? At this time I think this interface can creat=
-e a lot of confusion.
-> >>>> For example, consider a hypothetical system with three domains and f=
-our counters that
-> >>>> has the following state per mbm_assign_control:
-> >>>>
-> >>>> //0=3Dtl;1=3D_;2=3Dl #default group uses counters 0 and 1 to monitor=
- total and local MBM
-> >>>> /m1/0=3D_;1=3Dt;2=3Dt #monitor group m1 uses counter 2, just for tot=
-al MBM
-> >>>> /m2/0=3Dl;1=3D_;2=3Dl #monitor group m2 uses counter 3, just for loc=
-al MBM
-> >>>> /m3/0=3D_;1=3D_;2=3D_
-> >>>>
-> >>>> Since, in this system there are only four counters available, and
-> >>>> they have all been assigned, then there are no new counters availabl=
-e for
-> >>>> assignment.
-> >>>>
-> >>>> If I understand correctly, available_mbm_cntrs will read:
-> >>>> 0=3D1;1=3D3;2=3D1
-> >>>
-> >>> Yes. Exactly. This causes confusion to the user.
-> >>>>
-> >>>> How is a user to interpret the above numbers? It does not reflect
-> >>>> that no counter can be assigned to m3, instead it reflects which of =
-the
-> >>>> already assigned counters still need to be activated on domains.
-> >>>> If, for example, a user is expected to use this file to know how
-> >>>> many counters can still be assigned, should it not reflect the actua=
-l
-> >>>> available counters. In the above scenario it will then be:
-> >>>> 0=3D0;1=3D0;2=3D0
-> >>>
-> >>> We can also just print
-> >>> #cat available_mbm_cntrs
-> >>> 0
-> >>>
-> >>> The domain specific information is not important here.
-> >>> That was my original idea. We can go back to that definition. That is=
- more clear to the user.
-> >>
-> >> Tony's response [1] still applies.
-> >>
-> >> I believe Tony's suggestion [2] considered that the available counters=
- will be the
-> >> same for every domain for this implementation. That is why my example =
-noted:
-> >> "0=3D0;1=3D0;2=3D0"
-> >
-> > yes. We can keep it like this.
-> >
-> >>
-> >> The confusion surrounding the global allocator seems to be prevalent (=
-[3], [4]) as folks
-> >> familiar with resctrl attempt to digest the work. The struggle to make=
- this documentation clear
-> >> makes me more concerned how this feature will be perceived by users wh=
-o are not as familiar with
-> >> resctrl internals. I think that it may be worth it to take a moment an=
-d investigate what it will take
-> >> to implement a per-domain counter allocator. The hardware supports it =
-and I suspect that the upfront
-> >> work to do the enabling will make it easier for users to adopt and und=
-erstand the feature.
-> >>
-> >> What do you think?
-> >
-> > It adds more complexity for sure.
->
-> I do see a difference in data structures used but the additional complexi=
-ty is not
-> obvious to me. It seems like there will be one fewer data structure, the
-> global bitmap, and I think that will actually bring with it some simplifi=
-cation since
-> there is no longer the need to coordinate between the per-domain and glob=
-al counters,
-> for example the logic that only frees a global counter if it is no longer=
- used by a domain.
->
-> This may also simplify the update of the monitor event config (BMEC) sinc=
-e it can be
-> done directly on counters of the domain instead of needing to go back and=
- forth between
-> global and per-domain counters.
->
-> >
-> > 1. Each group needs to remember counter ids in each domain for each eve=
-nt.
-> >    For example:
-> >    Resctrl group mon1
-> >     Total event
-> >     dom 0 cntr_id 1,
-> >     dom 1 cntr_id 10
-> >     dom 2 cntr_id 11
-> >
-> >    Local event
-> >     dom 0 cntr_id 2,
-> >     dom 1 cntr_id 15
-> >     dom 2 cntr_id 10
->
-> Indeed. The challenge here is that domains may come and go so it cannot b=
-e a simple
-> static array. As an alternative it can be an xarray indexed by the domain=
- ID with
-> pointers to a struct like below to contain the counters associated with t=
-he monitor
-> group:
->         struct cntr_id {
->                 u32     mbm_total;
->                 u32     mbm_local;
->         }
->
->
-> Thinking more about how this array needs to be managed made me wonder how=
- the
-> current implementation deals with domains that come and go. I do not thin=
-k
-> this is currently handled. For example, if a new domain comes online and
-> monitoring groups had counters dynamically assigned, then these counters =
-are
-> not configured to the newly online domain.
+This patch was applied to netdev/net.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-In my prototype, I allocated a counter id-indexed array to each
-monitoring domain structure for tracking the counter allocations,
-because the hardware counters are all domain-scoped. That way the
-tracking data goes away when the hardware does.
+On Sun, 24 Nov 2024 15:00:02 -0800 you wrote:
+> Fix typos and grammar where it improves readability.
+> 
+> Signed-off-by: Leo Stone <leocstone@gmail.com>
+> ---
+>  Documentation/networking/tls-offload.rst | 29 ++++++++++++------------
+>  1 file changed, 15 insertions(+), 14 deletions(-)
 
-I was focused on allowing all pending counter updates to a domain
-resulting from a single mbm_assign_control write to be batched and
-processed in a single IPI, so I structured the counter tracker
-something like this:
+Here is the summary with links:
+  - [net] Documentation: tls_offload: fix typos and grammar
+    https://git.kernel.org/netdev/net/c/04f5cb48995d
 
-struct resctrl_monitor_cfg {
-    int closid;
-    int rmid;
-    int evtid;
-    bool dirty;
-};
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-This mirrors the info needed in whatever register configures the
-counter, plus a dirty flag to skip over the ones that don't need to be
-updated.
 
-For the benefit of displaying mbm_assign_control, I put a pointer back
-to any counter array entry allocated in the mbm_state struct only
-because it's an existing structure that exists for every rmid-domain
-combination.
-
-I didn't need to change the rdtgroup structure.
-
->
-> >
-> >
-> > 2. We should have a bitmap of "available counters" in each domain. We h=
-ave
-> > this already. But allocation method changes.
->
-> Would allocation/free not be simpler with only the per-domain bitmap need=
-ing
-> to be consulted?
->
-> One implementation change I can think of is the dynamic assign of counter=
-s when
-> a monitor group is created. Now a free counter needs to be found in each
-> domain. Here it can be discussed if it should be an "all or nothing"
-> assignment but the handling does not seem to be complex and would need to=
- be
-> solved eventually anyway.
->
-> > 3. Dynamic allocation/free of the counters
-> >
-> > There could be some more things which I can't think right now. It might
-> > come up when we start working on it.
-> >
-> > It is doable. But, is it worth adding this complexity? I am not sure.
->
-> Please elaborate where you see that this is too complex.
->
-> >
-> > Peter mentioned earlier that he was not interested in domain specific
-> > assignments. He was only interested in all domain ("*") implementation.
->
-> Peter's most recent message indicates otherwise:
-> https://lore.kernel.org/all/CALPaoCgiHEaY_cDbCo=3D537JJ7mkYZDFFDs9heYvtQ8=
-0fXuuvWQ@mail.gmail.com/
-
-For now, I'm focused on managing the domains locally whenever possible
-to avoid all IPIs, as this gives me the least overhead.
-
-I'm also prototyping the 'T' vs 't' approach that Reinette
-suggested[1], as this may take a lot of performance pressure off the
-mbm_assign_control interface, as most of the routine updates to
-counter assignments would be automated.
-
--Peter
-
-[1] https://lore.kernel.org/lkml/7ee63634-3b55-4427-8283-8e3d38105f41@intel=
-.com/
