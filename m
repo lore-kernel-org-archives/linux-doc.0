@@ -1,119 +1,120 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC0B154BEC;
-	Thu, 28 Nov 2024 12:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C35E158527;
+	Thu, 28 Nov 2024 13:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732798685; cv=none; b=JP4Z1RkoabjfPsOn1mJF+VerKeRMbCm0XISU4OPOVndAwMBqB0ehLdUiG8frdZjx1c0woc4praKWYPTr3TyY7S2HDVKy+l2XAS1WBDHwYb3Ouu1Xc/sLTlhGYVtg5yNsC3qHAC/knFzBjfqUzbJNvAHd880l0WGkHGrAuCmj3Uk=
+	t=1732800529; cv=none; b=tsF9XL4iw/KabA8+McbYO4Ag7+3MqXvVVUctW/SQPqVew5Njat0WMRcB2BdlogMAX2v3beHcTeoBG3t3DhOv8fTgsSHK979UALN6RVhITFScIVbekCzCjnFYXeAWxiL1hJwgLMj11x1FiMB88B+tKYCBNLcpw8PB4w7sGOenICg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732798685; c=relaxed/simple;
-	bh=QMSrXLPmS8/rI15I1H6zoqnyGh2Mcn9fOeS/kWycmGc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSaw/Qvx2yu3bkZDuGQ7pbEW2VWezFPYH/A6NGV1fbQOfJm6H/oUe9yfiqZPTSL6reOrSn5svIWaZ4LR00Nphb5dOdtLCMsjjD7YbYes7yCFrbtyHFZJigN3sppHSmPfzAaOqOoDgUjRE4JGFxy0naq9UdECysH1j//VwFxvpMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=g7Llz4Vb; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1732800529; c=relaxed/simple;
+	bh=o87fqi8R6sY+SVCkOs0LGzGnlkNcJffWS0dFY3Lc8as=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=d4My5RcZtJtZXKj2UyCoIFhVJ69cs35f0DDHg1RlPtBkgqKaFkVDVsx4wfyG/pikx3CmN2gJfc4YvV8psl51zXv+QmnPDGRhG7UnIrl2mAbCm7u6vCCZRFbyM8lHN/mXFSUbZT9VTs/sNwBa7/KYNeUWYEnxg4vfv3I18ORWMEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K6NziUs4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="g7Llz4Vb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1732798684; x=1764334684;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QMSrXLPmS8/rI15I1H6zoqnyGh2Mcn9fOeS/kWycmGc=;
-  b=g7Llz4VbRm2ddrqnK7sSGp/RnkrIkxmraeRXskcQQ89ZjziS1AfTSXez
-   +0FXi1hfelzshLvweRIeA4LjlQwoOeq5Zo5gV0RGSdbqfWdyerkIJuegJ
-   Rf2XTJVOFakBbU2xVgVlX3b5DN/6EqwsOrpWXI7LCSRB1fuFD2Ous7fWH
-   A+Avu4mO6igxNzT6Ut2JFAzFsPOI2uGc0CJNTaOnhwSShFE+dd838OEJF
-   erqcZSUj70n0yEcK7rOwJ1E96EXDpJSm+7gb8s4/UPRzArrY687smdUuO
-   dgVGTBz7MDnc3H1PffNz//Atf81Cr9fNTyHKejeAJiT/+wA/vdaata0nJ
-   Q==;
-X-CSE-ConnectionGUID: /UvZogjDQyWxjx7e3ftesA==
-X-CSE-MsgGUID: Z3VVt8QuQ6eGvsYfIj+DcA==
-X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; 
-   d="asc'?scan'208";a="266085200"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Nov 2024 05:57:57 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 28 Nov 2024 05:57:26 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Thu, 28 Nov 2024 05:57:22 -0700
-Date: Thu, 28 Nov 2024 12:56:55 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
-	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
-	<aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrea Parri
-	<parri.andrea@gmail.com>, Nathan Chancellor <nathan@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon
-	<will@kernel.org>, Waiman Long <longman@redhat.com>, Boqun Feng
-	<boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Leonardo Bras
-	<leobras@redhat.com>, Guo Ren <guoren@kernel.org>,
-	<linux-doc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-	<linux-arch@vger.kernel.org>
-Subject: Re: [PATCH v6 13/13] riscv: Add qspinlock support
-Message-ID: <20241128-whoever-wildfire-2a3110c5fd46@wendy>
-References: <20241103145153.105097-1-alexghiti@rivosinc.com>
- <20241103145153.105097-14-alexghiti@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K6NziUs4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EE28C4CECE;
+	Thu, 28 Nov 2024 13:28:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732800529;
+	bh=o87fqi8R6sY+SVCkOs0LGzGnlkNcJffWS0dFY3Lc8as=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=K6NziUs4TSO5cu2ftHncNe2lxlNS62LUdh4fnlesjW5X8X2A9V2mzGWY7/qc+w+IS
+	 PRAea5G7I0EuhH4szdaftlIfJri7Q8o4h3AIJoWK8rvNLdjduF2V7cxn4/Ukd5RPlA
+	 xsv77s9CSZ4SyrzbipDcHLO+a4GI9t+Rncpdt+CKQrRPm9s1UgcuZGqNvTwylmW+24
+	 VvV1kvx9RC0Z08JEhhYyN1hDpot7MiHERpCvwXp4WtkjqPYW5qMukLZjemDd4ZTACq
+	 oGMbqnoYZC3MfMndQhbHd9q2P08gDAM1jbgQ6uS9lYhOevexXwsbTzMqXvx40y9ajx
+	 TyqWTCbHdCu7Q==
+From: Amit Shah <amit@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	x86@kernel.org,
+	linux-doc@vger.kernel.org
+Cc: amit.shah@amd.com,
+	thomas.lendacky@amd.com,
+	bp@alien8.de,
+	tglx@linutronix.de,
+	peterz@infradead.org,
+	jpoimboe@kernel.org,
+	pawan.kumar.gupta@linux.intel.com,
+	corbet@lwn.net,
+	mingo@redhat.com,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	seanjc@google.com,
+	pbonzini@redhat.com,
+	daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com,
+	sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com,
+	Babu.Moger@amd.com,
+	david.kaplan@amd.com,
+	dwmw@amazon.co.uk,
+	andrew.cooper3@citrix.com,
+	Amit Shah <amit@kernel.org>
+Subject: [RFC PATCH v3 0/2] Add support for the ERAPS feature
+Date: Thu, 28 Nov 2024 14:28:32 +0100
+Message-ID: <20241128132834.15126-1-amit@kernel.org>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <cover.1732219175.git.jpoimboe@kernel.org>
+References: <cover.1732219175.git.jpoimboe@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qajfT6S+474YA1dH"
-Content-Disposition: inline
-In-Reply-To: <20241103145153.105097-14-alexghiti@rivosinc.com>
+Content-Transfer-Encoding: 8bit
 
---qajfT6S+474YA1dH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Newer AMD CPUs (Zen5+) have the ERAPS feature bit that allows us to remove the
+RSB filling loops required during context switches and VM exits.
 
-On Sun, Nov 03, 2024 at 03:51:53PM +0100, Alexandre Ghiti wrote:
-> In order to produce a generic kernel, a user can select
-> CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
-> spinlock implementation if Zabha or Ziccrse are not present.
->=20
-> Note that we can't use alternatives here because the discovery of
-> extensions is done too late and we need to start with the qspinlock
-> implementation because the ticket spinlock implementation would pollute
-> the spinlock value, so let's use static keys.
->=20
-> This is largely based on Guo's work and Leonardo reviews at [1].
->=20
-> Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guoren=
-@kernel.org/ [1]
-> Signed-off-by: Guo Ren <guoren@kernel.org>
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+This patchset implements the feature to:
+* remove the need for RSB filling on context switches and VMEXITs in host and
+  guests
+* allow KVM guests to use the full default RSB stack
 
-This patch (now commit ab83647fadae2 ("riscv: Add qspinlock support"))
-breaks boot on polarfire soc. It dies before outputting anything to the
-console. My .config has:
+The feature isn't yet part of an APM update that details its working, so this
+is still tagged as RFC.  The notes at
 
-# CONFIG_RISCV_TICKET_SPINLOCKS is not set
-# CONFIG_RISCV_QUEUED_SPINLOCKS is not set
-CONFIG_RISCV_COMBO_SPINLOCKS=3Dy
+https://amitshah.net/2024/11/eraps-reduces-software-tax-for-hardware-bugs/
 
---qajfT6S+474YA1dH
-Content-Type: application/pgp-signature; name="signature.asc"
+may help follow along till the APM is public.
 
------BEGIN PGP SIGNATURE-----
+v3:
+* rebase on top of Josh's RSB tweaks series
+  * with that rebase, only the non-AutoIBRS case needs special ERAPS support.
+    AutoIBRS is currently disabled when SEV-SNP is active (commit acaa4b5c4c8)
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ0holwAKCRB4tDGHoIJi
-0oxHAQDvlh0ZpqCtx7NHMgqYni9qnQMfa+yBnfL0GReiPZOY6gEAuG43y1PeVjrz
-9u1w7lL364g1nfGmc7VfESDSWYuheQA=
-=ZDec
------END PGP SIGNATURE-----
+* remove comment about RSB_CLEAR_LOOPS and the size of the RSB -- it's not
+  necessary anymore with the rework
 
---qajfT6S+474YA1dH--
+* remove comment from patch 2 in svm.c in favour of the commit message
+
+v2:
+* reword comments to highlight context switch as the main trigger for RSB
+  flushes in hardware (Dave Hansen)
+* Split out outdated comment updates in (v1) patch1 to be a standalone
+  patch1 in this series, to reinforce RSB filling is only required for RSB
+  poisoning cases for AMD
+  * Remove mentions of BTC/BTC_NO (Andrew Cooper)
+* Add braces in case stmt (kernel test robot)
+* s/boot_cpu_has/cpu_feature_enabled (Boris Petkov)
+
+Amit Shah (2):
+  x86: cpu/bugs: add AMD ERAPS support; hardware flushes RSB
+  x86: kvm: svm: advertise ERAPS (larger RSB) support to guests
+
+ Documentation/admin-guide/hw-vuln/spectre.rst |  5 ++--
+ arch/x86/include/asm/cpufeatures.h            |  1 +
+ arch/x86/include/asm/svm.h                    |  6 +++-
+ arch/x86/kernel/cpu/bugs.c                    |  6 +++-
+ arch/x86/kvm/cpuid.c                          | 18 ++++++++++--
+ arch/x86/kvm/svm/svm.c                        | 29 +++++++++++++++++++
+ arch/x86/kvm/svm/svm.h                        | 15 ++++++++++
+ 7 files changed, 74 insertions(+), 6 deletions(-)
+
+-- 
+2.47.0
+
