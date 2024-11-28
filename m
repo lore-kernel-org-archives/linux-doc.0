@@ -1,102 +1,85 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D7E2233A;
-	Thu, 28 Nov 2024 14:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81172847B;
+	Thu, 28 Nov 2024 15:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732805429; cv=none; b=GD8fnON80mJFS0TYCpkkj92r/5MfVlqYVhwfrBD3VhShbWqYJUM06tosaLntHpXC44bsbBwTUXxcdFFjhpiw4GcYEXGNaOojkwVaKzInm2i9GDShD0BXeGhKW+kAiFlMX5riynKu9Xf/z+8fHC4ONeol9K/7+8iH7VJW00sJc3U=
+	t=1732807561; cv=none; b=VZ65j4zMAkH3IP//y3egyuwZvevTU4/a+eG8GHjx9wQNhovHsb922ataQyXjS8k0MsueD4i6wR/ilat9ZJR6JZCT54iCUFDIVYhRp7WzJzKr+vF/shnHBFk7VCvn7lOL3NEzuxSk/PMakpqnAy/FuCq37CaGwhkwLu0sTXK8KOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732805429; c=relaxed/simple;
-	bh=QlkrmAfWSgg9jN8h+ddj5jlrPRNfI9eofCH/kWoC9Vo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fM6YZq66ufNZy8mW1ghZoR24haIFuT7HnfOgIRaYbp8q/Cd0cxCS4lFf2q4fvIzlE1TPIWaC8C598TIsPJPUzHi4N8dOT+NdukFHCwkYpYirE4jqEN4V5emN+68GbWuniLjgzITU4M/jol8MI4Neb2T7fepdeeB1wrzqH69dxJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A1F062000F;
-	Thu, 28 Nov 2024 14:50:10 +0000 (UTC)
-Message-ID: <90533aa9-186a-4f75-b3c5-d93d6682056b@ghiti.fr>
-Date: Thu, 28 Nov 2024 15:50:09 +0100
+	s=arc-20240116; t=1732807561; c=relaxed/simple;
+	bh=WwwOsD1I9iOK/UnkE6OYjg3rpCKYQMyHP/d4ocpEP2w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V2UzTLkrDHqLOQy+Un2K3q99WOPNMBcnnyYZQYNnQzxC/lc05XYKc13oHF/LuR4eejcMKGcjKj+4NnuF8eeJlTB4OqHWDC5yH/sptm2Uho/97KXfmk58TD1zB+KBHcRnFGiFii5xyFfH3od0YELhJjElMRY0zObnNjtBwpt45LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HBX07XQr; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HBX07XQr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732807560; x=1764343560;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WwwOsD1I9iOK/UnkE6OYjg3rpCKYQMyHP/d4ocpEP2w=;
+  b=HBX07XQrcPC91QkJ9XLYczCSiGt2Ayvvb1jhrXGetSQqntyEzsz+o8lu
+   LLAjGwPJqfZjVaFKkya5jZtRWaB4uZymXkoAYVxqKSp2ISNLtphwmex4x
+   93DgbQTzWYLrfIXjFwJtrJLENJTeJ1W8elvXWZIPEPkGY2zTaX9huEauR
+   rEESzq8/WS+1HOujBBD8j0THzyVdJMHEmuWNuL0Lmudi1it4pfG/pBxnb
+   /JLopZV1fWB+KbIWJ5zGWlcNuxhkt9JGYuNTHK2Gfyc8kM1Gbgx6rdfZ6
+   F1Uxv5aLYV8g0gDbQloXvAxM88tnp1BtjdG2fY8Oc06ezVjIxD+uqrtFa
+   g==;
+X-CSE-ConnectionGUID: Bd8TB8/KTtez9I176bVx/w==
+X-CSE-MsgGUID: wx+MzW7YQX2npUL3M0gN0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="43711926"
+X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; 
+   d="scan'208";a="43711926"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 07:25:55 -0800
+X-CSE-ConnectionGUID: 0CEig2qUTnW5p/HIqwPkIg==
+X-CSE-MsgGUID: Ta4Yl98oRPCi6BV/B3znlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; 
+   d="scan'208";a="123119561"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa002.jf.intel.com with ESMTP; 28 Nov 2024 07:25:51 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 81A1A35B; Thu, 28 Nov 2024 17:25:50 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v1 0/3] x86/Documentation: boot.rst: More style &format fixes
+Date: Thu, 28 Nov 2024 17:23:37 +0200
+Message-ID: <20241128152546.2396782-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 13/13] riscv: Add qspinlock support
-Content-Language: en-US
-To: Conor Dooley <conor.dooley@microchip.com>, Will Deacon <will@kernel.org>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>, Jonathan Corbet
- <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andrea Parri <parri.andrea@gmail.com>, Nathan Chancellor
- <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-arch@vger.kernel.org
-References: <20241103145153.105097-1-alexghiti@rivosinc.com>
- <20241103145153.105097-14-alexghiti@rivosinc.com>
- <20241128-whoever-wildfire-2a3110c5fd46@wendy>
- <20241128134135.GA3460@willie-the-truck>
- <20241128-uncivil-removed-4e105d1397c9@wendy>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20241128-uncivil-removed-4e105d1397c9@wendy>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: alex@ghiti.fr
+Content-Transfer-Encoding: 8bit
 
-On 28/11/2024 15:14, Conor Dooley wrote:
-> On Thu, Nov 28, 2024 at 01:41:36PM +0000, Will Deacon wrote:
->> On Thu, Nov 28, 2024 at 12:56:55PM +0000, Conor Dooley wrote:
->>> On Sun, Nov 03, 2024 at 03:51:53PM +0100, Alexandre Ghiti wrote:
->>>> In order to produce a generic kernel, a user can select
->>>> CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
->>>> spinlock implementation if Zabha or Ziccrse are not present.
->>>>
->>>> Note that we can't use alternatives here because the discovery of
->>>> extensions is done too late and we need to start with the qspinlock
->>>> implementation because the ticket spinlock implementation would pollute
->>>> the spinlock value, so let's use static keys.
->>>>
->>>> This is largely based on Guo's work and Leonardo reviews at [1].
->>>>
->>>> Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guoren@kernel.org/ [1]
->>>> Signed-off-by: Guo Ren <guoren@kernel.org>
->>>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->>> This patch (now commit ab83647fadae2 ("riscv: Add qspinlock support"))
->>> breaks boot on polarfire soc. It dies before outputting anything to the
->>> console. My .config has:
->>>
->>> # CONFIG_RISCV_TICKET_SPINLOCKS is not set
->>> # CONFIG_RISCV_QUEUED_SPINLOCKS is not set
->>> CONFIG_RISCV_COMBO_SPINLOCKS=y
->> I pointed out some of the fragility during review:
->>
->> https://lore.kernel.org/all/20241111164259.GA20042@willie-the-truck/
->>
->> so I'm kinda surprised it got merged tbh :/
-> Maybe it could be reverted rather than having a broken boot with the
-> default settings in -rc1.
+The boot.rst is combined from the pieces of different epochs, hence has
+some inconsistencies in style and format. Fix (some of) them in this
+mini-series. Rendered result has been manually checked for PDF and HTML.
 
+Andy Shevchenko (3):
+  x86/Documentation: Make Literal Blocks to follow reStructuredText
+    specification
+  x86/Documentation: Align Note Blocks style
+  x86/Documentation: Elaborate Intel MID device list
 
-No need to rush before we know what's happening,I guess you bisected to 
-this commit right?
+ Documentation/arch/x86/boot.rst | 369 ++++++++++++++++----------------
+ 1 file changed, 184 insertions(+), 185 deletions(-)
 
-I don't have this soc, so can you provide $stval/$sepc/$scause, a 
-config, a kernel, anything?
+-- 
+2.43.0.rc1.1336.g36b5255a03ac
 
-Does the polarfire soc provide Ziccrse?
-
-
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
