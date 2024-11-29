@@ -1,455 +1,192 @@
-Received: from mx0a-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BCA189F42;
-	Fri, 29 Nov 2024 08:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79020143C40;
+	Fri, 29 Nov 2024 09:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732870107; cv=none; b=OsPK0c7rsYJSt2qX6M163lCiakJniMZjBAVj/j4uJEWsNmGLI0K+eHkPW19lf3kP6W0daNKQJo7kLs6tAW2TOjtVR9t2VNlK03vBsDdMMITkG0xWNptG6j6k41g+sbfOLdR2R+ZtjzebOYvPtaXyRpdnqLNHk+t8dqW0xRZt4Uw=
+	t=1732871569; cv=none; b=IN+Z3ychhzf8YQoh7dZkLnrAxCtCewdZRJBG2pMAMS2GBNL/IVNk1MkbsFwx7Wf6cOg1D7xsXdB4kvPi6WSEqJv50wtwPGwB9uhLVXjwrxuQCuX5SquF+9jDdMt5sqdvQRb9hD1CujoNqjNkqMqEyjQaB8cFROh298Wz7yxf0Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732870107; c=relaxed/simple;
-	bh=6SSQfiepsXRuPSGQRjM5cWVV78yPdH711a4JCojkiIo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SfLybbvxiWPwthFdoAqvv04qNS4cOHW8le2QnhKwmSiNzrIUITrj2xyZ9zLtwTExEdynrkPcJZ/iqXkjXMfO+x4sdO5KfhyKP7ZNusXf9jPq6I+Ap5sqsVzaqUHO2qxifPEyTLgB7YsUXEQMGplHPhM3Wet75bLx85F1RCh428A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=Xr/ahpGn; arc=none smtp.client-ip=67.231.148.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+	s=arc-20240116; t=1732871569; c=relaxed/simple;
+	bh=dJ6IY9QS2O7JmjJbpKwvcmlKLPRPwSASvHz6cnbvrLs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=U6+QnQQEiNh2Ri5xb8aoY+L/YC+OzUIPl1xiXIvGky8X52oybBWAy53tCBnwVJrW1cPtM4x+sxbFvNkg+FUbjWd/G7owFqt3hqJdsFRRWdC9Co+oquIPb0TcxCY9J23w5vJ2CM/2DWGdbzTvWHp+sf2D2PCAH1uHJXlEl62n9W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nh5hDs9j; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="Xr/ahpGn"
-Received: from pps.filterd (m0431384.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT3jiPj022854;
-	Fri, 29 Nov 2024 00:48:16 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pfpt0220; bh=r
-	TDADkoswnOGavBsUKMrXpBws6pg4hctR4JWyRH2EX0=; b=Xr/ahpGnt4jt+GdzL
-	MWhBNP2bXBzoPy72jZATFQvIqE3PUC6EHvs0jnwKw1pG9kEIvCxt3ai8jXqCRDuP
-	ck4bfIWljNv86PjRkAe+GQuFyvF5BV6d+0iv8v78RW9d3JUqIhU+nY5nnNfBnrFA
-	ffh3bKLVWdCQcKWFhiF7LC6PqrXRtFP6JLdzVOn4vEC931wl8nBz/K1vLUE9iw6S
-	cIDmF+PonH9ffPuC6Og3bcu+sO2riL4V1Q1zQV9VtI0hNspgZP7BSwYj7HX/HRxD
-	Tb5Ct3n5mZwvsK0CzbvqvrPawtlGtnrHWn6e/4iPqYVawieT0CnxerMkwGj1Fi6U
-	1g0nQ==
-Received: from dc5-exch05.marvell.com ([199.233.59.128])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 4376078egy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Nov 2024 00:48:16 -0800 (PST)
-Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
- DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Fri, 29 Nov 2024 00:48:15 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
- (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Fri, 29 Nov 2024 00:48:15 -0800
-Received: from virtx40.. (unknown [10.28.34.196])
-	by maili.marvell.com (Postfix) with ESMTP id 6118E5C68F3;
-	Fri, 29 Nov 2024 00:48:11 -0800 (PST)
-From: Linu Cherian <lcherian@marvell.com>
-To: <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <james.clark@arm.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <coresight@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <devicetree@vger.kernel.org>, <sgoutham@marvell.com>,
-        <gcherian@marvell.com>, Linu Cherian <lcherian@marvell.com>
-Subject: [PATCH v12 8/8] Documentation: coresight: Panic support
-Date: Fri, 29 Nov 2024 14:17:14 +0530
-Message-ID: <20241129084714.3057080-9-lcherian@marvell.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241129084714.3057080-1-lcherian@marvell.com>
-References: <20241129084714.3057080-1-lcherian@marvell.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nh5hDs9j"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43494a20379so15018755e9.0;
+        Fri, 29 Nov 2024 01:12:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732871566; x=1733476366; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=dJ6IY9QS2O7JmjJbpKwvcmlKLPRPwSASvHz6cnbvrLs=;
+        b=Nh5hDs9jvWHa7g6XKUzzk6RbohMA4yWRH/0FyVqTamfleTR2jDmhtBV6vVtsF0Yp3q
+         hYvDSa/U1xh1Vq7nfQIUII8WtLUocOUv8N4kYFlm4ly8wmrTJLhU9/+adaPap6FSj2Wx
+         SunBZzurAuCbg8Ijot8JKmnV6tdRfIg9KkhkKQqVcmwqMur0w9N7hfIwToxCD/EHCQGW
+         0PxFNNCkiLRXO6axwy49zT1OTNdyqKF4vr6Crp2Pf1Ld++WceeI9q23PlthTzOiTZOgw
+         UrI6qwuUELItoJ0uDuKqWHcMguFqp0RVucjgOnZ98LrLSjaHevp691w/cUe4zHr5xG5A
+         se2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732871566; x=1733476366;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dJ6IY9QS2O7JmjJbpKwvcmlKLPRPwSASvHz6cnbvrLs=;
+        b=ramd/flqrfUgYbvUePutpmzEwbbJpu/hwToSsboVrquCYPXTpZgRGYw4Yu7p/R3CjP
+         UeObpS0tFrWqiNK2PfhJSOG69W0QpfMemM4q1t3t0ZVFUhLkiMsh1LNXJ0bIrnc71HAN
+         NUv/eCp1jqNc5SulWjeAhdMlCED0abrNTEDO97q6pn3xOGAbvfPmli+F3ztqx1MSZDZC
+         3d0ZXeDmZk2w0UIuzIVtO4FNcRnyvOuNMnXWz1VlSs5+tCWSbhmjEziaL7SVANvF30zw
+         ZwnmElTWTYhcQQiHQLjZ2rTj4syhEeu4XwraQ7jinpamnqhjf0j3o32RpqAOJPyd9wdO
+         tLCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUorMr5T8BhlRLTWs9G7wArGnJ2Dqch5fFivwy/N13NzAnB0YiV0snTpSux39g//jmykWbdOmywhNE=@vger.kernel.org, AJvYcCV/XDpPPxCzmxNchsMYnuO6n4MnQpQYlJMS2udTjRr1tUqYY5yw1GJRiu1sXz5XYn/D87wsRXZVprXl@vger.kernel.org, AJvYcCWfY7VinHM6slJVnLqBMDpNFsfd1DTgeWGqXj5TzJ+dkaZidf53EyVoPNKcl9GQC6cMOGwDWdW75kbmRteA@vger.kernel.org, AJvYcCXCCjz3R5dICvkgMGVYZSfmLNxR8gSboDFSrKwcW6DY4WcMVa+j4Cz6LeOe0cm7i/DwEltw2saga9U8OE8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGzXBWzp5xqMm3EeLJH070GBH8VxXgtcZMT2n/ZGmMam1ICPPt
+	H3oGfov6wtb5rms0l0p1SGlH6jzgrPJrnpxRZ4ZtUg+mIBaJzzU0
+X-Gm-Gg: ASbGncuEsvqY6TIi8MP4HKsLPRphrBD0pzkfWqgGvVgIXZpZyQ0eh+YdG+Jb5Z1tIkw
+	YcD0dwec2RvgN1gvG5tJ3hME71lMPeGhxO+mrMHGXsNbMRI8b+FwtVustezx2/hpRgOh0T/bD9V
+	Ym4W6bkSvxfXUoprK8f1ZOE+Q+to8x7u7iajkGY417bfMrSkV63iHX3pCkOZ9HVeTjjxu492Snw
+	jXn5E23oZN/cWcILg8v43qRzNMzyoNIg3IeFJpJoUw4fR4HZNq0FLJEUNJNpXFNE3sm5b7K6Gpk
+	hFyVZ8DvqlxMHNcbqNQu5BI=
+X-Google-Smtp-Source: AGHT+IGF5USQPPQnUyvNi/ekI6n1SlDmZye8w3YoCpMzfV67iTqVMeWXyPxA03INAS0aAlQ6wy7ufA==
+X-Received: by 2002:a05:600c:4e8a:b0:431:5ab3:d28d with SMTP id 5b1f17b1804b1-434a9dc3cc3mr100465735e9.9.1732871565606;
+        Fri, 29 Nov 2024 01:12:45 -0800 (PST)
+Received: from ?IPv6:2a01:599:923:c59f:ea19:16d1:ab07:4803? ([2a01:599:923:c59f:ea19:16d1:ab07:4803])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385ccd36855sm3905633f8f.36.2024.11.29.01.12.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Nov 2024 01:12:45 -0800 (PST)
+Message-ID: <f0cbbbe4b20f828fbd48b504a58437c06ef90908.camel@gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: (pmbus/adp1050): Add bindings
+ for adp1051, adp1055 and ltp8800
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: "Encarnacion, Cedric justine" <Cedricjustine.Encarnacion@analog.com>, 
+ Krzysztof Kozlowski
+	 <krzk@kernel.org>, Guenter Roeck <linux@roeck-us.net>, Conor Dooley
+	 <conor@kernel.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, Jean Delvare
+ <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>, Delphine CC Chiu
+ <Delphine_CC_Chiu@wiwynn.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Sabau,
+ Radu bogdan" <Radu.Sabau@analog.com>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>, "Torreno, Alexis Czezar"
+ <AlexisCzezar.Torreno@analog.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>
+Date: Fri, 29 Nov 2024 10:12:45 +0100
+In-Reply-To: <PH0PR03MB6938F9DE7173FE958D645CFE8E2E2@PH0PR03MB6938.namprd03.prod.outlook.com>
+References: <20241120035826.3920-1-cedricjustine.encarnacion@analog.com>
+	 <20241120035826.3920-2-cedricjustine.encarnacion@analog.com>
+	 <20241120-process-hulk-ecedcbf088f7@spud>
+	 <dfe8e47e-6c31-4b11-b733-38e5bd0e49d3@kernel.org>
+	 <7e55a403-eb1c-4369-8180-1639b50cc9b1@roeck-us.net>
+	 <4d907ddf-16ca-4136-b912-f571a691dc90@kernel.org>
+	 <PH0PR03MB6938F9DE7173FE958D645CFE8E2E2@PH0PR03MB6938.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: XW1ONvWrhUjP7fCkG50JjXQ5g4gVihDf
-X-Proofpoint-ORIG-GUID: XW1ONvWrhUjP7fCkG50JjXQ5g4gVihDf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
- definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
 
-Add documentation on using coresight during panic
-and watchdog.
+On Mon, 2024-11-25 at 02:44 +0000, Encarnacion, Cedric justine wrote:
+> > -----Original Message-----
+> > From: Krzysztof Kozlowski <krzk@kernel.org>
+> > Sent: Thursday, November 21, 2024 2:39 AM
+> > To: Guenter Roeck <linux@roeck-us.net>; Conor Dooley <conor@kernel.org>=
+;
+> > Encarnacion, Cedric justine <Cedricjustine.Encarnacion@analog.com>
+> > Cc: devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+> > i2c@vger.kernel.org; linux-doc@vger.kernel.org; linux-hwmon@vger.kernel=
+.org;
+> > Jean Delvare <jdelvare@suse.com>; Jonathan Corbet <corbet@lwn.net>;
+> > Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>; Rob Herring
+> > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dool=
+ey
+> > <conor+dt@kernel.org>; Sabau, Radu bogdan <Radu.Sabau@analog.com>; Uwe
+> > Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>; Torreno, Alexis Cze=
+zar
+> > <AlexisCzezar.Torreno@analog.com>; Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com>
+> > Subject: Re: [PATCH 1/2] dt-bindings: hwmon: (pmbus/adp1050): Add bindi=
+ngs
+> > for adp1051, adp1055 and ltp8800
+> >=20
+> > [External]
+> >=20
+> > On 20/11/2024 19:07, Guenter Roeck wrote:
+> > > On 11/20/24 09:35, Krzysztof Kozlowski wrote:
+> > > > On 20/11/2024 18:11, Conor Dooley wrote:
+> > > > > On Wed, Nov 20, 2024 at 11:58:25AM +0800, Cedric Encarnacion wrot=
+e:
+> > > > > > add dt-bindings for adp1051, adp1055, and ltp8800 pmbus.
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 ADP1051: 6 PWM for I/O Voltage, I/O Cu=
+rrent, Temperature
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 ADP1055: 6 PWM for I/O Voltage, I/O Cu=
+rrent, Power, Temperature
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0 LTP8800-1A/-2/-4A: 150A/135A/200A DC/D=
+C =C2=B5Module Regulator
+> > > > > >=20
+> > > > > > Co-developed-by: Alexis Czezar Torreno
+> > <alexisczezar.torreno@analog.com>
+> > > > > > Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@anal=
+og.com>
+> > > > > > Signed-off-by: Cedric Encarnacion
+> > <cedricjustine.encarnacion@analog.com>
+> > > > >=20
+> > > > > Why did you drop my ack?
+> > > > > https://urldefense.com/v3/__https://lore.kernel.org/all/20241106-
+> > linoleum-kebab-
+> > decf14f54f76@spud/__;!!A3Ni8CS0y2Y!7Q2KluGdg8cJW_wYUd-
+> > vh5mP66Ns62VZOkPG4Jf7NY9ULtTfjiwYqrUHbik_tI9X4izI6fAQS_7eVscdEFK_X
+> > OEm$
+> > > > So that's a v2? Or v3? Then should be marked correctly. Please star=
+t
+> > > > using b4. I already asked analog.com for this in few cases. Feel fr=
+ee
+> > > > not to use b4 if you send correct patches, but this is not the case=
+ here.
+> > > >=20
+>=20
+> Okay, I will start exploring b4 for future patches.
+>=20
 
-Signed-off-by: Linu Cherian <lcherian@marvell.com>
----
-Changelog from v11:
-Convert all commands to literal code block that was missed out in v11.
+Next time, reach out to me. I have been pointing everbody to b4 (if asked n=
+aturally).
 
- Documentation/trace/coresight/panic.rst | 362 ++++++++++++++++++++++++
- 1 file changed, 362 insertions(+)
- create mode 100644 Documentation/trace/coresight/panic.rst
+> > >=20
+> > > In general I agree, but this is a combination of two patch series, as=
+ mentioned
+> > > in the summary. I am not sure how to use versioning in such situation=
+s. Is it
+> > > v2 of one series or v3 of the other ?
+> > I would say the highest and keep the b4 changeset. This allows to use b=
+4
+> > diff easily. Choice done here - v1, no usage of b4=C2=A0 - breaks every=
+thing,
+> > look:
+> >=20
+> > b4 diff '<20241120035826.3920-1-cedricjustine.encarnacion@analog.com>'
+> > Grabbing thread from
+> > lore.kernel.org/all/20241120035826.3920-1-
+> > cedricjustine.encarnacion@analog.com/t.mbox.gz
+> > ---
+> > Analyzing 13 messages in the thread
+> > Could not find lower series to compare against.
+>=20
+> This is v2 of one and v3 of another. For the upcoming versions, should I
+> proceed to v4 which succeeds the highest or continue to v2 based on this
+> series?
+>=20
 
-diff --git a/Documentation/trace/coresight/panic.rst b/Documentation/trace/coresight/panic.rst
-new file mode 100644
-index 000000000000..a58aa914c241
---- /dev/null
-+++ b/Documentation/trace/coresight/panic.rst
-@@ -0,0 +1,362 @@
-+===================================================
-+Using Coresight for Kernel panic and Watchdog reset
-+===================================================
-+
-+Introduction
-+------------
-+This documentation is about using Linux coresight trace support to
-+debug kernel panic and watchdog reset scenarios.
-+
-+Coresight trace during Kernel panic
-+-----------------------------------
-+From the coresight driver point of view, addressing the kernel panic
-+situation has four main requirements.
-+
-+a. Support for allocation of trace buffer pages from reserved memory area.
-+   Platform can advertise this using a new device tree property added to
-+   relevant coresight nodes.
-+
-+b. Support for stopping coresight blocks at the time of panic
-+
-+c. Saving required metadata in the specified format
-+
-+d. Support for reading trace data captured at the time of panic
-+
-+Allocation of trace buffer pages from reserved RAM
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+A new optional device tree property "memory-region" is added to the
-+Coresight TMC device nodes, that would give the base address and size of trace
-+buffer.
-+
-+Static allocation of trace buffers would ensure that both IOMMU enabled
-+and disabled cases are handled. Also, platforms that support persistent
-+RAM will allow users to read trace data in the subsequent boot without
-+booting the crashdump kernel.
-+
-+Note:
-+For ETR sink devices, this reserved region will be used for both trace
-+capture and trace data retrieval.
-+For ETF sink devices, internal SRAM would be used for trace capture,
-+and they would be synced to reserved region for retrieval.
-+
-+
-+Disabling coresight blocks at the time of panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+In order to avoid the situation of losing relevant trace data after a
-+kernel panic, it would be desirable to stop the coresight blocks at the
-+time of panic.
-+
-+This can be achieved by configuring the comparator, CTI and sink
-+devices as below::
-+
-+           Trigger on panic
-+    Comparator --->External out --->CTI -->External In---->ETR/ETF stop
-+
-+Saving metadata at the time of kernel panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Coresight metadata involves all additional data that are required for a
-+successful trace decode in addition to the trace data. This involves
-+ETR/ETF/ETB register snapshot etc.
-+
-+A new optional device property "memory-region" is added to
-+the ETR/ETF/ETB device nodes for this.
-+
-+Reading trace data captured at the time of panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Trace data captured at the time of panic, can be read from rebooted kernel
-+or from crashdump kernel using a special device file /dev/crash_tmc_xxx.
-+This device file is created only when there is a valid crashdata available.
-+
-+General flow of trace capture and decode incase of kernel panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+1. Enable source and sink on all the cores using the sysfs interface.
-+   ETR sinks should have trace buffers allocated from reserved memory,
-+   by selecting "resrv" buffer mode from sysfs.
-+
-+2. Run relevant tests.
-+
-+3. On a kernel panic, all coresight blocks are disabled, necessary
-+   metadata is synced by kernel panic handler.
-+
-+   System would eventually reboot or boot a crashdump kernel.
-+
-+4. For  platforms that supports crashdump kernel, raw trace data can be
-+   dumped using the coresight sysfs interface from the crashdump kernel
-+   itself. Persistent RAM is not a requirement in this case.
-+
-+5. For platforms that supports persistent RAM, trace data can be dumped
-+   using the coresight sysfs interface in the subsequent Linux boot.
-+   Crashdump kernel is not a requirement in this case. Persistent RAM
-+   ensures that trace data is intact across reboot.
-+
-+Coresight trace during Watchdog reset
-+-------------------------------------
-+The main difference between addressing the watchdog reset and kernel panic
-+case are below,
-+
-+a. Saving coresight metadata need to be taken care by the
-+   SCP(system control processor) firmware in the specified format,
-+   instead of kernel.
-+
-+b. Reserved memory region given by firmware for trace buffer and metadata
-+   has to be in persistent RAM.
-+   Note: This is a requirement for watchdog reset case but optional
-+   in kernel panic case.
-+
-+Watchdog reset can be supported only on platforms that meet the above
-+two requirements.
-+
-+Sample commands for testing a Kernel panic case with ETR sink
-+-------------------------------------------------------------
-+
-+1. Boot Linux kernel with "crash_kexec_post_notifiers" added to the kernel
-+   bootargs. This is mandatory if the user would like to read the tracedata
-+   from the crashdump kernel.
-+
-+2. Enable the preloaded ETM configuration::
-+
-+    #echo 1 > /sys/kernel/config/cs-syscfg/configurations/panicstop/enable
-+
-+3. Configure CTI using sysfs interface::
-+
-+    #./cti_setup.sh
-+
-+    #cat cti_setup.sh
-+
-+
-+    cd /sys/bus/coresight/devices/
-+
-+    ap_cti_config () {
-+      #ETM trig out[0] trigger to Channel 0
-+      echo 0 4 > channels/trigin_attach
-+    }
-+
-+    etf_cti_config () {
-+      #ETF Flush in trigger from Channel 0
-+      echo 0 1 > channels/trigout_attach
-+      echo 1 > channels/trig_filter_enable
-+    }
-+
-+    etr_cti_config () {
-+      #ETR Flush in from Channel 0
-+      echo 0 1 > channels/trigout_attach
-+      echo 1 > channels/trig_filter_enable
-+    }
-+
-+    ctidevs=`find . -name "cti*"`
-+
-+    for i in $ctidevs
-+    do
-+            cd $i
-+
-+            connection=`find . -name "ete*"`
-+            if [ ! -z "$connection" ]
-+            then
-+                    echo "AP CTI config for $i"
-+                    ap_cti_config
-+            fi
-+
-+            connection=`find . -name "tmc_etf*"`
-+            if [ ! -z "$connection" ]
-+            then
-+                    echo "ETF CTI config for $i"
-+                    etf_cti_config
-+            fi
-+
-+            connection=`find . -name "tmc_etr*"`
-+            if [ ! -z "$connection" ]
-+            then
-+                    echo "ETR CTI config for $i"
-+                    etr_cti_config
-+            fi
-+
-+            cd ..
-+    done
-+
-+Note: CTI connections are SOC specific and hence the above script is
-+added just for reference.
-+
-+4. Choose reserved buffer mode for ETR buffer::
-+
-+    #echo "resrv" > /sys/bus/coresight/devices/tmc_etr0/buf_mode_preferred
-+
-+5. Enable stop on flush trigger configuration::
-+
-+    #echo 1 > /sys/bus/coresight/devices/tmc_etr0/stop_on_flush
-+
-+6. Start Coresight tracing on cores 1 and 2 using sysfs interface
-+
-+7. Run some application on core 1::
-+
-+    #taskset -c 1 dd if=/dev/urandom of=/dev/null &
-+
-+8. Invoke kernel panic on core 2::
-+
-+    #echo 1 > /proc/sys/kernel/panic
-+    #taskset -c 2 echo c > /proc/sysrq-trigger
-+
-+9. From rebooted kernel or crashdump kernel, read crashdata::
-+
-+    #dd if=/dev/crash_tmc_etr0 of=/trace/cstrace.bin
-+
-+10. Run opencsd decoder tools/scripts to generate the instruction trace.
-+
-+Sample instruction trace dump
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Core1 dump::
-+
-+    A                                  etm4_enable_hw: ffff800008ae1dd4
-+    CONTEXT EL2                        etm4_enable_hw: ffff800008ae1dd4
-+    I                                  etm4_enable_hw: ffff800008ae1dd4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1dd8:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1ddc:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de0:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de8:
-+    d503233f   paciasp
-+    I                                  etm4_enable_hw: ffff800008ae1dec:
-+    a9be7bfd   stp     x29, x30, [sp, #-32]!
-+    I                                  etm4_enable_hw: ffff800008ae1df0:
-+    910003fd   mov     x29, sp
-+    I                                  etm4_enable_hw: ffff800008ae1df4:
-+    a90153f3   stp     x19, x20, [sp, #16]
-+    I                                  etm4_enable_hw: ffff800008ae1df8:
-+    2a0003f4   mov     w20, w0
-+    I                                  etm4_enable_hw: ffff800008ae1dfc:
-+    900085b3   adrp    x19, ffff800009b95000 <reserved_mem+0xc48>
-+    I                                  etm4_enable_hw: ffff800008ae1e00:
-+    910f4273   add     x19, x19, #0x3d0
-+    I                                  etm4_enable_hw: ffff800008ae1e04:
-+    f8747a60   ldr     x0, [x19, x20, lsl #3]
-+    E                                  etm4_enable_hw: ffff800008ae1e08:
-+    b4000140   cbz     x0, ffff800008ae1e30 <etm4_starting_cpu+0x50>
-+    I    149.039572921                 etm4_enable_hw: ffff800008ae1e30:
-+    a94153f3   ldp     x19, x20, [sp, #16]
-+    I    149.039572921                 etm4_enable_hw: ffff800008ae1e34:
-+    52800000   mov     w0, #0x0                        // #0
-+    I    149.039572921                 etm4_enable_hw: ffff800008ae1e38:
-+    a8c27bfd   ldp     x29, x30, [sp], #32
-+
-+    ..snip
-+
-+        149.052324811           chacha_block_generic: ffff800008642d80:
-+    9100a3e0   add     x0,
-+    I    149.052324811           chacha_block_generic: ffff800008642d84:
-+    b86178a2   ldr     w2, [x5, x1, lsl #2]
-+    I    149.052324811           chacha_block_generic: ffff800008642d88:
-+    8b010803   add     x3, x0, x1, lsl #2
-+    I    149.052324811           chacha_block_generic: ffff800008642d8c:
-+    b85fc063   ldur    w3, [x3, #-4]
-+    I    149.052324811           chacha_block_generic: ffff800008642d90:
-+    0b030042   add     w2, w2, w3
-+    I    149.052324811           chacha_block_generic: ffff800008642d94:
-+    b8217882   str     w2, [x4, x1, lsl #2]
-+    I    149.052324811           chacha_block_generic: ffff800008642d98:
-+    91000421   add     x1, x1, #0x1
-+    I    149.052324811           chacha_block_generic: ffff800008642d9c:
-+    f100443f   cmp     x1, #0x11
-+
-+
-+Core 2 dump::
-+
-+    A                                  etm4_enable_hw: ffff800008ae1dd4
-+    CONTEXT EL2                        etm4_enable_hw: ffff800008ae1dd4
-+    I                                  etm4_enable_hw: ffff800008ae1dd4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1dd8:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1ddc:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de0:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de8:
-+    d503233f   paciasp
-+    I                                  etm4_enable_hw: ffff800008ae1dec:
-+    a9be7bfd   stp     x29, x30, [sp, #-32]!
-+    I                                  etm4_enable_hw: ffff800008ae1df0:
-+    910003fd   mov     x29, sp
-+    I                                  etm4_enable_hw: ffff800008ae1df4:
-+    a90153f3   stp     x19, x20, [sp, #16]
-+    I                                  etm4_enable_hw: ffff800008ae1df8:
-+    2a0003f4   mov     w20, w0
-+    I                                  etm4_enable_hw: ffff800008ae1dfc:
-+    900085b3   adrp    x19, ffff800009b95000 <reserved_mem+0xc48>
-+    I                                  etm4_enable_hw: ffff800008ae1e00:
-+    910f4273   add     x19, x19, #0x3d0
-+    I                                  etm4_enable_hw: ffff800008ae1e04:
-+    f8747a60   ldr     x0, [x19, x20, lsl #3]
-+    E                                  etm4_enable_hw: ffff800008ae1e08:
-+    b4000140   cbz     x0, ffff800008ae1e30 <etm4_starting_cpu+0x50>
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e30:
-+    a94153f3   ldp     x19, x20, [sp, #16]
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e34:
-+    52800000   mov     w0, #0x0                        // #0
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e38:
-+    a8c27bfd   ldp     x29, x30, [sp], #32
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e3c:
-+    d50323bf   autiasp
-+    E    149.046243445                 etm4_enable_hw: ffff800008ae1e40:
-+    d65f03c0   ret
-+    A                                ete_sysreg_write: ffff800008adfa18
-+
-+    ..snip
-+
-+    I     149.05422547                          panic: ffff800008096300:
-+    a90363f7   stp     x23, x24, [sp, #48]
-+    I     149.05422547                          panic: ffff800008096304:
-+    6b00003f   cmp     w1, w0
-+    I     149.05422547                          panic: ffff800008096308:
-+    3a411804   ccmn    w0, #0x1, #0x4, ne  // ne = any
-+    N     149.05422547                          panic: ffff80000809630c:
-+    540001e0   b.eq    ffff800008096348 <panic+0xe0>  // b.none
-+    I     149.05422547                          panic: ffff800008096310:
-+    f90023f9   str     x25, [sp, #64]
-+    E     149.05422547                          panic: ffff800008096314:
-+    97fe44ef   bl      ffff8000080276d0 <panic_smp_self_stop>
-+    A                                           panic: ffff80000809634c
-+    I     149.05422547                          panic: ffff80000809634c:
-+    910102d5   add     x21, x22, #0x40
-+    I     149.05422547                          panic: ffff800008096350:
-+    52800020   mov     w0, #0x1                        // #1
-+    E     149.05422547                          panic: ffff800008096354:
-+    94166b8b   bl      ffff800008631180 <bust_spinlocks>
-+    N    149.054225518                 bust_spinlocks: ffff800008631180:
-+    340000c0   cbz     w0, ffff800008631198 <bust_spinlocks+0x18>
-+    I    149.054225518                 bust_spinlocks: ffff800008631184:
-+    f000a321   adrp    x1, ffff800009a98000 <pbufs.0+0xbb8>
-+    I    149.054225518                 bust_spinlocks: ffff800008631188:
-+    b9405c20   ldr     w0, [x1, #92]
-+    I    149.054225518                 bust_spinlocks: ffff80000863118c:
-+    11000400   add     w0, w0, #0x1
-+    I    149.054225518                 bust_spinlocks: ffff800008631190:
-+    b9005c20   str     w0, [x1, #92]
-+    E    149.054225518                 bust_spinlocks: ffff800008631194:
-+    d65f03c0   ret
-+    A                                           panic: ffff800008096358
-+
-+Perf based testing
-+------------------
-+
-+Starting perf session
-+~~~~~~~~~~~~~~~~~~~~~
-+ETF::
-+
-+    perf record -e cs_etm/panicstop,@tmc_etf1/ -C 1
-+    perf record -e cs_etm/panicstop,@tmc_etf2/ -C 2
-+
-+ETR::
-+
-+    perf record -e cs_etm/panicstop,@tmc_etr0/ -C 1,2
-+
-+Reading trace data after panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Same sysfs based method explained above can be used to retrieve and
-+decode the trace data after the reboot on kernel panic.
--- 
-2.34.1
+It seems to me the highest is the preferred...
+
+- Nuno S=C3=A1
 
