@@ -1,288 +1,153 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819031865E5
-	for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2024 09:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F4D155753;
+	Fri, 29 Nov 2024 10:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732874366; cv=none; b=fcpsuX/xO0pgSoR66XNgLh8+rMBLzPhI5OCP5UGG3ezuvXmWtYN1FZ9I9kVdHVfaLIQ+4rvwhEerAvpM7DT4OEWp5c0lEpJmsQxOS69j+z2Uil1SeYC64UlG5R+8nyx2ykEPSRRQ+jdRaxq3OhMeaC4r2Cq+IFadmsTmss+kaj0=
+	t=1732876198; cv=none; b=aZvwgGLemEcXXF3iISRHi63gG4W5t8rAce1i7sfI4swkEKS8Ti+BPyfcm41JEaiaRIDCkoFUzMuRMU00CqYjBUI6WO6j3hvHAnJsm934PDlmxhIcAMHMe6YE4rTMF5hGub92RfVBHE6FQichpVwx2OHqPy153JS31n5XQkuGIgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732874366; c=relaxed/simple;
-	bh=uSsITzNmSsyWARLL6s/Od36u3VYAEyC/8LCQ4MlYcX8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mJ0IUbHzxo5MAoxka/6T2ZRiwuhI4NkO4WzuZBF46YDPLW3j4OoPz/NLh4SflWLswnv8+CHqp2g+iNgzmGxNJ4AImINNVGfBZV0KgFWzFXOVRWLS3hJGwiiT86DVJBhqpHgtlt7jhKH508V3UvShRsAUsM0nL+yXF8jJZLiXdhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UY0375ZE; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1732876198; c=relaxed/simple;
+	bh=HV+KcdHMNiDCGNGg2MmmAJ5nak2w5W33ipZ4Sc1GXhw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KTvjNdxcMxiWL9asILWMIrEWr6VDFWZ837YShkE7LiRqO33unIK9zo+UE3iLEduiYkL32bf0UYQMIpytX0K3Q0txQyMOi+k95aYyJbo6ce63KC9vZw7G/aTvGicfCiy2gB+oKnoFtR6pwOt9fNLg6PoyRlv1BBeo8+gRPiVbWv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juN9ka5C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UY0375ZE"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5d0bdeb0419so159023a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2024 01:59:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732874363; x=1733479163; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6y37ebRaWudSMoIk0DXIIhwp5SG9cfl9SoWUYXI4kDE=;
-        b=UY0375ZEuM54u8FBHNm3/8JqZUUceqpPR5/OpwasyOsoKnCLrV5Zz1AD+d7Hcminbo
-         ZKs1SSr5vUibRFQTaCtieSKdZIIku9vApffA0Fp6I/mH4e7zf1NMAC3j4vksXFmcqf12
-         a0Q55brfA56C10vvKnbg4DfDWjt2GZj4ZYun26E7fji1Tu8Ii77FCgwdXwq3VpMZuPK+
-         PJJZjIhoeKPWGIDpyogU490ZLsCY6E4Ud0VLT/KR4IJmJPd4EtBJx9KbgLbIblelbp+H
-         AAR9UZqDbEJmFGlzeoSRzxfBDuovwbqQASQ+O2kD9kl8dt5ZhfkyTwPMJizZqTrg6RT3
-         CzUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732874363; x=1733479163;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6y37ebRaWudSMoIk0DXIIhwp5SG9cfl9SoWUYXI4kDE=;
-        b=mSKvVkhXxTNsXNdMgLJFEIAGGMWXsAZRy5x46q77zStRUAS9w3XZ2Oc27RpPOPSA/p
-         ZUFhTQGDVVOBOUsfTxaXt7x0GZp4h6RdSdHNaBf2GqjIlvDlWhlTMmNWRHfmnLayOEfv
-         KkuHD9QYFjyFfsJDTPunTSZZpZEhDY/ziny1jDQH0M6i9+tUtLvez2QGDVCBQKm0n3o3
-         YBfnOXhzQfkMql8vYj5UZBSI1oyQMVCYg5YztCuc+2DTnjfuxYiA6dBLCpMebIxantJ8
-         N2SFvBnWe5qfWHdTumpkzSrS5ZfPSRpR3GjZxOMbY4ayA3q89ptGbayaOHboDLs7Jamo
-         PfAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWHJGVwRuY3pzsASv2nniqykNv9zCrmSuiKX22g4oZJUiXbKAYSYe3AICXNOlScw0BpwDPMugpu9p8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7+mZ3lq08ZQMdzAWVvaQSzYLRexPrQMAGkcdNkuOvqtIUct66
-	+RNFNew2NSGfc/m+4gnSqhZ97o5ZfdamT7RVhe6N4qjRvKTXLEbZNC4Q+Mlm5YG0ZFNNY3ztct/
-	z1H+axYKb/ZpovJ6KdngWkEhvILU7q+GMFAEf
-X-Gm-Gg: ASbGnctAT5vuw5V971hDdBYInXxT9zRJAodYdii7DJ+vnXXj0mBErP+WblAdC4lRbyy
-	f9x1+LSnL6aZhSecQ8VRZmDDF8e9InbKs+ru6t9U0/rstEKVi2784/ATtSNfnJg==
-X-Google-Smtp-Source: AGHT+IHUBCUGFN9KTRFfHhnJDhilg5gHGAVosZUU0PQWjsA3k3VGUMCfkR6vS7bQHk1RWtatpDvfsUdyggVmrib6WpM=
-X-Received: by 2002:a05:6402:26cb:b0:5d0:8889:de02 with SMTP id
- 4fb4d7f45d1cf-5d08889deb3mr8840312a12.22.1732874362741; Fri, 29 Nov 2024
- 01:59:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juN9ka5C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEC5AC4CECF;
+	Fri, 29 Nov 2024 10:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732876196;
+	bh=HV+KcdHMNiDCGNGg2MmmAJ5nak2w5W33ipZ4Sc1GXhw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=juN9ka5CxUFx4jWCoyz+a+vgTGVvpJuN0wzxdCjdGfSsVolHoByTNIfj7EcZZ3N1n
+	 6cr3NOBJrhIKR7LhxSBI/V0Odqm690D9Pf6ZGjvTPqKw2ZMBjz4YvUdsVlUIq7EWTr
+	 ASAkYYw9/iunDsp8g3OOocJv6qgClxtQLj377c89+4fW9shwClGYpYhNq1YXy9Koi2
+	 Ll2qQPCyFFsUHMrApjZ7UMRa5j1su5lCoG9a0TxbkRhcoi+1hRpqr5HV4AzP44i/+9
+	 5srfxsk1HLh0tBqn0enJ8ARB6D63Dr+tcph+l8cmQfYdEeg5SG9l+6sh4klw5gfmrt
+	 lz6+DuGLdBz5g==
+Date: Fri, 29 Nov 2024 11:29:52 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH] docs: media: document media multi-committers rules and
+ process
+Message-ID: <20241129112952.1f0c9222@foz.lan>
+In-Reply-To: <20241128190707.GA13852@pendragon.ideasonboard.com>
+References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
+	<20241126151930.GA5493@pendragon.ideasonboard.com>
+	<e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
+	<20241127132515.GH31095@pendragon.ideasonboard.com>
+	<20241128191543.289f0d84@foz.lan>
+	<20241128190707.GA13852@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1730244116.git.babu.moger@amd.com> <265f3700ac0c0d33703806fdc3d096b08c992efc.1730244116.git.babu.moger@amd.com>
- <0dc08082-0f3f-4acc-9285-b925a4ce3b02@intel.com> <5d426af4-a947-4115-b7b7-4eeecfa13fec@amd.com>
- <c587f94a-7920-49cf-94b1-4c52140db914@intel.com> <ef92f1fb-086c-4ee1-b8ec-e08ed68f963a@amd.com>
- <e065b193-dbcc-451b-98db-68a5a69e6ae0@intel.com> <20959b58-a882-4ef7-bd11-e8bb0a998945@amd.com>
- <1a93f4e3-d3d2-4764-90d1-728b9cb70481@intel.com> <36d8fe9f-0000-4d0d-a097-efddc3881a2a@amd.com>
- <5aa7924d-b27d-4ee6-b8dd-4bae0e25267b@intel.com> <CALPaoCj+zWq1vkHVbXYP0znJbe6Ke3PXPWjtri5AFgD9cQDCUg@mail.gmail.com>
- <4bf82744-da09-43c3-b8f1-7fc203d1c1c3@amd.com>
-In-Reply-To: <4bf82744-da09-43c3-b8f1-7fc203d1c1c3@amd.com>
-From: Peter Newman <peternewman@google.com>
-Date: Fri, 29 Nov 2024 10:59:11 +0100
-Message-ID: <CALPaoCjL6FEmVgX-h3_GQEVZNAT3FcH34t9o1PwbUacVzXjZPg@mail.gmail.com>
-Subject: Re: [PATCH v9 14/26] x86/resctrl: Introduce interface to display
- number of free counters
-To: babu.moger@amd.com
-Cc: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, 
-	fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com, thuth@redhat.com, 
-	paulmck@kernel.org, rostedt@goodmis.org, akpm@linux-foundation.org, 
-	xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com, 
-	daniel.sneddon@linux.intel.com, perry.yuan@amd.com, sandipan.das@amd.com, 
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
-	jithu.joseph@intel.com, brijesh.singh@amd.com, xin3.li@intel.com, 
-	ebiggers@google.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com, 
-	james.morse@arm.com, tan.shaopeng@fujitsu.com, tony.luck@intel.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	maciej.wieczor-retman@intel.com, eranian@google.com, jpoimboe@kernel.org, 
-	thomas.lendacky@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Babu,
+Em Thu, 28 Nov 2024 21:07:07 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-On Thu, Nov 28, 2024 at 8:35=E2=80=AFPM Moger, Babu <bmoger@amd.com> wrote:
->
-> Hi Peter,
->
-> On 11/28/2024 5:10 AM, Peter Newman wrote:
-> > Hi Babu, Reinette,
-> >
-> > On Wed, Nov 27, 2024 at 8:05=E2=80=AFPM Reinette Chatre
-> > <reinette.chatre@intel.com> wrote:
-> >>
-> >> Hi Babu,
-> >>
-> >> On 11/27/24 6:57 AM, Moger, Babu wrote:
+> > With that in mind, every committer has duties of reviewing other
+> > developer's patches submitted for the drivers that they're listed as
+> > a maintainer at the MAINTAINERS file entries.  
+> 
+> I'm sorry but that's not a multi-committer model, it's a co-maintenance
+> model. If that's what you really want we can reopen the discussion and
+> start anew, but I don't think it's a good idea.
+> 
+> As I said before, if it increases my work load, I don't want commit
+> rights. I'll keep sending pull requests, you'll have to keep processing
+> them, and patches will be merged slower. It will be a lose-lose
+> situation for everybody, you, me, contributors and users.
+> 
+> Starting with a situation where we are understaffed and trying to solve
+> it by putting more work on the few people who currently keep the
+> subsystem alive doesn't sound like a winning strategy. 
 
-> >>> 1. Each group needs to remember counter ids in each domain for each e=
-vent.
-> >>>     For example:
-> >>>     Resctrl group mon1
-> >>>      Total event
-> >>>      dom 0 cntr_id 1,
-> >>>      dom 1 cntr_id 10
-> >>>      dom 2 cntr_id 11
-> >>>
-> >>>     Local event
-> >>>      dom 0 cntr_id 2,
-> >>>      dom 1 cntr_id 15
-> >>>      dom 2 cntr_id 10
-> >>
-> >> Indeed. The challenge here is that domains may come and go so it canno=
-t be a simple
-> >> static array. As an alternative it can be an xarray indexed by the dom=
-ain ID with
-> >> pointers to a struct like below to contain the counters associated wit=
-h the monitor
-> >> group:
-> >>          struct cntr_id {
-> >>                  u32     mbm_total;
-> >>                  u32     mbm_local;
-> >>          }
-> >>
-> >>
-> >> Thinking more about how this array needs to be managed made me wonder =
-how the
-> >> current implementation deals with domains that come and go. I do not t=
-hink
-> >> this is currently handled. For example, if a new domain comes online a=
-nd
-> >> monitoring groups had counters dynamically assigned, then these counte=
-rs are
-> >> not configured to the newly online domain.
->
-> I am trying to understand the details of your approach here.
-> >
-> > In my prototype, I allocated a counter id-indexed array to each
-> > monitoring domain structure for tracking the counter allocations,
-> > because the hardware counters are all domain-scoped. That way the
-> > tracking data goes away when the hardware does.
-> >
-> > I was focused on allowing all pending counter updates to a domain
-> > resulting from a single mbm_assign_control write to be batched and
-> > processed in a single IPI, so I structured the counter tracker
-> > something like this:
->
-> Not sure what you meant here. How are you batching two IPIs for two domai=
-ns?
->
-> #echo "//0=3Dt;1=3Dt" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
->
-> This is still a single write. Two IPIs are sent separately, one for each
-> domain.
->
-> Are you doing something different?
+After sleeping over it, I agree that you're partially right on this.
 
-I said "all pending counter updates to a domain", whereby I meant
-targeting a single domain.
+Doing timely reviews is orthogonal of being a committer. What defines
+if you need to do timely reviews is if you're listed or not at the
+MAINTANERS file as "M:" - e.g. if the developer is a maintainer
+(on its broader sense) or not. This applies for both PR and MR workflows.
 
-Depending on the CPU of the caller, your example write requires 1 or 2 IPIs=
-.
+Still, if one is not fulfilling its duty as maintainer, he may end
+losing maintainership status and the corresponding committer rights.
 
-What is important is that the following write also requires 1 or 2 IPIs:
+I wrote a separate patch to make it clear. See below.
 
-(assuming /sys/fs/resctrl/mon_groups/[g1-g31] exist, line breaks added
-for readability)
+Thanks,
+Mauro
 
-echo $'//0=3Dt;1=3Dt\n
-/g1/0=3Dt;1=3Dt\n
-/g2/0=3Dt;1=3Dt\n
-/g3/0=3Dt;1=3Dt\n
-/g4/0=3Dt;1=3Dt\n
-/g5/0=3Dt;1=3Dt\n
-/g6/0=3Dt;1=3Dt\n
-/g7/0=3Dt;1=3Dt\n
-/g8/0=3Dt;1=3Dt\n
-/g9/0=3Dt;1=3Dt\n
-/g10/0=3Dt;1=3Dt\n
-/g11/0=3Dt;1=3Dt\n
-/g12/0=3Dt;1=3Dt\n
-/g13/0=3Dt;1=3Dt\n
-/g14/0=3Dt;1=3Dt\n
-/g15/0=3Dt;1=3Dt\n
-/g16/0=3Dt;1=3Dt\n
-/g17/0=3Dt;1=3Dt\n
-/g18/0=3Dt;1=3Dt\n
-/g19/0=3Dt;1=3Dt\n
-/g20/0=3Dt;1=3Dt\n
-/g21/0=3Dt;1=3Dt\n
-/g22/0=3Dt;1=3Dt\n
-/g23/0=3Dt;1=3Dt\n
-/g24/0=3Dt;1=3Dt\n
-/g25/0=3Dt;1=3Dt\n
-/g26/0=3Dt;1=3Dt\n
-/g27/0=3Dt;1=3Dt\n
-/g28/0=3Dt;1=3Dt\n
-/g29/0=3Dt;1=3Dt\n
-/g30/0=3Dt;1=3Dt\n
-/g31/0=3Dt;1=3Dt\n'
+---
 
-My ultimate goal is for a thread bound to a particular domain to be
-able to unassign and reassign the local domain's 32 counters in a
-single write() with no IPIs at all. And when IPIs are required, then
-no more than one per domain, regardless of the number of groups
-updated.
+[PATCH] docs: media: profile: make it clearer about maintainership duties
 
+During the review of the media committes profile, it was noticed
+that the responsibility for timely review patches was not clear:
+such review is expected that all developers listed at MAINTAINERS
+with the "M:" tag (e.g. "maintainers" on its broad sense).
 
->
-> >
-> > struct resctrl_monitor_cfg {
-> >      int closid;
-> >      int rmid;
-> >      int evtid;
-> >      bool dirty;
-> > };
-> >
-> > This mirrors the info needed in whatever register configures the
-> > counter, plus a dirty flag to skip over the ones that don't need to be
-> > updated.
->
-> This is what my understanding of your implementation.
->
-> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-> index d94abba1c716..9cebf065cc97 100644
-> --- a/include/linux/resctrl.h
-> +++ b/include/linux/resctrl.h
-> @@ -94,6 +94,13 @@ struct rdt_ctrl_domain {
->          u32                             *mbps_val;
->   };
->
-> +struct resctrl_monitor_cfg {
-> +    int closid;
-> +    int rmid;
-> +    int evtid;
-> +    bool dirty;
-> +};
-> +
->   /**
->    * struct rdt_mon_domain - group of CPUs sharing a resctrl monitor
-> resource
->    * @hdr:               common header for different domain types
-> @@ -116,6 +123,7 @@ struct rdt_mon_domain {
->          struct delayed_work             cqm_limbo;
->          int                             mbm_work_cpu;
->          int                             cqm_work_cpu;
-> +     /* Allocate num_mbm_cntrs entries in each domain */
-> +       struct resctrl_monitor_cfg      *mon_cfg;
->   };
->
->
-> When a user requests an assignment for total event to the default group
-> for domain 0, you go search in rdt_mon_domain(dom 0) for empty mon_cfg
-> entry.
->
-> If there is an empty entry, then use that entry for assignment and
-> update closid, rmid, evtid and dirty =3D 1. We can get all these
-> information from default group here.
->
-> Does this make sense?
+This is orthogonal of being a media committer or not. Such duty
+is implied at:
 
-Yes, sounds correct.
+	Documentation/admin-guide/reporting-issues.rst
 
->
-> >
-> > For the benefit of displaying mbm_assign_control, I put a pointer back
-> > to any counter array entry allocated in the mbm_state struct only
-> > because it's an existing structure that exists for every rmid-domain
-> > combination.
->
-> Pointer in mbm_state may not be required here.
->
-> We are going to loop over resctrl groups. We can search the
-> rdt_mon_domain to see if specific closid, rmid, evtid is already
-> assigned or not in that domain.
+and at the MAINTAINERS header, when it says that even when the
+status is "odd fixes", the patches will flow in.
 
-No, not required I guess. High-performance CPUs can probably search a
-32-entry array very quickly.
+So, let make it explicit at the maintainer-entry-profile that
+maintainers need to do timely reviews.
 
--Peter
+Also, while right now our focus is on granting committer rights to
+maintainers, the media-committer model may evolve in the future to
+accept other committers that don't have such duties.
+
+So, make it clear at the media-committer.rst that the duties
+related to reviewing patches from others are for the drivers
+they are maintainers as well.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+index 650803c30c41..6daf71bc72c1 100644
+--- a/Documentation/driver-api/media/maintainer-entry-profile.rst
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -147,6 +147,11 @@ b. Committers' workflow: patches are handled by media committers::
+ On both workflows, all patches shall be properly reviewed at
+ linux-media@vger.kernel.org before being merged at media-committers.git.
+ 
++Such patches will be timely-reviewed by developers listed as maintainers at
++the MAINTAINERS file. Such maintainers will follow one of the above
++workflows, e. g. they will either send a pull request or merge patches
++directly at the media-committers tree.
++
+ When patches are picked by patchwork and when merged at media-committers,
+ CI bots will check for errors and may provide e-mail feedback about
+ patch problems. When this happens, the patch submitter must fix them
+diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
+index 1756a7af6353..a873ef84fbca 100644
+--- a/Documentation/driver-api/media/media-committer.rst
++++ b/Documentation/driver-api/media/media-committer.rst
+@@ -87,9 +87,9 @@ be delegating part of their maintenance tasks.
+ Due to that, to become a committer or a core committer, a consensus between
+ all subsystem maintainers is required, as they all need to trust a developer
+ well enough to be delegated the responsibility to maintain part of the code
+-and to properly review patches from third parties, in a timely manner and
+-keeping the status of the reviewed code at https://patchwork.linuxtv.org
+-updated.
++and to properly review patches from third parties for the drivers they are
++maintainers in a timely manner and keeping the status of the reviewed code
++at https://patchwork.linuxtv.org updated.
+ 
+ .. Note::
+ 
+
