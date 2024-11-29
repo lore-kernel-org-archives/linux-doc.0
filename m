@@ -1,365 +1,322 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7452238DD1;
-	Fri, 29 Nov 2024 11:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D4D33C5;
+	Fri, 29 Nov 2024 11:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732880631; cv=none; b=KX0ZNWDUqw3Lp12ZM6MPM20SmSSEYk5020XHk1EYNovSEhN4hX2hiLY7Vxng+HrXStIvG+nnGJ482HFJuyDkhFfUxduH7ZL6U/a6GlmHy0LD3bC0/J36gYmRoXMa1XhVXn54vhgB/+QV61JKVGQXVzVsLcV+Tx5URCntaEjKTWQ=
+	t=1732880970; cv=none; b=qCKHKaW+CeWabrmhttAaK8kEyNFgHIPo1g+VskhVQFl11g0u9tq5U00DaPPE/jKNyOMKePJMRJ5+lvZFahiRlf4X/OR1zXYmRono5MewBlcTfFgs9qppL8+xgHsHED/URT1Le3yIOELFr/CBrcPRZZzWXJ8y9Pke+ty4m1v++l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732880631; c=relaxed/simple;
-	bh=G8AqFc5LTGVRkR33K28gNMbFNkTaSvsrBPfqjLlcbIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VYkULWVJbkl57HUODpwein1Wjrw6ZX5BDr0PucST2JKL+XCSZE6GSLsW1a5+zA6LgVq7PrgCXQDx3Eoc0CZwQdj2p2uIc8DJ4+v9Wipw8inpIv7RT9AOQRtywV6DH5LItVFTBYz9ijIZTjDekVE7H3fqPP9XoG4brt+54I+4ytk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JCjtqdNX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732880970; c=relaxed/simple;
+	bh=UCD5HWycmsJqe0eyXUAi4wCA+smYWVnmvgWXMPp+K8U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JKouYTFvkvdsPqdqgq67m4n1vSWJgy8Pdhs3wY4jf8b0yvOqWibJAsG8eWrTE1Jzb/wouKes/7j2N1ClzOoh2+pXoZuT0+rdxx3ujtY54PdqaWc6RuaI/F3iIXSQmbjcT5Unh6tHzLXuMGWDocGkQyyFLhc1i88Sw1m0EoGAzJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LI3W1Frk; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JCjtqdNX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8FFCC4CECF;
-	Fri, 29 Nov 2024 11:43:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732880631;
-	bh=G8AqFc5LTGVRkR33K28gNMbFNkTaSvsrBPfqjLlcbIw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JCjtqdNXg1krrgxHf2mBsdQhVDpla/aVvVui+wZDI9zoGYHVF3/y8QqGyfouDAi8E
-	 /D+Khlly2aitpzq7ehMzMCrvXEEXdI7wJSADwfDXK10ij2MyUjkdDawWKTAvZwQizP
-	 DcdEeGlNfxNFo5OYiIc3dYhv7+6/F2Hr3+QGoiN2swjlv1kKDzVzUaDowLtWIv25on
-	 hw1AWKFTuQpVGNU/zc1QyOOcMP3m0f9m85TmguPkZ2YzwwSnzMV6GPcsw73sCp70HK
-	 x5nr6tgtBwh+Nger6WvXAnp/nrE6SfLfT3jJ8ErIMquODntqKfJHJrOgz4IgiKz02F
-	 i9EvL2T1/sgvw==
-Date: Fri, 29 Nov 2024 11:43:44 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Guo Ren <guoren@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Waiman Long <longman@redhat.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-	Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH v6 13/13] riscv: Add qspinlock support
-Message-ID: <20241129-clay-trimester-91a0f281a95d@spud>
-References: <20241128-whoever-wildfire-2a3110c5fd46@wendy>
- <20241128134135.GA3460@willie-the-truck>
- <20241128-uncivil-removed-4e105d1397c9@wendy>
- <90533aa9-186a-4f75-b3c5-d93d6682056b@ghiti.fr>
- <20241128-goggles-laundry-d94c23ab39a4@spud>
- <CAJF2gTST0kduYpuqd4mX0byetWMRJT-AAyH0GGiaysZG64Byhw@mail.gmail.com>
- <CAJF2gTRQg=w3sGN0Sdzf+_adRo44z4H6Zd6=C6qXq+ARR5BjSg@mail.gmail.com>
- <CAJF2gTSX82rGp-9xZHvg1Y3SpO516YCcqSBLKFgWEQ5G-iWR4A@mail.gmail.com>
- <CAHVXubgXiD5Bi6ytyDHXXOONovWHZTSvr4+oADCvuic5ObGXpQ@mail.gmail.com>
- <20241129-encrust-thumping-b6c6a3399b98@spud>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LI3W1Frk"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7ea7e250c54so1189135a12.0;
+        Fri, 29 Nov 2024 03:49:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732880967; x=1733485767; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JvohXbC1xIIhRxSz1kKXy0ooSXTmRMBZW1naMoo6crM=;
+        b=LI3W1FrkP4La2pt6tSO/6WDpXWvt9OVA+V/KNE8qz813rlP7AbzRhXw5g+c39Tf9Fe
+         3FuBcO3bonA/HpznkJdtovBikLn58krtbKHw2ZKkPpBRanOYzohHwUxpCY7B0wknHoWz
+         aPsFDh9+pZHiCmhbJXy+1Q44eZfz0SkObeJy9cr2h9Elcvx2P81S9H89z013Jj4wh+vZ
+         yX3m37oilaaM6i3B4/TQnGA+EDKT7YATGKU0XWAq3eVQJI6X45iZZZX+XSjB7HUr7qye
+         1vyr5y1hx6b/EovvDXPipaB6FBFgjBCvR/FvAX0m5ceaoxvDarQDqy9ASasMr9OlLWsH
+         9xUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732880967; x=1733485767;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JvohXbC1xIIhRxSz1kKXy0ooSXTmRMBZW1naMoo6crM=;
+        b=rYYAt+tcBW/YCZPfNCyeB2Txc1D4NKH+k6brZZDpiY66sucps10wYrH6NXTpd1ncsx
+         ZR0vU7zgjmRanS0QY3W/Fr7hcKJ4qe/tyfG/SwhQ0MLazE/5eOCAGjA24hhTGUvJ/phL
+         uHI10QEWKGZkBYnwXwMWN+PSKZycYR2Xx1PVG9c0EVTbmfqNtrAbOIQRK1n7a5A+Fkyk
+         pHVl55a/0pKfqhJyCduKZBwnR0cYgyJKXSDvgzGUBDkhVj/BC+Rb2IG2naBXDGdhsjOY
+         NS1zyE/6kC2IGGmslMQ281SCU+IS5Jzs6BmVZUqf0CIVUSzGLLaBS5F7WRncVtsWxXoj
+         hACg==
+X-Forwarded-Encrypted: i=1; AJvYcCUaLmqC5DBiZ6ixYW4zVTUzWwtKU6p8JcZXQjan/Pr9eta+PB5VxwgmAm7CtnTBYPivVlqRerJUVIbcvIIF@vger.kernel.org, AJvYcCV3GuXLix0uozov2eK++Fa3aM6uo5Iq+kTcNYy/fiGdwTmIeAc7cjUJHB9Y9wjkQHZIEFa9jLLNsiw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywshdo+Nq+hq4jNinXdwmrsJbJ73P69Rwx4o1SGbgcyEjSQWEk5
+	UtpKrK6C81de6J0xW7wsKHc68s+UZ2bNPmjPcJQyckGMxV4QRiQ44JStZuDSZ+w=
+X-Gm-Gg: ASbGncujFGsTN0yBLzJSoLQYc7b7MOVCERP817kHR6zjMAUhLZvGokaAnJrhkck1MOF
+	a0xv3hLUIqzEqw/0p7JnnPAjIr80uzL9HKpwKuX5jHcuvD/U9BnzoFb+WIv5/Qu+qDS4g2jwoOX
+	72eLUMTRWNoUmpIEtSwo3T9xTeQKDu0oXnSp4oPlvkBi3Ll1Bt6b/IWXdGTQXaJsxpXeWSEBka/
+	uRTdQHmoHBWQAYHEbWdH+UpRiCsALMFvau4kfWnCWQ6+B3O6T/vgZIoTA==
+X-Google-Smtp-Source: AGHT+IHYADrTLYbn/F3wRZyiquNzKdu1siH+ebN9lQjmcqt40Qz1W7l19OLUe7uSmkoCSHOWoWa77Q==
+X-Received: by 2002:a05:6a20:1593:b0:1e0:ddf6:56ae with SMTP id adf61e73a8af0-1e0e0aaf88fmr16517282637.7.1732880966666;
+        Fri, 29 Nov 2024 03:49:26 -0800 (PST)
+Received: from [10.239.1.244] ([43.224.245.235])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c13982asm2943684a12.0.2024.11.29.03.49.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Nov 2024 03:49:26 -0800 (PST)
+Message-ID: <6dbd2d37-91ca-4566-af4a-7b4153d2001c@gmail.com>
+Date: Fri, 29 Nov 2024 19:49:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="8D3RDN+sWC/y/ujQ"
-Content-Disposition: inline
-In-Reply-To: <20241129-encrust-thumping-b6c6a3399b98@spud>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mm: add per-order mTHP swap-in
+ fallback/fallback_charge counters
+To: Lance Yang <ioworker0@gmail.com>, Barry Song <21cnbao@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Usama Arif <usamaarif642@gmail.com>, Matthew Wilcox <willy@infradead.org>,
+ Peter Xu <peterx@redhat.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20241122161443.34667-1-haowenchao22@gmail.com>
+ <CAK1f24k6n1ngSicrSCv5jX+xa75t-7a3zZB4A95fUvDhteshEQ@mail.gmail.com>
+ <CAGsJ_4w-u703LbrmnsgkNVzpFwFwY7tO9mFoo1RXGk3rb_r3mw@mail.gmail.com>
+ <CAK1f24meJBDA1wzX56=2y2NQm7BVP6OudFXJuGnZuUFnZKUh+A@mail.gmail.com>
+ <24ea047a-7294-4e7a-bf51-66b7f79f5085@gmail.com>
+ <CAK1f24kj_0DsVYgZj3nH699jt2MN4AQ55w7gGoFaWM_zgceYSQ@mail.gmail.com>
+ <CAGsJ_4yxuV77bR72PHs-_78qb3iud-mQ75VJAAGAsiD4ZsXP4A@mail.gmail.com>
+ <CAK1f24n-HW_Rp5FRXrm3nVrzz=4w2=sL_PO9aoa9F3fvL1_1aw@mail.gmail.com>
+Content-Language: en-US
+From: Wenchao Hao <haowenchao22@gmail.com>
+In-Reply-To: <CAK1f24n-HW_Rp5FRXrm3nVrzz=4w2=sL_PO9aoa9F3fvL1_1aw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+On 2024/11/24 15:28, Lance Yang wrote:
+> On Sun, Nov 24, 2024 at 3:11 PM Barry Song <21cnbao@gmail.com> wrote:
+>>
+>> On Sun, Nov 24, 2024 at 2:56 PM Lance Yang <ioworker0@gmail.com> wrote:
+>>>
+>>> On Sat, Nov 23, 2024 at 9:17 PM Wenchao Hao <haowenchao22@gmail.com> wrote:
+>>>>
+>>>> On 2024/11/23 19:52, Lance Yang wrote:
+>>>>> On Sat, Nov 23, 2024 at 6:27 PM Barry Song <21cnbao@gmail.com> wrote:
+>>>>>>
+>>>>>> On Sat, Nov 23, 2024 at 10:36 AM Lance Yang <ioworker0@gmail.com> wrote:
+>>>>>>>
+>>>>>>> Hi Wenchao,
+>>>>>>>
+>>>>>>> On Sat, Nov 23, 2024 at 12:14 AM Wenchao Hao <haowenchao22@gmail.com> wrote:
+>>>>>>>>
+>>>>>>>> Currently, large folio swap-in is supported, but we lack a method to
+>>>>>>>> analyze their success ratio. Similar to anon_fault_fallback, we introduce
+>>>>>>>> per-order mTHP swpin_fallback and swpin_fallback_charge counters for
+>>>>>>>> calculating their success ratio. The new counters are located at:
+>>>>>>>>
+>>>>>>>> /sys/kernel/mm/transparent_hugepage/hugepages-<size>/stats/
+>>>>>>>>         swpin_fallback
+>>>>>>>>         swpin_fallback_charge
+>>>>>>>>
+>>>>>>>> Signed-off-by: Wenchao Hao <haowenchao22@gmail.com>
+>>>>>>>> ---
+>>>>>>>> V2:
+>>>>>>>>  Introduce swapin_fallback_charge, which increments if it fails to
+>>>>>>>>  charge a huge page to memory despite successful allocation.
+>>>>>>>>
+>>>>>>>>  Documentation/admin-guide/mm/transhuge.rst | 10 ++++++++++
+>>>>>>>>  include/linux/huge_mm.h                    |  2 ++
+>>>>>>>>  mm/huge_memory.c                           |  6 ++++++
+>>>>>>>>  mm/memory.c                                |  2 ++
+>>>>>>>>  4 files changed, 20 insertions(+)
+>>>>>>>>
+>>>>>>>> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+>>>>>>>> index 5034915f4e8e..9c07612281b5 100644
+>>>>>>>> --- a/Documentation/admin-guide/mm/transhuge.rst
+>>>>>>>> +++ b/Documentation/admin-guide/mm/transhuge.rst
+>>>>>>>> @@ -561,6 +561,16 @@ swpin
+>>>>>>>>         is incremented every time a huge page is swapped in from a non-zswap
+>>>>>>>>         swap device in one piece.
+>>>>>>>>
+>>>>>>>
+>>>>>>> Would the following be better?
+>>>>>>>
+>>>>>>> +swpin_fallback
+>>>>>>> +       is incremented if a huge page swapin fails to allocate or charge
+>>>>>>> +       it and instead falls back to using small pages.
+>>>>>>>
+>>>>>>> +swpin_fallback_charge
+>>>>>>> +       is incremented if a huge page swapin fails to charge it and instead
+>>>>>>> +       falls back to using small pages even though the allocation was
+>>>>>>> +       successful.
+>>>>>>
+>>>>>> much better, but it is better to align with "huge pages with
+>>>>>> lower orders or small pages", not necessarily small pages:
+>>>>>>
+>>>>>> anon_fault_fallback
+>>>>>> is incremented if a page fault fails to allocate or charge
+>>>>>> a huge page and instead falls back to using huge pages with
+>>>>>> lower orders or small pages.
+>>>>>>
+>>>>>> anon_fault_fallback_charge
+>>>>>> is incremented if a page fault fails to charge a huge page and
+>>>>>> instead falls back to using huge pages with lower orders or
+>>>>>> small pages even though the allocation was successful.
+>>>>>
+>>>>> Right, I clearly overlooked that ;)
+>>>>>
+>>>>
+>>>> Hi Lance and Barry,
+>>>>
+>>>> Do you think the following expression is clear? Compared to my original
+>>>> version, I’ve removed the word “huge” from the first line, and it now
+>>>> looks almost identical to anon_fault_fallback/anon_fault_fallback_charge.
+>>>
+>>> Well, that's fine with me. And let's see Barry's opinion as well ;)
+>>
+>> I still prefer Lance's version. The fallback path in it only needs to
+>> be adjusted to
+>> include huge pages with lower orders. In contrast, Wenchao's version feels less
+>> natural to me because "page swapin" sounds quite odd - we often hear
+>> "page fault,"
+>> but we have never encountered "page swapin."
+> 
+> Yeah, it makes sense to me ~
+> 
+>>
+>> So I mean:
+>>
+>>  swpin_fallback
+>>         is incremented if swapin fails to allocate or charge a huge
+>> page and instead
+>>         falls back to using huge pages with lower orders or small pages.
+>>
+>>  swpin_fallback_charge
+>>         is incremented if swapin fails to charge a huge page and instead
+>>         falls back to using  huge pages with lower orders or small
+>> pages even though
+>>         the allocation was successful.
+> 
+> IHMO, much better and clearer than before ;)
+> 
+
+Hi,
+
+Thank you both very much for your valuable suggestions. I am only
+now able to respond to your emails due to a network issue.
+
+I will make the revisions based on your feedback and send the third
+version of the patch.
+
+Should I include a "Reviewed-by" or any other tags?
+
+Thanks again,
+Wenchao
 
 
---8D3RDN+sWC/y/ujQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Thank,
+> Lance
+> 
+>>
+>>>
+>>> Thanks,
+>>> Lance
+>>>
+>>>>
+>>>> swpin_fallback
+>>>>        is incremented if a page swapin fails to allocate or charge
+>>>>        a huge page and instead falls back to using huge pages with
+>>>>        lower orders or small pages.
+>>>>
+>>>> swpin_fallback_charge
+>>>>        is incremented if a page swapin fails to charge a huge page and
+>>>>        instead falls back to using huge pages with lower orders or
+>>>>        small pages even though the allocation was successful.
+>>>>
+>>>> Thanks,
+>>>> Wencaho
+>>>>
+>>>>> Thanks,
+>>>>> Lance
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> Thanks,
+>>>>>>> Lance
+>>>>>>>
+>>>>>>>> +swpin_fallback
+>>>>>>>> +       is incremented if a huge page swapin fails to allocate or charge
+>>>>>>>> +       a huge page and instead falls back to using huge pages with
+>>>>>>>> +       lower orders or small pages.
+>>>>>>>> +
+>>>>>>>> +swpin_fallback_charge
+>>>>>>>> +       is incremented if a page swapin fails to charge a huge page and
+>>>>>>>> +       instead falls back to using huge pages with lower orders or
+>>>>>>>> +       small pages even though the allocation was successful.
+>>>>>>>> +
+>>>>>>>>  swpout
+>>>>>>>>         is incremented every time a huge page is swapped out to a non-zswap
+>>>>>>>>         swap device in one piece without splitting.
+>>>>>>>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+>>>>>>>> index b94c2e8ee918..93e509b6c00e 100644
+>>>>>>>> --- a/include/linux/huge_mm.h
+>>>>>>>> +++ b/include/linux/huge_mm.h
+>>>>>>>> @@ -121,6 +121,8 @@ enum mthp_stat_item {
+>>>>>>>>         MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE,
+>>>>>>>>         MTHP_STAT_ZSWPOUT,
+>>>>>>>>         MTHP_STAT_SWPIN,
+>>>>>>>> +       MTHP_STAT_SWPIN_FALLBACK,
+>>>>>>>> +       MTHP_STAT_SWPIN_FALLBACK_CHARGE,
+>>>>>>>>         MTHP_STAT_SWPOUT,
+>>>>>>>>         MTHP_STAT_SWPOUT_FALLBACK,
+>>>>>>>>         MTHP_STAT_SHMEM_ALLOC,
+>>>>>>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>>>>>>>> index ee335d96fc39..46749dded1c9 100644
+>>>>>>>> --- a/mm/huge_memory.c
+>>>>>>>> +++ b/mm/huge_memory.c
+>>>>>>>> @@ -617,6 +617,8 @@ DEFINE_MTHP_STAT_ATTR(anon_fault_fallback, MTHP_STAT_ANON_FAULT_FALLBACK);
+>>>>>>>>  DEFINE_MTHP_STAT_ATTR(anon_fault_fallback_charge, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
+>>>>>>>>  DEFINE_MTHP_STAT_ATTR(zswpout, MTHP_STAT_ZSWPOUT);
+>>>>>>>>  DEFINE_MTHP_STAT_ATTR(swpin, MTHP_STAT_SWPIN);
+>>>>>>>> +DEFINE_MTHP_STAT_ATTR(swpin_fallback, MTHP_STAT_SWPIN_FALLBACK);
+>>>>>>>> +DEFINE_MTHP_STAT_ATTR(swpin_fallback_charge, MTHP_STAT_SWPIN_FALLBACK_CHARGE);
+>>>>>>>>  DEFINE_MTHP_STAT_ATTR(swpout, MTHP_STAT_SWPOUT);
+>>>>>>>>  DEFINE_MTHP_STAT_ATTR(swpout_fallback, MTHP_STAT_SWPOUT_FALLBACK);
+>>>>>>>>  #ifdef CONFIG_SHMEM
+>>>>>>>> @@ -637,6 +639,8 @@ static struct attribute *anon_stats_attrs[] = {
+>>>>>>>>  #ifndef CONFIG_SHMEM
+>>>>>>>>         &zswpout_attr.attr,
+>>>>>>>>         &swpin_attr.attr,
+>>>>>>>> +       &swpin_fallback_attr.attr,
+>>>>>>>> +       &swpin_fallback_charge_attr.attr,
+>>>>>>>>         &swpout_attr.attr,
+>>>>>>>>         &swpout_fallback_attr.attr,
+>>>>>>>>  #endif
+>>>>>>>> @@ -669,6 +673,8 @@ static struct attribute *any_stats_attrs[] = {
+>>>>>>>>  #ifdef CONFIG_SHMEM
+>>>>>>>>         &zswpout_attr.attr,
+>>>>>>>>         &swpin_attr.attr,
+>>>>>>>> +       &swpin_fallback_attr.attr,
+>>>>>>>> +       &swpin_fallback_charge_attr.attr,
+>>>>>>>>         &swpout_attr.attr,
+>>>>>>>>         &swpout_fallback_attr.attr,
+>>>>>>>>  #endif
+>>>>>>>> diff --git a/mm/memory.c b/mm/memory.c
+>>>>>>>> index 209885a4134f..774dfd309cfe 100644
+>>>>>>>> --- a/mm/memory.c
+>>>>>>>> +++ b/mm/memory.c
+>>>>>>>> @@ -4189,8 +4189,10 @@ static struct folio *alloc_swap_folio(struct vm_fault *vmf)
+>>>>>>>>                         if (!mem_cgroup_swapin_charge_folio(folio, vma->vm_mm,
+>>>>>>>>                                                             gfp, entry))
+>>>>>>>>                                 return folio;
+>>>>>>>> +                       count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK_CHARGE);
+>>>>>>>>                         folio_put(folio);
+>>>>>>>>                 }
+>>>>>>>> +               count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
+>>>>>>>>                 order = next_order(&orders, order);
+>>>>>>>>         }
+>>>>>>>>
+>>>>>>>> --
+>>>>>>>> 2.45.0
+>>>>>>>>
+>>>>>>
+>>
+>> Thanks
+>> Barry
 
-On Fri, Nov 29, 2024 at 11:18:24AM +0000, Conor Dooley wrote:
-> On Fri, Nov 29, 2024 at 11:31:44AM +0100, Alexandre Ghiti wrote:
-> > Hi everyone,
-> >=20
-> > On Fri, Nov 29, 2024 at 7:28=E2=80=AFAM Guo Ren <guoren@kernel.org> wro=
-te:
-> > >
-> > > Hi Conor & Alexandre,
-> > >
-> > > On Fri, Nov 29, 2024 at 10:58=E2=80=AFAM Guo Ren <guoren@kernel.org> =
-wrote:
-> > > >
-> > > > On Fri, Nov 29, 2024 at 8:55=E2=80=AFAM Guo Ren <guoren@kernel.org>=
- wrote:
-> > > > >
-> > > > > On Fri, Nov 29, 2024 at 12:19=E2=80=AFAM Conor Dooley <conor@kern=
-el.org> wrote:
-> > > > > >
-> > > > > > On Thu, Nov 28, 2024 at 03:50:09PM +0100, Alexandre Ghiti wrote:
-> > > > > > > On 28/11/2024 15:14, Conor Dooley wrote:
-> > > > > > > > On Thu, Nov 28, 2024 at 01:41:36PM +0000, Will Deacon wrote:
-> > > > > > > > > On Thu, Nov 28, 2024 at 12:56:55PM +0000, Conor Dooley wr=
-ote:
-> > > > > > > > > > On Sun, Nov 03, 2024 at 03:51:53PM +0100, Alexandre Ghi=
-ti wrote:
-> > > > > > > > > > > In order to produce a generic kernel, a user can sele=
-ct
-> > > > > > > > > > > CONFIG_COMBO_SPINLOCKS which will fallback at runtime=
- to the ticket
-> > > > > > > > > > > spinlock implementation if Zabha or Ziccrse are not p=
-resent.
-> > > > > > > > > > >
-> > > > > > > > > > > Note that we can't use alternatives here because the =
-discovery of
-> > > > > > > > > > > extensions is done too late and we need to start with=
- the qspinlock
-> > > > > > > > > > > implementation because the ticket spinlock implementa=
-tion would pollute
-> > > > > > > > > > > the spinlock value, so let's use static keys.
-> > > > > > > > > > >
-> > > > > > > > > > > This is largely based on Guo's work and Leonardo revi=
-ews at [1].
-> > > > > > > > > > >
-> > > > > > > > > > > Link: https://lore.kernel.org/linux-riscv/20231225125=
-847.2778638-1-guoren@kernel.org/ [1]
-> > > > > > > > > > > Signed-off-by: Guo Ren <guoren@kernel.org>
-> > > > > > > > > > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.co=
-m>
-> > > > > > > > > > This patch (now commit ab83647fadae2 ("riscv: Add qspin=
-lock support"))
-> > > > > > > > > > breaks boot on polarfire soc. It dies before outputting=
- anything to the
-> > > > > > > > > > console. My .config has:
-> > > > > > > > > >
-> > > > > > > > > > # CONFIG_RISCV_TICKET_SPINLOCKS is not set
-> > > > > > > > > > # CONFIG_RISCV_QUEUED_SPINLOCKS is not set
-> > > > > > > > > > CONFIG_RISCV_COMBO_SPINLOCKS=3Dy
-> > > > > > > > > I pointed out some of the fragility during review:
-> > > > > > > > >
-> > > > > > > > > https://lore.kernel.org/all/20241111164259.GA20042@willie=
--the-truck/
-> > > > > > > > >
-> > > > > > > > > so I'm kinda surprised it got merged tbh :/
-> > > > > > > > Maybe it could be reverted rather than having a broken boot=
- with the
-> > > > > > > > default settings in -rc1.
-> > > > > > >
-> > > > > > >
-> > > > > > > No need to rush before we know what's happening,I guess you b=
-isected to this
-> > > > > > > commit right?
-> > > > > >
-> > > > > > The symptom is a failure to boot, without any console output, o=
-f course
-> > > > > > I bisected it before blaming something specific. But I don't th=
-ink it is
-> > > > > > "rushing" as having -rc1 broken with an option's default is a m=
-assive pain
-> > > > > > in the arse when it comes to testing.
-> > > > > >
-> > > > > > > I don't have this soc, so can you provide $stval/$sepc/$scaus=
-e, a config, a
-> > > > > > > kernel, anything?
-> > > > > >
-> > > > > > I don't have the former cos it died immediately on boot. config=
- is
-> > > > > > attached. It reproduces in QEMU so you don't need any hardware.
-> > > > > If QEMU could reproduce, could you provide a dmesg by the below m=
-ethod?
-> > > > >
-> > > > > Qemu cmd append: -s -S
-> > > > > ref: https://qemu-project.gitlab.io/qemu/system/gdb.html
-> > > > >
-> > > > > Connect gdb and in console:
-> > > > > 1. file vmlinux
-> > > > > 2. source ./Documentation/admin-guide/kdump/gdbmacros.txt
-> > > > > 3. dmesg
-> > > > >
-> > > > > Then, we could get the kernel's early boot logs from memory.
-> > > > I've reproduced it on qemu, thx for the config.
-> > > >
-> > > > Reading symbols from ../build-rv64lp64/vmlinux...
-> > > > (gdb) tar rem:1234
-> > > > Remote debugging using :1234
-> > > > ticket_spin_lock (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > > /home/guoren/source/kernel/linux/include/asm-generic/ticket_spinloc=
-k.h:49
-> > > > 49              atomic_cond_read_acquire(&lock->val, ticket =3D=3D =
-(u16)VAL);
-> > > > (gdb) bt
-> > > > #0  ticket_spin_lock (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > > /home/guoren/source/kernel/linux/include/asm-generic/ticket_spinloc=
-k.h:49
-> > > > #1  arch_spin_lock (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > > /home/guoren/source/kernel/linux/arch/riscv/include/asm/spinlock.h:=
-28
-> > > > #2  do_raw_spin_lock (lock=3Dlock@entry=3D0xffffffff81b9a5b8 <text_=
-mutex>)
-> > > > at /home/guoren/source/kernel/linux/kernel/locking/spinlock_debug.c=
-:116
-> > > > #3  0xffffffff80b2ea0e in __raw_spin_lock_irqsave
-> > > > (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > > /home/guoren/source/kernel/linux/include/linux/spinlock_api_smp.h:1=
-11
-> > > > #4  _raw_spin_lock_irqsave (lock=3Dlock@entry=3D0xffffffff81b9a5b8
-> > > > <text_mutex>) at
-> > > > /home/guoren/source/kernel/linux/kernel/locking/spinlock.c:162
-> > > > #5  0xffffffff80b27c54 in rt_mutex_slowtrylock
-> > > > (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex.c:1393
-> > > > #6  0xffffffff80b295ea in rt_mutex_try_acquire
-> > > > (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex.c:319
-> > > > #7  __rt_mutex_lock (state=3D2, lock=3D0xffffffff81b9a5b8 <text_mut=
-ex>) at
-> > > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex.c:1805
-> > > > #8  __mutex_lock_common (ip=3D18446744071562135170, nest_lock=3D0x0,
-> > > > subclass=3D0, state=3D2, lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex_api.c:518
-> > > > #9  mutex_lock_nested (lock=3D0xffffffff81b9a5b8 <text_mutex>,
-> > > > subclass=3Dsubclass@entry=3D0) at
-> > > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex_api.c:529
-> > > > #10 0xffffffff80010682 in arch_jump_label_transform_queue
-> > > > (entry=3Dentry@entry=3D0xffffffff8158da28, type=3D<optimized out>) =
-at
-> > > > /home/guoren/source/kernel/linux/arch/riscv/kernel/jump_label.c:39
-> > > > #11 0xffffffff801d86b2 in __jump_label_update
-> > > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>,
-> > > > entry=3D0xffffffff8158da28, stop=3Dstop@entry=3D0xffffffff815a5e68
-> > > > <__tracepoint_ptr_initcall_finish>, init=3Dinit@entry=3Dtrue)
-> > > >     at /home/guoren/source/kernel/linux/kernel/jump_label.c:513
-> > > > #12 0xffffffff801d890c in jump_label_update
-> > > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>) at
-> > > > /home/guoren/source/kernel/linux/kernel/jump_label.c:920
-> > > > #13 0xffffffff801d8be8 in static_key_disable_cpuslocked
-> > > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>) at
-> > > > /home/guoren/source/kernel/linux/kernel/jump_label.c:240
-> > > > #14 0xffffffff801d8c04 in static_key_disable
-> > > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>) at
-> > > > /home/guoren/source/kernel/linux/kernel/jump_label.c:248
-> > > > #15 0xffffffff80c04a1a in riscv_spinlock_init () at
-> > > > /home/guoren/source/kernel/linux/arch/riscv/kernel/setup.c:271
-> > > > #16 setup_arch (cmdline_p=3Dcmdline_p@entry=3D0xffffffff81a03e88) at
-> > > > /home/guoren/source/kernel/linux/arch/riscv/kernel/setup.c:336
-> > > > #17 0xffffffff80c007a2 in start_kernel () at
-> > > > /home/guoren/source/kernel/linux/init/main.c:922
-> > > > #18 0xffffffff80001164 in _start_kernel ()
-> > > > Backtrace stopped: frame did not save the PC
-> > > > (gdb) p /x lock
-> > > > $1 =3D 0xffffffff81b9a5b8
-> > > > (gdb) p /x *lock
-> > > > $2 =3D {{val =3D {counter =3D 0x20000}, {locked =3D 0x0, pending =
-=3D 0x0},
-> > > > {locked_pending =3D 0x0, tail =3D 0x2}}}
-> > >
-> > > I have for you here a fast fixup for reference. (PS: I'm digging into
-> > > the root cause mentioned by Will Deacon.)
-> > >
-> > > diff --git a/arch/riscv/include/asm/text-patching.h
-> > > b/arch/riscv/include/asm/text-patching.h
-> > > index 7228e266b9a1..0439609f1cff 100644
-> > > --- a/arch/riscv/include/asm/text-patching.h
-> > > +++ b/arch/riscv/include/asm/text-patching.h
-> > > @@ -12,5 +12,6 @@ int patch_text_set_nosync(void *addr, u8 c, size_t =
-len);
-> > >  int patch_text(void *addr, u32 *insns, size_t len);
-> > >
-> > >  extern int riscv_patch_in_stop_machine;
-> > > +extern int riscv_patch_in_spinlock_init;
-> > >
-> > >  #endif /* _ASM_RISCV_PATCH_H */
-> > > diff --git a/arch/riscv/kernel/jump_label.c b/arch/riscv/kernel/jump_=
-label.c
-> > > index 6eee6f736f68..d9a5a5c1933d 100644
-> > > --- a/arch/riscv/kernel/jump_label.c
-> > > +++ b/arch/riscv/kernel/jump_label.c
-> > > @@ -36,9 +36,11 @@ bool arch_jump_label_transform_queue(struct
-> > > jump_entry *entry,
-> > >                 insn =3D RISCV_INSN_NOP;
-> > >         }
-> > >
-> > > -       mutex_lock(&text_mutex);
-> > > +       if (!riscv_patch_in_spinlock_init)
-> > > +               mutex_lock(&text_mutex);
-> > >         patch_insn_write(addr, &insn, sizeof(insn));
-> > > -       mutex_unlock(&text_mutex);
-> > > +       if (!riscv_patch_in_spinlock_init)
-> > > +               mutex_unlock(&text_mutex);
-> > >
-> > >         return true;
-> > >  }
-> > > diff --git a/arch/riscv/kernel/patch.c b/arch/riscv/kernel/patch.c
-> > > index db13c9ddf9e3..ab009cf855c2 100644
-> > > --- a/arch/riscv/kernel/patch.c
-> > > +++ b/arch/riscv/kernel/patch.c
-> > > @@ -24,6 +24,7 @@ struct patch_insn {
-> > >  };
-> > >
-> > >  int riscv_patch_in_stop_machine =3D false;
-> > > +int riscv_patch_in_spinlock_init =3D false;
-> > >
-> > >  #ifdef CONFIG_MMU
-> > >
-> > > @@ -131,7 +132,7 @@ static int __patch_insn_write(void *addr, const
-> > > void *insn, size_t len)
-> > >          * safe but triggers a lockdep failure, so just elide it for =
-that
-> > >          * specific case.
-> > >          */
-> > > -       if (!riscv_patch_in_stop_machine)
-> > > +       if (!riscv_patch_in_stop_machine && !riscv_patch_in_spinlock_=
-init)
-> > >                 lockdep_assert_held(&text_mutex);
-> > >
-> > >         preempt_disable();
-> > > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > > index 016b48fcd6f2..87ddf1702be4 100644
-> > > --- a/arch/riscv/kernel/setup.c
-> > > +++ b/arch/riscv/kernel/setup.c
-> > > @@ -268,7 +268,9 @@ static void __init riscv_spinlock_init(void)
-> > >         }
-> > >  #if defined(CONFIG_RISCV_COMBO_SPINLOCKS)
-> > >         else {
-> > > +               riscv_patch_in_spinlock_init =3D 1;
-> > >                 static_branch_disable(&qspinlock_key);
-> > > +               riscv_patch_in_spinlock_init =3D 0;
-> > >                 pr_info("Ticket spinlock: enabled\n");
-> > >                 return;
-> > >         }
-> > >
-> > >
-> > >
-> > > --
-> > > Best Regards
-> > >  Guo Ren
-> >=20
-> > Thanks Guo for looking into this.
-> >=20
-> > Your solution is not very pretty but I don't have anything better :/
-> > Unless introducing a static_branch_XXX_nolock() API? I gave it a try
-> > and it fixes the issue, but not sure this will be accepted.
-> >=20
-> > The thing is the usage of static branches is temporary, we'll use
-> > alternatives when I finish working on getting the extensions very
-> > early from the ACPI tables (I have a poc that works, just needs some
-> > cleaning).
-> >=20
-> > So let's say that I make this early extension parsing my priority for
-> > 6.14, can we live with Guo's hack in this release? Or should we revert
-> > this commit?
->=20
-> I tried this diff, and it doesn't actually fix the problem - either in
-> QEMU or in hardware. I'll do some more poking.
-
-Looks like it might have been my fault, typo while hand-applying the
-diff pasted above cos it was corrupted :/ Rebuilding..
-
-
---8D3RDN+sWC/y/ujQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ0mo8AAKCRB4tDGHoIJi
-0q26APwK38frDwHBEPG1LVhfSrxH2viC9XJIFs1SeoRddcrkKAEAz2yoRk3oBdSG
-7i00W5kraUTFBYZaVj1lxtNJRmDqHgw=
-=aEjS
------END PGP SIGNATURE-----
-
---8D3RDN+sWC/y/ujQ--
