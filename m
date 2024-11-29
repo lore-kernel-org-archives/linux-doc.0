@@ -1,218 +1,388 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2072.outbound.protection.outlook.com [40.107.94.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18A714B075
-	for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2024 16:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732898446; cv=none; b=XwSP5QU0DDkeLWfJpfzElUgXis90RHNvX2mJWze/qZAhh+oIEn4E1mCHdFL4GbCirZ8GeDuoDpHYyYNnWhoFDNy9TCFIgO3ROj05zisLk+aPVrKFzcsL6teGI7+7rIHQCfdvljW5die/mu/erD93Ns3LSYSdqmdeZnQtlftcuHo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732898446; c=relaxed/simple;
-	bh=az39fDf+MhRZMw9gFTdPNqw5XUR3nQ20B8N3wHXK3SY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ub2B9/fUim6y7TZDsoCT/Fkxmf4XRdqaIf+AEhlI+hh2do9Y5ptubN+RFwQG8VX60HVAj8S0ikxtLgC8elWx2/UwC9uHRkQWIJo8i9iaV9dBWVAZWjcNPzFuDGK0HIEjslES+Mq2sabTbx1M8dxR8RyLGmkti+dz/fKfF7wse5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HLcHSN0f; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F162C18C;
+	Fri, 29 Nov 2024 17:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732899974; cv=fail; b=XrvAHz5IPIyd1Ri0jSmmhDxnqojbecMBlSJPmsgZ2mtGFZGzAtreQg1qpjBErnp4CMTXxWQ59vGdeVbgiKbM0F9xd7inMQMDTSuFBfMCr2rjkWXRyvZW2CYKMKwp+L9w2C5fpMjocYIEmMCAraq1LhII8QTLEPwqPW6A8F9OTZc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732899974; c=relaxed/simple;
+	bh=MC5MKCGWhyRODUdvgDK1jc+ttFtayWEW+zd33nJqTQY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=km3kLAyRflUDUrviXG8044GhxcBhM4yB9ruxO3PYGu5wFLKYlUSvv7zJCUrudVFY25oRX23SJ7/iLEQ18SfhkhqzpnY0VNlGFeFskD9V16WXp3twpUF2VyTr9fZGjxv6wB2kfK+JkuaU6w2GUL04AfwqFdbKlIisdekCOaqLjB8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=m1AH3NL2; arc=fail smtp.client-ip=40.107.94.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HLcHSN0f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732898443;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2oxQ2EopQjYunks2eIxH2qb+BPEjEvokj+yvCZveiP0=;
-	b=HLcHSN0fqRsvoYLqKz7fg/gLlrP6cRc2KBHRkF3VNk7yE75efKv4ol64zvgZmSAvYUfjgG
-	ALaA2Gf5rIs0wNHGD4Nj/70UF3QZwf9RzM0UkamRTQ7fpwFup/ck7sQOGIc4VzBUooSFqo
-	YtmaaA5wkUzhdGK3Dh+vPfhOUTviWSM=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-9-ikY3J6PgNYmTDvipL3MjuQ-1; Fri, 29 Nov 2024 11:40:42 -0500
-X-MC-Unique: ikY3J6PgNYmTDvipL3MjuQ-1
-X-Mimecast-MFC-AGG-ID: ikY3J6PgNYmTDvipL3MjuQ
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6d884999693so11569706d6.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 Nov 2024 08:40:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732898442; x=1733503242;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2oxQ2EopQjYunks2eIxH2qb+BPEjEvokj+yvCZveiP0=;
-        b=j69DL0+6srAUXSvA46ai4elMMdgfYItOUpFmO421ALOYUJRqWL/bJEdqgKHtGlb76n
-         HQOLMN0k+E5M7lB3yPPTgg9URG4pVacGPIgqUndDLP+0yNFaRpzlG6xDvOqye2UiPrWz
-         P7w7ULmvY0WBrHPs8XbU58fPDkqKFN/d2n1wHRw+iWJfDflewZ1kT1LvJ/NtTkAFuCvo
-         Yv1kEti+rC7Zah3tfWxMZjwlLdd4US/PYccd8cgEksbZ6vZGp2al04ymXgScjkRqYwIu
-         uZJDnY/tyPn0wYLHErIkq5HhJXS0BRyPvkpRFf1FAXfcXU8YqMt/3bOaC10ycInOMlOx
-         UaIA==
-X-Forwarded-Encrypted: i=1; AJvYcCWOdH4m1wMPagAu6dj9xbJWDRCWoo84l0+ZmmuVL9awxJIHY7QPQ0Qy+gzF7oVrd4yro4CENmgMmmY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4tLMuO/1tnyaNTEZgg06YQQ6R5XskJiVcvBvnocNUoMq33+r3
-	06NmglAplvNLkPWem7mlguZa3gcuvZwxWED8SWytSIAZ/I4EovPUCnwZnlxLcYhzixInFNuGzOb
-	b93OmPTeeCvYCabnPm+H7Kqp/LuIBmGJKmC+HAXX9LgaXWm2K7GzX7w/RIg==
-X-Gm-Gg: ASbGnctV3j2983Vtp3FCIqFzpg1XRZhlzY68Y0x0+DhczXXA3fhgB//nSHk+J/8FHsS
-	J4Y8Msr8XmnrpeTYIeSMVLBUp55pABQ5/MOGNt6s4/wb4bQxlocs972d9JFFtW+4PplGdvZUu/Q
-	kTXug7sdzkoeyJHoaRsMSFvBXDLwGqLfkjB97V/xRHMOWJdY19zVFruuK/XgxfD2B97+ti835hk
-	xRSWz1msCAIUzH45UGt53cRIJKDBtI3o+s/nrmmw7opeZsK6I4nOgIkNsEswqdeAUOz4YLTXfLk
-	i0uwv/KEj3wYa4upXEeKCwkbRZBMzUW19R8=
-X-Received: by 2002:a05:6214:c62:b0:6d4:1a99:427b with SMTP id 6a1803df08f44-6d864d8e4famr151983756d6.30.1732898442040;
-        Fri, 29 Nov 2024 08:40:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG9RcRtBRvnIDfzr2/iRL96o9fRk4J92A47PIoCtseLUfNoii93tfgZQ/3Nm/m06TGA/XDcKA==
-X-Received: by 2002:a05:6214:c62:b0:6d4:1a99:427b with SMTP id 6a1803df08f44-6d864d8e4famr151982836d6.30.1732898441562;
-        Fri, 29 Nov 2024 08:40:41 -0800 (PST)
-Received: from vschneid-thinkpadt14sgen2i.remote.csb (213-44-141-166.abo.bbox.fr. [213.44.141.166])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d8752064besm18111326d6.71.2024.11.29.08.40.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Nov 2024 08:40:40 -0800 (PST)
-From: Valentin Schneider <vschneid@redhat.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
- x86@kernel.org, rcu@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Nicolas Saenz Julienne <nsaenzju@redhat.com>, Steven Rostedt
- <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Vitaly
- Kuznetsov <vkuznets@redhat.com>, Andy Lutomirski <luto@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <quic_neeraju@quicinc.com>, Joel Fernandes
- <joel@joelfernandes.org>, Josh Triplett <josh@joshtriplett.org>, Boqun
- Feng <boqun.feng@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Zqiang <qiang.zhang1211@gmail.com>, Andrew Morton
- <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>,
- Christoph Hellwig <hch@infradead.org>, Lorenzo Stoakes
- <lstoakes@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron
- <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>, Sami Tolvanen
- <samitolvanen@google.com>, Ard Biesheuvel <ardb@kernel.org>, Nicholas
- Piggin <npiggin@gmail.com>, Juerg Haefliger
- <juerg.haefliger@canonical.com>, Nicolas Saenz Julienne
- <nsaenz@kernel.org>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Nadav Amit <namit@vmware.com>, Dan
- Carpenter <error27@gmail.com>, Chuang Wang <nashuiliang@gmail.com>, Yang
- Jihong <yangjihong1@huawei.com>, Petr Mladek <pmladek@suse.com>, "Jason A.
- Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>, Julian Pidancet
- <julian.pidancet@oracle.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Dionna Glaze <dionnaglaze@google.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
- <linux@weissschuh.net>, Juri Lelli <juri.lelli@redhat.com>, Marcelo
- Tosatti <mtosatti@redhat.com>, Yair Podemsky <ypodemsk@redhat.com>, Daniel
- Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
-Subject: Re: [RFC PATCH v3 11/15] context-tracking: Introduce work deferral
- infrastructure
-In-Reply-To: <Z0Oeme2yhxF_ArX0@pavilion.home>
-References: <20241119153502.41361-1-vschneid@redhat.com>
- <20241119153502.41361-12-vschneid@redhat.com>
- <Zz2_7MbxvfjKsz08@pavilion.home> <Zz3w0o_3wZDgJn0K@localhost.localdomain>
- <xhsmho729hlv0.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
- <Zz4cqfVfyb1enxql@localhost.localdomain>
- <xhsmh1pz39v0k.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
- <Z0Oeme2yhxF_ArX0@pavilion.home>
-Date: Fri, 29 Nov 2024 17:40:29 +0100
-Message-ID: <xhsmhttbqm1s2.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="m1AH3NL2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e9AAQU/8WfLp7PUkO9E5S7CFJsaLKXyb97kOymuyMC5rd3oVhzl4nisWX6awG8BPs+pAx2bvyfQs0tiag0uEHg6qrBRf62nMZ4ThTi3+x8oCjIHHF3fOau1SE5w70OxCDUiYlaVsF0yQATAFWUtuHRaNxvnR0M3Uu8L8kYNBNSCFSxvXUZISMWJmbxf1PmduDn4sqYnI1JzWm2cXTRTbwCuH/F1tXhbr7hSz/loXVcVBZQUDj/J2riEn2vVdCPvYbKz3gxIt5Pft9KYL5WGUMxqDWMtzWZ/y1RZ8ElxzJeGcfCu3Ig7Ywq66CjJvE7Q5PFaZsSqsFbTUn7/Hd5b1WQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ES8TNmkAgn1KAxKHPTqvQlH9mrT0ISbHAevqEWv7Cl4=;
+ b=ieDcGLKHodErvQ8jvd81P8Re1FnUpSlZMX6tZ9VTtAi+T25/r0JjjXnMZ4VkhL3TIRkDZ1dMrWyy3YNMiET4i1fIzXE/h2rMpwXggIb5ph9zPDpp0E90GxuTeNge0QZ5eBFHl7Sbwj0D33QLoQbfADVpzJwFbbwoLf4IP2/2cTF0VSCbV0S2PpKz/2wRvzQuToBwNty6KEW9DPhxw3XbquhbJwjyROibf+1dqyNXJE98TK/ifPOp1eCrM7k0tHljF7cPN3YALzjXNL2enWqouFe4w00wIdydH+OJEdKQvKQeiX7JokiJoU+kkOLQ8Qs32saFEKxs71qINalbUbjwOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ES8TNmkAgn1KAxKHPTqvQlH9mrT0ISbHAevqEWv7Cl4=;
+ b=m1AH3NL2xoydWHHIr89a0arzj3WgTUMrXv6nUjoRd7LNOvJJSaAM/K+1lJXWVOQj/PfLQ+Bk94e0PreDZbBaULBJfq77gjexw6ROFsAGZJR91opoEvq2GVU1jU/7c3gqxS2BPFNK1fRCLParET/7F+CayYI86XXoEuGCBl450wc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SJ1PR12MB6050.namprd12.prod.outlook.com (2603:10b6:a03:48b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.14; Fri, 29 Nov
+ 2024 17:06:08 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8207.014; Fri, 29 Nov 2024
+ 17:06:08 +0000
+Message-ID: <18adb251-b340-4820-a808-e1583b44480a@amd.com>
+Date: Fri, 29 Nov 2024 11:06:02 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v9 14/26] x86/resctrl: Introduce interface to display
+ number of free counters
+To: Peter Newman <peternewman@google.com>, babu.moger@amd.com
+Cc: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, fenghua.yu@intel.com, x86@kernel.org,
+ hpa@zytor.com, thuth@redhat.com, paulmck@kernel.org, rostedt@goodmis.org,
+ akpm@linux-foundation.org, xiongwei.song@windriver.com,
+ pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+ perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
+ xiaoyao.li@intel.com, seanjc@google.com, jithu.joseph@intel.com,
+ brijesh.singh@amd.com, xin3.li@intel.com, ebiggers@google.com,
+ andrew.cooper3@citrix.com, mario.limonciello@amd.com, james.morse@arm.com,
+ tan.shaopeng@fujitsu.com, tony.luck@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+ eranian@google.com, jpoimboe@kernel.org, thomas.lendacky@amd.com
+References: <cover.1730244116.git.babu.moger@amd.com>
+ <265f3700ac0c0d33703806fdc3d096b08c992efc.1730244116.git.babu.moger@amd.com>
+ <0dc08082-0f3f-4acc-9285-b925a4ce3b02@intel.com>
+ <5d426af4-a947-4115-b7b7-4eeecfa13fec@amd.com>
+ <c587f94a-7920-49cf-94b1-4c52140db914@intel.com>
+ <ef92f1fb-086c-4ee1-b8ec-e08ed68f963a@amd.com>
+ <e065b193-dbcc-451b-98db-68a5a69e6ae0@intel.com>
+ <20959b58-a882-4ef7-bd11-e8bb0a998945@amd.com>
+ <1a93f4e3-d3d2-4764-90d1-728b9cb70481@intel.com>
+ <36d8fe9f-0000-4d0d-a097-efddc3881a2a@amd.com>
+ <5aa7924d-b27d-4ee6-b8dd-4bae0e25267b@intel.com>
+ <CALPaoCj+zWq1vkHVbXYP0znJbe6Ke3PXPWjtri5AFgD9cQDCUg@mail.gmail.com>
+ <4bf82744-da09-43c3-b8f1-7fc203d1c1c3@amd.com>
+ <CALPaoCjL6FEmVgX-h3_GQEVZNAT3FcH34t9o1PwbUacVzXjZPg@mail.gmail.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <CALPaoCjL6FEmVgX-h3_GQEVZNAT3FcH34t9o1PwbUacVzXjZPg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1PR02CA0006.namprd02.prod.outlook.com
+ (2603:10b6:806:2cf::15) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ1PR12MB6050:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1f61b7ad-25dd-420a-5512-08dd10981dc9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?M1JvczF0RGVyTXhEcW82SEYzM0cwY2d2TzF3MUMxV21mTjJoYVMrRnh5aHNR?=
+ =?utf-8?B?Q3JBaEZFenhvWGZickpDVHlTT3R3eEd2RFlVbkh4Uk1EZnlRekluckJwZ1Jy?=
+ =?utf-8?B?V2hnZ0J0MkRWMXEyVFlreUVBa1NjVU9nR0Rmd1pNN0hiaTh6MVdIeVF6and3?=
+ =?utf-8?B?eVl4OStHb2ZyY09nQm9vRm0yQkxwbE5VRWNZdkJyeEtUSExmNTliM1NHUVZX?=
+ =?utf-8?B?WWJEd29mZUI3amVEZ2Z5b0lucjVtQnRMdlJxSyszT245N0o4Y2kveEVJRXZ0?=
+ =?utf-8?B?bTBRT0w4Y1ZCOWgwVzVycHZWQWFPem5BYTRkVXNzMTA4cVFWQXFiRlBlbUhs?=
+ =?utf-8?B?UEE2ZVR3OW1DNDQ4Z2pYdGJjY2VZMWxtcGoreU5VV0hIOUJ1M1Zjc3l0SXZV?=
+ =?utf-8?B?NlJGeTBQa09BL3djbk9oQ1R5c0gwcU1NUkhMcDRpTWF5L0czT0tialNuM3FN?=
+ =?utf-8?B?bk85MWgvOC9UcjFjVURyR1RwUVBQQjdkUGVXZGlpVjJWQVRIQjlHSTdwVlJm?=
+ =?utf-8?B?UGZtRGhaeU1FckFZdkpqVWVtcEQrLzQ5UHRzWUNnbnJ6WG5DY1pXN0dkemtW?=
+ =?utf-8?B?WUY3V210UmlBU1ZOUTE2aXhGQlFNM0lDMzRvWUpCbWdsRVpudnJjNkpHS2dE?=
+ =?utf-8?B?NzBFOHJSQjhsN1BJdEt0Qm82TklhSTZXb3I3eFpZanp3YlVrcXBvS29DVWp2?=
+ =?utf-8?B?SDFXMWNiL1UySXY1TFlpSmxQdjJLRk9FMFV2cWVBSS80ZDFKT2FoMklUcmdK?=
+ =?utf-8?B?N0JyelJVdUJkODVQVXRSQm1haUZReDJkVDRXb1VTalh1RTZveHAvRzNkSGdO?=
+ =?utf-8?B?M2U0UC8yZVpqaEZLZVFZdlpSYWxNeVpuZmZud252cHRNR2pwVFhlcTZtQXJz?=
+ =?utf-8?B?WXNsRzM5dlFYNG50amhTY2xZRFo4RWpHTkY1T3p4TkdYUStMYTZYcDBQanNZ?=
+ =?utf-8?B?ZFZvanVHRDFuVEhYVXNIaGRBeWFQSW9sUkIzVDZxSUduSExWeiszK0tYR0xP?=
+ =?utf-8?B?VlhZVmRpMmM4WlJtYm9yZTBocm15U1FxMlRZajFiOU9RQlkxcWV1RktXVXNN?=
+ =?utf-8?B?eDFDS2RLdWs4NS9icmFpZTBNSmEvdmJza2xmUkhKZUxGcFYwR2dUczhOTVIv?=
+ =?utf-8?B?bjIwckY4NGVLb1BkNnArY2gzaGlaV3FPYWJ3bVhJdnc2bFlUbE9WOENuZU83?=
+ =?utf-8?B?bEdyVm5VdWhteHZhSVdwdDU3b3FmeUZpeFJPQWlLM2RlRnY4Z3p3WjNCUDBL?=
+ =?utf-8?B?QkdLM1ZZMzRYbnNCWGY1ZmJXNG84bWtFTTJLQzR4TWVYODNZMFk2YTRmL2NY?=
+ =?utf-8?B?VVFUZ0xRUlkrbGpZVkNLWk9lYy90TE93dldaUGgyR0pOMC9MRC9LcFVsNmZh?=
+ =?utf-8?B?aHVEOTdkaWRHQUpNOFpjcnpGNDVEbiszYVVLeWpUTWQ5TWRMbGlRR01tVGZZ?=
+ =?utf-8?B?d2ZHc3NBeldlV0NYcDJxY0s0c2YweGM5c1FGK3crcUFiV1NaaS9Sc3ByT2Vj?=
+ =?utf-8?B?OURHandueXUxUCtJM3U0d1hxYXNZa0tkWFFaZWNsL1h3YXd6ek50S2xKb0Fn?=
+ =?utf-8?B?SDFXQ2JSanNOWFBmMjJsWUNwTUUwUXRUVXVYbUJzM1phMWpIY0JSOU1yQkNP?=
+ =?utf-8?B?U25VQktZYUtVSk95SVF2L3NlNklDcDkreXE0NThobUdESzNwT291djFnQUo5?=
+ =?utf-8?B?RDc2dnJrYVFPdE03bzJaNEFCcFF5dG5qaXg3Y0d5UWdUbVpRekZnM21KdXlv?=
+ =?utf-8?B?Z29ZVTJObmVpM3htWEtPeEdhNWhKMS9pZGtOL3QzZDJ3MWE3Snk1SWlOZlFX?=
+ =?utf-8?B?TjVjOGMxTkl2SWJtQ2FIdz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QytsZ0lNZmdpY2NQWmZUT1VvdUJUejN6ZExxbEo0a1ZwbnlsSXl5Rk5QTEVZ?=
+ =?utf-8?B?V0N3ZFNaYVpiTy9TT3c2VkluQkt3Zk8xWFJuOUN4WnQ2ZWVQMHhWRTU0ZkxK?=
+ =?utf-8?B?Z1NqOGtxVFhQTEJ4dFZOb3ZyQ0Nza2l0RW1IVThXUm5GTEVPODgwUXhTODZn?=
+ =?utf-8?B?dFRHUTJkZXBsaHNiT3p2Ry9rZGtuaE1QS05LbEJJS3ZzcCtxYXpsYytkbEFN?=
+ =?utf-8?B?K3U2TTRWRklMWjhqdUtNRzBuZUJvRktnZzgrSnRFNjR6eWNGTmgrMS9saUkv?=
+ =?utf-8?B?bExmRWZUc2FDUFpmT1daZW9WZXArdTAvMnhtT2lRZHU5Vy83WWltQ25BOEty?=
+ =?utf-8?B?emFsN2VBTVgxYVpDU290cVErczlDbVRidHVEMW9pUGJnWkpBaC9FZDBicHo3?=
+ =?utf-8?B?aVIzYVg3amdJQzJuem1FQ2NGUVh1YUVLMUxIR0s4aXFWdkxpNmhoL0wxeUMx?=
+ =?utf-8?B?VFpFTFBMMWE0MzZyMkMycE82QWpveGdOWHM4VWZ3Ylcxa2ltdDM4eUYxV3FI?=
+ =?utf-8?B?MW1ocUhjblJUOEt0UU9DMVRieTVxcGN5UWcrZmhpYW9taGQ0ZkhONHZ0S051?=
+ =?utf-8?B?ZDBqU2w4cW5NdzFjU2Y2RUdiZE9LT3MybDB6WTRIMzZReG9ZM2JsaUJxWUVT?=
+ =?utf-8?B?aGxLazZia29LWllrVm5Wd09jQzZHZjhxMkhGVm1qd0hjWk1JS3RXcWhBOWJi?=
+ =?utf-8?B?ZkxSTEdTOVhzcmtGcG5xWWZ3azh2bGJrTzFSTW5MZWlOZmpFS0VCVEhQWXA4?=
+ =?utf-8?B?dHRsVHhuc0l1V1JSWFhPZVQ2WCszT1NXa2doYithaHRFdUVqS0RHODB4SHd1?=
+ =?utf-8?B?bjh6N3M3ckhiWkdkSlZ5YXV4bWFSRjhLbG01a3k1Qm1TeUlZV1Z0TmVRT0FJ?=
+ =?utf-8?B?MEhqbU51RDFUR2x4TFFXVXRhMG9DVmJXc2VhdG8waGRZVFlzUGxBT1hsRTdX?=
+ =?utf-8?B?K2h6d3dqOVFYYzAyWkRMYmNIZHNXMmt5M2NodEt3Y1NCWDZJQ3JkNDhuSU9F?=
+ =?utf-8?B?R0d6ZENEenNuTUVheFlhRUk5N3c3b094ZFZxUUxvQnVIUTBBYnZMTFlBaHhO?=
+ =?utf-8?B?UzJkZS9CeVdCSE5DZDR4c1hXb1hVTTVtQ3c2SHdhUDFBVktETTh6NVpCQVpz?=
+ =?utf-8?B?Yjl0NGhvL0QyKzAxeUppN3lFeVd6VEkvOGxjakJMSTlKSnJqYXlPZllsSXJq?=
+ =?utf-8?B?ZnA3R0RobmRNd2JQTDVGZFd3Y05sdGNzUWgxNjcrMUdMRTVpOE5lTEVsdG10?=
+ =?utf-8?B?SWY0bkY5VXJIS2wwL0VWQXVSbmVKTTE2UjJnRitsd1BJUmh4a0NaTTZ4bVJJ?=
+ =?utf-8?B?anRKby9ScmZnK1JHS1lCVHphSUxPRitid0tqd1ArOUdTcTlZeWxSY0ZDWWw4?=
+ =?utf-8?B?TWM0Y0RmMEdxK1c4SitTWEwrUzZvTGorS1B2K254Tlo2emRwbnZxbVZCcUFJ?=
+ =?utf-8?B?VzZJSS9xZ3ZYZTJTVnMyaDVURkh3RDB4NU1ubGF5K0tuKytaYnYvMTJmZWps?=
+ =?utf-8?B?NzdyUElSdVdSZEtua1o2SGhnVFNDT1poMXNVK2RKQ2g2cEc2aHl3NFVpYktr?=
+ =?utf-8?B?U2E4SE04TkJKTjNlTE91MU5OL1RFSnhPcFpyMVJGYmRTM0VLZVBWSFZuN0xB?=
+ =?utf-8?B?bC9Ob2JwZUJXQmtIZDJtTWhudGdNYmdIajNRdVBZY0lONFFGSlNhNEVqREZh?=
+ =?utf-8?B?ZlFNNzJET2s3T0dLelFka2ZHRHVBWDdPb1JabVpTS3NzQSt4NVNHTWRhd3VU?=
+ =?utf-8?B?Sms3WjZZaVN2SkUxeVlBeEV3KzVpTHJaQVRNcE1WSDN0MWluV2J0cTFLUUpQ?=
+ =?utf-8?B?OCt5eW5BVGlTWFhaUUt0M1RoN1ZXMjNJbkRKWk9jKytyeDhWSkdXUFpuZzla?=
+ =?utf-8?B?TzJLcTFCdldoQ0RDUldmUGVoYURQVE5JRWdDdSs3MEdndG5HYVFhQ09qUTFV?=
+ =?utf-8?B?aHQ2dVFEK1JpKzVJNnVYWDBlSlJkY3FrWkIydkxSTU1aaTYyWGRTdGxIWFRt?=
+ =?utf-8?B?enZ4RHhtdU9ObnZXeTZld1c5c3RvR1Jsd25FYWl2eGpwYXFINE9Dc3NFVG1V?=
+ =?utf-8?B?QThxSHc4SEU5TUtYN1FDZm95M0xkaWlyc01FQWM1bUtZTkFxaGJrZEQ4OTg3?=
+ =?utf-8?Q?e5Nc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f61b7ad-25dd-420a-5512-08dd10981dc9
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2024 17:06:07.9153
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2fHZ+BjWk8RcEAFnnZox3SOfkfXjOiUrIUif+10nDQPsewVFOYTLpWWcQ7tDIIMJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6050
 
-On 24/11/24 22:46, Frederic Weisbecker wrote:
-> Le Fri, Nov 22, 2024 at 03:56:59PM +0100, Valentin Schneider a =C3=A9crit=
- :
->> On 20/11/24 18:30, Frederic Weisbecker wrote:
->> > Le Wed, Nov 20, 2024 at 06:10:43PM +0100, Valentin Schneider a =C3=A9c=
-rit :
->> >> On 20/11/24 15:23, Frederic Weisbecker wrote:
->> >>
->> >> > Ah but there is CT_STATE_GUEST and I see the last patch also applie=
-s that to
->> >> > CT_STATE_IDLE.
->> >> >
->> >> > So that could be:
->> >> >
->> >> > bool ct_set_cpu_work(unsigned int cpu, unsigned int work)
->> >> > {
->> >> >    struct context_tracking *ct =3D per_cpu_ptr(&context_tracking, c=
-pu);
->> >> >    unsigned int old;
->> >> >    bool ret =3D false;
->> >> >
->> >> >    preempt_disable();
->> >> >
->> >> >    old =3D atomic_read(&ct->state);
->> >> >
->> >> >    /* CT_STATE_IDLE can be added to last patch here */
->> >> >    if (!(old & (CT_STATE_USER | CT_STATE_GUEST))) {
->> >> >            old &=3D ~CT_STATE_MASK;
->> >> >            old |=3D CT_STATE_USER;
->> >> >    }
->> >>
->> >> Hmph, so that lets us leverage the cmpxchg for a !CT_STATE_KERNEL che=
-ck,
->> >> but we get an extra loop if the target CPU exits kernelspace not to
->> >> userspace (e.g. vcpu or idle) in the meantime - not great, not terrib=
-le.
->> >
->> > The thing is, what you read with atomic_read() should be close to real=
-ity.
->> > If it already is !=3D CT_STATE_KERNEL then you're good (minus racy cha=
-nges).
->> > If it is CT_STATE_KERNEL then you still must do a failing cmpxchg() in=
- any case,
->> > at least to make sure you didn't miss a context tracking change. So th=
-e best
->> > you can do is a bet.
->> >
->> >>
->> >> At the cost of one extra bit for the CT_STATE area, with CT_STATE_KER=
-NEL=3D1
->> >> we could do:
->> >>
->> >>   old =3D atomic_read(&ct->state);
->> >>   old &=3D ~CT_STATE_KERNEL;
->> >
->> > And perhaps also old |=3D CT_STATE_IDLE (I'm seeing the last patch now=
-),
->> > so you at least get a chance of making it right (only ~CT_STATE_KERNEL
->> > will always fail) and CPUs usually spend most of their time idle.
->> >
->>=20
->> I'm thinking with:
->>=20
->>         CT_STATE_IDLE		=3D 0,
->>         CT_STATE_USER		=3D 1,
->>         CT_STATE_GUEST		=3D 2,
->>         CT_STATE_KERNEL		=3D 4, /* Keep that as a standalone bit */
->
-> Right!
->
->>=20
->> we can stick with old &=3D ~CT_STATE_KERNEL; and that'll let the cmpxchg
->> succeed for any of IDLE/USER/GUEST.
->
-> Sure but if (old & CT_STATE_KERNEL), cmpxchg() will consistently fail.
-> But you can make a bet that it has switched to CT_STATE_IDLE between
-> the atomic_read() and the first atomic_cmpxchg(). This way you still have
-> a tiny chance to succeed.
->
-> That is:
->
->    old =3D atomic_read(&ct->state);
->    if (old & CT_STATE_KERNEl)
->       old |=3D CT_STATE_IDLE;
->    old &=3D ~CT_STATE_KERNEL;
->
->
->    do {
->       atomic_try_cmpxchg(...)
->
-> Hmm?
+Hi Peter, Reinette,
 
-But it could equally be CT_STATE_{USER, GUEST}, right? That is, if we have
-all of this enabled them we assume the isolated CPUs spend the least amount
-of time in the kernel, if they don't we get to blame the user.
+On 11/29/2024 3:59 AM, Peter Newman wrote:
+> Hi Babu,
+> 
+> On Thu, Nov 28, 2024 at 8:35 PM Moger, Babu <bmoger@amd.com> wrote:
+>>
+>> Hi Peter,
+>>
+>> On 11/28/2024 5:10 AM, Peter Newman wrote:
+>>> Hi Babu, Reinette,
+>>>
+>>> On Wed, Nov 27, 2024 at 8:05 PM Reinette Chatre
+>>> <reinette.chatre@intel.com> wrote:
+>>>>
+>>>> Hi Babu,
+>>>>
+>>>> On 11/27/24 6:57 AM, Moger, Babu wrote:
+> 
+>>>>> 1. Each group needs to remember counter ids in each domain for each event.
+>>>>>      For example:
+>>>>>      Resctrl group mon1
+>>>>>       Total event
+>>>>>       dom 0 cntr_id 1,
+>>>>>       dom 1 cntr_id 10
+>>>>>       dom 2 cntr_id 11
+>>>>>
+>>>>>      Local event
+>>>>>       dom 0 cntr_id 2,
+>>>>>       dom 1 cntr_id 15
+>>>>>       dom 2 cntr_id 10
+>>>>
+>>>> Indeed. The challenge here is that domains may come and go so it cannot be a simple
+>>>> static array. As an alternative it can be an xarray indexed by the domain ID with
+>>>> pointers to a struct like below to contain the counters associated with the monitor
+>>>> group:
+>>>>           struct cntr_id {
+>>>>                   u32     mbm_total;
+>>>>                   u32     mbm_local;
+>>>>           }
+>>>>
+>>>>
+>>>> Thinking more about how this array needs to be managed made me wonder how the
+>>>> current implementation deals with domains that come and go. I do not think
+>>>> this is currently handled. For example, if a new domain comes online and
+>>>> monitoring groups had counters dynamically assigned, then these counters are
+>>>> not configured to the newly online domain.
+>>
+>> I am trying to understand the details of your approach here.
+>>>
+>>> In my prototype, I allocated a counter id-indexed array to each
+>>> monitoring domain structure for tracking the counter allocations,
+>>> because the hardware counters are all domain-scoped. That way the
+>>> tracking data goes away when the hardware does.
+>>>
+>>> I was focused on allowing all pending counter updates to a domain
+>>> resulting from a single mbm_assign_control write to be batched and
+>>> processed in a single IPI, so I structured the counter tracker
+>>> something like this:
+>>
+>> Not sure what you meant here. How are you batching two IPIs for two domains?
+>>
+>> #echo "//0=t;1=t" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>
+>> This is still a single write. Two IPIs are sent separately, one for each
+>> domain.
+>>
+>> Are you doing something different?
+> 
+> I said "all pending counter updates to a domain", whereby I meant
+> targeting a single domain.
+> 
+> Depending on the CPU of the caller, your example write requires 1 or 2 IPIs.
+> 
+> What is important is that the following write also requires 1 or 2 IPIs:
+> 
+> (assuming /sys/fs/resctrl/mon_groups/[g1-g31] exist, line breaks added
+> for readability)
+> 
+> echo $'//0=t;1=t\n
+> /g1/0=t;1=t\n
+> /g2/0=t;1=t\n
+> /g3/0=t;1=t\n
+> /g4/0=t;1=t\n
+> /g5/0=t;1=t\n
+> /g6/0=t;1=t\n
+> /g7/0=t;1=t\n
+> /g8/0=t;1=t\n
+> /g9/0=t;1=t\n
+> /g10/0=t;1=t\n
+> /g11/0=t;1=t\n
+> /g12/0=t;1=t\n
+> /g13/0=t;1=t\n
+> /g14/0=t;1=t\n
+> /g15/0=t;1=t\n
+> /g16/0=t;1=t\n
+> /g17/0=t;1=t\n
+> /g18/0=t;1=t\n
+> /g19/0=t;1=t\n
+> /g20/0=t;1=t\n
+> /g21/0=t;1=t\n
+> /g22/0=t;1=t\n
+> /g23/0=t;1=t\n
+> /g24/0=t;1=t\n
+> /g25/0=t;1=t\n
+> /g26/0=t;1=t\n
+> /g27/0=t;1=t\n
+> /g28/0=t;1=t\n
+> /g29/0=t;1=t\n
+> /g30/0=t;1=t\n
+> /g31/0=t;1=t\n'
+> 
+> My ultimate goal is for a thread bound to a particular domain to be
+> able to unassign and reassign the local domain's 32 counters in a
+> single write() with no IPIs at all. And when IPIs are required, then
+> no more than one per domain, regardless of the number of groups
+> updated.
+> 
+
+Yes. I think I got the idea. Thanks.
+
+> 
+>>
+>>>
+>>> struct resctrl_monitor_cfg {
+>>>       int closid;
+>>>       int rmid;
+>>>       int evtid;
+>>>       bool dirty;
+>>> };
+>>>
+>>> This mirrors the info needed in whatever register configures the
+>>> counter, plus a dirty flag to skip over the ones that don't need to be
+>>> updated.
+>>
+>> This is what my understanding of your implementation.
+>>
+>> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+>> index d94abba1c716..9cebf065cc97 100644
+>> --- a/include/linux/resctrl.h
+>> +++ b/include/linux/resctrl.h
+>> @@ -94,6 +94,13 @@ struct rdt_ctrl_domain {
+>>           u32                             *mbps_val;
+>>    };
+>>
+>> +struct resctrl_monitor_cfg {
+>> +    int closid;
+>> +    int rmid;
+>> +    int evtid;
+>> +    bool dirty;
+>> +};
+>> +
+>>    /**
+>>     * struct rdt_mon_domain - group of CPUs sharing a resctrl monitor
+>> resource
+>>     * @hdr:               common header for different domain types
+>> @@ -116,6 +123,7 @@ struct rdt_mon_domain {
+>>           struct delayed_work             cqm_limbo;
+>>           int                             mbm_work_cpu;
+>>           int                             cqm_work_cpu;
+>> +     /* Allocate num_mbm_cntrs entries in each domain */
+>> +       struct resctrl_monitor_cfg      *mon_cfg;
+>>    };
+>>
+>>
+>> When a user requests an assignment for total event to the default group
+>> for domain 0, you go search in rdt_mon_domain(dom 0) for empty mon_cfg
+>> entry.
+>>
+>> If there is an empty entry, then use that entry for assignment and
+>> update closid, rmid, evtid and dirty = 1. We can get all these
+>> information from default group here.
+>>
+>> Does this make sense?
+> 
+> Yes, sounds correct.
+
+I will probably add cntr_id in resctrl_monitor_cfg structure and 
+initialize during the allocation. And rename the field 'dirty' to 
+'active'(or something similar) to hold the assign state for that entry. 
+That way we have all the information required for assignment at one 
+place. We don't need to update the rdtgroup structure.
+
+Reinette, What do you think about this approach?
+
+> 
+>>
+>>>
+>>> For the benefit of displaying mbm_assign_control, I put a pointer back
+>>> to any counter array entry allocated in the mbm_state struct only
+>>> because it's an existing structure that exists for every rmid-domain
+>>> combination.
+>>
+>> Pointer in mbm_state may not be required here.
+>>
+>> We are going to loop over resctrl groups. We can search the
+>> rdt_mon_domain to see if specific closid, rmid, evtid is already
+>> assigned or not in that domain.
+> 
+> No, not required I guess. High-performance CPUs can probably search a
+> 32-entry array very quickly.
+
+Ok.
+
+-- 
+- Babu Moger
 
