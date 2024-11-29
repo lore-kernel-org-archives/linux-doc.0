@@ -1,135 +1,141 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A9314B088;
-	Fri, 29 Nov 2024 08:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17122146A7B;
+	Fri, 29 Nov 2024 08:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732869097; cv=none; b=uGpi5T0WkdJh4fwc0nQV4pUc2f1LQmo9mtxTd0s/v4U0KvkQUreRSLjleBy5kTkdQpjIqXbq5zDW3zDJpYDcH3NN59QJjELuqafaff4XL3ixAzjyjLR/yuUarmMJAQCnAc/vxBKFY5wGbmUny4saIIEOap2kV3b8UssPfckbIsQ=
+	t=1732870082; cv=none; b=Yeyvb8XFt6giyBk0DC5vmGhPH+4wju+Z/6fDgTzmNl7TIjv/iUsJJIcJxkMX+2YVBKZZE5W7muhNAYomkrVcB/+8rwQj3JDSOkhVHlTxMBFQSYKhaH7kNhHIxR+Xg6X3SPp/b5nCGRYdF0y2bbKgwhS3YngjvbIhDeFcFEObUhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732869097; c=relaxed/simple;
-	bh=wp3UfZMfbn7EeJtbLpA0FbA0vGdnG3AkBrdTYstEirE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cLOJUfpzWpLBy+VOB//m2WuciYJpOLXRv6A7ZmOjx1SmsvhEkahwpJPLeHARya+07MyHZV4uQqmoqgPi+TVA3FP3xICKx+YO57OWdBb7h3kTXV+5592c5dqBf0xqiTOUj0RoovtgGWH/Cf/OwzH+ZDpMQEdn+uhfyN7jzodSbcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4Y05TF2lVTz9v7Vd;
-	Fri, 29 Nov 2024 16:10:25 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id 12FBD1407B1;
-	Fri, 29 Nov 2024 16:31:19 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwDHLn69e0lnwkiCAg--.19693S2;
-	Fri, 29 Nov 2024 09:31:15 +0100 (CET)
-Message-ID: <57f07e0048ff15fd1ebfb58054e93abdbf8f029c.camel@huaweicloud.com>
-Subject: Re: [PATCH v6 07/15] digest_cache: Allow registration of digest
- list parsers
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Luis Chamberlain <mcgrof@kernel.org>, mmaurer@google.com, 
-	samitolvanen@google.com, KP Singh <kpsingh@kernel.org>
-Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com,  corbet@lwn.net, petr.pavlu@suse.com,
- da.gomez@samsung.com,  akpm@linux-foundation.org, paul@paul-moore.com,
- jmorris@namei.org,  serge@hallyn.com, shuah@kernel.org,
- mcoquelin.stm32@gmail.com,  alexandre.torgue@foss.st.com,
- linux-integrity@vger.kernel.org,  linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-api@vger.kernel.org,
- linux-modules@vger.kernel.org,  linux-security-module@vger.kernel.org,
- linux-kselftest@vger.kernel.org,  wufan@linux.microsoft.com,
- pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de,  mjg59@srcf.ucam.org,
- pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com, 
- jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com, 
- mzerqung@0pointer.de, kgold@linux.ibm.com, Roberto Sassu
- <roberto.sassu@huawei.com>
-Date: Fri, 29 Nov 2024 09:30:49 +0100
-In-Reply-To: <Z0jVQ8Q7AT_9NodI@bombadil.infradead.org>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
-	 <20241119104922.2772571-8-roberto.sassu@huaweicloud.com>
-	 <Z0UN9ub0iztWvgLi@bombadil.infradead.org>
-	 <d428a5d926d695ebec170e98463f7501a1b00793.camel@huaweicloud.com>
-	 <Z0Ybvzy7ianR-Sx9@bombadil.infradead.org>
-	 <3dc25195b0362b3e5b6d6964df021ff4e7e1b226.camel@huaweicloud.com>
-	 <Z0d4vXuCqjTo_QW1@bombadil.infradead.org>
-	 <10c8fd4b53f946c2d7e933a35c6eb36557e8c592.camel@huaweicloud.com>
-	 <Z0jVQ8Q7AT_9NodI@bombadil.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1732870082; c=relaxed/simple;
+	bh=MXIzVq0dIhtRg32LkPd8K+sI/KI97awMjyylhz3JFG4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u/wF/49OQ9PE3o8DyHrcq3uAIJ8bsT9Y+1dGwncb3dZni25Y+apH+HrYLkeMzBa1Z8TduLLMDDW59Wfi/hkOCEDiFustKTEuclM3sp44fX7YF/kGsFlHFK6kzwZRkgItUcDkmWOeAPA9jWDY5cOgcFxAXBrv46PlTg1Irgp22fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=VAfkWa70; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="VAfkWa70"
+Received: from pps.filterd (m0431383.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT8i1EY032099;
+	Fri, 29 Nov 2024 00:47:51 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pfpt0220; bh=h
+	hicOWMHKa1J/H/XNJ6E6RZzHWAH/BnUWB/xcC7KnOc=; b=VAfkWa70QPMcBwac3
+	EE3nqu77YBWrDTlMVv79Wyvlsn1eM1McZYFIiCwLu7ew3EgIiqugHTd3eBWju8co
+	9VHfpADy0GE+n6Hx5s30xz3zbv6VqO+BdpHMOl5LrnT3ZiDuNqtxaPIFl0Qtc2ZU
+	cycz2aV53b3AbFujer0Qb6zymypBoI/yLDfkjHEByYdAGebOIufqrMwqJ0yuDAxi
+	3BnJDmZXjV+8rzLwc5k+inA12MITFj5XI3XGBUFBuK8MIj3l7PnaTVEW2LicrdC1
+	ZZY1OFezEXXytNcqXc6v08tAbGxQyoVNo1BiuKW7ILx0EgryMbqhRcncvA5ErQJX
+	3B+og==
+Received: from dc5-exch05.marvell.com ([199.233.59.128])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 437abyg07n-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Nov 2024 00:47:51 -0800 (PST)
+Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
+ DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Fri, 29 Nov 2024 00:47:42 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
+ (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Fri, 29 Nov 2024 00:47:42 -0800
+Received: from virtx40.. (unknown [10.28.34.196])
+	by maili.marvell.com (Postfix) with ESMTP id B5E375C68F3;
+	Fri, 29 Nov 2024 00:47:38 -0800 (PST)
+From: Linu Cherian <lcherian@marvell.com>
+To: <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <james.clark@arm.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <coresight@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <devicetree@vger.kernel.org>, <sgoutham@marvell.com>,
+        <gcherian@marvell.com>, Linu Cherian <lcherian@marvell.com>
+Subject: [PATCH v12 1/8] dt-bindings: arm: coresight-tmc: Add "memory-region" property
+Date: Fri, 29 Nov 2024 14:17:07 +0530
+Message-ID: <20241129084714.3057080-2-lcherian@marvell.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241129084714.3057080-1-lcherian@marvell.com>
+References: <20241129084714.3057080-1-lcherian@marvell.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwDHLn69e0lnwkiCAg--.19693S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cry5Jr1kKw47uFy3JF17GFg_yoW8CFyrpF
-	WFqa4IkFWktr1UCrs29w4UZrW0krsaqry7Gwn8Gr9IvrW3KFy2vryFgF45uFZrKr1xW347
-	tw4Fv3sxWws5Za7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Wrv_ZF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4U
-	JwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	EksDUUUUU==
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQACBGdJJrUBzwABs1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: rUP7MN78GKIWkxNnNeGTPGHsKgiD3r4Z
+X-Proofpoint-GUID: rUP7MN78GKIWkxNnNeGTPGHsKgiD3r4Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
+ definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
 
-On Thu, 2024-11-28 at 12:40 -0800, Luis Chamberlain wrote:
-> On Thu, Nov 28, 2024 at 09:23:57AM +0100, Roberto Sassu wrote:
-> > On Wed, 2024-11-27 at 11:53 -0800, Luis Chamberlain wrote:
-> > > On Wed, Nov 27, 2024 at 10:51:11AM +0100, Roberto Sassu wrote:
-> > > > For eBPF programs we are also in a need for a better way to
-> > > > measure/appraise them.
-> > >=20
-> > > I am confused now, I was under the impression this "Integrity Digest
-> > > Cache" is just a special thing for LSMs, and so I was under the
-> > > impression that kernel_read_file() lsm hook already would take care
-> > > of eBPF programs.
-> >=20
-> > Yes, the problem is that eBPF programs are transformed in user space
-> > before they are sent to the kernel:
-> >=20
-> > https://lwn.net/Articles/977394/
->=20
-> That issue seems to be orthogonal to your eandeavor though, which just
-> supplements LSMS, right?
+memory-region 0: Reserved trace buffer memory
 
-Yes, correct, the Integrity Digest Cache would be used to search
-whatever digest was calculated by LSMs.
+  TMC ETR: When available, use this reserved memory region for
+  trace data capture. Same region is used for trace data
+  retention after a panic or watchdog reset.
 
-Thanks
+  TMC ETF: When available, use this reserved memory region for
+  trace data retention synced from internal SRAM after a panic or
+  watchdog reset.
 
-Roberto
+memory-region 1: Reserved meta data memory
 
-> Anyway, in case this helps:
->=20
-> The Rust folks faced some slighty related challenges with our CRC
-> validations for symbols, our CRC are slapped on with genksyms but this
-> relies on the source code and with Rust the compiler may do final
-> touches to data. And so DWARF is being used [1].
->=20
-> Although I am not sure of the state of eBPF DWARF support, there is also
-> BTF support [0] and most distros are relying on it to make live introspec=
-tion=20
-> easier, and the output is much smaller. So could DWARF or BTF information
-> from eBPF programs be used by the verifier in similar way to verify eBPF
-> programs?
->=20
-> Note that to support BTF implicates DWARF and the leap of faith for Rust
-> modversions support is that most distros will support DWARF, and so BTF
-> can become the norm [2].
->=20
-> [0] https://www.kernel.org/doc/html/latest/bpf/btf.html
-> [1] https://lwn.net/Articles/986892/
-> [2] https://lwn.net/Articles/991719/
->=20
->   Luis
+  TMC ETR, ETF: When available, use this memory for register
+  snapshot retention synced from hardware registers after a panic
+  or watchdog reset.
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Linu Cherian <lcherian@marvell.com>
+---
+ .../bindings/arm/arm,coresight-tmc.yaml       | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml
+index cb8dceaca70e..4787d7c6bac2 100644
+--- a/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml
++++ b/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml
+@@ -101,6 +101,29 @@ properties:
+           and ETF configurations.
+         $ref: /schemas/graph.yaml#/properties/port
+ 
++  memory-region:
++    items:
++      - description: Reserved trace buffer memory for ETR and ETF sinks.
++          For ETR, this reserved memory region is used for trace data capture.
++          Same region is used for trace data retention as well after a panic
++          or watchdog reset.
++          This reserved memory region is used as trace buffer or used for trace
++          data retention only if specifically selected by the user in sysfs
++          interface.
++          The default memory usage models for ETR in sysfs/perf modes are
++          otherwise unaltered.
++
++          For ETF, this reserved memory region is used by default for
++          retention of trace data synced from internal SRAM after a panic
++          or watchdog reset.
++      - description: Reserved meta data memory. Used for ETR and ETF sinks
++          for storing metadata.
++
++  memory-region-names:
++    items:
++      - const: tracedata
++      - const: metadata
++
+ required:
+   - compatible
+   - reg
+@@ -115,6 +138,9 @@ examples:
+     etr@20070000 {
+         compatible = "arm,coresight-tmc", "arm,primecell";
+         reg = <0x20070000 0x1000>;
++        memory-region = <&etr_trace_mem_reserved>,
++                       <&etr_mdata_mem_reserved>;
++        memory-region-names = "tracedata", "metadata";
+ 
+         clocks = <&oscclk6a>;
+         clock-names = "apb_pclk";
+-- 
+2.34.1
 
