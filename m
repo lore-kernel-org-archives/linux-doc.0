@@ -1,351 +1,518 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEB7158520;
-	Fri, 29 Nov 2024 12:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E07B208CA;
+	Fri, 29 Nov 2024 15:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732884617; cv=none; b=f+FTa7c146yLrnHTYgvND2uV5JyHIVk+Renw34Y+DiGExNjubiCAXqKYbyOmNoK1CP/PSNJPmpauRt8Ljzfwj4ABNrnTVMr5/sKVRjMeMa4B+si2R2wUKJarInOnB5WGNuVvwbDN+Tsl9Sec+4gcDW/p5auWODDQ9WFKWO5u6dM=
+	t=1732894094; cv=none; b=csBW49m9+Ybb1rDBMGJ8fyAHEutezbAAf2gmVI847IXHunFMWDMUvX0YlR/fbOpQC4fMVGgQcqb79wM1dom/zpHqavilKP5HQYQJJg4qP4EUpSbm2wjlR34VJad58XQxiV94odAJ0jem31rlO9v5oHIFtPZdv6DAtfU2rmW1+J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732884617; c=relaxed/simple;
-	bh=k+9whfT+bGhT2HJdAEew2hY5Dj+NxEN+ErX03KfCsy4=;
+	s=arc-20240116; t=1732894094; c=relaxed/simple;
+	bh=3Z0MgbxOps/HSEcj/KP3Q1vYDOggl5wKI4yy5F1WnWk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=auXe0s0QwLR/TJz7XD4KwtFBISV9JCjcdP48/zauj7ZCF/xHiVLTmhsL1OUfPmvAE4H9g4OxofBUT49gWhYoVTYHDh1doj05mbcNX5R9LmhHQL3tqC1RK+QvBGG5LdDNYT2Nl2ZBuNcDBK9yIxjWx2iU37JdSQqEnwqrtd+3NU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hA3/5iV5; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=DSgZx8nfmti8WjFHIJAydwqDr8tIXFBQwcG+Jy9v4tzXGDKsUpOO+ug7goVGSY1wrvGSNlppYKNlFuwvZWFCi2u4ndqCgOEHrzwMA/20TY9HGXqjOGaM+aybF8LGXDVcps7jwvwZiCUA5TdlGEZuMWIA1yLVfKW3+xwuPmAJAYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SfOBrD0i; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hA3/5iV5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D8F8C4CED3;
-	Fri, 29 Nov 2024 12:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732884617;
-	bh=k+9whfT+bGhT2HJdAEew2hY5Dj+NxEN+ErX03KfCsy4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=hA3/5iV51JfmNXAHeTRNvgoZX5FJh/R+I/Uy9sgDZ6WlGEAP/PUhAmW78STESoARI
-	 zZy+3ftIQYwwxcn3M+Sb1NyxFBD1i+T50enHHCmX4VYBvu/GqvDqYKOP5dWRi5gO3y
-	 zkvxQWfYblQFBE9vo7gZTC1KgiJayH7s6F9TL3/9pe74IPan7zNZaQ7I/kNP45tTfc
-	 QuuiseHYiA0dsB1CCKESA6uBQd/klTJ1RcsniDou/Vey9nHZHW+maNpFHGY8RvFtZc
-	 GwiJtCX/5DOa7jH5Ef2OE9fDz1oEm7ZejIH0EoxDARp6PUhEEwknQCfjnbmfRR3b8R
-	 Jpj8INF7OOtGw==
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a9a68480164so223276866b.3;
-        Fri, 29 Nov 2024 04:50:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU5EKPpK53E0qfoxdb4y1dkT5BGuRjEMs1hy+6FZW+vbbDoFo24ExI6ipH9F2GdjcXKSYdMN5A7PMBQ@vger.kernel.org, AJvYcCVLUmfROD5Ai04efz/KZ79oIGf/l+H2qagN4OvokHOW25/Tez+ilikMSEPJrNXsJy/R/Frrha6XLNc4dpdL@vger.kernel.org, AJvYcCVOaakdCZndhaemBQqOdrmQY+7pNL9MJZHkQEpd3pGpkKwUyr17/P+7PFrMZY6HhTDQGBxGlsutvvC91A==@vger.kernel.org, AJvYcCWiQDQPM9Yeo0M4ORUXKQSysqkDhqLzrzZ+TsxyiixCffsWgDMZR5YqsufEyVzMSSJwYoL7AjI8MnwE@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxkxcj9DDXUEvaKQAQxlwWHw7/+qhyr2v9t90RWxafkNqObQCnO
-	dsdCSbSnmAvtfy+eVXpNVyC7SjBqRxduiomUZXuP5Lx2qmxpJHoz59jan6xOvd9Bkl+jVfnUgqt
-	1ASGBaqfOL8dHwAlgxW08nj+WN8Y=
-X-Google-Smtp-Source: AGHT+IE/jBrtgvoefZc/TUGgUvDpzXvN0OJemVWowKAtVhuwvuakuRlDlDmyTbQZXPrp/N3Yn2wBGBxir8v5GhPeAls=
-X-Received: by 2002:a17:906:30ce:b0:aa1:f73b:be43 with SMTP id
- a640c23a62f3a-aa580f57d09mr1024740866b.32.1732884616007; Fri, 29 Nov 2024
- 04:50:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SfOBrD0i"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6eeba477fcaso19224277b3.0;
+        Fri, 29 Nov 2024 07:28:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732894091; x=1733498891; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PQNxyIkKlJtJa+P3W8kUijsnUrm7Aa/IVAxDQd+A7yE=;
+        b=SfOBrD0inSK/XrV5kiwcsOrYneqkGWF54oJBXguLz7ecSV/Z2bg7T0gioqzcqfLza1
+         Cd6iHuRi/KuOuynv6yP0VWESur8ZV3dvwllE6z2zhIYt/aSeCtMJuPN164XLRDI8b6BM
+         d5SQ/+2+BoTLeuGzzVQHp/bAXjFZew17nwl2HKvmj+qAP4JYIJMCTRsbPfvfAsDdb7TR
+         27ZFBTAPYEidLYla17g+5BZhqwkK/S3vvD6xLcK27hT8aZTfCt5XQR0nv9w+XkI9pSKG
+         Y5i1BrpYM6n32CH/u+1aGDVCKK8JrA9de3fuvX6WJqxiNw5PmiA4+5hNBqwnhxoFpFJL
+         Hv6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732894091; x=1733498891;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PQNxyIkKlJtJa+P3W8kUijsnUrm7Aa/IVAxDQd+A7yE=;
+        b=RLkIOyBY0cmcddTicCLSPoz1yExvULi3U8gAca7lk/Rj+HsHBEbNbHgfqlhF+qzgKM
+         DPZALdNZmhA+vabaxzhfnx7/k4hqz0tC60TXrZ2tZZ2nW0T/I8d2ukvlEeQ/CK+tFWZm
+         M/UwK5KZoGJy83zZmckiTxm3yBBPoHuGveJ5M2xZpokPkkfvomKzoGU2sppiQHh8K8oe
+         IrbdmMxKxQcYLofUsox7xtvBvcB56ayPFh+zBoWxuwR2n+NtE0XgVJM/nXJpvay0dvOb
+         tWttCX7h0HzoQeNCUu34+hGlrBaRawB5GyPm6Zaln0AJcmyjsflBawCTnjR2B8vCBM4C
+         LNXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUEVVKFHOlZauQNkV1rO4IrTe7MilMCd96j3/eFV1IPqQ+onjvEE1VXbJF/9cJwtFpz1ciJE9S55bUi2yAT@vger.kernel.org, AJvYcCVSoy00snkFQeZdB+WH7fSwJvFCilT/wmJ2vOzRsitgvZHyLM5L0nqKWS+f8VzpxX7f59ApjnE/KyUC7K0=@vger.kernel.org, AJvYcCW0z/lhmu+/f61b6gUZbHz53mOdbMy3Yn9kc81iNq9HR4q7j0BwUtb3SAU70MOrv6SLu9JQDfiNxTk=@vger.kernel.org, AJvYcCWeLna2Fj84NF5u91H3A5fnqa0tm+2d7L2dcKnaL9f/JRoFMTIkwMXb3fnQL9UisiJDfOSux30bzPOq@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy10cDxrnc2AB/WUn8Vo21MGZdG2hTAwhFEu/oR26ltitzKXOMT
+	FeV1WbrUnEn2stJfrS/phqiBNHmBOMyL/zXbuHOIDbx/JDVxpGYQgcqEEZwYx2etm6zgjGXA3/c
+	zcrl7024osSpVAClQyCUePcg3WsM=
+X-Gm-Gg: ASbGncs7BXbP8SXKmJgrOBHUwc70nymUYD7W1hDuQm6o/wvcHrWe1CP4eEC0DbjUzlT
+	O+wHSBG2Qip0a3AKB3sV0KyEjRIF0H6suMqa1eA7ARRXFQ/Q28s19LdyedfYz
+X-Google-Smtp-Source: AGHT+IH2YBfNL80tohIKR+JITY+GZX8TzZyIk331Llwt2bi5LALYNnFxr2vnE6mr77nn9/6l8l+raePY9EBwzqdK1FA=
+X-Received: by 2002:a05:690c:6105:b0:6e5:b6a7:1640 with SMTP id
+ 00721157ae682-6ef3728caacmr115383477b3.42.1732894090991; Fri, 29 Nov 2024
+ 07:28:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241103145153.105097-1-alexghiti@rivosinc.com>
- <20241103145153.105097-14-alexghiti@rivosinc.com> <20241128-whoever-wildfire-2a3110c5fd46@wendy>
- <20241128134135.GA3460@willie-the-truck> <20241128-uncivil-removed-4e105d1397c9@wendy>
- <90533aa9-186a-4f75-b3c5-d93d6682056b@ghiti.fr> <20241128-goggles-laundry-d94c23ab39a4@spud>
- <CAJF2gTST0kduYpuqd4mX0byetWMRJT-AAyH0GGiaysZG64Byhw@mail.gmail.com>
- <CAJF2gTRQg=w3sGN0Sdzf+_adRo44z4H6Zd6=C6qXq+ARR5BjSg@mail.gmail.com>
- <CAJF2gTSX82rGp-9xZHvg1Y3SpO516YCcqSBLKFgWEQ5G-iWR4A@mail.gmail.com> <CAHVXubgXiD5Bi6ytyDHXXOONovWHZTSvr4+oADCvuic5ObGXpQ@mail.gmail.com>
-In-Reply-To: <CAHVXubgXiD5Bi6ytyDHXXOONovWHZTSvr4+oADCvuic5ObGXpQ@mail.gmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Fri, 29 Nov 2024 20:50:04 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTR8qhnjv0VNCy+DeWck84MioeAZ3iEuNqSjM81KigNEwA@mail.gmail.com>
-Message-ID: <CAJF2gTR8qhnjv0VNCy+DeWck84MioeAZ3iEuNqSjM81KigNEwA@mail.gmail.com>
-Subject: Re: [PATCH v6 13/13] riscv: Add qspinlock support
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Conor Dooley <conor.dooley@microchip.com>, Will Deacon <will@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Andrea Parri <parri.andrea@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org
+References: <cover.1732872169.git.mchehab+huawei@kernel.org> <f3c81e0e9d27b3876331e02ac35dd0e359657028.1732872169.git.mchehab+huawei@kernel.org>
+In-Reply-To: <f3c81e0e9d27b3876331e02ac35dd0e359657028.1732872169.git.mchehab+huawei@kernel.org>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Fri, 29 Nov 2024 16:27:54 +0100
+Message-ID: <CAPybu_1nGwH_ywf-UbN7wVAwqEnuJhRn-vZ+1ebXrdTk9RU80g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] docs: media: document media multi-committers rules
+ and process
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, workflows@vger.kernel.org, 
+	Hans Verkuil <hverkuil@xs4ll.nl>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 29, 2024 at 6:32=E2=80=AFPM Alexandre Ghiti <alexghiti@rivosinc=
-.com> wrote:
+Minor nits here and there
+
+On Fri, Nov 29, 2024 at 12:15=E2=80=AFPM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 >
-> Hi everyone,
+> As the media subsystem will experiment with a multi-committers model,
+> update the Maintainer's entry profile to the new rules, and add a file
+> documenting the process to become a committer and to maintain such
+> rights.
 >
-> On Fri, Nov 29, 2024 at 7:28=E2=80=AFAM Guo Ren <guoren@kernel.org> wrote=
-:
-> >
-> > Hi Conor & Alexandre,
-> >
-> > On Fri, Nov 29, 2024 at 10:58=E2=80=AFAM Guo Ren <guoren@kernel.org> wr=
-ote:
-> > >
-> > > On Fri, Nov 29, 2024 at 8:55=E2=80=AFAM Guo Ren <guoren@kernel.org> w=
-rote:
-> > > >
-> > > > On Fri, Nov 29, 2024 at 12:19=E2=80=AFAM Conor Dooley <conor@kernel=
-.org> wrote:
-> > > > >
-> > > > > On Thu, Nov 28, 2024 at 03:50:09PM +0100, Alexandre Ghiti wrote:
-> > > > > > On 28/11/2024 15:14, Conor Dooley wrote:
-> > > > > > > On Thu, Nov 28, 2024 at 01:41:36PM +0000, Will Deacon wrote:
-> > > > > > > > On Thu, Nov 28, 2024 at 12:56:55PM +0000, Conor Dooley wrot=
-e:
-> > > > > > > > > On Sun, Nov 03, 2024 at 03:51:53PM +0100, Alexandre Ghiti=
- wrote:
-> > > > > > > > > > In order to produce a generic kernel, a user can select
-> > > > > > > > > > CONFIG_COMBO_SPINLOCKS which will fallback at runtime t=
-o the ticket
-> > > > > > > > > > spinlock implementation if Zabha or Ziccrse are not pre=
-sent.
-> > > > > > > > > >
-> > > > > > > > > > Note that we can't use alternatives here because the di=
-scovery of
-> > > > > > > > > > extensions is done too late and we need to start with t=
-he qspinlock
-> > > > > > > > > > implementation because the ticket spinlock implementati=
-on would pollute
-> > > > > > > > > > the spinlock value, so let's use static keys.
-> > > > > > > > > >
-> > > > > > > > > > This is largely based on Guo's work and Leonardo review=
-s at [1].
-> > > > > > > > > >
-> > > > > > > > > > Link: https://lore.kernel.org/linux-riscv/2023122512584=
-7.2778638-1-guoren@kernel.org/ [1]
-> > > > > > > > > > Signed-off-by: Guo Ren <guoren@kernel.org>
-> > > > > > > > > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > > > > > > > > This patch (now commit ab83647fadae2 ("riscv: Add qspinlo=
-ck support"))
-> > > > > > > > > breaks boot on polarfire soc. It dies before outputting a=
-nything to the
-> > > > > > > > > console. My .config has:
-> > > > > > > > >
-> > > > > > > > > # CONFIG_RISCV_TICKET_SPINLOCKS is not set
-> > > > > > > > > # CONFIG_RISCV_QUEUED_SPINLOCKS is not set
-> > > > > > > > > CONFIG_RISCV_COMBO_SPINLOCKS=3Dy
-> > > > > > > > I pointed out some of the fragility during review:
-> > > > > > > >
-> > > > > > > > https://lore.kernel.org/all/20241111164259.GA20042@willie-t=
-he-truck/
-> > > > > > > >
-> > > > > > > > so I'm kinda surprised it got merged tbh :/
-> > > > > > > Maybe it could be reverted rather than having a broken boot w=
-ith the
-> > > > > > > default settings in -rc1.
-> > > > > >
-> > > > > >
-> > > > > > No need to rush before we know what's happening,I guess you bis=
-ected to this
-> > > > > > commit right?
-> > > > >
-> > > > > The symptom is a failure to boot, without any console output, of =
-course
-> > > > > I bisected it before blaming something specific. But I don't thin=
-k it is
-> > > > > "rushing" as having -rc1 broken with an option's default is a mas=
-sive pain
-> > > > > in the arse when it comes to testing.
-> > > > >
-> > > > > > I don't have this soc, so can you provide $stval/$sepc/$scause,=
- a config, a
-> > > > > > kernel, anything?
-> > > > >
-> > > > > I don't have the former cos it died immediately on boot. config i=
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: Hans Verkuil <hverkuil@xs4ll.nl>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  Documentation/driver-api/media/index.rst      |   1 +
+>  .../media/maintainer-entry-profile.rst        |   8 +
+>  .../driver-api/media/media-committer.rst      | 278 ++++++++++++++++++
+>  .../process/maintainer-pgp-guide.rst          |   2 +
+>  4 files changed, 289 insertions(+)
+>  create mode 100644 Documentation/driver-api/media/media-committer.rst
+>
+> diff --git a/Documentation/driver-api/media/index.rst b/Documentation/dri=
+ver-api/media/index.rst
+> index d5593182a3f9..d0c725fcbc67 100644
+> --- a/Documentation/driver-api/media/index.rst
+> +++ b/Documentation/driver-api/media/index.rst
+> @@ -26,6 +26,7 @@ Documentation/userspace-api/media/index.rst
+>      :numbered:
+>
+>      maintainer-entry-profile
+> +    media-committer
+>
+>      v4l2-core
+>      dtv-core
+> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst =
+b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> index 47f15fad7f9f..650803c30c41 100644
+> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> @@ -62,6 +62,9 @@ as described at Documentation/process/index.rst and to =
+the Kernel
+>  development rules inside the Kernel documentation, including its code of
+>  conduct.
+>
+> +More details about media commiters' roles and responsibilities can be
+> +found here: Documentation/driver-api/media/media-committer.rst.
+> +
+>  Media development tree
+>  ----------------------
+>
+> @@ -195,6 +198,11 @@ shall be validated by using PGP sign, via the
+>
+>  With the pull request workflow, pull requests shall use a GPG-signed tag=
+.
+>
+> +With the committers' workflow, this is ensured at the time merge request
+> +rights will be granted to the gitlab instance used by media-committers.g=
+it
+> +tree, after receiving the e-mail documented at
+> +:ref:`media-committer-agreement`.
+I am not sure I understand this sentence correctly. I guess you mean:
+
+With the committers workflow, this is ensured during merge request via
+gitlab credentials.
+Committers will be granted access to the gitlab instance used by
+media-committers.git
+tree, after receiving the e-mail documented at :ref:`media-committer-agreem=
+ent`.
+
+
+> +
+>  For more details about PGP sign, please read
+>  Documentation/process/maintainer-pgp-guide.rst.
+>
+> diff --git a/Documentation/driver-api/media/media-committer.rst b/Documen=
+tation/driver-api/media/media-committer.rst
+> new file mode 100644
+> index 000000000000..1756a7af6353
+> --- /dev/null
+> +++ b/Documentation/driver-api/media/media-committer.rst
+> @@ -0,0 +1,278 @@
+> +Media committers
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +What is a media committer?
+> +--------------------------
+> +
+> +A media committer is a developer who can push patches from other develop=
+ers
+> +and their own patches to the
+> +`media-committers <https://gitlab.freedesktop.org/linux-media/media-comm=
+itters>`_
+> +tree.
+> +
+> +It is a media committer's duty to ensure that their entries in the MAINT=
+AINERS
+> +file are kept up-to-date, and that submitted patches for files for which
+> +they are listed as maintainers are timely reviewed on the mailing list,
+> +ideally not waiting in patchwork as ``New`` for more than one Kernel mer=
+ge
+> +cycle, and, if accepted, applying them at the media committer's tree.
+> +
+> +These commit rights are granted with some expectation of responsibility:
+> +committers are people who care about the Linux Kernel as a whole and
+> +about the Linux media subsystem and want to help its development. It
+> +is also based on a trust relationship between the rest of the committers=
+,
+> +maintainers and the Linux Media community.
+> +
+> +The Linux Media community, also called LinuxTV community, has its primar=
+y
+> +site at https://linuxtv.org.
+> +
+> +As such, a media committer is not just someone who is capable of creatin=
+g
+> +code, but someone who has demonstrated their ability to collaborate
+> +with the team, get the most knowledgeable people to review code,
+> +contribute high-quality code, and follow through to fix issues (in code
+> +or tests).
+> +
+> +.. Note::
+> +
+> +   1. If a patch introduces a regression, then it is the media committer=
+'s
+> +      responsibility to correct that as soon as possible. Typically the
+> +      patch is either reverted, or an additional patch is committed that
+> +      fixes the regression;
+> +   2. if patches are fixing bugs against already released Kernels, inclu=
+ding
+> +      the reverts above mentioned, the media committer shall add the nee=
+ded
+> +      tags. Please see :ref:`Media development workflow` for more detail=
+s.
+> +
+> +Becoming a media committer
+> +--------------------------
+> +
+> +The most important aspect of volunteering to be a committer is that you =
+have
+> +demonstrated the ability to give good code reviews. So we are looking fo=
+r
+> +whether or not we think you will be good at doing that.
+> +
+> +As such, potential committers must earn enough credibility and trust fro=
+m the
+> +LinuxTV community. To do that, developers shall be familiar with the ope=
+n
+> +source model and have been active in the Linux Kernel community for some=
+ time,
+> +and, in particular, in the media subsystem.
+> +
+> +So, in addition to actually making the code changes, you are basically
+> +demonstrating your:
+> +
+> +- commitment to the project;
+> +- ability to collaborate with the team and communicate well;
+> +- understand of how upstream and the LinuxTV community work
+> +  (policies, processes for testing, code review, ...)
+> +- reasonable knowledge about:
+> +
+> +  - the Kernel development process:
+> +    Documentation/process/index.rst
+> +
+> +  - the Media development profile:
+> +    Documentation/driver-api/media/maintainer-entry-profile.rst
+> +
+> +- understanding of the projects' code base and coding style;
+> +- ability to provide feedback to the patch authors;
+> +- ability to judge when a patch might be ready for review and to submit;
+> +- ability to write good code (last but certainly not least).
+> +
+> +Developers that intend to become committers are encouraged to participat=
+e
+> +at the yearly Linux Media Summit, typically co-located with another Linu=
+x
+> +conference.
+> +
+> +If you are doing such tasks and have become a valued developer, an
+> +existing committer can nominate you to the media subsystem maintainers.
+> +
+> +The ultimate responsibility for accepting a nominated committer is up to
+> +the subsystem's maintainers. The committers must earn a trust relationsh=
+ip
+> +with all subsystem maintainers, as, by granting you commit rights, they =
+will
+> +be delegating part of their maintenance tasks.
+> +
+> +Due to that, to become a committer or a core committer, a consensus betw=
+een
+> +all subsystem maintainers is required, as they all need to trust a devel=
+oper
+> +well enough to be delegated the responsibility to maintain part of the c=
+ode
+> +and to properly review patches from third parties, in a timely manner an=
+d
+> +keeping the status of the reviewed code at https://patchwork.linuxtv.org
+> +updated.
+> +
+> +.. Note::
+> +
+> +   In order to preserve/protect the developers that could have their com=
+mit
+> +   rights granted, denied or removed as well as the subsystem maintainer=
+s who
+> +   have the task to accept or deny commit rights, all communication rela=
+ted to
+> +   nominating a committer, preserving commit rights or leaving such func=
+tion
+> +   should happen in private as much as possible.
+> +
+> +.. _media-committer-agreement:
+> +
+> +Media committer's agreement
+> +---------------------------
+> +
+> +Once a nominated committer is accepted by all subsystem maintainers,
+> +they will ask if the developer is interested in the nomination and discu=
+ss
+> +what area(s) of the media subsystem the committer will be responsible fo=
+r.
+> +
+> +Once the developer accepts being a committer, the new committer shall
+> +explicitly accept the Kernel development policies described under its
+> +Documentation/, and, in particular to the rules on this document, by wri=
+ting
+> +an e-mail to media-committers@linuxtv.org, with a declaration of intent
+> +following the model below::
+> +
+> +   I, John Doe, would like to change my status to: Committer
+> +
+> +   I intend to actively develop the XYZ driver, send fixes to drivers
+> +   that I can test, optionally reviewing patches and merging trivial
+> +   fixes in other areas of the subsystem, ...
+> +
+> +   For the purpose of committing patches to the media-committer's tree,
+> +   I'll be using my user https://gitlab.freedesktop.org/users/<username>=
+.
+> +
+> +Followed by a formal declaration of agreement with the Kernel developmen=
+t
+> +rules::
+> +
+> +   I hereby declare that I agree with the Kernel development rules descr=
+ibed at:
+> +
+> +   https://www.kernel.org/doc/html/latest/driver-api/media/media-committ=
+er.rst
+> +
+> +   and to the Linux Kernel development process rules.
+> +
+> +   I agree to the Code of Conduct as documented in:
+> +   https://www.kernel.org/doc/html/latest/process/code-of-conduct.rst
+> +
+> +   I am aware that I can, at any point of time, retire. In that case, I =
+will
+> +   send an e-mail to notify the subsystem maintainers for them to revoke=
+ my
+> +   commit rights.
+> +
+> +   I am aware that the Kernel development rules change over time.
+> +   By doing a new push to media-commiter tree, I understand that I agree
+> +   with the rules in effect at the time of the commit.
+> +
+> +Such e-mail shall be signed with a PGP key cross signed by other Kernel =
+and
+> +media developers. As described at :ref:`media-developers-gpg`_, the PGP
+> +signature, together with the gitlab user security are fundamental compon=
+ents
+security,
+> +that ensure the authentity of the merge requests that will happen at the
+authenticity
+> +media-committer.git tree.
+> +
+> +In case the kernel development process changes, by merging new commits
+> +in the
+> +`media-committer tree <https://gitlab.freedesktop.org/linux-media/media-=
+committers>`_,
+> +the media committer implicitly declares their agreement with the latest
+> +version of the documented process including the contents of this file.
+> +
+> +.. note::
+> +
+> +   1. Changes to the kernel media development process should be announce=
+d in
+> +      the media-committers mailinglist with a reasonable review period. =
+All
+> +      committers are automatically subscribed to that mailinglist;
+> +   2. Due to the distributed nature of the Kernel development, it is
+> +      possible that kernel development process changes may end being
+> +      reviewed/merged at the linux-docs mailing list, specially for the
+> +      contents under Documentation/process and for trivial typo fixes.
+> +
+> +Core committers
+> +---------------
+> +
+> +As described in Documentation/driver-api/media/maintainer-entry-profile.=
+rst
+> +a committer may be granted with additional rights to also be able to
+> +change a core file and/or media subsystem's Kernel API. The extent of
+> +the core committer's grants will be detailed by the subsystem maintainer=
 s
-> > > > > attached. It reproduces in QEMU so you don't need any hardware.
-> > > > If QEMU could reproduce, could you provide a dmesg by the below met=
-hod?
-> > > >
-> > > > Qemu cmd append: -s -S
-> > > > ref: https://qemu-project.gitlab.io/qemu/system/gdb.html
-> > > >
-> > > > Connect gdb and in console:
-> > > > 1. file vmlinux
-> > > > 2. source ./Documentation/admin-guide/kdump/gdbmacros.txt
-> > > > 3. dmesg
-> > > >
-> > > > Then, we could get the kernel's early boot logs from memory.
-> > > I've reproduced it on qemu, thx for the config.
-> > >
-> > > Reading symbols from ../build-rv64lp64/vmlinux...
-> > > (gdb) tar rem:1234
-> > > Remote debugging using :1234
-> > > ticket_spin_lock (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > /home/guoren/source/kernel/linux/include/asm-generic/ticket_spinlock.=
-h:49
-> > > 49              atomic_cond_read_acquire(&lock->val, ticket =3D=3D (u=
-16)VAL);
-> > > (gdb) bt
-> > > #0  ticket_spin_lock (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > /home/guoren/source/kernel/linux/include/asm-generic/ticket_spinlock.=
-h:49
-> > > #1  arch_spin_lock (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > /home/guoren/source/kernel/linux/arch/riscv/include/asm/spinlock.h:28
-> > > #2  do_raw_spin_lock (lock=3Dlock@entry=3D0xffffffff81b9a5b8 <text_mu=
-tex>)
-> > > at /home/guoren/source/kernel/linux/kernel/locking/spinlock_debug.c:1=
-16
-> > > #3  0xffffffff80b2ea0e in __raw_spin_lock_irqsave
-> > > (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > /home/guoren/source/kernel/linux/include/linux/spinlock_api_smp.h:111
-> > > #4  _raw_spin_lock_irqsave (lock=3Dlock@entry=3D0xffffffff81b9a5b8
-> > > <text_mutex>) at
-> > > /home/guoren/source/kernel/linux/kernel/locking/spinlock.c:162
-> > > #5  0xffffffff80b27c54 in rt_mutex_slowtrylock
-> > > (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex.c:1393
-> > > #6  0xffffffff80b295ea in rt_mutex_try_acquire
-> > > (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex.c:319
-> > > #7  __rt_mutex_lock (state=3D2, lock=3D0xffffffff81b9a5b8 <text_mutex=
->) at
-> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex.c:1805
-> > > #8  __mutex_lock_common (ip=3D18446744071562135170, nest_lock=3D0x0,
-> > > subclass=3D0, state=3D2, lock=3D0xffffffff81b9a5b8 <text_mutex>) at
-> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex_api.c:518
-> > > #9  mutex_lock_nested (lock=3D0xffffffff81b9a5b8 <text_mutex>,
-> > > subclass=3Dsubclass@entry=3D0) at
-> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex_api.c:529
-> > > #10 0xffffffff80010682 in arch_jump_label_transform_queue
-> > > (entry=3Dentry@entry=3D0xffffffff8158da28, type=3D<optimized out>) at
-> > > /home/guoren/source/kernel/linux/arch/riscv/kernel/jump_label.c:39
-> > > #11 0xffffffff801d86b2 in __jump_label_update
-> > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>,
-> > > entry=3D0xffffffff8158da28, stop=3Dstop@entry=3D0xffffffff815a5e68
-> > > <__tracepoint_ptr_initcall_finish>, init=3Dinit@entry=3Dtrue)
-> > >     at /home/guoren/source/kernel/linux/kernel/jump_label.c:513
-> > > #12 0xffffffff801d890c in jump_label_update
-> > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>) at
-> > > /home/guoren/source/kernel/linux/kernel/jump_label.c:920
-> > > #13 0xffffffff801d8be8 in static_key_disable_cpuslocked
-> > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>) at
-> > > /home/guoren/source/kernel/linux/kernel/jump_label.c:240
-> > > #14 0xffffffff801d8c04 in static_key_disable
-> > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>) at
-> > > /home/guoren/source/kernel/linux/kernel/jump_label.c:248
-> > > #15 0xffffffff80c04a1a in riscv_spinlock_init () at
-> > > /home/guoren/source/kernel/linux/arch/riscv/kernel/setup.c:271
-> > > #16 setup_arch (cmdline_p=3Dcmdline_p@entry=3D0xffffffff81a03e88) at
-> > > /home/guoren/source/kernel/linux/arch/riscv/kernel/setup.c:336
-> > > #17 0xffffffff80c007a2 in start_kernel () at
-> > > /home/guoren/source/kernel/linux/init/main.c:922
-> > > #18 0xffffffff80001164 in _start_kernel ()
-> > > Backtrace stopped: frame did not save the PC
-> > > (gdb) p /x lock
-> > > $1 =3D 0xffffffff81b9a5b8
-> > > (gdb) p /x *lock
-> > > $2 =3D {{val =3D {counter =3D 0x20000}, {locked =3D 0x0, pending =3D =
-0x0},
-> > > {locked_pending =3D 0x0, tail =3D 0x2}}}
-> >
-> > I have for you here a fast fixup for reference. (PS: I'm digging into
-> > the root cause mentioned by Will Deacon.)
-> >
-> > diff --git a/arch/riscv/include/asm/text-patching.h
-> > b/arch/riscv/include/asm/text-patching.h
-> > index 7228e266b9a1..0439609f1cff 100644
-> > --- a/arch/riscv/include/asm/text-patching.h
-> > +++ b/arch/riscv/include/asm/text-patching.h
-> > @@ -12,5 +12,6 @@ int patch_text_set_nosync(void *addr, u8 c, size_t le=
-n);
-> >  int patch_text(void *addr, u32 *insns, size_t len);
-> >
-> >  extern int riscv_patch_in_stop_machine;
-> > +extern int riscv_patch_in_spinlock_init;
-> >
-> >  #endif /* _ASM_RISCV_PATCH_H */
-> > diff --git a/arch/riscv/kernel/jump_label.c b/arch/riscv/kernel/jump_la=
-bel.c
-> > index 6eee6f736f68..d9a5a5c1933d 100644
-> > --- a/arch/riscv/kernel/jump_label.c
-> > +++ b/arch/riscv/kernel/jump_label.c
-> > @@ -36,9 +36,11 @@ bool arch_jump_label_transform_queue(struct
-> > jump_entry *entry,
-> >                 insn =3D RISCV_INSN_NOP;
-> >         }
-> >
-> > -       mutex_lock(&text_mutex);
-> > +       if (!riscv_patch_in_spinlock_init)
-> > +               mutex_lock(&text_mutex);
-> >         patch_insn_write(addr, &insn, sizeof(insn));
-> > -       mutex_unlock(&text_mutex);
-> > +       if (!riscv_patch_in_spinlock_init)
-> > +               mutex_unlock(&text_mutex);
-> >
-> >         return true;
-> >  }
-> > diff --git a/arch/riscv/kernel/patch.c b/arch/riscv/kernel/patch.c
-> > index db13c9ddf9e3..ab009cf855c2 100644
-> > --- a/arch/riscv/kernel/patch.c
-> > +++ b/arch/riscv/kernel/patch.c
-> > @@ -24,6 +24,7 @@ struct patch_insn {
-> >  };
-> >
-> >  int riscv_patch_in_stop_machine =3D false;
-> > +int riscv_patch_in_spinlock_init =3D false;
-> >
-> >  #ifdef CONFIG_MMU
-> >
-> > @@ -131,7 +132,7 @@ static int __patch_insn_write(void *addr, const
-> > void *insn, size_t len)
-> >          * safe but triggers a lockdep failure, so just elide it for th=
-at
-> >          * specific case.
-> >          */
-> > -       if (!riscv_patch_in_stop_machine)
-> > +       if (!riscv_patch_in_stop_machine && !riscv_patch_in_spinlock_in=
-it)
-> >                 lockdep_assert_held(&text_mutex);
-> >
-> >         preempt_disable();
-> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > index 016b48fcd6f2..87ddf1702be4 100644
-> > --- a/arch/riscv/kernel/setup.c
-> > +++ b/arch/riscv/kernel/setup.c
-> > @@ -268,7 +268,9 @@ static void __init riscv_spinlock_init(void)
-> >         }
-> >  #if defined(CONFIG_RISCV_COMBO_SPINLOCKS)
-> >         else {
-> > +               riscv_patch_in_spinlock_init =3D 1;
-> >                 static_branch_disable(&qspinlock_key);
-> > +               riscv_patch_in_spinlock_init =3D 0;
-> >                 pr_info("Ticket spinlock: enabled\n");
-> >                 return;
-> >         }
-> >
-> >
-> >
-> > --
-> > Best Regards
-> >  Guo Ren
+> +when they nominate a core committer.
+> +
+> +Existing committers may become core committers and vice versa. Such
+> +decisions will be taken in consensus between the subsystem maintainers.
+> +
+> +Media committers rules
+> +----------------------
+> +
+> +Media committers shall do their best efforts to avoid merged patches tha=
+t
+> +would break any existing drivers. If it breaks, fixup or revert patches
+> +shall be merged as soon as possible, aiming to be merged at the same Ker=
+nel
+> +cycle the bug is reported.
+> +
+> +Media committers shall behave accordingly to the rights granted by
+> +the subsystem maintainers, specially with regards of the scope of change=
+s
+> +they may apply directly at the media-committers tree. Such scope can
+> +change over time on a mutual agreement between media committers and
+> +maintainers.
+> +
+> +As described at :ref:`Media development workflow`, there are workflows.
+> +For the committers' workflow, the following rules apply:
+> +
+> +- Each merged patch shall pass CI tests;
+> +
+> +- Media committers shall request reviews from other committers and
+> +  developers where applicable, i.e. because those developers have more
+> +  knowledge about some areas that are changed by a patch;
+> +
+> +- There shall be no open issues or unresolved or conflicting feedback
+> +  from anyone. Clear them up first. Defer to subsystem maintainers as ne=
+eded.
+> +
+> +Patches that do not fall under the committer's workflow criteria will fo=
+llow
+> +the pull request workflow as described at :ref:`Media development workfl=
+ow`.
+> +
+> +Only a subsystem maintainer can override such rules.
+> +
+> +All media committers shall ensure that patchwork will reflect the curren=
+t
+> +status, e.g. patches shall be delegated to the media committer who is
+> +handling them and the patch status shall be updated according to these r=
+ules:
+> +
+> +- ``Under review``: Used if the patch requires a second opinion
+> +  or when it is part of a pull request;
+> +- ``Accepted``: Once a patch is merged in the multi-committer tree.
+> +- ``Superseded``: There is a newer version of the patch posted to the
+> +  mailing list.
+> +- ``Duplicated``: There was another patch doing the same thing from some=
+one
+> +  else that was accepted.
+> +- ``Not Applicable``: Use for patch series that are not merged at media.=
+git
+> +  tree (e.g. drm, dmabuf, upstream merge, etc.) but were cross-posted to=
+ the
+> +  linux-media mailing list.
+> +
+> +If the committer decides not to merge it, then reply by email to patch
+> +authors, explaining why it is not merged, and patchwork shall be updated
+> +accordingly with either:
+> +
+> +- ``Changes Requested``: if a new revision was requested;
+> +- ``Rejected``: if the proposed change won't be merged upstream.
+> +
+> +If a media committer decides to retire, it is the committer's duty to
+> +notify the subsystem maintainers about that decision.
+> +
+> +.. Note::
+> +
+> +   Patchwork supports a couple of clients to help semi-automating
+> +   status updates via its REST interface:
+> +
+> +   https://patchwork.readthedocs.io/en/latest/usage/clients/
+> +
+> +Maintaining media committer status
+> +----------------------------------
+> +
+> +A community of committers working together to move the Linux Kernel
+> +forward is essential to creating successful projects that are rewarding
+> +to work on. If there are problems or disagreements within the community,
+> +they can usually be solved through healthy discussion and debate.
+> +
+> +In the unhappy event that a media committer continues to disregard good
+> +citizenship (or actively disrupts the project), we may need to revoke
+> +that person's status. In such cases, if someone suggests the revocation
+> +with a good reason, then after discussing this among the media committer=
+s,
+> +the final decision is taken by the subsystem maintainers. As the decisio=
+n
+> +to become a media committer comes from a consensus between subsystem
+> +maintainers, a single subsystem maintainer not trusting the media commit=
+ter
+> +anymore is enough to revoke committer's grants.
+> +
+> +If a committer is inactive for more than a couple of Kernel cycles,
+> +maintainers will try to reach you via e-mail. If not possible, they may
+> +revoke your committer grants and update MAINTAINERS file entries
+> +accordingly. If you wish to resume contributing later on, then contact
+> +the subsystem maintainers to ask if your rights can be restored.
+> +
+> +A previous committer that had their commit rights revoked can keep
+> +contributing to the subsystem via the pull request workflow as documente=
+d
+> +at the :ref:`Media development workflow`.
+> +
+> +References
+> +----------
+> +
+> +Much of this was inspired by/copied from the committer policies of:
+> +
+> +- `Chromium <https://chromium.googlesource.com/chromium/src/+/main/docs/=
+contributing.md>`_;
+> +- `WebKit <https://webkit.org/commit-and-review-policy/>`_;
+> +- `Mozilla <https://www.mozilla.org/hacking/committer/>`_.
+> +
+> diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentati=
+on/process/maintainer-pgp-guide.rst
+> index f5277993b195..795ef8d89271 100644
+> --- a/Documentation/process/maintainer-pgp-guide.rst
+> +++ b/Documentation/process/maintainer-pgp-guide.rst
+> @@ -903,6 +903,8 @@ the new default in GnuPG v2). To set it, add (or modi=
+fy) the
 >
-> Thanks Guo for looking into this.
+>      trust-model tofu+pgp
 >
-> Your solution is not very pretty but I don't have anything better :/
-> Unless introducing a static_branch_XXX_nolock() API? I gave it a try
-> and it fixes the issue, but not sure this will be accepted.
+> +.. _kernel_org_trust_repository:
+> +
+>  Using the kernel.org web of trust repository
+>  --------------------------------------------
 >
-> The thing is the usage of static branches is temporary, we'll use
-> alternatives when I finish working on getting the extensions very
-> early from the ACPI tables (I have a poc that works, just needs some
-> cleaning).
+> --
+> 2.47.0
 >
-> So let's say that I make this early extension parsing my priority for
-> 6.14, can we live with Guo's hack in this release? Or should we revert
-> this commit?
-I almost get the root cause. Please give me a while.
-
 >
-> Thanks,
->
-> Alex
 
 
-
-
---
-Best Regards
- Guo Ren
+--=20
+Ricardo Ribalda
