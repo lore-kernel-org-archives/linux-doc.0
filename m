@@ -1,46 +1,71 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBB21C6A3;
-	Sat, 30 Nov 2024 08:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E218145B10;
+	Sat, 30 Nov 2024 13:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732954278; cv=none; b=rsTvu5GZcAG7frhmfI4kL9rJhQTbZYaaHpeQek4W/yRK1MJ4+92LAfLUJ8gy/swaw0XlD/LXhKRQ7TpQ7HP8GHxWPGl2V4ldw3LBx8BwURLm17m9w2GKYKSlRXVLNfAZ9jFw3b4fdbsKKksbFVZbjVC1MprVyRIktMPe+yhJ9nw=
+	t=1732973927; cv=none; b=bc6daKLBCmMSnn+tLGr3begRw6rRSix1aR80r3EfHwKbBGH45Im/C/6ltz7Z0iUQS5ji9CNhxbhuwJ+Eb4ybJ8T16yoJOo4ZD9L27HCOPB7HLDEvkjmrYJjvhv0PYwo1FFHHZ7SA9dhajt/ypVM8Wp5w3o3AMaZJAx4VCGYoUkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732954278; c=relaxed/simple;
-	bh=EtUbSjB4gtYtVLUlsE3YgcWWNyk4Mo2DOpSuiOaiWDo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kNIJFnMWAx6WSwPlGe6ZI6OlD1MzLrf81NYo+rztL1hIBV/3v0RQFyY/pNFP5+mH54zMtc7CMvTqfIZuXshM+JUCj6+gSQAWTIDI/TkHd2QzVpQTREuPvfQ6jMaeL9no5kJ7f8kVSjPYe7rnJIlIPqmqMUVOPZohT02+5VUxlPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R3oRwHav; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1732973927; c=relaxed/simple;
+	bh=0MrmF4gw/0awDZqXHE+Emfo+/VFHgrjx3hIifpJOJOQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WIKXtM9jkIoNEzG1NJuh9dYN/NtyFk4NkPPWtD3R34Q8/9Ig6iahrDCAHxrmCaUhKoxXydWWA45f2luc2IcAkdSn6UD36NuaG7MSqhiQYHMUN1AtyEht4B0ILx6qCEChDCayacONRAujEUh4Gzm6zMz01Q5Q0h9T029k4jsPZCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nqazGOQE; arc=none smtp.client-ip=209.85.210.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R3oRwHav"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=X2vAk2Jq9L5dNEBtMuEUntil+Ke6M3OyswhQsebpvUE=; b=R3oRwHavtQnGWQOOjXuLJXkKHd
-	WfmUf8yXMLRbGXKe/+veBABRIgGniAqspkruHm9uJD1f45/5NwbRE5FT59GAwVcOj8ji4uI2HTw8I
-	ZmmYx5lT7xHtIV7oA23Rogx7jqzj1lVtF4NIOn1SSaELwtv03mVFEb2oYdCS7BeBSFfR4Gu7EvVEz
-	xBvWk9+nxbrbDKciq3kPPMLi0FQI8sLSQ/fCJGj7hVQ7LcJmZ+npp8zKA9msoNSicA2/xt/1La5CX
-	0LGyBGR+rQN0bfI7NUQE26Q6XFxft42wFhzztLFxi0Sc+G0xHb1PjmegS0J2j7oNqTxPZC+RSw4w9
-	L262T6UQ==;
-Received: from [50.53.2.24] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tHIZK-00000001bnv-2tkA;
-	Sat, 30 Nov 2024 08:11:10 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nqazGOQE"
+Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-7251ce598adso1827884b3a.0;
+        Sat, 30 Nov 2024 05:38:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732973926; x=1733578726; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uIuvmjg2DchrQhWGRqPS3D1V7tXpFMSCktn0tzsLkY0=;
+        b=nqazGOQEy+g22giEv3B5uTto9TZO98OEhFnjAJImMu57+0lY9ECLqa6LsIrwz6/uJg
+         n9jU98tD4ufO6WPZU9fV6gcRuBNcfF5Evp1thOYlQ+Zw/BndCmhs1paf4j13mqbv38ZY
+         AKVdVkyYBwtfHyoD/srW6MS+e0aR1sOKlSASwoQIWWdyeSW0csADUSpZjKsaFn9e3reS
+         zCHeKzXDARhX3OQhwB7hWBPZUCIMFCJrA3CjffTz8mxngMAI1gO1s7IaPeQYPCgv3Vi7
+         E6wKZYsuLiRdj8XDh2OcTGGOBsrRv7rcrcuUItDVSMvf8LPoKQi4XZWnlYNlMTV0ojb1
+         kI9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732973926; x=1733578726;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uIuvmjg2DchrQhWGRqPS3D1V7tXpFMSCktn0tzsLkY0=;
+        b=MNNpJZbgiU+fgq1HAQmwSkEBcck7qmM1ja7CD7rGswDRnCzj84xO96MCPT7ZInB7W4
+         SPGfEMaqKnb8Kk3ydIA4ovma8bJfyuI4+GmQfGsUyMm2KKNHS/pN1iC57SREpiddbh6Z
+         Z5El68Ko7SNJqs1fjbPQBaei7p6ZolL2ZNjRIiWln4MiRH3fAOu6wbTvgTat1kO4pgIL
+         FKbzKYgxKn+pAtIWsaApI53hsJVLBIDMzya0Yq4KBKgl3fO9IhzqNgipD63C+8FPhcqc
+         IXYkM35bu9I/5/2D1rRdAmlvsCLOCvtYwFFfz4FsbsNboD2hkwMuM9lIndOzz3n97qqS
+         8gsA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6agxQJoSivTKBAYHnCm/tL1n8b49eIO49mEhz9AuhJ/20BNxJu43mgZs/LjC136/y0jGoxZeQjXE=@vger.kernel.org, AJvYcCUCi3ng/QbEnJmpfHFR+g+JUZHxmMGkbaU8quT8lOi7iIFsf5qTLeZhNeZ0g8jfitfwRYB/CuVz9L8oIVE=@vger.kernel.org, AJvYcCWIVXPTW/vPVRzblnsc1eqcn0S+0JlxImezubZi1gK9FxQPmE/Xfnl6LT5oCLwyvVpJhSCmYBcgsPBGuaU2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/61XZFOH39yzusHWvjbrDSyBGV6vQyg42jkWo4stonGABzMWO
+	0Ps2p87a0OF7Jo0wgeOD4f0DksrvK7oPjQOC0vfoJVilm3kPwxrufs+rEZTx
+X-Gm-Gg: ASbGncuzgOzaNk3XbUKrJKUWzjqlQ1zClR/WWWOoNopusB4AdTXEQ2nPIGo3FY/81pn
+	JGk9zhe02gsmH4OJtzpDpISUAo81EqmyU11TuG4TEawI+fgVhTV8lEnqIak5kvW5cYcX0tn04pA
+	+yJRIDkDteFBUtqJTMnleaEY/W/xa+Axe2x8EXUW0Ol+ozhCPu7lZSAp/m13bV2X6P1+0VkzJNI
+	khvN+oZC+bFLDt/cd43RG5PQk/XAmE2ktk0FX3Ys3qROnxiOqYrAYM9izbqhiq8
+X-Google-Smtp-Source: AGHT+IFAX0Ra5YDnqqmM97d9Pdhb7Vfmb+vJyc2BZqtGJDr3mwkLXFdU2F9VeJjVJarSIWKXfuXbTw==
+X-Received: by 2002:a17:902:ea0e:b0:20b:4f95:932d with SMTP id d9443c01a7336-2150108ca34mr208283235ad.3.1732973925856;
+        Sat, 30 Nov 2024 05:38:45 -0800 (PST)
+Received: from localhost.localdomain ([38.47.127.59])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2156b1601basm5954215ad.196.2024.11.30.05.38.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Nov 2024 05:38:45 -0800 (PST)
+From: Li XingYang <yanhuoguifan@gmail.com>
+To: eugene.shalygin@gmail.com
+Cc: jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net,
+	linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	workflows@vger.kernel.org
-Subject: [PATCH] docs: debugging: add more info about devcoredump
-Date: Sat, 30 Nov 2024 00:11:06 -0800
-Message-ID: <20241130081107.552503-1-rdunlap@infradead.org>
+	linux-kernel@vger.kernel.org,
+	Li XingYang <yanhuoguifan@gmail.com>
+Subject: [PATCH 0/1] hwmon: (asus-ec-sensors) add TUF GAMING X670E PLUS
+Date: Sat, 30 Nov 2024 21:38:33 +0800
+Message-ID: <20241130133837.24454-1-yanhuoguifan@gmail.com>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -51,54 +76,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Correct a few small things in the devcoredump synopsis and then add
-the devcoredump APIs to it.
 
-Fixes: a037699da0a1 ("docs: Add debugging section to process")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Johannes Berg <johannes@sipsolutions.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: workflows@vger.kernel.org
----
- Documentation/process/debugging/driver_development_debugging_guide.rst |   20 ++++++++--
- 1 file changed, 16 insertions(+), 4 deletions(-)
+this is my mainboard:
+dmidecode | grep -A3 "Base Board"
+Base Board Information
+        Manufacturer: ASUSTeK COMPUTER INC.
+        Product Name: TUF GAMING X670E-PLUS
+        Version: Rev 1.xx
 
---- linux-next-20241125.orig/Documentation/process/debugging/driver_development_debugging_guide.rst
-+++ linux-next-20241125/Documentation/process/debugging/driver_development_debugging_guide.rst
-@@ -207,17 +207,29 @@ resources, that can cause performance di
- device coredump
- ---------------
- 
--Prerequisite: ``#include <linux/devcoredump.h>``
-+Prerequisite: ``CONFIG_DEV_COREDUMP`` & ``#include <linux/devcoredump.h>``
- 
- Provides the infrastructure for a driver to provide arbitrary data to userland.
- It is most often used in conjunction with udev or similar userland application
- to listen for kernel uevents, which indicate that the dump is ready. Udev has
- rules to copy that file somewhere for long-term storage and analysis, as by
--default, the data for the dump is automatically cleaned up after 5 minutes.
--That data is analyzed with driver-specific tools or GDB.
-+default, the data for the dump is automatically cleaned up after a default
-+5 minutes. That data is analyzed with driver-specific tools or GDB.
-+
-+A device coredump can be created with a vmalloc area, with read/free
-+methods, or as a scatter/gather list.
- 
- You can find an example implementation at:
- `drivers/media/platform/qcom/venus/core.c
--<https://elixir.bootlin.com/linux/v6.11.6/source/drivers/media/platform/qcom/venus/core.c#L30>`__
-+<https://elixir.bootlin.com/linux/v6.11.6/source/drivers/media/platform/qcom/venus/core.c#L30>`__,
-+in the Bluetooth HCI layer, in several wireless drivers, and in several
-+DRM drivers.
-+
-+devcoredump interfaces
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/linux/devcoredump.h
-+
-+.. kernel-doc:: drivers/base/devcoredump.c
- 
- **Copyright** ©2024 : Collabora
+i use the version of BIOS:
+TUF-GAMING-X670E-PLUS-ASUS-3042
+
+asus-ec-sensors show when use this patch:
+sensors 'asusec-*'
+asusec-isa-0000
+Adapter: ISA adapter
+CPU_Opt:      914 RPM
+CPU:          +39.0°C
+CPU Package:  +48.0°C
+Motherboard:  +31.0°C
+VRM:          +46.0°C
+Water_In:     +35.0°C
+Water_Out:    +33.0°C
+
+
+Li XingYang (1):
+  hwmon: (asus-ec-sensors) add TUF GAMING X670E PLUS
+
+ Documentation/hwmon/asus_ec_sensors.rst |  1 +
+ drivers/hwmon/asus-ec-sensors.c         | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
+
+-- 
+2.47.1
+
