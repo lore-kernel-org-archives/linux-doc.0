@@ -1,195 +1,379 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3B454279;
-	Fri, 29 Nov 2024 22:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F7528EA;
+	Sat, 30 Nov 2024 00:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732918794; cv=none; b=ElKjYT6ihijsR7xeFMNgBKlX6N+4LnxQ7V463x0N21dtiag40lu2YUTnMC0cZd0kp82lgjocDhfqlv/lpAUt7Cyt2PJ63H/FKeCCv5dEjE8xClywL1AQcpyE24NIfB4064JaYiaW8vWVPYW9M+KXRHRx5+JOXdjy94Zk/iCWLYc=
+	t=1732927215; cv=none; b=MjC6Jsa89ulCev3ys2PRphGr2SiNiG9ilYt/zcwZdX4LFtmPJ2dGZfq8MCMXP/8B5wTRPuYn6JQmZP0hTly0SKdCUwuzfn0ZAplfXBiU6k5qYl0tX92ctCRhvXuU2y9V221nq7FDYRrNJGqy5DEWkwLY3FaUYbJwDz1ZgNhpvw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732918794; c=relaxed/simple;
-	bh=OJvU5bLoYGZXh8qACQ/T6IEV8oDjNatqYL+CeW3HsJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i6J+y4trG6gaP981SbMfKlABk0A+efDzgh2pSzsX4f2H5OVWBI+A+eLx/O0G9lnsKR0kdOK4WeFSIDRs5Iy7DE32Hy3TwL9zQxTf6mmSqqtklFQRdGDL7weOpHUjJzfdf5YN9hI+7nEYJ7PLJV4SkVAOHiijyaZUHriuaHgpkrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o5p0Hl5t; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732927215; c=relaxed/simple;
+	bh=rPKL0SsuPAk0VCO8MesYJPT40/Nk1Fw8A6SCVJpHyQc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qT4MKFXTMUGgj2DA7ETW/28SnUOClSwI3JNbsCtelrI3jsDuZPUd3DzRJmfljnd2fbmhSnLC555FTbRRjcdmmHQcQ1T88dXQEV+NRQFhiSds7A/YE6Mo9dn3jRpZJojA2MFehchSBH9jPkKzBiCgAFADzSCeuZ1uZF8NkOE3/uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qTsSM/RA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o5p0Hl5t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C894C4CECF;
-	Fri, 29 Nov 2024 22:19:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qTsSM/RA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73ABEC4CED9;
+	Sat, 30 Nov 2024 00:40:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732918794;
-	bh=OJvU5bLoYGZXh8qACQ/T6IEV8oDjNatqYL+CeW3HsJg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o5p0Hl5t68sOGrNrYENKMovE5NztdhOpEAFABibzPZGUoqz1AXXaCH53QUmqJu9yj
-	 4Ymv5lTSZbEsDt+NPkbGOI0BMOSI/hhFnrmJFW+/qqVN7darYuDK67nomYfyn1WTZW
-	 BFRJMR/Fl9FeauFwTeTH3phw520rl/KLfJopadlpHQUp+IZrgAicwA5DrSA19U8kSy
-	 DpTFETeRTKi33P/1gcVkoaLTCtVby2dZtM0i0fCZSI8+UVXXGJuKWkaLG6dG9bq/8l
-	 w9ueF6Q3rudD7ZWIlpxFt0GwISNHkjcxLh8drdyWqw8+a9ohium7+Z6XshqrmZWZxx
-	 DWCgNchAqIpvQ==
-Date: Fri, 29 Nov 2024 23:19:51 +0100
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Valentin Schneider <vschneid@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
-	x86@kernel.org, rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Nicolas Saenz Julienne <nsaenzju@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Juerg Haefliger <juerg.haefliger@canonical.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Nadav Amit <namit@vmware.com>, Dan Carpenter <error27@gmail.com>,
-	Chuang Wang <nashuiliang@gmail.com>,
-	Yang Jihong <yangjihong1@huawei.com>,
-	Petr Mladek <pmladek@suse.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-	Julian Pidancet <julian.pidancet@oracle.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Dionna Glaze <dionnaglaze@google.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Yair Podemsky <ypodemsk@redhat.com>,
-	Daniel Wagner <dwagner@suse.de>, Petr Tesarik <ptesarik@suse.com>
-Subject: Re: [RFC PATCH v3 11/15] context-tracking: Introduce work deferral
- infrastructure
-Message-ID: <Z0o-B1ONq4wL1RHc@pavilion.home>
-References: <20241119153502.41361-1-vschneid@redhat.com>
- <20241119153502.41361-12-vschneid@redhat.com>
- <Zz2_7MbxvfjKsz08@pavilion.home>
- <Zz3w0o_3wZDgJn0K@localhost.localdomain>
- <xhsmho729hlv0.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
- <Zz4cqfVfyb1enxql@localhost.localdomain>
- <xhsmh1pz39v0k.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
- <Z0Oeme2yhxF_ArX0@pavilion.home>
- <xhsmhttbqm1s2.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+	s=k20201202; t=1732927214;
+	bh=rPKL0SsuPAk0VCO8MesYJPT40/Nk1Fw8A6SCVJpHyQc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=qTsSM/RAQsOYUBxLaVP0XBi7YucqdtQfdYXyLmusCw2JDiQHt+aacdub36uedgzEP
+	 VnzRbaDyAXgx3U3QVwm7Qs0XVmeMtXU4iMRNu0MzF6N/bcWpgXHuTckvS1lCHHrfWz
+	 Yd+WsHU8+sdbpUBOQYtUiKw1bt9XsXLc2uVYEfdhrnH9gD209D8/iMvlbigxFiW2eA
+	 di5Acy2dPD0LokAI+8xUMMfR+SKIuk6kYzUmo/D0uql+C2RJtVw1Em3Bwc8CR5Y9aV
+	 AOTklx/HHus7Wg9AKzXtqTl2OwHJKTqbXDPWwAN1ZD/cxOLrnly4m9zNOXAj/Onl7D
+	 ki8d+qtj4EAqw==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5cfd2978f95so3972422a12.0;
+        Fri, 29 Nov 2024 16:40:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUXImqFm2y9ck9+5vBUxpZlIjJyYzCkIn0/EdsehwUFDaAVCWAJLFA6MSTy1mqc6lSXr0vUQOaoa2Rkww==@vger.kernel.org, AJvYcCUdwtkhihht1kCP0wXkuHYCLd3FkBX/UIxtc9Y2kFRTSGBNcswXTDtLNxeNcxmbo5TygEEyMa5WZjqm@vger.kernel.org, AJvYcCWqS43/A2wC6fielct7iTeExytgDQXDP0XFwVT12AUDp/QQJsSyv8+0nB0qHMYAv0s8virjM8N726/X@vger.kernel.org, AJvYcCWxY4UcPJszCVWFJ0zAPvI/vfv0elyiaMnPi8PdLtAbKaxGcWJ9a9Y76vrI9369kDegl18q7ChAlr8LgDqy@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXnId6qvst22VgdEThYWqIVQdHngN4DsUsufnz1GIqal/8Bhon
+	ZpH/XnFq+hkmMry58wjZV5R17Fr/5CVPF8VtDqezDSKY0XV9aUKVpWo8f7MxQzIvcvUjd91ncNS
+	5i17I8cf5UoXSTGnvSFGCCDGj09o=
+X-Google-Smtp-Source: AGHT+IEFSFLqHCR0cjMFkhjiRaE4KtyHLzRRVVtr85vfcUzXlEh/ZAFndINZ5j3XUmIjUIEXGOJjXUSxmmoSxfKqDuE=
+X-Received: by 2002:a17:907:b59b:b0:a99:f92a:7a66 with SMTP id
+ a640c23a62f3a-aa580f567b2mr1474250666b.30.1732927212847; Fri, 29 Nov 2024
+ 16:40:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <xhsmhttbqm1s2.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+References: <20241103145153.105097-1-alexghiti@rivosinc.com>
+ <20241103145153.105097-14-alexghiti@rivosinc.com> <20241128-whoever-wildfire-2a3110c5fd46@wendy>
+ <20241128134135.GA3460@willie-the-truck> <20241128-uncivil-removed-4e105d1397c9@wendy>
+ <90533aa9-186a-4f75-b3c5-d93d6682056b@ghiti.fr> <20241128-goggles-laundry-d94c23ab39a4@spud>
+ <CAJF2gTST0kduYpuqd4mX0byetWMRJT-AAyH0GGiaysZG64Byhw@mail.gmail.com>
+ <CAJF2gTRQg=w3sGN0Sdzf+_adRo44z4H6Zd6=C6qXq+ARR5BjSg@mail.gmail.com>
+ <CAJF2gTSX82rGp-9xZHvg1Y3SpO516YCcqSBLKFgWEQ5G-iWR4A@mail.gmail.com> <CAHVXubgXiD5Bi6ytyDHXXOONovWHZTSvr4+oADCvuic5ObGXpQ@mail.gmail.com>
+In-Reply-To: <CAHVXubgXiD5Bi6ytyDHXXOONovWHZTSvr4+oADCvuic5ObGXpQ@mail.gmail.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Sat, 30 Nov 2024 08:40:01 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQwYTGinBmCSgVUoPv0_q4EPt_+WiyfUA1HViAKgUzxAg@mail.gmail.com>
+Message-ID: <CAJF2gTQwYTGinBmCSgVUoPv0_q4EPt_+WiyfUA1HViAKgUzxAg@mail.gmail.com>
+Subject: Re: [PATCH v6 13/13] riscv: Add qspinlock support
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Conor Dooley <conor.dooley@microchip.com>, Will Deacon <will@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Andrea Parri <parri.andrea@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Le Fri, Nov 29, 2024 at 05:40:29PM +0100, Valentin Schneider a écrit :
-> On 24/11/24 22:46, Frederic Weisbecker wrote:
-> > Le Fri, Nov 22, 2024 at 03:56:59PM +0100, Valentin Schneider a écrit :
-> >> On 20/11/24 18:30, Frederic Weisbecker wrote:
-> >> > Le Wed, Nov 20, 2024 at 06:10:43PM +0100, Valentin Schneider a écrit :
-> >> >> On 20/11/24 15:23, Frederic Weisbecker wrote:
-> >> >>
-> >> >> > Ah but there is CT_STATE_GUEST and I see the last patch also applies that to
-> >> >> > CT_STATE_IDLE.
-> >> >> >
-> >> >> > So that could be:
-> >> >> >
-> >> >> > bool ct_set_cpu_work(unsigned int cpu, unsigned int work)
-> >> >> > {
-> >> >> >    struct context_tracking *ct = per_cpu_ptr(&context_tracking, cpu);
-> >> >> >    unsigned int old;
-> >> >> >    bool ret = false;
-> >> >> >
-> >> >> >    preempt_disable();
-> >> >> >
-> >> >> >    old = atomic_read(&ct->state);
-> >> >> >
-> >> >> >    /* CT_STATE_IDLE can be added to last patch here */
-> >> >> >    if (!(old & (CT_STATE_USER | CT_STATE_GUEST))) {
-> >> >> >            old &= ~CT_STATE_MASK;
-> >> >> >            old |= CT_STATE_USER;
-> >> >> >    }
-> >> >>
-> >> >> Hmph, so that lets us leverage the cmpxchg for a !CT_STATE_KERNEL check,
-> >> >> but we get an extra loop if the target CPU exits kernelspace not to
-> >> >> userspace (e.g. vcpu or idle) in the meantime - not great, not terrible.
-> >> >
-> >> > The thing is, what you read with atomic_read() should be close to reality.
-> >> > If it already is != CT_STATE_KERNEL then you're good (minus racy changes).
-> >> > If it is CT_STATE_KERNEL then you still must do a failing cmpxchg() in any case,
-> >> > at least to make sure you didn't miss a context tracking change. So the best
-> >> > you can do is a bet.
-> >> >
-> >> >>
-> >> >> At the cost of one extra bit for the CT_STATE area, with CT_STATE_KERNEL=1
-> >> >> we could do:
-> >> >>
-> >> >>   old = atomic_read(&ct->state);
-> >> >>   old &= ~CT_STATE_KERNEL;
-> >> >
-> >> > And perhaps also old |= CT_STATE_IDLE (I'm seeing the last patch now),
-> >> > so you at least get a chance of making it right (only ~CT_STATE_KERNEL
-> >> > will always fail) and CPUs usually spend most of their time idle.
-> >> >
-> >> 
-> >> I'm thinking with:
-> >> 
-> >>         CT_STATE_IDLE		= 0,
-> >>         CT_STATE_USER		= 1,
-> >>         CT_STATE_GUEST		= 2,
-> >>         CT_STATE_KERNEL		= 4, /* Keep that as a standalone bit */
+On Fri, Nov 29, 2024 at 6:32=E2=80=AFPM Alexandre Ghiti <alexghiti@rivosinc=
+.com> wrote:
+>
+> Hi everyone,
+>
+> On Fri, Nov 29, 2024 at 7:28=E2=80=AFAM Guo Ren <guoren@kernel.org> wrote=
+:
 > >
-> > Right!
+> > Hi Conor & Alexandre,
 > >
-> >> 
-> >> we can stick with old &= ~CT_STATE_KERNEL; and that'll let the cmpxchg
-> >> succeed for any of IDLE/USER/GUEST.
+> > On Fri, Nov 29, 2024 at 10:58=E2=80=AFAM Guo Ren <guoren@kernel.org> wr=
+ote:
+> > >
+> > > On Fri, Nov 29, 2024 at 8:55=E2=80=AFAM Guo Ren <guoren@kernel.org> w=
+rote:
+> > > >
+> > > > On Fri, Nov 29, 2024 at 12:19=E2=80=AFAM Conor Dooley <conor@kernel=
+.org> wrote:
+> > > > >
+> > > > > On Thu, Nov 28, 2024 at 03:50:09PM +0100, Alexandre Ghiti wrote:
+> > > > > > On 28/11/2024 15:14, Conor Dooley wrote:
+> > > > > > > On Thu, Nov 28, 2024 at 01:41:36PM +0000, Will Deacon wrote:
+> > > > > > > > On Thu, Nov 28, 2024 at 12:56:55PM +0000, Conor Dooley wrot=
+e:
+> > > > > > > > > On Sun, Nov 03, 2024 at 03:51:53PM +0100, Alexandre Ghiti=
+ wrote:
+> > > > > > > > > > In order to produce a generic kernel, a user can select
+> > > > > > > > > > CONFIG_COMBO_SPINLOCKS which will fallback at runtime t=
+o the ticket
+> > > > > > > > > > spinlock implementation if Zabha or Ziccrse are not pre=
+sent.
+> > > > > > > > > >
+> > > > > > > > > > Note that we can't use alternatives here because the di=
+scovery of
+> > > > > > > > > > extensions is done too late and we need to start with t=
+he qspinlock
+> > > > > > > > > > implementation because the ticket spinlock implementati=
+on would pollute
+> > > > > > > > > > the spinlock value, so let's use static keys.
+> > > > > > > > > >
+> > > > > > > > > > This is largely based on Guo's work and Leonardo review=
+s at [1].
+> > > > > > > > > >
+> > > > > > > > > > Link: https://lore.kernel.org/linux-riscv/2023122512584=
+7.2778638-1-guoren@kernel.org/ [1]
+> > > > > > > > > > Signed-off-by: Guo Ren <guoren@kernel.org>
+> > > > > > > > > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > > > > > > > This patch (now commit ab83647fadae2 ("riscv: Add qspinlo=
+ck support"))
+> > > > > > > > > breaks boot on polarfire soc. It dies before outputting a=
+nything to the
+> > > > > > > > > console. My .config has:
+> > > > > > > > >
+> > > > > > > > > # CONFIG_RISCV_TICKET_SPINLOCKS is not set
+> > > > > > > > > # CONFIG_RISCV_QUEUED_SPINLOCKS is not set
+> > > > > > > > > CONFIG_RISCV_COMBO_SPINLOCKS=3Dy
+> > > > > > > > I pointed out some of the fragility during review:
+> > > > > > > >
+> > > > > > > > https://lore.kernel.org/all/20241111164259.GA20042@willie-t=
+he-truck/
+> > > > > > > >
+> > > > > > > > so I'm kinda surprised it got merged tbh :/
+> > > > > > > Maybe it could be reverted rather than having a broken boot w=
+ith the
+> > > > > > > default settings in -rc1.
+> > > > > >
+> > > > > >
+> > > > > > No need to rush before we know what's happening,I guess you bis=
+ected to this
+> > > > > > commit right?
+> > > > >
+> > > > > The symptom is a failure to boot, without any console output, of =
+course
+> > > > > I bisected it before blaming something specific. But I don't thin=
+k it is
+> > > > > "rushing" as having -rc1 broken with an option's default is a mas=
+sive pain
+> > > > > in the arse when it comes to testing.
+> > > > >
+> > > > > > I don't have this soc, so can you provide $stval/$sepc/$scause,=
+ a config, a
+> > > > > > kernel, anything?
+> > > > >
+> > > > > I don't have the former cos it died immediately on boot. config i=
+s
+> > > > > attached. It reproduces in QEMU so you don't need any hardware.
+> > > > If QEMU could reproduce, could you provide a dmesg by the below met=
+hod?
+> > > >
+> > > > Qemu cmd append: -s -S
+> > > > ref: https://qemu-project.gitlab.io/qemu/system/gdb.html
+> > > >
+> > > > Connect gdb and in console:
+> > > > 1. file vmlinux
+> > > > 2. source ./Documentation/admin-guide/kdump/gdbmacros.txt
+> > > > 3. dmesg
+> > > >
+> > > > Then, we could get the kernel's early boot logs from memory.
+> > > I've reproduced it on qemu, thx for the config.
+> > >
+> > > Reading symbols from ../build-rv64lp64/vmlinux...
+> > > (gdb) tar rem:1234
+> > > Remote debugging using :1234
+> > > ticket_spin_lock (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
+> > > /home/guoren/source/kernel/linux/include/asm-generic/ticket_spinlock.=
+h:49
+> > > 49              atomic_cond_read_acquire(&lock->val, ticket =3D=3D (u=
+16)VAL);
+> > > (gdb) bt
+> > > #0  ticket_spin_lock (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
+> > > /home/guoren/source/kernel/linux/include/asm-generic/ticket_spinlock.=
+h:49
+> > > #1  arch_spin_lock (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
+> > > /home/guoren/source/kernel/linux/arch/riscv/include/asm/spinlock.h:28
+> > > #2  do_raw_spin_lock (lock=3Dlock@entry=3D0xffffffff81b9a5b8 <text_mu=
+tex>)
+> > > at /home/guoren/source/kernel/linux/kernel/locking/spinlock_debug.c:1=
+16
+> > > #3  0xffffffff80b2ea0e in __raw_spin_lock_irqsave
+> > > (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
+> > > /home/guoren/source/kernel/linux/include/linux/spinlock_api_smp.h:111
+> > > #4  _raw_spin_lock_irqsave (lock=3Dlock@entry=3D0xffffffff81b9a5b8
+> > > <text_mutex>) at
+> > > /home/guoren/source/kernel/linux/kernel/locking/spinlock.c:162
+> > > #5  0xffffffff80b27c54 in rt_mutex_slowtrylock
+> > > (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
+> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex.c:1393
+> > > #6  0xffffffff80b295ea in rt_mutex_try_acquire
+> > > (lock=3D0xffffffff81b9a5b8 <text_mutex>) at
+> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex.c:319
+> > > #7  __rt_mutex_lock (state=3D2, lock=3D0xffffffff81b9a5b8 <text_mutex=
+>) at
+> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex.c:1805
+> > > #8  __mutex_lock_common (ip=3D18446744071562135170, nest_lock=3D0x0,
+> > > subclass=3D0, state=3D2, lock=3D0xffffffff81b9a5b8 <text_mutex>) at
+> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex_api.c:518
+> > > #9  mutex_lock_nested (lock=3D0xffffffff81b9a5b8 <text_mutex>,
+> > > subclass=3Dsubclass@entry=3D0) at
+> > > /home/guoren/source/kernel/linux/kernel/locking/rtmutex_api.c:529
+> > > #10 0xffffffff80010682 in arch_jump_label_transform_queue
+> > > (entry=3Dentry@entry=3D0xffffffff8158da28, type=3D<optimized out>) at
+> > > /home/guoren/source/kernel/linux/arch/riscv/kernel/jump_label.c:39
+> > > #11 0xffffffff801d86b2 in __jump_label_update
+> > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>,
+> > > entry=3D0xffffffff8158da28, stop=3Dstop@entry=3D0xffffffff815a5e68
+> > > <__tracepoint_ptr_initcall_finish>, init=3Dinit@entry=3Dtrue)
+> > >     at /home/guoren/source/kernel/linux/kernel/jump_label.c:513
+> > > #12 0xffffffff801d890c in jump_label_update
+> > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>) at
+> > > /home/guoren/source/kernel/linux/kernel/jump_label.c:920
+> > > #13 0xffffffff801d8be8 in static_key_disable_cpuslocked
+> > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>) at
+> > > /home/guoren/source/kernel/linux/kernel/jump_label.c:240
+> > > #14 0xffffffff801d8c04 in static_key_disable
+> > > (key=3Dkey@entry=3D0xffffffff81a1abb0 <qspinlock_key>) at
+> > > /home/guoren/source/kernel/linux/kernel/jump_label.c:248
+> > > #15 0xffffffff80c04a1a in riscv_spinlock_init () at
+> > > /home/guoren/source/kernel/linux/arch/riscv/kernel/setup.c:271
+> > > #16 setup_arch (cmdline_p=3Dcmdline_p@entry=3D0xffffffff81a03e88) at
+> > > /home/guoren/source/kernel/linux/arch/riscv/kernel/setup.c:336
+> > > #17 0xffffffff80c007a2 in start_kernel () at
+> > > /home/guoren/source/kernel/linux/init/main.c:922
+> > > #18 0xffffffff80001164 in _start_kernel ()
+> > > Backtrace stopped: frame did not save the PC
+> > > (gdb) p /x lock
+> > > $1 =3D 0xffffffff81b9a5b8
+> > > (gdb) p /x *lock
+> > > $2 =3D {{val =3D {counter =3D 0x20000}, {locked =3D 0x0, pending =3D =
+0x0},
+> > > {locked_pending =3D 0x0, tail =3D 0x2}}}
 > >
-> > Sure but if (old & CT_STATE_KERNEL), cmpxchg() will consistently fail.
-> > But you can make a bet that it has switched to CT_STATE_IDLE between
-> > the atomic_read() and the first atomic_cmpxchg(). This way you still have
-> > a tiny chance to succeed.
+> > I have for you here a fast fixup for reference. (PS: I'm digging into
+> > the root cause mentioned by Will Deacon.)
 > >
-> > That is:
+> > diff --git a/arch/riscv/include/asm/text-patching.h
+> > b/arch/riscv/include/asm/text-patching.h
+> > index 7228e266b9a1..0439609f1cff 100644
+> > --- a/arch/riscv/include/asm/text-patching.h
+> > +++ b/arch/riscv/include/asm/text-patching.h
+> > @@ -12,5 +12,6 @@ int patch_text_set_nosync(void *addr, u8 c, size_t le=
+n);
+> >  int patch_text(void *addr, u32 *insns, size_t len);
 > >
-> >    old = atomic_read(&ct->state);
-> >    if (old & CT_STATE_KERNEl)
-> >       old |= CT_STATE_IDLE;
-> >    old &= ~CT_STATE_KERNEL;
+> >  extern int riscv_patch_in_stop_machine;
+> > +extern int riscv_patch_in_spinlock_init;
+> >
+> >  #endif /* _ASM_RISCV_PATCH_H */
+> > diff --git a/arch/riscv/kernel/jump_label.c b/arch/riscv/kernel/jump_la=
+bel.c
+> > index 6eee6f736f68..d9a5a5c1933d 100644
+> > --- a/arch/riscv/kernel/jump_label.c
+> > +++ b/arch/riscv/kernel/jump_label.c
+> > @@ -36,9 +36,11 @@ bool arch_jump_label_transform_queue(struct
+> > jump_entry *entry,
+> >                 insn =3D RISCV_INSN_NOP;
+> >         }
+> >
+> > -       mutex_lock(&text_mutex);
+> > +       if (!riscv_patch_in_spinlock_init)
+> > +               mutex_lock(&text_mutex);
+> >         patch_insn_write(addr, &insn, sizeof(insn));
+> > -       mutex_unlock(&text_mutex);
+> > +       if (!riscv_patch_in_spinlock_init)
+> > +               mutex_unlock(&text_mutex);
+> >
+> >         return true;
+> >  }
+> > diff --git a/arch/riscv/kernel/patch.c b/arch/riscv/kernel/patch.c
+> > index db13c9ddf9e3..ab009cf855c2 100644
+> > --- a/arch/riscv/kernel/patch.c
+> > +++ b/arch/riscv/kernel/patch.c
+> > @@ -24,6 +24,7 @@ struct patch_insn {
+> >  };
+> >
+> >  int riscv_patch_in_stop_machine =3D false;
+> > +int riscv_patch_in_spinlock_init =3D false;
+> >
+> >  #ifdef CONFIG_MMU
+> >
+> > @@ -131,7 +132,7 @@ static int __patch_insn_write(void *addr, const
+> > void *insn, size_t len)
+> >          * safe but triggers a lockdep failure, so just elide it for th=
+at
+> >          * specific case.
+> >          */
+> > -       if (!riscv_patch_in_stop_machine)
+> > +       if (!riscv_patch_in_stop_machine && !riscv_patch_in_spinlock_in=
+it)
+> >                 lockdep_assert_held(&text_mutex);
+> >
+> >         preempt_disable();
+> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> > index 016b48fcd6f2..87ddf1702be4 100644
+> > --- a/arch/riscv/kernel/setup.c
+> > +++ b/arch/riscv/kernel/setup.c
+> > @@ -268,7 +268,9 @@ static void __init riscv_spinlock_init(void)
+> >         }
+> >  #if defined(CONFIG_RISCV_COMBO_SPINLOCKS)
+> >         else {
+> > +               riscv_patch_in_spinlock_init =3D 1;
+> >                 static_branch_disable(&qspinlock_key);
+> > +               riscv_patch_in_spinlock_init =3D 0;
+> >                 pr_info("Ticket spinlock: enabled\n");
+> >                 return;
+> >         }
 > >
 > >
-> >    do {
-> >       atomic_try_cmpxchg(...)
 > >
-> > Hmm?
-> 
-> But it could equally be CT_STATE_{USER, GUEST}, right? That is, if we have
-> all of this enabled them we assume the isolated CPUs spend the least amount
-> of time in the kernel, if they don't we get to blame the user.
+> > --
+> > Best Regards
+> >  Guo Ren
+>
+> Thanks Guo for looking into this.
+>
+> Your solution is not very pretty but I don't have anything better :/
+Here is another solution (Only one file modified, maybe better):
 
-Unless CONTEXT_TRACKING_WORK_IDLE=y yes.
+diff --git a/arch/riscv/kernel/jump_label.c b/arch/riscv/kernel/jump_label.=
+c
+index 6eee6f736f68..654ed159c830 100644
+--- a/arch/riscv/kernel/jump_label.c
++++ b/arch/riscv/kernel/jump_label.c
+@@ -36,9 +36,15 @@ bool arch_jump_label_transform_queue(struct
+jump_entry *entry,
+                insn =3D RISCV_INSN_NOP;
+        }
 
-Anyway that's just a detail that can be refined in the future. I'm fine with
-just clearing CT_STATE_KERNEL and go with that.
+-       mutex_lock(&text_mutex);
+-       patch_insn_write(addr, &insn, sizeof(insn));
+-       mutex_unlock(&text_mutex);
++       if (early_boot_irqs_disabled) {
++               riscv_patch_in_stop_machine =3D 1;
++               patch_insn_write(addr, &insn, sizeof(insn));
++               riscv_patch_in_stop_machine =3D 0;
++       } else {
++               mutex_lock(&text_mutex);
++               patch_insn_write(addr, &insn, sizeof(insn));
++               mutex_unlock(&text_mutex);
++       }
 
-Thanks.
+        return true;
+ }
+
+> Unless introducing a static_branch_XXX_nolock() API? I gave it a try
+> and it fixes the issue, but not sure this will be accepted.
+>
+> The thing is the usage of static branches is temporary, we'll use
+> alternatives when I finish working on getting the extensions very
+The "alternatives" also need patch codes one by one, which means it
+will meet the same problem as the jump_label.
+
+So, you will still provide a patch like the one above for the
+alternative implementation.
+
+> early from the ACPI tables (I have a poc that works, just needs some
+> cleaning).
+>
+> So let's say that I make this early extension parsing my priority for
+> 6.14, can we live with Guo's hack in this release? Or should we revert
+> this commit?
+>
+> Thanks,
+>
+> Alex
+--
+Best Regards
+ Guo Ren
