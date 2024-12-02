@@ -1,100 +1,115 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E90F70803;
-	Sun,  1 Dec 2024 20:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA9E1F8EE2;
+	Mon,  2 Dec 2024 06:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733086096; cv=none; b=qjZ7sfV7bKStCryNOPWz1YPoQRNeA3kxwoVQE7IGN8OpPYBE8mMDULtM4T15Pz3tD0eAGjn3tIO38SWI8exFuTgfSu97GgSZg5M3V6d2RkaW2xst3w6J4+qGMqeBAekmCQycM9cDh1BIW4oJ84ml4Y7fwD1ccOC2psqvHQ4sRhU=
+	t=1733121629; cv=none; b=ibfLIk7l6LL3BVTTEKu+FxqVodWd3LcIFHPTuCuMiNTMzjWZPdIit1ZYBGI6AkSYlVdd61H5hHady5+5uUaiY9Ql/w1D2q7SUmi/z1Mc4WuD4toL4CnjlNVqTP+OrIUwM4qczhjIMsGQ7t1+TTV12TyEDKHFgVIqPeYVJpUxdDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733086096; c=relaxed/simple;
-	bh=oEUek/oLoEOUG2Zsp9jaU7h3xjAClbKuAkjW6nkgCQk=;
+	s=arc-20240116; t=1733121629; c=relaxed/simple;
+	bh=P/Up/t2C443Woe5UzAIXl45/9+G7f8WfojtFfXf7EX8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fj+BZ3a8x4+24+QPlaG9La2aScOWxcpC/cuTuWjMgIZeLax/Wu3XwNRKXwGd3aD0QcQ1JsElg3y4X59Abmx4R4SgESOyr/K+5gx04pyCdFNe24BhoLuDtmG1DARDanI6OKdKPn/Amrk7knE2VW2alkhwj1XsLbFQ4eGkleve5Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jDpNEHwV; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=NuTqRi4K7fmFdztRoBiLXKt7AGKgmpYystUrIS1C/xdamhtue96rc3noYaJpHmAF03LRUG+c/6qJt42UI/4x1V5draHgUi1vUn54PN/5D2B4smXKIgTyu8rZtnTKKowyQ2z3zEHPSrRopVQZ9+OQZPPBEnAIdFD5cdvX9r59XS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lv80Uf0J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jDpNEHwV"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3a7d94b545aso10569035ab.3;
-        Sun, 01 Dec 2024 12:48:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733086094; x=1733690894; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GPHxfSACZ+2h2VPEaq6+rYqVaulrzLUGki8m/llPT3c=;
-        b=jDpNEHwVu8xAU/b6krZjMfOrLRJPuSZyaIbXhoa+pdnGn55IFwEVZA0Owo2e9U/3i4
-         B4ZcRyAUxkXIGdPFZnVaqAsY3Z12dUZCzwmkTtqAeS0hJGIukZT7/2WJcAMvoix+EnN5
-         uPfbUhJuELuq/0y1PU72HZMYjh1u21F0Nxl60N9q+sXFeQHgS2Yai9nM+ozlhJdVBTPF
-         A/yruA9PWI67cs3HMf8ZPwy99i0GZqDWzYTTljVPe0UtDcKN+RgnJxTdiwPCDpoT7l/O
-         qYVefj8awHLCWAcQUjXiLLaiW77CL7lDPACZ2XzOV4eYKq8n1A11L6C0VLZqP9fzfiV8
-         79Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733086094; x=1733690894;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GPHxfSACZ+2h2VPEaq6+rYqVaulrzLUGki8m/llPT3c=;
-        b=Av62Hs+AF033C7h1AoT7welkAjsLwczKLVSzDwTOmae9gvDeBuaLcQwuakuRNJjOnB
-         PO7eJUWFOA7EeImZMHKqzlg9Mhi/UbCHwZuYn1+4XIqz5Ldo4zVUHil5zlhz5+azVF8N
-         Xf4bPMb7Ouejl9SnMBvMPbTRAO2Ki1zFVWn8Hm9fP7LilcJ/u76V+bOGp97fPtqUYkxO
-         mEAhvPNLRqow1rgZXsp2mubEBthfDfk/Tee45f/b1hRfDshUt6Dd9Ru3cwDf48jQMxZz
-         tr60rlTZSJbYfl2CerU2bI5IJVJpF4ku7oHMgQBtaZqIWgVLW/mtHSSA8ypr+RFwN2p8
-         SZcA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwoEhUToP5vMLYuLOf2sL11FX8Cc/L77dGtSZT09AyToMlhCcGKKgjS8F792PoLPuxgsthPLz6IR4NhILC@vger.kernel.org, AJvYcCVTNxrmneBg09OHCKsqLfOKSIV77tb9RoygcVVou/mawNyCFrj2cJ8IsG0vl6ByOLShz/KkZvG8ATOqjRs=@vger.kernel.org, AJvYcCWzV30JxY0vVIAqUo+f5+EvZZlw2zA6G/Arr9BSOoBG9ZeV2IZ+qTSyDbMLKtYFMFJlkPx+5/TQArc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1BSOxPxNC/RrOp0u+ZN4/tj9jhWpG6/pVQw11/Nh4+5rj4iME
-	S5lLrtjhIfSfcQ9lvnKULL8ptZu8G34koMrbfkb46WQWXCameXbNav7oAsx1pVcP9Fzl1dazlSr
-	vO7T8ve3DhHG0j8a9B/QtbMzbAbc=
-X-Gm-Gg: ASbGnctG06ri94AbAGHjdWqIzO/+JXJRVKy31BsNcailScn4r8fLK7P7kbv6QtQlKpS
-	NWbtgtn+xF2Y9pYlDSVbYzrZiTiaYaT6wTNSEk3hr5ERuOsD3TKlQQQVHGqQ6/E4=
-X-Google-Smtp-Source: AGHT+IHw0PoW86iu90bgBJH5l9I3IFB97my7HbCGQAgg8zibDjFR3wOY92iHdJmWWUjUCCEJP9pzqDq/0AokWh1FtHE=
-X-Received: by 2002:a05:6e02:4518:20b0:3a7:c5b1:a55e with SMTP id
- e9e14a558f8ab-3a7c5b1a735mr113260755ab.0.1733086094131; Sun, 01 Dec 2024
- 12:48:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lv80Uf0J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3076AC4CEE1;
+	Mon,  2 Dec 2024 06:40:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733121629;
+	bh=P/Up/t2C443Woe5UzAIXl45/9+G7f8WfojtFfXf7EX8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Lv80Uf0JMRBKfyiSMht9pQhrhf+40aBwEKMVGp0MqU2hmhleHN6deZwnVzJMz2Z+h
+	 5l3bRQq+ZJwdZuu0aUMDpikzMFNohxBUJn1b9th+sXhNUVxssFmNw/HY57Bg7QovAT
+	 eQIcrFJEOhd0q3Jqa+zjRsG0DnFUKyEkJW2uMzMRG1eMf1zmKYZUng4wLLaQIFNZ5U
+	 lnVY5pm7wQqicJvFhcvufgoVgSeQIlrpwRo1ObJyV8xCawKdE0I7aOdgY3uBwL49Zw
+	 4CiWI7zgzSv4HB2CGKR+f5QlLEUuC9hY8XNdHqJSSaZ7BWyUMsOdrOikXbwd+I7UQV
+	 6Nx/1MWfo9pig==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53de79c2be4so4334304e87.2;
+        Sun, 01 Dec 2024 22:40:29 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU2A2HokAk8EmHfscD3Tlrw23G5uUh1j7fyYgLDGOx3CjdNv7VCk8mJ+ca6XHAwaw/qMea0JZXTck9aQVtX5uY=@vger.kernel.org, AJvYcCUuZzfvmqRX/FJdtLdPkdYNB1ADvXF14w1EblG67+N5yqVyUMQ1wmbYH1WrMIOOo8RfDhf5YQStquHT@vger.kernel.org, AJvYcCVRQqOIak3aiXHhu89daWxGwZah5/VCcxF6xzk+qVvFlOMxBiycUY1Z5s34s+v+8uwzyQV/UORdrVNA@vger.kernel.org, AJvYcCVf5B5wxZ9KU8pyN//ax74qV8RNlRp+edEm7IqCl242Cnh9oDeZ+jMNEff4mk6r1/Ii4QjxLOwyrxziLAQM@vger.kernel.org, AJvYcCWLd3yobxbeOl59x4R5TRfmeuL46tDw6RnfYQP/5Vn07GrAAVA/DDPTCyFFcis84orOGgKKDRO1EW6Q@vger.kernel.org, AJvYcCWUGUuAquHKa1Sf/AreUgzPsFm4uToDTwD+v2em9pn+oHSIqnBQKjaCI41Qw634GPkeFlbKVTzLcVtkFA==@vger.kernel.org, AJvYcCXAC5mrL4pv4JXndjysrJZ5jqudutJ8u2i0TR8Fa/MyZ9nrX+Ywkc3GJkQYlMgjyUwCyixL8JdrJ0i8+aAn@vger.kernel.org
+X-Gm-Message-State: AOJu0YyctRCIFk3Ci+/VbjYZrQGj119Ddsz4dql2RmVhgSm+Ax3WQOgC
+	HL8lZ9gP/qXzzRGPmJ1De2tNkjhqkMBw6eSDjEohlRzvXRHtfd+znFA5REAkwoZmvOGGovRBcq3
+	6fiwreYnSlNkuy4SU0jGJwVYlM34=
+X-Google-Smtp-Source: AGHT+IGq3TbC9zB6OHMWE5wRxb61lLhTxQ8/+n08QszowPRBZCUBlwcaxkbfgi3E63QW7qLB7OJxtrxmTZtYvl/OnbY=
+X-Received: by 2002:a05:6512:3c99:b0:53d:e8f5:f98a with SMTP id
+ 2adb3069b0e04-53df0106bb9mr10206071e87.46.1733121627698; Sun, 01 Dec 2024
+ 22:40:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAB95QAROXwFPZB8gSkz0-thPtuzWkhAHmbqEy2QBg4fMmx7NKQ@mail.gmail.com>
- <20241130144733.51627-1-yanhuoguifan@gmail.com> <d8e00909-a946-4ce4-811d-ac968bc54c7b@roeck-us.net>
- <Z0u5QWzWSXGUTUO0@gmail.com> <64783a84-5f21-4c33-b74b-5e6d79107c33@roeck-us.net>
-In-Reply-To: <64783a84-5f21-4c33-b74b-5e6d79107c33@roeck-us.net>
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-Date: Sun, 1 Dec 2024 21:48:03 +0100
-Message-ID: <CAB95QATT51L7FtVKdhTpTMo6sCwkihqyb5GtQBbLRR0jyRmMUg@mail.gmail.com>
-Subject: Re: [PATCH v2] hwmon: (asus-ec-sensors) add TUF GAMING X670E PLUS
+References: <20241102175115.1769468-1-xur@google.com> <20241102175115.1769468-4-xur@google.com>
+ <5e032233-5b65-4ad5-ac50-d2eb6c00171c@roeck-us.net>
+In-Reply-To: <5e032233-5b65-4ad5-ac50-d2eb6c00171c@roeck-us.net>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 2 Dec 2024 15:39:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT-yG=jCPSfhmZM1N6Opfm70++hAby35ywpbaADMNHH2g@mail.gmail.com>
+Message-ID: <CAK7LNAT-yG=jCPSfhmZM1N6Opfm70++hAby35ywpbaADMNHH2g@mail.gmail.com>
+Subject: Re: [PATCH v7 3/7] Adjust symbol ordering in text output section
+ [openrisc boot failure]
 To: Guenter Roeck <linux@roeck-us.net>
-Cc: Li XingYang <yanhuoguifan@gmail.com>, corbet@lwn.net, jdelvare@suse.com, 
-	linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Cc: Rong Xu <xur@google.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
+	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	David Li <davidxl@google.com>, Han Shen <shenhan@google.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Juergen Gross <jgross@suse.com>, Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
+	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, Jonas Bonn <jonas@southpole.se>, 
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
+	linux-openrisc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-> >> This is an unrelated change. It affects other boards of the same family.
-> >> It needs to be a separate patch, it needs to be explained, and it needs to
-> >> get some confirmation that it works on the other boards of the same series.
-
-> > I found that in the LibreHardwareMonitor project,
-> > the registers used by Amd600 to operate FanCPUOpt are described:
-> > https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/blob/master/LibreHardwareMonitorLib/Hardware/Motherboard/Lpc/EC/EmbeddedController.cs
-> > BoardFamily.Amd600, new Dictionary<ECSensor, EmbeddedControllerSource>
-> > {
-> > { ECSensor.FanCPUOpt,  new EmbeddedControllerSource("CPU Optional Fan", SensorType.Fan, 0x00b0, 2) },
-> > }
-> >
-> > I think this is suitable for the AMD 600 motherboard, and it does work on my motherboard as well.
+On Sun, Dec 1, 2024 at 11:31=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> =
+wrote:
 >
-> That makes sense, but it is still unrelated to this patch and, worse,
-> not even mentioned in the patch description. See "Separate your changes"
-> in Documentation/process/submitting-patches.rst.
+> Hi,
+>
+> On Sat, Nov 02, 2024 at 10:51:10AM -0700, Rong Xu wrote:
+> > When the -ffunction-sections compiler option is enabled, each function
+> > is placed in a separate section named .text.function_name rather than
+> > putting all functions in a single .text section.
+> >
+> ...
+> >
+> > Co-developed-by: Han Shen <shenhan@google.com>
+> > Signed-off-by: Han Shen <shenhan@google.com>
+> > Signed-off-by: Rong Xu <xur@google.com>
+> > Suggested-by: Sriraman Tallam <tmsriram@google.com>
+> > Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
+> > Tested-by: Yonghong Song <yonghong.song@linux.dev>
+> > Tested-by: Yabin Cui <yabinc@google.com>
+> > Tested-by: Nathan Chancellor <nathan@kernel.org>
+> > Reviewed-by: Kees Cook <kees@kernel.org>
+>
+> With this patch in the tree, the openrisck qemu emulation using
+> or1ksim_defconfig fails to boot. There is no log output, even with
+> earlycon enabled.
 
-Can confirm CPU_Opt is still at 0xb0 for ProArt X870E Creator Wifi, so
-it is the same in AMD families 500 to 800. The introduction of the
-sensor to the 600th family should not affect other boards, because
-they do not use it yet,
+Thanks for the report.
+I posted a fix.
+https://lore.kernel.org/all/20241202062909.2194341-1-masahiroy@kernel.org/T=
+/#u
 
-Kind regards,
-Eugene
+
+--=20
+Best Regards
+Masahiro Yamada
