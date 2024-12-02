@@ -1,100 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83F41D9694;
-	Mon,  2 Dec 2024 18:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9877E1DDA3E;
+	Mon,  2 Dec 2024 18:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733162982; cv=none; b=pdR3mFoYmpmdxTR8GWRH4EYtehfgbrS4r6HMPwU9J8Z/0neP6By+hH+2scWAqJbux4EdgD+wdGPZ1bg2y2EydPtp2nbPZdk0SjqshQaHB43EsKGuzNupmxbpzJIoUiyKy0TFcPhCIDMEMUX93SE2ifLONn1VBPcKZVMeIYkMH2g=
+	t=1733162998; cv=none; b=RBYvk2yxkXmexjjZ40DJRvBvF+TJXY32Un7GrSXb398R4+pabnBvG1UaoML5zg18DK1o4FkaY1PL9GCVr2mkvU8CViT9QTvAtbOuEz2a57N4KOypUbSbyv5yfE4w0Wp+GAdagpwN3MSor+aeO6WdoO8cRsEV2UYTFTZ6b0GEilI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733162982; c=relaxed/simple;
-	bh=Kx8yoGCS5+i0osaVs5Inz0KmuCpKhwgyM2hn+aT4a9M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ASo0HQBbUAfDjorvzJ0Of0e6J+cqiulluJjiCRisyTgOjlQiqxURs8GvV8P04/StNR6bM5ZT1wt/BMxKA60ZGd3gypS8sBs1cCoLBZqnP7PqzBMOhZ7cQMJebC2CI6vJqEmkNUPf7wcBQ08//Cd9C+WDnrpXZCMll8X15fsQXTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=st0MqNb4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733162998; c=relaxed/simple;
+	bh=nYDjefpF3SzrsKFGQUqg+JR6F6Cz+vcqakgcruJHmbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UQfqjAcPhFHvDuxeAs0Pg10RxzdodPVFo2XKG102hXsWWhspOMV2eXJAN8IHrzI60soINMxfbnTMNfaiFSuy57o1gRhHui2dKlsVhVgQXXAiPZoxRsZVnB8T9IoZnG01gjqUdyomoTM+T1iA6pAVUu+sasiiB0BH/DtRZ0EJLz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JK5JL2ls; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="st0MqNb4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDE2AC4CED1;
-	Mon,  2 Dec 2024 18:09:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733162981;
-	bh=Kx8yoGCS5+i0osaVs5Inz0KmuCpKhwgyM2hn+aT4a9M=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=st0MqNb40jkAAqyI+nNoYCJBt1G1B1bj0M0beatIM1i2YBR/2ki7pxqKCi9Qvk5Hx
-	 fz7QtYVtAgD2S5o5dTQcPc/Bc26+BrIW9VneZ4clp1fs7VrZ2G0/UPaDmmSYNW7Z2/
-	 AB+IpNbXqkDok255L8PPmWO3sO4pZMvZn1fgPEwMzYs0xcJ6YFhYf/HIV+c0qPWTzF
-	 vnHOrzdq/1cqg0HCIuzZpIXdf3gq3uzowN8oyNmVa1XGMsAanT7zH5lMeO6kk399dF
-	 kk2276OmnJN5zkQgnX3g4rcd7co/d3nZZLFONKdNI0i4yiG/B1ha3TYpscpJvyjgW7
-	 3Z0EDzdN7h+hQ==
-Message-ID: <4601ca077c95393837eb40909c941a4d67bb04dd.camel@kernel.org>
-Subject: Re: [RFC PATCH v3 1/2] x86: cpu/bugs: add AMD ERAPS support;
- hardware flushes RSB
-From: Amit Shah <amit@kernel.org>
-To: Dave Hansen <dave.hansen@intel.com>, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org
-Cc: thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de, 
-	peterz@infradead.org, jpoimboe@kernel.org,
- pawan.kumar.gupta@linux.intel.com, 	corbet@lwn.net, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, 	seanjc@google.com,
- pbonzini@redhat.com, daniel.sneddon@linux.intel.com, 	kai.huang@intel.com,
- sandipan.das@amd.com, boris.ostrovsky@oracle.com, 	Babu.Moger@amd.com,
- david.kaplan@amd.com, dwmw@amazon.co.uk, 	andrew.cooper3@citrix.com, Amit
- Shah <Amit.Shah@amd.com>
-Date: Mon, 02 Dec 2024 19:09:34 +0100
-In-Reply-To: <7222b969-30a8-42de-b2ca-601f6d1b03cd@intel.com>
-References: <cover.1732219175.git.jpoimboe@kernel.org>
-	 <20241128132834.15126-1-amit@kernel.org>
-	 <20241128132834.15126-2-amit@kernel.org>
-	 <7222b969-30a8-42de-b2ca-601f6d1b03cd@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JK5JL2ls"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733162995; x=1764698995;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nYDjefpF3SzrsKFGQUqg+JR6F6Cz+vcqakgcruJHmbA=;
+  b=JK5JL2lsP5ws6+soOvguyS+HwfTQggl3NXAFzFKltCSY96sgeQZ4qqCq
+   pOUMclj+Z+3uto0bg6hsszhWi/UFa/mZ3Wmdz11yuAvPE5iAoQ+lnFfg4
+   lNfDjgqA8I/mKs/slKRt91QqUvR0u5nDrEFD3WaBCbNxyLDWIvTWk3lcy
+   +pR1akInzlF13+z0UtzUTDBFiDIFdBqgRuoSoh1RgF2j5Hh6NGJOVf6El
+   Ql01Arwvef2EqsGt1LUHb3kCpYXEhWdHydPKI/IXBzp/vuNcsd30CXP4/
+   rUfXLZjT1+GIP3UBvw0aTdsxaxnjn94ZCrbDwBUaqSnAlIv2YcsmyrfjR
+   Q==;
+X-CSE-ConnectionGUID: IHCIRBWrS52WEI4jl5JHnQ==
+X-CSE-MsgGUID: iQYevqQ5RDC1aIFu9QqSSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44731082"
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
+   d="scan'208";a="44731082"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 10:09:54 -0800
+X-CSE-ConnectionGUID: biV1p/54Qgegk6CrVFLakQ==
+X-CSE-MsgGUID: spgtlyGsQAqE/Y+uUqvhuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
+   d="scan'208";a="93358378"
+Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 02 Dec 2024 10:09:54 -0800
+Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tIArn-0002hw-0T;
+	Mon, 02 Dec 2024 18:09:51 +0000
+Date: Tue, 3 Dec 2024 02:08:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Markuss Broks <markuss.broks@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: htmldocs: Warning:
+ Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+Message-ID: <202412030201.ikUpdSN3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 2024-12-02 at 09:26 -0800, Dave Hansen wrote:
-> On 11/28/24 05:28, Amit Shah wrote:
-> > From: Amit Shah <amit.shah@amd.com>
-> >=20
-> > When Automatic IBRS is disabled, Linux flushed the RSB on every
-> > context
-> > switch.=C2=A0 This RSB flush is not necessary in software with the ERAP=
-S
-> > feature on Zen5+ CPUs that flushes the RSB in hardware on a context
-> > switch (triggered by mov-to-CR3).
-> >=20
-> > Additionally, the ERAPS feature also tags host and guest addresses
-> > in
-> > the RSB - eliminating the need for software flushing of the RSB on
-> > VMEXIT.
-> >=20
-> > Disable all RSB flushing by Linux when the CPU has ERAPS.
-> >=20
-> > Feature mentioned in AMD PPR 57238.=C2=A0 Will be resubmitted once APM
-> > is
-> > public - which I'm told is imminent.
->=20
-> There was a _lot_ of discussion about this. But all of that
-> discussion
-> seems to have been trimmed out and it seems like we're basically back
-> to: "this is new hardware supposed to mitigate SpectreRSB, thus it
-> mitigates SpectreRSB."
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
+commit: d496d68d6ba6debcc135794edb5fdc5a5b4531f1 dt-bindings: regulator: Add bindings for Silicon Mitus SM5703 regulators
+date:   2 years, 7 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20241203/202412030201.ikUpdSN3-lkp@intel.com/reproduce)
 
-Absolutely, I don't want that to get lost -- but I think that got
-captured in Josh's rework patchset.  With that rework, I don't even
-need this patchset for the hardware feature to work, because we now
-rely on AutoIBRS to do the RSB clearing; and the hardware takes care of
-AutoIBRS and ERAPS interaction in Zen5.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030201.ikUpdSN3-lkp@intel.com/
 
-The only thing this patch now does is to handle the AutoIBRS-disabled
-case -- which happens when SEV-SNP is turned on (i.e. let the hw clear
-the RSB instead of stuffing it in Linux).
+All warnings (new ones prefixed by >>):
 
-I can still include the summary of the discussion in this patch - I
-just feel it isn't necessary with the rework.
+   Warning: Documentation/dev-tools/kunit/run_wrapper.rst references a file that doesn't exist: Documentation/dev-tools/kunit/non_uml.rst
+   Warning: Documentation/devicetree/bindings/cpufreq/brcm,stb-avs-cpu-freq.txt references a file that doesn't exist: Documentation/devicetree/bindings/interrupt-controller/brcm,l2-intc.txt
+   Warning: Documentation/devicetree/bindings/gnss/mediatek.txt references a file that doesn't exist: Documentation/devicetree/bindings/gnss/gnss.txt
+   Warning: Documentation/devicetree/bindings/leds/leds-mt6360.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/mt6360.yaml
+   Warning: Documentation/devicetree/bindings/mmc/exynos-dw-mshc.txt references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/samsung-pinctrl.txt
+>> Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/translations/it_IT/networking/netdev-FAQ.rst references a file that doesn't exist: Documentation/networking/netdev-FAQ.rst
+   Warning: Documentation/translations/zh_CN/devicetree/index.rst references a file that doesn't exist: Documentation/Devicetree/index.rst
+   Warning: Documentation/translations/zh_CN/devicetree/of_unittest.rst references a file that doesn't exist: Documentation/Devicetree/of_unittest.rst
+   Warning: Documentation/translations/zh_CN/devicetree/usage-model.rst references a file that doesn't exist: Documentation/Devicetree/usage-model.rst
+   Warning: Documentation/translations/zh_CN/doc-guide/kernel-doc.rst references a file that doesn't exist: Documentation/rust/docs.rst
 
-		Amit
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
