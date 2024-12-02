@@ -1,97 +1,141 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA22E125B9;
-	Mon,  2 Dec 2024 17:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF1F1662E7;
+	Mon,  2 Dec 2024 17:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733159476; cv=none; b=Fqf0DlyTXrhvrGmNnPixbrPzSYzW6C7DnTq05RkWzJiF+ATcBvqiG69ksXaI4D15v2h5SPOq4qFZeY2CAvHuZpZya5MNkHcAFBUOpB3Okzj8BSce+hG5FqjNOjEO6Hg3s7petxLzdGpXRwaNBXNMF7kYdjrIQbhl1fYo5cHvLQs=
+	t=1733160382; cv=none; b=qpULl9H19c5m3Q8kRWmmSew4VIuqNns941vQXbHitSxSaOZpscmcGQkMMwGGoxC44CUY+uqx0BexC8xJOwloiB8s6Mqr1QeTcr9rCHke2odDbtrSY0Xu7xWnEwMqK1Mb52tCjiTAHMxOtQpM52YkHYLP54XcCzj8f3vVTMvcBwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733159476; c=relaxed/simple;
-	bh=vABmO3a9ptqVa7aijKK3nhvQcpmmGcr5OTsWgzjsOZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AyEiG0UIxl7hW2Xql/nonj3KHjKbXJM1+1F1/SJj1bvrgaZuAta0nl7O7HkQV6vaNwh7wtrTtxA8FstZFB3YvzeCJo7uo3mT4NWc7OA+DmarvAEjN2IG+Fa4wg6k5AiPMas+85g9JpRukqiOJ1GzV2Z3gdWxSAr3Chkpdj2m40A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NWzK/hld; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1733160382; c=relaxed/simple;
+	bh=BsEHNjcP0yoRdiQY8UO4KVSJoS6Aba+uZoD/T0TC2EA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g1qL9BxjOIw79ujo228YOvOZbLT9BNBresJU42RoOuiJDz1v3uha7TIXIM5itOGSkaDjyFUZKDk9zh+JhThHG7HOUOqbnNIgLLrhLB39ZeqQ8ag2v5IC2t38yXKPlINOaiUqLqCEMcCtqLtDRgrgt38u8n4dJ7vKqlp3szQtn5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjPuhyV3; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NWzK/hld"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Pzu6FHFKvY1fkmm5m6RJBFQICe/d040JPPfejReux0k=; b=NWzK/hldf3qSAHq8nyp0nMG9F7
-	sqlP+bpMbg9PF7hbNfEq0pDtg4Oglxv0DeMv3VDfJmRCFKLYbtkjYY2MvjJB7DNcJfR0G+Dl3G1Sz
-	c8ytxQYeZJg5DRcROmH65fbOgC6TDalF4PBa/7T/U9oLjBIhXVB2OQaqwrH3mgDF/QIXk2qDK/JuC
-	ZGeZRUGYaEA0QIFf+nqodenZpUbaRwuhLDK+eKED/ao+1WeWa1Rtw9ZySwHO37URQk4R42pmxSUjj
-	7XRp6AitcWQtbA0s1foZriTyHEXUsYclIz+gTAyDpTMBft0MhEpdbjuudwuLQiMZJCeMo7ZXiTy66
-	/Th27nBg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI9wq-00000008MCm-2TtC;
-	Mon, 02 Dec 2024 17:11:00 +0000
-Date: Mon, 2 Dec 2024 17:11:00 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Dragan Simic <dsimic@manjaro.org>
-Cc: Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, apw@canonical.com,
-	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
-	workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, wens@csie.org
-Subject: Re: [PATCH v2 0/3] Make Helped-by tag supported
-Message-ID: <Z03qJKpjBqJ9vAhY@casper.infradead.org>
-References: <cover.1730874296.git.dsimic@manjaro.org>
- <87h68k4esb.fsf@trenco.lwn.net>
- <cabfa180845df30bfb7a541a701a57e9@manjaro.org>
- <672e628111eb0_10bc629436@dwillia2-xfh.jf.intel.com.notmuch>
- <28c0a0ecc2e2880e4cb98449767e2842@manjaro.org>
- <9ae99d14dcd8867333fceacfaaa4430a@manjaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjPuhyV3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733160380; x=1764696380;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=BsEHNjcP0yoRdiQY8UO4KVSJoS6Aba+uZoD/T0TC2EA=;
+  b=LjPuhyV3uvetnO/24BAYLzUkfjXPMnlUN0rZAWep89fJsRbDUD+sfJ7B
+   P2nYyHBzwF5VPOZtMCTjV1CC6/wWZX5iHYgp+eI3ni7syP9EfHkw+k0Tg
+   op0TOEhDQ5vsTpeyQ+Aq0p3Gis+GY8eVQQdpWm4UZulc8kDUMGQWqxeSM
+   YxFCR/hs4QAzkvag8yATR1JjfUso7SeTweGHeWFP5aye7exGM+PZVKgre
+   8h4CDaQwWwz8oPUtQvLEs/TwtPXJsOvCPlSNww5fNLuALNsPRQ+kFKkeB
+   wmlTmoYO+b+biEC2ReyhWh5+lgJkgZ+nx2opAMNxJh7u8mlbHNH6aReGH
+   A==;
+X-CSE-ConnectionGUID: icCyv0IkSx+1htiA5cVBNg==
+X-CSE-MsgGUID: IM9glH9dSNWu1e6BvyihxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="55833040"
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
+   d="scan'208";a="55833040"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:26:19 -0800
+X-CSE-ConnectionGUID: bxI9jJ1zQqeonRA7mmffsA==
+X-CSE-MsgGUID: dRWQFCk7QlGCSxdVrLqoOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
+   d="scan'208";a="130638664"
+Received: from sramkris-mobl1.amr.corp.intel.com (HELO [10.124.222.246]) ([10.124.222.246])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:26:18 -0800
+Message-ID: <7222b969-30a8-42de-b2ca-601f6d1b03cd@intel.com>
+Date: Mon, 2 Dec 2024 09:26:16 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ae99d14dcd8867333fceacfaaa4430a@manjaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 1/2] x86: cpu/bugs: add AMD ERAPS support; hardware
+ flushes RSB
+To: Amit Shah <amit@kernel.org>, linux-kernel@vger.kernel.org,
+ kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org
+Cc: amit.shah@amd.com, thomas.lendacky@amd.com, bp@alien8.de,
+ tglx@linutronix.de, peterz@infradead.org, jpoimboe@kernel.org,
+ pawan.kumar.gupta@linux.intel.com, corbet@lwn.net, mingo@redhat.com,
+ dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
+ pbonzini@redhat.com, daniel.sneddon@linux.intel.com, kai.huang@intel.com,
+ sandipan.das@amd.com, boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
+ david.kaplan@amd.com, dwmw@amazon.co.uk, andrew.cooper3@citrix.com
+References: <cover.1732219175.git.jpoimboe@kernel.org>
+ <20241128132834.15126-1-amit@kernel.org>
+ <20241128132834.15126-2-amit@kernel.org>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20241128132834.15126-2-amit@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 02, 2024 at 04:00:47PM +0100, Dragan Simic wrote:
-> On 2024-11-09 04:10, Dragan Simic wrote:
-> > On 2024-11-08 20:12, Dan Williams wrote:
-> > > Dragan Simic wrote:
-> > > > I'm fully aware that we may be reluctant to supporting
-> > > > additional tags,
-> > > > because we may then end up with a whole bunch of strange tags
-> > > > that might
-> > > > be a bit hard to understand and use properly, but I think that adding
-> > > > Helped-by to the supported tag list may actually be a good thing
-> > > > to do.
-> > > > As described above, Helped-by fits very well between the Suggested-by
-> > > > tag and the Co-developed-by + Signed-off-by pair of tags, and I think
-> > > > that providing the right level of attribution may be beneficial.
-> > > 
-> > > Patch attribution is separate from giving thanks. I would much rather
-> > > someone take the time to say "Thanks" in the changelog with some
-> > > supporting text rather than boil down all the myriad ways to be
-> > > thankful
-> > > into a generic tag. "git log --grep=Thanks" often yields valuable
-> > > details, beyond just attribution, on how people have helped each other
-> > > develop this global project of ours. If the introduction of Helped-by
-> > > would replace even one authentic "Thank you" note with a generic tag
-> > > then it is a net loss for the community.
-> > 
-> > I do agree that writing "Thanks John for helping with..." in a patch
-> > description would be nice, but unfortunately I've seen multiple times
-> > that people don't enjoy writing their patch descriptions at all, and
-> > just want to "get them out the door" as quickly as possible.
-> > 
-> > With that in mind, making Helped-by tags supported would allow such
-> > people to at least quickly mention someone they're thankful to, which
-> > actually wouldn't prevent anyone from saying the same more verbosely
-> > in a patch description.
+On 11/28/24 05:28, Amit Shah wrote:
+> From: Amit Shah <amit.shah@amd.com>
 > 
-> Just checking, are there any further thoughts on this patch?
+> When Automatic IBRS is disabled, Linux flushed the RSB on every context
+> switch.  This RSB flush is not necessary in software with the ERAPS
+> feature on Zen5+ CPUs that flushes the RSB in hardware on a context
+> switch (triggered by mov-to-CR3).
+> 
+> Additionally, the ERAPS feature also tags host and guest addresses in
+> the RSB - eliminating the need for software flushing of the RSB on
+> VMEXIT.
+> 
+> Disable all RSB flushing by Linux when the CPU has ERAPS.
+> 
+> Feature mentioned in AMD PPR 57238.  Will be resubmitted once APM is
+> public - which I'm told is imminent.
 
-I agree with Dan & Jon; we don't need this tag.  And if someone's doing
-a poor job of writing commit messages, they need to be helped to write
-better ones.
+There was a _lot_ of discussion about this. But all of that discussion
+seems to have been trimmed out and it seems like we're basically back
+to: "this is new hardware supposed to mitigate SpectreRSB, thus it
+mitigates SpectreRSB."
+
+Could we please summarize the previous discussions in the changelog?
+Otherwise, I fear it will be lost.
