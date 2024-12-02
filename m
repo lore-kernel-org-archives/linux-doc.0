@@ -1,185 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E240F1C6F56;
-	Mon,  2 Dec 2024 11:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAE41FE457;
+	Mon,  2 Dec 2024 11:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733140711; cv=none; b=dOoWGY2FDLNfFcdTGLL3/M8HByXtJgm+drJdRN+KIJ6KqQZDvBjSYDhBstt5jdagnTVyLU/4lZwSSTyahsCPlrF8/ojSSwi65sxw7ZCe8m8ik3LGGRKCN5d5BxH7lmV6nS2myUAsQx4i0WDsI7WriRGd08l8iCWNIQqu+yFulag=
+	t=1733140774; cv=none; b=CObQCg2d0IbjHHDjgrMPhmLn/QvVJ048+mFxZuHlBBcUOBlZqjhJaWDTLzeiOlteylHs1ezEDR7tt9HVdgKH61MbFKa3EFhAtgAmUmV6BcT/Sb5lCtZ/I7kQjGZYNzmFcz0h9U/azyCDB+p5Hhf+iyQji4HNR4D7GpWcqs8dK98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733140711; c=relaxed/simple;
-	bh=xWdd34sIxw1QC1x4Q76ZWScjmX8Hy+8IhaCa3EtPKkg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CLw58KWRQLitmxTCRZ0ZFxjVVxCxL0reoTyS+CafRk81yoy08XgnnON/XJPlVbZOY+BeyM13TuAQTRml59G1KCUqBJoLT74MTDbc12L63uUXBLiBQLF9H9WOkF9jXWUSAFMg434YW58kKz5DSyo5mUE6w1TED9LFbCVfD3yKdIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pTG74Dfp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733140774; c=relaxed/simple;
+	bh=N/FtLGxZSOjoESGAFkoZ7rNu2YPWJnOH24yyDQkCF1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jm2O/2bQJIrX8oWEc5xtit7oZanDxqrk5JQO6VQhdE2dLZW9OdUu9nSnBhMnsJDV5OkNlL6xjN9RSngypIKz2GvnqMVz1hAe/EzR7T0ar7VoS/fnNKJrDcoTZi/9xTSMHdvbGmHdHk1/mAfrUNN584cUYFbLXU7sOFFMxL1Mo50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=kfCOHf6D; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pTG74Dfp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3FBC4CED1;
-	Mon,  2 Dec 2024 11:58:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733140710;
-	bh=xWdd34sIxw1QC1x4Q76ZWScjmX8Hy+8IhaCa3EtPKkg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pTG74DfpO7n6pT6UlLdkSl6z8ruFuFabicESGoIsGLuFdOAEJz5VHSsCx7HBZqw4i
-	 0dgtTI/hbPMOBs0miUx4pIcVFWR+jxDuYwITDqzh2e8kkTgZIVw6Fn2jGjIn02YNRT
-	 uqLPMxjp5KRnAUBpaCC5smc3PrSXYUA7b7J3UXIe75C4tPax25Vf4nYgkVYRD8ikk1
-	 ay+XCU0hQ0DWFGWWfX9m4qKw/Gge0DXZJCyAniIX6+0Xz8rAPx17XWjDn6kiZZHDE7
-	 MXWoH/tkYjJTPwwDvclNVJPdsDOrnCqbmHEh7d4aRfU3HzZpz/JS+YtIV6PIdhSY/m
-	 3WiXN4BwAiFNg==
-From: Maxime Ripard <mripard@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-media@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2] Documentation: dma-buf: heaps: Add heap name definitions
-Date: Mon,  2 Dec 2024 12:58:27 +0100
-Message-ID: <20241202115827.50388-1-mripard@kernel.org>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="kfCOHf6D"
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 889F91C00A0; Mon,  2 Dec 2024 12:59:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1733140761;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H5ubiw6vD4okQFCfJBW+Ugm6BtQvdoUcLByM+fyDWlU=;
+	b=kfCOHf6Dmy4t3nZYQCoE1xuCMpfTN/ZPug/6jz8E5HOnEaShyW/jfKEXm9TCCPlCibt3pc
+	2Iq5O9lku9yBP3uJeE0JAXWJxiqqABBXmlA+Lj5jUJ49CkPImVyzG6fc4ahCA8Tfntq00w
+	Bi/+mCXdm+r5lqCoOdf24UFOtWIwcWQ=
+Date: Mon, 2 Dec 2024 12:59:21 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Alexander =?iso-8859-1?Q?H=F6lzl?= <alexander.hoelzl@gmx.net>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Marc Kleine-Budde <mkl@pengutronix.de>, robin@protonic.nl,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, corbet@lwn.net, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.10 3/6] can: j1939: fix error in J1939
+ documentation.
+Message-ID: <Z02hGYbHhkEeE3eQ@duo.ucw.cz>
+References: <20241112103803.1654174-1-sashal@kernel.org>
+ <20241112103803.1654174-3-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="UyTOBD7KB2x8PJGs"
+Content-Disposition: inline
+In-Reply-To: <20241112103803.1654174-3-sashal@kernel.org>
 
-Following a recent discussion at last Plumbers, John Stultz, Sumit
-Sewal, TJ Mercier and I came to an agreement that we should document
-what the dma-buf heaps names are expected to be, and what the buffers
-attributes you'll get should be documented.
 
-Let's create that doc to make sure those attributes and names are
-guaranteed going forward.
+--UyTOBD7KB2x8PJGs
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Hi!
 
----
-Changes from v1:
-  - Add the mention that the cma / reserved heap is optional.
+> From: Alexander H=F6lzl <alexander.hoelzl@gmx.net>
+>=20
+> [ Upstream commit b6ec62e01aa4229bc9d3861d1073806767ea7838 ]
+>=20
+> The description of PDU1 format usage mistakenly referred to PDU2
+> format.
 
-To: Jonathan Corbet <corbet@lwn.net>
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: John Stultz <jstultz@google.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
----
- Documentation/userspace-api/dma-buf-heaps.rst | 76 +++++++++++++++++++
- Documentation/userspace-api/index.rst         |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
+I'm pretty sure this does not fix user-visible bug.
 
-diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-new file mode 100644
-index 000000000000..68be7ddea150
---- /dev/null
-+++ b/Documentation/userspace-api/dma-buf-heaps.rst
-@@ -0,0 +1,76 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+Allocating dma-buf using heaps
-+==============================
-+
-+Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They are
-+typically used to allocate buffers from a specific allocation pool, or to share
-+buffers across frameworks.
-+
-+Heaps
-+=====
-+
-+A heap represent a specific allocator. The Linux kernel currently supports the
-+following heaps:
-+
-+ - The ``system`` heap allocates virtually contiguous, cacheable, buffers
-+
-+ - The ``reserved`` heap allocates physically contiguous, cacheable,
-+   buffers. Only present if a CMA region is present. Such a region is
-+   usually created either through the kernel commandline through the
-+   `cma` parameter, a memory region Device-Tree node with the
-+   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
-+   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
-+   might be called differently:
-+
-+    - Acer Iconia Tab A500: ``linux,cma``
-+    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-+    - Amlogic A1: ``linux,cma``
-+    - Amlogic G12A/G12B/SM1: ``linux,cma``
-+    - Amlogic GXBB/GXL: ``linux,cma``
-+    - ASUS EeePad Transformer TF101: ``linux,cma``
-+    - ASUS Google Nexus 7 (Project Bach / ME370TG) E1565: ``linux,cma``
-+    - ASUS Google Nexus 7 (Project Nakasi / ME370T) E1565: ``linux,cma``
-+    - ASUS Google Nexus 7 (Project Nakasi / ME370T) PM269: ``linux,cma``
-+    - Asus Transformer Infinity TF700T: ``linux,cma``
-+    - Asus Transformer Pad 3G TF300TG: ``linux,cma``
-+    - Asus Transformer Pad TF300T: ``linux,cma``
-+    - Asus Transformer Pad TF701T: ``linux,cma``
-+    - Asus Transformer Prime TF201: ``linux,cma``
-+    - ASUS Vivobook S 15: ``linux,cma``
-+    - Cadence KC705: ``linux,cma``
-+    - Digi International ConnectCore 6UL: ``linux,cma``
-+    - Freescale i.MX8DXL EVK: ``linux,cma``
-+    - Freescale TQMa8Xx: ``linux,cma``
-+    - Hisilicon Hikey: ``linux,cma``
-+    - Lenovo ThinkPad T14s Gen 6: ``linux,cma``
-+    - Lenovo ThinkPad X13s: ``linux,cma``
-+    - Lenovo Yoga Slim 7x: ``linux,cma``
-+    - LG Optimus 4X HD P880: ``linux,cma``
-+    - LG Optimus Vu P895: ``linux,cma``
-+    - Loongson 2k0500, 2k1000 and 2k2000: ``linux,cma``
-+    - Microsoft Romulus: ``linux,cma``
-+    - NXP i.MX8ULP EVK: ``linux,cma``
-+    - NXP i.MX93 9x9 QSB: ``linux,cma``
-+    - NXP i.MX93 11X11 EVK: ``linux,cma``
-+    - NXP i.MX93 14X14 EVK: ``linux,cma``
-+    - NXP i.MX95 19X19 EVK: ``linux,cma``
-+    - Ouya Game Console: ``linux,cma``
-+    - Pegatron Chagall: ``linux,cma``
-+    - PHYTEC phyCORE-AM62A SOM: ``linux,cma``
-+    - PHYTEC phyCORE-i.MX93 SOM: ``linux,cma``
-+    - Qualcomm SC8280XP CRD: ``linux,cma``
-+    - Qualcomm X1E80100 CRD: ``linux,cma``
-+    - Qualcomm X1E80100 QCP: ``linux,cma``
-+    - RaspberryPi: ``linux,cma``
-+    - Texas Instruments AM62x SK board family: ``linux,cma``
-+    - Texas Instruments AM62A7 SK: ``linux,cma``
-+    - Toradex Apalis iMX8: ``linux,cma``
-+    - TQ-Systems i.MX8MM TQMa8MxML: ``linux,cma``
-+    - TQ-Systems i.MX8MN TQMa8MxNL: ``linux,cma``
-+    - TQ-Systems i.MX8MPlus TQMa8MPxL: ``linux,cma``
-+    - TQ-Systems i.MX8MQ TQMa8MQ: ``linux,cma``
-+    - TQ-Systems i.MX93 TQMa93xxLA/TQMa93xxCA SOM: ``linux,cma``
-+    - TQ-Systems MBA6ULx Baseboard: ``linux,cma``
-+
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index 274cc7546efc..4901ce7c6cb7 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -41,10 +41,11 @@ Devices and I/O
- 
- .. toctree::
-    :maxdepth: 1
- 
-    accelerators/ocxl
-+   dma-buf-heaps
-    dma-buf-alloc-exchange
-    gpio/index
-    iommufd
-    media/index
-    dcdbas
--- 
-2.47.1
+BR,
+								Pavel
 
+> Signed-off-by: Alexander H=F6lzl <alexander.hoelzl@gmx.net>
+> Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Acked-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> Link: https://patch.msgid.link/20241023145257.82709-1-alexander.hoelzl@gm=
+x.net
+> Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  Documentation/networking/j1939.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/networking/j1939.rst b/Documentation/networkin=
+g/j1939.rst
+> index 0a4b73b03b997..59f81ba411608 100644
+> --- a/Documentation/networking/j1939.rst
+> +++ b/Documentation/networking/j1939.rst
+> @@ -83,7 +83,7 @@ format, the Group Extension is set in the PS-field.
+> =20
+>  On the other hand, when using PDU1 format, the PS-field contains a so-ca=
+lled
+>  Destination Address, which is _not_ part of the PGN. When communicating =
+a PGN
+> -from user space to kernel (or vice versa) and PDU2 format is used, the P=
+S-field
+> +from user space to kernel (or vice versa) and PDU1 format is used, the P=
+S-field
+>  of the PGN shall be set to zero. The Destination Address shall be set
+>  elsewhere.
+> =20
+
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--UyTOBD7KB2x8PJGs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZ02hGQAKCRAw5/Bqldv6
+8l9LAJwL6qfkl3olcEWNHAA4lyQ0gqDEHACfcaO8EgLoYfDotzr44LxkgMgl/VE=
+=/fMJ
+-----END PGP SIGNATURE-----
+
+--UyTOBD7KB2x8PJGs--
