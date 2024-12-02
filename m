@@ -1,94 +1,127 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29B01DDC39
-	for <linux-doc@vger.kernel.org>; Mon,  2 Dec 2024 18:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD2D70805;
+	Mon,  2 Dec 2024 18:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733164569; cv=none; b=ULnuSO+N9bPMVgbntVlgZ+T++SA6hdD/pVBPlgn2FnPF5KNmlqnq1mOEiataLkvQca3cvJY6G9zz0O/ZLEZFIgiljqkUUBxip1XYP8wK+LWpRz9mpQQHppj3MdYYZRafh5qpWgF7JIigqoKw2MZKtdoO8bvXEqAhgTA03d3lX0c=
+	t=1733164606; cv=none; b=S2PZSqjnv6Ql4keBSjm6fQyRZJ7uzuK6XPFZe1gDs73GI8DTjYczVxkgaaiYGdZwKXi2AGRMxtfaLRvNjwjYjS/d2Qfd9QVo+19+2Qmy6uEmLx4IOYIrj4IugEWXkfgeTi1Oie4W8FxO9DvEic3bgX5NHXH0P69Plx1iaeZhVOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733164569; c=relaxed/simple;
-	bh=JhPRv+gPDMTF92gaKR88jFjruNF+A0nmJtg8odH4PDk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=p7ZoumA4NhhGrYqY6TwIVUnYqjWTw9ToCGBsFu/xaOGcomE7mCS7UmvVqHqr42ugsnoQpGno2aNfU2uP9+ZMmEwWlYFXLIwcaGl/5DHWquYqk9TbrIwNCP0M36+wLlJAh9h4VncEXooCmCOA3X7olCuTWo2CKFUBWHFhiPt9dtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GwPTX+we; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1733164606; c=relaxed/simple;
+	bh=SV0a41+RDhocvfEPEyv80/bq/ZSJlaeMPldbjOpf4GA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a9HJhF4+GIFOjAsVV1EJcYU9Ffk7plVU51R6VUy+X1Z17p5U/q+2XGyHxIF0TJwhP5drNuOsccN6SO1nrX3gJNKG5J67m7oEC5mdgkH37HVLY9H2SMvCO+iNa5MjCfZ7UpWP6vlk6dsTB5EDgnAXK8dsmw/DbHef3XelyzH2wM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mDXFsGp6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GwPTX+we"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-7250863ae6dso4403195b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Dec 2024 10:36:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733164567; x=1733769367; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dmhoE4cYt7rjQRHzT+iWiPMuGFQ3/gi9W/Su2Z8nl8A=;
-        b=GwPTX+wexZa1w2E7LcIVqu4jNea4h97hp1wyVyQ0WpJvj/kpvfIIguj4rrmo/tNd9q
-         LIlwE0Wz/ce9Jn0xyKz1krRy55+5c56p/A5/tShp3shIoQ7jKlLkGApmhC29MCWpljvR
-         HptgIyL75BYEeoPosOw+AUtdI0lozuzCFg56Rv7/Nj2CaCfgNeiLe1pGYbOYhFbdZ8ak
-         k8K67YLFtvNYOcynYQu1qGN31tMaAck6gLAEb/PYv00B/Cw6y8soyRBXaDOt9nYseJ/o
-         JN6lRifwmGrEhGzzz6BYLG7UW6Mv0y49oYmTqFFtGD5xkI7Ru3tRizHTvOFb6QuU24qw
-         Bx7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733164567; x=1733769367;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dmhoE4cYt7rjQRHzT+iWiPMuGFQ3/gi9W/Su2Z8nl8A=;
-        b=IxRL7nUy52KclRHjRB/CPVKxw4Al1mudJWjVRrXZF0QY61DIHVAX0jvoNMhc3Ho48g
-         uoJc9+gAy2ZZZ6/xzy1xhG1gfK1nDfnaIZ68erLNyj9OnIsk/GDxRskpGoV9U7uXYXrr
-         t9ngp+uvWVyHiX4cHbo9kxnKypIwE9QjezkWqnCY0tJRb6pvdWCSBr1gg8XITGbqBleX
-         gZq7MDDGidxksOInfYNle8iqoPK/M4k1HgA/SVKTLloVA9DVhpXWJaeMCZCK7T7EnhP9
-         3Xq2aJTw+h59ZW4ir5ALGfVeaAT4oVkg/OOUjkYq4imSB0KoC6ZTJPHvGR89bHrnnadY
-         OvPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVgKMsDn6PKBK8iC5OkYLOZaBUOImXroRn7mrAc+BulLBbOC+ZrBuF9UZ+8NJz6QcIyAc1fGlVLWS0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yywu9QfDtNB16JuXRwr3nO8AgaSH2vfIQ+11315Sgy16w6Ft/+i
-	T4tWtEbARraMai03ZNg7qXzozqnotstcqcfikBSxpcIOowFryQBvDo+fGDuwh5aMHgovfgMz0PZ
-	LEA==
-X-Google-Smtp-Source: AGHT+IG+yibGcr3UBT8GYMqK9RUzkIylDwqwGeEVnrlV5H+vn+hjSd3rZQdwVZ+U5jysAAzoOzzga9AddC8=
-X-Received: from pjbsw8.prod.google.com ([2002:a17:90b:2c88:b0:2e0:915d:d594])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4c07:b0:2ee:ab29:1a63
- with SMTP id 98e67ed59e1d1-2eeab291d40mr9629060a91.3.1733164567155; Mon, 02
- Dec 2024 10:36:07 -0800 (PST)
-Date: Mon, 2 Dec 2024 10:36:05 -0800
-In-Reply-To: <0dd91e39-c4b7-4740-b469-6f71e48b72de@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mDXFsGp6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98048C4CED2;
+	Mon,  2 Dec 2024 18:36:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733164605;
+	bh=SV0a41+RDhocvfEPEyv80/bq/ZSJlaeMPldbjOpf4GA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mDXFsGp6SVShBJ3Ui0hgJsz5amcbCq/I/bbNbZ2kUyQfWOw2ZS5q9ExO9fJelmJDV
+	 JoTW7+mVoW8JQm4aPfX9GffJUvsXf9CKpTJVs952AAHPXkRtNMzStQxAzUh/Zv0IAM
+	 0fAcJug/ASl+Poqji32qvlgh2ELNQMPdZwK3F2r+xv/iG/DXptEJg9zeHdsn/Jb+Iz
+	 0ftJTTXMZjBNyUB0xZcMDq65RoPvWTKPBxqqHxCCvmsG4BmH9jMW9szDkcIz+t9UOi
+	 mrIcG+VFSZqEP8KKocQ42uPkXDpb8JEBmQ5qSM4KpHB9tjvuVuaI9zpuuXloq4bRbo
+	 YzTBzB4DMLNQw==
+Date: Mon, 2 Dec 2024 10:36:43 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Asutosh Das <quic_asutoshd@quicinc.com>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Gaurav Kashyap <quic_gaurkash@quicinc.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-mmc@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Om Prakash Singh <quic_omprsing@quicinc.com>
+Subject: Re: [PATCH RESEND v7 00/17] Hardware wrapped key support for QCom
+ ICE and UFS core
+Message-ID: <20241202183643.GB2037@sol.localdomain>
+References: <20241202-wrapped-keys-v7-0-67c3ca3f3282@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1732219175.git.jpoimboe@kernel.org> <20241128132834.15126-1-amit@kernel.org>
- <20241128132834.15126-2-amit@kernel.org> <7222b969-30a8-42de-b2ca-601f6d1b03cd@intel.com>
- <4601ca077c95393837eb40909c941a4d67bb04dd.camel@kernel.org> <0dd91e39-c4b7-4740-b469-6f71e48b72de@intel.com>
-Message-ID: <Z03-FSa6nvVbFjwc@google.com>
-Subject: Re: [RFC PATCH v3 1/2] x86: cpu/bugs: add AMD ERAPS support; hardware
- flushes RSB
-From: Sean Christopherson <seanjc@google.com>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Amit Shah <amit@kernel.org>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	x86@kernel.org, linux-doc@vger.kernel.org, thomas.lendacky@amd.com, 
-	bp@alien8.de, tglx@linutronix.de, peterz@infradead.org, jpoimboe@kernel.org, 
-	pawan.kumar.gupta@linux.intel.com, corbet@lwn.net, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, hpa@zytor.com, pbonzini@redhat.com, 
-	daniel.sneddon@linux.intel.com, kai.huang@intel.com, sandipan.das@amd.com, 
-	boris.ostrovsky@oracle.com, Babu.Moger@amd.com, david.kaplan@amd.com, 
-	dwmw@amazon.co.uk, andrew.cooper3@citrix.com, Amit Shah <Amit.Shah@amd.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241202-wrapped-keys-v7-0-67c3ca3f3282@linaro.org>
 
-On Mon, Dec 02, 2024, Dave Hansen wrote:
-> On 12/2/24 10:09, Amit Shah wrote:
-> > I can still include the summary of the discussion in this patch - I
-> > just feel it isn't necessary with the rework.
-> 
-> It's necessary.
-> 
-> There's a new hardware feature. You want it to replace a software
-> sequence in certain situations. You have to make an actual, coherent
-> argument argument as to why the hardware feature is a suitable replacement.
-> 
-> For instance (and I'm pretty sure we've gone over this more than once),
-> the changelog here still makes the claim that a "context switch" and a
-> "mov-to-CR3" are the same thing.
+On Mon, Dec 02, 2024 at 01:02:16PM +0100, Bartosz Golaszewski wrote:
+> The previous iteration[1] has been on the list for many weeks without
+> receiving any comments - neither positive nor negative. If there are no
+> objections - could we start discussing how to make these patches go
+> upstream for v6.14?
 
-+1000.  I want a crisp, precise description of the actual hardware behavior, so
-that KVM can do the right thing when virtualizing ERAPS.
+The way to do it will be for the block patches to be taken through the block
+tree first.  That will unblock the rest, which can be taken through their
+respective trees in subsequent cycles.
+
+I'm really hoping to be able to test these patches with upstream myself, which
+I'm not able to do yet.  I'll try to leave some review comments on the parts not
+authored by me the mean time.  Anyway, thanks for continuing to work on this.
+
+> Tested on sm8650-qrd.
+> 
+> How to test:
+> 
+> Use the wip-wrapped-keys branch from https://github.com/ebiggers/fscryptctl
+> to build a custom fscryptctl that supports generating wrapped keys.
+> 
+> Enable the following config options:
+> CONFIG_BLK_INLINE_ENCRYPTION=y
+> CONFIG_QCOM_INLINE_CRYPTO_ENGINE=m
+> CONFIG_FS_ENCRYPTION_INLINE_CRYPT=y
+> CONFIG_SCSI_UFS_CRYPTO=y
+> 
+> $ mkfs.ext4 -F -O encrypt,stable_inodes /dev/disk/by-partlabel/userdata
+> $ mount /dev/disk/by-partlabel/userdata -o inlinecrypt /mnt
+> $ fscryptctl generate_hw_wrapped_key /dev/disk/by-partlabel/userdata > /mnt/key.longterm
+> $ fscryptctl prepare_hw_wrapped_key /dev/disk/by-partlabel/userdata < /mnt/key.longterm > /tmp/key.ephemeral
+> $ KEYID=$(fscryptctl add_key --hw-wrapped-key < /tmp/key.ephemeral /mnt)
+> $ rm -rf /mnt/dir
+> $ mkdir /mnt/dir
+> $ fscryptctl set_policy --hw-wrapped-key --iv-ino-lblk-64 "$KEYID" /mnt/dir
+> $ dmesg > /mnt/dir/test.txt
+> $ sync
+> 
+> Reboot the board
+> 
+> $ mount /dev/disk/by-partlabel/userdata -o inlinecrypt /mnt
+> $ ls /mnt/dir
+> $ fscryptctl prepare_hw_wrapped_key /dev/disk/by-partlabel/userdata < /mnt/key.longterm > /tmp/key.ephemeral
+> $ KEYID=$(fscryptctl add_key --hw-wrapped-key < /tmp/key.ephemeral /mnt)
+> $ fscryptctl set_policy --hw-wrapped-key --iv-ino-lblk-64 "$KEYID" /mnt/dir
+> $ cat /mnt/dir/test.txt # File should now be decrypted
+
+That doesn't verify that the encryption is being done correctly, which is the
+most important thing to test.  For that we'll need to resurrect the following
+patchset for xfstests:
+https://lore.kernel.org/fstests/20220228074722.77008-1-ebiggers@kernel.org/
+
+- Eric
