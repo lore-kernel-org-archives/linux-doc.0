@@ -1,79 +1,78 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662081F9EBB
-	for <linux-doc@vger.kernel.org>; Mon,  2 Dec 2024 09:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733132543; cv=pass; b=DM+mrQXXUq/aoUmxh4L5dazWPsa1+U+eT1LWHg+n6VUVNOruv+LwgdXmW9jEwErDIGccCgbgjE4Gij9PuQ0r7w93AG+IeIp7cYt4taBvcgQvjXlVqMxYLxgPqCeQ7NRYkecADjD3p9gnHjIrFpbcA4dF5CmfhEGPDVgyAthMdFw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733132543; c=relaxed/simple;
-	bh=1gAVFW30ApUN9s7Gt6XUWWW5CEvBagyIlA/OiPPwYvo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GmsFFlapCHhjakbqliu3Rmni911dKw+wDy3eZAqu9CFvYHHup6qHRfFUVtfkgYwuU6Yyf7wIjgr9No+HKYcmcc+Sn8zKXafXbyQlqparH4xoeB+9zyJ6Tcn98m5iVpIDpplFTcJy9R6xhmPvBldWyrUsmD9OsTWmgzDv/b0z1tk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=NueOdzOl; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D6F15A8;
+	Mon,  2 Dec 2024 10:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733133735; cv=none; b=F5/9fKLzNt1onwfuEoc5PZyiRv6UhNTrvOO/eyGWCNMuCvIPrSX0HNrxtVa9v6htBeVmsf4sRynmXVLh0jn8ln/gRkZ6GSW1e/q3Zt/deP+wmWhisPr0MFJZnYWQ/Yft6wAoVdOOheskXvn68T8mHgZfUi9DsvOmhNOSciRJkRI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733133735; c=relaxed/simple;
+	bh=eZ7zlX7FYsKm828GBgt3sagGNQdDzfe4XmGIjJGGhpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g2Qw2pvzSWnGF5CnTgIG3p8GS9s95XPMOQCyj0LX4wg8P3oK5zdq3RDSoMEeMkPCSD5+azHjoSc9f8atT4gIFskUGO4WpmxoLUJhIU+p1S/DxLkK00oim8AFNImbGGrqHeLO+UJAxKCTDtzXnQkQGDKPDvMolP1ItC2J4sZojGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWfGgCfn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="NueOdzOl"
-ARC-Seal: i=1; a=rsa-sha256; t=1733132523; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=LOpUsA6RHZMeHsnldb8mdWIsLUwJ32IqqYNQlpYtKbV5OQL6wQDwGqhsE6mO3DsDc4HO/QTTLao4rToGlO9fwj3QiQ6FY/6DiL3oiYF5ly3s05txr7uwfb9r1UDhovaRjocVbUowoW07kb6T30rUd0rZWhilFZMATRCyPH3imIo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1733132523; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=oqNOw96nf0FlEzD+Y7kteLaGzFXpVYv4dtSXl7+cLgI=; 
-	b=dQSLSZfPn2abW95NIVjU8ArjzudIfFN0C55D5OYqINGsMz3/8C0e0ncNNY00Zr8NnZ4uat1lgFG4Eyk/cgGEBac4h1KYXd0x93YxcQAzNjaWn9QU1kpZTkbwqYvwc5GSyPgQufolvIc3akiHA8laGtfjrEV/nlzBAblchsSbc70=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733132523;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=oqNOw96nf0FlEzD+Y7kteLaGzFXpVYv4dtSXl7+cLgI=;
-	b=NueOdzOlO/wmGV5QvvoaK0TUeB7fZpjs2xRSCG2EVJowaEUYgC+NZuU+GGLmBPTZ
-	wmwBxLAyE5WKWye0bG0gfKOdMQYZBUdu8TRhm7dRJZv57iN6Nz59kZX82PRCqc+Zdrf
-	iXkF2JM7HAI3rXhhU/WR8b/ZKakj+IgyHE13Q0lc=
-Received: by mx.zohomail.com with SMTPS id 1733132518577661.239391839636;
-	Mon, 2 Dec 2024 01:41:58 -0800 (PST)
-Date: Mon, 2 Dec 2024 10:41:54 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: move kgdb.rst from dev-tools to process/debugging/
-Message-ID: <20241202094154.3yrbqiinlpkqn65b@basti-XPS-13-9310>
-References: <a81c6e57-46ff-4347-9ddc-2cf566065b11@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWfGgCfn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DB56C4CED1;
+	Mon,  2 Dec 2024 10:02:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733133735;
+	bh=eZ7zlX7FYsKm828GBgt3sagGNQdDzfe4XmGIjJGGhpM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IWfGgCfnvLWSiP0Pz0nAW5fj52PO9cisMN4HES3D4QAPNeo9knjqUEpHdJXO8cq6g
+	 pM1BUcPivWLz1NywiawKvs2gN/bA+kIynFMd3cJw5fLjuv57NJDyAmVMzn3IVP6StP
+	 sf2gDnjBkciMBqy6dW0VymiyN0eLQmpyXfmTmuHeuQiVq7bEXSWGAJQmniHkJgT8Gx
+	 3wB8leWAMEt3b0mAP+futzmq+Hndf7jCQQHY0b8YL7b0Gr2B0oNYL+YHAh9C1xRb9K
+	 qyuyjLmz3fOXygwwYXqtM2TX2tq85Redei47lMYFfMVodAB6oJMdfT1Aaia2r+a7lO
+	 nvvgKafWPE+EA==
+Date: Mon, 2 Dec 2024 11:02:10 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v3 DONOTMERGE] docs: clarify rules wrt tagging other
+ people
+Message-ID: <20241202110210.5e56d69e@foz.lan>
+In-Reply-To: <20241202092857.7d197995@foz.lan>
+References: <c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info>
+	<20241202092857.7d197995@foz.lan>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <a81c6e57-46ff-4347-9ddc-2cf566065b11@infradead.org>
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hey Randy,
+Em Mon, 2 Dec 2024 09:28:57 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-On 30.11.2024 00:10, Randy Dunlap wrote:
->Hi,
->
->It seems to me that documentation for kgdb should be in the new /debugging/
->sub-directory [or that all of /debugging/ should be under dev-tools].
->
->Same treatment for gdb-kernel-debugging.rst.
->
->Any comments about those?
+> > +Tagging people requires permission
+> > +----------------------------------
+> > +
+> > +Be careful in the addition of tags to your patches, as all except for Cc:,
+> > +Reported-by:, and Suggested-by: need explicit permission of the person named.
+> > +For the three aforementioned ones implicit permission is sufficient if the
+> > +person contributed to the Linux kernel using that name and email address
+> > +according to the lore archives or the commit history -- and in case of
+> > +Reported-by: and Suggested-by: did the reporting or suggestion in public.
+> > +Note, bugzilla.kernel.org is a public place in this sense, but email addresses
+> > +used there are private; so do not expose them in tags, unless the person used
+> > +them in earlier contributions.
 
-Thanks I have overlooked these files, but yes I would say these are good
-candidates for the new debugging directory. And then we can link those
-pages into the userspace debugging advice guide.
->
->thanks.
->
->-- 
->~Randy
+Hmm... There is another tag that we use without requiring explicit permissions:
 
-Regards,
-Sebastian Fricke
+	Requested-by:
+
+There are currently 376 occurrences on 6.13-rc1.
+
+This is used when a maintainer or reviewer publicly requests some changes to
+be added on a patch series.
+
+Thanks,
+Mauro
