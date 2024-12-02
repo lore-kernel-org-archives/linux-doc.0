@@ -1,104 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2059.outbound.protection.outlook.com [40.107.102.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89186A50;
-	Mon,  2 Dec 2024 21:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312561DFE07;
+	Mon,  2 Dec 2024 22:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.59
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733176071; cv=fail; b=m0Q9e+rDuMPFeiivcUb07y5W2FgpW5vsIfRJwcEHyJSJVgigrTmsLarBSziKDi0+knhcy2l6HZIF2jHgWoKVd82fneR+niNKgPh/E0a/mozJY2HWxUk64Aoe35CLnbAahH7iw/NjuxQI/TM57OoTH9dJE+1pT+C4zHs6t2Qa3RU=
+	t=1733177229; cv=fail; b=oII/sj9gaLfM8mk7x7ULae7HiEFbP3e3xnRiUeORxz4dktXQqO0BXlQfNdJbF011FU6Fv1vrhxRtMl+6ULKbkx62383BpyvWHUInw0tL3n6bWJG/3IDS/gC0+cQJgO0KSQXJ8j/FH7QagvQy9njVnZLUSCiSS9VZdf80yEAJg8g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733176071; c=relaxed/simple;
-	bh=jsfShFk24Vh85FiU+u39mOAXDpw5PJJsx5n6w3bBK50=;
-	h=Message-ID:Date:From:Subject:To:CC:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=OyphTyijdylbdAEHp3enG85+Jw0Rgn7egufRMtHPty+/1s/6838ITNqAahElJIDWwVkpy0ce5NOYU5MYpXe29ZSLXm8saabtBBm5aR+tYMSbWmPoEtqxscG4amWwJI4dISt5crpFQp4h6gtVxAAtx3tgWav+aGbVZwbsD6nQRTE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIGZydCD; arc=fail smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733177229; c=relaxed/simple;
+	bh=p5qxh/ylp+e1HJ7jKNREst2woYmkskey5pOrLCNfGFg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EL6RkkVxLu4/Th0Vmi/ESodNKdZp5xWgXYTdeUnOCKzpbmkVLAe1rOzh9cbhCogo1NghxxFR+FZ5wQmXSMrgAqLckKa6VLCP4EGzAKyosaHtzyZSoNZ6fXCIa0rwfIJXhK6lMd9nWeMOst8OwHDuhq3fUlf3r2Whn5jAo3vjGLw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=zkdVnfQq; arc=fail smtp.client-ip=40.107.102.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIGZydCD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733176070; x=1764712070;
-  h=message-id:date:from:subject:to:cc:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=jsfShFk24Vh85FiU+u39mOAXDpw5PJJsx5n6w3bBK50=;
-  b=bIGZydCDF5UATsPmfiabskBPn8Z82/ApfB2oJJrpzPLFyuebPLqXZOBv
-   8luBeO7FhTOEU/I3WCAPf0CX2uhZ4E3wm3rpE3rPliv9Zg7AB6DA8pbwv
-   zp5unnh8VIAT1LSY1BSSjt9lPXEMpBz2NYQTFIxAkSN34U7K5AiODGSR8
-   gKkZTdyWc0jtLaUVEoDsYum/Th3zdS7LmqzxtZzyALbvnuw+h5cfp3t8l
-   v9DzyhTRW+NOZ3mxou/DEEQK+8zGWDwpbJcGFJduJi1jRLCgDgPgkXqMF
-   vD78e9aRNwf8uZkEt8fTyV7KsCeifDYuqSdyWHfM/B0mZZwmLGgaxqtpJ
-   w==;
-X-CSE-ConnectionGUID: FHWVWvyAR+2E5IGcP62gBQ==
-X-CSE-MsgGUID: k2WfM9xqQCGfbx8qZ98qtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33284001"
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="33284001"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 13:47:49 -0800
-X-CSE-ConnectionGUID: ZCEarEctTD2mwcHe3t3y8g==
-X-CSE-MsgGUID: pquBFV/FT1ybqoUGbSoCFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="116490299"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Dec 2024 13:47:48 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 2 Dec 2024 13:47:47 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 2 Dec 2024 13:47:47 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.172)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 2 Dec 2024 13:47:47 -0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zkdVnfQq"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XmdTjv+5aL8iLc7RxIe9JU3tlntmSpdLh+rQLKyOZTMwZy/KASGnJ6xONLExaC+gVgt/B/QGdS+AYlfXlM+noxECBF/kpclAtOpjd6UoOdWgo4mJ9npS//dR7bqbqZ1bYV8YgeSeBLqBRRBDToSzI7RJO3CpYtxTRHBl/6oIOnrEOLg0OHA1iTCcyoMZSsJu3LUuOsVtIp1qBYeCE95CYZq35NLs03EqXXZ0Voa51NL70mqw8/ZbM1PpPn+nk4i4KbpOMJgVYtHe4uHU+GTN4nOOIhLpuViCO0Svy3okKvK4KkH640qh9ggy43JklgjuTb2O5n5BNwPx46mB1yUvDw==
+ b=iO66VWgccTQ7Y+9Fht64v4CVrQOu+7YQGGxosrARAcwEqFhgUdTl8uFYwbrifPQPs0MlGfih71TEof7KoUfoILtnr3X41GTsiy2hLdZLgsGy24vVxmUxaMbMsUcCLAMknqyBhOuju7hEDdgDQnUoH4S3IFbdnfmnwTms0l7UrU48u71RxwyuAicKp4OAZPAfQu0JmmyqUwHHpzL7ThXD+1Cmxtue+ElG9xwAfgRLe4qryL3yGaTncys3JGMnwjQlQRIhfEM128rCeb9Y6mSmnaev3agwq/TBWPGq1EW+j98otR7ve3M4ZpCUEFHMMTXC2XDBh0WnohoXjTZPoVuCeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EWMFWsjmeP3s1pgTRva3vhTDP79t2V1R8/udVMluzcY=;
- b=imQHu12YbAUFnSO8uytWOH56Y1il3MQFp7jjZD9YM8yxxyy3yObuRXxp/ecucn3dozP5mz259/JNn89SfhNl6kV3xjAPbo4tPMGvXCa8AvLqM5X1FwZkYVyxr1Nl/dbMjVtghlVSH9Y+ua9OZpFsNX1v5x+trTPpKoS55bDtEGLaQ/MQSbP6mVsngGkgVmThRNELTxz3nBlAvF+IZ3/t8MWuV0lEm1clbD4eZ4R0R1A1mzIZPgZSDI35pJvkajNADKzg+dgIccwS65Uf6uIj5iU9WfTrOye7USCJOKAL0ZO8C4epSDsRwLuMfw9vLMMjW2fFUIq6BTRnuxn29YhbSA==
+ bh=BuyeRWUsfgCNk3CrOfCBsb9Y/C80C4Az9iMtuSB+OJI=;
+ b=f0LCX3vuLT/9k7atBYlw4zCuHlnSNM95uaA93vYj+S97DFkQTnWQ30Nhf3ommH8v2W5ipRJdCn5O/FZCz+KaFAhugTMpDrEENDdTclTv58IGbfkE+hnINKEwq+jRmtcNs7yBUjpTB/aO5cd+BqxDbDYaUFeURAIkDtD+AhE68lxDu72+AWA4AHbXZwm/LnfYpLwHGxhKkZkzFacE19RWKdoSFmUdls6UaExL3MpNQPCnW286uBXGMG3mwSaI40R4KV91g+AKQhcsFuGDz9l9GhMV5fwZKIbSXARz7o+wk+ou5D1OY6shNREFhVd3DL9XeylWkrsD0sLWvuR4qynjcA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BuyeRWUsfgCNk3CrOfCBsb9Y/C80C4Az9iMtuSB+OJI=;
+ b=zkdVnfQqRMx3e+2vGOBpn58bjWhxJuuphR4kNv0lveWPoahn6ZPPMJ+/dnYpNQJnrzxiyF4JzxbwHk+k8ZTWM5+XIVeIH10+ahgD8QpwiUjkt5x2joO666HkIHv607g7ndu6l/cL+a6F3A2iY5O4a2boDSVZtGZ4TTQqUJXc+b0=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by IA1PR11MB7855.namprd11.prod.outlook.com (2603:10b6:208:3f8::16) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by CH3PR12MB7643.namprd12.prod.outlook.com (2603:10b6:610:152::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.17; Mon, 2 Dec
- 2024 21:47:44 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8207.017; Mon, 2 Dec 2024
- 21:47:44 +0000
-Message-ID: <10a197e4-bfa8-4d42-a229-b755378781b0@intel.com>
-Date: Mon, 2 Dec 2024 13:47:41 -0800
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.19; Mon, 2 Dec
+ 2024 22:07:03 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8207.017; Mon, 2 Dec 2024
+ 22:07:02 +0000
+Message-ID: <0b0d0627-07e4-4fe4-8de5-f6e5a5148dc7@amd.com>
+Date: Mon, 2 Dec 2024 16:06:58 -0600
 User-Agent: Mozilla Thunderbird
-From: Reinette Chatre <reinette.chatre@intel.com>
+Reply-To: babu.moger@amd.com
 Subject: Re: [PATCH v9 14/26] x86/resctrl: Introduce interface to display
  number of free counters
-To: <babu.moger@amd.com>, Peter Newman <peternewman@google.com>
-CC: <corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <fenghua.yu@intel.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <thuth@redhat.com>, <paulmck@kernel.org>,
-	<rostedt@goodmis.org>, <akpm@linux-foundation.org>,
-	<xiongwei.song@windriver.com>, <pawan.kumar.gupta@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <perry.yuan@amd.com>,
-	<sandipan.das@amd.com>, <kai.huang@intel.com>, <xiaoyao.li@intel.com>,
-	<seanjc@google.com>, <jithu.joseph@intel.com>, <brijesh.singh@amd.com>,
-	<xin3.li@intel.com>, <ebiggers@google.com>, <andrew.cooper3@citrix.com>,
-	<mario.limonciello@amd.com>, <james.morse@arm.com>,
-	<tan.shaopeng@fujitsu.com>, <tony.luck@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<maciej.wieczor-retman@intel.com>, <eranian@google.com>,
-	<jpoimboe@kernel.org>, <thomas.lendacky@amd.com>
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Peter Newman <peternewman@google.com>
+Cc: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, fenghua.yu@intel.com, x86@kernel.org,
+ hpa@zytor.com, thuth@redhat.com, paulmck@kernel.org, rostedt@goodmis.org,
+ akpm@linux-foundation.org, xiongwei.song@windriver.com,
+ pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+ perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
+ xiaoyao.li@intel.com, seanjc@google.com, jithu.joseph@intel.com,
+ brijesh.singh@amd.com, xin3.li@intel.com, ebiggers@google.com,
+ andrew.cooper3@citrix.com, mario.limonciello@amd.com, james.morse@arm.com,
+ tan.shaopeng@fujitsu.com, tony.luck@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+ eranian@google.com, jpoimboe@kernel.org, thomas.lendacky@amd.com
 References: <cover.1730244116.git.babu.moger@amd.com>
- <5d426af4-a947-4115-b7b7-4eeecfa13fec@amd.com>
  <c587f94a-7920-49cf-94b1-4c52140db914@intel.com>
  <ef92f1fb-086c-4ee1-b8ec-e08ed68f963a@amd.com>
  <e065b193-dbcc-451b-98db-68a5a69e6ae0@intel.com>
@@ -116,13 +79,15 @@ References: <cover.1730244116.git.babu.moger@amd.com>
  <03b5f7f2-d347-44de-85bc-0a346651d487@amd.com>
  <83abb31a-c2a6-4319-8b56-174b7848f4ec@intel.com>
  <bc26b599-0a0e-46f0-bfda-83330a34293e@amd.com>
+ <10a197e4-bfa8-4d42-a229-b755378781b0@intel.com>
 Content-Language: en-US
-In-Reply-To: <bc26b599-0a0e-46f0-bfda-83330a34293e@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <10a197e4-bfa8-4d42-a229-b755378781b0@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4P222CA0007.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:303:114::12) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+X-ClientProxiedBy: SA9PR13CA0001.namprd13.prod.outlook.com
+ (2603:10b6:806:21::6) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -130,350 +95,359 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA1PR11MB7855:EE_
-X-MS-Office365-Filtering-Correlation-Id: 690b9489-9aea-42e8-6934-08dd131af440
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH3PR12MB7643:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8177ca2-9af8-4cf4-a759-08dd131da6a7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MUk4QVZiMXdwL2tLb3RwM0VaQWdpS2JVckswZytCeEhqUm4rQjdLTml0OFM0?=
- =?utf-8?B?YTUxMDFXTHBHeW9aWlZTT05ITGtuaVFFM2wzWUtiU0ZMeE4yaFR5bmc5NFor?=
- =?utf-8?B?NnBnZjVpR3FCcUNCMlNTdDVTcUFXNzRtUDRMZit4dGIzbVp5eHl0dThDeUFm?=
- =?utf-8?B?QVNhUDQ5Qm9qR2JiS3F5aDB0eEVoMDRRR3JRL0NoZDVzazJTSVd6NVQ1ZXNv?=
- =?utf-8?B?SVdzdCt6MC8vSlFKTWdtVkRra2N5U1ZzK3RkcktBcHNLTWhqY2hxUVJlRHFQ?=
- =?utf-8?B?RFVJdXR1UVlCVTBPclppWkw3akprMEk4VjBzNG9BMm5pbW16cmdKT0pQMDBu?=
- =?utf-8?B?ODNiTitnOEhKaDhsS05vSXlva3A1bklLd3lGUnpZcFNpMHZwdlRIZWxlWmRF?=
- =?utf-8?B?Y3VHaDhtZ0ZYa0JCYXhhNThIZXRRQW92eU5LYzRxMWR1MFZaa1UxY3cydlB1?=
- =?utf-8?B?S1VGUlNqd2VIM2ZMODRxS0V2WHJld3hrM3F5TGE2RE00RFZ3M0NiRHZSUWZI?=
- =?utf-8?B?amtPZTRQQmZId0tUS1U3YW1tNmY0TDNwbnUxVHBPUHplUWJQc3B3VHkvclZZ?=
- =?utf-8?B?TXZlbVMyKzBDUXJSc3BveUpCWDloY0MvKzl4ajRLWmhTaExaTHloTW9LbHpn?=
- =?utf-8?B?RFBPNUw4KzBYclc4WnB3MmIydkxvaFBRUGh0QnhPbU92SCs2MWRPcTZJc09T?=
- =?utf-8?B?VVlFdE14eWN4cjcrT3J3OFNpZFVWVFNZbEJldVYya2FrQitMS0ExSWJMc0g1?=
- =?utf-8?B?cnFLZVB6bjB6WmFuMERLMU9hR3licnNjWWJXUlEvQml0ckxrbHY0ODJibWRq?=
- =?utf-8?B?VHMwQjdxUEc5ZXZFNitoMWJSQ1NRaGRZNGVGeDhnOVY5cThqY2RPWlkzTFhV?=
- =?utf-8?B?cUZOTlNEdEZuZ24ycitoN0k2dVhEQ21haFZVNkJLSW90NzVkRW1yVmwvaWxs?=
- =?utf-8?B?ajh2a2RmOWFjWFFkSlJpNDB4eEx2RjZQaCtRTTJDa3BVWklJUEJQRmo0MWN6?=
- =?utf-8?B?Vzd3VzBhOVlEWFo5WWFPeU43ejBJc1hQSXVSanlwSjdwbFJPem1tZkprTVJN?=
- =?utf-8?B?K0FRajBxL28xVC81eHBINGdsMS9vbDFERk9Pc1ZBTDUvbXh5N05VZ2RGaFhh?=
- =?utf-8?B?QnhzMmVvN0Y1b0ZUSzI1cDhLNlFNNFgrZjRsVDdIclJtVGdxK29qcFlaeEk0?=
- =?utf-8?B?R3dNUTA4MytZbVI2SzVzMkFBRkx6bmoxZ2dmWndURXBMVkJkQkhQKzMxZnp3?=
- =?utf-8?B?cEVIUmFKakZNU2JpdzR5NUVlUTRPUkFTc2QwVSs4K0txV212Z2dvL2VXUXZY?=
- =?utf-8?B?RjFZTzV0dzY2ZVEvc0cyTHhRMnAzR1B3NG1ZclMvYXNyRVlyeVV3blAyUERi?=
- =?utf-8?B?bzVITjhLT0xWaEFaVVVFYi9xUDI4SElZQzlaa2FvUExVcFpNK01vSzVPN0g0?=
- =?utf-8?B?bE9MTWc1THNvQTBCd2FwTitXeDIxMjMydmFJYnJBUXFESHBZOStXQkhGMm1k?=
- =?utf-8?B?NDdsK0tSbG52YWNwUW01NVJhTVFxRWh6eUVXdWJBZVFPVnpRU1I4VGdYZ0JS?=
- =?utf-8?B?ekhqNjQ5UXRoZU9NaTEzdUhhWXFWY2J0dWF2YjZaYWM4dlVmb0xCUFhOWnQz?=
- =?utf-8?B?VzhFTlZjRTBKZjVNVk42aXNzNGtBaW5COXJkc2wyL0FtV2VGQWo1c1ZMSGta?=
- =?utf-8?B?OS9wMkFZak5zVVNMSkhGVkJ4dzhicS9PN3JKMTV2b1lOcWxzRWcySG5mbzEv?=
- =?utf-8?B?L2lEd3k1NHRsaFZYRmVLdUc4YVM1YStPb3Arc0EwTEw4NEhUamFma0ZLVVN1?=
- =?utf-8?B?a1l3aEtEWHliVnpmOXZKUT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?di82UWFyNi8zcWZTY2ROMUFWd3h5MGNUTmY4bUY3ZkpvODNCenVHRVNYSTh4?=
+ =?utf-8?B?a3lOK2htRmVHREVnUGhQTGl5NEk3Q2M1bFh1NnNHMVd0SnhOOUZEalhXYXRv?=
+ =?utf-8?B?WjEwVC9ybWFweG56MndQeEwyYnNLQTFoTFZ6anEwaWV5ZGtySU9teGdzUFBL?=
+ =?utf-8?B?V0hFRmFaM0ZFMjVLSkZmczVrLzNrc2wxejVkdGJpUXd2eXNqeWhmcnVzalZM?=
+ =?utf-8?B?Ym9KZEx3b0JuUENLKzdsckZKQWpKa1NINC85cEFaOWlOYStEQk80UlhjWlNV?=
+ =?utf-8?B?NXJubDIxN1hJUEpuZFlRTFVOZTBQem40NDFrSXlqbTVwSVF6Vm52N0tpNHpk?=
+ =?utf-8?B?Rk1NazVxZHo5Sm1oOU9LZU9iYjFETW5vSndJUU5PL2E5RzRQamcwdGI1ZVhJ?=
+ =?utf-8?B?Qm9OcjZrV1gxeFhaOWw4Vm1oNkp0N0NqUWFGc25sSVVpOGU3WmRaUGgzSmRX?=
+ =?utf-8?B?U0dzTlVtOVFJV1JxbkFQbVJ3ZzNpNnRjZUxnWGsxSmRDdXNTMXcvelZFbE5G?=
+ =?utf-8?B?RmlBc050ZU5ST1NEbU1hUlU1YXJrOEl4cElVcUlEcDYvUE5WaGhWVVVnVjl6?=
+ =?utf-8?B?eGFKRGo2cnRySXJxTFF2MGRUeXh2WlFod2hadTRybEtnTGE5TTZIanRHQ0RU?=
+ =?utf-8?B?TCtWWkM3MzNVaDZXR0I5dzdvOWJ5Zjk1dThuTGNkMEJJLzk1cSt3WWVIdTN3?=
+ =?utf-8?B?cGZtZTVXbGhTZkVueloreTE2U01lWEFJTHprNWlZTkpvUWVneXJMTFVWYUZP?=
+ =?utf-8?B?N0tKVHY3L2FwNEl2SlRHTXl6UEhqU2MrbVlUanUwZEZZaC9IczFlZkIvU1pR?=
+ =?utf-8?B?R0ZoYis4UTdET3F0a3lMd3g3YXYyeDgxZWNucmJidnA0b3RhYkdTWHp4VkEv?=
+ =?utf-8?B?cHRVelh5RS9Od0tnaVJUeFZSVk5Xczc5aWlMak5RcTRHcDlHdk8zazlSZU8z?=
+ =?utf-8?B?ZnVhTTMrL1JjeSttbjdCQmVPdUJ2NDlzV1RZd1Z1dHpuMTdSZDM4djlCajFw?=
+ =?utf-8?B?eFR1MU1DUVdhdFFjR3BueFpCWFJTeU51RWl5bWFRa0NoTEFnc01LSEMxUUEw?=
+ =?utf-8?B?L1VYV1k0eGZoMExVZjhoRlFLRmlwaW5YaktyKy9TVzBRdDVCLzhEMDRzeVR4?=
+ =?utf-8?B?SW5LRWdUWnoxQ0hzcitDQVhrckFod0xDWmNic0orWklSbGp4RWFmRTIwalFq?=
+ =?utf-8?B?S0dnUzNxenFuMHBadVdiR2V3ZU5ZSUg3Zm1yaHhKb3BHRzJaSHA3ZGpOcEZ2?=
+ =?utf-8?B?ZjFIbi9OSGZ1aUVPbFZ6N2VDYWtQZnY2MkhHZXUrWTQ3UWMrSnp6N3pJRnR3?=
+ =?utf-8?B?dE45K2R0RncrYWdJM1dJUEwvSkY1cUpaelZOZ3lvZjRnRUxoc2d0VzYvNmRY?=
+ =?utf-8?B?Q1Y2eGRDc2FyMThYdWxnUU1BZk1YZEtHc3dZK0JLYXdtcmc1UHB4aXRtOTl2?=
+ =?utf-8?B?WDdMc3I0WjMrbDg0ak9aOVArWXB0ZStIZnlOcnNyUFZYcHJNNXd6NEtZQmJR?=
+ =?utf-8?B?b21YY2N6bENiMFJZNGJ1eW5RYXJlMEs0OWJNVk9SU3B4Y2F4VGo3Nm0xRFlq?=
+ =?utf-8?B?eTNTbkVhY281NkFFd1MxcVpCYmw2UnNuRW9lZGxqZ2lmNkxPek9SVEM1Qnht?=
+ =?utf-8?B?WktSNlo3S3VJNC95a2l1ZndudnZpL0RCMDl6djFWSFdYT0JURFo4cUN2SCty?=
+ =?utf-8?B?WXpxYnUrMTM4K2IwQ0Q3RVlnWmF6V2RQSlkyYzJESUR5Wm1BVk1TMGUyUWsy?=
+ =?utf-8?B?NVlEWmZuV3VmbzdDUEJiVGF3bWVOSmY0VWFqTnhXYWtzdlEvS2wraUwwRVQy?=
+ =?utf-8?B?eGxWbTZqREFmQlEwcjdDUT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SFRPR2NGaDNxQ2xNbE4rWmV6cEpwQ09vQ1hha2l5cFZuMHBCaVpTc2l0b2ww?=
- =?utf-8?B?blZNSzN5ZHYyUEdDZnFIb2VLOHhaNHpMK3RDK0pJSWhRQ1JtQWw2Y04vS0hX?=
- =?utf-8?B?WkhIUXNaeWN3Y0RMVjdhblRKS004aGFuSFRtSitHWHdSdmNWMSsraGE5Z3Ny?=
- =?utf-8?B?Yjl6N1Zxb0hXOXBQU3dIZGo4b0plUEQyUVNKQnBaaUxlbHJWMHJDQ2ZkVDlP?=
- =?utf-8?B?Nno0UFBrcUsweFR3NXlCdXY0TGdaS3N2WTkrdWVGM2c0YXZkREdjMWZKTGVx?=
- =?utf-8?B?SktsSC9JT0lyeml4UGYzS0tzTXUrUDN2b1VXQ2FqQkExSlZaQ01IN1lJY3hp?=
- =?utf-8?B?NWpDYThEbW1COCtPZncwMlIvVkgwM3VFRHNublNKYjBHakVUaGVFd29zeVVZ?=
- =?utf-8?B?ZlhabHlvS0hiS0swWWo2YThRVUFDR3RmbWxFVFJyS2V6ekoxcUZBWGJEbkRi?=
- =?utf-8?B?UHRUdmJHUEZlb0ZTTS9YVU1IMU02M3MwRTZRYzdvdHM1ZXdVNDVubDMxZytR?=
- =?utf-8?B?MnlKQ1h6aHhTUVV1ay9iNkdpNVRIeFkwMGk5TlluVXdsVGpYcVBjQWdrejcx?=
- =?utf-8?B?NnM1RmRIdTZja3RYOFZPK1dWUUZsNkx2VEdJcGhQanFOdXpuMndCVzdlcGd2?=
- =?utf-8?B?SFg1a3A1ZllKa0hDbUZBalJ0MEswblJSMDU4Zm1uczBRci92T3RsNlpBbEpl?=
- =?utf-8?B?MmRxcEhhOXZwQUg0dyswNzhzUldpSlVTcjFvSmdId0ZLSUNFdnBWcElpNFVB?=
- =?utf-8?B?TGN2aExUck5UYWh0YjBSbC9qV004bkNWK2hnZlhpbC9SSmhZK3NYUEw3UFU3?=
- =?utf-8?B?UHdaK0RqdlFNTXBWSXI4QTdoRlNtQ3JFcmk0WCtFamkwRkRDUU1pVXkvb0Nw?=
- =?utf-8?B?eWxlU1hBcUdmTGNMZXhIYllQSHRtL0NvdC9FL0VYRTFwZGJxQVkyV21QeVJp?=
- =?utf-8?B?Q1FJS2I5d3B3KzV2K1ZsdzE5ZDBOY2FFQ2RweHVDWEhzQ1FjSkdRVnFmWi9n?=
- =?utf-8?B?bXZLY2g5OUJQR3JYSlgrWHBZSkM1T05QSzNUSzNnbEtrQlloK0NDNVVPczla?=
- =?utf-8?B?OU1JMjgzUGFrUk9lSlJhemNTU0RVVWtUTUZ2Ujk3TTBUZm5ManplVm1Ld2RT?=
- =?utf-8?B?ZjhLU3RrTFFLRTVmeDUzVXhoRk00emVWM1RQaHVuc1RGaDZWb2R4UHJiRWZ4?=
- =?utf-8?B?amNoM3NJQWxWMzRaSEl4MXlqV0x3UGhKb1dyREc0K2pJQnlNZEJxVTdzZEpL?=
- =?utf-8?B?eU03Zk42U3ZNZnhoamNZOTJiSWo2ZnlrRnhWTXd3MCtIdy9kaXBCN3U1OHlC?=
- =?utf-8?B?V0tVT2RDMFZPN0lSNGFMMDF4UFRFeWhkVCs4STBpbEhIQlRvOEhFRVVQZFhH?=
- =?utf-8?B?OTYrSE43Q1ZBQ1RjamhBRVRVM3Q5SVpQY1E3aHhIeVZrM0toZEtYWmp1a2Jn?=
- =?utf-8?B?OTlTNXc1ODN5Q1RKS2FPUHZONCsxclhORFlqOWJSTmtmMW9EWTZ6bHRybVFT?=
- =?utf-8?B?U1kwejFnd2J1V1pCV1N4bXU0ZlNvd0VsSTlKdjkwUnpsc2dmU0szcXFrcEgy?=
- =?utf-8?B?aUtINnBpUGNSWXhIU29EQlU1ZEFURGRGKzhaWnRSYzRjYkNiK2M4VFFJa3N3?=
- =?utf-8?B?WXZFU2VNcWpqL0N2QUM5aktUbmZkMFJXbmczb2xaOTIyNHM3ajByUXVhRVF5?=
- =?utf-8?B?WEl5OUtNL1h1ckRNZWQxNFl3cWphK0hoZEQvNVI2dGt3QzNvNXRWRTZuUTlG?=
- =?utf-8?B?bTlZYkZwNitpOTcwRnlIUk9PUU9uSE82cnZWd2p5TW9HZHFhczVuelN1TDVt?=
- =?utf-8?B?dC9NUXhTT0hVSDdoN0hkNnN4YU93Y1FWMTIyWkNJb3gwUnA0ekhZdi9LUTBp?=
- =?utf-8?B?bXQ2ejQ5b1ovNTFtL2VEQmlvZXFuMVg3SVRsM3ZaL0oycnBHS3VHRUJxSFhk?=
- =?utf-8?B?ZHJOakN4OVhONGdSTFFuV0VtTlZxQmlkTzYxN0xpeVN2TmNURTg2RjVUL3Y2?=
- =?utf-8?B?ZkNzOUo1SVpLd2ZWQ2poUlhhTjBBb2hucGxHQmUrNXNKQzF6UmJtZWFUeEpo?=
- =?utf-8?B?VzFwVWNSY3RDNlRRYWE2RUlrME9ROHdkMExYOXJjVFFUYzBFYXlmdUxKRUgx?=
- =?utf-8?B?V3ZQSkREYk1VS2ovM3lpbTZDMVd1RCsrYy85V1JrUVoxZnBKejlSWG42YTEz?=
- =?utf-8?B?dVE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 690b9489-9aea-42e8-6934-08dd131af440
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NmhiVG1GTmpVQmw2MDZobEdGa0dJTHRBM0Yxam44K2p3cHgvNmsxamFLTTJF?=
+ =?utf-8?B?cnRDZmxWT3cwdTA2aTNuMnJjVWErL05XSldkMEdvVmVhU3pxWHdrcGNIUGVu?=
+ =?utf-8?B?ZE44dndvM1M2ZWFWY1B4bm5IVFFGU2VsbG9RTU9KUnFkeXQ3QzlLYzQrUWty?=
+ =?utf-8?B?cllFUmhGeGYvUTNvdzlHTXhnbDUyN0NCa2pTWVFFNWRMbFdPOEFNQTh4SUh5?=
+ =?utf-8?B?Yi9nSkJSaWIvaUlCWlNud05kajBrNGtBck02cmprOG5OT0lwZjBodlU2WjlD?=
+ =?utf-8?B?M1RHc25aak5raDJVTXBMUzdmT0RwaGxJenQ5WkdUangrSVJYK0ZPS2NCYTJW?=
+ =?utf-8?B?L0xKZzNXM0VGRFdQWldnbzdHR2l2S3NrNXU4VHEvUVZJaVZmYW1LMnBCWGl6?=
+ =?utf-8?B?NGtZNEVrTm92L1JsSFJjOXlpL0pNRUxIU2JBaWJpb0gva01Dc2FLaXBNYXNh?=
+ =?utf-8?B?eGpjMTNyMTRJK0hnV0Z2M05tNjVXQjhyV0lyRG9ESlhqK0tFTTMxMEVNemd0?=
+ =?utf-8?B?ZTJtbWxzMHphQkk4NTBGMVNqWm1oRzR6cW15SEU3QXhxSWdta0JVNWE3Zmgz?=
+ =?utf-8?B?M3FWTGRFZGl4dnFnZFRJWHFVS29pam13Y1JuNlZ6bWVMNHEyWERjRVBHN0Ez?=
+ =?utf-8?B?WlZOaEpTb0VuYmhYRUo4cmF4WEtZMXdwVUN5T0pCaDgyRmt2bmYwSS9iSGtp?=
+ =?utf-8?B?SjlFdGp3OS9NZDNmajB3eXVwbE9XWXg3M2MwaVZyQnlubll3bExWeHhZNnZz?=
+ =?utf-8?B?eFB1Vm5TczhHMmY3LzFPR1czY0RYNWpXVEhLa1FGRUFpWnBxQThJcFVzMUhE?=
+ =?utf-8?B?UEo0QkdVcHprQi9zSWVNVzJvUmMyeVJUMEZJQ21sOVUzamZWaFFITFZWVytu?=
+ =?utf-8?B?aXIrUDR6VHViZ0poTm0wMjRRL0lKUDhtSnpDN2JUSGlQMHQxNVVUSGxTWnJU?=
+ =?utf-8?B?aTJLVnJsYnN2QVVCNHdsbEFEeGZza0p1NVN2cVBkYldMc2IzNmJUUjUyQ29H?=
+ =?utf-8?B?ejZla2Z4MmV5b0xYM0RnUjlLR0NoT0p5RkV5UWVrTm9VenNXSWc5SE9IaUZB?=
+ =?utf-8?B?eC81SjlUNnNpcUgzM2M5WU5rNk9UczNNYVVTdXY3dDlGZkdpd1YyNndlUDJZ?=
+ =?utf-8?B?eW5nbnA0eC8yajRJODVsS0JIWlZsMlUxSlZHUFlEWkRxTElzZFlCSlZNQUVV?=
+ =?utf-8?B?dW1mV0xrQU5VR0x5bllsMUdiWDJIby8wWVlucU1TbGhHT3V0eC9ualdydGY2?=
+ =?utf-8?B?aWI4TWxKdTI3SktrWlR1WDNBM0RiT20xNzdKVUJVMFJzUEpuNS85dzJSN2dN?=
+ =?utf-8?B?a1k4cUhYUTg5aUtCYk1PMXFYd2dsVnQ3azA0cUgrcytRUHlySG9jeG1EUWRs?=
+ =?utf-8?B?b3VsaVF0V3QyNkRnWTBIUEszN0t2MGdJenBMTkZodXRTWnc4a3J3NmJMYkp4?=
+ =?utf-8?B?aDNCVE93YmJZS0V4YnNlc1oycS9pQWtSNXdqZkpVWUFIMHcwRmM1aUNOQnNQ?=
+ =?utf-8?B?ampYVnZrQzZReUloaHV4ek5yY00rOXRyQ3BPRGQwUmU4T2JqcXdTZ2hQL1lS?=
+ =?utf-8?B?TnU0bFZnOHZNazlIOXQ1OXYvTk8zNFVaZmhyOHFkQkt0aktDR2FFaUZ0Tlh0?=
+ =?utf-8?B?NWpzZCtKQlpYYUVtQXdNTW5tRHM0eTc3ZmpEYmUycmxMOUFEcUE3UytqcnBD?=
+ =?utf-8?B?eUY5SmZFdkxmR3l2SnZPRFFCUEoycGdkdGpKSzJkbXNTUkU1bDB5OUQxWldO?=
+ =?utf-8?B?MmxObGMyK2RpMXRnc2N6dVhnZUJ0dVpXWGxaRHpIdUxwQkwvMU1vTkRzbUVz?=
+ =?utf-8?B?SXBNUjQ5bXVpc1NLV3hBZnJueGZSclNjUWJkR0F4QzdwK2haNE4zb0FDNGdz?=
+ =?utf-8?B?V2FBZzJDMXpTOHF0ZmpObmEwWmY0S2crUGc4ek1LZjQ5WHRROXNpeDVTdVY0?=
+ =?utf-8?B?QTR5WTdJRXVwY0t1T3RmcjE0cGdYU3hDSWllNDNFb2JiTXlzOGNNRFNkR09w?=
+ =?utf-8?B?YyszSExOUGN4T3B0VnU2VUxONElTSXNYTW1yR3VtalZnS3VmWnpmSTNXMUhq?=
+ =?utf-8?B?b0NvZ3RtVGlWa3QyOGtIMTZSbHd1SURuK3dIbWJwUk54Nno3Q1k2Z1hwYmhK?=
+ =?utf-8?Q?hHos=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8177ca2-9af8-4cf4-a759-08dd131da6a7
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2024 21:47:44.6534
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2024 22:07:02.9227
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qubqtqi/MLi7MnCK1YvnaQt3uhuRH6dQHsA/MkX1+YBccE+Q5umZabdhT8ZzdUigzcRBEvMGfwrPepkPLe2EN3eo+UgyNc6CHysAgJtjg+U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7855
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: z90WyJN3vlj3z2w3AgWsie8aD/s7E5heQF6DcskJdlXlU1OyFtKuiYN+LmTiktXc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7643
 
-Hi Babu,
+Hi Reinette,
 
-On 12/2/24 1:28 PM, Moger, Babu wrote:
-> Hi Reinette,
+On 12/2/24 15:47, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> On 12/2/24 15:09, Reinette Chatre wrote:
->> Hi Babu,
+> On 12/2/24 1:28 PM, Moger, Babu wrote:
+>> Hi Reinette,
 >>
->> On 12/2/24 12:42 PM, Moger, Babu wrote:
->>> Hi Reinette,
+>> On 12/2/24 15:09, Reinette Chatre wrote:
+>>> Hi Babu,
 >>>
->>> On 12/2/24 14:15, Reinette Chatre wrote:
->>>> Hi Babu,
+>>> On 12/2/24 12:42 PM, Moger, Babu wrote:
+>>>> Hi Reinette,
 >>>>
->>>> On 12/2/24 11:48 AM, Moger, Babu wrote:
->>>>> On 12/2/24 12:33, Reinette Chatre wrote:
->>>>>> On 11/29/24 9:06 AM, Moger, Babu wrote:
->>>>>>> On 11/29/2024 3:59 AM, Peter Newman wrote:
->>>>>>>> On Thu, Nov 28, 2024 at 8:35 PM Moger, Babu <bmoger@amd.com> wrote:
->>>>>>>>> On 11/28/2024 5:10 AM, Peter Newman wrote:
->>>>>>>>>> On Wed, Nov 27, 2024 at 8:05 PM Reinette Chatre
->>>>>>>>>> <reinette.chatre@intel.com> wrote:
->>>>>>>>>>>
->>>>>>>>>>> Hi Babu,
->>>>>>>>>>>
->>>>>>>>>>> On 11/27/24 6:57 AM, Moger, Babu wrote:
->>>>>>>>
->>>>>>>>>>>> 1. Each group needs to remember counter ids in each domain for each event.
->>>>>>>>>>>>      For example:
->>>>>>>>>>>>      Resctrl group mon1
->>>>>>>>>>>>       Total event
->>>>>>>>>>>>       dom 0 cntr_id 1,
->>>>>>>>>>>>       dom 1 cntr_id 10
->>>>>>>>>>>>       dom 2 cntr_id 11
+>>>> On 12/2/24 14:15, Reinette Chatre wrote:
+>>>>> Hi Babu,
+>>>>>
+>>>>> On 12/2/24 11:48 AM, Moger, Babu wrote:
+>>>>>> On 12/2/24 12:33, Reinette Chatre wrote:
+>>>>>>> On 11/29/24 9:06 AM, Moger, Babu wrote:
+>>>>>>>> On 11/29/2024 3:59 AM, Peter Newman wrote:
+>>>>>>>>> On Thu, Nov 28, 2024 at 8:35 PM Moger, Babu <bmoger@amd.com> wrote:
+>>>>>>>>>> On 11/28/2024 5:10 AM, Peter Newman wrote:
+>>>>>>>>>>> On Wed, Nov 27, 2024 at 8:05 PM Reinette Chatre
+>>>>>>>>>>> <reinette.chatre@intel.com> wrote:
 >>>>>>>>>>>>
->>>>>>>>>>>>      Local event
->>>>>>>>>>>>       dom 0 cntr_id 2,
->>>>>>>>>>>>       dom 1 cntr_id 15
->>>>>>>>>>>>       dom 2 cntr_id 10
+>>>>>>>>>>>> Hi Babu,
+>>>>>>>>>>>>
+>>>>>>>>>>>> On 11/27/24 6:57 AM, Moger, Babu wrote:
+>>>>>>>>>
+>>>>>>>>>>>>> 1. Each group needs to remember counter ids in each domain for each event.
+>>>>>>>>>>>>>      For example:
+>>>>>>>>>>>>>      Resctrl group mon1
+>>>>>>>>>>>>>       Total event
+>>>>>>>>>>>>>       dom 0 cntr_id 1,
+>>>>>>>>>>>>>       dom 1 cntr_id 10
+>>>>>>>>>>>>>       dom 2 cntr_id 11
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>      Local event
+>>>>>>>>>>>>>       dom 0 cntr_id 2,
+>>>>>>>>>>>>>       dom 1 cntr_id 15
+>>>>>>>>>>>>>       dom 2 cntr_id 10
+>>>>>>>>>>>>
+>>>>>>>>>>>> Indeed. The challenge here is that domains may come and go so it cannot be a simple
+>>>>>>>>>>>> static array. As an alternative it can be an xarray indexed by the domain ID with
+>>>>>>>>>>>> pointers to a struct like below to contain the counters associated with the monitor
+>>>>>>>>>>>> group:
+>>>>>>>>>>>>           struct cntr_id {
+>>>>>>>>>>>>                   u32     mbm_total;
+>>>>>>>>>>>>                   u32     mbm_local;
+>>>>>>>>>>>>           }
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> Thinking more about how this array needs to be managed made me wonder how the
+>>>>>>>>>>>> current implementation deals with domains that come and go. I do not think
+>>>>>>>>>>>> this is currently handled. For example, if a new domain comes online and
+>>>>>>>>>>>> monitoring groups had counters dynamically assigned, then these counters are
+>>>>>>>>>>>> not configured to the newly online domain.
+>>>>>>>>>>
+>>>>>>>>>> I am trying to understand the details of your approach here.
 >>>>>>>>>>>
->>>>>>>>>>> Indeed. The challenge here is that domains may come and go so it cannot be a simple
->>>>>>>>>>> static array. As an alternative it can be an xarray indexed by the domain ID with
->>>>>>>>>>> pointers to a struct like below to contain the counters associated with the monitor
->>>>>>>>>>> group:
->>>>>>>>>>>           struct cntr_id {
->>>>>>>>>>>                   u32     mbm_total;
->>>>>>>>>>>                   u32     mbm_local;
->>>>>>>>>>>           }
+>>>>>>>>>>> In my prototype, I allocated a counter id-indexed array to each
+>>>>>>>>>>> monitoring domain structure for tracking the counter allocations,
+>>>>>>>>>>> because the hardware counters are all domain-scoped. That way the
+>>>>>>>>>>> tracking data goes away when the hardware does.
 >>>>>>>>>>>
+>>>>>>>>>>> I was focused on allowing all pending counter updates to a domain
+>>>>>>>>>>> resulting from a single mbm_assign_control write to be batched and
+>>>>>>>>>>> processed in a single IPI, so I structured the counter tracker
+>>>>>>>>>>> something like this:
+>>>>>>>>>>
+>>>>>>>>>> Not sure what you meant here. How are you batching two IPIs for two domains?
+>>>>>>>>>>
+>>>>>>>>>> #echo "//0=t;1=t" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>>>>>>
+>>>>>>>>>> This is still a single write. Two IPIs are sent separately, one for each
+>>>>>>>>>> domain.
+>>>>>>>>>>
+>>>>>>>>>> Are you doing something different?
+>>>>>>>>>
+>>>>>>>>> I said "all pending counter updates to a domain", whereby I meant
+>>>>>>>>> targeting a single domain.
+>>>>>>>>>
+>>>>>>>>> Depending on the CPU of the caller, your example write requires 1 or 2 IPIs.
+>>>>>>>>>
+>>>>>>>>> What is important is that the following write also requires 1 or 2 IPIs:
+>>>>>>>>>
+>>>>>>>>> (assuming /sys/fs/resctrl/mon_groups/[g1-g31] exist, line breaks added
+>>>>>>>>> for readability)
+>>>>>>>>>
+>>>>>>>>> echo $'//0=t;1=t\n
+>>>>>>>>> /g1/0=t;1=t\n
+>>>>>>>>> /g2/0=t;1=t\n
+>>>>>>>>> /g3/0=t;1=t\n
+>>>>>>>>> /g4/0=t;1=t\n
+>>>>>>>>> /g5/0=t;1=t\n
+>>>>>>>>> /g6/0=t;1=t\n
+>>>>>>>>> /g7/0=t;1=t\n
+>>>>>>>>> /g8/0=t;1=t\n
+>>>>>>>>> /g9/0=t;1=t\n
+>>>>>>>>> /g10/0=t;1=t\n
+>>>>>>>>> /g11/0=t;1=t\n
+>>>>>>>>> /g12/0=t;1=t\n
+>>>>>>>>> /g13/0=t;1=t\n
+>>>>>>>>> /g14/0=t;1=t\n
+>>>>>>>>> /g15/0=t;1=t\n
+>>>>>>>>> /g16/0=t;1=t\n
+>>>>>>>>> /g17/0=t;1=t\n
+>>>>>>>>> /g18/0=t;1=t\n
+>>>>>>>>> /g19/0=t;1=t\n
+>>>>>>>>> /g20/0=t;1=t\n
+>>>>>>>>> /g21/0=t;1=t\n
+>>>>>>>>> /g22/0=t;1=t\n
+>>>>>>>>> /g23/0=t;1=t\n
+>>>>>>>>> /g24/0=t;1=t\n
+>>>>>>>>> /g25/0=t;1=t\n
+>>>>>>>>> /g26/0=t;1=t\n
+>>>>>>>>> /g27/0=t;1=t\n
+>>>>>>>>> /g28/0=t;1=t\n
+>>>>>>>>> /g29/0=t;1=t\n
+>>>>>>>>> /g30/0=t;1=t\n
+>>>>>>>>> /g31/0=t;1=t\n'
+>>>>>>>>>
+>>>>>>>>> My ultimate goal is for a thread bound to a particular domain to be
+>>>>>>>>> able to unassign and reassign the local domain's 32 counters in a
+>>>>>>>>> single write() with no IPIs at all. And when IPIs are required, then
+>>>>>>>>> no more than one per domain, regardless of the number of groups
+>>>>>>>>> updated.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Yes. I think I got the idea. Thanks.
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>>
 >>>>>>>>>>>
->>>>>>>>>>> Thinking more about how this array needs to be managed made me wonder how the
->>>>>>>>>>> current implementation deals with domains that come and go. I do not think
->>>>>>>>>>> this is currently handled. For example, if a new domain comes online and
->>>>>>>>>>> monitoring groups had counters dynamically assigned, then these counters are
->>>>>>>>>>> not configured to the newly online domain.
->>>>>>>>>
->>>>>>>>> I am trying to understand the details of your approach here.
+>>>>>>>>>>> struct resctrl_monitor_cfg {
+>>>>>>>>>>>       int closid;
+>>>>>>>>>>>       int rmid;
+>>>>>>>>>>>       int evtid;
+>>>>>>>>>>>       bool dirty;
+>>>>>>>>>>> };
+>>>>>>>>>>>
+>>>>>>>>>>> This mirrors the info needed in whatever register configures the
+>>>>>>>>>>> counter, plus a dirty flag to skip over the ones that don't need to be
+>>>>>>>>>>> updated.
 >>>>>>>>>>
->>>>>>>>>> In my prototype, I allocated a counter id-indexed array to each
->>>>>>>>>> monitoring domain structure for tracking the counter allocations,
->>>>>>>>>> because the hardware counters are all domain-scoped. That way the
->>>>>>>>>> tracking data goes away when the hardware does.
+>>>>>>>>>> This is what my understanding of your implementation.
 >>>>>>>>>>
->>>>>>>>>> I was focused on allowing all pending counter updates to a domain
->>>>>>>>>> resulting from a single mbm_assign_control write to be batched and
->>>>>>>>>> processed in a single IPI, so I structured the counter tracker
->>>>>>>>>> something like this:
->>>>>>>>>
->>>>>>>>> Not sure what you meant here. How are you batching two IPIs for two domains?
->>>>>>>>>
->>>>>>>>> #echo "//0=t;1=t" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
->>>>>>>>>
->>>>>>>>> This is still a single write. Two IPIs are sent separately, one for each
->>>>>>>>> domain.
->>>>>>>>>
->>>>>>>>> Are you doing something different?
->>>>>>>>
->>>>>>>> I said "all pending counter updates to a domain", whereby I meant
->>>>>>>> targeting a single domain.
->>>>>>>>
->>>>>>>> Depending on the CPU of the caller, your example write requires 1 or 2 IPIs.
->>>>>>>>
->>>>>>>> What is important is that the following write also requires 1 or 2 IPIs:
->>>>>>>>
->>>>>>>> (assuming /sys/fs/resctrl/mon_groups/[g1-g31] exist, line breaks added
->>>>>>>> for readability)
->>>>>>>>
->>>>>>>> echo $'//0=t;1=t\n
->>>>>>>> /g1/0=t;1=t\n
->>>>>>>> /g2/0=t;1=t\n
->>>>>>>> /g3/0=t;1=t\n
->>>>>>>> /g4/0=t;1=t\n
->>>>>>>> /g5/0=t;1=t\n
->>>>>>>> /g6/0=t;1=t\n
->>>>>>>> /g7/0=t;1=t\n
->>>>>>>> /g8/0=t;1=t\n
->>>>>>>> /g9/0=t;1=t\n
->>>>>>>> /g10/0=t;1=t\n
->>>>>>>> /g11/0=t;1=t\n
->>>>>>>> /g12/0=t;1=t\n
->>>>>>>> /g13/0=t;1=t\n
->>>>>>>> /g14/0=t;1=t\n
->>>>>>>> /g15/0=t;1=t\n
->>>>>>>> /g16/0=t;1=t\n
->>>>>>>> /g17/0=t;1=t\n
->>>>>>>> /g18/0=t;1=t\n
->>>>>>>> /g19/0=t;1=t\n
->>>>>>>> /g20/0=t;1=t\n
->>>>>>>> /g21/0=t;1=t\n
->>>>>>>> /g22/0=t;1=t\n
->>>>>>>> /g23/0=t;1=t\n
->>>>>>>> /g24/0=t;1=t\n
->>>>>>>> /g25/0=t;1=t\n
->>>>>>>> /g26/0=t;1=t\n
->>>>>>>> /g27/0=t;1=t\n
->>>>>>>> /g28/0=t;1=t\n
->>>>>>>> /g29/0=t;1=t\n
->>>>>>>> /g30/0=t;1=t\n
->>>>>>>> /g31/0=t;1=t\n'
->>>>>>>>
->>>>>>>> My ultimate goal is for a thread bound to a particular domain to be
->>>>>>>> able to unassign and reassign the local domain's 32 counters in a
->>>>>>>> single write() with no IPIs at all. And when IPIs are required, then
->>>>>>>> no more than one per domain, regardless of the number of groups
->>>>>>>> updated.
->>>>>>>>
->>>>>>>
->>>>>>> Yes. I think I got the idea. Thanks.
->>>>>>>
->>>>>>>>
->>>>>>>>>
+>>>>>>>>>> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+>>>>>>>>>> index d94abba1c716..9cebf065cc97 100644
+>>>>>>>>>> --- a/include/linux/resctrl.h
+>>>>>>>>>> +++ b/include/linux/resctrl.h
+>>>>>>>>>> @@ -94,6 +94,13 @@ struct rdt_ctrl_domain {
+>>>>>>>>>>           u32                             *mbps_val;
+>>>>>>>>>>    };
 >>>>>>>>>>
->>>>>>>>>> struct resctrl_monitor_cfg {
->>>>>>>>>>       int closid;
->>>>>>>>>>       int rmid;
->>>>>>>>>>       int evtid;
->>>>>>>>>>       bool dirty;
->>>>>>>>>> };
+>>>>>>>>>> +struct resctrl_monitor_cfg {
+>>>>>>>>>> +    int closid;
+>>>>>>>>>> +    int rmid;
+>>>>>>>>>> +    int evtid;
+>>>>>>>>>> +    bool dirty;
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>>    /**
+>>>>>>>>>>     * struct rdt_mon_domain - group of CPUs sharing a resctrl monitor
+>>>>>>>>>> resource
+>>>>>>>>>>     * @hdr:               common header for different domain types
+>>>>>>>>>> @@ -116,6 +123,7 @@ struct rdt_mon_domain {
+>>>>>>>>>>           struct delayed_work             cqm_limbo;
+>>>>>>>>>>           int                             mbm_work_cpu;
+>>>>>>>>>>           int                             cqm_work_cpu;
+>>>>>>>>>> +     /* Allocate num_mbm_cntrs entries in each domain */
+>>>>>>>>>> +       struct resctrl_monitor_cfg      *mon_cfg;
+>>>>>>>>>>    };
 >>>>>>>>>>
->>>>>>>>>> This mirrors the info needed in whatever register configures the
->>>>>>>>>> counter, plus a dirty flag to skip over the ones that don't need to be
->>>>>>>>>> updated.
+>>>>>>>>>>
+>>>>>>>>>> When a user requests an assignment for total event to the default group
+>>>>>>>>>> for domain 0, you go search in rdt_mon_domain(dom 0) for empty mon_cfg
+>>>>>>>>>> entry.
+>>>>>>>>>>
+>>>>>>>>>> If there is an empty entry, then use that entry for assignment and
+>>>>>>>>>> update closid, rmid, evtid and dirty = 1. We can get all these
+>>>>>>>>>> information from default group here.
+>>>>>>>>>>
+>>>>>>>>>> Does this make sense?
 >>>>>>>>>
->>>>>>>>> This is what my understanding of your implementation.
->>>>>>>>>
->>>>>>>>> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
->>>>>>>>> index d94abba1c716..9cebf065cc97 100644
->>>>>>>>> --- a/include/linux/resctrl.h
->>>>>>>>> +++ b/include/linux/resctrl.h
->>>>>>>>> @@ -94,6 +94,13 @@ struct rdt_ctrl_domain {
->>>>>>>>>           u32                             *mbps_val;
->>>>>>>>>    };
->>>>>>>>>
->>>>>>>>> +struct resctrl_monitor_cfg {
->>>>>>>>> +    int closid;
->>>>>>>>> +    int rmid;
->>>>>>>>> +    int evtid;
->>>>>>>>> +    bool dirty;
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>>>    /**
->>>>>>>>>     * struct rdt_mon_domain - group of CPUs sharing a resctrl monitor
->>>>>>>>> resource
->>>>>>>>>     * @hdr:               common header for different domain types
->>>>>>>>> @@ -116,6 +123,7 @@ struct rdt_mon_domain {
->>>>>>>>>           struct delayed_work             cqm_limbo;
->>>>>>>>>           int                             mbm_work_cpu;
->>>>>>>>>           int                             cqm_work_cpu;
->>>>>>>>> +     /* Allocate num_mbm_cntrs entries in each domain */
->>>>>>>>> +       struct resctrl_monitor_cfg      *mon_cfg;
->>>>>>>>>    };
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> When a user requests an assignment for total event to the default group
->>>>>>>>> for domain 0, you go search in rdt_mon_domain(dom 0) for empty mon_cfg
->>>>>>>>> entry.
->>>>>>>>>
->>>>>>>>> If there is an empty entry, then use that entry for assignment and
->>>>>>>>> update closid, rmid, evtid and dirty = 1. We can get all these
->>>>>>>>> information from default group here.
->>>>>>>>>
->>>>>>>>> Does this make sense?
+>>>>>>>>> Yes, sounds correct.
 >>>>>>>>
->>>>>>>> Yes, sounds correct.
+>>>>>>>> I will probably add cntr_id in resctrl_monitor_cfg structure and
+>>>>>>>> initialize during the allocation. And rename the field 'dirty' to
+>>>>>>>> 'active'(or something similar) to hold the assign state for that
+>>>>>>>> entry. That way we have all the information required for assignment
+>>>>>>>> at one place. We don't need to update the rdtgroup structure.
+>>>>>>>>
+>>>>>>>> Reinette, What do you think about this approach?
 >>>>>>>
->>>>>>> I will probably add cntr_id in resctrl_monitor_cfg structure and
->>>>>>> initialize during the allocation. And rename the field 'dirty' to
->>>>>>> 'active'(or something similar) to hold the assign state for that
->>>>>>> entry. That way we have all the information required for assignment
->>>>>>> at one place. We don't need to update the rdtgroup structure.
->>>>>>>
->>>>>>> Reinette, What do you think about this approach?
+>>>>>>> I think this approach is in the right direction. Thanks to Peter for
+>>>>>>> the guidance here.
+>>>>>>> I do not think that it is necessary to add cntr_id to resctrl_monitor_cfg
+>>>>>>> though, I think the cntr_id would be the index to the array instead?
 >>>>>>
->>>>>> I think this approach is in the right direction. Thanks to Peter for
->>>>>> the guidance here.
->>>>>> I do not think that it is necessary to add cntr_id to resctrl_monitor_cfg
->>>>>> though, I think the cntr_id would be the index to the array instead?
->>>>>
->>>>> Yes. I think We can use the index as cntn_id. Will let you know otherwise.
->>>>>
->>>>>
+>>>>>> Yes. I think We can use the index as cntn_id. Will let you know otherwise.
 >>>>>>
->>>>>> It may also be worthwhile to consider using a pointer to the resource
->>>>>> group instead of storing closid and rmid directly. If used to indicate
->>>>>> initialization then an initialized pointer is easier to distinguish than
->>>>>> the closid/rmid that may have zero as valid values.
->>>>>
->>>>> Sure. Sounds good.
->>>>>
 >>>>>>
->>>>>> I expect evtid will be enum resctrl_event_id and that raises the question
->>>>>> of whether "0" can indeed be used as an "uninitialized" value since doing
->>>>>> so would change the meaning of the enum. It may indeed keep things
->>>>>> separated by maintaining evtid as an enum resctrl_event_id and note the
->>>>>> initialization differently ... either via a pointer to a resource group
->>>>>> or entirely separately as Babu indicates later.
+>>>>>>>
+>>>>>>> It may also be worthwhile to consider using a pointer to the resource
+>>>>>>> group instead of storing closid and rmid directly. If used to indicate
+>>>>>>> initialization then an initialized pointer is easier to distinguish than
+>>>>>>> the closid/rmid that may have zero as valid values.
+>>>>>>
+>>>>>> Sure. Sounds good.
+>>>>>>
+>>>>>>>
+>>>>>>> I expect evtid will be enum resctrl_event_id and that raises the question
+>>>>>>> of whether "0" can indeed be used as an "uninitialized" value since doing
+>>>>>>> so would change the meaning of the enum. It may indeed keep things
+>>>>>>> separated by maintaining evtid as an enum resctrl_event_id and note the
+>>>>>>> initialization differently ... either via a pointer to a resource group
+>>>>>>> or entirely separately as Babu indicates later.
+>>>>>>
+>>>>>> Sure. Will add evtid as enum resctrl_event_id and use the "state" to
+>>>>>> indicate assign/unassign/dirty status.
 >>>>>
->>>>> Sure. Will add evtid as enum resctrl_event_id and use the "state" to
->>>>> indicate assign/unassign/dirty status.
+>>>>> Is "assign/unassign" state needed? If resctrl_monitor_cfg contains a pointer
+>>>>> to the resource group to which the counter has been assigned then I expect NULL
+>>>>> means unassigned and a value means assigned?
 >>>>
->>>> Is "assign/unassign" state needed? If resctrl_monitor_cfg contains a pointer
->>>> to the resource group to which the counter has been assigned then I expect NULL
->>>> means unassigned and a value means assigned?
+>>>> Yes. We use the rdtgroup pointer to check the assign/unassign state.
+>>>>
+>>>> I will drop the 'state' field. Peter can add state when he wants use it
+>>>> for optimization later.
+>>>>
+>>>> I think we need to have the 'cntr_id" field here in resctrl_monitor_cfg.
+>>>> When we access the pointer from mbm_state, we wont know what is cntr_id
+>>>> index it came from.
+>>>>
 >>>
->>> Yes. We use the rdtgroup pointer to check the assign/unassign state.
->>>
->>> I will drop the 'state' field. Peter can add state when he wants use it
->>> for optimization later.
->>>
->>> I think we need to have the 'cntr_id" field here in resctrl_monitor_cfg.
->>> When we access the pointer from mbm_state, we wont know what is cntr_id
->>> index it came from.
+>>> oh, good point. I wonder how Peter addressed this in his PoC. As an alternative,
+>>> could the cntr_id be used in mbm_state instead of a pointer? 
 >>>
 >>
->> oh, good point. I wonder how Peter addressed this in his PoC. As an alternative,
->> could the cntr_id be used in mbm_state instead of a pointer? 
+>> Yes. It can be done.
+>>
+>> I thought it would be better to have everything at once place.
+>>
+>> struct resctrl_monitor_cfg {
+>>   unsigned int            cntr_id;
+>>   enum resctrl_event_id   evtid;
+>>   struct rdtgroup         *rgtgrp;
+>> };
+>>
+>> This will have everything required to assign/unassign the event.
 >>
 > 
-> Yes. It can be done.
-> 
-> I thought it would be better to have everything at once place.
-> 
-> struct resctrl_monitor_cfg {
->   unsigned int            cntr_id;
->   enum resctrl_event_id   evtid;
->   struct rdtgroup         *rgtgrp;
-> };
-> 
-> This will have everything required to assign/unassign the event.
+> The "everything in one place" argument is not clear to me since the cntr_id
+> is indeed present already as the index to the array that stores this structure.
+> Including the cntr_id seems redundant to me. This is similar to several
+> other data structures in resctrl that are indexed either by closid or rmid,
+> without needing to store closid/rmid in these data structures self.
 > 
 
-The "everything in one place" argument is not clear to me since the cntr_id
-is indeed present already as the index to the array that stores this structure.
-Including the cntr_id seems redundant to me. This is similar to several
-other data structures in resctrl that are indexed either by closid or rmid,
-without needing to store closid/rmid in these data structures self.
-
-Reinette
-
+Ok. That is fine. Will remove cntr_id index from resctrl_monitor_cfg.
+Will add it in mbm_state. That should be good.
+-- 
+Thanks
+Babu Moger
