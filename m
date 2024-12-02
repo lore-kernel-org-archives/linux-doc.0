@@ -1,165 +1,288 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163B4F9EC;
-	Mon,  2 Dec 2024 10:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121441FC11E
+	for <linux-doc@vger.kernel.org>; Mon,  2 Dec 2024 10:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733135081; cv=none; b=iAwx3RuFS2TGhbEpesKtK0AEXNW2SlHS6RV6TtideiuwXVHCig86TlkoPKN1wsn2qNJy2RnRHNSACmtpP/5dVNDRnKY0b2hQSG6TShD+YcS+8hmMa8Bt7woAIGO/VjoEuwG9gfCkwRA3azExHcBqbDRyQP2tpgJbxu0xDK7SOR4=
+	t=1733135303; cv=none; b=qjuWG8Lv669nEMZO5gdztemKDHQYwlQYyTqtpY8xDESWO9pop0+zbM19L/7q8qM2kvZPdq84M/2B/F40me32NpEAiuvuOnPn9ki9R5DKBiyt3V6UBeH05O7WcKoY40KFEe6eYsF1U6pIUo8xtBxcEVS/d/Z38mxDmmiASpDfV7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733135081; c=relaxed/simple;
-	bh=8zDgyIk2rYgZYlwF0QZb1Fo7aWXlagn21y/+c7/vosQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TVZG38Rak/kMn06LAGLv6CFJC82EDRX3k9Jxp6NrNyXjcSASgLOGa0GzzXOVUdOfj/S8aDM7BjAhGeQExntmY0fo/c+l7sSKTdINidcPFOukvCjevtJitxLkZP3fZvCLXFjLEE1V3DIkfO0PerasaO7UZncghvdnhyrOtnvAlzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZZIOM5iC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1733135303; c=relaxed/simple;
+	bh=yz66sYraGJiZqu2qZJ/3WAnzyWuW1S1L5f4P+rm54nU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Y1MXuwpuJagp8L5gqoowVLuWNeK+CTLZ4KdrxZ2IpkLQGlasM1uYQDvuTjM2XWW5Q65KSx0v9003jDfz2bWciznoyqSqncYWUo1WJUHGX3JlfTqb4+7LCtmlo+gflIDlOSZCdfukUWOeosWV7ccx1zrukPsKLZSbgDG3cOv0RqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fY/P+cne; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZZIOM5iC"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A6014C7;
-	Mon,  2 Dec 2024 11:24:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733135049;
-	bh=8zDgyIk2rYgZYlwF0QZb1Fo7aWXlagn21y/+c7/vosQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZZIOM5iCcBO4MgdfOcSBsnvPt23JDch/y5CgvAX8NxGNRSedvdLvG9B0wmbpa0l+E
-	 quvK4Fi5P2CzcgcYQkdRqVQjKEDo/0AM4KLCiZeVmw5UvyZq5+lrj7eFwH9yNTE5WN
-	 cRtyLlZuyiNC8B75AcAyUoqCeHqanPZ7YkI5bLno=
-Date: Mon, 2 Dec 2024 12:24:25 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH] docs: media: document media multi-committers rules and
- process
-Message-ID: <20241202102425.GD16635@pendragon.ideasonboard.com>
-References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
- <20241126151930.GA5493@pendragon.ideasonboard.com>
- <e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
- <20241127132515.GH31095@pendragon.ideasonboard.com>
- <20241128191543.289f0d84@foz.lan>
- <20241128190707.GA13852@pendragon.ideasonboard.com>
- <20241129112952.1f0c9222@foz.lan>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fY/P+cne"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37ed3bd6114so2751827f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 02 Dec 2024 02:28:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1733135299; x=1733740099; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JRvqS+cxdz+2aYEHdWqks8Xo1SolLTxNaReMoEcROZE=;
+        b=fY/P+cnefiMNXaiYnA9Vf2efgMEWkbyrH0v1dr4MAok/bwNjrna3CGsNKKlcrpW+C6
+         kwr46YFo/UAqQG779Aeo5NhAI0iQ9yCG3ppP/0FDJsfPET82SH+ZS9LNBgP/VGgAtQgA
+         tl93RuX8XNuIojEJc0pq8KIhfp/OKPNp8ySkxqeQBOdHZzU8GR899BBJVOh657yJGySp
+         fPRtPMyL1h24tEmvMgO3TBHvtPDwDEFANhPCg0iy50AkszgKzP7jhtaG5dscmBV7gi2w
+         KzYrnWls9gqYAnzLSqdShn6PgmToa6aPfx88av0ASAIPsbYY+Hjn6qc7zbF2GRhhuxCj
+         c9cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733135299; x=1733740099;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JRvqS+cxdz+2aYEHdWqks8Xo1SolLTxNaReMoEcROZE=;
+        b=mJGTakG9hlbP7iu8wel1ROHpSOoMFnKmfc5Jq/HQ/roVMNdfK4bN80SwNnKEqJNLMA
+         7/CfzFWj6pt0938EQGy9t5gat+DxV2YcnkAk5k0rUTtlRqa5t9/pug/e2UDUSYjzcTvE
+         W41oWSlGeNgCjLAL9X7UC9J4QAMJ+qn1dUinYx5I5PX4HTn8pEJ2KYno0FxHj73lvE5S
+         eNs14sC3cm7BTHC5XrZ9pWPf3lUH91/UegEdhni0ottfaZumFYjvFWEBtg/d/wbLkUYz
+         q70asZfZIP7KBheCgJD8hk47A+SpPUtBdQrlK41XSzPwVfWaTzSgbNiyIGwgiaBbVMfT
+         FbIg==
+X-Forwarded-Encrypted: i=1; AJvYcCW981UQqivdZdXUJ+Mv/CvvQbcb6r/j4G+orLLIhrfbwJtPtuU2Jm3Gg41MZJIwZh0mtSpKAouu8Ig=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybW+ykjhHoQHBNInTeAwvGQxbgfCnI79Oz3O9B0sZg5NPqPhRZ
+	az8/4SQDXCiki5MU1tsrpnOEWhm/1sd0eqPzAAkLnPE89oaHIzUhpMreqvlz8o0=
+X-Gm-Gg: ASbGncsnknrXB+bhI+DvO/OfycQyYea0EVR4D/0r8b0+HNL3p5vs8gFWNIKckImA/e/
+	6BVgZNOfqaTk5TYcl2Wqj8uLwKhahcHnPG3F6/7BL7ltK7WaNX0k4atdXfxnGy6iWjLZGc22tV/
+	Astnpo8a55V/9H91jRacX3CFbDB1U3Djin3UI+iqQsMeqnsMu8B1cwIc85mD2zjS6VgJkLVxXFa
+	k6IUSO7Rrj+BUdUwT5vNkRuFBmygMuhDYSLtwlhE5rdmO5W0dAAvvOC7EOSJw==
+X-Google-Smtp-Source: AGHT+IHsSx3gs1sZha/rYDLkNYukVwt8XSspxOLea4PEJWonWzfJ1JHlAKJNbBSxy8X+vrAcoXO0yQ==
+X-Received: by 2002:a05:6000:1fad:b0:385:dc45:ea06 with SMTP id ffacd0b85a97d-385dc45f2cbmr11884719f8f.13.1733135299407;
+        Mon, 02 Dec 2024 02:28:19 -0800 (PST)
+Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:2380:13:b62c:611c])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-385e940fef3sm5757614f8f.42.2024.12.02.02.28.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Dec 2024 02:28:18 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+Date: Mon, 02 Dec 2024 11:28:00 +0100
+Subject: [PATCH v4 1/3] hwmon: (pmbus/core) improve handling of write
+ protected regulators
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241129112952.1f0c9222@foz.lan>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241202-tps25990-v4-1-bb50a99e0a03@baylibre.com>
+References: <20241202-tps25990-v4-0-bb50a99e0a03@baylibre.com>
+In-Reply-To: <20241202-tps25990-v4-0-bb50a99e0a03@baylibre.com>
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6746; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=yz66sYraGJiZqu2qZJ/3WAnzyWuW1S1L5f4P+rm54nU=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBnTYu+w067LtutAt7V0wzL053QA36cXty+3RBeF
+ /scAAyP83mJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZ02LvgAKCRDm/A8cN/La
+ hWduD/4oM5uREsdTxSEflsgsvfoAr+OHVpis/8xy5V2A3rS4vINxfMdL/var0t1CU2xeWDVUlXd
+ 8+e0cFAVrEWnER4kphX7ZuLXAXDjVHrerXAFPSbAsBuYBJnybQO5Vy9iBMxp84o+MIo3nVboAA0
+ RMN9PLnyxmSqY0Z3t6pauCtlL3m59I0MDvifrFX37+PQ/NcfatE9Cglk7bUnE0Rrrrdwey+Xtqt
+ GC28TWwyAXttBjm1sdF0ZLUnW71b2iOaK361ep/0HC0WqlflQ9F968Xw8x3obLdTu1XnYyu7ENh
+ UJIY/BW9WzSb2rCeAsYwttfYW3/oHIHBxWwzrxDDmP8nKKYpqh36od48QlCZB7yH966RBv1Z9K+
+ +Dslt1tLWlVPoN9TeNgjwExfl6LNnMh1RuSuIl6c2ffQzqTtSEq4Mca7fbnX1HCi1rmlZXmW27m
+ lyJzPpXQ8SvPlkmXUbEXMVDQ4u6wMCYa2RCZJWPdT7/jnLLgYWP2F3eZRToLbVsKgWdk2BpXnId
+ P96RE3l78lHQtIP5JinpZLAx+5WAvDembClU1R7bCGcJjA68mRJCRtZvrXzpw/XE1XOnltiEXbw
+ N7vK52sR1AxpE0ksnOxyfWEqnrH220o7uJjPGiyfLy6AmKInlOv8Aiw4YP01177QUW3VZqd2a03
+ MZ0wkdTV+Q2OtAQ==
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-Hi Mauro,
+Writing PMBus protected registers does succeed from the smbus perspective,
+even if the write is ignored by the device and a communication fault is
+raised. This fault will silently be caught and cleared by pmbus irq if one
+has been registered.
 
-On Fri, Nov 29, 2024 at 11:29:52AM +0100, Mauro Carvalho Chehab wrote:
-> Em Thu, 28 Nov 2024 21:07:07 +0200 Laurent Pinchart escreveu:
-> 
-> > > With that in mind, every committer has duties of reviewing other
-> > > developer's patches submitted for the drivers that they're listed as
-> > > a maintainer at the MAINTAINERS file entries.  
-> > 
-> > I'm sorry but that's not a multi-committer model, it's a co-maintenance
-> > model. If that's what you really want we can reopen the discussion and
-> > start anew, but I don't think it's a good idea.
-> > 
-> > As I said before, if it increases my work load, I don't want commit
-> > rights. I'll keep sending pull requests, you'll have to keep processing
-> > them, and patches will be merged slower. It will be a lose-lose
-> > situation for everybody, you, me, contributors and users.
-> > 
-> > Starting with a situation where we are understaffed and trying to solve
-> > it by putting more work on the few people who currently keep the
-> > subsystem alive doesn't sound like a winning strategy. 
-> 
-> After sleeping over it, I agree that you're partially right on this.
+This means that the regulator call may return succeed although the
+operation was ignored.
 
-\o/
+With this change, the operation which are not supported will be properly
+flagged as such and the regulator framework won't even try to execute them.
 
-You should sleep more often :-D
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ Documentation/hwmon/pmbus-core.rst | 14 ++++++++++
+ drivers/hwmon/pmbus/pmbus.h        |  4 +++
+ drivers/hwmon/pmbus/pmbus_core.c   | 52 +++++++++++++++++++++++++++++++++-----
+ include/linux/pmbus.h              | 14 ++++++++++
+ 4 files changed, 78 insertions(+), 6 deletions(-)
 
-> Doing timely reviews is orthogonal of being a committer. What defines
-> if you need to do timely reviews is if you're listed or not at the
-> MAINTANERS file as "M:" - e.g. if the developer is a maintainer
-> (on its broader sense) or not. This applies for both PR and MR workflows.
-> 
-> Still, if one is not fulfilling its duty as maintainer, he may end
-> losing maintainership status and the corresponding committer rights.
-> 
-> I wrote a separate patch to make it clear. See below.
-> 
-> Thanks,
-> Mauro
-> 
-> ---
-> 
-> [PATCH] docs: media: profile: make it clearer about maintainership duties
-> 
-> During the review of the media committes profile, it was noticed
-> that the responsibility for timely review patches was not clear:
-> such review is expected that all developers listed at MAINTAINERS
-> with the "M:" tag (e.g. "maintainers" on its broad sense).
-> 
-> This is orthogonal of being a media committer or not. Such duty
-> is implied at:
-> 
-> 	Documentation/admin-guide/reporting-issues.rst
-> 
-> and at the MAINTAINERS header, when it says that even when the
-> status is "odd fixes", the patches will flow in.
-> 
-> So, let make it explicit at the maintainer-entry-profile that
-> maintainers need to do timely reviews.
-> 
-> Also, while right now our focus is on granting committer rights to
-> maintainers, the media-committer model may evolve in the future to
-> accept other committers that don't have such duties.
-> 
-> So, make it clear at the media-committer.rst that the duties
-> related to reviewing patches from others are for the drivers
-> they are maintainers as well.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-I'll comment on this on v3 of the series.
-
-> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> index 650803c30c41..6daf71bc72c1 100644
-> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> @@ -147,6 +147,11 @@ b. Committers' workflow: patches are handled by media committers::
->  On both workflows, all patches shall be properly reviewed at
->  linux-media@vger.kernel.org before being merged at media-committers.git.
->  
-> +Such patches will be timely-reviewed by developers listed as maintainers at
-> +the MAINTAINERS file. Such maintainers will follow one of the above
-> +workflows, e. g. they will either send a pull request or merge patches
-> +directly at the media-committers tree.
-> +
->  When patches are picked by patchwork and when merged at media-committers,
->  CI bots will check for errors and may provide e-mail feedback about
->  patch problems. When this happens, the patch submitter must fix them
-> diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-> index 1756a7af6353..a873ef84fbca 100644
-> --- a/Documentation/driver-api/media/media-committer.rst
-> +++ b/Documentation/driver-api/media/media-committer.rst
-> @@ -87,9 +87,9 @@ be delegating part of their maintenance tasks.
->  Due to that, to become a committer or a core committer, a consensus between
->  all subsystem maintainers is required, as they all need to trust a developer
->  well enough to be delegated the responsibility to maintain part of the code
-> -and to properly review patches from third parties, in a timely manner and
-> -keeping the status of the reviewed code at https://patchwork.linuxtv.org
-> -updated.
-> +and to properly review patches from third parties for the drivers they are
-> +maintainers in a timely manner and keeping the status of the reviewed code
-> +at https://patchwork.linuxtv.org updated.
->  
->  .. Note::
->  
+diff --git a/Documentation/hwmon/pmbus-core.rst b/Documentation/hwmon/pmbus-core.rst
+index 686a00265bf71231c684afad6df41d6266303919..0a251960f8910ffb121d82b45e729d06f98424ef 100644
+--- a/Documentation/hwmon/pmbus-core.rst
++++ b/Documentation/hwmon/pmbus-core.rst
+@@ -312,6 +312,10 @@ currently provides a flags field with four bits used::
+ 
+ 	#define PMBUS_USE_COEFFICIENTS_CMD		BIT(5)
+ 
++	#define PMBUS_OP_PROTECTED			BIT(6)
++
++	#define PMBUS_VOUT_PROTECTED			BIT(7)
++
+ 	struct pmbus_platform_data {
+ 		u32 flags;              /* Device specific flags */
+ 
+@@ -373,3 +377,13 @@ PMBUS_USE_COEFFICIENTS_CMD
+ 
+ When this flag is set the PMBus core driver will use the COEFFICIENTS
+ register to initialize the coefficients for the direct mode format.
++
++PMBUS_OP_PROTECTED
++
++Set if the chip OPERATION command is protected and protection is not
++determined by the standard WRITE_PROTECT command.
++
++PMBUS_VOUT_PROTECTED
++
++Set if the chip VOUT_COMMAND command is protected and protection is not
++determined by the standard WRITE_PROTECT command.
+diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+index d605412a3173b95041524285ad1fde52fb64ce5a..ddb19c9726d62416244f83603b92d81d82e64891 100644
+--- a/drivers/hwmon/pmbus/pmbus.h
++++ b/drivers/hwmon/pmbus/pmbus.h
+@@ -487,6 +487,8 @@ struct pmbus_driver_info {
+ /* Regulator ops */
+ 
+ extern const struct regulator_ops pmbus_regulator_ops;
++int pmbus_regulator_init_cb(struct regulator_dev *rdev,
++			    struct regulator_config *config);
+ 
+ /* Macros for filling in array of struct regulator_desc */
+ #define PMBUS_REGULATOR_STEP(_name, _id, _voltages, _step, _min_uV)  \
+@@ -501,6 +503,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
+ 		.n_voltages = _voltages,			\
+ 		.uV_step = _step,				\
+ 		.min_uV = _min_uV,				\
++		.init_cb = pmbus_regulator_init_cb,		\
+ 	}
+ 
+ #define PMBUS_REGULATOR(_name, _id)   PMBUS_REGULATOR_STEP(_name, _id, 0, 0, 0)
+@@ -516,6 +519,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
+ 		.n_voltages = _voltages,			\
+ 		.uV_step = _step,				\
+ 		.min_uV = _min_uV,				\
++		.init_cb = pmbus_regulator_init_cb,		\
+ 	}
+ 
+ #define PMBUS_REGULATOR_ONE(_name)   PMBUS_REGULATOR_STEP_ONE(_name, 0, 0, 0)
+diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+index a0109296a9949bfe3a351cbb13787011ed54254b..94252e420ad79fd3e932c0f1df9e1c9a5d8a13d0 100644
+--- a/drivers/hwmon/pmbus/pmbus_core.c
++++ b/drivers/hwmon/pmbus/pmbus_core.c
+@@ -2665,6 +2665,30 @@ static void pmbus_remove_pec(void *dev)
+ 	device_remove_file(dev, &dev_attr_pec);
+ }
+ 
++static void pmbus_init_wp(struct i2c_client *client, struct pmbus_data *data)
++{
++	int ret;
++
++	ret = _pmbus_read_byte_data(client, -1, PMBUS_WRITE_PROTECT);
++	if (ret < 0)
++		return;
++
++	switch (ret & PB_WP_ANY) {
++	case PB_WP_ALL:
++		data->flags |= PMBUS_OP_PROTECTED;
++		fallthrough;
++	case PB_WP_OP:
++		data->flags |= PMBUS_VOUT_PROTECTED;
++		fallthrough;
++	case PB_WP_VOUT:
++		data->flags |= PMBUS_WRITE_PROTECTED | PMBUS_SKIP_STATUS_CHECK;
++		break;
++
++	default:
++		break;
++	}
++}
++
+ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
+ 			     struct pmbus_driver_info *info)
+ {
+@@ -2718,12 +2742,8 @@ static int pmbus_init_common(struct i2c_client *client, struct pmbus_data *data,
+ 	 * faults, and we should not try it. Also, in that case, writes into
+ 	 * limit registers need to be disabled.
+ 	 */
+-	if (!(data->flags & PMBUS_NO_WRITE_PROTECT)) {
+-		ret = _pmbus_read_byte_data(client, -1, PMBUS_WRITE_PROTECT);
+-
+-		if (ret > 0 && (ret & PB_WP_ANY))
+-			data->flags |= PMBUS_WRITE_PROTECTED | PMBUS_SKIP_STATUS_CHECK;
+-	}
++	if (!(data->flags & PMBUS_NO_WRITE_PROTECT))
++		pmbus_init_wp(client, data);
+ 
+ 	ret = i2c_smbus_read_byte_data(client, PMBUS_REVISION);
+ 	if (ret >= 0)
+@@ -3183,8 +3203,12 @@ static int pmbus_regulator_list_voltage(struct regulator_dev *rdev,
+ {
+ 	struct device *dev = rdev_get_dev(rdev);
+ 	struct i2c_client *client = to_i2c_client(dev->parent);
++	struct pmbus_data *data = i2c_get_clientdata(client);
+ 	int val, low, high;
+ 
++	if (data->flags & PMBUS_VOUT_PROTECTED)
++		return 0;
++
+ 	if (selector >= rdev->desc->n_voltages ||
+ 	    selector < rdev->desc->linear_min_sel)
+ 		return -EINVAL;
+@@ -3219,6 +3243,22 @@ const struct regulator_ops pmbus_regulator_ops = {
+ };
+ EXPORT_SYMBOL_NS_GPL(pmbus_regulator_ops, PMBUS);
+ 
++int pmbus_regulator_init_cb(struct regulator_dev *rdev,
++			    struct regulator_config *config)
++{
++	struct pmbus_data *data = config->driver_data;
++	struct regulation_constraints *constraints = rdev->constraints;
++
++	if (data->flags & PMBUS_OP_PROTECTED)
++		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_STATUS;
++
++	if (data->flags & PMBUS_VOUT_PROTECTED)
++		constraints->valid_ops_mask &= ~REGULATOR_CHANGE_VOLTAGE;
++
++	return 0;
++}
++EXPORT_SYMBOL_NS_GPL(pmbus_regulator_init_cb, PMBUS);
++
+ static int pmbus_regulator_register(struct pmbus_data *data)
+ {
+ 	struct device *dev = data->dev;
+diff --git a/include/linux/pmbus.h b/include/linux/pmbus.h
+index fa9f08164c365a541ee1c6480bafd8c3a8f98138..884040e1383bf41d2eb3b6de72c40e2650178dc6 100644
+--- a/include/linux/pmbus.h
++++ b/include/linux/pmbus.h
+@@ -73,6 +73,20 @@
+  */
+ #define PMBUS_USE_COEFFICIENTS_CMD		BIT(5)
+ 
++/*
++ * PMBUS_OP_PROTECTED
++ * Set if the chip OPERATION command is protected and protection is not
++ * determined by the standard WRITE_PROTECT command.
++ */
++#define PMBUS_OP_PROTECTED			BIT(6)
++
++/*
++ * PMBUS_VOUT_PROTECTED
++ * Set if the chip VOUT_COMMAND command is protected and protection is not
++ * determined by the standard WRITE_PROTECT command.
++ */
++#define PMBUS_VOUT_PROTECTED			BIT(7)
++
+ struct pmbus_platform_data {
+ 	u32 flags;		/* Device specific flags */
+ 
 
 -- 
-Regards,
+2.45.2
 
-Laurent Pinchart
