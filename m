@@ -1,231 +1,151 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11020139.outbound.protection.outlook.com [52.101.61.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A9A1DE2BA
-	for <linux-doc@vger.kernel.org>; Mon,  2 Dec 2024 19:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733166759; cv=none; b=KFroRMEMHA9wQIiIksnhdOmwvwMxG16OkK31AXW2nvX70kQa/X0R7hlbxO4bMLusJRtOQyUjVaoQ27DRBSvsZnRJ4iyOj2fqSGYWs7IGRhDZSeS+zlSju0YGXsr8BmvjBF6uy6/QqlVTyw78QOhF2xSQ0WiDLf8obGeKOPC3+qM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733166759; c=relaxed/simple;
-	bh=PCqlM+3BfC76KzUSF5fEfBFma5s6DwjBlWJwKQHa9fQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rexwd7yIIw3G0Oc+Tvxr+o7GJcemE/CfDRPNVMolMQ1ryEqGVPbCylGevsz444ifZ146Smo8zd4+tDPNFA0fn2NITAnO4o6EP8xIYlxIO3pb1RxFNFcKvEm5cCgEyCAISySKTkEp637v3qSvRK0i4OxMpW4j/iK2HPUNgk+RoJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g1n7Lcdb; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822981DACA7;
+	Mon,  2 Dec 2024 19:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.139
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733167156; cv=fail; b=X02pwEiWCF8Iz5/DDEnRx0JrpdxY507L0yPApDf5egRUO1GFhhiHjxT/SddyoVIS0d96EdB4LwbagzFBsBCokkUZLVy/YYzZUYGbG24JoYi9qLZU/oNmdIGHTQPSSdA/eoA+oPCedwUpnfxyRuA7R+WPhBp+Wbjbo0Z/oc481+w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733167156; c=relaxed/simple;
+	bh=fzVd99fXnW97rfEAWMEmxI9irxBFWFj9aqhhBBnH68g=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 Content-Type:MIME-Version; b=gXPPqU98VQaBbPPvH9oKswmfAiKRAYih9B0xOYJEGQqSWa70jYW0vQvRjmGaILzyip624gC2OzXzLEC0TmWVWzlHW+YbVnQOk8/ChBWwKkpoVvOUoS0IF4Pu6cIQhA1uCpDEoRSMCmy76sYQCfJEPASDHvTYd09PqpB6L5UAAe4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=d2yi4+bu; arc=fail smtp.client-ip=52.101.61.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g1n7Lcdb"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53de7321675so4890043e87.2
-        for <linux-doc@vger.kernel.org>; Mon, 02 Dec 2024 11:12:37 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="d2yi4+bu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HUpejHgsGE0woUKyU00eOvYs2sQhabK3WIFt4RiLoQb8HSOVJHPX90nf9xIebKclrbovah4rnkiJiBOF7T5HlG0rvtybPvLqiu9t5mFWlMYntX3+c7pY1FutoKaG89t+Gt5Ef9MggGTH550rnGoaJZ+mT947jCGpIkInjNPJxrdDiOC/i8YWXR/Xr1EsWQZwi62HRdF4eE3BWn95/P1bdlyhicpwv/lpY2s2SoYnsJIoskd4mMYPgafhnJSp0PgkrlW23F73GzHuemaOQxZ/Niq1Xfp90GwKgThPrhaPybffCgIgLOqeIeCHQE9FpGKRqUcURXzsYBJ9oBfWBDSc7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FCLeAjc9kcfLfgiCJUXgKY2ZQbR4SKx01n1j/m/fb5M=;
+ b=GWszI1gLGwvCtRrlm8oWyaD2NCOXKnNRuv/vEhEVnQjzR8NAML1CgSBdDeqaFksQlXalKOrw4/fDnGBCNq89yyp6wtO8LA65KXSEZqiuDGd+jRBYHszz94m+fRjKVogqrsD9GGiIc3F7AI29YfyYiLCgRPq3s+4+S5gYhgIw5FGCk+dGOtCWOC7+7cqyaB5lzCudqVuHKwHVIExPjDzAgDpZ3lyseBAVkqsWeeGL09pixhckEqaETXHoMaHh07/GHHLM3rVrwjn6tmG7LBaUMFQbYOcyrJnKWFROpskWcS8Iv7aHz1kMaFwmFopuxXvMGpbQPZYuS8BGNlIgrpurRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733166755; x=1733771555; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y5P0+db7NElW+RfhzCk/WkVDLZpj6atKSAhLo042qRI=;
-        b=g1n7Lcdbo1EYfd+gORk48JpqKOV15uopC3E/srXqWXFuxGemGFY+/C6KdoUcjCTGYC
-         Z4p5SUXEF8DmXectlKZYD01CtV7hd2HPztwxQECcc2TboOX0+5XDTNVRT44LZ/8ceNqY
-         dlffXAm7VGwqGwMkUSKOGe80fAC86CH1EAn5RV6horOk2uJTdIXXCclxbcyBkie9xdpa
-         O/C0rr343wktDSCEDvmsUFyh8RqBI4zgoTWc/yRn0pp26p3FqxIboJCEN2kqMQJkHYa1
-         +9Y1Hn+BFpodi0+TJBoHuTyt9NH4FefZYfvwXZ7Se7LhRwKBv/Zxw5H2UxeE+nZRZ511
-         mhqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733166755; x=1733771555;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y5P0+db7NElW+RfhzCk/WkVDLZpj6atKSAhLo042qRI=;
-        b=FUk1q4W85IxkfWULkcvUUiisyVR2sPna+frpFwIId/KiO8+z+Lm5gflhk5gWHzKC3R
-         zuoU0kVEfTEGAtM0SPnh6uhlp+5Q5mTeWVamMs3BCLVxTPj3/hULMI2wa5EDplFTY+Is
-         8O1r0ajjbH7s6p6TaPDwWQL1LQjRQKaLM9mrQbg9LnwGaKNnG0LfHI/H4wyyrAiwrInB
-         /5ksqM+yFoA2LbbZfGOAEKaCgz4QwAd1nzGe2QbPItu4F8iT3S3X/iEqmqFZ/YFQxAGf
-         a+4ZFan8kO5B9plu2Hjon75Vy0qbwDk5EzqoRtplxquRI5UNEmd5EsGsP5tR45wm/bB4
-         4dbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXoDDQFnKUyr66RNtqgupwuvTQOD2sQYtaQwUOIbln2huyB52a7ZyQME3J5i6UJH076QF/F+rT21iw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkWdR68ZqdW1bYOZCosS3hgr+UspU2ZcFE+V/hoiSyABGPjGiS
-	lO/moWP8uyXdwkyfY0RNDtd+r5nC84gAnhWiu/lndq6ulln5BwID6wRPD71drCQaN1eG1Z01Z9X
-	M7v8Em9vFh7DnfMCWPzO1UoGE/QwlkiuF/70=
-X-Gm-Gg: ASbGncsXHPzFdtGwULgGyTK63daWVWS33kT3/3K/PBPKYl9ymVcXamuoPOYHhx43Tpt
-	rTCBornWPgCgYcTzppiGdOO/poWjwRl8RDSPCdQW173uqiPbIA6WJTzOcAHWl
-X-Google-Smtp-Source: AGHT+IHZfCjhITQ3qERmJbAY1aREzd4BIcVZPSiVSRGk4ymF9wRxc0gWXYA3+kYFBl8DXbtnZqYMib0piYz7PcngqQY=
-X-Received: by 2002:a19:8c4e:0:b0:53d:f177:51d1 with SMTP id
- 2adb3069b0e04-53df17752b3mr9327407e87.13.1733166755293; Mon, 02 Dec 2024
- 11:12:35 -0800 (PST)
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FCLeAjc9kcfLfgiCJUXgKY2ZQbR4SKx01n1j/m/fb5M=;
+ b=d2yi4+butkYqGR3Do8bRlwthRi3B857RkAO2MkjE6GxjW5j/iN9oQh1/pZBPgY2lCYvfUXFt65/IDz+Q/xMPT3f9W8rg1Ji4WVDyXnj4y1yCQ6w0aOmr2bh4McEzFoN/w/zN4Zl+bXf0ChqZ9nLCxfr2lQnLkuohgNliWWbpXcY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from DM6PR01MB5259.prod.exchangelabs.com (2603:10b6:5:68::27) by
+ SA1PR01MB7341.prod.exchangelabs.com (2603:10b6:806:1f4::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8230.8; Mon, 2 Dec 2024 19:19:11 +0000
+Received: from DM6PR01MB5259.prod.exchangelabs.com
+ ([fe80::bb78:4472:8d3e:5e91]) by DM6PR01MB5259.prod.exchangelabs.com
+ ([fe80::bb78:4472:8d3e:5e91%4]) with mapi id 15.20.8230.000; Mon, 2 Dec 2024
+ 19:19:10 +0000
+Date: Mon, 2 Dec 2024 11:19:07 -0800 (PST)
+From: Christoph Lameter <cl@os.amperecomputing.com>
+To: Huang Shijie <shijie@os.amperecomputing.com>
+cc: catalin.marinas@arm.com, will@kernel.org, patches@amperecomputing.com, 
+    paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com, 
+    rostedt@goodmis.org, xiongwei.song@windriver.com, ardb@kernel.org, 
+    steven.price@arm.com, suzuki.poulose@arm.com, mark.rutland@arm.com, 
+    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 4/4] arm64: add a new document for the fine-tuning
+ tips
+In-Reply-To: <20241126085647.4993-5-shijie@os.amperecomputing.com>
+Message-ID: <76013b75-dce9-b37c-f2af-9556f14f6301@os.amperecomputing.com>
+References: <20241126085647.4993-1-shijie@os.amperecomputing.com> <20241126085647.4993-5-shijie@os.amperecomputing.com>
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-ClientProxiedBy: SJ0PR13CA0074.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::19) To DM6PR01MB5259.prod.exchangelabs.com
+ (2603:10b6:5:68::27)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241202115827.50388-1-mripard@kernel.org>
-In-Reply-To: <20241202115827.50388-1-mripard@kernel.org>
-From: John Stultz <jstultz@google.com>
-Date: Mon, 2 Dec 2024 11:12:23 -0800
-Message-ID: <CANDhNCpTnc6=YkjQgQngRCw1_xLWgOFrcjTxrrGX+bRhvGb5DQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name definitions
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-media@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR01MB5259:EE_|SA1PR01MB7341:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40616153-7bd2-46ac-6539-08dd130632e8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Lgnn+uB4BAx3NSv/CFYU59mEakiFP2n8AxIfmmbFl8Z3U+FlmAbe1F/7X/mh?=
+ =?us-ascii?Q?eL3z5JHSqHp4bdA53rVVJHoz+wbzWv6BM24dmtWtupsjTJv/4yD5r5Iy0WKn?=
+ =?us-ascii?Q?+GssyEDHm1ncM+80hayWi6W0CjTlwkS9gB2/yaJB47EbyOG6C2Hi5Lw/vcwM?=
+ =?us-ascii?Q?3bw/IRmxTb3N6huW/hXprrA9wyX/aRuECcduQq8AyM1sz6em7k4NvtpKNKrS?=
+ =?us-ascii?Q?Akz4eh4GLsiU4OyKkVHAK0hBbZHIPQpQuTfwiVgMkv/CAdqNGfeSyojxcuyu?=
+ =?us-ascii?Q?yoS1cvIEq7+To6JSeuR+BxcYPdUOHO2ST+aTT8ETsOxpOp3V1Lelo8H8oYCY?=
+ =?us-ascii?Q?RRvjkB1nogfK3nqe6JlQTKbBys4OAbqu2IGNDRnBY7m0twmoOJ3sfwKx10bu?=
+ =?us-ascii?Q?75OPxccjiOKHaJvKgYGgD2Y/PUr5fCnLTTwBqRicumxVYRddVW/5uvb0Q+Nl?=
+ =?us-ascii?Q?04SaISxh3whZEEBZuvSRPa3E4C3cWJvQ70MPsV/OWMoDdWa/eSTr+X8Uychk?=
+ =?us-ascii?Q?Rzw0ODflloW6ZlIx3/aub0Osc2xd6gc/8RwhRXQWEN/5Gmk12d/TR4hiOSRT?=
+ =?us-ascii?Q?ePIva9DS7RglfOcTrmOefMdIgH3gNKSvS8l8Av+lrqvuBu6jvayb6EGj3NQx?=
+ =?us-ascii?Q?mQ6m9sUiwFaM35fzgZY14XOYbQObVRYI+dPfhWugj4koPzXXUGSmSjmhcbGu?=
+ =?us-ascii?Q?FmkLSlmt4lAW7/mdi8r4gKszQOewQH1Vrdm7XGgILdT5I382cCF1D5onw5jX?=
+ =?us-ascii?Q?kBWva4632ep8vjRBXJ3KFS7rJ1QrnpSkvmdVRz0eMz26uUNEveO2NdzrQpu2?=
+ =?us-ascii?Q?AdD+Aogw5i6Lv2E0p7T+O2N4wyZYH0b40Bb2AzntaT9zk0yjY3Ibz2vJPAKf?=
+ =?us-ascii?Q?3q5m2NKPKuQXwGrz2VcZ6vXDfhpfAlbKnJnrox4e7KxIVtRHkQQXZxu8ZdUv?=
+ =?us-ascii?Q?tzO8Kb3EanaZly9GEB1ozggT7ojEfpNcFt/hSboUvqa2Uyt9hUKkklyQWWnM?=
+ =?us-ascii?Q?unAoS0AfazE8jldZl/DF2AL2xMi5A7/Y/6nSjXbWZ963yjERoxSwz49bvHc6?=
+ =?us-ascii?Q?PMUa5YgHI+Qv/DR5Bd5RhUfZd2/5ha8pByk4vmBMCPeMHP2ja23hl2OUIGYp?=
+ =?us-ascii?Q?7RBlolrmIonyqVkZ7gOCo07jx9MWNAcHqosgihqOtFgSd0C3vBZaZW68rVYE?=
+ =?us-ascii?Q?510YSBJaIaeRj+Anuf5Uxwt0NsBwozcvRJeb9s4N4xrhBW4BCZvyu7OvMqIv?=
+ =?us-ascii?Q?MWXnd3QBzvTiEO2cCQ9y/rks3JWT4c1YqPNmM+6Tn8mOO7lsDA8i3PxE7MGe?=
+ =?us-ascii?Q?5Re93tSQT2pFNKLri+AhGpCC7l3kxwszT0gpA5cslZeMQQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR01MB5259.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?FvpVCLTqgVeqSX+I2/qsvE7+VKkncpKR/E1M5IaOfaNJ+zzagLvYj4FsU2FC?=
+ =?us-ascii?Q?xbeqmQ9P9RMcWLGh2LuXNc5+XCiZTEYdYukp0k2uA8b2hQLc79CtaVFNwghb?=
+ =?us-ascii?Q?BN43g8G65Xc6bVN3JiPtTsnBPhvRVITkv6AX6EYwfLr3yO//80hRt65LDK/a?=
+ =?us-ascii?Q?UyduleKSZHXwFTni2gbkVPBb546GsnJnQ7qNsxP7cZDYNLbPTerMcmtfS2Bz?=
+ =?us-ascii?Q?/zzJc0DFy7AtaypPngm2Xqr5pcgdsN+8my2G7hbn0A1U4mCyWzU2LiUsAeca?=
+ =?us-ascii?Q?sag+ekt05dITzYZV+L10VEt8RstZ0VgCA5nOE78VyJr3/eb8Ce1mkfb6nUww?=
+ =?us-ascii?Q?vKthX06sAwMIbK3JJEITnNhTqU5e7D7SgoxNCUzncvBuz2lSTu7Qz4/vTzug?=
+ =?us-ascii?Q?sJA+W0V9ym/aKfIhPNICcI0L/vDQHne8CuMOus121dckwbTq7C8mLbYlT/bD?=
+ =?us-ascii?Q?mZlzFrGFQOinKKmA996rCBJo1L1zXKnxl7G81estqr3criIlIadr+nYToXwV?=
+ =?us-ascii?Q?sviZSOGwGFB6I2559p5W/FA3Zf24tLXNM2QpcahncoZj8JtKciNgLJg7IiV6?=
+ =?us-ascii?Q?1brDBXwWRaZUbDgMBNic6/i8jqofZMDje8Beo7uDNyHSYSjVy3boUHLausG3?=
+ =?us-ascii?Q?jMGxRl+NzGzjIv8EeTt+Z3Zw6d54F82clEhHQtadkk5TVmOwSC2KZ8I1wMd7?=
+ =?us-ascii?Q?iIL7IcLmlRfYTwfvmmSy/O85iOm8lz4iIkXFZBR3vWW4RVh+qmiDafIwclRS?=
+ =?us-ascii?Q?43RepeF/NBM5XelsFo46Hs4mwlQVreN5khRUBo1FBOSe7ekiTom9sh+RYhZc?=
+ =?us-ascii?Q?1GYTWmOToNkoPNpW7F3tOA029sPV1D+BdjdzwXS28OmGPMFAUn8x0h2e+LA/?=
+ =?us-ascii?Q?sdRKaHggmSJ1j2AAlqUFtHOB9VgjTJcFrYql7X9ABH2pzyKb8KJERhDuVBJr?=
+ =?us-ascii?Q?2T7BoJKulx9XxVnDE6GJbqhMNQbXHrr0Jhf2YllOPiHXoSwaoZH1DpHHn3up?=
+ =?us-ascii?Q?yGmxS9i4d6NhtgMABJikg+lb6VpnlYsx6bQD1+Awc3aiDYJimD3kvaMc0C99?=
+ =?us-ascii?Q?4/g7xNuCyJwhNzRSh6xfE8dNFQXKJtva/43mfSDylmRzEK5sd0uOSqh5M/Uf?=
+ =?us-ascii?Q?dxJU3CiGJHuzU2tB8BwWoguJh6ccB5yPxMuKY9zSdAj6Q1yvlF2Xu5LF8Azu?=
+ =?us-ascii?Q?vAPVv32V1+6Et4l3+aEmUqRWbzRHUk9cJLD/wEfHigXbCZnv239F3Luuykwf?=
+ =?us-ascii?Q?dk1OZozyxVfCCcyfF1gT2I0qzhxzzPyTiMSMLiXolZbhGwRP5IXKWbaaKIi3?=
+ =?us-ascii?Q?EIFpT1yhp/z93L6rG9aZcZNPlvOcsiygcBl8qGQ5gNkG2r4uFQhCOwt3ssYO?=
+ =?us-ascii?Q?CnMPKFZe2DrlwZbM+jDp47lyP9hrTyrm7fOnegSwGmMYRxiY3vFcrcjXPaG6?=
+ =?us-ascii?Q?MFNulSefgw3zJGi78Tb6safP0O2j4fApCYHn8v0/NjqTTFG/ocNCUvx+dxFO?=
+ =?us-ascii?Q?0fi+6rsQgYrzfaw/LHq0lrxNnXwwq6HkTSroAPTRfSjmMYwbufgHmrv3lTYP?=
+ =?us-ascii?Q?voqUAmjDVUbDAQwKapi48l7ktNYdWf6s2niEk8apMvKmMGbxnF1kgUWcqlB3?=
+ =?us-ascii?Q?lA=3D=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40616153-7bd2-46ac-6539-08dd130632e8
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR01MB5259.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2024 19:19:10.5183
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rj+VO8PDUL1Ftop138qQdV4Fr5+15+TxBnzzoK0S0VNIv3OSn3JYSwmMfDHkHx5qfRwVAn6ap0Z1eq3i4NP1iVUD4Nq0WEqx6zTtQaVE0u4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR01MB7341
 
-On Mon, Dec 2, 2024 at 3:58=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
->
-> Following a recent discussion at last Plumbers, John Stultz, Sumit
-> Sewal, TJ Mercier and I came to an agreement that we should document
-> what the dma-buf heaps names are expected to be, and what the buffers
-> attributes you'll get should be documented.
->
-> Let's create that doc to make sure those attributes and names are
-> guaranteed going forward.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->
-> ---
-> Changes from v1:
->   - Add the mention that the cma / reserved heap is optional.
->
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: John Stultz <jstultz@google.com>
-> Cc: "T.J. Mercier" <tjmercier@google.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/userspace-api/dma-buf-heaps.rst | 76 +++++++++++++++++++
->  Documentation/userspace-api/index.rst         |  1 +
->  2 files changed, 77 insertions(+)
->  create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
->
-> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentatio=
-n/userspace-api/dma-buf-heaps.rst
-> new file mode 100644
-> index 000000000000..68be7ddea150
-> --- /dev/null
-> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> @@ -0,0 +1,76 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> +Allocating dma-buf using heaps
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> +
-> +Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They =
-are
-> +typically used to allocate buffers from a specific allocation pool, or t=
-o share
-> +buffers across frameworks.
-> +
-> +Heaps
-> +=3D=3D=3D=3D=3D
-> +
-> +A heap represent a specific allocator. The Linux kernel currently suppor=
-ts the
-> +following heaps:
-> +
-> + - The ``system`` heap allocates virtually contiguous, cacheable, buffer=
-s
-> +
-> + - The ``reserved`` heap allocates physically contiguous, cacheable,
+On Tue, 26 Nov 2024, Huang Shijie wrote:
 
-So, I think calling the heap name the "cma" heap might be clearer here?
-On some platforms the chardev is "reserved" because the default cma
-region is setup via dma_contiguous_reserve_area() (which calls it
-"reserved"), but the dma heap is exporting cma.
+> +slab_strict_numa
+> +----------------
+> +In NUMA, it will provide the local memory allocation by SLUB.
 
-Additionally, on some downstream devices there can be multiple purpose
-separated CMA heaps. This hasn't made it upstream over objections to
-how downstream devices were enumerating the separate cma regions in
-their devicetrees. It was proposed to export all cma regions as
-separate cma heaps, but there was reasonable concern over kernel
-drivers not expecting userland to be able to allocate from special
-reservations, so that seemed like a bad idea.
-
-Ideally upstream drivers would want to explicitly export their special
-CMA region themselves and we would export something like
-add_cma_heap() to do so.
-
-All to say: this document really only covers the naming of the
-"default" CMA region that is exported via the cma heap.  Eventually
-there may be other CMA heaps as well upstream.
-
-> +   buffers. Only present if a CMA region is present. Such a region is
-> +   usually created either through the kernel commandline through the
-> +   `cma` parameter, a memory region Device-Tree node with the
-> +   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
-> +   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
-> +   might be called differently:
-> +
-> +    - Acer Iconia Tab A500: ``linux,cma``
-> +    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-> +    - Amlogic A1: ``linux,cma``
-> +    - Amlogic G12A/G12B/SM1: ``linux,cma``
-> +    - Amlogic GXBB/GXL: ``linux,cma``
-> +    - ASUS EeePad Transformer TF101: ``linux,cma``
-> +    - ASUS Google Nexus 7 (Project Bach / ME370TG) E1565: ``linux,cma``
-> +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) E1565: ``linux,cma``
-> +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) PM269: ``linux,cma``
-> +    - Asus Transformer Infinity TF700T: ``linux,cma``
-> +    - Asus Transformer Pad 3G TF300TG: ``linux,cma``
-> +    - Asus Transformer Pad TF300T: ``linux,cma``
-> +    - Asus Transformer Pad TF701T: ``linux,cma``
-> +    - Asus Transformer Prime TF201: ``linux,cma``
-> +    - ASUS Vivobook S 15: ``linux,cma``
-> +    - Cadence KC705: ``linux,cma``
-> +    - Digi International ConnectCore 6UL: ``linux,cma``
-> +    - Freescale i.MX8DXL EVK: ``linux,cma``
-> +    - Freescale TQMa8Xx: ``linux,cma``
-> +    - Hisilicon Hikey: ``linux,cma``
-> +    - Lenovo ThinkPad T14s Gen 6: ``linux,cma``
-> +    - Lenovo ThinkPad X13s: ``linux,cma``
-> +    - Lenovo Yoga Slim 7x: ``linux,cma``
-> +    - LG Optimus 4X HD P880: ``linux,cma``
-> +    - LG Optimus Vu P895: ``linux,cma``
-> +    - Loongson 2k0500, 2k1000 and 2k2000: ``linux,cma``
-> +    - Microsoft Romulus: ``linux,cma``
-> +    - NXP i.MX8ULP EVK: ``linux,cma``
-> +    - NXP i.MX93 9x9 QSB: ``linux,cma``
-> +    - NXP i.MX93 11X11 EVK: ``linux,cma``
-> +    - NXP i.MX93 14X14 EVK: ``linux,cma``
-> +    - NXP i.MX95 19X19 EVK: ``linux,cma``
-> +    - Ouya Game Console: ``linux,cma``
-> +    - Pegatron Chagall: ``linux,cma``
-> +    - PHYTEC phyCORE-AM62A SOM: ``linux,cma``
-> +    - PHYTEC phyCORE-i.MX93 SOM: ``linux,cma``
-> +    - Qualcomm SC8280XP CRD: ``linux,cma``
-> +    - Qualcomm X1E80100 CRD: ``linux,cma``
-> +    - Qualcomm X1E80100 QCP: ``linux,cma``
-> +    - RaspberryPi: ``linux,cma``
-> +    - Texas Instruments AM62x SK board family: ``linux,cma``
-> +    - Texas Instruments AM62A7 SK: ``linux,cma``
-> +    - Toradex Apalis iMX8: ``linux,cma``
-> +    - TQ-Systems i.MX8MM TQMa8MxML: ``linux,cma``
-> +    - TQ-Systems i.MX8MN TQMa8MxNL: ``linux,cma``
-> +    - TQ-Systems i.MX8MPlus TQMa8MPxL: ``linux,cma``
-> +    - TQ-Systems i.MX8MQ TQMa8MQ: ``linux,cma``
-> +    - TQ-Systems i.MX93 TQMa93xxLA/TQMa93xxCA SOM: ``linux,cma``
-> +    - TQ-Systems MBA6ULx Baseboard: ``linux,cma``
->
-
-Hrm. I'm not sure I see the value in enumerating things in this way,
-it seems like it will be a nuisance to keep current?  Maybe something
-like:
-
-On most systems the default cma region is named "linux, cma" or
-"reserved", with a few exceptions:
-    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-
-thanks
--john
+"Slab objects will be placed individually according to memory policies. 
+Increases object locality which is useful for NUMA systems using SLC 
+caches"
