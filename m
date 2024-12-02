@@ -1,105 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95087126C13;
-	Mon,  2 Dec 2024 16:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80525199E8D;
+	Mon,  2 Dec 2024 16:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733156259; cv=none; b=OB8cLT4xHL1I7YFxtNKqR8vP8lyPM05FVx74tI0ylw2BF08mjJE7YoiyPkhKyCpyX+pphCtpycR8Px6fIKgiTKfweWH+P/WRwouy848+LgRuK6l6SNMjFgvtR1tifBa/COdaHmy4JKsR2qFnTufG9MxdAih63YloDmHgObO314g=
+	t=1733156980; cv=none; b=aIpqpx6/npy2BDdkCFvJxbNS38fnL3zzRNie0jIBlJikQ1mUYfETtxRTKzKa/q/yP0Xi2BvuKkOSU+VQi2UJnbwzLnD0IE4Iw8APasf/lrMN6qv+DX6ydE1ADzNQTekcOMglCqtQtgzCDxRx7/Xa9Xhdm83i6yCtewbu4zJgCKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733156259; c=relaxed/simple;
-	bh=FdAl/pnmfZjlLTBXtyBGlzxjl+zb6kNwgaI64za+Yy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DCYVAn1tRcR2Q8zMEdPCruVTCMQS2+It6YgRikBh9J381wTbpJo0z4AWd6b7Ujx2HwvPJvyDdBm5BIOLa7GHZKukaCySLQqFhZdy2dDs/7W0dROar8S9t1Uhvag8C6LZwURUeE4tzvU6lP1hjp913LR3WGh19KCAPsnxA5/STLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=orWka/Fs; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="orWka/Fs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 571A8C4CED1;
-	Mon,  2 Dec 2024 16:17:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733156259;
-	bh=FdAl/pnmfZjlLTBXtyBGlzxjl+zb6kNwgaI64za+Yy0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=orWka/FshVy1ETVnsHYOcsYvI47dzAzZfvzCVSpKLJId8S9UECUiMx/pbQiSopcVx
-	 Xpa5p/+71s/PxhdGdF4KVuO1+nR7K4xvqMYfNIAlR9Hd+RKM4rKVNhseKiqq1klPsG
-	 prq+gpR+IiXmGO2c1Ernb+PzokGx2meBGohin/PU6Jz8Vn4lDrGGj0gRq1EraAGxsc
-	 WECvenbjRbZE8P2qOwL+RJ9/Oib7wAdjcr20tvR8nxfZvDAZpbijeGRQD65dXoieeH
-	 7rJfFaEMp3rkguwLO6TDdfm5RzHMpAYd4MXNBzsiBI0Kalg1hJz+jrd8XGXhn+ryVV
-	 H4lE2t13sCOEg==
-Date: Mon, 2 Dec 2024 17:17:34 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Simona Vetter
- <simona.vetter@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v3 DONOTMERGE] docs: clarify rules wrt tagging other
- people
-Message-ID: <20241202171734.2874a9a3@foz.lan>
-In-Reply-To: <6f1bbdf3-22df-415c-b017-de1cf81af57e@leemhuis.info>
-References: <c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info>
-	<20241202092857.7d197995@foz.lan>
-	<20241202110210.5e56d69e@foz.lan>
-	<d8cae2d3-d855-404b-8991-f81c979486ce@leemhuis.info>
-	<20241202154528.7949e7cb@foz.lan>
-	<6f1bbdf3-22df-415c-b017-de1cf81af57e@leemhuis.info>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1733156980; c=relaxed/simple;
+	bh=yiONnHmDvX4qwzey5n0hL12IEZwVKs6E4DW4PuPL138=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GFyINAtauCwDU0LxtlWk2nf7l69SjlX0WNMDhFlYUjHVzbiX4YlTrrKW6xpFx73j2+90RqZPxGhJz/9mhZA07kKdZkCv6JResc8yfqlRVs0l4PiqX8d4IdrEWXiRyWJOQKK3y8uBVAEoftW04BybAJGJbMQQln5LHdGsLgGByM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21288ce11d7so40461845ad.2;
+        Mon, 02 Dec 2024 08:29:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733156977; x=1733761777;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bfL9pfVed/5lGXLlfCTto6TeVoqcUMOXv4x0sAXkdgA=;
+        b=E98U4EUBSDNdO4VBHD3vcSXgF1AhjKziMunVMqBXFKsEgoEzfBbZZf6CxlnEvfZTHF
+         E6MIVEiDG6na+WqXHrmxrW2B2t4HU6YimNxo5BKbJBYQIhqY6XEdk7FMGNbsWCwmVNP4
+         r+nddxTUIZd9ennVVLhd03ugC1RwnJ5jiRSuqLfUU7sQoAB5mN5HjesdaAhsMbDq0Ea4
+         JAvC+P3ZkcL6ll1ZLPDnCKMwtOHI9/YdMbtU5XcPGzx2iR+XRCp1gKCmeXaPghwHthD6
+         5rTMKFXAF6czI7dFiP6xQ0v8cjn9C3Kq+9tsh30lGQz72aMLKhsYyC7aEjSUUzpgGkCB
+         vvlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrUMCsdqhQeiJU0ZZHYMtJOzHqzMg58s28S6iHHpjjqJRMdcuIDcpNFDO1oXim7+8c0fgv6fBxW3U=@vger.kernel.org, AJvYcCXq5JxsDdlu3LcCaAi1NKqk6V7RwWD1m0WraoJ0gP7buiGRQ3edPQDOqLIU5UD718d3PIgGfG48vQRHMdP2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyt8J8z7DtgkszX+tBYDSheNCwq7nl1RkCX2YaQgtbZXYHRoY8d
+	jrDTGn2qyhwc5YXAVCszjsDzwtgi0nneGEKRdztMYi40mMdH14L3iuBpr9Y=
+X-Gm-Gg: ASbGnctPt1kUcv/VglM0vEMXcXYtV4vSJ4HupncZBDgxEb9vQwz+owCSwLPvjwSyPdp
+	CwK8YdfaWhni2BmxW1gWgJkifdPf7gsnBW76sI16zDCqV2lluCWomcQO1HH3YYqjP9jW+Jl09PO
+	DlJ+oIWPrrnR4Byb7PUptEOb0xGwvaUFwakyOSHaXuvXJas/l1yMOxwzBeddHfeblFifwbTpPGx
+	5B/X7dTrQ7bYt6tjwwgM+l3OM/3vY/e0uWedfoiMVjTIYYO/Q==
+X-Google-Smtp-Source: AGHT+IFYuIT1TXCwUE+DMeo6jbJzFI1AzXMjy9fA6FNv9SpCnybc9kSaje1cbCnd4RCEEABbkihZRg==
+X-Received: by 2002:a17:902:e949:b0:215:931c:8fa7 with SMTP id d9443c01a7336-215931ca8f2mr76094315ad.31.1733156977566;
+        Mon, 02 Dec 2024 08:29:37 -0800 (PST)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176fe28sm8692144b3a.72.2024.12.02.08.29.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Dec 2024 08:29:37 -0800 (PST)
+From: Stanislav Fomichev <sdf@fomichev.me>
+To: netdev@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	horms@kernel.org,
+	donald.hunter@gmail.com,
+	corbet@lwn.net,
+	andrew+netdev@lunn.ch,
+	kory.maincent@bootlin.com,
+	sdf@fomichev.me,
+	nicolas.dichtel@6wind.com
+Subject: [PATCH net-next v3 0/8] ethtool: generate uapi header from the spec
+Date: Mon,  2 Dec 2024 08:29:28 -0800
+Message-ID: <20241202162936.3778016-1-sdf@fomichev.me>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Mon, 2 Dec 2024 16:54:49 +0100
-Thorsten Leemhuis <linux@leemhuis.info> escreveu:
+We keep expanding ethtool netlink api surface and this leads to
+constantly playing catchup on the ynl spec side. There are a couple
+of things that prevent us from fully converting to generating
+the header from the spec (stats and cable tests), but we can
+generate 95% of the header which is still better than maintaining
+c header and spec separately. The series adds a couple of missing
+features on the ynl-gen-c side and separates the parts
+that we can generate into new ethtool_netlink_generated.h.
 
-> On 02.12.24 15:45, Mauro Carvalho Chehab wrote:
-> > Em Mon, 2 Dec 2024 14:54:56 +0100
-> > Thorsten Leemhuis <linux@leemhuis.info> escreveu:
-> >   
-> >> On 02.12.24 11:02, Mauro Carvalho Chehab wrote:  
-> >>> Em Mon, 2 Dec 2024 09:28:57 +0100
-> >>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> >>>     
-> >>>>> +Tagging people requires permission
-> >>>>> +----------------------------------
-> >>>>> +
-> >>>>> +Be careful in the addition of tags to your patches, as all except for Cc:,
-> >>>>> +Reported-by:, and Suggested-by: need explicit permission of the person named.
-> >>>>> +For the three aforementioned ones implicit permission is sufficient if the
-> >>>>> +person contributed to the Linux kernel using that name and email address
-> >>>>> +according to the lore archives or the commit history -- and in case of
-> >>>>> +Reported-by: and Suggested-by: did the reporting or suggestion in public.
-> >>>>> +Note, bugzilla.kernel.org is a public place in this sense, but email addresses
-> >>>>> +used there are private; so do not expose them in tags, unless the person used
-> >>>>> +them in earlier contributions.    
-> >>>
-> >>> Hmm... There is another tag that we use without requiring explicit permissions:
-> >>>
-> >>> 	Requested-by:
-> >>>
-> >>> There are currently 376 occurrences on 6.13-rc1.
-> >>>
-> >>> This is used when a maintainer or reviewer publicly requests some changes to
-> >>> be added on a patch series.    
-> > [...]
-> > You're basically requesting explicit permission for any "non-official"
-> > tags as well, including reviewed-by. This is not what it is wanted here.  
-> 
-> Ahh, okay, I see the problem now. But well, I'd say "as all except" in a
-> text like this implicitly only refers to those the text mentions in the
-> first place. So I'd say it's good as it is. But if people think this is
-> a problem,
+v3:
+- s/Unsupported enum-model/Unsupported message enum-model/ (Jakub)
+- add placeholder doc for header-flags (Jakub)
 
-I still think it is problematic, but with the change below:
+v2:
+- attr-cnt-name -> enum-cnt-name (Jakub)
+- add enum-cnt-name documentation (Jakub)
+- __ETHTOOL_XXX_CNT -> __ethtool-xxx-cnt + c_upper (Jakub)
+- keep and refine enum model check (Jakub)
+- use 'header' presence as a signal to omit rendering instead of new
+  'render' property (Jakub)
+- new patch to reverse the order of header dependencies in xxx-user.h
 
-> I could easily use a slightly modified phrase like "...as all
-> mentioned above except...".
+Stanislav Fomichev (8):
+  ynl: support enum-cnt-name attribute in legacy definitions
+  ynl: skip rendering attributes with header property in uapi mode
+  ynl: support directional specs in ynl-gen-c.py
+  ynl: add missing pieces to ethtool spec to better match uapi header
+  ynl: include uapi header after all dependencies
+  ethtool: separate definitions that are gonna be generated
+  ethtool: remove the comments that are not gonna be generated
+  ethtool: regenerate uapi header from the spec
 
-It seems a lot better to me.
+ Documentation/netlink/genetlink-c.yaml        |   3 +
+ Documentation/netlink/genetlink-legacy.yaml   |   3 +
+ Documentation/netlink/specs/ethtool.yaml      | 354 ++++++-
+ .../userspace-api/netlink/c-code-gen.rst      |   4 +-
+ MAINTAINERS                                   |   2 +-
+ include/uapi/linux/ethtool_netlink.h          | 893 +-----------------
+ .../uapi/linux/ethtool_netlink_generated.h    | 792 ++++++++++++++++
+ tools/net/ynl/ynl-gen-c.py                    | 139 ++-
+ 8 files changed, 1250 insertions(+), 940 deletions(-)
+ create mode 100644 include/uapi/linux/ethtool_netlink_generated.h
 
-Regards,
-Mauro
+-- 
+2.47.0
+
