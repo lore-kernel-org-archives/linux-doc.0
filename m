@@ -1,141 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF1F1662E7;
-	Mon,  2 Dec 2024 17:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7152F1B07AE
+	for <linux-doc@vger.kernel.org>; Mon,  2 Dec 2024 17:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733160382; cv=none; b=qpULl9H19c5m3Q8kRWmmSew4VIuqNns941vQXbHitSxSaOZpscmcGQkMMwGGoxC44CUY+uqx0BexC8xJOwloiB8s6Mqr1QeTcr9rCHke2odDbtrSY0Xu7xWnEwMqK1Mb52tCjiTAHMxOtQpM52YkHYLP54XcCzj8f3vVTMvcBwo=
+	t=1733160854; cv=none; b=oiA2/tFHc86Dv3qNxX4RsZNdlU27IrBPRtVKUCOtg18dPW6lmwHb/s0C3Zar7cYybgIolJ1Am772LjYoU5vKxYxwxr/I7bolGXPeXpcDy97F46URgIVzju/7lss8cioMltB7KVcfiGizQ2YM+92rXIFXAWgRBurYMWeQlUzZgKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733160382; c=relaxed/simple;
-	bh=BsEHNjcP0yoRdiQY8UO4KVSJoS6Aba+uZoD/T0TC2EA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g1qL9BxjOIw79ujo228YOvOZbLT9BNBresJU42RoOuiJDz1v3uha7TIXIM5itOGSkaDjyFUZKDk9zh+JhThHG7HOUOqbnNIgLLrhLB39ZeqQ8ag2v5IC2t38yXKPlINOaiUqLqCEMcCtqLtDRgrgt38u8n4dJ7vKqlp3szQtn5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjPuhyV3; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733160854; c=relaxed/simple;
+	bh=ZcWhmQeTdhzEQEyezGlnWtKSJ1aRtj36eMfuAb5qXpk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aUALboRcWC6GBhllYj2Gk9TsbZVUvsvJNxLYye+XRvDxXChbpIRepsfaHgIi5c8RVyhgfK4JZPp0CXmV/nJ+McqB20D7r9ZbjwEEXbRuqoGOGA7fhJvUbgu8yfb/igFadtyzwyP30vzBx9mP7mVSiOjwc2j8L7tC0IIB1yImiTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=LXxoGrUy; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjPuhyV3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733160380; x=1764696380;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=BsEHNjcP0yoRdiQY8UO4KVSJoS6Aba+uZoD/T0TC2EA=;
-  b=LjPuhyV3uvetnO/24BAYLzUkfjXPMnlUN0rZAWep89fJsRbDUD+sfJ7B
-   P2nYyHBzwF5VPOZtMCTjV1CC6/wWZX5iHYgp+eI3ni7syP9EfHkw+k0Tg
-   op0TOEhDQ5vsTpeyQ+Aq0p3Gis+GY8eVQQdpWm4UZulc8kDUMGQWqxeSM
-   YxFCR/hs4QAzkvag8yATR1JjfUso7SeTweGHeWFP5aye7exGM+PZVKgre
-   8h4CDaQwWwz8oPUtQvLEs/TwtPXJsOvCPlSNww5fNLuALNsPRQ+kFKkeB
-   wmlTmoYO+b+biEC2ReyhWh5+lgJkgZ+nx2opAMNxJh7u8mlbHNH6aReGH
-   A==;
-X-CSE-ConnectionGUID: icCyv0IkSx+1htiA5cVBNg==
-X-CSE-MsgGUID: IM9glH9dSNWu1e6BvyihxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="55833040"
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="55833040"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:26:19 -0800
-X-CSE-ConnectionGUID: bxI9jJ1zQqeonRA7mmffsA==
-X-CSE-MsgGUID: dRWQFCk7QlGCSxdVrLqoOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="130638664"
-Received: from sramkris-mobl1.amr.corp.intel.com (HELO [10.124.222.246]) ([10.124.222.246])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:26:18 -0800
-Message-ID: <7222b969-30a8-42de-b2ca-601f6d1b03cd@intel.com>
-Date: Mon, 2 Dec 2024 09:26:16 -0800
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="LXxoGrUy"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-724f1ce1732so3531844b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Dec 2024 09:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1733160853; x=1733765653; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f/KBVkQ9WDET0JwE7JbXDlQw4ch/b8XOKIUlHGNDkFw=;
+        b=LXxoGrUyVYux4eRfCJPVkd9n9MDdCmUyo/RtxN2bMmr+E2mm70sKBPJ4BHiUMYDiYS
+         d/5+SM9usrJyH/4YWn+rruVhNhvvuMWD5B6pDskt1rxBJ1CRvRXyA6CvTwecI9F5/Mft
+         vBXvwsVYAtlAS02Zv9DkxEfGKEcU7g3iHWB8w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733160853; x=1733765653;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f/KBVkQ9WDET0JwE7JbXDlQw4ch/b8XOKIUlHGNDkFw=;
+        b=dVOb69cOEvZHR01x2KQ3cLbVNTuMLACmmb3Z2FSTkVUzoBlbDaHAGCnmfUC8j/XAYX
+         APky49eTfUVzCuSuPKK8Tu7rWqSDiEcD/7Jw1kupdtxWErWpA0aYlmhuYLJ3DrYqc+kS
+         eDo6SplLmaET095GtRcUb5913hVDSy27acon2MB2wH8Cp7WImXZwrMVtpkg+A0McA5Pq
+         h7HHp1HwP3QtHFShlaaGpXWGCVXOlXRQM5lOBi/tsW1eHVuQqoOyJO4idjgnP1Qo2p6b
+         5Qvbk5w6C24tHnqKuK/BgAf7FAacuN/RUqyvM0pgj64LQFPlgMW32SVCO6+3+fUEw9QI
+         sQaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX7llP/zEHoMh2O6ztRLn+fSFwE3JgaTnzPdiTqvSiTS0IjMnE4UKaqyS1OSBUMA6ZgGOqJcfd5dLQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzP+gIzDaAhFqRmcRVrN00vtGrC4DMzvf7L5eUf5rSNASHj2seo
+	cRz8PT8fpUn2iz0s7qdvr8itJrTzrakUDjQ0XNk0lTbcjWPyqeK9juCvupMCb5w=
+X-Gm-Gg: ASbGncvOVg581MK/Ykt7owGGunSjnad8O/jCWcR8e051RIHCAqut5TGQiUCJ6f+u6br
+	izA6e247KNy1yFZVPfGMlYEf1fIMx44/40LMbBD4qxpLltx5ZCMlYJGlOdkLSa1cbPz6T0nHa3M
+	RbOKAXPrc9+BYFkNRlbIeeV1IhnzJlKvdyvMNQrvWzOxkl7rKcdrgKnqWqwPMuFBjsbsNEscLBz
+	TN0izBRqgBmnlSqzq1p3vZob+KR3LGkM++CBkQWgxvL3cZAqp0lS7wa3Cgtq6ao07sUT3rUiDbd
+	9fM8LIrCGWg8caLM
+X-Google-Smtp-Source: AGHT+IGdA7xHbfKmPdaYXg5efPm8iMgRtys8b0yolqaF3S0/bsz6LSFec8vyOdG86Jxh0+jRfA07Mg==
+X-Received: by 2002:a05:6a00:1390:b0:725:1d37:ebff with SMTP id d2e1a72fcca58-72530141196mr32222598b3a.22.1733160852632;
+        Mon, 02 Dec 2024 09:34:12 -0800 (PST)
+Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c31164asm7042249a12.42.2024.12.02.09.34.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Dec 2024 09:34:12 -0800 (PST)
+Date: Mon, 2 Dec 2024 09:34:08 -0800
+From: Joe Damato <jdamato@fastly.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, netdev@vger.kernel.org,
+	mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
+	bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com, willemdebruijn.kernel@gmail.com,
+	edumazet@google.com, "David S. Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Johannes Berg <johannes.berg@intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, pcnet32@frontier.com
+Subject: Re: [net-next v6 5/9] net: napi: Add napi_config
+Message-ID: <Z03vkLXa-wajZZ8T@LQ3V64L9R2>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>, netdev@vger.kernel.org,
+	mkarsten@uwaterloo.ca, skhawaja@google.com, sdf@fomichev.me,
+	bjorn@rivosinc.com, amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com, willemdebruijn.kernel@gmail.com,
+	edumazet@google.com, "David S. Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Johannes Berg <johannes.berg@intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, pcnet32@frontier.com
+References: <20241011184527.16393-1-jdamato@fastly.com>
+ <20241011184527.16393-6-jdamato@fastly.com>
+ <85dd4590-ea6b-427d-876a-1d8559c7ad82@roeck-us.net>
+ <Z0dqJNnlcIrvLuV6@LQ3V64L9R2>
+ <Z0d6QlrRUig5eD_I@LQ3V64L9R2>
+ <20241130124501.38b98030@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 1/2] x86: cpu/bugs: add AMD ERAPS support; hardware
- flushes RSB
-To: Amit Shah <amit@kernel.org>, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org
-Cc: amit.shah@amd.com, thomas.lendacky@amd.com, bp@alien8.de,
- tglx@linutronix.de, peterz@infradead.org, jpoimboe@kernel.org,
- pawan.kumar.gupta@linux.intel.com, corbet@lwn.net, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, seanjc@google.com,
- pbonzini@redhat.com, daniel.sneddon@linux.intel.com, kai.huang@intel.com,
- sandipan.das@amd.com, boris.ostrovsky@oracle.com, Babu.Moger@amd.com,
- david.kaplan@amd.com, dwmw@amazon.co.uk, andrew.cooper3@citrix.com
-References: <cover.1732219175.git.jpoimboe@kernel.org>
- <20241128132834.15126-1-amit@kernel.org>
- <20241128132834.15126-2-amit@kernel.org>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20241128132834.15126-2-amit@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241130124501.38b98030@kernel.org>
 
-On 11/28/24 05:28, Amit Shah wrote:
-> From: Amit Shah <amit.shah@amd.com>
+On Sat, Nov 30, 2024 at 12:45:01PM -0800, Jakub Kicinski wrote:
+> On Wed, 27 Nov 2024 12:00:02 -0800 Joe Damato wrote:
+> > CPU 0:
+> > pcnet32_open
+> >    lock(lp->lock)
+> >      napi_enable
+> >        napi_hash_add <- before this executes, CPU 1 proceeds
+> >          lock(napi_hash_lock)
+> > CPU 1:
+> >   pcnet32_close
+> >     napi_disable
+> >       napi_hash_del
+> >         lock(napi_hash_lock)
+> >          < INTERRUPT >
 > 
-> When Automatic IBRS is disabled, Linux flushed the RSB on every context
-> switch.  This RSB flush is not necessary in software with the ERAPS
-> feature on Zen5+ CPUs that flushes the RSB in hardware on a context
-> switch (triggered by mov-to-CR3).
-> 
-> Additionally, the ERAPS feature also tags host and guest addresses in
-> the RSB - eliminating the need for software flushing of the RSB on
-> VMEXIT.
-> 
-> Disable all RSB flushing by Linux when the CPU has ERAPS.
-> 
-> Feature mentioned in AMD PPR 57238.  Will be resubmitted once APM is
-> public - which I'm told is imminent.
+> How about making napi_hash_lock irq-safe ?
+> It's a control path lock, it should be fine to disable irqs.
 
-There was a _lot_ of discussion about this. But all of that discussion
-seems to have been trimmed out and it seems like we're basically back
-to: "this is new hardware supposed to mitigate SpectreRSB, thus it
-mitigates SpectreRSB."
+Ah, right. That should fix it.
 
-Could we please summarize the previous discussions in the changelog?
-Otherwise, I fear it will be lost.
+I'll write a fixes against net and change the napi_hash_lock to use
+spin_lock_irqsave and spin_lock_irqrestore and send shortly.
+
+> >             pcnet32_interrupt
+> >               lock(lp->lock)
+> 
