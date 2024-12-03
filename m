@@ -1,78 +1,150 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7A81DFDA7;
-	Tue,  3 Dec 2024 09:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0DE1DFE28;
+	Tue,  3 Dec 2024 09:38:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733218558; cv=none; b=MlPFlKEDpdV2Bj1pGWZ7j2BATmopR1dQYPgyasYdQY8M2locVDxNBpWMsIKWHCiont9UIPugWnmJ/GyRqyPLwQSOQGFQbDt5wI8aVhKeJuXu4A3zojl69UtTZ3XUWSGfWUvBnT2tP2qfcg/n6VNN5pHD/sfvzImtyxTV2izVD4g=
+	t=1733218694; cv=none; b=oHsjS6QB2R8bJEWg7ywho2LRLu9wWBveO/Uszz9HTWtTln52o+dk6IazjWH26PkXvgPrBjJQsWLY10tQr/bX4j4fQ4YcBHJ6sCct8VBhyKLBvP+9/ifN5TXCbjhxYrjf5Z9AZn3hSAEGHLvOk/wcLWkp9cLLhLEck0t4RhJK8yY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733218558; c=relaxed/simple;
-	bh=hGg97z1aGvCJyLpg/DxEFMXyC9lrOMhGN2xRMCry7xc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lyrh+hQkbpTVXF51e5u6655Eqc8kv3N8mACxbqemr+Mnxr/+T3x9JQAzxOfJTbXlbexcloVE3yiNxQJr61MUSDagdekE7TxBfN9s3hmWP64iIjNbAOr2iHdIb7PN90kn/K/bgmuyTvZ80AZlE9msGMz5XIhGcwViYe2FXjgFK4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXmMLJQQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733218694; c=relaxed/simple;
+	bh=rQ5TW4rFrG6qYjejx5fpKqPKvSS6CRZZUK/Q5K0MDv8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P1P/Xbi5HKXB/oOTvvCdzrcCNI2WnHoOOuTTdcLz1VZxG2euxkDkjk6/mPRr9HkSBdokq2nGi4leg8WP9lWDIoIiOCow05Qo0/tO3fWxymSLi3N/XZ6RMJqcv2QUj+JJwvICkS0O9n8YpSd2Xc+PP+Nw3pXny2JjCBtzL9Z2mQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QhPYIwpx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZXmMLJQQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0CE7C4CED9;
-	Tue,  3 Dec 2024 09:35:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QhPYIwpx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D89C7C4CECF;
+	Tue,  3 Dec 2024 09:38:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733218558;
-	bh=hGg97z1aGvCJyLpg/DxEFMXyC9lrOMhGN2xRMCry7xc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZXmMLJQQoQS/rNS8wJYPYrOPBQEPyQZ8wS4l/okhL0L1v3EEf2d/+KJbX8eFP2rgC
-	 jH9h8+tCxoncxhPbAklnu+XVLhk/3XDSRL493IscNPt564R9BdBpilbrEETt9u0Fjc
-	 i96jLMGu/O0KUYUbhMd0AtawIYejRdnCgHAhVAhZrBlXqExZkZFu5ektF9qRI6KWWy
-	 4tFX637IOBBE4pWGPkk33/tc8ubDPO4tG9EAYMzMRE2gw5uSoWkGNh0ilnAltJIQPj
-	 4qGCk1Qw4g6hhEgWJwsll+TIbpXrstjw1m5Kvw6fxhI3JB5ePQiY9Lfe0G0GDFg3Yx
-	 uMx+qoYXrg3DQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tIPK0-00000002ZIi-0rjD;
-	Tue, 03 Dec 2024 10:35:56 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH v4 1/5] docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
-Date: Tue,  3 Dec 2024 10:35:45 +0100
-Message-ID: <8f663390c31d6c0c7acec3f39a4a7bf334a01309.1733218348.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1733218348.git.mchehab+huawei@kernel.org>
-References: <cover.1733218348.git.mchehab+huawei@kernel.org>
+	s=k20201202; t=1733218693;
+	bh=rQ5TW4rFrG6qYjejx5fpKqPKvSS6CRZZUK/Q5K0MDv8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QhPYIwpxwd9nqFAUL5d17x0oJaAJ+KTmcr+RxiiZhe3ME0ryYuMY//UynJsU0GB6D
+	 hxLOAvCOnBzjkcD3Mc+UJiDfPpka9fca8mlnhXLtodkl4ED5DLfSip5kdAfIIsrQrR
+	 mvtxRTtAwIw8V/oMNSJKNSwCNB3dmVmwV/TAdeJjmcIOQhv8YD9UxrUsn6XaZaGKqt
+	 B9rPZRV1WG/n+eAhQAg01eLy01SWr0lvFKDtrkakCq717t2Zcs2UP4XLP0M+tbFJq/
+	 U+8Uu3IDFinEXfTbYXzEL+kkOMaJENVi8zKYdSHJqAB5XgLnqJRuNoWTQHmoicG/h6
+	 Hz4/dFHcadjLw==
+Received: from [104.132.45.111] (helo=wait-a-minute.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tIPMB-0002K5-Bc;
+	Tue, 03 Dec 2024 09:38:11 +0000
+Date: Tue, 03 Dec 2024 09:38:10 +0000
+Message-ID: <87o71trtrx.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Yicong Yang <yangyicong@huawei.com>
+Cc: <catalin.marinas@arm.com>,
+	<will@kernel.org>,
+	<oliver.upton@linux.dev>,
+	<corbet@lwn.net>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<kvmarm@lists.linux.dev>,
+	<linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>,
+	<joey.gouly@arm.com>,
+	<suzuki.poulose@arm.com>,
+	<yuzenghui@huawei.com>,
+	<shuah@kernel.org>,
+	<jonathan.cameron@huawei.com>,
+	<shameerali.kolothum.thodi@huawei.com>,
+	<linuxarm@huawei.com>,
+	<prime.zeng@hisilicon.com>,
+	<xuwei5@huawei.com>,
+	<yangyicong@hisilicon.com>
+Subject: Re: [PATCH 5/5] KVM: arm64: Handle DABT caused by LS64* instructions on unsupported memory
+In-Reply-To: <20241202135504.14252-6-yangyicong@huawei.com>
+References: <20241202135504.14252-1-yangyicong@huawei.com>
+	<20241202135504.14252-6-yangyicong@huawei.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 104.132.45.111
+X-SA-Exim-Rcpt-To: yangyicong@huawei.com, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, corbet@lwn.net, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, shuah@kernel.org, jonathan.cameron@huawei.com, shameerali.kolothum.thodi@huawei.com, linuxarm@huawei.com, prime.zeng@hisilicon.com, xuwei5@huawei.com, yangyicong@hisilicon.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-The media profile documentation will point to kernel.org sign.
-Add a link to it.
+On Mon, 02 Dec 2024 13:55:04 +0000,
+Yicong Yang <yangyicong@huawei.com> wrote:
+> 
+> From: Yicong Yang <yangyicong@hisilicon.com>
+> 
+> FEAT_LS64* instructions only support to access Device/Uncacheable
+> memory, otherwise a data abort for unsupported Exclusive or atomic
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/process/maintainer-pgp-guide.rst | 2 ++
- 1 file changed, 2 insertions(+)
+Not quite. FEAT_LS64WB explicitly supports Write-Back mappings.
 
-diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
-index f5277993b195..795ef8d89271 100644
---- a/Documentation/process/maintainer-pgp-guide.rst
-+++ b/Documentation/process/maintainer-pgp-guide.rst
-@@ -903,6 +903,8 @@ the new default in GnuPG v2). To set it, add (or modify) the
- 
-     trust-model tofu+pgp
- 
-+.. _kernel_org_trust_repository:
-+
- Using the kernel.org web of trust repository
- --------------------------------------------
- 
+> access (0x35) is generated per spec. It's implementation defined
+> whether the target exception level is routed and is possible to
+> implemented as route to EL2 on a VHE VM. Per DDI0487K.a Section
+> C3.2.12.2 Single-copy atomic 64-byte load/store:
+> 
+>   The check is performed against the resulting memory type after all
+>   enabled stages of translation. In this case the fault is reported
+>   at the final enabled stage of translation.
+> 
+> If it's implemented as generate the DABT to the final enabled stage
+> (stage-2), inject a DABT to the guest to handle it.
+> 
+> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> ---
+>  arch/arm64/kvm/mmu.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index c9d46ad57e52..b7e6f0a27537 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -1787,6 +1787,20 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
+>  		return 1;
+>  	}
+>  
+> +	/*
+> +	 * If instructions of FEAT_{LS64, LS64_V, LS64_ACCDATA} operated on
+> +	 * unsupported memory regions, a DABT for unsupported Exclusive or
+> +	 * atomic access is generated. It's implementation defined whether
+> +	 * the exception will be taken to, a stage-1 DABT or the final enabled
+> +	 * stage of translation (stage-2 in this case as we hit here). Inject
+> +	 * a DABT to the guest to handle it if it's implemented as a stage-2
+> +	 * DABT.
+> +	 */
+> +	if (esr_fsc_is_excl_atomic_fault(esr)) {
+> +		kvm_inject_dabt(vcpu, kvm_vcpu_get_hfar(vcpu));
+> +		return 1;
+> +	}
+
+This doesn't seem quite right. This is injecting an *External* Data
+Abort, which is not what the spec says happens, as you are emulating
+the *first* acceptable behaviour:
+
+  "The check is performed at each enabled stage of translation, and
+   the fault is reported for the first stage of translation that
+   provides an inappropriate memory type. In this case, the value of
+   the HCR_EL2.DC bit does not cause accesses generated by the
+   instructions to generate a stage 1 Data abort,"
+
+So while the exception is reported at a different EL, the fault should
+still be an "unsupported Exclusive or atomic access". But that's also
+assuming that S2 has a device mapping, and it is EL1 that did
+something wrong. Surely you should check the IPA against its memory
+type?
+
+Further questions: what happens when a L2 guest triggers such fault?
+I don't think you can't arbitrarily route it back to L2 without
+looking at why it faulted.
+
+Thanks,
+
+	M.
+
 -- 
-2.47.1
-
+Without deviation from the norm, progress is not possible.
