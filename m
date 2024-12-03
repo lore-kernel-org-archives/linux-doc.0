@@ -1,48 +1,48 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4D7207A20;
-	Tue,  3 Dec 2024 22:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E71C8460;
+	Tue,  3 Dec 2024 23:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733264036; cv=none; b=VDdChSRr5HPgXhRkVpUJwRvl17X6WPQxLdJLY8Z7V8NHtH6s8ARM67lcfaPxflDn64OBwcUmZYyqlZcnxFzdcB8RK+GWZeoSjlxMhdUtyWKdq1QJZlQH0Pk6ImUo6buIcWPjZHm9rE9AC39Y+HOGu4T32CPhQLyi0JRL0Aqzlpo=
+	t=1733267748; cv=none; b=Wj0277Ubfp92cCbas3NNjwhlfqF/ypLl9HjROnas0ADtV7rVCyAl45G1Kz1Eh/2KVoHdL2GKMnxNAy5II36qCm04DVmvGjCl2R8zTxByWXUJ7e1HdhaRXfnMCdGsTuiczf3Srh5hBLVkzLbUER5ukMet0WJT5lCIW9VH7Ua0A2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733264036; c=relaxed/simple;
-	bh=BkbrVzdOiRECikibD4L1YGd8E6iWdSVVwdyBf+AYo/s=;
+	s=arc-20240116; t=1733267748; c=relaxed/simple;
+	bh=YkZAsANfAmRYtI/Mt+2RDqFV4yBRm6bxvA1qhI5AL7s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GySMKxeNBzD6JMwisolXmmodaIb6gtwHKAUhcPDmq3nUzX33aoyS2ye48nlhOK8wZttnPuEyRGxSNtE6AkAZ7v02/olTnXHzNLtBM2suYa92klmjRc9TTLOcnuE8O5EzgiGRo9ZBA5FxUOjH1fYSOryXXSM+9z/mFQQVY3qfuIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Za/D1pmU; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=u8nmnksC9KFvaRTk2rCge+BSJPk8HtYF0BCsaKCwajQvMerIuXetZVbslltpwYoVS+R48yVYSDllae0ZY1f9sHMrTus1mjZSaP4Ujp9lPMaiQz1AYH1PCW5KDqitgINl48oBwBUt5v8gArN5EoOP9g1ITtyMmPixhkPL3pLdfT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eR+qloIo; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Za/D1pmU"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B3DX5RW031984;
-	Tue, 3 Dec 2024 22:13:49 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eR+qloIo"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B3HoXEb030978;
+	Tue, 3 Dec 2024 23:15:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	o638fS9a+Kgl6sSSM4E5PIbTqYncs25H9BZwPzS/vgQ=; b=Za/D1pmU1C0oej/1
-	l5hAliFZZxo+iTJmfoXovUIf8RFNArDJ6bkxojpH4AJYtmjEM2+5t8iuzeuPoDQK
-	U7zhYkQVtbmEIU+SUdIZJTV6Lmg0EcHYto2j7d3I/ha4u8psVNylov139DPuJ7gw
-	AS+ULkrpJWbGBJNZgeZ6tqLhFBLniG9koWAiRqIG8uJaNgU34o67qifBdzhZNhrA
-	Izr+2Khc6c6EXXm7BM/Qu8MeMUEGNGy0UeOatUfWVsD2t4q5ULmKPuCmEd5+nR7V
-	bYp/1zh6nIvWgj8+n6uoMSO4hhrgB8RrI7afqpn8U2J81jo75tOEjnuT7OcWLiFF
-	fvaePQ==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439trbjpym-1
+	YkZAsANfAmRYtI/Mt+2RDqFV4yBRm6bxvA1qhI5AL7s=; b=eR+qloIoJOhXZhC3
+	+GWiiJaVz2i49lUqyAj6fCUrb9PgOUliB6bWQccpZaGU7P93SrpaGtY8kEJUIjIb
+	W9z5tEKDGINKGUU+XBLRhXY62FlwSMfe/FNsKjPr9B0Kcz/Nwj4OOzynEPAMMTwO
+	bXIrTZZkm4fDBk5+S/Qr54JN0+6zp5xJ0fKsKTqF7aZgZiRYD8RXIPIzwQPSCvgJ
+	CR45+vroSXgspmZXj9cLOj47Llb6i8HJr2TdX/G5SfE2QEbm+X5k+KPE2krE1axX
+	Kvz36WzMH4+93BgHFa37ZdPjfIRnsc33wR+f1a2+5s+CzN3dc928N5JS+D+fh8zO
+	jNHveA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439w90tdtb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Dec 2024 22:13:49 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B3MDmdc030640
+	Tue, 03 Dec 2024 23:15:26 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B3NFOQc010563
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 3 Dec 2024 22:13:48 GMT
-Received: from [10.4.85.39] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+	Tue, 3 Dec 2024 23:15:24 GMT
+Received: from [10.110.57.23] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Dec 2024
- 14:13:45 -0800
-Message-ID: <0df58435-94e7-4b81-b688-ec0e1c49c0e0@quicinc.com>
-Date: Wed, 4 Dec 2024 09:13:43 +1100
+ 15:15:23 -0800
+Message-ID: <28023a83-04a5-4c62-85a9-ca41be0ba9e1@quicinc.com>
+Date: Tue, 3 Dec 2024 15:15:23 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,68 +50,79 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-To: Trilok Soni <quic_tsoni@quicinc.com>,
-        Jens Wiklander
-	<jens.wiklander@linaro.org>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        "Bjorn
- Andersson" <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        "Rob Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        Bartosz Golaszewski
-	<bartosz.golaszewski@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>
-CC: <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
- <518ee3f1-b871-4349-ba85-3b3fc835a4ca@quicinc.com>
+Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <tiwai@suse.com>, <robh@kernel.org>, <gregkh@linuxfoundation.org>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <20241106193413.1730413-29-quic_wcheng@quicinc.com>
+ <1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
 Content-Language: en-US
-From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-In-Reply-To: <518ee3f1-b871-4349-ba85-3b3fc835a4ca@quicinc.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ul74uRlLCFN8ibDVqsxhKq7DcVbsTQSq
-X-Proofpoint-ORIG-GUID: ul74uRlLCFN8ibDVqsxhKq7DcVbsTQSq
+X-Proofpoint-ORIG-GUID: IBwKgWcd3KUzuxMkopp3EOItLDqwSWCj
+X-Proofpoint-GUID: IBwKgWcd3KUzuxMkopp3EOItLDqwSWCj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=891 mlxscore=0
- suspectscore=0 spamscore=0 malwarescore=0 adultscore=0 priorityscore=1501
- clxscore=1015 phishscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412030184
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=709 bulkscore=0
+ impostorscore=0 phishscore=0 suspectscore=0 adultscore=0 mlxscore=0
+ spamscore=0 clxscore=1011 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412030192
 
-Based on our discussions, we implemented significant changes. We essentially
-rewrote most of the files and altered the overall direction, except for a
-couple of files. The changelog entry would have been extensive.
 
-- Amir
+On 12/3/2024 8:13 AM, Cezary Rojewski wrote:
+> On 2024-11-06 8:34 PM, Wesley Cheng wrote:
+>> In order to allow userspace/applications know about USB offloading status,
+>> expose a sound kcontrol that fetches information about which sound card
+>> and PCM index the USB device is mapped to for supporting offloading.  In
+>> the USB audio offloading framework, the ASoC BE DAI link is the entity
+>> responsible for registering to the SOC USB layer.
+>
+> ...
+>
+> R) += mixer_usb_offload.o
+>> diff --git a/sound/usb/mixer_usb_offload.c b/sound/usb/mixer_usb_offload.c
+>> new file mode 100644
+>> index 000000000000..e0689a3b9b86
+>> --- /dev/null
+>> +++ b/sound/usb/mixer_usb_offload.c
+>> @@ -0,0 +1,102 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#include <linux/usb.h>
+>> +
+>> +#include <sound/core.h>
+>> +#include <sound/control.h>
+>> +#include <sound/soc-usb.h>
+>
+> ALSA-components should not be dependent on ASoC ones. It should be done the other way around: ALSA <- ASoC.
+>
 
-On 12/3/2024 5:06 PM, Trilok Soni wrote:
-> On 12/2/2024 8:19 PM, Amirreza Zarrabi wrote:
->> This patch series introduces a Trusted Execution Environment (TEE)
->> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
->> and services to run securely. It uses an object-based interface, where
->> each service is an object with sets of operations. Clients can invoke
->> these operations on objects, which can generate results, including other
->> objects. For example, an object can load a TA and return another object
->> that represents the loaded TA, allowing access to its services.
-> 
-> The first patch series was RFC and now you had removed the RFC. Can you please
-> provide the reasons?
-> 
-> https://lwn.net/ml/all/20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com/
-> 
-> I understand that you have now changed to tee framework but I want to check
-> if we should continue with the version and increment here or start from [00]?
-> 
+At least for this kcontrol, we need to know the status of the ASoC state, so that we can communicate the proper path to userspace.  If the ASoC path is not probed or ready, then this module isn't blocked.  It will just communicate that there isn't a valid offload path.
+
+
+>> +
+>> +#include "usbaudio.h"
+>> +#include "card.h"
+>> +#include "helper.h"
+>> +#include "mixer.h"
+>> +
+>> +#include "mixer_usb_offload.h"
