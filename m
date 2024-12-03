@@ -1,98 +1,113 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6761E283C;
-	Tue,  3 Dec 2024 10:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136B52E3EE;
+	Tue,  3 Dec 2024 11:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733222686; cv=none; b=dvghF/RHcZta1JIKm0RWaaerlf/DXs4Wr3qsNmpxf0W2KobIiT5vlgC1jLMIRdyHw2cbVXNfhJqo322wRb0i/po5XAlgX9rRISi4etHcoxB+A66nW5fGgaEBJ+Fuf3dpDC8KIq1Z+mjVJJ9QMsbkyy9hfRu4DsLXgwTk5+AZjzQ=
+	t=1733224945; cv=none; b=CQD29Gil0uL51EcHMe1oNfD6BmVBQSWmISg1+5cf48OpWP/yUccofU6eR7a2ngSStJP4Dg+Q1AEqoZOgdcoKD933kJzDdOe8yqBRLRFcK4ZcCNFvz1jzf+IKmtg3IYAq/N/AXQXfegrL2pM8gN9fphn6HzGmh+epIVG6chubkOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733222686; c=relaxed/simple;
-	bh=2cf97DStc8SXFvwZ64aN4xBO2VdeZbTFsTd5rBywIxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TQ5XDpsWm6R1Xp/3ugpxVm/KGTCfOxqKTaiEDaaivBtQRUkJ3volyPZlBQno7MkAovql5NlnOp2fjdkgCwLdI0YaVz3pYBAQrlS0L03fBryiUBaBiEIW8+9IIlFofHJjdLGxvHJ+wThA5sVTHkUJ5ncDEcEWmsJZUsilHGJ0TXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iLdB6GjU; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1733224945; c=relaxed/simple;
+	bh=BBk+zjcEC0uJhKJnCdpNziMigOnPauW1WG4uQsbCtQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q/N47Wsh6oMq1ZxneRFYQyfvfjIUGLPxDg1X3o/Mybuiw3jMiAmSXPb3l7RTk1Opfm7oTT2d37+dfn2jvdYlCozKlPcfO31s9KfCwp/bZm1fwCfkOcxPItazdxMXQIRpb8SMZLuPTqJonSiImYW9ufWn1whyQYQkIcim461tf4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a0YCYzSL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iLdB6GjU"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5A9CAC0008;
-	Tue,  3 Dec 2024 10:44:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733222681;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=unHsDZc/1OE8HKcVN8mWXwEJ0vAKQ8TWz8xbclpBxHc=;
-	b=iLdB6GjUhUagX3VUOAGI0cppokeRj3G2mikcZFPSPQ/IAmHHFFo+ppIQxlc+ADQ2VnouQ8
-	yuqC9skT/femZbIR2erDLsU1Z87gESz+k0jI7NxUeFsoxgHSc3gVYHUqlj8ummM+iOMBAl
-	cPxO22wmLlyqCNHR5lFmiSnfMd1aHcq4yj0du9C6OrM6g3Cp3pnPbIkuFBMI4QLlMS7qDo
-	wlCGjTw0bxy/7487JgtVfE4sWKcbY5qRcT391fnXvOuRvUzxFxuR2bcWy5ypgvPsng715p
-	OJPptZicX6jaClf4IhbBNg07ciN9bHXgBf95NUgZbVrUZuZa1ZuZNbZQvGD7rQ==
-Date: Tue, 3 Dec 2024 11:44:38 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Simon Horman <horms@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell
- King <linux@armlinux.org.uk>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v3 26/27] net: pse-pd: tps23881: Add
- support for static port priority feature
-Message-ID: <20241203114438.4f6d4c36@kmaincent-XPS-13-7390>
-In-Reply-To: <20241203102913.GD9361@kernel.org>
-References: <20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com>
-	<20241121-feature_poe_port_prio-v3-26-83299fa6967c@bootlin.com>
-	<20241203102913.GD9361@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a0YCYzSL"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EECFAB2B;
+	Tue,  3 Dec 2024 12:21:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1733224914;
+	bh=BBk+zjcEC0uJhKJnCdpNziMigOnPauW1WG4uQsbCtQs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a0YCYzSL2NbWGkhkPiJJSrDdBozc2h/7EDTYLjklSs7Q/3adJl8YqfBCSnmZX7Ipx
+	 lEa1xTSzVPJQ6ZHc6aVUkID00a56jNwxKc2geWhTMwHDRJnquHVvWohcJNPhvh7gxV
+	 DR71a0qM6yB1V5IkV7IIthtbEkllpzPL5lx1zoqc=
+Date: Tue, 3 Dec 2024 13:22:09 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Document the new media-committer's model
+Message-ID: <20241203112209.GR10736@pendragon.ideasonboard.com>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+ <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+ <20241203081958.6c186835@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241203081958.6c186835@foz.lan>
 
-Hello Simon,
+On Tue, Dec 03, 2024 at 08:19:58AM +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 2 Dec 2024 16:03:45 +0100 Hans Verkuil escreveu:
+> > On 02/12/2024 10:26, Mauro Carvalho Chehab wrote:
+> > > The media subsystem used to have a multi-commiter's model in the
+> > > past, but things didn't go well on that time, and we had to move to
+> > > a centralized model.
+> > > 
+> > > As the community has evolved, and as there are now new policies in
+> > > place like CoC, let's experiment with a multi-committers again.
+> > > 
+> > > The model we're using was inspired by the DRM multi-committers
+> > > model. Yet, media subsystem is different on several aspects, so the
+> > > model is not exactly the same.
+> > > 
+> > > The implementation will be in phases. For this phase, the goal is that 
+> > > all committers will be people listed at MAINTAINERS.
+> > > 
+> > > On this series,:
+> > > 
+> > > patch 1: updates the  media maintainer's entry profile and adds the
+> > > workflow that will be used with the new model. While here, it also
+> > > adds a missing "P:" tag at the MAINTAINERS file, pointing to it;
+> > > 
+> > > patch 2: adds a new document focused at the new maintainers
+> > > process. Its target is for developers that will be granted with
+> > > commit rights at the new media-maintainers.git tree. It also
+> > > contains a reference tag addition to kernel.org PGP chain
+> > > at process/maintainer-pgp-guide.rst.
+> > > 
+> > > patch 3: make documents cleared about maintainership duties.  
+> > 
+> > At least from my perspective, v3 is close to being ready and I hope
+> > that v4 will be good enough to be merged.
+> > 
+> > That said, what is missing in all this is that there is nothing here
+> > that explains why you would want to become a media committer. It is all
+> > very dry stuff, lots of 'shall's, and 'rights' and 'trust' and obligations,
+> > but nothing about the satisfaction you get when you get the responsibility
+> > of a part of the kernel and being able to guide the development of that
+> > area.
+> > 
+> > It's good enough to get the multi-committer process off the ground, but
+> > it definitely needs more work to make it more inviting to become a media
+> > committer. Because right now it is as dry as dust.
+> 
+> Agreed. We focused on getting a document describing what it is expected
+> by committers, in order to start with the model. My view is that it works
+> fine for such purpose. I also feel that we're close to the final document.
+> 
+> I'm sending today a v4 addressing the comments since last review.
+> 
+> Once we get people that are already interested and ready to be on board,
+> and we know that the model and infrastructure works properly, we may implement
+> a phase 2 focusing on allowing more committers. For such purpose, we need to 
+> document the benefits/satisfaction of becoming a new committer. Depending how
+> it goes, either on phase 2 or on phase 3, we can change the model from 
+> invitation-only to volunteer-requests.
 
-On Tue, 3 Dec 2024 10:29:13 +0000
-Simon Horman <horms@kernel.org> wrote:
->=20
-> > +static int tps23881_irq_event_detection(struct tps23881_priv *priv,
-> > +					u16 reg_val,
-> > +					unsigned long *notifs,
-> > +					unsigned long *notifs_mask)
-> > +{
-> > +	enum ethtool_pse_events event;
-> > +	int reg, ret, i, val;
-> > +	u8 chans;
-> > +
-> > +	chans =3D tps23881_it_export_chans_helper(reg_val, 0);
-> > +	for_each_set_bit(i, (unsigned long *)&chans, TPS23881_MAX_CHANS) {
-> > =20
->=20
-> Hi Kory,
->=20
-> The storage size of chans is only 1 byte, but here we are pretending that
-> it has more space. Which seems to be a bit of a stretch. Perhaps it would
-> be better to simply use unsigned long as the type of chans here and in
-> tps23881_irq_event_classification().
+What's phase 3 ?
 
-Yes indeed. Thanks for the report.
-
+-- 
 Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+
+Laurent Pinchart
