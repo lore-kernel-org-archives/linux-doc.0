@@ -1,137 +1,111 @@
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5774A1E3772;
-	Tue,  3 Dec 2024 11:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91001F706A;
+	Tue,  3 Dec 2024 12:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733225701; cv=none; b=ImFfYWVZaU5FIfCCh9uR2wcr7fRZxXSTXl4FrGj7LS1jN0lYbCVDtWwXf3M1kTLsErwxruCTbgU+jc+l5zmSWLq4l0Ubo3BZFA2Wgbq4x4gf02Fl0b1c0SBlzduPgIeEtUqH9vcvP2Og4dtZpqD/LrIwqVTz8kAwHgoQTT6PUlQ=
+	t=1733229823; cv=none; b=jthcY/89vxSPx7nRwaG/McX4FWpiIU9j9WWVEOIFHShFsUT12dF5gnF3Jc5tmRLnm5WwsfsnfjOIs97PBNqdczV03ayjQaLY5MB4LuJ8yTP4guUuNGgmP0TX9yoo++ZvypZU5NvGI+RoAkeDwBvYfyz/5qa7zEt+qoT1sBBYlsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733225701; c=relaxed/simple;
-	bh=x7dLi7wAGruYlnkWF7Di04Y7mXBk+HfGj4As5QQnFLI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q9i7kQK4mn6oQYJt6xuk9jSnUdjs0iXiY0Na8VVeZLU0zoa8YMlao5aelDOBO7jvGl0SzwKPWUMVBqPHgwK68Vpikji8f7FfmiysUUpNwgjBVk4AHB74y8ZOxAeirsqxZ2Rfs95PDzNuxJ0WhMe+Sng7y87yNNls/tKpCQd/C+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k5sk3Llo; arc=none smtp.client-ip=209.85.215.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733229823; c=relaxed/simple;
+	bh=IZV9ZhzHqJVnEKcJxYKcUwlnmw8jFD+SNDgdQoZo3EE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KEREwH+uJytMK5FQeu4LAQQibEzBSXMspTP0P/zxiKZK+TT1Ks1FYek59z8ulGqwDK0yjtPxbOGo3oDRE4Uj9GJSng+WoXsHxPWU+/6wZWuMsOy2mxI3BYvH5EbxmJa+U9ibZy7pcP4pu/IGUC75kP9Ve/4gPRr6Aw5gq2BDC2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eHwue4hi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k5sk3Llo"
-Received: by mail-pg1-f194.google.com with SMTP id 41be03b00d2f7-7ee11ff7210so3716373a12.1;
-        Tue, 03 Dec 2024 03:35:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733225699; x=1733830499; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gRTMjpBU2FZrkasI1vglpiZRnbuKwshDQaObui5oB2I=;
-        b=k5sk3LloHDV3vj1UHofOkYahkliD3++deodRfyVwVmB+Q/CbK7LTqHAKla4Au5TVFK
-         tEqD/XKO4n8XcBIhv2/2lYVRz48vUQtefHarBfFFTEqrZhrZWqV4qaqtu2jXlp5x9pVo
-         Ta1y/9TXpgxzpStc7A+KkNlR9T6VaBVhZjN6AfnwAm8mzPwYs+CMNc9Ml2Q5sVyl6H3K
-         ZV8r5utp6k4qptG4xbUrDOqyRGt+7Q+z/UaXJmRD4K3AFX8v1LZbYcDm09EmQXHvF+hT
-         wqKft81Z1p9wnTyXXWCpjF7PDRFrnzjiuH7LbY9NxVVUCKiSpM4En6UD2VWT2vni/Q+0
-         cU3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733225699; x=1733830499;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gRTMjpBU2FZrkasI1vglpiZRnbuKwshDQaObui5oB2I=;
-        b=FbypOD4fPkz++xzS3x4L1TLdHAhb0jfdHi48l5S2ep646spUNRRUgNDxkn6jRCpTvI
-         0haWx2EIc6L3ooonSyfqNlv6BmnSWZIDU9LV7BFhknxwniXk6sv7e9CU0E2S35ICz+VB
-         zWVu2rqXjgw945CTzTU1vI9m0N569SN8sYejXSdkDjdXCTyvxnacqBiehWrXONgRP/2S
-         ZO+n5mRO+hKI+Pdu7m3ZQgdYzG4G74re8FYAKQijM1Qh5SwgN/tyxZE/E4AuHE5Ror4O
-         GzR2fcA2kiV3Mh5agDAVIZ8NSFrEmt2Db2NBOTfbwTNvNExvWfHWEbRIHKVovnTBEYpp
-         +QxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWCPif1EO5l82ytIKDPY9IckEBmiV7rLw4Vwg4dQkFp3f2GWee7zdCFn3crTrrjzjQZhUb2Rx4NAQ=@vger.kernel.org, AJvYcCUb6d8Sk57tVgeKJlRqu5axuclYJj9aL4EVPS9oyQ00G85snLVx3iZyUbtD4RXfKjHTUGUyaEtS0o1sbmk=@vger.kernel.org, AJvYcCXqIv7/mJoR5o+PsW6V1tr7j11YClPK9f0t7Zp2CXUwpY/8hqPO7w+pFGGSypwnTCdhwwTVfHgTKlanKgLw@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxn7o2MjnixtBmjN800H9rV23ARSW5LUTWIMGlZ61m7Jx86Zng0
-	P8ei2zMIjHeeoSqGaTPO5Q+7R94bNElDej8Q9TTIj0SGc7EeMCFcUtsaRxMu
-X-Gm-Gg: ASbGncs4UI2UKLZwNLn/wU1NRb/8G0a6zqOOntQfl+D+oLc4M/kMAUCpdyD0kSO7YTL
-	ImZ5hWn4XapnhFNiWKWsm6YOk6cRXQ1c/zZeqH3zxwtiIPWEsNin+QCtFSr8XLtiNUp0GwZNnRM
-	2ohCqZOQ1LEO+Uy4Q4A+hM9HelNBX3lvgVbVPMlJZ2vd2FylaPBOeY/fjNIJ1xlmw90wuo8tSAa
-	FuB7v3UJ2tW6k230PrXd1MDxcSw
-X-Google-Smtp-Source: AGHT+IEgl7vHhlCDL4Gwe4it1dd5SMY6cGnkCBgQo5plDhb1eivLpmfTOrsdMgmKo3BAvvYzv1rVXQ==
-X-Received: by 2002:a05:6a20:6a1b:b0:1db:f00e:2dfe with SMTP id adf61e73a8af0-1e165412f88mr3221903637.39.1733225699535;
-        Tue, 03 Dec 2024 03:34:59 -0800 (PST)
-Received: from gmail.com ([2a12:f8c1:50:4::4fd])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72541849c28sm10180513b3a.196.2024.12.03.03.34.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 03:34:58 -0800 (PST)
-Date: Tue, 3 Dec 2024 19:34:54 +0800
-From: Li XingYang <yanhuoguifan@gmail.com>
-To: eugene.shalygin@gmail.com
-Cc: jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] hwmon: (asus-ec-sensors) add TUF GAMING X670E PLUS
-Message-ID: <Z07s3rKyv32uUGrG@gmail.com>
-References: <20241201034803.584482-1-yanhuoguifan@gmail.com>
- <20241201034803.584482-3-yanhuoguifan@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eHwue4hi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4F70C4CECF;
+	Tue,  3 Dec 2024 12:43:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733229822;
+	bh=IZV9ZhzHqJVnEKcJxYKcUwlnmw8jFD+SNDgdQoZo3EE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=eHwue4hiGhU7+JckTcKQExSjN39OQ+LcvCPsrbvsG3Jtl+C7Wc613FxEoPK2RFTVS
+	 2Kva0TyImTcKhid1jZGB2I1/sw+0+YfrDr3wSW6xIXxyNEw5rkEED3PNpR6FP9+4LE
+	 znyOfQ24Z4h3Tx4sGDEvnUM8BIfdNQLYj88/5OclsfM8E4LeisndOHUyn/EEkJ9/Vv
+	 RRMaYeCaKL6UfOg10+pR20bEVVqXJiKwiWrZhNbGNlWMTfywM0hfddWSYBNGfwq8Sx
+	 5RoIC6AoK4kjlnUmrTQZKhzSZBwoLQ67eo7UM3SlnL6hh1hYx4z8+DragFyQmrxBRR
+	 H3ftvuhaDc+sA==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v3 0/9] arm64: Support 2024 dpISA extensions
+Date: Tue, 03 Dec 2024 12:39:19 +0000
+Message-Id: <20241203-arm64-2024-dpisa-v3-0-a6c78b1aa297@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241201034803.584482-3-yanhuoguifan@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPf7TmcC/23NQQ6CMBCF4auQWTtmWgpUV97DuBhsgUYF0ppGQ
+ 7i7hbjQhOU/yXxvgmC9swGO2QTeRhfc0KfIdxlcO+5bi86kBklSCSKN7B+lwiXRjC4wajoIqhR
+ XjdKQ3kZvG/dayfMldefCc/DvdSGK5frF5AYWBRJyrg3pOq2xPt2s7+19P/gWFi3KHyGnDUEmo
+ S5LEiwKI7n4E+Z5/gCfvkMD8wAAAA==
+X-Change-ID: 20241008-arm64-2024-dpisa-8091074a7f48
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-9b746
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2022; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=IZV9ZhzHqJVnEKcJxYKcUwlnmw8jFD+SNDgdQoZo3EE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnTvzz7hlUQbTGXweDHSxiaLyo/jZx/81Z2eBMmkqR
+ OhrG3nyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZ0788wAKCRAk1otyXVSH0Kd0B/
+ 9wcLjxF+pY4wnLffdC8iHWzfQtl+IDjeHS7OvcKXcadzjW9nOFTjtmZYB3DN02HxbBNRU6O0V5vSnC
+ luo2DkfmzB4DWPIcVCdmaIqEO1xEZEfIZ8dS7yFF9Z/wvmD3neIjP5CV8WZCznY0253/4ghki2s/cq
+ KQ/ttPhSqx+3oqOOe3AP9kkWRwa09lJmljZKtBwCmnQWwEHMdtLYgzai5kZB0DXWGg9CRyz3cqxUPf
+ IdYlLytkhcnRVJVasl5vzK7PQBUvYQlqFZjJPL9su+Z+O9nt76vQLa248RQjLyKhO+GYd+AbnxpUWO
+ MzERraxO3i6lmp/+S6NcHURXTC7XOq
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, Dec 01, 2024 at 11:47:45AM +0800, Li XingYang wrote:
+The 2024 architecture release includes a number of data processing
+extensions, mostly SVE and SME additions with a few others.  These are
+all very straightforward extensions which add instructions but no
+architectural state so only need hwcaps and exposing of the ID registers
+to KVM guests and userspace.
 
-Hi Eugene:
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v3:
+- Commit log update for the hwcap test.
+- Link to v2: https://lore.kernel.org/r/20241030-arm64-2024-dpisa-v2-0-b6601a15d2a5@kernel.org
 
-Could you review the new verson patch in free time?
+Changes in v2:
+- Filter KVM guest visible bitfields in ID_AA64ISAR3_EL1 to only those
+  we make writeable.
+- Link to v1: https://lore.kernel.org/r/20241028-arm64-2024-dpisa-v1-0-a38d08b008a8@kernel.org
 
-thanks,
-XingYang
-> add asus-ec-sensors support on the mainboard TUF GAMING X670E PLUS
-> 
-> Signed-off-by: Li XingYang <yanhuoguifan@gmail.com>
-> ---
->  Documentation/hwmon/asus_ec_sensors.rst |  1 +
->  drivers/hwmon/asus-ec-sensors.c         | 11 +++++++++++
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-> index ca38922f4ec5..739636cf7994 100644
-> --- a/Documentation/hwmon/asus_ec_sensors.rst
-> +++ b/Documentation/hwmon/asus_ec_sensors.rst
-> @@ -29,6 +29,7 @@ Supported boards:
->   * ROG STRIX Z690-A GAMING WIFI D4
->   * ROG ZENITH II EXTREME
->   * ROG ZENITH II EXTREME ALPHA
-> + * TUF GAMING X670E PLUS
->  
->  Authors:
->      - Eugene Shalygin <eugene.shalygin@gmail.com>
-> diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-> index 381bf117104f..43e54dc513da 100644
-> --- a/drivers/hwmon/asus-ec-sensors.c
-> +++ b/drivers/hwmon/asus-ec-sensors.c
-> @@ -479,6 +479,15 @@ static const struct ec_board_info board_info_zenith_ii_extreme = {
->  	.family = family_amd_500_series,
->  };
->  
-> +static const struct ec_board_info board_info_tuf_gaming_x670e_plus = {
-> +	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
-> +		SENSOR_TEMP_MB | SENSOR_TEMP_VRM |
-> +		SENSOR_TEMP_WATER_IN | SENSOR_TEMP_WATER_OUT |
-> +		SENSOR_FAN_CPU_OPT,
-> +	.mutex_path = ACPI_GLOBAL_LOCK_PSEUDO_PATH,
-> +	.family = family_amd_600_series,
-> +};
-> +
->  #define DMI_EXACT_MATCH_ASUS_BOARD_NAME(name, board_info)                      \
->  	{                                                                      \
->  		.matches = {                                                   \
-> @@ -540,6 +549,8 @@ static const struct dmi_system_id dmi_table[] = {
->  					&board_info_zenith_ii_extreme),
->  	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG ZENITH II EXTREME ALPHA",
->  					&board_info_zenith_ii_extreme),
-> +	DMI_EXACT_MATCH_ASUS_BOARD_NAME("TUF GAMING X670E-PLUS",
-> +					&board_info_tuf_gaming_x670e_plus),
->  	{},
->  };
->  
-> -- 
-> 2.47.1
-> 
+---
+Mark Brown (9):
+      arm64/sysreg: Update ID_AA64PFR2_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64ISAR3_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64FPFR0_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64ZFR0_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64SMFR0_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64ISAR2_EL1 to DDI0601 2024-09
+      arm64/hwcap: Describe 2024 dpISA extensions to userspace
+      KVM: arm64: Allow control of dpISA extensions in ID_AA64ISAR3_EL1
+      kselftest/arm64: Add 2024 dpISA extensions to hwcap test
+
+ Documentation/arch/arm64/elf_hwcaps.rst   |  51 ++++++
+ arch/arm64/include/asm/hwcap.h            |  17 ++
+ arch/arm64/include/uapi/asm/hwcap.h       |  17 ++
+ arch/arm64/kernel/cpufeature.c            |  35 ++++
+ arch/arm64/kernel/cpuinfo.c               |  17 ++
+ arch/arm64/kvm/sys_regs.c                 |   6 +-
+ arch/arm64/tools/sysreg                   |  87 +++++++++-
+ tools/testing/selftests/arm64/abi/hwcap.c | 273 +++++++++++++++++++++++++++++-
+ 8 files changed, 493 insertions(+), 10 deletions(-)
+---
+base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+change-id: 20241008-arm64-2024-dpisa-8091074a7f48
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
