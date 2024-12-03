@@ -1,128 +1,140 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E71C8460;
-	Tue,  3 Dec 2024 23:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CB51E1027
+	for <linux-doc@vger.kernel.org>; Tue,  3 Dec 2024 23:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733267748; cv=none; b=Wj0277Ubfp92cCbas3NNjwhlfqF/ypLl9HjROnas0ADtV7rVCyAl45G1Kz1Eh/2KVoHdL2GKMnxNAy5II36qCm04DVmvGjCl2R8zTxByWXUJ7e1HdhaRXfnMCdGsTuiczf3Srh5hBLVkzLbUER5ukMet0WJT5lCIW9VH7Ua0A2I=
+	t=1733268397; cv=none; b=h0C8Liy+VszvAliQj5ab2Xt/aXsgl6TmJVMfS2hvItxEcLMqaLHKaHpNOxaCx1mQVNHNkwtV1lcCnVCddn4nkkNNsC/2IR201jrKQu0qVIRXMYnDjVklX/NdqNUEy3Tj6wvoUdbCnFEJ83f/eBvgB9yjo578sGv76H4ScwWwvjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733267748; c=relaxed/simple;
-	bh=YkZAsANfAmRYtI/Mt+2RDqFV4yBRm6bxvA1qhI5AL7s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=u8nmnksC9KFvaRTk2rCge+BSJPk8HtYF0BCsaKCwajQvMerIuXetZVbslltpwYoVS+R48yVYSDllae0ZY1f9sHMrTus1mjZSaP4Ujp9lPMaiQz1AYH1PCW5KDqitgINl48oBwBUt5v8gArN5EoOP9g1ITtyMmPixhkPL3pLdfT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eR+qloIo; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733268397; c=relaxed/simple;
+	bh=A+NygRxfATzmDDYl4BW+aoTxyFsALc+e05mYyvBpsWU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W0ySQeUEsVOzWMcQa926KwzxD9jyWx679hob5r0IrT1hiRdnO2pRSCr//syIL823yN2U7+MSWTlmOSt1zbD/dFHug9e8qUtFniDW/JFZOLNkxepHsCVkRW5+T3Xbm8DqKX68Fe2YDOiECxN6WZZXzuUe4NiafThaDFPP9qufb0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g5GZLFX+; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eR+qloIo"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B3HoXEb030978;
-	Tue, 3 Dec 2024 23:15:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YkZAsANfAmRYtI/Mt+2RDqFV4yBRm6bxvA1qhI5AL7s=; b=eR+qloIoJOhXZhC3
-	+GWiiJaVz2i49lUqyAj6fCUrb9PgOUliB6bWQccpZaGU7P93SrpaGtY8kEJUIjIb
-	W9z5tEKDGINKGUU+XBLRhXY62FlwSMfe/FNsKjPr9B0Kcz/Nwj4OOzynEPAMMTwO
-	bXIrTZZkm4fDBk5+S/Qr54JN0+6zp5xJ0fKsKTqF7aZgZiRYD8RXIPIzwQPSCvgJ
-	CR45+vroSXgspmZXj9cLOj47Llb6i8HJr2TdX/G5SfE2QEbm+X5k+KPE2krE1axX
-	Kvz36WzMH4+93BgHFa37ZdPjfIRnsc33wR+f1a2+5s+CzN3dc928N5JS+D+fh8zO
-	jNHveA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439w90tdtb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Dec 2024 23:15:26 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B3NFOQc010563
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 3 Dec 2024 23:15:24 GMT
-Received: from [10.110.57.23] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Dec 2024
- 15:15:23 -0800
-Message-ID: <28023a83-04a5-4c62-85a9-ca41be0ba9e1@quicinc.com>
-Date: Tue, 3 Dec 2024 15:15:23 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g5GZLFX+"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5cf9ef18ae9so527187a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2024 15:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733268393; x=1733873193; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h0gsOOV1IK0tbYsC9eBpU6WfUiWf0dqVzzhWYdaHF04=;
+        b=g5GZLFX+dNpdx1YYUJf5LjvBATqDc4vNwiLsd5Vg5f/Q0v1vpIo5LbOagutF6tWpuq
+         6YPnniNdcTWkE0F9Pvnvrnyoz9rQRpLflynsw2tat7MCaNvjdvbRURLlw6ilPDuWJGjM
+         jwltgiwduh6ZCo5qqzKW6ZY9o5YAhNmfK1NZ7+gO96u9qTwIAKxCwQT3n6BFbosUl7NU
+         KJy+Azpyyugs2JXMN6hZZfh1JmHZOlJqSATah+9PVo8y6wgRdTm6n6ssGamQGnEs+vHT
+         4lOi6RHdVh+hafoWNSS7MvnG4IuACOc9ad8h6t6tXTl5T+0V+0QY0DDdQXw4VU8auBjZ
+         kqHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733268393; x=1733873193;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h0gsOOV1IK0tbYsC9eBpU6WfUiWf0dqVzzhWYdaHF04=;
+        b=WFsrCJ13YKokP/LyE3sr+obRpgv43M7SCDEFje28G3hsXmuBj9S0X8bK+nqBHyhIRa
+         ldZSaSFvO6nldJ0L1siRaje+peeV5N74XB881Od2CS1lDOEZZ8U5cRR/VkAd0/mR2LYK
+         2fsbUoJL7Hkuz0f7Ev0UiWsfke73rWHPdwJ+mYpCp+Y0/5FgA7cKgY/WKIhTKelXzTEe
+         3cAokf8dx+G4CFBeNzbLMO2j39fhmso9bJQ45tHJBKJGX+AbC1LgzQnktbrhsLtr5roh
+         VqoVfdtWXTxpUv8nBMQje1OBd4P8l5Cb8DMfq/EKPgn4d20qaYWx9H8gFi/aB+RDRDiB
+         bFMA==
+X-Forwarded-Encrypted: i=1; AJvYcCXpv2eIP1we5cD3Qw+bQheuebh6qHFXoHxkm9vKTVlvdGVzh3TFpwsqgyhaXwpmZhmf1DYX9+sxVzU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRKhnW0Ib8NhKPb7GJRJDQ2c3Pf6pYvYOnqMtfAhxqiHmqru6G
+	ZgBekgIJYBVk+8HruKOVKTf9pN9GdLTk5dJB2Zk5ZoRQu7N+EbI/k6XwUhOC6QxFkNvrBrL0sAy
+	JqgtQAbobre7jciJGLXLDFBHpZeUd8Ig5haVH
+X-Gm-Gg: ASbGnctozLsRn4y7zwlQu4BYTK85ELjZz2uI50AjDKJHjHfWar8PBr+o21iMV/z5f9d
+	iGiXPbHcIZHQKQXfiRd49wIKX9dXPVVrRo04+x/IzHs5kEnhgZy+cX0/Zc98GleGE
+X-Google-Smtp-Source: AGHT+IG44HltO60JYgYmVvMEo3QlcFo1P0mYiAAGDSp4Skz4zAxbxt9ZfqfNSvUY79c414MNywqlUX98rVVFvuuFn2Y=
+X-Received: by 2002:a05:6402:1d49:b0:5d0:e9a8:4c96 with SMTP id
+ 4fb4d7f45d1cf-5d10c2498d8mr3918350a12.9.1733268392481; Tue, 03 Dec 2024
+ 15:26:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <srinivas.kandagatla@linaro.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
-        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
-        <tiwai@suse.com>, <robh@kernel.org>, <gregkh@linuxfoundation.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <20241106193413.1730413-29-quic_wcheng@quicinc.com>
- <1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
+References: <20241112184455.855133-1-ojeda@kernel.org> <CAH5fLghFZTG2X_mYE2yGJwPM31NrJdkA-cpZTCYsdghR8YdY8Q@mail.gmail.com>
+In-Reply-To: <CAH5fLghFZTG2X_mYE2yGJwPM31NrJdkA-cpZTCYsdghR8YdY8Q@mail.gmail.com>
+From: "Hong, Yifan" <elsk@google.com>
+Date: Tue, 3 Dec 2024 15:25:56 -0800
+Message-ID: <CAABy=s1sEzJZBR6Mt+ujFY_SSbU_OgKDtOs0+bxXQhTo9QZtGA@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: rust: add PROCMACROLDFLAGS
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: IBwKgWcd3KUzuxMkopp3EOItLDqwSWCj
-X-Proofpoint-GUID: IBwKgWcd3KUzuxMkopp3EOItLDqwSWCj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=709 bulkscore=0
- impostorscore=0 phishscore=0 suspectscore=0 adultscore=0 mlxscore=0
- spamscore=0 clxscore=1011 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412030192
+Content-Transfer-Encoding: quoted-printable
 
-
-On 12/3/2024 8:13 AM, Cezary Rojewski wrote:
-> On 2024-11-06 8:34 PM, Wesley Cheng wrote:
->> In order to allow userspace/applications know about USB offloading status,
->> expose a sound kcontrol that fetches information about which sound card
->> and PCM index the USB device is mapped to for supporting offloading.  In
->> the USB audio offloading framework, the ASoC BE DAI link is the entity
->> responsible for registering to the SOC USB layer.
+On Wed, Nov 13, 2024 at 5:34=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> w=
+rote:
 >
-> ...
+> On Tue, Nov 12, 2024 at 7:45=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> w=
+rote:
+> >
+> > From: HONG Yifan <elsk@google.com>
+> >
+> > These are flags to be passed when linking proc macros for the Rust
+> > toolchain. If unset, it defaults to $(KBUILD_HOSTLDFLAGS).
+> >
+> > This is needed because the list of flags to link hostprogs is not
+> > necessarily the same as the list of flags used to link libmacros.so.
+> > When we build proc macros, we need the latter, not the former (e.g. whe=
+n
+> > using a Rust compiler binary linked to a different C library than host
+> > programs).
+> >
+> > To distinguish between the two, introduce this new variable to stand
+> > out from KBUILD_HOSTLDFLAGS used to link other host progs.
+> >
+> > Signed-off-by: HONG Yifan <elsk@google.com>
+> > Link: https://lore.kernel.org/r/20241017210430.2401398-2-elsk@google.co=
+m
+> > [ v3:
+> >
+> >   - `export`ed the variable. Otherwise it would not be visible in
+> >     `rust/Makefile`.
 >
-> R) += mixer_usb_offload.o
->> diff --git a/sound/usb/mixer_usb_offload.c b/sound/usb/mixer_usb_offload.c
->> new file mode 100644
->> index 000000000000..e0689a3b9b86
->> --- /dev/null
->> +++ b/sound/usb/mixer_usb_offload.c
->> @@ -0,0 +1,102 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->> + */
->> +
->> +#include <linux/usb.h>
->> +
->> +#include <sound/core.h>
->> +#include <sound/control.h>
->> +#include <sound/soc-usb.h>
+> Despite the missing export, the previous version worked for us too.
+> I'm not sure why that is.
+
+It happened to pass the build when KBUILD_HOSTLDFLAGS was empty, which
+was the case when it was not exported. But that was definitely not the
+original intention of this patch. Thanks for catching it! I have
+verified that v3 correctly exports the variable to sub-make and still
+works for our case.
+
 >
-> ALSA-components should not be dependent on ASoC ones. It should be done the other way around: ALSA <- ASoC.
+> >   - Removed "additional" from the documentation and commit message,
+> >     since this actually replaces the other flags, unlike other cases.
+> >
+> >   - Added example of use case to documentation and commit message.
+> >     Thanks Alice for the details on what Google needs!
+> >
+> >   - Instead of `HOSTLDFLAGS`, used `KBUILD_HOSTLDFLAGS` as the fallback
+> >     to preserve the previous behavior as much as possible, as discussed
+> >     with Alice/Yifan. Thus moved the variable down too (currently we
+> >     do not modify `KBUILD_HOSTLDFLAGS` elsewhere) and avoided
+> >     mentioning `HOSTLDFLAGS` directly in the documentation.
+> >
+> >   - Fixed documentation header formatting.
+> >
+> >   - Reworded slightly.
+> >
+> >          - Miguel ]
+> > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 >
-
-At least for this kcontrol, we need to know the status of the ASoC state, so that we can communicate the proper path to userspace.  If the ASoC path is not probed or ready, then this module isn't blocked.  It will just communicate that there isn't a valid offload path.
-
-
->> +
->> +#include "usbaudio.h"
->> +#include "card.h"
->> +#include "helper.h"
->> +#include "mixer.h"
->> +
->> +#include "mixer_usb_offload.h"
+> Tested-by: Alice Ryhl <aliceryhl@google.com>
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Reviewed-by: HONG Yifan <elsk@google.com>
