@@ -1,178 +1,481 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422043F8F7;
-	Tue,  3 Dec 2024 08:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6AB1BDA99;
+	Tue,  3 Dec 2024 08:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733214636; cv=none; b=X44rpxUqZtq4dkle7X4h3RJpav5bYKjlmYVtnLvCoahNuE1uqeWkjAl/+0hxDwSBe/YoS9ibpRPyWmsQVbSWrm/cLxKf/azLZ6yUsLM8ILPaiTj3eP72UPh1+xquGalTBDzTADaow3+Zi0FCc7j26BWjmX+hRU8/v14kbRsxEh0=
+	t=1733215755; cv=none; b=rG04EE3BectJ8VpvQVLuQ7eZLeXOArwk3Lo2GEjppeeZXJzuazgn1NmYVQ85uJWfH/vBx7t95dkCgCzmLOlZ8HaDoTV+tzb3l4RDWOVbJlWT1723i88a08Lh75zkFHIBD7sxpAk+5u4bCN4DFFzgMHcTTiFM9oaNx6TWIhg6Z2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733214636; c=relaxed/simple;
-	bh=lLJWoGA5mgYfeIf4wHZFTqCgIgZq+Y5pKhmZrIUvxi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q4hGtjdQx8nrwGLWcMWh+0R2yW9qln6I3tAkz/nSvAJI6jVE27XwuQYUbRqdu/5LGtbXfpia3etompkLOpxt7Dbqr20iYwYSDT94dTk8IJmptkhkVnjb+QxiBu6G/ISXDBnSUoJeXplKqcmr9kdpe466tg6zSYNrWexQXV9Z54A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ApT+Kb6p; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ApT+Kb6p"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 12D08FF805;
-	Tue,  3 Dec 2024 08:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733214631;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wuM3/oVKujOATxnTbh+v+qkfvawpHs2T6Z0xs87aRjs=;
-	b=ApT+Kb6pBSoGn6KFGsCfFuN1b/F+Nn3onYhsoClioTIM9NVAs/80dl5zTMYeuLWB1vaZyv
-	hdUuwEyQ2Tfd3n1gaY0ixl/qSUSJM+eC7tgc+kc1Pd59Xqc5w+TsLGqkKdTvjjwgYURjAH
-	okKd/TddEU2aHnubDBKtL8epjIZlqOrF4x/LSrS7DEIFQFSRqF1eHb9FIz2g+ap6RXMmO/
-	vCC4JeGQwrMJuSrO/drXnvlqwS6OliPBrsEvv3TdQ16vt5AEZdoIR4FkOvVqEjfcDLF/AX
-	cScS0y2kx9z3rqjq7H/0CVPsQ6kaTmwk6WmNy3tL9v6CMeqUCMlD6/5XSbEmpA==
-Date: Tue, 3 Dec 2024 09:30:29 +0100
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Heiner Kallweit
- <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- kernel@pengutronix.de, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, Simon Horman <horms@kernel.org>, Russell King
- <linux@armlinux.org.uk>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v1 1/7] net: ethtool: plumb PHY stats to PHY
- drivers
-Message-ID: <20241203093029.60c8b94b@fedora.home>
-In-Reply-To: <20241203075622.2452169-2-o.rempel@pengutronix.de>
-References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
-	<20241203075622.2452169-2-o.rempel@pengutronix.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1733215755; c=relaxed/simple;
+	bh=X6uC5JZ6BbMeh5XycVU/xAcL/SnWedE3LFBZ3lKlRTk=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=Y+rFy74c/WhlEuG344IhqCVSgzw6hwAi/mVaNZI7VuFzB9RaawX3HLb/pHQKRcRfO9PlcNIkZW3VQ1Gc35CUVIRGR/sAs81YeORhY2x6cueVvxz70gxL+HkTD0LXmJlxTDwxdX6n6bRIoDSW4J8apIbHN8hDvKT5Zqy3IYwLTf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4Y2Z7v2Y41z8RV6N;
+	Tue,  3 Dec 2024 16:48:59 +0800 (CST)
+Received: from njy2app02.zte.com.cn ([10.40.13.116])
+	by mse-fl1.zte.com.cn with SMTP id 4B38mjpG071398;
+	Tue, 3 Dec 2024 16:48:45 +0800 (+08)
+	(envelope-from jiang.kun2@zte.com.cn)
+Received: from mapi (njy2app02[null])
+	by mapi (Zmail) with MAPI id mid204;
+	Tue, 3 Dec 2024 16:48:48 +0800 (CST)
+Date: Tue, 3 Dec 2024 16:48:48 +0800 (CST)
+X-Zmail-TransId: 2afa674ec5f0277-c2e8a
+X-Mailer: Zmail v1.0
+Message-ID: <20241203164848805CS62CQPQWG9GLdQj2_BxS@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: maxime.chevallier@bootlin.com
+Mime-Version: 1.0
+From: <jiang.kun2@zte.com.cn>
+To: <bsingharora@gmail.com>, <akpm@linux-foundation.org>
+Cc: <david@redhat.com>, <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
+        <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>,
+        <zhang.yunkai@zte.com.cn>, <ye.xingchen@zte.com.cn>,
+        <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4IG5leHRdIGRlbGF5YWNjdDogYWRkIGRlbGF5IG1heCB0byByZWNvcmQgZGVsYXkgcGVhaw==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 4B38mjpG071398
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 674EC5FB.000/4Y2Z7v2Y41z8RV6N
 
-Hi Oleksij,
+From: Wang Yaxin <wang.yaxin@zte.com.cn>
 
-On Tue,  3 Dec 2024 08:56:15 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+Introduce the use cases of delay max, which can help quickly detect
+potential abnormal delays in the system and record the types and
+specific details of delay spikes.
+  
+Problem
+========
+Delay accounting can track the average delay of processes to show
+system workload. However, when a process experiences a significant
+delay, maybe a delay spike, which adversely affects performance,
+getdelays can only display the average system delay over a period
+of time. Yet, average delay is unhelpful for diagnosing delay peak.
+It is not even possible to determine which type of delay has spiked,
+as this information might be masked by the average delay.
 
-> From: Jakub Kicinski <kuba@kernel.org>
-> 
-> Feed the existing IEEE PHY counter struct (which currently
-> only has one entry) and link stats into the PHY driver.
-> The MAC driver can override the value if it somehow has a better
-> idea of PHY stats. Since the stats are "undefined" at input
-> the drivers can't += the values, so we should be safe from
-> double-counting.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Solution
+=========
+the 'delay max' can display delay peak since the system's startup,
+which can record potential abnormal delays over time, including
+the type of delay and the maximum delay. This is helpful for
+quickly identifying crash caused by delay.
 
-[...] 
+Use case
+=========
+bash# ./getdelays -d -p 244
+print delayacct stats ON
+PID     244
 
-> +static void
-> +ethtool_get_phydev_stats(struct net_device *dev,
-> +			 struct linkstate_reply_data *data)
-> +{
-> +	struct phy_device *phydev = dev->phydev;
-> +
-> +	if (!phydev)
-> +		return;
-> +
-> +	if (dev->phydev)
-> +		data->link_stats.link_down_events =
-> +			READ_ONCE(dev->phydev->link_down_events);
-> +
-> +	if (!phydev->drv || !phydev->drv->get_link_stats)
-> +		return;
-> +
-> +	mutex_lock(&phydev->lock);
-> +	phydev->drv->get_link_stats(phydev, &data->link_stats);
-> +	mutex_unlock(&phydev->lock);
-> +}
-> +
->  static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
->  				  struct ethnl_reply_data *reply_base,
->  				  const struct genl_info *info)
-> @@ -127,9 +148,7 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
->  			   sizeof(data->link_stats) / 8);
->  
->  	if (req_base->flags & ETHTOOL_FLAG_STATS) {
-> -		if (dev->phydev)
-> -			data->link_stats.link_down_events =
-> -				READ_ONCE(dev->phydev->link_down_events);
-> +		ethtool_get_phydev_stats(dev, data);
+CPU             count     real total  virtual total    delay total  delay average      delay max
+                   68      192000000      213676651         705643          0.010ms     0.306381ms
+IO              count    delay total  delay average      delay max
+                    0              0          0.000ms     0.000000ms
+SWAP            count    delay total  delay average      delay max
+                    0              0          0.000ms     0.000000ms
+RECLAIM         count    delay total  delay average      delay max
+                    0              0          0.000ms     0.000000ms
+THRASHING       count    delay total  delay average      delay max
+                    0              0          0.000ms     0.000000ms
+COMPACT         count    delay total  delay average      delay max
+                    0              0          0.000ms     0.000000ms
+WPCOPY          count    delay total  delay average      delay max
+                  235       15648284          0.067ms     0.263842ms
+IRQ             count    delay total  delay average      delay max
+                    0              0          0.000ms     0.000000ms
 
-I'm sorry to bother you with my multi-phy stuff, but I'd like to avoid
-directly accessing netdev->phydev at least in the netlink code.
+Co-developed-by: Wang Yong <wang.yong12@zte.com.cn>
+Signed-off-by: Wang Yong <wang.yong12@zte.com.cn>
+Co-developed-by: xu xin <xu.xin16@zte.com.cn>
+Signed-off-by: xu xin <xu.xin16@zte.com.cn>
+Co-developed-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+Signed-off-by: Kun Jiang <jiang.kun2@zte.com.cn>
+---
+ include/linux/delayacct.h      |  7 ++++
+ include/linux/sched.h          |  3 ++
+ include/uapi/linux/taskstats.h |  9 ++++++
+ kernel/delayacct.c             | 35 ++++++++++++++------
+ kernel/sched/stats.h           |  5 ++-
+ tools/accounting/getdelays.c   | 59 ++++++++++++++++++++--------------
+ 6 files changed, 83 insertions(+), 35 deletions(-)
 
-Could it be possible for you to pass a phydev directly to the
-ethtool_get_phydev_stats() helper you're creating ? That way, you could
-get the stats from other phydevs on the link if userspace passed a phy
-index in the netlink header. You'd get the phydev that way :
+diff --git a/include/linux/delayacct.h b/include/linux/delayacct.h
+index 6639f48dac36..56fbfa2c2ac5 100644
+--- a/include/linux/delayacct.h
++++ b/include/linux/delayacct.h
+@@ -29,25 +29,32 @@ struct task_delay_info {
+ 	 * XXX_delay contains the accumulated delay time in nanoseconds.
+ 	 */
+ 	u64 blkio_start;
++	u64 blkio_delay_max;
+ 	u64 blkio_delay;	/* wait for sync block io completion */
+ 	u64 swapin_start;
++	u64 swapin_delay_max;
+ 	u64 swapin_delay;	/* wait for swapin */
+ 	u32 blkio_count;	/* total count of the number of sync block */
+ 				/* io operations performed */
+ 	u32 swapin_count;	/* total count of swapin */
 
-phydev = ethnl_req_get_phydev(req_base, tb[ETHTOOL_A_LINKSTATE_HEADER,], info->extack);
+ 	u64 freepages_start;
++	u64 freepages_delay_max;
+ 	u64 freepages_delay;	/* wait for memory reclaim */
 
-This is what's done in the pse-pd, plca and cabletest netlink code that
-deals with phydevs.
+ 	u64 thrashing_start;
++	u64 thrashing_delay_max;
+ 	u64 thrashing_delay;	/* wait for thrashing page */
 
-Note that this helper will fallback to netdev->phydev if user didn't
-pass any PHY index, which I expect to be what people do most of the
-time. However should the netdev have more than 1 PHY, we would be able
-to get the far-away PHY's stats :)
+ 	u64 compact_start;
++	u64 compact_delay_max;
+ 	u64 compact_delay;	/* wait for memory compact */
 
->  
->  		if (dev->ethtool_ops->get_link_ext_stats)
->  			dev->ethtool_ops->get_link_ext_stats(dev,
-> diff --git a/net/ethtool/stats.c b/net/ethtool/stats.c
-> index 912f0c4fff2f..cf802b1cda6f 100644
-> --- a/net/ethtool/stats.c
-> +++ b/net/ethtool/stats.c
-> @@ -1,5 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  
-> +#include <linux/phy.h>
-> +
->  #include "netlink.h"
->  #include "common.h"
->  #include "bitset.h"
-> @@ -112,6 +114,19 @@ static int stats_parse_request(struct ethnl_req_info *req_base,
->  	return 0;
->  }
->  
-> +static void
-> +ethtool_get_phydev_stats(struct net_device *dev, struct stats_reply_data *data)
-> +{
-> +	struct phy_device *phydev = dev->phydev;
-> +
-> +	if (!phydev || !phydev->drv || !phydev->drv->get_phy_stats)
-> +		return;
-> +
-> +	mutex_lock(&phydev->lock);
-> +	phydev->drv->get_phy_stats(phydev, &data->phy_stats);
-> +	mutex_unlock(&phydev->lock);
-> +}
-> +
->  static int stats_prepare_data(const struct ethnl_req_info *req_base,
->  			      struct ethnl_reply_data *reply_base,
->  			      const struct genl_info *info)
-> @@ -145,6 +160,10 @@ static int stats_prepare_data(const struct ethnl_req_info *req_base,
->  	data->ctrl_stats.src = src;
->  	data->rmon_stats.src = src;
->  
-> +	if (test_bit(ETHTOOL_STATS_ETH_PHY, req_info->stat_mask) &&
-> +	    src == ETHTOOL_MAC_STATS_SRC_AGGREGATE)
-> +		ethtool_get_phydev_stats(dev, data);
+ 	u64 wpcopy_start;
++	u64 wpcopy_delay_max;
+ 	u64 wpcopy_delay;	/* wait for write-protect copy */
 
-Same here :)
++	u64 irq_delay_max;
+ 	u64 irq_delay;	/* wait for IRQ/SOFTIRQ */
 
-Thanks,
+ 	u32 freepages_count;	/* total count of memory reclaim */
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index d380bffee2ef..c70cbdc72950 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -398,6 +398,9 @@ struct sched_info {
+ 	/* Time spent waiting on a runqueue: */
+ 	unsigned long long		run_delay;
 
-Maxime
++	/* Max time spent waiting on a runqueue: */
++	unsigned long long		max_run_delay;
++
+ 	/* Timestamps: */
+
+ 	/* When did we last run on a CPU? */
+diff --git a/include/uapi/linux/taskstats.h b/include/uapi/linux/taskstats.h
+index b50b2eb257a0..e0d1c6fc9f3b 100644
+--- a/include/uapi/linux/taskstats.h
++++ b/include/uapi/linux/taskstats.h
+@@ -72,6 +72,7 @@ struct taskstats {
+ 	 */
+ 	__u64	cpu_count __attribute__((aligned(8)));
+ 	__u64	cpu_delay_total;
++	__u64	cpu_delay_max;
+
+ 	/* Following four fields atomically updated using task->delays->lock */
+
+@@ -80,10 +81,12 @@ struct taskstats {
+ 	 */
+ 	__u64	blkio_count;
+ 	__u64	blkio_delay_total;
++	__u64	blkio_delay_max;
+
+ 	/* Delay waiting for page fault I/O (swap in only) */
+ 	__u64	swapin_count;
+ 	__u64	swapin_delay_total;
++	__u64	swapin_delay_max;
+
+ 	/* cpu "wall-clock" running time
+ 	 * On some architectures, value will adjust for cpu time stolen
+@@ -166,10 +169,12 @@ struct taskstats {
+ 	/* Delay waiting for memory reclaim */
+ 	__u64	freepages_count;
+ 	__u64	freepages_delay_total;
++	__u64	freepages_delay_max;
+
+ 	/* Delay waiting for thrashing page */
+ 	__u64	thrashing_count;
+ 	__u64	thrashing_delay_total;
++	__u64	thrashing_delay_max;
+
+ 	/* v10: 64-bit btime to avoid overflow */
+ 	__u64	ac_btime64;		/* 64-bit begin time */
+@@ -177,6 +182,7 @@ struct taskstats {
+ 	/* v11: Delay waiting for memory compact */
+ 	__u64	compact_count;
+ 	__u64	compact_delay_total;
++	__u64	compact_delay_max;
+
+ 	/* v12 begin */
+ 	__u32   ac_tgid;	/* thread group ID */
+@@ -198,10 +204,13 @@ struct taskstats {
+ 	/* v13: Delay waiting for write-protect copy */
+ 	__u64    wpcopy_count;
+ 	__u64    wpcopy_delay_total;
++	__u64    wpcopy_delay_max;
+
+ 	/* v14: Delay waiting for IRQ/SOFTIRQ */
+ 	__u64    irq_count;
+ 	__u64    irq_delay_total;
++	__u64    irq_delay_max;
++	/* v15: add Delay max */
+ };
+
+
+diff --git a/kernel/delayacct.c b/kernel/delayacct.c
+index dead51de8eb5..d64ad2a48b4f 100644
+--- a/kernel/delayacct.c
++++ b/kernel/delayacct.c
+@@ -95,7 +95,7 @@ void __delayacct_tsk_init(struct task_struct *tsk)
+  * Finish delay accounting for a statistic using its timestamps (@start),
+  * accumalator (@total) and @count
+  */
+-static void delayacct_end(raw_spinlock_t *lock, u64 *start, u64 *total, u32 *count)
++static void delayacct_end(raw_spinlock_t *lock, u64 *start, u64 *total, u32 *count, u64 *max)
+ {
+ 	s64 ns = local_clock() - *start;
+ 	unsigned long flags;
+@@ -104,6 +104,8 @@ static void delayacct_end(raw_spinlock_t *lock, u64 *start, u64 *total, u32 *cou
+ 		raw_spin_lock_irqsave(lock, flags);
+ 		*total += ns;
+ 		(*count)++;
++		if (ns > *max)
++			*max = ns;
+ 		raw_spin_unlock_irqrestore(lock, flags);
+ 	}
+ }
+@@ -122,7 +124,8 @@ void __delayacct_blkio_end(struct task_struct *p)
+ 	delayacct_end(&p->delays->lock,
+ 		      &p->delays->blkio_start,
+ 		      &p->delays->blkio_delay,
+-		      &p->delays->blkio_count);
++		      &p->delays->blkio_count,
++		      &p->delays->blkio_delay_max);
+ }
+
+ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
+@@ -153,10 +156,11 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
+
+ 	d->cpu_count += t1;
+
++	d->cpu_delay_max = tsk->sched_info.max_run_delay;
+ 	tmp = (s64)d->cpu_delay_total + t2;
+ 	d->cpu_delay_total = (tmp < (s64)d->cpu_delay_total) ? 0 : tmp;
+-
+ 	tmp = (s64)d->cpu_run_virtual_total + t3;
++
+ 	d->cpu_run_virtual_total =
+ 		(tmp < (s64)d->cpu_run_virtual_total) ?	0 : tmp;
+
+@@ -164,20 +168,26 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
+ 		return 0;
+
+ 	/* zero XXX_total, non-zero XXX_count implies XXX stat overflowed */
+-
+ 	raw_spin_lock_irqsave(&tsk->delays->lock, flags);
++	d->blkio_delay_max = tsk->delays->blkio_delay_max;
+ 	tmp = d->blkio_delay_total + tsk->delays->blkio_delay;
+ 	d->blkio_delay_total = (tmp < d->blkio_delay_total) ? 0 : tmp;
++	d->swapin_delay_max = tsk->delays->swapin_delay_max;
+ 	tmp = d->swapin_delay_total + tsk->delays->swapin_delay;
+ 	d->swapin_delay_total = (tmp < d->swapin_delay_total) ? 0 : tmp;
++	d->freepages_delay_max = tsk->delays->freepages_delay_max;
+ 	tmp = d->freepages_delay_total + tsk->delays->freepages_delay;
+ 	d->freepages_delay_total = (tmp < d->freepages_delay_total) ? 0 : tmp;
++	d->thrashing_delay_max = tsk->delays->thrashing_delay_max;
+ 	tmp = d->thrashing_delay_total + tsk->delays->thrashing_delay;
+ 	d->thrashing_delay_total = (tmp < d->thrashing_delay_total) ? 0 : tmp;
++	d->compact_delay_max = tsk->delays->compact_delay_max;
+ 	tmp = d->compact_delay_total + tsk->delays->compact_delay;
+ 	d->compact_delay_total = (tmp < d->compact_delay_total) ? 0 : tmp;
++	d->wpcopy_delay_max = tsk->delays->wpcopy_delay_max;
+ 	tmp = d->wpcopy_delay_total + tsk->delays->wpcopy_delay;
+ 	d->wpcopy_delay_total = (tmp < d->wpcopy_delay_total) ? 0 : tmp;
++	d->irq_delay_max = tsk->delays->irq_delay_max;
+ 	tmp = d->irq_delay_total + tsk->delays->irq_delay;
+ 	d->irq_delay_total = (tmp < d->irq_delay_total) ? 0 : tmp;
+ 	d->blkio_count += tsk->delays->blkio_count;
+@@ -213,7 +223,8 @@ void __delayacct_freepages_end(void)
+ 	delayacct_end(&current->delays->lock,
+ 		      &current->delays->freepages_start,
+ 		      &current->delays->freepages_delay,
+-		      &current->delays->freepages_count);
++		      &current->delays->freepages_count,
++		      &current->delays->freepages_delay_max);
+ }
+
+ void __delayacct_thrashing_start(bool *in_thrashing)
+@@ -235,7 +246,8 @@ void __delayacct_thrashing_end(bool *in_thrashing)
+ 	delayacct_end(&current->delays->lock,
+ 		      &current->delays->thrashing_start,
+ 		      &current->delays->thrashing_delay,
+-		      &current->delays->thrashing_count);
++		      &current->delays->thrashing_count,
++		      &current->delays->thrashing_delay_max);
+ }
+
+ void __delayacct_swapin_start(void)
+@@ -248,7 +260,8 @@ void __delayacct_swapin_end(void)
+ 	delayacct_end(&current->delays->lock,
+ 		      &current->delays->swapin_start,
+ 		      &current->delays->swapin_delay,
+-		      &current->delays->swapin_count);
++		      &current->delays->swapin_count,
++		      &current->delays->swapin_delay_max);
+ }
+
+ void __delayacct_compact_start(void)
+@@ -261,7 +274,8 @@ void __delayacct_compact_end(void)
+ 	delayacct_end(&current->delays->lock,
+ 		      &current->delays->compact_start,
+ 		      &current->delays->compact_delay,
+-		      &current->delays->compact_count);
++		      &current->delays->compact_count,
++		      &current->delays->compact_delay_max);
+ }
+
+ void __delayacct_wpcopy_start(void)
+@@ -274,7 +288,8 @@ void __delayacct_wpcopy_end(void)
+ 	delayacct_end(&current->delays->lock,
+ 		      &current->delays->wpcopy_start,
+ 		      &current->delays->wpcopy_delay,
+-		      &current->delays->wpcopy_count);
++		      &current->delays->wpcopy_count,
++		      &current->delays->wpcopy_delay_max);
+ }
+
+ void __delayacct_irq(struct task_struct *task, u32 delta)
+@@ -284,6 +299,8 @@ void __delayacct_irq(struct task_struct *task, u32 delta)
+ 	raw_spin_lock_irqsave(&task->delays->lock, flags);
+ 	task->delays->irq_delay += delta;
+ 	task->delays->irq_count++;
++	if (delta > task->delays->irq_delay_max)
++		task->delays->irq_delay_max = delta;
+ 	raw_spin_unlock_irqrestore(&task->delays->lock, flags);
+ }
+
+diff --git a/kernel/sched/stats.h b/kernel/sched/stats.h
+index 8ee0add5a48a..ed72435aef51 100644
+--- a/kernel/sched/stats.h
++++ b/kernel/sched/stats.h
+@@ -244,7 +244,8 @@ static inline void sched_info_dequeue(struct rq *rq, struct task_struct *t)
+ 	delta = rq_clock(rq) - t->sched_info.last_queued;
+ 	t->sched_info.last_queued = 0;
+ 	t->sched_info.run_delay += delta;
+-
++	if (delta > t->sched_info.max_run_delay)
++		t->sched_info.max_run_delay = delta;
+ 	rq_sched_info_dequeue(rq, delta);
+ }
+
+@@ -266,6 +267,8 @@ static void sched_info_arrive(struct rq *rq, struct task_struct *t)
+ 	t->sched_info.run_delay += delta;
+ 	t->sched_info.last_arrival = now;
+ 	t->sched_info.pcount++;
++	if (delta > t->sched_info.max_run_delay)
++		t->sched_info.max_run_delay = delta;
+
+ 	rq_sched_info_arrive(rq, delta);
+ }
+diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
+index 1334214546d7..e570bcad185d 100644
+--- a/tools/accounting/getdelays.c
++++ b/tools/accounting/getdelays.c
+@@ -192,60 +192,69 @@ static int get_family_id(int sd)
+ }
+
+ #define average_ms(t, c) (t / 1000000ULL / (c ? c : 1))
++#define delay_max_ms(t) (t / 1000000ULL)
+
+ static void print_delayacct(struct taskstats *t)
+ {
+-	printf("\n\nCPU   %15s%15s%15s%15s%15s\n"
+-	       "      %15llu%15llu%15llu%15llu%15.3fms\n"
+-	       "IO    %15s%15s%15s\n"
+-	       "      %15llu%15llu%15.3fms\n"
+-	       "SWAP  %15s%15s%15s\n"
+-	       "      %15llu%15llu%15.3fms\n"
+-	       "RECLAIM  %12s%15s%15s\n"
+-	       "      %15llu%15llu%15.3fms\n"
+-	       "THRASHING%12s%15s%15s\n"
+-	       "      %15llu%15llu%15.3fms\n"
+-	       "COMPACT  %12s%15s%15s\n"
+-	       "      %15llu%15llu%15.3fms\n"
+-	       "WPCOPY   %12s%15s%15s\n"
+-	       "      %15llu%15llu%15.3fms\n"
+-	       "IRQ   %15s%15s%15s\n"
+-	       "      %15llu%15llu%15.3fms\n",
++	printf("\n\nCPU   %15s%15s%15s%15s%15s%15s\n"
++	       "      %15llu%15llu%15llu%15llu%15.3fms%13.6fms\n"
++	       "IO    %15s%15s%15s%15s\n"
++	       "      %15llu%15llu%15.3fms%13.6fms\n"
++	       "SWAP  %15s%15s%15s%15s\n"
++	       "      %15llu%15llu%15.3fms%13.6fms\n"
++	       "RECLAIM  %12s%15s%15s%15s\n"
++	       "      %15llu%15llu%15.3fms%13.6fms\n"
++	       "THRASHING%12s%15s%15s%15s\n"
++	       "      %15llu%15llu%15.3fms%13.6fms\n"
++	       "COMPACT  %12s%15s%15s%15s\n"
++	       "      %15llu%15llu%15.3fms%13.6fms\n"
++	       "WPCOPY   %12s%15s%15s%15s\n"
++	       "      %15llu%15llu%15.3fms%13.6fms\n"
++	       "IRQ   %15s%15s%15s%15s\n"
++	       "      %15llu%15llu%15.3fms%13.6fms\n",
+ 	       "count", "real total", "virtual total",
+-	       "delay total", "delay average",
++	       "delay total", "delay average", "delay max",
+ 	       (unsigned long long)t->cpu_count,
+ 	       (unsigned long long)t->cpu_run_real_total,
+ 	       (unsigned long long)t->cpu_run_virtual_total,
+ 	       (unsigned long long)t->cpu_delay_total,
+ 	       average_ms((double)t->cpu_delay_total, t->cpu_count),
+-	       "count", "delay total", "delay average",
++		   delay_max_ms((double)t->cpu_delay_max),
++	       "count", "delay total", "delay average", "delay max",
+ 	       (unsigned long long)t->blkio_count,
+ 	       (unsigned long long)t->blkio_delay_total,
+ 	       average_ms((double)t->blkio_delay_total, t->blkio_count),
+-	       "count", "delay total", "delay average",
++		   delay_max_ms((double)t->blkio_delay_max),
++	       "count", "delay total", "delay average", "delay max",
+ 	       (unsigned long long)t->swapin_count,
+ 	       (unsigned long long)t->swapin_delay_total,
+ 	       average_ms((double)t->swapin_delay_total, t->swapin_count),
+-	       "count", "delay total", "delay average",
++		   delay_max_ms((double)t->swapin_delay_max),
++	       "count", "delay total", "delay average", "delay max",
+ 	       (unsigned long long)t->freepages_count,
+ 	       (unsigned long long)t->freepages_delay_total,
+ 	       average_ms((double)t->freepages_delay_total, t->freepages_count),
+-	       "count", "delay total", "delay average",
++		   delay_max_ms((double)t->freepages_delay_max),
++	       "count", "delay total", "delay average", "delay max",
+ 	       (unsigned long long)t->thrashing_count,
+ 	       (unsigned long long)t->thrashing_delay_total,
+ 	       average_ms((double)t->thrashing_delay_total, t->thrashing_count),
+-	       "count", "delay total", "delay average",
++		   delay_max_ms((double)t->thrashing_delay_max),
++	       "count", "delay total", "delay average", "delay max",
+ 	       (unsigned long long)t->compact_count,
+ 	       (unsigned long long)t->compact_delay_total,
+ 	       average_ms((double)t->compact_delay_total, t->compact_count),
+-	       "count", "delay total", "delay average",
++		   delay_max_ms((double)t->compact_delay_max),
++	       "count", "delay total", "delay average", "delay max",
+ 	       (unsigned long long)t->wpcopy_count,
+ 	       (unsigned long long)t->wpcopy_delay_total,
+ 	       average_ms((double)t->wpcopy_delay_total, t->wpcopy_count),
+-	       "count", "delay total", "delay average",
++		   delay_max_ms((double)t->wpcopy_delay_max),
++	       "count", "delay total", "delay average", "delay max",
+ 	       (unsigned long long)t->irq_count,
+ 	       (unsigned long long)t->irq_delay_total,
+-	       average_ms((double)t->irq_delay_total, t->irq_count));
++	       average_ms((double)t->irq_delay_total, t->irq_count),
++		   delay_max_ms((double)t->irq_delay_max));
+ }
+
+ static void task_context_switch_counts(struct taskstats *t)
+-- 
+2.25.1
