@@ -1,113 +1,137 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136B52E3EE;
-	Tue,  3 Dec 2024 11:22:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5774A1E3772;
+	Tue,  3 Dec 2024 11:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733224945; cv=none; b=CQD29Gil0uL51EcHMe1oNfD6BmVBQSWmISg1+5cf48OpWP/yUccofU6eR7a2ngSStJP4Dg+Q1AEqoZOgdcoKD933kJzDdOe8yqBRLRFcK4ZcCNFvz1jzf+IKmtg3IYAq/N/AXQXfegrL2pM8gN9fphn6HzGmh+epIVG6chubkOY=
+	t=1733225701; cv=none; b=ImFfYWVZaU5FIfCCh9uR2wcr7fRZxXSTXl4FrGj7LS1jN0lYbCVDtWwXf3M1kTLsErwxruCTbgU+jc+l5zmSWLq4l0Ubo3BZFA2Wgbq4x4gf02Fl0b1c0SBlzduPgIeEtUqH9vcvP2Og4dtZpqD/LrIwqVTz8kAwHgoQTT6PUlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733224945; c=relaxed/simple;
-	bh=BBk+zjcEC0uJhKJnCdpNziMigOnPauW1WG4uQsbCtQs=;
+	s=arc-20240116; t=1733225701; c=relaxed/simple;
+	bh=x7dLi7wAGruYlnkWF7Di04Y7mXBk+HfGj4As5QQnFLI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q/N47Wsh6oMq1ZxneRFYQyfvfjIUGLPxDg1X3o/Mybuiw3jMiAmSXPb3l7RTk1Opfm7oTT2d37+dfn2jvdYlCozKlPcfO31s9KfCwp/bZm1fwCfkOcxPItazdxMXQIRpb8SMZLuPTqJonSiImYW9ufWn1whyQYQkIcim461tf4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a0YCYzSL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q9i7kQK4mn6oQYJt6xuk9jSnUdjs0iXiY0Na8VVeZLU0zoa8YMlao5aelDOBO7jvGl0SzwKPWUMVBqPHgwK68Vpikji8f7FfmiysUUpNwgjBVk4AHB74y8ZOxAeirsqxZ2Rfs95PDzNuxJ0WhMe+Sng7y87yNNls/tKpCQd/C+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k5sk3Llo; arc=none smtp.client-ip=209.85.215.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a0YCYzSL"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EECFAB2B;
-	Tue,  3 Dec 2024 12:21:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733224914;
-	bh=BBk+zjcEC0uJhKJnCdpNziMigOnPauW1WG4uQsbCtQs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a0YCYzSL2NbWGkhkPiJJSrDdBozc2h/7EDTYLjklSs7Q/3adJl8YqfBCSnmZX7Ipx
-	 lEa1xTSzVPJQ6ZHc6aVUkID00a56jNwxKc2geWhTMwHDRJnquHVvWohcJNPhvh7gxV
-	 DR71a0qM6yB1V5IkV7IIthtbEkllpzPL5lx1zoqc=
-Date: Tue, 3 Dec 2024 13:22:09 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] Document the new media-committer's model
-Message-ID: <20241203112209.GR10736@pendragon.ideasonboard.com>
-References: <cover.1733131405.git.mchehab+huawei@kernel.org>
- <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
- <20241203081958.6c186835@foz.lan>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k5sk3Llo"
+Received: by mail-pg1-f194.google.com with SMTP id 41be03b00d2f7-7ee11ff7210so3716373a12.1;
+        Tue, 03 Dec 2024 03:35:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733225699; x=1733830499; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gRTMjpBU2FZrkasI1vglpiZRnbuKwshDQaObui5oB2I=;
+        b=k5sk3LloHDV3vj1UHofOkYahkliD3++deodRfyVwVmB+Q/CbK7LTqHAKla4Au5TVFK
+         tEqD/XKO4n8XcBIhv2/2lYVRz48vUQtefHarBfFFTEqrZhrZWqV4qaqtu2jXlp5x9pVo
+         Ta1y/9TXpgxzpStc7A+KkNlR9T6VaBVhZjN6AfnwAm8mzPwYs+CMNc9Ml2Q5sVyl6H3K
+         ZV8r5utp6k4qptG4xbUrDOqyRGt+7Q+z/UaXJmRD4K3AFX8v1LZbYcDm09EmQXHvF+hT
+         wqKft81Z1p9wnTyXXWCpjF7PDRFrnzjiuH7LbY9NxVVUCKiSpM4En6UD2VWT2vni/Q+0
+         cU3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733225699; x=1733830499;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gRTMjpBU2FZrkasI1vglpiZRnbuKwshDQaObui5oB2I=;
+        b=FbypOD4fPkz++xzS3x4L1TLdHAhb0jfdHi48l5S2ep646spUNRRUgNDxkn6jRCpTvI
+         0haWx2EIc6L3ooonSyfqNlv6BmnSWZIDU9LV7BFhknxwniXk6sv7e9CU0E2S35ICz+VB
+         zWVu2rqXjgw945CTzTU1vI9m0N569SN8sYejXSdkDjdXCTyvxnacqBiehWrXONgRP/2S
+         ZO+n5mRO+hKI+Pdu7m3ZQgdYzG4G74re8FYAKQijM1Qh5SwgN/tyxZE/E4AuHE5Ror4O
+         GzR2fcA2kiV3Mh5agDAVIZ8NSFrEmt2Db2NBOTfbwTNvNExvWfHWEbRIHKVovnTBEYpp
+         +QxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWCPif1EO5l82ytIKDPY9IckEBmiV7rLw4Vwg4dQkFp3f2GWee7zdCFn3crTrrjzjQZhUb2Rx4NAQ=@vger.kernel.org, AJvYcCUb6d8Sk57tVgeKJlRqu5axuclYJj9aL4EVPS9oyQ00G85snLVx3iZyUbtD4RXfKjHTUGUyaEtS0o1sbmk=@vger.kernel.org, AJvYcCXqIv7/mJoR5o+PsW6V1tr7j11YClPK9f0t7Zp2CXUwpY/8hqPO7w+pFGGSypwnTCdhwwTVfHgTKlanKgLw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxn7o2MjnixtBmjN800H9rV23ARSW5LUTWIMGlZ61m7Jx86Zng0
+	P8ei2zMIjHeeoSqGaTPO5Q+7R94bNElDej8Q9TTIj0SGc7EeMCFcUtsaRxMu
+X-Gm-Gg: ASbGncs4UI2UKLZwNLn/wU1NRb/8G0a6zqOOntQfl+D+oLc4M/kMAUCpdyD0kSO7YTL
+	ImZ5hWn4XapnhFNiWKWsm6YOk6cRXQ1c/zZeqH3zxwtiIPWEsNin+QCtFSr8XLtiNUp0GwZNnRM
+	2ohCqZOQ1LEO+Uy4Q4A+hM9HelNBX3lvgVbVPMlJZ2vd2FylaPBOeY/fjNIJ1xlmw90wuo8tSAa
+	FuB7v3UJ2tW6k230PrXd1MDxcSw
+X-Google-Smtp-Source: AGHT+IEgl7vHhlCDL4Gwe4it1dd5SMY6cGnkCBgQo5plDhb1eivLpmfTOrsdMgmKo3BAvvYzv1rVXQ==
+X-Received: by 2002:a05:6a20:6a1b:b0:1db:f00e:2dfe with SMTP id adf61e73a8af0-1e165412f88mr3221903637.39.1733225699535;
+        Tue, 03 Dec 2024 03:34:59 -0800 (PST)
+Received: from gmail.com ([2a12:f8c1:50:4::4fd])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72541849c28sm10180513b3a.196.2024.12.03.03.34.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Dec 2024 03:34:58 -0800 (PST)
+Date: Tue, 3 Dec 2024 19:34:54 +0800
+From: Li XingYang <yanhuoguifan@gmail.com>
+To: eugene.shalygin@gmail.com
+Cc: jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] hwmon: (asus-ec-sensors) add TUF GAMING X670E PLUS
+Message-ID: <Z07s3rKyv32uUGrG@gmail.com>
+References: <20241201034803.584482-1-yanhuoguifan@gmail.com>
+ <20241201034803.584482-3-yanhuoguifan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241203081958.6c186835@foz.lan>
+In-Reply-To: <20241201034803.584482-3-yanhuoguifan@gmail.com>
 
-On Tue, Dec 03, 2024 at 08:19:58AM +0100, Mauro Carvalho Chehab wrote:
-> Em Mon, 2 Dec 2024 16:03:45 +0100 Hans Verkuil escreveu:
-> > On 02/12/2024 10:26, Mauro Carvalho Chehab wrote:
-> > > The media subsystem used to have a multi-commiter's model in the
-> > > past, but things didn't go well on that time, and we had to move to
-> > > a centralized model.
-> > > 
-> > > As the community has evolved, and as there are now new policies in
-> > > place like CoC, let's experiment with a multi-committers again.
-> > > 
-> > > The model we're using was inspired by the DRM multi-committers
-> > > model. Yet, media subsystem is different on several aspects, so the
-> > > model is not exactly the same.
-> > > 
-> > > The implementation will be in phases. For this phase, the goal is that 
-> > > all committers will be people listed at MAINTAINERS.
-> > > 
-> > > On this series,:
-> > > 
-> > > patch 1: updates the  media maintainer's entry profile and adds the
-> > > workflow that will be used with the new model. While here, it also
-> > > adds a missing "P:" tag at the MAINTAINERS file, pointing to it;
-> > > 
-> > > patch 2: adds a new document focused at the new maintainers
-> > > process. Its target is for developers that will be granted with
-> > > commit rights at the new media-maintainers.git tree. It also
-> > > contains a reference tag addition to kernel.org PGP chain
-> > > at process/maintainer-pgp-guide.rst.
-> > > 
-> > > patch 3: make documents cleared about maintainership duties.  
-> > 
-> > At least from my perspective, v3 is close to being ready and I hope
-> > that v4 will be good enough to be merged.
-> > 
-> > That said, what is missing in all this is that there is nothing here
-> > that explains why you would want to become a media committer. It is all
-> > very dry stuff, lots of 'shall's, and 'rights' and 'trust' and obligations,
-> > but nothing about the satisfaction you get when you get the responsibility
-> > of a part of the kernel and being able to guide the development of that
-> > area.
-> > 
-> > It's good enough to get the multi-committer process off the ground, but
-> > it definitely needs more work to make it more inviting to become a media
-> > committer. Because right now it is as dry as dust.
+On Sun, Dec 01, 2024 at 11:47:45AM +0800, Li XingYang wrote:
+
+Hi Eugene:
+
+Could you review the new verson patch in free time?
+
+thanks,
+XingYang
+> add asus-ec-sensors support on the mainboard TUF GAMING X670E PLUS
 > 
-> Agreed. We focused on getting a document describing what it is expected
-> by committers, in order to start with the model. My view is that it works
-> fine for such purpose. I also feel that we're close to the final document.
+> Signed-off-by: Li XingYang <yanhuoguifan@gmail.com>
+> ---
+>  Documentation/hwmon/asus_ec_sensors.rst |  1 +
+>  drivers/hwmon/asus-ec-sensors.c         | 11 +++++++++++
+>  2 files changed, 12 insertions(+)
 > 
-> I'm sending today a v4 addressing the comments since last review.
+> diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+> index ca38922f4ec5..739636cf7994 100644
+> --- a/Documentation/hwmon/asus_ec_sensors.rst
+> +++ b/Documentation/hwmon/asus_ec_sensors.rst
+> @@ -29,6 +29,7 @@ Supported boards:
+>   * ROG STRIX Z690-A GAMING WIFI D4
+>   * ROG ZENITH II EXTREME
+>   * ROG ZENITH II EXTREME ALPHA
+> + * TUF GAMING X670E PLUS
+>  
+>  Authors:
+>      - Eugene Shalygin <eugene.shalygin@gmail.com>
+> diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+> index 381bf117104f..43e54dc513da 100644
+> --- a/drivers/hwmon/asus-ec-sensors.c
+> +++ b/drivers/hwmon/asus-ec-sensors.c
+> @@ -479,6 +479,15 @@ static const struct ec_board_info board_info_zenith_ii_extreme = {
+>  	.family = family_amd_500_series,
+>  };
+>  
+> +static const struct ec_board_info board_info_tuf_gaming_x670e_plus = {
+> +	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
+> +		SENSOR_TEMP_MB | SENSOR_TEMP_VRM |
+> +		SENSOR_TEMP_WATER_IN | SENSOR_TEMP_WATER_OUT |
+> +		SENSOR_FAN_CPU_OPT,
+> +	.mutex_path = ACPI_GLOBAL_LOCK_PSEUDO_PATH,
+> +	.family = family_amd_600_series,
+> +};
+> +
+>  #define DMI_EXACT_MATCH_ASUS_BOARD_NAME(name, board_info)                      \
+>  	{                                                                      \
+>  		.matches = {                                                   \
+> @@ -540,6 +549,8 @@ static const struct dmi_system_id dmi_table[] = {
+>  					&board_info_zenith_ii_extreme),
+>  	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG ZENITH II EXTREME ALPHA",
+>  					&board_info_zenith_ii_extreme),
+> +	DMI_EXACT_MATCH_ASUS_BOARD_NAME("TUF GAMING X670E-PLUS",
+> +					&board_info_tuf_gaming_x670e_plus),
+>  	{},
+>  };
+>  
+> -- 
+> 2.47.1
 > 
-> Once we get people that are already interested and ready to be on board,
-> and we know that the model and infrastructure works properly, we may implement
-> a phase 2 focusing on allowing more committers. For such purpose, we need to 
-> document the benefits/satisfaction of becoming a new committer. Depending how
-> it goes, either on phase 2 or on phase 3, we can change the model from 
-> invitation-only to volunteer-requests.
-
-What's phase 3 ?
-
--- 
-Regards,
-
-Laurent Pinchart
