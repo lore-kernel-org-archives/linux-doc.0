@@ -1,249 +1,191 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE4F199247;
-	Tue,  3 Dec 2024 07:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56300185B48;
+	Tue,  3 Dec 2024 07:55:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733211868; cv=none; b=fMGpQqTIa+Z1+KiooWTl0A17Ej4C6rMKA95vVtAh/8ArLG8zkIO1pnxjAc5La1XtrZRfWKTaozv1tom5slESgsAI6I7gBIWjCO7cSXTtM9LGlcSbLB0A8+TPDESrUxaO0+D4xSddRO25iPJOFOgPfO9oVFUy7WZbS2JaM58kaUk=
+	t=1733212513; cv=none; b=tnI6MSX1XqMwSAAL+XYnnRazVG9LdTB4g6j7PUhST3jeRiyNS4ex3HvkOdYszqtKApl4MoWEIZdiaSYIXkyIhglyX58wDw5CnUwU39DvNQUF/kHuVNxtfxZgnVvWYilf2eGJco7vWmc4c6lxzuD+ZHBAzI+HaIXeIxOTznUbivw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733211868; c=relaxed/simple;
-	bh=vJV8EubPHG28ef5nB+3TzK3ggyQUNZdfL4E5irdCToI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dAce/jIdGivTw0YJtR+DVqL0rV7Jvwt7wsktrsOw8vSSTAKDAMHlx5V3umHlgIOJ4KTuKqMLjHNVgHDL96lLVVLviwWMFKzfmWDuTEMr2RdKANcemuAEg1zp9QVpEKYnKTcLqhJC0w8zP4yZMP6pGthXwkxAk5BBFXUZ6TsvM6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MWVl9Ho7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733212513; c=relaxed/simple;
+	bh=WrHlyr23JlkF3WQuc2H2dadcp19Wdg5V79yaG1l9A0A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pIHWivNk5114AmsSvrjgAkg8jSeiduNwHLcDnbnZ9NfrGwE6vp9D2mBoOBg7rMDzzRf12Iwy+IyXKWKlU2hPo2bT/Pr20XfxUUJrWCM26fxNYePFM2rf7Dy+pRKlhr6UxiR1wPDXXMjb8bl5EuiZEHsQonyNl8g7FL/o3xys6Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tyzQFlgt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MWVl9Ho7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC3B8C4CED8;
-	Tue,  3 Dec 2024 07:44:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tyzQFlgt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1ECC4CED9;
+	Tue,  3 Dec 2024 07:55:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733211868;
-	bh=vJV8EubPHG28ef5nB+3TzK3ggyQUNZdfL4E5irdCToI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MWVl9Ho7r3LQFzJmXrpsKndKja0tnTBu/YHgdY0LdNNVtumwGPDcyd6WWHToHKSbZ
-	 z8pv5XfemwKPEGuG3wSO2oqVDMDP7iF0//8hAlKrNrraEM3lIXamfvSPxTDESvqf5H
-	 ohThDStqmbSO4tkPfbbr9Y7DqRx8q/UumTTNDHNrzpY9YlYtI704sV/lUwoC7ykUAc
-	 GR6O/hR5Tpne4I+0tmdkvdrAmt5CgPjkHLlZUxPKle7OSGnMKgcjvaa58pIIavOV9Y
-	 pTIorKCGu357eSybAv1qMQvwGCrTt83+YJCLh7W0vG+WboEKdTo8mtwDoKMFaUQ78M
-	 see6v/g2nndqA==
-Date: Tue, 3 Dec 2024 08:44:25 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: John Stultz <jstultz@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-media@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
- definitions
-Message-ID: <20241203-cerulean-ringtail-of-speed-920c5f@houat>
-References: <20241202115827.50388-1-mripard@kernel.org>
- <CANDhNCpTnc6=YkjQgQngRCw1_xLWgOFrcjTxrrGX+bRhvGb5DQ@mail.gmail.com>
+	s=k20201202; t=1733212512;
+	bh=WrHlyr23JlkF3WQuc2H2dadcp19Wdg5V79yaG1l9A0A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tyzQFlgt45fO47xEmlGNLTRAwrwbk+D156dnkI0ekGAi6LwR2KeFy9LfnxV4cWy9/
+	 EZ0MYDCcwz+jOqtoc7bfwRJxZYyHqB3Yr+m9KtpP3//ApR4/TqZc1R4xFw8Y/cYNhJ
+	 TC2O2i+Fu+WeVaZFUNJcHUF3NG5znsVzsq7Yhk1WISl+nx0m61wV4j5ZrcdCG+gTMi
+	 JLgmkWZxjnJ2ZKXrVbQ2YCNsmTQYit8AZnaweIrPtVFOXZRi4REUU3EhvQS0moGkSc
+	 9Ex+o/G5eZSLwJRmJLgPCjfDgIupbuAPyeZ897lWPF1csm1YkY/JhqgFgvEOElTI8F
+	 HjNkwABKsyYlQ==
+Message-ID: <ccaff25d-d757-4b0a-851b-8f6c2dd9fb4b@kernel.org>
+Date: Tue, 3 Dec 2024 08:55:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="oyxae4th32hiwzgr"
-Content-Disposition: inline
-In-Reply-To: <CANDhNCpTnc6=YkjQgQngRCw1_xLWgOFrcjTxrrGX+bRhvGb5DQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/10] dt-bindings: arm: qcomtee: add QTEE driver
+ devicetree binding for TEE subsystem
+To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>,
+ Jens Wiklander <jens.wiklander@linaro.org>,
+ Sumit Garg <sumit.garg@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
+ <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-7-f502ef01e016@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-7-f502ef01e016@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+On 03/12/2024 05:19, Amirreza Zarrabi wrote:
+> Introduce qcom,tee compatible string.
+
+Why? What is it for? You have entire commit msg for this, instead of
+repeating subject.
+
+A nit, subject: drop second/last, redundant "devicetree binding". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
+Also drop driver, bindings are not for drivers.
+
+> 
+> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+> ---
+>  .../devicetree/bindings/arm/firmware/qcom,tee.yaml | 34 ++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/firmware/qcom,tee.yaml b/Documentation/devicetree/bindings/arm/firmware/qcom,tee.yaml
+> new file mode 100644
+> index 000000000000..43b7e8ac944e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/arm/firmware/qcom,tee.yaml
+> @@ -0,0 +1,34 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/arm/firmware/qcom,tee.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm TEE
+> +
+> +maintainers:
+> +  - Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+> +
+> +description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+> +  QTEE is a piece of software provide a Trusted Execution Environment using ARM
+> +  TrustZone for Qualcomm SoC.
+> +
+> +properties:
+> +  $nodename:
+> +    const: qcom_tee
+
+No, first it is not correct (see coding style), second is not even
+needed. Drop.
+
+> +
+> +  compatible:
+> +    const: qcom,tee
+
+One, same interface for all devices? Nothing SoC specific? You are
+making now a contract, so please carefully analyze it internally what it
+means.
+
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    firmware {
+
+Drop
+
+> +        qcom_tee {
+
+See DTS coding style.
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
 
---oyxae4th32hiwzgr
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
- definitions
-MIME-Version: 1.0
+> +            compatible = "qcom,tee";
 
-Hi John,
+No resources? Nothing here? What is the point except of instantiating
+your driver?
 
-On Mon, Dec 02, 2024 at 11:12:23AM -0800, John Stultz wrote:
-> On Mon, Dec 2, 2024 at 3:58=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
-> >
-> > Following a recent discussion at last Plumbers, John Stultz, Sumit
-> > Sewal, TJ Mercier and I came to an agreement that we should document
-> > what the dma-buf heaps names are expected to be, and what the buffers
-> > attributes you'll get should be documented.
-> >
-> > Let's create that doc to make sure those attributes and names are
-> > guaranteed going forward.
-> >
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> >
-> > ---
-> > Changes from v1:
-> >   - Add the mention that the cma / reserved heap is optional.
-> >
-> > To: Jonathan Corbet <corbet@lwn.net>
-> > To: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > Cc: Brian Starkey <Brian.Starkey@arm.com>
-> > Cc: John Stultz <jstultz@google.com>
-> > Cc: "T.J. Mercier" <tjmercier@google.com>
-> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linux-doc@vger.kernel.org
-> > ---
-> >  Documentation/userspace-api/dma-buf-heaps.rst | 76 +++++++++++++++++++
-> >  Documentation/userspace-api/index.rst         |  1 +
-> >  2 files changed, 77 insertions(+)
-> >  create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
-> >
-> > diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentat=
-ion/userspace-api/dma-buf-heaps.rst
-> > new file mode 100644
-> > index 000000000000..68be7ddea150
-> > --- /dev/null
-> > +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> > @@ -0,0 +1,76 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> > +Allocating dma-buf using heaps
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Dma-buf Heaps are a way for userspace to allocate dma-buf objects. The=
-y are
-> > +typically used to allocate buffers from a specific allocation pool, or=
- to share
-> > +buffers across frameworks.
-> > +
-> > +Heaps
-> > +=3D=3D=3D=3D=3D
-> > +
-> > +A heap represent a specific allocator. The Linux kernel currently supp=
-orts the
-> > +following heaps:
-> > +
-> > + - The ``system`` heap allocates virtually contiguous, cacheable, buff=
-ers
-> > +
-> > + - The ``reserved`` heap allocates physically contiguous, cacheable,
->=20
-> So, I think calling the heap name the "cma" heap might be clearer here?
-> On some platforms the chardev is "reserved" because the default cma
-> region is setup via dma_contiguous_reserve_area() (which calls it
-> "reserved"), but the dma heap is exporting cma.
+> +        };
+> +    };
+> 
 
-Ok, I'll change it
 
-> Additionally, on some downstream devices there can be multiple purpose
-> separated CMA heaps. This hasn't made it upstream over objections to
-> how downstream devices were enumerating the separate cma regions in
-> their devicetrees. It was proposed to export all cma regions as
-> separate cma heaps, but there was reasonable concern over kernel
-> drivers not expecting userland to be able to allocate from special
-> reservations, so that seemed like a bad idea.
->=20
-> Ideally upstream drivers would want to explicitly export their special
-> CMA region themselves and we would export something like
-> add_cma_heap() to do so.
->=20
-> All to say: this document really only covers the naming of the
-> "default" CMA region that is exported via the cma heap.  Eventually
-> there may be other CMA heaps as well upstream.
-
-Sure. My point was to follow-up on the discussion we had at Plumbers
-that concluded by something along the lines of: heap names provide the
-semantics and guarantee over how buffers are allocated, and thus we need
-to document what each name is providing.
-
-If we were to add new ones, we would obviously extend that list to
-accomodate those changes.
-
-> > +   buffers. Only present if a CMA region is present. Such a region is
-> > +   usually created either through the kernel commandline through the
-> > +   `cma` parameter, a memory region Device-Tree node with the
-> > +   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` =
-or
-> > +   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
-> > +   might be called differently:
-> > +
-> > +    - Acer Iconia Tab A500: ``linux,cma``
-> > +    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-> > +    - Amlogic A1: ``linux,cma``
-> > +    - Amlogic G12A/G12B/SM1: ``linux,cma``
-> > +    - Amlogic GXBB/GXL: ``linux,cma``
-> > +    - ASUS EeePad Transformer TF101: ``linux,cma``
-> > +    - ASUS Google Nexus 7 (Project Bach / ME370TG) E1565: ``linux,cma``
-> > +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) E1565: ``linux,cma=
-``
-> > +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) PM269: ``linux,cma=
-``
-> > +    - Asus Transformer Infinity TF700T: ``linux,cma``
-> > +    - Asus Transformer Pad 3G TF300TG: ``linux,cma``
-> > +    - Asus Transformer Pad TF300T: ``linux,cma``
-> > +    - Asus Transformer Pad TF701T: ``linux,cma``
-> > +    - Asus Transformer Prime TF201: ``linux,cma``
-> > +    - ASUS Vivobook S 15: ``linux,cma``
-> > +    - Cadence KC705: ``linux,cma``
-> > +    - Digi International ConnectCore 6UL: ``linux,cma``
-> > +    - Freescale i.MX8DXL EVK: ``linux,cma``
-> > +    - Freescale TQMa8Xx: ``linux,cma``
-> > +    - Hisilicon Hikey: ``linux,cma``
-> > +    - Lenovo ThinkPad T14s Gen 6: ``linux,cma``
-> > +    - Lenovo ThinkPad X13s: ``linux,cma``
-> > +    - Lenovo Yoga Slim 7x: ``linux,cma``
-> > +    - LG Optimus 4X HD P880: ``linux,cma``
-> > +    - LG Optimus Vu P895: ``linux,cma``
-> > +    - Loongson 2k0500, 2k1000 and 2k2000: ``linux,cma``
-> > +    - Microsoft Romulus: ``linux,cma``
-> > +    - NXP i.MX8ULP EVK: ``linux,cma``
-> > +    - NXP i.MX93 9x9 QSB: ``linux,cma``
-> > +    - NXP i.MX93 11X11 EVK: ``linux,cma``
-> > +    - NXP i.MX93 14X14 EVK: ``linux,cma``
-> > +    - NXP i.MX95 19X19 EVK: ``linux,cma``
-> > +    - Ouya Game Console: ``linux,cma``
-> > +    - Pegatron Chagall: ``linux,cma``
-> > +    - PHYTEC phyCORE-AM62A SOM: ``linux,cma``
-> > +    - PHYTEC phyCORE-i.MX93 SOM: ``linux,cma``
-> > +    - Qualcomm SC8280XP CRD: ``linux,cma``
-> > +    - Qualcomm X1E80100 CRD: ``linux,cma``
-> > +    - Qualcomm X1E80100 QCP: ``linux,cma``
-> > +    - RaspberryPi: ``linux,cma``
-> > +    - Texas Instruments AM62x SK board family: ``linux,cma``
-> > +    - Texas Instruments AM62A7 SK: ``linux,cma``
-> > +    - Toradex Apalis iMX8: ``linux,cma``
-> > +    - TQ-Systems i.MX8MM TQMa8MxML: ``linux,cma``
-> > +    - TQ-Systems i.MX8MN TQMa8MxNL: ``linux,cma``
-> > +    - TQ-Systems i.MX8MPlus TQMa8MPxL: ``linux,cma``
-> > +    - TQ-Systems i.MX8MQ TQMa8MQ: ``linux,cma``
-> > +    - TQ-Systems i.MX93 TQMa93xxLA/TQMa93xxCA SOM: ``linux,cma``
-> > +    - TQ-Systems MBA6ULx Baseboard: ``linux,cma``
-> >
->=20
-> Hrm. I'm not sure I see the value in enumerating things in this way,
-> it seems like it will be a nuisance to keep current?  Maybe something
-> like:
->=20
-> On most systems the default cma region is named "linux, cma" or
-> "reserved", with a few exceptions:
->     - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-
-I'm a bit worried about doing so. What if, on a "linux,cma" system, we
-have another "reserved" heap created with different semantics?
-
-Maxime
-
---oyxae4th32hiwzgr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ0621AAKCRAnX84Zoj2+
-dpBuAYC2s1RGUSIkQw4f8pFxFPQyYLk/lXZ9JMjt98iHjpsFoEFlDdnT7fqXsaod
-YBXdbZQBgM7v2uOQbGVmHqDVJgb6bvXYCmnTNhJN/4OjTyohktFnefHRvCO3AeIC
-/JhYeUMpBA==
-=tIKi
------END PGP SIGNATURE-----
-
---oyxae4th32hiwzgr--
+Best regards,
+Krzysztof
