@@ -1,490 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BF81F891A;
-	Tue,  3 Dec 2024 12:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C391EE03D;
+	Tue,  3 Dec 2024 13:07:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733229850; cv=none; b=paEwDpN7jtQzrM5b6K74WINrppE5x+kB6Y5HWl2fj64HWulTYhxBdHiAF/ZhmO0ky6g2/lUjDy5/y9glV8FUGTRHZkyO3b3DxQ3WrNRVg0JuRsApF6PeMLVt16AJMoO7cIzwc4I8NXpmWMsDajFndocZOKycSLDCS5gt6t3q2w4=
+	t=1733231239; cv=none; b=tacwTI5MfgeBypNz0xji1PHr1zv+fQXNGUmAcJgFwGvVi9WaC+Q9GFC55si9t1kRb8gk8xAxuN2z6dlFDGlMiYYHodo10wNThwIQs3XWGO3IyljPVuKGGoZ8O/WgVTirdj6OyFGbG1s8tlSmm7pp0Evj0ek7W+KZVs6ba4gjEBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733229850; c=relaxed/simple;
-	bh=iv/w/FqsQC6tPqMPucMTK26kMUPc3meLY49LgS4Xj9U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OG8K4YTNUP2ULPz9dnecqzXRPGO8BWhfRYSPKR08OjHscLmVKPcWQNgaE4nLXY9v2Ydo2mPdQZuLJbSpq8M3n36uXNo0ZJPoP8BgQ8poK7rNJr+TPQWTnp39mbSLR/3h/WOqinZ1tfIDS54TX1gfqaN3i8w395UZnFdir8m5qVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F1TrMhZA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733231239; c=relaxed/simple;
+	bh=nBqtovQP67JSM9MJxax389v7WGawj+GxFUiHn7+fRz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sYAGkdVLuEFPOnEiYX2hPnBj8+VD/Qo6Nj66GL1vzSGk+jbblGMEwWJYb67fAPedy3ypCB5ic0e2/nj9AHvlqKsmB/wdLHGgBb9wejMEzMKToW98A8DYBrFxJ5L9P8uTRBDv5sVeHE5stIsYZnklUfc8wIUSYfCDdlqfhvdUDtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b4GXuiUO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F1TrMhZA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 694D1C4CED6;
-	Tue,  3 Dec 2024 12:44:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b4GXuiUO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A545C4CECF;
+	Tue,  3 Dec 2024 13:07:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733229850;
-	bh=iv/w/FqsQC6tPqMPucMTK26kMUPc3meLY49LgS4Xj9U=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=F1TrMhZA//7W42VJd9r6UioyoTxbSoJC6THEev5d41JEGx5NzAVPMlPQ3ClWtnzWN
-	 /9K/AzbhW+YzSwytURaLyjNxb5ivA+byZPDyomew6OxyWDi28GgYsDgn9qb6dtyWiv
-	 1EXkIu26TPHQlYTTy+3QRmcRNh4yKQ6KOUdB5j0rK/ZvqDsOA1aGP1gIXsJ5RonvmO
-	 aMPI6CKTHUE6uIMy2u16+SJrJwG2djddivHZFYVd3QhEqUZP2CRmhis4TowRD3y4tL
-	 UBDQ/0970m4AYVVpk0MZq/08eqwSmHJDdtHpmKHigJx1atBSBtAev03md81D40QBQu
-	 qjfrRPLYTwV7A==
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 03 Dec 2024 12:39:28 +0000
-Subject: [PATCH v3 9/9] kselftest/arm64: Add 2024 dpISA extensions to hwcap
- test
+	s=k20201202; t=1733231236;
+	bh=nBqtovQP67JSM9MJxax389v7WGawj+GxFUiHn7+fRz8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=b4GXuiUOJP+z2PLHpo1PMILKVjvdmouR0XQzWM4ynguWJF+I301XUKCWoyq1RMch4
+	 yabH9gGtQxZHH1UuC3zkLrZJ0zNrsqEOsqIUlo7vgQWOP2G44d3X+CSMKGG+s9zCeY
+	 I7zYK0d35vzYk+ol7L5wzH5s6UksAzdXLUXFbbSVhBYRmY1RpcVrPR3MNER8ZwK8nh
+	 +/FQrShaIyCngnCSfcwfCBJGSdxsGecEcmtnZ017g+hFH+epPTueSV5Q8UKGPLGx4M
+	 5aVwrWOavxzPk4KzDgf5B/JPCY20T9G0ypjLH2ouvzSjS6jVXEscmJlcp9E0camc8q
+	 zgVHIBgOG5LUA==
+Date: Tue, 3 Dec 2024 14:07:12 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Document the new media-committer's model
+Message-ID: <20241203140712.57daa65f@foz.lan>
+In-Reply-To: <20241203112209.GR10736@pendragon.ideasonboard.com>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+	<b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+	<20241203081958.6c186835@foz.lan>
+	<20241203112209.GR10736@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241203-arm64-2024-dpisa-v3-9-a6c78b1aa297@kernel.org>
-References: <20241203-arm64-2024-dpisa-v3-0-a6c78b1aa297@kernel.org>
-In-Reply-To: <20241203-arm64-2024-dpisa-v3-0-a6c78b1aa297@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Shuah Khan <shuah@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
- linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-9b746
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10054; i=broonie@kernel.org;
- h=from:subject:message-id; bh=iv/w/FqsQC6tPqMPucMTK26kMUPc3meLY49LgS4Xj9U=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnTvz6UgEkXFDjSj5XiHq/qzkCEh4xJzB3vc8x+CUh
- /N4HRYSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZ078+gAKCRAk1otyXVSH0G/eB/
- sERZZVCmoFv+505IMyxk1dFkBDSxarIKVZE+liAty2jSeikULu1ovWtFhyW5Btl6rG6DHlElXT6e61
- PMRnmMJCu1Wb1ZXNuXxGxHC3FFiFq6quXBXPLRXtGbTUB6J14+l44RAScGM+UV4DqR30VY3Sj28lz7
- A4yHTeel3xy1TmMbL3Mzmq68EGS17o0daXFnlvbGQslWRMFA7EdUXiSiPWqYCEbg5Pz1bLKS9LAo16
- 4yOIjLWLSvKcd0bvlSGUei1FSB8i5sKHhavzI3c1MeYBAK2wkS9zmdnylgo/0U1XLxYX5m2Hqnw0R0
- OnhAwc+dxyPSpPmYG1eCwAetSapuGt
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Add coverage of the hwcaps for the 2024 dpISA extensions to the hwcap
-test.
+Em Tue, 3 Dec 2024 13:22:09 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-We don't actually test SIGILL generation for CMPBR since the need to
-branch makes it a pain to generate and the SIGILL detection would be
-unreliable anyway. Since this should be very unusual we provide a stub
-function rather than supporting a missing test.
+> On Tue, Dec 03, 2024 at 08:19:58AM +0100, Mauro Carvalho Chehab wrote:
+> > Em Mon, 2 Dec 2024 16:03:45 +0100 Hans Verkuil escreveu:  
+> > > On 02/12/2024 10:26, Mauro Carvalho Chehab wrote:  
+> > > > The media subsystem used to have a multi-commiter's model in the
+> > > > past, but things didn't go well on that time, and we had to move to
+> > > > a centralized model.
+> > > > 
+> > > > As the community has evolved, and as there are now new policies in
+> > > > place like CoC, let's experiment with a multi-committers again.
+> > > > 
+> > > > The model we're using was inspired by the DRM multi-committers
+> > > > model. Yet, media subsystem is different on several aspects, so the
+> > > > model is not exactly the same.
+> > > > 
+> > > > The implementation will be in phases. For this phase, the goal is that 
+> > > > all committers will be people listed at MAINTAINERS.
+> > > > 
+> > > > On this series,:
+> > > > 
+> > > > patch 1: updates the  media maintainer's entry profile and adds the
+> > > > workflow that will be used with the new model. While here, it also
+> > > > adds a missing "P:" tag at the MAINTAINERS file, pointing to it;
+> > > > 
+> > > > patch 2: adds a new document focused at the new maintainers
+> > > > process. Its target is for developers that will be granted with
+> > > > commit rights at the new media-maintainers.git tree. It also
+> > > > contains a reference tag addition to kernel.org PGP chain
+> > > > at process/maintainer-pgp-guide.rst.
+> > > > 
+> > > > patch 3: make documents cleared about maintainership duties.    
+> > > 
+> > > At least from my perspective, v3 is close to being ready and I hope
+> > > that v4 will be good enough to be merged.
+> > > 
+> > > That said, what is missing in all this is that there is nothing here
+> > > that explains why you would want to become a media committer. It is all
+> > > very dry stuff, lots of 'shall's, and 'rights' and 'trust' and obligations,
+> > > but nothing about the satisfaction you get when you get the responsibility
+> > > of a part of the kernel and being able to guide the development of that
+> > > area.
+> > > 
+> > > It's good enough to get the multi-committer process off the ground, but
+> > > it definitely needs more work to make it more inviting to become a media
+> > > committer. Because right now it is as dry as dust.  
+> > 
+> > Agreed. We focused on getting a document describing what it is expected
+> > by committers, in order to start with the model. My view is that it works
+> > fine for such purpose. I also feel that we're close to the final document.
+> > 
+> > I'm sending today a v4 addressing the comments since last review.
+> > 
+> > Once we get people that are already interested and ready to be on board,
+> > and we know that the model and infrastructure works properly, we may implement
+> > a phase 2 focusing on allowing more committers. For such purpose, we need to 
+> > document the benefits/satisfaction of becoming a new committer. Depending how
+> > it goes, either on phase 2 or on phase 3, we can change the model from 
+> > invitation-only to volunteer-requests.  
+> 
+> What's phase 3 ?
 
-The sigill functions aren't well sorted in the file so the ordering is a
-bit random.
+The idea is to gradually open media-committers to more people, as each
+phase succeeds, addressing infra, procedures, etc.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/arm64/abi/hwcap.c | 273 +++++++++++++++++++++++++++++-
- 1 file changed, 271 insertions(+), 2 deletions(-)
+My rough idea is to do:
 
-diff --git a/tools/testing/selftests/arm64/abi/hwcap.c b/tools/testing/selftests/arm64/abi/hwcap.c
-index 0029ed9c5c9aa4451f3d0573ee672eca993fb2f4..2a230cfa4cb4108580a16161e2df03a513710dbc 100644
---- a/tools/testing/selftests/arm64/abi/hwcap.c
-+++ b/tools/testing/selftests/arm64/abi/hwcap.c
-@@ -46,6 +46,12 @@ static void atomics_sigill(void)
- 	asm volatile(".inst 0xb82003ff" : : : );
- }
- 
-+static void cmpbr_sigill(void)
-+{
-+	/* Not implemented, too complicated and unreliable anyway */
-+}
-+
-+
- static void crc32_sigill(void)
- {
- 	/* CRC32W W0, W0, W1 */
-@@ -82,6 +88,18 @@ static void f8fma_sigill(void)
- 	asm volatile(".inst 0xec0fc00");
- }
- 
-+static void f8mm4_sigill(void)
-+{
-+	/* FMMLA V0.4SH, V0.16B, V0.16B */
-+	asm volatile(".inst 0x6e00ec00");
-+}
-+
-+static void f8mm8_sigill(void)
-+{
-+	/* FMMLA V0.4S, V0.16B, V0.16B */
-+	asm volatile(".inst 0x6e80ec00");
-+}
-+
- static void faminmax_sigill(void)
- {
- 	/* FAMIN V0.4H, V0.4H, V0.4H */
-@@ -98,6 +116,12 @@ static void fpmr_sigill(void)
- 	asm volatile("mrs x0, S3_3_C4_C4_2" : : : "x0");
- }
- 
-+static void fprcvt_sigill(void)
-+{
-+	/* FCVTAS S0, H0 */
-+	asm volatile(".inst 0x1efa0000");
-+}
-+
- static void gcs_sigill(void)
- {
- 	unsigned long *gcspr;
-@@ -226,6 +250,42 @@ static void sme2p1_sigill(void)
- 	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
- }
- 
-+static void sme2p2_sigill(void)
-+{
-+	/* SMSTART SM */
-+	asm volatile("msr S0_3_C4_C3_3, xzr" : : : );
-+
-+	/* UXTB Z0.D, P0/Z, Z0.D  */
-+	asm volatile(".inst 0x4c1a000" : : : );
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void sme_aes_sigill(void)
-+{
-+	/* SMSTART SM */
-+	asm volatile("msr S0_3_C4_C3_3, xzr" : : : );
-+
-+	/* AESD z0.b, z0.b, z0.b */
-+	asm volatile(".inst 0x4522e400" : : : "z0");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void sme_sbitperm_sigill(void)
-+{
-+	/* SMSTART SM */
-+	asm volatile("msr S0_3_C4_C3_3, xzr" : : : );
-+
-+	/* BDEP Z0.B, Z0.B, Z0.B */
-+	asm volatile(".inst 0x4500b400" : : : "z0");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
- static void smei16i32_sigill(void)
- {
- 	/* SMSTART */
-@@ -334,13 +394,73 @@ static void smesf8dp4_sigill(void)
- 	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
- }
- 
-+static void smesf8mm8_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* FMMLA V0.4S, V0.16B, V0.16B */
-+	asm volatile(".inst 0x6e80ec00");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void smesf8mm4_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* FMMLA V0.4SH, V0.16B, V0.16B */
-+	asm volatile(".inst 0x6e00ec00");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
- static void smesf8fma_sigill(void)
- {
- 	/* SMSTART */
- 	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
- 
--	/* FMLALB V0.8H, V0.16B, V0.16B */
--	asm volatile(".inst 0xec0fc00");
-+	/* FMLALB Z0.8H, Z0.B, Z0.B */
-+	asm volatile(".inst 0x64205000");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void smesfexpa_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* FEXPA Z0.D, Z0.D */
-+	asm volatile(".inst 0x04e0b800");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void smesmop4_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* SMOP4A ZA0.S, Z0.B, { Z0.B - Z1.B } */
-+	asm volatile(".inst 0x80108000");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void smestmop_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* STMOPA ZA0.S, { Z0.H - Z1.H }, Z0.H, Z20[0] */
-+	asm volatile(".inst 0x80408008");
- 
- 	/* SMSTOP */
- 	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-@@ -364,18 +484,42 @@ static void sve2p1_sigill(void)
- 	asm volatile(".inst 0x65000000" : : : "z0");
- }
- 
-+static void sve2p2_sigill(void)
-+{
-+	/* NOT Z0.D, P0/Z, Z0.D */
-+	asm volatile(".inst 0x4cea000" : : : "z0");
-+}
-+
- static void sveaes_sigill(void)
- {
- 	/* AESD z0.b, z0.b, z0.b */
- 	asm volatile(".inst 0x4522e400" : : : "z0");
- }
- 
-+static void sveaes2_sigill(void)
-+{
-+	/* AESD {Z0.B - Z1.B }, { Z0.B - Z1.B }, Z0.Q */
-+	asm volatile(".inst 0x4522ec00" : : : "z0");
-+}
-+
- static void sveb16b16_sigill(void)
- {
- 	/* BFADD Z0.H, Z0.H, Z0.H */
- 	asm volatile(".inst 0x65000000" : : : );
- }
- 
-+static void svebfscale_sigill(void)
-+{
-+	/* BFSCALE Z0.H, P0/M, Z0.H, Z0.H */
-+	asm volatile(".inst 0x65098000" : : : "z0");
-+}
-+
-+static void svef16mm_sigill(void)
-+{
-+	/* FMMLA Z0.S, Z0.H, Z0.H */
-+	asm volatile(".inst 0x6420e400");
-+}
-+
- static void svepmull_sigill(void)
- {
- 	/* PMULLB Z0.Q, Z0.D, Z0.D */
-@@ -394,6 +538,12 @@ static void svesha3_sigill(void)
- 	asm volatile(".inst 0x4203800" : : : "z0");
- }
- 
-+static void sveeltperm_sigill(void)
-+{
-+	/* COMPACT Z0.B, P0, Z0.B */
-+	asm volatile(".inst 0x5218000" : : : "x0");
-+}
-+
- static void svesm4_sigill(void)
- {
- 	/* SM4E Z0.S, Z0.S, Z0.S */
-@@ -469,6 +619,13 @@ static const struct hwcap_data {
- 		.cpuinfo = "aes",
- 		.sigill_fn = aes_sigill,
- 	},
-+	{
-+		.name = "CMPBR",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_CMPBR,
-+		.cpuinfo = "cmpbr",
-+		.sigill_fn = cmpbr_sigill,
-+	},
- 	{
- 		.name = "CRC32",
- 		.at_hwcap = AT_HWCAP,
-@@ -523,6 +680,20 @@ static const struct hwcap_data {
- 		.cpuinfo = "f8fma",
- 		.sigill_fn = f8fma_sigill,
- 	},
-+	{
-+		.name = "F8MM8",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_F8MM8,
-+		.cpuinfo = "f8mm8",
-+		.sigill_fn = f8mm8_sigill,
-+	},
-+	{
-+		.name = "F8MM4",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_F8MM4,
-+		.cpuinfo = "f8mm4",
-+		.sigill_fn = f8mm4_sigill,
-+	},
- 	{
- 		.name = "FAMINMAX",
- 		.at_hwcap = AT_HWCAP2,
-@@ -545,6 +716,13 @@ static const struct hwcap_data {
- 		.sigill_fn = fpmr_sigill,
- 		.sigill_reliable = true,
- 	},
-+	{
-+		.name = "FPRCVT",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_FPRCVT,
-+		.cpuinfo = "fprcvt",
-+		.sigill_fn = fprcvt_sigill,
-+	},
- 	{
- 		.name = "GCS",
- 		.at_hwcap = AT_HWCAP,
-@@ -691,6 +869,20 @@ static const struct hwcap_data {
- 		.cpuinfo = "sme2p1",
- 		.sigill_fn = sme2p1_sigill,
- 	},
-+	{
-+		.name = "SME 2.2",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME2P2,
-+		.cpuinfo = "sme2p2",
-+		.sigill_fn = sme2p2_sigill,
-+	},
-+	{
-+		.name = "SME AES",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_AES,
-+		.cpuinfo = "smeaes",
-+		.sigill_fn = sme_aes_sigill,
-+	},
- 	{
- 		.name = "SME I16I32",
- 		.at_hwcap = AT_HWCAP2,
-@@ -740,6 +932,13 @@ static const struct hwcap_data {
- 		.cpuinfo = "smelutv2",
- 		.sigill_fn = smelutv2_sigill,
- 	},
-+	{
-+		.name = "SME SBITPERM",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SBITPERM,
-+		.cpuinfo = "smesbitperm",
-+		.sigill_fn = sme_sbitperm_sigill,
-+	},
- 	{
- 		.name = "SME SF8FMA",
- 		.at_hwcap = AT_HWCAP2,
-@@ -747,6 +946,20 @@ static const struct hwcap_data {
- 		.cpuinfo = "smesf8fma",
- 		.sigill_fn = smesf8fma_sigill,
- 	},
-+	{
-+		.name = "SME SF8MM8",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SF8MM8,
-+		.cpuinfo = "smesf8mm8",
-+		.sigill_fn = smesf8mm8_sigill,
-+	},
-+	{
-+		.name = "SME SF8MM4",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SF8MM8,
-+		.cpuinfo = "smesf8mm4",
-+		.sigill_fn = smesf8mm4_sigill,
-+	},
- 	{
- 		.name = "SME SF8DP2",
- 		.at_hwcap = AT_HWCAP2,
-@@ -761,6 +974,27 @@ static const struct hwcap_data {
- 		.cpuinfo = "smesf8dp4",
- 		.sigill_fn = smesf8dp4_sigill,
- 	},
-+	{
-+		.name = "SME SFEXPA",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SFEXPA,
-+		.cpuinfo = "smesfexpa",
-+		.sigill_fn = smesfexpa_sigill,
-+	},
-+	{
-+		.name = "SME SMOP4",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SMOP4,
-+		.cpuinfo = "smesmop4",
-+		.sigill_fn = smesmop4_sigill,
-+	},
-+	{
-+		.name = "SME STMOP",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_STMOP,
-+		.cpuinfo = "smestmop",
-+		.sigill_fn = smestmop_sigill,
-+	},
- 	{
- 		.name = "SVE",
- 		.at_hwcap = AT_HWCAP,
-@@ -783,6 +1017,13 @@ static const struct hwcap_data {
- 		.cpuinfo = "sve2p1",
- 		.sigill_fn = sve2p1_sigill,
- 	},
-+	{
-+		.name = "SVE 2.2",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE2P2,
-+		.cpuinfo = "sve2p2",
-+		.sigill_fn = sve2p2_sigill,
-+	},
- 	{
- 		.name = "SVE AES",
- 		.at_hwcap = AT_HWCAP2,
-@@ -790,6 +1031,34 @@ static const struct hwcap_data {
- 		.cpuinfo = "sveaes",
- 		.sigill_fn = sveaes_sigill,
- 	},
-+	{
-+		.name = "SVE AES2",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE_AES2,
-+		.cpuinfo = "sveaes2",
-+		.sigill_fn = sveaes2_sigill,
-+	},
-+	{
-+		.name = "SVE BFSCALE",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE_BFSCALE,
-+		.cpuinfo = "svebfscale",
-+		.sigill_fn = svebfscale_sigill,
-+	},
-+	{
-+		.name = "SVE ELTPERM",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE_ELTPERM,
-+		.cpuinfo = "sveeltperm",
-+		.sigill_fn = sveeltperm_sigill,
-+	},
-+	{
-+		.name = "SVE F16MM",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE_F16MM,
-+		.cpuinfo = "svef16mm",
-+		.sigill_fn = svef16mm_sigill,
-+	},
- 	{
- 		.name = "SVE2 B16B16",
- 		.at_hwcap = AT_HWCAP2,
+- Phase 0.99: beta testers;
+- Phase 1 is to invite people that regularly submit PRs;
+- Phase 2 is to invite other active maintainers;
+- Phase 3 (or 2?, TBD) to open for non-maintainers.
 
--- 
-2.39.5
+We shouldn't rush it, as there are a lot to be done before opening it
+broadly. So, I would say that:
+- phase 0.99 would start in -rc2 (if things go well during this week); 
+- phase 1 may still happen on this merge window, but as there will be
+  only a few weeks between -rc2 and -rc6, and people usually get
+  holidays in Dec/Jan, it is more likely that it will start for
+  6.14-rc1, again if we didn't notice big issues on phase 0.99.
 
+  We should wait at least for a couple of releases on phase 1,
+  again to cleanup process and fine-tune infra. If things go well, 
+  we can move to phase 2.
+
+Thanks,
+Mauro
