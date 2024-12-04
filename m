@@ -1,48 +1,60 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452142500AC;
-	Wed,  4 Dec 2024 00:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4A0944E
+	for <linux-doc@vger.kernel.org>; Wed,  4 Dec 2024 00:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733273134; cv=none; b=eE9nVD1rCgB1OwnL3SjQuDTXdF1KXir6frAldLp4PpREYexurPMZIj6JnJ/A7K8TrX01HpN3U13HnPhFj7ekDNZZSugt8Syn0MZV12HDeWJOrlayS/k1vNjaFLWczo2CghYbf2/loaJqm+puG/MiTQdyBk9cA8Z/D36/UCsmOJ4=
+	t=1733273808; cv=none; b=QCSM7oye08oFwavAxebAetMuIIibeITjUA4LO/E6bJe957yyj4iESfCkme8QAJbg6HypdSvvjYzp7bry4oJRrzBfUV3OvtK2nOvwzZDGyVvUU17Z5gJZxb9Cw3/7sK80eb+nO3R4t7xznJv0BEkZwmXc2HNYjVnD+1By41nUNKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733273134; c=relaxed/simple;
-	bh=KwpksROF8MIl17VHFw2GUEgj6nQPUlGTObzL6xopRRI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lW0nAszP44OOpSHZi/sbviEo4kSSxODsUMSKyeVxtZTL6rUsLm+87u3iah/pZ35NJe1ipmw+BXOSY7UIqnaDfLBzf4XqFRwjKpd8MRhYQoT1CzsRX9ny6fh6JZlTEQ2jCGm4NEQc0HDRfa7J3sJQ1i7Y4xNf3S6baOp9ccagZ8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=AS4W69/C; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733273808; c=relaxed/simple;
+	bh=njeG8iD6mfq353aOT/B6XJHoA7kAILspGLzemTxfWk8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NBC1Pstq4DIxWI6szEsCML2vLiuANNvZ5/sVyGyuMzgTxPNgjC95MSVtjsTFeeqNu15SPJgfbw2PUKj4LOhVN/Ik7qmKsdwcggJiq0q2zAqLJLKdeX+isyhYff5SLGU4hGTLOH37DiZ9KRnzd/AEGY2NwyRQeT6k0VaRvqVCw0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BQj0VArR; arc=none smtp.client-ip=209.85.166.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="AS4W69/C"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B3GaDOc024054;
-	Wed, 4 Dec 2024 00:45:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	S9+QcQG+ya2i4p6PSZQryV4ua7A0gAjw7d9g+kWUA7w=; b=AS4W69/C75Ne5Bh3
-	Wq8fkSZmg6Syn3IaOYloxq4TSAbdS5rTM6+7909Pad2LKnrAPqWdhsvFsJcUwsOw
-	yhYUNML2cFVoDWfYlWomwhY83sOuRIvoioedwcB7dWtQ5kGB+W7J+7KCFp0JVtZb
-	TTD0xlNtO9iEneihahEJ0yiwxExaVVe93nh/WLL2M6sQtPO9OCGDFcnTdgxo6nt2
-	xoE/CgDnw2vizk1HqQM1k0JB9S9qyU3VxSCRyu85t12Y0xxc+yQXw6AZgOal5s7P
-	pNKU47T9e5OhAnGwjm9w3DUUmheIalNexInBtL59p7k7KbHvmkA5H2hv+LcCA9FF
-	IrsWyQ==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439vnytm2a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Dec 2024 00:45:23 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B40jM5v005563
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 4 Dec 2024 00:45:22 GMT
-Received: from [10.4.85.39] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Dec 2024
- 16:45:19 -0800
-Message-ID: <873da5ca-c18a-4f31-a4a5-53903e14950f@quicinc.com>
-Date: Wed, 4 Dec 2024 11:45:17 +1100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BQj0VArR"
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-843df3c4390so213141339f.3
+        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2024 16:56:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1733273806; x=1733878606; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=00R01WB09ikJ7TfGUNEYyTuGf2VppHlK5EcxdhhTed0=;
+        b=BQj0VArRpjvx6EMIW4Xx0q2SI1Od9gsesH3sNiUA3ZpEZ+s+W7jl/NxATj54ZzNx/2
+         uU41sHaCfLhKWbiukYDeihhIKypLZ79AevVB4VWpy3Hbgqg4NLK1pUEH8KbVSq07njs9
+         j6vIrEs88gi3GKF3ASAB7+DkoiJLZxMU2igIs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733273806; x=1733878606;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=00R01WB09ikJ7TfGUNEYyTuGf2VppHlK5EcxdhhTed0=;
+        b=bJET+XzaUAqpHRqmW8oxbOIO109dmo9pQHyj6v8BvKKXEznFRQhR7A8g89A9O9XiIQ
+         Qz8IIzxyqKciXNpsrUf6QyaFK8ZPos4n8qBa6TpkFCqCpIZYvA7pHASDq18lmQh5XSPO
+         3XCe0nlcO4fUAtSLUUetWMdo3QIGLcQCbqZloLVxJRTRYpJca2/HKjo5N0pSyGfYESAb
+         PrdqxtiPZTCrxQJaCCZKPTRXyIlH6SruJP2NjpwKq4NWd3BZktn1BhNORaRp0qQJKQiv
+         RrRGeAyHpzmGuJOCt28S06c13eG5k+o4/BxVnDNRjxXCnTUiS35AxYZgLoGWQJkZL+Ua
+         4eIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXjhXIWV2Xd72u5fvhWoRnKKt+g+jyDFM6PZuR3in1E5xw4MBc7DAfs2dSf4iIQeGW0osAjPzKz4SQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCqIDzI9Z9sHURu0ZS5z85DTcw2++h4Nsyjl/6FFf2MJPfrjvW
+	Rdoc1Q9z9qdRYm7Erpp8qpIylNB2VJQ2IV/M6qyC0yuXWDT/s1ovRqZ9XaAjjxE=
+X-Gm-Gg: ASbGnctc8jfMJgFUIYPg/yMrONi9wcS9b/dSBHAT+KjU7ZeKo4ZCCYLBwDgPwFIs1JW
+	++A8dI+2XvSd/wbmGkZM7ugmEE6zEIKw0Nvpn1VA4aFkm12aUZCL0x9Y87FlmgrdmdhOxuWiMZn
+	Kr0yWK+vp5J26wgOhFeAXbcvBcauWv7rUpL4Rg7lewP3pZSqWoLFZPjHeF6XdI69ATRC2d77BQD
+	d3Sk9L1aAizVsvYdzPjj7egt+3NLeHb2HQXW1JyMxJFQMh2psRnRVe9USR5nA==
+X-Google-Smtp-Source: AGHT+IH+PqwQh1gs7efqVjznnXTs3fzgoxUSDkb9HL2ZMsz1+TCwuZ+tPfsuHqLHTOq0KW/t/IoH4A==
+X-Received: by 2002:a05:6602:3405:b0:841:a1c0:c058 with SMTP id ca18e2360f4ac-8445b577d49mr667540039f.9.1733273805753;
+        Tue, 03 Dec 2024 16:56:45 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-84405f11824sm273367739f.30.2024.12.03.16.56.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 16:56:45 -0800 (PST)
+Message-ID: <6288979d-3024-45fb-ba8c-f4c22149ae9a@linuxfoundation.org>
+Date: Tue, 3 Dec 2024 17:56:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,92 +62,70 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
+Subject: Re: [PATCH v2 0/3] Make Helped-by tag supported
+To: Matthew Wilcox <willy@infradead.org>, Dragan Simic <dsimic@manjaro.org>
+Cc: Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet
+ <corbet@lwn.net>, apw@canonical.com, joe@perches.com,
+ dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, workflows@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, wens@csie.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1730874296.git.dsimic@manjaro.org>
+ <87h68k4esb.fsf@trenco.lwn.net>
+ <cabfa180845df30bfb7a541a701a57e9@manjaro.org>
+ <672e628111eb0_10bc629436@dwillia2-xfh.jf.intel.com.notmuch>
+ <28c0a0ecc2e2880e4cb98449767e2842@manjaro.org>
+ <9ae99d14dcd8867333fceacfaaa4430a@manjaro.org>
+ <Z03qJKpjBqJ9vAhY@casper.infradead.org>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Trilok Soni <quic_tsoni@quicinc.com>,
-        Jens Wiklander
-	<jens.wiklander@linaro.org>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        "Bjorn
- Andersson" <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        "Rob Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        Bartosz Golaszewski
-	<bartosz.golaszewski@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
- <518ee3f1-b871-4349-ba85-3b3fc835a4ca@quicinc.com>
- <0df58435-94e7-4b81-b688-ec0e1c49c0e0@quicinc.com>
- <gtfm7paylpcobucmwmapgdxva2wnvn5skkakaalzpx4ip7x2h2@lphbinkzaw7k>
-From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-In-Reply-To: <gtfm7paylpcobucmwmapgdxva2wnvn5skkakaalzpx4ip7x2h2@lphbinkzaw7k>
-Content-Type: text/plain; charset="UTF-8"
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <Z03qJKpjBqJ9vAhY@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 8y4aOpmRfA2PO1Qffh1I4_FYMo2mbQwd
-X-Proofpoint-GUID: 8y4aOpmRfA2PO1Qffh1I4_FYMo2mbQwd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
- mlxlogscore=947 bulkscore=0 impostorscore=0 mlxscore=0 suspectscore=0
- spamscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412040005
 
-
-
-On 12/4/2024 10:43 AM, Dmitry Baryshkov wrote:
-> On Wed, Dec 04, 2024 at 09:13:43AM +1100, Amirreza Zarrabi wrote:
->> Based on our discussions, we implemented significant changes. We essentially
->> rewrote most of the files and altered the overall direction, except for a
->> couple of files. The changelog entry would have been extensive.
-> 
-> At least some changelog should be provided, even if tells "reworked to
-> use TEE framework, made it jump over the head and tie the shoelaces".
-> 
-
-Sure, I'll provide some changelog.
-
-> Also please don't top-post, this style is frowned upon in the mailing
-> list discussions, it breaks the logic of reading.
-> 
-
-;) Oops, that shouldn't have been sent out like this. My apologies.
-I'll ensure it doesn't happen again..
-
-- Amir
-
+On 12/2/24 10:11, Matthew Wilcox wrote:
+> On Mon, Dec 02, 2024 at 04:00:47PM +0100, Dragan Simic wrote:
+>> On 2024-11-09 04:10, Dragan Simic wrote:
+>>> On 2024-11-08 20:12, Dan Williams wrote:
+>>>> Dragan Simic wrote:
+>>>>> I'm fully aware that we may be reluctant to supporting
+>>>>> additional tags,
+>>>>> because we may then end up with a whole bunch of strange tags
+>>>>> that might
+>>>>> be a bit hard to understand and use properly, but I think that adding
+>>>>> Helped-by to the supported tag list may actually be a good thing
+>>>>> to do.
+>>>>> As described above, Helped-by fits very well between the Suggested-by
+>>>>> tag and the Co-developed-by + Signed-off-by pair of tags, and I think
+>>>>> that providing the right level of attribution may be beneficial.
+>>>>
+>>>> Patch attribution is separate from giving thanks. I would much rather
+>>>> someone take the time to say "Thanks" in the changelog with some
+>>>> supporting text rather than boil down all the myriad ways to be
+>>>> thankful
+>>>> into a generic tag. "git log --grep=Thanks" often yields valuable
+>>>> details, beyond just attribution, on how people have helped each other
+>>>> develop this global project of ours. If the introduction of Helped-by
+>>>> would replace even one authentic "Thank you" note with a generic tag
+>>>> then it is a net loss for the community.
+>>>
+>>> I do agree that writing "Thanks John for helping with..." in a patch
+>>> description would be nice, but unfortunately I've seen multiple times
+>>> that people don't enjoy writing their patch descriptions at all, and
+>>> just want to "get them out the door" as quickly as possible.
+>>>
+>>> With that in mind, making Helped-by tags supported would allow such
+>>> people to at least quickly mention someone they're thankful to, which
+>>> actually wouldn't prevent anyone from saying the same more verbosely
+>>> in a patch description.
 >>
->> - Amir
->>
->> On 12/3/2024 5:06 PM, Trilok Soni wrote:
->>> On 12/2/2024 8:19 PM, Amirreza Zarrabi wrote:
->>>> This patch series introduces a Trusted Execution Environment (TEE)
->>>> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
->>>> and services to run securely. It uses an object-based interface, where
->>>> each service is an object with sets of operations. Clients can invoke
->>>> these operations on objects, which can generate results, including other
->>>> objects. For example, an object can load a TA and return another object
->>>> that represents the loaded TA, allowing access to its services.
->>>
->>> The first patch series was RFC and now you had removed the RFC. Can you please
->>> provide the reasons?
->>>
->>> https://lwn.net/ml/all/20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com/
->>>
->>> I understand that you have now changed to tee framework but I want to check
->>> if we should continue with the version and increment here or start from [00]?
->>>
+>> Just checking, are there any further thoughts on this patch?
 > 
+> I agree with Dan & Jon; we don't need this tag.  And if someone's doing
+> a poor job of writing commit messages, they need to be helped to write
+> better ones.
+> 
+
++1 on this. I don't think we need yet another tag.
+
+thanks,
+-- Shuah
