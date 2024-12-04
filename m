@@ -1,461 +1,246 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2041.outbound.protection.outlook.com [40.107.243.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f74.google.com (mail-vs1-f74.google.com [209.85.217.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAD620DD5B;
-	Wed,  4 Dec 2024 17:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733332779; cv=fail; b=MpczsM4sDoTghiQtcMHLUXTW3DbqJS96XPNk8XS03KtXIyGlx6zAH7TIRLa0GN4lB7KNuEtWBImUIjixKvy6qNzuCDw1eevt2a82VnQZu+DZBCgKnfNOnOh5sxsPgG7fTshF7teINVTNDcznyFQfhDtzwQyM9nvfVTmWQG7baOQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733332779; c=relaxed/simple;
-	bh=0yUiHZwrBe4YmL5jE1pLyBW8rpNVp2ikY57/WKgE4ek=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=B4zaF7thv/ScdniuOVtO3UYt2FQeXaSSXxtAGTj4OxPAjkKQY17WtoSPEaZoLdtJRmmcYaG2GtmyuDLNed2xChD3qLa2nb4h/QyCFRW004K5jh4POjqLIH8FXxGA4z/0DlQDyJArMtS0QldAyzd3qkn3rcQVlD6eTvHEB37Gu88=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=g7+6u4xV; arc=fail smtp.client-ip=40.107.243.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42EAD1C3BE2
+	for <linux-doc@vger.kernel.org>; Wed,  4 Dec 2024 19:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.74
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733339658; cv=none; b=ICKT4wuCv9L6i0H6EUNkW3vps6hptYIPaZxLJlTm+FNaTWWJ61gEshq10SL+U3iI7wZHqmsO3Z4eyXLalSJF9XuZPge+YtRb2RH3qv21psfj5RbH42exbBdtZk5lsnLxR1iZRFkAJarxysOf2kl6aJhqMyzWTyAhmp350194fbw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733339658; c=relaxed/simple;
+	bh=xW7uoGnTy/4eMBEjOG4u+2rSCh0tjmvM8kudrhHK2JY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=To4RGhHLB4Ywiy5qCjhEBERbr0Lcb+wXjMrqD4/4Dr57JvQdC/wGvWGIPStTHf287LeYr41W2xH7UVY6FjbIDO3BYTgh1XqAJT8yH39rrEVD0bsFvH6MU3v//piHtkWAtndLFFCcMaIa45xDekxDMKMxzLRID5NrPqVKXQs4rZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fMTVbn08; arc=none smtp.client-ip=209.85.217.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="g7+6u4xV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qsimGyTdCkqljYkbS1q/U25Oo9okhlPioNQrfYu8hVWU9toHfx3dWBLs9UpRJaC3LOpHyUA9ZKxTYZC5CCi+ZQMhVOAsQugGM3c7rqqeAAWiBLUX259v8p8sznHE1c2AWQEBi6hExAdskXwkykQVwB062bnjEUaqJoNqO3K13lkY1Lk6U8dFVfbsPAT0m/RIScVA2F+LWV3/atiw0vwHjFPOiTYddxblmyAGyzqKiQBUg9jfAqZ7LUB4oASEg8gigVY3eeKHxVzHtdbYzhCbsAyoK1UjOL+AXT0OmgA2AP7c0UVufqfpLcgt2teGiwypTa11yY5q5y2WvPjfnku9YA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BAygl81BatHZk/w7EoBDkVyQ6aeapT3CcWJgB2D5dbg=;
- b=j7zKvvV99JU95ocpzsF2icDrzxAuWGY40l3MTa5LATI9Kj9MXZ/zU0tdIL1aHj1XJyf/4krcwwuXp+R12PsNcnNqxZt55o4mYSGHZChYmrXa0KnI1qULl8t5ZFZku1nqsTP8SnYSrzcyWEi92WOqWdZysr+N3SnjbkCNXZAzGTqHLEvLngHCYd33nPvM1flKjtWMN0jqUJr78ol+NOuOZutY9h+hUtKuVmB37CvSMXgBQQ1EIaRms3ZIU+burcEcV2knj4kTgSlCIQN90Pi0VdpZrYOngVnPE4Qo8VKl6jXzNbrwd+sbGUYX2hmF5gxrXOm8mLmvaaE480US6EUNQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BAygl81BatHZk/w7EoBDkVyQ6aeapT3CcWJgB2D5dbg=;
- b=g7+6u4xVp3FLNIRgaivXyQfxEmV/W3Kn6v90/aY2QOp0ZdSuavHqKqGtKScX0864njueSySenOWVLvi/i556WzgXIXMK4kgz+cjBDIpeDxvUc1X6+kGJv7WNooD05Mr5eD4wzSqkvHw/tZTXcJax6CejZ5GgKiR0tK9kCtroLlU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DS7PR12MB5912.namprd12.prod.outlook.com (2603:10b6:8:7d::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.18; Wed, 4 Dec
- 2024 17:19:30 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8230.010; Wed, 4 Dec 2024
- 17:19:30 +0000
-Message-ID: <6be962a2-8fb0-40e0-b010-db61f3f476cc@amd.com>
-Date: Wed, 4 Dec 2024 11:19:24 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v9 20/26] x86/resctrl: Auto assign/unassign counters when
- mbm_cntr_assign is enabled
-From: "Moger, Babu" <babu.moger@amd.com>
-To: Fenghua Yu <fenghua.yu@intel.com>, corbet@lwn.net,
- reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, thuth@redhat.com, paulmck@kernel.org,
- rostedt@goodmis.org, akpm@linux-foundation.org, xiongwei.song@windriver.com,
- pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
- perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
- xiaoyao.li@intel.com, seanjc@google.com, jithu.joseph@intel.com,
- brijesh.singh@amd.com, xin3.li@intel.com, ebiggers@google.com,
- andrew.cooper3@citrix.com, mario.limonciello@amd.com, james.morse@arm.com,
- tan.shaopeng@fujitsu.com, tony.luck@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, peternewman@google.com,
- maciej.wieczor-retman@intel.com, eranian@google.com, jpoimboe@kernel.org,
- thomas.lendacky@amd.com
-References: <cover.1730244116.git.babu.moger@amd.com>
- <4ec00fe60cd42c1f22c98c9f5c2f5d3ceb9f8d58.1730244116.git.babu.moger@amd.com>
- <3061ec99-c418-b1a3-7975-8a6b9d0bdd14@intel.com>
- <85cc9764-1140-4c08-8ced-c2654f7775ab@amd.com>
-Content-Language: en-US
-In-Reply-To: <85cc9764-1140-4c08-8ced-c2654f7775ab@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA0PR11CA0176.namprd11.prod.outlook.com
- (2603:10b6:806:1bb::31) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fMTVbn08"
+Received: by mail-vs1-f74.google.com with SMTP id ada2fe7eead31-4afb0276095so10741137.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Dec 2024 11:14:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733339655; x=1733944455; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GtNJo0QiZibz4F5AJzlr0Gn0CnNz2HNSdOIlXuZpqw4=;
+        b=fMTVbn081jx71lq2JVUn//76hPUHTjVAC8sfjS6UcrduMXgHqtwAmxLqOVKEkBRkLN
+         s1C42pT4fICBIFD+J/Wqnax8weKUh48xKL6VFNvROb/lzctkOw/5lQY7pWAeYrYIcgCK
+         +GykYOynRs3Nnd+3/YwzpYhhy8sngpcGhj0JZx99CIHhPve4WOyCl33aT+3Yo3LaJO/s
+         4vlJhMKSGrKVvVIgQs5CdiQbcjjoVIrIlGF5dxnB5EVmPq4HPgACRHVJRKhdTZkvx19Y
+         G3L79CTLE5zXzy7+PBVLJTZfflTYajHeEebUOL8+khLXASjX102MT9k2hmjtqFoYIjaA
+         NLRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733339655; x=1733944455;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GtNJo0QiZibz4F5AJzlr0Gn0CnNz2HNSdOIlXuZpqw4=;
+        b=QS25BfZCm29ckIGV4i5AzpwAhMrCXGYiKMiPv751ReWjn07oQDKOwxGgDsXt2/SFRf
+         UpT+YN+3GGfLeSU4vBgkb3upmZiesiZwOQ92SRsTQNXr9PrrWxoo7BiBwSJSbKmvmvgq
+         QBSzJQ0GBi7BRJadSuHs9BHHhSLvL4ekW1R3OO83AH26ZtXAejf+RoQpxJAwkx7IRsTg
+         Eim5FJ+IjhxPUC9n3RhjI0KMbMCR0YjRnNsE748ZYo/ps92GBy9CKK7fX02SGXsnsBEl
+         17gby48B3rRJFLt/Lszsk6QE2NRCoa9+in8tQ7Dt6CL5h0l9M20mSipjTl21vcxdxXXx
+         FFQA==
+X-Forwarded-Encrypted: i=1; AJvYcCUd/lJrn7nKdYHd6+YL87M15NbT+g+sfGNtItHf5kCHcBT+DYdbniA43pUIHGqtl45nAQgLOoqxLF4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRXbCh41ZWzUop3mxDG4oJy5cCi3FHClco/HBYQcnRW1FT8hem
+	gBZxU2XyDTWkbrQqXbMSbwWfq0KHte1hHMVZbWcun871Tu3Gi7j305teE/K/6CYq7go3iMJSRDt
+	iU/IgjzJippb3+/YR4w==
+X-Google-Smtp-Source: AGHT+IF1BXeXjzm2ynkFwLfcOwwZSEy3kJcGkjF9TH4hluS8IOC1jCo7DbvQ0TVKaPL1457lCJsGhUwjD3KkdK7U
+X-Received: from vsbhy8.prod.google.com ([2002:a67:e7c8:0:b0:4af:497d:2ec1])
+ (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6102:3ed2:b0:4af:58f7:15ec with SMTP id ada2fe7eead31-4af971fcbddmr10423490137.4.1733339655146;
+ Wed, 04 Dec 2024 11:14:15 -0800 (PST)
+Date: Wed,  4 Dec 2024 19:13:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB5912:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2e55676-08e5-46d2-0b01-08dd1487d014
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WGlDbm9rOUxpMVJVODJtWUdGdnlrM21pYWpMeUQ4VjZVVTlQVFBwcjdxTnBw?=
- =?utf-8?B?aE1UVksyRm9aK1FuRHlLbmcwV0o1VVZIUFRCSEExU0g5b0kvNTdCZjJ1Rm95?=
- =?utf-8?B?M2dqQ1o1dVU5eVptZnR2K204a0J5czAwK0szSElLc1pKTytSSWZZNXI5RUU0?=
- =?utf-8?B?dUFJNXpWOE83NDhjQkdkUXNDbVhSanJTcUV2cXdWaFl2NHpwUnhValJUQUNW?=
- =?utf-8?B?dE1jYXVyZVk0elZkWXd2eHRpU2lTWjN3N2xRRzZORU9zOGhZNk9sWjlrczNx?=
- =?utf-8?B?Vnp4eW56a2IwV1pTd0lLbVpFRWdhdHRGbDZhcDUrZ1RqdkR5TjFqdm9TU291?=
- =?utf-8?B?d09paGRYWmhzWWh4Wnp3N2RZa2gzL0ZNRzhVVVVrOWludit3QUpEbzNhcmRP?=
- =?utf-8?B?RlRJdFA2QVpLQStNU2lrYXVuTnBMc1F3WUkya1gwN1Z6SncyRmtFb0MrUnAx?=
- =?utf-8?B?d011Ry9IVHFvYlVVN3pyWCtiTTVXcjJDblhLZXFWbzFLNnlsMWhjdUhWazVF?=
- =?utf-8?B?eDJ1ajZzTGVhRXpXMjZ3a2JOWkd2QUJvL2dKazVLMG9UTnd2UUsrTC91ZUht?=
- =?utf-8?B?L0RnU2g0a0dncTFkdFhuU2lvVHNCdjZiU08zSDJwZGpQNkJzc0lyUFU0a29q?=
- =?utf-8?B?NHo4ZlNXSGRSaVdEOWN1VnpWWHQ5a3FYUXJNZjRrYjVVdEV6U01wTVZJOTBy?=
- =?utf-8?B?aE5neW12bU1aOUo1OFhsUzBZU1JZU05YaFVYRTRqVFBTYUlteVBYZFZaNktN?=
- =?utf-8?B?bTZQSmxnQWxLRjVkakQrbFg0MFZOVnNnTE1OeTBudWppRFFWMU0rQWNIUUN5?=
- =?utf-8?B?N1IvdXVDdXlqVXhzYzdxREpOSkN0aVNzcnY4K0RKSHJwVGhaZU9xVVFPS20x?=
- =?utf-8?B?YWVIMUN1N2NEZk5qZGs4QmtxR2syKzNBcG91SFU4SXQ1TGduVnU5VllHRURE?=
- =?utf-8?B?UjR1SkdCMXJRenlaMVIrelFEMDdwZGg1ejdYZWFCbFRNaW9paHpLbzFxRVBW?=
- =?utf-8?B?dytOT2d6S3VabjVCRC95Ui9FbmZ0QkN2OW1ESmM1TXVYOXV1Z1hOT0tPTXFM?=
- =?utf-8?B?RHl2RFErT1h2TTdXVGUxVVErNzNIYVI5eWRNYzM2cHI0c21TMU1USjJWOWRv?=
- =?utf-8?B?RE9tMnFVVmZpR0pqYktDcmZHVUMyUHp6R3EzZUJ6MnNEVThNUW1PTm9WZjk3?=
- =?utf-8?B?UnFreTJkUTdUR09rNnhCTHM1MUc2VmFMWU52eldBMDRrc1p1SWxvQnhIUGNE?=
- =?utf-8?B?UlprTGRBeVk0dFdjNEFla21hNTlONUpSRW00WjFkVitxbk9XOTlrL2VENHZO?=
- =?utf-8?B?Z3ltY2RIWGtOQjhpWnk3akhYK3NWczJ3RjdaOEp2TWZlZE5XVXJlTVJXQ2hY?=
- =?utf-8?B?aDBVeGEwQnB0Z1VkM1BTMEU0cFUvZTY5R2duSElaR0RNZHhlcXZ1U2puU3Vj?=
- =?utf-8?B?bVByMDF1ZThSSkE0L0xLczhUNXd5TlBXSGhQaGNkbmV3VTNkcWtFSittUHRU?=
- =?utf-8?B?c09tbGZCOTdqKzZBZ1dRQjcyZHZpUXc4aW8raGhHYVhQaGF1WmxzZnZXQmJt?=
- =?utf-8?B?U3lRZjYzc0x2Zk1GeVpyOU1GUUZhTlpzTTJEVUhCNEg1NHJnRVVRQi9WTGxW?=
- =?utf-8?B?dmVPZmJXLytOVVdhVENCVUZXVWtQM1RWdHMyNHVBU1NZOEh6YTIzSkh4WnZH?=
- =?utf-8?B?b2RiNzV1SE0zbWE3Z3RTVnp5R240azU5R1VyRURMNFpHdWdteTJ3Q0tzczZL?=
- =?utf-8?Q?wotYqfU2Dd3k8jIotA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MVVYV1J6SkFrcVFLbThWZCtYWTRvQW5kMGRocWY4aXUvd0V5cmt4WkF3OGJj?=
- =?utf-8?B?Q3l5b0l4WnBtVGdBaUt6dXA0dGlyVWwwUFkwQjlTd09Bakc4M0kvSDVreXF6?=
- =?utf-8?B?cStta2Rpa2I3MjMwTy91a3FXSVJoM2FTYnZOTE94R2QrcXU5MnZwQThRMEVV?=
- =?utf-8?B?TkpHWFdQM1VUMHpiTUp3S2JVMUFzUXYyanMvOUVuY1RDM3VnTmR5Z3JSeFpu?=
- =?utf-8?B?U0wxdlViTlZjM3JYUjg1QVlTTXBwNnR4RjlsQlEzZ1ZLM3BFZlZTN2VtTTIv?=
- =?utf-8?B?MWJ5TnBJSXo0MTh4S0NrVGRoNG84NWhLaEJIZksxaTMvYThvRC9WbzkwdEtC?=
- =?utf-8?B?d3dJbDhnY0FkZFgzT3N2QXk3bGI2T0VPMjNocU9JNFJvangrZWpmZjhaQkE4?=
- =?utf-8?B?QldQZmtsK21Ya2Q5Y0FTSUFwcC9oMlRoVlphVXRUY2l6T2l4MU5NUmRSR3JV?=
- =?utf-8?B?QUtZc043UjBHd0JzeXhsVTlCdUs5aWNsQ0ZFc0dqUi9ITFN4bkxPVllwTExl?=
- =?utf-8?B?Z1FZdXh5THoyUTFnd3FNdDJzZG1Qc1FNOWZhT1VlMEpENE1kQURXR3JLSE1u?=
- =?utf-8?B?WHdzSjJmWUZmL3RBR1AwaFdZMGZESUZKZkJHWHNKTkIyK3RReGRXU25RUFZq?=
- =?utf-8?B?S3BPdzdqOG8zNEliNXVOMUttdXhiem8rOHQrR2pCN1lOL3RMclBhdEIwUXl2?=
- =?utf-8?B?U0lSeFhhc2xNak95WUtpQVdvWWZmWDBYV3VLbHdqUnlmb2J1VDhJNU91NlZJ?=
- =?utf-8?B?NzJrc0t1dUsxc2Y3TUR3L3Z0ak4rbDBkVUtvWnZ5enFETTQydDBZYXM3M3JE?=
- =?utf-8?B?TnZ0UGZIR21MMVBtVUpHMU9XVStCcXBjQ3Ixb2NQRVFPMG01WXNpWGpmYXBI?=
- =?utf-8?B?b3prcWVqSXovcDl6MnFQRG9CUy9QWVNpcEttM2c0cTc1dllhREg4bS95V3lV?=
- =?utf-8?B?UC9Xcnl3Z2p2YkRkVlpRN2VvYi93bXVTNG41V2xoYWo3QjlUWURqOUhRNGxz?=
- =?utf-8?B?VkY0NXEwZWdNNXNsT2orc0twYy9FSEVmbXJ5N0NINWJ6MWNVYmgzT1AwQ1NI?=
- =?utf-8?B?c2F1RmtoaG5NMm9RV0I1ajZBOHYrbExGdnJUUnBSWk5RbGpXWXBvWFBYVnV1?=
- =?utf-8?B?RVN4ZnlldUtoejA4MnY0ZlRNdzFWK016d1BLcUdYVlJKT2RxRCtaUU4yQS84?=
- =?utf-8?B?VUdqOEdMMU5UVzR0ZDZIcGZ1bnRxdDh2dGdpRlJVd2N4bXlNbC9SMUJxRmk1?=
- =?utf-8?B?eS9XK2svVkJoSm9GS1hjQWwzSzRlaTdZZEZHci9KSkR2a1QyRFdQOEZRZDBv?=
- =?utf-8?B?MGVIc1d0N1VSc1NibHh2VnZyREIzVXB1VkNCRlBkd0VIOFEyM0c2ajJkYjQ1?=
- =?utf-8?B?Sk5ad0xtL0R4MVA3TzhzY1lKcnh4MGY4SHlYQnlDaUw5ai9Kc1FPa1pEOXJt?=
- =?utf-8?B?VGNlODFVdU9NOW9CaUdSbFVJZk1DRzlrY014UnR5K1hnRW5kMzlLc3pidWxi?=
- =?utf-8?B?RHkvRDA4aDNzQjB5aFIzTXlPdmU2RUtVMlJtQWdyTGlTSXVOc1hBdVhROHBQ?=
- =?utf-8?B?WFh6SFl4NkR5disxdFlsS3BxTGRIR3FTcENnYS9lVXp0TkR5UDNHZUs5RDhH?=
- =?utf-8?B?MkFsdTdQZmNtYm5CNFFxRElyZXgzd0xkR2tsbjdPY0J6R2FEZmYyT01IOWVp?=
- =?utf-8?B?UkdheXdSdVVBdnk0NGgzVHVPODNod0Vpa0lNUTdxOHhCVTBaV0xZdCtzanJJ?=
- =?utf-8?B?Q3FKdml5VVNGc3pPbHR3dW1KUGtyVTBTSC8wK2pWNDQvZWgzYyswMVlnL2tq?=
- =?utf-8?B?ZTE1a1ZJb3BsUTh4N0dsYm1uaVEyTDNOaVZtNEJaNisyem1Ld09pUkc0aExn?=
- =?utf-8?B?a1pKc2RmRVFRYTA4UXM5R3NFblVXNCtqdnp1U1BKR1licHV3QTFNeFNpK2po?=
- =?utf-8?B?TS9acVBBM0Q1dU9oeEZxMWlJbllEMERkeUxrMGk0d1RMN1hTSHEvTEd5eUVH?=
- =?utf-8?B?M085YkFJUG1CVUxoSytTZG9Ed2V5YU1UUWdKenpXSWFnVHF2VUFXbTVqMG5w?=
- =?utf-8?B?VlVldTZQYzkwRFhZMmRoeUNSSW9tTWthR1hGb0lLMUpPVC9MQ0FocFlqcHdP?=
- =?utf-8?Q?Sc00=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2e55676-08e5-46d2-0b01-08dd1487d014
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2024 17:19:30.7274
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bzGAxGdPSHS5S23ChOunGSCyKAx3aVA25ukOLuWkVKROxt/RQv1uM24F1Bt6xNsv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5912
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241204191349.1730936-1-jthoughton@google.com>
+Subject: [PATCH v1 00/13] KVM: Introduce KVM Userfault
+From: James Houghton <jthoughton@google.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Yan Zhao <yan.y.zhao@intel.com>, 
+	James Houghton <jthoughton@google.com>, Nikita Kalyazin <kalyazin@amazon.com>, 
+	Anish Moorthy <amoorthy@google.com>, Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>, 
+	David Matlack <dmatlack@google.com>, Wang@google.com, Wei W <wei.w.wang@intel.com>, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Fenghua,
+This is a continuation of the original KVM Userfault RFC[1] from July.
+It contains the simplifications we talked about at LPC[2].
 
-On 12/4/24 11:14, Moger, Babu wrote:
-> Hi Fenghua,
-> 
-> Thanks for the review.
-> 
-> On 12/3/24 22:16, Fenghua Yu wrote:
->> Hi, Babu,
->>
->> On 10/29/24 16:21, Babu Moger wrote:
->>> Assign/unassign counters on resctrl group creation/deletion. Two counters
->>> are required per group, one for MBM total event and one for MBM local
->>> event.
->>>
->>> There are a limited number of counters available for assignment. If these
->>> counters are exhausted, the kernel will display the error message: "Out of
->>> MBM assignable counters". However, it is not necessary to fail the
->>> creation of a group due to assignment failures. Users have the flexibility
->>> to modify the assignments at a later time.
->>>
->>> Signed-off-by: Babu Moger <babu.moger@amd.com>
->>> ---
->>> v9: Changed rdtgroup_assign_cntrs() and rdtgroup_unassign_cntrs() to
->>> return void.
->>>      Updated couple of rdtgroup_unassign_cntrs() calls properly.
->>>      Updated function comments.
->>>
->>> v8: Renamed rdtgroup_assign_grp to rdtgroup_assign_cntrs.
->>>      Renamed rdtgroup_unassign_grp to rdtgroup_unassign_cntrs.
->>>      Fixed the problem with unassigning the child MON groups of CTRL_MON
->>> group.
->>>
->>> v7: Reworded the commit message.
->>>      Removed the reference of ABMC with mbm_cntr_assign.
->>>      Renamed the function rdtgroup_assign_cntrs to rdtgroup_assign_grp.
->>>
->>> v6: Removed the redundant comments on all the calls of
->>>      rdtgroup_assign_cntrs. Updated the commit message.
->>>      Dropped printing error message on every call of rdtgroup_assign_cntrs.
->>>
->>> v5: Removed the code to enable/disable ABMC during the mount.
->>>      That will be another patch.
->>>      Added arch callers to get the arch specific data.
->>>      Renamed fuctions to match the other abmc function.
->>>      Added code comments for assignment failures.
->>>
->>> v4: Few name changes based on the upstream discussion.
->>>      Commit message update.
->>>
->>> v3: This is a new patch. Patch addresses the upstream comment to enable
->>>      ABMC feature by default if the feature is available.
->>> ---
->>>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 61 +++++++++++++++++++++++++-
->>>   1 file changed, 60 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->>> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->>> index b0cce3dfd062..a8d21b0b2054 100644
->>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->>> @@ -2932,6 +2932,46 @@ static void schemata_list_destroy(void)
->>>       }
->>>   }
->>>   +/*
->>> + * Called when a new group is created. If "mbm_cntr_assign" mode is
->>> enabled,
->>> + * counters are automatically assigned. Each group can accommodate two
->>> counters:
->>> + * one for the total event and one for the local event. Assignments may
->>> fail
->>> + * due to the limited number of counters. However, it is not necessary
->>> to fail
->>> + * the group creation and thus no failure is returned. Users have the
->>> option
->>> + * to modify the counter assignments after the group has been created.
->>> + */
->>> +static void rdtgroup_assign_cntrs(struct rdtgroup *rdtgrp)
->>> +{
->>> +    struct rdt_resource *r =
->>> &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
->>> +
->>> +    if (!resctrl_arch_mbm_cntr_assign_enabled(r))
->>> +        return;
->>> +
->>> +    if (is_mbm_total_enabled())
->>> +        rdtgroup_assign_cntr_event(r, rdtgrp, NULL,
->>> QOS_L3_MBM_TOTAL_EVENT_ID);
->>
->> In this code path,
->> resctrl_mkdir()->resctrl_mkdir_ctrl_mon()->rdtgroup_assign_cntrs()->rdtgroup_assign_cntr_event()
->>
->> CPUs are not protected by read lock while rdtgroup_assign_cntr_event()
->> walks r->mon_domains and run assing counters code on CPUs in the domains.
->> Without CPU protection, r->mon_domains may race with CPU hotplug.
->>
->> In another patch (i.e. rdt_get_tree()), rdtgroup_assign_cntrs() is
->> protected by cpus_read_lock()/unlock().
->>
->> So maybe define two helpers:
->>
->> // Called when caller takes cpus_read_lock()
->> rdtgroup_assign_cntrs_locked()
->> {
->>     lockdep_assert_cpus_held();
->>
->>     then the current rdtgroup_assign_cntrs() code
->> }
->>
->> // Called when caller doesn't take cpus_read_lock()
->> rdtgroup_assign_cntrs()
->> {
->>     cpus_read_lock();
->>     rdtgroup_assign_cntrs_locked();
->>     cpus_read_unlock();
->> }
->>
-> 
-> Good observation. Agree. There is a problem.
-> Some of this code will change with earlier comments.
-> 
-> We know couple of paths are affected here. Why not just add the lock
-> before calling in affected paths instead of adding new helpers?
-> 
-> /*
->  * Walking r->domains in rdtgroup_assign_cntrs, ensure it can't race
->  * with cpuhp
->  */
-> cpus_read_lock();
-> rdtgroup_assign_cntrs()
-> cpus_read_unlock();
-> 
+Please see the RFC[1] for the problem description. In summary,
+guest_memfd VMs have no mechanism for doing post-copy live migration.
+KVM Userfault provides such a mechanism. Today there is no upstream
+mechanism for installing memory into a guest_memfd, but there will
+be one soon (e.g. [3]).
 
-Oh no. Looks like we are good here.
+There is a second problem that KVM Userfault solves: userfaultfd-based
+post-copy doesn't scale very well. KVM Userfault when used with
+userfaultfd can scale much better in the common case that most post-copy
+demand fetches are a result of vCPU access violations. This is a
+continuation of the solution Anish was working on[4]. This aspect of
+KVM Userfault is important for userfaultfd-based live migration when
+scaling up to hundreds of vCPUs with ~30us network latency for a
+PAGE_SIZE demand-fetch.
 
-Looks at Reinette's response. Thanks Reinette.
+The implementation in this series is version than the RFC[1]. It adds...
+ 1. a new memslot flag is added: KVM_MEM_USERFAULT,
+ 2. a new parameter, userfault_bitmap, into struct kvm_memory_slot,
+ 3. a new KVM_RUN exit reason: KVM_MEMORY_EXIT_FLAG_USERFAULT,
+ 4. a new KVM capability KVM_CAP_USERFAULT.
 
-https://lore.kernel.org/lkml/4032a5a5-dd0a-49ae-94b6-dc4fac4c190d@intel.com/
+KVM Userfault does not attempt to catch KVM's own accesses to guest
+memory. That is left up to userfaultfd.
+
+When enabling KVM_MEM_USERFAULT for a memslot, the second-stage mappings
+are zapped, and new faults will check `userfault_bitmap` to see if the
+fault should exit to userspace.
+
+When KVM_MEM_USERFAULT is enabled, only PAGE_SIZE mappings are
+permitted.
+
+When disabling KVM_MEM_USERFAULT, huge mappings will be reconstructed
+(either eagerly or on-demand; the architecture can decide).
+
+KVM Userfault is not compatible with async page faults. Nikita has
+proposed a new implementation of async page faults that is more
+userspace-driven that *is* compatible with KVM Userfault[5].
+
+Performance
+===========
+
+The takeaways I have are:
+
+1. For cases where lock contention is not a concern, there is a
+   discernable win because KVM Userfault saves the trip through the
+   userfaultfd poll/read/WAKE cycle.
+
+2. Using a single userfaultfd without KVM Userfault gets very slow as
+   the number of vCPUs increases, and it gets even slower when you add
+   more reader threads. This is due to contention on the userfaultfd
+   wait_queue locks. This is the contention that KVM Userfault avoids.
+   Compare this to the multiple-userfaultfd runs; they are much faster
+   because the wait_queue locks are sharded perfectly (1 per vCPU).
+   Perfect sharding is only possible because the vCPUs are configured to
+   touch only their own chunk of memory.
+
+Config:
+ - 64M per vcpu
+ - vcpus only touch their 64M (`-b 64M -a`)
+ - THPs disabled
+ - MGLRU disabled
+
+Each run used the following command:
+
+./demand_paging_test -b 64M -a -v <#vcpus>  \
+	-s shmem		     \ # if using shmem
+	-r <#readers> -u <uffd_mode> \ # if using userfaultfd
+	-k \			     \ # if using KVM Userfault
+	-m 3			       # when on arm64
+
+note: I patched demand_paging_test so that, when using shmem, the page
+      cache will always be preallocated, not only in the `-u MINOR`
+      case. Otherwise the comparison would be unfair. I left this patch
+      out in the selftest commits, but I am happy to add it if it would
+      be useful.
+
+== x86 (96 LPUs, 48 cores, TDP MMU enabled) ==
+
+-- Anonymous memory, single userfaultfd
+
+	userfault mode
+vcpus				2	8	64
+	no userfault		306845	220402	47720
+	MISSING (single reader)	90724	26059	3029
+	MISSING			86840	37912	1664
+	MISSING + KVM UF	143021	104385	34910
+	KVM UF			160326	128247	39913
+
+-- shmem (preallocated), single userfaultfd
+
+vcpus				2	8	64
+	no userfault		375130	214635	54420
+	MINOR (single reader)	102336	31704	3244
+	MINOR 			97981	36982	1673
+	MINOR + KVM UF		161835	113716	33577
+	KVM UF			181972	131204	42914
+
+-- shmem (preallocated), multiple userfaultfds
+
+vcpus				2	8	64
+	no userfault		374060	216108	54433
+	MINOR			102661	56978	11300
+	MINOR + KVM UF		167080	123461	48382
+	KVM UF			180439	122310	42539
+
+== arm64 (96 PEs, AmpereOne) ==
+
+-- shmem (preallocated), single userfaultfd
+
+vcpus:				2	8	64
+	no userfault		419069	363081	34348
+	MINOR (single reader)	87421	36147	3764
+	MINOR			84953	43444	1323
+	MINOR + KVM UF		164509	139986	12373
+	KVM UF			185706	122153	12153
+
+-- shmem (preallocated), multiple userfaultfds
+
+vcpus:				2	8	64
+	no userfault		401931	334142	36117
+	MINOR			83696	75617	15996
+	MINOR + KVM UF		176327	115784	12198
+	KVM UF			190074	126966	12084
+
+This series is based on the latest kvm/next.
+
+[1]: https://lore.kernel.org/kvm/20240710234222.2333120-1-jthoughton@google.com/
+[2]: https://lpc.events/event/18/contributions/1757/
+[3]: https://lore.kernel.org/kvm/20241112073837.22284-1-yan.y.zhao@intel.com/
+[4]: https://lore.kernel.org/all/20240215235405.368539-1-amoorthy@google.com/
+[5]: https://lore.kernel.org/kvm/20241118123948.4796-1-kalyazin@amazon.com/#t
+
+James Houghton (13):
+  KVM: Add KVM_MEM_USERFAULT memslot flag and bitmap
+  KVM: Add KVM_MEMORY_EXIT_FLAG_USERFAULT
+  KVM: Allow late setting of KVM_MEM_USERFAULT on guest_memfd memslot
+  KVM: Advertise KVM_CAP_USERFAULT in KVM_CHECK_EXTENSION
+  KVM: x86/mmu: Add support for KVM_MEM_USERFAULT
+  KVM: arm64: Add support for KVM_MEM_USERFAULT
+  KVM: selftests: Fix vm_mem_region_set_flags docstring
+  KVM: selftests: Fix prefault_mem logic
+  KVM: selftests: Add va_start/end into uffd_desc
+  KVM: selftests: Add KVM Userfault mode to demand_paging_test
+  KVM: selftests: Inform set_memory_region_test of KVM_MEM_USERFAULT
+  KVM: selftests: Add KVM_MEM_USERFAULT + guest_memfd toggle tests
+  KVM: Documentation: Add KVM_CAP_USERFAULT and KVM_MEM_USERFAULT
+    details
+
+ Documentation/virt/kvm/api.rst                |  33 +++-
+ arch/arm64/kvm/Kconfig                        |   1 +
+ arch/arm64/kvm/mmu.c                          |  23 ++-
+ arch/x86/kvm/Kconfig                          |   1 +
+ arch/x86/kvm/mmu/mmu.c                        |  27 +++-
+ arch/x86/kvm/mmu/mmu_internal.h               |  20 ++-
+ arch/x86/kvm/x86.c                            |  36 +++--
+ include/linux/kvm_host.h                      |  19 ++-
+ include/uapi/linux/kvm.h                      |   6 +-
+ .../selftests/kvm/demand_paging_test.c        | 145 ++++++++++++++++--
+ .../testing/selftests/kvm/include/kvm_util.h  |   5 +
+ .../selftests/kvm/include/userfaultfd_util.h  |   2 +
+ tools/testing/selftests/kvm/lib/kvm_util.c    |  42 ++++-
+ .../selftests/kvm/lib/userfaultfd_util.c      |   2 +
+ .../selftests/kvm/set_memory_region_test.c    |  33 ++++
+ virt/kvm/Kconfig                              |   3 +
+ virt/kvm/kvm_main.c                           |  47 +++++-
+ 17 files changed, 409 insertions(+), 36 deletions(-)
 
 
-> 
-> 
->>> +
->>> +    if (is_mbm_local_enabled())
->>> +        rdtgroup_assign_cntr_event(r, rdtgrp, NULL,
->>> QOS_L3_MBM_LOCAL_EVENT_ID);
->>> +}
->>> +
->>> +/*
->>> + * Called when a group is deleted. Counters are unassigned if it was in
->>> + * assigned state.
->>> + */
->>> +static void rdtgroup_unassign_cntrs(struct rdtgroup *rdtgrp)
->>> +{
->>> +    struct rdt_resource *r =
->>> &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
->>> +
->>> +    if (!resctrl_arch_mbm_cntr_assign_enabled(r))
->>> +        return;
->>> +
->>> +    if (is_mbm_total_enabled())
->>> +        rdtgroup_unassign_cntr_event(r, rdtgrp, NULL,
->>> QOS_L3_MBM_TOTAL_EVENT_ID);
->>> +
->>> +    if (is_mbm_local_enabled())
->>> +        rdtgroup_unassign_cntr_event(r, rdtgrp, NULL,
->>> QOS_L3_MBM_LOCAL_EVENT_ID);
->>> +}
->>> +
->>
->> Seems rdtgroup_unassign_cntrs() is always protected by
->> cpus_read_lock()/unlock(). So it's good.
-> 
-> ok
-> 
->>
->>>   static int rdt_get_tree(struct fs_context *fc)
->>>   {
->>>       struct rdt_fs_context *ctx = rdt_fc2context(fc);
->>> @@ -2991,6 +3031,8 @@ static int rdt_get_tree(struct fs_context *fc)
->>>           if (ret < 0)
->>>               goto out_mongrp;
->>>           rdtgroup_default.mon.mon_data_kn = kn_mondata;
->>> +
->>> +        rdtgroup_assign_cntrs(&rdtgroup_default);
->>
->> In this case, cpus_read_lock() was called earlier. Change to
->> rdtgroup_assign_cntrs_locked().
->>
->>>       }
->>>         ret = rdt_pseudo_lock_init();
->>> @@ -3021,8 +3063,10 @@ static int rdt_get_tree(struct fs_context *fc)
->>>   out_psl:
->>>       rdt_pseudo_lock_release();
->>>   out_mondata:
->>> -    if (resctrl_arch_mon_capable())
->>> +    if (resctrl_arch_mon_capable()) {
->>> +        rdtgroup_unassign_cntrs(&rdtgroup_default);
->>>           kernfs_remove(kn_mondata);
->>> +    }
->>>   out_mongrp:
->>>       if (resctrl_arch_mon_capable())
->>>           kernfs_remove(kn_mongrp);
->>> @@ -3201,6 +3245,7 @@ static void free_all_child_rdtgrp(struct rdtgroup
->>> *rdtgrp)
->>>         head = &rdtgrp->mon.crdtgrp_list;
->>>       list_for_each_entry_safe(sentry, stmp, head, mon.crdtgrp_list) {
->>> +        rdtgroup_unassign_cntrs(sentry);
->>>           free_rmid(sentry->closid, sentry->mon.rmid);
->>>           list_del(&sentry->mon.crdtgrp_list);
->>>   @@ -3241,6 +3286,8 @@ static void rmdir_all_sub(void)
->>>           cpumask_or(&rdtgroup_default.cpu_mask,
->>>                  &rdtgroup_default.cpu_mask, &rdtgrp->cpu_mask);
->>>   +        rdtgroup_unassign_cntrs(rdtgrp);
->>> +
->>>           free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
->>>             kernfs_remove(rdtgrp->kn);
->>> @@ -3272,6 +3319,7 @@ static void rdt_kill_sb(struct super_block *sb)
->>>       for_each_alloc_capable_rdt_resource(r)
->>>           reset_all_ctrls(r);
->>>       rmdir_all_sub();
->>> +    rdtgroup_unassign_cntrs(&rdtgroup_default);
->>>       rdt_pseudo_lock_release();
->>>       rdtgroup_default.mode = RDT_MODE_SHAREABLE;
->>>       schemata_list_destroy();
->>> @@ -3280,6 +3328,7 @@ static void rdt_kill_sb(struct super_block *sb)
->>>           resctrl_arch_disable_alloc();
->>>       if (resctrl_arch_mon_capable())
->>>           resctrl_arch_disable_mon();
->>> +
->>
->> Unnecessary change.
-> 
-> ok.
-> 
->>
->>>       resctrl_mounted = false;
->>>       kernfs_kill_sb(sb);
->>>       mutex_unlock(&rdtgroup_mutex);
->>> @@ -3871,6 +3920,8 @@ static int rdtgroup_mkdir_mon(struct kernfs_node
->>> *parent_kn,
->>>           goto out_unlock;
->>>       }
->>>   +    rdtgroup_assign_cntrs(rdtgrp);
->>> + >       kernfs_activate(rdtgrp->kn);
->>>         /*
->>> @@ -3915,6 +3966,8 @@ static int rdtgroup_mkdir_ctrl_mon(struct
->>> kernfs_node *parent_kn,
->>>       if (ret)
->>>           goto out_closid_free;
->>>   +    rdtgroup_assign_cntrs(rdtgrp);
->>> +
->>>       kernfs_activate(rdtgrp->kn);
->>>         ret = rdtgroup_init_alloc(rdtgrp);
->>> @@ -3940,6 +3993,7 @@ static int rdtgroup_mkdir_ctrl_mon(struct
->>> kernfs_node *parent_kn,
->>>   out_del_list:
->>>       list_del(&rdtgrp->rdtgroup_list);
->>>   out_rmid_free:
->>> +    rdtgroup_unassign_cntrs(rdtgrp);
->>>       mkdir_rdt_prepare_rmid_free(rdtgrp);
->>>   out_closid_free:
->>>       closid_free(closid);
->>> @@ -4010,6 +4064,9 @@ static int rdtgroup_rmdir_mon(struct rdtgroup
->>> *rdtgrp, cpumask_var_t tmpmask)
->>>       update_closid_rmid(tmpmask, NULL);
->>>         rdtgrp->flags = RDT_DELETED;
->>> +
->>> +    rdtgroup_unassign_cntrs(rdtgrp);
->>> +
->>>       free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
->>>         /*
->>> @@ -4056,6 +4113,8 @@ static int rdtgroup_rmdir_ctrl(struct rdtgroup
->>> *rdtgrp, cpumask_var_t tmpmask)
->>>       cpumask_or(tmpmask, tmpmask, &rdtgrp->cpu_mask);
->>>       update_closid_rmid(tmpmask, NULL);
->>>   +    rdtgroup_unassign_cntrs(rdtgrp);
->>> +
->>>       free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
->>>       closid_free(rdtgrp->closid);
->>>   
->>
->> Thanks.
->>
->> -Fenghua
->>
-> 
-
+base-commit: 4d911c7abee56771b0219a9fbf0120d06bdc9c14
 -- 
-Thanks
-Babu Moger
+2.47.0.338.g60cca15819-goog
+
