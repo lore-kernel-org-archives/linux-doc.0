@@ -1,155 +1,104 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90952500C8;
-	Wed,  4 Dec 2024 09:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0426E187561
+	for <linux-doc@vger.kernel.org>; Wed,  4 Dec 2024 10:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733303603; cv=none; b=LGu6e2cYa49eYO6i+Mm+sQCYT0wwdlfef+Wu68XABzsfNVtnQMndt1nSS0so3XLfHQJN//DTijbdFHN4aoZ0JXcNdyaLiwYpljMIBEIqjKZ1/sy05iEy4gw45uJI1dOugz8aCUO0z/msFYWS5oEmo+CSYpcblTDoTP9nNusel30=
+	t=1733306502; cv=none; b=JN2ET+W+3zSzw/MvrO37z9bz8Tv5OBhgQmbZKe1KPenc2L3L4GyK9nbrmz++shGTPDN8FeEEsC6OtEMITphqLxVJ5H2GdO6lZOOrdIOy1WxamQS1VN2BTtHyGoLtnAAg3JAoCr8Ja/ti8e5Oljlag4bOdGU9XU0qjLDcS1o7Gu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733303603; c=relaxed/simple;
-	bh=zYO/xyDtk4VQN0o/3Yb4A/WNB5aOzL+U3cJO4IeI3v8=;
-	h=CC:Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=ib3t6ghQm2e+Gt9kWeHRrd6XVPlBHy1IHBRYoIMte9JsmzWF2iEzfUzHfTJlpSoUnex9YIaI1l39V+YHcwYGdMzb+dxxfQb6J55ovHkr0eCbsE0OayLog8M3iwAkPNK9NC/vlZJ6FPOqmtKjsJFDvW3xlW/rFgxxMLfgJ/0WNUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Y3BYz2SB5z11Ls8;
-	Wed,  4 Dec 2024 17:10:15 +0800 (CST)
-Received: from kwepemd200014.china.huawei.com (unknown [7.221.188.8])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0C2F5180104;
-	Wed,  4 Dec 2024 17:13:12 +0800 (CST)
-Received: from [10.67.121.177] (10.67.121.177) by
- kwepemd200014.china.huawei.com (7.221.188.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Wed, 4 Dec 2024 17:13:11 +0800
-CC: <yangyicong@hisilicon.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<oliver.upton@linux.dev>, <corbet@lwn.net>,
-	<linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <yuzenghui@huawei.com>,
-	<shuah@kernel.org>, <jonathan.cameron@huawei.com>,
-	<shameerali.kolothum.thodi@huawei.com>, <linuxarm@huawei.com>,
-	<prime.zeng@hisilicon.com>, <xuwei5@huawei.com>
-Subject: Re: [PATCH 2/5] arm64: Add support for FEAT_{LS64, LS64_V,
- LS64_ACCDATA}
-To: Marc Zyngier <maz@kernel.org>
-References: <20241202135504.14252-1-yangyicong@huawei.com>
- <20241202135504.14252-3-yangyicong@huawei.com> <87mshdrtrr.wl-maz@kernel.org>
-From: Yicong Yang <yangyicong@huawei.com>
-Message-ID: <01b65d7a-19ae-d26a-845c-4b47c82bd6e8@huawei.com>
-Date: Wed, 4 Dec 2024 17:13:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+	s=arc-20240116; t=1733306502; c=relaxed/simple;
+	bh=OY51iaNt++wUkGeXL/3RGnmJazb5JgcstUIT3FLQ2nU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NPYlOaMS8MFeFPqW7YuwcCZFVaz1o+txayfIg+MyD6liLfKwsBOWsWzMtDyq7eKX3IN7cz8kp3EOqx4C43Lv18ZO1dGmcBGS4EgpWH7RvD6a5ODZ+g7O6UCsg8oM++MZR9lDidL+bYOpIJFgkQsvSoYxI1cg1KZFbV4t26Yd/sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LDcmDFTW; arc=none smtp.client-ip=209.85.221.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LDcmDFTW"
+Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-385ea29eee1so2748036f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Dec 2024 02:01:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1733306498; x=1733911298; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zq3RJq2fqhtYeZuvz6OgfpNyrnUUP6rae9B6jpa/3NQ=;
+        b=LDcmDFTWoVfNE6DiEg6Kv+8VGR7SUzSNqBHCzRAANQsQ57b3O1s9RpWsSvbhZeg+CR
+         p4CpnlLWEyhXaWRZr4cN2aAmnYvGVAUYT9IoKvhB8Jja30GPj5AVK6QJdqjshUpQCL+v
+         njkCTyVN2qNRev73kbEmPAxZ+JJ14wGM/cIe6hFm6ZWQPD0MglxeSURNr4jAxPmxKbtY
+         ywZUuk/Vm+gEDzopRp0//4X/V29nw173w99VwEFDOSH+7JfUZtyPzPiNiyTMHqKSBr7x
+         lHSzXb5F+bUjax4uuuVsVYokMY7CRsAgrkzwwDUqyC4Uhv/su5Cfcm0kBVeoGGxGrpXi
+         sdiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733306498; x=1733911298;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Zq3RJq2fqhtYeZuvz6OgfpNyrnUUP6rae9B6jpa/3NQ=;
+        b=thrleU9Wy3r+2Q+RFhIRhpzPfEj9a2ieAHUyER2Oef+CwvFQjLpV7IP/qE0fpYWylQ
+         8UU1d5TJSNcXoYvUS0XaUw3b/OdByQg2lX4G5XefqbijdNsAUoSp3GOnweYs2udTu1aS
+         8B4lX3rwCULxEtzEsMyGO98WrB+NhHJ7CmyjiVa9IcAyTwUMu2Uy/YyqgWREGaLPUfJ9
+         npK8VRkBs/MxJC87jJ5ZhVvngt5xye4zyXZ1QJXRbRJBCTTleXa8Q0EJW5bv3dLJMWws
+         cLBxfFkACljYaPgEJUvHBNotfWVqJwMs9ws7KpIXIGlQAl4O8BKFxegq+loqNq35BNbd
+         WsLw==
+X-Forwarded-Encrypted: i=1; AJvYcCU0pWotlm0twW0fXD57SV3ehY3RlN3tTMwOSjRSAkvM+xg6HdjI0MujihKTtKWYRrFM4fqJiNPi0n0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yza/WwY5e9jdeX9I+n9gVWfxs8Cr4sCIRjxFSokcccJxv5tmYxR
+	wBqXQReKeB2dDmtjZPpxFTHLMGr3ouLAooiwdcXnufO3qtbdBGtygktQamKJ3k0=
+X-Gm-Gg: ASbGncuA+ZkoJErIF3y/0aL000gmpaVG2lrZ1DiNhZHBP5OaSnb/mMIRoDuk5iv6dD2
+	bhAPyFv25lzA2S2kIN55c18V/qwZBRwCWbHjjbz47yuqpw8pjjgOmlR+0Odgk1ibCNG9Qc+BUoI
+	ea8yzze2TT0Pncfp3KtCbegnU4BRq97Qn3ea5Wj8a7U23Daf9+Dz98iNfx/cfnUa0ZnO090xGIH
+	KiFC4EBf922tPiWDOkhDLR9P/OnQoF1DIQEnORfT2Cdi/4yhxdaD+iv49ZQIu0dCSVnNyFPKD2r
+	4Bi8
+X-Google-Smtp-Source: AGHT+IH5bQavvdT/WYtMf/I6+6DOVMJd5U0IR8N6Tg4dhOQ0CbdP86UanWwhVFCSXQzoS7tY5qNJuA==
+X-Received: by 2002:a5d:47a6:0:b0:385:e055:a294 with SMTP id ffacd0b85a97d-385fd55f1b4mr5108948f8f.59.1733306498432;
+        Wed, 04 Dec 2024 02:01:38 -0800 (PST)
+Received: from localhost (p5dc6838f.dip0.t-ipconnect.de. [93.198.131.143])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385ccd3a71bsm17746611f8f.55.2024.12.04.02.01.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2024 02:01:37 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Matthias Maennich <maennich@google.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] doc: module: Two clearifications
+Date: Wed,  4 Dec 2024 11:01:09 +0100
+Message-ID: <cover.1733305665.git.ukleinek@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <87mshdrtrr.wl-maz@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemd200014.china.huawei.com (7.221.188.8)
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=864; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=OY51iaNt++wUkGeXL/3RGnmJazb5JgcstUIT3FLQ2nU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnUChlzSf6ehtUHG4Ml6mJXztndF29No3czo6y0 VRUSTjT/+GJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZ1AoZQAKCRCPgPtYfRL+ To54CACTMayUGPq5eZTEqhC7RTDHvYQT3rPa/qu9lfxIT/vkclG+sDQm/bhB2pRPw/IP2Jef+fS Z3SkdMEpKdOFpPUKbOzLw2Qr7ZV/ZWe9Kejp725QNlsWqa+FAg7FxmFIzwUCcqheyLHthxjazr+ b/tyWpVj+ADvPiNdhU7xDwaTvee3I2872hhTHRF2Xm0w3Le+GNA6luiQ0HG8kQaIN7fNWoON1i+ o3rIXx4/vMdqba+I39LzabSfmORhJssBUu7RqWTW7SIObr4H8QyES2EYgSkauHNhPlOHLas+5Ls bH2wUy+jXNIIjf9hpCEsh+dw0cPUm6aKLK+qDvnXH+o75QdX
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On 2024/12/3 17:38, Marc Zyngier wrote:
-> On Mon, 02 Dec 2024 13:55:01 +0000,
-> Yicong Yang <yangyicong@huawei.com> wrote:
->>
->> From: Yicong Yang <yangyicong@hisilicon.com>
->>
->> Armv8.7 introduces single-copy atomic 64-byte loads and stores
->> instructions and its variants named under FEAT_{LS64, LS64_V,
->> LS64_ACCDATA}. These features are identified by ID_AA64ISAR1_EL1.LS64
->> and the use of such instructions in userspace (EL0) can be trapped.
->> In order to support the use of corresponding instructions in userspace:
->> - Make ID_AA64ISAR1_EL1.LS64 visbile to userspace
->> - Add identifying and enabling in the cpufeature list
->> - Expose these support of these features to userspace through HWCAP
->>   and cpuinfo
->>
->> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
->> ---
->>  Documentation/arch/arm64/booting.rst    | 28 ++++++++++
->>  Documentation/arch/arm64/elf_hwcaps.rst |  9 ++++
->>  arch/arm64/include/asm/hwcap.h          |  3 ++
->>  arch/arm64/include/uapi/asm/hwcap.h     |  3 ++
->>  arch/arm64/kernel/cpufeature.c          | 70 ++++++++++++++++++++++++-
->>  arch/arm64/kernel/cpuinfo.c             |  3 ++
->>  arch/arm64/tools/cpucaps                |  3 ++
->>  7 files changed, 118 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
->> index 3278fb4bf219..c35cfe9da501 100644
->> --- a/Documentation/arch/arm64/booting.rst
->> +++ b/Documentation/arch/arm64/booting.rst
->> @@ -449,6 +449,34 @@ Before jumping into the kernel, the following conditions must be met:
->>  
->>      - HFGWTR_EL2.nGCS_EL0 (bit 52) must be initialised to 0b1.
->>  
->> +  For CPUs support for 64-byte loads and stores without status (FEAT_LS64):
->> +
->> +  - If the kernel is entered at EL1 and EL2 is present:
->> +
->> +    - HCRX_EL2.EnALS (bit 1) must be initialised to 0b1.
->> +
->> +  For CPUs support for 64-byte loads and stores with status (FEAT_LS64_V):
->> +
->> +  - If the kernel is entered at EL1 and EL2 is present:
->> +
->> +    - HCRX_EL2.EnASR (bit 2) must be initialised to 0b1.
->> +
->> +  For CPUs support for 64-byte EL0 stores with status (FEAT_LS64_ACCDATA):
->> +
->> +  - If EL3 is present:
->> +
->> +    - SCR_EL3.EnAS0 (bit 36) must be initialised to 0b1.
->> +
->> +    - SCR_EL3.ADEn (bit 37) must be initialised to 0b1.
->> +
->> +  - If the kernel is entered at EL1 and EL2 is present:
->> +
->> +    - HCRX_EL2.EnAS0 (bit 0) must be initialised to 0b1.
->> +
->> +    - HFGRTR_EL2.nACCDATA_EL1 (bit 50) must be initialised to 0b1.
->> +
->> +    - HFGWTR_EL2.nACCDATA_EL1 (bit 50) must be initialised to 0b1.
->> +
->>  The requirements described above for CPU mode, caches, MMUs, architected
->>  timers, coherency and system registers apply to all CPUs.  All CPUs must
->>  enter the kernel in the same exception level.  Where the values documented
->> diff --git a/Documentation/arch/arm64/elf_hwcaps.rst b/Documentation/arch/arm64/elf_hwcaps.rst
->> index 2ff922a406ad..6cb2594f0803 100644
->> --- a/Documentation/arch/arm64/elf_hwcaps.rst
->> +++ b/Documentation/arch/arm64/elf_hwcaps.rst
->> @@ -372,6 +372,15 @@ HWCAP2_SME_SF8DP4
->>  HWCAP2_POE
->>      Functionality implied by ID_AA64MMFR3_EL1.S1POE == 0b0001.
->>  
->> +HWCAP3_LS64
->> +    Functionality implied by ID_AA64ISAR1_EL1.LS64 == 0b0001.
->> +
->> +HWCAP3_LS64_V
->> +    Functionality implied by ID_AA64ISAR1_EL1.LS64 == 0b0010.
->> +
->> +HWCAP3_LS64_ACCDATA
->> +    Functionality implied by ID_AA64ISAR1_EL1.LS64 == 0b0011.
->> +
-> 
-> I don't mind the two others, but I seriously question exposing ST64BV0
-> to userspace. How is ACCDATA_EL1 populated? How is it context-switched?
-> 
-> As it stands, this either does the wrong thing by always having the
-> low 32bit set to an UNKNOWN value, or actively leaks kernel data.
-> TBH, I don't see it being usable in practice (the more I read this
-> part of the architecture, the more broken it looks).
-> 
+Hello,
 
-you're right, expose this LS64_ACCDATA alone to userspace won't make it
-usable since ACCDATA_EL1 cannot be accessed from EL0. will drop this at
-this stage.
+here come to fixes for the symbol namespace docs around
+DEFAULT_SYMBOL_NAMESPACE. The first updates the text to say that a
+namespace has to be a C-string. Before it claimed it should be a
+preprocessor symbol. I'm not sure how to understand it, but today it's
+wrong for sure.
 
-Thanks.
+Fixes a statement that Andy pointed out to be wrong in the docs while
+discussing the respective fix in drivers/i2c/busses/i2c-designware-*.
+(See
+https://lore.kernel.org/linux-i2c/20241203173640.1648939-2-u.kleine-koenig@baylibre.com)
+
+Uwe Kleine-König (2):
+  doc: module: Fix documented type of namespace
+  doc: module: DEFAULT_SYMBOL_NAMESPACE must be defined before #includes
+
+ Documentation/core-api/symbol-namespaces.rst | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+
+base-commit: ceb8bf2ceaa77fe222fe8fe32cb7789c9099ddf1
+-- 
+2.45.2
 
