@@ -1,443 +1,478 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B82B2500D4;
-	Wed,  4 Dec 2024 04:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733285802; cv=fail; b=NEY+aW0zM8CUGiPY0b4yuec6nZk5jhU3DabvIBx3JMl7m0aYRxDwy3U/6237vO+8MwvfdbXZZbwa/uB9oalQ3vkwW5vyQj57oWGlCPoZw6vv17NhwURkqoGUZzX1nm59VPrw0x9mcQl4CJctWCbXbf4DJuUHqKL/SRIlo5ZNG8s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733285802; c=relaxed/simple;
-	bh=z6oeKBI7U+ruonc0QBNwbXQ827uH9bttXvT3yfIZm3c=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=J4k+EMnjieZqlzmMk2Eq6BoUt+bKw7ndZZML72IPWNX0PMEI1HNT7xQn1anUlEano18/WhG6ahNJgu1PTVVNH2/bLdteNZCg0J0Zg7kxXTvVSzf7XxgpPXbbvCikdJn+XYd5qLkend5LZKnn1fyZIu5/eQselyC1OpxeI7HCVXM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TQ3P7GN9; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0733C17BB0F;
+	Wed,  4 Dec 2024 05:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733291107; cv=none; b=UdDHhAzV118xLekV+HSm8LqAzAHk4awMKFC2cU8U7KGe8ScVm64BVBCiRHHtYuzvZxKuL9da63TGNXALLi89ZPtTp3xRyBE/ygbOIZtWykcWYxcTB+SsyfsebFH9kBSHhEWH+ksNy/d5LJ7jVoyzey+WUNUKY1gJ0bISrk3y50o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733291107; c=relaxed/simple;
+	bh=p9q3JAQeYdR9uJuTBPtJyypMIyidIbMEp0yGROCoa+o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oJjhMgICll8X/fOu6E2H8u99RDQmIaGThTtdlIKfCzbCNu7QErmYY3O8N+qfoob8S6uemERlVLmr+p6bbKaN9t3uATOTFJ8ArshIjwCaug1mNJpO8xf2cCNBc/e5dEb15UauGl4vYfsiaB6viQRxfkUAjklIR30xw6/ABwmU56Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=I7Aqu+3Z; arc=none smtp.client-ip=185.125.188.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TQ3P7GN9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733285800; x=1764821800;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=z6oeKBI7U+ruonc0QBNwbXQ827uH9bttXvT3yfIZm3c=;
-  b=TQ3P7GN9uLD+mLYVIkLHJm56CeHUVZn4UXkJY+h2LiWmdXUPt9VoX42h
-   WR5OaYl694j4IfzY9E/f/Rpa3GDqQSCoq1R7/uJv0GoGXnTadv9qSmmnE
-   cRk5fad5S9xiAKTyHzGy2paTnrVMUmNwguS+Ic/jp7UcO08V1usvV/W68
-   QdW06Fk5TggO5BIhkaptcH0hf+7wJHmfcxwOuYoaFUfmM/0m48607wucJ
-   hl6AgyaKM6H21zJxi1zehlaVVo1lMqMHT80ysbrlHsvvAMFVmFIobBMg/
-   tjczOANjiZ+0vxTXQiXW3EwCBPGQFE0+8744o1cLQybiFPvoQbT6DJ2Ts
-   g==;
-X-CSE-ConnectionGUID: mZE1Ee6PTeOooatKcgNSRg==
-X-CSE-MsgGUID: G4KLNqHVSlWpDvDqChQylA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="36381280"
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="36381280"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 20:16:13 -0800
-X-CSE-ConnectionGUID: ZXYXgRZHTm+COyj/PCRHkA==
-X-CSE-MsgGUID: KYWjf/amRHy8ixreID6Mnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="94072280"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Dec 2024 20:16:13 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 3 Dec 2024 20:16:12 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 3 Dec 2024 20:16:12 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 3 Dec 2024 20:16:12 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tJNHr1AbFhDOxe06kcpu40TGgbB1dMUbDqfvkN4WJx7c5iMlirHZuLQlg1S/0/P9f4jImevQC5PsmR10ylzXKLAQ0KomwFDq55QzZ0nbekBTK2ZNDUP+euJwGKfMWbNGW20L2V/bzBIgGhbCZb2VeI3eOKsOamGMuD6sTf0uJH60hxz0XgLo0jlOzMPy4EJnmSqDNTjiZ3fvqEzFtByNH9U0OctRGZQsvl6HqbINoqZZTakmoZRUZMQKNOCwTSKgfFMyj2JjC24ChM/9n8nfrjdsMdUggXQ+bb2PJbvv/MDjEmO+1iayQBrrdKDlEsQas7K8Xf+qLt77tqcA5q3tWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SduQ+LhTz0aoa6qToXx7yI+2gJnHBWws2PND7/2giGM=;
- b=FX22e3g9t6t9hY/ZkRG4bHUaEK08P8mYT8plNifxpHtsfqkM3ctkUF7AJZh4OnblFpd1sEjKQlR+BiGIbgLxvwtsMEoREJ7WTWT9/enTdSJnvkoBZMu7Z5Ll0nuopeBsGi28MIdZZgfIVAUtpY7sJudTqaq23hFeZzOIRyuq2pRJx0NA4UHjarfGprdxjEwVkX8IFJ4ogDJGLUvVmPQP8308SXqCzXLD52CLhKWacXA16vinCcUiBehe3/WaucuCWgfDpWxGO2QTyWGU6p6Hr4DhSgAJ4XTEUXcxCrgNTzVLDm46N8P02/gJUL/Bo4RcEPlISqWgQyIIWVQiBl5VUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA1PR11MB6097.namprd11.prod.outlook.com (2603:10b6:208:3d7::17)
- by SA0PR11MB4720.namprd11.prod.outlook.com (2603:10b6:806:72::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.19; Wed, 4 Dec
- 2024 04:16:09 +0000
-Received: from IA1PR11MB6097.namprd11.prod.outlook.com
- ([fe80::8f29:c6c9:9eb2:6392]) by IA1PR11MB6097.namprd11.prod.outlook.com
- ([fe80::8f29:c6c9:9eb2:6392%7]) with mapi id 15.20.8207.014; Wed, 4 Dec 2024
- 04:16:09 +0000
-Message-ID: <3061ec99-c418-b1a3-7975-8a6b9d0bdd14@intel.com>
-Date: Tue, 3 Dec 2024 20:16:23 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v9 20/26] x86/resctrl: Auto assign/unassign counters when
- mbm_cntr_assign is enabled
-Content-Language: en-US
-To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
-	<reinette.chatre@intel.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <thuth@redhat.com>,
-	<paulmck@kernel.org>, <rostedt@goodmis.org>, <akpm@linux-foundation.org>,
-	<xiongwei.song@windriver.com>, <pawan.kumar.gupta@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <perry.yuan@amd.com>,
-	<sandipan.das@amd.com>, <kai.huang@intel.com>, <xiaoyao.li@intel.com>,
-	<seanjc@google.com>, <jithu.joseph@intel.com>, <brijesh.singh@amd.com>,
-	<xin3.li@intel.com>, <ebiggers@google.com>, <andrew.cooper3@citrix.com>,
-	<mario.limonciello@amd.com>, <james.morse@arm.com>,
-	<tan.shaopeng@fujitsu.com>, <tony.luck@intel.com>,
-	<vikas.shivappa@linux.intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <peternewman@google.com>,
-	<maciej.wieczor-retman@intel.com>, <eranian@google.com>,
-	<jpoimboe@kernel.org>, <thomas.lendacky@amd.com>
-References: <cover.1730244116.git.babu.moger@amd.com>
- <4ec00fe60cd42c1f22c98c9f5c2f5d3ceb9f8d58.1730244116.git.babu.moger@amd.com>
-From: Fenghua Yu <fenghua.yu@intel.com>
-In-Reply-To: <4ec00fe60cd42c1f22c98c9f5c2f5d3ceb9f8d58.1730244116.git.babu.moger@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0048.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::23) To IA1PR11MB6097.namprd11.prod.outlook.com
- (2603:10b6:208:3d7::17)
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="I7Aqu+3Z"
+Received: from [192.168.1.148] (unknown [222.129.38.136])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id A91373F77A;
+	Wed,  4 Dec 2024 05:37:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1733290654;
+	bh=AcZpPC6Nlfnpnb0Y5Rr+FjN5IBxgm66Ds44BXA74h1w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type;
+	b=I7Aqu+3Zw828gSK0S9uXRDmN1+YWiBO7QDqiAuboGlK34lP6hcOb3vcwJW+wOEPwo
+	 +S3l1Yj1B3ecMuvA3rhp+BByAEgRtxSzUbCW85M3um68bCpfhAqqJEQR18DOohkAJA
+	 pcBZYp3tqUk7i/Qiadj8dBTPF6oGLrGp3KFNoIX9thOGG90GN+Kl8gyprbQkZ09Xlo
+	 3KzVzj9LkJ22KSPFFiahv7XlVWV+fFKvzcUflRGRDLWBJj5iEgX5h4LZh3qxfwcLgi
+	 xD1W4iWbs+B8bXqp5wBFIo81h0/0feMCgHO2fM+bYzgZNOqadEaspprXhHTbii7P4Z
+	 xfUTEC5/G6sEQ==
+Message-ID: <157e94a2-bc03-42c1-8c4f-d6042032a500@canonical.com>
+Date: Wed, 4 Dec 2024 13:37:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB6097:EE_|SA0PR11MB4720:EE_
-X-MS-Office365-Filtering-Correlation-Id: 07493eeb-f72e-4e7f-2c09-08dd141a6154
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ODNFSDI2eklxSkFtTTRQWFVsMHRwK2dqenJvOURtSm9NMHQ3UW5HeHVvc0xS?=
- =?utf-8?B?dnBSbEVlUWQ2eUZSWGVVZVllSDNZbW1lbVBONVNqTWJvaUxqUThHUWIwQVF2?=
- =?utf-8?B?Q3lzMTlUZFFwWWJZYmp1UlNTVU42ZUVQdWwvMXp6Wlg2VnUybGNTUGZSNlYv?=
- =?utf-8?B?VW02a2FQUWx0c2lpeDJVcUZnVkxDRUZkdnlSaFp2SGxXRlcwRHFPbldTOHhm?=
- =?utf-8?B?UVRZU2d4eEw5VEJWUFJOZ2NtaU40ZDQ4cmtzYTVpTkVRbWY5WFVic3lUN1A4?=
- =?utf-8?B?MWhzaHcybkVHcXFYR3Yxenh6djNwZDNYOGxFcHJ4akdaQ1Y4UEdKWVZQdWZp?=
- =?utf-8?B?U0wrcERSTCtwWnpSVXFhREZlVDd2Z3J6M0xRRStkVGdMSnNCRzdGSHp2VHN2?=
- =?utf-8?B?TktGUFlSM3JuTkF2b2ZTR1o1Zit1MGxLL0Z4WHlqWi84UTQzS0g2RmJDcVVp?=
- =?utf-8?B?b3hHcGtrYUdwdGN5OTJRU1BiMW1ic1FobmxXUENmQXo3RlR0cmNnSmY4RXBI?=
- =?utf-8?B?M2hUVkJaS00zSTlDR1ZONks5MnZLaWtkbmo4akRnOVlZN0Nld2FTVlk5MWZM?=
- =?utf-8?B?TnhXSzh4UDg5bTZPL3lmQ1FTUWgrSVFLVVBJOWFNMkZ0dVAvNjEzSDVQaWM2?=
- =?utf-8?B?YmFtRTFKQlljTVp6YTFjYTZxSHcxOE5TSzgya3M5Vk9TNkUwMm9kZW8xZlJJ?=
- =?utf-8?B?cnRzS2Y5cWIxT2lha1pOeWkrWDVxU3ZFSHFYMk9jTUJ4UkIwbUw0ZENDN2Jt?=
- =?utf-8?B?YW1SMlYzWUltbnptSno5TGFLZzRSaU0zRDJlODdXM01seWRZTFIreE9PMlVQ?=
- =?utf-8?B?aU5OOGFUTEFUMzA2dzllanpPWkc5bEJZUFdHQ0RaTGFPcWtyZmRnbVV1VkIr?=
- =?utf-8?B?WHhraVZmaFMxWjNRVDhWSDRIeDV2SDZaL0YybDJRMVBNZXJ5OEhVTFlxNDFG?=
- =?utf-8?B?M2YrZllRb3JlYlNya2xuT0tTMUlnV3M2c3JZY3FYeEEreVJmU2Q0eEdpa0NN?=
- =?utf-8?B?bnhKcUNaMzZTZG1QS2RQS05wNzU5SUdQcFJhcXFjRmsva2pNamY4SGJlbWlw?=
- =?utf-8?B?NS92N0czSVo5QTkrU0loWmpzQUxmMkUrVFhxZVdYekh6N1pHNzkyTStmUEpv?=
- =?utf-8?B?MFdxVkZzMDBXdlNOR1VuUnI5bHRReENkbGFPVjlVMXJHZC8wZXptV2tiSDJT?=
- =?utf-8?B?WWlYbWVza3MyOEl2L1pCR3UxTURBSnB3UWhxbFN5WlE5aldYTzJkTCsxYUpK?=
- =?utf-8?B?Tzl2N3V6UUdDSEpvblFFNTd5Z2RFdWdJY3RCRHhKcmpEWUp2aFgvMkkzbzdo?=
- =?utf-8?B?eWpqa0U3MVd0Mmtibmw0M0JRdTd3Wmh5a3JTRUlYbjh5Rm4xeVliVk9TNjND?=
- =?utf-8?B?Y252dnBpb2VKV0svTDNkRCtIaDdVY3FoN3BIckU1bUJhdDJMUlNVS1Q1bEhO?=
- =?utf-8?B?MnI0dy9wWENQeHpXOXIzdWRFSTQzNFh1dmhsY3NRaVJaNmVvZFpyc00ydnZG?=
- =?utf-8?B?N05mWTd4SGVYUjJZQ0NGaXEwdmtpN0UycEltVnlHdW0xWlEvbHNzdFNYcWhZ?=
- =?utf-8?B?WklWRmNrU1pFYlhma3plajAzOFhORzhqenAvZDg1blhrcmNyOC9yMU1LTzQz?=
- =?utf-8?B?SlhVd2UzSml4bkxpT05PelNsWUVMNEkyS2RScTZGVDByUzhZTEtVQlozNjhI?=
- =?utf-8?B?T1JaNWVWcEswdWxnbDBvb0NRWHlXODFIc21KbmQwR1BhL0N3NTB6RlQyYmhV?=
- =?utf-8?B?NFhpOE95a0tPUCtvMTVKMFpwUFBPRU9LQzhpVGIyN1p6ZGNZUnJNbkZYdkpU?=
- =?utf-8?B?Qy95UXA2bWY0UktITzlOZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6097.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZHY5ZjdqdE5DNjE4eEdTTzErQllGSUY2dUJIZEdWbW0rSlJKT3FwWjJ0STI4?=
- =?utf-8?B?ZmpVSnF5YjRJMjVnM3VTNHY1Y0JhcEwzT0daRWxza29zODdtN2haTUEwalFK?=
- =?utf-8?B?Q0FhMFRSMUNxYlh4Yk1jdEhtcEphOTRCQW9uekNNdkgxWnJLUjJZVmtCbHIw?=
- =?utf-8?B?NjRFZVM3LzVic1hEV3owWGtCUVBWY1ZzdHhDSFl3VXQyOEJnbkw4MDY4WXBU?=
- =?utf-8?B?NUxzWTk5ZUhqeG9LU3duNVVLMFFpU2dyQlRkU2tRWnZFWDBCTW16YkRWbUR2?=
- =?utf-8?B?a3FXanlpS3BTYUpHNXlib3I0dVZzM2k4emlLeGlrSVh1NTNIemZuR1N6bnUw?=
- =?utf-8?B?SzhVdUdjRzBna2hiOEUxSUwzM1g5aDRVTXJ4allhc2NiNnBnUnE5cVBZWlRG?=
- =?utf-8?B?b1UxQ21kc1paRnQxYTNYU2s1RktVQ1hDNW82eFJBUVpYR2xuZllFbWpWVEk0?=
- =?utf-8?B?aDdjK1k4cFhicjYvTXFxY05ORGswUzdGeHJsa3B2L3ZMSU1KQlJ3djZ0Rm5S?=
- =?utf-8?B?ckYwTi91M2xpQlErQWEwbjZCSnJieUh0YW5KNDhEMGk2bGREV2NyUCtvSWpD?=
- =?utf-8?B?K1BPSFNYYk90S0NyVzgzTXV4dlNQci8veTJlV0UySnNIRit5ZDZCSHA3dngz?=
- =?utf-8?B?ZldQU1ArdUdaVVgwQitVUHJJdTNtMStVMlNQQ0dWdS9HZ1AySDBxcUlickJR?=
- =?utf-8?B?ZHhmYm5NSkh6SkdxaUhBVVVaTDZsRVVZckdtWVpvUGtmTW1UOTE1V2NNRnpt?=
- =?utf-8?B?SFlmQVlhR2sydmlKSVBhV2hraGsySy9jU0JGaE81S241ZUVHc2xhRVpSRktH?=
- =?utf-8?B?Q29LdHpDY2k2L0E2T0JPUjdyV3VhLzJuRkNxdW9wZFhTUXBkTE54SFFpVHky?=
- =?utf-8?B?WERka0hpS2F3NWZkeDJ0WlJiSktPMnJ2UUh3UkZYdmw2OUZoTytQazQ4TFB3?=
- =?utf-8?B?K0dKUVduYTFLSXUxMlM1QkR2YmJvQm11dlZNL0lhVCtjM0JIQy9mMDFSMGth?=
- =?utf-8?B?bnZGMHlReUhBK2prN0xCa1MzL1ozdHlYOEdiWU5GZ3h5MTZobVNTNnc2VmZK?=
- =?utf-8?B?NWdSejE0Q3ptdVFuSy9rZ2RRZEdNR280V1libE5lM1NrOGNJTjQ5L2ZOb1ZO?=
- =?utf-8?B?V0FGUVhLbkM3T0x2V3d2NW5WQ21JTStPa0ZtSXg0RmhOZ3NVc1ZRVTRqZENE?=
- =?utf-8?B?Slc1TEREMjJlMk9RT3kxNFdaMFkweUF3L3N2V2tySVpHRWVaWjU4WWlpbnpB?=
- =?utf-8?B?M0pPdE8yS1d1a0hDT09KSEE0L1cwVDVoU2YxYVlXclFVcVVtYXB4akVPOWZD?=
- =?utf-8?B?MlZRMDNXV1cxbnJST1FRYnRyNFlHUlhlKzZ6VkxuUDV4ejg5bkRZREUybFpU?=
- =?utf-8?B?RVZNSm9ZTVMwQUlnWEhvekJhU09OVUtGejhJSHJSN1JpeWRtOHdNNXRzSkFu?=
- =?utf-8?B?ZFhGRXdjZ2pFSFYxK3ZQaXBOWno3eXFkVjBGNkZBcUEwOSswZlM5K3Ftd3VB?=
- =?utf-8?B?aEVyUGZTblg3S3JBWXhMN3AwYmEyZC9sTk94cEcrQW05L2tHQWp3QXRyRUxw?=
- =?utf-8?B?VjlXdGl3WFZFdzV0QU5UOWMwdDhDZUNsaDJsc3hPNitNY1VYb1pqelhTVHJt?=
- =?utf-8?B?cENpUHJ6bEM5eXNTU3ZhK3l6Wm5yYmo0UitjR3d2TC9ucitmMlgrN3dsSjcw?=
- =?utf-8?B?R2hVM09ZMlRTUjBWMUtGLzJSYTk1Um42bDIzc3U3UDhOUk9lcStSbXR4QVJa?=
- =?utf-8?B?ME9rV0NRVDh1QTRVMkY2MDlaNC9wUzgwTUVyVDEyMDNtSS81T01FU0FvOGph?=
- =?utf-8?B?eGUzcFpVajlJcTFFWWI2OWRzcHcraFlDMmFhbzl3OUlYUGM1RTg3WDRCQXdh?=
- =?utf-8?B?R3lvN3d2R1lleVFRYTlZU1J5aFBxeDZXWnZvd2tvQU9acndvanlmc1FJVXYy?=
- =?utf-8?B?d1JxSXR0d3BFVFJFTWZOdFpmN0pFckNCOEIvWHdIZnZsZkJMb29uamxhUDBh?=
- =?utf-8?B?YkhNVDZETEFTQU5rMm9jOUVCQWYvS0l4d1RSWjdqR1NtMTBlN044aWFJb0F3?=
- =?utf-8?B?QXR0RmthRkJWTjYydTQzMGVmMmpMVmdzWU1xMjZEeFcyMW00UEx6VXV1TVNu?=
- =?utf-8?Q?neFHPHmZ8ue1LYMhP1rsBX/83?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07493eeb-f72e-4e7f-2c09-08dd141a6154
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6097.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2024 04:16:09.3119
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l24nUeIxhOTpRvfRIB8LPPkRNYE3zfYzRhKcX0T55k0dUoIcEhoX9tF2PqRGH41QoQHpbxULiNDfXjzV25koKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4720
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v2 04/22] HID: intel-thc-hid: intel-thc: Add THC PIO
+ operation APIs
+To: Even Xu <even.xu@intel.com>, jikos@kernel.org, bentiss@kernel.org,
+ corbet@lwn.net, bagasdotme@gmail.com
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Xinpeng Sun <xinpeng.sun@intel.com>,
+ Rui Zhang <rui1.zhang@intel.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+References: <20241114053416.4085715-1-even.xu@intel.com>
+ <20241114053416.4085715-5-even.xu@intel.com>
+Content-Language: en-US
+From: Aaron Ma <aaron.ma@canonical.com>
+Autocrypt: addr=aaron.ma@canonical.com; keydata=
+ xsBNBFffeLkBCACi4eE4dPsgWN6B9UDOVcAvb5QgU/hRG6yS0I1lGKQv4KA+bke0c5g8clbO
+ 9gIlIl2bityfA9NzBsDik4Iei3AxMbFyxv9keMwcOFQBIOZF0P3f05qjxftF8P+yp9QTV4hp
+ BkFzsXzWRgXN3r8hU8wqZybepF4B1C83sm2kQ5A5N0AUGbZli9i2G+/VscG9sWfLy8T7f4YW
+ MjmlijCjoV6k29vsmTWQPZ7EApNpvR5BnZQPmQWzkkr0lNXlsKcyLgefQtlwg6drK4fe4wz0
+ ouBIHJEiXE1LWK1hUzkCUASra4WRwKk1Mv/NLLE/aJRqEvF2ukt3uVuM77RWfl7/H/v5ABEB
+ AAHNIUFhcm9uIE1hIDxhYXJvbi5tYUBjYW5vbmljYWwuY29tPsLAdwQTAQgAIQUCV994uQIb
+ AwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDNxCzQfVU6ntJ9B/9aVy0+RkLqF9QpLmw+
+ LAf1m3Fd+4ZarPTerqDqkLla3ekYhbrEtlI1mYuB5f+gtrIjmcW27gacHdslKB9YwaL8B4ZB
+ GJKhcrntLg4YPzYUnXZkHHTv1hMw7fBYw82cBT+EbG0Djh6Po6Ihqyr3auHhfFcp1PZH4Mtq
+ 6hN5KaDZzF/go+tRF5e4bn61Nhdue7mrhFSlfkzLG2ehHWmRV+S91ksH81YDFnazK0sRINBx
+ V1S8ts3WJ2f1AbgmnDlbK3c/AfI5YxnIHn/x2ZdXj1P/wn7DgZHmpMy5DMuk0gN34NLUPLA/
+ cHeKoBAF8emugljiKecKBpMTLe8FrVOxbkrazsBNBFffeLkBCACweKP3Wx+gK81+rOUpuQ00
+ sCyKzdtMuXXJ7oL4GzYHbLfJq+F+UHpQbytVGTn3R5+Y61v41g2zTYZooaC+Hs1+ixf+buG2
+ +2LZjPSELWPNzH9lsKNlCcEvu1XhyyHkBDbnFFHWlUlql3nSXMo//dOTG/XGKaEaZUxjCLUC
+ 8ehLc16DJDvdXsPwWhHrCH/4k92F6qQ14QigBMsl75jDTDJMEYgRYEBT1D/bwxdIeoN1BfIG
+ mYgf059RrWax4SMiJtVDSUuDOpdwoEcZ0FWesRfbFrM+k/XKiIbjMZSvLunA4FIsOdWYOob4
+ Hh0rsm1G+fBLYtT+bE26OWpQ/lSn4TdhABEBAAHCwF8EGAEIAAkFAlffeLkCGwwACgkQzcQs
+ 0H1VOp6p5Af/ap5EVuP1AhFdPD3pXLNrUUt72W3cuAOjXyss43qFC2YRjGfktrizsDjQU46g
+ VKoD6EW9XUPgvYM+k8BJEoXDLhHWnCnMKlbHP3OImxzLRhF4kdlnLicz1zKRcessQatRpJgG
+ NIiD+eFyh0CZcWBO1BB5rWikjO/idicHao2stFdaBmIeXvhT9Xp6XNFEmzOmfHps+kKpWshY
+ 9LDAU0ERBNsW4bekOCa/QxfqcbZYRjrVQvya0EhrPhq0bBpzkIL/7QSBMcdv6IajTlHnLARF
+ nAIofCEKeEl7+ksiRapL5Nykcbt4dldE3sQWxIybC94SZ4inENKw6I8RNpigWm0R5w==
+In-Reply-To: <20241114053416.4085715-5-even.xu@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi, Babu,
 
-On 10/29/24 16:21, Babu Moger wrote:
-> Assign/unassign counters on resctrl group creation/deletion. Two counters
-> are required per group, one for MBM total event and one for MBM local
-> event.
+
+On 11/14/24 1:33 PM, Even Xu wrote:
+> From: Xinpeng Sun <xinpeng.sun@intel.com>
 > 
-> There are a limited number of counters available for assignment. If these
-> counters are exhausted, the kernel will display the error message: "Out of
-> MBM assignable counters". However, it is not necessary to fail the
-> creation of a group due to assignment failures. Users have the flexibility
-> to modify the assignments at a later time.
+> THC PIO (programmed I/O) operations are very similar with general
+> SPI/I2C read/write operation to access external slave device on the bus
+> through internal FIFO.
 > 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> THC PIO operations are split into 4 steps:
+> 1. prepare: configure hardware with correct opcode, slave address, and
+>              fill the PIO FIFO
+> 2. start: set start bit to issue a bus send/receive
+> 3. wait: wait for bus sending/receiving completion
+> 4. complete: check send/receive data in FIFO and return
+> 
+> Co-developed-by: Even Xu <even.xu@intel.com>
+> Signed-off-by: Even Xu <even.xu@intel.com>
+> Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
+> Tested-by: Rui Zhang <rui1.zhang@intel.com>
+> Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 > ---
-> v9: Changed rdtgroup_assign_cntrs() and rdtgroup_unassign_cntrs() to return void.
->      Updated couple of rdtgroup_unassign_cntrs() calls properly.
->      Updated function comments.
+>   .../intel-thc-hid/intel-thc/intel-thc-dev.c   | 245 ++++++++++++++++++
+>   .../intel-thc-hid/intel-thc/intel-thc-dev.h   |  24 ++
+>   .../intel-thc-hid/intel-thc/intel-thc-hw.h    |  23 ++
+>   3 files changed, 292 insertions(+)
 > 
-> v8: Renamed rdtgroup_assign_grp to rdtgroup_assign_cntrs.
->      Renamed rdtgroup_unassign_grp to rdtgroup_unassign_cntrs.
->      Fixed the problem with unassigning the child MON groups of CTRL_MON group.
-> 
-> v7: Reworded the commit message.
->      Removed the reference of ABMC with mbm_cntr_assign.
->      Renamed the function rdtgroup_assign_cntrs to rdtgroup_assign_grp.
-> 
-> v6: Removed the redundant comments on all the calls of
->      rdtgroup_assign_cntrs. Updated the commit message.
->      Dropped printing error message on every call of rdtgroup_assign_cntrs.
-> 
-> v5: Removed the code to enable/disable ABMC during the mount.
->      That will be another patch.
->      Added arch callers to get the arch specific data.
->      Renamed fuctions to match the other abmc function.
->      Added code comments for assignment failures.
-> 
-> v4: Few name changes based on the upstream discussion.
->      Commit message update.
-> 
-> v3: This is a new patch. Patch addresses the upstream comment to enable
->      ABMC feature by default if the feature is available.
-> ---
->   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 61 +++++++++++++++++++++++++-
->   1 file changed, 60 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index b0cce3dfd062..a8d21b0b2054 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -2932,6 +2932,46 @@ static void schemata_list_destroy(void)
+> diff --git a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+> index d77603e4c01e..0571b8270716 100644
+> --- a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+> +++ b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+> @@ -1,9 +1,11 @@
+>   /* SPDX-License-Identifier: GPL-2.0 */
+>   /* Copyright (c) 2024 Intel Corporation */
+>   
+> +#include <linux/bitfield.h>
+>   #include <linux/regmap.h>
+>   
+>   #include "intel-thc-dev.h"
+> +#include "intel-thc-hw.h"
+>   
+>   static int thc_regmap_read(void *context, unsigned int reg,
+>   			   unsigned int *val)
+> @@ -76,10 +78,253 @@ struct thc_device *thc_dev_init(struct device *device, void __iomem *mem_addr)
+>   		return ERR_PTR(ret);
 >   	}
+>   
+> +	mutex_init(&thc_dev->thc_bus_lock);
+> +
+>   	return thc_dev;
 >   }
+>   EXPORT_SYMBOL_NS_GPL(thc_dev_init, INTEL_THC);
+
+
+
+Since the commit in 6.13-rc1+ change the symbol namespace:
+cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
+
+This should be changed to
+EXPORT_SYMBOL_NS_GPL(thc_dev_init, "INTEL_THC");
+
+There are many of them in this driver, better to define a helper macro in header file.
+And group them consistently.
+
+Aaron
+
+
 >   
-> +/*
-> + * Called when a new group is created. If "mbm_cntr_assign" mode is enabled,
-> + * counters are automatically assigned. Each group can accommodate two counters:
-> + * one for the total event and one for the local event. Assignments may fail
-> + * due to the limited number of counters. However, it is not necessary to fail
-> + * the group creation and thus no failure is returned. Users have the option
-> + * to modify the counter assignments after the group has been created.
-> + */
-> +static void rdtgroup_assign_cntrs(struct rdtgroup *rdtgrp)
+> +static int prepare_pio(const struct thc_device *dev, const u8 pio_op,
+> +		       const u32 address, const u32 size)
 > +{
-> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+> +	u32 sts, ctrl, addr, mask;
 > +
-> +	if (!resctrl_arch_mbm_cntr_assign_enabled(r))
-> +		return;
+> +	regmap_read(dev->thc_regmap, THC_M_PRT_SW_SEQ_STS_OFFSET, &sts);
 > +
-> +	if (is_mbm_total_enabled())
-> +		rdtgroup_assign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_TOTAL_EVENT_ID);
-
-In this code path,
-resctrl_mkdir()->resctrl_mkdir_ctrl_mon()->rdtgroup_assign_cntrs()->rdtgroup_assign_cntr_event()
-
-CPUs are not protected by read lock while rdtgroup_assign_cntr_event() 
-walks r->mon_domains and run assing counters code on CPUs in the 
-domains. Without CPU protection, r->mon_domains may race with CPU hotplug.
-
-In another patch (i.e. rdt_get_tree()), rdtgroup_assign_cntrs() is 
-protected by cpus_read_lock()/unlock().
-
-So maybe define two helpers:
-
-// Called when caller takes cpus_read_lock()
-rdtgroup_assign_cntrs_locked()
-{
-	lockdep_assert_cpus_held();
-
-	then the current rdtgroup_assign_cntrs() code
-}
-
-// Called when caller doesn't take cpus_read_lock()
-rdtgroup_assign_cntrs()
-{
-	cpus_read_lock();
-	rdtgroup_assign_cntrs_locked();
-	cpus_read_unlock();
-}
-
-> +
-> +	if (is_mbm_local_enabled())
-> +		rdtgroup_assign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_LOCAL_EVENT_ID);
-> +}
-> +
-> +/*
-> + * Called when a group is deleted. Counters are unassigned if it was in
-> + * assigned state.
-> + */
-> +static void rdtgroup_unassign_cntrs(struct rdtgroup *rdtgrp)
-> +{
-> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-> +
-> +	if (!resctrl_arch_mbm_cntr_assign_enabled(r))
-> +		return;
-> +
-> +	if (is_mbm_total_enabled())
-> +		rdtgroup_unassign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_TOTAL_EVENT_ID);
-> +
-> +	if (is_mbm_local_enabled())
-> +		rdtgroup_unassign_cntr_event(r, rdtgrp, NULL, QOS_L3_MBM_LOCAL_EVENT_ID);
-> +}
-> +
-
-Seems rdtgroup_unassign_cntrs() is always protected by 
-cpus_read_lock()/unlock(). So it's good.
-
->   static int rdt_get_tree(struct fs_context *fc)
->   {
->   	struct rdt_fs_context *ctx = rdt_fc2context(fc);
-> @@ -2991,6 +3031,8 @@ static int rdt_get_tree(struct fs_context *fc)
->   		if (ret < 0)
->   			goto out_mongrp;
->   		rdtgroup_default.mon.mon_data_kn = kn_mondata;
-> +
-> +		rdtgroup_assign_cntrs(&rdtgroup_default);
-
-In this case, cpus_read_lock() was called earlier. Change to 
-rdtgroup_assign_cntrs_locked().
-
->   	}
->   
->   	ret = rdt_pseudo_lock_init();
-> @@ -3021,8 +3063,10 @@ static int rdt_get_tree(struct fs_context *fc)
->   out_psl:
->   	rdt_pseudo_lock_release();
->   out_mondata:
-> -	if (resctrl_arch_mon_capable())
-> +	if (resctrl_arch_mon_capable()) {
-> +		rdtgroup_unassign_cntrs(&rdtgroup_default);
->   		kernfs_remove(kn_mondata);
+> +	/* Check if THC previous PIO still in progress */
+> +	if (sts & THC_M_PRT_SW_SEQ_STS_THC_SS_CIP) {
+> +		dev_err_once(dev->dev, "THC PIO is still busy!\n");
+> +		return -EBUSY;
 > +	}
->   out_mongrp:
->   	if (resctrl_arch_mon_capable())
->   		kernfs_remove(kn_mongrp);
-> @@ -3201,6 +3245,7 @@ static void free_all_child_rdtgrp(struct rdtgroup *rdtgrp)
->   
->   	head = &rdtgrp->mon.crdtgrp_list;
->   	list_for_each_entry_safe(sentry, stmp, head, mon.crdtgrp_list) {
-> +		rdtgroup_unassign_cntrs(sentry);
->   		free_rmid(sentry->closid, sentry->mon.rmid);
->   		list_del(&sentry->mon.crdtgrp_list);
->   
-> @@ -3241,6 +3286,8 @@ static void rmdir_all_sub(void)
->   		cpumask_or(&rdtgroup_default.cpu_mask,
->   			   &rdtgroup_default.cpu_mask, &rdtgrp->cpu_mask);
->   
-> +		rdtgroup_unassign_cntrs(rdtgrp);
 > +
->   		free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
->   
->   		kernfs_remove(rdtgrp->kn);
-> @@ -3272,6 +3319,7 @@ static void rdt_kill_sb(struct super_block *sb)
->   	for_each_alloc_capable_rdt_resource(r)
->   		reset_all_ctrls(r);
->   	rmdir_all_sub();
-> +	rdtgroup_unassign_cntrs(&rdtgroup_default);
->   	rdt_pseudo_lock_release();
->   	rdtgroup_default.mode = RDT_MODE_SHAREABLE;
->   	schemata_list_destroy();
-> @@ -3280,6 +3328,7 @@ static void rdt_kill_sb(struct super_block *sb)
->   		resctrl_arch_disable_alloc();
->   	if (resctrl_arch_mon_capable())
->   		resctrl_arch_disable_mon();
+> +	/* Clear error bit and complete bit in state register */
+> +	sts |= THC_M_PRT_SW_SEQ_STS_THC_SS_ERR |
+> +	       THC_M_PRT_SW_SEQ_STS_TSSDONE;
+> +	regmap_write(dev->thc_regmap, THC_M_PRT_SW_SEQ_STS_OFFSET, sts);
 > +
+> +	/* Set PIO data size, opcode and interrupt capability */
+> +	ctrl = FIELD_PREP(THC_M_PRT_SW_SEQ_CNTRL_THC_SS_BC, size) |
+> +	       FIELD_PREP(THC_M_PRT_SW_SEQ_CNTRL_THC_SS_CMD, pio_op);
+> +	if (dev->pio_int_supported)
+> +		ctrl |= THC_M_PRT_SW_SEQ_CNTRL_THC_SS_CD_IE;
+> +
+> +	mask = THC_M_PRT_SW_SEQ_CNTRL_THC_SS_BC |
+> +	       THC_M_PRT_SW_SEQ_CNTRL_THC_SS_CMD |
+> +	       THC_M_PRT_SW_SEQ_CNTRL_THC_SS_CD_IE;
+> +	regmap_write_bits(dev->thc_regmap,
+> +			  THC_M_PRT_SW_SEQ_CNTRL_OFFSET, mask, ctrl);
+> +
+> +	/* Set PIO target address */
+> +	addr = FIELD_PREP(THC_M_PRT_SW_SEQ_DATA0_ADDR_THC_SW_SEQ_DATA0_ADDR, address);
+> +	mask = THC_M_PRT_SW_SEQ_DATA0_ADDR_THC_SW_SEQ_DATA0_ADDR;
+> +	regmap_write_bits(dev->thc_regmap,
+> +			  THC_M_PRT_SW_SEQ_DATA0_ADDR_OFFSET, mask, addr);
+> +	return 0;
+> +}
+> +
+> +static void pio_start(const struct thc_device *dev,
+> +		      u32 size_in_bytes, const u32 *buffer)
+> +{
+> +	if (size_in_bytes && buffer)
+> +		regmap_bulk_write(dev->thc_regmap, THC_M_PRT_SW_SEQ_DATA1_OFFSET,
+> +				  buffer, size_in_bytes / sizeof(u32));
+> +
+> +	/* Enable Start bit */
+> +	regmap_write_bits(dev->thc_regmap,
+> +			  THC_M_PRT_SW_SEQ_CNTRL_OFFSET,
+> +			  THC_M_PRT_SW_SEQ_CNTRL_TSSGO,
+> +			  THC_M_PRT_SW_SEQ_CNTRL_TSSGO);
+> +}
+> +
+> +static int pio_complete(const struct thc_device *dev,
+> +			u32 *buffer, u32 *size)
+> +{
+> +	u32 sts, ctrl;
+> +
+> +	regmap_read(dev->thc_regmap, THC_M_PRT_SW_SEQ_STS_OFFSET, &sts);
+> +	if (sts & THC_M_PRT_SW_SEQ_STS_THC_SS_ERR) {
+> +		dev_err_once(dev->dev, "PIO operation error\n");
+> +		return -EBUSY;
+> +	}
+> +
+> +	if (buffer && size) {
+> +		regmap_read(dev->thc_regmap, THC_M_PRT_SW_SEQ_CNTRL_OFFSET, &ctrl);
+> +		*size = FIELD_GET(THC_M_PRT_SW_SEQ_CNTRL_THC_SS_BC, ctrl);
+> +
+> +		regmap_bulk_read(dev->thc_regmap, THC_M_PRT_SW_SEQ_DATA1_OFFSET,
+> +				 buffer, *size / sizeof(u32));
+> +	}
+> +
+> +	sts |= THC_M_PRT_SW_SEQ_STS_THC_SS_ERR | THC_M_PRT_SW_SEQ_STS_TSSDONE;
+> +	regmap_write(dev->thc_regmap, THC_M_PRT_SW_SEQ_STS_OFFSET, sts);
+> +	return 0;
+> +}
+> +
+> +static int pio_wait(const struct thc_device *dev)
+> +{
+> +	u32 sts = 0;
+> +	int ret;
+> +
+> +	ret = regmap_read_poll_timeout(dev->thc_regmap, THC_M_PRT_SW_SEQ_STS_OFFSET, sts,
+> +				       !(sts & THC_M_PRT_SW_SEQ_STS_THC_SS_CIP ||
+> +				       !(sts & THC_M_PRT_SW_SEQ_STS_TSSDONE)),
+> +				       THC_REGMAP_POLLING_INTERVAL_US, THC_PIO_DONE_TIMEOUT_US);
+> +	if (ret)
+> +		dev_err_once(dev->dev, "Timeout while polling PIO operation done\n");
+> +
+> +	return ret;
+> +}
+> +
+> +/**
+> + * thc_tic_pio_read - Read data from touch device by PIO
+> + *
+> + * @dev: The pointer of THC private device context
+> + * @address: Slave address for the PIO operation
+> + * @size: Expected read data size
+> + * @actual_size: The pointer of the actual data size read from touch device
+> + * @buffer: The pointer of data buffer to store the data read from touch device
+> + *
+> + * Return: 0 on success, other error codes on failed.
+> + */
+> +int thc_tic_pio_read(struct thc_device *dev, const u32 address,
+> +		     const u32 size, u32 *actual_size, u32 *buffer)
+> +{
+> +	u8 opcode;
+> +	int ret;
+> +
+> +	if (size <= 0 || !actual_size || !buffer) {
+> +		dev_err(dev->dev, "Invalid input parameters, size %u, actual_size %p, buffer %p\n",
+> +			size, actual_size, buffer);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (mutex_lock_interruptible(&dev->thc_bus_lock))
+> +		return -EINTR;
+> +
+> +	opcode = (dev->port_type == THC_PORT_TYPE_SPI) ?
+> +		 THC_PIO_OP_SPI_TIC_READ : THC_PIO_OP_I2C_TIC_READ;
+> +
+> +	ret = prepare_pio(dev, opcode, address, size);
+> +	if (ret < 0)
+> +		goto end;
+> +
+> +	pio_start(dev, 0, NULL);
+> +
+> +	ret = pio_wait(dev);
+> +	if (ret < 0)
+> +		goto end;
+> +
+> +	ret = pio_complete(dev, buffer, actual_size);
+> +
+> +end:
+> +	mutex_unlock(&dev->thc_bus_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(thc_tic_pio_read, INTEL_THC);
+> +
+> +/**
+> + * thc_tic_pio_write - Write data to touch device by PIO
+> + *
+> + * @dev: The pointer of THC private device context
+> + * @address: Slave address for the PIO operation
+> + * @size: PIO write data size
+> + * @buffer: The pointer of the write data buffer
+> + *
+> + * Return: 0 on success, other error codes on failed.
+> + */
+> +int thc_tic_pio_write(struct thc_device *dev, const u32 address,
+> +		      const u32 size, const u32 *buffer)
+> +{
+> +	u8 opcode;
+> +	int ret;
+> +
+> +	if (size <= 0 || !buffer) {
+> +		dev_err(dev->dev, "Invalid input parameters, size %u, buffer %p\n",
+> +			size, buffer);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (mutex_lock_interruptible(&dev->thc_bus_lock))
+> +		return -EINTR;
+> +
+> +	opcode = (dev->port_type == THC_PORT_TYPE_SPI) ?
+> +		 THC_PIO_OP_SPI_TIC_WRITE : THC_PIO_OP_I2C_TIC_WRITE;
+> +
+> +	ret = prepare_pio(dev, opcode, address, size);
+> +	if (ret < 0)
+> +		goto end;
+> +
+> +	pio_start(dev, size, buffer);
+> +
+> +	ret = pio_wait(dev);
+> +	if (ret < 0)
+> +		goto end;
+> +
+> +	ret = pio_complete(dev, NULL, NULL);
+> +
+> +end:
+> +	mutex_unlock(&dev->thc_bus_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(thc_tic_pio_write, INTEL_THC);
+> +
+> +/**
+> + * thc_tic_pio_write_and_read - Write data followed by read data by PIO
+> + *
+> + * @dev: The pointer of THC private device context
+> + * @address: Slave address for the PIO operation
+> + * @write_size: PIO write data size
+> + * @write_buffer: The pointer of the write data buffer
+> + * @read_size: Expected PIO read data size
+> + * @actual_size: The pointer of the actual read data size
+> + * @read_buffer: The pointer of PIO read data buffer
+> + *
+> + * Return: 0 on success, other error codes on failed.
+> + */
+> +int thc_tic_pio_write_and_read(struct thc_device *dev, const u32 address,
+> +			       const u32 write_size, const u32 *write_buffer,
+> +			       const u32 read_size, u32 *actual_size, u32 *read_buffer)
+> +{
+> +	u32 i2c_ctrl, mask;
+> +	int ret;
+> +
+> +	if (dev->port_type == THC_PORT_TYPE_SPI) {
+> +		dev_err(dev->dev, "SPI port type doesn't support pio write and read!");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (mutex_lock_interruptible(&dev->thc_bus_lock))
+> +		return -EINTR;
+> +
+> +	/* Config i2c PIO write and read sequence */
+> +	i2c_ctrl = FIELD_PREP(THC_M_PRT_SW_SEQ_I2C_WR_CNTRL_THC_PIO_I2C_WBC, write_size);
+> +	mask = THC_M_PRT_SW_SEQ_I2C_WR_CNTRL_THC_PIO_I2C_WBC;
+> +
+> +	regmap_write_bits(dev->thc_regmap, THC_M_PRT_SW_SEQ_I2C_WR_CNTRL_OFFSET,
+> +			  mask, i2c_ctrl);
+> +
+> +	regmap_write_bits(dev->thc_regmap, THC_M_PRT_SW_SEQ_I2C_WR_CNTRL_OFFSET,
+> +			  THC_M_PRT_SW_SEQ_I2C_WR_CNTRL_THC_I2C_RW_PIO_EN,
+> +			  THC_M_PRT_SW_SEQ_I2C_WR_CNTRL_THC_I2C_RW_PIO_EN);
+> +
+> +	ret = prepare_pio(dev, THC_PIO_OP_I2C_TIC_WRITE_AND_READ, address, read_size);
+> +	if (ret < 0)
+> +		goto end;
+> +
+> +	pio_start(dev, write_size, write_buffer);
+> +
+> +	ret = pio_wait(dev);
+> +	if (ret < 0)
+> +		goto end;
+> +
+> +	ret = pio_complete(dev, read_buffer, actual_size);
+> +
+> +end:
+> +	mutex_unlock(&dev->thc_bus_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(thc_tic_pio_write_and_read, INTEL_THC);
+> +
+>   MODULE_AUTHOR("Xinpeng Sun <xinpeng.sun@intel.com>");
+>   MODULE_AUTHOR("Even Xu <even.xu@intel.com>");
+>   
+> diff --git a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
+> index 7060f0a36cbd..88a9f606a6a9 100644
+> --- a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
+> +++ b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
+> @@ -5,21 +5,45 @@
+>   #define _INTEL_THC_DEV_H_
+>   
+>   #include <linux/cdev.h>
+> +#include <linux/mutex.h>
+>   
+>   #define THC_REGMAP_COMMON_OFFSET  0x10
+>   #define THC_REGMAP_MMIO_OFFSET    0x1000
+>   
+> +/*
+> + * THC Port type
+> + * @THC_PORT_TYPE_SPI: This port is used for HIDSPI
+> + * @THC_PORT_TYPE_I2C: This port is used for HIDI2C
+> + */
+> +enum thc_port_type {
+> +	THC_PORT_TYPE_SPI = 0,
+> +	THC_PORT_TYPE_I2C = 1,
+> +};
+> +
+>   /**
+>    * struct thc_device - THC private device struct
+>    * @thc_regmap: MMIO regmap structure for accessing THC registers
+>    * @mmio_addr: MMIO registers address
+> + * @thc_bus_lock: mutex locker for THC config
+> + * @port_type: port type of THC port instance
+> + * @pio_int_supported: PIO interrupt supported flag
+>    */
+>   struct thc_device {
+>   	struct device *dev;
+>   	struct regmap *thc_regmap;
+>   	void __iomem *mmio_addr;
+> +	struct mutex thc_bus_lock;
+> +	enum thc_port_type port_type;
+> +	bool pio_int_supported;
+>   };
+>   
+>   struct thc_device *thc_dev_init(struct device *device, void __iomem *mem_addr);
+> +int thc_tic_pio_read(struct thc_device *dev, const u32 address,
+> +		     const u32 size, u32 *actual_size, u32 *buffer);
+> +int thc_tic_pio_write(struct thc_device *dev, const u32 address,
+> +		      const u32 size, const u32 *buffer);
+> +int thc_tic_pio_write_and_read(struct thc_device *dev, const u32 address,
+> +			       const u32 write_size, const u32 *write_buffer,
+> +			       const u32 read_size, u32 *actual_size, u32 *read_buffer);
+>   
+>   #endif /* _INTEL_THC_DEV_H_ */
+> diff --git a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+> index 77b275a400d5..9f5f39dcedcd 100644
+> --- a/drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+> +++ b/drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+> @@ -633,4 +633,27 @@
+>   
+>   #define THC_M_PRT_SW_DMA_PRD_TABLE_LEN_THC_M_PRT_SW_DMA_PRD_TABLE_LEN	GENMASK(23, 0)
+>   
+> +#define THC_REGMAP_POLLING_INTERVAL_US		10 /* 10us */
+> +#define THC_PIO_DONE_TIMEOUT_US			USEC_PER_SEC /* 1s */
+> +
+> +/*
+> + * THC PIO opcode default value
+> + * @THC_PIO_OP_SPI_TIC_READ: THC opcode for SPI PIO read
+> + * @THC_PIO_OP_SPI_TIC_WRITE: THC opcode for SPI PIO write
+> + * @THC_PIO_OP_I2C_SUBSYSTEM_READ: THC opcode for read I2C subsystem registers
+> + * @THC_PIO_OP_I2C_SUBSYSTEM_WRITE: THC opcode for write I2C subsystem registers
+> + * @THC_PIO_OP_I2C_TIC_READ: THC opcode for read I2C device
+> + * @THC_PIO_OP_I2C_TIC_WRITE: THC opcode for write I2C device
+> + * @THC_PIO_OP_I2C_TIC_WRITE_AND_READ: THC opcode for write followed by read I2C device
+> + */
+> +enum thc_pio_opcode {
+> +	THC_PIO_OP_SPI_TIC_READ = 0x4,
+> +	THC_PIO_OP_SPI_TIC_WRITE = 0x6,
+> +	THC_PIO_OP_I2C_SUBSYSTEM_READ = 0x12,
+> +	THC_PIO_OP_I2C_SUBSYSTEM_WRITE = 0x13,
+> +	THC_PIO_OP_I2C_TIC_READ = 0x14,
+> +	THC_PIO_OP_I2C_TIC_WRITE = 0x18,
+> +	THC_PIO_OP_I2C_TIC_WRITE_AND_READ = 0x1C,
+> +};
+> +
+>   #endif /* _INTEL_THC_HW_H_  */
 
-Unnecessary change.
-
->   	resctrl_mounted = false;
->   	kernfs_kill_sb(sb);
->   	mutex_unlock(&rdtgroup_mutex);
-> @@ -3871,6 +3920,8 @@ static int rdtgroup_mkdir_mon(struct kernfs_node *parent_kn,
->   		goto out_unlock;
->   	}
->   
-> +	rdtgroup_assign_cntrs(rdtgrp);
-> + >   	kernfs_activate(rdtgrp->kn);
->   
->   	/*
-> @@ -3915,6 +3966,8 @@ static int rdtgroup_mkdir_ctrl_mon(struct kernfs_node *parent_kn,
->   	if (ret)
->   		goto out_closid_free;
->   
-> +	rdtgroup_assign_cntrs(rdtgrp);
-> +
->   	kernfs_activate(rdtgrp->kn);
->   
->   	ret = rdtgroup_init_alloc(rdtgrp);
-> @@ -3940,6 +3993,7 @@ static int rdtgroup_mkdir_ctrl_mon(struct kernfs_node *parent_kn,
->   out_del_list:
->   	list_del(&rdtgrp->rdtgroup_list);
->   out_rmid_free:
-> +	rdtgroup_unassign_cntrs(rdtgrp);
->   	mkdir_rdt_prepare_rmid_free(rdtgrp);
->   out_closid_free:
->   	closid_free(closid);
-> @@ -4010,6 +4064,9 @@ static int rdtgroup_rmdir_mon(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
->   	update_closid_rmid(tmpmask, NULL);
->   
->   	rdtgrp->flags = RDT_DELETED;
-> +
-> +	rdtgroup_unassign_cntrs(rdtgrp);
-> +
->   	free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
->   
->   	/*
-> @@ -4056,6 +4113,8 @@ static int rdtgroup_rmdir_ctrl(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
->   	cpumask_or(tmpmask, tmpmask, &rdtgrp->cpu_mask);
->   	update_closid_rmid(tmpmask, NULL);
->   
-> +	rdtgroup_unassign_cntrs(rdtgrp);
-> +
->   	free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
->   	closid_free(rdtgrp->closid);
->   
-
-Thanks.
-
--Fenghua
