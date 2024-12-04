@@ -1,48 +1,60 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B7BBA2D;
-	Wed,  4 Dec 2024 01:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5012500BA
+	for <linux-doc@vger.kernel.org>; Wed,  4 Dec 2024 01:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733274074; cv=none; b=sfqt1+dDuHgtNc5j1kjY7B5cCb7Ir7wqNZcOOKAiocBjwLEBHHHPUMKo1lxANmRyvhygSRwiieR3RZuCuSMDUwThQ20PLmLsNZGf9ZXj0VU91rF4MoazMLOBkRXGD5RL7BHnjK0TZXRl1R26Wx/fasBU4jZ71zSFbM7o11XDctA=
+	t=1733274421; cv=none; b=OQe+rgCwj74mVI9wFeOMkNvH/qJKia14H8koIVfSzuX5n5X/TeTBtX41kjNiyfNxUMINunsvX6/wFUTGbtoSgB27n2NCDdKpqjH3MHgHMuyCR1jJPHC8hkzZ6CBX/Z4FUX86km7cKllBRjQjNIAfItfoaAYAp5Ul/oYOIM8Ja3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733274074; c=relaxed/simple;
-	bh=Hzl8DN+o51/qaLp8AD41FS/ysNvwP/zYvaAZCXYJ9qE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gqCp6O1fbYlzWePfWRxGhV7tmlhPQiZJ3XjZ5uLS27bBiCziJ4V5m4NBCvV9FJQ4U5HO+lsbOhQVe6iY0h+WrLI37Hsld/Odh1VglJGFdqnILGB9VCQirVRgzq7DFmDU1sDUta+2nuoNfr/a2+UnhXhDUFMJLZLobiGrBujAL68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eeRnuw8w; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733274421; c=relaxed/simple;
+	bh=MC7AljCRogbPP7nv98cOsHc26oZBN/K1ecZLTmoeVsw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FD5ib51gM87H9B2qCUyoQeFXpTH97bTKy/X4ywhhAKUBeJM8g4xhDkUaPVLvQEyYNei3BOlpdpz+GYbt4nSbp0/dL+owfM3zHNPAsgA2ylt+ri8C/O4o3MLQ5GA2ncN23X8Y/kmbfIkshDbuckL8EIm1JgreevhlTQb4H3vTyv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=B05DU6Hq; arc=none smtp.client-ip=209.85.166.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eeRnuw8w"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B3HKxKn017944;
-	Wed, 4 Dec 2024 01:01:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+x0MzlGg5qJKvxLqim39PFmDlyz7QqBnshG523g4NTY=; b=eeRnuw8wZ/EbPbY/
-	gGd4xMCXL9ZlNB7vs6OMf5yajWPijZ4pqBY5GxCaHY2ab85dLBMJJdDw2nelHTuL
-	NUlMIQry05luKi15Yvsqd9e9AMkKEYeOXk+Jw7ZrYAM+ueBP7JAG8c2yp5rLum8U
-	ku6ePr+kutjgXgJM7pmtYBjSRn3UMBX6Hn73dfRG4ii0ucw8Q9Qhfy8uK3kDjwhy
-	GTzW5s0FqmWRUycgSc8z6M3kIlphc6U202iqWm1scGHa5RcBWVPAxkdVPE1kqkit
-	6f8gIn3x59LsyLZYNzeMSunaJJqa77vpQK8JhEBjiB9Tp1h0YEgF/pQLsAajSM9u
-	zpXhAg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437tsthsjs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Dec 2024 01:01:05 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B4114jr024202
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 4 Dec 2024 01:01:04 GMT
-Received: from [10.4.85.39] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 3 Dec 2024
- 17:01:01 -0800
-Message-ID: <e9c048b1-6027-46a5-afc3-d8a964a0fdce@quicinc.com>
-Date: Wed, 4 Dec 2024 12:00:58 +1100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="B05DU6Hq"
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3a75eaaab59so1622445ab.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Dec 2024 17:06:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1733274418; x=1733879218; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=B+Jz/Q6nlrwZViX03mS36dj9lZ7L1D6LvW4jUlY+Okc=;
+        b=B05DU6HqnqBBJLf6glsXGpUEC92uhrH7rTNlFwJfRapv3NrWeod43g/BUjrNg84P8a
+         UwKM2humEP6TCRRRxAvyhDzeVMAApYgs4PWYps3vEjcATqARIqJEZgKYMw40wMz9IRqC
+         0NX4n20/MnnErBNMyKCu01gLZag2vVDpdF/xA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733274418; x=1733879218;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B+Jz/Q6nlrwZViX03mS36dj9lZ7L1D6LvW4jUlY+Okc=;
+        b=iaDeZSwqZcaC+iRU+1hXI+HoI3nHAM/48L8RVj843iuqHpdjqHGbBG7tMuB16BP9gT
+         rqnu3G/4UinBuCp4b4UzHAIRDhdosOvIX2Wdh8itBnNNlrKst61odpFqUvzPrBcy3mC6
+         a2AzHZ6JgLu8DKvAvuY6Bqt9tKbmZJvbeTHUBVYI7jpiyAktste5lfWpiSror8033ocq
+         H1rpqJ9BPwrYfId3qbNWEybrY3/JrRen+cW4HzPucW8hBsZUzQeDcwoFanEIKg8uJBF+
+         lwFrdnNEWIDqVb5G0hQWRYjRXZC9KdpYcgjLIjQ7QMTqNMyUROooq0J4r+WNRS6ZVEmB
+         IzHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXaO8IxKfIjoDiN4Y+tpgq083gEiBaXq/vyzr21fUL/ZjkqI2Ygd1lk16xtbJFRi+d9utUSo9hOv7g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFd+/0bZin7zvITky6JyU7lxo+h9IyZqzxG17o52eI98qDDi2q
+	qO9NgrLw/tD8jtKSDhE+C/zmK+d2rbC9fid6/WJYAS/qEzKHr40lKQAIp8GvRWU=
+X-Gm-Gg: ASbGncsPYH3jeWOwqANkeVhFvC1Ghe82iNAbqIW4HDkFnlKzdC1ODhqOthhjmuahaiZ
+	Bqjxn6d/vWJMpGKDvD5uaDi7e9URZekgH4VBDZAgXI05k6SG7HNbqaCamMWSZt4DrszWJcETHL9
+	UynR6CzJA5nEYB6ISrfSm86fs+xA9hKiYMhXP8WKCxOa4FaThcOU66Vtf8Q3JRkHhSrlejkTXJs
+	EFFN1T4WU2qsh6Y4p5LpyLqApxHBBsR3IDl+Rucsus+0oidEY2NskQLy3GvzA==
+X-Google-Smtp-Source: AGHT+IFF+W8l62dy02x+rstW26StonwY7Oe2+iYejLd+cAhPUZAboveR614K5+yughF75bXFV6i5tQ==
+X-Received: by 2002:a05:6e02:1c2a:b0:3a7:ea2e:3992 with SMTP id e9e14a558f8ab-3a7ea2e3b09mr117670445ab.3.1733274417755;
+        Tue, 03 Dec 2024 17:06:57 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e230da8ea7sm2809030173.32.2024.12.03.17.06.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 17:06:56 -0800 (PST)
+Message-ID: <e6b160f0-88f8-415a-9734-2ba659619688@linuxfoundation.org>
+Date: Tue, 3 Dec 2024 18:06:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,69 +62,42 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/10] arm64: dts: qcom: sm8650: add support for QTEE
+Subject: Re: [PATCH v3 DONOTMERGE] docs: clarify rules wrt tagging other
+ people
+To: Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info>
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Jens Wiklander
-	<jens.wiklander@linaro.org>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Bjorn
- Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor
- Dooley <conor+dt@kernel.org>,
-        Bartosz Golaszewski
-	<bartosz.golaszewski@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>
-CC: <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
- <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-9-f502ef01e016@quicinc.com>
- <11038b0c-e9f7-46ce-bd7f-2d763db230cb@kernel.org>
-From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-In-Reply-To: <11038b0c-e9f7-46ce-bd7f-2d763db230cb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: wxQHQWHbhpBqwGRmWWJnZO0zdztZN8h9
-X-Proofpoint-GUID: wxQHQWHbhpBqwGRmWWJnZO0zdztZN8h9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 spamscore=0 impostorscore=0 mlxlogscore=922 mlxscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 adultscore=0 clxscore=1011
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412040007
 
-
-
-On 12/3/2024 6:59 PM, Krzysztof Kozlowski wrote:
-> On 03/12/2024 05:19, Amirreza Zarrabi wrote:
->> Add qcom_tee node.
+On 12/2/24 01:14, Thorsten Leemhuis wrote:
+> Point out that explicit permission is usually needed to tag other people
+> in changes, but mention that implicit permission can be sufficient in
+> certain cases. This fixes slight inconsistencies between Reported-by:
+> and Suggested-by: and makes the usage more intuitive.
 > 
-> Why? "What" we see from the diff. Stop repeating subjects, but say
-> something useful. This applies to all your patches.
+> While at it, explicitly mention the dangers of our bugzilla instance, as
+> it makes it easy to forget that email addresses visible there are only
+> shown to logged-in users.
 > 
-> Anyway, your driver and binding say that this is just a fake node used
-> purely to instantiate the Linux driver. Drop the patch.
-> 
+> The latter is not a theoretical issue, as one maintainer mentioned that
+> his employer received a EU GDPR (general data protection regulation)
 
-Hi Krzysztof,
+Thank you for taking care of this.
 
-Thank you so much for your comments. I totally understand.
-I'll remove the fake node.
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Best Regards,
-Amir
+thanks,
+-- Shuah
 
-> 
-> Best regards,
-> Krzysztof
+
+
