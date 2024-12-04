@@ -1,112 +1,82 @@
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770131B5823;
-	Wed,  4 Dec 2024 11:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DB08827;
+	Wed,  4 Dec 2024 13:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733312706; cv=none; b=Pi+tKATd676NEsQJmeXSdRurOrVNzSzbc5i+UsVzoCRi34tINvLFhHsGLZZGINUryFFTWVr3PIVMiQ59qP61OeFgsdk5xncw863uHyNpM6X4u7tOxMCLeVCGgfQ1dhJWs8QqoMtMKl+IsvmiUZfYh2wmalJIZjtM2v94+F7Dsi8=
+	t=1733319811; cv=none; b=UQCu0vJrTBXvOr8WwUXLj+BOZAm7Pojsnwpw3ENQL6W8DBkr66lYRylmLd6j1yJL0BhEOHIPGzlL3XTm1NUqeRuoLA3QGXnAsHJtqePETleC1I9GpFI9bpQSdBCh/bcVnA1LJGPN/sZsD1+osCRqdydnol7TLl8/lgKjjOGP9nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733312706; c=relaxed/simple;
-	bh=RovnKJv9VRPyPnU6oCFtT0/JKYl0c6u9fgdt5vqnjFo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UW864qbg1OhK00LvapLmjBnrztTn16wGusC/2C8KUDVRQMHoTxte4dFz6iwimtBSU1XNJizlvI6IdX2XdVDd3z12GKLVflceFjv2lYqgcOlqPmEQFBbdRYmLMhWZd9YdpzwysvADPK1giuZW2NMYO/e3Tk8LH/H0mLDBMwCyAP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yz90akPk; arc=none smtp.client-ip=209.85.166.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733319811; c=relaxed/simple;
+	bh=R8NnzOD7JNZldivMHQfAB8tX/PLuUz0jZaal8sPcNtU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nFlOVJid0mVdBpZNSm2IZDQvz5377KlX8A4tI5zApR3PYT8OTbH/suchDD2lZgBv44p9dpNMoV3g0PqoVBxfGBFL41YDpfAz+QOkx3YodjnrM6RTWAw2tyUnMQ7HSnfV69dEdIubT0k4fIbxn2dMurn+cPD52B8XkSOL6mnQ5PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DWaz5Bkn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yz90akPk"
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-843e9db3e65so28157739f.1;
-        Wed, 04 Dec 2024 03:45:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733312703; x=1733917503; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MP1IFoCtUECa7auIxqrxM0e+TZCBmVEADW+5Kskf1Ng=;
-        b=Yz90akPkKaXHYw88Y999XmsuzILOOqPWs8HvpG6uEC52z+42LrEPDB9Q8uAux9mQge
-         ih4vArCsJ3Cv5LypNzEYa9GCcxNTuFt/w8/Xs4nX5Sz2KZNmgkzSz7z80igy+J1raO6d
-         6BEYipjEX7MGouJjCmsZD/fHA1X/nzrMl+m2ALeVlHlOBWfHb9s9Hr5uUZ8f/DHRGdlW
-         +dE1ln4bdgf2jzrLThM9KgmkZ6gAACuxCIbK1jbm/tMErqL97B/blONgiF4Vt8TBvKiR
-         rYCLzao2vVXU/CmriKSobSq/27wOMWnihicMRwL6b+ccdpGTLjKIuEbkvTiH8HZzXi7/
-         G6gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733312703; x=1733917503;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MP1IFoCtUECa7auIxqrxM0e+TZCBmVEADW+5Kskf1Ng=;
-        b=cDgnLfI/RWvCbllEvoRysipzmiXt2FM4SoY8nMUFxmrwJfOxFDSU7WlOGyTbBapWm/
-         hIRNC7gr4lhYNaV75TKGi0xMTHm948pEgwHq8Ryo9epFhUE2ySGiMGPf4PZraMYydbpy
-         kXHQYjPpsAWAUGy9yKoSjH1Qy6YmiuaMej1saKapE8s2sz+/dC1kNraLPD3wh++L0Qaj
-         9spA89V60A67OqdTMkdg0RoJnnC68wZcJD13/Qxiv+mYbnChIl2sMSxzyPYI9WiFJTxi
-         5fcXrq92ZNUZUNPM3PlBfe6WKWBbhmaI5kOZCUXKRN0H9Kh14w74lfOa7xPTV+RNukxD
-         ljGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUHCpxxlSe1odCxToZN/IeoH5xzsSop8TUVu7/Vw+5Ifyv0hTxhCJmIANjAT2sSiGtyzyo6lXomQek=@vger.kernel.org, AJvYcCXVE2ybYktZPxjl5buiyZO5ljE4U56Qpx7zjid07z5YRfb5aN/Ef/uzjnU+N1xjxi/sTKp8Bq2bzITsN5J2@vger.kernel.org, AJvYcCXeXKIziQDPBs0jKLlWd1lg/wsxHfu15dYLQHj3njHcTDAeJTaeSDe76I9KldBSKAR7A1+uWhZefA3ujzk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzbC19MZp2mYs8yiWa5PnzHEUIvR6ZTTQDR6fi8DlPQggYeZFk
-	4jUAZ/Nk3WSVY3Dd+BTaRnjbUhHXjnmaC8zcq+uqEJNymFGbySGXiz8/w07H0FDl/PUZCwLo2Gs
-	Mi0BBOEL5IN4Fs50DDRA1VEwQ7RI=
-X-Gm-Gg: ASbGncvAv4uhwpNm2N0FQAqGxRWyQDuu/QJTr6kjdmEp+/lEyRynYzYCQA48yn5GvgM
-	bNXTpkUshUQi0MuGD5XgI9lEqTRs=
-X-Google-Smtp-Source: AGHT+IEBt7Y3AoZe/E0djwwPsqCvw+zc0j5mZ94vDNVDO8XiK/PLM3XziwSPyrI6XblnANThkNiK/yHMr86Yy1Wou6s=
-X-Received: by 2002:a5e:a60d:0:b0:841:9225:1f56 with SMTP id
- ca18e2360f4ac-84401589d4amr2255415639f.3.1733312703542; Wed, 04 Dec 2024
- 03:45:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DWaz5Bkn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4573C4CED1;
+	Wed,  4 Dec 2024 13:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733319810;
+	bh=R8NnzOD7JNZldivMHQfAB8tX/PLuUz0jZaal8sPcNtU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=DWaz5BknugmXJa1L9oLaDxnb2e5o2Z7cGn3bwnI1aZNEg9OATozXbe3OARvF9CXO+
+	 ZmsImDChURizGvV1SwgHqTDiYxA4YBH6U52kmgslhGIolm9Y+wgiW3dQyoD3VyLb7l
+	 x40c07+9U5NeodxZfVot30r38bw7WWGnygYcozwEBLhxsdORWYMmauGAte2/7c3Cli
+	 C87F1kXGYSf6yHGpbeAaIci/DQf+0zfoTKhjA+TN8F0a3n5h5Xy5sEdF+XanjfKcY4
+	 AaMeG6nf2+SkkVVvcedVzuVcOMFsMGfPIMaSbqh5nI1L89E6AkIykEdRvt7JkFnRvM
+	 jqMCMlhPIcuGQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1tIpf6-00000004ebt-3HxX;
+	Wed, 04 Dec 2024 14:43:28 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH v4 1/5] docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
+Date: Wed,  4 Dec 2024 14:43:02 +0100
+Message-ID: <8f663390c31d6c0c7acec3f39a4a7bf334a01309.1733319659.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1733218348.git.mchehab+huawei@kernel.org>
+References: <cover.1733218348.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241201034803.584482-1-yanhuoguifan@gmail.com> <20241201034803.584482-2-yanhuoguifan@gmail.com>
-In-Reply-To: <20241201034803.584482-2-yanhuoguifan@gmail.com>
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-Date: Wed, 4 Dec 2024 12:44:52 +0100
-Message-ID: <CAB95QAQLh3mnfWxB9rnsAzNQ+e43=2xZNP3h4HcWY7jYQ8Yi_g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] hwmon: (asus-ec-sensors) AMD 600 motherboard add
- support for fan cpu opt
-To: Li XingYang <yanhuoguifan@gmail.com>
-Cc: jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net, 
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-LGTM.
+The media profile documentation will point to kernel.org sign.
+Add a link to it.
 
-Best Regards,
-Eugene
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-On Sun, 1 Dec 2024 at 04:48, Li XingYang <yanhuoguifan@gmail.com> wrote:
->
-> Refer to the LibreHardwareMonitor project, LibreHardwareMonitorLib/
-> Hardware/Motherboard/Lpc/EC/EmbeddedController.cs file,
-> fan cpu opt is support by amd600 EC.
-> the registers are described:
-> BoardFamily.Amd600, new Dictionary<ECSensor, EmbeddedControllerSource>
-> {
-> { ECSensor.FanCPUOpt,  new EmbeddedControllerSource
-> ("CPU Optional Fan", SensorType.Fan, 0x00b0, 2) },
-> }
->
-> now add the FanCPUOpt support for amd600
->
-> Signed-off-by: Li XingYang <yanhuoguifan@gmail.com>
-> ---
->  drivers/hwmon/asus-ec-sensors.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-> index 9555366aeaf0..381bf117104f 100644
-> --- a/drivers/hwmon/asus-ec-sensors.c
-> +++ b/drivers/hwmon/asus-ec-sensors.c
-> @@ -250,6 +250,8 @@ static const struct ec_sensor_info sensors_family_amd_600[] = {
->                 EC_SENSOR("Water_In", hwmon_temp, 1, 0x01, 0x00),
->         [ec_sensor_temp_water_out] =
->                 EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
-> +       [ec_sensor_fan_cpu_opt] =
-> +               EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
->  };
->
->  static const struct ec_sensor_info sensors_family_intel_300[] = {
-> --
-> 2.47.1
->
+Patch resent, as linux-media was not on its Cc list.
+
+
+ Documentation/process/maintainer-pgp-guide.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+index f5277993b195..795ef8d89271 100644
+--- a/Documentation/process/maintainer-pgp-guide.rst
++++ b/Documentation/process/maintainer-pgp-guide.rst
+@@ -903,6 +903,8 @@ the new default in GnuPG v2). To set it, add (or modify) the
+ 
+     trust-model tofu+pgp
+ 
++.. _kernel_org_trust_repository:
++
+ Using the kernel.org web of trust repository
+ --------------------------------------------
+ 
+-- 
+2.47.1
+
