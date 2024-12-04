@@ -1,108 +1,160 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9081F541D
-	for <linux-doc@vger.kernel.org>; Wed,  4 Dec 2024 23:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C725202C4F
+	for <linux-doc@vger.kernel.org>; Wed,  4 Dec 2024 23:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733353663; cv=none; b=gnyo0ConPe3W7ZK6H4mkvytSuhHepxyHjdCxy/rSE9Ruxf2mi/FGVCgGwOwdSJp+UztYdOSgM2F7R6G4zWWPOgREh2PXyHjwkBzM8peesPIwLRwMU2jSqng9qPUWKkNbcsDeuLOOW86lD2PGLuChSn19/5S2fXYINc0vBZ1wHkw=
+	t=1733353666; cv=none; b=Tvi/BbGe5xOG3K7J2K0cW6ZzSfKPhccq/BcpFoD9VxrlP8VHONHAR/L7GEoZUbwCZOezc9cqAr4cv9+CKkUigPt2ET7cljigDTU/RxfCiuOD6kKaEIAGQ4tX0PU/0Mi9loRPM0W1Oq1IO9Q2yhQBg/92TLnAsrk5QDdhFh1ghCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733353663; c=relaxed/simple;
-	bh=qNj1yw5cwuK310Hud/aNqTEbGoEkUBx/cyZRJ9/mwlk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HGpQ10BjT0Ge+p1bUQQjrglYCrnoJ/GH3Jt+o0fN3JTmSLoJ/DybGsrwZmOj5eOEzK2mCZ6t/UJN09wUkjdlE2uB2nvECVxgAIM2+6icA9YNM1fVE5ZxiDSDwoeIaZcGv5YmwMFAmnTnnQdlhl42Gem8m+qDA0r8DYB8Vr2LSRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xk1r79Rj; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1733353666; c=relaxed/simple;
+	bh=dp6g/Bz2+KGQRtp1f56uI+qAkNeYW1oxVHGPNZWp3Qk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r/PQ6hKaI14SPyIXlYrcRqurqqEWpK7YX3Z5dFBURaY4qoRZX48a6wcTwAp2cKUzhfOPUu5uBdiXcQXZq/enTxosGGRf5YGcwCK0Pub8sQm6PaxJh4Wa87Ik4tT76CbgOAd6rPcqpd/rCcAwKmIKThVff4HVTN/ohxSqXhisQe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BkA4YIg3; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xk1r79Rj"
-Date: Wed, 4 Dec 2024 15:07:27 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1733353658;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BmRuvCEl+afeDDoFH+S4Ae7biN9cmirFzO8povIhSlU=;
-	b=xk1r79Rje9lKH6Gxehv7Myok+SqBGaILt9N1vHxuCICfEcxyKTF+uj/5FJp++2mvkSZ0Oe
-	dmE/wZBmxgrtmkSEAoa/27/kNUUZHboEzkpcwY+yvUQvkXDeySUVhY/vfWptdCso/3Zca7
-	r2bcl0ynh2WdL4KV0CjZUT2HyksinF4=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: James Houghton <jthoughton@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Yan Zhao <yan.y.zhao@intel.com>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Anish Moorthy <amoorthy@google.com>,
-	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>,
-	David Matlack <dmatlack@google.com>, Wang@google.com,
-	Wei W <wei.w.wang@intel.com>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v1 06/13] KVM: arm64: Add support for KVM_MEM_USERFAULT
-Message-ID: <Z1Dgr_TnaFQT04Pi@linux.dev>
-References: <20241204191349.1730936-1-jthoughton@google.com>
- <20241204191349.1730936-7-jthoughton@google.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BkA4YIg3"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53e203d77a9so316076e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Dec 2024 15:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1733353661; x=1733958461; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CGqvSPZ3QIpZsykiZguhFk0cjVECVeKJ3q4DQqsIrHY=;
+        b=BkA4YIg3k16PdfIpiJdFMKg0jhpxajxcV8CdDwVIE35bknfmYcIlPUZstY6k0c5tmp
+         BXvoP9pYen1WcHaUhvXZABcMP/su6GRLfblHbi6LA8nBlWpmmy1JsZNIFswFF/3eBFEz
+         2GvpztQiU7TlfVY5NVPeVx4PwrIjPFxVBSSKo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733353661; x=1733958461;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CGqvSPZ3QIpZsykiZguhFk0cjVECVeKJ3q4DQqsIrHY=;
+        b=q+ZeBTPTEZZ6ae7jeBQ0OIsZ3ywo1axBIbX30SieiK662eeyZcWtDflNbWE5EojfDN
+         491lPAlMs2OyvVOSO5xtm2yToafIkc8V5ZKfy/QW3TAZ50HXtNTcH8LT2gqcMqQcX83I
+         blsrqTkzI3Hn2xrCAFLjbuykasZU4p7t8Ays7O/dqWSWqUuPOwGq5+Sm2i4pUQj/43Wx
+         quZW7OwMj/laJEvo17uBRQp+/N+TJnlSo9BPjP27F802shrhxZ1zo8PZO1FE83fB+nqZ
+         WheOGUrHGWg5wfLXEUbiRQrJONwFInaaqZYCaT/rJ1oYUMCVuHOc/XXlUvw75FEFiWsD
+         U+Vw==
+X-Gm-Message-State: AOJu0YzuDj5BTDXyMkZnENuxdMeVkR+5vwMxfg1Yc4E1IrdVHVwyd50Z
+	0nR/7TqzoxPkNdHtP8gyvsDkPI7ObCkMXmLIokBWTGOFDmccl+cxMSbuLhIl4b18rzGDYGMWM7Z
+	t5yon
+X-Gm-Gg: ASbGnctRhCOFIelonG9S1Cxl8YDj6mUtWhR5xYLBZLgljoLZ3tj6QYWGKRPoLMs+O04
+	MmqPxtsD7gtAzYa6iOVjwzzoSfpa8LBqz9Z3WrIRgGzCiOvtbHfTH3+p7NnkmOcQkCnft4NwD5Z
+	U/LqZqT7lkCZOJ7BkBK0AxnzTk6HET1QQb44dgoAV37FsqelhbR060Mw7uNFLJe3FFEhwcQ0DAZ
+	/rVZ80e0cUaSogh6ahfqAWax/J65hDOVFio5l30NR+Al9Pi3iozN7+8xx55S/jzBgJKd0HAzwOR
+	4Fe8sMmaCYzD8g==
+X-Google-Smtp-Source: AGHT+IFmx7NpDfaiX2dPyXgDgHSOhl0UtmGUIzfZtJPoIYvs5gE+vz8RkDk6Eyry7eyzbm3xW8CjCw==
+X-Received: by 2002:a05:6512:b9c:b0:53d:f716:1e4d with SMTP id 2adb3069b0e04-53e216fb0damr342900e87.7.1733353661012;
+        Wed, 04 Dec 2024 15:07:41 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e22947b40sm31257e87.50.2024.12.04.15.07.39
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Dec 2024 15:07:39 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53e203d77a9so316046e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Dec 2024 15:07:39 -0800 (PST)
+X-Received: by 2002:a05:6512:2392:b0:53d:f73c:d630 with SMTP id
+ 2adb3069b0e04-53e21702ca6mr365280e87.14.1733353659083; Wed, 04 Dec 2024
+ 15:07:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241204191349.1730936-7-jthoughton@google.com>
-X-Migadu-Flow: FLOW_OUT
+References: <20241204221720.66146-1-rdunlap@infradead.org>
+In-Reply-To: <20241204221720.66146-1-rdunlap@infradead.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 4 Dec 2024 15:07:27 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WhQFxUNr6vyMVBn9CmZPnnntDP2nH=Tp1Rm=xH+YsE2w@mail.gmail.com>
+Message-ID: <CAD=FV=WhQFxUNr6vyMVBn9CmZPnnntDP2nH=Tp1Rm=xH+YsE2w@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: move dev-tools debugging files to process/debugging/
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, Jonathan Corbet <corbet@lwn.net>, 
+	workflows@vger.kernel.org, Jason Wessel <jason.wessel@windriver.com>, 
+	Daniel Thompson <danielt@kernel.org>, linux-debuggers@vger.kernel.org, 
+	kgdb-bugreport@lists.sourceforge.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi James,
+Hi,
 
-On Wed, Dec 04, 2024 at 07:13:41PM +0000, James Houghton wrote:
-> Adhering to the requirements of KVM Userfault:
-> 
-> 1. When it is toggled (either on or off), zap the second stage with
->    kvm_arch_flush_shadow_memslot(). This is to (1) respect
->    userfault-ness and (2) to reconstruct block mappings.
-> 2. While KVM_MEM_USERFAULT is enabled, restrict new second-stage mappings
->    to be PAGE_SIZE, just like when dirty logging is enabled.
-> 
-> Signed-off-by: James Houghton <jthoughton@google.com>
+On Wed, Dec 4, 2024 at 2:17=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
+>
+> Move gdb and kgdb debugging documentation to the dedicated
+> debugging directory (Documentation/process/debugging/).
+> Adjust the index.rst files to follow the file movement.
+> Update location of kgdb.rst in MAINTAINERS file.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: workflows@vger.kernel.org
+> Cc: Jason Wessel <jason.wessel@windriver.com>
+> Cc: Daniel Thompson <danielt@kernel.org>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: linux-debuggers@vger.kernel.org
+> Cc: kgdb-bugreport@lists.sourceforge.net
 > ---
->   I'm not 100% sure if kvm_arch_flush_shadow_memslot() is correct in
->   this case (like if the host does not have S2FWB).
+>  Documentation/dev-tools/index.rst                                       =
+| 2 --
+>  Documentation/{dev-tools =3D> process/debugging}/gdb-kernel-debugging.rs=
+t | 0
 
-Invalidating the stage-2 entries is of course necessary for correctness
-on the !USERFAULT -> USERFAULT transition, and the MMU will do the right
-thing regardless of whether hardware implements FEAT_S2FWB.
+After applying your patch and doing `git grep
+gdb-kernel-debugging.rst`, I still see several references to the old
+location. Those should be updated as part of this patch, right?
 
-What I think you may be getting at is the *performance* implications are
-quite worrying without FEAT_S2FWB due to the storm of CMOs, and I'd
-definitely agree with that.
 
-> @@ -2062,6 +2069,20 @@ void kvm_arch_commit_memory_region(struct kvm *kvm,
->  				   enum kvm_mr_change change)
->  {
->  	bool log_dirty_pages = new && new->flags & KVM_MEM_LOG_DIRTY_PAGES;
-> +	u32 changed_flags = (new ? new->flags : 0) ^ (old ? old->flags : 0);
-> +
-> +	/*
-> +	 * If KVM_MEM_USERFAULT changed, drop all the stage-2 mappings so that
-> +	 * we can (1) respect userfault-ness or (2) create block mappings.
-> +	 */
-> +	if ((changed_flags & KVM_MEM_USERFAULT) && change == KVM_MR_FLAGS_ONLY)
-> +		kvm_arch_flush_shadow_memslot(kvm, old);
 
-I'd strongly prefer that we make (2) a userspace problem and don't
-eagerly invalidate stage-2 mappings on the USERFAULT -> !USERFAULT
-change.
+>  Documentation/process/debugging/index.rst                               =
+| 2 ++
+>  Documentation/{dev-tools =3D> process/debugging}/kgdb.rst               =
+  | 0
 
-Having implied user-visible behaviors on ioctls is never good, and for
-systems without FEAT_S2FWB you might be better off avoiding the unmap in
-the first place.
+Similarly `git grep kgdb.rst` still has several references to the old locat=
+ion.
 
-So, if userspace decides there's a benefit to invalidating the stage-2
-MMU, it can just delete + recreate the memslot.
+>  MAINTAINERS                                                             =
+| 2 +-
+>  5 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/=
+index.rst
+> index 3c0ac08b2709..c1e73e75f551 100644
+> --- a/Documentation/dev-tools/index.rst
+> +++ b/Documentation/dev-tools/index.rst
+> @@ -27,8 +27,6 @@ Documentation/dev-tools/testing-overview.rst
+>     kmemleak
+>     kcsan
+>     kfence
+> -   gdb-kernel-debugging
+> -   kgdb
+>     kselftest
+>     kunit/index
+>     ktap
+> diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documenta=
+tion/process/debugging/gdb-kernel-debugging.rst
+> similarity index 100%
+> rename from Documentation/dev-tools/gdb-kernel-debugging.rst
+> rename to Documentation/process/debugging/gdb-kernel-debugging.rst
+> diff --git a/Documentation/process/debugging/index.rst b/Documentation/pr=
+ocess/debugging/index.rst
+> index f6e4a00dfee3..bc4a816e3d32 100644
+> --- a/Documentation/process/debugging/index.rst
+> +++ b/Documentation/process/debugging/index.rst
+> @@ -12,6 +12,8 @@ general guides
+>
+>     driver_development_debugging_guide
+>     userspace_debugging_guide
+> +   gdb-kernel-debugging
+> +   kgdb
 
--- 
-Thanks,
-Oliver
+Should the list above be kept alphabetical. The list you removed these
+entries from was _almost_ alphabetical...
