@@ -1,99 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxde.zte.com.cn (mxde.zte.com.cn [209.9.37.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BAA746E;
-	Wed,  4 Dec 2024 01:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454C217C61;
+	Wed,  4 Dec 2024 01:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.9.37.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733274498; cv=none; b=ocXZdXdSibFV7ptr9QVSX89UHGbGjkRFge36aINqjWmpFT/h97vxEAHkT4cPdahmUrViGsGPnPavtoGnco0yin5a8s8nrSF7qggzMT9LWI1MdFPAzmvPFCUSMz59xRrjWZum8LdtoPq+pEhmT3V+pj7MQHmCLob88+6mabaf21A=
+	t=1733276630; cv=none; b=DE//+e6on12jx3l0K6lJj3ZtH2LnLpuUod02b0JPNgjIyWv36DCn6xqZ98qjHR0XFm9OoADGMIFCqsZ5u559x+XWprVNwY6EXj2lQ2KbppQostoPrRGbiMjU6biy/iFX0C7GRilL+4+QYKFEv+Kq0vmV2mvjeHHsqwo/RewgNYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733274498; c=relaxed/simple;
-	bh=TuK+zEY04Pna6GnArvAcVVhsaISvVxq23m/8Ez9++yA=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Mlbk1H+rse7NqlXCW3/cBS8+6nI8rA6pz8jhC1GDxOw00TBsOK7c/SlIhBl/Fk8iqb8zuV6Tv10usP1pfRXcRhCaOfj1sb6NEiMmRbRFn+kkpJ5JcFsVnscKu3r0fIgRDLfxdU5Ghz7iCCBvz0JzDtWUo3+rkA9hWYutZVgfF6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=0C38Fejy; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="0C38Fejy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 769BBC4CEDC;
-	Wed,  4 Dec 2024 01:08:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1733274498;
-	bh=TuK+zEY04Pna6GnArvAcVVhsaISvVxq23m/8Ez9++yA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=0C38FejyFWntdFzurye3Ptv78WQkibel8t059iY353tBNabNrhDptyQ80YkxDqQDG
-	 Mq8lv+iEW00ZWlBg9911g3qDE64P7mVWyihvClRXZl6aS9wkrXgVx372F99Ixxpn0H
-	 ispIKjuxzfy0Ko6MyZPXPMa1nyxVhFfFN3Q7I91w=
-Date: Tue, 3 Dec 2024 17:08:16 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: <jiang.kun2@zte.com.cn>
-Cc: <bsingharora@gmail.com>, <david@redhat.com>,
- <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
- <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
- <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>,
- <ye.xingchen@zte.com.cn>, <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>
-Subject: Re: [PATCH linux next] delayacct: add delay max to record delay
- peak
-Message-Id: <20241203170816.3fe81941fe1866ca1672eba8@linux-foundation.org>
-In-Reply-To: <20241203164848805CS62CQPQWG9GLdQj2_BxS@zte.com.cn>
-References: <20241203164848805CS62CQPQWG9GLdQj2_BxS@zte.com.cn>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1733276630; c=relaxed/simple;
+	bh=CKWsZb2yT8hh1m0dbBSisGGIc5ULADabbjpPZnjoPVc=;
+	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=bYFd7GEBFqIxhb9EgNwxAWVs0F2Y+lbYQT6mJ8IpXJaFGUnmuJbpbjzMICyAIbsSdxdVhLtkRqwUeG7Q/76Caa3yyuxGuROrKLIBT4UYuSRXVpXIgFAYRhJJFQvnUeXPIimcdbSNwiEAVXsI984+0tGhUtzoA+QSKiE+1nIkWPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=209.9.37.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mxde.zte.com.cn (FangMail) with ESMTPS id 4Y30fg5pgTzBRHKW;
+	Wed,  4 Dec 2024 09:43:39 +0800 (CST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4Y30fW0MXQz5B1Kq;
+	Wed,  4 Dec 2024 09:43:31 +0800 (CST)
+Received: from szxlzmapp05.zte.com.cn ([10.5.230.85])
+	by mse-fl1.zte.com.cn with SMTP id 4B41hJ29026879;
+	Wed, 4 Dec 2024 09:43:19 +0800 (+08)
+	(envelope-from yang.yang29@zte.com.cn)
+Received: from mapi (szxlzmapp05[null])
+	by mapi (Zmail) with MAPI id mid14;
+	Wed, 4 Dec 2024 09:43:21 +0800 (CST)
+Date: Wed, 4 Dec 2024 09:43:21 +0800 (CST)
+X-Zmail-TransId: 2b07674fb3b9401-089f3
+X-Mailer: Zmail v1.0
+Message-ID: <20241204094321160yp9RJKElKXTlg-q1OzYU-@zte.com.cn>
+In-Reply-To: <20241203170816.3fe81941fe1866ca1672eba8@linux-foundation.org>
+References: 20241203164848805CS62CQPQWG9GLdQj2_BxS@zte.com.cn,20241203170816.3fe81941fe1866ca1672eba8@linux-foundation.org
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+From: <yang.yang29@zte.com.cn>
+To: <jiang.kun2@zte.com.cn>
+Cc: <bsingharora@gmail.com>, <david@redhat.com>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
+        <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>,
+        <zhang.yunkai@zte.com.cn>, <ye.xingchen@zte.com.cn>,
+        <xu.xin16@zte.com.cn>, <akpm@linux-foundation.org>,
+        <Liu.Jianjun3@zte.com.cn>, <tan.hu@zte.com.cn>,
+        <jiang.xuexin@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCBsaW51eCBuZXh0XSBkZWxheWFjY3Q6IGFkZCBkZWxheSBtYXggdG8gcmVjb3JkIGRlbGF5IHBlYWs=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 4B41hJ29026879
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 674FB3CA.000/4Y30fg5pgTzBRHKW
 
 On Tue, 3 Dec 2024 16:48:48 +0800 (CST) <jiang.kun2@zte.com.cn> wrote:
 
 > From: Wang Yaxin <wang.yaxin@zte.com.cn>
-> 
-> Introduce the use cases of delay max, which can help quickly detect
-> potential abnormal delays in the system and record the types and
-> specific details of delay spikes.
->   
-> Problem
-> ========
-> Delay accounting can track the average delay of processes to show
-> system workload. However, when a process experiences a significant
-> delay, maybe a delay spike, which adversely affects performance,
-> getdelays can only display the average system delay over a period
-> of time. Yet, average delay is unhelpful for diagnosing delay peak.
-> It is not even possible to determine which type of delay has spiked,
-> as this information might be masked by the average delay.
-> 
-> Solution
-> =========
-> the 'delay max' can display delay peak since the system's startup,
-> which can record potential abnormal delays over time, including
-> the type of delay and the maximum delay. This is helpful for
-> quickly identifying crash caused by delay.
+> the 'delay max' can display delay peak since the system's startup
 
-Seems sensible, and the implementation is straightforward.  I'll queue
-it for testing and review.
+What about also add 'delay min' ? This could help us get to know how
+large the difference is between min and max, provide clues for optimizing
+potential. This is also some benchmark tools do, like stream which print:
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:          234195.8     0.073357     0.073357     0.073357
+Scale:         163856.6     0.104847     0.104847     0.104847
+Add:           177791.5     0.144944     0.144944     0.144944
 
->  include/linux/delayacct.h      |  7 ++++
->  include/linux/sched.h          |  3 ++
->  include/uapi/linux/taskstats.h |  9 ++++++
->  kernel/delayacct.c             | 35 ++++++++++++++------
->  kernel/sched/stats.h           |  5 ++-
->  tools/accounting/getdelays.c   | 59 ++++++++++++++++++++--------------
-
-Please prepare a v2 which includes an update to
-Documentation/accounting/delay-accounting.rst.
-
-> 
-> ...
->
-> --- a/kernel/delayacct.c
-> +++ b/kernel/delayacct.c
-> @@ -95,7 +95,7 @@ void __delayacct_tsk_init(struct task_struct *tsk)
->   * Finish delay accounting for a statistic using its timestamps (@start),
->   * accumalator (@total) and @count
-
-And I wouldn't be offended if v2 fixed that spelling error!  "accumulator".
-
-
+And please also update Documentation/accounting/delay-accounting.rst.
+Other parts LGTM, thanks!
