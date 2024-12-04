@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB41210197;
-	Wed,  4 Dec 2024 23:35:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD62212B13;
+	Wed,  4 Dec 2024 23:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733355301; cv=none; b=fyMgVCI2nJ0g8aGDPGZNhqUS+woBqm/1mkaJWKIotuO/gFdf6nFVWxWYD8FrwdMVc4JhpOFdOstCWg3GB3+boh2fnX+OZPO4EeM0zZrZSnBmi+xnnTFZVn1wwArVM591MczjY6Is+B1pMXR+LxrZNgA4PXSFOU67ogWBfbyR8xI=
+	t=1733355329; cv=none; b=GkDMWem5rkMUkVPH3m3XZbdsKknPV/UvXdyRCavgV20IdaWHIAJKLYiC2F4gikinXFBSpjbdjaXVgSZi4ZyCooCF6uzXdmIssX/svxGAAbpfcktJ/uc/fjtEhogRZuZtOgPMDyQ5caVp32+ixFww7k7XqAmno9iEZITwT/DVfRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733355301; c=relaxed/simple;
-	bh=aiONX4M46Isv+HmzJj1n1XZxwqX1wUbZLkj0dScfkdI=;
+	s=arc-20240116; t=1733355329; c=relaxed/simple;
+	bh=fM3FuC5MJCayxxy8HgIG2dFsJmZdJELXfV1oQ8EQ6dU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Pv/b+TEoOxpbdGyYv7GcDexYvtG6R8qR/mz56xL08lKD8i2eru3J8YxflPxd1Levk9KKwhEfzcRYBsHQShGlw/RTAkBvcIkoF39+9x/zlz2BMfpSCsqXUGHDYN1oBDRaflBCw9lWtLW63vVtc0I2wcBiFLIJG5BSGuND6FqdYNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fjVs5RBE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=PLgcFffV14L1rBgKONr9FrIuyXxv1jJIgXI7ajb5BwDkQvBICj1dynRMstQbpqrlJzVCRH8eUOpfM+/P9EBAwla9DjrOoRoEFbjMAgKtQn67XjsfT8qY1FRj34W4SlFb6mZL1z/TVQGrnoXjCJ6poFiidIzdw8qgUfV5SSzE1X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q52KMq/W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fjVs5RBE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4D20C4CED6;
-	Wed,  4 Dec 2024 23:34:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q52KMq/W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E354C4CECD;
+	Wed,  4 Dec 2024 23:35:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733355301;
-	bh=aiONX4M46Isv+HmzJj1n1XZxwqX1wUbZLkj0dScfkdI=;
+	s=k20201202; t=1733355327;
+	bh=fM3FuC5MJCayxxy8HgIG2dFsJmZdJELXfV1oQ8EQ6dU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fjVs5RBENok8rzlhCiOeO2eFUsSjhad123NnRiVd+eoGwFV3YPM6JuPNpOJyuSnC2
-	 jkbU7bopRMdH7boCC77jGdsFEbaaudfwF5VMzG8N5KV+JFjAL/lI9DIIdHE7nxQCmi
-	 F1SyycvVhUwpHDDBBpua/WJI+ZSfbHEW/dZFsU7N+9URxpptbt/DYqZmVKjIn26Ng8
-	 OpleSW0tdf29HM2fXIwdNUinzyw0csyHcCMIchOA8YoL0poQYthMUuhFagCZrwsHay
-	 T+fyL1HTDzQZmbZTmMQCg6Uary2bBHMfpzvlnD9yARl+JPKLR79LbemvKsh61gA+lC
-	 ouhif+rent/gA==
+	b=q52KMq/W4IEXl76GqdEAOuPsEJkiRsUtn8tmOHvlfF0vvfZNPn5zF3ulwo1so3Ads
+	 LjNN21yXuM7IZf9M54aU62LlTUyGCUH5DHO62xFCpgxNaijS58ehqm7uJAR8Yi7AvK
+	 bon/06nliZMuStIoggpnn2pNx1m9Lz7TXZIgj8Keh+9W4DIDVaiNDsp8H/fqKujzmK
+	 i3Z0TwJXjfO6ZOJeVN6A3uPonlAmdjcOYTov8lpnjMWhXt9fTvv25/L4PRhgReIT03
+	 fpTvUwr5nS9kRIqM5KeUMa9ZSzYZXmBliAkJTDNfqseFMJ5enWOMNjn6ooXo7ftPm5
+	 Sitp5/BnPlGyA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,12 +39,12 @@ Cc: Zhou Wang <wangzhou1@hisilicon.com>,
 	corbet@lwn.net,
 	linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 5/8] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
-Date: Wed,  4 Dec 2024 17:23:21 -0500
-Message-ID: <20241204222334.2249307-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 4/7] irqchip/gicv3-its: Add workaround for hip09 ITS erratum 162100801
+Date: Wed,  4 Dec 2024 17:23:46 -0500
+Message-ID: <20241204222402.2249702-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204222334.2249307-1-sashal@kernel.org>
-References: <20241204222334.2249307-1-sashal@kernel.org>
+In-Reply-To: <20241204222402.2249702-1-sashal@kernel.org>
+References: <20241204222402.2249702-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.1
+X-stable-base: Linux 6.11.10
 Content-Transfer-Encoding: 8bit
 
 From: Zhou Wang <wangzhou1@hisilicon.com>
@@ -80,12 +80,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 52 insertions(+), 11 deletions(-)
 
 diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 65bfab1b18614..77db10e944f03 100644
+index 8cd4f365044b6..8cf9187e435dd 100644
 --- a/Documentation/arch/arm64/silicon-errata.rst
 +++ b/Documentation/arch/arm64/silicon-errata.rst
 @@ -258,6 +258,8 @@ stable kernels.
- | Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
- |                | ,11} SMMU PMCG  |                 |                             |
+ | Hisilicon      | Hip08 SMMU PMCG | #162001900      | N/A                         |
+ |                | Hip09 SMMU PMCG |                 |                             |
  +----------------+-----------------+-----------------+-----------------------------+
 +| Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
 ++----------------+-----------------+-----------------+-----------------------------+
@@ -93,10 +93,10 @@ index 65bfab1b18614..77db10e944f03 100644
  | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
  +----------------+-----------------+-----------------+-----------------------------+
 diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 22f8a7bca6d21..a11a7a42edbfb 100644
+index 7d92c0a9c43d4..c5b7835f567c3 100644
 --- a/arch/arm64/Kconfig
 +++ b/arch/arm64/Kconfig
-@@ -1232,6 +1232,17 @@ config HISILICON_ERRATUM_161600802
+@@ -1215,6 +1215,17 @@ config HISILICON_ERRATUM_161600802
  
  	  If unsure, say Y.
  
@@ -115,7 +115,7 @@ index 22f8a7bca6d21..a11a7a42edbfb 100644
  	bool "Falkor E1003: Incorrect translation due to ASID change"
  	default y
 diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-index 52f625e07658c..d9b6ec844cdda 100644
+index ab597e74ba08e..80676aa1c6ab5 100644
 --- a/drivers/irqchip/irq-gic-v3-its.c
 +++ b/drivers/irqchip/irq-gic-v3-its.c
 @@ -44,6 +44,7 @@
@@ -163,7 +163,7 @@ index 52f625e07658c..d9b6ec844cdda 100644
  	unsigned long flags;
  
  	/*
-@@ -3866,6 +3883,11 @@ static int its_vpe_set_affinity(struct irq_data *d,
+@@ -3856,6 +3873,11 @@ static int its_vpe_set_affinity(struct irq_data *d,
  	vpe->col_idx = cpu;
  
  	its_send_vmovp(vpe);
@@ -175,7 +175,7 @@ index 52f625e07658c..d9b6ec844cdda 100644
  	its_vpe_db_proxy_move(vpe, from, cpu);
  
  out:
-@@ -4173,22 +4195,12 @@ static void its_vpe_4_1_deschedule(struct its_vpe *vpe,
+@@ -4163,22 +4185,12 @@ static void its_vpe_4_1_deschedule(struct its_vpe *vpe,
  
  static void its_vpe_4_1_invall(struct its_vpe *vpe)
  {
@@ -199,7 +199,7 @@ index 52f625e07658c..d9b6ec844cdda 100644
  	vpe_to_cpuid_unlock(vpe, flags);
  }
  
-@@ -4781,6 +4793,14 @@ static bool its_set_non_coherent(void *data)
+@@ -4771,6 +4783,14 @@ static bool its_set_non_coherent(void *data)
  	return true;
  }
  
@@ -214,7 +214,7 @@ index 52f625e07658c..d9b6ec844cdda 100644
  static const struct gic_quirk its_quirks[] = {
  #ifdef CONFIG_CAVIUM_ERRATUM_22375
  	{
-@@ -4827,6 +4847,14 @@ static const struct gic_quirk its_quirks[] = {
+@@ -4817,6 +4837,14 @@ static const struct gic_quirk its_quirks[] = {
  		.init	= its_enable_quirk_hip07_161600802,
  	},
  #endif
