@@ -1,257 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD082144A4;
-	Thu,  5 Dec 2024 11:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4501D2144AD;
+	Thu,  5 Dec 2024 11:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733399641; cv=none; b=rpS+8bDS3YRG2m34Nj0xM+HWuXcKJ1jpMplYrRi3wiJC2YbRYp5vDmuzCKnGVXHJf2VXEzqdbDgnJi5HQgceo3zevsIEMGOHfRc8kOzZRtmizQCa8BFSOCs06yjZM+DFZWX7Is9pm1i1gtPRXcSqF1zVPkAisTlt4+kQoINDlFo=
+	t=1733399690; cv=none; b=U/DiC8cTCc1UUHDqFuVpyhjqlqcXyLeXWz9U2f0EcGdOXzZxvbyASgRgiIpwqe/LzmxAfWDJZWJCFC8J0iAO0KZC6Ydrw4HM89QH64xR2h5YEZiQt2Et2D/XT1LZTnEPFQ/PVfaqS7uEXf5dBK8UzfhIWyVKejCTJfHWvf0/YEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733399641; c=relaxed/simple;
-	bh=FRyYeWHuT16TJ1pPRuXZ4fEoLV6czcJ/L3feRyc8wfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mUl8Pfuof98ZP8i0aLkOkIhMFj6zLPtwVPHRcSMHi+O+X73MMqwXKI8S4Cjnr/un0B9EwcTcPJJoFc/suhNMBR43uBFMIYLAuUNT6hfAf8Nm9RB3p6MNP2T73fiAB8DID3TbVImqiwKjgaxTDWoF6gp85C+q/faOT9o5afb58WU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIKTxC5n; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733399690; c=relaxed/simple;
+	bh=dSIIXx/hG/P8NaDTqNYGqJ91TW5o+zpLS+ZKMEElSyo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L3ar85wBwFq/Z13v7o8OrC0tnJSnXITb8RnhnJAcVCKFm+ArcAa1NBm17BMh5ydha1wGaQxFiBStmBq1ei2kdKPOINN0ZsRWrolNx/E9mSS2rPxFzLgzkyM8sAHb3aoMy/eldklID01aeU3Nd7eUmNDDELf2RiGHEs+O43aw3Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vlol3QSm; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIKTxC5n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733399638; x=1764935638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FRyYeWHuT16TJ1pPRuXZ4fEoLV6czcJ/L3feRyc8wfg=;
-  b=bIKTxC5no9PJEC7e3Ua7YfnnNBtoZAQdhCc/BiOBywR36NOecrUm+Jzy
-   uZDHQ+6swQYPVt6N2rFYcIvyxRKB4PozommmSsC13xo85MO9hPVA7280b
-   jBVtYdw/vT5EX3uHMMDAHWfpvEwyCV3aKlGKWlT5m24Eseita4taTlK4B
-   M0mmaOswpbA+gKB9gmjHatwvAuHI75IVYpuijLKU9tylRvQB/8MZx7cIR
-   qOw3yj7wF39h0slCS4IRTt0SWXFlb1dB+pR9IQh7HEAmAbKVrHidoojde
-   GlxEiv8qdLHVJkPmOBNim9K+MQx7h2fkP/UkErydBkrcm1so93xWp3Uha
-   A==;
-X-CSE-ConnectionGUID: UZutqAiDTeCKGoyEY5Ed2w==
-X-CSE-MsgGUID: gQIORNd1TUODrjjNgVW/GQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="59114645"
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="59114645"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 03:53:57 -0800
-X-CSE-ConnectionGUID: YEDaCdP7S3ebOP/c4wLnQg==
-X-CSE-MsgGUID: 1Yoj6dBFSq+1TfWPX6XJew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="99152051"
-Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 05 Dec 2024 03:53:52 -0800
-Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tJAQX-00048n-2K;
-	Thu, 05 Dec 2024 11:53:49 +0000
-Date: Thu, 5 Dec 2024 19:52:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: James Houghton <jthoughton@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Yan Zhao <yan.y.zhao@intel.com>,
-	James Houghton <jthoughton@google.com>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Anish Moorthy <amoorthy@google.com>,
-	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>,
-	David Matlack <dmatlack@google.com>, Wang@google.com,
-	Wei W <wei.w.wang@intel.com>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v1 01/13] KVM: Add KVM_MEM_USERFAULT memslot flag and
- bitmap
-Message-ID: <202412051904.GNL7BE1X-lkp@intel.com>
-References: <20241204191349.1730936-2-jthoughton@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vlol3QSm"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6d885705595so7371496d6.0;
+        Thu, 05 Dec 2024 03:54:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733399687; x=1734004487; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HVC6GBY+m69vIBL5eFFh1SDeg76uxLTl04NzD89f2u0=;
+        b=Vlol3QSmRRkG6deX3GATYhXfrnsGlcw+YTOTa8fPlItHP1EI71ylCN7CiK6Uf60LHE
+         Jj2eGGNZOAO0SCcL1dw0Tmx7xOmyfWqmWL2cL2kkrumMND2kA+CumlSaypHDDTtXuYkD
+         aO8ixQenoQRYXYvBHJ4FnGWu3I3VX0Ru+MwGSzR+HoJ6shdCYJtKwjICUaL4PcC8iox9
+         gQA9WKcEHCR+lKIMxndTgNQ/CB55oS5mWVNYkpPDPLIHkILQgUADrxMXMuTXIhsaIcxh
+         20VAJhFk8eLl1x099wUYfPeeDgtxShSHjNt3D+Vr3iwo9eBzGf+n9x9Xaa5dFcZRhX2b
+         3v8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733399687; x=1734004487;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HVC6GBY+m69vIBL5eFFh1SDeg76uxLTl04NzD89f2u0=;
+        b=bip9UTOx3frZdOmZ/10cvpKS/yep0MdyD/1aIJ1MQzEe6WRns1lFmXWl8AcUY06atF
+         fdcbfiMMrlbv0Wl6a4yDQ/+pf81lLH4aD9WQT+nnBxaWNz5y/lckGtL6pNWihedWoQtP
+         3qfweZalwlxQAhCZBXjElopurPvNHl2fkRertecFvFmyqzcoxZHMt2/gkD88SS5RS7Z8
+         /PXOznVhOaeO9JinSnXxzSOwyt54bmSoUi+flxSU4wV1fJRhgNyukJ1FddJV8vQ33m/X
+         E8A9fR4bgygLtURzuOJcycApIoljhrV4RpE2BRc+zxl9tIbUjKnAdjVhvEWyi17ot2Bj
+         PCmw==
+X-Forwarded-Encrypted: i=1; AJvYcCUruCC4sORaFsEXHUsRXp67nfjaarbpkjpPdSsgMk4Usvs0X0PA//+QrHC56CrP4K6Dk0XNbAbVfE2r@vger.kernel.org, AJvYcCWOZgblG8Zjhy8GVMhq3CeoCIXaffu0kgAlbi2MgP2OJSIxwC/ZSBxk/a/bBURAv3CbESsRdLeIu6eZK5xP@vger.kernel.org, AJvYcCWo6vudeAvV2GAmZrVnsYXSgiLdFwNDZ/vC2+Lhzp3X2XNQ0o0MTU5oDE+fbbDm0ZYNA5JDvs7j8Oyy@vger.kernel.org, AJvYcCXE/Qn1Cy0nzok4SA1sVCf6ykEZgLf/+HHPZo0qYQrIiS++7C2ohc4rVyLVL2MtWHxmm8AJgBQp7fbY@vger.kernel.org, AJvYcCXXFNYxbZ3+OEPB+IBGqvWUmYswbf9kjeVlz/Yjwt2MYut6LR7M5E5zc4oVC9u684eozHH1L1jFv4pPl/E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRIgWygOW9LRiljtdNJ8TU6MUTWFxUWeZshXmnXiYVw17A6soY
+	mW2+os9hKnls2kw6PzYrmZB2HWDKEIwU9TdDSUVof4fyi3PIgmuIjgHjp2nyjl33T6kZKlVk9CG
+	u8LRe4CMaC0GSJEqu7p+zEmJK8Xw=
+X-Gm-Gg: ASbGncttD6q9JCZoBaQppZWLw+3i8CJ+whNPYl9CYGphsZDbTy1ZTYd14L+hppOTaYx
+	8kwR3MiDItOzDjeN7qLjsz5zhK7dmLA==
+X-Google-Smtp-Source: AGHT+IE0SWEWRPj055WxDD22N0C04Zp8iMRPWR1HYzCrZPeSFsqycgRAlqP80+PjPdfn8HXmH3tMrDD0IAzDRoTKD4E=
+X-Received: by 2002:ad4:5de3:0:b0:6d8:9065:2033 with SMTP id
+ 6a1803df08f44-6d8b740e95amr129267216d6.31.1733399687140; Thu, 05 Dec 2024
+ 03:54:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241204191349.1730936-2-jthoughton@google.com>
+References: <20241002221306.4403-1-ansuelsmth@gmail.com> <20241002221306.4403-6-ansuelsmth@gmail.com>
+ <5e9a80d6-6c89-478e-99c9-584647661f5e@pengutronix.de>
+In-Reply-To: <5e9a80d6-6c89-478e-99c9-584647661f5e@pengutronix.de>
+From: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>
+Date: Thu, 5 Dec 2024 12:54:34 +0100
+Message-ID: <CA+_ehUwa69Qa96yy0=K9AiCEJbaZt9oGCRf5gJDh-0_14shbtA@mail.gmail.com>
+Subject: Re: Co-existence of GPT and fixed partitions (Was: Re: [PATCH v6 5/6]
+ block: add support for partition table defined in OF)
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Daniel Golle <daniel@makrotopia.org>, INAGAKI Hiroshi <musashino.open@gmail.com>, 
+	Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Ming Lei <ming.lei@redhat.com>, Li Lingfeng <lilingfeng3@huawei.com>, 
+	Christian Heusel <christian@heusel.eu>, Avri Altman <avri.altman@wdc.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Riyan Dhiman <riyandhiman14@gmail.com>, Mikko Rapeli <mikko.rapeli@linaro.org>, 
+	Jorge Ramirez-Ortiz <jorge@foundries.io>, Li Zhijian <lizhijian@fujitsu.com>, 
+	Dominique Martinet <dominique.martinet@atmark-techno.com>, 
+	Jens Wiklander <jens.wiklander@linaro.org>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-block@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, upstream@airoha.com, 
+	Christoph Hellwig <hch@infradead.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi James,
+>
+> Hi,
+>
+> sorry for not writing sooner. I only noticed this now.
+>
+> On 03.10.24 00:11, Christian Marangi wrote:
+> > Add support for partition table defined in Device Tree. Similar to how
+> > it's done with MTD, add support for defining a fixed partition table in
+> > device tree.
+> >
+> > A common scenario for this is fixed block (eMMC) embedded devices that
+> > have no MBR or GPT partition table to save storage space. Bootloader
+> > access the block device with absolute address of data.
+>
+> How common are these? I never worked with a system that didn't use MBR
+> or GPT for the user partition.
+>
 
-kernel test robot noticed the following build warnings:
+On router devices this is the approach for Mediatek and Airoha and also
+other vendor for anything that have an eMMC.
 
-[auto build test WARNING on 4d911c7abee56771b0219a9fbf0120d06bdc9c14]
+Other device have a mixed nor/nand + eMMC but the eMMC
+is used entirely for rootfs and not foor bootloader or other special partition.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton/KVM-Add-KVM_MEM_USERFAULT-memslot-flag-and-bitmap/20241205-032516
-base:   4d911c7abee56771b0219a9fbf0120d06bdc9c14
-patch link:    https://lore.kernel.org/r/20241204191349.1730936-2-jthoughton%40google.com
-patch subject: [PATCH v1 01/13] KVM: Add KVM_MEM_USERFAULT memslot flag and bitmap
-config: x86_64-randconfig-121 (https://download.01.org/0day-ci/archive/20241205/202412051904.GNL7BE1X-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051904.GNL7BE1X-lkp@intel.com/reproduce)
+> > This is to complete the functionality with an equivalent implementation
+> > with providing partition table with bootargs, for case where the booargs
+> > can't be modified and tweaking the Device Tree is the only solution to
+> > have an usabe partition table.
+> >
+> > The implementation follow the fixed-partitions parser used on MTD
+> > devices where a "partitions" node is expected to be declared with
+> > "fixed-partitions" compatible in the OF node of the disk device
+> > (mmc-card for eMMC for example) and each child node declare a label
+> > and a reg with offset and size. If label is not declared, the node name
+> > is used as fallback. Eventually is also possible to declare the read-only
+> > property to flag the partition as read-only.
+>
+> barebox has for many years supported defining fixed partitions on SD/MMC
+> nodes and it's used heavily to define e.g. the location of the barebox
+> environment. Many who do so, do this either before the first partition
+> of the MBR/GPT or overlay the fixed partition to be identical to
+> an existing MBR/GPT partition.
+>
+> barebox also by default copies all fixed partitions it is aware of
+> into the kernel DT, so if the kernel now stops parsing GPT/MBR when
+> a fixed partition node is defined, this would break compatibility of
+> existing barebox-booting systems with new kernels.
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412051904.GNL7BE1X-lkp@intel.com/
+I'm not following... is that a downstream thing? Also fixed-partition
+in DT for SD/MMC were never supported, why the partition was
+copied in DT? Userspace tools made use of them?
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c: note: in included file:
-   include/linux/kvm_host.h:2080:54: sparse: sparse: array of flexible structures
-   include/linux/kvm_host.h:2082:56: sparse: sparse: array of flexible structures
->> arch/x86/kvm/../../../virt/kvm/kvm_main.c:2049:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long [noderef] __user *userfault_bitmap @@     got unsigned long * @@
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:2049:39: sparse:     expected unsigned long [noderef] __user *userfault_bitmap
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:2049:39: sparse:     got unsigned long *
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_invalidate_range_start' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_invalidate_range_end' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_clear_flush_young' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_clear_young' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:626:25: sparse: sparse: context imbalance in 'kvm_mmu_notifier_test_young' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c: note: in included file (through include/linux/mutex.h, include/linux/kvm_types.h, include/kvm/iodev.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:1960:49: sparse: sparse: self-comparison always evaluates to false
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+> > +config OF_PARTITION
+> > +     bool "Device Tree partition support" if PARTITION_ADVANCED
+> > +     depends on OF
+> > +     help
+> > +       Say Y here if you want to enable support for partition table
+> > +       defined in Device Tree. (mainly for eMMC)
+> > +       The format for the device tree node is just like MTD fixed-partition
+> > +       schema.
+>
+> Thanks for making this configurable and disabled by default, so users
+> won't experience breakage if they just do a make olddefconfig.
+>
+> > diff --git a/block/partitions/core.c b/block/partitions/core.c
+> > index abad6c83db8f..dc21734b00ec 100644
+> > --- a/block/partitions/core.c
+> > +++ b/block/partitions/core.c
+> > @@ -43,6 +43,9 @@ static int (*const check_part[])(struct parsed_partitions *) = {
+> >  #ifdef CONFIG_CMDLINE_PARTITION
+> >       cmdline_partition,
+> >  #endif
+> > +#ifdef CONFIG_OF_PARTITION
+> > +     of_partition,           /* cmdline have priority to OF */
+> > +#endif
+> >  #ifdef CONFIG_EFI_PARTITION
+> >       efi_partition,          /* this must come before msdos */
+> >  #endif
+>
+> If I understand correctly, it's possible to have both partitions-boot1 and
+> a GPT on the user area with your patch, right?
+>
 
-vim +2049 arch/x86/kvm/../../../virt/kvm/kvm_main.c
+No, this array works by, first is found WIN. If OF_PARTITION is enabled
+and an OF partition is declared in DT, then efi partition parse is skipped.
 
-  1931	
-  1932	/*
-  1933	 * Allocate some memory and give it an address in the guest physical address
-  1934	 * space.
-  1935	 *
-  1936	 * Discontiguous memory is allowed, mostly for framebuffers.
-  1937	 *
-  1938	 * Must be called holding kvm->slots_lock for write.
-  1939	 */
-  1940	int __kvm_set_memory_region(struct kvm *kvm,
-  1941				    const struct kvm_userspace_memory_region2 *mem)
-  1942	{
-  1943		struct kvm_memory_slot *old, *new;
-  1944		struct kvm_memslots *slots;
-  1945		enum kvm_mr_change change;
-  1946		unsigned long npages;
-  1947		gfn_t base_gfn;
-  1948		int as_id, id;
-  1949		int r;
-  1950	
-  1951		r = check_memory_region_flags(kvm, mem);
-  1952		if (r)
-  1953			return r;
-  1954	
-  1955		as_id = mem->slot >> 16;
-  1956		id = (u16)mem->slot;
-  1957	
-  1958		/* General sanity checks */
-  1959		if ((mem->memory_size & (PAGE_SIZE - 1)) ||
-  1960		    (mem->memory_size != (unsigned long)mem->memory_size))
-  1961			return -EINVAL;
-  1962		if (mem->guest_phys_addr & (PAGE_SIZE - 1))
-  1963			return -EINVAL;
-  1964		/* We can read the guest memory with __xxx_user() later on. */
-  1965		if ((mem->userspace_addr & (PAGE_SIZE - 1)) ||
-  1966		    (mem->userspace_addr != untagged_addr(mem->userspace_addr)) ||
-  1967		     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
-  1968				mem->memory_size))
-  1969			return -EINVAL;
-  1970		if (mem->flags & KVM_MEM_GUEST_MEMFD &&
-  1971		    (mem->guest_memfd_offset & (PAGE_SIZE - 1) ||
-  1972		     mem->guest_memfd_offset + mem->memory_size < mem->guest_memfd_offset))
-  1973			return -EINVAL;
-  1974		if (as_id >= kvm_arch_nr_memslot_as_ids(kvm) || id >= KVM_MEM_SLOTS_NUM)
-  1975			return -EINVAL;
-  1976		if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-  1977			return -EINVAL;
-  1978		if ((mem->memory_size >> PAGE_SHIFT) > KVM_MEM_MAX_NR_PAGES)
-  1979			return -EINVAL;
-  1980	
-  1981		slots = __kvm_memslots(kvm, as_id);
-  1982	
-  1983		/*
-  1984		 * Note, the old memslot (and the pointer itself!) may be invalidated
-  1985		 * and/or destroyed by kvm_set_memslot().
-  1986		 */
-  1987		old = id_to_memslot(slots, id);
-  1988	
-  1989		if (!mem->memory_size) {
-  1990			if (!old || !old->npages)
-  1991				return -EINVAL;
-  1992	
-  1993			if (WARN_ON_ONCE(kvm->nr_memslot_pages < old->npages))
-  1994				return -EIO;
-  1995	
-  1996			return kvm_set_memslot(kvm, old, NULL, KVM_MR_DELETE);
-  1997		}
-  1998	
-  1999		base_gfn = (mem->guest_phys_addr >> PAGE_SHIFT);
-  2000		npages = (mem->memory_size >> PAGE_SHIFT);
-  2001	
-  2002		if (!old || !old->npages) {
-  2003			change = KVM_MR_CREATE;
-  2004	
-  2005			/*
-  2006			 * To simplify KVM internals, the total number of pages across
-  2007			 * all memslots must fit in an unsigned long.
-  2008			 */
-  2009			if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
-  2010				return -EINVAL;
-  2011		} else { /* Modify an existing slot. */
-  2012			/* Private memslots are immutable, they can only be deleted. */
-  2013			if (mem->flags & KVM_MEM_GUEST_MEMFD)
-  2014				return -EINVAL;
-  2015			if ((mem->userspace_addr != old->userspace_addr) ||
-  2016			    (npages != old->npages) ||
-  2017			    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-  2018				return -EINVAL;
-  2019	
-  2020			if (base_gfn != old->base_gfn)
-  2021				change = KVM_MR_MOVE;
-  2022			else if (mem->flags != old->flags)
-  2023				change = KVM_MR_FLAGS_ONLY;
-  2024			else /* Nothing to change. */
-  2025				return 0;
-  2026		}
-  2027	
-  2028		if ((change == KVM_MR_CREATE || change == KVM_MR_MOVE) &&
-  2029		    kvm_check_memslot_overlap(slots, id, base_gfn, base_gfn + npages))
-  2030			return -EEXIST;
-  2031	
-  2032		/* Allocate a slot that will persist in the memslot. */
-  2033		new = kzalloc(sizeof(*new), GFP_KERNEL_ACCOUNT);
-  2034		if (!new)
-  2035			return -ENOMEM;
-  2036	
-  2037		new->as_id = as_id;
-  2038		new->id = id;
-  2039		new->base_gfn = base_gfn;
-  2040		new->npages = npages;
-  2041		new->flags = mem->flags;
-  2042		new->userspace_addr = mem->userspace_addr;
-  2043		if (mem->flags & KVM_MEM_GUEST_MEMFD) {
-  2044			r = kvm_gmem_bind(kvm, new, mem->guest_memfd, mem->guest_memfd_offset);
-  2045			if (r)
-  2046				goto out;
-  2047		}
-  2048		if (mem->flags & KVM_MEM_USERFAULT)
-> 2049			new->userfault_bitmap = (unsigned long *)mem->userfault_bitmap;
-  2050	
-  2051		r = kvm_set_memslot(kvm, old, new, change);
-  2052		if (r)
-  2053			goto out_unbind;
-  2054	
-  2055		return 0;
-  2056	
-  2057	out_unbind:
-  2058		if (mem->flags & KVM_MEM_GUEST_MEMFD)
-  2059			kvm_gmem_unbind(new);
-  2060	out:
-  2061		kfree(new);
-  2062		return r;
-  2063	}
-  2064	EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
-  2065	
+> So this only leaves the matter of dealing with both fixed-partitions and
+> GPT for the same device node.
+>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The logic is applied to skip exactly this scenario. GPT partition can
+be edited at
+runtime and change, DT is more deterministic. It's one or the other.
+
+If downstream someone have GPT then OF_PARTITION should not
+be used at all... Eventually downstream for this special approach, an additional
+downstream patch can be added that define a special property in the node to
+disable OF parsing. (it's a 3 line patch and since everything is downstream it
+really doesn't matter)
+
+> What are the thoughts on this? An easy way out would be to make of_partition
+> come later than efi_partition/mbr_partition, but I think it would be
+> nice if the kernel could consume partition info out of both of_partition
+> and efi_partition as long they don't collide.
+>
+
+The 2 thing would conflicts and would introduce so much complexity it might
+be not worth at all. Also you would have situation where someone declare
+OF partition in the space where the GPT partition table is located, adding
+the possibility of corrupting it.
+
+Again would love more explanation of your case because by the looks of it,
+you use GPT for partition parsing and just overload the DT with the additional
+info maybe for userspace usage. (and that case can be handled by just keeping
+OF_PARTITION disabled or adding a little downstream patch)
+
+Or you are telling me you had a downstream patch that declares additional
+partition in addition to a disk with a GPT partition table?
+If that's the case, I'm confused of why the additional partition can't
+be declared
+directly in GPT.
