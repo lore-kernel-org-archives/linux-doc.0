@@ -1,122 +1,147 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECD218FDDA
-	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 23:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFB91BE23F
+	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 23:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733440694; cv=none; b=sn1HHb+nlelvgaBposZQP0NoJeV4f+ePRxJB0lcabU8ySUeBND/gokFV/Lv8NfurVbZ+yZp44y2HJF5D5XyG/bqs6+W6i4/RwN7uUZqIeEnxg+0L2SNcWpyR7rUHV6CQCKMcUZCX8nB/ep0u0LwMOyno/WUOGsSUjijZ8k9+XG4=
+	t=1733441505; cv=none; b=ElOxxdiepOH1P48/C9TSWOXcpv30l261OholtVwtM6A14sAL213jOy8iQVW9t9rLkAYf4sKRziIe9zYxOuTM7bSieIA3naMJmPyiJ8DKms0ZwJ30PDDvInmMakyr20abrgoou6q1HaMaaW06CRGCcbnLQR7vah+N2jhizipoP1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733440694; c=relaxed/simple;
-	bh=dVFX0iweJAmgsuLhqVkE2GOMr2kcozOmtW5wiosZ9RA=;
+	s=arc-20240116; t=1733441505; c=relaxed/simple;
+	bh=/ihX0lCXBJfFCvsOFHIJu6cysZ6Vq0x4cO5iS9Q7qBY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hSE5pnVmEcRq5EdwdpME0BUR1/Of75+cBMDwBT0ux7hIUEsikETZQS63oT6MRo/kjIuT8SnKHsePBe0rBVXBMsTIOXSTSsXUvKif+bPCK23uJqCQWAfLb/i+w/0H3UH6nZkaJ+XE7pA3hASO8RoXhJoWqsUNhu/ssKDlddLdp1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h/tHW+FU; arc=none smtp.client-ip=209.85.208.45
+	 To:Cc:Content-Type; b=mIs9Bv9a4DiQ2xSYq4gacFZlgKfq83XKHfAhn/x9kumg5k4axVvMt/T9gB2mLoIdqpIb8XKydaCnfuwePM5kHpH+e6YdTXbkfizS+vuxPZg3LwEgLui2RH85y++E81Uj8wLMAvvxYPn0x54B7yh6q5+RImh+1WgL38lmH1L+8rM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oTBngy2d; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h/tHW+FU"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5ceb03aadb1so1939268a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 15:18:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oTBngy2d"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6efe5c1dea4so1004117b3.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 15:31:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733440691; x=1734045491; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1733441501; x=1734046301; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ABRkDj2N+QkWL48IvhN2/HmURfPPjhYtD6+wjCTrDIo=;
-        b=h/tHW+FUgRRL6F7R2AnC/KqM1dywtivCU14ymVfKRGJXl6Oe4jiFCRap4JYs74+yrN
-         NAVlnbOsh/TN3JlzpYIlPfEuxNMoUZftCcFT9l52QYoo7z0vERzLjs7rAi0UwxOaEmjn
-         ex8ANYYvOGDpQ52YRV+18Wxu4V5/OcJRmtbf8upbCbHSb7E0nau8VRDeE03mLF4fWS1B
-         Bchxb+Pi2l2CjaAIFNmdNLK3mfjo5roVvsr3h6BZxOtKALxqmcFmDUurxpq7AqAJ/iQO
-         PmKBO64AtnbAIRFmpN13A+7ENZLAllErO647R4bBP2goJUdJ38KRH2g5GdCooqbXKY9y
-         thrg==
+        bh=T0IMN5OU4hbVrS5t00San57aLCq8tVf/YYU7UNV9XtU=;
+        b=oTBngy2dRTKxt4HaiJo2zQx2tJFl4Fzr7ePXI0fZaGsfY7TnvQmxydcdjiRyGEMKos
+         Y8Olb3c6k1NRps8ToYYEbOS//ekrGPvL8uTV0KIYYQnWWv3mgBhFkvxS0PtXEJr8wZjH
+         50Gy9fINYHitrIBb8CADRJKb0zrfkeySCYkSAGoSvScqv+3mr4aJDAKVTKwyttxJslch
+         JW1lw5cC4GJRwmoAJm6+fR9iixNXgH1hWuDX4CO/a7jCii4+fUHt+dO68tN+OJcT6iuT
+         gmymlIWrD1a4id/pkeGibfmFG6aI6JAz5CnZfTwdSBtCXz0WaKdLFI3Gzl65fUn7NUJu
+         IVWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733440691; x=1734045491;
+        d=1e100.net; s=20230601; t=1733441501; x=1734046301;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ABRkDj2N+QkWL48IvhN2/HmURfPPjhYtD6+wjCTrDIo=;
-        b=ZDVGTax4v6y8p9MtKtzSO+McwzCyastXOM0ZG47nscznmFYR7appPRJhna4RZy2W52
-         qdJ98edi5jj8c36GRtswrRnfhIF1Y5kkxwzpN5yprAotCSWS79tm1eCRjhz+0gF1bY9f
-         WA5B0v9lpMpRg+VJ/0sWSIrvPIdZ5yr1STHKaCs89u1abyn2YWGb7kcKRcOFEdt7MNnv
-         3PCioceaYY2ceqzUNuP0xsiUB7Vy8rEiMqC/He8hLa2X3xtjmMRbpOhncg8Uc5rn7ixq
-         pNpOCCWHj1/veeenLMzYeYdnthd3Spz0/Zqo83PoHcxrS80fUvCHsRNSoB8ECxf7Otfi
-         dWXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWRopWk/TUb3vbxKg/xAA8YMSFIix/Rw5fSowyM35dYdbER2n34ocMfbmWL9MAGsMBelsDX2BaCHZc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6WTDkQvk03gDMER66Li/yhol2uzX/1e0ac6Yj5J5wbC1Iw6Gg
-	2RsY+2BT1uIiL3tGN0QSHDc+CJaTgLmwR84B/9rRPUfSuddXjutuAvRS5Z0WW6MDEALIU1RguMv
-	kE7exkzXc7I4CslZf5PB4bkanO2ZX/wwA+SQ=
-X-Gm-Gg: ASbGnctbnJSX5ih9gvnyrReFn3lNDPRt2nEd7lk8aq0DeoT6Bl5oMqZWZHSkCLTEMDX
-	Xb9mnHPNLh7WVH3TWzrQQjTMx+yGA8X3rM/mMvNzYBCqGStQ1IkILxCYVPSYX
-X-Google-Smtp-Source: AGHT+IFp8XCFg1lEU3e1fi+fHUhDavDNkEfjadO/eMfIJfRp5lhMaScdyBmt/tCjFNB2PINDghB3+C6LC7IZg7++n4w=
-X-Received: by 2002:a17:907:3a57:b0:aa5:2bab:69f6 with SMTP id
- a640c23a62f3a-aa639fb37fbmr47238966b.8.1733440690804; Thu, 05 Dec 2024
- 15:18:10 -0800 (PST)
+        bh=T0IMN5OU4hbVrS5t00San57aLCq8tVf/YYU7UNV9XtU=;
+        b=I394TkptABDRKjDG9ttgEEZuVbE4Ao+7X1dXiNw4zuSGj5SrbtauYCGW/MJdeH3iWh
+         4bV2BnkfSG4uD9ALU4UOSSDGhEA0HGzuu0CAElAzo5z300UP89/fujmfwvXg3eKIp9+m
+         DOUb1pOws5zEfIhXXW4aAeBL1y8fyAHJz831+BkF/RvokRxgNvAU5pOF2h6/Ly0qSLsC
+         aaY9465iPyKrmSUDMxlhRCZUIlY3eRv0WDoSwkqvz7BTpNmpUt6ERzDPQP2lXoWuwE3Z
+         3izpfJI3s+jS4+raeP2Z1qQBgs1p+PNJX5/TxpVEayX8NhxVG0bHrqkr38FEVg7q94vG
+         9qng==
+X-Forwarded-Encrypted: i=1; AJvYcCX3a3w7GGKUN27ev0TpiHpqSqFDGlaoke4aw+KloxPKWjr75bMjBAXwX4NQadnU2E+2zw5qprOf7n8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvZCrxOt0+vZ/4rSaqHEmv+PWsKJifmaJ3p5eK5EtA2ZmLXQkm
+	JaMUemex20EHg1z4scKV7ad/8nOxGKwAygGRaTDdOOvjkoa234/wQnIdOuJng2eDb9F6zMTrPVj
+	GCEHt4Kh1heq1J1bl/qxYR0W/IFVJoRtRPdBW
+X-Gm-Gg: ASbGncslnH4rQPkc1WTwWPwywEQYsu3tD4vWqxTrFeA/ThMgO9e4vwb0eVzCX24Cvhf
+	W+zfVOb802FxfH7m0uI3MGIJrZptdMxYBu93BVDQEyt6Vs1pkh2Ft9u0cQJy6
+X-Google-Smtp-Source: AGHT+IGmoqWrGrMqKXzXbSlaDtMUJEUS1r8dSNypZARIHLTYBVYvB4FriHIdmOjPWn9wrKQu/NTZU5U476BPS24s0cI=
+X-Received: by 2002:a05:690c:6083:b0:6ee:6c7d:4888 with SMTP id
+ 00721157ae682-6efe3c6049bmr11833187b3.22.1733441501392; Thu, 05 Dec 2024
+ 15:31:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241202115827.50388-1-mripard@kernel.org> <CANDhNCpTnc6=YkjQgQngRCw1_xLWgOFrcjTxrrGX+bRhvGb5DQ@mail.gmail.com>
- <20241203-cerulean-ringtail-of-speed-920c5f@houat> <f6412229-4606-41ad-8c05-7bbba2eb6e08@ti.com>
-In-Reply-To: <f6412229-4606-41ad-8c05-7bbba2eb6e08@ti.com>
-From: John Stultz <jstultz@google.com>
-Date: Thu, 5 Dec 2024 15:17:57 -0800
-Message-ID: <CANDhNCqtMUaO4Y_7UYGJebDEdN==vTAQRexuuek5SZt5rqd8sQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name definitions
-To: Andrew Davis <afd@ti.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-media@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20241204191349.1730936-1-jthoughton@google.com>
+ <20241204191349.1730936-7-jthoughton@google.com> <Z1Dgr_TnaFQT04Pi@linux.dev>
+In-Reply-To: <Z1Dgr_TnaFQT04Pi@linux.dev>
+From: James Houghton <jthoughton@google.com>
+Date: Thu, 5 Dec 2024 15:31:05 -0800
+Message-ID: <CADrL8HWC7HhYmEBWa+5KeWmyD+iT1zPBJUAUtNyrhH7ZpLXJNQ@mail.gmail.com>
+Subject: Re: [PATCH v1 06/13] KVM: arm64: Add support for KVM_MEM_USERFAULT
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Yan Zhao <yan.y.zhao@intel.com>, 
+	Nikita Kalyazin <kalyazin@amazon.com>, Anish Moorthy <amoorthy@google.com>, 
+	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>, 
+	David Matlack <dmatlack@google.com>, Wei W <wei.w.wang@intel.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 3, 2024 at 11:04=E2=80=AFAM Andrew Davis <afd@ti.com> wrote:
-> On 12/3/24 1:44 AM, Maxime Ripard wrote:
-> > On Mon, Dec 02, 2024 at 11:12:23AM -0800, John Stultz wrote:
-> >> Hrm. I'm not sure I see the value in enumerating things in this way,
-> >> it seems like it will be a nuisance to keep current?  Maybe something
-> >> like:
-> >>
-> >> On most systems the default cma region is named "linux, cma" or
-> >> "reserved", with a few exceptions:
-> >>      - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
+On Wed, Dec 4, 2024 at 3:07=E2=80=AFPM Oliver Upton <oliver.upton@linux.dev=
+> wrote:
+>
+> Hi James,
+
+Hi Oliver!
+
+>
+> On Wed, Dec 04, 2024 at 07:13:41PM +0000, James Houghton wrote:
+> > Adhering to the requirements of KVM Userfault:
 > >
-> > I'm a bit worried about doing so. What if, on a "linux,cma" system, we
-> > have another "reserved" heap created with different semantics?
+> > 1. When it is toggled (either on or off), zap the second stage with
+> >    kvm_arch_flush_shadow_memslot(). This is to (1) respect
+> >    userfault-ness and (2) to reconstruct block mappings.
+> > 2. While KVM_MEM_USERFAULT is enabled, restrict new second-stage mappin=
+gs
+> >    to be PAGE_SIZE, just like when dirty logging is enabled.
 > >
+> > Signed-off-by: James Houghton <jthoughton@google.com>
+> > ---
+> >   I'm not 100% sure if kvm_arch_flush_shadow_memslot() is correct in
+> >   this case (like if the host does not have S2FWB).
 >
-> Having the "default CMA" heap get its dev name based on the method that
-> created it was arguably a mistake made when first upstreaming this heap.
-> We should fix this, then maybe add the old name as a link just for
-> backwards compat as needed.
+> Invalidating the stage-2 entries is of course necessary for correctness
+> on the !USERFAULT -> USERFAULT transition, and the MMU will do the right
+> thing regardless of whether hardware implements FEAT_S2FWB.
 >
-> exp_info.name =3D "default_cma";
+> What I think you may be getting at is the *performance* implications are
+> quite worrying without FEAT_S2FWB due to the storm of CMOs, and I'd
+> definitely agree with that.
+
+Thanks for clarifying that for me.
+
+> > @@ -2062,6 +2069,20 @@ void kvm_arch_commit_memory_region(struct kvm *k=
+vm,
+> >                                  enum kvm_mr_change change)
+> >  {
+> >       bool log_dirty_pages =3D new && new->flags & KVM_MEM_LOG_DIRTY_PA=
+GES;
+> > +     u32 changed_flags =3D (new ? new->flags : 0) ^ (old ? old->flags =
+: 0);
+> > +
+> > +     /*
+> > +      * If KVM_MEM_USERFAULT changed, drop all the stage-2 mappings so=
+ that
+> > +      * we can (1) respect userfault-ness or (2) create block mappings=
+.
+> > +      */
+> > +     if ((changed_flags & KVM_MEM_USERFAULT) && change =3D=3D KVM_MR_F=
+LAGS_ONLY)
+> > +             kvm_arch_flush_shadow_memslot(kvm, old);
 >
-> All other CMA and carveout heaps will have names based on their
-> method of creation as there may be multiple of them, but there
-> will only every be one "default CMA" area, and its heap should
-> be named to match.
+> I'd strongly prefer that we make (2) a userspace problem and don't
+> eagerly invalidate stage-2 mappings on the USERFAULT -> !USERFAULT
+> change.
+>
+> Having implied user-visible behaviors on ioctls is never good, and for
+> systems without FEAT_S2FWB you might be better off avoiding the unmap in
+> the first place.
+>
+> So, if userspace decides there's a benefit to invalidating the stage-2
+> MMU, it can just delete + recreate the memslot.
 
-This seems reasonable to me. Maybe putting the link creation behind a
-compatibility config so they can be later deprecated?
+Ok I think that's reasonable. So for USERFAULT -> !USERFAULT, I'll
+just follow the precedent set by dirty logging. For x86 today, we
+collapse the mappings, and for arm64 we do not.
 
-That said, while I understand the impulse to want to fix the heap
-names so applications can depend on them, I also want to caution it's
-a little bit like trying to hard code eth0 as a network device name in
-your scripts.  There are too many potential configurations, and any
-fixed mapping is going to break in some cases.  I think there is just
-going to have to be some (gralloc-like) device-specific configuration
-glue to map a pipeline/use-case to the memory type (similar to fstab
-for filesystem to mount points) in order to handle every case.
-
-So if I'm being a little squirrely on fixed names, it's mostly due to
-wanting to avoid anyone getting the mistaken impression that fixed
-mappings will generally work.
-
-thanks
--john
+Is arm64 ever going to support collapsing back to huge mappings after
+dirty logging is disabled?
