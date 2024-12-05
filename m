@@ -1,101 +1,80 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2171D20D518;
-	Thu,  5 Dec 2024 11:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB47211708;
+	Thu,  5 Dec 2024 11:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733399342; cv=none; b=r18kasNuogaI5XmpDWAFQarF324ZrteLPnZRrgrkAmQZ08K6jf/PugWRp3GPm7foMLIoyfMQm60J27KqTWCqCTvuaUmpy8LRYpATYXul/46Bu/ybviUeoq/kbxJAYqJIPMwXqEVvmCcViXszb09123+ZvPBzq/XNgBIIlp9yYt4=
+	t=1733399349; cv=none; b=asbq41m8ymX0Bl9lR28fuyuJ2j3m0kjFKZ5cDA+QI0kmx6BhinoqhRrD0LtJoZfrtM2ONGxn4wuHPQzc3rQBzH9blDTZLLNqCq9X5Hl+cGFHZDxUUkKmTAP8/vIpuf6VoZD/TpPxHnQhNg5Pf2xrWwbjm9Q+cuOt9/fhvfFyZr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733399342; c=relaxed/simple;
-	bh=ry1Q9lVyvUUKX2WBlH1Bo/LYaeI5/egRWUooe5SRBEM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ofYiksYthcGAb7FyeVPRKX0B+VPTPB1RxMqoKaxeWrI3KSQQ8ZEjwBTMZ6pmDKiEpujIjGaKv9ZMyJxhId/ESI6I7JCgxYwvG3pCx8BSmB92yJjFVmxnm1PweFScxVm+hBBUnKb4DJsKMisQdM98aL5JfaXw0MYG4V7G/Qljxog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIIMSI4k; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733399349; c=relaxed/simple;
+	bh=Z4JL1webB+69PbgcxxMGGKD01phObGvLqmAxQXX9u3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mP0qFZsp6E3wT8rh4/we/Zy3G2/GTL1tc2Q9Wh7emsS8ItpFrxZQtCxgRVDKOOr686wZprU3YdgL4o4RqDma2uT5RBNekMOvvOSKmrpZKYCeaUsW/nUE4I1PTu7v9TTunCojcCpElpSl2xMto70p8dgiOFwUJmpjP8M+Dier2cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=Y35RZ1fO; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIIMSI4k"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2155e9dcbe7so6846595ad.3;
-        Thu, 05 Dec 2024 03:49:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733399340; x=1734004140; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4218+LaUPkk+3Xk7sYgTNuYCra7GTA77M4dYAwFmiyo=;
-        b=hIIMSI4kVrBcGa/SuSATx7rxxgtZjG1yYA9zNkfQHIcUP9gcXgesewrfw6/PFwUIiK
-         QTbAtj7FqqcM0KRea2OQVOEBsHpSc7tn6zwN9LGLGrcE1jlqUu2CAPVmyw2uBW+hh7Gm
-         dHwiZtUhFDzHBRngXMrnBo11Ba0XEIRQMHMVcKZm1+7G8c2kWLD5hHG43WfqtcG1lWgI
-         J/RHQl4Ew/pAsG+XzmWMf3J/gwLBP4K3oicpbZUF2TAHKSyBuwQkUkHw/7wEC/IDu/Rd
-         22Qyjljp1m7a9hgDziYn4jlPHnpLaqskJbkgP/XzK2FfewRCS4yykTJKjfinOFieotXs
-         n4og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733399340; x=1734004140;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4218+LaUPkk+3Xk7sYgTNuYCra7GTA77M4dYAwFmiyo=;
-        b=Yy0V5shrJ6DvKa0fO6Kexvl1wXgx8f42lAqOtrBOr/f9+Qx835ENOSUPkQqzxQ5toU
-         UR3aeiYGDaJPTNj5rK6Kr14GLNAULL5Wyf0pnrgwXyrz75EyvOjQX64V/L2qnJjRylC3
-         YC3gu9IAMf7Fgh5KKSiNfNZ/+eWyDiSto4mM9umH93Uu2z6BqukdBmZ0pk9SgQYVNevx
-         ZpufN7EIb2OoTD8XP2y8ppIYqlsEPgiv3ircVNkvHQra2GvZKO4G1eyEHiRYlrERMsOW
-         HEP71qpfsKSPs5jeY7QgmwVX0rUPpLmEOL33Ro2mdMqTzK+FSy/TMkbI/G0U6X97dh8D
-         w6WQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVz9CMMUT1dIPpJqaGOJgsSk0cqEmv8OTAHHOeTBzgcOfW+PlBaVf5zBB0/v4Dm4tOj0FMXoKbYe9YmH3uJYkU=@vger.kernel.org, AJvYcCWZ32e67Q8MnSoCsuFFpDPqGMCHQmuqBkBZ41IOVC+6TQ63Gwm+TLSf1UXkbR7SDxU9Slbo/YrHyOdq9kujrA==@vger.kernel.org, AJvYcCXqefbFK+clbaUZ2H9FW+Nq2tzT0S/jpA7Z6XxD1CRG5t+PWtBPPdwYdAKVvSXK0J0wH4kIJIHSyG3J@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywo5A9p1vJDG6vybUtNY16ODPdsM7iutV7RVQfQtEhtFmJWXJAk
-	9Oekd1KEPBTaHfgPrMjDZOUHe0IiSUuf/o5y4X32AoSPN+i9c5Ci
-X-Gm-Gg: ASbGnctLsXaTMA5MomHSpscIEKcOuUOK+DtvLrUAwl1nWIkHNoqF5b3SzR1bgU5xQM5
-	erL8bpoyta5ByImN98OA8fR0peOgNnsj3webHEosli+arx6SK176KV/Xs7fLJ3/puU8g7J91u3A
-	bhQGpt0TFMEmKyrnOX+a6nmKVwqF/V8XBHf8evTIZICTN5JYwNqB+p7KPidaugUT8gxgCtelMLm
-	QpTdMXQvv+ONskB4PtuI2a4LdoOJUUR1bWa1lsvxnpvRBAjSDPORYvuZsZr2z9grjq9r4WDKYk=
-X-Google-Smtp-Source: AGHT+IHWN6Tn6tLa6h9VbDwRImkloqTz94E7obvsGuFMsOwcr5HZUuiLpglqYynL3HkgfzpYqNAe8w==
-X-Received: by 2002:a17:903:190:b0:215:89a9:bd0a with SMTP id d9443c01a7336-215bd10d5femr137528305ad.24.1733399340382;
-        Thu, 05 Dec 2024 03:49:00 -0800 (PST)
-Received: from BiscuitBobby.am.students.amrita.edu ([123.63.2.2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215f8e41e52sm10965545ad.3.2024.12.05.03.48.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 03:49:00 -0800 (PST)
-From: Siddharth Menon <simeddon@gmail.com>
-To: simeddon@gmail.com,
-	corbet@lwn.net,
-	jikos@kernel.org,
-	jpoimboe@kernel.org,
-	mbenes@suse.cz,
-	pmladek@suse.com,
-	shuah@kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	live-patching@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH 0/3] kselftest framework to introduce TEST_CONFIG_DEPS
-Date: Thu,  5 Dec 2024 17:17:54 +0530
-Message-Id: <20241205114757.5916-1-simeddon@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Y35RZ1fO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=3T8BUKTv180szcs7l3+S4vFllRzpSSChW5a3YmubLiA=; b=Y35RZ1fOoYQ4mOCGq1tJbYcbR7
+	SFuKukyxOAoUNNrFttRpak1ussId3VjrUgrNmOxINSxSNAVF6wVKx4nzpsKu+J1T5vlojA330qcpk
+	vtksHygLYz06ZWUVk7oIB6j/b1Xe1vbAX4f7rs2RHSxZyB9W79aOAI8buRXWEJ6FOHceKtxO1PeeH
+	9JjM79FRxDNZ0w+KgDmOHGsDSd4urCgcz0trAQWSzyJzX3Lomo+K2NXVQpony/nvU/u/5dbILPB7m
+	PmuD8cAAzyNrFxCLdWI/RtBsGYOXRkyXdk+aMFkSXZEDZbwvgw3hy4zChDB2eeTOBHSuJKKXMbUh4
+	BGKCGlpA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:49070)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1tJALn-0004gT-2M;
+	Thu, 05 Dec 2024 11:48:56 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1tJALi-0006W6-2d;
+	Thu, 05 Dec 2024 11:48:50 +0000
+Date: Thu, 5 Dec 2024 11:48:50 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Simon Horman <horms@kernel.org>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v1 0/7] Introduce unified and structured PHY
+Message-ID: <Z1GTIlVOiQk8tG1t@shell.armlinux.org.uk>
+References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241203075622.2452169-1-o.rempel@pengutronix.de>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Currently, kselftests does not have a generalised mechanism to skip compilation
-and run tests when required kernel configuration options are disabled.
+Hi Oleksij,
 
-This patch series addresses this limitation by introducing a new flag, 
-'TEST_CONFIG_DEPS' in lib.mk, along with corresponding updates to the 
-documentation. 
-The selftests/livepatch/Makefile has been updated to utilize TEST_CONFIG_DEPS.
+As this comment applies to several of your patches, I'm replying to the
+series.
 
-Siddharth Menon (3):
-  docs/kselftests: Explain the usage of TEST_CONFIG_DEPS
-  selftests/lib.mk: Introduce check to validate required configs
-  selftests/livepatch: Check if required config options are enabled
+Please use the prefix "net: phy: " for phylib patches to disambiguate
+them from phy (drivers/phy) patches in the kernel change log.
 
- Documentation/dev-tools/kselftest.rst      |  3 +++
- tools/testing/selftests/lib.mk             | 18 ++++++++++++++++--
- tools/testing/selftests/livepatch/Makefile |  1 +
- 3 files changed, 20 insertions(+), 2 deletions(-)
+Thanks.
 
 -- 
-2.39.5
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
