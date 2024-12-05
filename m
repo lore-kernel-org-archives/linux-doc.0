@@ -1,144 +1,172 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD2F1B0F19
-	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 10:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C86D23918F
+	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 10:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733396160; cv=none; b=WQnriDa5Ioc9WJjNs4iNJMjxo+NyYlNxOloncg2Pwkkpy3om1iPviKxubEdSP6mDG6EtIA5i01YymX/q6KCXkeOlhh0OXk7tWirACXwR/FNLvG6hbfCMfm6CWtf28HKmibFX40asQ840lFzbhaIK2Fz+2icXMeAAzR6w5FH/cPs=
+	t=1733396354; cv=none; b=Nvfa0eSKxeI7gAOUACoOxUsJ3WONkMVkUBlNd6NeAT0wu5NT6EaCY5GrE5TrlO63GN4ZN5sCa/8CE1jx5jgzgOoyRnYhu/Cc8fKhdGjPdqSr2/WFLt+GcSvKE4FlO9BGBUlMTybWNLyzmNWHU8KMpgWdu0db4gIq48FnFYYfWqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733396160; c=relaxed/simple;
-	bh=AF4l6aeuX2fLoxZvJW1W+KRCKSLALJ38XhIN7Qx/qOQ=;
+	s=arc-20240116; t=1733396354; c=relaxed/simple;
+	bh=sxy8RMO6UamzIVIj4MzFK3U1aIDo1klLe+1eQR0qPAg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OJFD4Sya7cg3N0T8DnBrUgXqw75vhguVRYFsB1BolUfyrs+CAW5dIXuesVB4V8X1iYusl0y0u2bZqtj2r8iHSuPRjRtYVxCUw7t5tURlSmBbt+fD2h815G51vM97XAa5PPwuxHe9pWNL8pGhm0S0PA3JYCdA7AhdXjj5EFg6lX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=SMBrpOtL; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="SMBrpOtL"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-385dfb168cbso383996f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 02:55:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1733396156; x=1734000956; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=39akCOMWUeaE+QsrfG7LB1+JbU+2qpioUetBg6wQUDU=;
-        b=SMBrpOtLFsFLYabWu8Zv2sacjyVDD8f/JHaxnY2y9jY/Y5tC8d4mZZ6BLlx+DxulrE
-         w4t95llKqUItdOEHrbfQvhXiHC2Gs85PltrJDyy/rTHCIqfgfXtMw4qeP3nkZViL22Sc
-         39QQrSD8r8MK7U7VDnpqJepO1yOHqF5TduxpWS7T50x8GEcd24TXw9J1yIccVVk42WHb
-         HfMdHTvsJnSxWMGcEm/AZmm6V2U7P+eh3z2tGgVMlAyQusH3B4V51HPrHRktPjb4nN18
-         CPa+YqKccTGjhGD90+aDYYcPPBh7rwha1HpVQgzlY8iP/owSXLm8DpgtdAlekNR0qKc5
-         YkpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733396156; x=1734000956;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=39akCOMWUeaE+QsrfG7LB1+JbU+2qpioUetBg6wQUDU=;
-        b=Q5dgoNlFJXKpw9ZiIQtoTS+6YJNJixMn7lfCXo/8vLCRh8nZIbucTiYWzDK5LVan3A
-         gEHYUSM/93TAgCp4cD6uAweqIWLxMfAYEBDIET5OpQ2CEMxUmKP9EJ+VfRXcAq3c03S4
-         CsY6//8AAozadFHHSoN6Tas25SqZUZBToNsB8/FKTaeG4Hch5JZmeOoEvoF5dFC9Tt7F
-         X82472T43PnnrmtvFF6M1CnYCdEF9ovRUtH1TGaGCLY9qU1LOsiw+iyKKe1nv+otHiQy
-         zocqnogJI0uqnsoQdO+QyHCr4MpkxKjZRwcGKXBthth2GO3bptftoTS3W2aswze3CPf6
-         FUww==
-X-Forwarded-Encrypted: i=1; AJvYcCVI6DGQLp3Q0LU1pDL3io5XRYsbIdfgOKD7kjyINmwnURyCQRTj6GCkUqMGeL9fQmteHupJMllVxzI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4TeyQhTYKr6Khc6vXn5sHKlqelC5HzYy34kZ1zWbby9VQq7Vi
-	yWcxemyhO8sNkHWxanEHFd08gvUx2bY4rpz59RqlYv35f8tvXOes6t5hJ3imRZkH6hVP9DciKzS
-	Mhvs=
-X-Gm-Gg: ASbGncueMkSOYuPPVP+L6+oQTOAEK8j+H9iMFLPTBaqk31jgftVHwZAbsFf3GRZOy9d
-	oHo4j6xVTGviRBwTsKKYDAbR4p4PIsc9YGRhYLiZuhe+j08Xh/7EhdZiLKfJ3T29dlpWuCyRsY0
-	H3Ux05mFaId9hFGFa+ZNZPOQC4GTZDHYztZQ1RrK+0+VToVSt11ZnPN7fN9tvtQfiwYfCfIQ4hX
-	VPdq1OQYZhpJmgBcgIzl+BlmkfTiWZ/IRruMPqCfvtwaEOY9lyJGTaJ+9iI01aDeedg4iXwdFFP
-	jFtm
-X-Google-Smtp-Source: AGHT+IGoxjZo6bYwAfvD7E5XX5REfxfUUf5BngBNE8pXoqpmil0EuvXVzWoDcm4jX8QY3WMIzJJ3Ew==
-X-Received: by 2002:a05:6000:4601:b0:385:fb40:e57b with SMTP id ffacd0b85a97d-385fd3cd413mr8375393f8f.15.1733396156499;
-        Thu, 05 Dec 2024 02:55:56 -0800 (PST)
-Received: from localhost (p5dc6838f.dip0.t-ipconnect.de. [93.198.131.143])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861f59ce34sm1626705f8f.25.2024.12.05.02.55.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 02:55:55 -0800 (PST)
-Date: Thu, 5 Dec 2024 11:55:54 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Matthias Maennich <maennich@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] doc: module: Fix documented type of namespace
-Message-ID: <mfgqf5xpjnyud3qm4hwycbnz23mfik4pzry3h7fi2k6khokbgd@facrmygrrqnh>
-References: <cover.1733305665.git.ukleinek@kernel.org>
- <6fe15069c01b31aaa68c6224bec2df9f4a449858.1733305665.git.ukleinek@kernel.org>
- <Z1FbOrGjaVsGKIXa@smile.fi.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WdotOlHScp/6VCBAnqe8awGjfN6XbZWhbgpiraNRLIVRMTJt/zp3+COqBU8Xabd6ifjzLSrCXUj/4EkkA3QW3wZ64bP5MuRwwll18vtY768QKKTWfFB8TkRCjl6YX1jGHY6CwAL7NI7zHJTNmC7goR7VH4sojMS4DDBUbYFDZec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tJ9ZV-0003Sx-0T; Thu, 05 Dec 2024 11:59:01 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tJ9ZS-001oGe-1u;
+	Thu, 05 Dec 2024 11:58:59 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tJ9ZT-00GQo3-0o;
+	Thu, 05 Dec 2024 11:58:59 +0100
+Date: Thu, 5 Dec 2024 11:58:59 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Marc Kleine-Budde <mkl@pengutronix.de>
+Cc: Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Simon Horman <horms@kernel.org>,
+	Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH net-next v1 6/7] phy: dp83td510: add statistics support
+Message-ID: <Z1GHczyyzDFkV592@pengutronix.de>
+References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
+ <20241203075622.2452169-7-o.rempel@pengutronix.de>
+ <57a7b3bf-02fa-4b18-bb4b-b11245d3ebfb@intel.com>
+ <20241205-satisfied-gerbil-of-cookies-471293-mkl@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="s4byhypekrqelq3e"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z1FbOrGjaVsGKIXa@smile.fi.intel.com>
+In-Reply-To: <20241205-satisfied-gerbil-of-cookies-471293-mkl@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
+On Thu, Dec 05, 2024 at 10:01:10AM +0100, Marc Kleine-Budde wrote:
+> On 05.12.2024 09:43:34, Mateusz Polchlopek wrote:
+> > 
+> > 
+> > On 12/3/2024 8:56 AM, Oleksij Rempel wrote:
+> > > Add support for reporting PHY statistics in the DP83TD510 driver. This
+> > > includes cumulative tracking of transmit/receive packet counts, and
+> > > error counts. Implemented functions to update and provide statistics via
+> > > ethtool, with optional polling support enabled through `PHY_POLL_STATS`.
+> > > 
+> > > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > > ---
+> > >   drivers/net/phy/dp83td510.c | 98 ++++++++++++++++++++++++++++++++++++-
+> > >   1 file changed, 97 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/net/phy/dp83td510.c b/drivers/net/phy/dp83td510.c
+> > > index 92aa3a2b9744..08d61a6a8c61 100644
+> > > --- a/drivers/net/phy/dp83td510.c
+> > > +++ b/drivers/net/phy/dp83td510.c
+> > > @@ -34,6 +34,24 @@
+> > >   #define DP83TD510E_CTRL_HW_RESET		BIT(15)
+> > >   #define DP83TD510E_CTRL_SW_RESET		BIT(14)
+> > > +#define DP83TD510E_PKT_STAT_1			0x12b
+> > > +#define DP83TD510E_TX_PKT_CNT_15_0_MASK		GENMASK(15, 0)
+> > > +
+> > > +#define DP83TD510E_PKT_STAT_2			0x12c
+> > > +#define DP83TD510E_TX_PKT_CNT_31_16_MASK	GENMASK(15, 0)
+> > 
+> > Shouldn't it be GENMASK(31, 16) ? If not then I think that macro
+> > name is a little bit misleading
+> 
+> Yes, the name may be a bit misleading...
 
---s4byhypekrqelq3e
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 1/2] doc: module: Fix documented type of namespace
-MIME-Version: 1.0
+The naming is done according to the chip datasheet. This is preferable
+way to name defines.
 
-On Thu, Dec 05, 2024 at 09:50:18AM +0200, Andy Shevchenko wrote:
-> On Wed, Dec 04, 2024 at 11:01:10AM +0100, Uwe Kleine-K=F6nig wrote:
-> > Since commit cdd30ebb1b9f ("module: Convert symbol namespace to string
-> > literal") the namespace has to be a string. Fix accordingly.
->=20
-> >  In addition to the macros EXPORT_SYMBOL() and EXPORT_SYMBOL_GPL(), tha=
-t allow
-> >  exporting of kernel symbols to the kernel symbol table, variants of th=
-ese are
-> >  available to export symbols into a certain namespace: EXPORT_SYMBOL_NS=
-() and
-> > -EXPORT_SYMBOL_NS_GPL(). They take one additional argument: the namespa=
-ce.
-> > -Please note that due to macro expansion that argument needs to be a
-> > -preprocessor symbol. E.g. to export the symbol ``usb_stor_suspend`` in=
-to the
-> > +EXPORT_SYMBOL_NS_GPL(). They take one additional argument: the namespa=
-ce as a
-> > +C-string. E.g. to export the symbol ``usb_stor_suspend`` into the
->=20
-> But C-string is ambiguous. Is it now okay to use
->=20
-> static const char *p =3D "my constant C-string";
->=20
-> EXPORT_...(, p);
+> [...]
+> 
+> > > + */
+> > > +static int dp83td510_update_stats(struct phy_device *phydev)
+> > > +{
+> > > +	struct dp83td510_priv *priv = phydev->priv;
+> > > +	u64 count;
+> > > +	int ret;
+> > > +
+> > > +	/* DP83TD510E_PKT_STAT_1 to DP83TD510E_PKT_STAT_6 registers are cleared
+> > > +	 * after reading them in a sequence. A reading of this register not in
+> > > +	 * sequence will prevent them from being cleared.
+> > > +	 */
 
-I didn't test that, but I guess that won't work. While you could argue
-that p isn't a C-string but a pointer, I agree that the wording isn't
-optimal.
+this comment is relevant for the following question by Marc.
 
-So maybe make that:
+> > > +	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_1);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +	count = FIELD_GET(DP83TD510E_TX_PKT_CNT_15_0_MASK, ret);
+> > > +
+> > > +	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_2);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +	count |= (u64)FIELD_GET(DP83TD510E_TX_PKT_CNT_31_16_MASK, ret) << 16;
+> > 
+> > Ah... here you do shift. I think it would be better to just define
+> > 
+> > #define DP83TD510E_TX_PKT_CNT_31_16_MASK	GENMASK(31, 16)
+> 
+> No. This would not be the same.
+> 
+> The current code takes the lower 16 bit of "ret" and shifts it left 16
+> bits.
+> 
+> As far as I understand the code DP83TD510E_PKT_STAT_1 contain the lower
+> 16 bits, while DP83TD510E_PKT_STAT_2 contain the upper 16 bits.
+> 
+> DP83TD510E_PKT_STAT_1 gives 0x????aaaa
+> DP83TD510E_PKT_STAT_2 gives 0x????bbbb
+> 
+> count will be 0xbbbbaaaa
+> 
+> This raises another question: Are these values latched?
+> 
+> If not you can get funny results if DP83TD510E_PKT_STAT_1 rolls over. On
+> unlatched MMIO busses you first read the upper part, then the lower,
+> then the upper again and loop if the value of the upper part changed in
+> between. Not sure how much overhead this means for the slow busses.
+> 
+> Consult the doc of the chip if you can read both in one go and if the
+> chip latches these values for that access mode.
 
-	... the namespace as a string constant.
+It is not documented, what is documented is that PKT_STAT_1 to
+PKT_STAT_3 should be read in sequence to trigger auto clear function of
+this registers. If chip do not latches these values, we will have
+additional problem - some counts will be lost in the PKT_STAT_1/2 till we with
+PKT_STAT_3 will be done.
 
-?
-
-Best regards
-Uwe
-
---s4byhypekrqelq3e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdRhrgACgkQj4D7WH0S
-/k6ScAgAiq1T96IbXljeMhp7b9YEjRrmFkHTKaVWu4HRW3yp9BpvdoiYTyhgZT1X
-OhqZY2I08zkWjVz4cEjc9A8QN68/TdWjx44YBrpQvOwFg5hCIvbSKoQpVekPqObN
-drj4yRYugMhF/ZDQgvD6e1dsewoziKP9XaZ9EoueAOzgT9WzqDjGzyxb1OWxY0CP
-Hd6iob3658ku+8iGz3poKVCkvRdg9Rj2C7BXrrW68xmo3Azm97J4iAcwp2pwdIgn
-Hoc/8FVTOc5E3Ui2oFToXRC7kS5YlaW4kU52q6c9x6p40SkHcieslUT5Rfhvj+hs
-mhixOW7BEAxbCvYv9uNb+Yptv+YaaQ==
-=PJT8
------END PGP SIGNATURE-----
-
---s4byhypekrqelq3e--
+With other words, I'll do more testing and add corresponding comments in
+the code..
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
