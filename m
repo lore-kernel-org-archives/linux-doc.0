@@ -1,63 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937BE1917EE;
-	Thu,  5 Dec 2024 07:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9371917EE;
+	Thu,  5 Dec 2024 07:52:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733385025; cv=none; b=olT/tiunkVYXk2PH1THC+LwL8PgDMtMxe97Cs0IwVho/iL5IfSbYk8KAlGoKwvZP0DyzGrnoXbI2983K+uyaluqiqEJ9yiAr4RK0IX8BSobk/KiaczZbd2q1oan7Z8O6qfkhZ3AyozHnbEAndgQmXt0a2wNcvdLNzgieKuZ6VZY=
+	t=1733385139; cv=none; b=QYti37lrj+vy7IZOq4CV3mQI/ttI5uvODKVJvdc+F9q00k5cRCaNDe2uvsYHSPI7kirpMgy3aMkHurip2SS2i3QRrNfua2TBGFHgNl9B9yNM6hDZNRH+ypBRPRkq45Ykdl+6zHd0uAHlWVQLIxLw78eYzXhCLZWHAAY+diZDqKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733385025; c=relaxed/simple;
-	bh=bPh4ih7OpJ8m0rn8A+XBCM2qTFax+ED9i3CtQUAzxYo=;
+	s=arc-20240116; t=1733385139; c=relaxed/simple;
+	bh=Rwg+PdQJTIPxyGHWfwFOok46HlCIMhTkmYpjLF+8SUE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=deyQyCr71FzIIIgaL0kTqulLAK2XeUBmCWX03nexO+GMF3EHU8IpZkZ6Tf5UJwWCIETtOjWBA+X2YwdDi7fsjJZ+c6Z5f+F1nFhVoEX9LvQT1e9+V5/fAR2AQj48zgGUKqNgGddUkVyu1kdTvnIX2XKuw2ipA1OxexiPhO5JUZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mcb2M+43; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=LGyTqlBftgcDSkDDkTlJaTNYt+/keyRS3X5ddf9Tk3Pp9XUbvSvPbEZL9EUJb61qG/4g96rh2ifb6kdMlhBrbttkwkXi5kGA3tnXHBaha3GsLi0cydubBmsGdLXpfR7P89K4UIbGnVnI+MUVDZhI3HxFZPOLAjmUHv2UToH7+N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A5Kd7h3v; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mcb2M+43"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5Kd7h3v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733385024; x=1764921024;
+  t=1733385139; x=1764921139;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=bPh4ih7OpJ8m0rn8A+XBCM2qTFax+ED9i3CtQUAzxYo=;
-  b=Mcb2M+43CwI0z9/2LsefKvxU2ue5FUa6Q09MdZlaTj/g8krRseugIx6V
-   0JgfNMvgBH1ZzSZ1sORckuxIIBu9BEuoSHCJwO6Ra+PwgEr0adYSWv/q6
-   Has+A92lTaNMWpcTXRnA4r3kJ/rCz+xdiafPgC9r3leiU6qir3KHFrzHM
-   vOUgFQAnlVroq4i2x6wvg86BxVY7fohC2Mv3L++2mTmdJDMRTKx4DsBL0
-   jJkaiKe9DKCXCAubmJEq6Oz4pG5RlQx7JrOkTu2AnquX3yzXo1J16ZbxG
-   yeJDVSg2F8NZaUL6CNpQWyyzoHef1z0+QdR/F5IoBjy8tKqf5ckIpAR65
-   w==;
-X-CSE-ConnectionGUID: 7fgzuQKfRP6z04V84Abd2A==
-X-CSE-MsgGUID: cSXfSqKKR4KPpKVfNbpo5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33564718"
+  bh=Rwg+PdQJTIPxyGHWfwFOok46HlCIMhTkmYpjLF+8SUE=;
+  b=A5Kd7h3vLkw50V+RhgumT/L2wnTXZLz8GV3OGoCHB7PaMmJh4e+Y5unI
+   fHcyFUnkIeiRIxraybRxqphfugV8x/ITSxKUazUKejvdxE9XyU0XB+sTj
+   XYqwYpRVYcp40tb/eox5km29SGtlXJ9Ks/Q5tgimypVtGgPDOARfX6FCV
+   ctjR5/9At/04bLedcSMmHTuI/8SI22DVPomjo5+QKPQG5fHWzwHua0LM7
+   eO+nyq+G8YEfWWdwyXku0qs4Bi+d8JWD9OljdrQSSb9SnZXfWdj3fh1ip
+   pUW7jjqGxXy3iFSAqQjr9350jaoKrh4SDuf256WpRmmKLRr2YVKzSngk6
+   g==;
+X-CSE-ConnectionGUID: 59AGbZbfSwKG/uHGr+tiWQ==
+X-CSE-MsgGUID: RYprabjpSGOLLbI+cbuLTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33565091"
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="33564718"
+   d="scan'208";a="33565091"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 23:50:23 -0800
-X-CSE-ConnectionGUID: FKXDgk1gT42DZ1tiE5pKaQ==
-X-CSE-MsgGUID: HF6mZtFfQViQbnNiZ+19Bw==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 23:52:18 -0800
+X-CSE-ConnectionGUID: vjc3Xd/yS6eWxYigD49s+Q==
+X-CSE-MsgGUID: zvR7avF3QqqYDvZbTqQClg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="124938594"
+   d="scan'208";a="124939312"
 Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 23:50:21 -0800
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 23:52:16 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tJ6cs-00000004173-22ns;
-	Thu, 05 Dec 2024 09:50:18 +0200
-Date: Thu, 5 Dec 2024 09:50:18 +0200
+	id 1tJ6ej-0000000418Y-2SmO;
+	Thu, 05 Dec 2024 09:52:13 +0200
+Date: Thu, 5 Dec 2024 09:52:13 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
 Cc: Matthias Maennich <maennich@google.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Masahiro Yamada <masahiroy@kernel.org>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] doc: module: Fix documented type of namespace
-Message-ID: <Z1FbOrGjaVsGKIXa@smile.fi.intel.com>
+Subject: Re: [PATCH 2/2] doc: module: DEFAULT_SYMBOL_NAMESPACE must be
+ defined before #includes
+Message-ID: <Z1Fbrbjx-mNTnV0k@smile.fi.intel.com>
 References: <cover.1733305665.git.ukleinek@kernel.org>
- <6fe15069c01b31aaa68c6224bec2df9f4a449858.1733305665.git.ukleinek@kernel.org>
+ <3dd7ff6fa0a636de86e091286016be8c90e03631.1733305665.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,31 +68,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6fe15069c01b31aaa68c6224bec2df9f4a449858.1733305665.git.ukleinek@kernel.org>
+In-Reply-To: <3dd7ff6fa0a636de86e091286016be8c90e03631.1733305665.git.ukleinek@kernel.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Dec 04, 2024 at 11:01:10AM +0100, Uwe Kleine-König wrote:
-> Since commit cdd30ebb1b9f ("module: Convert symbol namespace to string
-> literal") the namespace has to be a string. Fix accordingly.
+On Wed, Dec 04, 2024 at 11:01:11AM +0100, Uwe Kleine-König wrote:
+> The definition of EXPORT_SYMBOL et al depends on
+> DEFAULT_SYMBOL_NAMESPACE. So DEFAULT_SYMBOL_NAMESPACE must already be
+> available when <linux/export.h> is parsed.
 
->  In addition to the macros EXPORT_SYMBOL() and EXPORT_SYMBOL_GPL(), that allow
->  exporting of kernel symbols to the kernel symbol table, variants of these are
->  available to export symbols into a certain namespace: EXPORT_SYMBOL_NS() and
-> -EXPORT_SYMBOL_NS_GPL(). They take one additional argument: the namespace.
-> -Please note that due to macro expansion that argument needs to be a
-> -preprocessor symbol. E.g. to export the symbol ``usb_stor_suspend`` into the
-> +EXPORT_SYMBOL_NS_GPL(). They take one additional argument: the namespace as a
-> +C-string. E.g. to export the symbol ``usb_stor_suspend`` into the
+> -within the corresponding compilation unit before any EXPORT_SYMBOL macro is
+> -used.
+> +within the corresponding compilation unit before the #include for
+> +<linux/export.h>.
 
-But C-string is ambiguous. Is it now okay to use
+And how do I know where it is included in the current state of affairs with the
+dependency hell in the kernel?
 
-static const char *p = "my constant C-string";
-
-EXPORT_...(, p);
-
-?
-
->  namespace ``USB_STORAGE``, use::
+I suggest to reword it to something like "before any global inclusions", the
+best probably is to repeat the piece from pr_fmt() / dev_fmt() documentation
+(if any).
 
 -- 
 With Best Regards,
