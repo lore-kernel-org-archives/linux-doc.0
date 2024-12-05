@@ -1,31 +1,31 @@
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC464195390;
-	Thu,  5 Dec 2024 07:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331B11B218F;
+	Thu,  5 Dec 2024 07:26:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733383518; cv=none; b=ByP7kc3YI9JVp8Fd/mA+UVjSXut2Iriw3/bkh27h2ZNiLF2dWMpco0W0spJ3OyR4YEtRr9JiQdWGlClFo40jv3Zm1wRtAyGt4jtJkKtccEKywV9oQzOcJ/XfcTMuozVFeonC33GmuJaUtvdrl1x19tHBrGyEuoDQMa1s/39LBAw=
+	t=1733383582; cv=none; b=cEjoyPGcdEGfVcyPXMQNqCdZXGvW8DXWRdgKdZmfqtA+umVQtFpwmblEElHuGp8mJUcHCcSnaNxbTcaB4T790Crqe4PIgBFdWWdHl195w/NeyYo+ypyKBTgUTlffo1/052Jw/d5xXxzpI/PTQ0KYQ6Qa10YwXNDsn51QuGXkqUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733383518; c=relaxed/simple;
-	bh=/LXRxopnEOPAEItYg+Qvrhl2jiO9odl5xOZjKSOPbCY=;
+	s=arc-20240116; t=1733383582; c=relaxed/simple;
+	bh=0UD6WQVddyog9nb7OkbO4pkD6YTk63/QsVvGLkzydr4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tIZh7NBLr7uAwkhOR30jA38BAaRxx1PnYIHzNkTZxAM7bxBHYs+rO87tTL22iZK9oa8cjGUOQLeV8YljN05ngPEnoMo9lWzwwEfNd4qc/eafwFUsS7RaklaiJMIYuHSCZvYvgbP/+mOgUTy4yb+Rj33ld2pbAPcdZBckrrtKvy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=qy3MfN4E; arc=none smtp.client-ip=115.124.30.100
+	 In-Reply-To:Content-Type; b=CVDEjvzr7vpmTV0xbuA39MbIzjVNBCS1lkcvBVOVd1Gbot8U7kSYLMR6SSOv019yjb9pGs/vy+BhQgqnVLqV0CtaAZi7/G8kxid8S8uwkIx/TYy1qSpiMzhCFjKG3UnwOHvlYGiGxiO0HfdQGQG37gV3c7NjC0SqhO2EyoxPf/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=nf1mCt7E; arc=none smtp.client-ip=115.124.30.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="qy3MfN4E"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="nf1mCt7E"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1733383513; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=OSN8erpeN2GDGeA9Hv5gtA/lq0S3TmHXSQSI0exTd6I=;
-	b=qy3MfN4EoFUFlxPRTJyJddv5AS81OMH3UuhTS234XHDEGpAQEtZuBpLeV+UcfXxiy5n+RYFh/SlsyD7LOqi0kcCr1mYZL/PkOM0XmR7/HUwA9+8AMQRDzki5XlhggmIYwPb1T5Dy53up8jsKy7Mijvgt75P8l+nM9llIlbFwsHs=
-Received: from 30.74.128.237(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WKsWQ5e_1733383511 cluster:ay36)
+	t=1733383576; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=YKl5IZgDbXNR0bbwdxa/KbJG9SnGBZUCv2B2flHQUiU=;
+	b=nf1mCt7EzRl5Aic7i0+XW1sVp/9TI0xrWrkCMaS9tG8u9QHASxLjE04IjlxzZcYc0ek1cHB0k5XQJU4LrZFxGDcPF2iZIjCQpoa5Ab6bjrqoy0U05IBwrxbnBRp0h49a3fj26NVvn1FickIGy9WItkDM6iu+z+Z56UH3BMTUS4A=
+Received: from 30.74.128.237(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WKsVKi8_1733383575 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Thu, 05 Dec 2024 15:25:12 +0800
-Message-ID: <9fa8c4b3-1585-4f2c-84df-d61d8c5c8329@linux.alibaba.com>
-Date: Thu, 5 Dec 2024 15:25:10 +0800
+          Thu, 05 Dec 2024 15:26:16 +0800
+Message-ID: <ac669a87-7517-4a37-8026-67b70e99884c@linux.alibaba.com>
+Date: Thu, 5 Dec 2024 15:26:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -33,7 +33,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] perf/dwc_pcie: Fix the event numbers
+Subject: Re: [PATCH 2/2] Documentation: dwc_pcie_pmu: Fix the mnemonics and
+ eventid
 To: Ilkka Koskinen <ilkka@os.amperecomputing.com>,
  Jing Zhang <renyu.zj@linux.alibaba.com>, Will Deacon <will@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
@@ -41,39 +42,49 @@ To: Ilkka Koskinen <ilkka@os.amperecomputing.com>,
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org
 References: <20241205061914.5568-1-ilkka@os.amperecomputing.com>
- <20241205061914.5568-2-ilkka@os.amperecomputing.com>
+ <20241205061914.5568-3-ilkka@os.amperecomputing.com>
 From: Shuai Xue <xueshuai@linux.alibaba.com>
-In-Reply-To: <20241205061914.5568-2-ilkka@os.amperecomputing.com>
+In-Reply-To: <20241205061914.5568-3-ilkka@os.amperecomputing.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 
 在 2024/12/5 14:19, Ilkka Koskinen 写道:
-> According to Databook, L1 aux is event number 0x08 and
-> TX L0s and RX L0S is 0x09. Fix the event numbers for the
-> two events.
+> Fix the event id and type in the example. In addition, the recent fix,
+> which addressed the mnemonics with mixed case, didn't fix the document.
+> Match the names with the driver.
 > 
 > Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
 > ---
->   drivers/perf/dwc_pcie_pmu.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   Documentation/admin-guide/perf/dwc_pcie_pmu.rst | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/perf/dwc_pcie_pmu.c b/drivers/perf/dwc_pcie_pmu.c
-> index 9cbea9675e21..890cf3bb43a2 100644
-> --- a/drivers/perf/dwc_pcie_pmu.c
-> +++ b/drivers/perf/dwc_pcie_pmu.c
-> @@ -199,8 +199,8 @@ static struct attribute *dwc_pcie_pmu_time_event_attrs[] = {
->   	DWC_PCIE_PMU_TIME_BASE_EVENT_ATTR(L1_1, 0x05),
->   	DWC_PCIE_PMU_TIME_BASE_EVENT_ATTR(L1_2, 0x06),
->   	DWC_PCIE_PMU_TIME_BASE_EVENT_ATTR(CFG_RCVRY, 0x07),
-> -	DWC_PCIE_PMU_TIME_BASE_EVENT_ATTR(TX_RX_L0S, 0x08),
-> -	DWC_PCIE_PMU_TIME_BASE_EVENT_ATTR(L1_AUX, 0x09),
-> +	DWC_PCIE_PMU_TIME_BASE_EVENT_ATTR(L1_AUX, 0x08),
-> +	DWC_PCIE_PMU_TIME_BASE_EVENT_ATTR(TX_RX_L0S, 0x09),
+> diff --git a/Documentation/admin-guide/perf/dwc_pcie_pmu.rst b/Documentation/admin-guide/perf/dwc_pcie_pmu.rst
+> index 39b8e1fdd0cd..cb376f335f40 100644
+> --- a/Documentation/admin-guide/perf/dwc_pcie_pmu.rst
+> +++ b/Documentation/admin-guide/perf/dwc_pcie_pmu.rst
+> @@ -60,7 +60,7 @@ description of available events and configuration options in sysfs, see
+>   The "format" directory describes format of the config fields of the
+>   perf_event_attr structure. The "events" directory provides configuration
+>   templates for all documented events.  For example,
+> -"Rx_PCIe_TLP_Data_Payload" is an equivalent of "eventid=0x22,type=0x1".
+> +"rx_pcie_tlp_data_payload" is an equivalent of "eventid=0x21,type=0x0".
 >   
->   	/* Group #1 */
->   	DWC_PCIE_PMU_TIME_BASE_EVENT_ATTR(tx_pcie_tlp_data_payload, 0x20),
+>   The "perf list" command shall list the available events from sysfs, e.g.::
+>   
+> @@ -79,8 +79,8 @@ Example usage of counting PCIe RX TLP data payload (Units of bytes)::
+>   
+>   The average RX/TX bandwidth can be calculated using the following formula:
+>   
+> -    PCIe RX Bandwidth = Rx_PCIe_TLP_Data_Payload / Measure_Time_Window
+> -    PCIe TX Bandwidth = Tx_PCIe_TLP_Data_Payload / Measure_Time_Window
+> +    PCIe RX Bandwidth = rx_pcie_tlp_data_payload / Measure_Time_Window
+> +    PCIe TX Bandwidth = tx_pcie_tlp_data_payload / Measure_Time_Window
+>   
+>   Lane Event Usage
+>   -------------------------------
+
 
 LGTM.
 
