@@ -1,70 +1,104 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3881718DF6E;
-	Thu,  5 Dec 2024 11:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1084C1DF99A
+	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 11:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733397075; cv=none; b=j3q1H6DJ4FTJfklZU/PazAT5+eMhXmXNtjr/4rpcVDeUGSe0fHZWdCaC4awBdcbjQWM/VRsw03gNcIhXBsZl+IeLgN2Cdalz3SKX/ZHr5CsutknSTc1J+DnoInn4ugZjn+6jUJS3IoMDZwB5bo5XtaYh4Eqisn9paWxMh4d4ZXg=
+	t=1733397253; cv=none; b=e4p76htrtV3Vwn7Q4Af2zpecsEOeAayr+zFayqamt8IM9zDRddZqck9JK1BjDE67/Q017fDKkPS9nFnv4ZlE6BfVOCXolp5/J6myxuJ7zHN13UjzdN5FPVO1cQ5cAZX1ZsztwfKdi4glfO1oDMgaZfH7zVykjw2xX2ojev7OIBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733397075; c=relaxed/simple;
-	bh=ic2LZ+xZao0jYrIrVZa/aUUK2jeJmobySbxf5Ab41VU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZU2NEPcYFNwrRkTTLaVpyt3gX263vfhq2tePkw0IqEaXtRm/mzepZAwPEwe2llbO1Se5uUiv23PDfq4m45W3M7imZrYrZ/jf6W94fK8gnzoQc7P3Hz2TGYSKx9FLlHhxXl1yswk2IFhYziWpe3deKl52W3FFZeEc2S3MWKld4SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TOSYn3gf; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TOSYn3gf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ic2LZ
-	+xZao0jYrIrVZa/aUUK2jeJmobySbxf5Ab41VU=; b=TOSYn3gfbEuVm9PsgRpak
-	OLe/581/gLlbQzfPwLpGXebiwJ8Mm+DEt2ZQRzDgKz6RLXWwtkIGOKAMyRkikWFJ
-	clCOOYhFqOejmKtOc8NCdWbXYjKHsWCPDzXDeXJ/gHbF6w+mDAJqHIBCxhWzKu3i
-	Gcvnbcnt49s3H2746vANGo=
-Received: from localhost.localdomain (unknown [193.203.214.57])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wCnd6UpilFnz0pQLw--.13066S4;
-	Thu, 05 Dec 2024 19:10:34 +0800 (CST)
-From: yaxin_wang <yaxin_wang_uestc@163.com>
-To: yang.yang29@zte.com.cn
-Cc: bsingharora@gmail.com,
-	akpm@linux-foundation.org,
-	david@redhat.com,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	wang.yong12@zte.com.cn,
-	wang.yaxin@zte.com.cn,
-	fan.yu9@zte.com.cn,
-	he.peilin@zte.com.cn,
-	tu.qiang35@zte.com.cn,
-	qiu.yutan@zte.com.cn,
-	zhang.yunkai@zte.com.cn,
-	ye.xingchen@zte.com.cn,
-	xu.xin16@zte.com.cn
-Subject: Re: [PATCH linux next] delayacct: add delay max to record delay peak
-Date: Thu,  5 Dec 2024 11:10:33 +0000
-Message-Id: <20241205111033.3675568-1-yaxin_wang_uestc@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1733397253; c=relaxed/simple;
+	bh=3+xpRgcjCsuz/2mGkng/3o13JlvFt9F6+oJkb+OFlVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gNZo8j/9OBfUcYUrmrZGPecmfS+JaeYGoTAU17FSCj5aherxoxLvXRb/tG3u0pam5CKs/1AxngOzC3LK96O9xhNrQgotvmB6Ogqmm+CswKU5zysy3vzh83BV6n83ZbHT+Y+PPCIj3kmrWrEVXo1vf+avTC7WCazZ7P1d96DtMR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tJ9nw-0006Ic-Qg; Thu, 05 Dec 2024 12:13:56 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tJ9nv-001oZL-1N;
+	Thu, 05 Dec 2024 12:13:56 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tJ9nw-00GR6P-0H;
+	Thu, 05 Dec 2024 12:13:56 +0100
+Date: Thu, 5 Dec 2024 12:13:56 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: David Laight <David.Laight@aculab.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"kernel@pengutronix.de" <kernel@pengutronix.de>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH net-next v1 3/7] phy: replace bitwise flag definitions
+ with BIT() macro
+Message-ID: <Z1GK9Aklzs-a2oPQ@pengutronix.de>
+References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
+ <20241203075622.2452169-4-o.rempel@pengutronix.de>
+ <5fbf293df6bf4bf79f9a8ffd728c6e2c@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCnd6UpilFnz0pQLw--.13066S4
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUrtC7DUUUU
-X-CM-SenderInfo: p1d0x0xbzd0wpbxh23rf6rljoofrz/1tbiLASsxGdRiZ0MXQAAsz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5fbf293df6bf4bf79f9a8ffd728c6e2c@AcuMS.aculab.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
->> From: Wang Yaxin <wang.yaxin@zte.com.cn>
->> the 'delay max' can display delay peak since the system's startup
->
->What about also add 'delay min' ? This could help us get to know how
->large the difference is between min and max, provide clues for optimizing
->potential. This is also some benchmark tools do, like stream which print:
->precision of your system timer.
+On Thu, Dec 05, 2024 at 02:50:32AM +0000, David Laight wrote:
+> From: Oleksij Rempel
+> > Sent: 03 December 2024 07:56
+> > 
+> > Convert the PHY flag definitions to use the BIT() macro instead of
+> > hexadecimal values. This improves readability and maintainability.
+> > 
+> > No functional changes are introduced by this modification.
+> 
+> Are you absolutely sure.
+> You are changing the type of the constants from 'signed int' to
+> 'unsigned long' and that can easily have unexpected consequences.
+> Especially since MDIO_DEVICE_IS_PHY was negative.
 
-I also think that 'delay min' would be useful. I will submit a new patch
-to implement the 'delay min' later.
+In current kernel code following flags are assigned to u32 variable: 
 
-Yaxin
+> > -#define PHY_IS_INTERNAL		0x00000001
+> > -#define PHY_RST_AFTER_CLK_EN	0x00000002
+> > -#define PHY_POLL_CABLE_TEST	0x00000004
+> > -#define PHY_ALWAYS_CALL_SUSPEND	0x00000008
 
+phydrv->flags (u32)
+
+This one is assigned to an int:
+> > -#define MDIO_DEVICE_IS_PHY	0x80000000
+
+mdiodrv->flags (int)
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
