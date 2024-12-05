@@ -1,138 +1,277 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869AC653;
-	Thu,  5 Dec 2024 01:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A78B4C96;
+	Thu,  5 Dec 2024 02:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733361338; cv=none; b=Z9xkViyGoXcFpV06n5dhq2iKg0lQ+GwlZgq+xD2G6e6AliMoX1PRXFTJ0OaB4T6DtE6y4NpHK9Q9nAA/pLlz7JL7Gxadv9lfeN7FIWZ4UBqZMNzNCL7Rcx22Dsj8qOwxot7UkGOW09TyiawdYBT9Jq1vYIcBfLYzSWavcEsRkX4=
+	t=1733366153; cv=none; b=DGlnvp+am2dzx9AsveRZPBiHcA2KOnDoAxQ0yXJ5YP9jkr/PGH+dUmOnTaBsoqZ9louNquYWls03O3uNUXGC48Icb67OyfaUs2q3m2VGmVlUYxZNGoy8Vu/cZ5h0DeL4OAekxEuSzG3rYM4+X/CPL8DUL02stuFR+fYux6oHQiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733361338; c=relaxed/simple;
-	bh=+uSyj+hhF542MRILwfSsDc+8UV5Of09qaRF4ageEDnQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mnz98zlcfzfpfzIvFFrWCPzW2+KaERM02vCo4TswDE0RRqfFcBax+hJSKl5lFTsAFZz/Ya78ETpkOpt1mrlvhliisF04IZ6Pgo3ACKhpamS3qZI74Sm9zVJ67Dbxtwa5UPW+taHMjeIKQPVSTdpOB3EVHwikGz9qD33swOBxekM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ba96n8iZ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733366153; c=relaxed/simple;
+	bh=bCFToNXOOk4QUCeXM2IFMAHFOjr+msvvvubD8bYPWQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rLNf/fG/ahjiT8Pq7oJxNVk1DIYNuTu3scD8CkxXnU/QBc5cJy40Ps+x9FvV3L9UEKGXsIOH7YOJCUHI5TYqiG6B/HclEr8fKEW4nAjGpaHHSW/w1vh2KgNo+rzcC8ak+SzV8aBBzdrQTXeWkk9GGzcRAIldTF/vxKoPKXDv2hM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CK0CHahT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ba96n8iZ"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B4GBQTI006059;
-	Thu, 5 Dec 2024 01:15:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+uSyj+hhF542MRILwfSsDc+8UV5Of09qaRF4ageEDnQ=; b=ba96n8iZwQWeLBAo
-	uxWL3nnGLVhiFQWdEjPJXY/HV/O6hhQ5hXMhrNJGrCCxSu+5wDG4ay73KfjNxq9w
-	o0bRPpB5XxFIgiXc129NzV7kWw9N5Y5OBP39FSsee27aVtEdOa7lKVzedZyTs8Be
-	nVsy93C0l8iGWcC+efDxAMqOANfcFsNw0IO5lDvK7ocAfRgMQtbP9cLFed5fr8P4
-	j9IWHdj6qpyRDW7R6kE/9LuTohsCEI3he5rdTi4IrZAwQMC75wIn9qDDXAEbAUwM
-	rLr9HY/tnLybYdqRIZ9ap1A4YSBMvEnRZKZYFr8TiKIFaCB5ffMlCjwappfcp/Ty
-	1J2OHg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439w3enw8h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Dec 2024 01:15:04 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B51F3gT008462
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Dec 2024 01:15:03 GMT
-Received: from [10.71.112.120] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Dec 2024
- 17:15:03 -0800
-Message-ID: <f9eb5aa5-0741-4198-aeee-beec3ca270f3@quicinc.com>
-Date: Wed, 4 Dec 2024 17:15:02 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CK0CHahT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A82E1C4CECD;
+	Thu,  5 Dec 2024 02:35:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733366152;
+	bh=bCFToNXOOk4QUCeXM2IFMAHFOjr+msvvvubD8bYPWQ0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CK0CHahTfR9D/E+og6RDoq06SHlrmaVVPgLE9utF54AclobpK8Mqa9VEhCFDiGJcz
+	 NKywClULEvdIBx45u8F5VsNXNMV6RkxCXi93BwLRyy4q4qLIAWV++/R2ksjbr/Xcfo
+	 cX5JzwlUD3GxptnsRFS734/SW3PNEerXWjBWoAmroXd7LBwE6h14P6tYofoT1WPlsx
+	 2L9CgkFyistKY4iIip5VaFWz22biThnTSlMFPBiDnUEOkmdpZ9prO28LPHiHSGNJ4R
+	 7s5LCv5MbYLuadtbEA48bntl0SPIgbanoa1XrdekkIM5yXzXjKsusbBX+wuZTdk+ir
+	 CPOspzOPstKnQ==
+Date: Wed, 4 Dec 2024 18:35:50 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Li Li <dualli@chromium.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, donald.hunter@gmail.com,
+ gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
+ maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
+ cmllamas@google.com, surenb@google.com, arnd@arndb.de,
+ masahiroy@kernel.org, bagasdotme@gmail.com, horms@kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, hridya@google.com, smoreland@google.com,
+ kernel-team@android.com
+Subject: Re: [PATCH net-next v8 2/2] binder: report txn errors via generic
+ netlink
+Message-ID: <20241204183550.6e9d703f@kernel.org>
+In-Reply-To: <20241113193239.2113577-3-dualli@chromium.org>
+References: <20241113193239.2113577-1-dualli@chromium.org>
+	<20241113193239.2113577-3-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-        Greg KH
-	<gregkh@linuxfoundation.org>
-CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Takashi Iwai
-	<tiwai@suse.de>, <srinivas.kandagatla@linaro.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
-        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
- <2024111655-approve-throwback-e7df@gregkh>
- <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
- <875xoi3wqw.wl-tiwai@suse.de>
- <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
- <CF49CA0A-4562-40BC-AA98-E550E39B366A@linux.dev>
- <65273bba-5ec1-44ea-865b-fb815afccc91@intel.com>
- <2024120320-recant-tameness-6c81@gregkh>
- <58a561d6-dc10-484e-8214-5e03c4aef66d@intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <58a561d6-dc10-484e-8214-5e03c4aef66d@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: dyyO8fNKKyDRRpN9VYNHqEfEwxwWGzBm
-X-Proofpoint-ORIG-GUID: dyyO8fNKKyDRRpN9VYNHqEfEwxwWGzBm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 impostorscore=0
- bulkscore=0 mlxscore=0 adultscore=0 priorityscore=1501 mlxlogscore=877
- spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412050008
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Wed, 13 Nov 2024 11:32:39 -0800 Li Li wrote:
+> +/**
+> + * binder_find_proc() - set binder report flags
+> + * @pid:	the target process
+> + */
+> +static struct binder_proc *binder_find_proc(int pid)
+> +{
+> +	struct binder_proc *proc;
+> +
+> +	mutex_lock(&binder_procs_lock);
+> +	hlist_for_each_entry(proc, &binder_procs, proc_node) {
+> +		if (proc->pid == pid) {
+> +			mutex_unlock(&binder_procs_lock);
+> +			return proc;
+> +		}
+> +	}
+> +	mutex_unlock(&binder_procs_lock);
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * binder_genl_set_report() - set binder report flags
+> + * @context:	the binder context to set the flags
+> + * @pid:	the target process
+> + * @flags:	the flags to set
+> + *
+> + * If pid is 0, the flags are applied to the whole binder context.
+> + * Otherwise, the flags are applied to the specific process only.
+> + */
+> +static int binder_genl_set_report(struct binder_context *context, u32 pid,
+> +				  u32 flags)
+> +{
+> +	struct binder_proc *proc;
+> +
+> +	if (flags != (flags & (BINDER_GENL_FLAG_OVERRIDE
+> +			| BINDER_GENL_FLAG_FAILED
+> +			| BINDER_GENL_FLAG_DELAYED
+> +			| BINDER_GENL_FLAG_SPAM))) {
+> +		pr_err("Invalid binder report flags: %u\n", flags);
+> +		return -EINVAL;
 
-On 12/4/2024 1:14 PM, Cezary Rojewski wrote:
-> On 2024-12-03 5:57 PM, Greg KH wrote:
->> On Tue, Dec 03, 2024 at 05:17:48PM +0100, Cezary Rojewski wrote:
->>> On 2024-12-01 4:14 AM, Pierre-Louis Bossart wrote:
->>>> Sorry to chime in late, I only look at email occasionally.
->
-> ...
->
->>>>> I believe Amadeusz was still against having the two card design, and wants the routing to automatically happen when playback happens on the sound card created by the USB SND layer.  However, even with that kind of implementation, the major pieces brought in by this series should still be relevant, ie soc-usb and the vendor offload driver.  The only thing that would really change is adding a path from the USB SND PCM ops to interact with the ASoC entities.  Complexity-wise, this would obviously have a good amount of changes to the USB SND/ASoC core drivers.  Some things I can think of that we'd need to introduce:
->>>>
->>>> The notion of two cards was agreed inside Intel as far back as 2018, when Rakesh first looked at USB offload.
->>>
->>>
->>> Well, I believe a lot has changed since then, not sure if USB Audio Offload
->>> (UAOL) was even stable on the Windows solution back then. Obviously we want
->>> to incorporate what we have learned during all that time into our solution
->>> before it lands on upstream.
->>
->> Great, can you help review this series please?
->
-> Hi Greg,
->
-> This series is large and I'd suggest to split it up, what I touched on in my recent reply [1]. Please correct me if I'm wrong, but you mostly care about drivers/usb/* part. If so, the existing set could be split into USB-changes series, ALSA/ASoC-framework series and a third, holding bulk of QCOM-specific patches. Me and my team care mostly about the sound/* part and we don't hold much expertise in USB. I believe Mathias covers this part well though.
->
+no need, netlink already checks that only bits from the flags are used:
 
-I'm fine to split this into 3 different series if that helps with the reviews.  I was always under the impression that when we upstream things, we need to have an end to end use case within the same series, so that folks get the full picture.  I've gotten feedback where people were confused they couldn't find/follow the code flow, albeit those series were much much smaller.  If Greg is ok with it, I can split it up and have a link reference to the other series.
+                                    vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
++	[BINDER_GENL_A_CMD_FLAGS] = NLA_POLICY_MASK(NLA_U32, 0xf),
 
+> +	}
+> +
+> +	if (!pid) {
+> +		/* Set the global flags for the whole binder context */
+> +		context->report_flags = flags;
+> +	} else {
+> +		/* Set the per-process flags */
+> +		proc = binder_find_proc(pid);
+> +		if (!proc) {
+> +			pr_err("Invalid binder report pid %u\n", pid);
+> +			return -EINVAL;
+> +		}
+> +
+> +		proc->report_flags = flags;
+> +	}
+> +
+> +	return 0;
+> +}
 
-I was able to reorganize the list a bit to what you recommended.  So the current layout is xHCI changes first, followed by the USB ALSA and ASoC changes, and lastly the QCOM/vendor specific modifications.
+> +static void binder_genl_send_report(struct binder_context *context, u32 err,
+> +				    u32 pid, u32 tid, u32 to_pid, u32 to_tid,
+> +				    u32 reply,
+> +				    struct binder_transaction_data *tr)
+> +{
+> +	int payload;
+> +	int ret;
+> +	struct sk_buff *skb;
+> +	void *hdr;
+> +
+> +	trace_binder_send_report(context->name, err, pid, tid, to_pid, to_tid,
+> +				 reply, tr);
+> +
+> +	payload = nla_total_size(strlen(context->name) + 1) +
+> +		  nla_total_size(sizeof(u32)) * (BINDER_GENL_A_REPORT_MAX - 1);
+> +	skb = genlmsg_new(payload + GENL_HDRLEN, GFP_KERNEL);
 
+ genlmsg_new() adds the GENL_HDRLEN already
 
-Thanks
+> +	if (!skb) {
+> +		pr_err("Failed to alloc binder genl message\n");
+> +		return;
+> +	}
+> +
+> +	hdr = genlmsg_put(skb, 0, atomic_inc_return(&context->report_seq),
+> +			  &binder_genl_nl_family, 0, BINDER_GENL_CMD_REPORT);
+> +	if (!hdr)
+> +		goto free_skb;
+> +
+> +	if (nla_put_string(skb, BINDER_GENL_A_REPORT_CONTEXT, context->name) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_REPORT_ERR, err) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_REPORT_FROM_PID, pid) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_REPORT_FROM_TID, tid) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_REPORT_TO_PID, to_pid) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_REPORT_TO_TID, to_tid) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_REPORT_REPLY, reply) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_REPORT_FLAGS, tr->flags) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_REPORT_CODE, tr->code) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_REPORT_DATA_SIZE, tr->data_size))
+> +		goto cancel_skb;
+> +
+> +	genlmsg_end(skb, hdr);
+> +
+> +	ret = genlmsg_unicast(&init_net, skb, context->report_portid);
+> +	if (ret < 0)
+> +		pr_err("Failed to send binder genl message to %d: %d\n",
+> +		       context->report_portid, ret);
+> +	return;
+> +
+> +cancel_skb:
+> +	pr_err("Failed to add report attributes to binder genl message\n");
+> +	genlmsg_cancel(skb, hdr);
+> +free_skb:
+> +	pr_err("Free binder genl report message on error\n");
+> +	nlmsg_free(skb);
+> +}
 
-Wesley Cheng
+> +/**
+> + * binder_genl_nl_set_doit() - .doit handler for BINDER_GENL_CMD_SET
+> + * @skb:	the metadata struct passed from netlink driver
+> + * @info:	the generic netlink struct passed from netlink driver
+> + *
+> + * Implements the .doit function to process binder genl commands.
+> + */
+> +int binder_genl_nl_set_doit(struct sk_buff *skb, struct genl_info *info)
+> +{
+> +	int payload;
+> +	int portid;
+> +	u32 pid;
+> +	u32 flags;
+> +	void *hdr;
+> +	struct binder_device *device;
+> +	struct binder_context *context = NULL;
+> +
+> +	if (GENL_REQ_ATTR_CHECK(info, BINDER_GENL_A_CMD_CONTEXT) ||
+> +	    GENL_REQ_ATTR_CHECK(info, BINDER_GENL_A_CMD_PID) ||
+> +	    GENL_REQ_ATTR_CHECK(info, BINDER_GENL_A_CMD_FLAGS))
+> +		return -EINVAL;
+> +
+> +	hlist_for_each_entry(device, &binder_devices, hlist) {
+> +		if (!nla_strcmp(info->attrs[BINDER_GENL_A_CMD_CONTEXT],
+> +				device->context.name)) {
+> +			context = &device->context;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!context) {
+> +		NL_SET_ERR_MSG(info->extack, "Unknown binder context\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	portid = nlmsg_hdr(skb)->nlmsg_pid;
+> +	pid = nla_get_u32(info->attrs[BINDER_GENL_A_CMD_PID]);
+> +	flags = nla_get_u32(info->attrs[BINDER_GENL_A_CMD_FLAGS]);
+> +
+> +	if (context->report_portid && context->report_portid != portid) {
+> +		NL_SET_ERR_MSG_FMT(info->extack,
+> +				   "No permission to set flags from %d\n",
+> +				   portid);
+> +		return -EPERM;
+> +	}
+> +
+> +	if (binder_genl_set_report(context, pid, flags) < 0) {
+> +		pr_err("Failed to set report flags %u for %u\n", flags, pid);
+> +		return -EINVAL;
+> +	}
+> +
+> +	payload = nla_total_size(sizeof(pid)) + nla_total_size(sizeof(flags));
+> +	skb = genlmsg_new(payload + GENL_HDRLEN, GFP_KERNEL);
+> +	if (!skb) {
+> +		pr_err("Failed to alloc binder genl reply message\n");
+> +		return -ENOMEM;
 
+no need for error messages on allocation failures, kernel will print an
+OOM report
 
->
-> [1]: https://lore.kernel.org/linux-sound/a8ece816-3d4c-4d60-b7c1-a7f7919325f3@intel.com/
->
-> Czarek
+> +	}
+> +
+> +	hdr = genlmsg_iput(skb, info);
+> +	if (!hdr)
+> +		goto free_skb;
+> +
+> +	if (nla_put_string(skb, BINDER_GENL_A_CMD_CONTEXT, context->name) ||
+
+Have you counted strlen(context->name) to payload?
+TBH for small messages counting payload size is probably an overkill,
+you can use NLMSG_GOODSIZE as the size of the skb.
+
+> +	    nla_put_u32(skb, BINDER_GENL_A_CMD_PID, pid) ||
+> +	    nla_put_u32(skb, BINDER_GENL_A_CMD_FLAGS, flags))
+> +		goto cancel_skb;
+> +
+> +	genlmsg_end(skb, hdr);
+> +
+> +	if (genlmsg_reply(skb, info)) {
+> +		pr_err("Failed to send binder genl reply message\n");
+> +		return -EFAULT;
+> +	}
+> +
+> +	if (!context->report_portid)
+> +		context->report_portid = portid;
+
+Is there any locking required?
+
+> +	return 0;
+> +
+> +cancel_skb:
+> +	pr_err("Failed to add reply attributes to binder genl message\n");
+> +	genlmsg_cancel(skb, hdr);
+> +free_skb:
+> +	pr_err("Free binder genl reply message on error\n");
+> +	nlmsg_free(skb);
+> +	return -EMSGSIZE;
+> +}
+
