@@ -1,155 +1,187 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291231D2B13;
-	Thu,  5 Dec 2024 09:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733389784; cv=pass; b=D33ESAmMkuEuLo2sn3aanjsR+n3P0YUc7zd8ugfqenGONd3dgEu4/JhuBNxqjt0Zn8FS5m05uLNMHHB66j2iuBDUYom2IDqVvPObT7Ba7Sb5h6aRxumAGfBcidVSAS5sedBFRHSxIT3GQWD10R6Mwyjwzsa+vTJN+pop58S92cE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733389784; c=relaxed/simple;
-	bh=BIcamoukIWKD62X+7oLJrqmal41ZW083CnN2oaBTnHo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7184A1D90B6
+	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 09:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733392296; cv=none; b=g/1GISZ77trYq8ioLEjoiCDBSfV6Md2RYoSVmckOm9ExkFrhs6gwo5n2Rj0nQi4A6yJWNmq/2tkA+la0Vkw++3l3jDHaVn3J43DkcP10HiKqqhZVSY2u0lY9DX0FRJHMH7bUNaeHfqSMX3F9zv2tdzIKO/5yAAcNmBh5xBgg36w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733392296; c=relaxed/simple;
+	bh=kLpngkEs/11Ak9OOYTNMERZLxTu+OUPrakNs9U6Nwlc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k0RfOyGAdK2y/NPNfqEftCIBTLNbXIuPFlDJ9uH5M8OMyP1DKThHabcHHjxqRNQnoVLTNZ4HWTjiCipaZWXUTjONTriYgfXhUAzfWnVIR6DLDsm5KZa+g+/PlwaJtAN3dR4dxbb2dmAH9lQWLyHL7sMgVZbbD31SRKkf1jGmx9o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=XYD/7sg9; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="XYD/7sg9"
-ARC-Seal: i=1; a=rsa-sha256; t=1733389761; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Er6CeTYQDDeVROrLwnqjs+PxF8n2GRe8yVJaSptDGdIlJwTI3kO5De1E7WJIv3tfg1pXIyrfouRXjKxTVFM7yYADolAWmSRQ9R6E0yEX8qmzpNvGAljGm7JIkUVeuTcFjNYU72pYJgrn7oC18uBhiai+fH/MRbNrgqgYjyiw29I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1733389761; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=C7ZhJiCipFfphTLSB+4f4J1q2VXq4+k/EVCt5zB5QQ0=; 
-	b=mN7jUKEB5+5KHk7zIMU7s6jEIU6i5+QRschUqaFF1HaU65pUlLrXasFpzbogkIWqyhqfoeKqaq+0PMX1T80fOiTxitQCspJCHK12RBRXvbesp/4pNfw2Aoknb2/7lYaVS7sWwZvo7KxeIysIOTr0k2hLwRSQ4bJLTGqqDJDKJCo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733389761;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=C7ZhJiCipFfphTLSB+4f4J1q2VXq4+k/EVCt5zB5QQ0=;
-	b=XYD/7sg9tCV226y7nsrofaeJj0oVWxiAHL3TnLf54vTXQMZY6xBd96CWlDfk2kU+
-	JSNnXbl6GsV1mVDnz4TPVFN/Epv9TjcNS0MzasvJP8SLeWDRY8ZU677YltBSJsCfzw8
-	O8TWovrMCGvbvsnWd0FACVsGxVXk8lhSRHYv8XwE=
-Received: by mx.zohomail.com with SMTPS id 1733389759360235.43053237025094;
-	Thu, 5 Dec 2024 01:09:19 -0800 (PST)
-Date: Thu, 5 Dec 2024 10:09:14 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Doug Anderson <dianders@chromium.org>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	Jason Wessel <jason.wessel@windriver.com>,
-	Daniel Thompson <danielt@kernel.org>,
-	linux-debuggers@vger.kernel.org,
-	kgdb-bugreport@lists.sourceforge.net
-Subject: Re: [PATCH] Documentation: move dev-tools debugging files to
- process/debugging/
-Message-ID: <20241205090914.h34rhyzhhazas6l4@basti-XPS-13-9310>
-References: <20241204221720.66146-1-rdunlap@infradead.org>
- <CAD=FV=WhQFxUNr6vyMVBn9CmZPnnntDP2nH=Tp1Rm=xH+YsE2w@mail.gmail.com>
- <e3e78060-0939-4078-989c-acd7ca1c90d2@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=O7KuO36iFyz5DxYazBmMF8b3Qdrz/xfWqvdOUe6IXhTShjkC4M5MMICZVmiei6+dfRPH05yN2Rpijr0Sfecyut5D2Emw7ZA26DQ5yACl/bVsK4EJF+0XlExFu0SmPmeVpuVv4w3S0Us9DxSi/XrN8i6oBJ/gTawTqfERcXjXP4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1tJ8Vy-0002HX-Gp; Thu, 05 Dec 2024 10:51:18 +0100
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1tJ8Vv-001nkX-2w;
+	Thu, 05 Dec 2024 10:51:16 +0100
+Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 0C91C3860A2;
+	Thu, 05 Dec 2024 09:01:11 +0000 (UTC)
+Date: Thu, 5 Dec 2024 10:01:10 +0100
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Mateusz Polchlopek <mateusz.polchlopek@intel.com>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de, linux-doc@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, Simon Horman <horms@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH net-next v1 6/7] phy: dp83td510: add statistics support
+Message-ID: <20241205-satisfied-gerbil-of-cookies-471293-mkl@pengutronix.de>
+References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
+ <20241203075622.2452169-7-o.rempel@pengutronix.de>
+ <57a7b3bf-02fa-4b18-bb4b-b11245d3ebfb@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="huwtbf5ra3bpiqrd"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e3e78060-0939-4078-989c-acd7ca1c90d2@infradead.org>
-X-ZohoMailClient: External
+In-Reply-To: <57a7b3bf-02fa-4b18-bb4b-b11245d3ebfb@intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Greetings!
 
-On 04.12.2024 15:09, Randy Dunlap wrote:
->
->
->On 12/4/24 3:07 PM, Doug Anderson wrote:
->> Hi,
->>
->> On Wed, Dec 4, 2024 at 2:17 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>>
->>> Move gdb and kgdb debugging documentation to the dedicated
->>> debugging directory (Documentation/process/debugging/).
->>> Adjust the index.rst files to follow the file movement.
->>> Update location of kgdb.rst in MAINTAINERS file.
->>>
->>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->>> Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
->>> Cc: Jonathan Corbet <corbet@lwn.net>
->>> Cc: workflows@vger.kernel.org
->>> Cc: Jason Wessel <jason.wessel@windriver.com>
->>> Cc: Daniel Thompson <danielt@kernel.org>
->>> Cc: Douglas Anderson <dianders@chromium.org>
->>> Cc: linux-debuggers@vger.kernel.org
->>> Cc: kgdb-bugreport@lists.sourceforge.net
->>> ---
->>>  Documentation/dev-tools/index.rst                                       | 2 --
->>>  Documentation/{dev-tools => process/debugging}/gdb-kernel-debugging.rst | 0
->>
->> After applying your patch and doing `git grep
->> gdb-kernel-debugging.rst`, I still see several references to the old
->> location. Those should be updated as part of this patch, right?
->>
->>
->>
->>>  Documentation/process/debugging/index.rst                               | 2 ++
->>>  Documentation/{dev-tools => process/debugging}/kgdb.rst                 | 0
->>
->> Similarly `git grep kgdb.rst` still has several references to the old location.
->
->
->Thanks. I should have done that.  :(
->
->>>  MAINTAINERS                                                             | 2 +-
->>>  5 files changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
->>> index 3c0ac08b2709..c1e73e75f551 100644
->>> --- a/Documentation/dev-tools/index.rst
->>> +++ b/Documentation/dev-tools/index.rst
->>> @@ -27,8 +27,6 @@ Documentation/dev-tools/testing-overview.rst
->>>     kmemleak
->>>     kcsan
->>>     kfence
->>> -   gdb-kernel-debugging
->>> -   kgdb
->>>     kselftest
->>>     kunit/index
->>>     ktap
->>> diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/process/debugging/gdb-kernel-debugging.rst
->>> similarity index 100%
->>> rename from Documentation/dev-tools/gdb-kernel-debugging.rst
->>> rename to Documentation/process/debugging/gdb-kernel-debugging.rst
->>> diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
->>> index f6e4a00dfee3..bc4a816e3d32 100644
->>> --- a/Documentation/process/debugging/index.rst
->>> +++ b/Documentation/process/debugging/index.rst
->>> @@ -12,6 +12,8 @@ general guides
->>>
->>>     driver_development_debugging_guide
->>>     userspace_debugging_guide
->>> +   gdb-kernel-debugging
->>> +   kgdb
->>
->> Should the list above be kept alphabetical. The list you removed these
->> entries from was _almost_ alphabetical...
->
->Not that I know of.  I'll listen for other opinions though.
+--huwtbf5ra3bpiqrd
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH net-next v1 6/7] phy: dp83td510: add statistics support
+MIME-Version: 1.0
 
-I'd say it is easy enough for us to do, so I'd advocate for making the
-list alphabetical (.. even though I forgot to do that in my initial list 😅)
+On 05.12.2024 09:43:34, Mateusz Polchlopek wrote:
+>=20
+>=20
+> On 12/3/2024 8:56 AM, Oleksij Rempel wrote:
+> > Add support for reporting PHY statistics in the DP83TD510 driver. This
+> > includes cumulative tracking of transmit/receive packet counts, and
+> > error counts. Implemented functions to update and provide statistics via
+> > ethtool, with optional polling support enabled through `PHY_POLL_STATS`.
+> >=20
+> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > ---
+> >   drivers/net/phy/dp83td510.c | 98 ++++++++++++++++++++++++++++++++++++-
+> >   1 file changed, 97 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/net/phy/dp83td510.c b/drivers/net/phy/dp83td510.c
+> > index 92aa3a2b9744..08d61a6a8c61 100644
+> > --- a/drivers/net/phy/dp83td510.c
+> > +++ b/drivers/net/phy/dp83td510.c
+> > @@ -34,6 +34,24 @@
+> >   #define DP83TD510E_CTRL_HW_RESET		BIT(15)
+> >   #define DP83TD510E_CTRL_SW_RESET		BIT(14)
+> > +#define DP83TD510E_PKT_STAT_1			0x12b
+> > +#define DP83TD510E_TX_PKT_CNT_15_0_MASK		GENMASK(15, 0)
+> > +
+> > +#define DP83TD510E_PKT_STAT_2			0x12c
+> > +#define DP83TD510E_TX_PKT_CNT_31_16_MASK	GENMASK(15, 0)
+>=20
+> Shouldn't it be GENMASK(31, 16) ? If not then I think that macro
+> name is a little bit misleading
 
->
->Thanks.
->
->-- 
->~Randy
->
+Yes, the name may be a bit misleading...
 
-Regards,
-Sebastian Fricke
+[...]
+
+> > + */
+> > +static int dp83td510_update_stats(struct phy_device *phydev)
+> > +{
+> > +	struct dp83td510_priv *priv =3D phydev->priv;
+> > +	u64 count;
+> > +	int ret;
+> > +
+> > +	/* DP83TD510E_PKT_STAT_1 to DP83TD510E_PKT_STAT_6 registers are clear=
+ed
+> > +	 * after reading them in a sequence. A reading of this register not in
+> > +	 * sequence will prevent them from being cleared.
+> > +	 */
+> > +	ret =3D phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_1);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +	count =3D FIELD_GET(DP83TD510E_TX_PKT_CNT_15_0_MASK, ret);
+> > +
+> > +	ret =3D phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_2);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +	count |=3D (u64)FIELD_GET(DP83TD510E_TX_PKT_CNT_31_16_MASK, ret) << 1=
+6;
+>=20
+> Ah... here you do shift. I think it would be better to just define
+>=20
+> #define DP83TD510E_TX_PKT_CNT_31_16_MASK	GENMASK(31, 16)
+
+No. This would not be the same.
+
+The current code takes the lower 16 bit of "ret" and shifts it left 16
+bits.
+
+As far as I understand the code DP83TD510E_PKT_STAT_1 contain the lower
+16 bits, while DP83TD510E_PKT_STAT_2 contain the upper 16 bits.
+
+DP83TD510E_PKT_STAT_1 gives 0x????aaaa
+DP83TD510E_PKT_STAT_2 gives 0x????bbbb
+
+count will be 0xbbbbaaaa
+
+This raises another question: Are these values latched?
+
+If not you can get funny results if DP83TD510E_PKT_STAT_1 rolls over. On
+unlatched MMIO busses you first read the upper part, then the lower,
+then the upper again and loop if the value of the upper part changed in
+between. Not sure how much overhead this means for the slow busses.
+
+Consult the doc of the chip if you can read both in one go and if the
+chip latches these values for that access mode.
+
+> instead of shifting, what do you think ?
+
+nope - If you don't want to shift, you can use a combination of
+FIELD_GET() (to extract the relevant 16 bits) and FIELD_PREP() to shift.
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--huwtbf5ra3bpiqrd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmdRa9MACgkQKDiiPnot
+vG9nNgf+JnQGbTtZczGIN42CtNQnPQcq46nWZz/ZEHcN4hOvqiglY29fCAPgZWIP
+9bgCBN+vIMNhpdRGxU5IXUCczQ8ydTLUdTRMZAhe9TCBB4T215IniLEGRo9f2+ip
+49ZhquMAFsA8zVzUQdKNVJZy2KruOTA7bpK1aoPaF7+i5crwnuy36ruKjOR1F7il
+OmiCqH2bkQH556J1wxYh/Dm4CX+jkoA//GMYPTeSDX2Prv5vWUdvumufnK3UnhBo
+bLVvf0mqMGqaATaP79mBKjZ+nLZGljElJGDJEDIJxGLZzrSy35IC6rxYwegN5Plt
+3jw1/Q7V32B7MyfAlsTisokhPQiGsg==
+=K6q3
+-----END PGP SIGNATURE-----
+
+--huwtbf5ra3bpiqrd--
