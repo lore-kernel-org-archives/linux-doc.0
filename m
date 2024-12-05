@@ -1,117 +1,98 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7EA183CCA
-	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 02:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B513EA9A;
+	Thu,  5 Dec 2024 03:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733367077; cv=none; b=D9xyxl1x2C6f08Gwk1wCGKpxYm3VoUUJ3PZ9sOGM7qQ9bo1WbGG4PQWU1tc5f3zNMn8na54mtE+obTrOVOv81H+2VR9ymRT4FQ3DKBIIZZeKo0PffplzdlDhuM1cA9L+UCEPYBhwRPDUzFJgkHmXJ3NGY5oxcA/Sqya3NWthkKA=
+	t=1733368392; cv=none; b=m/6SPOuxXgP4AfkgzbYRCGfgfBECkUD+J9vAh7t/Y3nVRiYOt4vOSWTQUXbZdUpS5W3TWb/uytRlhMldem1MvHsvT9m3bRA8JF1mU3kxD5ZIHpRtSLjWtbrxm7tjOancMJiRJoyifPVPuaELFE+SCO8Lcuf4TNriDi9qKXgQPC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733367077; c=relaxed/simple;
-	bh=5zCm4CNLZVX6DGzfPWhS8XZO5skhlT3YdXhutIb9o4g=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=FouBj49chjRtIKQahOiN6PIRyVVA8ET9NBzcxwpZtCZlPZ0Htsiz9N1KsHcGN3gCx69pkBKWBeuy4XytxCX0zW7de3nYBD0xI0s/3QoxVJFrOMLiyB0ypETLvkauhhqZlnr7PMi4DT9jCXOGesDxhmdkzuBQ8DKLjJ36RxQ1zaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-198-XJ7RauEWMWiCk5q0CxqY9w-1; Thu, 05 Dec 2024 02:51:12 +0000
-X-MC-Unique: XJ7RauEWMWiCk5q0CxqY9w-1
-X-Mimecast-MFC-AGG-ID: XJ7RauEWMWiCk5q0CxqY9w
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Thu, 5 Dec
- 2024 02:50:32 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Thu, 5 Dec 2024 02:50:32 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Oleksij Rempel' <o.rempel@pengutronix.de>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, "Jonathan
- Corbet" <corbet@lwn.net>
-CC: "kernel@pengutronix.de" <kernel@pengutronix.de>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Simon Horman
-	<horms@kernel.org>, Russell King <linux@armlinux.org.uk>, Maxime Chevallier
-	<maxime.chevallier@bootlin.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: RE: [PATCH net-next v1 3/7] phy: replace bitwise flag definitions
- with BIT() macro
-Thread-Topic: [PATCH net-next v1 3/7] phy: replace bitwise flag definitions
- with BIT() macro
-Thread-Index: AQHbRVjnQkywrpUglUK7+rlkvzAGKrLW9Zbg
-Date: Thu, 5 Dec 2024 02:50:32 +0000
-Message-ID: <5fbf293df6bf4bf79f9a8ffd728c6e2c@AcuMS.aculab.com>
-References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
- <20241203075622.2452169-4-o.rempel@pengutronix.de>
-In-Reply-To: <20241203075622.2452169-4-o.rempel@pengutronix.de>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1733368392; c=relaxed/simple;
+	bh=S6U6N3BrgifK/MhuHSN2mX6igqOw+eEk/b5KB7r//fw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=djI3Y+PWxxMkiAJlaqHDJKpEozlWPc33CasTUxPFEsQl5egJQINmfQfMu/XZdb4Pz5OtBh/HB/0L7w7hOv+Pl/rjAMyq3+0YZP0ksiElX6k+KqZrjy1PtHWTUVT1XUtEcjAyeYGKbPG+FPsU5u4CHOYyMsaG8GXUNsn+mTKdcWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yWrYmB4l; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yWrYmB4l"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=IuEXT0ZxkFP5mjNKuU9spG+uGaTgHhCC0eXuN9pMpxI=; b=yWrYmB4liOjk59QfQS4Bg4cDFN
+	ZNSuC6QPt6GXuDv8HmDpBTagyrFy8I9qTWFf3x8lgY2cyCMzl1QYGlBp1+5h/w/ASDXMv5gFORch3
+	HoGvNamPXpOkaez7RxVdHTctW6LYD60+FWSo68UpJv9n5d9+OwM2Cm6VHFTLuoHUV+JmO15/hhIs+
+	Qzi1WtbXIvtrweuW2yd+KVY3JMBRSYBxwQacglC0eCy3PAe2nW7WZM4S3Iy/jPz/jOVyr5M5w0kxG
+	2ZxDw7xKUz1I7cIfHXhbfRCzQ7BD3HELrkkhcD6ZSJOpwzcksAAXBQCIhYjotaIPu0/s2gR8qJZuT
+	nwc31rVg==;
+Received: from [50.53.2.24] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tJ2If-0000000EdB2-0OcT;
+	Thu, 05 Dec 2024 03:13:09 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-scsi@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Christoph Hellwig <hch@lst.de>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] scsi: Docs: remove init_this_scsi_driver()
+Date: Wed,  4 Dec 2024 19:13:07 -0800
+Message-ID: <20241205031307.130441-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: DLdIhzPxGK40lNcILgTpGmxhNxuvpXOEFedf6ua1Xwc_1733367071
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Oleksij Rempel
-> Sent: 03 December 2024 07:56
->=20
-> Convert the PHY flag definitions to use the BIT() macro instead of
-> hexadecimal values. This improves readability and maintainability.
->=20
-> No functional changes are introduced by this modification.
+Finish removing mention of init_this_scsi_driver() that was removed
+ages ago.
 
-Are you absolutely sure.
-You are changing the type of the constants from 'signed int' to
-'unsigned long' and that can easily have unexpected consequences.
-Especially since MDIO_DEVICE_IS_PHY was negative.
+Fixes: 83c9f08e6c6a ("scsi: remove the old scsi_module.c initialization model")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Martin K. Petersen <martin.petersen@oracle.com>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/scsi/scsi_mid_low_api.rst |   10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-=09David
-
->=20
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
->  include/linux/phy.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/include/linux/phy.h b/include/linux/phy.h
-> index 20a0d43ab5d4..a6c47b0675af 100644
-> --- a/include/linux/phy.h
-> +++ b/include/linux/phy.h
-> @@ -86,11 +86,11 @@ extern const int phy_10gbit_features_array[1];
->  #define PHY_POLL=09=09-1
->  #define PHY_MAC_INTERRUPT=09-2
->=20
-> -#define PHY_IS_INTERNAL=09=090x00000001
-> -#define PHY_RST_AFTER_CLK_EN=090x00000002
-> -#define PHY_POLL_CABLE_TEST=090x00000004
-> -#define PHY_ALWAYS_CALL_SUSPEND=090x00000008
-> -#define MDIO_DEVICE_IS_PHY=090x80000000
-> +#define PHY_IS_INTERNAL=09=09BIT(0)
-> +#define PHY_RST_AFTER_CLK_EN=09BIT(1)
-> +#define PHY_POLL_CABLE_TEST=09BIT(2)
-> +#define PHY_ALWAYS_CALL_SUSPEND=09BIT(3)
-> +#define MDIO_DEVICE_IS_PHY=09BIT(31)
->=20
->  /**
->   * enum phy_interface_t - Interface Mode definitions
-> --
-> 2.39.5
->=20
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+--- linux-next-20241204.orig/Documentation/scsi/scsi_mid_low_api.rst
++++ linux-next-20241204/Documentation/scsi/scsi_mid_low_api.rst
+@@ -625,7 +625,7 @@ Interface Functions
+ ===================
+ Interface functions are supplied (defined) by LLDs and their function
+ pointers are placed in an instance of struct scsi_host_template which
+-is passed to scsi_host_alloc() [or scsi_register() / init_this_scsi_driver()].
++is passed to scsi_host_alloc() or scsi_register().
+ Some are mandatory. Interface functions should be declared static. The
+ accepted convention is that driver "xyz" will declare its sdev_configure()
+ function as::
+@@ -636,8 +636,8 @@ and so forth for all interface functions
+ 
+ A pointer to this function should be placed in the 'sdev_configure' member
+ of a "struct scsi_host_template" instance. A pointer to such an instance
+-should be passed to the mid level's scsi_host_alloc() [or scsi_register() /
+-init_this_scsi_driver()].
++should be passed to the mid level's scsi_host_alloc() or scsi_register().
++.
+ 
+ The interface functions are also described in the include/scsi/scsi_host.h
+ file immediately above their definition point in "struct scsi_host_template".
+@@ -817,10 +817,6 @@ Details::
+     *      The SCSI_IOCTL_PROBE_HOST ioctl yields the string returned by this
+     *      function (or struct Scsi_Host::name if this function is not
+     *      available).
+-    *      In a similar manner, init_this_scsi_driver() outputs to the console
+-    *      each host's "info" (or name) for the driver it is registering.
+-    *      Also if proc_info() is not supplied, the output of this function
+-    *      is used instead.
+     *
+     *      Optionally defined in: LLD
+     **/
