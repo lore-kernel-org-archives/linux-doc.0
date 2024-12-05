@@ -1,147 +1,243 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFB91BE23F
-	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 23:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366661CD1E1
+	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 23:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733441505; cv=none; b=ElOxxdiepOH1P48/C9TSWOXcpv30l261OholtVwtM6A14sAL213jOy8iQVW9t9rLkAYf4sKRziIe9zYxOuTM7bSieIA3naMJmPyiJ8DKms0ZwJ30PDDvInmMakyr20abrgoou6q1HaMaaW06CRGCcbnLQR7vah+N2jhizipoP1c=
+	t=1733442005; cv=none; b=sxO3KtjEbpcHfHvKEooDKPWDpk4gZpNXZ9uN+/LI7nZPbBJHt5IMdnq+duPFC0TkTm8YPiSDs53vCjJ/k+Qk93v4X6iMq0Bt8OsrzI2vmHSKarvIYlHIxQd8RFPeS8QCz2yGL3zUGyeDq/EQuemdTbb+fuKD/hoxDeANowkHpmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733441505; c=relaxed/simple;
-	bh=/ihX0lCXBJfFCvsOFHIJu6cysZ6Vq0x4cO5iS9Q7qBY=;
+	s=arc-20240116; t=1733442005; c=relaxed/simple;
+	bh=xsaP4U5pHbcH6lrCPxKA+1Tf417cCvTSpwmt6Uxm9hU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mIs9Bv9a4DiQ2xSYq4gacFZlgKfq83XKHfAhn/x9kumg5k4axVvMt/T9gB2mLoIdqpIb8XKydaCnfuwePM5kHpH+e6YdTXbkfizS+vuxPZg3LwEgLui2RH85y++E81Uj8wLMAvvxYPn0x54B7yh6q5+RImh+1WgL38lmH1L+8rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oTBngy2d; arc=none smtp.client-ip=209.85.128.171
+	 To:Cc:Content-Type; b=Tulb4fLDpTOb29Rw391ZuJJ8iG/pg/NkxabDXfpd0oLYRzUsrPgpmozD3JspVqNz79YrOcvzkrpKY2y/N6aF/ObExZKr7tegNdvtdrB4inpS5MJpgQPvzaIViHKARbX0/DN/Rnbu1KRECDUmulYUxGMjbBd+m9qebAXEoKXqdLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=y0Xg0REN; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oTBngy2d"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6efe5c1dea4so1004117b3.3
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 15:31:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="y0Xg0REN"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5cecbddb574so1718171a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 15:40:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733441501; x=1734046301; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1733442002; x=1734046802; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T0IMN5OU4hbVrS5t00San57aLCq8tVf/YYU7UNV9XtU=;
-        b=oTBngy2dRTKxt4HaiJo2zQx2tJFl4Fzr7ePXI0fZaGsfY7TnvQmxydcdjiRyGEMKos
-         Y8Olb3c6k1NRps8ToYYEbOS//ekrGPvL8uTV0KIYYQnWWv3mgBhFkvxS0PtXEJr8wZjH
-         50Gy9fINYHitrIBb8CADRJKb0zrfkeySCYkSAGoSvScqv+3mr4aJDAKVTKwyttxJslch
-         JW1lw5cC4GJRwmoAJm6+fR9iixNXgH1hWuDX4CO/a7jCii4+fUHt+dO68tN+OJcT6iuT
-         gmymlIWrD1a4id/pkeGibfmFG6aI6JAz5CnZfTwdSBtCXz0WaKdLFI3Gzl65fUn7NUJu
-         IVWw==
+        bh=L+MB5DA5Lyb0OmXYuKKW+jJvk7Dw23YqpgDd8tDMcjU=;
+        b=y0Xg0RENpO9gdXRlFMP0r1FC7Y9/x4d2OObcDEbL4a04PAq6kiN6NFxOn5QgTnLh/z
+         jVcp4unpMJZZ5J5JGDiPhgcrMrurFcyluGV4rpR4olLU10fo1mLzw+SQZibSzF4+BX/6
+         0bH8G8S5x2JZ1m5srCjS9xGGH5Pkd9S2qiVSj0ggicqkn9pm9XD2HZzDAPvXjDAdjyhk
+         q5dyehYuqMWDyX91rsqr59YSzY4LchbLJWfmIZ0eGRXvWCW0uYaAxz6EjI9LQMe1oUil
+         LH6nP2OznVyWW+VzIcfcTK5FwMWRc/ZYiDWA0MC6vh8l5+RY4TYL8OMlkuzL1nh9b1RI
+         l5fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733441501; x=1734046301;
+        d=1e100.net; s=20230601; t=1733442002; x=1734046802;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T0IMN5OU4hbVrS5t00San57aLCq8tVf/YYU7UNV9XtU=;
-        b=I394TkptABDRKjDG9ttgEEZuVbE4Ao+7X1dXiNw4zuSGj5SrbtauYCGW/MJdeH3iWh
-         4bV2BnkfSG4uD9ALU4UOSSDGhEA0HGzuu0CAElAzo5z300UP89/fujmfwvXg3eKIp9+m
-         DOUb1pOws5zEfIhXXW4aAeBL1y8fyAHJz831+BkF/RvokRxgNvAU5pOF2h6/Ly0qSLsC
-         aaY9465iPyKrmSUDMxlhRCZUIlY3eRv0WDoSwkqvz7BTpNmpUt6ERzDPQP2lXoWuwE3Z
-         3izpfJI3s+jS4+raeP2Z1qQBgs1p+PNJX5/TxpVEayX8NhxVG0bHrqkr38FEVg7q94vG
-         9qng==
-X-Forwarded-Encrypted: i=1; AJvYcCX3a3w7GGKUN27ev0TpiHpqSqFDGlaoke4aw+KloxPKWjr75bMjBAXwX4NQadnU2E+2zw5qprOf7n8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvZCrxOt0+vZ/4rSaqHEmv+PWsKJifmaJ3p5eK5EtA2ZmLXQkm
-	JaMUemex20EHg1z4scKV7ad/8nOxGKwAygGRaTDdOOvjkoa234/wQnIdOuJng2eDb9F6zMTrPVj
-	GCEHt4Kh1heq1J1bl/qxYR0W/IFVJoRtRPdBW
-X-Gm-Gg: ASbGncslnH4rQPkc1WTwWPwywEQYsu3tD4vWqxTrFeA/ThMgO9e4vwb0eVzCX24Cvhf
-	W+zfVOb802FxfH7m0uI3MGIJrZptdMxYBu93BVDQEyt6Vs1pkh2Ft9u0cQJy6
-X-Google-Smtp-Source: AGHT+IGmoqWrGrMqKXzXbSlaDtMUJEUS1r8dSNypZARIHLTYBVYvB4FriHIdmOjPWn9wrKQu/NTZU5U476BPS24s0cI=
-X-Received: by 2002:a05:690c:6083:b0:6ee:6c7d:4888 with SMTP id
- 00721157ae682-6efe3c6049bmr11833187b3.22.1733441501392; Thu, 05 Dec 2024
- 15:31:41 -0800 (PST)
+        bh=L+MB5DA5Lyb0OmXYuKKW+jJvk7Dw23YqpgDd8tDMcjU=;
+        b=BYBqcBCLLcnrCQoByGDJnNd/WebDRJZodaxR5BCS2V7xvEQFqLE4FBjWDE8xCjNnU7
+         odhR+PL9V+CPLbeGNcEV881wk/jDLb0NPyUodviLJRucxmOlQrwiTIIVg86/ha8MqV2H
+         DLojDaCt3elUHeeV60RSl8yiy8Z/vf+702YzttsmefVm87SC4Bgo2xp6ZOOHQJKBH/eL
+         2B2kWo3AaFsHuxzpsqVUvniqQAzLem+oWVX7uinbIBhjDS3t+o0qB2siSYFOLESBqLzD
+         cqOPrCbhszyrRkr5/c4UZ0V0fBVSLwlqd/cfb3W4cefM8bsdQ8xyW4PFW2BZr9UTM+kO
+         T8Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMoxORgIJjAJ0Rqr55rOXLCcfQGVFIZV4HpbK+leoBqf9/yMJi8kTsnMalySBqq9cOQzomxbI4iqM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxsjb8+3rdgAsRmRMlUEicy0DI4T0/6QMR+GLCpyg/S5YOlaV08
+	6w5BjcVSxtXTVxLDlBHrV1pmC3Dix6Ny0Vh1e41OOce2h8yu7lfbZyAai2LW1Q+0jZOylSOrZTQ
+	KUUyU/ky91+jiN+zQow7Az30ZaRkqR88irCbI
+X-Gm-Gg: ASbGncvlUhAJKP361VLLqa/7eo27LoPv3w5sJfoQmyLmoJMebYLMEYXtOJAOmFaydZl
+	fkU5XMyDVNedOK9GMB4vZK6SXdi5TGNyvP2TXOQmwHDwzO6st0usi8GGXow6PiLE=
+X-Google-Smtp-Source: AGHT+IG0eJwol/pjrqooOab5q8PwKWmOD6RpXYtIUF7nN9ABJjk70oRCP9el2KO875OhTIaI5aGYBKKVTIFg4+EW1Cg=
+X-Received: by 2002:a05:6402:4497:b0:5d3:bc56:3b24 with SMTP id
+ 4fb4d7f45d1cf-5d3be65a58bmr639866a12.4.1733442001551; Thu, 05 Dec 2024
+ 15:40:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241204191349.1730936-1-jthoughton@google.com>
- <20241204191349.1730936-7-jthoughton@google.com> <Z1Dgr_TnaFQT04Pi@linux.dev>
-In-Reply-To: <Z1Dgr_TnaFQT04Pi@linux.dev>
-From: James Houghton <jthoughton@google.com>
-Date: Thu, 5 Dec 2024 15:31:05 -0800
-Message-ID: <CADrL8HWC7HhYmEBWa+5KeWmyD+iT1zPBJUAUtNyrhH7ZpLXJNQ@mail.gmail.com>
-Subject: Re: [PATCH v1 06/13] KVM: arm64: Add support for KVM_MEM_USERFAULT
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Yan Zhao <yan.y.zhao@intel.com>, 
-	Nikita Kalyazin <kalyazin@amazon.com>, Anish Moorthy <amoorthy@google.com>, 
-	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>, 
-	David Matlack <dmatlack@google.com>, Wei W <wei.w.wang@intel.com>, kvm@vger.kernel.org, 
+References: <20241112184455.855133-1-ojeda@kernel.org>
+In-Reply-To: <20241112184455.855133-1-ojeda@kernel.org>
+From: "Hong, Yifan" <elsk@google.com>
+Date: Thu, 5 Dec 2024 15:39:25 -0800
+Message-ID: <CAABy=s1u75ywAECbkCmGfyt+Yp5khnF0UVcezA-_BEDWUVrHkw@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: rust: add PROCMACROLDFLAGS
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	linux-kbuild@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+	patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 4, 2024 at 3:07=E2=80=AFPM Oliver Upton <oliver.upton@linux.dev=
-> wrote:
+On Tue, Nov 12, 2024 at 10:45=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wr=
+ote:
 >
-> Hi James,
+> From: HONG Yifan <elsk@google.com>
+>
+> These are flags to be passed when linking proc macros for the Rust
+> toolchain. If unset, it defaults to $(KBUILD_HOSTLDFLAGS).
+>
+> This is needed because the list of flags to link hostprogs is not
+> necessarily the same as the list of flags used to link libmacros.so.
+> When we build proc macros, we need the latter, not the former (e.g. when
+> using a Rust compiler binary linked to a different C library than host
+> programs).
+>
+> To distinguish between the two, introduce this new variable to stand
+> out from KBUILD_HOSTLDFLAGS used to link other host progs.
+>
+> Signed-off-by: HONG Yifan <elsk@google.com>
+> Link: https://lore.kernel.org/r/20241017210430.2401398-2-elsk@google.com
+> [ v3:
+>
+>   - `export`ed the variable. Otherwise it would not be visible in
+>     `rust/Makefile`.
+>
+>   - Removed "additional" from the documentation and commit message,
+>     since this actually replaces the other flags, unlike other cases.
+>
+>   - Added example of use case to documentation and commit message.
+>     Thanks Alice for the details on what Google needs!
+>
+>   - Instead of `HOSTLDFLAGS`, used `KBUILD_HOSTLDFLAGS` as the fallback
+>     to preserve the previous behavior as much as possible, as discussed
+>     with Alice/Yifan. Thus moved the variable down too (currently we
+>     do not modify `KBUILD_HOSTLDFLAGS` elsewhere) and avoided
+>     mentioning `HOSTLDFLAGS` directly in the documentation.
+>
+>   - Fixed documentation header formatting.
+>
+>   - Reworded slightly.
+>
+>          - Miguel ]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+> Masahiro: if Kbuild wants to pick this up, that is great. Otherwise, I am=
+ happy
+> picking this up early next cycle, if you give an `Acked-by` since this is
+> changing the interface for Kbuild users given we are introducing a new
+> environment variable. Thanks!
+>
+> Note that the `or` means if the string is empty, we will use the default =
+rather
+> than nothing. I didn't change that from Yifan's version, but maybe we wan=
+t to do
+> otherwise. Users can still provide e.g. an empty space to avoid any flag.
 
-Hi Oliver!
+I am not sure if I understand the implications here.
+https://www.gnu.org/software/make/manual/html_node/Conditional-Functions.ht=
+ml
+says:
+
+The or function provides a =E2=80=9Cshort-circuiting=E2=80=9D OR operation.=
+ Each
+argument is expanded, in order. If an argument expands to a non-empty
+string the processing stops and the result of the expansion is that
+string. If, after all arguments are expanded, all of them are false
+(empty), then the result of the expansion is the empty string.
+
+I am assuming that this means:
+- If PROCMACROLDFLAGS is not empty, KBUILD_PROCMACROLDFLAGS evaluates
+to PROCMACROLDFLAGS
+- Otherwise if KBUILD_HOSTLDFLAGS is not empty,
+KBUILD_PROCMACROLDFLAGS evaluates to KBUILD_HOSTLDFLAGS
+- Otherwise KBUILD_PROCMACROLDFLAGS is set to empty.
+
+What do you mean by "use the default"?
+
 
 >
-> On Wed, Dec 04, 2024 at 07:13:41PM +0000, James Houghton wrote:
-> > Adhering to the requirements of KVM Userfault:
-> >
-> > 1. When it is toggled (either on or off), zap the second stage with
-> >    kvm_arch_flush_shadow_memslot(). This is to (1) respect
-> >    userfault-ness and (2) to reconstruct block mappings.
-> > 2. While KVM_MEM_USERFAULT is enabled, restrict new second-stage mappin=
-gs
-> >    to be PAGE_SIZE, just like when dirty logging is enabled.
-> >
-> > Signed-off-by: James Houghton <jthoughton@google.com>
-> > ---
-> >   I'm not 100% sure if kvm_arch_flush_shadow_memslot() is correct in
-> >   this case (like if the host does not have S2FWB).
+> Yifan/Alice: please double-check the changes. Thanks!
 >
-> Invalidating the stage-2 entries is of course necessary for correctness
-> on the !USERFAULT -> USERFAULT transition, and the MMU will do the right
-> thing regardless of whether hardware implements FEAT_S2FWB.
+> v3: see changes above.
+> v2: https://lore.kernel.org/rust-for-linux/20241017210430.2401398-2-elsk@=
+google.com/
+> v1: https://lore.kernel.org/rust-for-linux/20241017200138.2390077-2-elsk@=
+google.com/
 >
-> What I think you may be getting at is the *performance* implications are
-> quite worrying without FEAT_S2FWB due to the storm of CMOs, and I'd
-> definitely agree with that.
-
-Thanks for clarifying that for me.
-
-> > @@ -2062,6 +2069,20 @@ void kvm_arch_commit_memory_region(struct kvm *k=
-vm,
-> >                                  enum kvm_mr_change change)
-> >  {
-> >       bool log_dirty_pages =3D new && new->flags & KVM_MEM_LOG_DIRTY_PA=
-GES;
-> > +     u32 changed_flags =3D (new ? new->flags : 0) ^ (old ? old->flags =
-: 0);
-> > +
-> > +     /*
-> > +      * If KVM_MEM_USERFAULT changed, drop all the stage-2 mappings so=
- that
-> > +      * we can (1) respect userfault-ness or (2) create block mappings=
-.
-> > +      */
-> > +     if ((changed_flags & KVM_MEM_USERFAULT) && change =3D=3D KVM_MR_F=
-LAGS_ONLY)
-> > +             kvm_arch_flush_shadow_memslot(kvm, old);
+>  Documentation/kbuild/kbuild.rst | 11 +++++++++++
+>  Makefile                        |  3 ++-
+>  rust/Makefile                   |  2 +-
+>  3 files changed, 14 insertions(+), 2 deletions(-)
 >
-> I'd strongly prefer that we make (2) a userspace problem and don't
-> eagerly invalidate stage-2 mappings on the USERFAULT -> !USERFAULT
-> change.
+> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuil=
+d.rst
+> index 1796b3eba37b..9cb876ccc363 100644
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -91,6 +91,17 @@ HOSTRUSTFLAGS
+>  -------------
+>  Additional flags to be passed to $(HOSTRUSTC) when building host program=
+s.
 >
-> Having implied user-visible behaviors on ioctls is never good, and for
-> systems without FEAT_S2FWB you might be better off avoiding the unmap in
-> the first place.
+> +PROCMACROLDFLAGS
+> +----------------
+> +Flags to be passed when linking Rust proc macros. Since proc macros are =
+loaded
+> +by rustc at build time, they must be linked in a way that is compatible =
+with
+> +the rustc toolchain being used.
+> +
+> +For instance, it can be useful when rustc uses a different C library tha=
+n
+> +the one the user wants to use for host programs.
+> +
+> +If unset, it defaults to the flags passed when linking host programs.
+> +
+>  HOSTLDFLAGS
+>  -----------
+>  Additional flags to be passed when linking host programs.
+> diff --git a/Makefile b/Makefile
+> index a9e723cb0596..3efb001bada5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -471,6 +471,7 @@ KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cs=
+trip=3Ddebuginfo \
+>                         -Zallow-features=3D $(HOSTRUSTFLAGS)
+>  KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+>  KBUILD_HOSTLDLIBS   :=3D $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+> +KBUILD_PROCMACROLDFLAGS :=3D $(or $(PROCMACROLDFLAGS),$(KBUILD_HOSTLDFLA=
+GS))
 >
-> So, if userspace decides there's a benefit to invalidating the stage-2
-> MMU, it can just delete + recreate the memslot.
-
-Ok I think that's reasonable. So for USERFAULT -> !USERFAULT, I'll
-just follow the precedent set by dirty logging. For x86 today, we
-collapse the mappings, and for arm64 we do not.
-
-Is arm64 ever going to support collapsing back to huge mappings after
-dirty logging is disabled?
+>  # Make variables (CC, etc...)
+>  CPP            =3D $(CC) -E
+> @@ -595,7 +596,7 @@ export HOSTRUSTC KBUILD_HOSTRUSTFLAGS
+>  export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX=
+ YACC AWK INSTALLKERNEL
+>  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+>  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+> -export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_=
+MODULE
+> +export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS KBUILD_P=
+ROCMACROLDFLAGS LDFLAGS_MODULE
+>  export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
+>
+>  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_L=
+DFLAGS
+> diff --git a/rust/Makefile b/rust/Makefile
+> index f349e7b067ea..9f55c470aa2c 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -344,7 +344,7 @@ quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET=
+) P $@
+>        cmd_rustc_procmacro =3D \
+>         $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
+>                 -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> -               -Clink-args=3D'$(call escsq,$(KBUILD_HOSTLDFLAGS))' \
+> +               -Clink-args=3D'$(call escsq,$(KBUILD_PROCMACROLDFLAGS))' =
+\
+>                 --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --exter=
+n proc_macro \
+>                 --crate-type proc-macro \
+>                 --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
+>
+> base-commit: d072acda4862f095ec9056979b654cc06a22cc68
+> --
+> 2.47.0
