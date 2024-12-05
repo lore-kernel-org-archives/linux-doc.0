@@ -1,133 +1,117 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2721779DC;
-	Thu,  5 Dec 2024 02:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7EA183CCA
+	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 02:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733366824; cv=none; b=qTYJ5BJtupx2XoL0wkZmS0HewNzVyL75VdFR4OI/LC8mOaMQLSGxQ6xhaHQcvBs/5a0lKJGZgETTiA0lNU+kgryKrylcEJW5hjLuKlwEteqfRKK85LMKMaYwH1y1o00g4pvYwDplVZ1gsH6WDUDIYk/1ETv5dienr099ywyavik=
+	t=1733367077; cv=none; b=D9xyxl1x2C6f08Gwk1wCGKpxYm3VoUUJ3PZ9sOGM7qQ9bo1WbGG4PQWU1tc5f3zNMn8na54mtE+obTrOVOv81H+2VR9ymRT4FQ3DKBIIZZeKo0PffplzdlDhuM1cA9L+UCEPYBhwRPDUzFJgkHmXJ3NGY5oxcA/Sqya3NWthkKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733366824; c=relaxed/simple;
-	bh=wApEBGjC0yd2xU/0kNlrtiJUYL5vQt8KwhOtTnkT54Q=;
+	s=arc-20240116; t=1733367077; c=relaxed/simple;
+	bh=5zCm4CNLZVX6DGzfPWhS8XZO5skhlT3YdXhutIb9o4g=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=gGL2cve242jeyljbqrVAffHjtBcEEW61xCqIdDeoQcitgITH7EwfFtLllAFUoKYcN8zx0IPzRz01LoYx80rvjACMHbIfWpdMJK+OjDlQIvEi/VDl4YkEgAMoDdenSOoDyVIQkRp9T4FxLxIPlWGnUjMFbNm2p/LFpYdxV/d984k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=QDNkxxo0; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="QDNkxxo0"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4B52kCTU12259215, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1733366772; bh=wApEBGjC0yd2xU/0kNlrtiJUYL5vQt8KwhOtTnkT54Q=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=QDNkxxo0CUNwGTWipTFLrcHPdioO5Njo2fougSNgNEz53J/P8XIYVA29weF55Arwt
-	 1j0HRjwnHvELbtIVUQrdVXspehugvMN2eDvOWU+fijGfF/gZDMFPraqmJ1w7WCqHe6
-	 8VhDwGg133qlULZSTyPiCxGxvjooVJHuxzS0C9Nv2nAeES3ruXjqB1o43bIys6DA8e
-	 z+Qk81eWhwWWAiZMw2v7HaOuJSA1gSIgak8IMkTEmVv5AI/YjUsueZE4r2UJlFLyii
-	 hfQLmKFFNKKcnPAixaSmAbpysB6IvCgefeSfmWXZKNoZwJRvlW5boySuTGrPPgow81
-	 JXg+jUtpZiMMw==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4B52kCTU12259215
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 5 Dec 2024 10:46:12 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 5 Dec 2024 10:46:12 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 5 Dec 2024 10:46:11 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2]) by
- RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2%7]) with mapi id
- 15.01.2507.035; Thu, 5 Dec 2024 10:46:11 +0800
-From: Kailang <kailang@realtek.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: Hridesh MG <hridesh699@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        "Stefan
- Binding" <sbinding@opensource.cirrus.com>,
-        Simon Trimmer
-	<simont@opensource.cirrus.com>,
-        Joshua Grisham <josh@joshuagrisham.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Subject: RE: [PATCH 1/2] ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
-Thread-Topic: [PATCH 1/2] ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
-Thread-Index: AQHbNrQTIJ19XS0byUOl9H9plIHbsrK6+nSAgABvgoCAASTGgIADYgSAgA/PZwCAAOHGAIAGb05Q
-Date: Thu, 5 Dec 2024 02:46:11 +0000
-Message-ID: <932d49003ee7444186353082495abb10@realtek.com>
-References: <20241114-alc287-nitro5-v1-0-72e5bf2275c3@gmail.com>
-	<20241114-alc287-nitro5-v1-1-72e5bf2275c3@gmail.com>
-	<87iksmq8ho.wl-tiwai@suse.de>
-	<CALiyAo=5aLbYEyRWWw7QscTk6cXy5qckHToiPL6h4fKM9=skLg@mail.gmail.com>
-	<87ed387ioq.wl-tiwai@suse.de>
-	<CALiyAo=awTsGQnGH5UPB7dF5QsZ2AFkKv5LcJkJRXV9sv51iqQ@mail.gmail.com>
-	<CALiyAokt1zY4a6F0DTpyYAmu38D1Fk0k0QvsFtXYHzQ7suS38A@mail.gmail.com>
- <87cyib4xmx.wl-tiwai@suse.de>
-In-Reply-To: <87cyib4xmx.wl-tiwai@suse.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	 MIME-Version:Content-Type; b=FouBj49chjRtIKQahOiN6PIRyVVA8ET9NBzcxwpZtCZlPZ0Htsiz9N1KsHcGN3gCx69pkBKWBeuy4XytxCX0zW7de3nYBD0xI0s/3QoxVJFrOMLiyB0ypETLvkauhhqZlnr7PMi4DT9jCXOGesDxhmdkzuBQ8DKLjJ36RxQ1zaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-198-XJ7RauEWMWiCk5q0CxqY9w-1; Thu, 05 Dec 2024 02:51:12 +0000
+X-MC-Unique: XJ7RauEWMWiCk5q0CxqY9w-1
+X-Mimecast-MFC-AGG-ID: XJ7RauEWMWiCk5q0CxqY9w
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Thu, 5 Dec
+ 2024 02:50:32 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Thu, 5 Dec 2024 02:50:32 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Oleksij Rempel' <o.rempel@pengutronix.de>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, "Jonathan
+ Corbet" <corbet@lwn.net>
+CC: "kernel@pengutronix.de" <kernel@pengutronix.de>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Simon Horman
+	<horms@kernel.org>, Russell King <linux@armlinux.org.uk>, Maxime Chevallier
+	<maxime.chevallier@bootlin.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [PATCH net-next v1 3/7] phy: replace bitwise flag definitions
+ with BIT() macro
+Thread-Topic: [PATCH net-next v1 3/7] phy: replace bitwise flag definitions
+ with BIT() macro
+Thread-Index: AQHbRVjnQkywrpUglUK7+rlkvzAGKrLW9Zbg
+Date: Thu, 5 Dec 2024 02:50:32 +0000
+Message-ID: <5fbf293df6bf4bf79f9a8ffd728c6e2c@AcuMS.aculab.com>
+References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
+ <20241203075622.2452169-4-o.rempel@pengutronix.de>
+In-Reply-To: <20241203075622.2452169-4-o.rempel@pengutronix.de>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: DLdIhzPxGK40lNcILgTpGmxhNxuvpXOEFedf6ua1Xwc_1733367071
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-You can assign model "ALC2XX_FIXUP_HEADSET_MIC" for the quirk.
+From: Oleksij Rempel
+> Sent: 03 December 2024 07:56
+>=20
+> Convert the PHY flag definitions to use the BIT() macro instead of
+> hexadecimal values. This improves readability and maintainability.
+>=20
+> No functional changes are introduced by this modification.
 
-+       SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXUP=
-_HEADSET_MIC),
+Are you absolutely sure.
+You are changing the type of the constants from 'signed int' to
+'unsigned long' and that can easily have unexpected consequences.
+Especially since MDIO_DEVICE_IS_PHY was negative.
 
-> -----Original Message-----
-> From: Takashi Iwai <tiwai@suse.de>
-> Sent: Sunday, December 1, 2024 4:27 PM
-> To: Kailang <kailang@realtek.com>
-> Cc: Hridesh MG <hridesh699@gmail.com>; Takashi Iwai <tiwai@suse.de>;
-> Jaroslav Kysela <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Jonathan
-> Corbet <corbet@lwn.net>; Stefan Binding <sbinding@opensource.cirrus.com>;
-> Simon Trimmer <simont@opensource.cirrus.com>; Joshua Grisham
-> <josh@joshuagrisham.com>; Richard Fitzgerald <rf@opensource.cirrus.com>;
-> linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org;
-> linux-doc@vger.kernel.org; Shuah Khan <skhan@linuxfoundation.org>
-> Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Fix headset mic on Acer Nitro=
- 5
+=09David
+
 >=20
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  include/linux/phy.h | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >=20
-> External mail.
+> diff --git a/include/linux/phy.h b/include/linux/phy.h
+> index 20a0d43ab5d4..a6c47b0675af 100644
+> --- a/include/linux/phy.h
+> +++ b/include/linux/phy.h
+> @@ -86,11 +86,11 @@ extern const int phy_10gbit_features_array[1];
+>  #define PHY_POLL=09=09-1
+>  #define PHY_MAC_INTERRUPT=09-2
 >=20
+> -#define PHY_IS_INTERNAL=09=090x00000001
+> -#define PHY_RST_AFTER_CLK_EN=090x00000002
+> -#define PHY_POLL_CABLE_TEST=090x00000004
+> -#define PHY_ALWAYS_CALL_SUSPEND=090x00000008
+> -#define MDIO_DEVICE_IS_PHY=090x80000000
+> +#define PHY_IS_INTERNAL=09=09BIT(0)
+> +#define PHY_RST_AFTER_CLK_EN=09BIT(1)
+> +#define PHY_POLL_CABLE_TEST=09BIT(2)
+> +#define PHY_ALWAYS_CALL_SUSPEND=09BIT(3)
+> +#define MDIO_DEVICE_IS_PHY=09BIT(31)
 >=20
+>  /**
+>   * enum phy_interface_t - Interface Mode definitions
+> --
+> 2.39.5
 >=20
-> On Sat, 30 Nov 2024 19:58:26 +0100,
-> Hridesh MG wrote:
-> >
-> > > know. I'll make an attempt to understand the cases and process
-> > > coefficients before sending v2.
-> > I did a deep dive into the code and frankly I'm a bit stumped right
-> > now since it appears that the code for the headset type detection was
-> > written by Kailang Yang from Realtek and i could not understand it
-> > since I'm not sure where to look for documentation on realtek codec
-> > processing coefficients.
-> >
-> > To rephrase what I had meant earlier, type detection for the ALC287 is
-> > currently not supported. I made an educated guess and added the codec
-> > to an existing block of code, which detected it as CTIA. However, I
-> > have no way of verifying if this guess is correct. Do you have any
-> > advice on what my next steps should be?
->=20
-> Kailang, could you check that?
->=20
->=20
-> thanks,
->=20
-> Takashi
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
