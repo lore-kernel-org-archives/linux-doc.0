@@ -1,82 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3987E17A5BD;
-	Thu,  5 Dec 2024 03:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F271E190674;
+	Thu,  5 Dec 2024 03:58:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733369427; cv=none; b=ZMbuyS8wq4qGZNLobzpzwFgNatwxY81HC7crovSp6MKsjorZQIdoylA8ljiS2pkpqJZ+XTfY2d/0lPCWERlJ6kTOQrpJTO0bvi23vHBjcDBDdq8ODR1eHp0pLJRPi2PnOV4/Rge3s2ttpKbFAqV+mkpbAbTPqn86KsHz2rmxXLQ=
+	t=1733371138; cv=none; b=MNJ60+LGs3lrs4nNaOXY7lazOMforuHhLcIDfN7PLKJ40sGPB4idSf55j2qvxqRo7E3wUXIQLKPjFrLYAZ95Gjw/Kk2Nzbou1QNxAHcGkee8tQqi42ibmZcHdnoj6njWsJpy9/CTJf/5NTPjXuDLcMgPWjFVNcR3BsINNtsss8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733369427; c=relaxed/simple;
-	bh=xCGD7IMZkPe/beo63SMas1r363M8QJlM9comt1iPDdU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=TB5eaowDmct+sE+kKiN76c+2x3uINlahNQg9//EeL50mNptTmaCOCAXc/JKew/wzyFNKm1tsOG5RY72JZDYEoR6Q81k9Mi8x9OQg96W51Hd597V76X5apXPmdGRkoi7r2y+LcXzx1yBOUbu3IE42ypFki7n9qqo2Sk+VgdaLfmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JeL7jeEp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733371138; c=relaxed/simple;
+	bh=JDaK/7p0eD2vcbuFmWKF07t+VARFhmUlkG/iI34Zd1k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CzyLqq0cxdOcIRpXKQu/bpcwEEmyow+uhiPABCqJdlhEj8nuWGgS+/J3avIOgkTHw54D3cOoTNNeuxFTXpZej7ih37+qLwqlYHrOkm86unwT5X5dBznF4+TEEKDgsYcOpklg0jx70jadRd/P4vjSgRZIoRY+U5Y3i4mr7rUycBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCUKKJzF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JeL7jeEp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A9AC4CEE0;
-	Thu,  5 Dec 2024 03:30:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCUKKJzF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C559C4CEDC;
+	Thu,  5 Dec 2024 03:58:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733369426;
-	bh=xCGD7IMZkPe/beo63SMas1r363M8QJlM9comt1iPDdU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=JeL7jeEpLD7MzoMmPZrg9lxF3XZYwuXWVZOuQQTkuQdmYjTw2cSG7JYcl0LNzYE00
-	 0cHYnjBysCaNexHhQKMtsu0DPhgzk8/ucDE86b3P06kqVj2giRLw6bb4pxBm6oL/42
-	 b/jWt9+92O8yfcC9+hBD4oAbV1oa+Z8+X1TrakCTtANPqPnHwONr5LKNnWpigSqD9F
-	 mex52vWKG/TKN9DuL4wHcdOk74LP1qAuweac08SJS2DKqg6uqOxohhh85aqEBPm4la
-	 G2B/HeyxtpXq0vhHdTQ+01+DPMm1OqBWdo5n9gSLvMZAKvZ8Uc74NCc88xMhYILUgK
-	 NplQVONEThBJw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 71CA9380A94C;
-	Thu,  5 Dec 2024 03:30:42 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1733371137;
+	bh=JDaK/7p0eD2vcbuFmWKF07t+VARFhmUlkG/iI34Zd1k=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nCUKKJzFy05gTLwHDgRiU3aVXEkbWLxC8FAwO/3horPX6k6evO30GUXy5ujoGTSU+
+	 dyI6PRs90PfWiRR0r8BKplE1ki9l/sCIDsRNwpNWmD3J3QIEcYKRDR0GziKxJmIc15
+	 G8oAKvvtDNixj6uO111mQbhYbifbLQNG7nJfL08a4nUFC/YWdyb4KjwTLVlDIdQW5A
+	 eqTr7IG1lKRZ2B44fpgFxUKMaYJzXZAz5cLTJiFLqaJFzXsEXyBj41rLT5NO3xqm5k
+	 /YvXoUDLTka06S6/N043Qv2++keWHOXTsV9RkRsDhiwaJsRPHEQSASeJFn3S+Y7k5C
+	 MGgutbIEbVDSA==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53df119675dso636475e87.0;
+        Wed, 04 Dec 2024 19:58:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUCO6qMr8M7eTjNXWm0lffjQSgFSdSbRlHIyAM2/GrqhM9a8U5osVxeMDakynHGKVog+r6QtJJdKS6G2cqj@vger.kernel.org, AJvYcCWREA17wpMxINerVLD87JOmF7BDoL6n9wQC0kp/8gGOYUOp68aDdBJhMsZ2NE0oMYY9mBayI/5XeEA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8lRvyNEc0AbHn8cnc4e4MEpALKRLQQ/LCRypt1CWFwBCLz7pP
+	Pu9SJXDosJYtpN6dZPCcQKP1UGC8lOsFBOM6aaHwkdtqpAuByLgIRocMw41Ka8VYfHV8Ya+0phK
+	ERSwBWgNtsSiTgERtD1VGxL3FGZw=
+X-Google-Smtp-Source: AGHT+IFIPtu+SFico7VruqjA1JkrXBNoTClZak0HmvZk3FMojUfelsOvmVjG85CcJDrG1AIW6cHqdgIVWUI0EJQNwzQ=
+X-Received: by 2002:a05:6512:3a8a:b0:53d:e7b6:c702 with SMTP id
+ 2adb3069b0e04-53e12a3937emr5653206e87.50.1733371136144; Wed, 04 Dec 2024
+ 19:58:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v5 0/2] netcons: Add udp send fail statistics to
- netconsole
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173336944099.1431012.14311700404470726284.git-patchwork-notify@kernel.org>
-Date: Thu, 05 Dec 2024 03:30:40 +0000
-References: <20241202-netcons-add-udp-send-fail-statistics-to-netconsole-v5-0-70e82239f922@kutsevol.com>
-In-Reply-To: <20241202-netcons-add-udp-send-fail-statistics-to-netconsole-v5-0-70e82239f922@kutsevol.com>
-To: Maksym Kutsevol <max@kutsevol.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, andrew+netdev@lunn.ch,
- leitao@debian.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
+References: <cover.1733305665.git.ukleinek@kernel.org> <6fe15069c01b31aaa68c6224bec2df9f4a449858.1733305665.git.ukleinek@kernel.org>
+ <87mshb3f8x.fsf@intel.com>
+In-Reply-To: <87mshb3f8x.fsf@intel.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 5 Dec 2024 12:58:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATMufXP0EA6QUE9hBkZMa6vJO6ZiaYuak2AhOrd2nSVKQ@mail.gmail.com>
+Message-ID: <CAK7LNATMufXP0EA6QUE9hBkZMa6vJO6ZiaYuak2AhOrd2nSVKQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] doc: module: Fix documented type of namespace
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>, 
+	Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Wed, Dec 4, 2024 at 7:38=E2=80=AFPM Jani Nikula <jani.nikula@linux.intel=
+.com> wrote:
+>
+> On Wed, 04 Dec 2024, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>=
+ wrote:
+> > Since commit cdd30ebb1b9f ("module: Convert symbol namespace to string
+> > literal") the namespace has to be a string. Fix accordingly.
+>
+> Interesting. Using preprocessor symbols inherently restricted the
+> namespace syntax to that of C identifiers.
+>
+> Is it now okay to use any syntax for the namespaces from now on? Should
+> the document have some recommendations for naming namespaces?
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+I guess the answer is yes except for whitespaces.
 
-On Mon, 02 Dec 2024 11:55:06 -0800 you wrote:
-> Enhance observability of netconsole. Packet sends can fail.
-> Start tracking at least two failure possibilities: ENOMEM and
-> NET_XMIT_DROP for every target. Stats are exposed via an additional
-> attribute in CONFIGFS.
-> 
-> The exposed statistics allows easier debugging of cases when netconsole
-> messages were not seen by receivers, eliminating the guesswork if the
-> sender thinks that messages in question were sent out.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v5,1/2] netpoll: Make netpoll_send_udp return status instead of void
-    https://git.kernel.org/netdev/net-next/c/a61b19f4a658
-  - [net-next,v5,2/2] netcons: Add udp send fail statistics to netconsole
-    (no matching commit)
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+The namespaces are recorded in the Module.symvers file,
+which is also parsed by external programs like kmod.
+Using whitespaces within namespaces may confuse the field separators.
+Otherwise, the namespace is a simple string matching as far as I can tell.
 
 
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
