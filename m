@@ -1,156 +1,162 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBE221CA1F
-	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 17:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAD321D591
+	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 18:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733419879; cv=none; b=LhY8r39FIpKKnPuOhxKWl/1PLP1+vpbJK5eT/s/BV590MX2f6NbxTp7WoKQKgEvd0/nlEMl24b1+5XroANeZ2kKMstQTxF20Wfl/2Q2t17XqfxViRdj93GHSmKO8/1vJDUKWUQaHYFswq24eCuFvErtGraF8g4t/Z+avBLWNW5Q=
+	t=1733422616; cv=none; b=oG/otEuIATbd8HvLkWK+1CwkmVIIWRGLczG6GptB5j3rGd+znN5N6VEC1wINs15FziBhXp+KbXt1PLZuqah1K6SL80qIQnFHYi7JsqU9DlgzlxihNrKB4JGIKSNBwgMgxor+dSIMvLInEi+pvLt3QxX4dl+JVMXWQYaCkr9ogko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733419879; c=relaxed/simple;
-	bh=DILMSC318MaffnuHHC5DfCokTzeEKw4jXbmCZwGyZkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TlzGUQ5qewIiyp85YBWdKU+o1yXwt3CjhYdhqYoEjJ7PwgTBNMKzq4YNIjLm3wpBv0HSt9bJx90cWnIJWF2Hu28Wws74aCCfmBkUqSKQF1kYmdRLS9yoHnOgH61Rg31/xp7o8U5ATMl++qSs4WVK+jk5sm8u+/W/abuk4aJcZ70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NjwpZ56l; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NjwpZ56l"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aa51cdf0229so18146266b.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 09:31:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1733419876; x=1734024676; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R8/7vE5e555OKJe6AuucX4ms/VrPrCkBrD8lqWS8nyE=;
-        b=NjwpZ56lwf9Mq6HApj34SJA3K35PeM0fevTM8XtyTPKvs44fHs9/r2LywDMnsv/0C3
-         CWYy3/ONCMaflcXkRYPIP7tYXPYafQScKTLDw50iW8wgyVTsRTGJyIXKbSYyokzabgur
-         SlRQ+7EGmy+KrMzQGh44bpqR3wvdIDNOod4TzT2d1mpP5rdrGRgARVcwsNuq3TEflri3
-         fx0NYQjokusQAs9BHe8cFxB/FahBhrP9W9W+7CUeALSFGCtSOQoZD+hRndV68T8nOyWe
-         xrauoC6OWeecmqHtMhYudGHDh2oiH6N24tvSRBarj3uwCNy4PoKTv7PL3sGZoUpy7jYa
-         BF7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733419876; x=1734024676;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R8/7vE5e555OKJe6AuucX4ms/VrPrCkBrD8lqWS8nyE=;
-        b=Bc3J1RvdxDRgddsDfHbF5oCz7n/1ZzTnPddOdxZAJhPGEs+v4V+B8EmM++5pjCy5bj
-         XTbLNzBy/R/Bt8L5DhnU5d1RZi88YU9rgcfuLYLZ4BRT/WNukCkuWpc7Y2+xH+VbVjlE
-         IhYsDg5iEoRPZE2gmfbbjc2UEwuDZjAlip070aK7gPg1F7gSdBn7DWUXPjZ0XWx1P7Fv
-         2F3juv2tpTH5sY7aBZBfLGKhK+UojMprLrjpg2BSW2AzZ2eFBC3vVoiPMgpynZaPYNF3
-         QLmf3zdDl63UG0FMAzH9v9v9RAh3W9aXKml9k7JAlDpRqm4b59guEieqw49DnbfaMPAF
-         wYQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXW5qd2FbhRv/PO8RfSYFhYhdiUupbh1fxo28ZHaY2VkII7IMjB6tViRXnAcphUB2P8uUQ8PbJyjWk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyo9/NSHMLxqDgmyWXwf6+xHQsvzhSiNw3YQCBALFEk87QJhJj7
-	+kSLj2tN7kbIXIcA1FvSFHtJsvpTOJqs7snDvhOBxnK5T51gyj6sReabj+tNBbo=
-X-Gm-Gg: ASbGncsmIGCwUlIzCzvdC9Ghk+qzPUqPdxE4fDTd8zPJEiKtOH18cvNWyoMAw0pcGgA
-	nd5qhZZ+FoWSkh7eHcWZfWTAB7wpABlcfmTt+Yjc9rT+OC48ptO9mb93LgfbmgQrndVxGFyIrg5
-	PX9zRDKB90fNeyoxfbbeITqwJqlrMjx/6XJxCTPL6gT+d/gcJaVv5IL+kUevsWw0zgwIT27OpuU
-	8WTjdr133m8+giXbi/oUzdYDwGgHCeCAzezplJ26Ace5yHA8/iqqcAwjzmMmQ5XkEdGYqWVoQQm
-	nhJJlshfCFJbfTnVVqw6dQ7akMnbwHPst/uAhEvReiZlhI0nfjIsR2g=
-X-Google-Smtp-Source: AGHT+IEQzkKEFiKDujFpgpYYDhLmEPZqC0BMq0BFtfN8uz6jk0DSODmsmsMeP94l0aJ80mpV+tmi8g==
-X-Received: by 2002:a17:907:72cb:b0:a99:482c:b2c6 with SMTP id a640c23a62f3a-aa5f7dab976mr469405966b.8.1733419876349;
-        Thu, 05 Dec 2024 09:31:16 -0800 (PST)
-Received: from mordecai.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa625e92a13sm120705466b.52.2024.12.05.09.31.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 09:31:16 -0800 (PST)
-Date: Thu, 5 Dec 2024 18:31:11 +0100
-From: Petr Tesarik <ptesarik@suse.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Dave Hansen <dave.hansen@intel.com>, Valentin Schneider
- <vschneid@redhat.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
- bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Andy Lutomirski <luto@kernel.org>, Frederic Weisbecker
- <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Neeraj
- Upadhyay <quic_neeraju@quicinc.com>, Joel Fernandes
- <joel@joelfernandes.org>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
- <boqun.feng@gmail.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki
- <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>, Lorenzo Stoakes
- <lstoakes@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron
- <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>, Sami Tolvanen
- <samitolvanen@google.com>, Ard Biesheuvel <ardb@kernel.org>, Nicholas
- Piggin <npiggin@gmail.com>, Juerg Haefliger
- <juerg.haefliger@canonical.com>, Nicolas Saenz Julienne
- <nsaenz@kernel.org>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Nadav Amit <namit@vmware.com>, Dan
- Carpenter <error27@gmail.com>, Chuang Wang <nashuiliang@gmail.com>, Yang
- Jihong <yangjihong1@huawei.com>, Petr Mladek <pmladek@suse.com>, "Jason A.
- Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>, Julian Pidancet
- <julian.pidancet@oracle.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Dionna Glaze <dionnaglaze@google.com>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
- <linux@weissschuh.net>, Juri Lelli <juri.lelli@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, Yair Podemsky <ypodemsk@redhat.com>, Daniel Wagner
- <dwagner@suse.de>
-Subject: Re: [RFC PATCH v3 13/15] context_tracking,x86: Add infrastructure
- to defer kernel TLBI
-Message-ID: <20241205183111.12dc16b3@mordecai.tesarici.cz>
-In-Reply-To: <20241121153016.GL39245@noisy.programming.kicks-ass.net>
-References: <20241119153502.41361-1-vschneid@redhat.com>
-	<20241119153502.41361-14-vschneid@redhat.com>
-	<20241120152216.GM19989@noisy.programming.kicks-ass.net>
-	<20241120153221.GM38972@noisy.programming.kicks-ass.net>
-	<xhsmhldxdhl7b.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
-	<20241121111221.GE24774@noisy.programming.kicks-ass.net>
-	<4b562cd0-7500-4b3a-8f5c-e6acfea2896e@intel.com>
-	<20241121153016.GL39245@noisy.programming.kicks-ass.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
+	s=arc-20240116; t=1733422616; c=relaxed/simple;
+	bh=tOE7FoZbj2of2iSrM9k6O7Bi5zwn703dH6gxug1gaGk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=cXr06Co7TihqP/EtYOuCUyqo9GaFYoFWj9v0EJqc/W3XJ0mBpjIqeCjCyG52L2AN9l5WsYcixZ3muwKgIFHaozO9xL2bgaCi8YraHS9mzOSBY7j4SBiJJsOk33ntRtYW2J7G7YjaKBlw5+gpYVM24jO3g79QIXEh0Y0e0hwgtKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b16a:6561:fa1:2b32])
+	by michel.telenet-ops.be with cmsmtp
+	id l6Gf2D00D3EEtj2066Gf3k; Thu, 05 Dec 2024 19:16:46 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tJGP0-000LwV-9e;
+	Thu, 05 Dec 2024 19:16:39 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tJGP1-00EUTT-16;
+	Thu, 05 Dec 2024 19:16:39 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Andy Whitcroft <apw@canonical.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@corigine.com>,
+	Simon Horman <horms@kernel.org>,
+	Conor Dooley <conor@kernel.org>,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Junio C Hamano <gitster@pobox.com>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 1/2] Align git commit ID abbreviation guidelines and checks
+Date: Thu,  5 Dec 2024 19:16:34 +0100
+Message-Id: <1c244040bf6ce304656e31036e5178b4b9dfb719.1733421037.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1733421037.git.geert+renesas@glider.be>
+References: <cover.1733421037.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 21 Nov 2024 16:30:16 +0100
-Peter Zijlstra <peterz@infradead.org> wrote:
+The guidelines for git commit ID abbreviation are inconsistent: some
+places state to use 12 characters exactly, while other places recommend
+12 characters or more.  The same issue is present in the checkpatch.pl
+script.
 
-> On Thu, Nov 21, 2024 at 07:07:44AM -0800, Dave Hansen wrote:
-> > On 11/21/24 03:12, Peter Zijlstra wrote:  
-> > >> I see e.g. ds_clear_cea() clears PTEs that can have the _PAGE_GLOBAL flag,
-> > >> and it correctly uses the non-deferrable flush_tlb_kernel_range().  
-> > > 
-> > > I always forget what we use global pages for, dhansen might know, but
-> > > let me try and have a look.
-> > > 
-> > > I *think* we only have GLOBAL on kernel text, and that only sometimes.  
-> > 
-> > I think you're remembering how _PAGE_GLOBAL gets used when KPTI is in play.  
-> 
-> Yah, I suppose I am. That was the last time I had a good look at this
-> stuff :-)
-> 
-> > Ignoring KPTI for a sec... We use _PAGE_GLOBAL for all kernel mappings.
-> > Before PCIDs, global mappings let the kernel TLB entries live across CR3
-> > writes. When PCIDs are in play, global mappings let two different ASIDs
-> > share TLB entries.  
-> 
-> Hurmph.. bah. That means we do need that horrible CR4 dance :/
+E.g. Documentation/dev-tools/checkpatch.rst says:
 
-In general, yes.
+  **GIT_COMMIT_ID**
+    The proper way to reference a commit id is:
+    commit <12+ chars of sha1> ("<title line>")
 
-But I wonder what exactly was the original scenario encountered by
-Valentin. I mean, if TLB entry invalidations were necessary to sync
-changes to kernel text after flipping a static branch, then it might be
-less overhead to make a list of affected pages and call INVLPG on them.
+However, scripts/checkpatch.pl has two different checks: one warning
+check accepting 12 characters exactly:
 
-AFAIK there is currently no such IPI function for doing that, but if we
-could add one. If the list of invalidated global pages is reasonably
-short, of course.
+    # Check Fixes: styles is correct
+    Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")'
 
-Valentin, do you happen to know?
+and a second error check accepting 12-40 characters:
 
-Petr T
+    # Check for git id commit length and improperly formed commit descriptions
+    # A correctly formed commit description is:
+    #    commit <SHA-1 hash length 12+ chars> ("Complete commit subject")
+    Please use git commit description style 'commit <12+ chars of sha1>
+
+Hence patches containing commit IDs with more than 12 characters are
+flagged by checkpatch, and sometimes rejected by maintainers or
+reviewers.  This is becoming more important with the growth of the
+repository, as git may decide to use more characters in case of local
+conflicts.
+
+Fix this by settling on at least 12 characters, in both the
+documentation and in the checkpatch.pl script.
+
+Fixes: bd17e036b495bebb ("checkpatch: warn for non-standard fixes tag style")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - Rebase on top of commit 2f07b652384969f5 ("checkpatch: always parse
+    orig_commit in fixes tag") in v6.13-rc1,
+  - Update documentation, too.
+---
+ Documentation/process/maintainer-tip.rst     | 2 +-
+ Documentation/process/submitting-patches.rst | 8 ++++----
+ scripts/checkpatch.pl                        | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
+index e374b67b3277ac54..41d5855700cd4f83 100644
+--- a/Documentation/process/maintainer-tip.rst
++++ b/Documentation/process/maintainer-tip.rst
+@@ -270,7 +270,7 @@ Ordering of commit tags
+ To have a uniform view of the commit tags, the tip maintainers use the
+ following tag ordering scheme:
+ 
+- - Fixes: 12char-SHA1 ("sub/sys: Original subject line")
++ - Fixes: 12+char-SHA1 ("sub/sys: Original subject line")
+ 
+    A Fixes tag should be added even for changes which do not need to be
+    backported to stable kernels, i.e. when addressing a recently introduced
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 1518bd57adab501f..f3508b5aa4ebab96 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -143,10 +143,10 @@ also track such tags and take certain actions. Private bug trackers and
+ invalid URLs are forbidden.
+ 
+ If your patch fixes a bug in a specific commit, e.g. you found an issue using
+-``git bisect``, please use the 'Fixes:' tag with the first 12 characters of
+-the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
+-lines, tags are exempt from the "wrap at 75 columns" rule in order to simplify
+-parsing scripts.  For example::
++``git bisect``, please use the 'Fixes:' tag with at least the first 12
++characters of the SHA-1 ID, and the one line summary.  Do not split the tag
++across multiple lines, tags are exempt from the "wrap at 75 columns" rule in
++order to simplify parsing scripts.  For example::
+ 
+ 	Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
+ 
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index dbb9c3c6fe30f906..5b57f0306a50046d 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3230,7 +3230,7 @@ sub process {
+ 			my $tag_case = not ($tag eq "Fixes:");
+ 			my $tag_space = not ($line =~ /^fixes:? [0-9a-f]{5,40} ($balanced_parens)/i);
+ 
+-			my $id_length = not ($orig_commit =~ /^[0-9a-f]{12}$/i);
++			my $id_length = not ($orig_commit =~ /^[0-9a-f]{12,40}$/i);
+ 			my $id_case = not ($orig_commit !~ /[A-F]/);
+ 
+ 			my $id = "0123456789ab";
+@@ -3240,7 +3240,7 @@ sub process {
+ 			if ($ctitle ne $title || $tag_case || $tag_space ||
+ 			    $id_length || $id_case || !$title_has_quotes) {
+ 				if (WARN("BAD_FIXES_TAG",
+-				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $cid (\"$ctitle\")'\n" . $herecurr) &&
++				     "Please use correct Fixes: style 'Fixes: <12+ chars of sha1> (\"<title line>\")' - ie: 'Fixes: $cid (\"$ctitle\")'\n" . $herecurr) &&
+ 				    $fix) {
+ 					$fixed[$fixlinenr] = "Fixes: $cid (\"$ctitle\")";
+ 				}
+-- 
+2.34.1
+
