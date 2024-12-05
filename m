@@ -1,109 +1,94 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39901B219E;
-	Thu,  5 Dec 2024 20:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542991B6D02;
+	Thu,  5 Dec 2024 20:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733431249; cv=none; b=qS16sYIJNYcTMSsHxPwjASgToBJnQ/nLxW6AssFnhOy/VFLxB0P+KQBRExaagDaQc50J3ce5Cjkxpm0itLDn6ZjlRiuorFeUiNSmIT+Ht4W7mNyCwJ9PDCT8AssJKndTQ7MC/9hQUDLFEq0jKh1+Nfk4wTzlR4twVu0zsgTBpp0=
+	t=1733431818; cv=none; b=AEoCCQt1+rPto4Ay54Z97D6+keUwFIPmleHtMJpPSNYDfe4V9GaHOfri8q85eToPSToJYvVXoJfXd25jJ+KXJ4NQ9jfgluIBy7W4GZJfvyK5Z+RBJznu/poAFDJhKLK9eoUqgnPErczLdNIhWwuaQ1D90mHGYqu7iGH09jMkqwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733431249; c=relaxed/simple;
-	bh=cImm4lkrvGL63icY61PYdEGKBL1xKijlWS+XG6nPkgU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A6TexnMymQnXwCINKJ16Vrg1n4uq+TI4ux3tORnT4LoBFOhVtBdFuDjMfws3jQKpLekOb5BmQFa75Q2TsIOjmjjekMSsY3r2A7AHtZELUkGKhft5gdlr8Zb/kcwLJgqqgq6nJzUgcpCbP1mkuk1MwCwO2DI60Zd4pu/H5hO4kl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SBvOxmqu; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733431818; c=relaxed/simple;
+	bh=X+ywS6TndeJbU11f75kUJD8TXWzdqlfBtR1l0GsEh6Y=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Lgs8123remKbXOI713JDuPSKSSZUn+HTtlAwMkx/XF7PvAzyzkobog+5CHl1M6F96uQ69ZCTy0KsUuA2rkt/fwR5vfEFZYuJ2Rw/6wjBD2UV9VXpC301d2B4AQxMrYHGzU57jtT4QGDGdDnf1C9hI/XGzxZ2lpjBqejzMox0ojg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TmCNnW9K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SBvOxmqu"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ffa49f623cso14094321fa.1;
-        Thu, 05 Dec 2024 12:40:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733431246; x=1734036046; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cImm4lkrvGL63icY61PYdEGKBL1xKijlWS+XG6nPkgU=;
-        b=SBvOxmqu7YOIEnqsjzOXkDsFavDjYa5wIG92O2l2GAHPGLRwyFAnIP4ovKd1bYIPS/
-         c3oA5GdCEDJL8a4xJ1rxdBj9Kj/dfNj7Uufm0G/3BZjCcNc4uN0Lg3YWnYnrAXkYSXaE
-         fkxUtjmw5YcEkD3bgbvGiI8cFw7rSwEpkvAeTxbpr89bT7bEqgEcuVYkBsEfRzJqmtk9
-         WJ0XWJF9QweUnKbg2pPXQ89LQDNp9qFD+6+0A5WRhgZHDecyKdoVucipnSMdnQW40o0y
-         p4ssY7h24yR0CXA3wBFZmGnMQ2HHzeL1QIcW+KH6nDvL2JVcfnWwg2yf8k3S9A5wf1QL
-         pA/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733431246; x=1734036046;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cImm4lkrvGL63icY61PYdEGKBL1xKijlWS+XG6nPkgU=;
-        b=R6F8d6AYhnj+FW+6fvS2msZiyQZXVsNXE1yBHCopwThp+sdsr0jz4VILQ6izo5/gLL
-         Ic8RtMANjps9Hrfe7xXJMNurBXqqI7bRZnTKDUv26rJufHwOUzH8o+ghmDCz7PFjDZua
-         ySUqaDmeyvk7JrLXIOJ/3SU5sob9Ev/Mq9jh/oOVQSVhz4Wl+ftfNXfdFIW9W52I7qRd
-         7M++KnkAtkce1CcH7uJJBc86VXY2gWTARzkG58qsHih5Pxxo2v+vSwYk26yeRe88LWYI
-         xAFvcIGCnN2kCp99e6zRUT5AQSbXLDAieqDPQjtfJIoHThC7ClwilR0ErYAFJsYLnDBe
-         4HfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0ibtFvm7zF9ZQ8Q5uH6r5SK/VsCZyPPGxg8p/CEjwtOZWDO9NR+axAUBZtNjScZNQnDa3af5hlSgx0KUW@vger.kernel.org, AJvYcCWE7dFPAdgWwgngA/aUiZ6lO6nEFXvFLgfHqAoa37rlB0emPANNfL34eYp6uC878Ju70eNMyOfKCpw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/0+MCc09OpStdDJ9Yfl2nq9KNLsOWZ7j8ai0TnQLTZLOOyY3C
-	ylAW69PGUuCaB6TZ9ulyCCdBET3Sx0Mi6DtZbndT8TuRpjT8XsdxlUk1bPPSA/TOZAcfAXHwLFl
-	Re017RG2BHHaeLTqCdI+Z7RevBhA=
-X-Gm-Gg: ASbGnctS1/mRLvysHQUl+KfkJU6T8A8mczTXVvJd5R4qpZT124URpFxatOCC/bj39KY
-	FvMct9k9eP1RfjbuTPxsi8wglqAitL3g=
-X-Google-Smtp-Source: AGHT+IFu7xNB3lApKAFpWK30vqQiZShTcNflG6f49wCzzAuTeIKGotRc/kUNnrqSDZvSmUVF52z5lt2gPurkpEM2MXE=
-X-Received: by 2002:a2e:9a0e:0:b0:300:2a48:fb63 with SMTP id
- 38308e7fff4ca-3002f89e390mr1351021fa.6.1733431245689; Thu, 05 Dec 2024
- 12:40:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TmCNnW9K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB46C4CED1;
+	Thu,  5 Dec 2024 20:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733431817;
+	bh=X+ywS6TndeJbU11f75kUJD8TXWzdqlfBtR1l0GsEh6Y=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=TmCNnW9KRZkwcByrs95o62IYwxSrE2krxZb1sGQbd8cpNu4JV664VCkDhopcP43IK
+	 mSUPJMQhsoJaYDoz1RaVfbGQg7Aj+MLJnFVSuV7TLK/JF7rTVPXPbUVy/FQFWefx9X
+	 FVQtXkgGd4AFMNdWMf0BGxpWx30Lc/HKPowYFckYlem9EMOJ38GnvWdLy3nGbIAuHz
+	 TnWKCnCn9yL40XA1BJM9hjLbfYwjRI9Yy/yGp344onFNNS0NWLBg0HNPKPLe5llxxA
+	 n35yZWyGwqsSQq0wseauknKgSR/jSXXRCons6YfhA3fJoQ+RVHfasl097pjzYYO+qJ
+	 zFPIvXSg5RuMQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE828380A951;
+	Thu,  5 Dec 2024 20:50:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241103025436.69196-1-yesanishhere@gmail.com>
- <CGME20241108043735epcas1p39b2350911bd630f58be192c1680acd5c@epcms1p4>
- <CABCoZhANKY5wjc=NqAd64Fhmdjx1k-x=zVkU+ySRDRvK0Gj2iw@mail.gmail.com> <20241116052130epcms1p4f503dac1338c96ff33f8e5d7d58d6389@epcms1p4>
-In-Reply-To: <20241116052130epcms1p4f503dac1338c96ff33f8e5d7d58d6389@epcms1p4>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Thu, 5 Dec 2024 12:40:33 -0800
-Message-ID: <CABCoZhC7uRcV5if0PnfPkVFtyE-b=_9SQCvs7dBbpQY3VLu5wg@mail.gmail.com>
-Subject: Re: Re: [PATCH] Documentation: extcon: add documentation for Extcon subsystem
-To: myungjoo.ham@samsung.com
-Cc: Chanwoo Choi <cw00.choi@samsung.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4 0/8] ethtool: generate uapi header from the spec
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173343183250.2063743.5447149013565962028.git-patchwork-notify@kernel.org>
+Date: Thu, 05 Dec 2024 20:50:32 +0000
+References: <20241204155549.641348-1-sdf@fomichev.me>
+In-Reply-To: <20241204155549.641348-1-sdf@fomichev.me>
+To: Stanislav Fomichev <sdf@fomichev.me>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, horms@kernel.org, donald.hunter@gmail.com,
+ corbet@lwn.net, andrew+netdev@lunn.ch, kory.maincent@bootlin.com,
+ nicolas.dichtel@6wind.com
 
-On Fri, Nov 15, 2024 at 9:21=E2=80=AFPM MyungJoo Ham <myungjoo.ham@samsung.=
-com> wrote:
->
-> >Hello Myungjoo/Chanwoo,
-> >
-> >Wondering if you have any comments?
->
-> Nope. It looks good to me.
->
-> Acked-by: MyungJoo Ham <myungjoo.ham@samsung.com>
+Hello:
 
-Thanks, wondering if I need to follow up further or it will be picked up
-by you or chanwoo?
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
->
-> >
-> >On Sat, Nov 2, 2024 at 7:54=E2=80=AFPM anish kumar <yesanishhere@gmail.c=
-om> wrote:
-> >>
-> >> The Extcon (External Connector) subsystem driver lacked proper
-> >> documentation. This commit adds comprehensive documentation
-> >> explaining the purpose, key components, and usage of the Extcon
-> >> framework.
-> >>
-> >> The new documentation includes:
-> >> - An overview of the Extcon subsystem
-> >> - Descriptions of key structures
-> >> - Explanations of core functions
-> >> - Information on the sysfs interface
-> >> - A usage example for driver developers
-> >>
-> >> Signed-off-by: anish kumar <yesanishhere@gmail.com>
-> >> ---
->
+On Wed,  4 Dec 2024 07:55:41 -0800 you wrote:
+> We keep expanding ethtool netlink api surface and this leads to
+> constantly playing catchup on the ynl spec side. There are a couple
+> of things that prevent us from fully converting to generating
+> the header from the spec (stats and cable tests), but we can
+> generate 95% of the header which is still better than maintaining
+> c header and spec separately. The series adds a couple of missing
+> features on the ynl-gen-c side and separates the parts
+> that we can generate into new ethtool_netlink_generated.h.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v4,1/8] ynl: support enum-cnt-name attribute in legacy definitions
+    https://git.kernel.org/netdev/net-next/c/523d3cc4b6d1
+  - [net-next,v4,2/8] ynl: skip rendering attributes with header property in uapi mode
+    https://git.kernel.org/netdev/net-next/c/8c843ecde4e4
+  - [net-next,v4,3/8] ynl: support directional specs in ynl-gen-c.py
+    https://git.kernel.org/netdev/net-next/c/56881d07f0b4
+  - [net-next,v4,4/8] ynl: add missing pieces to ethtool spec to better match uapi header
+    https://git.kernel.org/netdev/net-next/c/0187e602c03c
+  - [net-next,v4,5/8] ynl: include uapi header after all dependencies
+    https://git.kernel.org/netdev/net-next/c/001b0b59efbb
+  - [net-next,v4,6/8] ethtool: separate definitions that are gonna be generated
+    https://git.kernel.org/netdev/net-next/c/49922401c219
+  - [net-next,v4,7/8] ethtool: remove the comments that are not gonna be generated
+    https://git.kernel.org/netdev/net-next/c/dd7cde36de15
+  - [net-next,v4,8/8] ethtool: regenerate uapi header from the spec
+    https://git.kernel.org/netdev/net-next/c/8d0580c6ebdd
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
