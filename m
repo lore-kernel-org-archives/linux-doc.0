@@ -1,155 +1,101 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C0E2066E7
-	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 11:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2171D20D518;
+	Thu,  5 Dec 2024 11:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733397735; cv=none; b=uVAxKIzYqnZV2s4n1mGEDQs2qGQKmKmPAYkz12zEIxeUQ+rPIitQUQ5yrYIrlB2wubmL6GJqnTSNq463XcsG6IXyvwxTAkmAB9DdIynCSqG/kbJdYzNv1X2WIuyjjKsR7N5+nOlZymb6QPtMUCZx1JNrVWBAMITD+lD0g8QEPsc=
+	t=1733399342; cv=none; b=r18kasNuogaI5XmpDWAFQarF324ZrteLPnZRrgrkAmQZ08K6jf/PugWRp3GPm7foMLIoyfMQm60J27KqTWCqCTvuaUmpy8LRYpATYXul/46Bu/ybviUeoq/kbxJAYqJIPMwXqEVvmCcViXszb09123+ZvPBzq/XNgBIIlp9yYt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733397735; c=relaxed/simple;
-	bh=z7QzahvsUpDUq/hh1dmI3rNNlgN7khulvlUbO6WYo3A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A7sHMErP7T9rkAwg9kS8oLj3rN62UmThDShn3llNjvb/EXDs3RX0F0t0iKHUEysS66tgYZzzfphN1T88rMouSHqYlXQ5D+DE6LQckvfauh2vPISv1+l2uvsE4yqXMbXEsyM6+vxDMFIAzFq9N3CFdPvZ/Y6HkTDZM0f7uSnczgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tJ9vK-0008Qw-3k; Thu, 05 Dec 2024 12:21:34 +0100
-Message-ID: <5e9a80d6-6c89-478e-99c9-584647661f5e@pengutronix.de>
-Date: Thu, 5 Dec 2024 12:21:24 +0100
+	s=arc-20240116; t=1733399342; c=relaxed/simple;
+	bh=ry1Q9lVyvUUKX2WBlH1Bo/LYaeI5/egRWUooe5SRBEM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ofYiksYthcGAb7FyeVPRKX0B+VPTPB1RxMqoKaxeWrI3KSQQ8ZEjwBTMZ6pmDKiEpujIjGaKv9ZMyJxhId/ESI6I7JCgxYwvG3pCx8BSmB92yJjFVmxnm1PweFScxVm+hBBUnKb4DJsKMisQdM98aL5JfaXw0MYG4V7G/Qljxog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIIMSI4k; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIIMSI4k"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2155e9dcbe7so6846595ad.3;
+        Thu, 05 Dec 2024 03:49:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733399340; x=1734004140; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4218+LaUPkk+3Xk7sYgTNuYCra7GTA77M4dYAwFmiyo=;
+        b=hIIMSI4kVrBcGa/SuSATx7rxxgtZjG1yYA9zNkfQHIcUP9gcXgesewrfw6/PFwUIiK
+         QTbAtj7FqqcM0KRea2OQVOEBsHpSc7tn6zwN9LGLGrcE1jlqUu2CAPVmyw2uBW+hh7Gm
+         dHwiZtUhFDzHBRngXMrnBo11Ba0XEIRQMHMVcKZm1+7G8c2kWLD5hHG43WfqtcG1lWgI
+         J/RHQl4Ew/pAsG+XzmWMf3J/gwLBP4K3oicpbZUF2TAHKSyBuwQkUkHw/7wEC/IDu/Rd
+         22Qyjljp1m7a9hgDziYn4jlPHnpLaqskJbkgP/XzK2FfewRCS4yykTJKjfinOFieotXs
+         n4og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733399340; x=1734004140;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4218+LaUPkk+3Xk7sYgTNuYCra7GTA77M4dYAwFmiyo=;
+        b=Yy0V5shrJ6DvKa0fO6Kexvl1wXgx8f42lAqOtrBOr/f9+Qx835ENOSUPkQqzxQ5toU
+         UR3aeiYGDaJPTNj5rK6Kr14GLNAULL5Wyf0pnrgwXyrz75EyvOjQX64V/L2qnJjRylC3
+         YC3gu9IAMf7Fgh5KKSiNfNZ/+eWyDiSto4mM9umH93Uu2z6BqukdBmZ0pk9SgQYVNevx
+         ZpufN7EIb2OoTD8XP2y8ppIYqlsEPgiv3ircVNkvHQra2GvZKO4G1eyEHiRYlrERMsOW
+         HEP71qpfsKSPs5jeY7QgmwVX0rUPpLmEOL33Ro2mdMqTzK+FSy/TMkbI/G0U6X97dh8D
+         w6WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVz9CMMUT1dIPpJqaGOJgsSk0cqEmv8OTAHHOeTBzgcOfW+PlBaVf5zBB0/v4Dm4tOj0FMXoKbYe9YmH3uJYkU=@vger.kernel.org, AJvYcCWZ32e67Q8MnSoCsuFFpDPqGMCHQmuqBkBZ41IOVC+6TQ63Gwm+TLSf1UXkbR7SDxU9Slbo/YrHyOdq9kujrA==@vger.kernel.org, AJvYcCXqefbFK+clbaUZ2H9FW+Nq2tzT0S/jpA7Z6XxD1CRG5t+PWtBPPdwYdAKVvSXK0J0wH4kIJIHSyG3J@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywo5A9p1vJDG6vybUtNY16ODPdsM7iutV7RVQfQtEhtFmJWXJAk
+	9Oekd1KEPBTaHfgPrMjDZOUHe0IiSUuf/o5y4X32AoSPN+i9c5Ci
+X-Gm-Gg: ASbGnctLsXaTMA5MomHSpscIEKcOuUOK+DtvLrUAwl1nWIkHNoqF5b3SzR1bgU5xQM5
+	erL8bpoyta5ByImN98OA8fR0peOgNnsj3webHEosli+arx6SK176KV/Xs7fLJ3/puU8g7J91u3A
+	bhQGpt0TFMEmKyrnOX+a6nmKVwqF/V8XBHf8evTIZICTN5JYwNqB+p7KPidaugUT8gxgCtelMLm
+	QpTdMXQvv+ONskB4PtuI2a4LdoOJUUR1bWa1lsvxnpvRBAjSDPORYvuZsZr2z9grjq9r4WDKYk=
+X-Google-Smtp-Source: AGHT+IHWN6Tn6tLa6h9VbDwRImkloqTz94E7obvsGuFMsOwcr5HZUuiLpglqYynL3HkgfzpYqNAe8w==
+X-Received: by 2002:a17:903:190:b0:215:89a9:bd0a with SMTP id d9443c01a7336-215bd10d5femr137528305ad.24.1733399340382;
+        Thu, 05 Dec 2024 03:49:00 -0800 (PST)
+Received: from BiscuitBobby.am.students.amrita.edu ([123.63.2.2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215f8e41e52sm10965545ad.3.2024.12.05.03.48.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2024 03:49:00 -0800 (PST)
+From: Siddharth Menon <simeddon@gmail.com>
+To: simeddon@gmail.com,
+	corbet@lwn.net,
+	jikos@kernel.org,
+	jpoimboe@kernel.org,
+	mbenes@suse.cz,
+	pmladek@suse.com,
+	shuah@kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	live-patching@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH 0/3] kselftest framework to introduce TEST_CONFIG_DEPS
+Date: Thu,  5 Dec 2024 17:17:54 +0530
+Message-Id: <20241205114757.5916-1-simeddon@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Co-existence of GPT and fixed partitions (Was: Re: [PATCH v6 5/6]
- block: add support for partition table defined in OF)
-To: Christian Marangi <ansuelsmth@gmail.com>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Ulf Hansson <ulf.hansson@linaro.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Golle <daniel@makrotopia.org>,
- INAGAKI Hiroshi <musashino.open@gmail.com>,
- Christian Brauner <brauner@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- Ming Lei <ming.lei@redhat.com>, Li Lingfeng <lilingfeng3@huawei.com>,
- Christian Heusel <christian@heusel.eu>, Avri Altman <avri.altman@wdc.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Riyan Dhiman <riyandhiman14@gmail.com>,
- Mikko Rapeli <mikko.rapeli@linaro.org>,
- Jorge Ramirez-Ortiz <jorge@foundries.io>, Li Zhijian
- <lizhijian@fujitsu.com>,
- Dominique Martinet <dominique.martinet@atmark-techno.com>,
- Jens Wiklander <jens.wiklander@linaro.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
- devicetree@vger.kernel.org, Lorenzo Bianconi <lorenzo@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>, upstream@airoha.com,
- Christoph Hellwig <hch@infradead.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Christoph Hellwig <hch@lst.de>
-References: <20241002221306.4403-1-ansuelsmth@gmail.com>
- <20241002221306.4403-6-ansuelsmth@gmail.com>
-Content-Language: en-US
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <20241002221306.4403-6-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Currently, kselftests does not have a generalised mechanism to skip compilation
+and run tests when required kernel configuration options are disabled.
 
-sorry for not writing sooner. I only noticed this now.
+This patch series addresses this limitation by introducing a new flag, 
+'TEST_CONFIG_DEPS' in lib.mk, along with corresponding updates to the 
+documentation. 
+The selftests/livepatch/Makefile has been updated to utilize TEST_CONFIG_DEPS.
 
-On 03.10.24 00:11, Christian Marangi wrote:
-> Add support for partition table defined in Device Tree. Similar to how
-> it's done with MTD, add support for defining a fixed partition table in
-> device tree.
-> 
-> A common scenario for this is fixed block (eMMC) embedded devices that
-> have no MBR or GPT partition table to save storage space. Bootloader
-> access the block device with absolute address of data.
+Siddharth Menon (3):
+  docs/kselftests: Explain the usage of TEST_CONFIG_DEPS
+  selftests/lib.mk: Introduce check to validate required configs
+  selftests/livepatch: Check if required config options are enabled
 
-How common are these? I never worked with a system that didn't use MBR
-or GPT for the user partition.
-
-> This is to complete the functionality with an equivalent implementation
-> with providing partition table with bootargs, for case where the booargs
-> can't be modified and tweaking the Device Tree is the only solution to
-> have an usabe partition table.
-> 
-> The implementation follow the fixed-partitions parser used on MTD
-> devices where a "partitions" node is expected to be declared with
-> "fixed-partitions" compatible in the OF node of the disk device
-> (mmc-card for eMMC for example) and each child node declare a label
-> and a reg with offset and size. If label is not declared, the node name
-> is used as fallback. Eventually is also possible to declare the read-only
-> property to flag the partition as read-only.
-
-barebox has for many years supported defining fixed partitions on SD/MMC
-nodes and it's used heavily to define e.g. the location of the barebox
-environment. Many who do so, do this either before the first partition
-of the MBR/GPT or overlay the fixed partition to be identical to
-an existing MBR/GPT partition.
-
-barebox also by default copies all fixed partitions it is aware of
-into the kernel DT, so if the kernel now stops parsing GPT/MBR when
-a fixed partition node is defined, this would break compatibility of
-existing barebox-booting systems with new kernels.
-
-> +config OF_PARTITION
-> +	bool "Device Tree partition support" if PARTITION_ADVANCED
-> +	depends on OF
-> +	help
-> +	  Say Y here if you want to enable support for partition table
-> +	  defined in Device Tree. (mainly for eMMC)
-> +	  The format for the device tree node is just like MTD fixed-partition
-> +	  schema.
-
-Thanks for making this configurable and disabled by default, so users
-won't experience breakage if they just do a make olddefconfig.
-
-> diff --git a/block/partitions/core.c b/block/partitions/core.c
-> index abad6c83db8f..dc21734b00ec 100644
-> --- a/block/partitions/core.c
-> +++ b/block/partitions/core.c
-> @@ -43,6 +43,9 @@ static int (*const check_part[])(struct parsed_partitions *) = {
->  #ifdef CONFIG_CMDLINE_PARTITION
->  	cmdline_partition,
->  #endif
-> +#ifdef CONFIG_OF_PARTITION
-> +	of_partition,		/* cmdline have priority to OF */
-> +#endif
->  #ifdef CONFIG_EFI_PARTITION
->  	efi_partition,		/* this must come before msdos */
->  #endif
-
-If I understand correctly, it's possible to have both partitions-boot1 and
-a GPT on the user area with your patch, right?
-
-So this only leaves the matter of dealing with both fixed-partitions and
-GPT for the same device node.
-
-What are the thoughts on this? An easy way out would be to make of_partition
-come later than efi_partition/mbr_partition, but I think it would be
-nice if the kernel could consume partition info out of both of_partition
-and efi_partition as long they don't collide.
-
-Thanks,
-Ahmad
-
-
+ Documentation/dev-tools/kselftest.rst      |  3 +++
+ tools/testing/selftests/lib.mk             | 18 ++++++++++++++++--
+ tools/testing/selftests/livepatch/Makefile |  1 +
+ 3 files changed, 20 insertions(+), 2 deletions(-)
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.39.5
+
