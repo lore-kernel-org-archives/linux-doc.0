@@ -1,242 +1,247 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3061D5CEA;
-	Thu,  5 Dec 2024 08:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733388357; cv=fail; b=GkTy5xRqa8ecCDv3hH6dzYZVzQlpDf118LbzO2nygIyIMGR/fCmN4YtZpoMbYrFlXuflhKX0UC3IIVD4sjfsSYrcf+3lv6R5DtQxRZPZoLIoh9zctaVW2dH1DMMgJeBSkZz90veKQkMTZF3hG81IeDV8SaVwRyy7AK2aiKy1VyA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733388357; c=relaxed/simple;
-	bh=ExfnwmQ+gAxdlolqN6319Lwm4zfvJGh8cYqoW3+lk4w=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=i9/Sr9kGe8Yvn1dp+6zjtQTgQpCkG5Uq6anNEu7dtSuFQvWzSoE3ed7cQs7hpq2bk8GbH+CWwWe6HgGUNFNoKh7CyTRBprP7g8JVfdFnZ5vsP8KdyOCY/++//tt2ZaDqPlyBVwvXysQXG/E0ItD7dPbsqw9xymHb4NFsH9vwqAg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NU6rOLy2; arc=fail smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NU6rOLy2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733388356; x=1764924356;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ExfnwmQ+gAxdlolqN6319Lwm4zfvJGh8cYqoW3+lk4w=;
-  b=NU6rOLy2uQX+S5UtgsHhMKRlPldH/EzgOGeSfMRh1AOFS7bcYgNncRQB
-   yz9VuvTYrAQcPVZLfOQfQmoewX7gDc+oNKSPM7S2U3u1P/Ei7yZdaCdJ0
-   6jmxlCBH4xTmZeJYj+WtKrLClHhODehER+AZT1xCNZIiwi8QIGYBH+LI5
-   7KeM0FEdlckHqUY51hX+xHU8Q76VS29RETShY/RRTKoDG1UHeCGWmWrT3
-   PFXCTa5t8pM0bAueXqMiEAE9XP+bhZG+F36lFOaTUzpBu5+tRtPzZ6PIz
-   6W2NAQHcstnZhA9yj7d3LvT/MzkX9N7ekCqGB/D2zO6f/SmA10cSCAWPH
-   w==;
-X-CSE-ConnectionGUID: KEHrqiUQQIKjVI24VDnGug==
-X-CSE-MsgGUID: pWCZtEvkQjuDmJxQD2ualQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="37623248"
-X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="37623248"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 00:45:55 -0800
-X-CSE-ConnectionGUID: ea65SP4NQpSIIDVBuTl9sg==
-X-CSE-MsgGUID: 1qrnkK73SnWgOFRVwbUh1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="94864143"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Dec 2024 00:45:55 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 5 Dec 2024 00:45:55 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 5 Dec 2024 00:45:55 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.175)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 5 Dec 2024 00:45:54 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dCIgx2ibDNWm3VN2FiCTTTKMs8tpsaCycJ2sToJ1eh5GimGqoafGIGbpupHXR2T07K8RzzD4drPbX3Sw8LfEw6VsCl6mE0e9DLKaxmq8ZZWk+9Y8XYvLYICzeE8OSnBQsaWri5t7sQHIQJ1C9YhPjvsOV3xJA/92L8ZadVkJXiVJAvA6tzi6UQWtKTGMvVcs2G7U4Z2yf4LDvwuNLCGzQNyQ5NaEbDLMp5qRxVk3p4i4gZBNWvb6ybUmpQzHorgRQDvIPF84Ug4AUMAXwGK4hCaml5QFafHCNFjwCLIxQkr0hIibhXBxp6UX2Fia7b8/oagYji8JLC+FMo7Sj7KOsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4yzl1Db+NDdSBqjGB/bcRqcB63jU0G2EK48BInzdWUc=;
- b=R47/vwhDE8BReaFlRmrfPaLdhZJjUmyA95X4NtuNWkSqG5awt6O7QU0/T8xebtB27d3934BpbGlWU6zXAEoi/xs7O1KvX9DjOyENcW9yvfBLJdnoUjXb9y60GGc7QpHTcpPJoI6szbMc+5J9wEvdVdwhCau8afcIyTXkHmyWRy6jJ1JNHc2h2mqgzSUU1tAKSQDjdwOc0IgmY3MjooN9EGipVMi1zUs1JJ//sx8IXfAzJ0GWOpM3AMrKUo0qSnYkKdtDj48jmSqyfBBmfmMvqaLWg3PLCuX89SSxGq4lUSkMeB3T62zewDOVz07HjI119kNR0fl1DcUhcDZWkSciag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL1PR11MB5399.namprd11.prod.outlook.com (2603:10b6:208:318::12)
- by SA1PR11MB8544.namprd11.prod.outlook.com (2603:10b6:806:3a3::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.19; Thu, 5 Dec
- 2024 08:45:52 +0000
-Received: from BL1PR11MB5399.namprd11.prod.outlook.com
- ([fe80::b8f1:4502:e77d:e2dc]) by BL1PR11MB5399.namprd11.prod.outlook.com
- ([fe80::b8f1:4502:e77d:e2dc%5]) with mapi id 15.20.8230.010; Thu, 5 Dec 2024
- 08:45:52 +0000
-Message-ID: <d5591ca1-7413-4575-90e4-a22ac81cd2b8@intel.com>
-Date: Thu, 5 Dec 2024 09:45:46 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v1 5/7] ethtool: add helper to prevent invalid
- statistics exposure to userspace
-To: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, "Jonathan
- Corbet" <corbet@lwn.net>
-CC: <kernel@pengutronix.de>, <linux-kernel@vger.kernel.org>,
-	<netdev@vger.kernel.org>, Simon Horman <horms@kernel.org>, Russell King
-	<linux@armlinux.org.uk>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	<linux-doc@vger.kernel.org>
-References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
- <20241203075622.2452169-6-o.rempel@pengutronix.de>
-Content-Language: pl
-From: Mateusz Polchlopek <mateusz.polchlopek@intel.com>
-Organization: Intel
-In-Reply-To: <20241203075622.2452169-6-o.rempel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA2P291CA0002.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1e::22) To BL1PR11MB5399.namprd11.prod.outlook.com
- (2603:10b6:208:318::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5AB16F27E;
+	Thu,  5 Dec 2024 08:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733388870; cv=none; b=Tp2HpPuqU/8/OJ/lzjMvnkSwn6Dk+bgRCN5xDbdNTrIu8yRoiTj1udZyXAUif90BmPw1HbXx32KUxwwxFbd8SXkQRLvKKTtNFNelSworQ0kjYb61WJ8Yk4UIDQq9/ZP5JW6vJz2Gm00W/MQnfixOwGkMI03pwvDxn9jW4VA+B6s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733388870; c=relaxed/simple;
+	bh=g0gydrHl/2oqhtVxsWa7SZilONyoK1LSyfq8FZ/A+/0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hpCy5o3WuMg0r11Awj5NtIPVQuYSgP/P2dnMqBsXsdZgZS/sX3nHgXNZ06WfxMKBo8eNzh+LbPjjuUy8wLMF4Oc+fLXry+Cowm7EDFFrXFn9/OwAPkboC1oBgD4x93AFv4AmR8OoELy3nKhR+T7rIx8KEF3qKdrk6q16yi+JCQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4Y3nhd2ylsz9v7Vj;
+	Thu,  5 Dec 2024 16:33:05 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id 00C2714051A;
+	Thu,  5 Dec 2024 16:54:09 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP1 (Coremail) with SMTP id LxC2BwBH9CQdalFnenXcAg--.56302S2;
+	Thu, 05 Dec 2024 09:54:08 +0100 (CET)
+Message-ID: <3a759c091ac097be84b882dd992e6e216ec11723.camel@huaweicloud.com>
+Subject: Re: [PATCH v6 00/15] integrity: Introduce the Integrity Digest Cache
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Eric Snowberg <eric.snowberg@oracle.com>
+Cc: Mimi Zohar <zohar@linux.ibm.com>, Dmitry Kasatkin
+ <dmitry.kasatkin@gmail.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+ "mcgrof@kernel.org" <mcgrof@kernel.org>, "petr.pavlu@suse.com"
+ <petr.pavlu@suse.com>,  "samitolvanen@google.com"
+ <samitolvanen@google.com>, "da.gomez@samsung.com" <da.gomez@samsung.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, "paul@paul-moore.com"
+ <paul@paul-moore.com>, "jmorris@namei.org" <jmorris@namei.org>,
+ "serge@hallyn.com" <serge@hallyn.com>, "shuah@kernel.org"
+ <shuah@kernel.org>, "mcoquelin.stm32@gmail.com"
+ <mcoquelin.stm32@gmail.com>,  "alexandre.torgue@foss.st.com"
+ <alexandre.torgue@foss.st.com>, "linux-integrity@vger.kernel.org"
+ <linux-integrity@vger.kernel.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-api@vger.kernel.org"
+ <linux-api@vger.kernel.org>, "linux-modules@vger.kernel.org"
+ <linux-modules@vger.kernel.org>, "linux-security-module@vger.kernel.org"
+ <linux-security-module@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+ <linux-kselftest@vger.kernel.org>, "wufan@linux.microsoft.com"
+ <wufan@linux.microsoft.com>, "pbrobinson@gmail.com" <pbrobinson@gmail.com>,
+  "zbyszek@in.waw.pl" <zbyszek@in.waw.pl>, "hch@lst.de" <hch@lst.de>,
+ "mjg59@srcf.ucam.org" <mjg59@srcf.ucam.org>, "pmatilai@redhat.com"
+ <pmatilai@redhat.com>,  "jannh@google.com" <jannh@google.com>,
+ "dhowells@redhat.com" <dhowells@redhat.com>,  "jikos@kernel.org"
+ <jikos@kernel.org>, "mkoutny@suse.com" <mkoutny@suse.com>,
+ "ppavlu@suse.com" <ppavlu@suse.com>, "petr.vorel@gmail.com"
+ <petr.vorel@gmail.com>,  "mzerqung@0pointer.de" <mzerqung@0pointer.de>,
+ "kgold@linux.ibm.com" <kgold@linux.ibm.com>, Roberto Sassu
+ <roberto.sassu@huawei.com>
+Date: Thu, 05 Dec 2024 09:53:45 +0100
+In-Reply-To: <B0DC94E7-78A3-4797-B864-31DE0A2C903C@oracle.com>
+References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
+	 <C4BE31F8-1FA3-4AD1-A712-ED2AA7E61E96@oracle.com>
+	 <17ef4f662e594c8431a00fe423507af4f6a82286.camel@huaweicloud.com>
+	 <B135AC90-7CE5-4E51-90B1-9D82031668A8@oracle.com>
+	 <00f3eb72042aedaa4644ff0932d06d4e8d215f6b.camel@huaweicloud.com>
+	 <B0DC94E7-78A3-4797-B864-31DE0A2C903C@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR11MB5399:EE_|SA1PR11MB8544:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6a785999-d9e4-4610-b747-08dd150939a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RWN4SVFuT2UyWVkzZ3lHYWlmVU1iOFQ1NkUxN1ZZcHRDOGpEN1Y2TDdkZ29Q?=
- =?utf-8?B?SEFjY00zclZMcWVmQWZXU3BmaTBBODVuK25ySkFDVndwYnh6SmVyZVpkcFFx?=
- =?utf-8?B?Wi82RVBvZEpLYjB6eVlSTytTc2VsNDh2dFJBSlcyMUxaS0M4dkhqN0tkdUlQ?=
- =?utf-8?B?K0N5RThoT0MySHNocmxaa0RJOWwya09wUS9Yc1kyMjdqK3hHb2lSVHNXVjIz?=
- =?utf-8?B?T0pNdVJKOWU3OGRXNHF0R0dQdFJSeFNsU1ljaE5OMVpLTEFHeWdqek92QWEr?=
- =?utf-8?B?TTJsclg4ZGN5dFRVdVFxWmR2Um9JQ0tJTzRJejBkU0RLK3I1SEFNQXdRaEh0?=
- =?utf-8?B?K3l4ejI3dldTTWJBVzVNaHlKQUQ3SHVHeW9YTEhsbVVGc0IycDhtbjI4N29K?=
- =?utf-8?B?ZXpISFhnbm12VjhrdDVNZ3p2UzFMdzhKdXRWQzhHTE9IdDQxY3dLNXR0a05y?=
- =?utf-8?B?aUpNUnNPeVpTM3g1RXVIeDJDWGZBYndYT0Z2QnJYY1Y2TDlCYVFkTU9vbHVC?=
- =?utf-8?B?cGJFWmFZQWJuSWxSYUpTQmN0QUVPNzI4MitjaGh6LzFDaUZub2FPZFQwbUpi?=
- =?utf-8?B?L0VsZDFDWjg1RERQdFowcklBWmVvaWVZUUp3TFFTdlBWOVZibkNCUmJaS3Bk?=
- =?utf-8?B?VTVBMm1xcVp5anRadjloLzhSdkRkNlJpVjZJVXg3Qmg3Y1NsQkJKYytlVnVo?=
- =?utf-8?B?LzBoclErRmNxZU5KR1JPaVhkbTVoeEhhbUxmWEtiT2pBNXNXNFRBaDdsTUNI?=
- =?utf-8?B?K0srQmRud0pXNVNzVXJubE4yUVJ6ZE1uODBFZTRKeG94S0JNZFM5SXJ3dy9j?=
- =?utf-8?B?ZHdYZUpoamNmNVlUYWZVYVRmNHBRTzdIcXhxdVJSaS9xcGtuNnc2SlVVMXZZ?=
- =?utf-8?B?bHBITGxzY2NjZUlJVHpoMHdiRU5XTHhlamlpOHpNR2VzTDM5N3NJUGNCakRC?=
- =?utf-8?B?bnR1ZDlEa0lacHVoZlJaUTlSVm1NRGgrV1FJeEpJb1I3clpDZ09RZ1Z5Tk9Z?=
- =?utf-8?B?YzZIUWxEdkdqdThVcWdWaURVaEpBcWRNTGdYMkpiQWFNWnQ0NVhjbHN4SVBL?=
- =?utf-8?B?Z3gyclM0RlVvWEJGdTVlTmFDcnR6MWxtV1RNRnVtNkJvUGUweDErQkdET1RM?=
- =?utf-8?B?OG11TlViNkFuSzR3UnZlc1F2ZWw4V1FJQTJJalZTR1lNTE5YZGlkWW9YamRM?=
- =?utf-8?B?OVVTeFM2d1Bha2IwcTZ0M0lDclJmRzZmVTZPQzkvUmd6N2hMMWhLdll4cTVm?=
- =?utf-8?B?N08wSDJjeDRhVU54ZjVzd0h3ZG9BajVjUjB6bjh6Mjd6SG0zUWw2YlBnTTd6?=
- =?utf-8?B?NGYrSWM3eXFjamczTWVJNS84WkltUUo4SHgzbWlOMUltUlorUEdtd2Jwdlly?=
- =?utf-8?B?UDZJWDdLMEE2YkhYZXVyb0NvY2RVN2ZmdHJ3VFhVK29LMjA3bDZUOHdSaWwz?=
- =?utf-8?B?M0NDOGlOblNmSWtlYnQ2OHo0dUhXdmZydWlKU0NLeStQMWxSaHhwd1pwRVBa?=
- =?utf-8?B?NnRYUTZUWFVFNmVhUmZBcGphSmhlVlduWWtOUS9UeDkyakgxZktNUmdaTnNZ?=
- =?utf-8?B?b1graHEyaGhLeEdyTnc4dkxubW1oN1VheXRxSzRCOExjOEtkaERldWhoSkhs?=
- =?utf-8?B?TU82NWtjNXU3SERnR2RPOWFGZHZzL1dhSHFrUy9nZVZ1KzNwS3FCbmQxZW1n?=
- =?utf-8?B?dDFtVEgyOHYzNURQVzNSK2Z3am90MnJjOUtFS3U4bThlTk9QNXBKUnlnVmkv?=
- =?utf-8?B?SmVqWEkxdUtVR28zamdmYjdNNDNDbTRicU5lYVcwMTB4Yk01Qzh2MGF3ZUtO?=
- =?utf-8?B?Q2o4M2p3Z0lvYWNHQ1JPZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR11MB5399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZEIvMjhIQXRCNUJVMktNRTJjUlFXaUhQS3gzUWl3VWsvVWpqZDc4LzlkNGlv?=
- =?utf-8?B?L1VHdmIyRUJueVJ1UkZiM3J0ODZVTDZkQzNXaStKNm93aUdvTVVEdTBwV05k?=
- =?utf-8?B?VHZCYXJlbmZMTFo0bDhaaVhrL1FaM1kyRFpkWjVqRUpMakRWbnBiZWMrTGRa?=
- =?utf-8?B?blM2UTdNYU1PMDdqdTlMclNDak1aYms4NHJlYlJ0Q0JoRkVJN3ZTVlRQdm5x?=
- =?utf-8?B?SE9FRlFReWhIQ0hodDg5MDFhQnNJdEZYMzYxRTVITjhjaFhvc1ozSzQxdm5B?=
- =?utf-8?B?OWFwazVIY0k3bXZXekY0MytaZEw0VVVpU0dOUHZCWWVLZWxqVmRyVkFCN0Jh?=
- =?utf-8?B?RVpYV3ZWWkhEMHhwTzlkQStDbWdFb2QzZ0FqdTFFNlhEcjF3SWhid0hxUk9u?=
- =?utf-8?B?MG8wVmdnZ3V2eHJhZXRLbEpUVUNnTmdoUDFKQXJHWTNRQU5WcGZtNVUrS0RT?=
- =?utf-8?B?azAxRlRuU2l2MnNIQURHSWw5QWhNdGV3dzF1MTVvQUoyaHpMOURpV0M4cExa?=
- =?utf-8?B?d3VqUnU2QXUwVlRwclVsdDJaMHMxMG90NldKNDJ3ZWxIMGVhTHhvcW5JbUFJ?=
- =?utf-8?B?OFlWVGxxWEljL21RaHF1eWhlYTYvQ3BVYTNPN1d3R21zT3YwaDVzYnpYeEcz?=
- =?utf-8?B?NmlmNHJZN0wwMjVOUTFYc0FPZ3pMbDMydWxFWmRqdE5tV3BzN3g5VFp1YllH?=
- =?utf-8?B?bEtUSHlVVGxFWml1eFNFSWQvMFVKTFRndmxQZ214SkpJbnFMK2x1N2FFMGYv?=
- =?utf-8?B?bWg1aUNlbEx2a2RuU1ZoUXhadUNvOTRLakxlZ2poREI2cXNBdldlSUhpTXNN?=
- =?utf-8?B?ZmRmaTFteklROW5wYWJ5N2grNVpzcHh2NDVHUmxGTzdBVU4wTjlEeWJhZGxY?=
- =?utf-8?B?RGhnTldlOU5Dd3JSVFdTSk0zRGd2bjdKTllRa1c2YmtXcUZNMVFQUnZQZ1Rm?=
- =?utf-8?B?YzRrWHZCSmUyL3RVQnJDa2ZzZmpPNWtnczJnZHRhU2JMbmVFVC8vQk5sUkxQ?=
- =?utf-8?B?Q29GMS85eTFHcWxBN3d0L3Y2Y1YxSjVuZTg3QmhiZmpsL3NBYUpsK3RyQ0tu?=
- =?utf-8?B?VFcrV2o5WHpZTUtEQm9RQkVCcEhRTjlMNlRJOVlLcWZHbG9vdWZyOTFRVDNQ?=
- =?utf-8?B?YXBZSGVjekQ4eUEwV0Z2N2ZrUEsrS1dlWlJzYnlEQWY3MkdWRm4xN1ZlUEpj?=
- =?utf-8?B?bFp4aE4xaFRjazJNa2FGKzJqOWgySGNlbkNLdXJjS3JMRlM0VkhEWmJ6d0NB?=
- =?utf-8?B?MTZXdUxJOTFwOFg0emI1MlY5S3FlMFNhOWlOTFgwU1crUlVRbGUxa2Y2NCs3?=
- =?utf-8?B?T25wT3BCdTVjSmJOTmpNaVVzMEhFSDNWcEJnK2V5WTJNbks3UnRUeWN0TGhw?=
- =?utf-8?B?UTZKTVFzM2VKTVRhOWFVYldQcGhsRzlwbWxYeEl6LytLUHJZRW15UEo5OVVk?=
- =?utf-8?B?SHFybkNDcUFwemR6em5Fb1pFQXVyTHYxYkxya3huaXkrODN3VEY2OW5COWRm?=
- =?utf-8?B?aUprSHVaSjliS1pMZmh5QzJZS1lkQyswdjlJT1RaUHd3V24zRGZXOUc4N0RI?=
- =?utf-8?B?Yzd2UDNwOEJBYUJHNnEzWnhSSGwrV3dFckFBc1dLQlRWS3hqNHdmR210akVY?=
- =?utf-8?B?NDBPYU5VZVFGNDJZdjFrQVFZRm0xNDU4RUJsdFRmdmszZXNGdEJFUmdBUWFF?=
- =?utf-8?B?c01Pb0NWZDQvZ2lnb254d0pLZS9YS2RXZmIyei9DK1dOQTJvQmhPc1J4dTVa?=
- =?utf-8?B?T00wTlRwbVNBeUJSbEpLU3d6WW0xRTl1MVhyVitXNDhFOW5aVlFaT1REclhB?=
- =?utf-8?B?dVdTcW1DQ29zSnNxZ3V0QVNLcjlyc2VseHBLWGNPeHQ0dHozMXpYbk1rM0FS?=
- =?utf-8?B?cy83b2ZYUGZEWmdYMVNqWTNqYVZnc1lBZWxyMDRrdnhhclZCbk9LNlJzMUhz?=
- =?utf-8?B?RGNYc1hJVUR6WnV4YVRUcmlkZW9TNmdjMllTQjl0dXFvNWt6Qk45VXU1V1Fo?=
- =?utf-8?B?L29YbFBRcTdwVlIwak9CVXJWTkhXbGQ1dkNCS0Y4T3JIL1o2TkMwcW5FUTJz?=
- =?utf-8?B?azVGbi9oZTB5cW5KTzc2VUFDMXRRY3pwek0rbUkyL0F3QkVYRzNuU3RVU2NO?=
- =?utf-8?B?aVc5VUFjMkVWNnZML3BWZW40WUhkdTd0ekJQUjJzVWRDcXZOeElGaUcza3Fa?=
- =?utf-8?B?cGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a785999-d9e4-4610-b747-08dd150939a7
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5399.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2024 08:45:52.4590
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0PEb6vxX4U0HBMpy64BNyVZBM2YOPoA10w0C9lR6eBTxe0JJJ4kn5XUT9cZp8ezmyDGZRACbtlPEfp5zOeOBzXYyblVaDNEfWtHGoZo4B+k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8544
-X-OriginatorOrg: intel.com
+X-CM-TRANSID:LxC2BwBH9CQdalFnenXcAg--.56302S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3WrW8tF1DCFykKFWfAF47Jwb_yoW7tw1kpa
+	y5Ka13Kr4kWr10k3Z2ka1UWF1Fk3yftr15Xwn8Xry5CrZ0gr929F1xKa15uFyDGr1kGr12
+	vr1ag347CrWDAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Wrv_ZF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4U
+	JwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	EksDUUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAIBGdRD-QHxQAAsB
 
+On Thu, 2024-12-05 at 00:57 +0000, Eric Snowberg wrote:
+>=20
+> > On Dec 4, 2024, at 3:44=E2=80=AFAM, Roberto Sassu <roberto.sassu@huawei=
+cloud.com> wrote:
+> >=20
+> > On Tue, 2024-12-03 at 20:06 +0000, Eric Snowberg wrote:
+> > >=20
+> > > > On Nov 26, 2024, at 3:41=E2=80=AFAM, Roberto Sassu <roberto.sassu@h=
+uaweicloud.com> wrote:
+> > > >=20
+> > > > On Tue, 2024-11-26 at 00:13 +0000, Eric Snowberg wrote:
+> > > > >=20
+> > > > > > On Nov 19, 2024, at 3:49=E2=80=AFAM, Roberto Sassu <roberto.sas=
+su@huaweicloud.com> wrote:
+> > > > > >=20
+> > > > > > From: Roberto Sassu <roberto.sassu@huawei.com>
+> > > > > >=20
+> > > > > > The Integrity Digest Cache can also help IMA for appraisal. IMA=
+ can simply
+> > > > > > lookup the calculated digest of an accessed file in the list of=
+ digests
+> > > > > > extracted from package headers, after verifying the header sign=
+ature. It is
+> > > > > > sufficient to verify only one signature for all files in the pa=
+ckage, as
+> > > > > > opposed to verifying a signature for each file.
+> > > > >=20
+> > > > > Is there a way to maintain integrity over time?  Today if a CVE i=
+s discovered=20
+> > > > > in a signed program, the program hash can be added to the blackli=
+st keyring.=20
+> > > > > Later if IMA appraisal is used, the signature validation will fai=
+l just for that=20
+> > > > > program.  With the Integrity Digest Cache, is there a way to do t=
+his? =20
+> > > >=20
+> > > > As far as I can see, the ima_check_blacklist() call is before
+> > > > ima_appraise_measurement(). If it fails, appraisal with the Integri=
+ty
+> > > > Digest Cache will not be done.
+> > >=20
+> > >=20
+> > > It is good the program hash would be checked beforehand and fail if i=
+t is=20
+> > > contained on the list.=20
+> > >=20
+> > > The .ima keyring may contain many keys.  If one of the keys was later=
+=20
+> > > revoked and added to the .blacklist, wouldn't this be missed?  It wou=
+ld=20
+> > > be caught during signature validation when the file is later appraise=
+d, but=20
+> > > now this step isn't taking place.  Correct?
+> >=20
+> > For files included in the digest lists, yes, there won't be detection
+> > of later revocation of a key. However, it will still work at package
+> > level/digest list level, since they are still appraised with a
+> > signature.
+> >=20
+> > We can add a mechanism (if it does not already exist) to invalidate the
+> > integrity status based on key revocation, which can be propagated to
+> > files verified with the affected digest lists.
+> >=20
+> > > With IMA appraisal, it is easy to maintain authenticity but challengi=
+ng to=20
+> > > maintain integrity over time. In user-space there are constantly new =
+CVEs. =20
+> > > To maintain integrity over time, either keys need to be rotated in th=
+e .ima=20
+> > > keyring or program hashes need to be frequently added to the .blackli=
+st.  =20
+> > > If neither is done, for an end-user on a distro, IMA-appraisal basica=
+lly=20
+> > > guarantees authenticity.
+> > >=20
+> > > While I understand the intent of the series is to increase performanc=
+e,=20
+> > > have you considered using this to give the end-user the ability to ma=
+intain=20
+> > > integrity of their system?  What I mean is, instead of trying to impo=
+rt anything=20
+> > > from an RPM, just have the end-user provide this information in some =
+format=20
+> > > to the Digest Cache.  User-space tools could be built to collect and =
+format=20
+> >=20
+> > This is already possible, digest-cache-tools
+> > (https://github.com/linux-integrity/digest-cache-tools) already allow
+> > to create a digest list with the file a user wants.
+> >=20
+> > But in this case, the user is vouching for having taken the correct
+> > measure of the file at the time it was added to the digest list. This
+> > would be instead automatically guaranteed by RPMs or other packages
+> > shipped with Linux distributions.
+> >=20
+> > To mitigate the concerns of CVEs, we can probably implement a rollback
+> > prevention mechanism, which would not allow to load a previous version
+> > of a digest list.
+>=20
+> IMHO, pursuing this with the end-user being in control of what is contain=
+ed=20
+> within the Digest Cache vs what is contained in a distro would provide mo=
+re
+> value. Allowing the end-user to easily update their Digest Cache in some =
+way=20
+> without having to do any type of revocation for both old and vulnerable=
+=20
+> applications with CVEs would be very beneficial.
 
+Yes, deleting the digest list would invalidate any integrity result
+done with that digest list.
 
-On 12/3/2024 8:56 AM, Oleksij Rempel wrote:
-> Introduce a new helper function, `ethtool_stat_add`, to update 64-bit
-> statistics with proper handling of the reserved value
-> `ETHTOOL_STAT_NOT_SET`. This ensures that statistics remain valid and
-> are always reported to userspace, even if the driver accidentally sets
-> `ETHTOOL_STAT_NOT_SET` during an update.
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
->   include/linux/ethtool.h | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
-> 
-> diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-> index b0ed740ca749..657bd69ddaf7 100644
-> --- a/include/linux/ethtool.h
-> +++ b/include/linux/ethtool.h
-> @@ -371,6 +371,22 @@ static inline void ethtool_stats_init(u64 *stats, unsigned int n)
->   		stats[n] = ETHTOOL_STAT_NOT_SET;
->   }
->   
-> +/**
-> + * ethtool_stat_add - Add a value to a u64 statistic with wraparound handling
-> + * @stat: Pointer to the statistic to update
-> + * @value: Value to add to the statistic
-> + *
-> + * Adds the specified value to a u64 statistic. If the result of the addition
-> + * equals the reserved value (`ETHTOOL_STAT_NOT_SET`), it increments the result
-> + * by 1 to avoid the reserved value.
-> + */
-> +static inline void ethtool_stat_add(u64 *stat, u64 value)
-> +{
-> +	*stat += value;
-> +	if (*stat == ETHTOOL_STAT_NOT_SET)
-> +		(*stat)++;
-> +}
-> +
->   /* Basic IEEE 802.3 MAC statistics (30.3.1.1.*), not otherwise exposed
->    * via a more targeted API.
->    */
+I developed also an rpm plugin that synchronizes the digest lists with
+installed software. Old vulnerable software cannot be verified anymore
+with the Integrity Digest Cache, since the rpm plugin deletes the old
+software digest lists.
 
-The code of function looks good
+https://github.com/linux-integrity/digest-cache-tools/blob/main/rpm-plugin/=
+digest_cache.c
 
-Reviewed-by: Mateusz Polchlopek <mateusz.polchlopek@intel.com>
+The good thing is that the Integrity Digest Cache can be easily
+controlled with filesystem operations (it works similarly to security
+blobs attached to kernel objects, like inodes and file descriptors).
+
+As soon as something changes (e.g. digest list written, link to the
+digest lists), this triggers a reset in the Integrity Digest Cache, so
+digest lists and files need to be verified again. Deleting the digest
+list causes the in-kernel digest cache to be wiped away too (when the
+reference count reaches zero).
+
+> Is there a belief the Digest Cache would be used without signed kernel=
+=20
+> modules?  Is the performance gain worth changing how kernel modules=20
+> get loaded at boot?  Couldn't this part just be dropped for easier accept=
+ance? =20
+> Integrity is already maintained with the current model of appended signat=
+ures.=20
+
+I don't like making exceptions in the design, and I recently realized
+that it should not be task of the users of the Integrity Digest Cache
+to limit themselves.
+
+But the main problem was not the kernel modules themselves, but the
+infrastructure needed in user space to load them, which might not be
+available at the time a digest list parser needs to be loaded.
+
+I hope ksys_finit_module() does not cause too much resistance (however
+I need to document it better, as others noted). It is just a different
+way to pass the same parameters of the finit_module() system call.
+
+Thanks
+
+Roberto
+
