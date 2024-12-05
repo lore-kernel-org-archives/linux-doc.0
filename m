@@ -1,506 +1,216 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A048D214A68
-	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 13:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEF2218AB7;
+	Thu,  5 Dec 2024 13:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733404809; cv=none; b=QYT4vg+JTgfClu/pePITmMQSsh3npnNmWGvvi/nWB2jCSr9Ftvq6PGbZD5ppccJ7tbqriq0XI1ama125TMl1OZ8O8psuW/ukETBQM1wQa2tbA+cWUNpZsWxnIC4s+AogHLm3rZ0HNlwEIvgxOVqNXRHZMQBED0ey+ymQ9mZslJY=
+	t=1733404889; cv=none; b=eQS1tqzxuscEiX3As2+ZkpkMSDKbNHQv+YW7bpeFjvEwJprd5eejmFawTaLB1UWWd+LHUqcZwufmsKCeitBZb2tOxGtyJC//PKmQV0Zi5ByFATlZULupLWH5/p/7kWMczGnzNRo54S9kTr6kVmUqizR4dlrB3ICYNWYG0djqR7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733404809; c=relaxed/simple;
-	bh=/k0mKZFyQkafyDdzLQDOpDd1aRXoQv1cWCKJCPOTzrY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dL9PXecosBZSiuh08TAKvlCa9tZMzUS4IpL+Tav33tQN+9xH9CKC+ZAbG/KpKAcPLcp2LeV7KXqArJK3RdhMot9eN5Chrul779lKNlcxEW0I+DmTeAfEViIZ9QcfJbF/3BS+1bERovPlQQd0G6B/j8ySxOe9Tqpw3s3YQjDBUho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=g+k7Ps9A; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1733404889; c=relaxed/simple;
+	bh=2q12rYsYxN3uODfne9dmVrHKJlJA6AoyLI1zA2GZEkE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kvscvCoC1M8en2SOCTk7ZotQZCxICaqdGSGkyxI0MuFgOLnSh8hKdbP77yCWRXjM/O4TyghDGJ/AjLm/PIXZ9QPPXslom0mIS1SgpLv60aSA+U7Af/3zKcLxiawI2gEKoYW/UA7YTp3d4d2Vre4+4jYHD3UUNWMP/Sk+nl8NZdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+lzaElU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g+k7Ps9A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733404805;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/k0mKZFyQkafyDdzLQDOpDd1aRXoQv1cWCKJCPOTzrY=;
-	b=g+k7Ps9AY0K2R7Tz1W/KlmmEjku04hEBCz1EtTslf2HSbZU0mGoTvIdp/WF7rxSMGBrfgK
-	IdSFzJqOuxO47289XWKF2YLrvHPaoO/OgLc/82NZL4k24JbNZWptb2cYlNFKcFpWt2wpeK
-	sV5FQkBAhH3jqiKn0RUPb0fSrk6Mffs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-688-caqdngH-NdGFgBA5TV-MXQ-1; Thu, 05 Dec 2024 08:20:04 -0500
-X-MC-Unique: caqdngH-NdGFgBA5TV-MXQ-1
-X-Mimecast-MFC-AGG-ID: caqdngH-NdGFgBA5TV-MXQ
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-385fdff9db5so486563f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 05:20:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733404803; x=1734009603;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/k0mKZFyQkafyDdzLQDOpDd1aRXoQv1cWCKJCPOTzrY=;
-        b=mRDCVpC3PHcdIlpKydSdrPtUHk+katjWzB8i9UVI98ssHzlfOELN2/HDt0W9MnfjMO
-         I6zv0z5wiawciwISX36QauAcHa1mZr1qPGydbv+P6XZMHFNyX8HaHIdinvYYGKpsMQgb
-         +fpc6ksEPZBlN4gyf7I7UKLQ6h+FDV+DZ2JHs1p7Du0isAY9bt2YVR8mZgMhRkfgpIO9
-         IFwLiK1nrlwx4O+qpsFBEoI2Dwzqq3YDcoAL9Fc2e7dr4c/tBnwofju0pIkPG7flaaY1
-         /ex+sU0JP+IzEpgdQRtKvJDUqwM0qA71S7ERWqFEps/NjurBETQFXjLrRVSt5p9L4uJ8
-         5d5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWhTZeKLB0fC/daiD5pdXSzA4NaabSIOe6jpGH6RWWc0/8XHA2BP1awqV9GHxuX05/YofdUqNUd3xs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvKFsmcaMadPnHDzVRXSHo4/6HbA+Lba6pKOc+DC0kKyXR8pNl
-	D6x/XlIHX1P9l/cGI41si372WYZ3LMq3Lw+MDDXYyNl2G0ASU4uqMs3kD2m7/Hg51kvVOQqafQK
-	uazS8xT006ilvhWkynIJwuXiY0TEM2bcMzQPQEjKApfTk1p1IaHUx1oZpMA==
-X-Gm-Gg: ASbGncudIX1YMccEoPWCXUQ7JJdFamzBJDrYEdnye2XmSiFncl3NBnD5ggbFgy7TMvY
-	6h61FIrzlpkLR6+AN+WLurb5u8uZZ5mGD32EM+LV/KCs8fMn7Di9HOCDwH0LFAUTJLAznKlnRTE
-	bjw7G8KP+O64ZT+BxrxYC9NMlQ7W1Ehk6c6a3pi87hoeqAW3gqb2EzipiFYGel8w/6IqW5+Qp7L
-	7Ko0njg5uTLdKGJg6QRNqkohapC7uSRQjaSKaharjdZBFRBh2W1ni8ApZETKB3EAVf820ZjA0C/
-X-Received: by 2002:a5d:5f45:0:b0:385:e4a7:def9 with SMTP id ffacd0b85a97d-385fd532811mr7422639f8f.50.1733404803031;
-        Thu, 05 Dec 2024 05:20:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF0CT3E3LkPV1i3xbZmlzZzkEz3V9GibpUsI+FVebjTNBfnSjh6cTTbh0pbR0ZpvyxIWsJbYg==
-X-Received: by 2002:a5d:5f45:0:b0:385:e4a7:def9 with SMTP id ffacd0b85a97d-385fd532811mr7422602f8f.50.1733404802456;
-        Thu, 05 Dec 2024 05:20:02 -0800 (PST)
-Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861f59cd35sm1919323f8f.31.2024.12.05.05.20.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 05:20:01 -0800 (PST)
-Message-ID: <5fefbb14c7597404e0c06050d2beca9662699439.camel@redhat.com>
-Subject: Re: [PATCH] drm/sched: Extend and update documentation
-From: Philipp Stanner <pstanner@redhat.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
- Corbet <corbet@lwn.net>, Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost
- <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>
-Date: Thu, 05 Dec 2024 14:20:00 +0100
-In-Reply-To: <CAH5fLghFVxYUz0PRKq3_xsvaYpaaCGXBg9AOUnkYfiUpo70dTg@mail.gmail.com>
-References: <20241115103548.90605-2-pstanner@redhat.com>
-	 <CAH5fLghFVxYUz0PRKq3_xsvaYpaaCGXBg9AOUnkYfiUpo70dTg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+lzaElU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0AF6C4CED1;
+	Thu,  5 Dec 2024 13:21:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733404888;
+	bh=2q12rYsYxN3uODfne9dmVrHKJlJA6AoyLI1zA2GZEkE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=H+lzaElUPeXTGs5clo7MHNG0oVFBUYSvjua24SJLnGUQIxn98VOP+KifLfvBckk7/
+	 HqEBzTAmh4UkoeYd/HNnSDnip/CjZq/ud1qDu15X+cOlpJeCrUpmQLDyQP/JQXjI7p
+	 I2/47tTmR9RB+sQTdaPsdszTbuE88BSV/C++pq1sJnJj1ytM9Ho5If3MoSJHoWPU7f
+	 VOdM4yHSILu3LMqEVoXYQ9plIRBeGVAG6Yhj0AnKYdCL3GiP4um58gT6bbEeBVtVhz
+	 9xugwCcKPKMDE5rKpz7n0zhT9asfbcu2wleeYE8E/DUshDmqrdI0ewX+OpBWjsEJ+6
+	 iomgsmDby1UAg==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v4 00/18] Provide a new two step DMA mapping API
+Date: Thu,  5 Dec 2024 15:20:59 +0200
+Message-ID: <cover.1733398913.git.leon@kernel.org>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2024-11-21 at 17:05 +0100, Alice Ryhl wrote:
-> On Fri, Nov 15, 2024 at 11:36=E2=80=AFAM Philipp Stanner
-> <pstanner@redhat.com> wrote:
-> >=20
-> > The various objects defined and used by the GPU scheduler are
-> > currently
-> > not fully documented. Furthermore, there is no documentation yet
-> > informing drivers about how they should handle timeouts.
-> >=20
-> > Add documentation describing the scheduler's objects and timeout
-> > procedure. Consistently, update
-> > drm_sched_backend_ops.timedout_job()'s
-> > documentation.
-> >=20
-> > Co-developed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > ---
-> > I shamelessly stole- ahm, borrowed this documentation patch that
-> > Christian had submitted a year ago:
-> >=20
-> > https://lore.kernel.org/dri-devel/20231116141547.206695-1-christian.koe=
-nig@amd.com/
-> >=20
-> > I took feedback from last year into account where applicable, but
-> > it's
-> > probably a good idea if you all take a close look again.
-> >=20
-> > P.
-> > ---
-> > =C2=A0Documentation/gpu/drm-mm.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 36 +++++
-> > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 200
-> > ++++++++++++++++++++++---
-> > =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 +-
-> > =C2=A03 files changed, 225 insertions(+), 27 deletions(-)
-> >=20
-> > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-
-> > mm.rst
-> > index d55751cad67c..95ee95fd987a 100644
-> > --- a/Documentation/gpu/drm-mm.rst
-> > +++ b/Documentation/gpu/drm-mm.rst
-> > @@ -556,12 +556,48 @@ Overview
-> > =C2=A0.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> > =C2=A0=C2=A0=C2=A0 :doc: Overview
-> >=20
-> > +Job Object
-> > +----------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> > +=C2=A0=C2=A0 :doc: Job Object
-> > +
-> > +Entity Object
-> > +-------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> > +=C2=A0=C2=A0 :doc: Entity Object
-> > +
-> > +Hardware Fence Object
-> > +---------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> > +=C2=A0=C2=A0 :doc: Hardware Fence Object
-> > +
-> > +Scheduler Fence Object
-> > +----------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> > +=C2=A0=C2=A0 :doc: Scheduler Fence Object
-> > +
-> > +Scheduler and Run Queue Objects
-> > +-------------------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> > +=C2=A0=C2=A0 :doc: Scheduler and Run Queue Objects
-> > +
-> > =C2=A0Flow Control
-> > =C2=A0------------
-> >=20
-> > =C2=A0.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> > =C2=A0=C2=A0=C2=A0 :doc: Flow Control
-> >=20
-> > +Error and Timeout handling
-> > +--------------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-> > +=C2=A0=C2=A0 :doc: Error and Timeout handling
-> > +
-> > =C2=A0Scheduler Function References
-> > =C2=A0-----------------------------
-> >=20
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > b/drivers/gpu/drm/scheduler/sched_main.c
-> > index e97c6c60bc96..76eb46281985 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -24,28 +24,155 @@
-> > =C2=A0/**
-> > =C2=A0 * DOC: Overview
-> > =C2=A0 *
-> > - * The GPU scheduler provides entities which allow userspace to
-> > push jobs
-> > - * into software queues which are then scheduled on a hardware run
-> > queue.
-> > - * The software queues have a priority among them. The scheduler
-> > selects the entities
-> > - * from the run queue using a FIFO. The scheduler provides
-> > dependency handling
-> > - * features among jobs. The driver is supposed to provide callback
-> > functions for
-> > - * backend operations to the scheduler like submitting a job to
-> > hardware run queue,
-> > - * returning the dependencies of a job etc.
-> > + * The GPU scheduler is shared infrastructure intended to help
-> > drivers managing
-> > + * command submission to their hardware.
-> > =C2=A0 *
-> > - * The organisation of the scheduler is the following:
-> > + * To do so, it offers a set of scheduling facilities that
-> > interact with the
-> > + * driver through callbacks which the latter can register.
-> > =C2=A0 *
-> > - * 1. Each hw run queue has one scheduler
-> > - * 2. Each scheduler has multiple run queues with different
-> > priorities
-> > - *=C2=A0=C2=A0=C2=A0 (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
-> > - * 3. Each scheduler run queue has a queue of entities to schedule
-> > - * 4. Entities themselves maintain a queue of jobs that will be
-> > scheduled on
-> > - *=C2=A0=C2=A0=C2=A0 the hardware.
-> > + * In particular, the scheduler takes care of:
-> > + *=C2=A0=C2=A0 - Ordering command submissions
-> > + *=C2=A0=C2=A0 - Signalling DMA fences, e.g., for finished commands
-> > + *=C2=A0=C2=A0 - Taking dependencies between command submissions into
-> > account
-> > + *=C2=A0=C2=A0 - Handling timeouts for command submissions
->=20
-> For the signalling case, you say "e.g.". Does that mean it also
-> signals DMA fences in other cases?
+Changelog:
+v4:
+ * Added extra patch to add kernel-doc for iommu_unmap and iommu_unmap_fast
+ * Rebased to v6.13-rc1
+ * Added Will's tags
+v3: https://lore.kernel.org/all/cover.1731244445.git.leon@kernel.org
+ * Added DMA_ATTR_SKIP_CPU_SYNC to p2p pages in HMM.
+ * Fixed error unwind if dma_iova_sync fails in HMM.
+ * Clear all PFN flags which were set in map to make code.
+   more clean, the callers anyway cleaned them.
+ * Generalize sticky PFN flags logic in HMM.
+ * Removed not-needed #ifdef-#endif section.
+v2: https://lore.kernel.org/all/cover.1730892663.git.leon@kernel.org
+ * Fixed docs file as Randy suggested
+ * Fixed releases of memory in HMM path. It was allocated with kv..
+   variants but released with kfree instead of kvfree.
+ * Slightly changed commit message in VFIO patch.
+v1: https://lore.kernel.org/all/cover.1730298502.git.leon@kernel.org
+ * Squashed two VFIO patches into one
+ * Added Acked-by/Reviewed-by tags
+ * Fix docs spelling errors
+ * Simplified dma_iova_sync() API
+ * Added extra check in dma_iova_destroy() if mapped size to make code
+ * more clear
+ * Fixed checkpatch warnings in p2p patch
+ * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
+   be more general
+ * Reduced the number of changes in VFIO patch
+v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
 
-Good question =E2=80=93 it does signal another fence when a job is being
-scheduled, but that's not really relevant for the scheduler user IMO.
-On the other hand, the docu further down does refer to that fence.
+----------------------------------------------------------------------------
+The code can be downloaded from:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git tag:dma-split-dec-05
 
-I think we could mention them both here.
+----------------------------------------------------------------------------
+LWN coverage article:
+ * Dancing the DMA two-step https://lwn.net/Articles/997563/
 
->=20
-> > - * The jobs in a entity are always scheduled in the order that
-> > they were pushed.
-> > + * All callbacks the driver needs to implement are restricted by
-> > DMA-fence
-> > + * signaling rules to guarantee deadlock free forward progress.
-> > This especially
-> > + * means that for normal operation no memory can be allocated in a
-> > callback.
-> > + * All memory which is needed for pushing the job to the hardware
-> > must be
-> > + * allocated before arming a job. It also means that no locks can
-> > be taken
-> > + * under which memory might be allocated as well.
-> > =C2=A0 *
-> > - * Note that once a job was taken from the entities queue and
-> > pushed to the
-> > - * hardware, i.e. the pending queue, the entity must not be
-> > referenced anymore
-> > - * through the jobs entity pointer.
-> > + * Memory which is optional to allocate, for example for device
-> > core dumping or
-> > + * debugging, *must* be allocated with GFP_NOWAIT and appropriate
-> > error
-> > + * handling if that allocation fails. GFP_ATOMIC should only be
-> > used if
-> > + * absolutely necessary since dipping into the special atomic
-> > reserves is
-> > + * usually not justified for a GPU driver.
-> > + *
-> > + * Note especially the following about the scheduler's historic
-> > background that
-> > + * lead to sort of a double role it plays today:
-> > + *
-> > + * In classic setups N entities share one scheduler, and the
-> > scheduler decides
-> > + * which job to pick from which entity and move it to the hardware
-> > ring next
-> > + * (that is: "scheduling").
-> > + *
-> > + * Many (especially newer) GPUs, however, can have an almost
-> > arbitrary number
-> > + * of hardware rings and it's a firmware scheduler which actually
-> > decides which
-> > + * job will run next. In such setups, the GPU scheduler is still
-> > used (e.g., in
-> > + * Nouveau) but does not "schedule" jobs in the classical sense
-> > anymore. It
-> > + * merely serves to queue and dequeue jobs and resolve
-> > dependencies. In such a
-> > + * scenario, it is recommended to have one scheduler per entity.
-> > + */
-> > +
-> > +/**
-> > + * DOC: Job Object
-> > + *
-> > + * The base job object (drm_sched_job) contains submission
-> > dependencies in the
-> > + * form of DMA-fence objects. Drivers can also implement an
-> > optional
-> > + * prepare_job callback which returns additional dependencies as
-> > DMA-fence
-> > + * objects. It's important to note that this callback can't
-> > allocate memory or
-> > + * grab locks under which memory is allocated.
-> > + *
-> > + * Drivers should use this as base class for an object which
-> > contains the
-> > + * necessary state to push the command submission to the hardware.
-> > + *
-> > + * The lifetime of the job object needs to last at least from
-> > submitting it to
-> > + * the scheduler (through drm_sched_job_arm()) until the scheduler
-> > has invoked
-> > + * drm_sched_backend_ops.free_job() and, thereby, has indicated
-> > that it does
-> > + * not need the job anymore. Drivers can of course keep their job
-> > object alive
-> > + * for longer than that, but that's outside of the scope of the
-> > scheduler
-> > + * component.
-> > + *
-> > + * Job initialization is split into two stages:
-> > + *=C2=A0=C2=A0 1. drm_sched_job_init() which serves for basic preparat=
-ion of
-> > a job.
-> > + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Drivers don't have to be mindful of t=
-his function's
-> > consequences and
-> > + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 its effects can be reverted through
-> > drm_sched_job_cleanup().
-> > + *=C2=A0=C2=A0 2. drm_sched_job_arm() which irrevokably arms a job for
-> > execution. This
-> > + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 activates the job's fence, i.e., it r=
-egisters the
-> > callbacks. Thus,
-> > + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inevitably, the callbacks will access=
- the job and its
-> > memory at some
-> > + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 point in the future. This means that =
-once
-> > drm_sched_job_arm() has been
-> > + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 called, the job structure has to be v=
-alid until the
-> > scheduler invoked
-> > + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_backend_ops.free_job().
->=20
-> This is written as-if there could be multiple callbacks in a single
-> job. Is that the case?
->=20
+----------------------------------------------------------------------------
+Currently the only efficient way to map a complex memory description through
+the DMA API is by using the scatterlist APIs. The SG APIs are unique in that
+they efficiently combine the two fundamental operations of sizing and allocating
+a large IOVA window from the IOMMU and processing all the per-address
+swiotlb/flushing/p2p/map details.
 
-No, arm() just arms the software fence that will fire after the
-scheduler is done with the job and calls free_job().
+This uniqueness has been a long standing pain point as the scatterlist API
+is mandatory, but expensive to use. It prevents any kind of optimization or
+feature improvement (such as avoiding struct page for P2P) due to the
+impossibility of improving the scatterlist.
 
-Will adjust.
+Several approaches have been explored to expand the DMA API with additional
+scatterlist-like structures (BIO, rlist), instead split up the DMA API
+to allow callers to bring their own data structure.
 
->=20
->=20
->=20
-> Also typo: "invoked" -> "invokes".
+The API is split up into parts:
+ - Allocate IOVA space:
+    To do any pre-allocation required. This is done based on the caller
+    supplying some details about how much IOMMU address space it would need
+    in worst case.
+ - Map and unmap relevant structures to pre-allocated IOVA space:
+    Perform the actual mapping into the pre-allocated IOVA. This is very
+    similar to dma_map_page().
 
-Past tense actually was done on purpose, but I think present tense is
-better indeed, because the validity ends once the function starts
-executing.
+In this and the next series [1], examples of three different users are converted
+to the new API to show the benefits and its versatility. Each user has a unique
+flow:
+ 1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
+    dynamically map/unmap large numbers of single pages. This becomes
+    significantly faster in the IOMMU case as the map/unmap is now just
+    a page table walk, the IOVA allocation is pre-computed once. Significant
+    amounts of memory are saved as there is no longer a need to store the
+    dma_addr_t of each page.
+ 2. VFIO PCI live migration code is building a very large "page list"
+    for the device. Instead of allocating a scatter list entry per allocated
+    page it can just allocate an array of 'struct page *', saving a large
+    amount of memory.
+ 3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+    list without having to allocate then populate an intermediate SG table.
 
->=20
-> > + * It's important to note that after arming a job drivers must
-> > follow the
-> > + * DMA-fence rules and can't easily allocate memory or takes locks
-> > under which
-> > + * memory is allocated.
->=20
-> comma? "job, drivers"
-> typo: "or takes" -> "or take"
+To make the use of the new API easier, HMM and block subsystems are extended
+to hide the optimization details from the caller. Among these optimizations:
+ * Memory reduction as in most real use cases there is no need to store mapped
+   DMA addresses and unmap them.
+ * Reducing the function call overhead by removing the need to call function
+   pointers and use direct calls instead.
 
-ACK
+This step is first along a path to provide alternatives to scatterlist and
+solve some of the abuses and design mistakes, for instance in DMABUF's P2P
+support.
 
->=20
-> > +
-> > +/**
-> > + * DOC: Entity Object
-> > + *
-> > + * The entity object (drm_sched_entity) which is a container for
-> > jobs which
-> > + * should execute sequentially. Drivers should create an entity
-> > for each
-> > + * individual context they maintain for command submissions which
-> > can run in
-> > + * parallel.
->=20
-> This is a bit awkward, how about: "The entity object is a container
-> for jobs that should execute sequentially."
+Thanks
 
-ACK
+[1] This still points to v0, as the change is just around handling dma_iova_sync()
+and extra attribute flag provided to map/unmap:
+https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org
 
->=20
-> > + * The lifetime of the entity *should not* exceed the lifetime of
-> > the
-> > + * userspace process it was created for and drivers should call
-> > the
-> > + * drm_sched_entity_flush() function from their
-> > file_operations.flush()
-> > + * callback. It is possible that an entity object is not alive
-> > anymore
-> > + * while jobs previously fetched from it are still running on the
-> > hardware.
->=20
-> To be clear ... this is about not letting processes run code after
-> dying, and not because something you're using gets freed after
-> flush(), correct?
+Thanks
 
-Not sure if I can fully follow, but this section is not really about
-preventing processes from anything. It's just that an entity is created
-as a job-container for a specific process, so it doesn't make sense
-that the entity lives longer than the process.
+Christoph Hellwig (6):
+  PCI/P2PDMA: Refactor the p2pdma mapping helpers
+  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+  iommu: generalize the batched sync after map interface
+  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+  dma-mapping: add a dma_need_unmap helper
+  docs: core-api: document the IOVA-based API
 
-If the driver wouldn't ensure that it would simply mean that the
-scheduler keeps pulling jobs from that entity, but since the userspace
-process is gone by then it wouldn't really matter. I'm not aware of
-this really being harmful, as long as the entity gets cleaned up at
-some point.
+Leon Romanovsky (12):
+  iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+  dma-mapping: Add check if IOVA can be used
+  dma: Provide an interface to allow allocate IOVA
+  dma-mapping: Implement link/unlink ranges API
+  mm/hmm: let users to tag specific PFN with DMA mapped bit
+  mm/hmm: provide generic DMA managing logic
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+    linkage
+  RDMA/umem: Separate implicit ODP initialization from explicit ODP
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Enable the DMA link API
 
->=20
-> > + * This is done because all results of a command submission should
-> > become
-> > + * visible externally even after a process exits. This is normal
-> > POSIX
-> > + * behavior for I/O operations.
-> > + *
-> > + * The problem with this approach is that GPU submissions contain
-> > executable
-> > + * shaders enabling processes to evade their termination by
-> > offloading work to
-> > + * the GPU. So when a process is terminated with a SIGKILL the
-> > entity object
-> > + * makes sure that jobs are freed without running them while still
-> > maintaining
-> > + * correct sequential order for signaling fences.
-> > + */
-> > +
-> > +/**
-> > + * DOC: Hardware Fence Object
-> > + *
-> > + * The hardware fence object is a DMA-fence provided by the driver
-> > as result of
-> > + * running jobs. Drivers need to make sure that the normal DMA-
-> > fence semantics
-> > + * are followed for this object. It's important to note that the
-> > memory for
-> > + * this object can *not* be allocated in
-> > drm_sched_backend_ops.run_job() since
-> > + * that would violate the requirements for the DMA-fence
-> > implementation. The
-> > + * scheduler maintains a timeout handler which triggers if this
-> > fence doesn't
-> > + * signal within a configurable amount of time.
-> > + *
-> > + * The lifetime of this object follows DMA-fence refcounting
-> > rules. The
-> > + * scheduler takes ownership of the reference returned by the
-> > driver and
-> > + * drops it when it's not needed any more.
-> > + */
-> > +
-> > +/**
-> > + * DOC: Scheduler Fence Object
-> > + *
-> > + * The scheduler fence object (drm_sched_fence) which encapsulates
-> > the whole
-> > + * time from pushing the job into the scheduler until the hardware
-> > has finished
-> > + * processing it. This is internally managed by the scheduler, but
-> > drivers can
-> > + * grab additional reference to it after arming a job. The
-> > implementation
-> > + * provides DMA-fence interfaces for signaling both scheduling of
-> > a command
-> > + * submission as well as finishing of processing.
->=20
-> typo: "an additional reference" or "additional references"
->=20
-> > + * The lifetime of this object also follows normal DMA-fence
-> > refcounting rules.
-> > + * The finished fence is the one normally exposed to the outside
-> > world, but the
-> > + * driver can grab references to both the scheduled as well as the
-> > finished
-> > + * fence when needed for pipelining optimizations.
->=20
-> When you refer to the "scheduled fence" and the "finished fence",
-> these are referring to "a fence indicating when the job was scheduled
-> / finished", rather than "a fence which was scheduled for execution
-> and has now become finished", correct? I think the wording could be a
-> bit clearer here.
+ Documentation/core-api/dma-api.rst   |  70 ++++
+ drivers/infiniband/core/umem_odp.c   | 250 +++++----------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+ drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+ drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+ drivers/iommu/dma-iommu.c            | 459 +++++++++++++++++++++++----
+ drivers/iommu/iommu.c                |  83 ++---
+ drivers/pci/p2pdma.c                 |  38 +--
+ drivers/vfio/pci/mlx5/cmd.c          | 374 +++++++++++-----------
+ drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+ drivers/vfio/pci/mlx5/main.c         |  87 +++--
+ include/linux/dma-map-ops.h          |  54 ----
+ include/linux/dma-mapping.h          |  86 +++++
+ include/linux/hmm-dma.h              |  32 ++
+ include/linux/hmm.h                  |  21 ++
+ include/linux/iommu.h                |   4 +
+ include/linux/pci-p2pdma.h           |  84 +++++
+ include/rdma/ib_umem_odp.h           |  25 +-
+ kernel/dma/direct.c                  |  44 +--
+ kernel/dma/mapping.c                 |  18 ++
+ mm/hmm.c                             | 250 ++++++++++++++-
+ 21 files changed, 1416 insertions(+), 687 deletions(-)
+ create mode 100644 include/linux/hmm-dma.h
 
-If anything it would have to be "A fence signaling once a job has been
-scheduled".
-
-I'll try to come up with a better wording
-
-Thx,
-P.
-
-
->=20
-> Alice
->=20
+-- 
+2.47.0
 
