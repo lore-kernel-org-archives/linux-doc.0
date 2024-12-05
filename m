@@ -1,211 +1,125 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0063D224B0F
-	for <linux-doc@vger.kernel.org>; Thu,  5 Dec 2024 19:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE52229B1F;
+	Thu,  5 Dec 2024 19:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733426380; cv=none; b=UoFStJTNeR19PBm7D9BkLOSm6ZJ4OXo5BS/pYgWU6Y7gMe/rUGROmYnUn3P1iwPFvnXy3ccATm0v7eO3D9Z0aM7xINPy2poQxPsMOhpjWWKOwimnux8iqvh1u/Q6KLIUIHvBaxF5upXxRhBJ9YhuUUfy51mKPztrRUY2BaV7E9I=
+	t=1733426469; cv=none; b=Ya9vuy62LV7whQk8UQTXD3drScwrZkjTBJ31z3RqXp7qlLHnkPl553feJsl0V/oalyqT7XDjh+oY86UDxmfYDyn39pcSq5fs0JxWMvSODkxrrNc3sW+IJgS54Gpn2m6qEQX3gt49pFfsoFYbqQ1sHHS1xadPSq4g4ENWmYziFCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733426380; c=relaxed/simple;
-	bh=N7Q2i/te3fJSR9GXmZAlQH1YXHaD/cG2+guiEYfirWs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=muH3t/f3zRUMTdrAUBA0Evr9ccBt7oNwjqrZbheP+86+v8/ozNccd7VaASwgDibByUOO7dIA9wmGgKKD39u+jqe+VNreuEQxdwpqbvD8TlcC+hcdGbzCzYOeH6h41paHYtqk4W+L+gBTOTmvFseCrSQq+F682qkAl/oPseTjcz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=FdVq//hM; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1733426469; c=relaxed/simple;
+	bh=X/cKBT1xamce8ZPdE27n3xgo3YoP/gZ1JBfENVQ+vCc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aXJ3oarNY8c+J8ywfhx59ndcdqQXIFTzuz+j1dQLcUFtd0BvcpwZY2q5xu3xIeNcBhv/2s9AXiqmUmH2D5IAp9e7NwSn46wqZOzUrAZAVPJvssaISjAtRLENrVTnE4VpPiIc7/r0WfHFWpPHWCVdEe8ah7rv/0nQTKIKiYh5fzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IwkJkZy3; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="FdVq//hM"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d0d4a2da4dso2069658a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 11:19:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1733426376; x=1734031176; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DuB4RBng6UYOUJZnydBy5hrATh6bqjUq7A/wd6mOafg=;
-        b=FdVq//hM5UpBn7kbH7x9osHum3getUCzrgapLYCNwgl0u52inmhgsjRe/ZO9hTuL6S
-         6bxykc0ArPlbugzu3Dj/My4ZrWJHfHodkHDoP9SUNRuc6q6jxykFQ3mBizwVDkPBvtR+
-         dYk8y02YiaUx1y4BwMSthOR98UQAhY7QnCnC0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733426376; x=1734031176;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DuB4RBng6UYOUJZnydBy5hrATh6bqjUq7A/wd6mOafg=;
-        b=eJkywOx5WbgLzdLK6zFDj13PfvQliyZVWb6+CWrA2HH0AGBK7oaPz4/u1eiN1VRQ2u
-         I6eMBlQNbWYrGqL3ZtQ+C8xVBqFGlGIJF+E2XzOrmuhdXSCKy5RkL9PLGHxVFbDih8qh
-         bbtFXauAjKXeHs1Yw/gSpA2ixwJUgNaWlv0dp3aMMMZ7Yrjt0oC822YhunbFvBef28a1
-         5RpkyWO7W0ToFT6xPxVdJu5xgBxnHiynH6WcTqobV0IbO11u3MbZcWahGq9K1890G2GZ
-         +mjlO3CdMoaq7SqjuYDI8a6O4q3AJgYv8GWz+BXWBVp9GWTihpoiMgcDRHD6HQzyDGm+
-         7RBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWHLIWeNEbp6+mfBHfSWSrUSFH8nA55JzmJXqOEZsMuXLy5k1eXtVMG6Krd1rkVWmjDPj4Enmj5IfY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxn8GDwlIxHjTKxq0yxqxbiLKLjdUHTUGW85gz8hrxbrLlQKfMB
-	t6v0hNhpnbJ9YZ8EQcXy3JAqkzvjcR1fgYv3+cLyYmzKRjDqSXHg2KAJ51ju+JLiOUlp0Gxl4eD
-	r802M2A==
-X-Gm-Gg: ASbGncuXDkytfn1Q7CiK/aFC1zrOt75UV+9MaSAmPArOBhJ1Fb5AuHchDK1mcESuFKf
-	ZBpROTRqpNis1W/FQxg1tN5AxEfChj5Aww46xfQoHZ+KpzqGa91I5MqLQx8VqEwcsRqce9xhxPC
-	UkHPGsqYUokbrQd36GvtRQ95UJGskNTDOnsroQXaUDU0EBkpycX7NVsaYOfKn2O1HmtAV7Gi+5V
-	UOCZZoX35EfFTj5zFRzgmY6R9EzjFnglgtBRVZ4HTqJyDvQ/yel4J+9lV51Mt+i77ujNF5Kw+CS
-	FNyKvKYFWkG8JbybHM79Do9e
-X-Google-Smtp-Source: AGHT+IEIVU3tqeGb0eT9qDA4GGapTJ6Q63eLP/65exLrzTjkDy1Vi7o6/OomwScUmWUNmCoFGSMm7Q==
-X-Received: by 2002:a17:907:1de1:b0:aa6:1871:2b98 with SMTP id a640c23a62f3a-aa63a270121mr807266b.60.1733426375923;
-        Thu, 05 Dec 2024 11:19:35 -0800 (PST)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6260e1346sm129896266b.176.2024.12.05.11.19.35
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Dec 2024 11:19:35 -0800 (PST)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9e8522445dso235051466b.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 11:19:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV2ZjJZRxR5jzCrkNoJld6WS3vUL8MAaDRYDazkzpgMGVOLcTut5L7cpz345JKzhz4/SECg3Re/Hh8=@vger.kernel.org
-X-Received: by 2002:a17:906:18b2:b0:aa6:23ba:d8c5 with SMTP id
- a640c23a62f3a-aa639fbda5cmr3997966b.10.1733426374829; Thu, 05 Dec 2024
- 11:19:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IwkJkZy3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733426467; x=1764962467;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=X/cKBT1xamce8ZPdE27n3xgo3YoP/gZ1JBfENVQ+vCc=;
+  b=IwkJkZy3o5/t1G6UEGbcIienUYwgaJkDDgpeUEH4JevlBGqyJ0+BBg6n
+   3AtFOjHjhcJuTJS4Fn8Wt0z+tTIC/YoXApJidPLqh4IElmKZ/x1RvQs7U
+   TUNfCoWLyNJVQPPc48bmzz9escX4JhcX+18mbysXOWO4e6daerXVnik6v
+   A1d/C9fcthGliXdmnYU83bAHJSaPGrNvPEuk4pjVjEN05l+AbEy26zR/6
+   8RrWZ3bOlaNtxryV1oggFd8yoCHZc+bnhmrJjepj8qeINluvDAUwRgcy2
+   mkY0WISTLsxZTEEXoiYXuoGxcOqJ/mg+0fBUDdjx42ScRzSG+2Z8WfAR6
+   Q==;
+X-CSE-ConnectionGUID: x5MSHbygRkiW85t1tk7Yog==
+X-CSE-MsgGUID: Fw8SVSxGS2GBXR/zYGeVbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="33088360"
+X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
+   d="scan'208";a="33088360"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 11:21:06 -0800
+X-CSE-ConnectionGUID: wrssc6j+RPCfBOqrD+2JMg==
+X-CSE-MsgGUID: +Q3wDQnnRveQCKAj+RgqPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
+   d="scan'208";a="94393982"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 11:21:05 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tJHPK-00000004BTQ-160g;
+	Thu, 05 Dec 2024 21:21:02 +0200
+Date: Thu, 5 Dec 2024 21:21:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Matthias Maennich <maennich@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masahiro Yamada <masahiroy@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] doc: module: DEFAULT_SYMBOL_NAMESPACE must be
+ defined before #includes
+Message-ID: <Z1H9Hpj-uK6-l9yA@smile.fi.intel.com>
+References: <cover.1733305665.git.ukleinek@kernel.org>
+ <3dd7ff6fa0a636de86e091286016be8c90e03631.1733305665.git.ukleinek@kernel.org>
+ <Z1Fbrbjx-mNTnV0k@smile.fi.intel.com>
+ <td6actwt6wzbutyo6ujv5wmpoieyovtbpqqcmq45twfzhwyca3@hpybcti24ndw>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1733421037.git.geert+renesas@glider.be> <46b320b91b8d86fade3c1b1c72ef94da85b45d0d.1733421037.git.geert+renesas@glider.be>
-In-Reply-To: <46b320b91b8d86fade3c1b1c72ef94da85b45d0d.1733421037.git.geert+renesas@glider.be>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 5 Dec 2024 11:19:18 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiwAz3UgPOWK3RdGXDnTRHcwVbxpuxCQt_0SoAJC-oGXQ@mail.gmail.com>
-Message-ID: <CAHk-=wiwAz3UgPOWK3RdGXDnTRHcwVbxpuxCQt_0SoAJC-oGXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] Increase minimum git commit ID abbreviation to 16 characters
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thorsten Leemhuis <linux@leemhuis.info>, Andy Whitcroft <apw@canonical.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@corigine.com>, 
-	Simon Horman <horms@kernel.org>, Conor Dooley <conor@kernel.org>, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Junio C Hamano <gitster@pobox.com>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <td6actwt6wzbutyo6ujv5wmpoieyovtbpqqcmq45twfzhwyca3@hpybcti24ndw>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, 5 Dec 2024 at 10:16, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
->
-> Hence according to the Birthday Paradox, collisions of 12-chararacter
-> git commit IDs are imminent, or already happening.
+On Thu, Dec 05, 2024 at 12:21:26PM +0100, Uwe Kleine-König wrote:
+> Hello Andy,
+> 
+> On Thu, Dec 05, 2024 at 09:52:13AM +0200, Andy Shevchenko wrote:
+> > On Wed, Dec 04, 2024 at 11:01:11AM +0100, Uwe Kleine-König wrote:
+> > > The definition of EXPORT_SYMBOL et al depends on
+> > > DEFAULT_SYMBOL_NAMESPACE. So DEFAULT_SYMBOL_NAMESPACE must already be
+> > > available when <linux/export.h> is parsed.
+> > 
+> > > -within the corresponding compilation unit before any EXPORT_SYMBOL macro is
+> > > -used.
+> > > +within the corresponding compilation unit before the #include for
+> > > +<linux/export.h>.
+> > 
+> > And how do I know where it is included in the current state of affairs with the
+> > dependency hell in the kernel?
+> > 
+> > I suggest to reword it to something like "before any global inclusions", the
+> > best probably is to repeat the piece from pr_fmt() / dev_fmt() documentation
+> > (if any).
+> 
+> Well, "before <linux/export.h>" is the accurate thing you have to
+> ensure. "before any global inclusion" is the safe and easy thing to do
+> to achieve that. Maybe:
+> 
+> 	...
+> 	within the corresponding compilation unit before the #include for
+> 	<linux/export.h>. Typically it's placed before the first
+> 	#include.
 
-Note that ambiguous commit IDs are not even remotely as scary as this implies.
+The below is excerpt for pr_fmt():
 
-Yes, the current kernel tree has over ten million objects, and when
-you look at stable trees etc, you can easily see more.
+---8>----
+Besides being more concise than the equivalent printk() calls, they can use a
+common definition for the format string through the pr_fmt() macro. For
+instance, defining this at the top of a source file (before any ``#include``
+directive)::
 
-But commits are only a fraction (about 1/8th) of the total objects. My
-tree is at about 1.3M commits, so we're basically an order of
-magnitude off the point where collisions start being an issue wrt
-commit IDs.
+  #define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
 
-Can you find collisions by looking at all objects? Yes. Git will do
-that for you, and tell you their types. But to take one recent
-example, let's do the 6.12 commit:
-adc218676eef25575469234709c2d87185ca223a. To get an ambiguous ID, you
-have to go down to 6 characters, and even then git will tell you
-there's only one object that is a commit, ie
+---8>----
 
-   $ git show adc218
+> ?
 
-results in
 
-  error: short object ID adc218 is ambiguous
-  hint: The candidates are:
-  hint:   adc218676eef commit 2024-11-17 - Linux 6.12
-  hint:   adc2184009c5 blob
+-- 
+With Best Regards,
+Andy Shevchenko
 
-so right now you have a collision in six digits for that commit, but
-even then it's actually still entirely unambiguous once you know
-you're talking about a commit.
 
-Are there worse cases? Yup. With just 7 characters, you get commits
-like 95b861a that actually have three ambiguous commit IDs. And you
-still get ambiguous results with 9 characters.
-
-With 10 characters, there are no collisions. So the "we're an order of
-magnitude off" seems about right - you get slightly more than one
-order of magnitude for each two digits.
-
-And remember: we're an order of magnitude off *AFTER 20 YEARS OF GIT HISTORY*.
-
-Furthermore, the "in the future" argument is bogus. Yes, there will be
-more commits in the future, but it's not going to suddenly make old
-SHA ID's somehow more ambiguous, since you can also take history into
-account - and when quoting the short format it should always be
-accompanied by the first line of the commit message too.
-
-Why do I care? Because long git commit IDs are actually detrimental to
-legibility. I try to make commit messages legible, and that very much
-is the *point* of the short format. It's for people, not machinery.
-
-Yes, the basic git machinery doesn't do object type disambiguation
-(and if you do "git show", you can give it blob IDs etc, so git itself
-may not know about the proper type to use disambiguate at all). And
-git also doesn't know about the whole "we also put the first line of
-the commit message" thing.
-
-But honestly, I'm claiming that something like
-
-    Fixes: 48bcda684823 ("tracing: Remove definition of trace_*_rcuidle()")
-
-(to pick a random recent commit) is completely unambiguous for the
-intended audience, and will remain so forever within the context that
-it is in.
-
-And I think the "intended audience" here is important. 12 characters
-is already line noise, and causes occasional odd line wrapping (you
-don't see that in things like the "Fixes:" tags, but you do see it in
-the better commit messages that refer to the commits they fix).
-
-I think we should accept that it's not the full SHA1, and also accept
-what that really means.
-
-Final note: personally, I find that the SHA1 - shortened or not - is
-often *less* descriptive than the shortlog, for the simple reason that
-rebasing happens, and people refer to other commits with stale commit
-IDs. That's an issue that I personally hit regularly, and it has a
-fairly simple solution in the form of
-
-    git log --grep="..one-liner goes here.."
-
-and my point here is that if you rely too much on the SHA1, your
-workflow is *ALREADY* broken, and it has nothing to do with the
-shortening.
-
-Put another way: if you have particular tooling that you worry about,
-I think you should look at the tooling. You can find real examples of
-much shorted commit IDs in the kernel, and real examples of the MUCH
-MORE REAL issue of wrong commit ID's right now.
-
-See for example:
-
-   0a1336c8c935 ("IB/ipath: Fix IRQ for PCI Express HCAs")
-
-which refers to commit 51f65ebc ("IB/ipath - program intconfig
-register using new HT irq hook"), which is still perfectly unique, but
-then look at
-
-   2e61c646edfa ("mlx4_core: Use mmiowb() to avoid firmware commands
-getting jumbled up")
-
-which refers to commit 66547550 ("IB/mthca: Use mmiowb() to avoid
-firmware commands getting jumbled up"). That commit doesn't exist at
-all - it's not ambiguous due to being short, it's ambiguous due to
-being *wrong* (presumably due to a rebase)(.
-
-The real commit ID? 76d7cc0345a0. Easily found using the
-human-readable shortlog,
-
-So here's the meat of the argument: you are barking up the wrong tree.
-We have real and present issues that have been going on since at least
-2007, and they have *nothing* to do with the short SHA1s.
-
-I don't want to make the short SHA1's worse, when the real and present
-problems are elsewhere.
-
-Make the tools deal with the cases we already have, and you'll find
-that the shortening is a complete non-issue.
-
-                Linus
