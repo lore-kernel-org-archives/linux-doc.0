@@ -1,135 +1,110 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f202.google.com (mail-vk1-f202.google.com [209.85.221.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571ED1C54AF;
-	Fri,  6 Dec 2024 20:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E4E1F9EC6
+	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 22:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733517822; cv=none; b=BiIcj6rRFwHu3c9eug+ECSMl7XTt2j02fH3bqxuCCid/BKNNAFAKymOV7pLRdmzDB6c47jMxwsMkuPQFJa/A08X08RF8Vsd5kZmD3vUkeX+99ryA81BfddH3LsqQpAaR1k+6MlwL96pG1rZR65MXduJ/csO5hBljp3Gj8mkXZMI=
+	t=1733525223; cv=none; b=KgTj6cuu0ssnmEzVCBigb22q153h9pCeJ6JKITTHt2x3PnSGPUF9GljIwdenSp6g4tHRWXTBVAOd9cBszrnEb+BrtjtfWNSjlBRzxuNKgWCDaFQfzZ2tiwbyZXQHg82aKr/BuD787iTNks0TxnSy4Q5iCkrhGpewouFlifY8v+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733517822; c=relaxed/simple;
-	bh=HkUtFt5yNEyOKOT57xnkxN4TB3SkK29GTeg3yPR2eEA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qipZy33vViKbPlasb2TpKxizm/Prjyu9CDMOqmSlhbPXOPaw3bkXjV9rmW1WD8nM9DhMOZqXJDu+y1zg5kLCtnfIek6lxrJMHSCfnIlfBfLcnc/2u5Oa7KVSA0wx7Pme3anA032TBro8WI/1D9cJmF4Qmf9Yor7Pn0ljOFSOcD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NC1lA9kX; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733525223; c=relaxed/simple;
+	bh=iITAE1Ks58yzjB7pv45kbC7F7m3AmF+RtaX7q902Uf8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Kd5Dtia2g7hIn+5sz1tjX3SC+Wz7l22Q0mBaxFSfYJjfv9nwk0+bURXQD4R9PBWY56weuEYpD3IryytNBxlvW6lrxMtGXoEghPr53qTx+YVr1wT41KhmwXnQCvc1wxf70tJ5ZX9wIY0ZiwdYXXQraa+yMHFOFRz3tGSERps05Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UeZWq2x8; arc=none smtp.client-ip=209.85.221.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NC1lA9kX"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6BZ57X003204;
-	Fri, 6 Dec 2024 20:43:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HkUtFt5yNEyOKOT57xnkxN4TB3SkK29GTeg3yPR2eEA=; b=NC1lA9kXljJwRNZ/
-	jyGx38NCt6kSZMSxw27ZZQfIFXopTSQNDIoHiJnfYnod7Mm+fb87sgx76mNM19za
-	LWD8J1KHKzhJ05C31MdD0xuQ2SYc47yExWP0wfjsiNa4cuTKeMV0tlYRyHt4hDm1
-	FBMz71HGYCu7v8CgEAnlv52Uc9XA3rWVch5dkeQjLxE7XTSYF+qCfdLDPgvZY/Gn
-	wZYZ6zjftxmSzfIqHZdNw5DZmFQYv6qawfnlO6tG81rOvzCZxd3Arss7rUh4qfmf
-	EfHd9juph0xL0aVcnIC3XvqnWpwONZeFXfOkq3y4v6FdKPCz2ThZ65BpsbXeOMUe
-	aq1Wkg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43brgp2qny-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Dec 2024 20:43:22 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B6KhLiq013837
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 6 Dec 2024 20:43:21 GMT
-Received: from [10.71.112.120] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Dec 2024
- 12:43:21 -0800
-Message-ID: <3e246be8-22a9-4473-8c78-39788ae95650@quicinc.com>
-Date: Fri, 6 Dec 2024 12:43:20 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UeZWq2x8"
+Received: by mail-vk1-f202.google.com with SMTP id 71dfb90a1353d-515e32f8accso562255e0c.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Dec 2024 14:47:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733525219; x=1734130019; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8xOebWP/M8X2cP/fdZF9vXfDo8byCjFk2C5X5FbCC10=;
+        b=UeZWq2x8T1e3RuJxryf1R9hW2RwLmEkMrt3ufE+U20FGxTLb8Ugy4tn9n4jVUpbpQ5
+         5PeMMpUTNjgPZx4RIqy7Hw6qiw0R2b3pctMJiogjpYF+D+o5kaysTfRx5aBoagIDo7b+
+         qVXEB7Q6xcBigTmB5vq8dtVX+seSb3ZIIr47FPPyNUu4NJr4vjyZRyCveEC4pX+VNTYz
+         DyeO/O3yVBq7QGzeMUMBf6K7UYvYhf6s8EKqSvohOWYVNFDhUcB0XHN+6BcIg4kjN2F4
+         anEWfTIlDraCHiRaJ3q20SWA9KkfjktCuHhgUeUmOt4RvYXNNomgk3CofeJOc0A5DWsK
+         iw8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733525219; x=1734130019;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8xOebWP/M8X2cP/fdZF9vXfDo8byCjFk2C5X5FbCC10=;
+        b=GRlUISXlCHgFqyW/jiq4RdA86QAYues6XRh72oHDTA4ba/clxDS3lgUwt+7dAubtkC
+         69MWELWR4pJhft4fAicP2XZK7/rLYY1A+CqLcA+Cyy8HZlnWCuIoB7EonzDEfwlvbWeX
+         ejFqo6o6PMMySd8PlV0/E/0NYRBVPdCzf5gnTVYt2ybLrwHaJfQZDadfSt3puH0NkEt/
+         EZlYDbb4wJfmczQ2h3vencca4Rq6epFoT9Mqi8NmTW+oG4tsCfJu/FpWdfSVmC1YODuJ
+         PrxIdcxeplybYsKVxLpGDXHK3TJGDSYy78FhIj2bYrt9LxFVCbQ50ts6s8TlrEL1D13J
+         AdTg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOePphcjhFZnW2TUfNVmL9FFwfb+U+dzcARn2xHYdCjxFvXI4jHZlTeZaxc0P0ioO3Vcr69T51C/4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBwfPPQ+WaieLZBL6W241cqdDNNinC9JDSxm9fqtG+tKKfHA5x
+	C9RFAc69c3Gfu6wLNCpEU1+MPpWIs/O+t/dmd+4l4zfhi7ra+XkpaNfuMnxfHpPkCtSj5o+UBgw
+	RMYTk7OMUNOSi2e5hiA==
+X-Google-Smtp-Source: AGHT+IFWYRH0ZDfG1SCEobsGl/BiWTfQRI31egCmHBP1UIFLmQh8g16wMoeT9PBzM1Kkhhw9DuLZq6uIHa5tY1W0
+X-Received: from vkbes1.prod.google.com ([2002:a05:6122:1b81:b0:50d:806e:dfd0])
+ (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6122:1da1:b0:50b:e9a5:cd7b with SMTP id 71dfb90a1353d-515fcae70a3mr5700023e0c.9.1733525219486;
+ Fri, 06 Dec 2024 14:46:59 -0800 (PST)
+Date: Fri,  6 Dec 2024 22:46:58 +0000
+In-Reply-To: <202412052133.pTg3UAQm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <srinivas.kandagatla@linaro.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
-        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
-        <tiwai@suse.com>, <robh@kernel.org>, <gregkh@linuxfoundation.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <20241106193413.1730413-29-quic_wcheng@quicinc.com>
- <1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
- <28023a83-04a5-4c62-85a9-ca41be0ba9e1@quicinc.com>
- <1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
+Mime-Version: 1.0
+References: <202412052133.pTg3UAQm-lkp@intel.com>
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241206224658.2833655-1-jthoughton@google.com>
+Subject: Re: [PATCH v1 01/13] KVM: Add KVM_MEM_USERFAULT memslot flag and bitmap
+From: James Houghton <jthoughton@google.com>
+To: lkp@intel.com
+Cc: amoorthy@google.com, corbet@lwn.net, dmatlack@google.com, 
+	jthoughton@google.com, kalyazin@amazon.com, kvm@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, maz@kernel.org, 
+	oe-kbuild-all@lists.linux.dev, oliver.upton@linux.dev, pbonzini@redhat.com, 
+	peterx@redhat.com, pgonda@google.com, seanjc@google.com, wei.w.wang@intel.com, 
+	yan.y.zhao@intel.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 4H_AQnMFekfz5gW6YWnFHVmnH-Jb32Ho
-X-Proofpoint-ORIG-GUID: 4H_AQnMFekfz5gW6YWnFHVmnH-Jb32Ho
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
- adultscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0 suspectscore=0
- priorityscore=1501 phishscore=0 impostorscore=0 mlxlogscore=870
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412060156
 
+>    arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function '__kvm_set_memory_region':
+> >> arch/x86/kvm/../../../virt/kvm/kvm_main.c:2049:41: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+>     2049 |                 new->userfault_bitmap = (unsigned long *)mem->userfault_bitmap;
+>          |                                         ^
 
-On 12/6/2024 1:09 AM, Cezary Rojewski wrote:
-> On 2024-12-04 12:15 AM, Wesley Cheng wrote:
->>
->> On 12/3/2024 8:13 AM, Cezary Rojewski wrote:
->>> On 2024-11-06 8:34 PM, Wesley Cheng wrote:
->>>> In order to allow userspace/applications know about USB offloading status,
->>>> expose a sound kcontrol that fetches information about which sound card
->>>> and PCM index the USB device is mapped to for supporting offloading.  In
->>>> the USB audio offloading framework, the ASoC BE DAI link is the entity
->>>> responsible for registering to the SOC USB layer.
->
-> ...
->
->>> R) += mixer_usb_offload.o
->>>> diff --git a/sound/usb/mixer_usb_offload.c b/sound/usb/mixer_usb_offload.c
->>>> new file mode 100644
->>>> index 000000000000..e0689a3b9b86
->>>> --- /dev/null
->>>> +++ b/sound/usb/mixer_usb_offload.c
->>>> @@ -0,0 +1,102 @@
->>>> +// SPDX-License-Identifier: GPL-2.0
->>>> +/*
->>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>>> + */
->>>> +
->>>> +#include <linux/usb.h>
->>>> +
->>>> +#include <sound/core.h>
->>>> +#include <sound/control.h>
->>>> +#include <sound/soc-usb.h>
->>>
->>> ALSA-components should not be dependent on ASoC ones. It should be done the other way around: ALSA <- ASoC.
->>>
->>
->> At least for this kcontrol, we need to know the status of the ASoC state, so that we can communicate the proper path to userspace.  If the ASoC path is not probed or ready, then this module isn't blocked.  It will just communicate that there isn't a valid offload path.
->
-> I'm not asking _why_ you need soc-usb.h header, your reasoning is probably perfectly fine. The code hierarchy is not though. If a sound module is dependent on soc-xxx.h i.e. ASoC symbols, it shall be part of sound/soc/ space.
+I realize that, not only have I done this cast slightly wrong, I'm
+missing a few checks on userfault_bitmap that I should have. Applying
+this diff, or at least something like it, to fix it:
 
-
-That would basically require a significant change in the current design.  Was that requirement documented somewhere, where ALSA components should not be dependent on ASoC?  What was the reasoning for making it one direction, but not the other?
-
-
-Thanks
-
-Wesley Cheng
-
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index b552cdef2850..30f09141df64 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -1977,6 +1977,12 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 		return -EINVAL;
+ 	if ((mem->memory_size >> PAGE_SHIFT) > KVM_MEM_MAX_NR_PAGES)
+ 		return -EINVAL;
++	if (mem->flags & KVM_MEM_USERFAULT &&
++	    ((mem->userfault_bitmap != untagged_addr(mem->userfault_bitmap)) ||
++	     !access_ok((void __user *)(unsigned long)mem->userfault_bitmap,
++			DIV_ROUND_UP(mem->memory_size >> PAGE_SHIFT, BITS_PER_LONG)
++			 * sizeof(long))))
++		return -EINVAL;
+ 
+ 	slots = __kvm_memslots(kvm, as_id);
+ 
+@@ -2053,7 +2059,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 			goto out;
+ 	}
+ 	if (mem->flags & KVM_MEM_USERFAULT)
+-		new->userfault_bitmap = (unsigned long *)mem->userfault_bitmap;
++		new->userfault_bitmap =
++		  (unsigned long __user *)(unsigned long)mem->userfault_bitmap;
+ 
+ 	r = kvm_set_memslot(kvm, old, new, change);
+ 	if (r)
