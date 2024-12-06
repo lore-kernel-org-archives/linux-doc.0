@@ -1,110 +1,117 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363761DF978;
-	Fri,  6 Dec 2024 10:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E5D1FF61F
+	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 11:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733481322; cv=none; b=pVaEbcZTaWJ2qIwLYByxK4VCs8T2lDfxcI39g7lK6aEZDuB6ftHadToxi+3RJiWr5mnBLFUnEl6NcEAR6jLnLYW0/lXzCB8nmdt0ydtQjB+VWe+lHkWw69vgGZwbpoXm9ph9fMmNGyBoFXCICZXGb/ylD4k8wrm78k0zo/l2wsc=
+	t=1733483689; cv=none; b=awMYFAJIE62GOMTE4KDCLqBX4fSqgH/hQ+T1H7wFn55QjhPoKse9PcWx81Sp6UEe7Ej8Fq7OdG78vsuOh7trL91H5YXdol33FgnYTi1OeT9SoK2/xS/yJkaRUdA6k/e5Rgx6/Bu38CftSjhHWAmH4vb5QvfEvAfQaljK9jTcx2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733481322; c=relaxed/simple;
-	bh=UxJXuWJ5ThYOM2wpxglSc61Ze5uMCy/3edaG4WVImTk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XUvJwwB9G/itToMmgy3PKHNkAkJMyqS6lmKccheDmA/LJ1QgNvmJ7UIxiGZ0LPJuLTCkZ5Sw56edPwfGK1DaZCjL1JFmYLt+AZY+t7cmK4UpVzCBifbeb/PRmoDGB6Z8hfMzNa0UpMwf6qgHLY4LZK5QmfDns2SIm0ayDqPH7bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=OvlaLO0/; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OvlaLO0/"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B66Wwmt028165;
-	Fri, 6 Dec 2024 04:34:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=3MHHGhnK5Y2zsDYRkZ
-	EK/nJzMDB2uZ4a8qkD9C1qxiU=; b=OvlaLO0/aAijFVHYpTQv3C0zr5re80k0iV
-	g7k3HaTiXMRYsdJkwrv/BybEiwXXTJ5MdI0XQb6zl9AFCNNzmUamHp6aJ1kIN8By
-	/cCC1vUwc3z8EWQOOR3wIbs+p22msKJx/w5EVQyE0VVPvdgqQ2XimRZYxe4qJpDa
-	H5AzIsjjyoUXvajR2+G9cypkjRg63JVI5VK7yw1FBkC8rFzpt/rpWDictWEzCxXW
-	SKNVRMiCtxUAx68ETcu/hKPf8iAxLcoIjoB+Ap67oY76XQN5zabrMSiOLa+E7tql
-	n6FNYejCjRQwgR0jNGqFZMRbwiV2xlcU7Ckw0twy69IkFwS6EPVg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43ap2bb2xx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Dec 2024 04:34:59 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Fri, 6 Dec
- 2024 10:34:58 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Fri, 6 Dec 2024 10:34:58 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id EA88E820248;
-	Fri,  6 Dec 2024 10:34:57 +0000 (UTC)
-Date: Fri, 6 Dec 2024 10:34:56 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: anish kumar <yesanishhere@gmail.com>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
-        <tiwai@suse.com>, <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH V4] Docs/sound: Update codec-to-codec documentation
-Message-ID: <Z1LTUDDJZyg1+OOz@opensource.cirrus.com>
-References: <20241031211411.58726-1-yesanishhere@gmail.com>
+	s=arc-20240116; t=1733483689; c=relaxed/simple;
+	bh=c4wnULx30kF6QKuqmIpq0DTjg78yxqF+ySmHnLw0LvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9QnmSQlcHi1G90gdOWTYCYVxk0GCVujzGo8qnFp6kRpwy3VkqhTbng44hRZQA3/jQlr28/mFp/RyHOO6Zp1hMSOZnjL/uxg34JzTHHIA9zcbuuWA+xY8k/BJvkPFBh5IJOOv1cN1sSMdN4KBg2pk8BSJ6eM/EGCKOXtza6pP0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tJWHf-0000hY-6x; Fri, 06 Dec 2024 12:14:07 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tJWHc-001zPI-0Q;
+	Fri, 06 Dec 2024 12:14:04 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tJWHc-000nMX-2Z;
+	Fri, 06 Dec 2024 12:14:04 +0100
+Date: Fri, 6 Dec 2024 12:14:04 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Simon Horman <horms@kernel.org>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v1 4/7] phy: introduce optional polling
+ interface for PHY statistics
+Message-ID: <Z1LcfPNmW8VgTlOM@pengutronix.de>
+References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
+ <20241203075622.2452169-5-o.rempel@pengutronix.de>
+ <87c2743c-1ee0-4c6c-b20d-e8e4a4141d43@intel.com>
+ <Z1GYEyQ6vxK67Yh1@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241031211411.58726-1-yesanishhere@gmail.com>
-X-Proofpoint-GUID: z4wo7ClzZH60Ie0gro7wEM0F7YTSxSHB
-X-Proofpoint-ORIG-GUID: z4wo7ClzZH60Ie0gro7wEM0F7YTSxSHB
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <Z1GYEyQ6vxK67Yh1@shell.armlinux.org.uk>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, Oct 31, 2024 at 02:14:11PM -0700, anish kumar wrote:
-> Updated documentation to provide more details
-> for codec-to-codec connection especially around
-> the scenarios and DAPM core details for C2C
-> creation.
+On Thu, Dec 05, 2024 at 12:09:55PM +0000, Russell King (Oracle) wrote:
+> On Thu, Dec 05, 2024 at 09:14:08AM +0100, Mateusz Polchlopek wrote:
+> > On 12/3/2024 8:56 AM, Oleksij Rempel wrote:
+> > > Add an optional polling interface for PHY statistics to simplify driver
+> > > implementation. Drivers can request the PHYlib to handle the polling task by
+> > > explicitly setting the `PHY_POLL_STATS` flag in their driver configuration.
+> > > 
+> > > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > > ---
+> > >   drivers/net/phy/phy.c | 15 +++++++++++++++
+> > >   include/linux/phy.h   |  6 ++++++
+> > >   2 files changed, 21 insertions(+)
+> > > 
+> > > diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+> > > index 0d20b534122b..b10ee9223fc9 100644
+> > > --- a/drivers/net/phy/phy.c
+> > > +++ b/drivers/net/phy/phy.c
+> > > @@ -1346,6 +1346,18 @@ static int phy_enable_interrupts(struct phy_device *phydev)
+> > >   	return phy_config_interrupt(phydev, PHY_INTERRUPT_ENABLED);
+> > >   }
+> > > +/**
+> > > + * phy_update_stats - update the PHY statistics
+> > > + * @phydev: target phy_device struct
+> > > + */
+> > 
+> > As this is newly intoduced function I would love to see the full
+> > kdoc header, with information what the function returns, like here:
+> > 
+> > https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
 > 
-> Signed-off-by: anish kumar <yesanishhere@gmail.com>
-> ---
-> +Boot-up logs will display message similar to:
-> +
-> +.. code-block:: text
-> +
-> +   ASoC: registered pcm #0 codec2codec(Playback Codec)
-> +
-> +To trigger this DAI link, a control interface is established by the
+> As it's an internal phylib function, I don't think there's any need for
+> kernel-doc unless it's something more complex. It's obvious what the
+> function itself is doing.
+> 
+> What would be more helpful is to properly document the "update_stats"
+> method, since that is what PHY drivers are going to implement. Yes, I
+> know kernel-doc isn't good at that, but look at phylink.h to see how
+> to do it.
 
-Probably better to describe this as a widget rather than a
-control interface. This widget may have a control to switch the
-params but really the key point is the widget here.
+Ok, i'll send a preparation patch to make it consequently for all
+callbacks in this struct.
 
-> +DAPM core during internal DAI creation. This interface links to
-> +the ``snd_soc_dai_link_event`` function, which is invoked when a
-> +path connects in the DAPM core. A mixer must be created to trigger
-> +the connection, prompting the DAPM core to evaluate path
-
-I am not 100% sure what we are going for here with "A mixer must
-be created", I think we are saying that the DAPM graph must route
-into the C2C link to power it up. I would be inclined to drop
-this and just mention the callbacks that get called.
-
-> +connections and call the ``snd_soc_dai_link_event`` callback with
-> +SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
-> +
-> +It is important to note that not all operations defined in
-> +``snd_soc_dai_ops`` are invoked as C2C connections offer
-> +limited control over DAI configuration. The operations typically
-> +executed in C2C setups include startup, ``hw_params``, ``hw_free``,
-> +digital mute, and shutdown from the ``snd_soc_dai_ops`` struct.
-> +
-
-But I think those are my only remaining comments.
-
-Thanks,
-Charles
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
