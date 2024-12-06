@@ -1,57 +1,57 @@
 Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BA51DDA0F
-	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 07:38:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77241DC74A
+	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 07:38:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733470717; cv=none; b=LyKt/GOgFKnrWlaOuO9oC3s10A+5EHxJBL71KdalYN4pXiT/pNHBWh5hqJqQvmuO6Vgd38gDJP4cmsZ9Z7qp0oBshyPCyzDYclVZCx6bVLREtQoQ9j8xue0s2BSWWFm0EbPwdLJt9Ay8jnsUzBbnRSDMlITrecd+izKKq3cy+VQ=
+	t=1733470719; cv=none; b=MHaGvkE1w+zdnFIQuBU6SNMXFu26C/BOYJ+qJr62ViDbtOde9LQSZE3z4AWS0tmgq93QBYhTdRD0q82hp+ocnNuwra+nObfVxttpcwFVceBDYsn2FPNFkRce+jQTYfAGAcicsdkups75yqbNDB++wt8PzWZfTtG+aBFNonQQg9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733470717; c=relaxed/simple;
-	bh=i42VA45iFtvtTu9uqrx33o++p+VgCDSxI4O/OQFn6cs=;
+	s=arc-20240116; t=1733470719; c=relaxed/simple;
+	bh=QNykjUmeytuOx0G75pMP0LzTrKz7WPi3BleJRHunwwY=;
 	h=Date:In-Reply-To:Message-Id:Mime-Version:References:Subject:From:
-	 To:Cc:Content-Type; b=CeV05F5gMjMJ1R/2S/sQKqoTNyDgY/yVcvgYgJZQbGuGIZ91YC6+l8R5GVkHvNEGF4aNp/K9005GagdYjt/ZU9iGvdtGqRDSMCZ5XBTja2lLzrUA/sJeEXBsHJvVwPVnvNTeYey/qNtg9ONzAjubuFhLlwv4iykwuf/S5wX+NFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wme0hK4D; arc=none smtp.client-ip=209.85.128.201
+	 To:Cc:Content-Type; b=oecbR7RN5820x5FPgsIreXnzUVJk3thm8WoSO3Ao4ALjTASt6lFWqzzYMyXhcdnkW78NCAlcvzVCEqaBfDimjmb5x6+sbXpnp3bPdimhWw78nmevT+qYRylv5AMyr1qOVp2EUF+hCJdv4+tLViD0BVTLo2DhAuck6n7MVkoxJKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=htF7/7Td; arc=none smtp.client-ip=209.85.128.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wme0hK4D"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6ef6e33c182so18192887b3.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 23:38:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="htF7/7Td"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6ef8e4c66ddso17307367b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 23:38:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733470715; x=1734075515; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1733470716; x=1734075516; darn=vger.kernel.org;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fbEVs7detr4gWlE1fo2icdJ/ly1cL/4ZTUPJqPQuitM=;
-        b=wme0hK4DM3ruu3kCTTsI25ViRMHOcDsX8YTnwVG6UhqxrscRSWHFvwSga7NiKY8L6w
-         Qx9Fvg8WFLI2nbRxkRRVGHvBl8GXBcHnRbce4QmjpG+fov2wALMTjP9oPlfq+SdbSvMz
-         lYwQ5bLXcKRWmHcic4Prv42uOzfOD4xPE7RE3uMhNOru1kE9GZQZe4fqISsjUmMFUfCY
-         vL2RNYBjrPPn7Ayb5EG8Uk2Oo/+FV+o6G0tUrr3vsL9W0G17xjOC3GzqWlvK/H/6dUvv
-         tTW4EXGDTZ2zXRZEZX3HCNP8c7aVe3VfH6vqxtCfApShsBTypvbr2EohDH4A0O4BL5wo
-         y9pw==
+        bh=08qPRW9xswRt2OtHroBUTIZrJ7mnuAOFiexcUCiCKeI=;
+        b=htF7/7TdmxoF7kK47yxDS3zyco6p2Ap2D3GvIJgHlwSJUXfG2ImQW0QmebYltrtN1G
+         Eir3u+XkMsmuTAs2GfQRlMNBKXrt1kbQkL3GqGr1D3F75tBLJKc5p17nwOOmkR9pSQri
+         DggKY936cwBSEvWN+psZF2w7n7TEwB5NCMVrUm/IER6RgYIhN6UqD/FbcxOVHCr2jtYz
+         44MMzPG6NsnwaIYnT059P0gODf0DY8KDU95egd9GHXq/eBWKVjWGr4IDLRX8ctG9xHCU
+         2fPKL2sY3s49CpjoTRPvPsgcf2pYgnVoVHBEWiPKFfeYbGjgLnTgKgX83Qx6DKIH1V4Y
+         zXYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733470715; x=1734075515;
+        d=1e100.net; s=20230601; t=1733470716; x=1734075516;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fbEVs7detr4gWlE1fo2icdJ/ly1cL/4ZTUPJqPQuitM=;
-        b=XquIyTrvPMSKHiTwHgYJ4QuEhdEDzmfyvdlw/W2Pq4cymxaZPP84958pqmZrEoskG7
-         oZEGXeY6MX5TlbEcou6DNlwralOCHPNou2C/li9YB+RB6O0ie5G3cVpDWyBSuti+t59Q
-         eeflp4XT/vIro7sBudW4rb9Klo8qZGvtALVSvBgAaekRwVOWU/UOfg1EAZROC4QIIUmS
-         HgLseXSLHlkvlWJEwVapM/9Ra1lJ80egeSj5PiYEJybOCkzZhQulqawWUinFTYxwUxdQ
-         MJEJhpxakUDqBrMfXqwUkbo7NewQetNoYUP9uNGEmFWbfoVOfTw6cCZCy3mrVTKACi/M
-         +EiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXOuB1iSnzGry0er6yjljC5ofmemGl3Nl53xmPWJisXcY4dSV3y+HFI0CtgbbKbIEhaPyy+N2H3lAs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzdnnJnGpMGf34IF+j6Ey5ohLMtJXvtnsYCy9GjDNptr7zAYcR
-	hRQo5spH+tP42zOsExjULdJWzqDjBiXV0bumyZ1ZX4CehvxwEl19xqlPkBNm/XseHrDQ/LPEIre
-	UK2i/8w==
-X-Google-Smtp-Source: AGHT+IEnc5lvx3tnV6q+JZ+7oy3fAvJY1NjK6AF22JKF722V6Xkpco7cg4TiIjSPK1XA9uKJwGB0NGP7c9Nv
+        bh=08qPRW9xswRt2OtHroBUTIZrJ7mnuAOFiexcUCiCKeI=;
+        b=p3iCIv9aXwxjesN4dUChJJOZe6fCGZ6BcAj6c1/+1gMJVjbCzHPiMnHAiQgSc5VMjJ
+         VJvMSDMnbfhf253TUjhkP5filQs9BzWC5VAsBUinxjR7Stizk9MtK4LtDwGKbe9i1iGe
+         aqUtHWfo/xeseueybGUnIZyVTDNt3PX4wN1ZjjfRcY7U7tMzgXnhD/X+AH/wrmx+uah5
+         inPrKmNnmDZM/Jrf6ti8I9VUr0eJh4gQOvJShAL7j44Yl9whbKbDbumjvUQE6j8WFLCq
+         8v97WxSLnC+3cGpOGQLNly6ROHNc2uTVquagzGfl6iBXQWz9rZeQFIQJsRPQ0jToTg7f
+         OFvw==
+X-Forwarded-Encrypted: i=1; AJvYcCVj1GkVIrQ0PgaDMxCpAEbMvad8Nb/fY2rhHcjB3grbNQHPpSRisX/SvidLAXsIdNgFCq1eAshITcY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVuiYkfH8hQFFkURHp6O8ycErjjEMZh7Y+NNKsCAooTIREOODj
+	Ocb73uSrK0Vx4Si396ysIvaLty/BDT550OVrG+pbP3phh4pSgoTIUrAJXCRhamWgal721H6s9HZ
+	PHFhnGw==
+X-Google-Smtp-Source: AGHT+IEDRTiD4aFoP45cgyoosz12ZeHtxiOVt8IhT1Y6gGd2sajlkNmKprLDP9GTdgZBV9Sm7Qm7+AXk6YX4
 X-Received: from irogers.svl.corp.google.com ([2620:15c:2c5:11:bff4:a354:8911:79b3])
- (user=irogers job=sendgmr) by 2002:a05:690c:3143:b0:6ea:ecc3:ec61 with SMTP
- id 00721157ae682-6efe3bceae7mr17667b3.1.1733470714665; Thu, 05 Dec 2024
- 23:38:34 -0800 (PST)
-Date: Thu,  5 Dec 2024 23:38:26 -0800
+ (user=irogers job=sendgmr) by 2002:a25:fc1c:0:b0:e33:111b:c6a4 with SMTP id
+ 3f1490d57ef6-e3a0b073bbdmr902276.1.1733470716612; Thu, 05 Dec 2024 23:38:36
+ -0800 (PST)
+Date: Thu,  5 Dec 2024 23:38:27 -0800
 In-Reply-To: <20241206073828.1119464-1-irogers@google.com>
-Message-Id: <20241206073828.1119464-2-irogers@google.com>
+Message-Id: <20241206073828.1119464-3-irogers@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241206073828.1119464-1-irogers@google.com>
 X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Subject: [PATCH v5 2/4] proc_pid_fdinfo.5: Make pid clearer in the name and
- 1st paragraph
+Subject: [PATCH v5 3/4] proc_pid_fdinfo.5: Add subsection headers for
+ different fd types
 From: Ian Rogers <irogers@google.com>
 To: Alejandro Colomar <alx@kernel.org>, "G . Branden Robinson" <g.branden.robinson@gmail.com>
 Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -71,37 +71,64 @@ Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
 	linux-man@vger.kernel.org, Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Previously the pid was highlighted through being a tagged paragraph
-but not mentioned in the description. Add italics to the path
-emphasizing pid and then change the first sentence to include pid in
-the definition.
-
-Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+Make the sections about eventfd, epoll, signalfd, inotify, fanotify,
+timerfd better separated with a clearer subsection header.
 ---
-v5. Switch .IR pid to .I pid
----
- man/man5/proc_pid_fdinfo.5 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ man/man5/proc_pid_fdinfo.5 | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-index 1c6c38423..2797ae216 100644
+index 2797ae216..c4914f1f3 100644
 --- a/man/man5/proc_pid_fdinfo.5
 +++ b/man/man5/proc_pid_fdinfo.5
-@@ -6,10 +6,11 @@
- .\"
- .TH proc_pid_fdinfo 5 (date) "Linux man-pages (unreleased)"
- .SH NAME
--/proc/pid/fdinfo/ \- information about file descriptors
-+.IR /proc/ pid /fdinfo " \- information about file descriptors"
- .SH DESCRIPTION
--This is a subdirectory containing one entry for each file which the
--process has open, named by its file descriptor.
-+This subdirectory contains one entry for each file that process
-+.I pid
-+has open, named by its file descriptor.
- The files in this directory are readable only by the owner of the process.
- The contents of each file can be read to obtain information
- about the corresponding file descriptor.
+@@ -57,6 +57,7 @@ is the ID of the mount containing this file.
+ See the description of
+ .IR /proc/ pid /mountinfo .
+ .RE
++.SS eventfd
+ .P
+ For eventfd file descriptors (see
+ .BR eventfd (2)),
+@@ -75,6 +76,7 @@ eventfd\-count:               40
+ .P
+ .I eventfd\-count
+ is the current value of the eventfd counter, in hexadecimal.
++.SS epoll
+ .P
+ For epoll file descriptors (see
+ .BR epoll (7)),
+@@ -108,6 +110,7 @@ descriptor.
+ The
+ .I data
+ field is the data value associated with this file descriptor.
++.SS signalfd
+ .P
+ For signalfd file descriptors (see
+ .BR signalfd (2)),
+@@ -133,6 +136,7 @@ and
+ .BR SIGQUIT ;
+ see
+ .BR signal (7).)
++.SS inotify
+ .P
+ For inotify file descriptors (see
+ .BR inotify (7)),
+@@ -173,6 +177,7 @@ file is exposed as a file handle, via three hexadecimal fields:
+ .IR fhandle\-type ,
+ and
+ .IR f_handle .
++.SS fanotify
+ .P
+ For fanotify file descriptors (see
+ .BR fanotify (7)),
+@@ -229,6 +234,7 @@ The mask of events that are ignored for this mark
+ .P
+ For details on these fields, see
+ .BR fanotify_mark (2).
++.SS timerfd
+ .P
+ For timerfd file descriptors (see
+ .BR timerfd (2)),
 -- 
 2.47.0.338.g60cca15819-goog
 
