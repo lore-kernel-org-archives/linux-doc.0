@@ -1,117 +1,204 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E5D1FF61F
-	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 11:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5FC46426;
+	Fri,  6 Dec 2024 11:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733483689; cv=none; b=awMYFAJIE62GOMTE4KDCLqBX4fSqgH/hQ+T1H7wFn55QjhPoKse9PcWx81Sp6UEe7Ej8Fq7OdG78vsuOh7trL91H5YXdol33FgnYTi1OeT9SoK2/xS/yJkaRUdA6k/e5Rgx6/Bu38CftSjhHWAmH4vb5QvfEvAfQaljK9jTcx2Y=
+	t=1733484100; cv=none; b=DQMuqNJKDIKf2juTQ0JK2fWZlUMLb0bH5z+zZhe3+pZbVzPQeXgKYXePADaJWxWVTW0IvKt+SevQ5V0pFLXfQ6VVc8d4p3/a+fwfe+UIl19oAW7OJnxFYt6TUWg3j04PJK9ePWMvGoLPRnpBWJLBLL8iQKxiFGYU/nE+K18JPJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733483689; c=relaxed/simple;
-	bh=c4wnULx30kF6QKuqmIpq0DTjg78yxqF+ySmHnLw0LvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C9QnmSQlcHi1G90gdOWTYCYVxk0GCVujzGo8qnFp6kRpwy3VkqhTbng44hRZQA3/jQlr28/mFp/RyHOO6Zp1hMSOZnjL/uxg34JzTHHIA9zcbuuWA+xY8k/BJvkPFBh5IJOOv1cN1sSMdN4KBg2pk8BSJ6eM/EGCKOXtza6pP0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tJWHf-0000hY-6x; Fri, 06 Dec 2024 12:14:07 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tJWHc-001zPI-0Q;
-	Fri, 06 Dec 2024 12:14:04 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tJWHc-000nMX-2Z;
-	Fri, 06 Dec 2024 12:14:04 +0100
-Date: Fri, 6 Dec 2024 12:14:04 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v1 4/7] phy: introduce optional polling
- interface for PHY statistics
-Message-ID: <Z1LcfPNmW8VgTlOM@pengutronix.de>
-References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
- <20241203075622.2452169-5-o.rempel@pengutronix.de>
- <87c2743c-1ee0-4c6c-b20d-e8e4a4141d43@intel.com>
- <Z1GYEyQ6vxK67Yh1@shell.armlinux.org.uk>
+	s=arc-20240116; t=1733484100; c=relaxed/simple;
+	bh=9govWh8sxEZ4qZQeHT2kA7yvMBsZti2fI5uD6rgjm5M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bu6LHbmOXp0LtYKS3Yy5wB0VlTDEifd1sF6/tfc75c2thTIh09cwtA6l1RgeiILcYAgYa8j7R6hWldZ//40XfWHDy+lUMOe33MerHRSrJLspw7Z0CoCyiqa+xe6ZDRXmP7eSSD8VTtumBO+FRK9DwEMsadovnyrZqq1gLrb/ECk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L3fX21VE; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L3fX21VE"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5cf6f804233so2327035a12.2;
+        Fri, 06 Dec 2024 03:21:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733484096; x=1734088896; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IyzXuvxRpwFrV1nRnI/J4fk27w/kJSEXBODmElH5NDM=;
+        b=L3fX21VENstNp3cxFmz7DEvDGexnYp677E8hVitzn/Grj7uHxPiY5PbVaf73Bhjnap
+         4faCoa/U2kNmanbFUOrwrfnqdRuYIMqddbvalHLjOuttjcalQAPS+30Kpe5azowTihvd
+         qp0W0o+yCMb0PzNtKZvfsDqHohHilLVKDQVsUut+v92hrvpzpNaHoTkIKV5jyKMm/ygu
+         ook0Nn2UZaKeR9eKBo879rTajPCt1NXRSzdT8ZSnolQGA9pyCXwSdJ05MDX88wj54opT
+         1lmv60EKV1vcSbESW7lNySow8vaHwDDEEjB1k9YQHXctSjEFXm/FVj6EmMIKgg9QU3p2
+         0QkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733484096; x=1734088896;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IyzXuvxRpwFrV1nRnI/J4fk27w/kJSEXBODmElH5NDM=;
+        b=hFciD0ZGPs488g5BDf/VxtCtMfZTEJOpVqvWzqKPs/6sQ9u8Pp/m7hXoyRYErXdJHp
+         p5zHHEhiaVoSCFCkaxyVOp3Q3pR8SxjIXcY1s4q3LGmG6kpX56bj39H+lCR2CVpy+rYX
+         qiuV5u4G/KJ26u4Sy4iA+WVX4OIeJcMx4TJx+09UIDvcxHezrSu4O6AxLDiNf2/W4uhf
+         JeJvFCUYOLl+EV2qDiTE+Jl6b46FSY9lXobXVzl+CYonib5M2r4p/JpPIjv8QyRymkgZ
+         u5vNldXq/KFZPSPH2Lg+XqWlKfwXQefSfvxD19IyJCbUdvqomyCHSHFw/FoHvof6z13g
+         GnUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPU0n2Sqqr6LBf4amtj5FRVFbmv6+gwuzg2EfyZFnpClpVKHgq77v2Hl3gCO5iAiTcaTb3vnPZ0hnL/s7S@vger.kernel.org, AJvYcCWAdISe7zilSMhcdxdVckPnc87JvXV/dhCdf4cgzx2/dkVjviesJFQLpemaJdLaW/MUxrCCM3LPG24=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8ZJ3v1YAtPByOee1g5uOvWkp69NxUF4TatYYtNc6hWV1jLbIt
+	dTmbZdTWaP73cy1I9OUeNx//tGA0CRw2WprRLvYi/YC3Us3I/8ant4eIfqY78z3natCxoFztrCg
+	7I/y9bund0xwjGCUWVgAeLMRMRpo=
+X-Gm-Gg: ASbGncvLlD9+8+/aSg9YZpWaJO2WXLjfaS3HFsmeCNgV0O/LW84ScU6GjI9NrqeLtd9
+	+Am+NyqLyPuneFy2bUoAoDvMBxaOnSxre0A==
+X-Google-Smtp-Source: AGHT+IFL429JqXIboRvzssamCzQ6I+a9lCKCvQULS8lNCRXBuWoGme3cYGF5xMWYLcAq6Fjkq7suXMdMvs/rWVbY51c=
+X-Received: by 2002:a05:6402:4497:b0:5d0:e877:764e with SMTP id
+ 4fb4d7f45d1cf-5d3be71f257mr2571986a12.24.1733484096457; Fri, 06 Dec 2024
+ 03:21:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Z1GYEyQ6vxK67Yh1@shell.armlinux.org.uk>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20241202124730.2407037-1-haowenchao22@gmail.com>
+In-Reply-To: <20241202124730.2407037-1-haowenchao22@gmail.com>
+From: Lance Yang <ioworker0@gmail.com>
+Date: Fri, 6 Dec 2024 19:21:00 +0800
+Message-ID: <CAK1f24=qks5M=Wca9wkjb06HX9BteEGSFynZozCS378S4jMf9A@mail.gmail.com>
+Subject: Re: [PATCH v3] mm: add per-order mTHP swap-in fallback/fallback_charge
+ counters
+To: Wenchao Hao <haowenchao22@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Usama Arif <usamaarif642@gmail.com>, Matthew Wilcox <willy@infradead.org>, 
+	Peter Xu <peterx@redhat.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 05, 2024 at 12:09:55PM +0000, Russell King (Oracle) wrote:
-> On Thu, Dec 05, 2024 at 09:14:08AM +0100, Mateusz Polchlopek wrote:
-> > On 12/3/2024 8:56 AM, Oleksij Rempel wrote:
-> > > Add an optional polling interface for PHY statistics to simplify driver
-> > > implementation. Drivers can request the PHYlib to handle the polling task by
-> > > explicitly setting the `PHY_POLL_STATS` flag in their driver configuration.
-> > > 
-> > > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > > ---
-> > >   drivers/net/phy/phy.c | 15 +++++++++++++++
-> > >   include/linux/phy.h   |  6 ++++++
-> > >   2 files changed, 21 insertions(+)
-> > > 
-> > > diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-> > > index 0d20b534122b..b10ee9223fc9 100644
-> > > --- a/drivers/net/phy/phy.c
-> > > +++ b/drivers/net/phy/phy.c
-> > > @@ -1346,6 +1346,18 @@ static int phy_enable_interrupts(struct phy_device *phydev)
-> > >   	return phy_config_interrupt(phydev, PHY_INTERRUPT_ENABLED);
-> > >   }
-> > > +/**
-> > > + * phy_update_stats - update the PHY statistics
-> > > + * @phydev: target phy_device struct
-> > > + */
-> > 
-> > As this is newly intoduced function I would love to see the full
-> > kdoc header, with information what the function returns, like here:
-> > 
-> > https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
-> 
-> As it's an internal phylib function, I don't think there's any need for
-> kernel-doc unless it's something more complex. It's obvious what the
-> function itself is doing.
-> 
-> What would be more helpful is to properly document the "update_stats"
-> method, since that is what PHY drivers are going to implement. Yes, I
-> know kernel-doc isn't good at that, but look at phylink.h to see how
-> to do it.
+On Mon, Dec 2, 2024 at 8:47=E2=80=AFPM Wenchao Hao <haowenchao22@gmail.com>=
+ wrote:
+>
+> Currently, large folio swap-in is supported, but we lack a method to
+> analyze their success ratio. Similar to anon_fault_fallback, we introduce
+> per-order mTHP swpin_fallback and swpin_fallback_charge counters for
+> calculating their success ratio. The new counters are located at:
+>
+> /sys/kernel/mm/transparent_hugepage/hugepages-<size>/stats/
+>         swpin_fallback
+>         swpin_fallback_charge
+>
+> Signed-off-by: Wenchao Hao <haowenchao22@gmail.com>
 
-Ok, i'll send a preparation patch to make it consequently for all
-callbacks in this struct.
+LGTM. Feel free to add:
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Reviewed-by: Lance Yang <ioworker0@gmail.com>
+
+Thanks,
+Lance
+
+> ---
+> V3:
+>  Update description about swpin_fallback and swpin_fallback_charge
+>
+> V2:
+>  Introduce swapin_fallback_charge, which increments if it fails to
+>  charge a huge page to memory despite successful allocation.
+>
+>  Documentation/admin-guide/mm/transhuge.rst | 10 ++++++++++
+>  include/linux/huge_mm.h                    |  2 ++
+>  mm/huge_memory.c                           |  6 ++++++
+>  mm/memory.c                                |  2 ++
+>  4 files changed, 20 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/a=
+dmin-guide/mm/transhuge.rst
+> index 333958ef0d5f..156a03af0a88 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -591,6 +591,16 @@ swpin
+>         is incremented every time a huge page is swapped in from a non-zs=
+wap
+>         swap device in one piece.
+>
+> +swpin_fallback
+> +       is incremented if swapin fails to allocate or charge a huge page
+> +       and instead falls back to using huge pages with lower orders or
+> +       small pages.
+> +
+> +swpin_fallback_charge
+> +       is incremented if swapin fails to charge a huge page and instead
+> +       falls back to using  huge pages with lower orders or small pages
+> +       even though the allocation was successful.
+> +
+>  swpout
+>         is incremented every time a huge page is swapped out to a non-zsw=
+ap
+>         swap device in one piece without splitting.
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index b94c2e8ee918..93e509b6c00e 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -121,6 +121,8 @@ enum mthp_stat_item {
+>         MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE,
+>         MTHP_STAT_ZSWPOUT,
+>         MTHP_STAT_SWPIN,
+> +       MTHP_STAT_SWPIN_FALLBACK,
+> +       MTHP_STAT_SWPIN_FALLBACK_CHARGE,
+>         MTHP_STAT_SWPOUT,
+>         MTHP_STAT_SWPOUT_FALLBACK,
+>         MTHP_STAT_SHMEM_ALLOC,
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index ab46ef718b44..d062b257376d 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -617,6 +617,8 @@ DEFINE_MTHP_STAT_ATTR(anon_fault_fallback, MTHP_STAT_=
+ANON_FAULT_FALLBACK);
+>  DEFINE_MTHP_STAT_ATTR(anon_fault_fallback_charge, MTHP_STAT_ANON_FAULT_F=
+ALLBACK_CHARGE);
+>  DEFINE_MTHP_STAT_ATTR(zswpout, MTHP_STAT_ZSWPOUT);
+>  DEFINE_MTHP_STAT_ATTR(swpin, MTHP_STAT_SWPIN);
+> +DEFINE_MTHP_STAT_ATTR(swpin_fallback, MTHP_STAT_SWPIN_FALLBACK);
+> +DEFINE_MTHP_STAT_ATTR(swpin_fallback_charge, MTHP_STAT_SWPIN_FALLBACK_CH=
+ARGE);
+>  DEFINE_MTHP_STAT_ATTR(swpout, MTHP_STAT_SWPOUT);
+>  DEFINE_MTHP_STAT_ATTR(swpout_fallback, MTHP_STAT_SWPOUT_FALLBACK);
+>  #ifdef CONFIG_SHMEM
+> @@ -637,6 +639,8 @@ static struct attribute *anon_stats_attrs[] =3D {
+>  #ifndef CONFIG_SHMEM
+>         &zswpout_attr.attr,
+>         &swpin_attr.attr,
+> +       &swpin_fallback_attr.attr,
+> +       &swpin_fallback_charge_attr.attr,
+>         &swpout_attr.attr,
+>         &swpout_fallback_attr.attr,
+>  #endif
+> @@ -669,6 +673,8 @@ static struct attribute *any_stats_attrs[] =3D {
+>  #ifdef CONFIG_SHMEM
+>         &zswpout_attr.attr,
+>         &swpin_attr.attr,
+> +       &swpin_fallback_attr.attr,
+> +       &swpin_fallback_charge_attr.attr,
+>         &swpout_attr.attr,
+>         &swpout_fallback_attr.attr,
+>  #endif
+> diff --git a/mm/memory.c b/mm/memory.c
+> index d5a1b0a6bf1f..a44547600c02 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4189,8 +4189,10 @@ static struct folio *alloc_swap_folio(struct vm_fa=
+ult *vmf)
+>                         if (!mem_cgroup_swapin_charge_folio(folio, vma->v=
+m_mm,
+>                                                             gfp, entry))
+>                                 return folio;
+> +                       count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK_C=
+HARGE);
+>                         folio_put(folio);
+>                 }
+> +               count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK);
+>                 order =3D next_order(&orders, order);
+>         }
+>
+> --
+> 2.45.0
+>
