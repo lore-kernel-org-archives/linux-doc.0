@@ -1,78 +1,161 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE13A10957;
-	Fri,  6 Dec 2024 01:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113AC2F855;
+	Fri,  6 Dec 2024 01:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733447951; cv=none; b=tLzX3zi8QbBRvl0PJUPuZt3707OYMa/A9fgPJUh4Pa9mMiW40jHTQr/0YIWZcRTcyWw/JHZLmFxMY8WpNL1fIY4DclAFB96DnH/gUo5Rdkehgjr7Qp0FOGUr7pI8RHR6wYvjc66+suRjlbMkHEbuBKQ12HxuTCzis/tU/CVHJXg=
+	t=1733448518; cv=none; b=XGVbo/49R57sgug8IFV+e3FusG9v0TQlrX9VrPlEe/Ukf4zmvtSWI1HEIO0TJlHRongjQtP5Q6JoZJLQ0DJzN7P6Ub7aJZzpwBDGrfGkLzCIftJBRH02dpacOchsmrZ4O78tvOt/Aj8lebo1EyQ5GWs+goTHN1Rs8oDkdTDJJGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733447951; c=relaxed/simple;
-	bh=vN2Ax7TtmFtE+uoNCQ51l+8i9KFfMSsF2dzC9yrXkwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SQgbnEbV9lrl9J0pbBX2NPdEszuzTx1BUMWHGUEgaiIjfWYopq7D76JSAcItKiv68MjqC94dOtmvn7l4zy9RE251LwdS4fFQveyEU4/8sC5zTuvOl6u6T0LrW49wv33wwHTraYlSyYPU23oJU+6FnQWiiPxXqsi/IsBsYTrBymU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ojbXKCV4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733448518; c=relaxed/simple;
+	bh=uXOkT0VrvXMh/h3R6LYcX+mJKHk2QtN0tnV9zftZjME=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RNLjhKphA6nVD1dWFcItA24BX0tRW3Ma3rXUgyMEVPpnCtlPsZk8s1iwsFudmzF+sXXQE3ouZp/SWUXeM5dBK1pqmPsAt5EhePYnqSU0U2lAFmKPnvqeYQvJDECeFtUX5IW3N9bFxXnYSb67JI4n2wV4eHr32gPLON5XUL9F6yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BsinynbD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ojbXKCV4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E268EC4CED1;
-	Fri,  6 Dec 2024 01:19:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BsinynbD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF9AAC4CED6;
+	Fri,  6 Dec 2024 01:28:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733447951;
-	bh=vN2Ax7TtmFtE+uoNCQ51l+8i9KFfMSsF2dzC9yrXkwc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ojbXKCV4ZE+fktAnzHNlZuEVeFNqD8YDZ/4IPFLcEyBYos8xfrLDiVnvk3vdkNPEI
-	 IgzJwiLXf/QTjYO/4gyF5h+NvgjSiaHFbLMTzzZD9Gcx8/Y2BNTMnNOayevfv/4w19
-	 qeXt/VfluJZhOGeTjseXrIwOH0rlgDNluNkuzYZY9p+CFFeMegDsUSi6PxJ1dzAfvh
-	 LSHgOgysBfsfpZfgibaAbUIYLnizLkQU2tfbWwVxCdsd3/uVwz7dzSWYazXNsHKpYy
-	 aZsi365fdHT//CY+WILMQ4JJgE5nCUlV6jVrb4/L6HmLGaTqK2KaQt9EQ9zdx3kKMe
-	 xhbD3zfs0ZpBw==
-Date: Thu, 5 Dec 2024 17:19:09 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Heiner Kallweit
- <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- kernel@pengutronix.de, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, Simon Horman <horms@kernel.org>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v1 1/7] net: ethtool: plumb PHY stats to PHY
- drivers
-Message-ID: <20241205171909.274715c2@kernel.org>
-In-Reply-To: <Z1GVLf0RaYCP060b@shell.armlinux.org.uk>
-References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
-	<20241203075622.2452169-2-o.rempel@pengutronix.de>
-	<Z1GVLf0RaYCP060b@shell.armlinux.org.uk>
+	s=k20201202; t=1733448517;
+	bh=uXOkT0VrvXMh/h3R6LYcX+mJKHk2QtN0tnV9zftZjME=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=BsinynbD7HombrLn5HWtLhfzzFaQRZhmRmmL4e9KeTA/BcHrGP8X+KKRgg9P/eLwr
+	 1Fj37l/dw0oW/osqyqWGYkNnToBtGE6TTPKVTJlLGpNPzrDr3aIluO/lxSoYGWSsaP
+	 eNumJ5IV0+onX+eDGBqXJVFd9bWIKcoMSvIyE8ydm0QNOCf2u+NR9Q9Po5AacF47ZO
+	 flfqqFNklN8ikvpxeqRfLTeY7jemUOhvYLwuIYdEWG4z5q197QY+hFWjNqBYDZxnXQ
+	 xj0yN3jpUYsxYo+0ULUFVcgAMAnKjtOaKMm42tHhdiPcJLzfULD77LFF3yzq8ZjMyT
+	 NC/Tgyl9UkXCw==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53df1d1b6e8so1507557e87.1;
+        Thu, 05 Dec 2024 17:28:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUZ8NnhKvB7t08DJWwwZSjYU0EzcOW4Lc6i4YbFDOIMYKZPFaNAcAbO74Id33KleNehxT7XG3g3b3o=@vger.kernel.org, AJvYcCWbqgOmxa8IHdrK1wyNEc1n64XvS3glSSpoYZ9gV1gjLImrzzq/UbXUwROMJk5RmyoF6MrmgKAwVGE/wzNh@vger.kernel.org, AJvYcCWfjD9I1TGP7Kv53m6+JbixYc4HtbmGZzFMKdKYQp4Dd8MWpKkP4sS9g9iAF8pglEQWWy/1BEq/tBJnRqH7c54=@vger.kernel.org, AJvYcCWrER+dkiLWOA0Xf6lJwxj1sbavnr8hhEfdqaFnHtxg2sxu8SQAk4I1zkV+I1dswMwvv4vJHbgolsBu8W2E@vger.kernel.org
+X-Gm-Message-State: AOJu0YynF/QnPfrBtAYcdV1Wn6RNkHsBvLRL115KYipepFyg5ABWcPlz
+	JNNiuSdetuBPx6kVBwFpxT4cLLsmIIOoIVEPwIfR5gaq7h/TVsfH0gMnxxLqI45WI565NIesRRs
+	LlgT/7YSguVGRAWexo4gspa667YE=
+X-Google-Smtp-Source: AGHT+IHJHMWnWMgIAhy8U/PVa4PWcqtts3A/TomGTjqvTPJOcqu5+lV9LJ1GR++FcxyZceA8baC6Laf/rCrlanCUvcE=
+X-Received: by 2002:a05:6512:3b0b:b0:53e:1b79:adaa with SMTP id
+ 2adb3069b0e04-53e2c2b1266mr300719e87.9.1733448516447; Thu, 05 Dec 2024
+ 17:28:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241112184455.855133-1-ojeda@kernel.org> <CAABy=s1u75ywAECbkCmGfyt+Yp5khnF0UVcezA-_BEDWUVrHkw@mail.gmail.com>
+In-Reply-To: <CAABy=s1u75ywAECbkCmGfyt+Yp5khnF0UVcezA-_BEDWUVrHkw@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 6 Dec 2024 10:28:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQJUdubjkvV0T0XRU8=336rV88b7+t6BP4xR9v_g38eKQ@mail.gmail.com>
+Message-ID: <CAK7LNAQJUdubjkvV0T0XRU8=336rV88b7+t6BP4xR9v_g38eKQ@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: rust: add PROCMACROLDFLAGS
+To: "Hong, Yifan" <elsk@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	linux-kbuild@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 5 Dec 2024 11:57:33 +0000 Russell King (Oracle) wrote:
-> > +	 * The input structure is not zero-initialized and the implementation
-> > +	 * must only set statistics which are actually collected by the device.  
-> 
-> Eh what? This states to me that the structure is not initialised, but
-> drivers should not write to all members unless they support the
-> statistic.
-> 
-> Doesn't this mean we end up returning uninitialised data to userspace?
-> If the structure is not initialised, how does core code know which
-> statistics the driver has set to avoid returning uninitialised data?
+On Fri, Dec 6, 2024 at 8:40=E2=80=AFAM Hong, Yifan <elsk@google.com> wrote:
+>
+> On Tue, Nov 12, 2024 at 10:45=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> =
+wrote:
+> >
+> > From: HONG Yifan <elsk@google.com>
+> >
+> > These are flags to be passed when linking proc macros for the Rust
+> > toolchain. If unset, it defaults to $(KBUILD_HOSTLDFLAGS).
+> >
+> > This is needed because the list of flags to link hostprogs is not
+> > necessarily the same as the list of flags used to link libmacros.so.
+> > When we build proc macros, we need the latter, not the former (e.g. whe=
+n
+> > using a Rust compiler binary linked to a different C library than host
+> > programs).
+> >
+> > To distinguish between the two, introduce this new variable to stand
+> > out from KBUILD_HOSTLDFLAGS used to link other host progs.
+> >
+> > Signed-off-by: HONG Yifan <elsk@google.com>
+> > Link: https://lore.kernel.org/r/20241017210430.2401398-2-elsk@google.co=
+m
+> > [ v3:
+> >
+> >   - `export`ed the variable. Otherwise it would not be visible in
+> >     `rust/Makefile`.
+> >
+> >   - Removed "additional" from the documentation and commit message,
+> >     since this actually replaces the other flags, unlike other cases.
+> >
+> >   - Added example of use case to documentation and commit message.
+> >     Thanks Alice for the details on what Google needs!
+> >
+> >   - Instead of `HOSTLDFLAGS`, used `KBUILD_HOSTLDFLAGS` as the fallback
+> >     to preserve the previous behavior as much as possible, as discussed
+> >     with Alice/Yifan. Thus moved the variable down too (currently we
+> >     do not modify `KBUILD_HOSTLDFLAGS` elsewhere) and avoided
+> >     mentioning `HOSTLDFLAGS` directly in the documentation.
+> >
+> >   - Fixed documentation header formatting.
+> >
+> >   - Reworded slightly.
+> >
+> >          - Miguel ]
+> > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> > ---
+> > Masahiro: if Kbuild wants to pick this up, that is great. Otherwise, I =
+am happy
+> > picking this up early next cycle, if you give an `Acked-by` since this =
+is
+> > changing the interface for Kbuild users given we are introducing a new
+> > environment variable. Thanks!
+> >
+> > Note that the `or` means if the string is empty, we will use the defaul=
+t rather
+> > than nothing. I didn't change that from Yifan's version, but maybe we w=
+ant to do
+> > otherwise. Users can still provide e.g. an empty space to avoid any fla=
+g.
+>
+> I am not sure if I understand the implications here.
+> https://www.gnu.org/software/make/manual/html_node/Conditional-Functions.=
+html
+> says:
+>
+> The or function provides a =E2=80=9Cshort-circuiting=E2=80=9D OR operatio=
+n. Each
+> argument is expanded, in order. If an argument expands to a non-empty
+> string the processing stops and the result of the expansion is that
+> string. If, after all arguments are expanded, all of them are false
+> (empty), then the result of the expansion is the empty string.
+>
+> I am assuming that this means:
+> - If PROCMACROLDFLAGS is not empty, KBUILD_PROCMACROLDFLAGS evaluates
+> to PROCMACROLDFLAGS
+> - Otherwise if KBUILD_HOSTLDFLAGS is not empty,
+> KBUILD_PROCMACROLDFLAGS evaluates to KBUILD_HOSTLDFLAGS
+> - Otherwise KBUILD_PROCMACROLDFLAGS is set to empty.
 
-It's not zero-initialized. Meaning it's initialized to a special magic
-value that the core then checks for to decide if the driver actually
-reported something.
+I think your understanding is correct.
 
-Maybe this:
+$(or A,B) works like $(if A,A,B)
 
- * Drivers must not zero out statistics which they don't report.
- * Core will initialize members to ETHTOOL_STAT_NOT_SET and check
- * for this value to report to user space only the stats actually
- * supported by the device.
+Commit 5c8166419acf shorten the code.
 
-IDK how to phrase this better..
+
+
+> What do you mean by "use the default"?
+
+
+"use the default" means,
+"use $(KBUILD_HOSTLDFLAGS)"
+
+
+--=20
+Best Regards
+Masahiro Yamada
