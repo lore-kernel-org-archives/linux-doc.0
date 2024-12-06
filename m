@@ -1,41 +1,49 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469AD208990;
-	Fri,  6 Dec 2024 12:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A7D8207DF8;
+	Fri,  6 Dec 2024 13:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733488358; cv=none; b=miQmDcXoQvW2AY4yQGhezkdlmTSK/JX3pYVpD0FczbVYelRih0dX893MfYSen2Ngh+E8MzVmOiVcmUMwh4n5cxMkERKWb9ucjSBZYmS4LJhcEJTpW1W4pvpeXqhPf52BhTC6iZwV13vBLXjmiUygaSJRCWs1owBhERMU4ogkQZ0=
+	t=1733493395; cv=none; b=sXUNj2Ip281bNjGV/VNbyZnnYVf5MiV/qD6QChN0ILukssEpAItwMnp95xhDt31mLtU/k4q4+9LQGVbxMxC80PmfFVLIn38nP2pMzuz4tZaZh2YA3sR+UQRyTTQ+3HHg1dIWjkfDGDMdJqZfD+FUv+icwNYhNQQhsiBZUCXPLt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733488358; c=relaxed/simple;
-	bh=W3AVsAVLDdbyor+wQ6o1A8oHcmMgqyXwTinoCUUNnDA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h8tNdWGWEq+2ZB4nRtciFPPCA7FdpPK/EvJLLvmKnxdnE2mz/Zui8MpEoco1dHv4LDFiCiXnkX25kYbApq5RODiTt3M5Wrj09xomoJ8XIlUII/FApfMdO7Ami7Hj9X7xg/fAx/8CZcOQmT4h88nhjWN2kEAsD9mfcb3ZSt6dgUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Y4VwY6sbDzRj0W;
-	Fri,  6 Dec 2024 20:30:53 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id B66F91800CA;
-	Fri,  6 Dec 2024 20:32:33 +0800 (CST)
-Received: from localhost.localdomain (10.90.30.45) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 6 Dec 2024 20:32:33 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>, Andrew
- Morton <akpm@linux-foundation.org>, Linux-MM <linux-mm@kvack.org>, Jonathan
- Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-Subject: [PATCH net-next v2 07/10] mm: page_frag: introduce probe related API
-Date: Fri, 6 Dec 2024 20:25:30 +0800
-Message-ID: <20241206122533.3589947-8-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20241206122533.3589947-1-linyunsheng@huawei.com>
-References: <20241206122533.3589947-1-linyunsheng@huawei.com>
+	s=arc-20240116; t=1733493395; c=relaxed/simple;
+	bh=bKU/vQCebGDq0D/DCCPWxrVzDVQg49dbgATsgAGCB+4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WjAwSPhS63pWVyi2uRP3ux+MkZBBfucv5UF/RC87LtsnhOJyKAG+IfzLudk3iLKP9XwB2isB1v1saybxKcZKdui6PZDC7TuaGZIl+jI9mCMeZ7vMCUw//pzXc4ZlwLxXOyOdyWDtejEAW5cH7HoAYHLYCE7RB4p+hq0ZSe7cRTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 48F9CFEC;
+	Fri,  6 Dec 2024 05:56:59 -0800 (PST)
+Received: from e125905.cambridge.arm.com (e125905.cambridge.arm.com [10.1.194.73])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2469B3F71E;
+	Fri,  6 Dec 2024 05:56:28 -0800 (PST)
+From: Beata Michalska <beata.michalska@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	ionela.voinescu@arm.com,
+	sudeep.holla@arm.com,
+	will@kernel.org,
+	catalin.marinas@arm.com,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org
+Cc: sumitg@nvidia.com,
+	yang@os.amperecomputing.com,
+	vanshikonda@os.amperecomputing.com,
+	lihuisong@huawei.com,
+	zhanjie9@hisilicon.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Phil Auld <pauld@redhat.com>,
+	x86@kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v8 0/4] Add support for AArch64 AMUv1-based average freq
+Date: Fri,  6 Dec 2024 13:55:56 +0000
+Message-Id: <20241206135600.4083965-1-beata.michalska@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,163 +51,106 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemf200006.china.huawei.com (7.185.36.61)
 
-Some usecase may need a bigger fragment if current fragment
-can't be coalesced to previous fragment because more space
-for some header may be needed if it is a new fragment. So
-introduce probe related API to tell if there are minimum
-remaining memory in the cache to be coalesced to the previous
-fragment, in order to save memory as much as possible.
+Hi All,
 
-CC: Alexander Duyck <alexander.duyck@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux-MM <linux-mm@kvack.org>
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
----
- Documentation/mm/page_frags.rst | 10 +++++++-
- include/linux/page_frag_cache.h | 41 +++++++++++++++++++++++++++++++++
- mm/page_frag_cache.c            | 35 ++++++++++++++++++++++++++++
- 3 files changed, 85 insertions(+), 1 deletion(-)
+This series adds support for obtaining an average CPU frequency based on
+a hardware provided feedback. The average frequency is being exposed via
+dedicated yet optional cpufreq sysfs attribute - cpuinfo_avg_freq.
+The architecture specific bits are being provided for AArch64, caching on
+existing implementation for FIE and AMUv1 support: the frequency scale
+factor, updated on each sched tick, serving as a base for retrieving
+the frequency for a given CPU, representing an average frequency
+reported between the ticks.
 
-diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
-index 1c98f7090d92..3e34831a0029 100644
---- a/Documentation/mm/page_frags.rst
-+++ b/Documentation/mm/page_frags.rst
-@@ -119,7 +119,13 @@ more performant if more memory is available. By using the prepare and commit
- related API, the caller calls prepare API to requests the minimum memory it
- needs and prepare API will return the maximum size of the fragment returned. The
- caller needs to either call the commit API to report how much memory it actually
--uses, or not do so if deciding to not use any memory.
-+uses, or not do so if deciding to not use any memory. Some usecase may need a
-+bigger fragment if the current fragment can't be coalesced to previous fragment
-+because more space for some header may be needed if it is a new fragment, probe
-+related API can be used to tell if there are minimum remaining memory in the
-+cache to be coalesced to the previous fragment, in order to save memory as much
-+as possible.
-+
- 
- .. kernel-doc:: include/linux/page_frag_cache.h
-    :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
-@@ -129,9 +135,11 @@ uses, or not do so if deciding to not use any memory.
- 		 __page_frag_alloc_refill_prepare_align
- 		 page_frag_alloc_refill_prepare_align
- 		 page_frag_alloc_refill_prepare
-+                 page_frag_alloc_refill_probe page_frag_refill_probe
- 
- .. kernel-doc:: mm/page_frag_cache.c
-    :identifiers: page_frag_cache_drain page_frag_free page_frag_alloc_abort_ref
-+                 __page_frag_alloc_refill_probe_align
- 
- Coding examples
- ===============
-diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
-index 329390afbe78..0f7e8da91a67 100644
---- a/include/linux/page_frag_cache.h
-+++ b/include/linux/page_frag_cache.h
-@@ -63,6 +63,10 @@ void *__page_frag_cache_prepare(struct page_frag_cache *nc, unsigned int fragsz,
- unsigned int __page_frag_cache_commit_noref(struct page_frag_cache *nc,
- 					    struct page_frag *pfrag,
- 					    unsigned int used_sz);
-+void *__page_frag_alloc_refill_probe_align(struct page_frag_cache *nc,
-+					   unsigned int fragsz,
-+					   struct page_frag *pfrag,
-+					   unsigned int align_mask);
- 
- static inline unsigned int __page_frag_cache_commit(struct page_frag_cache *nc,
- 						    struct page_frag *pfrag,
-@@ -282,6 +286,43 @@ static inline void *page_frag_alloc_refill_prepare(struct page_frag_cache *nc,
- 						      gfp_mask, ~0u);
- }
- 
-+/**
-+ * page_frag_alloc_refill_probe() - Probe allocating a fragment and refilling
-+ * a page_frag.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled
-+ *
-+ * Probe allocating a fragment and refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
-+static inline void *page_frag_alloc_refill_probe(struct page_frag_cache *nc,
-+						 unsigned int fragsz,
-+						 struct page_frag *pfrag)
-+{
-+	return __page_frag_alloc_refill_probe_align(nc, fragsz, pfrag, ~0u);
-+}
-+
-+/**
-+ * page_frag_refill_probe() - Probe refilling a page_frag.
-+ * @nc: page_frag cache from which to refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled
-+ *
-+ * Probe refilling a page_frag from page_frag cache.
-+ *
-+ * Return:
-+ * True if refill succeeds, otherwise return false.
-+ */
-+static inline bool page_frag_refill_probe(struct page_frag_cache *nc,
-+					  unsigned int fragsz,
-+					  struct page_frag *pfrag)
-+{
-+	return !!page_frag_alloc_refill_probe(nc, fragsz, pfrag);
-+}
-+
- /**
-  * page_frag_refill_commit - Commit a prepare refilling.
-  * @nc: page_frag cache from which to commit
-diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
-index 8c3cfdbe8c2b..ae40520d452a 100644
---- a/mm/page_frag_cache.c
-+++ b/mm/page_frag_cache.c
-@@ -116,6 +116,41 @@ unsigned int __page_frag_cache_commit_noref(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(__page_frag_cache_commit_noref);
- 
-+/**
-+ * __page_frag_alloc_refill_probe_align() - Probe allocating a fragment and
-+ * refilling a page_frag with aligning requirement.
-+ * @nc: page_frag cache from which to allocate and refill
-+ * @fragsz: the requested fragment size
-+ * @pfrag: the page_frag to be refilled.
-+ * @align_mask: the requested aligning requirement for the fragment.
-+ *
-+ * Probe allocating a fragment and refilling a page_frag from page_frag cache
-+ * with aligning requirement.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
-+void *__page_frag_alloc_refill_probe_align(struct page_frag_cache *nc,
-+					   unsigned int fragsz,
-+					   struct page_frag *pfrag,
-+					   unsigned int align_mask)
-+{
-+	unsigned long encoded_page = nc->encoded_page;
-+	unsigned int size, offset;
-+
-+	size = PAGE_SIZE << encoded_page_decode_order(encoded_page);
-+	offset = __ALIGN_KERNEL_MASK(nc->offset, ~align_mask);
-+	if (unlikely(!encoded_page || offset + fragsz > size))
-+		return NULL;
-+
-+	pfrag->page = encoded_page_decode_page(encoded_page);
-+	pfrag->size = size - offset;
-+	pfrag->offset = offset;
-+
-+	return encoded_page_decode_virt(encoded_page) + offset;
-+}
-+EXPORT_SYMBOL(__page_frag_alloc_refill_probe_align);
-+
- void *__page_frag_cache_prepare(struct page_frag_cache *nc, unsigned int fragsz,
- 				struct page_frag *pfrag, gfp_t gfp_mask,
- 				unsigned int align_mask)
+The changes have been rather lightly (due to some limitations) tested on
+an FVP model.
+
+Note that [PATCH 2/4] arm64: amu: Delay allocating cpumask for AMU FIE support
+can be merged independently.
+Additionally, this series depends on [6]
+
+Relevant discussions:
+[1] https://lore.kernel.org/all/20240229162520.970986-1-vanshikonda@os.amperecomputing.com/
+[2] https://lore.kernel.org/all/7eozim2xnepacnnkzxlbx34hib4otycnbn4dqymfziqou5lw5u@5xzpv3t7sxo3/
+[3] https://lore.kernel.org/all/20231212072617.14756-1-lihuisong@huawei.com/
+[4] https://lore.kernel.org/lkml/ZIHpd6unkOtYVEqP@e120325.cambridge.arm.com/T/#m4e74cb5a0aaa353c60fedc6cfb95ab7a6e381e3c
+[5] https://lore.kernel.org/all/20240603081331.3829278-1-beata.michalska@arm.com/
+[6] https://lore.kernel.org/all/20240827154818.1195849-1-ionela.voinescu@arm.com/
+
+v8:
+- Drop introducing new function and reuse arch_freq_get_on_cpu, guarding its use
+  in scaling_cur_freq sysfs handler with dedicated config for x86
+
+v7:
+- Dropping 'arch_topology: init capacity_freq_ref to 0' patch from the series
+  as this one has been sent separately as an independent change
+  [https://lore.kernel.org/all/20240827154818.1195849-1-ionela.voinescu@arm.com/]
+- Including in the series change that introduces new sysfs entry [PATCH 1/4]
+- Consequently modifying previously arch_freq_get_on_cpu to match reqs for new
+  sysfs attribute
+- Dropping an idea of considering a CPU that has been idle for a while as a
+  valid source of information for obtaining an AMU-counter based frequency
+- Some minor cosmetic changes
+
+v6:
+ - delay allocating cpumask for AMU FIE support instead of invalidating the mask
+   upon failure to register cpufreq policy notifications
+ - drop the change to cpufreq core (for cpuinfo_cur_freq) as this one will be
+   sent as a separate change
+
+v5:
+ - Fix invalid access to cpumask
+ - Reworked finding reference cpu when getting the freq
+
+v4:
+- dropping seqcount
+- fixing identifying active cpu within given policy
+- skipping full dynticks cpus when retrieving the freq
+- bringing back plugging in arch_freq_get_on_cpu into cpuinfo_cur_freq
+
+v3:
+- dropping changes to cpufreq_verify_current_freq
+- pulling in changes from Ionela initializing capacity_freq_ref to 0
+  (thanks for that!)  and applying suggestions made by her during last review:
+	- switching to arch_scale_freq_capacity and arch_scale_freq_ref when
+	  reversing freq scale factor computation
+	- swapping shift with multiplication
+- adding time limit for considering last scale update as valid
+- updating frequency scale factor upon entering idle
+
+v2:
+- Splitting the patches
+- Adding comment for full dyntick mode
+- Plugging arch_freq_get_on_cpu into cpufreq_verify_current_freq instead
+  of in show_cpuinfo_cur_freq to allow the framework to stay more in sync
+  with potential freq changes
+
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Ingo Molnar <mingo@redhat.com>
+CC: Borislav Petkov <bp@alien8.de>
+CC: Dave Hansen <dave.hansen@linux.intel.com>
+CC: H. Peter Anvin <hpa@zytor.com>
+CC: Phil Auld <pauld@redhat.com>
+CC: x86@kernel.org
+CC: linux-doc@vger.kernel.org
+
+Beata Michalska (4):
+  cpufreq: Introduce an optional cpuinfo_avg_freq sysfs entry
+  arm64: amu: Delay allocating cpumask for AMU FIE support
+  arm64: Provide an AMU-based version of arch_freq_get_on_cpu
+  arm64: Update AMU-based freq scale factor on entering idle
+
+ Documentation/admin-guide/pm/cpufreq.rst |  16 ++-
+ arch/arm64/kernel/topology.c             | 144 +++++++++++++++++++----
+ arch/x86/kernel/cpu/aperfmperf.c         |   2 +-
+ arch/x86/kernel/cpu/proc.c               |   7 +-
+ drivers/cpufreq/Kconfig.x86              |  12 ++
+ drivers/cpufreq/cpufreq.c                |  36 +++++-
+ include/linux/cpufreq.h                  |   2 +-
+ 7 files changed, 188 insertions(+), 31 deletions(-)
+
 -- 
-2.33.0
+2.25.1
 
