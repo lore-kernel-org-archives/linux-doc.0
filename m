@@ -1,260 +1,135 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA19F146A87
-	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 19:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571ED1C54AF;
+	Fri,  6 Dec 2024 20:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733515094; cv=none; b=nppzFzeNJw1dL/bkVWCqZRMG2XE7l4v8D7IIISwhpvetel8TFWl1C1+0C9zv/eMG3GffqV9jKVZQVZegm7IqugGF0+N5vjc/x0WhY9WQqf91aK3OkBsuAZ4z/rjhw7XeaytYlO5vBYp8RW3KrLf9GLAdhs6fD8l5+A/m64BlImo=
+	t=1733517822; cv=none; b=BiIcj6rRFwHu3c9eug+ECSMl7XTt2j02fH3bqxuCCid/BKNNAFAKymOV7pLRdmzDB6c47jMxwsMkuPQFJa/A08X08RF8Vsd5kZmD3vUkeX+99ryA81BfddH3LsqQpAaR1k+6MlwL96pG1rZR65MXduJ/csO5hBljp3Gj8mkXZMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733515094; c=relaxed/simple;
-	bh=8gWvy5zGQ4r6v8YrdHYM6ddRzdaCisV+xhxtXzwPYYs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jzws+72KaZc22iW8st7h/G3bb1gSO8e55WqRqTt5Qhax7YS6qqdl7+ugjsPhbm5NoXZO+rVjMgTgd2jmKql1ZO5jwr8JfVx0ChAq1wyhbnPnUgiA12yGyQ0tr+tjjpiGm+cmh1manJp9mO+cY/OhIO4GpYbp1YfEACSMFA6ipZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zE9SDQxR; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1733517822; c=relaxed/simple;
+	bh=HkUtFt5yNEyOKOT57xnkxN4TB3SkK29GTeg3yPR2eEA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qipZy33vViKbPlasb2TpKxizm/Prjyu9CDMOqmSlhbPXOPaw3bkXjV9rmW1WD8nM9DhMOZqXJDu+y1zg5kLCtnfIek6lxrJMHSCfnIlfBfLcnc/2u5Oa7KVSA0wx7Pme3anA032TBro8WI/1D9cJmF4Qmf9Yor7Pn0ljOFSOcD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NC1lA9kX; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zE9SDQxR"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21625b4f978so19875ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Dec 2024 11:58:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733515092; x=1734119892; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A82gvr7sDzCugWZNh93f0M6gJn7XxjisLQmLnxRt2mE=;
-        b=zE9SDQxRrNMvgT5AOn4wLnG+bekRarlMrudzpfoD4oXu83ct0Zw9R2vz5SBHRj7o3s
-         flpz0nwH+6msQoCHXt/SwF93d9LhBX1mJimAtG/SfSvpdYWvggr0ObZg/ol/G66k/+sw
-         alEZKZEx7AuCpZt49Gyoe0CphnFrswQfWb3nCKyCLWB0Qvbmuq+CTNa6Z9vC8t2L7ESu
-         LEsFN6Mvyn1hgR9083z54Zfij1UowlugiuOZX1hD3rNzEB7YchIZaoKtkzh39xJ4OlCJ
-         wq1qiWmb8ML31HlIJ1xJ1I/tNDAzsTukT3p9usAfZxpMJRUgYSsMo2uijrhE7P9dI7/V
-         ljqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733515092; x=1734119892;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A82gvr7sDzCugWZNh93f0M6gJn7XxjisLQmLnxRt2mE=;
-        b=e91J/Ii73fu69hdPewuwYkbqKJlFsp5lObQKymKvxr8LlcaUcEbacOKEWGLJALMnbL
-         mfRUDkajvXagy5CDC4vFrJl2XnqRcpzl4/YuMkzZjbBgTXKPefijcwPa9+nGTm6/5IF2
-         wvhibxZjmOHksNLnW5R5BCXNuA9cDYSLvsZMpIVZV/5eIkHh2VUiUIPL9WnFCo02rrg4
-         fV+WSJqQta9yWrKXE2gTjDsC8rGHx8gAL46pVJRYNM9OkiTZM+CFW78LGMWMPwcN7Fwa
-         /R1KTtk1zUtXy+GylIB6Fomo+tmCIvCPNiPPk8QSyHmKiRbcerpXaRonSqkmKaMGXQbh
-         LpJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXWThOvhySj1Ozh+K9HoBkNTmVZ+37yMiWY+lIjyZqPn5w56UNVafMBPh2g545qDg3MdklCPD73JQI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwE3cadZY3XVklyaMm9Mgk9R77uPhKWIlClPwcUFxmiEoizICT
-	z+G03ScDdAKOXFcZI77YufzepaJ/KPn1LHZm9xH2dqFlOMn3mXE/5RUboB3bkl0Y+AN3XceDBtK
-	WcMZN2KHFAxtw1//BGEhkSWUwJSTxzWLWfxSg
-X-Gm-Gg: ASbGncutM/ZBSQLUMdUpCl0i/GwsoTwkWY+G0zLSOLNmiC1duFpUs0qUoLQVzuJ67uZ
-	P+v5PAvgwUCKU1YCgOeMvNdyOmJkmFaxtTSNLkmAXTc0DDbUtb9bA0jfwLuE=
-X-Google-Smtp-Source: AGHT+IHZdlpKcu54llf+M0CD9QkcB0RHZTeLren1vYJvc90nzNmtuhq9YRRgqZ68LMma3iPfL32X7Vz6IZrABpYfBzY=
-X-Received: by 2002:a17:902:ce06:b0:215:3e48:2b17 with SMTP id
- d9443c01a7336-2162ad6a092mr200125ad.5.1733515091991; Fri, 06 Dec 2024
- 11:58:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NC1lA9kX"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6BZ57X003204;
+	Fri, 6 Dec 2024 20:43:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	HkUtFt5yNEyOKOT57xnkxN4TB3SkK29GTeg3yPR2eEA=; b=NC1lA9kXljJwRNZ/
+	jyGx38NCt6kSZMSxw27ZZQfIFXopTSQNDIoHiJnfYnod7Mm+fb87sgx76mNM19za
+	LWD8J1KHKzhJ05C31MdD0xuQ2SYc47yExWP0wfjsiNa4cuTKeMV0tlYRyHt4hDm1
+	FBMz71HGYCu7v8CgEAnlv52Uc9XA3rWVch5dkeQjLxE7XTSYF+qCfdLDPgvZY/Gn
+	wZYZ6zjftxmSzfIqHZdNw5DZmFQYv6qawfnlO6tG81rOvzCZxd3Arss7rUh4qfmf
+	EfHd9juph0xL0aVcnIC3XvqnWpwONZeFXfOkq3y4v6FdKPCz2ThZ65BpsbXeOMUe
+	aq1Wkg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43brgp2qny-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Dec 2024 20:43:22 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B6KhLiq013837
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 6 Dec 2024 20:43:21 GMT
+Received: from [10.71.112.120] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Dec 2024
+ 12:43:21 -0800
+Message-ID: <3e246be8-22a9-4473-8c78-39788ae95650@quicinc.com>
+Date: Fri, 6 Dec 2024 12:43:20 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241127025728.3689245-1-yuanchu@google.com> <20241127072604.GA2501036@cmpxchg.org>
-In-Reply-To: <20241127072604.GA2501036@cmpxchg.org>
-From: Yuanchu Xie <yuanchu@google.com>
-Date: Fri, 6 Dec 2024 11:57:55 -0800
-Message-ID: <CAJj2-QFdP6DKVQJ4Tw6rdV+XtgDihe=UOnvm4cm-q61K0hq6CQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/9] mm: workingset reporting
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, Khalid Aziz <khalid.aziz@oracle.com>, 
-	Henry Huang <henry.hj@antgroup.com>, Yu Zhao <yuzhao@google.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Gregory Price <gregory.price@memverge.com>, 
-	Huang Ying <ying.huang@intel.com>, Lance Yang <ioworker0@gmail.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Muhammad Usama Anjum <usama.anjum@collabora.com>, 
-	Tejun Heo <tj@kernel.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Daniel Watson <ozzloy@each.do>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, SeongJae Park <sj@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <tiwai@suse.com>, <robh@kernel.org>, <gregkh@linuxfoundation.org>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <20241106193413.1730413-29-quic_wcheng@quicinc.com>
+ <1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
+ <28023a83-04a5-4c62-85a9-ca41be0ba9e1@quicinc.com>
+ <1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 4H_AQnMFekfz5gW6YWnFHVmnH-Jb32Ho
+X-Proofpoint-ORIG-GUID: 4H_AQnMFekfz5gW6YWnFHVmnH-Jb32Ho
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
+ adultscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0 suspectscore=0
+ priorityscore=1501 phishscore=0 impostorscore=0 mlxlogscore=870
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412060156
 
-Thanks for the response Johannes. Some replies inline.
 
-On Tue, Nov 26, 2024 at 11:26=E2=80=AFPM Johannes Weiner <hannes@cmpxchg.or=
-g> wrote:
+On 12/6/2024 1:09 AM, Cezary Rojewski wrote:
+> On 2024-12-04 12:15 AM, Wesley Cheng wrote:
+>>
+>> On 12/3/2024 8:13 AM, Cezary Rojewski wrote:
+>>> On 2024-11-06 8:34 PM, Wesley Cheng wrote:
+>>>> In order to allow userspace/applications know about USB offloading status,
+>>>> expose a sound kcontrol that fetches information about which sound card
+>>>> and PCM index the USB device is mapped to for supporting offloading.  In
+>>>> the USB audio offloading framework, the ASoC BE DAI link is the entity
+>>>> responsible for registering to the SOC USB layer.
 >
-> On Tue, Nov 26, 2024 at 06:57:19PM -0800, Yuanchu Xie wrote:
-> > This patch series provides workingset reporting of user pages in
-> > lruvecs, of which coldness can be tracked by accessed bits and fd
-> > references. However, the concept of workingset applies generically to
-> > all types of memory, which could be kernel slab caches, discardable
-> > userspace caches (databases), or CXL.mem. Therefore, data sources might
-> > come from slab shrinkers, device drivers, or the userspace.
-> > Another interesting idea might be hugepage workingset, so that we can
-> > measure the proportion of hugepages backing cold memory. However, with
-> > architectures like arm, there may be too many hugepage sizes leading to
-> > a combinatorial explosion when exporting stats to the userspace.
-> > Nonetheless, the kernel should provide a set of workingset interfaces
-> > that is generic enough to accommodate the various use cases, and extens=
-ible
-> > to potential future use cases.
+> ...
 >
-> Doesn't DAMON already provide this information?
+>>> R) += mixer_usb_offload.o
+>>>> diff --git a/sound/usb/mixer_usb_offload.c b/sound/usb/mixer_usb_offload.c
+>>>> new file mode 100644
+>>>> index 000000000000..e0689a3b9b86
+>>>> --- /dev/null
+>>>> +++ b/sound/usb/mixer_usb_offload.c
+>>>> @@ -0,0 +1,102 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +/*
+>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>> + */
+>>>> +
+>>>> +#include <linux/usb.h>
+>>>> +
+>>>> +#include <sound/core.h>
+>>>> +#include <sound/control.h>
+>>>> +#include <sound/soc-usb.h>
+>>>
+>>> ALSA-components should not be dependent on ASoC ones. It should be done the other way around: ALSA <- ASoC.
+>>>
+>>
+>> At least for this kcontrol, we need to know the status of the ASoC state, so that we can communicate the proper path to userspace.  If the ASoC path is not probed or ready, then this module isn't blocked.  It will just communicate that there isn't a valid offload path.
 >
-> CCing SJ.
-Thanks for the CC. DAMON was really good at visualizing the memory
-access frequencies last time I tried it out! For server use cases,
-DAMON would benefit from integrations with cgroups. The key then would
-be a standard interface for exporting a cgroup's working set to the
-user. It would be good to have something that will work for different
-backing implementations, DAMON, MGLRU, or active/inactive LRU.
+> I'm not asking _why_ you need soc-usb.h header, your reasoning is probably perfectly fine. The code hierarchy is not though. If a sound module is dependent on soc-xxx.h i.e. ASoC symbols, it shall be part of sound/soc/ space.
 
->
-> > Use cases
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > Job scheduling
-> > On overcommitted hosts, workingset information improves efficiency and
-> > reliability by allowing the job scheduler to have better stats on the
-> > exact memory requirements of each job. This can manifest in efficiency =
-by
-> > landing more jobs on the same host or NUMA node. On the other hand, the
-> > job scheduler can also ensure each node has a sufficient amount of memo=
-ry
-> > and does not enter direct reclaim or the kernel OOM path. With workings=
-et
-> > information and job priority, the userspace OOM killing or proactive
-> > reclaim policy can kick in before the system is under memory pressure.
-> > If the job shape is very different from the machine shape, knowing the
-> > workingset per-node can also help inform page allocation policies.
-> >
-> > Proactive reclaim
-> > Workingset information allows the a container manager to proactively
-> > reclaim memory while not impacting a job's performance. While PSI may
-> > provide a reactive measure of when a proactive reclaim has reclaimed to=
-o
-> > much, workingset reporting allows the policy to be more accurate and
-> > flexible.
->
-> I'm not sure about more accurate.
->
-> Access frequency is only half the picture. Whether you need to keep
-> memory with a given frequency resident depends on the speed of the
-> backing device.
->
-> There is memory compression; there is swap on flash; swap on crappy
-> flash; swapfiles that share IOPS with co-located filesystems. There is
-> zswap+writeback, where avg refault speed can vary dramatically.
->
-> You can of course offload much more to a fast zswap backend than to a
-> swapfile on a struggling flashdrive, with comparable app performance.
->
-> So I think you'd be hard pressed to achieve a high level of accuracy
-> in the usecases you list without taking the (often highly dynamic)
-> cost of paging / memory transfer into account.
->
-> There is a more detailed discussion of this in a paper we wrote on
-> proactive reclaim/offloading - in 2.5 Hardware Heterogeneity:
->
-> https://www.cs.cmu.edu/~dskarlat/publications/tmo_asplos22.pdf
->
-Yes, PSI takes into account the paging cost. I'm not claiming that
-Workingset reporting provides a superset of information, but rather it
-can complement PSI. Sorry for the bad wording here.
 
-> > Ballooning (similar to proactive reclaim)
-> > The last patch of the series extends the virtio-balloon device to repor=
-t
-> > the guest workingset.
-> > Balloon policies benefit from workingset to more precisely determine th=
-e
-> > size of the memory balloon. On end-user devices where memory is scarce =
-and
-> > overcommitted, the balloon sizing in multiple VMs running on the same
-> > device can be orchestrated with workingset reports from each one.
-> > On the server side, workingset reporting allows the balloon controller =
-to
-> > inflate the balloon without causing too much file cache to be reclaimed=
- in
-> > the guest.
-The ballooning use case is an important one. Having working set
-information would allow us to inflate a balloon of the right size in
-the guest.
+That would basically require a significant change in the current design.  Was that requirement documented somewhere, where ALSA components should not be dependent on ASoC?  What was the reasoning for making it one direction, but not the other?
 
-> >
-> > Promotion/Demotion
-> > If different mechanisms are used for promition and demotion, workingset
-> > information can help connect the two and avoid pages being migrated bac=
-k
-> > and forth.
-> > For example, given a promotion hot page threshold defined in reaccess
-> > distance of N seconds (promote pages accessed more often than every N
-> > seconds). The threshold N should be set so that ~80% (e.g.) of pages on
-> > the fast memory node passes the threshold. This calculation can be done
-> > with workingset reports.
-> > To be directly useful for promotion policies, the workingset report
-> > interfaces need to be extended to report hotness and gather hotness
-> > information from the devices[1].
-> >...
-> >
-> > Benchmarks
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > Ghait Ouled Amar Ben Cheikh has implemented a simple policy and ran Lin=
-ux
-> > compile and redis benchmarks from openbenchmarking.org. The policy and
-> > runner is referred to as WMO (Workload Memory Optimization).
-> > The results were based on v3 of the series, but v4 doesn't change the c=
-ore
-> > of the working set reporting and just adds the ballooning counterpart.
-> >
-> > The timed Linux kernel compilation benchmark shows improvements in peak
-> > memory usage with a policy of "swap out all bytes colder than 10 second=
-s
-> > every 40 seconds". A swapfile is configured on SSD.
-> > --------------------------------------------
-> > peak memory usage (with WMO): 4982.61328 MiB
-> > peak memory usage (control): 9569.1367 MiB
-> > peak memory reduction: 47.9%
-> > --------------------------------------------
-> > Benchmark                                           | Experimental     =
-|Control         | Experimental_Std_Dev | Control_Std_Dev
-> > Timed Linux Kernel Compilation - allmodconfig (sec) | 708.486 (95.91%) =
-| 679.499 (100%) | 0.6%                 | 0.1%
-> > --------------------------------------------
-> > Seconds, fewer is better
->
-> You can do this with a recent (>2018) upstream kernel and ~100 lines
-> of python [1]. It also works on both LRU implementations.
->
-> [1] https://github.com/facebookincubator/senpai
->
-> We use this approach in virtually the entire Meta fleet, to offload
-> unneeded memory, estimate available capacity for job scheduling, plan
-> future capacity needs, and provide accurate memory usage feedback to
-> application developers.
->
-> It works over a wide variety of CPU and storage configurations with no
-> specific tuning.
->
-> The paper I referenced above provides a detailed breakdown of how it
-> all works together.
->
-> I would be curious to see a more in-depth comparison to the prior art
-> in this space. At first glance, your proposal seems more complex and
-> less robust/versatile, at least for offloading and capacity gauging.
-We have implemented TMO PSI-based proactive reclaim and compared it to
-a kstaled-based reclaimer (reclaiming based on 2 minute working set
-and refaults). The PSI-based reclaimer was able to save more memory,
-but it also caused spikes of refaults and a lot higher
-decompressions/second. Overall the test workloads had better
-performance with the kstaled-based reclaimer. The conclusion was that
-it was a trade-off. Since we have some app classes that we don't want
-to induce pressure but still want to proactively reclaim from, there's
-a missing piece. I do agree there's not a good in-depth comparison
-with prior art though.
+
+Thanks
+
+Wesley Cheng
+
