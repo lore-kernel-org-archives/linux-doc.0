@@ -1,46 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D32A13BAE4;
-	Fri,  6 Dec 2024 16:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A7C8C07;
+	Fri,  6 Dec 2024 16:27:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733501975; cv=none; b=h+xdXcwT/n9NiSaTIlytL6f5Dk6qmLPm+9QQw5oyye+qPzXPKbGeKfAOhzuHxjsOAk6fYqBxeNc6pA+L9HnTdAHU1MvM0vynVP3R+01wddWCthnA9/BTW4vSrpMQBtu7FfR3EG5DoGUjiAJ42ogNnqoX+6LneW8Tqob5ZK4ia+U=
+	t=1733502462; cv=none; b=og0FFJKOdDa1onKVSFikde6aPFvQiJM+huyHUN1hSL78r1AIb1u69cdOKv/KeNjVg4DXZRQ3YpTX3H9/ZS5PSdTW8k+v4nKN7k5kwo4LK5kWnbyrAV6jVFrcK6QjY4NSDyy7QDIZy7jYwI4vVW4d/XGTfffBXZ/J8Oen54qs5tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733501975; c=relaxed/simple;
-	bh=N4qaEdmCT53YmA62NetAyt+upQ8j+mAcdltLZaThXAo=;
+	s=arc-20240116; t=1733502462; c=relaxed/simple;
+	bh=hvAaymPk284uiYa41ZbT5MBYrYQRTDAHbY8Rm58S7os=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BBUZekQFJnDP8AXOhAFhOVSnjPPSfD/APMB8/bmRugsRIPi2YzhbKP6w09Cm+ZiOxuc00k2FSKDY7/YiIKHkdvvylSif9aAr2Y/q1ZZ2y377p8dSE0muhYFk4x4EhskfkANwqbk79qff0q7RQ1NwZUCYL+yAYxnoaj0q6Bl/DDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=r1Wwqp7g; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=huuQT0iBzuFDPrW4VpUeFx57XJpdPA4uawE/Dm2csVY/Hs3tozMjzKInd+2UqBO9TPAeqYwxHwSeRv1PEKqGAKEveASBtu3yxvdlQnsnz0GHxC66SAnSjetvzIY8Ez+UKAObPWGPUBpO4JC7BE97mnID5YoMkk9R1vsgEV8nHRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ap8hDjVN; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="r1Wwqp7g"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 447F2403FB
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ap8hDjVN"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9D9FE403FB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1733501972; bh=3fYOVGSLg9cOVmo6qsjMBrJi+o5GtuI3YW6NyYesVFc=;
+	t=1733502457; bh=6bDwhwd7F+ltCaNQrriFrq3XmSp45YFku6FWxZyMRQQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=r1Wwqp7gNThpgzpxxibyL7gdDPHVYA3pk0dz4V6VNinH4At1YhMGG4pU9Ngb4RWA2
-	 ecPrbiUysrslG+PJDIVkWGX09uRjBiVHQLyX5d9XB8W8XgwD1L0pLqpWZW69DIblDz
-	 s+qPJLMWscsLnajXx/MCOfmJ63jXqNUmSckrWhPGoLARVCSWf4g7j7xMwxcXy26u2m
-	 zyy14WhvH08MWAhinSVEF2A/Ib9NOEZ1s/bP7GhBWsqNUmTgmbnNp0Xzppn1Ve0lL6
-	 LCH4BOi9gr2rWpeiQOxSUXOXUKPc0MqJmHRLeSqQ0NRDMncnh81tgElbFS9tRXEI5H
-	 2cRb7uKJP/oXQ==
+	b=ap8hDjVNxCm/4JpAVr++l/9pBWyE/choRnnBcTJYXnBOKg8jLvYcHOe0YpeJ9qSan
+	 7DmnUeX/x3ozmH4N4kTIAjmHYzeRGk6aGNQmNsLlYkNqTApr6qFZU0A//DDEal7bIM
+	 pWLE6tUgmGpxQYXSFSAYx4+2Fo57H4JGegDpFuGeSOtX1KRGVSRDYx2pt8jR97O6WO
+	 7roxcWrGxcg8rLH8E8FOW3YdJtbYpyfBvuJq2p7rdOWG30Cm2fhWLFsudgzWUqzwHA
+	 qkR+4X9tscVYNykKSLuVG36i19aQDyRMn4WKvrlfBSmA1B+yDWtAhyByUpPbYTpwx8
+	 RYW6ukXY9fq6w==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 447F2403FB;
-	Fri,  6 Dec 2024 16:19:32 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9D9FE403FB;
+	Fri,  6 Dec 2024 16:27:37 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Cengiz Can <cengiz@kernel.wtf>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- cengiz.can@canonical.com
-Subject: Re: [PATCH] Documentation: remove :kyb: tags
-In-Reply-To: <20241202090514.1716-1-cengiz@kernel.wtf>
-References: <20241202090514.1716-1-cengiz@kernel.wtf>
-Date: Fri, 06 Dec 2024 09:19:31 -0700
-Message-ID: <87y10su6lo.fsf@trenco.lwn.net>
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, avadhut.naik@amd.com,
+ bilbao@vt.edu
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] docs/sp_SP: Translate development process into Spanish
+In-Reply-To: <20241129155851.1023884-1-carlos.bilbao.osdev@gmail.com>
+References: <20241129155851.1023884-1-carlos.bilbao.osdev@gmail.com>
+Date: Fri, 06 Dec 2024 09:27:36 -0700
+Message-ID: <87ttbgu687.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,30 +49,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Cengiz Can <cengiz@kernel.wtf> writes:
+Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
 
-> :kyb: is an extra markup that we should avoid when we can.
+> From: Avadhut Naik <avadhut.naik@amd.com>
 >
-> It worsens the plain-text reading experience and adds very little value
-> to rendered views.
+> This patchset translates the remaining documents of development-process
+> into Spanish.
 >
-> Remove all :kbd: tags from Documentation/*
+> The first patch translates process/3.Early-stage into Spanish.
 >
-> Signed-off-by: Cengiz Can <cengiz@kernel.wtf>
-> ---
->  Documentation/admin-guide/braille-console.rst |  4 +-
->  Documentation/admin-guide/sysrq.rst           | 20 ++++----
->  Documentation/dev-tools/kgdb.rst              | 50 +++++++++----------
->  Documentation/process/email-clients.rst       |  8 +--
->  Documentation/scheduler/sched-ext.rst         |  6 +--
->  .../it_IT/process/email-clients.rst           |  8 +--
->  .../sp_SP/process/email-clients.rst           |  8 +--
->  .../translations/zh_CN/admin-guide/sysrq.rst  | 22 ++++----
->  .../zh_CN/process/email-clients.rst           |  8 +--
->  .../translations/zh_TW/admin-guide/sysrq.rst  | 22 ++++----
->  .../zh_TW/process/email-clients.rst           |  8 +--
->  11 files changed, 82 insertions(+), 82 deletions(-)
+> The second patch translates process/4.Coding into Spanish.
+>
+> The third patch translates process/5.Posting into Spanish.
+>
+> The fourth patch translates process/6.Followthrough into Spanish.
+>
+> The fifth patch translates process/7.AdvancedTopics into Spanish.
+>
+> The sixth patch translates process/8.Conclusion into Spanish.
+>
+> The seventh patch moves development-process to the top of the index for
+> translated docs to match the layout in the main Documentation index.
+>
+> Avadhut Naik (3):
+>   docs/sp_SP: Add translation of process/5.Posting.rst
+>   docs/sp_SP: Add translation of process/7.AdvancedTopics.rst
+>   docs/sp_SP: Add translation of process/8.Conclusion.rst
+>
+> Carlos Bilbao (4):
+>   docs/sp_SP: Add translation of process/3.Early-stage.rst
+>   docs/sp_SP: Add translation of process/4.Coding.rst
+>   docs/sp_SP: Add translation of process/6.Followthrough.rst
+>   docs/sp_SP: Move development-process to top of index
+>
+>  .../sp_SP/process/3.Early-stage.rst           | 234 ++++++++-
+>  .../translations/sp_SP/process/4.Coding.rst   | 463 +++++++++++++++++-
+>  .../translations/sp_SP/process/5.Posting.rst  | 388 ++++++++++++++-
+>  .../sp_SP/process/6.Followthrough.rst         | 223 ++++++++-
+>  .../sp_SP/process/7.AdvancedTopics.rst        | 207 +++++++-
+>  .../sp_SP/process/8.Conclusion.rst            |  75 ++-
+>  .../sp_SP/process/development-process.rst     |  21 +-
+>  .../translations/sp_SP/process/index.rst      |   2 +-
+>  8 files changed, 1590 insertions(+), 23 deletions(-)
 
-Makes sense to me ... applied, thanks.
+I've applied the set, thanks.
 
 jon
