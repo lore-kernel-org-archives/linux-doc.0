@@ -1,46 +1,52 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AECA1F37DE;
-	Fri,  6 Dec 2024 16:54:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573FB20628B;
+	Fri,  6 Dec 2024 17:02:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733504063; cv=none; b=Qo/ixvuTnpQU2iPp5opNXl1z20YIv9ySbrnD7XDVa5CMJg/mmbHQ6kxXq9xqD0UOR91/SFlsGOZuPqJFTo0kStL/yDLbhTKIRFpf1BIGW6gXEk5XfYbojz+CLIAggbdUqKyDTcjVW5afERpb+bg7RuR+VHMWgm/7DZynFXkoqcc=
+	t=1733504537; cv=none; b=QLNIjnTih4U+7dtnZPXMXWsJQ3h42SIBJq2Gg3Z8LVve3hIdA13EpjR3OmCCHjpG+4XM3Fe8npn1f9rr2PpyvyqDk4C8Vkey5M+i2cxOzXkmX1m9lg0vyT5Iv0ApR6dvlCNFsDR73u2mxaFvhITvqG2Okc/yDyi4pELZprcD66o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733504063; c=relaxed/simple;
-	bh=4c0qDcDGWbfhi2JPlFbVb3IxY7BtFLTA25A9XcroWQY=;
+	s=arc-20240116; t=1733504537; c=relaxed/simple;
+	bh=yfenPM9ODdWg9R4e21a6fn0/25fwjaFiu0cv69tMrZQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FpiBSTupz3MJqhdJrGoGaOkSeMbkOmKEdwfAkjF+x9SHReVMBuO8oPxb7TLP05pp1JZePvaBbumTXvyQODf6lqj0FP3E+Kzbq5iipiQjQA9vVZD/tx/RUSCpZtLIK8pi5NOqrCMbsF0LhhK4Sit0tpJfU0idOt1Af/8+7ygxc3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pxtfq+Gs; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=j2qnlo2kMws9Xjvn9y4d8i1dJ9gyXGWQcoXbYVUeWPf6l+1aOCradz72TthVdmOhCG9SbgcfRZ5WvD8r9RZ2wYhYfq72fW416LKsMew5p0gas7evVeGPtb+yxlbX/Q3RkxWlMylMwUWT1ID6zK5x34T2H93BTud/K0Fsl6V/YFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nAD3iraQ; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pxtfq+Gs"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C63274040A
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nAD3iraQ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71F94403E1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1733504062; bh=aphGMcVNZxQQh1V/02EpA22OaxWF/8Zz7+xoEgrHPYs=;
+	t=1733504535; bh=qoYyWO2Qf+oKhBLSxdz/BPi+iDGhwGeVa29pxC1vl3Q=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=pxtfq+GslazVTKL48JPiQa1lPGF5s2Wqe27ngT2W4tp+snxGNG+WWyc1seL16oIEE
-	 1jxZDzqcV1NhKFgiz8Wlop+0+nmvv7jAJkurt/u9ZtkVWSQQ57GEWHT2sP2iyxwWGS
-	 5cUqO77YF4truzeN0crQjN6eoDPIXYQUYAczJX9P2eFFjC7Nglr3JeRDxvfMR7gngB
-	 tBZM00a25rkJYQyLns060/ySaOOFFx56U9afNEOiGkfqfAXPJzv6z8Go8YNaVTP9cq
-	 ZsaPzNXFjy/OWsXE2XSBMw8VE1kXE76+izciuG9UIZv2kTOb/CwSYxwD+UFTtWvhQl
-	 2kU3Ak8Ex7zrg==
+	b=nAD3iraQBMb/D1dPlbUU4yY1TrK/dkSxIulIrmySJyCXfDD4kTTVAJ9KOMaGD+eoQ
+	 qz78BxxMiWqNfU/YC9ySE6ize8QXYMIB+D4P/omVazfubYbptbH+r2VqPJW+dYwRW/
+	 E4/QJ6aUvhmv+SgccHHKn9QbhnQyT/jETxegBjCJAv7aDcQeScW024IRszm4Ut8mB8
+	 ZsHjjyFZviGM8d9va9IqMgT2e6b+iOYF+4qPjNufYxfRg8RTawLABMI3xsJDwoM1QS
+	 81oR0+yyu+P9tcy0AN5q0NRtyj0KW1n3PkBhPxidLEA6AfUKRbxwWuihwqGGy+dl4z
+	 dzLjF29oTi4fA==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C63274040A;
-	Fri,  6 Dec 2024 16:54:21 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 71F94403E1;
+	Fri,  6 Dec 2024 17:02:15 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Gianfranco Trad <gianf.trad@gmail.com>, pbonzini@redhat.com
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Gianfranco Trad <gianf.trad@gmail.com>
-Subject: Re: [PATCH v2] Documentation: kvm: fix typo in api.rst
-In-Reply-To: <20241115011831.300705-5-gianf.trad@gmail.com>
-References: <20241115011831.300705-5-gianf.trad@gmail.com>
-Date: Fri, 06 Dec 2024 09:54:20 -0700
-Message-ID: <87v7vwsqf7.fsf@trenco.lwn.net>
+To: Dave Hansen <dave.hansen@intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH v1 0/3] x86/Documentation: boot.rst: More style &format
+ fixes
+In-Reply-To: <639b9aef-456a-4f13-84f3-555a0da9672d@intel.com>
+References: <20241128152546.2396782-1-andriy.shevchenko@linux.intel.com>
+ <874j3gu5at.fsf@trenco.lwn.net>
+ <639b9aef-456a-4f13-84f3-555a0da9672d@intel.com>
+Date: Fri, 06 Dec 2024 10:02:14 -0700
+Message-ID: <87r06ksq21.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,31 +55,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Gianfranco Trad <gianf.trad@gmail.com> writes:
+Dave Hansen <dave.hansen@intel.com> writes:
 
-> Fix minor typo in api.rst where the word physical was misspelled
-> as physcial.
+> On 12/6/24 08:47, Jonathan Corbet wrote:
+>> How were you thinking of getting this one upstream?  I can take it
+>> through docs if that's what's wanted, but would like an x86 ack first.
 >
-> Signed-off-by: Gianfranco Trad <gianf.trad@gmail.com>
-> ---
-> Notes: 
->   - changes in v2: fixed a typo in the shortlog...
+> It all looks sane to me.  Going through docs works for me.  Thanks, Jon!
 >
->  Documentation/virt/kvm/api.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> For the series:
 >
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index edc070c6e19b..4ed8f222478a 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -5574,7 +5574,7 @@ KVM_XEN_ATTR_TYPE_SHARED_INFO_HVA
->    in guest physical address space. This attribute should be used in
->    preference to KVM_XEN_ATTR_TYPE_SHARED_INFO as it avoids
->    unnecessary invalidation of an internal cache when the page is
-> -  re-mapped in guest physcial address space.
-> +  re-mapped in guest physical address space.
->  
-It looks like nobody has picked this up, so I've just applied it.
+> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+
+OK, then, I've applied the set.
 
 Thanks,
 
