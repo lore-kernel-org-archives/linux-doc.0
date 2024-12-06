@@ -1,92 +1,157 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245AF5464A;
-	Fri,  6 Dec 2024 12:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FEA201254;
+	Fri,  6 Dec 2024 12:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733487271; cv=none; b=fogP3y6+lghJEX87iySVG75JAxT6MAIx85pq8/ULpP37WfDefC/dF0XzfEbzWXvAlk1KHkw7BmMCM5Svu425xSpO2F3OCi/0Xj33Jl9S653juavbt0pC+EkE/mDOcuhFv161r/gBPrDOw8cVqyhpZOosW87lHQ9HinedONdXp/o=
+	t=1733488353; cv=none; b=EbM+bG0Y0i9BDPm5f5zso/dJf8OCTTZiualnxTvhZz1q9ObLD629Jhh5tW/0gvR9AXqI+1LNDfVP+wL+2tTtv2mG9yn33e3LJCV8mpjqnrwfHTFTMNSP9QGbdOFpJ+9udwThEcYplxAnftycDAd4sba6KUPTk5ijFe5m1LBt9XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733487271; c=relaxed/simple;
-	bh=P6HskHz8Y7kdjM7uh323LSTOxC6AtYxTfmyT/R4oxEU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jhQybOdAl4gCfjEtQI5U7iT6LXF2WYTLsCL9NTmAjQGx9BdwhGVGxbqjjf1+AAeRHkz33ZUvbhLwHW25okxl9cS00XOcjm+7Y7k8qNG/gb/kgsBW3fSCQxl/fMOx+mzfSprBJeIy7D4oM+f2wl8/4BsE0Ksb6Hr8pY6tzaEc1xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=T1o1hxwK; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="T1o1hxwK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=G0vAISNZ5Nl2vpcWQXz+Qy46dNJbCkdn26D1C1RDMHg=; b=T1o1hxwKSmM8pL7HN4mfsud9ef
-	iiOrUVHTdBfX/OUeWjYaKeWuyAZYl5EYteLp93NOHyEAXW+Bht5LPFCVGQ8UXr9CUWo2NBiAC1Jtw
-	VipKMtxYqIsvOtYts3R9IsCMgrbEDMaROo7TPhnI0cf1jMsAxPYeHoQuQzevwgbuAKjODcaAAcT8J
-	64YtsPdhoLCaEJEFyVxbqrdIqccOwbraSFQ8z/mt8pA+ha9/OrQDaSlcVTbrtOE0pshChhqKJ2Yf8
-	jpohvILZgPZewYFkKpmS7xT6pmwitjjW0YSDklha5Yd0fONpDXJgFogfTDKF/I0lpTY1VTJWr6p0t
-	zCpiaHDg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:57340)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1tJXDt-0006E4-0O;
-	Fri, 06 Dec 2024 12:14:17 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1tJXDp-0007XE-2u;
-	Fri, 06 Dec 2024 12:14:13 +0000
-Date: Fri, 6 Dec 2024 12:14:13 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v1 1/1] net: phy: Move callback comments from
- struct to kernel-doc section
-Message-ID: <Z1LqlaG1IDvuz9Gy@shell.armlinux.org.uk>
-References: <20241206113952.406311-1-o.rempel@pengutronix.de>
+	s=arc-20240116; t=1733488353; c=relaxed/simple;
+	bh=RGKlZlIHnfdjJPRFHRHDvZ1TNo210Ov+wGfIldbdT2c=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ncdak6UgiU2bRoJ+9nbogFhRd3GAJHgjvTkJr1jkfC0qYAtxLcU7roQUjBIA9u7imf//b+7MO4iXUzx6nBFIzTjBBA1m+NMWgprimExWPDDVNL4u7UOSAsSZIxm9hGqHz4Zthz8KJDClGQLiEtmBJHEyzcJppme2XcUycM5AJT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.105])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Y4VwJ0q7kzqTfH;
+	Fri,  6 Dec 2024 20:30:40 +0800 (CST)
+Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
+	by mail.maildlp.com (Postfix) with ESMTPS id 57E6C1401F3;
+	Fri,  6 Dec 2024 20:32:28 +0800 (CST)
+Received: from localhost.localdomain (10.90.30.45) by
+ dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 6 Dec 2024 20:32:28 +0800
+From: Yunsheng Lin <linyunsheng@huawei.com>
+To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
+	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>, Andrew
+ Morton <akpm@linux-foundation.org>, Linux-MM <linux-mm@kvack.org>, Jonathan
+ Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+Subject: [PATCH net-next v2 04/10] mm: page_frag: introduce page_frag_alloc_abort() related API
+Date: Fri, 6 Dec 2024 20:25:27 +0800
+Message-ID: <20241206122533.3589947-5-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20241206122533.3589947-1-linyunsheng@huawei.com>
+References: <20241206122533.3589947-1-linyunsheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241206113952.406311-1-o.rempel@pengutronix.de>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemf200006.china.huawei.com (7.185.36.61)
 
-On Fri, Dec 06, 2024 at 12:39:52PM +0100, Oleksij Rempel wrote:
-> Relocate all callback-related comments from the `struct phy_driver`
-> definition to a dedicated `kernel-doc` section. This improves code
-> readability by decluttering the structure definition and consolidating
-> callback documentation in a central place for kernel-doc generation.
-> 
-> No functional changes are introduced by this patch.
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+For some case as tun_build_skb() without the needing of
+using complicated prepare & commit API, add the abort API to
+abort the operation of page_frag_alloc_*() related API for
+error handling knowing that no one else is taking extra
+reference to the just allocated fragment, and add abort_ref
+API to only abort the reference counting of the allocated
+fragment if it is already referenced by someone else.
 
-Thanks for doing this. This will mean that each method will be properly
-documented in the generated kernel-doc.
+CC: Alexander Duyck <alexander.duyck@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux-MM <linux-mm@kvack.org>
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+---
+ Documentation/mm/page_frags.rst |  7 +++++--
+ include/linux/page_frag_cache.h | 20 ++++++++++++++++++++
+ mm/page_frag_cache.c            | 21 +++++++++++++++++++++
+ 3 files changed, 46 insertions(+), 2 deletions(-)
 
-It is a bit obtuse to work around kernel-doc in this way, but worth it
-for the sake of the generated documentation containing all the pertinent
-details.
-
-Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-
-Thanks!
-
+diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
+index 34e654c2956e..339e641beb53 100644
+--- a/Documentation/mm/page_frags.rst
++++ b/Documentation/mm/page_frags.rst
+@@ -114,9 +114,10 @@ fragsz if there is an alignment requirement for the size of the fragment.
+ .. kernel-doc:: include/linux/page_frag_cache.h
+    :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
+ 		 __page_frag_alloc_align page_frag_alloc_align page_frag_alloc
++		 page_frag_alloc_abort
+ 
+ .. kernel-doc:: mm/page_frag_cache.c
+-   :identifiers: page_frag_cache_drain page_frag_free
++   :identifiers: page_frag_cache_drain page_frag_free page_frag_alloc_abort_ref
+ 
+ Coding examples
+ ===============
+@@ -143,8 +144,10 @@ Allocation & freeing API
+         goto do_error;
+ 
+     err = do_something(va, size);
+-    if (err)
++    if (err) {
++        page_frag_alloc_abort(nc, va, size);
+         goto do_error;
++    }
+ 
+     ...
+ 
+diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
+index a2b1127e8ac8..c3347c97522c 100644
+--- a/include/linux/page_frag_cache.h
++++ b/include/linux/page_frag_cache.h
+@@ -141,5 +141,25 @@ static inline void *page_frag_alloc(struct page_frag_cache *nc,
+ }
+ 
+ void page_frag_free(void *addr);
++void page_frag_alloc_abort_ref(struct page_frag_cache *nc, void *va,
++			       unsigned int fragsz);
++
++/**
++ * page_frag_alloc_abort - Abort the page fragment allocation.
++ * @nc: page_frag cache to which the page fragment is aborted back
++ * @va: virtual address of page fragment to be aborted
++ * @fragsz: size of the page fragment to be aborted
++ *
++ * It is expected to be called from the same context as the allocation API.
++ * Mostly used for error handling cases to abort the fragment allocation knowing
++ * that no one else is taking extra reference to the just aborted fragment, so
++ * that the aborted fragment can be reused.
++ */
++static inline void page_frag_alloc_abort(struct page_frag_cache *nc, void *va,
++					 unsigned int fragsz)
++{
++	page_frag_alloc_abort_ref(nc, va, fragsz);
++	nc->offset -= fragsz;
++}
+ 
+ #endif
+diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
+index d014130fb893..8c3cfdbe8c2b 100644
+--- a/mm/page_frag_cache.c
++++ b/mm/page_frag_cache.c
+@@ -201,3 +201,24 @@ void page_frag_free(void *addr)
+ 		free_unref_page(page, compound_order(page));
+ }
+ EXPORT_SYMBOL(page_frag_free);
++
++/**
++ * page_frag_alloc_abort_ref - Abort the reference of allocated fragment.
++ * @nc: page_frag cache to which the page fragment is aborted back
++ * @va: virtual address of page fragment to be aborted
++ * @fragsz: size of the page fragment to be aborted
++ *
++ * It is expected to be called from the same context as the allocation API.
++ * Mostly used for error handling cases to abort the reference of allocated
++ * fragment if the fragment has been referenced for other usages, to avoid the
++ * atomic operation of page_frag_free() API.
++ */
++void page_frag_alloc_abort_ref(struct page_frag_cache *nc, void *va,
++			       unsigned int fragsz)
++{
++	VM_BUG_ON(va + fragsz !=
++		  encoded_page_decode_virt(nc->encoded_page) + nc->offset);
++
++	nc->pagecnt_bias++;
++}
++EXPORT_SYMBOL(page_frag_alloc_abort_ref);
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.33.0
+
