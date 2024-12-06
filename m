@@ -1,120 +1,260 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A7A1FFC67;
-	Fri,  6 Dec 2024 18:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA19F146A87
+	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 19:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733509031; cv=none; b=fBxnhp43cBi3/q4RKDtI1r9cy+paHQRVL1QtYprQNdtgcWtmV1tkNBjIasWMFejMwA5Kyi2mSjO79PICGZko6+CcJat96lpaZj39CzHcqiIk+Xwla701igLhkG+puc14vo3pZ6bxrejCmi2kx5YZjFQLcSEy/QaBgA8bm0Ehf4k=
+	t=1733515094; cv=none; b=nppzFzeNJw1dL/bkVWCqZRMG2XE7l4v8D7IIISwhpvetel8TFWl1C1+0C9zv/eMG3GffqV9jKVZQVZegm7IqugGF0+N5vjc/x0WhY9WQqf91aK3OkBsuAZ4z/rjhw7XeaytYlO5vBYp8RW3KrLf9GLAdhs6fD8l5+A/m64BlImo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733509031; c=relaxed/simple;
-	bh=F9RJBsAgeYHEnkBkzcTxH6KpY9seHzyzKH6LHKSwmpI=;
+	s=arc-20240116; t=1733515094; c=relaxed/simple;
+	bh=8gWvy5zGQ4r6v8YrdHYM6ddRzdaCisV+xhxtXzwPYYs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AtJgbNYzPjqAKMlL24nQZYQa2iC3e6eq9iIbC04Vfou142lmn0zrVCjPm+gt6j7v6/zevFuMUUupJTLbGS+4nHDJZCJR18wrET+VTd7rGWF5zW3Ct/Yb43z3W5/eXWrso/fhFxq+wjHTSJts5UFH9H/aj+4TvM4XzGGbY1+p2cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lXcmj+uw; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=jzws+72KaZc22iW8st7h/G3bb1gSO8e55WqRqTt5Qhax7YS6qqdl7+ugjsPhbm5NoXZO+rVjMgTgd2jmKql1ZO5jwr8JfVx0ChAq1wyhbnPnUgiA12yGyQ0tr+tjjpiGm+cmh1manJp9mO+cY/OhIO4GpYbp1YfEACSMFA6ipZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zE9SDQxR; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lXcmj+uw"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3004028c714so138481fa.2;
-        Fri, 06 Dec 2024 10:17:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zE9SDQxR"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21625b4f978so19875ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Dec 2024 11:58:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733509027; x=1734113827; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1733515092; x=1734119892; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qlej7UHUsoeR+yZIvzIoLbF8ISp1uA7IpBE5oPajwGQ=;
-        b=lXcmj+uwVtuXnzxE7eJMg1X9bNs+RC5RMgt0QOr8E1v30IY8MW0WIYgI1RFBaMSkND
-         JRqcXKfCEcDFOMuXhjJ36ev8vmBaqvQGWrWgqJ1r81QD4ua3Vg4zeQJM2H9jeB/cXaCs
-         nkWva3V3no1Bc+yAmErYpNdvMp5+sMp72HQS5Tuc3c/HmAKZq2oyemlaESmbSCArVOLo
-         hV3MjffNpA08p1yie64snDmVZ/6FDhGVtS/D9qnaNb4OGCJT2SvuaBFYRmkjLjbBFwdm
-         2FddmtjJ367bk8C5KZhxAjsCJToLmxyyuGkRnGFvmQTbMkcIishEjQgvuquQM0Ro83h3
-         wLHA==
+        bh=A82gvr7sDzCugWZNh93f0M6gJn7XxjisLQmLnxRt2mE=;
+        b=zE9SDQxRrNMvgT5AOn4wLnG+bekRarlMrudzpfoD4oXu83ct0Zw9R2vz5SBHRj7o3s
+         flpz0nwH+6msQoCHXt/SwF93d9LhBX1mJimAtG/SfSvpdYWvggr0ObZg/ol/G66k/+sw
+         alEZKZEx7AuCpZt49Gyoe0CphnFrswQfWb3nCKyCLWB0Qvbmuq+CTNa6Z9vC8t2L7ESu
+         LEsFN6Mvyn1hgR9083z54Zfij1UowlugiuOZX1hD3rNzEB7YchIZaoKtkzh39xJ4OlCJ
+         wq1qiWmb8ML31HlIJ1xJ1I/tNDAzsTukT3p9usAfZxpMJRUgYSsMo2uijrhE7P9dI7/V
+         ljqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733509027; x=1734113827;
+        d=1e100.net; s=20230601; t=1733515092; x=1734119892;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qlej7UHUsoeR+yZIvzIoLbF8ISp1uA7IpBE5oPajwGQ=;
-        b=pG9kd9JxkTekT4QW+/sySSrZtBx9PEn4yISKTcxEIk3T2SGYJGZhjl2Lz6p2E4PFdz
-         q0ug0abULzCMO1h7bqh7DosA4uljPiOWSNMRBZXWsuydSiz70mVncysyhWeUq/VgTv55
-         hwvWtQkG0mnSsG4U6HpIyP/H2Cg655AJnPHqsniUc9YzpERABdLmMhJ9U3DrruRZedP/
-         +VoRKdcq4Pq/rf1DwjFo3AvQj0ikmjVn17UAKegfY6YykWmWTfjVxC6rptYVsTmKPmZg
-         uNc3f3pBHgT4zOQS85N+JgSpV3LuAL4M/GPWBJBCvHZtDUT9+AvY8VPkATildJrNE0bP
-         AVfg==
-X-Forwarded-Encrypted: i=1; AJvYcCVOdOWK5wfb6a0CdNlUwEZMlZbQoTwKCs1PLsmvsMshKfa7X2OsCmUMfTjCx8z/WHACDq2qPnppIN5xXBF3@vger.kernel.org, AJvYcCVynQ9lAmVfx4/DKf8WkoccmeWqkLTKFaN4ORKhA0zOcGltMxVA+yHhCO/JKcxniQEzpf6Bh1fg2Iw=@vger.kernel.org, AJvYcCWfRn57C0nrUJIQPS9susaQMQT9s6DH8CTs5afVnCwtP+z0FejrNPCtWA5szKg2RYc8qdJc9y2du5VMwCQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW0pxKQGlWzaoBMehxzN4sKqqzZU9t7hLE39d+oSK0A+ThEK/I
-	kf+DridJSkm/E6mIcfmt98qbvKztPsoatW5Z+CGuz5LMVlLRLtXUlxA41bV7FEhRl1awJejKj+p
-	0ThlBcpmxtWuGaI3b/x+W88q2o0A=
-X-Gm-Gg: ASbGncshasYVUlADhSsRSy1YY/ei+VN8C//JdNkSug5GJB84Sbm5gYYGRC0kGMI5Kmp
-	y9iwfRmux014/7wloqiKJRY9/GHhyHg9y
-X-Google-Smtp-Source: AGHT+IFHdBprXTF/2XrgM8L9yFe2mpFgxWqG2GYDHruD27KoBjCURXLHgF7Yxsf+IoNcubV0lKMSH6eSrfm9m0Ynnvo=
-X-Received: by 2002:a2e:bcd0:0:b0:2ff:a928:a23e with SMTP id
- 38308e7fff4ca-3002fc68b7cmr15919451fa.25.1733509027170; Fri, 06 Dec 2024
- 10:17:07 -0800 (PST)
+        bh=A82gvr7sDzCugWZNh93f0M6gJn7XxjisLQmLnxRt2mE=;
+        b=e91J/Ii73fu69hdPewuwYkbqKJlFsp5lObQKymKvxr8LlcaUcEbacOKEWGLJALMnbL
+         mfRUDkajvXagy5CDC4vFrJl2XnqRcpzl4/YuMkzZjbBgTXKPefijcwPa9+nGTm6/5IF2
+         wvhibxZjmOHksNLnW5R5BCXNuA9cDYSLvsZMpIVZV/5eIkHh2VUiUIPL9WnFCo02rrg4
+         fV+WSJqQta9yWrKXE2gTjDsC8rGHx8gAL46pVJRYNM9OkiTZM+CFW78LGMWMPwcN7Fwa
+         /R1KTtk1zUtXy+GylIB6Fomo+tmCIvCPNiPPk8QSyHmKiRbcerpXaRonSqkmKaMGXQbh
+         LpJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWThOvhySj1Ozh+K9HoBkNTmVZ+37yMiWY+lIjyZqPn5w56UNVafMBPh2g545qDg3MdklCPD73JQI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwE3cadZY3XVklyaMm9Mgk9R77uPhKWIlClPwcUFxmiEoizICT
+	z+G03ScDdAKOXFcZI77YufzepaJ/KPn1LHZm9xH2dqFlOMn3mXE/5RUboB3bkl0Y+AN3XceDBtK
+	WcMZN2KHFAxtw1//BGEhkSWUwJSTxzWLWfxSg
+X-Gm-Gg: ASbGncutM/ZBSQLUMdUpCl0i/GwsoTwkWY+G0zLSOLNmiC1duFpUs0qUoLQVzuJ67uZ
+	P+v5PAvgwUCKU1YCgOeMvNdyOmJkmFaxtTSNLkmAXTc0DDbUtb9bA0jfwLuE=
+X-Google-Smtp-Source: AGHT+IHZdlpKcu54llf+M0CD9QkcB0RHZTeLren1vYJvc90nzNmtuhq9YRRgqZ68LMma3iPfL32X7Vz6IZrABpYfBzY=
+X-Received: by 2002:a17:902:ce06:b0:215:3e48:2b17 with SMTP id
+ d9443c01a7336-2162ad6a092mr200125ad.5.1733515091991; Fri, 06 Dec 2024
+ 11:58:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241107200835.3033-1-yesanishhere@gmail.com> <87cyj622oc.fsf@trenco.lwn.net>
- <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org> <874j4i205j.fsf@trenco.lwn.net>
- <70a27fe2-cc85-4f35-b24a-8e3425e447d0@infradead.org> <87v7wyznow.fsf@trenco.lwn.net>
- <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org> <87wmh8p5ag.fsf@trenco.lwn.net>
-In-Reply-To: <87wmh8p5ag.fsf@trenco.lwn.net>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Fri, 6 Dec 2024 10:16:55 -0800
-Message-ID: <CABCoZhAmsXN2e1RoAudUzYDNa6dU-orUPojp0S4jixqUtEt4ew@mail.gmail.com>
-Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20241127025728.3689245-1-yuanchu@google.com> <20241127072604.GA2501036@cmpxchg.org>
+In-Reply-To: <20241127072604.GA2501036@cmpxchg.org>
+From: Yuanchu Xie <yuanchu@google.com>
+Date: Fri, 6 Dec 2024 11:57:55 -0800
+Message-ID: <CAJj2-QFdP6DKVQJ4Tw6rdV+XtgDihe=UOnvm4cm-q61K0hq6CQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/9] mm: workingset reporting
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, Khalid Aziz <khalid.aziz@oracle.com>, 
+	Henry Huang <henry.hj@antgroup.com>, Yu Zhao <yuzhao@google.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Gregory Price <gregory.price@memverge.com>, 
+	Huang Ying <ying.huang@intel.com>, Lance Yang <ioworker0@gmail.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Muhammad Usama Anjum <usama.anjum@collabora.com>, 
+	Tejun Heo <tj@kernel.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Daniel Watson <ozzloy@each.do>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, SeongJae Park <sj@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 12, 2024 at 12:26=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
-rote:
->
-> Randy Dunlap <rdunlap@infradead.org> writes:
->
-> > On 11/7/24 2:25 PM, Jonathan Corbet wrote:
->
-> >> If we really want to separate the mechanics of kernel development from
-> >> the associated process information - not always an easy separation, IM=
-O
-> >> - we could make a top-level "development" directory, put a lot of the
-> >> other relevant stuff there, and include the debugging stuff.  It seems
-> >> really weird to put debugging by itself, though; it's only part of the
-> >> picture.
-> >
-> > I could go with that.
-> >
-> >>
-> >> Why is Documentation/process so bad?
-> >
-> > Documentation/process/ is meta-documentation about kernel social "stand=
-ards"
-> > among other things. It is "soft" documentation, whereas debugging (IMHO=
-) is
-> > "hard" documentation.
-> >
-> > But hey, it's all your baby. Do whatever pleases you. :)
->
-> Hopefully not all mine...:)
->
-> My suggestion is to put it under process for now just to not block
-> forward progress on this work.  We can surely relocate it if we want to
-> make a proper development-processes top-level directory in the future.
->
-> Thanks,
->
-> jon
+Thanks for the response Johannes. Some replies inline.
 
-Hi Jonathan,
+On Tue, Nov 26, 2024 at 11:26=E2=80=AFPM Johannes Weiner <hannes@cmpxchg.or=
+g> wrote:
+>
+> On Tue, Nov 26, 2024 at 06:57:19PM -0800, Yuanchu Xie wrote:
+> > This patch series provides workingset reporting of user pages in
+> > lruvecs, of which coldness can be tracked by accessed bits and fd
+> > references. However, the concept of workingset applies generically to
+> > all types of memory, which could be kernel slab caches, discardable
+> > userspace caches (databases), or CXL.mem. Therefore, data sources might
+> > come from slab shrinkers, device drivers, or the userspace.
+> > Another interesting idea might be hugepage workingset, so that we can
+> > measure the proportion of hugepages backing cold memory. However, with
+> > architectures like arm, there may be too many hugepage sizes leading to
+> > a combinatorial explosion when exporting stats to the userspace.
+> > Nonetheless, the kernel should provide a set of workingset interfaces
+> > that is generic enough to accommodate the various use cases, and extens=
+ible
+> > to potential future use cases.
+>
+> Doesn't DAMON already provide this information?
+>
+> CCing SJ.
+Thanks for the CC. DAMON was really good at visualizing the memory
+access frequencies last time I tried it out! For server use cases,
+DAMON would benefit from integrations with cgroups. The key then would
+be a standard interface for exporting a cgroup's working set to the
+user. It would be good to have something that will work for different
+backing implementations, DAMON, MGLRU, or active/inactive LRU.
 
-I wanted to check with you regarding the timing for sending the patch.
-Should I go ahead and submit an updated version after relocating it
-under the process/debugging section?
+>
+> > Use cases
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Job scheduling
+> > On overcommitted hosts, workingset information improves efficiency and
+> > reliability by allowing the job scheduler to have better stats on the
+> > exact memory requirements of each job. This can manifest in efficiency =
+by
+> > landing more jobs on the same host or NUMA node. On the other hand, the
+> > job scheduler can also ensure each node has a sufficient amount of memo=
+ry
+> > and does not enter direct reclaim or the kernel OOM path. With workings=
+et
+> > information and job priority, the userspace OOM killing or proactive
+> > reclaim policy can kick in before the system is under memory pressure.
+> > If the job shape is very different from the machine shape, knowing the
+> > workingset per-node can also help inform page allocation policies.
+> >
+> > Proactive reclaim
+> > Workingset information allows the a container manager to proactively
+> > reclaim memory while not impacting a job's performance. While PSI may
+> > provide a reactive measure of when a proactive reclaim has reclaimed to=
+o
+> > much, workingset reporting allows the policy to be more accurate and
+> > flexible.
+>
+> I'm not sure about more accurate.
+>
+> Access frequency is only half the picture. Whether you need to keep
+> memory with a given frequency resident depends on the speed of the
+> backing device.
+>
+> There is memory compression; there is swap on flash; swap on crappy
+> flash; swapfiles that share IOPS with co-located filesystems. There is
+> zswap+writeback, where avg refault speed can vary dramatically.
+>
+> You can of course offload much more to a fast zswap backend than to a
+> swapfile on a struggling flashdrive, with comparable app performance.
+>
+> So I think you'd be hard pressed to achieve a high level of accuracy
+> in the usecases you list without taking the (often highly dynamic)
+> cost of paging / memory transfer into account.
+>
+> There is a more detailed discussion of this in a paper we wrote on
+> proactive reclaim/offloading - in 2.5 Hardware Heterogeneity:
+>
+> https://www.cs.cmu.edu/~dskarlat/publications/tmo_asplos22.pdf
+>
+Yes, PSI takes into account the paging cost. I'm not claiming that
+Workingset reporting provides a superset of information, but rather it
+can complement PSI. Sorry for the bad wording here.
+
+> > Ballooning (similar to proactive reclaim)
+> > The last patch of the series extends the virtio-balloon device to repor=
+t
+> > the guest workingset.
+> > Balloon policies benefit from workingset to more precisely determine th=
+e
+> > size of the memory balloon. On end-user devices where memory is scarce =
+and
+> > overcommitted, the balloon sizing in multiple VMs running on the same
+> > device can be orchestrated with workingset reports from each one.
+> > On the server side, workingset reporting allows the balloon controller =
+to
+> > inflate the balloon without causing too much file cache to be reclaimed=
+ in
+> > the guest.
+The ballooning use case is an important one. Having working set
+information would allow us to inflate a balloon of the right size in
+the guest.
+
+> >
+> > Promotion/Demotion
+> > If different mechanisms are used for promition and demotion, workingset
+> > information can help connect the two and avoid pages being migrated bac=
+k
+> > and forth.
+> > For example, given a promotion hot page threshold defined in reaccess
+> > distance of N seconds (promote pages accessed more often than every N
+> > seconds). The threshold N should be set so that ~80% (e.g.) of pages on
+> > the fast memory node passes the threshold. This calculation can be done
+> > with workingset reports.
+> > To be directly useful for promotion policies, the workingset report
+> > interfaces need to be extended to report hotness and gather hotness
+> > information from the devices[1].
+> >...
+> >
+> > Benchmarks
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Ghait Ouled Amar Ben Cheikh has implemented a simple policy and ran Lin=
+ux
+> > compile and redis benchmarks from openbenchmarking.org. The policy and
+> > runner is referred to as WMO (Workload Memory Optimization).
+> > The results were based on v3 of the series, but v4 doesn't change the c=
+ore
+> > of the working set reporting and just adds the ballooning counterpart.
+> >
+> > The timed Linux kernel compilation benchmark shows improvements in peak
+> > memory usage with a policy of "swap out all bytes colder than 10 second=
+s
+> > every 40 seconds". A swapfile is configured on SSD.
+> > --------------------------------------------
+> > peak memory usage (with WMO): 4982.61328 MiB
+> > peak memory usage (control): 9569.1367 MiB
+> > peak memory reduction: 47.9%
+> > --------------------------------------------
+> > Benchmark                                           | Experimental     =
+|Control         | Experimental_Std_Dev | Control_Std_Dev
+> > Timed Linux Kernel Compilation - allmodconfig (sec) | 708.486 (95.91%) =
+| 679.499 (100%) | 0.6%                 | 0.1%
+> > --------------------------------------------
+> > Seconds, fewer is better
+>
+> You can do this with a recent (>2018) upstream kernel and ~100 lines
+> of python [1]. It also works on both LRU implementations.
+>
+> [1] https://github.com/facebookincubator/senpai
+>
+> We use this approach in virtually the entire Meta fleet, to offload
+> unneeded memory, estimate available capacity for job scheduling, plan
+> future capacity needs, and provide accurate memory usage feedback to
+> application developers.
+>
+> It works over a wide variety of CPU and storage configurations with no
+> specific tuning.
+>
+> The paper I referenced above provides a detailed breakdown of how it
+> all works together.
+>
+> I would be curious to see a more in-depth comparison to the prior art
+> in this space. At first glance, your proposal seems more complex and
+> less robust/versatile, at least for offloading and capacity gauging.
+We have implemented TMO PSI-based proactive reclaim and compared it to
+a kstaled-based reclaimer (reclaiming based on 2 minute working set
+and refaults). The PSI-based reclaimer was able to save more memory,
+but it also caused spikes of refaults and a lot higher
+decompressions/second. Overall the test workloads had better
+performance with the kstaled-based reclaimer. The conclusion was that
+it was a trade-off. Since we have some app classes that we don't want
+to induce pressure but still want to proactively reclaim from, there's
+a missing piece. I do agree there's not a good in-depth comparison
+with prior art though.
