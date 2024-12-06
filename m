@@ -1,193 +1,217 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11023075.outbound.protection.outlook.com [40.107.201.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863C318B09
-	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 01:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733449759; cv=none; b=EtTrkP4lOb34egF+m9eJqTyHm2UfHiPHXSZcEcux+5ZC2bDMfrODdZdbuJvY27wyuyX4ge0YIIsxc4K5T9hqYTqhPqZOm2uUG/4mg78eT0dHlYhd71U8XXSf+aJvdBMCXQjKmTl2K3TxZSiS0yIdzEfnSeDzUvxhhuRLcNRSFV0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733449759; c=relaxed/simple;
-	bh=LMmlWKNmVBwdw/whPUOfRU56EnAaGuw/30vVRzfcLnA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ae3i1iYyXk0Y7FI2pwCB1NfPnKrBvvFVHErLtYsrTwR4pIxjP48MAuwv5D5KGHgiqcI9Wo0shc39LVIWjmdgjjjEF1iJLqqzcLlmRYQkfTcGTsWGuxpfIkQfciop4sq/k6PZe/9GoXB88nGSsSaFr/P+Ii58EMJ7mhNX9gEUH6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gYFejM7l; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E912412FB0A;
+	Fri,  6 Dec 2024 03:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733455494; cv=fail; b=c0XqpvVG8dgjxlHWtOZ/5p0TW1JAFI8ZOoiy0qk6aYkDVWJX+OmuOgr3wB9c7vkBGN2MTAPVn4OcGaSRHVLtrkj4D+7f1o9gR2EHg7+b/AaqdgZY1/Y+Lwj/uDE4jUc7rQqmmyyXDEQjzG+sUR2C+GcC5cOcoh1YlflK+aY9Qr0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733455494; c=relaxed/simple;
+	bh=ADPr1y9IeBzPlakf/Z2fyYd8+3Ci1jYx7dke2wXEcFs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ieClXHSdujZzSg/4byixZM8qfUVTkwA2Gxhq47tyvs+ROnLD9unkd0WXqkaNR5yhaFZp2ScmlVFOXk+6FmpfAQVwiRMb+ru8xx3sZLgfP/gR8axuT4dJqFiOTsXLDD1kWUWNSUVSH1Lk/SFJrjwSBPn8vPsWxbKW3JAa8rlRHB8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=gYkDwIvx; arc=fail smtp.client-ip=40.107.201.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gYFejM7l"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d0d71d7f00so2446146a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 17:49:17 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="gYkDwIvx"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zBmP/TQqCGL2hXC6lzMvzp9GbUwAuJsmHAjWyPT2lv8MVntwpzhGg9vrvAIbYQLpXbvQ8XhDFdgP4NFom1wzkUX4fWCJ6gddM7IfBqILDheA9HSnTWOdu+JEtBj7bO9Ri6/AoHKgAqwbpCvfbW6Kq64vbFgh3RdhY0pt9t6ykI8zcfPJmVB5edtLH9cAH/MZ84ROylF0NIDTh5d8wncUCEheRWMm4lUAE2Q5ohdwEdullTS8pdIysJ2RjVu9jeIe+XKlfAuDmQSkRADmcEacYEt9AdF8kRN+I4QD8jBSMAhNHbDunesRuJ1OjEf75rfgdesMbtmV+aneet/dTVE+Fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MUmcvK9L4U2rvaDvmfPJpH0OTH8JqXN5kshonLki2gY=;
+ b=mHs5jxmHVCqtrU42GckHH94Cv9GDb1wtC5qWQuWvkzxbfTFLuQow09wGjJSuS8vih1kaOjiR1hXNjE8KtcVvcjmGhyOa+RidAYaN5Ir0UqOGAKwJt8YjvrxgIWFgZyN/xcwjIQWiwdoFdQMs9Cp+xRchSy3UL5lLqRqRgMesLN0ddmOv9m5KJ3DyfyXlzvmM8JPYpckCBBYf+uIzG0jgwl53XCgxKdj+SZl3hjOPMkR3fOvHXUZiA6gL2I14dx+y2XKUL2z30adsTR1Wx8k79hITOxMy6xli2IMQ4f3Ybz+1BzAPPGfOrjyb4r7BfmD06RJv7wd5x8ah+U4eduRqKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733449756; x=1734054556; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g/v1bu1qzcHSaRbclvMhL2gHRSj6sckPpuptjguLzmU=;
-        b=gYFejM7liyM2SqJq+cgAKPRopd+rXD0WPBlcIa47nuFvnXomjpA5B5FVPI8lShjXWj
-         pVqJswMdRGm4YljFwxq6v2AtbuRE6NjHoPZ3Jpg4Jx7bNvFpPDaYuJJ+EFEMFPWFfxp5
-         vNM3I0MGN6gnLY72V4dlSaB8JXtluw6/3xqKkVi6UYWBT2K/0pGJUo8YBShfsqSZqpzS
-         35lpDTptkLN7fybTEC7hLhVNSTVEeMCoWdOpe389L9Tg+bh1scSByoYCpeABrocHudfN
-         4fkCfZEVRReebBynFPS0iIlBRXgUyUlKo38Tfdbaz36zAgmKhr9mUPIm64jgnjuruFLQ
-         0HgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733449756; x=1734054556;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g/v1bu1qzcHSaRbclvMhL2gHRSj6sckPpuptjguLzmU=;
-        b=d7xB4g6bTrvbu4JP2yk/SPObP4zmb4Lo0Elm3SsPjYeLWBvd5Tq5s3WJ7tcbcRlP6u
-         B5YA8vgSpGG23PCHoptK1M9r/qg5U4nsn11DcaFG96C97eANTqYFs3N7haaSVUQ6A+Tl
-         twGKpp1jGkmzd0X+6SWf/IXVHfmRn3/7Uwl8kNg/ZAfL/SyUrzbyQmN8HL9pQT5pbSyB
-         TkOISwWkvPcqkfupMlJ1494/detd3HfzdiYCjH4zk1YGXunNshN/o+tfMw/sNw0e9bsO
-         hQQ4LyzOsYi82HbgTRdvNBdAAUd623xZZGN1G1TiLnsjPoQvP728IhJ53oVDbJrMg65X
-         i+zQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7osn/9WEa7kF/6zDRsalteCQfTpt+tboHAPUEt34aLFyjlf2r8jHGXIru9bELzF5ngQxS27/k7BU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvpOIj98j2xywamT8YMzRAW2RJM7P31qq5ZgCnsOrLeRtGysN/
-	4r1tXRM4KETwcUszY2luWW0ITyI/zijHsdwD4UoJKhHK2ZXObw6xmVgY8IGJUWL9pmVO/+WzSrj
-	+80ASg7SKH8PGk1VCoCFCN9e3r5fnHWrWJesi
-X-Gm-Gg: ASbGncsURi4eSkjubW/b34IF+pxu6jMw0ZSifG1jsKK5DP2th+oH5nfloeIK0ptQMnY
-	vaSEIRv9bT0cwmDiFvGje0G3RVFV92CZQuZW7BifRhOEGfvYfuSn2qLRBzi1LefHu
-X-Google-Smtp-Source: AGHT+IHWoFKow2oW9dCX31mwU7asjyqdFAGshEQB6zNAgVBklECaZ8FGAbU3zPEKbfahKyrrE3z9TE1WY+b0pveDS+8=
-X-Received: by 2002:a05:6402:320d:b0:5d1:2677:b047 with SMTP id
- 4fb4d7f45d1cf-5d3be720dd8mr1350471a12.28.1733449755904; Thu, 05 Dec 2024
- 17:49:15 -0800 (PST)
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MUmcvK9L4U2rvaDvmfPJpH0OTH8JqXN5kshonLki2gY=;
+ b=gYkDwIvxscmyhcO8GfMWkgZYLoN+u6jRsfFJBuBoslYuxSlrNU8mZdSIB38bslx/HZQ7NOiu4OGGsdUGfXYD+8ZcQX/CgFIsMNOtrho6fAhaeCVRKqm12dCwDsWD8ZNcQ7ZIWcD5p8870+MCOh6IPDBSVvYRZMhKHocxBhjl15U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from PH0PR01MB7975.prod.exchangelabs.com (2603:10b6:510:26d::15) by
+ CH3PR01MB8340.prod.exchangelabs.com (2603:10b6:610:177::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8230.10; Fri, 6 Dec 2024 03:24:48 +0000
+Received: from PH0PR01MB7975.prod.exchangelabs.com
+ ([fe80::6926:a627:118e:8050]) by PH0PR01MB7975.prod.exchangelabs.com
+ ([fe80::6926:a627:118e:8050%3]) with mapi id 15.20.8251.008; Fri, 6 Dec 2024
+ 03:24:47 +0000
+From: Huang Shijie <shijie@os.amperecomputing.com>
+To: catalin.marinas@arm.com,
+	will@kernel.org
+Cc: patches@amperecomputing.com,
+	cl@linux.com,
+	paulmck@kernel.org,
+	akpm@linux-foundation.org,
+	thuth@redhat.com,
+	rostedt@goodmis.org,
+	xiongwei.song@windriver.com,
+	ardb@kernel.org,
+	steven.price@arm.com,
+	suzuki.poulose@arm.com,
+	mark.rutland@arm.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Huang Shijie <shijie@os.amperecomputing.com>
+Subject: [PATCH v2 4/4 fix] arm64: add a new document for the fine-tuning tips
+Date: Fri,  6 Dec 2024 11:23:43 +0800
+Message-Id: <20241206032343.6357-1-shijie@os.amperecomputing.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20241126085647.4993-5-shijie@os.amperecomputing.com>
+References: <20241126085647.4993-5-shijie@os.amperecomputing.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MAXPR01CA0118.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:5d::36) To PH0PR01MB7975.prod.exchangelabs.com
+ (2603:10b6:510:26d::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241112184455.855133-1-ojeda@kernel.org> <CAABy=s1u75ywAECbkCmGfyt+Yp5khnF0UVcezA-_BEDWUVrHkw@mail.gmail.com>
- <CAK7LNAQJUdubjkvV0T0XRU8=336rV88b7+t6BP4xR9v_g38eKQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAQJUdubjkvV0T0XRU8=336rV88b7+t6BP4xR9v_g38eKQ@mail.gmail.com>
-From: "Hong, Yifan" <elsk@google.com>
-Date: Thu, 5 Dec 2024 17:48:38 -0800
-Message-ID: <CAABy=s3ONLwVugBSc=DhC8MdGa9YaAM6ZL5yrWRciLDLLtKmrw@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: rust: add PROCMACROLDFLAGS
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	linux-kbuild@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR01MB7975:EE_|CH3PR01MB8340:EE_
+X-MS-Office365-Filtering-Correlation-Id: 95cf8766-c6db-480e-3c47-08dd15a5891b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|7416014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?6iAgD0qn9MyGjX9Lr+y64NnQdphgkeag1Zf0JgYlmJgmIEaFz7i4XasqSW7i?=
+ =?us-ascii?Q?sRRdVHhgJL2Ks7U85CfI1q+b8fl2NUmgOyE1q6Nc0LtTj0IPpr2/y1SVgwl0?=
+ =?us-ascii?Q?seD4TI30t43f5R75cweJovLTZ2H7rKk3bxUH9e+r0kXch9Q/BRS3Jcwt5dDU?=
+ =?us-ascii?Q?yrLD27E5Xx88rsmo954VRzThW4HrgYhhADvl337ASDTZCQW7hiCjjlhMSxT+?=
+ =?us-ascii?Q?+ItakaTzLQAiWCNBBTe7Cz0eU5oT+AgQ4A4nYCJErPf8k+gNVyaDj0zxj0HP?=
+ =?us-ascii?Q?i7hqRS60jssp7mQaZoGFtY1+Y1uyjfvOY2T9ySobLTGnFYXI6A5BHUzTsx6X?=
+ =?us-ascii?Q?+0saqa6ghY9DF0sTmvjW8yzjLClXOFyaWdMtRqMdeEu0rNIXJkQtoLugB+Em?=
+ =?us-ascii?Q?CnGpsZD/fVDle6ejB/fizkhRNgyVJZ/PWs9ih2hrevsQG/WK1H3wz0THiCc8?=
+ =?us-ascii?Q?KJCuAVm+3IghBuunePXpEBUXujZm5PAv5t8il1mYbBm1iLtctrB44qH2rxTw?=
+ =?us-ascii?Q?PbG1N1Mk9hDRK5LYhbMrgjnkho9mi+WXciM4QkDXU3rs2z7XGKwWhra7JQU9?=
+ =?us-ascii?Q?SXILvbyL9k3HzTuawiD3d/rpxKqdIdWyx2ZvI5uKM6lThRNNQTcD/iDOag9g?=
+ =?us-ascii?Q?f9Jf/BZm7jThbTXlXYR/Zr5rDJcjR01bfLmJZjsKKQ8GYGlybVfOhzfh2dd/?=
+ =?us-ascii?Q?G8xJANBjdUCDQqmOLdIRSerTLN65MUd4b7RhOraDvp9CRUGI2ZdkN7wl8lM2?=
+ =?us-ascii?Q?Bx3NYqmHM04B8Zsa+M5VHMd5IXSZ+zRyDEH+NBBpOrLRzwmw3vtQcY3B5hmW?=
+ =?us-ascii?Q?N0Rrly+ON/9DJqpbIufGKCVNQzz8Wvi8hIT/3CJAo/3E4pGEVWyH8VdkP+Xl?=
+ =?us-ascii?Q?G3uLYVhx8UG+ZbJ3abcvfkJZD2l0x+jDL/vGqhqZ32/si2NKiF4DYdABv2+7?=
+ =?us-ascii?Q?ozWUCNc1mO7ZRQNpGHNU2i4N27kUP3J9/bCeI32YrTSICA0+lWZCsiD2NOm0?=
+ =?us-ascii?Q?UOE90Vu/i8U28cJQv0SxK0UDEYjtr2VZTwJQZ57mKXCA8LJLTpAHnxWbRnOq?=
+ =?us-ascii?Q?5quN0INVMRX0t8d76Dy8Cvp/i0IKaXSZSuBpstCd77vQvrT9xZqTEnvE56dk?=
+ =?us-ascii?Q?09xckP7HVARKnJBApJ7IL9XcpjgdR0qh9/7RlYNKehDaO4EVbXvFJBqvaYLy?=
+ =?us-ascii?Q?vy8u8BCmU0SvmKuV6xY/VfdHnZL5i1+hdCIw7sc7K9TTS1KhTn48VJcHMRvh?=
+ =?us-ascii?Q?tPXPibnG/sxgh03bvqMjbF50mW6u5J4LPI1qZLgi/tpLY6y7YYyfnENPTMPK?=
+ =?us-ascii?Q?R8of4Xxb3oX1s/K/3Lqft1F5IidJ5BRc0juG9TJOlTscUmJRU3+MxkgF3sst?=
+ =?us-ascii?Q?dHzt3a4Uvq+Fa7mHX2uS4/fPEK55x3uv0g02mI36xxKLqsEzGw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR01MB7975.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(7416014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4NZrxc5D1FNfp/29yvhIZxzCxiUSVJhf9oAdV2W5PJEYT5oHQfk4MO2WzWgk?=
+ =?us-ascii?Q?sdkZ5B+dnCOlX0xJP79Uek1ziy8inyplzu4q26PH73qeu8BI6uFeFEMAOqAE?=
+ =?us-ascii?Q?kEGnobxwvXKXXYpFTUAdB68V7V42NiIqhoZWr4xBuJKJJ9NBUZXEQ36pu7aj?=
+ =?us-ascii?Q?pMnuQNKQ2Wiv7bu3/yK7vRSvL2Vo73d8Ix9WUduOZ6incWJamMw+gR1fFykd?=
+ =?us-ascii?Q?j49oat5FteasalmrWVD6UhUjFgvJoGH8RQyHDLaIGSj+NnnP6/IRTY1lVSb2?=
+ =?us-ascii?Q?TmXMEIVbe219k9uT1ganaLBKJyOkj58PUd/4yXh/C6gOCDI8TLb/rYBMlgXD?=
+ =?us-ascii?Q?QBZM9whlEQ1fE8XTk39Vqv3zFLtBQd9TeztSMnszvwtFBBc4I/uAuJUQ4Xe7?=
+ =?us-ascii?Q?8TXjBTUN0D//lkM5oyiag7xBeZoRriQMKYZD3GePC42anTZnqr05NkM2JvHn?=
+ =?us-ascii?Q?o+iUZ5bOen6gp2J9bs9b+fUJvji6Nm/P5PkNfypFmbhMM0pDExBDRmkbbh18?=
+ =?us-ascii?Q?7/KQ5u5k2EyP9DitrIkcUxDRd3lkSaJ53hHGC/f2W9feeV/LdSSusz3/8E9e?=
+ =?us-ascii?Q?CZAjpl03w7i/eFuh2HadOfOVs/+iKhtIL8wly7zcu+EBDWp2TDEocGTg+WUt?=
+ =?us-ascii?Q?Ew6GBDUB3Lh5C5xnC3/A7gUvy7CxMaThXEQv66gZ5oDiStylUJg9JaR4wkNC?=
+ =?us-ascii?Q?wGy3v20s3N8YgxQHefu9s+kDso6/IrT+9OKdOwEicFpEkZC5if4IgRN1ayUm?=
+ =?us-ascii?Q?QazBvW/efQ/M//SsSpvJKBPqsE1A9WKNTQd2eS5wRM+JmwaHZvPWgoe7gX6d?=
+ =?us-ascii?Q?mw/CBAuT4e5QmmjdV5uyx+PURTV1Z2w//7NwdLPZ3dYy9QfsjE1giZ/jRxUI?=
+ =?us-ascii?Q?yi/LCswXrr1wpGM8CV/XKW5jApq/P7u6kRxWBxvB5ye6lADU3SVFpkI8R6Pn?=
+ =?us-ascii?Q?A9uaZJn1RlxEIq5uFBCwa9lvLc94n4HBe0Ml3a+ysn6IE2CeYW7zdB48Ke8J?=
+ =?us-ascii?Q?PXLNrSIC65KTbwFOc/e0tdU3i8rFGH8gwG/Wy8n1/LzmrQ9u4yIjst0BIbhr?=
+ =?us-ascii?Q?hHO2hhHL0JMS97rSAZadZOSfd7YoZo3EkpK9aLJ965s/vt0tE6CPQse8c65m?=
+ =?us-ascii?Q?s/eUh1fgZFUDDFJjs4iqb0gJvh9972EKYFi2MzRunolr11wBQYFB5ihTRlPV?=
+ =?us-ascii?Q?Md7HmZC1xfy8iL4CjLzRc6c5rZXnwh3tCODjWk+ncWKBzNwySmXzV7wnCq2m?=
+ =?us-ascii?Q?LoJZmDbrs/ty828v9QpHJsmBqit3e5k5pvSNTrV2SFUSFP4pV/8Vf8jluBgO?=
+ =?us-ascii?Q?ZtrtObyYWLMiG2FIR2B+7h0Py9gv7wFOoEwDS518vHMbOid8dETKINDyU664?=
+ =?us-ascii?Q?fIKol653aqEjLsINgWgmwE3fw1wwRG1c3iZeIFTP4z/eNlLMGL/ZpWYXRSzj?=
+ =?us-ascii?Q?2U0xWWtNHsZDsg1foJmr0FZrvFpOHM5bQI6XsBch2gxcAHC7mQ1FKi6xm2UX?=
+ =?us-ascii?Q?iUzKa6uLvaMtpdSa3WpdUBiSM+Q/OsaqTtdEuPcBv6kgSZjCAX5CAGbnL610?=
+ =?us-ascii?Q?tRqUjd38Xxtz57KqJ9E2JrY+F48mnCP9bYhvPkLuCf6zgvRRrY2o3MhrkEZh?=
+ =?us-ascii?Q?GCJUzsbxzmg6QVW6zX4HNGc=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95cf8766-c6db-480e-3c47-08dd15a5891b
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR01MB7975.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2024 03:24:47.6599
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4GNS07eY+7VE4AuKU3zeY9hoRu5aNtQ/n97yhOoEy7eCiTOa6nkVnJXikBDQf56kqU8K0lzR6FFErdrdpU8uTp1ipnhn5nkw+vtSU5jDe7nGer2YB4S2tIWiV4ikPshD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR01MB8340
 
-On Thu, Dec 5, 2024 at 5:28=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
->
-> On Fri, Dec 6, 2024 at 8:40=E2=80=AFAM Hong, Yifan <elsk@google.com> wrot=
-e:
-> >
-> > On Tue, Nov 12, 2024 at 10:45=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org=
-> wrote:
-> > >
-> > > From: HONG Yifan <elsk@google.com>
-> > >
-> > > These are flags to be passed when linking proc macros for the Rust
-> > > toolchain. If unset, it defaults to $(KBUILD_HOSTLDFLAGS).
-> > >
-> > > This is needed because the list of flags to link hostprogs is not
-> > > necessarily the same as the list of flags used to link libmacros.so.
-> > > When we build proc macros, we need the latter, not the former (e.g. w=
-hen
-> > > using a Rust compiler binary linked to a different C library than hos=
-t
-> > > programs).
-> > >
-> > > To distinguish between the two, introduce this new variable to stand
-> > > out from KBUILD_HOSTLDFLAGS used to link other host progs.
-> > >
-> > > Signed-off-by: HONG Yifan <elsk@google.com>
-> > > Link: https://lore.kernel.org/r/20241017210430.2401398-2-elsk@google.=
-com
-> > > [ v3:
-> > >
-> > >   - `export`ed the variable. Otherwise it would not be visible in
-> > >     `rust/Makefile`.
-> > >
-> > >   - Removed "additional" from the documentation and commit message,
-> > >     since this actually replaces the other flags, unlike other cases.
-> > >
-> > >   - Added example of use case to documentation and commit message.
-> > >     Thanks Alice for the details on what Google needs!
-> > >
-> > >   - Instead of `HOSTLDFLAGS`, used `KBUILD_HOSTLDFLAGS` as the fallba=
-ck
-> > >     to preserve the previous behavior as much as possible, as discuss=
-ed
-> > >     with Alice/Yifan. Thus moved the variable down too (currently we
-> > >     do not modify `KBUILD_HOSTLDFLAGS` elsewhere) and avoided
-> > >     mentioning `HOSTLDFLAGS` directly in the documentation.
-> > >
-> > >   - Fixed documentation header formatting.
-> > >
-> > >   - Reworded slightly.
-> > >
-> > >          - Miguel ]
-> > > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> > > ---
-> > > Masahiro: if Kbuild wants to pick this up, that is great. Otherwise, =
-I am happy
-> > > picking this up early next cycle, if you give an `Acked-by` since thi=
-s is
-> > > changing the interface for Kbuild users given we are introducing a ne=
-w
-> > > environment variable. Thanks!
-> > >
-> > > Note that the `or` means if the string is empty, we will use the defa=
-ult rather
-> > > than nothing. I didn't change that from Yifan's version, but maybe we=
- want to do
-> > > otherwise. Users can still provide e.g. an empty space to avoid any f=
-lag.
-> >
-> > I am not sure if I understand the implications here.
-> > https://www.gnu.org/software/make/manual/html_node/Conditional-Function=
-s.html
-> > says:
-> >
-> > The or function provides a =E2=80=9Cshort-circuiting=E2=80=9D OR operat=
-ion. Each
-> > argument is expanded, in order. If an argument expands to a non-empty
-> > string the processing stops and the result of the expansion is that
-> > string. If, after all arguments are expanded, all of them are false
-> > (empty), then the result of the expansion is the empty string.
-> >
-> > I am assuming that this means:
-> > - If PROCMACROLDFLAGS is not empty, KBUILD_PROCMACROLDFLAGS evaluates
-> > to PROCMACROLDFLAGS
-> > - Otherwise if KBUILD_HOSTLDFLAGS is not empty,
-> > KBUILD_PROCMACROLDFLAGS evaluates to KBUILD_HOSTLDFLAGS
-> > - Otherwise KBUILD_PROCMACROLDFLAGS is set to empty.
->
-> I think your understanding is correct.
->
-> $(or A,B) works like $(if A,A,B)
->
-> Commit 5c8166419acf shorten the code.
->
->
->
-> > What do you mean by "use the default"?
->
->
-> "use the default" means,
-> "use $(KBUILD_HOSTLDFLAGS)"
+Put some fine-tuning tips in this file:
+	1.) rodata=noalias
+	2.) slab_strict_numa
+	3.) CONFIG_SCHED_CLUSTER
 
-Thank you for confirming. I think this is my original intention. If
-PROCMACROLDFLAGS (a new API) is not set, the code should have the same
-behavior as before this patch, i.e. cmd_rustc_procmacro uses
--Clink-args KBUILD_HOSTLDFLAGS. This minimizes surprises for existing
-users.
+We can add more tips in future.
 
+Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
+---
+Add the comment from Christoph.
+---
+ Documentation/arch/arm64/fine-tuning-tips.rst | 25 +++++++++++++++++++
+ Documentation/arch/arm64/index.rst            |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 Documentation/arch/arm64/fine-tuning-tips.rst
 
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+diff --git a/Documentation/arch/arm64/fine-tuning-tips.rst b/Documentation/arch/arm64/fine-tuning-tips.rst
+new file mode 100644
+index 000000000000..df67a5ac87b9
+--- /dev/null
++++ b/Documentation/arch/arm64/fine-tuning-tips.rst
+@@ -0,0 +1,25 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++================
++fine-tuning tips
++================
++
++This file contains some fine-tuning tips for arm64 machines.
++These tips do not gurantee that you can get better performance,
++but you can try them with your workload.
++
++rodata=noalias
++----------------
++It can provide us more block mappings and contiguous hits
++to map the linear region which minimizes the TLB footprint.
++
++slab_strict_numa
++----------------
++In NUMA, it will provide the local memory allocation by SLUB.
++Slab objects will be placed individually according to memory policies.
++Increases object locality which is useful for NUMA systems using SLC caches.
++
++CONFIG_SCHED_CLUSTER
++----------------
++Some arm64 machines have cpu core clusters, enable it may
++helps you get better performance.
+diff --git a/Documentation/arch/arm64/index.rst b/Documentation/arch/arm64/index.rst
+index 6a012c98bdcd..36d1ef09bd71 100644
+--- a/Documentation/arch/arm64/index.rst
++++ b/Documentation/arch/arm64/index.rst
+@@ -16,6 +16,7 @@ ARM64 Architecture
+     cpu-feature-registers
+     cpu-hotplug
+     elf_hwcaps
++    fine-tuning-tips
+     gcs
+     hugetlbpage
+     kdump
+-- 
+2.40.1
+
