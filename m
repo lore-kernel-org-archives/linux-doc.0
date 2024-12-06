@@ -1,160 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76691514CE;
-	Fri,  6 Dec 2024 15:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B35E53A7;
+	Fri,  6 Dec 2024 15:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733498433; cv=none; b=Qu6leaKmHTCbYYOXHX/pGSDHcyzaE1VO7BLFX6VrycPw6tO5Ubj6ejNKReb5TVMZGrv78O8BXLjenVyA7DGPqruE/zZM9lHPnRFuAgIFf+xyxCX6OlcchOdUwekJ/Y3d6T2tFF92hxlsD8dbVt6Z0Y9wa8WQIV+bRGATgfW3r3A=
+	t=1733498510; cv=none; b=WkWG7TR/TfDkCBGZNc1D0Y21qHaWGzO3cred+oiIEfkMwVtT7wfnd2DfmaNr3Rhcyv5YxWVHqzfkcWluI0L3+/PRbdkzMRmPDflaTM1PGy0V5k0a/q3irLUyqifnKitlRE5SEU5wAq3IVSuiM4T8/PsHVSL53jaRAm5O6OjEu5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733498433; c=relaxed/simple;
-	bh=xmnhw1w/kA7zi/WZueCflEYTV5pXG/NKm9P31NiLJAU=;
+	s=arc-20240116; t=1733498510; c=relaxed/simple;
+	bh=ofeOQ27/mt+A72+VoyDUfh68mFTvn5RZAaqT1YVw7zc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D/p+ofLT9nOmHdv0U/YKkiAreYU54a/1GmxwB7hClhHDfTb+e4ZYcS26bQrUbj+wG2Ca0TXWJBf5ytXYtiluqLyV6zYjgW2hHYOHWQSdjuwoNDc9jOYfLtP8mubkqd3rjM5c/Y+p61bJ8gugKa8pjp7SQU3mqsVSo+RPp/yrWYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ll79epgB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=kMCA9my+e7ChiZBzfdmj1e01EQL7LZDuA2bhAmvHQniB+rsbTOY4HTVKruEQHgxMIEzVbG+RyqPIWOKghxzo55VQickIuqHrqsl94sxUewosKFTw6HSf7EoX3s/ZDwtxk5aNr95xzyTQpo6nVjaSSg6x8bmZlkwra0q6KqrXFWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hkpg/LDy; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ll79epgB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 062CDC4CED1;
-	Fri,  6 Dec 2024 15:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733498433;
-	bh=xmnhw1w/kA7zi/WZueCflEYTV5pXG/NKm9P31NiLJAU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ll79epgB8II18DcmOeqd1uP32Tz8T3zUnd/Q2G2diLe5BZKF4x33Prp+VL07a7Vlx
-	 FiL55BScEBQdCVXgtasCF0vDKdAN7nGAKKlRQXXC2dTLUJqzGoILHnYZMThe3dtB6A
-	 YIPuEhn6F0RFCrWe+9dA5VkfSFoMSwSvw2qKPAU64JnGXkckSFR+xaZ9wo8FOGQzAZ
-	 LDyvBqz+lff48fVKd+9gUO7A/4xyYAlzt0Uqm2HFeD9nXR7STxh1NfInSxKvMWUp3C
-	 aIpnX55RtlGXl3t4Um+BJinJSsxi6vNm0FefBg0i4pmd8LaVlHZjT2BFN04N1kze1q
-	 4IUbpNttYA8dA==
-Date: Fri, 6 Dec 2024 16:20:28 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Ian Rogers <irogers@google.com>
-Cc: "G . Branden Robinson" <g.branden.robinson@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-man@vger.kernel.org
-Subject: Re: [PATCH v5 3/4] proc_pid_fdinfo.5: Add subsection headers for
- different fd types
-Message-ID: <20241206152028.5hapc5temuzwgjhw@devuan>
-References: <20241206073828.1119464-1-irogers@google.com>
- <20241206073828.1119464-3-irogers@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hkpg/LDy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733498509; x=1765034509;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ofeOQ27/mt+A72+VoyDUfh68mFTvn5RZAaqT1YVw7zc=;
+  b=hkpg/LDypDa8ne9rxmMpFEtSdhkocmds5/n8hdvlCQVwictVWmJEFKfr
+   N4eEAolfw+ipwPDin38/ja6NzyGFQh8solf5Wos0Th/rdguV9wcdcNh/V
+   W1IlF/Q2y7ub5YJT3I+eyzxonnea4CS2YvBmmsvri+CDNfUVoOukhJV0h
+   iTHXCK3C7eOkFp8GC9cnX3xR5bFf0EKKbLQGJNMfTW/BblNSz1ZC0zggB
+   9uAwoQ+ba7u0vd0bLfz9C4c6boCn2VIeQ22YCxiOSBPe6ZXXg9hG/Nysf
+   iWGIEYGdi1yEs8c6rBK7aPUl7hhl1WDYY6OXLIzYyRmrVzxblbhferVLk
+   Q==;
+X-CSE-ConnectionGUID: t6l5hpisTfKn78iqxTFZJQ==
+X-CSE-MsgGUID: rE20G0AiRZOOL1gX787oPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="34093361"
+X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
+   d="scan'208";a="34093361"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 07:21:48 -0800
+X-CSE-ConnectionGUID: PzlCrjuYQA+MoHUFbo7Fkw==
+X-CSE-MsgGUID: VlJ6JTteSS2X7huSp3KUBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
+   d="scan'208";a="94289338"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 07:21:47 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tJa9I-00000004YAL-28gK;
+	Fri, 06 Dec 2024 17:21:44 +0200
+Date: Fri, 6 Dec 2024 17:21:44 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Matthias Maennich <maennich@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masahiro Yamada <masahiroy@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] doc: module: Fix documented type of namespace
+Message-ID: <Z1MWiBEZEMgL1Iiy@smile.fi.intel.com>
+References: <cover.1733305665.git.ukleinek@kernel.org>
+ <6fe15069c01b31aaa68c6224bec2df9f4a449858.1733305665.git.ukleinek@kernel.org>
+ <Z1FbOrGjaVsGKIXa@smile.fi.intel.com>
+ <mfgqf5xpjnyud3qm4hwycbnz23mfik4pzry3h7fi2k6khokbgd@facrmygrrqnh>
+ <Z1H5UqN-egUs0GhJ@smile.fi.intel.com>
+ <zsqtlottouotiklytvbqapexuopzxlasqod7ynohu4yhtnr7no@j2zqryrst7qc>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kbevydt2nmhcit32"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241206073828.1119464-3-irogers@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <zsqtlottouotiklytvbqapexuopzxlasqod7ynohu4yhtnr7no@j2zqryrst7qc>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+
+On Fri, Dec 06, 2024 at 03:45:50PM +0100, Uwe Kleine-König wrote:
+> On Thu, Dec 05, 2024 at 09:04:50PM +0200, Andy Shevchenko wrote:
+> > On Thu, Dec 05, 2024 at 11:55:54AM +0100, Uwe Kleine-König wrote:
+> > > On Thu, Dec 05, 2024 at 09:50:18AM +0200, Andy Shevchenko wrote:
+> > > > On Wed, Dec 04, 2024 at 11:01:10AM +0100, Uwe Kleine-König wrote:
+
+...
+
+> > > > > Since commit cdd30ebb1b9f ("module: Convert symbol namespace to string
+> > > > > literal") the namespace has to be a string. Fix accordingly.
+
+^^^ (1)
+
+...
+
+> > > 	... the namespace as a string constant.
+> > 
+> > ...a string literal.
+> 
+> Gcc calls it "string constant":
+> https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html#String-Constants
+> 
+> My C book (https://www.amazon.de/dp/013089592X) also calls it "string
+> constant".
+> 
+> So I tend to keep that name as it seems to be the official term.
+
+Even though we should be more consistent with the de facto usages, no?
+
+(see (1) above, for example).
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---kbevydt2nmhcit32
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 3/4] proc_pid_fdinfo.5: Add subsection headers for
- different fd types
-MIME-Version: 1.0
-
-Hi Ian,
-
-On Thu, Dec 05, 2024 at 11:38:27PM -0800, Ian Rogers wrote:
-> Make the sections about eventfd, epoll, signalfd, inotify, fanotify,
-> timerfd better separated with a clearer subsection header.
-> ---
->  man/man5/proc_pid_fdinfo.5 | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
-> index 2797ae216..c4914f1f3 100644
-> --- a/man/man5/proc_pid_fdinfo.5
-> +++ b/man/man5/proc_pid_fdinfo.5
-> @@ -57,6 +57,7 @@ is the ID of the mount containing this file.
->  See the description of
->  .IR /proc/ pid /mountinfo .
->  .RE
-> +.SS eventfd
->  .P
-
-=2EP after .SS is redundant, and triggers a warning.  Please remove them.
-
-Cheers,
-Alex
-
->  For eventfd file descriptors (see
->  .BR eventfd (2)),
-> @@ -75,6 +76,7 @@ eventfd\-count:               40
->  .P
->  .I eventfd\-count
->  is the current value of the eventfd counter, in hexadecimal.
-> +.SS epoll
->  .P
->  For epoll file descriptors (see
->  .BR epoll (7)),
-> @@ -108,6 +110,7 @@ descriptor.
->  The
->  .I data
->  field is the data value associated with this file descriptor.
-> +.SS signalfd
->  .P
->  For signalfd file descriptors (see
->  .BR signalfd (2)),
-> @@ -133,6 +136,7 @@ and
->  .BR SIGQUIT ;
->  see
->  .BR signal (7).)
-> +.SS inotify
->  .P
->  For inotify file descriptors (see
->  .BR inotify (7)),
-> @@ -173,6 +177,7 @@ file is exposed as a file handle, via three hexadecim=
-al fields:
->  .IR fhandle\-type ,
->  and
->  .IR f_handle .
-> +.SS fanotify
->  .P
->  For fanotify file descriptors (see
->  .BR fanotify (7)),
-> @@ -229,6 +234,7 @@ The mask of events that are ignored for this mark
->  .P
->  For details on these fields, see
->  .BR fanotify_mark (2).
-> +.SS timerfd
->  .P
->  For timerfd file descriptors (see
->  .BR timerfd (2)),
-> --=20
-> 2.47.0.338.g60cca15819-goog
->=20
-
---=20
-<https://www.alejandro-colomar.es/>
-
---kbevydt2nmhcit32
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmdTFjwACgkQnowa+77/
-2zINgg/9G5X1oXORdWlksBOcYNz08qtgUhUNgVIfXIst16RaSjqvxU1xAcT1/xMD
-8JVnNgVo0B4bgkyJPJxhn4UhqfAmiwi4SqFDWg9cryzuqnogMWZsvQnjLtWACRgv
-UPkexuyyxDloEVUIWnUqI4+WOx6IbUpw8ECnncd99dIDozZj0dQGcXxvOzTJZ+T2
-AQGvgaAeZleCmEk0mtvnUyn/BoE5AbqYnnd7vP09xULafBXmZi4Bu2VMSvyZ1SQC
-czwDqAenT4astqz0ESFtSqQTH3OnehpZ5SdK+/5H2Bqdtj3hSCDUHnXDizBppz7/
-tdQmh72ODuY4mCOY3pPK8lnwLFSWGXQXdN7M3Xxo7zBIiH/Zt7F9ZrscugXlesFr
-kXd+qyZoP2YhfcuO3s0FfFzPM6rqCBfx4CSSAxM76RiO1YKx+mV5DtFqqpTL8cMi
-RXLX1sQK24k87wI19Z/SOm7VVhHmg4WZ4vUHp3vQUIUFEYghINoJxRL0q9zacd8y
-M3qQupt6KFhB7d0pp5vwAhRT5xk9esTAn/FTSVm2jK2bt+n7kv0ZDcZggRtXReGb
-GI9RhVs07U7F7IwadQ/4C8DI9cyNDJyQmyESbrreq5uwBLpeKo7J1x0Lk+zDWLzq
-QPAvA1JYtdycqtjvVbsvuQFUH66/uMnok8YWhjqTwIhkqpKfkeU=
-=yMy8
------END PGP SIGNATURE-----
-
---kbevydt2nmhcit32--
