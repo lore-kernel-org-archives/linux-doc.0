@@ -1,159 +1,197 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A46256E;
-	Fri,  6 Dec 2024 00:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E606405FB;
+	Fri,  6 Dec 2024 00:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733444918; cv=none; b=CU1iKw5+78pS7rpcvzl5wVeAtPzdu/2nDOhTcsdXhR/mZ9jzWk3bxuj6bQpoYA1Sz0PzeLeP65ToXG38SSuARmXbVFJk23F+pA99khYnBgI4Is3loZ2nXhvNcRSjklGFWcq95VxhE6AL4C646uUyaXRg3CLSAwFSsXkUzljvkSg=
+	t=1733445071; cv=none; b=BtDeF8c+ATl8UoAhqjNeQ7E+k0nerFSqZ4H1h7X6Pl/Pq+jO6oVSadb7kPHitmpd2DgZWq2Gj/ItYKCI6THzmKY7ZmZcoLt9bq3DXY0msBt49jHQSlA0nJkDeXNt77yHsiay7oYXsgDhiU2fwPe+dO5X0dg2ChSi3JyMK94R1Zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733444918; c=relaxed/simple;
-	bh=fDpBfsqh+A93EKAXwhvxuIFOiEt3bUWwtkGoE+I7iGA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NWknDVsXAtWS9OX5FDBraHWw8Wyu3f08yooYonY+hzwk0uQpowbc/+HsQDEmjus/oVogJzGK4xhfDfUEjKKNiObIMqCg32auZ+bAHKF8AZLYCAqeDX1sk2xG+Gu1PVMNS/we+vtoHlv83WO2qFGbTNIVEX/MJ5712ENAQHKsJuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZO+hp0t4; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733445071; c=relaxed/simple;
+	bh=jS10g8MDrG/6Q3xY7k4NsUpYW297zr6gFX6tg2hzwTI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lzrtf0rJfxXvQheeEhD3Qmuqk5IpQVHZ7aXXnfhqsPRxoNGyW1RnAY3OceXXrBqDqC6dDCLbU245shx8PgLL7EApNCg1qX+yUG/Uvn30bg4zSunzYySFKsoVS3HSQUzfBwiG6XQB/WoCbysFJ+e+5nFP/Ow6S3zLHYF0mnAiLR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=2Px4gFdH; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZO+hp0t4"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5HadR9005219;
-	Fri, 6 Dec 2024 00:28:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	fDpBfsqh+A93EKAXwhvxuIFOiEt3bUWwtkGoE+I7iGA=; b=ZO+hp0t4/XogRzCx
-	bmFm3kj6RZbBMYCgJLACmLH0LO73UftEG5K1i/lfppptIJMnDfJznDI5qPreWAJZ
-	aUMlPEOOlVK7b/eB5u9ynEcbqocVEi0KMyHkh3cpRRAQ0Q53Z8Cwp6YrRoVQ1nnb
-	PLQsRTg/sF+NQb3Z3LLADEs338VqqY2tArCzEZj1odi+VZFcztyT5MYR2w5yddiy
-	w3iUySaY5OsVE0PoaVG9YT54rTIKJ/fCgSN7foiKDDHN0wN9ZM7VD8YbwvTITyHt
-	bQW/ylHfozn15LR+2j822iRB8MXyUPeVn3hvdRm5HebZe0t39D59dFpxmYG+J1Mk
-	LEzPPA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ba1423gx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Dec 2024 00:28:13 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B60SCQm010724
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 6 Dec 2024 00:28:12 GMT
-Received: from [10.71.112.120] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Dec 2024
- 16:28:11 -0800
-Message-ID: <d7c52a11-bd2b-4cce-a0c2-6dc2dadfeaa3@quicinc.com>
-Date: Thu, 5 Dec 2024 16:28:11 -0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2Px4gFdH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=Na6pnlklJTA1xNU44wRBfwwfuxFdNDpARjvimFThkjw=; b=2Px4gFdHWZQt7NnF1mG2vxWvZf
+	tOnXDgZkAAMp1JowFHc9Wp9x3Y13VV7DZKQ/omSbTAaNqMBS58RPxf78hAexZ3mevs5CJose11QAx
+	nRg3lov+vEp/u7BWR8u0KcZSr6f2MpgJKrOyTC2FV546GMzTTmLDm9sS/RcuNmgF8Gv4YkworMEeF
+	0FBKXIIvRoO2BbPQG755jXeuubcmIloHm+9sIwm+XZCyUUYLB0lHM4gkEyeeDHstjNZ4gnE1VSBBg
+	SvGTD7rJFCyhWH9Ajdedg1EyNoGkfQy969GrN/o7vglUkE9ZfmCbNcwExDD3NYV5/So2TmuFy+XR9
+	HIZb9PYQ==;
+Received: from [50.53.2.24] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tJMFL-000000005HF-0UgE;
+	Fri, 06 Dec 2024 00:31:03 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	workflows@vger.kernel.org,
+	Jason Wessel <jason.wessel@windriver.com>,
+	Daniel Thompson <danielt@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	linux-debuggers@vger.kernel.org,
+	kgdb-bugreport@lists.sourceforge.net,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-serial@vger.kernel.org
+Subject: [PATCH v2] Documentation: move dev-tools debugging files to process/debugging/
+Date: Thu,  5 Dec 2024 16:31:00 -0800
+Message-ID: <20241206003100.38142-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>
-CC: Takashi Iwai <tiwai@suse.de>, Greg KH <gregkh@linuxfoundation.org>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>,
-        <robh@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
- <2024111655-approve-throwback-e7df@gregkh>
- <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
- <875xoi3wqw.wl-tiwai@suse.de>
- <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
- <CF49CA0A-4562-40BC-AA98-E550E39B366A@linux.dev>
- <65273bba-5ec1-44ea-865b-fb815afccc91@intel.com>
- <fbc04c06-c210-416b-9b77-a6bd8a71a637@quicinc.com>
- <9d95e6fa-afcb-4445-9fe3-e0eed95ec953@intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <9d95e6fa-afcb-4445-9fe3-e0eed95ec953@intel.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: sTJTZGmt5NNLZiU1kgwFwmYnTxTeYTNZ
-X-Proofpoint-ORIG-GUID: sTJTZGmt5NNLZiU1kgwFwmYnTxTeYTNZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- phishscore=0 clxscore=1015 mlxscore=0 lowpriorityscore=0 adultscore=0
- priorityscore=1501 suspectscore=0 mlxlogscore=974 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412060002
 
+Move gdb and kgdb debugging documentation to the dedicated
+debugging directory (Documentation/process/debugging/).
+Adjust the index.rst files to follow the file movement.
+Adjust files that refer to these moved files to follow the file movement.
+Update location of kgdb.rst in MAINTAINERS file.
 
-On 12/4/2024 2:01 PM, Cezary Rojewski wrote:
-> On 2024-12-03 9:38 PM, Wesley Cheng wrote:
->> Hi Cezary,
->>
->> On 12/3/2024 8:17 AM, Cezary Rojewski wrote:
->>> On 2024-12-01 4:14 AM, Pierre-Louis Bossart wrote:
->>>> Sorry to chime in late, I only look at email occasionally.
->
-> ...
->
->>>> The notion of two cards was agreed inside Intel as far back as 2018, when Rakesh first looked at USB offload.
->>>
->>>
->>> Well, I believe a lot has changed since then, not sure if USB Audio Offload (UAOL) was even stable on the Windows solution back then. Obviously we want to incorporate what we have learned during all that time into our solution before it lands on upstream.
->>>
->>
->> Hard to comment further without more details on the lessons learnt you had on Windows.  I just want to make sure we're talking about the same feature here, because I see sprinkles of the xHCI audio sideband (section 7.9) on the Windows documentation without much details on how its implemented, which is different than what is presented here.
->
-> The comment was directed towards mention of Intel, 2018 and Rakesh. The decisions made then do not bind us, and current Intel's Audio team has a clean slide. Wanted to make sure it's clear.
->
->>> UAOL is one of our priorities right now and some (e.g.: me) prefer to not pollute their mind with another approaches until what they have in mind is crystalized. In short, I'd vote for a approach where USB device has a ASoC representative in sound/soc/codecs/ just like it is the case for HDAudio. Either that or at least a ASoC-component representative, a dependency for UAOL-capable card to enumerate.
->>>
->>
->> Just to clarify, "struct snd_soc_usb" does have some correlation with our "codec" entity within the QCOM ASoC design.  This would be the q6usb driver.
->>
->>
->>> Currently struct snd_soc_usb does not represent any component at all. Lack of codec representative, component representative and, given my current understanding, mixed dependency of sound/usb on sound/soc/soc-usb does lead to hard-to-understand ASoC solution.
->>
->>
->> IMO the dependency on USB SND is necessary, so that we can leverage all the pre-existing sequences used to identify USB audio devices, and have some ability to utilize USB HCD APIs as well within the offload driver.
->
-> So, while I do not have patches in shape good enough to be shared, what we have in mind is closer to existing HDAudio solution and how it is covered in both ALSA and ASoC.
->
-> A ASoC sound card is effectively a combination of instances of struct snd_soc_component. Think of it as an MFD device. Typically at least two components are needed:
->
-> - platform component, e.g.: for representing DSP-capable device
-> - codec component, e.g.: for representing the codec device
->
-> USB could be represented by such a component, listed as a dependency of a sound card. By component I literally mean it extending the base struct:
->
-> stuct snd_soc_usb {
->     struct snd_soc_component base;
->     (...)
-> };
->
-> In my opinion HDAudio is a good example of how to mesh existing ALSA-based implementation with ASoC. Full, well implemented behaviour of HDAudio codec device drivers is present at sound/pci/hda/patch_*.c and friends. That part of devoid of any ASoC members. At the same time, an ASoC wrapper is present at sound/soc/codecs/hda.c. It will represent each and every HDAudio codec device on the HDAudio bus as a ASoC-component. This follows the ASoC design and thus is easy understand for any daily ASoC user, at least in my opinion.
->
-> Next, the USB Audio Offload streams are a limited resource but I do not see a reason to not treat it as a pool. Again, HDAudio comes into picture. The HDAudio streams are assigned and released with help of HDAudio library, code found in sound/hda/hdac_stream.c. In essence, as long as UAOL-capable streaming is allowed, a pcm->open() could approach a UAOL-lib (? component perhaps?) and perform ->assign(). If no resources available, fallback to the non-offloaded case.
->
-> While I have not commented on the kcontrol part, the above means that our current design does go into a different direction. We'd like to avoid stream-assignment hardcoding i.e.: predefining who owns a UAOL-capable stream if possible.
->
->
+Note: translations are not updated.
 
-Thanks for sharing the implementation for HDA.  I did take a look to the best of my ability on how the HDAudio library was built, and I see the differences that are there with the current proposal.  However, I think modifying the current design to something like that would also require the QCOM ASoC side to change a bit too.  As mentioned by Pierre, I think its worthwhile to see if we can get the initial changes in, which is the major part of the challenge.  For the most part, I think we could eventually refactor soc-usb to behave similarly to what hda_bind.c is doing.  Both entities are the ones that handle linking (or creation in case of HDA) of ASoC components.  The one major factor I can see is that within the HDA implementation vs USB SND is that, for USB, hot plugging is a common practice, and that's a scenario that will probably need more discussion if we do make that shift.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org
+Cc: Jason Wessel <jason.wessel@windriver.com>
+Cc: Daniel Thompson <danielt@kernel.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: linux-debuggers@vger.kernel.org
+Cc: kgdb-bugreport@lists.sourceforge.net
+Cc: Doug Anderson <dianders@chromium.org>
+Cc: Alex Shi <alexs@kernel.org>
+Cc: Yanteng Si <siyanteng@loongson.cn>
+Cc: Hu Haowen <2023002089@link.tyut.edu.cn>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-serial@vger.kernel.org
+---
+v2: Make process/debugging/index alpha by filename.
+    Update references to the moved files.
 
+ Documentation/admin-guide/README.rst                                  | 4 ++--
+ Documentation/dev-tools/index.rst                                     | 2 --
+ .../{dev-tools => process/debugging}/gdb-kernel-debugging.rst         | 0
+ Documentation/process/debugging/index.rst                             | 2 ++
+ Documentation/{dev-tools => process/debugging}/kgdb.rst               | 0
+ MAINTAINERS                                                           | 2 +-
+ include/linux/tty_driver.h                                            | 2 +-
+ lib/Kconfig.debug                                                     | 2 +-
+ lib/Kconfig.kgdb                                                      | 2 +-
+ 9 files changed, 8 insertions(+), 8 deletions(-)
 
-Anyway, I just wanted to acknowledge the technical details that are utilized by HDAudio, and that we could potentially get there with USB SoC as well.
-
-
-Thanks
-
-Wesley Cheng
-
+diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+index f2bebff6a733..eb9452668909 100644
+--- a/Documentation/admin-guide/README.rst
++++ b/Documentation/admin-guide/README.rst
+@@ -356,5 +356,5 @@ instructions at 'Documentation/admin-guide/reporting-issues.rst'.
+ 
+ Hints on understanding kernel bug reports are in
+ 'Documentation/admin-guide/bug-hunting.rst'. More on debugging the kernel
+-with gdb is in 'Documentation/dev-tools/gdb-kernel-debugging.rst' and
+-'Documentation/dev-tools/kgdb.rst'.
++with gdb is in 'Documentation/process/debugging/gdb-kernel-debugging.rst' and
++'Documentation/process/debugging/kgdb.rst'.
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+index 3c0ac08b2709..c1e73e75f551 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -27,8 +27,6 @@ Documentation/dev-tools/testing-overview.rst
+    kmemleak
+    kcsan
+    kfence
+-   gdb-kernel-debugging
+-   kgdb
+    kselftest
+    kunit/index
+    ktap
+diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/process/debugging/gdb-kernel-debugging.rst
+similarity index 100%
+rename from Documentation/dev-tools/gdb-kernel-debugging.rst
+rename to Documentation/process/debugging/gdb-kernel-debugging.rst
+diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
+index f6e4a00dfee3..387d33d16f5e 100644
+--- a/Documentation/process/debugging/index.rst
++++ b/Documentation/process/debugging/index.rst
+@@ -11,6 +11,8 @@ general guides
+    :maxdepth: 1
+ 
+    driver_development_debugging_guide
++   gdb-kernel-debugging
++   kgdb
+    userspace_debugging_guide
+ 
+ .. only::  subproject and html
+diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/process/debugging/kgdb.rst
+similarity index 100%
+rename from Documentation/dev-tools/kgdb.rst
+rename to Documentation/process/debugging/kgdb.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1e930c7a58b1..1753fe792d04 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12809,7 +12809,7 @@ L:	kgdb-bugreport@lists.sourceforge.net
+ S:	Maintained
+ W:	http://kgdb.wiki.kernel.org/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jwessel/kgdb.git
+-F:	Documentation/dev-tools/kgdb.rst
++F:	Documentation/process/debugging/kgdb.rst
+ F:	drivers/misc/kgdbts.c
+ F:	drivers/tty/serial/kgdboc.c
+ F:	include/linux/kdb.h
+diff --git a/include/linux/tty_driver.h b/include/linux/tty_driver.h
+index dd4b31ce6d5d..d4cdc089f6c3 100644
+--- a/include/linux/tty_driver.h
++++ b/include/linux/tty_driver.h
+@@ -320,7 +320,7 @@ struct serial_struct;
+  *
+  * @poll_init: ``int ()(struct tty_driver *driver, int line, char *options)``
+  *
+- *	kgdboc support (Documentation/dev-tools/kgdb.rst). This routine is
++ *	kgdboc support (Documentation/process/debugging/kgdb.rst). This routine is
+  *	called to initialize the HW for later use by calling @poll_get_char or
+  *	@poll_put_char.
+  *
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index f3d723705879..d2cf74cbbe70 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -433,7 +433,7 @@ config GDB_SCRIPTS
+ 	  build directory. If you load vmlinux into gdb, the helper
+ 	  scripts will be automatically imported by gdb as well, and
+ 	  additional functions are available to analyze a Linux kernel
+-	  instance. See Documentation/dev-tools/gdb-kernel-debugging.rst
++	  instance. See Documentation/process/debugging/gdb-kernel-debugging.rst
+ 	  for further details.
+ 
+ endif # DEBUG_INFO
+diff --git a/lib/Kconfig.kgdb b/lib/Kconfig.kgdb
+index 537e1b3f5734..8336b1a489a3 100644
+--- a/lib/Kconfig.kgdb
++++ b/lib/Kconfig.kgdb
+@@ -19,7 +19,7 @@ menuconfig KGDB
+ 	  CONFIG_FRAME_POINTER to aid in producing more reliable stack
+ 	  backtraces in the external debugger.  Documentation of
+ 	  kernel debugger is available at http://kgdb.sourceforge.net
+-	  as well as in Documentation/dev-tools/kgdb.rst.  If
++	  as well as in Documentation/process/debugging/kgdb.rst.  If
+ 	  unsure, say N.
+ 
+ if KGDB
