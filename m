@@ -1,25 +1,25 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C526ECF;
-	Fri,  6 Dec 2024 04:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 760BBECF;
+	Fri,  6 Dec 2024 04:29:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733458880; cv=none; b=ML65TQ4DvpnfsMyqYuAKmfAGgeeQq1A5GmL5NcgxQocb9Ja4Cjb1cgxIIWy9BI1liljQvDzRjprWDeRfmUA3SmKoU66wnXunCJpq+aDlN5gGmheTL2U9P6F5cNmVgykKKNYn+BWQBwM5jP9pJLqBs6SYi4OrGDusIrMWfSIdK9I=
+	t=1733459377; cv=none; b=M7qWtdkFpDlsUH5pWBjgE936b6X7Zq9c3ozcZlM5XJUofz8iduRhsx5iLzc+t4TrVeIFnC0RPUmYqbCkSo3MWIakr4AsX69Jje6lQyFCLrv3UBeXNotCl2LnG5sZuKtYfZgPq8oe+U7DLcVIiLJoKYbmNPAomHoESrYCEZDMnOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733458880; c=relaxed/simple;
-	bh=v5C0HARwM7EY2or5B3G54BkWFyN298b7SEvQVPXMK1s=;
+	s=arc-20240116; t=1733459377; c=relaxed/simple;
+	bh=ACte4UBGSvGouCXSY/zdfbHLzl3Fi//YtS1Kb4ZbHDo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=spkuoiZ+TATGWD8i5gSL5sjyNG2roTfHcKDLbhFUbmgUmH9dHxMnPYrSgJYyihuIOJJOJRwMPFHhRqehjv8fv/k7fWAmntNaY/O6JneiBXzjOS+SmnQ2VveHaFDpq3dsCZBSFzMpwKjp6zv2sopqyFuFiKQ62G9G7h60wCnmzaw=
+	 In-Reply-To:Content-Type; b=tuQKu/C2uLUau/vwogxrqTfU0aZEllp/GtPg3N64XBze3+23uVV3klqq5sQDqYutpv+sqsobwtyrnCA/B39MoLWK+PSrk61ph7IPWINTgKwceOt2BKKCeQmeuWSLgQWWfwwSXkdexXbTe1duOC59pETUx55qnKkNIbhVxpdekho=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 64617169E;
-	Thu,  5 Dec 2024 20:21:44 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A47F2169E;
+	Thu,  5 Dec 2024 20:30:02 -0800 (PST)
 Received: from [10.163.50.12] (unknown [10.163.50.12])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4518A3F58B;
-	Thu,  5 Dec 2024 20:21:11 -0800 (PST)
-Message-ID: <f625af22-cb60-47d2-a775-e9fd273a8e7c@arm.com>
-Date: Fri, 6 Dec 2024 09:51:09 +0530
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDAD13F58B;
+	Thu,  5 Dec 2024 20:29:29 -0800 (PST)
+Message-ID: <03245d82-ad68-4ac2-a6f1-d8e4cc5397c3@arm.com>
+Date: Fri, 6 Dec 2024 09:59:27 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,8 +27,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] arm64: make rodata=on behaviour be the original
- rodata=full
+Subject: Re: [PATCH v2 3/4] arm64: introduce rodata=noalias
 To: Huang Shijie <shijie@os.amperecomputing.com>, catalin.marinas@arm.com,
  will@kernel.org
 Cc: patches@amperecomputing.com, paulmck@kernel.org,
@@ -38,77 +37,65 @@ Cc: patches@amperecomputing.com, paulmck@kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  cl@os.amperecomputing.com
 References: <20241126085647.4993-1-shijie@os.amperecomputing.com>
- <20241126085647.4993-2-shijie@os.amperecomputing.com>
+ <20241126085647.4993-4-shijie@os.amperecomputing.com>
 Content-Language: en-US
 From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20241126085647.4993-2-shijie@os.amperecomputing.com>
+In-Reply-To: <20241126085647.4993-4-shijie@os.amperecomputing.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 11/26/24 14:26, Huang Shijie wrote:
-> Make rodata=on behaviour be the original rodata=full.
-> After this patch, the rodata=on will be the default,
-> and the arm64 kernel behaviour will follow the
-> Documentation/admin-guide/kernel-parameters.txt:
-> 	rodata=		[KNL,EARLY]
-> 		on	Mark read-only kernel memory as read-only (default).
+> The rodata=noalias is the original rodata=on.
+> 
+> The rodata=noalias can provide us more block mappings and contiguous hits
+> to map the linear region which minimize the TLB footprint. And the
+> linear aliases of pages belonging to read-only mappings in vmalloc
+> region are also marked as read-only.
+> 
+> Also update kernel-parameters.txt for it:
+>    change "full" to "noalias"
 > 
 > Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
 > ---
->  arch/arm64/include/asm/setup.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  arch/arm64/include/asm/setup.h                  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index dc663c0ca670..54b4df42e631 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5894,7 +5894,7 @@
+>  	rodata=		[KNL,EARLY]
+>  		on	Mark read-only kernel memory as read-only (default).
+>  		off	Leave read-only kernel memory writable for debugging.
+> -		full	Mark read-only kernel memory and aliases as read-only
+> +		noalias	Use more block mappings,may have better performance.
+>  		        [arm64]
+>  
+>  	rockchip.usb_uart
 > diff --git a/arch/arm64/include/asm/setup.h b/arch/arm64/include/asm/setup.h
-> index ba269a7a3201..5ded3bd11476 100644
+> index 5ded3bd11476..3d96dde4d214 100644
 > --- a/arch/arm64/include/asm/setup.h
 > +++ b/arch/arm64/include/asm/setup.h
-> @@ -21,7 +21,7 @@ static inline bool arch_parse_debug_rodata(char *arg)
->  	if (!arg)
->  		return false;
->  
-> -	if (!strcmp(arg, "full")) {
-> +	if (!strcmp(arg, "on")) {
->  		rodata_enabled = rodata_full = true;
->  		return true;
->  	}
 > @@ -31,7 +31,7 @@ static inline bool arch_parse_debug_rodata(char *arg)
 >  		return true;
 >  	}
 >  
-> -	if (!strcmp(arg, "on")) {
-> +	if (!strcmp(arg, "full")) {
+> -	if (!strcmp(arg, "full")) {
+> +	if (!strcmp(arg, "noalias")) {
 >  		rodata_enabled = true;
 >  		rodata_full = false;
 >  		return true;
 
-After this patch we have the following and seems like 'rodata=full'
-is temporarily broken until the subsequent patches come in ?
+This patch should be folded back into [PATCH 1/4] ensuring that
 
-static inline bool arch_parse_debug_rodata(char *arg)
-{
-        extern bool rodata_enabled;
-        extern bool rodata_full;
+- "rodata=" processing gets updated completely i.e dropping 'full',
+  adding new 'noalias' and also updating the documentation at once
 
-        if (!arg)
-                return false;
+- Avoids temporary the "full" option breakage as mentioned earlier
 
-        if (!strcmp(arg, "on")) {
-                rodata_enabled = rodata_full = true;
-                return true;
-        }
-
-        if (!strcmp(arg, "off")) {
-                rodata_enabled = rodata_full = false;
-                return true;
-        }
-
-        if (!strcmp(arg, "full")) {
-                rodata_enabled = true;
-                rodata_full = false;     <---------------- here
-                return true;
-        }
-
-        return false;
-}
+Also please do add in code comment above arch_parse_debug_rodata()
+function explaining all the options after these update.
