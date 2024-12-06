@@ -1,149 +1,78 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD91013BAD7
-	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 01:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE13A10957;
+	Fri,  6 Dec 2024 01:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733446978; cv=none; b=EkNvkUvxzNXYn0B2oFvavBIa6oOh6s76eZtDCyxOFUO+7XObkZ+DxOgnWub7RmetR+NLQsTJandmlX5RNj3TehMXmSg3Z3oLoI+9oEa1EL63TP/c08tJ/6Nh4Un+LMPNfri4tf2hDEIKRR+Cstwj/UFPtK5OxrfkgtjVPfEJLgg=
+	t=1733447951; cv=none; b=tLzX3zi8QbBRvl0PJUPuZt3707OYMa/A9fgPJUh4Pa9mMiW40jHTQr/0YIWZcRTcyWw/JHZLmFxMY8WpNL1fIY4DclAFB96DnH/gUo5Rdkehgjr7Qp0FOGUr7pI8RHR6wYvjc66+suRjlbMkHEbuBKQ12HxuTCzis/tU/CVHJXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733446978; c=relaxed/simple;
-	bh=ct+i7VPOT7WsAUB0e2nofOLm4XRPPEhATcLjH3zAifo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Op1Uj0YmN3FMx+n8FYB+GgNwkv/PHXrG7Q/4Tykj9AgEwI2uYlyYv3xqlbN87499QqR8bkfE3SECi8i5A17NH/rlsoLSrA2padrmhMASi0dSfNkzSEnBJIsFqMFgWZ29QFdXu3ok8d3rldnTuU7TA7uHfjtsgsAAh0qo8MW34Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rik7sw6l; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
+	s=arc-20240116; t=1733447951; c=relaxed/simple;
+	bh=vN2Ax7TtmFtE+uoNCQ51l+8i9KFfMSsF2dzC9yrXkwc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SQgbnEbV9lrl9J0pbBX2NPdEszuzTx1BUMWHGUEgaiIjfWYopq7D76JSAcItKiv68MjqC94dOtmvn7l4zy9RE251LwdS4fFQveyEU4/8sC5zTuvOl6u6T0LrW49wv33wwHTraYlSyYPU23oJU+6FnQWiiPxXqsi/IsBsYTrBymU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ojbXKCV4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rik7sw6l"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2ee9f66cb12so1755994a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Dec 2024 17:02:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733446976; x=1734051776; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E69J+2d2iF7wp/ivOT/6vtBgFfFDMf+WrmT04fDpQV8=;
-        b=rik7sw6lrOdG8voJpabPOn0v2ZxTW6mTZh2Cgr+OmyrBXvGk/KISijucArFGjtHhv/
-         fY4LeeiPove8VYirtuwlVV99C4quJVEH+C1bT6jREzq7LbFH2Dxne6WYrib3ST7dJOPQ
-         o5ihzDugJ91ALPqstJrIGNjvCp6YtA6u0mE01qJCD1V7hbb9ncKF0AhOKNP1jvlOG/28
-         ZBJTpDbHPKxKfHEUWwiK101wj4aDMCY+GQ40Q8Nqn/kuPbIPxX8SSnJL84/qx8jZjZCZ
-         SrvoVVMXlHN+KtKdEVhvm+V9UFFx+bHrIhnm0BGS6TEbwtM0J3nwkdFXiDFQv4iGUsYm
-         lyTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733446976; x=1734051776;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E69J+2d2iF7wp/ivOT/6vtBgFfFDMf+WrmT04fDpQV8=;
-        b=sbELHhL9y9P6Sr7m1YeD8Y1hpcqwmHe7ePV9cbj6RqVNlF5OyA6zzIhvc+sgEylBpw
-         iaseNMb6IPpvxMdUvC+/S4zfd2UADZdnZIJQNkuugBZ/bg3i4w8MGWf4hyDnLH4sWmZv
-         1VqQyGO3feqsrb0LeQtQoeAHOMIAAC/F3WfEOEy7mRKd8XH/ekH7hVIQjWiTsnvBmewD
-         rgb1owvXPGmOrLhEFXgNLbGTZuQecE0mhqHRPMTth7Cz2tEd0gthY1TnvRmml5OEUAPd
-         RUMgrhOx04P/0DnTdN47gL2uvCzwh0CBCuvSzHGJQnRtkdc2K66fShhJ2xBtdqPxLzFC
-         PcWw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZv+h1cGLgeKP/heqitGFsUhxFU/QMtc2jTFRSqiWyCkkzUigydi9QLZ0ii2QAP8z/VyVrq91NqCE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDt12nV1cAuIRZQv8is9zNKgnhTR5U4v0TUi3rytY1/K6Fp7iI
-	g1JRHOVqZ5mi0l+OH3w0ZY1Punoe0e6GIgutcz0Pxg8L1I96UyieUpLzSBYD8hiMIQ3EaTYJvCL
-	TEiONdR721g==
-X-Google-Smtp-Source: AGHT+IF8Xr3ZU+SUR6OpvZcjlpe9CogaDlgckw7I+MWP1P15dWO/yWLOygkWrh/pIlrxSKbsRGZqKXsI9AbbGA==
-X-Received: from pjl16.prod.google.com ([2002:a17:90b:2f90:b0:2ea:9d23:79a0])
- (user=jiaqiyan job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:33c4:b0:2ee:8430:b834 with SMTP id 98e67ed59e1d1-2ef6945f076mr2087792a91.4.1733446976124;
- Thu, 05 Dec 2024 17:02:56 -0800 (PST)
-Date: Fri,  6 Dec 2024 01:02:46 +0000
-In-Reply-To: <20241206010246.40282-1-jiaqiyan@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ojbXKCV4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E268EC4CED1;
+	Fri,  6 Dec 2024 01:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733447951;
+	bh=vN2Ax7TtmFtE+uoNCQ51l+8i9KFfMSsF2dzC9yrXkwc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ojbXKCV4ZE+fktAnzHNlZuEVeFNqD8YDZ/4IPFLcEyBYos8xfrLDiVnvk3vdkNPEI
+	 IgzJwiLXf/QTjYO/4gyF5h+NvgjSiaHFbLMTzzZD9Gcx8/Y2BNTMnNOayevfv/4w19
+	 qeXt/VfluJZhOGeTjseXrIwOH0rlgDNluNkuzYZY9p+CFFeMegDsUSi6PxJ1dzAfvh
+	 LSHgOgysBfsfpZfgibaAbUIYLnizLkQU2tfbWwVxCdsd3/uVwz7dzSWYazXNsHKpYy
+	 aZsi365fdHT//CY+WILMQ4JJgE5nCUlV6jVrb4/L6HmLGaTqK2KaQt9EQ9zdx3kKMe
+	 xhbD3zfs0ZpBw==
+Date: Thu, 5 Dec 2024 17:19:09 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, Simon Horman <horms@kernel.org>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v1 1/7] net: ethtool: plumb PHY stats to PHY
+ drivers
+Message-ID: <20241205171909.274715c2@kernel.org>
+In-Reply-To: <Z1GVLf0RaYCP060b@shell.armlinux.org.uk>
+References: <20241203075622.2452169-1-o.rempel@pengutronix.de>
+	<20241203075622.2452169-2-o.rempel@pengutronix.de>
+	<Z1GVLf0RaYCP060b@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241206010246.40282-1-jiaqiyan@google.com>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241206010246.40282-3-jiaqiyan@google.com>
-Subject: [RFC PATCH v2 3/3] Documentation: kvm: new UAPI when arm64 guest
- consumes UER
-From: Jiaqi Yan <jiaqiyan@google.com>
-To: maz@kernel.org, oliver.upton@linux.dev
-Cc: joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, duenwen@google.com, rananta@google.com, 
-	jthoughton@google.com, Jiaqi Yan <jiaqiyan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add the documentation for new UAPI when guest consumes uncorrectable
-but recoverable memory error (UER). This new UAPI enables userspace
-to inject SEA into the guest.
+On Thu, 5 Dec 2024 11:57:33 +0000 Russell King (Oracle) wrote:
+> > +	 * The input structure is not zero-initialized and the implementation
+> > +	 * must only set statistics which are actually collected by the device.  
+> 
+> Eh what? This states to me that the structure is not initialised, but
+> drivers should not write to all members unless they support the
+> statistic.
+> 
+> Doesn't this mean we end up returning uninitialised data to userspace?
+> If the structure is not initialised, how does core code know which
+> statistics the driver has set to avoid returning uninitialised data?
 
-Tested:
-make htmldocs and proofreading
+It's not zero-initialized. Meaning it's initialized to a special magic
+value that the core then checks for to decide if the driver actually
+reported something.
 
-Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
----
- Documentation/virt/kvm/api.rst | 46 ++++++++++++++++++++++++++++------
- 1 file changed, 39 insertions(+), 7 deletions(-)
+Maybe this:
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 454c2aaa155e5..67645bdb66fe5 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1288,16 +1288,48 @@ ARM64:
- 
- User space may need to inject several types of events to the guest.
- 
-+Inject SError
-+~~~~~~~~~~~~~
-+
- Set the pending SError exception state for this VCPU. It is not possible to
- 'cancel' an Serror that has been made pending.
- 
--If the guest performed an access to I/O memory which could not be handled by
--userspace, for example because of missing instruction syndrome decode
--information or because there is no device mapped at the accessed IPA, then
--userspace can ask the kernel to inject an external abort using the address
--from the exiting fault on the VCPU. It is a programming error to set
--ext_dabt_pending after an exit which was not either KVM_EXIT_MMIO or
--KVM_EXIT_ARM_NISV. This feature is only available if the system supports
-+Inject SEA
-+~~~~~~~~~~
-+
-+- If the guest performed an access to I/O memory which could not be handled by
-+  userspace, for example because of missing instruction syndrome decode
-+  information or because there is no device mapped at the accessed IPA, then
-+  userspace can ask the kernel to inject an external abort using the address
-+  from the exiting fault on the VCPU.
-+
-+- If the guest consumed an uncorrectable memory error, and RAS extension in
-+  Trusted Firmware choosed to notify PE with SEA, KVM and core kernel may have
-+  to handle the memory poison consumption when host APEI was unable to claim
-+  the SEA. For the following type of faults, KVM sends SIGBUS to current thread
-+  (i.e. VMM in EL0) with si_code=BUS_OBJERR:
-+
-+  - Synchronous External abort, not on translation table walk or hardware
-+    update of translation table.
-+
-+  - Synchronous External abort on translation table walk or hardware update of
-+    translation table, level 1.
-+
-+  - Synchronous parity or ECC error on memory access, not on translation table
-+    walk.
-+
-+  - Synchronous parity or ECC error on memory access on translation table walk
-+    or hardware update of translation table, level 1.
-+
-+  If the memory error's physical address is available, si_addr will be the
-+  error's host virtual address in VM's memory space; otherwise si_addr is zero.
-+  When userspace VMM is interrupted by such SIGBUS, it can ask KVM to replay
-+  an external abort into guest.
-+
-+It is a programming error to set ext_dabt_pending after an exit which was not
-+KVM_EXIT_MMIO, not KVM_EXIT_ARM_NISV, and not interrupted by BUS_OBJERR SIGBUS.
-+
-+This feature is only available if the system supports
- KVM_CAP_ARM_INJECT_EXT_DABT. This is a helper which provides commonality in
- how userspace reports accesses for the above cases to guests, across different
- userspace implementations. Nevertheless, userspace can still emulate all Arm
--- 
-2.47.0.338.g60cca15819-goog
+ * Drivers must not zero out statistics which they don't report.
+ * Core will initialize members to ETHTOOL_STAT_NOT_SET and check
+ * for this value to report to user space only the stats actually
+ * supported by the device.
 
+IDK how to phrase this better..
