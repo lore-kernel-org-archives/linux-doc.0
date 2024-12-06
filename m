@@ -1,143 +1,141 @@
-Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867C53D6B
-	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 07:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFBC2F5E;
+	Fri,  6 Dec 2024 07:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733469925; cv=none; b=ES73AbbOKYNnvytrJkc0Q8olhYqrDZrHBth3RMBZhrZ94g4IAl93jCzUfTv4jxFj7S1FJUXBoy08yV6VGbL+DpVA8mE8Rp9lYe7bRpnpw0u1N/MPX5fNj2Q1aVpjof/m2vyB6UFkHPiphoeL5oVTPG/PHvGgapHKOSioJ1m7wTI=
+	t=1733470389; cv=none; b=NaUFyMHaGMnWkXs/uic683m3CsSvrlHswNbcPn1EYsE6ouud5vk5hYnD41nDvuPUhkNY+30enO1ZDcpUZZ6fbvFKJOIYhHvZ+XPBodxFS/bmEuCM3KrjUPlj+HLaS/h/aKCyFuZ4QT9lWLsbYDM0qNlLqXEeSaN7IDfTkLbVSwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733469925; c=relaxed/simple;
-	bh=Nw9RLpfZXU/lN/Cn/DmZPVO7dJjtqdL3hbEg78PkUh0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O0gNBtHBX3N96Mdq5Ie7MOB36jA89vO2NCBrjjY1Ih00kyInWF8zu7xhiS2rwe+dsr4FxE5+d0/Z0uC8gxENuwAO/ycJOqHXxm4577/FhLA+QnrbqrzmiBd14PzxjL15+28dB8fEVYEDumus1wgOn+fHTzBqQLTMkqixyinRcYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Z69DEalD; arc=none smtp.client-ip=115.124.30.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1733470389; c=relaxed/simple;
+	bh=Br4Ym+uOjzwX17XYvI6sLeN1epKmjEpXyufYM9pwxpQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e4jEkJxcjyYI6jl8Q8PmewBmIheqH+scyvetuPgfeCcVb7FNZ/04/MmclSYqoLd7EXIfKQx0YHn5I3pkMBiUZ5bC5i0d1UK6hgVqFWn9KJncqS8dd7o91FxxZilb4vRk0amwg6dIn65J/UWRiwM0F87yzHhNdtDOtxqYX9nYpfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uE8BedoB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Z69DEalD"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1733469914; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=KeiQksj5p3kpfgOUaaoCQtUilY9sIU4svRw05SIy3cI=;
-	b=Z69DEalDbl3qHbbJa3OkyoM+NdRBG7P99UBIavVeIMVGdmxH6+aIjwmX3Y9euAP46SYhQYxQSUCM/zaNb+4DEOSnu8nWsMoE9CxAQ/s33qRQEEESwE/WyLjO1qTag9nxEO4/W+3sNoIYs7vMF/JVd85EOCrHwNGbm9MOlqvdlck=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WKvfgsT_1733469907 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 06 Dec 2024 15:25:13 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH separete v2] docs, nvme: introduce nvme-multipath document
-Date: Fri,  6 Dec 2024 15:25:07 +0800
-Message-ID: <20241206072507.37818-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uE8BedoB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7FBBC4CED1;
+	Fri,  6 Dec 2024 07:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733470389;
+	bh=Br4Ym+uOjzwX17XYvI6sLeN1epKmjEpXyufYM9pwxpQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uE8BedoByqhdRpsz+nvWWsw9TdjmV87U11uPD4Qop8gheN7MZTHZLzp7GEq7SN1Cc
+	 q4jE4Utd01mmoHUmUsuEhjBtBQzY6LQqQd0c9UAoOWArRLtqkciMcWPlXNKsqSoXlf
+	 8zlHorpx7x+cCDbzFPaKzYxc8I0Yx4b8NeEh2ydzLZu0w9x9l+97T9X0qjMrNUkyPn
+	 loJUghnwxME1X8VwvaJrduAMuSXpKvUvJofn3we2z/pFu7cS31/+0rk9CKh8VpYnhR
+	 hd6hpvQ+60DXYaYCziZ+37lnaPK0K/FPVBIe9wqhEeSnhSTYk40NhVNpWBk3CQaVmW
+	 jUW5MkLThAWeA==
+Date: Fri, 6 Dec 2024 08:33:06 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: John Stultz <jstultz@google.com>
+Cc: Andrew Davis <afd@ti.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-media@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
+ definitions
+Message-ID: <20241206-wealthy-hyrax-of-grandeur-ca3cba@houat>
+References: <20241202115827.50388-1-mripard@kernel.org>
+ <CANDhNCpTnc6=YkjQgQngRCw1_xLWgOFrcjTxrrGX+bRhvGb5DQ@mail.gmail.com>
+ <20241203-cerulean-ringtail-of-speed-920c5f@houat>
+ <f6412229-4606-41ad-8c05-7bbba2eb6e08@ti.com>
+ <CANDhNCqtMUaO4Y_7UYGJebDEdN==vTAQRexuuek5SZt5rqd8sQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="w6x675unrzbjvp2x"
+Content-Disposition: inline
+In-Reply-To: <CANDhNCqtMUaO4Y_7UYGJebDEdN==vTAQRexuuek5SZt5rqd8sQ@mail.gmail.com>
 
-This adds a document about nvme-multipath and policies supported
-by the Linux NVMe host driver, and also each policy's best scenario.
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
-Hi,
-  We found that we should take care of the throughput of each path in
-service-time policy, so separate the doc patch. And continue working
-on service-time policy patch.
+--w6x675unrzbjvp2x
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
+ definitions
+MIME-Version: 1.0
 
-Changes from v1 to v2:
-- Remove service-tome policy.
+On Thu, Dec 05, 2024 at 03:17:57PM -0800, John Stultz wrote:
+> On Tue, Dec 3, 2024 at 11:04=E2=80=AFAM Andrew Davis <afd@ti.com> wrote:
+> > On 12/3/24 1:44 AM, Maxime Ripard wrote:
+> > > On Mon, Dec 02, 2024 at 11:12:23AM -0800, John Stultz wrote:
+> > >> Hrm. I'm not sure I see the value in enumerating things in this way,
+> > >> it seems like it will be a nuisance to keep current?  Maybe something
+> > >> like:
+> > >>
+> > >> On most systems the default cma region is named "linux, cma" or
+> > >> "reserved", with a few exceptions:
+> > >>      - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
+> > >
+> > > I'm a bit worried about doing so. What if, on a "linux,cma" system, we
+> > > have another "reserved" heap created with different semantics?
+> > >
+> >
+> > Having the "default CMA" heap get its dev name based on the method that
+> > created it was arguably a mistake made when first upstreaming this heap.
+> > We should fix this, then maybe add the old name as a link just for
+> > backwards compat as needed.
+> >
+> > exp_info.name =3D "default_cma";
+> >
+> > All other CMA and carveout heaps will have names based on their
+> > method of creation as there may be multiple of them, but there
+> > will only every be one "default CMA" area, and its heap should
+> > be named to match.
+>=20
+> This seems reasonable to me. Maybe putting the link creation behind a
+> compatibility config so they can be later deprecated?
 
- Documentation/nvme/nvme-multipath.rst | 72 +++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
- create mode 100644 Documentation/nvme/nvme-multipath.rst
+That sounds reasonable to me too. However, I'm not sure how to create a
+symlink in devtmpfs from the kernel. Or maybe we should create a second
+device file with the same major / minor?
 
-diff --git a/Documentation/nvme/nvme-multipath.rst b/Documentation/nvme/nvme-multipath.rst
-new file mode 100644
-index 000000000000..97ca1ccef459
---- /dev/null
-+++ b/Documentation/nvme/nvme-multipath.rst
-@@ -0,0 +1,72 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+Linux NVMe multipath
-+====================
-+
-+This document describes NVMe multipath and its path selection policies supported
-+by the Linux NVMe host driver.
-+
-+
-+Introduction
-+============
-+
-+The NVMe multipath feature in Linux integrates namespaces with the same
-+identifier into a single block device. Using multipath enhances the reliability
-+and stability of I/O access while improving bandwidth performance. When a user
-+sends I/O to this merged block device, the multipath mechanism selects one of
-+the underlying block devices (paths) according to the configured policy.
-+Different policies result in different path selections.
-+
-+
-+Policies
-+========
-+
-+All policies follow the ANA (Asymmetric Namespace Access) mechanism, meaning
-+that when an optimized path is available, it will be chosen over a non-optimized
-+one. Current the NVMe multipath policies include numa(default), round-robin and
-+queue-depth.
-+
-+To set the desired policy (e.g., round-robin), use one of the following methods:
-+   1. echo -n "round-robin" > /sys/module/nvme_core/parameters/iopolicy
-+   2. or add the "nvme_core.iopolicy=round-robin" to cmdline.
-+
-+
-+NUMA
-+----
-+
-+The NUMA policy selects the path closest to the NUMA node of the current CPU for
-+I/O distribution. This policy maintains the nearest paths to each NUMA node
-+based on network interface connections.
-+
-+When to use the NUMA policy:
-+  1. Multi-core Systems: Optimizes memory access in multi-core and
-+     multi-processor systems, especially under NUMA architecture.
-+  2. High Affinity Workloads: Binds I/O processing to the CPU to reduce
-+     communication and data transfer delays across nodes.
-+
-+
-+Round-Robin
-+-----------
-+
-+The round-robin policy distributes I/O requests evenly across all paths to
-+enhance throughput and resource utilization. Each I/O operation is sent to the
-+next path in sequence.
-+
-+When to use the round-robin policy:
-+  1. Balanced Workloads: Effective for balanced and predictable workloads with
-+     similar I/O size and type.
-+  2. Homogeneous Path Performance: Utilizes all paths efficiently when
-+     performance characteristics (e.g., latency, bandwidth) are similar.
-+
-+
-+Queue-Depth
-+-----------
-+
-+The queue-depth policy manages I/O requests based on the current queue depth
-+of each path, selecting the path with the least number of in-flight I/Os.
-+
-+When to use the queue-depth policy:
-+  1. High load with small I/Os: Effectively balances load across paths when
-+     the load is high, and I/O operations consist of small, relatively
-+     fixed-sized requests.
--- 
-2.43.0
+> That said, while I understand the impulse to want to fix the heap
+> names so applications can depend on them, I also want to caution it's
+> a little bit like trying to hard code eth0 as a network device name in
+> your scripts.  There are too many potential configurations, and any
+> fixed mapping is going to break in some cases.
 
+I certainly don't want to spark *that* discussion again, but it's
+exactly why I wasn't convinced about the names providing the guarantees
+back in Plumbers. I definitely agree with you there that the situation
+is kind of messy already, and it will only get worse.
+
+It will be really hard to document, and if we can't document it,
+userspace can't rely on guarantees either.
+
+> I think there is just going to have to be some (gralloc-like)
+> device-specific configuration glue to map a pipeline/use-case to the
+> memory type (similar to fstab for filesystem to mount points) in order
+> to handle every case.
+
+That might work for Android, but it really doesn't for anything more
+generic than that.
+
+> So if I'm being a little squirrely on fixed names, it's mostly due to
+> wanting to avoid anyone getting the mistaken impression that fixed
+> mappings will generally work.
+
+Ack :)
+Maxime
+
+--w6x675unrzbjvp2x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ1KosQAKCRAnX84Zoj2+
+ds/mAYC5oull8D+NhsZeCjJbs/mJRi1Y1zq/Mnhb0orpy9wyHHtCo3KrcFCnkiaj
+rUeJBjABgNA9DcsfGkKd8Qls0c/K42LeX5GkSBdFVlo30WUjrWr+u9Nt/JBW9oPk
+4+etnwsr0g==
+=NN+l
+-----END PGP SIGNATURE-----
+
+--w6x675unrzbjvp2x--
