@@ -1,74 +1,120 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573FB20628B;
-	Fri,  6 Dec 2024 17:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A7A1FFC67;
+	Fri,  6 Dec 2024 18:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733504537; cv=none; b=QLNIjnTih4U+7dtnZPXMXWsJQ3h42SIBJq2Gg3Z8LVve3hIdA13EpjR3OmCCHjpG+4XM3Fe8npn1f9rr2PpyvyqDk4C8Vkey5M+i2cxOzXkmX1m9lg0vyT5Iv0ApR6dvlCNFsDR73u2mxaFvhITvqG2Okc/yDyi4pELZprcD66o=
+	t=1733509031; cv=none; b=fBxnhp43cBi3/q4RKDtI1r9cy+paHQRVL1QtYprQNdtgcWtmV1tkNBjIasWMFejMwA5Kyi2mSjO79PICGZko6+CcJat96lpaZj39CzHcqiIk+Xwla701igLhkG+puc14vo3pZ6bxrejCmi2kx5YZjFQLcSEy/QaBgA8bm0Ehf4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733504537; c=relaxed/simple;
-	bh=yfenPM9ODdWg9R4e21a6fn0/25fwjaFiu0cv69tMrZQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j2qnlo2kMws9Xjvn9y4d8i1dJ9gyXGWQcoXbYVUeWPf6l+1aOCradz72TthVdmOhCG9SbgcfRZ5WvD8r9RZ2wYhYfq72fW416LKsMew5p0gas7evVeGPtb+yxlbX/Q3RkxWlMylMwUWT1ID6zK5x34T2H93BTud/K0Fsl6V/YFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nAD3iraQ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1733509031; c=relaxed/simple;
+	bh=F9RJBsAgeYHEnkBkzcTxH6KpY9seHzyzKH6LHKSwmpI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AtJgbNYzPjqAKMlL24nQZYQa2iC3e6eq9iIbC04Vfou142lmn0zrVCjPm+gt6j7v6/zevFuMUUupJTLbGS+4nHDJZCJR18wrET+VTd7rGWF5zW3Ct/Yb43z3W5/eXWrso/fhFxq+wjHTSJts5UFH9H/aj+4TvM4XzGGbY1+p2cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lXcmj+uw; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nAD3iraQ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71F94403E1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1733504535; bh=qoYyWO2Qf+oKhBLSxdz/BPi+iDGhwGeVa29pxC1vl3Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nAD3iraQBMb/D1dPlbUU4yY1TrK/dkSxIulIrmySJyCXfDD4kTTVAJ9KOMaGD+eoQ
-	 qz78BxxMiWqNfU/YC9ySE6ize8QXYMIB+D4P/omVazfubYbptbH+r2VqPJW+dYwRW/
-	 E4/QJ6aUvhmv+SgccHHKn9QbhnQyT/jETxegBjCJAv7aDcQeScW024IRszm4Ut8mB8
-	 ZsHjjyFZviGM8d9va9IqMgT2e6b+iOYF+4qPjNufYxfRg8RTawLABMI3xsJDwoM1QS
-	 81oR0+yyu+P9tcy0AN5q0NRtyj0KW1n3PkBhPxidLEA6AfUKRbxwWuihwqGGy+dl4z
-	 dzLjF29oTi4fA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 71F94403E1;
-	Fri,  6 Dec 2024 17:02:15 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dave Hansen <dave.hansen@intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH v1 0/3] x86/Documentation: boot.rst: More style &format
- fixes
-In-Reply-To: <639b9aef-456a-4f13-84f3-555a0da9672d@intel.com>
-References: <20241128152546.2396782-1-andriy.shevchenko@linux.intel.com>
- <874j3gu5at.fsf@trenco.lwn.net>
- <639b9aef-456a-4f13-84f3-555a0da9672d@intel.com>
-Date: Fri, 06 Dec 2024 10:02:14 -0700
-Message-ID: <87r06ksq21.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lXcmj+uw"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3004028c714so138481fa.2;
+        Fri, 06 Dec 2024 10:17:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733509027; x=1734113827; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qlej7UHUsoeR+yZIvzIoLbF8ISp1uA7IpBE5oPajwGQ=;
+        b=lXcmj+uwVtuXnzxE7eJMg1X9bNs+RC5RMgt0QOr8E1v30IY8MW0WIYgI1RFBaMSkND
+         JRqcXKfCEcDFOMuXhjJ36ev8vmBaqvQGWrWgqJ1r81QD4ua3Vg4zeQJM2H9jeB/cXaCs
+         nkWva3V3no1Bc+yAmErYpNdvMp5+sMp72HQS5Tuc3c/HmAKZq2oyemlaESmbSCArVOLo
+         hV3MjffNpA08p1yie64snDmVZ/6FDhGVtS/D9qnaNb4OGCJT2SvuaBFYRmkjLjbBFwdm
+         2FddmtjJ367bk8C5KZhxAjsCJToLmxyyuGkRnGFvmQTbMkcIishEjQgvuquQM0Ro83h3
+         wLHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733509027; x=1734113827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qlej7UHUsoeR+yZIvzIoLbF8ISp1uA7IpBE5oPajwGQ=;
+        b=pG9kd9JxkTekT4QW+/sySSrZtBx9PEn4yISKTcxEIk3T2SGYJGZhjl2Lz6p2E4PFdz
+         q0ug0abULzCMO1h7bqh7DosA4uljPiOWSNMRBZXWsuydSiz70mVncysyhWeUq/VgTv55
+         hwvWtQkG0mnSsG4U6HpIyP/H2Cg655AJnPHqsniUc9YzpERABdLmMhJ9U3DrruRZedP/
+         +VoRKdcq4Pq/rf1DwjFo3AvQj0ikmjVn17UAKegfY6YykWmWTfjVxC6rptYVsTmKPmZg
+         uNc3f3pBHgT4zOQS85N+JgSpV3LuAL4M/GPWBJBCvHZtDUT9+AvY8VPkATildJrNE0bP
+         AVfg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOdOWK5wfb6a0CdNlUwEZMlZbQoTwKCs1PLsmvsMshKfa7X2OsCmUMfTjCx8z/WHACDq2qPnppIN5xXBF3@vger.kernel.org, AJvYcCVynQ9lAmVfx4/DKf8WkoccmeWqkLTKFaN4ORKhA0zOcGltMxVA+yHhCO/JKcxniQEzpf6Bh1fg2Iw=@vger.kernel.org, AJvYcCWfRn57C0nrUJIQPS9susaQMQT9s6DH8CTs5afVnCwtP+z0FejrNPCtWA5szKg2RYc8qdJc9y2du5VMwCQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxW0pxKQGlWzaoBMehxzN4sKqqzZU9t7hLE39d+oSK0A+ThEK/I
+	kf+DridJSkm/E6mIcfmt98qbvKztPsoatW5Z+CGuz5LMVlLRLtXUlxA41bV7FEhRl1awJejKj+p
+	0ThlBcpmxtWuGaI3b/x+W88q2o0A=
+X-Gm-Gg: ASbGncshasYVUlADhSsRSy1YY/ei+VN8C//JdNkSug5GJB84Sbm5gYYGRC0kGMI5Kmp
+	y9iwfRmux014/7wloqiKJRY9/GHhyHg9y
+X-Google-Smtp-Source: AGHT+IFHdBprXTF/2XrgM8L9yFe2mpFgxWqG2GYDHruD27KoBjCURXLHgF7Yxsf+IoNcubV0lKMSH6eSrfm9m0Ynnvo=
+X-Received: by 2002:a2e:bcd0:0:b0:2ff:a928:a23e with SMTP id
+ 38308e7fff4ca-3002fc68b7cmr15919451fa.25.1733509027170; Fri, 06 Dec 2024
+ 10:17:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20241107200835.3033-1-yesanishhere@gmail.com> <87cyj622oc.fsf@trenco.lwn.net>
+ <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org> <874j4i205j.fsf@trenco.lwn.net>
+ <70a27fe2-cc85-4f35-b24a-8e3425e447d0@infradead.org> <87v7wyznow.fsf@trenco.lwn.net>
+ <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org> <87wmh8p5ag.fsf@trenco.lwn.net>
+In-Reply-To: <87wmh8p5ag.fsf@trenco.lwn.net>
+From: anish kumar <yesanishhere@gmail.com>
+Date: Fri, 6 Dec 2024 10:16:55 -0800
+Message-ID: <CABCoZhAmsXN2e1RoAudUzYDNa6dU-orUPojp0S4jixqUtEt4ew@mail.gmail.com>
+Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dave Hansen <dave.hansen@intel.com> writes:
-
-> On 12/6/24 08:47, Jonathan Corbet wrote:
->> How were you thinking of getting this one upstream?  I can take it
->> through docs if that's what's wanted, but would like an x86 ack first.
+On Tue, Nov 12, 2024 at 12:26=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
+rote:
 >
-> It all looks sane to me.  Going through docs works for me.  Thanks, Jon!
+> Randy Dunlap <rdunlap@infradead.org> writes:
 >
-> For the series:
+> > On 11/7/24 2:25 PM, Jonathan Corbet wrote:
 >
-> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> >> If we really want to separate the mechanics of kernel development from
+> >> the associated process information - not always an easy separation, IM=
+O
+> >> - we could make a top-level "development" directory, put a lot of the
+> >> other relevant stuff there, and include the debugging stuff.  It seems
+> >> really weird to put debugging by itself, though; it's only part of the
+> >> picture.
+> >
+> > I could go with that.
+> >
+> >>
+> >> Why is Documentation/process so bad?
+> >
+> > Documentation/process/ is meta-documentation about kernel social "stand=
+ards"
+> > among other things. It is "soft" documentation, whereas debugging (IMHO=
+) is
+> > "hard" documentation.
+> >
+> > But hey, it's all your baby. Do whatever pleases you. :)
+>
+> Hopefully not all mine...:)
+>
+> My suggestion is to put it under process for now just to not block
+> forward progress on this work.  We can surely relocate it if we want to
+> make a proper development-processes top-level directory in the future.
+>
+> Thanks,
+>
+> jon
 
-OK, then, I've applied the set.
+Hi Jonathan,
 
-Thanks,
-
-jon
+I wanted to check with you regarding the timing for sending the patch.
+Should I go ahead and submit an updated version after relocating it
+under the process/debugging section?
