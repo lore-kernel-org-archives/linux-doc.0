@@ -1,83 +1,101 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70391474AF
-	for <linux-doc@vger.kernel.org>; Fri,  6 Dec 2024 14:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA7D53A7;
+	Fri,  6 Dec 2024 15:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733496713; cv=none; b=iNX7nOd7+kwU/5AtGjBiQGDvyD9HEtpVQhwKYc6Kp8bL46zRGnncRwbgef59ntH2SFjIhjtW4TcVMi4xDME8z7m2a4KTmKVTnadNXHWvBR4IfHOXZXwGc16oCYScIfpG2k9B4mcl1NUc+1KRyEkwibRtyB4sXdbVybr+SjhK7BE=
+	t=1733497778; cv=none; b=gDl3yGa51CIYM6CZ82h8G8BiKt0ZA4JhpdeTW6u2wMdZ7fVxafVIRW1mMhF6cIVELMpO9Jwz3iVwmDJEd3CN8yPMut4k9mW/D4Kf8eS1mDCdLUvSLvLCDY7pz0u4jL463X50u+SKorqmYqdqq6G9Mmf40681nzbx0Fzk4ijqYD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733496713; c=relaxed/simple;
-	bh=aoMdGajI7M22+mDFWE50yWiBPHP9vf48xFEMCZxOVYM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ujUlProZvUfWm57aZ+lw92RxxpgEaPQx9FTX06HolBYcGTOQyRowrH1SkV2BePVamJr2PsEnMSPqALV/iWY7fjlHdMXyfJy0QDZI2J4ZzBqtiTyZsgJKoT1Uk+gVLSJbPy/DRWXN0YJFacpGq2BjOjutk56fyDrGIdqNwY1lccA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tOuv9t58; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1733497778; c=relaxed/simple;
+	bh=8bdF//VF/Yqah0H58GsnbOgNrFZ3UFm2SlqMEGMvVuk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kAKnTjDHRvGnvNl/uTH0wPtevHBAXlzvhfxu1EmfHERFH5KgoW2DehzKfSiiOQesBrsZOsyCmWaGRvadYaMcr0H0NsMfbxjB57XRvzl6byUTiTwoso1TVHL7xflFtn5BQ74c6+53Tf/mso0COhrlF49s97DRKOKBsps1Pea3LGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C93lbj+n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tOuv9t58"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 57A7C403E4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1733496179; bh=x+pbS9Dwvv4Adx/JS1J63HbDvKycbIrXy3PXJPrKZLM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=tOuv9t583lBSCO2GZA3wVDzxKCSFNSuWUfAN9OzxBnlRU2UgP16oIoOna+gDLDu5h
-	 KE9fDqNdfzK0qztkAc4jRjfWMU8GTE3bNB4ysomUPUVfXJv+5GMyEyTUPTlK1csHSh
-	 4BkbaavdG/Pd0ScSM5dyfJpMjLmqSTwGoJ8komsHL48fuo/xsx0PrBkS2GH6EvxGJz
-	 R8sIhKUR/RAt88A33AlgukV4HkpGbWZJODpVCLnxglW/pk3rjl4cFU+uE+qFjrVgxv
-	 3Hr7GeXKyQWjeW7keXJ0bB0GdWVxKqNtM6i83K+T/RAi+swHmELTMhuPLXlMot5dom
-	 krc30ODWWbY4A==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 57A7C403E4;
-	Fri,  6 Dec 2024 14:42:59 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Chaitanya
- Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH separete v2] docs, nvme: introduce nvme-multipath document
-In-Reply-To: <20241206072507.37818-1-kanie@linux.alibaba.com>
-References: <20241206072507.37818-1-kanie@linux.alibaba.com>
-Date: Fri, 06 Dec 2024 07:42:58 -0700
-Message-ID: <87frn0vpn1.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C93lbj+n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AC31C4CEDC;
+	Fri,  6 Dec 2024 15:09:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1733497778;
+	bh=8bdF//VF/Yqah0H58GsnbOgNrFZ3UFm2SlqMEGMvVuk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=C93lbj+nuJTzfIieo+kvkZWMM0BqbhIbtB2JBYotZ5HV5XpOxevAVIw3t/ItQdMC4
+	 VduqdyWBMTIJtpwLlTzFFia4VQzBfOXZQjwpdAc7Wp9lmtQHKcx8gogisiBPMocEig
+	 aHZznNiV17pFnVnzBN6w95jbUEsm3+dSFYYE//Uk=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Eric Sandeen <sandeen@redhat.com>,
+	David Howells <dhowells@redhat.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.6 391/676] fs_parser: update mount_api doc to match function signature
+Date: Fri,  6 Dec 2024 15:33:30 +0100
+Message-ID: <20241206143708.622883163@linuxfoundation.org>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241206143653.344873888@linuxfoundation.org>
+References: <20241206143653.344873888@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Guixin Liu <kanie@linux.alibaba.com> writes:
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
-> This adds a document about nvme-multipath and policies supported
-> by the Linux NVMe host driver, and also each policy's best scenario.
->
-> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-> ---
-> Hi,
->   We found that we should take care of the throughput of each path in
-> service-time policy, so separate the doc patch. And continue working
-> on service-time policy patch.
->
-> Changes from v1 to v2:
-> - Remove service-tome policy.
->
->  Documentation/nvme/nvme-multipath.rst | 72 +++++++++++++++++++++++++++
->  1 file changed, 72 insertions(+)
->  create mode 100644 Documentation/nvme/nvme-multipath.rst
+------------------
 
-Thanks for working to improve our documentation.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-When you add a new file, you need to add it to the relevant index.rst
-file as well; if you had run a docs build, you would have seen a warning
-about this.
+[ Upstream commit c66f759832a83cb273ba5a55c66dcc99384efa74 ]
 
-I would also suggest that this material perhaps belongs in the admin
-guide rather than in its own directory?
+Add the missing 'name' parameter to the mount_api documentation for
+fs_validate_description().
 
-Thanks,
+Fixes: 96cafb9ccb15 ("fs_parser: remove fs_parameter_description name field")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Link: https://lore.kernel.org/r/20241125215021.231758-1-rdunlap@infradead.org
+Cc: Eric Sandeen <sandeen@redhat.com>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/filesystems/mount_api.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-jon
+diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
+index 9aaf6ef75eb53..0c69aa574ab9a 100644
+--- a/Documentation/filesystems/mount_api.rst
++++ b/Documentation/filesystems/mount_api.rst
+@@ -766,7 +766,8 @@ process the parameters it is given.
+ 
+    * ::
+ 
+-       bool fs_validate_description(const struct fs_parameter_description *desc);
++       bool fs_validate_description(const char *name,
++                                    const struct fs_parameter_description *desc);
+ 
+      This performs some validation checks on a parameter description.  It
+      returns true if the description is good and false if it is not.  It will
+-- 
+2.43.0
+
+
+
