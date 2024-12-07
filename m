@@ -1,151 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1582385626;
-	Sat,  7 Dec 2024 09:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A7E22C6E7;
+	Sat,  7 Dec 2024 12:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733562725; cv=none; b=cVXhyXw1ZvYQuZR3qwb0lPdspLT5QgUBbJVeCelu7CWRJS08FKTZdxo9zpHJKe8+P50X/Q0YJmQnuZDhQm2BjPtHlktroxOYf+UZgFmHkemTFPSMV4VSe0tl44+Mx/dcgf9FW5kPo6NxMp9mtxbhDdDQxrNOfalJi4Racco0SGo=
+	t=1733575656; cv=none; b=EzCOpsurBcpebQanWbH//C1BmN1m92FFyIe8RM9c/8wHrPVZgomN7ZylqQnNKbNHWhCP3OBdntz84BX3W+airgI+0wDyqsMaGoOe/M1Lj4r7E0gYZd8GkRXZRkCVNLHZVyKG3Ku4qX9V9q58VOBX5AV8P4RV0S3eewQwLUue6p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733562725; c=relaxed/simple;
-	bh=QM3dO3IgDSl6o5lIGQCB9dg197jlldvwDAyQrKZYv3I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DLQeADQwyPZxTg3qH3W1sB5M3NfYYcobXDnz7LsBqNKkcL3EAYx624eIJbww3xB8GgMmR6K5xFXNW4YxvxgXuIezYjQfqN7RLwk2b1cbUePQ8/qyxglgedVTWTkfXxHnBz5xo8F8AUSPpHkVswQYsumnsbJ+H8cmEu9lqD8X1lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTp28EWp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733575656; c=relaxed/simple;
+	bh=y4VW5ZRiACtCLkBYlNRSSFPuoas6Ic3oW//NPP7IXRc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kWBTjQk4S+HYc4HhJxMWJKEVlcgqFV560D36MCMmWHe+kksIG71W+cKIZScCjpq7Gf0YXY4bWISZ+GWuM3XLCr2A7Xoc7D8cUXLYvrUaDClHS2e4IrrR4P2BwjqbI61OwmKAfCYbUAybX6j5z3IjWItp9aWFhbLZz+GVNwxeBrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=ebHc7v9j; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTp28EWp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C34EC4CECD;
-	Sat,  7 Dec 2024 09:12:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733562724;
-	bh=QM3dO3IgDSl6o5lIGQCB9dg197jlldvwDAyQrKZYv3I=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=bTp28EWpE3ExZK+5Xs2L1Q8q0swUp2wWFRjCQtBdrBj94IYxtRDULH5ph85ujsVPV
-	 7YIPdR8xkHJG2kpedB0hF1nqWIhOzZaWWf6iYAuSFdWig8ELvuhp/6605tkYlN+7Gf
-	 VhpkKJPhmDjL8JsBxUm9+zpVQPKdz+7eTcJqY1ye390h33yprz/alOYyzGR7jGZEDm
-	 ueIzXJe+1P/5RxzBjMOZVbsB3X5hMNyrD97vy/kZDaaiqtnUkMHIkKjhuyw/xR1t0/
-	 ScmsYOLyFNCzKmGblfJ8bKnG4YiQqTw2FleBqhrHDZS8jFKJFQHroAGdWlhsJ3F9zH
-	 vPp6/k/dlg1cA==
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aa643eb7f24so174102166b.0;
-        Sat, 07 Dec 2024 01:12:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVb36kNGETUuNhIPRx7IJVwexs/KmlHRI+bC57M2XZKomR3PGVpL9vKUE1ew8npkeSFksfVXvF5wtsOlcbH@vger.kernel.org, AJvYcCWwb2hiwLPv99iRxr/I/QLxa03NpsEYUCk57VANWOyIzwmJGuItll6US6oPwyRIKzlALJq6vSXYVZA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhGtwHYbSBIL7aqhrGZ6b1w0kJ54hzN24mBvjD+G7/jltXmko1
-	fyMhX4QlXUZMUsdoATi3uL9YQ2+Y2tw2DV16IJMK5NzK9hIUpwPOGjdr2FCBjh7GtbpguJ2/BZU
-	OacoL47ij7kv+8hyM5b1O3KlECAM=
-X-Google-Smtp-Source: AGHT+IEJGrBvG/ShGpCySY5o73rk2XwpV1WNmzYZCleJxbsf6ctE3q/pdaSVAnpSfuCOYx8WSVD6NwrST7GnTWOsFP0=
-X-Received: by 2002:a17:907:2817:b0:aa4:e18e:1ca1 with SMTP id
- a640c23a62f3a-aa63a266bbbmr514126266b.60.1733562723240; Sat, 07 Dec 2024
- 01:12:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="ebHc7v9j"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=TJDDUIbWS9yNi7PeF4BStBvdpOpia5YZBMJZqbobf7I=; b=ebHc7v9j8vvVNotb
+	RXH9iV8c+MLhqEQic5OioB0XFYF14Yda1ytSOca9DUJ+krGppXjqpmYwit65BmoRDEBj1vILHvlmr
+	d8AxZN2y2nl5yaOprmhOu4YT0cvfppLax7jSSiWAoCDjxNRwkVgy3r01ffkSeSxxAJGRt90woO+bc
+	7CVQ7WqSY6Wu8VdzRRoiGIn9T0O8DVJw3Y7ePL+WU7D91RirjdEIdc+IZ/mPiOpKdPjdKBD5ip0/e
+	a52OJ+vNTvqhES21kEWLnD0WUyoTIRKNcTJPM0deb/Z235Arprz70F1UY4gWhvgi8rEaF4c1QKovV
+	tKvf+Kp3EARWWIu59A==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1tJuDU-0040k0-0r;
+	Sat, 07 Dec 2024 12:47:24 +0000
+Date: Sat, 7 Dec 2024 12:47:24 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: MyungJoo Ham <myungjoo.ham@samsung.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] PM / devfreq: Remove unused
+ devm_devfreq_(un)register_notifier
+Message-ID: <Z1RD3Ec1IJ2jY5TZ@gallifrey>
+References: <Z0iWPCzjv9YQ4kO_@gallifrey>
+ <20241028021344.477984-1-linux@treblig.org>
+ <CGME20241128161146epcas1p46768d7685092deaa817119db30fd12f2@epcms1p4>
+ <20241207052209epcms1p45818db425ba84821003b6d735bc0e957@epcms1p4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241207033146.20938-1-zhangtianyang@loongson.cn>
-In-Reply-To: <20241207033146.20938-1-zhangtianyang@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sat, 7 Dec 2024 17:11:52 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4VAyD+=Btt9S6HrN6-sVQJqe1_jeLPS13UR1kxXJ8S5w@mail.gmail.com>
-Message-ID: <CAAhV-H4VAyD+=Btt9S6HrN6-sVQJqe1_jeLPS13UR1kxXJ8S5w@mail.gmail.com>
-Subject: Re: [PATCH] irqchip/loongarch-avec:Add multi-nodes topology support
-To: Tianyang Zhang <zhangtianyang@loongson.cn>
-Cc: kernel@xen0n.name, tglx@linutronix.de, loongarch@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20241207052209epcms1p45818db425ba84821003b6d735bc0e957@epcms1p4>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 12:46:15 up 213 days, 0 min,  1 user,  load average: 0.04, 0.04,
+ 0.01
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-Hi, Tianyang,
+* MyungJoo Ham (myungjoo.ham@samsung.com) wrote:
+> >* linux@treblig.org (linux@treblig.org) wrote:
+> >> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> >> 
+> >> devm_devfreq_register_notifier() and devm_devfreq_unregister_notifier()
+> >> have been unused since 2019's
+> >> commit 0ef7c7cce43f ("PM / devfreq: passive: Use non-devm notifiers")
+> >> 
+> >> Remove them, and the helpers they used.
+> >> 
+> >> Note, devm_devfreq_register_notifier() is still used as an example
+> >> in Documentation/doc-guide/contributing.rst but that's just
+> >> an example of an old doc bug rather than anything about the function
+> >> itself.
+> >> 
+> >> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> >
+> >Ping.
+> >
+> >Thanks,
+> >
+> >Dave
+> 
+> When I search github, it appears that vendors are using this API.
 
-On Sat, Dec 7, 2024 at 11:31=E2=80=AFAM Tianyang Zhang
-<zhangtianyang@loongson.cn> wrote:
->
-> This patch enables the advanced interrupt controller function under
-> multiple-node of 3C600. The topology of the advanced interrupt controller
-> is consistent with NUMA node. We check the enable status of the node wher=
-e
-> each CPU is located once when it goes online, which may cause some
-> additional operations, but it can ensure that the advanced interrupt
-> controller can still be used in situations where some CPUs cannot start
-The whole can be reworded:
+Hmm OK.
+Of course there's a lot of random junk on github, so it can be tricky
+to know what's current/real/relevant.
 
-Currently we only enable one chip's advanced interrupt controller
-(AVEC) in hardware, so multi-chip machines with Loongson-3C6000 don't
-work. This patch enables it for every chip (In theory every chip needs
-to be enabled only once, but for simplicity we enable it on every core
-in the CPU online hooks).
+> NVIDIA:
+> https://github.com/NX-Development/android_kernel_nvidia_nvidia/blob/c9ade3b5e32a12b8cf6f33a632dc39209194e4e8/drivers/devfreq/governor_wmark_active.c#L624
+> 
+> Samsung:
+> https://github.com/Vaz15k/android_kernel_samsung_a54x/blob/8ac517c37c606746213064857dc240e99eba80d2/drivers/soc/samsung/exynos-llcgov.c#L107
+> 
+> Realtek:
+> https://github.com/BPI-SINOVOIP/BPI-M4-bsp/blob/25f5b88ec4ba34029f964693dc34028b26e6c67c/linux-rtk/drivers/devfreq/realtek/governor_rtk_ltl.c#L114
+> 
+> 
+> 
+> Please don't remove ABIs used by vendors even if
+> they didn't upstream their drivers.
 
->
-> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
-> ---
->  drivers/irqchip/irq-loongarch-avec.c | 20 ++++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-l=
-oongarch-avec.c
-> index 0f6e465dd309..9e30198fa7e4 100644
-> --- a/drivers/irqchip/irq-loongarch-avec.c
-> +++ b/drivers/irqchip/irq-loongarch-avec.c
-> @@ -56,6 +56,18 @@ struct avecintc_data {
->         unsigned int            moving;
->  };
->
-> +static inline void avecintc_enable(void)
-> +{
-> +       u64 value;
-> +
-> +       if (!loongarch_avec.domain)
-> +               return;
-Is there any reason to check this? If domain is NULL, avecintc_init()
-fails, there is no chance to execute this function.
+Hmm OK.
+Do you think they should be using this ABI or do they have the same bug as 
+is fixed in 0ef7c7cce43f ?
+I guess they don't care.
 
-Huacai
+Dave
 
-> +
-> +       value =3D iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
-> +       value |=3D IOCSR_MISC_FUNC_AVEC_EN;
-> +       iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
-> +}
-> +
->  static inline void avecintc_ack_irq(struct irq_data *d)
->  {
->  }
-> @@ -127,6 +139,8 @@ static int avecintc_cpu_online(unsigned int cpu)
->
->         guard(raw_spinlock)(&loongarch_avec.lock);
->
-> +       avecintc_enable();
-> +
->         irq_matrix_online(loongarch_avec.vector_matrix);
->
->         pending_list_init(cpu);
-> @@ -339,7 +353,6 @@ static int __init irq_matrix_init(void)
->  static int __init avecintc_init(struct irq_domain *parent)
->  {
->         int ret, parent_irq;
-> -       unsigned long value;
->
->         raw_spin_lock_init(&loongarch_avec.lock);
->
-> @@ -378,14 +391,13 @@ static int __init avecintc_init(struct irq_domain *=
-parent)
->                                   "irqchip/loongarch/avecintc:starting",
->                                   avecintc_cpu_online, avecintc_cpu_offli=
-ne);
->  #endif
-> -       value =3D iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
-> -       value |=3D IOCSR_MISC_FUNC_AVEC_EN;
-> -       iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
-> +       avecintc_enable();
->
->         return ret;
->
->  out_remove_domain:
->         irq_domain_remove(loongarch_avec.domain);
-> +       loongarch_avec.domain =3D NULL;
->  out_free_handle:
->         irq_domain_free_fwnode(loongarch_avec.fwnode);
->  out:
-> --
-> 2.20.1
->
+> Cheers,
+> MyungJoo.
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
