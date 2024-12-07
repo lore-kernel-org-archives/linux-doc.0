@@ -1,71 +1,102 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF2522C6FA;
-	Sat,  7 Dec 2024 20:39:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B46E17E0;
+	Sat,  7 Dec 2024 23:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733603946; cv=none; b=kPAGvbU+3ne/h7owaWwThUgiW6A3IngLHBPWTvz00EjzY3ZTlnO3ulR/zUnmygNvVQqP3Eq0T8JJXrFNUxb5uPpmE66+f0En1QernfQeBHEGqzaPLS30BA3McajIyxI1oLlNfOYogdApMk3uUswulpjp3qvCS7s9oN/T12ataoI=
+	t=1733613192; cv=none; b=LaNdORHk6Qqt4AWcZ2lma1ZwCvVnhN786piomOSy8iwTp6lT14WtHhNZPhdlbMokea96uakULF6M3Z2/OnzCTzWBzGJv4A5wePVGhl11vi9pTyTWhXJUwvlFOSTsZ9iMIIEdg9LzVQ8dr0oHE2yOlalfYEARshxQHb/cjxvfea8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733603946; c=relaxed/simple;
-	bh=qL+9ChYPsqY4C77/Sy8OOVm/lI/zb17cDXk+ooYqc5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XRnyUIL1cS5Llg/9pMcBf9eAF92vFIQAq8nGYUF/E67jU8sDUGRaXcG553U7hPpKKeL2pYEaghb0g0qhNysBynY1pU2sImvfXc2ziL5OAnLTqD09iVlNTN3WRIdh3ZqMBMx7TBh5Pn/vQQgcvsDW9W3ke0PZ6MNc+MRX2WLM2ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Tb0xHJ86; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1733613192; c=relaxed/simple;
+	bh=lmL0QP1IYR23G/1RG4er1oLXWCOXW+nlVLbHGcMeDwA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fIKoSweUzp1Pcap5sHk4Y+be6axzi67GkHOWf3idVXs6WEKFHnaz98P9jR9vEL0FFJLjglGjKtsTB7LDsnh/YsIqViUXHKHJVEpudSW6YvKbSlkC86tIkAW68qUGsstoLRugjfoedKFsslIekEE1+5J3taidh/78NmDiDDtlr4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rQK3ofmJ; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Tb0xHJ86"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=HS5+8cf/NT9XGki+xRoxATzUF6H4RE8i/SF969wIAc8=; b=Tb0xHJ8619TX2/pPW3q1qBNZW8
-	NRpcElkBH2teVe3cUg3g73tMO4rn7PpO15lfgUmDbL7LD96kGh6EwYPf+KON/NiFFCzJlyaXvMnSU
-	wcNwHCvlpAHW4Ycov7XDpsJi6OZvypnklVq2kvH/9eVF+88i6dA8FK0DLR2l47JwSwd0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tK1Zk-00FVKw-Ba; Sat, 07 Dec 2024 21:38:52 +0100
-Date: Sat, 7 Dec 2024 21:38:52 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v1 1/1] net: phy: Move callback comments from
- struct to kernel-doc section
-Message-ID: <1b012a63-c644-4079-b590-34c5f54b207f@lunn.ch>
-References: <20241206113952.406311-1-o.rempel@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rQK3ofmJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=HspVnKDKVVVr7FO7xa5uCzBXD24/tOGH2qwRon8BIpU=; b=rQK3ofmJb75Hfz2E1lOQespsUR
+	QDpOJ2tK1AMKVFw85EpB4psjJG3phra4wX5gvWtyEMqKXB8Keu63sN7isqaxDXKKPi8/1vUdL+0gk
+	/bVRDqphIyVOTFOOFJGNo1ECRMe4Q2/bWqg7eJUYQ1uZB/ZxmYX1M6Q4ZKz0XtnOKOJXdtpJYAnsr
+	xh6+qfPWLTHApJdKiTA0YsEWjOJME2X8MdhTetdiOitN8JTxWCBBYMiriyvlD+0m1XvAjZMjk8+2E
+	8YN+lyjh/b8aFyZlxlnZsBO5GRRQZ5ZJAOTVw9mbjd+QQS4uPZ+7aH9T66wHCHwMK+Tg76WKERZhW
+	T9kMnRCQ==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tK3xs-00000003Kza-2PJJ;
+	Sat, 07 Dec 2024 23:12:54 +0000
+Message-ID: <3be10d6b-e19e-4965-bac9-9af8b74fb566@infradead.org>
+Date: Sat, 7 Dec 2024 15:11:48 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241206113952.406311-1-o.rempel@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: move dev-tools debugging files to
+ process/debugging/
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org, Jason Wessel <jason.wessel@windriver.com>,
+ Daniel Thompson <danielt@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-debuggers@vger.kernel.org,
+ kgdb-bugreport@lists.sourceforge.net
+References: <20241204221720.66146-1-rdunlap@infradead.org>
+ <87h67gu5q1.fsf@trenco.lwn.net>
+ <0e5dbbbe-4cd8-49d2-a440-7e1acd7d40e9@infradead.org>
+ <20241207085056.fcnoqov3kd5rjqft@basti-XPS-13-9310>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20241207085056.fcnoqov3kd5rjqft@basti-XPS-13-9310>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> +#if 0 /* For kernel-doc purposes only. */
-> +
-> +/**
-> + * soft_reset - Issue a PHY software reset.
-> + * @phydev: The PHY device to reset.
-> + *
-> + * Returns 0 on success or a negative error code on failure.
-> + */
-> +int soft_reset(struct phy_device *phydev);
 
-We should probably ask the kdoc maintainers about how to do this, or
-if they can extend kdoc for this use case.
 
-	Andrew
+On 12/7/24 12:50 AM, Sebastian Fricke wrote:
+> Hey Randy,
+> 
+> On 06.12.2024 15:57, Randy Dunlap wrote:
+>>
+>>
+>> On 12/6/24 8:38 AM, Jonathan Corbet wrote:
+>>> Randy Dunlap <rdunlap@infradead.org> writes:
+>>>
+>>>> Move gdb and kgdb debugging documentation to the dedicated
+>>>> debugging directory (Documentation/process/debugging/).
+>>>> Adjust the index.rst files to follow the file movement.
+>>>> Update location of kgdb.rst in MAINTAINERS file.
+>>>>
+>>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>>>
+>>> So ... since these are indeed development tools, I wonder if we should
+>>> leave a reference behind in case people are looking for them there?
+>>
+>> As far as I'm concerned, all debug tools are development tools, so I'm back
+>> to all of /process/debugging/ should be somewhere else.  ;)
+> 
+> I mean this is where things just simply overlap, because debugging is
+> part of the development process and all debugging tools are development
+> tools, so I think the question is not whether one of the two places is
+> the "correct" but instead the user should be able to find the necessary
+> information by navigating to any of the two places.
+> So I would say, lets add a reference in the index of the development
+> tools that highlights the documentation of the debugging tools which are
+> found in the development process documentation.
+> 
+
+Hi,
+
+Sure, I will add entries in dev-tools/index.
+
+Thanks.
+
+-- 
+~Randy
+
