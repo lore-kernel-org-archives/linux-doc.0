@@ -1,79 +1,119 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D4C148827;
-	Fri,  6 Dec 2024 23:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF40724B34;
+	Sat,  7 Dec 2024 01:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733529460; cv=none; b=b8Yzb6Sh3Jzb2gw58fVlEW2GbjUO1dpyXgE3UWaVmF9ga5yG6zF554YcSRmGxFWTfCOZUa+1zB+IOdea4j00wZFDu/wdHGO24IPZooxTN5Azz/IB8P5Rm6B9nh9ZNbe28qIXJvHaHY6UETO6vXYx/bwsWhhrqdyZWEdaT3Z5Obg=
+	t=1733535490; cv=none; b=bLncnz05CNjJGd1nyqJ9gSGBO7ipYW4cPsU/vKDzapFN6BfZhzinD3LvIQOLylD1DqHRSbaowhz8BapwFRTI28wvL3Qo79lJgM5bxemQ3J/NS6AdxbSJf7spAgf2Z2T7KlQUynGoWs93SglK678LinV4mSk6MDjTBRbMnH2pWX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733529460; c=relaxed/simple;
-	bh=8xtOFjJOMqstJ1JxEUce+LCHopOQXxr3HAsCwYfULAY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LCJHkdqe1GvD43sMhgafGTkamKICzkIqDvdQpIVCd1n8Dlc5NZ7kJdg1xLa4FT1eh5wDwqOlCfECki1xUb/uSvyvMW1b80jiBT5E7hh/3XaqxjZuGguubAYfQAsXjKtES1Cn0CcITJS7ycV0DpYftQrUAptpF/a6Y0lyDN9nOzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=J2qxaBQw; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1733535490; c=relaxed/simple;
+	bh=nZTOGp1r7hkR99Iod6P2AZ3fuJ0kLpzFWImMNOngyTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FMUnO5XybdvB87cn7YNpfZnKmz5vErZeqmR81sytz1fWmS77eqNZXm0j0oqBuEcgcXzGAP9Lu74CFOKK3Y60pFYyBsOpSJT/5GFIdcRcwFXsaxuq/n9PBgk/TU0VNsoTd+KFmay/8sAcD3r7pqFs1LoZN1jCoJ9dJ8TC/CmlyAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C3HkUm55; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J2qxaBQw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=6CVT3fCHjW+EtyEf2snrM4FnEMzCe5lxg9d7lhPV0Rg=; b=J2qxaBQwDrpKlVwIU9ymGvxU35
-	5YDgdNS+IoQkxYyvLoGdRs32vmsDUHm/A9bEE8GlhhVwHG/003I9lVcSYDc6trCJdokqP1QBoDBUX
-	O9iRHaXf9gRLslH0f94zcVHKl6fTubWkK4dRB3+3ZRH8S8SuekAneHbN1ZFgdVqUHx+O03AuGffl8
-	pgVnkyTy46ZSe6ddkV5snAuEi0BbfZLnJRc2GkqR+czqBTvCNWhb3tpFsKnI5jnQ4ywcq3Rh3LAP6
-	qRsSaEa70wLlLoq/FMVrrJnwuNBeePaPtQCug4hZpN0Egl66tj8VLKq5A0cWu+1jQGkYgKVURKyBC
-	B9MtveZA==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJiCR-0000000FAy7-0nVv;
-	Fri, 06 Dec 2024 23:57:33 +0000
-Message-ID: <0e5dbbbe-4cd8-49d2-a440-7e1acd7d40e9@infradead.org>
-Date: Fri, 6 Dec 2024 15:57:26 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C3HkUm55"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2ee989553c1so2321144a91.3;
+        Fri, 06 Dec 2024 17:38:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733535488; x=1734140288; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nZTOGp1r7hkR99Iod6P2AZ3fuJ0kLpzFWImMNOngyTU=;
+        b=C3HkUm554SC/pFPrQ+wDv9P/LXOunY+AjlQ1BmI5qrO2hPzHxewCtogYlBDKkj7fRa
+         Urdii+WrbXJYT5GtvpN0AVu+lHTQPpBfXLl/Of9VbO1cMGl1eTRuMMFE/fkbnTKoO4oY
+         YnQGaxmUa/61k3ONPrW6haRSQjbCkDup+LXR1t/8vxiOQoD3iCJuwyE7d+9OpNPReTtd
+         1ZpG6TLBcQrXP2Eco243GRRn6yEEq2dVWbClHRPjAnjcNd1WGmj5wRWvrRrC/OkUHmRN
+         Z6rIWZEVe5BiNKAfG0az+CuFovljRQKiVwhNuzfYxshAh0qT04CsDDtQhwtOR+4wGr0c
+         uEsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733535488; x=1734140288;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nZTOGp1r7hkR99Iod6P2AZ3fuJ0kLpzFWImMNOngyTU=;
+        b=tmi9pYRFj2dLrtGKLvV6uSaUaNzE7SdVTwn3UbljLiaWetkXxLZ9j61eTy5d6TyvQv
+         D2LZxET2f1rakYTFRDibjW4Sym8djBCzJdeCZRW7AfJRfv+nvZfn8wg27BiL4EpKCOZ0
+         /HlT5E0ZZFrZmbCvZWU0vTkINcu7lxqtn8/z4w88hXERIq7JE6WTdHgtXAWznmwW/AvK
+         YXpv0RfshqqyD8H6httZs5KZRuYdI1miLdDfkygCT4TZaJORP9llhLMAaDUynq49y1q3
+         tPpinZqvUsW/wtsFFYpjtkkmhkNUhI9B+6wE8bSeWFIuLCeGmTueAVi8qXipa+YZOH4T
+         y28A==
+X-Forwarded-Encrypted: i=1; AJvYcCVDJd8UdXkAC5TjW5Rj/o4gFOwysB3r+y2FTZRzA8NlaMsNa0Z/9mIF5AdV8qvC/Y2xEuo=@vger.kernel.org, AJvYcCW/us+y5WtLSPHHivB2jdm4x9q1Vh64TmOzV3UPXkLsTwbagI3e5rC9OD9cE84qukmz9iM7QzecT/zz1r+g@vger.kernel.org, AJvYcCXJ20NpVJNYYYrotRZ2OdoEdjLoLC8mW3qNDxBvdV86VGpfq80RBkVv7RABIdNX/jHqNKWNf9Oo5gAD@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPrtUBNHmEO8vmyOTq2PjvMvMWefgoRAHvVk3gKMDVJDkX1NJK
+	yu8DjVM5HId4XVhqSWf/6buzBwN3auQb2EOJ3T9qNs9SvOWrnn8U
+X-Gm-Gg: ASbGnctGTZdwgM4ZT1sN5SamRh6y20ccysxh19MBooV3Zi+6zKHwVzdaR9bBodakI8y
+	DcGW0nL6cCpNV7lM70K1ppqnOc/BUEtiTUmO5U9Z/drVtxKVMuDkPBKlGv0Fh+If8RJiZp983Ff
+	XVwsF3n3fXXJnHY/BlFbFNpDFNF4FS4uUtFhZ31KNLigvQNQfRuh+nr+brtGDLM6RILKecP/gxJ
+	923Wp9aMnu0j76ufrAqPEwnMU0phhjcmgt7RQU0l16R7kUMMA==
+X-Google-Smtp-Source: AGHT+IGVziXDCgJ7WWittmXyPHVbsnVEcC4rwZTr2Vz2SiCLVRLP7xZj3DgIfwKgkAxvqmJSueqbZw==
+X-Received: by 2002:a17:90b:1fc7:b0:2ee:d96a:5831 with SMTP id 98e67ed59e1d1-2ef6ab104admr8543489a91.30.1733535488087;
+        Fri, 06 Dec 2024 17:38:08 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ef2701df43sm6227823a91.30.2024.12.06.17.38.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Dec 2024 17:38:07 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 96C2D4209E76; Sat, 07 Dec 2024 08:38:03 +0700 (WIB)
+Date: Sat, 7 Dec 2024 08:38:03 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: James Houghton <jthoughton@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Yan Zhao <yan.y.zhao@intel.com>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Anish Moorthy <amoorthy@google.com>,
+	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>,
+	David Matlack <dmatlack@google.com>, Wang@google.com,
+	Wei W <wei.w.wang@intel.com>, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v1 13/13] KVM: Documentation: Add KVM_CAP_USERFAULT and
+ KVM_MEM_USERFAULT details
+Message-ID: <Z1Om-1D2g3bFW4U2@archie.me>
+References: <20241204191349.1730936-1-jthoughton@google.com>
+ <20241204191349.1730936-14-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: move dev-tools debugging files to
- process/debugging/
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
- workflows@vger.kernel.org, Jason Wessel <jason.wessel@windriver.com>,
- Daniel Thompson <danielt@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, linux-debuggers@vger.kernel.org,
- kgdb-bugreport@lists.sourceforge.net
-References: <20241204221720.66146-1-rdunlap@infradead.org>
- <87h67gu5q1.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87h67gu5q1.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="THWs/xiN6GnbQcla"
+Content-Disposition: inline
+In-Reply-To: <20241204191349.1730936-14-jthoughton@google.com>
 
 
+--THWs/xiN6GnbQcla
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 12/6/24 8:38 AM, Jonathan Corbet wrote:
-> Randy Dunlap <rdunlap@infradead.org> writes:
-> 
->> Move gdb and kgdb debugging documentation to the dedicated
->> debugging directory (Documentation/process/debugging/).
->> Adjust the index.rst files to follow the file movement.
->> Update location of kgdb.rst in MAINTAINERS file.
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> So ... since these are indeed development tools, I wonder if we should
-> leave a reference behind in case people are looking for them there?
+On Wed, Dec 04, 2024 at 07:13:48PM +0000, James Houghton wrote:
+> Include the note about memory ordering when clearing bits in
+> userfault_bitmap, as it may not be obvious for users.
 
-As far as I'm concerned, all debug tools are development tools, so I'm back
-to all of /process/debugging/ should be somewhere else.  ;)
+The doc LGTM, thanks!
 
-cheers.
--- 
-~Randy
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--THWs/xiN6GnbQcla
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ1Om9wAKCRD2uYlJVVFO
+o/pqAQDAcgOLkBs2QwTaz5H8Cms3BiufYbNEbuR2f2WwKNQOTwD/W/ANv/jXoqg7
+C+d5nAhBL0GZGybXynXplppXnFrcDQY=
+=04BY
+-----END PGP SIGNATURE-----
+
+--THWs/xiN6GnbQcla--
