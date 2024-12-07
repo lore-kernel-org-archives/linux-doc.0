@@ -1,156 +1,432 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B149914600F
-	for <linux-doc@vger.kernel.org>; Sat,  7 Dec 2024 17:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2696238FA3;
+	Sat,  7 Dec 2024 19:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733592850; cv=none; b=Y8EC8XxhA8fhuhoJBUB5+qN89U0DvbQOdyaCJ0GqfCOKsPe4te0cUZDWbZVHapPQGAyUsrprncLb2Aw42ooLo2x+nzn5MPhiA/i87UGD1LiYkLoOAm0OXP+AqeiHrWT61WWO5Iq55ihO6XpLuuOqAZOoGO8ZV27u+/0NJ2Qj8ug=
+	t=1733600092; cv=none; b=nW3AMOVUoZ7se5i+SMV30IHiTxO8yksG/r/+poi15Jpd8m7LT4fefTPhRiAw+tOi3ugU/98b+guUu7cflUh1rQy1dsYzHMf34ZMKrEryTiUDo5oQPW4W/mbvT7ayVwIW6RYdh2O9zWJGh4n3B8EEqIMyYRD9hclGuu0pm+0kucE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733592850; c=relaxed/simple;
-	bh=Rpf8E5FXJkeGiG6tZpqF9Ks5ZX9sIxkc3b0iY5CmVKM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kQVJZfzfWqBP8qV1YSKyrBGFuvaoRtPwzcIfphQnarvAwBh3t4r2oMbZKBt/subulsEcfb4L5lsECQlDol1EeXL1ke9tDiGw17OUu6kXUC6CH+fksU76nGJlOOTIlCS9lFZR9fY973w4+/Aom3AHPbxy7QQZ6N7QLSkNPXeMLm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1EbPgKt2; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1733600092; c=relaxed/simple;
+	bh=nqfUvlFBcsmUoaIOQoYeZ2LXYPARR32h2U4vXTuKcMQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=IbvwoV/9m+S6g/bMqkOnYxUG/jhmIdt+bMDc2CJ83PE4mUaG7NTqn+BsTeQKQYbrXRqMfVW7fSojSniVtVStQguft1cjhueVWRPgugyNLDFJ3Bjc+t922GdZELuSzQYC9ZGqikAvrltXr/rcYUWsbN5TphFSeqGeLNPnWfQ++Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ia8Jw+rk; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1EbPgKt2"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4674a47b7e4so149221cf.1
-        for <linux-doc@vger.kernel.org>; Sat, 07 Dec 2024 09:34:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ia8Jw+rk"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2eed82ca5b4so2755054a91.2;
+        Sat, 07 Dec 2024 11:34:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733592847; x=1734197647; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UU3FQ4ZkY7U9wnJO4OcRHOUU8vnahLn5gnv1cleLmoM=;
-        b=1EbPgKt2j7b84X7tFFN7DV1k0ieRj6DchRYFGNLtDgT6ZbTLyUJwXQJMFaid6Dtynu
-         MuSh9ttd4EFyyYfnUtcimV1SoB3hmi5cKtziNUhONT16lFx8b9mf/9E4uEXWCLxMrS6p
-         5QFsVp8Ys1HFVI+Umic0a64ib5EzZ9Esxiom7w4tibBPCtYICZUbsYIHJPvpNmReXX9v
-         b3SKeccTbOsIcOCGyFBLlvpuzJ7y8FapX7iHldGG6e5snlY7N3wPrKMlBUBoOQPI4GZT
-         aSSjr6F4Vg7ohBV1P8AcoliG+8vK/o0UKSdEI7RfcVT+Iml0G7Cnwejnw/gg0oKBnwXp
-         zarw==
+        d=gmail.com; s=20230601; t=1733600090; x=1734204890; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PgFZ/HFaSDxfRBFEHC0Pm6A0foJnIzsL2AHmolvciag=;
+        b=ia8Jw+rkyN63zaJ8nzgAVR9ekC7l9fqkU7KihIxC2qBRH4ws6k4PaGv+M9ThNa1SGj
+         Oi2wApXFgsoZuK30XqQ/LRZ/GjSh7Z19wRcPMgx5rmWxEhsEnCT1J2MtGJTev4ou5wej
+         tybagSn219qMQ7ktqueDWdbRnZipjt0ChKriwmz2k+Pv54l3uqq7Olfm09UWhVRTl2+s
+         yMUKH3J3G4P0HsBW6w4bC6kQedASTCUULcqLVbdqNnrt3nDOf65T/i18mmN+d0TVMGqw
+         z70YIbM1ZJM1DVDFhmlo0YJzczIC/lo0OG/FlwS6AyBbw1ZECspPljuO+fHJZiO8JD7X
+         ILXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733592847; x=1734197647;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UU3FQ4ZkY7U9wnJO4OcRHOUU8vnahLn5gnv1cleLmoM=;
-        b=nVlalPR1IzQtRe5+QJ8aotTu5irPoBJijwbc60VmfCw34iJJswTN23cSL4QS7KLDFk
-         4HgxfWPvv8NX3S71hikqZA3YtgVomIkasT6wHbY32HeNjxBGVUIzrrwEYJdnZvm70ibI
-         x2O5VOchzsPoIF0WW1hz5g/oS78Tw91++KEMEnnj3ihYt6Tm+LqEd9e+5PmFCn/rYt51
-         8v+0vrwezbNXdf/9bV43JREIFTQxjPrK8lFo1G20Uti4wBkQPYqpwSPJ9fNBnYSBvp1y
-         2Qnk6yQu/tiDzrLj1DqchvxEUf35rWZavJxL1ILQIXBv7+lJ0qBlEmZrpb5GIYjPRvSY
-         +chQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTXnkFE/90vfDHzE34wa/DccaGsHtmt5/I9wJ80IAsg5FqRpTFuuXSmXbDp796E7PqDU+up1pLLtU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziAZxcYE9dTmt25FTJEaszUlxdsXUXet4E5Fa+i2NHHrcoFMnw
-	zo3b7yDVNDPrX6+t1dymK5LzaSKLHWPulPIldFHVCKBG2xzxh77FFA84DjTps6+sr2e1urA+xxD
-	NvUFyo2sAqOOn9oHGfcWeZJ5IFX0X4iDD/EUm
-X-Gm-Gg: ASbGncsbM65mLFbbYxFxenuZsoE6oIGMiBYKoAmgP/yQ49P4wzaLLE53P+lR8UFabSZ
-	x2CFF57YNfKUHaBkbrFsgx3/+BJYHfPA=
-X-Google-Smtp-Source: AGHT+IF3WJ8kN8Ix9U0Qnr/PX5i4gdPvUR5eenqNxqgXSzETlC2SUkrWRpzKenUtPrjZAw3s3C92n+OXtqfTezUq44Y=
-X-Received: by 2002:a05:622a:909:b0:466:91fd:74c4 with SMTP id
- d75a77b69052e-46746d6677emr3351631cf.0.1733592847299; Sat, 07 Dec 2024
- 09:34:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733600090; x=1734204890;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PgFZ/HFaSDxfRBFEHC0Pm6A0foJnIzsL2AHmolvciag=;
+        b=wSAwHwpP4Sp+txvg3AZFu3kuzkqFpxB7yVRa473Idz4BAUIBLoiRjxnrnMEWCJpVUE
+         H+imWFzulNmJiVcE8KZlsLedzjxbqsCPHHSkT5fK2ihSPjElcgsmDlzSFnsgZIt1xxLb
+         BNhg5FITO+1d+v34yjqAOMWk0wEyzBJbt97SD3SS/9RE7AbrWqUyeGVjLxtLNlLRP/kp
+         RyVbz5l7+yTftc+6FlrRgyxOUCvEQKSg4Xj5l6MKVNtp9WkZgoG/WwvZGJfGdkAVFAxh
+         Z73Ipe+WLee1JvBxKBw1AS9pAEr8QQ/zHzjilEpvBW84F5yhx8ppi/pbmx9nPok8H9SK
+         NYGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUlBBGsXGuaLMSeZZO7k0jaRhQcwgL0UAgpcv2Pxcpf45eSAN/XwIlVAK2xeutlmi7EfDbbiZCrtVO68Xo=@vger.kernel.org, AJvYcCW4XN47YN+S+I856LPa6KVsVh19KHcgcLlDlKBBSwUvMGw5W6oIDovHY1A0KK1UuOczTCvDZBMlI+o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznFZSwdKRMEB0S9cNpng2FWxTVsFvDJJmGJtHGuL6PeAyhnuK0
+	CydD1eaHhYy/N0i+FmWX1j1ObRo4Rx/j/sLWxLR8p3206oBm7ueH
+X-Gm-Gg: ASbGncv192Bv3wtqpJMtxKttKbcLPagfsj77YzUdVkhIIquNaDII6mSCw8pS1kr1J3T
+	LsYNg7z4gzub0rK88ZbaBvgjvjCKf2yetwc8App7k+n1P2XtOlDPdu/RgP/DoddOuUpKucsISmM
+	+ZZPhHqRw249F6zBbEqFoU5+tqL6beMCdZkG/axNjQDGNtHGr+7zP2VZgYVtFUc2uWHITtpRdaO
+	OQXsd2o4WKGCpIsZ3W3zB9ntnJTp8+BrbG8kvq2AP3mobQw4mrWzqpQV0eiG+xTv3hx0iFYMXHD
+	4c/p9binPSXwOg==
+X-Google-Smtp-Source: AGHT+IFM2JmBB2TpdEbZr5Hbim7/Qc7pjJTAUbw1qqYla7Q5TfkNTZF8/jlhgtk8x8dwW8W3ES4xAA==
+X-Received: by 2002:a17:90b:2e51:b0:2ee:d18c:7d84 with SMTP id 98e67ed59e1d1-2ef6a6c10b4mr11737208a91.20.1733600089933;
+        Sat, 07 Dec 2024 11:34:49 -0800 (PST)
+Received: from MacBookAir.attlocal.net ([2600:1700:3bdc:8c10:984:d257:75a0:74fe])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ef26ff86d9sm7122491a91.1.2024.12.07.11.34.47
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 07 Dec 2024 11:34:49 -0800 (PST)
+From: anish kumar <yesanishhere@gmail.com>
+To: ckeepax@opensource.cirrus.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	anish kumar <yesanishhere@gmail.com>
+Subject: [PATCH V5] Docs/sound: Update codec-to-codec documentation
+Date: Sat,  7 Dec 2024 11:34:41 -0800
+Message-Id: <20241207193441.15767-1-yesanishhere@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <9baeaab7-61d8-4121-8aa5-cf1c129daa40@infradead.org> <c7cee2d4-5bbd-4867-ac12-a0a2f73f6c44@gmail.com>
-In-Reply-To: <c7cee2d4-5bbd-4867-ac12-a0a2f73f6c44@gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sat, 7 Dec 2024 09:33:56 -0800
-Message-ID: <CAJuCfpFgZUG28md9K=WZjUFoihOUSd4aBSuW-4V6JNdQS_8c9w@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] docs/mm: document latest changes to vm_lock
-To: Akira Yokosawa <akiyks@gmail.com>, lorenzo.stoakes@oracle.com
-Cc: rdunlap@infradead.org, akpm@linux-foundation.org, brauner@kernel.org, 
-	corbet@lwn.net, dave@stgolabs.net, david@redhat.com, dhowells@redhat.com, 
-	hannes@cmpxchg.org, hdanton@sina.com, hughd@google.com, jannh@google.com, 
-	kernel-team@android.com, liam.howlett@oracle.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, mgorman@techsingularity.net, 
-	mhocko@suse.com, minchan@google.com, mjguzik@gmail.com, oleg@redhat.com, 
-	oliver.sang@intel.com, pasha.tatashin@soleen.com, paulmck@kernel.org, 
-	peterx@redhat.com, shakeel.butt@linux.dev, souravpanda@google.com, 
-	vbabka@suse.cz, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 6, 2024 at 8:24=E2=80=AFPM Akira Yokosawa <akiyks@gmail.com> wr=
-ote:
->
-> On Fri, 6 Dec 2024 19:23:59 -0800, Randy Dunlap wrote:
-> > Hi,
-> >
-> > Can someone explain what the (consistent) usage of '!' does in this fil=
-e?
-> > This is the only file in Documentation/ that uses this syntax.
-> >
-> >
-> > E.g.:
-> >
-> >> diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/pro=
-cess_addrs.rst
-> >> index 81417fa2ed20..92cf497a9e3c 100644
-> >> --- a/Documentation/mm/process_addrs.rst
-> >> +++ b/Documentation/mm/process_addrs.rst
-> >> @@ -716,7 +716,11 @@ calls :c:func:`!rcu_read_lock` to ensure that the=
- VMA is looked up in an RCU
-> >>  critical section, then attempts to VMA lock it via :c:func:`!vma_star=
-t_read`,
-> >>  before releasing the RCU lock via :c:func:`!rcu_read_unlock`.
-> >>
-> >> -VMA read locks hold the read lock on the :c:member:`!vma->vm_lock` se=
-maphore for
-> >> +In cases when the user already holds mmap read lock, :c:func:`!vma_st=
-art_read_locked`
-> >> +and :c:func:`!vma_start_read_locked_nested` can be used. These functi=
-ons always
-> >> +succeed in acquiring VMA read lock.
-> >
->
-> Quoting from https://www.sphinx-doc.org/en/master/usage/referencing.html#=
-syntax
->
->   * Suppressed link: Prefixing with an exclamation mark (!) prevents the
->     creation of a link but otherwise keeps the visual output of the role.
->
->     For example, writing :py:func:`!target` displays target(), with no li=
-nk
->     generated.
->
->     This is helpful for cases in which the link target does not exist; e.=
-g.
->     changelog entries that describe removed functionality, or third-party
->     libraries that don=E2=80=99t support intersphinx. Suppressing the lin=
-k prevents
->     warnings in nitpicky mode.
->
-> But in kernel documentation, there is a preferred alternative.
-> Referencing by function names is the way to go.  For example:
->
->   calls rcu_read_lock() to ensure that the VMA is looked up in an RCU
->   critical section, then attempts to VMA lock it via vma_start_read(),
->   before releasing the RCU lock via rcu_read_unlock().
->
->   In cases when the user already holds mmap read lock, vma_start_read_loc=
-ked()
->   and vma_start_read_locked_nested() can be used. These functions always
->   succeed in acquiring VMA read lock.
->
-> They work regardless of link target's existence.
-> Kernel-specific Sphinx extension named "automarkup" does conversions
-> for you.
+Updated documentation to provide more details
+for codec-to-codec connection especially around
+the scenarios and DAPM core details for C2C
+creation.
 
-Thanks for the information. I was simply following the same style the
-document was written in. Sounds like converting it to the preferred
-alternative in a separate patch would be best. Lorenzo, WDYT?
+Signed-off-by: anish kumar <yesanishhere@gmail.com>
+---
+v5: took care of further review comments regarding some
+wording from Charles Keepax. 
 
->
-> HTH, Akira
->
-> > thanks.
-> > --
-> > ~Randy
->
+v4: sent wrong patch so corrected that in this.
+
+v3: took care of comments from Charles Keepax and
+as advised modified some details.
+
+v2: Fixed the compilation error reported by Sphinx
+
+ Documentation/sound/soc/codec-to-codec.rst | 307 ++++++++++++++-------
+ 1 file changed, 208 insertions(+), 99 deletions(-)
+
+diff --git a/Documentation/sound/soc/codec-to-codec.rst b/Documentation/sound/soc/codec-to-codec.rst
+index 0418521b6e03..c0d6e831ae4b 100644
+--- a/Documentation/sound/soc/codec-to-codec.rst
++++ b/Documentation/sound/soc/codec-to-codec.rst
+@@ -1,115 +1,224 @@
+-==============================================
+-Creating codec to codec dai link for ALSA dapm
+-==============================================
++Codec-to-Codec Connections in ALSA
++==================================
+ 
+-Mostly the flow of audio is always from CPU to codec so your system
+-will look as below:
+-::
++An ALSA-based audio system typically involves playback and capture
++functionality, where users may require audio file playback through
++speakers or recording from microphones. However, certain systems
++necessitate audio data routing directly between components, such as FM
++radio to speakers, without CPU involvement. For such scenarios, ASoC(
++ALSA system on chip) provides a mechanism known as codec-to-codec (C2C)
++connections, leveraging the Dynamic Audio Power Management (DAPM)
++framework to facilitate direct data transfers between codecs.
+ 
+-   ---------          ---------
+-  |         |  dai   |         |
+-      CPU    ------->    codec
+-  |         |        |         |
+-   ---------          ---------
++Introduction
++------------
+ 
+-In case your system looks as below:
+-::
++In most audio systems, audio data flows from the CPU to the codec. In
++specific configurations, such as those involving Bluetooth codecs,
++audio can be transmitted directly between codecs without CPU
++intervention. ASoC supports both architectures, and for systems that
++do not involve the CPU, it utilizes C2C digital audio
++interface (DAI) connections. This document discusses the procedure
++for establishing C2C DAI links to enable such functionality.
++
++Audio Data Flow Paths
++---------------------
++
++In a typical configuration, audio flow can be visualized as follows:
++
++.. code-block:: text
++
++    ---------          ---------
++   |         |  dai   |         |
++   |    CPU   -------->  codec  |
++   |         |        |         |
++    ---------          ---------
++
++In more intricate setups, the system may not involve the CPU but
++instead utilizes multiple codecs as shown below. For instance,
++Codec-2 acts as a cellular modem, while Codec-3 connects to a
++speaker. Audio data can be received by Codec-2 and transmitted to
++Codec-3 without CPU intervention, demonstrating the ideal conditions
++for establishing a C2C DAI connection.
++
++.. code-block:: text
+ 
+                        ---------
+                       |         |
+-                        codec-2
++                      | codec-1  <---cellular modem
+                       |         |
+                       ---------
+                            |
+-                         dai-2
+-                           |
+-   ----------          ---------
+-  |          |  dai-1 |         |
+-      CPU     ------->  codec-1
+-  |          |        |         |
+-   ----------          ---------
++                         dai-1
++                           ↓
++    ---------          ---------
++   |         |cpu_dai |         |
++   |   CPU    ------->  codec-2 |
++   |         |        |         |
++    ---------          ---------
+                            |
+                          dai-3
+-                           |
++                           ↓
+                        ---------
+                       |         |
+-                        codec-3
++                      | codec-3  --->speaker
+                       |         |
+                        ---------
+ 
+-Suppose codec-2 is a bluetooth chip and codec-3 is connected to
+-a speaker and you have a below scenario:
+-codec-2 will receive the audio data and the user wants to play that
+-audio through codec-3 without involving the CPU.This
+-aforementioned case is the ideal case when codec to codec
+-connection should be used.
+-
+-Your dai_link should appear as below in your machine
+-file:
+-::
+-
+- /*
+-  * this pcm stream only supports 24 bit, 2 channel and
+-  * 48k sampling rate.
+-  */
+- static const struct snd_soc_pcm_stream dsp_codec_params = {
+-        .formats = SNDRV_PCM_FMTBIT_S24_LE,
+-        .rate_min = 48000,
+-        .rate_max = 48000,
+-        .channels_min = 2,
+-        .channels_max = 2,
+- };
+-
+- {
+-    .name = "CPU-DSP",
+-    .stream_name = "CPU-DSP",
+-    .cpu_dai_name = "samsung-i2s.0",
+-    .codec_name = "codec-2,
+-    .codec_dai_name = "codec-2-dai_name",
+-    .platform_name = "samsung-i2s.0",
+-    .dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
+-            | SND_SOC_DAIFMT_CBM_CFM,
+-    .ignore_suspend = 1,
+-    .c2c_params = &dsp_codec_params,
+-    .num_c2c_params = 1,
+- },
+- {
+-    .name = "DSP-CODEC",
+-    .stream_name = "DSP-CODEC",
+-    .cpu_dai_name = "wm0010-sdi2",
+-    .codec_name = "codec-3,
+-    .codec_dai_name = "codec-3-dai_name",
+-    .dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
+-            | SND_SOC_DAIFMT_CBM_CFM,
+-    .ignore_suspend = 1,
+-    .c2c_params = &dsp_codec_params,
+-    .num_c2c_params = 1,
+- },
+-
+-Above code snippet is motivated from sound/soc/samsung/speyside.c.
+-
+-Note the "c2c_params" callback which lets the dapm know that this
+-dai_link is a codec to codec connection.
+-
+-In dapm core a route is created between cpu_dai playback widget
+-and codec_dai capture widget for playback path and vice-versa is
+-true for capture path. In order for this aforementioned route to get
+-triggered, DAPM needs to find a valid endpoint which could be either
+-a sink or source widget corresponding to playback and capture path
+-respectively.
+-
+-In order to trigger this dai_link widget, a thin codec driver for
+-the speaker amp can be created as demonstrated in wm8727.c file, it
+-sets appropriate constraints for the device even if it needs no control.
+-
+-Make sure to name your corresponding cpu and codec playback and capture
+-dai names ending with "Playback" and "Capture" respectively as dapm core
+-will link and power those dais based on the name.
+-
+-A dai_link in a "simple-audio-card" will automatically be detected as
+-codec to codec when all DAIs on the link belong to codec components.
+-The dai_link will be initialized with the subset of stream parameters
+-(channels, format, sample rate) supported by all DAIs on the link. Since
+-there is no way to provide these parameters in the device tree, this is
+-mostly useful for communication with simple fixed-function codecs, such
+-as a Bluetooth controller or cellular modem.
++In the diagram above, two kinds of use cases can be supported:
++
++  1. Host music playback: CPU -> codec-2 -> codec-3 -> Speaker
++
++     When an application on the host plays audio, ASoC informs the DAPM
++     (Dynamic Audio Power Management) core that the main CPU DAI
++     (Digital Audio Interface) is now an active source. DAPM then parses
++     through the audio graph until it finds the speaker sink.
++
++     The act of playing audio triggers the following power-up sequence:
++
++     - The ``CPU -> codec-2`` DAI is activated.
++     - DAPM powers up the C2C  DAI link between codec-2 and codec-3, as
++        it is part of the active audio path.
++
++  2. Cellular call: codec-1 -> codec-2 -> codec-3 -> Speaker
++
++     In this case, the host is not involved at all. The modem acts as the
++     audio source, and DAPM powers up everything between it and the sink
++     (i.e., the speaker). This power-up sequence involves:
++
++     - The C2C DAI link between codec-1 and codec-2.
++     - The C2C DAI link between codec-2 and codec-3.
++
++     DAPM ensures that all necessary components in the audio path from the
++     modem to the speaker are powered up, enabling direct audio playback
++     from the modem without host intervention.
++
++
++Creating Codec-to-Codec Connections in ALSA
++-------------------------------------------
++
++To create a C2C DAI in ALSA, a ``snd_soc_dai_link`` must be
++added to the machine driver before registering the sound card.
++During this registration, the core checks for the presence of
++``c2c_params`` within the ``snd_soc_dai_link``, determining whether
++to classify the DAI link as C2C.
++
++While establishing the PCM node, the ASoC core inspects this
++parameter. Instead of generating a user-space PCM node, it creates
++an internal PCM node utilized by kernel drivers. Consequently,
++running ``cat /proc/asound/pcm`` will yield no visible PCM nodes.
++
++Boot-up logs will display message similar to:
++
++.. code-block:: text
++
++   ASoC: registered pcm #0 codec2codec(Playback Codec)
++
++To trigger this DAI link, a control interface is established by the
++DAPM core during internal DAI creation. This interface links to
++the ``snd_soc_dai_link_event`` function, which is invoked when a
++path connects in the DAPM core. A mixer must be created to trigger
++the connection, prompting the DAPM core to evaluate path
++connections and call the ``snd_soc_dai_link_event`` callback with
++SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
++
++It is important to note that not all operations defined in
++``snd_soc_dai_ops`` are invoked as C2C connections offer
++limited control over DAI configuration. The operations typically
++executed in C2C setups include startup, ``hw_params``, ``hw_free``,
++digital mute, and shutdown from the ``snd_soc_dai_ops`` struct.
++
++Code Changes for Codec-to-Codec
++-------------------------------
++
++The DAI link configuration in the machine file should resemble the
++following code snippet:
++
++.. code-block:: c
++
++   /*
++    * This PCM stream only supports 24-bit, 2 channels, and
++    * 48kHz sampling rate.
++    */
++   static const struct snd_soc_pcm_stream dsp_codec_params = {
++       .formats = SNDRV_PCM_FMTBIT_S24_LE,
++       .rate_min = 48000,
++       .rate_max = 48000,
++       .channels_min = 2,
++       .channels_max = 2,
++   };
++
++   static struct snd_soc_dai_link dai_links[] = {
++   {
++       .name = "CPU-DSP",
++       .stream_name = "CPU-DSP",
++       .cpu_dai_name = "samsung-i2s.0",
++       .codec_name = "codec-2",
++       .codec_dai_name = "codec-2-dai_name",
++       .platform_name = "samsung-i2s.0",
++       .dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
++                  | SND_SOC_DAIFMT_CBM_CFM,
++       .ignore_suspend = 1,
++       .c2c_params = &dsp_codec_params,
++       .num_c2c_params = 1,
++   },
++   {
++       .name = "DSP-CODEC",
++       .stream_name = "DSP-CODEC",
++       .cpu_dai_name = "wm0010-sdi2",
++       .codec_name = "codec-3",
++       .codec_dai_name = "codec-3-dai_name",
++       .dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
++                  | SND_SOC_DAIFMT_CBM_CFM,
++       .ignore_suspend = 1,
++       .c2c_params = &dsp_codec_params,
++       .num_c2c_params = 1,
++   },
++   };
++
++To better understand the configuration inspired by the setup found in
++``sound/soc/samsung/speyside.c``, here are several key points:
++
++1. The presence of ``c2c_params`` informs the DAPM core that the DAI link
++   represents a C2C connection.
++
++2. ``c2c_params`` can be an array, and ``num_c2c_params`` defines the size
++   of this array.
++
++3. If ``num_c2c_params`` is 1:
++
++   - The C2C DAI is configured with the provided ``snd_soc_pcm_stream``
++     parameters.
++
++4. If ``num_c2c_params`` is greater than 1:
++
++   - A kcontrol is created, allowing the user to select the index of the
++     ``c2c_params`` array to be used.
++
++This flexible approach enables dynamic configuration of C2C
++connections based on runtime requirements.
++
++In the DAPM core, a route is established between the CPU DAI
++playback widget and the codec DAI capture widget for playback, with
++the reverse applying to the capture path. To trigger these routes,
++DAPM requires valid endpoints, which can be either sink or source
++widgets corresponding to the playback and capture paths, respectively.
++
++To activate this DAI link widget, codec driver is required.
++If it doesn't exist, thin codec driver can be implemented,
++following a similar strategy to that in ``wm8727.c``. This driver
++should set the necessary constraints for the device, even with
++minimal control requirements.
++
++
++Simple-audio-card configuration
++-------------------------------
++
++A dai_link in a "simple-audio-card" will automatically be
++detected as C2C when all DAIs on the link belong to
++codec components. The dai_link will be initialized with the
++subset of stream parameters (channels, format, sample rate)
++supported by all DAIs on the link. Since there is no way to
++provide these parameters in the device tree, this is mostly useful
++for communication with simple fixed-function codecs, such as a
++Bluetooth controller or cellular modem.
+-- 
+2.39.5 (Apple Git-154)
+
