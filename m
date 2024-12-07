@@ -1,72 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD41F481B1;
-	Sat,  7 Dec 2024 04:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A6E28FC
+	for <linux-doc@vger.kernel.org>; Sat,  7 Dec 2024 05:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733545747; cv=none; b=Csg4IHnfbNwUsb6yllQOU8ZqQ2BjeOvh/780i+zFoxeLqTVgzjh7JlQFtcCtxDL1BB+Dfk7x/PDlIs3VrjvnL/nXW/JLIogHhxFWcFmL/B01geG4J9pt1y+hilR1MWpIW2qnz01SiOReuXMtIvvuNBEriDS57dN6MPkCySyr52s=
+	t=1733548937; cv=none; b=XbVdDmBk9J1Q37NjVz2lD3JAJJy1qJg0CrPWpFu9VA9/mW04MziFdtbN+0ukfp2163mckjK1iFQEYsX0WpQWVgR9q4L3wPsFFeS46TWJ2s032nbfFiwfk1iXLSIOPMySBk3/5r1bATnpRahd2X07G3B37Sr2flbgjvK1GxFFfEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733545747; c=relaxed/simple;
-	bh=7ujOXHiY2JcriC2wOuNhv6HLkcewVN8yC452wdStT/0=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=T7YjAzkuK+EkhfLXOxUXWc31+LXJF21pVPhuGgZJPHov3RRtE7XmBDFZZBTT9FtV5FfE+DY0sXQ1hLvDLWSanxOxU824z966Yy8UBbXbhFcttsgEMKgLzVGJaHcs1tRgluJJmd8yS4SlHNvzaPDUHhyks5UMmYdYjtmMrK/wib8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=MDn6GOgv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733548937; c=relaxed/simple;
+	bh=zrcTlF0qLVXhLkImc+yMqP9DZOJQ0haUmEV5cjEQFtU=;
+	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
+	 Content-Type:References; b=EEDsRfjnWiF3LUIGTdCxc/OJTEtkUp/7xYr7ylQUjRx1m73f7IXc/vftd0dngM9FNM5hBp2WEnkYPQm8AJ7ydI2B5wPeKdu8f3WyPTP7LkPsHpR+qz+ZqlIMYupqRF2POPzZWKQzdjR0Hg9hAP+Ztv3lSvgcivkH7kje+rZb7Mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=GNFVt4gn; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="MDn6GOgv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D27AC4CECD;
-	Sat,  7 Dec 2024 04:29:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1733545746;
-	bh=7ujOXHiY2JcriC2wOuNhv6HLkcewVN8yC452wdStT/0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MDn6GOgvQqCGCYf9EL+Jkrm9535UtanJ5AFtgX+yVnNqXgg5bh3UX+F8mbDrJ12b8
-	 eMs4cq0vn59NaF+iEAhMI8eqU/qK3WMN8jeyH8HQWn/8vxOXK4jqr90oI45CloWmbO
-	 VMms735LHpGCHKGEnWh7E1iLptdRTW2a++ta6cg0=
-Date: Fri, 6 Dec 2024 20:29:04 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: willy@infradead.org, liam.howlett@oracle.com,
- lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
- hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
- mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
- oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
- dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
- souravpanda@google.com, pasha.tatashin@soleen.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, kernel-team@android.com, Peter Zijlstra
- <peterz@infradead.org>
-Subject: Re: [PATCH v5 0/6] move per-vma lock into vm_area_struct
-Message-Id: <20241206202904.e685764837504d97cbc3cf62@linux-foundation.org>
-In-Reply-To: <20241206225204.4008261-1-surenb@google.com>
-References: <20241206225204.4008261-1-surenb@google.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="GNFVt4gn"
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20241207052210epoutp03fa9782e28b79b2cdf245ff155c53d51a~OzZFaamVw2948029480epoutp03p
+	for <linux-doc@vger.kernel.org>; Sat,  7 Dec 2024 05:22:10 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20241207052210epoutp03fa9782e28b79b2cdf245ff155c53d51a~OzZFaamVw2948029480epoutp03p
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1733548930;
+	bh=sTB/Ibdf9VV3DvUuDDRzZSG4Ryd7mNnDpcZrkAkmKkU=;
+	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+	b=GNFVt4gnDSBNJTWeGzRq8v0aMvghQKlfT3ZkfkDnj1LnABWy9KyB+CiUVmZxuWmHt
+	 WFruPkxkJBiLgYWiw3mkcpaZJKZ+HrPc7a5U1ROXL5aFB+5jzIhYQ8Drbqa6NwIDxB
+	 ugO6MD2F10a/EClTD0DMW5LS8/JJh1cNzoxhTD+4=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+	20241207052210epcas1p47c59109d74aca5ec07e0864f9342eb9b~OzZE_X9130317603176epcas1p4S;
+	Sat,  7 Dec 2024 05:22:10 +0000 (GMT)
+Received: from epsmgec1p1.samsung.com (unknown [182.195.36.133]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4Y4xMP2vFlz4x9Pw; Sat,  7 Dec
+	2024 05:22:09 +0000 (GMT)
+X-AuditID: b6c32a36-6f5e970000005d3d-5b-6753db81a33f
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+	epsmgec1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	51.A3.23869.18BD3576; Sat,  7 Dec 2024 14:22:09 +0900 (KST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Subject: RE: Re: [PATCH] PM / devfreq: Remove unused
+ devm_devfreq_(un)register_notifier
+Reply-To: myungjoo.ham@samsung.com
+Sender: MyungJoo Ham <myungjoo.ham@samsung.com>
+From: MyungJoo Ham <myungjoo.ham@samsung.com>
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
+CC: Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi
+	<cw00.choi@samsung.com>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <Z0iWPCzjv9YQ4kO_@gallifrey>
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20241207052209epcms1p45818db425ba84821003b6d735bc0e957@epcms1p4>
+Date: Sat, 07 Dec 2024 14:22:09 +0900
+X-CMS-MailID: 20241207052209epcms1p45818db425ba84821003b6d735bc0e957
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDKsWRmVeSWpSXmKPExsWy7bCmvm7j7eB0g80XRC2uf3nOanG26Q27
+	xcK2JSwWl3fNYbP43HuE0WL98xtMDmwefVtWMXqsXD6B3ePzJrkA5qhsm4zUxJTUIoXUvOT8
+	lMy8dFsl7+B453hTMwNDXUNLC3MlhbzE3FRbJRefAF23zBygvUoKZYk5pUChgMTiYiV9O5ui
+	/NKSVIWM/OISW6XUgpScAtMCveLE3OLSvHS9vNQSK0MDAyNToMKE7IwJDx0KtnFVfJ4Q1MDY
+	ztnFyMkhIWAisaWjhw3EFhLYwShx559AFyMHB6+AoMTfHcIgYWGBSIlTO7awQ5QoSTTc3McM
+	EdeX6HiwjRHEZhPQldi64S4LiC0iYCCx+dd+pi5GLg5mgS4mibPrzzBD7OKVmNH+lAXClpbY
+	vnwrWDOngKbElGdroGpEJW6ufssOY78/Np8RwhaRaL13FqpGUOLBz91QcUmJvjt7wZZJCGxj
+	lNhxZA4bhLOfUWLKwzaoSfoSZ+aeBPuSV8BX4tGsmUwgNouAqsSLLbehprpIbJ52CqyGWUBe
+	YvvbOcygkGAGum79Ln2IMJ/Eu689rDDP7Jj3hAnCVpM4tHsJ1CoZidPTF0KN9JCYvxzkBC5g
+	yM1jlNh66jDLBEb5WYgAnoVk2yyEbQsYmVcxiqUWFOempxYbFhjBIzQ5P3cTIzjZaZntYJz0
+	9oPeIUYmDsZDjBIczEoivJVhgelCvCmJlVWpRfnxRaU5qcWHGE2B/pzILCWanA9Mt3kl8YYm
+	lgYmZkbGJhaGZoZK4rxnrpSlCgmkJ5akZqemFqQWwfQxcXBKNTA5sxcdK2gIX9DyevfxjPOe
+	j/9fzzh99eSJ/CWrzIzMgwtu7F+56/zrHQflLFZavW8tvNpb0pZxq+ZT9uEEe/fa71l2/zjE
+	g2onv/rYPfGd5kNryciU4An6e6YLzedJVGmakW93yYM9xPxAb0eulezT5yqBN5v2XMv9c+WF
+	4sUt/nu0919nUrnwi135/ZUokcxVm+oOxW//luu5fvoB2Vu36yR2Ol8/Y8DUsfLbs5RbB3qf
+	vC2/YbB8NefiZTyr9pz4m2l+dfuyeVpyuuapflHtXhVxaUvKU9Z+ZHVbYFv46MUnBflNtzfr
+	PF5V8DD4YZvL996uIoGTb9prrx7dsHP6ZZeXi2ru1IY7vVLccTLyoxJLcUaioRZzUXEiANGJ
+	lx7/AwAA
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241128161146epcas1p46768d7685092deaa817119db30fd12f2
+References: <Z0iWPCzjv9YQ4kO_@gallifrey>
+	<20241028021344.477984-1-linux@treblig.org>
+	<CGME20241128161146epcas1p46768d7685092deaa817119db30fd12f2@epcms1p4>
 
-On Fri,  6 Dec 2024 14:51:57 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
-
-> Back when per-vma locks were introduces, vm_lock was moved out of
-> vm_area_struct in [1] because of the performance regression caused by
-> false cacheline sharing. Recent investigation [2] revealed that the
-> regressions is limited to a rather old Broadwell microarchitecture and
-> even there it can be mitigated by disabling adjacent cacheline
-> prefetching, see [3].
-> 
-> ...
+>* linux@treblig.org (linux@treblig.org) wrote:
+>> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>> 
+>> devm_devfreq_register_notifier() and devm_devfreq_unregister_notifier()
+>> have been unused since 2019's
+>> commit 0ef7c7cce43f ("PM / devfreq: passive: Use non-devm notifiers")
+>> 
+>> Remove them, and the helpers they used.
+>> 
+>> Note, devm_devfreq_register_notifier() is still used as an example
+>> in Documentation/doc-guide/contributing.rst but that's just
+>> an example of an old doc bug rather than anything about the function
+>> itself.
+>> 
+>> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 >
-> Patch applies over linux-next (due to vm_lock change [5] not in mm tree).
-> 
-> ...
+>Ping.
 >
-> [5] https://lore.kernel.org/all/20241122174416.1367052-2-surenb@google.com/
+>Thanks,
+>
+>Dave
 
-Well that's awkward.  I added the "seqlock: add raw_seqcount_try_begin"
-series to mm.git.  Peter, please drop your copy from linux-next?
+When I search github, it appears that vendors are using this API.
+
+
+NVIDIA:
+https://github.com/NX-Development/android_kernel_nvidia_nvidia/blob/c9ade3b5e32a12b8cf6f33a632dc39209194e4e8/drivers/devfreq/governor_wmark_active.c#L624
+
+Samsung:
+https://github.com/Vaz15k/android_kernel_samsung_a54x/blob/8ac517c37c606746213064857dc240e99eba80d2/drivers/soc/samsung/exynos-llcgov.c#L107
+
+Realtek:
+https://github.com/BPI-SINOVOIP/BPI-M4-bsp/blob/25f5b88ec4ba34029f964693dc34028b26e6c67c/linux-rtk/drivers/devfreq/realtek/governor_rtk_ltl.c#L114
+
+
+
+Please don't remove ABIs used by vendors even if
+they didn't upstream their drivers.
+
+Cheers,
+MyungJoo.
