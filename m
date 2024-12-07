@@ -1,136 +1,134 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A6E28FC
-	for <linux-doc@vger.kernel.org>; Sat,  7 Dec 2024 05:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 091F112B73;
+	Sat,  7 Dec 2024 06:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733548937; cv=none; b=XbVdDmBk9J1Q37NjVz2lD3JAJJy1qJg0CrPWpFu9VA9/mW04MziFdtbN+0ukfp2163mckjK1iFQEYsX0WpQWVgR9q4L3wPsFFeS46TWJ2s032nbfFiwfk1iXLSIOPMySBk3/5r1bATnpRahd2X07G3B37Sr2flbgjvK1GxFFfEQ=
+	t=1733551445; cv=none; b=k9DErOFQ+Nmy0FD1olGZmdCACVnHRZWq5z3QJqbyhrHpnZ9vzoPrNsONndmVhOjt6QSvjJ8fplmlYm/+e8AS/4T+70Bdvm7eRa/C+RUa0kfZ/Dwy21dMgPJOYMVHZJX1SjiokET/O6drn1y4JAtAzOMCWCtSCa2FD2Tlbrb2yRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733548937; c=relaxed/simple;
-	bh=zrcTlF0qLVXhLkImc+yMqP9DZOJQ0haUmEV5cjEQFtU=;
-	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
-	 Content-Type:References; b=EEDsRfjnWiF3LUIGTdCxc/OJTEtkUp/7xYr7ylQUjRx1m73f7IXc/vftd0dngM9FNM5hBp2WEnkYPQm8AJ7ydI2B5wPeKdu8f3WyPTP7LkPsHpR+qz+ZqlIMYupqRF2POPzZWKQzdjR0Hg9hAP+Ztv3lSvgcivkH7kje+rZb7Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=GNFVt4gn; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="GNFVt4gn"
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20241207052210epoutp03fa9782e28b79b2cdf245ff155c53d51a~OzZFaamVw2948029480epoutp03p
-	for <linux-doc@vger.kernel.org>; Sat,  7 Dec 2024 05:22:10 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20241207052210epoutp03fa9782e28b79b2cdf245ff155c53d51a~OzZFaamVw2948029480epoutp03p
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1733548930;
-	bh=sTB/Ibdf9VV3DvUuDDRzZSG4Ryd7mNnDpcZrkAkmKkU=;
-	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=GNFVt4gnDSBNJTWeGzRq8v0aMvghQKlfT3ZkfkDnj1LnABWy9KyB+CiUVmZxuWmHt
-	 WFruPkxkJBiLgYWiw3mkcpaZJKZ+HrPc7a5U1ROXL5aFB+5jzIhYQ8Drbqa6NwIDxB
-	 ugO6MD2F10a/EClTD0DMW5LS8/JJh1cNzoxhTD+4=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas1p4.samsung.com (KnoxPortal) with ESMTP id
-	20241207052210epcas1p47c59109d74aca5ec07e0864f9342eb9b~OzZE_X9130317603176epcas1p4S;
-	Sat,  7 Dec 2024 05:22:10 +0000 (GMT)
-Received: from epsmgec1p1.samsung.com (unknown [182.195.36.133]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Y4xMP2vFlz4x9Pw; Sat,  7 Dec
-	2024 05:22:09 +0000 (GMT)
-X-AuditID: b6c32a36-6f5e970000005d3d-5b-6753db81a33f
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
-	epsmgec1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	51.A3.23869.18BD3576; Sat,  7 Dec 2024 14:22:09 +0900 (KST)
+	s=arc-20240116; t=1733551445; c=relaxed/simple;
+	bh=YseTBCdknFeKunaNhZVzKTtsFPafjj38mjutfiqsZfo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hx8ZjzHmLfwdfFZkHvKgB+WdNcAoDkaoZIXKsYnE75ywsHZTk8zFSSYgbTfMnqP/X34yzXvBkWDkv2/KdO3jqgSGnf/E4ArmMZ6W5TzC9fyNvn25HrTpHFc9C+lQt+RiZPLWcfH8zxJHFCWH9kCsPYykrLmLey6VIvrp2m/PDZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [111.207.111.194])
+	by gateway (Coremail) with SMTP id _____8CxieFP5VNnLMVSAA--.32908S3;
+	Sat, 07 Dec 2024 14:03:59 +0800 (CST)
+Received: from [10.180.13.127] (unknown [111.207.111.194])
+	by front1 (Coremail) with SMTP id qMiowMDxSMFO5VNncah5AA--.10777S2;
+	Sat, 07 Dec 2024 14:03:59 +0800 (CST)
+Message-ID: <455c5236-c5de-4138-bb23-04abb57a9a89@loongson.cn>
+Date: Sat, 7 Dec 2024 14:03:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Subject: RE: Re: [PATCH] PM / devfreq: Remove unused
- devm_devfreq_(un)register_notifier
-Reply-To: myungjoo.ham@samsung.com
-Sender: MyungJoo Ham <myungjoo.ham@samsung.com>
-From: MyungJoo Ham <myungjoo.ham@samsung.com>
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-CC: Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi
-	<cw00.choi@samsung.com>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <Z0iWPCzjv9YQ4kO_@gallifrey>
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20241207052209epcms1p45818db425ba84821003b6d735bc0e957@epcms1p4>
-Date: Sat, 07 Dec 2024 14:22:09 +0900
-X-CMS-MailID: 20241207052209epcms1p45818db425ba84821003b6d735bc0e957
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] irqchip/loongarch-avec:Add multi-nodes topology support
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+ kernel@xen0n.name, tglx@linutronix.de
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241207033146.20938-1-zhangtianyang@loongson.cn>
+Content-Language: en-US
+From: Ming Wang <wangming01@loongson.cn>
+In-Reply-To: <20241207033146.20938-1-zhangtianyang@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDKsWRmVeSWpSXmKPExsWy7bCmvm7j7eB0g80XRC2uf3nOanG26Q27
-	xcK2JSwWl3fNYbP43HuE0WL98xtMDmwefVtWMXqsXD6B3ePzJrkA5qhsm4zUxJTUIoXUvOT8
-	lMy8dFsl7+B453hTMwNDXUNLC3MlhbzE3FRbJRefAF23zBygvUoKZYk5pUChgMTiYiV9O5ui
-	/NKSVIWM/OISW6XUgpScAtMCveLE3OLSvHS9vNQSK0MDAyNToMKE7IwJDx0KtnFVfJ4Q1MDY
-	ztnFyMkhIWAisaWjhw3EFhLYwShx559AFyMHB6+AoMTfHcIgYWGBSIlTO7awQ5QoSTTc3McM
-	EdeX6HiwjRHEZhPQldi64S4LiC0iYCCx+dd+pi5GLg5mgS4mibPrzzBD7OKVmNH+lAXClpbY
-	vnwrWDOngKbElGdroGpEJW6ufssOY78/Np8RwhaRaL13FqpGUOLBz91QcUmJvjt7wZZJCGxj
-	lNhxZA4bhLOfUWLKwzaoSfoSZ+aeBPuSV8BX4tGsmUwgNouAqsSLLbehprpIbJ52CqyGWUBe
-	YvvbOcygkGAGum79Ln2IMJ/Eu689rDDP7Jj3hAnCVpM4tHsJ1CoZidPTF0KN9JCYvxzkBC5g
-	yM1jlNh66jDLBEb5WYgAnoVk2yyEbQsYmVcxiqUWFOempxYbFhjBIzQ5P3cTIzjZaZntYJz0
-	9oPeIUYmDsZDjBIczEoivJVhgelCvCmJlVWpRfnxRaU5qcWHGE2B/pzILCWanA9Mt3kl8YYm
-	lgYmZkbGJhaGZoZK4rxnrpSlCgmkJ5akZqemFqQWwfQxcXBKNTA5sxcdK2gIX9DyevfxjPOe
-	j/9fzzh99eSJ/CWrzIzMgwtu7F+56/zrHQflLFZavW8tvNpb0pZxq+ZT9uEEe/fa71l2/zjE
-	g2onv/rYPfGd5kNryciU4An6e6YLzedJVGmakW93yYM9xPxAb0eulezT5yqBN5v2XMv9c+WF
-	4sUt/nu0919nUrnwi135/ZUokcxVm+oOxW//luu5fvoB2Vu36yR2Ol8/Y8DUsfLbs5RbB3qf
-	vC2/YbB8NefiZTyr9pz4m2l+dfuyeVpyuuapflHtXhVxaUvKU9Z+ZHVbYFv46MUnBflNtzfr
-	PF5V8DD4YZvL996uIoGTb9prrx7dsHP6ZZeXi2ru1IY7vVLccTLyoxJLcUaioRZzUXEiANGJ
-	lx7/AwAA
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241128161146epcas1p46768d7685092deaa817119db30fd12f2
-References: <Z0iWPCzjv9YQ4kO_@gallifrey>
-	<20241028021344.477984-1-linux@treblig.org>
-	<CGME20241128161146epcas1p46768d7685092deaa817119db30fd12f2@epcms1p4>
-
->* linux@treblig.org (linux@treblig.org) wrote:
->> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->> 
->> devm_devfreq_register_notifier() and devm_devfreq_unregister_notifier()
->> have been unused since 2019's
->> commit 0ef7c7cce43f ("PM / devfreq: passive: Use non-devm notifiers")
->> 
->> Remove them, and the helpers they used.
->> 
->> Note, devm_devfreq_register_notifier() is still used as an example
->> in Documentation/doc-guide/contributing.rst but that's just
->> an example of an old doc bug rather than anything about the function
->> itself.
->> 
->> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
->
->Ping.
->
->Thanks,
->
->Dave
-
-When I search github, it appears that vendors are using this API.
-
-
-NVIDIA:
-https://github.com/NX-Development/android_kernel_nvidia_nvidia/blob/c9ade3b5e32a12b8cf6f33a632dc39209194e4e8/drivers/devfreq/governor_wmark_active.c#L624
-
-Samsung:
-https://github.com/Vaz15k/android_kernel_samsung_a54x/blob/8ac517c37c606746213064857dc240e99eba80d2/drivers/soc/samsung/exynos-llcgov.c#L107
-
-Realtek:
-https://github.com/BPI-SINOVOIP/BPI-M4-bsp/blob/25f5b88ec4ba34029f964693dc34028b26e6c67c/linux-rtk/drivers/devfreq/realtek/governor_rtk_ltl.c#L114
+X-CM-TRANSID:qMiowMDxSMFO5VNncah5AA--.10777S2
+X-CM-SenderInfo: 5zdqwzxlqjiio6or00hjvr0hdfq/1tbiAQEEEmdTfkADlwACsK
+X-Coremail-Antispam: 1Uk129KBj93XoW7Ww1UAry7GrW8Gw17Xw15ZFc_yoW5JF1rpa
+	y5Za45Jr4Ut3Z7Wr9xK34DZFy3Xr4fK39rta43C3W7WrZ8GryDWFy0qF98ZF18C397Z3WF
+	vr4xJF4Uu3W5ZFgCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4j6r4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcV
+	AKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+	wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc4
+	0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+	xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+	1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU2oq2DUUU
+	U
 
 
 
-Please don't remove ABIs used by vendors even if
-they didn't upstream their drivers.
+On 2024/12/7 11:31, Tianyang Zhang wrote:
+> This patch enables the advanced interrupt controller function under
+> multiple-node of 3C600. The topology of the advanced interrupt controller
+I think '3c600' is a typo. Shouldn't it be '3c6000'?
+> is consistent with NUMA node. We check the enable status of the node where
+> each CPU is located once when it goes online, which may cause some
+> additional operations, but it can ensure that the advanced interrupt
+> controller can still be used in situations where some CPUs cannot start
+> 
+> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+> ---
+>   drivers/irqchip/irq-loongarch-avec.c | 20 ++++++++++++++++----
+>   1 file changed, 16 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
+> index 0f6e465dd309..9e30198fa7e4 100644
+> --- a/drivers/irqchip/irq-loongarch-avec.c
+> +++ b/drivers/irqchip/irq-loongarch-avec.c
+> @@ -56,6 +56,18 @@ struct avecintc_data {
+>   	unsigned int		moving;
+>   };
+>   
+> +static inline void avecintc_enable(void)
+> +{
+> +	u64 value;
+> +
+> +	if (!loongarch_avec.domain)
+> +		return;
+> +
+> +	value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
+> +	value |= IOCSR_MISC_FUNC_AVEC_EN;
+> +	iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
+> +}
+> +
+>   static inline void avecintc_ack_irq(struct irq_data *d)
+>   {
+>   }
+> @@ -127,6 +139,8 @@ static int avecintc_cpu_online(unsigned int cpu)
+>   
+>   	guard(raw_spinlock)(&loongarch_avec.lock);
+>   
+> +	avecintc_enable();
+> +
+>   	irq_matrix_online(loongarch_avec.vector_matrix);
+>   
+>   	pending_list_init(cpu);
+> @@ -339,7 +353,6 @@ static int __init irq_matrix_init(void)
+>   static int __init avecintc_init(struct irq_domain *parent)
+>   {
+>   	int ret, parent_irq;
+> -	unsigned long value;
+>   
+>   	raw_spin_lock_init(&loongarch_avec.lock);
+>   
+> @@ -378,14 +391,13 @@ static int __init avecintc_init(struct irq_domain *parent)
+>   				  "irqchip/loongarch/avecintc:starting",
+>   				  avecintc_cpu_online, avecintc_cpu_offline);
+>   #endif
+> -	value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
+> -	value |= IOCSR_MISC_FUNC_AVEC_EN;
+> -	iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
+> +	avecintc_enable();
+>   
+>   	return ret;
+>   
+>   out_remove_domain:
+>   	irq_domain_remove(loongarch_avec.domain);
+> +	loongarch_avec.domain = NULL;
+>   out_free_handle:
+>   	irq_domain_free_fwnode(loongarch_avec.fwnode);
+>   out:
 
-Cheers,
-MyungJoo.
