@@ -1,104 +1,112 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA961EEB2;
-	Sun,  8 Dec 2024 08:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCF845BEC;
+	Sun,  8 Dec 2024 12:47:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733646832; cv=none; b=s0eSVd+4BWCVK46nQcQD2F5K9E1Z+j46rHvWPP4oB3/lvff3dGs93btrFnWzVyIU/XkSqiCVjVbFzf6VUV/P3zos2gDGV34gF6aiBfmllvrlAg6wCxdlTla81J/RD7G7M7Hu3nAuNsdFUU4o9UOltnm5791H3vDXyOeTSrop64s=
+	t=1733662078; cv=none; b=MBX+tspuz6BjzNkY4UJHJ/WCZp2NRTZbSC2XAK0wTEjcmFo6v1XaWmBG2N4atQ3zHdx5qJ1TdtZd2fcVBo727Pp0yCa058Ww9PBDMg5op2Kb8UT7SgUQtju4LaIB3Ro9zpDI1ciDWhgUjcDb27vViQawt+LQv7yGV+YIZ8+H/Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733646832; c=relaxed/simple;
-	bh=LsixBaNQBztp8+7IVMfzPngbtALIlUbTwASBXYGGbtY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=J1WEKhYX4VKdZBPmPNjUVQIANAjMVbsFMV9+5oW9tlq/srLaoIKolbeCm46B4RZ1q1cKulszHCpLcDGC4gTBse+gGKQythG4xcyfyc5JWczlZyU8k98yx1YxZ+viqvZ+kf2V7kjgLLJLzrFtMeH1tD9sE6f8Ml3ZicUNARvv7jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CCNPAKcn; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733662078; c=relaxed/simple;
+	bh=ljR09SNerocdWnP/UG5g69/zFqz/bw4tPGb75DTGSfs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lGBbEmBruB7/Uj05IacbHElH/19uPVAm24P5jQXkZ38GoedJ7FSTVk2caAoT0aRF4AzRFI+ZsTEleMGEwadw+t657vTh3nLWtOv3Pape9/QeY/Xw0nhSXjqXeEuI7wVGdX0OkD5HCR0vtinVe3QcCm3LMQLtG5n0N23V39knvSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VuLnFpQY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CCNPAKcn"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21636268e43so6196305ad.2;
-        Sun, 08 Dec 2024 00:33:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733646830; x=1734251630; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dw3/MnPygfVwqBQ+Lnx4ztMSGybvWCwzMsFDEjO+5IA=;
-        b=CCNPAKcn42405TQteucywjKFJR0hFt/aJtfcpaaag/nIQPS69UTr35O2i/Uyvdz+RP
-         5XvmpJhJwXNwrnJj5/1MRGqyyNspW/siQDBsqPLzX8Vde2dAZAvbJg82fGVjrK0HA+dv
-         i0Xiqz24fkZmTXiaFCZEUbqYSJDXiMZI4DjFx3M902ZWU++T+A3OYyF3H6l8ISzbEOS1
-         +EtqS3iT5SHCPi1CWMZOsrP5HTWcPR+3vwfLHu8SeBmvTp9lUHvx/XI0yYHQVnuEPdrp
-         1fewaUhXAsjREbqW6vjH6eyW29DTUy222eK9+847YeQLCom1yKVy8KAkyL4x5ipqwPSR
-         TXrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733646830; x=1734251630;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dw3/MnPygfVwqBQ+Lnx4ztMSGybvWCwzMsFDEjO+5IA=;
-        b=VbowdKCP8oq4zKhbkcMkY1kCCEiG/EGf2W/0VjvOIZVQ1gypzYrVuNQqPomTiX4Vus
-         t8X5uEla8WQx05bVRSxs3Od1ykXtRhjQqGfHF2SrV/9kHK9myv40tfQB6gQrja6bU7kd
-         7hm2Fhj7XgDPjPsZW7HMbtabcnoU3/47GMv4QdC+7Wq8Fwk1lamd6ZMWb0cAI3ywc1gM
-         tICM+dvidmRVVBFNxk+Ph/BehSvcCQ/qNEdgvbx05Zyix1IsRru3MihJ6+KciyGGs99M
-         2j/axTEqVMy96A5eJLLWxHOGVqeU5ofeNYpknRdNOpHRvWMBZ3L21B0J0PYaDv94+hOg
-         3Z/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWY10q7IDqChRXkv+dOGlHcdHMjI+IUiHmEhba4E0npAz6tZIMZdZ92NBosrw/wwKej7GNiaoF5UXeQnuw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3P4sKFzbqKVUc4et1DzIghKbXAwLauAd4D1SMpVWhi5TeUtjt
-	QHxa8DK1jgDqM9NoXZp+mYte7Hz3yvQxoW/3TlRZaTYKoMxk5ske
-X-Gm-Gg: ASbGncs8qDmKUOBYiiw2/ge2u/dfQw+bSJPa0IWtwCuTcWt5/+PPSU4k55hq9gcmlSZ
-	k2wDKj8JYf70KwRVC2p25skEpbrUY58egntZjOUHsMZMN+MyYUvh0jAhB7WdDLXoTWGP0WpEdCx
-	QLZjYqKKGqvSZugfvLB6ZlbhZq5nAoXXAAF0ivAQDkWJP2yu2aeBni8WEucPZeUD3kNAKPa+XCY
-	GKEenwwk3pJlcsV4npNVAq3YR2jvejBoV5FfGdLc4mcUV7rdm9bkew1sNxvQfxPoQ==
-X-Google-Smtp-Source: AGHT+IFURXnikmIuPy808nl59u0diMFBQpfZ/DgZlI44giGlkMlKRrocXhrb2cbHC0UfL7/XIu5qkA==
-X-Received: by 2002:a17:902:cf4b:b0:215:773a:c168 with SMTP id d9443c01a7336-21614d1aeddmr158483645ad.1.1733646829744;
-        Sun, 08 Dec 2024 00:33:49 -0800 (PST)
-Received: from localhost.localdomain ([49.206.118.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215f8e3e7cdsm53400155ad.10.2024.12.08.00.33.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Dec 2024 00:33:49 -0800 (PST)
-From: Saru2003 <sarvesh20123@gmail.com>
-To: bsingharora@gmail.com,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Saru2003 <sarvesh20123@gmail.com>
-Subject: [PATCH] Documentation/accounting: Fix typo in taskstats-struct.rst
-Date: Sun,  8 Dec 2024 14:03:20 +0530
-Message-Id: <20241208083320.16190-1-sarvesh20123@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <878qssu5d3.fsf@trenco.lwn.net>
-References: <878qssu5d3.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VuLnFpQY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31D7AC4AF0C;
+	Sun,  8 Dec 2024 12:47:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733662078;
+	bh=ljR09SNerocdWnP/UG5g69/zFqz/bw4tPGb75DTGSfs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=VuLnFpQYyMjAZVlNhgHCpxivgd0nwV1mz46mX0ISAdqdEpWbzXc80byzAuKO6D+XK
+	 kqLvtrHuujxLAFfO3dkNE1NCpb5Gej04GdP/1kIVh20jL2O1EmJyoy093mHV0y24NQ
+	 5o1SHu864DeP3FxyTB1E4Wvl55grQ3rPe+gFhf/f13pNfoKibyIADrDYL2dcVDpxA3
+	 uTZI+vNDiGZBHvDdVYGVFM7iP9i+6EWM5T7lsgEmqSobc9G1SLCjp1XRthIUVZsI5o
+	 XsEjjKIvuP5yl3MX5+jYH9A26jCiGU+r1zuIfwwnM6lW58hkHzNGQeEVzdJjNyh86v
+	 lYlcl7OUKk9Lg==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5cece886771so6350311a12.0;
+        Sun, 08 Dec 2024 04:47:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWgrMRUNty/H+jD1X3Hj2+9nHZ2qFYl0B6C6XlCKEdRWp0gj+hG/wUJXqX1amDalNvMnlLUvatw3wYgTj9G@vger.kernel.org, AJvYcCXw93oil+1AbEUAH1YuWd70gyADtnUgcPbHS51yeGFr1VpMGeCdt9rclX0y9NbwGIlUTUjqfd+jTz4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yws8PalqmKIE5h5X4QmlmbgnNN/60vf71RwhA52RY48J8EytMdj
+	dGWHA52BWwl8cjZApJmX+Uww5q5AmhbZAXbJD5m7hdI3VRJ0kEz3TmujHEzsexYLibBSGNh5FyE
+	CUeUL+KznuRAcUXKlM0WWStrvnIc=
+X-Google-Smtp-Source: AGHT+IF6afwWusvK3yGY6ywNa7NeptN2+8OxzLlZj0IAFpUnEbjZLbxH8IaPcdkBM3LX1gSlCjdC9cFqDBNpEyul5go=
+X-Received: by 2002:a50:ed01:0:b0:5d3:d2d0:12c9 with SMTP id
+ 4fb4d7f45d1cf-5d3d2d01355mr5940729a12.8.1733662077026; Sun, 08 Dec 2024
+ 04:47:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241103025436.69196-1-yesanishhere@gmail.com>
+ <CGME20241108043735epcas1p39b2350911bd630f58be192c1680acd5c@epcms1p4>
+ <CABCoZhANKY5wjc=NqAd64Fhmdjx1k-x=zVkU+ySRDRvK0Gj2iw@mail.gmail.com>
+ <20241116052130epcms1p4f503dac1338c96ff33f8e5d7d58d6389@epcms1p4> <CABCoZhC7uRcV5if0PnfPkVFtyE-b=_9SQCvs7dBbpQY3VLu5wg@mail.gmail.com>
+In-Reply-To: <CABCoZhC7uRcV5if0PnfPkVFtyE-b=_9SQCvs7dBbpQY3VLu5wg@mail.gmail.com>
+From: Chanwoo Choi <chanwoo@kernel.org>
+Date: Sun, 8 Dec 2024 21:47:17 +0900
+X-Gmail-Original-Message-ID: <CAGTfZH0cbxSwEk9cFimvx9zg_5KAOVP4V-0EAQyB7kQwXsSbBw@mail.gmail.com>
+Message-ID: <CAGTfZH0cbxSwEk9cFimvx9zg_5KAOVP4V-0EAQyB7kQwXsSbBw@mail.gmail.com>
+Subject: Re: Re: [PATCH] Documentation: extcon: add documentation for Extcon subsystem
+To: anish kumar <yesanishhere@gmail.com>
+Cc: myungjoo.ham@samsung.com, Chanwoo Choi <cw00.choi@samsung.com>, 
+	"corbet@lwn.net" <corbet@lwn.net>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Corrected a typo in the 'taskstats-struct.rst' documentation. The macro
-name 'TAKSTATS_VERSION' was mistakenly mentioned instead of the correct
-'TASKSTATS_VERSION'. The corrected line now references the proper macro
-'TASKSTATS_VERSION', defined in '<linux/taskstats.h>'.
+Hi,
 
-Signed-off-by: Sarveshwaar SS <sarvesh20123@gmail.com>
----
- Documentation/accounting/taskstats-struct.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for your documentation.
 
-diff --git a/Documentation/accounting/taskstats-struct.rst b/Documentation/accounting/taskstats-struct.rst
-index ca90fd489c9a..acca51c34157 100644
---- a/Documentation/accounting/taskstats-struct.rst
-+++ b/Documentation/accounting/taskstats-struct.rst
-@@ -47,7 +47,7 @@ should not change the relative position of each field within the struct.
- 1) Common and basic accounting fields::
- 
- 	/* The version number of this struct. This field is always set to
--	 * TAKSTATS_VERSION, which is defined in <linux/taskstats.h>.
-+	 * TASKSTATS_VERSION, which is defined in <linux/taskstats.h>.
- 	 * Each time the struct is changed, the value should be incremented.
- 	 */
- 	__u16	version;
--- 
-2.34.1
+Applied it. Thanks.
 
+On Fri, Dec 6, 2024 at 5:41=E2=80=AFAM anish kumar <yesanishhere@gmail.com>=
+ wrote:
+>
+> On Fri, Nov 15, 2024 at 9:21=E2=80=AFPM MyungJoo Ham <myungjoo.ham@samsun=
+g.com> wrote:
+> >
+> > >Hello Myungjoo/Chanwoo,
+> > >
+> > >Wondering if you have any comments?
+> >
+> > Nope. It looks good to me.
+> >
+> > Acked-by: MyungJoo Ham <myungjoo.ham@samsung.com>
+>
+> Thanks, wondering if I need to follow up further or it will be picked up
+> by you or chanwoo?
+>
+> >
+> > >
+> > >On Sat, Nov 2, 2024 at 7:54=E2=80=AFPM anish kumar <yesanishhere@gmail=
+.com> wrote:
+> > >>
+> > >> The Extcon (External Connector) subsystem driver lacked proper
+> > >> documentation. This commit adds comprehensive documentation
+> > >> explaining the purpose, key components, and usage of the Extcon
+> > >> framework.
+> > >>
+> > >> The new documentation includes:
+> > >> - An overview of the Extcon subsystem
+> > >> - Descriptions of key structures
+> > >> - Explanations of core functions
+> > >> - Information on the sysfs interface
+> > >> - A usage example for driver developers
+> > >>
+> > >> Signed-off-by: anish kumar <yesanishhere@gmail.com>
+> > >> ---
+> >
+>
+
+
+--=20
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
