@@ -1,97 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78907198A37;
-	Mon,  9 Dec 2024 18:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE1919924A;
+	Mon,  9 Dec 2024 18:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733770590; cv=none; b=oqTxX6N7Hc511zxFay0zalohJr11ioubZ3BhEDUGGAa0Yoafv+QzQVxtKKQq26eMkQmaeKqna65zP2HGp7lB6ByYsXRPJmDPHoqRFqUx3pygfye77nQ6SZvlBvbi+ERl4q9J6HlfAKz3PDrev+smCMqEdDVZStDVTACsKGTAWLI=
+	t=1733770776; cv=none; b=XLHR+pqKaj5ljSrbdhOyckdQDoTAmV1KhQWDQu7dVO4REqRA3KNXDjc4GYqql+CqbiR0yW4kUTLGt6Af3jetzkrqc3jevdWODt+JzVw9FHk1fFODqd9zsoWrWf6B0WHPUbxyWmlniNCGn21d1edQcARsz2voiTQOSFWUyMJvmpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733770590; c=relaxed/simple;
-	bh=jWitqbI3BToGLZp+6qWZmYRLd+6j/B93+eI3CbU4/Zc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RNZR55U71i2IgDewaON44ET2Gq2cKdRfsEqCf1EY8k3qYPHzXRm08ZWMFemVcKADA1bPBTiFW2kpdzw7gznmReEWMuUrqD0+xJUOULWnAQjV8XTHZDw/oVA5npzqdbESVyxN853qStQsrOlg/0yrJZ4IBUpVQDWevyRBx10YrMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p519Aw5j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733770776; c=relaxed/simple;
+	bh=JvVmg1UN/TaLoMpuByeMdl8BxvJCfzEncRZ/E8RvE98=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=of5tjisw8r8dVl9gPgBdFML+WrAApJ2d5977YmaXR8Kws2ePgbAfrU+TVUZFqaQUXIwWQt0Y2uP54+Yr027IrPGuNfwGzkH5BMjkEIXUL9DhyPVoAv5SkefRhZeY8YFoXhJ7KtuBHjK9mb2YUNMDJZoV6LjcBFOKNTUhVGJP9Yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=rA7/pcdf; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p519Aw5j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6431C4CED1;
-	Mon,  9 Dec 2024 18:56:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733770590;
-	bh=jWitqbI3BToGLZp+6qWZmYRLd+6j/B93+eI3CbU4/Zc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p519Aw5jPWzqrzBFSTv91Bmk6wjee690Qpps0g/UQj0hE3dtph47dJtKsHJu+98dP
-	 jCjDpI3BYoG1hMUaaKN3RHQ0NXXJ3qZTnM4TeRBhQy6g25VjNT0oLUScszmLxFltJT
-	 OUhzlgSL4aSJQJLgUebHnoggFhyNsK8/RYe14LdK6F6fLXhg6T56JdTMy5VFSdNIeO
-	 FeWRcfUZ1XcLAJgDgx3ArhqhUzGwLECc8tZtQd1YVxOkgDfloR5vs9DSA5v2D5kdQB
-	 gzLxWWdQ7pi3w6K3MTRJNXGZFjN8NvG02r9Jy59wXvMAKlLoqzeBmNUowRndSdoJHy
-	 MdMjsFTSCEPxA==
-Date: Mon, 9 Dec 2024 18:56:24 +0000
-From: Will Deacon <will@kernel.org>
-To: Rong Xu <xur@google.com>
-Cc: Yabin Cui <yabinc@google.com>, Han Shen <shenhan@google.com>,
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="rA7/pcdf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Content-Transfer-Encoding:MIME-Version:References:
+	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=lYFNZhuVigdg2tLeh5rrT9NNlUPQrUYIEI4aFbYYiYM=; b=rA7/pcdf7JqQnRIh8dUJHkjn/P
+	Bw6feVBUSrl7BwEL+d0iQwrLI0aI/aipgMX9tKpRjiiU2fAGs+uUBoVjUTNacfRx83l2w3TtT/THe
+	niS9MaqX1E7OnIZrseT3jlutDzr+GTUDWI+vSZZXJ5+vN8RNMxLNtYxeqN0JXbTyda0quNr1W8D0z
+	m+XhiCLhVSGhMPzN8YsTCDojuOCThiI9knix98jxdI29kQBf1Ju/jF4CfXyUGywdvPzWGgUUNCDGi
+	VEeB+mnKB0/NKIeLI4vdkhs+Dkb+kRtZy+pYMJfOaN7e3hMPR+EcS4S/ITTN9Mic40haWInDwcKoM
+	avd6TTSA==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1tKiyd-001Gd5-28;
+	Mon, 09 Dec 2024 12:59:27 -0600
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
-Message-ID: <20241209185623.GA13084@willie-the-truck>
-References: <20241118222540.27495-1-yabinc@google.com>
- <20241209162028.GD12428@willie-the-truck>
- <CAF1bQ=SiHi8oCyo5YnXGpQGofM1zAsnBdqSEet1mS-BYNKVU8A@mail.gmail.com>
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Elizabeth Figura <zfigura@codeweavers.com>
+Subject: [PATCH v6 17/28] selftests: ntsync: Add some tests for NTSYNC_IOC_WAIT_ALL.
+Date: Mon,  9 Dec 2024 12:58:53 -0600
+Message-ID: <20241209185904.507350-18-zfigura@codeweavers.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241209185904.507350-1-zfigura@codeweavers.com>
+References: <20241209185904.507350-1-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF1bQ=SiHi8oCyo5YnXGpQGofM1zAsnBdqSEet1mS-BYNKVU8A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-(Aside: please try to avoid top-posting on the public lists as it messes up
-the flow of conversation; I'll try to piece this back together.)
+Test basic synchronous functionality of NTSYNC_IOC_WAIT_ALL, and when objects
+are considered simultaneously signaled.
 
-On Mon, Dec 09, 2024 at 09:30:50AM -0800, Rong Xu wrote:
-> On Mon, Dec 9, 2024 at 8:20 AM Will Deacon <will@kernel.org> wrote:
-> > On Mon, Nov 18, 2024 at 02:25:40PM -0800, Yabin Cui wrote:
-> > > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> > > index fd9df6dcc593..c3814df5e391 100644
-> > > --- a/arch/arm64/Kconfig
-> > > +++ b/arch/arm64/Kconfig
-> > > @@ -103,6 +103,7 @@ config ARM64
-> > >       select ARCH_SUPPORTS_PER_VMA_LOCK
-> > >       select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
-> > >       select ARCH_SUPPORTS_RT
-> > > +     select ARCH_SUPPORTS_AUTOFDO_CLANG
-> > >       select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
-> > >       select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
-> > >       select ARCH_WANT_DEFAULT_BPF_JIT
-> >
-> > After this change, both arm64 and x86 select this option unconditionally
-> > and with no apparent support code being added. So what is actually
-> > required in order to select ARCH_SUPPORTS_AUTOFDO_CLANG and why isn't
-> > it just available for all architectures instead?
+Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+---
+ .../testing/selftests/drivers/ntsync/ntsync.c | 99 ++++++++++++++++++-
+ 1 file changed, 97 insertions(+), 2 deletions(-)
 
-> Enabling an AutoFDO build requires users to explicitly set CONFIG_AUTOFDO_CLANG.
-> The support code is in Commit 315ad8780a129e82 (kbuild: Add AutoFDO
-> support for Clang build).
+diff --git a/tools/testing/selftests/drivers/ntsync/ntsync.c b/tools/testing/selftests/drivers/ntsync/ntsync.c
+index 40ad8cbd3138..c0f372167557 100644
+--- a/tools/testing/selftests/drivers/ntsync/ntsync.c
++++ b/tools/testing/selftests/drivers/ntsync/ntsync.c
+@@ -73,7 +73,8 @@ static int unlock_mutex(int mutex, __u32 owner, __u32 *count)
+ 	return ret;
+ }
+ 
+-static int wait_any(int fd, __u32 count, const int *objs, __u32 owner, __u32 *index)
++static int wait_objs(int fd, unsigned long request, __u32 count,
++		     const int *objs, __u32 owner, __u32 *index)
+ {
+ 	struct ntsync_wait_args args = {0};
+ 	struct timespec timeout;
+@@ -86,11 +87,21 @@ static int wait_any(int fd, __u32 count, const int *objs, __u32 owner, __u32 *in
+ 	args.objs = (uintptr_t)objs;
+ 	args.owner = owner;
+ 	args.index = 0xdeadbeef;
+-	ret = ioctl(fd, NTSYNC_IOC_WAIT_ANY, &args);
++	ret = ioctl(fd, request, &args);
+ 	*index = args.index;
+ 	return ret;
+ }
+ 
++static int wait_any(int fd, __u32 count, const int *objs, __u32 owner, __u32 *index)
++{
++	return wait_objs(fd, NTSYNC_IOC_WAIT_ANY, count, objs, owner, index);
++}
++
++static int wait_all(int fd, __u32 count, const int *objs, __u32 owner, __u32 *index)
++{
++	return wait_objs(fd, NTSYNC_IOC_WAIT_ALL, count, objs, owner, index);
++}
++
+ TEST(semaphore_state)
+ {
+ 	struct ntsync_sem_args sem_args;
+@@ -461,4 +472,88 @@ TEST(test_wait_any)
+ 	close(fd);
+ }
+ 
++TEST(test_wait_all)
++{
++	struct ntsync_mutex_args mutex_args = {0};
++	struct ntsync_sem_args sem_args = {0};
++	__u32 owner, index, count;
++	int objs[2], fd, ret;
++
++	fd = open("/dev/ntsync", O_CLOEXEC | O_RDONLY);
++	ASSERT_LE(0, fd);
++
++	sem_args.count = 2;
++	sem_args.max = 3;
++	sem_args.sem = 0xdeadbeef;
++	ret = ioctl(fd, NTSYNC_IOC_CREATE_SEM, &sem_args);
++	EXPECT_EQ(0, ret);
++	EXPECT_NE(0xdeadbeef, sem_args.sem);
++
++	mutex_args.owner = 0;
++	mutex_args.count = 0;
++	mutex_args.mutex = 0xdeadbeef;
++	ret = ioctl(fd, NTSYNC_IOC_CREATE_MUTEX, &mutex_args);
++	EXPECT_EQ(0, ret);
++	EXPECT_NE(0xdeadbeef, mutex_args.mutex);
++
++	objs[0] = sem_args.sem;
++	objs[1] = mutex_args.mutex;
++
++	ret = wait_all(fd, 2, objs, 123, &index);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, index);
++	check_sem_state(sem_args.sem, 1, 3);
++	check_mutex_state(mutex_args.mutex, 1, 123);
++
++	ret = wait_all(fd, 2, objs, 456, &index);
++	EXPECT_EQ(-1, ret);
++	EXPECT_EQ(ETIMEDOUT, errno);
++	check_sem_state(sem_args.sem, 1, 3);
++	check_mutex_state(mutex_args.mutex, 1, 123);
++
++	ret = wait_all(fd, 2, objs, 123, &index);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, index);
++	check_sem_state(sem_args.sem, 0, 3);
++	check_mutex_state(mutex_args.mutex, 2, 123);
++
++	ret = wait_all(fd, 2, objs, 123, &index);
++	EXPECT_EQ(-1, ret);
++	EXPECT_EQ(ETIMEDOUT, errno);
++	check_sem_state(sem_args.sem, 0, 3);
++	check_mutex_state(mutex_args.mutex, 2, 123);
++
++	count = 3;
++	ret = post_sem(sem_args.sem, &count);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, count);
++
++	ret = wait_all(fd, 2, objs, 123, &index);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, index);
++	check_sem_state(sem_args.sem, 2, 3);
++	check_mutex_state(mutex_args.mutex, 3, 123);
++
++	owner = 123;
++	ret = ioctl(mutex_args.mutex, NTSYNC_IOC_MUTEX_KILL, &owner);
++	EXPECT_EQ(0, ret);
++
++	ret = wait_all(fd, 2, objs, 123, &index);
++	EXPECT_EQ(-1, ret);
++	EXPECT_EQ(EOWNERDEAD, errno);
++	check_sem_state(sem_args.sem, 1, 3);
++	check_mutex_state(mutex_args.mutex, 1, 123);
++
++	/* test waiting on the same object twice */
++	objs[0] = objs[1] = sem_args.sem;
++	ret = wait_all(fd, 2, objs, 123, &index);
++	EXPECT_EQ(-1, ret);
++	EXPECT_EQ(EINVAL, errno);
++
++	close(sem_args.sem);
++	close(mutex_args.mutex);
++
++	close(fd);
++}
++
+ TEST_HARNESS_MAIN
+-- 
+2.45.2
 
-Yes, that is precisely my point. The user has to enable
-CONFIG_AUTOFDO_CLANG anyway, so what is the point in having
-ARCH_SUPPORTS_AUTOFDO_CLANG. Why would an architecture _not_ want to
-select that?
-
-> We are not enabling this for all architectures because AutoFDO's optimized build
-> relies on Last Branch Records (LBR) which aren't available on all architectures.
-
-So? ETM isn't available on all arm64 machines and I doubt whether LBR is
-available on _all_ x86 machines either. So there's a runtime failure
-mode that needs to be handled anyway and I don't think the arch-specific
-Kconfig option is really doing anything useful.
-
-Will
