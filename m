@@ -1,112 +1,112 @@
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C3B19D09C;
-	Mon,  9 Dec 2024 22:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B9C19D09C
+	for <linux-doc@vger.kernel.org>; Mon,  9 Dec 2024 22:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733782096; cv=none; b=jq9ZPC6CRSxEfIqv6najnCKG7obwqYTndo8sLYxgelnZY1318z8M5pbhO+oIU8RMOxWOAPYZCiWAvhM85HQrFG/I9XrKDNeErXQmxcNNUMe9Pkm5/p9QzlX9F8l7rF72/4VXwQL+MFaPlKYTnrtguXQ/Fmu44z6uxPw3zQ+dut0=
+	t=1733782233; cv=none; b=pobmbA5ZbICwVCKCiorAyZPO+LTsyjEe7o16HNY1zZoEfEUPv5tlDfvL+AUY++TXQ+cTm4aTcsUTnRWr+bNhzxEA3qa+mODyHcLo84FpsjC2s6WpE3lR/Ju5jCFOL5h0WTA5Ec33M4sWKBF/csSSAaJiAXD579jeOKbEhkxlZHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733782096; c=relaxed/simple;
-	bh=YQP7Vm9Rxid83J7kxwOmzl2MBLiP1Ksx4ETsVRk0CQ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fl4sfXAcISsdBIs/CLVyrVuzuIhtWvx4NXXOr8xnZ4tJLZOHGDrunxAf+RnWcEmII0qlce68QAuoiXHks/CEGv2h9hI/EQQr2j/91rU1+yq3ESNl1NVXhQFecjo4W5FJNq+UDLstybxk7q+WLrZmjOoJlanQWTKf/6GSrqwwl7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=eq6rBrXE; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1733782233; c=relaxed/simple;
+	bh=xdhQRO7iG5g9QwFMiLtS3VOf3NDOq1Xd5r/XukgCc4c=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=uLzXFIA6+fppsznCI6cZNxy28k0+aSWLVxdEryzsu+wO7ig7CsgqkIgsJm86jxkznRlI4zxCGDpN6c9SMBRD7bmBEgmu5V44ePWcpxSJ35RpiDvkTYvHcyCQsTmYn9PEg+wDPD6D+M6DKdLtSS6gr23SJUTV/881U6LEbhQKyXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VgAOcLQA; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="eq6rBrXE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=iWvx2x9ooVEYNbiylKsyE1zaerIXD/mHg0CGYlYga6Y=; b=eq6rBrXEmYnzziiWUvvbnuQBYz
-	MMGI3UTv5SV7kahOnXo1kirzwd2wSVDMjrv6dKUzK0S6lwXL+DrJUqUoJUts7bN2LGc0bQSJiE/Yc
-	eTqlEgaBcCGJAJ7xjnTd652ClIwhUgQII1vap0FWyUUhMCjaLZmwkR1x1X6TjzELdC0VT5viMB5L0
-	7EkUDxpxppRV/coEVL6hIF6KRBChKcyLoVzRRFeOb/YeOi3gsDDJYRJkzQmGC1mfyUeX7UoPttJa3
-	pWP3noyiuc3ZCQW6raiRKA2KiD8W12N/2CiNtJxuZ9f5q1BeDg1su7wzs+VmFLHFd3p0ViJzvigI0
-	uJ/+l/Yg==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1tKlvE-001XdL-1u;
-	Mon, 09 Dec 2024 16:08:08 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, shuah <shuah@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH v6 00/28] NT synchronization primitive driver
-Date: Mon, 09 Dec 2024 16:08:08 -0600
-Message-ID: <6110961.lOV4Wx5bFT@camazotz>
-In-Reply-To: <a6ec954d-7794-483d-a1f3-d58d33c5fc7a@app.fastmail.com>
-References:
- <20241209185904.507350-1-zfigura@codeweavers.com>
- <a6ec954d-7794-483d-a1f3-d58d33c5fc7a@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VgAOcLQA"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-7fd312feb10so1829688a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Dec 2024 14:10:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733782231; x=1734387031; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=s5kJ8tuGRSUiMYssDTJ1ovChFT1489Ldfej8iSXdE6s=;
+        b=VgAOcLQAtEFDdzKiss4o1QcuVSW0Ci4H2L81LBl5MdEXuYQeSAoA/9rQOKU+ZguQjV
+         Tg/HX3n/RGVSqK+yLsdXWfB/3jfDo46c4aogbyp9TJ70OQn6n+e8vRKtwfn2DDYenx1y
+         bD4kSYKVDFI9hOTTpLocdPO3E+o5wwew9yHmCHBYeX5v4MuJRvXTwDe4oWkXZg1fAlew
+         ROEYTG4PKBmaJIE0fFzbj36Xjox33ML/iMHZsXekIwRH42wyu5Cr+FBqASPemDZ2wELI
+         jcTgbU95z0+SQhwlEmbivR9CqIJiuLYtqufXsKQuZ1jeRHzlhPXVnsCTMaG9hgKeMR+d
+         cCnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733782231; x=1734387031;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s5kJ8tuGRSUiMYssDTJ1ovChFT1489Ldfej8iSXdE6s=;
+        b=NeRiarJwjiPFeqr5OKVZIotuDRX1LrBfyo20U5i7/j4RAqYEDfefia8qqCuMkWg3HY
+         82A5lkODYvHdKVtX4lFJltpt0MyLSYPUpYJnkN/RjuJ+sO/UrWzqCSBe/SJnP7nDwckB
+         WQl3W67FCrvl4prCNuhoHBFjG16EjEWeHTqAhvtueroRPJsPfIEuCqTjPx42+dilTdxq
+         Tuk+kn4wPcIuMv5HukhXkJ88ahL/aqgLz0GOoh6lotFq+pEfJ0+hfaucAqNdZ10gEkRt
+         ZG6ya7tYu7QEgeNWnOeyEQAqQAQoiO2UC8OK7Mu00cg9QlNUrXyHU+MlfgnvcGVj3Yjr
+         D0eg==
+X-Forwarded-Encrypted: i=1; AJvYcCXieU4abvWxR0jf9h1uNqEr7KjCM7qiKDhaJfjWct2CtSAxHZscJu15cAibRzT8fm4ATHju6MBFBxk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrcQK1AKf6gdgfzLnz2qki0hq0JHy8wh7pu9jWXzGpXbbtond3
+	utfiOpjuDnyzYQvXeI3X34Pkmbm9gtw9c7Rq+uRRNSJosno7oG4cf21FuKd5vPO47ZpCOoXYa3+
+	L6w==
+X-Google-Smtp-Source: AGHT+IGwA+SRdoKoKP199xBaNffbhc4gaYBx7LHg0PekrQ7mrUUner/oH79OTzpbo5FJCxTnEDqYj4PiT/s=
+X-Received: from pgbda5.prod.google.com ([2002:a05:6a02:2385:b0:7fd:57ef:61e])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:918b:b0:1e0:d837:c929
+ with SMTP id adf61e73a8af0-1e1870a8012mr22865787637.9.1733782231311; Mon, 09
+ Dec 2024 14:10:31 -0800 (PST)
+Date: Mon,  9 Dec 2024 14:10:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241209221028.1644210-1-surenb@google.com>
+Subject: [PATCH 1/1] mm: fix vma_copy for !CONFIG_PER_VMA_LOCK
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: oliver.sang@intel.com, klarasmodin@gmail.com, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, minchan@google.com, 
+	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com, 
+	pasha.tatashin@soleen.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com, 
+	surenb@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Monday, 9 December 2024 14:24:36 CST Arnd Bergmann wrote:
-> On Mon, Dec 9, 2024, at 19:58, Elizabeth Figura wrote:
-> > == Previous versions ==
-> >
-> > No changes were made from v5 other than rebasing on top of the 6.13-rc1
-> > char-misc-next tree.
-> >
-> > I would like to repeat a question from the last round of review, though. Two
-> > changes were suggested related to API design, which I did not make because the
-> > APIs in question were already released in upstream Linux. However, the driver is
-> > also completely nonfunctional and hidden behind BROKEN, so would this be
-> > acceptable anyway? The changes in question are:
-> 
-> If it was impossible to use the driver, there is no regression.
-> I feel the entire point of marking it as broken was to be able
-> to add that type of change.
+vma_copy() function for !CONFIG_PER_VMA_LOCK configuration copies all
+fields using memcpy() as opposed to CONFIG_PER_VMA_LOCK version which
+copies only required fields. anon_vma_chain field should not be copied
+and new vma should instead initialize it to an empty list. Fix this
+by initializing anon_vma_chain inside vma_copy() function. The version
+of vma_copy() for CONFIG_PER_VMA_LOCK is fine since it does not change
+that field and anon_vma_chain of any new vma is already initialized and
+empty.
 
-Makes sense. [I figured that the BROKEN was just there to prevent anyone from trying to use a half-finished driver, and the point of committing a half-finished driver was just to reduce the number of patches that needed to be resent.]
+Fixes: 85ad413389ae ("mm: make vma cache SLAB_TYPESAFE_BY_RCU")
+Reported-by: kernel test robot <oliver.sang@intel.com>
+Closes: https://lore.kernel.org/oe-lkp/202412082208.db1fb2c9-lkp@intel.com
+Reported-by: Klara Modin <klarasmodin@gmail.com>
+Closes: https://lore.kernel.org/all/d0ae7609-aca4-4497-9188-bb09e96e7768@gmail.com/
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+Applies over mm-unstable
 
-I'll make these changes and resend.
+ kernel/fork.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> > * rename NTSYNC_IOC_SEM_POST to NTSYNC_IOC_SEM_RELEASE (matching the NT
-> >   terminology instead of POSIX),
-> 
-> No objections my me on either name.
-> 
-> > * change object creation ioctls to return the fds directly in the return value
-> >   instead of through the args struct. I would also still appreciate a
-> >   clarification on the advice in [1], which is why I didn't do this in the first
-> >   place.
-> >
-> >   [1] https://docs.kernel.org/driver-api/ioctl.html#return-code
-> 
-> The git log tells me that I have written that, but I don't remember
-> why I put that in, maybe someone else suggested it.
-> 
-> My feeling right now is that returning a file descriptor number
-> as a small positive integer from the ioctl() return code makes
-> sense. On the other hand, returning pointers, negative signed
-> integers or large (> 32bit) 'unsigned long' values can cause
-> a number of issues, so I would avoid all those the same way we
-> discourage passing those integers as a literal 'arg' into ioctl()
-> instead of going through a pointer.
+diff --git a/kernel/fork.c b/kernel/fork.c
+index fec32aa06135..d532f893e977 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -524,6 +524,7 @@ static void vma_copy(const struct vm_area_struct *src, struct vm_area_struct *de
+ 	 * will be reinitialized.
+ 	 */
+ 	data_race(memcpy(dest, src, sizeof(*dest)));
++	INIT_LIST_HEAD(&dest->anon_vma_chain);
+ }
+ 
+ #endif /* CONFIG_PER_VMA_LOCK */
 
-Ah, that makes sense to me, thanks.
-
+base-commit: 6e165f54437931f329d09dca6c19d99af08a36e1
+-- 
+2.47.0.338.g60cca15819-goog
 
