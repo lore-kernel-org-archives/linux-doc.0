@@ -1,259 +1,180 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3623B796
-	for <linux-doc@vger.kernel.org>; Mon,  9 Dec 2024 15:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820DA84D29
+	for <linux-doc@vger.kernel.org>; Mon,  9 Dec 2024 16:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733759186; cv=none; b=sMTadZxeNK5qKulEI+tWPZA0o0m6C1J5pOpSSzJdEABO94GnplFclXdfu2rtSkZyLqQFSZZFUp2x5UcVomBa86tYtTv8g2nx0ehNZvmvC4uY3iM69/FUHDNOSx8IaW/ffEVFBGcnfg17wItomVkhjH87mwwKfDHBEZUUYm24yaI=
+	t=1733760603; cv=none; b=P32QQthnkxDfCfXFcRrNpYIpmgl/lwug3qAPGBgRVaijIRqMkAL1jy5dYPRFrR2ZLEwp90DtmD1aoXoa+IFDIdbpoCS0RbMPL7HASYg5DFEg0vmSqtUlCCFiKu3Ueluix51rGXjPHdY8wpXqXV1QltNHOykprDTq09E1moo48KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733759186; c=relaxed/simple;
-	bh=16XQVuXrm7heIQNAWW8/FKiBbVn3H/SEfdz7ylWY++M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s0M6aqtDeFoSYdgH6mH/Z4UBI54SYwmJkDVOJaJ0+ORa4PO8Fcs6A90OxT5bLsUwl7loobrD2WUdORzJCu92hHGMvhIZ7F85b6HamMznDgw4sbs+//Hh1J+m1FM6OSABwIEOb6eUPbrIZVKxBI6h95D+9qJAsdWCZJELUxQHH2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HjSlsd20; arc=none smtp.client-ip=209.85.160.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733760603; c=relaxed/simple;
+	bh=Enyrrd0VzS1Y7cktywegGn5iQaSnLAshlm/tiYkUbJI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Sk2na2VW1t7ARlOTKMPKHD2Xzbv+tbaXEIL9KRevkRjTvHIww0iu+B9x2iyhU0WtzUVAWt1wHv5tpr+VLddbWxibYhY1rF/3eTcRwUti9XrmPDTk4buY5DIxR+Nzh+UfTGebK9y65OPVNrEdcwyKTnNxgdrnciyfHqeaRFJLe1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iCGI5T2c; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HjSlsd20"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-29ff039dab2so68346fac.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Dec 2024 07:46:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733759183; x=1734363983; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RIBoNya5F3528yu6D0VO0h8dLQcbx0JCMNsWGtDPRn4=;
-        b=HjSlsd20C0Uni+XXftGFoYZ7GTHPFsrSpssYUxqsNMOkr+aQ8pEl1N7+ZTWBTvGt8C
-         fALZU78dpyhN37zWJy9ywlKrfbjwremsCjhm2bhuo9R4lv4CH7So90Z4avNTayWyP7IG
-         fViEcrkAZ6FifjJIhTzK983ula4VTJ7/QwV0loF8ZVGCV0u3M9dx9JGY94/TwYjQS+iY
-         /hOgtRrYj4JbRFMepENIupeNQuoNWHJagvF+tjgGHKx3+v9/+lOIOxugwtPgYgURiGU2
-         87ooJMydry4gZmSDLwk9i/7JDXClKGrOTYQEvEHlBKPT+5GkxtQFLqxjXRaIZwMVGsMf
-         fCaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733759183; x=1734363983;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RIBoNya5F3528yu6D0VO0h8dLQcbx0JCMNsWGtDPRn4=;
-        b=k1I+ruEyVKJcaZDK87cBaQC8v2kmTcBGxNYNoQ3sPyKkBxa1M9SMumB/f9TkPtUNiL
-         pgcLINIe8LY51rHH3jAx4UNVwhBG5KMlrbjLVr1+rZDcKBkk/h2ApK2EWSmmvm5SdEbq
-         9a6UUS+RHcycJtr0bWzpcjDNKd+6JEGu2b4FXvPEI8puYgVQsYttaW9F1L8uAgifHm/4
-         MRhEVQdjBBnYXGijmKTsvjFoByFi6Rc3Lk+m4GiUkHuKFuJQzALRaktIxm8sl3EX3sJb
-         k3H6Yje52LIqGJjhjei1TzTenAYE//FE44xlf8QgdaWhwFOQJlJ2BU4F0Ka1K0qaoliV
-         dS7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVGwP2Ii991NgUNn8CI7ziJDpYnXsv6KHbRT2b1j9P/kCMAQhcARiP8nGKY4zdr9RH7pLfOmmdICf8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyXLJtIaOOvP6Y+/SHP7gEkrgj3NufJkQHRNFGJz8C1z/4zB+4
-	4JxoUzGsj2bzYuTqLCWy5MQln2ugNF1/L3la9OrEikZiWc/cK/bPRvY60AhX0+u5neu8Nn/+Myv
-	z6tyJK1ZiijNDLPSptcIUbem0Eyjemdb/a5SaIQ==
-X-Gm-Gg: ASbGncvDodaTbj8hZ0pZ1RZpwXum5U2BPQo9I7jXHOAwh+7C7d1CIeQ9u8Eh7RqZWeO
-	8BBdVHP8LlmcpPK/FSug6ECXzzhcf1hjB
-X-Google-Smtp-Source: AGHT+IF1o73cL/hkXkpDgTjpBseh1lIQoghf7scLZZsZtFEUASpgWKzjjo/5hEzx3ArXf5bTX7ur0fjawQEbNDCPoWE=
-X-Received: by 2002:a05:6870:ec8f:b0:29e:7f5b:b003 with SMTP id
- 586e51a60fabf-29fee606389mr567415fac.22.1733759183312; Mon, 09 Dec 2024
- 07:46:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iCGI5T2c"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=B2Z3OOMXxCJKWUkMY6pv9fAQaAW1uH4yMFgpK+RqsK0=; b=iCGI5T2cD5WCAFlA0seeVhQTey
+	s5/l5x5+XUAc+G4JkNActOPHiVhkimIm7bmM7BrK+CDsv9sRidtumfRWa1aUGGxTWCxY2+VoUnZC/
+	IX5tIsHH/KrYYcqmq49CnQ3V/BN0U6iKkM8Fc0MNfQV0QIDa6qE0AVQo19ujpWcy8GRprrLPpHEm9
+	Oj00+Uv6x0dPUt3bRJ2u8o1QS2i0yvjvZCv//k8abDT4hP3LKc1B5Zh+CscTkMNADRx0x1Yj9w3+Z
+	/Yuqlx9Q6AERmzfxeaXuw0kogGNuWQNG3Q0snSbWt3bnSxeRp86Hf2ktqWEeEHaagjc9+VBmHbI3X
+	4piCRtFg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tKgKc-00000003BCk-1Ys8;
+	Mon, 09 Dec 2024 16:09:58 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	linux-doc@vger.kernel.org,
+	Corey Minyard <minyard@acm.org>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH] kref: Improve documentation
+Date: Mon,  9 Dec 2024 16:09:44 +0000
+Message-ID: <20241209160953.757673-1-willy@infradead.org>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
- <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-2-f502ef01e016@quicinc.com>
-In-Reply-To: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-2-f502ef01e016@quicinc.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Mon, 9 Dec 2024 16:46:11 +0100
-Message-ID: <CAHUa44GxY=nZP9O6XpO-nRKJ_wUnK66h-QEnFPJ9myFGydBZYw@mail.gmail.com>
-Subject: Re: [PATCH 02/10] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF
-To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-Cc: Sumit Garg <sumit.garg@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, linux-arm-msm@vger.kernel.org, 
-	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Amirreza,
+There is already kernel-doc written for many of the functions in kref.h
+but it's not linked into the html docs anywhere.  Add it to kref.rst.
 
-On Tue, Dec 3, 2024 at 5:20=E2=80=AFAM Amirreza Zarrabi
-<quic_azarrabi@quicinc.com> wrote:
->
-> For drivers that can transfer data to the TEE without needing shared
-> memory from client, it is necessary to receive the user address
-> directly, bypassing any processing by the TEE subsystem. Introduce
-> TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INPUT/OUTPUT/INOUT to represent
-> userspace buffers.
+Improve the kref documentation by using the standard Return: section,
+rewording some unclear verbiage and adding docs for some undocumented
+functions.
 
-Internally you allocate a bounce buffer from the pool of shared memory
-and copy the content of the user space buffer into that.
-Wouldn't it be fair to replace "without needing shared memory" with
-"without using shared memory"?
+Update Thomas' email address to his current one.
 
->
-> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-> ---
->  drivers/tee/tee_core.c   | 26 ++++++++++++++++++++++++++
->  include/linux/tee_drv.h  |  6 ++++++
->  include/uapi/linux/tee.h | 22 ++++++++++++++++------
->  3 files changed, 48 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> index 24edce4cdbaa..942ff5b359b2 100644
-> --- a/drivers/tee/tee_core.c
-> +++ b/drivers/tee/tee_core.c
-> @@ -381,6 +381,16 @@ static int params_from_user(struct tee_context *ctx,=
- struct tee_param *params,
->                         params[n].u.value.b =3D ip.b;
->                         params[n].u.value.c =3D ip.c;
->                         break;
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_OUTPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT:
-> +                       params[n].u.membuf.uaddr =3D u64_to_user_ptr(ip.a=
-);
-> +                       params[n].u.membuf.size =3D ip.b;
-> +
-> +                       if (!access_ok(params[n].u.membuf.uaddr, params[n=
-].u.membuf.size))
-> +                               return -EFAULT;
-> +
-> +                       break;
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> @@ -449,6 +459,11 @@ static int params_to_user(struct tee_ioctl_param __u=
-ser *uparams,
->                             put_user(p->u.value.c, &up->c))
->                                 return -EFAULT;
->                         break;
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_OUTPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT:
-> +                       if (put_user((u64)p->u.membuf.size, &up->b))
-> +                               return -EFAULT;
-> +                       break;
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
->                         if (put_user((u64)p->u.memref.size, &up->b))
-> @@ -649,6 +664,12 @@ static int params_to_supp(struct tee_context *ctx,
->                         ip.b =3D p->u.value.b;
->                         ip.c =3D p->u.value.c;
->                         break;
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT:
-> +                       ip.a =3D (u64)p->u.membuf.uaddr;
-> +                       ip.b =3D p->u.membuf.size;
-> +                       ip.c =3D 0;
-> +                       break;
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> @@ -751,6 +772,11 @@ static int params_from_supp(struct tee_param *params=
-, size_t num_params,
->                         p->u.value.b =3D ip.b;
->                         p->u.value.c =3D ip.c;
->                         break;
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_OUTPUT:
-> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT:
-> +                       p->u.membuf.uaddr =3D u64_to_user_ptr(ip.a);
-> +                       p->u.membuf.size =3D ip.b;
-> +                       break;
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
->                         /*
-> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> index a54c203000ed..b66e611fece4 100644
-> --- a/include/linux/tee_drv.h
-> +++ b/include/linux/tee_drv.h
-> @@ -82,6 +82,11 @@ struct tee_param_memref {
->         struct tee_shm *shm;
->  };
->
-> +struct tee_param_membuf {
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ Documentation/core-api/kref.rst |  7 ++++-
+ include/linux/kref.h            | 48 +++++++++++++++++++++++----------
+ 2 files changed, 40 insertions(+), 15 deletions(-)
 
-I would prefer tee_param_ubuf to better describe what it is.
+diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
+index c61eea6f1bf2..8db9ff03d952 100644
+--- a/Documentation/core-api/kref.rst
++++ b/Documentation/core-api/kref.rst
+@@ -3,7 +3,7 @@ Adding reference counters (krefs) to kernel objects
+ ===================================================
+ 
+ :Author: Corey Minyard <minyard@acm.org>
+-:Author: Thomas Hellstrom <thellstrom@vmware.com>
++:Author: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+ 
+ A lot of this was lifted from Greg Kroah-Hartman's 2004 OLS paper and
+ presentation on krefs, which can be found at:
+@@ -321,3 +321,8 @@ rcu grace period after release_entry_rcu was called. That can be accomplished
+ by using kfree_rcu(entry, rhead) as done above, or by calling synchronize_rcu()
+ before using kfree, but note that synchronize_rcu() may sleep for a
+ substantial amount of time.
++
++Functions and structures
++========================
++
++.. kernel-doc:: include/linux/kref.h
+diff --git a/include/linux/kref.h b/include/linux/kref.h
+index d32e21a2538c..88e82ab1367c 100644
+--- a/include/linux/kref.h
++++ b/include/linux/kref.h
+@@ -46,18 +46,18 @@ static inline void kref_get(struct kref *kref)
+ }
+ 
+ /**
+- * kref_put - decrement refcount for object.
+- * @kref: object.
+- * @release: pointer to the function that will clean up the object when the
++ * kref_put - Decrement refcount for object
++ * @kref: Object
++ * @release: Pointer to the function that will clean up the object when the
+  *	     last reference to the object is released.
+- *	     This pointer is required, and it is not acceptable to pass kfree
+- *	     in as this function.
+  *
+- * Decrement the refcount, and if 0, call release().
+- * Return 1 if the object was removed, otherwise return 0.  Beware, if this
+- * function returns 0, you still can not count on the kref from remaining in
+- * memory.  Only use the return value if you want to see if the kref is now
+- * gone, not present.
++ * Decrement the refcount, and if 0, call @release.  The caller may not
++ * pass NULL or kfree() as the release function.
++ *
++ * Return: 1 if this call removed the object, otherwise return 0.  Beware,
++ * if this function returns 0, another caller may have removed the object
++ * by the time this function returns.  The return value is only certain
++ * if you want to see if the object is definitely released.
+  */
+ static inline int kref_put(struct kref *kref, void (*release)(struct kref *kref))
+ {
+@@ -68,17 +68,37 @@ static inline int kref_put(struct kref *kref, void (*release)(struct kref *kref)
+ 	return 0;
+ }
+ 
++/**
++ * kref_put_mutex - Decrement refcount for object
++ * @kref: Object
++ * @release: Pointer to the function that will clean up the object when the
++ *	     last reference to the object is released.
++ * @mutex: Mutex which protects the release function.
++ *
++ * This variant of kref_lock() calls the @release function with the @mutex
++ * held.  The @release function will release the mutex.
++ */
+ static inline int kref_put_mutex(struct kref *kref,
+ 				 void (*release)(struct kref *kref),
+-				 struct mutex *lock)
++				 struct mutex *mutex)
+ {
+-	if (refcount_dec_and_mutex_lock(&kref->refcount, lock)) {
++	if (refcount_dec_and_mutex_lock(&kref->refcount, mutex)) {
+ 		release(kref);
+ 		return 1;
+ 	}
+ 	return 0;
+ }
+ 
++/**
++ * kref_put_lock - Decrement refcount for object
++ * @kref: Object
++ * @release: Pointer to the function that will clean up the object when the
++ *	     last reference to the object is released.
++ * @lock: Spinlock which protects the release function.
++ *
++ * This variant of kref_lock() calls the @release function with the @lock
++ * held.  The @release function will release the lock.
++ */
+ static inline int kref_put_lock(struct kref *kref,
+ 				void (*release)(struct kref *kref),
+ 				spinlock_t *lock)
+@@ -94,8 +114,6 @@ static inline int kref_put_lock(struct kref *kref,
+  * kref_get_unless_zero - Increment refcount for object unless it is zero.
+  * @kref: object.
+  *
+- * Return non-zero if the increment succeeded. Otherwise return 0.
+- *
+  * This function is intended to simplify locking around refcounting for
+  * objects that can be looked up from a lookup structure, and which are
+  * removed from that lookup structure in the object destructor.
+@@ -105,6 +123,8 @@ static inline int kref_put_lock(struct kref *kref,
+  * With a lookup followed by a kref_get_unless_zero *with return value check*
+  * locking in the kref_put path can be deferred to the actual removal from
+  * the lookup structure and RCU lookups become trivial.
++ *
++ * Return: non-zero if the increment succeeded. Otherwise return 0.
+  */
+ static inline int __must_check kref_get_unless_zero(struct kref *kref)
+ {
+-- 
+2.45.2
 
-> +       void * __user uaddr;
-> +       size_t size;
-> +};
-> +
->  struct tee_param_value {
->         u64 a;
->         u64 b;
-> @@ -92,6 +97,7 @@ struct tee_param {
->         u64 attr;
->         union {
->                 struct tee_param_memref memref;
-> +               struct tee_param_membuf membuf;
->                 struct tee_param_value value;
->         } u;
->  };
-> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> index d0430bee8292..fae68386968a 100644
-> --- a/include/uapi/linux/tee.h
-> +++ b/include/uapi/linux/tee.h
-> @@ -151,6 +151,13 @@ struct tee_ioctl_buf_data {
->  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT        6
->  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT 7       /* input and outp=
-ut */
->
-> +/*
-> + * These defines memory buffer parameters.
-
-user space buffer
-
-> + */
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INPUT 8
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_OUTPUT        9
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT 10      /* input and outp=
-ut */
-
-TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_*
-
-> +
->  /*
->   * Mask for the type part of the attribute, leaves room for more types
->   */
-> @@ -186,14 +193,17 @@ struct tee_ioctl_buf_data {
->  /**
->   * struct tee_ioctl_param - parameter
->   * @attr: attributes
-> - * @a: if a memref, offset into the shared memory object, else a value p=
-arameter
-> - * @b: if a memref, size of the buffer, else a value parameter
-> + * @a: if a memref, offset into the shared memory object,
-> + *     else if a membuf, address into the user buffer,
-> + *     else a value parameter
-> + * @b: if a memref or membuf, size of the buffer, else a value parameter
->   * @c: if a memref, shared memory identifier, else a value parameter
->   *
-> - * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref or value is used=
- in
-> - * the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value and
-> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref. TEE_PARAM_ATTR_TYPE_NO=
-NE
-> - * indicates that none of the members are used.
-> + * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, membuf, or valu=
-e is
-> + * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
-> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYP=
-E_MEMBUF_*
-> + * indicates membuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the=
- members
-> + * are used.
->   *
->   * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
->   * identifier representing the shared memory object. A memref can refere=
-nce
-
-Please update the comment above with UBUF and ubuf as needed.
-
-Cheers,
-Jens
-
->
-> --
-> 2.34.1
->
