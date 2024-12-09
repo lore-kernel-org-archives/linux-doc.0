@@ -1,92 +1,86 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308C21917F1;
-	Sun,  8 Dec 2024 20:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1298BBE6C
+	for <linux-doc@vger.kernel.org>; Mon,  9 Dec 2024 01:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733689341; cv=none; b=FiHjzbk3/UjKlVK848FDhoA8RpiO2hxzwsP/VttqFPFmOTrmqPU08NQmbtgNBlROWkvMK8BGZKLNME3rbMv/zvvqwMe+x+XULSAJOqK3IuRQCw0Q6L/0dPAJbaZws9CTkSJCXCpKVt17V1axO4DAjkcDH7AV/HGh4XwLY9LXd9M=
+	t=1733708067; cv=none; b=q96gc/uzU4VML9n6GeipyTDloDWhjnlZdXprOwF573faKIPXqsUCRDiarMzIQUbBVrDL/97BazfWnYhhZfCvKNfNjOQTn5eZTblJ1bp08SH4nuhNDKCvuummy7UTrmqRoChIeWiyQ5cYmUgVvxRL84Bl9K7txr9MRUNef1e+8v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733689341; c=relaxed/simple;
-	bh=XEYRwMnet+r825nSM/cLYqyePethGAWl739j+BAGgIo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dSdibDMCO0C47hV8pWsZuaEia0IKwTCqm44dvg6V9bi/Xnp3XMc9EdESbxIX8W+ckcaulw7AH7wPaOCIFfMkhq4VUggyY6GXesK6cRQupIq458B8r+WBctjnTqD93GweTeh2CW3p0W0OrG2OCz6gUSpl6St/l8l6kmGo/ES1+y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sML6Jew3; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KOKJxPpr; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1733708067; c=relaxed/simple;
+	bh=sMRDgYoHnhfuVYq3deZ3g/KRUqJRTzlbsPka6maG+q4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L3hGaeQswVwVBJDfcB6bHlV1m80YZ2oeipIahc73qTGRmbhzpvWg1FaFLVCZI0KpdAClYDlddb1OnxXbYcJMcnXySTGxOlerFTWq2iXxWtjHFOzi2RinE26h3iZW7S9BiPqbLtOGqnzmDRjHemJhL1O641aMZ9aZiY8PUaiBZAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=R2YhPzZ9; arc=none smtp.client-ip=115.124.30.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sML6Jew3";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KOKJxPpr"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1733689337;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GEwHm4RjPwsEsy6MSACHhlpzhxhayGl7iXcDVkZS/vE=;
-	b=sML6Jew3YPmWDyO5lPXBHfu9LLs2SsTjquepGfC1DIlh4w5wlQ5W77HhcxKH8aI35yiKNU
-	jl5eL38zYn/WhmPYLgTPru3vHpJrs8kn4pEDjOm1HnEwu5S21eOIHisI7e9oMtOjt1objP
-	5j9ImyS2yDpdZVjpa6iC2cwErM6uIxcKN7rBymqbBIMeadkg9rS2EWtE7E3kvNJZ7wkUGB
-	easKIie2nb5MfVzdamJ7KyyBmXc/6I6F+vGr1zWQaTvlG5UaHrVhT18VsICAChemfUPgOa
-	qQM6WNG7ZzvcTMAlmG+TBOvbRA4I8V4E/Wu7A8mW1XPA2damcN1aFkdtqys+MQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1733689337;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GEwHm4RjPwsEsy6MSACHhlpzhxhayGl7iXcDVkZS/vE=;
-	b=KOKJxPprxJ2zqEcww/Hvti+UJDiBwwUMD7UOkYPp4oJB9yIVw+4yOjp5zLUxqVPSOVUvFB
-	5LMz6zhJ+huB3rCQ==
-To: Huacai Chen <chenhuacai@kernel.org>, Tianyang Zhang
- <zhangtianyang@loongson.cn>
-Cc: kernel@xen0n.name, loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] irqchip/loongarch-avec:Add multi-nodes topology support
-In-Reply-To: <CAAhV-H4VAyD+=Btt9S6HrN6-sVQJqe1_jeLPS13UR1kxXJ8S5w@mail.gmail.com>
-References: <20241207033146.20938-1-zhangtianyang@loongson.cn>
- <CAAhV-H4VAyD+=Btt9S6HrN6-sVQJqe1_jeLPS13UR1kxXJ8S5w@mail.gmail.com>
-Date: Sun, 08 Dec 2024 21:22:16 +0100
-Message-ID: <8734iyq613.ffs@tglx>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="R2YhPzZ9"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1733708056; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=/6H8UYBpi3RLqB/YI5BIcxsaeHvSJOKb+bemUYC8zXQ=;
+	b=R2YhPzZ9cC7hXDQpb9u4r92h/uNvSYlztCblNFy34MZgZD0QLwbJbSgfy6FowlIly+XWoeT4BnpAsvclkyi+NLp6YWucELFHDaizXTz6UkzHLRGn6I19thWcjK3pvsvtiglljPUh9gkdze3q3+AtMnCl+7doe75pgDfjVlWF96w=
+Received: from 30.178.82.25(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WL1R4D7_1733708054 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 09 Dec 2024 09:34:15 +0800
+Message-ID: <72dc2f3a-3c90-44f1-b497-2f60bde06f96@linux.alibaba.com>
+Date: Mon, 9 Dec 2024 09:34:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH separete v2] docs, nvme: introduce nvme-multipath document
+To: Jonathan Corbet <corbet@lwn.net>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org
+References: <20241206072507.37818-1-kanie@linux.alibaba.com>
+ <87frn0vpn1.fsf@trenco.lwn.net>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <87frn0vpn1.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, Dec 07 2024 at 17:11, Huacai Chen wrote:
-> On Sat, Dec 7, 2024 at 11:31=E2=80=AFAM Tianyang Zhang
-> <zhangtianyang@loongson.cn> wrote:
->>
->> This patch enables the advanced interrupt controller function under
->> multiple-node of 3C600. The topology of the advanced interrupt controller
->> is consistent with NUMA node. We check the enable status of the node whe=
-re
->> each CPU is located once when it goes online, which may cause some
->> additional operations, but it can ensure that the advanced interrupt
->> controller can still be used in situations where some CPUs cannot start
-> The whole can be reworded:
+
+在 2024/12/6 22:42, Jonathan Corbet 写道:
+> Guixin Liu <kanie@linux.alibaba.com> writes:
 >
-> Currently we only enable one chip's advanced interrupt controller
-> (AVEC) in hardware, so multi-chip machines with Loongson-3C6000 don't
-> work. This patch enables it for every chip (In theory every chip needs
-> to be enabled only once, but for simplicity we enable it on every core
-> in the CPU online hooks).
+>> This adds a document about nvme-multipath and policies supported
+>> by the Linux NVMe host driver, and also each policy's best scenario.
+>>
+>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>> ---
+>> Hi,
+>>    We found that we should take care of the throughput of each path in
+>> service-time policy, so separate the doc patch. And continue working
+>> on service-time policy patch.
+>>
+>> Changes from v1 to v2:
+>> - Remove service-tome policy.
+>>
+>>   Documentation/nvme/nvme-multipath.rst | 72 +++++++++++++++++++++++++++
+>>   1 file changed, 72 insertions(+)
+>>   create mode 100644 Documentation/nvme/nvme-multipath.rst
+> Thanks for working to improve our documentation.
+>
+> When you add a new file, you need to add it to the relevant index.rst
+> file as well; if you had run a docs build, you would have seen a warning
+> about this.
+>
+> I would also suggest that this material perhaps belongs in the admin
+> guide rather than in its own directory?
+>
+> Thanks,
+>
+> jon
 
-It want's to be reworded without 'we' and 'this patch':
+Thanks, I dont know how documentation works, my bad, changed in v3.
 
-  avecintc_init() enables the Advanced Interrupt Controller (AVEC) of
-  the boot CPU node, but nothing enables the AVEC on secondary nodes.
+Best Regards,
 
-  Move the enablement to the CPU hotplug callback so that secondary
-  nodes get the AVEC enabled too. In theory enabling it once per node
-  would be sufficient, but redundant enabling does no hard, so keep the
-  code simple and do it unconditionally.
+Guixin Liu
 
-Thanks,
-
-        tglx
