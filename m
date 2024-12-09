@@ -1,159 +1,105 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F0E215049
-	for <linux-doc@vger.kernel.org>; Mon,  9 Dec 2024 07:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1311754918;
+	Mon,  9 Dec 2024 08:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733728307; cv=none; b=Ry9uIRQiM+BJAxzvxkLTgKetUwovAC0WPu1nzlm+nkO/LrYICKqkpr1BCbMnrUCw4CfbHXPKBS4gL40h3r5+NopixgD2vucUYKWeq9/w61psOxEtUxNIv1CbGOcf873zrTobwyhw8AReWuqvQlFwJQnkv+YUakRq51rpSvSO7wU=
+	t=1733732155; cv=none; b=rpv2VfFzdD5fjKMJdbkmYUf+DomiLhV97DzDl6AKxCOc2ZIf/DudQvto7e+PzlLP4UiWsf342tI2I1/RUA0G3RSevfm/FtNiFG269qLC9RZfg5aT2i+aLSADjVhRvvljRn5BZFWqL+1P8d+ClaW+2kLSjVeSbQS5q2m8IqWJIKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733728307; c=relaxed/simple;
-	bh=V1dnu3IPjsvZOLGM2jd06yII+sHwAFLEXtmMy7DPBdE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HG+hFpjFFxNZccMyUQB7WHXfUpe1WgjrBY8OpSSNFsOz8O0HPKMhxEDD0N2xxwazCqHZ6XnNhcGMAm3eN+Y64upJDG1K9QwQM5V7brznLN0aYaQ6Ssirge+bUJBGJ+/gbswQxJydIRnk4Tm0/NVVz1XbL1fcYa5fkb7JjHyIPD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=wuPt60LF; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1733732155; c=relaxed/simple;
+	bh=OcV2xYxRXTCXMuX1ekCAw7NyTEEuqu99/Vs5cwe1gBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bIkV0e7LPdqnSyREiy0yR7tDUH4Z9JoxO5VdknOfHbvI/1DadkBMEdCoWNE0uiWsJBy4VAFqqPszv1NzaxsmdWR4FAjnWdk/L4noIHBpv7smMw9Gc4vMPRWwBoWU6pYUmB1Dx9rTBecUbf16ZG+00uov1hY5tUPe7q0ted4FEBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jjmr385a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="wuPt60LF"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1733728295; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=jKKx6zvLfG9PFusl2jYrYAgVeuc73Za0yVj7m1K0F+I=;
-	b=wuPt60LF/GiVlvyGV8lHsfkvMDXx5bVfPN+M3BkS/lgNOXLJG6Az780oY0kKKsI4kb12AEJqRFy83TOwNuGus/dCA5Bed/7LBUEdUbBojX+wUo9rRl6QqrGzAOwxaEamsGZ0nRtnhSbH5uS7gPphznIM3beRAihgfsP3+q4WyHo=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WL3sk2u_1733728287 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 09 Dec 2024 15:11:34 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH separate v3] docs, nvme: introduce nvme-multipath document
-Date: Mon,  9 Dec 2024 15:11:27 +0800
-Message-ID: <20241209071127.22922-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jjmr385a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13641C4CED1;
+	Mon,  9 Dec 2024 08:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733732154;
+	bh=OcV2xYxRXTCXMuX1ekCAw7NyTEEuqu99/Vs5cwe1gBs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Jjmr385a0JB0QLKCV/1CcCyNl02f9Avzzglhdh2HISXHY4xizV709sTTiHPmzBjlE
+	 8lKa0lPqozeC8liJOK4qXeE5HDqpENxW0BywmqYb3uVQ9wHtTonD8aIo1y/fj+7elZ
+	 wjFl4XcD97VFB8M4GcoC38L4I+VLPMLYnsB7ikDpVqnMqi4MrvhQbVC0TurwWpG4L0
+	 eSkiC+wg23NIEzgtYC6687X2pb6HWADK7NZcLHHaM7llgO6gkpxDUU9IzIxnhKIPwR
+	 p1oidmBeylmrWGzgN6ibcqc6v4J6nw3o+FsYNdHHAxJtmB1m/rghR9DRFceHSEnraL
+	 6B+BzFaNG3grg==
+Date: Mon, 9 Dec 2024 09:15:48 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Media committers model postponed to 6.14 - Was: Re: [PATCH v3 0/3]
+ Document the new media-committer's model
+Message-ID: <20241209091548.165e5152@foz.lan>
+In-Reply-To: <20241203140712.57daa65f@foz.lan>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+	<b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+	<20241203081958.6c186835@foz.lan>
+	<20241203112209.GR10736@pendragon.ideasonboard.com>
+	<20241203140712.57daa65f@foz.lan>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This adds a document about nvme-multipath and policies supported
-by the Linux NVMe host driver, and also each policy's best scenario.
+Em Tue, 3 Dec 2024 14:07:12 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
-Hi,
-  We found that we should take care of the throughput of each path in
-service-time policy, so separate the doc patch. And continue working
-on service-time policy patch.
+> 
+> The idea is to gradually open media-committers to more people, as each
+> phase succeeds, addressing infra, procedures, etc.
+> 
+> My rough idea is to do:
+> 
+> - Phase 0.99: beta testers;
+> - Phase 1 is to invite people that regularly submit PRs;
+> - Phase 2 is to invite other active maintainers;
+> - Phase 3 (or 2?, TBD) to open for non-maintainers.
+> 
+> We shouldn't rush it, as there are a lot to be done before opening it
+> broadly. So, I would say that:
+> - phase 0.99 would start in -rc2 (if things go well during this week); 
+> - phase 1 may still happen on this merge window, but as there will be
+>   only a few weeks between -rc2 and -rc6, and people usually get
+>   holidays in Dec/Jan, it is more likely that it will start for
+>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
+> 
+>   We should wait at least for a couple of releases on phase 1,
+>   again to cleanup process and fine-tune infra. If things go well, 
+>   we can move to phase 2.
 
-Changes from v2 to v3:
-- Move this new rst file to admin-guide dir, and add it to index.rst(Jonathan).
+After some discussions with Hans, we decided to postpone the
+beta testers phase to the next kernel cycle. There are a couple of
+reasons for that:
 
-Changes from v1 to v2:
-- Remove service-tome policy.
+- This should give us more time to come up with a final version of 
+  the media-committers documentation and agreement;
 
- Documentation/admin-guide/index.rst          |  1 +
- Documentation/admin-guide/nvme-multipath.rst | 72 ++++++++++++++++++++
- 2 files changed, 73 insertions(+)
- create mode 100644 Documentation/admin-guide/nvme-multipath.rst
+- This would also work better with regards to end of year's vacations,
+  as they'll be affecting at least 2/3 -rc versions. Plus, we all have
+  things to finish before such vacations. So, better to start fresh next
+  year;
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index e85b1adf5908..15a522a96e76 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -136,6 +136,7 @@ configure specific aspects of kernel behavior to your liking.
-    vga-softcursor
-    video-output
-    xfs
-+   nvme-multipath
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/admin-guide/nvme-multipath.rst b/Documentation/admin-guide/nvme-multipath.rst
-new file mode 100644
-index 000000000000..97ca1ccef459
---- /dev/null
-+++ b/Documentation/admin-guide/nvme-multipath.rst
-@@ -0,0 +1,72 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+Linux NVMe multipath
-+====================
-+
-+This document describes NVMe multipath and its path selection policies supported
-+by the Linux NVMe host driver.
-+
-+
-+Introduction
-+============
-+
-+The NVMe multipath feature in Linux integrates namespaces with the same
-+identifier into a single block device. Using multipath enhances the reliability
-+and stability of I/O access while improving bandwidth performance. When a user
-+sends I/O to this merged block device, the multipath mechanism selects one of
-+the underlying block devices (paths) according to the configured policy.
-+Different policies result in different path selections.
-+
-+
-+Policies
-+========
-+
-+All policies follow the ANA (Asymmetric Namespace Access) mechanism, meaning
-+that when an optimized path is available, it will be chosen over a non-optimized
-+one. Current the NVMe multipath policies include numa(default), round-robin and
-+queue-depth.
-+
-+To set the desired policy (e.g., round-robin), use one of the following methods:
-+   1. echo -n "round-robin" > /sys/module/nvme_core/parameters/iopolicy
-+   2. or add the "nvme_core.iopolicy=round-robin" to cmdline.
-+
-+
-+NUMA
-+----
-+
-+The NUMA policy selects the path closest to the NUMA node of the current CPU for
-+I/O distribution. This policy maintains the nearest paths to each NUMA node
-+based on network interface connections.
-+
-+When to use the NUMA policy:
-+  1. Multi-core Systems: Optimizes memory access in multi-core and
-+     multi-processor systems, especially under NUMA architecture.
-+  2. High Affinity Workloads: Binds I/O processing to the CPU to reduce
-+     communication and data transfer delays across nodes.
-+
-+
-+Round-Robin
-+-----------
-+
-+The round-robin policy distributes I/O requests evenly across all paths to
-+enhance throughput and resource utilization. Each I/O operation is sent to the
-+next path in sequence.
-+
-+When to use the round-robin policy:
-+  1. Balanced Workloads: Effective for balanced and predictable workloads with
-+     similar I/O size and type.
-+  2. Homogeneous Path Performance: Utilizes all paths efficiently when
-+     performance characteristics (e.g., latency, bandwidth) are similar.
-+
-+
-+Queue-Depth
-+-----------
-+
-+The queue-depth policy manages I/O requests based on the current queue depth
-+of each path, selecting the path with the least number of in-flight I/Os.
-+
-+When to use the queue-depth policy:
-+  1. High load with small I/Os: Effectively balances load across paths when
-+     the load is high, and I/O operations consist of small, relatively
-+     fixed-sized requests.
--- 
-2.43.0
+- Media CI still had issues with a patch series I submitted, as it picked
+  the wrong baseline, causing CI to not test two patches that were
+  applied on the top of media-committers/next branch. This was fixed
+  by Ricardo, but it means that we may still need to polish CI before
+  granting more people righs there.
 
+With that, if we want to start the media committers for 6.14, we should
+aim to close review this document by -rc6, or, at most, -rc7, getting 
+the patches merged during the next merge window.
+
+Regard
+
+Thanks,
+Mauro
