@@ -1,180 +1,129 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820DA84D29
-	for <linux-doc@vger.kernel.org>; Mon,  9 Dec 2024 16:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4F114AD24;
+	Mon,  9 Dec 2024 16:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733760603; cv=none; b=P32QQthnkxDfCfXFcRrNpYIpmgl/lwug3qAPGBgRVaijIRqMkAL1jy5dYPRFrR2ZLEwp90DtmD1aoXoa+IFDIdbpoCS0RbMPL7HASYg5DFEg0vmSqtUlCCFiKu3Ueluix51rGXjPHdY8wpXqXV1QltNHOykprDTq09E1moo48KA=
+	t=1733761235; cv=none; b=YUCNEGLb/+3utIn7mBjr1tp5ogse96vRw/f6hPNs/Z/L+46PqbhCpH251fkhbyb+ESyz4rMeUxR9VXn2r81AXNGLU/ltYB5MDsXBEK2KrfDxm5UH8HQnSkMlfbfIqQdtfcBtFg5b9/qNCjtktErQEqSXC2aFotSdgeMf71Htrfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733760603; c=relaxed/simple;
-	bh=Enyrrd0VzS1Y7cktywegGn5iQaSnLAshlm/tiYkUbJI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Sk2na2VW1t7ARlOTKMPKHD2Xzbv+tbaXEIL9KRevkRjTvHIww0iu+B9x2iyhU0WtzUVAWt1wHv5tpr+VLddbWxibYhY1rF/3eTcRwUti9XrmPDTk4buY5DIxR+Nzh+UfTGebK9y65OPVNrEdcwyKTnNxgdrnciyfHqeaRFJLe1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iCGI5T2c; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1733761235; c=relaxed/simple;
+	bh=A0khTX962w4Lj2UZnP6iKvULYKO5dZNtoX7UeansjzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=twpdzAU6KcleW6r1U8rAi5ZpFg/0qFXiAjyD2xtCVXUfvgKG0706WnQfD0/1ywpsD5pjrRlP3QjZ+Eb7LoWczszYNbhMBYnRbQXpjPxammDrVJobwulR6hfzz5HNy77vSgzWjGjd4JJjblD3NX98dmGaIQU6cHfEE+CL+uYLmVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uK+HxU+7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iCGI5T2c"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=B2Z3OOMXxCJKWUkMY6pv9fAQaAW1uH4yMFgpK+RqsK0=; b=iCGI5T2cD5WCAFlA0seeVhQTey
-	s5/l5x5+XUAc+G4JkNActOPHiVhkimIm7bmM7BrK+CDsv9sRidtumfRWa1aUGGxTWCxY2+VoUnZC/
-	IX5tIsHH/KrYYcqmq49CnQ3V/BN0U6iKkM8Fc0MNfQV0QIDa6qE0AVQo19ujpWcy8GRprrLPpHEm9
-	Oj00+Uv6x0dPUt3bRJ2u8o1QS2i0yvjvZCv//k8abDT4hP3LKc1B5Zh+CscTkMNADRx0x1Yj9w3+Z
-	/Yuqlx9Q6AERmzfxeaXuw0kogGNuWQNG3Q0snSbWt3bnSxeRp86Hf2ktqWEeEHaagjc9+VBmHbI3X
-	4piCRtFg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKgKc-00000003BCk-1Ys8;
-	Mon, 09 Dec 2024 16:09:58 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-doc@vger.kernel.org,
-	Corey Minyard <minyard@acm.org>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH] kref: Improve documentation
-Date: Mon,  9 Dec 2024 16:09:44 +0000
-Message-ID: <20241209160953.757673-1-willy@infradead.org>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uK+HxU+7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0C7FC4CEDE;
+	Mon,  9 Dec 2024 16:20:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733761235;
+	bh=A0khTX962w4Lj2UZnP6iKvULYKO5dZNtoX7UeansjzE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uK+HxU+7UrafZWQAtX1yFKqLzr3GhtOoQ/I9qjhOXe6jTLtmtJJG3KeIfN+pCl52V
+	 SuXy7P2d/WL1Ss8nzRAEHSimrk2PUmzwp7X26037XpdcMPYvmkYnE+sHgTIZsKrUK4
+	 U9WyfTktZYBoew26+tTqWCm5l9AYXYCGHqzGRRGKntCtlMy3M+waCF9Y3y9LNbokf/
+	 q6mQufLiMJrwhcZwa6S/tanQ6e/8jGJvZ54xMfKyei1YgNOLdvanuL4NyminJoySiF
+	 InqCHHwsyavoTXPiTXjGvEClQPvgvlbr9uJ6SsQ+FWCXJ6saHAT+Aavv2twnJoGIbv
+	 t9dq4WzA85JYg==
+Date: Mon, 9 Dec 2024 16:20:29 +0000
+From: Will Deacon <will@kernel.org>
+To: Yabin Cui <yabinc@google.com>
+Cc: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
+Message-ID: <20241209162028.GD12428@willie-the-truck>
+References: <20241118222540.27495-1-yabinc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241118222540.27495-1-yabinc@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-There is already kernel-doc written for many of the functions in kref.h
-but it's not linked into the html docs anywhere.  Add it to kref.rst.
+On Mon, Nov 18, 2024 at 02:25:40PM -0800, Yabin Cui wrote:
+> Select ARCH_SUPPORTS_AUTOFDO_CLANG to allow AUTOFDO_CLANG to be
+> selected.
+> 
+> On ARM64, ETM traces can be recorded and converted to AutoFDO profiles.
+> Experiments on Android show 4% improvement in cold app startup time
+> and 13% improvement in binder benchmarks.
+> 
+> Signed-off-by: Yabin Cui <yabinc@google.com>
+> ---
+> 
+> Change-Logs in V2:
+> 
+> 1. Use "For ARM platforms with ETM trace" in autofdo.rst.
+> 2. Create an issue and a change to use extbinary format in instructions:
+>    https://github.com/Linaro/OpenCSD/issues/65
+>    https://android-review.googlesource.com/c/platform/system/extras/+/3362107
+> 
+>  Documentation/dev-tools/autofdo.rst | 18 +++++++++++++++++-
+>  arch/arm64/Kconfig                  |  1 +
+>  2 files changed, 18 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/dev-tools/autofdo.rst b/Documentation/dev-tools/autofdo.rst
+> index 1f0a451e9ccd..a890e84a2fdd 100644
+> --- a/Documentation/dev-tools/autofdo.rst
+> +++ b/Documentation/dev-tools/autofdo.rst
+> @@ -55,7 +55,7 @@ process consists of the following steps:
+>     workload to gather execution frequency data. This data is
+>     collected using hardware sampling, via perf. AutoFDO is most
+>     effective on platforms supporting advanced PMU features like
+> -   LBR on Intel machines.
+> +   LBR on Intel machines, ETM traces on ARM machines.
+>  
+>  #. AutoFDO profile generation: Perf output file is converted to
+>     the AutoFDO profile via offline tools.
+> @@ -141,6 +141,22 @@ Here is an example workflow for AutoFDO kernel:
+>  
+>        $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a -N -b -c <count> -o <perf_file> -- <loadtest>
+>  
+> +   - For ARM platforms with ETM trace:
+> +
+> +     Follow the instructions in the `Linaro OpenCSD document
+> +     https://github.com/Linaro/OpenCSD/blob/master/decoder/tests/auto-fdo/autofdo.md`_
+> +     to record ETM traces for AutoFDO::
+> +
+> +      $ perf record -e cs_etm/@tmc_etr0/k -a -o <etm_perf_file> -- <loadtest>
+> +      $ perf inject -i <etm_perf_file> -o <perf_file> --itrace=i500009il
+> +
+> +     For ARM platforms running Android, follow the instructions in the
+> +     `Android simpleperf document
+> +     <https://android.googlesource.com/platform/system/extras/+/main/simpleperf/doc/collect_etm_data_for_autofdo.md>`_
+> +     to record ETM traces for AutoFDO::
+> +
+> +      $ simpleperf record -e cs-etm:k -a -o <perf_file> -- <loadtest>
+> +
+>  4) (Optional) Download the raw perf file to the host machine.
+>  
+>  5) To generate an AutoFDO profile, two offline tools are available:
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index fd9df6dcc593..c3814df5e391 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -103,6 +103,7 @@ config ARM64
+>  	select ARCH_SUPPORTS_PER_VMA_LOCK
+>  	select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
+>  	select ARCH_SUPPORTS_RT
+> +	select ARCH_SUPPORTS_AUTOFDO_CLANG
+>  	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+>  	select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+>  	select ARCH_WANT_DEFAULT_BPF_JIT
 
-Improve the kref documentation by using the standard Return: section,
-rewording some unclear verbiage and adding docs for some undocumented
-functions.
+After this change, both arm64 and x86 select this option unconditionally
+and with no apparent support code being added. So what is actually
+required in order to select ARCH_SUPPORTS_AUTOFDO_CLANG and why isn't
+it just available for all architectures instead?
 
-Update Thomas' email address to his current one.
-
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- Documentation/core-api/kref.rst |  7 ++++-
- include/linux/kref.h            | 48 +++++++++++++++++++++++----------
- 2 files changed, 40 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
-index c61eea6f1bf2..8db9ff03d952 100644
---- a/Documentation/core-api/kref.rst
-+++ b/Documentation/core-api/kref.rst
-@@ -3,7 +3,7 @@ Adding reference counters (krefs) to kernel objects
- ===================================================
- 
- :Author: Corey Minyard <minyard@acm.org>
--:Author: Thomas Hellstrom <thellstrom@vmware.com>
-+:Author: Thomas Hellström <thomas.hellstrom@linux.intel.com>
- 
- A lot of this was lifted from Greg Kroah-Hartman's 2004 OLS paper and
- presentation on krefs, which can be found at:
-@@ -321,3 +321,8 @@ rcu grace period after release_entry_rcu was called. That can be accomplished
- by using kfree_rcu(entry, rhead) as done above, or by calling synchronize_rcu()
- before using kfree, but note that synchronize_rcu() may sleep for a
- substantial amount of time.
-+
-+Functions and structures
-+========================
-+
-+.. kernel-doc:: include/linux/kref.h
-diff --git a/include/linux/kref.h b/include/linux/kref.h
-index d32e21a2538c..88e82ab1367c 100644
---- a/include/linux/kref.h
-+++ b/include/linux/kref.h
-@@ -46,18 +46,18 @@ static inline void kref_get(struct kref *kref)
- }
- 
- /**
-- * kref_put - decrement refcount for object.
-- * @kref: object.
-- * @release: pointer to the function that will clean up the object when the
-+ * kref_put - Decrement refcount for object
-+ * @kref: Object
-+ * @release: Pointer to the function that will clean up the object when the
-  *	     last reference to the object is released.
-- *	     This pointer is required, and it is not acceptable to pass kfree
-- *	     in as this function.
-  *
-- * Decrement the refcount, and if 0, call release().
-- * Return 1 if the object was removed, otherwise return 0.  Beware, if this
-- * function returns 0, you still can not count on the kref from remaining in
-- * memory.  Only use the return value if you want to see if the kref is now
-- * gone, not present.
-+ * Decrement the refcount, and if 0, call @release.  The caller may not
-+ * pass NULL or kfree() as the release function.
-+ *
-+ * Return: 1 if this call removed the object, otherwise return 0.  Beware,
-+ * if this function returns 0, another caller may have removed the object
-+ * by the time this function returns.  The return value is only certain
-+ * if you want to see if the object is definitely released.
-  */
- static inline int kref_put(struct kref *kref, void (*release)(struct kref *kref))
- {
-@@ -68,17 +68,37 @@ static inline int kref_put(struct kref *kref, void (*release)(struct kref *kref)
- 	return 0;
- }
- 
-+/**
-+ * kref_put_mutex - Decrement refcount for object
-+ * @kref: Object
-+ * @release: Pointer to the function that will clean up the object when the
-+ *	     last reference to the object is released.
-+ * @mutex: Mutex which protects the release function.
-+ *
-+ * This variant of kref_lock() calls the @release function with the @mutex
-+ * held.  The @release function will release the mutex.
-+ */
- static inline int kref_put_mutex(struct kref *kref,
- 				 void (*release)(struct kref *kref),
--				 struct mutex *lock)
-+				 struct mutex *mutex)
- {
--	if (refcount_dec_and_mutex_lock(&kref->refcount, lock)) {
-+	if (refcount_dec_and_mutex_lock(&kref->refcount, mutex)) {
- 		release(kref);
- 		return 1;
- 	}
- 	return 0;
- }
- 
-+/**
-+ * kref_put_lock - Decrement refcount for object
-+ * @kref: Object
-+ * @release: Pointer to the function that will clean up the object when the
-+ *	     last reference to the object is released.
-+ * @lock: Spinlock which protects the release function.
-+ *
-+ * This variant of kref_lock() calls the @release function with the @lock
-+ * held.  The @release function will release the lock.
-+ */
- static inline int kref_put_lock(struct kref *kref,
- 				void (*release)(struct kref *kref),
- 				spinlock_t *lock)
-@@ -94,8 +114,6 @@ static inline int kref_put_lock(struct kref *kref,
-  * kref_get_unless_zero - Increment refcount for object unless it is zero.
-  * @kref: object.
-  *
-- * Return non-zero if the increment succeeded. Otherwise return 0.
-- *
-  * This function is intended to simplify locking around refcounting for
-  * objects that can be looked up from a lookup structure, and which are
-  * removed from that lookup structure in the object destructor.
-@@ -105,6 +123,8 @@ static inline int kref_put_lock(struct kref *kref,
-  * With a lookup followed by a kref_get_unless_zero *with return value check*
-  * locking in the kref_put path can be deferred to the actual removal from
-  * the lookup structure and RCU lookups become trivial.
-+ *
-+ * Return: non-zero if the increment succeeded. Otherwise return 0.
-  */
- static inline int __must_check kref_get_unless_zero(struct kref *kref)
- {
--- 
-2.45.2
-
+Will
