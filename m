@@ -1,93 +1,96 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F10019E7ED;
-	Mon,  9 Dec 2024 22:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4E819F13B;
+	Mon,  9 Dec 2024 22:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733782878; cv=none; b=lZ1XbEfjnDcnKUErkp4eOA1oV7iNoKGZ15lSFRGTWWXQpcW7Slb8Pi+zfzBACpF16bLpGDlTzJl+ANsjAtJzS0Q49pB3ubauErXvOgN0QTM50wNSzThGZWc+WqSQKVvvgFsjyxGablEF2eSxz5XthET+cl0p3T00uyYFF7vf/VM=
+	t=1733783635; cv=none; b=MLBSyPquwu3ypQnO4c5MDIHj69JbkUVaEq8aoCj2FruolmP90LgaV9h6NLtB2KS58ABhvwSyxE83PLpfvejwYncho9BTwgFTFEifjDyri73zVQcWClSgQpE8+7xihs+lbTgsA/vUtsCm0aBDXHTkdNcWo7fFS/B/AV+7xXw6tBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733782878; c=relaxed/simple;
-	bh=bwzYOAuoJO2yAuRVUE6d9wqLyu40DkAaVYdXryd1xdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+qmvoK4ILHNMsvyb2pqlwMnlx+/yxLhhYsgSTVDgH12s82YMLkyqvOa9JOHHg5Lp3vg4fjf6oFtTgWIEC0VP6fgE1vUzWzKrsNuIFqh0ItsKt5/m5N2tPyymgKOI9ZO3Muthui1arbBTIHWQKQIVTpcjg5vyOLQ8mTLlJgEv18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UwuFx0xS; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1733783635; c=relaxed/simple;
+	bh=S9dsHYZQ2ksvHpQ9FdgP36O+fNCp6A8Vmt2q+R+4gvo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PN5wxVNeOfdm2NB60zUs2rFKoIzMAX+UO1j5GN6AoQ7bCmjrTh+b6h74jwBctQTlmrYyXqxOgz3HwHADzPYnZON6rHw+/hyRSQdCnuzRFq4PsOkH9GZmaVKtmgogfUkpg79yoScWPiKlgcPDIEwrXbUkje3P+dD/cyPlI9JF7i8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KlYfRbGz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UwuFx0xS"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D17CB40E0277;
-	Mon,  9 Dec 2024 22:21:13 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id t1OGWIsr1yrN; Mon,  9 Dec 2024 22:21:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1733782868; bh=21QrC0wOQ48GOvsESM0ZAE9MczwzGypXpmwP1LEdWa8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UwuFx0xSduVIpjCgwbkQ561hAu/eoEU4rX1B7ku7yYfGY5RSMn5q/rdH6miIoWhzE
-	 Ap5xN+FrXGkYyKur3MR5sAqPVsG+785SuN8mTCPU02R+88WnDNkFPcBRNLFoluhdFV
-	 hNY7qRFSntrmOB+z+XWlN4gr6bp7QJqhhDJaaL9j+xR29OptqqSlQzO3nUJXgKNN1A
-	 s38BQ8b6LaPu1ahoKuPrTLNMjYB3nXv1dLQ1XqjvkSF+I8d5tY9Qs5nbCPQKAq8pLD
-	 C4Zm6pWhcmxDDp+YAcUVIyytzjo+YOKSnyDh/u/5Dzm+X+KchhJy2uFNe9gEeWG4Kp
-	 aiua/RzWbnCezhoUpe16C69tnuMHNQlnFyjBlgqCKwa0w+5djTpzc0Zw2MJP74zEK5
-	 JOVS+qoGgkTWD2AZFgE1NzXIlIPEn1o0FikqckCOrD150Njj8MdbnyXdehoMUiQ5ZI
-	 PWwAZ7gHNV8MRj0rzqcNOZ/2WD1Q3BXzKkJbbN0mUNuNeo4cQ1NJuFzkx+RiGBxzyx
-	 gZ5iHnNvspQ/s42QnIZLhEctHxxElwVVy7DEaIeVSdxCmA/CkhTHSv6fc7RSZXp8Va
-	 2GcCFavLCrW8OyIqRJIoHKUBnZBNVvknalsjAe0KJuGTyR8FVIS8faIbYsPK8KY9Lv
-	 NCs+W8RJDzzuPliYVJzDvVu8=
-Received: from zn.tnic (p200300Ea971F9307329c23fFfEA6A903.dip0.t-ipconnect.de [IPv6:2003:ea:971f:9307:329c:23ff:fea6:a903])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 698A740E019C;
-	Mon,  9 Dec 2024 22:20:54 +0000 (UTC)
-Date: Mon, 9 Dec 2024 23:20:47 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: "Yu, Fenghua" <fenghua.yu@intel.com>,
-	"Chatre, Reinette" <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, "x86@kernel.org" <x86@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: Re: [PATCH v11 2/8] x86/resctrl: Prepare for per-CTRL_MON group
- mba_MBps control
-Message-ID: <20241209222047.GKZ1dtPxIu5_Hxs1fp@fat_crate.local>
-References: <20241206163148.83828-1-tony.luck@intel.com>
- <20241206163148.83828-3-tony.luck@intel.com>
- <20241209204519.GAZ1dW3-NjcL4Sewaf@fat_crate.local>
- <SJ1PR11MB6083BA367F2CDFC92D87FDA1FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KlYfRbGz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AD5C4CED1;
+	Mon,  9 Dec 2024 22:33:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733783633;
+	bh=S9dsHYZQ2ksvHpQ9FdgP36O+fNCp6A8Vmt2q+R+4gvo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KlYfRbGzj4dC0Vu6sUP/1uP08na/ljXE1gdo6PnS3at+qN2r1zlTrvHg5dnYRFRTT
+	 mkiU7UJPd1se9apbAV1AGFvEnQqa8ZhZwO36UAsRc5v7Xwwt4Sa3tZhPaZw1hr3IT/
+	 ctRXYWeX9OeP4f7bfrakx+UsFh49i+dRrSignVzEvb2VH8zAm6ra+t8Fmrb/Qp22gZ
+	 HmAYUDVA7X7vhLlEB6ZwNcfmH/DYZhniQC7wQtSlIX3hnzBF9m2NN5B+xHg1iXyoQ0
+	 wyDiu56wnRcZ0sZLMEROYfaxq+0qJji7agw//fnM5wyqe9tadF7rL4wAKxZ9nA9pYv
+	 BaHevB0tVx1nA==
+From: cel@kernel.org
+To: Neil Brown <neilb@suse.de>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>,
+	linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 00/10] nfsd: implement the "delstid" draft
+Date: Mon,  9 Dec 2024 17:33:47 -0500
+Message-ID: <173378349324.1842041.4044954409242921629.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241209-delstid-v5-0-42308228f692@kernel.org>
+References: <20241209-delstid-v5-0-42308228f692@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB6083BA367F2CDFC92D87FDA1FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 09, 2024 at 10:05:43PM +0000, Luck, Tony wrote:
-> mba_mbps_default_event isn't architecture specific. The mba_MBps
-> feedback code could be implemented on any architecture that supports
-> both measurement and control of memory bandwidth.
+From: Chuck Lever <chuck.lever@oracle.com>
 
-Yes, and it should be moved to that header then, right?
+On Mon, 09 Dec 2024 16:13:52 -0500, Jeff Layton wrote:
+> We had a report from the kernel test robot that adding support for
+> OPEN4_SHARE_ACCESS_WANT_OPEN_XOR_DELEGATION caused an "App Overhead"
+> regression in the fs_mark benchmark, and we dropped that series for
+> v6.13.
+> 
+> I've not been able to reproduce this problem. Even on the real hardware
+> to which I have access, I don't see the regression in App Overhead
+> values that the KTR is reporting in that test.xi
+> 
+> [...]
 
-But not earlier.
+Applied to nfsd-testing for v6.14, thanks!
 
--- 
-Regards/Gruss,
-    Boris.
+[01/10] nfsd: fix handling of delegated change attr in CB_GETATTR
+        commit: be53fa67d813cc134809723699fe96b8dcdf69d3
+[02/10] nfs_common: make include/linux/nfs4.h include generated nfs4_1.h
+        commit: ba432f5dc998369372737b50d45e9cd5bb221b78
+[03/10] nfsd: switch to autogenerated definitions for open_delegation_type4
+        commit: 5508d620b0c77c979dcea271ab40e66f1065e55d
+[04/10] nfsd: rename NFS4_SHARE_WANT_* constants to OPEN4_SHARE_ACCESS_WANT_*
+        commit: 1fcab4e8e19b75f77b1f966787272a86f8b1a191
+[05/10] nfsd: prepare delegation code for handing out *_ATTRS_DELEG delegations
+        commit: 103d2fab19ee8f9cde323b7b2d1b9057451fecb4
+[06/10] nfsd: add support for FATTR4_OPEN_ARGUMENTS
+        commit: c47967f05d73859bb1f6faeb7eead7fe87f92f3c
+[07/10] nfsd: rework NFS4_SHARE_WANT_* flag handling
+        commit: f710fdaf971eb5889c6399fdf3dac9fd27604184
+[08/10] nfsd: add support for delegated timestamps
+        commit: 262ddeaebc5930998f9366b2d91471575d9dff16
+[09/10] nfsd: handle delegated timestamps in SETATTR
+        commit: 7fbc290538d9b00d34bc0e4aede0b45348a4b957
+[10/10] nfsd: implement OPEN_ARGS_SHARE_ACCESS_WANT_OPEN_XOR_DELEGATION
+        commit: fca2cd592b6ad1b3809abf7ba27e20d8a7a433c4
 
-https://people.kernel.org/tglx/notes-about-netiquette
+--
+Chuck Lever
+
