@@ -1,210 +1,276 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D224019F104;
-	Mon,  9 Dec 2024 22:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733783714; cv=fail; b=M6T4RWhzy76rvOnhVE2QpWB2dbZ3mJwBqRts8MBWh34OqscKgndMg3R+9lUr9sazfHA92K15GNMYYB4SF9AXG21A5FMrSYfUyWW7GhFPA8nVaULrFhQ1KJ4D6vgQrDAWbgC8GB9yG2OZ1HGMwfj8Toi6mo5M7LY0Cuxl0TyJzUE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733783714; c=relaxed/simple;
-	bh=PADud7jUPiE0ZiUV/Ey2vlhX+QXlaPLpT4kx3dE5PVs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=N/5MLJtIIau3NX8K2EuKtLFv3x5yn2XWB5MNepC7VGynYLIJj43hgxIg2mi8NGC/3qrzgX1Sm1X0WBIK6oxLLcf9lXuwkhH/QA/KDZ7I41JyS92XVWNRda51jMm6mjzdd4dakIWhwo4ltalSkZPkLqfzDo5/HnrxkjWGaLMvq00=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zt+Y2Tqk; arc=fail smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E3019F13B;
+	Mon,  9 Dec 2024 23:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733785258; cv=none; b=UXGluuFru6DkaUQCMtXlSU9RizlkqclAZYvQGtK826JfqZUYH99mY+2JGE+CaFQnf2hiNmXcqiPhZ42QfC1RyX8xD+Yi7rCr2X0H9SkVHLikpVjCuAlCyxQjMl8TYK8bUxDLp+4oUWlGgjvId6Pl5zXLy7agurA6JZDD7O7kxI4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733785258; c=relaxed/simple;
+	bh=cWBSulf0fQno5+t6thUiJdaghxDbSCl+9ViNwrb0+wY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=l1FEbqTyEV+Try6mFoBaqptTgNCleizkZECPK9iauug2HFpaCJvzbKOULAde4ityRFG2SevagFiOiGt1vPd7ts6Xe2WrSw8ZDOV7AsOtMGF7DA0PlpeGdljgb57kga9i1aqKXZrhQUGdoRkssdjj78FuUuCrLdEXvHn1aCfPbJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=m/Nsf/qf; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zt+Y2Tqk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733783713; x=1765319713;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=PADud7jUPiE0ZiUV/Ey2vlhX+QXlaPLpT4kx3dE5PVs=;
-  b=Zt+Y2Tqkf/VpiF+WSnhFAUPfh9WAOr79c+WPXzc/S/qGUj1pCeK8JxfD
-   GKJ+psNypyte/6XJRpZXbm/IHUbKL3r4mBvcJuuuruEIhWGf/vb1eFm5G
-   mTzxgFv0X4X60cD1aKRob0EyhOGyQmhA7dyQBbFSPL4HY2HO7BkIbzQ0S
-   4Wn8COtqJ4jH6XJjGc1amFTi59vR98hVqfY7TOOmtOXDXD2+LjnzjU16b
-   neOlhU7L4kYv2gv2CZlsw467x8Ekz8GIEF75YRJ+PODBkz/2J9M6zVQE/
-   Y0CeXrc9UoBCmUe+TKWTNlZAKJP0yo1u4mqSGclxyUbCjiq1Iu83mpSdj
-   A==;
-X-CSE-ConnectionGUID: K50rkc2GS7i9c6a36DgwfA==
-X-CSE-MsgGUID: yh3yOoTGQoiQpNQxX6DWyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33441957"
-X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="33441957"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 14:35:12 -0800
-X-CSE-ConnectionGUID: e6gHWxtbSbinHgFrvrLNWg==
-X-CSE-MsgGUID: TdRon7VgQN6kC0+yc4MIzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="100023726"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Dec 2024 14:35:12 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 9 Dec 2024 14:35:11 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 9 Dec 2024 14:35:11 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 9 Dec 2024 14:35:06 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qIVIit81BNNianxXkGUYOynKCU9BTcOWcSO1QfVk5IONLl+hoE77/b0s5znGJXGTP4xcGjUBL2PZUFiL09+GlEEnihl5RjjPx9p+n46PXvOsiySXYp0l8OHor3GxMcn3QYJkoh90tcRePSRjHsDTUclIuMZQAz/D4fQMnbp2Xk08LGzv6p9Y2U+rUdKyr+GRzEtCgIm5rMdR/xuaC3lqa36GgVngS3bH85isUOqqIUUJ7+fJe8nH3nAx9aQBdoftloVsmNVfGJCiK+0dUE05qUK5ug6Jy0tRWxEDlehPyAH/4ur4ZlisO8fLoMtXvCfefS7T5n7e15Ypcs30A2UYHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PADud7jUPiE0ZiUV/Ey2vlhX+QXlaPLpT4kx3dE5PVs=;
- b=ngVIgHFYQEn1zyAL0SBxWqM3dok/KoxlfMJ0sPCJS3lSfUhfGkZACdWLJ2nqarBqKhG4RRZadKTYEfhtYIF5GSPrmU9IWFVsnpnQXn/0GXMCbcXdph3J+QiQc1HtvKOcxWDQRysLqNm7R6QSLOqvc2n4/ItPbIyqidUCjuBAVTtNmqWuJrYHEUWsb7n6pnRlctTRUfN4CjNrVkTy+QpkxPYgzmPkefu9zttbmRYbRxgdp/X4HBUPdNX3qIPdQscnsdPPeaJXGQCJp3KOwmBzHxJbB8uzZ2OtbzwwSuK9s2erLmcbtjTksv7XOjej/LTRMs6zqo7RkgbTw328oG/zWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by SA1PR11MB8445.namprd11.prod.outlook.com (2603:10b6:806:3a9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Mon, 9 Dec
- 2024 22:35:01 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361%7]) with mapi id 15.20.8207.017; Mon, 9 Dec 2024
- 22:35:01 +0000
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Borislav Petkov <bp@alien8.de>
-CC: "Yu, Fenghua" <fenghua.yu@intel.com>, "Chatre, Reinette"
-	<reinette.chatre@intel.com>, Peter Newman <peternewman@google.com>, "Jonathan
- Corbet" <corbet@lwn.net>, "x86@kernel.org" <x86@kernel.org>, James Morse
-	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
-	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>, "Shaopeng Tan
- (Fujitsu)" <tan.shaopeng@fujitsu.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>
-Subject: RE: [PATCH v11 2/8] x86/resctrl: Prepare for per-CTRL_MON group
- mba_MBps control
-Thread-Topic: [PATCH v11 2/8] x86/resctrl: Prepare for per-CTRL_MON group
- mba_MBps control
-Thread-Index: AQHbR/xl4acp4pgYNE+Ib74ICcEb47LeZouAgAAVKBCAAAWEgIAAA2XQ
-Date: Mon, 9 Dec 2024 22:35:01 +0000
-Message-ID: <SJ1PR11MB60830B8ED36CCA7E304D9E97FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <20241206163148.83828-1-tony.luck@intel.com>
- <20241206163148.83828-3-tony.luck@intel.com>
- <20241209204519.GAZ1dW3-NjcL4Sewaf@fat_crate.local>
- <SJ1PR11MB6083BA367F2CDFC92D87FDA1FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20241209222047.GKZ1dtPxIu5_Hxs1fp@fat_crate.local>
-In-Reply-To: <20241209222047.GKZ1dtPxIu5_Hxs1fp@fat_crate.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|SA1PR11MB8445:EE_
-x-ms-office365-filtering-correlation-id: 25005817-6027-4017-c6dc-08dd18a1b7e8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?MmdySmpjS2thOWR5eXQ2cTZrU1MvRjhCbG1kNDdjQTVmdlU5L2oyeStZSXRI?=
- =?utf-8?B?V1NhS3hRODB6TUdHUFpWRUFSUTM3TFQzdXVBVllRUEJ2WTJvL3ExUXlpcEd6?=
- =?utf-8?B?QVF6L3V4dmVaL0xZNCtJSTdxTlBvTnNsK2Fjb2tqb096Z0V5bEY3elh0YmZD?=
- =?utf-8?B?SEM0dHBKUFgyOEdRcG9nRTkyVXE0NWozNnBnWW90eEpBSWpkTnVzSkNHQlFh?=
- =?utf-8?B?aERZWHdtdU5CeUxPZmxUbk9ZdDRkMmkvWUx0RVlZVTdUdEhzUzFTbW1ZcWZ2?=
- =?utf-8?B?cjdPa2UxSUJ2bThVUGRNcXNwK3k4aEcwczdrWW9kcU5JMThyOVVpOXRrS3Za?=
- =?utf-8?B?WFgxcC9XWTZ2b0xtemVHWG9jS0VGcUR2UmNIaWdxVEFGM09TVGpONFBNNnBk?=
- =?utf-8?B?d1MySlNRZXlTMDg3NEczRGVVMS9WaWR5REo0QTlBSHpucjBFY0hQaEpieTg4?=
- =?utf-8?B?SGl3Rkx6QXhodzN3cmFVUVlsNkpSZHV1VlZkdW1ldlVmZEFFQWwvaG5TMW44?=
- =?utf-8?B?eGdZRGhPcWdtSVJLV2FBUE5qZDFKS3JPREg5c0ZEbVRQdjlQR2pkOWVZdGpK?=
- =?utf-8?B?dmxNTi9zYkFyWitPc1NUeFFYTEJ6aUduYW4zMWtmcnlQdWpPZmZDY0E3enMv?=
- =?utf-8?B?bmFoNTBvZDcyWEk5QU5IaTV4amFNZjIreW5JY2tvdnJTVGJsbUlUREJLM3lH?=
- =?utf-8?B?SEVyTERxcHRGakZWbFZ5Q1VwZDFQVGpweFlnbUdWdU5heTlaYUE5TTB5N29Q?=
- =?utf-8?B?QmVpMlVVTjIzZnlRSmxRZkFWN3c1U0d6bWZPZzY4d2s1SFJCeVJlbDNtRk9M?=
- =?utf-8?B?eWpIYUJjQzluK3lrMjlWMkZVOFFzOWJpM0RpOGU5Y2Y5KzhlRkR4QUkveUJ4?=
- =?utf-8?B?QXNRZEsyZjhySlRaNW5NdmsxR1JNMVJtK1hyWnFHdktnNWZSUFN1TjZmSDhQ?=
- =?utf-8?B?WStDSnh4RDV3Q2haeVpoMGlnSGxsWEttSGFCWDBYOWhQaXFZUldJUVlTSXpz?=
- =?utf-8?B?OUIrTWhLSms0TFJEVE1WR3BOV0N4SFhRT0djczI1ekk0cTUzTDZBYzNXQjB1?=
- =?utf-8?B?dERHN2lIdEpNWVBrWTA2RUpJWkNnQ2hMdEZSODJMMUtZcC9YTVIvT2VCaW9B?=
- =?utf-8?B?ZTNsL3U1SlliN081S1JlRG8wMDNsZm9OKy9RY211c1d2UDJmTnA2dlJYVzJS?=
- =?utf-8?B?bEU0M1lzU3MvYk5jRkVUdUUxdzJRN0xNMWV3NEhTQkFZaU9YSlMvWTlsWmZI?=
- =?utf-8?B?NnhHbEsyVHB2OFlrenFYa0FjcWpnTW56ODFCRkd1cWNxaWhaZ1dNalRnVEZI?=
- =?utf-8?B?OGhFTW9RdzUrM0lEdHh3MHlPSlpzYWt5cno5VFZMd0dOL2NjNmRIL3FHWFJx?=
- =?utf-8?B?VzYwM1JWWXpYV0dqeTg4Nk9hdVdxeVA1QjBFS3ZUajN4d2FWS25CcW1aVHVY?=
- =?utf-8?B?WlRXVWk0MmVjSjhoQ0NpYmVUNVpKSlczM1U3K1dqSjFkS3ZuL3VKQkRPdnls?=
- =?utf-8?B?UjBlTUR0WE5xYWxyc0RNU1VKaWdza0dCd2ROZTEzT0RaQUcyZkdvZE4rYkJS?=
- =?utf-8?B?d2k1RzBGQ1dLNG5HcnRUQVU1Z2VEM0Z4dEZDbFJ1SHVNbG82Y3Nyenltemhk?=
- =?utf-8?B?UE1RejhDT09CK2tKTU9YbkxFZFFEenh6aFlhUWVQMVlzUHR4L1hIekJFUzdz?=
- =?utf-8?B?UnJlQXdUOXpxaGpGaFN3M21rNVZaRWh6dkEreGFJL21XNlAyVVZFcDNGQy80?=
- =?utf-8?B?QzRtamZFNHNhdlFrNGg2MFdNek5meG02WXBMWUc2NkNSSnA3Z25UWHIxSis0?=
- =?utf-8?B?RmsrZTNTdFBBUjBQUVlTcEd1Q3NjUitXdHZ6VjhoWnpaVklCUytvT0VCQ0dR?=
- =?utf-8?B?ZXNOMldKTlBwQlcxOWJTSUI1UWx1c2IzazVlSDgxZkxkTXc9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Zi9MTktXTkJaT2RtbEF1V05HOHBWTWFlTEtPaUQ1UjhiZlNWTHNZeU5OcTBk?=
- =?utf-8?B?UmRjR1NwOGY5U3g4cVpXNEQzWFl3UHFPL3VMOW1ERjBRR2hGRjRINi8yVEYz?=
- =?utf-8?B?bmpVQlNIREN2MzlYMEJxLy8yODNpd0RzenZtdHFodmtLd2lBQnNGblg4UHFx?=
- =?utf-8?B?QjRINlJCby8xSk5rZnhVVG1SbTVOekJMcDVOZU1FR1g0RGgxNnd5YWkxcC9l?=
- =?utf-8?B?aDIzblhFZmpoa215aVcyMTNtYys1WjUrdnhXTzRVcS9jQU1jOWZHS0R2YlZ1?=
- =?utf-8?B?Tk1MTGkvbFd4SHY4K0YwbjRiam9XTStaWHErd0VHTEZHdnoxbWhQbHhmTzdu?=
- =?utf-8?B?SkdjTU5TZ3BRWkYwQmppU3hmcGk1bWF3OU93aEZmYUNsMHA0b3NKNlFLTm5G?=
- =?utf-8?B?ZC84WUxpbWVSZ0xjRTR5UHhQaDBhK3NMZnAwQTlOWUNEUWRIVzNCTDNJQnhp?=
- =?utf-8?B?MEo5YWZWcGVubzRjZUVtSWlhTWk4aGJnNUlobDJwMzQwSHRaMnBISlBubnph?=
- =?utf-8?B?RnZOZ1Z2UjIvcUFKcnZuMzV2MVlveE9nUEl6STNHSG9FTFJQUDBwaW95ZUlY?=
- =?utf-8?B?emY3eUhzWEVuN3BKd3Eza1RKN2wyWjkvNkM2ZWIrWTFSWWpvZUFCTFFyTksx?=
- =?utf-8?B?alhzaTNUSDhXeHRrVmxWZUg0aUZINWdyOXRETnhPZk51Uno5bW8yK0t2N2lU?=
- =?utf-8?B?S1JCbTMyVCt0T3V0SmR2T0FoWGVjZUU0UC96MkhvMWpQV3dna1dIN2pIM2Rh?=
- =?utf-8?B?VTNubVZmRnZkcDI5S21wd3V5Q3ZtVElzT2oyY3F1eG51eHNzUHYwTVZDNW90?=
- =?utf-8?B?YW8vNThvaDVKZVVabzBYZHJxWVFwNitodG4xcVdKTnRhQ1RmK1RhZUdFaVZj?=
- =?utf-8?B?SDVKcUcxN3VwS25IM1hudTd3K2pPQVJab0pheXY1M3FhalJNSFNIUnBiMnlw?=
- =?utf-8?B?ZU45dVJscEx2OEpvZkpuZlR3dkJnSHVZNmRXZ1F6WlNCNW4ybXhYdW4rKys2?=
- =?utf-8?B?WXkvd2x0bEdLb29acW9Jc010dXBudGliN0hhUlBxeUJFWlRTRXFKZmFKejcv?=
- =?utf-8?B?V3dWVXBYZkJvTGJFOGY0ZmtVd0U0T1hEbUxCYklGQ2tSbUx6cTZSdFBaQjVN?=
- =?utf-8?B?dDVsY3o2S0xUVHdSb1VoTlNvUDdHSFYzS01vSzIrSEU4cUpQNTRMYVMrejZn?=
- =?utf-8?B?Z0ZGV0R2dHMwQXBGZEJrZmR4OURVcEZicy9VbUpWQTFsUmVHOEJrY2pDaDhO?=
- =?utf-8?B?YTYvWitYQU1Zcm5PenpiOURKZU5pN1MrbjZZbzAzcWxRdWVKcThkL2dLNW81?=
- =?utf-8?B?OXBGSWNNRGxxYlgwditxa2NwTDBxSnRMazVHTm5Tdi9Rc1dGVlp1NjFTdVdI?=
- =?utf-8?B?bm81VVVaRGFmdUJyUElQbDZIYzJ6TjM4OXRNZEd4L0NKTDVzWUgyQkhJQXBk?=
- =?utf-8?B?RVJNVHNSOG43U1NtamdTcXUxZFF6ZVk0bWFNRitCZktkaE5mR2d6ekZBL2hV?=
- =?utf-8?B?RFdIdmduM3lyTUpzUEZ6ektVeGJvSnk4VjcvdmJ3Mzl5ZXZkaDJ6eWJxUThE?=
- =?utf-8?B?R2tpOE1IQjFkaWZkYTZ2djRKVW9DMFRDVmlrM2VmT1d2cjRrNFpoY1EyVkEr?=
- =?utf-8?B?QldoZFZoYlhlb01zd3dGaTR0bGFFejJWWHhNZzdYWVJEb3JReTdpMmRLcWpQ?=
- =?utf-8?B?aFpXeU8vNzNkZXFKbFhmdk40WldlV3Yza0Zsd0tZRDc4N1V6YzFhREY5L3Zs?=
- =?utf-8?B?Rmc2SnUvOVBHcTdFUHJNNGFnMnhNTWdSZzQzRnc4UkdtcWRXcVhmZFlQbnVN?=
- =?utf-8?B?dmxoRGhxcml0c2kxWmtkRFFrNjE1Rm12RHlOL1Fqb3NBRjA5eE9MOU5JVUpC?=
- =?utf-8?B?Szg5Q3dxUlJ1UHNabElLOUM4YnlaK2hOVG5WTDFHMGF6Q09WaGhwK2tHdzlu?=
- =?utf-8?B?VDRjYlZ0VENmT21sejNnSnlFNHhlRGhYMGE1VnI0UzhJMjJRZHZRM2RJODh1?=
- =?utf-8?B?SDBrSDc1Qzl0VlM4S0lVM1FDL1l3RGZLUC9KVzM3ZlRUeGdUbWRYU04xaHZq?=
- =?utf-8?B?cEpPQkJHNm1XdzZOei9weGdyMG52VnFVOVFmSG1iU0N0cENia3F1cnZydnVz?=
- =?utf-8?Q?Xu8qIwPbuWCMEHrzs4mQ0CZ9f?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="m/Nsf/qf"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B9GnRlw023398;
+	Mon, 9 Dec 2024 23:00:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	NAuKrMbDopwaoZZJtuSjTggUNBIyj4rtYk3o27a46J0=; b=m/Nsf/qf7wlXJ2Dh
+	RABuW1l3qsKfOgA+4p5/nO7tqzU9a0T5lVZ0luBzSGpZdE515oCibA7fFyQcJkgt
+	sFw67o5LByXsJOsxJWjYiiV5rVVBj/J/GQPjsdaEO81Kj6JDI3N/1my/ryEI/RGx
+	3nuunmsVZWNItJenzKwP+UanvhprDdtflTEKQgygRF78iHiLhUyaeOZrZQcRPNZS
+	kpMcXZ3VoeDxzPN6D2ZkbChyzA/6Ud3xeE7aBW8OVcfibQ4CAE129X2U9v9dKSRv
+	CBvOOI5TwirH+Gar5eTFWos7Z9fP8xKhnzqh+msC/8wEwJy935xttid04ETUa5T5
+	ry1E1A==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ceetpj5x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Dec 2024 23:00:49 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B9N0maq026552
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 9 Dec 2024 23:00:48 GMT
+Received: from [10.4.85.9] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Dec 2024
+ 15:00:45 -0800
+Message-ID: <72e113e7-c1be-48c0-9018-2580f654667a@quicinc.com>
+Date: Tue, 10 Dec 2024 10:00:42 +1100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25005817-6027-4017-c6dc-08dd18a1b7e8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2024 22:35:01.0683
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +qGFlvT/oC+SY9DSFXtyxb2dnOyrjrI5BKq5QmsT9Vt5c7TeEtYN8lzWbRg9qbiBdv+ZQh3Qp57eikG2g8K6Dw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8445
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/10] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF
+To: Jens Wiklander <jens.wiklander@linaro.org>
+CC: Sumit Garg <sumit.garg@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
+ <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-2-f502ef01e016@quicinc.com>
+ <CAHUa44GxY=nZP9O6XpO-nRKJ_wUnK66h-QEnFPJ9myFGydBZYw@mail.gmail.com>
+Content-Language: en-US
+From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+In-Reply-To: <CAHUa44GxY=nZP9O6XpO-nRKJ_wUnK66h-QEnFPJ9myFGydBZYw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: HsVkGMPasLElsgq_B9TdnnWbRhpkzkEk
+X-Proofpoint-ORIG-GUID: HsVkGMPasLElsgq_B9TdnnWbRhpkzkEk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ spamscore=0 adultscore=0 clxscore=1015 impostorscore=0 mlxlogscore=999
+ bulkscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412090178
 
-PiA+IG1iYV9tYnBzX2RlZmF1bHRfZXZlbnQgaXNuJ3QgYXJjaGl0ZWN0dXJlIHNwZWNpZmljLiBU
-aGUgbWJhX01CcHMNCj4gPiBmZWVkYmFjayBjb2RlIGNvdWxkIGJlIGltcGxlbWVudGVkIG9uIGFu
-eSBhcmNoaXRlY3R1cmUgdGhhdCBzdXBwb3J0cw0KPiA+IGJvdGggbWVhc3VyZW1lbnQgYW5kIGNv
-bnRyb2wgb2YgbWVtb3J5IGJhbmR3aWR0aC4NCj4NCj4gWWVzLCBhbmQgaXQgc2hvdWxkIGJlIG1v
-dmVkIHRvIHRoYXQgaGVhZGVyIHRoZW4sIHJpZ2h0Pw0KPg0KPiBCdXQgbm90IGVhcmxpZXIuDQoN
-CklmIHlvdSBmZWVsIHN0cm9uZ2x5IGFib3V0IGl0IHRoZW4gZ28gYWhlYWQgYW5kIGN1dCB0aGUg
-bGluZSBmcm9tIDxsaW51eC9yZWN0cmwuaD4NCmFuZCBwYXN0ZSBpdCBpbnRvIDxhc20vcmVzY3Ry
-bC5oPg0KDQotVG9ueQ0K
+Hi Jens.
+
+On 12/10/2024 2:46 AM, Jens Wiklander wrote:
+> Hi Amirreza,
+> 
+> On Tue, Dec 3, 2024 at 5:20 AM Amirreza Zarrabi
+> <quic_azarrabi@quicinc.com> wrote:
+>>
+>> For drivers that can transfer data to the TEE without needing shared
+>> memory from client, it is necessary to receive the user address
+>> directly, bypassing any processing by the TEE subsystem. Introduce
+>> TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INPUT/OUTPUT/INOUT to represent
+>> userspace buffers.
+> 
+> Internally you allocate a bounce buffer from the pool of shared memory
+> and copy the content of the user space buffer into that.
+> Wouldn't it be fair to replace "without needing shared memory" with
+> "without using shared memory"?
+> 
+
+You are right. I'll update it.
+
+>>
+>> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+>> ---
+>>  drivers/tee/tee_core.c   | 26 ++++++++++++++++++++++++++
+>>  include/linux/tee_drv.h  |  6 ++++++
+>>  include/uapi/linux/tee.h | 22 ++++++++++++++++------
+>>  3 files changed, 48 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+>> index 24edce4cdbaa..942ff5b359b2 100644
+>> --- a/drivers/tee/tee_core.c
+>> +++ b/drivers/tee/tee_core.c
+>> @@ -381,6 +381,16 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>>                         params[n].u.value.b = ip.b;
+>>                         params[n].u.value.c = ip.c;
+>>                         break;
+>> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INPUT:
+>> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_OUTPUT:
+>> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT:
+>> +                       params[n].u.membuf.uaddr = u64_to_user_ptr(ip.a);
+>> +                       params[n].u.membuf.size = ip.b;
+>> +
+>> +                       if (!access_ok(params[n].u.membuf.uaddr, params[n].u.membuf.size))
+>> +                               return -EFAULT;
+>> +
+>> +                       break;
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>> @@ -449,6 +459,11 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
+>>                             put_user(p->u.value.c, &up->c))
+>>                                 return -EFAULT;
+>>                         break;
+>> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_OUTPUT:
+>> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT:
+>> +                       if (put_user((u64)p->u.membuf.size, &up->b))
+>> +                               return -EFAULT;
+>> +                       break;
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>>                         if (put_user((u64)p->u.memref.size, &up->b))
+>> @@ -649,6 +664,12 @@ static int params_to_supp(struct tee_context *ctx,
+>>                         ip.b = p->u.value.b;
+>>                         ip.c = p->u.value.c;
+>>                         break;
+>> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INPUT:
+>> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT:
+>> +                       ip.a = (u64)p->u.membuf.uaddr;
+>> +                       ip.b = p->u.membuf.size;
+>> +                       ip.c = 0;
+>> +                       break;
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>> @@ -751,6 +772,11 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
+>>                         p->u.value.b = ip.b;
+>>                         p->u.value.c = ip.c;
+>>                         break;
+>> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_OUTPUT:
+>> +               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT:
+>> +                       p->u.membuf.uaddr = u64_to_user_ptr(ip.a);
+>> +                       p->u.membuf.size = ip.b;
+>> +                       break;
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>>                         /*
+>> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+>> index a54c203000ed..b66e611fece4 100644
+>> --- a/include/linux/tee_drv.h
+>> +++ b/include/linux/tee_drv.h
+>> @@ -82,6 +82,11 @@ struct tee_param_memref {
+>>         struct tee_shm *shm;
+>>  };
+>>
+>> +struct tee_param_membuf {
+> 
+> I would prefer tee_param_ubuf to better describe what it is.
+> 
+
+Ack.
+
+>> +       void * __user uaddr;
+>> +       size_t size;
+>> +};
+>> +
+>>  struct tee_param_value {
+>>         u64 a;
+>>         u64 b;
+>> @@ -92,6 +97,7 @@ struct tee_param {
+>>         u64 attr;
+>>         union {
+>>                 struct tee_param_memref memref;
+>> +               struct tee_param_membuf membuf;
+>>                 struct tee_param_value value;
+>>         } u;
+>>  };
+>> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+>> index d0430bee8292..fae68386968a 100644
+>> --- a/include/uapi/linux/tee.h
+>> +++ b/include/uapi/linux/tee.h
+>> @@ -151,6 +151,13 @@ struct tee_ioctl_buf_data {
+>>  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT        6
+>>  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT 7       /* input and output */
+>>
+>> +/*
+>> + * These defines memory buffer parameters.
+> 
+> user space buffer
+> 
+>> + */
+>> +#define TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INPUT 8
+>> +#define TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_OUTPUT        9
+>> +#define TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF_INOUT 10      /* input and output */
+> 
+> TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_*
+> 
+
+Ack.
+
+>> +
+>>  /*
+>>   * Mask for the type part of the attribute, leaves room for more types
+>>   */
+>> @@ -186,14 +193,17 @@ struct tee_ioctl_buf_data {
+>>  /**
+>>   * struct tee_ioctl_param - parameter
+>>   * @attr: attributes
+>> - * @a: if a memref, offset into the shared memory object, else a value parameter
+>> - * @b: if a memref, size of the buffer, else a value parameter
+>> + * @a: if a memref, offset into the shared memory object,
+>> + *     else if a membuf, address into the user buffer,
+>> + *     else a value parameter
+>> + * @b: if a memref or membuf, size of the buffer, else a value parameter
+>>   * @c: if a memref, shared memory identifier, else a value parameter
+>>   *
+>> - * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref or value is used in
+>> - * the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value and
+>> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref. TEE_PARAM_ATTR_TYPE_NONE
+>> - * indicates that none of the members are used.
+>> + * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, membuf, or value is
+>> + * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
+>> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_MEMBUF_*
+>> + * indicates membuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
+>> + * are used.
+>>   *
+>>   * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
+>>   * identifier representing the shared memory object. A memref can reference
+> 
+> Please update the comment above with UBUF and ubuf as needed.
+> 
+
+Ack.
+
+> Cheers,
+> Jens
+> 
+
+Best Regadrs,
+Amir
+
+>>
+>> --
+>> 2.34.1
+>>
