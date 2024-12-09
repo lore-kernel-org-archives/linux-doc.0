@@ -1,108 +1,148 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF0A35946;
-	Mon,  9 Dec 2024 13:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481EB1B4222
+	for <linux-doc@vger.kernel.org>; Mon,  9 Dec 2024 14:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733749608; cv=none; b=POjKsmJNOIRu0TCgjUat2AqLKw7i3Ucq0q5ECqVZGXAODF59WUoK3SGk+xh/hbUVUkW/yNVyKU6mMyw4xPt0QHzVXxxraZJdiwX4kCusfrSnq9BLGHB0hvpAJfMa2W6vAMYYTYp3xz1MRnmz7H9iJvtCrcaVPvPh9k2yRkB1oHQ=
+	t=1733755382; cv=none; b=J2l9yiFs8y1rzAkuMg//RQNsKzCTuTvT8b0+IBj3p3ojAaDWubKlWrBGPMVacd6solnChh2SPWhCqkSwW8Cxtc9KN8y6orlEnKdzdys4qNyWU04iiuBxhveHgZ0m2dOGbcFu9fzoNqQy7BgPw3dDsDk7GMP3neXmwm1BmwAMAxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733749608; c=relaxed/simple;
-	bh=vliuzW6oAKlYkynRr0BoR/o6IsO0AWCo8TwCyNGPfSg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rbOdjlef3ooSmOlM86T8rxuMS0et7uB1D4djsfDuoz85UnUyezKU6nyBXxwS0GSts4ar0PJBIDyM/0upC6PD5bMiuAIOdwTz9FpG9NpCjaqEEUmK2XkjaEBrGRdV5U4QJiTahpwd83CPXlRMUMOhNoJ8rgOe5q83lhF73R8pmWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SZBnOK6H; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733755382; c=relaxed/simple;
+	bh=Iiqbjto+vb0aXpNcZOFiu3NWNHXQsyJ41jNpYdodkL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bK11eHPRSb/prBXSfqkD749gKZ3kAOm8SRXb5EfxkD1UT2yX7DBnA1eS9B4WBjzyTTzg7m0qyiqRp2r/MMAU5ADumjwlUKiGd1HJp7YKGjt8GJRlzng3hy+VWP6rdeBsTBwhdU9k4oKRIn4YhwdQRQwqr3oWFhYZKtxUQ4IYZ1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=REDpF6dF; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SZBnOK6H"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d3f65844deso1692443a12.0;
-        Mon, 09 Dec 2024 05:06:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="REDpF6dF"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3862c78536bso341557f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 09 Dec 2024 06:42:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733749605; x=1734354405; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TtU6lwN56MGWuHArATgDm595svxW7Y23jzS1Sw8OpFs=;
-        b=SZBnOK6HtIZWRZQmk8M5nPmeUDR7bc0/R27tXLNqhmMsaAn1j8xRbFqnxqQdkX2hix
-         LSnaCGxHPGbFDVAMoJ+BBqmcOk9l3gk/+iZjM77QfSt2WXW0cmJLDhkFP8rKDtWkY9OO
-         vbXWY2Rzw6A3n0BJz1AOw7qea9qKH7BFX4ea3J/DbT8Ata2PC7p5s1ICwRQd5JHoqRx6
-         nv0F6HBC8OaII0fy2tkIWb84aJCe2W1CZeVlv0dKGzBi5EsS3IkIbuoUUEioAgiAsyJ0
-         JDA4iPsm5RGvXB7Jurw5Y7RauJYOdFJscLtXi8ufemCu0RqLzt61gxKLCzISk02AOHVz
-         Gieg==
+        d=suse.com; s=google; t=1733755377; x=1734360177; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nkwsX/4Xva/aw3/I8I2kwIJd9M/PGmCc4Ypj6qQ29AM=;
+        b=REDpF6dFhXNy3Vc5phYvhf0EusEPJbM1EBVwSgBXlV6eBVci5wLzMrfgwFHdHkquZa
+         22+/z3lfJQhNPvCH2+JpzR7RaczfQzOq2L8iDNFDDziwMSoeL37Z/1ma2jPXs95p4quy
+         jJtkjP3/Ck0bVWvFEOOZN19ZLM27x/gxXkV1Q+9nyjbepnX2BYeo+accdUWPnU1RxIN+
+         /ePs1EnonFTVgWTOa0FSxdi3Sc44yNHFtPaZwFNqjDpuYmMiDdtKKnnWtPcBowJ7AAHq
+         HEyHPt3AM2jKmI4M3C1k/8RSJjGUHUVOEggFuoCsjBgdBtp6BnBV3S8MAa7BuyH1CDsx
+         zLfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733749605; x=1734354405;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TtU6lwN56MGWuHArATgDm595svxW7Y23jzS1Sw8OpFs=;
-        b=uAvDGw3tXUTWZAVMYwK7pfmE4DE2MYj9CCSmw8pKR3qR3pMHgp0RExtnoCXUNUeOZS
-         AEjMMa72L81db5ZMFr38oFOcbVsPBYuvQp3i9MPPDh+ZH977ImXvsFmxrDxI/h0TQYu2
-         zJiDEzM5CIlwYmA7FzyGAPV5RLVaELQXU0t3Pk0QBUegng6+WD2L9l/E91ewtgHNQ7O8
-         Kz3Uza6wKAtNYEZxvJw+Fz+P+np4uYqUD61LGlitWoL2DLT1CUtB/w/FcYytbiYDKlVe
-         R5nNGCsPB53fem1cHCVZqB5orz+yPgweK1V1/uPnEG74Mwmb0KZLPlcISH5bWvnkENs5
-         wOdw==
-X-Forwarded-Encrypted: i=1; AJvYcCUBKtM778/JIhXWBlg4NKW5VOYO2FApwIHRMnu+/0rM1IGZrxxxBPVV/LChvt28vxhNOO353siGnQLv@vger.kernel.org, AJvYcCUrQ1yILx6fdSpPaX+6UIw3X6B5iRrYJeyAXPRWNyk0Wl3Wz0BPxozFoqxV4uSs8JTI4ZWAKI3llN78isCJ@vger.kernel.org, AJvYcCVYl+cqVnzjxzIlR3mYYi96zW0lcRuahGZLajNZ7s7uWR3lXyOqR1nhlOCRwkJDsuomvSc+kZ2feCA0M++gY2Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIhKVjxFYK7bxWWWcWHvYp0xj64kdkB/nV8kqulWDwwwcX1uke
-	ecGTbLnr5G2riu21ce2JoV/WAB67gDrjaDy494q/dseuiBi83bUt
-X-Gm-Gg: ASbGncuDggwXTTCC4TSfl2P9AoJ1O+ggfN+DaUIF2TYhFG7sEEoay1jQ1GbrVtaxeFR
-	QPBynUvNvnvjiP4QJFS3XdsJKvdrhANMbUK5K18wjxwWRK2sKijSq8NMQDQNTIZci7W1Md98a0g
-	PxwVbNTm1aAtElVfl1tUbT1z1kb7UsjibyyS3bf0+goK1kXcjTfvLm5f580kkZv9SUrf2Ki9Xtj
-	TMET/ytIhIrDODTLOWw9AGOIEBhiWapnhHIFfLwBfI+
-X-Google-Smtp-Source: AGHT+IFolnwhrTjnrkMfdsTj+uiywvUme/yN43zr+TfUpb2BoksT+kHM3ZURwBzqJH3RdHTrbAaCkA==
-X-Received: by 2002:a17:906:18a9:b0:aa6:8a1b:8b7c with SMTP id a640c23a62f3a-aa68a1b8e98mr257608166b.2.1733749605171;
-        Mon, 09 Dec 2024 05:06:45 -0800 (PST)
-Received: from void.void ([141.226.13.92])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6651c01c5sm352412966b.23.2024.12.09.05.06.44
+        d=1e100.net; s=20230601; t=1733755377; x=1734360177;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nkwsX/4Xva/aw3/I8I2kwIJd9M/PGmCc4Ypj6qQ29AM=;
+        b=WxCYdxagRtZGDQ/KnsCS9z4l6Sc55PlS02E67HOb2bwHjzWRdDpJY9ZGb3HI5Mua7p
+         GIUPpJCEkExc7K2a0mxdXhwknk2gE3zdd5+hgf/bJgdkGAkENQmFv2w6Y2EJPdHp2mmt
+         7h4SL+I4f/TyQBV93sy59Is/9muZtuMrDz7QAs/Ln+sunyUCSjw6+Fx67gxPQgciXnQW
+         om5zw6zk6UmiZNsGrWavoUkphF1nsbAfPphOz1vM9VsfRyL7AmvE1xKnk1iYVhvpXQkI
+         F6UjGaW+nFpbD5jWSyXxof6uFsWQZEPc2w9c6TFnSO04wDlzabnEtD5fVgivDHpmgOQI
+         FVzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOrFGmxuKaM6Yrm5pGbtOoGeBIcjYaBMGti+53BOyhc7BfujcllwMX9SUMZ0zAuqEDMkiP/Rp8sBo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRBEwqYsg8HJ3IN6zLfaCuBdFrb/KPWCfoBaQW8C8UpQN/053H
+	JvAEyp4cyViibyZBD9nE/yqIDH947xgmAo/KsJSikHbWj8cpmH9XkfVkGe1QxOc=
+X-Gm-Gg: ASbGnctn4lmMNnD8yIItguX50MEYQikTW6faVgYfkW2e70FGW+Sy1smAUB9iKHpt88b
+	B+6hQrMRN6z5/nUh2UlAnDt3yUlQ7IEcqPIIHiS41kRUT5FN5OKr4cvq+7jbrKFYeI4CROnI9d1
+	4ZLd7NIFcEYeCZmDVWqI3cBi2oDMBhBmteL9pXckgmN1rlgnr2asMRb7RLv3GtuW0vIX7U9ZB59
+	5RjJ9k6AxRKx1fqF9Vhvj+cr3Km0LimpIeVoVJpxdiRxfvNHpL419yO4qmnvWnmwOOvc4V4Vvww
+	2L0+kyQTgdbNuvRU8jarvFzyv7n2XzuTZNgzTJCjW0swEkom1+PJEgs=
+X-Google-Smtp-Source: AGHT+IFS9ZOU0lVFyWUQ84y6baV41ONm7JGT6TkRTJEtzq0JeBL9l/n9rsr90siOB4OTv3dodfZukg==
+X-Received: by 2002:a05:6000:1846:b0:385:fd31:ca24 with SMTP id ffacd0b85a97d-3862b3cea6dmr3365934f8f.12.1733755377482;
+        Mon, 09 Dec 2024 06:42:57 -0800 (PST)
+Received: from mordecai.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38636e05568sm7300809f8f.39.2024.12.09.06.42.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 05:06:44 -0800 (PST)
-From: Andrew Kreimer <algonell@gmail.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Andrew Kreimer <algonell@gmail.com>
-Subject: [PATCH] Documentation/rv: Fix typos
-Date: Mon,  9 Dec 2024 15:06:00 +0200
-Message-ID: <20241209130640.10954-1-algonell@gmail.com>
-X-Mailer: git-send-email 2.47.1.404.ge66fd72e97
+        Mon, 09 Dec 2024 06:42:57 -0800 (PST)
+Date: Mon, 9 Dec 2024 15:42:52 +0100
+From: Petr Tesarik <ptesarik@suse.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Valentin Schneider <vschneid@redhat.com>, Dave Hansen
+ <dave.hansen@intel.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Andy Lutomirski <luto@kernel.org>, Frederic Weisbecker
+ <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Neeraj
+ Upadhyay <quic_neeraju@quicinc.com>, Joel Fernandes
+ <joel@joelfernandes.org>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
+ <boqun.feng@gmail.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki
+ <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>, Lorenzo Stoakes
+ <lstoakes@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron
+ <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>, Sami Tolvanen
+ <samitolvanen@google.com>, Ard Biesheuvel <ardb@kernel.org>, Nicholas
+ Piggin <npiggin@gmail.com>, Juerg Haefliger
+ <juerg.haefliger@canonical.com>, Nicolas Saenz Julienne
+ <nsaenz@kernel.org>, "Kirill A. Shutemov"
+ <kirill.shutemov@linux.intel.com>, Nadav Amit <namit@vmware.com>, Dan
+ Carpenter <error27@gmail.com>, Chuang Wang <nashuiliang@gmail.com>, Yang
+ Jihong <yangjihong1@huawei.com>, Petr Mladek <pmladek@suse.com>, "Jason A.
+ Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>, Julian Pidancet
+ <julian.pidancet@oracle.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Dionna Glaze <dionnaglaze@google.com>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
+ <linux@weissschuh.net>, Juri Lelli <juri.lelli@redhat.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, Yair Podemsky <ypodemsk@redhat.com>, Daniel Wagner
+ <dwagner@suse.de>
+Subject: Re: [RFC PATCH v3 13/15] context_tracking,x86: Add infrastructure
+ to defer kernel TLBI
+Message-ID: <20241209154252.4f8fa5a8@mordecai.tesarici.cz>
+In-Reply-To: <20241209121249.GN35539@noisy.programming.kicks-ass.net>
+References: <20241119153502.41361-1-vschneid@redhat.com>
+	<20241119153502.41361-14-vschneid@redhat.com>
+	<20241120152216.GM19989@noisy.programming.kicks-ass.net>
+	<20241120153221.GM38972@noisy.programming.kicks-ass.net>
+	<xhsmhldxdhl7b.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+	<20241121111221.GE24774@noisy.programming.kicks-ass.net>
+	<4b562cd0-7500-4b3a-8f5c-e6acfea2896e@intel.com>
+	<20241121153016.GL39245@noisy.programming.kicks-ass.net>
+	<20241205183111.12dc16b3@mordecai.tesarici.cz>
+	<xhsmh1pyh6p0k.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+	<20241209121249.GN35539@noisy.programming.kicks-ass.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-There are some typos in the documentation: 'a' -> 'at', missing 'to'.
-Fix them.
+On Mon, 9 Dec 2024 13:12:49 +0100
+Peter Zijlstra <peterz@infradead.org> wrote:
 
-Signed-off-by: Andrew Kreimer <algonell@gmail.com>
----
- Documentation/trace/rv/runtime-verification.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> On Mon, Dec 09, 2024 at 01:04:43PM +0100, Valentin Schneider wrote:
+> 
+> > > But I wonder what exactly was the original scenario encountered by
+> > > Valentin. I mean, if TLB entry invalidations were necessary to sync
+> > > changes to kernel text after flipping a static branch, then it might be
+> > > less overhead to make a list of affected pages and call INVLPG on them.  
+> 
+> No; TLB is not involved with text patching (on x86).
+> 
+> > > Valentin, do you happen to know?  
+> > 
+> > So from my experimentation (hackbench + kernel compilation on housekeeping
+> > CPUs, dummy while(1) userspace loop on isolated CPUs), the TLB flushes only
+> > occurred from vunmap() - mainly from all the hackbench threads coming and
+> > going.  
+> 
+> Right, we have virtually mapped stacks.
 
-diff --git a/Documentation/trace/rv/runtime-verification.rst b/Documentation/trace/rv/runtime-verification.rst
-index dae78dfa7cdc..c700dde9259c 100644
---- a/Documentation/trace/rv/runtime-verification.rst
-+++ b/Documentation/trace/rv/runtime-verification.rst
-@@ -8,14 +8,14 @@ checking* and *theorem proving*) with a more practical approach for complex
- systems.
- 
- Instead of relying on a fine-grained model of a system (e.g., a
--re-implementation a instruction level), RV works by analyzing the trace of the
-+re-implementation at instruction level), RV works by analyzing the trace of the
- system's actual execution, comparing it against a formal specification of
- the system behavior.
- 
- The main advantage is that RV can give precise information on the runtime
- behavior of the monitored system, without the pitfalls of developing models
- that require a re-implementation of the entire system in a modeling language.
--Moreover, given an efficient monitoring method, it is possible execute an
-+Moreover, given an efficient monitoring method, it is possible to execute an
- *online* verification of a system, enabling the *reaction* for unexpected
- events, avoiding, for example, the propagation of a failure on safety-critical
- systems.
--- 
-2.47.1.404.ge66fd72e97
+Wait... Are you talking about the kernel stac? But that's only 4 pages
+(or 8 pages with KASAN), so that should be easily handled with INVLPG.
+No CR4 dances are needed for that.
 
+What am I missing?
+
+Petr T
