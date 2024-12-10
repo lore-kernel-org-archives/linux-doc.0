@@ -1,187 +1,220 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0C223DEB5
-	for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 10:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8BF1E515;
+	Tue, 10 Dec 2024 11:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733826282; cv=none; b=HzO/NI78MoPfQVSlVVB3UjRvFnhrYR6TZHnbHVyV4H1NArJe88BNPnWrz5IJc0eEYu2IdhK4n7ntY4TORremV5/FnEVdHJWt56tmW3roh+8Y1FU1OC2eFZ8B4bLeWfvDmMrTgynEYfUoXy0PJMu90cRv21h3Zdb2dLxyZ/QMvyQ=
+	t=1733828493; cv=none; b=PalAiPwdPml+tWG/YFWVcPyEX1SMthtJQ+5ORZZ/NNiV3UgSMNclIUebQKzTKJ6U/w9Gm5+HIWHXpg56yE621GSTqFtKxonisEe5sGMOL7+wMi6/HLgdI1W9lhobGh9nN3HuZ0teTZRVAa/vOgCgvM9kiRRNo2+0B6y0iZ1PlS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733826282; c=relaxed/simple;
-	bh=KacdTMDwGHOubfAMUMEA0y3RYV/hoieH8eSRxF9Vy/k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WDIOmlr37FnOyGT6pk7nvbWhI3MORmcCdotiy1fC7bIWooJ7IG6uy80FRbiq3aa5TPVgAWHH9Jobvvl3oW5YgxUOGYU+O6LMoiDXXbxJCgQz4Bf7aEewh9Eru91k/MaU8r8/r2l28GsQH5vhXPYRWDHSM17p2ADOtJ8KvLHxNLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=W3TDEH+7; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733828493; c=relaxed/simple;
+	bh=9djBWo0HIZg4RLAt/Xoiny9Vsiy4e7OHdyDRZ9OXr6Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WOOclCPQeCFgIu0nJ6wRheOfOHx4KuDIWFPyCMPWBn3K2CykizpYpwbayk2tjNJ/DnhYNFnU8tmcrBXMwoRdwXkR564oaUFJtuccYbpPwwfkPpNynYxEvPo4v585KAE60BoWRxF682alLC43CYzkhAR3YIXOiyVWa16VwcgTQHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ua64heA0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=b7LUvDUY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r505F5gn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ia6A+lqf; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W3TDEH+7"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-71ded02b779so1075465a34.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 02:24:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733826278; x=1734431078; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dnxhJKvx9jYvossMLwXlm6WCMeoNqlxmsqhx0tMAQvc=;
-        b=W3TDEH+7hUB3uOktZN2+rAjiIzsIwLe+nbUQCCdTKz617Ax7EZ/Y3eF+MSPcBXZ4Ho
-         ePy9bnnabXq3LtLEEzZrhjJ5VtKelBWpnCR1BQIGToBAKPtbCxC/uvZfz9i0+ZHQPpb/
-         Jy+gYdDntjUUVu2zkZoClfQukKNE+lt0HayX/a+sMioPmZ1bDlLooBJgut/7vUfEfJvW
-         ov6QB3LbJrxszoUsTlLC+DjBamKy0eZ5axYBENbM+H/l3avG7DP+MUx2WJtt3eANoyhg
-         g+OgETo/g1XgsujhdyYaUOI60pZkZ6wX15/9RWIPu2pwh3hi75W/N66hD0byPx4KN743
-         gYnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733826278; x=1734431078;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dnxhJKvx9jYvossMLwXlm6WCMeoNqlxmsqhx0tMAQvc=;
-        b=iCy5LakMPfizr0Bdd7kMInrHM3VyYHJPrV3YrXhGBeV7C6GmfmCjJnEXVsONWROcQI
-         nME2Nu31kkkRVc8BwRWpYY4oO+ZWMVoYs4ARP2aoYk4nj2zn8uIVtsI+YjSLPHnhDv4U
-         d1TlgtmKH0wziH+dsOMvAj/tozmRPkNmVg6AVhu+P9toMJq0oV7RL9pmzpKOsvgt95Ar
-         MkHXLAEVzzjHniybjpGcag41sDcctqh1l6jZjxfZSjcKvlDneU5/Rw4ka51DM2w0J8i3
-         FwN9EPiMCyFWavXGYQpGWLBqCFqzQP+wAitzfHYD/T5uZh/TxLqmJWANFEAiLVF3dhof
-         xWTg==
-X-Forwarded-Encrypted: i=1; AJvYcCXSblUBfjezwa1anvNzaQkfJ0DZSlFiIsfVelmHNJlwKX6WNrKfYi13Ntrc0EPYhucUak5fROFVTUg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeOhgepq3NEpmho8jGvH+Qs3SKOthqpUZ97TMJZvQnnZmLmO/k
-	rzx4JiFsUpNNnBlUUbJoFfX8TDsWKG+sh7berxUbPLqqbOO26KSGCO4i2EVsFAE84jK+2VdLuKd
-	FU/41BXopuVR/tXRcx8KJaSMlsAgcpM+KdJ/n8w==
-X-Gm-Gg: ASbGncv3P23/71ScIM/WErpkgm++46qeMCWcH3q8RXsBdx+3H2Sf7+P7JHqjIThQKYt
-	RyI3LGX467TgEHZkIsABrhaq0wGKtmSq+jeE9
-X-Google-Smtp-Source: AGHT+IFqSNy/U675xZEjsmCHP/7RnRexS72dnpn/UvAKcfve/GQogygTf20YsSMYxyFib0NlWI+JrNXv9DbPSym+qsU=
-X-Received: by 2002:a9d:7d99:0:b0:71d:eee3:fd27 with SMTP id
- 46e09a7af769-71deee3fe91mr4254214a34.1.1733826278464; Tue, 10 Dec 2024
- 02:24:38 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ua64heA0";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="b7LUvDUY";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r505F5gn";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ia6A+lqf"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BFF7D21163;
+	Tue, 10 Dec 2024 11:01:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1733828489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1OyKj2xVfjAlCKsFACj4sa96CmCJl1yBlyBUbmr/Nlo=;
+	b=ua64heA0/Q99awAYW4GygyAst5BUHB2Gs3R+SLEE1G1qCmTFCIO4MbR0muqj1ZrpKUWQCq
+	29GaHBPdTlGjn1BkD+gPz99kDqcE9kpBSwjDC288JJJ96O9MrRrq1Zt3P9UyjgewWRdmwE
+	n9DsRj2ghCDEDuS5Y6zUbU/7wSSzrqU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1733828489;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1OyKj2xVfjAlCKsFACj4sa96CmCJl1yBlyBUbmr/Nlo=;
+	b=b7LUvDUY9/u75ZYZWPCMQ7QJZ7i9BE9sFT6PPv5RdmOdWBMTVewHiWLOVTBV9x+bynFaeY
+	KTA1AHdzP+HkRnAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=r505F5gn;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Ia6A+lqf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1733828487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1OyKj2xVfjAlCKsFACj4sa96CmCJl1yBlyBUbmr/Nlo=;
+	b=r505F5gn19/3ZIDZz2eTOksRD3aGIFNDurC+MwvIkQVaxScmUnMy+hYAEwG/NhWle5h9Qo
+	cbqO2r9Su/uKOT/aC/uEWYbK/7ujBAaiBj6z/RNt9tnIOBssbpQZrlyhD4yhGv2KJYa8Cn
+	suWoVi/KyG4mSvJcYx5YN8Lr0IvGV4M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1733828487;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1OyKj2xVfjAlCKsFACj4sa96CmCJl1yBlyBUbmr/Nlo=;
+	b=Ia6A+lqfqbCSsxuoYfmepAnhOa1q9qWoEF9T1CxT4VXNIpzl17HoANUbfPssOjKRU2x29/
+	RUzglmpM2KKihPDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 738FD138D2;
+	Tue, 10 Dec 2024 11:01:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rKrhG4cfWGfnUAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 10 Dec 2024 11:01:27 +0000
+Message-ID: <1791a2ad-30c6-47db-914f-cfcc359e04b2@suse.cz>
+Date: Tue, 10 Dec 2024 12:01:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
- <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-5-f502ef01e016@quicinc.com>
-In-Reply-To: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-5-f502ef01e016@quicinc.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Tue, 10 Dec 2024 11:24:27 +0100
-Message-ID: <CAHUa44FhZc1ZVgJQrqbDdY1kegNgHrC4VTs66-5CDfY04D6MMw@mail.gmail.com>
-Subject: Re: [PATCH 05/10] qcomtee: implement object invoke support
-To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-Cc: Sumit Garg <sumit.garg@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, linux-arm-msm@vger.kernel.org, 
-	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 5/6] mm/slab: allow freeptr_offset to be used with ctor
+Content-Language: en-US
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: willy@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
+ mhocko@suse.com, hannes@cmpxchg.org, mjguzik@gmail.com,
+ oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com,
+ peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+ brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
+ minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
+ souravpanda@google.com, pasha.tatashin@soleen.com, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ kernel-team@android.com
+References: <20241206225204.4008261-1-surenb@google.com>
+ <20241206225204.4008261-6-surenb@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <20241206225204.4008261-6-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: BFF7D21163
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLk41rrgs15z4i1nmqiwtynpyh)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Tue, Dec 3, 2024 at 5:20=E2=80=AFAM Amirreza Zarrabi
-<quic_azarrabi@quicinc.com> wrote:
->
-> Introduce qcom_tee_object, which represents an object in both QTEE and
-> the kernel. QTEE clients can invoke an instance of qcom_tee_object to
-> access QTEE services. If this invocation produces a new object in QTEE,
-> an instance of qcom_tee_object will be returned.
->
-> Similarly, QTEE can request services from the kernel by issuing a callbac=
-k
-> request, which invokes an instance of qcom_tee_object in the kernel.
-> Any subsystem that exposes a service to QTEE should allocate and initiali=
-ze
-> an instance of qcom_tee_object with a dispatcher callback that is called
-> when the object is invoked.
->
-> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+On 12/6/24 23:52, Suren Baghdasaryan wrote:
+> There is no real reason to prevent freeptr_offset usage when a slab
+> cache has a ctor. The only real limitation is that any field unioned
+> with the free pointer and initialized by ctor will be overwritten since
+> free pointer is set after @ctor invocation. Document this limitation
+> and enable usage of freeptr_offset with ctor.
+> 
+> Suggested-by: Vlastimil Babka <vbabka@suse.cz>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+
 > ---
->  drivers/tee/Kconfig                    |   1 +
->  drivers/tee/Makefile                   |   1 +
->  drivers/tee/qcomtee/Kconfig            |  10 +
->  drivers/tee/qcomtee/Makefile           |   6 +
->  drivers/tee/qcomtee/async.c            | 153 ++++++
->  drivers/tee/qcomtee/core.c             | 928 +++++++++++++++++++++++++++=
-++++++
->  drivers/tee/qcomtee/qcom_scm.c         |  36 ++
->  drivers/tee/qcomtee/qcomtee_msg.h      | 217 ++++++++
->  drivers/tee/qcomtee/qcomtee_private.h  |  47 ++
->  drivers/tee/qcomtee/release.c          |  66 +++
->  include/linux/firmware/qcom/qcom_tee.h | 284 ++++++++++
->  11 files changed, 1749 insertions(+)
->
-[snip]
+>  include/linux/slab.h | 5 +++--
+>  mm/slub.c            | 2 +-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index 681b685b6c4e..6bad744bef5e 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -305,8 +305,9 @@ struct kmem_cache_args {
+>  	 * Using %0 as a value for @freeptr_offset is valid. If @freeptr_offset
+>  	 * is specified, %use_freeptr_offset must be set %true.
+>  	 *
+> -	 * Note that @ctor currently isn't supported with custom free pointers
+> -	 * as a @ctor requires an external free pointer.
+> +	 * Note that fields unioned with free pointer cannot be initialized by
+> +	 * @ctor since free pointer is set after @ctor invocation, so those
+> +	 * values will be overwritten.
+>  	 */
+>  	unsigned int freeptr_offset;
+>  	/**
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 870a1d95521d..f62c829b7b6b 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -5462,7 +5462,7 @@ static int calculate_sizes(struct kmem_cache_args *args, struct kmem_cache *s)
+>  	s->inuse = size;
+>  
+>  	if (((flags & SLAB_TYPESAFE_BY_RCU) && !args->use_freeptr_offset) ||
+> -	    (flags & SLAB_POISON) || s->ctor ||
+> +	    (flags & SLAB_POISON) || (s->ctor && !args->use_freeptr_offset) ||
+>  	    ((flags & SLAB_RED_ZONE) &&
+>  	     (s->object_size < sizeof(void *) || slub_debug_orig_size(s)))) {
+>  		/*
 
-> +/**
-> + * DOC: Overview
-> + *
-> + * qcom_tee_object provides object ref-counting, id allocation for objec=
-ts hosted in
-> + * REE, and necessary message marshaling for Qualcomm TEE (QTEE).
-> + *
-> + * To invoke an object in QTEE, user calls qcom_tee_object_do_invoke() w=
-hile passing
-> + * an instance of &struct qcom_tee_object and the requested operation + =
-arguments.
-> + *
-> + * After the boot, QTEE provides a static object %ROOT_QCOM_TEE_OBJECT (=
-type of
-> + * %QCOM_TEE_OBJECT_TYPE_ROOT). The root object is invoked to pass user'=
-s credentials and
-> + * obtain other instances of &struct qcom_tee_object (type of %QCOM_TEE_=
-OBJECT_TYPE_TEE)
-> + * that represents services and TAs in QTEE, see &enum qcom_tee_object_t=
-ype.
-> + *
-> + * The object received from QTEE are refcounted. So the owner of these o=
-bjects can
-> + * issue qcom_tee_object_get(), to increase the refcount, and pass objec=
-ts to other
-> + * clients, or issue qcom_tee_object_put() to decrease the refcount, and=
- releasing
-> + * the resources in QTEE.
-> + *
-> + * REE can host services accessible to QTEE. A driver should embed an in=
-stance of
-> + * &struct qcom_tee_object in the struct it wants to export to QTEE (it =
-is called
-> + * callback object). It issues qcom_tee_object_user_init() to set the di=
-spatch()
-> + * operation for the callback object and set its type to %QCOM_TEE_OBJEC=
-T_TYPE_CB_OBJECT.
-> + *
-> + * core.c holds an object table for callback objects. An object id is as=
-signed
-> + * to each callback object which is an index to the object table. QTEE u=
-ses these ids
-> + * to reference or invoke callback objects.
-> + *
-> + * If QTEE invoke a callback object in REE, the dispatch() operation is =
-called in the
-> + * context of thread that called qcom_tee_object_do_invoke(), originally=
-.
-> + */
-> +
-> +/**
-> + * enum qcom_tee_object_typ - Object types.
-> + * @QCOM_TEE_OBJECT_TYPE_TEE: object hosted on QTEE.
-> + * @QCOM_TEE_OBJECT_TYPE_CB_OBJECT: object hosted on REE.
-> + * @QCOM_TEE_OBJECT_TYPE_ROOT: 'primordial' object.
-> + * @QCOM_TEE_OBJECT_TYPE_NULL: NULL object.
-> + *
-> + * Primordial object is used for bootstrapping the IPC connection betwee=
-n a REE
-> + * and QTEE. It is invoked by REE when it wants to get a 'client env'.
-> + */
-> +enum qcom_tee_object_type {
-> +       QCOM_TEE_OBJECT_TYPE_TEE,
-> +       QCOM_TEE_OBJECT_TYPE_CB_OBJECT,
-
-The second OBJECT seems redundant. How about QCOM_TEE_OBJECT_TYPE_CB
-or QCOM_TEE_OBJECT_TYPE_CALLBACK instead?
-
-> +       QCOM_TEE_OBJECT_TYPE_ROOT,
-> +       QCOM_TEE_OBJECT_TYPE_NULL,
-> +};
-[snip]
-
-Cheers,
-Jens
