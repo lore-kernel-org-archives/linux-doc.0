@@ -1,136 +1,98 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A12F78F47;
-	Tue, 10 Dec 2024 11:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C88212D98;
+	Tue, 10 Dec 2024 11:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733828660; cv=none; b=ulca3u7D82ikrLOshDkl5JqcB41grrx4o4/dcqHindajqkfNd5HZpmp7N71mj64LXpcX1bvrhf0wZNaVsIS7ZPOo7YvqiwuwHNgQAKducl0zRovF4hkCmcCHsrH2CSC2P7sggBa04MAkYExJpVtuIpCOSdt4Xadqpd47qZydvXE=
+	t=1733828828; cv=none; b=iWmQtVbK7S/oPv5vzGKz2Ea8/RaNzWrflY64ouqFm3nTOpv1vOoxaXjJ0mvlo1+TT+TX/7J7VRkAwhm43tLzQB0nH6KS879e7hxS2zGQLzaf7p6cBN5Dt8Zx0YZYFzQbew7XwtHESFwOtBu3/RIgfiS3DRWsKE/UdZ6yIztmD2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733828660; c=relaxed/simple;
-	bh=FU67rLrViZPdR8qhmmKTXQUYgujidzzYPHnHn8k9EMc=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=TV2KBID+FvwalUvwzMN8A0lhwKOTK6lclIk78OXeW7m0/8cYj515CAae9ax0WyoT75ObonjBz2dbpVORZoj1ECPgpFAUYKOmJnDpcHiHzYeBjkH7f1VIBvxUxbPvYgMSBvM2n4gk/QfwngN6ekQ81s542DdCLKLW1z1H5f/Kj9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNrwsugp; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733828828; c=relaxed/simple;
+	bh=suGVnewTTw4T8anGYzAeJv/H2X+j5F3hcGtPHrjmOe8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vk+REoI+10vklr/U+2blNcNX2YmooKjw/4/ABnXGfKJAiBuy8BuFjTqio2hwp2vG/d1gPCntj0EDMsfsz0BRu0vWaWnkg6T7102r3F2DZYwOIORhw+pv9gpmkfWSfr3X9DPRFwehGRL3j7NbsZqpG9VO3m/WorJflOiDkKvVMLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EmtBrXw/; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNrwsugp"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-725ce7b82cbso3309344b3a.0;
-        Tue, 10 Dec 2024 03:04:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733828659; x=1734433459; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d53c0Q7cNW97XGoMSTKLDLwhm+ZDEx0sfAqw8S7aAq4=;
-        b=BNrwsugpxdpFk9AKGgIoy8xLuHVJZCPuVKduRKb5sueyT6Kit4tJaTzHEbBjWAMCEa
-         PdE55bdE3lk+p5ocJF4S6nNFP7pO2ZztAHKJGF1pPKNfTGcDVvx9EUrLHKBMPX4hMhEM
-         KJnKQ18TXJXd8Eh4vA9AJ4xhj9ri/SAhLXVtmhr7tC6R3hyMTZ3kqEHw8Bup8zgXrxTY
-         vSi6EUkQPfjmyPeviD7WGkBqOvv2GQjxGuvF4pqwTPx/jisElehjfqfvHe4EahANO9Ry
-         74B4FYxsKke89gH+nzMrQNZXPbWMshZhctCecFpqGNReg3Nv41moATkVQkRbkTZ1Ia5Y
-         9OJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733828659; x=1734433459;
-        h=content-transfer-encoding:cc:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=d53c0Q7cNW97XGoMSTKLDLwhm+ZDEx0sfAqw8S7aAq4=;
-        b=Xj1Wil4X6UoobyvYGcSM97St+rpZ8NKwGlS8ePrKUyAaMihra3K8upW9XUG1vfiOCb
-         hXbJWhBhQ1e46xraj7+SaCQB8jK/4knpaGNJDpW+4XKfINJnwFav8sFBR8oxhPRroMIn
-         pRXVgw48smy6MiJRFaPtkjsENajP8iPqXNufrTBec09fJsDrHelA/9331vyleZj3UPpK
-         2gGng6cQkq5VgwO5JXJbxNGl/mgHb2OYcw/4kFBAs+va0BZbYLdnMahqtKDFw1b+rhbv
-         0iJZwDAa2BldHROLoqW+mOqrlo8oHH4zMcQ6MFAZu7JfkzjziKaKfe5o1JawGGnnVHsq
-         VjXA==
-X-Forwarded-Encrypted: i=1; AJvYcCV27N9kbZKE7PY/Gb9wtTIYuQ6rPv8Mu1GOKgSC0OGc3UNj3F0gLR5d61yWOiE4p+NB0lDJA0t04u80o88=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4cw0/Dup3sJIztoj9rBgFfzupjjlBjcr131wrWTIERhHZBUKA
-	GDu9fEzqUFsU14gWKkYPxn4tfs240TWuhC0n8e59E8qg1qoYOtcW
-X-Gm-Gg: ASbGncvWk+aByznWjMm/UE8olJPNfk5I4ctpupmRGOmylrbHWguU5AlPWB6GEGUAHw0
-	gsCt07dFUxhdRyvAAfdP5+fpG3dJ7iuXTRDv+hedhGbpkrM7aHoHW/kpt5T6Yovxv9gIAZEJQTt
-	GxH8bmaJsTa0UHoN9CNHICGSot7ctcYoy1igHpPH0nxVeooWpP3Za4hPx0gYnqGh2Khur72RWig
-	ZZT2ySlKjbB6S3x8wu1uvXUKaFD3zjWAUhwe0qBxmbpBl4qiup9J9HnlGzQ1diJ4eqENl6PxqG6
-	BOFciKKzrEeUscbd+2bO
-X-Google-Smtp-Source: AGHT+IHiq76zZeabk5JBiqlxqVtJh6w677/EJMhuF87IpvjsfK2g86Eal5qMcqbdAM/t8J0FQTTuUw==
-X-Received: by 2002:a05:6a20:3d82:b0:1e1:a434:2964 with SMTP id adf61e73a8af0-1e1b1a71ad5mr6301486637.2.1733828658547;
-        Tue, 10 Dec 2024 03:04:18 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fd157d79e5sm8892284a12.75.2024.12.10.03.04.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2024 03:04:18 -0800 (PST)
-Message-ID: <e5c43f36-45cd-49f4-b7b8-ff342df3c7a4@gmail.com>
-Date: Tue, 10 Dec 2024 20:04:15 +0900
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EmtBrXw/"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BA7xOZk007371;
+	Tue, 10 Dec 2024 05:06:44 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=lVzLNj3rXAH+GU2UEU
+	4TH+gttJpUh7a6maPob5Gu8Do=; b=EmtBrXw/AKoXGEDQvRmATBMEihecisE6rm
+	69aQR8T0flW6MCvO2QVxf9nlkS/B5lOjV6Rxl6NxUXK0fz+XGJnTWDk/rp2vFYDH
+	/f5T6tuBYt2UHhc7kOY2D3VgV9rucCSI+hJsX0CRraZCxXKEdtgScVNXp5764/yE
+	Y2yZbZ2M5ee51B+0FaHtmKMqUPQtW0PKYQt1mSD+gED9CQpc92V3xP3oJjAPDV2Y
+	TjE7Y5/0rOK/ZeCjADTOlXoZFEBKMALZ9u6SubiiaItli5V2YlDS3PRIzW9rlgSn
+	D3pESVmfl0xqX+7nTgSZw/SoJN6l1p+iUzdgkanfW+/QtEx5VDZQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkbddu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Dec 2024 05:06:43 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Tue, 10 Dec
+ 2024 11:06:42 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.13 via Frontend Transport; Tue, 10 Dec 2024 11:06:42 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 4FCA7820248;
+	Tue, 10 Dec 2024 11:06:42 +0000 (UTC)
+Date: Tue, 10 Dec 2024 11:06:41 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: anish kumar <yesanishhere@gmail.com>
+CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
+        <tiwai@suse.com>, <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
+Message-ID: <Z1ggwXLAu+/Y817c@opensource.cirrus.com>
+References: <20241207193441.15767-1-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Jonathan Corbet <corbet@lwn.net>, Greg KH <gregkh@linuxfoundation.org>,
- Peter Zijlstra <peterz@infradead.org>, Masahiro Yamada <masahiroy@kernel.org>
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] scripts/kernel-doc: Get -export option working again
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Akira Yokosawa <akiyks@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241207193441.15767-1-yesanishhere@gmail.com>
+X-Proofpoint-ORIG-GUID: zCs7qdWlZtgdbJwj1Ze5H-CzHxXoNLnf
+X-Proofpoint-GUID: zCs7qdWlZtgdbJwj1Ze5H-CzHxXoNLnf
+X-Proofpoint-Spam-Reason: safe
 
-Since commit cdd30ebb1b9f ("module: Convert symbol namespace to string
-literal"), exported symbols marked by EXPORT_SYMBOL_NS(_GPL) are
-ignored by "kernel-doc -export" in fresh build of "make htmldocs".
+On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
+> +Boot-up logs will display message similar to:
+> +
+> +.. code-block:: text
+> +
+> +   ASoC: registered pcm #0 codec2codec(Playback Codec)
+> +
+> +To trigger this DAI link, a control interface is established by the
+> +DAPM core during internal DAI creation. This interface links to
+> +the ``snd_soc_dai_link_event`` function, which is invoked when a
+> +path connects in the DAPM core. A mixer must be created to trigger
+> +the connection, prompting the DAPM core to evaluate path
+> +connections and call the ``snd_soc_dai_link_event`` callback with
+> +SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
+> +
 
-This is because regex in the perl script for those markers fails to
-match the new signatures:
+I am still not really following this, what are we trying to
+convey in this paragraph?
 
-  - EXPORT_SYMBOL_NS(symbol, "ns");
-  - EXPORT_SYMBOL_NS_GPL(symbol, "ns");
+What do we mean by a "control interface" here, is that referring
+to the kcontrol that is created to select the rate in the case
+of multiple rates? Or is it simply refering to the fact we call
+snd_soc_dapm_new_control_unlocked? But really that function is
+adding widgets, as I noted in my last email.
 
-Update the regex so that it matches quoted string.
+Also what do we mean by a "A mixer must be created", I am not
+aware of any requirement for a mixer? The DAI link needs to be on
+a valid DAPM path, but I don't see any requirements other than
+that.
 
-Note: Escape sequence of \w is good for C identifiers, but can be
-too strict for quoted strings.  Instead, use \S, which matches any
-non-whitespace character, for compatibility with possible extension
-of namespace convention in the future [1].
-
-Fixes: cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
-Link: https://lore.kernel.org/CAK7LNATMufXP0EA6QUE9hBkZMa6vJO6ZiaYuak2AhOrd2nSVKQ@mail.gmail.com/ [1]
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
----
-This fixes regression in v6.13-rc2.
-
-Quick reproducer:
-
-    ./script/kernel-doc -rst -export drivers/iommu/iommufd/device.c
-
-On v6.13-rc2, kernel-doc will say:
-
-     drivers/iommu/iommufd/device.c:1: warning: no structured comments found
-
-With this patch applied, you'll get reST formatted kernel-doc comments. 
-
-Akira
- 
----
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index f66070176ba3..4ee843d3600e 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -267,7 +267,7 @@ my $doc_inline_sect = '\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)';
- my $doc_inline_end = '^\s*\*/\s*$';
- my $doc_inline_oneline = '^\s*/\*\*\s*(@[\w\s]+):\s*(.*)\s*\*/\s*$';
- my $export_symbol = '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
--my $export_symbol_ns = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*\w+\)\s*;';
-+my $export_symbol_ns = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*"\S+"\)\s*;';
- my $function_pointer = qr{([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)};
- my $attribute = qr{__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)}i;
- 
-
-base-commit: fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
--- 
-2.34.1
-
+Thanks,
+Charles
