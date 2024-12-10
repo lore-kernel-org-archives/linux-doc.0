@@ -1,211 +1,117 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499BCA934;
-	Tue, 10 Dec 2024 00:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA7AA934;
+	Tue, 10 Dec 2024 00:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733788849; cv=none; b=uk5l/5jzFKxP0aAtCMXfgNhfj27mdchkg0x8qTKcjjCTYfNtj/3iykMEo+ChIzl4l36/fP0MoFutzWlkLcRzwN5S3rPVCE3q9VIAYWSQ14//3GwodcWAvGQHu1ZYSlk5omCj90likAMDBIkJHS2fTxNmAYKSZ+/yJNoINnohu5U=
+	t=1733788859; cv=none; b=AVxp67xPD0fLcr0UBmaFX6MZ5oViJsHayiUy+AeorMwHXvSX7d4I2Vh5+ZConZ3Tl2H9qlLCQiedDw/y0/SbyAey9DYIgDvHbVJ9cyrUex8K5XblhYOew795RExsFlM1hYD7cflr6q2Pi9l6XWkFg/bGcmqxgFB3ZLQfZffmtQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733788849; c=relaxed/simple;
-	bh=h3uBjElatKr0hPl6/PqFIk1FIlumz86KPe43ygUTTV8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pkeMTeEUJvmiKwQolLDSq4oq7xZ3CTXb7OW21lz9cgNWEUh5B30lk/lzn9ph7My8gKtR7XOCpNTf8eMvpQFPmg+9ice4PN//V7vgPRicYiLTYkcwWAFxPlU5vln26FcG1B/RZQlIFSqxLor+MRZ+hR4k1vn4SsKav3zkmdTIVW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jxd9eSFB; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1733788859; c=relaxed/simple;
+	bh=Hx3TYCfv8vO1GHDfioqECB6aGnBv+pYMSPSzeHD0ACM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SOBU8SUd1iY83gZvDSc4rZPF4eVv0P9w1rqsntBBKNwgEm964tbdID/LoEEQRC+vxJpbPHJ+XMt3UKV2KSaojP1yoqagPNXkeNxEXRzqr15qR8dbrKf9PmVuQbt7eGfhorzHlHZdjj22jPv2LZh5gYjx11lb2hbsHl5K00+nfe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxiED/4q; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jxd9eSFB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=PBXruUUq7CFnP5baKZ7oFYfGkNPXA/nLTilEYn4xNxQ=; b=jxd9eSFB8O7Bg0AfXpNa7MfiD1
-	kzUy8ZVQXBLehc9K2sr80w8/4pklxtkLIDpDj1KY3GawCwZ2Y884+0sM6YQL+v3qTUPimhdfEDGRk
-	DKlCu2csdL92kq85vCYOCb2doThNFQK1zG9zIcm69+Mq1z9iQdQl9DL2gbwM//zzuMPqWIkYjj9tH
-	1vNN97oq9QTOWzMiJ2MgDjM800Jzs5FZIrBaqGGd4zVRtZuB7eUuefjmCbi1myuqFban3TYhbRmq6
-	ggj1AmmlX5zw6qu/fQl1U5inxiW7eksB0PCeF8PaFeCVm/nGjY6SKa0BFUCJl01ZjeW6jUXrGLNi9
-	crp1Jcmw==;
-Received: from [50.53.2.24] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKngD-00000009dUD-10C1;
-	Tue, 10 Dec 2024 00:00:45 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	workflows@vger.kernel.org,
-	Jason Wessel <jason.wessel@windriver.com>,
-	Daniel Thompson <danielt@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-debuggers@vger.kernel.org,
-	kgdb-bugreport@lists.sourceforge.net,
-	Alex Shi <alexs@kernel.org>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-serial@vger.kernel.org
-Subject: [PATCH v3] Documentation: move dev-tools debugging files to process/debugging/
-Date: Mon,  9 Dec 2024 16:00:41 -0800
-Message-ID: <20241210000041.305477-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxiED/4q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733788857; x=1765324857;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Hx3TYCfv8vO1GHDfioqECB6aGnBv+pYMSPSzeHD0ACM=;
+  b=kxiED/4qWgdjC8syHpcQ/oBSt6TehmN8CqDPcrmesjwGYrR4b+zABNOR
+   pPka+VVmu0Ied4rHDt2RARryuxBEZtc+SmP8TI9abNm1UZ/GIFmQDUNL5
+   TGH3TIfjxHgiE2Ey3kn2joO0QnncLvj//19BafU9NFyMiIJNoUzyYl55+
+   G8YzMt/qpthbRSDQF27OUpEOPl1WgAI1BskUyRsyJwGqx/maGrb2yMD4w
+   m/Z/I+iFVuqYBXytHoFMDpuvbPhUg0Ykmiftl50xNG3Z4FN5OMl6YFR7K
+   Ctu//wNnA4tngjhOqc6fzn5oNN19B6M/R3YETqc90danguAbsxhIXko3C
+   Q==;
+X-CSE-ConnectionGUID: HtBvaavbTyaz/aIQwm+riw==
+X-CSE-MsgGUID: ch2bNqTkSf68VnQ41V09wQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45493623"
+X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
+   d="scan'208";a="45493623"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 16:00:56 -0800
+X-CSE-ConnectionGUID: FrHyAsf+TsSInDwzX9C6WQ==
+X-CSE-MsgGUID: fvwvGNsbQQub6ODNnUFruA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
+   d="scan'208";a="95095907"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.70])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 16:00:56 -0800
+Date: Mon, 9 Dec 2024 16:00:54 -0800
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>, "Yu, Fenghua" <fenghua.yu@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, "x86@kernel.org" <x86@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: Re: [PATCH v11 2/8] x86/resctrl: Prepare for per-CTRL_MON group
+ mba_MBps control
+Message-ID: <Z1eEti6Kswtb3HC5@agluck-desk3>
+References: <20241206163148.83828-1-tony.luck@intel.com>
+ <20241206163148.83828-3-tony.luck@intel.com>
+ <20241209204519.GAZ1dW3-NjcL4Sewaf@fat_crate.local>
+ <SJ1PR11MB6083BA367F2CDFC92D87FDA1FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20241209222047.GKZ1dtPxIu5_Hxs1fp@fat_crate.local>
+ <SJ1PR11MB60830B8ED36CCA7E304D9E97FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <678cef69-78ef-4951-bd31-10abe646e6d8@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <678cef69-78ef-4951-bd31-10abe646e6d8@intel.com>
 
-Move gdb and kgdb debugging documentation to the dedicated
-debugging directory (Documentation/process/debugging/).
-Adjust the index.rst files to follow the file movement.
-Adjust files that refer to these moved files to follow the file movement.
-Update location of kgdb.rst in MAINTAINERS file.
-Add a link from dev-tools/index to process/debugging/index.
+On Mon, Dec 09, 2024 at 03:40:12PM -0800, Reinette Chatre wrote:
+> Hi Tony,
+> 
+> On 12/9/24 2:35 PM, Luck, Tony wrote:
+> >>> mba_mbps_default_event isn't architecture specific. The mba_MBps
+> >>> feedback code could be implemented on any architecture that supports
+> >>> both measurement and control of memory bandwidth.
+> >>
+> >> Yes, and it should be moved to that header then, right?
+> >>
+> >> But not earlier.
+> > 
+> > If you feel strongly about it then go ahead and cut the line from <linux/rectrl.h>
+> > and paste it into <asm/resctrl.h>
+> 
+> I am not sure about this ... I expect the code needing this initially will
+> form part of the filesystem code so it may be more intuitive to have it
+> be located in arch/x86/kernel/cpu/resctrl/internal.h as Boris suggested.
+> As part of the arch/fs split it may then move to fs/resctrl/internal.h
+> 
+> mba_mbps_default_event may even stay internal to the fs/resctrl code with an
+> arch helper created later to initialize it. This is because I think
+> the initialization of mba_mbps_default_event may move out of
+> get_rdt_mon_resources() into resctrl_mon_resource_init() that is being
+> created as part of the MPAM work [1]. An example of current fs initialization
+> done in arch code that is moved to it can be found in [2].
 
-Note: translations are not updated.
+Reinette is right. The post-split home of this is not <linux/resctrl.h>
+but fs/resctrl/internal.h which doesn't exist yet.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org
-Cc: Jason Wessel <jason.wessel@windriver.com>
-Cc: Daniel Thompson <danielt@kernel.org>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: linux-debuggers@vger.kernel.org
-Cc: kgdb-bugreport@lists.sourceforge.net
-Cc: Doug Anderson <dianders@chromium.org>
-Cc: Alex Shi <alexs@kernel.org>
-Cc: Hu Haowen <2023002089@link.tyut.edu.cn>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-serial@vger.kernel.org
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: Daniel Thompson <danielt@kernel.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
----
-v3: add link to process/debugging/index from dev-tools/index.
+So Boris is right, this declaration should be added to arch/x86/kernel/cpu/resctrl/internal.h
+by this patch to be moved later.
 
-@Andrew, please drop v2 of this patch.
+> 
+> [1] https://lore.kernel.org/all/20241004180347.19985-17-james.morse@arm.com/
+> [2] https://lore.kernel.org/all/20241004180347.19985-20-james.morse@arm.com/
 
- Documentation/admin-guide/README.rst                                 | 4 ++--
- Documentation/dev-tools/index.rst                                    | 5 +++--
- .../{dev-tools => process/debugging}/gdb-kernel-debugging.rst        | 0
- Documentation/process/debugging/index.rst                            | 2 ++
- Documentation/{dev-tools => process/debugging}/kgdb.rst              | 0
- MAINTAINERS                                                          | 2 +-
- include/linux/tty_driver.h                                           | 2 +-
- lib/Kconfig.debug                                                    | 2 +-
- lib/Kconfig.kgdb                                                     | 2 +-
- 9 files changed, 11 insertions(+), 8 deletions(-)
-
-
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index f2bebff6a733..eb9452668909 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -356,5 +356,5 @@ instructions at 'Documentation/admin-guide/reporting-issues.rst'.
- 
- Hints on understanding kernel bug reports are in
- 'Documentation/admin-guide/bug-hunting.rst'. More on debugging the kernel
--with gdb is in 'Documentation/dev-tools/gdb-kernel-debugging.rst' and
--'Documentation/dev-tools/kgdb.rst'.
-+with gdb is in 'Documentation/process/debugging/gdb-kernel-debugging.rst' and
-+'Documentation/process/debugging/kgdb.rst'.
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 3c0ac08b2709..65c54b27a60b 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -10,6 +10,9 @@ whole; patches welcome!
- A brief overview of testing-specific tools can be found in
- Documentation/dev-tools/testing-overview.rst
- 
-+Tools that are specific to debugging can be found in
-+Documentation/process/debugging/index.rst
-+
- .. toctree::
-    :caption: Table of contents
-    :maxdepth: 2
-@@ -27,8 +30,6 @@ Documentation/dev-tools/testing-overview.rst
-    kmemleak
-    kcsan
-    kfence
--   gdb-kernel-debugging
--   kgdb
-    kselftest
-    kunit/index
-    ktap
-diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/process/debugging/gdb-kernel-debugging.rst
-similarity index 100%
-rename from Documentation/dev-tools/gdb-kernel-debugging.rst
-rename to Documentation/process/debugging/gdb-kernel-debugging.rst
-diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
-index f6e4a00dfee3..387d33d16f5e 100644
---- a/Documentation/process/debugging/index.rst
-+++ b/Documentation/process/debugging/index.rst
-@@ -11,6 +11,8 @@ general guides
-    :maxdepth: 1
- 
-    driver_development_debugging_guide
-+   gdb-kernel-debugging
-+   kgdb
-    userspace_debugging_guide
- 
- .. only::  subproject and html
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/process/debugging/kgdb.rst
-similarity index 100%
-rename from Documentation/dev-tools/kgdb.rst
-rename to Documentation/process/debugging/kgdb.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1e930c7a58b1..1753fe792d04 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12809,7 +12809,7 @@ L:	kgdb-bugreport@lists.sourceforge.net
- S:	Maintained
- W:	http://kgdb.wiki.kernel.org/
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jwessel/kgdb.git
--F:	Documentation/dev-tools/kgdb.rst
-+F:	Documentation/process/debugging/kgdb.rst
- F:	drivers/misc/kgdbts.c
- F:	drivers/tty/serial/kgdboc.c
- F:	include/linux/kdb.h
-diff --git a/include/linux/tty_driver.h b/include/linux/tty_driver.h
-index dd4b31ce6d5d..d4cdc089f6c3 100644
---- a/include/linux/tty_driver.h
-+++ b/include/linux/tty_driver.h
-@@ -320,7 +320,7 @@ struct serial_struct;
-  *
-  * @poll_init: ``int ()(struct tty_driver *driver, int line, char *options)``
-  *
-- *	kgdboc support (Documentation/dev-tools/kgdb.rst). This routine is
-+ *	kgdboc support (Documentation/process/debugging/kgdb.rst). This routine is
-  *	called to initialize the HW for later use by calling @poll_get_char or
-  *	@poll_put_char.
-  *
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index f3d723705879..d2cf74cbbe70 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -433,7 +433,7 @@ config GDB_SCRIPTS
- 	  build directory. If you load vmlinux into gdb, the helper
- 	  scripts will be automatically imported by gdb as well, and
- 	  additional functions are available to analyze a Linux kernel
--	  instance. See Documentation/dev-tools/gdb-kernel-debugging.rst
-+	  instance. See Documentation/process/debugging/gdb-kernel-debugging.rst
- 	  for further details.
- 
- endif # DEBUG_INFO
-diff --git a/lib/Kconfig.kgdb b/lib/Kconfig.kgdb
-index 537e1b3f5734..8336b1a489a3 100644
---- a/lib/Kconfig.kgdb
-+++ b/lib/Kconfig.kgdb
-@@ -19,7 +19,7 @@ menuconfig KGDB
- 	  CONFIG_FRAME_POINTER to aid in producing more reliable stack
- 	  backtraces in the external debugger.  Documentation of
- 	  kernel debugger is available at http://kgdb.sourceforge.net
--	  as well as in Documentation/dev-tools/kgdb.rst.  If
-+	  as well as in Documentation/process/debugging/kgdb.rst.  If
- 	  unsure, say N.
- 
- if KGDB
+-Tony
