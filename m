@@ -1,80 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E5B2248B8;
-	Tue, 10 Dec 2024 09:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E609223E60;
+	Tue, 10 Dec 2024 09:35:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733822115; cv=none; b=dZPtDcD5CgbJAERefpohU831eMBu2xTATWBV9tQIwgVc8i7d9UO2tMSKTWJMcZ51uYbhX69MeOxJ4QE5TQqU8Npwq2yU3CF6KQ/L5vmnaxUIBHz/ouidSxCZ/0kwxgK1ZB/EMBImXaHpAWKfpTBeqgOeVGTxkj+9wtS53p0lmRI=
+	t=1733823309; cv=none; b=rC4t78gONGCRsbicijsf2PjoJuHqkrCHr8QHjskLidLBVE2PBlOyfaVfTkTMKboGUNJrTCo/mP3u3xtXPgIpJd1E7dlp4OKjJvztl9zlNaXq8Gxg05Q3Icr17+08L3R5Clixvkft2se2UBBwQOkFGKBwilZWZXNgYRSap1U+cG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733822115; c=relaxed/simple;
-	bh=/zVRHmZoHHK0fO7RYcihsC1zkxvkfPmCmGycxAUiyfo=;
+	s=arc-20240116; t=1733823309; c=relaxed/simple;
+	bh=7GWoVHwnEeFtJBBKnh33ZNY0V9iHyolQDACCOdWpXrA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Tyg1Rb7ZTWDUXoExKBXP9lt+vdMyB+yoSDehC8+ksbEdk9Qvuxi55KA9/4LMnCCxkIMR1ikaeTiK8jUU+h7VXBtQJkiVmkvkfvhd6GmZBohDvHf2PyqPeKyFFnY/sNrLwUm9vWO8owQrBU6nPD5CJ50bvmq+UPQdy9qP5Kk+0SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BrPv6jiz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oz5m72dE; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JKU4hCch; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xAaZcrG1; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:Content-Type; b=eeyWqIzYaiT/YgnD89diO/r5kksjJvIoOryhc4l9DhL8hPeqWe2XQ1l3Haw9gvAlj27ZPFT3ZE9Ec/mP7bb0TJmgbd0nyPA2MYutqbNoHySktfFlIRbVeMLQsTmqPCHWP8uOzCHYy1LAN99GqG5EztIjaHkg4XfSESbg9RCaYZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Pk59zsHJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lPPIpr4Q; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Pk59zsHJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lPPIpr4Q; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BrPv6jiz";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oz5m72dE";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JKU4hCch";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xAaZcrG1"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Pk59zsHJ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lPPIpr4Q";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Pk59zsHJ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lPPIpr4Q"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E592C1F392;
-	Tue, 10 Dec 2024 09:15:11 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6152421163;
+	Tue, 10 Dec 2024 09:35:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1733822112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1733823304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fp33BDAbttEbr9itmiYjDYk8aibW/tiVH10mQl5rBZs=;
-	b=BrPv6jizZZz9bnbG0FFKSJwzwsjv44XUnnGrpurag87WhKosw4moNjPQgVMtv0/hAxArNl
-	tkT7wBv1g3u/StkIFFQJqClNWl8scmXrL+uN9UyF1xc59S3l0TT1/moPtD0C5Z0JHBo8oz
-	KA1cZBVOtDD/2PjKXY+Icz9TGBu+E6g=
+	bh=+XwOxeQnc4GTnzdat8dalUZJuNhwDad8ZWueT15a7cE=;
+	b=Pk59zsHJ5ce3fxK4GhxjFRMy/XUAvv4qMrWKORO58cmqk+CTSAH5udT7pDqqt3Ozce1Dxk
+	qUd+22Cjvhyy0onhHiVUN4IC9QhIUuO5ag/BnF/BSdM4Qn3rPDTi6eWMf9Cq23bSd12wRa
+	Jj6nTFzGBv+W18hPVcMqNerKbrvLmNg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1733822112;
+	s=susede2_ed25519; t=1733823304;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fp33BDAbttEbr9itmiYjDYk8aibW/tiVH10mQl5rBZs=;
-	b=oz5m72dEo0+gIRdh+PHxLzsarYTAnFFVnEAg8wu3KeBRKIN650ZLKC8+KMZP7UR9NtS4rd
-	T/BPqc6NE9mowNAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=+XwOxeQnc4GTnzdat8dalUZJuNhwDad8ZWueT15a7cE=;
+	b=lPPIpr4QxUOWr6F2MbZycbeg+ib+mY32dOInfM8CWuC0tBsb8TGYA/16++JRdZ4pm7cDV+
+	mWzh3Xks6I6R2GAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Pk59zsHJ;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=lPPIpr4Q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1733822111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1733823304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fp33BDAbttEbr9itmiYjDYk8aibW/tiVH10mQl5rBZs=;
-	b=JKU4hCchysh1+0loCMu+uVm3w1oxoocrrFrWilu8sJTudXcm6t2MnD3XCfpZH1dUut0eSh
-	2zF0r/Iu/v4hOn7kny++Fk84KAZVaj6x2rR2L75nmof/2gfBa8k2q5+f51Qkm6S6cJ4aOr
-	9aC595XCQYELtX63j27PY8KdxAw6T0M=
+	bh=+XwOxeQnc4GTnzdat8dalUZJuNhwDad8ZWueT15a7cE=;
+	b=Pk59zsHJ5ce3fxK4GhxjFRMy/XUAvv4qMrWKORO58cmqk+CTSAH5udT7pDqqt3Ozce1Dxk
+	qUd+22Cjvhyy0onhHiVUN4IC9QhIUuO5ag/BnF/BSdM4Qn3rPDTi6eWMf9Cq23bSd12wRa
+	Jj6nTFzGBv+W18hPVcMqNerKbrvLmNg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1733822111;
+	s=susede2_ed25519; t=1733823304;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fp33BDAbttEbr9itmiYjDYk8aibW/tiVH10mQl5rBZs=;
-	b=xAaZcrG1pntQ5ibNezUoUeaQnXyXvESNA7O5Rt3CtsBS7cCMlrADIOR8MBypRJo6ogQYvR
-	keRfUlPYDulMdoBQ==
+	bh=+XwOxeQnc4GTnzdat8dalUZJuNhwDad8ZWueT15a7cE=;
+	b=lPPIpr4QxUOWr6F2MbZycbeg+ib+mY32dOInfM8CWuC0tBsb8TGYA/16++JRdZ4pm7cDV+
+	mWzh3Xks6I6R2GAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC9E7138D2;
-	Tue, 10 Dec 2024 09:15:11 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 157A9138D2;
+	Tue, 10 Dec 2024 09:35:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mc69KJ8GWGebLQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 10 Dec 2024 09:15:11 +0000
-Message-ID: <dc9a2fec-41c6-4364-8900-4f302a06fba4@suse.cz>
-Date: Tue, 10 Dec 2024 10:15:11 +0100
+	id btjoBEgLWGchNAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 10 Dec 2024 09:35:04 +0000
+Message-ID: <9bfeff15-cf79-403e-81b2-9b8553b6477c@suse.cz>
+Date: Tue, 10 Dec 2024 10:35:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,7 +83,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/6] mm: move per-vma lock into vm_area_struct
+Subject: Re: [PATCH v5 3/6] mm: mark vma as detached until it's added into vma
+ tree
 Content-Language: en-US
 To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
 Cc: willy@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
@@ -95,7 +97,7 @@ Cc: willy@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
  linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  kernel-team@android.com
 References: <20241206225204.4008261-1-surenb@google.com>
- <20241206225204.4008261-3-surenb@google.com>
+ <20241206225204.4008261-4-surenb@google.com>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -136,85 +138,55 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  w9XOLH1IIWh7RURU7G1iOfEfmImFeC3cbbS73LQEFGe1urxvIH5K/7vX+FkNcr9ujwWuPE9b
  1C2o4i/yZPLXIVy387EjA6GZMqvQUFuSTs/GeBcv0NjIQi8867H3uLjz+mQy63fAitsDwLmR
  EP+ylKVEKb0Q2A==
-In-Reply-To: <20241206225204.4008261-3-surenb@google.com>
+In-Reply-To: <20241206225204.4008261-4-surenb@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
+X-Rspamd-Queue-Id: 6152421163
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[29];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
 	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email]
-X-Spam-Score: -4.30
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLk41rrgs15z4i1nmqiwtynpyh)];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:mid,suse.cz:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-On 12/6/24 23:51, Suren Baghdasaryan wrote:
-> Back when per-vma locks were introduces, vm_lock was moved out of
-> vm_area_struct in [1] because of the performance regression caused by
-> false cacheline sharing. Recent investigation [2] revealed that the
-> regressions is limited to a rather old Broadwell microarchitecture and
-> even there it can be mitigated by disabling adjacent cacheline
-> prefetching, see [3].
-> Splitting single logical structure into multiple ones leads to more
-> complicated management, extra pointer dereferences and overall less
-> maintainable code. When that split-away part is a lock, it complicates
-> things even further. With no performance benefits, there are no reasons
-> for this split. Merging the vm_lock back into vm_area_struct also allows
-> vm_area_struct to use SLAB_TYPESAFE_BY_RCU later in this patchset.
-> Move vm_lock back into vm_area_struct, aligning it at the cacheline
-> boundary and changing the cache to be cacheline-aligned as well.
-> With kernel compiled using defconfig, this causes VMA memory consumption
-> to grow from 160 (vm_area_struct) + 40 (vm_lock) bytes to 256 bytes:
-> 
->     slabinfo before:
->      <name>           ... <objsize> <objperslab> <pagesperslab> : ...
->      vma_lock         ...     40  102    1 : ...
->      vm_area_struct   ...    160   51    2 : ...
-> 
->     slabinfo after moving vm_lock:
->      <name>           ... <objsize> <objperslab> <pagesperslab> : ...
->      vm_area_struct   ...    256   32    2 : ...
-> 
-> Aggregate VMA memory consumption per 1000 VMAs grows from 50 to 64 pages,
-> which is 5.5MB per 100000 VMAs. Note that the size of this structure is
-> dependent on the kernel configuration and typically the original size is
-> higher than 160 bytes. Therefore these calculations are close to the
-> worst case scenario. A more realistic vm_area_struct usage before this
-> change is:
-> 
->      <name>           ... <objsize> <objperslab> <pagesperslab> : ...
->      vma_lock         ...     40  102    1 : ...
->      vm_area_struct   ...    176   46    2 : ...
-> 
-> Aggregate VMA memory consumption per 1000 VMAs grows from 54 to 64 pages,
-> which is 3.9MB per 100000 VMAs.
-> This memory consumption growth can be addressed later by optimizing the
-> vm_lock.
-> 
-> [1] https://lore.kernel.org/all/20230227173632.3292573-34-surenb@google.com/
-> [2] https://lore.kernel.org/all/ZsQyI%2F087V34JoIt@xsang-OptiPlex-9020/
-> [3] https://lore.kernel.org/all/CAJuCfpEisU8Lfe96AYJDZ+OM4NoPmnw9bP53cT_kbfP_pR+-2g@mail.gmail.com/
+On 12/6/24 23:52, Suren Baghdasaryan wrote:
+> Current implementation does not set detached flag when a VMA is first
+> allocated. This does not represent the real state of the VMA, which is
+> detached until it is added into mm's VMA tree. Fix this by marking new
+> VMAs as detached and resetting detached flag only after VMA is added
+> into a tree.
+> Introduce vma_mark_attached() to make the API more readable and to
+> simplify possible future cleanup when vma->vm_mm might be used to
+> indicate detached vma and vma_mark_attached() will need an additional
+> mm parameter.
 > 
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 > Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
 Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
