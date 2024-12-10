@@ -1,98 +1,124 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C88212D98;
-	Tue, 10 Dec 2024 11:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D2778F24;
+	Tue, 10 Dec 2024 11:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733828828; cv=none; b=iWmQtVbK7S/oPv5vzGKz2Ea8/RaNzWrflY64ouqFm3nTOpv1vOoxaXjJ0mvlo1+TT+TX/7J7VRkAwhm43tLzQB0nH6KS879e7hxS2zGQLzaf7p6cBN5Dt8Zx0YZYFzQbew7XwtHESFwOtBu3/RIgfiS3DRWsKE/UdZ6yIztmD2I=
+	t=1733830297; cv=none; b=gqFBVhGrEs/lwIDfCU359sBxQENjhk498kHhAj/H2kkponFhwzIQML7JCscNZ1SqWL60K7Gq+9hq7me4wtMRhkYwSgNHY3U4c4+2hI6z0MCIVZXWdudedMxZCuIO0iz7tRYJTtgf71OfwnhjbyMaztacq7u+K7eoWxPUEYSBOmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733828828; c=relaxed/simple;
-	bh=suGVnewTTw4T8anGYzAeJv/H2X+j5F3hcGtPHrjmOe8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vk+REoI+10vklr/U+2blNcNX2YmooKjw/4/ABnXGfKJAiBuy8BuFjTqio2hwp2vG/d1gPCntj0EDMsfsz0BRu0vWaWnkg6T7102r3F2DZYwOIORhw+pv9gpmkfWSfr3X9DPRFwehGRL3j7NbsZqpG9VO3m/WorJflOiDkKvVMLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EmtBrXw/; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1733830297; c=relaxed/simple;
+	bh=c0/Kvxahxgc5BU9+Agj9zRUQoG8xPGH+UnRBmIDO2fs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s5kbgZlAflWk7JTlwuf4CT83c3fritfqBey/xvHSa0RtzIcxlPXcggG2geMX4teIe/XsuNPhModcKxeCJC+8KEokUCQyqXiYy9hpwMENIS1vr9K+gOpLxZMXaQsHqZpI2Wslc+tKRQCBjotyLDU4GO0xgQVLOB0qhbs/otxupR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CAdMLYgh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EmtBrXw/"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BA7xOZk007371;
-	Tue, 10 Dec 2024 05:06:44 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=lVzLNj3rXAH+GU2UEU
-	4TH+gttJpUh7a6maPob5Gu8Do=; b=EmtBrXw/AKoXGEDQvRmATBMEihecisE6rm
-	69aQR8T0flW6MCvO2QVxf9nlkS/B5lOjV6Rxl6NxUXK0fz+XGJnTWDk/rp2vFYDH
-	/f5T6tuBYt2UHhc7kOY2D3VgV9rucCSI+hJsX0CRraZCxXKEdtgScVNXp5764/yE
-	Y2yZbZ2M5ee51B+0FaHtmKMqUPQtW0PKYQt1mSD+gED9CQpc92V3xP3oJjAPDV2Y
-	TjE7Y5/0rOK/ZeCjADTOlXoZFEBKMALZ9u6SubiiaItli5V2YlDS3PRIzW9rlgSn
-	D3pESVmfl0xqX+7nTgSZw/SoJN6l1p+iUzdgkanfW+/QtEx5VDZQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkbddu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Dec 2024 05:06:43 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Tue, 10 Dec
- 2024 11:06:42 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Tue, 10 Dec 2024 11:06:42 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 4FCA7820248;
-	Tue, 10 Dec 2024 11:06:42 +0000 (UTC)
-Date: Tue, 10 Dec 2024 11:06:41 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: anish kumar <yesanishhere@gmail.com>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
-        <tiwai@suse.com>, <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
-Message-ID: <Z1ggwXLAu+/Y817c@opensource.cirrus.com>
-References: <20241207193441.15767-1-yesanishhere@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CAdMLYgh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62F14C4CEE5;
+	Tue, 10 Dec 2024 11:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733830296;
+	bh=c0/Kvxahxgc5BU9+Agj9zRUQoG8xPGH+UnRBmIDO2fs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CAdMLYghmzGQESB8O/bG766ua3RwnQDvvUeRtidNiGqJ8TlfbCRElx/sTeRq75czU
+	 3zlwVL9q8G9hLadJBjJc3Rzko3FyKGRlMKDUUrDkuIDBwim+hOFfQiTMsxay+QCkZq
+	 dsAC5FAP+jV0quE80qwA4ol9lMd5AF1UYhgaFu0CgsD57mHGPWxDN0Lgy+Uf9C1yYt
+	 Dg0oxBHwR6mgEPdoiAY4JcR5TsCFu1Eq1lL52AnYyWlIjgOSlqqnlk0lbeACf2gCBs
+	 UmJzUF7qGAXH4lEvPtw1K9GFhr6Mau3FXLNvwd+UUKOWYgUWWpbaXc0eBl6N8ftV0s
+	 ezm7ttxPwaAkw==
+Date: Tue, 10 Dec 2024 11:31:31 +0000
+From: Will Deacon <will@kernel.org>
+To: Yabin Cui <yabinc@google.com>
+Cc: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] arm64: Allow CONFIG_AUTOFDO_CLANG to be selected
+Message-ID: <20241210113129.GB14735@willie-the-truck>
+References: <20241118222540.27495-1-yabinc@google.com>
+ <20241209162028.GD12428@willie-the-truck>
+ <CAF1bQ=SiHi8oCyo5YnXGpQGofM1zAsnBdqSEet1mS-BYNKVU8A@mail.gmail.com>
+ <20241209185623.GA13084@willie-the-truck>
+ <CALJ9ZPNfUFF8OrpvziTnTvGU7OxEgyy9ZTc3aF-NhZ5hMbp7RQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241207193441.15767-1-yesanishhere@gmail.com>
-X-Proofpoint-ORIG-GUID: zCs7qdWlZtgdbJwj1Ze5H-CzHxXoNLnf
-X-Proofpoint-GUID: zCs7qdWlZtgdbJwj1Ze5H-CzHxXoNLnf
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALJ9ZPNfUFF8OrpvziTnTvGU7OxEgyy9ZTc3aF-NhZ5hMbp7RQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
-> +Boot-up logs will display message similar to:
-> +
-> +.. code-block:: text
-> +
-> +   ASoC: registered pcm #0 codec2codec(Playback Codec)
-> +
-> +To trigger this DAI link, a control interface is established by the
-> +DAPM core during internal DAI creation. This interface links to
-> +the ``snd_soc_dai_link_event`` function, which is invoked when a
-> +path connects in the DAPM core. A mixer must be created to trigger
-> +the connection, prompting the DAPM core to evaluate path
-> +connections and call the ``snd_soc_dai_link_event`` callback with
-> +SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
-> +
+On Mon, Dec 09, 2024 at 03:51:34PM -0800, Yabin Cui wrote:
+>  On Mon, Dec 9, 2024 at 10:56 AM Will Deacon <will@kernel.org> wrote:
+> >
+> > (Aside: please try to avoid top-posting on the public lists as it messes up
+> > the flow of conversation; I'll try to piece this back together.)
+> >
+> > On Mon, Dec 09, 2024 at 09:30:50AM -0800, Rong Xu wrote:
+> > > On Mon, Dec 9, 2024 at 8:20 AM Will Deacon <will@kernel.org> wrote:
+> > > > On Mon, Nov 18, 2024 at 02:25:40PM -0800, Yabin Cui wrote:
+> > > > > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> > > > > index fd9df6dcc593..c3814df5e391 100644
+> > > > > --- a/arch/arm64/Kconfig
+> > > > > +++ b/arch/arm64/Kconfig
+> > > > > @@ -103,6 +103,7 @@ config ARM64
+> > > > >       select ARCH_SUPPORTS_PER_VMA_LOCK
+> > > > >       select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
+> > > > >       select ARCH_SUPPORTS_RT
+> > > > > +     select ARCH_SUPPORTS_AUTOFDO_CLANG
+> > > > >       select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+> > > > >       select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+> > > > >       select ARCH_WANT_DEFAULT_BPF_JIT
+> > > >
+> > > > After this change, both arm64 and x86 select this option unconditionally
+> > > > and with no apparent support code being added. So what is actually
+> > > > required in order to select ARCH_SUPPORTS_AUTOFDO_CLANG and why isn't
+> > > > it just available for all architectures instead?
+> 
+> I think it's similar to ARCH_SUPPORTS_LTO_CLANG, which also doesn't need any
+> support code but requires testing to ensure it works on a specific architecture.
+> 
+> >
+> > > Enabling an AutoFDO build requires users to explicitly set CONFIG_AUTOFDO_CLANG.
+> > > The support code is in Commit 315ad8780a129e82 (kbuild: Add AutoFDO
+> > > support for Clang build).
+> >
+> > Yes, that is precisely my point. The user has to enable
+> > CONFIG_AUTOFDO_CLANG anyway, so what is the point in having
+> > ARCH_SUPPORTS_AUTOFDO_CLANG. Why would an architecture _not_ want to
+> > select that?
+> >
+> > > We are not enabling this for all architectures because AutoFDO's optimized build
+> > > relies on Last Branch Records (LBR) which aren't available on all architectures.
+> >
+> > So? ETM isn't available on all arm64 machines and I doubt whether LBR is
+> > available on _all_ x86 machines either. So there's a runtime failure
+> > mode that needs to be handled anyway and I don't think the arch-specific
+> > Kconfig option is really doing anything useful.
+> 
+> My understanding of the benefits of ARCH_SUPPORTS_AUTOFDO_CLANG is:
+> 1. Generally, we don't prefer to collect an AutoFDO profile on one
+> architecture and use it to build the kernel for another architecture.
+> This is because the profile misses data for architecture-dependent
+> code. ARCH_SUPPORTS_AUTOFDO_CLANG can partially prevent this from
+> happening.
 
-I am still not really following this, what are we trying to
-convey in this paragraph?
+Hmm, not really. Once more than one architecture selects the option, you
+have the possibility of the mismatch you're trying to avoid.
 
-What do we mean by a "control interface" here, is that referring
-to the kcontrol that is created to select the rate in the case
-of multiple rates? Or is it simply refering to the fact we call
-snd_soc_dapm_new_control_unlocked? But really that function is
-adding widgets, as I noted in my last email.
+> 2. Building a kernel with an AutoFDO profile involves using new
+> optimization flags for clang.  Having ARCH_SUPPORTS_AUTOFDO_CLANG=y
+> for one architecture means someone has tested building a kernel with
+> an AutoFDO profile on this architecture.
 
-Also what do we mean by a "A mixer must be created", I am not
-aware of any requirement for a mixer? The DAI link needs to be on
-a valid DAPM path, but I don't see any requirements other than
-that.
+On the flip side, allowing all architectures to select the option
+actually increases your test coverage.
 
-Thanks,
-Charles
+Will
