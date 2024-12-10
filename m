@@ -1,210 +1,129 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9029210F6A;
-	Tue, 10 Dec 2024 11:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E067D215773;
+	Tue, 10 Dec 2024 11:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733830581; cv=none; b=VckIfLS+eU8+u2rclmZroYWL3aMrXfWIatiWZRtyxclQD1mPdZV2Rr4mwYrv2Bz8emgpvOASdhD16mEUOsOkxLIxbod+SdYwvjhXTVtRe3NagfUjMdaO/DYiEwKAAR8ijo1rrHP77iNnIQGeuo3XBGWTKs5mby1vH8CX+MkUs/g=
+	t=1733830606; cv=none; b=LA7z+Ypn8XD2vYVggRaLF9Lf7aqT2m69DHzp/GR9hAZ+ulNb8Vr3IskY9jfJSPgKxk17HpNYN37/ZBzn6lpd19SMZ8gCfdemX8t58jg6tC3cZ+cLzfi57La+3++eiedXL7fm90naExh1B+37x4ZB7ZiiwxVYFNFWiWiKz536FV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733830581; c=relaxed/simple;
-	bh=U1Ecj7hQLvD5BfSnMDr1aYqAwnjNO3Z2EI3/TNHop0I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z8NN7ErimsUWdMiqqxbZNSCVdFkoH5EUVptbf0kwhFWtRvN10dj08QYeO4Xx1CAbHOrx1+8y7am4Cc932wY4hXcDBijn7oJrC8xNBIrYQo8VHTxcolAh3npRAzOaL+wK2V+tbYkivThtYc4iUeBjC3enW64SjnTW+rp0b2sR+qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=M/epqt+d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=suW9qEgz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=M/epqt+d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=suW9qEgz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1733830606; c=relaxed/simple;
+	bh=tFukGSdVcRfo7BjKJxP9JFbwgrH3R5mr2GurHftOwVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vD/JMduhiZzqyhrkjFK/vVM82DTnI30OHBwCn12GQ1s5QenOkFCUk2kFFKpLPGPKoyrU3TuVfOEy9fUx2T5k97zds1iyq2QRlIKzrr1UnguDVf2KeiMtMmSr+O9o6lrqhLHcbleG3w2xrCIm3rTjl34XCtdwSUhSuTZqxnwAeWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=On7zv4yE; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="M/epqt+d";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="suW9qEgz";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="M/epqt+d";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="suW9qEgz"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 84D4321101;
-	Tue, 10 Dec 2024 11:36:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1733830577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=hFu9401+IvDJjs4N9L/SvxLlufhJYXIIH4OTS622MBQ=;
-	b=M/epqt+dfeGjPzB0kjhchXA/rgIcDlm+z1p4Iq+Fh4g62RPA43g+phiU5J5o+/prVpAdyn
-	pYMHSq+FfUMaqVYcvy4AspujnVtcA+67rBWseeNgg3GyXYImwx/d2VatGllitq76FUsq3w
-	xss+ALm4mK+R5MYE1l6Nhz5qNrUJmlg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1733830577;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=hFu9401+IvDJjs4N9L/SvxLlufhJYXIIH4OTS622MBQ=;
-	b=suW9qEgzyNbQuM0/Pi8zQwjWnnwV/VbFHNoRJSZVub1W3HKHzgD49aNog9wcFx/1FBp6r7
-	F45/wn+yiJPqprCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="M/epqt+d";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=suW9qEgz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1733830577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=hFu9401+IvDJjs4N9L/SvxLlufhJYXIIH4OTS622MBQ=;
-	b=M/epqt+dfeGjPzB0kjhchXA/rgIcDlm+z1p4Iq+Fh4g62RPA43g+phiU5J5o+/prVpAdyn
-	pYMHSq+FfUMaqVYcvy4AspujnVtcA+67rBWseeNgg3GyXYImwx/d2VatGllitq76FUsq3w
-	xss+ALm4mK+R5MYE1l6Nhz5qNrUJmlg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1733830577;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=hFu9401+IvDJjs4N9L/SvxLlufhJYXIIH4OTS622MBQ=;
-	b=suW9qEgzyNbQuM0/Pi8zQwjWnnwV/VbFHNoRJSZVub1W3HKHzgD49aNog9wcFx/1FBp6r7
-	F45/wn+yiJPqprCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A1A4138D2;
-	Tue, 10 Dec 2024 11:36:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oBrHEbEnWGexWwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 10 Dec 2024 11:36:17 +0000
-Message-ID: <aafe0538-0c56-469e-b23b-3f22cb8186a0@suse.cz>
-Date: Tue, 10 Dec 2024 12:36:16 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="On7zv4yE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733830605; x=1765366605;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tFukGSdVcRfo7BjKJxP9JFbwgrH3R5mr2GurHftOwVo=;
+  b=On7zv4yEudpywQ4+rG5TDu9P1jlHeoqBpgbXw0fxmFBy2ZRersLbolpW
+   kUhdOpX9JfO310kjw+cw5AmjEoCj8JJ7MTI4oSIgTPYNJDXBRRsS3Fude
+   7pS9BrKdEAva5YlWg/f5BaiwRw9irxswZj60DflBP/IEoOCx2+ncQOWLo
+   J6YRKhFiZiFBCwlsXV9SmyDuPEHyIZWjeGgKUmb8xCXnxhHin0QF8y6rU
+   9IPdUd8ay62qVUkVUoVZ1pAae/7xwciIT0/c9cYh46ye9SK4ux2ZxhXNq
+   GR0MarBTf3ZrsYnnbvhBzTlldpYqva9S2nHjw7T9sJcR3l3+erDsYkkfq
+   Q==;
+X-CSE-ConnectionGUID: 7N/lEQmTTCiPiH2Ek6Ed5Q==
+X-CSE-MsgGUID: P2BFhxh1SOKMl2tnTNro3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33498300"
+X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
+   d="scan'208";a="33498300"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 03:36:43 -0800
+X-CSE-ConnectionGUID: G5xZz9cUTXiym/xnzjxrog==
+X-CSE-MsgGUID: 8fj7j00/QQOeNX34eSSlaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="100428898"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 10 Dec 2024 03:36:37 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tKyXa-0005TZ-1x;
+	Tue, 10 Dec 2024 11:36:34 +0000
+Date: Tue, 10 Dec 2024 19:35:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Li Li <dualli@chromium.org>, dualli@google.com, corbet@lwn.net,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
+	maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
+	cmllamas@google.com, surenb@google.com, arnd@arndb.de,
+	masahiroy@kernel.org, bagasdotme@gmail.com, horms@kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org, hridya@google.com, smoreland@google.com
+Cc: oe-kbuild-all@lists.linux.dev, kernel-team@android.com
+Subject: Re: [PATCH net-next v9 1/1] binder: report txn errors via generic
+ netlink
+Message-ID: <202412101942.kbghVu3V-lkp@intel.com>
+References: <20241209192247.3371436-2-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/6] mm: mark vma as detached until it's added into vma
- tree
-Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: willy@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
- mhocko@suse.com, hannes@cmpxchg.org, mjguzik@gmail.com,
- oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com,
- peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
- brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
- souravpanda@google.com, pasha.tatashin@soleen.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kernel-team@android.com
-References: <20241206225204.4008261-1-surenb@google.com>
- <20241206225204.4008261-4-surenb@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- EP+ylKVEKb0Q2A==
-In-Reply-To: <20241206225204.4008261-4-surenb@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 84D4321101
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLk41rrgs15z4i1nmqiwtynpyh)];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,linux.dev:email];
-	URIBL_BLOCKED(0.00)[linux.dev:email,suse.cz:mid,suse.cz:dkim,oracle.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241209192247.3371436-2-dualli@chromium.org>
 
-On 12/6/24 23:52, Suren Baghdasaryan wrote:
-> Current implementation does not set detached flag when a VMA is first
-> allocated. This does not represent the real state of the VMA, which is
-> detached until it is added into mm's VMA tree. Fix this by marking new
-> VMAs as detached and resetting detached flag only after VMA is added
-> into a tree.
-> Introduce vma_mark_attached() to make the API more readable and to
-> simplify possible future cleanup when vma->vm_mm might be used to
-> indicate detached vma and vma_mark_attached() will need an additional
-> mm parameter.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Hi Li,
 
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index 21660a9ad97a..71990f46aa4e 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -465,6 +465,10 @@ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
->  	data_race(memcpy(new, orig, sizeof(*new)));
->  	vma_lock_init(new);
->  	INIT_LIST_HEAD(&new->anon_vma_chain);
-> +#ifdef CONFIG_PER_VMA_LOCK
-> +	/* vma is not locked, can't use vma_mark_detached() */
-> +	new->detached = true;
-> +#endif
+kernel test robot noticed the following build warnings:
 
-It occured me we could probably move the detached setting to vma_lock_init()
-to avoid the #ifdef (also in the ctor in next patch)?
+[auto build test WARNING on 6145fefc1e42c1895c0c1c2c8593de2c085d8c56]
 
->  	vma_numab_state_init(new);
->  	dup_anon_vma_name(orig, new);
->  
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Li/binder-report-txn-errors-via-generic-netlink/20241210-032559
+base:   6145fefc1e42c1895c0c1c2c8593de2c085d8c56
+patch link:    https://lore.kernel.org/r/20241209192247.3371436-2-dualli%40chromium.org
+patch subject: [PATCH net-next v9 1/1] binder: report txn errors via generic netlink
+config: s390-randconfig-002-20241210 (https://download.01.org/0day-ci/archive/20241210/202412101942.kbghVu3V-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412101942.kbghVu3V-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412101942.kbghVu3V-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/android/binder.c:1983: warning: Function parameter or struct member 'file' not described in 'binder_task_work_cb'
+   drivers/android/binder.c:1983: warning: Excess struct member 'fd' description in 'binder_task_work_cb'
+   drivers/android/binder.c:2434: warning: Function parameter or struct member 'offset' not described in 'binder_ptr_fixup'
+   drivers/android/binder.c:2434: warning: Function parameter or struct member 'skip_size' not described in 'binder_ptr_fixup'
+   drivers/android/binder.c:2434: warning: Function parameter or struct member 'fixup_data' not described in 'binder_ptr_fixup'
+   drivers/android/binder.c:2434: warning: Function parameter or struct member 'node' not described in 'binder_ptr_fixup'
+   drivers/android/binder.c:2454: warning: Function parameter or struct member 'offset' not described in 'binder_sg_copy'
+   drivers/android/binder.c:2454: warning: Function parameter or struct member 'sender_uaddr' not described in 'binder_sg_copy'
+   drivers/android/binder.c:2454: warning: Function parameter or struct member 'length' not described in 'binder_sg_copy'
+   drivers/android/binder.c:2454: warning: Function parameter or struct member 'node' not described in 'binder_sg_copy'
+   drivers/android/binder.c:4181: warning: Function parameter or struct member 'thread' not described in 'binder_free_buf'
+>> drivers/android/binder.c:7185: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Add a binder device to binder_devices
+
+
+vim +7185 drivers/android/binder.c
+
+  7183	
+  7184	/**
+> 7185	 * Add a binder device to binder_devices
+  7186	 * @device: the new binder device to add to the global list
+  7187	 *
+  7188	 * Not reentrant as the list is not protected by any locks
+  7189	 */
+  7190	void binder_add_device(struct binder_device *device)
+  7191	{
+  7192		hlist_add_head(&device->hlist, &binder_devices);
+  7193	}
+  7194	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
