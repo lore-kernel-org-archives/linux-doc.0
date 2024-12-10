@@ -1,125 +1,260 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5B823DEAD
-	for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 16:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D271114A60F;
+	Tue, 10 Dec 2024 16:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733848142; cv=none; b=J7tEtyrmw6vfJ5EC0iBjjlu1ZqnK5ZtrcK8P1IAk1/xWE521SayOV/ftsFGVg6qr6TQxDrO6EBvTZjbgdpHJGrncCGPL2/15ei8KXlYg3NAqZX8r5xYKaVUc4FWOT+WDMkPCkl3lu0YL7MNe3SyDbK3A8JeQo9daRdIuN2N/0Ro=
+	t=1733848324; cv=none; b=IwwCwRxEb0lzce78h70qtAbjFUMVl5XKdSJAVdVrSPhtrQcSCOgVRBCH0NjYgfmlURl7l680hxv99W/u72/gXwPBrSWVD/NjYahSPrjID+QlQ+DDdlyUZQUmrQ2Y46DLSr1L2KUAuYAmIq9QyxytYkYeffJOfQ+oD3uG217MXbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733848142; c=relaxed/simple;
-	bh=PRLGTeyT4rAFWC+3ZXsSREFqzUV+VFnIPCu1JMOFk3U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pyQPC1jq5nOVJiPOgYvOzDkjFoueEjA2zpded5CHCH5OsxExvIlVnTbsawMBAOe143Y0/0Gbu9XxDxmxooXypwRZ+Us048nByONVUE8mLwDQBOb0yb3z7smnJF1ZsSQxMLkBaSeR14feFxVwvesV+3qWInpWyPhTrnne7d7fBQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HqBPElGm; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1733848324; c=relaxed/simple;
+	bh=4sm7H7fTaT41PHtP1BeOpCRRKD+9TY+4PyPoM3dnt9I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=scT2eFdqWuH9JMqL6+rDO70zNajae3NtW4kFDm+Vt9NxXP7IPL4L1TbE6Sceefafi21QiZkDQ2g+ZWS8zAnF/PWyRS0iCwgx8oM6kvrAk5MFzUUINVox7X0940QKVxbgKwp57mnwxPrJCz0xKse4lhBbhkWKRIqojobrHgocMbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eq6m/CBu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BOStoOaG; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eq6m/CBu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BOStoOaG; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HqBPElGm"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4674a47b7e4so277241cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 08:29:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733848139; x=1734452939; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bf5h9unDEvxY9TWD5u6hoRQPAOn47cfu9U+YnF+nEzs=;
-        b=HqBPElGm947tcZT66lxp/gCAVvRVdWWczfwY7rZno2rqEr7SlLgoXHiClCsUzQbUdb
-         DkItlYxMf+EMw6ngDSGTMNROW56Jslf+HvLbT9BBvXDhGN3FVD54fm8+URlQ9u5ZMXDv
-         JYqCKj0bmFL+xFZt1dVJyFP8U7GIeliz/v5tPzieV+esSahu1danUfG5kYIsV/ZdKynU
-         7UJt1KajaCvoA3AB4HPqqZIYIOM84hTgqJPjv4aPcBp+FaQtBvmKpcO2+H9vrpwC6JnQ
-         Tw640aWCRoQOQJOMLPT9BkI2HKePJ9uGWcRHFnbde8TsJSGmK6YKZmHB38Q4S0vxI9nI
-         I5cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733848139; x=1734452939;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bf5h9unDEvxY9TWD5u6hoRQPAOn47cfu9U+YnF+nEzs=;
-        b=fxETqQ7pmwBLMCA6unQqg7vxmE9L3AMsnQr+hItNPu+/GvISa4RF4mvfhgIgiIZxlc
-         VJ2iyaXEPLfJXjFrkggIcfwZRMMeha1I2HEC35BoeFPLGWmxoIzHqGE6JSLFnhfrlxUy
-         OQl6PiuZV2VW160vjVNa/mbafyYa+BN20DmrSL0xCs3LOpQgYK8u/Tg48gbPIqtScSau
-         8ZhPcIUUver20O/DJoOHzn74bR79GIjGQ9cmgNM0BOYMEkHgv/ZbVOSvk7+e+YMOkw+B
-         P0sqRfQwUySwBxUmgXq+dsFSMwOkdnElfYLWb9kCAy3HIg8tX9yYh3aDp8uIgg85pFEH
-         LJqA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZwbr010VsCgcc5BQ0Yopr/+o4PmHa/p+a0nhT+8tC1IytySU5cjFXGupXTuI1GDL8+OXQWqoY3PE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRuStpCKoDa6Jd6C6bYduu7gs/oMD8VcLX3trMBryncjQPNNUe
-	LuLkSogapNRjgaRXw0q1TJXTIlKfPaVWRUyb7DeSkGJai69OzO4FJsms7o9DQjvqYMCOmiJVcZ9
-	kv9JqTPopfVI1njDBacajvyo3IxH8wxdJ942k
-X-Gm-Gg: ASbGncuo5a4k/YS2pyKxX+Um3EELnRq75bouWn8qX5/C//fs2ThIXlffv1f6NJX/yVm
-	R0qEdJ+PHFM8sw0OWNdIzr1Eq7vabpaeDUeh+vojmHtzTAKo3FU6hVExQx0r05CXtFQ==
-X-Google-Smtp-Source: AGHT+IG18A1lS1fdcxb1YBnBEyBoavuVqg9A2/HQxThNRPuA8ZJGfzBBwB6pD1Bx1UZCGAdfo+5l5/Vg84fvlmkLzCc=
-X-Received: by 2002:a05:622a:5510:b0:467:82de:d949 with SMTP id
- d75a77b69052e-46782dedc53mr2054901cf.12.1733848139314; Tue, 10 Dec 2024
- 08:28:59 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eq6m/CBu";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BOStoOaG";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eq6m/CBu";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BOStoOaG"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0746E1F745;
+	Tue, 10 Dec 2024 16:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1733848321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=H4QzrnIcKwul+n52y7N8R3JC2FUndA/mormrIAbUauU=;
+	b=eq6m/CBuV0arvDq4YIgIlKCkanLooln5ZNhFRaiLNL/ZwkgsIvpFnQgAesu5fSOByE8XHt
+	lELH3AdGWStJ/rC61Qf5xg9i/O6V2CHpNpEMaHx5fOfarGgvUF179tpd9f6jkKdeo8Cj4T
+	xyPVQ5o69rUF7vUcY2imFe3NoqoRmK0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1733848321;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=H4QzrnIcKwul+n52y7N8R3JC2FUndA/mormrIAbUauU=;
+	b=BOStoOaGGZA78KLqh+82eHfsySaoE6VLTJgE4Ug/sQkfCBbgEBBFmFJA6+5syHBddWq3CM
+	uaTM5AjaUn/2n/Aw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1733848321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=H4QzrnIcKwul+n52y7N8R3JC2FUndA/mormrIAbUauU=;
+	b=eq6m/CBuV0arvDq4YIgIlKCkanLooln5ZNhFRaiLNL/ZwkgsIvpFnQgAesu5fSOByE8XHt
+	lELH3AdGWStJ/rC61Qf5xg9i/O6V2CHpNpEMaHx5fOfarGgvUF179tpd9f6jkKdeo8Cj4T
+	xyPVQ5o69rUF7vUcY2imFe3NoqoRmK0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1733848321;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=H4QzrnIcKwul+n52y7N8R3JC2FUndA/mormrIAbUauU=;
+	b=BOStoOaGGZA78KLqh+82eHfsySaoE6VLTJgE4Ug/sQkfCBbgEBBFmFJA6+5syHBddWq3CM
+	uaTM5AjaUn/2n/Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA42B13A15;
+	Tue, 10 Dec 2024 16:32:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id SjIdLQBtWGdXPQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 10 Dec 2024 16:32:00 +0000
+Message-ID: <643beb6c-4226-46ca-b7e9-292467479aea@suse.cz>
+Date: Tue, 10 Dec 2024 17:32:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241206225204.4008261-1-surenb@google.com> <20241206225204.4008261-4-surenb@google.com>
- <aafe0538-0c56-469e-b23b-3f22cb8186a0@suse.cz>
-In-Reply-To: <aafe0538-0c56-469e-b23b-3f22cb8186a0@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 10 Dec 2024 08:28:48 -0800
-Message-ID: <CAJuCfpHVj+iVBd1O3wPFFSxanxk_b+Ym=qf4QE0U2HaJGbNdgg@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] mm: mark vma as detached until it's added into vma tree
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, hannes@cmpxchg.org, 
-	mjguzik@gmail.com, oliver.sang@intel.com, mgorman@techsingularity.net, 
-	david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, 
-	paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, 
-	hughd@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/6] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+Content-Language: en-US
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com,
+ lorenzo.stoakes@oracle.com, mhocko@suse.com, hannes@cmpxchg.org,
+ mjguzik@gmail.com, oliver.sang@intel.com, mgorman@techsingularity.net,
+ david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net,
+ paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com,
+ hdanton@sina.com, hughd@google.com, minchan@google.com, jannh@google.com,
+ shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
+ corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, kernel-team@android.com
+References: <20241206225204.4008261-1-surenb@google.com>
+ <20241206225204.4008261-5-surenb@google.com>
+ <6b29b2a5-c244-4930-a5a0-1a24a04e7e35@suse.cz>
+ <CAJuCfpFxAZ-JwN8VqNF14zeBnsPM_pD0+-N2PDq5GcQGR1xqLQ@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <CAJuCfpFxAZ-JwN8VqNF14zeBnsPM_pD0+-N2PDq5GcQGR1xqLQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 
-On Tue, Dec 10, 2024 at 3:36=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
->
-> On 12/6/24 23:52, Suren Baghdasaryan wrote:
-> > Current implementation does not set detached flag when a VMA is first
-> > allocated. This does not represent the real state of the VMA, which is
-> > detached until it is added into mm's VMA tree. Fix this by marking new
-> > VMAs as detached and resetting detached flag only after VMA is added
-> > into a tree.
-> > Introduce vma_mark_attached() to make the API more readable and to
-> > simplify possible future cleanup when vma->vm_mm might be used to
-> > indicate detached vma and vma_mark_attached() will need an additional
-> > mm parameter.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
-> > Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->
-> > diff --git a/kernel/fork.c b/kernel/fork.c
-> > index 21660a9ad97a..71990f46aa4e 100644
-> > --- a/kernel/fork.c
-> > +++ b/kernel/fork.c
-> > @@ -465,6 +465,10 @@ struct vm_area_struct *vm_area_dup(struct vm_area_=
-struct *orig)
-> >       data_race(memcpy(new, orig, sizeof(*new)));
-> >       vma_lock_init(new);
-> >       INIT_LIST_HEAD(&new->anon_vma_chain);
-> > +#ifdef CONFIG_PER_VMA_LOCK
-> > +     /* vma is not locked, can't use vma_mark_detached() */
-> > +     new->detached =3D true;
-> > +#endif
->
-> It occured me we could probably move the detached setting to vma_lock_ini=
-t()
-> to avoid the #ifdef (also in the ctor in next patch)?
+On 12/10/24 17:20, Suren Baghdasaryan wrote:
+> On Tue, Dec 10, 2024 at 6:21 AM Vlastimil Babka <vbabka@suse.cz> wrote:
+>>
+>> On 12/6/24 23:52, Suren Baghdasaryan wrote:
+>> > To enable SLAB_TYPESAFE_BY_RCU for vma cache we need to ensure that
+>> > object reuse before RCU grace period is over will be detected inside
+>> > lock_vma_under_rcu().
+>> > lock_vma_under_rcu() enters RCU read section, finds the vma at the
+>> > given address, locks the vma and checks if it got detached or remapped
+>> > to cover a different address range. These last checks are there
+>> > to ensure that the vma was not modified after we found it but before
+>> > locking it.
+>> > vma reuse introduces several new possibilities:
+>> > 1. vma can be reused after it was found but before it is locked;
+>> > 2. vma can be reused and reinitialized (including changing its vm_mm)
+>> > while being locked in vma_start_read();
+>> > 3. vma can be reused and reinitialized after it was found but before
+>> > it is locked, then attached at a new address or to a new mm while
+>> > read-locked;
+>> > For case #1 current checks will help detecting cases when:
+>> > - vma was reused but not yet added into the tree (detached check)
+>> > - vma was reused at a different address range (address check);
+>> > We are missing the check for vm_mm to ensure the reused vma was not
+>> > attached to a different mm. This patch adds the missing check.
+>> > For case #2, we pass mm to vma_start_read() to prevent access to
+>> > unstable vma->vm_mm. This might lead to vma_start_read() returning
+>> > a false locked result but that's not critical if it's rare because
+>> > it will only lead to a retry under mmap_lock.
+>> > For case #3, we ensure the order in which vma->detached flag and
+>> > vm_start/vm_end/vm_mm are set and checked. vma gets attached after
+>> > vm_start/vm_end/vm_mm were set and lock_vma_under_rcu() should check
+>> > vma->detached before checking vm_start/vm_end/vm_mm. This is required
+>> > because attaching vma happens without vma write-lock, as opposed to
+>> > vma detaching, which requires vma write-lock. This patch adds memory
+>> > barriers inside is_vma_detached() and vma_mark_attached() needed to
+>> > order reads and writes to vma->detached vs vm_start/vm_end/vm_mm.
+>> > After these provisions, SLAB_TYPESAFE_BY_RCU is added to vm_area_cachep.
+>> > This will facilitate vm_area_struct reuse and will minimize the number
+>> > of call_rcu() calls.
+>> >
+>> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>>
+>> I'm wondering about the vma freeing path. Consider vma_complete():
+>>
+>> vma_mark_detached(vp->remove);
+>>   vma->detached = true; - plain write
+>> vm_area_free(vp->remove);
+>>   vma->vm_lock_seq = UINT_MAX; - plain write
+>>   kmem_cache_free(vm_area_cachep)
+>> ...
+>> potential reallocation
+>>
+>> against:
+>>
+>> lock_vma_under_rcu()
+>> - mas_walk finds a stale vma due to race
+>> vma_start_read()
+>>   if (READ_ONCE(vma->vm_lock_seq) == READ_ONCE(mm->mm_lock_seq.sequence))
+>>   - can be false, the vma was not being locked on the freeing side?
+>>   down_read_trylock(&vma->vm_lock.lock) - suceeds, wasn't locked
+>>     this is acquire, but was there any release?
+> 
+> Yes, there was a release. I think what you missed is that
+> vma_mark_detached() that is called from vma_complete() requires VMA to
+> be write-locked (see vma_assert_write_locked() in
+> vma_mark_detached()). The rule is that a VMA can be attached without
+> write-locking but only a write-locked VMA can be detached. So, after
 
-Yes but setting vma->detached inside vma_lock_init() does not seem
-logical. I went back and forth on this and in the end decided to keep
-it this way. If the #ifdef-ery is too ugly I can introduce
-vma_init_detached() or something like that.
+OK but write unlocking means the mm's seqcount is bumped and becomes
+non-equal with vma's vma->vm_lock_seq, right?
 
->
-> >       vma_numab_state_init(new);
-> >       dup_anon_vma_name(orig, new);
-> >
+Yet in the example above we happily set it to UINT_MAX and thus effectively
+false unlock it for vma_start_read()?
+
+And this is all done before the vma_complete() side would actually reach
+mmap_write_unlock(), AFAICS.
+
+> vma_mark_detached() and before down_read_trylock(&vma->vm_lock.lock)
+> in vma_start_read() the VMA write-lock should have been released by
+> mmap_write_unlock() and therefore vma->detached=false should be
+> visible to the reader when it executed lock_vma_under_rcu().
+> 
+>>   is_vma_detached() - false negative as the write above didn't propagate
+>>     here yet; a read barrier but where is the write barrier?
+>>   checks for vma->vm_mm, vm_start, vm_end - nobody reset them yet so false
+>>     positive, or they got reset on reallocation but writes didn't propagate
+>>
+>> Am I missing something that would prevent lock_vma_under_rcu() falsely
+>> succeeding here?
+>>
+
