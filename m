@@ -1,185 +1,201 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEA41B0F12
-	for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 14:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176451A2545
+	for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 14:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733841782; cv=none; b=NVjJpZNPZ5Y++CX7wtNsdzIdbtdF/xKOCiLFUEivM65Sstdt5d6k6vKWNWv2Np3oJWt/VsWdnDHGZ/eZGNd5KtR+VaLffbvNfRm89HVODTDLwTkT0dI080Ec8uALzyggWMoIGNccKF/a+Z3MgT4ujoJx0nwBB5IE5upyG4FLPy8=
+	t=1733842276; cv=none; b=i47MybiILi0fC3DVqdW/su6VUuZlDoakr6AHFBZnWlFj5Kuw8dDkqNtsp0fmdnNoHSlKOG4LLEXbG8vUO1nTcxFB4Rnn5RNJUIBDmkzanf9zSe1mPEa836hxMu1jYDv9UP+ZNzh5OXWjWbaN4r+mewva0ryrdo26ArktRhgCKDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733841782; c=relaxed/simple;
-	bh=EqQrouXcz1X/4/zm7JkycQVkH+G/URDYjt1sE40V2dg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uPD7WDNqPSfuYH+fKL2PqjBdi8OT8Sty7O4h3bIPxBOvbQgLABR9E27OsFYJnUEfg+URqGKLoTiqyONiHDCmi0Ft1FAjTsw8z2ep6AEbMULUlrqFhc4zAl0khu1xAk0+lRb6JktUVN+1StQA7XnT4W+Lfc4WPPv3zNNjYuwGiVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bFueAjGe; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1733842276; c=relaxed/simple;
+	bh=D9oWVizEfEi/tpISlMANAmYT1MULrIVMMBTpD8COT6c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MwxmHrzjSKGDrzP/wfxMLmaq3AhbB9CGigA4j6qoyKIdY8UeSvCw05zdCOhrYaqLsuqhP6UdDcN5eEf1+ygvruxlSADkJD0VfaTwRofbYFLs8P5fiDxMCeoAsHZI+V73uHTACcEgc4nNV/UZC2HXf1YD3xKugm53SRgTQEwj45E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l+w8KBYO; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bFueAjGe"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-aa659775dd5so41138466b.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 06:43:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l+w8KBYO"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3862d6d5765so2351517f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 06:51:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1733841779; x=1734446579; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FDMYkDLMWfYBtP7XGNsvPP0tBQfKbCsqwMG2oWCcg18=;
-        b=bFueAjGeLwYVi2pkcEcb2T10U1NZQX/1GPWbmA6opZNnxof/M9WXS7MYFHbnRJSYEY
-         mnoPX6Yq1AIkcH7ynzF2sQHCkNZHg5QMHwnupXW27OwghPdVdLsBdCYpktq1quTFi1Kz
-         gzO2+pT+VdgfaG1rznmhZI1xn4++SD8jCHEDGmZ/7VUv5PtEoXEG88vDDO4JHa670nDC
-         +bThP1bXw4+cy4qjsvRwVJ01HP/6S2QKabbJ/T9u17uOn2147VJKweQHPVgADFF37eKc
-         LFyfWFAvEeCLmIJfOROhgWrWpU0sHArNPUCXjie9Z+36Bdqc5Ke+jk3aGKtWcl16+2xf
-         8Jbw==
+        d=linaro.org; s=google; t=1733842272; x=1734447072; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PWU2eVhMhcb/iJGFd+VmNM2XsfhPsakUhRt7/wk/dGA=;
+        b=l+w8KBYO0hSg6QM9KWHHVH+DVTC64u4qKx92KIwTjHIKN6jDnuCQ67eov8d855HqPs
+         GBC4yRc1GEnvV4/HTlX869I1WuCAx4kBpmEDYjfVlwvAnd7TAN2MfkLSlx6v7AOcgqya
+         nEbrTE/R1XAHHSFHDNSPV+VDtLkHsVjstb1PwxPPRk9i+kcrty48WKQfMFG6CE+rWvgu
+         9Mpv8RoPBqh5RR3Mj5guXIq+mGkk/IlpmAwZB5UrIALg+tdCq9j3L+JpUjvhCJ0u1hSd
+         jbBP2msE0+6o5tYjijaPvW/paBUG0WYDcTdhusevl1u7DYJI5o0zzTkiRzu1qW8jVkWV
+         +lkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733841779; x=1734446579;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FDMYkDLMWfYBtP7XGNsvPP0tBQfKbCsqwMG2oWCcg18=;
-        b=GO8JJQmIEhv6q5HPuLznqmABaDbPrWRH1BoNIrzeV1WKoD9tgtPlOD5pUAk+IDz/Ad
-         uIuR5kSNOetbbL4EC2ivo9izjTDmVpQ6+vrAC2uciIaBPusBzT3TY51IMwwkAPKI4QZT
-         SuZkQFWVMhWxLUQT2CqYnKp8aRToDYeOFdxt4xbDw2n9NwpPBK8rykxHUl6kkrgWUrjp
-         uhifNm7YwypJWzWGzC4WhtYZ7USK71ErNHfawaxqJtisY4ejYWiXkMtBxNHFpcRjo/yB
-         mhQe2wKvZ1OT5+oPi29WYxyuCoLZhf+tQ0fv25f1zHrcxWQ4pH0qovvsLgIrUHQHC906
-         CYSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUafAguXYoRdbLtGDfgPUZCv7sMCSrVoAVqUu3g2468Zl8c6c/PWKVLRZzgvsqoRcfWkdHg7w3iiuE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxokANYZDzORKUlq64NVewAOwaYFjEbKLP1a/j8rhWp9+esN/mM
-	jXi2n1mAdYbd/7dsH1v0SbCOsRzxF9p1xbJ3kfl9ScP1jnnA8CW9OjsQW3Blg0M=
-X-Gm-Gg: ASbGncvARi0D5IcWsM/OJY3Mmg3zWRfBihbfc8U3y00O3ESUafdqRQMxKJkqZQkQyMm
-	pY13ZvZFfvs27l1tYVh2hvTBKfML25HhuMfjAyH7wftJxEqp53bTU+2ijZ6PoIFcx+zllaFiHRd
-	CBYgwc+b9CX5/YcQAZAdg+CSXefpyI4RXpoBG/9SQqdx0kc+y+1PP7mHRA5E0pHlUFOSdflPcrv
-	/i3xQ6RW0G6sqFS2qcAZdZ/FYniWH1q4+6pg4zsSgN4tpc6LTLWONOSR38HnnOwMuiM+ahkH1s6
-	90rhaOr3C+qadj+EfFAZoHtjAnyY1BLSLos3nQjyK6/MEN1MpAmeqjfQPAU=
-X-Google-Smtp-Source: AGHT+IF+BVSl+ovmy5z/z2cOrnSCU4r6DIF0pijy9YMcMwFTwuXECASsWN0wVhsf39b1va2dJNeN6Q==
-X-Received: by 2002:a17:907:d24:b0:a99:a6e0:fa0b with SMTP id a640c23a62f3a-aa69f176cf2mr159635866b.5.1733841779120;
-        Tue, 10 Dec 2024 06:42:59 -0800 (PST)
-Received: from mordecai.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6749d08efsm443993566b.29.2024.12.10.06.42.56
+        d=1e100.net; s=20230601; t=1733842272; x=1734447072;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PWU2eVhMhcb/iJGFd+VmNM2XsfhPsakUhRt7/wk/dGA=;
+        b=u+xToFnWzGMRQZ7Fpsm6rNg0OJEYP4QqCtgkEpR+DkvuIzDbJK6O+qZgfEXk4btYIh
+         r3mmN4MkvaKVou/MHIPPDZvUJcNO1G6Hy6ho3j/D5rvbanjclRzhzIg5dd6JwDFryMu6
+         VJCXFL+Z498+JdAHrRjpoBHbpB6jZv+7SpkTEaOLeXGEpFoS4S7WDUM7PfDT2dHeFrIy
+         sxfwM9bib9bd7ApmKK0KoILJi/JaNklMGjqoDWNASz+wn4RAS9kzkO0NvaPqqNQC71VS
+         MEVIIsPuBjMJoGB9nilsHsVgazYeFGe4uJDXIf/yvnDe5rurqdPW+4aOT41GfnwPkZyk
+         16Xw==
+X-Forwarded-Encrypted: i=1; AJvYcCXFAtgTEjnY5Y23CsTPWZBrD0Gf3vGoqouRbQAMdZkdtjvdkwSXFD5ZMsM/VpzgvKL6GUrksjo86Rg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxA0CA1DJ/2scsU/orM3kIMOnNnEWIuQqvvejmK/Yb3xNLyJkgy
+	DaA+/7aRXAjV7r6RfLIZogLneA2L1WH2bjybMXYomuRwKQgmtEyCPmEVFji7uF0=
+X-Gm-Gg: ASbGnctfG5bWxqJqhdSdoPaqDXjw17KKEz+uFcGzuYvksb4qJ/3qEBSSW1aZxnnKZhB
+	8pblEGv3KPev7Xsoq8pjue41OPTNvDpufgQTnqIwHcZN+4TWvXN/pfo7wp+d+N9D8G0ehaQoNkp
+	T7wB4Ft41CKtitQ7+2Iyu5MVmbZO+43GKoWJ/oNWL5FEzufHreS7nA3392ORFFlquCR1znr1K/B
+	mTV2XsdFfU9IS30uS9cJTT11hky5XPvyCpWAL82j97CmmwPmWRlIjs=
+X-Google-Smtp-Source: AGHT+IG40tI08nse8JUwHqIkYlScp+nI0cpXGiTCqsdS3M7WqGX1DoAKZIPNJ0b6mJGMqFr9aOshZw==
+X-Received: by 2002:a05:6000:1862:b0:386:62f:cf18 with SMTP id ffacd0b85a97d-386453fbdd6mr3663152f8f.49.1733842272254;
+        Tue, 10 Dec 2024 06:51:12 -0800 (PST)
+Received: from pop-os.. ([209.198.129.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38637445f13sm9879198f8f.35.2024.12.10.06.51.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 06:42:58 -0800 (PST)
-Date: Tue, 10 Dec 2024 15:42:49 +0100
-From: Petr Tesarik <ptesarik@suse.com>
-To: Valentin Schneider <vschneid@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Dave Hansen
- <dave.hansen@intel.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
- bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Andy Lutomirski <luto@kernel.org>, Frederic Weisbecker
- <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Neeraj
- Upadhyay <quic_neeraju@quicinc.com>, Joel Fernandes
- <joel@joelfernandes.org>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
- <boqun.feng@gmail.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki
- <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>, Lorenzo Stoakes
- <lstoakes@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron
- <jbaron@akamai.com>, Kees Cook <keescook@chromium.org>, Sami Tolvanen
- <samitolvanen@google.com>, Ard Biesheuvel <ardb@kernel.org>, Nicholas
- Piggin <npiggin@gmail.com>, Juerg Haefliger
- <juerg.haefliger@canonical.com>, Nicolas Saenz Julienne
- <nsaenz@kernel.org>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Nadav Amit <namit@vmware.com>, Dan
- Carpenter <error27@gmail.com>, Chuang Wang <nashuiliang@gmail.com>, Yang
- Jihong <yangjihong1@huawei.com>, Petr Mladek <pmladek@suse.com>, "Jason A.
- Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>, Julian Pidancet
- <julian.pidancet@oracle.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Dionna Glaze <dionnaglaze@google.com>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
- <linux@weissschuh.net>, Juri Lelli <juri.lelli@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, Yair Podemsky <ypodemsk@redhat.com>, Daniel Wagner
- <dwagner@suse.de>
-Subject: Re: [RFC PATCH v3 13/15] context_tracking,x86: Add infrastructure
- to defer kernel TLBI
-Message-ID: <20241210154249.1260046a@mordecai.tesarici.cz>
-In-Reply-To: <xhsmhv7vr63vj.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
-References: <20241119153502.41361-1-vschneid@redhat.com>
-	<20241119153502.41361-14-vschneid@redhat.com>
-	<20241120152216.GM19989@noisy.programming.kicks-ass.net>
-	<20241120153221.GM38972@noisy.programming.kicks-ass.net>
-	<xhsmhldxdhl7b.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
-	<20241121111221.GE24774@noisy.programming.kicks-ass.net>
-	<4b562cd0-7500-4b3a-8f5c-e6acfea2896e@intel.com>
-	<20241121153016.GL39245@noisy.programming.kicks-ass.net>
-	<20241205183111.12dc16b3@mordecai.tesarici.cz>
-	<xhsmh1pyh6p0k.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
-	<20241209121249.GN35539@noisy.programming.kicks-ass.net>
-	<20241209154252.4f8fa5a8@mordecai.tesarici.cz>
-	<xhsmhv7vr63vj.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
+        Tue, 10 Dec 2024 06:51:11 -0800 (PST)
+From: James Clark <james.clark@linaro.org>
+To: coresight@lists.linaro.org
+Cc: yeoreum.yun@arm.com,
+	James Clark <james.clark@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Leo Yan <leo.yan@linux.dev>,
+	Namhyung Kim <namhyung@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] coresight: docs: Remove target sink from examples
+Date: Tue, 10 Dec 2024 14:49:28 +0000
+Message-Id: <20241210144933.295798-1-james.clark@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Dec 2024 14:53:36 +0100
-Valentin Schneider <vschneid@redhat.com> wrote:
+Previously the sink had to be specified, but now it auto selects one by
+default. Including a sink in the examples causes issues when copy
+pasting the command because it might not work if that sink isn't
+present. Remove the sink from all the basic examples and create a new
+section specifically about overriding the default one.
 
-> On 09/12/24 15:42, Petr Tesarik wrote:
-> > On Mon, 9 Dec 2024 13:12:49 +0100
-> > Peter Zijlstra <peterz@infradead.org> wrote:
-> >  
-> >> On Mon, Dec 09, 2024 at 01:04:43PM +0100, Valentin Schneider wrote:
-> >>  
-> >> > > But I wonder what exactly was the original scenario encountered by
-> >> > > Valentin. I mean, if TLB entry invalidations were necessary to sync
-> >> > > changes to kernel text after flipping a static branch, then it might be
-> >> > > less overhead to make a list of affected pages and call INVLPG on them.  
-> >>
-> >> No; TLB is not involved with text patching (on x86).
-> >>  
-> >> > > Valentin, do you happen to know?  
-> >> >
-> >> > So from my experimentation (hackbench + kernel compilation on housekeeping
-> >> > CPUs, dummy while(1) userspace loop on isolated CPUs), the TLB flushes only
-> >> > occurred from vunmap() - mainly from all the hackbench threads coming and
-> >> > going.  
-> >>
-> >> Right, we have virtually mapped stacks.  
-> >
-> > Wait... Are you talking about the kernel stac? But that's only 4 pages
-> > (or 8 pages with KASAN), so that should be easily handled with INVLPG.
-> > No CR4 dances are needed for that.
-> >
-> > What am I missing?
-> >  
-> 
-> So the gist of the IPI deferral thing is to coalesce IPI callbacks into a
-> single flag value that is read & acted on upon kernel entry. Freeing a
-> task's kernel stack is not the only thing that can issue a vunmap(), so
+Make the text a but more concise now that it's in the advanced section,
+and similarly for removing the old kernel advice.
 
-Thank you for confirming it's not the kernel stack. Peter's remark left
-me a little confused.
+Signed-off-by: James Clark <james.clark@linaro.org>
+---
+ Documentation/trace/coresight/coresight.rst   | 41 ++++++++-----------
+ .../userspace-api/perf_ring_buffer.rst        |  4 +-
+ 2 files changed, 18 insertions(+), 27 deletions(-)
 
-> instead of tracking all the pages affected by the unmap (which is
-> potentially an ever-growing memory leak as long as no kernel entry happens
-> on the isolated CPUs), we just flush everything.
+diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+index d4f93d6a2d63..806699871b80 100644
+--- a/Documentation/trace/coresight/coresight.rst
++++ b/Documentation/trace/coresight/coresight.rst
+@@ -462,44 +462,35 @@ queried by the perf command line tool:
+ 
+ 		cs_etm//                                    [Kernel PMU event]
+ 
+-	linaro@linaro-nano:~$
+-
+ Regardless of the number of tracers available in a system (usually equal to the
+ amount of processor cores), the "cs_etm" PMU will be listed only once.
+ 
+ A Coresight PMU works the same way as any other PMU, i.e the name of the PMU is
+-listed along with configuration options within forward slashes '/'.  Since a
+-Coresight system will typically have more than one sink, the name of the sink to
+-work with needs to be specified as an event option.
+-On newer kernels the available sinks are listed in sysFS under
++provided along with configuration options within forward slashes '/' (see
++`Config option formats`_).
++
++Advanced Perf framework usage
++-----------------------------
++
++Sink selection
++~~~~~~~~~~~~~~
++
++An appropriate sink will be selected automatically for use with Perf, but since
++there will typically be more than one sink, the name of the sink to use may be
++specified as a special config option prefixed with '@'.
++
++The available sinks are listed in sysFS under
+ ($SYSFS)/bus/event_source/devices/cs_etm/sinks/::
+ 
+ 	root@localhost:/sys/bus/event_source/devices/cs_etm/sinks# ls
+ 	tmc_etf0  tmc_etr0  tpiu0
+ 
+-On older kernels, this may need to be found from the list of coresight devices,
+-available under ($SYSFS)/bus/coresight/devices/::
+-
+-	root:~# ls /sys/bus/coresight/devices/
+-	 etm0     etm1     etm2         etm3  etm4      etm5      funnel0
+-	 funnel1  funnel2  replicator0  stm0  tmc_etf0  tmc_etr0  tpiu0
+ 	root@linaro-nano:~# perf record -e cs_etm/@tmc_etr0/u --per-thread program
+ 
+-As mentioned above in section "Device Naming scheme", the names of the devices could
+-look different from what is used in the example above. One must use the device names
+-as it appears under the sysFS.
+-
+-The syntax within the forward slashes '/' is important.  The '@' character
+-tells the parser that a sink is about to be specified and that this is the sink
+-to use for the trace session.
+-
+ More information on the above and other example on how to use Coresight with
+ the perf tools can be found in the "HOWTO.md" file of the openCSD gitHub
+ repository [#third]_.
+ 
+-Advanced perf framework usage
+------------------------------
+-
+ AutoFDO analysis using the perf tools
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+@@ -508,7 +499,7 @@ perf can be used to record and analyze trace of programs.
+ Execution can be recorded using 'perf record' with the cs_etm event,
+ specifying the name of the sink to record to, e.g::
+ 
+-    perf record -e cs_etm/@tmc_etr0/u --per-thread
++    perf record -e cs_etm//u --per-thread
+ 
+ The 'perf report' and 'perf script' commands can be used to analyze execution,
+ synthesizing instruction and branch events from the instruction trace.
+@@ -572,7 +563,7 @@ sort example is from the AutoFDO tutorial (https://gcc.gnu.org/wiki/AutoFDO/Tuto
+ 	Bubble sorting array of 30000 elements
+ 	5910 ms
+ 
+-	$ perf record -e cs_etm/@tmc_etr0/u --per-thread taskset -c 2 ./sort
++	$ perf record -e cs_etm//u --per-thread taskset -c 2 ./sort
+ 	Bubble sorting array of 30000 elements
+ 	12543 ms
+ 	[ perf record: Woken up 35 times to write data ]
+diff --git a/Documentation/userspace-api/perf_ring_buffer.rst b/Documentation/userspace-api/perf_ring_buffer.rst
+index bde9d8cbc106..dc71544532ce 100644
+--- a/Documentation/userspace-api/perf_ring_buffer.rst
++++ b/Documentation/userspace-api/perf_ring_buffer.rst
+@@ -627,7 +627,7 @@ regular ring buffer.
+ AUX events and AUX trace data are two different things.  Let's see an
+ example::
+ 
+-        perf record -a -e cycles -e cs_etm/@tmc_etr0/ -- sleep 2
++        perf record -a -e cycles -e cs_etm// -- sleep 2
+ 
+ The above command enables two events: one is the event *cycles* from PMU
+ and another is the AUX event *cs_etm* from Arm CoreSight, both are saved
+@@ -766,7 +766,7 @@ only record AUX trace data at a specific time point which users are
+ interested in.  E.g. below gives an example of how to take snapshots
+ with 1 second interval with Arm CoreSight::
+ 
+-  perf record -e cs_etm/@tmc_etr0/u -S -a program &
++  perf record -e cs_etm//u -S -a program &
+   PERFPID=$!
+   while true; do
+       kill -USR2 $PERFPID
+-- 
+2.34.1
 
-Yes, this makes some sense. Of course, there is no way to avoid the
-cost; we can only defer it to a "more suitable" point in time, and
-current low-latency requirements make kernel entry better than IPI. It
-is at least more predictable (as long as device interrupts are routed
-to other CPUs).
-
-I have looked into ways to reduce the number of page faults _after_
-flushing the TLB. FWIW if we decide to track to-be-flushed pages, we
-only need an array of tlb_single_page_flush_ceiling pages. If there are
-more, flushing the entire TLB is believed to be cheaper. That is, I
-merely suggest to use the same logic which is already implemented by
-flush_tlb_kernel_range().
-
-Anyway, since there is no easy trick, let's leave the discussion for a
-later optimization. I definitely do not want to block progress on this
-patch series.
-
-Thanks for all your input!
-
-Petr T
