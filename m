@@ -1,192 +1,129 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E609223E60;
-	Tue, 10 Dec 2024 09:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBF223DEBA;
+	Tue, 10 Dec 2024 10:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733823309; cv=none; b=rC4t78gONGCRsbicijsf2PjoJuHqkrCHr8QHjskLidLBVE2PBlOyfaVfTkTMKboGUNJrTCo/mP3u3xtXPgIpJd1E7dlp4OKjJvztl9zlNaXq8Gxg05Q3Icr17+08L3R5Clixvkft2se2UBBwQOkFGKBwilZWZXNgYRSap1U+cG4=
+	t=1733825648; cv=none; b=Qo9dOF3dyVARpeKrtsc1Wmzl8vOLU8wR62EOHF1I8ROh7L8zBAJlZczYli3LoEXgUtUS8itK3DeWv6SZPrydjW/OHCTRZ6FCOvY8Iv+snoMrG06Xb38tmz/2fPE1tT/X6Tu5CqC6mYyVRrEtzl3hn0QM/9LzyzyqvF19QG1XDpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733823309; c=relaxed/simple;
-	bh=7GWoVHwnEeFtJBBKnh33ZNY0V9iHyolQDACCOdWpXrA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eeyWqIzYaiT/YgnD89diO/r5kksjJvIoOryhc4l9DhL8hPeqWe2XQ1l3Haw9gvAlj27ZPFT3ZE9Ec/mP7bb0TJmgbd0nyPA2MYutqbNoHySktfFlIRbVeMLQsTmqPCHWP8uOzCHYy1LAN99GqG5EztIjaHkg4XfSESbg9RCaYZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Pk59zsHJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lPPIpr4Q; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Pk59zsHJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lPPIpr4Q; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1733825648; c=relaxed/simple;
+	bh=lujt3h3CG05++c6e+i+W692dngHXG+tuybMjifRcWR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PCUaeILsEKFKIfN2EOXCddHXqJ7h+cg4mDq5OC+lfNd2mSNTHx71RMEXJdlNSNAcgkKC8jA8DFxXf5JPO6vHzvhZJo6EJmeiFToVwGCu9bm2OlzMnVmN2qZU4vhikKfnHOwg/Ve8ipWr4diaH9ghI/4fg5muZrhXzS3inFqsuWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=TKGdfG99; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Pk59zsHJ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lPPIpr4Q";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Pk59zsHJ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lPPIpr4Q"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="TKGdfG99"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EF33640E02B9;
+	Tue, 10 Dec 2024 10:14:02 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Sowt0oMZdali; Tue, 10 Dec 2024 10:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1733825639; bh=yrGa7tpyKCRTPnqr9DVCHERHwkS6nI41a3G5vTxiZOA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TKGdfG99NQvFzj1PHJgtpk5QguaEOoOqzYZ+H7oUmDkZikMh28uI5CPlmBiqUohXS
+	 Ilzb14h0rxoxxjUbob34sNJ/4ZFVjnM9sDmoFdApmFQMvZqviITcs0A7FclutCiJmB
+	 vilryZ4AeWg7SK5V3mYGmgJoeC9wjtuPWrVUBEVdeefeZ78GFUBsHt7/PnS42idIvP
+	 A2Mww5ncWMq+vRThsnFbCFsRNqqbC7L3miqri5a7cRhE6SSBC2+UU3gOYynpQ/izpg
+	 FIKqKJNv9jrwZ5fM44ovGE4av8t5ZfhA1pj23GNukXlVTAVhveLW10QUsh08DMCLbl
+	 NmaOnJQhkQIZ/geAlGu3mnVLZdEcMagg8vx2uabE498hIaQMcjfUekDMqKUhG3QYOA
+	 0jR7QW4r3VeZSo8WWnX2Mf80BA97TPlIzZZ9zzvpFlVTh0b2JZuCt98dLj0z2chBeK
+	 yh1+cFHZYECg15fH4fCrwszq8yBCy+8wE8fmpZ/uHwJ5I7ELsrLwXGHSZmiV9JYaQC
+	 aS3M9OiE7x9lCdHVcfChKVVtLry8GwH47LJgC+DwDeCfP5sB/mJoH7eK44wmLx7rE0
+	 wmzFPvPEzgiW564DNxSIAiszWWG6pBM/Ti9DgGw1NiihSByksUUJsDsm0hddt7wUgg
+	 pVQnj2RsDd8ECv/LAHE3ZG98=
+Received: from zn.tnic (p200300ea971f9307329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:971f:9307:329c:23ff:fea6:a903])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6152421163;
-	Tue, 10 Dec 2024 09:35:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1733823304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=+XwOxeQnc4GTnzdat8dalUZJuNhwDad8ZWueT15a7cE=;
-	b=Pk59zsHJ5ce3fxK4GhxjFRMy/XUAvv4qMrWKORO58cmqk+CTSAH5udT7pDqqt3Ozce1Dxk
-	qUd+22Cjvhyy0onhHiVUN4IC9QhIUuO5ag/BnF/BSdM4Qn3rPDTi6eWMf9Cq23bSd12wRa
-	Jj6nTFzGBv+W18hPVcMqNerKbrvLmNg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1733823304;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=+XwOxeQnc4GTnzdat8dalUZJuNhwDad8ZWueT15a7cE=;
-	b=lPPIpr4QxUOWr6F2MbZycbeg+ib+mY32dOInfM8CWuC0tBsb8TGYA/16++JRdZ4pm7cDV+
-	mWzh3Xks6I6R2GAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Pk59zsHJ;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=lPPIpr4Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1733823304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=+XwOxeQnc4GTnzdat8dalUZJuNhwDad8ZWueT15a7cE=;
-	b=Pk59zsHJ5ce3fxK4GhxjFRMy/XUAvv4qMrWKORO58cmqk+CTSAH5udT7pDqqt3Ozce1Dxk
-	qUd+22Cjvhyy0onhHiVUN4IC9QhIUuO5ag/BnF/BSdM4Qn3rPDTi6eWMf9Cq23bSd12wRa
-	Jj6nTFzGBv+W18hPVcMqNerKbrvLmNg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1733823304;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=+XwOxeQnc4GTnzdat8dalUZJuNhwDad8ZWueT15a7cE=;
-	b=lPPIpr4QxUOWr6F2MbZycbeg+ib+mY32dOInfM8CWuC0tBsb8TGYA/16++JRdZ4pm7cDV+
-	mWzh3Xks6I6R2GAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 157A9138D2;
-	Tue, 10 Dec 2024 09:35:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id btjoBEgLWGchNAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 10 Dec 2024 09:35:04 +0000
-Message-ID: <9bfeff15-cf79-403e-81b2-9b8553b6477c@suse.cz>
-Date: Tue, 10 Dec 2024 10:35:03 +0100
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EC24040E0286;
+	Tue, 10 Dec 2024 10:13:44 +0000 (UTC)
+Date: Tue, 10 Dec 2024 11:13:39 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Reinette Chatre <reinette.chatre@intel.com>,
+	"Yu, Fenghua" <fenghua.yu@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, "x86@kernel.org" <x86@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: Re: [PATCH v11 2/8] x86/resctrl: Prepare for per-CTRL_MON group
+ mba_MBps control
+Message-ID: <20241210101339.GBZ1gUU3LiI7wAS3vQ@fat_crate.local>
+References: <20241206163148.83828-1-tony.luck@intel.com>
+ <20241206163148.83828-3-tony.luck@intel.com>
+ <20241209204519.GAZ1dW3-NjcL4Sewaf@fat_crate.local>
+ <SJ1PR11MB6083BA367F2CDFC92D87FDA1FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20241209222047.GKZ1dtPxIu5_Hxs1fp@fat_crate.local>
+ <SJ1PR11MB60830B8ED36CCA7E304D9E97FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <678cef69-78ef-4951-bd31-10abe646e6d8@intel.com>
+ <Z1eEti6Kswtb3HC5@agluck-desk3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/6] mm: mark vma as detached until it's added into vma
- tree
-Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: willy@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
- mhocko@suse.com, hannes@cmpxchg.org, mjguzik@gmail.com,
- oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com,
- peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
- brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
- souravpanda@google.com, pasha.tatashin@soleen.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kernel-team@android.com
-References: <20241206225204.4008261-1-surenb@google.com>
- <20241206225204.4008261-4-surenb@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- EP+ylKVEKb0Q2A==
-In-Reply-To: <20241206225204.4008261-4-surenb@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 6152421163
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLk41rrgs15z4i1nmqiwtynpyh)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:mid,suse.cz:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z1eEti6Kswtb3HC5@agluck-desk3>
 
-On 12/6/24 23:52, Suren Baghdasaryan wrote:
-> Current implementation does not set detached flag when a VMA is first
-> allocated. This does not represent the real state of the VMA, which is
-> detached until it is added into mm's VMA tree. Fix this by marking new
-> VMAs as detached and resetting detached flag only after VMA is added
-> into a tree.
-> Introduce vma_mark_attached() to make the API more readable and to
-> simplify possible future cleanup when vma->vm_mm might be used to
-> indicate detached vma and vma_mark_attached() will need an additional
-> mm parameter.
+On Mon, Dec 09, 2024 at 04:00:54PM -0800, Luck, Tony wrote:
+> Reinette is right. The post-split home of this is not <linux/resctrl.h>
+> but fs/resctrl/internal.h which doesn't exist yet.
 > 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> So Boris is right, this declaration should be added to arch/x86/kernel/cpu/resctrl/internal.h
+> by this patch to be moved later.
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Done:
 
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+index 485800055a7d..542d01c055aa 100644
+--- a/arch/x86/kernel/cpu/resctrl/internal.h
++++ b/arch/x86/kernel/cpu/resctrl/internal.h
+@@ -510,6 +510,7 @@ extern struct mutex rdtgroup_mutex;
+ extern struct rdt_hw_resource rdt_resources_all[];
+ extern struct rdtgroup rdtgroup_default;
+ extern struct dentry *debugfs_resctrl;
++extern enum resctrl_event_id mba_mbps_default_event;
+ 
+ enum resctrl_res_level {
+ 	RDT_RESOURCE_L3,
+@@ -653,5 +654,4 @@ void resctrl_file_fflags_init(const char *config, unsigned long fflags);
+ void rdt_staged_configs_clear(void);
+ bool closid_allocated(unsigned int closid);
+ int resctrl_find_cleanest_closid(void);
+-
+ #endif /* _ASM_X86_RESCTRL_INTERNAL_H */
+diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+index fd05b937e2f4..d94abba1c716 100644
+--- a/include/linux/resctrl.h
++++ b/include/linux/resctrl.h
+@@ -49,8 +49,6 @@ enum resctrl_event_id {
+ 	QOS_L3_MBM_LOCAL_EVENT_ID	= 0x03,
+ };
+ 
+-extern enum resctrl_event_id mba_mbps_default_event;
+-
+ /**
+  * struct resctrl_staged_config - parsed configuration to be applied
+  * @new_ctrl:		new ctrl value to be loaded
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
