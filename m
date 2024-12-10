@@ -1,81 +1,63 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8BF1E515;
-	Tue, 10 Dec 2024 11:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A12F78F47;
+	Tue, 10 Dec 2024 11:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733828493; cv=none; b=PalAiPwdPml+tWG/YFWVcPyEX1SMthtJQ+5ORZZ/NNiV3UgSMNclIUebQKzTKJ6U/w9Gm5+HIWHXpg56yE621GSTqFtKxonisEe5sGMOL7+wMi6/HLgdI1W9lhobGh9nN3HuZ0teTZRVAa/vOgCgvM9kiRRNo2+0B6y0iZ1PlS4=
+	t=1733828660; cv=none; b=ulca3u7D82ikrLOshDkl5JqcB41grrx4o4/dcqHindajqkfNd5HZpmp7N71mj64LXpcX1bvrhf0wZNaVsIS7ZPOo7YvqiwuwHNgQAKducl0zRovF4hkCmcCHsrH2CSC2P7sggBa04MAkYExJpVtuIpCOSdt4Xadqpd47qZydvXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733828493; c=relaxed/simple;
-	bh=9djBWo0HIZg4RLAt/Xoiny9Vsiy4e7OHdyDRZ9OXr6Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WOOclCPQeCFgIu0nJ6wRheOfOHx4KuDIWFPyCMPWBn3K2CykizpYpwbayk2tjNJ/DnhYNFnU8tmcrBXMwoRdwXkR564oaUFJtuccYbpPwwfkPpNynYxEvPo4v585KAE60BoWRxF682alLC43CYzkhAR3YIXOiyVWa16VwcgTQHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ua64heA0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=b7LUvDUY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r505F5gn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ia6A+lqf; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1733828660; c=relaxed/simple;
+	bh=FU67rLrViZPdR8qhmmKTXQUYgujidzzYPHnHn8k9EMc=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=TV2KBID+FvwalUvwzMN8A0lhwKOTK6lclIk78OXeW7m0/8cYj515CAae9ax0WyoT75ObonjBz2dbpVORZoj1ECPgpFAUYKOmJnDpcHiHzYeBjkH7f1VIBvxUxbPvYgMSBvM2n4gk/QfwngN6ekQ81s542DdCLKLW1z1H5f/Kj9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNrwsugp; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ua64heA0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="b7LUvDUY";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r505F5gn";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ia6A+lqf"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BFF7D21163;
-	Tue, 10 Dec 2024 11:01:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1733828489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=1OyKj2xVfjAlCKsFACj4sa96CmCJl1yBlyBUbmr/Nlo=;
-	b=ua64heA0/Q99awAYW4GygyAst5BUHB2Gs3R+SLEE1G1qCmTFCIO4MbR0muqj1ZrpKUWQCq
-	29GaHBPdTlGjn1BkD+gPz99kDqcE9kpBSwjDC288JJJ96O9MrRrq1Zt3P9UyjgewWRdmwE
-	n9DsRj2ghCDEDuS5Y6zUbU/7wSSzrqU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1733828489;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=1OyKj2xVfjAlCKsFACj4sa96CmCJl1yBlyBUbmr/Nlo=;
-	b=b7LUvDUY9/u75ZYZWPCMQ7QJZ7i9BE9sFT6PPv5RdmOdWBMTVewHiWLOVTBV9x+bynFaeY
-	KTA1AHdzP+HkRnAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=r505F5gn;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Ia6A+lqf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1733828487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=1OyKj2xVfjAlCKsFACj4sa96CmCJl1yBlyBUbmr/Nlo=;
-	b=r505F5gn19/3ZIDZz2eTOksRD3aGIFNDurC+MwvIkQVaxScmUnMy+hYAEwG/NhWle5h9Qo
-	cbqO2r9Su/uKOT/aC/uEWYbK/7ujBAaiBj6z/RNt9tnIOBssbpQZrlyhD4yhGv2KJYa8Cn
-	suWoVi/KyG4mSvJcYx5YN8Lr0IvGV4M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1733828487;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=1OyKj2xVfjAlCKsFACj4sa96CmCJl1yBlyBUbmr/Nlo=;
-	b=Ia6A+lqfqbCSsxuoYfmepAnhOa1q9qWoEF9T1CxT4VXNIpzl17HoANUbfPssOjKRU2x29/
-	RUzglmpM2KKihPDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 738FD138D2;
-	Tue, 10 Dec 2024 11:01:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rKrhG4cfWGfnUAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 10 Dec 2024 11:01:27 +0000
-Message-ID: <1791a2ad-30c6-47db-914f-cfcc359e04b2@suse.cz>
-Date: Tue, 10 Dec 2024 12:01:27 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNrwsugp"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-725ce7b82cbso3309344b3a.0;
+        Tue, 10 Dec 2024 03:04:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733828659; x=1734433459; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d53c0Q7cNW97XGoMSTKLDLwhm+ZDEx0sfAqw8S7aAq4=;
+        b=BNrwsugpxdpFk9AKGgIoy8xLuHVJZCPuVKduRKb5sueyT6Kit4tJaTzHEbBjWAMCEa
+         PdE55bdE3lk+p5ocJF4S6nNFP7pO2ZztAHKJGF1pPKNfTGcDVvx9EUrLHKBMPX4hMhEM
+         KJnKQ18TXJXd8Eh4vA9AJ4xhj9ri/SAhLXVtmhr7tC6R3hyMTZ3kqEHw8Bup8zgXrxTY
+         vSi6EUkQPfjmyPeviD7WGkBqOvv2GQjxGuvF4pqwTPx/jisElehjfqfvHe4EahANO9Ry
+         74B4FYxsKke89gH+nzMrQNZXPbWMshZhctCecFpqGNReg3Nv41moATkVQkRbkTZ1Ia5Y
+         9OJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733828659; x=1734433459;
+        h=content-transfer-encoding:cc:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=d53c0Q7cNW97XGoMSTKLDLwhm+ZDEx0sfAqw8S7aAq4=;
+        b=Xj1Wil4X6UoobyvYGcSM97St+rpZ8NKwGlS8ePrKUyAaMihra3K8upW9XUG1vfiOCb
+         hXbJWhBhQ1e46xraj7+SaCQB8jK/4knpaGNJDpW+4XKfINJnwFav8sFBR8oxhPRroMIn
+         pRXVgw48smy6MiJRFaPtkjsENajP8iPqXNufrTBec09fJsDrHelA/9331vyleZj3UPpK
+         2gGng6cQkq5VgwO5JXJbxNGl/mgHb2OYcw/4kFBAs+va0BZbYLdnMahqtKDFw1b+rhbv
+         0iJZwDAa2BldHROLoqW+mOqrlo8oHH4zMcQ6MFAZu7JfkzjziKaKfe5o1JawGGnnVHsq
+         VjXA==
+X-Forwarded-Encrypted: i=1; AJvYcCV27N9kbZKE7PY/Gb9wtTIYuQ6rPv8Mu1GOKgSC0OGc3UNj3F0gLR5d61yWOiE4p+NB0lDJA0t04u80o88=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4cw0/Dup3sJIztoj9rBgFfzupjjlBjcr131wrWTIERhHZBUKA
+	GDu9fEzqUFsU14gWKkYPxn4tfs240TWuhC0n8e59E8qg1qoYOtcW
+X-Gm-Gg: ASbGncvWk+aByznWjMm/UE8olJPNfk5I4ctpupmRGOmylrbHWguU5AlPWB6GEGUAHw0
+	gsCt07dFUxhdRyvAAfdP5+fpG3dJ7iuXTRDv+hedhGbpkrM7aHoHW/kpt5T6Yovxv9gIAZEJQTt
+	GxH8bmaJsTa0UHoN9CNHICGSot7ctcYoy1igHpPH0nxVeooWpP3Za4hPx0gYnqGh2Khur72RWig
+	ZZT2ySlKjbB6S3x8wu1uvXUKaFD3zjWAUhwe0qBxmbpBl4qiup9J9HnlGzQ1diJ4eqENl6PxqG6
+	BOFciKKzrEeUscbd+2bO
+X-Google-Smtp-Source: AGHT+IHiq76zZeabk5JBiqlxqVtJh6w677/EJMhuF87IpvjsfK2g86Eal5qMcqbdAM/t8J0FQTTuUw==
+X-Received: by 2002:a05:6a20:3d82:b0:1e1:a434:2964 with SMTP id adf61e73a8af0-1e1b1a71ad5mr6301486637.2.1733828658547;
+        Tue, 10 Dec 2024 03:04:18 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fd157d79e5sm8892284a12.75.2024.12.10.03.04.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Dec 2024 03:04:18 -0800 (PST)
+Message-ID: <e5c43f36-45cd-49f4-b7b8-ff342df3c7a4@gmail.com>
+Date: Tue, 10 Dec 2024 20:04:15 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,138 +65,72 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/6] mm/slab: allow freeptr_offset to be used with ctor
 Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: willy@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
- mhocko@suse.com, hannes@cmpxchg.org, mjguzik@gmail.com,
- oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com,
- peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
- brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
- souravpanda@google.com, pasha.tatashin@soleen.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kernel-team@android.com
-References: <20241206225204.4008261-1-surenb@google.com>
- <20241206225204.4008261-6-surenb@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- EP+ylKVEKb0Q2A==
-In-Reply-To: <20241206225204.4008261-6-surenb@google.com>
+To: Jonathan Corbet <corbet@lwn.net>, Greg KH <gregkh@linuxfoundation.org>,
+ Peter Zijlstra <peterz@infradead.org>, Masahiro Yamada <masahiroy@kernel.org>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] scripts/kernel-doc: Get -export option working again
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Akira Yokosawa <akiyks@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: BFF7D21163
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLk41rrgs15z4i1nmqiwtynpyh)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
 
-On 12/6/24 23:52, Suren Baghdasaryan wrote:
-> There is no real reason to prevent freeptr_offset usage when a slab
-> cache has a ctor. The only real limitation is that any field unioned
-> with the free pointer and initialized by ctor will be overwritten since
-> free pointer is set after @ctor invocation. Document this limitation
-> and enable usage of freeptr_offset with ctor.
-> 
-> Suggested-by: Vlastimil Babka <vbabka@suse.cz>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Since commit cdd30ebb1b9f ("module: Convert symbol namespace to string
+literal"), exported symbols marked by EXPORT_SYMBOL_NS(_GPL) are
+ignored by "kernel-doc -export" in fresh build of "make htmldocs".
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+This is because regex in the perl script for those markers fails to
+match the new signatures:
 
-> ---
->  include/linux/slab.h | 5 +++--
->  mm/slub.c            | 2 +-
->  2 files changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index 681b685b6c4e..6bad744bef5e 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -305,8 +305,9 @@ struct kmem_cache_args {
->  	 * Using %0 as a value for @freeptr_offset is valid. If @freeptr_offset
->  	 * is specified, %use_freeptr_offset must be set %true.
->  	 *
-> -	 * Note that @ctor currently isn't supported with custom free pointers
-> -	 * as a @ctor requires an external free pointer.
-> +	 * Note that fields unioned with free pointer cannot be initialized by
-> +	 * @ctor since free pointer is set after @ctor invocation, so those
-> +	 * values will be overwritten.
->  	 */
->  	unsigned int freeptr_offset;
->  	/**
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 870a1d95521d..f62c829b7b6b 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -5462,7 +5462,7 @@ static int calculate_sizes(struct kmem_cache_args *args, struct kmem_cache *s)
->  	s->inuse = size;
->  
->  	if (((flags & SLAB_TYPESAFE_BY_RCU) && !args->use_freeptr_offset) ||
-> -	    (flags & SLAB_POISON) || s->ctor ||
-> +	    (flags & SLAB_POISON) || (s->ctor && !args->use_freeptr_offset) ||
->  	    ((flags & SLAB_RED_ZONE) &&
->  	     (s->object_size < sizeof(void *) || slub_debug_orig_size(s)))) {
->  		/*
+  - EXPORT_SYMBOL_NS(symbol, "ns");
+  - EXPORT_SYMBOL_NS_GPL(symbol, "ns");
+
+Update the regex so that it matches quoted string.
+
+Note: Escape sequence of \w is good for C identifiers, but can be
+too strict for quoted strings.  Instead, use \S, which matches any
+non-whitespace character, for compatibility with possible extension
+of namespace convention in the future [1].
+
+Fixes: cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
+Link: https://lore.kernel.org/CAK7LNATMufXP0EA6QUE9hBkZMa6vJO6ZiaYuak2AhOrd2nSVKQ@mail.gmail.com/ [1]
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+---
+This fixes regression in v6.13-rc2.
+
+Quick reproducer:
+
+    ./script/kernel-doc -rst -export drivers/iommu/iommufd/device.c
+
+On v6.13-rc2, kernel-doc will say:
+
+     drivers/iommu/iommufd/device.c:1: warning: no structured comments found
+
+With this patch applied, you'll get reST formatted kernel-doc comments. 
+
+Akira
+ 
+---
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index f66070176ba3..4ee843d3600e 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -267,7 +267,7 @@ my $doc_inline_sect = '\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)';
+ my $doc_inline_end = '^\s*\*/\s*$';
+ my $doc_inline_oneline = '^\s*/\*\*\s*(@[\w\s]+):\s*(.*)\s*\*/\s*$';
+ my $export_symbol = '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
+-my $export_symbol_ns = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*\w+\)\s*;';
++my $export_symbol_ns = '^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*"\S+"\)\s*;';
+ my $function_pointer = qr{([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)};
+ my $attribute = qr{__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)}i;
+ 
+
+base-commit: fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
+-- 
+2.34.1
 
