@@ -1,115 +1,88 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4BD1A9B23
-	for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 14:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BED61B21A0;
+	Tue, 10 Dec 2024 14:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733841045; cv=none; b=hpVEcdj4yGwNq0iZEpVBG+b7CPIel+WIaJNMIZbvTSpScWdBWAHZ5yMmX0fMzWWzVno+45cU0Eu39o5jdv1QlJUPvFHX+TNCsECi6QZPBhTbJDIaFEHLKTQrtqgPLi8ORhHW0kO5GWPbHbI6rkx8rweoSuqhZNHpoTkCtdIxkKE=
+	t=1733841426; cv=none; b=VqOyRJrlq5Cr3d1eEJ76mSXyDRqMpPmP9DYrxGQwelWQsoMqaslBvy++DYCA4N1e2LANVyg1nWsHD5TaviDIXbbjslCb9WnDEk8RIrfXi5F7NDLv+vSfe9G9HeIZNb9SpxjT2ZhQTwM8UcTuZPTof0oZK9RkGYLx8t1U6W0tZy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733841045; c=relaxed/simple;
-	bh=TmKNCI5crBsnuoKu79pQm5kUHEY7ldggI2M+CYfFJUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QOd1H3D7JdEYmly5+tZ0yMysHMie4pVtz+FLLpW09ywiJmE9/XaHswt2fQj9KCfj2FQzG35dmpVEe2JpBvSVuqCTXr/A+P8KPXn4743Kbegk6Ta8KqLqyeqHIgCDF29xymxwmvEbUjKTknZeSErRp7B4EP8ByopzJi7DX1BDqXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=FA27LtW7; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1733841426; c=relaxed/simple;
+	bh=0zTO85Ef0r5vwedW1R+Oz3DQpMhOwp9gRtoPw4cpcvg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Dpr4OPwMvm2fBb/EkC0BgV9dtlrVDZLH96F40R0tOERmIhjZJzvdMRUi3H0PJbymKnlzSdwRlDMVUDTTdBBaxiQ49LHYKZQoPjHB6l4jRa8PbAO+ZWxO9VeEcoYM8al7MJpWcYSQjXQlRpw621irG2cD9mWEzftWTxChGm1Trpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bmmhdpNK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="FA27LtW7"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3863494591bso1606716f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Dec 2024 06:30:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1733841042; x=1734445842; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W/cm+nrSG+5II0qAA1CApN1Olr5UrAZOBnUEX4G2C9k=;
-        b=FA27LtW7gseJNuwxkZexH0iL6PR5Q3/Cy8LYRD0oSYV2n2+HzUof/akhPd4/zzlocB
-         iKaMQ8mrKNjo1bVsZNupePBGJjANG4u3Pu8wrSawNqcRLJK9gDmGqXC7u2Zwr0TMQaC5
-         9N6bKGifjn2LAileq/bRtm3lMm5+7KmGVqqSGkU6UPjsR4zfoE5X22RtP+UeDL+lwcGn
-         rnayHhRoWeLjaL+LzFxOSAa48EqHrEyhcd4FA/BYbwQeG4G03fU31qLBjJsr9sivcRyo
-         9Vpn922atDVpAjANISb0fvsePwRbOebtzgWZmQyqgUCrl8irnKijX3q9SfvuaUvUgojS
-         DdWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733841042; x=1734445842;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W/cm+nrSG+5II0qAA1CApN1Olr5UrAZOBnUEX4G2C9k=;
-        b=CbmsdSvqESrgZnDltH0D8tJBweBI5vhGOvP1HENyaj71X10v7UBYseTFSL9QU9jpVp
-         uzC+iylXdM+FJ5Xxbm2zkC7VGwRl/J/c5CO523DTSV4YCP2VlJrt+moYXtBZFTYUEg1w
-         wiEhxkjNJQ5whCHbMeexjGVNRWOXZWx8DG0yvY3hxJUg3pSWMF0CcXsMMn5cht+9yPAX
-         yMP4wQroYPbTytKddOTXuDJTs/LrXb7+xhEZFiqZ1O60rdpOsdriZsdm/T3ljXBcIPTl
-         XYBI0SmFbLb8nH6DJ92p71d8IUMjPGrHpNQabXV8vQfDIIum03v0pZbUfIgAxwiZh9jq
-         EQ2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVJSZAtxMqT2dyXa7edLc+2adzAJSqhNy4fRDaPGaHdvu4QfrY4eNj3o6yTChpGbC+Yra5OvwEba34=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxrop/oR3GUSDqxgL6dq4aQls+1I78tM+SUjT2TZlWVZn79Vd0a
-	pH9vE+Np8j4TM5x6QCYTLRjd8JHHaZ1W0y3Moyh3pRvfCCcUpwka8mcXxB7r2yk=
-X-Gm-Gg: ASbGncub5rUvg78sZcJyDVpcNQBDBfgdozv2PTRoRd1uma8ATCsgdZpNDDqQW/haagP
-	Frzs4XYL98rMeF6BTcxFGDq2b2WkL0B1QXsCZAFyyu13fSgb5fx0eItelOz1QOScKXljoTsUgFD
-	bll55pWHwF6oU5PxbSiwNds7ncrRQxKPruNI7Ij4dq1Wi9k/Qj2VMkOuzVc28MfE2YV9DJbGKjs
-	L15hNC7WptMrlbalzvsPIeD9czSsUSSr8x8A22gJ/kO+JMRjGZl/V4=
-X-Google-Smtp-Source: AGHT+IEJUtTpPMf6G7jAGMibFprqv06Na9zpQvm8dtsXFCJXR4j5vR2w2ykd5ZBdmLcAr/Bwz0G0XQ==
-X-Received: by 2002:a5d:47c9:0:b0:386:3328:6106 with SMTP id ffacd0b85a97d-386453e5101mr3654337f8f.35.1733841042098;
-        Tue, 10 Dec 2024 06:30:42 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-216688a6d8dsm21735495ad.163.2024.12.10.06.30.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 06:30:41 -0800 (PST)
-Date: Tue, 10 Dec 2024 15:30:33 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Siddharth Menon <simeddon@gmail.com>
-Cc: shuah@kernel.org, corbet@lwn.net, mbenes@suse.cz,
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] docs/kselftests: Explain the usage of
- TEST_CONFIG_DEPS
-Message-ID: <Z1hQiQM5FbSVpiEy@pathway.suse.cz>
-References: <20241205114757.5916-1-simeddon@gmail.com>
- <20241205114757.5916-2-simeddon@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bmmhdpNK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26122C4CED6;
+	Tue, 10 Dec 2024 14:37:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733841425;
+	bh=0zTO85Ef0r5vwedW1R+Oz3DQpMhOwp9gRtoPw4cpcvg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bmmhdpNK5lajnWc8RWTrVAIWk3x/s2bEnYFJy/7pAlRm47WQ8wNNSD/lKfP7OSdrB
+	 lWUv4Szx1zQpyznAHRhe5Qoy0wefA3LZHDXh/2jwgkoo7nVzwI35WW8yQkurl/n7wN
+	 /xTlReSC4MAuvtRboXNjZYPoY1LJbFBDgAYrgb9KmdGyvMFHyVn3Ng7NvlE7vswslU
+	 QzocjUopNQ3oiKP6xXnCVbc3Q94YkQmF9dhVNFIYaUfnaB7nICT8JdxHTUNvYDMO0Z
+	 T95QQn/X5q0ZlPV6lbB88q2Dnh/3/TYa+UlhApvDIZDF4vz0M56WhtZGyb167azL3j
+	 Hct/I8qbx8sDQ==
+Date: Tue, 10 Dec 2024 06:37:04 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Paolo Abeni <pabeni@redhat.com>, Oleksij Rempel
+ <o.rempel@pengutronix.de>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, Simon Horman <horms@kernel.org>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v1 1/1] net: phy: Move callback comments from
+ struct to kernel-doc section
+Message-ID: <20241210063704.09c0ac8a@kernel.org>
+In-Reply-To: <Z1hJ4Wopr_4BJzan@shell.armlinux.org.uk>
+References: <20241206113952.406311-1-o.rempel@pengutronix.de>
+	<e6a812ba-b7ea-4f8a-8bdd-1306921c318f@redhat.com>
+	<Z1hJ4Wopr_4BJzan@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241205114757.5916-2-simeddon@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu 2024-12-05 17:17:55, Siddharth Menon wrote:
-> Update documentation to explain the TEST_CONFIG_DEPS flag in lib.mk.
-> TEST_CONFIG_DEPS is used to validate the presence of required config flags
-> specified in the selftest makefile before compiling or running a test.
+On Tue, 10 Dec 2024 14:02:09 +0000 Russell King (Oracle) wrote:
+> On Tue, Dec 10, 2024 at 12:56:07PM +0100, Paolo Abeni wrote:
+> > On 12/6/24 12:39, Oleksij Rempel wrote:  
+> > > +#if 0 /* For kernel-doc purposes only. */
+> > > +
+> > > +/**
+> > > + * soft_reset - Issue a PHY software reset.
+> > > + * @phydev: The PHY device to reset.
+> > > + *
+> > > + * Returns 0 on success or a negative error code on failure.  
+> > 
+> > KDoc is not happy about the lack of ':' after 'Returns':
+> > 
+> > include/linux/phy.h:1099: warning: No description found for return value
+> > of 'soft_reset'  
 > 
-> Signed-off-by: Siddharth Menon <simeddon@gmail.com>
-> ---
->  Documentation/dev-tools/kselftest.rst | 3 +++
->  1 file changed, 3 insertions(+)
+> We have a huge amount of kernel-doc comments that use "Returns" without
+> a colon. I've raised this with Jakub previously, and I think kernel-doc
+> folk were quite relaxed about the idea of allowing it if there's enough
+> demand.
+
+Ack, and I do apply your patches. IIRC lack of Returns: in a C source 
+now causes a W=1 build warning, which I personally think was a wrong
+decision, it's a distraction. W=2 would be more appropriate.
+
+> I certainly can't help but write the "returns" statement in natural
+> English, rather than kernel-doc "Returns:" style as can be seen from
+> my recent patches that have been merged. "Returns" without a colon is
+> just way more natural when writing documentation.
 > 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index fdb1df86783a..e816b282363f 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -301,6 +301,9 @@ Contributing new tests (details)
->  
->     e.g: tools/testing/selftests/android/config
->  
-> + * Use TEST_CONFIG_DEPS to specify required config options to be enabled 
-> +   before a test is allowed to run or compile.
-> +
->   * Create a .gitignore file inside test directory and add all generated objects
->     in it.
+> IMHO, kernel-doc has made a wrong decision by requiring the colon.
 
-It might be a matter of taste. It is a chicken & egg problem. I
-personally find it weird to document something which does not exist yet.
-
-Please, either update the documentation together with the code or
-later :-)
-
-Best Regards,
-Petr
-
-PS: I haven't got this mail. I have got only 2nd and 3rd patch.
-    I prefer to see the entire patchset. I suggest to always
-    send all patches to the same list of people and mailing lists.
-    
+For the patch under consideration, however, I think _some_ attempt 
+to make fully documenting callbacks inline possible needs to be made :(
